@@ -45,6 +45,7 @@ namespace LayoutFarm
         void ListenDragEvent(UIDragEventName dragEventName, UIDragEventArgs e);
         void ListenFocusEvent(UIFocusEventName focusEventName, UIFocusEventArgs e);
 
+        bool AcceptKeyboardFocus { get; }
     }
 
 

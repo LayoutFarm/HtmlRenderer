@@ -150,6 +150,10 @@
       <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
       <Name>LayoutFarm.MiniUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.RenderTree\LayoutFarm.RenderTree.csproj">
+      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
+      <Name>LayoutFarm.RenderTree</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\comment16.gif" />

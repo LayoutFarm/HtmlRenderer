@@ -211,12 +211,11 @@ namespace HtmlRenderer.Boxes
                         //1. line formatting context
                         //2. block formatting context
 
-                        if (box.IsSvgRootElement)
+                        if (box.IsCustomCssBox)
                         {
                             //goto svg layout system
                             box.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock);
-                            box.CustomRecomputedValue(lay.LatestContainingBlock);
-
+                            box.CustomRecomputedValue(lay.LatestContainingBlock); 
                         }
                         else
                         {

@@ -20,7 +20,7 @@ namespace LayoutFarm
         MyRootGraphic rootGraphic;
         CanvasEventsStock eventStock = new CanvasEventsStock();
 
-
+        System.Timers.Timer centralAnimationClock;
 
         public MyTopWindowRenderBox(
             MyRootGraphic visualroot,
@@ -38,10 +38,10 @@ namespace LayoutFarm
             rootTasksTimer.Interval = 100;
             rootTasksTimer.Elapsed += new System.Timers.ElapsedEventHandler(rootTasksTimer_Elapsed);
             rootTasksTimer.Enabled = false;
-            hoverMonitoringTask = new UIHoverMonitorTask(this, this.OnMouseHover);
+            //hoverMonitoringTask = new UIHoverMonitorTask(this, this.OnMouseHover);
 #if DEBUG
             dbug_hide_objIden = true;
-            dbug_Init();
+             
 #endif
 
         }
@@ -82,15 +82,12 @@ namespace LayoutFarm
 
         void centralAnimationClock_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-        }
-
-
-
+        } 
         internal MyRootGraphic MyVisualRoot
         {
             get
             {
-                return (MyRootGraphic)this.rootGraphic;
+                return this.rootGraphic;
             }
         }
         public void CloseWinRoot()

@@ -7,6 +7,7 @@ namespace LayoutFarm.UI
 {
     partial class UIElement
     {
+
         void IEventListener.ListenKeyPressEvent(UIKeyPressEventArgs args)
         {
             OnKeyPress(args);
@@ -93,5 +94,6 @@ namespace LayoutFarm.UI
                     } break;
             }
         }
+        
     }
 }

@@ -876,7 +876,6 @@ namespace LayoutFarm.Text
                 else
                 {
                 }
-
                 ScrollBy(textManCaretPos.X - this.Width, 0);
             }
             else if (textManCaretPos.X < 0)

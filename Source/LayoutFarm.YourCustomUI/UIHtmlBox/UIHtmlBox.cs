@@ -12,17 +12,25 @@ namespace LayoutFarm.SampleControls
 
     public class UIHtmlBox : UIElement
     {
-        HtmlRenderBox myHtmlBox;
+        HtmlRenderBox myCssBoxWrapper;
         int _width, _height;
         MyHtmlIsland myHtmlIsland;
 
         HtmlRenderer.WebDom.WebDocument currentdoc;
-        HtmlRenderer.Composers.InputEventBridge _htmlEventBridge;
+        HtmlRenderer.HtmlInputEventBridge _htmlEventBridge;
 
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
         public event EventHandler<ImageRequestEventArgs> RequestImage;
 
         System.Timers.Timer tim = new System.Timers.Timer();
+        bool hasWaitingDocToLoad;
+        HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
+
+        static UIHtmlBox()
+        {
+            HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
+               new HtmlRenderer.Boxes.LeanBox.LeanBoxCreator());
+        }
 
         public UIHtmlBox(int width, int height)
         {
@@ -50,10 +58,6 @@ namespace LayoutFarm.SampleControls
         {
             get { return this.myHtmlIsland; }
         }
-
-
-
-
         void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
         {
             if (this.RequestImage != null)
@@ -63,8 +67,12 @@ namespace LayoutFarm.SampleControls
         }
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
         {
+            hasWaitingDocToLoad = true;
+            //---------------------------
+            if (myCssBoxWrapper == null) return;
+            //---------------------------
 
-            var builder = new HtmlRenderer.Composers.BoxModelBuilder();
+            var builder = new HtmlRenderer.Composers.RenderTreeBuilder(myCssBoxWrapper.Root);
             builder.RequestStyleSheet += (e2) =>
             {
                 if (this.RequestStylesheet != null)
@@ -74,7 +82,10 @@ namespace LayoutFarm.SampleControls
                     e2.SetStyleSheet = req.SetStyleSheet;
                 }
             };
-            var rootBox2 = builder.RefreshCssTree(this.currentdoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, this.myHtmlIsland);
+            var rootBox2 = builder.RefreshCssTree(this.currentdoc,
+                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+                this.myHtmlIsland);
+
             this.myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
 
         }
@@ -83,11 +94,13 @@ namespace LayoutFarm.SampleControls
         /// </summary>
         void OnRefresh(object sender, HtmlRenderer.WebDom.HtmlRefreshEventArgs e)
         {
+            this.InvalidateGraphic();
+
             //if (e.Layout)
             //{
             //    if (InvokeRequired)
             //        Invoke(new MethodInvoker(PerformLayout));
-            //    else
+            //    elsedf 
             //        PerformLayout();
             //}
             //if (InvokeRequired)
@@ -95,45 +108,49 @@ namespace LayoutFarm.SampleControls
             //else
             //    Invalidate();
         }
+        protected override void OnMouseDown(UIMouseEventArgs e)
+        {
+            //mouse down on html box
+            this._htmlEventBridge.MouseDown(e.X, e.Y, (int)e.Button);
 
-        ///// <summary>
-        ///// Propagate the stylesheet load event from root container.
-        ///// </summary>
-        //void OnStylesheetLoad(object sender, TextLoadRequestEventArgs e)
-        //{
-        //    if (RequestStylesheet != null)
-        //    {
-        //        RequestStylesheet(this, e);
-        //    }
-        //}
+        }
+        protected override void OnMouseUp(UIMouseEventArgs e)
+        {
+            this._htmlEventBridge.MouseUp(e.X, e.Y, (int)e.Button);
+        }
+        protected override void OnKeyDown(UIKeyEventArgs e)
+        {
+            this._htmlEventBridge.KeyDown('a');
+        }
+        protected override void OnKeyPress(UIKeyPressEventArgs e)
+        {
 
-        ///// <summary>
-        ///// Propagate the image load event from root container.
-        ///// </summary>
-        //void OnImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
-        //{
-        //    if (RequestImage != null)
-        //    {
-        //        RequestImage(this, e);
-        //    }
-        //}
+            this._htmlEventBridge.KeyDown(e.KeyChar);
+        }
+        protected override void OnKeyUp(UIKeyEventArgs e)
+        {
+            base.OnKeyUp(e);
+        }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-            if (myHtmlBox == null)
+            if (myCssBoxWrapper == null)
             {
-                _htmlEventBridge = new HtmlRenderer.Composers.InputEventBridge();
+                _htmlEventBridge = new HtmlInputEventBridge();
                 _htmlEventBridge.Bind(myHtmlIsland, rootgfx.SampleIFonts);
-
-                myHtmlBox = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
-                myHtmlBox.HasSpecificSize = true;
-
+                myCssBoxWrapper = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
+                myCssBoxWrapper.SetController(this);
+                myCssBoxWrapper.HasSpecificSize = true;
             }
-            return myHtmlBox;
-        }
-        void SetHtml(MyHtmlIsland htmlIsland, string html, HtmlRenderer.WebDom.CssActiveSheet cssData)
-        {
 
-            HtmlRenderer.Composers.BoxModelBuilder builder = new HtmlRenderer.Composers.BoxModelBuilder();
+            if (this.hasWaitingDocToLoad)
+            {
+                UpdateWaitingHtmlDoc(this.myCssBoxWrapper.Root);
+            }
+            return myCssBoxWrapper;
+        }
+        void UpdateWaitingHtmlDoc(RootGraphic rootgfx)
+        {
+            var builder = new HtmlRenderer.Composers.RenderTreeBuilder(rootgfx);
             builder.RequestStyleSheet += (e) =>
             {
                 if (this.RequestStylesheet != null)
@@ -144,17 +161,30 @@ namespace LayoutFarm.SampleControls
                 }
             };
 
-
-            var htmldoc = builder.ParseDocument(new HtmlRenderer.WebDom.Parser.TextSnapshot(html.ToCharArray()));
-            this.currentdoc = htmldoc;
-
             //build rootbox from htmldoc
-            var rootBox = builder.BuildCssTree(htmldoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, htmlIsland, cssData);
+            var rootBox = builder.BuildCssRenderTree(this.currentdoc,
+                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+                this.myHtmlIsland,
+                this.waitingCssData,
+                this.myCssBoxWrapper);
 
-            htmlIsland.SetHtmlDoc(htmldoc);
-            htmlIsland.SetRootCssBox(rootBox, cssData);
+            var htmlIsland = this.myHtmlIsland;
+            htmlIsland.SetHtmlDoc(this.currentdoc);
+            htmlIsland.SetRootCssBox(rootBox, this.waitingCssData);
             htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
             htmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
+        }
+        void SetHtml(MyHtmlIsland htmlIsland, string html, HtmlRenderer.WebDom.CssActiveSheet cssData)
+        {
+            var htmldoc = HtmlRenderer.Composers.WebDocumentParser.ParseDocument(
+                             new HtmlRenderer.WebDom.Parser.TextSnapshot(html.ToCharArray()));
+            this.currentdoc = htmldoc;
+            this.hasWaitingDocToLoad = true;
+            this.waitingCssData = cssData;
+            //---------------------------
+            if (myCssBoxWrapper == null) return;
+            //---------------------------
+            UpdateWaitingHtmlDoc(this.myCssBoxWrapper.Root);
 
         }
         public void LoadHtmlText(string html)
@@ -163,13 +193,19 @@ namespace LayoutFarm.SampleControls
             this.tim.Enabled = false;
             SetHtml(myHtmlIsland, html, myHtmlIsland.BaseStylesheet);
             this.tim.Enabled = true;
-            myHtmlBox.InvalidateGraphic();
+            if (this.myCssBoxWrapper != null)
+            {
+                myCssBoxWrapper.InvalidateGraphic();
+            }
         }
 
 
         public override void InvalidateGraphic()
         {
-            myHtmlBox.InvalidateGraphic();
+            if (this.myCssBoxWrapper != null)
+            {
+                myCssBoxWrapper.InvalidateGraphic();
+            }
         }
     }
 }

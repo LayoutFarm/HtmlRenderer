@@ -778,5 +778,13 @@ namespace HtmlRenderer.Boxes
                 }
             }
         }
+        protected virtual Point GetElementGlobalLocationImpl()
+        {
+            return new Point(0, 0);
+        }
+        public Point GetElementGlobalLocation()
+        {
+            return this.GetElementGlobalLocationImpl();
+        }
     }
 }

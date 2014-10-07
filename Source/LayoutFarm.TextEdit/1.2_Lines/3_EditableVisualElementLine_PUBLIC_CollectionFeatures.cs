@@ -196,15 +196,15 @@ namespace LayoutFarm.Text
 
         internal void UnsafeAddLast(EditableTextSpan run)
         {
-            EditableTextSpan.SetVisualElementAsChildOfOther(run, new VisualEditableLineParentLink(this, base.AddLast(run)));
+            EditableTextSpan.SetParentLink(run, new VisualEditableLineParentLink(this, base.AddLast(run)));
         }
         internal void UnsafeAddFirst(EditableTextSpan run)
         {
-            EditableTextSpan.SetVisualElementAsChildOfOther(run, new VisualEditableLineParentLink(this, base.AddFirst(run)));
+            EditableTextSpan.SetParentLink(run, new VisualEditableLineParentLink(this, base.AddFirst(run)));
         }
         internal void UnsafeAddAfter(EditableTextSpan after, EditableTextSpan run)
         {
-            EditableTextSpan.SetVisualElementAsChildOfOther(run,
+            EditableTextSpan.SetParentLink(run,
             new VisualEditableLineParentLink(this,
                 base.AddAfter(GetLineLinkedNode(after), run)));
         }

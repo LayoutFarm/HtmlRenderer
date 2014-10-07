@@ -14,7 +14,7 @@ namespace LayoutFarm
 #if DEBUG
     partial class MyTopWindowRenderBox
     {
-#if DEBUG
+ 
         public static bool dbugMark01;
         static void dbug_WriteInfo(dbugVisualLayoutTracer debugVisualLay, dbugVisitorMessage msg, RenderElement ve)
         {
@@ -39,22 +39,13 @@ namespace LayoutFarm
                 debugVisualLay.EndCurrentContext();
             }
         }
-#endif
+ 
 
         public void dbug_DumpAllVisualElementProps(dbugLayoutMsgWriter writer)
         {
             this.dbug_DumpVisualProps(writer);
-            writer.Add(new dbugLayoutMsg(this, "FINISH"));
-
-        }
-
-        void dbug_Init()
-        {
-            hitPointChain.dbugHitTracker = this.dbugVRoot.dbugHitTracker;
-        }
-
-
-
+            writer.Add(new dbugLayoutMsg(this, "FINISH")); 
+        } 
         public override void dbugShowRenderPart(Canvas canvasPage, InternalRect updateArea)
         {
 
@@ -80,7 +71,7 @@ namespace LayoutFarm
                 visualroot.dbug_RootUpdateCounter++;
             }
         }
-
+        
     }
 #endif
 }

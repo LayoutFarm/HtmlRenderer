@@ -161,9 +161,9 @@ namespace LayoutFarm
                         } break;
                     case RequestCommand.DoFocus:
                         {
-                            RenderElement ve = req.ve;
-                            wintop.CurrentKeyboardFocusedElement = ve;
-                            ve.InvalidateGraphic();
+                            //RenderElement ve = req.ve;
+                            //wintop.CurrentKeyboardFocusedElement = ve;
+                            //ve.InvalidateGraphic();
 
                         } break;
                     case RequestCommand.InvalidateArea:

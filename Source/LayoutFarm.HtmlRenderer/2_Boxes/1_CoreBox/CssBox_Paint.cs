@@ -14,6 +14,7 @@ namespace HtmlRenderer.Boxes
 
         public void Paint(IGraphics g, Painter p)
         {
+           
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
 #endif
@@ -61,6 +62,9 @@ namespace HtmlRenderer.Boxes
 
         protected virtual void PaintImp(IGraphics g, Painter p)
         {
+
+
+
             Css.CssDisplay display = this.CssDisplay;
             if (display != Css.CssDisplay.TableCell ||
                 this.EmptyCells != Css.CssEmptyCell.Hide || !IsSpaceOrEmpty)
