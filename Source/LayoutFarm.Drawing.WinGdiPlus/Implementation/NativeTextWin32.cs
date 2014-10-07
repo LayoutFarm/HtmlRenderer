@@ -23,11 +23,7 @@ namespace LayoutFarm
             Rectangle* lpRect, char[] charBuffer, int cbCount, object arrayOfSpaceValues);
 
         public const int ETO_OPAQUE = 0x0002;
-        public const int ETO_CLIPPED = 0x0004;
-
-
-
-
+        public const int ETO_CLIPPED = 0x0004; 
 
 
         [DllImport("gdi32.dll")]

@@ -27,10 +27,7 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         {
 
         }
-        public static GraphicPlatform Platform
-        {
-            get { return platform; }
-        }
+     
     }
 
 
