@@ -42,7 +42,7 @@ namespace LayoutFarm.Dev
                 out formCanvas);
 
             selectedDemo.StartDemo(viewport);
-            viewport.WinTop.TopDownReCalculateContentSize();
+            viewport.TopDownRecalculateContent();
             //==================================================  
             viewport.PaintMe();
             //ShowFormLayoutInspector(viewport); 

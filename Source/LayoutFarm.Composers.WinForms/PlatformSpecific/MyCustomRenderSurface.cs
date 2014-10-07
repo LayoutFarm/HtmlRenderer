@@ -7,11 +7,9 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
     class MyCustomRenderSurface : CustomRenderSurface
-    {
+    {   
 
-
-        QuadPages quadPages;
-
+        QuadPages quadPages; 
         //int viewport_h_smallChange = 0;
         //int viewport_h_largeChange = 0; 
         //int viewport_v_smallChange = 0;

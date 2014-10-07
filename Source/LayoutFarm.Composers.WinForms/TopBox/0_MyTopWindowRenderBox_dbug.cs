@@ -44,17 +44,8 @@ namespace LayoutFarm
         public void dbug_DumpAllVisualElementProps(dbugLayoutMsgWriter writer)
         {
             this.dbug_DumpVisualProps(writer);
-            writer.Add(new dbugLayoutMsg(this, "FINISH"));
-
-        }
-
-        void dbug_Init()
-        {
-            hitPointChain.dbugHitTracker = this.dbugVRoot.dbugHitTracker;
-        }
-
-
-
+            writer.Add(new dbugLayoutMsg(this, "FINISH")); 
+        } 
         public override void dbugShowRenderPart(Canvas canvasPage, InternalRect updateArea)
         {
 
@@ -80,7 +71,7 @@ namespace LayoutFarm
                 visualroot.dbug_RootUpdateCounter++;
             }
         }
-
+        
     }
 #endif
 }

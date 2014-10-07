@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using System.Diagnostics;
 using LayoutFarm.Drawing;
 
@@ -13,14 +12,15 @@ namespace LayoutFarm
     partial class MyTopWindowRenderBox
     {
 
-        RenderElement currentKeyboardFocusedElement = null; 
-        Stack<VisualDrawingChain> renderingChainStock = new Stack<VisualDrawingChain>(); 
+        public event EventHandler<UIInvalidateEventArgs> CanvasInvalidatedEvent;
+        public event EventHandler<EventArgs> CanvasForcePaint;
 
-        int GraphicUpdateSuspendCount
-        {
-            get { return this.rootGraphic.GraphicUpdateBlockCount; }
-            set { this.rootGraphic.GraphicUpdateBlockCount = value; }
-        }
+        Stack<VisualDrawingChain> renderingChainStock = new Stack<VisualDrawingChain>();
+        LinkedList<VisualRootTimerTask> rootTimerTasks = new LinkedList<VisualRootTimerTask>();
+        System.Timers.Timer rootTasksTimer;
+        LinkedList<LinkedListNode<VisualRootTimerTask>> tobeRemoveTasks = new LinkedList<LinkedListNode<VisualRootTimerTask>>();
+
+
         bool LayoutQueueClearing
         {
             get { return this.rootGraphic.LayoutQueueClearing; }
@@ -31,19 +31,25 @@ namespace LayoutFarm
             get { return this.rootGraphic.DisableGraphicOutputFlush; }
             set { this.rootGraphic.DisableGraphicOutputFlush = value; }
         }
+        int GraphicUpdateSuspendCount
+        {
+            get { return this.rootGraphic.GraphicUpdateBlockCount; }
+            set { this.rootGraphic.GraphicUpdateBlockCount = value; }
+        }
         public override void FlushGraphic(Rectangle rect)
         {
-            UIInvalidateEventArgs e = this.eventStock.GetFreeCanvasInvalidatedEventArgs(); 
+            UIInvalidateEventArgs e = this.eventStock.GetFreeCanvasInvalidatedEventArgs();
             e.InvalidArea = rect;
-            CanvasInvalidatedEvent(this, e); 
+            CanvasInvalidatedEvent(this, e);
             eventStock.ReleaseEventArgs(e);
         }
-        void FlushAccumGraphicUpdate()
+
+        internal void FlushAccumGraphicUpdate()
         {
-            this.rootGraphic.FlushAccumGraphicUpdate(this); 
+            this.rootGraphic.FlushAccumGraphicUpdate(this);
         }
 
-         
+
         public override void RootBeginGraphicUpdate()
         {
             GraphicUpdateSuspendCount++;
@@ -68,7 +74,7 @@ namespace LayoutFarm
                 {
                     ToNotifySizeChangedEvent item = tobeNotifySizeChangedList[i];
                     UISizeChangedEventArgs sizeChangedEventArg = UISizeChangedEventArgs.GetFreeOne(
-                        null, item.xdiff, item.ydiff, item.affectedSideFlags); 
+                        null, item.xdiff, item.ydiff, item.affectedSideFlags);
                     UISizeChangedEventArgs.ReleaseOne(sizeChangedEventArg);
                 }
                 tobeNotifySizeChangedList.Clear();
@@ -87,7 +93,22 @@ namespace LayoutFarm
         public void EndRenderPhase()
         {
             this.rootGraphic.IsInRenderPhase = false;
+        } 
+        public void ChangeVisualRootSize(int width, int height)
+        {
+            this.ChangeRootElementSize(width, height); 
         }
+        public void Dispose()
+        {
 
+        } 
+        public void ClearAllResources()
+        {
+            if (centralAnimationClock != null)
+            {
+                centralAnimationClock.Stop();
+            } 
+            ClearAllChildren();
+        }
     }
 }

@@ -1,8 +1,7 @@
 ﻿//BSD 2014 ,WinterDev 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
-using LayoutFarm.Drawing;
+using LayoutFarm.Drawing; 
 
 namespace HtmlRenderer.Boxes
 {
@@ -20,10 +19,10 @@ namespace HtmlRenderer.Boxes
         //---------------------      
         List<CssLineBox> selectedLines;
 
-        public SelectionRange(BoxHitChain startChain, BoxHitChain endChain, IFonts ifonts)
-        {
-
-
+        public SelectionRange(CssBoxHitChain startChain,
+            CssBoxHitChain endChain,
+            IFonts ifonts)
+        {   
             if (IsOnTheSameLine(startChain, endChain))
             {
                 //on the same line
@@ -45,20 +44,14 @@ namespace HtmlRenderer.Boxes
                     startChain = tmp;
                 }
             }
-            //Console.WriteLine(endChain.RootGlobalY);
-            //if (endChain.RootGlobalY > 91)
-            //{
-
-
-            //}
-
+             
             //1.
             this.SetupStartHitPoint(startChain, ifonts);
             //2. 
             this.SetupEndHitPoint(endChain, ifonts);
 
         }
-        static bool IsOnTheSameLine(BoxHitChain startChain, BoxHitChain endChain)
+        static bool IsOnTheSameLine(CssBoxHitChain startChain, CssBoxHitChain endChain)
         {
             CssLineBox startLineBox = GetLine(startChain.GetLastHit());
             CssLineBox endLineBox = GetLine(endChain.GetLastHit());
@@ -216,7 +209,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        void SetupStartHitPoint(BoxHitChain startChain, IFonts ifonts)
+        void SetupStartHitPoint(CssBoxHitChain startChain, IFonts ifonts)
         {
             HitInfo startHit = startChain.GetLastHit();
             //-----------------------------
@@ -327,7 +320,7 @@ namespace HtmlRenderer.Boxes
 
         //static int dbugCounter = 0;
 
-        void SetupEndHitPoint(BoxHitChain endChain, IFonts ifonts)
+        void SetupEndHitPoint(CssBoxHitChain endChain, IFonts ifonts)
         {
 
             //dbugCounter++;

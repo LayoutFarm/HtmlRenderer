@@ -108,12 +108,12 @@ namespace LayoutFarm.Text
             }
         }
 
-        internal bool HitTestCore(HitPointChain artHitResult)
+        internal bool HitTestCore(HitChain hitChain)
         {
 
             int testX;
             int testY;
-            artHitResult.GetTestPoint(out testX, out testY);
+            hitChain.GetTestPoint(out testX, out testY);
 
             if (this.Count == 0)
             {
@@ -126,17 +126,17 @@ namespace LayoutFarm.Text
                 LinkedListNode<EditableTextSpan> cnode = this.First;
 
                 int curLineTop = this.lineTop;
-                artHitResult.OffsetTestPoint(0, -curLineTop);
+                hitChain.OffsetTestPoint(0, -curLineTop);
                 while (cnode != null)
                 {
-                    if (cnode.Value.HitTestCore(artHitResult))
+                    if (cnode.Value.HitTestCore(hitChain))
                     {
-                        artHitResult.OffsetTestPoint(0, curLineTop);
+                        hitChain.OffsetTestPoint(0, curLineTop);
                         return true;
                     }
                     cnode = cnode.Next;
                 }
-                artHitResult.OffsetTestPoint(0, curLineTop);
+                hitChain.OffsetTestPoint(0, curLineTop);
                 return false;
             }
         }

@@ -33,8 +33,9 @@ namespace LayoutFarm
             int lastestXDiff,
             int lastestYDiff)
         {
-            Location = loca;
+             
             Button = button;
+            this.Location = loca;
 
             this.currentLogicalX = currentLogicalX;
             this.currentLogicalY = currentLogicalY;
@@ -77,13 +78,13 @@ namespace LayoutFarm
                 return lastestYDiff;
             }
         }
-        public bool IsDragOut
-        {
-            get
-            {
-                return SourceRenderElement.ContainPoint(this.X, this.Y);
-            }
-        }
+        //public bool IsDragOut
+        //{
+        //    get
+        //    {
+        //        return SourceRenderElement.ContainPoint(this.X, this.Y);
+        //    }
+        //}
 
        
        

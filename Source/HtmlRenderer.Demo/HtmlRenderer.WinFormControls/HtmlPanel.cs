@@ -15,7 +15,6 @@ using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
 using HtmlRenderer.WebDom;
-using HtmlRenderer.Drawing;
 using HtmlRenderer.Css;
 using HtmlRenderer.ContentManagers;
 
@@ -65,7 +64,7 @@ namespace HtmlRenderer
         HtmlRenderer.WebDom.WebDocument currentDoc;
 
         MyHtmlIsland myHtmlIsland;
-        Composers.InputEventBridge _htmlEventBridge;
+        HtmlInputEventBridge _htmlEventBridge;
         /// <summary>
         /// the raw base stylesheet data used in the control
         /// </summary>
@@ -117,7 +116,7 @@ namespace HtmlRenderer
             };
             timer01.Enabled = true;
             //-------------------------------------------
-            _htmlEventBridge = new Composers.InputEventBridge();
+            _htmlEventBridge = new HtmlInputEventBridge();
             _htmlEventBridge.Bind(myHtmlIsland, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
             //------------------------------------------- 
         }
@@ -306,7 +305,8 @@ namespace HtmlRenderer
             //build rootbox from htmldoc
             var rootBox = builder.BuildCssRenderTree(htmldoc,
                 LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
-                htmlIsland, cssData);
+                htmlIsland, cssData,
+                null);
 
             htmlIsland.SetHtmlDoc(htmldoc);
             htmlIsland.SetRootCssBox(rootBox, cssData);
@@ -320,8 +320,8 @@ namespace HtmlRenderer
 
             BuildCssBoxTree(myHtmlIsland, _baseCssData);
             //---------------------
-
-            this.PaintMe();
+            PerformLayout();
+            Invalidate();
         }
         void BuildCssBoxTree(MyHtmlIsland htmlIsland, CssActiveSheet cssData)
         {
@@ -338,14 +338,15 @@ namespace HtmlRenderer
 
             var rootBox = builder.BuildCssRenderTree(this.currentDoc,
                 LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
-                htmlIsland, cssData);
+                htmlIsland, cssData,
+                null);
 
             htmlIsland.SetHtmlDoc(this.currentDoc);
             htmlIsland.SetRootCssBox(rootBox, cssData);
 
         }
         public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.WebDocument doc)
-        {   
+        {
             //RefreshHtmlDomChange(_baseCssData);
             myHtmlIsland_NeedUpdateDom(this, EventArgs.Empty);
             this.PaintMe();

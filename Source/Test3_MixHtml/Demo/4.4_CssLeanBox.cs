@@ -30,6 +30,13 @@ namespace LayoutFarm
             htmlBox.LoadHtmlText(stbuilder.ToString());
             viewport.AddContent(htmlBox);
             //==================================================  
+
+            //textbox
+            //var textbox = new LayoutFarm.SampleControls.UITextBox(400, 100, true);
+            //textbox.SetLocation(0, 200);
+            //viewport.AddContent(textbox);
+            //textbox.Focus();
+
         }
 
     }

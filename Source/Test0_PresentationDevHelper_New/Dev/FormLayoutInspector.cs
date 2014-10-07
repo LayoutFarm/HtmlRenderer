@@ -9,9 +9,7 @@ using System.IO;
 using LayoutFarm;
 
 namespace LayoutFarm.Dev
-{
-
-
+{   
     public partial class FormLayoutInspector : Form
     {
 
@@ -164,33 +162,35 @@ namespace LayoutFarm.Dev
         {
 #if DEBUG
             this.vwport = vwport;
-            vwport.dbug_VisualRootDrawMsg += rootDrawMsgEventHandler;
-            vwport.dbug_VisualRootHitChainMsg += new EventHandler(artUISurfaceViewport1_dbug_VisualRootHitChainMsg);
-            vwport.dbug_EnableAllDebugInfo();
+            IdbugOutputWindow outputWin = vwport.IOutputWin;
+            outputWin.dbug_VisualRootDrawMsg += rootDrawMsgEventHandler;
+            outputWin.dbug_VisualRootHitChainMsg += new EventHandler(artUISurfaceViewport1_dbug_VisualRootHitChainMsg);
+            outputWin.dbug_EnableAllDebugInfo();
 #endif
         }
 #if DEBUG
         protected override void OnClosing(CancelEventArgs e)
         {
-            vwport.dbug_VisualRootDrawMsg -= rootDrawMsgEventHandler;
-            vwport.dbug_VisualRootHitChainMsg -= rootHitMsgEventHandler;
-            vwport.dbug_DisableAllDebugInfo();
+            IdbugOutputWindow outputWin = vwport.IOutputWin;
+            outputWin.dbug_VisualRootDrawMsg -= rootDrawMsgEventHandler;
+            outputWin.dbug_VisualRootHitChainMsg -= rootHitMsgEventHandler;
+            outputWin.dbug_DisableAllDebugInfo();
             base.OnClosing(e);
         }
 
         void artUISurfaceViewport1_dbug_VisualRootHitChainMsg(object sender, EventArgs e)
         {
-            LoadList2NewContent(this.vwport.dbug_rootDocHitChainMsgs);
+            LoadList2NewContent(this.vwport.IOutputWin.dbug_rootDocHitChainMsgs);
         }
         void artUISurfaceViewport1_dbug_VisualRootDebugMsg(object sender, EventArgs e)
         {
-            LoadList1NewContent(this.vwport.dbug_rootDocDebugMsgs);
+            LoadList1NewContent(this.vwport.IOutputWin.dbug_rootDocDebugMsgs);
         }
         public void TogglePauseMode()
         {
             if (!pauseRecord)
             {
-                pauseRecord = true; vwport.dbug_VisualRootDrawMsg -= rootDrawMsgEventHandler;
+                pauseRecord = true; vwport.IOutputWin.dbug_VisualRootDrawMsg -= rootDrawMsgEventHandler;
                 this.Text = "Pause - LayoutFarm Victory 2012";
 
                 StringBuilder stBuilder = new StringBuilder();
@@ -201,7 +201,7 @@ namespace LayoutFarm.Dev
             else
             {
                 pauseRecord = false;
-                vwport.dbug_VisualRootDrawMsg += rootDrawMsgEventHandler;
+                vwport.IOutputWin.dbug_VisualRootDrawMsg += rootDrawMsgEventHandler;
                 this.Text = "LayoutFarm Victory 2012";
             }
         }
@@ -264,7 +264,7 @@ namespace LayoutFarm.Dev
         {
 
 #if DEBUG
-            vwport.dbug_ReArrangeWithBreakOnSelectedNode();
+            vwport.IOutputWin.dbug_ReArrangeWithBreakOnSelectedNode();
 #endif
 
         }

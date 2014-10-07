@@ -36,18 +36,25 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WinGdi\MyCanvas.cs" />
-    <Compile Include="WinGdi\FontManager.cs" />
-    <Compile Include="WinGdi\GfxWin32InterOp.cs" />
-    <Compile Include="WinGdi\MyWin32.cs" />
-    <Compile Include="WinGdi\NativeTextWin32.cs" />
-    <Compile Include="Implementation\Conv.cs" />
+    <Compile Include="MyCanvas\MyCanvas_CanvasProps.cs" />
+    <Compile Include="MyCanvas\MyCanvas_DrawGraphics.cs" />
+    <Compile Include="Implementation\FontManager.cs" />
+    <Compile Include="Implementation\GfxWin32InterOp.cs" />
+    <Compile Include="Implementation\MyWin32.cs" />
+    <Compile Include="Implementation\NativeTextWin32.cs" />
+    <Compile Include="0_Start\Conv.cs" />
     <Compile Include="Implementation\FontsUtils.cs" />
     <Compile Include="Implementation\Win32Utils.cs" />
-    <Compile Include="Implementation\WinGraphics.cs" />
     <Compile Include="Implementation\Region.cs" />
     <Compile Include="Implementation\Bitmap_Brush_Pen.cs" />
     <Compile Include="Implementation\MyMatrix.cs" />
+    <Compile Include="MyCanvas\MyCanvas_Static.cs" />
+    <Compile Include="MyCanvas\0_MyCanvas_Inits.cs" />
+    <Compile Include="MyCanvas\MyCanvas_CoordinateAndClip.cs" />
+    <Compile Include="MyCanvas\MyCanvas_IFont_SpecificImpl.cs" />
+    <Compile Include="MyCanvas\MyCanvas_IGraphics_SpecificImpl.cs" />
+    <Compile Include="MyCanvas\MyCanvas_InvalidateArea.cs" />
+    <Compile Include="MyCanvas\MyCanvas_TextFuncs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="0_Start\WinGdiGraphics.cs" />
   </ItemGroup>

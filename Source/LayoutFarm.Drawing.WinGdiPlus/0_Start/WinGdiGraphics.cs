@@ -120,12 +120,7 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
             return new MyCanvas(horizontalPageNum, verticalPageNum,
                 left, top, width, height);
         }
-        public override IGraphics CreateIGraphics(int w, int h)
-        {
-            System.Drawing.Bitmap bb = new System.Drawing.Bitmap(2, 2);
-            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bb);
-            return new WinGraphics(g, false);
-        }
+        
         public override IGraphics SampleIGraphics
         {
             get
@@ -138,15 +133,12 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
                     }
 
                     System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(sampleBmp);
-                    sampleIGraphics = new WinGraphics(g, false);
+                    sampleIGraphics = new MyCanvas(0, 0, 0, 0, 2, 2);
                 }
                 return this.sampleIGraphics;
             }
         }
-        public override IGraphics CreateIGraphics(object nativeObj)
-        {
-            return new WinGraphics((System.Drawing.Graphics)nativeObj, false);
-        }
+         
         public override IGraphics SampleIFonts
         {
             get { return this.SampleIGraphics; }

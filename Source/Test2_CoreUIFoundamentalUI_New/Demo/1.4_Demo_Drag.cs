@@ -20,7 +20,6 @@ namespace LayoutFarm
                 box1.SetLocation(10, 10);
                 SetupActiveBoxProperties(box1);
                 viewport.AddContent(box1);
-
             }
             //--------------------------------
             {

@@ -190,11 +190,11 @@ namespace LayoutFarm
             UIDragEventArgs e = null;
             if (dragEventQ.Count > 0)
             {
-                e = dragEventQ.Pop(); 
+                e = dragEventQ.Pop();
             }
             else
             {
-                e = new UIDragEventArgs(); 
+                e = new UIDragEventArgs();
             }
             e.SetEventInfo(p, button,
                 lastestLogicalViewportMouseDownX,

@@ -96,6 +96,7 @@ namespace HtmlRenderer.WebDom
                     } break;
             }
         }
+        bool IEventListener.AcceptKeyboardFocus { get { return false; } }
         //------------------------------------------------------
         public void AttachEvent(UIEventName eventName, HtmlEventHandler handler)
         {
