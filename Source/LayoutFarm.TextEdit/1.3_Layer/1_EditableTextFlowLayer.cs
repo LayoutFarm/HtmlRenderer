@@ -17,7 +17,7 @@ namespace LayoutFarm.Text
 
         public event EventHandler Reflow;
 
-        public static TextFontInfo DefaultFontInfo
+        public static FontInfo DefaultFontInfo
         {
             get;
             set;

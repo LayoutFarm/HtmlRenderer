@@ -47,7 +47,7 @@ namespace LayoutFarm
     }
     static class MyWin32
     {
-         
+
 
         [DllImport("kernel32.dll", ExactSpelling = true)]
         public static extern IntPtr GlobalAlloc(int flags, int size);
@@ -535,6 +535,9 @@ namespace LayoutFarm
             return ((high << 0x10) | (low & 0xffff));
         }
 
-
+        public static int ColorToWin32(LayoutFarm.Drawing.Color c)
+        {
+            return ((c.R | (c.G << 8)) | (c.B << 0x10));
+        }
     }
 }

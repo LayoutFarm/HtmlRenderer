@@ -181,12 +181,12 @@ namespace LayoutFarm.Text
             else
             {
                 TextSpanSytle beh = this.SpanStyle;
-                switch (canvasPage.EvaluateFontAndTextColor(beh.textFontInfo, beh.FontColor))
+                switch (canvasPage.EvaluateFontAndTextColor(beh.FontInfo, beh.FontColor))
                 {
                     case Canvas.DIFF_FONT_SAME_TEXT_COLOR:
                         {
 
-                            canvasPage.PushFont(beh.textFontInfo);
+                            canvasPage.PushFont(beh.FontInfo);
                             canvasPage.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),
                                beh.ContentHAlign);
@@ -196,7 +196,7 @@ namespace LayoutFarm.Text
                     case Canvas.DIFF_FONT_DIFF_TEXT_COLOR:
                         {
 
-                            canvasPage.PushFontInfoAndTextColor(beh.textFontInfo, beh.FontColor);
+                            canvasPage.PushFontInfoAndTextColor(beh.FontInfo, beh.FontColor);
                             canvasPage.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),
                                beh.ContentHAlign);
@@ -225,14 +225,14 @@ namespace LayoutFarm.Text
 
         Size CalculateDrawingStringSize(char[] buffer)
         {
-            TextFontInfo textFontInfo = GetTextFontInfo();
+            FontInfo FontInfo = GetFontInfo();
             return new Size(
-                textFontInfo.GetStringWidth(buffer),
-                textFontInfo.FontHeight
+                FontInfo.GetStringWidth(buffer),
+                FontInfo.FontHeight
                 );
         }
 
-        protected TextFontInfo GetTextFontInfo()
+        protected FontInfo GetFontInfo()
         {
 
             if (!HasStyle)
@@ -242,9 +242,9 @@ namespace LayoutFarm.Text
             else
             {
                 TextSpanSytle beh = (TextSpanSytle)SpanStyle;
-                if (beh != null && beh.textFontInfo != null)
+                if (beh != null && beh.FontInfo != null)
                 {
-                    return beh.textFontInfo;
+                    return beh.FontInfo;
                 }
                 else
                 {

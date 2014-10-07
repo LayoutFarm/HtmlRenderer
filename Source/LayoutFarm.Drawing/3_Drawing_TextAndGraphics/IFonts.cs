@@ -1,9 +1,5 @@
-﻿//BSD 2014, WinterDev  
-
-using System;
-
-
-
+﻿//BSD 2014, WinterDev   
+using System; 
 namespace LayoutFarm.Drawing
 {
     public interface IFonts

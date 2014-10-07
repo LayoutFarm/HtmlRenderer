@@ -1,11 +1,13 @@
 ﻿
-
+using System;
 namespace LayoutFarm.Drawing.WinGdiPlatform
 {
     public static class WinGdi
     {
         static WinGdiPlateform platform;
         static bool isInit;
+       
+
         public static void Start()
         {
             if (isInit)
@@ -17,7 +19,10 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
             platform = new WinGdiPlateform();
             CurrentGraphicPlatform.SetCurrentPlatform(platform);
             CurrentGraphicPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
-        }
+
+            
+             
+        } 
         public static void End()
         {
 
@@ -110,11 +115,10 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         {
             return new MyRegion();
         }
-        public override TextFontInfo CreateTexFontInfo(object nativeFont)
+        public override FontInfo CreateTexFontInfo(object nativeFont)
         {
-            return new MyTextFontInfo(
-                new MyFont((System.Drawing.Font)nativeFont),
-                new BasicGdi32FontHelper());
+            return LayoutFarm.FontsUtils.GetCachedFont((System.Drawing.Font)nativeFont);
+
         }
         public override Canvas CreateCanvas(int horizontalPageNum, int verticalPageNum, int left, int top, int width, int height)
         {

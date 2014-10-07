@@ -23,9 +23,7 @@ namespace LayoutFarm
 {
 
     partial class MyCanvas : Canvas, IGraphics
-    {
-       
-         
+    {   
         int left;
         int top;
         int right;
@@ -47,13 +45,13 @@ namespace LayoutFarm
         //-------------------------------
         Stack<int> prevWin32Colors = new Stack<int>();
         Stack<IntPtr> prevHFonts = new Stack<IntPtr>();
-        Stack<TextFontInfo> prevFonts = new Stack<TextFontInfo>();
+        Stack<FontInfo> prevFonts = new Stack<FontInfo>();
         Stack<System.Drawing.Color> prevColor = new Stack<System.Drawing.Color>();
         Stack<System.Drawing.Rectangle> prevRegionRects = new Stack<System.Drawing.Rectangle>();
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
         //-------------------------------
         InternalRect invalidateArea = InternalRect.CreateFromLTRB(0, 0, 0, 0);
-        TextFontInfo currentTextFont = null;
+        FontInfo currentTextFont = null;
         SolidBrush sharedSolidBrush;  
         //-------------------------------
         System.Drawing.Color currentTextColor = System.Drawing.Color.Black;    
@@ -65,14 +63,9 @@ namespace LayoutFarm
         bool _avoidGeometryAntialias;
         bool _avoidTextAntialias;
         bool _useGdiPlusTextRendering;
-        bool isFromPrinter = false;
-        
-        
+        bool isFromPrinter = false; 
 
-        int canvasFlags = FIRSTTIME_INVALID;
-
- 
-    
+        int canvasFlags = FIRSTTIME_INVALID; 
 
         public MyCanvas(int horizontalPageNum, int verticalPageNum, int left, int top, int width, int height)
         {
@@ -94,7 +87,9 @@ namespace LayoutFarm
             MyWin32.SelectObject(originalHdc, hbmp);
             MyWin32.PatBlt(originalHdc, 0, 0, width, height, MyWin32.WHITENESS);
             MyWin32.SetBkMode(originalHdc, MyWin32._SetBkMode_TRANSPARENT);
-            hFont = FontManager.CurrentFont.ToHfont();
+
+            hFont = 
+
             MyWin32.SelectObject(originalHdc, hFont);
 
             currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
@@ -103,7 +98,7 @@ namespace LayoutFarm
 
             gx = System.Drawing.Graphics.FromHdc(originalHdc);
 
-            PushFontInfoAndTextColor(FontManager.DefaultTextFontInfo, Color.Black);
+            PushFontInfoAndTextColor(defaultFontInfo, Color.Black);
 #if DEBUG
             debug_canvas_id = dbug_canvasCount + 1;
             dbug_canvasCount += 1;
@@ -192,7 +187,9 @@ namespace LayoutFarm
             MyWin32.SelectObject(originalHdc, hbmp);
             MyWin32.PatBlt(originalHdc, 0, 0, newWidth, newHeight, MyWin32.WHITENESS);
             MyWin32.SetBkMode(originalHdc, MyWin32._SetBkMode_TRANSPARENT);
-            hFont = FontManager.CurrentFont.ToHfont();
+
+            hFont = defaultHFont;
+
             MyWin32.SelectObject(originalHdc, hFont);
             currentClipRect = new System.Drawing.Rectangle(0, 0, newWidth, newHeight);
             MyWin32.SelectObject(originalHdc, hRgn);

@@ -18,12 +18,15 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
 
- 
+
 
 namespace LayoutFarm
 {
     partial class MyCanvas
     {
+
+
+
         static readonly int[] _charFit = new int[1];
         static readonly int[] _charFitWidth = new int[1000];
         /// <summary>
@@ -41,12 +44,26 @@ namespace LayoutFarm
         const int FIRSTTIME_INVALID = 0x1; const int UPDATED_CONTENT = 0x2;
         const int FIRSTTIME_INVALID_AND_UPDATED_CONTENT = 0x3;
 
+        static IntPtr defaultHFont;
+        static System.Drawing.Font defaultFont;
+        static FontInfo defaultFontInfo;
+
+
         static MyCanvas()
         {
             _stringFormat = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericDefault);
             _stringFormat.FormatFlags = System.Drawing.StringFormatFlags.NoClip | System.Drawing.StringFormatFlags.MeasureTrailingSpaces;
-        }
+            //---------------------------
+            MyCanvas.SetupDefaultFont(new System.Drawing.Font("Tahoma", 10));
 
+        }
+        static void SetupDefaultFont(System.Drawing.Font f)
+        {
+            defaultFont = f;
+            defaultHFont = f.ToHfont();
+            defaultFontInfo = FontsUtils.GetCachedFont(f);
+
+        }
         static bool IsEqColor(Color c1, System.Drawing.Color c2)
         {
             return c1.R == c2.R &&

@@ -46,17 +46,5 @@ namespace LayoutFarm.Drawing
     }
 
      
-
-
-    public abstract class TextFontInfo
-    {
-        public abstract int FontHeight { get; }
-        public abstract Font Font { get; }
-        public abstract IntPtr HFont { get; }
-        public abstract int GetCharWidth(char c);
-
-        public abstract int GetStringWidth(char[] buffer);
-        public abstract int GetStringWidth(char[] buffer, int length);
-        public abstract FontSignature GetFontSignature();
-    }
+ 
 }

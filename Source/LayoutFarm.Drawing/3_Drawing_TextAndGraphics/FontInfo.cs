@@ -1,24 +1,23 @@
 ﻿//BSD 2014, WinterDev
-
+using System;
 namespace LayoutFarm.Drawing
 {
-
-    public class FontInfo
+     
+    public abstract class FontInfo
     {
-
-        public FontInfo(Font f, int lineHeight, float ascentPx, float descentPx, float baseline)
-        {
-            this.Font = f;
-            this.LineHeight = lineHeight;
-            this.DescentPx = descentPx;
-            this.AscentPx = ascentPx;
-            this.BaseLine = baseline;
-        }
-        public Font Font { get; private set; }
-        public float AscentPx { get; private set; }
-        public float DescentPx { get; private set; }
-        public float BaseLine { get; private set; }
-        public int LineHeight { get; private set; }
-
+        
+        public Font Font { get; protected set; }
+        public float AscentPx { get; protected set; }
+        public float DescentPx { get; protected set; }
+        public float BaseLine { get; protected set; }
+        public int LineHeight { get; protected set; }
+        //--------------------------------------------------
+        public int FontHeight { get; protected set; }
+        public int FontSize { get; protected set; }
+        public abstract IntPtr HFont { get; }
+        public abstract int GetCharWidth(char c);
+        public abstract int GetStringWidth(char[] buffer);
+        public abstract int GetStringWidth(char[] buffer, int length);
+        public abstract FontSignature GetFontSignature();
     }
 }

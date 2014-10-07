@@ -40,6 +40,7 @@ namespace LayoutFarm
     /// </summary>
     static class FontsUtils
     {
+        static LayoutFarm.Drawing.BasicGdi32FontHelper gdiFontHelper = new Drawing.BasicGdi32FontHelper();
 
         /// <summary>
         /// Allow to map not installed fonts to different
@@ -321,12 +322,13 @@ namespace LayoutFarm
                 int fontAscent = newFont.FontFamily.GetCellAscent(newFont.Style);
                 float descent = newFont.FontFamily.GetCellDescent(newFont.Style);
 
-                fontInfo = new LayoutFarm.Drawing.FontInfo(
+                fontInfo = new LayoutFarm.Drawing.MyFontInfo(
                     LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(newFont),
                     fontHeight,
                     (fontAscent * fontSize / fontEmHeight),
                     (descent * fontSize / fontEmHeight),
-                    fontHeight * fontAscent / lineSpacing);
+                    fontHeight * fontAscent / lineSpacing,
+                    gdiFontHelper);
 
                 //lineSpacing * newFont.FontFamily.GetCellAscent(newFont.Style) / linespace);
 

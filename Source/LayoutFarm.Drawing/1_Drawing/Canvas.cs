@@ -93,11 +93,11 @@ namespace LayoutFarm.Drawing
         public const int SAME_FONT_DIFF_TEXT_COLOR = 1;
         public const int DIFF_FONT_SAME_TEXT_COLOR = 2;
         public const int DIFF_FONT_DIFF_TEXT_COLOR = 3;
-        public abstract int EvaluateFontAndTextColor(TextFontInfo textFontInfo, Color color);
+        public abstract int EvaluateFontAndTextColor(FontInfo FontInfo, Color color);
 
-        public abstract void PushFont(TextFontInfo textFontInfo);
+        public abstract void PushFont(FontInfo FontInfo);
         public abstract void PopFont();
-        public abstract void PushFontInfoAndTextColor(TextFontInfo textFontInfo, Color color);
+        public abstract void PushFontInfoAndTextColor(FontInfo FontInfo, Color color);
 
         public abstract void PopFontInfoAndTextColor();
 
@@ -164,9 +164,7 @@ namespace LayoutFarm.Drawing
         public abstract RectangleF GetBound(Region rgn);
 
         public abstract float GetFontHeight(Font f);
-
-        public abstract Region[] MeasureCharacterRanges(string text, Font f, RectangleF layoutRectF, StringFormat strFormat);
-
+ 
         public abstract Size MeasureString(string str, Font font, float maxWidth, out int charFit, out int charFitWidth);
 
         public abstract void FillRectangle(ArtColorBrush colorBrush, int left, int top, int right, int bottom);

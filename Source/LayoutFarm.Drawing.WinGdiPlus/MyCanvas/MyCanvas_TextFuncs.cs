@@ -28,16 +28,7 @@ namespace LayoutFarm
         {
             return ConvFont(f).GetHeight(gx);
         }
-        public override Region[] MeasureCharacterRanges(string text, Font f, RectangleF layoutRectF, StringFormat strFormat)
-        {
-            throw new NotSupportedException();
-            //return gx.MeasureCharacterRanges(
-            //    text,
-            //    ConvFont(f),
-            //    Conv.ConvFromRectF(layoutRectF),
-            //    strFormat.InnerFormat as System.Drawing.StringFormat);
-        }
-
+         
         public override void DrawText(char[] buffer, int x, int y)
         {
 
@@ -86,10 +77,10 @@ namespace LayoutFarm
                 gx.ReleaseHdc();
             }
         }
-        public override int EvaluateFontAndTextColor(TextFontInfo textFontInfo, Color color)
+        public override int EvaluateFontAndTextColor(FontInfo FontInfo, Color color)
         {
 
-            if (textFontInfo != null && textFontInfo != currentTextFont)
+            if (FontInfo != null && FontInfo != currentTextFont)
             {
                 if (!IsEqColor(color, currentTextColor))
                 {
@@ -115,12 +106,12 @@ namespace LayoutFarm
 
 
 
-        public override void PushFont(TextFontInfo textFontInfo)
+        public override void PushFont(FontInfo FontInfo)
         {
             prevFonts.Push(currentTextFont); 
-            currentTextFont = textFontInfo;
+            currentTextFont = FontInfo;
             IntPtr hdc = gx.GetHdc();
-            prevHFonts.Push(MyWin32.SelectObject(hdc, textFontInfo.HFont));
+            prevHFonts.Push(MyWin32.SelectObject(hdc, FontInfo.HFont));
             gx.ReleaseHdc();
         }
         public override void PopFont()
@@ -133,15 +124,15 @@ namespace LayoutFarm
             }
             gx.ReleaseHdc();
         }
-        public override void PushFontInfoAndTextColor(TextFontInfo textFontInfo, Color color)
+        public override void PushFontInfoAndTextColor(FontInfo FontInfo, Color color)
         {
             prevFonts.Push(currentTextFont);
-            currentTextFont = textFontInfo;
+            currentTextFont = FontInfo;
             IntPtr hdc = gx.GetHdc();
-            prevHFonts.Push(MyWin32.SelectObject(hdc, textFontInfo.HFont));
+            prevHFonts.Push(MyWin32.SelectObject(hdc, FontInfo.HFont));
             prevColor.Push(currentTextColor);
             this.currentTextColor = ConvColor(color);
-            prevWin32Colors.Push(MyWin32.SetTextColor(hdc, GraphicWin32InterOp.ColorToWin32(color)));
+            prevWin32Colors.Push(MyWin32.SetTextColor(hdc, MyWin32.ColorToWin32(color)));
             gx.ReleaseHdc();
 
         }
@@ -168,7 +159,7 @@ namespace LayoutFarm
             IntPtr hdc = gx.GetHdc();
             prevColor.Push(currentTextColor);
             this.currentTextColor = ConvColor(color);
-            prevWin32Colors.Push(MyWin32.SetTextColor(hdc, GraphicWin32InterOp.ColorToWin32(color)));
+            prevWin32Colors.Push(MyWin32.SetTextColor(hdc, MyWin32.ColorToWin32(color)));
             gx.ReleaseHdc();
         }
         public override void PopTextColor()
