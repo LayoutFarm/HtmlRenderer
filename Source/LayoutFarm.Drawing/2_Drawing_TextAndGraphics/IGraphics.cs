@@ -1,13 +1,13 @@
 //BSD 2014, WinterDev 
 //ArthurHub
 
-using System; 
+using System;
 
 namespace LayoutFarm.Drawing
 {
 
 
-    public interface IGraphics : IFonts,   IDisposable
+    public interface IGraphics : IFonts, IDisposable
     {
         //--------------------------------------------------
         float CanvasOriginX { get; }
@@ -34,7 +34,7 @@ namespace LayoutFarm.Drawing
         /// <PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
         SmoothingMode SmoothingMode { get; set; }
 
-       
+
 
         void DrawString(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size);
         /// <summary>
@@ -91,6 +91,6 @@ namespace LayoutFarm.Drawing
         //------------------------------------------   
         Canvas CurrentCanvas { get; }
     }
-     
+
 
 }

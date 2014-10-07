@@ -837,9 +837,7 @@ namespace LayoutFarm.Text
                         return false;
                     }
             }
-        }
-         
-        
+        } 
         void EnsureCaretVisible()
         {
             //----------------------
