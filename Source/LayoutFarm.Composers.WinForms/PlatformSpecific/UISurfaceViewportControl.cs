@@ -30,12 +30,12 @@ namespace LayoutFarm
             this.winBridge = new WinViewportBridge(this.wintop);
             this.winBridge.BindWindowControl(this);      
         }
-
+#if DEBUG
         public IdbugOutputWindow IOutputWin
         {
             get { return this.winBridge; }
         }
-
+#endif
         protected override void OnSizeChanged(EventArgs e)
         {
             if (this.winBridge != null)
