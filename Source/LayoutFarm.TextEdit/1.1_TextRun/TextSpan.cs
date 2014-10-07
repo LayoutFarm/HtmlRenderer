@@ -152,11 +152,11 @@ namespace LayoutFarm.Text
 #endif
 
 
-        internal static void DrawArtVisualTextRun(TextSpan visualTextRun, Canvas canvasPage, InternalRect updateArea)
+        internal static void DrawArtVisualTextRun(TextSpan visualTextRun, Canvas canvasPage, Rect updateArea)
         {
             visualTextRun.DrawCharacters(canvasPage, updateArea, visualTextRun.mybuffer);
         }
-        public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
+        public override void CustomDrawToThisPage(Canvas canvasPage, Rect updateArea)
         {
             DrawArtVisualTextRun(this, canvasPage, updateArea);
         }
@@ -168,7 +168,7 @@ namespace LayoutFarm.Text
                 return this.SpanStyle != null;
             }
         }
-        void DrawCharacters(Canvas canvasPage, InternalRect updateArea, char[] textArray)
+        void DrawCharacters(Canvas canvasPage, Rect updateArea, char[] textArray)
         {
 
             int bWidth = this.Width;

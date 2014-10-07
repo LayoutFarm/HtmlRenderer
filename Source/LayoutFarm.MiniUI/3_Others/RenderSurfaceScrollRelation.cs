@@ -80,7 +80,7 @@ namespace LayoutFarm
         }
 
 
-        public void WindowRootNotifyInvalidArea(InternalRect clientRect)
+        public void WindowRootNotifyInvalidArea(Rect clientRect)
         {
         }
 

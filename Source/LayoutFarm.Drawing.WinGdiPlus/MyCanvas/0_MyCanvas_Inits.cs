@@ -50,7 +50,7 @@ namespace LayoutFarm
         Stack<System.Drawing.Rectangle> prevRegionRects = new Stack<System.Drawing.Rectangle>();
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
         //-------------------------------
-        InternalRect invalidateArea = InternalRect.CreateFromLTRB(0, 0, 0, 0);
+        Rect invalidateArea =Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
         FontInfo currentTextFont = null;
         SolidBrush sharedSolidBrush;  
         //-------------------------------

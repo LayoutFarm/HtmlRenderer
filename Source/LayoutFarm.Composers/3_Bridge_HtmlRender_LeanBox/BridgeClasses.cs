@@ -35,7 +35,7 @@ namespace LayoutFarm
         {
 
         }
-        protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
+        protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
         {
             myHtmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
             myHtmlIsland.CheckDocUpdate();
@@ -124,10 +124,10 @@ namespace LayoutFarm
 
                 GetParentRenderElement(out this.globalXForRenderElement, out this.globalYForRenderElement);
 
-                InternalRect rect = InternalRect.CreateFromRect(
+                Rect rect = Rect.CreateFromRect(
                      new Rectangle(0, 0, wrapper.Width, wrapper.Height));
                 this.wrapper.DrawToThisPage(g.CurrentCanvas, rect);
-                InternalRect.FreeInternalRect(rect);
+                
 
             }
             else
@@ -206,7 +206,7 @@ namespace LayoutFarm
                 }
             }
 
-            public override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
+            public override void CustomDrawToThisPage(Canvas canvasPage, Rect updateArea)
             {
                 int x = this.adjustX;
                 int y = this.adjustY;

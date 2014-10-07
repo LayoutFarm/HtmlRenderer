@@ -155,13 +155,7 @@ namespace LayoutFarm.Drawing
 
             }
         }
-        public override FontSignature GetFontSignature()
-        {
-
-
-            Font font = this.Font;
-            return new FontSignature(font.Name, font.Size, font.Style);
-        }
+       
     }
    
 }

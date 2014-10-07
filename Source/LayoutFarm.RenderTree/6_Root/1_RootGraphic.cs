@@ -9,7 +9,8 @@ namespace LayoutFarm
     public abstract partial class RootGraphic
     {
         Rectangle flushRect;
-        InternalRect accumulateInvalidRect;
+        Rect accumulateInvalidRect;
+        bool hasAccumRect;
 
         public RootGraphic(int width, int heigth)
         {
@@ -96,21 +97,20 @@ namespace LayoutFarm
                 return;
             }
 
-            InternalRect elemRect = InternalRect.CreateFromRect(elementClientRect);
-            InvalidateGraphicArea(fromElement, elemRect, out wintop);
-            InternalRect.FreeInternalRect(elemRect);
+            Rect elemRect = Rect.CreateFromRect(elementClientRect);
+            InvalidateGraphicArea(fromElement, elemRect, out wintop); 
         }
         public void FlushAccumGraphicUpdate(TopWindowRenderBox topbox)
         {
-            if (accumulateInvalidRect != null)
+            if (hasAccumRect)
             {
                 topbox.FlushGraphic(accumulateInvalidRect.ToRectangle());
-                accumulateInvalidRect = null;
+                hasAccumRect = false;
             }
             this.GraphicUpdateBlockCount = 0;
         }
         void InvalidateGraphicArea(RenderElement fromElement,
-            InternalRect elementClientRect,
+            Rect elementClientRect,
             out TopWindowRenderBox wintop)
         {
             if (this.IsInRenderPhase)
@@ -300,7 +300,7 @@ namespace LayoutFarm
 
             if (!this.DisableGraphicOutputFlush)
             {
-                if (accumulateInvalidRect != null)
+                if (hasAccumRect)
                 {
 
                     accumulateInvalidRect.MergeRect(rootGlobalArea);
@@ -322,8 +322,8 @@ namespace LayoutFarm
                     wintop.FlushGraphic(rootGlobalArea);
                     this.flushRect = accumulateInvalidRect.ToRectangle();
 
-                    InternalRect.FreeInternalRect(accumulateInvalidRect);
-                    accumulateInvalidRect = null;
+                   
+                    hasAccumRect = false;
                 }
                 else
                 {
@@ -350,9 +350,10 @@ namespace LayoutFarm
             }
             else
             {
-                if (accumulateInvalidRect == null)
+                if (!hasAccumRect)
                 {
-                    accumulateInvalidRect = InternalRect.CreateFromRect(rootGlobalArea);
+                    accumulateInvalidRect = Rect.CreateFromRect(rootGlobalArea);
+                    hasAccumRect = true;
                 }
                 else
                 {

@@ -42,7 +42,7 @@ namespace LayoutFarm.Drawing
         }
 
        
-        public abstract void DrawToThisPage(Canvas destPage, InternalRect updateArea);
+        public abstract void DrawToThisPage(Canvas destPage, Rect updateArea);
         //------------------------------------
     }
 

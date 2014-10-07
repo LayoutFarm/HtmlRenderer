@@ -81,7 +81,7 @@ namespace LayoutFarm
         }
 
 
-        public override void ClearSurface(InternalRect rect)
+        public override void ClearSurface(Rect rect)
         {
             PushClipArea(rect._left, rect._top, rect.Width, rect.Height);
             gx.Clear(System.Drawing.Color.White); PopClipArea();

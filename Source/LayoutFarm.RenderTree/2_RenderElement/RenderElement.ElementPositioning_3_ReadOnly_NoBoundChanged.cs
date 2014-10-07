@@ -22,8 +22,7 @@ namespace LayoutFarm
         int b_width;
         int b_Height;
 
-
-        public bool IntersectsWith(InternalRect r)
+        public bool IntersectsWith(Rect r)
         {
             int left = this.b_left;
 
@@ -56,7 +55,7 @@ namespace LayoutFarm
             }
             return false;
         }
-        public bool IntersectOnHorizontalWith(InternalRect r)
+        public bool IntersectOnHorizontalWith(Rect r)
         {
             int left = this.b_left;
 
@@ -267,7 +266,7 @@ namespace LayoutFarm
         {
             return ContainPoint(p.X, p.Y);
         }
-        public bool ContainRect(InternalRect testRect)
+        public bool ContainRect(Rect testRect)
         {
             return testRect._left >= b_left &&
                     testRect._top >= b_top &&

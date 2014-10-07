@@ -30,7 +30,7 @@ namespace LayoutFarm.SampleControls
             get;
             set;
         }
-        protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
+        protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
         {
 
             //sample bg

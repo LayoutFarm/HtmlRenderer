@@ -46,7 +46,7 @@ namespace LayoutFarm
             this.dbug_DumpVisualProps(writer);
             writer.Add(new dbugLayoutMsg(this, "FINISH")); 
         } 
-        public override void dbugShowRenderPart(Canvas canvasPage, InternalRect updateArea)
+        public override void dbugShowRenderPart(Canvas canvasPage, Rect updateArea)
         {
 
             RootGraphic visualroot = this.dbugVRoot;

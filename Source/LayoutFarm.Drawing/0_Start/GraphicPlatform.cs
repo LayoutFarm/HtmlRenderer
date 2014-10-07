@@ -23,7 +23,6 @@ namespace LayoutFarm.Drawing
         public abstract Matrix CreateMatrix(float m11, float m12, float m21, float m22, float dx, float dy);
 
         public abstract GraphicsPath CreateGraphicPath();
-
         public abstract Region CreateRegion();
 
         public abstract Canvas CreateCanvas(int horizontalPageNum,

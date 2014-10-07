@@ -53,9 +53,9 @@ namespace LayoutFarm.Drawing
         public abstract void ReleaseUnManagedResource();
 
 
-        public abstract bool IntersectsWith(InternalRect clientRect);
-        public abstract bool PushClipAreaForNativeScrollableElement(InternalRect updateArea);
-        public abstract bool PushClipArea(int width, int height, InternalRect updateArea);
+        public abstract bool IntersectsWith(Rect clientRect);
+        public abstract bool PushClipAreaForNativeScrollableElement(Rect updateArea);
+        public abstract bool PushClipArea(int width, int height, Rect updateArea);
 
         public abstract void DisableClipArea();
         public abstract void EnableClipArea();
@@ -123,7 +123,7 @@ namespace LayoutFarm.Drawing
 
         public abstract void Reset(int hPageNum, int vPageNum, int newWidth, int newHeight);
 
-        public abstract void ClearSurface(InternalRect rect);
+        public abstract void ClearSurface(Rect rect);
 
         public abstract void ClearSurface();
         public abstract void FillPolygon(Brush brush, PointF[] points);
@@ -235,9 +235,9 @@ namespace LayoutFarm.Drawing
 
 
 
-        public abstract InternalRect InvalidateArea { get; }
+        public abstract Rect InvalidateArea { get; }
         public abstract bool IsContentUpdated { get; }
-        public abstract void Invalidate(InternalRect rect);
+        public abstract void Invalidate(Rect rect);
 
 
         public abstract IGraphics GetIGraphics();

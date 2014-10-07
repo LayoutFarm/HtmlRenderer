@@ -45,7 +45,7 @@ namespace LayoutFarm
         {
             canvasFlags = FIRSTTIME_INVALID_AND_UPDATED_CONTENT;
         }
-        public override InternalRect InvalidateArea
+        public override Rect InvalidateArea
         {
             get
             {
@@ -60,7 +60,7 @@ namespace LayoutFarm
             }
         }  
 
-        public override void Invalidate(InternalRect rect)
+        public override void Invalidate(Rect rect)
         {
 
             if ((canvasFlags & FIRSTTIME_INVALID) == FIRSTTIME_INVALID)

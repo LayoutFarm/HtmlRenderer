@@ -49,7 +49,7 @@ namespace LayoutFarm
         }
         public void CanvasInvalidate(Rectangle rect)
         {
-            InternalRect r = InternalRect.CreateFromRect(rect);
+            Rect r = Rect.CreateFromRect(rect);
             if (pageA != null && pageA.IntersectsWith(r))
             {
                 pageA.Invalidate(r);
@@ -66,7 +66,7 @@ namespace LayoutFarm
             {
                 pageD.Invalidate(r);
             }
-            InternalRect.FreeInternalRect(r);
+             
         }
         public bool IsValid
         {
@@ -199,14 +199,14 @@ namespace LayoutFarm
         {
 
             artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
-            InternalRect rect = InternalRect.CreateFromRect(artCanvas.Rect);
+            Rect rect = Rect.CreateFromRect(artCanvas.Rect);
             rootElement.DrawToThisPage(artCanvas, rect);
 
 #if DEBUG
             rootElement.dbugShowRenderPart(artCanvas, rect);
 #endif
 
-            InternalRect.FreeInternalRect(rect);
+            
 
 #if DEBUG
 #endif
@@ -224,7 +224,7 @@ namespace LayoutFarm
             int j = containAllAreaTestResults.Count;
 
             artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
-            InternalRect rect = artCanvas.InvalidateArea;
+            Rect rect = artCanvas.InvalidateArea;
 
             for (int i = j - 1; i > -1; --i)
             {
@@ -277,7 +277,7 @@ namespace LayoutFarm
 
 
             artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
-            InternalRect rect = artCanvas.InvalidateArea;
+            Rect rect = artCanvas.InvalidateArea;
             rootElement.DrawToThisPage(artCanvas, rect);
 #if DEBUG
             rootElement.dbugShowRenderPart(artCanvas, rect);
@@ -423,7 +423,7 @@ namespace LayoutFarm
                 case PAGE_A:
                     {
 
-                        InternalRect invalidateArea = pageA.InvalidateArea;
+                        Rect invalidateArea = pageA.InvalidateArea;
                         pageA.RenderTo(destOutputHdc, invalidateArea._left - pageA.Left, invalidateArea._top - pageA.Top,
                             new Rectangle(invalidateArea._left -
                                 viewportX, invalidateArea._top - viewportY,
@@ -599,7 +599,7 @@ namespace LayoutFarm
         }
 
         public void TransferDataFromSourceCanvas(
-            InternalRect logicalArea,
+            Rect logicalArea,
             int viewportX, int viewportY,
             int viewportWidth, int viewportHeight, Canvas destPage)
         {
@@ -685,7 +685,7 @@ clipRect), destPage);
         }
         void TransferDataFromSourceCanvas(
                 Canvas sourceCanvas,
-                InternalRect logicalSourceArea, Rectangle physicalUpdateArea, Canvas destPage)
+                Rect logicalSourceArea, Rectangle physicalUpdateArea, Canvas destPage)
         {
 
             Rectangle logicalClip = Rectangle.Intersect(logicalSourceArea.ToRectangle(), sourceCanvas.Rect);
