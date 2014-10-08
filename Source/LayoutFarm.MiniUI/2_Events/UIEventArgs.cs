@@ -5,7 +5,7 @@ using System.Text;
 using LayoutFarm.Drawing;
 
 
-namespace LayoutFarm
+namespace LayoutFarm.UI
 {
     public delegate void UIMouseEventHandler(object sender, UIMouseEventArgs e);
     public delegate void UIKeyEventHandler(object sender, UIKeyEventArgs e);
@@ -154,7 +154,7 @@ namespace LayoutFarm
         public int XDiff;
         public int YDiff;
         public UIMouseEventType EventType;
-        public TopWindowRenderBox WinTop;
+        public TopWindowRenderBoxBase WinTop;
 
         public UIMouseEventArgs()
         {

@@ -6,7 +6,7 @@ using LayoutFarm.Drawing;
 using System.IO;
 using System.Text;
 
-
+using LayoutFarm.UI;
 namespace LayoutFarm.Text
 {
     public class TextDomEventArgs : EventArgs

@@ -322,7 +322,7 @@ namespace LayoutFarm
                     } break;
             }
         }
-        public static void LayersDrawContent(this VisualLayerCollection layers, Canvas canvas, InternalRect updateArea)
+        public static void LayersDrawContent(this VisualLayerCollection layers, Canvas canvas, Rect updateArea)
         {
             if (layers == null)
             {

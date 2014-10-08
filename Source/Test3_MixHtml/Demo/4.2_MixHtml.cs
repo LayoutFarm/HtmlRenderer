@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
 using LayoutFarm.SampleControls;
-
+using LayoutFarm.UI;
 namespace LayoutFarm
 {
     [DemoNote("4.2 MixHtml and Text")]

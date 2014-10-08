@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm
+namespace LayoutFarm.UI
 {
     public class RenderSurfaceScrollRelation
     {
@@ -80,7 +80,7 @@ namespace LayoutFarm
         }
 
 
-        public void WindowRootNotifyInvalidArea(InternalRect clientRect)
+        public void WindowRootNotifyInvalidArea(Rect clientRect)
         {
         }
 

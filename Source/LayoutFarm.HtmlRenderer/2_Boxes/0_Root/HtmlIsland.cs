@@ -20,7 +20,7 @@ using HtmlRenderer.Boxes;
 using HtmlRenderer.Diagnostics;
 using HtmlRenderer.Css;
 
-namespace HtmlRenderer
+namespace HtmlRenderer.Boxes
 {
     public abstract class HtmlIsland : IDisposable
     {

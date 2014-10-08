@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm
+namespace LayoutFarm.Text
 {
 
     public struct VisualLocationInfo

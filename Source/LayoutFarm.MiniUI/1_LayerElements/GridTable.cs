@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using LayoutFarm.Drawing;
 using System.Text;
 
-namespace LayoutFarm
+namespace LayoutFarm.UI
 {
     public enum CellSizeStyle
     {

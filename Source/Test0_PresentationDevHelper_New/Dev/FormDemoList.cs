@@ -6,8 +6,8 @@ using System.Text;
 using System.Windows.Forms;
 
 using LayoutFarm;
-
-
+using LayoutFarm.Drawing;
+using LayoutFarm.UI;
 namespace LayoutFarm.Dev
 {
     public partial class FormDemoList : Form
@@ -20,7 +20,7 @@ namespace LayoutFarm.Dev
 
         void Form1_Load(object sender, EventArgs e)
         {
-          
+
             this.lstDemoList.DoubleClick += new EventHandler(lstDemoList_DoubleClick);
         }
 
@@ -68,19 +68,20 @@ namespace LayoutFarm.Dev
           out Form formCanvas)
         {
 
-            //new TextFontInfo(
+            //new FontInfo(
             //    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
             //     new System.Drawing.Font("tahoma", 10)),
             //     new BasicGdi32FontHelper());
-
-            formCanvas = FormCanvasHelper.CreateNewFormCanvas(out viewport);
+            WinTimer wintimer= new MyWinTimer();
+            MyRootGraphic rootgfx = new MyRootGraphic(wintimer, 800, 600);
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,new MyUserInputEventBridge(), out viewport);
             formCanvas.Text = "FormCanvas 1";
 
             viewport.PaintMe();
 
             formCanvas.WindowState = FormWindowState.Maximized;
-            formCanvas.Show(); 
-        }  
+            formCanvas.Show();
+        }
         void ShowFormlayoutInspectIfNeed(UISurfaceViewportControl viewport)
         {
             if (this.chkShowLayoutInspector.Checked)
@@ -94,7 +95,7 @@ namespace LayoutFarm.Dev
         }
         public void LoadDemoList(Type sampleAssemblySpecificType)
         {
-         
+
 
             var demoBaseType = typeof(DemoBase);
             var thisAssem = System.Reflection.Assembly.GetAssembly(sampleAssemblySpecificType);

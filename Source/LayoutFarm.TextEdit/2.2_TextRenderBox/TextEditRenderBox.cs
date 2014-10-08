@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
-
+using LayoutFarm.UI;
 namespace LayoutFarm.Text
 {
 
@@ -25,7 +25,7 @@ namespace LayoutFarm.Text
             get { return this.scrollRelation; }
             set { this.scrollRelation = value; }
         }
-        protected override void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
+        protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
         {
 
 

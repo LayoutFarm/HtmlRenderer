@@ -41,7 +41,7 @@ namespace LayoutFarm.Text
             get;
             set;
         }
-        public TextFontInfo textFontInfo;
+        public FontInfo FontInfo;
 
         public int ContentHAlign;
         public int positionWidth = -1;

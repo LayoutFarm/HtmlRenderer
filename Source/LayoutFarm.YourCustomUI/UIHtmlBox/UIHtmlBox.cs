@@ -5,7 +5,11 @@ using System.Collections.Generic;
 using System.Text;
 using HtmlRenderer;
 using HtmlRenderer.ContentManagers;
+using HtmlRenderer.Boxes;
+using HtmlRenderer.Composers;
+
 using LayoutFarm.UI;
+using LayoutFarm.Boxes;
 
 namespace LayoutFarm.SampleControls
 {
@@ -17,7 +21,7 @@ namespace LayoutFarm.SampleControls
         MyHtmlIsland myHtmlIsland;
 
         HtmlRenderer.WebDom.WebDocument currentdoc;
-        HtmlRenderer.HtmlInputEventBridge _htmlEventBridge;
+        HtmlRenderer.Composers.HtmlInputEventBridge _htmlEventBridge;
 
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
         public event EventHandler<ImageRequestEventArgs> RequestImage;
@@ -29,7 +33,7 @@ namespace LayoutFarm.SampleControls
         static UIHtmlBox()
         {
             HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
-               new HtmlRenderer.Boxes.LeanBox.LeanBoxCreator());
+               new HtmlRenderer.Boxes.LeanBoxCreator());
         }
 
         public UIHtmlBox(int width, int height)
@@ -163,7 +167,7 @@ namespace LayoutFarm.SampleControls
 
             //build rootbox from htmldoc
             var rootBox = builder.BuildCssRenderTree(this.currentdoc,
-                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIFonts,
                 this.myHtmlIsland,
                 this.waitingCssData,
                 this.myCssBoxWrapper);
@@ -172,7 +176,7 @@ namespace LayoutFarm.SampleControls
             htmlIsland.SetHtmlDoc(this.currentdoc);
             htmlIsland.SetRootCssBox(rootBox, this.waitingCssData);
             htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
-            htmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
+            htmlIsland.PerformLayout(rootgfx.SampleIGraphics);
         }
         void SetHtml(MyHtmlIsland htmlIsland, string html, HtmlRenderer.WebDom.CssActiveSheet cssData)
         {

@@ -2,8 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text; 
-using LayoutFarm.Drawing; 
-namespace LayoutFarm
+using LayoutFarm.Drawing;
+
+namespace LayoutFarm.UI
 {
     public static class Clipboard
     {

@@ -29,7 +29,7 @@ namespace LayoutFarm
             get { return this.layers; }
             set { this.layers = value; }
         }
-        public sealed override void CustomDrawToThisPage(Canvas canvasPage, InternalRect updateArea)
+        public sealed override void CustomDrawToThisPage(Canvas canvasPage, Rect updateArea)
         {
 
             canvasPage.OffsetCanvasOrigin(-myviewportX, -myviewportY);
@@ -49,6 +49,20 @@ namespace LayoutFarm
             this.myviewportX = viewportX;
             this.myviewportY = viewportY;
         }
+        public override int ViewportX
+        {
+            get
+            {
+                return this.myviewportX;
+            }
+        }
+        public override int ViewportY
+        {
+            get
+            {
+                return this.myviewportY;
+            }
+        }
         public void InvalidateContentArrangementFromContainerSizeChanged()
         {
             this.MarkInvalidContentArrangement();
@@ -57,7 +71,7 @@ namespace LayoutFarm
             //    layer.InvalidateContentArrangementFromContainerSizeChanged();
             //}
         }
-        protected virtual void BoxDrawContent(Canvas canvasPage, InternalRect updateArea)
+        protected virtual void BoxDrawContent(Canvas canvasPage, Rect updateArea)
         {
             //sample ***
             //1. draw background

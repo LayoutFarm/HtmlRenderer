@@ -5,7 +5,7 @@ using System.Text;
 using LayoutFarm.Drawing;
 using LayoutFarm;
 
-namespace LayoutFarm
+namespace LayoutFarm.UI
 {
     public struct ToNotifySizeChangedEvent
     {

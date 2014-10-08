@@ -2,13 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+
+using LayoutFarm; 
 using LayoutFarm.Drawing;
-
-using System.IO;
-
-using LayoutFarm;
-using LayoutFarm.Text;
-
+using LayoutFarm.UI;
 namespace LayoutFarm.Text
 {
 
@@ -32,7 +29,7 @@ namespace LayoutFarm.Text
             GlobalCaretController.RegisterCaretBlink(rootgfx);
             myCaret = new CaretRenderElement(rootgfx, 2, 17);
             myCaret.TransparentForAllEvents = true;
-
+            this.MayHasViewport = true;
             //RegisterNativeEvent((1 << UIEventIdentifier.NE_DRAG_START)
             //    | (1 << UIEventIdentifier.NE_DRAGING)
             //    | (1 << UIEventIdentifier.NE_DRAG_STOP)
@@ -840,8 +837,7 @@ namespace LayoutFarm.Text
                         return false;
                     }
             }
-        }
-         
+        } 
         void EnsureCaretVisible()
         {
             //----------------------
@@ -875,6 +871,7 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
+
                 }
                 ScrollBy(textManCaretPos.X - this.Width, 0);
             }
@@ -882,6 +879,7 @@ namespace LayoutFarm.Text
             {
                 ScrollBy(textManCaretPos.X - this.X, 0);
             }
+
             if (internalTextLayerController.updateJustCurrentLine)
             {
                 InvalidateGraphicOfCurrentLineArea();

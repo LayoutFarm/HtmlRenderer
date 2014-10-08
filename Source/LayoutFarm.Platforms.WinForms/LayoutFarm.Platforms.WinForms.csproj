@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4602B28B-EEEC-4A69-854C-B00B8B616837}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LayoutFarm.Platforms.WinForms</RootNamespace>
+    <AssemblyName>LayoutFarm.Platforms.WinForms</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Graphics\0_Start\Conv.cs" />
+    <Compile Include="Graphics\0_Start\WinGdi.cs" />
+    <Compile Include="Graphics\Implementation\Bitmap_Brush_Pen.cs" />
+    <Compile Include="Graphics\Implementation\FontsUtils.cs" />
+    <Compile Include="Graphics\Implementation\MyFontInfo.cs" />
+    <Compile Include="Graphics\Implementation\MyGraphicPath.cs" />
+    <Compile Include="Graphics\Implementation\MyMatrix.cs" />
+    <Compile Include="Graphics\Implementation\MyWin32.cs" />
+    <Compile Include="Graphics\Implementation\NativeTextWin32.cs" />
+    <Compile Include="Graphics\Implementation\Region.cs" />
+    <Compile Include="Graphics\Implementation\Win32Utils.cs" />
+    <Compile Include="Graphics\MyCanvas\0_MyCanvas_Inits.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_CanvasProps.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_CoordinateAndClip.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_DrawGraphics.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_IFont_SpecificImpl.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_IGraphics_SpecificImpl.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_InvalidateArea.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_Static.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_TextFuncs.cs" />
+    <Compile Include="Windows\CanvasCollection.cs" />
+    <Compile Include="Windows\MyCustomRenderSurface.cs" />
+    <Compile Include="Windows\MyWinTimer.cs" />
+    <Compile Include="Windows\UISurfaceViewportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Windows\UISurfaceViewportControl.Designer.cs">
+      <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\CanvasViewport.cs" />
+    <Compile Include="Windows\dbugHelper.cs" />
+    <Compile Include="Windows\FormCanvasHelper.cs" />
+    <Compile Include="Windows\IdbugOutputWindow.cs" />
+    <Compile Include="Windows\QuadPages.cs" />
+    <Compile Include="Graphics\0_Start\WinGdiPlatform.cs" />
+    <Compile Include="Windows\WinViewportBridge.cs" />
+    <Compile Include="Windows\WinViewportBridge_dbug.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
+      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
+      <Name>LayoutFarm.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.MiniUI\LayoutFarm.MiniUI.csproj">
+      <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
+      <Name>LayoutFarm.MiniUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.RenderTree\LayoutFarm.RenderTree.csproj">
+      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
+      <Name>LayoutFarm.RenderTree</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

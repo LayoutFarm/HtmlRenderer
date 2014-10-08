@@ -4,15 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-using LayoutFarm.Drawing; 
-namespace LayoutFarm
+using LayoutFarm.Drawing;
+namespace LayoutFarm.Text
 {
 
     public class VisualPaintEventArgs : EventArgs
     {
         public Canvas canvas;
-        public InternalRect updateArea;
-        public VisualPaintEventArgs(Canvas canvas, InternalRect updateArea)
+        public Rect updateArea;
+        public VisualPaintEventArgs(Canvas canvas, Rect updateArea)
         {   
             this.canvas = canvas;
             this.updateArea = updateArea;
@@ -24,7 +24,7 @@ namespace LayoutFarm
                 return canvas;
             }
         }
-        public InternalRect UpdateArea
+        public Rect UpdateArea
         {
             get
             {
