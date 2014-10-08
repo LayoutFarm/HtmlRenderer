@@ -126,10 +126,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LayoutFarm.Composers.WinForms\LayoutFarm.Composers.WinForms.csproj">
-      <Project>{8CBF9902-1A77-4FA9-AC57-CE2179098BED}</Project>
-      <Name>LayoutFarm.Composers.WinForms</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
       <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
       <Name>LayoutFarm.Composers</Name>
@@ -149,6 +145,10 @@
     <ProjectReference Include="..\LayoutFarm.MiniUI\LayoutFarm.MiniUI.csproj">
       <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
       <Name>LayoutFarm.MiniUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj">
+      <Project>{4602B28B-EEEC-4A69-854C-B00B8B616837}</Project>
+      <Name>LayoutFarm.Platforms.WinForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.RenderTree\LayoutFarm.RenderTree.csproj">
       <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>

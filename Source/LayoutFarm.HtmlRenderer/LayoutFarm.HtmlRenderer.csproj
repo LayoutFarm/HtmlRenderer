@@ -8,8 +8,8 @@
     <ProjectGuid>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HtmlRenderer</RootNamespace>
-    <AssemblyName>HtmlRenderer</AssemblyName>
+    <RootNamespace>LayoutFarm.HtmlRenderer</RootNamespace>
+    <AssemblyName>LayoutFarm.HtmlRenderer</AssemblyName>
     <StartupObject>
     </StartupObject>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
