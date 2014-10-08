@@ -14,7 +14,7 @@ namespace LayoutFarm.UI
         WinTimer graphicTimer1;
 
         TimerTaskCollection timerTasks;
-        static MyTopWindowRenderBox currentTopWindowBox;
+        
 
         public MyRootGraphic(WinTimer winTimer, int width, int height)
             : base(width, height)
@@ -34,25 +34,24 @@ namespace LayoutFarm.UI
         {
             get { return CurrentGraphicPlatform.P; }
         }
-
+        public override void ClearRenderRequests(TopWindowRenderBoxBase topwin)
+        {
+            if (this.VisualRequestCount > 0)
+            {
+                this.ClearVisualRequests(topwin);
+            }
+        }
 
         public override void CloseWinRoot()
         {
             this.graphicTimer1.Enabled = false;
         }
-        internal static MyTopWindowRenderBox CurrentTopWindowRenderBox
-        {
-            get { return currentTopWindowBox; }
-            set
-            {
-                currentTopWindowBox = value;
-            }
-        }
-        internal void CaretStartBlink()
+        
+        public override void CaretStartBlink()
         {
             graphicTimer1.Enabled = true;
         }
-        internal void CaretStopBlink()
+        public override void CaretStopBlink()
         {
             graphicTimer1.Enabled = false;
         }
@@ -60,7 +59,7 @@ namespace LayoutFarm.UI
 
         void graphicTimer1_Tick(object sender, EventArgs e)
         {
-            if (currentTopWindowBox == null)
+            if (TopWindowRenderBox.CurrentTopWindowRenderBox == null)
             {
                 return;
             }
@@ -79,7 +78,7 @@ namespace LayoutFarm.UI
             }
             if (needForcePaint)
             {
-                currentTopWindowBox.ForcePaint();
+                TopWindowRenderBox.CurrentTopWindowRenderBox.ForcePaint();                  
             }
             FreeTaskEventArgs(args);
         }
@@ -136,7 +135,7 @@ namespace LayoutFarm.UI
         public const int IS_CTRL_KEYDOWN = 1 << (3 - 1);
 
 
-        public int VisualRequestCount
+        int VisualRequestCount
         {
             get
             {
@@ -144,7 +143,7 @@ namespace LayoutFarm.UI
             }
         }
 
-        public void ClearVisualRequests(TopWindowRenderBox wintop)
+        void ClearVisualRequests(TopWindowRenderBoxBase wintop)
         {
             int j = veReqList.Count;
             for (int i = 0; i < j; ++i)
@@ -168,7 +167,7 @@ namespace LayoutFarm.UI
                     case RequestCommand.InvalidateArea:
                         {
                             Rectangle r = (Rectangle)req.parameters;
-                            TopWindowRenderBox wintop2;
+                            TopWindowRenderBoxBase wintop2;
                             this.InvalidateGraphicArea(req.ve, ref r, out wintop2);
                         } break;
 

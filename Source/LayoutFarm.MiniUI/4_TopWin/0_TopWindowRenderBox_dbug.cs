@@ -8,7 +8,7 @@ using LayoutFarm;
 namespace LayoutFarm.UI
 {
 #if DEBUG
-    partial class MyTopWindowRenderBox
+    partial class TopWindowRenderBox
     {
  
         public static bool dbugMark01;

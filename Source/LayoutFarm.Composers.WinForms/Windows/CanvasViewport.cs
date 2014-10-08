@@ -14,7 +14,7 @@ namespace LayoutFarm.Drawing
         int viewportY;
         int viewportWidth;
         int viewportHeight; 
-        MyTopWindowRenderBox topWindowBox;
+        TopWindowRenderBox topWindowBox;
 
         QuadPages quadPages = null;
 
@@ -29,7 +29,7 @@ namespace LayoutFarm.Drawing
         bool fullMode = true;
         bool isClosed;//is this viewport closed
 
-        public CanvasViewport(MyTopWindowRenderBox wintop,
+        public CanvasViewport(TopWindowRenderBox wintop,
             Size viewportSize, int cachedPageNum)
         {
             

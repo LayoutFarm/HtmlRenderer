@@ -29,10 +29,10 @@ namespace LayoutFarm.Drawing
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
 
-        MyTopWindowRenderBox topwin; 
+        TopWindowRenderBox topwin; 
         Control windowControl;
         
-        public WinViewportBridge(MyTopWindowRenderBox wintop)
+        public WinViewportBridge(TopWindowRenderBox wintop)
         {
             //create view port ?
             this.topwin = wintop;

@@ -14,7 +14,7 @@ namespace LayoutFarm.UI
 
 
         WinViewportBridge winBridge;
-        MyTopWindowRenderBox wintop;
+        TopWindowRenderBox wintop;
 
         MyWinTimer myWinTimer = new MyWinTimer();
 
@@ -26,7 +26,7 @@ namespace LayoutFarm.UI
         public void InitRootGraphics(int width, int height)
         {
             var myRootGraphic = new MyRootGraphic(myWinTimer, width, height);
-            this.wintop = new MyTopWindowRenderBox(myRootGraphic, width, height);
+            this.wintop = new TopWindowRenderBox(myRootGraphic, width, height);
 
             this.winBridge = new WinViewportBridge(this.wintop);
             this.winBridge.BindWindowControl(this);

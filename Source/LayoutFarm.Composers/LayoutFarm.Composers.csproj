@@ -71,11 +71,6 @@
     <Compile Include="6_SvgDom\CssBoxSvgRoot.cs" />
     <Compile Include="6_SvgDom\SvgCreator.cs" />
     <Compile Include="3_Bridge_HtmlRender_LeanBox\MyHtmlIsland.cs" />
-    <Compile Include="7_TopWin\0_MyTopWindowRenderBox.cs" />
-    <Compile Include="7_TopWin\0_MyTopWindowRenderBox_dbug.cs" />
-    <Compile Include="7_TopWin\0_MyTopWindowRenderBox_Graphics.cs" />
-    <Compile Include="7_TopWin\1_VisualRootTasks.cs" />
-    <Compile Include="7_TopWin\CanvasEventStock.cs" />
     <Compile Include="7_TopWin\MyHitPointChain.cs" />
     <Compile Include="7_TopWin\MyIntervalTaskEventArgs.cs" />
     <Compile Include="7_TopWin\MyRootGraphic.cs" />

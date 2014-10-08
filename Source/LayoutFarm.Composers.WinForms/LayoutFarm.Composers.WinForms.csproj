@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Graphics\0_Start\Conv.cs" />
-    <Compile Include="Graphics\0_Start\WinGdiPlatform.cs" />
+    <Compile Include="Graphics\0_Start\WinGdi.cs" />
     <Compile Include="Graphics\Implementation\Bitmap_Brush_Pen.cs" />
     <Compile Include="Graphics\Implementation\FontsUtils.cs" />
     <Compile Include="Graphics\Implementation\MyFontInfo.cs" />
@@ -77,7 +77,7 @@
     <Compile Include="Windows\FormCanvasHelper.cs" />
     <Compile Include="Windows\IdbugOutputWindow.cs" />
     <Compile Include="Windows\QuadPages.cs" />
-    <Compile Include="Windows\WinGdiPlatform.cs" />
+    <Compile Include="Graphics\0_Start\WinGdiPlatform.cs" />
     <Compile Include="Windows\WinViewportBridge.cs" />
     <Compile Include="Windows\WinViewportBridge_dbug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

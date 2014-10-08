@@ -23,7 +23,7 @@ namespace LayoutFarm.UI
             }
 
         }
-        public void SetEnable(bool value, MyTopWindowRenderBox winroot)
+        public void SetEnable(bool value, TopWindowRenderBox winroot)
         {
             isEnabled = value;
             if (isEnabled)

@@ -46,6 +46,7 @@
     <Compile Include="1_LayerElements\1_PlainLayerElement.cs" />
     <Compile Include="1_LayerElements\GridLayer.cs" />
     <Compile Include="1_LayerElements\GridTable.cs" />
+    <Compile Include="2_Events\CanvasEventStock.cs" />
     <Compile Include="2_Events\ScrollSurfaceRequestEventArgs.cs" />
     <Compile Include="2_Events\UIDragEventArgs.cs" />
     <Compile Include="2_Events\UIEventArgs.cs" />
@@ -57,6 +58,10 @@
     <Compile Include="0_UIElement\UIElement.cs" />
     <Compile Include="0_UIElement\IEventListener.cs" />
     <Compile Include="3_Others\WinTimer.cs" />
+    <Compile Include="4_TopWin\0_TopWindowRenderBox.cs" />
+    <Compile Include="4_TopWin\0_TopWindowRenderBox_dbug.cs" />
+    <Compile Include="4_TopWin\0_TopWindowRenderBox_Graphics.cs" />
+    <Compile Include="4_TopWin\1_VisualRootTasks.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="3_Others\Clipboard.cs" />
     <Compile Include="3_Others\Keys.cs" />

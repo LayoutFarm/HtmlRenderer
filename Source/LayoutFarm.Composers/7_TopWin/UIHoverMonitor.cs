@@ -13,7 +13,7 @@ namespace LayoutFarm.UI
 
         int mouseMoveCounter = -1;
         EventHandler targetEventHandler;
-        public UIHoverMonitorTask(TopWindowRenderBox winroot, EventHandler targetEventHandler)
+        public UIHoverMonitorTask(TopWindowRenderBoxBase winroot, EventHandler targetEventHandler)
             : base(winroot)
         {
             this.targetEventHandler = targetEventHandler;

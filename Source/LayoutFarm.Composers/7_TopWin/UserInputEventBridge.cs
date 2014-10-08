@@ -15,7 +15,7 @@ namespace LayoutFarm.Drawing
         UIHoverMonitorTask hoverMonitoringTask;
 
         int msgChainVersion;
-        MyTopWindowRenderBox topwin;
+        TopWindowRenderBox topwin;
 
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
@@ -26,7 +26,7 @@ namespace LayoutFarm.Drawing
 
 
         }
-        public void Bind(MyTopWindowRenderBox topwin)
+        public void Bind(TopWindowRenderBox topwin)
         {
             this.topwin = topwin;
             this.hoverMonitoringTask = new UIHoverMonitorTask(this.topwin, OnMouseHover);

@@ -8,11 +8,12 @@ namespace LayoutFarm
 {
 
 
-    public abstract class TopWindowRenderBox : RenderBoxBase
+    public abstract class TopWindowRenderBoxBase : RenderBoxBase
     {
          
         VisualPlainLayer groundLayer;
-        public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
+        public event EventHandler<EventArgs> CanvasForcePaint;
+        public TopWindowRenderBoxBase(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
             
@@ -27,7 +28,13 @@ namespace LayoutFarm
             groundLayer.AddChild(renderE);
         }
 
-
+        public void ForcePaint()
+        {
+            if (this.CanvasForcePaint != null)
+            {
+                CanvasForcePaint(this, EventArgs.Empty);
+            }
+        }
        
 
         

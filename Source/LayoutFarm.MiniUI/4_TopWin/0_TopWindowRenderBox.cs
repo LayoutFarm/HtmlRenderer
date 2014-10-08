@@ -9,7 +9,7 @@ namespace LayoutFarm.UI
 {
 
 
-    public partial class MyTopWindowRenderBox : TopWindowRenderBox
+    public partial class TopWindowRenderBox : TopWindowRenderBoxBase
     {
 
 
@@ -18,13 +18,13 @@ namespace LayoutFarm.UI
 
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
 
-        MyRootGraphic rootGraphic;
+        RootGraphic rootGraphic;
         CanvasEventsStock eventStock = new CanvasEventsStock();
 
         System.Timers.Timer centralAnimationClock;
 
-        public MyTopWindowRenderBox(
-            MyRootGraphic visualroot,
+        public TopWindowRenderBox(
+            RootGraphic visualroot,
             int width, int height)
             : base(visualroot, width, height)
         {
@@ -47,19 +47,24 @@ namespace LayoutFarm.UI
 
         }
 
+        public static TopWindowRenderBox CurrentTopWindowRenderBox
+        {
+            get;
+            set;
+        }
         public void MakeCurrent()
         {
-            MyRootGraphic.CurrentTopWindowRenderBox = this;
+            CurrentTopWindowRenderBox = this;            
+        }
+        
+        public void StartCaretBlink()
+        {
+            this.rootGraphic.CaretStartBlink(); 
         }
         public void StopCaretBlink()
         {
-            this.MyVisualRoot.CaretStopBlink();
+            this.rootGraphic.CaretStopBlink();
         }
-        public void StartCaretBlink()
-        {
-            this.MyVisualRoot.CaretStartBlink();
-        }
-         
 
         void rootTasksTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
@@ -237,18 +242,12 @@ namespace LayoutFarm.UI
             }
 
         }
-        public MyRootGraphic MyVisualRoot
-        {
-            get { return  this.rootGraphic; }
-        }
+        
         public void PrepareRender()
         {
 
-            if (this.MyVisualRoot.VisualRequestCount > 0)
-            {
-                MyVisualRoot.ClearVisualRequests(this);
-            }
-
+             
+            this.rootGraphic.ClearRenderRequests(this);
             if (this.layoutQueue.Count > 0)
             {
                 ClearLayoutQueue();
@@ -417,13 +416,7 @@ namespace LayoutFarm.UI
 #endif
         }
 
-        internal void ForcePaint()
-        {
-            if (this.CanvasForcePaint != null)
-            {
-                CanvasForcePaint(this, EventArgs.Empty);
-            }
-        }
+
     }
 
 }
