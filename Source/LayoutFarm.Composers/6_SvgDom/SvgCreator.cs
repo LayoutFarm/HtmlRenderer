@@ -11,7 +11,7 @@ using HtmlRenderer.Composers.BridgeHtml;
 
 
 using HtmlRenderer.WebDom;
-
+using LayoutFarm.UI;
 using LayoutFarm.SvgDom;
 
 namespace HtmlRenderer.Composers.BridgeHtml
@@ -465,7 +465,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
     static class SvgElementPortal
     {
 
-        public static void HandleSvgMouseDown(CssBoxSvgRoot svgBox, LayoutFarm.UIEventArgs e)
+        public static void HandleSvgMouseDown(CssBoxSvgRoot svgBox, UIEventArgs e)
         {
 
             SvgHitChain hitChain = new SvgHitChain();
@@ -473,7 +473,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             PropagateEventOnBubblingPhase(hitChain, e);
         }
 
-        static void PropagateEventOnBubblingPhase(SvgHitChain hitChain, LayoutFarm.UIEventArgs eventArgs)
+        static void PropagateEventOnBubblingPhase(SvgHitChain hitChain, UIEventArgs eventArgs)
         {
             int hitCount = hitChain.Count;
             //then propagate
@@ -483,9 +483,9 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 SvgElement svg = hitInfo.svg;
                 if (svg != null)
                 {
-                    var controller = SvgElement.UnsafeGetController(hitInfo.svg) as LayoutFarm.IEventListener;
+                    var controller = SvgElement.UnsafeGetController(hitInfo.svg) as  IEventListener;
                     if (controller != null)
-                    { 
+                    {
                         //dispatch event 
                     }
                 }

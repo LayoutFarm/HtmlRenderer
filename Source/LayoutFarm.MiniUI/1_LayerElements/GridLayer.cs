@@ -5,7 +5,7 @@ using LayoutFarm.Drawing;
 using System.Text;
 using LayoutFarm;
 
-namespace LayoutFarm
+namespace LayoutFarm.UI
 {
 
     public sealed class GridLayer : VisualLayer
