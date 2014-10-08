@@ -6,7 +6,7 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
-    class MyWinTimer : WinTimer
+    public class MyWinTimer : WinTimer
     {
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         public MyWinTimer()

@@ -8,9 +8,13 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm.UI
 {
     public static class FormCanvasHelper
-    {     
+    {
 
-        public static Form CreateNewFormCanvas(out UISurfaceViewportControl canvasViewport)
+        public static Form CreateNewFormCanvas(
+            RootGraphic rootgfx,
+            UserInputEventBridge userInputEvBridge,
+
+            out UISurfaceViewportControl canvasViewport)
         {
 
             Form form1 = new Form();
@@ -19,7 +23,7 @@ namespace LayoutFarm.UI
             Rectangle screenClientAreaRect = Conv.ToRect(Screen.PrimaryScreen.WorkingArea);
 
             //---------------------- 
-            canvasViewport.InitRootGraphics(800, 600);
+            canvasViewport.InitRootGraphics(800, 600, userInputEvBridge, rootgfx);
             canvasViewport.Bounds =
                 new System.Drawing.Rectangle(0, 0,
                     screenClientAreaRect.Width,

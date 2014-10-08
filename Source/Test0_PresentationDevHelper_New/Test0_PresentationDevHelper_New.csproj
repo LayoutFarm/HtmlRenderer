@@ -61,6 +61,10 @@
       <Project>{8CBF9902-1A77-4FA9-AC57-CE2179098BED}</Project>
       <Name>LayoutFarm.Composers.WinForms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
+      <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
+      <Name>LayoutFarm.Composers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
       <Name>LayoutFarm.Drawing</Name>

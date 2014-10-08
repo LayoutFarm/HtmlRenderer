@@ -38,10 +38,11 @@ namespace TestGraphicPackage
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
         {
 
-
-
             UISurfaceViewportControl viewport;
-            Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(out viewport);
+            WinTimer wintimer = new MyWinTimer();
+            MyRootGraphic rootgfx = new MyRootGraphic(wintimer, 800, 600);
+
+            Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx, new MyUserInputEventBridge(), out viewport);
             viewport.PaintMe();
             formCanvas.Show();
             ShowFormLayoutInspector(viewport);
@@ -57,8 +58,9 @@ namespace TestGraphicPackage
             viewport.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
             simpleForm.Controls.Add(viewport);
 
-           
-            viewport.InitRootGraphics(800, 600); 
+            WinTimer wintimer = new MyWinTimer();
+            MyRootGraphic rootgfx = new MyRootGraphic(wintimer, 800, 600);
+            viewport.InitRootGraphics(800, 600, new MyUserInputEventBridge(), rootgfx);
             viewport.PaintMe();
 
             simpleForm.Show();

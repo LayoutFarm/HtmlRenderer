@@ -76,7 +76,7 @@
     <Compile Include="7_TopWin\MyRootGraphic.cs" />
     <Compile Include="7_TopWin\MyTimerSheet.cs" />
     <Compile Include="7_TopWin\UIHoverMonitor.cs" />
-    <Compile Include="7_TopWin\UserInputEventBridge.cs" />
+    <Compile Include="7_TopWin\MyUserInputEventBridge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="5_WebDom.Parser\CssParser.cs" />
     <Compile Include="5_WebDom.Parser\dbugLexerReport.cs" />

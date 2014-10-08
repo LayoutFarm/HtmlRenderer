@@ -23,12 +23,12 @@ namespace LayoutFarm.UI
             InitializeComponent();
         }
 
-        public void InitRootGraphics(int width, int height)
+        public void InitRootGraphics(int width, int height, UserInputEventBridge userInputEvBridge, LayoutFarm.RootGraphic root)
         {
-            var myRootGraphic = new MyRootGraphic(myWinTimer, width, height);
-            this.wintop = new TopWindowRenderBox(myRootGraphic, width, height);
+           
+            this.wintop = new TopWindowRenderBox(root, width, height);
 
-            this.winBridge = new WinViewportBridge(this.wintop);
+            this.winBridge = new WinViewportBridge(this.wintop, userInputEvBridge);
             this.winBridge.BindWindowControl(this);
         }
 #if DEBUG
