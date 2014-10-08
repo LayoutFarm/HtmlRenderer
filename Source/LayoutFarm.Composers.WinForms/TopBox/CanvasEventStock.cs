@@ -5,7 +5,7 @@ using System.Text;
 
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm
+namespace LayoutFarm.Drawing
 {
 
     class CanvasEventsStock

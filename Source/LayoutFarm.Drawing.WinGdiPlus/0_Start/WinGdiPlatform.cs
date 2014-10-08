@@ -1,6 +1,6 @@
 ﻿
 using System;
-namespace LayoutFarm.Drawing.WinGdiPlatform
+namespace LayoutFarm.Drawing 
 {
     public static class WinGdi
     {

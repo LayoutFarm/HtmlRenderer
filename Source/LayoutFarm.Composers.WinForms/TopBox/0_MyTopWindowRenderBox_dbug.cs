@@ -2,14 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
-
-
-using LayoutFarm;
-
-
-
-namespace LayoutFarm
+using LayoutFarm.Drawing; 
+using LayoutFarm; 
+namespace LayoutFarm.Drawing
 {
 #if DEBUG
     partial class MyTopWindowRenderBox

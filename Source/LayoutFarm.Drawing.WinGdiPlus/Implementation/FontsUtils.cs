@@ -324,7 +324,7 @@ namespace LayoutFarm
 
                 
                 fontInfo = new LayoutFarm.Drawing.MyFontInfo(
-                    LayoutFarm.Drawing.WinGdiPlatform.WinGdiPlatformInstance.P.CreateFont(newFont),
+                    LayoutFarm.Drawing.WinGdiPlatformInstance.P.CreateFont(newFont),
                     fontHeight,
                     (fontAscent * fontSize / fontEmHeight),
                     (descent * fontSize / fontEmHeight),
