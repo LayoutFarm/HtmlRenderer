@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using LayoutFarm;
-
+using LayoutFarm.Drawing;
 namespace LayoutFarm.Dev
 {   
     public partial class FormLayoutInspector : Form

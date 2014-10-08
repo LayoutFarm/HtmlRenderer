@@ -12,7 +12,7 @@ using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Composers;
 using HtmlRenderer.Boxes;
 
-namespace LayoutFarm
+namespace LayoutFarm.Boxes
 {
 
     public class HtmlRenderBox : RenderBoxBase

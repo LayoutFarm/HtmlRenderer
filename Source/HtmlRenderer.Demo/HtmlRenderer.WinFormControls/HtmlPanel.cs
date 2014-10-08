@@ -17,10 +17,11 @@ using System.Windows.Forms;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.Css;
 using HtmlRenderer.ContentManagers;
+using HtmlRenderer.Composers;
 
 using Conv = LayoutFarm.Drawing.Conv;
 
-namespace HtmlRenderer
+namespace HtmlRenderer.Demo
 {
     /// <summary>
     /// Provides HTML rendering using the text property.<br/>
@@ -81,8 +82,8 @@ namespace HtmlRenderer
         ImageContentManager imageContentMan = new ImageContentManager();
         TextContentManager textContentMan = new TextContentManager();
 
-        LayoutFarm.Drawing.Canvas renderCanvas = LayoutFarm.Drawing.CurrentGraphicPlatform.P.CreateCanvas(0, 0, 0, 0, 800, 600);
-
+        LayoutFarm.Drawing.Canvas renderCanvas;
+        LayoutFarm.Drawing.GraphicPlatform platform;
         /// <summary>
         /// Creates a new HtmlPanel and sets a basic css for it's styling.
         /// </summary>
@@ -92,6 +93,10 @@ namespace HtmlRenderer
             BackColor = SystemColors.Window;
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+
+            this.platform = LayoutFarm.Drawing.CurrentGraphicPlatform.P;
+            this.renderCanvas = platform.CreateCanvas(0, 0, 0, 0, 800, 600);
+
 
             timer01.Interval = 20;//20ms?
 
@@ -117,7 +122,7 @@ namespace HtmlRenderer
             timer01.Enabled = true;
             //-------------------------------------------
             _htmlEventBridge = new HtmlInputEventBridge();
-            _htmlEventBridge.Bind(myHtmlIsland, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
+            _htmlEventBridge.Bind(myHtmlIsland, platform.SampleIGraphics);
             //------------------------------------------- 
         }
         void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
@@ -137,8 +142,8 @@ namespace HtmlRenderer
                 this.textContentMan.AddStyleSheetRequest(req);
                 e2.SetStyleSheet = req.SetStyleSheet;
             };
-            var rootBox2 = builder.RefreshCssTree(this.currentDoc, LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics, this.myHtmlIsland);
-            this.myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
+            var rootBox2 = builder.RefreshCssTree(this.currentDoc, platform.SampleIGraphics, this.myHtmlIsland);
+            this.myHtmlIsland.PerformLayout(platform.SampleIGraphics);
         }
 
         //void RefreshHtmlDomChange()
@@ -304,7 +309,7 @@ namespace HtmlRenderer
 
             //build rootbox from htmldoc
             var rootBox = builder.BuildCssRenderTree(htmldoc,
-                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+               platform.SampleIGraphics,
                 htmlIsland, cssData,
                 null);
 
@@ -337,7 +342,7 @@ namespace HtmlRenderer
 
 
             var rootBox = builder.BuildCssRenderTree(this.currentDoc,
-                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+                platform.SampleIGraphics,
                 htmlIsland, cssData,
                 null);
 
@@ -352,7 +357,7 @@ namespace HtmlRenderer
             this.PaintMe();
 
         }
-        public HtmlIsland GetHtmlContainer()
+        public Boxes.HtmlIsland GetHtmlContainer()
         {
             return this.myHtmlIsland;
         }
@@ -419,7 +424,7 @@ namespace HtmlRenderer
                 //{
                 //    myHtmlIsland.PerformLayout(g);
                 //}
-                myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
+                myHtmlIsland.PerformLayout(platform.SampleIGraphics);
                 var asize = myHtmlIsland.ActualSize;
                 AutoScrollMinSize = Size.Round(new SizeF(asize.Width, asize.Height));
             }

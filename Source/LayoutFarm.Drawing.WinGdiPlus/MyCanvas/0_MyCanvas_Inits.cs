@@ -23,7 +23,7 @@ namespace LayoutFarm
 {
 
     partial class MyCanvas : Canvas, IGraphics
-    {   
+    {
         int left;
         int top;
         int right;
@@ -31,9 +31,9 @@ namespace LayoutFarm
         int pageNumFlags;
         int pageFlags;
 
-        System.Drawing.Graphics gx; 
+        System.Drawing.Graphics gx;
         //-------------------------------
-        
+
         float canvasOriginX = 0;
         float canvasOriginY = 0;
         //-------------------------------
@@ -50,25 +50,33 @@ namespace LayoutFarm
         Stack<System.Drawing.Rectangle> prevRegionRects = new Stack<System.Drawing.Rectangle>();
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
         //-------------------------------
-        Rect invalidateArea =Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
+        Rect invalidateArea = Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
         FontInfo currentTextFont = null;
-        SolidBrush sharedSolidBrush;  
+        SolidBrush sharedSolidBrush;
         //-------------------------------
-        System.Drawing.Color currentTextColor = System.Drawing.Color.Black;    
+        System.Drawing.Color currentTextColor = System.Drawing.Color.Black;
         System.Drawing.Pen internalPen;
         System.Drawing.SolidBrush internalBrush;
         System.Drawing.Rectangle currentClipRect;
         //-------------------------------
-        
+
         bool _avoidGeometryAntialias;
         bool _avoidTextAntialias;
         bool _useGdiPlusTextRendering;
-        bool isFromPrinter = false; 
+        bool isFromPrinter = false;
 
-        int canvasFlags = FIRSTTIME_INVALID; 
+        int canvasFlags = FIRSTTIME_INVALID;
+        GraphicPlatform platform;
 
-        public MyCanvas(int horizontalPageNum, int verticalPageNum, int left, int top, int width, int height)
+        public MyCanvas(GraphicPlatform platform,
+            int horizontalPageNum,
+            int verticalPageNum,
+            int left, int top,
+            int width,
+            int height)
         {
+
+            this.platform = platform;
 
             this.pageNumFlags = (horizontalPageNum << 8) | verticalPageNum;
 
@@ -88,7 +96,7 @@ namespace LayoutFarm
             MyWin32.PatBlt(originalHdc, 0, 0, width, height, MyWin32.WHITENESS);
             MyWin32.SetBkMode(originalHdc, MyWin32._SetBkMode_TRANSPARENT);
 
-            hFont = 
+            hFont =
 
             MyWin32.SelectObject(originalHdc, hFont);
 
@@ -104,6 +112,7 @@ namespace LayoutFarm
             dbug_canvasCount += 1;
 #endif
         }
+
         ~MyCanvas()
         {
             ReleaseUnManagedResource();
@@ -114,6 +123,10 @@ namespace LayoutFarm
         public void Dispose()
         {
             ReleaseHdc();
+        }
+        public override GraphicPlatform Platform
+        {
+            get { return this.platform; }
         }
         void ClearPreviousStoredValues()
         {

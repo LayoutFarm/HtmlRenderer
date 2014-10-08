@@ -4,17 +4,17 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm
+namespace LayoutFarm.Drawing
 {
     public static class WinGdiPlatform
     {
         public static void Start()
         {
-            LayoutFarm.Drawing.WinGdiPlatform.WinGdi.Start();
+            LayoutFarm.Drawing.WinGdi.Start();
         }
         public static void End()
         {
-            LayoutFarm.Drawing.WinGdiPlatform.WinGdi.End();
+            LayoutFarm.Drawing.WinGdi.End();
         }
     }
 }

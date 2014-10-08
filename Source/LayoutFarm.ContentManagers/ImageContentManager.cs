@@ -5,21 +5,21 @@ using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
 using System.Threading;
-
+using LayoutFarm.UI;
 
 namespace HtmlRenderer.ContentManagers
 {
 
 
-
+    
     public class ImageContentRequest
     {
         public readonly ImageBinder binder;
         public readonly object requestBy;
-        public readonly LayoutFarm.IUpdateStateChangedListener listener;
+        public readonly IUpdateStateChangedListener listener;
         public ImageContentRequest(ImageBinder binder,
             object requestBy,
-            LayoutFarm.IUpdateStateChangedListener listener)
+             IUpdateStateChangedListener listener)
         {
             this.binder = binder;
             this.requestBy = requestBy;

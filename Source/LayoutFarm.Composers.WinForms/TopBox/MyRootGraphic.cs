@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm
+namespace LayoutFarm.Drawing
 {
 
     class MyRootGraphic : RootGraphic
@@ -28,14 +28,11 @@ namespace LayoutFarm
             dbug_Init();
 #endif
         }
-        public override IGraphics SampleIGraphics
+        public override GraphicPlatform P
         {
-            get { return CurrentGraphicPlatform.P.SampleIGraphics; }
+            get { return CurrentGraphicPlatform.P; }
         }
-        public override IFonts SampleIFonts
-        {
-            get { return CurrentGraphicPlatform.P.SampleIGraphics; }
-        }
+         
 
         public override void CloseWinRoot()
         {

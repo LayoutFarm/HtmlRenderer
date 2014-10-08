@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm
+namespace LayoutFarm.Drawing
 {
 #if DEBUG
     partial class WinViewportBridge : IdbugOutputWindow

@@ -6,7 +6,7 @@ using LayoutFarm.Drawing;
 using System.Drawing.Drawing2D;
 
 
-namespace LayoutFarm
+namespace LayoutFarm.Drawing
 {
 
     class QuadPages

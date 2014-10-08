@@ -37,9 +37,9 @@ namespace HtmlRenderer.Demo
 
              
               
-            LayoutFarm.Drawing.WinGdiPlatform.WinGdi.Start();
+            LayoutFarm.Drawing.WinGdi.Start();
             Application.Run(new DevForm());
-            LayoutFarm.Drawing.WinGdiPlatform.WinGdi.End();
+            LayoutFarm.Drawing.WinGdi.End();
              
 
             //            Application.Run(new PerfForm());

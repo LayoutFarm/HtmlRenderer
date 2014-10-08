@@ -4,6 +4,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using LayoutFarm;
+using LayoutFarm.UI;
 
 namespace HtmlRenderer.WebDom
 {

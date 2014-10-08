@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 
 using LayoutFarm.Drawing;
+using LayoutFarm.UI;
 
-namespace LayoutFarm
+namespace LayoutFarm.Drawing
 {
 
     class CanvasEventsStock

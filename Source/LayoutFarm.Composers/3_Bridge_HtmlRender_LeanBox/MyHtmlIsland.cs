@@ -10,17 +10,17 @@ using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Diagnostics;
 
 using HtmlRenderer.Boxes;
-
-namespace HtmlRenderer
+using LayoutFarm.UI;
+namespace HtmlRenderer.Composers
 {
     public class HtmlResourceRequestEventArgs : EventArgs
     {
         public ImageBinder binder;
         public object requestBy;
-        public LayoutFarm.IUpdateStateChangedListener updateChangeListener;
+        public  IUpdateStateChangedListener updateChangeListener;
     }
 
-    public class MyHtmlIsland : HtmlIsland, LayoutFarm.IUpdateStateChangedListener
+    public class MyHtmlIsland : HtmlIsland,  IUpdateStateChangedListener
     {
 
         WebDocument doc;

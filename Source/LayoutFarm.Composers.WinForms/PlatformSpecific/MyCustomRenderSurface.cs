@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm
+namespace LayoutFarm.Drawing
 {
     class MyCustomRenderSurface : CustomRenderSurface
     {   
@@ -23,11 +23,8 @@ namespace LayoutFarm
 
             this.ownerVisualElement = ownerVisualElement;
             FullModeUpdate = true;
-            quadPages = new QuadPages(4, width, height);
-
-
-            EvaluateScrollBar();
-
+            quadPages = new QuadPages(4, width, height); 
+            EvaluateScrollBar(); 
             FullModeUpdate = false;
         }
 

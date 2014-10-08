@@ -5,8 +5,9 @@ using System.Text;
 using System.Diagnostics;
 using LayoutFarm.Drawing;
 
+using LayoutFarm.UI;
 
-namespace LayoutFarm
+namespace LayoutFarm.Drawing
 {
 
     partial class MyTopWindowRenderBox

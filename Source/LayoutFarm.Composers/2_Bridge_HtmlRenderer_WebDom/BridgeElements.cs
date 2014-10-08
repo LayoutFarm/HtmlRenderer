@@ -7,6 +7,7 @@ using HtmlRenderer.Diagnostics;
 using LayoutFarm.Drawing;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.Boxes;
+using LayoutFarm.UI;
 
 namespace HtmlRenderer.Composers.BridgeHtml
 {
@@ -116,7 +117,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         }
         //------------------------------------
        
-        protected override void OnMouseDown(LayoutFarm.UIMouseEventArgs e)
+        protected override void OnMouseDown(UIMouseEventArgs e)
         {    
 
             var box = this.GetPrincipalBox();

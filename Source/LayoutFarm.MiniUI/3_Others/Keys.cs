@@ -1,6 +1,6 @@
 ﻿//2014 Apache2, WinterDev
 using System;
-namespace LayoutFarm
+namespace LayoutFarm.UI
 {
 
     public enum UIKeys

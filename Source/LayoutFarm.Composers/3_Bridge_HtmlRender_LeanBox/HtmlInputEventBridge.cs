@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using LayoutFarm.Drawing;
 using HtmlRenderer.Boxes;
 using HtmlRenderer.WebDom;
-using LayoutFarm; 
-
-namespace HtmlRenderer
+using LayoutFarm;
+using LayoutFarm.UI;
+namespace HtmlRenderer.Composers
 {
 
     public class HtmlInputEventBridge
@@ -22,7 +22,7 @@ namespace HtmlRenderer
         bool _isMouseDown;
         //----------------------------------------------- 
         SelectionRange _currentSelectionRange = null;
-        IFonts ifonts; 
+        IFonts ifonts;
         bool _isBinded;
         public HtmlInputEventBridge()
         {
@@ -73,7 +73,7 @@ namespace HtmlRenderer
 
             CssBoxHitChain hitChain = GetFreeHitChain();
             _latestMouseDownHitChain = hitChain;
-            hitChain.SetRootGlobalPosition(x, y); 
+            hitChain.SetRootGlobalPosition(x, y);
             //1. prob hit chain only
             BoxUtils.HitTest(rootbox, x, y, hitChain);
 
@@ -180,7 +180,7 @@ namespace HtmlRenderer
         public void KeyDown(char keyChar)
         {
             //send focus to current input element
-             
+
 
         }
         public void KeyUp()
@@ -221,7 +221,7 @@ namespace HtmlRenderer
             {
                 //propagate up 
                 var hitInfo = hitChain.GetHitInfo(i);
-                LayoutFarm.IEventListener controller = null;
+                IEventListener controller = null;
 
                 switch (hitInfo.hitObjectKind)
                 {
@@ -232,13 +232,13 @@ namespace HtmlRenderer
                     case HitObjectKind.Run:
                         {
                             CssRun run = (CssRun)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(run.OwnerBox) as LayoutFarm.IEventListener;
+                            controller = CssBox.UnsafeGetController(run.OwnerBox) as IEventListener;
 
                         } break;
                     case HitObjectKind.CssBox:
                         {
                             CssBox box = (CssBox)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(box) as LayoutFarm.IEventListener;
+                            controller = CssBox.UnsafeGetController(box) as IEventListener;
                         } break;
                 }
 
@@ -246,7 +246,7 @@ namespace HtmlRenderer
                 if (controller != null)
                 {
 
-                
+
                     eventArgs.Location = new Point(hitInfo.localX, hitInfo.localY);
                     //---------------------------------
                     //dispatch 

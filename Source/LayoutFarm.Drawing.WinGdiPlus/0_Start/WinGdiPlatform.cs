@@ -1,12 +1,12 @@
 ﻿
 using System;
-namespace LayoutFarm.Drawing.WinGdiPlatform
+namespace LayoutFarm.Drawing 
 {
     public static class WinGdi
     {
-        static WinGdiPlateform platform;
+        static WinGdiPlatform platform;
         static bool isInit;
-       
+
 
         public static void Start()
         {
@@ -16,31 +16,37 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
             }
             isInit = true;
 
-            platform = new WinGdiPlateform();
+            platform = new WinGdiPlatform();
+            WinGdiPlatformInstance.P = platform;
+
             CurrentGraphicPlatform.SetCurrentPlatform(platform);
             CurrentGraphicPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
-
             
-             
-        } 
+
+        }
         public static void End()
         {
 
         }
-     
+
+    }
+    static class WinGdiPlatformInstance
+    {
+        public static GraphicPlatform P;
     }
 
-
-    class WinGdiPlateform : GraphicPlatform
+    class WinGdiPlatform : GraphicPlatform
     {
+
+
         System.Drawing.Bitmap sampleBmp;
         IGraphics sampleIGraphics;
 
-        public WinGdiPlateform()
+        public WinGdiPlatform()
         {
         }
 
-        ~WinGdiPlateform()
+        ~WinGdiPlatform()
         {
             if (sampleBmp != null)
             {
@@ -119,7 +125,7 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
         }
         public override Canvas CreateCanvas(int horizontalPageNum, int verticalPageNum, int left, int top, int width, int height)
         {
-            return new MyCanvas(horizontalPageNum, verticalPageNum,
+            return new MyCanvas(this, horizontalPageNum, verticalPageNum,
                 left, top, width, height);
         }
 
@@ -135,7 +141,7 @@ namespace LayoutFarm.Drawing.WinGdiPlatform
                     }
 
                     System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(sampleBmp);
-                    sampleIGraphics = new MyCanvas(0, 0, 0, 0, 2, 2);
+                    sampleIGraphics = new MyCanvas(this, 0, 0, 0, 0, 2, 2);
                 }
                 return this.sampleIGraphics;
             }

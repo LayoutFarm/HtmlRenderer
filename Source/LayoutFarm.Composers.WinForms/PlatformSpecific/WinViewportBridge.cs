@@ -6,8 +6,8 @@ using System.Text;
 using System.Windows.Forms;
 
 using LayoutFarm.Drawing;
-
-namespace LayoutFarm
+using LayoutFarm.UI;
+namespace LayoutFarm.Drawing
 {
 
     partial class WinViewportBridge 
