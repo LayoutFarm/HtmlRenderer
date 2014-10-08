@@ -13,8 +13,7 @@ namespace LayoutFarm.Drawing
         int viewportX;
         int viewportY;
         int viewportWidth;
-        int viewportHeight;
- 
+        int viewportHeight; 
         MyTopWindowRenderBox topWindowBox;
 
         QuadPages quadPages = null;

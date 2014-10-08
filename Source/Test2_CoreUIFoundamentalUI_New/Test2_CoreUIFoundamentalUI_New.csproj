@@ -76,10 +76,6 @@
       <Project>{8CBF9902-1A77-4FA9-AC57-CE2179098BED}</Project>
       <Name>LayoutFarm.Composers.WinForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Drawing.WinGdiPlus\LayoutFarm.Drawing.WinGdiPlus.csproj">
-      <Project>{2675BAD6-52A7-4DEE-BC1D-25E9CA6994D1}</Project>
-      <Name>LayoutFarm.Drawing.WinGdiPlus</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
       <Name>LayoutFarm.Drawing</Name>

@@ -6,7 +6,7 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm.Drawing
 {
-    public static class WinGdiPlatform
+    public static class WinGdiPortal
     {
         public static void Start()
         {
