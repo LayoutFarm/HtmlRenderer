@@ -33,7 +33,7 @@ namespace LayoutFarm.SampleControls
         static UIHtmlBox()
         {
             HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
-               new HtmlRenderer.Boxes.LeanBox.LeanBoxCreator());
+               new HtmlRenderer.Boxes.LeanBoxCreator());
         }
 
         public UIHtmlBox(int width, int height)

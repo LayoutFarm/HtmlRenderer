@@ -4,7 +4,7 @@ using HtmlRenderer.Css;
 using HtmlRenderer.Composers;
 using LayoutFarm;
 
-namespace HtmlRenderer.Boxes.LeanBox
+namespace HtmlRenderer.Boxes
 {
 
     class LeanBoxCreator : CustomCssBoxGenerator
