@@ -1,4 +1,4 @@
-﻿namespace LayoutFarm.Drawing
+﻿namespace LayoutFarm.UI
 {
     partial class UISurfaceViewportControl
     {

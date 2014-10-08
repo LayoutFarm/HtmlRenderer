@@ -4,21 +4,23 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.UI
 {
 
-    class MyRootGraphic : RootGraphic
+
+    public class MyRootGraphic : RootGraphic
     {
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
-        System.Windows.Forms.Timer graphicTimer1 = new System.Windows.Forms.Timer();
+        WinTimer graphicTimer1;
 
         TimerTaskCollection timerTasks;
         static MyTopWindowRenderBox currentTopWindowBox;
 
-        public MyRootGraphic(int width, int height)
+        public MyRootGraphic(WinTimer winTimer, int width, int height)
             : base(width, height)
         {
             timerTasks = new TimerTaskCollection(this);
+            this.graphicTimer1 = winTimer;
 
             graphicTimer1.Interval = 500; //300 ms
             graphicTimer1.Tick += new EventHandler(graphicTimer1_Tick);
@@ -32,7 +34,7 @@ namespace LayoutFarm.Drawing
         {
             get { return CurrentGraphicPlatform.P; }
         }
-         
+
 
         public override void CloseWinRoot()
         {
@@ -46,11 +48,11 @@ namespace LayoutFarm.Drawing
                 currentTopWindowBox = value;
             }
         }
-        internal void TempRunCaret()
+        internal void CaretStartBlink()
         {
             graphicTimer1.Enabled = true;
         }
-        internal void TempStopCaret()
+        internal void CaretStopBlink()
         {
             graphicTimer1.Enabled = false;
         }

@@ -29,15 +29,14 @@ namespace LayoutFarm.Drawing
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
 
-        MyTopWindowRenderBox topwin;
-        EventHandler<EventArgs> parentFormClosedHandler;
+        MyTopWindowRenderBox topwin; 
         Control windowControl;
-        MyRootGraphic rootGraphic;
+        
         public WinViewportBridge(MyTopWindowRenderBox wintop)
         {
             //create view port ?
             this.topwin = wintop;
-            this.rootGraphic = wintop.MyVisualRoot;
+            
 
             wintop.CanvasForcePaint += (s, e) =>
             {
@@ -248,8 +247,8 @@ namespace LayoutFarm.Drawing
         {
             isMouseDown = true;
             isDraging = false;
-
-            MyRootGraphic.CurrentTopWindowRenderBox = this.topwin;          
+            this.topwin.MakeCurrent();
+             
 
             Point viewLocation = canvasViewport.LogicalViewportLocation;
             lastestLogicalMouseDownX = (viewLocation.X + e.X);
@@ -415,19 +414,20 @@ namespace LayoutFarm.Drawing
         public void OnKeyDown(KeyEventArgs e)
         {
 
-            MyRootGraphic.CurrentTopWindowRenderBox = this.topwin;
-
+             
+            this.topwin.MakeCurrent();
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
 
             SetKeyData(keyEventArgs, e);
 
 
-            this.topwin.MyVisualRoot.TempStopCaret();
+             
+            this.topwin.StopCaretBlink();
             canvasViewport.FullMode = false;
             keyEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
 #if DEBUG
             topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UIKeys)e.KeyData);
+            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UI.UIKeys)e.KeyData);
             topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
 #endif
 
@@ -437,18 +437,17 @@ namespace LayoutFarm.Drawing
         }
         public void OnKeyUp(KeyEventArgs e)
         {
-            MyRootGraphic.CurrentTopWindowRenderBox = this.topwin;
+             
+            this.topwin.MakeCurrent();
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
             SetKeyData(keyEventArgs, e);
 
-            topwin.MyVisualRoot.TempStopCaret();
-
+             
+            this.topwin.StopCaretBlink();
             canvasViewport.FullMode = false;
             keyEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
             userInputEventBridge.OnKeyUp(keyEventArgs);
-
-
-            topwin.MyVisualRoot.TempRunCaret();
+            this.topwin.StartCaretBlink();             
 
             eventStock.ReleaseEventArgs(keyEventArgs);
         }
@@ -467,7 +466,8 @@ namespace LayoutFarm.Drawing
             UIKeyPressEventArgs keyPressEventArgs = eventStock.GetFreeKeyPressEventArgs();
             keyPressEventArgs.SetKeyChar(e.KeyChar);
 
-            topwin.MyVisualRoot.TempStopCaret();
+             
+            this.topwin.StopCaretBlink();
 #if DEBUG
             topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
             topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYPRESS " + e.KeyChar);
@@ -482,16 +482,13 @@ namespace LayoutFarm.Drawing
 
             eventStock.ReleaseEventArgs(keyPressEventArgs);
         }
-        void TempStopCaret()
-        {
-            topwin.MyVisualRoot.TempStopCaret();
-        } 
+       
         public bool ProcessDialogKey(Keys keyData)
         {
 
             UIKeyEventArgs keyEventArg = eventStock.GetFreeKeyEventArgs();
             keyEventArg.KeyData = (int)keyData;
-            TempStopCaret();
+            this.topwin.StopCaretBlink();
 
             canvasViewport.FullMode = false;
             keyEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);

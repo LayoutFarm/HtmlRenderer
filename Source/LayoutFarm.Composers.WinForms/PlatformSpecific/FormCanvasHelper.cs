@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.UI
 {
     public static class FormCanvasHelper
     {     

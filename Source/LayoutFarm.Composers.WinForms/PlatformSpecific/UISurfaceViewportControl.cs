@@ -6,16 +6,17 @@ using System.Text;
 using System.Windows.Forms;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.UI
 {
 
     public partial class UISurfaceViewportControl : UserControl
     {
 
-       
+
         WinViewportBridge winBridge;
         MyTopWindowRenderBox wintop;
 
+        MyWinTimer myWinTimer = new MyWinTimer();
 
         public UISurfaceViewportControl()
         {
@@ -24,11 +25,11 @@ namespace LayoutFarm.Drawing
 
         public void InitRootGraphics(int width, int height)
         {
-            var myRootGraphic = new MyRootGraphic(width, height);
+            var myRootGraphic = new MyRootGraphic(myWinTimer, width, height);
             this.wintop = new MyTopWindowRenderBox(myRootGraphic, width, height);
 
             this.winBridge = new WinViewportBridge(this.wintop);
-            this.winBridge.BindWindowControl(this);      
+            this.winBridge.BindWindowControl(this);
         }
 #if DEBUG
         public IdbugOutputWindow IOutputWin
@@ -41,7 +42,7 @@ namespace LayoutFarm.Drawing
             if (this.winBridge != null)
             {
                 this.winBridge.UpdateCanvasViewportSize(this.Width, this.Height);
-            }             
+            }
             base.OnSizeChanged(e);
         }
 
@@ -66,12 +67,12 @@ namespace LayoutFarm.Drawing
         public void Close()
         {
             this.winBridge.Close();
-             
+
         }
         public void PaintMe()
         {
             this.winBridge.PaintMe();
-             
+
         }
 
         //-----------------------------------------------------------------------------

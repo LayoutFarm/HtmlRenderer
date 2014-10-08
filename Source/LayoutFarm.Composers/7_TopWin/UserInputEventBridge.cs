@@ -8,8 +8,8 @@ using LayoutFarm.UI;
 namespace LayoutFarm.Drawing
 {
 
-    class UserInputEventBridge
-    { 
+    public class UserInputEventBridge
+    {
 
         readonly MyHitChain hitPointChain = new MyHitChain();
         UIHoverMonitorTask hoverMonitoringTask;
@@ -20,7 +20,7 @@ namespace LayoutFarm.Drawing
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
         IEventListener currentDragElem;
-         
+
         public UserInputEventBridge()
         {
 
@@ -28,18 +28,18 @@ namespace LayoutFarm.Drawing
         }
         public void Bind(MyTopWindowRenderBox topwin)
         {
-            this.topwin = topwin;             
+            this.topwin = topwin;
             this.hoverMonitoringTask = new UIHoverMonitorTask(this.topwin, OnMouseHover);
 #if DEBUG
             hitPointChain.dbugHitTracker = this.rootGraphic.dbugHitTracker;
 #endif
         }
- 
+
         RootGraphic rootGraphic
         {
             get { return topwin.Root; }
         }
- 
+
         //---------------------------------------------------------------------
         bool DisableGraphicOutputFlush
         {
@@ -122,7 +122,7 @@ namespace LayoutFarm.Drawing
             commonElement.HitTestCore(hitPointChain);
 
         }
-        
+
 
         //--------------------------------------------------
         public void OnDoubleClick(UIMouseEventArgs e)
@@ -308,7 +308,7 @@ namespace LayoutFarm.Drawing
 #endif
 
 
-            
+
 
             HitTestCoreWithPrevChainHint(
               hitPointChain.LastestRootX,
@@ -371,10 +371,10 @@ namespace LayoutFarm.Drawing
             //}
 
             //--------------
-          
+
             DisableGraphicOutputFlush = true;
 
-            currentDragElem.ListenDragEvent(UIDragEventName.Dragging, e); 
+            currentDragElem.ListenDragEvent(UIDragEventName.Dragging, e);
 
             DisableGraphicOutputFlush = false;
             FlushAccumGraphicUpdate();
@@ -492,8 +492,8 @@ namespace LayoutFarm.Drawing
             }
 #if DEBUG
             this.rootGraphic.dbugEventIsDragging = false;
-#endif  
-            
+#endif
+
             DisableGraphicOutputFlush = true;
 
             currentDragElem.ListenDragEvent(UIDragEventName.DragStop, e);
@@ -557,7 +557,7 @@ namespace LayoutFarm.Drawing
             //    //}
             //} 
             DisableGraphicOutputFlush = false;
-            FlushAccumGraphicUpdate(); 
+            FlushAccumGraphicUpdate();
         }
         public void OnGotFocus(UIFocusEventArgs e)
         {
@@ -609,7 +609,7 @@ namespace LayoutFarm.Drawing
         public void OnKeyDown(UIKeyEventArgs e)
         {
             var visualroot = this.rootGraphic;
-         
+
             if (currentKbFocusElem != null)
             {
                 e.SourceHitElement = currentKbFocusElem;
@@ -618,8 +618,8 @@ namespace LayoutFarm.Drawing
         }
         public void OnKeyUp(UIKeyEventArgs e)
         {
-           
-          
+
+
             if (currentKbFocusElem != null)
             {
                 e.SourceHitElement = currentKbFocusElem;

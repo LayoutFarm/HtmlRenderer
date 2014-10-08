@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Text;
 
 using LayoutFarm.Drawing;
-using LayoutFarm.UI;
+ 
 
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.UI
 {
 
-    class CanvasEventsStock
+    public class CanvasEventsStock
     {
         Stack<UIMouseEventArgs> mouseEventsQ = new Stack<UIMouseEventArgs>();
         Stack<UIKeyEventArgs> keyEventsQ = new Stack<UIKeyEventArgs>();

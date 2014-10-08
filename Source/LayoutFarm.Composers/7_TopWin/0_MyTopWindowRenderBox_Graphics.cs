@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using LayoutFarm.Drawing;
-
-using LayoutFarm.UI;
-
-namespace LayoutFarm.Drawing
+ 
+namespace LayoutFarm.UI
 {
 
     partial class MyTopWindowRenderBox

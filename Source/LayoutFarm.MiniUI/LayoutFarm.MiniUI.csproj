@@ -56,6 +56,7 @@
     <Compile Include="2_Events\ToNotifySizeChangedEvent.cs" />
     <Compile Include="0_UIElement\UIElement.cs" />
     <Compile Include="0_UIElement\IEventListener.cs" />
+    <Compile Include="3_Others\WinTimer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="3_Others\Clipboard.cs" />
     <Compile Include="3_Others\Keys.cs" />

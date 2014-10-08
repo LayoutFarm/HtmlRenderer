@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
-namespace LayoutFarm.Drawing
+
+namespace LayoutFarm.UI
 {
 
 
-    class UIHoverMonitorTask : VisualRootTimerTask
+    public class UIHoverMonitorTask : VisualRootTimerTask
     {
 
         int mouseMoveCounter = -1;

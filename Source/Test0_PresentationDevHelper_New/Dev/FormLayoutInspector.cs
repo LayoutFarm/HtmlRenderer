@@ -8,6 +8,8 @@ using System.Windows.Forms;
 using System.IO;
 using LayoutFarm;
 using LayoutFarm.Drawing;
+using LayoutFarm.UI;
+
 namespace LayoutFarm.Dev
 {   
     public partial class FormLayoutInspector : Form

@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing; 
 using LayoutFarm; 
-namespace LayoutFarm.Drawing
+
+namespace LayoutFarm.UI
 {
 #if DEBUG
     partial class MyTopWindowRenderBox

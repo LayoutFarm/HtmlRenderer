@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.UI
 {
 
-    abstract class VisualRootTimerTask
+    public abstract class VisualRootTimerTask
     {
         RenderElement targetVisualElement;
         bool isInQueue;

@@ -5,11 +5,11 @@ using System.Text;
 using LayoutFarm.Drawing;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.UI
 {
 
 
-    partial class MyTopWindowRenderBox : TopWindowRenderBox
+    public partial class MyTopWindowRenderBox : TopWindowRenderBox
     {
 
 
@@ -42,10 +42,24 @@ namespace LayoutFarm.Drawing
             //hoverMonitoringTask = new UIHoverMonitorTask(this, this.OnMouseHover);
 #if DEBUG
             dbug_hide_objIden = true;
-             
+
 #endif
 
         }
+
+        public void MakeCurrent()
+        {
+            MyRootGraphic.CurrentTopWindowRenderBox = this;
+        }
+        public void StopCaretBlink()
+        {
+            this.MyVisualRoot.CaretStopBlink();
+        }
+        public void StartCaretBlink()
+        {
+            this.MyVisualRoot.CaretStartBlink();
+        }
+         
 
         void rootTasksTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
@@ -83,14 +97,8 @@ namespace LayoutFarm.Drawing
 
         void centralAnimationClock_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-        } 
-        internal MyRootGraphic MyVisualRoot
-        {
-            get
-            {
-                return this.rootGraphic;
-            }
         }
+
         public void CloseWinRoot()
         {
             this.rootGraphic.CloseWinRoot();
@@ -229,7 +237,10 @@ namespace LayoutFarm.Drawing
             }
 
         }
-
+        public MyRootGraphic MyVisualRoot
+        {
+            get { return  this.rootGraphic; }
+        }
         public void PrepareRender()
         {
 
