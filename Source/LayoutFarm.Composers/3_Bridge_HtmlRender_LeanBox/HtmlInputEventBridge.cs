@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using LayoutFarm.Drawing;
 using HtmlRenderer.Boxes;
 using HtmlRenderer.WebDom;
-using LayoutFarm; 
+using LayoutFarm;
 
-namespace HtmlRenderer
+namespace HtmlRenderer.Composers
 {
 
     public class HtmlInputEventBridge

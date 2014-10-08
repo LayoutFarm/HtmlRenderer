@@ -5,7 +5,11 @@ using System.Collections.Generic;
 using System.Text;
 using HtmlRenderer;
 using HtmlRenderer.ContentManagers;
+using HtmlRenderer.Boxes;
+using HtmlRenderer.Composers;
+
 using LayoutFarm.UI;
+using LayoutFarm.Boxes;
 
 namespace LayoutFarm.SampleControls
 {
@@ -17,7 +21,7 @@ namespace LayoutFarm.SampleControls
         MyHtmlIsland myHtmlIsland;
 
         HtmlRenderer.WebDom.WebDocument currentdoc;
-        HtmlRenderer.HtmlInputEventBridge _htmlEventBridge;
+        HtmlRenderer.Composers.HtmlInputEventBridge _htmlEventBridge;
 
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
         public event EventHandler<ImageRequestEventArgs> RequestImage;

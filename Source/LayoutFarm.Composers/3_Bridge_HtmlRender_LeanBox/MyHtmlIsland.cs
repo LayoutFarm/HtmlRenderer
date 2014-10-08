@@ -11,7 +11,7 @@ using HtmlRenderer.Diagnostics;
 
 using HtmlRenderer.Boxes;
 
-namespace HtmlRenderer
+namespace HtmlRenderer.Composers
 {
     public class HtmlResourceRequestEventArgs : EventArgs
     {

@@ -38,7 +38,7 @@ namespace HtmlRenderer.Demo
             this._splitter = new System.Windows.Forms.Splitter();
             this._reloadColorsLink = new System.Windows.Forms.LinkLabel();
             this._htmlEditor = new System.Windows.Forms.RichTextBox();
-            this._htmlPanel = new HtmlRenderer.HtmlPanel();
+            this._htmlPanel = new HtmlRenderer.Demo.HtmlPanel();
             this._splitContainer1.Panel1.SuspendLayout();
             this._splitContainer1.Panel2.SuspendLayout();
             this._splitContainer1.SuspendLayout();

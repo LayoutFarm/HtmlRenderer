@@ -17,10 +17,11 @@ using System.Windows.Forms;
 using HtmlRenderer.WebDom;
 using HtmlRenderer.Css;
 using HtmlRenderer.ContentManagers;
+using HtmlRenderer.Composers;
 
 using Conv = LayoutFarm.Drawing.Conv;
 
-namespace HtmlRenderer
+namespace HtmlRenderer.Demo
 {
     /// <summary>
     /// Provides HTML rendering using the text property.<br/>
@@ -356,7 +357,7 @@ namespace HtmlRenderer
             this.PaintMe();
 
         }
-        public HtmlIsland GetHtmlContainer()
+        public Boxes.HtmlIsland GetHtmlContainer()
         {
             return this.myHtmlIsland;
         }
