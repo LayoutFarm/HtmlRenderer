@@ -154,7 +154,7 @@ namespace LayoutFarm.UI
         public int XDiff;
         public int YDiff;
         public UIMouseEventType EventType;
-        public TopWindowRenderBox WinTop;
+        public TopWindowRenderBoxBase WinTop;
 
         public UIMouseEventArgs()
         {

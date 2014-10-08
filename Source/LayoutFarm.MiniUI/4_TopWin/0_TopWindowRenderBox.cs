@@ -5,11 +5,11 @@ using System.Text;
 using LayoutFarm.Drawing;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.UI
 {
 
 
-    partial class MyTopWindowRenderBox : TopWindowRenderBox
+    public partial class TopWindowRenderBox : TopWindowRenderBoxBase
     {
 
 
@@ -18,13 +18,13 @@ namespace LayoutFarm.Drawing
 
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
 
-        MyRootGraphic rootGraphic;
+        RootGraphic rootGraphic;
         CanvasEventsStock eventStock = new CanvasEventsStock();
 
         System.Timers.Timer centralAnimationClock;
 
-        public MyTopWindowRenderBox(
-            MyRootGraphic visualroot,
+        public TopWindowRenderBox(
+            RootGraphic visualroot,
             int width, int height)
             : base(visualroot, width, height)
         {
@@ -42,9 +42,28 @@ namespace LayoutFarm.Drawing
             //hoverMonitoringTask = new UIHoverMonitorTask(this, this.OnMouseHover);
 #if DEBUG
             dbug_hide_objIden = true;
-             
+
 #endif
 
+        }
+
+        public static TopWindowRenderBox CurrentTopWindowRenderBox
+        {
+            get;
+            set;
+        }
+        public void MakeCurrent()
+        {
+            CurrentTopWindowRenderBox = this;            
+        }
+        
+        public void StartCaretBlink()
+        {
+            this.rootGraphic.CaretStartBlink(); 
+        }
+        public void StopCaretBlink()
+        {
+            this.rootGraphic.CaretStopBlink();
         }
 
         void rootTasksTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -83,14 +102,8 @@ namespace LayoutFarm.Drawing
 
         void centralAnimationClock_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-        } 
-        internal MyRootGraphic MyVisualRoot
-        {
-            get
-            {
-                return this.rootGraphic;
-            }
         }
+
         public void CloseWinRoot()
         {
             this.rootGraphic.CloseWinRoot();
@@ -229,15 +242,12 @@ namespace LayoutFarm.Drawing
             }
 
         }
-
+        
         public void PrepareRender()
         {
 
-            if (this.MyVisualRoot.VisualRequestCount > 0)
-            {
-                MyVisualRoot.ClearVisualRequests(this);
-            }
-
+             
+            this.rootGraphic.ClearRenderRequests(this);
             if (this.layoutQueue.Count > 0)
             {
                 ClearLayoutQueue();
@@ -406,13 +416,7 @@ namespace LayoutFarm.Drawing
 #endif
         }
 
-        internal void ForcePaint()
-        {
-            if (this.CanvasForcePaint != null)
-            {
-                CanvasForcePaint(this, EventArgs.Empty);
-            }
-        }
+
     }
 
 }

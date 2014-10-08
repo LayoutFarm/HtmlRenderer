@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.UI
 {
     class MyHitChain : HitChain
     {
@@ -12,8 +12,8 @@ namespace LayoutFarm.Drawing
         List<HitPoint> prevHitChain;
         readonly List<HitPoint> hitChainA = new List<HitPoint>();
         readonly List<HitPoint> hitChainB = new List<HitPoint>();
-        
-         
+
+
         public MyHitChain()
         {
             currentHitChain = hitChainA;
@@ -71,7 +71,7 @@ namespace LayoutFarm.Drawing
                     return null;
                 }
             }
-        } 
+        }
         public override void AddHitObject(object hitObject)
         {
             currentHitChain.Add(new HitPoint(hitObject, new Point(testPointX, testPointY)));
@@ -81,26 +81,26 @@ namespace LayoutFarm.Drawing
                 + hitObject.ToString());
 #endif
         }
-        
+
         public void SwapHitChain()
         {
             if (currentHitChain == hitChainA)
             {
                 prevHitChain = hitChainA;
                 currentHitChain = hitChainB;
-                
+
             }
             else
             {
                 prevHitChain = hitChainB;
-                currentHitChain = hitChainA; 
-                
+                currentHitChain = hitChainA;
+
             }
             currentHitChain.Clear();
         }
 
 
-        
+
         public RenderElement HitTestOnPrevChain()
         {
             if (prevHitChain.Count > 0)
@@ -154,10 +154,10 @@ namespace LayoutFarm.Drawing
                 return null;
             }
         }
-        
-         
+
+
 #if DEBUG
-       
+
         public dbugHitTestTracker dbugHitTracker;
 #endif
     }

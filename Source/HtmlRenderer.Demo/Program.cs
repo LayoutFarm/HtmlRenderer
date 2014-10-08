@@ -35,11 +35,11 @@ namespace HtmlRenderer.Demo
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-             
-              
-            LayoutFarm.Drawing.WinGdi.Start();
+
+
+            LayoutFarm.Drawing.WinGdiPortal.Start();
             Application.Run(new DevForm());
-            LayoutFarm.Drawing.WinGdi.End();
+            LayoutFarm.Drawing.WinGdiPortal.End();
              
 
             //            Application.Run(new PerfForm());

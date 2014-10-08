@@ -8,8 +8,8 @@
     <ProjectGuid>{20048075-A2F3-4B97-B3C6-BEA794429741}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LayoutFarm.LeanBox</RootNamespace>
-    <AssemblyName>LayoutFarm.LeanBox</AssemblyName>
+    <RootNamespace>LayoutFarm.RenderTree</RootNamespace>
+    <AssemblyName>LayoutFarm.RenderTree</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -43,7 +43,7 @@
     <Compile Include="6_Root\1_RootGraphic_p1.cs" />
     <Compile Include="6_Root\1_RootGraphic_p2.cs" />
     <Compile Include="0_Start\dbugCoreConst.cs" />
-    <Compile Include="4_Boxes\TopWindowRenderBox.cs" />
+    <Compile Include="4_Boxes\TopWindowRenderBoxBase.cs" />
     <Compile Include="6_Root\3_GraphicIntervalTask.cs" />
     <Compile Include="7_debug\dbugVisualEvalScrollBarTrace.cs" />
     <Compile Include="7_debug\dbugVisualInvalidationTracer.cs" />

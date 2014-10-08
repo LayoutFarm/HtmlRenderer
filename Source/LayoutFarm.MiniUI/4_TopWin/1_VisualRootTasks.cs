@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.UI
 {
 
-    abstract class VisualRootTimerTask
+    public abstract class VisualRootTimerTask
     {
         RenderElement targetVisualElement;
         bool isInQueue;
@@ -23,7 +23,7 @@ namespace LayoutFarm.Drawing
             }
 
         }
-        public void SetEnable(bool value, MyTopWindowRenderBox winroot)
+        public void SetEnable(bool value, TopWindowRenderBox winroot)
         {
             isEnabled = value;
             if (isEnabled)

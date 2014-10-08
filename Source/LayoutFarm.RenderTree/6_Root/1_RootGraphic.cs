@@ -20,6 +20,12 @@ namespace LayoutFarm
         public abstract GraphicPlatform P { get; }
         public IGraphics SampleIGraphics { get { return this.P.SampleIGraphics; } }
         public IFonts SampleIFonts { get { return this.P.SampleIFonts; } }
+
+        public abstract void CaretStartBlink();
+        public abstract void CaretStopBlink();
+
+        public abstract void ClearRenderRequests(TopWindowRenderBoxBase topwin);
+
         public int GraphicUpdateBlockCount
         {
             get;
@@ -56,7 +62,7 @@ namespace LayoutFarm
             GraphicUpdateBlockCount++;
             DisableGraphicOutputFlush = true;
         }
-        public void EndGraphicUpdate(TopWindowRenderBox topbox)
+        public void EndGraphicUpdate(TopWindowRenderBoxBase topbox)
         {
             GraphicUpdateBlockCount--;
             if (GraphicUpdateBlockCount <= 0)
@@ -89,7 +95,7 @@ namespace LayoutFarm
 #endif
         public void InvalidateGraphicArea(RenderElement fromElement,
             ref Rectangle elementClientRect,
-            out TopWindowRenderBox wintop)
+            out TopWindowRenderBoxBase wintop)
         {
 
             if (IsInRenderPhase)
@@ -101,7 +107,7 @@ namespace LayoutFarm
             Rect elemRect = Rect.CreateFromRect(elementClientRect);
             InvalidateGraphicArea(fromElement, elemRect, out wintop);
         }
-        public void FlushAccumGraphicUpdate(TopWindowRenderBox topbox)
+        public void FlushAccumGraphicUpdate(TopWindowRenderBoxBase topbox)
         {
             if (hasAccumRect)
             {
@@ -112,7 +118,7 @@ namespace LayoutFarm
         }
         void InvalidateGraphicArea(RenderElement fromElement,
             Rect elementClientRect,
-            out TopWindowRenderBox wintop)
+            out TopWindowRenderBoxBase wintop)
         {
             if (this.IsInRenderPhase)
             {
@@ -227,7 +233,7 @@ namespace LayoutFarm
 
                 if (fromElement.IsTopWindow)
                 {
-                    wintop = (TopWindowRenderBox)fromElement;
+                    wintop = (TopWindowRenderBoxBase)fromElement;
                     break;
                 }
                 else

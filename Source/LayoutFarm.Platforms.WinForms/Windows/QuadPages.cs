@@ -105,7 +105,7 @@ namespace LayoutFarm.Drawing
         public const int PAGE_ABCD = 3;
 
         public void RenderToOutputWindowFullMode(
-        TopWindowRenderBox rootElement,
+        TopWindowRenderBoxBase rootElement,
         IntPtr destOutputHdc,
         int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
@@ -195,7 +195,7 @@ namespace LayoutFarm.Drawing
 
         }
 
-        static void UpdateAllArea(Canvas artCanvas, TopWindowRenderBox rootElement)
+        static void UpdateAllArea(Canvas artCanvas, TopWindowRenderBoxBase rootElement)
         {
 
             artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
@@ -214,7 +214,7 @@ namespace LayoutFarm.Drawing
 
             artCanvas.OffsetCanvasOrigin(artCanvas.Left, artCanvas.Top);
         }
-        static void UpdateInvalidArea(Canvas artCanvas, TopWindowRenderBox rootElement, VisualDrawingChain renderingChain)
+        static void UpdateInvalidArea(Canvas artCanvas, TopWindowRenderBoxBase rootElement, VisualDrawingChain renderingChain)
         {
 
             List<RenderElement> selectedVisualElements = renderingChain.selectedVisualElements;
@@ -270,7 +270,7 @@ namespace LayoutFarm.Drawing
                 selectedVisualElements[i].IsInRenderChain = true;
             }
         }
-        static void UpdateInvalidArea(Canvas artCanvas, TopWindowRenderBox rootElement)
+        static void UpdateInvalidArea(Canvas artCanvas, TopWindowRenderBoxBase rootElement)
         {
 #if DEBUG
 #endif
@@ -293,7 +293,7 @@ namespace LayoutFarm.Drawing
 
 
         public void RenderToOutputWindowPartialMode(
-            TopWindowRenderBox rootElement,
+            TopWindowRenderBoxBase rootElement,
             IntPtr destOutputHdc,
             int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {

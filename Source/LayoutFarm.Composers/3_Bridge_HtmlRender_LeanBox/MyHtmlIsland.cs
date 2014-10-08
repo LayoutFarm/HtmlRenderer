@@ -66,7 +66,7 @@ namespace HtmlRenderer.Composers
 #endif
             }
         }
-
+         
         public override void AddRequestImageBinderUpdate(ImageBinder binder)
         {
             this.requestImageBinderUpdates.Add(binder);

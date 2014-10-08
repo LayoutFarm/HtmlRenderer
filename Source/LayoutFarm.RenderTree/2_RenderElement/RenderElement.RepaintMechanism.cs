@@ -13,7 +13,7 @@ namespace LayoutFarm
     partial class RenderElement
     {
 
-        protected static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect, out TopWindowRenderBox wintop)
+        protected static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect, out TopWindowRenderBoxBase wintop)
         {
             //1.
             elem.uiFlags &= ~IS_GRAPHIC_VALID;
@@ -28,7 +28,7 @@ namespace LayoutFarm
             {
                 return;
             }
-            TopWindowRenderBox wintop;
+            TopWindowRenderBoxBase wintop;
             RootInvalidateGraphicArea(ve, ref localArea, out wintop);
         }
         //public static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea, out TopWindowRenderBox wintop)
@@ -71,11 +71,11 @@ namespace LayoutFarm
         }
         public void InvalidateGraphic()
         {
-            TopWindowRenderBox wintop;
+            TopWindowRenderBoxBase wintop;
             InvalidateGraphic(out wintop);
         }
         
-        public bool InvalidateGraphic(out TopWindowRenderBox wintop)
+        public bool InvalidateGraphic(out TopWindowRenderBoxBase wintop)
         {
             uiFlags &= ~IS_GRAPHIC_VALID;
             if ((uiLayoutFlags & LY_SUSPEND_GRAPHIC) != 0)
@@ -102,7 +102,7 @@ namespace LayoutFarm
         public void EndGraphicUpdate()
         {
             this.uiLayoutFlags &= ~LY_SUSPEND_GRAPHIC;
-            TopWindowRenderBox wintop;
+            TopWindowRenderBoxBase wintop;
             if (InvalidateGraphic(out wintop))
             {
                 this.rootGfx.EndGraphicUpdate(wintop);
@@ -117,7 +117,7 @@ namespace LayoutFarm
         void AfterBoundChangedInvalidateGraphics()
         {
             this.uiLayoutFlags &= ~LY_SUSPEND_GRAPHIC;
-            TopWindowRenderBox wintop;
+            TopWindowRenderBoxBase wintop;
             if (InvalidateGraphic(out wintop))
             {
                 this.rootGfx.EndGraphicUpdate(wintop);

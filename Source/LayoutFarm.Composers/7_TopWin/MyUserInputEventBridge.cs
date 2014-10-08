@@ -3,43 +3,42 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
-using LayoutFarm.UI;
 
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.UI
 {
 
-    class UserInputEventBridge
-    { 
+    public class MyUserInputEventBridge : UserInputEventBridge
+    {
 
         readonly MyHitChain hitPointChain = new MyHitChain();
         UIHoverMonitorTask hoverMonitoringTask;
 
         int msgChainVersion;
-        MyTopWindowRenderBox topwin;
+        TopWindowRenderBox topwin;
 
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
         IEventListener currentDragElem;
-         
-        public UserInputEventBridge()
+
+        public MyUserInputEventBridge()
         {
 
 
         }
-        public void Bind(MyTopWindowRenderBox topwin)
+        public override void Bind(TopWindowRenderBox topwin)
         {
-            this.topwin = topwin;             
+            this.topwin = topwin;
             this.hoverMonitoringTask = new UIHoverMonitorTask(this.topwin, OnMouseHover);
 #if DEBUG
             hitPointChain.dbugHitTracker = this.rootGraphic.dbugHitTracker;
 #endif
         }
- 
+
         RootGraphic rootGraphic
         {
             get { return topwin.Root; }
         }
- 
+
         //---------------------------------------------------------------------
         bool DisableGraphicOutputFlush
         {
@@ -106,7 +105,7 @@ namespace LayoutFarm.Drawing
         }
 
 
-        public void ClearAllFocus()
+        public override void ClearAllFocus()
         {
             CurrentKeyboardFocusedElement = null;
 
@@ -120,12 +119,11 @@ namespace LayoutFarm.Drawing
                 commonElement = this.topwin;
             }
             commonElement.HitTestCore(hitPointChain);
-
         }
-        
+
 
         //--------------------------------------------------
-        public void OnDoubleClick(UIMouseEventArgs e)
+        public override void OnDoubleClick(UIMouseEventArgs e)
         {
 
             HitTestCoreWithPrevChainHint(e.X, e.Y);
@@ -137,7 +135,7 @@ namespace LayoutFarm.Drawing
 
             hitPointChain.SwapHitChain();
         }
-        public void OnMouseWheel(UIMouseEventArgs e)
+        public override void OnMouseWheel(UIMouseEventArgs e)
         {
             //only on mouse active element
             if (currentMouseActiveElement != null)
@@ -147,7 +145,7 @@ namespace LayoutFarm.Drawing
         }
 
 
-        public void OnMouseDown(UIMouseEventArgs e)
+        public override void OnMouseDown(UIMouseEventArgs e)
         {
 
 #if DEBUG
@@ -233,7 +231,7 @@ namespace LayoutFarm.Drawing
 #endif
 
         }
-        public void OnMouseMove(UIMouseEventArgs e)
+        public override void OnMouseMove(UIMouseEventArgs e)
         {
 
             HitTestCoreWithPrevChainHint(e.X, e.Y);
@@ -295,7 +293,7 @@ namespace LayoutFarm.Drawing
             hitPointChain.SwapHitChain();
             hoverMonitoringTask.SetEnable(false, this.topwin);
         }
-        public void OnDragStart(UIDragEventArgs e)
+        public override void OnDragStart(UIDragEventArgs e)
         {
 
 #if DEBUG
@@ -308,7 +306,7 @@ namespace LayoutFarm.Drawing
 #endif
 
 
-            
+
 
             HitTestCoreWithPrevChainHint(
               hitPointChain.LastestRootX,
@@ -350,7 +348,7 @@ namespace LayoutFarm.Drawing
             //}
             hitPointChain.SwapHitChain();
         }
-        public void OnDrag(UIDragEventArgs e)
+        public override void OnDrag(UIDragEventArgs e)
         {
             if (currentDragElem == null)
             {
@@ -371,10 +369,10 @@ namespace LayoutFarm.Drawing
             //}
 
             //--------------
-          
+
             DisableGraphicOutputFlush = true;
 
-            currentDragElem.ListenDragEvent(UIDragEventName.Dragging, e); 
+            currentDragElem.ListenDragEvent(UIDragEventName.Dragging, e);
 
             DisableGraphicOutputFlush = false;
             FlushAccumGraphicUpdate();
@@ -483,7 +481,7 @@ namespace LayoutFarm.Drawing
             //}
             //UIDragEventArgs.ReleaseEventArgs(d_eventArg);
         }
-        public void OnDragStop(UIDragEventArgs e)
+        public override void OnDragStop(UIDragEventArgs e)
         {
 
             if (currentDragElem == null)
@@ -492,8 +490,8 @@ namespace LayoutFarm.Drawing
             }
 #if DEBUG
             this.rootGraphic.dbugEventIsDragging = false;
-#endif  
-            
+#endif
+
             DisableGraphicOutputFlush = true;
 
             currentDragElem.ListenDragEvent(UIDragEventName.DragStop, e);
@@ -557,18 +555,18 @@ namespace LayoutFarm.Drawing
             //    //}
             //} 
             DisableGraphicOutputFlush = false;
-            FlushAccumGraphicUpdate(); 
+            FlushAccumGraphicUpdate();
         }
-        public void OnGotFocus(UIFocusEventArgs e)
+        public override void OnGotFocus(UIFocusEventArgs e)
         {
 
 
         }
-        public void OnLostFocus(UIFocusEventArgs e)
+        public override void OnLostFocus(UIFocusEventArgs e)
         {
 
         }
-        public void OnMouseUp(UIMouseEventArgs e)
+        public override void OnMouseUp(UIMouseEventArgs e)
         {
 
 #if DEBUG
@@ -606,27 +604,27 @@ namespace LayoutFarm.Drawing
 
             hitPointChain.SwapHitChain();
         }
-        public void OnKeyDown(UIKeyEventArgs e)
+        public override void OnKeyDown(UIKeyEventArgs e)
         {
             var visualroot = this.rootGraphic;
-         
+
             if (currentKbFocusElem != null)
             {
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyEvent(UIKeyEventName.KeyDown, e);
             }
         }
-        public void OnKeyUp(UIKeyEventArgs e)
+        public override void OnKeyUp(UIKeyEventArgs e)
         {
-           
-          
+
+
             if (currentKbFocusElem != null)
             {
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyEvent(UIKeyEventName.KeyUp, e);
             }
         }
-        public void OnKeyPress(UIKeyPressEventArgs e)
+        public override void OnKeyPress(UIKeyPressEventArgs e)
         {
 
             if (currentKbFocusElem != null)
@@ -635,7 +633,7 @@ namespace LayoutFarm.Drawing
                 currentKbFocusElem.ListenKeyPressEvent(e);
             }
         }
-        public bool OnProcessDialogKey(UIKeyEventArgs e)
+        public override bool OnProcessDialogKey(UIKeyEventArgs e)
         {
             bool result = false;
             if (currentKbFocusElem != null)

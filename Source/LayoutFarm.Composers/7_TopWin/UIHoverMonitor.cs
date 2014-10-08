@@ -3,16 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
-namespace LayoutFarm.Drawing
+
+namespace LayoutFarm.UI
 {
 
 
-    class UIHoverMonitorTask : VisualRootTimerTask
+    public class UIHoverMonitorTask : VisualRootTimerTask
     {
 
         int mouseMoveCounter = -1;
         EventHandler targetEventHandler;
-        public UIHoverMonitorTask(TopWindowRenderBox winroot, EventHandler targetEventHandler)
+        public UIHoverMonitorTask(TopWindowRenderBoxBase winroot, EventHandler targetEventHandler)
             : base(winroot)
         {
             this.targetEventHandler = targetEventHandler;

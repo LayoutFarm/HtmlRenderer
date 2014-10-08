@@ -1,13 +1,11 @@
 ﻿
 using System;
-namespace LayoutFarm.Drawing 
+namespace LayoutFarm.Drawing
 {
-    public static class WinGdi
+    static class WinGdi
     {
         static WinGdiPlatform platform;
         static bool isInit;
-
-
         public static void Start()
         {
             if (isInit)
@@ -21,7 +19,7 @@ namespace LayoutFarm.Drawing
 
             CurrentGraphicPlatform.SetCurrentPlatform(platform);
             CurrentGraphicPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
-            
+
 
         }
         public static void End()
@@ -34,6 +32,8 @@ namespace LayoutFarm.Drawing
     {
         public static GraphicPlatform P;
     }
+
+
 
     class WinGdiPlatform : GraphicPlatform
     {

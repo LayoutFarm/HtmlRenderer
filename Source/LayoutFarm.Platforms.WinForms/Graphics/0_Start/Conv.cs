@@ -1,10 +1,8 @@
 ﻿//BSD 2014, WinterDev
 using System;
-using System.Collections.Generic; 
-namespace LayoutFarm.Drawing 
-{
-    
-    
+using System.Collections.Generic;
+namespace LayoutFarm.Drawing
+{ 
     /// <summary>
     /// conversion helper
     /// </summary>
@@ -22,12 +20,12 @@ namespace LayoutFarm.Drawing
         public static LayoutFarm.Drawing.Point ToPoint(this System.Drawing.Point pointf)
         {
             return new LayoutFarm.Drawing.Point(pointf.X, pointf.Y);
-        }       
+        }
         public static System.Drawing.Point ToPoint(this LayoutFarm.Drawing.Point point)
         {
             return new System.Drawing.Point(point.X, point.Y);
         }
-        
+
         //------------------------------------------------
         public static System.Drawing.SizeF ToSizeF(this LayoutFarm.Drawing.SizeF size)
         {
@@ -37,7 +35,7 @@ namespace LayoutFarm.Drawing
         {
             return new LayoutFarm.Drawing.SizeF(size.Width, size.Height);
         }
-        
+
         //------------------------------------------------
         public static LayoutFarm.Drawing.Size ToSize(this System.Drawing.Size size)
         {
@@ -66,7 +64,7 @@ namespace LayoutFarm.Drawing
         {
             return new LayoutFarm.Drawing.Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
         }
-         
+
 
     }
 }

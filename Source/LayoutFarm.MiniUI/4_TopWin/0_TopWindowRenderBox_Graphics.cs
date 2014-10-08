@@ -4,17 +4,15 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using LayoutFarm.Drawing;
-
-using LayoutFarm.UI;
-
-namespace LayoutFarm.Drawing
+ 
+namespace LayoutFarm.UI
 {
 
-    partial class MyTopWindowRenderBox
+    partial class TopWindowRenderBox
     {
 
         public event EventHandler<UIInvalidateEventArgs> CanvasInvalidatedEvent;
-        public event EventHandler<EventArgs> CanvasForcePaint;
+       
 
         Stack<VisualDrawingChain> renderingChainStock = new Stack<VisualDrawingChain>();
         LinkedList<VisualRootTimerTask> rootTimerTasks = new LinkedList<VisualRootTimerTask>();

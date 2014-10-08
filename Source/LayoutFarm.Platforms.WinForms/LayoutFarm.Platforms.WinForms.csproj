@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{8CBF9902-1A77-4FA9-AC57-CE2179098BED}</ProjectGuid>
+    <ProjectGuid>{4602B28B-EEEC-4A69-854C-B00B8B616837}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LayoutFarm.PlatformSpecfic</RootNamespace>
-    <AssemblyName>LayoutFarm.PlatformSpecfic</AssemblyName>
+    <RootNamespace>LayoutFarm.Platforms.WinForms</RootNamespace>
+    <AssemblyName>LayoutFarm.Platforms.WinForms</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -43,54 +43,52 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlatformSpecific\CanvasCollection.cs" />
-    <Compile Include="PlatformSpecific\UISurfaceViewportControl.cs">
+    <Compile Include="Graphics\0_Start\Conv.cs" />
+    <Compile Include="Graphics\0_Start\WinGdi.cs" />
+    <Compile Include="Graphics\Implementation\Bitmap_Brush_Pen.cs" />
+    <Compile Include="Graphics\Implementation\FontsUtils.cs" />
+    <Compile Include="Graphics\Implementation\MyFontInfo.cs" />
+    <Compile Include="Graphics\Implementation\MyGraphicPath.cs" />
+    <Compile Include="Graphics\Implementation\MyMatrix.cs" />
+    <Compile Include="Graphics\Implementation\MyWin32.cs" />
+    <Compile Include="Graphics\Implementation\NativeTextWin32.cs" />
+    <Compile Include="Graphics\Implementation\Region.cs" />
+    <Compile Include="Graphics\Implementation\Win32Utils.cs" />
+    <Compile Include="Graphics\MyCanvas\0_MyCanvas_Inits.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_CanvasProps.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_CoordinateAndClip.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_DrawGraphics.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_IFont_SpecificImpl.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_IGraphics_SpecificImpl.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_InvalidateArea.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_Static.cs" />
+    <Compile Include="Graphics\MyCanvas\MyCanvas_TextFuncs.cs" />
+    <Compile Include="Windows\CanvasCollection.cs" />
+    <Compile Include="Windows\MyCustomRenderSurface.cs" />
+    <Compile Include="Windows\MyWinTimer.cs" />
+    <Compile Include="Windows\UISurfaceViewportControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="PlatformSpecific\UISurfaceViewportControl.Designer.cs">
+    <Compile Include="Windows\UISurfaceViewportControl.Designer.cs">
       <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="PlatformSpecific\CanvasViewport.cs" />
-    <Compile Include="PlatformSpecific\dbugHelper.cs" />
-    <Compile Include="PlatformSpecific\FormCanvasHelper.cs" />
-    <Compile Include="PlatformSpecific\IdbugOutputWindow.cs" />
-    <Compile Include="PlatformSpecific\QuadPages.cs" />
-    <Compile Include="PlatformSpecific\WinGdiPlatform.cs" />
-    <Compile Include="PlatformSpecific\WinViewportBridge.cs" />
-    <Compile Include="PlatformSpecific\WinViewportBridge_dbug.cs" />
+    <Compile Include="Windows\CanvasViewport.cs" />
+    <Compile Include="Windows\dbugHelper.cs" />
+    <Compile Include="Windows\FormCanvasHelper.cs" />
+    <Compile Include="Windows\IdbugOutputWindow.cs" />
+    <Compile Include="Windows\QuadPages.cs" />
+    <Compile Include="Graphics\0_Start\WinGdiPlatform.cs" />
+    <Compile Include="Windows\WinViewportBridge.cs" />
+    <Compile Include="Windows\WinViewportBridge_dbug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TopBox\0_MyTopWindowRenderBox.cs" />
-    <Compile Include="TopBox\0_MyTopWindowRenderBox_dbug.cs" />
-    <Compile Include="TopBox\0_MyTopWindowRenderBox_Graphics.cs" />
-    <Compile Include="TopBox\1_VisualRootTasks.cs" />
-    <Compile Include="TopBox\CanvasEventStock.cs" />
-    <Compile Include="TopBox\MyHitPointChain.cs" />
-    <Compile Include="TopBox\MyIntervalTaskEventArgs.cs" />
-    <Compile Include="TopBox\MyRootGraphic.cs" />
-    <Compile Include="TopBox\MyTimerSheet.cs" />
-    <Compile Include="PlatformSpecific\UserInputEventBridge.cs" />
-    <Compile Include="TopBox\UIHoverMonitor.cs" />
-    <Compile Include="PlatformSpecific\MyCustomRenderSurface.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
-      <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
-      <Name>LayoutFarm.Composers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Drawing.WinGdiPlus\LayoutFarm.Drawing.WinGdiPlus.csproj">
-      <Project>{2675BAD6-52A7-4DEE-BC1D-25E9CA6994D1}</Project>
-      <Name>LayoutFarm.Drawing.WinGdiPlus</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
       <Name>LayoutFarm.Drawing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
-      <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
-      <Name>LayoutFarm.HtmlRenderer</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.MiniUI\LayoutFarm.MiniUI.csproj">
       <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>

@@ -4,21 +4,23 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.UI
 {
 
-    class MyRootGraphic : RootGraphic
+
+    public class MyRootGraphic : RootGraphic
     {
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
-        System.Windows.Forms.Timer graphicTimer1 = new System.Windows.Forms.Timer();
+        WinTimer graphicTimer1;
 
         TimerTaskCollection timerTasks;
-        static MyTopWindowRenderBox currentTopWindowBox;
+        
 
-        public MyRootGraphic(int width, int height)
+        public MyRootGraphic(WinTimer winTimer, int width, int height)
             : base(width, height)
         {
             timerTasks = new TimerTaskCollection(this);
+            this.graphicTimer1 = winTimer;
 
             graphicTimer1.Interval = 500; //300 ms
             graphicTimer1.Tick += new EventHandler(graphicTimer1_Tick);
@@ -32,25 +34,24 @@ namespace LayoutFarm.Drawing
         {
             get { return CurrentGraphicPlatform.P; }
         }
-         
+        public override void ClearRenderRequests(TopWindowRenderBoxBase topwin)
+        {
+            if (this.VisualRequestCount > 0)
+            {
+                this.ClearVisualRequests(topwin);
+            }
+        }
 
         public override void CloseWinRoot()
         {
             this.graphicTimer1.Enabled = false;
         }
-        internal static MyTopWindowRenderBox CurrentTopWindowRenderBox
-        {
-            get { return currentTopWindowBox; }
-            set
-            {
-                currentTopWindowBox = value;
-            }
-        }
-        internal void TempRunCaret()
+        
+        public override void CaretStartBlink()
         {
             graphicTimer1.Enabled = true;
         }
-        internal void TempStopCaret()
+        public override void CaretStopBlink()
         {
             graphicTimer1.Enabled = false;
         }
@@ -58,7 +59,7 @@ namespace LayoutFarm.Drawing
 
         void graphicTimer1_Tick(object sender, EventArgs e)
         {
-            if (currentTopWindowBox == null)
+            if (TopWindowRenderBox.CurrentTopWindowRenderBox == null)
             {
                 return;
             }
@@ -77,7 +78,7 @@ namespace LayoutFarm.Drawing
             }
             if (needForcePaint)
             {
-                currentTopWindowBox.ForcePaint();
+                TopWindowRenderBox.CurrentTopWindowRenderBox.ForcePaint();                  
             }
             FreeTaskEventArgs(args);
         }
@@ -134,7 +135,7 @@ namespace LayoutFarm.Drawing
         public const int IS_CTRL_KEYDOWN = 1 << (3 - 1);
 
 
-        public int VisualRequestCount
+        int VisualRequestCount
         {
             get
             {
@@ -142,7 +143,7 @@ namespace LayoutFarm.Drawing
             }
         }
 
-        public void ClearVisualRequests(TopWindowRenderBox wintop)
+        void ClearVisualRequests(TopWindowRenderBoxBase wintop)
         {
             int j = veReqList.Count;
             for (int i = 0; i < j; ++i)
@@ -166,7 +167,7 @@ namespace LayoutFarm.Drawing
                     case RequestCommand.InvalidateArea:
                         {
                             Rectangle r = (Rectangle)req.parameters;
-                            TopWindowRenderBox wintop2;
+                            TopWindowRenderBoxBase wintop2;
                             this.InvalidateGraphicArea(req.ve, ref r, out wintop2);
                         } break;
 
