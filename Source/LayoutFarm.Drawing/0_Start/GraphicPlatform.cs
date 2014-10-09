@@ -41,8 +41,7 @@ namespace LayoutFarm.Drawing
     public static class CurrentGraphicPlatform
     {
         static bool isInit;
-        static GraphicPlatform platform;
-
+        static GraphicPlatform platform; 
         public static GraphicPlatform P
         {
             get { return platform; }
