@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTkEssTest", "OpenTkEssTest.csproj", "{910824A1-3F6D-4B26-B1B0-78ABC0195500}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTk.CoreGraphics", "..\OpenTk.CoreGraphics\OpenTk.CoreGraphics.csproj", "{D9E24F68-37FA-4C11-AC17-0C351681908F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTk.Platforms", "..\OpenTk.Platforms\OpenTk.Platforms.csproj", "{93D4A59A-D626-41C5-AD66-B8472B7BBD71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTk.GLControl", "..\OpenTk.GLControl\OpenTk.GLControl.csproj", "{36A8F6FB-1536-435B-8386-284206493380}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Documentation|Any CPU = Documentation|Any CPU
+		Nsis|Any CPU = Nsis|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{910824A1-3F6D-4B26-B1B0-78ABC0195500}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{910824A1-3F6D-4B26-B1B0-78ABC0195500}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{910824A1-3F6D-4B26-B1B0-78ABC0195500}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{910824A1-3F6D-4B26-B1B0-78ABC0195500}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{910824A1-3F6D-4B26-B1B0-78ABC0195500}.Nsis|Any CPU.ActiveCfg = Release|Any CPU
+		{910824A1-3F6D-4B26-B1B0-78ABC0195500}.Nsis|Any CPU.Build.0 = Release|Any CPU
+		{910824A1-3F6D-4B26-B1B0-78ABC0195500}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{910824A1-3F6D-4B26-B1B0-78ABC0195500}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9E24F68-37FA-4C11-AC17-0C351681908F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9E24F68-37FA-4C11-AC17-0C351681908F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9E24F68-37FA-4C11-AC17-0C351681908F}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9E24F68-37FA-4C11-AC17-0C351681908F}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{D9E24F68-37FA-4C11-AC17-0C351681908F}.Nsis|Any CPU.ActiveCfg = Release|Any CPU
+		{D9E24F68-37FA-4C11-AC17-0C351681908F}.Nsis|Any CPU.Build.0 = Release|Any CPU
+		{D9E24F68-37FA-4C11-AC17-0C351681908F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9E24F68-37FA-4C11-AC17-0C351681908F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93D4A59A-D626-41C5-AD66-B8472B7BBD71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93D4A59A-D626-41C5-AD66-B8472B7BBD71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93D4A59A-D626-41C5-AD66-B8472B7BBD71}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{93D4A59A-D626-41C5-AD66-B8472B7BBD71}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{93D4A59A-D626-41C5-AD66-B8472B7BBD71}.Nsis|Any CPU.ActiveCfg = Release|Any CPU
+		{93D4A59A-D626-41C5-AD66-B8472B7BBD71}.Nsis|Any CPU.Build.0 = Release|Any CPU
+		{93D4A59A-D626-41C5-AD66-B8472B7BBD71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93D4A59A-D626-41C5-AD66-B8472B7BBD71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36A8F6FB-1536-435B-8386-284206493380}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36A8F6FB-1536-435B-8386-284206493380}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36A8F6FB-1536-435B-8386-284206493380}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{36A8F6FB-1536-435B-8386-284206493380}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{36A8F6FB-1536-435B-8386-284206493380}.Nsis|Any CPU.ActiveCfg = Release|Any CPU
+		{36A8F6FB-1536-435B-8386-284206493380}.Nsis|Any CPU.Build.0 = Release|Any CPU
+		{36A8F6FB-1536-435B-8386-284206493380}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36A8F6FB-1536-435B-8386-284206493380}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -35,7 +35,7 @@ namespace LayoutFarm.SampleControls
 
             //sample bg
             
-            using (var brush = LayoutFarm.Drawing.CurrentGraphicPlatform.CreateSolidBrush(BackColor))
+           using (var brush = canvasPage.Platform.CreateSolidBrush(BackColor))
             {
                 canvasPage.FillRectangle(brush, updateArea.ToRectangle());
                 if (this.Layers != null)

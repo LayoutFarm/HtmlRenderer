@@ -10,11 +10,11 @@ namespace LayoutFarm.Drawing
     {
         public static void Start()
         {
-            LayoutFarm.Drawing.WinGdi.Start();
+            WinGdi.Start();
         }
         public static void End()
         {
-            LayoutFarm.Drawing.WinGdi.End();
+            WinGdi.End();
         }
     }
 }
