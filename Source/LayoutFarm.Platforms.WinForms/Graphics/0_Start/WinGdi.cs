@@ -3,18 +3,21 @@ namespace LayoutFarm.Drawing
 {
     static class WinGdi
     {
-        static WinGdiPlatform platform;
+
         static bool isInit;
+        static WinGdi()
+        {
+        }
         public static void Start()
         {
+
             if (isInit)
             {
                 return;
             }
             isInit = true;
-
-            platform = new WinGdiPlatform();
-            WinGdiPlatformInstance.P = platform;
+            var platform = new WinGdiPlatform();
+            WinGdi.P = platform;
 
             CurrentGraphicPlatform.SetCurrentPlatform(platform);
             CurrentGraphicPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
@@ -25,22 +28,17 @@ namespace LayoutFarm.Drawing
         {
 
         }
-
-    }
-    static class WinGdiPlatformInstance
-    {
         public static GraphicPlatform P;
     }
+     
 
 
 
     class WinGdiPlatform : GraphicPlatform
     {
-
-
+         
         System.Drawing.Bitmap sampleBmp;
-        IGraphics sampleIGraphics;
-
+        IGraphics sampleIGraphics; 
         public WinGdiPlatform()
         {
         }

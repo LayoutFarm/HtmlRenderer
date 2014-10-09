@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{93D4A59A-D626-41C5-AD66-B8472B7BBD71}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenTk.Platforms</RootNamespace>
+    <AssemblyName>OpenTk.Platforms</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configuration.cs" />
+    <Compile Include="Exceptions.cs" />
+    <Compile Include="FrameEventArgs.cs" />
+    <Compile Include="GameWindow.cs" />
+    <Compile Include="IGameWindow.cs" />
+    <Compile Include="INativeWindow.cs" />
+    <Compile Include="Input\GamePad.cs" />
+    <Compile Include="Input\GamePadState.cs" />
+    <Compile Include="Input\IInputDevice.cs" />
+    <Compile Include="Input\IInputDriver.cs" />
+    <Compile Include="Input\IJoystickDriver.cs" />
+    <Compile Include="Input\IKeyboardDriver.cs" />
+    <Compile Include="Input\IMouseDriver.cs" />
+    <Compile Include="Input\InputDriver.cs" />
+    <Compile Include="Input\JoystickDevice.cs" />
+    <Compile Include="Input\Key.cs" />
+    <Compile Include="Input\Keyboard.cs" />
+    <Compile Include="Input\KeyboardDevice.cs" />
+    <Compile Include="Input\KeyboardKeyEventArgs.cs" />
+    <Compile Include="Input\KeyboardState.cs" />
+    <Compile Include="Input\Mouse.cs" />
+    <Compile Include="Input\MouseButton.cs" />
+    <Compile Include="Input\MouseDevice.cs" />
+    <Compile Include="Input\MouseState.cs" />
+    <Compile Include="KeyPressEventArgs.cs" />
+    <Compile Include="Minimal.cs" />
+    <Compile Include="NativeWindow.cs" />
+    <Compile Include="Platform\Egl\Egl.cs" />
+    <Compile Include="Platform\Egl\EglContext.cs" />
+    <Compile Include="Platform\Egl\EglGraphicsMode.cs" />
+    <Compile Include="Platform\Egl\EglMacPlatformFactory.cs" />
+    <Compile Include="Platform\Egl\EglWindowInfo.cs" />
+    <Compile Include="Platform\Egl\EglWinPlatformFactory.cs" />
+    <Compile Include="Platform\Egl\EglX11PlatformFactory.cs" />
+    <Compile Include="Platform\EmbeddedGraphicsContext.cs" />
+    <Compile Include="Platform\Factory.cs" />
+    <Compile Include="Platform\INativeWindow2.cs" />
+    <Compile Include="Platform\MacOS\AglContext.cs" />
+    <Compile Include="Platform\MacOS\Application.cs" />
+    <Compile Include="Platform\MacOS\CarbonBindings\Agl.cs" />
+    <Compile Include="Platform\MacOS\CarbonBindings\CarbonAPI.cs" />
+    <Compile Include="Platform\MacOS\CarbonBindings\CoreFoundation.cs" />
+    <Compile Include="Platform\MacOS\CarbonBindings\MacOSKeys.cs" />
+    <Compile Include="Platform\MacOS\CarbonBindings\QuartzDisplayServicesAPI.cs" />
+    <Compile Include="Platform\MacOS\CarbonBindings\SpeechChannel.cs" />
+    <Compile Include="Platform\MacOS\CarbonGLNative.cs" />
+    <Compile Include="Platform\MacOS\CarbonInput.cs" />
+    <Compile Include="Platform\MacOS\CarbonWindowInfo.cs" />
+    <Compile Include="Platform\MacOS\EventInfo.cs" />
+    <Compile Include="Platform\MacOS\MacOSException.cs" />
+    <Compile Include="Platform\MacOS\MacOSFactory.cs" />
+    <Compile Include="Platform\MacOS\MacOSGraphicsMode.cs" />
+    <Compile Include="Platform\MacOS\MacOSKeyMap.cs" />
+    <Compile Include="Platform\MacOS\QuartzDisplayDeviceDriver.cs" />
+    <Compile Include="Platform\PlatformException.cs" />
+    <Compile Include="Platform\Utilities.cs" />
+    <Compile Include="Platform\Windows\API.cs" />
+    <Compile Include="Platform\Windows\Bindings\Wgl.cs" />
+    <Compile Include="Platform\Windows\Bindings\WglCore.cs" />
+    <Compile Include="Platform\Windows\Bindings\WglDelegates.cs" />
+    <Compile Include="Platform\Windows\Bindings\WglEnums.cs" />
+    <Compile Include="Platform\Windows\WglHelper.cs" />
+    <Compile Include="Platform\Windows\WinDisplayDevice.cs" />
+    <Compile Include="Platform\Windows\WinFactory.cs" />
+    <Compile Include="Platform\Windows\WinGLContext.cs" />
+    <Compile Include="Platform\Windows\WinGLNative.cs" />
+    <Compile Include="Platform\Windows\WinGraphicsMode.cs" />
+    <Compile Include="Platform\Windows\WinKeyMap.cs" />
+    <Compile Include="Platform\Windows\WinMMJoystick.cs" />
+    <Compile Include="Platform\Windows\WinRawInput.cs" />
+    <Compile Include="Platform\Windows\WinRawKeyboard.cs" />
+    <Compile Include="Platform\Windows\WinRawMouse.cs" />
+    <Compile Include="Platform\Windows\WinWindowInfo.cs" />
+    <Compile Include="Platform\Windows\WMInput.cs" />
+    <Compile Include="Platform\X11\API.cs" />
+    <Compile Include="Platform\X11\Bindings\Glx.cs" />
+    <Compile Include="Platform\X11\Functions.cs" />
+    <Compile Include="Platform\X11\GlxHelper.cs" />
+    <Compile Include="Platform\X11\Structs.cs" />
+    <Compile Include="Platform\X11\X11DisplayDevice.cs" />
+    <Compile Include="Platform\X11\X11Factory.cs" />
+    <Compile Include="Platform\X11\X11GLContext.cs" />
+    <Compile Include="Platform\X11\X11GLNative.cs" />
+    <Compile Include="Platform\X11\X11GraphicsMode.cs" />
+    <Compile Include="Platform\X11\X11Input.cs" />
+    <Compile Include="Platform\X11\X11Joystick.cs" />
+    <Compile Include="Platform\X11\X11KeyMap.cs" />
+    <Compile Include="Platform\X11\X11WindowInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Toolkit.cs" />
+    <Compile Include="WindowBorder.cs" />
+    <Compile Include="WindowState.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenTk.CoreGraphics\OpenTk.CoreGraphics.csproj">
+      <Project>{D9E24F68-37FA-4C11-AC17-0C351681908F}</Project>
+      <Name>OpenTk.CoreGraphics</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

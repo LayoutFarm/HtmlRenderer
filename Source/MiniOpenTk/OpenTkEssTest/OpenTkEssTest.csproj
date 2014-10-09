@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{910824A1-3F6D-4B26-B1B0-78ABC0195500}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenTkEssTest</RootNamespace>
+    <AssemblyName>OpenTkEssTest</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="01_Basic\01_Basic.cs" />
+    <Compile Include="01_Basic\02_DisplayList.cs" />
+    <Compile Include="02_VertextBuffer\VBODynamic.cs" />
+    <Compile Include="02_VertextBuffer\VBOStatic.cs" />
+    <Compile Include="03_TextureMapping\TextureMatrix.cs" />
+    <Compile Include="04_StencilCSG\StencilCSG.cs" />
+    <Compile Include="05_GLControl\DerivedGLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="05_GLControl\DerivedGLControl.Designer.cs">
+      <DependentUpon>DerivedGLControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="05_GLControl\FormTestWinGLControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="05_GLControl\FormTestWinGLControl.Designer.cs">
+      <DependentUpon>FormTestWinGLControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="05_GLControl\GLControlGameLoop.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="05_GLControl\GLControlGameLoop.Designer.cs">
+      <DependentUpon>GLControlGameLoop.cs</DependentUpon>
+    </Compile>
+    <Compile Include="05_GLControl\GLControlSimple.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="05_GLControl\GLControlSimple.Designer.cs">
+      <DependentUpon>GLControlSimple.cs</DependentUpon>
+    </Compile>
+    <Compile Include="05_GLControl\MultipleGLControls.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="05_GLControl\MultipleGLControls.Designer.cs">
+      <DependentUpon>MultipleGLControls.cs</DependentUpon>
+    </Compile>
+    <Compile Include="06_GameWindows\GameWindowMsaa.cs" />
+    <Compile Include="06_GameWindows\GameWindowSimple.cs" />
+    <Compile Include="06_GameWindows\GameWindowThreaded.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shapes\Base\DrawableShape.cs" />
+    <Compile Include="Shapes\Base\VertexStructs.cs" />
+    <Compile Include="Shapes\Capsule.cs" />
+    <Compile Include="Shapes\ChamferCube.cs" />
+    <Compile Include="Shapes\Helpers\Chunk.cs" />
+    <Compile Include="Shapes\Helpers\MengerCube.cs" />
+    <Compile Include="Shapes\Helpers\TetrahedronFace.cs" />
+    <Compile Include="Shapes\Helpers\VboShape.cs" />
+    <Compile Include="Shapes\KochTetrahedron.cs" />
+    <Compile Include="Shapes\MengerSponge.cs" />
+    <Compile Include="Shapes\Old\Cube.cs" />
+    <Compile Include="Shapes\Old\IsoSphere.cs" />
+    <Compile Include="Shapes\Old\Plane.cs" />
+    <Compile Include="Shapes\Old\Shape.cs" />
+    <Compile Include="Shapes\Old\SierpinskiTetrahedron.cs" />
+    <Compile Include="Shapes\SlicedHose.cs" />
+    <Compile Include="Shapes\SlicedSphere.cs" />
+    <Compile Include="Shapes\TorusKnot.cs" />
+    <Compile Include="Shapes\VertexPositionColor.cs" />
+    <Compile Include="Utilities\LoaderDDS.cs" />
+    <Compile Include="Utilities\LoaderGDI.cs" />
+    <Compile Include="Utilities\LoaderStatics.cs" />
+    <Compile Include="Utilities\Utils.cs" />
+    <EmbeddedResource Include="05_GLControl\DerivedGLControl.resx">
+      <DependentUpon>DerivedGLControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="05_GLControl\FormTestWinGLControl.resx">
+      <DependentUpon>FormTestWinGLControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="05_GLControl\GLControlGameLoop.resx">
+      <DependentUpon>GLControlGameLoop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="05_GLControl\GLControlSimple.resx">
+      <DependentUpon>GLControlSimple.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="05_GLControl\MultipleGLControls.resx">
+      <DependentUpon>MultipleGLControls.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="03_TextureMapping\TextureMapping1.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenTk.CoreGraphics\OpenTk.CoreGraphics.csproj">
+      <Project>{D9E24F68-37FA-4C11-AC17-0C351681908F}</Project>
+      <Name>OpenTk.CoreGraphics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenTk.GLControl\OpenTk.GLControl.csproj">
+      <Project>{36A8F6FB-1536-435B-8386-284206493380}</Project>
+      <Name>OpenTk.GLControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenTk.Platforms\OpenTk.Platforms.csproj">
+      <Project>{93D4A59A-D626-41C5-AD66-B8472B7BBD71}</Project>
+      <Name>OpenTk.Platforms</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
