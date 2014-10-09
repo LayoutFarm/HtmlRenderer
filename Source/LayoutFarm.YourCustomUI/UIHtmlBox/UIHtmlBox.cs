@@ -16,6 +16,8 @@ namespace LayoutFarm.SampleControls
 
     public class UIHtmlBox : UIElement
     {
+        RootGraphic rootgfx;
+
         HtmlRenderBox myCssBoxWrapper;
         int _width, _height;
         MyHtmlIsland myHtmlIsland;
@@ -87,10 +89,10 @@ namespace LayoutFarm.SampleControls
                 }
             };
             var rootBox2 = builder.RefreshCssTree(this.currentdoc,
-                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+                this.rootgfx.SampleIGraphics,
                 this.myHtmlIsland);
 
-            this.myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
+            this.myHtmlIsland.PerformLayout(this.rootgfx.SampleIGraphics);
 
         }
         /// <summary>
@@ -139,6 +141,7 @@ namespace LayoutFarm.SampleControls
         {
             if (myCssBoxWrapper == null)
             {
+                this.rootgfx = rootgfx;
                 _htmlEventBridge = new HtmlInputEventBridge();
                 _htmlEventBridge.Bind(myHtmlIsland, rootgfx.SampleIFonts);
                 myCssBoxWrapper = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
@@ -167,7 +170,7 @@ namespace LayoutFarm.SampleControls
 
             //build rootbox from htmldoc
             var rootBox = builder.BuildCssRenderTree(this.currentdoc,
-                LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIFonts,
+                rootgfx.SampleIFonts,
                 this.myHtmlIsland,
                 this.waitingCssData,
                 this.myCssBoxWrapper);
