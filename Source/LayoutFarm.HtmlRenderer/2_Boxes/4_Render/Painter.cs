@@ -152,7 +152,7 @@ namespace HtmlRenderer.Boxes
             Color rightColor = box.BorderRightColor;
             Color bottomColor = box.BorderBottomColor;
 
-            var g = this.Gfx;
+            IGraphics g = this.Gfx;
 
             var b1 = RenderUtils.GetSolidBrush(topColor);
             BorderPaintHelper.DrawBorder(CssSide.Top, borderPoints, g, box, b1, rect);

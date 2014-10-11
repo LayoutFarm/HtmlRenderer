@@ -14,9 +14,9 @@
 // "The Art of War"
 
 using System;
-using LayoutFarm.Drawing; 
+using LayoutFarm.Drawing;
 using HtmlRenderer.Css;
-using HtmlRenderer.Boxes; 
+using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer.Boxes
 {
@@ -75,8 +75,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="rectangle">the bounding rectangle to draw in</param>
         /// <returns>Beveled border path, null if there is no rounded corners</returns>
         public static void DrawBorder(CssSide border, PointF[] borderPts, IGraphics g, CssBox box, Brush brush, RectangleF rectangle)
-        {
-
+        {   
             SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
             g.FillPolygon(brush, borderPts);
         }
@@ -149,11 +148,10 @@ namespace HtmlRenderer.Boxes
             CssBorderStyle style;
             GetBorderBorderDrawingInfo(box, borderSide, out style, out borderColor, out actualBorderWidth);
 
-
             IGraphics g = p.Gfx;
             if (box.HasSomeRoundCorner)
             {
-                GraphicsPath borderPath = GetRoundedBorderPath(borderSide, box, rect);
+                GraphicsPath borderPath = GetRoundedBorderPath(p, borderSide, box, rect);
                 if (borderPath != null)
                 {
                     // rounded border need special path 
@@ -270,7 +268,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="b">Box which the border corresponds</param>
         /// <param name="r">the rectangle the border is enclosing</param>
         /// <returns>Beveled border path, null if there is no rounded corners</returns>
-        static GraphicsPath GetRoundedBorderPath(CssSide border, CssBox b, RectangleF r)
+        static GraphicsPath GetRoundedBorderPath(Painter p, CssSide border, CssBox b, RectangleF r)
         {
             GraphicsPath path = null;
 
@@ -279,7 +277,8 @@ namespace HtmlRenderer.Boxes
                 case CssSide.Top:
                     if (b.ActualCornerNW > 0 || b.ActualCornerNE > 0)
                     {
-                        path = CurrentGraphicPlatform.CreateGraphicPath();
+                        path = p.Platform.CreateGraphicPath();
+
                         if (b.ActualCornerNW > 0)
                             path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNW * 2, b.ActualCornerNW * 2, 180f, 90f);
                         else
@@ -294,7 +293,7 @@ namespace HtmlRenderer.Boxes
                 case CssSide.Bottom:
                     if (b.ActualCornerSW > 0 || b.ActualCornerSE > 0)
                     {
-                        path = CurrentGraphicPlatform.CreateGraphicPath();
+                        path = p.Platform.CreateGraphicPath();
                         if (b.ActualCornerSE > 0)
                             path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSE * 2, b.ActualCornerSE * 2, 0f, 90f);
                         else
@@ -309,7 +308,7 @@ namespace HtmlRenderer.Boxes
                 case CssSide.Right:
                     if (b.ActualCornerNE > 0 || b.ActualCornerSE > 0)
                     {
-                        path = CurrentGraphicPlatform.CreateGraphicPath();
+                        path = p.Platform.CreateGraphicPath();
 
                         if (b.ActualCornerNE > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)
                         //(b.BorderTopStyle == CssConstants.None || b.BorderTopStyle == CssConstants.Hidden))
@@ -336,7 +335,7 @@ namespace HtmlRenderer.Boxes
                 case CssSide.Left:
                     if (b.ActualCornerNW > 0 || b.ActualCornerSW > 0)
                     {
-                        path = CurrentGraphicPlatform.CreateGraphicPath();
+                        path = p.Platform.CreateGraphicPath();
 
                         if (b.ActualCornerSW > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)//(b.BorderTopStyle == CssConstants.None || b.BorderTopStyle == CssConstants.Hidden))
                         {
