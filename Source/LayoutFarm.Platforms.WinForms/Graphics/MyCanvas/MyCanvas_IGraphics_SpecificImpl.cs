@@ -25,13 +25,13 @@ namespace LayoutFarm
     partial class MyCanvas
     {
 
-        
+
         //------------------
         Canvas IGraphics.CurrentCanvas
         {
             get { return this; }
         }
-       
+
         /// <summary>
         /// Gets the bounding clipping region of this graphics.
         /// </summary>
@@ -55,6 +55,14 @@ namespace LayoutFarm
                     lprc.X, lprc.Y,
                     lprc.Width, lprc.Height);
             }
+        }
+        void IGraphics.FillRectangle(Color solidColor, float left, float top, float width, float height)
+        {
+            using (Brush bb = this.platform.CreateSolidBrush(solidColor))
+            {
+                this.FillRectangle(bb, left, top, left + width, right + height);
+            }
+
         }
 
         void IGraphics.DrawString(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)
