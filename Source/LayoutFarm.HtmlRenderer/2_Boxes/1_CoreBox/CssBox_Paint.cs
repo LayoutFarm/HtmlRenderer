@@ -260,8 +260,7 @@ namespace HtmlRenderer.Boxes
                     dispose = true;
                 }
                 else if (RenderUtils.IsColorVisible(ActualBackgroundColor))
-                {
-
+                {   
                     brush = RenderUtils.GetSolidBrush(ActualBackgroundColor);
                 }
 

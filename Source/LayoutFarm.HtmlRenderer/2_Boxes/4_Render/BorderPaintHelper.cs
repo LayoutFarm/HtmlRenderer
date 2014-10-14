@@ -74,12 +74,32 @@ namespace HtmlRenderer.Boxes
         /// <param name="brush">the brush to use</param>
         /// <param name="rectangle">the bounding rectangle to draw in</param>
         /// <returns>Beveled border path, null if there is no rounded corners</returns>
-        public static void DrawBorder(CssSide border, PointF[] borderPts, IGraphics g, CssBox box, Brush brush, RectangleF rectangle)
-        {   
+        public static void DrawBorder(
+            CssSide border,
+            PointF[] borderPts,
+            IGraphics g,
+            CssBox box,
+            Brush brush,
+            RectangleF rectangle)
+        {
             SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
             g.FillPolygon(brush, borderPts);
         }
 
+        public static void DrawBorder(
+           CssSide border,
+           PointF[] borderPts,
+           IGraphics g,
+           CssBox box,
+           Color solidColor,
+           RectangleF rectangle)
+        {
+            using (var brush = g.Platform.CreateSolidBrush(solidColor))
+            {
+                SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
+                g.FillPolygon(brush, borderPts);
+            }
+        }
         #region Private methods
 
 
@@ -177,10 +197,8 @@ namespace HtmlRenderer.Boxes
                     case CssBorderStyle.Outset:
                         {
                             // inset/outset border needs special rectangle
-                            PointF[] borderPnts = new PointF[4];
-
-                            SetInOutsetRectanglePoints(borderSide, box, rect, isLineStart, isLineEnd, borderPnts);
-
+                            PointF[] borderPnts = new PointF[4]; 
+                            SetInOutsetRectanglePoints(borderSide, box, rect, isLineStart, isLineEnd, borderPnts); 
                             g.FillPolygon(RenderUtils.GetSolidBrush(borderColor), borderPnts);
                         } break;
                     default:
