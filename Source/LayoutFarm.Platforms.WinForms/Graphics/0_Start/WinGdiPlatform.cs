@@ -16,5 +16,9 @@ namespace LayoutFarm.Drawing
         {
             WinGdi.End();
         }
+        public static GraphicPlatform P
+        {
+            get { return WinGdi.P; }
+        }
     }
 }

@@ -14,11 +14,13 @@ namespace LayoutFarm.UI
         WinTimer graphicTimer1;
 
         TimerTaskCollection timerTasks;
-        
+        GraphicPlatform graphicsPlatform;
 
-        public MyRootGraphic(WinTimer winTimer, int width, int height)
+        public MyRootGraphic(GraphicPlatform graphicsPlatform, WinTimer winTimer, int width, int height)
             : base(width, height)
         {
+            this.graphicsPlatform = graphicsPlatform;
+
             timerTasks = new TimerTaskCollection(this);
             this.graphicTimer1 = winTimer;
 
@@ -32,7 +34,7 @@ namespace LayoutFarm.UI
         }
         public override GraphicPlatform P
         {
-            get { return CurrentGraphicPlatform.P; }
+            get { return graphicsPlatform; }
         }
         public override void ClearRenderRequests(TopWindowRenderBoxBase topwin)
         {
@@ -46,7 +48,7 @@ namespace LayoutFarm.UI
         {
             this.graphicTimer1.Enabled = false;
         }
-        
+
         public override void CaretStartBlink()
         {
             graphicTimer1.Enabled = true;
@@ -78,7 +80,7 @@ namespace LayoutFarm.UI
             }
             if (needForcePaint)
             {
-                TopWindowRenderBox.CurrentTopWindowRenderBox.ForcePaint();                  
+                TopWindowRenderBox.CurrentTopWindowRenderBox.ForcePaint();
             }
             FreeTaskEventArgs(args);
         }

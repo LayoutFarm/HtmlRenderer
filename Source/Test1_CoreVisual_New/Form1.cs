@@ -6,8 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using LayoutFarm;
-using LayoutFarm.Drawing;
+using LayoutFarm; 
 using LayoutFarm.UI;
 
 
@@ -40,7 +39,9 @@ namespace TestGraphicPackage
 
             UISurfaceViewportControl viewport;
             WinTimer wintimer = new MyWinTimer();
-            MyRootGraphic rootgfx = new MyRootGraphic(wintimer, 800, 600);
+            MyRootGraphic rootgfx = new MyRootGraphic(
+                LayoutFarm.Drawing.WinGdiPortal.P, 
+                wintimer, 800, 600);
 
             Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx, new MyUserInputEventBridge(), out viewport);
             viewport.PaintMe();
@@ -59,7 +60,9 @@ namespace TestGraphicPackage
             simpleForm.Controls.Add(viewport);
 
             WinTimer wintimer = new MyWinTimer();
-            MyRootGraphic rootgfx = new MyRootGraphic(wintimer, 800, 600);
+            MyRootGraphic rootgfx = new MyRootGraphic(
+                LayoutFarm.Drawing.WinGdiPortal.P,
+                wintimer, 800, 600);
             viewport.InitRootGraphics(800, 600, new MyUserInputEventBridge(), rootgfx);
             viewport.PaintMe();
 

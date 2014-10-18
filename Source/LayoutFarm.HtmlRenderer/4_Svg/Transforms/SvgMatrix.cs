@@ -15,33 +15,32 @@ namespace Svg.Transforms
     /// </summary>
     public sealed class SvgMatrix : SvgTransform
     {
-        private List<float> points;
-
-        public List<float> Points
-        {
-            get { return this.points; }
-            set { this.points = value; }
-        }
-
+        List<float> points; 
+        Matrix matrix; 
         public override Matrix Matrix
         {
             get
             {
-                Matrix matrix = CurrentGraphicPlatform.P.CreateMatrix(
-                    this.points[0],
-                    this.points[1],
-                    this.points[2],
-                    this.points[3],
-                    this.points[4],
-                    this.points[5]
-                );
+                if (matrix == null)
+                {
+                    matrix = CurrentGraphicPlatform.P.CreateMatrix(
+                       this.points[0],
+                       this.points[1],
+                       this.points[2],
+                       this.points[3],
+                       this.points[4],
+                       this.points[5]
+                    );
+                }                  
                 return matrix;
             }
         }
 
         public override string WriteToString()
         {
-            return string.Format(CultureInfo.InvariantCulture, "matrix({0}, {1}, {2}, {3}, {4}, {5})",
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "matrix({0}, {1}, {2}, {3}, {4}, {5})",
                 this.points[0], this.points[1], this.points[2], this.points[3], this.points[4], this.points[5]);
         }
 
@@ -53,7 +52,7 @@ namespace Svg.Transforms
 
         public override object Clone()
         {
-            return new SvgMatrix(this.Points);
+            return new SvgMatrix(this.points);
         }
 
     }
