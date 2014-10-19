@@ -138,8 +138,7 @@ namespace HtmlRenderer.Boxes
         /// <returns></returns>
         public override string ToString()
         {
-            string txt = this.Text;
-
+            string txt = this.Text; 
             return string.Format("{0} ({1} char{2})", txt.Replace(' ', '-').Replace("\n", "\\n"), txt.Length, txt.Length != 1 ? "s" : string.Empty);
         }
     }
