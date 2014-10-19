@@ -58,6 +58,7 @@ namespace LayoutFarm
         }
         void IGraphics.FillRectangle(Color solidColor, float left, float top, float width, float height)
         {
+            ReleaseHdc();
             using (Brush bb = this.platform.CreateSolidBrush(solidColor))
             {
                 this.FillRectangle(bb, left, top, left + width, right + height);
