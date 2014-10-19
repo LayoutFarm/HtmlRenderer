@@ -260,7 +260,8 @@ namespace HtmlRenderer.Boxes
                     dispose = true;
                 }
                 else if (RenderUtils.IsColorVisible(ActualBackgroundColor))
-                {   
+                {
+
                     brush = RenderUtils.GetSolidBrush(ActualBackgroundColor);
                 }
 
@@ -277,14 +278,8 @@ namespace HtmlRenderer.Boxes
                     GraphicsPath roundrect = null;
                     bool hasSomeRoundCorner = this.HasSomeRoundCorner;
                     if (hasSomeRoundCorner)
-                    {   
-
-                        roundrect = RenderUtils.GetRoundRect(p.Platform ,
-                            rect, 
-                            ActualCornerNW,
-                            ActualCornerNE, 
-                            ActualCornerSE,
-                            ActualCornerSW);
+                    {
+                        roundrect = RenderUtils.GetRoundRect(rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
                     }
 
                     if (!p.AvoidGeometryAntialias && hasSomeRoundCorner)

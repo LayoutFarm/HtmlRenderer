@@ -49,8 +49,6 @@ namespace LayoutFarm.Drawing
         void DrawRectangle(Pen pen, float x, float y, float width, float height);
         void FillRectangle(Brush getSolidBrush, float left, float top, float width, float height);
 
-        void FillRectangle(Color solidColor, float left, float top, float width, float height);
-
         /// <summary>
         /// Draws the specified portion of the specified <see cref="T:System.Drawing.Image"/> at the specified location and with the specified size.
         /// </summary>

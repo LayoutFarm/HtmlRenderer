@@ -25,7 +25,9 @@ namespace HtmlRenderer.Boxes
     /// Layout engine for tables executing the complex layout of tables with rows/columns/headers/etc.
     /// </summary>
     sealed partial class CssTableLayoutEngine
-    {   
+    {
+
+        
         /// <summary>
         /// the main box of the table
         /// </summary>

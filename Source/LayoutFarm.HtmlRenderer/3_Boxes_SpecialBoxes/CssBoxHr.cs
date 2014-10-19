@@ -136,12 +136,7 @@ namespace HtmlRenderer.Boxes
 
             if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
-                g.FillRectangle(
-                    ActualBackgroundColor, 
-                    rect.X,
-                    rect.Y,
-                    rect.Width,
-                    rect.Height);
+                g.FillRectangle(RenderUtils.GetSolidBrush(ActualBackgroundColor), rect.X, rect.Y, rect.Width, rect.Height);
             }
 
             if (rect.Height > 1)

@@ -105,7 +105,8 @@ namespace HtmlRenderer.Boxes
             else
             { 
                 switch (box.CssDisplay)
-                {   
+                {
+
                     case Css.CssDisplay.TableRow:
                         {
 
@@ -116,7 +117,6 @@ namespace HtmlRenderer.Boxes
                                     return true;
                                 }
                             }
-
                         } break;
                     default:
                         {

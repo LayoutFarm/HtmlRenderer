@@ -131,7 +131,15 @@ namespace HtmlRenderer.Boxes
                 }
             }
         }
-       
+        //internal void RequestImage(ImageBinder binder, CssBox requestFrom, ReadyStateChangedHandler handler)
+        //{
+        //    HtmlRenderer.HtmlContainer.RaiseRequestImage(
+        //           this.container,
+        //           binder,
+        //           requestFrom,
+        //           false);
+        //}
+        //=========================================================
 
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
@@ -144,25 +152,26 @@ namespace HtmlRenderer.Boxes
             Color rightColor = box.BorderRightColor;
             Color bottomColor = box.BorderBottomColor;
 
-            IGraphics g = this.Gfx;
+            var g = this.Gfx;
 
-           
-            BorderPaintHelper.DrawBorder(CssSide.Top, borderPoints, g, box, topColor, rect);
+            var b1 = RenderUtils.GetSolidBrush(topColor);
+            BorderPaintHelper.DrawBorder(CssSide.Top, borderPoints, g, box, b1, rect);
 
-             
-            BorderPaintHelper.DrawBorder(CssSide.Left, borderPoints, g, box, leftColor, rect);
+            var b2 = RenderUtils.GetSolidBrush(leftColor);
+            BorderPaintHelper.DrawBorder(CssSide.Left, borderPoints, g, box, b2, rect);
 
-            
-            BorderPaintHelper.DrawBorder(CssSide.Right, borderPoints, g, box, rightColor, rect);
+            var b3 = RenderUtils.GetSolidBrush(rightColor);
+            BorderPaintHelper.DrawBorder(CssSide.Right, borderPoints, g, box, b3, rect);
 
-          
-            BorderPaintHelper.DrawBorder(CssSide.Bottom, borderPoints, g, box, bottomColor, rect);
+            var b4 = RenderUtils.GetSolidBrush(bottomColor);
+            BorderPaintHelper.DrawBorder(CssSide.Bottom, borderPoints, g, box, b4, rect);
 
         }
         internal void PaintBorder(CssBox box, CssSide border, Color solidColor, RectangleF rect)
-        {   
+        {
+            var b = RenderUtils.GetSolidBrush(solidColor);
             PointF[] borderPoints = new PointF[4];
-            BorderPaintHelper.DrawBorder(border, borderPoints, this.Gfx, box, solidColor, rect);
+            BorderPaintHelper.DrawBorder(border, borderPoints, this.Gfx, box, b, rect);
         }
 
 #if DEBUG

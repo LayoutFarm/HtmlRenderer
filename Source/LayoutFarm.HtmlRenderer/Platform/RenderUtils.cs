@@ -24,7 +24,7 @@ namespace LayoutFarm.Drawing
     /// Provides some drawing functionallity
     /// </summary>
     static class RenderUtils
-    {
+    { 
         /// <summary>
         /// cache of brush color to brush instance
         /// </summary>
@@ -144,14 +144,14 @@ namespace LayoutFarm.Drawing
         /// <param name="seRadius">Radius of the south east corner</param>
         /// <param name="swRadius">Radius of the south west corner</param>
         /// <returns>GraphicsPath with the lines of the rounded rectangle ready to be painted</returns>
-        public static GraphicsPath GetRoundRect(GraphicPlatform p, RectangleF rect, float nwRadius, float neRadius, float seRadius, float swRadius)
+        public static GraphicsPath GetRoundRect(RectangleF rect, float nwRadius, float neRadius, float seRadius, float swRadius)
         {
             //  NW-----NE
             //  |       |
             //  |       |
             //  SW-----SE
 
-            var path = p.CreateGraphicPath();
+            var path = CurrentGraphicPlatform.P.CreateGraphicPath();
 
             nwRadius *= 2;
             neRadius *= 2;

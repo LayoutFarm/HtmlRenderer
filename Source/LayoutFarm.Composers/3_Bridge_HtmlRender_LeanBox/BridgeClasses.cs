@@ -133,7 +133,7 @@ namespace LayoutFarm.Boxes
             else
             {
                 //for debug!
-                g.FillRectangle(Color.Red,
+                g.FillRectangle(LayoutFarm.Drawing.Brushes.Red,
                     0, 0, 100, 20);
             }
         }
