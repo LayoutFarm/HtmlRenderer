@@ -148,10 +148,8 @@ namespace HtmlRenderer.WebDom
         {
             if (this.evhMouseDown != null)
             {
-
                 evhMouseDown(e);
             }
-
         }
         protected virtual void OnMouseWheel(UIMouseEventArgs e)
         {

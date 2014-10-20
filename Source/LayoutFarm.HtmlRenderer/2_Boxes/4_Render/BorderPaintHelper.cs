@@ -74,27 +74,15 @@ namespace HtmlRenderer.Boxes
         /// <param name="brush">the brush to use</param>
         /// <param name="rectangle">the bounding rectangle to draw in</param>
         /// <returns>Beveled border path, null if there is no rounded corners</returns>
-        public static void DrawBorder(
-            CssSide border,
-            PointF[] borderPts,
-            IGraphics g,
-            CssBox box,
-            Brush brush,
-            RectangleF rectangle)
+        public static void DrawBorder(CssSide border, PointF[] borderPts, IGraphics g, CssBox box, Brush brush, RectangleF rectangle)
         {
+
             SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
             g.FillPolygon(brush, borderPts);
         }
-
-        public static void DrawBorder(
-           CssSide border,
-           PointF[] borderPts,
-           IGraphics g,
-           CssBox box,
-           Color solidColor,
-           RectangleF rectangle)
+        public static void DrawBorder(CssSide border, PointF[] borderPts, IGraphics g, CssBox box, Color solidColor, RectangleF rectangle)
         {
-            using (var brush = g.Platform.CreateSolidBrush(solidColor))
+            using (SolidBrush brush = g.Platform.CreateSolidBrush(solidColor))
             {
                 SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
                 g.FillPolygon(brush, borderPts);
@@ -168,6 +156,7 @@ namespace HtmlRenderer.Boxes
             CssBorderStyle style;
             GetBorderBorderDrawingInfo(box, borderSide, out style, out borderColor, out actualBorderWidth);
 
+
             IGraphics g = p.Gfx;
             if (box.HasSomeRoundCorner)
             {
@@ -180,7 +169,8 @@ namespace HtmlRenderer.Boxes
                     {
                         g.SmoothingMode = SmoothingMode.AntiAlias;
                     }
-                    var pen = GetPen(style, borderColor, actualBorderWidth);
+
+                    using (var pen = GetPen(p.Platform, style, borderColor, actualBorderWidth))
                     using (borderPath)
                     {
                         g.DrawPath(pen, borderPath);
@@ -197,28 +187,33 @@ namespace HtmlRenderer.Boxes
                     case CssBorderStyle.Outset:
                         {
                             // inset/outset border needs special rectangle
-                            PointF[] borderPnts = new PointF[4]; 
-                            SetInOutsetRectanglePoints(borderSide, box, rect, isLineStart, isLineEnd, borderPnts); 
-                            g.FillPolygon(RenderUtils.GetSolidBrush(borderColor), borderPnts);
+                            PointF[] borderPnts = new PointF[4];
+                            SetInOutsetRectanglePoints(borderSide, box, rect, isLineStart, isLineEnd, borderPnts);
+                            using (var brush = p.Platform.CreateSolidBrush(borderColor))
+                            {
+                                g.FillPolygon(brush, borderPnts);
+                            }
                         } break;
                     default:
                         {
                             // solid/dotted/dashed border draw as simple line
-                            var pen = GetPen(style, borderColor, actualBorderWidth);
-                            switch (borderSide)
+                            using (var pen = GetPen(p.Platform, style, borderColor, actualBorderWidth))
                             {
-                                case CssSide.Top:
-                                    g.DrawLine(pen, (float)Math.Ceiling(rect.Left), rect.Top + box.ActualBorderTopWidth / 2, rect.Right - 1, rect.Top + box.ActualBorderTopWidth / 2);
-                                    break;
-                                case CssSide.Left:
-                                    g.DrawLine(pen, rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Ceiling(rect.Top), rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Floor(rect.Bottom));
-                                    break;
-                                case CssSide.Bottom:
-                                    g.DrawLine(pen, (float)Math.Ceiling(rect.Left), rect.Bottom - box.ActualBorderBottomWidth / 2, rect.Right - 1, rect.Bottom - box.ActualBorderBottomWidth / 2);
-                                    break;
-                                case CssSide.Right:
-                                    g.DrawLine(pen, rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Ceiling(rect.Top), rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Floor(rect.Bottom));
-                                    break;
+                                switch (borderSide)
+                                {
+                                    case CssSide.Top:
+                                        g.DrawLine(pen, (float)Math.Ceiling(rect.Left), rect.Top + box.ActualBorderTopWidth / 2, rect.Right - 1, rect.Top + box.ActualBorderTopWidth / 2);
+                                        break;
+                                    case CssSide.Left:
+                                        g.DrawLine(pen, rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Ceiling(rect.Top), rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Floor(rect.Bottom));
+                                        break;
+                                    case CssSide.Bottom:
+                                        g.DrawLine(pen, (float)Math.Ceiling(rect.Left), rect.Bottom - box.ActualBorderBottomWidth / 2, rect.Right - 1, rect.Bottom - box.ActualBorderBottomWidth / 2);
+                                        break;
+                                    case CssSide.Right:
+                                        g.DrawLine(pen, rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Ceiling(rect.Top), rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Floor(rect.Bottom));
+                                        break;
+                                }
                             }
 
                         } break;
@@ -296,7 +291,6 @@ namespace HtmlRenderer.Boxes
                     if (b.ActualCornerNW > 0 || b.ActualCornerNE > 0)
                     {
                         path = p.Platform.CreateGraphicPath();
-
                         if (b.ActualCornerNW > 0)
                             path.AddArc(r.Left + b.ActualBorderLeftWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNW * 2, b.ActualCornerNW * 2, 180f, 90f);
                         else
@@ -311,7 +305,7 @@ namespace HtmlRenderer.Boxes
                 case CssSide.Bottom:
                     if (b.ActualCornerSW > 0 || b.ActualCornerSE > 0)
                     {
-                        path = p.Platform.CreateGraphicPath();
+                        path = CurrentGraphicPlatform.CreateGraphicPath();
                         if (b.ActualCornerSE > 0)
                             path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSE * 2, b.ActualCornerSE * 2, 0f, 90f);
                         else
@@ -326,7 +320,7 @@ namespace HtmlRenderer.Boxes
                 case CssSide.Right:
                     if (b.ActualCornerNE > 0 || b.ActualCornerSE > 0)
                     {
-                        path = p.Platform.CreateGraphicPath();
+                        path = CurrentGraphicPlatform.CreateGraphicPath();
 
                         if (b.ActualCornerNE > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)
                         //(b.BorderTopStyle == CssConstants.None || b.BorderTopStyle == CssConstants.Hidden))
@@ -353,7 +347,7 @@ namespace HtmlRenderer.Boxes
                 case CssSide.Left:
                     if (b.ActualCornerNW > 0 || b.ActualCornerSW > 0)
                     {
-                        path = p.Platform.CreateGraphicPath();
+                        path = CurrentGraphicPlatform.CreateGraphicPath();
 
                         if (b.ActualCornerSW > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)//(b.BorderTopStyle == CssConstants.None || b.BorderTopStyle == CssConstants.Hidden))
                         {
@@ -383,9 +377,10 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Get pen to be used for border draw respecting its style.
         /// </summary>
-        static Pen GetPen(CssBorderStyle style, Color color, float width)
+        static Pen GetPen(GraphicPlatform platform, CssBorderStyle style, Color color, float width)
         {
-            var p = RenderUtils.GetPen(color);
+
+            var p = platform.CreateSolidPen(color);
             p.Width = width;
             switch (style)
             {

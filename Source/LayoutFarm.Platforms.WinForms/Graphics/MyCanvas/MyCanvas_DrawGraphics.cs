@@ -469,7 +469,14 @@ namespace LayoutFarm
             ReleaseHdc();
             gx.FillRectangle((System.Drawing.Brush)getSolidBrush.InnerBrush, left, top, width, height);
         }
-
+        public void FillRectangle(Color solidColor, float left, float top, float width, float height)
+        {
+            ReleaseHdc();
+            using (SolidBrush b = this.platform.CreateSolidBrush(solidColor))
+            {
+                gx.FillRectangle((System.Drawing.Brush)b.InnerBrush, left, top, width, height);
+            }
+        }
         /// <summary>
         /// Draws the specified portion of the specified <see cref="T:System.Drawing.Image"/> at the specified location and with the specified size.
         /// </summary>

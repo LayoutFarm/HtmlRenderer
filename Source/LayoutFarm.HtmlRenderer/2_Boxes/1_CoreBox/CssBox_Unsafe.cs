@@ -93,7 +93,7 @@ namespace HtmlRenderer.Boxes
                     return "!a " + " " + this.CssDisplay + " c=" + this.ChildCount;
                 }
             }
-           
+            return base.ToString();
         }
 #endif
     }

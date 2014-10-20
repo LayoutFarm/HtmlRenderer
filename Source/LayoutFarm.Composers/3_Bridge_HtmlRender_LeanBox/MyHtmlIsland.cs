@@ -11,23 +11,21 @@ using HtmlRenderer.Diagnostics;
 
 using HtmlRenderer.Boxes;
 using LayoutFarm.UI;
+
 namespace HtmlRenderer.Composers
 {
     public class HtmlResourceRequestEventArgs : EventArgs
     {
         public ImageBinder binder;
         public object requestBy;
-        public  IUpdateStateChangedListener updateChangeListener;
+        public IUpdateStateChangedListener updateChangeListener;
     }
 
-    public class MyHtmlIsland : HtmlIsland,  IUpdateStateChangedListener
+    public class MyHtmlIsland : HtmlIsland, IUpdateStateChangedListener
     {
 
         WebDocument doc;
         CssActiveSheet activeCssSheet;
-
-
-        bool isRootCreated;
 
         /// <summary>
         /// Raised when an error occurred during html rendering.<br/>
@@ -39,9 +37,10 @@ namespace HtmlRenderer.Composers
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
         public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
         public event EventHandler<EventArgs> NeedUpdateDom;
+        List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>();
 
 
-        List<LayoutFarm.Drawing.ImageBinder> requestImageBinderUpdates = new List<LayoutFarm.Drawing.ImageBinder>();
+
         //----------------------------------------------------------- 
         public MyHtmlIsland()
         {
@@ -57,7 +56,7 @@ namespace HtmlRenderer.Composers
         public void InternalRefreshRequest()
         {
             if (requestImageBinderUpdates.Count > 0)
-            { 
+            {
                 requestImageBinderUpdates.Clear();
                 this.RequestRefresh(false);
 #if DEBUG
@@ -66,7 +65,7 @@ namespace HtmlRenderer.Composers
 #endif
             }
         }
-         
+
         public override void AddRequestImageBinderUpdate(ImageBinder binder)
         {
             this.requestImageBinderUpdates.Add(binder);
@@ -77,7 +76,7 @@ namespace HtmlRenderer.Composers
             {
                 this.Refresh(this, new HtmlRefreshEventArgs(layout));
             }
-             
+
 
         }
         protected override void OnRequestImage(ImageBinder binder, CssBox requestBox, bool _sync)
@@ -92,9 +91,9 @@ namespace HtmlRenderer.Composers
                     resReq.binder = binder;
                     resReq.requestBy = requestBox;
                     resReq.updateChangeListener = this;
-                    RequestResource(this, resReq); 
+                    RequestResource(this, resReq);
                 }
-                 
+
             }
         }
 
@@ -108,12 +107,12 @@ namespace HtmlRenderer.Composers
             base.SetRootCssBox(rootBox);
         }
         public void CheckDocUpdate()
-        {   
+        {
             if (doc != null &&
                 doc.DocumentState == DocumentState.ChangedAfterIdle &&
                 NeedUpdateDom != null)
-            { 
-                NeedUpdateDom(this, EventArgs.Empty); 
+            {
+                NeedUpdateDom(this, EventArgs.Empty);
             }
         }
         public void PerformPaint(LayoutFarm.Drawing.Canvas canvas)
@@ -121,55 +120,15 @@ namespace HtmlRenderer.Composers
             if (doc == null) return;
             base.PerformPaint(canvas.GetIGraphics());
         }
-
-
-        //void PerformPaint(System.Drawing.Graphics g)
-        //{
-        //    if (doc == null)
-        //    {
-        //        return;
-        //    }
-
-        //    using (var gfx = CurrentGraphicPlatform.P.CreateIGraphics(g))
-        //    {
-        //        System.Drawing.Region prevClip = null;
-        //        if (this.MaxSize.Height > 0)
-        //        {
-        //            prevClip = g.Clip;
-        //            g.SetClip(new System.Drawing.RectangleF(
-        //                this.Location.ToPointF(),
-        //                Conv.ToSizeF(this.MaxSize)));
-        //        }
-
-        //        if (doc.DocumentState == DocumentState.ChangedAfterIdle)
-        //        {
-
-        //            WinHtmlRootVisualBoxExtension.RefreshHtmlDomChange(
-        //                this,
-        //                doc,
-        //                this.activeCssSheet);
-
-        //            this.PerformLayout(gfx);
-        //        }
-
-        //        base.PerformPaint(gfx);
-
-        //        if (prevClip != null)
-        //        {
-        //            g.SetClip(prevClip, System.Drawing.Drawing2D.CombineMode.Replace);
-        //        }
-        //    }
-        //}
-
         protected override void OnRootDisposed()
         {
 
-            this.isRootCreated = false;
+
             base.OnRootDisposed();
         }
         protected override void OnRootCreated(CssBox root)
         {
-            this.isRootCreated = true;
+
             //this._selectionHandler = new SelectionHandler(root, this);
             base.OnRootCreated(root);
         }

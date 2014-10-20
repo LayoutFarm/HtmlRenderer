@@ -127,11 +127,9 @@ namespace HtmlRenderer.Demo
         }
         void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
         {
-
             this.imageContentMan.AddRequestImage(
                 new ImageContentRequest(e.binder, null, this.myHtmlIsland));
         }
-
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
         {
             //need updater dom

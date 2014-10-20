@@ -20,7 +20,7 @@ namespace LayoutFarm.Boxes
 
         MyHtmlIsland myHtmlIsland;
         int myWidth;
-        int myHeight;
+        int myHeight; 
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height,
             MyHtmlIsland htmlIsland)
@@ -45,21 +45,26 @@ namespace LayoutFarm.Boxes
         {
             // bridge to another system
             // test only *** 
-
             //hit test in another system ***  
             CssBoxHitChain boxHitChain = new CssBoxHitChain();
-            //_latestMouseDownHitChain = hitChain;
             Point testPoint = hitChain.TestPoint;
             boxHitChain.SetRootGlobalPosition(testPoint.X, testPoint.Y);
-            ////1. prob hit chain only
+            //1. prob hit chain only
             BoxUtils.HitTest(myHtmlIsland.GetRootCssBox(), testPoint.X, testPoint.Y, boxHitChain);
             ///-----------------------------
             //add box hit chain to hit point chain    
             if (boxHitChain.Count > 0)
             {
                 hitChain.AddHitObject(boxHitChain);
-
             }
+
+
+        }
+
+        public HtmlInputEventBridge InputEventBridge
+        {
+            get;
+            set;
         }
     }
 
@@ -133,7 +138,7 @@ namespace LayoutFarm.Boxes
             else
             {
                 //for debug!
-                g.FillRectangle(Color.Red,
+                g.FillRectangle(LayoutFarm.Drawing.Brushes.Red,
                     0, 0, 100, 20);
             }
         }

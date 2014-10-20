@@ -692,12 +692,24 @@ namespace LayoutFarm.UI
                             if (cssbox != null)
                             {
                                 var listener = HtmlRenderer.Boxes.CssBox.UnsafeGetController(cssbox) as IEventListener;
-                                if (listener != null && evaluateListener(new HitInfo(cssbox, hitInfo.localX, hitInfo.localY), listener))
+                                if (listener != null &&
+                                    evaluateListener(new HitInfo(cssbox, hitInfo.localX, hitInfo.localY), listener))
                                 {
-                                    return;
+                                    break;
                                 }
                             }
                         }
+                        //--------------------------------------------
+                        //send event to HtmlDocument 
+                        //eg for selection object 
+                        if (i > 0)
+                        {
+                            HitPoint upperHitPoint = hitPointChain.GetHitPoint(i - 1);
+                            RenderElement hitElem2 = upperHitPoint.hitObject as LayoutFarm.Boxes.HtmlRenderBox;
+                            if(
+
+                        }
+                        //--------------------------------------------
                     }
                 }
             }

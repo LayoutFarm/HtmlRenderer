@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
- 
+
 
 namespace HtmlRenderer.Boxes
 {
@@ -14,7 +14,7 @@ namespace HtmlRenderer.Boxes
 
         public void Paint(IGraphics g, Painter p)
         {
-           
+
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
 #endif
@@ -256,12 +256,14 @@ namespace HtmlRenderer.Boxes
                         ActualBackgroundColor,
                         ActualBackgroundGradient,
                         ActualBackgroundGradientAngle);
-
                     dispose = true;
                 }
                 else if (RenderUtils.IsColorVisible(ActualBackgroundColor))
-                {   
-                    brush = RenderUtils.GetSolidBrush(ActualBackgroundColor);
+                {
+                    brush = p.Platform.CreateSolidBrush(ActualBackgroundColor);
+                    dispose = true;
+
+                    //brush = RenderUtils.GetSolidBrush(ActualBackgroundColor);
                 }
 
 
@@ -272,19 +274,12 @@ namespace HtmlRenderer.Boxes
                 {
                     // atodo: handle it correctly (tables background)
                     // if (isLast)
-                    //  rectangle.Width -= ActualWordSpacing + CssUtils.GetWordEndWhitespace(ActualFont);
-
+                    //  rectangle.Width -= ActualWordSpacing + CssUtils.GetWordEndWhitespace(ActualFont); 
                     GraphicsPath roundrect = null;
                     bool hasSomeRoundCorner = this.HasSomeRoundCorner;
                     if (hasSomeRoundCorner)
-                    {   
-
-                        roundrect = RenderUtils.GetRoundRect(p.Platform ,
-                            rect, 
-                            ActualCornerNW,
-                            ActualCornerNE, 
-                            ActualCornerSE,
-                            ActualCornerSW);
+                    {
+                        roundrect = RenderUtils.GetRoundRect(p.Platform, rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
                     }
 
                     if (!p.AvoidGeometryAntialias && hasSomeRoundCorner)
@@ -363,9 +358,13 @@ namespace HtmlRenderer.Boxes
                 x2 -= ActualPaddingRight + ActualBorderRightWidth;
             }
 
-            var pen = RenderUtils.GetPen(ActualColor);
+            using (var pen = g.Platform.CreateSolidPen(ActualColor))
+            {
+                g.DrawLine(pen, x1, y, x2, y);
+            }
+            //var pen = RenderUtils.GetPen(ActualColor);
 
-            g.DrawLine(pen, x1, y, x2, y);
+
         }
 
 
