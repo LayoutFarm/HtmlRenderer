@@ -127,7 +127,7 @@ namespace LayoutFarm.UI
         {
 
             HitTestCoreWithPrevChainHint(e.X, e.Y);
-            ForEachEventListener(this.hitPointChain, (hit, listener) =>
+            ForEachEventListenerBubbleUp(this.hitPointChain, (hit, listener) =>
             {
                 //on double click 
                 return true;
@@ -166,9 +166,7 @@ namespace LayoutFarm.UI
             if (hitCount > 0)
             {
                 DisableGraphicOutputFlush = true;
-
-                //currentMouseActiveElement = hitElement; 
-                ForEachEventListener(this.hitPointChain, (hitobj, listener) =>
+                ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
                 {
                     e.Location = hitobj.Location;
                     e.SourceHitElement = hitobj.hitObject;
@@ -241,7 +239,7 @@ namespace LayoutFarm.UI
             hoverMonitoringTask.SetEnable(true, this.topwin);
             //-------------------------------------------------------
             DisableGraphicOutputFlush = true;
-            ForEachEventListener(this.hitPointChain, (hitobj, listener) =>
+            ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
             {
                 if (currentMouseActiveElement != null && currentMouseActiveElement != listener)
                 {
@@ -270,28 +268,28 @@ namespace LayoutFarm.UI
         void OnMouseHover(object sender, EventArgs e)
         {
             return;
-            HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY);
-            RenderElement hitElement = this.hitPointChain.CurrentHitElement as RenderElement;
-            if (hitElement != null && hitElement.IsTestable)
-            {
-                DisableGraphicOutputFlush = true;
-                Point hitElementGlobalLocation = hitElement.GetGlobalLocation();
+            //HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY);
+            //RenderElement hitElement = this.hitPointChain.CurrentHitElement as RenderElement;
+            //if (hitElement != null && hitElement.IsTestable)
+            //{
+            //    DisableGraphicOutputFlush = true;
+            //    Point hitElementGlobalLocation = hitElement.GetGlobalLocation();
 
-                UIMouseEventArgs e2 = new UIMouseEventArgs();
-                e2.WinTop = this.topwin;
-                e2.Location = hitPointChain.CurrentHitPoint;
-                e2.SourceHitElement = hitElement;
-                IEventListener ui = hitElement.GetController() as IEventListener;
-                if (ui != null)
-                {
-                    ui.ListenMouseEvent(UIMouseEventName.MouseHover, e2);
-                }
+            //    UIMouseEventArgs e2 = new UIMouseEventArgs();
+            //    e2.WinTop = this.topwin;
+            //    e2.Location = hitPointChain.CurrentHitPoint;
+            //    e2.SourceHitElement = hitElement;
+            //    IEventListener ui = hitElement.GetController() as IEventListener;
+            //    if (ui != null)
+            //    {
+            //        ui.ListenMouseEvent(UIMouseEventName.MouseHover, e2);
+            //    }
 
-                DisableGraphicOutputFlush = false;
-                FlushAccumGraphicUpdate();
-            }
-            hitPointChain.SwapHitChain();
-            hoverMonitoringTask.SetEnable(false, this.topwin);
+            //    DisableGraphicOutputFlush = false;
+            //    FlushAccumGraphicUpdate();
+            //}
+            //hitPointChain.SwapHitChain();
+            //hoverMonitoringTask.SetEnable(false, this.topwin);
         }
         public override void OnDragStart(UIDragEventArgs e)
         {
@@ -314,7 +312,7 @@ namespace LayoutFarm.UI
 
             DisableGraphicOutputFlush = true;
             this.currentDragElem = null;
-            ForEachEventListener(this.hitPointChain, (hit, listener) =>
+            ForEachEventListenerBubbleUp(this.hitPointChain, (hit, listener) =>
             {
                 currentDragElem = listener;
                 listener.ListenDragEvent(UIDragEventName.DragStart, e);
@@ -586,7 +584,7 @@ namespace LayoutFarm.UI
 
                 DisableGraphicOutputFlush = true;
                 //---------------------------------------------------------------
-                ForEachEventListener(this.hitPointChain, (hitobj, listener) =>
+                ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
                 {
                     e.Location = hitobj.Location;
                     e.SourceHitElement = hitobj.hitObject;
@@ -663,9 +661,10 @@ namespace LayoutFarm.UI
             }
         }
 
-        static void ForEachEventListener(MyHitChain hitPointChain, SimpleAction evaluateListener)
+     
+        static void ForEachEventListenerBubbleUp(MyHitChain hitPointChain, SimpleAction evaluateListener)
         {
-            //for known element 
+
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
             {
                 HitPoint hitPoint = hitPointChain.GetHitPoint(i);
@@ -682,9 +681,24 @@ namespace LayoutFarm.UI
                 else
                 {
                     var boxChain = hitPoint.hitObject as HtmlRenderer.Boxes.CssBoxHitChain;
+
                     if (boxChain != null)
                     {
-                        //loop
+                        //--------------------------------------------
+                        //send event to HtmlDocument 
+                        //eg for selection object 
+                        if (i > 0)
+                        {
+                            HitPoint upperHitPoint = hitPointChain.GetHitPoint(i - 1);
+                            var htmlRenderBox = upperHitPoint.hitObject as LayoutFarm.Boxes.HtmlRenderBox;
+                            if (htmlRenderBox != null)
+                            {
+
+                            }
+                        }
+                        //--------------------------------------------
+
+                        //loop 
                         for (int n = boxChain.Count - 1; n >= 0; --n)
                         {
                             var hitInfo = boxChain.GetHitInfo(n);
@@ -699,17 +713,7 @@ namespace LayoutFarm.UI
                                 }
                             }
                         }
-                        //--------------------------------------------
-                        //send event to HtmlDocument 
-                        //eg for selection object 
-                        if (i > 0)
-                        {
-                            HitPoint upperHitPoint = hitPointChain.GetHitPoint(i - 1);
-                            RenderElement hitElem2 = upperHitPoint.hitObject as LayoutFarm.Boxes.HtmlRenderBox;
-                            if(
-
-                        }
-                        //--------------------------------------------
+                       
                     }
                 }
             }

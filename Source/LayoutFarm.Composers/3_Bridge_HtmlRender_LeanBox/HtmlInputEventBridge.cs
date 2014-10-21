@@ -21,9 +21,11 @@ namespace HtmlRenderer.Composers
         int _mousedownY;
         bool _isMouseDown;
         //----------------------------------------------- 
-        SelectionRange _currentSelectionRange = null;
+         
         IFonts ifonts;
         bool _isBinded;
+
+
         public HtmlInputEventBridge()
         {
 
@@ -35,7 +37,6 @@ namespace HtmlRenderer.Composers
             {
                 this._htmlIsland = htmlIsland;
             }
-
             _isBinded = true;
         }
         public void Unbind()
@@ -62,7 +63,8 @@ namespace HtmlRenderer.Composers
 
             if (_latestMouseDownHitChain != null)
             {
-                ReleaseHitChain(_latestMouseDownHitChain);
+                //ReleaseHitChain(_latestMouseDownHitChain);
+                _latestMouseDownHitChain.Clear();
                 _latestMouseDownHitChain = null;
             }
             //----------------------------------------------------
@@ -71,7 +73,7 @@ namespace HtmlRenderer.Composers
             _mousedownY = y;
             this._isMouseDown = true;
 
-            CssBoxHitChain hitChain = GetFreeHitChain();
+            CssBoxHitChain hitChain = new CssBoxHitChain();
             _latestMouseDownHitChain = hitChain;
             hitChain.SetRootGlobalPosition(x, y);
             //1. prob hit chain only
@@ -102,24 +104,24 @@ namespace HtmlRenderer.Composers
                 if (this._mousedownX != x || this._mousedownY != y)
                 {
                     //handle mouse drag
-                    CssBoxHitChain hitChain = GetFreeHitChain();
-
+                    CssBoxHitChain hitChain = new CssBoxHitChain();
                     hitChain.SetRootGlobalPosition(x, y);
                     BoxUtils.HitTest(rootbox, x, y, hitChain);
+
+
                     ClearPreviousSelection();
                     if (hitChain.Count > 0)
-                    {
-                        _currentSelectionRange = new SelectionRange(
+                    {   
+                        this._htmlIsland.SetSelection(new SelectionRange(
                             _latestMouseDownHitChain,
                             hitChain,
-                            this.ifonts);
-
+                            this.ifonts));
                     }
                     else
                     {
-                        _currentSelectionRange = null;
+                        this._htmlIsland.SetSelection(null); 
                     }
-                    ReleaseHitChain(hitChain);
+                    hitChain.Clear(); 
                 }
             }
             else
@@ -141,7 +143,7 @@ namespace HtmlRenderer.Composers
             }
             //-----------------------------------------
 
-            CssBoxHitChain hitChain = GetFreeHitChain();
+            CssBoxHitChain hitChain = new CssBoxHitChain();
             hitChain.SetRootGlobalPosition(x, y);
             //1. prob hit chain only
 
@@ -150,10 +152,12 @@ namespace HtmlRenderer.Composers
             //2. invoke css event and script event 
             var hitInfo = hitChain.GetLastHit();
 
-            ReleaseHitChain(hitChain);
+            //ReleaseHitChain(hitChain);
+            hitChain.Clear();
             if (_latestMouseDownHitChain != null)
             {
-                ReleaseHitChain(_latestMouseDownHitChain);
+                //ReleaseHitChain(_latestMouseDownHitChain);
+                _latestMouseDownHitChain.Clear();
                 _latestMouseDownHitChain = null;
             }
 
@@ -170,12 +174,8 @@ namespace HtmlRenderer.Composers
         }
         void ClearPreviousSelection()
         {
-            //TODO: check mouse botton
-            if (_currentSelectionRange != null)
-            {
-                _currentSelectionRange.ClearSelectionStatus();
-                _currentSelectionRange = null;
-            }
+            this._htmlIsland.ClearPreviousSelection();
+
         }
         public void KeyDown(char keyChar)
         {
@@ -189,24 +189,24 @@ namespace HtmlRenderer.Composers
         //-----------------------------------
 
 
-        Queue<CssBoxHitChain> hitChainPools = new Queue<CssBoxHitChain>();
-        CssBoxHitChain GetFreeHitChain()
-        {
+        //Queue<CssBoxHitChain> hitChainPools = new Queue<CssBoxHitChain>();
+        //CssBoxHitChain GetFreeHitChain()
+        //{
 
-            if (hitChainPools.Count == 0)
-            {
-                return new CssBoxHitChain();
-            }
-            else
-            {
-                return hitChainPools.Dequeue();
-            }
-        }
-        void ReleaseHitChain(CssBoxHitChain hitChain)
-        {
-            hitChain.Clear();
-            hitChainPools.Enqueue(hitChain);
-        }
+        //    if (hitChainPools.Count == 0)
+        //    {
+        //        return new CssBoxHitChain();
+        //    }
+        //    else
+        //    {
+        //        return hitChainPools.Dequeue();
+        //    }
+        //}
+        //void ReleaseHitChain(CssBoxHitChain hitChain)
+        //{
+        //    hitChain.Clear();
+        //    hitChainPools.Enqueue(hitChain);
+        //}
 
         //-----------------------------------
         static void PropagateEventOnCapturingPhase(CssBoxHitChain hitChain, UIEventArgs eventArgs)

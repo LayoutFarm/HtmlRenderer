@@ -55,7 +55,8 @@ namespace LayoutFarm.Boxes
             //add box hit chain to hit point chain    
             if (boxHitChain.Count > 0)
             {
-                hitChain.AddHitObject(boxHitChain);
+                hitChain.AddHitObject(boxHitChain); 
+
             }
 
 
