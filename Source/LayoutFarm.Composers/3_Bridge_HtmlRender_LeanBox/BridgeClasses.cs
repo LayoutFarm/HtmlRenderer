@@ -42,26 +42,8 @@ namespace LayoutFarm.Boxes
             myHtmlIsland.PerformPaint(canvasPage);
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
-        {
-            // bridge to another system
-            // test only *** 
-            //hit test in another system ***  
-            CssBoxHitChain boxHitChain = new CssBoxHitChain();
-            Point testPoint = hitChain.TestPoint;
-            boxHitChain.SetRootGlobalPosition(testPoint.X, testPoint.Y);
-            //1. prob hit chain only
-            BoxUtils.HitTest(myHtmlIsland.GetRootCssBox(), testPoint.X, testPoint.Y, boxHitChain);
-            ///-----------------------------
-            //add box hit chain to hit point chain    
-            if (boxHitChain.Count > 0)
-            {
-                hitChain.AddHitObject(boxHitChain); 
-
-            }
-
-
-        }
-         
+        { 
+        } 
     }
 
 

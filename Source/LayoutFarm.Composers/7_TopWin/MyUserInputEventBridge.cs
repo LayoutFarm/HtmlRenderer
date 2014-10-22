@@ -22,32 +22,38 @@ namespace LayoutFarm.UI
 
         public MyUserInputEventBridge()
         {
-
-
         }
         public override void Bind(TopWindowRenderBox topwin)
         {
             this.topwin = topwin;
             this.hoverMonitoringTask = new UIHoverMonitorTask(this.topwin, OnMouseHover);
+
 #if DEBUG
-            hitPointChain.dbugHitTracker = this.rootGraphic.dbugHitTracker;
+            hitPointChain.dbugHitTracker = this.dbugRootGraphic.dbugHitTracker;
 #endif
         }
 
-        RootGraphic rootGraphic
+#if DEBUG
+        RootGraphic dbugRootGraphic
         {
             get { return topwin.Root; }
         }
+#endif
 
+
+        RootGraphic MyRootGraphic
+        {
+            get { return topwin.Root; }
+        }
         //---------------------------------------------------------------------
         bool DisableGraphicOutputFlush
         {
-            get { return this.rootGraphic.DisableGraphicOutputFlush; }
-            set { this.rootGraphic.DisableGraphicOutputFlush = value; }
+            get { return this.MyRootGraphic.DisableGraphicOutputFlush; }
+            set { this.MyRootGraphic.DisableGraphicOutputFlush = value; }
         }
         void FlushAccumGraphicUpdate()
         {
-            this.rootGraphic.FlushAccumGraphicUpdate(this.topwin);
+            this.MyRootGraphic.FlushAccumGraphicUpdate(this.topwin);
         }
 
         public IEventListener CurrentKeyboardFocusedElement
@@ -62,7 +68,6 @@ namespace LayoutFarm.UI
                 //1. lost keyboard focus
                 if (this.currentKbFocusElem != null && this.currentKbFocusElem != value)
                 {
-
 
                 }
                 //2. keyboard focus
@@ -149,11 +154,11 @@ namespace LayoutFarm.UI
         {
 
 #if DEBUG
-            if (this.rootGraphic.dbugEnableGraphicInvalidateTrace)
+            if (this.dbugRootGraphic.dbugEnableGraphicInvalidateTrace)
             {
-                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
-                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("MOUSEDOWN");
-                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("MOUSEDOWN");
+                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
 #endif
             msgChainVersion = 1;
@@ -168,31 +173,48 @@ namespace LayoutFarm.UI
                 DisableGraphicOutputFlush = true;
                 //------------------------------
                 //1. for some built-in event
-                e.IsTunnelPhase = true;
+                e.IsPreview = true;
                 ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
                 {
 
-                    return false;
+                    e.CurrentContextElement = listener;
+                    listener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
+
+                    var curContextElement = e.CurrentContextElement as IEventListener;
+                    if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
+                    {
+                        this.CurrentKeyboardFocusedElement = curContextElement;
+                    }
+
+
+                    return true;
                 });
                 //------------------------------
                 //use events
-                e.IsTunnelPhase = false;
-                ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
+                if (!e.CancelBubbling)
                 {
-                    e.Location = hitobj.Location;
-                    e.SourceHitElement = hitobj.hitObject;
-                    listener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
-                    if (listener.AcceptKeyboardFocus)
+                    e.IsPreview = false;
+                    ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
                     {
-                        this.CurrentKeyboardFocusedElement = listener;
-                    }
-                    return true;
-                });
+                        e.Location = hitobj.Location;
+                        e.SourceHitElement = hitobj.hitObject;
+                        e.CurrentContextElement = listener;
+
+                        listener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
+
+                        var curContextElement = e.CurrentContextElement as IEventListener;
+                        if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
+                        {
+                            this.CurrentKeyboardFocusedElement = curContextElement;
+                        }
+                        return true;
+                    });
+                }
             }
             //---------------------------------------------------------------
 
 #if DEBUG
-            RootGraphic visualroot = this.rootGraphic;
+            RootGraphic visualroot = this.dbugRootGraphic;
             if (visualroot.dbug_RecordHitChain)
             {
                 visualroot.dbug_rootHitChainMsg.Clear();
@@ -251,13 +273,13 @@ namespace LayoutFarm.UI
             hoverMonitoringTask.SetEnable(true, this.topwin);
             //-------------------------------------------------------
             DisableGraphicOutputFlush = true;
-            e.IsTunnelPhase = true;
+            e.IsPreview = true;
             ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
             {
                 return false;
             });
             //-------------------------------------------------------
-            e.IsTunnelPhase = false;
+            e.IsPreview = false;
             ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
             {
                 if (currentMouseActiveElement != null && currentMouseActiveElement != listener)
@@ -314,11 +336,11 @@ namespace LayoutFarm.UI
         {
 
 #if DEBUG
-            if (this.rootGraphic.dbugEnableGraphicInvalidateTrace)
+            if (this.dbugRootGraphic.dbugEnableGraphicInvalidateTrace)
             {
-                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
-                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("START_DRAG");
-                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("START_DRAG");
+                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
 #endif
 
@@ -330,7 +352,7 @@ namespace LayoutFarm.UI
             this.currentDragElem = null;
 
             //-----------------------------------------------------------------------
-            e.IsTunnelPhase = true;
+            e.IsPreview = true;
             ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
             {
                 listener.ListenDragEvent(UIDragEventName.DragStart, e);
@@ -338,7 +360,7 @@ namespace LayoutFarm.UI
             });
 
             //-----------------------------------------------------------------------
-            e.IsTunnelPhase = false;
+            e.IsPreview = false;
             ForEachEventListenerBubbleUp(this.hitPointChain, (hit, listener) =>
             {
                 currentDragElem = listener;
@@ -381,7 +403,7 @@ namespace LayoutFarm.UI
             }
 
 #if DEBUG
-            this.rootGraphic.dbugEventIsDragging = true;
+            this.dbugRootGraphic.dbugEventIsDragging = true;
 #endif
 
             //if (currentDragingElement == null)
@@ -514,7 +536,7 @@ namespace LayoutFarm.UI
                 return;
             }
 #if DEBUG
-            this.rootGraphic.dbugEventIsDragging = false;
+            this.dbugRootGraphic.dbugEventIsDragging = false;
 #endif
 
             DisableGraphicOutputFlush = true;
@@ -596,36 +618,49 @@ namespace LayoutFarm.UI
 
 #if DEBUG
 
-            if (this.rootGraphic.dbugEnableGraphicInvalidateTrace)
+            if (this.dbugRootGraphic.dbugEnableGraphicInvalidateTrace)
             {
-                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
-                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("MOUSEUP");
-                this.rootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("MOUSEUP");
+                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
 #endif
 
             HitTestCoreWithPrevChainHint(e.X, e.Y);
+
             int hitCount = this.hitPointChain.Count;
             if (hitCount > 0)
             {
 
                 DisableGraphicOutputFlush = true;
                 //---------------------------------------------------------------
-                e.IsTunnelPhase = true;
+                e.IsPreview = true;
                 ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
                 {
-                    return false;
+                    e.CurrentContextElement = listener;
+                    listener.ListenMouseEvent(UIMouseEventName.MouseUp, e);
+
+                    var curContextElement = e.CurrentContextElement as IEventListener;
+                    if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
+                    {
+                        this.CurrentKeyboardFocusedElement = curContextElement;
+                    }
+                    return true;
                 });
                 //---------------------------------------------------------------
-                e.IsTunnelPhase = false;
+                e.IsPreview = false;
                 ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
                 {
                     e.Location = hitobj.Location;
                     e.SourceHitElement = hitobj.hitObject;
+                    e.CurrentContextElement = hitobj.hitObject;
+
                     listener.ListenMouseEvent(UIMouseEventName.MouseUp, e);
-                    if (listener.AcceptKeyboardFocus)
+
+                    var curContextElement = e.CurrentContextElement as IEventListener;
+                    if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
                     {
-                        this.CurrentKeyboardFocusedElement = listener;
+                        this.CurrentKeyboardFocusedElement = curContextElement;
                     }
                     return true;
                 });
@@ -638,8 +673,6 @@ namespace LayoutFarm.UI
         }
         public override void OnKeyDown(UIKeyEventArgs e)
         {
-            var visualroot = this.rootGraphic;
-
             if (currentKbFocusElem != null)
             {
                 e.SourceHitElement = currentKbFocusElem;
@@ -648,8 +681,6 @@ namespace LayoutFarm.UI
         }
         public override void OnKeyUp(UIKeyEventArgs e)
         {
-
-
             if (currentKbFocusElem != null)
             {
                 e.SourceHitElement = currentKbFocusElem;
@@ -698,7 +729,6 @@ namespace LayoutFarm.UI
         static void ForEachEventListenerPreviewBubbleUp(MyHitChain hitPointChain, EventListenerAction evaluateListener)
         {
             //only listener that need tunnel down 
-             
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
             {
                 HitPoint hitPoint = hitPointChain.GetHitPoint(i);
@@ -715,7 +745,6 @@ namespace LayoutFarm.UI
                 else
                 {
                     var boxChain = hitPoint.hitObject as HtmlRenderer.Boxes.CssBoxHitChain;
-
                     if (boxChain != null)
                     {
                         //loop 

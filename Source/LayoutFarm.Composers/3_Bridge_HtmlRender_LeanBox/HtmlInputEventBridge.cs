@@ -174,13 +174,10 @@ namespace HtmlRenderer.Composers
         void ClearPreviousSelection()
         {
             this._htmlIsland.ClearPreviousSelection();
-
         }
         public void KeyDown(char keyChar)
         {
             //send focus to current input element
-
-
         }
         public void KeyUp()
         {

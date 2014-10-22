@@ -8,6 +8,7 @@ using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Boxes;
 using HtmlRenderer.Composers;
 
+using LayoutFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.Boxes;
 
@@ -30,6 +31,7 @@ namespace LayoutFarm.SampleControls
         System.Timers.Timer tim = new System.Timers.Timer();
         bool hasWaitingDocToLoad;
         HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
+        CssBoxHitChain _latestMouseDownHitChain = null;
 
         static UIHtmlBox()
         {
@@ -41,6 +43,7 @@ namespace LayoutFarm.SampleControls
         {
             this._width = width;
             this._height = height;
+
             this.UINeedPreviewPhase = true;
             myHtmlIsland = new MyHtmlIsland();
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
@@ -51,7 +54,93 @@ namespace LayoutFarm.SampleControls
             tim.Interval = 30;
             tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
         }
+        void ClearPreviousSelection()
+        {
+            if (_latestMouseDownHitChain != null)
+            {
+                _latestMouseDownHitChain.Clear();
+                _latestMouseDownHitChain = null;
+            }
+        }
+        protected override void OnMouseDown(UIMouseEventArgs e)
+        {
+            if (e.IsPreview)
+            {
 
+                //// bridge to another system
+                //// test only *** 
+                ////hit test in another system ***  
+                CssBoxHitChain boxHitChain = new CssBoxHitChain();
+
+                Point testPoint = new Point(e.X, e.Y);//testpoint
+                boxHitChain.SetRootGlobalPosition(testPoint.X, testPoint.Y);
+                //1. prob hit chain only
+                BoxUtils.HitTest(myHtmlIsland.GetRootCssBox(), testPoint.X, testPoint.Y, boxHitChain);
+                //-------------------------------------
+                //add box hit chain to hit point chain
+
+                ClearPreviousSelection(); 
+                if (boxHitChain.Count > 0)
+                {
+                    if (boxHitChain != null)
+                    {
+                        //loop 
+                        for (int n = boxHitChain.Count - 1; n >= 0; --n)
+                        {
+                            var hitInfo = boxHitChain.GetHitInfo(n);
+                            var cssbox = hitInfo.hitObject as HtmlRenderer.Boxes.CssBox;
+                            if (cssbox != null)
+                            {
+                                var listener = HtmlRenderer.Boxes.CssBox.UnsafeGetController(cssbox) as IEventListener;
+                                if (listener != null)
+                                {
+                                    e.CurrentContextElement = listener;
+                                    listener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
+                                    if (e.CancelBubbling)
+                                    {
+                                        return;
+                                    }
+                                }
+                                //if (listener != null && 
+                                //    listener.NeedPreviewBubbleUp &&
+                                //    evaluateListener(new HitInfo(cssbox, hitInfo.localX, hitInfo.localY), listener))
+                                //{
+                                //    return;
+                                //}
+                            }
+                        }
+
+                    }
+
+
+                }
+                //-----------------------------
+               
+            }
+            base.OnMouseDown(e);
+        }
+        protected override void OnDragStart(UIDragEventArgs e)
+        {
+            if (e.IsPreview)
+            {
+                ClearPreviousSelection();
+                //create new selection***
+
+            }
+            base.OnDragStart(e);
+        }
+        protected override void OnDragging(UIDragEventArgs e)
+        {
+
+
+            base.OnDragging(e);
+        }
+        protected override void OnDragStop(UIDragEventArgs e)
+        {
+
+
+            base.OnDragStop(e);
+        }
         void tim_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             if (this.myHtmlIsland != null)

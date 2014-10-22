@@ -47,7 +47,7 @@ namespace LayoutFarm.UI
             get;
             set;
         }
-        public object CurentContextElement
+        public object CurrentContextElement
         {
             get;
             set;
@@ -66,7 +66,7 @@ namespace LayoutFarm.UI
             get { return this.Control; }
 
         }
-        public bool IsTunnelPhase
+        public bool IsPreview
         {
             get;
             set;
