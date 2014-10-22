@@ -8,8 +8,14 @@ namespace LayoutFarm.UI
     public abstract partial class UIElement : IEventListener
     {
         int oneBitNativeEventFlags;
+        bool needTunnelPhase;
         public UIElement()
         {
+        }
+        protected bool UINeedPreviewPhase
+        {
+            get { return this.needTunnelPhase; }
+            set { this.needTunnelPhase = value; }
         }
         protected void RegisterNativeEvent(int eventFlags)
         {

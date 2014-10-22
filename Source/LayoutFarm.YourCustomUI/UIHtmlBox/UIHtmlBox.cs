@@ -17,13 +17,12 @@ namespace LayoutFarm.SampleControls
     public class UIHtmlBox : UIElement
     {
         RootGraphic rootgfx;
-
         HtmlRenderBox myCssBoxWrapper;
-        int _width, _height;
+        int _width;
+        int _height;
         MyHtmlIsland myHtmlIsland;
 
         HtmlRenderer.WebDom.WebDocument currentdoc;
-        HtmlRenderer.Composers.HtmlInputEventBridge _htmlEventBridge;
 
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
         public event EventHandler<ImageRequestEventArgs> RequestImage;
@@ -42,7 +41,7 @@ namespace LayoutFarm.SampleControls
         {
             this._width = width;
             this._height = height;
-
+            this.UINeedPreviewPhase = true;
             myHtmlIsland = new MyHtmlIsland();
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.Refresh += OnRefresh;
@@ -101,7 +100,7 @@ namespace LayoutFarm.SampleControls
         void OnRefresh(object sender, HtmlRenderer.WebDom.HtmlRefreshEventArgs e)
         {
             this.InvalidateGraphic();
-        }        
+        }
         //protected override void OnMouseDown(UIMouseEventArgs e)
         //{
         //    //mouse down on html box
@@ -142,14 +141,9 @@ namespace LayoutFarm.SampleControls
             if (myCssBoxWrapper == null)
             {
                 this.rootgfx = rootgfx;
-                _htmlEventBridge = new HtmlInputEventBridge();
-                _htmlEventBridge.Bind(myHtmlIsland, rootgfx.SampleIFonts);
-
                 myCssBoxWrapper = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
-                myCssBoxWrapper.InputEventBridge = _htmlEventBridge;
                 myCssBoxWrapper.SetController(this);
                 myCssBoxWrapper.HasSpecificSize = true;
-
             }
 
             if (this.hasWaitingDocToLoad)

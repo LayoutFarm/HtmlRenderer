@@ -84,6 +84,7 @@
       <DependentUpon>DemoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="HtmlDomExtension\HtmlDomExtension.cs" />
+    <Compile Include="HtmlRenderer.WinFormControls\HtmlInputEventBridge.cs" />
     <Compile Include="HtmlRenderer.WinFormControls\HtmlScrollEventArgs.cs" />
     <Compile Include="HtmlRenderer.WinFormControls\HtmlPanel.cs">
       <SubType>Component</SubType>

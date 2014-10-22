@@ -66,7 +66,11 @@ namespace LayoutFarm.UI
             get { return this.Control; }
 
         }
-
+        public bool IsTunnelPhase
+        {
+            get;
+            set;
+        }
         public bool Shift
         {
             get;

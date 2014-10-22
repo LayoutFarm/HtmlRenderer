@@ -38,6 +38,7 @@ namespace LayoutFarm.UI
     }
     public interface IEventListener
     {
+        //--------------------------------------------------------------------------
         void ListenKeyPressEvent(UIKeyPressEventArgs args);
         void ListenKeyEvent(UIKeyEventName keyEventName, UIKeyEventArgs e);
         bool ListenProcessDialogKey(UIKeyEventArgs args);
@@ -45,8 +46,11 @@ namespace LayoutFarm.UI
         void ListenDragEvent(UIDragEventName dragEventName, UIDragEventArgs e);
         void ListenFocusEvent(UIFocusEventName focusEventName, UIFocusEventArgs e);
 
+        
+        //--------------------------------------------------------------------------
         bool AcceptKeyboardFocus { get; }
+        bool NeedPreviewBubbleUp { get; }
     }
 
-
+     
 }

@@ -1,12 +1,17 @@
 ﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing; 
+using LayoutFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
     partial class UIElement
     {
+        bool IEventListener.NeedPreviewBubbleUp
+        {
+            get { return this.UINeedPreviewPhase; }
+        }
+      
 
         void IEventListener.ListenKeyPressEvent(UIKeyPressEventArgs args)
         {
@@ -78,6 +83,7 @@ namespace LayoutFarm.UI
                     } break;
             }
         }
+     
 
         void IEventListener.ListenFocusEvent(UIFocusEventName evName, UIFocusEventArgs e)
         {
@@ -85,7 +91,7 @@ namespace LayoutFarm.UI
             {
                 case UIFocusEventName.Focus:
                     {
-                         
+
                         OnGotFocus(e);
                     } break;
                 case UIFocusEventName.LossingFocus:
@@ -94,6 +100,6 @@ namespace LayoutFarm.UI
                     } break;
             }
         }
-        
+
     }
 }

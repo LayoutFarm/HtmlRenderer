@@ -12,7 +12,7 @@ namespace HtmlRenderer.WebDom
 
     partial class DomElement : IEventListener
     {
-
+        bool IEventListener.NeedPreviewBubbleUp { get { return false; } }
         void IEventListener.ListenKeyPressEvent(UIKeyPressEventArgs args)
         {
             OnKeyPress(args);

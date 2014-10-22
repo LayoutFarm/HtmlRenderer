@@ -19,12 +19,9 @@ namespace HtmlRenderer.Composers
         CssBoxHitChain _latestMouseDownHitChain = null;
         int _mousedownX;
         int _mousedownY;
-        bool _isMouseDown;
-        //----------------------------------------------- 
-         
+        bool _isMouseDown;  
         IFonts ifonts;
-        bool _isBinded;
-
+        bool _isBinded; 
 
         public HtmlInputEventBridge()
         {
@@ -63,7 +60,7 @@ namespace HtmlRenderer.Composers
 
             if (_latestMouseDownHitChain != null)
             {
-                //ReleaseHitChain(_latestMouseDownHitChain);
+                
                 _latestMouseDownHitChain.Clear();
                 _latestMouseDownHitChain = null;
             }
@@ -74,6 +71,7 @@ namespace HtmlRenderer.Composers
             this._isMouseDown = true;
 
             CssBoxHitChain hitChain = new CssBoxHitChain();
+            
             _latestMouseDownHitChain = hitChain;
             hitChain.SetRootGlobalPosition(x, y);
             //1. prob hit chain only
@@ -154,6 +152,7 @@ namespace HtmlRenderer.Composers
 
             //ReleaseHitChain(hitChain);
             hitChain.Clear();
+
             if (_latestMouseDownHitChain != null)
             {
                 //ReleaseHitChain(_latestMouseDownHitChain);

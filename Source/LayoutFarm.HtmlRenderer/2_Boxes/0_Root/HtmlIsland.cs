@@ -80,7 +80,7 @@ namespace HtmlRenderer.Boxes
         ////-----------------------------------------------------------
         ////controll task of this container
 
-        SelectionRange _currentSelectionRange;
+        SelectionRange _currentSelectionRange;         
 
         public HtmlIsland()
         {

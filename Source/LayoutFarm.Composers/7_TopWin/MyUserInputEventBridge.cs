@@ -166,6 +166,17 @@ namespace LayoutFarm.UI
             if (hitCount > 0)
             {
                 DisableGraphicOutputFlush = true;
+                //------------------------------
+                //1. for some built-in event
+                e.IsTunnelPhase = true;
+                ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
+                {
+
+                    return false;
+                });
+                //------------------------------
+                //use events
+                e.IsTunnelPhase = false;
                 ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
                 {
                     e.Location = hitobj.Location;
@@ -229,6 +240,7 @@ namespace LayoutFarm.UI
 #endif
 
         }
+
         public override void OnMouseMove(UIMouseEventArgs e)
         {
 
@@ -239,6 +251,13 @@ namespace LayoutFarm.UI
             hoverMonitoringTask.SetEnable(true, this.topwin);
             //-------------------------------------------------------
             DisableGraphicOutputFlush = true;
+            e.IsTunnelPhase = true;
+            ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
+            {
+                return false;
+            });
+            //-------------------------------------------------------
+            e.IsTunnelPhase = false;
             ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
             {
                 if (currentMouseActiveElement != null && currentMouseActiveElement != listener)
@@ -303,15 +322,23 @@ namespace LayoutFarm.UI
             }
 #endif
 
-
-
-
             HitTestCoreWithPrevChainHint(
               hitPointChain.LastestRootX,
               hitPointChain.LastestRootY);
 
             DisableGraphicOutputFlush = true;
             this.currentDragElem = null;
+
+            //-----------------------------------------------------------------------
+            e.IsTunnelPhase = true;
+            ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
+            {
+                listener.ListenDragEvent(UIDragEventName.DragStart, e);
+                return true;
+            });
+
+            //-----------------------------------------------------------------------
+            e.IsTunnelPhase = false;
             ForEachEventListenerBubbleUp(this.hitPointChain, (hit, listener) =>
             {
                 currentDragElem = listener;
@@ -584,6 +611,13 @@ namespace LayoutFarm.UI
 
                 DisableGraphicOutputFlush = true;
                 //---------------------------------------------------------------
+                e.IsTunnelPhase = true;
+                ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
+                {
+                    return false;
+                });
+                //---------------------------------------------------------------
+                e.IsTunnelPhase = false;
                 ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
                 {
                     e.Location = hitobj.Location;
@@ -595,7 +629,7 @@ namespace LayoutFarm.UI
                     }
                     return true;
                 });
-
+                //---------------------------------------------------------------
                 DisableGraphicOutputFlush = false;
                 FlushAccumGraphicUpdate();
             }
@@ -643,7 +677,8 @@ namespace LayoutFarm.UI
         }
 
         //===================================================================
-        delegate bool SimpleAction(HitInfo hitInfo, IEventListener listener);
+        delegate bool EventListenerAction(HitInfo hitInfo, IEventListener listener);
+
         struct HitInfo
         {
             public readonly object hitObject;
@@ -660,9 +695,51 @@ namespace LayoutFarm.UI
                 get { return new Point(x, y); }
             }
         }
+        static void ForEachEventListenerPreviewBubbleUp(MyHitChain hitPointChain, EventListenerAction evaluateListener)
+        {
+            //only listener that need tunnel down 
+             
+            for (int i = hitPointChain.Count - 1; i >= 0; --i)
+            {
+                HitPoint hitPoint = hitPointChain.GetHitPoint(i);
+                RenderElement hitElem = hitPoint.hitObject as RenderElement;
+                if (hitElem != null)
+                {
+                    IEventListener listener = hitElem.GetController() as IEventListener;
+                    if (listener != null && listener.NeedPreviewBubbleUp &&
+                        evaluateListener(new HitInfo(hitElem, hitPoint.point.X, hitPoint.point.Y), listener))
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    var boxChain = hitPoint.hitObject as HtmlRenderer.Boxes.CssBoxHitChain;
 
-     
-        static void ForEachEventListenerBubbleUp(MyHitChain hitPointChain, SimpleAction evaluateListener)
+                    if (boxChain != null)
+                    {
+                        //loop 
+                        for (int n = boxChain.Count - 1; n >= 0; --n)
+                        {
+                            var hitInfo = boxChain.GetHitInfo(n);
+                            var cssbox = hitInfo.hitObject as HtmlRenderer.Boxes.CssBox;
+                            if (cssbox != null)
+                            {
+                                var listener = HtmlRenderer.Boxes.CssBox.UnsafeGetController(cssbox) as IEventListener;
+                                if (listener != null && listener.NeedPreviewBubbleUp &&
+                                    evaluateListener(new HitInfo(cssbox, hitInfo.localX, hitInfo.localY), listener))
+                                {
+                                    return;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+
+        }
+        static void ForEachEventListenerBubbleUp(MyHitChain hitPointChain, EventListenerAction evaluateListener)
         {
 
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
@@ -684,20 +761,6 @@ namespace LayoutFarm.UI
 
                     if (boxChain != null)
                     {
-                        //--------------------------------------------
-                        //send event to HtmlDocument 
-                        //eg for selection object 
-                        if (i > 0)
-                        {
-                            HitPoint upperHitPoint = hitPointChain.GetHitPoint(i - 1);
-                            var htmlRenderBox = upperHitPoint.hitObject as LayoutFarm.Boxes.HtmlRenderBox;
-                            if (htmlRenderBox != null)
-                            {
-
-                            }
-                        }
-                        //--------------------------------------------
-
                         //loop 
                         for (int n = boxChain.Count - 1; n >= 0; --n)
                         {
@@ -709,11 +772,11 @@ namespace LayoutFarm.UI
                                 if (listener != null &&
                                     evaluateListener(new HitInfo(cssbox, hitInfo.localX, hitInfo.localY), listener))
                                 {
-                                    break;
+                                    return;
                                 }
                             }
                         }
-                       
+
                     }
                 }
             }

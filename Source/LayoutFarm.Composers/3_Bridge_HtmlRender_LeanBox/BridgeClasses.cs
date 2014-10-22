@@ -61,12 +61,7 @@ namespace LayoutFarm.Boxes
 
 
         }
-
-        public HtmlInputEventBridge InputEventBridge
-        {
-            get;
-            set;
-        }
+         
     }
 
 
