@@ -108,8 +108,7 @@ namespace LayoutFarm.Drawing
                 e.Location.ToPoint(),
                 GetUIMouseButton(e.Button),
                 e.Clicks,
-                e.Delta);
-
+                e.Delta); 
             mouseEventArg.OffsetCanvasOrigin(this.canvasViewport.LogicalViewportLocation);
 
         }

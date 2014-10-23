@@ -162,6 +162,7 @@ namespace LayoutFarm.UI
 
         public UIMouseEventArgs()
         {
+
         }
         public void SetDiff(int xdiff, int ydiff)
         {
@@ -171,7 +172,13 @@ namespace LayoutFarm.UI
         public void SetEventInfo(Point location, UIMouseButtons button, int clicks, int delta)
         {
             Location = location;
-
+            Button = button;
+            Clicks = clicks;
+            Delta = delta;
+        }
+        public void SetEventInfo(int x, int y, UIMouseButtons button, int clicks, int delta)
+        {
+            Location = new Point(x, y);
             Button = button;
             Clicks = clicks;
             Delta = delta;
@@ -217,7 +224,7 @@ namespace LayoutFarm.UI
             this.keyData = keydata;
             this.Shift = shift;
             this.Alt = alt;
-            this.Control = control;   
+            this.Control = control;
         }
 
     }

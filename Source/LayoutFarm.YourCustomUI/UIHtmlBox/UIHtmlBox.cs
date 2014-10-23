@@ -31,7 +31,9 @@ namespace LayoutFarm.SampleControls
         System.Timers.Timer tim = new System.Timers.Timer();
         bool hasWaitingDocToLoad;
         HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
-        CssBoxHitChain _latestMouseDownHitChain = null;
+
+         
+        HtmlInputEventBridge _htmlInputEventBridge;
 
         static UIHtmlBox()
         {
@@ -49,83 +51,74 @@ namespace LayoutFarm.SampleControls
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.Refresh += OnRefresh;
             myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
-            myHtmlIsland.RequestResource += myHtmlIsland_RequestResource;
+            myHtmlIsland.RequestResource += myHtmlIsland_RequestResource; 
 
             tim.Interval = 30;
             tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
         }
-        void ClearPreviousSelection()
-        {
-            if (_latestMouseDownHitChain != null)
-            {
-                _latestMouseDownHitChain.Clear();
-                _latestMouseDownHitChain = null;
-            }
-        }
+    
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
             if (e.IsPreview)
-            {
+            {   
+                // bridge to another system
+                _htmlInputEventBridge.MouseDown(e);
 
-                //// bridge to another system
-                //// test only *** 
-                ////hit test in another system ***  
-                CssBoxHitChain boxHitChain = new CssBoxHitChain();
+                ////
+                ////// test only *** 
+                //////hit test in another system ***  
+                //CssBoxHitChain boxHitChain = new CssBoxHitChain();
 
-                Point testPoint = new Point(e.X, e.Y);//testpoint
-                boxHitChain.SetRootGlobalPosition(testPoint.X, testPoint.Y);
-                //1. prob hit chain only
-                BoxUtils.HitTest(myHtmlIsland.GetRootCssBox(), testPoint.X, testPoint.Y, boxHitChain);
-                //-------------------------------------
-                //add box hit chain to hit point chain
-
-                ClearPreviousSelection(); 
-                if (boxHitChain.Count > 0)
-                {
-                    if (boxHitChain != null)
-                    {
-                        //loop 
-                        for (int n = boxHitChain.Count - 1; n >= 0; --n)
-                        {
-                            var hitInfo = boxHitChain.GetHitInfo(n);
-                            var cssbox = hitInfo.hitObject as HtmlRenderer.Boxes.CssBox;
-                            if (cssbox != null)
-                            {
-                                var listener = HtmlRenderer.Boxes.CssBox.UnsafeGetController(cssbox) as IEventListener;
-                                if (listener != null)
-                                {
-                                    e.CurrentContextElement = listener;
-                                    listener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
-                                    if (e.CancelBubbling)
-                                    {
-                                        return;
-                                    }
-                                }
-                                //if (listener != null && 
-                                //    listener.NeedPreviewBubbleUp &&
-                                //    evaluateListener(new HitInfo(cssbox, hitInfo.localX, hitInfo.localY), listener))
-                                //{
-                                //    return;
-                                //}
-                            }
-                        }
-
-                    }
-
-
-                }
+                //Point testPoint = new Point(e.X, e.Y);//testpoint
+                //boxHitChain.SetRootGlobalPosition(testPoint.X, testPoint.Y);
+                ////1. prob hit chain only
+                //BoxUtils.HitTest(myHtmlIsland.GetRootCssBox(), testPoint.X, testPoint.Y, boxHitChain);
+                ////-------------------------------------
+                ////add box hit chain to hit point chain
+                //ClearPreviousSelection();
+                //if (boxHitChain.Count > 0)
+                //{
+                //    if (boxHitChain != null)
+                //    {
+                //        //loop 
+                //        for (int n = boxHitChain.Count - 1; n >= 0; --n)
+                //        {
+                //            var hitInfo = boxHitChain.GetHitInfo(n);
+                //            var cssbox = hitInfo.hitObject as HtmlRenderer.Boxes.CssBox;
+                //            if (cssbox != null)
+                //            {
+                //                var listener = HtmlRenderer.Boxes.CssBox.UnsafeGetController(cssbox) as IEventListener;
+                //                if (listener != null)
+                //                {
+                //                    e.CurrentContextElement = listener;
+                //                    listener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
+                //                    if (e.CancelBubbling)
+                //                    {
+                //                        return;
+                //                    }
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
                 //-----------------------------
-               
+
             }
             base.OnMouseDown(e);
+        }
+        protected override void OnMouseUp(UIMouseEventArgs e)
+        {
+            if (e.IsPreview)
+            {
+                _htmlInputEventBridge.MouseUp(e);
+            }
+
+            base.OnMouseUp(e);
         }
         protected override void OnDragStart(UIDragEventArgs e)
         {
             if (e.IsPreview)
-            {
-                ClearPreviousSelection();
-                //create new selection***
-
+            { 
             }
             base.OnDragStart(e);
         }
@@ -233,6 +226,9 @@ namespace LayoutFarm.SampleControls
                 myCssBoxWrapper = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
                 myCssBoxWrapper.SetController(this);
                 myCssBoxWrapper.HasSpecificSize = true;
+
+                _htmlInputEventBridge = new HtmlInputEventBridge();
+                _htmlInputEventBridge.Bind(this.myHtmlIsland, rootgfx.SampleIFonts);
             }
 
             if (this.hasWaitingDocToLoad)

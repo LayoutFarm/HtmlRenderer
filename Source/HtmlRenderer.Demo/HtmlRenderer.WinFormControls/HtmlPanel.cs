@@ -489,9 +489,8 @@ namespace HtmlRenderer.Demo
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            _htmlEventBridge.MouseMove(e.X, e.Y, (int)e.Button);
+            _htmlEventBridge.MouseMove(CreateMouseEventArg(e));
             PaintMe(null);
-
         }
 
         /// <summary>
@@ -512,7 +511,8 @@ namespace HtmlRenderer.Demo
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            this._htmlEventBridge.MouseDown(e.X, e.Y, (int)e.Button);
+
+            this._htmlEventBridge.MouseDown(CreateMouseEventArg(e));
             PaintMe(null);
             //this.Invalidate();
         }
@@ -523,11 +523,36 @@ namespace HtmlRenderer.Demo
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseClick(e);
-            this._htmlEventBridge.MouseUp(e.X, e.Y, (int)e.Button);
+
+            this._htmlEventBridge.MouseUp(CreateMouseEventArg(e));
             PaintMe(null);
             // this.Invalidate();
         }
+        LayoutFarm.UI.UIMouseEventArgs CreateMouseEventArg(MouseEventArgs e)
+        {
+            var mouseE = new LayoutFarm.UI.UIMouseEventArgs();
+            mouseE.SetEventInfo(
+                e.X, e.Y,
+                GetUIMouseButton(e.Button),
+                e.Clicks,
+                e.Delta);
+            return mouseE;
+        }
 
+        static LayoutFarm.UI.UIMouseButtons GetUIMouseButton(MouseButtons mouseButton)
+        {
+            switch (mouseButton)
+            {
+                case MouseButtons.Right:
+                    return LayoutFarm.UI.UIMouseButtons.Right;
+                case MouseButtons.Middle:
+                    return LayoutFarm.UI.UIMouseButtons.Middle;
+                case MouseButtons.None:
+                    return LayoutFarm.UI.UIMouseButtons.None;
+                default:
+                    return LayoutFarm.UI.UIMouseButtons.Left;
+            }
+        }
         /// <summary>
         /// Handle mouse double click to select word under the mouse. 
         /// </summary>

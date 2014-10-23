@@ -19,9 +19,9 @@ namespace HtmlRenderer.Composers
         CssBoxHitChain _latestMouseDownHitChain = null;
         int _mousedownX;
         int _mousedownY;
-        bool _isMouseDown;  
+        bool _isMouseDown;
         IFonts ifonts;
-        bool _isBinded; 
+        bool _isBinded;
 
         public HtmlInputEventBridge()
         {
@@ -41,8 +41,7 @@ namespace HtmlRenderer.Composers
             this._htmlIsland = null;
             this._isBinded = false;
         }
-
-        public void MouseDown(int x, int y, int button)
+        public void MouseDown(UIMouseEventArgs e)
         {
             if (!_isBinded)
             {
@@ -60,31 +59,28 @@ namespace HtmlRenderer.Composers
 
             if (_latestMouseDownHitChain != null)
             {
-                
                 _latestMouseDownHitChain.Clear();
                 _latestMouseDownHitChain = null;
             }
             //----------------------------------------------------
+            int x = e.X;
+            int y = e.Y;
 
             _mousedownX = x;
             _mousedownY = y;
             this._isMouseDown = true;
 
             CssBoxHitChain hitChain = new CssBoxHitChain();
-            
             _latestMouseDownHitChain = hitChain;
             hitChain.SetRootGlobalPosition(x, y);
             //1. prob hit chain only
             BoxUtils.HitTest(rootbox, x, y, hitChain);
-
-            //2. invoke css event and script event    
-            UIMouseEventArgs mouseDownE = new UIMouseEventArgs();
-            mouseDownE.EventName = UIEventName.MouseDown;
-
-            PropagateEventOnBubblingPhase(hitChain, mouseDownE);
-
+            //2. invoke css event and script event     
+            e.EventName = UIEventName.MouseDown;
+            PropagateEventOnBubblingPhase(hitChain, e);
         }
-        public void MouseMove(int x, int y, int button)
+
+        public void MouseMove(UIMouseEventArgs e)
         {
             if (!_isBinded)
             {
@@ -96,6 +92,8 @@ namespace HtmlRenderer.Composers
                 return;
             }
             //-----------------------------------------
+            int x = e.X;
+            int y = e.Y;
             if (this._isMouseDown)
             {
                 //dragging
@@ -105,11 +103,9 @@ namespace HtmlRenderer.Composers
                     CssBoxHitChain hitChain = new CssBoxHitChain();
                     hitChain.SetRootGlobalPosition(x, y);
                     BoxUtils.HitTest(rootbox, x, y, hitChain);
-
-
                     ClearPreviousSelection();
                     if (hitChain.Count > 0)
-                    {   
+                    {
                         this._htmlIsland.SetSelection(new SelectionRange(
                             _latestMouseDownHitChain,
                             hitChain,
@@ -117,9 +113,9 @@ namespace HtmlRenderer.Composers
                     }
                     else
                     {
-                        this._htmlIsland.SetSelection(null); 
+                        this._htmlIsland.SetSelection(null);
                     }
-                    hitChain.Clear(); 
+                    hitChain.Clear();
                 }
             }
             else
@@ -127,7 +123,7 @@ namespace HtmlRenderer.Composers
                 //mouse move  
             }
         }
-        public void MouseUp(int x, int y, int button)
+        public void MouseUp(UIMouseEventArgs e)
         {
             if (!_isBinded)
             {
@@ -142,16 +138,17 @@ namespace HtmlRenderer.Composers
             //-----------------------------------------
 
             CssBoxHitChain hitChain = new CssBoxHitChain();
-            hitChain.SetRootGlobalPosition(x, y);
+            hitChain.SetRootGlobalPosition(e.X, e.Y);
             //1. prob hit chain only
 
-            BoxUtils.HitTest(rootbox, x, y, hitChain);
+            BoxUtils.HitTest(rootbox, e.X, e.Y, hitChain);
 
             //2. invoke css event and script event 
             var hitInfo = hitChain.GetLastHit();
 
-            //ReleaseHitChain(hitChain);
+            PropagateEventOnBubblingPhase(hitChain, e);
             hitChain.Clear();
+            //ReleaseHitChainhitChain);          
 
             if (_latestMouseDownHitChain != null)
             {
@@ -159,6 +156,7 @@ namespace HtmlRenderer.Composers
                 _latestMouseDownHitChain.Clear();
                 _latestMouseDownHitChain = null;
             }
+
 
         }
         public void MouseLeave()
@@ -182,34 +180,7 @@ namespace HtmlRenderer.Composers
         public void KeyUp()
         {
         }
-        //-----------------------------------
 
-
-        //Queue<CssBoxHitChain> hitChainPools = new Queue<CssBoxHitChain>();
-        //CssBoxHitChain GetFreeHitChain()
-        //{
-
-        //    if (hitChainPools.Count == 0)
-        //    {
-        //        return new CssBoxHitChain();
-        //    }
-        //    else
-        //    {
-        //        return hitChainPools.Dequeue();
-        //    }
-        //}
-        //void ReleaseHitChain(CssBoxHitChain hitChain)
-        //{
-        //    hitChain.Clear();
-        //    hitChainPools.Enqueue(hitChain);
-        //}
-
-        //-----------------------------------
-        static void PropagateEventOnCapturingPhase(CssBoxHitChain hitChain, UIEventArgs eventArgs)
-        {
-            //TODO: consider implement capture phase
-
-        }
         static void PropagateEventOnBubblingPhase(CssBoxHitChain hitChain, UIEventArgs eventArgs)
         {
 
@@ -241,24 +212,19 @@ namespace HtmlRenderer.Composers
                 //---------------------
                 if (controller != null)
                 {
-
-
+                    eventArgs.CurrentContextElement = controller;
                     eventArgs.Location = new Point(hitInfo.localX, hitInfo.localY);
                     //---------------------------------
                     //dispatch 
-
-
                     switch (eventArgs.EventName)
                     {
                         case UIEventName.MouseDown:
-                            {
-                                UIMouseEventArgs mouseE = new UIMouseEventArgs();
-                                controller.ListenMouseEvent(UIMouseEventName.MouseDown, mouseE);
+                            {                                 
+                                controller.ListenMouseEvent(UIMouseEventName.MouseDown, (UIMouseEventArgs)eventArgs);
                             } break;
                         case UIEventName.MouseUp:
-                            {
-                                UIMouseEventArgs mouseE = new UIMouseEventArgs();
-                                controller.ListenMouseEvent(UIMouseEventName.MouseUp, mouseE);
+                            {   
+                                controller.ListenMouseEvent(UIMouseEventName.MouseUp, (UIMouseEventArgs)eventArgs);
                             } break;
                     }
 
@@ -272,6 +238,25 @@ namespace HtmlRenderer.Composers
 
 
         }
+        //----------------------------------- 
+        //Queue<CssBoxHitChain> hitChainPools = new Queue<CssBoxHitChain>();
+        //CssBoxHitChain GetFreeHitChain()
+        //{ 
+        //    if (hitChainPools.Count == 0)
+        //    {
+        //        return new CssBoxHitChain();
+        //    }
+        //    else
+        //    {
+        //        return hitChainPools.Dequeue();
+        //    }
+        //}
+        //void ReleaseHitChain(CssBoxHitChain hitChain)
+        //{
+        //    hitChain.Clear();
+        //    hitChainPools.Enqueue(hitChain);
+        //} 
+        //-----------------------------------
 
     }
 }
