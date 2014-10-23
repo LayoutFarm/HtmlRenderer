@@ -66,11 +66,7 @@ namespace LayoutFarm.UI
             get { return this.Control; }
 
         }
-        public bool IsPreview
-        {
-            get;
-            set;
-        }
+      
         public bool Shift
         {
             get;

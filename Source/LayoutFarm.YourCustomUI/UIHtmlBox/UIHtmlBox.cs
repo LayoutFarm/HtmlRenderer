@@ -15,7 +15,7 @@ using LayoutFarm.Boxes;
 namespace LayoutFarm.SampleControls
 {
 
-    public class UIHtmlBox : UIElement
+    public class UIHtmlBox : UIElement, IUserEventPortal
     {
         RootGraphic rootgfx;
         HtmlRenderBox myCssBoxWrapper;
@@ -32,7 +32,7 @@ namespace LayoutFarm.SampleControls
         bool hasWaitingDocToLoad;
         HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
 
-         
+
         HtmlInputEventBridge _htmlInputEventBridge;
 
         static UIHtmlBox()
@@ -40,100 +40,52 @@ namespace LayoutFarm.SampleControls
             HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
                new HtmlRenderer.Boxes.LeanBoxCreator());
         }
-
         public UIHtmlBox(int width, int height)
         {
             this._width = width;
             this._height = height;
 
-            this.UINeedPreviewPhase = true;
+
             myHtmlIsland = new MyHtmlIsland();
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.Refresh += OnRefresh;
             myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
-            myHtmlIsland.RequestResource += myHtmlIsland_RequestResource; 
+            myHtmlIsland.RequestResource += myHtmlIsland_RequestResource;
 
             tim.Interval = 30;
             tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
         }
-    
-        protected override void OnMouseDown(UIMouseEventArgs e)
+        //--------------------------------------------------------------------
+        void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
-            if (e.IsPreview)
-            {   
-                // bridge to another system
-                _htmlInputEventBridge.MouseDown(e);
-
-                ////
-                ////// test only *** 
-                //////hit test in another system ***  
-                //CssBoxHitChain boxHitChain = new CssBoxHitChain();
-
-                //Point testPoint = new Point(e.X, e.Y);//testpoint
-                //boxHitChain.SetRootGlobalPosition(testPoint.X, testPoint.Y);
-                ////1. prob hit chain only
-                //BoxUtils.HitTest(myHtmlIsland.GetRootCssBox(), testPoint.X, testPoint.Y, boxHitChain);
-                ////-------------------------------------
-                ////add box hit chain to hit point chain
-                //ClearPreviousSelection();
-                //if (boxHitChain.Count > 0)
-                //{
-                //    if (boxHitChain != null)
-                //    {
-                //        //loop 
-                //        for (int n = boxHitChain.Count - 1; n >= 0; --n)
-                //        {
-                //            var hitInfo = boxHitChain.GetHitInfo(n);
-                //            var cssbox = hitInfo.hitObject as HtmlRenderer.Boxes.CssBox;
-                //            if (cssbox != null)
-                //            {
-                //                var listener = HtmlRenderer.Boxes.CssBox.UnsafeGetController(cssbox) as IEventListener;
-                //                if (listener != null)
-                //                {
-                //                    e.CurrentContextElement = listener;
-                //                    listener.ListenMouseEvent(UIMouseEventName.MouseDown, e);
-                //                    if (e.CancelBubbling)
-                //                    {
-                //                        return;
-                //                    }
-                //                }
-                //            }
-                //        }
-                //    }
-                //}
-                //-----------------------------
-
-            }
-            base.OnMouseDown(e);
+            _htmlInputEventBridge.MouseUp(e);
         }
-        protected override void OnMouseUp(UIMouseEventArgs e)
+        void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
-            if (e.IsPreview)
-            {
-                _htmlInputEventBridge.MouseUp(e);
-            }
-
-            base.OnMouseUp(e);
+            _htmlInputEventBridge.MouseDown(e);
         }
-        protected override void OnDragStart(UIMouseEventArgs e)
+        void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-            if (e.IsPreview)
-            { 
-            }
-            base.OnDragStart(e);
+            _htmlInputEventBridge.MouseMove(e);
+
         }
-        protected override void OnDragging(UIMouseEventArgs e)
+        void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
-
-
-            base.OnDragging(e);
+            
         }
-        protected override void OnDragStop(UIMouseEventArgs e)
+        void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
-
-
-            base.OnDragStop(e);
         }
+        void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
+        {
+        }
+        bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
+        {
+            return false;
+        }
+        //--------------------------------------------------------------------
+
+        
         void tim_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             if (this.myHtmlIsland != null)

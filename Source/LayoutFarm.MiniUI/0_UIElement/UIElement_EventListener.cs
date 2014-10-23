@@ -7,11 +7,7 @@ namespace LayoutFarm.UI
 {
     partial class UIElement
     {
-        bool IEventListener.NeedPreviewBubbleUp
-        {
-            get { return this.UINeedPreviewPhase; }
-        }
-
+       
 
         void IEventListener.ListenKeyPressEvent(UIKeyEventArgs args)
         {

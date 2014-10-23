@@ -489,6 +489,7 @@ namespace HtmlRenderer.Demo
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
+            
             _htmlEventBridge.MouseMove(CreateMouseEventArg(e));
             PaintMe(null);
         }
@@ -499,7 +500,8 @@ namespace HtmlRenderer.Demo
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            _htmlEventBridge.MouseLeave();
+            var mouseE = new LayoutFarm.UI.UIMouseEventArgs();
+            _htmlEventBridge.MouseLeave(mouseE);
 
             //if (_htmlContainer != null)
             //    _htmlContainer.HandleMouseLeave(this);
@@ -559,8 +561,7 @@ namespace HtmlRenderer.Demo
         protected override void OnMouseDoubleClick(MouseEventArgs e)
         {
             base.OnMouseDoubleClick(e);
-
-            this._htmlEventBridge.MouseDoubleClick(e.X, e.Y, (int)e.Button);
+            this._htmlEventBridge.MouseDoubleClick(CreateMouseEventArg(e));
 
             //if (_htmlContainer != null)
             //    _htmlContainer.HandleMouseDoubleClick(this, e);

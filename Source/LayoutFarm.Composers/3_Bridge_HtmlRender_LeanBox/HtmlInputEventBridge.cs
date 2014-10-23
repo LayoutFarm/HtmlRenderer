@@ -159,13 +159,13 @@ namespace HtmlRenderer.Composers
 
 
         }
-        public void MouseLeave()
+        public void MouseLeave(UIMouseEventArgs e)
         {
         }
-        public void MouseDoubleClick(int x, int y, int button)
+        public void MouseDoubleClick(UIMouseEventArgs e)
         {
         }
-        public void MouseWheel(int x, int y, int button, int delta)
+        public void MouseWheel(UIMouseEventArgs e)
         {
 
         }
@@ -219,11 +219,11 @@ namespace HtmlRenderer.Composers
                     switch (eventArgs.EventName)
                     {
                         case UIEventName.MouseDown:
-                            {                                 
+                            {
                                 controller.ListenMouseEvent(UIMouseEventName.MouseDown, (UIMouseEventArgs)eventArgs);
                             } break;
                         case UIEventName.MouseUp:
-                            {   
+                            {
                                 controller.ListenMouseEvent(UIMouseEventName.MouseUp, (UIMouseEventArgs)eventArgs);
                             } break;
                     }
