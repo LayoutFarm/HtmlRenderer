@@ -115,20 +115,20 @@ namespace LayoutFarm.SampleControls
 
             base.OnMouseUp(e);
         }
-        protected override void OnDragStart(UIDragEventArgs e)
+        protected override void OnDragStart(UIMouseEventArgs e)
         {
             if (e.IsPreview)
             { 
             }
             base.OnDragStart(e);
         }
-        protected override void OnDragging(UIDragEventArgs e)
+        protected override void OnDragging(UIMouseEventArgs e)
         {
 
 
             base.OnDragging(e);
         }
-        protected override void OnDragStop(UIDragEventArgs e)
+        protected override void OnDragStop(UIMouseEventArgs e)
         {
 
 
@@ -188,16 +188,16 @@ namespace LayoutFarm.SampleControls
         //    //mouse down on html box
         //    this._htmlEventBridge.MouseDown(e.X, e.Y, (int)e.Button); 
         //}
-        //protected override void OnDragStart(UIDragEventArgs e)
+        //protected override void OnDragStart(UIMouseEventArgs e)
         //{
         //    this._htmlEventBridge.MouseMove(e.X, e.Y, (int)e.Button);             
         //}
-        //protected override void OnDragging(UIDragEventArgs e)
+        //protected override void OnDragging(UIMouseEventArgs e)
         //{
         //    this._htmlEventBridge.MouseMove(e.X, e.Y, (int)e.Button);
         //    //dbase.OnDragging(e);
         //}
-        //protected override void OnDragStop(UIDragEventArgs e)
+        //protected override void OnDragStop(UIMouseEventArgs e)
         //{
         //    this._htmlEventBridge.MouseMove(e.X, e.Y, (int)e.Button);
         //    //base.OnDragStop(e);
@@ -210,7 +210,7 @@ namespace LayoutFarm.SampleControls
         //{
         //    this._htmlEventBridge.KeyDown('a');
         //}
-        //protected override void OnKeyPress(UIKeyPressEventArgs e)
+        //protected override void OnKeyPress(UIKeyEventArgs e)
         //{ 
         //    this._htmlEventBridge.KeyDown(e.KeyChar);
         //}

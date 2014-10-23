@@ -9,6 +9,7 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm.Drawing
 {
+
 #if DEBUG
     partial class WinViewportBridge : IdbugOutputWindow
     {

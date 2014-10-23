@@ -75,6 +75,7 @@
     <Compile Include="7_TopWin\MyTimerSheet.cs" />
     <Compile Include="7_TopWin\UIHoverMonitor.cs" />
     <Compile Include="7_TopWin\MyUserInputEventBridge.cs" />
+    <Compile Include="7_TopWin\UITopWin.cs" />
     <Compile Include="8_ContentManagers\ImageContentManager.cs" />
     <Compile Include="8_ContentManagers\ImageRequestEventArgs.cs" />
     <Compile Include="8_ContentManagers\TextContentManager.cs" />

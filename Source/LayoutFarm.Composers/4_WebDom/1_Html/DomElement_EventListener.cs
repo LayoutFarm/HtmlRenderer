@@ -13,7 +13,7 @@ namespace HtmlRenderer.WebDom
     partial class DomElement : IEventListener
     {
         bool IEventListener.NeedPreviewBubbleUp { get { return false; } }
-        void IEventListener.ListenKeyPressEvent(UIKeyPressEventArgs args)
+        void IEventListener.ListenKeyPressEvent(UIKeyEventArgs args)
         {
             OnKeyPress(args);
         }
@@ -65,7 +65,7 @@ namespace HtmlRenderer.WebDom
                     } break;
             }
         }
-        void IEventListener.ListenDragEvent(UIDragEventName evName, UIDragEventArgs e)
+        void IEventListener.ListenDragEvent(UIDragEventName evName, UIMouseEventArgs e)
         {
             switch (evName)
             {
@@ -155,30 +155,29 @@ namespace HtmlRenderer.WebDom
         {
 
         }
-        protected virtual void OnDragStart(UIDragEventArgs e)
+        protected virtual void OnDragStart(UIMouseEventArgs e)
         {
 
         }
-        protected virtual void OnDragEnter(UIDragEventArgs e)
+        protected virtual void OnDragEnter(UIMouseEventArgs e)
         {
 
         }
-        protected virtual void OnDragOver(UIDragEventArgs e)
+        protected virtual void OnDragOver(UIMouseEventArgs e)
+        {
+        }
+        protected virtual void OnDragLeave(UIMouseEventArgs e)
         {
 
         }
-        protected virtual void OnDragLeave(UIDragEventArgs e)
+        protected virtual void OnDragStop(UIMouseEventArgs e)
         {
 
         }
-        protected virtual void OnDragStop(UIDragEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragging(UIDragEventArgs e)
+        protected virtual void OnDragging(UIMouseEventArgs e)
         {
         }
-        protected virtual void OnDragDrop(UIDragEventArgs e)
+        protected virtual void OnDragDrop(UIMouseEventArgs e)
         {
         }
         protected virtual void OnCollapsed()
@@ -205,7 +204,7 @@ namespace HtmlRenderer.WebDom
         protected virtual void OnKeyUp(UIKeyEventArgs e)
         {
         }
-        protected virtual void OnKeyPress(UIKeyPressEventArgs e)
+        protected virtual void OnKeyPress(UIKeyEventArgs e)
         {
         }
         protected virtual bool OnProcessDialogKey(UIKeyEventArgs e)

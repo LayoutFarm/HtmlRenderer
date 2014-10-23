@@ -17,18 +17,18 @@ namespace LayoutFarm.UI
         public abstract void OnMouseDown(UIMouseEventArgs e);
         public abstract void OnMouseMove(UIMouseEventArgs e);
 
-        public abstract void OnDragStart(UIDragEventArgs e);
-        public abstract void OnDrag(UIDragEventArgs e);
+        public abstract void OnDragStart(UIMouseEventArgs e);
+        public abstract void OnDrag(UIMouseEventArgs e);
         
      
-        public abstract void OnDragStop(UIDragEventArgs e);
+        public abstract void OnDragStop(UIMouseEventArgs e);
 
         public abstract void OnGotFocus(UIFocusEventArgs e);
         public abstract void OnLostFocus(UIFocusEventArgs e);
         public abstract void OnMouseUp(UIMouseEventArgs e);
         public abstract void OnKeyDown(UIKeyEventArgs e);
         public abstract void OnKeyUp(UIKeyEventArgs e);
-        public abstract void OnKeyPress(UIKeyPressEventArgs e);
+        public abstract void OnKeyPress(UIKeyEventArgs e);
         public abstract bool OnProcessDialogKey(UIKeyEventArgs e); 
     }
 

@@ -11,9 +11,9 @@ namespace LayoutFarm.UI
         {
             get { return this.UINeedPreviewPhase; }
         }
-      
 
-        void IEventListener.ListenKeyPressEvent(UIKeyPressEventArgs args)
+
+        void IEventListener.ListenKeyPressEvent(UIKeyEventArgs args)
         {
             OnKeyPress(args);
         }
@@ -65,7 +65,7 @@ namespace LayoutFarm.UI
                     } break;
             }
         }
-        void IEventListener.ListenDragEvent(UIDragEventName evName, UIDragEventArgs e)
+        void IEventListener.ListenDragEvent(UIDragEventName evName, UIMouseEventArgs e)
         {
             switch (evName)
             {

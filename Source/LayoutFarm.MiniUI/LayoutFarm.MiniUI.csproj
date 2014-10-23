@@ -48,12 +48,11 @@
     <Compile Include="1_LayerElements\GridTable.cs" />
     <Compile Include="2_Events\CanvasEventStock.cs" />
     <Compile Include="2_Events\ScrollSurfaceRequestEventArgs.cs" />
-    <Compile Include="2_Events\UIDragEventArgs.cs" />
     <Compile Include="2_Events\UIEventArgs.cs" />
     <Compile Include="3_Others\IUpdateStateChangeListener.cs" />
     <Compile Include="3_Others\RenderSurfaceScrollRelation.cs" />
     <Compile Include="0_UIElement\UIEventIdentifier.cs" />
-    <Compile Include="0_UIElement\UIEventName.cs" />
+    <Compile Include="0_UIElement\UIEventNames.cs" />
     <Compile Include="2_Events\ToNotifySizeChangedEvent.cs" />
     <Compile Include="0_UIElement\UIElement.cs" />
     <Compile Include="0_UIElement\IEventListener.cs" />

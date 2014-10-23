@@ -64,7 +64,7 @@ namespace LayoutFarm.SampleControls
             return visualTextEdit;
         }
 
-        protected override void OnKeyPress(UIKeyPressEventArgs e)
+        protected override void OnKeyPress(UIKeyEventArgs e)
         {
             visualTextEdit.OnKeyPress(e);
         }
@@ -96,18 +96,18 @@ namespace LayoutFarm.SampleControls
         {
             visualTextEdit.OnDoubleClick(e);
         }
-        protected override void OnDragDrop(UIDragEventArgs e)
+        protected override void OnDragDrop(UIMouseEventArgs e)
         {
         }
-        protected override void OnDragStart(UIDragEventArgs e)
+        protected override void OnDragStart(UIMouseEventArgs e)
         {
             visualTextEdit.OnDragStart(e);
         }
-        protected override void OnDragging(UIDragEventArgs e)
+        protected override void OnDragging(UIMouseEventArgs e)
         {
             visualTextEdit.OnDrag(e);
         }
-        protected override void OnDragStop(UIDragEventArgs e)
+        protected override void OnDragStop(UIMouseEventArgs e)
         {
             visualTextEdit.OnDragStop(e);
         }

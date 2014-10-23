@@ -9,7 +9,7 @@ namespace LayoutFarm.UI
 {
     public delegate void UIMouseEventHandler(object sender, UIMouseEventArgs e);
     public delegate void UIKeyEventHandler(object sender, UIKeyEventArgs e);
-    public delegate void UIKeyPressEventHandler(object sender, UIKeyPressEventArgs e);
+    public delegate void UIKeyPressEventHandler(object sender, UIKeyEventArgs e);
 
     public enum UIMouseEventType
     {
@@ -160,6 +160,13 @@ namespace LayoutFarm.UI
         public UIMouseEventType EventType;
         public TopWindowRenderBoxBase WinTop;
 
+        int lastestLogicalViewportMouseDownX;
+        int lastestLogicalViewportMouseDownY;
+        int currentLogicalX;
+        int currentLogicalY;
+        int lastestXDiff;
+        int lastestYDiff;
+
         public UIMouseEventArgs()
         {
 
@@ -191,10 +198,47 @@ namespace LayoutFarm.UI
             YDiff = 0;
             base.Clear();
         }
+
+        public void SetEventInfo(Point loca, UIMouseButtons button, int lastestLogicalViewportMouseDownX,
+           int lastestLogicalViewportMouseDownY,
+           int currentLogicalX,
+           int currentLogicalY,
+           int lastestXDiff,
+           int lastestYDiff)
+        {
+
+            Button = button;
+            this.Location = loca;
+
+            this.currentLogicalX = currentLogicalX;
+            this.currentLogicalY = currentLogicalY;
+            this.lastestLogicalViewportMouseDownY = lastestLogicalViewportMouseDownY;
+            this.lastestLogicalViewportMouseDownX = lastestLogicalViewportMouseDownX;
+            this.lastestXDiff = lastestXDiff;
+            this.lastestYDiff = lastestYDiff;
+        }
+        public int XDiffFromMouseDownPos
+        {
+            get
+            {
+                return this.currentLogicalX - this.lastestLogicalViewportMouseDownX;
+            }
+        }
+        public int YDiffFromMouseDownPos
+        {
+            get
+            {
+                return this.currentLogicalY - this.lastestLogicalViewportMouseDownY;
+            }
+        }
+      
     }
+    
+    
     public class UIKeyEventArgs : UIEventArgs
     {
         int keyData;
+        char c;
         public UIKeyEventArgs()
         {
         }
@@ -226,16 +270,6 @@ namespace LayoutFarm.UI
             this.Alt = alt;
             this.Control = control;
         }
-
-    }
-    public class UIKeyPressEventArgs : UIEventArgs
-    {
-
-        char c;
-        public UIKeyPressEventArgs()
-        {
-
-        }
         public void SetKeyChar(char c)
         {
             this.c = c;
@@ -247,7 +281,6 @@ namespace LayoutFarm.UI
                 return c;
             }
         }
-
         public bool IsControlKey
         {
             get
@@ -255,8 +288,6 @@ namespace LayoutFarm.UI
                 return Char.IsControl(c);
             }
         }
-
-
     }
 
     public enum AffectedElementSideFlags
@@ -410,5 +441,9 @@ namespace LayoutFarm.UI
         }
 
     }
+
+    
+  
+
 
 }

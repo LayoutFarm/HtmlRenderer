@@ -50,30 +50,30 @@ namespace LayoutFarm.UI
         protected virtual void OnMouseWheel(UIMouseEventArgs e)
         {
         }
-        protected virtual void OnDragStart(UIDragEventArgs e)
+        protected virtual void OnDragStart(UIMouseEventArgs e)
         {
 
         }
-        protected virtual void OnDragEnter(UIDragEventArgs e)
+        protected virtual void OnDragEnter(UIMouseEventArgs e)
         {
 
         }
-        protected virtual void OnDragOver(UIDragEventArgs e)
+        protected virtual void OnDragOver(UIMouseEventArgs e)
         {
 
         }
-        protected virtual void OnDragLeave(UIDragEventArgs e)
+        protected virtual void OnDragLeave(UIMouseEventArgs e)
         {
 
         }
-        protected virtual void OnDragStop(UIDragEventArgs e)
+        protected virtual void OnDragStop(UIMouseEventArgs e)
         {
 
         }
-        protected virtual void OnDragging(UIDragEventArgs e)
+        protected virtual void OnDragging(UIMouseEventArgs e)
         {
         }
-        protected virtual void OnDragDrop(UIDragEventArgs e)
+        protected virtual void OnDragDrop(UIMouseEventArgs e)
         {
         }
         protected virtual void OnCollapsed()
@@ -104,7 +104,7 @@ namespace LayoutFarm.UI
         protected virtual void OnKeyUp(UIKeyEventArgs e)
         {
         }
-        protected virtual void OnKeyPress(UIKeyPressEventArgs e)
+        protected virtual void OnKeyPress(UIKeyEventArgs e)
         {
         }
         protected virtual bool OnProcessDialogKey(UIKeyEventArgs e)

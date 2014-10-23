@@ -12,8 +12,7 @@ namespace LayoutFarm.UI
 
         public static Form CreateNewFormCanvas(
             RootGraphic rootgfx,
-            UserInputEventBridge userInputEvBridge,
-
+            UserInputEventBridge userInputEvBridge, 
             out UISurfaceViewportControl canvasViewport)
         {
 

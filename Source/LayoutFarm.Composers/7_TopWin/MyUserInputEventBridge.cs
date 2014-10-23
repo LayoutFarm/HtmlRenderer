@@ -332,7 +332,7 @@ namespace LayoutFarm.UI
             //hitPointChain.SwapHitChain();
             //hoverMonitoringTask.SetEnable(false, this.topwin);
         }
-        public override void OnDragStart(UIDragEventArgs e)
+        public override void OnDragStart(UIMouseEventArgs e)
         {
 
 #if DEBUG
@@ -395,7 +395,7 @@ namespace LayoutFarm.UI
             //}
             hitPointChain.SwapHitChain();
         }
-        public override void OnDrag(UIDragEventArgs e)
+        public override void OnDrag(UIMouseEventArgs e)
         {
             if (currentDragElem == null)
             {
@@ -443,7 +443,7 @@ namespace LayoutFarm.UI
         }
 
 
-        void BroadcastDragHitEvents(UIDragEventArgs e)
+        void BroadcastDragHitEvents(UIMouseEventArgs e)
         {
 
 
@@ -476,7 +476,7 @@ namespace LayoutFarm.UI
             //        }
             //    }
             //}
-            //UIDragEventArgs d_eventArg = UIDragEventArgs.GetFreeDragEventArgs();
+            //UIMouseEventArgs d_eventArg = UIMouseEventArgs.GetFreeDragEventArgs();
 
             //if (hitPointChain.DragHitElementCount > 0)
             //{
@@ -526,9 +526,9 @@ namespace LayoutFarm.UI
             //        d_eventArg.TranslateCanvasOriginBack();
             //    }
             //}
-            //UIDragEventArgs.ReleaseEventArgs(d_eventArg);
+            //UIMouseEventArgs.ReleaseEventArgs(d_eventArg);
         }
-        public override void OnDragStop(UIDragEventArgs e)
+        public override void OnDragStop(UIMouseEventArgs e)
         {
 
             if (currentDragElem == null)
@@ -569,7 +569,7 @@ namespace LayoutFarm.UI
 
             //e.TranslateCanvasOriginBack();
 
-            //UIDragEventArgs d_eventArg = new UIDragEventArgs();
+            //UIMouseEventArgs d_eventArg = new UIMouseEventArgs();
             //if (hitPointChain.DragHitElementCount > 0)
             //{
             //    ForEachDraggingObjects(this.hitPointChain, (hitobj, listener) =>
@@ -687,7 +687,7 @@ namespace LayoutFarm.UI
                 currentKbFocusElem.ListenKeyEvent(UIKeyEventName.KeyUp, e);
             }
         }
-        public override void OnKeyPress(UIKeyPressEventArgs e)
+        public override void OnKeyPress(UIKeyEventArgs e)
         {
 
             if (currentKbFocusElem != null)

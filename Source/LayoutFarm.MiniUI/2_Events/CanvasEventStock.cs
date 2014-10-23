@@ -13,19 +13,19 @@ namespace LayoutFarm.UI
     {
         Stack<UIMouseEventArgs> mouseEventsQ = new Stack<UIMouseEventArgs>();
         Stack<UIKeyEventArgs> keyEventsQ = new Stack<UIKeyEventArgs>();
-        Stack<UIKeyPressEventArgs> keyPressEventsQ = new Stack<UIKeyPressEventArgs>();
+        Stack<UIKeyEventArgs> keyPressEventsQ = new Stack<UIKeyEventArgs>();
         Stack<UIInvalidateEventArgs> canvasInvalidatedEventsQ = new Stack<UIInvalidateEventArgs>();
 
         Stack<UICaretEventArgs> caretEventQ = new Stack<UICaretEventArgs>();
         Stack<UICursorEventArgs> cursorEventQ = new Stack<UICursorEventArgs>();
         Stack<UIPopupEventArgs> popEventQ = new Stack<UIPopupEventArgs>();
-        Stack<UIDragEventArgs> dragEventQ = new Stack<UIDragEventArgs>();
+        Stack<UIMouseEventArgs> dragEventQ = new Stack<UIMouseEventArgs>();
 
         public CanvasEventsStock()
         {
             mouseEventsQ.Push(new UIMouseEventArgs());
             keyEventsQ.Push(new UIKeyEventArgs());
-            keyPressEventsQ.Push(new UIKeyPressEventArgs());
+            keyPressEventsQ.Push(new UIKeyEventArgs());
             canvasInvalidatedEventsQ.Push(new UIInvalidateEventArgs());
             canvasFocusEventsQ.Push(new UIFocusEventArgs());
 
@@ -33,7 +33,7 @@ namespace LayoutFarm.UI
             cursorEventQ.Push(new UICursorEventArgs());
             popEventQ.Push(new UIPopupEventArgs());
 
-            dragEventQ.Push(new UIDragEventArgs());
+            dragEventQ.Push(new UIMouseEventArgs());
         }
         public UIPopupEventArgs GetFreeCanvasPopupEventArgs()
         {
@@ -133,12 +133,8 @@ namespace LayoutFarm.UI
             }
 
         }
-        public void ReleaseEventArgs(UIKeyEventArgs e)
-        {
-            e.Clear();
-            keyEventsQ.Push(e);
-        }
-        public UIKeyPressEventArgs GetFreeKeyPressEventArgs()
+         
+        public UIKeyEventArgs GetFreeKeyPressEventArgs()
         {
             if (keyPressEventsQ.Count > 0)
             {
@@ -146,10 +142,10 @@ namespace LayoutFarm.UI
             }
             else
             {
-                return new UIKeyPressEventArgs();
+                return new UIKeyEventArgs();
             }
         }
-        public void ReleaseEventArgs(UIKeyPressEventArgs e)
+        public void ReleaseEventArgs(UIKeyEventArgs e)
         {
             e.Clear();
             keyPressEventsQ.Push(e);
@@ -179,7 +175,7 @@ namespace LayoutFarm.UI
             e.Clear();
             canvasFocusEventsQ.Push(e);
         }
-        public UIDragEventArgs GetFreeDragEventArgs(Point p,
+        public UIMouseEventArgs GetFreeDragEventArgs(Point p,
             UIMouseButtons button,
             int lastestLogicalViewportMouseDownX,
             int lastestLogicalViewportMouseDownY,
@@ -188,14 +184,14 @@ namespace LayoutFarm.UI
             int lastestXDiff,
             int lastestYDiff)
         {
-            UIDragEventArgs e = null;
+            UIMouseEventArgs e = null;
             if (dragEventQ.Count > 0)
             {
                 e = dragEventQ.Pop();
             }
             else
             {
-                e = new UIDragEventArgs();
+                e = new UIMouseEventArgs();
             }
             e.SetEventInfo(p, button,
                 lastestLogicalViewportMouseDownX,
@@ -206,11 +202,7 @@ namespace LayoutFarm.UI
                 lastestYDiff);
             return e;
         }
-        public void ReleaseEventArgs(UIDragEventArgs e)
-        {
-            e.Clear();
-            dragEventQ.Push(e);
-        }
+         
     }
 
 
