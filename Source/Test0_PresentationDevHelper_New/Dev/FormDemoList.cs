@@ -12,10 +12,13 @@ namespace LayoutFarm.Dev
 {
     public partial class FormDemoList : Form
     {
+
+        UIPlatform uiPlatformWinForm;
         public FormDemoList()
         {
             InitializeComponent();
             this.Load += new EventHandler(Form1_Load);
+            uiPlatformWinForm = new LayoutFarm.UI.WinForm.UIPlatformWinForm();
         }
 
         void Form1_Load(object sender, EventArgs e)
@@ -63,17 +66,17 @@ namespace LayoutFarm.Dev
 
         }
 
-        static void CreateReadyForm(
-          out UISurfaceViewportControl viewport,
-          out Form formCanvas)
+        void CreateReadyForm(
+        out UISurfaceViewportControl viewport,
+        out Form formCanvas)
         {
-             
+
             int w = 800;
             int h = 600;
 
             MyRootGraphic rootgfx = new MyRootGraphic(
                 CurrentGraphicPlatform.P,
-                new MyUITimer(), w, h);
+                uiPlatformWinForm.CreateUITimer(), w, h);
 
             var topRenderBox = new TopWindowRenderBox(rootgfx, w, h);
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(topRenderBox, new WinEventBridge(topRenderBox), out viewport);

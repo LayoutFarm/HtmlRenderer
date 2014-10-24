@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="0_UIElement\IUserEventPortal.cs" />
+    <Compile Include="3_Others\dbugHelper.cs" />
+    <Compile Include="3_Others\IdbugOutputWindow.cs" />
     <Compile Include="5_UIPlatform\UIPlatform.cs" />
     <Compile Include="1_LayerElements\2_GridLayerElement.cs" />
     <Compile Include="1_LayerElements\0_LayerElement.cs" />

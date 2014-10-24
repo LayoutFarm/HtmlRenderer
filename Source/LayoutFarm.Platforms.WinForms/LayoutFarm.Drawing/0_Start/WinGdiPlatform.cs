@@ -1,39 +1,7 @@
 ﻿using System;
 namespace LayoutFarm.Drawing
 {
-    static class WinGdi
-    {
-
-        static bool isInit;
-        static WinGdi()
-        {
-        }
-        public static void Start()
-        {
-
-            if (isInit)
-            {
-                return;
-            }
-            isInit = true;
-            var platform = new WinGdiPlatform();
-            WinGdi.P = platform;
-
-            CurrentGraphicPlatform.SetCurrentPlatform(platform);
-            CurrentGraphicPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
-
-
-        }
-        public static void End()
-        {
-
-        }
-        public static GraphicPlatform P;
-    }
-     
-
-
-
+   
     class WinGdiPlatform : GraphicPlatform
     {
          

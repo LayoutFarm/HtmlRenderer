@@ -14,10 +14,11 @@ namespace TestGraphicPackage
 {
     public partial class Form1 : Form
     {
-
+        UIPlatform uiPlatformWinForm;
         public Form1()
         {
             InitializeComponent();
+            uiPlatformWinForm = new LayoutFarm.UI.WinForm.UIPlatformWinForm();
         }
 
         static void ShowFormLayoutInspector(UISurfaceViewportControl viewport)
@@ -38,7 +39,7 @@ namespace TestGraphicPackage
         {
 
             UISurfaceViewportControl viewport;
-            UITimer wintimer = new MyUITimer();
+            UITimer wintimer = uiPlatformWinForm.CreateUITimer();
 
             int w = 800;
             int h = 600;
@@ -66,12 +67,12 @@ namespace TestGraphicPackage
 
             int w = 800;
             int h = 600;
-            UITimer wintimer = new MyUITimer();
+            UITimer wintimer = uiPlatformWinForm.CreateUITimer();
             MyRootGraphic rootgfx = new MyRootGraphic(
                 LayoutFarm.Drawing.WinGdiPortal.P,
                 wintimer, w, h);
 
-            var topWin = new TopWindowRenderBox(rootgfx, w, h);  
+            var topWin = new TopWindowRenderBox(rootgfx, w, h);
             viewport.InitRootGraphics(topWin, new WinEventBridge(topWin), rootgfx);
             viewport.PaintMe();
 

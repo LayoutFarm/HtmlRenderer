@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Text;
 
 using LayoutFarm.Drawing;
- 
+
 
 namespace LayoutFarm.UI
 {
 
-    public class CanvasEventsStock
+    class CanvasEventsStock
     {
         Stack<UIMouseEventArgs> mouseEventsQ = new Stack<UIMouseEventArgs>();
         Stack<UIKeyEventArgs> keyEventsQ = new Stack<UIKeyEventArgs>();
@@ -133,7 +133,7 @@ namespace LayoutFarm.UI
             }
 
         }
-         
+
         public UIKeyEventArgs GetFreeKeyPressEventArgs()
         {
             if (keyPressEventsQ.Count > 0)
@@ -202,7 +202,7 @@ namespace LayoutFarm.UI
                 lastestYDiff);
             return e;
         }
-         
+
     }
 
 
