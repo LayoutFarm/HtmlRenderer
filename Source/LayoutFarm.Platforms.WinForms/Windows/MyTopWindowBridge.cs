@@ -13,7 +13,7 @@ namespace LayoutFarm.Drawing
 
 
 
-    partial class WinViewportBridge
+    partial class MyTopWindowBridge
     {
 
 
@@ -30,7 +30,7 @@ namespace LayoutFarm.Drawing
 
 
 
-        public WinViewportBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
+        public MyTopWindowBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
         {
             this.winEventBridge = winEventBridge;
 

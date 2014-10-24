@@ -79,8 +79,8 @@
     <Compile Include="Windows\IdbugOutputWindow.cs" />
     <Compile Include="Windows\QuadPages.cs" />
     <Compile Include="Graphics\0_Start\WinGdiPlatform.cs" />
-    <Compile Include="Windows\WinViewportBridge.cs" />
-    <Compile Include="Windows\WinViewportBridge_dbug.cs" />
+    <Compile Include="Windows\MyTopWindowBridge.cs" />
+    <Compile Include="Windows\MyTopWindowBridge_dbug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

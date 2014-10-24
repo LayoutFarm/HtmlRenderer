@@ -11,7 +11,7 @@ namespace LayoutFarm.Drawing
 {
 
 #if DEBUG
-    partial class WinViewportBridge : IdbugOutputWindow
+    partial class MyTopWindowBridge : IdbugOutputWindow
     {
 
         public event EventHandler dbug_VisualRootDrawMsg;
