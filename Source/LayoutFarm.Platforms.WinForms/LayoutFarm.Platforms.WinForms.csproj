@@ -67,11 +67,11 @@
     <Compile Include="LayoutFarm.UI\CanvasEventStock.cs" />
     <Compile Include="LayoutFarm.UI\MyCustomRenderSurface.cs" />
     <Compile Include="LayoutFarm.UI\MyUITimer.cs" />
-    <Compile Include="LayoutFarm.UI\UIPlatformWinForm.cs" />
-    <Compile Include="LayoutFarm.UI\UISurfaceViewportControl.cs">
+    <Compile Include="LayoutFarm.UI.WinForms\UIPlatformWinForms.cs" />
+    <Compile Include="LayoutFarm.UI.WinForms\UISurfaceViewportControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="LayoutFarm.UI\UISurfaceViewportControl.Designer.cs">
+    <Compile Include="LayoutFarm.UI.WinForms\UISurfaceViewportControl.Designer.cs">
       <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
     </Compile>
     <Compile Include="LayoutFarm.UI\CanvasViewport.cs" />

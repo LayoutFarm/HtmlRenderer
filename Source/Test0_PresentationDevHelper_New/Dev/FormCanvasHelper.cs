@@ -13,12 +13,12 @@ namespace LayoutFarm.UI
         public static Form CreateNewFormCanvas(
             TopWindowRenderBox topWin,
             IUserEventPortal userInputEvBridge,
-            out UISurfaceViewportControl canvasViewport)
+            out LayoutFarm.UI.WinForms.UISurfaceViewportControl canvasViewport)
         {
 
             Form form1 = new Form();
-            canvasViewport = new UISurfaceViewportControl();
-            UISurfaceViewportControl innerViewport = canvasViewport;
+            canvasViewport = new LayoutFarm.UI.WinForms.UISurfaceViewportControl();
+            LayoutFarm.UI.WinForms.UISurfaceViewportControl innerViewport = canvasViewport;
             Rectangle screenClientAreaRect = Conv.ToRect(Screen.PrimaryScreen.WorkingArea);
              
             //---------------------- 
@@ -52,7 +52,7 @@ namespace LayoutFarm.UI
             return form1;
 
         }
-        public static void MakeFormCanvas(Form form1, UISurfaceViewportControl surfaceViewportControl)
+        public static void MakeFormCanvas(Form form1, LayoutFarm.UI.WinForms.UISurfaceViewportControl surfaceViewportControl)
         {
             form1.FormClosing += (s, e) =>
             {

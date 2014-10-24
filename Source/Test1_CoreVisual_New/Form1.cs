@@ -18,10 +18,10 @@ namespace TestGraphicPackage
         public Form1()
         {
             InitializeComponent();
-            uiPlatformWinForm = new LayoutFarm.UI.WinForm.UIPlatformWinForm();
+            uiPlatformWinForm = new LayoutFarm.UI.WinForms.UIPlatformWinForm();
         }
 
-        static void ShowFormLayoutInspector(UISurfaceViewportControl viewport)
+        static void ShowFormLayoutInspector(LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport)
         {
 
             var formLayoutInspector = new LayoutFarm.Dev.FormLayoutInspector();
@@ -38,7 +38,7 @@ namespace TestGraphicPackage
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
         {
 
-            UISurfaceViewportControl viewport;
+           LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport;
             UITimer wintimer = uiPlatformWinForm.CreateUITimer();
 
             int w = 800;
@@ -48,7 +48,8 @@ namespace TestGraphicPackage
                 wintimer, w, h);
 
             var topWin = new TopWindowRenderBox(rootgfx, w, h);
-            Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(topWin, new WinEventBridge(topWin), out viewport);
+            Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(topWin, 
+                new WinEventBridge(topWin), out viewport);
 
             viewport.PaintMe();
             formCanvas.Show();
@@ -61,7 +62,7 @@ namespace TestGraphicPackage
             simpleForm.Text = "SimpleForm2";
             simpleForm.WindowState = FormWindowState.Maximized;
             Rectangle screenClientAreaRect = Screen.PrimaryScreen.WorkingArea;
-            UISurfaceViewportControl viewport = new UISurfaceViewportControl();
+            LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport = new LayoutFarm.UI.WinForms.UISurfaceViewportControl();
             viewport.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
             simpleForm.Controls.Add(viewport);
 

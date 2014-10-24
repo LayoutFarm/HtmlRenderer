@@ -11,7 +11,7 @@ namespace LayoutFarm
     [DemoNote("1.6 ScrollView")]
     class Demo_ScrollView : DemoBase
     {
-        protected override void OnStartDemo(UISurfaceViewportControl viewport)
+        protected override void OnStartDemo(SampleViewport viewport)
         {
 
             var scbar = new LayoutFarm.SampleControls.UIScrollBar(15, 200);

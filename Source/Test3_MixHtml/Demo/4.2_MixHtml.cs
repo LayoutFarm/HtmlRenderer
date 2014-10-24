@@ -11,7 +11,7 @@ namespace LayoutFarm
     [DemoNote("4.2 MixHtml and Text")]
     class Demo_MixHtml : DemoBase
     {
-        protected override void OnStartDemo(UISurfaceViewportControl viewport)
+        protected override void OnStartDemo(SampleViewport viewport)
         {
 
             ////==================================================

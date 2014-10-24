@@ -11,7 +11,7 @@ namespace LayoutFarm
     [DemoNote("1.7 ListView")]
     class Demo_ListView : DemoBase
     {
-        protected override void OnStartDemo(UISurfaceViewportControl viewport)
+        protected override void OnStartDemo(SampleViewport viewport)
         {
             var listview = new LayoutFarm.SampleControls.UIListView(300, 400);
             listview.SetLocation(10, 10);

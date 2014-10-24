@@ -11,8 +11,8 @@ namespace LayoutFarm
 {
     [DemoNote("4.1 UIHtmlBox")]
     class Demo_UIHtmlBox : DemoBase
-    {   
-        protected override void OnStartDemo(UISurfaceViewportControl viewport)
+    {
+        protected override void OnStartDemo(SampleViewport viewport)
         {       
             
             //html box

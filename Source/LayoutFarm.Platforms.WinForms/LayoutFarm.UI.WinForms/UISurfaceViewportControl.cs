@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm.UI
+namespace LayoutFarm.UI.WinForms
 {
 
     public partial class UISurfaceViewportControl : UserControl

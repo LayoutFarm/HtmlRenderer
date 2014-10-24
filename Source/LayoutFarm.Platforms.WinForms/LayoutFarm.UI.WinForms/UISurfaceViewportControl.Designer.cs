@@ -1,4 +1,4 @@
-﻿namespace LayoutFarm.UI
+﻿namespace LayoutFarm.UI.WinForms
 {
     partial class UISurfaceViewportControl
     {
