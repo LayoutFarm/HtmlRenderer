@@ -31,7 +31,7 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
-            if (e.IsDraging)
+            if (e.IsDragging)
             {
                 if (e.JustEnter)
                 {
@@ -49,7 +49,7 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenMouseUp(UIMouseEventArgs e)
         {
-            if (e.IsDraging)
+            if (e.IsDragging)
             {
                 OnDragStop(e);
             }

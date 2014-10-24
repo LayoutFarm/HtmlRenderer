@@ -23,7 +23,7 @@ namespace LayoutFarm.UI
         public const int NE_MOUSE_DOWN = 7;
         public const int NE_MOUSE_UP = 8;
         public const int NE_DRAG_START = 9;
-        public const int NE_DRAGING = 10;
+        public const int NE_DRAGGING = 10;
         public const int NE_DRAG_STOP = 11;
         public const int NE_DRAG_ENTER = 12;
         public const int NE_DRAG_OVER = 13;

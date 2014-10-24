@@ -274,7 +274,7 @@ namespace LayoutFarm.UI
             //-------------------------------------------------------
             DisableGraphicOutputFlush = true;
 
-            this.isDraging = e.IsDraging;
+            this.isDraging = e.IsDragging;
              
 
             ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>

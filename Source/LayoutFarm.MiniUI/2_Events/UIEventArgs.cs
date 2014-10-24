@@ -214,7 +214,7 @@ namespace LayoutFarm.UI
             this.lastestYDiff = lastestYDiff;
         }
 
-        public bool IsDraging { get; set; }
+        public bool IsDragging { get; set; }
         public bool JustEnter { get; set; }
         
 
