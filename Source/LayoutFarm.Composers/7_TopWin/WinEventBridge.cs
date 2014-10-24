@@ -12,8 +12,7 @@ namespace LayoutFarm.UI
 
         public TopWindowRenderBox topwin;
         UserInputEventBridge userInputEventBridge;
-        bool isMouseDown = false;
-        bool isDraging = false;
+         
         int prevLogicalMouseX = 0;
         int prevLogicalMouseY = 0;
         int lastestLogicalMouseDownX = 0;
@@ -32,29 +31,29 @@ namespace LayoutFarm.UI
             this.lastestLogicalMouseDownX = e.X;
             this.lastestLogicalMouseDownY = e.Y;
             this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y;
-            isMouseDown = true;
-            isDraging = false;
+            this.prevLogicalMouseY = e.Y; 
             userInputEventBridge.OnMouseDown(e);
         }
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
             this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y;
-
-            isMouseDown = false;
+            this.prevLogicalMouseY = e.Y; 
             userInputEventBridge.OnMouseUp(e);
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
-        {    //find diff    
+        {
+            //find diff    
             e.SetDiff(
                 (e.X) - prevLogicalMouseX,
                 (e.Y) - prevLogicalMouseY);
 
+            this.prevLogicalMouseX = e.X;
+            this.prevLogicalMouseY = e.Y; 
+            
+
             userInputEventBridge.OnMouseMove(e);
 
-            this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y;
+            
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {

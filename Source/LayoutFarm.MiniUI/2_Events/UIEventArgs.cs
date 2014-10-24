@@ -226,8 +226,8 @@ namespace LayoutFarm.UI
             {
                 return this.currentLogicalY - this.lastestLogicalViewportMouseDownY;
             }
-        }
-      
+        } 
+        public bool IsMouseDown { get; set; }
     }
     
     

@@ -22,6 +22,7 @@ namespace LayoutFarm.Drawing
         IUserEventPortal winEventBridge;
         TopWindowRenderBox topwin;
         Control windowControl;
+        bool isMouseDown;
 
         public event EventHandler<ScrollSurfaceRequestEventArgs> VScrollRequest;
         public event EventHandler<ScrollSurfaceRequestEventArgs> HScrollRequest;
@@ -100,6 +101,7 @@ namespace LayoutFarm.Drawing
                 GetUIMouseButton(e.Button),
                 e.Clicks,
                 e.Delta);
+            mouseEventArg.IsMouseDown = this.isMouseDown;
             mouseEventArg.OffsetCanvasOrigin(this.canvasViewport.LogicalViewportLocation);
         }
 
@@ -238,14 +240,9 @@ namespace LayoutFarm.Drawing
         public void OnMouseDown(MouseEventArgs e)
         {
 
-
+            this.isMouseDown = true;
             this.topwin.MakeCurrent();
-            Point viewLocation = canvasViewport.LogicalViewportLocation;
-
-            int lastestLogicalMouseDownX = (viewLocation.X + e.X);
-            int lastestLogicalMouseDownY = (viewLocation.Y + e.Y);
-
-
+             
             canvasViewport.FullMode = false;
 
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
@@ -269,12 +266,13 @@ namespace LayoutFarm.Drawing
         }
         public void OnMouseMove(MouseEventArgs e)
         {
+            this.isMouseDown = false;
             //interprete meaning ?
             Point viewLocation = canvasViewport.LogicalViewportLocation;
 
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
-            mouseEventArg.OffsetCanvasOrigin(viewLocation);
-
+            SetUIMouseEventArgsInfo(mouseEventArg, e);
+           
             this.winEventBridge.PortalMouseMove(mouseEventArg);
 
             PaintToOutputWindowIfNeed();
@@ -349,9 +347,7 @@ namespace LayoutFarm.Drawing
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
 
             SetUIMouseEventArgsInfo(mouseEventArg, e);
-            canvasViewport.FullMode = false;
-            mouseEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
-
+            canvasViewport.FullMode = false; 
             this.winEventBridge.PortalMouseUp(mouseEventArg);
 
             PaintToOutputWindowIfNeed();
@@ -418,9 +414,7 @@ namespace LayoutFarm.Drawing
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
             SetUIMouseEventArgsInfo(mouseEventArg, e);
             canvasViewport.FullMode = true;
-
-            mouseEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
-
+             
             this.winEventBridge.PortalMouseWheel(mouseEventArg);
             PaintToOutputWindowIfNeed();
 
