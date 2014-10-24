@@ -18,6 +18,8 @@ namespace LayoutFarm.UI
 
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
 
+        IUserEventPortal userEventPortal;
+
         RootGraphic rootGraphic; 
         System.Timers.Timer centralAnimationClock;
 
@@ -38,6 +40,8 @@ namespace LayoutFarm.UI
             rootTasksTimer.Elapsed += new System.Timers.ElapsedEventHandler(rootTasksTimer_Elapsed);
             rootTasksTimer.Enabled = false;
             //hoverMonitoringTask = new UIHoverMonitorTask(this, this.OnMouseHover);
+
+           
 #if DEBUG
             dbug_hide_objIden = true;
 

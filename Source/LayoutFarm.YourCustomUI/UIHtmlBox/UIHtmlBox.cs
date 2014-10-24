@@ -28,7 +28,7 @@ namespace LayoutFarm.SampleControls
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
         public event EventHandler<ImageRequestEventArgs> RequestImage;
 
-        
+
         System.Timers.Timer tim = new System.Timers.Timer();
         bool hasWaitingDocToLoad;
         HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
@@ -69,6 +69,15 @@ namespace LayoutFarm.SampleControls
         {
             _htmlInputEventBridge.MouseMove(e);
         }
+        void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
+        {
+        }
+        void IUserEventPortal.PortalDoubleClick(UIMouseEventArgs e)
+        {
+        }
+        void IUserEventPortal.PortalClick(UIMouseEventArgs e)
+        {
+        }
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
             _htmlInputEventBridge.KeyDown(e);
@@ -77,7 +86,6 @@ namespace LayoutFarm.SampleControls
         {
             _htmlInputEventBridge.KeyPress(e);
         }
-        
         void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
             _htmlInputEventBridge.KeyUp(e);
@@ -86,9 +94,16 @@ namespace LayoutFarm.SampleControls
         {
             return this._htmlInputEventBridge.ProcessDialogKey(e);
         }
+        void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
+        {
+        }
+        void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
+        {
+        }
+
         //--------------------------------------------------------------------
 
-        
+
         void tim_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             if (this.myHtmlIsland != null)
@@ -138,7 +153,7 @@ namespace LayoutFarm.SampleControls
         {
             this.InvalidateGraphic();
         }
-         
+
         protected override void OnKeyUp(UIKeyEventArgs e)
         {
             base.OnKeyUp(e);
@@ -181,7 +196,7 @@ namespace LayoutFarm.SampleControls
                 this.myHtmlIsland,
                 this.waitingCssData,
                 this.myCssBoxWrapper);
-            
+
             //update htmlIsland
             var htmlIsland = this.myHtmlIsland;
             htmlIsland.SetHtmlDoc(this.currentdoc);

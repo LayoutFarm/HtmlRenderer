@@ -11,8 +11,8 @@ namespace LayoutFarm.UI
     {
 
         public static Form CreateNewFormCanvas(
-            RootGraphic rootgfx,
-            UserInputEventBridge userInputEvBridge, 
+            TopWindowRenderBox topWin,
+            IUserEventPortal userInputEvBridge,
             out UISurfaceViewportControl canvasViewport)
         {
 
@@ -20,9 +20,11 @@ namespace LayoutFarm.UI
             canvasViewport = new UISurfaceViewportControl();
             UISurfaceViewportControl innerViewport = canvasViewport;
             Rectangle screenClientAreaRect = Conv.ToRect(Screen.PrimaryScreen.WorkingArea);
-
+             
             //---------------------- 
-            canvasViewport.InitRootGraphics(800, 600, userInputEvBridge, rootgfx);
+            
+
+            canvasViewport.InitRootGraphics(topWin, userInputEvBridge, topWin.Root);
             canvasViewport.Bounds =
                 new System.Drawing.Rectangle(0, 0,
                     screenClientAreaRect.Width,

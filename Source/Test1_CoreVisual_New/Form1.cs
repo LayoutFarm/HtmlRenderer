@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using LayoutFarm; 
+using LayoutFarm;
 using LayoutFarm.UI;
 
 
@@ -39,11 +39,16 @@ namespace TestGraphicPackage
 
             UISurfaceViewportControl viewport;
             WinTimer wintimer = new MyWinTimer();
-            MyRootGraphic rootgfx = new MyRootGraphic(
-                LayoutFarm.Drawing.WinGdiPortal.P, 
-                wintimer, 800, 600);
 
-            Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx, new MyUserInputEventBridge(), out viewport);
+            int w = 800;
+            int h = 600;
+            MyRootGraphic rootgfx = new MyRootGraphic(
+                LayoutFarm.Drawing.WinGdiPortal.P,
+                wintimer, w, h);
+
+            var topWin = new TopWindowRenderBox(rootgfx, w, h);
+            Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(topWin, new WinEventBridge(topWin), out viewport);
+
             viewport.PaintMe();
             formCanvas.Show();
             ShowFormLayoutInspector(viewport);
@@ -59,11 +64,17 @@ namespace TestGraphicPackage
             viewport.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
             simpleForm.Controls.Add(viewport);
 
+            int w = 800;
+            int h = 600;
             WinTimer wintimer = new MyWinTimer();
             MyRootGraphic rootgfx = new MyRootGraphic(
                 LayoutFarm.Drawing.WinGdiPortal.P,
-                wintimer, 800, 600);
-            viewport.InitRootGraphics(800, 600, new MyUserInputEventBridge(), rootgfx);
+                wintimer, w, h);
+
+            var topWin = new TopWindowRenderBox(rootgfx, w, h);
+            WinEventBridge winBridge = new WinEventBridge(topWin); 
+
+            viewport.InitRootGraphics(topWin, winBridge, rootgfx);
             viewport.PaintMe();
 
             simpleForm.Show();

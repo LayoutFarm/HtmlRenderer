@@ -72,11 +72,17 @@ namespace LayoutFarm.Dev
             //    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
             //     new System.Drawing.Font("tahoma", 10)),
             //     new BasicGdi32FontHelper());
-            WinTimer wintimer= new MyWinTimer();
+            WinTimer wintimer = new MyWinTimer();
+
+
+            int w = 800;
+            int h = 600;
             MyRootGraphic rootgfx = new MyRootGraphic(
                 CurrentGraphicPlatform.P,
-                wintimer, 800, 600);
-            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,new MyUserInputEventBridge(), out viewport);
+                wintimer, w, h);
+
+            var topRenderBox = new TopWindowRenderBox(rootgfx, w, h);
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(topRenderBox, new WinEventBridge(topRenderBox), out viewport);
             formCanvas.Text = "FormCanvas 1";
 
             viewport.PaintMe();

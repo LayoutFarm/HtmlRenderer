@@ -16,23 +16,6 @@ namespace LayoutFarm.UI
         void ListenDragEvent(UIDragEventName dragEventName, UIMouseEventArgs e);
         void ListenFocusEvent(UIFocusEventName focusEventName, UIFocusEventArgs e); 
         //--------------------------------------------------------------------------
-        bool AcceptKeyboardFocus { get; }
-         
-    }
-
-    public interface IUserEventPortal
-    {
-        //--------------------------------------------
-
-        void PortalKeyPress(UIKeyEventArgs e);
-        void PortalKeyDown(UIKeyEventArgs e);
-        void PortalKeyUp(UIKeyEventArgs e);
-        bool PortalProcessDialogKey(UIKeyEventArgs e);
-        //----------------------------------------------
-
-        void PortalMouseDown(UIMouseEventArgs e);
-        void PortalMouseMove(UIMouseEventArgs e);
-        void PortalMouseUp(UIMouseEventArgs e);
-        //---------------------------------------------- 
-    }
+        bool AcceptKeyboardFocus { get; } 
+    } 
 }

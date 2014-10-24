@@ -13,19 +13,22 @@ namespace LayoutFarm.UI
     {
 
         TopWindowRenderBox wintop;
-        WinEventBridge winEventBridge;
+        IUserEventPortal winEventBridge;
         WinViewportBridge winViewportBridge;
         public UISurfaceViewportControl()
         {
             InitializeComponent();
         }
 
-        public void InitRootGraphics(int width, int height, UserInputEventBridge userInputEvBridge, LayoutFarm.RootGraphic root)
+        public void InitRootGraphics(TopWindowRenderBox wintop, IUserEventPortal userInputEvBridge, LayoutFarm.RootGraphic root)
         {
+            //1.
+            this.wintop = wintop;//
 
-            this.wintop = new TopWindowRenderBox(root, width, height);
-            this.winEventBridge = new WinEventBridge(this.wintop, userInputEvBridge);
-            this.winViewportBridge = new WinViewportBridge(this.winEventBridge);
+            this.winEventBridge = userInputEvBridge;// new WinEventBridge(this.wintop, userInputEvBridge);
+
+            this.winViewportBridge = new WinViewportBridge(wintop, this.winEventBridge);
+
             this.winViewportBridge.BindWindowControl(this);
         }
 #if DEBUG
