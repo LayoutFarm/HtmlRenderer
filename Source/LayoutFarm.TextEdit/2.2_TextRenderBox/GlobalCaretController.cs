@@ -73,7 +73,7 @@ namespace LayoutFarm.Text
 
                         if (evlistener != null)
                         {
-                            evlistener.ListenFocusEvent(UIFocusEventName.LossingFocus, null);
+                            evlistener.ListenLostFocus(null); 
                         }
                     }
                 }

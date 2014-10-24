@@ -50,9 +50,7 @@ namespace LayoutFarm.UI
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y; 
             
-
-            userInputEventBridge.OnMouseMove(e);
-
+            userInputEventBridge.OnMouseMove(e);           
             
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
@@ -93,18 +91,6 @@ namespace LayoutFarm.UI
         {
             userInputEventBridge.OnLostFocus(e);
         }
-
-        public void OnDragStart(UIMouseEventArgs e)
-        {
-            this.userInputEventBridge.OnDragStart(e);
-        }
-        public void OnDraging(UIMouseEventArgs e)
-        {
-            this.userInputEventBridge.OnDrag(e);
-        }
-        public void OnDragStop(UIMouseEventArgs e)
-        {
-            this.userInputEventBridge.OnDragStop(e);
-        }
+ 
     }
 }

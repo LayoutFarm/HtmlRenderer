@@ -16,7 +16,7 @@ namespace HtmlRenderer.Composers
     /// </summary>
     public class HtmlInputEventBridge
     {
-            
+
         //-----------------------------------------------
         HtmlIsland _htmlIsland;
         CssBoxHitChain _latestMouseDownHitChain = null;
@@ -180,7 +180,7 @@ namespace HtmlRenderer.Composers
         public void KeyDown(UIKeyEventArgs e)
         {
             //send focus to current input element
-            
+
         }
         public void KeyPress(UIKeyEventArgs e)
         {
@@ -235,11 +235,12 @@ namespace HtmlRenderer.Composers
                     {
                         case UIEventName.MouseDown:
                             {
-                                controller.ListenMouseEvent(UIMouseEventName.MouseDown, (UIMouseEventArgs)eventArgs);
+                                controller.ListenMouseDown((UIMouseEventArgs)eventArgs);
+
                             } break;
                         case UIEventName.MouseUp:
                             {
-                                controller.ListenMouseEvent(UIMouseEventName.MouseUp, (UIMouseEventArgs)eventArgs);
+                                controller.ListenMouseUp((UIMouseEventArgs)eventArgs);
                             } break;
                     }
 

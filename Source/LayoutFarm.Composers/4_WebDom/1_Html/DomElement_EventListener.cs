@@ -8,237 +8,57 @@ using LayoutFarm.UI;
 
 namespace HtmlRenderer.WebDom
 {
-    public delegate void HtmlEventHandler(UIEventArgs e);
-
+     
     partial class DomElement : IEventListener
     {
-         
-        void IEventListener.ListenKeyPressEvent(UIKeyEventArgs args)
+
+        void IEventListener.ListenKeyPress(UIKeyEventArgs e)
         {
-            OnKeyPress(args);
+            OnKeyPress(e);
         }
-        void IEventListener.ListenKeyEvent(UIKeyEventName keyEventName, UIKeyEventArgs args)
+        void IEventListener.ListenKeyDown(UIKeyEventArgs e)
         {
-            switch (keyEventName)
-            {
-                case UIKeyEventName.KeyDown:
-                    {
-                        OnKeyDown(args);
-                    } break;
-                case UIKeyEventName.KeyUp:
-                    {
-                        OnKeyUp(args);
-                    } break;
-            }
+            OnKeyDown(e);
+        }
+        void IEventListener.ListenKeyUp(UIKeyEventArgs e)
+        {
+            OnKeyUp(e);
         }
         bool IEventListener.ListenProcessDialogKey(UIKeyEventArgs e)
         {
             return OnProcessDialogKey(e);
         }
-        void IEventListener.ListenMouseEvent(UIMouseEventName evName, UIMouseEventArgs e)
+        void IEventListener.ListenMouseDown(UIMouseEventArgs e)
         {
-            switch (evName)
-            {
-                case UIMouseEventName.Click:
-                    {
-
-                    } break;
-                case UIMouseEventName.DoubleClick:
-                    {
-                        OnDoubleClick(e);
-                    } break;
-                case UIMouseEventName.MouseDown:
-                    {
-                        OnMouseDown(e);
-                    } break;
-                case UIMouseEventName.MouseMove:
-                    {
-                        OnMouseMove(e);
-                    } break;
-                case UIMouseEventName.MouseUp:
-                    {
-                        OnMouseUp(e);
-                    } break;
-                case UIMouseEventName.MouseWheel:
-                    {
-                        OnMouseWheel(e);
-                    } break;
-            }
+            
+            OnMouseDown(e);
         }
-        void IEventListener.ListenDragEvent(UIDragEventName evName, UIMouseEventArgs e)
+        void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
-            switch (evName)
-            {
-                case UIDragEventName.Dragging:
-                    {
-                        OnDragging(e);
-                    } break;
-                case UIDragEventName.DragStart:
-                    {
-                        OnDragStart(e);
-                    } break;
-                case UIDragEventName.DragStop:
-                    {
-                        OnDragStop(e);
-                    } break;
-            }
+            OnMouseMove(e);
         }
-        void IEventListener.ListenFocusEvent(UIFocusEventName evName, UIFocusEventArgs e)
+        void IEventListener.ListenMouseUp(UIMouseEventArgs e)
         {
-            switch (evName)
-            {
-                case UIFocusEventName.Focus:
-                    {
-                        OnGotFocus(e);
-                    } break;
-                case UIFocusEventName.LossingFocus:
-                    {
-                        OnLostFocus(e);
-                    } break;
-            }
+            OnMouseUp(e);
         }
+        void IEventListener.ListenMouseWheel(UIMouseEventArgs e)
+        {
+            OnMouseWheel(e);
+        }
+        void IEventListener.ListenMouseLeave(UIMouseEventArgs e)
+        {
+            OnMouseLeave(e);
+        }
+        void IEventListener.ListenGotFocus(UIFocusEventArgs e)
+        {
+            OnGotFocus(e);
+        }
+        void IEventListener.ListenLostFocus(UIFocusEventArgs e)
+        {
+            OnLostFocus(e);
+        }
+          
         bool IEventListener.AcceptKeyboardFocus { get { return false; } }
-        //------------------------------------------------------
-        public void AttachEvent(UIEventName eventName, HtmlEventHandler handler)
-        {
-            switch (eventName)
-            {
-                case UIEventName.MouseDown:
-                    {
-                        this.evhMouseDown += handler;
-                    } break;
-                case UIEventName.MouseUp:
-                    {
-                        this.evhMouseUp += handler;
-                    } break;
-            }
-        }
-        public void DetachEvent(UIEventName eventName, HtmlEventHandler handler)
-        {
-            switch (eventName)
-            {
-                case UIEventName.MouseDown:
-                    {
-                        this.evhMouseDown -= handler;
-                    } break;
-                case UIEventName.MouseUp:
-                    {
-                        this.evhMouseUp -= handler;
-                    } break;
-            }
-
-        }
-        //-------------------------------------------------------
-        protected virtual void OnLostFocus(UIFocusEventArgs e)
-        {
-        }
-        protected virtual void OnLostMouseFocus(UIFocusEventArgs e)
-        {
-        }
-        protected virtual void OnGotFocus(UIFocusEventArgs e)
-        {
-        }
-
-        protected virtual void OnDoubleClick(UIMouseEventArgs e)
-        {
-
-
-        }
-        protected virtual void OnMouseDown(UIMouseEventArgs e)
-        {
-            if (this.evhMouseDown != null)
-            {
-                evhMouseDown(e);
-            }
-        }
-        protected virtual void OnMouseWheel(UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragStart(UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragEnter(UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragOver(UIMouseEventArgs e)
-        {
-        }
-        protected virtual void OnDragLeave(UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragStop(UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragging(UIMouseEventArgs e)
-        {
-        }
-        protected virtual void OnDragDrop(UIMouseEventArgs e)
-        {
-        }
-        protected virtual void OnCollapsed()
-        {
-        }
-        protected virtual void OnExpanded()
-        {
-
-        }
-        protected virtual void OnElementLanded()
-        {
-
-        }
-        protected virtual void OnShown()
-        {
-        }
-        protected virtual void OnHide()
-        {
-        }
-
-        protected virtual void OnKeyDown(UIKeyEventArgs e)
-        {
-        }
-        protected virtual void OnKeyUp(UIKeyEventArgs e)
-        {
-        }
-        protected virtual void OnKeyPress(UIKeyEventArgs e)
-        {
-        }
-        protected virtual bool OnProcessDialogKey(UIKeyEventArgs e)
-        {
-            return false;
-        }
-
-        protected virtual void OnMouseMove(UIMouseEventArgs e)
-        {
-        }
-        protected virtual void OnMouseHover(UIMouseEventArgs e)
-        {
-        }
-        protected virtual void OnMouseUp(UIMouseEventArgs e)
-        {
-            if (evhMouseUp != null)
-            {
-                evhMouseUp(e);
-            }
-        }
-        protected virtual void OnMouseEnter(UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnMouseLeave(UIMouseEventArgs e)
-        {
-        }
-        protected virtual void OnDropInto()
-        {
-
-        }
-        protected virtual void OnSizeChanged(UISizeChangedEventArgs e)
-        {
-
-        }
+        
     }
 }

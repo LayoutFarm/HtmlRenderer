@@ -7,95 +7,52 @@ namespace LayoutFarm.UI
 {
     partial class UIElement
     {
-       
 
-        void IEventListener.ListenKeyPressEvent(UIKeyEventArgs args)
+
+        void IEventListener.ListenKeyPress(UIKeyEventArgs e)
         {
-            OnKeyPress(args);
+            OnKeyPress(e);
         }
-        void IEventListener.ListenKeyEvent(UIKeyEventName keyEventName, UIKeyEventArgs args)
+        void IEventListener.ListenKeyDown(UIKeyEventArgs e)
         {
-            switch (keyEventName)
-            {
-                case UIKeyEventName.KeyDown:
-                    {
-                        OnKeyDown(args);
-                    } break;
-                case UIKeyEventName.KeyUp:
-                    {
-                        OnKeyUp(args);
-                    } break;
-            }
+            OnKeyDown(e);
+        }
+        void IEventListener.ListenKeyUp(UIKeyEventArgs e)
+        {
+            OnKeyUp(e);
         }
         bool IEventListener.ListenProcessDialogKey(UIKeyEventArgs e)
         {
             return OnProcessDialogKey(e);
         }
-        void IEventListener.ListenMouseEvent(UIMouseEventName evName, UIMouseEventArgs e)
+        void IEventListener.ListenMouseDown(UIMouseEventArgs e)
         {
-            switch (evName)
-            {
-                case UIMouseEventName.Click:
-                    {
-
-                    } break;
-                case UIMouseEventName.DoubleClick:
-                    {
-                        OnDoubleClick(e);
-                    } break;
-                case UIMouseEventName.MouseDown:
-                    {
-                        OnMouseDown(e);
-                    } break;
-                case UIMouseEventName.MouseMove:
-                    {
-                        OnMouseMove(e);
-                    } break;
-                case UIMouseEventName.MouseUp:
-                    {
-                        OnMouseUp(e);
-                    } break;
-                case UIMouseEventName.MouseWheel:
-                    {
-                        OnMouseWheel(e);
-                    } break;
-            }
+            OnMouseDown(e);
         }
-        void IEventListener.ListenDragEvent(UIDragEventName evName, UIMouseEventArgs e)
+        void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
-            switch (evName)
-            {
-                case UIDragEventName.Dragging:
-                    {
-                        OnDragging(e);
-                    } break;
-                case UIDragEventName.DragStart:
-                    {
-                        OnDragStart(e);
-                    } break;
-                case UIDragEventName.DragStop:
-                    {
-                        OnDragStop(e);
-                    } break;
-            }
+            OnMouseMove(e);
         }
-     
-
-        void IEventListener.ListenFocusEvent(UIFocusEventName evName, UIFocusEventArgs e)
+        void IEventListener.ListenMouseUp(UIMouseEventArgs e)
         {
-            switch (evName)
-            {
-                case UIFocusEventName.Focus:
-                    {
-
-                        OnGotFocus(e);
-                    } break;
-                case UIFocusEventName.LossingFocus:
-                    {
-                        OnLostFocus(e);
-                    } break;
-            }
+            OnMouseUp(e);
         }
-
+        void IEventListener.ListenMouseWheel(UIMouseEventArgs e)
+        {
+            OnMouseWheel(e);
+        }
+        void IEventListener.ListenMouseLeave(UIMouseEventArgs e)
+        {
+            OnMouseLeave(e);
+        }
+        void IEventListener.ListenGotFocus(UIFocusEventArgs e)
+        {
+            OnGotFocus(e);
+        }
+        void IEventListener.ListenLostFocus(UIFocusEventArgs e)
+        {
+            OnLostFocus(e);
+        }
+         
     }
 }

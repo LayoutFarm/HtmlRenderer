@@ -55,6 +55,7 @@
     <Compile Include="4_WebDom\1_Html\DomElement_EventListener.cs" />
     <Compile Include="3_Bridge_HtmlRender_LeanBox\HtmlRefreshEventArgs.cs" />
     <Compile Include="3_Bridge_HtmlRender_LeanBox\StylesheetLoadEventArgs.cs" />
+    <Compile Include="4_WebDom\1_Html\DomElement_OnEvents.cs" />
     <Compile Include="4_WebDom\1_Html\ElementChangeKind.cs" />
     <Compile Include="4_WebDom\2_Css\CssAttributeSelector.cs" />
     <Compile Include="4_WebDom\2_Css\CssDocMembers.cs" />

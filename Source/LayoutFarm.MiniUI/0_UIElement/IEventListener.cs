@@ -9,13 +9,20 @@ namespace LayoutFarm.UI
     public interface IEventListener
     {
         //--------------------------------------------------------------------------
-        void ListenKeyPressEvent(UIKeyEventArgs args);
-        void ListenKeyEvent(UIKeyEventName keyEventName, UIKeyEventArgs e);
+        void ListenKeyPress(UIKeyEventArgs args);
+        void ListenKeyDown(UIKeyEventArgs e);
+        void ListenKeyUp(UIKeyEventArgs e);
         bool ListenProcessDialogKey(UIKeyEventArgs args);
-        void ListenMouseEvent(UIMouseEventName mouseEventName, UIMouseEventArgs e);
-        void ListenDragEvent(UIDragEventName dragEventName, UIMouseEventArgs e);
-        void ListenFocusEvent(UIFocusEventName focusEventName, UIFocusEventArgs e); 
         //--------------------------------------------------------------------------
-        bool AcceptKeyboardFocus { get; } 
-    } 
+        void ListenMouseDown(UIMouseEventArgs e);
+        void ListenMouseMove(UIMouseEventArgs e);
+        void ListenMouseUp(UIMouseEventArgs e);
+        void ListenMouseLeave(UIMouseEventArgs e);
+        void ListenMouseWheel(UIMouseEventArgs e);
+        //--------------------------------------------------------------------------
+        void ListenGotFocus(UIFocusEventArgs e);
+        void ListenLostFocus(UIFocusEventArgs e);
+        //--------------------------------------------------------------------------
+        bool AcceptKeyboardFocus { get; }
+    }
 }
