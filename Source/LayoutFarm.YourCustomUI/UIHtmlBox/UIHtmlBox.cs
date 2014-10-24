@@ -28,6 +28,7 @@ namespace LayoutFarm.SampleControls
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
         public event EventHandler<ImageRequestEventArgs> RequestImage;
 
+        
         System.Timers.Timer tim = new System.Timers.Timer();
         bool hasWaitingDocToLoad;
         HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
@@ -67,21 +68,23 @@ namespace LayoutFarm.SampleControls
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
             _htmlInputEventBridge.MouseMove(e);
-
         }
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
-            
+            _htmlInputEventBridge.KeyDown(e);
         }
         void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
+            _htmlInputEventBridge.KeyPress(e);
         }
+        
         void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
+            _htmlInputEventBridge.KeyUp(e);
         }
         bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
-            return false;
+            return this._htmlInputEventBridge.ProcessDialogKey(e);
         }
         //--------------------------------------------------------------------
 
@@ -135,37 +138,7 @@ namespace LayoutFarm.SampleControls
         {
             this.InvalidateGraphic();
         }
-        //protected override void OnMouseDown(UIMouseEventArgs e)
-        //{
-        //    //mouse down on html box
-        //    this._htmlEventBridge.MouseDown(e.X, e.Y, (int)e.Button); 
-        //}
-        //protected override void OnDragStart(UIMouseEventArgs e)
-        //{
-        //    this._htmlEventBridge.MouseMove(e.X, e.Y, (int)e.Button);             
-        //}
-        //protected override void OnDragging(UIMouseEventArgs e)
-        //{
-        //    this._htmlEventBridge.MouseMove(e.X, e.Y, (int)e.Button);
-        //    //dbase.OnDragging(e);
-        //}
-        //protected override void OnDragStop(UIMouseEventArgs e)
-        //{
-        //    this._htmlEventBridge.MouseMove(e.X, e.Y, (int)e.Button);
-        //    //base.OnDragStop(e);
-        //}
-        //protected override void OnMouseUp(UIMouseEventArgs e)
-        //{
-        //    this._htmlEventBridge.MouseUp(e.X, e.Y, (int)e.Button);
-        //}
-        //protected override void OnKeyDown(UIKeyEventArgs e)
-        //{
-        //    this._htmlEventBridge.KeyDown('a');
-        //}
-        //protected override void OnKeyPress(UIKeyEventArgs e)
-        //{ 
-        //    this._htmlEventBridge.KeyDown(e.KeyChar);
-        //}
+         
         protected override void OnKeyUp(UIKeyEventArgs e)
         {
             base.OnKeyUp(e);
@@ -208,7 +181,8 @@ namespace LayoutFarm.SampleControls
                 this.myHtmlIsland,
                 this.waitingCssData,
                 this.myCssBoxWrapper);
-
+            
+            //update htmlIsland
             var htmlIsland = this.myHtmlIsland;
             htmlIsland.SetHtmlDoc(this.currentdoc);
             htmlIsland.SetRootCssBox(rootBox, this.waitingCssData);

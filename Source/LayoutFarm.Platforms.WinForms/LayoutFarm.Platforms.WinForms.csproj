@@ -64,6 +64,7 @@
     <Compile Include="Graphics\MyCanvas\MyCanvas_Static.cs" />
     <Compile Include="Graphics\MyCanvas\MyCanvas_TextFuncs.cs" />
     <Compile Include="Windows\CanvasCollection.cs" />
+    <Compile Include="Windows\CanvasEventStock.cs" />
     <Compile Include="Windows\MyCustomRenderSurface.cs" />
     <Compile Include="Windows\MyWinTimer.cs" />
     <Compile Include="Windows\UISurfaceViewportControl.cs">

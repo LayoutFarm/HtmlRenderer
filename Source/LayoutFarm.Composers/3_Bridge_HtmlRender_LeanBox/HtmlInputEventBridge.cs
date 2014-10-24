@@ -11,9 +11,12 @@ using LayoutFarm.UI;
 namespace HtmlRenderer.Composers
 {
 
+    /// <summary>
+    /// control Html input logic 
+    /// </summary>
     public class HtmlInputEventBridge
     {
-
+            
         //-----------------------------------------------
         HtmlIsland _htmlIsland;
         CssBoxHitChain _latestMouseDownHitChain = null;
@@ -156,14 +159,15 @@ namespace HtmlRenderer.Composers
                 _latestMouseDownHitChain.Clear();
                 _latestMouseDownHitChain = null;
             }
-
-
         }
         public void MouseLeave(UIMouseEventArgs e)
         {
+
         }
         public void MouseDoubleClick(UIMouseEventArgs e)
         {
+
+
         }
         public void MouseWheel(UIMouseEventArgs e)
         {
@@ -173,11 +177,22 @@ namespace HtmlRenderer.Composers
         {
             this._htmlIsland.ClearPreviousSelection();
         }
-        public void KeyDown(char keyChar)
+        public void KeyDown(UIKeyEventArgs e)
         {
             //send focus to current input element
+            
         }
-        public void KeyUp()
+        public void KeyPress(UIKeyEventArgs e)
+        {
+            //send focus to current input element
+
+        }
+        public bool ProcessDialogKey(UIKeyEventArgs e)
+        {
+            //send focus to current input element
+            return false;
+        }
+        public void KeyUp(UIKeyEventArgs e)
         {
         }
 

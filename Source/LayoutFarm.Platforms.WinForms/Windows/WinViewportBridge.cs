@@ -121,15 +121,15 @@ namespace LayoutFarm.Drawing
         CanvasEventsStock eventStock = new CanvasEventsStock();
         CanvasViewport canvasViewport;
         WinEventBridge winEventBridge;
-
+        TopWindowRenderBox topwin;
+        Control windowControl;
 
         public event EventHandler<ScrollSurfaceRequestEventArgs> VScrollRequest;
         public event EventHandler<ScrollSurfaceRequestEventArgs> HScrollRequest;
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
 
-        TopWindowRenderBox topwin;
-        Control windowControl;
+       
 
         public WinViewportBridge(WinEventBridge winEventBridge)
         {

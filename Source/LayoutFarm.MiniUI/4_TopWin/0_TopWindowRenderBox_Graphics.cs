@@ -4,22 +4,26 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using LayoutFarm.Drawing;
- 
+
 namespace LayoutFarm.UI
 {
+
+    public delegate void CanvasInvalidateRequestDelegate(ref Rectangle invalidateArea);
 
     partial class TopWindowRenderBox
     {
 
-        public event EventHandler<UIInvalidateEventArgs> CanvasInvalidatedEvent;
-       
+        CanvasInvalidateRequestDelegate canvasInvaliddateReqDel;
 
         Stack<VisualDrawingChain> renderingChainStock = new Stack<VisualDrawingChain>();
         LinkedList<VisualRootTimerTask> rootTimerTasks = new LinkedList<VisualRootTimerTask>();
         System.Timers.Timer rootTasksTimer;
         LinkedList<LinkedListNode<VisualRootTimerTask>> tobeRemoveTasks = new LinkedList<LinkedListNode<VisualRootTimerTask>>();
 
-
+        public void SetCanvasInvalidateRequest(CanvasInvalidateRequestDelegate canvasInvaliddateReqDel)
+        {
+            this.canvasInvaliddateReqDel = canvasInvaliddateReqDel;
+        }
         bool LayoutQueueClearing
         {
             get { return this.rootGraphic.LayoutQueueClearing; }
@@ -36,11 +40,8 @@ namespace LayoutFarm.UI
             set { this.rootGraphic.GraphicUpdateBlockCount = value; }
         }
         public override void FlushGraphic(Rectangle rect)
-        {
-            UIInvalidateEventArgs e = this.eventStock.GetFreeCanvasInvalidatedEventArgs();
-            e.InvalidArea = rect;
-            CanvasInvalidatedEvent(this, e);
-            eventStock.ReleaseEventArgs(e);
+        {            
+            canvasInvaliddateReqDel(ref rect);            
         }
 
         internal void FlushAccumGraphicUpdate()
@@ -92,21 +93,21 @@ namespace LayoutFarm.UI
         public void EndRenderPhase()
         {
             this.rootGraphic.IsInRenderPhase = false;
-        } 
+        }
         public void ChangeVisualRootSize(int width, int height)
         {
-            this.ChangeRootElementSize(width, height); 
+            this.ChangeRootElementSize(width, height);
         }
         public void Dispose()
         {
 
-        } 
+        }
         public void ClearAllResources()
         {
             if (centralAnimationClock != null)
             {
                 centralAnimationClock.Stop();
-            } 
+            }
             ClearAllChildren();
         }
     }

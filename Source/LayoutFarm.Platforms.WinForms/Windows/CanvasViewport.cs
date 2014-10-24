@@ -23,7 +23,7 @@ namespace LayoutFarm.Drawing
         int v_smallChange = 0;
         int v_largeChange = 0;
 
-        EventHandler<UIInvalidateEventArgs> canvasInvalidateHandler;
+        CanvasInvalidateRequestDelegate canvasInvalidateHandler;
         EventHandler<EventArgs> canvasSizeChangedHandler;
 
         bool fullMode = true;
@@ -42,8 +42,8 @@ namespace LayoutFarm.Drawing
             canvasInvalidateHandler = Canvas_Invalidate;
             canvasSizeChangedHandler = Canvas_SizeChanged;
 
-            wintop.CanvasInvalidatedEvent += canvasInvalidateHandler;
-
+             
+            wintop.SetCanvasInvalidateRequest(canvasInvalidateHandler);
             viewportX = 0;
             viewportY = 0;
 
@@ -82,9 +82,9 @@ namespace LayoutFarm.Drawing
         {
             //EvaluateScrollBar();
         }
-        void Canvas_Invalidate(object sender, UIInvalidateEventArgs e)
+        void Canvas_Invalidate(ref Rectangle r)
         {
-            quadPages.CanvasInvalidate(e.InvalidArea);
+            quadPages.CanvasInvalidate(r);
         }
 
 

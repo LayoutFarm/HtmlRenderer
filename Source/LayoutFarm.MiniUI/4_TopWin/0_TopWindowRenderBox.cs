@@ -18,9 +18,7 @@ namespace LayoutFarm.UI
 
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
 
-        RootGraphic rootGraphic;
-        CanvasEventsStock eventStock = new CanvasEventsStock();
-
+        RootGraphic rootGraphic; 
         System.Timers.Timer centralAnimationClock;
 
         public TopWindowRenderBox(

@@ -46,7 +46,6 @@
     <Compile Include="1_LayerElements\1_PlainLayerElement.cs" />
     <Compile Include="1_LayerElements\GridLayer.cs" />
     <Compile Include="1_LayerElements\GridTable.cs" />
-    <Compile Include="2_Events\CanvasEventStock.cs" />
     <Compile Include="2_Events\ScrollSurfaceRequestEventArgs.cs" />
     <Compile Include="2_Events\UIEventArgs.cs" />
     <Compile Include="3_Others\IUpdateStateChangeListener.cs" />
