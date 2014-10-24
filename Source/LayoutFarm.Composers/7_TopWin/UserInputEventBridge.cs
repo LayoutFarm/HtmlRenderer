@@ -17,12 +17,6 @@ namespace LayoutFarm.UI
         public abstract void OnMouseDown(UIMouseEventArgs e);
         public abstract void OnMouseMove(UIMouseEventArgs e);
         //--------------------------------------------------
-        ////secondary translation 
-        //public abstract void OnDragStart(UIMouseEventArgs e);
-        //public abstract void OnDrag(UIMouseEventArgs e);
-        //public abstract void OnDragStop(UIMouseEventArgs e);
-        //--------------------------------------------------
-
         public abstract void OnGotFocus(UIFocusEventArgs e);
         public abstract void OnLostFocus(UIFocusEventArgs e);
         public abstract void OnMouseUp(UIMouseEventArgs e);

@@ -89,7 +89,8 @@ namespace HtmlRenderer.Composers
             {
                 return;
             }
-            var rootbox = _htmlIsland.GetRootCssBox();
+
+            CssBox rootbox = _htmlIsland.GetRootCssBox();
             if (rootbox == null)
             {
                 return;

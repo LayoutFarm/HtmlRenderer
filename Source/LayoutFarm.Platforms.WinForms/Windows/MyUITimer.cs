@@ -6,10 +6,10 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
-    public class MyWinTimer : WinTimer
+    public class MyUITimer : UITimer
     {
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-        public MyWinTimer()
+        public MyUITimer()
         {
             timer.Tick += (o, s) =>
             {

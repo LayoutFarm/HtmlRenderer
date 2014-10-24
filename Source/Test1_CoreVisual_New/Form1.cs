@@ -38,7 +38,7 @@ namespace TestGraphicPackage
         {
 
             UISurfaceViewportControl viewport;
-            WinTimer wintimer = new MyWinTimer();
+            UITimer wintimer = new MyUITimer();
 
             int w = 800;
             int h = 600;
@@ -66,15 +66,13 @@ namespace TestGraphicPackage
 
             int w = 800;
             int h = 600;
-            WinTimer wintimer = new MyWinTimer();
+            UITimer wintimer = new MyUITimer();
             MyRootGraphic rootgfx = new MyRootGraphic(
                 LayoutFarm.Drawing.WinGdiPortal.P,
                 wintimer, w, h);
 
-            var topWin = new TopWindowRenderBox(rootgfx, w, h);
-            WinEventBridge winBridge = new WinEventBridge(topWin); 
-
-            viewport.InitRootGraphics(topWin, winBridge, rootgfx);
+            var topWin = new TopWindowRenderBox(rootgfx, w, h);  
+            viewport.InitRootGraphics(topWin, new WinEventBridge(topWin), rootgfx);
             viewport.PaintMe();
 
             simpleForm.Show();

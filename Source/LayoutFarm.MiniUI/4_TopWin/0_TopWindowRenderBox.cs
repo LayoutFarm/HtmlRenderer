@@ -15,36 +15,20 @@ namespace LayoutFarm.UI
 
         List<RenderElement> layoutQueue = new List<RenderElement>();
         List<RenderElement> layoutQueue2 = new List<RenderElement>();
-
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
 
-        IUserEventPortal userEventPortal;
-
-        RootGraphic rootGraphic; 
-        System.Timers.Timer centralAnimationClock;
+       
+        RootGraphic rootGraphic;
 
         public TopWindowRenderBox(
-            RootGraphic visualroot,
+            RootGraphic rootGraphic,
             int width, int height)
-            : base(visualroot, width, height)
+            : base(rootGraphic, width, height)
         {
-            this.rootGraphic = visualroot;
 
-            centralAnimationClock = new System.Timers.Timer();
-            centralAnimationClock.Interval = 40;
-            centralAnimationClock.Elapsed += new System.Timers.ElapsedEventHandler(centralAnimationClock_Elapsed);
-            centralAnimationClock.Enabled = false;
-
-            rootTasksTimer = new System.Timers.Timer();
-            rootTasksTimer.Interval = 100;
-            rootTasksTimer.Elapsed += new System.Timers.ElapsedEventHandler(rootTasksTimer_Elapsed);
-            rootTasksTimer.Enabled = false;
-            //hoverMonitoringTask = new UIHoverMonitorTask(this, this.OnMouseHover);
-
-           
+            this.rootGraphic = rootGraphic;
 #if DEBUG
             dbug_hide_objIden = true;
-
 #endif
 
         }
@@ -56,26 +40,18 @@ namespace LayoutFarm.UI
         }
         public void MakeCurrent()
         {
-            CurrentTopWindowRenderBox = this;            
-        }
-        
-        public void StartCaretBlink()
-        {
-            this.rootGraphic.CaretStartBlink(); 
-        }
-        public void StopCaretBlink()
-        {
-            this.rootGraphic.CaretStopBlink();
+            CurrentTopWindowRenderBox = this;
         }
 
-        void rootTasksTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+       
+
+        public void FlushRenderRequestQueue()
         {
 
-
-            LinkedListNode<VisualRootTimerTask> node = rootTimerTasks.First;
+            LinkedListNode<UITimerTask> node = renderTaskList.First;
             while (node != null)
             {
-                VisualRootTimerTask rootTask = node.Value;
+                UITimerTask rootTask = node.Value;
                 if (rootTask.Enabled)
                 {
                     node.Value.Tick();
@@ -89,40 +65,43 @@ namespace LayoutFarm.UI
             }
             if (tobeRemoveTasks.Count > 0)
             {
-                foreach (LinkedListNode<VisualRootTimerTask> tobeRemoveNode in tobeRemoveTasks)
+                foreach (LinkedListNode<UITimerTask> tobeRemoveNode in tobeRemoveTasks)
                 {
-                    rootTimerTasks.Remove(tobeRemoveNode);
+                    renderTaskList.Remove(tobeRemoveNode);
                     tobeRemoveNode.Value.IsInQueue = false;
                 }
                 tobeRemoveTasks.Clear();
             }
-            if (rootTimerTasks.Count == 0)
+            if (renderTaskList.Count == 0)
             {
-                rootTasksTimer.Enabled = false;
+                throw new NotSupportedException();
+                //rootTasksTimer.Enabled = false;
             }
         }
-
-        void centralAnimationClock_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        public void UpdateAnimation()
         {
-        }
-
+            //update some animation request
+        } 
         public void CloseWinRoot()
         {
             this.rootGraphic.CloseWinRoot();
-        }
-
-        internal void AddTimerTask(VisualRootTimerTask task)
+        } 
+        internal void AddTimerTask(UITimerTask task)
         {
-            rootTimerTasks.AddLast(task);
+            renderTaskList.AddLast(task);
         }
         internal void EnableTaskTimer()
         {
-            if (!rootTasksTimer.Enabled)
-            {
-                rootTasksTimer.Enabled = true;
-            }
+            throw new NotSupportedException();
+            //if (!rootTasksTimer.Enabled)
+            //{
+            //    rootTasksTimer.Enabled = true;
+            //}
         }
-
+        internal void DisableTaskTimer()
+        {
+        }
+        
         void ChangeRootElementSize(int width, int height)
         {
             Size currentSize = this.Size;
@@ -242,13 +221,11 @@ namespace LayoutFarm.UI
                     } break;
 
             }
-
         }
-        
         public void PrepareRender()
         {
 
-             
+
             this.rootGraphic.ClearRenderRequests(this);
             if (this.layoutQueue.Count > 0)
             {

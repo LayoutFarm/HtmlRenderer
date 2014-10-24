@@ -16,9 +16,8 @@ namespace LayoutFarm.UI
         CanvasInvalidateRequestDelegate canvasInvaliddateReqDel;
 
         Stack<VisualDrawingChain> renderingChainStock = new Stack<VisualDrawingChain>();
-        LinkedList<VisualRootTimerTask> rootTimerTasks = new LinkedList<VisualRootTimerTask>();
-        System.Timers.Timer rootTasksTimer;
-        LinkedList<LinkedListNode<VisualRootTimerTask>> tobeRemoveTasks = new LinkedList<LinkedListNode<VisualRootTimerTask>>();
+        LinkedList<UITimerTask> renderTaskList = new LinkedList<UITimerTask>();
+        LinkedList<LinkedListNode<UITimerTask>> tobeRemoveTasks = new LinkedList<LinkedListNode<UITimerTask>>();
 
         public void SetCanvasInvalidateRequest(CanvasInvalidateRequestDelegate canvasInvaliddateReqDel)
         {
@@ -39,17 +38,15 @@ namespace LayoutFarm.UI
             get { return this.rootGraphic.GraphicUpdateBlockCount; }
             set { this.rootGraphic.GraphicUpdateBlockCount = value; }
         }
-        public override void FlushGraphic(Rectangle rect)
-        {            
-            canvasInvaliddateReqDel(ref rect);            
-        }
-
-        internal void FlushAccumGraphicUpdate()
+        void FlushAccumGraphicUpdate()
         {
             this.rootGraphic.FlushAccumGraphicUpdate(this);
         }
-
-
+        
+        public override void FlushGraphic(Rectangle rect)
+        {
+            canvasInvaliddateReqDel(ref rect);
+        } 
         public override void RootBeginGraphicUpdate()
         {
             GraphicUpdateSuspendCount++;
@@ -81,19 +78,7 @@ namespace LayoutFarm.UI
             }
         }
 
-        public void BeginRenderPhase()
-        {
-            this.rootGraphic.IsInRenderPhase = true;
-#if DEBUG
-            RootGraphic myroot = this.dbugVRoot;
-            myroot.dbug_rootDrawingMsg.Clear();
-            myroot.dbug_drawLevel = 0;
-#endif
-        }
-        public void EndRenderPhase()
-        {
-            this.rootGraphic.IsInRenderPhase = false;
-        }
+        
         public void ChangeVisualRootSize(int width, int height)
         {
             this.ChangeRootElementSize(width, height);
@@ -104,10 +89,7 @@ namespace LayoutFarm.UI
         }
         public void ClearAllResources()
         {
-            if (centralAnimationClock != null)
-            {
-                centralAnimationClock.Stop();
-            }
+            this.DisableTaskTimer();
             ClearAllChildren();
         }
     }

@@ -30,13 +30,15 @@ namespace LayoutFarm.Drawing
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
 
-
+        RootGraphic rootGraphic;
 
         public MyTopWindowBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
         {
-            this.winEventBridge = winEventBridge;
 
+            this.winEventBridge = winEventBridge;
             this.topwin = topwin;
+            this.rootGraphic = topwin.Root;
+
             topwin.CanvasForcePaint += (s, e) =>
             {
                 PaintToOutputWindow();
@@ -274,7 +276,7 @@ namespace LayoutFarm.Drawing
             Point viewLocation = canvasViewport.LogicalViewportLocation;
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
 
-             
+
             this.isDragging = mouseEventArg.IsDragging = this.isMouseDown;
 
             SetUIMouseEventArgsInfo(mouseEventArg, e);
@@ -287,10 +289,9 @@ namespace LayoutFarm.Drawing
         {
 
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
-            mouseEventArg.IsDragging = this.isDragging; 
+            mouseEventArg.IsDragging = this.isDragging;
             this.isDragging = this.isMouseDown = false;
             SetUIMouseEventArgsInfo(mouseEventArg, e);
-
 
             canvasViewport.FullMode = false;
             this.winEventBridge.PortalMouseUp(mouseEventArg);
@@ -376,7 +377,8 @@ namespace LayoutFarm.Drawing
 
 
 
-            this.topwin.StopCaretBlink();
+             
+            StopCaretBlink();
             canvasViewport.FullMode = false;
             keyEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
 #if DEBUG
@@ -390,6 +392,15 @@ namespace LayoutFarm.Drawing
             PaintToOutputWindowIfNeed();
             eventStock.ReleaseEventArgs(keyEventArgs);
         }
+        void StartCaretBlink()
+        {
+            this.rootGraphic.CaretStartBlink();
+        }
+        void StopCaretBlink()
+        {
+            this.rootGraphic.CaretStopBlink();
+        }
+
         public void OnKeyUp(KeyEventArgs e)
         {
 
@@ -398,14 +409,14 @@ namespace LayoutFarm.Drawing
             SetKeyData(keyEventArgs, e);
 
 
-            this.topwin.StopCaretBlink();
+            StopCaretBlink();
             canvasViewport.FullMode = false;
             keyEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
 
 
             this.winEventBridge.PortalKeyUp(keyEventArgs);
-            this.topwin.StartCaretBlink();
-
+             
+            StartCaretBlink();
             eventStock.ReleaseEventArgs(keyEventArgs);
         }
         static void SetKeyData(UIKeyEventArgs keyEventArgs, KeyEventArgs e)
@@ -424,7 +435,7 @@ namespace LayoutFarm.Drawing
             keyPressEventArgs.SetKeyChar(e.KeyChar);
 
 
-            this.topwin.StopCaretBlink();
+            StopCaretBlink();
 #if DEBUG
             topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
             topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYPRESS " + e.KeyChar);
@@ -447,8 +458,8 @@ namespace LayoutFarm.Drawing
 
             UIKeyEventArgs keyEventArg = eventStock.GetFreeKeyEventArgs();
             keyEventArg.KeyData = (int)keyData;
-            this.topwin.StopCaretBlink();
-
+             
+            StopCaretBlink();
             canvasViewport.FullMode = false;
             keyEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
 

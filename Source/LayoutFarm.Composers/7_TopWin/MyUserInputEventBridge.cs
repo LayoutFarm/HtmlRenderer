@@ -270,7 +270,7 @@ namespace LayoutFarm.UI
             //-------------------------------------------------------
             //when mousemove -> reset hover!
             hoverMonitoringTask.Reset();
-            hoverMonitoringTask.SetEnable(true, this.topwin);
+            hoverMonitoringTask.Enabled = true; 
             //-------------------------------------------------------
             DisableGraphicOutputFlush = true;
 

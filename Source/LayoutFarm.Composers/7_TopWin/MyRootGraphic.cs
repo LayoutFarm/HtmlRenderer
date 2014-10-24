@@ -11,22 +11,24 @@ namespace LayoutFarm.UI
     public class MyRootGraphic : RootGraphic
     {
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
-        WinTimer graphicTimer1;
+        
+        UITimer uiTimer1;
 
         TimerTaskCollection timerTasks;
         GraphicPlatform graphicsPlatform;
 
-        public MyRootGraphic(GraphicPlatform graphicsPlatform, WinTimer winTimer, int width, int height)
+        public MyRootGraphic(GraphicPlatform graphicsPlatform,
+            UITimer uiTimer, int width, int height)
             : base(width, height)
         {
             this.graphicsPlatform = graphicsPlatform;
 
             timerTasks = new TimerTaskCollection(this);
-            this.graphicTimer1 = winTimer;
+            this.uiTimer1 = uiTimer;
 
-            graphicTimer1.Interval = 500; //300 ms
-            graphicTimer1.Tick += new EventHandler(graphicTimer1_Tick);
-            graphicTimer1.Enabled = true;
+            uiTimer1.Interval = 500; //300 ms
+            uiTimer1.Tick += new EventHandler(graphicTimer1_Tick);
+            uiTimer1.Enabled = true;
 #if DEBUG
             dbugCurrentGlobalVRoot = this;
             dbug_Init();
@@ -46,16 +48,16 @@ namespace LayoutFarm.UI
 
         public override void CloseWinRoot()
         {
-            this.graphicTimer1.Enabled = false;
+            this.uiTimer1.Enabled = false;
         }
 
         public override void CaretStartBlink()
         {
-            graphicTimer1.Enabled = true;
+            uiTimer1.Enabled = true;
         }
         public override void CaretStopBlink()
         {
-            graphicTimer1.Enabled = false;
+            uiTimer1.Enabled = false;
         }
 
 
@@ -108,10 +110,10 @@ namespace LayoutFarm.UI
         ~MyRootGraphic()
         {
 
-            if (this.graphicTimer1 != null)
+            if (this.uiTimer1 != null)
             {
-                this.graphicTimer1.Enabled = false;
-                this.graphicTimer1 = null;
+                this.uiTimer1.Enabled = false;
+                this.uiTimer1 = null;
             }
 
 #if DEBUG
@@ -130,11 +132,7 @@ namespace LayoutFarm.UI
             this.timerTasks.RemoveIntervalTask(uniqueName);
         }
 
-
-
-        public const int IS_SHIFT_KEYDOWN = 1 << (1 - 1);
-        public const int IS_ALT_KEYDOWN = 1 << (2 - 1);
-        public const int IS_CTRL_KEYDOWN = 1 << (3 - 1);
+ 
 
 
         int VisualRequestCount
@@ -144,7 +142,6 @@ namespace LayoutFarm.UI
                 return veReqList.Count;
             }
         }
-
         void ClearVisualRequests(TopWindowRenderBoxBase wintop)
         {
             int j = veReqList.Count;

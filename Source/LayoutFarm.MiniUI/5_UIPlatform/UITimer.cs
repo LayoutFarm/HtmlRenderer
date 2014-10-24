@@ -7,7 +7,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm.UI
 {
 
-    public abstract class WinTimer
+    public abstract class UITimer
     {
 
         public event EventHandler Tick;

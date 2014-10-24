@@ -96,7 +96,6 @@
     <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.TableColumns.cs" />
     <Compile Include="3_Boxes_SpecialBoxes\CssBoxListItem.cs" />
     <Compile Include="5_Diagnostics\DeprecatedAttribute.cs" />
-    <Compile Include="5_Diagnostics\HtmlGenerator.cs" />
     <Compile Include="Platform\MapAttribute.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBoxCollection.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Unsafe.cs" />

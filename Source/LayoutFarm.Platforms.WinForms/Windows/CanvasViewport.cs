@@ -13,7 +13,7 @@ namespace LayoutFarm.Drawing
         int viewportX;
         int viewportY;
         int viewportWidth;
-        int viewportHeight; 
+        int viewportHeight;
         TopWindowRenderBox topWindowBox;
 
         QuadPages quadPages = null;
@@ -28,11 +28,13 @@ namespace LayoutFarm.Drawing
 
         bool fullMode = true;
         bool isClosed;//is this viewport closed
+        RootGraphic rootGraphics;
 
         public CanvasViewport(TopWindowRenderBox wintop,
             Size viewportSize, int cachedPageNum)
         {
-            
+            this.rootGraphics = wintop.Root;
+
             this.topWindowBox = wintop;
             quadPages = new QuadPages(cachedPageNum, viewportSize.Width, viewportSize.Height * 2);
 
@@ -42,7 +44,7 @@ namespace LayoutFarm.Drawing
             canvasInvalidateHandler = Canvas_Invalidate;
             canvasSizeChangedHandler = Canvas_SizeChanged;
 
-             
+
             wintop.SetCanvasInvalidateRequest(canvasInvalidateHandler);
             viewportX = 0;
             viewportY = 0;
@@ -94,11 +96,19 @@ namespace LayoutFarm.Drawing
         }
         public void PaintMe(IntPtr hdc)
         {
-            if (isClosed) return;
+            if (isClosed) { return; }
             //------------------------------------ 
+
             topWindowBox.PrepareRender();
             topWindowBox.ClearNotificationSizeChangeList();
-            topWindowBox.BeginRenderPhase();
+
+            //---------------
+            this.rootGraphics.IsInRenderPhase = true;
+#if DEBUG
+            this.rootGraphics.dbug_rootDrawingMsg.Clear();
+            this.rootGraphics.dbug_drawLevel = 0;
+#endif
+             
 
             if (fullMode)
             {
@@ -110,8 +120,7 @@ namespace LayoutFarm.Drawing
                 quadPages.RenderToOutputWindowFullMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
                 //quadPages.RenderToOutputWindowPartialMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
             }
-
-            topWindowBox.EndRenderPhase();
+            this.rootGraphics.IsInRenderPhase = false;             
 
 #if DEBUG
 
