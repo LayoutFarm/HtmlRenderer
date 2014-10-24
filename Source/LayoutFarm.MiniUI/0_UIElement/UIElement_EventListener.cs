@@ -31,11 +31,32 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
-            OnMouseMove(e);
+            if (e.IsDraging)
+            {
+                if (e.JustEnter)
+                {
+                    OnDragStart(e);
+                }
+                else
+                {
+                    OnDragging(e);
+                }
+            }
+            else
+            {  
+                OnMouseMove(e);
+            }
         }
         void IEventListener.ListenMouseUp(UIMouseEventArgs e)
         {
-            OnMouseUp(e);
+            if (e.IsDraging)
+            {
+                OnDragStop(e);
+            }
+            else
+            {
+                OnMouseUp(e);
+            }
         }
         void IEventListener.ListenMouseWheel(UIMouseEventArgs e)
         {
@@ -53,6 +74,6 @@ namespace LayoutFarm.UI
         {
             OnLostFocus(e);
         }
-         
+
     }
 }

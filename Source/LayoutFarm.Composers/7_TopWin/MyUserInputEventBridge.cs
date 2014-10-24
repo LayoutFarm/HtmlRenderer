@@ -15,10 +15,10 @@ namespace LayoutFarm.UI
 
         int msgChainVersion;
         TopWindowRenderBox topwin;
+        bool isDraging; 
 
         IEventListener currentKbFocusElem;
-        IEventListener currentMouseActiveElement;
-        IEventListener currentDragElem;
+        IEventListener currentMouseActiveElement; 
 
         public MyUserInputEventBridge()
         {
@@ -274,40 +274,37 @@ namespace LayoutFarm.UI
             //-------------------------------------------------------
             DisableGraphicOutputFlush = true;
 
+            this.isDraging = e.IsDraging;
+             
+
             ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
             {
-
+                e.Location = hitobj.Location;
                 e.CurrentContextElement = listener;
-                listener.PortalMouseMove(e);
-
-                var curContextElement = e.CurrentContextElement as IEventListener;
-                if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
-                {
-                    this.CurrentKeyboardFocusedElement = curContextElement;
-                }
+                listener.PortalMouseMove(e);                 
                 return true;
-
             });
-            //-------------------------------------------------------
-
+            //-------------------------------------------------------            
             ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
-            {   
-                if (currentMouseActiveElement != null && currentMouseActiveElement != listener)
+            {
+                e.Location = hitobj.Location;
+                if (currentMouseActiveElement != null && 
+                    currentMouseActiveElement != listener)
                 {
-                    e.Location = hitobj.Location;
-
-                    currentMouseActiveElement.ListenMouseLeave(e);
-
+                    
+                    currentMouseActiveElement.ListenMouseLeave(e); 
                     currentMouseActiveElement = null;
                 }
+
                 if (currentMouseActiveElement == listener)
                 {
+                    e.JustEnter = false;
                     currentMouseActiveElement.ListenMouseMove(e);
                 }
                 else
-                {
+                {                    
                     currentMouseActiveElement = listener;
-                    //mark this is first time for listener
+                    e.JustEnter = true;                     
                     currentMouseActiveElement.ListenMouseMove(e);
                 }
 
@@ -619,20 +616,22 @@ namespace LayoutFarm.UI
 #endif
 
             HitTestCoreWithPrevChainHint(e.X, e.Y);
-
             int hitCount = this.hitPointChain.Count;
+
             if (hitCount > 0)
             {
 
                 DisableGraphicOutputFlush = true;
                 //---------------------------------------------------------------
-
+                
                 ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
                 {
                     e.CurrentContextElement = listener;
 
                     listener.PortalMouseUp(e);
+
                     var curContextElement = e.CurrentContextElement as IEventListener;
+
                     if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
                     {
                         this.CurrentKeyboardFocusedElement = curContextElement;

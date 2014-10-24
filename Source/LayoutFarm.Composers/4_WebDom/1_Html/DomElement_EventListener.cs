@@ -8,7 +8,7 @@ using LayoutFarm.UI;
 
 namespace HtmlRenderer.WebDom
 {
-     
+
     partial class DomElement : IEventListener
     {
 
@@ -30,7 +30,6 @@ namespace HtmlRenderer.WebDom
         }
         void IEventListener.ListenMouseDown(UIMouseEventArgs e)
         {
-            
             OnMouseDown(e);
         }
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
@@ -57,8 +56,8 @@ namespace HtmlRenderer.WebDom
         {
             OnLostFocus(e);
         }
-          
+
         bool IEventListener.AcceptKeyboardFocus { get { return false; } }
-        
+
     }
 }

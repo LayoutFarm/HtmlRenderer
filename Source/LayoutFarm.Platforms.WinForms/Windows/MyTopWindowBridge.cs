@@ -101,7 +101,9 @@ namespace LayoutFarm.Drawing
                 GetUIMouseButton(e.Button),
                 e.Clicks,
                 e.Delta);
-            mouseEventArg.IsMouseDown = this.isMouseDown;
+
+            
+
             mouseEventArg.OffsetCanvasOrigin(this.canvasViewport.LogicalViewportLocation);
         }
 
@@ -266,87 +268,27 @@ namespace LayoutFarm.Drawing
         }
         public void OnMouseMove(MouseEventArgs e)
         {
-            this.isMouseDown = false;
+            
             //interprete meaning ?
-            Point viewLocation = canvasViewport.LogicalViewportLocation;
-
+            Point viewLocation = canvasViewport.LogicalViewportLocation; 
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
-            SetUIMouseEventArgsInfo(mouseEventArg, e);
-           
-            this.winEventBridge.PortalMouseMove(mouseEventArg);
-
-            PaintToOutputWindowIfNeed();
-
-            eventStock.ReleaseEventArgs(mouseEventArg);
-
-
-            //if (isMouseDown)
-            //{
-            //    int xdiff = (viewLocation.X + e.X) - prevLogicalMouseX;
-            //    int ydiff = (viewLocation.Y + e.Y) - prevLogicalMouseY;
-            //    if (!isDraging)
-            //    {
-            //        UIMouseEventArgs dragEventArg = eventStock.GetFreeDragEventArgs(
-            //            e.Location.ToPoint(),
-            //            GetUIMouseButton(e.Button),
-            //            lastestLogicalMouseDownX, lastestLogicalMouseDownY,
-            //            (viewLocation.X + e.X), (viewLocation.Y + e.Y),
-            //            xdiff, ydiff);
-
-            //        dragEventArg.OffsetCanvasOrigin(viewLocation);
-            //        canvasViewport.FullMode = false;
-
-            //        this.userInputEventBridge.OnDragStart(dragEventArg);
-
-            //        PaintToOutputWindowIfNeed();
-
-            //        isDraging = true;
-            //        eventStock.ReleaseEventArgs(dragEventArg);
-
-            //    }
-            //    else
-            //    {
-            //        if (!(xdiff == 0 && ydiff == 0))
-            //        {
-            //            UIMouseEventArgs dragEventArg = eventStock.GetFreeDragEventArgs(e.Location.ToPoint(),
-            //                GetUIMouseButton(e.Button),
-            //                lastestLogicalMouseDownX, lastestLogicalMouseDownY,
-            //                (viewLocation.X + e.X), (viewLocation.Y + e.Y),
-            //                xdiff, ydiff);
-
-            //            canvasViewport.FullMode = false;
-            //            dragEventArg.OffsetCanvasOrigin(viewLocation);
-
-            //            userInputEventBridge.OnDrag(dragEventArg);
-            //            PaintToOutputWindowIfNeed();
-
-            //            eventStock.ReleaseEventArgs(dragEventArg);
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
-
-            //    SetUIMouseEventArgsInfo(mouseEventArg, e);
-            //    mouseEventArg.SetDiff(
-            //        (viewLocation.X + e.X) - prevLogicalMouseX,
-            //        (viewLocation.Y + e.Y) - prevLogicalMouseY);
-
-            //    mouseEventArg.OffsetCanvasOrigin(viewLocation);
-            //    this.winEventBridge.OnMouseMove(mouseEventArg);
-            //    PaintToOutputWindowIfNeed();
-
-            //    eventStock.ReleaseEventArgs(mouseEventArg);
-            //}
-            //prevLogicalMouseX = (viewLocation.X + e.X);
-            //prevLogicalMouseY = (viewLocation.Y + e.Y);
+            mouseEventArg.IsDraging = this.isMouseDown;
+            SetUIMouseEventArgsInfo(mouseEventArg, e); 
+            this.winEventBridge.PortalMouseMove(mouseEventArg); 
+            PaintToOutputWindowIfNeed(); 
+            eventStock.ReleaseEventArgs(mouseEventArg); 
+             
         }
         public void OnMouseUp(MouseEventArgs e)
         {
+            
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
+            mouseEventArg.IsDraging = this.isMouseDown;
 
+            this.isMouseDown = false;
             SetUIMouseEventArgsInfo(mouseEventArg, e);
+
+
             canvasViewport.FullMode = false; 
             this.winEventBridge.PortalMouseUp(mouseEventArg);
 

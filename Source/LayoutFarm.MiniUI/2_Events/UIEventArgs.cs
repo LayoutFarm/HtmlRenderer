@@ -213,6 +213,11 @@ namespace LayoutFarm.UI
             this.lastestXDiff = lastestXDiff;
             this.lastestYDiff = lastestYDiff;
         }
+
+        public bool IsDraging { get; set; }
+        public bool JustEnter { get; set; }
+        
+
         public int XDiffFromMouseDownPos
         {
             get
@@ -227,7 +232,7 @@ namespace LayoutFarm.UI
                 return this.currentLogicalY - this.lastestLogicalViewportMouseDownY;
             }
         } 
-        public bool IsMouseDown { get; set; }
+        
     }
     
     
