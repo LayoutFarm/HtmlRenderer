@@ -65,7 +65,6 @@
     <Compile Include="LayoutFarm.Drawing\MyCanvas\MyCanvas_TextFuncs.cs" />
     <Compile Include="LayoutFarm.UI\CanvasCollection.cs" />
     <Compile Include="LayoutFarm.UI\CanvasEventStock.cs" />
-    <Compile Include="LayoutFarm.UI\MyCustomRenderSurface.cs" />
     <Compile Include="LayoutFarm.UI\MyUITimer.cs" />
     <Compile Include="LayoutFarm.UI.WinForms\UIPlatformWinForms.cs" />
     <Compile Include="LayoutFarm.UI.WinForms\UISurfaceViewportControl.cs">

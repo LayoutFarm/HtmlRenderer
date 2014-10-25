@@ -117,8 +117,7 @@ namespace LayoutFarm.UI
                 MyIntervalTaskEventArgs args = GetTaskEventArgs();
                 int j = this.fastIntervalTaskList.Count;
                 if (j > 0)
-                {
-                    
+                {                       
                     for (int i = 0; i < j; ++i)
                     {
                         fastIntervalTaskList[i].InvokeHandler(args);
