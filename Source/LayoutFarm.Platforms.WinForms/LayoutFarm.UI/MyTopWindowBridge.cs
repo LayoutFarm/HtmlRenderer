@@ -8,11 +8,7 @@ using System.Windows.Forms;
 using LayoutFarm.Drawing;
 using LayoutFarm.UI;
 namespace LayoutFarm.Drawing
-{
-
-
-
-
+{   
     partial class MyTopWindowBridge
     {
 

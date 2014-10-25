@@ -22,7 +22,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
-    partial class MyCanvas : Canvas, IGraphics
+    partial class MyCanvas 
     {
         public override bool AvoidGeometryAntialias
         {
