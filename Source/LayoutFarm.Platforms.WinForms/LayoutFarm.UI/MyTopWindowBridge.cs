@@ -8,9 +8,9 @@ using System.Windows.Forms;
 using LayoutFarm.Drawing;
 using LayoutFarm.UI;
 namespace LayoutFarm.Drawing
-{   
+{
     partial class MyTopWindowBridge
-    {   
+    {
         CanvasEventsStock eventStock = new CanvasEventsStock();
         CanvasViewport canvasViewport;
         IUserEventPortal winEventBridge;
@@ -65,7 +65,7 @@ namespace LayoutFarm.Drawing
                 canvasViewport.PaintMe(hdc);
                 ReleaseDC(this.windowControl.Handle, hdc);
             }
-            
+
         }
 
         public void UpdateCanvasViewportSize(int w, int h)

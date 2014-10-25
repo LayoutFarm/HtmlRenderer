@@ -1,12 +1,8 @@
 ﻿//2014 Apache2, WinterDev
-using System;
-using System.Collections.Generic;
-using System.Text;
-using LayoutFarm.Drawing;
+ 
 
 namespace LayoutFarm.Drawing
-{
-
+{   
     public abstract class Canvas
     {
 #if DEBUG
@@ -83,7 +79,7 @@ namespace LayoutFarm.Drawing
 
         public abstract void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea);
 
-        public abstract void RenderTo(IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea);
+        public abstract void RenderTo(System.IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea);
 
         public abstract void OffsetCanvasOrigin(int dx, int dy);
 

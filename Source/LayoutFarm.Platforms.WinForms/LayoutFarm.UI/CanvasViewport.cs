@@ -42,8 +42,7 @@ namespace LayoutFarm.Drawing
             this.viewportHeight = viewportSize.Height;
 
             canvasInvalidateHandler = Canvas_Invalidate;
-            canvasSizeChangedHandler = Canvas_SizeChanged;
-
+            canvasSizeChangedHandler = Canvas_SizeChanged; 
 
             wintop.SetCanvasInvalidateRequest(canvasInvalidateHandler);
             viewportX = 0;
@@ -72,8 +71,8 @@ namespace LayoutFarm.Drawing
 
                 quadPages.ResizeAllPages(viewportWidth, viewportHeight);
                 CalculateCanvasPages();
-
-                topWindowBox.ChangeVisualRootSize(viewportWidth, viewportHeight);
+                
+                topWindowBox.ChangeRootGraphicSize(viewportWidth, viewportHeight);
             }
 
         }
@@ -99,8 +98,7 @@ namespace LayoutFarm.Drawing
             if (isClosed) { return; }
             //------------------------------------ 
 
-            topWindowBox.PrepareRender();
-            topWindowBox.ClearNotificationSizeChangeList();
+            topWindowBox.PrepareRender(); 
 
             //---------------
             this.rootGraphics.IsInRenderPhase = true;
@@ -324,7 +322,8 @@ namespace LayoutFarm.Drawing
         public void Close()
         {
             this.isClosed = true;
-            topWindowBox.CloseWinRoot();
+            this.rootGraphics.CloseWinRoot();
+             
         }
     }
 }

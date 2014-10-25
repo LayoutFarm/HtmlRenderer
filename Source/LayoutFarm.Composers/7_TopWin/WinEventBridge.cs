@@ -12,7 +12,7 @@ namespace LayoutFarm.UI
 
 
         UserInputEventBridge userInputEventBridge;
-         
+
         int prevLogicalMouseX = 0;
         int prevLogicalMouseY = 0;
         int lastestLogicalMouseDownX = 0;
@@ -20,24 +20,24 @@ namespace LayoutFarm.UI
 
         public WinEventBridge(TopWindowRenderBox topwin)
         {
-          
+
             this.userInputEventBridge = new UserInputEventBridge();
             this.userInputEventBridge.Bind(topwin);
         }
-        
+
         //------------------------------------------------------------
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
             this.lastestLogicalMouseDownX = e.X;
             this.lastestLogicalMouseDownY = e.Y;
             this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y; 
+            this.prevLogicalMouseY = e.Y;
             userInputEventBridge.OnMouseDown(e);
         }
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
             this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y; 
+            this.prevLogicalMouseY = e.Y;
             userInputEventBridge.OnMouseUp(e);
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
@@ -48,10 +48,10 @@ namespace LayoutFarm.UI
                 (e.Y) - prevLogicalMouseY);
 
             this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y; 
-            
-            userInputEventBridge.OnMouseMove(e);           
-            
+            this.prevLogicalMouseY = e.Y;
+
+            userInputEventBridge.OnMouseMove(e);
+
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
@@ -91,6 +91,6 @@ namespace LayoutFarm.UI
         {
             userInputEventBridge.OnLostFocus(e);
         }
- 
+
     }
 }

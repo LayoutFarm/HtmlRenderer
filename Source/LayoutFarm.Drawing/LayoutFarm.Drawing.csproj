@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="0_Start\ExtensionAttribute.cs" />
+    <Compile Include="1_Drawing\CanvasInvalidateRequestDelegate.cs" />
     <Compile Include="1_Drawing\CombineMode.cs" />
     <Compile Include="1_Drawing\Matrix.cs" />
     <Compile Include="1_Drawing\SmoothingMode.cs" />

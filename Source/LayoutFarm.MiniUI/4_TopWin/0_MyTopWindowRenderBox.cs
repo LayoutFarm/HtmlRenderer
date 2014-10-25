@@ -9,13 +9,15 @@ namespace LayoutFarm.UI
 {
 
 
-    public partial class TopWindowRenderBox : TopWindowRenderBoxBase
+    partial class MyTopWindowRenderBox : TopWindowRenderBox
     {
+
         List<RenderElement> layoutQueue = new List<RenderElement>();
         List<RenderElement> layoutQueue2 = new List<RenderElement>();
-        List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();      
+        List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
         RootGraphic rootGraphic;
-        public TopWindowRenderBox(
+
+        public MyTopWindowRenderBox(
             RootGraphic rootGraphic,
             int width, int height)
             : base(rootGraphic, width, height)
@@ -27,91 +29,10 @@ namespace LayoutFarm.UI
 #endif
 
         }
-
-        public static TopWindowRenderBox CurrentTopWindowRenderBox
-        {
-            get;
-            set;
-        }
-        public void MakeCurrent()
-        {
-            CurrentTopWindowRenderBox = this;
-        }
-
-       
-
-        public void FlushRenderRequestQueue()
-        {
-
-            LinkedListNode<UITimerTask> node = renderTaskList.First;
-            while (node != null)
-            {
-                UITimerTask rootTask = node.Value;
-                if (rootTask.Enabled)
-                {
-                    node.Value.Tick();
-                }
-                else
-                {
-                    tobeRemoveTasks.AddLast(node);
-
-                }
-                node = node.Next;
-            }
-            if (tobeRemoveTasks.Count > 0)
-            {
-                foreach (LinkedListNode<UITimerTask> tobeRemoveNode in tobeRemoveTasks)
-                {
-                    renderTaskList.Remove(tobeRemoveNode);
-                    tobeRemoveNode.Value.IsInQueue = false;
-                }
-                tobeRemoveTasks.Clear();
-            }
-            if (renderTaskList.Count == 0)
-            {
-                throw new NotSupportedException();
-                //rootTasksTimer.Enabled = false;
-            }
-        }
-        public void UpdateAnimation()
-        {
-            //update some animation request
-        } 
-        public void CloseWinRoot()
-        {
-            this.rootGraphic.CloseWinRoot();
-        } 
-        internal void AddTimerTask(UITimerTask task)
-        {
-            renderTaskList.AddLast(task);
-        }
-        internal void EnableTaskTimer()
-        {
-            throw new NotSupportedException();
-            //if (!rootTasksTimer.Enabled)
-            //{
-            //    rootTasksTimer.Enabled = true;
-            //}
-        }
-        internal void DisableTaskTimer()
-        {
-        }
-        
-        void ChangeRootElementSize(int width, int height)
-        {
-            Size currentSize = this.Size;
-            if (currentSize.Width != width || currentSize.Height != height)
-            {
-                this.SetSize(width, height);
-
-                this.InvalidateContentArrangementFromContainerSizeChanged();
-                this.TopDownReCalculateContentSize();
-                this.TopDownReArrangeContentIfNeed();
-            }
-        }
         public override void AddToLayoutQueue(RenderElement vs)
         {
 #if DEBUG
+
             RootGraphic dbugVisualRoot = this.dbugVRoot;
 #endif
 
@@ -137,6 +58,17 @@ namespace LayoutFarm.UI
             layoutQueue.Add(vs);
         }
 
+        public override void PrepareRender()
+        {
+            this.rootGraphic.ClearRenderRequests(this);
+            //clear layoutqueue
+            if (layoutQueue.Count == 0)
+            {
+                return;
+            }
+            ClearLayoutQueue();
+            ClearNotificationSizeChangeList();
+        }
 
         static void ClearLayoutOn(RenderBoxBase contvs, int i)
         {
@@ -217,17 +149,6 @@ namespace LayoutFarm.UI
 
             }
         }
-        public void PrepareRender()
-        {
-
-
-            this.rootGraphic.ClearRenderRequests(this);
-            if (this.layoutQueue.Count > 0)
-            {
-                ClearLayoutQueue();
-            }
-        }
-
         static RenderElement FindTopMostToBeRecalculate(RenderElement veContainerBase)
         {
 
@@ -328,7 +249,7 @@ namespace LayoutFarm.UI
             return null;
         }
 
-        internal void ClearLayoutQueue()
+        void ClearLayoutQueue()
         {
             this.LayoutQueueClearing = true;
 
@@ -389,8 +310,61 @@ namespace LayoutFarm.UI
             visualroot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_CLEAR_LAYOUT_exit);
 #endif
         }
+        void DisableTaskTimer()
+        {
+        }
 
+        //----
+        //public void FlushRenderRequestQueue()
+        //{
 
+        //    LinkedListNode<UITimerTask> node = renderTaskList.First;
+        //    while (node != null)
+        //    {
+        //        UITimerTask rootTask = node.Value;
+        //        if (rootTask.Enabled)
+        //        {
+        //            node.Value.Tick();
+        //        }
+        //        else
+        //        {
+        //            tobeRemoveTasks.AddLast(node);
+
+        //        }
+        //        node = node.Next;
+        //    }
+        //    if (tobeRemoveTasks.Count > 0)
+        //    {
+        //        foreach (LinkedListNode<UITimerTask> tobeRemoveNode in tobeRemoveTasks)
+        //        {
+        //            renderTaskList.Remove(tobeRemoveNode);
+        //            tobeRemoveNode.Value.IsInQueue = false;
+        //        }
+        //        tobeRemoveTasks.Clear();
+        //    }
+        //    if (renderTaskList.Count == 0)
+        //    {
+        //        throw new NotSupportedException();
+        //        //rootTasksTimer.Enabled = false;
+        //    }
+        //}
+        //public void UpdateAnimation()
+        //{
+        //    //update some animation request
+        //} 
+
+        //internal void AddTimerTask(UITimerTask task)
+        //{
+        //    renderTaskList.AddLast(task);
+        //}
+        //internal void EnableTaskTimer()
+        //{
+        //    throw new NotSupportedException();
+        //    //if (!rootTasksTimer.Enabled)
+        //    //{
+        //    //    rootTasksTimer.Enabled = true;
+        //    //}
+        //}
     }
 
 }

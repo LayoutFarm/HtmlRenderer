@@ -2,16 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing; 
-using LayoutFarm; 
+using LayoutFarm.Drawing;
+using LayoutFarm;
 
 namespace LayoutFarm.UI
 {
 #if DEBUG
-    partial class TopWindowRenderBox
+    partial class MyTopWindowRenderBox
     {
- 
-        public static bool dbugMark01;
+
+       
         static void dbug_WriteInfo(dbugVisualLayoutTracer debugVisualLay, dbugVisitorMessage msg, RenderElement ve)
         {
             if (debugVisualLay != null)
@@ -35,13 +35,13 @@ namespace LayoutFarm.UI
                 debugVisualLay.EndCurrentContext();
             }
         }
- 
 
-        public void dbug_DumpAllVisualElementProps(dbugLayoutMsgWriter writer)
+
+        void dbug_DumpAllVisualElementProps(dbugLayoutMsgWriter writer)
         {
             this.dbug_DumpVisualProps(writer);
-            writer.Add(new dbugLayoutMsg(this, "FINISH")); 
-        } 
+            writer.Add(new dbugLayoutMsg(this, "FINISH"));
+        }
         public override void dbugShowRenderPart(Canvas canvasPage, Rect updateArea)
         {
 
@@ -67,7 +67,7 @@ namespace LayoutFarm.UI
                 visualroot.dbug_RootUpdateCounter++;
             }
         }
-        
+
     }
 #endif
 }

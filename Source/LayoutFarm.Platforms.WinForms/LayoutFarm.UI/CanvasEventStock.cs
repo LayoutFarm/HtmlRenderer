@@ -101,7 +101,7 @@ namespace LayoutFarm.UI
             e.Clear();
             canvasInvalidatedEventsQ.Push(e);
         }
-        public UIMouseEventArgs GetFreeMouseEventArgs(TopWindowRenderBoxBase wintop)
+        public UIMouseEventArgs GetFreeMouseEventArgs(TopWindowRenderBox wintop)
         {
             if (mouseEventsQ.Count > 0)
             {

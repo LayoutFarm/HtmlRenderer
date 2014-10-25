@@ -474,7 +474,7 @@ namespace LayoutFarm
         {
             ve.InvalidateLayoutAndStartBubbleUp();
         }
-        static RenderElement BubbleUpInvalidLayoutToTopMost(RenderElement ve, TopWindowRenderBoxBase topBox)
+        static RenderElement BubbleUpInvalidLayoutToTopMost(RenderElement ve, TopWindowRenderBox topBox)
         {
 
 #if DEBUG
@@ -574,13 +574,13 @@ ve
             return parentVisualElem;
         }
 
-        public TopWindowRenderBoxBase GetTopWindowRenderBox()
+        public TopWindowRenderBox GetTopWindowRenderBox()
         {
             if (parentLink == null)
             {
                 if (this.IsTopWindow)
                 {
-                    return (TopWindowRenderBoxBase)this;
+                    return (TopWindowRenderBox)this;
                 }
                 else
                 {
@@ -599,7 +599,7 @@ ve
             dbugVRoot.dbug_LayoutTraceBeginContext(RootGraphic.dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter, this);
 #endif
 
-            TopWindowRenderBoxBase topWinBox = this.GetTopWindowRenderBox();
+            TopWindowRenderBox topWinBox = this.GetTopWindowRenderBox();
             RenderElement tobeAddToLayoutQueue = BubbleUpInvalidLayoutToTopMost(this, topWinBox);
 
             if (tobeAddToLayoutQueue != null

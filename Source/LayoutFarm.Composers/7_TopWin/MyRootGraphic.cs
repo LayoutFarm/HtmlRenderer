@@ -15,13 +15,15 @@ namespace LayoutFarm.UI
         GraphicPlatform graphicsPlatform;
 
         static object normalUpdateTask = new object();
+        UIPlatform uiPlatform;
 
         public MyRootGraphic(UIPlatform uiPlatform, int width, int height)
             : base(width, height)
         {
 
+            this.uiPlatform = uiPlatform;
             this.graphicsPlatform = uiPlatform.GraphicsPlatform;
-            this.graphicTimerTaskMan = new GraphicsTimerTaskManager(this, uiPlatform); 
+            this.graphicTimerTaskMan = new GraphicsTimerTaskManager(this, uiPlatform);
 #if DEBUG
             dbugCurrentGlobalVRoot = this;
             dbug_Init();
@@ -35,11 +37,15 @@ namespace LayoutFarm.UI
                     TopWindowRenderBox.CurrentTopWindowRenderBox.InvalidateGraphic();
                 });
         }
+        public TopWindowRenderBox CreateTopWindowRenderBox(int w, int h)
+        {
+            return uiPlatform.CreateTopWindowRenderBox(this, w, h);
+        }
         protected override GraphicPlatform P
         {
             get { return graphicsPlatform; }
         }
-        public override void ClearRenderRequests(TopWindowRenderBoxBase topwin)
+        public override void ClearRenderRequests(TopWindowRenderBox topwin)
         {
             if (this.VisualRequestCount > 0)
             {
@@ -99,7 +105,7 @@ namespace LayoutFarm.UI
                 return veReqList.Count;
             }
         }
-        void ClearVisualRequests(TopWindowRenderBoxBase wintop)
+        void ClearVisualRequests(TopWindowRenderBox wintop)
         {
             int j = veReqList.Count;
             for (int i = 0; i < j; ++i)
@@ -123,7 +129,7 @@ namespace LayoutFarm.UI
                     case RequestCommand.InvalidateArea:
                         {
                             Rectangle r = (Rectangle)req.parameters;
-                            TopWindowRenderBoxBase wintop2;
+                            TopWindowRenderBox wintop2;
                             this.InvalidateGraphicArea(req.ve, ref r, out wintop2);
                         } break;
 
