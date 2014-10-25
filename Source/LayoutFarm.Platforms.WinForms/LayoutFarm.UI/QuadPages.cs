@@ -284,7 +284,8 @@ namespace LayoutFarm.Drawing
         public void RenderToOutputWindowPartialMode(
             TopWindowRenderBoxBase rootElement,
             IntPtr destOutputHdc,
-            int viewportX, int viewportY, int viewportWidth, int viewportHeight)
+            int viewportX, int viewportY, 
+            int viewportWidth, int viewportHeight)
         {
 
             VisualDrawingChain renderChain = null;
