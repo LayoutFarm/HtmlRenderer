@@ -87,7 +87,6 @@ namespace LayoutFarm.UI
                             fastIntervalTaskList.Remove(found);
                         } break;
                 }
-
             }
         }
 

@@ -41,9 +41,10 @@ namespace LayoutFarm.Drawing
         }
         public void BindWindowControl(Control windowControl)
         {
-
+            this.topwin.MakeCurrent();
             this.windowControl = windowControl;
             this.canvasViewport = new CanvasViewport(topwin, this.Size.ToSize(), 4);
+
 #if DEBUG
             this.canvasViewport.dbugOutputWindow = this;
 #endif

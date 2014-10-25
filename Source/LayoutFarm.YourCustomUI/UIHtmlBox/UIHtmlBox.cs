@@ -23,17 +23,15 @@ namespace LayoutFarm.SampleControls
         int _height;
         MyHtmlIsland myHtmlIsland;
 
-        HtmlRenderer.WebDom.WebDocument currentdoc; 
+        HtmlRenderer.WebDom.WebDocument currentdoc;
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
         public event EventHandler<ImageRequestEventArgs> RequestImage;
 
-
-        
         bool hasWaitingDocToLoad;
         HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
-
-
         HtmlInputEventBridge _htmlInputEventBridge;
+        object uiHtmlTask = new object();
+
 
         static UIHtmlBox()
         {
@@ -44,7 +42,6 @@ namespace LayoutFarm.SampleControls
         {
             this._width = width;
             this._height = height;
-
 
             myHtmlIsland = new MyHtmlIsland();
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
@@ -68,18 +65,21 @@ namespace LayoutFarm.SampleControls
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-            
+
             _htmlInputEventBridge.MouseMove(e);
-            
+
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
+
         }
         void IUserEventPortal.PortalDoubleClick(UIMouseEventArgs e)
         {
+
         }
         void IUserEventPortal.PortalClick(UIMouseEventArgs e)
         {
+
         }
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
@@ -104,14 +104,7 @@ namespace LayoutFarm.SampleControls
         {
         }
 
-        //--------------------------------------------------------------------
-        void tim_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            if (this.myHtmlIsland != null)
-            {
-                this.myHtmlIsland.InternalRefreshRequest();
-            }
-        }
+
         internal MyHtmlIsland HtmlIsland
         {
             get { return this.myHtmlIsland; }
@@ -159,6 +152,7 @@ namespace LayoutFarm.SampleControls
         {
             base.OnKeyUp(e);
         }
+
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (myCssBoxWrapper == null)
@@ -171,6 +165,20 @@ namespace LayoutFarm.SampleControls
                 _htmlInputEventBridge = new HtmlInputEventBridge();
                 _htmlInputEventBridge.Bind(this.myHtmlIsland, rootgfx.SampleIFonts);
             }
+            //-------------------------
+            rootgfx.RequestGraphicsIntervalTask(uiHtmlTask,
+                 TaskIntervalPlan.Animation, 25,
+                 (s, e) =>
+                 {
+
+                     if (this.myHtmlIsland.InternalRefreshRequest())
+                     {
+                         e.NeedUpdate = 1;
+                     }
+
+                 });
+            //-------------------------
+
 
             if (this.hasWaitingDocToLoad)
             {
@@ -215,7 +223,7 @@ namespace LayoutFarm.SampleControls
             //---------------------------
             if (myCssBoxWrapper == null) return;
             //---------------------------
-            UpdateWaitingHtmlDoc(this.myCssBoxWrapper.Root); 
+            UpdateWaitingHtmlDoc(this.myCssBoxWrapper.Root);
         }
         public void LoadHtmlText(string html)
         {
@@ -227,7 +235,7 @@ namespace LayoutFarm.SampleControls
             {
                 myCssBoxWrapper.InvalidateGraphic();
             }
-        } 
+        }
         public override void InvalidateGraphic()
         {
             if (this.myCssBoxWrapper != null)
