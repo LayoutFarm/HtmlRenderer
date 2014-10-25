@@ -121,9 +121,7 @@ namespace HtmlRenderer.Composers
             base.PerformPaint(canvas.GetIGraphics());
         }
         protected override void OnRootDisposed()
-        {
-
-
+        { 
             base.OnRootDisposed();
         }
         protected override void OnRootCreated(CssBox root)

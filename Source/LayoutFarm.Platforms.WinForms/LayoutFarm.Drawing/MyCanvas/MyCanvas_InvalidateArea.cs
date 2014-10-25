@@ -45,14 +45,14 @@ namespace LayoutFarm
         {
             canvasFlags = FIRSTTIME_INVALID_AND_UPDATED_CONTENT;
         }
-        public override Rect InvalidateArea
+        public Rect InvalidateArea
         {
             get
             {
                 return invalidateArea;
             }
         }
-        public override bool IsContentReady
+        public bool IsContentReady
         {
             get
             {
