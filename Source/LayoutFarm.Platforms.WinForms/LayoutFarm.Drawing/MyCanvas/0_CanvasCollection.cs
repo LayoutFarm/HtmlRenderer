@@ -113,7 +113,7 @@ namespace LayoutFarm.Drawing
         }
         public void Dispose()
         {
-            foreach (Canvas canvasPage in cachePages)
+            foreach (MyCanvas canvasPage in cachePages)
             {
                 canvasPage.ReleaseUnManagedResource();
             }

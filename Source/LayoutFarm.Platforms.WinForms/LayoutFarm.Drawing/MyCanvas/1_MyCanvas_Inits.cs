@@ -65,7 +65,7 @@ namespace LayoutFarm
         bool _useGdiPlusTextRendering;
         bool isFromPrinter = false;
 
-        
+
         GraphicPlatform platform;
 
         public MyCanvas(GraphicPlatform platform,
@@ -96,9 +96,7 @@ namespace LayoutFarm
             MyWin32.PatBlt(originalHdc, 0, 0, width, height, MyWin32.WHITENESS);
             MyWin32.SetBkMode(originalHdc, MyWin32._SetBkMode_TRANSPARENT);
 
-            hFont =
-
-            MyWin32.SelectObject(originalHdc, hFont);
+            hFont = MyWin32.SelectObject(originalHdc, hFont);
 
             currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
             hRgn = MyWin32.CreateRectRgn(0, 0, width, height);
@@ -141,7 +139,7 @@ namespace LayoutFarm
             this.prevWin32Colors.Clear();
         }
 
-        public override void ReleaseUnManagedResource()
+        public void ReleaseUnManagedResource()
         {
 
             if (hRgn != IntPtr.Zero)
@@ -169,7 +167,7 @@ namespace LayoutFarm
 #endif
         }
 
-        public override void Reuse(int hPageNum, int vPageNum)
+        public void Reuse(int hPageNum, int vPageNum)
         {
             this.pageNumFlags = (hPageNum << 8) | vPageNum;
 
@@ -187,7 +185,7 @@ namespace LayoutFarm
             right = left + w;
             bottom = top + h;
         }
-        public override void Reset(int hPageNum, int vPageNum, int newWidth, int newHeight)
+        public void Reset(int hPageNum, int vPageNum, int newWidth, int newHeight)
         {
             this.pageNumFlags = (hPageNum << 8) | vPageNum;
 

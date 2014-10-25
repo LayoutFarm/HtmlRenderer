@@ -51,8 +51,7 @@ namespace LayoutFarm.Drawing
 
         public abstract SolidBrush GetSharedSolidBrush();
 
-        public abstract void ReleaseUnManagedResource();
-
+       
 
         public abstract bool IntersectsWith(Rect clientRect);
         public abstract bool PushClipAreaForNativeScrollableElement(Rect updateArea);
@@ -112,10 +111,7 @@ namespace LayoutFarm.Drawing
 
         public abstract void OffsetCanvasOriginY(int dy);
 
-        public abstract void Reuse(int hPageNum, int vPageNum);
-
-        public abstract void Reset(int hPageNum, int vPageNum, int newWidth, int newHeight);
-
+      
         public abstract void ClearSurface(Rect rect);
 
         public abstract void ClearSurface();
