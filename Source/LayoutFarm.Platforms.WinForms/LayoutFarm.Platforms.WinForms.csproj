@@ -54,7 +54,7 @@
     <Compile Include="LayoutFarm.Drawing\Implementation\NativeTextWin32.cs" />
     <Compile Include="LayoutFarm.Drawing\Implementation\Region.cs" />
     <Compile Include="LayoutFarm.Drawing\Implementation\Win32Utils.cs" />
-    <Compile Include="LayoutFarm.Drawing\MyCanvas\0_MyCanvas_Inits.cs" />
+    <Compile Include="LayoutFarm.Drawing\MyCanvas\1_MyCanvas_Inits.cs" />
     <Compile Include="LayoutFarm.Drawing\MyCanvas\MyCanvas_CanvasProps.cs" />
     <Compile Include="LayoutFarm.Drawing\MyCanvas\MyCanvas_CoordinateAndClip.cs" />
     <Compile Include="LayoutFarm.Drawing\MyCanvas\MyCanvas_DrawGraphics.cs" />
@@ -63,7 +63,7 @@
     <Compile Include="LayoutFarm.Drawing\MyCanvas\MyCanvas_InvalidateArea.cs" />
     <Compile Include="LayoutFarm.Drawing\MyCanvas\MyCanvas_Static.cs" />
     <Compile Include="LayoutFarm.Drawing\MyCanvas\MyCanvas_TextFuncs.cs" />
-    <Compile Include="LayoutFarm.UI\CanvasCollection.cs" />
+    <Compile Include="LayoutFarm.Drawing\MyCanvas\0_CanvasCollection.cs" />
     <Compile Include="LayoutFarm.UI\CanvasEventStock.cs" />
     <Compile Include="LayoutFarm.UI.WinForms\MyUITimer.cs" />
     <Compile Include="LayoutFarm.UI.WinForms\UIPlatformWinForms.cs" />

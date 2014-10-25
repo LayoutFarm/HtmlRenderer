@@ -10,9 +10,7 @@ using LayoutFarm.UI;
 namespace LayoutFarm.Drawing
 {   
     partial class MyTopWindowBridge
-    {
-
-
+    {   
         CanvasEventsStock eventStock = new CanvasEventsStock();
         CanvasViewport canvasViewport;
         IUserEventPortal winEventBridge;
