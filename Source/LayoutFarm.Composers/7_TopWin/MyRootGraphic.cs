@@ -13,7 +13,7 @@ namespace LayoutFarm.UI
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
 
 
-        GraphicsTimerTaskManager graphicTaskMan;
+        GraphicsTimerTaskManager graphicTimerTaskMan;
         GraphicPlatform graphicsPlatform;
 
         public MyRootGraphic(UIPlatform uiPlatform, int width, int height)
@@ -21,14 +21,14 @@ namespace LayoutFarm.UI
         {
 
             this.graphicsPlatform = uiPlatform.GraphicsPlatform;
-            graphicTaskMan = new GraphicsTimerTaskManager(this, uiPlatform);
+            this.graphicTimerTaskMan = new GraphicsTimerTaskManager(this, uiPlatform);
 
 #if DEBUG
             dbugCurrentGlobalVRoot = this;
             dbug_Init();
 #endif
         }
-        public override GraphicPlatform P
+        protected override GraphicPlatform P
         {
             get { return graphicsPlatform; }
         }
@@ -42,27 +42,27 @@ namespace LayoutFarm.UI
 
         public override void CloseWinRoot()
         {
-            this.graphicTaskMan.CloseAllWorkers();
-            this.graphicTaskMan = null;
+            this.graphicTimerTaskMan.CloseAllWorkers();
+            this.graphicTimerTaskMan = null;
         }
 
         public override void CaretStartBlink()
         {
 
-            graphicTaskMan.StartCaretBlinkTask();
+            graphicTimerTaskMan.StartCaretBlinkTask();
         }
         public override void CaretStopBlink()
         {
-            graphicTaskMan.StopCaretBlinkTask();
+            graphicTimerTaskMan.StopCaretBlinkTask();
 
         }
 
         ~MyRootGraphic()
         {
-            if (graphicTaskMan != null)
+            if (graphicTimerTaskMan != null)
             {
-                this.graphicTaskMan.CloseAllWorkers();
-                this.graphicTaskMan = null;
+                this.graphicTimerTaskMan.CloseAllWorkers();
+                this.graphicTimerTaskMan = null;
             }
 
 
@@ -78,11 +78,11 @@ namespace LayoutFarm.UI
             int intervalMs,
             EventHandler<GraphicsTimerTaskEventArgs> tickhandler)
         {
-            return this.graphicTaskMan.SubscribeGraphicsTimerTask(uniqueName, planName, intervalMs, tickhandler);
+            return this.graphicTimerTaskMan.SubscribeGraphicsTimerTask(uniqueName, planName, intervalMs, tickhandler);
         }
         public override void RemoveIntervalTask(object uniqueName)
         {
-            this.graphicTaskMan.UnsubscribeTimerTask(uniqueName);
+            this.graphicTimerTaskMan.UnsubscribeTimerTask(uniqueName);
         }
         //-------------------------------------------------------------------------------
         int VisualRequestCount
