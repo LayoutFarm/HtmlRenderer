@@ -11,15 +11,10 @@ namespace LayoutFarm.UI
 
     public partial class TopWindowRenderBox : TopWindowRenderBoxBase
     {
-
-
         List<RenderElement> layoutQueue = new List<RenderElement>();
         List<RenderElement> layoutQueue2 = new List<RenderElement>();
-        List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
-
-       
+        List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();      
         RootGraphic rootGraphic;
-
         public TopWindowRenderBox(
             RootGraphic rootGraphic,
             int width, int height)

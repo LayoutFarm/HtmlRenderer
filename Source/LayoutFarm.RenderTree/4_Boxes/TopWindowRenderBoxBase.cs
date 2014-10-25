@@ -27,15 +27,13 @@ namespace LayoutFarm
         {
             groundLayer.AddChild(renderE);
         }
-
         public void ForcePaint()
         {
             if (this.CanvasForcePaint != null)
             {
                 CanvasForcePaint(this, EventArgs.Empty);
             }
-        }
-       
+        }     
 
         
         protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)

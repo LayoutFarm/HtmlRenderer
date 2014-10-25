@@ -10,7 +10,7 @@ namespace LayoutFarm.Text
     static class GlobalCaretController
     {
         static bool enableCaretBlink = true;//default
-        static TextEditRenderBox textEditBox;
+        static TextEditRenderBox currentTextBox;
         static bool caretRegistered = false;
         static EventHandler<GraphicsTimerTaskEventArgs> tickHandler;
         static object caretBlinkTask = new object();
@@ -27,7 +27,6 @@ namespace LayoutFarm.Text
                 return;
             }
             caretRegistered = true;
-
             task = root.RequestGraphicsIntervalTask(
                 caretBlinkTask,
                 TaskIntervalPlan.CaretBlink,
@@ -36,11 +35,11 @@ namespace LayoutFarm.Text
         }
         static void caret_TickHandler(object sender, GraphicsTimerTaskEventArgs e)
         {
-            if (textEditBox != null)
+            if (currentTextBox != null)
             {
-                textEditBox.SwapCaretState();
+                currentTextBox.SwapCaretState();
                 //force render ?
-                textEditBox.InvalidateGraphic();
+                currentTextBox.InvalidateGraphic();
                 e.NeedUpdate = 1;
             }
             else
@@ -59,19 +58,19 @@ namespace LayoutFarm.Text
         }
         internal static TextEditRenderBox CurrentTextEditBox
         {
-            get { return textEditBox; }
+            get { return currentTextBox; }
             set
             {
-                if (textEditBox != value)//&& textEditBox != null)
+                if (currentTextBox != value)//&& textEditBox != null)
                 {
                     //make lost focus on current textbox
-                    if (textEditBox != null)
+                    if (currentTextBox != null)
                     {
                         //stop caret on prev element
-                        textEditBox.SetCaretState(false);
-                        var evlistener = textEditBox.GetController() as IEventListener;
+                        currentTextBox.SetCaretState(false);
+                        var evlistener = currentTextBox.GetController() as IEventListener;
 
-                        textEditBox = null;
+                        currentTextBox = null;
 
                         if (evlistener != null)
                         {
@@ -79,7 +78,7 @@ namespace LayoutFarm.Text
                         }
                     }
                 }
-                textEditBox = value;
+                currentTextBox = value;
             }
         }
 

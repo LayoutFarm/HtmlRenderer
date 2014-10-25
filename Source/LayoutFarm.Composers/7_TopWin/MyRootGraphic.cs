@@ -11,22 +11,29 @@ namespace LayoutFarm.UI
     public class MyRootGraphic : RootGraphic
     {
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
-
-
         GraphicsTimerTaskManager graphicTimerTaskMan;
         GraphicPlatform graphicsPlatform;
+
+        static object normalUpdateTask = new object();
 
         public MyRootGraphic(UIPlatform uiPlatform, int width, int height)
             : base(width, height)
         {
 
             this.graphicsPlatform = uiPlatform.GraphicsPlatform;
-            this.graphicTimerTaskMan = new GraphicsTimerTaskManager(this, uiPlatform);
-
+            this.graphicTimerTaskMan = new GraphicsTimerTaskManager(this, uiPlatform); 
 #if DEBUG
             dbugCurrentGlobalVRoot = this;
             dbug_Init();
 #endif
+
+            this.RequestGraphicsIntervalTask(normalUpdateTask,
+                TaskIntervalPlan.Animation,
+                20,
+                (s, e) =>
+                {
+                    TopWindowRenderBox.CurrentTopWindowRenderBox.InvalidateGraphic();
+                });
         }
         protected override GraphicPlatform P
         {
