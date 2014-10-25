@@ -5,16 +5,16 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
-    class TimerTaskCollection
+    class GraphicsTimerTaskCollection
     {
         Dictionary<object, GraphicsTimerTask> graphicIntervalTasks = new Dictionary<object, GraphicsTimerTask>();
         List<GraphicsTimerTask> intervalTasksList = new List<GraphicsTimerTask>();
         RootGraphic rootgfx;
-        public TimerTaskCollection(RootGraphic rootgfx)
+        public GraphicsTimerTaskCollection(RootGraphic rootgfx)
         {
             this.rootgfx = rootgfx;
         } 
-        public GraphicsTimerTask RequestGraphicInternvalTask(object uniqueName, 
+        public GraphicsTimerTask SubscribeGraphicsTimerTask(object uniqueName, 
             int intervalMs, 
             EventHandler<GraphicsTimerTaskEventArgs> tickhandler)
         {
@@ -27,7 +27,7 @@ namespace LayoutFarm.UI
             }
             return existingTask;
         }
-        public void RemoveIntervalTask(object uniqueName)
+        public void UnsubscribeTimerTask(object uniqueName)
         {
             GraphicsTimerTask found;
             if (graphicIntervalTasks.TryGetValue(uniqueName, out found))

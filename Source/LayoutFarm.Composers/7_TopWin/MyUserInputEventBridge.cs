@@ -15,10 +15,10 @@ namespace LayoutFarm.UI
 
         int msgChainVersion;
         TopWindowRenderBox topwin;
-        bool isDraging; 
+        bool isDraging;
 
         IEventListener currentKbFocusElem;
-        IEventListener currentMouseActiveElement; 
+        IEventListener currentMouseActiveElement;
 
         public MyUserInputEventBridge()
         {
@@ -26,7 +26,7 @@ namespace LayoutFarm.UI
         public override void Bind(TopWindowRenderBox topwin)
         {
             this.topwin = topwin;
-            this.hoverMonitoringTask = new UIHoverMonitorTask(this.topwin, OnMouseHover);
+            this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
 
 #if DEBUG
             hitPointChain.dbugHitTracker = this.dbugRootGraphic.dbugHitTracker;
@@ -200,7 +200,7 @@ namespace LayoutFarm.UI
                         e.SourceHitElement = hitobj.hitObject;
                         e.CurrentContextElement = listener;
 
-                                                
+
                         listener.ListenMouseDown(e);
 
                         var curContextElement = e.CurrentContextElement as IEventListener;
@@ -270,29 +270,29 @@ namespace LayoutFarm.UI
             //-------------------------------------------------------
             //when mousemove -> reset hover!
             hoverMonitoringTask.Reset();
-            hoverMonitoringTask.Enabled = true; 
+            hoverMonitoringTask.Enabled = true;
             //-------------------------------------------------------
             DisableGraphicOutputFlush = true;
 
             this.isDraging = e.IsDragging;
-             
+
 
             ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
             {
                 e.Location = hitobj.Location;
                 e.CurrentContextElement = listener;
-                listener.PortalMouseMove(e);                 
+                listener.PortalMouseMove(e);
                 return true;
             });
             //-------------------------------------------------------            
             ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
             {
                 e.Location = hitobj.Location;
-                if (currentMouseActiveElement != null && 
+                if (currentMouseActiveElement != null &&
                     currentMouseActiveElement != listener)
                 {
-                    
-                    currentMouseActiveElement.ListenMouseLeave(e); 
+
+                    currentMouseActiveElement.ListenMouseLeave(e);
                     currentMouseActiveElement = null;
                 }
 
@@ -302,9 +302,9 @@ namespace LayoutFarm.UI
                     currentMouseActiveElement.ListenMouseMove(e);
                 }
                 else
-                {                    
+                {
                     currentMouseActiveElement = listener;
-                    e.JustEnter = true;                     
+                    e.JustEnter = true;
                     currentMouseActiveElement.ListenMouseMove(e);
                 }
 
@@ -339,92 +339,92 @@ namespace LayoutFarm.UI
             //hitPointChain.SwapHitChain();
             //hoverMonitoringTask.SetEnable(false, this.topwin);
         }
-//        public override void OnDragStart(UIMouseEventArgs e)
-//        {
+        //        public override void OnDragStart(UIMouseEventArgs e)
+        //        {
 
-//#if DEBUG
-//            if (this.dbugRootGraphic.dbugEnableGraphicInvalidateTrace)
-//            {
-//                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
-//                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("START_DRAG");
-//                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
-//            }
-//#endif
+        //#if DEBUG
+        //            if (this.dbugRootGraphic.dbugEnableGraphicInvalidateTrace)
+        //            {
+        //                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+        //                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("START_DRAG");
+        //                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+        //            }
+        //#endif
 
-//            HitTestCoreWithPrevChainHint(
-//              hitPointChain.LastestRootX,
-//              hitPointChain.LastestRootY);
+        //            HitTestCoreWithPrevChainHint(
+        //              hitPointChain.LastestRootX,
+        //              hitPointChain.LastestRootY);
 
-//            DisableGraphicOutputFlush = true;
-//            this.currentDragElem = null;
+        //            DisableGraphicOutputFlush = true;
+        //            this.currentDragElem = null;
 
-//            //-----------------------------------------------------------------------
+        //            //-----------------------------------------------------------------------
 
-//            ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
-//            {
-//                listener.PortalMouseMove(e);
-//                return true;
-//            });
+        //            ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
+        //            {
+        //                listener.PortalMouseMove(e);
+        //                return true;
+        //            });
 
-//            //-----------------------------------------------------------------------
+        //            //-----------------------------------------------------------------------
 
-//            ForEachEventListenerBubbleUp(this.hitPointChain, (hit, listener) =>
-//            {
-//                currentDragElem = listener;
-//                listener.ListenDragEvent(UIDragEventName.DragStart, e);
-//                return true;
-//            });
-//            DisableGraphicOutputFlush = false;
-//            FlushAccumGraphicUpdate();
+        //            ForEachEventListenerBubbleUp(this.hitPointChain, (hit, listener) =>
+        //            {
+        //                currentDragElem = listener;
+        //                listener.ListenDragEvent(UIDragEventName.DragStart, e);
+        //                return true;
+        //            });
+        //            DisableGraphicOutputFlush = false;
+        //            FlushAccumGraphicUpdate();
 
-//            hitPointChain.SwapHitChain();
-//        }
-//        public override void OnDrag(UIMouseEventArgs e)
-//        {
-//            if (currentDragElem == null)
-//            {
-//                return;
-//            }
+        //            hitPointChain.SwapHitChain();
+        //        }
+        //        public override void OnDrag(UIMouseEventArgs e)
+        //        {
+        //            if (currentDragElem == null)
+        //            {
+        //                return;
+        //            }
 
-//#if DEBUG
-//            this.dbugRootGraphic.dbugEventIsDragging = true;
-//#endif
+        //#if DEBUG
+        //            this.dbugRootGraphic.dbugEventIsDragging = true;
+        //#endif
 
-//            //if (currentDragingElement == null)
-//            //{
+        //            //if (currentDragingElement == null)
+        //            //{
 
-//            //    return;
-//            //}
-//            //else
-//            //{
-//            //}
+        //            //    return;
+        //            //}
+        //            //else
+        //            //{
+        //            //}
 
-//            //--------------
+        //            //--------------
 
-//            DisableGraphicOutputFlush = true;
+        //            DisableGraphicOutputFlush = true;
 
-//            currentDragElem.ListenDragEvent(UIDragEventName.Dragging, e);
+        //            currentDragElem.ListenDragEvent(UIDragEventName.Dragging, e);
 
-//            DisableGraphicOutputFlush = false;
-//            FlushAccumGraphicUpdate();
+        //            DisableGraphicOutputFlush = false;
+        //            FlushAccumGraphicUpdate();
 
-//            //Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
-//            //e.TranslateCanvasOrigin(globalDragingElementLocation);
-//            //e.SourceHitElement = currentDragingElement;
-//            //Point dragPoint = hitPointChain.PrevHitPoint;
-//            //dragPoint.Offset(currentXDistanceFromDragPoint, currentYDistanceFromDragPoint);
-//            //e.Location = dragPoint;
-//            //e.DragingElement = currentDragingElement;
+        //            //Point globalDragingElementLocation = currentDragingElement.GetGlobalLocation();
+        //            //e.TranslateCanvasOrigin(globalDragingElementLocation);
+        //            //e.SourceHitElement = currentDragingElement;
+        //            //Point dragPoint = hitPointChain.PrevHitPoint;
+        //            //dragPoint.Offset(currentXDistanceFromDragPoint, currentYDistanceFromDragPoint);
+        //            //e.Location = dragPoint;
+        //            //e.DragingElement = currentDragingElement;
 
-//            //IEventListener ui = currentDragingElement.GetController() as IEventListener;
-//            //if (ui != null)
-//            //{
-//            //    ui.ListenDragEvent(UIDragEventName.Dragging, e);
-//            //}
-//            //e.TranslateCanvasOriginBack();
+        //            //IEventListener ui = currentDragingElement.GetController() as IEventListener;
+        //            //if (ui != null)
+        //            //{
+        //            //    ui.ListenDragEvent(UIDragEventName.Dragging, e);
+        //            //}
+        //            //e.TranslateCanvasOriginBack();
 
 
-//        }
+        //        }
 
 
         //        public override void OnDragStop(UIMouseEventArgs e)
@@ -503,7 +503,7 @@ namespace LayoutFarm.UI
         //            DisableGraphicOutputFlush = false;
         //            FlushAccumGraphicUpdate();
         //        }
-      
+
 
         void BroadcastDragHitEvents(UIMouseEventArgs e)
         {
@@ -591,8 +591,8 @@ namespace LayoutFarm.UI
             //UIMouseEventArgs.ReleaseEventArgs(d_eventArg);
         }
 
-        
-        
+
+
         public override void OnGotFocus(UIFocusEventArgs e)
         {
 
@@ -623,7 +623,7 @@ namespace LayoutFarm.UI
 
                 DisableGraphicOutputFlush = true;
                 //---------------------------------------------------------------
-                
+
                 ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
                 {
                     e.CurrentContextElement = listener;
@@ -646,7 +646,7 @@ namespace LayoutFarm.UI
                     e.SourceHitElement = hitobj.hitObject;
                     e.CurrentContextElement = hitobj.hitObject;
 
-                     
+
                     listener.ListenMouseUp(e);
                     var curContextElement = e.CurrentContextElement as IEventListener;
                     if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
@@ -666,7 +666,7 @@ namespace LayoutFarm.UI
         {
             if (currentKbFocusElem != null)
             {
-                e.SourceHitElement = currentKbFocusElem;                 
+                e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyDown(e);
             }
         }
@@ -674,7 +674,7 @@ namespace LayoutFarm.UI
         {
             if (currentKbFocusElem != null)
             {
-                e.SourceHitElement = currentKbFocusElem;                 
+                e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyUp(e);
             }
         }

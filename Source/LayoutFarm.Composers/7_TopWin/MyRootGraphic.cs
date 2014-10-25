@@ -11,20 +11,20 @@ namespace LayoutFarm.UI
     public class MyRootGraphic : RootGraphic
     {
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
-        
+
         UITimer uiTimer1;
 
-        TimerTaskCollection timerTasks;
+        GraphicsTimerTaskCollection timerTasks;
         GraphicPlatform graphicsPlatform;
 
-        public MyRootGraphic(GraphicPlatform graphicsPlatform,
-            UITimer uiTimer, int width, int height)
+        public MyRootGraphic(UIPlatform uiPlatform, int width, int height)
             : base(width, height)
         {
-            this.graphicsPlatform = graphicsPlatform;
 
-            timerTasks = new TimerTaskCollection(this);
-            this.uiTimer1 = uiTimer;
+            this.graphicsPlatform = uiPlatform.GraphicsPlatform;
+
+            timerTasks = new GraphicsTimerTaskCollection(this);
+            this.uiTimer1 = uiPlatform.CreateUITimer();
 
             uiTimer1.Interval = 500; //300 ms
             uiTimer1.Tick += new EventHandler(graphicTimer1_Tick);
@@ -125,15 +125,12 @@ namespace LayoutFarm.UI
         public override GraphicsTimerTask RequestGraphicsIntervalTask(object uniqueName,
             int intervalMs, EventHandler<GraphicsTimerTaskEventArgs> tickhandler)
         {
-            return this.timerTasks.RequestGraphicInternvalTask(uniqueName, intervalMs, tickhandler);
+            return this.timerTasks.SubscribeGraphicsTimerTask(uniqueName, intervalMs, tickhandler);
         }
         public override void RemoveIntervalTask(object uniqueName)
         {
-            this.timerTasks.RemoveIntervalTask(uniqueName);
+            this.timerTasks.UnsubscribeTimerTask(uniqueName);
         }
-
- 
-
 
         int VisualRequestCount
         {

@@ -13,14 +13,11 @@ namespace LayoutFarm.UI
 
         int mouseMoveCounter = -1;
         EventHandler targetEventHandler;
-        TopWindowRenderBox topwin;
         bool isEnabled;
-        public UIHoverMonitorTask(TopWindowRenderBox topwin, EventHandler targetEventHandler)
+        public UIHoverMonitorTask(EventHandler targetEventHandler)
         {
-            this.topwin = topwin;
             this.targetEventHandler = targetEventHandler;
         }
-      
         public override bool Enabled
         {
             get

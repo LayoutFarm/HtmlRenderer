@@ -76,6 +76,7 @@ namespace LayoutFarm
         public abstract GraphicsTimerTask RequestGraphicsIntervalTask(
             object uniqueName,
             int intervalMs, EventHandler<GraphicsTimerTaskEventArgs> tickhandler);
+
         public abstract void RemoveIntervalTask(object uniqueName);
 
 #if DEBUG

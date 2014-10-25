@@ -10,7 +10,7 @@ namespace LayoutFarm.UI
     public class WinEventBridge : IUserEventPortal
     {
 
-        public TopWindowRenderBox topwin;
+       
         UserInputEventBridge userInputEventBridge;
          
         int prevLogicalMouseX = 0;
@@ -20,7 +20,7 @@ namespace LayoutFarm.UI
 
         public WinEventBridge(TopWindowRenderBox topwin)
         {
-            this.topwin = topwin;
+          
             this.userInputEventBridge = new MyUserInputEventBridge();
             this.userInputEventBridge.Bind(topwin);
         }
