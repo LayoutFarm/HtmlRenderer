@@ -41,10 +41,7 @@ namespace LayoutFarm
                 }
             }
         }
-        public void MarkAsFirstTimeInvalidateAndUpdateContent()
-        {
-            canvasFlags = FIRSTTIME_INVALID_AND_UPDATED_CONTENT;
-        }
+       
         public Rect InvalidateArea
         {
             get
@@ -52,27 +49,16 @@ namespace LayoutFarm
                 return invalidateArea;
             }
         }
+     
         public bool IsContentReady
         {
-            get
-            {
-                return ((canvasFlags & UPDATED_CONTENT) == UPDATED_CONTENT);
-            }
+            get;
+            set;
         }
-
         public override void Invalidate(Rect rect)
-        {
-
-            if ((canvasFlags & FIRSTTIME_INVALID) == FIRSTTIME_INVALID)
-            {
-                invalidateArea.LoadValues(rect);
-            }
-            else
-            {
-                invalidateArea.MergeRect(rect);
-            }
-
-            canvasFlags = WAIT_FOR_UPDATE;
+        { 
+            invalidateArea.MergeRect(rect);
+            this.IsContentReady = false;    
         }
 
 

@@ -188,30 +188,26 @@ namespace LayoutFarm.Drawing
 
 
                     } break;
-            }
-
-
-
-
+            } 
         }
 
-        static void UpdateAllArea(MyCanvas artCanvas, TopWindowRenderBoxBase rootElement)
+        static void UpdateAllArea(MyCanvas mycanvas, TopWindowRenderBoxBase rootElement)
         {
 
-            artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
-            Rect rect = Rect.CreateFromRect(artCanvas.Rect);
-            rootElement.DrawToThisPage(artCanvas, rect);
+            mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
+            Rect rect = Rect.CreateFromRect(mycanvas.Rect);
+            rootElement.DrawToThisPage(mycanvas, rect);
 
 #if DEBUG
-            rootElement.dbugShowRenderPart(artCanvas, rect);
+            rootElement.dbugShowRenderPart(mycanvas, rect);
 #endif 
 #if DEBUG
 #endif
-            artCanvas.MarkAsFirstTimeInvalidateAndUpdateContent();
-
-            artCanvas.OffsetCanvasOrigin(artCanvas.Left, artCanvas.Top);
+             
+            mycanvas.IsContentReady = true;
+            mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
         }
-        static void UpdateInvalidArea(MyCanvas artCanvas, TopWindowRenderBoxBase rootElement, VisualDrawingChain renderingChain)
+        static void UpdateInvalidArea(MyCanvas mycanvas, TopWindowRenderBoxBase rootElement, VisualDrawingChain renderingChain)
         {
 
             List<RenderElement> selectedVisualElements = renderingChain.selectedVisualElements;
@@ -220,8 +216,8 @@ namespace LayoutFarm.Drawing
 
             int j = containAllAreaTestResults.Count;
 
-            artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
-            Rect rect = artCanvas.InvalidateArea;
+            mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
+            Rect rect = mycanvas.InvalidateArea;
 
             for (int i = j - 1; i > -1; --i)
             {
@@ -240,52 +236,48 @@ namespace LayoutFarm.Drawing
 
                     Point globalLocation = ve.GetGlobalLocation();
 
-                    artCanvas.OffsetCanvasOrigin(globalLocation.X, globalLocation.Y);
+                    mycanvas.OffsetCanvasOrigin(globalLocation.X, globalLocation.Y);
 
                     rect.Offset(-globalLocation.X, -globalLocation.Y);
 
-                    ve.DrawToThisPage(artCanvas, rect);
+                    ve.DrawToThisPage(mycanvas, rect);
 #if DEBUG
-                    rootElement.dbugShowRenderPart(artCanvas, rect);
+                    rootElement.dbugShowRenderPart(mycanvas, rect);
 #endif
 
 #if DEBUG
 
 #endif
-                    artCanvas.MarkAsFirstTimeInvalidateAndUpdateContent();
+                    mycanvas.IsContentReady = true;
                     rect.Offset(globalLocation.X, globalLocation.Y);
-                    artCanvas.OffsetCanvasOrigin(-globalLocation.X, -globalLocation.Y);
+                    mycanvas.OffsetCanvasOrigin(-globalLocation.X, -globalLocation.Y);
 
                     ve.IsInRenderChain = false;
 
                     break;
                 }
             }
-            artCanvas.OffsetCanvasOrigin(artCanvas.Left, artCanvas.Top);
+            mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
             for (int i = j - 1; i > -1; --i)
             {
                 selectedVisualElements[i].IsInRenderChain = true;
             }
         }
-        static void UpdateInvalidArea(MyCanvas artCanvas, TopWindowRenderBoxBase rootElement)
+        static void UpdateInvalidArea(MyCanvas mycanvas, TopWindowRenderBoxBase rootElement)
         {
 #if DEBUG
 #endif
 
 
-            artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
-            Rect rect = artCanvas.InvalidateArea;
-            rootElement.DrawToThisPage(artCanvas, rect);
+            mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
+            Rect rect = mycanvas.InvalidateArea;
+            rootElement.DrawToThisPage(mycanvas, rect);
 #if DEBUG
-            rootElement.dbugShowRenderPart(artCanvas, rect);
+            rootElement.dbugShowRenderPart(mycanvas, rect);
 #endif
-
-#if DEBUG
-
-#endif
-            artCanvas.MarkAsFirstTimeInvalidateAndUpdateContent();
-            artCanvas.OffsetCanvasOrigin(artCanvas.Left, artCanvas.Top);
-
+             
+            mycanvas.IsContentReady = true;
+            mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top); 
         }
 
 

@@ -65,7 +65,7 @@ namespace LayoutFarm
         bool _useGdiPlusTextRendering;
         bool isFromPrinter = false;
 
-        int canvasFlags = FIRSTTIME_INVALID;
+        
         GraphicPlatform platform;
 
         public MyCanvas(GraphicPlatform platform,
