@@ -9,7 +9,7 @@ namespace LayoutFarm.Drawing
 
     class CanvasCollection
     {
-        List<Canvas> cachePages;
+        List<MyCanvas> cachePages;
         int numOfCachePages;
         int eachPageWidth;
         int eachPageHeight;
@@ -24,7 +24,7 @@ namespace LayoutFarm.Drawing
             {
                 eachPageHeight = 1;
             }
-            cachePages = new List<Canvas>(numOfCachePages);
+            cachePages = new List<MyCanvas>(numOfCachePages);
             this.eachPageWidth = eachPageWidth;
             this.eachPageHeight = eachPageHeight;
             this.numOfCachePages = numOfCachePages;
@@ -57,12 +57,12 @@ namespace LayoutFarm.Drawing
             }
 
         }
-        public Canvas GetCanvasPage(int hPageNum, int vPageNum)
+        public MyCanvas GetCanvasPage(int hPageNum, int vPageNum)
         {
-            int j = cachePages.Count; 
+            int j = cachePages.Count;
             for (int i = j - 1; i > -1; i--)
             {
-                Canvas page = cachePages[i];
+                MyCanvas page = cachePages[i];
                 if (page.IsPageNumber(hPageNum, vPageNum))
                 {
                     cachePages.RemoveAt(i);
@@ -77,7 +77,7 @@ namespace LayoutFarm.Drawing
 
             if (j >= numOfCachePages)
             {
-                Canvas page = cachePages[0];
+                MyCanvas page = cachePages[0];
                 cachePages.RemoveAt(0);
                 page.IsUnused = false;
 
@@ -91,23 +91,22 @@ namespace LayoutFarm.Drawing
                 }
 
                 Rect rect = Rect.CreateFromRect(page.Rect);
-                page.Invalidate(rect); 
-                 
+                page.Invalidate(rect);
+
                 return page;
             }
             else
             {
-                return CurrentGraphicPlatform.P.CreateCanvas(
+                return new MyCanvas(CurrentGraphicPlatform.P,
                     hPageNum,
                     vPageNum,
                     hPageNum * eachPageWidth,
                     eachPageHeight * vPageNum,
                     eachPageWidth,
-                    eachPageHeight);
-
+                    eachPageHeight); 
             }
         }
-        public void ReleasePage(Canvas page)
+        public void ReleasePage(MyCanvas page)
         {
             page.IsUnused = true;
             cachePages.Add(page);

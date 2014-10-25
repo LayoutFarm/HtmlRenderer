@@ -14,8 +14,7 @@ namespace LayoutFarm.UI
         RootGraphic rootgfx;
         UITimer uiTimer1;
 
-        int fastPlanInterval = 25;//ms
-        int animationPlanInterval = 25;//ms (40 fps)
+        int fastPlanInterval = 25;//ms 
         int caretBlinkInterval = 500;//ms (2 fps)
         int tickAccum = 0;
 
@@ -103,7 +102,7 @@ namespace LayoutFarm.UI
             //-------------------------------------------------
             tickAccum += fastPlanInterval;
             bool doCaretPlan = false;
-            if (tickAccum > this.caretBlinkInterval)
+            if (tickAccum > caretBlinkInterval)
             {
                 tickAccum = 0;//reset
                 doCaretPlan = true;
@@ -117,16 +116,15 @@ namespace LayoutFarm.UI
                 //------------------------------------------------- 
                 MyIntervalTaskEventArgs args = GetTaskEventArgs();
                 int j = this.fastIntervalTaskList.Count;
-              
                 if (j > 0)
                 {
-                    args = GetTaskEventArgs();
+                    
                     for (int i = 0; i < j; ++i)
                     {
                         fastIntervalTaskList[i].InvokeHandler(args);
                         needUpdate |= args.NeedUpdate;
                     }
-                } 
+                }
                 //-------------------------------------------------
                 //2. caret plan  
                 //------------------------------------------------- 
@@ -140,24 +138,23 @@ namespace LayoutFarm.UI
             }
             else
             {
-                int j = this.fastIntervalTaskList.Count;     
+                int j = this.fastIntervalTaskList.Count;
+                MyIntervalTaskEventArgs args = GetTaskEventArgs();
                 if (j > 0)
                 {
-                    MyIntervalTaskEventArgs args = GetTaskEventArgs();
                     for (int i = 0; i < j; ++i)
                     {
                         fastIntervalTaskList[i].InvokeHandler(args);
                         needUpdate |= args.NeedUpdate;
                     }
-                    FreeTaskEventArgs(args);
-                } 
-            }
-
+                }
+                FreeTaskEventArgs(args); 
+            } 
             if (needUpdate > 0)
             {
                 TopWindowRenderBox.CurrentTopWindowRenderBox.ForcePaint();
             }
-         
+
         }
         Stack<MyIntervalTaskEventArgs> taskEventPools = new Stack<MyIntervalTaskEventArgs>();
         MyIntervalTaskEventArgs GetTaskEventArgs()

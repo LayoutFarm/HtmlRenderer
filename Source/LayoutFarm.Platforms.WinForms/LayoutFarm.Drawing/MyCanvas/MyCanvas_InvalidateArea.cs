@@ -41,7 +41,7 @@ namespace LayoutFarm
                 }
             }
         }
-        public override void MarkAsFirstTimeInvalidateAndUpdateContent()
+        public void MarkAsFirstTimeInvalidateAndUpdateContent()
         {
             canvasFlags = FIRSTTIME_INVALID_AND_UPDATED_CONTENT;
         }
@@ -52,13 +52,13 @@ namespace LayoutFarm
                 return invalidateArea;
             }
         }
-        public override bool IsContentUpdated
+        public override bool IsContentReady
         {
             get
             {
                 return ((canvasFlags & UPDATED_CONTENT) == UPDATED_CONTENT);
             }
-        }  
+        }
 
         public override void Invalidate(Rect rect)
         {
@@ -74,7 +74,7 @@ namespace LayoutFarm
 
             canvasFlags = WAIT_FOR_UPDATE;
         }
-        
-        
+
+
     }
 }

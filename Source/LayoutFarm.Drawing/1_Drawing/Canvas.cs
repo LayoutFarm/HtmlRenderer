@@ -31,8 +31,7 @@ namespace LayoutFarm.Drawing
             set;
         }
       
-        public abstract void MarkAsFirstTimeInvalidateAndUpdateContent();
-
+        
         public abstract bool IsFromPrinter
         {
             get;
@@ -238,7 +237,7 @@ namespace LayoutFarm.Drawing
 
 
         public abstract Rect InvalidateArea { get; }
-        public abstract bool IsContentUpdated { get; }
+        public abstract bool IsContentReady { get; }
         public abstract void Invalidate(Rect rect);
 
 

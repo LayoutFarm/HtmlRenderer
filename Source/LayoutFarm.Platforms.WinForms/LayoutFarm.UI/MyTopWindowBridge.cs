@@ -61,14 +61,17 @@ namespace LayoutFarm.Drawing
             canvasViewport.PaintMe(hdc);
             ReleaseDC(this.windowControl.Handle, hdc);
         }
+
         void PaintToOutputWindowIfNeed()
         {
+
             if (!this.canvasViewport.IsQuadPageValid)
             {
                 IntPtr hdc = GetDC(this.windowControl.Handle);
                 canvasViewport.PaintMe(hdc);
                 ReleaseDC(this.windowControl.Handle, hdc);
             }
+            
         }
 
         public void UpdateCanvasViewportSize(int w, int h)
@@ -275,8 +278,6 @@ namespace LayoutFarm.Drawing
             //interprete meaning ?
             Point viewLocation = canvasViewport.LogicalViewportLocation;
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
-
-
             this.isDragging = mouseEventArg.IsDragging = this.isMouseDown;
 
             SetUIMouseEventArgsInfo(mouseEventArg, e);
@@ -375,9 +376,6 @@ namespace LayoutFarm.Drawing
 
             SetKeyData(keyEventArgs, e);
 
-
-
-             
             StopCaretBlink();
             canvasViewport.FullMode = false;
             keyEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
@@ -415,7 +413,7 @@ namespace LayoutFarm.Drawing
 
 
             this.winEventBridge.PortalKeyUp(keyEventArgs);
-             
+
             StartCaretBlink();
             eventStock.ReleaseEventArgs(keyEventArgs);
         }
@@ -458,7 +456,7 @@ namespace LayoutFarm.Drawing
 
             UIKeyEventArgs keyEventArg = eventStock.GetFreeKeyEventArgs();
             keyEventArg.KeyData = (int)keyData;
-             
+
             StopCaretBlink();
             canvasViewport.FullMode = false;
             keyEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);

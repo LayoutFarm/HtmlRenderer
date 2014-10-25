@@ -17,8 +17,7 @@ namespace LayoutFarm.Drawing
 
         RenderBoxBase ownerVisualElement;
         bool scrollableFullMode;
-        public MyCustomRenderSurface(RenderBoxBase ownerVisualElement, int width, int height)
-            : base(ownerVisualElement)
+        public MyCustomRenderSurface(RenderBoxBase ownerVisualElement, int width, int height) 
         {
 
             this.ownerVisualElement = ownerVisualElement;
@@ -202,7 +201,7 @@ namespace LayoutFarm.Drawing
             {
                 case QuadPages.PAGE_A:
                     {
-                        if (!quadPages.pageA.IsContentUpdated)
+                        if (!quadPages.pageA.IsContentReady)
                         {
                             Rect pageARect = Rect.CreateFromRect(quadPages.pageA.Rect);
                             UpdateInternalCanvas(quadPages.pageA, pageARect);
@@ -214,7 +213,7 @@ namespace LayoutFarm.Drawing
                     } break;
                 case QuadPages.PAGE_AB:
                     {
-                        if (!quadPages.pageA.IsContentUpdated)
+                        if (!quadPages.pageA.IsContentReady)
                         {
 
                             Rect pageARect = Rect.CreateFromRect(quadPages.pageA.Rect);
@@ -224,7 +223,7 @@ namespace LayoutFarm.Drawing
                             dbug_DrawRuler(quadPages.pageA, 0);
 #endif
                         }
-                        if (!quadPages.pageB.IsContentUpdated)
+                        if (!quadPages.pageB.IsContentReady)
                         {
 
                             Rect pageBRect = Rect.CreateFromRect(quadPages.pageB.Rect);
@@ -238,7 +237,7 @@ namespace LayoutFarm.Drawing
                     } break;
                 case QuadPages.PAGE_AC:
                     {
-                        if (!quadPages.pageA.IsContentUpdated)
+                        if (!quadPages.pageA.IsContentReady)
                         {
 
                             Rect pageARect = Rect.CreateFromRect(quadPages.pageA.Rect);
@@ -248,7 +247,7 @@ namespace LayoutFarm.Drawing
                             dbug_DrawRuler(quadPages.pageA, 0);
 #endif
                         }
-                        if (!quadPages.pageC.IsContentUpdated)
+                        if (!quadPages.pageC.IsContentReady)
                         {
                             Rect pageCRect = Rect.CreateFromRect(quadPages.pageC.Rect);
                             UpdateInternalCanvas(quadPages.pageC, pageCRect);
@@ -260,7 +259,7 @@ namespace LayoutFarm.Drawing
                     } break;
                 case QuadPages.PAGE_ABCD:
                     {
-                        if (!quadPages.pageA.IsContentUpdated)
+                        if (!quadPages.pageA.IsContentReady)
                         {
                             Rect pageARect = Rect.CreateFromRect(quadPages.pageA.Rect);
                             UpdateInternalCanvas(quadPages.pageA, pageARect);
@@ -269,7 +268,7 @@ namespace LayoutFarm.Drawing
                             dbug_DrawRuler(quadPages.pageA, 0);
 #endif
                         }
-                        if (!quadPages.pageB.IsContentUpdated)
+                        if (!quadPages.pageB.IsContentReady)
                         {
                             Rect pageBRect = Rect.CreateFromRect(quadPages.pageB.Rect);
                             UpdateInternalCanvas(quadPages.pageB, pageBRect);
@@ -278,7 +277,7 @@ namespace LayoutFarm.Drawing
                             dbug_DrawRuler(quadPages.pageB, 10);
 #endif
                         }
-                        if (!quadPages.pageC.IsContentUpdated)
+                        if (!quadPages.pageC.IsContentReady)
                         {
                             Rect pageCRect = Rect.CreateFromRect(quadPages.pageC.Rect);
                             UpdateInternalCanvas(quadPages.pageC, pageCRect);
@@ -287,7 +286,7 @@ namespace LayoutFarm.Drawing
                             dbug_DrawRuler(quadPages.pageC, 0);
 #endif
                         }
-                        if (!quadPages.pageD.IsContentUpdated)
+                        if (!quadPages.pageD.IsContentReady)
                         {
                             Rect pageDRect = Rect.CreateFromRect(quadPages.pageD.Rect);
                             UpdateInternalCanvas(quadPages.pageD, pageDRect);
@@ -310,7 +309,7 @@ namespace LayoutFarm.Drawing
             {
                 case QuadPages.PAGE_A:
                     {
-                        if (!quadPages.pageA.IsContentUpdated)
+                        if (!quadPages.pageA.IsContentReady)
                         {
 
 
@@ -322,14 +321,14 @@ namespace LayoutFarm.Drawing
                     } break;
                 case QuadPages.PAGE_AB:
                     {
-                        if (!quadPages.pageA.IsContentUpdated)
+                        if (!quadPages.pageA.IsContentReady)
                         {
                             UpdateInternalCanvas(quadPages.pageA, internalUpdateArea);
 #if DEBUG
                             dbug_DrawRuler(quadPages.pageA, 0);
 #endif
                         }
-                        if (!quadPages.pageB.IsContentUpdated)
+                        if (!quadPages.pageB.IsContentReady)
                         {
                             UpdateInternalCanvas(quadPages.pageB, internalUpdateArea);
 #if DEBUG
@@ -340,14 +339,14 @@ namespace LayoutFarm.Drawing
                     } break;
                 case QuadPages.PAGE_AC:
                     {
-                        if (!quadPages.pageA.IsContentUpdated)
+                        if (!quadPages.pageA.IsContentReady)
                         {
                             UpdateInternalCanvas(quadPages.pageA, internalUpdateArea);
 #if DEBUG
                             dbug_DrawRuler(quadPages.pageA, 0);
 #endif
                         }
-                        if (!quadPages.pageC.IsContentUpdated)
+                        if (!quadPages.pageC.IsContentReady)
                         {
                             UpdateInternalCanvas(quadPages.pageC, internalUpdateArea);
 #if DEBUG
@@ -357,28 +356,28 @@ namespace LayoutFarm.Drawing
                     } break;
                 case QuadPages.PAGE_ABCD:
                     {
-                        if (!quadPages.pageA.IsContentUpdated)
+                        if (!quadPages.pageA.IsContentReady)
                         {
                             UpdateInternalCanvas(quadPages.pageA, internalUpdateArea);
 #if DEBUG
                             dbug_DrawRuler(quadPages.pageA, 0);
 #endif
                         }
-                        if (!quadPages.pageB.IsContentUpdated)
+                        if (!quadPages.pageB.IsContentReady)
                         {
                             UpdateInternalCanvas(quadPages.pageB, internalUpdateArea);
 #if DEBUG
                             dbug_DrawRuler(quadPages.pageB, 10);
 #endif
                         }
-                        if (!quadPages.pageC.IsContentUpdated)
+                        if (!quadPages.pageC.IsContentReady)
                         {
                             UpdateInternalCanvas(quadPages.pageC, internalUpdateArea);
 #if DEBUG
                             dbug_DrawRuler(quadPages.pageC, 0);
 #endif
                         }
-                        if (!quadPages.pageD.IsContentUpdated)
+                        if (!quadPages.pageD.IsContentReady)
                         {
                             UpdateInternalCanvas(quadPages.pageD, internalUpdateArea);
 #if DEBUG

@@ -19,9 +19,7 @@ namespace LayoutFarm
             UIHtmlBox htmlBox = new UIHtmlBox(800, 600); 
             viewport.AddContent(htmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
-            htmlBox.LoadHtmlText(html); 
-            
-            
+            htmlBox.LoadHtmlText(html);  
         }
 
     }

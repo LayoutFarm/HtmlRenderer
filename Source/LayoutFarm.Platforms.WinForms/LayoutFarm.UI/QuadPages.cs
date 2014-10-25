@@ -12,10 +12,10 @@ namespace LayoutFarm.Drawing
     class QuadPages
     {
 
-        public Canvas pageA;
-        public Canvas pageB;
-        public Canvas pageC;
-        public Canvas pageD; 
+        public MyCanvas pageA;
+        public MyCanvas pageB;
+        public MyCanvas pageC;
+        public MyCanvas pageD; 
 
         CanvasCollection physicalCanvasCollection;
 
@@ -74,19 +74,19 @@ namespace LayoutFarm.Drawing
             {
                 if (pageA != null)
                 {
-                    if (!pageA.IsContentUpdated)
+                    if (!pageA.IsContentReady)
                     {
                         return false;
                     }
-                    if (pageB != null && !pageB.IsContentUpdated)
+                    if (pageB != null && !pageB.IsContentReady)
                     {
                         return false;
                     }
-                    if (pageC != null && !pageC.IsContentUpdated)
+                    if (pageC != null && !pageC.IsContentReady)
                     {
                         return false;
                     }
-                    if (pageD != null && !pageD.IsContentUpdated)
+                    if (pageD != null && !pageD.IsContentReady)
                     {
                         return false;
                     }
@@ -113,14 +113,14 @@ namespace LayoutFarm.Drawing
 
             int render_part = PAGE_A;
 
-            if (pageA != null && !pageA.IsContentUpdated)
+            if (pageA != null && !pageA.IsContentReady)
             {
                 UpdateAllArea(pageA, rootElement);
             }
             if (pageB != null)
             {
                 render_part |= PAGE_AB;
-                if (!pageB.IsContentUpdated)
+                if (!pageB.IsContentReady)
                 {
                     UpdateAllArea(pageB, rootElement);
                 }
@@ -128,7 +128,7 @@ namespace LayoutFarm.Drawing
             if (pageC != null)
             {
                 render_part |= PAGE_AC;
-                if (!pageC.IsContentUpdated)
+                if (!pageC.IsContentReady)
                 {
                     UpdateAllArea(pageC, rootElement);
                 }
@@ -136,7 +136,7 @@ namespace LayoutFarm.Drawing
             if (pageD != null)
             {
                 render_part |= PAGE_ABCD;
-                if (!pageD.IsContentUpdated)
+                if (!pageD.IsContentReady)
                 {
                     UpdateAllArea(pageD, rootElement);
                 }
@@ -195,7 +195,7 @@ namespace LayoutFarm.Drawing
 
         }
 
-        static void UpdateAllArea(Canvas artCanvas, TopWindowRenderBoxBase rootElement)
+        static void UpdateAllArea(MyCanvas artCanvas, TopWindowRenderBoxBase rootElement)
         {
 
             artCanvas.OffsetCanvasOrigin(-artCanvas.Left, -artCanvas.Top);
@@ -204,17 +204,14 @@ namespace LayoutFarm.Drawing
 
 #if DEBUG
             rootElement.dbugShowRenderPart(artCanvas, rect);
-#endif
-
-            
-
+#endif 
 #if DEBUG
 #endif
             artCanvas.MarkAsFirstTimeInvalidateAndUpdateContent();
 
             artCanvas.OffsetCanvasOrigin(artCanvas.Left, artCanvas.Top);
         }
-        static void UpdateInvalidArea(Canvas artCanvas, TopWindowRenderBoxBase rootElement, VisualDrawingChain renderingChain)
+        static void UpdateInvalidArea(MyCanvas artCanvas, TopWindowRenderBoxBase rootElement, VisualDrawingChain renderingChain)
         {
 
             List<RenderElement> selectedVisualElements = renderingChain.selectedVisualElements;
@@ -270,7 +267,7 @@ namespace LayoutFarm.Drawing
                 selectedVisualElements[i].IsInRenderChain = true;
             }
         }
-        static void UpdateInvalidArea(Canvas artCanvas, TopWindowRenderBoxBase rootElement)
+        static void UpdateInvalidArea(MyCanvas artCanvas, TopWindowRenderBoxBase rootElement)
         {
 #if DEBUG
 #endif
@@ -304,7 +301,7 @@ namespace LayoutFarm.Drawing
                 case PAGE_A:
                     {
 
-                        if (!pageA.IsContentUpdated)
+                        if (!pageA.IsContentReady)
                         {
                             if (renderChain != null)
                             {
@@ -318,7 +315,7 @@ namespace LayoutFarm.Drawing
                     } break;
                 case PAGE_AB:
                     {
-                        if (!pageA.IsContentUpdated)
+                        if (!pageA.IsContentReady)
                         {
                             if (renderChain != null)
                             {
@@ -329,7 +326,7 @@ namespace LayoutFarm.Drawing
                                 UpdateInvalidArea(pageA, rootElement);
                             }
                         }
-                        if (!pageB.IsContentUpdated)
+                        if (!pageB.IsContentReady)
                         {
                             if (renderChain != null)
                             {
@@ -343,7 +340,7 @@ namespace LayoutFarm.Drawing
                     } break;
                 case PAGE_AC:
                     {
-                        if (!pageA.IsContentUpdated)
+                        if (!pageA.IsContentReady)
                         {
                             if (renderChain != null)
                             {
@@ -355,7 +352,7 @@ namespace LayoutFarm.Drawing
 
                             }
                         }
-                        if (!pageC.IsContentUpdated)
+                        if (!pageC.IsContentReady)
                         {
                             if (renderChain != null)
                             {
@@ -369,7 +366,7 @@ namespace LayoutFarm.Drawing
                     } break;
                 case PAGE_ABCD:
                     {
-                        if (!pageA.IsContentUpdated)
+                        if (!pageA.IsContentReady)
                         {
                             if (renderChain != null)
                             {
@@ -380,7 +377,7 @@ namespace LayoutFarm.Drawing
                                 UpdateInvalidArea(pageA, rootElement);
                             }
                         }
-                        if (!pageB.IsContentUpdated)
+                        if (!pageB.IsContentReady)
                         {
                             if (renderChain != null)
                             {
@@ -391,7 +388,7 @@ namespace LayoutFarm.Drawing
                                 UpdateInvalidArea(pageB, rootElement);
                             }
                         }
-                        if (!pageC.IsContentUpdated)
+                        if (!pageC.IsContentReady)
                         {
                             if (renderChain != null)
                             {
@@ -402,7 +399,7 @@ namespace LayoutFarm.Drawing
                                 UpdateInvalidArea(pageC, rootElement);
                             }
                         }
-                        if (!pageD.IsContentUpdated)
+                        if (!pageD.IsContentReady)
                         {
                             if (renderChain != null)
                             {

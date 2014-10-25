@@ -23,13 +23,12 @@ namespace LayoutFarm.SampleControls
         int _height;
         MyHtmlIsland myHtmlIsland;
 
-        HtmlRenderer.WebDom.WebDocument currentdoc;
-
+        HtmlRenderer.WebDom.WebDocument currentdoc; 
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
         public event EventHandler<ImageRequestEventArgs> RequestImage;
 
 
-        System.Timers.Timer tim = new System.Timers.Timer();
+        
         bool hasWaitingDocToLoad;
         HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
 
@@ -53,8 +52,10 @@ namespace LayoutFarm.SampleControls
             myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
             myHtmlIsland.RequestResource += myHtmlIsland_RequestResource;
 
-            tim.Interval = 30;
-            tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
+            //request ui timer ***
+
+            //tim.Interval = 30;
+            //tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
         }
         //--------------------------------------------------------------------
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
@@ -67,7 +68,9 @@ namespace LayoutFarm.SampleControls
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
+            
             _htmlInputEventBridge.MouseMove(e);
+            
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
@@ -102,8 +105,6 @@ namespace LayoutFarm.SampleControls
         }
 
         //--------------------------------------------------------------------
-
-
         void tim_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             if (this.myHtmlIsland != null)
@@ -214,22 +215,19 @@ namespace LayoutFarm.SampleControls
             //---------------------------
             if (myCssBoxWrapper == null) return;
             //---------------------------
-            UpdateWaitingHtmlDoc(this.myCssBoxWrapper.Root);
-
+            UpdateWaitingHtmlDoc(this.myCssBoxWrapper.Root); 
         }
         public void LoadHtmlText(string html)
         {
             //myHtmlBox.LoadHtmlText(html);
-            this.tim.Enabled = false;
+            //this.tim.Enabled = false;
             SetHtml(myHtmlIsland, html, myHtmlIsland.BaseStylesheet);
-            this.tim.Enabled = true;
+            //this.tim.Enabled = true;
             if (this.myCssBoxWrapper != null)
             {
                 myCssBoxWrapper.InvalidateGraphic();
             }
-        }
-
-
+        } 
         public override void InvalidateGraphic()
         {
             if (this.myCssBoxWrapper != null)

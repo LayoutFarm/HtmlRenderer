@@ -41,7 +41,8 @@ namespace LayoutFarm
         const int CANVAS_UNUSED = 1 << (1 - 1);
         const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
         const int WAIT_FOR_UPDATE = 0x0;
-        const int FIRSTTIME_INVALID = 0x1; const int UPDATED_CONTENT = 0x2;
+        const int FIRSTTIME_INVALID = 0x1; 
+        const int UPDATED_CONTENT = 0x2;
         const int FIRSTTIME_INVALID_AND_UPDATED_CONTENT = 0x3;
 
         static IntPtr defaultHFont;
