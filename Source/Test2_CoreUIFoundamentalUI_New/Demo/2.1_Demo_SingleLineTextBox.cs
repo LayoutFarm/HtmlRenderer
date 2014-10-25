@@ -12,7 +12,7 @@ namespace LayoutFarm
     class Demo_SingleLineText : DemoBase
     {
 
-        protected override void OnStartDemo(UISurfaceViewportControl viewport)
+        protected override void OnStartDemo(SampleViewport viewport)
         {
             var textbox = new LayoutFarm.SampleControls.UITextBox(400, 30, false);
             viewport.AddContent(textbox);

@@ -11,7 +11,7 @@ namespace LayoutFarm
     [DemoNote("4.4 CssLeanBox")]
     class Demo_CssLeanBox : DemoBase
     {
-        protected override void OnStartDemo(UISurfaceViewportControl viewport)
+        protected override void OnStartDemo(SampleViewport viewport)
         {
 
             ////==================================================

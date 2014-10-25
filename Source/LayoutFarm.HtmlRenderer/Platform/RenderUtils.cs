@@ -25,10 +25,10 @@ namespace LayoutFarm.Drawing
     /// </summary>
     static class RenderUtils
     {
-        /// <summary>
-        /// cache of brush color to brush instance
-        /// </summary>
-        static readonly Dictionary<Color, Brush> _brushesCache = new Dictionary<Color, Brush>();
+        ///// <summary>
+        ///// cache of brush color to brush instance
+        ///// </summary>
+        //static readonly Dictionary<Color, Brush> _brushesCache = new Dictionary<Color, Brush>();
 
         ///// <summary>
         ///// cache of pen color to pen instance
@@ -43,11 +43,7 @@ namespace LayoutFarm.Drawing
         /// <summary>
         /// image used to draw error image icon
         /// </summary>
-        static Image _errorImage;
-
-
-
-
+        static Image _errorImage; 
         /// <summary>
         /// Check if the given color is visible if painted (has alpha and color values)
         /// </summary>

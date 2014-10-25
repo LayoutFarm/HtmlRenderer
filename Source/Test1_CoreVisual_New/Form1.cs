@@ -14,13 +14,15 @@ namespace TestGraphicPackage
 {
     public partial class Form1 : Form
     {
-
+        UIPlatform uiPlatformWinForm;
         public Form1()
         {
             InitializeComponent();
+            uiPlatformWinForm = new LayoutFarm.UI.WinForms.UIPlatformWinForm(
+                 LayoutFarm.Drawing.CurrentGraphicPlatform.P);
         }
 
-        static void ShowFormLayoutInspector(UISurfaceViewportControl viewport)
+        static void ShowFormLayoutInspector(LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport)
         {
 
             var formLayoutInspector = new LayoutFarm.Dev.FormLayoutInspector();
@@ -37,17 +39,15 @@ namespace TestGraphicPackage
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
         {
 
-            UISurfaceViewportControl viewport;
-            WinTimer wintimer = new MyWinTimer();
+            LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport;
 
             int w = 800;
             int h = 600;
-            MyRootGraphic rootgfx = new MyRootGraphic(
-                LayoutFarm.Drawing.WinGdiPortal.P,
-                wintimer, w, h);
+            MyRootGraphic rootgfx = new MyRootGraphic(uiPlatformWinForm, w, h);
 
-            var topWin = new TopWindowRenderBox(rootgfx, w, h);
-            Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(topWin, new WinEventBridge(topWin), out viewport);
+            var topWin = rootgfx.CreateTopWindowRenderBox(w, h);
+            Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(topWin,
+                new WinEventBridge(topWin), out viewport);
 
             viewport.PaintMe();
             formCanvas.Show();
@@ -60,21 +60,18 @@ namespace TestGraphicPackage
             simpleForm.Text = "SimpleForm2";
             simpleForm.WindowState = FormWindowState.Maximized;
             Rectangle screenClientAreaRect = Screen.PrimaryScreen.WorkingArea;
-            UISurfaceViewportControl viewport = new UISurfaceViewportControl();
+            LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport = new LayoutFarm.UI.WinForms.UISurfaceViewportControl();
             viewport.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
             simpleForm.Controls.Add(viewport);
 
             int w = 800;
             int h = 600;
-            WinTimer wintimer = new MyWinTimer();
-            MyRootGraphic rootgfx = new MyRootGraphic(
-                LayoutFarm.Drawing.WinGdiPortal.P,
-                wintimer, w, h);
 
-            var topWin = new TopWindowRenderBox(rootgfx, w, h);
-            WinEventBridge winBridge = new WinEventBridge(topWin); 
+            MyRootGraphic rootgfx = new MyRootGraphic(uiPlatformWinForm, w, h);
 
-            viewport.InitRootGraphics(topWin, winBridge, rootgfx);
+            var topWin = rootgfx.CreateTopWindowRenderBox(w, h);
+
+            viewport.InitRootGraphics(topWin, new WinEventBridge(topWin), rootgfx);
             viewport.PaintMe();
 
             simpleForm.Show();

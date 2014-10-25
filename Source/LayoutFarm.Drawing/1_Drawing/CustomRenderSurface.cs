@@ -11,11 +11,9 @@ namespace LayoutFarm.Drawing
 
     public abstract class CustomRenderSurface
     {
-
-        object owner;
-        public CustomRenderSurface(object owner)
-        {
-            this.owner = owner;
+        
+        public CustomRenderSurface()
+        {          
         }
 
         public abstract bool FullModeUpdate

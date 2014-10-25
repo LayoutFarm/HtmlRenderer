@@ -12,7 +12,7 @@ namespace LayoutFarm
     [DemoNote("1.5 DemoDrag")]
     class Demo_Drag : DemoBase
     {
-        protected override void OnStartDemo(UISurfaceViewportControl viewport)
+        protected override void OnStartDemo(SampleViewport viewport)
         {
             {
                 var box1 = new LayoutFarm.SampleControls.UIButton(50, 50);

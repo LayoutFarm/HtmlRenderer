@@ -17,14 +17,14 @@ namespace LayoutFarm
             this.Width = width;
             this.Height = heigth;
         }
-        public abstract GraphicPlatform P { get; }
+        protected abstract GraphicPlatform P { get; }
         public IGraphics SampleIGraphics { get { return this.P.SampleIGraphics; } }
         public IFonts SampleIFonts { get { return this.P.SampleIFonts; } }
 
         public abstract void CaretStartBlink();
         public abstract void CaretStopBlink();
 
-        public abstract void ClearRenderRequests(TopWindowRenderBoxBase topwin);
+        public abstract void ClearRenderRequests(TopWindowRenderBox topwin);
 
         public int GraphicUpdateBlockCount
         {
@@ -62,7 +62,7 @@ namespace LayoutFarm
             GraphicUpdateBlockCount++;
             DisableGraphicOutputFlush = true;
         }
-        public void EndGraphicUpdate(TopWindowRenderBoxBase topbox)
+        public void EndGraphicUpdate(TopWindowRenderBox topbox)
         {
             GraphicUpdateBlockCount--;
             if (GraphicUpdateBlockCount <= 0)
@@ -73,8 +73,12 @@ namespace LayoutFarm
             }
         }
 
-        public abstract GraphicIntervalTask RequestGraphicInternvalTask(object uniqueName,
-            int intervalMs, EventHandler<IntervalTaskEventArgs> tickhandler);
+        public abstract GraphicsTimerTask RequestGraphicsIntervalTask(
+            object uniqueName,
+            TaskIntervalPlan planName,
+            int intervalMs,
+            EventHandler<GraphicsTimerTaskEventArgs> tickhandler);
+
         public abstract void RemoveIntervalTask(object uniqueName);
 
 #if DEBUG
@@ -95,7 +99,7 @@ namespace LayoutFarm
 #endif
         public void InvalidateGraphicArea(RenderElement fromElement,
             ref Rectangle elementClientRect,
-            out TopWindowRenderBoxBase wintop)
+            out TopWindowRenderBox wintop)
         {
 
             if (IsInRenderPhase)
@@ -107,7 +111,7 @@ namespace LayoutFarm
             Rect elemRect = Rect.CreateFromRect(elementClientRect);
             InvalidateGraphicArea(fromElement, elemRect, out wintop);
         }
-        public void FlushAccumGraphicUpdate(TopWindowRenderBoxBase topbox)
+        public void FlushAccumGraphicUpdate(TopWindowRenderBox topbox)
         {
             if (hasAccumRect)
             {
@@ -118,7 +122,7 @@ namespace LayoutFarm
         }
         void InvalidateGraphicArea(RenderElement fromElement,
             Rect elementClientRect,
-            out TopWindowRenderBoxBase wintop)
+            out TopWindowRenderBox wintop)
         {
             if (this.IsInRenderPhase)
             {
@@ -233,7 +237,7 @@ namespace LayoutFarm
 
                 if (fromElement.IsTopWindow)
                 {
-                    wintop = (TopWindowRenderBoxBase)fromElement;
+                    wintop = (TopWindowRenderBox)fromElement;
                     break;
                 }
                 else

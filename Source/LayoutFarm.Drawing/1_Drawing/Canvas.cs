@@ -1,12 +1,8 @@
 ﻿//2014 Apache2, WinterDev
-using System;
-using System.Collections.Generic;
-using System.Text;
-using LayoutFarm.Drawing;
+ 
 
 namespace LayoutFarm.Drawing
-{
-
+{   
     public abstract class Canvas
     {
 #if DEBUG
@@ -29,31 +25,9 @@ namespace LayoutFarm.Drawing
         {
             get;
             set;
-        }
-      
-        public abstract void MarkAsFirstTimeInvalidateAndUpdateContent();
+        } 
 
-        public abstract bool IsFromPrinter
-        {
-            get;
-        }
-        public abstract bool IsPageNumber(int hPageNum, int vPageNum);
-
-        public abstract bool IsUnused
-        {
-            get;
-            set;
-        }
-        public abstract bool DimensionInvalid
-        {
-            get;
-            set;
-        }
-
-        public abstract SolidBrush GetSharedSolidBrush();
-
-        public abstract void ReleaseUnManagedResource();
-
+        public abstract SolidBrush GetSharedSolidBrush(); 
 
         public abstract bool IntersectsWith(Rect clientRect);
         public abstract bool PushClipAreaForNativeScrollableElement(Rect updateArea);
@@ -63,13 +37,7 @@ namespace LayoutFarm.Drawing
         public abstract void EnableClipArea();
         public abstract void SetClip(RectangleF clip, CombineMode combineMode);
 
-        public abstract Rectangle CurrentClipRect
-        {
-            get;
-        }
-         
-       
-         
+        public abstract Rectangle CurrentClipRect { get; }
         public abstract bool PushClipArea(int x, int y, int width, int height);
 
 
@@ -89,12 +57,14 @@ namespace LayoutFarm.Drawing
         }
 
         public abstract void DrawText(char[] buffer, int x, int y);
+
         public abstract void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment);
 
         public const int SAME_FONT_SAME_TEXT_COLOR = 0;
         public const int SAME_FONT_DIFF_TEXT_COLOR = 1;
         public const int DIFF_FONT_SAME_TEXT_COLOR = 2;
         public const int DIFF_FONT_DIFF_TEXT_COLOR = 3;
+
         public abstract int EvaluateFontAndTextColor(FontInfo FontInfo, Color color);
 
         public abstract void PushFont(FontInfo FontInfo);
@@ -107,12 +77,9 @@ namespace LayoutFarm.Drawing
 
         public abstract void PopTextColor();
 
-
         public abstract void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea);
 
-        public abstract void RenderTo(IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea);
-
-
+        public abstract void RenderTo(System.IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea);
 
         public abstract void OffsetCanvasOrigin(int dx, int dy);
 
@@ -120,14 +87,11 @@ namespace LayoutFarm.Drawing
 
         public abstract void OffsetCanvasOriginY(int dy);
 
-
-        public abstract void Reuse(int hPageNum, int vPageNum);
-
-        public abstract void Reset(int hPageNum, int vPageNum, int newWidth, int newHeight);
-
+      
         public abstract void ClearSurface(Rect rect);
 
         public abstract void ClearSurface();
+
         public abstract void FillPolygon(Brush brush, PointF[] points);
 
         public abstract void FillPolygon(Brush brush, Point[] points);
@@ -166,7 +130,7 @@ namespace LayoutFarm.Drawing
         public abstract RectangleF GetBound(Region rgn);
 
         public abstract float GetFontHeight(Font f);
- 
+
         public abstract Size MeasureString(string str, Font font, float maxWidth, out int charFit, out int charFitWidth);
 
         public abstract void FillRectangle(ArtColorBrush colorBrush, int left, int top, int right, int bottom);
@@ -175,8 +139,7 @@ namespace LayoutFarm.Drawing
 
         public abstract void DrawRectangle(Pen p, float x, float y, float width, float height);
 
-        public abstract SmoothingMode SmoothingMode
-        { get; set; }
+        public abstract SmoothingMode SmoothingMode { get; set; }
 
         public abstract void DrawRectangle(Color color, int left, int top, int width, int height);
 
@@ -198,13 +161,6 @@ namespace LayoutFarm.Drawing
 
         public abstract void DrawImageUnScaled(Bitmap image, int x, int y);
 
-#if DEBUG
-        public abstract void dbug_DrawRuler(int x);
-
-        public abstract void dbug_DrawCrossRect(Color color, Rectangle rect);
-
-
-#endif
         public abstract void DrawBezire(Point[] points);
 
         public abstract void DrawLine(Pen pen, Point p1, Point p2);
@@ -233,15 +189,17 @@ namespace LayoutFarm.Drawing
 
         public abstract void FillEllipse(Color color, int x, int y, int width, int height);
 
-        public abstract void DrawRoundRect(int x, int y, int w, int h, Size cornerSize);
+        public abstract void DrawRoundRect(int x, int y, int w, int h, Size cornerSize); 
 
-
-
-        public abstract Rect InvalidateArea { get; }
-        public abstract bool IsContentUpdated { get; }
-        public abstract void Invalidate(Rect rect);
-
-
+        public abstract void Invalidate(Rect rect); 
+        
         public abstract IGraphics GetIGraphics();
+
+        //---------------------------------------------------------------------------
+#if DEBUG
+        public abstract void dbug_DrawRuler(int x);
+        public abstract void dbug_DrawCrossRect(Color color, Rectangle rect);
+#endif
+
     }
 }

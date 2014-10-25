@@ -53,7 +53,7 @@ namespace HtmlRenderer.Composers
             set;
 
         }
-        public void InternalRefreshRequest()
+        public bool InternalRefreshRequest()
         {
             if (requestImageBinderUpdates.Count > 0)
             {
@@ -63,7 +63,10 @@ namespace HtmlRenderer.Composers
                 dbugCount02++;
                 //Console.WriteLine(dd);
 #endif
+
+                return true;
             }
+            return false;
         }
 
         public override void AddRequestImageBinderUpdate(ImageBinder binder)
@@ -122,8 +125,6 @@ namespace HtmlRenderer.Composers
         }
         protected override void OnRootDisposed()
         {
-
-
             base.OnRootDisposed();
         }
         protected override void OnRootCreated(CssBox root)

@@ -24,17 +24,14 @@ namespace LayoutFarm.SampleControls
         MyHtmlIsland myHtmlIsland;
 
         HtmlRenderer.WebDom.WebDocument currentdoc;
-
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
         public event EventHandler<ImageRequestEventArgs> RequestImage;
 
-
-        System.Timers.Timer tim = new System.Timers.Timer();
         bool hasWaitingDocToLoad;
         HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
-
-
         HtmlInputEventBridge _htmlInputEventBridge;
+        object uiHtmlTask = new object();
+
 
         static UIHtmlBox()
         {
@@ -46,15 +43,16 @@ namespace LayoutFarm.SampleControls
             this._width = width;
             this._height = height;
 
-
             myHtmlIsland = new MyHtmlIsland();
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.Refresh += OnRefresh;
             myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
             myHtmlIsland.RequestResource += myHtmlIsland_RequestResource;
 
-            tim.Interval = 30;
-            tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
+            //request ui timer ***
+
+            //tim.Interval = 30;
+            //tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
         }
         //--------------------------------------------------------------------
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
@@ -67,16 +65,21 @@ namespace LayoutFarm.SampleControls
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
+
             _htmlInputEventBridge.MouseMove(e);
+
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
+
         }
         void IUserEventPortal.PortalDoubleClick(UIMouseEventArgs e)
         {
+
         }
         void IUserEventPortal.PortalClick(UIMouseEventArgs e)
         {
+
         }
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
@@ -101,16 +104,7 @@ namespace LayoutFarm.SampleControls
         {
         }
 
-        //--------------------------------------------------------------------
 
-
-        void tim_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            if (this.myHtmlIsland != null)
-            {
-                this.myHtmlIsland.InternalRefreshRequest();
-            }
-        }
         internal MyHtmlIsland HtmlIsland
         {
             get { return this.myHtmlIsland; }
@@ -158,6 +152,7 @@ namespace LayoutFarm.SampleControls
         {
             base.OnKeyUp(e);
         }
+
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (myCssBoxWrapper == null)
@@ -170,6 +165,20 @@ namespace LayoutFarm.SampleControls
                 _htmlInputEventBridge = new HtmlInputEventBridge();
                 _htmlInputEventBridge.Bind(this.myHtmlIsland, rootgfx.SampleIFonts);
             }
+            //-------------------------
+            rootgfx.RequestGraphicsIntervalTask(uiHtmlTask,
+                 TaskIntervalPlan.Animation, 25,
+                 (s, e) =>
+                 {
+
+                     if (this.myHtmlIsland.InternalRefreshRequest())
+                     {
+                         e.NeedUpdate = 1;
+                     }
+
+                 });
+            //-------------------------
+
 
             if (this.hasWaitingDocToLoad)
             {
@@ -215,21 +224,18 @@ namespace LayoutFarm.SampleControls
             if (myCssBoxWrapper == null) return;
             //---------------------------
             UpdateWaitingHtmlDoc(this.myCssBoxWrapper.Root);
-
         }
         public void LoadHtmlText(string html)
         {
             //myHtmlBox.LoadHtmlText(html);
-            this.tim.Enabled = false;
+            //this.tim.Enabled = false;
             SetHtml(myHtmlIsland, html, myHtmlIsland.BaseStylesheet);
-            this.tim.Enabled = true;
+            //this.tim.Enabled = true;
             if (this.myCssBoxWrapper != null)
             {
                 myCssBoxWrapper.InvalidateGraphic();
             }
         }
-
-
         public override void InvalidateGraphic()
         {
             if (this.myCssBoxWrapper != null)
