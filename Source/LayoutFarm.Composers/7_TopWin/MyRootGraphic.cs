@@ -12,9 +12,8 @@ namespace LayoutFarm.UI
     {
         List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
 
-        UITimer uiTimer1;
 
-        GraphicsTimerTaskCollection timerTasks;
+        GraphicsTimerTaskManager graphicTaskMan;
         GraphicPlatform graphicsPlatform;
 
         public MyRootGraphic(UIPlatform uiPlatform, int width, int height)
@@ -22,13 +21,8 @@ namespace LayoutFarm.UI
         {
 
             this.graphicsPlatform = uiPlatform.GraphicsPlatform;
+            graphicTaskMan = new GraphicsTimerTaskManager(this, uiPlatform);
 
-            timerTasks = new GraphicsTimerTaskCollection(this);
-            this.uiTimer1 = uiPlatform.CreateUITimer();
-
-            uiTimer1.Interval = 500; //300 ms
-            uiTimer1.Tick += new EventHandler(graphicTimer1_Tick);
-            uiTimer1.Enabled = true;
 #if DEBUG
             dbugCurrentGlobalVRoot = this;
             dbug_Init();
@@ -48,90 +42,49 @@ namespace LayoutFarm.UI
 
         public override void CloseWinRoot()
         {
-            this.uiTimer1.Enabled = false;
+            this.graphicTaskMan.CloseAllWorkers();
+            this.graphicTaskMan = null;
         }
 
         public override void CaretStartBlink()
         {
-            uiTimer1.Enabled = true;
+
+            graphicTaskMan.StartCaretBlinkTask();
         }
         public override void CaretStopBlink()
         {
-            uiTimer1.Enabled = false;
-        }
+            graphicTaskMan.StopCaretBlinkTask();
 
-
-        void graphicTimer1_Tick(object sender, EventArgs e)
-        {
-            if (TopWindowRenderBox.CurrentTopWindowRenderBox == null)
-            {
-                return;
-            }
-            //clear grahic timer
-            int j = timerTasks.TaskCount;
-            MyIntervalTaskEventArgs args = GetTaskEventArgs();
-            bool needForcePaint = false;
-            for (int i = 0; i < j; ++i)
-            {
-                timerTasks.GetTask(i).InvokeHandler(args);
-                if (!needForcePaint)
-                {
-                    needForcePaint = args.NeedUpdate;
-                }
-                args.ClearForReuse();
-            }
-            if (needForcePaint)
-            {
-                TopWindowRenderBox.CurrentTopWindowRenderBox.ForcePaint();
-            }
-            FreeTaskEventArgs(args);
         }
-
-        Stack<MyIntervalTaskEventArgs> taskEventPools = new Stack<MyIntervalTaskEventArgs>();
-        MyIntervalTaskEventArgs GetTaskEventArgs()
-        {
-            if (taskEventPools.Count > 0)
-            {
-                return taskEventPools.Pop();
-            }
-            else
-            {
-                return new MyIntervalTaskEventArgs();
-            }
-        }
-        void FreeTaskEventArgs(MyIntervalTaskEventArgs args)
-        {
-            //clear for reues
-            args.ClearForReuse();
-            taskEventPools.Push(args);
-        }
-
 
         ~MyRootGraphic()
         {
-
-            if (this.uiTimer1 != null)
+            if (graphicTaskMan != null)
             {
-                this.uiTimer1.Enabled = false;
-                this.uiTimer1 = null;
+                this.graphicTaskMan.CloseAllWorkers();
+                this.graphicTaskMan = null;
             }
+
 
 #if DEBUG
             dbugHitTracker.Close();
 #endif
         }
 
-
-        public override GraphicsTimerTask RequestGraphicsIntervalTask(object uniqueName,
-            int intervalMs, EventHandler<GraphicsTimerTaskEventArgs> tickhandler)
+        //-------------------------------------------------------------------------------
+        public override GraphicsTimerTask RequestGraphicsIntervalTask(
+            object uniqueName,
+            TaskIntervalPlan planName,
+            int intervalMs,
+            EventHandler<GraphicsTimerTaskEventArgs> tickhandler)
         {
-            return this.timerTasks.SubscribeGraphicsTimerTask(uniqueName, intervalMs, tickhandler);
+            return this.graphicTaskMan.SubscribeGraphicsTimerTask(uniqueName, planName, intervalMs, tickhandler);
         }
         public override void RemoveIntervalTask(object uniqueName)
         {
-            this.timerTasks.UnsubscribeTimerTask(uniqueName);
+            this.graphicTaskMan.UnsubscribeTimerTask(uniqueName);
         }
-
+        //-------------------------------------------------------------------------------
         int VisualRequestCount
         {
             get

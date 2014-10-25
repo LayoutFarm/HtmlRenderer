@@ -9,7 +9,7 @@ namespace LayoutFarm
 
     public abstract class GraphicsTimerTaskEventArgs : EventArgs
     {
-        public bool NeedUpdate
+        public int NeedUpdate
         {
             get;
             set;
@@ -20,23 +20,33 @@ namespace LayoutFarm
             set;
         }
     }
-
+    public enum TaskIntervalPlan
+    {
+        FastUpDate,
+        Animation,
+        CaretBlink
+    }
     public class GraphicsTimerTask
     {
         RootGraphic rootgfx;
         bool enable;
         object uniqueName;
         EventHandler<GraphicsTimerTaskEventArgs> tickHandler;
+       
         public GraphicsTimerTask(RootGraphic rootgfx,
+            TaskIntervalPlan planName,
             object uniqueName,
-            int internvalMs,
+            int internvalMs,             
             EventHandler<GraphicsTimerTaskEventArgs> tickHandler)
         {
+            this.PlanName = planName;
             this.uniqueName = uniqueName;
             this.enable = false;
             this.rootgfx = rootgfx;
             this.tickHandler = tickHandler;
         }
+
+        public TaskIntervalPlan PlanName { get; private set; }
         public bool Enable
         {
             get

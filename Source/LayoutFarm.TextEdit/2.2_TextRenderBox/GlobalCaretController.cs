@@ -27,8 +27,10 @@ namespace LayoutFarm.Text
                 return;
             }
             caretRegistered = true;
+
             task = root.RequestGraphicsIntervalTask(
                 caretBlinkTask,
+                TaskIntervalPlan.CaretBlink,
                 300,
                 tickHandler);
         }
@@ -39,7 +41,7 @@ namespace LayoutFarm.Text
                 textEditBox.SwapCaretState();
                 //force render ?
                 textEditBox.InvalidateGraphic();
-                e.NeedUpdate = true;
+                e.NeedUpdate = 1;
             }
             else
             {
@@ -73,7 +75,7 @@ namespace LayoutFarm.Text
 
                         if (evlistener != null)
                         {
-                            evlistener.ListenLostFocus(null); 
+                            evlistener.ListenLostFocus(null);
                         }
                     }
                 }

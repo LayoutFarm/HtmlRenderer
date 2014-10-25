@@ -10,7 +10,7 @@ namespace LayoutFarm.UI
     {
         internal void ClearForReuse()
         {
-            this.NeedUpdate = false;
+            this.NeedUpdate = 0;
             this.GraphicUpdateArea = Rectangle.Empty;
         }
     }

@@ -73,7 +73,7 @@
     <Compile Include="7_TopWin\MyHitPointChain.cs" />
     <Compile Include="7_TopWin\MyIntervalTaskEventArgs.cs" />
     <Compile Include="7_TopWin\MyRootGraphic.cs" />
-    <Compile Include="7_TopWin\GraphicsTimerTaskCollection.cs" />
+    <Compile Include="7_TopWin\GraphicsTimerTasksManager.cs" />
     <Compile Include="7_TopWin\UIHoverMonitor.cs" />
     <Compile Include="7_TopWin\UserInputEventBridge.cs" />
     <Compile Include="7_TopWin\UITopWin.cs" />
