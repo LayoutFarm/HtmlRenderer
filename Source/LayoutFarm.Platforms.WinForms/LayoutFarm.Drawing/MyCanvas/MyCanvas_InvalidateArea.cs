@@ -23,7 +23,7 @@ namespace LayoutFarm
 {
     partial class MyCanvas
     {
-        public override bool DimensionInvalid
+        public bool DimensionInvalid
         {
             get
             {
@@ -41,7 +41,7 @@ namespace LayoutFarm
                 }
             }
         }
-       
+
         public Rect InvalidateArea
         {
             get
@@ -49,16 +49,16 @@ namespace LayoutFarm
                 return invalidateArea;
             }
         }
-     
+
         public bool IsContentReady
         {
             get;
             set;
         }
         public override void Invalidate(Rect rect)
-        { 
+        {
             invalidateArea.MergeRect(rect);
-            this.IsContentReady = false;    
+            this.IsContentReady = false;
         }
 
 

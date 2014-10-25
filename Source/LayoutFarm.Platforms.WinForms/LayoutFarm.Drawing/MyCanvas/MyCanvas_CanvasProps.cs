@@ -22,7 +22,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
-    partial class MyCanvas 
+    partial class MyCanvas
     {
         public override bool AvoidGeometryAntialias
         {
@@ -40,19 +40,11 @@ namespace LayoutFarm
             return this;
         }
 
-
-        public override bool IsFromPrinter
-        {
-            get
-            {
-                return isFromPrinter;
-            }
-        }
-        public override bool IsPageNumber(int hPageNum, int vPageNum)
+        public bool IsPageNumber(int hPageNum, int vPageNum)
         {
             return pageNumFlags == ((hPageNum << 8) | vPageNum);
         }
-        public override bool IsUnused
+        public bool IsUnused
         {
             get
             {
@@ -70,6 +62,6 @@ namespace LayoutFarm
                 }
             }
         }
-      
+
     }
 }

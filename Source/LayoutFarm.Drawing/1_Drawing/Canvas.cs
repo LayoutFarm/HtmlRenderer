@@ -29,29 +29,9 @@ namespace LayoutFarm.Drawing
         {
             get;
             set;
-        }
+        } 
 
-
-        public abstract bool IsFromPrinter
-        {
-            get;
-        }
-        public abstract bool IsPageNumber(int hPageNum, int vPageNum);
-
-        public abstract bool IsUnused
-        {
-            get;
-            set;
-        }
-        public abstract bool DimensionInvalid
-        {
-            get;
-            set;
-        }
-
-        public abstract SolidBrush GetSharedSolidBrush();
-
-       
+        public abstract SolidBrush GetSharedSolidBrush(); 
 
         public abstract bool IntersectsWith(Rect clientRect);
         public abstract bool PushClipAreaForNativeScrollableElement(Rect updateArea);
