@@ -122,8 +122,8 @@ namespace LayoutFarm.UI
         }
 
 
-        public override GraphicIntervalTask RequestGraphicInternvalTask(object uniqueName,
-            int intervalMs, EventHandler<IntervalTaskEventArgs> tickhandler)
+        public override GraphicsTimerTask RequestGraphicsIntervalTask(object uniqueName,
+            int intervalMs, EventHandler<GraphicsTimerTaskEventArgs> tickhandler)
         {
             return this.timerTasks.RequestGraphicInternvalTask(uniqueName, intervalMs, tickhandler);
         }

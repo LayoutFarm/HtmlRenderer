@@ -7,21 +7,21 @@ namespace LayoutFarm.UI
 {
     class TimerTaskCollection
     {
-        Dictionary<object, GraphicIntervalTask> graphicIntervalTasks = new Dictionary<object, GraphicIntervalTask>();
-        List<GraphicIntervalTask> intervalTasksList = new List<GraphicIntervalTask>();
+        Dictionary<object, GraphicsTimerTask> graphicIntervalTasks = new Dictionary<object, GraphicsTimerTask>();
+        List<GraphicsTimerTask> intervalTasksList = new List<GraphicsTimerTask>();
         RootGraphic rootgfx;
         public TimerTaskCollection(RootGraphic rootgfx)
         {
             this.rootgfx = rootgfx;
         } 
-        public GraphicIntervalTask RequestGraphicInternvalTask(object uniqueName, 
+        public GraphicsTimerTask RequestGraphicInternvalTask(object uniqueName, 
             int intervalMs, 
-            EventHandler<IntervalTaskEventArgs> tickhandler)
+            EventHandler<GraphicsTimerTaskEventArgs> tickhandler)
         {
-            GraphicIntervalTask existingTask;
+            GraphicsTimerTask existingTask;
             if (!graphicIntervalTasks.TryGetValue(uniqueName, out existingTask))
             {
-                existingTask = new GraphicIntervalTask(this.rootgfx, uniqueName, intervalMs, tickhandler);
+                existingTask = new GraphicsTimerTask(this.rootgfx, uniqueName, intervalMs, tickhandler);
                 graphicIntervalTasks.Add(uniqueName, existingTask);
                 intervalTasksList.Add(existingTask);
             }
@@ -29,7 +29,7 @@ namespace LayoutFarm.UI
         }
         public void RemoveIntervalTask(object uniqueName)
         {
-            GraphicIntervalTask found;
+            GraphicsTimerTask found;
             if (graphicIntervalTasks.TryGetValue(uniqueName, out found))
             {
                 intervalTasksList.Remove(found);
@@ -40,7 +40,7 @@ namespace LayoutFarm.UI
         {
             get { return this.intervalTasksList.Count; }
         }
-        public GraphicIntervalTask GetTask(int index)
+        public GraphicsTimerTask GetTask(int index)
         {
             return intervalTasksList[index];
         }

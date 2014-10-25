@@ -44,7 +44,7 @@
     <Compile Include="6_Root\1_RootGraphic_p2.cs" />
     <Compile Include="0_Start\dbugCoreConst.cs" />
     <Compile Include="4_Boxes\TopWindowRenderBoxBase.cs" />
-    <Compile Include="6_Root\3_GraphicIntervalTask.cs" />
+    <Compile Include="6_Root\3_GraphicsTimerTask.cs" />
     <Compile Include="7_debug\dbugVisualEvalScrollBarTrace.cs" />
     <Compile Include="7_debug\dbugVisualInvalidationTracer.cs" />
     <Compile Include="7_debug\dbugVisualLayoutTracer.cs" />

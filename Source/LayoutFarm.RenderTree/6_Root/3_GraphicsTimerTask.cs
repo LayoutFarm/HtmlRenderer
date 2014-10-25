@@ -7,7 +7,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
-    public abstract class IntervalTaskEventArgs : EventArgs
+    public abstract class GraphicsTimerTaskEventArgs : EventArgs
     {
         public bool NeedUpdate
         {
@@ -20,16 +20,17 @@ namespace LayoutFarm
             set;
         }
     }
-    public class GraphicIntervalTask
+
+    public class GraphicsTimerTask
     {
         RootGraphic rootgfx;
         bool enable;
         object uniqueName;
-        EventHandler<IntervalTaskEventArgs> tickHandler;
-        public GraphicIntervalTask(RootGraphic rootgfx,
+        EventHandler<GraphicsTimerTaskEventArgs> tickHandler;
+        public GraphicsTimerTask(RootGraphic rootgfx,
             object uniqueName,
             int internvalMs,
-            EventHandler<IntervalTaskEventArgs> tickHandler)
+            EventHandler<GraphicsTimerTaskEventArgs> tickHandler)
         {
             this.uniqueName = uniqueName;
             this.enable = false;
@@ -54,7 +55,7 @@ namespace LayoutFarm
                 this.rootgfx.RemoveIntervalTask(this.uniqueName);
             }
         }
-        public void InvokeHandler(IntervalTaskEventArgs args)
+        public void InvokeHandler(GraphicsTimerTaskEventArgs args)
         {
             this.tickHandler(this, args);
         }

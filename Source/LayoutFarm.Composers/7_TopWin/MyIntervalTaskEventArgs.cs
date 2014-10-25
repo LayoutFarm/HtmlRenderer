@@ -6,7 +6,7 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
-    class MyIntervalTaskEventArgs : IntervalTaskEventArgs
+    class MyIntervalTaskEventArgs : GraphicsTimerTaskEventArgs
     {
         internal void ClearForReuse()
         {
