@@ -80,10 +80,10 @@ namespace HtmlRenderer.Composers
             BoxUtils.HitTest(rootbox, x, y, hitChain);
             //2. invoke css event and script event     
 
-            ForEachEventListenerBubbleUp(hitChain, (hit, controller) =>
+            HitInfo currentHitInfo = new HitInfo();
+            ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
             {
-                e.CurrentContextElement = controller;
-                controller.ListenMouseDown(e);
+                e.CurrentContextElement.ListenMouseDown(e);
                 return true;
             });
             //----------------------------------
@@ -113,7 +113,7 @@ namespace HtmlRenderer.Composers
                     CssBoxHitChain hitChain = GetFreeHitChain();
                     hitChain.SetRootGlobalPosition(x, y);
                     BoxUtils.HitTest(rootbox, x, y, hitChain);
-                    ClearPreviousSelection(); 
+                    ClearPreviousSelection();
 
                     if (hitChain.Count > 0)
                     {
@@ -126,12 +126,12 @@ namespace HtmlRenderer.Composers
                     else
                     {
                         this._htmlIsland.SetSelection(null);
-                    } 
+                    }
                     //---------------------------------------------------------
                     //propagate mouse drag ? 
 
                     //---------------------------------------------------------
-                    ReleaseHitChain(hitChain); 
+                    ReleaseHitChain(hitChain);
                 }
             }
             else
@@ -140,15 +140,17 @@ namespace HtmlRenderer.Composers
                 //---------------------------------------------------------
                 CssBoxHitChain hitChain = GetFreeHitChain();
                 hitChain.SetRootGlobalPosition(x, y);
-                BoxUtils.HitTest(rootbox, x, y, hitChain); 
-                ForEachEventListenerBubbleUp(hitChain, (hit, controller) =>
+                BoxUtils.HitTest(rootbox, x, y, hitChain);
+
+                HitInfo hitInfo = new HitInfo();
+                ForEachEventListenerBubbleUp(e, hitChain, ref hitInfo, () =>
                 {
-                    e.CurrentContextElement = controller;
-                    controller.ListenMouseMove(e);
+                    e.CurrentContextElement.ListenMouseMove(e);
+
                     return true;
                 });
 
-                ReleaseHitChain(hitChain); 
+                ReleaseHitChain(hitChain);
             }
         }
         public void MouseUp(UIMouseEventArgs e)
@@ -179,10 +181,10 @@ namespace HtmlRenderer.Composers
             //1. prob hit chain only 
             BoxUtils.HitTest(rootbox, e.X, e.Y, hitChain);
             //2. invoke css event and script event   
-            ForEachEventListenerBubbleUp(hitChain, (hit, controller) =>
+            HitInfo currentHitInfo = new HitInfo();
+            ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
             {
-                e.CurrentContextElement = controller;
-                controller.ListenMouseUp(e);
+                e.CurrentContextElement.ListenMouseUp(e);
                 return true;
             });
 
@@ -194,19 +196,19 @@ namespace HtmlRenderer.Composers
                 //--------------------
                 if (isAlsoDoubleClick)
                 {
-                    ForEachEventListenerBubbleUp(hitChain, (hit, controller) =>
+                    ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
                     {
-                        e.CurrentContextElement = controller;
-                        controller.ListenMouseDoubleClick(e);
+
+                        e.CurrentContextElement.ListenMouseDoubleClick(e);
                         return true;
                     });
                 }
                 else
                 {
-                    ForEachEventListenerBubbleUp(hitChain, (hit, controller) =>
+                    ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
                     {
-                        e.CurrentContextElement = controller;
-                        controller.ListenMouseClick(e);    
+
+                        e.CurrentContextElement.ListenMouseClick(e);
                         return true;
                     });
                 }
@@ -216,7 +218,7 @@ namespace HtmlRenderer.Composers
             this._latestHitChain.Clear();
             this._latestHitChain = null;
         }
-         
+
 
         public void MouseWheel(UIMouseEventArgs e)
         {
@@ -247,9 +249,9 @@ namespace HtmlRenderer.Composers
 
 
         delegate bool EventPortalAction(HitInfo hitInfo, IUserEventPortal evPortal);
-        delegate bool EventListenerAction(HitInfo hitInfo, IEventListener listener);
+        delegate bool EventListenerAction();
 
-        static void ForEachOnlyEventPortalBubbleUp(CssBoxHitChain hitPointChain, EventPortalAction eventPortalAction)
+        static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, CssBoxHitChain hitPointChain, EventPortalAction eventPortalAction)
         {
             //only listener that need tunnel down 
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
@@ -288,7 +290,7 @@ namespace HtmlRenderer.Composers
             }
         }
 
-        static void ForEachEventListenerBubbleUp(CssBoxHitChain hitChain, EventListenerAction listenerAction)
+        static void ForEachEventListenerBubbleUp(UIEventArgs e, CssBoxHitChain hitChain, ref HitInfo currentHitInfo, EventListenerAction listenerAction)
         {
 
             for (int i = hitChain.Count - 1; i >= 0; --i)
@@ -319,7 +321,11 @@ namespace HtmlRenderer.Composers
                 if (controller != null)
                 {
                     //found controller
-                    if (listenerAction(hitInfo, controller))
+                    currentHitInfo = hitInfo;
+                    e.CurrentContextElement = controller;
+                    e.Location = new Point(hitInfo.localX, hitInfo.localY);
+                    currentHitInfo = hitInfo;
+                    if (listenerAction())
                     {
                         return;
                     }

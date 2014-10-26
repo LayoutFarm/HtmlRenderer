@@ -42,7 +42,7 @@ namespace LayoutFarm.UI
             get;
             set;
         }
-        public object CurrentContextElement
+        public IEventListener CurrentContextElement
         {
             get;
             set;
