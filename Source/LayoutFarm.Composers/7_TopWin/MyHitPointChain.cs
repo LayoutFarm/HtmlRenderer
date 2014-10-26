@@ -8,10 +8,10 @@ namespace LayoutFarm.UI
 {
     class MyHitChain : HitChain
     {
-        List<HitPoint> currentHitChain;
-        List<HitPoint> prevHitChain;
-        readonly List<HitPoint> hitChainA = new List<HitPoint>();
-        readonly List<HitPoint> hitChainB = new List<HitPoint>();
+        List<HitInfo> currentHitChain;
+        List<HitInfo> prevHitChain;
+        readonly List<HitInfo> hitChainA = new List<HitInfo>();
+        readonly List<HitInfo> hitChainB = new List<HitInfo>();
 
 
         public MyHitChain()
@@ -35,25 +35,25 @@ namespace LayoutFarm.UI
         {
             get { return this.currentHitChain.Count; }
         }
-        public override HitPoint GetHitPoint(int index)
+        public override HitInfo GetHitInfo(int index)
         {
             return currentHitChain[index];
         }
-        public override Point PrevHitPoint
-        {
-            get
-            {
-                if (prevHitChain.Count > 0)
-                {
-                    //?
-                    return prevHitChain[prevHitChain.Count - 1].point;
-                }
-                else
-                {
-                    return Point.Empty;
-                }
-            }
-        }
+        //public override Point PrevHitPoint
+        //{
+        //    get
+        //    {
+        //        if (prevHitChain.Count > 0)
+        //        {
+        //            //?
+        //            return prevHitChain[prevHitChain.Count - 1].point;
+        //        }
+        //        else
+        //        {
+        //            return Point.Empty;
+        //        }
+        //    }
+        //}
         public override Point CurrentHitPoint
         {
             get { return currentHitChain[currentHitChain.Count - 1].point; }
@@ -74,7 +74,7 @@ namespace LayoutFarm.UI
         }
         public override void AddHitObject(RenderElement hitObject)
         {
-            currentHitChain.Add(new HitPoint(hitObject, new Point(testPointX, testPointY)));
+            currentHitChain.Add(new HitInfo(hitObject, new Point(testPointX, testPointY)));
 #if DEBUG
             dbugHitTracker.WriteTrackNode(currentHitChain.Count,
                 new Point(testPointX, testPointY).ToString() + " on "
@@ -105,7 +105,7 @@ namespace LayoutFarm.UI
         {
             if (prevHitChain.Count > 0)
             {
-                foreach (HitPoint hp in prevHitChain)
+                foreach (HitInfo hp in prevHitChain)
                 {
                     //top down test
                     RenderElement elem = hp.hitElement;
@@ -123,7 +123,7 @@ namespace LayoutFarm.UI
                                 testPointX += leftTop.X;
                                 testPointY += leftTop.Y;
 
-                                currentHitChain.Add(new HitPoint(elem, new Point(testPointX, testPointY)));
+                                currentHitChain.Add(new HitInfo(elem, new Point(testPointX, testPointY)));
                             }
                             else
                             {

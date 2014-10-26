@@ -19,7 +19,7 @@ namespace HtmlRenderer.Composers
         DateTime lastimeMouseUp;
         //-----------------------------------------------
         HtmlIsland _htmlIsland;
-        CssBoxHitChain _latestHitChain = null;
+        CssBoxHitChain _latestMouseDownChain = null;
         int _mousedownX;
         int _mousedownY;
         bool _isMouseDown;
@@ -60,27 +60,28 @@ namespace HtmlRenderer.Composers
             }
             //---------------------------------------------------- 
             ClearPreviousSelection();
-            if (_latestHitChain != null)
+            if (_latestMouseDownChain != null)
             {
-                ReleaseHitChain(_latestHitChain);
-                _latestHitChain = null;
+                ReleaseHitChain(_latestMouseDownChain);
+                _latestMouseDownChain = null;
             }
 
             //----------------------------------------------------
             int x = e.X;
             int y = e.Y;
 
-            _mousedownX = x;
-            _mousedownY = y;
+            this._mousedownX = x;
+            this._mousedownY = y;
             this._isMouseDown = true;
 
             CssBoxHitChain hitChain = GetFreeHitChain();
             hitChain.SetRootGlobalPosition(x, y);
-            //1. prob hit chain only
+            //1. hittest 
             BoxUtils.HitTest(rootbox, x, y, hitChain);
-            //2. invoke css event and script event     
+            //2. propagate events
+            SetEventOrigin(e, hitChain);
 
-            HitInfo currentHitInfo = new HitInfo();
+            var currentHitInfo = new HtmlRenderer.Boxes.HitInfo();
             ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
             {
                 e.CurrentContextElement.ListenMouseDown(e);
@@ -88,7 +89,17 @@ namespace HtmlRenderer.Composers
             });
             //----------------------------------
             //save mousedown hitchain
-            this._latestHitChain = hitChain;
+            this._latestMouseDownChain = hitChain;
+        }
+        static void SetEventOrigin(UIEventArgs e, CssBoxHitChain hitChain)
+        {
+            int count = hitChain.Count;
+            if (count > 0)
+            {
+                var hitInfo = hitChain.GetHitInfo(count - 1);
+                e.SourceHitElement = hitInfo.hitObject;
+            }
+
         }
         public void MouseMove(UIMouseEventArgs e)
         {
@@ -113,13 +124,14 @@ namespace HtmlRenderer.Composers
                     CssBoxHitChain hitChain = GetFreeHitChain();
                     hitChain.SetRootGlobalPosition(x, y);
                     BoxUtils.HitTest(rootbox, x, y, hitChain);
+                    SetEventOrigin(e, hitChain);
                     ClearPreviousSelection();
 
                     if (hitChain.Count > 0)
                     {
                         //create selection range 
                         this._htmlIsland.SetSelection(new SelectionRange(
-                            _latestHitChain,
+                            _latestMouseDownChain,
                             hitChain,
                             this.ifonts));
                     }
@@ -141,9 +153,9 @@ namespace HtmlRenderer.Composers
                 CssBoxHitChain hitChain = GetFreeHitChain();
                 hitChain.SetRootGlobalPosition(x, y);
                 BoxUtils.HitTest(rootbox, x, y, hitChain);
-
-                HitInfo hitInfo = new HitInfo();
-                ForEachEventListenerBubbleUp(e, hitChain, ref hitInfo, () =>
+                SetEventOrigin(e, hitChain);
+                var currentHitInfo = new HtmlRenderer.Boxes.HitInfo();
+                ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
                 {
                     e.CurrentContextElement.ListenMouseMove(e);
 
@@ -180,8 +192,10 @@ namespace HtmlRenderer.Composers
             hitChain.SetRootGlobalPosition(e.X, e.Y);
             //1. prob hit chain only 
             BoxUtils.HitTest(rootbox, e.X, e.Y, hitChain);
+            SetEventOrigin(e, hitChain);
+
             //2. invoke css event and script event   
-            HitInfo currentHitInfo = new HitInfo();
+            var currentHitInfo = new HtmlRenderer.Boxes.HitInfo();
             ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
             {
                 e.CurrentContextElement.ListenMouseUp(e);
@@ -198,7 +212,6 @@ namespace HtmlRenderer.Composers
                 {
                     ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
                     {
-
                         e.CurrentContextElement.ListenMouseDoubleClick(e);
                         return true;
                     });
@@ -207,7 +220,6 @@ namespace HtmlRenderer.Composers
                 {
                     ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
                     {
-
                         e.CurrentContextElement.ListenMouseClick(e);
                         return true;
                     });
@@ -215,8 +227,8 @@ namespace HtmlRenderer.Composers
             }
 
             ReleaseHitChain(hitChain);
-            this._latestHitChain.Clear();
-            this._latestHitChain = null;
+            this._latestMouseDownChain.Clear();
+            this._latestMouseDownChain = null;
         }
 
 
@@ -248,7 +260,7 @@ namespace HtmlRenderer.Composers
         }
 
 
-        delegate bool EventPortalAction(HitInfo hitInfo, IUserEventPortal evPortal);
+        delegate bool EventPortalAction(HtmlRenderer.Boxes.HitInfo hitInfo, IUserEventPortal evPortal);
         delegate bool EventListenerAction();
 
         static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, CssBoxHitChain hitPointChain, EventPortalAction eventPortalAction)
@@ -257,7 +269,7 @@ namespace HtmlRenderer.Composers
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
             {
                 //propagate up 
-                HitInfo hitInfo = hitPointChain.GetHitInfo(i);
+                var hitInfo = hitPointChain.GetHitInfo(i);
                 IUserEventPortal controller = null;
                 switch (hitInfo.hitObjectKind)
                 {
@@ -290,13 +302,13 @@ namespace HtmlRenderer.Composers
             }
         }
 
-        static void ForEachEventListenerBubbleUp(UIEventArgs e, CssBoxHitChain hitChain, ref HitInfo currentHitInfo, EventListenerAction listenerAction)
+        static void ForEachEventListenerBubbleUp(UIEventArgs e, CssBoxHitChain hitChain, ref HtmlRenderer.Boxes.HitInfo currentHitInfo, EventListenerAction listenerAction)
         {
 
             for (int i = hitChain.Count - 1; i >= 0; --i)
             {
                 //propagate up 
-                HitInfo hitInfo = hitChain.GetHitInfo(i);
+                var hitInfo = hitChain.GetHitInfo(i);
                 IEventListener controller = null;
                 switch (hitInfo.hitObjectKind)
                 {

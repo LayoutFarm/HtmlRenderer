@@ -230,9 +230,10 @@ namespace LayoutFarm.UI
 
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
             SetUIMouseEventArgsInfo(mouseEventArg, e);
+            this.userEventPortal.PortalMouseDown(mouseEventArg);            
+            eventStock.ReleaseEventArgs(mouseEventArg);
 
-            this.userEventPortal.PortalMouseDown(mouseEventArg);
-
+            //----------- 
             PaintToOutputWindowIfNeed();
             //---------------
 #if DEBUG
@@ -244,8 +245,7 @@ namespace LayoutFarm.UI
                 dbug_InvokeHitChainMsg();
             }
 #endif
-            //----------- 
-            eventStock.ReleaseEventArgs(mouseEventArg);
+            
         }
         public void OnMouseMove(MouseEventArgs e)
         {
@@ -256,12 +256,12 @@ namespace LayoutFarm.UI
 
 
 
-            SetUIMouseEventArgsInfo(mouseEventArg, e);
-
+            SetUIMouseEventArgsInfo(mouseEventArg, e); 
             this.userEventPortal.PortalMouseMove(mouseEventArg);
+            eventStock.ReleaseEventArgs(mouseEventArg);
 
             PaintToOutputWindowIfNeed();
-            eventStock.ReleaseEventArgs(mouseEventArg);
+           
 
         }
         public void OnMouseUp(MouseEventArgs e)

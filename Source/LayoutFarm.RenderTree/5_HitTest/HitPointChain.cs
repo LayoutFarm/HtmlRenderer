@@ -7,22 +7,22 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm
 {
-    public struct HitPoint
+    public struct HitInfo
     {
         public readonly Point point;
         public readonly RenderElement hitElement;
-        public static readonly HitPoint Empty = new HitPoint();
-        public HitPoint(RenderElement hitObject, Point point)
+        public static readonly HitInfo Empty = new HitInfo();
+        public HitInfo(RenderElement hitObject, Point point)
         {
             this.point = point;
             this.hitElement = hitObject; 
         }
 
-        public static bool operator ==(HitPoint pair1, HitPoint pair2)
+        public static bool operator ==(HitInfo pair1, HitInfo pair2)
         {
             return ((pair1.hitElement == pair2.hitElement) && (pair1.point == pair2.point));
         }
-        public static bool operator !=(HitPoint pair1, HitPoint pair2)
+        public static bool operator !=(HitInfo pair1, HitInfo pair2)
         {
             return ((pair1.hitElement == pair2.hitElement) && (pair1.point == pair2.point));
         }
@@ -115,9 +115,9 @@ namespace LayoutFarm
         protected abstract void OnClearAll();
 
         public abstract int Count { get; }
-        public abstract HitPoint GetHitPoint(int index);
+        public abstract HitInfo GetHitInfo(int index);
 
-        public abstract Point PrevHitPoint { get; }
+        //public abstract Point PrevHitPoint { get; }
         public abstract RenderElement CurrentHitElement { get; }
         public abstract Point CurrentHitPoint { get; }
 
