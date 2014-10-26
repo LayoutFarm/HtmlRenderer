@@ -70,7 +70,6 @@
     <Compile Include="6_SvgDom\CssBoxSvgRoot.cs" />
     <Compile Include="6_SvgDom\SvgCreator.cs" />
     <Compile Include="3_Bridge_HtmlRender_LeanBox\MyHtmlIsland.cs" />
-    <Compile Include="7_TopWin\MyHitPointChain.cs" />
     <Compile Include="7_TopWin\MyIntervalTaskEventArgs.cs" />
     <Compile Include="7_TopWin\MyRootGraphic.cs" />
     <Compile Include="7_TopWin\GraphicsTimerTasksManager.cs" />
