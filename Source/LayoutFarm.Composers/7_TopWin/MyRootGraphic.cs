@@ -43,7 +43,7 @@ namespace LayoutFarm.UI
         }
         public IUserEventPortal CreateUserEventPortal(TopWindowRenderBox topwin)
         {
-            UserInputEventBridge userInputEventBridge = new UserInputEventBridge();
+            UserInputEventAdapter userInputEventBridge = new UserInputEventAdapter();
             userInputEventBridge.Bind(topwin);
             return userInputEventBridge;             
         }

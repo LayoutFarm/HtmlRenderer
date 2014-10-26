@@ -73,14 +73,8 @@ namespace LayoutFarm.SampleControls
         {
 
         }
-        void IUserEventPortal.PortalDoubleClick(UIMouseEventArgs e)
-        {
-
-        }
-        void IUserEventPortal.PortalClick(UIMouseEventArgs e)
-        {
-
-        }
+        
+        
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
             _htmlInputEventBridge.KeyDown(e);

@@ -82,12 +82,7 @@ namespace LayoutFarm.UI.WinForms
             this.winViewportBridge.OnGotFocus(e);
             base.OnLostFocus(e);
         }
-        protected override void OnDoubleClick(EventArgs e)
-        {
-            this.winViewportBridge.OnDoubleClick(e);
-            base.OnDoubleClick(e);
-        }
-
+        
         protected override void OnMouseDown(MouseEventArgs e)
         {
             this.winViewportBridge.OnMouseDown(e);

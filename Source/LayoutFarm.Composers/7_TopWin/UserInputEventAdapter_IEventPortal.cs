@@ -7,7 +7,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm.UI
 {
 
-    partial class UserInputEventBridge : IUserEventPortal
+    partial class UserInputEventAdapter : IUserEventPortal
     {
         //IUserEventPortalImplementation
 
@@ -54,14 +54,7 @@ namespace LayoutFarm.UI
         {
             this.OnMouseWheel(e);
         }
-        void IUserEventPortal.PortalClick(UIMouseEventArgs e)
-        {
-
-        }
-        void IUserEventPortal.PortalDoubleClick(UIMouseEventArgs e)
-        {
-
-        }
+         
         //------------------------------------------------------------
         void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {

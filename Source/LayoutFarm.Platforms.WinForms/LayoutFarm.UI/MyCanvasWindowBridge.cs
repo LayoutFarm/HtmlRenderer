@@ -218,26 +218,11 @@ namespace LayoutFarm.UI
             this.userEventPortal.PortalLostFocus(focusEventArg);
             eventStock.ReleaseEventArgs(focusEventArg);
         }
-        public void OnDoubleClick(EventArgs e)
-        {
-            //UIMouseEventArgs mouseE = new UIMouseEventArgs(); 
-            //MouseEventArgs newMouseEventArgs = new MouseEventArgs(MouseButtons.Left, 1,
-            //    lastestLogicalMouseDownX,
-            //    lastestLogicalMouseDownY, 0);
-
-            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
-            //SetUIMouseEventArgsInfo(mouseEventArg, newMouseEventArgs);
-            canvasViewport.FullMode = false;
-
-            this.userEventPortal.PortalDoubleClick(mouseEventArg);
-            PaintToOutputWindowIfNeed();
-            eventStock.ReleaseEventArgs(mouseEventArg);
-        }
+        
         //---------------------------------------------------------------------
 
         public void OnMouseDown(MouseEventArgs e)
-        {
-
+        { 
 
             this.topwin.MakeCurrent();
 

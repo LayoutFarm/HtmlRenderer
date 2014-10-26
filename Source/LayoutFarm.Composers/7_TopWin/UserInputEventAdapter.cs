@@ -7,18 +7,18 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm.UI
 {
 
-    partial class UserInputEventBridge
+    partial class UserInputEventAdapter
     {
 
         readonly MyHitChain hitPointChain = new MyHitChain();
         UIHoverMonitorTask hoverMonitoringTask;
 
         int msgChainVersion;
-        TopWindowRenderBox topwin; 
+        TopWindowRenderBox topwin;
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
 
-        public UserInputEventBridge()
+        public UserInputEventAdapter()
         {
         }
         public void Bind(TopWindowRenderBox topwin)
@@ -120,7 +120,7 @@ namespace LayoutFarm.UI
                 commonElement = this.topwin;
             }
             commonElement.HitTestCore(hitPointChain);
-        } 
+        }
         //--------------------------------------------------
         protected void OnDoubleClick(UIMouseEventArgs e)
         {
@@ -161,16 +161,14 @@ namespace LayoutFarm.UI
             HitTestCoreWithPrevChainHint(e.X, e.Y);
             int hitCount = this.hitPointChain.Count;
 
-            RenderElement hitElement = this.hitPointChain.CurrentHitElement as RenderElement;
+            RenderElement hitElement = this.hitPointChain.CurrentHitElement;
             if (hitCount > 0)
             {
                 DisableGraphicOutputFlush = true;
                 //------------------------------
                 //1. for some built-in event
-
-                ForEachOnlyEventPortalBubbleUp(this.hitPointChain, (hitobj, listener) =>
+                ForEachOnlyEventPortalBubbleUp(this.hitPointChain, (hitInfo, listener) =>
                 {
-
                     e.CurrentContextElement = listener;
                     listener.PortalMouseDown(e);
 
@@ -179,21 +177,17 @@ namespace LayoutFarm.UI
                     {
                         this.CurrentKeyboardFocusedElement = curContextElement;
                     }
-
-
                     return true;
                 });
                 //------------------------------
                 //use events
                 if (!e.CancelBubbling)
                 {
-
                     ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
                     {
-                        e.Location = hitobj.Location;
-                        e.SourceHitElement = hitobj.hitObject;
+                        e.Location = hitobj.point;
+                        e.SourceHitElement = hitobj.hitElement;
                         e.CurrentContextElement = listener;
-
 
                         listener.ListenMouseDown(e);
 
@@ -269,40 +263,44 @@ namespace LayoutFarm.UI
             DisableGraphicOutputFlush = true;
             this.isDragging = e.IsDragging;
 
-
-            ForEachOnlyEventPortalBubbleUp(this.hitPointChain, (hitobj, listener) =>
+            ForEachOnlyEventPortalBubbleUp(this.hitPointChain, (hitInfo, listener) =>
             {
-                e.Location = hitobj.Location;
+                e.Location = hitInfo.point;
                 e.CurrentContextElement = listener;
                 listener.PortalMouseMove(e);
+
                 return true;
             });
-            //-------------------------------------------------------            
-            ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
+            //-------------------------------------------------------  
+            if (!e.CancelBubbling)
             {
-                e.Location = hitobj.Location;
-                if (currentMouseActiveElement != null &&
-                    currentMouseActiveElement != listener)
+                ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
                 {
+                    e.Location = hitobj.point;
+                    if (currentMouseActiveElement != null &&
+                        currentMouseActiveElement != listener)
+                    {
 
-                    currentMouseActiveElement.ListenMouseLeave(e);
-                    currentMouseActiveElement = null;
-                }
+                        currentMouseActiveElement.ListenMouseLeave(e);
+                        currentMouseActiveElement = null;
+                    }
 
-                if (currentMouseActiveElement == listener)
-                {
-                    e.JustEnter = false;
-                    currentMouseActiveElement.ListenMouseMove(e);
-                }
-                else
-                {
-                    currentMouseActiveElement = listener;
-                    e.JustEnter = true;
-                    currentMouseActiveElement.ListenMouseMove(e);
-                }
+                    if (currentMouseActiveElement == listener)
+                    {
+                        e.JustEnter = false;
+                        currentMouseActiveElement.ListenMouseMove(e);
+                    }
+                    else
+                    {
+                        currentMouseActiveElement = listener;
+                        e.JustEnter = true;
+                        currentMouseActiveElement.ListenMouseMove(e);
+                    }
 
-                return true;//stop
-            });
+                    return true;//stop
+                });
+            }
+
             DisableGraphicOutputFlush = false;
             hitPointChain.SwapHitChain();
         }
@@ -338,12 +336,10 @@ namespace LayoutFarm.UI
                 DisableGraphicOutputFlush = true;
                 //---------------------------------------------------------------
 
-                ForEachOnlyEventPortalBubbleUp(this.hitPointChain, (hitobj, listener) =>
+                ForEachOnlyEventPortalBubbleUp(this.hitPointChain, (hitInfo, listener) =>
                 {
                     e.CurrentContextElement = listener;
-
                     listener.PortalMouseUp(e);
-
                     var curContextElement = e.CurrentContextElement as IEventListener;
 
                     if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
@@ -356,9 +352,9 @@ namespace LayoutFarm.UI
 
                 ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
                 {
-                    e.Location = hitobj.Location;
-                    e.SourceHitElement = hitobj.hitObject;
-                    e.CurrentContextElement = hitobj.hitObject;
+                    e.Location = hitobj.point;
+                    e.SourceHitElement = hitobj.hitElement; //not correct!
+                    e.CurrentContextElement = hitobj.hitElement;
 
 
                     listener.ListenMouseUp(e);
@@ -413,25 +409,8 @@ namespace LayoutFarm.UI
         }
 
         //===================================================================
-        delegate bool EventListenerAction(HitInfo hitInfo, IEventListener listener);
-        delegate bool EventPortalAction(HitInfo hitInfo, IUserEventPortal evPortal);
-
-        struct HitInfo
-        {
-            public readonly object hitObject;
-            public readonly int x;
-            public readonly int y;
-            public HitInfo(object hitObject, int x, int y)
-            {
-                this.x = x;
-                this.y = y;
-                this.hitObject = hitObject;
-            }
-            public Point Location
-            {
-                get { return new Point(x, y); }
-            }
-        }
+        delegate bool EventPortalAction(HitPoint hitInfo, IUserEventPortal evPortal);
+        delegate bool EventListenerAction(HitPoint hitInfo, IEventListener listener);
 
         static void ForEachOnlyEventPortalBubbleUp(MyHitChain hitPointChain, EventPortalAction eventPortalAction)
         {
@@ -439,15 +418,11 @@ namespace LayoutFarm.UI
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
             {
                 HitPoint hitPoint = hitPointChain.GetHitPoint(i);
-                RenderElement hitElem = hitPoint.hitObject as RenderElement;
-                if (hitElem != null)
+                IUserEventPortal eventPortal = hitPoint.hitElement.GetController() as IUserEventPortal;
+                if (eventPortal != null &&
+                    eventPortalAction(hitPoint, eventPortal))
                 {
-                    IUserEventPortal eventPortal = hitElem.GetController() as IUserEventPortal;
-                    if (eventPortal != null &&
-                        eventPortalAction(new HitInfo(hitElem, hitPoint.point.X, hitPoint.point.Y), eventPortal))
-                    {
-                        return;
-                    }
+                    return;
                 }
             }
         }
@@ -457,18 +432,12 @@ namespace LayoutFarm.UI
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
             {
                 HitPoint hitPoint = hitPointChain.GetHitPoint(i);
-                RenderElement hitElem = hitPoint.hitObject as RenderElement;
-
-                if (hitElem != null)
+                IEventListener listener = hitPoint.hitElement.GetController() as IEventListener;
+                if (listener != null &&
+                    listenerAction(hitPoint, listener))
                 {
-                    IEventListener listener = hitElem.GetController() as IEventListener;
-                    if (listener != null &&
-                        listenerAction(new HitInfo(hitElem, hitPoint.point.X, hitPoint.point.Y), listener))
-                    {
-                        return;
-                    }
+                    return;
                 }
-
             }
         }
 

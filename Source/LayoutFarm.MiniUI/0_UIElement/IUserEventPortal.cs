@@ -17,9 +17,7 @@ namespace LayoutFarm.UI
         void PortalMouseDown(UIMouseEventArgs e);
         void PortalMouseMove(UIMouseEventArgs e);
         void PortalMouseUp(UIMouseEventArgs e);
-        void PortalMouseWheel(UIMouseEventArgs e);
-        void PortalClick(UIMouseEventArgs e);
-        void PortalDoubleClick(UIMouseEventArgs e);
+        void PortalMouseWheel(UIMouseEventArgs e); 
         //---------------------------------------------- 
         void PortalGotFocus(UIFocusEventArgs e);
         void PortalLostFocus(UIFocusEventArgs e);
