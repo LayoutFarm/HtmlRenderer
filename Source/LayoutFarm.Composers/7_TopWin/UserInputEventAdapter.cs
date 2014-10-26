@@ -160,7 +160,6 @@ namespace LayoutFarm.UI
                 ForEachOnlyEventPortalBubbleUp(this.hitPointChain, (hitInfo, listener) =>
                 {
                     e.CurrentContextElement = listener;
-
                     listener.PortalMouseDown(e);
 
                     var curContextElement = e.CurrentContextElement as IEventListener;

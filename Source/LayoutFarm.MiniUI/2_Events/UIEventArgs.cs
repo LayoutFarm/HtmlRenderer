@@ -24,22 +24,17 @@ namespace LayoutFarm.UI
         int x;
         int y;
 
-        UIEventName evName;
+        
         public UIEventArgs()
         {
 
         }
-        public UIEventName EventName
-        {
-            get { return this.evName; }
-            set { this.evName = value; }
-        }
+         
         public virtual void Clear()
         {
             x = 0;
             y = 0;
-            CancelBubbling = false;
-
+            CancelBubbling = false; 
         }
 
         public object SourceHitElement

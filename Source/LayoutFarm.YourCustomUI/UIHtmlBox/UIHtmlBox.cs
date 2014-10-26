@@ -64,7 +64,6 @@ namespace LayoutFarm.SampleControls
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-
             _htmlInputEventBridge.MouseMove(e);
 
         }

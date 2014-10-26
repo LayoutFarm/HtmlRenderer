@@ -25,17 +25,12 @@ namespace HtmlRenderer.Composers
         bool _isMouseDown;
         IFonts ifonts;
         bool _isBinded;
-        const int DOUBLE_CLICK_SENSE = 150;//ms
-
-
+        const int DOUBLE_CLICK_SENSE = 150;//ms 
         Stack<CssBoxHitChain> hitChainPools = new Stack<CssBoxHitChain>();
-
         public HtmlInputEventAdapter()
         {
 
         }
-
-        
         public void Bind(HtmlIsland htmlIsland, IFonts ifonts)
         {
             this.ifonts = ifonts;
@@ -84,8 +79,8 @@ namespace HtmlRenderer.Composers
             //1. prob hit chain only
             BoxUtils.HitTest(rootbox, x, y, hitChain);
             //2. invoke css event and script event     
-            e.EventName = UIEventName.MouseDown;
-            PropagateEventOnBubblingPhase(hitChain, (hit, controller) =>
+
+            ForEachEventListenerBubbleUp(hitChain, (hit, controller) =>
             {
                 e.CurrentContextElement = controller;
                 controller.ListenMouseDown(e);
@@ -93,8 +88,8 @@ namespace HtmlRenderer.Composers
             });
             //----------------------------------
             //save mousedown hitchain
-            this._latestHitChain = hitChain;             
-        }        
+            this._latestHitChain = hitChain;
+        }
         public void MouseMove(UIMouseEventArgs e)
         {
             if (!_isBinded)
@@ -118,10 +113,11 @@ namespace HtmlRenderer.Composers
                     CssBoxHitChain hitChain = GetFreeHitChain();
                     hitChain.SetRootGlobalPosition(x, y);
                     BoxUtils.HitTest(rootbox, x, y, hitChain);
-                    ClearPreviousSelection();
+                    ClearPreviousSelection(); 
 
                     if (hitChain.Count > 0)
                     {
+                        //create selection range 
                         this._htmlIsland.SetSelection(new SelectionRange(
                             _latestHitChain,
                             hitChain,
@@ -130,14 +126,29 @@ namespace HtmlRenderer.Composers
                     else
                     {
                         this._htmlIsland.SetSelection(null);
-                    }
-                    ReleaseHitChain(hitChain);
-                     
+                    } 
+                    //---------------------------------------------------------
+                    //propagate mouse drag ? 
+
+                    //---------------------------------------------------------
+                    ReleaseHitChain(hitChain); 
                 }
             }
             else
             {
                 //mouse move  
+                //---------------------------------------------------------
+                CssBoxHitChain hitChain = GetFreeHitChain();
+                hitChain.SetRootGlobalPosition(x, y);
+                BoxUtils.HitTest(rootbox, x, y, hitChain); 
+                ForEachEventListenerBubbleUp(hitChain, (hit, controller) =>
+                {
+                    e.CurrentContextElement = controller;
+                    controller.ListenMouseMove(e);
+                    return true;
+                });
+
+                ReleaseHitChain(hitChain); 
             }
         }
         public void MouseUp(UIMouseEventArgs e)
@@ -161,37 +172,52 @@ namespace HtmlRenderer.Composers
             //--------------------------------------------
 
             this._isMouseDown = false;
-            //-----------------------------------------
-
+            //----------------------------------------- 
             CssBoxHitChain hitChain = GetFreeHitChain();
 
             hitChain.SetRootGlobalPosition(e.X, e.Y);
             //1. prob hit chain only 
             BoxUtils.HitTest(rootbox, e.X, e.Y, hitChain);
-            //2. invoke css event and script event  
-            e.EventName = UIEventName.MouseUp;
-            PropagateEventOnBubblingPhase(hitChain, (hit, controller) =>
+            //2. invoke css event and script event   
+            ForEachEventListenerBubbleUp(hitChain, (hit, controller) =>
             {
                 e.CurrentContextElement = controller;
                 controller.ListenMouseUp(e);
                 return true;
             });
 
-            hitChain.Clear();
+
+            if (!e.IsCanceled)
+            {
+                //--------------------
+                //click or double click
+                //--------------------
+                if (isAlsoDoubleClick)
+                {
+                    ForEachEventListenerBubbleUp(hitChain, (hit, controller) =>
+                    {
+                        e.CurrentContextElement = controller;
+                        controller.ListenMouseDoubleClick(e);
+                        return true;
+                    });
+                }
+                else
+                {
+                    ForEachEventListenerBubbleUp(hitChain, (hit, controller) =>
+                    {
+                        e.CurrentContextElement = controller;
+                        controller.ListenMouseClick(e);    
+                        return true;
+                    });
+                }
+            }
 
             ReleaseHitChain(hitChain);
             this._latestHitChain.Clear();
             this._latestHitChain = null;
         }
-        public void MouseLeave(UIMouseEventArgs e)
-        {
+         
 
-        }
-        public void MouseDoubleClick(UIMouseEventArgs e)
-        {
-
-
-        }
         public void MouseWheel(UIMouseEventArgs e)
         {
 
@@ -262,9 +288,7 @@ namespace HtmlRenderer.Composers
             }
         }
 
-
-
-        static void PropagateEventOnBubblingPhase(CssBoxHitChain hitChain, EventListenerAction listenerAction)
+        static void ForEachEventListenerBubbleUp(CssBoxHitChain hitChain, EventListenerAction listenerAction)
         {
 
             for (int i = hitChain.Count - 1; i >= 0; --i)
@@ -301,7 +325,7 @@ namespace HtmlRenderer.Composers
                     }
                 }
             }
-        }        
+        }
         CssBoxHitChain GetFreeHitChain()
         {
             if (hitChainPools.Count > 0)
@@ -318,6 +342,6 @@ namespace HtmlRenderer.Composers
             hitChain.Clear();
             this.hitChainPools.Push(hitChain);
         }
-      
+
     }
 }
