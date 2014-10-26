@@ -65,7 +65,7 @@ namespace HtmlRenderer.Demo
         HtmlRenderer.WebDom.WebDocument currentDoc;
 
         MyHtmlIsland myHtmlIsland;
-        HtmlInputEventBridge _htmlEventBridge;
+        HtmlInputEventAdapter _htmlEventBridge;
         /// <summary>
         /// the raw base stylesheet data used in the control
         /// </summary>
@@ -120,7 +120,7 @@ namespace HtmlRenderer.Demo
 
             timer01.Enabled = true;
             //-------------------------------------------
-            _htmlEventBridge = new HtmlInputEventBridge();
+            _htmlEventBridge = new HtmlInputEventAdapter();
             _htmlEventBridge.Bind(myHtmlIsland, gfxPlatform.SampleIFonts);
             //------------------------------------------- 
         }
