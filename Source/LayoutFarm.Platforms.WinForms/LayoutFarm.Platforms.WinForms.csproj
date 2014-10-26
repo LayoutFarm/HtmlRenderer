@@ -74,7 +74,7 @@
       <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
     </Compile>
     <Compile Include="LayoutFarm.UI\CanvasViewport.cs" />
-    <Compile Include="LayoutFarm.UI\QuadPages.cs" />
+    <Compile Include="LayoutFarm.Drawing\MyCanvas\QuadPages.cs" />
     <Compile Include="LayoutFarm.Drawing\0_Start\WinGdiPortal.cs" />
     <Compile Include="LayoutFarm.UI\MyCanvasWindowBridge.cs" />
     <Compile Include="LayoutFarm.UI\MyCanvasWindowBridge_dbug.cs" />
