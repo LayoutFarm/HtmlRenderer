@@ -100,7 +100,7 @@ namespace LayoutFarm.Text
         }
 
 
-        public void OnKeyPress(UIKeyPressEventArgs e)
+        public void OnKeyPress(UIKeyEventArgs e)
         {
             if (e.IsControlKey)
             {
@@ -206,7 +206,7 @@ namespace LayoutFarm.Text
             }
 
         }
-        public void OnDrag(UIDragEventArgs e)
+        public void OnDrag(UIMouseEventArgs e)
         {
 
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
@@ -219,7 +219,7 @@ namespace LayoutFarm.Text
             }
 
         }
-        public void OnDragStart(UIDragEventArgs e)
+        public void OnDragStart(UIMouseEventArgs e)
         {
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
@@ -232,7 +232,7 @@ namespace LayoutFarm.Text
 
             }
         }
-        public void OnDragStop(UIDragEventArgs e)
+        public void OnDragStop(UIMouseEventArgs e)
         {
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {

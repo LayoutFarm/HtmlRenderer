@@ -25,15 +25,15 @@ namespace LayoutFarm.Drawing
     /// </summary>
     static class RenderUtils
     {
-        /// <summary>
-        /// cache of brush color to brush instance
-        /// </summary>
-        static readonly Dictionary<Color, Brush> _brushesCache = new Dictionary<Color, Brush>();
+        ///// <summary>
+        ///// cache of brush color to brush instance
+        ///// </summary>
+        //static readonly Dictionary<Color, Brush> _brushesCache = new Dictionary<Color, Brush>();
 
-        /// <summary>
-        /// cache of pen color to pen instance
-        /// </summary>
-        static readonly Dictionary<Color, Pen> _penCache = new Dictionary<Color, Pen>();
+        ///// <summary>
+        ///// cache of pen color to pen instance
+        ///// </summary>
+        //static readonly Dictionary<Color, Pen> _penCache = new Dictionary<Color, Pen>();
 
         /// <summary>
         /// image used to draw loading image icon
@@ -43,11 +43,7 @@ namespace LayoutFarm.Drawing
         /// <summary>
         /// image used to draw error image icon
         /// </summary>
-        static Image _errorImage;
-
-
-
-
+        static Image _errorImage; 
         /// <summary>
         /// Check if the given color is visible if painted (has alpha and color values)
         /// </summary>
@@ -58,59 +54,58 @@ namespace LayoutFarm.Drawing
             return color.A > 0;
         }
 
-        /// <summary>
-        /// Get cached solid brush instance for the given color.
-        /// </summary>
-        /// <param name="color">the color to get brush for</param>
-        /// <returns>brush instance</returns>
-        public static Brush GetSolidBrush(Color color)
-        {
+        ///// <summary>
+        ///// Get cached solid brush instance for the given color.
+        ///// </summary>
+        ///// <param name="color">the color to get brush for</param>
+        ///// <returns>brush instance</returns>
+        //public static Brush GetSolidBrush(Color color)
+        //{
 
-            if (color == Color.White)
-            {
-                return Brushes.White;
-            }
-            else if (color == Color.Black)
-            {
-                return Brushes.Black;
-            }
-            else if (!IsColorVisible(color))
-            {
-                return Brushes.Transparent;
-            }
-            else
-            {
-                Brush brush;
-                if (!_brushesCache.TryGetValue(color, out brush))
-                {
+        //    if (color == Color.White)
+        //    {
+        //        return Brushes.White;
+        //    }
+        //    else if (color == Color.Black)
+        //    {
+        //        return Brushes.Black;
+        //    }
+        //    else if (!IsColorVisible(color))
+        //    {
+        //        return Brushes.Transparent;
+        //    }
+        //    else
+        //    {
+        //        Brush brush;
+        //        if (!_brushesCache.TryGetValue(color, out brush))
+        //        {
 
-                    _brushesCache[color] = brush = CurrentGraphicPlatform.CreateSolidBrush(color);
+        //            _brushesCache[color] = brush = CurrentGraphicPlatform.CreateSolidBrush(color);
 
-                }
-                return brush;
-            }
-        }
+        //        }
+        //        return brush;
+        //    }
+        //}
 
-        /// <summary>
-        /// Get cached pen instance for the given color.
-        /// </summary>
-        /// <param name="color">the color to get pen for</param>
-        /// <returns>pen instance</returns>
-        public static Pen GetPen(Color color)
-        {
-            Pen pen;
-            if (!_penCache.TryGetValue(color, out pen))
-            {
-                pen = CurrentGraphicPlatform.CreatePen(color);
-                //pen = new Pen(GetSolidBrush(color));
-                _penCache[color] = pen;
-            }
-            else
-            {
-                pen.Width = 1;
-            }
-            return pen;
-        }
+        ///// <summary>
+        ///// Get cached pen instance for the given color.
+        ///// </summary>
+        ///// <param name="color">the color to get pen for</param>
+        ///// <returns>pen instance</returns>
+        //public static Pen GetPen(GraphicPlatform p, Color color)
+        //{
+        //    Pen pen;
+        //    if (!_penCache.TryGetValue(color, out pen))
+        //    {
+        //        pen = p.CreateSolidPen(color); 
+        //        _penCache[color] = pen;
+        //    }
+        //    else
+        //    {
+        //        pen.Width = 1;
+        //    }
+        //    return pen;
+        //}
         /// <summary>
         /// Draw image loading icon.
         /// </summary>

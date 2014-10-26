@@ -5,48 +5,27 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
-    public enum UIKeyEventName
-    {
-        KeyDown,
-        KeyUp,
-        KeyPress,
-        ProcessDialogKey
-    }
-    public enum UIMouseEventName
-    {
-        Click,
-        DoubleClick,
-        MouseDown,
-        MouseMove,
-        MouseUp,
-        MouseEnter,
-        MouseLeave,
-        MouseHover,
-        MouseWheel
 
-    }
-    public enum UIDragEventName
-    {
-        DragStart,
-        DragStop,
-        Dragging
-    }
-    public enum UIFocusEventName
-    {
-        Focus,
-        LossingFocus
-    }
     public interface IEventListener
     {
-        void ListenKeyPressEvent(UIKeyPressEventArgs args);
-        void ListenKeyEvent(UIKeyEventName keyEventName, UIKeyEventArgs e);
+        //--------------------------------------------------------------------------
+        void ListenKeyPress(UIKeyEventArgs args);
+        void ListenKeyDown(UIKeyEventArgs e);
+        void ListenKeyUp(UIKeyEventArgs e);
         bool ListenProcessDialogKey(UIKeyEventArgs args);
-        void ListenMouseEvent(UIMouseEventName mouseEventName, UIMouseEventArgs e);
-        void ListenDragEvent(UIDragEventName dragEventName, UIDragEventArgs e);
-        void ListenFocusEvent(UIFocusEventName focusEventName, UIFocusEventArgs e);
+        //--------------------------------------------------------------------------
+        void ListenMouseDown(UIMouseEventArgs e);
+        void ListenMouseMove(UIMouseEventArgs e);
+        void ListenMouseUp(UIMouseEventArgs e);
+        void ListenMouseLeave(UIMouseEventArgs e);
+        void ListenMouseWheel(UIMouseEventArgs e);
 
+        void ListenMouseClick(UIMouseEventArgs e);
+        void ListenMouseDoubleClick(UIMouseEventArgs e);
+        //--------------------------------------------------------------------------
+        void ListenGotFocus(UIFocusEventArgs e);
+        void ListenLostFocus(UIFocusEventArgs e);
+        //--------------------------------------------------------------------------
         bool AcceptKeyboardFocus { get; }
     }
-
-
 }

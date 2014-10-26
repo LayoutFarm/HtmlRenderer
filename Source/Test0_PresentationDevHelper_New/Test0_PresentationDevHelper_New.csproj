@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dev\DemoBase.cs" />
+    <Compile Include="Dev\FormCanvasHelper.cs" />
     <Compile Include="Dev\FormDemoList.cs">
       <SubType>Form</SubType>
     </Compile>

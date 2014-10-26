@@ -79,19 +79,33 @@ namespace HtmlRenderer.Boxes
         const int MAX_WIDTH = 99999;
         ////-----------------------------------------------------------
         ////controll task of this container
-       
+
+        SelectionRange _currentSelectionRange;         
+
         public HtmlIsland()
         {
-             
-        }
 
+        }
+        public void ClearPreviousSelection()
+        {
+
+            if (_currentSelectionRange != null)
+            {
+                _currentSelectionRange.ClearSelectionStatus();
+                _currentSelectionRange = null;
+            }
+        }
+        public void SetSelection(SelectionRange selRange)
+        {
+            _currentSelectionRange = selRange;
+        }
 #if DEBUG
         public static int dbugCount02 = 0;
 #endif
 
 
         public abstract void AddRequestImageBinderUpdate(ImageBinder binder);
-       
+
 
         /// <summary>
         /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
@@ -218,7 +232,7 @@ namespace HtmlRenderer.Boxes
             {
                 this._actualHeight = newHeight;
             }
-        } 
+        }
         public CssBox GetRootCssBox()
         {
             return this._rootBox;
@@ -247,7 +261,7 @@ namespace HtmlRenderer.Boxes
         }
         protected virtual void OnAllDisposed()
         {
-        } 
+        }
         public void PerformLayout(IGraphics ig)
         {
 

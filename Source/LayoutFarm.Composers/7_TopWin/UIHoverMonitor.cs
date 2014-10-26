@@ -8,15 +8,45 @@ namespace LayoutFarm.UI
 {
 
 
-    public class UIHoverMonitorTask : VisualRootTimerTask
+    public class UIHoverMonitorTask : UITimerTask
     {
 
         int mouseMoveCounter = -1;
         EventHandler targetEventHandler;
-        public UIHoverMonitorTask(TopWindowRenderBoxBase winroot, EventHandler targetEventHandler)
-            : base(winroot)
+        bool isEnabled;
+        public UIHoverMonitorTask(EventHandler targetEventHandler)
         {
             this.targetEventHandler = targetEventHandler;
+        }
+        public override bool Enabled
+        {
+            get
+            {
+                return this.isEnabled;
+            }
+            set
+            {
+                this.isEnabled = value;
+                if (value)
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+        }
+        public override bool IsInQueue
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
         public override void Reset()
         {

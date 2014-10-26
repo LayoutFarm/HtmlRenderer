@@ -15,9 +15,7 @@ namespace LayoutFarm.Text
         public void ReplaceCurrentLineTextRun(IEnumerable<EditableTextSpan> textruns)
         {
             textLineWriter.ReplaceCurrentLine(textruns);
-        }
-
-
+        } 
         public void ReplaceLine(int lineNum, IEnumerable<EditableTextSpan> textruns)
         {
 
@@ -31,9 +29,7 @@ namespace LayoutFarm.Text
                 backGroundTextLineWriter.MoveToLine(lineNum);
                 backGroundTextLineWriter.ReplaceCurrentLine(textruns);
             }
-        }
-
-
+        } 
         public void LoadTextRun(IEnumerable<EditableTextSpan> runs)
         {
             this.CancelSelect();

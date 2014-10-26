@@ -50,13 +50,12 @@
     <Compile Include="2_Bridge_HtmlRenderer_WebDom\BoxCreator.cs" />
     <Compile Include="2_Bridge_HtmlRenderer_WebDom\BridgeHtmlDocument.cs" />
     <Compile Include="3_Bridge_HtmlRender_LeanBox\BridgeClasses.cs" />
-    <Compile Include="3_Bridge_HtmlRender_LeanBox\HtmlInputEventBridge.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="3_Bridge_HtmlRender_LeanBox\HtmlInputEventBridge.cs" />
     <Compile Include="4_WebDom\1_Html\DomElement.cs" />
     <Compile Include="4_WebDom\1_Html\DomElement_EventListener.cs" />
     <Compile Include="3_Bridge_HtmlRender_LeanBox\HtmlRefreshEventArgs.cs" />
     <Compile Include="3_Bridge_HtmlRender_LeanBox\StylesheetLoadEventArgs.cs" />
+    <Compile Include="4_WebDom\1_Html\DomElement_OnEvents.cs" />
     <Compile Include="4_WebDom\1_Html\ElementChangeKind.cs" />
     <Compile Include="4_WebDom\2_Css\CssAttributeSelector.cs" />
     <Compile Include="4_WebDom\2_Css\CssDocMembers.cs" />
@@ -74,9 +73,10 @@
     <Compile Include="7_TopWin\MyHitPointChain.cs" />
     <Compile Include="7_TopWin\MyIntervalTaskEventArgs.cs" />
     <Compile Include="7_TopWin\MyRootGraphic.cs" />
-    <Compile Include="7_TopWin\MyTimerSheet.cs" />
+    <Compile Include="7_TopWin\GraphicsTimerTasksManager.cs" />
     <Compile Include="7_TopWin\UIHoverMonitor.cs" />
-    <Compile Include="7_TopWin\MyUserInputEventBridge.cs" />
+    <Compile Include="7_TopWin\UserInputEventAdapter.cs" />
+    <Compile Include="7_TopWin\UserInputEventAdapter_IEventPortal.cs" />
     <Compile Include="8_ContentManagers\ImageContentManager.cs" />
     <Compile Include="8_ContentManagers\ImageRequestEventArgs.cs" />
     <Compile Include="8_ContentManagers\TextContentManager.cs" />

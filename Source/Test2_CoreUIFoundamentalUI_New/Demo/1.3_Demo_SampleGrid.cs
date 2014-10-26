@@ -12,7 +12,7 @@ namespace LayoutFarm
     [DemoNote("1.3 Grid")]
     class Demo_Grid : DemoBase
     {
-        protected override void OnStartDemo(UISurfaceViewportControl viewport)
+        protected override void OnStartDemo(SampleViewport viewport)
         {
             //grid0
             {

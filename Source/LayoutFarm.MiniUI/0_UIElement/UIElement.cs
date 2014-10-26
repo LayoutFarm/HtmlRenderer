@@ -8,9 +8,11 @@ namespace LayoutFarm.UI
     public abstract partial class UIElement : IEventListener
     {
         int oneBitNativeEventFlags;
+
         public UIElement()
         {
         }
+
         protected void RegisterNativeEvent(int eventFlags)
         {
             this.oneBitNativeEventFlags |= eventFlags;
@@ -22,6 +24,13 @@ namespace LayoutFarm.UI
         public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
         public abstract void InvalidateGraphic();
 
+        //-------------------------------------------------------
+        protected virtual void OnShown()
+        {
+        }
+        protected virtual void OnHide()
+        {
+        }
         protected virtual void OnLostFocus(UIFocusEventArgs e)
         {
         }
@@ -31,88 +40,17 @@ namespace LayoutFarm.UI
         protected virtual void OnGotFocus(UIFocusEventArgs e)
         {
         }
-
         protected virtual void OnDoubleClick(UIMouseEventArgs e)
         {
-
-
         }
+        //-------------------------------------------------------
         protected virtual void OnMouseDown(UIMouseEventArgs e)
         {
 
-
-        }
-        protected virtual void OnMouseWheel(UIMouseEventArgs e)
-        {
-        }
-        protected virtual void OnDragStart(UIDragEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragEnter(UIDragEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragOver(UIDragEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragLeave(UIDragEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragStop(UIDragEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragging(UIDragEventArgs e)
-        {
-        }
-        protected virtual void OnDragDrop(UIDragEventArgs e)
-        {
-        }
-        protected virtual void OnCollapsed()
-        {
-        }
-        protected virtual void OnExpanded()
-        {
-
-        }
-        protected virtual void OnElementLanded()
-        {
-
-        }
-
-        protected virtual void OnShown()
-        {
-        }
-        protected virtual void OnHide()
-        {
-        }
-        protected virtual void OnNotifyChildDoubleClick(UIElement fromElement, UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnKeyDown(UIKeyEventArgs e)
-        {
-        }
-        protected virtual void OnKeyUp(UIKeyEventArgs e)
-        {
-        }
-        protected virtual void OnKeyPress(UIKeyPressEventArgs e)
-        {
-        }
-        protected virtual bool OnProcessDialogKey(UIKeyEventArgs e)
-        {
-            return false;
-        }
-
+        } 
         protected virtual void OnMouseMove(UIMouseEventArgs e)
         {
-        }
-        protected virtual void OnMouseHover(UIMouseEventArgs e)
-        {
-        }
+        }     
         protected virtual void OnMouseUp(UIMouseEventArgs e)
         {
         }
@@ -123,9 +61,46 @@ namespace LayoutFarm.UI
         protected virtual void OnMouseLeave(UIMouseEventArgs e)
         {
         }
-        protected virtual void OnDropInto()
+        protected virtual void OnMouseWheel(UIMouseEventArgs e)
+        {
+        }
+        protected virtual void OnMouseHover(UIMouseEventArgs e)
+        {
+        }
+        //-------------------------------------------------------
+        protected virtual void OnDragStart(UIMouseEventArgs e)
         {
 
+        }
+        protected virtual void OnDragEnter(UIMouseEventArgs e)
+        {
+
+        } 
+        protected virtual void OnDragLeave(UIMouseEventArgs e)
+        {
+
+        }
+        protected virtual void OnDragStop(UIMouseEventArgs e)
+        {
+
+        }
+        protected virtual void OnDragging(UIMouseEventArgs e)
+        {
+
+        } 
+        //------------------------------------------------------------
+        protected virtual void OnKeyDown(UIKeyEventArgs e)
+        {
+        }
+        protected virtual void OnKeyUp(UIKeyEventArgs e)
+        {
+        }
+        protected virtual void OnKeyPress(UIKeyEventArgs e)
+        {
+        }
+        protected virtual bool OnProcessDialogKey(UIKeyEventArgs e)
+        {
+            return false;
         }
         protected virtual void OnSizeChanged(UISizeChangedEventArgs e)
         {

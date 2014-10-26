@@ -272,7 +272,18 @@ namespace HtmlRenderer.Boxes
             //after has actual font 
             return this._actualEmHeight;//  
         }
-    } 
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     ////-----------
     //partial class CssBox

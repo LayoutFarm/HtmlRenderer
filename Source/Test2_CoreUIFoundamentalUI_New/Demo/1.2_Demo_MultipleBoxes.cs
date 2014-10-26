@@ -11,7 +11,7 @@ namespace LayoutFarm
     [DemoNote("1.2 MultpleBox")]
     class Demo_MultipleBox : DemoBase
     {
-        protected override void OnStartDemo(UISurfaceViewportControl viewport)
+        protected override void OnStartDemo(SampleViewport viewport)
         {   
              
             for (int i = 0; i < 5; ++i)

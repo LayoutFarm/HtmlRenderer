@@ -43,43 +43,41 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graphics\0_Start\Conv.cs" />
-    <Compile Include="Graphics\0_Start\WinGdi.cs" />
-    <Compile Include="Graphics\Implementation\Bitmap_Brush_Pen.cs" />
-    <Compile Include="Graphics\Implementation\FontsUtils.cs" />
-    <Compile Include="Graphics\Implementation\MyFontInfo.cs" />
-    <Compile Include="Graphics\Implementation\MyGraphicPath.cs" />
-    <Compile Include="Graphics\Implementation\MyMatrix.cs" />
-    <Compile Include="Graphics\Implementation\MyWin32.cs" />
-    <Compile Include="Graphics\Implementation\NativeTextWin32.cs" />
-    <Compile Include="Graphics\Implementation\Region.cs" />
-    <Compile Include="Graphics\Implementation\Win32Utils.cs" />
-    <Compile Include="Graphics\MyCanvas\0_MyCanvas_Inits.cs" />
-    <Compile Include="Graphics\MyCanvas\MyCanvas_CanvasProps.cs" />
-    <Compile Include="Graphics\MyCanvas\MyCanvas_CoordinateAndClip.cs" />
-    <Compile Include="Graphics\MyCanvas\MyCanvas_DrawGraphics.cs" />
-    <Compile Include="Graphics\MyCanvas\MyCanvas_IFont_SpecificImpl.cs" />
-    <Compile Include="Graphics\MyCanvas\MyCanvas_IGraphics_SpecificImpl.cs" />
-    <Compile Include="Graphics\MyCanvas\MyCanvas_InvalidateArea.cs" />
-    <Compile Include="Graphics\MyCanvas\MyCanvas_Static.cs" />
-    <Compile Include="Graphics\MyCanvas\MyCanvas_TextFuncs.cs" />
-    <Compile Include="Windows\CanvasCollection.cs" />
-    <Compile Include="Windows\MyCustomRenderSurface.cs" />
-    <Compile Include="Windows\MyWinTimer.cs" />
-    <Compile Include="Windows\UISurfaceViewportControl.cs">
+    <Compile Include="LayoutFarm.Drawing\0_Start\Conv.cs" />
+    <Compile Include="LayoutFarm.Drawing\0_Start\WinGdiPlatform.cs" />
+    <Compile Include="LayoutFarm.Drawing\Implementation\Bitmap_Brush_Pen.cs" />
+    <Compile Include="LayoutFarm.Drawing\Implementation\FontsUtils.cs" />
+    <Compile Include="LayoutFarm.Drawing\Implementation\MyFontInfo.cs" />
+    <Compile Include="LayoutFarm.Drawing\Implementation\MyGraphicPath.cs" />
+    <Compile Include="LayoutFarm.Drawing\Implementation\MyMatrix.cs" />
+    <Compile Include="LayoutFarm.Drawing\Implementation\MyWin32.cs" />
+    <Compile Include="LayoutFarm.Drawing\Implementation\NativeTextWin32.cs" />
+    <Compile Include="LayoutFarm.Drawing\Implementation\Region.cs" />
+    <Compile Include="LayoutFarm.Drawing\Implementation\Win32Utils.cs" />
+    <Compile Include="LayoutFarm.Drawing\MyCanvas\1_MyCanvas_Inits.cs" />
+    <Compile Include="LayoutFarm.Drawing\MyCanvas\MyCanvas_CanvasProps.cs" />
+    <Compile Include="LayoutFarm.Drawing\MyCanvas\MyCanvas_CoordinateAndClip.cs" />
+    <Compile Include="LayoutFarm.Drawing\MyCanvas\MyCanvas_DrawGraphics.cs" />
+    <Compile Include="LayoutFarm.Drawing\MyCanvas\MyCanvas_IFont_SpecificImpl.cs" />
+    <Compile Include="LayoutFarm.Drawing\MyCanvas\MyCanvas_IGraphics_SpecificImpl.cs" />
+    <Compile Include="LayoutFarm.Drawing\MyCanvas\MyCanvas_InvalidateArea.cs" />
+    <Compile Include="LayoutFarm.Drawing\MyCanvas\MyCanvas_Static.cs" />
+    <Compile Include="LayoutFarm.Drawing\MyCanvas\MyCanvas_TextFuncs.cs" />
+    <Compile Include="LayoutFarm.Drawing\MyCanvas\0_CanvasCollection.cs" />
+    <Compile Include="LayoutFarm.UI\CanvasEventStock.cs" />
+    <Compile Include="LayoutFarm.UI.WinForms\MyUITimer.cs" />
+    <Compile Include="LayoutFarm.UI.WinForms\UIPlatformWinForms.cs" />
+    <Compile Include="LayoutFarm.UI.WinForms\UISurfaceViewportControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Windows\UISurfaceViewportControl.Designer.cs">
+    <Compile Include="LayoutFarm.UI.WinForms\UISurfaceViewportControl.Designer.cs">
       <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Windows\CanvasViewport.cs" />
-    <Compile Include="Windows\dbugHelper.cs" />
-    <Compile Include="Windows\FormCanvasHelper.cs" />
-    <Compile Include="Windows\IdbugOutputWindow.cs" />
-    <Compile Include="Windows\QuadPages.cs" />
-    <Compile Include="Graphics\0_Start\WinGdiPlatform.cs" />
-    <Compile Include="Windows\WinViewportBridge.cs" />
-    <Compile Include="Windows\WinViewportBridge_dbug.cs" />
+    <Compile Include="LayoutFarm.UI\CanvasViewport.cs" />
+    <Compile Include="LayoutFarm.Drawing\MyCanvas\QuadPages.cs" />
+    <Compile Include="LayoutFarm.Drawing\0_Start\WinGdiPortal.cs" />
+    <Compile Include="LayoutFarm.UI\MyCanvasWindowBridge.cs" />
+    <Compile Include="LayoutFarm.UI\MyCanvasWindowBridge_dbug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

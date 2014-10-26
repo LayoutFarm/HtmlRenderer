@@ -12,7 +12,7 @@ namespace HtmlRenderer.Boxes
         //start line
 
         CssLineBox startHitHostLine;
-        int startHitRunCharIndex;
+        
         //--------------------- 
         //on end line  
         int endHitRunCharIndex;
@@ -226,7 +226,7 @@ namespace HtmlRenderer.Boxes
                              out sel_index,
                              out sel_offset);
 
-                        this.startHitRunCharIndex = sel_index;
+                       
                         //modify hitpoint
                         CssLineBox hostLine = (CssLineBox)startChain.GetHitInfo(startChain.Count - 2).hitObject;
                         hostLine.LineSelectionStart = (int)(run.Left + sel_offset);

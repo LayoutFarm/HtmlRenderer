@@ -15,7 +15,7 @@ namespace LayoutFarm.Text
 
         protected char[] mybuffer;
         TextSpanSytle spanStyle;
-        bool isLineBreak;
+
 
         public TextSpan(RootGraphic gfx, string s)
             : base(gfx, 10, 10)
@@ -65,11 +65,11 @@ namespace LayoutFarm.Text
             }
         }
 
-        public void SetStyle(TextSpanSytle beh)
+        public void SetStyle(TextSpanSytle spanStyle)
         {
 
 
-            if (beh == null)
+            if (spanStyle == null)
             {
                 return;
             }
@@ -77,14 +77,14 @@ namespace LayoutFarm.Text
 
 
             this.InvalidateGraphic();
-            this.spanStyle = beh;
-            if (beh.positionWidth > -1)
+            this.spanStyle = spanStyle;
+            if (spanStyle.positionWidth > -1)
             {
-                this.SetWidth(beh.positionWidth);
+                this.SetWidth(spanStyle.positionWidth);
             }
-            if (beh.positionHeight > -1)
+            if (spanStyle.positionHeight > -1)
             {
-                this.SetHeight(beh.positionHeight);
+                this.SetHeight(spanStyle.positionHeight);
             }
 
             this.InvalidateGraphic();
@@ -152,13 +152,13 @@ namespace LayoutFarm.Text
 #endif
 
 
-        internal static void DrawArtVisualTextRun(TextSpan visualTextRun, Canvas canvasPage, Rect updateArea)
+        internal static void DrawTextRun(TextSpan textspan, Canvas canvasPage, Rect updateArea)
         {
-            visualTextRun.DrawCharacters(canvasPage, updateArea, visualTextRun.mybuffer);
+            textspan.DrawCharacters(canvasPage, updateArea, textspan.mybuffer);
         }
         public override void CustomDrawToThisPage(Canvas canvasPage, Rect updateArea)
         {
-            DrawArtVisualTextRun(this, canvasPage, updateArea);
+            DrawTextRun(this, canvasPage, updateArea);
         }
 
         protected bool HasStyle
@@ -168,7 +168,7 @@ namespace LayoutFarm.Text
                 return this.SpanStyle != null;
             }
         }
-        void DrawCharacters(Canvas canvasPage, Rect updateArea, char[] textArray)
+        void DrawCharacters(Canvas canvas, Rect updateArea, char[] textArray)
         {
 
             int bWidth = this.Width;
@@ -176,45 +176,45 @@ namespace LayoutFarm.Text
 
             if (!this.HasStyle)
             {
-                canvasPage.DrawText(textArray, new Rectangle(0, 0, bWidth, bHeight), 0);
+                canvas.DrawText(textArray, new Rectangle(0, 0, bWidth, bHeight), 0);
             }
             else
             {
                 TextSpanSytle beh = this.SpanStyle;
-                switch (canvasPage.EvaluateFontAndTextColor(beh.FontInfo, beh.FontColor))
+                switch (canvas.EvaluateFontAndTextColor(beh.FontInfo, beh.FontColor))
                 {
                     case Canvas.DIFF_FONT_SAME_TEXT_COLOR:
                         {
 
-                            canvasPage.PushFont(beh.FontInfo);
-                            canvasPage.DrawText(textArray,
+                            canvas.PushFont(beh.FontInfo);
+                            canvas.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),
                                beh.ContentHAlign);
-                            canvasPage.PopFont();
+                            canvas.PopFont();
 
                         } break;
                     case Canvas.DIFF_FONT_DIFF_TEXT_COLOR:
                         {
 
-                            canvasPage.PushFontInfoAndTextColor(beh.FontInfo, beh.FontColor);
-                            canvasPage.DrawText(textArray,
+                            canvas.PushFontInfoAndTextColor(beh.FontInfo, beh.FontColor);
+                            canvas.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),
                                beh.ContentHAlign);
-                            canvasPage.PopFontInfoAndTextColor();
+                            canvas.PopFontInfoAndTextColor();
 
                         } break;
                     case Canvas.SAME_FONT_DIFF_TEXT_COLOR:
                         {
-                            canvasPage.PushTextColor(beh.FontColor);
-                            canvasPage.DrawText(textArray,
+                            canvas.PushTextColor(beh.FontColor);
+                            canvas.DrawText(textArray,
                             new Rectangle(0, 0, bWidth, bHeight),
                             beh.ContentHAlign);
-                            canvasPage.PopTextColor();
+                            canvas.PopTextColor();
 
                         } break;
                     default:
                         {
-                            canvasPage.DrawText(textArray,
+                            canvas.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),
                                beh.ContentHAlign);
                         } break;
@@ -225,10 +225,10 @@ namespace LayoutFarm.Text
 
         Size CalculateDrawingStringSize(char[] buffer)
         {
-            FontInfo FontInfo = GetFontInfo();
+            FontInfo fontInfo = GetFontInfo();
             return new Size(
-                FontInfo.GetStringWidth(buffer),
-                FontInfo.FontHeight
+                fontInfo.GetStringWidth(buffer),
+                fontInfo.FontHeight
                 );
         }
 
@@ -241,10 +241,10 @@ namespace LayoutFarm.Text
             }
             else
             {
-                TextSpanSytle beh = (TextSpanSytle)SpanStyle;
-                if (beh != null && beh.FontInfo != null)
+                TextSpanSytle spanStyle = this.SpanStyle;
+                if (spanStyle != null && spanStyle.FontInfo != null)
                 {
-                    return beh.FontInfo;
+                    return spanStyle.FontInfo;
                 }
                 else
                 {
@@ -278,18 +278,12 @@ namespace LayoutFarm.Text
         }
         public bool IsLineBreak
         {
-            get
-            {
-                return isLineBreak;
-            }
-            set
-            {
-                this.isLineBreak = value;
-            }
+            get;
+            set;
         }
 
 
         //------------------------------------------------
-        static char[] emptyline = new char[] { 'I' };
+        static readonly char[] emptyline = new char[] { 'I' };
     }
 }

@@ -11,7 +11,7 @@ namespace LayoutFarm
     [DemoNote("2.2 MultiLineTextBox")]
     class Demo_MultiLineTextBox : DemoBase
     {
-        protected override void OnStartDemo(UISurfaceViewportControl viewport)
+        protected override void OnStartDemo(SampleViewport viewport)
         {
             {
                 var textbox = new LayoutFarm.SampleControls.UITextBox(400, 500, true);

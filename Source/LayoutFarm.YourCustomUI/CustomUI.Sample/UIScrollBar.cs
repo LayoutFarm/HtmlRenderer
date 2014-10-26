@@ -383,7 +383,7 @@ namespace LayoutFarm.SampleControls
         //------------------------------------------------------
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
-        public event EventHandler<UIDragEventArgs> Dragging;
+        public event EventHandler<UIMouseEventArgs> Dragging;
 
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
@@ -401,7 +401,7 @@ namespace LayoutFarm.SampleControls
             }
             e.CancelBubbling = true;
         }
-        protected override void OnDragging(UIDragEventArgs e)
+        protected override void OnDragging(UIMouseEventArgs e)
         {
             if (Dragging != null)
             {

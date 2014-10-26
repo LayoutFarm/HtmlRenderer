@@ -10,24 +10,21 @@ namespace LayoutFarm
     public struct HitPoint
     {
         public readonly Point point;
-        public readonly object hitObject;
-
+        public readonly RenderElement hitElement;
         public static readonly HitPoint Empty = new HitPoint();
-
-
-        public HitPoint(object hitObject, Point point)
+        public HitPoint(RenderElement hitObject, Point point)
         {
             this.point = point;
-            this.hitObject = hitObject; 
+            this.hitElement = hitObject; 
         }
 
         public static bool operator ==(HitPoint pair1, HitPoint pair2)
         {
-            return ((pair1.hitObject == pair2.hitObject) && (pair1.point == pair2.point));
+            return ((pair1.hitElement == pair2.hitElement) && (pair1.point == pair2.point));
         }
         public static bool operator !=(HitPoint pair1, HitPoint pair2)
         {
-            return ((pair1.hitObject == pair2.hitObject) && (pair1.point == pair2.point));
+            return ((pair1.hitElement == pair2.hitElement) && (pair1.point == pair2.point));
         }
 
         public override int GetHashCode()
@@ -42,7 +39,7 @@ namespace LayoutFarm
 #if DEBUG
         public override string ToString()
         {
-            return hitObject.ToString();
+            return hitElement.ToString();
         }
 #endif
     }
@@ -121,11 +118,11 @@ namespace LayoutFarm
         public abstract HitPoint GetHitPoint(int index);
 
         public abstract Point PrevHitPoint { get; }
-        public abstract object CurrentHitElement { get; }
+        public abstract RenderElement CurrentHitElement { get; }
         public abstract Point CurrentHitPoint { get; }
 
        
-        public abstract void AddHitObject(object hitObject);
+        public abstract void AddHitObject(RenderElement hitObject);
         public abstract void RemoveCurrentHit();
 
         public int LastestElementGlobalX

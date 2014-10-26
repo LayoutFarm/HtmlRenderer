@@ -3,20 +3,32 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing; 
- 
+using LayoutFarm.Drawing;
+
 using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
 
+    public class SampleViewport
+    {
+        LayoutFarm.UI.WinForms.UISurfaceViewportControl vw;
+        public SampleViewport(LayoutFarm.UI.WinForms.UISurfaceViewportControl vw)
+        {
+            this.vw = vw;
+        }
+        public void AddContent(UIElement ui)
+        {
+            this.vw.AddContent(ui);
+        }
+    }
     public abstract class DemoBase
     {
-        public void StartDemo(UISurfaceViewportControl viewport)
+        public void StartDemo(SampleViewport viewport)
         {
             OnStartDemo(viewport);
         }
-        protected virtual void OnStartDemo(UISurfaceViewportControl viewport)
+        protected virtual void OnStartDemo(SampleViewport viewport)
         {
         }
         public virtual string Desciption

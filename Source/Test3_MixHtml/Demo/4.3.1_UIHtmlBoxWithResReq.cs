@@ -15,7 +15,7 @@ namespace LayoutFarm
 
 
         string imgFolderPath = null;
-        protected override void OnStartDemo(UISurfaceViewportControl viewport)
+        protected override void OnStartDemo(SampleViewport viewport)
         {
             var appPath = System.Windows.Forms.Application.ExecutablePath;
             int pos = appPath.IndexOf("\\bin\\");

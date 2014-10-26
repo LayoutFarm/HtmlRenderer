@@ -9,7 +9,7 @@ namespace LayoutFarm.UI
 {
     public delegate void UIMouseEventHandler(object sender, UIMouseEventArgs e);
     public delegate void UIKeyEventHandler(object sender, UIKeyEventArgs e);
-    public delegate void UIKeyPressEventHandler(object sender, UIKeyPressEventArgs e);
+    public delegate void UIKeyPressEventHandler(object sender, UIKeyEventArgs e);
 
     public enum UIMouseEventType
     {
@@ -47,7 +47,7 @@ namespace LayoutFarm.UI
             get;
             set;
         }
-        public object CurentContextElement
+        public object CurrentContextElement
         {
             get;
             set;
@@ -66,7 +66,7 @@ namespace LayoutFarm.UI
             get { return this.Control; }
 
         }
-
+      
         public bool Shift
         {
             get;
@@ -154,10 +154,18 @@ namespace LayoutFarm.UI
         public int XDiff;
         public int YDiff;
         public UIMouseEventType EventType;
-        public TopWindowRenderBoxBase WinTop;
+        public TopWindowRenderBox WinTop;
+
+        int lastestLogicalViewportMouseDownX;
+        int lastestLogicalViewportMouseDownY;
+        int currentLogicalX;
+        int currentLogicalY;
+        int lastestXDiff;
+        int lastestYDiff;
 
         public UIMouseEventArgs()
         {
+
         }
         public void SetDiff(int xdiff, int ydiff)
         {
@@ -167,7 +175,13 @@ namespace LayoutFarm.UI
         public void SetEventInfo(Point location, UIMouseButtons button, int clicks, int delta)
         {
             Location = location;
-
+            Button = button;
+            Clicks = clicks;
+            Delta = delta;
+        }
+        public void SetEventInfo(int x, int y, UIMouseButtons button, int clicks, int delta)
+        {
+            Location = new Point(x, y);
             Button = button;
             Clicks = clicks;
             Delta = delta;
@@ -180,10 +194,52 @@ namespace LayoutFarm.UI
             YDiff = 0;
             base.Clear();
         }
+
+        public void SetEventInfo(Point loca, UIMouseButtons button, int lastestLogicalViewportMouseDownX,
+           int lastestLogicalViewportMouseDownY,
+           int currentLogicalX,
+           int currentLogicalY,
+           int lastestXDiff,
+           int lastestYDiff)
+        {
+
+            Button = button;
+            this.Location = loca;
+
+            this.currentLogicalX = currentLogicalX;
+            this.currentLogicalY = currentLogicalY;
+            this.lastestLogicalViewportMouseDownY = lastestLogicalViewportMouseDownY;
+            this.lastestLogicalViewportMouseDownX = lastestLogicalViewportMouseDownX;
+            this.lastestXDiff = lastestXDiff;
+            this.lastestYDiff = lastestYDiff;
+        }
+
+        public bool IsDragging { get; set; }
+        public bool JustEnter { get; set; }
+        
+
+        public int XDiffFromMouseDownPos
+        {
+            get
+            {
+                return this.currentLogicalX - this.lastestLogicalViewportMouseDownX;
+            }
+        }
+        public int YDiffFromMouseDownPos
+        {
+            get
+            {
+                return this.currentLogicalY - this.lastestLogicalViewportMouseDownY;
+            }
+        } 
+        
     }
+    
+    
     public class UIKeyEventArgs : UIEventArgs
     {
         int keyData;
+        char c;
         public UIKeyEventArgs()
         {
         }
@@ -213,17 +269,7 @@ namespace LayoutFarm.UI
             this.keyData = keydata;
             this.Shift = shift;
             this.Alt = alt;
-            this.Control = control;   
-        }
-
-    }
-    public class UIKeyPressEventArgs : UIEventArgs
-    {
-
-        char c;
-        public UIKeyPressEventArgs()
-        {
-
+            this.Control = control;
         }
         public void SetKeyChar(char c)
         {
@@ -236,7 +282,6 @@ namespace LayoutFarm.UI
                 return c;
             }
         }
-
         public bool IsControlKey
         {
             get
@@ -244,8 +289,6 @@ namespace LayoutFarm.UI
                 return Char.IsControl(c);
             }
         }
-
-
     }
 
     public enum AffectedElementSideFlags
@@ -399,5 +442,9 @@ namespace LayoutFarm.UI
         }
 
     }
+
+    
+  
+
 
 }

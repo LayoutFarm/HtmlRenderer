@@ -22,7 +22,54 @@ namespace LayoutFarm.SvgDom
         {
             get;
             set;
-        } 
+        }
+        
+        
+        ////---------------------------------------------------------------------------
+        //object LayoutFarm.IHitElement.GetController()
+        //{
+        //    return UnsafeGetController(this);
+        //}
+        //bool IHitElement.IsTestable()
+        //{
+        //    return true;
+        //}
+        //bool IHitElement.Contains(LayoutFarm.Drawing.Point p)
+        //{
+        //    return false;
+        //}
+        //IHitElement IHitElement.FindOverlapSibling(LayoutFarm.Drawing.Point p)
+        //{
+        //    return null;
+        //}
+        //bool IHitElement.HitTestCore(HitPointChain chain)
+        //{
+        //    return false;
+        //} 
+        //Point IHitElement.ElementLocation
+        //{
+        //    get { return new Point(0, 0); }
+        //}
+        //Point IHitElement.GetElementGlobalLocation()
+        //{
+        //    return new Point(0, 0);
+        //}
+        //Rectangle IHitElement.ElementBoundRect
+        //{
+        //    get { return new Rectangle(0, 0, 0, 0); }
+        //}
+        //bool IHitElement.Focusable
+        //{
+        //    get { return false; }
+        //}
+        //bool IHitElement.HasParent
+        //{
+        //    get { return true; }
+        //}
+        //bool IHitElement.ContainsSubChain
+        //{
+        //    get { return false; }
+        //} 
     }
 
     public class SvgRect : SvgVisualElement

@@ -11,14 +11,14 @@ namespace LayoutFarm
     [DemoNote("4.4 CssLeanBox")]
     class Demo_CssLeanBox : DemoBase
     {
-        protected override void OnStartDemo(UISurfaceViewportControl viewport)
+        protected override void OnStartDemo(SampleViewport viewport)
         {
 
             ////==================================================
             //html box
             UIHtmlBox htmlBox = new UIHtmlBox(800, 400);
-
-
+            
+            
             StringBuilder stbuilder = new StringBuilder();
             stbuilder.Append("<html><head></head><body>");
             stbuilder.Append("<div>custom box1</div>");
@@ -26,7 +26,6 @@ namespace LayoutFarm
             stbuilder.Append("<div>custom box2</div>");
             stbuilder.Append("<x type=\"textbox\" id=\"my_custombox1\"></x>");
             stbuilder.Append("</body></html>");
-            
 
             htmlBox.LoadHtmlText(stbuilder.ToString());
             viewport.AddContent(htmlBox);

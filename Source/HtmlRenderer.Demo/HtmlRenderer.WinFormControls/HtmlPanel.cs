@@ -83,7 +83,7 @@ namespace HtmlRenderer.Demo
         TextContentManager textContentMan = new TextContentManager();
 
         LayoutFarm.Drawing.Canvas renderCanvas;
-        LayoutFarm.Drawing.GraphicPlatform platform;
+        LayoutFarm.Drawing.GraphicPlatform gfxPlatform;
         /// <summary>
         /// Creates a new HtmlPanel and sets a basic css for it's styling.
         /// </summary>
@@ -94,14 +94,11 @@ namespace HtmlRenderer.Demo
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
-            this.platform = LayoutFarm.Drawing.CurrentGraphicPlatform.P;
-            this.renderCanvas = platform.CreateCanvas(0, 0, 0, 0, 800, 600);
 
-
-            timer01.Interval = 20;//20ms?
-
+            this.gfxPlatform = LayoutFarm.Drawing.CurrentGraphicPlatform.P;
+            this.renderCanvas = gfxPlatform.CreateCanvas(0, 0, 0, 0, 800, 600);
+            
             //-------------------------------------------------------
-
             myHtmlIsland = new MyHtmlIsland();
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.Refresh += OnRefresh;
@@ -110,8 +107,9 @@ namespace HtmlRenderer.Demo
             //myHtmlIsland.ScrollChange += OnScrollChange;
             this.imageContentMan.ImageLoadingRequest += OnImageLoad;
             this.textContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
+            //-------------------------------------------------------
 
-
+            timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
             {
                 if (myHtmlIsland != null)
@@ -119,19 +117,19 @@ namespace HtmlRenderer.Demo
                     myHtmlIsland.InternalRefreshRequest();
                 }
             };
+
             timer01.Enabled = true;
             //-------------------------------------------
             _htmlEventBridge = new HtmlInputEventBridge();
-            _htmlEventBridge.Bind(myHtmlIsland, platform.SampleIGraphics);
+            _htmlEventBridge.Bind(myHtmlIsland, gfxPlatform.SampleIFonts);
             //------------------------------------------- 
         }
+         
         void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
         {
-
             this.imageContentMan.AddRequestImage(
                 new ImageContentRequest(e.binder, null, this.myHtmlIsland));
         }
-
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
         {
             //need updater dom
@@ -142,8 +140,8 @@ namespace HtmlRenderer.Demo
                 this.textContentMan.AddStyleSheetRequest(req);
                 e2.SetStyleSheet = req.SetStyleSheet;
             };
-            var rootBox2 = builder.RefreshCssTree(this.currentDoc, platform.SampleIGraphics, this.myHtmlIsland);
-            this.myHtmlIsland.PerformLayout(platform.SampleIGraphics);
+            var rootBox2 = builder.RefreshCssTree(this.currentDoc, gfxPlatform.SampleIFonts, this.myHtmlIsland);
+            this.myHtmlIsland.PerformLayout(gfxPlatform.SampleIGraphics);
         }
 
         //void RefreshHtmlDomChange()
@@ -309,7 +307,7 @@ namespace HtmlRenderer.Demo
 
             //build rootbox from htmldoc
             var rootBox = builder.BuildCssRenderTree(htmldoc,
-               platform.SampleIGraphics,
+               gfxPlatform.SampleIGraphics,
                 htmlIsland, cssData,
                 null);
 
@@ -342,7 +340,7 @@ namespace HtmlRenderer.Demo
 
 
             var rootBox = builder.BuildCssRenderTree(this.currentDoc,
-                platform.SampleIGraphics,
+                gfxPlatform.SampleIGraphics,
                 htmlIsland, cssData,
                 null);
 
@@ -424,7 +422,7 @@ namespace HtmlRenderer.Demo
                 //{
                 //    myHtmlIsland.PerformLayout(g);
                 //}
-                myHtmlIsland.PerformLayout(platform.SampleIGraphics);
+                myHtmlIsland.PerformLayout(gfxPlatform.SampleIGraphics);
                 var asize = myHtmlIsland.ActualSize;
                 AutoScrollMinSize = Size.Round(new SizeF(asize.Width, asize.Height));
             }
@@ -491,9 +489,9 @@ namespace HtmlRenderer.Demo
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            _htmlEventBridge.MouseMove(e.X, e.Y, (int)e.Button);
-            PaintMe(null);
 
+            _htmlEventBridge.MouseMove(CreateMouseEventArg(e));
+            PaintMe(null);
         }
 
         /// <summary>
@@ -502,7 +500,8 @@ namespace HtmlRenderer.Demo
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            _htmlEventBridge.MouseLeave();
+            var mouseE = new LayoutFarm.UI.UIMouseEventArgs();
+            _htmlEventBridge.MouseLeave(mouseE);
 
             //if (_htmlContainer != null)
             //    _htmlContainer.HandleMouseLeave(this);
@@ -514,7 +513,8 @@ namespace HtmlRenderer.Demo
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            this._htmlEventBridge.MouseDown(e.X, e.Y, (int)e.Button);
+
+            this._htmlEventBridge.MouseDown(CreateMouseEventArg(e));
             PaintMe(null);
             //this.Invalidate();
         }
@@ -525,19 +525,43 @@ namespace HtmlRenderer.Demo
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseClick(e);
-            this._htmlEventBridge.MouseUp(e.X, e.Y, (int)e.Button);
+
+            this._htmlEventBridge.MouseUp(CreateMouseEventArg(e));
             PaintMe(null);
             // this.Invalidate();
         }
+        LayoutFarm.UI.UIMouseEventArgs CreateMouseEventArg(MouseEventArgs e)
+        {
+            var mouseE = new LayoutFarm.UI.UIMouseEventArgs();
+            mouseE.SetEventInfo(
+                e.X, e.Y,
+                GetUIMouseButton(e.Button),
+                e.Clicks,
+                e.Delta);
+            return mouseE;
+        }
 
+        static LayoutFarm.UI.UIMouseButtons GetUIMouseButton(MouseButtons mouseButton)
+        {
+            switch (mouseButton)
+            {
+                case MouseButtons.Right:
+                    return LayoutFarm.UI.UIMouseButtons.Right;
+                case MouseButtons.Middle:
+                    return LayoutFarm.UI.UIMouseButtons.Middle;
+                case MouseButtons.None:
+                    return LayoutFarm.UI.UIMouseButtons.None;
+                default:
+                    return LayoutFarm.UI.UIMouseButtons.Left;
+            }
+        }
         /// <summary>
         /// Handle mouse double click to select word under the mouse. 
         /// </summary>
         protected override void OnMouseDoubleClick(MouseEventArgs e)
         {
             base.OnMouseDoubleClick(e);
-
-            this._htmlEventBridge.MouseDoubleClick(e.X, e.Y, (int)e.Button);
+            this._htmlEventBridge.MouseDoubleClick(CreateMouseEventArg(e));
 
             //if (_htmlContainer != null)
             //    _htmlContainer.HandleMouseDoubleClick(this, e);

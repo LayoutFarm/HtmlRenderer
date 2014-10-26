@@ -18,7 +18,7 @@ namespace LayoutFarm.Dev
 #if DEBUG
         EventHandler rootDrawMsgEventHandler;
         EventHandler rootHitMsgEventHandler;
-        UISurfaceViewportControl vwport;
+        LayoutFarm.UI.WinForms.UISurfaceViewportControl vwport;
         bool pauseRecord;
 #endif
         public FormLayoutInspector()
@@ -160,7 +160,7 @@ namespace LayoutFarm.Dev
             }
         }
 #endif
-        public void Connect(UISurfaceViewportControl vwport)
+        public void Connect(LayoutFarm.UI.WinForms.UISurfaceViewportControl vwport)
         {
 #if DEBUG
             this.vwport = vwport;

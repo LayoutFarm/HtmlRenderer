@@ -12,10 +12,13 @@ namespace LayoutFarm.Dev
 {
     public partial class FormDemoList : Form
     {
+
+        UIPlatform uiPlatformWinForm;
         public FormDemoList()
         {
             InitializeComponent();
             this.Load += new EventHandler(Form1_Load);
+            uiPlatformWinForm = new LayoutFarm.UI.WinForms.UIPlatformWinForm(LayoutFarm.Drawing.CurrentGraphicPlatform.P);
         }
 
         void Form1_Load(object sender, EventArgs e)
@@ -34,21 +37,21 @@ namespace LayoutFarm.Dev
 
             DemoBase selectedDemo = (DemoBase)Activator.CreateInstance(selectedDemoInfo.DemoType);
 
-            UISurfaceViewportControl viewport;
+            LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport;
 
             Form formCanvas;
             CreateReadyForm(
                 out viewport,
                 out formCanvas);
 
-            selectedDemo.StartDemo(viewport);
+            selectedDemo.StartDemo(new SampleViewport(viewport));
             viewport.TopDownRecalculateContent();
             //==================================================  
             viewport.PaintMe();
             //ShowFormLayoutInspector(viewport); 
         }
 
-        static void ShowFormLayoutInspector(UISurfaceViewportControl viewport)
+        static void ShowFormLayoutInspector(LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport)
         {
 
             var formLayoutInspector = new LayoutFarm.Dev.FormLayoutInspector();
@@ -63,20 +66,19 @@ namespace LayoutFarm.Dev
 
         }
 
-        static void CreateReadyForm(
-          out UISurfaceViewportControl viewport,
-          out Form formCanvas)
+        void CreateReadyForm(
+        out LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport,
+        out Form formCanvas)
         {
 
-            //new FontInfo(
-            //    LayoutFarm.Drawing.CurrentGraphicPlatform.CreateFont(
-            //     new System.Drawing.Font("tahoma", 10)),
-            //     new BasicGdi32FontHelper());
-            WinTimer wintimer= new MyWinTimer();
-            MyRootGraphic rootgfx = new MyRootGraphic(
-                CurrentGraphicPlatform.P,
-                wintimer, 800, 600);
-            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,new MyUserInputEventBridge(), out viewport);
+            int w = 800;
+            int h = 600;
+
+            MyRootGraphic rootgfx = new MyRootGraphic(uiPlatformWinForm, w, h);
+            TopWindowRenderBox topRenderBox = rootgfx.CreateTopWindowRenderBox(w, h);
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(topRenderBox,
+                rootgfx.CreateUserEventPortal(topRenderBox), out viewport);
+
             formCanvas.Text = "FormCanvas 1";
 
             viewport.PaintMe();
@@ -84,7 +86,7 @@ namespace LayoutFarm.Dev
             formCanvas.WindowState = FormWindowState.Maximized;
             formCanvas.Show();
         }
-        void ShowFormlayoutInspectIfNeed(UISurfaceViewportControl viewport)
+        void ShowFormlayoutInspectIfNeed(LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport)
         {
             if (this.chkShowLayoutInspector.Checked)
             {
