@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
-
+ 
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.UI
 {
 
 #if DEBUG
-    partial class MyTopWindowBridge : IdbugOutputWindow
+    partial class MyCanvasWindowBridge : IdbugOutputWindow
     {
 
         public event EventHandler dbug_VisualRootDrawMsg;

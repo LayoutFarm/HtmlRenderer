@@ -76,8 +76,8 @@
     <Compile Include="LayoutFarm.UI\CanvasViewport.cs" />
     <Compile Include="LayoutFarm.UI\QuadPages.cs" />
     <Compile Include="LayoutFarm.Drawing\0_Start\WinGdiPortal.cs" />
-    <Compile Include="LayoutFarm.UI\MyTopWindowBridge.cs" />
-    <Compile Include="LayoutFarm.UI\MyTopWindowBridge_dbug.cs" />
+    <Compile Include="LayoutFarm.UI\MyCanvasWindowBridge.cs" />
+    <Compile Include="LayoutFarm.UI\MyCanvasWindowBridge_dbug.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

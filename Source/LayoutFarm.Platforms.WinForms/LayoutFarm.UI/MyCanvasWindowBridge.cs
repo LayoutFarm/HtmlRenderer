@@ -6,18 +6,17 @@ using System.Text;
 using System.Windows.Forms;
 
 using LayoutFarm.Drawing;
-using LayoutFarm.UI;
-namespace LayoutFarm.Drawing
+ 
+namespace LayoutFarm.UI
 {
-    partial class MyTopWindowBridge
+    partial class MyCanvasWindowBridge
     {
         CanvasEventsStock eventStock = new CanvasEventsStock();
         CanvasViewport canvasViewport;
-        IUserEventPortal winEventBridge;
+        IUserEventPortal userEventPortal;
         TopWindowRenderBox topwin;
         Control windowControl;
-        bool isMouseDown;
-        bool isDragging;
+
 
         public event EventHandler<ScrollSurfaceRequestEventArgs> VScrollRequest;
         public event EventHandler<ScrollSurfaceRequestEventArgs> HScrollRequest;
@@ -26,10 +25,10 @@ namespace LayoutFarm.Drawing
 
         RootGraphic rootGraphic;
 
-        public MyTopWindowBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
+        public MyCanvasWindowBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
         {
 
-            this.winEventBridge = winEventBridge;
+            this.userEventPortal = winEventBridge;
             this.topwin = topwin;
             this.rootGraphic = topwin.Root;
 
@@ -52,9 +51,9 @@ namespace LayoutFarm.Drawing
         }
         void PaintToOutputWindow()
         {
-            IntPtr hdc = GetDC(this.windowControl.Handle);
+            IntPtr hdc = DrawingBridge.Win32Utils.GetDC(this.windowControl.Handle);
             canvasViewport.PaintMe(hdc);
-            ReleaseDC(this.windowControl.Handle, hdc);
+            DrawingBridge.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
         }
 
         void PaintToOutputWindowIfNeed()
@@ -62,9 +61,9 @@ namespace LayoutFarm.Drawing
 
             if (!this.canvasViewport.IsQuadPageValid)
             {
-                IntPtr hdc = GetDC(this.windowControl.Handle);
+                IntPtr hdc = DrawingBridge.Win32Utils.GetDC(this.windowControl.Handle);
                 canvasViewport.PaintMe(hdc);
-                ReleaseDC(this.windowControl.Handle, hdc);
+                DrawingBridge.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
             }
 
         }
@@ -102,9 +101,6 @@ namespace LayoutFarm.Drawing
                 GetUIMouseButton(e.Button),
                 e.Clicks,
                 e.Delta);
-
-
-
             mouseEventArg.OffsetCanvasOrigin(this.canvasViewport.LogicalViewportLocation);
         }
 
@@ -209,7 +205,7 @@ namespace LayoutFarm.Drawing
 
             focusEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
 
-            this.winEventBridge.PortalGotFocus(focusEventArg);
+            this.userEventPortal.PortalGotFocus(focusEventArg);
             PaintToOutputWindowIfNeed();
 
             eventStock.ReleaseEventArgs(focusEventArg);
@@ -220,7 +216,7 @@ namespace LayoutFarm.Drawing
             canvasViewport.FullMode = false;
             focusEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
 
-            this.winEventBridge.PortalLostFocus(focusEventArg);
+            this.userEventPortal.PortalLostFocus(focusEventArg);
             eventStock.ReleaseEventArgs(focusEventArg);
         }
         public void OnDoubleClick(EventArgs e)
@@ -234,7 +230,7 @@ namespace LayoutFarm.Drawing
             //SetUIMouseEventArgsInfo(mouseEventArg, newMouseEventArgs);
             canvasViewport.FullMode = false;
 
-            this.winEventBridge.PortalDoubleClick(mouseEventArg);
+            this.userEventPortal.PortalDoubleClick(mouseEventArg);
             PaintToOutputWindowIfNeed();
             eventStock.ReleaseEventArgs(mouseEventArg);
         }
@@ -243,7 +239,7 @@ namespace LayoutFarm.Drawing
         public void OnMouseDown(MouseEventArgs e)
         {
 
-            this.isMouseDown = true;
+
             this.topwin.MakeCurrent();
 
             canvasViewport.FullMode = false;
@@ -251,7 +247,7 @@ namespace LayoutFarm.Drawing
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
             SetUIMouseEventArgsInfo(mouseEventArg, e);
 
-            this.winEventBridge.PortalMouseDown(mouseEventArg);
+            this.userEventPortal.PortalMouseDown(mouseEventArg);
 
             PaintToOutputWindowIfNeed();
             //---------------
@@ -273,10 +269,13 @@ namespace LayoutFarm.Drawing
             //interprete meaning ?
             Point viewLocation = canvasViewport.LogicalViewportLocation;
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
-            this.isDragging = mouseEventArg.IsDragging = this.isMouseDown;
+
+
 
             SetUIMouseEventArgsInfo(mouseEventArg, e);
-            this.winEventBridge.PortalMouseMove(mouseEventArg);
+
+            this.userEventPortal.PortalMouseMove(mouseEventArg);
+
             PaintToOutputWindowIfNeed();
             eventStock.ReleaseEventArgs(mouseEventArg);
 
@@ -285,15 +284,14 @@ namespace LayoutFarm.Drawing
         {
 
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
-            mouseEventArg.IsDragging = this.isDragging;
-            this.isDragging = this.isMouseDown = false;
-            SetUIMouseEventArgsInfo(mouseEventArg, e);
 
+            SetUIMouseEventArgsInfo(mouseEventArg, e);
             canvasViewport.FullMode = false;
-            this.winEventBridge.PortalMouseUp(mouseEventArg);
+            this.userEventPortal.PortalMouseUp(mouseEventArg);
+            eventStock.ReleaseEventArgs(mouseEventArg);
 
             PaintToOutputWindowIfNeed();
-            eventStock.ReleaseEventArgs(mouseEventArg);
+
 
             //isMouseDown = false;
 
@@ -356,11 +354,13 @@ namespace LayoutFarm.Drawing
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
             SetUIMouseEventArgsInfo(mouseEventArg, e);
             canvasViewport.FullMode = true;
+            this.userEventPortal.PortalMouseWheel(mouseEventArg);
+            eventStock.ReleaseEventArgs(mouseEventArg);
 
-            this.winEventBridge.PortalMouseWheel(mouseEventArg);
+
             PaintToOutputWindowIfNeed();
 
-            eventStock.ReleaseEventArgs(mouseEventArg);
+
         }
         public void OnKeyDown(KeyEventArgs e)
         {
@@ -381,9 +381,11 @@ namespace LayoutFarm.Drawing
 #endif
 
 
-            this.winEventBridge.PortalKeyDown(keyEventArgs);
-            PaintToOutputWindowIfNeed();
+            this.userEventPortal.PortalKeyDown(keyEventArgs);
             eventStock.ReleaseEventArgs(keyEventArgs);
+
+            PaintToOutputWindowIfNeed();
+
         }
         void StartCaretBlink()
         {
@@ -407,10 +409,12 @@ namespace LayoutFarm.Drawing
             keyEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
 
 
-            this.winEventBridge.PortalKeyUp(keyEventArgs);
+            this.userEventPortal.PortalKeyUp(keyEventArgs);
+            eventStock.ReleaseEventArgs(keyEventArgs);
+
 
             StartCaretBlink();
-            eventStock.ReleaseEventArgs(keyEventArgs);
+
         }
         static void SetKeyData(UIKeyEventArgs keyEventArgs, KeyEventArgs e)
         {
@@ -438,12 +442,11 @@ namespace LayoutFarm.Drawing
             canvasViewport.FullMode = false;
             keyPressEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
 
-            this.winEventBridge.PortalKeyPress(keyPressEventArgs);
-
-            PaintToOutputWindowIfNeed();
-
+            this.userEventPortal.PortalKeyPress(keyPressEventArgs);
 
             eventStock.ReleaseEventArgs(keyPressEventArgs);
+
+            PaintToOutputWindowIfNeed();
         }
 
         public bool ProcessDialogKey(Keys keyData)
@@ -456,7 +459,7 @@ namespace LayoutFarm.Drawing
             canvasViewport.FullMode = false;
             keyEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
 
-            bool result = this.winEventBridge.PortalProcessDialogKey(keyEventArg);
+            bool result = this.userEventPortal.PortalProcessDialogKey(keyEventArg);
 
             eventStock.ReleaseEventArgs(keyEventArg);
             if (result)
@@ -469,10 +472,7 @@ namespace LayoutFarm.Drawing
 
 
 
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        static extern IntPtr GetDC(IntPtr hWnd);
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hdc);
+
 
     }
 

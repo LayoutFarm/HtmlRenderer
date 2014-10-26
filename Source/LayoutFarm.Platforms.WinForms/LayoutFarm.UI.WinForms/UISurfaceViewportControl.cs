@@ -13,7 +13,7 @@ namespace LayoutFarm.UI.WinForms
     {
 
         TopWindowRenderBox wintop;
-        MyTopWindowBridge winViewportBridge;
+        MyCanvasWindowBridge winViewportBridge;
         public UISurfaceViewportControl()
         {
             InitializeComponent();
@@ -23,7 +23,7 @@ namespace LayoutFarm.UI.WinForms
         {
             //1.
             this.wintop = wintop;
-            this.winViewportBridge = new MyTopWindowBridge(wintop, userInputEvBridge);
+            this.winViewportBridge = new MyCanvasWindowBridge(wintop, userInputEvBridge);
             this.winViewportBridge.BindWindowControl(this);
         }
 #if DEBUG

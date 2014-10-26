@@ -62,6 +62,13 @@ namespace DrawingBridge
             return memoryHdc;
         }
 
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern IntPtr GetDC(IntPtr hWnd);
+        
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hdc);
+        
+        
         /// <summary>
         /// Release the given memory HDC and dib section created from <see cref="CreateMemoryHdc"/>.
         /// </summary>
@@ -174,5 +181,5 @@ namespace DrawingBridge
         public static extern IntPtr CreateDIBSection(IntPtr hdc, [In] ref  LayoutFarm.BitMapInfo pbmi, uint iUsage, out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
     }
 
-    
+
 }

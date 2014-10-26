@@ -15,7 +15,7 @@ namespace LayoutFarm.UI
 
         int msgChainVersion;
         TopWindowRenderBox topwin;
-        bool isDraging;
+
 
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
@@ -107,8 +107,6 @@ namespace LayoutFarm.UI
                 //}
             }
         }
-
-
         public void ClearAllFocus()
         {
             CurrentKeyboardFocusedElement = null;
@@ -127,7 +125,7 @@ namespace LayoutFarm.UI
 
 
         //--------------------------------------------------
-        public void OnDoubleClick(UIMouseEventArgs e)
+        protected void OnDoubleClick(UIMouseEventArgs e)
         {
 
             HitTestCoreWithPrevChainHint(e.X, e.Y);
@@ -139,7 +137,7 @@ namespace LayoutFarm.UI
 
             hitPointChain.SwapHitChain();
         }
-        public void OnMouseWheel(UIMouseEventArgs e)
+        protected void OnMouseWheel(UIMouseEventArgs e)
         {
             //only on mouse active element
             if (currentMouseActiveElement != null)
@@ -149,7 +147,7 @@ namespace LayoutFarm.UI
         }
 
 
-        public void OnMouseDown(UIMouseEventArgs e)
+        protected void OnMouseDown(UIMouseEventArgs e)
         {
 
 #if DEBUG
@@ -262,7 +260,7 @@ namespace LayoutFarm.UI
 #endif
         }
 
-        public void OnMouseMove(UIMouseEventArgs e)
+        protected void OnMouseMove(UIMouseEventArgs e)
         {
 
             HitTestCoreWithPrevChainHint(e.X, e.Y);
@@ -273,7 +271,7 @@ namespace LayoutFarm.UI
             //-------------------------------------------------------
             DisableGraphicOutputFlush = true;
 
-            this.isDraging = e.IsDragging;
+            this.isDragging = e.IsDragging;
 
 
             ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
@@ -313,16 +311,16 @@ namespace LayoutFarm.UI
             hitPointChain.SwapHitChain();
         }
 
-        public void OnGotFocus(UIFocusEventArgs e)
+        protected void OnGotFocus(UIFocusEventArgs e)
         {
 
 
         }
-        public void OnLostFocus(UIFocusEventArgs e)
+        protected void OnLostFocus(UIFocusEventArgs e)
         {
 
         }
-        public void OnMouseUp(UIMouseEventArgs e)
+        protected void OnMouseUp(UIMouseEventArgs e)
         {
 
 #if DEBUG
@@ -382,7 +380,7 @@ namespace LayoutFarm.UI
 
             hitPointChain.SwapHitChain();
         }
-        public void OnKeyDown(UIKeyEventArgs e)
+        protected void OnKeyDown(UIKeyEventArgs e)
         {
             if (currentKbFocusElem != null)
             {
@@ -390,7 +388,7 @@ namespace LayoutFarm.UI
                 currentKbFocusElem.ListenKeyDown(e);
             }
         }
-        public void OnKeyUp(UIKeyEventArgs e)
+        protected void OnKeyUp(UIKeyEventArgs e)
         {
             if (currentKbFocusElem != null)
             {
@@ -398,7 +396,7 @@ namespace LayoutFarm.UI
                 currentKbFocusElem.ListenKeyUp(e);
             }
         }
-        public void OnKeyPress(UIKeyEventArgs e)
+        protected void OnKeyPress(UIKeyEventArgs e)
         {
 
             if (currentKbFocusElem != null)
@@ -407,7 +405,7 @@ namespace LayoutFarm.UI
                 currentKbFocusElem.ListenKeyPress(e);
             }
         }
-        public bool OnProcessDialogKey(UIKeyEventArgs e)
+        protected bool OnProcessDialogKey(UIKeyEventArgs e)
         {
             bool result = false;
             if (currentKbFocusElem != null)
@@ -476,11 +474,9 @@ namespace LayoutFarm.UI
 
             }
         }
-
-
-
+         
         //--------------------------------------------------------------------
-        void OnMouseHover(object sender, EventArgs e)
+        protected void OnMouseHover(object sender, EventArgs e)
         {
             return;
             //HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY);

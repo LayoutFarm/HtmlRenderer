@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
 using System.Drawing.Drawing2D;
 
 
-namespace LayoutFarm.Drawing
+using LayoutFarm.Drawing;
+namespace LayoutFarm.UI
 {
 
     class QuadPages
@@ -15,8 +15,7 @@ namespace LayoutFarm.Drawing
         public MyCanvas pageA;
         public MyCanvas pageB;
         public MyCanvas pageC;
-        public MyCanvas pageD; 
-
+        public MyCanvas pageD;
         CanvasCollection physicalCanvasCollection;
 
         public QuadPages(int cachedPageNum, int eachCachedPageWidth, int eachCachedPageHeight)
@@ -66,7 +65,7 @@ namespace LayoutFarm.Drawing
             {
                 pageD.Invalidate(r);
             }
-             
+
         }
         public bool IsValid
         {
@@ -188,7 +187,7 @@ namespace LayoutFarm.Drawing
 
 
                     } break;
-            } 
+            }
         }
 
         static void UpdateAllArea(MyCanvas mycanvas, TopWindowRenderBox rootElement)
@@ -200,10 +199,10 @@ namespace LayoutFarm.Drawing
 
 #if DEBUG
             rootElement.dbugShowRenderPart(mycanvas, rect);
-#endif 
+#endif
 #if DEBUG
 #endif
-             
+
             mycanvas.IsContentReady = true;
             mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
         }
@@ -275,16 +274,16 @@ namespace LayoutFarm.Drawing
 #if DEBUG
             rootElement.dbugShowRenderPart(mycanvas, rect);
 #endif
-             
+
             mycanvas.IsContentReady = true;
-            mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top); 
+            mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
         }
 
 
         public void RenderToOutputWindowPartialMode(
             TopWindowRenderBox rootElement,
             IntPtr destOutputHdc,
-            int viewportX, int viewportY, 
+            int viewportX, int viewportY,
             int viewportWidth, int viewportHeight)
         {
 
