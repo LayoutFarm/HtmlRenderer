@@ -43,11 +43,12 @@ namespace TestGraphicPackage
 
             int w = 800;
             int h = 600;
+
             MyRootGraphic rootgfx = new MyRootGraphic(uiPlatformWinForm, w, h);
 
-            var topWin = rootgfx.CreateTopWindowRenderBox(w, h);
+            TopWindowRenderBox topWin = rootgfx.CreateTopWindowRenderBox(w, h);
             Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(topWin,
-                new WinEventBridge(topWin), out viewport);
+               rootgfx.CreateUserEventPortal(topWin), out viewport);
 
             viewport.PaintMe();
             formCanvas.Show();
@@ -68,10 +69,9 @@ namespace TestGraphicPackage
             int h = 600;
 
             MyRootGraphic rootgfx = new MyRootGraphic(uiPlatformWinForm, w, h);
+            TopWindowRenderBox topWin = rootgfx.CreateTopWindowRenderBox(w, h);
 
-            var topWin = rootgfx.CreateTopWindowRenderBox(w, h);
-
-            viewport.InitRootGraphics(topWin, new WinEventBridge(topWin), rootgfx);
+            viewport.InitRootGraphics(topWin, rootgfx.CreateUserEventPortal(topWin));
             viewport.PaintMe();
 
             simpleForm.Show();

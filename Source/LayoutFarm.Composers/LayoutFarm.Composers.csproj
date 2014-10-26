@@ -76,7 +76,7 @@
     <Compile Include="7_TopWin\GraphicsTimerTasksManager.cs" />
     <Compile Include="7_TopWin\UIHoverMonitor.cs" />
     <Compile Include="7_TopWin\UserInputEventBridge.cs" />
-    <Compile Include="7_TopWin\WinEventBridge.cs" />
+    <Compile Include="7_TopWin\UserInputEventBridge_IEventPortal.cs" />
     <Compile Include="8_ContentManagers\ImageContentManager.cs" />
     <Compile Include="8_ContentManagers\ImageRequestEventArgs.cs" />
     <Compile Include="8_ContentManagers\TextContentManager.cs" />

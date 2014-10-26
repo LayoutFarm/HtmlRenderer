@@ -17,14 +17,10 @@ namespace LayoutFarm.UI
         {
 
             Form form1 = new Form();
-            canvasViewport = new LayoutFarm.UI.WinForms.UISurfaceViewportControl();
-            LayoutFarm.UI.WinForms.UISurfaceViewportControl innerViewport = canvasViewport;
+            var innerViewport = canvasViewport = new LayoutFarm.UI.WinForms.UISurfaceViewportControl();
             Rectangle screenClientAreaRect = Conv.ToRect(Screen.PrimaryScreen.WorkingArea);
-             
-            //---------------------- 
-            
 
-            canvasViewport.InitRootGraphics(topWin, userInputEvBridge, topWin.Root);
+            canvasViewport.InitRootGraphics(topWin, userInputEvBridge);
             canvasViewport.Bounds =
                 new System.Drawing.Rectangle(0, 0,
                     screenClientAreaRect.Width,
@@ -44,7 +40,6 @@ namespace LayoutFarm.UI
                     if (innerViewport != null)
                     {
                         innerViewport.Size = currentScreen.WorkingArea.Size;
-
                     }
                 }
             };

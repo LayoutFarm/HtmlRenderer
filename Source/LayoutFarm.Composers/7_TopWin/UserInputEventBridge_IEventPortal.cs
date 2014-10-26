@@ -7,24 +7,14 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm.UI
 {
 
-    public class WinEventBridge : IUserEventPortal
+    partial class UserInputEventBridge : IUserEventPortal
     {
+        //IUserEventPortalImplementation
 
-
-        UserInputEventBridge userInputEventBridge;
-
-        int prevLogicalMouseX = 0;
-        int prevLogicalMouseY = 0;
-        int lastestLogicalMouseDownX = 0;
-        int lastestLogicalMouseDownY = 0;
-
-        public WinEventBridge(TopWindowRenderBox topwin)
-        {
-
-            this.userInputEventBridge = new UserInputEventBridge();
-            this.userInputEventBridge.Bind(topwin);
-        }
-
+        int lastestLogicalMouseDownX;
+        int lastestLogicalMouseDownY;
+        int prevLogicalMouseX;
+        int prevLogicalMouseY;
         //------------------------------------------------------------
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
@@ -32,13 +22,13 @@ namespace LayoutFarm.UI
             this.lastestLogicalMouseDownY = e.Y;
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
-            userInputEventBridge.OnMouseDown(e);
+            this.OnMouseDown(e);
         }
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
-            userInputEventBridge.OnMouseUp(e);
+            this.OnMouseUp(e);
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
@@ -50,12 +40,12 @@ namespace LayoutFarm.UI
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
 
-            userInputEventBridge.OnMouseMove(e);
+            this.OnMouseMove(e);
 
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
-            this.userInputEventBridge.OnMouseWheel(e);
+            this.OnMouseWheel(e);
         }
         void IUserEventPortal.PortalClick(UIMouseEventArgs e)
         {
@@ -68,28 +58,28 @@ namespace LayoutFarm.UI
         //------------------------------------------------------------
         void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
-            userInputEventBridge.OnKeyUp(e);
+            this.OnKeyUp(e);
         }
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
-            userInputEventBridge.OnKeyDown(e);
+            this.OnKeyDown(e);
         }
         void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
-            userInputEventBridge.OnKeyPress(e);
+            this.OnKeyPress(e);
         }
         bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
-            return this.userInputEventBridge.OnProcessDialogKey(e);
+            return this.OnProcessDialogKey(e);
         }
         //------------------------------------------------------------
         void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
-            userInputEventBridge.OnGotFocus(e);
+            this.OnGotFocus(e);
         }
         void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
-            userInputEventBridge.OnLostFocus(e);
+            this.OnLostFocus(e);
         }
 
     }

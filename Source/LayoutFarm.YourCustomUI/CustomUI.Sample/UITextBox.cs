@@ -96,9 +96,7 @@ namespace LayoutFarm.SampleControls
         {
             visualTextEdit.OnDoubleClick(e);
         }
-        protected override void OnDragDrop(UIMouseEventArgs e)
-        {
-        }
+       
         protected override void OnDragStart(UIMouseEventArgs e)
         {
             visualTextEdit.OnDragStart(e);

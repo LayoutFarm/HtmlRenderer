@@ -12,18 +12,18 @@ namespace LayoutFarm.UI.WinForms
     public partial class UISurfaceViewportControl : UserControl
     {
 
-        TopWindowRenderBox wintop; 
+        TopWindowRenderBox wintop;
         MyTopWindowBridge winViewportBridge;
         public UISurfaceViewportControl()
         {
             InitializeComponent();
         }
 
-        public void InitRootGraphics(TopWindowRenderBox wintop, IUserEventPortal userInputEvBridge, LayoutFarm.RootGraphic root)
+        public void InitRootGraphics(TopWindowRenderBox wintop, IUserEventPortal userInputEvBridge )
         {
             //1.
-            this.wintop = wintop; 
-            this.winViewportBridge = new MyTopWindowBridge(wintop, userInputEvBridge); 
+            this.wintop = wintop;
+            this.winViewportBridge = new MyTopWindowBridge(wintop, userInputEvBridge);
             this.winViewportBridge.BindWindowControl(this);
         }
 #if DEBUG

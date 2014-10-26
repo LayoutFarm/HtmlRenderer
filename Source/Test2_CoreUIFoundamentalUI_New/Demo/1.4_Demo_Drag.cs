@@ -50,8 +50,6 @@ namespace LayoutFarm
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
                 Point pos = box.Position;
                 box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
-
-
             };
             box.DragStop += (s, e) =>
             {

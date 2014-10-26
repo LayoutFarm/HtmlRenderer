@@ -10,7 +10,7 @@ namespace LayoutFarm.UI
 
     public class MyRootGraphic : RootGraphic
     {
-        List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
+        List<RenderElementRequest> renderRequestList = new List<RenderElementRequest>();
         GraphicsTimerTaskManager graphicTimerTaskMan;
         GraphicPlatform graphicsPlatform;
 
@@ -41,10 +41,17 @@ namespace LayoutFarm.UI
         {
             return uiPlatform.CreateTopWindowRenderBox(this, w, h);
         }
+        public IUserEventPortal CreateUserEventPortal(TopWindowRenderBox topwin)
+        {
+            UserInputEventBridge userInputEventBridge = new UserInputEventBridge();
+            userInputEventBridge.Bind(topwin);
+            return userInputEventBridge;             
+        }
         protected override GraphicPlatform P
         {
             get { return graphicsPlatform; }
         }
+
         public override void ClearRenderRequests(TopWindowRenderBox topwin)
         {
             if (this.VisualRequestCount > 0)
@@ -102,15 +109,15 @@ namespace LayoutFarm.UI
         {
             get
             {
-                return veReqList.Count;
+                return renderRequestList.Count;
             }
         }
         void ClearVisualRequests(TopWindowRenderBox wintop)
         {
-            int j = veReqList.Count;
+            int j = renderRequestList.Count;
             for (int i = 0; i < j; ++i)
             {
-                RenderElementRequest req = veReqList[i];
+                RenderElementRequest req = renderRequestList[i];
                 switch (req.req)
                 {
 
@@ -135,7 +142,7 @@ namespace LayoutFarm.UI
 
                 }
             }
-            veReqList.Clear();
+            renderRequestList.Clear();
         }
     }
 }

@@ -75,9 +75,10 @@ namespace LayoutFarm.Dev
             int h = 600;
 
             MyRootGraphic rootgfx = new MyRootGraphic(uiPlatformWinForm, w, h);
-            var topRenderBox = rootgfx.CreateTopWindowRenderBox(w, h);
+            TopWindowRenderBox topRenderBox = rootgfx.CreateTopWindowRenderBox(w, h);
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(topRenderBox,
+                rootgfx.CreateUserEventPortal(topRenderBox), out viewport);
 
-            formCanvas = FormCanvasHelper.CreateNewFormCanvas(topRenderBox, new WinEventBridge(topRenderBox), out viewport);
             formCanvas.Text = "FormCanvas 1";
 
             viewport.PaintMe();

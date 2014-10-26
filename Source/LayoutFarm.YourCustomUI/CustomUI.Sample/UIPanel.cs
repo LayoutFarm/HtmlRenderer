@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing; 
+using LayoutFarm.Drawing;
 using LayoutFarm.Text;
 using LayoutFarm.UI;
 
@@ -21,7 +21,8 @@ namespace LayoutFarm.SampleControls
 
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
-        int viewportX, viewportY;
+        int viewportX;
+        int viewportY;
         List<LayerElement> layers = new List<LayerElement>(1);
 
         public UIPanel(int width, int height)

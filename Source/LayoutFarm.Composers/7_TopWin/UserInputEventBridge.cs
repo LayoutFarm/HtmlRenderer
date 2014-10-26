@@ -7,7 +7,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm.UI
 {
 
-    class UserInputEventBridge
+    partial class UserInputEventBridge
     {
 
         readonly MyHitChain hitPointChain = new MyHitChain();
@@ -27,7 +27,6 @@ namespace LayoutFarm.UI
         {
             this.topwin = topwin;
             this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
-
 #if DEBUG
             hitPointChain.dbugHitTracker = this.dbugRootGraphic.dbugHitTracker;
 #endif
@@ -313,6 +312,174 @@ namespace LayoutFarm.UI
             DisableGraphicOutputFlush = false;
             hitPointChain.SwapHitChain();
         }
+
+        public void OnGotFocus(UIFocusEventArgs e)
+        {
+
+
+        }
+        public void OnLostFocus(UIFocusEventArgs e)
+        {
+
+        }
+        public void OnMouseUp(UIMouseEventArgs e)
+        {
+
+#if DEBUG
+
+            if (this.dbugRootGraphic.dbugEnableGraphicInvalidateTrace)
+            {
+                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("MOUSEUP");
+                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+            }
+#endif
+
+            HitTestCoreWithPrevChainHint(e.X, e.Y);
+            int hitCount = this.hitPointChain.Count;
+
+            if (hitCount > 0)
+            {
+
+                DisableGraphicOutputFlush = true;
+                //---------------------------------------------------------------
+
+                ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
+                {
+                    e.CurrentContextElement = listener;
+
+                    listener.PortalMouseUp(e);
+
+                    var curContextElement = e.CurrentContextElement as IEventListener;
+
+                    if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
+                    {
+                        this.CurrentKeyboardFocusedElement = curContextElement;
+                    }
+                    return true;
+                });
+                //---------------------------------------------------------------
+
+                ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
+                {
+                    e.Location = hitobj.Location;
+                    e.SourceHitElement = hitobj.hitObject;
+                    e.CurrentContextElement = hitobj.hitObject;
+
+
+                    listener.ListenMouseUp(e);
+                    var curContextElement = e.CurrentContextElement as IEventListener;
+                    if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
+                    {
+                        this.CurrentKeyboardFocusedElement = curContextElement;
+                    }
+                    return true;
+                });
+                //---------------------------------------------------------------
+                DisableGraphicOutputFlush = false;
+                FlushAccumGraphicUpdate();
+            }
+
+            hitPointChain.SwapHitChain();
+        }
+        public void OnKeyDown(UIKeyEventArgs e)
+        {
+            if (currentKbFocusElem != null)
+            {
+                e.SourceHitElement = currentKbFocusElem;
+                currentKbFocusElem.ListenKeyDown(e);
+            }
+        }
+        public void OnKeyUp(UIKeyEventArgs e)
+        {
+            if (currentKbFocusElem != null)
+            {
+                e.SourceHitElement = currentKbFocusElem;
+                currentKbFocusElem.ListenKeyUp(e);
+            }
+        }
+        public void OnKeyPress(UIKeyEventArgs e)
+        {
+
+            if (currentKbFocusElem != null)
+            {
+                e.SourceHitElement = currentKbFocusElem;
+                currentKbFocusElem.ListenKeyPress(e);
+            }
+        }
+        public bool OnProcessDialogKey(UIKeyEventArgs e)
+        {
+            bool result = false;
+            if (currentKbFocusElem != null)
+            {
+                e.SourceHitElement = currentKbFocusElem;
+                result = currentKbFocusElem.ListenProcessDialogKey(e);
+            }
+            return result;
+        }
+
+        //===================================================================
+        delegate bool EventListenerAction(HitInfo hitInfo, IEventListener listener);
+        delegate bool EventPortalAction(HitInfo hitInfo, IUserEventPortal evPortal);
+
+        struct HitInfo
+        {
+            public readonly object hitObject;
+            public readonly int x;
+            public readonly int y;
+            public HitInfo(object hitObject, int x, int y)
+            {
+                this.x = x;
+                this.y = y;
+                this.hitObject = hitObject;
+            }
+            public Point Location
+            {
+                get { return new Point(x, y); }
+            }
+        }
+
+        static void ForEachEventListenerPreviewBubbleUp(MyHitChain hitPointChain, EventPortalAction evaluateListener)
+        {
+            //only listener that need tunnel down 
+            for (int i = hitPointChain.Count - 1; i >= 0; --i)
+            {
+                HitPoint hitPoint = hitPointChain.GetHitPoint(i);
+                RenderElement hitElem = hitPoint.hitObject as RenderElement;
+                if (hitElem != null)
+                {
+                    IUserEventPortal listener = hitElem.GetController() as IUserEventPortal;
+                    if (listener != null &&
+                        evaluateListener(new HitInfo(hitElem, hitPoint.point.X, hitPoint.point.Y), listener))
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+        static void ForEachEventListenerBubbleUp(MyHitChain hitPointChain, EventListenerAction evaluateListener)
+        {
+
+            for (int i = hitPointChain.Count - 1; i >= 0; --i)
+            {
+                HitPoint hitPoint = hitPointChain.GetHitPoint(i);
+                RenderElement hitElem = hitPoint.hitObject as RenderElement;
+
+                if (hitElem != null)
+                {
+                    IEventListener listener = hitElem.GetController() as IEventListener;
+                    if (listener != null && evaluateListener(new HitInfo(hitElem, hitPoint.point.X, hitPoint.point.Y), listener))
+                    {
+                        return;
+                    }
+                }
+
+            }
+        }
+
+
+
+        //--------------------------------------------------------------------
         void OnMouseHover(object sender, EventArgs e)
         {
             return;
@@ -590,171 +757,6 @@ namespace LayoutFarm.UI
             //}
             //UIMouseEventArgs.ReleaseEventArgs(d_eventArg);
         }
-        public void OnGotFocus(UIFocusEventArgs e)
-        {
-
-
-        }
-        public void OnLostFocus(UIFocusEventArgs e)
-        {
-
-        }
-        public void OnMouseUp(UIMouseEventArgs e)
-        {
-
-#if DEBUG
-
-            if (this.dbugRootGraphic.dbugEnableGraphicInvalidateTrace)
-            {
-                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
-                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("MOUSEUP");
-                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
-            }
-#endif
-
-            HitTestCoreWithPrevChainHint(e.X, e.Y);
-            int hitCount = this.hitPointChain.Count;
-
-            if (hitCount > 0)
-            {
-
-                DisableGraphicOutputFlush = true;
-                //---------------------------------------------------------------
-
-                ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
-                {
-                    e.CurrentContextElement = listener;
-
-                    listener.PortalMouseUp(e);
-
-                    var curContextElement = e.CurrentContextElement as IEventListener;
-
-                    if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
-                    {
-                        this.CurrentKeyboardFocusedElement = curContextElement;
-                    }
-                    return true;
-                });
-                //---------------------------------------------------------------
-
-                ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
-                {
-                    e.Location = hitobj.Location;
-                    e.SourceHitElement = hitobj.hitObject;
-                    e.CurrentContextElement = hitobj.hitObject;
-
-
-                    listener.ListenMouseUp(e);
-                    var curContextElement = e.CurrentContextElement as IEventListener;
-                    if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
-                    {
-                        this.CurrentKeyboardFocusedElement = curContextElement;
-                    }
-                    return true;
-                });
-                //---------------------------------------------------------------
-                DisableGraphicOutputFlush = false;
-                FlushAccumGraphicUpdate();
-            }
-
-            hitPointChain.SwapHitChain();
-        }
-        public void OnKeyDown(UIKeyEventArgs e)
-        {
-            if (currentKbFocusElem != null)
-            {
-                e.SourceHitElement = currentKbFocusElem;
-                currentKbFocusElem.ListenKeyDown(e);
-            }
-        }
-        public void OnKeyUp(UIKeyEventArgs e)
-        {
-            if (currentKbFocusElem != null)
-            {
-                e.SourceHitElement = currentKbFocusElem;
-                currentKbFocusElem.ListenKeyUp(e);
-            }
-        }
-        public void OnKeyPress(UIKeyEventArgs e)
-        {
-
-            if (currentKbFocusElem != null)
-            {
-                e.SourceHitElement = currentKbFocusElem;
-                currentKbFocusElem.ListenKeyPress(e);
-            }
-        }
-        public bool OnProcessDialogKey(UIKeyEventArgs e)
-        {
-            bool result = false;
-            if (currentKbFocusElem != null)
-            {
-                e.SourceHitElement = currentKbFocusElem;
-                result = currentKbFocusElem.ListenProcessDialogKey(e);
-            }
-            return result;
-        }
-
-        //===================================================================
-        delegate bool EventListenerAction(HitInfo hitInfo, IEventListener listener);
-        delegate bool EventPortalAction(HitInfo hitInfo, IUserEventPortal evPortal);
-
-        struct HitInfo
-        {
-            public readonly object hitObject;
-            public readonly int x;
-            public readonly int y;
-            public HitInfo(object hitObject, int x, int y)
-            {
-                this.x = x;
-                this.y = y;
-                this.hitObject = hitObject;
-            }
-            public Point Location
-            {
-                get { return new Point(x, y); }
-            }
-        }
-
-        static void ForEachEventListenerPreviewBubbleUp(MyHitChain hitPointChain, EventPortalAction evaluateListener)
-        {
-            //only listener that need tunnel down 
-            for (int i = hitPointChain.Count - 1; i >= 0; --i)
-            {
-                HitPoint hitPoint = hitPointChain.GetHitPoint(i);
-                RenderElement hitElem = hitPoint.hitObject as RenderElement;
-                if (hitElem != null)
-                {
-                    IUserEventPortal listener = hitElem.GetController() as IUserEventPortal;
-                    if (listener != null &&
-                        evaluateListener(new HitInfo(hitElem, hitPoint.point.X, hitPoint.point.Y), listener))
-                    {
-                        return;
-                    }
-                }
-            }
-        }
-        static void ForEachEventListenerBubbleUp(MyHitChain hitPointChain, EventListenerAction evaluateListener)
-        {
-
-            for (int i = hitPointChain.Count - 1; i >= 0; --i)
-            {
-                HitPoint hitPoint = hitPointChain.GetHitPoint(i);
-                RenderElement hitElem = hitPoint.hitObject as RenderElement;
-
-                if (hitElem != null)
-                {
-                    IEventListener listener = hitElem.GetController() as IEventListener;
-                    if (listener != null && evaluateListener(new HitInfo(hitElem, hitPoint.point.X, hitPoint.point.Y), listener))
-                    {
-                        return;
-                    }
-                }
-
-            }
-        }
-
-
 
     }
 

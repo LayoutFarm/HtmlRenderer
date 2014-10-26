@@ -69,6 +69,7 @@ namespace LayoutFarm.SampleControls
                 this.MouseDown(this, e);
             }
         }
+         
         protected override void OnDragStart(UIMouseEventArgs e)
         {
             if (this.DragStart != null)
