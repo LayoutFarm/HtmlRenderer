@@ -14,9 +14,7 @@ namespace LayoutFarm.UI
         UIHoverMonitorTask hoverMonitoringTask;
 
         int msgChainVersion;
-        TopWindowRenderBox topwin;
-
-
+        TopWindowRenderBox topwin; 
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
 
@@ -107,7 +105,8 @@ namespace LayoutFarm.UI
                 //}
             }
         }
-        public void ClearAllFocus()
+
+        void ClearAllFocus()
         {
             CurrentKeyboardFocusedElement = null;
 
@@ -121,9 +120,7 @@ namespace LayoutFarm.UI
                 commonElement = this.topwin;
             }
             commonElement.HitTestCore(hitPointChain);
-        }
-
-
+        } 
         //--------------------------------------------------
         protected void OnDoubleClick(UIMouseEventArgs e)
         {
@@ -171,7 +168,7 @@ namespace LayoutFarm.UI
                 //------------------------------
                 //1. for some built-in event
 
-                ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
+                ForEachOnlyEventPortalBubbleUp(this.hitPointChain, (hitobj, listener) =>
                 {
 
                     e.CurrentContextElement = listener;
@@ -270,11 +267,10 @@ namespace LayoutFarm.UI
             hoverMonitoringTask.Enabled = true;
             //-------------------------------------------------------
             DisableGraphicOutputFlush = true;
-
             this.isDragging = e.IsDragging;
 
 
-            ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
+            ForEachOnlyEventPortalBubbleUp(this.hitPointChain, (hitobj, listener) =>
             {
                 e.Location = hitobj.Location;
                 e.CurrentContextElement = listener;
@@ -342,7 +338,7 @@ namespace LayoutFarm.UI
                 DisableGraphicOutputFlush = true;
                 //---------------------------------------------------------------
 
-                ForEachEventListenerPreviewBubbleUp(this.hitPointChain, (hitobj, listener) =>
+                ForEachOnlyEventPortalBubbleUp(this.hitPointChain, (hitobj, listener) =>
                 {
                     e.CurrentContextElement = listener;
 
@@ -437,7 +433,7 @@ namespace LayoutFarm.UI
             }
         }
 
-        static void ForEachEventListenerPreviewBubbleUp(MyHitChain hitPointChain, EventPortalAction evaluateListener)
+        static void ForEachOnlyEventPortalBubbleUp(MyHitChain hitPointChain, EventPortalAction eventPortalAction)
         {
             //only listener that need tunnel down 
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
@@ -446,16 +442,16 @@ namespace LayoutFarm.UI
                 RenderElement hitElem = hitPoint.hitObject as RenderElement;
                 if (hitElem != null)
                 {
-                    IUserEventPortal listener = hitElem.GetController() as IUserEventPortal;
-                    if (listener != null &&
-                        evaluateListener(new HitInfo(hitElem, hitPoint.point.X, hitPoint.point.Y), listener))
+                    IUserEventPortal eventPortal = hitElem.GetController() as IUserEventPortal;
+                    if (eventPortal != null &&
+                        eventPortalAction(new HitInfo(hitElem, hitPoint.point.X, hitPoint.point.Y), eventPortal))
                     {
                         return;
                     }
                 }
             }
         }
-        static void ForEachEventListenerBubbleUp(MyHitChain hitPointChain, EventListenerAction evaluateListener)
+        static void ForEachEventListenerBubbleUp(MyHitChain hitPointChain, EventListenerAction listenerAction)
         {
 
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
@@ -466,7 +462,8 @@ namespace LayoutFarm.UI
                 if (hitElem != null)
                 {
                     IEventListener listener = hitElem.GetController() as IEventListener;
-                    if (listener != null && evaluateListener(new HitInfo(hitElem, hitPoint.point.X, hitPoint.point.Y), listener))
+                    if (listener != null &&
+                        listenerAction(new HitInfo(hitElem, hitPoint.point.X, hitPoint.point.Y), listener))
                     {
                         return;
                     }
@@ -474,7 +471,7 @@ namespace LayoutFarm.UI
 
             }
         }
-         
+
         //--------------------------------------------------------------------
         protected void OnMouseHover(object sender, EventArgs e)
         {

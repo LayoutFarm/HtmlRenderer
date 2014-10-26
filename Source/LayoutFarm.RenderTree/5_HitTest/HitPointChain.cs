@@ -11,7 +11,6 @@ namespace LayoutFarm
     {
         public readonly Point point;
         public readonly object hitObject;
-
         public static readonly HitPoint Empty = new HitPoint();
 
 
