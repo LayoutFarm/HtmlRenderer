@@ -11,7 +11,7 @@ namespace LayoutFarm
     [DemoNote("1.1 SingleButton")]
     class Demo_SingleButton : DemoBase
     {
-        protected override void OnStartDemo(UISurfaceViewportControl viewport)
+        protected override void OnStartDemo(SampleViewport viewport)
         {
 
 

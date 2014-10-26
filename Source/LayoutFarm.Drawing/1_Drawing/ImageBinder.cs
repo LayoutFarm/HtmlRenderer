@@ -39,10 +39,6 @@ namespace LayoutFarm.Drawing
                 this.State = ImageBinderState.Loaded;
             }
         }
-
-
-
-
     }
     public enum ImageBinderState
     {

@@ -75,11 +75,7 @@ namespace HtmlRenderer.Demo
         {
             InitializeComponent();
 
-
-
-            //_htmlPanel.RenderError += OnRenderError;
-            //_htmlPanel.LinkClicked += OnLinkClicked;
-
+             
             _htmlPanel.StylesheetLoad += OnStylesheetLoad;
             _htmlPanel.ImageLoad += OnImageLoad;
 

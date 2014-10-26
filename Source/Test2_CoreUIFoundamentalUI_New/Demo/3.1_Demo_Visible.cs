@@ -12,7 +12,7 @@ namespace LayoutFarm
     [DemoNote("3.1 DemoVisible")]
     class Demo_Visible : DemoBase
     {
-        protected override void OnStartDemo(UISurfaceViewportControl viewport)
+        protected override void OnStartDemo(SampleViewport viewport)
         {
 
             var box1 = new LayoutFarm.SampleControls.UIButton(50, 50);

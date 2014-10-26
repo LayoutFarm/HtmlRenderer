@@ -58,13 +58,13 @@ namespace LayoutFarm.UI
         {
             get { return currentHitChain[currentHitChain.Count - 1].point; }
         }
-        public override object CurrentHitElement
+        public override RenderElement CurrentHitElement
         {
             get
             {
                 if (currentHitChain.Count > 0)
                 {
-                    return currentHitChain[currentHitChain.Count - 1].hitObject as RenderElement;
+                    return currentHitChain[currentHitChain.Count - 1].hitElement;
                 }
                 else
                 {
@@ -72,7 +72,7 @@ namespace LayoutFarm.UI
                 }
             }
         }
-        public override void AddHitObject(object hitObject)
+        public override void AddHitObject(RenderElement hitObject)
         {
             currentHitChain.Add(new HitPoint(hitObject, new Point(testPointX, testPointY)));
 #if DEBUG
@@ -108,7 +108,7 @@ namespace LayoutFarm.UI
                 foreach (HitPoint hp in prevHitChain)
                 {
                     //top down test
-                    RenderElement elem = hp.hitObject as RenderElement;
+                    RenderElement elem = hp.hitElement;
                     if (elem != null && elem.IsTestable)
                     {
                         if (elem.Contains(hp.point))
@@ -142,7 +142,7 @@ namespace LayoutFarm.UI
                 }
                 if (currentHitChain.Count > 0)
                 {
-                    return currentHitChain[currentHitChain.Count - 1].hitObject as RenderElement;
+                    return currentHitChain[currentHitChain.Count - 1].hitElement;
                 }
                 else
                 {

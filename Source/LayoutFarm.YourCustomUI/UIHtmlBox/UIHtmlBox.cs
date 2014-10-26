@@ -8,36 +8,35 @@ using HtmlRenderer.ContentManagers;
 using HtmlRenderer.Boxes;
 using HtmlRenderer.Composers;
 
+using LayoutFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.Boxes;
 
 namespace LayoutFarm.SampleControls
 {
 
-    public class UIHtmlBox : UIElement
+    public class UIHtmlBox : UIElement, IUserEventPortal
     {
         RootGraphic rootgfx;
-
         HtmlRenderBox myCssBoxWrapper;
-        int _width, _height;
+        int _width;
+        int _height;
         MyHtmlIsland myHtmlIsland;
 
         HtmlRenderer.WebDom.WebDocument currentdoc;
-        HtmlRenderer.Composers.HtmlInputEventBridge _htmlEventBridge;
-
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
         public event EventHandler<ImageRequestEventArgs> RequestImage;
 
-        System.Timers.Timer tim = new System.Timers.Timer();
         bool hasWaitingDocToLoad;
         HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
+        HtmlInputEventBridge _htmlInputEventBridge;
+        object uiHtmlTask = new object();
 
         static UIHtmlBox()
         {
             HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
                new HtmlRenderer.Boxes.LeanBoxCreator());
         }
-
         public UIHtmlBox(int width, int height)
         {
             this._width = width;
@@ -49,17 +48,56 @@ namespace LayoutFarm.SampleControls
             myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
             myHtmlIsland.RequestResource += myHtmlIsland_RequestResource;
 
-            tim.Interval = 30;
-            tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
+            //request ui timer ***
+
+            //tim.Interval = 30;
+            //tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
+        }
+        //--------------------------------------------------------------------
+        void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
+        {
+            _htmlInputEventBridge.MouseUp(e);
+        }
+        void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
+        {
+            _htmlInputEventBridge.MouseDown(e);
+        }
+        void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
+        {
+
+            _htmlInputEventBridge.MouseMove(e);
+
+        }
+        void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
+        {
+
+        }
+        
+        
+        void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
+        {
+            _htmlInputEventBridge.KeyDown(e);
+        }
+        void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
+        {
+            _htmlInputEventBridge.KeyPress(e);
+        }
+        void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
+        {
+            _htmlInputEventBridge.KeyUp(e);
+        }
+        bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
+        {
+            return this._htmlInputEventBridge.ProcessDialogKey(e);
+        }
+        void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
+        {
+        }
+        void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
+        {
         }
 
-        void tim_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            if (this.myHtmlIsland != null)
-            {
-                this.myHtmlIsland.InternalRefreshRequest();
-            }
-        }
+
         internal MyHtmlIsland HtmlIsland
         {
             get { return this.myHtmlIsland; }
@@ -101,53 +139,39 @@ namespace LayoutFarm.SampleControls
         void OnRefresh(object sender, HtmlRenderer.WebDom.HtmlRefreshEventArgs e)
         {
             this.InvalidateGraphic();
+        }
 
-            //if (e.Layout)
-            //{
-            //    if (InvokeRequired)
-            //        Invoke(new MethodInvoker(PerformLayout));
-            //    elsedf 
-            //        PerformLayout();
-            //}
-            //if (InvokeRequired)
-            //    Invoke(new MethodInvoker(Invalidate));
-            //else
-            //    Invalidate();
-        }
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            //mouse down on html box
-            this._htmlEventBridge.MouseDown(e.X, e.Y, (int)e.Button);
-
-        }
-        protected override void OnMouseUp(UIMouseEventArgs e)
-        {
-            this._htmlEventBridge.MouseUp(e.X, e.Y, (int)e.Button);
-        }
-        protected override void OnKeyDown(UIKeyEventArgs e)
-        {
-            this._htmlEventBridge.KeyDown('a');
-        }
-        protected override void OnKeyPress(UIKeyPressEventArgs e)
-        {
-
-            this._htmlEventBridge.KeyDown(e.KeyChar);
-        }
         protected override void OnKeyUp(UIKeyEventArgs e)
         {
             base.OnKeyUp(e);
         }
+
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (myCssBoxWrapper == null)
             {
                 this.rootgfx = rootgfx;
-                _htmlEventBridge = new HtmlInputEventBridge();
-                _htmlEventBridge.Bind(myHtmlIsland, rootgfx.SampleIFonts);
                 myCssBoxWrapper = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
                 myCssBoxWrapper.SetController(this);
                 myCssBoxWrapper.HasSpecificSize = true;
+
+                _htmlInputEventBridge = new HtmlInputEventBridge();
+                _htmlInputEventBridge.Bind(this.myHtmlIsland, rootgfx.SampleIFonts);
             }
+            //-------------------------
+            rootgfx.RequestGraphicsIntervalTask(uiHtmlTask,
+                 TaskIntervalPlan.Animation, 25,
+                 (s, e) =>
+                 {
+
+                     if (this.myHtmlIsland.InternalRefreshRequest())
+                     {
+                         e.NeedUpdate = 1;
+                     }
+
+                 });
+            //-------------------------
+
 
             if (this.hasWaitingDocToLoad)
             {
@@ -175,6 +199,7 @@ namespace LayoutFarm.SampleControls
                 this.waitingCssData,
                 this.myCssBoxWrapper);
 
+            //update htmlIsland
             var htmlIsland = this.myHtmlIsland;
             htmlIsland.SetHtmlDoc(this.currentdoc);
             htmlIsland.SetRootCssBox(rootBox, this.waitingCssData);
@@ -192,21 +217,18 @@ namespace LayoutFarm.SampleControls
             if (myCssBoxWrapper == null) return;
             //---------------------------
             UpdateWaitingHtmlDoc(this.myCssBoxWrapper.Root);
-
         }
         public void LoadHtmlText(string html)
         {
             //myHtmlBox.LoadHtmlText(html);
-            this.tim.Enabled = false;
+            //this.tim.Enabled = false;
             SetHtml(myHtmlIsland, html, myHtmlIsland.BaseStylesheet);
-            this.tim.Enabled = true;
+            //this.tim.Enabled = true;
             if (this.myCssBoxWrapper != null)
             {
                 myCssBoxWrapper.InvalidateGraphic();
             }
         }
-
-
         public override void InvalidateGraphic()
         {
             if (this.myCssBoxWrapper != null)

@@ -4,7 +4,6 @@ namespace LayoutFarm.Drawing
     public abstract class GraphicPlatform
     {
 
-
         public abstract Bitmap CreateBitmap(int width, int height);
         public abstract Bitmap CreateBitmap(object bmp);
         public abstract Font CreateFont(object font);

@@ -10,15 +10,15 @@ namespace LayoutFarm.Text
     static class GlobalCaretController
     {
         static bool enableCaretBlink = true;//default
-        static TextEditRenderBox textEditBox;
+        static TextEditRenderBox currentTextBox;
         static bool caretRegistered = false;
-        static EventHandler<IntervalTaskEventArgs> tickHandler;
+        static EventHandler<GraphicsTimerTaskEventArgs> tickHandler;
         static object caretBlinkTask = new object();
-        static GraphicIntervalTask task;
+        static GraphicsTimerTask task;
 
         static GlobalCaretController()
         {
-            tickHandler = new EventHandler<IntervalTaskEventArgs>(caret_TickHandler);
+            tickHandler = new EventHandler<GraphicsTimerTaskEventArgs>(caret_TickHandler);
         }
         internal static void RegisterCaretBlink(RootGraphic root)
         {
@@ -27,19 +27,20 @@ namespace LayoutFarm.Text
                 return;
             }
             caretRegistered = true;
-            task = root.RequestGraphicInternvalTask(
+            task = root.RequestGraphicsIntervalTask(
                 caretBlinkTask,
+                TaskIntervalPlan.CaretBlink,
                 300,
                 tickHandler);
         }
-        static void caret_TickHandler(object sender, IntervalTaskEventArgs e)
+        static void caret_TickHandler(object sender, GraphicsTimerTaskEventArgs e)
         {
-            if (textEditBox != null)
+            if (currentTextBox != null)
             {
-                textEditBox.SwapCaretState();
+                currentTextBox.SwapCaretState();
                 //force render ?
-                textEditBox.InvalidateGraphic();
-                e.NeedUpdate = true;
+                currentTextBox.InvalidateGraphic();
+                e.NeedUpdate = 1;
             }
             else
             {
@@ -57,27 +58,27 @@ namespace LayoutFarm.Text
         }
         internal static TextEditRenderBox CurrentTextEditBox
         {
-            get { return textEditBox; }
+            get { return currentTextBox; }
             set
             {
-                if (textEditBox != value)//&& textEditBox != null)
+                if (currentTextBox != value)//&& textEditBox != null)
                 {
                     //make lost focus on current textbox
-                    if (textEditBox != null)
+                    if (currentTextBox != null)
                     {
                         //stop caret on prev element
-                        textEditBox.SetCaretState(false);
-                        var evlistener = textEditBox.GetController() as IEventListener;
+                        currentTextBox.SetCaretState(false);
+                        var evlistener = currentTextBox.GetController() as IEventListener;
 
-                        textEditBox = null;
+                        currentTextBox = null;
 
                         if (evlistener != null)
                         {
-                            evlistener.ListenFocusEvent(UIFocusEventName.LossingFocus, null);
+                            evlistener.ListenLostFocus(null);
                         }
                     }
                 }
-                textEditBox = value;
+                currentTextBox = value;
             }
         }
 

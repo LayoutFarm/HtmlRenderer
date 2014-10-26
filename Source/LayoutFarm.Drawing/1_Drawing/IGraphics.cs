@@ -48,6 +48,7 @@ namespace LayoutFarm.Drawing
         /// <param name="pen">A <see cref="T:System.Drawing.Pen"/> that determines the color, width, and style of the rectangle. </param><param name="x">The x-coordinate of the upper-left corner of the rectangle to draw. </param><param name="y">The y-coordinate of the upper-left corner of the rectangle to draw. </param><param name="width">The width of the rectangle to draw. </param><param name="height">The height of the rectangle to draw. </param><exception cref="T:System.ArgumentNullException"><paramref name="pen"/> is null.</exception>
         void DrawRectangle(Pen pen, float x, float y, float width, float height);
         void FillRectangle(Brush getSolidBrush, float left, float top, float width, float height);
+        void FillRectangle(Color solidColor, float left, float top, float width, float height);
 
         /// <summary>
         /// Draws the specified portion of the specified <see cref="T:System.Drawing.Image"/> at the specified location and with the specified size.

@@ -10,31 +10,49 @@ namespace LayoutFarm.UI
 
     public class MyRootGraphic : RootGraphic
     {
-        List<RenderElementRequest> veReqList = new List<RenderElementRequest>();
-        WinTimer graphicTimer1;
+        List<RenderElementRequest> renderRequestList = new List<RenderElementRequest>();
+        GraphicsTimerTaskManager graphicTimerTaskMan;
+        GraphicPlatform graphicsPlatform;
 
-        TimerTaskCollection timerTasks;
-        
+        static object normalUpdateTask = new object();
+        UIPlatform uiPlatform;
 
-        public MyRootGraphic(WinTimer winTimer, int width, int height)
+        public MyRootGraphic(UIPlatform uiPlatform, int width, int height)
             : base(width, height)
         {
-            timerTasks = new TimerTaskCollection(this);
-            this.graphicTimer1 = winTimer;
 
-            graphicTimer1.Interval = 500; //300 ms
-            graphicTimer1.Tick += new EventHandler(graphicTimer1_Tick);
-            graphicTimer1.Enabled = true;
+            this.uiPlatform = uiPlatform;
+            this.graphicsPlatform = uiPlatform.GraphicsPlatform;
+            this.graphicTimerTaskMan = new GraphicsTimerTaskManager(this, uiPlatform);
 #if DEBUG
             dbugCurrentGlobalVRoot = this;
             dbug_Init();
 #endif
+
+            this.RequestGraphicsIntervalTask(normalUpdateTask,
+                TaskIntervalPlan.Animation,
+                20,
+                (s, e) =>
+                {
+                    TopWindowRenderBox.CurrentTopWindowRenderBox.InvalidateGraphic();
+                });
         }
-        public override GraphicPlatform P
+        public TopWindowRenderBox CreateTopWindowRenderBox(int w, int h)
         {
-            get { return CurrentGraphicPlatform.P; }
+            return uiPlatform.CreateTopWindowRenderBox(this, w, h);
         }
-        public override void ClearRenderRequests(TopWindowRenderBoxBase topwin)
+        public IUserEventPortal CreateUserEventPortal(TopWindowRenderBox topwin)
+        {
+            UserInputEventAdapter userInputEventBridge = new UserInputEventAdapter();
+            userInputEventBridge.Bind(topwin);
+            return userInputEventBridge;             
+        }
+        protected override GraphicPlatform P
+        {
+            get { return graphicsPlatform; }
+        }
+
+        public override void ClearRenderRequests(TopWindowRenderBox topwin)
         {
             if (this.VisualRequestCount > 0)
             {
@@ -44,111 +62,62 @@ namespace LayoutFarm.UI
 
         public override void CloseWinRoot()
         {
-            this.graphicTimer1.Enabled = false;
+            this.graphicTimerTaskMan.CloseAllWorkers();
+            this.graphicTimerTaskMan = null;
         }
-        
+
         public override void CaretStartBlink()
         {
-            graphicTimer1.Enabled = true;
+
+            graphicTimerTaskMan.StartCaretBlinkTask();
         }
         public override void CaretStopBlink()
         {
-            graphicTimer1.Enabled = false;
-        }
+            graphicTimerTaskMan.StopCaretBlinkTask();
 
-
-        void graphicTimer1_Tick(object sender, EventArgs e)
-        {
-            if (TopWindowRenderBox.CurrentTopWindowRenderBox == null)
-            {
-                return;
-            }
-            //clear grahic timer
-            int j = timerTasks.TaskCount;
-            MyIntervalTaskEventArgs args = GetTaskEventArgs();
-            bool needForcePaint = false;
-            for (int i = 0; i < j; ++i)
-            {
-                timerTasks.GetTask(i).InvokeHandler(args);
-                if (!needForcePaint)
-                {
-                    needForcePaint = args.NeedUpdate;
-                }
-                args.ClearForReuse();
-            }
-            if (needForcePaint)
-            {
-                TopWindowRenderBox.CurrentTopWindowRenderBox.ForcePaint();                  
-            }
-            FreeTaskEventArgs(args);
         }
-
-        Stack<MyIntervalTaskEventArgs> taskEventPools = new Stack<MyIntervalTaskEventArgs>();
-        MyIntervalTaskEventArgs GetTaskEventArgs()
-        {
-            if (taskEventPools.Count > 0)
-            {
-                return taskEventPools.Pop();
-            }
-            else
-            {
-                return new MyIntervalTaskEventArgs();
-            }
-        }
-        void FreeTaskEventArgs(MyIntervalTaskEventArgs args)
-        {
-            //clear for reues
-            args.ClearForReuse();
-            taskEventPools.Push(args);
-        }
-
 
         ~MyRootGraphic()
         {
-
-            if (this.graphicTimer1 != null)
+            if (graphicTimerTaskMan != null)
             {
-                this.graphicTimer1.Enabled = false;
-                this.graphicTimer1 = null;
+                this.graphicTimerTaskMan.CloseAllWorkers();
+                this.graphicTimerTaskMan = null;
             }
+
 
 #if DEBUG
             dbugHitTracker.Close();
 #endif
         }
 
-
-        public override GraphicIntervalTask RequestGraphicInternvalTask(object uniqueName,
-            int intervalMs, EventHandler<IntervalTaskEventArgs> tickhandler)
+        //-------------------------------------------------------------------------------
+        public override GraphicsTimerTask RequestGraphicsIntervalTask(
+            object uniqueName,
+            TaskIntervalPlan planName,
+            int intervalMs,
+            EventHandler<GraphicsTimerTaskEventArgs> tickhandler)
         {
-            return this.timerTasks.RequestGraphicInternvalTask(uniqueName, intervalMs, tickhandler);
+            return this.graphicTimerTaskMan.SubscribeGraphicsTimerTask(uniqueName, planName, intervalMs, tickhandler);
         }
         public override void RemoveIntervalTask(object uniqueName)
         {
-            this.timerTasks.RemoveIntervalTask(uniqueName);
+            this.graphicTimerTaskMan.UnsubscribeTimerTask(uniqueName);
         }
-
-
-
-        public const int IS_SHIFT_KEYDOWN = 1 << (1 - 1);
-        public const int IS_ALT_KEYDOWN = 1 << (2 - 1);
-        public const int IS_CTRL_KEYDOWN = 1 << (3 - 1);
-
-
+        //-------------------------------------------------------------------------------
         int VisualRequestCount
         {
             get
             {
-                return veReqList.Count;
+                return renderRequestList.Count;
             }
         }
-
-        void ClearVisualRequests(TopWindowRenderBoxBase wintop)
+        void ClearVisualRequests(TopWindowRenderBox wintop)
         {
-            int j = veReqList.Count;
+            int j = renderRequestList.Count;
             for (int i = 0; i < j; ++i)
             {
-                RenderElementRequest req = veReqList[i];
+                RenderElementRequest req = renderRequestList[i];
                 switch (req.req)
                 {
 
@@ -167,13 +136,13 @@ namespace LayoutFarm.UI
                     case RequestCommand.InvalidateArea:
                         {
                             Rectangle r = (Rectangle)req.parameters;
-                            TopWindowRenderBoxBase wintop2;
+                            TopWindowRenderBox wintop2;
                             this.InvalidateGraphicArea(req.ve, ref r, out wintop2);
                         } break;
 
                 }
             }
-            veReqList.Clear();
+            renderRequestList.Clear();
         }
     }
 }

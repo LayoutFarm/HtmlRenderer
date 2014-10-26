@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
- 
+
 using HtmlRenderer.Css;
 
 namespace HtmlRenderer.Boxes
@@ -154,25 +154,29 @@ namespace HtmlRenderer.Boxes
 
             var g = this.Gfx;
 
-            var b1 = RenderUtils.GetSolidBrush(topColor);
-            BorderPaintHelper.DrawBorder(CssSide.Top, borderPoints, g, box, b1, rect);
+            // var b1 = RenderUtils.GetSolidBrush(topColor);
+            BorderPaintHelper.DrawBorder(CssSide.Top, borderPoints, g, box, topColor, rect);
 
-            var b2 = RenderUtils.GetSolidBrush(leftColor);
-            BorderPaintHelper.DrawBorder(CssSide.Left, borderPoints, g, box, b2, rect);
+            // var b2 = RenderUtils.GetSolidBrush(leftColor);
+            BorderPaintHelper.DrawBorder(CssSide.Left, borderPoints, g, box, leftColor, rect);
 
-            var b3 = RenderUtils.GetSolidBrush(rightColor);
-            BorderPaintHelper.DrawBorder(CssSide.Right, borderPoints, g, box, b3, rect);
+            // var b3 = RenderUtils.GetSolidBrush(rightColor);
+            BorderPaintHelper.DrawBorder(CssSide.Right, borderPoints, g, box, rightColor, rect);
 
-            var b4 = RenderUtils.GetSolidBrush(bottomColor);
-            BorderPaintHelper.DrawBorder(CssSide.Bottom, borderPoints, g, box, b4, rect);
+            //var b4 = RenderUtils.GetSolidBrush(bottomColor);
+            BorderPaintHelper.DrawBorder(CssSide.Bottom, borderPoints, g, box, bottomColor, rect);
 
         }
         internal void PaintBorder(CssBox box, CssSide border, Color solidColor, RectangleF rect)
         {
-            var b = RenderUtils.GetSolidBrush(solidColor);
-            PointF[] borderPoints = new PointF[4];
-            BorderPaintHelper.DrawBorder(border, borderPoints, this.Gfx, box, b, rect);
+             
+            using (var b = this.Platform.CreateSolidBrush(solidColor))
+            {
+                PointF[] borderPoints = new PointF[4];
+                BorderPaintHelper.DrawBorder(border, borderPoints, this.Gfx, box, b, rect);
+            }
         }
+
 
 #if DEBUG
         public void dbugDrawDiagonalBox(Pen pen, float x1, float y1, float x2, float y2)

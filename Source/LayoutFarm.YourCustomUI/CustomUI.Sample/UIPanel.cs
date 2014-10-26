@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing; 
+using LayoutFarm.Drawing;
 using LayoutFarm.Text;
 using LayoutFarm.UI;
 
@@ -15,13 +15,14 @@ namespace LayoutFarm.SampleControls
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
 
-        public event EventHandler<UIDragEventArgs> Dragging;
-        public event EventHandler<UIDragEventArgs> DragStart;
-        public event EventHandler<UIDragEventArgs> DragStop;
+        public event EventHandler<UIMouseEventArgs> Dragging;
+        public event EventHandler<UIMouseEventArgs> DragStart;
+        public event EventHandler<UIMouseEventArgs> DragStop;
 
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
-        int viewportX, viewportY;
+        int viewportX;
+        int viewportY;
         List<LayerElement> layers = new List<LayerElement>(1);
 
         public UIPanel(int width, int height)
@@ -105,7 +106,7 @@ namespace LayoutFarm.SampleControls
                 this.MouseDown(this, e);
             }
         }
-        protected override void OnDragStart(UIDragEventArgs e)
+        protected override void OnDragStart(UIMouseEventArgs e)
         {
             if (this.DragStart != null)
             {
@@ -113,7 +114,7 @@ namespace LayoutFarm.SampleControls
             }
             base.OnDragStart(e);
         }
-        protected override void OnDragStop(UIDragEventArgs e)
+        protected override void OnDragStop(UIMouseEventArgs e)
         {
             if (this.DragStop != null)
             {
@@ -129,7 +130,7 @@ namespace LayoutFarm.SampleControls
             }
             base.OnMouseUp(e);
         }
-        protected override void OnDragging(UIDragEventArgs e)
+        protected override void OnDragging(UIMouseEventArgs e)
         {
             if (this.Dragging != null)
             {
