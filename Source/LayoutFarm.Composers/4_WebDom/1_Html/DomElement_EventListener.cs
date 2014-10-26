@@ -40,6 +40,13 @@ namespace HtmlRenderer.WebDom
         {
             OnMouseUp(e);
         }
+        void IEventListener.ListenMouseClick(UIMouseEventArgs e)
+        {   
+        }
+        void IEventListener.ListenMouseDoubleClick(UIMouseEventArgs e)
+        {
+            OnDoubleClick(e);
+        }
         void IEventListener.ListenMouseWheel(UIMouseEventArgs e)
         {
             OnMouseWheel(e);

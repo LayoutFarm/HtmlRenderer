@@ -32,7 +32,6 @@ namespace LayoutFarm.SampleControls
         HtmlInputEventBridge _htmlInputEventBridge;
         object uiHtmlTask = new object();
 
-
         static UIHtmlBox()
         {
             HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(

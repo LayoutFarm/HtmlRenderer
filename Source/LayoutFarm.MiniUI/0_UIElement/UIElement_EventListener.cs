@@ -29,6 +29,7 @@ namespace LayoutFarm.UI
         {
             OnMouseDown(e);
         }
+
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
             if (e.IsDragging)
@@ -43,7 +44,7 @@ namespace LayoutFarm.UI
                 }
             }
             else
-            {  
+            {
                 OnMouseMove(e);
             }
         }
@@ -57,6 +58,13 @@ namespace LayoutFarm.UI
             {
                 OnMouseUp(e);
             }
+        }
+        void IEventListener.ListenMouseClick(UIMouseEventArgs e)
+        {
+        }
+        void IEventListener.ListenMouseDoubleClick(UIMouseEventArgs e)
+        {
+
         }
         void IEventListener.ListenMouseWheel(UIMouseEventArgs e)
         {

@@ -16,7 +16,7 @@ namespace HtmlRenderer.Composers
     /// </summary>
     public class HtmlInputEventBridge
     {
-
+        DateTime lastimeMouseUp;
         //-----------------------------------------------
         HtmlIsland _htmlIsland;
         CssBoxHitChain _latestMouseDownHitChain = null;
@@ -25,6 +25,8 @@ namespace HtmlRenderer.Composers
         bool _isMouseDown;
         IFonts ifonts;
         bool _isBinded;
+
+        const int DOUBLE_CLICK_SENSE = 150;//ms
 
         public HtmlInputEventBridge()
         {
@@ -129,16 +131,25 @@ namespace HtmlRenderer.Composers
         }
         public void MouseUp(UIMouseEventArgs e)
         {
+
             if (!_isBinded)
             {
                 return;
             }
-            this._isMouseDown = false;
             var rootbox = _htmlIsland.GetRootCssBox();
             if (rootbox == null)
             {
                 return;
             }
+
+            //--------------------------------------------
+            DateTime snapMouseUpTime = DateTime.Now;
+            TimeSpan timediff = snapMouseUpTime - lastimeMouseUp;
+            bool isAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;
+            this.lastimeMouseUp = snapMouseUpTime;
+            //--------------------------------------------
+
+            this._isMouseDown = false;
             //-----------------------------------------
 
             CssBoxHitChain hitChain = new CssBoxHitChain();
@@ -151,6 +162,7 @@ namespace HtmlRenderer.Composers
             var hitInfo = hitChain.GetLastHit();
 
             PropagateEventOnBubblingPhase(hitChain, e);
+
             hitChain.Clear();
             //ReleaseHitChainhitChain);          
 
