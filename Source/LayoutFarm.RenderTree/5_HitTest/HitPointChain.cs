@@ -80,20 +80,7 @@ namespace LayoutFarm
             startTestX = x;
             startTestY = y;
         }
-        public int LastestRootX
-        {
-            get
-            {
-                return startTestX;
-            }
-        }
-        public int LastestRootY
-        {
-            get
-            {
-                return startTestY;
-            }
-        }
+    
         public void OffsetTestPoint(int dx, int dy)
         {
            
@@ -114,7 +101,7 @@ namespace LayoutFarm
 #endif
         public int Count { get { return this.currentHitChain.Count; } }
         public HitInfo GetHitInfo(int index) { return currentHitChain[index]; }
-        public RenderElement CurrentHitElement
+        public RenderElement TopMostElement
         {
             get
             {

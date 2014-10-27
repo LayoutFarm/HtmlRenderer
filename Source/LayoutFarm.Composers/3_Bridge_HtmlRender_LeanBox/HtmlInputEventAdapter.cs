@@ -154,11 +154,12 @@ namespace HtmlRenderer.Composers
                 hitChain.SetRootGlobalPosition(x, y);
                 BoxUtils.HitTest(rootbox, x, y, hitChain);
                 SetEventOrigin(e, hitChain);
+                //---------------------------------------------------------
+
                 var currentHitInfo = new HtmlRenderer.Boxes.HitInfo();
                 ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
                 {
-                    e.CurrentContextElement.ListenMouseMove(e);
-
+                    e.CurrentContextElement.ListenMouseMove(e); 
                     return true;
                 });
 

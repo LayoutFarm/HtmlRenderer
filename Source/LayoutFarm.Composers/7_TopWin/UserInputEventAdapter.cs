@@ -248,7 +248,7 @@ namespace LayoutFarm.UI
 
             int hitCount = hitPointChain.Count;
 
-            RenderElement hitElement = hitPointChain.CurrentHitElement;
+            RenderElement hitElement = hitPointChain.TopMostElement;
             if (hitCount > 0)
             {
                 DisableGraphicOutputFlush = true;
@@ -329,6 +329,7 @@ namespace LayoutFarm.UI
             visualroot.dbugHitTracker.Play = false;
 #endif
         }
+        static int dbugCount = 0;
 
         protected void OnMouseMove(UIMouseEventArgs e)
         {
@@ -342,22 +343,28 @@ namespace LayoutFarm.UI
             //-------------------------------------------------------
             DisableGraphicOutputFlush = true;
             this.isDragging = e.IsDragging;
-
             SetEventOrigin(e, hitPointChain);
+
+            //-------------------------------------------------------
             ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (hitInfo, portal) =>
             {
-
                 portal.PortalMouseMove(e);
                 return true;
             });
             //-------------------------------------------------------  
             if (!e.CancelBubbling)
             {
+
                 HitInfo currentHitPoint = new HitInfo();
+                bool passloop = false;
+                //test if topmost element is in the hitchain 
+
                 ForEachEventListenerBubbleUp(e, hitPointChain, ref currentHitPoint, () =>
                 {
-
+                    passloop = true;
                     var listener = e.CurrentContextElement;
+                    UIElement uu = listener as UI.UIElement;
+
                     if (currentMouseActiveElement != null &&
                         currentMouseActiveElement != listener)
                     {
@@ -379,10 +386,23 @@ namespace LayoutFarm.UI
 
                     return true;//stop
                 });
+
+                if (!passloop && currentMouseActiveElement != null)
+                {
+                    if (isDragging)
+                    {
+                        currentMouseActiveElement.ListenMouseLeave(e);
+                    }
+                    else
+                    {
+                        currentMouseActiveElement = null;
+                    }
+                }
+
+
             }
 
             DisableGraphicOutputFlush = false;
-
             SwapHitChain(hitPointChain);
 
         }
@@ -404,7 +424,7 @@ namespace LayoutFarm.UI
             TimeSpan timediff = snapMouseUpTime - lastTimeMouseUp;
             bool isAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;
             this.lastTimeMouseUp = snapMouseUpTime;
-            Console.WriteLine(timediff.Milliseconds);
+
             //--------------------------------------------
 #if DEBUG
 

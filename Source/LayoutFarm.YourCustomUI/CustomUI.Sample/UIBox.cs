@@ -21,8 +21,7 @@ namespace LayoutFarm.SampleControls
 
 #if DEBUG
         static int dbugTotalId;
-        public readonly int dbugId = dbugTotalId++;
-
+        public readonly int dbugId = dbugTotalId++;      
 #endif
         public UIBox(int width, int height)
         {

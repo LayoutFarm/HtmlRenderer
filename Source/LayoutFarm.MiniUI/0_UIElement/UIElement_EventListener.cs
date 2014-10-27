@@ -72,7 +72,14 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenMouseLeave(UIMouseEventArgs e)
         {
-            OnMouseLeave(e);
+            if (e.IsDragging)
+            {
+                OnDragLeave(e);
+            }
+            else
+            {
+                OnMouseLeave(e);
+            }
         }
         void IEventListener.ListenGotFocus(UIFocusEventArgs e)
         {
