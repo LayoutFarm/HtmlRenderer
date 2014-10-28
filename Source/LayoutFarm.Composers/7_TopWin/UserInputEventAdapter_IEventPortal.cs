@@ -8,14 +8,11 @@ namespace LayoutFarm.UI
 {
 
     partial class UserInputEventAdapter : IUserEventPortal
-    {
-        //IUserEventPortalImplementation
-
+    {   
         int lastestLogicalMouseDownX;
         int lastestLogicalMouseDownY;
         int prevLogicalMouseX;
-        int prevLogicalMouseY;
-         
+        int prevLogicalMouseY;         
 
         //------------------------------------------------------------
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)

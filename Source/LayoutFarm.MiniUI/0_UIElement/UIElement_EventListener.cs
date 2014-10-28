@@ -34,31 +34,35 @@ namespace LayoutFarm.UI
 
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
-            this.isDragging = isMouseDown;
+
             if (isMouseDown)
             {
-                if (e.JustEnter)
+                if (isDragging)
                 {
-                    OnDragStart(e);
+                    OnDragging(e);
                 }
                 else
                 {
-                    OnDragging(e);
+                    //first time
+                    this.isDragging = true;                 
+                    OnDragBegin(e);
                 }
             }
             else
             {
+                this.isDragging = false;
                 OnMouseMove(e);
+
             }
-             
+
         }
         void IEventListener.ListenMouseUp(UIMouseEventArgs e)
-        {   
+        {
 
             if (isDragging)
             {
                 //mouse up on 
-                OnDragStop(e);
+                OnDragEnd(e);
             }
             else
             {

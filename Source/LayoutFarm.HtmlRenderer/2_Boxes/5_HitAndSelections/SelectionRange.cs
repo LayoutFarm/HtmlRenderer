@@ -48,6 +48,7 @@ namespace HtmlRenderer.Boxes
             //1.
             this.SetupStartHitPoint(startChain, ifonts);
             //2. 
+            
             this.SetupEndHitPoint(endChain, ifonts);
 
         }
@@ -207,8 +208,7 @@ namespace HtmlRenderer.Boxes
                     }
                 }
             }
-        }
-
+        } 
         void SetupStartHitPoint(CssBoxHitChain startChain, IFonts ifonts)
         {
             HitInfo startHit = startChain.GetLastHit();

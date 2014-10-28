@@ -13,11 +13,13 @@ using LayoutFarm.Text;
 namespace LayoutFarm.SampleControls
 {
 
-    public class UITextBox : UIBox
+    public class UITextBox : UIBox, IUserEventPortal
     {
 
         TextEditRenderBox visualTextEdit;
         bool _multiline;
+
+
         public UITextBox(int width, int height, bool multiline)
             : base(width, height)
         {
@@ -27,7 +29,7 @@ namespace LayoutFarm.SampleControls
         {
             get
             {
-                return true; 
+                return true;
             }
         }
         public void Focus()
@@ -64,61 +66,17 @@ namespace LayoutFarm.SampleControls
             return visualTextEdit;
         }
 
-        protected override void OnKeyPress(UIKeyEventArgs e)
-        {
-            visualTextEdit.OnKeyPress(e);
-        }
-        protected override void OnKeyDown(UIKeyEventArgs e)
-        {
-            visualTextEdit.OnKeyDown(e);
-        }
-        protected override void OnKeyUp(UIKeyEventArgs e)
-        {
 
-        }
-        protected override bool OnProcessDialogKey(UIKeyEventArgs e)
-        {
-            return visualTextEdit.OnProcessDialogKey(e);
 
-        }
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            this.Focus();
-            visualTextEdit.OnMouseDown(e);
-            e.CancelBubbling = true;
-        }
-        protected override void OnMouseMove(UIMouseEventArgs e)
-        {
-            e.MouseCursorStyle = MouseCursorStyle.IBeam;
-            base.OnMouseMove(e);
-        }
-         
+
         protected override void OnMouseLeave(UIMouseEventArgs e)
         {
             e.MouseCursorStyle = MouseCursorStyle.Arrow;
-            base.OnMouseLeave(e);
+            e.CancelBubbling = true;
         }
-        protected override void OnMouseUp(UIMouseEventArgs e)
-        {
-            visualTextEdit.OnMouseUp(e);
-        }
-
         protected override void OnDoubleClick(UIMouseEventArgs e)
         {
             visualTextEdit.OnDoubleClick(e);
-        }
-       
-        protected override void OnDragStart(UIMouseEventArgs e)
-        {
-            visualTextEdit.OnDragStart(e);
-        }
-        protected override void OnDragging(UIMouseEventArgs e)
-        {
-            visualTextEdit.OnDrag(e);
-        }
-        protected override void OnDragStop(UIMouseEventArgs e)
-        {
-            visualTextEdit.OnDragStop(e);
         }
         public override void InvalidateGraphic()
         {
@@ -128,7 +86,140 @@ namespace LayoutFarm.SampleControls
             }
         }
 
+        protected override void OnKeyPress(UIKeyEventArgs e)
+        {
+            visualTextEdit.OnKeyPress(e);
+            e.CancelBubbling = true;
+        }
+        protected override void OnKeyDown(UIKeyEventArgs e)
+        {
+            visualTextEdit.OnKeyDown(e);
+            e.CancelBubbling = true;
 
+        }
+        protected override void OnKeyUp(UIKeyEventArgs e)
+        {
+            e.CancelBubbling = true;
+        }
+        protected override bool OnProcessDialogKey(UIKeyEventArgs e)
+        {
+            if (visualTextEdit.OnProcessDialogKey(e))
+            {
+                e.CancelBubbling = true;
+                return true;
+            }
+            return false;
+        }
+        protected override void OnMouseDown(UIMouseEventArgs e)
+        {
+            this.isMouseDown = true;
 
+            this.Focus();
+            e.MouseCursorStyle = MouseCursorStyle.IBeam;
+            e.CancelBubbling = true;
+            e.CurrentContextElement = this;
+            visualTextEdit.OnMouseDown(e);
+        }
+        protected override void OnMouseMove(UIMouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+        }
+        protected override void OnMouseUp(UIMouseEventArgs e)
+        {
+            visualTextEdit.OnMouseUp(e);
+            this.isMouseDown = this.isDragging = false;
+            e.MouseCursorStyle = MouseCursorStyle.Default;
+            e.CancelBubbling = true;
+        }
+
+        protected override void OnDragBegin(UIMouseEventArgs e)
+        {
+            visualTextEdit.OnDragBegin(e);
+            e.CancelBubbling = true;
+            e.MouseCursorStyle = MouseCursorStyle.IBeam;
+        }
+        protected override void OnDragging(UIMouseEventArgs e)
+        {
+            visualTextEdit.OnDrag(e);
+            e.CancelBubbling = true;
+            e.MouseCursorStyle = MouseCursorStyle.IBeam;
+        }
+        protected override void OnDragEnd(UIMouseEventArgs e)
+        {
+            visualTextEdit.OnDragEnd(e);
+            this.isMouseDown = this.isDragging = false;
+            e.MouseCursorStyle = MouseCursorStyle.Default;
+            e.CancelBubbling = true;
+        }
+        //------------------------------------------------------
+        bool isMouseDown;
+        bool isDragging;
+
+        void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
+        {
+            this.OnKeyPress(e);
+        } 
+        void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
+        {
+            this.OnKeyDown(e);
+        } 
+        void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
+        {
+            this.OnKeyUp(e); 
+        }
+
+        bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
+        {
+            return this.OnProcessDialogKey(e);
+        } 
+        void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
+        {
+            this.OnMouseDown(e);  
+        } 
+        void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
+        {
+            if (this.isMouseDown)
+            {
+                if (isDragging)
+                {
+                    this.OnDragging(e);                   
+                }
+                else
+                {                    
+                    isDragging = true;
+                    this.OnDragBegin(e);                    
+                }
+            }
+            else
+            {
+                this.OnMouseMove(e);                
+            } 
+        }
+        void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
+        {
+            if (isDragging)
+            {
+                this.OnDragEnd(e);                
+            }
+            else
+            {
+                this.OnMouseUp(e);     
+            }  
+        }
+
+        void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
+        {
+
+        }
+
+        void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
+        {
+
+        }
+
+        void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
+        {
+
+        }
     }
 }

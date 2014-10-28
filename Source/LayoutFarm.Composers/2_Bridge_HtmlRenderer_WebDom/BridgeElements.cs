@@ -11,9 +11,9 @@ using LayoutFarm.UI;
 
 namespace HtmlRenderer.Composers.BridgeHtml
 {
+
     class HtmlElement : DomElement
     {
-
         CssBox principalBox;
         Css.BoxSpec boxSpec;
         CssRuleSet elementRuleSet; 

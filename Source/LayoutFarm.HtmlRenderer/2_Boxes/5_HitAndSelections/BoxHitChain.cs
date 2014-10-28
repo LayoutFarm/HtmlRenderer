@@ -142,10 +142,9 @@ namespace HtmlRenderer.Boxes
         internal float GlobalOffsetY
         {
             get { return this.globalOffsetY; }
-        }
-
-
+        } 
     }
+
     public enum HitObjectKind : byte
     {
         Unknown,

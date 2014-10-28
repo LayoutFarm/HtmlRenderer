@@ -25,8 +25,10 @@ namespace HtmlRenderer.Composers
         bool _isMouseDown;
         IFonts ifonts;
         bool _isBinded;
+
         const int DOUBLE_CLICK_SENSE = 150;//ms 
         Stack<CssBoxHitChain> hitChainPools = new Stack<CssBoxHitChain>();
+
         public HtmlInputEventAdapter()
         {
 
@@ -45,6 +47,17 @@ namespace HtmlRenderer.Composers
             this._htmlIsland = null;
             this._isBinded = false;
         }
+        static void SetEventOrigin(UIEventArgs e, CssBoxHitChain hitChain)
+        {
+            int count = hitChain.Count;
+            if (count > 0)
+            {
+                var hitInfo = hitChain.GetHitInfo(count - 1);
+                e.SourceHitElement = hitInfo.hitObject;
+            }
+
+        }
+
         public void MouseDown(UIMouseEventArgs e)
         {
             if (!_isBinded)
@@ -81,25 +94,23 @@ namespace HtmlRenderer.Composers
             //2. propagate events
             SetEventOrigin(e, hitChain);
 
-            var currentHitInfo = new HtmlRenderer.Boxes.HitInfo();
-            ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
+            ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
             {
-                e.CurrentContextElement.ListenMouseDown(e);
+                portal.PortalMouseDown(e);
                 return true;
             });
+
+            if (!e.CancelBubbling)
+            {
+                ForEachEventListenerBubbleUp(e, hitChain, () =>
+                {
+                    e.CurrentContextElement.ListenMouseDown(e);
+                    return true;
+                });
+            }
             //----------------------------------
             //save mousedown hitchain
             this._latestMouseDownChain = hitChain;
-        }
-        static void SetEventOrigin(UIEventArgs e, CssBoxHitChain hitChain)
-        {
-            int count = hitChain.Count;
-            if (count > 0)
-            {
-                var hitInfo = hitChain.GetHitInfo(count - 1);
-                e.SourceHitElement = hitInfo.hitObject;
-            }
-
         }
         public void MouseMove(UIMouseEventArgs e)
         {
@@ -115,32 +126,54 @@ namespace HtmlRenderer.Composers
             //-----------------------------------------
             int x = e.X;
             int y = e.Y;
+
             if (this._isMouseDown)
             {
-                //dragging *** 
+                //dragging *** , if changed
                 if (this._mousedownX != x || this._mousedownY != y)
                 {
                     //handle mouse drag
                     CssBoxHitChain hitChain = GetFreeHitChain();
                     hitChain.SetRootGlobalPosition(x, y);
-                    BoxUtils.HitTest(rootbox, x, y, hitChain);
-                    SetEventOrigin(e, hitChain);
-                    ClearPreviousSelection();
 
-                    if (hitChain.Count > 0)
-                    {
-                        //create selection range 
-                        this._htmlIsland.SetSelection(new SelectionRange(
-                            _latestMouseDownChain,
-                            hitChain,
-                            this.ifonts));
-                    }
-                    else
-                    {
-                        this._htmlIsland.SetSelection(null);
-                    }
+                    BoxUtils.HitTest(rootbox, x, y, hitChain);
+                    SetEventOrigin(e, hitChain); 
                     //---------------------------------------------------------
-                    //propagate mouse drag ? 
+                    //propagate mouse drag 
+                    ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
+                    {
+                        portal.PortalMouseMove(e);
+                        return true;
+                    });
+                    //---------------------------------------------------------  
+                   
+
+                    if (!e.CancelBubbling)
+                    {
+                        ClearPreviousSelection();
+
+                        if (hitChain.Count > 0)
+                        {
+                            //create selection range 
+                            this._htmlIsland.SetSelection(new SelectionRange(
+                                _latestMouseDownChain,
+                                hitChain,
+                                this.ifonts));
+                        }
+                        else
+                        {
+                            this._htmlIsland.SetSelection(null);
+                        }
+
+
+                        ForEachEventListenerBubbleUp(e, hitChain, () =>
+                        {
+
+                            e.CurrentContextElement.ListenMouseMove(e);
+                            return true;
+                        });
+                    }
+
 
                     //---------------------------------------------------------
                     ReleaseHitChain(hitChain);
@@ -156,13 +189,21 @@ namespace HtmlRenderer.Composers
                 SetEventOrigin(e, hitChain);
                 //---------------------------------------------------------
 
-                var currentHitInfo = new HtmlRenderer.Boxes.HitInfo();
-                ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
+                ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
                 {
-                    e.CurrentContextElement.ListenMouseMove(e); 
+                    portal.PortalMouseMove(e);
                     return true;
                 });
-
+                 
+                //---------------------------------------------------------
+                if (!e.CancelBubbling)
+                {
+                    ForEachEventListenerBubbleUp(e, hitChain, () =>
+                    {
+                        e.CurrentContextElement.ListenMouseMove(e);
+                        return true;
+                    });
+                }
                 ReleaseHitChain(hitChain);
             }
         }
@@ -196,13 +237,20 @@ namespace HtmlRenderer.Composers
             SetEventOrigin(e, hitChain);
 
             //2. invoke css event and script event   
-            var currentHitInfo = new HtmlRenderer.Boxes.HitInfo();
-            ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
+            ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
             {
-                e.CurrentContextElement.ListenMouseUp(e);
+                portal.PortalMouseUp(e);
                 return true;
             });
 
+            if (!e.CancelBubbling)
+            {
+                ForEachEventListenerBubbleUp(e, hitChain, () =>
+                {
+                    e.CurrentContextElement.ListenMouseUp(e);
+                    return true;
+                });
+            }
 
             if (!e.IsCanceled)
             {
@@ -211,15 +259,15 @@ namespace HtmlRenderer.Composers
                 //--------------------
                 if (isAlsoDoubleClick)
                 {
-                    ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
+                    ForEachEventListenerBubbleUp(e, hitChain, () =>
                     {
                         e.CurrentContextElement.ListenMouseDoubleClick(e);
                         return true;
                     });
                 }
                 else
-                {
-                    ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
+                {   
+                    ForEachEventListenerBubbleUp(e, hitChain, () =>
                     {
                         e.CurrentContextElement.ListenMouseClick(e);
                         return true;
@@ -231,8 +279,6 @@ namespace HtmlRenderer.Composers
             this._latestMouseDownChain.Clear();
             this._latestMouseDownChain = null;
         }
-
-
         public void MouseWheel(UIMouseEventArgs e)
         {
 
@@ -261,7 +307,7 @@ namespace HtmlRenderer.Composers
         }
 
 
-        delegate bool EventPortalAction(HtmlRenderer.Boxes.HitInfo hitInfo, IUserEventPortal evPortal);
+        delegate bool EventPortalAction(IUserEventPortal evPortal);
         delegate bool EventListenerAction();
 
         static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, CssBoxHitChain hitPointChain, EventPortalAction eventPortalAction)
@@ -293,9 +339,9 @@ namespace HtmlRenderer.Composers
 
                 //---------------------
                 if (controller != null)
-                {
-                    //found controller
-                    if (eventPortalAction(hitInfo, controller))
+                {  
+                    e.Location = new Point(hitInfo.localX, hitInfo.localY); 
+                    if (eventPortalAction(controller))
                     {
                         return;
                     }
@@ -303,7 +349,7 @@ namespace HtmlRenderer.Composers
             }
         }
 
-        static void ForEachEventListenerBubbleUp(UIEventArgs e, CssBoxHitChain hitChain, ref HtmlRenderer.Boxes.HitInfo currentHitInfo, EventListenerAction listenerAction)
+        static void ForEachEventListenerBubbleUp(UIEventArgs e, CssBoxHitChain hitChain, EventListenerAction listenerAction)
         {
 
             for (int i = hitChain.Count - 1; i >= 0; --i)
@@ -334,10 +380,10 @@ namespace HtmlRenderer.Composers
                 if (controller != null)
                 {
                     //found controller
-                    currentHitInfo = hitInfo;
+
                     e.CurrentContextElement = controller;
                     e.Location = new Point(hitInfo.localX, hitInfo.localY);
-                    currentHitInfo = hitInfo;
+
                     if (listenerAction())
                     {
                         return;

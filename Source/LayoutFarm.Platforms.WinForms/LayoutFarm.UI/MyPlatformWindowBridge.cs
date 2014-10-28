@@ -236,7 +236,7 @@ namespace LayoutFarm.UI
         {
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
             SetUIMouseEventArgsInfo(mouseEventArg, e);
-            this.isDragging = mouseEventArg.IsDragging = this.isMouseDown;
+            this.isDragging =this.isMouseDown;
             return mouseEventArg;
         }
         void ReleaseMouseEvent(UIMouseEventArgs e)
