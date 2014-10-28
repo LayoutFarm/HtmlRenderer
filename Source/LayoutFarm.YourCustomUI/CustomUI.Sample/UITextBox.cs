@@ -27,7 +27,7 @@ namespace LayoutFarm.SampleControls
         {
             get
             {
-                return true; 
+                return true;
             }
         }
         public void Focus()
@@ -85,39 +85,46 @@ namespace LayoutFarm.SampleControls
         {
             this.Focus();
             visualTextEdit.OnMouseDown(e);
+            e.MouseCursorStyle = MouseCursorStyle.IBeam;
             e.CancelBubbling = true;
         }
         protected override void OnMouseMove(UIMouseEventArgs e)
         {
             e.MouseCursorStyle = MouseCursorStyle.IBeam;
-            base.OnMouseMove(e);
+            e.CancelBubbling = true;
+             
         }
-         
+
         protected override void OnMouseLeave(UIMouseEventArgs e)
-        {
+        {   
             e.MouseCursorStyle = MouseCursorStyle.Arrow;
-            base.OnMouseLeave(e);
+            e.CancelBubbling = true;
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
-        {
+        {   
             visualTextEdit.OnMouseUp(e);
+            e.MouseCursorStyle = MouseCursorStyle.IBeam;
+            e.CancelBubbling = true;
         }
 
         protected override void OnDoubleClick(UIMouseEventArgs e)
         {
             visualTextEdit.OnDoubleClick(e);
         }
-       
+
         protected override void OnDragBegin(UIMouseEventArgs e)
         {
+            e.MouseCursorStyle = MouseCursorStyle.IBeam;
             visualTextEdit.OnDragBegin(e);
         }
         protected override void OnDragging(UIMouseEventArgs e)
         {
+            e.MouseCursorStyle = MouseCursorStyle.IBeam;
             visualTextEdit.OnDrag(e);
         }
         protected override void OnDragEnd(UIMouseEventArgs e)
         {
+            e.MouseCursorStyle = MouseCursorStyle.IBeam;
             visualTextEdit.OnDragEnd(e);
         }
         public override void InvalidateGraphic()
