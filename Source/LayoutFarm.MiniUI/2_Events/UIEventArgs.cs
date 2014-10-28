@@ -139,8 +139,6 @@ namespace LayoutFarm.UI
         None
     }
 
-
-
     public class UIMouseEventArgs : UIEventArgs
     {
         public UIMouseButtons Button;
@@ -190,6 +188,7 @@ namespace LayoutFarm.UI
             this.XDiff = 0;
             this.YDiff = 0;
             this.draggingElem = null;
+            this.MouseCursorStyle = UI.MouseCursorStyle.Default;
             base.Clear();
         }
         public IEventListener DraggingElement
@@ -218,8 +217,6 @@ namespace LayoutFarm.UI
 
         public bool IsDragging { get; set; }
         public bool JustEnter { get; set; }
-
-
         public int XDiffFromMouseDownPos
         {
             get
@@ -235,8 +232,27 @@ namespace LayoutFarm.UI
             }
         }
 
+        public MouseCursorStyle MouseCursorStyle
+        {
+            get;
+            set;
+        }
     }
 
+
+    public enum MouseCursorStyle
+    {
+        Default,
+        Arrow, //arrow (default)
+        Hidden,//hidden cursor
+        Pointer, //hand cursor
+        IBeam,
+        Move,
+        EastWest,
+        NorthSouth,
+
+        CustomStyle,
+    }
 
     public class UIKeyEventArgs : UIEventArgs
     {

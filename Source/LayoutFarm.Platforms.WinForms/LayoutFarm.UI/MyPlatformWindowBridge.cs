@@ -8,7 +8,8 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
-    partial class MyCanvasWindowBridge
+
+    partial class MyPlatformWindowBridge
     {
         CanvasEventsStock eventStock = new CanvasEventsStock();
         CanvasViewport canvasViewport;
@@ -18,6 +19,7 @@ namespace LayoutFarm.UI
 
         bool isDragging;
         bool isMouseDown;
+        MouseCursorStyle currentCursorStyle = MouseCursorStyle.Default;
 
         public event EventHandler<ScrollSurfaceRequestEventArgs> VScrollRequest;
         public event EventHandler<ScrollSurfaceRequestEventArgs> HScrollRequest;
@@ -26,8 +28,14 @@ namespace LayoutFarm.UI
 
         RootGraphic rootGraphic;
 
-        public MyCanvasWindowBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
+
+
+
+        public MyPlatformWindowBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
         {
+
+
+
 
             this.userEventPortal = winEventBridge;
             this.topwin = topwin;
@@ -196,22 +204,26 @@ namespace LayoutFarm.UI
                 VScrollRequest.Invoke(sender, e);
             }
         }
+        public void HandleMouseEnterToViewport()
+        {
 
-
-        public void OnGotFocus(EventArgs e)
+            //System.Windows.Forms.Cursor.Hide();
+        }
+        public void HandleMouseLeaveFromViewport()
+        {
+            System.Windows.Forms.Cursor.Show();
+        }
+        public void HandleGotFocus(EventArgs e)
         {
             UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
-
             canvasViewport.FullMode = false;
-
             focusEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
-
             this.userEventPortal.PortalGotFocus(focusEventArg);
             PaintToOutputWindowIfNeed();
 
             eventStock.ReleaseEventArgs(focusEventArg);
         }
-        public void OnLostFocus(EventArgs e)
+        public void HandleLostFocus(EventArgs e)
         {
             UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
             canvasViewport.FullMode = false;
@@ -220,22 +232,34 @@ namespace LayoutFarm.UI
             this.userEventPortal.PortalLostFocus(focusEventArg);
             eventStock.ReleaseEventArgs(focusEventArg);
         }
-
-        //---------------------------------------------------------------------
-
-        public void OnMouseDown(MouseEventArgs e)
+        UIMouseEventArgs GetReadyMouseEventArgs(MouseEventArgs e)
+        {
+            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
+            SetUIMouseEventArgsInfo(mouseEventArg, e);
+            this.isDragging = mouseEventArg.IsDragging = this.isMouseDown;
+            return mouseEventArg;
+        }
+        void ReleaseMouseEvent(UIMouseEventArgs e)
+        {
+            eventStock.ReleaseEventArgs(e);
+        }
+        //------------------------------------------------------------------------
+        public void HandleMouseDown(MouseEventArgs e)
         {
             this.isMouseDown = true;
             this.isDragging = false;
 
             this.topwin.MakeCurrent();
             canvasViewport.FullMode = false;
-            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
 
-            SetUIMouseEventArgsInfo(mouseEventArg, e);
+            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);            
             this.userEventPortal.PortalMouseDown(mouseEventArg);
-            eventStock.ReleaseEventArgs(mouseEventArg);
-
+            if (currentCursorStyle != mouseEventArg.MouseCursorStyle)
+            {
+                //change cursor if need
+                ChangeCursorStyle(mouseEventArg);
+            }
+            ReleaseMouseEvent(mouseEventArg);
             //----------- 
             PaintToOutputWindowIfNeed();
             //---------------
@@ -250,83 +274,68 @@ namespace LayoutFarm.UI
 #endif
 
         }
-        public void OnMouseMove(MouseEventArgs e)
+        public void HandleMouseMove(MouseEventArgs e)
         {
 
-            //interprete meaning ?
             Point viewLocation = canvasViewport.LogicalViewportLocation;
-            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
-            this.isDragging = mouseEventArg.IsDragging = this.isMouseDown;
 
-            SetUIMouseEventArgsInfo(mouseEventArg, e);
-
+            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
+             
             this.userEventPortal.PortalMouseMove(mouseEventArg);
-            eventStock.ReleaseEventArgs(mouseEventArg);
 
+            if (currentCursorStyle != mouseEventArg.MouseCursorStyle)
+            {
+                //change cursor if need
+                ChangeCursorStyle(mouseEventArg);
+            }
+            ReleaseMouseEvent(mouseEventArg);
             PaintToOutputWindowIfNeed();
-
-
         }
-
-        public void OnMouseUp(MouseEventArgs e)
+        public void HandleMouseUp(MouseEventArgs e)
         {
 
-            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
-
-            SetUIMouseEventArgsInfo(mouseEventArg, e);
-
-
-            mouseEventArg.IsDragging = this.isDragging;
-            this.isDragging = this.isMouseDown = false;
-
-
-            canvasViewport.FullMode = false;
-
+            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
+            this.isDragging = this.isMouseDown = false;//reset
+            canvasViewport.FullMode = false; 
 
             this.userEventPortal.PortalMouseUp(mouseEventArg);
-            eventStock.ReleaseEventArgs(mouseEventArg);
+            if (this.currentCursorStyle != mouseEventArg.MouseCursorStyle)
+            {
+                //change cursor if need
+                ChangeCursorStyle(mouseEventArg);
+            }
 
+            ReleaseMouseEvent(mouseEventArg);
             PaintToOutputWindowIfNeed();
+        }
+        public void HandleMouseWheel(MouseEventArgs e)
+        {
 
+            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
+            canvasViewport.FullMode = true;
+            this.userEventPortal.PortalMouseWheel(mouseEventArg);
 
-            //isMouseDown = false;
-
-            //if (isDraging)
-            //{
-
-            //    Point viewLocation = canvasViewport.LogicalViewportLocation;
-            //    var mouseDragEventArg = eventStock.GetFreeDragEventArgs(
-            //       e.Location.ToPoint(),
-            //       GetUIMouseButton(e.Button),
-            //       lastestLogicalMouseDownX,
-            //       lastestLogicalMouseDownY,
-            //       (viewLocation.X + e.X),
-            //       (viewLocation.Y + e.Y),
-            //       (viewLocation.X + e.X) - lastestLogicalMouseDownX,
-            //       (viewLocation.Y + e.Y) - lastestLogicalMouseDownY);
-
-            //    canvasViewport.FullMode = false;
-            //    mouseDragEventArg.OffsetCanvasOrigin(viewLocation);
-            //    userInputEventBridge.OnDragStop(mouseDragEventArg);
-
-            //    PaintToOutputWindowIfNeed();
-
-            //    eventStock.ReleaseEventArgs(mouseDragEventArg);
-
-            //}
-            //else
-            //{ 
-            //    UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
-
-            //    SetUIMouseEventArgsInfo(mouseEventArg, e);
-            //    canvasViewport.FullMode = false;
-            //    mouseEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
-
-            //    this.winEventBridge.OnMouseUp(mouseEventArg);
-
-            //    PaintToOutputWindowIfNeed();
-            //    eventStock.ReleaseEventArgs(mouseEventArg);
-            //}
+            ReleaseMouseEvent(mouseEventArg);
+            PaintToOutputWindowIfNeed();
+        }
+        void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
+        {
+            switch (mouseEventArg.MouseCursorStyle)
+            {
+                case MouseCursorStyle.Pointer:
+                    {
+                        windowControl.Cursor = Cursors.Hand;
+                    } break;
+                case MouseCursorStyle.IBeam:
+                    {
+                        windowControl.Cursor = Cursors.IBeam;
+                    }break;
+                default:
+                    {
+                        windowControl.Cursor = Cursors.Default;
+                    } break;
+            }
+            this.currentCursorStyle = mouseEventArg.MouseCursorStyle;
         }
 
         public void PaintMe()
@@ -344,21 +353,8 @@ namespace LayoutFarm.UI
             PaintMe();
         }
 
-        public void OnMouseWheel(MouseEventArgs e)
-        {
 
-            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
-            SetUIMouseEventArgsInfo(mouseEventArg, e);
-            canvasViewport.FullMode = true;
-            this.userEventPortal.PortalMouseWheel(mouseEventArg);
-            eventStock.ReleaseEventArgs(mouseEventArg);
-
-
-            PaintToOutputWindowIfNeed();
-
-
-        }
-        public void OnKeyDown(KeyEventArgs e)
+        public void HandleKeyDown(KeyEventArgs e)
         {
 
 
@@ -392,7 +388,7 @@ namespace LayoutFarm.UI
             this.rootGraphic.CaretStopBlink();
         }
 
-        public void OnKeyUp(KeyEventArgs e)
+        public void HandleKeyUp(KeyEventArgs e)
         {
 
             this.topwin.MakeCurrent();
@@ -416,7 +412,7 @@ namespace LayoutFarm.UI
         {
             keyEventArgs.SetEventInfo((int)e.KeyCode, e.Shift, e.Alt, e.Control);
         }
-        public void OnKeyPress(KeyPressEventArgs e)
+        public void HandleKeyPress(KeyPressEventArgs e)
         {
             if (char.IsControl(e.KeyChar))
             {
@@ -465,9 +461,6 @@ namespace LayoutFarm.UI
             }
             return result;
         }
-
-
-
 
 
     }
