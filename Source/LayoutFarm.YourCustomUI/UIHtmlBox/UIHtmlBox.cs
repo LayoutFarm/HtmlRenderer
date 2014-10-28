@@ -57,10 +57,12 @@ namespace LayoutFarm.SampleControls
 
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
+             
             _htmlInputEventBridge.MouseUp(e);
         }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
+            e.CurrentContextElement = this;
             _htmlInputEventBridge.MouseDown(e);
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
@@ -71,8 +73,7 @@ namespace LayoutFarm.SampleControls
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
 
-        }
-        
+        }       
         
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {

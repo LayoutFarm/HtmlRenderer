@@ -94,15 +94,24 @@ namespace HtmlRenderer.Composers
             //2. propagate events
             SetEventOrigin(e, hitChain);
 
-            ForEachEventListenerBubbleUp(e, hitChain, () =>
+            ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
             {
-                e.CurrentContextElement.ListenMouseDown(e);
+                portal.PortalMouseDown(e);
                 return true;
             });
+
+            if (!e.CancelBubbling)
+            {
+                ForEachEventListenerBubbleUp(e, hitChain, () =>
+                {
+                    e.CurrentContextElement.ListenMouseDown(e);
+                    return true;
+                });
+            }
             //----------------------------------
             //save mousedown hitchain
             this._latestMouseDownChain = hitChain;
-        } 
+        }
         public void MouseMove(UIMouseEventArgs e)
         {
             if (!_isBinded)
@@ -118,7 +127,6 @@ namespace HtmlRenderer.Composers
             int x = e.X;
             int y = e.Y;
 
-
             if (this._isMouseDown)
             {
                 //dragging *** , if changed
@@ -127,12 +135,10 @@ namespace HtmlRenderer.Composers
                     //handle mouse drag
                     CssBoxHitChain hitChain = GetFreeHitChain();
                     hitChain.SetRootGlobalPosition(x, y);
+
                     BoxUtils.HitTest(rootbox, x, y, hitChain);
                     SetEventOrigin(e, hitChain);
-                    //------------------------------------------ 
-                    ClearPreviousSelection();
-
-
+                    //------------------------------------------  
                     //if (hitChain.Count > 0)
                     //{
                     //    //create selection range 
@@ -147,14 +153,24 @@ namespace HtmlRenderer.Composers
                     //}
                     //---------------------------------------------------------
                     //propagate mouse drag 
-
-                    ForEachEventListenerBubbleUp(e, hitChain, () =>
-                    {   
-                        
-                        e.CurrentContextElement.ListenMouseMove(e);
+                    ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
+                    {
+                        portal.PortalMouseMove(e);
                         return true;
                     });
-                     
+
+                    ClearPreviousSelection();
+
+                    if (!e.CancelBubbling)
+                    {
+                        ForEachEventListenerBubbleUp(e, hitChain, () =>
+                        {
+
+                            e.CurrentContextElement.ListenMouseMove(e);
+                            return true;
+                        });
+                    }
+
 
                     //---------------------------------------------------------
                     ReleaseHitChain(hitChain);
@@ -169,12 +185,22 @@ namespace HtmlRenderer.Composers
                 BoxUtils.HitTest(rootbox, x, y, hitChain);
                 SetEventOrigin(e, hitChain);
                 //---------------------------------------------------------
-                ForEachEventListenerBubbleUp(e, hitChain, () =>
+
+                ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
                 {
-                    e.CurrentContextElement.ListenMouseMove(e);
+                    portal.PortalMouseMove(e);
                     return true;
                 });
-
+                 
+                //---------------------------------------------------------
+                if (!e.CancelBubbling)
+                {
+                    ForEachEventListenerBubbleUp(e, hitChain, () =>
+                    {
+                        e.CurrentContextElement.ListenMouseMove(e);
+                        return true;
+                    });
+                }
                 ReleaseHitChain(hitChain);
             }
         }
@@ -208,13 +234,20 @@ namespace HtmlRenderer.Composers
             SetEventOrigin(e, hitChain);
 
             //2. invoke css event and script event   
-
-            ForEachEventListenerBubbleUp(e, hitChain, () =>
+            ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
             {
-                e.CurrentContextElement.ListenMouseUp(e);
+                portal.PortalMouseUp(e);
                 return true;
             });
 
+            if (!e.CancelBubbling)
+            {
+                ForEachEventListenerBubbleUp(e, hitChain, () =>
+                {
+                    e.CurrentContextElement.ListenMouseUp(e);
+                    return true;
+                });
+            }
 
             if (!e.IsCanceled)
             {
@@ -230,7 +263,7 @@ namespace HtmlRenderer.Composers
                     });
                 }
                 else
-                {
+                {   
                     ForEachEventListenerBubbleUp(e, hitChain, () =>
                     {
                         e.CurrentContextElement.ListenMouseClick(e);
@@ -242,7 +275,7 @@ namespace HtmlRenderer.Composers
             ReleaseHitChain(hitChain);
             this._latestMouseDownChain.Clear();
             this._latestMouseDownChain = null;
-        } 
+        }
         public void MouseWheel(UIMouseEventArgs e)
         {
 
@@ -271,7 +304,7 @@ namespace HtmlRenderer.Composers
         }
 
 
-        delegate bool EventPortalAction(HtmlRenderer.Boxes.HitInfo hitInfo, IUserEventPortal evPortal);
+        delegate bool EventPortalAction(IUserEventPortal evPortal);
         delegate bool EventListenerAction();
 
         static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, CssBoxHitChain hitPointChain, EventPortalAction eventPortalAction)
@@ -303,9 +336,9 @@ namespace HtmlRenderer.Composers
 
                 //---------------------
                 if (controller != null)
-                {
-                    //found controller
-                    if (eventPortalAction(hitInfo, controller))
+                {  
+                    e.Location = new Point(hitInfo.localX, hitInfo.localY); 
+                    if (eventPortalAction(controller))
                     {
                         return;
                     }

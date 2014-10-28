@@ -28,7 +28,7 @@ namespace LayoutFarm.UI
 
         }
         public void Bind(TopWindowRenderBox topwin)
-        {   
+        {
             this.topwin = topwin;
             this.rootgfx = topwin.Root;
             this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
@@ -256,7 +256,7 @@ namespace LayoutFarm.UI
                 SetEventOrigin(e, hitPointChain);
                 //------------------------------
                 //portal
-                ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (hitInfo, portal) =>
+                ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
                 {
                     portal.PortalMouseDown(e);
                     if (e.CurrentContextElement.AcceptKeyboardFocus)
@@ -342,7 +342,7 @@ namespace LayoutFarm.UI
             DisableGraphicOutputFlush = true;
             SetEventOrigin(e, hitPointChain);
             //-------------------------------------------------------
-            ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (hitInfo, portal) =>
+            ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
             {
                 portal.PortalMouseMove(e);
                 return true;
@@ -357,14 +357,14 @@ namespace LayoutFarm.UI
                     if (currentMouseActiveElement != null &&
                         currentMouseActiveElement != listener)
                     {
-                        currentMouseActiveElement.ListenMouseLeave(e); 
-                        
+                        currentMouseActiveElement.ListenMouseLeave(e);
+
                     }
                     if (!e.CancelBubbling)
                     {
                         currentMouseActiveElement = listener;
                         currentMouseActiveElement.ListenMouseMove(e);
-                         
+
                     }
                     return true;//stop
                 });
@@ -382,7 +382,7 @@ namespace LayoutFarm.UI
             DisableGraphicOutputFlush = false;
             SwapHitChain(hitPointChain);
 
-        }    
+        }
         protected void OnGotFocus(UIFocusEventArgs e)
         {
 
@@ -423,13 +423,13 @@ namespace LayoutFarm.UI
                 DisableGraphicOutputFlush = true;
                 SetEventOrigin(e, hitPointChain);
                 //--------------------------------------------------------------- 
-                ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (hitInfo, portal) =>
+                ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
                 {
                     portal.PortalMouseUp(e);
-                    if (e.CurrentContextElement.AcceptKeyboardFocus)
-                    {
-                        this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
-                    }
+                    //if (e.CurrentContextElement.AcceptKeyboardFocus)
+                    //{
+                    //    this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
+                    //}
                     return true;
                 });
 
@@ -440,10 +440,10 @@ namespace LayoutFarm.UI
                     ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                     {
                         listener.ListenMouseUp(e);
-                        if (e.CurrentContextElement.AcceptKeyboardFocus)
-                        {
-                            this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
-                        }
+                        //if (e.CurrentContextElement.AcceptKeyboardFocus)
+                        //{
+                        //    this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
+                        //}
                         return true;
                     });
                 }
@@ -456,10 +456,10 @@ namespace LayoutFarm.UI
                         ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                         {
                             listener.ListenMouseDoubleClick(e); //double click 
-                            if (e.CurrentContextElement.AcceptKeyboardFocus)
-                            {
-                                this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
-                            }
+                            //if (e.CurrentContextElement.AcceptKeyboardFocus)
+                            //{
+                            //    this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
+                            //}
                             return true;
                         });
                     }
@@ -469,10 +469,10 @@ namespace LayoutFarm.UI
                         ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                         {
                             listener.ListenMouseClick(e);
-                            if (e.CurrentContextElement.AcceptKeyboardFocus)
-                            {
-                                this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
-                            }
+                            //if (e.CurrentContextElement.AcceptKeyboardFocus)
+                            //{
+                            //    this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
+                            //}
                             return true;
                         });
                     }
@@ -522,7 +522,7 @@ namespace LayoutFarm.UI
         }
 
         //===================================================================
-        delegate bool EventPortalAction(HitInfo hitInfo, IUserEventPortal evPortal);
+        delegate bool EventPortalAction(IUserEventPortal evPortal);
         delegate bool EventListenerAction(IEventListener listener);
 
         static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, HitChain hitPointChain, EventPortalAction eventPortalAction)
@@ -534,7 +534,7 @@ namespace LayoutFarm.UI
                 if (eventPortal != null)
                 {
                     e.Location = hitPoint.point;
-                    if (eventPortalAction(hitPoint, eventPortal))
+                    if (eventPortalAction(eventPortal))
                     {
                         return;
                     }

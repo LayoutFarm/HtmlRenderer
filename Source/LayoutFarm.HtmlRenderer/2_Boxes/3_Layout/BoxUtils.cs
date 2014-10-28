@@ -49,8 +49,8 @@ namespace HtmlRenderer.Boxes
                 float boxHitLocalX = x - box.LocalX;
                 float boxHitLocalY = y - box.LocalY;
 
-                int boxHitGlobalX = (int)(boxHitLocalX + hitChain.GlobalOffsetX);
-                int boxHitGlobalY = (int)(boxHitLocalY + hitChain.GlobalOffsetY);
+                //int boxHitGlobalX = (int)(boxHitLocalX + hitChain.GlobalOffsetX);
+                //int boxHitGlobalY = (int)(boxHitLocalY + hitChain.GlobalOffsetY);
 
                 hitChain.AddHit(box, (int)boxHitLocalX, (int)boxHitLocalY);
                 hitChain.PushContextBox(box);
@@ -103,7 +103,7 @@ namespace HtmlRenderer.Boxes
                 return true;
             }
             else
-            { 
+            {
                 switch (box.CssDisplay)
                 {
 
@@ -127,7 +127,38 @@ namespace HtmlRenderer.Boxes
             return false;
         }
 
-       
+        public static bool HitTestWithPreviousChainHint(CssBox box, float x, float y, CssBoxHitChain hitChain, CssBoxHitChain previousChain)
+        {
+            if (previousChain != null)
+            {
+                int j = previousChain.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    HitInfo hitInfo = previousChain.GetHitInfo(i);
+                    switch (hitInfo.hitObjectKind)
+                    {
+                        case HitObjectKind.CssBox:
+                            {
+
+
+                            }break;
+                        case HitObjectKind.LineBox:
+                            {
+                            }break;
+                        case HitObjectKind.Run:
+                            {
+                            }break;
+                        default:
+                            {
+                                throw new NotSupportedException();
+                            }                    
+                    }
+
+
+                }
+            }
+            return true;//
+        }
 
         internal static CssBox GetNextSibling(CssBox a)
         {
@@ -138,7 +169,6 @@ namespace HtmlRenderer.Boxes
             if (a.LineBoxCount > 0)
             {
                 CssLineBox latestLine = null;
-
                 int y = point.Y;
                 found = false;
                 foreach (CssLineBox linebox in a.GetLineBoxIter())
