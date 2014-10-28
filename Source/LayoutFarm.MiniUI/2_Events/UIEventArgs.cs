@@ -24,22 +24,17 @@ namespace LayoutFarm.UI
         int x;
         int y;
 
-        UIEventName evName;
+
         public UIEventArgs()
         {
 
         }
-        public UIEventName EventName
-        {
-            get { return this.evName; }
-            set { this.evName = value; }
-        }
+
         public virtual void Clear()
         {
             x = 0;
             y = 0;
             CancelBubbling = false;
-
         }
 
         public object SourceHitElement
@@ -47,7 +42,7 @@ namespace LayoutFarm.UI
             get;
             set;
         }
-        public object CurrentContextElement
+        public IEventListener CurrentContextElement
         {
             get;
             set;
@@ -66,7 +61,7 @@ namespace LayoutFarm.UI
             get { return this.Control; }
 
         }
-      
+
         public bool Shift
         {
             get;
@@ -155,6 +150,8 @@ namespace LayoutFarm.UI
         public int YDiff;
         public UIMouseEventType EventType;
         public TopWindowRenderBox WinTop;
+        IEventListener draggingElem;
+
 
         int lastestLogicalViewportMouseDownX;
         int lastestLogicalViewportMouseDownY;
@@ -188,14 +185,19 @@ namespace LayoutFarm.UI
         }
         public override void Clear()
         {
-            Button = 0;
-            Clicks = 0;
-            XDiff = 0;
-            YDiff = 0;
+            this.Button = 0;
+            this.Clicks = 0;
+            this.XDiff = 0;
+            this.YDiff = 0;
+            this.draggingElem = null;
             base.Clear();
         }
-
-        public void SetEventInfo(Point loca, UIMouseButtons button, int lastestLogicalViewportMouseDownX,
+        public IEventListener DraggingElement
+        {
+            get { return this.draggingElem; }
+            set { this.draggingElem = value; }
+        }
+        public void SetEventInfo(Point location, UIMouseButtons button, int lastestLogicalViewportMouseDownX,
            int lastestLogicalViewportMouseDownY,
            int currentLogicalX,
            int currentLogicalY,
@@ -204,7 +206,7 @@ namespace LayoutFarm.UI
         {
 
             Button = button;
-            this.Location = loca;
+            this.Location = location;
 
             this.currentLogicalX = currentLogicalX;
             this.currentLogicalY = currentLogicalY;
@@ -216,7 +218,7 @@ namespace LayoutFarm.UI
 
         public bool IsDragging { get; set; }
         public bool JustEnter { get; set; }
-        
+
 
         public int XDiffFromMouseDownPos
         {
@@ -231,11 +233,11 @@ namespace LayoutFarm.UI
             {
                 return this.currentLogicalY - this.lastestLogicalViewportMouseDownY;
             }
-        } 
-        
+        }
+
     }
-    
-    
+
+
     public class UIKeyEventArgs : UIEventArgs
     {
         int keyData;
@@ -443,8 +445,8 @@ namespace LayoutFarm.UI
 
     }
 
-    
-  
+
+
 
 
 }

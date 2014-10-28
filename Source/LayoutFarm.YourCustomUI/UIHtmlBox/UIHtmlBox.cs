@@ -29,7 +29,7 @@ namespace LayoutFarm.SampleControls
 
         bool hasWaitingDocToLoad;
         HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
-        HtmlInputEventBridge _htmlInputEventBridge;
+        HtmlInputEventAdapter _htmlInputEventBridge;
         object uiHtmlTask = new object();
 
         static UIHtmlBox()
@@ -64,7 +64,6 @@ namespace LayoutFarm.SampleControls
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-
             _htmlInputEventBridge.MouseMove(e);
 
         }
@@ -155,7 +154,7 @@ namespace LayoutFarm.SampleControls
                 myCssBoxWrapper.SetController(this);
                 myCssBoxWrapper.HasSpecificSize = true;
 
-                _htmlInputEventBridge = new HtmlInputEventBridge();
+                _htmlInputEventBridge = new HtmlInputEventAdapter();
                 _htmlInputEventBridge.Bind(this.myHtmlIsland, rootgfx.SampleIFonts);
             }
             //-------------------------

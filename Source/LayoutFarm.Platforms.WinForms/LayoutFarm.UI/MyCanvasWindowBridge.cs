@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-using System.Windows.Forms; 
+using System.Windows.Forms;
 using LayoutFarm.Drawing;
- 
+
 namespace LayoutFarm.UI
 {
     partial class MyCanvasWindowBridge
@@ -16,6 +16,8 @@ namespace LayoutFarm.UI
         TopWindowRenderBox topwin;
         Control windowControl;
 
+        bool isDragging;
+        bool isMouseDown;
 
         public event EventHandler<ScrollSurfaceRequestEventArgs> VScrollRequest;
         public event EventHandler<ScrollSurfaceRequestEventArgs> HScrollRequest;
@@ -218,21 +220,23 @@ namespace LayoutFarm.UI
             this.userEventPortal.PortalLostFocus(focusEventArg);
             eventStock.ReleaseEventArgs(focusEventArg);
         }
-        
+
         //---------------------------------------------------------------------
 
         public void OnMouseDown(MouseEventArgs e)
-        { 
+        {
+            this.isMouseDown = true;
+            this.isDragging = false;
 
             this.topwin.MakeCurrent();
-
             canvasViewport.FullMode = false;
-
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
+
             SetUIMouseEventArgsInfo(mouseEventArg, e);
-
             this.userEventPortal.PortalMouseDown(mouseEventArg);
+            eventStock.ReleaseEventArgs(mouseEventArg);
 
+            //----------- 
             PaintToOutputWindowIfNeed();
             //---------------
 #if DEBUG
@@ -244,8 +248,7 @@ namespace LayoutFarm.UI
                 dbug_InvokeHitChainMsg();
             }
 #endif
-            //----------- 
-            eventStock.ReleaseEventArgs(mouseEventArg);
+
         }
         public void OnMouseMove(MouseEventArgs e)
         {
@@ -253,24 +256,33 @@ namespace LayoutFarm.UI
             //interprete meaning ?
             Point viewLocation = canvasViewport.LogicalViewportLocation;
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
-
-
+            this.isDragging = mouseEventArg.IsDragging = this.isMouseDown;
 
             SetUIMouseEventArgsInfo(mouseEventArg, e);
 
             this.userEventPortal.PortalMouseMove(mouseEventArg);
-
-            PaintToOutputWindowIfNeed();
             eventStock.ReleaseEventArgs(mouseEventArg);
 
+            PaintToOutputWindowIfNeed();
+
+
         }
+
         public void OnMouseUp(MouseEventArgs e)
         {
 
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
 
             SetUIMouseEventArgsInfo(mouseEventArg, e);
+
+
+            mouseEventArg.IsDragging = this.isDragging;
+            this.isDragging = this.isMouseDown = false;
+
+
             canvasViewport.FullMode = false;
+
+
             this.userEventPortal.PortalMouseUp(mouseEventArg);
             eventStock.ReleaseEventArgs(mouseEventArg);
 

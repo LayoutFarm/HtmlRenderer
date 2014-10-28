@@ -18,6 +18,7 @@ namespace LayoutFarm
                 var box1 = new LayoutFarm.SampleControls.UIButton(50, 50);
                 box1.BackColor = Color.Red;
                 box1.SetLocation(10, 10);
+                box1.dbugTag = 1;
                 SetupActiveBoxProperties(box1);
                 viewport.AddContent(box1);
             }
@@ -25,6 +26,7 @@ namespace LayoutFarm
             {
                 var box2 = new LayoutFarm.SampleControls.UIButton(30, 30);
                 box2.SetLocation(50, 50);
+                box2.dbugTag = 2;
                 SetupActiveBoxProperties(box2);
                 viewport.AddContent(box2);
             }
@@ -44,12 +46,23 @@ namespace LayoutFarm
                 box.BackColor = Color.LightGray;
                 box.InvalidateGraphic();
             };
+           
             //3. drag
             box.Dragging += (s, e) =>
             {
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
                 Point pos = box.Position;
                 box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
+            };
+
+            box.DragLeave += (s, e) =>
+            {
+                box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
+                Point pos = box.Position;
+
+                //continue dragging on the same element 
+                box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
+                e.CancelBubbling = true;
             };
             box.DragStop += (s, e) =>
             {

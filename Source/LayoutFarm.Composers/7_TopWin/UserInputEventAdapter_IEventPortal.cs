@@ -15,13 +15,12 @@ namespace LayoutFarm.UI
         int lastestLogicalMouseDownY;
         int prevLogicalMouseX;
         int prevLogicalMouseY;
-        bool isMouseDown;
-        bool isDragging;
-        
+         
+
         //------------------------------------------------------------
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
-            this.isMouseDown = true;
+           
             this.lastestLogicalMouseDownX = e.X;
             this.lastestLogicalMouseDownY = e.Y;
             this.prevLogicalMouseX = e.X;
@@ -30,32 +29,22 @@ namespace LayoutFarm.UI
         }
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
-      
-
-            e.IsDragging = this.isDragging;
-            this.isDragging = this.isMouseDown = false;
 
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
-                        
+
             this.OnMouseUp(e);
-
-
-
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-            this.isDragging = e.IsDragging = this.isMouseDown;
+
             //find diff    
             e.SetDiff(
                 (e.X) - prevLogicalMouseX,
                 (e.Y) - prevLogicalMouseY);
-
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
-
-            this.OnMouseMove(e);
-
+            this.OnMouseMove(e); 
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {

@@ -17,6 +17,7 @@ namespace LayoutFarm.SampleControls
         public event EventHandler<UIMouseEventArgs> MouseUp;
 
         public event EventHandler<UIMouseEventArgs> Dragging;
+        public event EventHandler<UIMouseEventArgs> DragLeave;
         public event EventHandler<UIMouseEventArgs> DragStart;
         public event EventHandler<UIMouseEventArgs> DragStop;
 
@@ -69,14 +70,20 @@ namespace LayoutFarm.SampleControls
                 this.MouseDown(this, e);
             }
         }
-         
+        protected override void OnDragLeave(UIMouseEventArgs e)
+        {
+            if (this.DragLeave != null)
+            {
+                this.DragLeave(this, e);
+            }
+        }
         protected override void OnDragStart(UIMouseEventArgs e)
         {
             if (this.DragStart != null)
             {
                 this.DragStart(this, e);
             }
-            base.OnDragStart(e);
+
         }
         protected override void OnDragStop(UIMouseEventArgs e)
         {
@@ -84,7 +91,7 @@ namespace LayoutFarm.SampleControls
             {
                 this.DragStop(this, e);
             }
-            base.OnDragStop(e);
+
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
@@ -92,7 +99,6 @@ namespace LayoutFarm.SampleControls
             {
                 MouseUp(this, e);
             }
-            base.OnMouseUp(e);
         }
         protected override void OnDragging(UIMouseEventArgs e)
         {
@@ -100,7 +106,7 @@ namespace LayoutFarm.SampleControls
             {
                 Dragging(this, e);
             }
-            base.OnDragging(e);
+
         }
     }
 

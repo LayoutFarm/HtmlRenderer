@@ -65,7 +65,7 @@ namespace HtmlRenderer.Demo
         HtmlRenderer.WebDom.WebDocument currentDoc;
 
         MyHtmlIsland myHtmlIsland;
-        HtmlInputEventBridge _htmlEventBridge;
+        HtmlInputEventAdapter _htmlEventBridge;
         /// <summary>
         /// the raw base stylesheet data used in the control
         /// </summary>
@@ -97,7 +97,7 @@ namespace HtmlRenderer.Demo
 
             this.gfxPlatform = LayoutFarm.Drawing.CurrentGraphicPlatform.P;
             this.renderCanvas = gfxPlatform.CreateCanvas(0, 0, 0, 0, 800, 600);
-            
+
             //-------------------------------------------------------
             myHtmlIsland = new MyHtmlIsland();
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
@@ -120,11 +120,11 @@ namespace HtmlRenderer.Demo
 
             timer01.Enabled = true;
             //-------------------------------------------
-            _htmlEventBridge = new HtmlInputEventBridge();
+            _htmlEventBridge = new HtmlInputEventAdapter();
             _htmlEventBridge.Bind(myHtmlIsland, gfxPlatform.SampleIFonts);
             //------------------------------------------- 
         }
-         
+
         void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
         {
             this.imageContentMan.AddRequestImage(
@@ -499,9 +499,7 @@ namespace HtmlRenderer.Demo
         /// </summary>
         protected override void OnMouseLeave(EventArgs e)
         {
-            base.OnMouseLeave(e);
-            var mouseE = new LayoutFarm.UI.UIMouseEventArgs();
-            _htmlEventBridge.MouseLeave(mouseE);
+            base.OnMouseLeave(e);             
 
             //if (_htmlContainer != null)
             //    _htmlContainer.HandleMouseLeave(this);
@@ -555,17 +553,17 @@ namespace HtmlRenderer.Demo
                     return LayoutFarm.UI.UIMouseButtons.Left;
             }
         }
-        /// <summary>
-        /// Handle mouse double click to select word under the mouse. 
-        /// </summary>
-        protected override void OnMouseDoubleClick(MouseEventArgs e)
-        {
-            base.OnMouseDoubleClick(e);
-            this._htmlEventBridge.MouseDoubleClick(CreateMouseEventArg(e));
+        ///// <summary>
+        ///// Handle mouse double click to select word under the mouse. 
+        ///// </summary>
+        //protected override void OnMouseDoubleClick(MouseEventArgs e)
+        //{
+        //    base.OnMouseDoubleClick(e);
+        //    this._htmlEventBridge.MouseDoubleClick(CreateMouseEventArg(e));
 
-            //if (_htmlContainer != null)
-            //    _htmlContainer.HandleMouseDoubleClick(this, e);
-        }
+        //    //if (_htmlContainer != null)
+        //    //    _htmlContainer.HandleMouseDoubleClick(this, e);
+        //}
 
         /// <summary>
         /// Handle key down event for selection, copy and scrollbars handling.
