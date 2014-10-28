@@ -74,10 +74,10 @@ namespace LayoutFarm.UI
                 
                 topWindowBox.ChangeRootGraphicSize(viewportWidth, viewportHeight);
             }
-
         }
         void Canvas_CursorChange(object sender, UICursorEventArgs e)
         {
+
         }
         void Canvas_SizeChanged(object sender, EventArgs e)
         {

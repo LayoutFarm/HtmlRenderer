@@ -11,7 +11,7 @@ namespace LayoutFarm.UI
 {
 
 #if DEBUG
-    partial class MyCanvasWindowBridge : IdbugOutputWindow
+    partial class MyPlatformWindowBridge : IdbugOutputWindow
     {
 
         public event EventHandler dbug_VisualRootDrawMsg;
