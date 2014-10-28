@@ -28,8 +28,7 @@ namespace LayoutFarm.UI
 
         }
         public void Bind(TopWindowRenderBox topwin)
-        {
-
+        {   
             this.topwin = topwin;
             this.rootgfx = topwin.Root;
             this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
@@ -329,6 +328,7 @@ namespace LayoutFarm.UI
             visualroot.dbugHitTracker.Play = false;
 #endif
         }
+
         protected void OnMouseMove(UIMouseEventArgs e)
         {
 
@@ -340,7 +340,6 @@ namespace LayoutFarm.UI
             hoverMonitoringTask.Enabled = true;
             //-------------------------------------------------------
             DisableGraphicOutputFlush = true;
-            this.isDragging = e.IsDragging;
             SetEventOrigin(e, hitPointChain);
             //-------------------------------------------------------
             ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (hitInfo, portal) =>
@@ -351,38 +350,36 @@ namespace LayoutFarm.UI
             //-------------------------------------------------------  
             if (!e.CancelBubbling)
             {
-                bool passloop = false;
-
+                bool foundSomeHit = false;
                 ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                 {
-                    passloop = true; 
-
+                    foundSomeHit = true;
                     if (currentMouseActiveElement != null &&
                         currentMouseActiveElement != listener)
                     {
-                        currentMouseActiveElement.ListenMouseLeave(e);
-                        currentMouseActiveElement = null;
+                        currentMouseActiveElement.ListenMouseLeave(e);                         
                     }
-
-                    if (currentMouseActiveElement == listener)
+                    if (!e.CancelBubbling)
                     {
-                        e.JustEnter = false;
-                        currentMouseActiveElement.ListenMouseMove(e);
+                        if (currentMouseActiveElement == listener)
+                        {
+                            e.JustEnter = false;
+                            currentMouseActiveElement.ListenMouseMove(e);
+                        }
+                        else
+                        {
+                            currentMouseActiveElement = listener;
+                            e.JustEnter = true;
+                            currentMouseActiveElement.ListenMouseMove(e);
+                        }
                     }
-                    else
-                    {
-                        currentMouseActiveElement = listener;
-                        e.JustEnter = true;
-                        currentMouseActiveElement.ListenMouseMove(e);
-                    }
-
                     return true;//stop
                 });
 
-                if (!passloop && currentMouseActiveElement != null)
+                if (!foundSomeHit && currentMouseActiveElement != null)
                 {
                     currentMouseActiveElement.ListenMouseLeave(e);
-                    if (!isDragging)
+                    if (!e.IsCanceled)
                     {
                         currentMouseActiveElement = null;
                     }
@@ -394,6 +391,7 @@ namespace LayoutFarm.UI
 
         }
 
+    
         protected void OnGotFocus(UIFocusEventArgs e)
         {
 

@@ -8,7 +8,8 @@ namespace LayoutFarm.UI
     partial class UIElement
     {
 
-
+        bool isMouseDown;
+        bool isDragging;
         void IEventListener.ListenKeyPress(UIKeyEventArgs e)
         {
             OnKeyPress(e);
@@ -27,12 +28,14 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenMouseDown(UIMouseEventArgs e)
         {
+            this.isMouseDown = true;
             OnMouseDown(e);
         }
 
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
-            if (e.IsDragging)
+            this.isDragging = isMouseDown;
+            if (isMouseDown)
             {
                 if (e.JustEnter)
                 {
@@ -47,17 +50,21 @@ namespace LayoutFarm.UI
             {
                 OnMouseMove(e);
             }
+             
         }
         void IEventListener.ListenMouseUp(UIMouseEventArgs e)
-        {
-            if (e.IsDragging)
+        {   
+
+            if (isDragging)
             {
+                //mouse up on 
                 OnDragStop(e);
             }
             else
             {
                 OnMouseUp(e);
             }
+            this.isDragging = this.isMouseDown = false;
         }
         void IEventListener.ListenMouseClick(UIMouseEventArgs e)
         {
@@ -72,7 +79,7 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenMouseLeave(UIMouseEventArgs e)
         {
-            if (e.IsDragging)
+            if (isDragging)
             {
                 OnDragLeave(e);
             }

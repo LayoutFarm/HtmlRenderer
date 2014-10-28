@@ -59,7 +59,10 @@ namespace LayoutFarm
             {
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
                 Point pos = box.Position;
+
+                //continue dragging on the same element 
                 box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
+                e.CancelBubbling = true;
             };
             box.DragStop += (s, e) =>
             {
