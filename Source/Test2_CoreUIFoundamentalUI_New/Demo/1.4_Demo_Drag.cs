@@ -35,15 +35,16 @@ namespace LayoutFarm
         {
             //1. mouse down         
             box.MouseDown += (s, e) =>
-            {
+            {  
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
                 box.InvalidateGraphic();
-                e.MouseCursorStyle = MouseCursorStyle.Default;
+                e.MouseCursorStyle = MouseCursorStyle.Pointer;
             };
 
             //2. mouse up
             box.MouseUp += (s, e) =>
             {
+                e.MouseCursorStyle = MouseCursorStyle.Default;
                 box.BackColor = Color.LightGray;
                 box.InvalidateGraphic();
             };
@@ -69,7 +70,9 @@ namespace LayoutFarm
             box.DragStop += (s, e) =>
             {
                 box.BackColor = Color.LightGray;
+                e.MouseCursorStyle = MouseCursorStyle.Default; 
                 box.InvalidateGraphic();
+               
             };
         }
 
