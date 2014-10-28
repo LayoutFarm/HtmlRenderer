@@ -16,8 +16,8 @@ namespace LayoutFarm.SampleControls
         public event EventHandler<UIMouseEventArgs> MouseUp;
 
         public event EventHandler<UIMouseEventArgs> Dragging;
-        public event EventHandler<UIMouseEventArgs> DragStart;
-        public event EventHandler<UIMouseEventArgs> DragStop;
+        public event EventHandler<UIMouseEventArgs> DragBegin;
+        public event EventHandler<UIMouseEventArgs> DragEnd;
 
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
@@ -106,21 +106,21 @@ namespace LayoutFarm.SampleControls
                 this.MouseDown(this, e);
             }
         }
-        protected override void OnDragStart(UIMouseEventArgs e)
+        protected override void OnDragBegin(UIMouseEventArgs e)
         {
-            if (this.DragStart != null)
+            if (this.DragBegin != null)
             {
-                this.DragStart(this, e);
+                this.DragBegin(this, e);
             }
-            base.OnDragStart(e);
+            base.OnDragBegin(e);
         }
-        protected override void OnDragStop(UIMouseEventArgs e)
+        protected override void OnDragEnd(UIMouseEventArgs e)
         {
-            if (this.DragStop != null)
+            if (this.DragEnd != null)
             {
-                this.DragStop(this, e);
+                this.DragEnd(this, e);
             }
-            base.OnDragStop(e);
+            base.OnDragEnd(e);
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {

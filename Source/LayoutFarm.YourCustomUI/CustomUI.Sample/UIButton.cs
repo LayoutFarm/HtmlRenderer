@@ -77,7 +77,7 @@ namespace LayoutFarm.SampleControls
                 this.DragLeave(this, e);
             }
         }
-        protected override void OnDragStart(UIMouseEventArgs e)
+        protected override void OnDragBegin(UIMouseEventArgs e)
         {
             if (this.DragStart != null)
             {
@@ -85,7 +85,7 @@ namespace LayoutFarm.SampleControls
             }
 
         }
-        protected override void OnDragStop(UIMouseEventArgs e)
+        protected override void OnDragEnd(UIMouseEventArgs e)
         {
             if (this.DragStop != null)
             {

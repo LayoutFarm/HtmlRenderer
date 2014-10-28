@@ -25,8 +25,10 @@ namespace HtmlRenderer.Composers
         bool _isMouseDown;
         IFonts ifonts;
         bool _isBinded;
+
         const int DOUBLE_CLICK_SENSE = 150;//ms 
         Stack<CssBoxHitChain> hitChainPools = new Stack<CssBoxHitChain>();
+
         public HtmlInputEventAdapter()
         {
 
@@ -45,6 +47,17 @@ namespace HtmlRenderer.Composers
             this._htmlIsland = null;
             this._isBinded = false;
         }
+        static void SetEventOrigin(UIEventArgs e, CssBoxHitChain hitChain)
+        {
+            int count = hitChain.Count;
+            if (count > 0)
+            {
+                var hitInfo = hitChain.GetHitInfo(count - 1);
+                e.SourceHitElement = hitInfo.hitObject;
+            }
+
+        }
+
         public void MouseDown(UIMouseEventArgs e)
         {
             if (!_isBinded)
@@ -81,8 +94,7 @@ namespace HtmlRenderer.Composers
             //2. propagate events
             SetEventOrigin(e, hitChain);
 
-            var currentHitInfo = new HtmlRenderer.Boxes.HitInfo();
-            ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
+            ForEachEventListenerBubbleUp(e, hitChain, () =>
             {
                 e.CurrentContextElement.ListenMouseDown(e);
                 return true;
@@ -90,17 +102,7 @@ namespace HtmlRenderer.Composers
             //----------------------------------
             //save mousedown hitchain
             this._latestMouseDownChain = hitChain;
-        }
-        static void SetEventOrigin(UIEventArgs e, CssBoxHitChain hitChain)
-        {
-            int count = hitChain.Count;
-            if (count > 0)
-            {
-                var hitInfo = hitChain.GetHitInfo(count - 1);
-                e.SourceHitElement = hitInfo.hitObject;
-            }
-
-        }
+        } 
         public void MouseMove(UIMouseEventArgs e)
         {
             if (!_isBinded)
@@ -115,9 +117,11 @@ namespace HtmlRenderer.Composers
             //-----------------------------------------
             int x = e.X;
             int y = e.Y;
+
+
             if (this._isMouseDown)
             {
-                //dragging *** 
+                //dragging *** , if changed
                 if (this._mousedownX != x || this._mousedownY != y)
                 {
                     //handle mouse drag
@@ -125,22 +129,32 @@ namespace HtmlRenderer.Composers
                     hitChain.SetRootGlobalPosition(x, y);
                     BoxUtils.HitTest(rootbox, x, y, hitChain);
                     SetEventOrigin(e, hitChain);
+                    //------------------------------------------ 
                     ClearPreviousSelection();
 
-                    if (hitChain.Count > 0)
-                    {
-                        //create selection range 
-                        this._htmlIsland.SetSelection(new SelectionRange(
-                            _latestMouseDownChain,
-                            hitChain,
-                            this.ifonts));
-                    }
-                    else
-                    {
-                        this._htmlIsland.SetSelection(null);
-                    }
+
+                    //if (hitChain.Count > 0)
+                    //{
+                    //    //create selection range 
+                    //    this._htmlIsland.SetSelection(new SelectionRange(
+                    //        _latestMouseDownChain,
+                    //        hitChain,
+                    //        this.ifonts));
+                    //}
+                    //else
+                    //{
+                    //    this._htmlIsland.SetSelection(null);
+                    //}
                     //---------------------------------------------------------
-                    //propagate mouse drag ? 
+                    //propagate mouse drag 
+
+                    ForEachEventListenerBubbleUp(e, hitChain, () =>
+                    {   
+                        
+                        e.CurrentContextElement.ListenMouseMove(e);
+                        return true;
+                    });
+                     
 
                     //---------------------------------------------------------
                     ReleaseHitChain(hitChain);
@@ -155,11 +169,9 @@ namespace HtmlRenderer.Composers
                 BoxUtils.HitTest(rootbox, x, y, hitChain);
                 SetEventOrigin(e, hitChain);
                 //---------------------------------------------------------
-
-                var currentHitInfo = new HtmlRenderer.Boxes.HitInfo();
-                ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
+                ForEachEventListenerBubbleUp(e, hitChain, () =>
                 {
-                    e.CurrentContextElement.ListenMouseMove(e); 
+                    e.CurrentContextElement.ListenMouseMove(e);
                     return true;
                 });
 
@@ -196,8 +208,8 @@ namespace HtmlRenderer.Composers
             SetEventOrigin(e, hitChain);
 
             //2. invoke css event and script event   
-            var currentHitInfo = new HtmlRenderer.Boxes.HitInfo();
-            ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
+
+            ForEachEventListenerBubbleUp(e, hitChain, () =>
             {
                 e.CurrentContextElement.ListenMouseUp(e);
                 return true;
@@ -211,7 +223,7 @@ namespace HtmlRenderer.Composers
                 //--------------------
                 if (isAlsoDoubleClick)
                 {
-                    ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
+                    ForEachEventListenerBubbleUp(e, hitChain, () =>
                     {
                         e.CurrentContextElement.ListenMouseDoubleClick(e);
                         return true;
@@ -219,7 +231,7 @@ namespace HtmlRenderer.Composers
                 }
                 else
                 {
-                    ForEachEventListenerBubbleUp(e, hitChain, ref currentHitInfo, () =>
+                    ForEachEventListenerBubbleUp(e, hitChain, () =>
                     {
                         e.CurrentContextElement.ListenMouseClick(e);
                         return true;
@@ -230,9 +242,7 @@ namespace HtmlRenderer.Composers
             ReleaseHitChain(hitChain);
             this._latestMouseDownChain.Clear();
             this._latestMouseDownChain = null;
-        }
-
-
+        } 
         public void MouseWheel(UIMouseEventArgs e)
         {
 
@@ -303,7 +313,7 @@ namespace HtmlRenderer.Composers
             }
         }
 
-        static void ForEachEventListenerBubbleUp(UIEventArgs e, CssBoxHitChain hitChain, ref HtmlRenderer.Boxes.HitInfo currentHitInfo, EventListenerAction listenerAction)
+        static void ForEachEventListenerBubbleUp(UIEventArgs e, CssBoxHitChain hitChain, EventListenerAction listenerAction)
         {
 
             for (int i = hitChain.Count - 1; i >= 0; --i)
@@ -334,10 +344,10 @@ namespace HtmlRenderer.Composers
                 if (controller != null)
                 {
                     //found controller
-                    currentHitInfo = hitInfo;
+
                     e.CurrentContextElement = controller;
                     e.Location = new Point(hitInfo.localX, hitInfo.localY);
-                    currentHitInfo = hitInfo;
+
                     if (listenerAction())
                     {
                         return;

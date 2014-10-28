@@ -54,6 +54,7 @@ namespace LayoutFarm.SampleControls
             //tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
         }
         //--------------------------------------------------------------------
+
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
             _htmlInputEventBridge.MouseUp(e);

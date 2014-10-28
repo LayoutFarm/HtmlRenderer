@@ -10,15 +10,7 @@ namespace LayoutFarm.UI
     public delegate void UIMouseEventHandler(object sender, UIMouseEventArgs e);
     public delegate void UIKeyEventHandler(object sender, UIKeyEventArgs e);
     public delegate void UIKeyPressEventHandler(object sender, UIKeyEventArgs e);
-
-    public enum UIMouseEventType
-    {
-        MouseMove, MouseDown, MouseUp,
-        MouseEnter, MouseLeave, MouseWheel,
-        DragStart, Drag, DragStop,
-
-    }
-
+     
     public abstract class UIEventArgs : EventArgs
     {
         int x;
@@ -146,7 +138,7 @@ namespace LayoutFarm.UI
         public int Clicks;
         public int XDiff;
         public int YDiff;
-        public UIMouseEventType EventType;
+         
         public TopWindowRenderBox WinTop;
         IEventListener draggingElem;
 
@@ -215,8 +207,7 @@ namespace LayoutFarm.UI
             this.lastestYDiff = lastestYDiff;
         }
 
-        public bool IsDragging { get; set; }
-        public bool JustEnter { get; set; }
+        
         public int XDiffFromMouseDownPos
         {
             get

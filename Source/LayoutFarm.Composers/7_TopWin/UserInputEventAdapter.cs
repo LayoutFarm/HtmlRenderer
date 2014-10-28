@@ -357,21 +357,14 @@ namespace LayoutFarm.UI
                     if (currentMouseActiveElement != null &&
                         currentMouseActiveElement != listener)
                     {
-                        currentMouseActiveElement.ListenMouseLeave(e);                         
+                        currentMouseActiveElement.ListenMouseLeave(e); 
+                        
                     }
                     if (!e.CancelBubbling)
                     {
-                        if (currentMouseActiveElement == listener)
-                        {
-                            e.JustEnter = false;
-                            currentMouseActiveElement.ListenMouseMove(e);
-                        }
-                        else
-                        {
-                            currentMouseActiveElement = listener;
-                            e.JustEnter = true;
-                            currentMouseActiveElement.ListenMouseMove(e);
-                        }
+                        currentMouseActiveElement = listener;
+                        currentMouseActiveElement.ListenMouseMove(e);
+                         
                     }
                     return true;//stop
                 });
@@ -389,9 +382,7 @@ namespace LayoutFarm.UI
             DisableGraphicOutputFlush = false;
             SwapHitChain(hitPointChain);
 
-        }
-
-    
+        }    
         protected void OnGotFocus(UIFocusEventArgs e)
         {
 

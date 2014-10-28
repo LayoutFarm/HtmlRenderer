@@ -173,7 +173,6 @@ namespace LayoutFarm.Text
             if (textLineWriter != null)
             {
 
-
                 selectionRange = new VisualSelectionRange(GetCurrentPointInfo(), GetCurrentPointInfo());
             }
 #if DEBUG

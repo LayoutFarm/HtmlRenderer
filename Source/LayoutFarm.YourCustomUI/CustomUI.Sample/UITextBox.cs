@@ -108,17 +108,17 @@ namespace LayoutFarm.SampleControls
             visualTextEdit.OnDoubleClick(e);
         }
        
-        protected override void OnDragStart(UIMouseEventArgs e)
+        protected override void OnDragBegin(UIMouseEventArgs e)
         {
-            visualTextEdit.OnDragStart(e);
+            visualTextEdit.OnDragBegin(e);
         }
         protected override void OnDragging(UIMouseEventArgs e)
         {
             visualTextEdit.OnDrag(e);
         }
-        protected override void OnDragStop(UIMouseEventArgs e)
+        protected override void OnDragEnd(UIMouseEventArgs e)
         {
-            visualTextEdit.OnDragStop(e);
+            visualTextEdit.OnDragEnd(e);
         }
         public override void InvalidateGraphic()
         {
