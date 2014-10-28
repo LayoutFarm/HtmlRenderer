@@ -137,20 +137,7 @@ namespace HtmlRenderer.Composers
                     hitChain.SetRootGlobalPosition(x, y);
 
                     BoxUtils.HitTest(rootbox, x, y, hitChain);
-                    SetEventOrigin(e, hitChain);
-                    //------------------------------------------  
-                    //if (hitChain.Count > 0)
-                    //{
-                    //    //create selection range 
-                    //    this._htmlIsland.SetSelection(new SelectionRange(
-                    //        _latestMouseDownChain,
-                    //        hitChain,
-                    //        this.ifonts));
-                    //}
-                    //else
-                    //{
-                    //    this._htmlIsland.SetSelection(null);
-                    //}
+                    SetEventOrigin(e, hitChain); 
                     //---------------------------------------------------------
                     //propagate mouse drag 
                     ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
@@ -158,11 +145,27 @@ namespace HtmlRenderer.Composers
                         portal.PortalMouseMove(e);
                         return true;
                     });
-
-                    ClearPreviousSelection();
+                    //---------------------------------------------------------  
+                   
 
                     if (!e.CancelBubbling)
                     {
+                        ClearPreviousSelection();
+
+                        if (hitChain.Count > 0)
+                        {
+                            //create selection range 
+                            this._htmlIsland.SetSelection(new SelectionRange(
+                                _latestMouseDownChain,
+                                hitChain,
+                                this.ifonts));
+                        }
+                        else
+                        {
+                            this._htmlIsland.SetSelection(null);
+                        }
+
+
                         ForEachEventListenerBubbleUp(e, hitChain, () =>
                         {
 

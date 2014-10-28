@@ -425,11 +425,7 @@ namespace LayoutFarm.UI
                 //--------------------------------------------------------------- 
                 ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
                 {
-                    portal.PortalMouseUp(e);
-                    //if (e.CurrentContextElement.AcceptKeyboardFocus)
-                    //{
-                    //    this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
-                    //}
+                    portal.PortalMouseUp(e); 
                     return true;
                 });
 
@@ -439,11 +435,7 @@ namespace LayoutFarm.UI
 
                     ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                     {
-                        listener.ListenMouseUp(e);
-                        //if (e.CurrentContextElement.AcceptKeyboardFocus)
-                        //{
-                        //    this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
-                        //}
+                        listener.ListenMouseUp(e); 
                         return true;
                     });
                 }
@@ -455,11 +447,7 @@ namespace LayoutFarm.UI
 
                         ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                         {
-                            listener.ListenMouseDoubleClick(e); //double click 
-                            //if (e.CurrentContextElement.AcceptKeyboardFocus)
-                            //{
-                            //    this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
-                            //}
+                            listener.ListenMouseDoubleClick(e);  
                             return true;
                         });
                     }
@@ -468,11 +456,7 @@ namespace LayoutFarm.UI
 
                         ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                         {
-                            listener.ListenMouseClick(e);
-                            //if (e.CurrentContextElement.AcceptKeyboardFocus)
-                            //{
-                            //    this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
-                            //}
+                            listener.ListenMouseClick(e); 
                             return true;
                         });
                     }
