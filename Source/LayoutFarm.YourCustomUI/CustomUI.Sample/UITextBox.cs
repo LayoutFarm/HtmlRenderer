@@ -87,6 +87,17 @@ namespace LayoutFarm.SampleControls
             visualTextEdit.OnMouseDown(e);
             e.CancelBubbling = true;
         }
+        protected override void OnMouseMove(UIMouseEventArgs e)
+        {
+            e.MouseCursorStyle = MouseCursorStyle.IBeam;
+            base.OnMouseMove(e);
+        }
+         
+        protected override void OnMouseLeave(UIMouseEventArgs e)
+        {
+            e.MouseCursorStyle = MouseCursorStyle.Arrow;
+            base.OnMouseLeave(e);
+        }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             visualTextEdit.OnMouseUp(e);

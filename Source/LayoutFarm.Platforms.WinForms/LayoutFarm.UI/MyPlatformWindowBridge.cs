@@ -326,6 +326,10 @@ namespace LayoutFarm.UI
                     {
                         windowControl.Cursor = Cursors.Hand;
                     } break;
+                case MouseCursorStyle.IBeam:
+                    {
+                        windowControl.Cursor = Cursors.IBeam;
+                    }break;
                 default:
                     {
                         windowControl.Cursor = Cursors.Default;
