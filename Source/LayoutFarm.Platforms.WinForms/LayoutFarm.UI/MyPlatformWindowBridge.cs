@@ -235,8 +235,8 @@ namespace LayoutFarm.UI
         UIMouseEventArgs GetReadyMouseEventArgs(MouseEventArgs e)
         {
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
-            SetUIMouseEventArgsInfo(mouseEventArg, e);
-            this.isDragging =this.isMouseDown;
+            SetUIMouseEventArgsInfo(mouseEventArg, e);             
+            this.isDragging = mouseEventArg.IsMouseDown = this.isMouseDown;
             return mouseEventArg;
         }
         void ReleaseMouseEvent(UIMouseEventArgs e)
@@ -252,7 +252,8 @@ namespace LayoutFarm.UI
             this.topwin.MakeCurrent();
             canvasViewport.FullMode = false;
 
-            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);            
+            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
+
             this.userEventPortal.PortalMouseDown(mouseEventArg);
             if (currentCursorStyle != mouseEventArg.MouseCursorStyle)
             {
@@ -280,7 +281,7 @@ namespace LayoutFarm.UI
             Point viewLocation = canvasViewport.LogicalViewportLocation;
 
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
-             
+
             this.userEventPortal.PortalMouseMove(mouseEventArg);
 
             if (currentCursorStyle != mouseEventArg.MouseCursorStyle)
@@ -296,7 +297,7 @@ namespace LayoutFarm.UI
 
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
             this.isDragging = this.isMouseDown = false;//reset
-            canvasViewport.FullMode = false; 
+            canvasViewport.FullMode = false;
 
             this.userEventPortal.PortalMouseUp(mouseEventArg);
             if (this.currentCursorStyle != mouseEventArg.MouseCursorStyle)
@@ -329,7 +330,7 @@ namespace LayoutFarm.UI
                 case MouseCursorStyle.IBeam:
                     {
                         windowControl.Cursor = Cursors.IBeam;
-                    }break;
+                    } break;
                 default:
                     {
                         windowControl.Cursor = Cursors.Default;

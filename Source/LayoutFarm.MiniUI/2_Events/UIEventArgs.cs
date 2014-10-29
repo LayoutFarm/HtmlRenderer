@@ -138,7 +138,9 @@ namespace LayoutFarm.UI
         public int Clicks;
         public int XDiff;
         public int YDiff;
-         
+
+        public bool IsMouseDown;
+
         public TopWindowRenderBox WinTop;
         IEventListener draggingElem;
 

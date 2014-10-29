@@ -153,8 +153,7 @@ namespace HtmlRenderer.Boxes
                         break;
                     }
                 }
-            }
-
+            } 
         }
         static IEnumerable<CssLineBox> GetLineWalkIter(CssLineBox startLine, CssBox endBox)
         {
