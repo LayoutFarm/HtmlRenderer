@@ -10,7 +10,7 @@ using LayoutFarm.UI;
 namespace LayoutFarm
 {
     [DemoNote("3.1 DemoVisible")]
-    class Demo_Visible : DemoBase
+    class Demo_VIsible : DemoBase
     {
         protected override void OnStartDemo(SampleViewport viewport)
         {
