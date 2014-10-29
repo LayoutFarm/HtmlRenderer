@@ -130,13 +130,7 @@ namespace LayoutFarm
                 }
             };
 
-            controllerBox.DragEnd += (s, e) =>
-            {
-                controllerBox.TargetBox = null;
-                controllerBox.Visible = false;
-
-            };
-
+           
             controllerBox.DragLeave += (s, e) =>
             {
 
@@ -157,20 +151,22 @@ namespace LayoutFarm
             };
             controllerBox.MouseLeave += (s, e) =>
             {
-                Point pos = controllerBox.Position;                 
-                int newX = pos.X + e.XDiff;
-                int newY = pos.Y + e.YDiff;
-                controllerBox.SetLocation(newX, newY);
-                var targetBox = controllerBox.TargetBox;
-                if (targetBox != null)
+                if (e.IsMouseDown)
                 {
-                    //move target box too
-                    targetBox.SetLocation(newX + 5, newY + 5);
+                    Point pos = controllerBox.Position;
+                    int newX = pos.X + e.XDiff;
+                    int newY = pos.Y + e.YDiff;
+                    controllerBox.SetLocation(newX, newY);
+                    var targetBox = controllerBox.TargetBox;
+                    if (targetBox != null)
+                    {
+                        //move target box too
+                        targetBox.SetLocation(newX + 5, newY + 5);
+                    }
+
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true;
                 }
-
-                e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                e.CancelBubbling = true; 
-
             };
 
             controllerBox.MouseMove += (s, e) =>
@@ -186,18 +182,24 @@ namespace LayoutFarm
                     if (targetBox != null)
                     {
                         //move target box too
-                        targetBox.SetLocation(newX + 5, newY + 5);  
+                        targetBox.SetLocation(newX + 5, newY + 5);
                     }
                 }
+                 
             };
 
-            controllerBox.MouseUp += (s, e) =>
-            {
-                controllerBox.Visible = false;
-                controllerBox.TargetBox = null;
+            //controllerBox.DragEnd += (s, e) =>
+            //{
+            //    controllerBox.TargetBox = null;
+            //    controllerBox.Visible = false;
 
+            //};
 
-            };
+            //controllerBox.MouseUp += (s, e) =>
+            //{
+            //    controllerBox.Visible = false;
+            //    controllerBox.TargetBox = null;
+            //};
             
         }
 
