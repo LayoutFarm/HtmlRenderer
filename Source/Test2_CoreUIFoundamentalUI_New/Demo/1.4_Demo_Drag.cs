@@ -67,7 +67,7 @@ namespace LayoutFarm
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 e.CancelBubbling = true;
             };
-            box.DragStop += (s, e) =>
+            box.DragEnd += (s, e) =>
             {
                 box.BackColor = Color.LightGray;
                 e.MouseCursorStyle = MouseCursorStyle.Default; 

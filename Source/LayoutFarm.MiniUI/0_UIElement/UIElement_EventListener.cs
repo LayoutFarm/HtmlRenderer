@@ -52,7 +52,6 @@ namespace LayoutFarm.UI
             {
                 this.isDragging = false;
                 OnMouseMove(e);
-
             }
 
         }
