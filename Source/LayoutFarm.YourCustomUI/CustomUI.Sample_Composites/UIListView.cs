@@ -103,21 +103,21 @@ namespace LayoutFarm.SampleControls
                 this.MouseDown(this, e);
             }
         }
-        protected override void OnDragStart(UIMouseEventArgs e)
+        protected override void OnDragBegin(UIMouseEventArgs e)
         {
             if (this.DragStart != null)
             {
                 this.DragStart(this, e);
             }
-            base.OnDragStart(e);
+            base.OnDragBegin(e);
         }
-        protected override void OnDragStop(UIMouseEventArgs e)
+        protected override void OnDragEnd(UIMouseEventArgs e)
         {
             if (this.DragStop != null)
             {
                 this.DragStop(this, e);
             }
-            base.OnDragStop(e);
+            base.OnDragEnd(e);
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {

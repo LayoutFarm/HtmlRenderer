@@ -7,22 +7,22 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm
 {
-    public struct HitPoint
+    public struct HitInfo
     {
         public readonly Point point;
         public readonly RenderElement hitElement;
-        public static readonly HitPoint Empty = new HitPoint();
-        public HitPoint(RenderElement hitObject, Point point)
+        public static readonly HitInfo Empty = new HitInfo();
+        public HitInfo(RenderElement hitObject, Point point)
         {
             this.point = point;
-            this.hitElement = hitObject; 
+            this.hitElement = hitObject;
         }
 
-        public static bool operator ==(HitPoint pair1, HitPoint pair2)
+        public static bool operator ==(HitInfo pair1, HitInfo pair2)
         {
             return ((pair1.hitElement == pair2.hitElement) && (pair1.point == pair2.point));
         }
-        public static bool operator !=(HitPoint pair1, HitPoint pair2)
+        public static bool operator !=(HitInfo pair1, HitInfo pair2)
         {
             return ((pair1.hitElement == pair2.hitElement) && (pair1.point == pair2.point));
         }
@@ -35,7 +35,7 @@ namespace LayoutFarm
         {
             return base.Equals(obj);
         }
-        
+
 #if DEBUG
         public override string ToString()
         {
@@ -46,17 +46,15 @@ namespace LayoutFarm
 
 
 
-    public abstract class HitChain
+    public class HitChain
     {
-
-        protected int globalOffsetX = 0;
-        protected int globalOffsetY = 0;
-
+        List<HitInfo> currentHitChain = new List<HitInfo>();
+       
         int startTestX;
         int startTestY;
 
-        protected int testPointX;
-        protected int testPointY;
+        int testPointX;
+        int testPointY;
 
         public HitChain()
         {
@@ -82,64 +80,60 @@ namespace LayoutFarm
             startTestX = x;
             startTestY = y;
         }
-        public int LastestRootX
-        {
-            get
-            {
-                return startTestX;
-            }
-        }
-        public int LastestRootY
-        {
-            get
-            {
-                return startTestY;
-            }
-        }
+    
         public void OffsetTestPoint(int dx, int dy)
         {
-            globalOffsetX += dx;
-            globalOffsetY += dy;
+           
             testPointX += dx;
             testPointY += dy;
         }
         public void ClearAll()
         {
-            globalOffsetX = 0;
-            globalOffsetY = 0;
+            
             testPointX = 0;
             testPointY = 0;
-            OnClearAll();
+            currentHitChain.Clear();
 
         }
-        protected abstract void OnClearAll();
 
-        public abstract int Count { get; }
-        public abstract HitPoint GetHitPoint(int index);
-
-        public abstract Point PrevHitPoint { get; }
-        public abstract RenderElement CurrentHitElement { get; }
-        public abstract Point CurrentHitPoint { get; }
-
-       
-        public abstract void AddHitObject(RenderElement hitObject);
-        public abstract void RemoveCurrentHit();
-
-        public int LastestElementGlobalX
+#if DEBUG
+        public dbugHitTestTracker dbugHitTracker;
+#endif
+        public int Count { get { return this.currentHitChain.Count; } }
+        public HitInfo GetHitInfo(int index) { return currentHitChain[index]; }
+        public RenderElement TopMostElement
         {
             get
             {
-                return globalOffsetX;
+                if (currentHitChain.Count > 0)
+                {
+                    return currentHitChain[currentHitChain.Count - 1].hitElement;
+                }
+                else
+                {
+                    return null;
+                }
             }
-        }
-        public int LastestElementGlobalY
+        } 
+        public void AddHitObject(RenderElement hitObject)
         {
-            get
+            currentHitChain.Add(new HitInfo(hitObject, new Point(testPointX, testPointY)));
+#if DEBUG
+            dbugHitTracker.WriteTrackNode(currentHitChain.Count,
+                new Point(testPointX, testPointY).ToString() + " on "
+                + hitObject.ToString());
+#endif
+        }
+        public void RemoveCurrentHit()
+        {
+            if (currentHitChain.Count > 0)
             {
-                return globalOffsetY;
+                currentHitChain.RemoveAt(currentHitChain.Count - 1);
             }
         }
+
         
+
 
 #if DEBUG
         public bool dbugBreak;

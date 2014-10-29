@@ -10,36 +10,23 @@ namespace LayoutFarm.UI
     public delegate void UIMouseEventHandler(object sender, UIMouseEventArgs e);
     public delegate void UIKeyEventHandler(object sender, UIKeyEventArgs e);
     public delegate void UIKeyPressEventHandler(object sender, UIKeyEventArgs e);
-
-    public enum UIMouseEventType
-    {
-        MouseMove, MouseDown, MouseUp,
-        MouseEnter, MouseLeave, MouseWheel,
-        DragStart, Drag, DragStop,
-
-    }
-
+     
     public abstract class UIEventArgs : EventArgs
     {
         int x;
         int y;
 
-        UIEventName evName;
+
         public UIEventArgs()
         {
 
         }
-        public UIEventName EventName
-        {
-            get { return this.evName; }
-            set { this.evName = value; }
-        }
+
         public virtual void Clear()
         {
             x = 0;
             y = 0;
             CancelBubbling = false;
-
         }
 
         public object SourceHitElement
@@ -47,7 +34,7 @@ namespace LayoutFarm.UI
             get;
             set;
         }
-        public object CurrentContextElement
+        public IEventListener CurrentContextElement
         {
             get;
             set;
@@ -66,7 +53,7 @@ namespace LayoutFarm.UI
             get { return this.Control; }
 
         }
-      
+
         public bool Shift
         {
             get;
@@ -144,8 +131,6 @@ namespace LayoutFarm.UI
         None
     }
 
-
-
     public class UIMouseEventArgs : UIEventArgs
     {
         public UIMouseButtons Button;
@@ -153,8 +138,12 @@ namespace LayoutFarm.UI
         public int Clicks;
         public int XDiff;
         public int YDiff;
-        public UIMouseEventType EventType;
+
+        public bool IsMouseDown;
+
         public TopWindowRenderBox WinTop;
+        IEventListener draggingElem;
+
 
         int lastestLogicalViewportMouseDownX;
         int lastestLogicalViewportMouseDownY;
@@ -188,14 +177,20 @@ namespace LayoutFarm.UI
         }
         public override void Clear()
         {
-            Button = 0;
-            Clicks = 0;
-            XDiff = 0;
-            YDiff = 0;
+            this.Button = 0;
+            this.Clicks = 0;
+            this.XDiff = 0;
+            this.YDiff = 0;
+            this.draggingElem = null;
+            this.MouseCursorStyle = UI.MouseCursorStyle.Default;
             base.Clear();
         }
-
-        public void SetEventInfo(Point loca, UIMouseButtons button, int lastestLogicalViewportMouseDownX,
+        public IEventListener DraggingElement
+        {
+            get { return this.draggingElem; }
+            set { this.draggingElem = value; }
+        }
+        public void SetEventInfo(Point location, UIMouseButtons button, int lastestLogicalViewportMouseDownX,
            int lastestLogicalViewportMouseDownY,
            int currentLogicalX,
            int currentLogicalY,
@@ -204,7 +199,7 @@ namespace LayoutFarm.UI
         {
 
             Button = button;
-            this.Location = loca;
+            this.Location = location;
 
             this.currentLogicalX = currentLogicalX;
             this.currentLogicalY = currentLogicalY;
@@ -214,10 +209,7 @@ namespace LayoutFarm.UI
             this.lastestYDiff = lastestYDiff;
         }
 
-        public bool IsDragging { get; set; }
-        public bool JustEnter { get; set; }
         
-
         public int XDiffFromMouseDownPos
         {
             get
@@ -231,11 +223,30 @@ namespace LayoutFarm.UI
             {
                 return this.currentLogicalY - this.lastestLogicalViewportMouseDownY;
             }
-        } 
-        
+        }
+
+        public MouseCursorStyle MouseCursorStyle
+        {
+            get;
+            set;
+        }
     }
-    
-    
+
+
+    public enum MouseCursorStyle
+    {
+        Default,
+        Arrow, //arrow (default)
+        Hidden,//hidden cursor
+        Pointer, //hand cursor
+        IBeam,
+        Move,
+        EastWest,
+        NorthSouth,
+
+        CustomStyle,
+    }
+
     public class UIKeyEventArgs : UIEventArgs
     {
         int keyData;
@@ -443,8 +454,8 @@ namespace LayoutFarm.UI
 
     }
 
-    
-  
+
+
 
 
 }

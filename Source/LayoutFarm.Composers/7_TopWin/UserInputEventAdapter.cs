@@ -10,9 +10,11 @@ namespace LayoutFarm.UI
     partial class UserInputEventAdapter
     {
 
-        readonly MyHitChain hitPointChain = new MyHitChain();
-        UIHoverMonitorTask hoverMonitoringTask;
+        //current hit chain        
+        HitChain _previousChain = new HitChain();
+        Stack<HitChain> hitChainStack = new Stack<HitChain>();
 
+        UIHoverMonitorTask hoverMonitoringTask;
         int msgChainVersion;
         TopWindowRenderBox topwin;
         IEventListener currentKbFocusElem;
@@ -20,29 +22,62 @@ namespace LayoutFarm.UI
         DateTime lastTimeMouseUp;
         const int DOUBLE_CLICK_SENSE = 150;//ms
 
+        RootGraphic rootgfx;
         public UserInputEventAdapter()
         {
+
         }
         public void Bind(TopWindowRenderBox topwin)
         {
             this.topwin = topwin;
+            this.rootgfx = topwin.Root;
             this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
+
 #if DEBUG
-            hitPointChain.dbugHitTracker = this.dbugRootGraphic.dbugHitTracker;
+            this._previousChain.dbugHitTracker = this.dbugRootGraphic.dbugHitTracker;
 #endif
         }
 
 #if DEBUG
         RootGraphic dbugRootGraphic
         {
-            get { return topwin.Root; }
+            get { return rootgfx; }
         }
 #endif
 
+        HitChain GetFreeHitChain()
+        {
+            if (hitChainStack.Count > 0)
+            {
+                return hitChainStack.Pop();
+            }
+            else
+            {
+
+#if DEBUG
+                var hitChain = new HitChain();
+                hitChain.dbugHitTracker = this.dbugRootGraphic.dbugHitTracker;
+                return hitChain;
+#else
+                return new HitChain();
+#endif
+
+            }
+        }
+        void RelaseHitChain(HitChain hitChain)
+        {
+            hitChain.ClearAll();
+            this.hitChainStack.Push(hitChain);
+        }
+        void SwapHitChain(HitChain hitChain)
+        {
+            RelaseHitChain(this._previousChain);
+            this._previousChain = hitChain;
+        }
 
         RootGraphic MyRootGraphic
         {
-            get { return topwin.Root; }
+            get { return rootgfx; }
         }
         //---------------------------------------------------------------------
         bool DisableGraphicOutputFlush
@@ -107,16 +142,75 @@ namespace LayoutFarm.UI
                 //}
             }
         }
-
+        static void SetEventOrigin(UIEventArgs e, HitChain hitChain)
+        {
+            int count = hitChain.Count;
+            if (count > 0)
+            {
+                var hitInfo = hitChain.GetHitInfo(count - 1);
+                e.SourceHitElement = hitInfo.hitElement;
+            }
+        }
         void ClearAllFocus()
         {
             CurrentKeyboardFocusedElement = null;
-
         }
-        void HitTestCoreWithPrevChainHint(int x, int y)
+
+        static RenderElement HitTestOnPreviousChain(HitChain hitPointChain, HitChain previousChain, int x, int y)
         {
+
+            if (previousChain.Count > 0)
+            {
+
+                previousChain.SetStartTestPoint(x, y);
+                //test on prev chain top to bottom
+                int j = previousChain.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    HitInfo hitInfo = previousChain.GetHitInfo(i);
+                    RenderElement elem = hitInfo.hitElement;
+                    if (elem != null && elem.IsTestable)
+                    {
+                        if (elem.Contains(hitInfo.point))
+                        {
+                            RenderElement foundOverlapChild = elem.FindOverlapedChildElementAtPoint(elem, hitInfo.point);
+                            if (foundOverlapChild == null)
+                            {
+                                Point leftTop = elem.Location;
+                                hitPointChain.OffsetTestPoint(leftTop.X, leftTop.Y);
+                                hitPointChain.AddHitObject(elem);
+                                //add to chain
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            //---------------------------------
+            if (hitPointChain.Count > 0)
+            {
+                return hitPointChain.GetHitInfo(hitPointChain.Count - 1).hitElement;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        void HitTestCoreWithPrevChainHint(HitChain hitPointChain, HitChain previousChain, int x, int y)
+        {
+            //---------------------------------
+            //test on previous chain first , find common element 
+            hitPointChain.ClearAll();
             hitPointChain.SetStartTestPoint(x, y);
-            RenderElement commonElement = hitPointChain.HitTestOnPrevChain();
+            RenderElement commonElement = HitTestOnPreviousChain(hitPointChain, previousChain, x, y);
             if (commonElement == null)
             {
                 commonElement = this.topwin;
@@ -148,43 +242,41 @@ namespace LayoutFarm.UI
             msgChainVersion = 1;
             int local_msgVersion = 1;
 
-            HitTestCoreWithPrevChainHint(e.X, e.Y);
-            int hitCount = this.hitPointChain.Count;
+            HitChain hitPointChain = GetFreeHitChain();
+            HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
 
-            RenderElement hitElement = this.hitPointChain.CurrentHitElement;
+            int hitCount = hitPointChain.Count;
+
+            RenderElement hitElement = hitPointChain.TopMostElement;
             if (hitCount > 0)
             {
                 DisableGraphicOutputFlush = true;
                 //------------------------------
-                //1. for some built-in event
-                ForEachOnlyEventPortalBubbleUp(this.hitPointChain, (hitInfo, listener) =>
+                //1. origin object 
+                SetEventOrigin(e, hitPointChain);
+                //------------------------------
+                //portal
+                ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
                 {
-                    e.CurrentContextElement = listener;
-                    listener.PortalMouseDown(e);
-
-                    var curContextElement = e.CurrentContextElement as IEventListener;
-                    if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
+                    portal.PortalMouseDown(e);
+                    if (e.CurrentContextElement.AcceptKeyboardFocus)
                     {
-                        this.CurrentKeyboardFocusedElement = curContextElement;
+                        this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
                     }
                     return true;
                 });
+
                 //------------------------------
                 //use events
                 if (!e.CancelBubbling)
                 {
-                    ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
+
+                    ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                     {
-                        e.Location = hitobj.point;
-                        e.SourceHitElement = hitobj.hitElement;
-                        e.CurrentContextElement = listener;
-
                         listener.ListenMouseDown(e);
-
-                        var curContextElement = e.CurrentContextElement as IEventListener;
-                        if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
+                        if (e.CurrentContextElement.AcceptKeyboardFocus)
                         {
-                            this.CurrentKeyboardFocusedElement = curContextElement;
+                            this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
                         }
                         return true;
                     });
@@ -216,13 +308,9 @@ namespace LayoutFarm.UI
                 //}
             }
 #endif
-            hitPointChain.SwapHitChain();
 
-            //if (hitElement.ParentLink == null)
-            //{
-            //    currentMouseActiveElement = null;
-            //    return;
-            //}
+
+            SwapHitChain(hitPointChain);
 
             if (local_msgVersion != msgChainVersion)
             {
@@ -244,57 +332,57 @@ namespace LayoutFarm.UI
         protected void OnMouseMove(UIMouseEventArgs e)
         {
 
-            HitTestCoreWithPrevChainHint(e.X, e.Y);
+            HitChain hitPointChain = GetFreeHitChain();
+            HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
             //-------------------------------------------------------
             //when mousemove -> reset hover!
             hoverMonitoringTask.Reset();
             hoverMonitoringTask.Enabled = true;
             //-------------------------------------------------------
             DisableGraphicOutputFlush = true;
-            this.isDragging = e.IsDragging;
-
-            ForEachOnlyEventPortalBubbleUp(this.hitPointChain, (hitInfo, listener) =>
+            SetEventOrigin(e, hitPointChain);
+            //-------------------------------------------------------
+            ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
             {
-                e.Location = hitInfo.point;
-                e.CurrentContextElement = listener;
-                listener.PortalMouseMove(e);
-
+                portal.PortalMouseMove(e);
                 return true;
             });
             //-------------------------------------------------------  
             if (!e.CancelBubbling)
             {
-                ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
+                bool foundSomeHit = false;
+                ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                 {
-                    e.Location = hitobj.point;
+                    foundSomeHit = true;
                     if (currentMouseActiveElement != null &&
                         currentMouseActiveElement != listener)
                     {
-
                         currentMouseActiveElement.ListenMouseLeave(e);
-                        currentMouseActiveElement = null;
-                    }
 
-                    if (currentMouseActiveElement == listener)
-                    {
-                        e.JustEnter = false;
-                        currentMouseActiveElement.ListenMouseMove(e);
                     }
-                    else
+                    if (!e.CancelBubbling)
                     {
                         currentMouseActiveElement = listener;
-                        e.JustEnter = true;
                         currentMouseActiveElement.ListenMouseMove(e);
-                    }
 
+                    }
                     return true;//stop
                 });
+
+                if (!foundSomeHit && currentMouseActiveElement != null)
+                {
+                    currentMouseActiveElement.ListenMouseLeave(e);
+                    if (!e.IsCanceled)
+                    {
+                        currentMouseActiveElement = null;
+                    }
+                }
             }
 
             DisableGraphicOutputFlush = false;
-            hitPointChain.SwapHitChain();
-        }
+            SwapHitChain(hitPointChain);
 
+        }
         protected void OnGotFocus(UIFocusEventArgs e)
         {
 
@@ -312,7 +400,7 @@ namespace LayoutFarm.UI
             TimeSpan timediff = snapMouseUpTime - lastTimeMouseUp;
             bool isAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;
             this.lastTimeMouseUp = snapMouseUpTime;
-            Console.WriteLine(timediff.Milliseconds);
+
             //--------------------------------------------
 #if DEBUG
 
@@ -324,81 +412,51 @@ namespace LayoutFarm.UI
             }
 #endif
 
-            HitTestCoreWithPrevChainHint(e.X, e.Y);
-            int hitCount = this.hitPointChain.Count;
+            HitChain hitPointChain = GetFreeHitChain();
+
+            HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
+            int hitCount = hitPointChain.Count;
 
             if (hitCount > 0)
             {
 
                 DisableGraphicOutputFlush = true;
+                SetEventOrigin(e, hitPointChain);
                 //--------------------------------------------------------------- 
-                ForEachOnlyEventPortalBubbleUp(this.hitPointChain, (hitInfo, listener) =>
+                ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
                 {
-                    e.CurrentContextElement = listener;
-                    listener.PortalMouseUp(e);
-                    var curContextElement = e.CurrentContextElement as IEventListener;
-                    if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
-                    {
-                        this.CurrentKeyboardFocusedElement = curContextElement;
-                    }
+                    portal.PortalMouseUp(e); 
                     return true;
                 });
 
                 //---------------------------------------------------------------
                 if (!e.CancelBubbling)
                 {
-                    ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
-                    {
-                        e.Location = hitobj.point;
-                        e.SourceHitElement = hitobj.hitElement; //not correct!
-                        e.CurrentContextElement = hitobj.hitElement;
 
-                        listener.ListenMouseUp(e);
-                        var curContextElement = e.CurrentContextElement as IEventListener;
-                        if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
-                        {
-                            this.CurrentKeyboardFocusedElement = curContextElement;
-                        }
+                    ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
+                    {
+                        listener.ListenMouseUp(e); 
                         return true;
                     });
                 }
-
-           
 
                 if (!e.CancelBubbling)
                 {
                     if (isAlsoDoubleClick)
                     {
-                        ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
-                        {
-                            e.Location = hitobj.point;
-                            e.SourceHitElement = hitobj.hitElement; //not correct!
-                            e.CurrentContextElement = hitobj.hitElement;
 
-                            listener.ListenMouseDoubleClick(e); //double click
-                            var curContextElement = e.CurrentContextElement as IEventListener;
-                            if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
-                            {
-                                this.CurrentKeyboardFocusedElement = curContextElement;
-                            }
+                        ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
+                        {
+                            listener.ListenMouseDoubleClick(e);  
                             return true;
                         });
                     }
                     else
                     {
-                        ForEachEventListenerBubbleUp(this.hitPointChain, (hitobj, listener) =>
+
+                        ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                         {
-                            e.Location = hitobj.point;
-                            e.SourceHitElement = hitobj.hitElement; //not correct!
-                            e.CurrentContextElement = hitobj.hitElement;
-
-                            listener.ListenMouseClick(e);
-
-                            var curContextElement = e.CurrentContextElement as IEventListener;
-                            if (curContextElement != null && curContextElement.AcceptKeyboardFocus)
-                            {
-                                this.CurrentKeyboardFocusedElement = curContextElement;
-                            }
+                            listener.ListenMouseClick(e); 
                             return true;
                         });
                     }
@@ -409,8 +467,7 @@ namespace LayoutFarm.UI
                 DisableGraphicOutputFlush = false;
                 FlushAccumGraphicUpdate();
             }
-
-            hitPointChain.SwapHitChain();
+            SwapHitChain(hitPointChain);
         }
         protected void OnKeyDown(UIKeyEventArgs e)
         {
@@ -449,34 +506,41 @@ namespace LayoutFarm.UI
         }
 
         //===================================================================
-        delegate bool EventPortalAction(HitPoint hitInfo, IUserEventPortal evPortal);
-        delegate bool EventListenerAction(HitPoint hitInfo, IEventListener listener);
+        delegate bool EventPortalAction(IUserEventPortal evPortal);
+        delegate bool EventListenerAction(IEventListener listener);
 
-        static void ForEachOnlyEventPortalBubbleUp(MyHitChain hitPointChain, EventPortalAction eventPortalAction)
+        static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, HitChain hitPointChain, EventPortalAction eventPortalAction)
         {
-            //only listener that need tunnel down 
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
             {
-                HitPoint hitPoint = hitPointChain.GetHitPoint(i);
+                HitInfo hitPoint = hitPointChain.GetHitInfo(i);
                 IUserEventPortal eventPortal = hitPoint.hitElement.GetController() as IUserEventPortal;
-                if (eventPortal != null &&
-                    eventPortalAction(hitPoint, eventPortal))
+                if (eventPortal != null)
                 {
-                    return;
+                    e.Location = hitPoint.point;
+                    if (eventPortalAction(eventPortal))
+                    {
+                        return;
+                    }
                 }
             }
         }
-        static void ForEachEventListenerBubbleUp(MyHitChain hitPointChain, EventListenerAction listenerAction)
+        static void ForEachEventListenerBubbleUp(UIEventArgs e, HitChain hitPointChain, EventListenerAction listenerAction)
         {
-
+            HitInfo hitInfo;
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
             {
-                HitPoint hitPoint = hitPointChain.GetHitPoint(i);
-                IEventListener listener = hitPoint.hitElement.GetController() as IEventListener;
-                if (listener != null &&
-                    listenerAction(hitPoint, listener))
+                hitInfo = hitPointChain.GetHitInfo(i);
+                IEventListener listener = hitInfo.hitElement.GetController() as IEventListener;
+                if (listener != null)
                 {
-                    return;
+                    e.Location = hitInfo.point;
+                    e.CurrentContextElement = listener;
+
+                    if (listenerAction(listener))
+                    {
+                        return;
+                    }
                 }
             }
         }

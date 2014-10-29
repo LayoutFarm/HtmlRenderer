@@ -14,11 +14,14 @@ namespace LayoutFarm.SampleControls
     public class UIButton : UIBox
     {
         public event EventHandler<UIMouseEventArgs> MouseDown;
+        public event EventHandler<UIMouseEventArgs> MouseMove;
         public event EventHandler<UIMouseEventArgs> MouseUp;
+        public event EventHandler<UIMouseEventArgs> MouseLeave;
 
         public event EventHandler<UIMouseEventArgs> Dragging;
-        public event EventHandler<UIMouseEventArgs> DragStart;
-        public event EventHandler<UIMouseEventArgs> DragStop;
+        public event EventHandler<UIMouseEventArgs> DragLeave;
+        public event EventHandler<UIMouseEventArgs> DragBegin;
+        public event EventHandler<UIMouseEventArgs> DragEnd;
 
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
@@ -57,6 +60,7 @@ namespace LayoutFarm.SampleControls
                 RenderElement.DirectSetVisualElementLocation(renderE, this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
+                renderE.SetVisible(this.Visible);
                 primElement = renderE;
             }
             return primElement;
@@ -69,22 +73,42 @@ namespace LayoutFarm.SampleControls
                 this.MouseDown(this, e);
             }
         }
-         
-        protected override void OnDragStart(UIMouseEventArgs e)
+        protected override void OnMouseMove(UIMouseEventArgs e)
         {
-            if (this.DragStart != null)
+            if (this.MouseMove != null)
             {
-                this.DragStart(this, e);
+                this.MouseMove(this, e);
             }
-            base.OnDragStart(e);
         }
-        protected override void OnDragStop(UIMouseEventArgs e)
+        protected override void OnMouseLeave(UIMouseEventArgs e)
         {
-            if (this.DragStop != null)
+            if (this.MouseLeave != null)
             {
-                this.DragStop(this, e);
+                this.MouseLeave(this, e);
+            }             
+        }
+        protected override void OnDragLeave(UIMouseEventArgs e)
+        {
+            if (this.DragLeave != null)
+            {
+                this.DragLeave(this, e);
             }
-            base.OnDragStop(e);
+        }
+        protected override void OnDragBegin(UIMouseEventArgs e)
+        {
+            if (this.DragBegin != null)
+            {
+                this.DragBegin(this, e);
+            }
+
+        }
+        protected override void OnDragEnd(UIMouseEventArgs e)
+        {
+            if (this.DragEnd != null)
+            {
+                this.DragEnd(this, e);
+            }
+
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
@@ -92,7 +116,6 @@ namespace LayoutFarm.SampleControls
             {
                 MouseUp(this, e);
             }
-            base.OnMouseUp(e);
         }
         protected override void OnDragging(UIMouseEventArgs e)
         {
@@ -100,7 +123,7 @@ namespace LayoutFarm.SampleControls
             {
                 Dragging(this, e);
             }
-            base.OnDragging(e);
+
         }
     }
 

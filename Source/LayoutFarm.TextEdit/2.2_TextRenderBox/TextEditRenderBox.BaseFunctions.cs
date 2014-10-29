@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using LayoutFarm; 
+using LayoutFarm;
 using LayoutFarm.Drawing;
 using LayoutFarm.UI;
 namespace LayoutFarm.Text
@@ -77,7 +77,7 @@ namespace LayoutFarm.Text
         {
 
             EditableTextFlowLayer flowLayer = this.textLayer;
-            EditableVisualElementLine beginLine = flowLayer.GetTextLineAtPos(beginlineNum); 
+            EditableVisualElementLine beginLine = flowLayer.GetTextLineAtPos(beginlineNum);
             if (beginLine == null)
             {
                 return Rectangle.Empty;
@@ -92,7 +92,7 @@ namespace LayoutFarm.Text
             {
                 VisualPointInfo beginPoint = beginLine.GetTextPointInfoFromCharIndex(beginColumnNum);
 
-                EditableVisualElementLine endLine = flowLayer.GetTextLineAtPos(endLineNum); 
+                EditableVisualElementLine endLine = flowLayer.GetTextLineAtPos(endLineNum);
                 VisualPointInfo endPoint = endLine.GetTextPointInfoFromCharIndex(endColumnNum);
                 return new Rectangle(beginPoint.X, beginLine.Top, endPoint.X, beginLine.ActualLineHeight);
             }
@@ -160,8 +160,8 @@ namespace LayoutFarm.Text
         public void Focus()
         {
             this.SetCaretState(true);
-            GlobalCaretController.CurrentTextEditBox = this;            
-            this.isFocus = true;  
+            GlobalCaretController.CurrentTextEditBox = this;
+            this.isFocus = true;
         }
         public bool IsFocused
         {
@@ -175,7 +175,7 @@ namespace LayoutFarm.Text
         {
             if (e.Button == UIMouseButtons.Left)
             {
-                InvalidateGraphicOfCurrentLineArea(); 
+                InvalidateGraphicOfCurrentLineArea();
                 internalTextLayerController.CaretPos = e.Location;
                 if (internalTextLayerController.SelectionRange != null)
                 {
@@ -211,41 +211,31 @@ namespace LayoutFarm.Text
 
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
-                internalTextLayerController.CaretPos = e.Location; 
+                internalTextLayerController.CaretPos = e.Location;
                 internalTextLayerController.EndSelect();
-
                 this.InvalidateGraphic();
 
             }
-
         }
-        public void OnDragStart(UIMouseEventArgs e)
+        public void OnDragBegin(UIMouseEventArgs e)
         {
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
                 internalTextLayerController.CaretPos = e.Location;
                 internalTextLayerController.StartSelect();
                 internalTextLayerController.EndSelect();
-
                 this.InvalidateGraphic();
-
-
             }
         }
-        public void OnDragStop(UIMouseEventArgs e)
+        public void OnDragEnd(UIMouseEventArgs e)
         {
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
                 internalTextLayerController.CaretPos = e.Location;
                 internalTextLayerController.EndSelect();
-
-
                 this.InvalidateGraphic();
-
             }
         }
-
-
 
         Rectangle GetSelectionUpdateArea()
         {
@@ -837,13 +827,13 @@ namespace LayoutFarm.Text
                         return false;
                     }
             }
-        } 
+        }
         void EnsureCaretVisible()
         {
             //----------------------
             Point textManCaretPos = internalTextLayerController.CaretPos;
             textManCaretPos.Offset(-ViewportX, -ViewportY);
-             
+
             //----------------------  
             if (textManCaretPos.X >= this.Width)
             {

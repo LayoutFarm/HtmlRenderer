@@ -8,7 +8,8 @@ namespace LayoutFarm.UI
     partial class UIElement
     {
 
-
+        bool isMouseDown;
+        bool isDragging;
         void IEventListener.ListenKeyPress(UIKeyEventArgs e)
         {
             OnKeyPress(e);
@@ -27,37 +28,46 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenMouseDown(UIMouseEventArgs e)
         {
+            this.isMouseDown = true;
             OnMouseDown(e);
         }
 
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
-            if (e.IsDragging)
+
+            if (isMouseDown)
             {
-                if (e.JustEnter)
+                if (isDragging)
                 {
-                    OnDragStart(e);
+                    OnDragging(e);
                 }
                 else
                 {
-                    OnDragging(e);
+                    //first time
+                    this.isDragging = true;                 
+                    OnDragBegin(e);
                 }
             }
             else
             {
+                this.isDragging = false;
                 OnMouseMove(e);
             }
+
         }
         void IEventListener.ListenMouseUp(UIMouseEventArgs e)
         {
-            if (e.IsDragging)
+
+            if (isDragging)
             {
-                OnDragStop(e);
+                //mouse up on 
+                OnDragEnd(e);
             }
             else
             {
                 OnMouseUp(e);
             }
+            this.isDragging = this.isMouseDown = false;
         }
         void IEventListener.ListenMouseClick(UIMouseEventArgs e)
         {
@@ -72,7 +82,14 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenMouseLeave(UIMouseEventArgs e)
         {
-            OnMouseLeave(e);
+            if (isDragging)
+            {
+                OnDragLeave(e);
+            }
+            else
+            {
+                OnMouseLeave(e);
+            }
         }
         void IEventListener.ListenGotFocus(UIFocusEventArgs e)
         {

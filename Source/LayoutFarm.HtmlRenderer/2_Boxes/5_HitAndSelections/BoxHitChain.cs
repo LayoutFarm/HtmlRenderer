@@ -6,11 +6,11 @@ namespace HtmlRenderer.Boxes
 {
     public struct HitInfo
     {
-        public readonly HitObjectKind hitObjectKind;
-        public readonly object hitObject;
 
         public readonly int localX;
         public readonly int localY;
+        public readonly HitObjectKind hitObjectKind;
+        public readonly object hitObject;
 
         public HitInfo(CssBox box, int x, int y)
         {
@@ -142,10 +142,9 @@ namespace HtmlRenderer.Boxes
         internal float GlobalOffsetY
         {
             get { return this.globalOffsetY; }
-        }
-
-
+        } 
     }
+
     public enum HitObjectKind : byte
     {
         Unknown,

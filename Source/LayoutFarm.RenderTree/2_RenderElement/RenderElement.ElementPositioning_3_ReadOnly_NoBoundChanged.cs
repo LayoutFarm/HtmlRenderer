@@ -231,7 +231,7 @@ namespace LayoutFarm
                 }
 
                 if ((uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0 &&
-                    hitChain.CurrentHitElement == this)
+                    hitChain.TopMostElement == this)
                 {
                     hitChain.RemoveCurrentHit();
                     return false;

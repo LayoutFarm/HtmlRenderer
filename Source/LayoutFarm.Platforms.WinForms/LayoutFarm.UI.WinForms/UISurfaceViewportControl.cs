@@ -13,7 +13,7 @@ namespace LayoutFarm.UI.WinForms
     {
 
         TopWindowRenderBox wintop;
-        MyCanvasWindowBridge winViewportBridge;
+        MyPlatformWindowBridge winBridge;
         public UISurfaceViewportControl()
         {
             InitializeComponent();
@@ -23,20 +23,20 @@ namespace LayoutFarm.UI.WinForms
         {
             //1.
             this.wintop = wintop;
-            this.winViewportBridge = new MyCanvasWindowBridge(wintop, userInputEvBridge);
-            this.winViewportBridge.BindWindowControl(this);
+            this.winBridge = new MyPlatformWindowBridge(wintop, userInputEvBridge);
+            this.winBridge.BindWindowControl(this);
         }
 #if DEBUG
         public IdbugOutputWindow IOutputWin
         {
-            get { return this.winViewportBridge; }
+            get { return this.winBridge; }
         }
 #endif
         protected override void OnSizeChanged(EventArgs e)
         {
-            if (this.winViewportBridge != null)
+            if (this.winBridge != null)
             {
-                this.winViewportBridge.UpdateCanvasViewportSize(this.Width, this.Height);
+                this.winBridge.UpdateCanvasViewportSize(this.Width, this.Height);
             }
             base.OnSizeChanged(e);
         }
@@ -61,75 +61,84 @@ namespace LayoutFarm.UI.WinForms
         }
         public void Close()
         {
-            this.winViewportBridge.Close();
+            this.winBridge.Close();
 
         }
         public void PaintMe()
         {
-            this.winViewportBridge.PaintMe();
+            this.winBridge.PaintMe();
 
         }
-
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            this.winBridge.HandleMouseEnterToViewport();
+            base.OnMouseEnter(e);
+        }
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            this.winBridge.HandleMouseLeaveFromViewport();
+            base.OnMouseLeave(e);
+        }
         //-----------------------------------------------------------------------------
         protected override void OnGotFocus(EventArgs e)
         {
-            this.winViewportBridge.OnGotFocus(e);
+            this.winBridge.HandleGotFocus(e);
             base.OnGotFocus(e);
 
         }
         protected override void OnLostFocus(EventArgs e)
         {
-            this.winViewportBridge.OnGotFocus(e);
+            this.winBridge.HandleGotFocus(e);
             base.OnLostFocus(e);
         }
         
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            this.winViewportBridge.OnMouseDown(e);
+            this.winBridge.HandleMouseDown(e);
             base.OnMouseDown(e);
 
         }
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            this.winViewportBridge.OnMouseMove(e);
+            this.winBridge.HandleMouseMove(e);
             base.OnMouseMove(e);
 
         }
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            this.winViewportBridge.OnMouseUp(e);
+            this.winBridge.HandleMouseUp(e);
             base.OnMouseUp(e);
 
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-            this.winViewportBridge.PaintMe(e);
+            this.winBridge.PaintMe(e);
             base.OnPaint(e);
         }
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            this.winViewportBridge.OnMouseWheel(e);
+            this.winBridge.HandleMouseWheel(e);
             base.OnMouseWheel(e);
         }
         protected override void OnKeyDown(KeyEventArgs e)
         {
-            this.winViewportBridge.OnKeyDown(e);
+            this.winBridge.HandleKeyDown(e);
             base.OnKeyDown(e);
         }
         protected override void OnKeyUp(KeyEventArgs e)
         {
-            this.winViewportBridge.OnKeyUp(e);
+            this.winBridge.HandleKeyUp(e);
             base.OnKeyUp(e);
         }
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
-            this.winViewportBridge.OnKeyPress(e);
+            this.winBridge.HandleKeyPress(e);
             return;
         }
         protected override bool ProcessDialogKey(Keys keyData)
         {
-            if (this.winViewportBridge.ProcessDialogKey(keyData))
+            if (this.winBridge.ProcessDialogKey(keyData))
             {
                 return true;
             }
