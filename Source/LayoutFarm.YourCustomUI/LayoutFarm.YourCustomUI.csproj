@@ -37,7 +37,7 @@
     <Compile Include="CustomUI.Sample\CustomRenderElements.cs" />
     <Compile Include="CustomUI.Sample\LayerHelper.cs" />
     <Compile Include="CustomUI.Sample\UIBox.cs" />
-    <Compile Include="CustomUI.Sample\UIButton.cs" />
+    <Compile Include="CustomUI.Sample\UIEaseBox.cs" />
     <Compile Include="CustomUI.Sample\UIGridBox.cs" />
     <Compile Include="CustomUI.Sample\UIPanel.cs" />
     <Compile Include="CustomUI.Sample\UIScrollBar.cs" />

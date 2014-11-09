@@ -19,7 +19,6 @@ namespace LayoutFarm
                 var gridBox = new LayoutFarm.SampleControls.UIGridBox(100, 100);
                 gridBox.SetLocation(50, 50);
                 gridBox.BuildGrid(2, 4, CellSizeStyle.UniformCell);
-
                 viewport.AddContent(gridBox);
             }
             //grid1
@@ -30,7 +29,7 @@ namespace LayoutFarm
                  
                 viewport.AddContent(gridBox);
 
-                var simpleButton = new LayoutFarm.SampleControls.UIButton(20, 20);
+                var simpleButton = new LayoutFarm.SampleControls.UIEaseBox(20, 20);
                 simpleButton.BackColor = KnownColors.FromKnownColor(KnownColor.OliveDrab);
                 gridBox.AddUI(simpleButton, 1, 1); 
             }

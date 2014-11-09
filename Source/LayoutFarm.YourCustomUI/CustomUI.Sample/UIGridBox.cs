@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-using LayoutFarm.Drawing; 
+using LayoutFarm.Drawing;
 using LayoutFarm.Text;
 using LayoutFarm.UI;
 
@@ -33,7 +33,6 @@ namespace LayoutFarm.SampleControls
                 GridColumn col = new GridColumn(1);
                 cols.Add(col);
             }
-
             //2. create rows
             var rows = gridTable.Rows;
             for (int n = 0; n < nrows; ++n)
@@ -42,7 +41,61 @@ namespace LayoutFarm.SampleControls
                 rows.Add(row);
             }
         }
+        public override void SetSize(int width, int height)
+        {
+            //readjust cellsize
+            base.SetSize(width, height);
 
+
+            //----------------------------------
+            var cols = gridTable.Columns;
+            int ncols = cols.Count;
+
+            //each col width
+            int eachColWidth = width / ncols;
+            int colLeft = 0;
+            for (int n = 0; n < ncols; ++n)
+            {
+                //create with defatul width
+                var col = cols[n];
+                col.Width = eachColWidth;
+                col.Left = colLeft;
+                colLeft += eachColWidth;
+            }
+
+            var rows = gridTable.Rows;
+            int nrows = rows.Count;
+            int eachRowHeight = height / nrows;
+            int rowTop = 0;
+            for (int n = 0; n < nrows; ++n)
+            {
+                var row = rows[n];
+                row.Height = eachRowHeight;
+                row.Top = rowTop; ;
+                rowTop += eachRowHeight;
+            }
+            //----------------------------------
+            if (this.gridBox == null) { return; }
+            var gridLayer = gridBox.Layers.GetLayer(0) as GridLayer;
+            colLeft = 0;
+            for (int n = 0; n < ncols; ++n)
+            {
+                var col = gridLayer.GetColumn(n);
+                col.Width = eachColWidth;
+                col.Left = colLeft;
+                colLeft += eachColWidth;
+            }
+            rowTop = 0;
+            for (int n = 0; n < nrows; ++n)
+            {
+                var row = gridLayer.GetRow(n);
+                row.Height = eachRowHeight;
+                row.Top = rowTop; ;
+                rowTop += eachRowHeight;
+            }
+             
+
+        }
         public void AddUI(UIElement ui, int rowIndex, int colIndex)
         {
             if (rowIndex < gridTable.RowCount && colIndex < gridTable.ColumnCount)
@@ -50,7 +103,7 @@ namespace LayoutFarm.SampleControls
                 gridTable.GetCell(rowIndex, colIndex).ContentElement = ui;
                 if (this.HasReadyRenderElement)
                 {
-                    gridLayer.GetCell(rowIndex, colIndex).ContentElement = ui.GetPrimaryRenderElement(gridLayer.Root);                        
+                    gridLayer.GetCell(rowIndex, colIndex).ContentElement = ui.GetPrimaryRenderElement(gridLayer.Root);
                 }
             }
         }
@@ -95,7 +148,7 @@ namespace LayoutFarm.SampleControls
                             gridLayer.GetCell(r, c).ContentElement = re;
                         }
                     }
-                } 
+                }
 
                 layers.AddLayer(gridLayer);
             }

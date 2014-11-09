@@ -34,7 +34,7 @@ namespace LayoutFarm
             //add content to panel
             for (int i = 0; i < 10; ++i)
             {
-                var box1 = new LayoutFarm.SampleControls.UIButton(30, 30);
+                var box1 = new LayoutFarm.SampleControls.UIEaseBox(30, 30);
                 box1.BackColor = Color.OrangeRed;
                 box1.SetLocation(i * 20, i * 40);
 

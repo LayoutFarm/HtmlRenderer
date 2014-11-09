@@ -21,7 +21,7 @@ namespace LayoutFarm.SampleControls
 
 #if DEBUG
         static int dbugTotalId;
-        public readonly int dbugId = dbugTotalId++;      
+        public readonly int dbugId = dbugTotalId++;
 #endif
         public UIBox(int width, int height)
         {
@@ -39,7 +39,7 @@ namespace LayoutFarm.SampleControls
                 renderE.SetLocation(left, top);
             }
         }
-        public void SetSize(int width, int height)
+        public virtual void SetSize(int width, int height)
         {
             this._width = width;
             this._height = height;
@@ -181,7 +181,7 @@ namespace LayoutFarm.SampleControls
                 this._hide = !value;
                 if (this.HasReadyRenderElement)
                 {
-                    this.CurrentPrimaryRenderElement.SetVisible(value);                  
+                    this.CurrentPrimaryRenderElement.SetVisible(value);
                 }
             }
         }

@@ -17,10 +17,10 @@ namespace LayoutFarm.UI
         CellSizeStyle cellSizeStyle;
         GridTable gridTable;
 
-        public GridLayer(RenderElement owner, int nColumns, int nRows, CellSizeStyle flexgridType)
+        public GridLayer(RenderElement owner, int nColumns, int nRows, CellSizeStyle cellSizeStyle)
         {
             this.OwnerRenderElement = owner;
-            this.cellSizeStyle = flexgridType;
+            this.cellSizeStyle = cellSizeStyle;
             this.gridTable = new GridTable();
 
             gridRows = gridTable.Rows;
@@ -368,26 +368,24 @@ namespace LayoutFarm.UI
             return gridCols[columnIndex].GetCell(rowIndex);
         }
 
-        public void AdjustGridWidth(int nWidthDiff)
-        {
+        //public void AdjustGridWidth(int nWidthDiff)
+        //{   
+        //    int j = gridCols.Count;
+        //    if (j > 0)
+        //    {
+        //        //just average
+        //        int avgWidth = nWidthDiff / j;
+        //        if (avgWidth > 0)
+        //        {
+        //            for (int i = j - 1; i > -1; i--)
+        //            {
 
+        //                gridCols[i].Width += avgWidth;
 
-            int j = gridCols.Count;
-            if (j > 0)
-            {
-                //just average
-                int avgWidth = nWidthDiff / j;
-                if (avgWidth > 0)
-                {
-                    for (int i = j - 1; i > -1; i--)
-                    {
-
-                        gridCols[i].Width += avgWidth;
-
-                    }
-                }
-            }
-        }
+        //            }
+        //        }
+        //    }
+        //}
 
 
         public void SetUniformGridItemSize(int cellItemWidth, int cellItemHeight)
@@ -486,10 +484,8 @@ namespace LayoutFarm.UI
         public void MoveColumnAfter(GridColumn tobeMoveColumn, GridColumn afterColumn)
         {
             this.gridCols.MoveColumnAfter(tobeMoveColumn, afterColumn);
-            this.OwnerInvalidateGraphic();
-
-        }
-
+            this.OwnerInvalidateGraphic(); 
+        } 
         public override void TopDownReCalculateContentSize()
         {
 #if DEBUG
