@@ -78,6 +78,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
                         {
                             CreateSvgLinearGradient(parentElement, node);
                         } break;
+                    case WellKnownDomNodeName.svg_path:
+                        {
+
+                        } break;
                     default:
                         {
 
@@ -414,6 +418,72 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 }
             }
         }
+
+        static void CreateSvgPath(SvgElement parentNode, HtmlElement elem)
+        {
+
+            SvgPathSpec spec = new SvgPathSpec();
+            SvgPath svgPath = new SvgPath();
+            foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
+            {
+                WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
+                switch (wellknownName)
+                {
+                    case WebDom.WellknownName.Svg_X:
+                        {
+                            spec.X = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Y:
+                        {
+                            spec.Y = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Width:
+                        {
+                            spec.Width = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Height:
+                        {
+                            spec.Height = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Fill:
+                        {
+                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke:
+                        {
+                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke_Width:
+                        {
+                            spec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+
+                    case WebDom.WellknownName.Svg_Transform:
+                        {
+                            //TODO: parse svg transform function   
+
+
+                        } break;
+                    default:
+                        {
+                            //other attrs
+                            switch (attr.Name)
+                            {
+                                case "d":
+                                    {
+                                        //parse vertex commands
+
+
+                                    } break;
+                            }
+                        } break;
+
+                }
+            }
+             
+        }
+
+
         public static void TranslateSvgAttributesMain(HtmlElement elem)
         {
 
@@ -483,7 +553,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 SvgElement svg = hitInfo.svg;
                 if (svg != null)
                 {
-                    var controller = SvgElement.UnsafeGetController(hitInfo.svg) as  IEventListener;
+                    var controller = SvgElement.UnsafeGetController(hitInfo.svg) as IEventListener;
                     if (controller != null)
                     {
                         //dispatch event 

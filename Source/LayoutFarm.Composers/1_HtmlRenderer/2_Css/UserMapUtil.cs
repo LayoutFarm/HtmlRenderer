@@ -101,13 +101,10 @@ namespace HtmlRenderer.Composers
         [Map("meta")]
         meta,
         [Map("param")]
-        _param,
-
+        _param, 
 
         [Map("x")]
-        X,//test for extension 
-
-
+        X,//test for extension  
 
         [Map("svg")]
         svg,
@@ -128,6 +125,9 @@ namespace HtmlRenderer.Composers
         svg_linearGradient,
         [Map("stop")]
         svg_stop,
+
+        [Map("path")]
+        svg_path
 
     }
 

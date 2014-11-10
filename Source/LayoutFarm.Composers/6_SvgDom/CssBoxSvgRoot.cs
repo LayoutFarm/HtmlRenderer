@@ -37,15 +37,18 @@ namespace HtmlRenderer.Boxes
         }
         protected override void PaintImp(IGraphics g, Painter p)
         {
+            var prevMode = g.SmoothingMode;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
 
             //render this svg
             var cnode = this.SvgSpec.GetFirstNode();
             while (cnode != null)
             {
-
                 cnode.Value.Paint(g);
                 cnode = cnode.Next;
             }
+
+            g.SmoothingMode = prevMode;
         }
         public SvgElement SvgSpec
         {

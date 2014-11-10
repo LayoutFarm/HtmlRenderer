@@ -2,8 +2,7 @@
 //MS-PL,  
 
 using System;
-using LayoutFarm.Drawing;
-using LayoutFarm.Drawing;
+using LayoutFarm.Drawing; 
 using System.Collections.Generic;
 using HtmlRenderer;
 using HtmlRenderer.Css;
@@ -116,7 +115,29 @@ namespace LayoutFarm.SvgDom
         public List<PointF> Points { get; set; }
     }
 
-
+    public class SvgPathSpec : SvgVisualSpec
+    {
+        public CssLength X
+        {
+            get;
+            set;
+        }
+        public CssLength Y
+        {
+            get;
+            set;
+        }
+        public CssLength Width
+        {
+            get;
+            set;
+        }
+        public CssLength Height
+        {
+            get;
+            set;
+        }
+    }
     public class StopColorPoint
     {
         public Color StopColor

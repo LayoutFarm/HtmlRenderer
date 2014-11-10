@@ -5,13 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
-using Svg.DataTypes;
-namespace System.Linq
-{
-    class dummy
-    {
-    }
-}
+using Svg.DataTypes; 
 
 namespace Svg.FilterEffects
 {

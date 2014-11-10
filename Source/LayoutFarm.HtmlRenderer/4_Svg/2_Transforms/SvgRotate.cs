@@ -35,6 +35,10 @@ namespace Svg.Transforms
             get
             {
                 Matrix matrix = CurrentGraphicPlatform.CreateMatrix();
+                //rotate around axis
+                //1. move to its center
+                //2. rotate
+                //3. translate back
                 matrix.Translate(this.CenterX, this.CenterY);
                 matrix.Rotate(this.Angle);
                 matrix.Translate(-this.CenterX, -this.CenterY);
