@@ -9,15 +9,15 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
-    [DemoNote("3.2 DemoControllerBox")]
-    class Demo_ControllerBoxs : DemoBase
+    [DemoNote("3.3 DemoControllerBox2")]
+    class Demo_ControllerBoxs2 : DemoBase
     {
         UIControllerBox controllerBox1;
 
         protected override void OnStartDemo(SampleViewport viewport)
         {
             {
-                var box1 = new LayoutFarm.SampleControls.UIEaseBox(50, 50);
+                var box1 = new LayoutFarm.SampleControls.UIEaseBox(150, 150);
                 box1.BackColor = Color.Red;
                 box1.SetLocation(10, 10);
                 box1.dbugTag = 1;
@@ -26,7 +26,7 @@ namespace LayoutFarm
             }
             //--------------------------------
             {
-                var box2 = new LayoutFarm.SampleControls.UIEaseBox(30, 30);
+                var box2 = new LayoutFarm.SampleControls.UIEaseBox(60, 60);
                 box2.SetLocation(50, 50);
                 box2.dbugTag = 2;
                 SetupActiveBoxProperties(box2);
@@ -56,10 +56,11 @@ namespace LayoutFarm
 
                 //--------------------------------------------
                 //move controller here
+                controllerBox1.TargetBox = box;
                 controllerBox1.SetLocation(box.Left - 5, box.Top - 5);
                 controllerBox1.SetSize(box.Width + 10, box.Height + 10);
                 controllerBox1.Visible = true;
-                controllerBox1.TargetBox = box;
+
                 //--------------------------------------------
             };
 
@@ -114,14 +115,17 @@ namespace LayoutFarm
                 {
                     //move target box too
                     targetBox.SetLocation(pos.X + 5, pos.Y + 5);
-
                 }
             };
 
             controllerBox.Dragging += (s, e) =>
             {
                 Point pos = controllerBox.Position;
-                controllerBox.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
+
+                int newX = pos.X + e.XDiff;
+                int newY = pos.Y + e.YDiff; 
+
+                controllerBox.SetLocation(newX, newY);
                 var targetBox = controllerBox.TargetBox;
                 if (targetBox != null)
                 {
@@ -155,7 +159,8 @@ namespace LayoutFarm
                 {
                     Point pos = controllerBox.Position;
                     int newX = pos.X + e.XDiff;
-                    int newY = pos.Y + e.YDiff;
+                    int newY = pos.Y + e.YDiff; 
+
                     controllerBox.SetLocation(newX, newY);
                     var targetBox = controllerBox.TargetBox;
                     if (targetBox != null)
@@ -175,8 +180,7 @@ namespace LayoutFarm
                 {
                     Point pos = controllerBox.Position;
                     int newX = pos.X + e.XDiff;
-                    int newY = pos.Y + e.YDiff;
-
+                    int newY = pos.Y + e.YDiff; 
                     controllerBox.SetLocation(newX, newY);
                     var targetBox = controllerBox.TargetBox;
                     if (targetBox != null)
@@ -188,28 +192,17 @@ namespace LayoutFarm
 
             };
 
-            //controllerBox.DragEnd += (s, e) =>
-            //{
-            //    controllerBox.TargetBox = null;
-            //    controllerBox.Visible = false;
-
-            //};
-
-            //controllerBox.MouseUp += (s, e) =>
-            //{
-            //    controllerBox.Visible = false;
-            //    controllerBox.TargetBox = null;
-            //};
 
         }
 
         //-----------------------------------------------------------------
         class UIControllerBox : LayoutFarm.SampleControls.UIEaseBox
         {
+            LayoutFarm.SampleControls.UIGridBox gridBox;
             public UIControllerBox(int w, int h)
                 : base(w, h)
             {
-                // 
+
 
             }
             public LayoutFarm.SampleControls.UIBox TargetBox
@@ -217,7 +210,41 @@ namespace LayoutFarm
                 get;
                 set;
             }
+            //get primary render element
+            public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+            {
+                if (!this.HasReadyRenderElement)
+                {
+                    gridBox = new LayoutFarm.SampleControls.UIGridBox(30, 30);
+                    gridBox.SetLocation(5, 5);
+                    gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
 
+                    var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.SampleControls.CustomRenderBox;
+                    if (myRenderElement != null)
+                    {
+                        VisualLayerCollection layers = new VisualLayerCollection();
+                        myRenderElement.Layers = layers;
+                        var plain0 = new VisualPlainLayer(myRenderElement);
+                        layers.AddLayer(plain0);
+                        plain0.AddChild(gridBox.GetPrimaryRenderElement(rootgfx));
+                    }
+                }
+                return base.GetPrimaryRenderElement(rootgfx);
+            }
+
+            public override void SetSize(int width, int height)
+            {
+                base.SetSize(width, height);
+                //---------------------------------
+                if (gridBox != null)
+                {
+                    //adjust grid size
+
+                    gridBox.SetSize(width - 10, height - 10);
+
+                }
+                //---------------------------------
+            }
         }
 
     }

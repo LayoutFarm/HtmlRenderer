@@ -11,7 +11,7 @@ using LayoutFarm.UI;
 namespace LayoutFarm.SampleControls
 {
 
-    class CustomRenderBox : RenderBoxBase
+    public class CustomRenderBox : RenderBoxBase
     {
 #if DEBUG
         public bool dbugBreak;
@@ -20,7 +20,7 @@ namespace LayoutFarm.SampleControls
             : base(rootgfx, width, height)
         {
             this.BackColor = Color.LightGray;
-
+          
         }
         public override void ClearAllChildren()
         {
@@ -33,9 +33,8 @@ namespace LayoutFarm.SampleControls
         protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
         {
 
-            //sample bg
-            
-           using (var brush = canvasPage.Platform.CreateSolidBrush(BackColor))
+            //sample bg 
+            using (var brush = canvasPage.Platform.CreateSolidBrush(BackColor))
             {
                 canvasPage.FillRectangle(brush, updateArea.ToRectangle());
                 if (this.Layers != null)
@@ -43,7 +42,7 @@ namespace LayoutFarm.SampleControls
                     this.Layers.LayersDrawContent(canvasPage, updateArea);
                 }
             }
-        } 
+        }
     }
 
 

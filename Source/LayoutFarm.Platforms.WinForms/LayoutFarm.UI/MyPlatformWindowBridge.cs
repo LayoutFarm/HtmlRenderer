@@ -235,7 +235,8 @@ namespace LayoutFarm.UI
         UIMouseEventArgs GetReadyMouseEventArgs(MouseEventArgs e)
         {
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
-            SetUIMouseEventArgsInfo(mouseEventArg, e);             
+            SetUIMouseEventArgsInfo(mouseEventArg, e);
+
             this.isDragging = mouseEventArg.IsMouseDown = this.isMouseDown;
             return mouseEventArg;
         }
@@ -279,8 +280,13 @@ namespace LayoutFarm.UI
         {
 
             Point viewLocation = canvasViewport.LogicalViewportLocation;
-
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
+            if (this.isMouseDown ||
+                this.isDragging)
+            {
+                
+            }
+
 
             this.userEventPortal.PortalMouseMove(mouseEventArg);
 

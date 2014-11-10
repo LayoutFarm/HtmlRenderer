@@ -11,7 +11,7 @@ using LayoutFarm.UI;
 namespace LayoutFarm.SampleControls
 {
 
-    public class UIButton : UIBox
+    public class UIEaseBox : UIBox
     {
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseMove;
@@ -26,7 +26,7 @@ namespace LayoutFarm.SampleControls
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
 
-        public UIButton(int width, int height)
+        public UIEaseBox(int width, int height)
             : base(width, height)
         {
 
@@ -52,6 +52,10 @@ namespace LayoutFarm.SampleControls
                 }
             }
         }
+        protected void SetPrimaryRenderElement(CustomRenderBox primElement)
+        {
+            this.primElement = primElement;
+        }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (primElement == null)
@@ -61,6 +65,7 @@ namespace LayoutFarm.SampleControls
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
                 renderE.SetVisible(this.Visible);
+                
                 primElement = renderE;
             }
             return primElement;
@@ -85,7 +90,7 @@ namespace LayoutFarm.SampleControls
             if (this.MouseLeave != null)
             {
                 this.MouseLeave(this, e);
-            }             
+            }
         }
         protected override void OnDragLeave(UIMouseEventArgs e)
         {
@@ -123,8 +128,8 @@ namespace LayoutFarm.SampleControls
             {
                 Dragging(this, e);
             }
-
         }
+        //----------------------------------------------------
     }
 
 
