@@ -60,7 +60,7 @@ namespace LayoutFarm
                 controllerBox1.SetLocation(box.Left - 5, box.Top - 5);
                 controllerBox1.SetSize(box.Width + 10, box.Height + 10);
                 controllerBox1.Visible = true;
-                
+
                 //--------------------------------------------
             };
 
@@ -121,7 +121,11 @@ namespace LayoutFarm
             controllerBox.Dragging += (s, e) =>
             {
                 Point pos = controllerBox.Position;
-                controllerBox.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
+
+                int newX = pos.X + e.XDiff;
+                int newY = pos.Y + e.YDiff; 
+
+                controllerBox.SetLocation(newX, newY);
                 var targetBox = controllerBox.TargetBox;
                 if (targetBox != null)
                 {
@@ -155,7 +159,8 @@ namespace LayoutFarm
                 {
                     Point pos = controllerBox.Position;
                     int newX = pos.X + e.XDiff;
-                    int newY = pos.Y + e.YDiff;
+                    int newY = pos.Y + e.YDiff; 
+
                     controllerBox.SetLocation(newX, newY);
                     var targetBox = controllerBox.TargetBox;
                     if (targetBox != null)
@@ -175,8 +180,7 @@ namespace LayoutFarm
                 {
                     Point pos = controllerBox.Position;
                     int newX = pos.X + e.XDiff;
-                    int newY = pos.Y + e.YDiff;
-
+                    int newY = pos.Y + e.YDiff; 
                     controllerBox.SetLocation(newX, newY);
                     var targetBox = controllerBox.TargetBox;
                     if (targetBox != null)
@@ -188,18 +192,6 @@ namespace LayoutFarm
 
             };
 
-            //controllerBox.DragEnd += (s, e) =>
-            //{
-            //    controllerBox.TargetBox = null;
-            //    controllerBox.Visible = false;
-
-            //};
-
-            //controllerBox.MouseUp += (s, e) =>
-            //{
-            //    controllerBox.Visible = false;
-            //    controllerBox.TargetBox = null;
-            //};
 
         }
 
@@ -210,8 +202,8 @@ namespace LayoutFarm
             public UIControllerBox(int w, int h)
                 : base(w, h)
             {
-             
-                
+
+
             }
             public LayoutFarm.SampleControls.UIBox TargetBox
             {
@@ -227,28 +219,28 @@ namespace LayoutFarm
                     gridBox.SetLocation(5, 5);
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
 
-
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.SampleControls.CustomRenderBox;
                     if (myRenderElement != null)
-                    {    
+                    {
                         VisualLayerCollection layers = new VisualLayerCollection();
                         myRenderElement.Layers = layers;
                         var plain0 = new VisualPlainLayer(myRenderElement);
-                        layers.AddLayer(plain0);                        
+                        layers.AddLayer(plain0);
                         plain0.AddChild(gridBox.GetPrimaryRenderElement(rootgfx));
-                    }           
+                    }
                 }
-                return base.GetPrimaryRenderElement(rootgfx); 
+                return base.GetPrimaryRenderElement(rootgfx);
             }
 
             public override void SetSize(int width, int height)
-            {                 
+            {
                 base.SetSize(width, height);
                 //---------------------------------
                 if (gridBox != null)
                 {
                     //adjust grid size
-                    gridBox.SetSize(width, height);
+
+                    gridBox.SetSize(width - 10, height - 10);
 
                 }
                 //---------------------------------

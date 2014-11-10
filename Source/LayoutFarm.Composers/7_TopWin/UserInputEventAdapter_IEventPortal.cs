@@ -8,16 +8,16 @@ namespace LayoutFarm.UI
 {
 
     partial class UserInputEventAdapter : IUserEventPortal
-    {   
+    {
         int lastestLogicalMouseDownX;
         int lastestLogicalMouseDownY;
         int prevLogicalMouseX;
-        int prevLogicalMouseY;         
+        int prevLogicalMouseY;
 
         //------------------------------------------------------------
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
-           
+
             this.lastestLogicalMouseDownX = e.X;
             this.lastestLogicalMouseDownY = e.Y;
             this.prevLogicalMouseX = e.X;
@@ -37,11 +37,14 @@ namespace LayoutFarm.UI
 
             //find diff    
             e.SetDiff(
-                (e.X) - prevLogicalMouseX,
-                (e.Y) - prevLogicalMouseY);
+                e.X - prevLogicalMouseX,
+                e.Y - prevLogicalMouseY,
+                e.X - this.lastestLogicalMouseDownX,
+                e.Y - this.lastestLogicalMouseDownY);
+
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
-            this.OnMouseMove(e); 
+            this.OnMouseMove(e);
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {

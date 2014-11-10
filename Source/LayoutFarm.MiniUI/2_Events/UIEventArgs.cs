@@ -10,7 +10,7 @@ namespace LayoutFarm.UI
     public delegate void UIMouseEventHandler(object sender, UIMouseEventArgs e);
     public delegate void UIKeyEventHandler(object sender, UIKeyEventArgs e);
     public delegate void UIKeyPressEventHandler(object sender, UIKeyEventArgs e);
-     
+
     public abstract class UIEventArgs : EventArgs
     {
         int x;
@@ -136,30 +136,27 @@ namespace LayoutFarm.UI
         public UIMouseButtons Button;
         public int Delta;
         public int Clicks;
+
         public int XDiff;
         public int YDiff;
 
         public bool IsMouseDown;
-
         public TopWindowRenderBox WinTop;
         IEventListener draggingElem;
 
-
-        int lastestLogicalViewportMouseDownX;
-        int lastestLogicalViewportMouseDownY;
-        int currentLogicalX;
-        int currentLogicalY;
-        int lastestXDiff;
-        int lastestYDiff;
+        int xdiffFromMouseDown;
+        int ydiffFromMouseDown;
 
         public UIMouseEventArgs()
         {
 
         }
-        public void SetDiff(int xdiff, int ydiff)
+        public void SetDiff(int xdiff, int ydiff, int xdiffFromMouseDown, int ydiffFromMouseDown)
         {
             this.XDiff = xdiff;
             this.YDiff = ydiff;
+            this.xdiffFromMouseDown = xdiffFromMouseDown;
+            this.ydiffFromMouseDown = ydiffFromMouseDown;
         }
         public void SetEventInfo(Point location, UIMouseButtons button, int clicks, int delta)
         {
@@ -190,38 +187,39 @@ namespace LayoutFarm.UI
             get { return this.draggingElem; }
             set { this.draggingElem = value; }
         }
-        public void SetEventInfo(Point location, UIMouseButtons button, int lastestLogicalViewportMouseDownX,
-           int lastestLogicalViewportMouseDownY,
-           int currentLogicalX,
-           int currentLogicalY,
-           int lastestXDiff,
-           int lastestYDiff)
-        {
+        //public void SetEventInfo(Point location, UIMouseButtons button, 
+        //   int lastestLogicalViewportMouseDownX,
+        //   int lastestLogicalViewportMouseDownY,
+        //   int currentLogicalX,
+        //   int currentLogicalY,
+        //   int lastestXDiff,
+        //   int lastestYDiff)
+        //{
 
-            Button = button;
-            this.Location = location;
+        //    Button = button;
+        //    this.Location = location;
 
-            this.currentLogicalX = currentLogicalX;
-            this.currentLogicalY = currentLogicalY;
-            this.lastestLogicalViewportMouseDownY = lastestLogicalViewportMouseDownY;
-            this.lastestLogicalViewportMouseDownX = lastestLogicalViewportMouseDownX;
-            this.lastestXDiff = lastestXDiff;
-            this.lastestYDiff = lastestYDiff;
-        }
+        //    this.currentLogicalX = currentLogicalX;
+        //    this.currentLogicalY = currentLogicalY;
+        //    this.lastestLogicalViewportMouseDownY = lastestLogicalViewportMouseDownY;
+        //    this.lastestLogicalViewportMouseDownX = lastestLogicalViewportMouseDownX;
+        //    this.lastestXDiff = lastestXDiff;
+        //    this.lastestYDiff = lastestYDiff;
+        //}
 
-        
+
         public int XDiffFromMouseDownPos
         {
             get
             {
-                return this.currentLogicalX - this.lastestLogicalViewportMouseDownX;
+                return this.xdiffFromMouseDown;
             }
         }
         public int YDiffFromMouseDownPos
         {
             get
             {
-                return this.currentLogicalY - this.lastestLogicalViewportMouseDownY;
+                return this.ydiffFromMouseDown;
             }
         }
 
