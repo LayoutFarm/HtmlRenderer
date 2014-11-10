@@ -409,7 +409,7 @@ namespace LayoutFarm.Drawing
                 string colorName = GetName(i).ToUpper();
                 colorsByName[colorName] = FromKnownColor((KnownColor)i);
             }
-            colorsByName["NONE"] = Color.Transparent;
+            colorsByName["NONE"] = Color.Empty;
         }
 
         public static Color FromKnownColor(string colorName)

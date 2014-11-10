@@ -7,7 +7,7 @@ using LayoutFarm.Drawing;
 using HtmlRenderer.Css;
 using HtmlRenderer.Boxes;
 
-namespace HtmlRenderer 
+namespace HtmlRenderer
 {
     //----------------------------------------------------------------------------
     public class Painter : BoxVisitor
@@ -170,15 +170,40 @@ namespace HtmlRenderer
         }
         internal void PaintBorder(CssBox box, CssSide border, Color solidColor, RectangleF rect)
         {
-             
+
             using (var b = this.Platform.CreateSolidBrush(solidColor))
             {
                 PointF[] borderPoints = new PointF[4];
                 BorderPaintHelper.DrawBorder(border, borderPoints, this.Gfx, box, b, rect);
             }
         }
+        //-------------------------------------
+        //painting context for canvas , svg
+        Color currentContextFillColor = Color.Black;
+        Color currentContextPenColor = Color.Transparent;
+        float currentContextPenWidth = 1;
+        public bool UseCurrentContext
+        {
+            get;
+            set;
+        }
+        public Color CurrentContextFillColor
+        {
+            get { return this.currentContextFillColor; }
+            set { this.currentContextFillColor = value; }
+        }
+        public Color CurrentContextPenColor
+        {
+            get { return this.currentContextPenColor; }
+            set { this.currentContextPenColor = value; }
+        }
+        public float CurrentContextPenWidth
+        {
+            get { return this.currentContextPenWidth; }
+            set { this.currentContextPenWidth = value; }
+        }
 
-
+        //-------------------------------------
 #if DEBUG
         public void dbugDrawDiagonalBox(Pen pen, float x1, float y1, float x2, float y2)
         {

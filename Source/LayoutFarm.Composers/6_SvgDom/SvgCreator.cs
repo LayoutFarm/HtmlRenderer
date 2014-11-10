@@ -86,6 +86,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
                         {
                             CreateSvgImage(parentElement, node);
                         } break;
+                    case WellKnownDomNodeName.svg_g:
+                        {
+                            CreateSvgGroupElement(parentElement, node);
+                        } break;
                     default:
                         {
 
@@ -93,6 +97,42 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 }
             }
 
+        }
+        static void CreateSvgGroupElement(SvgElement parentNode, HtmlElement elem)
+        {
+
+            SvgVisualSpec spec = new SvgVisualSpec();
+            SvgGroupElement svgGroupElement = new SvgGroupElement(spec, elem);
+            parentNode.AddChild(svgGroupElement);
+
+            foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
+            {
+                WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
+
+                switch (wellknownName)
+                {
+                    
+                    case WebDom.WellknownName.Svg_Fill:
+                        {
+                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke:
+                        {
+                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke_Width:
+                        {
+                            spec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    
+                    default:
+                        {
+                            //other attrs
+                        } break; 
+                }
+            }
+
+            CreateSvgBoxContent(svgGroupElement, elem);
         }
         static void CreateSvgDefs(SvgElement parentNode, HtmlElement elem)
         {
@@ -536,10 +576,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
                         {
                             //image src***
                             spec.ImageSrc = attr.Value;
-                        }break;
+                        } break;
                     default:
                         {
-                             
+
                         } break;
 
                 }

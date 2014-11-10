@@ -137,7 +137,7 @@ namespace LayoutFarm.SvgDom
     }
 
     public class SvgDefinitionList : SvgElement
-    {   
+    {
         public SvgDefinitionList(object controller)
             : base(controller)
         {
@@ -153,7 +153,7 @@ namespace LayoutFarm.SvgDom
         }
     }
 
-   
+
     public class SvgLinearGradient : SvgElement
     {
         public SvgLinearGradient(object controller)
@@ -175,6 +175,6 @@ namespace LayoutFarm.SvgDom
     }
 
 
-
+    
 
 }

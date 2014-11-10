@@ -129,7 +129,9 @@ namespace HtmlRenderer.Composers
         [Map("path")]
         svg_path,
         [Map("image")]
-        svg_image
+        svg_image,
+        [Map("g")]
+        svg_g
     }
 
 

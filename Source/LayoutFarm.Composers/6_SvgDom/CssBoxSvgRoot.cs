@@ -27,6 +27,7 @@ namespace HtmlRenderer.Boxes
             var cnode = svgElement.GetFirstNode();
             float containerW = containingBlock.SizeWidth;
             float emH = containingBlock.GetEmHeight();
+
             while (cnode != null)
             {
                 cnode.Value.ReEvaluateComputeValue(containerW, 100, emH);
@@ -38,8 +39,7 @@ namespace HtmlRenderer.Boxes
         protected override void PaintImp(IGraphics g, Painter p)
         {
             var prevMode = g.SmoothingMode;
-            g.SmoothingMode = SmoothingMode.AntiAlias;
-
+            g.SmoothingMode = SmoothingMode.AntiAlias; 
             //render this svg
             var cnode = this.SvgSpec.GetFirstNode();
             while (cnode != null)
