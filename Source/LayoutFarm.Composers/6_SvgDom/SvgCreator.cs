@@ -80,6 +80,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                         } break;
                     case WellKnownDomNodeName.svg_path:
                         {
+                            CreateSvgPath(parentElement, node);
 
                         } break;
                     default:
@@ -423,7 +424,9 @@ namespace HtmlRenderer.Composers.BridgeHtml
         {
 
             SvgPathSpec spec = new SvgPathSpec();
-            SvgPath svgPath = new SvgPath();
+            SvgPath svgPath = new SvgPath(spec, elem);
+            parentNode.AddChild(svgPath);
+
             foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
             {
                 WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
@@ -473,6 +476,8 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                     {
                                         //parse vertex commands
 
+                                        Svg.Pathing.SvgPathDataParser parser = new Svg.Pathing.SvgPathDataParser();
+                                        List<Svg.Pathing.SvgPathSeg> segments = parser.Parse(attr.Value.ToCharArray());
 
                                     } break;
                             }
@@ -480,7 +485,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
                 }
             }
-             
+
         }
 
 

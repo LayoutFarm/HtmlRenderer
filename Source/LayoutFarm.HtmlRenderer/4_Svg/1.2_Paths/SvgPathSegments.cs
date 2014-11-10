@@ -5,7 +5,7 @@ using LayoutFarm.Drawing;
 
 namespace Svg.Pathing
 {
-    public enum PathCommand : byte
+    public enum SvgPathCommand : byte
     {
         MoveTo,
         LineTo,
@@ -23,69 +23,131 @@ namespace Svg.Pathing
         public SvgPathSeg()
         {
         }
-        public abstract PathCommand Command { get; }
+        public abstract SvgPathCommand Command { get; }
         public bool IsRelative
         {
             get;
             set;
         }
     }
-        
-    public class MoveTo : SvgPathSeg
-    {
-        public MoveTo()
-        {
 
-        }
-        public override PathCommand Command
+    public class SvgPathSegMoveTo : SvgPathSeg
+    {
+        public SvgPathSegMoveTo()
         {
-            get { return PathCommand.MoveTo; }
+        }
+        public SvgPathSegMoveTo(float x, float y)
+        {
+            this.X = x;
+            this.Y = y;
+        }
+        public override SvgPathCommand Command
+        {
+            get { return SvgPathCommand.MoveTo; }
         }
         public float X { get; set; }
         public float Y { get; set; }
+
+#if DEBUG
+        public override string ToString()
+        {
+            char cmd = IsRelative ? 'm' : 'M';
+            return cmd + X.ToString() + " " + Y;
+        }
+#endif
+
     }
-    public class LineTo : SvgPathSeg
+    public class SvgPathSegLineTo : SvgPathSeg
     {
-        public LineTo()
+        public SvgPathSegLineTo()
         {
         }
-        public override PathCommand Command
+        public SvgPathSegLineTo(float x, float y)
         {
-            get { return PathCommand.LineTo; }
+            this.X = x;
+            this.Y = y;
+        }
+        public override SvgPathCommand Command
+        {
+            get { return SvgPathCommand.LineTo; }
         }
         public float X { get; set; }
         public float Y { get; set; }
+
+#if DEBUG
+        public override string ToString()
+        {
+            char cmd = IsRelative ? 'l' : 'L';
+            return cmd + X.ToString() + " " + Y;
+        }
+#endif
+
     }
-    public class LineToHorizontal : SvgPathSeg
+    public class SvgPathSegLineToHorizontal : SvgPathSeg
     {
-        public LineToHorizontal()
+        public SvgPathSegLineToHorizontal()
         {
         }
-        public override PathCommand Command
+        public SvgPathSegLineToHorizontal(float x)
         {
-            get { return PathCommand.HorizontalLineTo; }
+            this.X = x;
+        }
+        public override SvgPathCommand Command
+        {
+            get { return SvgPathCommand.HorizontalLineTo; }
         }
         public float X { get; set; }
 
+#if DEBUG
+        public override string ToString()
+        {
+            char cmd = IsRelative ? 'h' : 'H';
+            return cmd + X.ToString();
+        }
+#endif
+
     }
-    public class LineToVertical : SvgPathSeg
+    public class SvgPathSegLineToVertical : SvgPathSeg
     {
-        public LineToVertical()
+        public SvgPathSegLineToVertical()
         {
         }
-        public override PathCommand Command
+        public SvgPathSegLineToVertical(float y)
         {
-            get { return PathCommand.VerticalLineTo; }
+            this.Y = y;
+        }
+
+        public override SvgPathCommand Command
+        {
+            get { return SvgPathCommand.VerticalLineTo; }
         }
         public float Y { get; set; }
+
+#if DEBUG
+        public override string ToString()
+        {
+            char cmd = IsRelative ? 'v' : 'V';
+            return cmd + Y.ToString();
+        }
+#endif
     }
 
 
-    public class CurveToCubic : SvgPathSeg
+    public class SvgPathSegCurveToCubic : SvgPathSeg
     {
-        public override PathCommand Command
+        public override SvgPathCommand Command
         {
-            get { return PathCommand.CurveTo; }
+            get { return SvgPathCommand.CurveTo; }
+        }
+        public SvgPathSegCurveToCubic(float x, float y, float x1, float y1,
+            float x2, float y2)
+        {
+            this.X = x;
+            this.Y = y;
+            this.X1 = x1;
+            this.Y1 = y1;
+            this.X2 = x2;
+            this.Y2 = y2;
         }
         public float X { get; set; }
         public float Y { get; set; }
@@ -93,64 +155,151 @@ namespace Svg.Pathing
         public float Y1 { get; set; }
         public float X2 { get; set; }
         public float Y2 { get; set; }
-    }
-    public class CurveToCubicSmooth : SvgPathSeg
-    {
-        public override PathCommand Command
+
+#if DEBUG
+        public override string ToString()
         {
-            get { return PathCommand.SmoothCurveTo; }
+            char cmd = IsRelative ? 'c' : 'C';
+
+            return cmd + this.X.ToString() + " " + this.Y + " " +
+                this.X1 + " " + this.Y1 + " "
+                + this.X2 + " " + this.Y2;
+        }
+#endif
+    }
+    public class SvgPathSegCurveToCubicSmooth : SvgPathSeg
+    {
+        public override SvgPathCommand Command
+        {
+            get { return SvgPathCommand.SmoothCurveTo; }
+        }
+        public SvgPathSegCurveToCubicSmooth(float x, float y, float x2, float y2)
+        {
+            this.X = x;
+            this.Y = y;
+            this.X2 = x2;
+            this.Y2 = y2;
         }
         public float X { get; set; }
         public float Y { get; set; }
         public float X2 { get; set; }
         public float Y2 { get; set; }
+
+#if DEBUG
+        public override string ToString()
+        {
+            char cmd = IsRelative ? 's' : 'S';
+
+            return cmd + this.X.ToString() + " " + this.Y + " " +
+                this.X2 + " " + this.Y2;
+        }
+#endif
     }
 
-    public class CurveToQuadratic : SvgPathSeg
+    public class SvgPathSegCurveToQuadratic : SvgPathSeg
     {
-        public override PathCommand Command
+        public override SvgPathCommand Command
         {
-            get { return PathCommand.QuadraticBezierCurve; }
+            get { return SvgPathCommand.QuadraticBezierCurve; }
         }
+        public SvgPathSegCurveToQuadratic(float x, float y, float x1, float y1)
+        {
+            this.X = x;
+            this.Y = y;
+            this.X1 = x1;
+            this.Y1 = y1;
+        }
+
         public float X { get; set; }
         public float Y { get; set; }
         public float X1 { get; set; }
         public float Y1 { get; set; }
-    }
-    public class CurveToQuadraticSmooth : SvgPathSeg
-    {
-        public override PathCommand Command
+#if DEBUG
+        public override string ToString()
         {
-            get { return PathCommand.TSmoothQuadraticBezierCurveTo; }
+            char cmd = IsRelative ? 'a' : 'Q';
+
+            return cmd + this.X.ToString() + " " + this.Y + " " +
+                this.X1 + " " + this.Y1;
+        }
+#endif
+    }
+    public class SvgPathSegCurveToQuadraticSmooth : SvgPathSeg
+    {
+        public override SvgPathCommand Command
+        {
+            get { return SvgPathCommand.TSmoothQuadraticBezierCurveTo; }
+        }
+        public SvgPathSegCurveToQuadraticSmooth(float x, float y)
+        {
+            this.X = x;
+            this.Y = y;
         }
         public float X { get; set; }
         public float Y { get; set; }
+#if DEBUG
+        public override string ToString()
+        {
+            char cmd = IsRelative ? 't' : 'T';
+
+            return cmd + this.X.ToString() + " " + this.Y;
+        }
+#endif
     }
 
-    public class Arc : SvgPathSeg
+    public class SvgPathSegArc : SvgPathSeg
     {
-        public override PathCommand Command
+        public override SvgPathCommand Command
         {
-            get { return PathCommand.Arc; }
+            get { return SvgPathCommand.Arc; }
         }
+        public SvgPathSegArc(float r1, float r2, float xAxisRotation, int largeArcFlag, int sweepFlags, float x, float y)
+        {
+            this.X = x;
+            this.Y = y;
+            this.R1 = r1;
+            this.R2 = r2;
+            this.Angle = xAxisRotation;
+            this.SweepFlag = sweepFlags;
+            this.LargeArgFlag = largeArcFlag;
+        }
+
+
         public float X { get; set; }
         public float Y { get; set; }
         public float R1 { get; set; }
         public float R2 { get; set; }
         public float Angle { get; set; }
-        public bool LargeArgFlag { get; set; }
-        public bool SweepFlag { get; set; }
+        public int LargeArgFlag { get; set; }
+        public int SweepFlag { get; set; }
+#if DEBUG
+        public override string ToString()
+        {
+            char cmd = IsRelative ? 'a' : 'A';
+
+            return cmd + this.R1.ToString() + " " + this.R2 + " " +
+                this.Angle + " " + this.LargeArgFlag + " " +
+                +this.SweepFlag + " " + this.X + " " + this.Y;
+        }
+#endif
     }
 
-    public class ClosePath : SvgPathSeg
+    public class SvgPathSegClosePath : SvgPathSeg
     {
-        public ClosePath()
+        public SvgPathSegClosePath()
         {
         }
-        public override PathCommand Command
+        public override SvgPathCommand Command
         {
-            get { return PathCommand.ZClosePath; }
+            get { return SvgPathCommand.ZClosePath; }
         }
+
+#if DEBUG
+        public override string ToString()
+        {
+            return "Z";
+        }
+#endif
     }
 
 

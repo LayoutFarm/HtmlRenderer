@@ -64,7 +64,14 @@ namespace LayoutFarm.SvgDom
 
         public LinkedListNode<SvgElement> GetFirstNode()
         {
-            return this.children.First;
+            if (children == null)
+            {
+                return null;
+            }
+            else
+            {
+                return this.children.First;
+            }
         }
         public virtual void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
         {
