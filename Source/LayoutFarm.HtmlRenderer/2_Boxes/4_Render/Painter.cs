@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using LayoutFarm.Drawing;
 
 using HtmlRenderer.Css;
+using HtmlRenderer.Boxes;
 
-namespace HtmlRenderer.Boxes
+namespace HtmlRenderer 
 {
     //----------------------------------------------------------------------------
     public class Painter : BoxVisitor

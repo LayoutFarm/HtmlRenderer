@@ -32,6 +32,7 @@ namespace LayoutFarm.SvgDom
         Color fillColor = Color.Black;
         GraphicsPath _path;
         SvgRectSpec rectSpec;
+
         public SvgRect(SvgRectSpec rectSpec, object controller)
             : base(controller)
         {
@@ -199,9 +200,12 @@ namespace LayoutFarm.SvgDom
         public override void Paint(IGraphics g)
         {
 
-            using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
+            if (fillColor != Color.Transparent)
             {
-                g.FillPath(sb, this._path);
+                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
+                {
+                    g.FillPath(sb, this._path);
+                }
             }
             if (this.strokeColor != Color.Transparent
                 && this.ActualStrokeWidth > 0)
@@ -534,4 +538,6 @@ namespace LayoutFarm.SvgDom
 
     }
 
+
+   
 }

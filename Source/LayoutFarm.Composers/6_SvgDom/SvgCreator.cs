@@ -81,7 +81,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
                     case WellKnownDomNodeName.svg_path:
                         {
                             CreateSvgPath(parentElement, node);
-
+                        } break;
+                    case WellKnownDomNodeName.svg_image:
+                        {
+                            CreateSvgImage(parentElement, node);
                         } break;
                     default:
                         {
@@ -392,8 +395,6 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
                             //parse points
                             spec.Points = ParsePointList(attr.Value);
-
-
                         } break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
@@ -476,7 +477,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                     {
                                         //parse vertex commands
 
-                                        Svg.Pathing.SvgPathDataParser parser = new Svg.Pathing.SvgPathDataParser(); 
+                                        Svg.Pathing.SvgPathDataParser parser = new Svg.Pathing.SvgPathDataParser();
                                         svgPath.Segments = parser.Parse(attr.Value.ToCharArray());
                                     } break;
                             }
@@ -487,16 +488,69 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
         }
 
+        static void CreateSvgImage(SvgElement parentNode, HtmlElement elem)
+        {
+            SvgImageSpec spec = new SvgImageSpec();
+            SvgImage svgImage = new SvgImage(spec, elem);
+            parentNode.AddChild(svgImage);
+
+            foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
+            {
+                WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
+                switch (wellknownName)
+                {
+                    case WebDom.WellknownName.Svg_X:
+                        {
+                            spec.X = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Y:
+                        {
+                            spec.Y = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Width:
+                        {
+                            spec.Width = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Height:
+                        {
+                            spec.Height = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Fill:
+                        {
+                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke:
+                        {
+                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke_Width:
+                        {
+                            spec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+
+                    case WebDom.WellknownName.Svg_Transform:
+                        {
+                            //TODO: parse svg transform function    
+                        } break;
+                    case WellknownName.Href:
+                        {
+                            //image src***
+                            spec.ImageSrc = attr.Value;
+                        }break;
+                    default:
+                        {
+                             
+                        } break;
+
+                }
+            }
+
+        }
 
         public static void TranslateSvgAttributesMain(HtmlElement elem)
         {
 
         }
-
-
-
-
-
         static List<PointF> ParsePointList(string str)
         {
 

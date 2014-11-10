@@ -127,8 +127,9 @@ namespace HtmlRenderer.Composers
         svg_stop,
 
         [Map("path")]
-        svg_path
-
+        svg_path,
+        [Map("image")]
+        svg_image
     }
 
 
@@ -939,7 +940,7 @@ namespace HtmlRenderer.Composers
 
                 if (float.TryParse(lenValue, out parsedNumber))
                 {
-                    return new CssLength(parsedNumber, CssUnitOrNames.Unknown);
+                    return new CssLength(parsedNumber, CssUnitOrNames.Pixels);
                 }
                 else
                 {
