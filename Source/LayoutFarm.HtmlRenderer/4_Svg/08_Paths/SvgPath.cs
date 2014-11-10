@@ -6,6 +6,7 @@ using LayoutFarm.Drawing;
 
 using Svg.Pathing;
 using Svg.Transforms;
+using HtmlRenderer;
 
 namespace LayoutFarm.SvgDom
 {
@@ -132,8 +133,9 @@ namespace LayoutFarm.SvgDom
                 }
             }
         }
-        public override void Paint(IGraphics g)
+        public override void Paint(Painter p)
         {
+            IGraphics g = p.Gfx;
             if (fillColor != Color.Transparent)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))

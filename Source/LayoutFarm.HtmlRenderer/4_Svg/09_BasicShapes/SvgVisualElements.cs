@@ -11,18 +11,18 @@ using LayoutFarm.SvgDom;
 
 namespace LayoutFarm.SvgDom
 {
-    public abstract class SvgVisualElement : SvgElement 
+    public abstract class SvgVisualElement : SvgElement
     {
 
         public SvgVisualElement(object controller)
             : base(controller)
-        { 
+        {
         }
         public float ActualStrokeWidth
         {
             get;
             set;
-        } 
+        }
     }
 
     public class SvgRect : SvgVisualElement
@@ -197,9 +197,9 @@ namespace LayoutFarm.SvgDom
             }
             return false;
         }
-        public override void Paint(IGraphics g)
+        public override void Paint(Painter p)
         {
-
+            IGraphics g = p.Gfx;
             if (fillColor != Color.Transparent)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
@@ -269,7 +269,7 @@ namespace LayoutFarm.SvgDom
             _path = CurrentGraphicPlatform.CreateGraphicPath();
             _path.StartFigure();
             _path.AddEllipse(this.ActualX - this.ActualRadius, this.ActualY - this.ActualRadius, 2 * this.ActualRadius, 2 * ActualRadius);
-            _path.CloseFigure(); 
+            _path.CloseFigure();
         }
 
         //------------------------------------------------
@@ -279,8 +279,9 @@ namespace LayoutFarm.SvgDom
 
             return false;
         }
-        public override void Paint(IGraphics g)
+        public override void Paint(Painter p)
         {
+            IGraphics g = p.Gfx;
             if (fillColor != Color.Transparent)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
@@ -297,8 +298,8 @@ namespace LayoutFarm.SvgDom
                     pen.Width = this.ActualStrokeWidth;
                     g.DrawPath(pen, this._path);
                 }
-            } 
-        } 
+            }
+        }
     }
     public class SvgEllipse : SvgVisualElement
     {
@@ -364,8 +365,9 @@ namespace LayoutFarm.SvgDom
 
             return false;
         }
-        public override void Paint(IGraphics g)
+        public override void Paint(Painter p)
         {
+            IGraphics g = p.Gfx;
 
             using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
             {
@@ -440,8 +442,9 @@ namespace LayoutFarm.SvgDom
                 return pointList;
             }
         }
-        public override void Paint(IGraphics g)
+        public override void Paint(Painter p)
         {
+            IGraphics g = p.Gfx;
             using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
             {
                 g.FillPath(sb, this._path);
@@ -477,8 +480,8 @@ namespace LayoutFarm.SvgDom
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
 
-            this.pointList = spec.Points.ToArray(); 
-            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight); 
+            this.pointList = spec.Points.ToArray();
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
             this._path = CurrentGraphicPlatform.CreateGraphicPath();
             PointF[] plist = this.pointList;
             int lim = plist.Length - 1;
@@ -490,26 +493,27 @@ namespace LayoutFarm.SvgDom
                     plist[i + 1]);
             }
         }
-        public override void Paint(IGraphics g)
+        public override void Paint(Painter p)
         {
+            IGraphics g = p.Gfx;
 
             if (this.strokeColor != Color.Transparent
                 && this.ActualStrokeWidth > 0)
-            {   
+            {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
                 using (Pen pen = g.Platform.CreatePen(sb))
                 {
                     pen.Width = this.ActualStrokeWidth;
                     g.DrawPath(pen, this._path);
-                } 
-            } 
+                }
+            }
         }
     }
     public class SvgLine : SvgVisualElement
     {
         Color strokeColor = Color.Transparent;
-        Color fillColor = Color.Black; 
-         
+        Color fillColor = Color.Black;
+
         public SvgLine(object controller)
             : base(controller)
         {
@@ -539,5 +543,5 @@ namespace LayoutFarm.SvgDom
     }
 
 
-   
+
 }

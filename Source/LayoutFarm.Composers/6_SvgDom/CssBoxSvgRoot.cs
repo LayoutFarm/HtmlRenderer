@@ -44,7 +44,7 @@ namespace HtmlRenderer.Boxes
             var cnode = this.SvgSpec.GetFirstNode();
             while (cnode != null)
             {
-                cnode.Value.Paint(g);
+                cnode.Value.Paint(p);
                 cnode = cnode.Next;
             }
 

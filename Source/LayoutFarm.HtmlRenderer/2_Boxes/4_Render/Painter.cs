@@ -112,7 +112,7 @@ namespace HtmlRenderer
         /// </summary>
         /// <param name="binder"></param>
         /// <param name="requestFrom"></param>
-        internal void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, CssBox requestFrom)
+        internal void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, object requestFrom)
         {
             HtmlIsland.RaiseRequestImage(
                 this.visualRootBox,

@@ -117,7 +117,7 @@ namespace LayoutFarm.SvgDom
         }
 
 
-        public virtual void Paint(IGraphics g)
+        public virtual void Paint(Painter p)
         {
 
         }
