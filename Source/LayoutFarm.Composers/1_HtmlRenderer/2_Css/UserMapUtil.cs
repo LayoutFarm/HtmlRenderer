@@ -101,7 +101,7 @@ namespace HtmlRenderer.Composers
         [Map("meta")]
         meta,
         [Map("param")]
-        _param, 
+        _param,
 
         [Map("x")]
         X,//test for extension  
@@ -951,18 +951,38 @@ namespace HtmlRenderer.Composers
             //TODO: Units behave different in paper and in screen! 
             CssUnitOrNames unit = GetCssUnit(lenValue.Substring(lenValue.Length - 2, 2));
             //parse number part
-            string number_part = lenValue.Substring(0, lenValue.Length - 2);
-
-            if (!float.TryParse(number_part,
-                System.Globalization.NumberStyles.Number,
-                System.Globalization.NumberFormatInfo.InvariantInfo, out parsedNumber))
+            if (unit == CssUnitOrNames.Unknown)
             {
-                //make an error value
-                return new CssLength(0, CssUnitOrNames.Unknown);
+                //check if all char is number?
+
+                if (!float.TryParse(lenValue,
+                    System.Globalization.NumberStyles.Number,
+                    System.Globalization.NumberFormatInfo.InvariantInfo, out parsedNumber))
+                {
+                    //make an error value
+                    return new CssLength(0, CssUnitOrNames.Unknown);
+                }
+                else
+                {
+                    return new CssLength(parsedNumber, CssUnitOrNames.Pixels);
+                }
+
             }
             else
             {
-                return new CssLength(parsedNumber, unit);
+                string number_part = lenValue.Substring(0, lenValue.Length - 2);
+
+                if (!float.TryParse(number_part,
+                    System.Globalization.NumberStyles.Number,
+                    System.Globalization.NumberFormatInfo.InvariantInfo, out parsedNumber))
+                {
+                    //make an error value
+                    return new CssLength(0, CssUnitOrNames.Unknown);
+                }
+                else
+                {
+                    return new CssLength(parsedNumber, unit);
+                }
             }
 
         }

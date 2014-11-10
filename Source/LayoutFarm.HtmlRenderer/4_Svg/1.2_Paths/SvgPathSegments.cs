@@ -1,4 +1,6 @@
 ﻿//Apache2 2014,WinterDev
+//some code frmo vvv-svg project
+
 
 using System;
 using LayoutFarm.Drawing;
@@ -29,7 +31,7 @@ namespace Svg.Pathing
             get;
             set;
         }
-        
+
 
     }
 
@@ -50,7 +52,7 @@ namespace Svg.Pathing
         public float X { get; set; }
         public float Y { get; set; }
 
-         
+
 #if DEBUG
         public override string ToString()
         {
@@ -205,22 +207,41 @@ namespace Svg.Pathing
         {
             get { return SvgPathCommand.QuadraticBezierCurve; }
         }
-        public SvgPathSegCurveToQuadratic(float x, float y, float x1, float y1)
+        public SvgPathSegCurveToQuadratic(float x1, float y1, float x, float y)
         {
-            this.X = x;
-            this.Y = y;
+
             this.X1 = x1;
             this.Y1 = y1;
+            this.X = x;
+            this.Y = y;
         }
-
         public float X { get; set; }
         public float Y { get; set; }
         public float X1 { get; set; }
         public float Y1 { get; set; }
+        public PointF ControlPoint
+        {
+            get { return new PointF(this.X1, this.Y1); }
+            set
+            {
+                this.X1 = value.X;
+                this.Y1 = value.Y;
+            }
+        }
+        public static void GetControlPoints(PointF start, PointF controlPoint, PointF endPoint, out PointF control1, out PointF control2)
+        {
+            float x1 = start.X + (controlPoint.X - start.X) * 2 / 3;
+            float y1 = start.Y + (controlPoint.Y - start.Y) * 2 / 3;
+            float x2 = controlPoint.X + (endPoint.X - controlPoint.X) / 3;
+            float y2 = controlPoint.Y + (endPoint.Y - controlPoint.Y) / 3;
+
+            control1 = new PointF(x1, y2);
+            control2 = new PointF(x2, y2);
+        }
 #if DEBUG
         public override string ToString()
         {
-            char cmd = IsRelative ? 'a' : 'Q';
+            char cmd = IsRelative ? 'q' : 'Q';
 
             return cmd + this.X.ToString() + " " + this.Y + " " +
                 this.X1 + " " + this.Y1;

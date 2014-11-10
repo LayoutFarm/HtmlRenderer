@@ -406,10 +406,10 @@ namespace LayoutFarm.Drawing
             int j = argbValues.Length;
             for (short i = 0; i < j; ++i)
             {
-
                 string colorName = GetName(i).ToUpper();
                 colorsByName[colorName] = FromKnownColor((KnownColor)i);
             }
+            colorsByName["NONE"] = Color.Transparent;
         }
 
         public static Color FromKnownColor(string colorName)

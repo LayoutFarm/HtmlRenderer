@@ -265,8 +265,7 @@ namespace LayoutFarm.SvgDom
             _path = CurrentGraphicPlatform.CreateGraphicPath();
             _path.StartFigure();
             _path.AddEllipse(this.ActualX - this.ActualRadius, this.ActualY - this.ActualRadius, 2 * this.ActualRadius, 2 * ActualRadius);
-            _path.CloseFigure();
-
+            _path.CloseFigure(); 
         }
 
         //------------------------------------------------
@@ -278,11 +277,12 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(IGraphics g)
         {
-
-            using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
+            if (fillColor != Color.Transparent)
             {
-                g.FillPath(sb, this._path);
-
+                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
+                {
+                    g.FillPath(sb, this._path);
+                }
             }
             if (this.strokeColor != Color.Transparent
                 && this.ActualStrokeWidth > 0)

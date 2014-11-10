@@ -45,7 +45,7 @@ namespace Svg.Pathing
                                         }
                                         else
                                         {  //error 
-
+                                            throw new NotSupportedException();
                                         }
                                         numbers.Clear();//reset
                                     } break;
@@ -63,7 +63,7 @@ namespace Svg.Pathing
                                         }
                                         else
                                         {  //error 
-
+                                            throw new NotSupportedException();
                                         }
                                         numbers.Clear();//reset
                                     } break;
@@ -80,7 +80,7 @@ namespace Svg.Pathing
                                         }
                                         else
                                         {  //error 
-
+                                            throw new NotSupportedException();
                                         }
                                         numbers.Clear();//reset
                                     } break;
@@ -97,7 +97,7 @@ namespace Svg.Pathing
                                         }
                                         else
                                         {  //error 
-
+                                            throw new NotSupportedException();
                                         }
                                         numbers.Clear();//reset
                                     } break;
@@ -121,6 +121,10 @@ namespace Svg.Pathing
                                             arc.IsRelative = c == 'a';
                                             pathSegments.Add(arc);
                                         }
+                                        else
+                                        {
+                                            throw new NotSupportedException();
+                                        }
                                         numbers.Clear();
                                     } break;
                                 case 'Q':
@@ -134,6 +138,10 @@ namespace Svg.Pathing
                                                 numbers[2], numbers[3]);
                                             quadCurve.IsRelative = c == 'q';
                                             pathSegments.Add(quadCurve);
+                                        }
+                                        else
+                                        {
+                                            throw new NotSupportedException();
                                         }
                                         numbers.Clear();
                                     } break;
@@ -150,6 +158,10 @@ namespace Svg.Pathing
                                             scubicCurve.IsRelative = c == 's';
                                             pathSegments.Add(scubicCurve);
                                         }
+                                        else
+                                        {
+                                            throw new NotSupportedException();
+                                        }
                                         numbers.Clear();
                                     } break;
                                 case 'T':
@@ -162,6 +174,10 @@ namespace Svg.Pathing
                                                 numbers[0], numbers[1]);
                                             squadCurve.IsRelative = c == 't';
                                             pathSegments.Add(squadCurve);
+                                        }
+                                        else
+                                        {
+                                            throw new NotSupportedException();
                                         }
                                         numbers.Clear();
                                     } break;
@@ -242,6 +258,7 @@ namespace Svg.Pathing
                             if (char.IsNumber(c))
                             {
                                 //ok collect next
+                                currentState = 2;
                             }
                             else
                             {
@@ -313,6 +330,16 @@ namespace Svg.Pathing
                 }
             }
             //-------------------
+            if (startCollectNumber >= 0)
+            {
+                //collect latest number
+                string str = new string(pathDataBuffer, startCollectNumber, latestIndex - startCollectNumber);
+                float number;
+                float.TryParse(str, out number);
+                numbers.Add(number);
+                startCollectNumber = -1;
+                currentState = 0;//reset
+            }
         }
     }
 }
