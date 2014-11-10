@@ -476,9 +476,8 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                     {
                                         //parse vertex commands
 
-                                        Svg.Pathing.SvgPathDataParser parser = new Svg.Pathing.SvgPathDataParser();
-                                        List<Svg.Pathing.SvgPathSeg> segments = parser.Parse(attr.Value.ToCharArray());
-
+                                        Svg.Pathing.SvgPathDataParser parser = new Svg.Pathing.SvgPathDataParser(); 
+                                        svgPath.Segments = parser.Parse(attr.Value.ToCharArray());
                                     } break;
                             }
                         } break;

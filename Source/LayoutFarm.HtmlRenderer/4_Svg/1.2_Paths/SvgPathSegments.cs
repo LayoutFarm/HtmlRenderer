@@ -29,6 +29,8 @@ namespace Svg.Pathing
             get;
             set;
         }
+        
+
     }
 
     public class SvgPathSegMoveTo : SvgPathSeg
@@ -48,6 +50,7 @@ namespace Svg.Pathing
         public float X { get; set; }
         public float Y { get; set; }
 
+         
 #if DEBUG
         public override string ToString()
         {

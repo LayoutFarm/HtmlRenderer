@@ -47,6 +47,7 @@ namespace LayoutFarm.Drawing
         public override void StartFigure()
         {
             p.StartFigure();
+          
         }
         public override void AddEllipse(float x, float y, float w, float h)
         {

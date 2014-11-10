@@ -473,11 +473,8 @@ namespace LayoutFarm.SvgDom
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
 
-            this.pointList = spec.Points.ToArray();
-
-            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
-
-
+            this.pointList = spec.Points.ToArray(); 
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight); 
             this._path = CurrentGraphicPlatform.CreateGraphicPath();
             PointF[] plist = this.pointList;
             int lim = plist.Length - 1;
@@ -494,17 +491,14 @@ namespace LayoutFarm.SvgDom
 
             if (this.strokeColor != Color.Transparent
                 && this.ActualStrokeWidth > 0)
-            {
-              
+            {   
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
                 using (Pen pen = g.Platform.CreatePen(sb))
                 {
                     pen.Width = this.ActualStrokeWidth;
                     g.DrawPath(pen, this._path);
-                }
-                 
-            }
-
+                } 
+            } 
         }
     }
     public class SvgLine : SvgVisualElement
