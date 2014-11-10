@@ -37,7 +37,7 @@ namespace Svg.Pathing
                                         ParseNumberList(pathDataBuffer, i + 1, out i, numbers);
                                         if (numbers.Count == 2)
                                         {
-                                            SvgPathSegMoveTo moveTo = new SvgPathSegMoveTo(
+                                            var moveTo = new SvgPathSegMoveTo(
                                                  numbers[0],
                                                  numbers[1]);
                                             moveTo.IsRelative = c == 'm';
@@ -56,9 +56,8 @@ namespace Svg.Pathing
                                         ParseNumberList(pathDataBuffer, i + 1, out i, numbers);
                                         if (numbers.Count == 2)
                                         {
-                                            SvgPathSegLineTo lineTo = new SvgPathSegLineTo(
-                                                 numbers[0],
-                                                 numbers[1]);
+                                            var lineTo = new SvgPathSegLineTo(
+                                                 numbers[0], numbers[1]);
                                             lineTo.IsRelative = c == 'l';
                                             pathSegments.Add(lineTo);
                                         }
@@ -74,7 +73,7 @@ namespace Svg.Pathing
                                         ParseNumberList(pathDataBuffer, i + 1, out i, numbers);
                                         if (numbers.Count == 1)
                                         {
-                                            SvgPathSegLineToHorizontal h = new SvgPathSegLineToHorizontal(
+                                            var h = new SvgPathSegLineToHorizontal(
                                                 numbers[0]);
                                             h.IsRelative = c == 'h';
                                             pathSegments.Add(h);
@@ -84,14 +83,14 @@ namespace Svg.Pathing
 
                                         }
                                         numbers.Clear();//reset
-                                    }break;
+                                    } break;
                                 case 'V':
                                 case 'v':
                                     {
                                         ParseNumberList(pathDataBuffer, i + 1, out i, numbers);
                                         if (numbers.Count == 1)
                                         {
-                                            SvgPathSegLineToVertical v = new SvgPathSegLineToVertical(
+                                            var v = new SvgPathSegLineToVertical(
                                                 numbers[0]);
                                             v.IsRelative = c == 'v';
                                             pathSegments.Add(v);
@@ -115,7 +114,7 @@ namespace Svg.Pathing
                                         ParseNumberList(pathDataBuffer, i + 1, out i, numbers);
                                         if (numbers.Count == 7)
                                         {
-                                            SvgPathSegArc arc = new SvgPathSegArc(
+                                            var arc = new SvgPathSegArc(
                                                 numbers[0], numbers[1],
                                                 numbers[2], (int)numbers[3], (int)numbers[4],
                                                 numbers[5], numbers[6]);
@@ -130,7 +129,7 @@ namespace Svg.Pathing
                                         ParseNumberList(pathDataBuffer, i + 1, out i, numbers);
                                         if (numbers.Count == 4)
                                         {
-                                            SvgPathSegCurveToQuadratic quadCurve = new SvgPathSegCurveToQuadratic(
+                                            var quadCurve = new SvgPathSegCurveToQuadratic(
                                                 numbers[0], numbers[1],
                                                 numbers[2], numbers[3]);
                                             quadCurve.IsRelative = c == 'q';
@@ -144,9 +143,9 @@ namespace Svg.Pathing
                                         ParseNumberList(pathDataBuffer, i + 1, out i, numbers);
                                         if (numbers.Count == 4)
                                         {
-                                            SvgPathSegCurveToCubicSmooth scubicCurve = new SvgPathSegCurveToCubicSmooth(
+                                            var scubicCurve = new SvgPathSegCurveToCubicSmooth(
                                                 numbers[0], numbers[1],
-                                                numbers[2], numbers[3]); 
+                                                numbers[2], numbers[3]);
 
                                             scubicCurve.IsRelative = c == 's';
                                             pathSegments.Add(scubicCurve);
@@ -157,9 +156,9 @@ namespace Svg.Pathing
                                 case 't':
                                     {
                                         ParseNumberList(pathDataBuffer, i + 1, out i, numbers);
-                                        if (numbers.Count == 4)
+                                        if (numbers.Count == 2)
                                         {
-                                            SvgPathSegCurveToQuadraticSmooth squadCurve = new SvgPathSegCurveToQuadraticSmooth(
+                                            var squadCurve = new SvgPathSegCurveToQuadraticSmooth(
                                                 numbers[0], numbers[1]);
                                             squadCurve.IsRelative = c == 't';
                                             pathSegments.Add(squadCurve);
