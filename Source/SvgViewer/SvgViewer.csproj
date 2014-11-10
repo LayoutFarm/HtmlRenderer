@@ -81,6 +81,12 @@
   <ItemGroup>
     <Folder Include="Web\Resources\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Svg\Svg.csproj">
+      <Project>{FD300FD4-86AC-45F7-AD07-0450BC2342D7}</Project>
+      <Name>Svg</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

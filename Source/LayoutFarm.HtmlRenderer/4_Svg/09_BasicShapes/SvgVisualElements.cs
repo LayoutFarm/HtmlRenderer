@@ -11,65 +11,18 @@ using LayoutFarm.SvgDom;
 
 namespace LayoutFarm.SvgDom
 {
-    public abstract class SvgVisualElement : SvgElement 
+    public abstract class SvgVisualElement : SvgElement
     {
 
         public SvgVisualElement(object controller)
             : base(controller)
-        { 
+        {
         }
         public float ActualStrokeWidth
         {
             get;
             set;
         }
-        
-        
-        ////---------------------------------------------------------------------------
-        //object LayoutFarm.IHitElement.GetController()
-        //{
-        //    return UnsafeGetController(this);
-        //}
-        //bool IHitElement.IsTestable()
-        //{
-        //    return true;
-        //}
-        //bool IHitElement.Contains(LayoutFarm.Drawing.Point p)
-        //{
-        //    return false;
-        //}
-        //IHitElement IHitElement.FindOverlapSibling(LayoutFarm.Drawing.Point p)
-        //{
-        //    return null;
-        //}
-        //bool IHitElement.HitTestCore(HitPointChain chain)
-        //{
-        //    return false;
-        //} 
-        //Point IHitElement.ElementLocation
-        //{
-        //    get { return new Point(0, 0); }
-        //}
-        //Point IHitElement.GetElementGlobalLocation()
-        //{
-        //    return new Point(0, 0);
-        //}
-        //Rectangle IHitElement.ElementBoundRect
-        //{
-        //    get { return new Rectangle(0, 0, 0, 0); }
-        //}
-        //bool IHitElement.Focusable
-        //{
-        //    get { return false; }
-        //}
-        //bool IHitElement.HasParent
-        //{
-        //    get { return true; }
-        //}
-        //bool IHitElement.ContainsSubChain
-        //{
-        //    get { return false; }
-        //} 
     }
 
     public class SvgRect : SvgVisualElement
@@ -79,6 +32,7 @@ namespace LayoutFarm.SvgDom
         Color fillColor = Color.Black;
         GraphicsPath _path;
         SvgRectSpec rectSpec;
+
         public SvgRect(SvgRectSpec rectSpec, object controller)
             : base(controller)
         {
@@ -243,12 +197,16 @@ namespace LayoutFarm.SvgDom
             }
             return false;
         }
-        public override void Paint(IGraphics g)
+        public override void Paint(Painter p)
         {
+            IGraphics g = p.Gfx;
 
-            using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
+            if (fillColor != Color.Transparent)
             {
-                g.FillPath(sb, this._path);
+                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
+                {
+                    g.FillPath(sb, this._path);
+                }
             }
             if (this.strokeColor != Color.Transparent
                 && this.ActualStrokeWidth > 0)
@@ -260,9 +218,7 @@ namespace LayoutFarm.SvgDom
                     g.DrawPath(pen, this._path);
                 }
             }
-
         }
-
     }
 
 
@@ -270,9 +226,10 @@ namespace LayoutFarm.SvgDom
     {
 
         Color strokeColor = Color.Transparent;
-        Color fillColor = Color.Black;
+        Color fillColor = Color.Transparent;
         GraphicsPath _path;
         SvgCircleSpec spec;
+
         public SvgCircle(SvgCircleSpec spec, object controller)
             : base(controller)
         {
@@ -309,11 +266,12 @@ namespace LayoutFarm.SvgDom
             this.ActualRadius = ConvertToPx(myspec.Radius, containerW, emHeight);
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
 
+            //create new path
+
             _path = CurrentGraphicPlatform.CreateGraphicPath();
             _path.StartFigure();
             _path.AddEllipse(this.ActualX - this.ActualRadius, this.ActualY - this.ActualRadius, 2 * this.ActualRadius, 2 * ActualRadius);
             _path.CloseFigure();
-
         }
 
         //------------------------------------------------
@@ -323,13 +281,16 @@ namespace LayoutFarm.SvgDom
 
             return false;
         }
-        public override void Paint(IGraphics g)
+        public override void Paint(Painter p)
         {
+            IGraphics g = p.Gfx;
 
-            using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
+            if (fillColor != Color.Transparent)
             {
-                g.FillPath(sb, this._path);
-
+                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
+                {
+                    g.FillPath(sb, this._path);
+                }
             }
             if (this.strokeColor != Color.Transparent
                 && this.ActualStrokeWidth > 0)
@@ -341,9 +302,7 @@ namespace LayoutFarm.SvgDom
                     g.DrawPath(pen, this._path);
                 }
             }
-
         }
-
     }
     public class SvgEllipse : SvgVisualElement
     {
@@ -352,6 +311,7 @@ namespace LayoutFarm.SvgDom
         Color fillColor = Color.Black;
         GraphicsPath _path;
         SvgEllipseSpec spec;
+
         public SvgEllipse(SvgEllipseSpec spec, object controller)
             : base(controller)
         {
@@ -408,8 +368,9 @@ namespace LayoutFarm.SvgDom
 
             return false;
         }
-        public override void Paint(IGraphics g)
+        public override void Paint(Painter p)
         {
+            IGraphics g = p.Gfx;
 
             using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
             {
@@ -484,8 +445,9 @@ namespace LayoutFarm.SvgDom
                 return pointList;
             }
         }
-        public override void Paint(IGraphics g)
+        public override void Paint(Painter p)
         {
+            IGraphics g = p.Gfx;
             using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
             {
                 g.FillPath(sb, this._path);
@@ -520,10 +482,11 @@ namespace LayoutFarm.SvgDom
             var myspec = this.spec;
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
+
 
             this.pointList = spec.Points.ToArray();
 
-            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
 
 
             this._path = CurrentGraphicPlatform.CreateGraphicPath();
@@ -537,8 +500,9 @@ namespace LayoutFarm.SvgDom
                     plist[i + 1]);
             }
         }
-        public override void Paint(IGraphics g)
+        public override void Paint(Painter p)
         {
+            IGraphics g = p.Gfx;
 
             if (this.strokeColor != Color.Transparent
                 && this.ActualStrokeWidth > 0)
@@ -550,14 +514,12 @@ namespace LayoutFarm.SvgDom
                     g.DrawPath(pen, this._path);
                 }
             }
-
         }
     }
     public class SvgLine : SvgVisualElement
     {
         Color strokeColor = Color.Transparent;
         Color fillColor = Color.Black;
-        GraphicsPath _path;
 
         public SvgLine(object controller)
             : base(controller)
@@ -586,5 +548,47 @@ namespace LayoutFarm.SvgDom
         }
 
     }
+
+    public class SvgGroupElement : SvgVisualElement
+    {
+        SvgVisualSpec spec;
+        //'g' element
+        Color strokeColor = Color.Transparent;
+        Color fillColor = Color.Black;
+        public SvgGroupElement(SvgVisualSpec spec, object controller)
+            : base(controller)
+        {
+            this.spec = spec;
+        }
+        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        {
+            this.fillColor = spec.ActualColor;
+            this.strokeColor = spec.StrokeColor;
+            this.ActualStrokeWidth = ConvertToPx(spec.StrokeWidth, containerW, emHeight);
+            var node = this.GetFirstNode();
+            while (node != null)
+            {
+                node.Value.ReEvaluateComputeValue(containerW, containerH, emHeight);
+                node = node.Next;
+            }
+        }
+        public override void Paint(Painter p)
+        {
+            p.UseCurrentContext = true;
+            p.CurrentContextFillColor = spec.ActualColor;
+            p.CurrentContextPenColor = spec.StrokeColor;
+            p.CurrentContextPenWidth = this.ActualStrokeWidth;
+
+
+            var node = this.GetFirstNode();
+            while (node != null)
+            {
+                node.Value.Paint(p);
+                node = node.Next;
+            }
+            p.UseCurrentContext = false;
+        }
+    }
+
 
 }

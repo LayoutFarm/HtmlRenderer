@@ -47,6 +47,7 @@ namespace LayoutFarm.Drawing
         public override void StartFigure()
         {
             p.StartFigure();
+          
         }
         public override void AddEllipse(float x, float y, float w, float h)
         {
@@ -58,5 +59,15 @@ namespace LayoutFarm.Drawing
                 new System.Drawing.RectangleF(r.X, r.Y, r.Width, r.Height));
         }
         public override object InnerPath { get { return this.p; } }
+
+        public override void AddBezierCurve(PointF p1, PointF p2, PointF p3, PointF p4)
+        {
+            p.AddBezier(
+                p1.X, p1.Y,
+                p2.X, p2.Y,
+                p3.X, p3.Y,
+                p4.X, p4.Y);
+
+        }
     }
 }

@@ -80,7 +80,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        public  ImageBinder ImageBinder
+        public ImageBinder ImageBinder
         {
             get { return this.imgBinder; }
             set { this.imgBinder = value; }

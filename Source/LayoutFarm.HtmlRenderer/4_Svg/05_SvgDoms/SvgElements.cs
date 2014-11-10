@@ -64,7 +64,14 @@ namespace LayoutFarm.SvgDom
 
         public LinkedListNode<SvgElement> GetFirstNode()
         {
-            return this.children.First;
+            if (children == null)
+            {
+                return null;
+            }
+            else
+            {
+                return this.children.First;
+            }
         }
         public virtual void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
         {
@@ -110,7 +117,7 @@ namespace LayoutFarm.SvgDom
         }
 
 
-        public virtual void Paint(IGraphics g)
+        public virtual void Paint(Painter p)
         {
 
         }
@@ -130,7 +137,7 @@ namespace LayoutFarm.SvgDom
     }
 
     public class SvgDefinitionList : SvgElement
-    {   
+    {
         public SvgDefinitionList(object controller)
             : base(controller)
         {
@@ -146,7 +153,7 @@ namespace LayoutFarm.SvgDom
         }
     }
 
-   
+
     public class SvgLinearGradient : SvgElement
     {
         public SvgLinearGradient(object controller)
@@ -168,6 +175,6 @@ namespace LayoutFarm.SvgDom
     }
 
 
-
+    
 
 }

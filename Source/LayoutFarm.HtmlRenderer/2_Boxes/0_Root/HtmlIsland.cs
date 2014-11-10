@@ -338,22 +338,18 @@ namespace HtmlRenderer.Boxes
 
         //------------------------------------------------------------------
         protected abstract void OnRequestImage(ImageBinder binder,
-            CssBox requestBox, bool _sync);
+            object reqFrom, bool _sync);
 
         internal static void RaiseRequestImage(HtmlIsland rootBox,
             ImageBinder binder,
-            CssBox requestBox,
+            object reqBy,
             bool _sync)
         {
 
-            rootBox.OnRequestImage(binder, requestBox, false);
+            rootBox.OnRequestImage(binder, reqBy, false);
         }
-        //------------------------------------------------------------------
-
-        protected abstract void RequestRefresh(bool layout);
-
-
-
+        //------------------------------------------------------------------ 
+        protected abstract void RequestRefresh(bool layout); 
         /// <summary>
         /// Report error in html render process.
         /// </summary>
