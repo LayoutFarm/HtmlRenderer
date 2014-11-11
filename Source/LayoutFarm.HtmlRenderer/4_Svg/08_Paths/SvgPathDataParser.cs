@@ -127,6 +127,26 @@ namespace Svg.Pathing
                                         }
                                         numbers.Clear();
                                     } break;
+                                case 'C':
+                                case 'c':
+                                    {
+                                        ParseNumberList(pathDataBuffer, i + 1, out i, numbers);
+                                        if (numbers.Count == 6)
+                                        {
+                                            var squadCurve = new SvgPathSegCurveToCubic(
+                                                numbers[0], numbers[1],
+                                                numbers[2], numbers[3],
+                                                numbers[4], numbers[5]);
+                                            squadCurve.IsRelative = c == 'c';
+                                            pathSegments.Add(squadCurve);
+                                        }
+                                        else
+                                        {
+                                            throw new NotSupportedException();
+                                        }
+                                        numbers.Clear();
+
+                                    } break;
                                 case 'Q':
                                 case 'q':
                                     {
@@ -181,6 +201,7 @@ namespace Svg.Pathing
                                         }
                                         numbers.Clear();
                                     } break;
+
                                 default:
                                     {
                                     } break;

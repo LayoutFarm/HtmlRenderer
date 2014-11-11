@@ -144,8 +144,8 @@ namespace Svg.Pathing
         {
             get { return SvgPathCommand.CurveTo; }
         }
-        public SvgPathSegCurveToCubic(float x, float y, float x1, float y1,
-            float x2, float y2)
+        public SvgPathSegCurveToCubic(float x1, float y1,
+            float x2, float y2, float x, float y)
         {
             this.X = x;
             this.Y = y;
@@ -161,6 +161,13 @@ namespace Svg.Pathing
         public float X2 { get; set; }
         public float Y2 { get; set; }
 
+        public static PointF MakeMirrorPoint(PointF p1, PointF p2)
+        {
+            //make new mirror point both x and y
+            float xdiff = p2.X - p1.X;
+            float ydiff = p2.Y - p1.Y;
+            return new PointF(p1.X - xdiff, p1.Y - ydiff);
+        }
 #if DEBUG
         public override string ToString()
         {
@@ -178,7 +185,7 @@ namespace Svg.Pathing
         {
             get { return SvgPathCommand.SmoothCurveTo; }
         }
-        public SvgPathSegCurveToCubicSmooth(float x, float y, float x2, float y2)
+        public SvgPathSegCurveToCubicSmooth(float x2, float y2,float x, float y)
         {
             this.X = x;
             this.Y = y;

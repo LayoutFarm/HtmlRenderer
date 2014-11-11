@@ -92,6 +92,66 @@ namespace LayoutFarm.SvgDom
                                        new PointF(lastX = lineTo.X, lastY = lineTo.Y));
                                 }
                             } break;
+                        case SvgPathCommand.CurveTo:
+                            {
+                                var cubicCurve = (SvgPathSegCurveToCubic)seg;
+                                if (cubicCurve.IsRelative)
+                                {
+                                    //relative
+                                    PointF p1 = new PointF(lastX, lastY);
+                                    PointF p2 = new PointF(lastX + cubicCurve.X1, lastY + cubicCurve.Y1);
+                                    PointF p3 = new PointF(lastX + cubicCurve.X2, lastY + cubicCurve.Y2);
+                                    PointF p4 = new PointF(lastX += cubicCurve.X, lastY += cubicCurve.Y);
+                                    gpath.AddBezierCurve(p1, p2, p3, p4);
+                                }
+                                else
+                                {
+                                    PointF p1 = new PointF(lastX, lastY);
+                                    PointF p2 = new PointF(cubicCurve.X1, cubicCurve.Y1);
+                                    PointF p3 = new PointF(cubicCurve.X2, cubicCurve.Y2);
+                                    PointF p4 = new PointF(lastX = cubicCurve.X, lastY = cubicCurve.Y);
+                                    gpath.AddBezierCurve(p1, p2, p3, p4);
+                                }
+                            } break;
+                        case SvgPathCommand.SmoothCurveTo:
+                            {
+                                var scubicCurve = (SvgPathSegCurveToCubicSmooth)seg;
+                                //connect with prev segment
+                                if (i > 0)
+                                {
+                                    SvgPathSegCurveToCubic prevCurve = segments[i - 1] as SvgPathSegCurveToCubic;
+                                    if (prevCurve != null)
+                                    {
+                                        //use 1st control point from prev segment
+                                        PointF p1 = new PointF(lastX, lastY);
+                                        PointF p2 = new PointF(prevCurve.X2, prevCurve.Y2);
+                                        if (prevCurve.IsRelative)
+                                        {
+                                            float diffX = lastX - prevCurve.X;
+                                            float diffY = lastY - prevCurve.Y;
+                                            p2 = new PointF(prevCurve.X2 - diffX, prevCurve.Y2 - diffY);                                            
+                                        }
+
+                                        //make a mirror point***
+                                        p2 = SvgPathSegCurveToCubic.MakeMirrorPoint(p1, p2);
+
+                                        if (scubicCurve.IsRelative)
+                                        {
+                                            PointF p3 = new PointF(scubicCurve.X2 + lastX, scubicCurve.Y2 + lastY);
+                                            PointF p4 = new PointF(lastX = scubicCurve.X + lastX, lastY = scubicCurve.Y + lastY);
+                                            gpath.AddBezierCurve(p1, p2, p3, p4);
+                                        }
+                                        else
+                                        {
+                                            PointF p3 = new PointF(scubicCurve.X2, scubicCurve.Y2);
+                                            PointF p4 = new PointF(lastX = scubicCurve.X, lastY = scubicCurve.Y);                                             
+                                            gpath.AddBezierCurve(p1, p2, p3, p4);
+                                        }
+
+                                    }
+                                }
+
+                            } break;
                         case SvgPathCommand.QuadraticBezierCurve:
                             {
                                 var quadCurve = (SvgPathSegCurveToQuadratic)seg;
@@ -101,7 +161,7 @@ namespace LayoutFarm.SvgDom
                                     PointF p1 = new PointF(lastX, lastY);
                                     PointF c = new PointF(lastX + quadCurve.X1, lastY + quadCurve.Y1);
                                     PointF p4 = new PointF(lastX += quadCurve.X, lastY += quadCurve.Y);
-                                   
+
 
                                     PointF p2, p3;
 
@@ -113,7 +173,7 @@ namespace LayoutFarm.SvgDom
                                     PointF p1 = new PointF(lastX, lastY);
                                     PointF c = new PointF(quadCurve.X1, quadCurve.Y1);
                                     PointF p4 = new PointF(lastX = quadCurve.X, lastY = quadCurve.Y);
-                                 
+
 
                                     PointF p2, p3;
 
@@ -152,7 +212,7 @@ namespace LayoutFarm.SvgDom
                     g.DrawPath(pen, this._path);
                 }
             }
-            
+
         }
 
     }
