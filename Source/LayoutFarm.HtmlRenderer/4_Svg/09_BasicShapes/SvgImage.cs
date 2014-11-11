@@ -74,7 +74,7 @@ namespace LayoutFarm.SvgDom
             {
                 this._imgRun.ImageBinder = new ImageBinder(myspec.ImageSrc);
             }
-
+            ValidatePath();
 
         }
         public override void Paint(Painter p)

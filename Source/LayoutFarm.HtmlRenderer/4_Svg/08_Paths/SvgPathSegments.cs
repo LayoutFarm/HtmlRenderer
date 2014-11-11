@@ -20,6 +20,7 @@ namespace Svg.Pathing
         Arc,
         ZClosePath
     }
+
     public abstract class SvgPathSeg
     {
         public SvgPathSeg()
@@ -31,15 +32,13 @@ namespace Svg.Pathing
             get;
             set;
         }
-
+         
 
     }
 
     public class SvgPathSegMoveTo : SvgPathSeg
     {
-        public SvgPathSegMoveTo()
-        {
-        }
+         
         public SvgPathSegMoveTo(float x, float y)
         {
             this.X = x;
@@ -49,8 +48,8 @@ namespace Svg.Pathing
         {
             get { return SvgPathCommand.MoveTo; }
         }
-        public float X { get; set; }
-        public float Y { get; set; }
+        public float X { get; private set; }
+        public float Y { get; private set; }
 
 
 #if DEBUG
@@ -64,9 +63,7 @@ namespace Svg.Pathing
     }
     public class SvgPathSegLineTo : SvgPathSeg
     {
-        public SvgPathSegLineTo()
-        {
-        }
+        
         public SvgPathSegLineTo(float x, float y)
         {
             this.X = x;
@@ -76,8 +73,8 @@ namespace Svg.Pathing
         {
             get { return SvgPathCommand.LineTo; }
         }
-        public float X { get; set; }
-        public float Y { get; set; }
+        public float X { get; private set;  }
+        public float Y { get; private set; }
 
 #if DEBUG
         public override string ToString()
@@ -90,9 +87,7 @@ namespace Svg.Pathing
     }
     public class SvgPathSegLineToHorizontal : SvgPathSeg
     {
-        public SvgPathSegLineToHorizontal()
-        {
-        }
+        
         public SvgPathSegLineToHorizontal(float x)
         {
             this.X = x;
@@ -101,7 +96,7 @@ namespace Svg.Pathing
         {
             get { return SvgPathCommand.HorizontalLineTo; }
         }
-        public float X { get; set; }
+        public float X { get; private set; }
 
 #if DEBUG
         public override string ToString()
@@ -114,9 +109,7 @@ namespace Svg.Pathing
     }
     public class SvgPathSegLineToVertical : SvgPathSeg
     {
-        public SvgPathSegLineToVertical()
-        {
-        }
+         
         public SvgPathSegLineToVertical(float y)
         {
             this.Y = y;
@@ -126,7 +119,7 @@ namespace Svg.Pathing
         {
             get { return SvgPathCommand.VerticalLineTo; }
         }
-        public float Y { get; set; }
+        public float Y { get; private set; }
 
 #if DEBUG
         public override string ToString()
@@ -154,12 +147,12 @@ namespace Svg.Pathing
             this.X2 = x2;
             this.Y2 = y2;
         }
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float X1 { get; set; }
-        public float Y1 { get; set; }
-        public float X2 { get; set; }
-        public float Y2 { get; set; }
+        public float X { get; private set; }
+        public float Y { get; private set; }
+        public float X1 { get; private set; }
+        public float Y1 { get; private set; }
+        public float X2 { get; private set; }
+        public float Y2 { get; private set; }
 
         public static PointF MakeMirrorPoint(PointF p1, PointF p2)
         {
@@ -192,10 +185,10 @@ namespace Svg.Pathing
             this.X2 = x2;
             this.Y2 = y2;
         }
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float X2 { get; set; }
-        public float Y2 { get; set; }
+        public float X { get; private set; }
+        public float Y { get; private set; }
+        public float X2 { get; private set; }
+        public float Y2 { get; private set; }
 
 #if DEBUG
         public override string ToString()
@@ -222,18 +215,14 @@ namespace Svg.Pathing
             this.X = x;
             this.Y = y;
         }
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float X1 { get; set; }
-        public float Y1 { get; set; }
+        public float X { get; private set; }
+        public float Y { get; private set; }
+        public float X1 { get; private set; }
+        public float Y1 { get; private set; }
         public PointF ControlPoint
         {
             get { return new PointF(this.X1, this.Y1); }
-            set
-            {
-                this.X1 = value.X;
-                this.Y1 = value.Y;
-            }
+            
         }
         public static void GetControlPoints(PointF start, PointF controlPoint, PointF endPoint, out PointF control1, out PointF control2)
         {
@@ -266,8 +255,8 @@ namespace Svg.Pathing
             this.X = x;
             this.Y = y;
         }
-        public float X { get; set; }
-        public float Y { get; set; }
+        public float X { get; private set; }
+        public float Y { get; private set; }
 #if DEBUG
         public override string ToString()
         {
@@ -300,13 +289,13 @@ namespace Svg.Pathing
             this.LargeArgFlag = (SvgArcSize)largeArcFlag;
         }
 
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float R1 { get; set; }
-        public float R2 { get; set; }
-        public float Angle { get; set; }
-        public SvgArcSize LargeArgFlag { get; set; }
-        public SvgArcSweep SweepFlag { get; set; }
+        public float X { get; private set; }
+        public float Y { get; private set; }
+        public float R1 { get; private set; }
+        public float R2 { get; private set; }
+        public float Angle { get; private set; }
+        public SvgArcSize LargeArgFlag { get; private set; }
+        public SvgArcSweep SweepFlag { get; private set; }
 
         public static double CalculateVectorAngle(double ux, double uy, double vx, double vy)
         {

@@ -15,13 +15,10 @@ namespace LayoutFarm.SvgDom
     {
           
 
-        Color strokeColor = Color.Transparent;
-        Color fillColor = Color.Black;
-
-        GraphicsPath _path;
-
+       
         SvgPathSpec spec;
         List<Svg.Pathing.SvgPathSeg> segments;
+
         public SvgPath(SvgPathSpec spec, object controller)
             : base(controller)
         {
@@ -35,23 +32,27 @@ namespace LayoutFarm.SvgDom
 
 
         public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
-        {
+        {   
+
             var myspec = this.spec;
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
 
+            if (this.IsPathValid) { return; }
+            ClearCachePath();
+
             if (segments == null)
             {
-                this._path = null;
+                this.myCachedPath = null;
             }
             else
-            {
-                GraphicsPath gpath = this._path = CurrentGraphicPlatform.CreateGraphicPath();
-
+            {    
                 List<SvgPathSeg> segs = this.segments;
-                int segcount = segs.Count;
+                int segcount = segs.Count;  
 
+
+                GraphicsPath gpath = this.myCachedPath = CurrentGraphicPlatform.CreateGraphicPath();
                 float lastMoveX = 0;
                 float lastMoveY = 0;
 
@@ -331,6 +332,8 @@ namespace LayoutFarm.SvgDom
                     }
                 }
             }
+
+            ValidatePath();
         }
         public override void Paint(Painter p)
         {
@@ -339,7 +342,7 @@ namespace LayoutFarm.SvgDom
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
                 {
-                    g.FillPath(sb, this._path);
+                    g.FillPath(sb, this.myCachedPath);
                 }
             }
             if (this.strokeColor != Color.Transparent)
@@ -348,7 +351,7 @@ namespace LayoutFarm.SvgDom
                 using (Pen pen = g.Platform.CreatePen(sb))
                 {
                     pen.Width = this.ActualStrokeWidth;
-                    g.DrawPath(pen, this._path);
+                    g.DrawPath(pen, this.myCachedPath);
                 }
             }
 
