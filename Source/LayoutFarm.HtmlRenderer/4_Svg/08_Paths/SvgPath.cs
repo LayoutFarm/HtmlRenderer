@@ -13,9 +13,9 @@ namespace LayoutFarm.SvgDom
 
     public class SvgPath : SvgVisualElement
     {
-          
 
-       
+
+
         SvgPathSpec spec;
         List<Svg.Pathing.SvgPathSeg> segments;
 
@@ -32,7 +32,7 @@ namespace LayoutFarm.SvgDom
 
 
         public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
-        {   
+        {
 
             var myspec = this.spec;
             this.fillColor = myspec.ActualColor;
@@ -47,9 +47,9 @@ namespace LayoutFarm.SvgDom
                 this.myCachedPath = null;
             }
             else
-            {    
+            {
                 List<SvgPathSeg> segs = this.segments;
-                int segcount = segs.Count;  
+                int segcount = segs.Count;
 
 
                 GraphicsPath gpath = this.myCachedPath = CurrentGraphicPlatform.CreateGraphicPath();
@@ -338,14 +338,14 @@ namespace LayoutFarm.SvgDom
         public override void Paint(Painter p)
         {
             IGraphics g = p.Gfx;
-            if (fillColor != Color.Transparent)
+            if (fillColor.A > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
                 {
                     g.FillPath(sb, this.myCachedPath);
                 }
             }
-            if (this.strokeColor != Color.Transparent)
+            if (this.strokeColor.A > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
                 using (Pen pen = g.Platform.CreatePen(sb))

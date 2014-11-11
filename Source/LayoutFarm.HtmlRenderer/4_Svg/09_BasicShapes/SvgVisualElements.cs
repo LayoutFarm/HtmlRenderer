@@ -227,14 +227,14 @@ namespace LayoutFarm.SvgDom
         {
             IGraphics g = p.Gfx;
 
-            if (fillColor != Color.Transparent)
+            if (fillColor.A > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
                 {
                     g.FillPath(sb, this.myCachedPath);
                 }
             }
-            if (this.strokeColor != Color.Transparent
+            if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
@@ -314,14 +314,14 @@ namespace LayoutFarm.SvgDom
         {
             IGraphics g = p.Gfx;
 
-            if (fillColor != Color.Transparent)
+            if (fillColor.A > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
                 {
                     g.FillPath(sb, this.myCachedPath);
                 }
             }
-            if (this.strokeColor != Color.Transparent
+            if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
@@ -403,13 +403,14 @@ namespace LayoutFarm.SvgDom
         public override void Paint(Painter p)
         {
             IGraphics g = p.Gfx;
-
-            using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
+            if (fillColor.A > 0)
             {
-                g.FillPath(sb, this.myCachedPath);
-
+                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
+                {
+                    g.FillPath(sb, this.myCachedPath);
+                }
             }
-            if (this.strokeColor != Color.Transparent
+            if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
@@ -475,11 +476,15 @@ namespace LayoutFarm.SvgDom
         public override void Paint(Painter p)
         {
             IGraphics g = p.Gfx;
-            using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
+            if (this.fillColor.A > 0)
             {
-                g.FillPath(sb, this.myCachedPath);
+                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
+                {
+                    g.FillPath(sb, this.myCachedPath);
+                }
             }
-            if (this.strokeColor != Color.Transparent
+
+            if (this.strokeColor.A > 0 
                 && this.ActualStrokeWidth > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
@@ -531,7 +536,7 @@ namespace LayoutFarm.SvgDom
         {
             IGraphics g = p.Gfx;
 
-            if (this.strokeColor != Color.Transparent
+            if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
@@ -583,7 +588,6 @@ namespace LayoutFarm.SvgDom
             this.strokeColor = myspec.StrokeColor;
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
 
-
             this.ActualX1 = ConvertToPx(myspec.X1, containerW, emHeight);
             this.ActualY1 = ConvertToPx(myspec.Y1, containerW, emHeight);
             this.ActualX2 = ConvertToPx(myspec.X2, containerW, emHeight);
@@ -593,17 +597,17 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-            //line has only stroke
-            using (Pen pen = p.Platform.CreateSolidPen(this.strokeColor))
+            if (this.strokeColor.A > 0)
             {
-                pen.Width = this.ActualStrokeWidth;
-                p.Gfx.DrawLine(pen,
-                    this.actualX1, this.actualY1,
-                    this.actualX2, this.actualY2);
+                using (Pen pen = p.Platform.CreateSolidPen(this.strokeColor))
+                {
+                    pen.Width = this.ActualStrokeWidth;
+                    p.Gfx.DrawLine(pen,
+                        this.actualX1, this.actualY1,
+                        this.actualX2, this.actualY2);
 
+                }
             }
-
-            base.Paint(p);
         }
     }
 
@@ -621,7 +625,7 @@ namespace LayoutFarm.SvgDom
         {
             this.fillColor = spec.ActualColor;
             this.strokeColor = spec.StrokeColor;
-            this.ActualStrokeWidth = ConvertToPx(spec.StrokeWidth, containerW, emHeight); 
+            this.ActualStrokeWidth = ConvertToPx(spec.StrokeWidth, containerW, emHeight);
 
             var node = this.GetFirstNode();
             while (node != null)

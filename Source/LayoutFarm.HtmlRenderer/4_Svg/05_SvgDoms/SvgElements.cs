@@ -115,8 +115,7 @@ namespace LayoutFarm.SvgDom
                     return 0;
             }
         }
-
-
+         
         public virtual void Paint(Painter p)
         {
 

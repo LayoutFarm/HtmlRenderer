@@ -78,10 +78,10 @@ namespace LayoutFarm.SvgDom
 
         }
         public override void Paint(Painter p)
-        {   
-            
+        {
+
             IGraphics g = p.Gfx;
-            if (fillColor != Color.Transparent)
+            if (fillColor.A > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
                 {
@@ -89,13 +89,12 @@ namespace LayoutFarm.SvgDom
                 }
             }
             //---------------------------------------------------------  
-            if (this.ImageBinder != null)            
+            if (this.ImageBinder != null)
             {
                 //---------------------------------------------------------  
                 //Because we need external image resource , so ...
                 //use render technique like CssBoxImage ****
                 //---------------------------------------------------------  
-
 
                 RectangleF r = new RectangleF(this.ActualX, this.ActualY, this.ActualWidth, this.ActualHeight);
                 bool tryLoadOnce = false;
@@ -157,7 +156,7 @@ namespace LayoutFarm.SvgDom
                 }
             }
             //--------------------------------------------------------- 
-            if (this.strokeColor != Color.Transparent
+            if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
