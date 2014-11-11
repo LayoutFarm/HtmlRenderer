@@ -185,7 +185,7 @@ namespace Svg.Pathing
         {
             get { return SvgPathCommand.SmoothCurveTo; }
         }
-        public SvgPathSegCurveToCubicSmooth(float x2, float y2,float x, float y)
+        public SvgPathSegCurveToCubicSmooth(float x2, float y2, float x, float y)
         {
             this.X = x;
             this.Y = y;
@@ -280,29 +280,46 @@ namespace Svg.Pathing
 
     public class SvgPathSegArc : SvgPathSeg
     {
+        public const double RAD_PER_DEG = Math.PI / 180.0;
+        public const double DOUBLE_PI = Math.PI * 2;
+
         public override SvgPathCommand Command
         {
             get { return SvgPathCommand.Arc; }
         }
-        public SvgPathSegArc(float r1, float r2, float xAxisRotation, int largeArcFlag, int sweepFlags, float x, float y)
+        public SvgPathSegArc(float r1, float r2, float xAxisRotation,
+            int largeArcFlag,
+            int sweepFlags, float x, float y)
         {
             this.X = x;
             this.Y = y;
             this.R1 = r1;
             this.R2 = r2;
             this.Angle = xAxisRotation;
-            this.SweepFlag = sweepFlags;
-            this.LargeArgFlag = largeArcFlag;
+            this.SweepFlag = (SvgArcSweep)sweepFlags;
+            this.LargeArgFlag = (SvgArcSize)largeArcFlag;
         }
-
 
         public float X { get; set; }
         public float Y { get; set; }
         public float R1 { get; set; }
         public float R2 { get; set; }
         public float Angle { get; set; }
-        public int LargeArgFlag { get; set; }
-        public int SweepFlag { get; set; }
+        public SvgArcSize LargeArgFlag { get; set; }
+        public SvgArcSweep SweepFlag { get; set; }
+
+        public static double CalculateVectorAngle(double ux, double uy, double vx, double vy)
+        {
+            double ta = Math.Atan2(uy, ux);
+            double tb = Math.Atan2(vy, vx);
+
+            if (tb >= ta)
+            {
+                return tb - ta;
+            }
+
+            return DOUBLE_PI - (ta - tb);
+        }
 #if DEBUG
         public override string ToString()
         {
@@ -310,7 +327,7 @@ namespace Svg.Pathing
 
             return cmd + this.R1.ToString() + " " + this.R2 + " " +
                 this.Angle + " " + this.LargeArgFlag + " " +
-                +this.SweepFlag + " " + this.X + " " + this.Y;
+                this.SweepFlag.ToString() + " " + this.X + " " + this.Y;
         }
 #endif
     }
@@ -333,5 +350,18 @@ namespace Svg.Pathing
 #endif
     }
 
+    [Flags]
+    public enum SvgArcSweep
+    {
+        Negative = 0,
+        Positive = 1
+    }
+
+    [Flags]
+    public enum SvgArcSize
+    {
+        Small = 0,
+        Large = 1
+    }
 
 }
