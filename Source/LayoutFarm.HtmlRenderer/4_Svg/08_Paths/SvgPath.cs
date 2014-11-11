@@ -13,8 +13,7 @@ namespace LayoutFarm.SvgDom
 
     public class SvgPath : SvgVisualElement
     {
-
-
+          
 
         Color strokeColor = Color.Transparent;
         Color fillColor = Color.Black;
