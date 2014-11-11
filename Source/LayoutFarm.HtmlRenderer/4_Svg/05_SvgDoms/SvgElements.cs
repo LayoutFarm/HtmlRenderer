@@ -17,7 +17,18 @@ namespace LayoutFarm.SvgDom
 
     }
 
-
+    public struct ReEvaluateArgs
+    {
+        public readonly float containerW;
+        public readonly float containerH;
+        public readonly float emHeight;
+        public ReEvaluateArgs(float containerW, float containerH, float emHeight)
+        {
+            this.containerW = containerW;
+            this.containerH = containerH;
+            this.emHeight = emHeight;
+        }
+    }
     public abstract class SvgElement : SvgNode
     {
         LinkedListNode<SvgElement> linkedNode = null;
@@ -73,11 +84,40 @@ namespace LayoutFarm.SvgDom
                 return this.children.First;
             }
         }
-        public virtual void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        public virtual void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
 
         }
-
+        public static float ConvertToPx(CssLength length, ref ReEvaluateArgs args)
+        {
+            //Return zero if no length specified, zero specified      
+            switch (length.UnitOrNames)
+            {
+                case CssUnitOrNames.EmptyValue:
+                    return 0;
+                case CssUnitOrNames.Percent:
+                    return (length.Number / 100f) * args.containerW;
+                case CssUnitOrNames.Ems:
+                    return length.Number * args.emHeight;
+                case CssUnitOrNames.Ex:
+                    return length.Number * (args.emHeight / 2);
+                case CssUnitOrNames.Pixels:
+                    //atodo: check support for hi dpi
+                    return length.Number;
+                case CssUnitOrNames.Milimeters:
+                    return length.Number * 3.779527559f; //3 pixels per millimeter      
+                case CssUnitOrNames.Centimeters:
+                    return length.Number * 37.795275591f; //37 pixels per centimeter 
+                case CssUnitOrNames.Inches:
+                    return length.Number * 96f; //96 pixels per inch 
+                case CssUnitOrNames.Points:
+                    return length.Number * (96f / 72f); // 1 point = 1/72 of inch   
+                case CssUnitOrNames.Picas:
+                    return length.Number * 16f; // 1 pica = 12 points 
+                default:
+                    return 0;
+            }
+        }
         /// <summary>
         /// get length in pixel
         /// </summary>
@@ -115,7 +155,7 @@ namespace LayoutFarm.SvgDom
                     return 0;
             }
         }
-         
+
         public virtual void Paint(Painter p)
         {
 
@@ -174,6 +214,6 @@ namespace LayoutFarm.SvgDom
     }
 
 
-    
+
 
 }

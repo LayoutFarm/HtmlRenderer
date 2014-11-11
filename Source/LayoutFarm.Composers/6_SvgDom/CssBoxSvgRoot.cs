@@ -28,9 +28,10 @@ namespace HtmlRenderer.Boxes
             float containerW = containingBlock.SizeWidth;
             float emH = containingBlock.GetEmHeight();
 
+            ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(containerW, 100, emH);
             while (cnode != null)
             {
-                cnode.Value.ReEvaluateComputeValue(containerW, 100, emH);
+                cnode.Value.ReEvaluateComputeValue(ref reEvalArgs);
                 cnode = cnode.Next;
             }
 

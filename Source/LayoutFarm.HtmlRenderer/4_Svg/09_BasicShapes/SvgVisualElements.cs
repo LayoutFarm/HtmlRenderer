@@ -95,19 +95,19 @@ namespace LayoutFarm.SvgDom
             set { this.cornerY = value; NeedReEvaluePath(); }
         }
         //----------------------------
-        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             var myspec = this.rectSpec;
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
 
-            this.ActualX = ConvertToPx(myspec.X, containerW, emHeight);
-            this.ActualY = ConvertToPx(myspec.Y, containerW, emHeight);
-            this.ActualWidth = ConvertToPx(myspec.Width, containerW, emHeight);
-            this.ActualHeight = ConvertToPx(myspec.Height, containerW, emHeight);
-            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
-            this.ActualCornerX = ConvertToPx(myspec.CornerRadiusX, containerW, emHeight);
-            this.ActualCornerY = ConvertToPx(myspec.CornerRadiusY, containerW, emHeight);
+            this.ActualX = ConvertToPx(myspec.X, ref args);
+            this.ActualY = ConvertToPx(myspec.Y, ref args);
+            this.ActualWidth = ConvertToPx(myspec.Width, ref args);
+            this.ActualHeight = ConvertToPx(myspec.Height, ref args);
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
+            this.ActualCornerX = ConvertToPx(myspec.CornerRadiusX, ref args);
+            this.ActualCornerY = ConvertToPx(myspec.CornerRadiusY, ref args);
 
             //update graphic path
 
@@ -280,16 +280,16 @@ namespace LayoutFarm.SvgDom
         }
 
         //----------------------------
-        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             var myspec = this.spec;
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
 
-            this.ActualX = ConvertToPx(myspec.X, containerW, emHeight);
-            this.ActualY = ConvertToPx(myspec.Y, containerW, emHeight);
-            this.ActualRadius = ConvertToPx(myspec.Radius, containerW, emHeight);
-            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
+            this.ActualX = ConvertToPx(myspec.X, ref args);
+            this.ActualY = ConvertToPx(myspec.Y, ref args);
+            this.ActualRadius = ConvertToPx(myspec.Radius, ref args);
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
 
             //create new path
             if (this.IsPathValid) { return; }
@@ -370,17 +370,17 @@ namespace LayoutFarm.SvgDom
 
 
         //----------------------------
-        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             var myspec = this.spec;
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
 
-            this.ActualX = ConvertToPx(myspec.X, containerW, emHeight);
-            this.ActualY = ConvertToPx(myspec.Y, containerW, emHeight);
-            this.ActualRadiusX = ConvertToPx(myspec.RadiusX, containerW, emHeight);
-            this.ActualRadiusY = ConvertToPx(myspec.RadiusY, containerW, emHeight);
-            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
+            this.ActualX = ConvertToPx(myspec.X, ref args);
+            this.ActualY = ConvertToPx(myspec.Y, ref args);
+            this.ActualRadiusX = ConvertToPx(myspec.RadiusX, ref args);
+            this.ActualRadiusY = ConvertToPx(myspec.RadiusY, ref args);
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
 
             //path may note need
             if (this.IsPathValid) { return; }
@@ -434,13 +434,13 @@ namespace LayoutFarm.SvgDom
         {
             this.spec = polygonSpec;
         }
-        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             var myspec = this.spec;
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
             this.pointList = spec.Points.ToArray();
-            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, args.containerW, args.emHeight);
 
             if (this.IsPathValid) { return; }
             ClearCachePath();
@@ -484,7 +484,7 @@ namespace LayoutFarm.SvgDom
                 }
             }
 
-            if (this.strokeColor.A > 0 
+            if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
@@ -508,12 +508,12 @@ namespace LayoutFarm.SvgDom
         {
             this.spec = polylineSpec;
         }
-        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             var myspec = this.spec;
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
-            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
             this.pointList = spec.Points.ToArray();
 
 
@@ -581,17 +581,17 @@ namespace LayoutFarm.SvgDom
         }
 
 
-        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             SvgLineSpec myspec = this.spec;
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
-            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
 
-            this.ActualX1 = ConvertToPx(myspec.X1, containerW, emHeight);
-            this.ActualY1 = ConvertToPx(myspec.Y1, containerW, emHeight);
-            this.ActualX2 = ConvertToPx(myspec.X2, containerW, emHeight);
-            this.ActualX2 = ConvertToPx(myspec.Y2, containerW, emHeight);
+            this.ActualX1 = ConvertToPx(myspec.X1, ref args);
+            this.ActualY1 = ConvertToPx(myspec.Y1, ref args);
+            this.ActualX2 = ConvertToPx(myspec.X2, ref args);
+            this.ActualX2 = ConvertToPx(myspec.Y2, ref args);
 
             ValidatePath();
         }
@@ -621,16 +621,16 @@ namespace LayoutFarm.SvgDom
         {
             this.spec = spec;
         }
-        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             this.fillColor = spec.ActualColor;
             this.strokeColor = spec.StrokeColor;
-            this.ActualStrokeWidth = ConvertToPx(spec.StrokeWidth, containerW, emHeight);
+            this.ActualStrokeWidth = ConvertToPx(spec.StrokeWidth, ref args);
 
             var node = this.GetFirstNode();
             while (node != null)
             {
-                node.Value.ReEvaluateComputeValue(containerW, containerH, emHeight);
+                node.Value.ReEvaluateComputeValue(ref args);
                 node = node.Next;
             }
             ValidatePath();

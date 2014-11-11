@@ -31,13 +31,13 @@ namespace LayoutFarm.SvgDom
         }
 
 
-        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
 
             var myspec = this.spec;
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
-            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
 
             if (this.IsPathValid) { return; }
             ClearCachePath();

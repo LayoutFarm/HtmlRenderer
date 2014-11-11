@@ -54,17 +54,17 @@ namespace LayoutFarm.SvgDom
             get { return this._imgRun.ImageBinder; }
             set { this._imgRun.ImageBinder = value; }
         }
-        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             var myspec = this.imageSpec;
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
 
-            this.ActualX = ConvertToPx(myspec.X, containerW, emHeight);
-            this.ActualY = ConvertToPx(myspec.Y, containerW, emHeight);
-            this.ActualWidth = ConvertToPx(myspec.Width, containerW, emHeight);
-            this.ActualHeight = ConvertToPx(myspec.Height, containerW, emHeight);
-            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
+            this.ActualX = ConvertToPx(myspec.X, ref args);
+            this.ActualY = ConvertToPx(myspec.Y, ref args);
+            this.ActualWidth = ConvertToPx(myspec.Width, ref args);
+            this.ActualHeight = ConvertToPx(myspec.Height, ref args);
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
             this._path = CreateRectGraphicPath(
                     this.ActualX,
                     this.ActualY,
