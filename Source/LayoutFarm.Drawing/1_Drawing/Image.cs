@@ -1,6 +1,4 @@
-﻿
-
-namespace LayoutFarm.Drawing
+﻿namespace LayoutFarm.Drawing
 {
     public abstract class Image : System.IDisposable
     {   

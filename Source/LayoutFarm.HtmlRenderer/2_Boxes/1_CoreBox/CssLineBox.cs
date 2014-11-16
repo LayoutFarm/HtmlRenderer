@@ -528,7 +528,7 @@ namespace HtmlRenderer.Boxes
                 g.DrawRectangle(Pens.DeepPink, w.Left, w.Top, w.Width, w.Height);
             }
 
-            g.FillRectangle(Brushes.Red, 0, 0, 5, 5);
+            g.FillRectangle(Color.Red, 0, 0, 5, 5);
 
         }
 
@@ -547,7 +547,7 @@ namespace HtmlRenderer.Boxes
         internal void PaintSelection(Painter p)
         {
             var gfx = p.Gfx;
-            gfx.FillRectangle(Brushes.LightGray, this.LineSelectionStart, 0, this.LineSelectionWidth, this.CacheLineHeight);
+            gfx.FillRectangle(Color.LightGray, this.LineSelectionStart, 0, this.LineSelectionWidth, this.CacheLineHeight);
         }
 
 

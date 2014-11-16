@@ -251,7 +251,8 @@ namespace HtmlRenderer.Boxes
                 bool dispose = false;
 
                 if (BackgroundGradient != Color.Transparent)
-                {
+                { 
+                    //use bg gradient
                     brush = p.Platform.CreateLinearGradientBrush(rect,
                         ActualBackgroundColor,
                         ActualBackgroundGradient,
@@ -262,8 +263,6 @@ namespace HtmlRenderer.Boxes
                 {
                     brush = p.Platform.CreateSolidBrush(ActualBackgroundColor);
                     dispose = true;
-
-                    //brush = RenderUtils.GetSolidBrush(ActualBackgroundColor);
                 }
 
 

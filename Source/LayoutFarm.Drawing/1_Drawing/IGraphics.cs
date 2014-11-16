@@ -32,9 +32,7 @@ namespace LayoutFarm.Drawing
         /// One of the <see cref="T:System.Drawing.Drawing2D.SmoothingMode"/> values.
         /// </returns>
         /// <PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
-        SmoothingMode SmoothingMode { get; set; }
-
-
+        SmoothingMode SmoothingMode { get; set; } 
 
         void DrawString(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size);
         /// <summary>
@@ -84,6 +82,7 @@ namespace LayoutFarm.Drawing
         /// </summary>
         /// <param name="pen"><see cref="T:System.Drawing.Pen"/> that determines the color, width, and style of the path. </param><param name="path"><see cref="T:System.Drawing.Drawing2D.GraphicsPath"/> to draw. </param><exception cref="T:System.ArgumentNullException"><paramref name="pen"/> is null.-or-<paramref name="path"/> is null.</exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
         void DrawPath(Pen pen, GraphicsPath path);
+
         /// <summary>
         /// Fills the interior of a <see cref="T:System.Drawing.Drawing2D.GraphicsPath"/>.
         /// </summary>
@@ -91,6 +90,8 @@ namespace LayoutFarm.Drawing
         void FillPath(Brush brush, GraphicsPath path);
         //------------------------------------------   
         Canvas CurrentCanvas { get; }
+        //------------------------------------------
+
     }
 
 

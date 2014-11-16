@@ -440,7 +440,7 @@ namespace LayoutFarm.SvgDom
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
             this.pointList = spec.Points.ToArray();
-            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, args.containerW, args.emHeight);
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
 
             if (this.IsPathValid) { return; }
             ClearCachePath();

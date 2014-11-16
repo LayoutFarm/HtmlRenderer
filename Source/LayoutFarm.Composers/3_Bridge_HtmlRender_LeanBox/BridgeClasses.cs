@@ -18,10 +18,10 @@ namespace LayoutFarm.Boxes
 
     public class HtmlRenderBox : RenderBoxBase
     {
-        
+
         MyHtmlIsland myHtmlIsland;
         int myWidth;
-        int myHeight; 
+        int myHeight;
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height,
             MyHtmlIsland htmlIsland)
@@ -43,8 +43,8 @@ namespace LayoutFarm.Boxes
             myHtmlIsland.PerformPaint(canvasPage);
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
-        { 
-        } 
+        {
+        }
     }
 
 
@@ -112,14 +112,13 @@ namespace LayoutFarm.Boxes
                 Rect rect = Rect.CreateFromRect(
                      new Rectangle(0, 0, wrapper.Width, wrapper.Height));
                 this.wrapper.DrawToThisPage(g.CurrentCanvas, rect);
-                
+
 
             }
             else
             {
                 //for debug!
-                g.FillRectangle(LayoutFarm.Drawing.Brushes.Red,
-                    0, 0, 100, 20);
+                g.FillRectangle(Color.Red, 0, 0, 100, 20);
             }
         }
         RenderElement GetParentRenderElement(out int globalX, out int globalY)

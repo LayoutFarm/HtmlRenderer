@@ -178,6 +178,7 @@ namespace LayoutFarm.SvgDom
                                         || (arcSize == SvgArcSize.Small && arcSweep == SvgArcSweep.Negative) ? -1.0 : 1.0) * Math.Sqrt(numerator / (rx * rx * y1dash * y1dash + ry * ry * x1dash * x1dash));
                                 }
 
+
                                 double cxdash = root * rx * y1dash / ry;
                                 double cydash = -root * ry * x1dash / rx;
 
@@ -252,6 +253,7 @@ namespace LayoutFarm.SvgDom
                                     PointF p3 = new PointF(cubicCurve.X2, cubicCurve.Y2);
                                     PointF p4 = new PointF(lastX = cubicCurve.X, lastY = cubicCurve.Y);
                                     gpath.AddBezierCurve(p1, p2, p3, p4);
+                                    
                                 }
                             } break;
                         case SvgPathCommand.SmoothCurveTo:
