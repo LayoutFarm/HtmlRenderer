@@ -199,38 +199,7 @@ namespace Svg.Pathing
         public float X2 { get; private set; }
         public float Y2 { get; private set; }
 
-        //public static PointF MakeMirrorPoint(PointF p1, PointF p2)
-        //{
-        //    //make new mirror point both x and y 
-        //    float xdiff = p2.X - p1.X; 
-        //    float ydiff = p2.Y - p1.Y; 
-        //    return new PointF(p1.X - xdiff, p1.Y - ydiff);
-        //}
-        public static PointF Reflect(PointF point, PointF mirror)
-        {   
-            float x, y, dx, dy;
-            dx = Math.Abs(mirror.X - point.X);
-            dy = Math.Abs(mirror.Y - point.Y);
-
-            if (mirror.X >= point.X)
-            {
-                x = mirror.X + dx;
-            }
-            else
-            {
-                x = mirror.X - dx;
-            }
-            if (mirror.Y >= point.Y)
-            {
-                y = mirror.Y + dy;
-            }
-            else
-            {
-                y = mirror.Y - dy;
-            }
-
-            return new PointF(x, y);
-        }
+       
         public void GetAbsolutePoints(ref PointF last, out PointF c1, out PointF c2, out PointF p)
         {
             if (this.IsRelative)
@@ -260,7 +229,23 @@ namespace Svg.Pathing
 
     public static class SvgCurveHelper
     {
+        public static void Curve3GetControlPoints(PointF start, PointF controlPoint, PointF endPoint, out PointF control1, out PointF control2)
+        {
+            float x1 = start.X + (controlPoint.X - start.X) * 2 / 3;
+            float y1 = start.Y + (controlPoint.Y - start.Y) * 2 / 3;
+            float x2 = controlPoint.X + (endPoint.X - controlPoint.X) / 3;
+            float y2 = controlPoint.Y + (endPoint.Y - controlPoint.Y) / 3;
 
+            control1 = new PointF(x1, y1);
+            control2 = new PointF(x2, y2);
+        }
+
+        public static PointF CreateMirrorPoint(PointF mirrorPoint, PointF fixedPoint)
+        {
+            return new PointF(
+                fixedPoint.X - (mirrorPoint.X - fixedPoint.X),
+                fixedPoint.Y - (mirrorPoint.Y - fixedPoint.Y));
+        }
         internal static void MakeBezierCurveFromArc(ref PointF start,
             ref PointF end,
             float rx,
@@ -353,6 +338,10 @@ namespace Svg.Pathing
                 startY = (float)endpointY;
             }
         }
+
+
+
+
     }
     public class SvgPathSegCurveToCubicSmooth : SvgPathSeg
     {
@@ -434,16 +423,7 @@ namespace Svg.Pathing
         }
 
 
-        public static void GetControlPoints(PointF start, PointF controlPoint, PointF endPoint, out PointF control1, out PointF control2)
-        {
-            float x1 = start.X + (controlPoint.X - start.X) * 2 / 3;
-            float y1 = start.Y + (controlPoint.Y - start.Y) * 2 / 3;
-            float x2 = controlPoint.X + (endPoint.X - controlPoint.X) / 3;
-            float y2 = controlPoint.Y + (endPoint.Y - controlPoint.Y) / 3;
 
-            control1 = new PointF(x1, y1);
-            control2 = new PointF(x2, y2);
-        }
 #if DEBUG
         public override string ToString()
         {

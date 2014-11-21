@@ -131,7 +131,7 @@ namespace LayoutFarm.SvgDom
                                  
                                 quadCurve.GetAbsolutePoints(ref lastPoint, out intm_c3_c, out p);
 
-                                SvgPathSegCurveToQuadratic.GetControlPoints(lastPoint, intm_c3_c, p, out p2, out p3);
+                                SvgCurveHelper.Curve3GetControlPoints(lastPoint, intm_c3_c, p, out p2, out p3);
                                 gpath.AddBezierCurve(lastPoint, p2, p3, p);
                                 lastPoint = p;
                             } break;
@@ -160,7 +160,7 @@ namespace LayoutFarm.SvgDom
 
                                             //make mirror point
 
-                                            p2 = SvgPathSegCurveToCubic.Reflect(p3, lastPoint);
+                                            p2 = SvgCurveHelper.CreateMirrorPoint(p3, lastPoint);
                                             p3 = c2;
 
                                             gpath.AddBezierCurve(lastPoint, p2, p3, p);
@@ -195,25 +195,25 @@ namespace LayoutFarm.SvgDom
                                         case SvgPathCommand.CurveTo:
                                         case SvgPathCommand.SmoothCurveTo:
                                             {
-                                                 
-                                                PointF c = SvgPathSegCurveToCubic.Reflect(p3, lastPoint);
-                                                SvgPathSegCurveToQuadratic.GetControlPoints(lastPoint, c, p, out p2, out p3);
+
+                                                PointF c = SvgCurveHelper.CreateMirrorPoint(p3, lastPoint);
+                                                SvgCurveHelper.Curve3GetControlPoints(lastPoint, c, p, out p2, out p3);
                                                 gpath.AddBezierCurve(lastPoint, p2, p3, p);
                                                 lastPoint = p;
                                             }break;
                                         case SvgPathCommand.TSmoothQuadraticBezierCurveTo:
                                             {
                                                 //make mirror point
-                                                PointF c = SvgPathSegCurveToCubic.Reflect(intm_c3_c, lastPoint);
-                                                SvgPathSegCurveToQuadratic.GetControlPoints(lastPoint, c, p, out p2, out p3);
+                                                PointF c = SvgCurveHelper.CreateMirrorPoint(intm_c3_c, lastPoint);
+                                                SvgCurveHelper.Curve3GetControlPoints(lastPoint, c, p, out p2, out p3);
                                                 gpath.AddBezierCurve(lastPoint, p2, p3, p);
                                                 lastPoint = p;
                                                 intm_c3_c = c;
                                             } break;
                                         case SvgPathCommand.QuadraticBezierCurve:
                                             {
-                                                PointF c = SvgPathSegCurveToCubic.Reflect(intm_c3_c, lastPoint);
-                                                SvgPathSegCurveToQuadratic.GetControlPoints(lastPoint, c, p, out p2, out p3);
+                                                PointF c = SvgCurveHelper.CreateMirrorPoint(intm_c3_c, lastPoint);
+                                                SvgCurveHelper.Curve3GetControlPoints(lastPoint, c, p, out p2, out p3);
                                                 gpath.AddBezierCurve(lastPoint, p2, p3, p);
                                                 lastPoint = p;
                                                 intm_c3_c = c;
