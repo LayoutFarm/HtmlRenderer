@@ -213,9 +213,10 @@ namespace HtmlRenderer.Boxes
 
                         if (box.IsCustomCssBox)
                         {
-                            //goto svg layout system
+                            //has custom layout method
                             box.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock);
-                            box.CustomRecomputedValue(lay.LatestContainingBlock); 
+                            ((CustomCssBox)box).CustomRecomputedValue(lay.LatestContainingBlock);
+
                         }
                         else
                         {

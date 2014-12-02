@@ -2,27 +2,27 @@
 //2014, WinterDev
 
 using LayoutFarm.Drawing;
-using System.Collections.Generic;  
+using System.Collections.Generic;
 using LayoutFarm.SvgDom;
 
 namespace HtmlRenderer.Boxes
 {
 
-    public sealed class CssBoxSvgRoot : CssBox
-    {   
+    public sealed class CssBoxSvgRoot : CustomCssBox
+    {
         public CssBoxSvgRoot(object controller, Css.BoxSpec spec, SvgElement svgSpec)
             : base(controller, spec, Css.CssDisplay.Block)
         {
             //create svg node 
             this.SvgSpec = svgSpec;
             ChangeDisplayType(this, Css.CssDisplay.Block);
-            SetAsCustomCssBox(this);
+
         }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
             var svgElement = this.SvgSpec;
             //recompute value if need 
-            var cnode = svgElement.GetFirstNode(); 
+            var cnode = svgElement.GetFirstNode();
 
             ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(containingBlock.SizeWidth, 100, containingBlock.GetEmHeight());
             while (cnode != null)
@@ -36,7 +36,7 @@ namespace HtmlRenderer.Boxes
         protected override void PaintImp(IGraphics g, Painter p)
         {
             var prevMode = g.SmoothingMode;
-            g.SmoothingMode = SmoothingMode.AntiAlias; 
+            g.SmoothingMode = SmoothingMode.AntiAlias;
             //render this svg
             var cnode = this.SvgSpec.GetFirstNode();
             while (cnode != null)
@@ -51,7 +51,12 @@ namespace HtmlRenderer.Boxes
         {
             get;
             set;
-        } 
+        }
+
+        public override bool CustomContentHitTest(float x, float y, CssBoxHitChain hitChain)
+        {
+            return true;//stop here
+        }
         public void HitTestCore(SvgHitChain chain, float x, float y)
         {
             //1.

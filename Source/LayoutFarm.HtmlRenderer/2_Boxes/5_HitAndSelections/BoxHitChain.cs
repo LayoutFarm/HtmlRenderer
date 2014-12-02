@@ -102,7 +102,7 @@ namespace HtmlRenderer.Boxes
             globalOffsetX -= box.LocalX;
             globalOffsetY -= box.LocalY;
         }
-        internal void AddHit(CssBox box, int x, int y)
+        public void AddHit(CssBox box, int x, int y)
         {
             //position x,y relate with (0,0) of its box
             hitInfoList.Add(new HitInfo(box, x, y));

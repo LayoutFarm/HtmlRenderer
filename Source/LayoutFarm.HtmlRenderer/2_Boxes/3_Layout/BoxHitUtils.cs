@@ -20,13 +20,11 @@ using HtmlRenderer.Diagnostics;
 
 namespace HtmlRenderer.Boxes
 {
-    delegate bool EachCssTextRunHandler(CssTextRun trun);
+    //delegate bool EachCssTextRunHandler(CssTextRun trun);
 
 
-    /// <summary>
-    /// Utility class for traversing DOM structure and execution stuff on it.
-    /// </summary>
-    public sealed class BoxUtils
+
+    public sealed class BoxHitUtils
     {
         public static CssBox AddNewAnonInline(CssBox parent)
         {
@@ -37,10 +35,12 @@ namespace HtmlRenderer.Boxes
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
             return newBox;
         }
+
+
         public static bool HitTest(CssBox box, float x, float y, CssBoxHitChain hitChain)
         {
 
-            //recursive  
+            //--------------------------------------
             if (box.IsPointInArea(x, y))
             {
                 float boxHitLocalX = x - box.LocalX;
@@ -51,6 +51,18 @@ namespace HtmlRenderer.Boxes
 
                 hitChain.AddHit(box, (int)boxHitLocalX, (int)boxHitLocalY);
                 hitChain.PushContextBox(box);
+
+                if (box.IsCustomCssBox)
+                {
+                    //custom css box
+                    //return true= stop here
+                    if (((CustomCssBox)box).CustomContentHitTest(x, y, hitChain))
+                    {
+                        hitChain.PopContextBox(box);
+                        return true;
+                    }
+                    
+                }
 
                 if (box.LineBoxCount > 0)
                 {
@@ -66,7 +78,7 @@ namespace HtmlRenderer.Boxes
                             //2.
                             hitChain.AddHit(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
 
-                            var foundRun = BoxUtils.GetCssRunOnLocation(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
+                            var foundRun = BoxHitUtils.GetCssRunOnLocation(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
 
                             if (foundRun != null)
                             {
@@ -96,6 +108,7 @@ namespace HtmlRenderer.Boxes
                         }
                     }
                 }
+
                 hitChain.PopContextBox(box);
                 return true;
             }
@@ -125,38 +138,38 @@ namespace HtmlRenderer.Boxes
             return false;
         }
 
-        public static bool HitTestWithPreviousChainHint(CssBox box, float x, float y, CssBoxHitChain hitChain, CssBoxHitChain previousChain)
-        {
-            if (previousChain != null)
-            {
-                int j = previousChain.Count;
-                for (int i = 0; i < j; ++i)
-                {
-                    HitInfo hitInfo = previousChain.GetHitInfo(i);
-                    switch (hitInfo.hitObjectKind)
-                    {
-                        case HitObjectKind.CssBox:
-                            {
+        //public static bool HitTestWithPreviousChainHint(CssBox box, float x, float y, CssBoxHitChain hitChain, CssBoxHitChain previousChain)
+        //{
+        //    if (previousChain != null)
+        //    {
+        //        int j = previousChain.Count;
+        //        for (int i = 0; i < j; ++i)
+        //        {
+        //            HitInfo hitInfo = previousChain.GetHitInfo(i);
+        //            switch (hitInfo.hitObjectKind)
+        //            {
+        //                case HitObjectKind.CssBox:
+        //                    {
 
 
-                            } break;
-                        case HitObjectKind.LineBox:
-                            {
-                            } break;
-                        case HitObjectKind.Run:
-                            {
-                            } break;
-                        default:
-                            {
-                                throw new NotSupportedException();
-                            }
-                    }
+        //                    } break;
+        //                case HitObjectKind.LineBox:
+        //                    {
+        //                    } break;
+        //                case HitObjectKind.Run:
+        //                    {
+        //                    } break;
+        //                default:
+        //                    {
+        //                        throw new NotSupportedException();
+        //                    }
+        //            }
 
 
-                }
-            }
-            return true;//
-        }
+        //        }
+        //    }
+        //    return true;//
+        //}
 
         internal static CssBox GetNextSibling(CssBox a)
         {
@@ -245,57 +258,61 @@ namespace HtmlRenderer.Boxes
                 }
             }
         }
-        internal static bool ForEachTextRunDeep(CssBox box, EachCssTextRunHandler handler)
-        {
 
-            if (box.LineBoxCount > 0)
-            {
-                foreach (CssLineBox line in box.GetLineBoxIter())
-                {
-                    //each line contains run
-                    foreach (CssRun run in line.GetRunIter())
-                    {
-                        CssTextRun trun = run as CssTextRun;
-                        if (trun != null)
-                        {
-                            if (handler(trun))
-                            {
-                                //found and exit
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-            else if (box.ChildCount > 0)
-            {
-                foreach (CssBox child in box.GetChildBoxIter())
-                {
-                    if (ForEachTextRunDeep(child, handler))
-                    {
-                        //found and exit
-                        return true;
-                    }
-                }
+        //internal static bool ForEachTextRunDeep(CssBox box, EachCssTextRunHandler handler)
+        //{
 
-            }
-            else if (box.RunCount > 0)
-            {
-                foreach (CssRun run in box.GetRunIter())
-                {
-                    CssTextRun trun = run as CssTextRun;
-                    if (trun != null)
-                    {
-                        if (handler(trun))
-                        {
-                            //found and exit
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
+        //    if (box.LineBoxCount > 0)
+        //    {
+        //        foreach (CssLineBox line in box.GetLineBoxIter())
+        //        {
+        //            //each line contains run
+        //            foreach (CssRun run in line.GetRunIter())
+        //            {
+        //                CssTextRun trun = run as CssTextRun;
+        //                if (trun != null)
+        //                {
+        //                    if (handler(trun))
+        //                    {
+        //                        //found and exit
+        //                        return true;
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    else if (box.ChildCount > 0)
+        //    {
+        //        foreach (CssBox child in box.GetChildBoxIter())
+        //        {
+        //            if (ForEachTextRunDeep(child, handler))
+        //            {
+        //                //found and exit
+        //                return true;
+        //            }
+        //        }
+
+        //    }
+        //    else if (box.RunCount > 0)
+        //    {
+        //        foreach (CssRun run in box.GetRunIter())
+        //        {
+        //            CssTextRun trun = run as CssTextRun;
+        //            if (trun != null)
+        //            {
+        //                if (handler(trun))
+        //                {
+        //                    //found and exit
+        //                    return true;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return false;
+        //}
+
+
+
         internal static CssRun GetCssRunOnLocation(CssLineBox lineBox, int x, int y)
         {
             foreach (CssRun word in lineBox.GetRunIter())

@@ -68,6 +68,7 @@
     <Compile Include="1_Css\CssLength.cs" />
     <Compile Include="1_Css\CssProps.cs" />
     <Compile Include="1_Css\CssUnitOrNames.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CustomCssBox.cs" />
     <Compile Include="Platform\FontDefaultConfig.cs" />
     <Compile Include="2_Boxes\5_HitAndSelections\SelectionRange.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Spec_Snap.cs" />
@@ -111,7 +112,7 @@
     <Compile Include="2_Boxes\0_Root\HtmlIsland.cs" />
     <Compile Include="5_Diagnostics\ArgCheckNotNullAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="2_Boxes\3_Layout\BoxUtils.cs" />
+    <Compile Include="2_Boxes\3_Layout\BoxHitUtils.cs" />
     <Compile Include="Platform\RenderUtils.cs" />
   </ItemGroup>
   <ItemGroup>
