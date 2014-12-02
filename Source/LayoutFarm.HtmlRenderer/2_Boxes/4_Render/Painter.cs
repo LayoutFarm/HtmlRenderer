@@ -14,10 +14,8 @@ namespace HtmlRenderer
     {
         Stack<RectangleF> clipStacks = new Stack<RectangleF>();
 
-        PointF[] borderPoints = new PointF[4];
-
-        PointF htmlContainerScrollOffset;
-
+        PointF[] borderPoints = new PointF[4]; 
+        PointF htmlContainerScrollOffset; 
         HtmlIsland visualRootBox;
         IGraphics ig;
 
