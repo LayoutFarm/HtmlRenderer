@@ -67,9 +67,9 @@
     <Compile Include="2_Bridge_HtmlRenderer_WebDom\BridgeElements.cs" />
     <Compile Include="4_WebDom\3_Gen\HtmlGenerationStyle.cs" />
     <Compile Include="4_WebDom\3_Gen\HtmlGenerator.cs" />
-    <Compile Include="6_SvgDom\CssBoxSvgRoot.cs" />
     <Compile Include="6_SvgDom\SvgCreator.cs" />
     <Compile Include="3_Bridge_HtmlRender_LeanBox\MyHtmlIsland.cs" />
+    <Compile Include="6_SvgDom\SvgElementPortal.cs" />
     <Compile Include="7_TopWin\MyIntervalTaskEventArgs.cs" />
     <Compile Include="7_TopWin\MyRootGraphic.cs" />
     <Compile Include="7_TopWin\GraphicsTimerTasksManager.cs" />
@@ -110,6 +110,10 @@
     <ProjectReference Include="..\LayoutFarm.RenderTree\LayoutFarm.RenderTree.csproj">
       <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
       <Name>LayoutFarm.RenderTree</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.Svg\LayoutFarm.Svg.csproj">
+      <Project>{8B9257E3-C1DB-49EE-984B-47BF49511462}</Project>
+      <Name>LayoutFarm.Svg</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

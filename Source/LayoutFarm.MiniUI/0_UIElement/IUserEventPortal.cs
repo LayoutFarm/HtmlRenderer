@@ -5,6 +5,7 @@ using LayoutFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
+
     public interface IUserEventPortal
     {
         //-------------------------------------------- 

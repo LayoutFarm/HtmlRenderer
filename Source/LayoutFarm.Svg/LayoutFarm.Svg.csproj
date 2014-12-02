@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8B9257E3-C1DB-49EE-984B-47BF49511462}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LayoutFarm.Svg</RootNamespace>
+    <AssemblyName>LayoutFarm.Svg</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="4_Svg\05_SvgDoms\CssBoxSvgRoot.cs" />
+    <Compile Include="4_Svg\05_SvgDoms\SvgElements.cs" />
+    <Compile Include="4_Svg\07_Coords_Transforms\SvgMatrix.cs" />
+    <Compile Include="4_Svg\07_Coords_Transforms\SvgRotate.cs" />
+    <Compile Include="4_Svg\07_Coords_Transforms\SvgScale.cs" />
+    <Compile Include="4_Svg\07_Coords_Transforms\SvgShear.cs" />
+    <Compile Include="4_Svg\07_Coords_Transforms\SvgSkew.cs" />
+    <Compile Include="4_Svg\07_Coords_Transforms\SvgTransform.cs" />
+    <Compile Include="4_Svg\07_Coords_Transforms\SvgTranslate.cs" />
+    <Compile Include="4_Svg\08_Paths\SvgPath.cs" />
+    <Compile Include="4_Svg\08_Paths\SvgPathDataParser.cs" />
+    <Compile Include="4_Svg\08_Paths\SvgPathSegments.cs" />
+    <Compile Include="4_Svg\09_BasicShapes\SvgImage.cs" />
+    <Compile Include="4_Svg\09_BasicShapes\SvgSpec.cs" />
+    <Compile Include="4_Svg\09_BasicShapes\SvgVisualElements.cs" />
+    <Compile Include="4_Svg\16_Interactivity\SvgHitChain.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
+      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
+      <Name>LayoutFarm.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
+      <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
+      <Name>LayoutFarm.HtmlRenderer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="4_Svg\license.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

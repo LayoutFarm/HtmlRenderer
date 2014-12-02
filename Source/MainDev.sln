@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Platforms.WinFor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Platforms.OpenTk", "LayoutFarm.Platforms.OpenTk\LayoutFarm.Platforms.OpenTk.csproj", "{1AA171E3-523C-4DD5-A169-DE6322991FF5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Svg", "LayoutFarm.Svg\LayoutFarm.Svg.csproj", "{8B9257E3-C1DB-49EE-984B-47BF49511462}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -179,6 +181,16 @@ Global
 		{1AA171E3-523C-4DD5-A169-DE6322991FF5}.Release|Mixed Platforms.Build.0 = Release|x86
 		{1AA171E3-523C-4DD5-A169-DE6322991FF5}.Release|x86.ActiveCfg = Release|x86
 		{1AA171E3-523C-4DD5-A169-DE6322991FF5}.Release|x86.Build.0 = Release|x86
+		{8B9257E3-C1DB-49EE-984B-47BF49511462}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B9257E3-C1DB-49EE-984B-47BF49511462}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B9257E3-C1DB-49EE-984B-47BF49511462}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8B9257E3-C1DB-49EE-984B-47BF49511462}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8B9257E3-C1DB-49EE-984B-47BF49511462}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8B9257E3-C1DB-49EE-984B-47BF49511462}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B9257E3-C1DB-49EE-984B-47BF49511462}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B9257E3-C1DB-49EE-984B-47BF49511462}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8B9257E3-C1DB-49EE-984B-47BF49511462}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8B9257E3-C1DB-49EE-984B-47BF49511462}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -68,21 +68,6 @@
     <Compile Include="1_Css\CssLength.cs" />
     <Compile Include="1_Css\CssProps.cs" />
     <Compile Include="1_Css\CssUnitOrNames.cs" />
-    <Compile Include="4_Svg\05_SvgDoms\SvgElements.cs" />
-    <Compile Include="4_Svg\09_BasicShapes\SvgImage.cs" />
-    <Compile Include="4_Svg\09_BasicShapes\SvgSpec.cs" />
-    <Compile Include="4_Svg\09_BasicShapes\SvgVisualElements.cs" />
-    <Compile Include="4_Svg\08_Paths\SvgPath.cs" />
-    <Compile Include="4_Svg\08_Paths\SvgPathDataParser.cs" />
-    <Compile Include="4_Svg\08_Paths\SvgPathSegments.cs" />
-    <Compile Include="4_Svg\16_Interactivity\SvgHitChain.cs" />
-    <Compile Include="4_Svg\07_Coords_Transforms\SvgMatrix.cs" />
-    <Compile Include="4_Svg\07_Coords_Transforms\SvgRotate.cs" />
-    <Compile Include="4_Svg\07_Coords_Transforms\SvgScale.cs" />
-    <Compile Include="4_Svg\07_Coords_Transforms\SvgShear.cs" />
-    <Compile Include="4_Svg\07_Coords_Transforms\SvgSkew.cs" />
-    <Compile Include="4_Svg\07_Coords_Transforms\SvgTransform.cs" />
-    <Compile Include="4_Svg\07_Coords_Transforms\SvgTranslate.cs" />
     <Compile Include="Platform\FontDefaultConfig.cs" />
     <Compile Include="2_Boxes\5_HitAndSelections\SelectionRange.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Spec_Snap.cs" />
@@ -154,9 +139,6 @@
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
       <Name>LayoutFarm.Drawing</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="4_Svg\license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

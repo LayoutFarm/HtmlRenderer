@@ -18,7 +18,7 @@ namespace HtmlRenderer.Boxes
     /// <summary>
     /// Represents a word inside an inline box
     /// </summary>
-    sealed class CssImageRun : CssRun
+    public sealed class CssImageRun : CssRun
     {
 
         ImageBinder imgBinder;

@@ -2,9 +2,7 @@
 //2014, WinterDev
 
 using LayoutFarm.Drawing;
-using System.Collections.Generic;
-using LayoutFarm.Drawing;
-
+using System.Collections.Generic;  
 using LayoutFarm.SvgDom;
 
 namespace HtmlRenderer.Boxes

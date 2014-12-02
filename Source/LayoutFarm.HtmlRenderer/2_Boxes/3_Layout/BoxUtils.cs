@@ -16,10 +16,6 @@ using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
 using System.Text;
-
-using LayoutFarm.Drawing;
-
-using LayoutFarm.Drawing;
 using HtmlRenderer.Diagnostics;
 
 namespace HtmlRenderer.Boxes
@@ -43,6 +39,7 @@ namespace HtmlRenderer.Boxes
         }
         public static bool HitTest(CssBox box, float x, float y, CssBoxHitChain hitChain)
         {
+
             //recursive  
             if (box.IsPointInArea(x, y))
             {
@@ -104,6 +101,7 @@ namespace HtmlRenderer.Boxes
             }
             else
             {
+
                 switch (box.CssDisplay)
                 {
 
@@ -141,17 +139,17 @@ namespace HtmlRenderer.Boxes
                             {
 
 
-                            }break;
+                            } break;
                         case HitObjectKind.LineBox:
                             {
-                            }break;
+                            } break;
                         case HitObjectKind.Run:
                             {
-                            }break;
+                            } break;
                         default:
                             {
                                 throw new NotSupportedException();
-                            }                    
+                            }
                     }
 
 
