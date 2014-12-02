@@ -139,7 +139,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                             case CssWhiteSpace.PreWrap:
                                                 {
                                                     RunListHelper.AddRunList(
-                                                        BoxHitUtils.AddNewAnonInline(hostBox),
+                                                        CssBox.AddNewAnonInline(hostBox),
                                                         parentElement.Spec, textNode);
                                                 } break;
                                             case CssWhiteSpace.PreLine:
@@ -150,7 +150,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                                     }
 
                                                     RunListHelper.AddRunList(
-                                                        BoxHitUtils.AddNewAnonInline(hostBox),
+                                                        CssBox.AddNewAnonInline(hostBox),
                                                         parentElement.Spec, textNode);
 
                                                 } break;
@@ -161,7 +161,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                                         continue;//skip
                                                     }
                                                     RunListHelper.AddRunList(
-                                                        BoxHitUtils.AddNewAnonInline(hostBox),
+                                                        CssBox.AddNewAnonInline(hostBox),
                                                         parentElement.Spec, textNode);
                                                 } break;
                                         }

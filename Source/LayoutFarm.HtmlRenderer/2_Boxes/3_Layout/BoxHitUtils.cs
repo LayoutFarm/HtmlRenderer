@@ -26,16 +26,7 @@ namespace HtmlRenderer.Boxes
 
     public sealed class BoxHitUtils
     {
-        public static CssBox AddNewAnonInline(CssBox parent)
-        {
-            var spec = CssBox.UnsafeGetBoxSpec(parent);
-            var newBox = new CssBox(null, spec.GetAnonVersion());
-
-            parent.AppendChild(newBox);
-            CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
-            return newBox;
-        }
-
+        
 
         public static bool HitTest(CssBox box, float x, float y, CssBoxHitChain hitChain)
         {
