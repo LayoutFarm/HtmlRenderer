@@ -147,10 +147,14 @@ namespace LayoutFarm.UI
         int xdiffFromMouseDown;
         int ydiffFromMouseDown;
 
+
+       
+        
         public UIMouseEventArgs()
         {
 
         }
+        
         public void SetDiff(int xdiff, int ydiff, int xdiffFromMouseDown, int ydiffFromMouseDown)
         {
             this.XDiff = xdiff;

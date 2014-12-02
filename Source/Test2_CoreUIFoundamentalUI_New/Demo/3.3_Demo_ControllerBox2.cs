@@ -102,54 +102,49 @@ namespace LayoutFarm
             //};
         }
 
+        static void MoveWithSnapToGrid(UIControllerBox controllerBox, UIMouseEventArgs e)
+        {
+            //sample move with snap to grid
+            Point pos = controllerBox.Position;
+            int newX = pos.X + e.XDiff;
+            int newY = pos.Y + e.YDiff;
+            //snap to gridsize =5;
+            //find nearest snap x 
+            int gridSize = 5;
+            float halfGrid = (float)gridSize / 2f;
 
+            int nearestX = (int)((newX + halfGrid) / gridSize) * gridSize;
+            int nearestY = (int)((newY + halfGrid) / gridSize) * gridSize;
+
+            controllerBox.SetLocation(nearestX, nearestY);
+            var targetBox = controllerBox.TargetBox;
+            if (targetBox != null)
+            {
+                //move target box too
+                
+                targetBox.SetLocation(nearestX + 5, nearestY + 5);
+            }
+        }
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
             //for controller box
             controllerBox.DragBegin += (s, e) =>
             {
-                Point pos = controllerBox.Position;
-                controllerBox.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
-                var targetBox = controllerBox.TargetBox;
-                if (targetBox != null)
-                {
-                    //move target box too
-                    targetBox.SetLocation(pos.X + 5, pos.Y + 5);
-                }
+                MoveWithSnapToGrid(controllerBox, e);
+                e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                e.CancelBubbling = true;
             };
 
             controllerBox.Dragging += (s, e) =>
             {
-                Point pos = controllerBox.Position;
-
-                int newX = pos.X + e.XDiff;
-                int newY = pos.Y + e.YDiff; 
-
-                controllerBox.SetLocation(newX, newY);
-                var targetBox = controllerBox.TargetBox;
-                if (targetBox != null)
-                {
-                    //move target box too
-                    targetBox.SetLocation(pos.X + 5, pos.Y + 5);
-                }
+                MoveWithSnapToGrid(controllerBox, e);
+                e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                e.CancelBubbling = true;
             };
-
-
             controllerBox.DragLeave += (s, e) =>
             {
 
-                Point pos = controllerBox.Position;
-                //continue dragging on the same element 
-                int newX = pos.X + e.XDiff;
-                int newY = pos.Y + e.YDiff;
-                controllerBox.SetLocation(newX, newY);
-                var targetBox = controllerBox.TargetBox;
-                if (targetBox != null)
-                {
-                    //move target box too
-                    targetBox.SetLocation(newX + 5, newY + 5);
-                }
-
+                MoveWithSnapToGrid(controllerBox, e);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 e.CancelBubbling = true;
             };
@@ -157,18 +152,7 @@ namespace LayoutFarm
             {
                 if (e.IsMouseDown)
                 {
-                    Point pos = controllerBox.Position;
-                    int newX = pos.X + e.XDiff;
-                    int newY = pos.Y + e.YDiff; 
-
-                    controllerBox.SetLocation(newX, newY);
-                    var targetBox = controllerBox.TargetBox;
-                    if (targetBox != null)
-                    {
-                        //move target box too
-                        targetBox.SetLocation(newX + 5, newY + 5);
-                    }
-
+                    MoveWithSnapToGrid(controllerBox, e);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.CancelBubbling = true;
                 }
@@ -178,16 +162,9 @@ namespace LayoutFarm
             {
                 if (e.IsMouseDown)
                 {
-                    Point pos = controllerBox.Position;
-                    int newX = pos.X + e.XDiff;
-                    int newY = pos.Y + e.YDiff; 
-                    controllerBox.SetLocation(newX, newY);
-                    var targetBox = controllerBox.TargetBox;
-                    if (targetBox != null)
-                    {
-                        //move target box too
-                        targetBox.SetLocation(newX + 5, newY + 5);
-                    }
+                    MoveWithSnapToGrid(controllerBox, e);
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true;
                 }
 
             };
