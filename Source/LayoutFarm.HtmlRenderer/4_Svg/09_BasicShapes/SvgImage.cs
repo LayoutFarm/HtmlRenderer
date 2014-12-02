@@ -54,17 +54,17 @@ namespace LayoutFarm.SvgDom
             get { return this._imgRun.ImageBinder; }
             set { this._imgRun.ImageBinder = value; }
         }
-        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
             var myspec = this.imageSpec;
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
 
-            this.ActualX = ConvertToPx(myspec.X, containerW, emHeight);
-            this.ActualY = ConvertToPx(myspec.Y, containerW, emHeight);
-            this.ActualWidth = ConvertToPx(myspec.Width, containerW, emHeight);
-            this.ActualHeight = ConvertToPx(myspec.Height, containerW, emHeight);
-            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
+            this.ActualX = ConvertToPx(myspec.X, ref args);
+            this.ActualY = ConvertToPx(myspec.Y, ref args);
+            this.ActualWidth = ConvertToPx(myspec.Width, ref args);
+            this.ActualHeight = ConvertToPx(myspec.Height, ref args);
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
             this._path = CreateRectGraphicPath(
                     this.ActualX,
                     this.ActualY,
@@ -74,14 +74,14 @@ namespace LayoutFarm.SvgDom
             {
                 this._imgRun.ImageBinder = new ImageBinder(myspec.ImageSrc);
             }
-
+            ValidatePath();
 
         }
         public override void Paint(Painter p)
-        {   
-            
+        {
+
             IGraphics g = p.Gfx;
-            if (fillColor != Color.Transparent)
+            if (fillColor.A > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
                 {
@@ -89,13 +89,12 @@ namespace LayoutFarm.SvgDom
                 }
             }
             //---------------------------------------------------------  
-            if (this.ImageBinder != null)            
+            if (this.ImageBinder != null)
             {
                 //---------------------------------------------------------  
                 //Because we need external image resource , so ...
                 //use render technique like CssBoxImage ****
                 //---------------------------------------------------------  
-
 
                 RectangleF r = new RectangleF(this.ActualX, this.ActualY, this.ActualWidth, this.ActualHeight);
                 bool tryLoadOnce = false;
@@ -157,7 +156,7 @@ namespace LayoutFarm.SvgDom
                 }
             }
             //--------------------------------------------------------- 
-            if (this.strokeColor != Color.Transparent
+            if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))

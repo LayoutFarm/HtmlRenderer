@@ -138,6 +138,29 @@ namespace LayoutFarm.SvgDom
             set;
         }
     }
+    public class SvgLineSpec : SvgVisualSpec
+    {
+        public CssLength X1
+        {
+            get;
+            set;
+        }
+        public CssLength Y1
+        {
+            get;
+            set;
+        }
+        public CssLength X2
+        {
+            get;
+            set;
+        }
+        public CssLength Y2
+        {
+            get;
+            set;
+        }
+    }
     public class StopColorPoint
     {
         public Color StopColor

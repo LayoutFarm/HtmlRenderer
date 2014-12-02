@@ -24,13 +24,12 @@ namespace HtmlRenderer.Boxes
         {
             var svgElement = this.SvgSpec;
             //recompute value if need 
-            var cnode = svgElement.GetFirstNode();
-            float containerW = containingBlock.SizeWidth;
-            float emH = containingBlock.GetEmHeight();
+            var cnode = svgElement.GetFirstNode(); 
 
+            ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(containingBlock.SizeWidth, 100, containingBlock.GetEmHeight());
             while (cnode != null)
             {
-                cnode.Value.ReEvaluateComputeValue(containerW, 100, emH);
+                cnode.Value.ReEvaluateComputeValue(ref reEvalArgs);
                 cnode = cnode.Next;
             }
 

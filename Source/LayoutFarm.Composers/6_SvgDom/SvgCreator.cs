@@ -515,10 +515,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
                             {
                                 case "d":
                                     {
-                                        //parse vertex commands
-
+                                        //parse vertex commands 
                                         Svg.Pathing.SvgPathDataParser parser = new Svg.Pathing.SvgPathDataParser();
                                         svgPath.Segments = parser.Parse(attr.Value.ToCharArray());
+
                                     } break;
                             }
                         } break;

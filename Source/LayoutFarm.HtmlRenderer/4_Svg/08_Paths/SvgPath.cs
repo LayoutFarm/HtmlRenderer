@@ -13,15 +13,12 @@ namespace LayoutFarm.SvgDom
 
     public class SvgPath : SvgVisualElement
     {
-          
 
-        Color strokeColor = Color.Transparent;
-        Color fillColor = Color.Black;
 
-        GraphicsPath _path;
 
         SvgPathSpec spec;
         List<Svg.Pathing.SvgPathSeg> segments;
+
         public SvgPath(SvgPathSpec spec, object controller)
             : base(controller)
         {
@@ -34,321 +31,273 @@ namespace LayoutFarm.SvgDom
         }
 
 
-        public override void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        public override void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
+
             var myspec = this.spec;
             this.fillColor = myspec.ActualColor;
             this.strokeColor = myspec.StrokeColor;
-            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, containerW, emHeight);
+            this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
+
+            if (this.IsPathValid) { return; }
+            ClearCachePath();
 
             if (segments == null)
             {
-                this._path = null;
+                this.myCachedPath = null;
             }
             else
             {
-                GraphicsPath gpath = this._path = CurrentGraphicPlatform.CreateGraphicPath();
-
                 List<SvgPathSeg> segs = this.segments;
                 int segcount = segs.Count;
 
+
+                GraphicsPath gpath = this.myCachedPath = CurrentGraphicPlatform.CreateGraphicPath();
                 float lastMoveX = 0;
                 float lastMoveY = 0;
 
-                float lastX = 0;
-                float lastY = 0;
+
+                PointF lastPoint = new PointF();
+                PointF p2 = new PointF();//curve control point
+                PointF p3 = new PointF();//curve control point
+
+                PointF intm_c3_c = new PointF();
+
                 for (int i = 0; i < segcount; ++i)
                 {
                     SvgPathSeg seg = segs[i];
-
                     switch (seg.Command)
                     {
-
-                        case SvgPathCommand.MoveTo:
-                            {
-                                var moveTo = (SvgPathSegMoveTo)seg;
-                                if (moveTo.IsRelative)
-                                {
-                                    lastX = lastMoveX = lastX + moveTo.X;
-                                    lastY = lastMoveY = lastY + moveTo.Y;
-                                }
-                                else
-                                {
-                                    lastX = lastMoveX = moveTo.X;
-                                    lastY = lastMoveY = moveTo.Y;
-                                }
-                                gpath.StartFigure();
-
-                            } break;
-                        case SvgPathCommand.LineTo:
-                            {
-                                var lineTo = (SvgPathSegLineTo)seg;
-
-                                if (lineTo.IsRelative)
-                                {
-                                    gpath.AddLine(new PointF(lastX, lastY),
-                                       new PointF(lastX += lineTo.X, lastY += lineTo.Y));
-                                }
-                                else
-                                {
-                                    gpath.AddLine(new PointF(lastX, lastY),
-                                       new PointF(lastX = lineTo.X, lastY = lineTo.Y));
-                                }
-                            } break;
-                        case SvgPathCommand.HorizontalLineTo:
-                            {
-                                var hlintTo = (SvgPathSegLineToHorizontal)seg;
-
-                                if (hlintTo.IsRelative)
-                                {
-                                    gpath.AddLine(new PointF(lastX, lastY),
-                                       new PointF(lastX += hlintTo.X, lastY));
-                                }
-                                else
-                                {
-                                    gpath.AddLine(new PointF(lastX, lastY),
-                                       new PointF(lastX = hlintTo.X, lastY));
-                                }
-
-                            } break;
-                        case SvgPathCommand.VerticalLineTo:
-                            {
-                                var vlineTo = (SvgPathSegLineToVertical)seg;
-                                if (vlineTo.IsRelative)
-                                {
-                                    gpath.AddLine(new PointF(lastX, lastY),
-                                       new PointF(lastX, lastY += vlineTo.Y));
-                                }
-                                else
-                                {
-                                    gpath.AddLine(new PointF(lastX, lastY),
-                                       new PointF(lastX, lastY = vlineTo.Y));
-                                }
-
-                            } break;
-                        case SvgPathCommand.Arc:
-                            {
-                                var arcTo = (SvgPathSegArc)seg;
-                                PointF start = new PointF(lastX, lastY);
-                                PointF end = new PointF(arcTo.X, arcTo.Y);
-                                if (start.IsEq(end))
-                                {
-                                    return;
-                                }
-                                if (arcTo.R1 == 0 && arcTo.R2 == 0)
-                                {
-                                    gpath.AddLine(start, end);
-                                    return;
-                                }
-                                float angle = arcTo.Angle;
-                                float rx = arcTo.R1; //rx
-                                float ry = arcTo.R2; //ry
-                                SvgArcSize arcSize = arcTo.LargeArgFlag;
-                                SvgArcSweep arcSweep = arcTo.SweepFlag;
-
-                                if (arcTo.IsRelative)
-                                {
-                                    //make absolute path
-                                    lastX = end.X += lastX;
-                                    lastY = end.Y += lastY;
-
-                                }
-
-
-                                double sinPhi = Math.Sin(angle * SvgPathSegArc.RAD_PER_DEG);
-                                double cosPhi = Math.Cos(angle * SvgPathSegArc.RAD_PER_DEG);
-
-                                double x1dash = cosPhi * (start.X - end.X) / 2.0 + sinPhi * (start.Y - end.Y) / 2.0;
-                                double y1dash = -sinPhi * (start.X - end.X) / 2.0 + cosPhi * (start.Y - end.Y) / 2.0;
-
-                                double root;
-                                double numerator = (rx * rx * ry * ry) - (rx * rx * y1dash * y1dash) - (ry * ry * x1dash * x1dash);
-
-                                if (numerator < 0.0)
-                                {
-                                    float s = (float)Math.Sqrt(1.0 - numerator / (rx * rx * ry * ry));
-                                    rx *= s;
-                                    ry *= s;
-                                    root = 0.0;
-                                }
-                                else
-                                {
-                                    root = ((arcSize == SvgArcSize.Large && arcSweep == SvgArcSweep.Positive)
-                                        || (arcSize == SvgArcSize.Small && arcSweep == SvgArcSweep.Negative) ? -1.0 : 1.0) * Math.Sqrt(numerator / (rx * rx * y1dash * y1dash + ry * ry * x1dash * x1dash));
-                                }
-
-                                double cxdash = root * rx * y1dash / ry;
-                                double cydash = -root * ry * x1dash / rx;
-
-                                double cx = cosPhi * cxdash - sinPhi * cydash + (start.X + end.X) / 2.0;
-                                double cy = sinPhi * cxdash + cosPhi * cydash + (start.Y + end.Y) / 2.0;
-
-                                double theta1 = SvgPathSegArc.CalculateVectorAngle(1.0, 0.0, (x1dash - cxdash) / rx, (y1dash - cydash) / ry);
-                                double dtheta = SvgPathSegArc.CalculateVectorAngle((x1dash - cxdash) / rx, (y1dash - cydash) / ry, (-x1dash - cxdash) / rx, (-y1dash - cydash) / ry);
-
-                                if (arcSweep == SvgArcSweep.Negative && dtheta > 0)
-                                {
-                                    dtheta -= 2.0 * Math.PI;
-                                }
-                                else if (arcSweep == SvgArcSweep.Positive && dtheta < 0)
-                                {
-                                    dtheta += 2.0 * Math.PI;
-                                }
-
-                                int nsegments = (int)Math.Ceiling((double)Math.Abs(dtheta / (Math.PI / 2.0)));
-
-                                double delta = dtheta / nsegments;
-                                double t = 8.0 / 3.0 * Math.Sin(delta / 4.0) * Math.Sin(delta / 4.0) / Math.Sin(delta / 2.0);
-
-                                double startX = start.X;
-                                double startY = start.Y;
-
-                                for (int n = 0; n < nsegments; ++n)
-                                {
-                                    double cosTheta1 = Math.Cos(theta1);
-                                    double sinTheta1 = Math.Sin(theta1);
-                                    double theta2 = theta1 + delta;
-                                    double cosTheta2 = Math.Cos(theta2);
-                                    double sinTheta2 = Math.Sin(theta2);
-
-                                    double endpointX = cosPhi * rx * cosTheta2 - sinPhi * ry * sinTheta2 + cx;
-                                    double endpointY = sinPhi * rx * cosTheta2 + cosPhi * ry * sinTheta2 + cy;
-
-                                    double dx1 = t * (-cosPhi * rx * sinTheta1 - sinPhi * ry * cosTheta1);
-                                    double dy1 = t * (-sinPhi * rx * sinTheta1 + cosPhi * ry * cosTheta1);
-
-                                    double dxe = t * (cosPhi * rx * sinTheta2 + sinPhi * ry * cosTheta2);
-                                    double dye = t * (sinPhi * rx * sinTheta2 - cosPhi * ry * cosTheta2);
-
-
-                                    gpath.AddBezierCurve(
-                                        new PointF((float)startX, (float)startY),
-                                        new PointF((float)(startX + dx1), (float)(startY + dy1)),
-                                        new PointF((float)(endpointX + dxe), (float)(endpointY + dye)),
-                                        new PointF((float)endpointX, (float)endpointY));
-
-                                    theta1 = theta2;
-                                    startX = (float)endpointX;
-                                    startY = (float)endpointY;
-                                }
-                            } break;
-                        case SvgPathCommand.CurveTo:
-                            {
-                                var cubicCurve = (SvgPathSegCurveToCubic)seg;
-                                if (cubicCurve.IsRelative)
-                                {
-                                    //relative
-                                    PointF p1 = new PointF(lastX, lastY);
-                                    PointF p2 = new PointF(lastX + cubicCurve.X1, lastY + cubicCurve.Y1);
-                                    PointF p3 = new PointF(lastX + cubicCurve.X2, lastY + cubicCurve.Y2);
-                                    PointF p4 = new PointF(lastX += cubicCurve.X, lastY += cubicCurve.Y);
-                                    gpath.AddBezierCurve(p1, p2, p3, p4);
-                                }
-                                else
-                                {
-                                    PointF p1 = new PointF(lastX, lastY);
-                                    PointF p2 = new PointF(cubicCurve.X1, cubicCurve.Y1);
-                                    PointF p3 = new PointF(cubicCurve.X2, cubicCurve.Y2);
-                                    PointF p4 = new PointF(lastX = cubicCurve.X, lastY = cubicCurve.Y);
-                                    gpath.AddBezierCurve(p1, p2, p3, p4);
-                                }
-                            } break;
-                        case SvgPathCommand.SmoothCurveTo:
-                            {
-                                var scubicCurve = (SvgPathSegCurveToCubicSmooth)seg;
-                                //connect with prev segment
-                                if (i > 0)
-                                {
-                                    SvgPathSegCurveToCubic prevCurve = segments[i - 1] as SvgPathSegCurveToCubic;
-                                    if (prevCurve != null)
-                                    {
-                                        //use 1st control point from prev segment
-                                        PointF p1 = new PointF(lastX, lastY);
-                                        PointF p2 = new PointF(prevCurve.X2, prevCurve.Y2);
-                                        if (prevCurve.IsRelative)
-                                        {
-                                            float diffX = lastX - prevCurve.X;
-                                            float diffY = lastY - prevCurve.Y;
-                                            p2 = new PointF(prevCurve.X2 - diffX, prevCurve.Y2 - diffY);
-                                        }
-
-                                        //make a mirror point***
-                                        p2 = SvgPathSegCurveToCubic.MakeMirrorPoint(p1, p2);
-
-                                        if (scubicCurve.IsRelative)
-                                        {
-                                            PointF p3 = new PointF(scubicCurve.X2 + lastX, scubicCurve.Y2 + lastY);
-                                            PointF p4 = new PointF(lastX = scubicCurve.X + lastX, lastY = scubicCurve.Y + lastY);
-                                            gpath.AddBezierCurve(p1, p2, p3, p4);
-                                        }
-                                        else
-                                        {
-                                            PointF p3 = new PointF(scubicCurve.X2, scubicCurve.Y2);
-                                            PointF p4 = new PointF(lastX = scubicCurve.X, lastY = scubicCurve.Y);
-                                            gpath.AddBezierCurve(p1, p2, p3, p4);
-                                        }
-
-                                    }
-                                }
-                            } break;
-                        case SvgPathCommand.QuadraticBezierCurve:
-                            {
-                                var quadCurve = (SvgPathSegCurveToQuadratic)seg;
-                                if (quadCurve.IsRelative)
-                                {
-                                    //relative
-                                    PointF p1 = new PointF(lastX, lastY);
-                                    PointF c = new PointF(lastX + quadCurve.X1, lastY + quadCurve.Y1);
-                                    PointF p4 = new PointF(lastX += quadCurve.X, lastY += quadCurve.Y);
-
-
-                                    PointF p2, p3;
-
-                                    SvgPathSegCurveToQuadratic.GetControlPoints(p1, c, p4, out p2, out p3);
-                                    gpath.AddBezierCurve(p1, p2, p3, p4);
-                                }
-                                else
-                                {
-                                    PointF p1 = new PointF(lastX, lastY);
-                                    PointF c = new PointF(quadCurve.X1, quadCurve.Y1);
-                                    PointF p4 = new PointF(lastX = quadCurve.X, lastY = quadCurve.Y);
-
-
-                                    PointF p2, p3;
-
-                                    SvgPathSegCurveToQuadratic.GetControlPoints(p1, c, p4, out p2, out p3);
-                                    gpath.AddBezierCurve(p1, p2, p3, p4);
-                                }
-
-                            } break;
                         case SvgPathCommand.ZClosePath:
                             {
                                 gpath.CloseFigure();
 
                             } break;
+                        case SvgPathCommand.MoveTo:
+                            {
+                                var moveTo = (SvgPathSegMoveTo)seg;
+                                PointF moveToPoint;
+                                moveTo.GetAbsolutePoints(ref lastPoint, out moveToPoint);
+                                lastPoint = moveToPoint;
+                                gpath.StartFigure();
+
+                                lastMoveX = lastPoint.X;
+                                lastMoveY = lastPoint.Y;
+                            } break;
+                        case SvgPathCommand.LineTo:
+                            {
+                                var lineTo = (SvgPathSegLineTo)seg;
+                                PointF lineToPoint;
+                                lineTo.GetAbsolutePoints(ref lastPoint, out lineToPoint);
+                                gpath.AddLine(lastPoint, lineToPoint);
+                                lastPoint = lineToPoint;
+
+                            } break;
+                        case SvgPathCommand.HorizontalLineTo:
+                            {
+                                var hlintTo = (SvgPathSegLineToHorizontal)seg;
+                                PointF lineToPoint;
+                                hlintTo.GetAbsolutePoints(ref lastPoint, out lineToPoint);
+                                gpath.AddLine(lastPoint, lineToPoint);
+                                lastPoint = lineToPoint;
+
+                            } break;
+                        case SvgPathCommand.VerticalLineTo:
+                            {
+                                var vlineTo = (SvgPathSegLineToVertical)seg;
+                                PointF lineToPoint;
+                                vlineTo.GetAbsolutePoints(ref lastPoint, out lineToPoint);
+                                gpath.AddLine(lastPoint, lineToPoint);
+                                lastPoint = lineToPoint;
+
+                            } break;
+                        //---------------------------------------------------------------------------
+                        //curve modes...... 
+                        case SvgPathCommand.CurveTo:
+                            {
+                                //cubic curve to  (2 control points)
+                                var cubicCurve = (SvgPathSegCurveToCubic)seg;
+                                PointF p;
+                                cubicCurve.GetAbsolutePoints(ref lastPoint, out p2, out p3, out p);
+                                gpath.AddBezierCurve(lastPoint, p2, p3, p);
+                                lastPoint = p;
+                            } break;
+                        case SvgPathCommand.QuadraticBezierCurve:
+                            {
+                                //quadratic curve (1 control point)
+                                //auto calculate for c1,c2 
+                                var quadCurve = (SvgPathSegCurveToQuadratic)seg;
+                                PointF p;
+                                 
+                                quadCurve.GetAbsolutePoints(ref lastPoint, out intm_c3_c, out p);
+
+                                SvgCurveHelper.Curve3GetControlPoints(lastPoint, intm_c3_c, p, out p2, out p3);
+                                gpath.AddBezierCurve(lastPoint, p2, p3, p);
+                                lastPoint = p;
+                            } break;
+                        //------------------------------------------------------------------------------------
+                        case SvgPathCommand.SmoothCurveTo:
+                            {
+                                //smooth cubic curve to
+                                var smthC4 = (SvgPathSegCurveToCubicSmooth)seg;
+                                PointF c2, p;
+                                smthC4.GetAbsolutePoints(ref lastPoint, out c2, out p);
+                                //connect with prev segment
+                                if (i > 0)
+                                {
+                                    //------------------
+                                    //calculate p1 from  prev segment 
+                                    //------------------
+                                    var prevSeg = segments[i - 1];
+                                    //check if prev is curve 
+                                    switch (prevSeg.Command)
+                                    {
+                                        case SvgPathCommand.Arc:
+                                        case SvgPathCommand.CurveTo:
+                                        case SvgPathCommand.SmoothCurveTo:
+                                        case SvgPathCommand.QuadraticBezierCurve:
+                                        case SvgPathCommand.TSmoothQuadraticBezierCurveTo:
+
+                                            //make mirror point
+
+                                            p2 = SvgCurveHelper.CreateMirrorPoint(p3, lastPoint);
+                                            p3 = c2;
+
+                                            gpath.AddBezierCurve(lastPoint, p2, p3, p);
+
+
+                                            break;
+                                        default:
+
+                                            continue;
+                                    }
+                                }
+
+                                lastPoint = p;
+                            } break;
+
+                        case SvgPathCommand.TSmoothQuadraticBezierCurveTo:
+                            {
+                                //curve 3
+                                var smtC3 = (SvgPathSegCurveToQuadraticSmooth)seg;
+                                PointF p;
+                                smtC3.GetAbsolutePoints(ref lastPoint, out p);
+                                if (i > 0)
+                                {
+                                    //------------------
+                                    //calculate p1 from  prev segment 
+                                    //------------------
+                                    var prevSeg = segments[i - 1];
+                                    //check if prev is curve 
+                                    switch (prevSeg.Command)
+                                    {
+                                        case SvgPathCommand.Arc:
+                                        case SvgPathCommand.CurveTo:
+                                        case SvgPathCommand.SmoothCurveTo:
+                                            {
+
+                                                PointF c = SvgCurveHelper.CreateMirrorPoint(p3, lastPoint);
+                                                SvgCurveHelper.Curve3GetControlPoints(lastPoint, c, p, out p2, out p3);
+                                                gpath.AddBezierCurve(lastPoint, p2, p3, p);
+                                                lastPoint = p;
+                                            }break;
+                                        case SvgPathCommand.TSmoothQuadraticBezierCurveTo:
+                                            {
+                                                //make mirror point
+                                                PointF c = SvgCurveHelper.CreateMirrorPoint(intm_c3_c, lastPoint);
+                                                SvgCurveHelper.Curve3GetControlPoints(lastPoint, c, p, out p2, out p3);
+                                                gpath.AddBezierCurve(lastPoint, p2, p3, p);
+                                                lastPoint = p;
+                                                intm_c3_c = c;
+                                            } break;
+                                        case SvgPathCommand.QuadraticBezierCurve:
+                                            {
+                                                PointF c = SvgCurveHelper.CreateMirrorPoint(intm_c3_c, lastPoint);
+                                                SvgCurveHelper.Curve3GetControlPoints(lastPoint, c, p, out p2, out p3);
+                                                gpath.AddBezierCurve(lastPoint, p2, p3, p);
+                                                lastPoint = p;
+                                                intm_c3_c = c;
+
+                                            }break;
+                                        default:
+
+                                            continue;
+                                    }
+                                }
+                                lastPoint = p;
+                            } break;
+                        case SvgPathCommand.Arc:
+                            {
+                                var arcTo = (SvgPathSegArc)seg;
+                                PointF p;
+                                arcTo.GetAbsolutePoints(ref lastPoint, out p);
+                                if (lastPoint.IsEq(p))
+                                {
+                                    return;
+                                }
+                                if (arcTo.R1 == 0 && arcTo.R2 == 0)
+                                {
+                                    gpath.AddLine(lastPoint, p);
+                                    lastPoint = p;
+                                    return;
+                                }
+                                PointF[] bz4Points;
+                                SvgCurveHelper.MakeBezierCurveFromArc(
+                                    ref lastPoint,
+                                    ref p,
+                                    arcTo.R1,
+                                    arcTo.R2,
+                                    arcTo.Angle,
+                                    arcTo.LargeArgFlag,
+                                    arcTo.SweepFlag,
+                                    out bz4Points);
+
+                                int j = bz4Points.Length;
+                                int nn = 0;
+                                while (nn < j)
+                                {
+                                    gpath.AddBezierCurve(
+                                        bz4Points[nn],
+                                        bz4Points[nn + 1],
+                                        bz4Points[nn + 2],
+                                        bz4Points[nn + 3]);
+                                    nn += 4;//step 4 points
+                                }
+                                //set control points
+                                p3 = bz4Points[nn - 2];
+                                p2 = bz4Points[nn - 3];
+
+
+                                lastPoint = p;
+                                //--------------------------------------------- 
+
+                            } break;
+
                         default:
                             throw new NotSupportedException();
                     }
                 }
             }
+
+            ValidatePath();
         }
         public override void Paint(Painter p)
         {
             IGraphics g = p.Gfx;
-            if (fillColor != Color.Transparent)
+            if (fillColor.A > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
                 {
-                    g.FillPath(sb, this._path);
+                    g.FillPath(sb, this.myCachedPath);
                 }
             }
-            if (this.strokeColor != Color.Transparent)
+            if (this.strokeColor.A > 0)
             {
                 using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
                 using (Pen pen = g.Platform.CreatePen(sb))
                 {
                     pen.Width = this.ActualStrokeWidth;
-                    g.DrawPath(pen, this._path);
+                    g.DrawPath(pen, this.myCachedPath);
                 }
             }
 

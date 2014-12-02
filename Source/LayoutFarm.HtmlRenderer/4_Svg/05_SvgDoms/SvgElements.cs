@@ -17,7 +17,18 @@ namespace LayoutFarm.SvgDom
 
     }
 
-
+    public struct ReEvaluateArgs
+    {
+        public readonly float containerW;
+        public readonly float containerH;
+        public readonly float emHeight;
+        public ReEvaluateArgs(float containerW, float containerH, float emHeight)
+        {
+            this.containerW = containerW;
+            this.containerH = containerH;
+            this.emHeight = emHeight;
+        }
+    }
     public abstract class SvgElement : SvgNode
     {
         LinkedListNode<SvgElement> linkedNode = null;
@@ -73,19 +84,11 @@ namespace LayoutFarm.SvgDom
                 return this.children.First;
             }
         }
-        public virtual void ReEvaluateComputeValue(float containerW, float containerH, float emHeight)
+        public virtual void ReEvaluateComputeValue(ref ReEvaluateArgs args)
         {
 
         }
-
-        /// <summary>
-        /// get length in pixel
-        /// </summary>
-        /// <param name="length"></param>
-        /// <param name="hundredPercent"></param>
-        /// <param name="box"></param>
-        /// <returns></returns>
-        public static float ConvertToPx(CssLength length, float hundredPercent, float emHeight)
+        public static float ConvertToPx(CssLength length, ref ReEvaluateArgs args)
         {
             //Return zero if no length specified, zero specified      
             switch (length.UnitOrNames)
@@ -93,11 +96,11 @@ namespace LayoutFarm.SvgDom
                 case CssUnitOrNames.EmptyValue:
                     return 0;
                 case CssUnitOrNames.Percent:
-                    return (length.Number / 100f) * hundredPercent;
+                    return (length.Number / 100f) * args.containerW;
                 case CssUnitOrNames.Ems:
-                    return length.Number * emHeight;
+                    return length.Number * args.emHeight;
                 case CssUnitOrNames.Ex:
-                    return length.Number * (emHeight / 2);
+                    return length.Number * (args.emHeight / 2);
                 case CssUnitOrNames.Pixels:
                     //atodo: check support for hi dpi
                     return length.Number;
@@ -115,8 +118,7 @@ namespace LayoutFarm.SvgDom
                     return 0;
             }
         }
-
-
+       
         public virtual void Paint(Painter p)
         {
 
@@ -175,6 +177,6 @@ namespace LayoutFarm.SvgDom
     }
 
 
-    
+
 
 }
