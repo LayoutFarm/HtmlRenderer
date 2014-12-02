@@ -8,8 +8,8 @@
     <ProjectGuid>{20048075-A2F3-4B97-B3C6-BEA794429741}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LayoutFarm.RenderTree</RootNamespace>
-    <AssemblyName>LayoutFarm.RenderTree</AssemblyName>
+    <RootNamespace>LayoutFarm.BaseRenderer</RootNamespace>
+    <AssemblyName>LayoutFarm.BaseRenderer</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

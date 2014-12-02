@@ -28,6 +28,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 elementNode.Spec,
                 fragment);
             parentBox.AppendChild(rootBox);
+
             CreateSvgBoxContent(fragment, elementNode);
 
             return rootBox;
@@ -111,7 +112,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
                 switch (wellknownName)
                 {
-                    
+
                     case WebDom.WellknownName.Svg_Fill:
                         {
                             spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
@@ -124,11 +125,11 @@ namespace HtmlRenderer.Composers.BridgeHtml
                         {
                             spec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
-                    
+
                     default:
                         {
                             //other attrs
-                        } break; 
+                        } break;
                 }
             }
 
@@ -623,10 +624,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
             else
             {
                 return new List<PointF>();
-            } 
-        } 
+            }
+        }
     }
 
-  
+
 
 }

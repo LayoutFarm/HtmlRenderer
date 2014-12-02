@@ -8,7 +8,6 @@ namespace LayoutFarm.UI
     public abstract partial class UIElement : IEventListener
     {
         int oneBitNativeEventFlags;
-
         public UIElement()
         {
         }

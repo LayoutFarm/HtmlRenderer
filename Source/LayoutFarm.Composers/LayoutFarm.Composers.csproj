@@ -70,6 +70,7 @@
     <Compile Include="6_SvgDom\SvgCreator.cs" />
     <Compile Include="3_Bridge_HtmlRender_LeanBox\MyHtmlIsland.cs" />
     <Compile Include="6_SvgDom\SvgElementPortal.cs" />
+    <Compile Include="6_SvgDom\SvgRootController.cs" />
     <Compile Include="7_TopWin\MyIntervalTaskEventArgs.cs" />
     <Compile Include="7_TopWin\MyRootGraphic.cs" />
     <Compile Include="7_TopWin\GraphicsTimerTasksManager.cs" />
@@ -95,6 +96,14 @@
     <Compile Include="4_WebDom\2_Css\WellknownCssPropertyName.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
+      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
+      <Name>LayoutFarm.BaseRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.BaseUI\LayoutFarm.BaseUI.csproj">
+      <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
+      <Name>LayoutFarm.BaseUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
       <Name>LayoutFarm.Drawing</Name>
@@ -102,18 +111,6 @@
     <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
       <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
       <Name>LayoutFarm.HtmlRenderer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.MiniUI\LayoutFarm.MiniUI.csproj">
-      <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
-      <Name>LayoutFarm.MiniUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.RenderTree\LayoutFarm.RenderTree.csproj">
-      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
-      <Name>LayoutFarm.RenderTree</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Svg\LayoutFarm.Svg.csproj">
-      <Project>{8B9257E3-C1DB-49EE-984B-47BF49511462}</Project>
-      <Name>LayoutFarm.Svg</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
