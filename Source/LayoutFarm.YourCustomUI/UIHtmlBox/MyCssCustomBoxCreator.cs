@@ -34,7 +34,7 @@ namespace HtmlRenderer.Boxes
                         }
                 }
             }
-            var simpleBox = new LayoutFarm.SampleControls.UIButton(100, 20);
+            var simpleBox = new LayoutFarm.SampleControls.UIEaseBox(100, 20);
             simpleBox.BackColor = LayoutFarm.Drawing.Color.LightGray;
 
             LayoutFarm.Boxes.RenderElementInsideCssBox leanBox = new LayoutFarm.Boxes.RenderElementInsideCssBox(simpleBox, spec, simpleBox.GetPrimaryRenderElement(rootgfx));

@@ -75,7 +75,7 @@ namespace HtmlRenderer.Boxes
         public float ActualBorderSpacingVertical
         {
             get
-            {   
+            {
                 return _actualBorderSpacingVertical;
             }
         }
@@ -151,7 +151,7 @@ namespace HtmlRenderer.Boxes
         {
             box._boxCompactFlags |= BoxFlags.IS_BR_ELEM;
         }
-        public static void SetAsCustomCssBox(CssBox box)
+        internal static void SetAsCustomCssBox(CssBox box)
         {
             box._boxCompactFlags |= BoxFlags.IS_CUSTOM_CSSBOX;
         }

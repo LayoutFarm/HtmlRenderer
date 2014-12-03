@@ -65,10 +65,7 @@ namespace LayoutFarm.SampleControls
             }
             return visualTextEdit;
         }
-
-
-
-
+         
         protected override void OnMouseLeave(UIMouseEventArgs e)
         {
             e.MouseCursorStyle = MouseCursorStyle.Arrow;

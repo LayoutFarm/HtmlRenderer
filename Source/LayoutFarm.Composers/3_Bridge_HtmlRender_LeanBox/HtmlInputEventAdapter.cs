@@ -55,7 +55,6 @@ namespace HtmlRenderer.Composers
                 var hitInfo = hitChain.GetHitInfo(count - 1);
                 e.SourceHitElement = hitInfo.hitObject;
             }
-
         }
 
         public void MouseDown(UIMouseEventArgs e)
@@ -90,7 +89,7 @@ namespace HtmlRenderer.Composers
             CssBoxHitChain hitChain = GetFreeHitChain();
             hitChain.SetRootGlobalPosition(x, y);
             //1. hittest 
-            BoxUtils.HitTest(rootbox, x, y, hitChain);
+            BoxHitUtils.HitTest(rootbox, x, y, hitChain);
             //2. propagate events
             SetEventOrigin(e, hitChain);
 
@@ -136,8 +135,8 @@ namespace HtmlRenderer.Composers
                     CssBoxHitChain hitChain = GetFreeHitChain();
                     hitChain.SetRootGlobalPosition(x, y);
 
-                    BoxUtils.HitTest(rootbox, x, y, hitChain);
-                    SetEventOrigin(e, hitChain); 
+                    BoxHitUtils.HitTest(rootbox, x, y, hitChain);
+                    SetEventOrigin(e, hitChain);
                     //---------------------------------------------------------
                     //propagate mouse drag 
                     ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
@@ -146,7 +145,7 @@ namespace HtmlRenderer.Composers
                         return true;
                     });
                     //---------------------------------------------------------  
-                   
+
 
                     if (!e.CancelBubbling)
                     {
@@ -185,7 +184,7 @@ namespace HtmlRenderer.Composers
                 //---------------------------------------------------------
                 CssBoxHitChain hitChain = GetFreeHitChain();
                 hitChain.SetRootGlobalPosition(x, y);
-                BoxUtils.HitTest(rootbox, x, y, hitChain);
+                BoxHitUtils.HitTest(rootbox, x, y, hitChain);
                 SetEventOrigin(e, hitChain);
                 //---------------------------------------------------------
 
@@ -194,7 +193,7 @@ namespace HtmlRenderer.Composers
                     portal.PortalMouseMove(e);
                     return true;
                 });
-                 
+
                 //---------------------------------------------------------
                 if (!e.CancelBubbling)
                 {
@@ -233,7 +232,7 @@ namespace HtmlRenderer.Composers
 
             hitChain.SetRootGlobalPosition(e.X, e.Y);
             //1. prob hit chain only 
-            BoxUtils.HitTest(rootbox, e.X, e.Y, hitChain);
+            BoxHitUtils.HitTest(rootbox, e.X, e.Y, hitChain);
             SetEventOrigin(e, hitChain);
 
             //2. invoke css event and script event   
@@ -266,7 +265,7 @@ namespace HtmlRenderer.Composers
                     });
                 }
                 else
-                {   
+                {
                     ForEachEventListenerBubbleUp(e, hitChain, () =>
                     {
                         e.CurrentContextElement.ListenMouseClick(e);
@@ -307,9 +306,7 @@ namespace HtmlRenderer.Composers
         }
 
 
-        delegate bool EventPortalAction(IUserEventPortal evPortal);
-        delegate bool EventListenerAction();
-
+      
         static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, CssBoxHitChain hitPointChain, EventPortalAction eventPortalAction)
         {
             //only listener that need tunnel down 
@@ -339,8 +336,8 @@ namespace HtmlRenderer.Composers
 
                 //---------------------
                 if (controller != null)
-                {  
-                    e.Location = new Point(hitInfo.localX, hitInfo.localY); 
+                {
+                    e.Location = new Point(hitInfo.localX, hitInfo.localY);
                     if (eventPortalAction(controller))
                     {
                         return;
@@ -391,6 +388,8 @@ namespace HtmlRenderer.Composers
                 }
             }
         }
+       
+        
         CssBoxHitChain GetFreeHitChain()
         {
             if (hitChainPools.Count > 0)

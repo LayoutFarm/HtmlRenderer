@@ -105,13 +105,13 @@ namespace LayoutFarm.UI
             if (mouseEventsQ.Count > 0)
             {
                 var mouseE = mouseEventsQ.Pop();
-                mouseE.WinTop = wintop;
+                //mouseE.WinTop = wintop;
                 return mouseE;
             }
             else
             {
                 var mouseE = new UIMouseEventArgs();
-                mouseE.WinTop = wintop;
+                //mouseE.WinTop = wintop;
                 return mouseE;
             }
         }
@@ -174,33 +174,33 @@ namespace LayoutFarm.UI
             e.Clear();
             canvasFocusEventsQ.Push(e);
         }
-        public UIMouseEventArgs GetFreeDragEventArgs(Point p,
-            UIMouseButtons button,
-            int lastestLogicalViewportMouseDownX,
-            int lastestLogicalViewportMouseDownY,
-            int currentLogicalX,
-            int currentLogicalY,
-            int lastestXDiff,
-            int lastestYDiff)
-        {
-            UIMouseEventArgs e = null;
-            if (dragEventQ.Count > 0)
-            {
-                e = dragEventQ.Pop();
-            }
-            else
-            {
-                e = new UIMouseEventArgs();
-            }
-            e.SetEventInfo(p, button,
-                lastestLogicalViewportMouseDownX,
-                lastestLogicalViewportMouseDownY,
-                currentLogicalX,
-                currentLogicalY,
-                lastestXDiff,
-                lastestYDiff);
-            return e;
-        }
+        //public UIMouseEventArgs GetFreeDragEventArgs(Point p,
+        //    UIMouseButtons button,
+        //    int lastestLogicalViewportMouseDownX,
+        //    int lastestLogicalViewportMouseDownY,
+        //    int currentLogicalX,
+        //    int currentLogicalY,
+        //    int lastestXDiff,
+        //    int lastestYDiff)
+        //{
+        //    UIMouseEventArgs e = null;
+        //    if (dragEventQ.Count > 0)
+        //    {
+        //        e = dragEventQ.Pop();
+        //    }
+        //    else
+        //    {
+        //        e = new UIMouseEventArgs();
+        //    }
+        //    e.SetEventInfo(p, button,
+        //        lastestLogicalViewportMouseDownX,
+        //        lastestLogicalViewportMouseDownY,
+        //        currentLogicalX,
+        //        currentLogicalY,
+        //        lastestXDiff,
+        //        lastestYDiff);
+        //    return e;
+        //}
 
     }
 

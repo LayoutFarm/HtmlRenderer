@@ -17,7 +17,7 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
             {
-                var box1 = new LayoutFarm.SampleControls.UIButton(50, 50);
+                var box1 = new LayoutFarm.SampleControls.UIEaseBox(50, 50);
                 box1.BackColor = Color.Red;
                 box1.SetLocation(10, 10);
                 box1.dbugTag = 1;
@@ -26,7 +26,7 @@ namespace LayoutFarm
             }
             //--------------------------------
             {
-                var box2 = new LayoutFarm.SampleControls.UIButton(30, 30);
+                var box2 = new LayoutFarm.SampleControls.UIEaseBox(30, 30);
                 box2.SetLocation(50, 50);
                 box2.dbugTag = 2;
                 SetupActiveBoxProperties(box2);
@@ -45,7 +45,7 @@ namespace LayoutFarm
             }
         }
 
-        void SetupActiveBoxProperties(LayoutFarm.SampleControls.UIButton box)
+        void SetupActiveBoxProperties(LayoutFarm.SampleControls.UIEaseBox box)
         {
             //1. mouse down         
             box.MouseDown += (s, e) =>
@@ -126,11 +126,11 @@ namespace LayoutFarm
                 if (targetBox != null)
                 {
                     //move target box too
-                    targetBox.SetLocation(pos.X + 5, pos.Y + 5); 
+                    targetBox.SetLocation(pos.X + 5, pos.Y + 5);
                 }
             };
 
-           
+
             controllerBox.DragLeave += (s, e) =>
             {
 
@@ -147,7 +147,7 @@ namespace LayoutFarm
                 }
 
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                e.CancelBubbling = true; 
+                e.CancelBubbling = true;
             };
             controllerBox.MouseLeave += (s, e) =>
             {
@@ -177,6 +177,7 @@ namespace LayoutFarm
                     int newX = pos.X + e.XDiff;
                     int newY = pos.Y + e.YDiff;
 
+                    
                     controllerBox.SetLocation(newX, newY);
                     var targetBox = controllerBox.TargetBox;
                     if (targetBox != null)
@@ -185,7 +186,7 @@ namespace LayoutFarm
                         targetBox.SetLocation(newX + 5, newY + 5);
                     }
                 }
-                 
+
             };
 
             //controllerBox.DragEnd += (s, e) =>
@@ -200,14 +201,16 @@ namespace LayoutFarm
             //    controllerBox.Visible = false;
             //    controllerBox.TargetBox = null;
             //};
-            
+
         }
 
-        class UIControllerBox : LayoutFarm.SampleControls.UIButton
+        //-----------------------------------------------------------------
+        class UIControllerBox : LayoutFarm.SampleControls.UIEaseBox
         {
             public UIControllerBox(int w, int h)
                 : base(w, h)
             {
+                // 
 
             }
             public LayoutFarm.SampleControls.UIBox TargetBox

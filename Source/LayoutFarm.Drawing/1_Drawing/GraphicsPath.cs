@@ -9,6 +9,7 @@ namespace LayoutFarm.Drawing
         public abstract void AddArc(RectangleF rectF, float startAngle, float sweepAngle);
         public abstract void AddLine(float x1, float y1, float x2, float y2);
         public abstract void AddLine(PointF p1, PointF p2);
+
         public abstract void CloseFigure();
         public abstract void Dispose();
 
@@ -16,5 +17,8 @@ namespace LayoutFarm.Drawing
         public abstract void AddEllipse(float x, float y, float w, float h);
         public abstract void AddRectangle(RectangleF r);
         public abstract object InnerPath { get; }
+
+
+        public abstract void AddBezierCurve(PointF p1, PointF p2, PointF p3, PointF p4);
     }
 }

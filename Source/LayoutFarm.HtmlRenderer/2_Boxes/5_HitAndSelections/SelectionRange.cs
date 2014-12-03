@@ -108,7 +108,7 @@ namespace HtmlRenderer.Boxes
             CssBox latestLineBoxOwner = null;
             float latestLineBoxGlobalYPos = 0;
 
-            foreach (CssLineBox lineBox in BoxUtils.GetDeepDownLineBoxIter(startBox))
+            foreach (CssLineBox lineBox in BoxHitUtils.GetDeepDownLineBoxIter(startBox))
             {
                 if (lineBox.CacheLineHeight == 0)
                 {
@@ -282,7 +282,7 @@ namespace HtmlRenderer.Boxes
             CssBox curBox = startLine.OwnerBox;
         RETRY:
             //ask for sibling
-            CssBox level1Sibling = BoxUtils.GetNextSibling(curBox);
+            CssBox level1Sibling = BoxHitUtils.GetNextSibling(curBox);
             while (level1Sibling != null)
             {
                 foreach (var visit in GetDeepBoxOrLineIter(level1Sibling))
@@ -290,7 +290,7 @@ namespace HtmlRenderer.Boxes
                     yield return visit;
                 }
 
-                level1Sibling = BoxUtils.GetNextSibling(level1Sibling);
+                level1Sibling = BoxHitUtils.GetNextSibling(level1Sibling);
             }
             //--------------------
             //other further sibling
@@ -449,8 +449,7 @@ namespace HtmlRenderer.Boxes
                         float globalHitY = endChain.RootGlobalY;
                         //check if should use first line of this box                         
                         //or last line box this box
-
-
+                         
                         foreach (var line in GetLineWalkIter(this.startHitHostLine, hitBox))
                         {
                             if (line == startHitHostLine)

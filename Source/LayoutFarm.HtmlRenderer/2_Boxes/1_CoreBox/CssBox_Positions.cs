@@ -164,11 +164,7 @@ namespace HtmlRenderer.Boxes
                     + CssValueParser.ConvertToPx(_myspec.WordSpacing, 1, this);
             }
         }
-        public virtual void CustomRecomputedValue(CssBox containingBlock)
-        {
 
-
-        }
         /// <summary>
         /// evaluate computed value
         /// </summary>
@@ -749,7 +745,7 @@ namespace HtmlRenderer.Boxes
         }
 
 
-        internal bool IsPointInArea(float x, float y)
+        public bool IsPointInArea(float x, float y)
         {
             //from parent view
             return x >= this.LocalX && x < this.LocalRight &&

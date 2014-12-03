@@ -156,7 +156,7 @@ namespace HtmlRenderer.Boxes
                     else if (length > 13 && SubStringEquals(str, idx, 5, "rgba(") && str[length - 1] == ')')
                     {
                         return GetColorByRgba(str, idx, length, out color);
-                    }
+                    }                    
                     else
                     {
                         return GetColorByName(str, idx, length, out color);

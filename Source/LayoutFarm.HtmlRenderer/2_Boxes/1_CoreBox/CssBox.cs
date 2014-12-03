@@ -727,9 +727,18 @@ namespace HtmlRenderer.Boxes
 #endif
         #endregion
 
+        //-----------------------------------------------------------------
+        public static CssBox AddNewAnonInline(CssBox parent)
+        {
+            var spec = CssBox.UnsafeGetBoxSpec(parent);
+            var newBox = new CssBox(null, spec.GetAnonVersion());
 
+            parent.AppendChild(newBox);
+            CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
+            return newBox;
+        }
 
-
+        //-----------------------------------------------------------------
 
     }
 }

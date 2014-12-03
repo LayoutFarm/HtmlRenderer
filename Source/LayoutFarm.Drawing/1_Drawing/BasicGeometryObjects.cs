@@ -70,6 +70,10 @@ namespace LayoutFarm.Drawing
         {
             return new PointF(p.X, p.Y);
         }
+        public bool IsEq(PointF p)
+        {
+            return this._x == p._x && this._y == p._y;
+        }
     }
 
     public struct Size

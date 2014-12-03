@@ -16,7 +16,7 @@ namespace LayoutFarm
              
             for (int i = 0; i < 5; ++i)
             {
-                var textbox = new LayoutFarm.SampleControls.UIButton(30, 30);
+                var textbox = new LayoutFarm.SampleControls.UIEaseBox(30, 30);
                 textbox.SetLocation(i * 40, i * 40);
 
                 viewport.AddContent(textbox);

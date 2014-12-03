@@ -55,10 +55,16 @@ namespace LayoutFarm.UI.WinForms
                 vi.InvalidateGraphic();
             }
         }
-        public void AddContent(LayoutFarm.UI.UIElement ui)
+        
+        public RootGraphic WinTopRootGfx
         {
-            AddContent(ui.GetPrimaryRenderElement(wintop.Root));
+            get
+            {
+                return this.wintop.Root;
+            }
+            
         }
+
         public void Close()
         {
             this.winBridge.Close();

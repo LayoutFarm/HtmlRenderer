@@ -18,16 +18,24 @@ namespace HtmlRenderer.Composers.BridgeHtml
 {
     static class SvgCreator
     {
+
+
         public static CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
             Css.BoxSpec spec)
         {
             SvgFragment fragment = new SvgFragment();
+
+            SvgRootEventPortal svgRootController = new SvgRootEventPortal(elementNode);
+
             CssBoxSvgRoot rootBox = new CssBoxSvgRoot(
-                elementNode,
+                svgRootController,
                 elementNode.Spec,
                 fragment);
+
+            svgRootController.SvgRoot = rootBox;
             parentBox.AppendChild(rootBox);
+
             CreateSvgBoxContent(fragment, elementNode);
 
             return rootBox;
@@ -78,6 +86,18 @@ namespace HtmlRenderer.Composers.BridgeHtml
                         {
                             CreateSvgLinearGradient(parentElement, node);
                         } break;
+                    case WellKnownDomNodeName.svg_path:
+                        {
+                            CreateSvgPath(parentElement, node);
+                        } break;
+                    case WellKnownDomNodeName.svg_image:
+                        {
+                            CreateSvgImage(parentElement, node);
+                        } break;
+                    case WellKnownDomNodeName.svg_g:
+                        {
+                            CreateSvgGroupElement(parentElement, node);
+                        } break;
                     default:
                         {
 
@@ -85,6 +105,42 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 }
             }
 
+        }
+        static void CreateSvgGroupElement(SvgElement parentNode, HtmlElement elem)
+        {
+
+            SvgVisualSpec spec = new SvgVisualSpec();
+            SvgGroupElement svgGroupElement = new SvgGroupElement(spec, elem);
+            parentNode.AddChild(svgGroupElement);
+
+            foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
+            {
+                WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
+
+                switch (wellknownName)
+                {
+
+                    case WebDom.WellknownName.Svg_Fill:
+                        {
+                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke:
+                        {
+                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke_Width:
+                        {
+                            spec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+
+                    default:
+                        {
+                            //other attrs
+                        } break;
+                }
+            }
+
+            CreateSvgBoxContent(svgGroupElement, elem);
         }
         static void CreateSvgDefs(SvgElement parentNode, HtmlElement elem)
         {
@@ -387,8 +443,6 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
                             //parse points
                             spec.Points = ParsePointList(attr.Value);
-
-
                         } break;
                     case WebDom.WellknownName.Svg_Fill:
                         {
@@ -414,15 +468,137 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 }
             }
         }
+
+        static void CreateSvgPath(SvgElement parentNode, HtmlElement elem)
+        {
+
+            SvgPathSpec spec = new SvgPathSpec();
+            SvgPath svgPath = new SvgPath(spec, elem);
+            parentNode.AddChild(svgPath);
+
+            foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
+            {
+                WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
+                switch (wellknownName)
+                {
+                    case WebDom.WellknownName.Svg_X:
+                        {
+                            spec.X = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Y:
+                        {
+                            spec.Y = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Width:
+                        {
+                            spec.Width = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Height:
+                        {
+                            spec.Height = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Fill:
+                        {
+                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke:
+                        {
+                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke_Width:
+                        {
+                            spec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+
+                    case WebDom.WellknownName.Svg_Transform:
+                        {
+                            //TODO: parse svg transform function   
+
+
+                        } break;
+                    default:
+                        {
+                            //other attrs
+                            switch (attr.Name)
+                            {
+                                case "d":
+                                    {
+                                        //parse vertex commands 
+                                        Svg.Pathing.SvgPathDataParser parser = new Svg.Pathing.SvgPathDataParser();
+                                        svgPath.Segments = parser.Parse(attr.Value.ToCharArray());
+
+                                    } break;
+                            }
+                        } break;
+
+                }
+            }
+
+        }
+
+        static void CreateSvgImage(SvgElement parentNode, HtmlElement elem)
+        {
+            SvgImageSpec spec = new SvgImageSpec();
+            SvgImage svgImage = new SvgImage(spec, elem);
+            parentNode.AddChild(svgImage);
+
+            foreach (WebDom.DomAttribute attr in elem.GetAttributeIterForward())
+            {
+                WebDom.WellknownName wellknownName = (WebDom.WellknownName)attr.LocalNameIndex;
+                switch (wellknownName)
+                {
+                    case WebDom.WellknownName.Svg_X:
+                        {
+                            spec.X = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Y:
+                        {
+                            spec.Y = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Width:
+                        {
+                            spec.Width = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Height:
+                        {
+                            spec.Height = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Fill:
+                        {
+                            spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke:
+                        {
+                            spec.StrokeColor = CssValueParser.GetActualColor(attr.Value);
+                        } break;
+                    case WebDom.WellknownName.Svg_Stroke_Width:
+                        {
+                            spec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
+                        } break;
+
+                    case WebDom.WellknownName.Svg_Transform:
+                        {
+                            //TODO: parse svg transform function    
+                        } break;
+                    case WellknownName.Href:
+                        {
+                            //image src***
+                            spec.ImageSrc = attr.Value;
+                        } break;
+                    default:
+                        {
+
+                        } break;
+
+                }
+            }
+
+        }
+
         public static void TranslateSvgAttributesMain(HtmlElement elem)
         {
 
         }
-
-
-
-
-
         static List<PointF> ParsePointList(string str)
         {
 
@@ -456,41 +632,9 @@ namespace HtmlRenderer.Composers.BridgeHtml
             {
                 return new List<PointF>();
             }
-
-        }
-
-
-    }
-
-    static class SvgElementPortal
-    {
-
-        public static void HandleSvgMouseDown(CssBoxSvgRoot svgBox, UIEventArgs e)
-        {
-
-            SvgHitChain hitChain = new SvgHitChain();
-            svgBox.HitTestCore(hitChain, e.X, e.Y);
-            PropagateEventOnBubblingPhase(hitChain, e);
-        }
-
-        static void PropagateEventOnBubblingPhase(SvgHitChain hitChain, UIEventArgs eventArgs)
-        {
-            int hitCount = hitChain.Count;
-            //then propagate
-            for (int i = hitCount - 1; i >= 0; --i)
-            {
-                SvgHitInfo hitInfo = hitChain.GetHitInfo(i);
-                SvgElement svg = hitInfo.svg;
-                if (svg != null)
-                {
-                    var controller = SvgElement.UnsafeGetController(hitInfo.svg) as  IEventListener;
-                    if (controller != null)
-                    {
-                        //dispatch event 
-                    }
-                }
-            }
         }
     }
+
+
 
 }

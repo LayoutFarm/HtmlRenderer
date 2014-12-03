@@ -39,13 +39,13 @@ namespace LayoutFarm.UI
         }
         public TopWindowRenderBox CreateTopWindowRenderBox(int w, int h)
         {
-            return uiPlatform.CreateTopWindowRenderBox(this, w, h);
-        }
+            return new MyTopWindowRenderBox(this, w, h); 
+        } 
         public IUserEventPortal CreateUserEventPortal(TopWindowRenderBox topwin)
         {
             UserInputEventAdapter userInputEventBridge = new UserInputEventAdapter();
             userInputEventBridge.Bind(topwin);
-            return userInputEventBridge;             
+            return userInputEventBridge;
         }
         protected override GraphicPlatform P
         {

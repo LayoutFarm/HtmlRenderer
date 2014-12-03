@@ -74,7 +74,7 @@ namespace LayoutFarm.Drawing
 
 
         public static readonly Color Empty = new Color(0, 0, 0, 0);
-        public static readonly Color Transparent = new Color(0, 0, 0, 0);
+        public static readonly Color Transparent = new Color(0, 255, 255, 255);
         public static readonly Color White = new Color(255, 255, 255, 255);
         public static readonly Color Black = new Color(255, 0, 0, 0);
         public static readonly Color Blue = new Color(255, 0, 0, 255);

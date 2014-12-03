@@ -18,10 +18,10 @@ namespace LayoutFarm.Boxes
 
     public class HtmlRenderBox : RenderBoxBase
     {
-        
+
         MyHtmlIsland myHtmlIsland;
         int myWidth;
-        int myHeight; 
+        int myHeight;
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height,
             MyHtmlIsland htmlIsland)
@@ -43,12 +43,12 @@ namespace LayoutFarm.Boxes
             myHtmlIsland.PerformPaint(canvasPage);
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
-        { 
-        } 
+        {
+        }
     }
 
 
-    public sealed class RenderElementInsideCssBox : CssBox
+    public sealed class RenderElementInsideCssBox : CustomCssBox
     {
 
 
@@ -67,7 +67,7 @@ namespace LayoutFarm.Boxes
             this.wrapper = new CssBoxInsideRenderElement(renderElement.Root, mmw, mmh, renderElement);
 
             ChangeDisplayType(this, CssDisplay.Block);
-            SetAsCustomCssBox(this);
+
             this.SetSize(mmw, mmh);
 
             LayoutFarm.RenderElement.SetParentLink(
@@ -85,6 +85,10 @@ namespace LayoutFarm.Boxes
         protected override Point GetElementGlobalLocationImpl()
         {
             return new Point(globalXForRenderElement, globalYForRenderElement);
+        }
+        public override bool CustomContentHitTest(float x, float y, CssBoxHitChain hitChain)
+        {
+            return false;
         }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {
@@ -112,14 +116,13 @@ namespace LayoutFarm.Boxes
                 Rect rect = Rect.CreateFromRect(
                      new Rectangle(0, 0, wrapper.Width, wrapper.Height));
                 this.wrapper.DrawToThisPage(g.CurrentCanvas, rect);
-                
+
 
             }
             else
             {
                 //for debug!
-                g.FillRectangle(LayoutFarm.Drawing.Brushes.Red,
-                    0, 0, 100, 20);
+                g.FillRectangle(Color.Red, 0, 0, 100, 20);
             }
         }
         RenderElement GetParentRenderElement(out int globalX, out int globalY)

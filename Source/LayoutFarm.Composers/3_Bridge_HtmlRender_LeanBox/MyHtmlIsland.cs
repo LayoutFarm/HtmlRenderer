@@ -1,4 +1,4 @@
-﻿ //BSD 2014,WinterDev
+﻿//BSD 2014,WinterDev
 //ArthurHub
 
 using System;
@@ -82,10 +82,8 @@ namespace HtmlRenderer.Composers
             {
                 this.Refresh(this, new HtmlRefreshEventArgs(layout));
             }
-
-
         }
-        protected override void OnRequestImage(ImageBinder binder, CssBox requestBox, bool _sync)
+        protected override void OnRequestImage(ImageBinder binder, object reqFrom, bool _sync)
         {
 
             //manage image loading 
@@ -95,7 +93,7 @@ namespace HtmlRenderer.Composers
                 {
                     HtmlResourceRequestEventArgs resReq = new HtmlResourceRequestEventArgs();
                     resReq.binder = binder;
-                    resReq.requestBy = requestBox;
+                    resReq.requestBy = reqFrom;
                     resReq.updateChangeListener = this;
                     RequestResource(this, resReq);
                 }

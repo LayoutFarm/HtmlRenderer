@@ -8,8 +8,8 @@ namespace Svg.Pathing
 {
     public sealed class SvgArcSegment : SvgPathSegment
     {
-        private const double RadiansPerDegree = Math.PI / 180.0;
-        private const double DoublePI = Math.PI * 2;
+        private const double RADIANS_PER_DEGREE = Math.PI / 180.0;
+        private const double DOUBLE_PI = Math.PI * 2;
 
         public float RadiusX
         {
@@ -61,7 +61,7 @@ namespace Svg.Pathing
                 return tb - ta;
             }
 
-            return SvgArcSegment.DoublePI - (ta - tb);
+            return SvgArcSegment.DOUBLE_PI - (ta - tb);
         }
 
         public override void AddToPath(GraphicsPath graphicsPath)
@@ -77,8 +77,8 @@ namespace Svg.Pathing
                 return;
             }
 
-            double sinPhi = Math.Sin(this.Angle * SvgArcSegment.RadiansPerDegree);
-            double cosPhi = Math.Cos(this.Angle * SvgArcSegment.RadiansPerDegree);
+            double sinPhi = Math.Sin(this.Angle * SvgArcSegment.RADIANS_PER_DEGREE);
+            double cosPhi = Math.Cos(this.Angle * SvgArcSegment.RADIANS_PER_DEGREE);
 
             double x1dash = cosPhi * (this.Start.X - this.End.X) / 2.0 + sinPhi * (this.Start.Y - this.End.Y) / 2.0;
             double y1dash = -sinPhi * (this.Start.X - this.End.X) / 2.0 + cosPhi * (this.Start.Y - this.End.Y) / 2.0;

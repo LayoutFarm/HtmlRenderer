@@ -445,13 +445,7 @@ namespace LayoutFarm
         public override void DrawLine(Pen pen, float x1, float y1, float x2, float y2)
         {
             ReleaseHdc();
-            gx.DrawLine(pen.InnerPen as System.Drawing.Pen, x1, y1, x2, y2);
-
-            //System.Drawing.Color prevColor = internalPen.Color;
-            //internalPen.Color = ConvColor(c);
-            //gx.DrawLine(internalPen, x1, y1, x2, y2);
-            //internalPen.Color = prevColor;
-
+            gx.DrawLine(pen.InnerPen as System.Drawing.Pen, x1, y1, x2, y2);  
         }
 
         /// <summary>

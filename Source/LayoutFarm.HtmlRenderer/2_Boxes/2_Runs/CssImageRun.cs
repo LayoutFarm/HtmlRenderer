@@ -18,7 +18,7 @@ namespace HtmlRenderer.Boxes
     /// <summary>
     /// Represents a word inside an inline box
     /// </summary>
-    sealed class CssImageRun : CssRun
+    public sealed class CssImageRun : CssRun
     {
 
         ImageBinder imgBinder;
@@ -80,7 +80,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        public  ImageBinder ImageBinder
+        public ImageBinder ImageBinder
         {
             get { return this.imgBinder; }
             set { this.imgBinder = value; }
