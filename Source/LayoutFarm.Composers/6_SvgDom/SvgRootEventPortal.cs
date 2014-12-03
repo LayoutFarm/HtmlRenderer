@@ -137,6 +137,26 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 }
             }
         }
+
+        static void ForEachSvgElementBubbleUp(UIEventArgs e, SvgHitChain hitChain, EventListenerAction listenerAction)
+        {
+
+            for (int i = hitChain.Count - 1; i >= 0; --i)
+            {
+                //propagate up 
+                var hitInfo = hitChain.GetHitInfo(i);
+                //---------------------
+                //hit on element 
+                e.SourceHitElement = hitInfo.svg;
+                e.Location = new Point((int)hitInfo.x, (int)hitInfo.y);
+
+                if (listenerAction())
+                {
+                    return;
+                }
+
+            }
+        }
         static void SetEventOrigin(UIEventArgs e, SvgHitChain hitChain)
         {
             int count = hitChain.Count;

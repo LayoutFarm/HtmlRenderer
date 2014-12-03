@@ -44,11 +44,29 @@ namespace HtmlRenderer.Composers.BridgeHtml
             if (!e.CancelBubbling)
             {
                 //2. propagate events
-                ForEachEventListenerBubbleUp(e, hitChain, () =>
+                ForEachSvgElementBubbleUp(e, hitChain, () =>
                 {
-                    e.CurrentContextElement.ListenMouseDown(e);
+                    //-------
+                    //temp test only
+                    //-------
+                    var svgElement = e.SourceHitElement as SvgElement;
+                    if (svgElement is SvgRect)
+                    {
+                        ((SvgRect)svgElement).FillColor = Color.White;
+                    }
                     return true;
+
                 });
+                //ForEachEventListenerBubbleUp(e, hitChain, () =>
+                //{
+                //    //-------
+                //    //temp test only
+                //    var currentSvg = e.CurrentContextElement as SvgElement; 
+                //    //-------
+                //    e.CurrentContextElement.ListenMouseDown(e);
+
+                //    return true;
+                //});
             }
 
             e.CancelBubbling = true;
@@ -164,7 +182,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 //---------------------------------------------------------
                 SvgHitChain hitChain = GetFreeHitChain();
                 hitChain.SetRootGlobalPosition(x, y);
-                HitTestCore(this.SvgRoot.SvgSpec, hitChain, e.X, e.Y); 
+                HitTestCore(this.SvgRoot.SvgSpec, hitChain, e.X, e.Y);
                 SetEventOrigin(e, hitChain);
                 //---------------------------------------------------------
 
