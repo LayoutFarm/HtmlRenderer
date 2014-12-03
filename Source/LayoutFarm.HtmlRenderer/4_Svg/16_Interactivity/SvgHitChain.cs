@@ -9,6 +9,8 @@ namespace LayoutFarm.SvgDom
 {
     public class SvgHitChain
     {
+        float rootGlobalX;
+        float rootGlobalY;
 
         List<SvgHitInfo> svgList = new List<SvgHitInfo>();
         public SvgHitChain()
@@ -32,6 +34,16 @@ namespace LayoutFarm.SvgDom
         public SvgHitInfo GetLastHitInfo()
         {
             return this.svgList[svgList.Count - 1];
+        }
+        public void Clear()
+        {
+            this.rootGlobalX = this.rootGlobalY = 0;
+            this.svgList.Clear();
+        }
+        public void SetRootGlobalPosition(float x, float y)
+        {
+            this.rootGlobalX = x;
+            this.rootGlobalY = y;
         }
     }
 

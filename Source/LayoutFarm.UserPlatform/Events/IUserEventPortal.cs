@@ -18,11 +18,13 @@ namespace LayoutFarm.UI
         void PortalMouseDown(UIMouseEventArgs e);
         void PortalMouseMove(UIMouseEventArgs e);
         void PortalMouseUp(UIMouseEventArgs e);
-        void PortalMouseWheel(UIMouseEventArgs e); 
+        void PortalMouseWheel(UIMouseEventArgs e);
         //---------------------------------------------- 
         void PortalGotFocus(UIFocusEventArgs e);
         void PortalLostFocus(UIFocusEventArgs e);
         //---------------------------------------------- 
     }
 
+    public delegate bool EventPortalAction(IUserEventPortal evPortal);
+    public delegate bool EventListenerAction();
 }

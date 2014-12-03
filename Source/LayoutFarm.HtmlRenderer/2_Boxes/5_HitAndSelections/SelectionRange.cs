@@ -449,8 +449,7 @@ namespace HtmlRenderer.Boxes
                         float globalHitY = endChain.RootGlobalY;
                         //check if should use first line of this box                         
                         //or last line box this box
-
-
+                         
                         foreach (var line in GetLineWalkIter(this.startHitHostLine, hitBox))
                         {
                             if (line == startHitHostLine)

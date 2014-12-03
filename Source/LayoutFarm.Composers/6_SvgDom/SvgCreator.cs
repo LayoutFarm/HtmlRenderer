@@ -18,15 +18,22 @@ namespace HtmlRenderer.Composers.BridgeHtml
 {
     static class SvgCreator
     {
+
+
         public static CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
             Css.BoxSpec spec)
         {
             SvgFragment fragment = new SvgFragment();
+
+            SvgRootEventPortal svgRootController = new SvgRootEventPortal(elementNode);
+
             CssBoxSvgRoot rootBox = new CssBoxSvgRoot(
-                elementNode,
+                svgRootController,
                 elementNode.Spec,
                 fragment);
+
+            svgRootController.SvgRoot = rootBox;
             parentBox.AppendChild(rootBox);
 
             CreateSvgBoxContent(fragment, elementNode);

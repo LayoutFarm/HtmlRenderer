@@ -46,6 +46,16 @@ namespace LayoutFarm.SvgDom
             return CurrentGraphicPlatform.CreateGraphicPath();
         }
 
+        public Color FillColor
+        {
+            get { return this.fillColor; }
+            set { this.fillColor = value; }
+        }
+        public Color StrokeColor
+        {
+            get { return this.strokeColor; }
+            set { this.strokeColor = value; }
+        }
     }
 
     public class SvgRect : SvgVisualElement
