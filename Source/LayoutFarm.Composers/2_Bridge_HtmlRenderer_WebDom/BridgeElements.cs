@@ -115,22 +115,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
             get;
             set;
         }
-        //------------------------------------
-       
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {     
-            var box = this.GetPrincipalBox();
-            if (box != null)
-            {    
-                CssBoxSvgRoot svgBox = box as CssBoxSvgRoot;
-                if (svgBox != null)
-                { 
-                    //***
-                    SvgElementPortal.HandleSvgMouseDown(svgBox, e); 
-                }
-            }
-            base.OnMouseDown(e);
-        }
+         
     }
 
     sealed class RootElement : HtmlElement

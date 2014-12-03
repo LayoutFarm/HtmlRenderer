@@ -307,9 +307,7 @@ namespace HtmlRenderer.Composers
         }
 
 
-        delegate bool EventPortalAction(IUserEventPortal evPortal);
-        delegate bool EventListenerAction();
-
+      
         static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, CssBoxHitChain hitPointChain, EventPortalAction eventPortalAction)
         {
             //only listener that need tunnel down 
@@ -391,6 +389,8 @@ namespace HtmlRenderer.Composers
                 }
             }
         }
+       
+        
         CssBoxHitChain GetFreeHitChain()
         {
             if (hitChainPools.Count > 0)

@@ -10,11 +10,11 @@ namespace HtmlRenderer.Boxes
 
     public sealed class CssBoxSvgRoot : CustomCssBox
     {
-        public CssBoxSvgRoot(object controller, Css.BoxSpec spec, SvgElement svgSpec)
+        public CssBoxSvgRoot(object controller, Css.BoxSpec spec, SvgElement svgElem)
             : base(controller, spec, Css.CssDisplay.Block)
         {
             //create svg node 
-            this.SvgSpec = svgSpec;
+            this.SvgSpec = svgElem;
             ChangeDisplayType(this, Css.CssDisplay.Block);
 
         }
@@ -57,23 +57,8 @@ namespace HtmlRenderer.Boxes
         {
             return true;//stop here
         }
-        public void HitTestCore(SvgHitChain chain, float x, float y)
-        {
-            //1.
-            SvgElement root = this.SvgSpec;
-            chain.AddHit(root, x, y);
-            //2. find hit child
-            var child = root.GetFirstNode();
-            while (child != null)
-            {
-                var node = child.Value;
-                if (node.HitTestCore(chain, x, y))
-                {
-                    break;
-                }
-                child = child.Next;
-            }
-        }
+      
+       
     }
 
 
