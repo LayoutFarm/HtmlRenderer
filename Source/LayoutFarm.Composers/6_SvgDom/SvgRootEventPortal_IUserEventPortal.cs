@@ -17,7 +17,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
     partial class SvgRootEventPortal : IUserEventPortal
     {
-        
+
 
         //------------------------------------------------------------
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
@@ -27,13 +27,14 @@ namespace HtmlRenderer.Composers.BridgeHtml
             this.latestLogicalMouseDownY = e.Y;
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
-
+            this._isMouseDown = true;
             //find hit svg graphics....
             SvgHitChain hitChain = GetFreeHitChain();
-
+            hitChain.SetRootGlobalPosition(e.X, e.Y);
+            //1. hit test
             HitTestCore(this.SvgRoot.SvgSpec, hitChain, e.X, e.Y);
-
-            //propagate ...
+            SetEventOrigin(e, hitChain);
+            //2. propagate event  portal
             ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
             {
                 portal.PortalMouseDown(e);
@@ -42,21 +43,52 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
             if (!e.CancelBubbling)
             {
+                //2. propagate events
                 ForEachEventListenerBubbleUp(e, hitChain, () =>
                 {
                     e.CurrentContextElement.ListenMouseDown(e);
                     return true;
                 });
             }
+
             e.CancelBubbling = true;
+
+            ReleaseHitChain(hitChain);
+
         }
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
 
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
+            this._isMouseDown = false;
 
-            //this.OnMouseUp(e);
+            //find hit svg graphics....
+            SvgHitChain hitChain = GetFreeHitChain();
+            hitChain.SetRootGlobalPosition(e.X, e.Y);
+            //1. hit test
+            HitTestCore(this.SvgRoot.SvgSpec, hitChain, e.X, e.Y);
+            SetEventOrigin(e, hitChain);
+            //2. propagate event  portal
+            ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
+            {
+                portal.PortalMouseUp(e);
+                return true;
+            });
+
+            if (!e.CancelBubbling)
+            {
+                //2. propagate events
+                ForEachEventListenerBubbleUp(e, hitChain, () =>
+                {
+                    e.CurrentContextElement.ListenMouseUp(e);
+                    return true;
+                });
+            }
+
+            e.CancelBubbling = true;
+
+            ReleaseHitChain(hitChain);
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
@@ -71,7 +103,88 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
-            //this.OnMouseMove(e);
+            //-----------------------------------------
+            int x = e.X;
+            int y = e.Y;
+
+            if (this._isMouseDown)
+            {
+                //dragging *** , if changed
+                if (this.prevLogicalMouseX != x || this.prevLogicalMouseY != y)
+                {
+                    //handle mouse drag
+                    SvgHitChain hitChain = GetFreeHitChain();
+                    hitChain.SetRootGlobalPosition(x, y);
+                    HitTestCore(this.SvgRoot.SvgSpec, hitChain, e.X, e.Y);
+
+                    SetEventOrigin(e, hitChain);
+                    //---------------------------------------------------------
+                    //propagate mouse drag 
+                    ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
+                    {
+                        portal.PortalMouseMove(e);
+                        return true;
+                    });
+                    //---------------------------------------------------------  
+                    if (!e.CancelBubbling)
+                    {
+                        //clear previous svg selection 
+                        ClearPreviousSelection();
+
+                        //if (hitChain.Count > 0)
+                        //{
+                        //    //create selection range 
+                        //    this._htmlIsland.SetSelection(new SelectionRange(
+                        //        _latestMouseDownChain,
+                        //        hitChain,
+                        //        this.ifonts));
+                        //}
+                        //else
+                        //{
+                        //    this._htmlIsland.SetSelection(null);
+                        //}
+
+
+                        ForEachEventListenerBubbleUp(e, hitChain, () =>
+                        {
+
+                            e.CurrentContextElement.ListenMouseMove(e);
+                            return true;
+                        });
+                    }
+
+
+                    //---------------------------------------------------------
+                    ReleaseHitChain(hitChain);
+                }
+            }
+            else
+            {
+                //mouse move  
+                //---------------------------------------------------------
+                SvgHitChain hitChain = GetFreeHitChain();
+                hitChain.SetRootGlobalPosition(x, y);
+                HitTestCore(this.SvgRoot.SvgSpec, hitChain, e.X, e.Y); 
+                SetEventOrigin(e, hitChain);
+                //---------------------------------------------------------
+
+                ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
+                {
+                    portal.PortalMouseMove(e);
+                    return true;
+                });
+
+                //---------------------------------------------------------
+                if (!e.CancelBubbling)
+                {
+                    ForEachEventListenerBubbleUp(e, hitChain, () =>
+                    {
+                        e.CurrentContextElement.ListenMouseMove(e);
+                        return true;
+                    });
+                }
+                ReleaseHitChain(hitChain);
+            }
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
@@ -107,6 +220,6 @@ namespace HtmlRenderer.Composers.BridgeHtml
         }
 
 
-     
+
     }
 }

@@ -15,7 +15,7 @@ using LayoutFarm.SvgDom;
 namespace HtmlRenderer.Composers.BridgeHtml
 {
 
-    partial class SvgRootEventPortal 
+    partial class SvgRootEventPortal
     {
         Stack<SvgHitChain> hitChainPools = new Stack<SvgHitChain>();
         HtmlElement elementNode;
@@ -34,7 +34,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         int latestLogicalMouseDownY;
         int prevLogicalMouseX;
         int prevLogicalMouseY;
-
+        bool _isMouseDown;
 
         //==================================================
         SvgHitChain GetFreeHitChain()
@@ -53,10 +53,10 @@ namespace HtmlRenderer.Composers.BridgeHtml
             hitChain.Clear();
             this.hitChainPools.Push(hitChain);
         }
-        static void HitTestCore(SvgElement root, SvgHitChain chain, float x, float y)
-        {
-            //1.
 
+        public static void HitTestCore(SvgElement root, SvgHitChain chain, float x, float y)
+        {
+            //1. 
             chain.AddHit(root, x, y);
             //2. find hit child
             var child = root.GetFirstNode();
@@ -137,7 +137,20 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 }
             }
         }
-
+        static void SetEventOrigin(UIEventArgs e, SvgHitChain hitChain)
+        {
+            int count = hitChain.Count;
+            if (count > 0)
+            {
+                var hitInfo = hitChain.GetHitInfo(count - 1);
+                e.SourceHitElement = hitInfo;
+                //e.SourceHitElement = hitInfo.hitObject;
+            }
+        }
+        void ClearPreviousSelection()
+        {
+            //TODO: add clear svg selection here
+        }
 
     }
 
