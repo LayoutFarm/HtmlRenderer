@@ -34,6 +34,13 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="0_UIElement\UIElement.cs" />
+    <Compile Include="0_UIElement\UIElement_EventListener.cs" />
+    <Compile Include="1_LayerElements\0_LayerElement.cs" />
+    <Compile Include="1_LayerElements\1_PlainLayerElement.cs" />
+    <Compile Include="1_LayerElements\2_GridLayerElement.cs" />
+    <Compile Include="1_LayerElements\GridLayer.cs" />
+    <Compile Include="1_LayerElements\GridTable.cs" />
     <Compile Include="CustomUI.Sample\CustomRenderElements.cs" />
     <Compile Include="CustomUI.Sample\LayerHelper.cs" />
     <Compile Include="CustomUI.Sample\UIBox.cs" />
@@ -53,14 +60,6 @@
       <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
       <Name>LayoutFarm.BaseRenderer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.BaseUI\LayoutFarm.BaseUI.csproj">
-      <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
-      <Name>LayoutFarm.BaseUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.BaseUserInput\LayoutFarm.BaseUserPlatform.csproj">
-      <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
-      <Name>LayoutFarm.BaseUserPlatform</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
       <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
       <Name>LayoutFarm.Composers</Name>
@@ -76,6 +75,10 @@
     <ProjectReference Include="..\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
       <Project>{CFB41C52-614E-476C-8BBE-D07C26FB582D}</Project>
       <Name>LayoutFarm.TextEdit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.UserPlatform\LayoutFarm.UserPlatform.csproj">
+      <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
+      <Name>LayoutFarm.UserPlatform</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -66,6 +66,7 @@
     <Compile Include="3_Layers\2_VisualPlainLayer.cs" />
     <Compile Include="5_HitTest\HitPointChain.cs" />
     <Compile Include="7_debug\dbugHitTracker.cs" />
+    <Compile Include="7_debug\IdbugOutputWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
