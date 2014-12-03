@@ -55,7 +55,6 @@ namespace HtmlRenderer.Composers
                 var hitInfo = hitChain.GetHitInfo(count - 1);
                 e.SourceHitElement = hitInfo.hitObject;
             }
-
         }
 
         public void MouseDown(UIMouseEventArgs e)

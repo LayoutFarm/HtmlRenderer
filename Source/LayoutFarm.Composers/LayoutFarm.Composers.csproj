@@ -69,7 +69,8 @@
     <Compile Include="4_WebDom\3_Gen\HtmlGenerator.cs" />
     <Compile Include="6_SvgDom\SvgCreator.cs" />
     <Compile Include="3_Bridge_HtmlRender_LeanBox\MyHtmlIsland.cs" />
-    <Compile Include="6_SvgDom\SvgRootEventPortalController.cs" />
+    <Compile Include="6_SvgDom\SvgRootEventPortal_IUserEventPortal.cs" />
+    <Compile Include="6_SvgDom\SvgRootEventPortal.cs" />
     <Compile Include="7_TopWin\0_MyTopWindowRenderBox.cs" />
     <Compile Include="7_TopWin\0_MyTopWindowRenderBox_dbug.cs" />
     <Compile Include="7_TopWin\0_MyTopWindowRenderBox_Graphics.cs" />

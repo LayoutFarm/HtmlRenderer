@@ -26,7 +26,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         {
             SvgFragment fragment = new SvgFragment();
 
-            SvgRootEventPortalController svgRootController = new SvgRootEventPortalController(elementNode);
+            SvgRootEventPortal svgRootController = new SvgRootEventPortal(elementNode);
 
             CssBoxSvgRoot rootBox = new CssBoxSvgRoot(
                 svgRootController,

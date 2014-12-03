@@ -33,6 +33,10 @@ namespace LayoutFarm.SvgDom
         {
             return this.svgList[svgList.Count - 1];
         }
+        public void Clear()
+        {
+            this.svgList.Clear();
+        }
     }
 
 

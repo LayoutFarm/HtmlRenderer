@@ -15,10 +15,13 @@ using LayoutFarm.SvgDom;
 namespace HtmlRenderer.Composers.BridgeHtml
 {
 
-    class SvgRootEventPortalController : IUserEventPortal
+    partial class SvgRootEventPortal 
     {
+        Stack<SvgHitChain> hitChainPools = new Stack<SvgHitChain>();
         HtmlElement elementNode;
-        public SvgRootEventPortalController(HtmlElement elementNode)
+
+
+        public SvgRootEventPortal(HtmlElement elementNode)
         {
             this.elementNode = elementNode;
         }
@@ -32,96 +35,24 @@ namespace HtmlRenderer.Composers.BridgeHtml
         int prevLogicalMouseX;
         int prevLogicalMouseY;
 
-        //------------------------------------------------------------
-        void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
-        {
-
-            this.latestLogicalMouseDownX = e.X;
-            this.latestLogicalMouseDownY = e.Y;
-            this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y;
-
-            //find hit svg graphics....
-
-            SvgHitChain hitChain = new SvgHitChain();
-            
-            HitTestCore(this.SvgRoot.SvgSpec, hitChain, e.X, e.Y);
-
-            //propagate ...
-            ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
-            {
-                portal.PortalMouseDown(e);
-                return true;
-            });
-
-            if (!e.CancelBubbling)
-            {
-                ForEachEventListenerBubbleUp(e, hitChain, () =>
-                {
-                    e.CurrentContextElement.ListenMouseDown(e);
-                    return true;
-                });
-            }
-            e.CancelBubbling = true;             
-        }
-        void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
-        {
-
-            this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y;
-
-            //this.OnMouseUp(e);
-        }
-        void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
-        {
-
-            //find diff    
-
-            e.SetDiff(
-                e.X - prevLogicalMouseX,
-                e.Y - prevLogicalMouseY,
-                e.X - this.latestLogicalMouseDownX,
-                e.Y - this.latestLogicalMouseDownY);
-
-            this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y;
-            //this.OnMouseMove(e);
-        }
-        void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
-        {
-            //this.OnMouseWheel(e);
-        }
-
-        //------------------------------------------------------------
-        void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
-        {
-            //this.OnKeyUp(e);
-        }
-        void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
-        {
-            //this.OnKeyDown(e);
-        }
-        void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
-        {
-            // this.OnKeyPress(e);
-        }
-        bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
-        {
-            return false;
-            //return this.OnProcessDialogKey(e);
-        }
-        //------------------------------------------------------------
-        void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
-        {
-            //this.OnGotFocus(e);
-        }
-        void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
-        {
-            //this.OnLostFocus(e);
-        }
-
 
         //==================================================
+        SvgHitChain GetFreeHitChain()
+        {
+            if (hitChainPools.Count > 0)
+            {
+                return hitChainPools.Pop();
+            }
+            else
+            {
+                return new SvgHitChain();
+            }
+        }
+        void ReleaseHitChain(SvgHitChain hitChain)
+        {
+            hitChain.Clear();
+            this.hitChainPools.Push(hitChain);
+        }
         static void HitTestCore(SvgElement root, SvgHitChain chain, float x, float y)
         {
             //1.
@@ -209,4 +140,5 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
 
     }
+
 }
