@@ -37,6 +37,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,6 +60,20 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
+      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
+      <Name>LayoutFarm.BaseRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
+      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
+      <Name>LayoutFarm.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.UserPlatform\LayoutFarm.UserPlatform.csproj">
+      <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
+      <Name>LayoutFarm.UserPlatform</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -27,7 +27,7 @@ namespace LayoutFarm.UI.WinForms
             this.winBridge.BindWindowControl(this);
         }
 #if DEBUG
-        public IdbugOutputWindow IOutputWin
+        public IdbugOutputWindow IdebugOutputWin
         {
             get { return this.winBridge; }
         }
