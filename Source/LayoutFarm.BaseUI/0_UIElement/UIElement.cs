@@ -98,10 +98,10 @@ namespace LayoutFarm.UI
         {
             return false;
         }
-        protected virtual void OnSizeChanged(UISizeChangedEventArgs e)
-        {
+        //protected virtual void OnSizeChanged(UISizeChangedEventArgs e)
+        //{
 
-        }
+        //}
 #if DEBUG
         object dbugTagObject;
         public object dbugTag

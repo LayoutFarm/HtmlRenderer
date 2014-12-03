@@ -9,9 +9,6 @@ namespace LayoutFarm.UI
     {
         public abstract UITimer CreateUITimer();
         public abstract GraphicPlatform GraphicsPlatform { get; }      
-        public TopWindowRenderBox CreateTopWindowRenderBox(RootGraphic rootgfx, int w, int h)
-        {
-            return new MyTopWindowRenderBox(rootgfx, w, h);
-        }
+    
     }
 }

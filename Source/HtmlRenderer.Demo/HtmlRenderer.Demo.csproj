@@ -134,6 +134,10 @@
       <Project>{78DF827E-7E62-4140-8074-A883BF4B8EE8}</Project>
       <Name>LayoutFarm.BaseUI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.BaseUserInput\LayoutFarm.BaseUserPlatform.csproj">
+      <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
+      <Name>LayoutFarm.BaseUserPlatform</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
       <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
       <Name>LayoutFarm.Composers</Name>
