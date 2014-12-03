@@ -105,13 +105,13 @@ namespace LayoutFarm.UI
             if (mouseEventsQ.Count > 0)
             {
                 var mouseE = mouseEventsQ.Pop();
-                mouseE.WinTop = wintop;
+                //mouseE.WinTop = wintop;
                 return mouseE;
             }
             else
             {
                 var mouseE = new UIMouseEventArgs();
-                mouseE.WinTop = wintop;
+                //mouseE.WinTop = wintop;
                 return mouseE;
             }
         }

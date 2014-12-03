@@ -48,7 +48,7 @@ namespace LayoutFarm.Boxes
     }
 
 
-    public sealed class RenderElementInsideCssBox : CssBox
+    public sealed class RenderElementInsideCssBox : CustomCssBox
     {
 
 
@@ -67,7 +67,7 @@ namespace LayoutFarm.Boxes
             this.wrapper = new CssBoxInsideRenderElement(renderElement.Root, mmw, mmh, renderElement);
 
             ChangeDisplayType(this, CssDisplay.Block);
-            SetAsCustomCssBox(this);
+
             this.SetSize(mmw, mmh);
 
             LayoutFarm.RenderElement.SetParentLink(
@@ -85,6 +85,10 @@ namespace LayoutFarm.Boxes
         protected override Point GetElementGlobalLocationImpl()
         {
             return new Point(globalXForRenderElement, globalYForRenderElement);
+        }
+        public override bool CustomContentHitTest(float x, float y, CssBoxHitChain hitChain)
+        {
+            return false;
         }
         public override void CustomRecomputedValue(CssBox containingBlock)
         {

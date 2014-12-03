@@ -68,14 +68,9 @@
     <Compile Include="1_Css\CssLength.cs" />
     <Compile Include="1_Css\CssProps.cs" />
     <Compile Include="1_Css\CssUnitOrNames.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CustomCssBox.cs" />
+    <Compile Include="4_Svg\05_SvgDoms\CssBoxSvgRoot.cs" />
     <Compile Include="4_Svg\05_SvgDoms\SvgElements.cs" />
-    <Compile Include="4_Svg\09_BasicShapes\SvgImage.cs" />
-    <Compile Include="4_Svg\09_BasicShapes\SvgSpec.cs" />
-    <Compile Include="4_Svg\09_BasicShapes\SvgVisualElements.cs" />
-    <Compile Include="4_Svg\08_Paths\SvgPath.cs" />
-    <Compile Include="4_Svg\08_Paths\SvgPathDataParser.cs" />
-    <Compile Include="4_Svg\08_Paths\SvgPathSegments.cs" />
-    <Compile Include="4_Svg\16_Interactivity\SvgHitChain.cs" />
     <Compile Include="4_Svg\07_Coords_Transforms\SvgMatrix.cs" />
     <Compile Include="4_Svg\07_Coords_Transforms\SvgRotate.cs" />
     <Compile Include="4_Svg\07_Coords_Transforms\SvgScale.cs" />
@@ -83,6 +78,13 @@
     <Compile Include="4_Svg\07_Coords_Transforms\SvgSkew.cs" />
     <Compile Include="4_Svg\07_Coords_Transforms\SvgTransform.cs" />
     <Compile Include="4_Svg\07_Coords_Transforms\SvgTranslate.cs" />
+    <Compile Include="4_Svg\08_Paths\SvgPath.cs" />
+    <Compile Include="4_Svg\08_Paths\SvgPathDataParser.cs" />
+    <Compile Include="4_Svg\08_Paths\SvgPathSegments.cs" />
+    <Compile Include="4_Svg\09_BasicShapes\SvgImage.cs" />
+    <Compile Include="4_Svg\09_BasicShapes\SvgSpec.cs" />
+    <Compile Include="4_Svg\09_BasicShapes\SvgVisualElements.cs" />
+    <Compile Include="4_Svg\16_Interactivity\SvgHitChain.cs" />
     <Compile Include="Platform\FontDefaultConfig.cs" />
     <Compile Include="2_Boxes\5_HitAndSelections\SelectionRange.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Spec_Snap.cs" />
@@ -126,7 +128,7 @@
     <Compile Include="2_Boxes\0_Root\HtmlIsland.cs" />
     <Compile Include="5_Diagnostics\ArgCheckNotNullAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="2_Boxes\3_Layout\BoxUtils.cs" />
+    <Compile Include="2_Boxes\3_Layout\BoxHitUtils.cs" />
     <Compile Include="Platform\RenderUtils.cs" />
   </ItemGroup>
   <ItemGroup>

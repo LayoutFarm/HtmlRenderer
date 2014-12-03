@@ -58,18 +58,18 @@ namespace LayoutFarm.UI
         //}
         void ClearNotificationSizeChangeList()
         {
-            if (tobeNotifySizeChangedList.Count > 0)
-            {
-                int sizeChangeCount = tobeNotifySizeChangedList.Count;
-                for (int i = 0; i < sizeChangeCount; ++i)
-                {
-                    ToNotifySizeChangedEvent item = tobeNotifySizeChangedList[i];
-                    UISizeChangedEventArgs sizeChangedEventArg = UISizeChangedEventArgs.GetFreeOne(
-                        null, item.xdiff, item.ydiff, item.affectedSideFlags);
-                    UISizeChangedEventArgs.ReleaseOne(sizeChangedEventArg);
-                }
-                tobeNotifySizeChangedList.Clear();
-            }
+            //if (tobeNotifySizeChangedList.Count > 0)
+            //{
+            //    int sizeChangeCount = tobeNotifySizeChangedList.Count;
+            //    for (int i = 0; i < sizeChangeCount; ++i)
+            //    {
+            //        ToNotifySizeChangedEvent item = tobeNotifySizeChangedList[i];
+            //        UISizeChangedEventArgs sizeChangedEventArg = UISizeChangedEventArgs.GetFreeOne(
+            //            null, item.xdiff, item.ydiff, item.affectedSideFlags);
+            //        UISizeChangedEventArgs.ReleaseOne(sizeChangedEventArg);
+            //    }
+            //    tobeNotifySizeChangedList.Clear();
+            //}
         }
         public override void ChangeRootGraphicSize(int width, int height)
         {

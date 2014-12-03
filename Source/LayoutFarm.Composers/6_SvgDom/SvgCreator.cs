@@ -28,6 +28,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 elementNode.Spec,
                 fragment);
             parentBox.AppendChild(rootBox);
+
             CreateSvgBoxContent(fragment, elementNode);
 
             return rootBox;
@@ -111,7 +112,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
                 switch (wellknownName)
                 {
-                    
+
                     case WebDom.WellknownName.Svg_Fill:
                         {
                             spec.ActualColor = CssValueParser.GetActualColor(attr.Value);
@@ -124,11 +125,11 @@ namespace HtmlRenderer.Composers.BridgeHtml
                         {
                             spec.StrokeWidth = UserMapUtil.ParseGenericLength(attr.Value);
                         } break;
-                    
+
                     default:
                         {
                             //other attrs
-                        } break; 
+                        } break;
                 }
             }
 
@@ -624,41 +625,9 @@ namespace HtmlRenderer.Composers.BridgeHtml
             {
                 return new List<PointF>();
             }
-
-        }
-
-
-    }
-
-    static class SvgElementPortal
-    {
-
-        public static void HandleSvgMouseDown(CssBoxSvgRoot svgBox, UIEventArgs e)
-        {
-
-            SvgHitChain hitChain = new SvgHitChain();
-            svgBox.HitTestCore(hitChain, e.X, e.Y);
-            PropagateEventOnBubblingPhase(hitChain, e);
-        }
-
-        static void PropagateEventOnBubblingPhase(SvgHitChain hitChain, UIEventArgs eventArgs)
-        {
-            int hitCount = hitChain.Count;
-            //then propagate
-            for (int i = hitCount - 1; i >= 0; --i)
-            {
-                SvgHitInfo hitInfo = hitChain.GetHitInfo(i);
-                SvgElement svg = hitInfo.svg;
-                if (svg != null)
-                {
-                    var controller = SvgElement.UnsafeGetController(hitInfo.svg) as IEventListener;
-                    if (controller != null)
-                    {
-                        //dispatch event 
-                    }
-                }
-            }
         }
     }
+
+
 
 }

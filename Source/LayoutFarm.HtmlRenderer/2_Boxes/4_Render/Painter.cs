@@ -47,7 +47,7 @@ namespace HtmlRenderer
             this.physicalViewportHeight = height;
         }
 
-        internal IGraphics Gfx
+        public IGraphics Gfx
         {
             get
             {
@@ -110,7 +110,7 @@ namespace HtmlRenderer
         /// </summary>
         /// <param name="binder"></param>
         /// <param name="requestFrom"></param>
-        internal void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, object requestFrom)
+        public void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, object requestFrom)
         {
             HtmlIsland.RaiseRequestImage(
                 this.visualRootBox,

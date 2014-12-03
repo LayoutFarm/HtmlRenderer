@@ -14,9 +14,7 @@
 // "The Art of War"
 
 using System;
-using System.Collections.Generic;
-
-
+using System.Collections.Generic; 
 namespace HtmlRenderer.Boxes
 {
 

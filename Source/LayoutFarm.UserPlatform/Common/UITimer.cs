@@ -8,8 +8,7 @@ namespace LayoutFarm.UI
 {
 
     public abstract class UITimer
-    {
-
+    {   
         public event EventHandler Tick;
         public abstract int Interval { get; set; }
         public abstract bool Enabled { get; set; }

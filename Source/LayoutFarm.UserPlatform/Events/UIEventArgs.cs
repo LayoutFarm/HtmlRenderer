@@ -1,9 +1,7 @@
 ﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.Text;
 using LayoutFarm.Drawing;
-
 
 namespace LayoutFarm.UI
 {
@@ -11,6 +9,60 @@ namespace LayoutFarm.UI
     public delegate void UIKeyEventHandler(object sender, UIKeyEventArgs e);
     public delegate void UIKeyPressEventHandler(object sender, UIKeyEventArgs e);
 
+    public class UIKeyEventArgs : UIEventArgs
+    {
+        int keyData;
+        char c;
+        public UIKeyEventArgs()
+        {
+        }
+        public int KeyData
+        {
+            get
+            {
+                return this.keyData;
+            }
+            set
+            {
+                this.keyData = value;
+            }
+        }
+
+
+        public bool HasKeyData
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        public void SetEventInfo(int keydata, bool shift, bool alt, bool control)
+        {
+            this.keyData = keydata;
+            this.Shift = shift;
+            this.Alt = alt;
+            this.Control = control;
+        }
+        public void SetKeyChar(char c)
+        {
+            this.c = c;
+        }
+        public char KeyChar
+        {
+            get
+            {
+                return c;
+            }
+        }
+        public bool IsControlKey
+        {
+            get
+            {
+                return Char.IsControl(c);
+            }
+        }
+    }
     public abstract class UIEventArgs : EventArgs
     {
         int x;
@@ -130,6 +182,65 @@ namespace LayoutFarm.UI
         Middle,
         None
     }
+    public enum FocusEventType
+    {
+        PreviewLostFocus,
+        PreviewFocus,
+        Focus,
+        LostFocus
+    }
+    public class UIFocusEventArgs : UIEventArgs
+    {
+        object tobeFocusElement;
+        object tobeLostFocusElement;
+        FocusEventType focusEventType = FocusEventType.PreviewLostFocus;
+        public UIFocusEventArgs()
+        {
+        }
+
+        public FocusEventType FocusEventType
+        {
+            get
+            {
+                return focusEventType;
+            }
+            set
+            {
+                focusEventType = value;
+            }
+        }
+        public object ToBeFocusElement
+        {
+            get
+            {
+                return tobeFocusElement;
+            }
+            set
+            {
+                tobeFocusElement = value;
+            }
+        }
+        public object ToBeLostFocusElement
+        {
+            get
+            {
+                return tobeLostFocusElement;
+            }
+            set
+            {
+                tobeLostFocusElement = value;
+            }
+        }
+        public override void Clear()
+        {
+            tobeFocusElement = null;
+            tobeLostFocusElement = null;
+            focusEventType = FocusEventType.PreviewFocus;
+            base.Clear();
+        }
+
+    }
+
 
     public class UIMouseEventArgs : UIEventArgs
     {
@@ -141,20 +252,20 @@ namespace LayoutFarm.UI
         public int YDiff;
 
         public bool IsMouseDown;
-        public TopWindowRenderBox WinTop;
+        //public TopWindowRenderBox WinTop;
         IEventListener draggingElem;
 
         int xdiffFromMouseDown;
         int ydiffFromMouseDown;
 
 
-       
-        
+
+
         public UIMouseEventArgs()
         {
 
         }
-        
+
         public void SetDiff(int xdiff, int ydiff, int xdiffFromMouseDown, int ydiffFromMouseDown)
         {
             this.XDiff = xdiff;
@@ -233,8 +344,6 @@ namespace LayoutFarm.UI
             set;
         }
     }
-
-
     public enum MouseCursorStyle
     {
         Default,
@@ -245,64 +354,13 @@ namespace LayoutFarm.UI
         Move,
         EastWest,
         NorthSouth,
-
         CustomStyle,
     }
 
-    public class UIKeyEventArgs : UIEventArgs
-    {
-        int keyData;
-        char c;
-        public UIKeyEventArgs()
-        {
-        }
-        public int KeyData
-        {
-            get
-            {
-                return this.keyData;
-            }
-            set
-            {
-                this.keyData = value;
-            }
-        }
 
 
-        public bool HasKeyData
-        {
-            get
-            {
-                return true;
-            }
-        }
 
-        public void SetEventInfo(int keydata, bool shift, bool alt, bool control)
-        {
-            this.keyData = keydata;
-            this.Shift = shift;
-            this.Alt = alt;
-            this.Control = control;
-        }
-        public void SetKeyChar(char c)
-        {
-            this.c = c;
-        }
-        public char KeyChar
-        {
-            get
-            {
-                return c;
-            }
-        }
-        public bool IsControlKey
-        {
-            get
-            {
-                return Char.IsControl(c);
-            }
-        }
-    }
+
 
     public enum AffectedElementSideFlags
     {
@@ -316,56 +374,55 @@ namespace LayoutFarm.UI
 
 
 
-    public class UISizeChangedEventArgs : UIEventArgs
-    {
-        AffectedElementSideFlags changeFromSideFlags;
-        static Stack<UISizeChangedEventArgs> pool = new Stack<UISizeChangedEventArgs>();
-        private UISizeChangedEventArgs(RenderElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
-        {
-            this.SourceHitElement = sourceElement;
-            this.Location = new Point(widthDiff, heightDiff);
-            this.changeFromSideFlags = changeFromSideFlags;
-        }
-        public AffectedElementSideFlags ChangeFromSideFlags
-        {
-            get
-            {
-                return changeFromSideFlags;
-            }
-        }
-        public static UISizeChangedEventArgs GetFreeOne(RenderElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
-        {
-            if (pool.Count > 0)
-            {
-                UISizeChangedEventArgs e = pool.Pop();
+    //public class UISizeChangedEventArgs : UIEventArgs
+    //{
+    //    AffectedElementSideFlags changeFromSideFlags;
+    //    static Stack<UISizeChangedEventArgs> pool = new Stack<UISizeChangedEventArgs>();
+    //    private UISizeChangedEventArgs(RenderElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
+    //    {
+    //        this.SourceHitElement = sourceElement;
+    //        this.Location = new Point(widthDiff, heightDiff);
+    //        this.changeFromSideFlags = changeFromSideFlags;
+    //    }
+    //    public AffectedElementSideFlags ChangeFromSideFlags
+    //    {
+    //        get
+    //        {
+    //            return changeFromSideFlags;
+    //        }
+    //    }
+    //    public static UISizeChangedEventArgs GetFreeOne(RenderElement sourceElement, int widthDiff, int heightDiff, AffectedElementSideFlags changeFromSideFlags)
+    //    {
+    //        if (pool.Count > 0)
+    //        {
+    //            UISizeChangedEventArgs e = pool.Pop();
 
-                e.Location = new Point(widthDiff, heightDiff);
-                e.SourceHitElement = sourceElement;
-                e.changeFromSideFlags = changeFromSideFlags;
-                return e;
-            }
-            else
-            {
-                return new UISizeChangedEventArgs(sourceElement, widthDiff, heightDiff, changeFromSideFlags);
-            }
-        }
-        public override void Clear()
-        {
-            base.Clear();
-        }
-        public static void ReleaseOne(UISizeChangedEventArgs e)
-        {
-            e.Clear();
-            pool.Push(e);
-        }
-    }
+    //            e.Location = new Point(widthDiff, heightDiff);
+    //            e.SourceHitElement = sourceElement;
+    //            e.changeFromSideFlags = changeFromSideFlags;
+    //            return e;
+    //        }
+    //        else
+    //        {
+    //            return new UISizeChangedEventArgs(sourceElement, widthDiff, heightDiff, changeFromSideFlags);
+    //        }
+    //    }
+    //    public override void Clear()
+    //    {
+    //        base.Clear();
+    //    }
+    //    public static void ReleaseOne(UISizeChangedEventArgs e)
+    //    {
+    //        e.Clear();
+    //        pool.Push(e);
+    //    }
+    //}
 
     public class UIInvalidateEventArgs : UIEventArgs
     {
         public Rectangle InvalidArea;
         public UIInvalidateEventArgs()
         {
-
         }
     }
 
@@ -393,71 +450,5 @@ namespace LayoutFarm.UI
             base.Clear();
         }
     }
-    public enum FocusEventType
-    {
-        PreviewLostFocus,
-        PreviewFocus,
-        Focus,
-        LostFocus
-    }
-
-
-
-
-    public class UIFocusEventArgs : UIEventArgs
-    {
-        object tobeFocusElement;
-        object tobeLostFocusElement;
-        FocusEventType focusEventType = FocusEventType.PreviewLostFocus;
-        public UIFocusEventArgs()
-        {
-        }
-
-        public FocusEventType FocusEventType
-        {
-            get
-            {
-                return focusEventType;
-            }
-            set
-            {
-                focusEventType = value;
-            }
-        }
-        public object ToBeFocusElement
-        {
-            get
-            {
-                return tobeFocusElement;
-            }
-            set
-            {
-                tobeFocusElement = value;
-            }
-        }
-        public object ToBeLostFocusElement
-        {
-            get
-            {
-                return tobeLostFocusElement;
-            }
-            set
-            {
-                tobeLostFocusElement = value;
-            }
-        }
-        public override void Clear()
-        {
-            tobeFocusElement = null;
-            tobeLostFocusElement = null;
-            focusEventType = FocusEventType.PreviewFocus;
-            base.Clear();
-        }
-
-    }
-
-
-
-
-
+   
 }

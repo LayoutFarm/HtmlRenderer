@@ -139,7 +139,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                             case CssWhiteSpace.PreWrap:
                                                 {
                                                     RunListHelper.AddRunList(
-                                                        BoxUtils.AddNewAnonInline(hostBox),
+                                                        CssBox.AddNewAnonInline(hostBox),
                                                         parentElement.Spec, textNode);
                                                 } break;
                                             case CssWhiteSpace.PreLine:
@@ -150,7 +150,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                                     }
 
                                                     RunListHelper.AddRunList(
-                                                        BoxUtils.AddNewAnonInline(hostBox),
+                                                        CssBox.AddNewAnonInline(hostBox),
                                                         parentElement.Spec, textNode);
 
                                                 } break;
@@ -161,7 +161,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                                                         continue;//skip
                                                     }
                                                     RunListHelper.AddRunList(
-                                                        BoxUtils.AddNewAnonInline(hostBox),
+                                                        CssBox.AddNewAnonInline(hostBox),
                                                         parentElement.Spec, textNode);
                                                 } break;
                                         }
@@ -257,9 +257,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
                     newBox = new CssBoxHr(childElement, childElement.Spec);
                     parentBox.AppendChild(newBox);
-                    return newBox;
-
-
+                    return newBox; 
                 //-----------------------------------------------------
                 //TODO: simplify this ...
                 //table-display elements, fix display type
