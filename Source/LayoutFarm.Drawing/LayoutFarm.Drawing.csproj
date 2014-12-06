@@ -56,13 +56,14 @@
     <Compile Include="2_Drawing_Art\ArtColorPalette.cs" />
     <Compile Include="2_Drawing_Art\ColorComponentStepup.cs" />
     <Compile Include="2_Drawing_Art\GfxProcessorModule.cs" />
-    <Compile Include="0_Start\GraphicPlatform.cs" />
+    <Compile Include="0_Start\GraphicsPlatform.cs" />
     <Compile Include="2_Drawing_Art\ArtBrushes.cs" />
     <Compile Include="1_Drawing\Canvas.cs" />
     <Compile Include="1_Drawing\CustomRenderSurface.cs" />
     <Compile Include="1_Drawing\Rect.cs" />
     <Compile Include="4_Animation\Timelines.cs" />
     <Compile Include="4_Animation\ParallelTimeline.cs" />
+    <Compile Include="5_BasicRenderBox\ITopWindowRenderBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

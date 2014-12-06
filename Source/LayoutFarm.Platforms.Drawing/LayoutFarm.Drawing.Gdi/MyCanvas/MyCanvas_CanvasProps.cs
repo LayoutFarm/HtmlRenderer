@@ -24,17 +24,33 @@ namespace LayoutFarm
 
     partial class MyCanvas
     {
-        public override bool AvoidGeometryAntialias
-        {
-            get { return _avoidGeometryAntialias; }
-            set { _avoidGeometryAntialias = value; }
-        }
-        public override bool AvoidTextAntialias
-        {
-            get { return _avoidTextAntialias; }
-            set { _avoidTextAntialias = value; }
-        }
 
+        float strokeWidth = 1f;
+        Color fillSolidColor = Color.Transparent;
+        public override float StrokeWidth
+        {
+            get
+            {
+                return this.strokeWidth;
+            }
+            set
+            {
+                this.internalPen.Width = strokeWidth;
+                this.strokeWidth = value;
+            }
+        }
+        public override Color FillSolidColor
+        {
+            get
+            {
+                return fillSolidColor;
+            }
+            set
+            {
+                this.fillSolidColor = value;
+                this.internalBrush.Color = ConvColor(value);
+            }
+        }
         public override IGraphics GetIGraphics()
         {
             return this;

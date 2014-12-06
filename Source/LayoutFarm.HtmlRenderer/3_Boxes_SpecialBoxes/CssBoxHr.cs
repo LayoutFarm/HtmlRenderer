@@ -51,7 +51,7 @@ namespace HtmlRenderer.Boxes
             var myContainingBlock = lay.LatestContainingBlock;
             if (this.NeedComputedValueEvaluation)
             {
-                this.ReEvaluateComputedValues(lay.Gfx, myContainingBlock);
+                this.ReEvaluateComputedValues(lay.SampleIFonts, myContainingBlock);
             }
             //// fix for hr tag 
             //var maringTopCollapse = MarginTopCollapse(prevSibling);

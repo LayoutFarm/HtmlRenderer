@@ -199,19 +199,22 @@ namespace LayoutFarm
             }
             if (dbugVRoot.dbug_ForceShowObjectIden)
             {
-                canvasPage.PushTextColor(Color.Blue);
+                 
+                var prevColor = canvasPage.CurrentTextColor;
+                canvasPage.CurrentTextColor = Color.Blue;
                 canvasPage.DrawText(
                         ("<< " + dbug_FullElementDescription()).ToCharArray()
                         , 0, dbug_element_code_y);
-                canvasPage.PopTextColor();
+                canvasPage.CurrentTextColor = prevColor;
             }
             else if (dbugVRoot.dbug_ShowObjectIden && !dbug_hide_objIden)
             {
-                canvasPage.PushTextColor(Color.Blue);
+                var prevColor = canvasPage.CurrentTextColor;
+                canvasPage.CurrentTextColor = Color.Blue;
                 canvasPage.DrawText(
                         ("<< " + dbug_FullElementDescription()).ToCharArray()
                         , 0, dbug_element_code_y);
-                canvasPage.PopTextColor();
+                canvasPage.CurrentTextColor = prevColor;
             }
         }
 

@@ -56,7 +56,7 @@ namespace HtmlRenderer.Boxes
         public static void PerformLayout(CssBox tableBox, LayoutVisitor lay)
         {
             var table = new CssTableLayoutEngine(tableBox);
-            table._tmpIFonts = lay.Gfx;
+            table._tmpIFonts = lay.SampleIFonts;
             table.Layout(lay);
             table._tmpIFonts = null;
         }
@@ -111,7 +111,7 @@ namespace HtmlRenderer.Boxes
             {
                 var latestCB = lay.LatestContainingBlock;
                 float box_fontsize = box.ActualFont.Size;
-                var fontPool = lay.Gfx;
+                var fontPool = lay.SampleIFonts;
                 foreach (var childBox in box.GetChildBoxIter())
                 {
                     childBox.ReEvaluateFont(fontPool, box_fontsize);

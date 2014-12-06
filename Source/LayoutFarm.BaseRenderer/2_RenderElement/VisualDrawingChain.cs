@@ -9,7 +9,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
-    public class VisualDrawingChain
+    public class VisualDrawingChain : IVisualDrawingChain
     {
         public List<RenderElement> selectedVisualElements = new List<RenderElement>();
         public List<bool> containAllAreaTestResults = new List<bool>();
@@ -104,18 +104,64 @@ namespace LayoutFarm
             currentClipRect.Offset(-dx, 0);
         }
         public void OffsetCanvasOriginY(int dy)
-        { currentClipRect.Offset(0, -dy); }
+        {
+            currentClipRect.Offset(0, -dy);
+        }
+
+        void IVisualDrawingChain.UpdateInvalidArea(Canvas mycanvas, ITopWindowRenderBox rootElement)
+        {
+            List<RenderElement> selectedVisualElements = this.selectedVisualElements;
+            List<bool> containAllAreaTestResults = this.containAllAreaTestResults;
 
 
+            int j = containAllAreaTestResults.Count;
 
+            mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
+            Rect rect = mycanvas.InvalidateArea;
 
+            for (int i = j - 1; i > -1; --i)
+            {
 
+                if (containAllAreaTestResults[i])
+                {
+                    RenderElement ve = selectedVisualElements[i];
+                    if (!ve.IsInRenderChain)
+                    {
+                        continue;
+                    }
+                    if (!ve.HasSolidBackground)
+                    {
+                        continue;
+                    }
 
+                    Point globalLocation = ve.GetGlobalLocation();
 
+                    mycanvas.OffsetCanvasOrigin(globalLocation.X, globalLocation.Y);
 
+                    rect.Offset(-globalLocation.X, -globalLocation.Y);
 
+                    ve.DrawToThisPage(mycanvas, rect);
+#if DEBUG
+                    rootElement.dbugShowRenderPart(mycanvas, rect);
+#endif
 
+#if DEBUG
 
+#endif
+                    mycanvas.IsContentReady = true;
+                    rect.Offset(globalLocation.X, globalLocation.Y);
+                    mycanvas.OffsetCanvasOrigin(-globalLocation.X, -globalLocation.Y);
 
+                    ve.IsInRenderChain = false;
+
+                    break;
+                }
+            }
+            mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
+            for (int i = j - 1; i > -1; --i)
+            {
+                selectedVisualElements[i].IsInRenderChain = true;
+            }
+        }
     }
 }

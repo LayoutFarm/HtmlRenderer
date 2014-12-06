@@ -22,17 +22,6 @@ namespace LayoutFarm
 
     partial class MyCanvas
     {
-
-
-        public override SolidBrush GetSharedSolidBrush()
-        {
-            if (sharedSolidBrush == null)
-            {
-                sharedSolidBrush = platform.CreateSolidBrush(Color.Black);// new System.Drawing.SolidBrush(Color.Black);
-            }
-            return sharedSolidBrush;
-        }
-
         public override void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea)
         {
             MyCanvas s1 = (MyCanvas)sourceCanvas;
@@ -77,103 +66,47 @@ namespace LayoutFarm
             destArea.Width, destArea.Height, gxdc, sourceX, sourceY, MyWin32.SRCCOPY);
             MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
             gx.ReleaseHdc();
-
-        }
-
-
-        public override void ClearSurface(Rect rect)
-        {
-            PushClipArea(rect._left, rect._top, rect.Width, rect.Height);
-            gx.Clear(System.Drawing.Color.White); PopClipArea();
         }
         public override void ClearSurface()
         {
             gx.Clear(System.Drawing.Color.White);
         }
 
-        public override void FillPolygon(Brush brush, Point[] points)
+
+
+        //public override void FillPolygon(ArtColorBrush colorBrush, Point[] points)
+        //{
+        //    if (colorBrush is ArtSolidBrush)
+        //    {
+        //        ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
+        //        gx.FillPolygon(ConvBrush(colorBrush.myBrush), ConvPointArray(points));
+
+        //    }
+        //    else if (colorBrush is ArtGradientBrush)
+        //    {
+        //        ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
+
+        //        gx.FillPolygon(ConvBrush(colorBrush.myBrush), ConvPointArray(points));
+
+
+        //    }
+        //    else if (colorBrush is ArtImageBrush)
+        //    {
+        //        ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
+
+
+        //    }
+        //}
+        public override void FillRegion(Region rgn)
         {
-
-            gx.FillPolygon(ConvBrush(brush), ConvPointArray(points));
-        }
-
-        public override void FillPolygon(ArtColorBrush colorBrush, Point[] points)
-        {
-            if (colorBrush is ArtSolidBrush)
-            {
-                ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
-                gx.FillPolygon(ConvBrush(colorBrush.myBrush), ConvPointArray(points));
-
-            }
-            else if (colorBrush is ArtGradientBrush)
-            {
-                ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
-
-                gx.FillPolygon(ConvBrush(colorBrush.myBrush), ConvPointArray(points));
-
-
-            }
-            else if (colorBrush is ArtImageBrush)
-            {
-                ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
-
-
-            }
-        }
-        public override void FillRegion(ArtColorBrush colorBrush, Region rgn)
-        {
-            if (colorBrush is ArtSolidBrush)
-            {
-                ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
-                gx.FillRegion(ConvBrush(solidBrush.myBrush), ConvRgn(rgn));
-
-            }
-            else if (colorBrush is ArtGradientBrush)
-            {
-                ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
-                gx.FillRegion(ConvBrush(colorBrush.myBrush), ConvRgn(rgn));
-
-            }
-            else if (colorBrush is ArtImageBrush)
-            {
-                ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
-            }
+            gx.FillRegion(internalBrush, ConvRgn(rgn));
         }
 
         public override void FillPath(GraphicsPath gfxPath, Color solidColor)
         {
-
-            FillPath(gfxPath, new ArtSolidBrush(solidColor));
+            FillPath(gfxPath, solidColor);
         }
-        public override void FillPath(GraphicsPath gfxPath, Brush colorBrush)
-        {
-            gx.FillPath(ConvBrush(colorBrush), ConvPath(gfxPath));
-        }
-        public override void FillPath(GraphicsPath gfxPath, ArtColorBrush colorBrush)
-        {
-            gx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
-            if (colorBrush is ArtSolidBrush)
-            {
-                ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
-                if (solidBrush.myBrush == null)
-                {
-                    solidBrush.myBrush = this.platform.CreateSolidBrush(solidBrush.Color);
-                }
-                gx.FillPath(ConvBrush(solidBrush.myBrush), ConvPath(gfxPath));
-
-            }
-            else if (colorBrush is ArtGradientBrush)
-            {
-                ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
-                gx.FillPath(ConvBrush(gradientBrush.myBrush), ConvPath(gfxPath));
-
-            }
-            else if (colorBrush is ArtImageBrush)
-            {
-                ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
-            }
-
-        }
+         
         public override void DrawPath(GraphicsPath gfxPath)
         {
             gx.DrawPath(internalPen, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
@@ -200,73 +133,22 @@ namespace LayoutFarm
             internalBrush.Color = ConvColor(color);
             gx.FillRectangle(internalBrush, rectf.ToRectF());
         }
-        public override void FillRectangle(Brush brush, Rectangle rect)
-        {
-            gx.FillRectangle(ConvBrush(brush), rect.ToRect());
-        }
-        public override void FillRectangle(Brush brush, RectangleF rectf)
-        {
-            gx.FillRectangle(ConvBrush(brush), rectf.ToRectF());
-        }
-        public override void FillRectangle(ArtColorBrush brush, RectangleF rectf)
-        {
 
-            gx.FillRectangle(ConvBrush(brush.myBrush), rectf.ToRectF());
-        }
+
+
         public override void FillRectangle(Color color, int left, int top, int right, int bottom)
         {
             internalBrush.Color = ConvColor(color);
             gx.FillRectangle(internalBrush, left, top, right - left, bottom - top);
         }
-        public override float GetBoundWidth(Region rgn)
-        {
-            return ConvRgn(rgn).GetBounds(gx).Width;
 
-        }
         public override RectangleF GetBound(Region rgn)
         {
             return (ConvRgn(rgn).GetBounds(gx)).ToRectF();
-
         }
 
 
-        public override void FillRectangle(ArtColorBrush colorBrush, int left, int top, int right, int bottom)
-        {
-            if (colorBrush is ArtSolidBrush)
-            {
-                ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
 
-                if (solidBrush.myBrush == null)
-                {
-                    solidBrush.myBrush = this.platform.CreateSolidBrush(solidBrush.Color);
-                }
-                gx.FillRectangle(solidBrush.myBrush.InnerBrush as System.Drawing.Brush,
-                    System.Drawing.Rectangle.FromLTRB(left, top, right, bottom));
-
-            }
-            else if (colorBrush is ArtGradientBrush)
-            {
-                ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
-                gx.FillRectangle(gradientBrush.myBrush.InnerBrush as System.Drawing.Brush,
-                    System.Drawing.Rectangle.FromLTRB(left, top, right, bottom));
-
-            }
-            else if (colorBrush is ArtImageBrush)
-            {
-                ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
-
-                if (imgBrush.MyImage != null)
-                {
-
-                    gx.DrawImageUnscaled(ConvBitmap(imgBrush.MyImage), 0, 0);
-                }
-            }
-        }
-        public override void DrawRectangle(Pen p, Rectangle rect)
-        {
-            gx.DrawRectangle(ConvPen(p), rect.ToRect());
-
-        }
 
         public override void DrawRectangle(Color color, int left, int top, int width, int height)
         {
@@ -274,18 +156,10 @@ namespace LayoutFarm
             internalPen.Color = ConvColor(color);
             gx.DrawRectangle(internalPen, left, top, width, height);
         }
-        public override void DrawString(string str, Font f, Brush brush, float x, float y)
-        {
-            gx.DrawString(str, ConvFont(f), ConvBrush(brush), x, y);
 
-        }
-        public override void DrawString(string str, Font f, Brush brush, float x, float y, float w, float h)
-        {
-            gx.DrawString(str, ConvFont(f), ConvBrush(brush), new System.Drawing.RectangleF(x, y, w, h));
-
-        }
         public override void DrawRectangle(Color color, float left, float top, float width, float height)
         {
+            ReleaseHdc();
             internalPen.Color = ConvColor(color);
             gx.DrawRectangle(internalPen, left, top, width, height);
         }
@@ -293,18 +167,6 @@ namespace LayoutFarm
         {
             internalPen.Color = ConvColor(color);
             gx.DrawRectangle(internalPen, rect.ToRect());
-
-        }
-
-        public override void DrawImage(Image image, Rectangle rect)
-        {
-            gx.DrawImage(
-                ConvBitmap(image),
-                rect.ToRect());
-        }
-        public override void DrawImage(Bitmap image, int x, int y, int w, int h)
-        {
-            gx.DrawImage(image.InnerImage as System.Drawing.Bitmap, x, y, w, h);
         }
         public override void DrawImageUnScaled(Bitmap image, int x, int y)
         {
@@ -315,10 +177,7 @@ namespace LayoutFarm
         {
             gx.DrawBeziers(System.Drawing.Pens.Blue, ConvPointArray(points));
         }
-        public override void DrawLine(Pen pen, Point p1, Point p2)
-        {
-            gx.DrawLine(ConvPen(pen), p1.ToPoint(), p2.ToPoint());
-        }
+
         public override void DrawLine(Color c, int x1, int y1, int x2, int y2)
         {
             System.Drawing.Color prevColor = internalPen.Color;
@@ -328,6 +187,7 @@ namespace LayoutFarm
         }
         public override void DrawLine(Color c, float x1, float y1, float x2, float y2)
         {
+            ReleaseHdc();
             System.Drawing.Color prevColor = internalPen.Color;
             internalPen.Color = ConvColor(c);
             gx.DrawLine(internalPen, x1, y1, x2, y2);
@@ -337,6 +197,7 @@ namespace LayoutFarm
         public override void DrawLine(Color color, Point p1, Point p2)
         {
             System.Drawing.Color prevColor = internalPen.Color;
+            internalPen.Width = this.StrokeWidth;
             internalPen.Color = ConvColor(color);
             gx.DrawLine(internalPen, p1.ToPoint(), p2.ToPoint());
             internalPen.Color = prevColor;
@@ -353,31 +214,28 @@ namespace LayoutFarm
             internalPen.DashStyle = prevLineDashStyle;
 
         }
-        public override void DrawArc(Pen pen, Rectangle r, float startAngle, float sweepAngle)
-        {
-            gx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            gx.DrawArc(ConvPen(pen),
-                r.ToRect(),
-                startAngle,
-                sweepAngle);
-        }
+        //public override void DrawArc(Pen pen, Rectangle r, float startAngle, float sweepAngle)
+        //{
+        //    gx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+        //    gx.DrawArc(ConvPen(pen),
+        //        r.ToRect(),
+        //        startAngle,
+        //        sweepAngle);
+        //}
         public override void DrawLines(Color color, Point[] points)
         {
             internalPen.Color = ConvColor(color);
             gx.DrawLines(internalPen,
                ConvPointArray(points));
         }
-        public override void DrawPolygon(Point[] points)
+        public override void DrawPolygon(PointF[] points)
         {
-            gx.DrawPolygon(System.Drawing.Pens.Blue, ConvPointArray(points));
+            gx.DrawPolygon(internalPen, ConvPointFArray(points));
         }
-        public override void FillPolygon(Point[] points)
-        {
-            gx.FillPolygon(System.Drawing.Brushes.Blue, ConvPointArray(points));
-        }
+
         public override void FillEllipse(Point[] points)
         {
-            gx.FillEllipse(System.Drawing.Brushes.Blue, points[0].X, points[0].Y, points[2].X - points[0].X, points[2].Y - points[0].Y);
+            gx.FillEllipse(internalBrush, points[0].X, points[0].Y, points[2].X - points[0].X, points[2].Y - points[0].Y);
 
         }
         public override void FillEllipse(Color color, Rectangle rect)
@@ -438,25 +296,17 @@ namespace LayoutFarm
             }
         }
 
-        /// <summary>
-        /// Draws a line connecting the two points specified by the coordinate pairs.
-        /// </summary>
-        /// <param name="pen"><see cref="T:System.Drawing.Pen"/> that determines the color, width, and style of the line. </param><param name="x1">The x-coordinate of the first point. </param><param name="y1">The y-coordinate of the first point. </param><param name="x2">The x-coordinate of the second point. </param><param name="y2">The y-coordinate of the second point. </param><exception cref="T:System.ArgumentNullException"><paramref name="pen"/> is null.</exception>
-        public override void DrawLine(Pen pen, float x1, float y1, float x2, float y2)
-        {
-            ReleaseHdc();
-            gx.DrawLine(pen.InnerPen as System.Drawing.Pen, x1, y1, x2, y2);  
-        }
+        ///// <summary>
+        ///// Draws a line connecting the two points specified by the coordinate pairs.
+        ///// </summary>
+        ///// <param name="pen"><see cref="T:System.Drawing.Pen"/> that determines the color, width, and style of the line. </param><param name="x1">The x-coordinate of the first point. </param><param name="y1">The y-coordinate of the first point. </param><param name="x2">The x-coordinate of the second point. </param><param name="y2">The y-coordinate of the second point. </param><exception cref="T:System.ArgumentNullException"><paramref name="pen"/> is null.</exception>
+        //public override void DrawLine(Pen pen, float x1, float y1, float x2, float y2)
+        //{
+        //    ReleaseHdc();
+        //    gx.DrawLine(pen.InnerPen as System.Drawing.Pen, x1, y1, x2, y2);  
+        //}
 
-        /// <summary>
-        /// Draws a rectangle specified by a coordinate pair, a width, and a height.
-        /// </summary>
-        /// <param name="pen">A <see cref="T:System.Drawing.Pen"/> that determines the color, width, and style of the rectangle. </param><param name="x">The x-coordinate of the upper-left corner of the rectangle to draw. </param><param name="y">The y-coordinate of the upper-left corner of the rectangle to draw. </param><param name="width">The width of the rectangle to draw. </param><param name="height">The height of the rectangle to draw. </param><exception cref="T:System.ArgumentNullException"><paramref name="pen"/> is null.</exception>
-        public override void DrawRectangle(Pen pen, float x, float y, float width, float height)
-        {
-            ReleaseHdc();
-            gx.DrawRectangle((System.Drawing.Pen)pen.InnerPen, x, y, width, height);
-        }
+
 
         public void FillRectangle(Brush getSolidBrush, float left, float top, float width, float height)
         {
@@ -522,12 +372,12 @@ namespace LayoutFarm
         /// Fills the interior of a polygon defined by an array of points specified by <see cref="T:System.Drawing.PointF"/> structures.
         /// </summary>
         /// <param name="brush"><see cref="T:System.Drawing.Brush"/> that determines the characteristics of the fill. </param><param name="points">Array of <see cref="T:System.Drawing.PointF"/> structures that represent the vertices of the polygon to fill. </param><exception cref="T:System.ArgumentNullException"><paramref name="brush"/> is null.-or-<paramref name="points"/> is null.</exception>
-        public override void FillPolygon(Brush brush, PointF[] points)
+        public override void FillPolygon(PointF[] points)
         {
             ReleaseHdc();
             //create Point
             var pps = ConvPointFArray(points);
-            gx.FillPolygon(brush.InnerBrush as System.Drawing.Brush, pps);
+            gx.FillPolygon(this.internalBrush, pps);
         }
 
 #if DEBUG

@@ -23,7 +23,7 @@ namespace LayoutFarm
 {
     partial class MyCanvas
     {
-        bool isCanvasReady;
+
         public bool DimensionInvalid
         {
             get
@@ -43,7 +43,7 @@ namespace LayoutFarm
             }
         }
 
-        public Rect InvalidateArea
+        public override Rect InvalidateArea
         {
             get
             {
@@ -51,22 +51,7 @@ namespace LayoutFarm
             }
         }
 
-        public bool IsContentReady
-        {
-            get { return this.isCanvasReady; }
-            set
-            {   
-                //if (value)
-                //{
-                //    Console.WriteLine((dbugCount++) + "c_ready:true");
-                //}
-                //else
-                //{
-                //    Console.WriteLine((dbugCount++) + "c_ready:false");
-                //}
-                this.isCanvasReady = value;
-            }
-        }
+
         static int dbugCount = 0;
 
         public override void Invalidate(Rect rect)

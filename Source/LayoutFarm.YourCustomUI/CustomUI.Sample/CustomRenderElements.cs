@@ -20,7 +20,7 @@ namespace LayoutFarm.SampleControls
             : base(rootgfx, width, height)
         {
             this.BackColor = Color.LightGray;
-          
+
         }
         public override void ClearAllChildren()
         {
@@ -33,15 +33,13 @@ namespace LayoutFarm.SampleControls
         protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
         {
 
-            //sample bg 
-            using (var brush = canvasPage.Platform.CreateSolidBrush(BackColor))
+            //sample bg  
+            canvasPage.FillRectangle(BackColor, updateArea.ToRectangle());
+            if (this.Layers != null)
             {
-                canvasPage.FillRectangle(brush, updateArea.ToRectangle());
-                if (this.Layers != null)
-                {
-                    this.Layers.LayersDrawContent(canvasPage, updateArea);
-                }
+                this.Layers.LayersDrawContent(canvasPage, updateArea);
             }
+
         }
     }
 

@@ -186,30 +186,36 @@ namespace LayoutFarm.Text
                     case Canvas.DIFF_FONT_SAME_TEXT_COLOR:
                         {
 
-                            canvas.PushFont(beh.FontInfo);
+                            var prevFont = canvas.CurrentFont;
+                            canvas.CurrentFont = beh.FontInfo;
                             canvas.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),
                                beh.ContentHAlign);
-                            canvas.PopFont();
-
+                             
+                            canvas.CurrentFont = prevFont;
                         } break;
                     case Canvas.DIFF_FONT_DIFF_TEXT_COLOR:
                         {
+                            var prevFont = canvas.CurrentFont;
+                            var prevColor = canvas.CurrentTextColor;
 
-                            canvas.PushFontInfoAndTextColor(beh.FontInfo, beh.FontColor);
+                            canvas.CurrentFont = beh.FontInfo;
+                            canvas.CurrentTextColor = beh.FontColor;
                             canvas.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),
                                beh.ContentHAlign);
-                            canvas.PopFontInfoAndTextColor();
+
+                            canvas.CurrentFont = prevFont;
+                            canvas.CurrentTextColor = prevColor;
 
                         } break;
                     case Canvas.SAME_FONT_DIFF_TEXT_COLOR:
                         {
-                            canvas.PushTextColor(beh.FontColor);
+                            var prevColor = canvas.CurrentTextColor;
                             canvas.DrawText(textArray,
                             new Rectangle(0, 0, bWidth, bHeight),
                             beh.ContentHAlign);
-                            canvas.PopTextColor();
+                            canvas.CurrentTextColor = prevColor;
 
                         } break;
                     default:

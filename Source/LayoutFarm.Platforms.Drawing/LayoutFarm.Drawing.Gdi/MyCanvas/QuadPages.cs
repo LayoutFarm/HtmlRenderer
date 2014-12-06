@@ -102,7 +102,7 @@ namespace LayoutFarm.Drawing
         public const int PAGE_ABCD = 3;
 
         public void RenderToOutputWindowFullMode(
-        TopWindowRenderBox rootElement,
+        ITopWindowRenderBox rootElement,
         IntPtr destOutputHdc,
         int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
@@ -188,7 +188,7 @@ namespace LayoutFarm.Drawing
             }
         }
 
-        static void UpdateAllArea(MyCanvas mycanvas, TopWindowRenderBox rootElement)
+        static void UpdateAllArea(MyCanvas mycanvas, ITopWindowRenderBox rootElement)
         {
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
@@ -204,68 +204,17 @@ namespace LayoutFarm.Drawing
             mycanvas.IsContentReady = true;
             mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
         }
-        static void UpdateInvalidArea(MyCanvas mycanvas, TopWindowRenderBox rootElement, VisualDrawingChain renderingChain)
+
+        static void UpdateInvalidArea(MyCanvas mycanvas, ITopWindowRenderBox rootElement, IVisualDrawingChain renderingChain)
         {
 
-            List<RenderElement> selectedVisualElements = renderingChain.selectedVisualElements;
-            List<bool> containAllAreaTestResults = renderingChain.containAllAreaTestResults;
+            renderingChain.UpdateInvalidArea(mycanvas, rootElement);
 
-
-            int j = containAllAreaTestResults.Count;
-
-            mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
-            Rect rect = mycanvas.InvalidateArea;
-
-            for (int i = j - 1; i > -1; --i)
-            {
-
-                if (containAllAreaTestResults[i])
-                {
-                    RenderElement ve = selectedVisualElements[i];
-                    if (!ve.IsInRenderChain)
-                    {
-                        continue;
-                    }
-                    if (!ve.HasSolidBackground)
-                    {
-                        continue;
-                    }
-
-                    Point globalLocation = ve.GetGlobalLocation();
-
-                    mycanvas.OffsetCanvasOrigin(globalLocation.X, globalLocation.Y);
-
-                    rect.Offset(-globalLocation.X, -globalLocation.Y);
-
-                    ve.DrawToThisPage(mycanvas, rect);
-#if DEBUG
-                    rootElement.dbugShowRenderPart(mycanvas, rect);
-#endif
-
-#if DEBUG
-
-#endif
-                    mycanvas.IsContentReady = true;
-                    rect.Offset(globalLocation.X, globalLocation.Y);
-                    mycanvas.OffsetCanvasOrigin(-globalLocation.X, -globalLocation.Y);
-
-                    ve.IsInRenderChain = false;
-
-                    break;
-                }
-            }
-            mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
-            for (int i = j - 1; i > -1; --i)
-            {
-                selectedVisualElements[i].IsInRenderChain = true;
-            }
         }
-        static void UpdateInvalidArea(MyCanvas mycanvas, TopWindowRenderBox rootElement)
+        static void UpdateInvalidArea(MyCanvas mycanvas, ITopWindowRenderBox rootElement)
         {
 #if DEBUG
 #endif
-
-
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
             Rect rect = mycanvas.InvalidateArea;
             rootElement.DrawToThisPage(mycanvas, rect);
@@ -279,13 +228,14 @@ namespace LayoutFarm.Drawing
 
 
         public void RenderToOutputWindowPartialMode(
-            TopWindowRenderBox rootElement,
+            ITopWindowRenderBox rootElement,
             IntPtr destOutputHdc,
             int viewportX, int viewportY,
             int viewportWidth, int viewportHeight)
         {
 
-            VisualDrawingChain renderChain = null;
+            //temp ****
+            IVisualDrawingChain renderChain = null;
             switch (render_parts)
             {
                 case PAGE_A:

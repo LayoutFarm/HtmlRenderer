@@ -18,7 +18,7 @@ namespace TestGraphicPackage2
             LayoutFarm.Drawing.MyWinGdiPortal.Start();
 
             LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo =
-                LayoutFarm.Drawing.CurrentGraphicPlatform.CreateTexFontInfo(
+                LayoutFarm.Drawing.CurrentGraphicsPlatform.CreateNativeFontWrapper(
                     new System.Drawing.Font("tahoma", 10));
 
             var formDemo = new LayoutFarm.Dev.FormDemoList();

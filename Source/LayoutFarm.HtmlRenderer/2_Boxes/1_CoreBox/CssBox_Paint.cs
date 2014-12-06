@@ -36,25 +36,20 @@ namespace HtmlRenderer.Boxes
                 //     new PointF(r.Left + 10, r.Top + 10), new SizeF(r.Width, r.Height));
                 //f.Dispose();
 
-                p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);
+                p.dbugDrawDiagonalBox(Color.Gray, r.Left, r.Top, r.Right, r.Bottom);
             }
             else
             {
 
-                Pen selectedPens = null;
+                Color color = Color.Green;
                 switch (this._cssDisplay)
                 {
                     case Css.CssDisplay.TableCell:
-                        selectedPens = Pens.OrangeRed;
+                        color = Color.OrangeRed;
                         break;
-                    //case Css.CssDisplay.BlockInsideInlineAfterCorrection:
-                    //    selectedPens = Pens.Magenta;
-                    //    break;
-                    default:
-                        selectedPens = Pens.Green;
-                        break;
+                    
                 }
-                p.dbugDrawDiagonalBox(selectedPens, r.Left, r.Top, r.Right, r.Bottom);
+                p.dbugDrawDiagonalBox(color, r.Left, r.Top, r.Right, r.Bottom);
 
             }
         }
@@ -251,7 +246,7 @@ namespace HtmlRenderer.Boxes
                 bool dispose = false;
 
                 if (BackgroundGradient != Color.Transparent)
-                { 
+                {
                     //use bg gradient
                     brush = p.Platform.CreateLinearGradientBrush(rect,
                         ActualBackgroundColor,
@@ -356,14 +351,9 @@ namespace HtmlRenderer.Boxes
             {
                 x2 -= ActualPaddingRight + ActualBorderRightWidth;
             }
-
-            using (var pen = g.Platform.CreateSolidPen(ActualColor))
-            {
-                g.DrawLine(pen, x1, y, x2, y);
-            }
-            //var pen = RenderUtils.GetPen(ActualColor);
-
-
+ 
+            g.DrawLine(ActualColor, x1, y, x2, y);
+            
         }
 
 

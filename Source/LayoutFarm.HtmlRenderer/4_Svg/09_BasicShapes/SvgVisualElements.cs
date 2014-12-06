@@ -43,7 +43,7 @@ namespace LayoutFarm.SvgDom
 
         protected static GraphicsPath CreateNewPath()
         {
-            return CurrentGraphicPlatform.CreateGraphicPath();
+            return CurrentGraphicsPlatform.CreateGraphicPath();
         }
 
         public Color FillColor
@@ -147,7 +147,7 @@ namespace LayoutFarm.SvgDom
         }
         static GraphicsPath CreateRectGraphicPath(float x, float y, float w, float h)
         {
-            var _path = CurrentGraphicPlatform.CreateGraphicPath();
+            var _path = CurrentGraphicsPlatform.CreateGraphicPath();
             _path.StartFigure();
             _path.AddRectangle(new RectangleF(x, y, w, h));
             _path.CloseFigure();
@@ -155,7 +155,7 @@ namespace LayoutFarm.SvgDom
         }
         static GraphicsPath CreateRoundRectGraphicPath(float x, float y, float w, float h, float c_rx, float c_ry)
         {
-            var _path = CurrentGraphicPlatform.CreateGraphicPath();
+            var _path = CurrentGraphicsPlatform.CreateGraphicPath();
             var arcBounds = new RectangleF();
             var lineStart = new PointF();
             var lineEnd = new PointF();
@@ -305,7 +305,7 @@ namespace LayoutFarm.SvgDom
             if (this.IsPathValid) { return; }
             ClearCachePath();
 
-            myCachedPath = CurrentGraphicPlatform.CreateGraphicPath();
+            myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath();
             myCachedPath.StartFigure();
             myCachedPath.AddEllipse(this.ActualX - this.ActualRadius, this.ActualY - this.ActualRadius, 2 * this.ActualRadius, 2 * ActualRadius);
             myCachedPath.CloseFigure();
@@ -395,7 +395,7 @@ namespace LayoutFarm.SvgDom
             //path may note need
             if (this.IsPathValid) { return; }
             ClearCachePath();
-            this.myCachedPath = CurrentGraphicPlatform.CreateGraphicPath();
+            this.myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath();
             myCachedPath.StartFigure();
             myCachedPath.AddEllipse(this.ActualX - this.ActualRadiusX, this.ActualY - this.ActualRadiusY, 2 * this.ActualRadiusX, 2 * this.ActualRadiusY);
             myCachedPath.CloseFigure();
@@ -455,7 +455,7 @@ namespace LayoutFarm.SvgDom
             if (this.IsPathValid) { return; }
             ClearCachePath();
 
-            this.myCachedPath = CurrentGraphicPlatform.CreateGraphicPath();
+            this.myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath();
             this.myCachedPath.StartFigure();
             PointF[] plist = this.pointList;
             int lim = plist.Length - 1;
@@ -530,7 +530,7 @@ namespace LayoutFarm.SvgDom
             if (this.IsPathValid) { return; }
             ClearCachePath();
 
-            this.myCachedPath = CurrentGraphicPlatform.CreateGraphicPath();
+            this.myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath();
             PointF[] plist = this.pointList;
             int lim = plist.Length - 1;
             for (int i = 0; i < lim; ++i)
@@ -611,8 +611,8 @@ namespace LayoutFarm.SvgDom
             {
                 using (Pen pen = p.Platform.CreateSolidPen(this.strokeColor))
                 {
-                    pen.Width = this.ActualStrokeWidth;
-                    p.Gfx.DrawLine(pen,
+                    pen.Width = this.ActualStrokeWidth;                     
+                    p.Gfx.DrawLine(this.strokeColor,
                         this.actualX1, this.actualY1,
                         this.actualX2, this.actualY2);
 

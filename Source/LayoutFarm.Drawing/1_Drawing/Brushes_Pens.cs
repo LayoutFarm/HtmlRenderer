@@ -28,21 +28,21 @@ namespace LayoutFarm.Drawing
 
     public static class Brushes
     {
-        public static SolidBrush White = CurrentGraphicPlatform.CreateSolidBrush(Color.White);
-        public static SolidBrush Black = CurrentGraphicPlatform.CreateSolidBrush(Color.Black);
-        public static SolidBrush Transparent = CurrentGraphicPlatform.CreateSolidBrush(Color.Transparent);
-        public static SolidBrush Red = CurrentGraphicPlatform.CreateSolidBrush(Color.Red);
-        public static SolidBrush LightGray = CurrentGraphicPlatform.CreateSolidBrush(Color.LightGray);
+        public static SolidBrush White = CurrentGraphicsPlatform.CreateSolidBrush(Color.White);
+        public static SolidBrush Black = CurrentGraphicsPlatform.CreateSolidBrush(Color.Black);
+        public static SolidBrush Transparent = CurrentGraphicsPlatform.CreateSolidBrush(Color.Transparent);
+        public static SolidBrush Red = CurrentGraphicsPlatform.CreateSolidBrush(Color.Red);
+        public static SolidBrush LightGray = CurrentGraphicsPlatform.CreateSolidBrush(Color.LightGray);
     }
 
     public static class Pens
     {
-        public static readonly Pen Blue = CurrentGraphicPlatform.CreatePen(Color.Blue);
-        public static readonly Pen LightGray = CurrentGraphicPlatform.CreatePen(Color.LightGray);
-        public static readonly Pen Gray = CurrentGraphicPlatform.CreatePen(Color.Gray);
-        public static readonly Pen DeepPink = CurrentGraphicPlatform.CreatePen(Color.DeepPink);
-        public static readonly Pen OrangeRed = CurrentGraphicPlatform.CreatePen(Color.OrangeRed);
-        public static readonly Pen Green = CurrentGraphicPlatform.CreatePen(Color.Green);
+        public static readonly Pen Blue = CurrentGraphicsPlatform.CreatePen(Color.Blue);
+        public static readonly Pen LightGray = CurrentGraphicsPlatform.CreatePen(Color.LightGray);
+        public static readonly Pen Gray = CurrentGraphicsPlatform.CreatePen(Color.Gray);
+        public static readonly Pen DeepPink = CurrentGraphicsPlatform.CreatePen(Color.DeepPink);
+        public static readonly Pen OrangeRed = CurrentGraphicsPlatform.CreatePen(Color.OrangeRed);
+        public static readonly Pen Green = CurrentGraphicsPlatform.CreatePen(Color.Green);
     }
     public abstract class LinearGradientBrush : Brush
     {

@@ -141,7 +141,7 @@ namespace LayoutFarm.SvgDom
                                 RenderUtils.DrawImageLoadingIcon(g, r);
                                 if (r.Width > 19 && r.Height > 19)
                                 {
-                                    g.DrawRectangle(Pens.LightGray, r.X, r.Y, r.Width, r.Height);
+                                    g.DrawRectangle(Color.LightGray, r.X, r.Y, r.Width, r.Height);
                                 }
                             }
                         } break;
@@ -170,7 +170,7 @@ namespace LayoutFarm.SvgDom
         }
         static GraphicsPath CreateRectGraphicPath(float x, float y, float w, float h)
         {
-            var _path = CurrentGraphicPlatform.CreateGraphicPath();
+            var _path = CurrentGraphicsPlatform.CreateGraphicPath();
             _path.StartFigure();
             _path.AddRectangle(new RectangleF(x, y, w, h));
             _path.CloseFigure();

@@ -31,7 +31,7 @@ namespace Svg.Transforms
         {
             get
             {
-                Matrix matrix = CurrentGraphicPlatform.CreateMatrix();
+                Matrix matrix = CurrentGraphicsPlatform.CreateMatrix();
                 matrix.Translate(this.X, this.Y);
                 return matrix;
             }

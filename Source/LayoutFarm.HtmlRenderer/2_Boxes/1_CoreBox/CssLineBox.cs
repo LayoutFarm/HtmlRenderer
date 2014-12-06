@@ -509,7 +509,7 @@ namespace HtmlRenderer.Boxes
             float x2 = x1 + this.CachedLineContentWidth;
             float y2 = y1 + this.CacheLineHeight;
             //draw diagonal  
-            p.dbugDrawDiagonalBox(Pens.Blue, x1, y1, x2, y2);
+            p.dbugDrawDiagonalBox(Color.Blue, x1, y1, x2, y2);
             //g.DrawRectangle(Pens.Blue,
             //    this.OwnerBox.LocationX,
             //    this.CachedLineTop,
@@ -523,9 +523,10 @@ namespace HtmlRenderer.Boxes
             //}
 
             //return;
+
             foreach (CssRun w in this._runs)
             {
-                g.DrawRectangle(Pens.DeepPink, w.Left, w.Top, w.Width, w.Height);
+                g.DrawRectangle(Color.DeepPink, w.Left, w.Top, w.Width, w.Height);
             }
 
             g.FillRectangle(Color.Red, 0, 0, 5, 5);

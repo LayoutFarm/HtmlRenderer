@@ -97,7 +97,7 @@ namespace LayoutFarm.Drawing
             }
             else
             {
-                return new MyCanvas(CurrentGraphicPlatform.P,
+                return new MyCanvas(CurrentGraphicsPlatform.P,
                     hPageNum,
                     vPageNum,
                     hPageNum * eachPageWidth,

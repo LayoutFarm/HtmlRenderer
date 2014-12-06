@@ -1,17 +1,18 @@
 ﻿
 namespace LayoutFarm.Drawing
 {
-    public abstract class GraphicPlatform
+    public abstract class GraphicsPlatform
     {
 
         public abstract Bitmap CreateBitmap(int width, int height);
-        public abstract Bitmap CreateBitmap(object bmp);
-        public abstract Font CreateFont(object font);
-        public abstract FontInfo CreateTexFontInfo(object nativeFont);
+
+        public abstract Bitmap CreateNativeBitmapWrapper(object bmp);
+        public abstract FontInfo CreateNativeFontWrapper(object nativeFont);
 
         public abstract SolidBrush CreateSolidBrush(Color color);
         public abstract Pen CreatePen(Brush brush);
         public abstract Pen CreateSolidPen(Color color);
+
 
         public abstract TextureBrush CreateTextureBrush(Image img);
         public abstract TextureBrush CreateTextureBrush(Image img, Rectangle rect);
@@ -32,27 +33,25 @@ namespace LayoutFarm.Drawing
             int height);
 
         
-        
-        public abstract IGraphics SampleIGraphics { get; }
-        public abstract IFonts SampleIFonts { get; } 
+        public abstract IFonts SampleIFonts { get; }
     }
 
-    public static class CurrentGraphicPlatform
+    public static class CurrentGraphicsPlatform
     {
         static bool isInit;
-        static GraphicPlatform platform; 
-        public static GraphicPlatform P
+        static GraphicsPlatform platform;
+        public static GraphicsPlatform P
         {
             get { return platform; }
         }
-        public static void SetCurrentPlatform(GraphicPlatform platform)
+        public static void SetCurrentPlatform(GraphicsPlatform platform)
         {
             if (isInit)
             {
                 return;
             }
             isInit = true;
-            CurrentGraphicPlatform.platform = platform;
+            CurrentGraphicsPlatform.platform = platform;
         }
 
         public static SolidBrush CreateSolidBrush(Color c)
@@ -76,13 +75,10 @@ namespace LayoutFarm.Drawing
             get;
             set;
         }
-        public static Font CreateFont(object f)
+
+        public static FontInfo CreateNativeFontWrapper(object nativeFont)
         {
-            return platform.CreateFont(f);
-        }
-        public static FontInfo CreateTexFontInfo(object nativeFont)
-        {
-            return platform.CreateTexFontInfo(nativeFont);
+            return platform.CreateNativeFontWrapper(nativeFont);
         }
     }
 

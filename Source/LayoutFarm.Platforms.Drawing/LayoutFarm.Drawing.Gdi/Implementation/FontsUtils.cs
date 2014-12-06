@@ -112,7 +112,7 @@ namespace LayoutFarm
         }
         public static float MeasureStringWidth(LayoutFarm.Drawing.IGraphics g, char[] buffer, int startAt, int len, LayoutFarm.Drawing.Font font)
         {
-            return g.MeasureString2(buffer, startAt, len, font).Width;
+            return g.MeasureString(buffer, startAt, len, font).Width;
         }
 
 
@@ -142,7 +142,7 @@ namespace LayoutFarm
             var f2 = f.InnerFont as System.Drawing.Font;
             if (!_fontWsCache.TryGetValue(f2, out ws))
             {
-                ws = gfx.MeasureString2(new char[] { ' ' }, 0, 1, f).Width;
+                ws = gfx.MeasureString(new char[] { ' ' }, 0, 1, f).Width;
                 _fontWsCache[f2] = ws;
             }
             return ws;
@@ -324,7 +324,8 @@ namespace LayoutFarm
 
                 
                 fontInfo = new LayoutFarm.Drawing.MyFontInfo(
-                    LayoutFarm.Drawing.WinGdiPortal.P.CreateFont(newFont),
+                 
+                    new LayoutFarm.Drawing.MyFont(newFont), 
                     fontHeight,
                     (fontAscent * fontSize / fontEmHeight),
                     (descent * fontSize / fontEmHeight),

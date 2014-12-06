@@ -42,7 +42,8 @@ namespace LayoutFarm.SampleControls
             this._width = width;
             this._height = height;
 
-            myHtmlIsland = new MyHtmlIsland();
+            myHtmlIsland = new MyHtmlIsland(CurrentGraphicsPlatform.P);
+
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.Refresh += OnRefresh;
             myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
@@ -57,7 +58,7 @@ namespace LayoutFarm.SampleControls
 
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
-             
+
             _htmlInputEventBridge.MouseUp(e);
         }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
@@ -73,8 +74,8 @@ namespace LayoutFarm.SampleControls
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
 
-        }       
-        
+        }
+
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
             _htmlInputEventBridge.KeyDown(e);
@@ -128,10 +129,10 @@ namespace LayoutFarm.SampleControls
                 }
             };
             var rootBox2 = builder.RefreshCssTree(this.currentdoc,
-                this.rootgfx.SampleIGraphics,
+                this.rootgfx.SampleIFonts,
                 this.myHtmlIsland);
 
-            this.myHtmlIsland.PerformLayout(this.rootgfx.SampleIGraphics);
+            this.myHtmlIsland.PerformLayout();
 
         }
         /// <summary>
@@ -205,7 +206,7 @@ namespace LayoutFarm.SampleControls
             htmlIsland.SetHtmlDoc(this.currentdoc);
             htmlIsland.SetRootCssBox(rootBox, this.waitingCssData);
             htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
-            htmlIsland.PerformLayout(rootgfx.SampleIGraphics);
+            htmlIsland.PerformLayout();
         }
         void SetHtml(MyHtmlIsland htmlIsland, string html, HtmlRenderer.WebDom.CssActiveSheet cssData)
         {

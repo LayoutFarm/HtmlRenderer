@@ -20,7 +20,7 @@ namespace LayoutFarm
                 return;
             }
 
-            canvasPage.FillRectangle(colorBrush, 0, 0, width, height);
+            canvasPage.FillRectangle(color, 0, 0, width, height);
 
         }
 

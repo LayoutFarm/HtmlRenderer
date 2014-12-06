@@ -19,7 +19,7 @@ namespace TestGraphicPackage
         {
             InitializeComponent();
             uiPlatformWinForm = new LayoutFarm.UI.WinForms.UIPlatformWinForm(
-                 LayoutFarm.Drawing.CurrentGraphicPlatform.P);
+                 LayoutFarm.Drawing.CurrentGraphicsPlatform.P);
         }
 
         static void ShowFormLayoutInspector(LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport)

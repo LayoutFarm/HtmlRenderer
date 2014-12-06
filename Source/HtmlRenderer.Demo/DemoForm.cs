@@ -405,7 +405,7 @@ namespace HtmlRenderer.Demo
         private void OnImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
         {
             var img = TryLoadResourceImage(e.ImagSource);
-            e.SetResultImage(LayoutFarm.Drawing.CurrentGraphicPlatform.P.CreateBitmap(img));
+            e.SetResultImage(LayoutFarm.Drawing.CurrentGraphicsPlatform.P.CreateNativeBitmapWrapper(img));
 
             //if (!e.Handled && htmlTag != null)
             //{
