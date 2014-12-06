@@ -124,35 +124,7 @@ namespace LayoutFarm
             }
             gx.ReleaseHdc();
         }
-        public override void PushFontInfoAndTextColor(FontInfo FontInfo, Color color)
-        {
-            prevFonts.Push(currentTextFont);
-            currentTextFont = FontInfo;
-            IntPtr hdc = gx.GetHdc();
-            prevHFonts.Push(MyWin32.SelectObject(hdc, FontInfo.HFont));
-            prevColor.Push(currentTextColor);
-            this.currentTextColor = ConvColor(color);
-            prevWin32Colors.Push(MyWin32.SetTextColor(hdc, MyWin32.ColorToWin32(color)));
-            gx.ReleaseHdc();
-
-        }
-        public override void PopFontInfoAndTextColor()
-        {
-
-            IntPtr hdc = gx.GetHdc();
-            if (prevColor.Count > 0)
-            {
-                currentTextColor = prevColor.Pop();
-                MyWin32.SetTextColor(hdc, prevWin32Colors.Pop());
-            }
-            if (prevHFonts.Count > 0)
-            {
-                currentTextFont = prevFonts.Pop();
-                MyWin32.SelectObject(hdc, prevHFonts.Pop());
-            }
-            gx.ReleaseHdc();
-
-        }
+        
         public override void PushTextColor(Color color)
         {
 
@@ -172,30 +144,7 @@ namespace LayoutFarm
             }
             gx.ReleaseHdc();
         }
-
-        public override Size MeasureString(string str, LayoutFarm.Drawing.Font font,
-           float maxWidth, out int charFit, out int charFitWidth)
-        {
-            //if (_useGdiPlusTextRendering)
-            //{
-            //    ReleaseHdc();
-            //    throw new NotSupportedException("Char fit string measuring is not supported for GDI+ text rendering");
-            //}
-            //else
-            //{
-            SetFont(font);
-
-            var size = new System.Drawing.Size();
-
-            Win32Utils.GetTextExtentExPoint(
-                _hdc, str, str.Length,
-                (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
-            charFit = _charFit[0];
-            charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
-            return size.ToSize();
-            //}
-        }
-
+         
         /// <summary>
         /// Measure the width and height of string <paramref name="str"/> when drawn on device context HDC
         /// using the given font <paramref name="font"/>.

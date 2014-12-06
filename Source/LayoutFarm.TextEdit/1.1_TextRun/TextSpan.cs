@@ -195,13 +195,15 @@ namespace LayoutFarm.Text
                         } break;
                     case Canvas.DIFF_FONT_DIFF_TEXT_COLOR:
                         {
-
-                            canvas.PushFontInfoAndTextColor(beh.FontInfo, beh.FontColor);
+                            
+                            canvas.PushFont(beh.FontInfo);
+                            canvas.PushTextColor(beh.FontColor);
                             canvas.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),
                                beh.ContentHAlign);
-                            canvas.PopFontInfoAndTextColor();
-
+                             
+                            canvas.PopFont();
+                            canvas.PopTextColor();
                         } break;
                     case Canvas.SAME_FONT_DIFF_TEXT_COLOR:
                         {

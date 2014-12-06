@@ -77,49 +77,37 @@ namespace LayoutFarm
             destArea.Width, destArea.Height, gxdc, sourceX, sourceY, MyWin32.SRCCOPY);
             MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
             gx.ReleaseHdc();
-
-        }
-
-
-        public override void ClearSurface(Rect rect)
-        {
-            PushClipArea(rect._left, rect._top, rect.Width, rect.Height);
-            gx.Clear(System.Drawing.Color.White); PopClipArea();
-        }
+        } 
         public override void ClearSurface()
         {
             gx.Clear(System.Drawing.Color.White);
         }
 
-        public override void FillPolygon(Brush brush, Point[] points)
-        {
+     
 
-            gx.FillPolygon(ConvBrush(brush), ConvPointArray(points));
-        }
+        //public override void FillPolygon(ArtColorBrush colorBrush, Point[] points)
+        //{
+        //    if (colorBrush is ArtSolidBrush)
+        //    {
+        //        ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
+        //        gx.FillPolygon(ConvBrush(colorBrush.myBrush), ConvPointArray(points));
 
-        public override void FillPolygon(ArtColorBrush colorBrush, Point[] points)
-        {
-            if (colorBrush is ArtSolidBrush)
-            {
-                ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
-                gx.FillPolygon(ConvBrush(colorBrush.myBrush), ConvPointArray(points));
+        //    }
+        //    else if (colorBrush is ArtGradientBrush)
+        //    {
+        //        ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
 
-            }
-            else if (colorBrush is ArtGradientBrush)
-            {
-                ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
-
-                gx.FillPolygon(ConvBrush(colorBrush.myBrush), ConvPointArray(points));
+        //        gx.FillPolygon(ConvBrush(colorBrush.myBrush), ConvPointArray(points));
 
 
-            }
-            else if (colorBrush is ArtImageBrush)
-            {
-                ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
+        //    }
+        //    else if (colorBrush is ArtImageBrush)
+        //    {
+        //        ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
 
 
-            }
-        }
+        //    }
+        //}
         public override void FillRegion(ArtColorBrush colorBrush, Region rgn)
         {
             if (colorBrush is ArtSolidBrush)
@@ -142,7 +130,6 @@ namespace LayoutFarm
 
         public override void FillPath(GraphicsPath gfxPath, Color solidColor)
         {
-
             FillPath(gfxPath, new ArtSolidBrush(solidColor));
         }
         public override void FillPath(GraphicsPath gfxPath, Brush colorBrush)
@@ -218,11 +205,7 @@ namespace LayoutFarm
             internalBrush.Color = ConvColor(color);
             gx.FillRectangle(internalBrush, left, top, right - left, bottom - top);
         }
-        public override float GetBoundWidth(Region rgn)
-        {
-            return ConvRgn(rgn).GetBounds(gx).Width;
-
-        }
+      
         public override RectangleF GetBound(Region rgn)
         {
             return (ConvRgn(rgn).GetBounds(gx)).ToRectF();

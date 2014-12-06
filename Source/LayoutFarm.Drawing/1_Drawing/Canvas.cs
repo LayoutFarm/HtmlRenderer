@@ -15,17 +15,8 @@ namespace LayoutFarm.Drawing
         const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
 
         public abstract GraphicPlatform Platform { get; }
-
-        public abstract bool AvoidGeometryAntialias
-        {
-            get;
-            set;
-        }
-        public abstract bool AvoidTextAntialias
-        {
-            get;
-            set;
-        } 
+        public abstract SmoothingMode SmoothingMode { get; set; }
+        
 
         public abstract SolidBrush GetSharedSolidBrush(); 
 
@@ -57,95 +48,58 @@ namespace LayoutFarm.Drawing
         }
 
         public abstract void DrawText(char[] buffer, int x, int y);
-
         public abstract void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment);
 
         public const int SAME_FONT_SAME_TEXT_COLOR = 0;
         public const int SAME_FONT_DIFF_TEXT_COLOR = 1;
         public const int DIFF_FONT_SAME_TEXT_COLOR = 2;
-        public const int DIFF_FONT_DIFF_TEXT_COLOR = 3;
-
-        public abstract int EvaluateFontAndTextColor(FontInfo FontInfo, Color color);
-
-        public abstract void PushFont(FontInfo FontInfo);
-        public abstract void PopFont();
-        public abstract void PushFontInfoAndTextColor(FontInfo FontInfo, Color color);
-
-        public abstract void PopFontInfoAndTextColor();
-
-        public abstract void PushTextColor(Color color);
-
-        public abstract void PopTextColor();
-
-        public abstract void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea);
-
-        public abstract void RenderTo(System.IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea);
-
-        public abstract void OffsetCanvasOrigin(int dx, int dy);
-
-        public abstract void OffsetCanvasOriginX(int dx);
-
-        public abstract void OffsetCanvasOriginY(int dy);
-
-      
-        public abstract void ClearSurface(Rect rect);
+        public const int DIFF_FONT_DIFF_TEXT_COLOR = 3;        
 
         public abstract void ClearSurface();
+        public abstract void OffsetCanvasOrigin(int dx, int dy);
+        public abstract void OffsetCanvasOriginX(int dx);
+        public abstract void OffsetCanvasOriginY(int dy);
+        //-------------------------------------------------------
+        public abstract int EvaluateFontAndTextColor(FontInfo FontInfo, Color color);
+        public abstract void PushFont(FontInfo FontInfo);
+        public abstract void PopFont();
+        public abstract float GetFontHeight(Font f);         
+        public abstract void PushTextColor(Color color);
+        public abstract void PopTextColor();
+        public abstract void DrawString(string str, Font f, Brush brush, float x, float y);
+        public abstract void DrawString(string str, Font f, Brush brush, float x, float y, float w, float h);
+        //-------------------------------------------------------
 
-        public abstract void FillPolygon(Brush brush, PointF[] points);
-
-        public abstract void FillPolygon(Brush brush, Point[] points);
-
-
-        public abstract void FillPolygon(ArtColorBrush colorBrush, Point[] points);
-
+        public abstract void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea);
+        public abstract void RenderTo(System.IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea);                  
+        //-------------------------------------------------------
+        public abstract RectangleF GetBound(Region rgn);
         public abstract void FillRegion(ArtColorBrush colorBrush, Region rgn);
-
-        public abstract void FillPath(GraphicsPath gfxPath, Color solidColor);
-
+        //------------------------------------------------------- 
+        public abstract void FillPolygon(Brush brush, PointF[] points);   
+        public abstract void FillPath(GraphicsPath gfxPath, Color solidColor); 
         public abstract void FillPath(GraphicsPath gfxPath, Brush colorBrush);
-
         public abstract void FillPath(GraphicsPath gfxPath, ArtColorBrush colorBrush);
 
-        public abstract void DrawPath(GraphicsPath gfxPath);
-
-        public abstract void DrawPath(GraphicsPath gfxPath, Color color);
+        public abstract void DrawPath(GraphicsPath gfxPath); 
+        public abstract void DrawPath(GraphicsPath gfxPath, Color color); 
 
         public abstract void DrawPath(GraphicsPath gfxPath, Pen pen);
-
-        public abstract void FillRectangle(Color color, Rectangle rect);
-
-        public abstract void FillRectangle(Color color, RectangleF rectf);
-
-        public abstract void FillRectangle(Brush brush, Rectangle rect);
-
-        public abstract void FillRectangle(Brush brush, RectangleF rectf);
-
-        public abstract void FillRectangle(ArtColorBrush brush, RectangleF rectf);
-
+        //------------------------------------------------------- 
+        public abstract void FillRectangle(Color color, Rectangle rect); 
+        public abstract void FillRectangle(Color color, RectangleF rectf); 
+        public abstract void FillRectangle(Brush brush, Rectangle rect); 
+        public abstract void FillRectangle(Brush brush, RectangleF rectf); 
+        public abstract void FillRectangle(ArtColorBrush brush, RectangleF rectf); 
         public abstract void FillRectangle(Color color, int left, int top, int right, int bottom);
-
-        public abstract float GetBoundWidth(Region rgn);
-
-        public abstract RectangleF GetBound(Region rgn);
-
-        public abstract float GetFontHeight(Font f);
-
-        public abstract Size MeasureString(string str, Font font, float maxWidth, out int charFit, out int charFitWidth);
-
         public abstract void FillRectangle(ArtColorBrush colorBrush, int left, int top, int right, int bottom);
-
-        public abstract void DrawRectangle(Pen p, Rectangle rect);
-
-        public abstract void DrawRectangle(Pen p, float x, float y, float width, float height);
-
-        public abstract SmoothingMode SmoothingMode { get; set; }
-
+        //------------------------------------------------------- 
+   
+        public abstract void DrawRectangle(Pen p, Rectangle rect); 
+        public abstract void DrawRectangle(Pen p, float x, float y, float width, float height); 
         public abstract void DrawRectangle(Color color, int left, int top, int width, int height);
-
-        public abstract void DrawString(string str, Font f, Brush brush, float x, float y);
-
-        public abstract void DrawString(string str, Font f, Brush brush, float x, float y, float w, float h);
+        //------------------------------------------------------- 
+    
 
         public abstract void DrawRectangle(Color color, float left, float top, float width, float height);
 

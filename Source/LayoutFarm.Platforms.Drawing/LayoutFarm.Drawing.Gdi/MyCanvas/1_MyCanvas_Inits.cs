@@ -60,8 +60,7 @@ namespace LayoutFarm
         System.Drawing.Rectangle currentClipRect;
         //-------------------------------
 
-        bool _avoidGeometryAntialias;
-        bool _avoidTextAntialias;
+       
          
         bool isFromPrinter = false;
 
@@ -104,7 +103,9 @@ namespace LayoutFarm
 
             gx = System.Drawing.Graphics.FromHdc(originalHdc);
 
-            PushFontInfoAndTextColor(defaultFontInfo, Color.Black);
+             
+            PushFont(defaultFontInfo);
+            PushTextColor(Color.Black);
 #if DEBUG
             debug_canvas_id = dbug_canvasCount + 1;
             dbug_canvasCount += 1;

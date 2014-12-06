@@ -88,10 +88,8 @@ namespace LayoutFarm.Drawing
         /// </summary>
         /// <param name="brush"><see cref="T:System.Drawing.Brush"/> that determines the characteristics of the fill. </param><param name="path"><see cref="T:System.Drawing.Drawing2D.GraphicsPath"/> that represents the path to fill. </param><exception cref="T:System.ArgumentNullException"><paramref name="brush"/> is null.-or-<paramref name="path"/> is null.</exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
         void FillPath(Brush brush, GraphicsPath path);
-        //------------------------------------------   
-        Canvas CurrentCanvas { get; }
-        //------------------------------------------
-
+       
+        Canvas CurrentCanvas { get; } 
     }
 
 

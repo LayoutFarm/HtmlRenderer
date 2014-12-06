@@ -24,16 +24,7 @@ namespace LayoutFarm
 
     partial class MyCanvas
     {
-        public override bool AvoidGeometryAntialias
-        {
-            get { return _avoidGeometryAntialias; }
-            set { _avoidGeometryAntialias = value; }
-        }
-        public override bool AvoidTextAntialias
-        {
-            get { return _avoidTextAntialias; }
-            set { _avoidTextAntialias = value; }
-        }
+        
 
         public override IGraphics GetIGraphics()
         {
