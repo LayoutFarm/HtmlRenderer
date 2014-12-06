@@ -65,9 +65,9 @@ namespace LayoutFarm
         bool isFromPrinter = false;
 
 
-        GraphicPlatform platform;
+        GraphicsPlatform platform;
 
-        public MyCanvas(GraphicPlatform platform,
+        public MyCanvas(GraphicsPlatform platform,
             int horizontalPageNum,
             int verticalPageNum,
             int left, int top,
@@ -123,7 +123,7 @@ namespace LayoutFarm
         {
             ReleaseHdc();
         }
-        public override GraphicPlatform Platform
+        public override GraphicsPlatform Platform
         {
             get { return this.platform; }
         }

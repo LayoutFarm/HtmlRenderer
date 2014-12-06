@@ -30,7 +30,7 @@ namespace Svg.Transforms
         {
             get
             {
-                Matrix matrix = CurrentGraphicPlatform.CreateMatrix();
+                Matrix matrix = CurrentGraphicsPlatform.CreateMatrix();
                 matrix.Scale(this.X, this.Y);
                 return matrix;
             }

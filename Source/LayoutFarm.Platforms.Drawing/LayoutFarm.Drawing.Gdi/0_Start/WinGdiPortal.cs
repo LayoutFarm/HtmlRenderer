@@ -18,15 +18,15 @@ namespace LayoutFarm.Drawing
                 return;
             }
             isInit = true; 
-            CurrentGraphicPlatform.SetCurrentPlatform(WinGdiPortal.platform = new WinGdiPlatform());
-            CurrentGraphicPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
+            CurrentGraphicsPlatform.SetCurrentPlatform(WinGdiPortal.platform = new WinGdiPlatform());
+            CurrentGraphicsPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
 
         }
         public static void End()
         {
 
         }
-        public static GraphicPlatform P
+        public static GraphicsPlatform P
         {
             get { return platform; }
         }

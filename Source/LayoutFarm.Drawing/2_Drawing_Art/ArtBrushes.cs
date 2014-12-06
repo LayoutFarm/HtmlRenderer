@@ -144,7 +144,7 @@ namespace LayoutFarm.Drawing
         public ArtSolidBrush(Color color)
         {
             this.color = color;
-            this.myBrush = CurrentGraphicPlatform.CreateSolidBrush(color);
+            this.myBrush = CurrentGraphicsPlatform.CreateSolidBrush(color);
         }
         public Color Color
         {

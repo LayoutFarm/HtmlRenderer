@@ -17,7 +17,7 @@ namespace LayoutFarm
             this.Width = width;
             this.Height = heigth;
         }
-        protected abstract GraphicPlatform P { get; }
+        protected abstract GraphicsPlatform P { get; }
         public IGraphics SampleIGraphics { get { return this.P.SampleIGraphics; } }
         public IFonts SampleIFonts { get { return this.P.SampleIFonts; } }
 

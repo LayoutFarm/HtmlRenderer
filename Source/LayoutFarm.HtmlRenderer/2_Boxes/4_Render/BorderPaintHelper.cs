@@ -305,7 +305,7 @@ namespace HtmlRenderer.Boxes
                 case CssSide.Bottom:
                     if (b.ActualCornerSW > 0 || b.ActualCornerSE > 0)
                     {
-                        path = CurrentGraphicPlatform.CreateGraphicPath();
+                        path = CurrentGraphicsPlatform.CreateGraphicPath();
                         if (b.ActualCornerSE > 0)
                             path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSE * 2, b.ActualCornerSE * 2, 0f, 90f);
                         else
@@ -320,7 +320,7 @@ namespace HtmlRenderer.Boxes
                 case CssSide.Right:
                     if (b.ActualCornerNE > 0 || b.ActualCornerSE > 0)
                     {
-                        path = CurrentGraphicPlatform.CreateGraphicPath();
+                        path = CurrentGraphicsPlatform.CreateGraphicPath();
 
                         if (b.ActualCornerNE > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)
                         //(b.BorderTopStyle == CssConstants.None || b.BorderTopStyle == CssConstants.Hidden))
@@ -347,7 +347,7 @@ namespace HtmlRenderer.Boxes
                 case CssSide.Left:
                     if (b.ActualCornerNW > 0 || b.ActualCornerSW > 0)
                     {
-                        path = CurrentGraphicPlatform.CreateGraphicPath();
+                        path = CurrentGraphicsPlatform.CreateGraphicPath();
 
                         if (b.ActualCornerSW > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)//(b.BorderTopStyle == CssConstants.None || b.BorderTopStyle == CssConstants.Hidden))
                         {
@@ -377,7 +377,7 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// Get pen to be used for border draw respecting its style.
         /// </summary>
-        static Pen GetPen(GraphicPlatform platform, CssBorderStyle style, Color color, float width)
+        static Pen GetPen(GraphicsPlatform platform, CssBorderStyle style, Color color, float width)
         {
 
             var p = platform.CreateSolidPen(color);

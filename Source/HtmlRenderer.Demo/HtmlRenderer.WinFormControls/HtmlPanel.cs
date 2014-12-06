@@ -83,7 +83,7 @@ namespace HtmlRenderer.Demo
         TextContentManager textContentMan = new TextContentManager();
 
         LayoutFarm.Drawing.Canvas renderCanvas;
-        LayoutFarm.Drawing.GraphicPlatform gfxPlatform;
+        LayoutFarm.Drawing.GraphicsPlatform gfxPlatform;
         /// <summary>
         /// Creates a new HtmlPanel and sets a basic css for it's styling.
         /// </summary>
@@ -95,7 +95,7 @@ namespace HtmlRenderer.Demo
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
 
-            this.gfxPlatform = LayoutFarm.Drawing.CurrentGraphicPlatform.P;
+            this.gfxPlatform = LayoutFarm.Drawing.CurrentGraphicsPlatform.P;
             this.renderCanvas = gfxPlatform.CreateCanvas(0, 0, 0, 0, 800, 600);
 
             //-------------------------------------------------------
@@ -307,7 +307,7 @@ namespace HtmlRenderer.Demo
 
             //build rootbox from htmldoc
             var rootBox = builder.BuildCssRenderTree(htmldoc,
-               gfxPlatform.SampleIGraphics,
+                gfxPlatform.SampleIFonts,
                 htmlIsland, cssData,
                 null);
 
@@ -340,7 +340,7 @@ namespace HtmlRenderer.Demo
 
 
             var rootBox = builder.BuildCssRenderTree(this.currentDoc,
-                gfxPlatform.SampleIGraphics,
+                gfxPlatform.SampleIFonts,
                 htmlIsland, cssData,
                 null);
 
@@ -499,7 +499,7 @@ namespace HtmlRenderer.Demo
         /// </summary>
         protected override void OnMouseLeave(EventArgs e)
         {
-            base.OnMouseLeave(e);             
+            base.OnMouseLeave(e);
 
             //if (_htmlContainer != null)
             //    _htmlContainer.HandleMouseLeave(this);

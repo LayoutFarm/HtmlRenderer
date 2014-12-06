@@ -45,7 +45,7 @@ namespace LayoutFarm
             }
 
             System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
-            e.SetResultImage(CurrentGraphicPlatform.P.CreateBitmap(bmp));
+            e.SetResultImage(CurrentGraphicsPlatform.P.CreateNativeBitmapWrapper(bmp));
             
         }
 

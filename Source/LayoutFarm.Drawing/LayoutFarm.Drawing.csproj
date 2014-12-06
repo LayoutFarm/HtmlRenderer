@@ -56,7 +56,7 @@
     <Compile Include="2_Drawing_Art\ArtColorPalette.cs" />
     <Compile Include="2_Drawing_Art\ColorComponentStepup.cs" />
     <Compile Include="2_Drawing_Art\GfxProcessorModule.cs" />
-    <Compile Include="0_Start\GraphicPlatform.cs" />
+    <Compile Include="0_Start\GraphicsPlatform.cs" />
     <Compile Include="2_Drawing_Art\ArtBrushes.cs" />
     <Compile Include="1_Drawing\Canvas.cs" />
     <Compile Include="1_Drawing\CustomRenderSurface.cs" />

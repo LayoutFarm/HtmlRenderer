@@ -27,7 +27,7 @@ namespace Svg.Transforms
         {
             get
             {
-                Matrix matrix = CurrentGraphicPlatform.P.CreateMatrix(
+                Matrix matrix = CurrentGraphicsPlatform.P.CreateMatrix(
                     this.points[0],
                     this.points[1],
                     this.points[2],

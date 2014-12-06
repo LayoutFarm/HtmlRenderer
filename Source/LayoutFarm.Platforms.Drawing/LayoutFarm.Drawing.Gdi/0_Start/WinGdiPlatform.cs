@@ -2,7 +2,7 @@
 namespace LayoutFarm.Drawing
 {
    
-    class WinGdiPlatform : GraphicPlatform
+    class WinGdiPlatform : GraphicsPlatform
     {
          
         System.Drawing.Bitmap sampleBmp;
@@ -28,14 +28,11 @@ namespace LayoutFarm.Drawing
         {
             return new MyBitmap(width, height);
         }
-        public override Bitmap CreateBitmap(object bmp)
+        public override Bitmap CreateNativeBitmapWrapper(object bmp)
         {
             return new MyBitmap(bmp as System.Drawing.Bitmap);
         }
-        public override Font CreateFont(object font)
-        {
-            return new MyFont(font as System.Drawing.Font);
-        }
+        
         public override SolidBrush CreateSolidBrush(Color color)
         {
             return new MySolidBrush(color);
@@ -83,7 +80,7 @@ namespace LayoutFarm.Drawing
         {
             return new MyRegion();
         }
-        public override FontInfo CreateTexFontInfo(object nativeFont)
+        public override FontInfo CreateNativeFontWrapper(object nativeFont)
         {
             return LayoutFarm.FontsUtils.GetCachedFont((System.Drawing.Font)nativeFont);
 

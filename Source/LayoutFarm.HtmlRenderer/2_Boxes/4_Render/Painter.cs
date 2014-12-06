@@ -35,7 +35,7 @@ namespace HtmlRenderer
             this.ig = ig;
         }
 
-        public GraphicPlatform Platform
+        public GraphicsPlatform Platform
         {
             get { return this.ig.Platform; }
         }
