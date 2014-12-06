@@ -8,8 +8,8 @@
     <ProjectGuid>{61369865-95B7-49F2-B012-67B4A2427A8B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LayoutFarm.BaseUserPlatform</RootNamespace>
-    <AssemblyName>LayoutFarm.BaseUserPlatform</AssemblyName>
+    <RootNamespace>LayoutFarm.ClientPlatforms</RootNamespace>
+    <AssemblyName>LayoutFarm.ClientPlatforms</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
