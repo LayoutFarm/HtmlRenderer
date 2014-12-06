@@ -99,12 +99,12 @@ namespace HtmlRenderer.Demo
             this.renderCanvas = gfxPlatform.CreateCanvas(0, 0, 0, 0, 800, 600);
 
             //-------------------------------------------------------
-            myHtmlIsland = new MyHtmlIsland();
+            myHtmlIsland = new MyHtmlIsland(gfxPlatform);
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.Refresh += OnRefresh;
             myHtmlIsland.NeedUpdateDom += new EventHandler<EventArgs>(myHtmlIsland_NeedUpdateDom);
             myHtmlIsland.RequestResource += new EventHandler<HtmlResourceRequestEventArgs>(myHtmlIsland_RequestResource);
-            //myHtmlIsland.ScrollChange += OnScrollChange;
+            
             this.imageContentMan.ImageLoadingRequest += OnImageLoad;
             this.textContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
             //-------------------------------------------------------
@@ -141,7 +141,7 @@ namespace HtmlRenderer.Demo
                 e2.SetStyleSheet = req.SetStyleSheet;
             };
             var rootBox2 = builder.RefreshCssTree(this.currentDoc, gfxPlatform.SampleIFonts, this.myHtmlIsland);
-            this.myHtmlIsland.PerformLayout(gfxPlatform.SampleIGraphics);
+            this.myHtmlIsland.PerformLayout();
         }
 
         //void RefreshHtmlDomChange()
@@ -422,7 +422,7 @@ namespace HtmlRenderer.Demo
                 //{
                 //    myHtmlIsland.PerformLayout(g);
                 //}
-                myHtmlIsland.PerformLayout(gfxPlatform.SampleIGraphics);
+                myHtmlIsland.PerformLayout();
                 var asize = myHtmlIsland.ActualSize;
                 AutoScrollMinSize = Size.Round(new SizeF(asize.Width, asize.Height));
             }

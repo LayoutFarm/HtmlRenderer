@@ -45,8 +45,9 @@ namespace HtmlRenderer.Composers
 
 
         //----------------------------------------------------------- 
-        public MyHtmlIsland()
-        {
+        public MyHtmlIsland(GraphicsPlatform gfxPlatforms)
+            : base(gfxPlatforms)
+        {             
             this.IsSelectionEnabled = true;
         }
 

@@ -45,7 +45,7 @@ namespace HtmlRenderer.Boxes
         static int dbugTotalId;
         public int dbugMark;
 #endif
-        public CssBox(object controller, BoxSpec spec) 
+        public CssBox(object controller, BoxSpec spec)
         {
 
             this._aa_boxes = new CssBoxCollection();
@@ -65,7 +65,7 @@ namespace HtmlRenderer.Boxes
             ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
-        public CssBox(object controller, BoxSpec spec, CssDisplay fixDisplayType)             
+        public CssBox(object controller, BoxSpec spec, CssDisplay fixDisplayType)
         {
             this._aa_boxes = new CssBoxCollection();
             this._controller = controller;
@@ -408,7 +408,7 @@ namespace HtmlRenderer.Boxes
                 default:
                     {
                         //others ... 
-                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock); }
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
 
                     } break;
@@ -423,7 +423,7 @@ namespace HtmlRenderer.Boxes
                         //this box may use...
                         // 1) line formatting context  , or
                         // 2) block formatting context  
-                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock); }
+                        if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
                         //---------------------------------------------------------
                         //for general block layout 

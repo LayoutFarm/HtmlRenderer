@@ -26,11 +26,10 @@ namespace HtmlRenderer.Boxes
         static int totalLayoutIdEpisode = 0;
         readonly int episodeId = ++totalLayoutIdEpisode;
 
-        internal LayoutVisitor(IGraphics gfx, HtmlIsland visualRootBox)
+        internal LayoutVisitor(GraphicsPlatform gfx, HtmlIsland visualRootBox)
         {
-            this.Gfx = gfx;
+            this.SampleIFonts = gfx.SampleIFonts;
             this.htmlIsland = visualRootBox;
-
             if (episodeId == ushort.MaxValue - 1)
             {
                 //reset
@@ -38,8 +37,9 @@ namespace HtmlRenderer.Boxes
                 episodeId = totalLayoutIdEpisode++;
             }
         }
-
-        internal IGraphics Gfx
+       
+       
+        internal IFonts SampleIFonts
         {
             get;
             private set;
@@ -101,8 +101,8 @@ namespace HtmlRenderer.Boxes
         internal float MeasureWhiteSpace(CssBox box)
         {
             //depends on Font of this box           
-            float w = this.Gfx.MeasureWhitespace(box.ActualFont);
-
+            float w = this.SampleIFonts.MeasureWhitespace(box.ActualFont);
+             
             if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
             {
                 w += CssValueParser.ConvertToPxWithFontAdjust(box.WordSpacing, 0, box);
@@ -111,11 +111,13 @@ namespace HtmlRenderer.Boxes
         }
         internal FontInfo GetFontInfo(Font f)
         {
-            return this.Gfx.GetFontInfo(f);
+            return this.SampleIFonts.GetFontInfo(f);
+             
         }
         internal float MeasureStringWidth(char[] buffer, int startIndex, int len, Font f)
         {
-            return this.Gfx.MeasureString2(buffer, startIndex, len, f).Width;
+            
+            return this.SampleIFonts.MeasureString2(buffer, startIndex, len, f).Width;
         }
 
         //---------------------------------------------------------------
