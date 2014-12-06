@@ -18,7 +18,7 @@ namespace LayoutFarm
             this.Height = heigth;
         }
         protected abstract GraphicsPlatform P { get; }
-        public IGraphics SampleIGraphics { get { return this.P.SampleIGraphics; } }
+     
         public IFonts SampleIFonts { get { return this.P.SampleIFonts; } }
 
         public abstract void CaretStartBlink();

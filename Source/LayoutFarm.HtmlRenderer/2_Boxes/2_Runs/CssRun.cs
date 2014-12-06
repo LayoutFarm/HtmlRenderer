@@ -290,7 +290,7 @@ namespace HtmlRenderer.Boxes
                     {
                         char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
                         CssTextRun textRun = (CssTextRun)this;
-                        g.MeasureString2(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
+                        g.MeasureString(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
                             this.OwnerBox.ActualFont, maxWidth, out charFit, out charFitWidth);
 
                         selectionIndex = charFit;

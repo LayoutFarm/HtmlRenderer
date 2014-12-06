@@ -1,12 +1,12 @@
 ﻿using System;
 namespace LayoutFarm.Drawing
 {
-   
+
     class WinGdiPlatform : GraphicsPlatform
     {
-         
+
         System.Drawing.Bitmap sampleBmp;
-        IGraphics sampleIGraphics; 
+        IFonts sampleIFonts;
         public WinGdiPlatform()
         {
         }
@@ -18,10 +18,10 @@ namespace LayoutFarm.Drawing
                 sampleBmp.Dispose();
                 sampleBmp = null;
             }
-            if (sampleIGraphics != null)
+            if (sampleIFonts != null)
             {
-                sampleIGraphics.Dispose();
-                sampleIGraphics = null;
+                sampleIFonts.Dispose();
+                sampleIFonts = null;
             }
         }
         public override Bitmap CreateBitmap(int width, int height)
@@ -32,7 +32,7 @@ namespace LayoutFarm.Drawing
         {
             return new MyBitmap(bmp as System.Drawing.Bitmap);
         }
-        
+
         public override SolidBrush CreateSolidBrush(Color color)
         {
             return new MySolidBrush(color);
@@ -90,12 +90,11 @@ namespace LayoutFarm.Drawing
             return new MyCanvas(this, horizontalPageNum, verticalPageNum,
                 left, top, width, height);
         }
-
-        public override IGraphics SampleIGraphics
+        public override IFonts SampleIFonts
         {
             get
             {
-                if (sampleIGraphics == null)
+                if (sampleIFonts == null)
                 {
                     if (sampleBmp == null)
                     {
@@ -103,15 +102,10 @@ namespace LayoutFarm.Drawing
                     }
 
                     System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(sampleBmp);
-                    sampleIGraphics = new MyCanvas(this, 0, 0, 0, 0, 2, 2);
+                    sampleIFonts = new MyCanvas(this, 0, 0, 0, 0, 2, 2);
                 }
-                return this.sampleIGraphics;
+                return this.sampleIFonts;
             }
-        }
-
-        public override IFonts SampleIFonts
-        {
-            get { return this.SampleIGraphics; }
         }
     }
 }

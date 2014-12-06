@@ -32,7 +32,7 @@ namespace LayoutFarm.Drawing
             int width,
             int height);
 
-        public abstract IGraphics SampleIGraphics { get; }
+        
         public abstract IFonts SampleIFonts { get; }
     }
 

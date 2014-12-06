@@ -117,7 +117,7 @@ namespace HtmlRenderer.Boxes
         internal float MeasureStringWidth(char[] buffer, int startIndex, int len, Font f)
         {
             
-            return this.SampleIFonts.MeasureString2(buffer, startIndex, len, f).Width;
+            return this.SampleIFonts.MeasureString(buffer, startIndex, len, f).Width;
         }
 
         //---------------------------------------------------------------

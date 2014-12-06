@@ -178,7 +178,7 @@ namespace LayoutFarm
 
             //}
         }
-        public Size MeasureString2(char[] buff, int startAt, int len, Font font)
+        public Size MeasureString(char[] buff, int startAt, int len, Font font)
         {
             //if (_useGdiPlusTextRendering)
             //{
@@ -220,7 +220,7 @@ namespace LayoutFarm
         /// <param name="charFit">the number of characters that will fit under <see cref="maxWidth"/> restriction</param>
         /// <param name="charFitWidth"></param>
         /// <returns>the size of the string</returns>
-        public Size MeasureString2(char[] buff, int startAt, int len, Font font, float maxWidth, out int charFit, out int charFitWidth)
+        public Size MeasureString(char[] buff, int startAt, int len, Font font, float maxWidth, out int charFit, out int charFitWidth)
         {
             //if (_useGdiPlusTextRendering)
             //{
