@@ -141,7 +141,7 @@ namespace LayoutFarm.SvgDom
                                 RenderUtils.DrawImageLoadingIcon(g, r);
                                 if (r.Width > 19 && r.Height > 19)
                                 {
-                                    g.DrawRectangle(Pens.LightGray, r.X, r.Y, r.Width, r.Height);
+                                    g.DrawRectangle(Color.LightGray, r.X, r.Y, r.Width, r.Height);
                                 }
                             }
                         } break;

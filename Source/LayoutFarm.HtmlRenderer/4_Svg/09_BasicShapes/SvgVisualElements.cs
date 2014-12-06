@@ -611,8 +611,8 @@ namespace LayoutFarm.SvgDom
             {
                 using (Pen pen = p.Platform.CreateSolidPen(this.strokeColor))
                 {
-                    pen.Width = this.ActualStrokeWidth;
-                    p.Gfx.DrawLine(pen,
+                    pen.Width = this.ActualStrokeWidth;                     
+                    p.Gfx.DrawLine(this.strokeColor,
                         this.actualX1, this.actualY1,
                         this.actualX2, this.actualY2);
 

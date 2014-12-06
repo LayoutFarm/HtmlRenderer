@@ -110,6 +110,9 @@ namespace LayoutFarm
             debug_canvas_id = dbug_canvasCount + 1;
             dbug_canvasCount += 1;
 #endif
+
+
+            this.StrokeWidth = 1;
         }
 
         ~MyCanvas()

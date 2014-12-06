@@ -14,8 +14,8 @@ namespace HtmlRenderer
     {
         Stack<RectangleF> clipStacks = new Stack<RectangleF>();
 
-        PointF[] borderPoints = new PointF[4]; 
-        PointF htmlContainerScrollOffset; 
+        PointF[] borderPoints = new PointF[4];
+        PointF htmlContainerScrollOffset;
         HtmlIsland visualRootBox;
         IGraphics ig;
 
@@ -169,11 +169,11 @@ namespace HtmlRenderer
         internal void PaintBorder(CssBox box, CssSide border, Color solidColor, RectangleF rect)
         {
 
-            using (var b = this.Platform.CreateSolidBrush(solidColor))
-            {
-                PointF[] borderPoints = new PointF[4];
-                BorderPaintHelper.DrawBorder(border, borderPoints, this.Gfx, box, b, rect);
-            }
+
+            PointF[] borderPoints = new PointF[4];
+            this.Gfx.FillSolidColor = solidColor;
+            BorderPaintHelper.DrawBorder(border, borderPoints, this.Gfx, box, rect);
+
         }
         //-------------------------------------
         //painting context for canvas , svg
@@ -203,17 +203,17 @@ namespace HtmlRenderer
 
         //-------------------------------------
 #if DEBUG
-        public void dbugDrawDiagonalBox(Pen pen, float x1, float y1, float x2, float y2)
+        public void dbugDrawDiagonalBox(Color color, float x1, float y1, float x2, float y2)
         {
             var g = this.Gfx;
-            g.DrawRectangle(pen, x1, y1, x2 - x1, y2 - y1);
-            g.DrawLine(pen, x1, y1, x2, y2);
-            g.DrawLine(pen, x1, y2, x2, y1);
+            g.DrawRectangle(color, x1, y1, x2 - x1, y2 - y1);
+            g.DrawLine(color, x1, y1, x2, y2);
+            g.DrawLine(color, x1, y2, x2, y1);
         }
-        public void dbugDrawDiagonalBox(Pen pen, RectangleF rect)
+        public void dbugDrawDiagonalBox(Color color, RectangleF rect)
         {
             var g = this.Gfx;
-            this.dbugDrawDiagonalBox(pen, rect.Left, rect.Top, rect.Right, rect.Bottom);
+            this.dbugDrawDiagonalBox(color, rect.Left, rect.Top, rect.Right, rect.Bottom);
 
         }
 #endif

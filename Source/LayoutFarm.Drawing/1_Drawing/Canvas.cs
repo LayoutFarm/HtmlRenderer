@@ -13,11 +13,15 @@ namespace LayoutFarm.Drawing
 #endif
         const int CANVAS_UNUSED = 1 << (1 - 1);
         const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
+        public Canvas()
+        {
 
+        }
         public abstract GraphicsPlatform Platform { get; }
         public abstract SmoothingMode SmoothingMode { get; set; }
-
         //---------------------------------------------------------------------
+        public abstract float StrokeWidth { get; set; }
+        public abstract Color FillSolidColor { get; set; }
         //states
         public abstract void Invalidate(Rect rect);
         public abstract IGraphics GetIGraphics();
@@ -46,7 +50,7 @@ namespace LayoutFarm.Drawing
 
         public abstract Rectangle CurrentClipRect { get; }
         public abstract bool PushClipArea(int x, int y, int width, int height);
-        public abstract void PopClipArea(); 
+        public abstract void PopClipArea();
         //---------------------------------------
         //buffer
         public abstract void ClearSurface();
@@ -56,7 +60,7 @@ namespace LayoutFarm.Drawing
 
         //region object
         public abstract RectangleF GetBound(Region rgn);
-        public abstract void FillRegion(ArtColorBrush colorBrush, Region rgn);
+        public abstract void FillRegion(Region rgn);
         //---------------------------------------
 
 
@@ -75,46 +79,35 @@ namespace LayoutFarm.Drawing
         public abstract void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment);
         //-------------------------------------------------------
         //lines
-        public abstract void DrawLine(Pen pen, Point p1, Point p2);
+
         public abstract void DrawLine(Color c, int x1, int y1, int x2, int y2);
         public abstract void DrawLine(Color c, float x1, float y1, float x2, float y2);
-        public abstract void DrawLine(Pen pen, float x1, float y1, float x2, float y2);
+
         public abstract void DrawLine(Color color, Point p1, Point p2);
         public abstract void DrawLine(Color color, Point p1, Point p2, DashStyle lineDashStyle);
-        public abstract void DrawLines(Color color, Point[] points); 
+        public abstract void DrawLines(Color color, Point[] points);
         //-------------------------------------------------------
         //rects
         public abstract void FillRectangle(Color color, Rectangle rect);
         public abstract void FillRectangle(Color color, RectangleF rectf);
-        public abstract void FillRectangle(Brush brush, Rectangle rect);
-        public abstract void FillRectangle(Brush brush, RectangleF rectf);
-        public abstract void FillRectangle(ArtColorBrush brush, RectangleF rectf);
         public abstract void FillRectangle(Color color, int left, int top, int right, int bottom);
-        public abstract void FillRectangle(ArtColorBrush colorBrush, int left, int top, int right, int bottom);
-
-
-        public abstract void DrawRectangle(Pen p, Rectangle rect);
-        public abstract void DrawRectangle(Pen p, float x, float y, float width, float height);
         public abstract void DrawRectangle(Color color, int left, int top, int width, int height);
         public abstract void DrawRectangle(Color color, float left, float top, float width, float height);
         public abstract void DrawRectangle(Color color, Rectangle rect);
         //------------------------------------------------------- 
-        //path,  polygons,ellipse spline,contour, 
-
+        //path,  polygons,ellipse spline,contour,  
         public abstract void FillPath(GraphicsPath gfxPath, Color solidColor);
-        public abstract void FillPath(GraphicsPath gfxPath, Brush colorBrush);
-        public abstract void FillPath(GraphicsPath gfxPath, ArtColorBrush colorBrush); 
+        
 
-        public abstract void DrawPolygon(Point[] points);
-        public abstract void FillPolygon(Brush brush, PointF[] points);
-        public abstract void FillPolygon(Point[] points);
+        public abstract void DrawPolygon(PointF[] points);
+
+        public abstract void FillPolygon(PointF[] points);
         public abstract void FillEllipse(Point[] points);
         public abstract void FillEllipse(Color color, Rectangle rect);
         public abstract void FillEllipse(Color color, int x, int y, int width, int height);
 
         public abstract void DrawRoundRect(int x, int y, int w, int h, Size cornerSize);
         public abstract void DrawBezire(Point[] points);
-        public abstract void DrawArc(Pen pen, Rectangle r, float startAngle, float sweepAngle);
 
         public abstract void DrawPath(GraphicsPath gfxPath);
         public abstract void DrawPath(GraphicsPath gfxPath, Color color);
@@ -123,8 +116,8 @@ namespace LayoutFarm.Drawing
 
         //images
         public abstract void DrawImage(Image image, RectangleF dest, RectangleF src);
-        public abstract void DrawImage(Image image, RectangleF rect);  
-        public abstract void DrawImageUnScaled(Bitmap image, int x, int y); 
+        public abstract void DrawImage(Image image, RectangleF rect);
+        public abstract void DrawImageUnScaled(Bitmap image, int x, int y);
         //---------------------------------------------------------------------------
 #if DEBUG
         public abstract void dbug_DrawRuler(int x);

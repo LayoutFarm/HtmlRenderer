@@ -24,8 +24,33 @@ namespace LayoutFarm
 
     partial class MyCanvas
     {
-        
 
+        float strokeWidth = 1f;
+        Color fillSolidColor = Color.Transparent;
+        public override float StrokeWidth
+        {
+            get
+            {
+                return this.strokeWidth;
+            }
+            set
+            {
+                this.internalPen.Width = strokeWidth;
+                this.strokeWidth = value;
+            }
+        }
+        public override Color FillSolidColor
+        {
+            get
+            {
+                return fillSolidColor;
+            }
+            set
+            {
+                this.fillSolidColor = value;
+                this.internalBrush.Color = ConvColor(value);
+            }
+        }
         public override IGraphics GetIGraphics()
         {
             return this;

@@ -150,9 +150,6 @@ namespace LayoutFarm.UI.WinForms
             }
             return base.ProcessDialogKey(keyData);
         }
-
-
-
     }
 
 
