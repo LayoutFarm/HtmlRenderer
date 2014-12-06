@@ -195,6 +195,12 @@ namespace LayoutFarm.Drawing
         
         public abstract IGraphics GetIGraphics();
 
+        public abstract Rect InvalidateArea { get; }
+        public bool IsContentReady
+        {
+            get;
+            set;
+        }
         //---------------------------------------------------------------------------
 #if DEBUG
         public abstract void dbug_DrawRuler(int x);

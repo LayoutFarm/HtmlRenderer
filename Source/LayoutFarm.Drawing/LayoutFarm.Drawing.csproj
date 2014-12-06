@@ -63,6 +63,7 @@
     <Compile Include="1_Drawing\Rect.cs" />
     <Compile Include="4_Animation\Timelines.cs" />
     <Compile Include="4_Animation\ParallelTimeline.cs" />
+    <Compile Include="5_BasicRenderBox\ITopWindowRenderBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
