@@ -24,14 +24,7 @@ namespace LayoutFarm
     {
 
 
-        public override SolidBrush GetSharedSolidBrush()
-        {
-            if (sharedSolidBrush == null)
-            {
-                sharedSolidBrush = platform.CreateSolidBrush(Color.Black);// new System.Drawing.SolidBrush(Color.Black);
-            }
-            return sharedSolidBrush;
-        }
+        
 
         public override void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea)
         {
@@ -209,7 +202,6 @@ namespace LayoutFarm
         public override RectangleF GetBound(Region rgn)
         {
             return (ConvRgn(rgn).GetBounds(gx)).ToRectF();
-
         }
 
 
@@ -257,16 +249,7 @@ namespace LayoutFarm
             internalPen.Color = ConvColor(color);
             gx.DrawRectangle(internalPen, left, top, width, height);
         }
-        public override void DrawString(string str, Font f, Brush brush, float x, float y)
-        {
-            gx.DrawString(str, ConvFont(f), ConvBrush(brush), x, y);
-
-        }
-        public override void DrawString(string str, Font f, Brush brush, float x, float y, float w, float h)
-        {
-            gx.DrawString(str, ConvFont(f), ConvBrush(brush), new System.Drawing.RectangleF(x, y, w, h));
-
-        }
+        
         public override void DrawRectangle(Color color, float left, float top, float width, float height)
         {
             internalPen.Color = ConvColor(color);
@@ -275,20 +258,8 @@ namespace LayoutFarm
         public override void DrawRectangle(Color color, Rectangle rect)
         {
             internalPen.Color = ConvColor(color);
-            gx.DrawRectangle(internalPen, rect.ToRect());
-
-        }
-
-        public override void DrawImage(Image image, Rectangle rect)
-        {
-            gx.DrawImage(
-                ConvBitmap(image),
-                rect.ToRect());
-        }
-        public override void DrawImage(Bitmap image, int x, int y, int w, int h)
-        {
-            gx.DrawImage(image.InnerImage as System.Drawing.Bitmap, x, y, w, h);
-        }
+            gx.DrawRectangle(internalPen, rect.ToRect()); 
+        } 
         public override void DrawImageUnScaled(Bitmap image, int x, int y)
         {
             gx.DrawImageUnscaled(image.InnerImage as System.Drawing.Bitmap, x, y);

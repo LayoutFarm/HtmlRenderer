@@ -170,8 +170,8 @@ namespace LayoutFarm
             //}
             //else
             //{
-            SetFont(font);
 
+            SetFont(font);
             var size = new System.Drawing.Size();
             Win32Utils.GetTextExtentPoint32(_hdc, str, str.Length, ref size);
             return size.ToSize();
