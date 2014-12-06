@@ -39,7 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4_IntegrationModules", "4_I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.UserPlatform", "LayoutFarm.UserPlatform\LayoutFarm.UserPlatform.csproj", "{61369865-95B7-49F2-B012-67B4A2427A8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Platforms.MiniAgg", "LayoutFarm.Platforms.MiniAgg\LayoutFarm.Platforms.MiniAgg.csproj", "{1AA171E3-523C-4DD5-A169-DE6322991FF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Platforms.Drawing", "LayoutFarm.Platforms.Drawing\LayoutFarm.Platforms.Drawing.csproj", "{1AA171E3-523C-4DD5-A169-DE6322991FF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

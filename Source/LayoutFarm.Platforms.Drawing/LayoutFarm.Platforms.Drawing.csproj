@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -38,9 +39,31 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LayoutFarm.Drawing.Gdi\0_Start\Conv.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\0_Start\WinGdiPlatform.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\0_Start\WinGdiPortal.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\Bitmap_Brush_Pen.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\FontsUtils.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\MyFontInfo.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\MyGraphicPath.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\MyMatrix.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\MyWin32.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\NativeTextWin32.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\Region.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\Win32Utils.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\0_CanvasCollection.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\1_MyCanvas_Inits.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_CanvasProps.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_CoordinateAndClip.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_DrawGraphics.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_IFont_SpecificImpl.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_IGraphics_SpecificImpl.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_InvalidateArea.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_Static.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_TextFuncs.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\QuadPages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

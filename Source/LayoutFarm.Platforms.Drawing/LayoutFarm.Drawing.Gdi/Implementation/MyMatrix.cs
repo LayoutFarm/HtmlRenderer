@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
-namespace LayoutFarm.Drawing 
+namespace LayoutFarm.Drawing
 {
-    class MyMatrix:Matrix 
+    class MyMatrix : Matrix
     {
 
         System.Drawing.Drawing2D.Matrix mat;

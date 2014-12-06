@@ -15,8 +15,8 @@ namespace TestGraphicPackage2
             Application.SetCompatibleTextRenderingDefault(false);
 
 
-             
-            LayoutFarm.Drawing.WinGdiPortal.Start();
+
+            LayoutFarm.Drawing.MyWinGdiPortal.Start();
 
 
             LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo =
@@ -29,7 +29,7 @@ namespace TestGraphicPackage2
 
             Application.Run(formDemo);
 
-            LayoutFarm.Drawing.WinGdiPortal.End();
+            LayoutFarm.Drawing.MyWinGdiPortal.End();
 
         }
     }

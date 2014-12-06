@@ -2,18 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing.Drawing2D; 
- 
+using System.Drawing.Drawing2D;
+
 namespace LayoutFarm.Drawing
 {
 
-    class QuadPages
+    public class QuadPages
     {
 
-        public MyCanvas pageA;
-        public MyCanvas pageB;
-        public MyCanvas pageC;
-        public MyCanvas pageD;
+        internal MyCanvas pageA;
+        internal MyCanvas pageB;
+        internal MyCanvas pageC;
+        internal MyCanvas pageD;
         CanvasCollection physicalCanvasCollection;
 
         public QuadPages(int cachedPageNum, int eachCachedPageWidth, int eachCachedPageHeight)
