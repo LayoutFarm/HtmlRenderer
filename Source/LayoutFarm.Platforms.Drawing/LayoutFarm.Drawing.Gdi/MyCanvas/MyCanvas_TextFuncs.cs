@@ -28,7 +28,7 @@ namespace LayoutFarm
         {
             return ConvFont(f).GetHeight(gx);
         }
-         
+
         public override void DrawText(char[] buffer, int x, int y)
         {
 
@@ -108,7 +108,7 @@ namespace LayoutFarm
 
         public override void PushFont(FontInfo FontInfo)
         {
-            prevFonts.Push(currentTextFont); 
+            prevFonts.Push(currentTextFont);
             currentTextFont = FontInfo;
             IntPtr hdc = gx.GetHdc();
             prevHFonts.Push(MyWin32.SelectObject(hdc, FontInfo.HFont));
@@ -176,24 +176,24 @@ namespace LayoutFarm
         public override Size MeasureString(string str, LayoutFarm.Drawing.Font font,
            float maxWidth, out int charFit, out int charFitWidth)
         {
-            if (_useGdiPlusTextRendering)
-            {
-                ReleaseHdc();
-                throw new NotSupportedException("Char fit string measuring is not supported for GDI+ text rendering");
-            }
-            else
-            {
-                SetFont(font);
+            //if (_useGdiPlusTextRendering)
+            //{
+            //    ReleaseHdc();
+            //    throw new NotSupportedException("Char fit string measuring is not supported for GDI+ text rendering");
+            //}
+            //else
+            //{
+            SetFont(font);
 
-                var size = new System.Drawing.Size();
+            var size = new System.Drawing.Size();
 
-                Win32Utils.GetTextExtentExPoint(
-                    _hdc, str, str.Length,
-                    (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
-                charFit = _charFit[0];
-                charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
-                return size.ToSize();
-            }
+            Win32Utils.GetTextExtentExPoint(
+                _hdc, str, str.Length,
+                (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
+            charFit = _charFit[0];
+            charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
+            return size.ToSize();
+            //}
         }
 
         /// <summary>
@@ -205,59 +205,59 @@ namespace LayoutFarm
         /// <returns>the size of the string</returns>
         public Size MeasureString(string str, Font font)
         {
-            if (_useGdiPlusTextRendering)
-            {
-                ReleaseHdc();
-                _characterRanges[0] = new System.Drawing.CharacterRange(0, str.Length);
-                _stringFormat.SetMeasurableCharacterRanges(_characterRanges);
+            //if (_useGdiPlusTextRendering)
+            //{
+            //    ReleaseHdc();
+            //    _characterRanges[0] = new System.Drawing.CharacterRange(0, str.Length);
+            //    _stringFormat.SetMeasurableCharacterRanges(_characterRanges);
 
-                var font2 = font.InnerFont as System.Drawing.Font;
-                var size = gx.MeasureCharacterRanges(str,
-                    font2,
-                    System.Drawing.RectangleF.Empty,
-                    _stringFormat)[0].GetBounds(gx).Size;
+            //    var font2 = font.InnerFont as System.Drawing.Font;
+            //    var size = gx.MeasureCharacterRanges(str,
+            //        font2,
+            //        System.Drawing.RectangleF.Empty,
+            //        _stringFormat)[0].GetBounds(gx).Size;
 
-                return new Size((int)Math.Round(size.Width), (int)Math.Round(size.Height));
-            }
-            else
-            {
-                SetFont(font);
+            //    return new Size((int)Math.Round(size.Width), (int)Math.Round(size.Height));
+            //}
+            //else
+            //{
+            SetFont(font);
 
-                var size = new System.Drawing.Size();
-                Win32Utils.GetTextExtentPoint32(_hdc, str, str.Length, ref size);
-                return size.ToSize();
+            var size = new System.Drawing.Size();
+            Win32Utils.GetTextExtentPoint32(_hdc, str, str.Length, ref size);
+            return size.ToSize();
 
-            }
+            //}
         }
         public Size MeasureString2(char[] buff, int startAt, int len, Font font)
         {
-            if (_useGdiPlusTextRendering)
-            {
-                ReleaseHdc();
-                _characterRanges[0] = new System.Drawing.CharacterRange(0, len);
-                _stringFormat.SetMeasurableCharacterRanges(_characterRanges);
-                System.Drawing.Font font2 = (System.Drawing.Font)font.InnerFont;
+            //if (_useGdiPlusTextRendering)
+            //{
+            //    ReleaseHdc();
+            //    _characterRanges[0] = new System.Drawing.CharacterRange(0, len);
+            //    _stringFormat.SetMeasurableCharacterRanges(_characterRanges);
+            //    System.Drawing.Font font2 = (System.Drawing.Font)font.InnerFont;
 
-                var size = gx.MeasureCharacterRanges(
-                    new string(buff, startAt, len),
-                    font2,
-                    System.Drawing.RectangleF.Empty,
-                    _stringFormat)[0].GetBounds(gx).Size;
-                return new LayoutFarm.Drawing.Size((int)Math.Round(size.Width), (int)Math.Round(size.Height));
-            }
-            else
+            //    var size = gx.MeasureCharacterRanges(
+            //        new string(buff, startAt, len),
+            //        font2,
+            //        System.Drawing.RectangleF.Empty,
+            //        _stringFormat)[0].GetBounds(gx).Size;
+            //    return new LayoutFarm.Drawing.Size((int)Math.Round(size.Width), (int)Math.Round(size.Height));
+            //}
+            //else
+            //{
+            SetFont(font);
+            var size = new System.Drawing.Size();
+            unsafe
             {
-                SetFont(font);
-                var size = new System.Drawing.Size();
-                unsafe
+                fixed (char* startAddr = &buff[0])
                 {
-                    fixed (char* startAddr = &buff[0])
-                    {
-                        Win32Utils.UnsafeGetTextExtentPoint32(_hdc, startAddr + startAt, len, ref size);
-                    }
+                    Win32Utils.UnsafeGetTextExtentPoint32(_hdc, startAddr + startAt, len, ref size);
                 }
-                return size.ToSize();
             }
+            return size.ToSize();
+            //}
         }
         /// <summary>
         /// Measure the width and height of string <paramref name="str"/> when drawn on device context HDC
@@ -273,30 +273,30 @@ namespace LayoutFarm
         /// <returns>the size of the string</returns>
         public Size MeasureString2(char[] buff, int startAt, int len, Font font, float maxWidth, out int charFit, out int charFitWidth)
         {
-            if (_useGdiPlusTextRendering)
-            {
-                ReleaseHdc();
-                throw new NotSupportedException("Char fit string measuring is not supported for GDI+ text rendering");
-            }
-            else
-            {
-                SetFont(font);
+            //if (_useGdiPlusTextRendering)
+            //{
+            //    ReleaseHdc();
+            //    throw new NotSupportedException("Char fit string measuring is not supported for GDI+ text rendering");
+            //}
+            //else
+            //{
+            SetFont(font);
 
-                var size = new System.Drawing.Size();
-                unsafe
+            var size = new System.Drawing.Size();
+            unsafe
+            {
+                fixed (char* startAddr = &buff[0])
                 {
-                    fixed (char* startAddr = &buff[0])
-                    {
-                        Win32Utils.UnsafeGetTextExtentExPoint(
-                            _hdc, startAddr + startAt, len,
-                            (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
-                    }
-
+                    Win32Utils.UnsafeGetTextExtentExPoint(
+                        _hdc, startAddr + startAt, len,
+                        (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
                 }
-                charFit = _charFit[0];
-                charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
-                return size.ToSize();
+
             }
+            charFit = _charFit[0];
+            charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
+            return size.ToSize();
+            //}
         }
 
 

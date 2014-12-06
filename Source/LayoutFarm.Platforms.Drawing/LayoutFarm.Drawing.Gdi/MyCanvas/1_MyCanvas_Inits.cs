@@ -62,7 +62,7 @@ namespace LayoutFarm
 
         bool _avoidGeometryAntialias;
         bool _avoidTextAntialias;
-        bool _useGdiPlusTextRendering;
+         
         bool isFromPrinter = false;
 
 

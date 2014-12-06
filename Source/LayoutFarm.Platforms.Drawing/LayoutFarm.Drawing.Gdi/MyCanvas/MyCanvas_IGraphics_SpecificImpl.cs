@@ -63,47 +63,33 @@ namespace LayoutFarm
 #if DEBUG
             dbugCounter.dbugDrawStringCount++;
 #endif
-            if (_useGdiPlusTextRendering)
+            if (color.A == 255)
             {
-                //ReleaseHdc();
-                //_g.DrawString(
-                //    new string(str, startAt, len),
-                //    font,
-                //    RenderUtils.GetSolidBrush(color),
-                //    (int)Math.Round(point.X + canvasOriginX - FontsUtils.GetFontLeftPadding(font) * .8f),
-                //    (int)Math.Round(point.Y + canvasOriginY));
-
+                SetFont(font);
+                SetTextColor(color);
+                unsafe
+                {
+                    fixed (char* startAddr = &str[0])
+                    {
+                        Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X + canvasOriginX),
+                            (int)Math.Round(point.Y + canvasOriginY), (startAddr + startAt), len);
+                    }
+                }
             }
             else
             {
-                if (color.A == 255)
+                //translucent / transparent text
+                InitHdc();
+                unsafe
                 {
-                    SetFont(font);
-                    SetTextColor(color);
-                    unsafe
+                    fixed (char* startAddr = &str[0])
                     {
-                        fixed (char* startAddr = &str[0])
-                        {
-                            Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X + canvasOriginX),
-                                (int)Math.Round(point.Y + canvasOriginY), (startAddr + startAt), len);
-                        }
+                        Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X + canvasOriginX),
+                            (int)Math.Round(point.Y + canvasOriginY), (startAddr + startAt), len);
                     }
                 }
-                else
-                {
-                    //translucent / transparent text
-                    InitHdc();
-                    unsafe
-                    {
-                        fixed (char* startAddr = &str[0])
-                        {
-                            Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X + canvasOriginX),
-                                (int)Math.Round(point.Y + canvasOriginY), (startAddr + startAt), len);
-                        }
-                    }
 
-                    //DrawTransparentText(_hdc, str, font, new Point((int)Math.Round(point.X), (int)Math.Round(point.Y)), Size.Round(size), color);
-                }
+                //DrawTransparentText(_hdc, str, font, new Point((int)Math.Round(point.X), (int)Math.Round(point.Y)), Size.Round(size), color);
             }
         }
     }
