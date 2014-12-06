@@ -24,21 +24,21 @@ namespace LayoutFarm
 {
     partial class MyCanvas
     {
+        Color mycurrentTextColor = Color.Black;
         public override float GetFontHeight(Font f)
         {
             return ConvFont(f).GetHeight(gx);
         }
-
         public override void DrawText(char[] buffer, int x, int y)
         {
 
             if (isFromPrinter)
             {
-                gx.DrawString(new string(buffer),
-                        ConvFont(prevFonts.Peek().Font),
-                        internalBrush,
-                        x,
-                        y);
+                //gx.DrawString(new string(buffer),
+                //        ConvFont(prevFonts.Peek().Font),
+                //        internalBrush,
+                //        x,
+                //        y);
 
             }
             else
@@ -55,11 +55,11 @@ namespace LayoutFarm
 
             if (isFromPrinter)
             {
-                gx.DrawString(
-                    new string(buffer),
-                    ConvFont(prevFonts.Peek().Font),
-                    internalBrush,
-                    logicalTextBox.ToRect());
+                //gx.DrawString(
+                //    new string(buffer),
+                //    ConvFont(prevFonts.Peek().Font),
+                //    internalBrush,
+                //    logicalTextBox.ToRect());
             }
             else
             {
@@ -103,47 +103,73 @@ namespace LayoutFarm
                 }
             }
         }
-
-
-
-        public override void PushFont(FontInfo FontInfo)
+        public override FontInfo CurrentFont
         {
-            prevFonts.Push(currentTextFont);
-            currentTextFont = FontInfo;
-            IntPtr hdc = gx.GetHdc();
-            prevHFonts.Push(MyWin32.SelectObject(hdc, FontInfo.HFont));
-            gx.ReleaseHdc();
-        }
-        public override void PopFont()
-        {
-            IntPtr hdc = gx.GetHdc();
-            if (prevHFonts.Count > 0)
+            get
             {
-                currentTextFont = prevFonts.Pop();
-                MyWin32.SelectObject(hdc, prevHFonts.Pop());
+                return currentTextFont;
             }
-            gx.ReleaseHdc();
+            set
+            {
+                this.currentTextFont = value; 
+                IntPtr hdc = gx.GetHdc();
+                MyWin32.SelectObject(hdc, value.HFont);
+                gx.ReleaseHdc();
+            }
         }
+        public override Color CurrentTextColor
+        {
+            get
+            {
+                return mycurrentTextColor;
+            }
+            set
+            {
+                mycurrentTextColor = value;
+                this.currentTextColor = ConvColor(value);
+                IntPtr hdc = gx.GetHdc();
+                MyWin32.SetTextColor(hdc, MyWin32.ColorToWin32(value));
+                gx.ReleaseHdc();
+            }
+        }
+        //public override void PushFont(FontInfo FontInfo)
+        //{
+        //    prevFonts.Push(currentTextFont);
+        //    currentTextFont = FontInfo;
+        //    IntPtr hdc = gx.GetHdc();
+        //    prevHFonts.Push(MyWin32.SelectObject(hdc, FontInfo.HFont));
+        //    gx.ReleaseHdc();
+        //}
+        //public override void PopFont()
+        //{
+        //    IntPtr hdc = gx.GetHdc();
+        //    if (prevHFonts.Count > 0)
+        //    {
+        //        currentTextFont = prevFonts.Pop();
+        //        MyWin32.SelectObject(hdc, prevHFonts.Pop());
+        //    }
+        //    gx.ReleaseHdc();
+        //}
         
-        public override void PushTextColor(Color color)
-        {
+        //public override void PushTextColor(Color color)
+        //{
 
-            IntPtr hdc = gx.GetHdc();
-            prevColor.Push(currentTextColor);
-            this.currentTextColor = ConvColor(color);
-            prevWin32Colors.Push(MyWin32.SetTextColor(hdc, MyWin32.ColorToWin32(color)));
-            gx.ReleaseHdc();
-        }
-        public override void PopTextColor()
-        {
-            IntPtr hdc = gx.GetHdc();
-            if (prevColor.Count > 0)
-            {
-                currentTextColor = prevColor.Pop();
-                MyWin32.SetTextColor(hdc, prevWin32Colors.Pop());
-            }
-            gx.ReleaseHdc();
-        }
+        //    IntPtr hdc = gx.GetHdc();
+        //    prevColor.Push(currentTextColor);
+        //    this.currentTextColor = ConvColor(color);
+        //    prevWin32Colors.Push(MyWin32.SetTextColor(hdc, MyWin32.ColorToWin32(color)));
+        //    gx.ReleaseHdc();
+        //}
+        //public override void PopTextColor()
+        //{
+        //    IntPtr hdc = gx.GetHdc();
+        //    if (prevColor.Count > 0)
+        //    {
+        //        currentTextColor = prevColor.Pop();
+        //        MyWin32.SetTextColor(hdc, prevWin32Colors.Pop());
+        //    }
+        //    gx.ReleaseHdc();
+        //}
          
         /// <summary>
         /// Measure the width and height of string <paramref name="str"/> when drawn on device context HDC

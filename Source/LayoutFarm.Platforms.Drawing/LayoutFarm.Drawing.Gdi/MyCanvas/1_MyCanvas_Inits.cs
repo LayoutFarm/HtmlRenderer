@@ -43,10 +43,10 @@ namespace LayoutFarm
         IntPtr hFont = IntPtr.Zero;
         IntPtr originalHdc = IntPtr.Zero;
         //-------------------------------
-        Stack<int> prevWin32Colors = new Stack<int>();
-        Stack<IntPtr> prevHFonts = new Stack<IntPtr>();
-        Stack<FontInfo> prevFonts = new Stack<FontInfo>();
-        Stack<System.Drawing.Color> prevColor = new Stack<System.Drawing.Color>();
+       
+       
+         
+        
         Stack<System.Drawing.Rectangle> prevRegionRects = new Stack<System.Drawing.Rectangle>();
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
         //-------------------------------
@@ -104,8 +104,9 @@ namespace LayoutFarm
             gx = System.Drawing.Graphics.FromHdc(originalHdc);
 
              
-            PushFont(defaultFontInfo);
-            PushTextColor(Color.Black);
+             
+            this.CurrentFont = defaultFontInfo;
+            this.CurrentTextColor = Color.Black;
 #if DEBUG
             debug_canvas_id = dbug_canvasCount + 1;
             dbug_canvasCount += 1;
@@ -137,10 +138,8 @@ namespace LayoutFarm
             this.canvasOriginY = 0;
 
             this.clipRectStack.Clear();
-            this.prevHFonts.Clear();
-            this.prevRegionRects.Clear();
-            this.prevFonts.Clear();
-            this.prevWin32Colors.Clear();
+           
+            this.prevRegionRects.Clear(); 
         }
 
         public void ReleaseUnManagedResource()

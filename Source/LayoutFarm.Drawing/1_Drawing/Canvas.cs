@@ -70,11 +70,11 @@ namespace LayoutFarm.Drawing
         public const int DIFF_FONT_SAME_TEXT_COLOR = 2;
         public const int DIFF_FONT_DIFF_TEXT_COLOR = 3;
         public abstract int EvaluateFontAndTextColor(FontInfo FontInfo, Color color);
-        public abstract void PushFont(FontInfo FontInfo);
-        public abstract void PopFont();
+        public abstract FontInfo CurrentFont { get; set; }
+        public abstract Color CurrentTextColor { get; set; }
         public abstract float GetFontHeight(Font f);
-        public abstract void PushTextColor(Color color);
-        public abstract void PopTextColor();
+ 
+
         public abstract void DrawText(char[] buffer, int x, int y);
         public abstract void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment);
         //-------------------------------------------------------
@@ -97,7 +97,7 @@ namespace LayoutFarm.Drawing
         //------------------------------------------------------- 
         //path,  polygons,ellipse spline,contour,  
         public abstract void FillPath(GraphicsPath gfxPath, Color solidColor);
-        
+
 
         public abstract void DrawPolygon(PointF[] points);
 
