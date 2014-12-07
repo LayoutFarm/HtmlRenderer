@@ -171,8 +171,8 @@ namespace HtmlRenderer.Boxes
                         g.SmoothingMode = SmoothingMode.AntiAlias;
                     }
 
-                    g.DrawPath(borderPath, borderColor);
-
+                     
+                    p.DrawPath(borderPath, borderColor, actualBorderWidth);
                     //using (var pen = GetPen(p.Platform, style, borderColor, actualBorderWidth))
                     //using (borderPath)
                     //{
@@ -204,22 +204,25 @@ namespace HtmlRenderer.Boxes
 
                             //using (var pen = GetPen(p.Platform, style, borderColor, actualBorderWidth))
                             //{
+                            var prevColor = g.StrokeColor;
+                            g.StrokeColor = borderColor;
                             switch (borderSide)
                             {
                                 case CssSide.Top:
-                                    g.DrawLine(borderColor, (float)Math.Ceiling(rect.Left), rect.Top + box.ActualBorderTopWidth / 2, rect.Right - 1, rect.Top + box.ActualBorderTopWidth / 2);
+                                    g.DrawLine((float)Math.Ceiling(rect.Left), rect.Top + box.ActualBorderTopWidth / 2, rect.Right - 1, rect.Top + box.ActualBorderTopWidth / 2);
                                     break;
                                 case CssSide.Left:
-                                    g.DrawLine(borderColor, rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Ceiling(rect.Top), rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Floor(rect.Bottom));
+                                    g.DrawLine(rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Ceiling(rect.Top), rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Floor(rect.Bottom));
                                     break;
                                 case CssSide.Bottom:
-                                    g.DrawLine(borderColor, (float)Math.Ceiling(rect.Left), rect.Bottom - box.ActualBorderBottomWidth / 2, rect.Right - 1, rect.Bottom - box.ActualBorderBottomWidth / 2);
+                                    g.DrawLine((float)Math.Ceiling(rect.Left), rect.Bottom - box.ActualBorderBottomWidth / 2, rect.Right - 1, rect.Bottom - box.ActualBorderBottomWidth / 2);
                                     break;
                                 case CssSide.Right:
-                                    g.DrawLine(borderColor, rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Ceiling(rect.Top), rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Floor(rect.Bottom));
+                                    g.DrawLine(rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Ceiling(rect.Top), rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Floor(rect.Bottom));
                                     break;
                             }
                             //}
+                            g.StrokeColor = prevColor;
 
                         } break;
                 }

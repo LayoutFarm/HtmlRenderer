@@ -56,23 +56,21 @@ namespace LayoutFarm
                     lprc.Width, lprc.Height);
             }
         }
-
-        public override void DrawString(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)
+        public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
         {
 
 #if DEBUG
             dbugCounter.dbugDrawStringCount++;
 #endif
+            var color = this.CurrentTextColor;
             if (color.A == 255)
-            {
-                SetFont(font);
-                SetTextColor(color);
+            {  
                 unsafe
                 {
                     fixed (char* startAddr = &str[0])
                     {
-                        Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X + canvasOriginX),
-                            (int)Math.Round(point.Y + canvasOriginY), (startAddr + startAt), len);
+                        Win32Utils.TextOut2(_hdc, (int)Math.Round(logicalTextBox.X + canvasOriginX),
+                            (int)Math.Round(logicalTextBox.Y + canvasOriginY), (startAddr + startAt), len);
                     }
                 }
             }
@@ -84,13 +82,14 @@ namespace LayoutFarm
                 {
                     fixed (char* startAddr = &str[0])
                     {
-                        Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X + canvasOriginX),
-                            (int)Math.Round(point.Y + canvasOriginY), (startAddr + startAt), len);
+                        Win32Utils.TextOut2(_hdc, (int)Math.Round(logicalTextBox.X + canvasOriginX),
+                            (int)Math.Round(logicalTextBox.Y + canvasOriginY), (startAddr + startAt), len);
                     }
                 }
 
                 //DrawTransparentText(_hdc, str, font, new Point((int)Math.Round(point.X), (int)Math.Round(point.Y)), Size.Round(size), color);
             }
         }
+         
     }
 }

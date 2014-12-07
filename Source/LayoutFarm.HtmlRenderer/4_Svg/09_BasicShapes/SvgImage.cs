@@ -156,7 +156,8 @@ namespace LayoutFarm.SvgDom
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
-                g.DrawPath(this._path, this.strokeColor);                 
+                 
+                p.DrawPath(_path, strokeColor, ActualStrokeWidth);
             }
 
         }

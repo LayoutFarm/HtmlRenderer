@@ -77,7 +77,7 @@ namespace LayoutFarm
                 gx.ReleaseHdc();
             }
         }
-        public override int EvaluateFontAndTextColor(FontInfo FontInfo, Color color)
+        public override int EvaluateFontAndTextColor(Font FontInfo, Color color)
         {
 
             if (FontInfo != null && FontInfo != currentTextFont)
@@ -103,7 +103,7 @@ namespace LayoutFarm
                 }
             }
         }
-        public override FontInfo CurrentFont
+        public override Font CurrentFont
         {
             get
             {
@@ -111,9 +111,13 @@ namespace LayoutFarm
             }
             set
             {
-                this.currentTextFont = value; 
+                ReleaseHdc();
+                this.currentTextFont = value;
+
+                MyFont myFont = value as MyFont;
                 IntPtr hdc = gx.GetHdc();
-                MyWin32.SelectObject(hdc, value.HFont);
+                MyWin32.SelectObject(hdc, myFont.ToHfont());
+
                 gx.ReleaseHdc();
             }
         }
@@ -126,10 +130,11 @@ namespace LayoutFarm
             set
             {
                 mycurrentTextColor = value;
-                this.currentTextColor = ConvColor(value);
-                IntPtr hdc = gx.GetHdc();
-                MyWin32.SetTextColor(hdc, MyWin32.ColorToWin32(value));
-                gx.ReleaseHdc();
+                SetTextColor(value);
+                //this.currentTextColor = ConvColor(value);
+                //IntPtr hdc = gx.GetHdc();
+                //MyWin32.SetTextColor(hdc, MyWin32.ColorToWin32(value));
+                //gx.ReleaseHdc();
             }
         }
         //public override void PushFont(FontInfo FontInfo)
@@ -150,7 +155,7 @@ namespace LayoutFarm
         //    }
         //    gx.ReleaseHdc();
         //}
-        
+
         //public override void PushTextColor(Color color)
         //{
 
@@ -170,7 +175,7 @@ namespace LayoutFarm
         //    }
         //    gx.ReleaseHdc();
         //}
-         
+
         /// <summary>
         /// Measure the width and height of string <paramref name="str"/> when drawn on device context HDC
         /// using the given font <paramref name="font"/>.
@@ -302,6 +307,7 @@ namespace LayoutFarm
                 _hdc = IntPtr.Zero;
             }
         }
+
         /// <summary>
         /// Set a resource (e.g. a font) for the specified device context.
         /// WARNING: Calling Font.ToHfont() many times without releasing the font handle crashes the app.

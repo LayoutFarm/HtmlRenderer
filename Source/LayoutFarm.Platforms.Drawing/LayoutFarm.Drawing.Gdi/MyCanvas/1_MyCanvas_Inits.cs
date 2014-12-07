@@ -51,7 +51,7 @@ namespace LayoutFarm
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
         //-------------------------------
         Rect invalidateArea = Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
-        FontInfo currentTextFont = null;
+        Font currentTextFont = null;
         SolidBrush sharedSolidBrush;
         //-------------------------------
         System.Drawing.Color currentTextColor = System.Drawing.Color.Black;

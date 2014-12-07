@@ -355,8 +355,11 @@ namespace HtmlRenderer.Boxes
                 x2 -= ActualPaddingRight + ActualBorderRightWidth;
             }
 
-            g.DrawLine(ActualColor, x1, y, x2, y);
+            var prevColor = g.StrokeColor;
+            g.StrokeColor = ActualColor;
+            g.DrawLine(x1, y, x2, y);
 
+            g.StrokeColor = prevColor;
         }
 
 

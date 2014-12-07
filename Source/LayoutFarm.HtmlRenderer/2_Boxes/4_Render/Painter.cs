@@ -149,7 +149,7 @@ namespace HtmlRenderer
         {
             get { return this.canvas.CanvasOriginY; }
         }
-        public void SetCanvasOrigin(float x,float y)
+        public void SetCanvasOrigin(float x, float y)
         {
             this.canvas.SetCanvasOrigin(x, y);
         }
@@ -220,10 +220,14 @@ namespace HtmlRenderer
         public void dbugDrawDiagonalBox(Color color, float x1, float y1, float x2, float y2)
         {
             var g = this.canvas;
+            var prevColor = g.StrokeColor;
+            g.StrokeColor = color;
             g.DrawRectangle(color, x1, y1, x2 - x1, y2 - y1);
-            g.DrawLine(color, x1, y1, x2, y2);
-            g.DrawLine(color, x1, y2, x2, y1);
 
+
+            g.DrawLine(x1, y1, x2, y2);
+            g.DrawLine(x1, y2, x2, y1);
+            g.StrokeColor = prevColor;
         }
         public void dbugDrawDiagonalBox(Color color, RectangleF rect)
         {
@@ -237,24 +241,29 @@ namespace HtmlRenderer
         {
             var g = this.canvas;
             var prevColor = g.FillSolidColor;
-            g.FillPath(path, fillColor);
+            g.FillPath(path);
             g.FillSolidColor = prevColor;
         }
         public void DrawPath(GraphicsPath path, Color strokeColor, float strokeW)
         {
             var g = this.canvas;
             var prevW = g.StrokeWidth;
+            var prevColor = g.StrokeColor;
+            g.StrokeColor = strokeColor;
             g.StrokeWidth = strokeW;
             g.DrawPath(path);
             g.StrokeWidth = prevW;
+            g.StrokeColor = prevColor;
         }
         public void DrawLine(float x1, float y1, float x2, float y2, Color strokeColor, float strokeW)
         {
             var g = this.canvas;
             var prevW = g.StrokeWidth;
             g.StrokeWidth = strokeW;
-            g.DrawLine(strokeColor, x1, y1, x2, y2);
+            var prevColor = g.StrokeColor;
+            g.DrawLine(x1, y1, x2, y2);
             g.StrokeWidth = prevW;
+            g.StrokeColor = prevColor;
         }
         //------
         public void FillRectangle(Color c, float x, float y, float w, float h)
@@ -284,6 +293,51 @@ namespace HtmlRenderer
             g.DrawImage(img, r);
 
         }
+        //---------
+        public void DrawText(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)
+        {
+
+#if DEBUG
+            dbugCounter.dbugDrawStringCount++;
+#endif
+            var g = this.canvas;
+            if (color.A == 255)
+            {
+                g.CurrentFont = font;
+                g.CurrentTextColor = color;
+                g.DrawText(str, startAt, len, new Rectangle(
+                    (int)point.X, (int)point.Y,
+                    (int)size.Width, (int)size.Height), 1
+                    );
+
+
+            }
+            else
+            {
+                g.CurrentFont = font;
+                g.CurrentTextColor = color;
+                g.DrawText(str, startAt, len, new Rectangle(
+                    (int)point.X, (int)point.Y,
+                    (int)size.Width, (int)size.Height), 1
+                    );
+
+                ////translucent / transparent text
+                //g.CurrentFont = font;
+                //g.CurrentTextColor = color;
+                //unsafe
+                //{
+                //    fixed (char* startAddr = &str[0])
+                //    {
+                //        Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X + canvasOriginX),
+                //            (int)Math.Round(point.Y + canvasOriginY), (startAddr + startAt), len);
+                //    }
+                //}
+
+                //DrawTransparentText(_hdc, str, font, new Point((int)Math.Round(point.X), (int)Math.Round(point.Y)), Size.Round(size), color);
+            }
+        }
+
+
     }
 
 

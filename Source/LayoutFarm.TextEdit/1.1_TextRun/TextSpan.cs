@@ -181,13 +181,13 @@ namespace LayoutFarm.Text
             else
             {
                 TextSpanSytle beh = this.SpanStyle;
-                switch (canvas.EvaluateFontAndTextColor(beh.FontInfo, beh.FontColor))
+                switch (canvas.EvaluateFontAndTextColor(beh.FontInfo.Font, beh.FontColor))
                 {
                     case Canvas.DIFF_FONT_SAME_TEXT_COLOR:
                         {
 
                             var prevFont = canvas.CurrentFont;
-                            canvas.CurrentFont = beh.FontInfo;
+                            canvas.CurrentFont = beh.FontInfo.Font;
                             canvas.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),
                                beh.ContentHAlign);
@@ -199,7 +199,7 @@ namespace LayoutFarm.Text
                             var prevFont = canvas.CurrentFont;
                             var prevColor = canvas.CurrentTextColor;
 
-                            canvas.CurrentFont = beh.FontInfo;
+                            canvas.CurrentFont = beh.FontInfo.Font;
                             canvas.CurrentTextColor = beh.FontColor;
                             canvas.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),

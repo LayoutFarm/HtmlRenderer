@@ -21,10 +21,11 @@ namespace LayoutFarm.Drawing
         public abstract SmoothingMode SmoothingMode { get; set; }
         //---------------------------------------------------------------------
         public abstract float StrokeWidth { get; set; }
+        public abstract Color StrokeColor { get; set; }
         public abstract Color FillSolidColor { get; set; }
         //states
         public abstract void Invalidate(Rect rect);
-        //public abstract IGraphics GetIGraphics();
+
         public abstract Rect InvalidateArea { get; }
         public bool IsContentReady { get; set; }
         //---------------------------------------------------------------------
@@ -72,24 +73,21 @@ namespace LayoutFarm.Drawing
         public const int SAME_FONT_DIFF_TEXT_COLOR = 1;
         public const int DIFF_FONT_SAME_TEXT_COLOR = 2;
         public const int DIFF_FONT_DIFF_TEXT_COLOR = 3;
-        public abstract int EvaluateFontAndTextColor(FontInfo FontInfo, Color color);
-        public abstract FontInfo CurrentFont { get; set; }
+        public abstract int EvaluateFontAndTextColor(Font FontInfo, Color color);
+        public abstract Font CurrentFont { get; set; }
         public abstract Color CurrentTextColor { get; set; }
         public abstract float GetFontHeight(Font f);
         public abstract FontInfo GetFontInfo(Font f);
 
         public abstract void DrawText(char[] buffer, int x, int y);
         public abstract void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment);
-        public abstract void DrawString(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size);
+        public abstract void DrawText(char[] buffer, int startAt, int len, Rectangle logicalTextBox, int textAlignment); 
         //-------------------------------------------------------
-        //lines
 
-        public abstract void DrawLine(Color c, int x1, int y1, int x2, int y2);
-        public abstract void DrawLine(Color c, float x1, float y1, float x2, float y2);
-
-        public abstract void DrawLine(Color color, Point p1, Point p2);
-        public abstract void DrawLine(Color color, Point p1, Point p2, DashStyle lineDashStyle);
-        public abstract void DrawLines(Color color, Point[] points);
+        //lines 
+        public abstract void DrawLine(float x1, float y1, float x2, float y2);
+        public abstract void DrawLine(PointF p1, PointF p2);
+        public abstract void DrawLines(Point[] points);
         //-------------------------------------------------------
         //rects
         public abstract void FillRectangle(Color color, Rectangle rect);
@@ -98,34 +96,28 @@ namespace LayoutFarm.Drawing
         public abstract void FillRectangle(Brush color, Rectangle rect);
         public abstract void FillRectangle(Brush brush, float left, float top, float width, float height);
 
-        public abstract void DrawRectangle(Color color, int left, int top, int width, int height);
+       
         public abstract void DrawRectangle(Color color, float left, float top, float width, float height);
         public abstract void DrawRectangle(Color color, Rectangle rect);
         //------------------------------------------------------- 
         //path,  polygons,ellipse spline,contour,  
-        public abstract void FillPath(GraphicsPath gfxPath, Color solidColor);
-        public abstract void FillPath(GraphicsPath gfxPath, Brush brush);
-
-
+        public abstract void FillPath(GraphicsPath gfxPath );
+        public abstract void FillPath(GraphicsPath gfxPath, Brush brush); 
         public abstract void DrawPolygon(PointF[] points);
 
         public abstract void FillPolygon(PointF[] points);
         public abstract void FillEllipse(Point[] points);
-        public abstract void FillEllipse(Color color, Rectangle rect);
-        public abstract void FillEllipse(Color color, int x, int y, int width, int height);
+        public abstract void FillEllipse(Rectangle rect);
+        public abstract void FillEllipse(int x, int y, int width, int height);
 
         public abstract void DrawRoundRect(int x, int y, int w, int h, Size cornerSize);
-        public abstract void DrawBezire(Point[] points);
-
-        public abstract void DrawPath(GraphicsPath gfxPath);
-        public abstract void DrawPath(GraphicsPath gfxPath, Color color);
-        public abstract void DrawPath(GraphicsPath gfxPath, Pen pen);
+        public abstract void DrawBezier(Point[] points); 
+        public abstract void DrawPath(GraphicsPath gfxPath); 
         //------------------------------------------------------- 
 
         //images
         public abstract void DrawImage(Image image, RectangleF dest, RectangleF src);
-        public abstract void DrawImage(Image image, RectangleF rect);
-        public abstract void DrawImageUnScaled(Bitmap image, int x, int y);
+        public abstract void DrawImage(Image image, RectangleF rect); 
         //---------------------------------------------------------------------------
 #if DEBUG
         public abstract void dbug_DrawRuler(int x);
