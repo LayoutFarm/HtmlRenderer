@@ -55,7 +55,7 @@ namespace LayoutFarm.Text
 
 #if DEBUG
             //for debug
-            canvasPage.FillRectangle(Color.Red, new Rectangle(0, 0, 5, 5));
+            canvasPage.FillRectangle(Color.Red,  0, 0, 5, 5 );
 #endif
 
             //4. caret 

@@ -22,7 +22,7 @@ namespace LayoutFarm.Text
         }
         internal void DrawCaret(Canvas canvasPage, int x, int y)
         {
-            canvasPage.FillRectangle(Color.Black, new Rectangle(x, y, this.Width, this.Height));
+            canvasPage.FillRectangle(Color.Black, x, y, this.Width, this.Height );
         }
     }
 }

@@ -309,7 +309,7 @@ namespace HtmlRenderer
                 g.CurrentTextColor = color;
                 g.DrawText(str, startAt, len, new Rectangle(
                     (int)point.X, (int)point.Y,
-                    (int)size.Width, (int)size.Height), 1
+                    (int)size.Width, (int)size.Height), 0
                     );
 
 
@@ -320,7 +320,7 @@ namespace HtmlRenderer
                 g.CurrentTextColor = color;
                 g.DrawText(str, startAt, len, new Rectangle(
                     (int)point.X, (int)point.Y,
-                    (int)size.Width, (int)size.Height), 1
+                    (int)size.Width, (int)size.Height), 0
                     );
 
                 ////translucent / transparent text

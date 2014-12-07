@@ -42,7 +42,7 @@ namespace LayoutFarm
 
         protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
         {
-            canvasPage.FillRectangle(Color.White, new RectangleF(0, 0, this.Width, this.Height));
+            canvasPage.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
             base.BoxDrawContent(canvasPage, updateArea);
         }
 

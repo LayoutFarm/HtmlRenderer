@@ -115,25 +115,13 @@ namespace LayoutFarm
         }
 
 
-        public override void FillRectangle(Color color, Rectangle rect)
-        {
-            internalBrush.Color = ConvColor(color);
-
-            gx.FillRectangle(internalBrush, rect.ToRect());
-        }
-        public override void FillRectangle(Color color, RectangleF rectf)
-        {
-            internalBrush.Color = ConvColor(color);
-            gx.FillRectangle(internalBrush, rectf.ToRectF());
-        }
+       
+       
         public override void FillRectangle(Brush brush, float left, float top, float width, float height)
         {
             gx.FillRectangle(ConvBrush(brush), left, top, width, height);
         }
-        public override void FillRectangle(Brush brush, Rectangle rect)
-        {
-            gx.FillRectangle(ConvBrush(brush), rect.Left, rect.Top, rect.Width, rect.Height);
-        }
+       
 
         public override void FillRectangle(Color color, float left, float top, float right, float bottom)
         {
@@ -153,11 +141,7 @@ namespace LayoutFarm
             internalPen.Color = ConvColor(color);
             gx.DrawRectangle(internalPen, left, top, width, height);
         }
-        public override void DrawRectangle(Color color, Rectangle rect)
-        {
-            internalPen.Color = ConvColor(color);
-            gx.DrawRectangle(internalPen, rect.ToRect());
-        } 
+        
         public override void DrawBezier(Point[] points)
         {
             gx.DrawBeziers(internalPen, ConvPointArray(points));

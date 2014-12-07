@@ -71,12 +71,12 @@ namespace LayoutFarm.Drawing
         //text ,font, strings 
         public abstract Font CurrentFont { get; set; }
         public abstract Color CurrentTextColor { get; set; }
-       
+
         public abstract FontInfo GetFontInfo(Font f);
 
         public abstract void DrawText(char[] buffer, int x, int y);
         public abstract void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment);
-        public abstract void DrawText(char[] buffer, int startAt, int len, Rectangle logicalTextBox, int textAlignment); 
+        public abstract void DrawText(char[] buffer, int startAt, int len, Rectangle logicalTextBox, int textAlignment);
         //-------------------------------------------------------
 
         //lines 
@@ -84,34 +84,29 @@ namespace LayoutFarm.Drawing
         public abstract void DrawLine(PointF p1, PointF p2);
         public abstract void DrawLines(Point[] points);
         //-------------------------------------------------------
-        //rects
-        public abstract void FillRectangle(Color color, Rectangle rect);
-        public abstract void FillRectangle(Color color, RectangleF rectf);
-        public abstract void FillRectangle(Color color, float left, float top, float right, float bottom);
-        public abstract void FillRectangle(Brush color, Rectangle rect);
-        public abstract void FillRectangle(Brush brush, float left, float top, float width, float height);
-
-       
+        //rects 
+        public abstract void FillRectangle(Color color, float left, float top, float right, float bottom); 
+        public abstract void FillRectangle(Brush brush, float left, float top, float width, float height); 
         public abstract void DrawRectangle(Color color, float left, float top, float width, float height);
-        public abstract void DrawRectangle(Color color, Rectangle rect);
+      
         //------------------------------------------------------- 
         //path,  polygons,ellipse spline,contour,  
-        public abstract void FillPath(GraphicsPath gfxPath );
-        public abstract void FillPath(GraphicsPath gfxPath, Brush brush); 
+        public abstract void FillPath(GraphicsPath gfxPath);
+        public abstract void FillPath(GraphicsPath gfxPath, Brush brush);
         public abstract void DrawPolygon(PointF[] points);
 
         public abstract void FillPolygon(PointF[] points);
-        public abstract void FillEllipse(Point[] points); 
+        public abstract void FillEllipse(Point[] points);
         public abstract void FillEllipse(int x, int y, int width, int height);
 
         public abstract void DrawRoundRect(int x, int y, int w, int h, Size cornerSize);
-        public abstract void DrawBezier(Point[] points); 
-        public abstract void DrawPath(GraphicsPath gfxPath); 
+        public abstract void DrawBezier(Point[] points);
+        public abstract void DrawPath(GraphicsPath gfxPath);
         //------------------------------------------------------- 
 
         //images
         public abstract void DrawImage(Image image, RectangleF dest, RectangleF src);
-        public abstract void DrawImage(Image image, RectangleF rect); 
+        public abstract void DrawImage(Image image, RectangleF rect);
         //---------------------------------------------------------------------------
 #if DEBUG
         public abstract void dbug_DrawRuler(int x);
