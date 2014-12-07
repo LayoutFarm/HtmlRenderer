@@ -12,7 +12,7 @@ namespace HtmlRenderer.Boxes
     partial class CssBox
     {
 
-        public void Paint(IGraphics g, Painter p)
+        public void Paint(Canvas g, Painter p)
         {
 
 #if DEBUG
@@ -47,7 +47,7 @@ namespace HtmlRenderer.Boxes
                     case Css.CssDisplay.TableCell:
                         color = Color.OrangeRed;
                         break;
-                    
+
                 }
                 p.dbugDrawDiagonalBox(color, r.Left, r.Top, r.Right, r.Bottom);
 
@@ -55,7 +55,7 @@ namespace HtmlRenderer.Boxes
         }
 #endif
 
-        protected virtual void PaintImp(IGraphics g, Painter p)
+        protected virtual void PaintImp(Canvas g, Painter p)
         {
 
 
@@ -261,7 +261,7 @@ namespace HtmlRenderer.Boxes
                 }
 
 
-                IGraphics g = p.Gfx;
+                Canvas g = p.Gfx;
                 SmoothingMode smooth = g.SmoothingMode;
 
                 if (brush != null)
@@ -283,10 +283,11 @@ namespace HtmlRenderer.Boxes
 
                     if (roundrect != null)
                     {
-                        g.FillPath(brush, roundrect);
+                        g.FillPath(roundrect, brush);                         
                     }
                     else
-                    {
+                    {   
+                       
                         g.FillRectangle(brush, (float)Math.Ceiling(rect.X), (float)Math.Ceiling(rect.Y), rect.Width, rect.Height);
                     }
 
@@ -306,7 +307,7 @@ namespace HtmlRenderer.Boxes
                 }
             }
         }
-        internal void PaintDecoration(IGraphics g, RectangleF rectangle, bool isFirst, bool isLast)
+        internal void PaintDecoration(Canvas g, RectangleF rectangle, bool isFirst, bool isLast)
         {
             float y = 0f;
             switch (this.TextDecoration)
@@ -320,6 +321,7 @@ namespace HtmlRenderer.Boxes
                         //float desc = FontsUtils.GetDescentPx(ActualFont);
                         //y = (float)Math.Round(rectangle.Top + h - desc + 0.5);
                         FontInfo fontInfo = g.GetFontInfo(ActualFont);
+                        
                         var h = fontInfo.LineHeight;
                         float desc = fontInfo.DescentPx;
                         y = (float)Math.Round(rectangle.Top + h - desc);
@@ -351,9 +353,9 @@ namespace HtmlRenderer.Boxes
             {
                 x2 -= ActualPaddingRight + ActualBorderRightWidth;
             }
- 
+
             g.DrawLine(ActualColor, x1, y, x2, y);
-            
+
         }
 
 

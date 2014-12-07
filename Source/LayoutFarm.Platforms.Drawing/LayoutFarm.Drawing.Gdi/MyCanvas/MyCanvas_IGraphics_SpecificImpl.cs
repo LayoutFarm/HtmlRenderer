@@ -25,18 +25,18 @@ namespace LayoutFarm
     partial class MyCanvas
     {
 
-        
+
         //------------------
-        Canvas IGraphics.CurrentCanvas
+        public Canvas CurrentCanvas
         {
             get { return this; }
         }
-       
+
         /// <summary>
         /// Gets the bounding clipping region of this graphics.
         /// </summary>
         /// <returns>The bounding rectangle for the clipping region</returns>
-        LayoutFarm.Drawing.RectangleF IGraphics.GetClip()
+        public override LayoutFarm.Drawing.RectangleF GetClip()
         {
             if (_hdc == IntPtr.Zero)
             {
@@ -57,7 +57,7 @@ namespace LayoutFarm
             }
         }
 
-        void IGraphics.DrawString(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)
+        public override void DrawString(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)
         {
 
 #if DEBUG

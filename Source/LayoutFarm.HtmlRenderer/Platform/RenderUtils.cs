@@ -111,7 +111,7 @@ namespace LayoutFarm.Drawing
         /// </summary>
         /// <param name="g">the device to draw into</param>
         /// <param name="r">the rectangle to draw icon in</param>
-        public static void DrawImageLoadingIcon(IGraphics g, RectangleF r)
+        public static void DrawImageLoadingIcon(Canvas g, RectangleF r)
         {
             g.DrawRectangle(Color.LightGray, r.Left + 3, r.Top + 3, 13, 14);
             var image = GetLoadImage();
@@ -123,7 +123,7 @@ namespace LayoutFarm.Drawing
         /// </summary>
         /// <param name="g">the device to draw into</param>
         /// <param name="r">the rectangle to draw icon in</param>
-        public static void DrawImageErrorIcon(IGraphics g, RectangleF r)
+        public static void DrawImageErrorIcon(Canvas g, RectangleF r)
         {
             g.DrawRectangle(Color.LightGray, r.Left + 2, r.Top + 2, 15, 15);
             var image = GetErrorImage();

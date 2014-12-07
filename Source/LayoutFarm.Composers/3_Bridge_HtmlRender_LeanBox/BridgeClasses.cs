@@ -106,7 +106,7 @@ namespace LayoutFarm.Boxes
             //} 
             //this.SetSize(500, 500);
         }
-        protected override void PaintImp(IGraphics g, Painter p)
+        protected override void PaintImp(Canvas g, Painter p)
         {
             if (wrapper != null)
             {
@@ -115,7 +115,7 @@ namespace LayoutFarm.Boxes
 
                 Rect rect = Rect.CreateFromRect(
                      new Rectangle(0, 0, wrapper.Width, wrapper.Height));
-                this.wrapper.DrawToThisPage(g.CurrentCanvas, rect);
+                this.wrapper.DrawToThisPage(g , rect);
 
 
             }

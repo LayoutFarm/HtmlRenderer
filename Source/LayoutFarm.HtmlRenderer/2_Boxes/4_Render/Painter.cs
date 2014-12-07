@@ -17,7 +17,7 @@ namespace HtmlRenderer
         PointF[] borderPoints = new PointF[4];
         PointF htmlContainerScrollOffset;
         HtmlIsland visualRootBox;
-        IGraphics ig;
+        Canvas ig;
 
         RectangleF latestClip = new RectangleF(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
 
@@ -27,7 +27,7 @@ namespace HtmlRenderer
         float physicalViewportY;
 
         bool aviodGeometyAntialias;
-        public Painter(HtmlIsland container, IGraphics ig)
+        public Painter(HtmlIsland container, Canvas ig)
         {
             this.visualRootBox = container;
             this.htmlContainerScrollOffset = container.ScrollOffset;
@@ -47,7 +47,7 @@ namespace HtmlRenderer
             this.physicalViewportHeight = height;
         }
 
-        public IGraphics Gfx
+        public Canvas Gfx
         {
             get
             {
@@ -103,6 +103,7 @@ namespace HtmlRenderer
                 RectangleF prevClip = this.latestClip = clipStacks.Pop();
                 //ig.DrawRectangle(Pens.Green, prevClip.X, prevClip.Y, prevClip.Width, prevClip.Height);
                 ig.SetClip(prevClip);
+                
             }
         }
         /// <summary>

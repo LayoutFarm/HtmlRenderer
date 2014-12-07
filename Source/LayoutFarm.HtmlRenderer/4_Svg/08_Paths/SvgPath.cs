@@ -283,22 +283,14 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-            IGraphics g = p.Gfx;
+            Canvas g = p.Gfx;
             if (fillColor.A > 0)
             {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
-                {
-                    g.FillPath(sb, this.myCachedPath);
-                }
+                g.FillPath(this.myCachedPath, this.fillColor);                 
             }
             if (this.strokeColor.A > 0)
             {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
-                using (Pen pen = g.Platform.CreatePen(sb))
-                {
-                    pen.Width = this.ActualStrokeWidth;
-                    g.DrawPath(pen, this.myCachedPath);
-                }
+                g.DrawPath(this.myCachedPath, this.strokeColor);                 
             }
 
         }

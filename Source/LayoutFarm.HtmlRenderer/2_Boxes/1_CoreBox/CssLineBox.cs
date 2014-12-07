@@ -423,7 +423,7 @@ namespace HtmlRenderer.Boxes
 
 
 
-        internal void PaintRuns(IGraphics g, Painter p)
+        internal void PaintRuns(Canvas g, Painter p)
         {
             //iterate from each words
 
@@ -499,7 +499,7 @@ namespace HtmlRenderer.Boxes
 
 #if DEBUG
 
-        internal void dbugPaintRuns(IGraphics g, Painter p)
+        internal void dbugPaintRuns(Canvas g, Painter p)
         {
 
             //return;
@@ -579,7 +579,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        internal void PaintDecoration(IGraphics g, Painter p)
+        internal void PaintDecoration(Canvas g, Painter p)
         {
 
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)

@@ -24,7 +24,7 @@ namespace LayoutFarm.Drawing
         public abstract Color FillSolidColor { get; set; }
         //states
         public abstract void Invalidate(Rect rect);
-        public abstract IGraphics GetIGraphics();
+        //public abstract IGraphics GetIGraphics();
         public abstract Rect InvalidateArea { get; }
         public bool IsContentReady { get; set; }
         //---------------------------------------------------------------------
@@ -40,14 +40,17 @@ namespace LayoutFarm.Drawing
         public abstract void OffsetCanvasOriginX(int dx);
         public abstract void OffsetCanvasOriginY(int dy);
         public abstract bool IntersectsWith(Rect clientRect);
+        public abstract float CanvasOriginX { get; }
+        public abstract float CanvasOriginY { get; }
+        public abstract void SetCanvasOrigin(float x, float y);
         //---------------------------------------------------------------------
         //clip area
         public abstract bool PushClipAreaForNativeScrollableElement(Rect updateArea);
         public abstract bool PushClipArea(int width, int height, Rect updateArea);
         public abstract void DisableClipArea();
         public abstract void EnableClipArea();
-        public abstract void SetClip(RectangleF clip, CombineMode combineMode);
-
+        public abstract void SetClip(RectangleF clip, CombineMode combineMode = CombineMode.Replace);
+        public abstract RectangleF GetClip();
         public abstract Rectangle CurrentClipRect { get; }
         public abstract bool PushClipArea(int x, int y, int width, int height);
         public abstract void PopClipArea();
@@ -73,10 +76,11 @@ namespace LayoutFarm.Drawing
         public abstract FontInfo CurrentFont { get; set; }
         public abstract Color CurrentTextColor { get; set; }
         public abstract float GetFontHeight(Font f);
- 
+        public abstract FontInfo GetFontInfo(Font f);
 
         public abstract void DrawText(char[] buffer, int x, int y);
         public abstract void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment);
+        public abstract void DrawString(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size);
         //-------------------------------------------------------
         //lines
 
@@ -90,13 +94,17 @@ namespace LayoutFarm.Drawing
         //rects
         public abstract void FillRectangle(Color color, Rectangle rect);
         public abstract void FillRectangle(Color color, RectangleF rectf);
-        public abstract void FillRectangle(Color color, int left, int top, int right, int bottom);
+        public abstract void FillRectangle(Color color, float left, float top, float right, float bottom);
+        public abstract void FillRectangle(Brush color, Rectangle rect);
+        public abstract void FillRectangle(Brush brush, float left, float top, float width, float height);
+
         public abstract void DrawRectangle(Color color, int left, int top, int width, int height);
         public abstract void DrawRectangle(Color color, float left, float top, float width, float height);
         public abstract void DrawRectangle(Color color, Rectangle rect);
         //------------------------------------------------------- 
         //path,  polygons,ellipse spline,contour,  
         public abstract void FillPath(GraphicsPath gfxPath, Color solidColor);
+        public abstract void FillPath(GraphicsPath gfxPath, Brush brush);
 
 
         public abstract void DrawPolygon(PointF[] points);

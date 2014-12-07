@@ -24,7 +24,7 @@ namespace LayoutFarm
     partial class MyCanvas
     {
 
-        LayoutFarm.Drawing.FontInfo IFonts.GetFontInfo(Font f)
+        public override LayoutFarm.Drawing.FontInfo GetFontInfo(Font f)
         {
             return FontsUtils.GetCachedFont(f.InnerFont as System.Drawing.Font);
         }

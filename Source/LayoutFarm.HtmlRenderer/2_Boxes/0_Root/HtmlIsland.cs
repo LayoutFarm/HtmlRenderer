@@ -308,7 +308,7 @@ namespace HtmlRenderer.Boxes
         /// Render the html using the given device.
         /// </summary>
         /// <param name="g"></param>
-        protected void PerformPaint(IGraphics ig)
+        protected void PerformPaint(Canvas ig)
         {
             if (_rootBox == null)
             {

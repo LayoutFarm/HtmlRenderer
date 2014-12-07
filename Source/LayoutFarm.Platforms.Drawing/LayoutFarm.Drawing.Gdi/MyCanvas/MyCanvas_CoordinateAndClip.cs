@@ -23,7 +23,7 @@ namespace LayoutFarm
 {
     partial class MyCanvas
     {
-        public void SetCanvasOrigin(float x, float y)
+        public override  void SetCanvasOrigin(float x, float y)
         {
             ReleaseHdc();
             //-----------
@@ -34,11 +34,11 @@ namespace LayoutFarm
             this.canvasOriginX = x;
             this.canvasOriginY = y;
         }
-        float IGraphics.CanvasOriginX
+        public override float CanvasOriginX
         {
             get { return this.canvasOriginX; }
         }
-        float IGraphics.CanvasOriginY
+        public override float CanvasOriginY
         {
             get { return this.canvasOriginY; }
         }
@@ -47,19 +47,19 @@ namespace LayoutFarm
 
         public override void OffsetCanvasOrigin(int dx, int dy)
         {
-            
+
             SetCanvasOrigin(this.canvasOriginX + dx, this.canvasOriginY + dy);
             currentClipRect.Offset(-dx, -dy);
         }
         public override void OffsetCanvasOriginX(int dx)
         {
-            
+
             SetCanvasOrigin(this.canvasOriginX + dx, this.canvasOriginY);
             currentClipRect.Offset(-dx, 0);
         }
         public override void OffsetCanvasOriginY(int dy)
         {
-            
+
             SetCanvasOrigin(this.canvasOriginX, this.canvasOriginY + dy);
             currentClipRect.Offset(0, -dy);
         }

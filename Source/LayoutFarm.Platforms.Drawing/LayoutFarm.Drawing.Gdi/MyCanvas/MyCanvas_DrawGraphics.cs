@@ -102,11 +102,12 @@ namespace LayoutFarm
             gx.FillRegion(internalBrush, ConvRgn(rgn));
         }
 
-        public override void FillPath(GraphicsPath gfxPath, Color solidColor)
+        public override void FillPath(GraphicsPath gfxPath, Color color)
         {
-            FillPath(gfxPath, solidColor);
+            internalBrush.Color = ConvColor(color);
+            gx.FillPath(internalBrush, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);             
         }
-         
+
         public override void DrawPath(GraphicsPath gfxPath)
         {
             gx.DrawPath(internalPen, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
@@ -133,11 +134,18 @@ namespace LayoutFarm
             internalBrush.Color = ConvColor(color);
             gx.FillRectangle(internalBrush, rectf.ToRectF());
         }
-
-
-
-        public override void FillRectangle(Color color, int left, int top, int right, int bottom)
+        public override void FillRectangle(Brush brush, float left, float top, float width, float height)
         {
+            gx.FillRectangle(ConvBrush(brush), left, top, width, height);
+        }
+        public override void FillRectangle(Brush brush, Rectangle rect)
+        {
+            gx.FillRectangle(ConvBrush(brush), rect.Left, rect.Top, rect.Width, rect.Height);
+        }
+
+        public override void FillRectangle(Color color, float left, float top, float right, float bottom)
+        {
+            ReleaseHdc();
             internalBrush.Color = ConvColor(color);
             gx.FillRectangle(internalBrush, left, top, right - left, bottom - top);
         }
@@ -295,32 +303,6 @@ namespace LayoutFarm
                 gx.SmoothingMode = (System.Drawing.Drawing2D.SmoothingMode)value;
             }
         }
-
-        ///// <summary>
-        ///// Draws a line connecting the two points specified by the coordinate pairs.
-        ///// </summary>
-        ///// <param name="pen"><see cref="T:System.Drawing.Pen"/> that determines the color, width, and style of the line. </param><param name="x1">The x-coordinate of the first point. </param><param name="y1">The y-coordinate of the first point. </param><param name="x2">The x-coordinate of the second point. </param><param name="y2">The y-coordinate of the second point. </param><exception cref="T:System.ArgumentNullException"><paramref name="pen"/> is null.</exception>
-        //public override void DrawLine(Pen pen, float x1, float y1, float x2, float y2)
-        //{
-        //    ReleaseHdc();
-        //    gx.DrawLine(pen.InnerPen as System.Drawing.Pen, x1, y1, x2, y2);  
-        //}
-
-
-
-        public void FillRectangle(Brush getSolidBrush, float left, float top, float width, float height)
-        {
-            ReleaseHdc();
-            gx.FillRectangle((System.Drawing.Brush)getSolidBrush.InnerBrush, left, top, width, height);
-        }
-        public void FillRectangle(Color solidColor, float left, float top, float width, float height)
-        {
-            ReleaseHdc();
-            using (SolidBrush b = this.platform.CreateSolidBrush(solidColor))
-            {
-                gx.FillRectangle((System.Drawing.Brush)b.InnerBrush, left, top, width, height);
-            }
-        }
         /// <summary>
         /// Draws the specified portion of the specified <see cref="T:System.Drawing.Image"/> at the specified location and with the specified size.
         /// </summary>
@@ -361,7 +343,7 @@ namespace LayoutFarm
         /// Fills the interior of a <see cref="T:System.Drawing.Drawing2D.GraphicsPath"/>.
         /// </summary>
         /// <param name="brush"><see cref="T:System.Drawing.Brush"/> that determines the characteristics of the fill. </param><param name="path"><see cref="T:System.Drawing.Drawing2D.GraphicsPath"/> that represents the path to fill. </param><exception cref="T:System.ArgumentNullException"><paramref name="brush"/> is null.-or-<paramref name="path"/> is null.</exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
-        public void FillPath(Brush brush, GraphicsPath path)
+        public override void FillPath(GraphicsPath path, Brush brush)
         {
             ReleaseHdc();
             gx.FillPath(brush.InnerBrush as System.Drawing.Brush,

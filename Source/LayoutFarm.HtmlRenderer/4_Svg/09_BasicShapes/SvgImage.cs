@@ -80,13 +80,10 @@ namespace LayoutFarm.SvgDom
         public override void Paint(Painter p)
         {
 
-            IGraphics g = p.Gfx;
+            Canvas g = p.Gfx;
             if (fillColor.A > 0)
             {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
-                {
-                    g.FillPath(sb, this._path);
-                }
+                g.FillPath(this._path, this.fillColor);                 
             }
             //---------------------------------------------------------  
             if (this.ImageBinder != null)
@@ -159,12 +156,7 @@ namespace LayoutFarm.SvgDom
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
-                using (Pen pen = g.Platform.CreatePen(sb))
-                {
-                    pen.Width = this.ActualStrokeWidth;
-                    g.DrawPath(pen, this._path);
-                }
+                g.DrawPath(this._path, this.strokeColor);                 
             }
 
         }

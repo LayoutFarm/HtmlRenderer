@@ -50,7 +50,6 @@
     <Compile Include="1_Drawing\Rectangle.cs" />
     <Compile Include="1_Drawing\RectangleF.cs" />
     <Compile Include="1_Drawing\Region.cs" />
-    <Compile Include="1_Drawing\IGraphics.cs" />
     <Compile Include="1_Drawing\ImageBinder.cs" />
     <Compile Include="1_Drawing\BasicGeometryObjects.cs" />
     <Compile Include="2_Drawing_Art\ArtColorPalette.cs" />

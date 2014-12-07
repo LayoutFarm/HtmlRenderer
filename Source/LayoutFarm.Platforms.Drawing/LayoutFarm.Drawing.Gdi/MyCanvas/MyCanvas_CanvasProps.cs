@@ -51,10 +51,7 @@ namespace LayoutFarm
                 this.internalBrush.Color = ConvColor(value);
             }
         }
-        public override IGraphics GetIGraphics()
-        {
-            return this;
-        }
+       
 
         public bool IsPageNumber(int hPageNum, int vPageNum)
         {

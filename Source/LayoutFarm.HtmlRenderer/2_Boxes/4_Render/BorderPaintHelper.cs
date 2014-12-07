@@ -74,7 +74,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="brush">the brush to use</param>
         /// <param name="rectangle">the bounding rectangle to draw in</param>
         /// <returns>Beveled border path, null if there is no rounded corners</returns>
-        public static void DrawBorder(CssSide border, PointF[] borderPts, IGraphics g,
+        public static void DrawBorder(CssSide border, PointF[] borderPts, Canvas g,
             CssBox box, RectangleF rectangle)
         {
 
@@ -82,7 +82,7 @@ namespace HtmlRenderer.Boxes
 
             g.FillPolygon(borderPts);
         }
-        public static void DrawBorder(CssSide border, PointF[] borderPts, IGraphics g, CssBox box, Color solidColor, RectangleF rectangle)
+        public static void DrawBorder(CssSide border, PointF[] borderPts, Canvas g, CssBox box, Color solidColor, RectangleF rectangle)
         {
 
             SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
@@ -159,7 +159,7 @@ namespace HtmlRenderer.Boxes
             GetBorderBorderDrawingInfo(box, borderSide, out style, out borderColor, out actualBorderWidth);
 
 
-            IGraphics g = p.Gfx;
+            Canvas g = p.Gfx;
             if (box.HasSomeRoundCorner)
             {
                 GraphicsPath borderPath = GetRoundedBorderPath(p, borderSide, box, rect);
@@ -172,11 +172,13 @@ namespace HtmlRenderer.Boxes
                         g.SmoothingMode = SmoothingMode.AntiAlias;
                     }
 
-                    using (var pen = GetPen(p.Platform, style, borderColor, actualBorderWidth))
-                    using (borderPath)
-                    {
-                        g.DrawPath(pen, borderPath);
-                    }
+                    g.DrawPath(borderPath, borderColor);
+
+                    //using (var pen = GetPen(p.Platform, style, borderColor, actualBorderWidth))
+                    //using (borderPath)
+                    //{
+                    //    g.DrawPath(pen, borderPath);
+                    //}
                     g.SmoothingMode = smooth;
                 }
             }

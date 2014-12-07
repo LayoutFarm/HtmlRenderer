@@ -33,7 +33,7 @@ namespace HtmlRenderer.Boxes
 
             this.SetSize(500, 500);
         }
-        protected override void PaintImp(IGraphics g, Painter p)
+        protected override void PaintImp(Canvas g, Painter p)
         {
             var prevMode = g.SmoothingMode;
             g.SmoothingMode = SmoothingMode.AntiAlias;

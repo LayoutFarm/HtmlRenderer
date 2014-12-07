@@ -42,7 +42,7 @@ namespace HtmlRenderer.Boxes
                  _listItemBulletBox.FirstRun.SetLocation(_listItemBulletBox.SizeWidth - 5, this.ActualPaddingTop);
              }
         }
-        protected override void PaintImp(IGraphics g, Painter p)
+        protected override void PaintImp(Canvas g, Painter p)
         {
             base.PaintImp(g, p);
 
