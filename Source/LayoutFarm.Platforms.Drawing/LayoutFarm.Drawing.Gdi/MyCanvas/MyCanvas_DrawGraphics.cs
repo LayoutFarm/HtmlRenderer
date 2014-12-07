@@ -105,7 +105,7 @@ namespace LayoutFarm
         public override void FillPath(GraphicsPath gfxPath, Color color)
         {
             internalBrush.Color = ConvColor(color);
-            gx.FillPath(internalBrush, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);             
+            gx.FillPath(internalBrush, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
         }
 
         public override void DrawPath(GraphicsPath gfxPath)
@@ -190,6 +190,8 @@ namespace LayoutFarm
         {
             System.Drawing.Color prevColor = internalPen.Color;
             internalPen.Color = ConvColor(c);
+            
+
             gx.DrawLine(internalPen, x1, y1, x2, y2);
             internalPen.Color = prevColor;
         }
@@ -197,8 +199,12 @@ namespace LayoutFarm
         {
             ReleaseHdc();
             System.Drawing.Color prevColor = internalPen.Color;
+            
+
             internalPen.Color = ConvColor(c);
+
             gx.DrawLine(internalPen, x1, y1, x2, y2);
+
             internalPen.Color = prevColor;
         }
 
@@ -206,6 +212,9 @@ namespace LayoutFarm
         {
             System.Drawing.Color prevColor = internalPen.Color;
             internalPen.Width = this.StrokeWidth;
+            
+
+
             internalPen.Color = ConvColor(color);
             gx.DrawLine(internalPen, p1.ToPoint(), p2.ToPoint());
             internalPen.Color = prevColor;

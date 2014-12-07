@@ -35,8 +35,8 @@ namespace LayoutFarm
             }
             set
             {
-                this.internalPen.Width = strokeWidth;
-                this.strokeWidth = value;
+                this.internalPen.Width = this.strokeWidth  = value;                 
+                
             }
         }
         public override Color FillSolidColor

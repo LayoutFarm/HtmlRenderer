@@ -11,9 +11,7 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using LayoutFarm.Drawing;
-
-using LayoutFarm.Drawing;
+using LayoutFarm.Drawing; 
 
 namespace HtmlRenderer.Boxes
 {

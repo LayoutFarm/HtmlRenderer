@@ -246,9 +246,12 @@ namespace LayoutFarm.SvgDom
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
+                var prevW = g.StrokeWidth;
+                
 
+                g.StrokeWidth = this.ActualStrokeWidth;
                 g.DrawPath(this.myCachedPath, this.strokeColor);
-
+                g.StrokeWidth = prevW;
             }
         }
     }
@@ -524,12 +527,14 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-            Canvas g = p.Gfx;
-
+            Canvas g = p.Gfx; 
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
+                var prevW = g.StrokeWidth;
+                g.StrokeWidth = this.ActualStrokeWidth;
                 g.DrawPath(this.myCachedPath, this.strokeColor);
+                g.StrokeWidth = prevW;
             }
         }
     }
