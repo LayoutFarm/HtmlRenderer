@@ -58,7 +58,7 @@ namespace LayoutFarm
         {
             defaultFont = f;
             defaultHFont = f.ToHfont();
-            defaultFontInfo = FontsUtils.GetCachedFont(f).Font;
+            defaultFontInfo = FontsUtils.GetCachedFont(f).ResolvedFont;
 
         }
         static bool IsEqColor(Color c1, System.Drawing.Color c2)

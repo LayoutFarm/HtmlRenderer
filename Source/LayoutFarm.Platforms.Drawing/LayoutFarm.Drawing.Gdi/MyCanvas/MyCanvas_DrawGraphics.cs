@@ -190,10 +190,7 @@ namespace LayoutFarm
             gx.FillEllipse(internalBrush, points[0].X, points[0].Y, points[2].X - points[0].X, points[2].Y - points[0].Y);
 
         }
-        public override void FillEllipse(Rectangle rect)
-        {
-            gx.FillEllipse(internalBrush, rect.ToRect());
-        }
+         
 
         public override void FillEllipse(int x, int y, int width, int height)
         {

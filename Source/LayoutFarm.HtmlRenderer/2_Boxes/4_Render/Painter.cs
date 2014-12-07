@@ -183,10 +183,10 @@ namespace HtmlRenderer
         {
             PointF[] borderPoints = new PointF[4];
             var g = this.canvas;
-            var prevColor = g.FillSolidColor;
-            g.FillSolidColor = solidColor;
+            var prevColor = g.FillColor;
+            g.FillColor = solidColor;
             BorderPaintHelper.DrawBorder(border, borderPoints, g, box, rect);
-            g.FillSolidColor = prevColor;
+            g.FillColor = prevColor;
 
         }
         //-------------------------------------
@@ -240,9 +240,11 @@ namespace HtmlRenderer
         public void FillPath(GraphicsPath path, Color fillColor)
         {
             var g = this.canvas;
-            var prevColor = g.FillSolidColor;
+            var prevColor = g.FillColor;
+
+            g.FillColor = fillColor;
             g.FillPath(path);
-            g.FillSolidColor = prevColor;
+            g.FillColor = prevColor;
         }
         public void DrawPath(GraphicsPath path, Color strokeColor, float strokeW)
         {
@@ -269,16 +271,16 @@ namespace HtmlRenderer
         public void FillRectangle(Color c, float x, float y, float w, float h)
         {
             var g = this.canvas;
-            var prevColor = g.FillSolidColor;
+            var prevColor = g.FillColor;
             g.FillRectangle(c, x, y, w, h);
-            g.FillSolidColor = prevColor;
+            g.FillColor = prevColor;
         }
         public void DrawRectangle(Color c, float x, float y, float w, float h)
         {
             var g = this.canvas;
-            var prevColor = g.FillSolidColor;
+            var prevColor = g.FillColor;
             g.DrawRectangle(c, x, y, w, h);
-            g.FillSolidColor = prevColor;
+            g.FillColor = prevColor;
 
         }
         //------

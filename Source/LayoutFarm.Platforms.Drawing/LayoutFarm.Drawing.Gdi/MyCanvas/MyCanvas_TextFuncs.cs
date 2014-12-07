@@ -25,10 +25,7 @@ namespace LayoutFarm
     partial class MyCanvas
     {
         Color mycurrentTextColor = Color.Black;
-        public override float GetFontHeight(Font f)
-        {
-            return ConvFont(f).GetHeight(gx);
-        }
+        
         public override void DrawText(char[] buffer, int x, int y)
         {
 
@@ -77,32 +74,7 @@ namespace LayoutFarm
                 gx.ReleaseHdc();
             }
         }
-        public override int EvaluateFontAndTextColor(Font FontInfo, Color color)
-        {
-
-            if (FontInfo != null && FontInfo != currentTextFont)
-            {
-                if (!IsEqColor(color, currentTextColor))
-                {
-                    return DIFF_FONT_DIFF_TEXT_COLOR;
-                }
-                else
-                {
-                    return DIFF_FONT_SAME_TEXT_COLOR;
-                }
-            }
-            else
-            {
-                if (!IsEqColor(color, currentTextColor))
-                {
-                    return SAME_FONT_DIFF_TEXT_COLOR;
-                }
-                else
-                {
-                    return SAME_FONT_SAME_TEXT_COLOR;
-                }
-            }
-        }
+        
         public override Font CurrentFont
         {
             get

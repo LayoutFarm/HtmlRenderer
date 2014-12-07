@@ -51,7 +51,7 @@ namespace LayoutFarm
 
             }
         }
-        public override Color FillSolidColor
+        public override Color FillColor
         {
             get
             {

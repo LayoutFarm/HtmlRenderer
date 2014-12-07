@@ -46,11 +46,13 @@ namespace LayoutFarm.Drawing
     {
         System.Drawing.Font myFont;
         System.IntPtr hFont;
+     
         public MyFont(System.Drawing.Font f)
         {
             this.myFont = f;
             this.hFont = f.ToHfont();
         }
+        
         public System.IntPtr ToHFont()
         {
             return this.hFont;

@@ -85,7 +85,7 @@ namespace HtmlRenderer.Boxes
         {
 
             SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
-            g.FillSolidColor = solidColor;
+            g.FillColor = solidColor;
             g.FillPolygon(borderPts);
 
         }
@@ -193,7 +193,7 @@ namespace HtmlRenderer.Boxes
                             PointF[] borderPnts = new PointF[4];
                             SetInOutsetRectanglePoints(borderSide, box, rect, isLineStart, isLineEnd, borderPnts);
 
-                            g.FillSolidColor = borderColor;
+                            g.FillColor = borderColor;
                             g.FillPolygon(borderPnts);
 
                         } break;

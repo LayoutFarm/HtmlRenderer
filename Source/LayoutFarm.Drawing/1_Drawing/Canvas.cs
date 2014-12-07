@@ -22,7 +22,7 @@ namespace LayoutFarm.Drawing
         //---------------------------------------------------------------------
         public abstract float StrokeWidth { get; set; }
         public abstract Color StrokeColor { get; set; }
-        public abstract Color FillSolidColor { get; set; }
+        public abstract Color FillColor { get; set; }
         //states
         public abstract void Invalidate(Rect rect);
 
@@ -68,15 +68,10 @@ namespace LayoutFarm.Drawing
         //---------------------------------------
 
 
-        //text ,font, strings
-        public const int SAME_FONT_SAME_TEXT_COLOR = 0;
-        public const int SAME_FONT_DIFF_TEXT_COLOR = 1;
-        public const int DIFF_FONT_SAME_TEXT_COLOR = 2;
-        public const int DIFF_FONT_DIFF_TEXT_COLOR = 3;
-        public abstract int EvaluateFontAndTextColor(Font FontInfo, Color color);
+        //text ,font, strings 
         public abstract Font CurrentFont { get; set; }
         public abstract Color CurrentTextColor { get; set; }
-        public abstract float GetFontHeight(Font f);
+       
         public abstract FontInfo GetFontInfo(Font f);
 
         public abstract void DrawText(char[] buffer, int x, int y);
@@ -106,8 +101,7 @@ namespace LayoutFarm.Drawing
         public abstract void DrawPolygon(PointF[] points);
 
         public abstract void FillPolygon(PointF[] points);
-        public abstract void FillEllipse(Point[] points);
-        public abstract void FillEllipse(Rectangle rect);
+        public abstract void FillEllipse(Point[] points); 
         public abstract void FillEllipse(int x, int y, int width, int height);
 
         public abstract void DrawRoundRect(int x, int y, int w, int h, Size cornerSize);
