@@ -25,18 +25,18 @@ namespace LayoutFarm
     partial class MyCanvas
     {
 
-        
+
         //------------------
-        Canvas IGraphics.CurrentCanvas
+        public Canvas CurrentCanvas
         {
             get { return this; }
         }
-       
+
         /// <summary>
         /// Gets the bounding clipping region of this graphics.
         /// </summary>
         /// <returns>The bounding rectangle for the clipping region</returns>
-        LayoutFarm.Drawing.RectangleF IGraphics.GetClip()
+        public override LayoutFarm.Drawing.RectangleF GetClip()
         {
             if (_hdc == IntPtr.Zero)
             {
@@ -56,23 +56,21 @@ namespace LayoutFarm
                     lprc.Width, lprc.Height);
             }
         }
-
-        void IGraphics.DrawString(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)
+        public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
         {
 
 #if DEBUG
             dbugCounter.dbugDrawStringCount++;
 #endif
+            var color = this.CurrentTextColor;
             if (color.A == 255)
-            {
-                SetFont(font);
-                SetTextColor(color);
+            {  
                 unsafe
                 {
                     fixed (char* startAddr = &str[0])
                     {
-                        Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X + canvasOriginX),
-                            (int)Math.Round(point.Y + canvasOriginY), (startAddr + startAt), len);
+                        Win32Utils.TextOut2(_hdc, (int)Math.Round(logicalTextBox.X + canvasOriginX),
+                            (int)Math.Round(logicalTextBox.Y + canvasOriginY), (startAddr + startAt), len);
                     }
                 }
             }
@@ -84,13 +82,14 @@ namespace LayoutFarm
                 {
                     fixed (char* startAddr = &str[0])
                     {
-                        Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X + canvasOriginX),
-                            (int)Math.Round(point.Y + canvasOriginY), (startAddr + startAt), len);
+                        Win32Utils.TextOut2(_hdc, (int)Math.Round(logicalTextBox.X + canvasOriginX),
+                            (int)Math.Round(logicalTextBox.Y + canvasOriginY), (startAddr + startAt), len);
                     }
                 }
 
                 //DrawTransparentText(_hdc, str, font, new Point((int)Math.Round(point.X), (int)Math.Round(point.Y)), Size.Round(size), color);
             }
         }
+         
     }
 }

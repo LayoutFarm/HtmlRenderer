@@ -27,6 +27,18 @@ namespace LayoutFarm
 
         float strokeWidth = 1f;
         Color fillSolidColor = Color.Transparent;
+        Color strokeColor = Color.Black;
+        public override Color StrokeColor
+        {
+            get
+            {
+                return this.strokeColor;
+            }
+            set
+            {
+                this.internalPen.Color = ConvColor(this.strokeColor = value);
+            }
+        }
         public override float StrokeWidth
         {
             get
@@ -35,11 +47,11 @@ namespace LayoutFarm
             }
             set
             {
-                this.internalPen.Width = strokeWidth;
-                this.strokeWidth = value;
+                this.internalPen.Width = this.strokeWidth = value;
+
             }
         }
-        public override Color FillSolidColor
+        public override Color FillColor
         {
             get
             {
@@ -51,10 +63,7 @@ namespace LayoutFarm
                 this.internalBrush.Color = ConvColor(value);
             }
         }
-        public override IGraphics GetIGraphics()
-        {
-            return this;
-        }
+
 
         public bool IsPageNumber(int hPageNum, int vPageNum)
         {

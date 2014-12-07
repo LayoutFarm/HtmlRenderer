@@ -168,6 +168,40 @@ namespace LayoutFarm.Text
                 return this.SpanStyle != null;
             }
         }
+
+        const int SAME_FONT_SAME_TEXT_COLOR = 0;
+        const int SAME_FONT_DIFF_TEXT_COLOR = 1;
+        const int DIFF_FONT_SAME_TEXT_COLOR = 2;
+        const int DIFF_FONT_DIFF_TEXT_COLOR = 3;
+
+        static int EvaluateFontAndTextColor(Canvas canvas, Font font, Color color)
+        {
+            var currentTextFont = canvas.CurrentFont;
+            var currentTextColor = canvas.CurrentTextColor;
+
+            if (font != null && font != currentTextFont)
+            {
+                if (currentTextColor != color)
+                {
+                    return DIFF_FONT_DIFF_TEXT_COLOR;
+                }
+                else
+                {
+                    return DIFF_FONT_SAME_TEXT_COLOR;
+                }
+            }
+            else
+            {
+                if (currentTextColor != color)
+                {
+                    return SAME_FONT_DIFF_TEXT_COLOR;
+                }
+                else
+                {
+                    return SAME_FONT_SAME_TEXT_COLOR;
+                }
+            }
+        }
         void DrawCharacters(Canvas canvas, Rect updateArea, char[] textArray)
         {
 
@@ -181,25 +215,25 @@ namespace LayoutFarm.Text
             else
             {
                 TextSpanSytle beh = this.SpanStyle;
-                switch (canvas.EvaluateFontAndTextColor(beh.FontInfo, beh.FontColor))
+                switch (EvaluateFontAndTextColor(canvas, beh.FontInfo.ResolvedFont, beh.FontColor))
                 {
-                    case Canvas.DIFF_FONT_SAME_TEXT_COLOR:
+                    case DIFF_FONT_SAME_TEXT_COLOR:
                         {
 
                             var prevFont = canvas.CurrentFont;
-                            canvas.CurrentFont = beh.FontInfo;
+                            canvas.CurrentFont = beh.FontInfo.ResolvedFont;
                             canvas.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),
                                beh.ContentHAlign);
-                             
+
                             canvas.CurrentFont = prevFont;
                         } break;
-                    case Canvas.DIFF_FONT_DIFF_TEXT_COLOR:
+                    case DIFF_FONT_DIFF_TEXT_COLOR:
                         {
                             var prevFont = canvas.CurrentFont;
                             var prevColor = canvas.CurrentTextColor;
 
-                            canvas.CurrentFont = beh.FontInfo;
+                            canvas.CurrentFont = beh.FontInfo.ResolvedFont;
                             canvas.CurrentTextColor = beh.FontColor;
                             canvas.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),
@@ -209,7 +243,7 @@ namespace LayoutFarm.Text
                             canvas.CurrentTextColor = prevColor;
 
                         } break;
-                    case Canvas.SAME_FONT_DIFF_TEXT_COLOR:
+                    case SAME_FONT_DIFF_TEXT_COLOR:
                         {
                             var prevColor = canvas.CurrentTextColor;
                             canvas.DrawText(textArray,

@@ -12,7 +12,7 @@ namespace HtmlRenderer.Boxes
     partial class CssBox
     {
 
-        public void Paint(IGraphics g, Painter p)
+        public void Paint(Painter p)
         {
 
 #if DEBUG
@@ -20,7 +20,7 @@ namespace HtmlRenderer.Boxes
 #endif
             if (this._isVisible)
             {
-                PaintImp(g, p);
+                PaintImp(p);
             }
         }
 #if DEBUG
@@ -47,7 +47,7 @@ namespace HtmlRenderer.Boxes
                     case Css.CssDisplay.TableCell:
                         color = Color.OrangeRed;
                         break;
-                    
+
                 }
                 p.dbugDrawDiagonalBox(color, r.Left, r.Top, r.Right, r.Bottom);
 
@@ -55,8 +55,9 @@ namespace HtmlRenderer.Boxes
         }
 #endif
 
-        protected virtual void PaintImp(IGraphics g, Painter p)
+        protected virtual void PaintImp(Painter p)
         {
+
 
 
 
@@ -124,10 +125,10 @@ namespace HtmlRenderer.Boxes
 
                             drawState = 1;//drawing in viewport area
 
-                            float cX = g.CanvasOriginX;
-                            float cy = g.CanvasOriginY;
+                            float cX = p.CanvasOriginX;
+                            float cy = p.CanvasOriginY;
 
-                            g.SetCanvasOrigin(cX, cy + line.CachedLineTop);
+                            p.SetCanvasOrigin(cX, cy + line.CachedLineTop);
 
                             //1.                                 
                             line.PaintBackgroundAndBorder(p);
@@ -138,15 +139,15 @@ namespace HtmlRenderer.Boxes
                             }
 
                             //2.                                
-                            line.PaintRuns(g, p);
+                            line.PaintRuns(p);
                             //3. 
-                            line.PaintDecoration(g, p);
+                            line.PaintDecoration(p);
 
 #if DEBUG
-                            line.dbugPaintRuns(g, p);
+                            line.dbugPaintRuns(p);
 #endif
 
-                            g.SetCanvasOrigin(cX, cy);//back
+                            p.SetCanvasOrigin(cX, cy);//back
 
                         }
                         else if (drawState == 1)
@@ -167,8 +168,8 @@ namespace HtmlRenderer.Boxes
                     {
                         p.PushContaingBlock(this);
 
-                        float ox = g.CanvasOriginX;
-                        float oy = g.CanvasOriginY;
+                        float ox = p.CanvasOriginX;
+                        float oy = p.CanvasOriginY;
 
                         var node = this._aa_boxes.GetFirstLinkedNode();
                         while (node != null)
@@ -180,18 +181,18 @@ namespace HtmlRenderer.Boxes
                                 continue;
                             }
 
-                            g.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
-                            b.Paint(g, p);
+                            p.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
+                            b.Paint(p);
                             node = node.Next;
                         }
-                        g.SetCanvasOrigin(ox, oy);
+                        p.SetCanvasOrigin(ox, oy);
                         p.PopContainingBlock();
                     }
                     else
                     {
                         //if not
-                        float ox = g.CanvasOriginX;
-                        float oy = g.CanvasOriginY;
+                        float ox = p.CanvasOriginX;
+                        float oy = p.CanvasOriginY;
 
                         var node = this._aa_boxes.GetFirstLinkedNode();
                         while (node != null)
@@ -202,12 +203,12 @@ namespace HtmlRenderer.Boxes
                                 node = node.Next;
                                 continue;
                             }
-                            g.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
-                            b.Paint(g, p);
+                            p.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
+                            b.Paint(p);
                             node = node.Next;
                         }
 
-                        g.SetCanvasOrigin(ox, oy);
+                        p.SetCanvasOrigin(ox, oy);
 
                     }
                 }
@@ -261,7 +262,7 @@ namespace HtmlRenderer.Boxes
                 }
 
 
-                IGraphics g = p.Gfx;
+                Canvas g = p.InnerCanvas;
                 SmoothingMode smooth = g.SmoothingMode;
 
                 if (brush != null)
@@ -283,10 +284,11 @@ namespace HtmlRenderer.Boxes
 
                     if (roundrect != null)
                     {
-                        g.FillPath(brush, roundrect);
+                        g.FillPath(roundrect, brush);
                     }
                     else
                     {
+
                         g.FillRectangle(brush, (float)Math.Ceiling(rect.X), (float)Math.Ceiling(rect.Y), rect.Width, rect.Height);
                     }
 
@@ -306,7 +308,7 @@ namespace HtmlRenderer.Boxes
                 }
             }
         }
-        internal void PaintDecoration(IGraphics g, RectangleF rectangle, bool isFirst, bool isLast)
+        internal void PaintDecoration(Canvas g, RectangleF rectangle, bool isFirst, bool isLast)
         {
             float y = 0f;
             switch (this.TextDecoration)
@@ -320,6 +322,7 @@ namespace HtmlRenderer.Boxes
                         //float desc = FontsUtils.GetDescentPx(ActualFont);
                         //y = (float)Math.Round(rectangle.Top + h - desc + 0.5);
                         FontInfo fontInfo = g.GetFontInfo(ActualFont);
+                        
                         var h = fontInfo.LineHeight;
                         float desc = fontInfo.DescentPx;
                         y = (float)Math.Round(rectangle.Top + h - desc);
@@ -351,9 +354,12 @@ namespace HtmlRenderer.Boxes
             {
                 x2 -= ActualPaddingRight + ActualBorderRightWidth;
             }
- 
-            g.DrawLine(ActualColor, x1, y, x2, y);
-            
+
+            var prevColor = g.StrokeColor;
+            g.StrokeColor = ActualColor;
+            g.DrawLine(x1, y, x2, y);
+
+            g.StrokeColor = prevColor;
         }
 
 

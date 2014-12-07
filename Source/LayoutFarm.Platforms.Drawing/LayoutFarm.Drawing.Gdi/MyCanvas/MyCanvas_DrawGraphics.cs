@@ -69,6 +69,7 @@ namespace LayoutFarm
         }
         public override void ClearSurface()
         {
+            ReleaseHdc();
             gx.Clear(System.Drawing.Color.White);
         }
 
@@ -102,42 +103,29 @@ namespace LayoutFarm
             gx.FillRegion(internalBrush, ConvRgn(rgn));
         }
 
-        public override void FillPath(GraphicsPath gfxPath, Color solidColor)
+        public override void FillPath(GraphicsPath gfxPath )
         {
-            FillPath(gfxPath, solidColor);
+             
+            gx.FillPath(internalBrush, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
         }
-         
+
         public override void DrawPath(GraphicsPath gfxPath)
         {
             gx.DrawPath(internalPen, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
         }
-        public override void DrawPath(GraphicsPath gfxPath, Color color)
-        {
-            internalPen.Color = ConvColor(color);
-            internalPen.Alignment = System.Drawing.Drawing2D.PenAlignment.Right;
-            gx.DrawPath(internalPen, ConvPath(gfxPath));
-        }
-        public override void DrawPath(GraphicsPath gfxPath, Pen pen)
-        {
-            gx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            gx.DrawPath(ConvPen(pen), ConvPath(gfxPath));
-        }
-        public override void FillRectangle(Color color, Rectangle rect)
-        {
-            internalBrush.Color = ConvColor(color);
-
-            gx.FillRectangle(internalBrush, rect.ToRect());
-        }
-        public override void FillRectangle(Color color, RectangleF rectf)
-        {
-            internalBrush.Color = ConvColor(color);
-            gx.FillRectangle(internalBrush, rectf.ToRectF());
-        }
 
 
-
-        public override void FillRectangle(Color color, int left, int top, int right, int bottom)
+       
+       
+        public override void FillRectangle(Brush brush, float left, float top, float width, float height)
         {
+            gx.FillRectangle(ConvBrush(brush), left, top, width, height);
+        }
+       
+
+        public override void FillRectangle(Color color, float left, float top, float right, float bottom)
+        {
+            ReleaseHdc();
             internalBrush.Color = ConvColor(color);
             gx.FillRectangle(internalBrush, left, top, right - left, bottom - top);
         }
@@ -145,86 +133,34 @@ namespace LayoutFarm
         public override RectangleF GetBound(Region rgn)
         {
             return (ConvRgn(rgn).GetBounds(gx)).ToRectF();
-        }
-
-
-
-
-        public override void DrawRectangle(Color color, int left, int top, int width, int height)
-        {
-
-            internalPen.Color = ConvColor(color);
-            gx.DrawRectangle(internalPen, left, top, width, height);
-        }
-
+        } 
+     
         public override void DrawRectangle(Color color, float left, float top, float width, float height)
         {
             ReleaseHdc();
             internalPen.Color = ConvColor(color);
             gx.DrawRectangle(internalPen, left, top, width, height);
         }
-        public override void DrawRectangle(Color color, Rectangle rect)
+        
+        public override void DrawBezier(Point[] points)
         {
-            internalPen.Color = ConvColor(color);
-            gx.DrawRectangle(internalPen, rect.ToRect());
+            gx.DrawBeziers(internalPen, ConvPointArray(points));
         }
-        public override void DrawImageUnScaled(Bitmap image, int x, int y)
-        {
-            gx.DrawImageUnscaled(image.InnerImage as System.Drawing.Bitmap, x, y);
-        }
-
-        public override void DrawBezire(Point[] points)
-        {
-            gx.DrawBeziers(System.Drawing.Pens.Blue, ConvPointArray(points));
-        }
-
-        public override void DrawLine(Color c, int x1, int y1, int x2, int y2)
-        {
-            System.Drawing.Color prevColor = internalPen.Color;
-            internalPen.Color = ConvColor(c);
-            gx.DrawLine(internalPen, x1, y1, x2, y2);
-            internalPen.Color = prevColor;
-        }
-        public override void DrawLine(Color c, float x1, float y1, float x2, float y2)
+        public override void DrawLine(float x1, float y1, float x2, float y2)
         {
             ReleaseHdc();
-            System.Drawing.Color prevColor = internalPen.Color;
-            internalPen.Color = ConvColor(c);
             gx.DrawLine(internalPen, x1, y1, x2, y2);
-            internalPen.Color = prevColor;
         }
 
-        public override void DrawLine(Color color, Point p1, Point p2)
+        public override void DrawLine(PointF p1, PointF p2)
         {
-            System.Drawing.Color prevColor = internalPen.Color;
-            internalPen.Width = this.StrokeWidth;
-            internalPen.Color = ConvColor(color);
-            gx.DrawLine(internalPen, p1.ToPoint(), p2.ToPoint());
-            internalPen.Color = prevColor;
-        }
-        public override void DrawLine(Color color, Point p1, Point p2, DashStyle lineDashStyle)
-        {
-            System.Drawing.Drawing2D.DashStyle prevLineDashStyle = (System.Drawing.Drawing2D.DashStyle)internalPen.DashStyle;
-            internalPen.DashStyle = (System.Drawing.Drawing2D.DashStyle)lineDashStyle;
-
-            internalPen.Color = ConvColor(color);
-            gx.DrawLine(internalPen,
-                p1.ToPoint(),
-                p2.ToPoint());
-            internalPen.DashStyle = prevLineDashStyle;
+            gx.DrawLine(internalPen, p1.X, p1.Y, p2.X, p2.Y);
 
         }
-        //public override void DrawArc(Pen pen, Rectangle r, float startAngle, float sweepAngle)
-        //{
-        //    gx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-        //    gx.DrawArc(ConvPen(pen),
-        //        r.ToRect(),
-        //        startAngle,
-        //        sweepAngle);
-        //}
-        public override void DrawLines(Color color, Point[] points)
+
+        public override void DrawLines(Point[] points)
         {
-            internalPen.Color = ConvColor(color);
+
             gx.DrawLines(internalPen,
                ConvPointArray(points));
         }
@@ -238,16 +174,10 @@ namespace LayoutFarm
             gx.FillEllipse(internalBrush, points[0].X, points[0].Y, points[2].X - points[0].X, points[2].Y - points[0].Y);
 
         }
-        public override void FillEllipse(Color color, Rectangle rect)
-        {
-            internalBrush.Color = ConvColor(color);
-            gx.FillEllipse(internalBrush, rect.ToRect());
+         
 
-        }
-
-        public override void FillEllipse(Color color, int x, int y, int width, int height)
+        public override void FillEllipse(int x, int y, int width, int height)
         {
-            internalBrush.Color = ConvColor(color);
             gx.FillEllipse(internalBrush, x, y, width, height);
         }
         public override void DrawRoundRect(int x, int y, int w, int h, Size cornerSize)
@@ -295,32 +225,6 @@ namespace LayoutFarm
                 gx.SmoothingMode = (System.Drawing.Drawing2D.SmoothingMode)value;
             }
         }
-
-        ///// <summary>
-        ///// Draws a line connecting the two points specified by the coordinate pairs.
-        ///// </summary>
-        ///// <param name="pen"><see cref="T:System.Drawing.Pen"/> that determines the color, width, and style of the line. </param><param name="x1">The x-coordinate of the first point. </param><param name="y1">The y-coordinate of the first point. </param><param name="x2">The x-coordinate of the second point. </param><param name="y2">The y-coordinate of the second point. </param><exception cref="T:System.ArgumentNullException"><paramref name="pen"/> is null.</exception>
-        //public override void DrawLine(Pen pen, float x1, float y1, float x2, float y2)
-        //{
-        //    ReleaseHdc();
-        //    gx.DrawLine(pen.InnerPen as System.Drawing.Pen, x1, y1, x2, y2);  
-        //}
-
-
-
-        public void FillRectangle(Brush getSolidBrush, float left, float top, float width, float height)
-        {
-            ReleaseHdc();
-            gx.FillRectangle((System.Drawing.Brush)getSolidBrush.InnerBrush, left, top, width, height);
-        }
-        public void FillRectangle(Color solidColor, float left, float top, float width, float height)
-        {
-            ReleaseHdc();
-            using (SolidBrush b = this.platform.CreateSolidBrush(solidColor))
-            {
-                gx.FillRectangle((System.Drawing.Brush)b.InnerBrush, left, top, width, height);
-            }
-        }
         /// <summary>
         /// Draws the specified portion of the specified <see cref="T:System.Drawing.Image"/> at the specified location and with the specified size.
         /// </summary>
@@ -361,7 +265,7 @@ namespace LayoutFarm
         /// Fills the interior of a <see cref="T:System.Drawing.Drawing2D.GraphicsPath"/>.
         /// </summary>
         /// <param name="brush"><see cref="T:System.Drawing.Brush"/> that determines the characteristics of the fill. </param><param name="path"><see cref="T:System.Drawing.Drawing2D.GraphicsPath"/> that represents the path to fill. </param><exception cref="T:System.ArgumentNullException"><paramref name="brush"/> is null.-or-<paramref name="path"/> is null.</exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
-        public void FillPath(Brush brush, GraphicsPath path)
+        public override void FillPath(GraphicsPath path, Brush brush)
         {
             ReleaseHdc();
             gx.FillPath(brush.InnerBrush as System.Drawing.Brush,
@@ -392,8 +296,11 @@ namespace LayoutFarm
         }
         public override void dbug_DrawCrossRect(Color color, Rectangle rect)
         {
-            DrawLine(color, rect.Location, new Point(rect.Right, rect.Bottom));
-            DrawLine(color, new Point(rect.Left, rect.Bottom), new Point(rect.Right, rect.Top));
+            var prevColor = this.StrokeColor;
+            this.StrokeColor = color;
+            DrawLine(rect.Location, new Point(rect.Right, rect.Bottom));
+            DrawLine(new Point(rect.Left, rect.Bottom), new Point(rect.Right, rect.Top));
+            this.StrokeColor = prevColor;
         }
 
 #endif

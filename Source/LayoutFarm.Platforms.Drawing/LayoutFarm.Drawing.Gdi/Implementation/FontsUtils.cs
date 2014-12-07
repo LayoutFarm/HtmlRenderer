@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace LayoutFarm 
+namespace LayoutFarm
 {
 
     struct FontKey
@@ -106,11 +106,11 @@ namespace LayoutFarm
         /// <param name="str"></param>
         /// <param name="font"></param>
         /// <returns></returns>
-        public static float MeasureStringWidth(LayoutFarm.Drawing.IGraphics g, string str, LayoutFarm.Drawing.Font font)
+        public static float MeasureStringWidth(LayoutFarm.Drawing.IFonts g, string str, LayoutFarm.Drawing.Font font)
         {
             return g.MeasureString(str, font).Width;
         }
-        public static float MeasureStringWidth(LayoutFarm.Drawing.IGraphics g, char[] buffer, int startAt, int len, LayoutFarm.Drawing.Font font)
+        public static float MeasureStringWidth(LayoutFarm.Drawing.IFonts g, char[] buffer, int startAt, int len, LayoutFarm.Drawing.Font font)
         {
             return g.MeasureString(buffer, startAt, len, font).Width;
         }
@@ -136,7 +136,7 @@ namespace LayoutFarm
         }
 
         public static float MeasureWhitespace(
-            LayoutFarm.Drawing.IGraphics gfx, LayoutFarm.Drawing.Font f)
+            LayoutFarm.Drawing.IFonts gfx, LayoutFarm.Drawing.Font f)
         {
             float ws;
             var f2 = f.InnerFont as System.Drawing.Font;
@@ -322,10 +322,10 @@ namespace LayoutFarm
                 int fontAscent = newFont.FontFamily.GetCellAscent(newFont.Style);
                 float descent = newFont.FontFamily.GetCellDescent(newFont.Style);
 
-                
+
                 fontInfo = new LayoutFarm.Drawing.MyFontInfo(
-                 
-                    new LayoutFarm.Drawing.MyFont(newFont), 
+
+                    new LayoutFarm.Drawing.MyFont(newFont),
                     fontHeight,
                     (fontAscent * fontSize / fontEmHeight),
                     (descent * fontSize / fontEmHeight),

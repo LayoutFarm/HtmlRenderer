@@ -47,7 +47,7 @@ namespace HtmlRenderer.Composers
         //----------------------------------------------------------- 
         public MyHtmlIsland(GraphicsPlatform gfxPlatforms)
             : base(gfxPlatforms)
-        {             
+        {
             this.IsSelectionEnabled = true;
         }
 
@@ -120,10 +120,10 @@ namespace HtmlRenderer.Composers
                 NeedUpdateDom(this, EventArgs.Empty);
             }
         }
-        public void PerformPaint(LayoutFarm.Drawing.Canvas canvas)
+        public new void PerformPaint(LayoutFarm.Drawing.Canvas canvas)
         {
             if (doc == null) return;
-            base.PerformPaint(canvas.GetIGraphics());
+            base.PerformPaint(canvas);
         }
         protected override void OnRootDisposed()
         {

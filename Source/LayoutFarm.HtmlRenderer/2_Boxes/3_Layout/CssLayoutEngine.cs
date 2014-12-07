@@ -853,7 +853,7 @@ namespace HtmlRenderer.Boxes
         /// </summary>
         /// <param name="g"></param>
         /// <param name="line"></param>
-        private static void ApplyLeftAlignment(IGraphics g, CssLineBox line)
+        private static void ApplyLeftAlignment(Canvas g, CssLineBox line)
         {
             //No alignment needed.
 
