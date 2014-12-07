@@ -235,23 +235,15 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-            Canvas g = p.Gfx;
 
             if (fillColor.A > 0)
             {
-
-                g.FillPath(this.myCachedPath, this.fillColor);
-
+                p.FillPath(myCachedPath, fillColor);
             }
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
-                var prevW = g.StrokeWidth;
-                
-
-                g.StrokeWidth = this.ActualStrokeWidth;
-                g.DrawPath(this.myCachedPath, this.strokeColor);
-                g.StrokeWidth = prevW;
+                p.DrawPath(myCachedPath, strokeColor, this.ActualStrokeWidth);
             }
         }
     }
@@ -320,20 +312,14 @@ namespace LayoutFarm.SvgDom
             return false;
         }
         public override void Paint(Painter p)
-        {
-            Canvas g = p.Gfx;
-
+        {   
             if (fillColor.A > 0)
             {
-                g.FillPath(this.myCachedPath, this.fillColor);
+                p.FillPath(myCachedPath, this.fillColor);
             }
-
             if (this.strokeColor.A > 0 && this.ActualStrokeWidth > 0)
             {
-                var prevW = g.StrokeWidth;
-                g.StrokeWidth = this.ActualStrokeWidth;
-                g.DrawPath(this.myCachedPath, strokeColor);
-                g.StrokeWidth = prevW;
+                p.DrawPath(myCachedPath, this.StrokeColor, this.ActualStrokeWidth);                 
             }
         }
     }
@@ -406,18 +392,16 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-            Canvas g = p.Gfx;
+             
             if (fillColor.A > 0)
             {
-                g.FillPath(this.myCachedPath, this.fillColor);
+                 
+                p.FillPath(myCachedPath, fillColor);
             }
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
-            {
-                var prevW = g.StrokeWidth;
-                g.StrokeWidth = this.ActualStrokeWidth;
-                g.DrawPath(this.myCachedPath, this.strokeColor);
-                g.StrokeWidth = prevW;
+            {                    
+                p.DrawPath(myCachedPath, this.strokeColor, this.ActualStrokeWidth);
             }
         }
 
@@ -473,19 +457,17 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-            Canvas g = p.Gfx;
+             
             if (this.fillColor.A > 0)
             {
-                g.FillPath(this.myCachedPath, this.fillColor);
+                 
+                p.FillPath(myCachedPath, fillColor);
             }
 
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
-            {
-                var prevW = g.StrokeWidth;
-                g.StrokeWidth = this.ActualStrokeWidth;
-                g.DrawPath(this.myCachedPath, this.strokeColor);
-                g.StrokeWidth = prevW;
+            {   
+                p.DrawPath(myCachedPath, this.strokeColor, this.ActualStrokeWidth);
             }
 
         }
@@ -527,14 +509,11 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-            Canvas g = p.Gfx; 
+            
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
-            {
-                var prevW = g.StrokeWidth;
-                g.StrokeWidth = this.ActualStrokeWidth;
-                g.DrawPath(this.myCachedPath, this.strokeColor);
-                g.StrokeWidth = prevW;
+            {               
+                p.DrawPath(myCachedPath, this.strokeColor, this.ActualStrokeWidth);
             }
         }
     }
@@ -589,13 +568,11 @@ namespace LayoutFarm.SvgDom
         {
             if (this.strokeColor.A > 0)
             {
-                var gfx = p.Gfx;
-                var prevW = gfx.StrokeWidth;
-                gfx.StrokeWidth = this.ActualStrokeWidth;
-                gfx.DrawLine(this.strokeColor,
+                p.DrawLine(
                     this.actualX1, this.actualY1,
-                    this.actualX2, this.actualY2);
-                gfx.StrokeWidth = prevW;
+                    this.actualX2, this.actualY2,
+                    this.StrokeColor,
+                    this.ActualStrokeWidth);
             }
         }
     }

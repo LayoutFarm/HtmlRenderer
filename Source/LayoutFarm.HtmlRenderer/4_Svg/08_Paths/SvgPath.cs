@@ -128,7 +128,7 @@ namespace LayoutFarm.SvgDom
                                 //auto calculate for c1,c2 
                                 var quadCurve = (SvgPathSegCurveToQuadratic)seg;
                                 PointF p;
-                                 
+
                                 quadCurve.GetAbsolutePoints(ref lastPoint, out intm_c3_c, out p);
 
                                 SvgCurveHelper.Curve3GetControlPoints(lastPoint, intm_c3_c, p, out p2, out p3);
@@ -200,7 +200,7 @@ namespace LayoutFarm.SvgDom
                                                 SvgCurveHelper.Curve3GetControlPoints(lastPoint, c, p, out p2, out p3);
                                                 gpath.AddBezierCurve(lastPoint, p2, p3, p);
                                                 lastPoint = p;
-                                            }break;
+                                            } break;
                                         case SvgPathCommand.TSmoothQuadraticBezierCurveTo:
                                             {
                                                 //make mirror point
@@ -218,7 +218,7 @@ namespace LayoutFarm.SvgDom
                                                 lastPoint = p;
                                                 intm_c3_c = c;
 
-                                            }break;
+                                            } break;
                                         default:
 
                                             continue;
@@ -283,14 +283,14 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-            Canvas g = p.Gfx;
+
             if (fillColor.A > 0)
             {
-                g.FillPath(this.myCachedPath, this.fillColor);                 
+                p.FillPath(this.myCachedPath, this.fillColor);
             }
             if (this.strokeColor.A > 0)
             {
-                g.DrawPath(this.myCachedPath, this.strokeColor);                 
+                p.DrawPath(this.myCachedPath, this.strokeColor, this.ActualStrokeWidth);
             }
 
         }

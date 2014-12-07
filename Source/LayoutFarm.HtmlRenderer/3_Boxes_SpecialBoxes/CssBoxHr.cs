@@ -11,7 +11,7 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using LayoutFarm.Drawing; 
+using LayoutFarm.Drawing;
 
 namespace HtmlRenderer.Boxes
 {
@@ -127,14 +127,15 @@ namespace HtmlRenderer.Boxes
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(Canvas g, Painter p)
+        protected override void PaintImp(Painter p)
         {
 
             var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
 
             if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
-                g.FillRectangle(ActualBackgroundColor, rect.X, rect.Y, rect.Width, rect.Height);                 
+                p.FillRectangle(ActualBackgroundColor, rect.X, rect.Y, rect.Width, rect.Height);
+               
             }
 
             if (rect.Height > 1)

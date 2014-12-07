@@ -17,7 +17,7 @@ namespace HtmlRenderer
         PointF[] borderPoints = new PointF[4];
         PointF htmlContainerScrollOffset;
         HtmlIsland visualRootBox;
-        Canvas ig;
+        Canvas canvas;
 
         RectangleF latestClip = new RectangleF(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
 
@@ -32,12 +32,12 @@ namespace HtmlRenderer
             this.visualRootBox = container;
             this.htmlContainerScrollOffset = container.ScrollOffset;
             this.aviodGeometyAntialias = container.AvoidGeometryAntialias;
-            this.ig = ig;
+            this.canvas = ig;
         }
 
         public GraphicsPlatform Platform
         {
-            get { return this.ig.Platform; }
+            get { return this.canvas.Platform; }
         }
         internal void SetPhysicalViewportBound(float x, float y, float width, float height)
         {
@@ -47,11 +47,11 @@ namespace HtmlRenderer
             this.physicalViewportHeight = height;
         }
 
-        public Canvas Gfx
+        public Canvas InnerCanvas
         {
             get
             {
-                return this.ig;
+                return this.canvas;
             }
         }
         internal bool AvoidGeometryAntialias
@@ -62,11 +62,11 @@ namespace HtmlRenderer
 
         internal float LocalViewportTop
         {
-            get { return this.physicalViewportY - ig.CanvasOriginY; }
+            get { return this.physicalViewportY - canvas.CanvasOriginY; }
         }
         internal float LocalViewportBottom
         {
-            get { return (this.physicalViewportY + this.physicalViewportHeight) - ig.CanvasOriginY; }
+            get { return (this.physicalViewportY + this.physicalViewportHeight) - canvas.CanvasOriginY; }
         }
 
         public PointF Offset
@@ -93,7 +93,7 @@ namespace HtmlRenderer
             this.latestClip = intersectResult;
 
             //ig.DrawRectangle(Pens.Red, intersectResult.X, intersectResult.Y, intersectResult.Width, intersectResult.Height);
-            ig.SetClip(intersectResult);
+            canvas.SetClip(intersectResult);
             return !intersectResult.IsEmpty;
         }
         internal void PopLocalClipArea()
@@ -102,8 +102,8 @@ namespace HtmlRenderer
             {
                 RectangleF prevClip = this.latestClip = clipStacks.Pop();
                 //ig.DrawRectangle(Pens.Green, prevClip.X, prevClip.Y, prevClip.Width, prevClip.Height);
-                ig.SetClip(prevClip);
-                
+                canvas.SetClip(prevClip);
+
             }
         }
         /// <summary>
@@ -141,6 +141,18 @@ namespace HtmlRenderer
         //}
         //=========================================================
 
+        public float CanvasOriginX
+        {
+            get { return this.canvas.CanvasOriginX; }
+        }
+        public float CanvasOriginY
+        {
+            get { return this.canvas.CanvasOriginY; }
+        }
+        public void SetCanvasOrigin(float x,float y)
+        {
+            this.canvas.SetCanvasOrigin(x, y);
+        }
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
             HtmlRenderer.Boxes.BorderPaintHelper.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
@@ -152,7 +164,7 @@ namespace HtmlRenderer
             Color rightColor = box.BorderRightColor;
             Color bottomColor = box.BorderBottomColor;
 
-            var g = this.Gfx;
+            var g = this.InnerCanvas;
 
             // var b1 = RenderUtils.GetSolidBrush(topColor);
             BorderPaintHelper.DrawBorder(CssSide.Top, borderPoints, g, box, topColor, rect);
@@ -169,11 +181,12 @@ namespace HtmlRenderer
         }
         internal void PaintBorder(CssBox box, CssSide border, Color solidColor, RectangleF rect)
         {
-
-
             PointF[] borderPoints = new PointF[4];
-            this.Gfx.FillSolidColor = solidColor;
-            BorderPaintHelper.DrawBorder(border, borderPoints, this.Gfx, box, rect);
+            var g = this.canvas;
+            var prevColor = g.FillSolidColor;
+            g.FillSolidColor = solidColor;
+            BorderPaintHelper.DrawBorder(border, borderPoints, g, box, rect);
+            g.FillSolidColor = prevColor;
 
         }
         //-------------------------------------
@@ -206,19 +219,71 @@ namespace HtmlRenderer
 #if DEBUG
         public void dbugDrawDiagonalBox(Color color, float x1, float y1, float x2, float y2)
         {
-            var g = this.Gfx;
+            var g = this.canvas;
             g.DrawRectangle(color, x1, y1, x2 - x1, y2 - y1);
             g.DrawLine(color, x1, y1, x2, y2);
             g.DrawLine(color, x1, y2, x2, y1);
+
         }
         public void dbugDrawDiagonalBox(Color color, RectangleF rect)
         {
-            var g = this.Gfx;
+            var g = this.canvas;
             this.dbugDrawDiagonalBox(color, rect.Left, rect.Top, rect.Right, rect.Bottom);
 
         }
 #endif
+        //-------
+        public void FillPath(GraphicsPath path, Color fillColor)
+        {
+            var g = this.canvas;
+            var prevColor = g.FillSolidColor;
+            g.FillPath(path, fillColor);
+            g.FillSolidColor = prevColor;
+        }
+        public void DrawPath(GraphicsPath path, Color strokeColor, float strokeW)
+        {
+            var g = this.canvas;
+            var prevW = g.StrokeWidth;
+            g.StrokeWidth = strokeW;
+            g.DrawPath(path);
+            g.StrokeWidth = prevW;
+        }
+        public void DrawLine(float x1, float y1, float x2, float y2, Color strokeColor, float strokeW)
+        {
+            var g = this.canvas;
+            var prevW = g.StrokeWidth;
+            g.StrokeWidth = strokeW;
+            g.DrawLine(strokeColor, x1, y1, x2, y2);
+            g.StrokeWidth = prevW;
+        }
+        //------
+        public void FillRectangle(Color c, float x, float y, float w, float h)
+        {
+            var g = this.canvas;
+            var prevColor = g.FillSolidColor;
+            g.FillRectangle(c, x, y, w, h);
+            g.FillSolidColor = prevColor;
+        }
+        public void DrawRectangle(Color c, float x, float y, float w, float h)
+        {
+            var g = this.canvas;
+            var prevColor = g.FillSolidColor;
+            g.DrawRectangle(c, x, y, w, h);
+            g.FillSolidColor = prevColor;
 
+        }
+        //------
+        public void DrawImage(Image img, float x, float y, float w, float h)
+        {
+            var g = this.canvas;
+            g.DrawImage(img, new RectangleF(x, y, w, h));
+        }
+        public void DrawImage(Image img, RectangleF r)
+        {
+            var g = this.canvas;
+            g.DrawImage(img, r);
+
+        }
     }
 
 

@@ -79,7 +79,6 @@ namespace HtmlRenderer.Boxes
         {
 
             SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
-
             g.FillPolygon(borderPts);
         }
         public static void DrawBorder(CssSide border, PointF[] borderPts, Canvas g, CssBox box, Color solidColor, RectangleF rectangle)
@@ -159,7 +158,7 @@ namespace HtmlRenderer.Boxes
             GetBorderBorderDrawingInfo(box, borderSide, out style, out borderColor, out actualBorderWidth);
 
 
-            Canvas g = p.Gfx;
+            Canvas g = p.InnerCanvas;
             if (box.HasSomeRoundCorner)
             {
                 GraphicsPath borderPath = GetRoundedBorderPath(p, borderSide, box, rect);

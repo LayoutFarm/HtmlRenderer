@@ -106,7 +106,7 @@ namespace LayoutFarm.Boxes
             //} 
             //this.SetSize(500, 500);
         }
-        protected override void PaintImp(Canvas g, Painter p)
+        protected override void PaintImp(Painter p)
         {
             if (wrapper != null)
             {
@@ -115,14 +115,13 @@ namespace LayoutFarm.Boxes
 
                 Rect rect = Rect.CreateFromRect(
                      new Rectangle(0, 0, wrapper.Width, wrapper.Height));
-                this.wrapper.DrawToThisPage(g , rect);
-
+                this.wrapper.DrawToThisPage(p.InnerCanvas, rect); 
 
             }
             else
             {
                 //for debug!
-                g.FillRectangle(Color.Red, 0, 0, 100, 20);
+                p.FillRectangle(Color.Red, 0, 0, 100, 100);                
             }
         }
         RenderElement GetParentRenderElement(out int globalX, out int globalY)

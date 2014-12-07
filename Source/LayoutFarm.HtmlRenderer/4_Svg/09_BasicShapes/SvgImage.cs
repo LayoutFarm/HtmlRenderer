@@ -80,10 +80,10 @@ namespace LayoutFarm.SvgDom
         public override void Paint(Painter p)
         {
 
-            Canvas g = p.Gfx;
+            Canvas g = p.InnerCanvas;
             if (fillColor.A > 0)
-            {
-                g.FillPath(this._path, this.fillColor);                 
+            {  
+                p.FillPath(_path, this.fillColor);
             }
             //---------------------------------------------------------  
             if (this.ImageBinder != null)

@@ -33,8 +33,9 @@ namespace HtmlRenderer.Boxes
 
             this.SetSize(500, 500);
         }
-        protected override void PaintImp(Canvas g, Painter p)
+        protected override void PaintImp(Painter p)
         {
+            var g = p.InnerCanvas;
             var prevMode = g.SmoothingMode;
             g.SmoothingMode = SmoothingMode.AntiAlias;
             //render this svg
@@ -57,8 +58,8 @@ namespace HtmlRenderer.Boxes
         {
             return true;//stop here
         }
-      
-       
+
+
     }
 
 
