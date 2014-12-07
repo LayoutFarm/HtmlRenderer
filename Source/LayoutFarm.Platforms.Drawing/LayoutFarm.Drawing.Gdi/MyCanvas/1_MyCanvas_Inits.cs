@@ -22,7 +22,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm
 {
 
-    partial class MyCanvas : Canvas, IGraphics
+    partial class MyCanvas : Canvas, IFonts
     {
         int left;
         int top;
@@ -43,15 +43,15 @@ namespace LayoutFarm
         IntPtr hFont = IntPtr.Zero;
         IntPtr originalHdc = IntPtr.Zero;
         //-------------------------------
-       
-       
-         
-        
+
+
+
+
         Stack<System.Drawing.Rectangle> prevRegionRects = new Stack<System.Drawing.Rectangle>();
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
         //-------------------------------
         Rect invalidateArea = Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
-        FontInfo currentTextFont = null;
+        Font currentTextFont = null;
         SolidBrush sharedSolidBrush;
         //-------------------------------
         System.Drawing.Color currentTextColor = System.Drawing.Color.Black;
@@ -60,8 +60,8 @@ namespace LayoutFarm
         System.Drawing.Rectangle currentClipRect;
         //-------------------------------
 
-       
-         
+
+
         bool isFromPrinter = false;
 
 
@@ -103,8 +103,8 @@ namespace LayoutFarm
 
             gx = System.Drawing.Graphics.FromHdc(originalHdc);
 
-             
-             
+
+
             this.CurrentFont = defaultFontInfo;
             this.CurrentTextColor = Color.Black;
 #if DEBUG
@@ -138,8 +138,8 @@ namespace LayoutFarm
             this.canvasOriginY = 0;
 
             this.clipRectStack.Clear();
-           
-            this.prevRegionRects.Clear(); 
+
+            this.prevRegionRects.Clear();
         }
 
         public void ReleaseUnManagedResource()

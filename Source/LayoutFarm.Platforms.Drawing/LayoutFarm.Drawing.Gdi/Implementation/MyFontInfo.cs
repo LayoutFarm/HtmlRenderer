@@ -90,24 +90,29 @@ namespace LayoutFarm.Drawing
         int[] charWidths;
         IntPtr hFont;
         BasicGdi32FontHelper gdiFontHelper; 
+        Font resolvedFont;
 
         public MyFontInfo(Font f,
             int lineHeight, float ascentPx,
             float descentPx, float baseline,
             BasicGdi32FontHelper gdiFontHelper)
         {
-            this.Font = f;
+         
             this.LineHeight = lineHeight;
             this.DescentPx = descentPx;
             this.AscentPx = ascentPx;
             this.BaseLine = baseline;
-            this.FontHeight = Font.Height;
+            this.FontHeight = f.Height;
 
             this.gdiFontHelper = gdiFontHelper;
             System.Drawing.Font innerFont = ((System.Drawing.Font)(f.InnerFont));
             hFont = innerFont.ToHfont();
             charWidths = gdiFontHelper.MeasureCharWidths(hFont);
 
+        }
+        public override Font ResolvedFont
+        {
+            get { return resolvedFont; }
         }
         public override IntPtr HFont
         {

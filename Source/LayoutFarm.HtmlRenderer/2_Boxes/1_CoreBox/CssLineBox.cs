@@ -423,7 +423,7 @@ namespace HtmlRenderer.Boxes
 
 
 
-        internal void PaintRuns(IGraphics g, Painter p)
+        internal void PaintRuns(Painter p)
         {
             //iterate from each words
 
@@ -448,7 +448,7 @@ namespace HtmlRenderer.Boxes
                     case CssRunKind.Image:
                         {
                             CssBoxImage owner = (CssBoxImage)w.OwnerBox;
-                            owner.PaintImage(g, new RectangleF(w.Left, w.Top, w.Width, w.Height), p);
+                            owner.PaintImage(p, new RectangleF(w.Left, w.Top, w.Width, w.Height));
 
                         } break;
                     case CssRunKind.BlockRun:
@@ -456,14 +456,14 @@ namespace HtmlRenderer.Boxes
                             //Console.WriteLine("blockrun");
 
                             CssBlockRun blockRun = (CssBlockRun)w;
-                            float ox = g.CanvasOriginX;
-                            float oy = g.CanvasOriginY;
+                            float ox = p.CanvasOriginX;
+                            float oy = p.CanvasOriginY;
 
-                            g.SetCanvasOrigin(ox + blockRun.Left, oy + blockRun.Top);
+                            p.SetCanvasOrigin(ox + blockRun.Left, oy + blockRun.Top);
 
-                            blockRun.BlockBox.Paint(g, p);
+                            blockRun.BlockBox.Paint(p);
 
-                            g.SetCanvasOrigin(ox, oy);
+                            p.SetCanvasOrigin(ox, oy);
 
                         } break;
                     case CssRunKind.Text:
@@ -480,7 +480,7 @@ namespace HtmlRenderer.Boxes
 
                             var wordPoint = new PointF(w.Left, w.Top);
 
-                            g.DrawString(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
+                            p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
                                textRun.TextStartIndex,
                                textRun.TextLength, font,
                                color, wordPoint,
@@ -499,7 +499,7 @@ namespace HtmlRenderer.Boxes
 
 #if DEBUG
 
-        internal void dbugPaintRuns(IGraphics g, Painter p)
+        internal void dbugPaintRuns(Painter p)
         {
 
             //return;
@@ -526,10 +526,10 @@ namespace HtmlRenderer.Boxes
 
             foreach (CssRun w in this._runs)
             {
-                g.DrawRectangle(Color.DeepPink, w.Left, w.Top, w.Width, w.Height);
+                p.DrawRectangle(Color.DeepPink, w.Left, w.Top, w.Width, w.Height);
             }
 
-            g.FillRectangle(Color.Red, 0, 0, 5, 5);
+            p.FillRectangle(Color.Red, 0, 0, 5, 5);
 
         }
 
@@ -547,8 +547,9 @@ namespace HtmlRenderer.Boxes
         }
         internal void PaintSelection(Painter p)
         {
-            var gfx = p.Gfx;
-            gfx.FillRectangle(Color.LightGray, this.LineSelectionStart, 0, this.LineSelectionWidth, this.CacheLineHeight);
+
+            p.FillRectangle(Color.LightGray, this.LineSelectionStart, 0, this.LineSelectionWidth, this.CacheLineHeight);
+
         }
 
 
@@ -579,7 +580,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        internal void PaintDecoration(IGraphics g, Painter p)
+        internal void PaintDecoration(Painter p)
         {
 
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
@@ -588,7 +589,7 @@ namespace HtmlRenderer.Boxes
                 CssBox ownerBox = strip.owner;
                 bool isFirstLine, isLastLine;
                 CssBox.GetSplitInfo(ownerBox, this, out isFirstLine, out isLastLine);
-                ownerBox.PaintDecoration(g, strip.Bound, isFirstLine, isLastLine);
+                ownerBox.PaintDecoration(p.InnerCanvas, strip.Bound, isFirstLine, isLastLine);
             }
         }
 

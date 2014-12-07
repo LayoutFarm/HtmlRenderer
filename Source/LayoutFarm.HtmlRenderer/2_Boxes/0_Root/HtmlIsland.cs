@@ -308,34 +308,34 @@ namespace HtmlRenderer.Boxes
         /// Render the html using the given device.
         /// </summary>
         /// <param name="g"></param>
-        protected void PerformPaint(IGraphics ig)
+        protected void PerformPaint(Canvas canvas)
         {
             if (_rootBox == null)
             {
                 return;
             }
 
-            Painter args = new Painter(this, ig);
+            Painter p = new Painter(this, canvas);
             float scX = this.ScrollOffset.X;
             float scY = this.ScrollOffset.Y;
 
             var physicalViewportSize = this.PhysicalViewportBound.Size;
 
-            float ox = ig.CanvasOriginX;
-            float oy = ig.CanvasOriginY;
+            float ox = canvas.CanvasOriginX;
+            float oy = canvas.CanvasOriginY;
 
-            ig.SetCanvasOrigin(scX, scY);
+            canvas.SetCanvasOrigin(scX, scY);
 
-            args.PushContaingBlock(_rootBox);
-            args.SetPhysicalViewportBound(0, 0, physicalViewportSize.Width, physicalViewportSize.Height);
-
-
-            _rootBox.Paint(ig, args);
+            p.PushContaingBlock(_rootBox);
+            p.SetPhysicalViewportBound(0, 0, physicalViewportSize.Width, physicalViewportSize.Height);
 
 
-            args.PopContainingBlock();
+            _rootBox.Paint(p);
 
-            ig.SetCanvasOrigin(ox, oy);
+
+            p.PopContainingBlock();
+
+            canvas.SetCanvasOrigin(ox, oy);
         }
 
 

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace LayoutFarm.Drawing 
+namespace LayoutFarm.Drawing
 {
     class MyBitmap : Bitmap
     {
@@ -45,9 +45,17 @@ namespace LayoutFarm.Drawing
     class MyFont : Font
     {
         System.Drawing.Font myFont;
+        System.IntPtr hFont;
+     
         public MyFont(System.Drawing.Font f)
         {
             this.myFont = f;
+            this.hFont = f.ToHfont();
+        }
+        
+        public System.IntPtr ToHFont()
+        {
+            return this.hFont;
         }
         public override string Name
         {
@@ -59,7 +67,7 @@ namespace LayoutFarm.Drawing
         }
         public override System.IntPtr ToHfont()
         {
-            return this.myFont.ToHfont();
+            return this.hFont;
         }
         public override float Size
         {

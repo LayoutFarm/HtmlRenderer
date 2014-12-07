@@ -34,7 +34,8 @@ namespace LayoutFarm.SampleControls
         {
 
             //sample bg  
-            canvasPage.FillRectangle(BackColor, updateArea.ToRectangle());
+
+            canvasPage.FillRectangle(BackColor, updateArea._left, updateArea._top, updateArea.Width, updateArea.Height);
             if (this.Layers != null)
             {
                 this.Layers.LayersDrawContent(canvasPage, updateArea);

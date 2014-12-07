@@ -25,7 +25,7 @@ namespace LayoutFarm
     partial class MyCanvas
     {
 
-        
+
         static readonly int[] _charFit = new int[1];
         static readonly int[] _charFitWidth = new int[1000];
         /// <summary>
@@ -41,11 +41,11 @@ namespace LayoutFarm
         const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
 
 
-        
+
 
         static IntPtr defaultHFont;
         static System.Drawing.Font defaultFont;
-        static FontInfo defaultFontInfo;
+        static Font defaultFontInfo;
         static MyCanvas()
         {
             _stringFormat = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericDefault);
@@ -58,7 +58,7 @@ namespace LayoutFarm
         {
             defaultFont = f;
             defaultHFont = f.ToHfont();
-            defaultFontInfo = FontsUtils.GetCachedFont(f);
+            defaultFontInfo = FontsUtils.GetCachedFont(f).ResolvedFont;
 
         }
         static bool IsEqColor(Color c1, System.Drawing.Color c2)

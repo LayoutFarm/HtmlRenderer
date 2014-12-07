@@ -74,19 +74,18 @@ namespace HtmlRenderer.Boxes
         /// <param name="brush">the brush to use</param>
         /// <param name="rectangle">the bounding rectangle to draw in</param>
         /// <returns>Beveled border path, null if there is no rounded corners</returns>
-        public static void DrawBorder(CssSide border, PointF[] borderPts, IGraphics g,
+        public static void DrawBorder(CssSide border, PointF[] borderPts, Canvas g,
             CssBox box, RectangleF rectangle)
         {
 
             SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
-
             g.FillPolygon(borderPts);
         }
-        public static void DrawBorder(CssSide border, PointF[] borderPts, IGraphics g, CssBox box, Color solidColor, RectangleF rectangle)
+        public static void DrawBorder(CssSide border, PointF[] borderPts, Canvas g, CssBox box, Color solidColor, RectangleF rectangle)
         {
 
             SetInOutsetRectanglePoints(border, box, rectangle, true, true, borderPts);
-            g.FillSolidColor = solidColor;
+            g.FillColor = solidColor;
             g.FillPolygon(borderPts);
 
         }
@@ -159,7 +158,7 @@ namespace HtmlRenderer.Boxes
             GetBorderBorderDrawingInfo(box, borderSide, out style, out borderColor, out actualBorderWidth);
 
 
-            IGraphics g = p.Gfx;
+            Canvas g = p.InnerCanvas;
             if (box.HasSomeRoundCorner)
             {
                 GraphicsPath borderPath = GetRoundedBorderPath(p, borderSide, box, rect);
@@ -172,11 +171,13 @@ namespace HtmlRenderer.Boxes
                         g.SmoothingMode = SmoothingMode.AntiAlias;
                     }
 
-                    using (var pen = GetPen(p.Platform, style, borderColor, actualBorderWidth))
-                    using (borderPath)
-                    {
-                        g.DrawPath(pen, borderPath);
-                    }
+                     
+                    p.DrawPath(borderPath, borderColor, actualBorderWidth);
+                    //using (var pen = GetPen(p.Platform, style, borderColor, actualBorderWidth))
+                    //using (borderPath)
+                    //{
+                    //    g.DrawPath(pen, borderPath);
+                    //}
                     g.SmoothingMode = smooth;
                 }
             }
@@ -192,7 +193,7 @@ namespace HtmlRenderer.Boxes
                             PointF[] borderPnts = new PointF[4];
                             SetInOutsetRectanglePoints(borderSide, box, rect, isLineStart, isLineEnd, borderPnts);
 
-                            g.FillSolidColor = borderColor;
+                            g.FillColor = borderColor;
                             g.FillPolygon(borderPnts);
 
                         } break;
@@ -203,22 +204,25 @@ namespace HtmlRenderer.Boxes
 
                             //using (var pen = GetPen(p.Platform, style, borderColor, actualBorderWidth))
                             //{
+                            var prevColor = g.StrokeColor;
+                            g.StrokeColor = borderColor;
                             switch (borderSide)
                             {
                                 case CssSide.Top:
-                                    g.DrawLine(borderColor, (float)Math.Ceiling(rect.Left), rect.Top + box.ActualBorderTopWidth / 2, rect.Right - 1, rect.Top + box.ActualBorderTopWidth / 2);
+                                    g.DrawLine((float)Math.Ceiling(rect.Left), rect.Top + box.ActualBorderTopWidth / 2, rect.Right - 1, rect.Top + box.ActualBorderTopWidth / 2);
                                     break;
                                 case CssSide.Left:
-                                    g.DrawLine(borderColor, rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Ceiling(rect.Top), rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Floor(rect.Bottom));
+                                    g.DrawLine(rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Ceiling(rect.Top), rect.Left + box.ActualBorderLeftWidth / 2, (float)Math.Floor(rect.Bottom));
                                     break;
                                 case CssSide.Bottom:
-                                    g.DrawLine(borderColor, (float)Math.Ceiling(rect.Left), rect.Bottom - box.ActualBorderBottomWidth / 2, rect.Right - 1, rect.Bottom - box.ActualBorderBottomWidth / 2);
+                                    g.DrawLine((float)Math.Ceiling(rect.Left), rect.Bottom - box.ActualBorderBottomWidth / 2, rect.Right - 1, rect.Bottom - box.ActualBorderBottomWidth / 2);
                                     break;
                                 case CssSide.Right:
-                                    g.DrawLine(borderColor, rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Ceiling(rect.Top), rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Floor(rect.Bottom));
+                                    g.DrawLine(rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Ceiling(rect.Top), rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Floor(rect.Bottom));
                                     break;
                             }
                             //}
+                            g.StrokeColor = prevColor;
 
                         } break;
                 }

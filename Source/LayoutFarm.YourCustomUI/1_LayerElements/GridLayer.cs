@@ -484,8 +484,8 @@ namespace LayoutFarm.UI
         public void MoveColumnAfter(GridColumn tobeMoveColumn, GridColumn afterColumn)
         {
             this.gridCols.MoveColumnAfter(tobeMoveColumn, afterColumn);
-            this.OwnerInvalidateGraphic(); 
-        } 
+            this.OwnerInvalidateGraphic();
+        }
         public override void TopDownReCalculateContentSize()
         {
 #if DEBUG
@@ -781,6 +781,8 @@ namespace LayoutFarm.UI
 
 
             int n = 0;
+            var prevColor = canvasPage.StrokeColor;
+            canvasPage.StrokeColor = Color.Gray;
             do
             {
 
@@ -788,7 +790,7 @@ namespace LayoutFarm.UI
                 GridCell stopGridItemInColumn = currentColumn.GetCell(stopRowId - 1);
 
 
-                canvasPage.DrawLine(Color.Gray,
+                canvasPage.DrawLine(
                     startGridItemInColumn.RightTopCorner,
                     stopGridItemInColumn.RightBottomCorner);
 
@@ -806,7 +808,6 @@ namespace LayoutFarm.UI
 
 
                         canvasPage.DrawLine(
-                            Color.Gray,
                             x, gBottom,
                             x + horizontalLineWidth, gBottom);
 
@@ -816,6 +817,7 @@ namespace LayoutFarm.UI
                 currentColumn = currentColumn.NextColumn;
             } while (currentColumn != stopColumn);
 
+            canvasPage.StrokeColor = prevColor;
             currentColumn = startColumn;
             //----------------------------------------------------------------------------
             do

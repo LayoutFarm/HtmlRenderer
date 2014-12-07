@@ -14,7 +14,7 @@
 // "The Art of War"
 
 using System;
-using LayoutFarm.Drawing; 
+using LayoutFarm.Drawing;
 
 namespace HtmlRenderer.Css
 {
@@ -613,7 +613,7 @@ namespace HtmlRenderer.Css
                 return this._backgroundFeats.BackgroundColor;
             }
         }
-        internal FontInfo GetFont(IFonts fontPool, float parentFontSize)
+        internal FontInfo GetFontInfo(IFonts fontPool, float parentFontSize)
         {
 
             //---------------------------------------
@@ -636,7 +636,7 @@ namespace HtmlRenderer.Css
             {
                 case CssFontStyle.Italic:
                 case CssFontStyle.Oblique:
-                    st |=  LayoutFarm.Drawing.FontStyle.Italic;
+                    st |= LayoutFarm.Drawing.FontStyle.Italic;
                     break;
             }
             //-----------------------------------------------------
@@ -727,7 +727,7 @@ namespace HtmlRenderer.Css
             if (!relateToParent)
             {
                 //cahce value
-                this._actualFont = fontInfo.Font;
+                this._actualFont = fontInfo.ResolvedFont;
                 this._actualFontInfo = fontInfo;
             }
             return fontInfo;
