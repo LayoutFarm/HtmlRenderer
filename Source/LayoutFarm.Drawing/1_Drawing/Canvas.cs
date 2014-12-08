@@ -46,7 +46,7 @@ namespace LayoutFarm.Drawing
         public abstract void SetCanvasOrigin(float x, float y);
         //---------------------------------------------------------------------
         //clip area
-        public abstract bool PushClipAreaForNativeScrollableElement(Rect updateArea);
+         
         public abstract bool PushClipArea(int width, int height, Rect updateArea);
         public abstract void DisableClipArea();
         public abstract void EnableClipArea();

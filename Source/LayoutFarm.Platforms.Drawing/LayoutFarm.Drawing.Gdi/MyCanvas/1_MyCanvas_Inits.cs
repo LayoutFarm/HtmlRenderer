@@ -52,7 +52,7 @@ namespace LayoutFarm
         //-------------------------------
         Rect invalidateArea = Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
         Font currentTextFont = null;
-        SolidBrush sharedSolidBrush;
+         
         //-------------------------------
         System.Drawing.Color currentTextColor = System.Drawing.Color.Black;
         System.Drawing.Pen internalPen;
@@ -159,10 +159,7 @@ namespace LayoutFarm
 
             currentClipRect = new System.Drawing.Rectangle(0, 0, this.Width, this.Height);
 
-            if (sharedSolidBrush != null)
-            {
-                sharedSolidBrush.Dispose();
-            }
+        
 
 #if DEBUG
 

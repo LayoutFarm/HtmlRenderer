@@ -98,6 +98,7 @@ namespace LayoutFarm.Drawing
             BasicGdi32FontHelper gdiFontHelper)
         {
          
+            
             this.LineHeight = lineHeight;
             this.DescentPx = descentPx;
             this.AscentPx = ascentPx;
@@ -109,6 +110,7 @@ namespace LayoutFarm.Drawing
             hFont = innerFont.ToHfont();
             charWidths = gdiFontHelper.MeasureCharWidths(hFont);
 
+            this.resolvedFont = f;
         }
         public override Font ResolvedFont
         {

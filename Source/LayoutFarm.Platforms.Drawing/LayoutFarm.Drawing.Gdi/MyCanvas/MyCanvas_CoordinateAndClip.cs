@@ -80,25 +80,25 @@ namespace LayoutFarm
         {
             return clientRect.IntersectsWith(left, top, right, bottom);
         }
-        public override bool PushClipAreaForNativeScrollableElement(Rect updateArea)
-        {
+        //public override bool PushClipAreaForNativeScrollableElement(Rect updateArea)
+        //{
 
-            clipRectStack.Push(currentClipRect);
+        //    clipRectStack.Push(currentClipRect);
 
-            System.Drawing.Rectangle intersectResult = System.Drawing.Rectangle.Intersect(
-                currentClipRect,
-                updateArea.ToRectangle().ToRect());
+        //    System.Drawing.Rectangle intersectResult = System.Drawing.Rectangle.Intersect(
+        //        currentClipRect,
+        //        updateArea.ToRectangle().ToRect());
 
-            if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
-            {
-                currentClipRect = intersectResult;
-                return false;
-            }
+        //    if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
+        //    {
+        //        currentClipRect = intersectResult;
+        //        return false;
+        //    }
 
-            gx.SetClip(intersectResult);
-            currentClipRect = intersectResult;
-            return true;
-        }
+        //    gx.SetClip(intersectResult);
+        //    currentClipRect = intersectResult;
+        //    return true;
+        //}
 
 
         public override bool PushClipArea(int width, int height, Rect updateArea)
