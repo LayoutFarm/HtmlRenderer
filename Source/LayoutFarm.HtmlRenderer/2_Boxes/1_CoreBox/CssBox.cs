@@ -476,7 +476,7 @@ namespace HtmlRenderer.Boxes
                 //find word spacing  
                 float actualWordspacing = this._actualWordSpacing;
                 Font actualFont = this.ActualFont;
-                var fontInfo = lay.GetFontInfo(actualFont);
+                var fontInfo = actualFont.FontInfo;
                 float fontHeight = fontInfo.LineHeight;
 
                 var tmpRuns = this.Runs;

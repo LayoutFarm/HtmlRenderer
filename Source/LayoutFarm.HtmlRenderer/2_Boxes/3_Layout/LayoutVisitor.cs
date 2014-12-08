@@ -108,15 +108,9 @@ namespace HtmlRenderer.Boxes
                 w += CssValueParser.ConvertToPxWithFontAdjust(box.WordSpacing, 0, box);
             }
             return w;
-        }
-        internal FontInfo GetFontInfo(Font f)
-        {
-            return this.SampleIFonts.GetFontInfo(f);
-             
-        }
+        } 
         internal float MeasureStringWidth(char[] buffer, int startIndex, int len, Font f)
-        {
-            
+        { 
             return this.SampleIFonts.MeasureString(buffer, startIndex, len, f).Width;
         }
 

@@ -23,6 +23,7 @@ namespace LayoutFarm
 {
     partial class MyCanvas
     {
+        
         public override  void SetCanvasOrigin(float x, float y)
         {
             ReleaseHdc();
@@ -42,9 +43,7 @@ namespace LayoutFarm
         {
             get { return this.canvasOriginY; }
         }
-        int CanvasOrgX { get { return (int)this.canvasOriginX; } }
-        int CanvasOrgY { get { return (int)this.canvasOriginY; } }
-
+     
         public override void OffsetCanvasOrigin(int dx, int dy)
         {
 
@@ -80,27 +79,7 @@ namespace LayoutFarm
         {
             return clientRect.IntersectsWith(left, top, right, bottom);
         }
-        //public override bool PushClipAreaForNativeScrollableElement(Rect updateArea)
-        //{
-
-        //    clipRectStack.Push(currentClipRect);
-
-        //    System.Drawing.Rectangle intersectResult = System.Drawing.Rectangle.Intersect(
-        //        currentClipRect,
-        //        updateArea.ToRectangle().ToRect());
-
-        //    if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
-        //    {
-        //        currentClipRect = intersectResult;
-        //        return false;
-        //    }
-
-        //    gx.SetClip(intersectResult);
-        //    currentClipRect = intersectResult;
-        //    return true;
-        //}
-
-
+       
         public override bool PushClipArea(int width, int height, Rect updateArea)
         {
             clipRectStack.Push(currentClipRect);
@@ -225,7 +204,19 @@ namespace LayoutFarm
                 return Rectangle.FromLTRB(left, top, right, bottom);
             }
         }
+        public override Rect InvalidateArea
+        {
+            get
+            {
+                return invalidateArea;
+            }
+        } 
 
+        public override void Invalidate(Rect rect)
+        {
+            invalidateArea.MergeRect(rect);
+            this.IsContentReady = false;
+        }
     }
 
 }

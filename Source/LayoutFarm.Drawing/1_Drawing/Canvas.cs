@@ -46,7 +46,7 @@ namespace LayoutFarm.Drawing
         public abstract void SetCanvasOrigin(float x, float y);
         //---------------------------------------------------------------------
         //clip area
-         
+
         public abstract bool PushClipArea(int width, int height, Rect updateArea);
         public abstract void DisableClipArea();
         public abstract void EnableClipArea();
@@ -57,7 +57,7 @@ namespace LayoutFarm.Drawing
         public abstract void PopClipArea();
         //---------------------------------------
         //buffer
-        public abstract void ClearSurface();
+        public abstract void ClearSurface(LayoutFarm.Drawing.Color c);
         public abstract void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea);
         public abstract void RenderTo(System.IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea);
         //-------------------------------------------------------
@@ -72,7 +72,7 @@ namespace LayoutFarm.Drawing
         public abstract Font CurrentFont { get; set; }
         public abstract Color CurrentTextColor { get; set; }
 
-        public abstract FontInfo GetFontInfo(Font f);
+        
 
         public abstract void DrawText(char[] buffer, int x, int y);
         public abstract void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment);
@@ -82,13 +82,13 @@ namespace LayoutFarm.Drawing
         //lines 
         public abstract void DrawLine(float x1, float y1, float x2, float y2);
         public abstract void DrawLine(PointF p1, PointF p2);
-        public abstract void DrawLines(Point[] points);
+         
         //-------------------------------------------------------
         //rects 
-        public abstract void FillRectangle(Color color, float left, float top, float right, float bottom); 
-        public abstract void FillRectangle(Brush brush, float left, float top, float width, float height); 
+        public abstract void FillRectangle(Color color, float left, float top, float right, float bottom);
+        public abstract void FillRectangle(Brush brush, float left, float top, float width, float height);
         public abstract void DrawRectangle(Color color, float left, float top, float width, float height);
-      
+
         //------------------------------------------------------- 
         //path,  polygons,ellipse spline,contour,  
         public abstract void FillPath(GraphicsPath gfxPath);

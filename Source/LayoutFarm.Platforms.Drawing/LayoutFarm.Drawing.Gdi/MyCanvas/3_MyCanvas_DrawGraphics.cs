@@ -22,6 +22,52 @@ namespace LayoutFarm
 
     partial class MyCanvas
     {
+        float strokeWidth = 1f;
+        Color fillSolidColor = Color.Transparent;
+        Color strokeColor = Color.Black;
+        //==========================================================
+        public override Color StrokeColor
+        {
+            get
+            {
+                return this.strokeColor;
+            }
+            set
+            {
+                this.internalPen.Color = ConvColor(this.strokeColor = value);
+            }
+        }
+        public override float StrokeWidth
+        {
+            get
+            {
+                return this.strokeWidth;
+            }
+            set
+            {
+                this.internalPen.Width = this.strokeWidth = value;
+
+            }
+        }
+        public override Color FillColor
+        {
+            get
+            {
+                return fillSolidColor;
+            }
+            set
+            {
+                this.fillSolidColor = value;
+                this.internalBrush.Color = ConvColor(value);
+            }
+        }
+        public override GraphicsPlatform Platform
+        {
+            get { return this.platform; }
+        }
+
+
+        //==========================================================
         public override void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea)
         {
             MyCanvas s1 = (MyCanvas)sourceCanvas;
@@ -67,45 +113,25 @@ namespace LayoutFarm
             MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
             gx.ReleaseHdc();
         }
-        public override void ClearSurface()
+        public override void ClearSurface(LayoutFarm.Drawing.Color c)
         {
             ReleaseHdc();
-            gx.Clear(System.Drawing.Color.White);
+            gx.Clear(System.Drawing.Color.FromArgb(
+                c.A,
+                c.R,
+                c.G,
+                c.B));
+
         }
 
-
-
-        //public override void FillPolygon(ArtColorBrush colorBrush, Point[] points)
-        //{
-        //    if (colorBrush is ArtSolidBrush)
-        //    {
-        //        ArtSolidBrush solidBrush = (ArtSolidBrush)colorBrush;
-        //        gx.FillPolygon(ConvBrush(colorBrush.myBrush), ConvPointArray(points));
-
-        //    }
-        //    else if (colorBrush is ArtGradientBrush)
-        //    {
-        //        ArtGradientBrush gradientBrush = (ArtGradientBrush)colorBrush;
-
-        //        gx.FillPolygon(ConvBrush(colorBrush.myBrush), ConvPointArray(points));
-
-
-        //    }
-        //    else if (colorBrush is ArtImageBrush)
-        //    {
-        //        ArtImageBrush imgBrush = (ArtImageBrush)colorBrush;
-
-
-        //    }
-        //}
         public override void FillRegion(Region rgn)
         {
             gx.FillRegion(internalBrush, ConvRgn(rgn));
         }
 
-        public override void FillPath(GraphicsPath gfxPath )
+        public override void FillPath(GraphicsPath gfxPath)
         {
-             
+
             gx.FillPath(internalBrush, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
         }
 
@@ -113,16 +139,10 @@ namespace LayoutFarm
         {
             gx.DrawPath(internalPen, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
         }
-
-
-       
-       
         public override void FillRectangle(Brush brush, float left, float top, float width, float height)
         {
             gx.FillRectangle(ConvBrush(brush), left, top, width, height);
         }
-       
-
         public override void FillRectangle(Color color, float left, float top, float right, float bottom)
         {
             ReleaseHdc();
@@ -133,15 +153,15 @@ namespace LayoutFarm
         public override RectangleF GetBound(Region rgn)
         {
             return (ConvRgn(rgn).GetBounds(gx)).ToRectF();
-        } 
-     
+        }
+
         public override void DrawRectangle(Color color, float left, float top, float width, float height)
         {
             ReleaseHdc();
             internalPen.Color = ConvColor(color);
             gx.DrawRectangle(internalPen, left, top, width, height);
         }
-        
+
         public override void DrawBezier(Point[] points)
         {
             gx.DrawBeziers(internalPen, ConvPointArray(points));
@@ -157,13 +177,6 @@ namespace LayoutFarm
             gx.DrawLine(internalPen, p1.X, p1.Y, p2.X, p2.Y);
 
         }
-
-        public override void DrawLines(Point[] points)
-        {
-
-            gx.DrawLines(internalPen,
-               ConvPointArray(points));
-        }
         public override void DrawPolygon(PointF[] points)
         {
             gx.DrawPolygon(internalPen, ConvPointFArray(points));
@@ -174,8 +187,6 @@ namespace LayoutFarm
             gx.FillEllipse(internalBrush, points[0].X, points[0].Y, points[2].X - points[0].X, points[2].Y - points[0].Y);
 
         }
-         
-
         public override void FillEllipse(int x, int y, int width, int height)
         {
             gx.FillEllipse(internalBrush, x, y, width, height);
@@ -251,15 +262,7 @@ namespace LayoutFarm
             gx.DrawImage(image.InnerImage as System.Drawing.Image, destRect.ToRectF());
         }
 
-        /// <summary>
-        /// Draws a <see cref="T:System.Drawing.Drawing2D.GraphicsPath"/>.
-        /// </summary>
-        /// <param name="pen"><see cref="T:System.Drawing.Pen"/> that determines the color, width, and style of the path. </param><param name="path"><see cref="T:System.Drawing.Drawing2D.GraphicsPath"/> to draw. </param><exception cref="T:System.ArgumentNullException"><paramref name="pen"/> is null.-or-<paramref name="path"/> is null.</exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
-        public void DrawPath(Pen pen, GraphicsPath path)
-        {
-            gx.DrawPath(pen.InnerPen as System.Drawing.Pen,
-                path.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
-        }
+
 
         /// <summary>
         /// Fills the interior of a <see cref="T:System.Drawing.Drawing2D.GraphicsPath"/>.
@@ -284,26 +287,34 @@ namespace LayoutFarm
             gx.FillPolygon(this.internalBrush, pps);
         }
 
-#if DEBUG
-        public override void dbug_DrawRuler(int x)
+
+      
+        //==================================================== 
+        /// <summary>
+        /// Gets the bounding clipping region of this graphics.
+        /// </summary>
+        /// <returns>The bounding rectangle for the clipping region</returns>
+        public override RectangleF GetClip()
         {
-            int canvas_top = this.top;
-            int canvas_bottom = this.Bottom;
-            for (int y = canvas_top; y < canvas_bottom; y += 10)
+            if (_hdc == IntPtr.Zero)
             {
-                this.DrawText(y.ToString().ToCharArray(), x, y);
+                var clip1 = gx.ClipBounds;
+                return new RectangleF(
+                    clip1.X, clip1.Y,
+                    clip1.Width, clip1.Height);
+            }
+            else
+            {
+                System.Drawing.Rectangle lprc;
+                DrawingBridge.Win32Utils.GetClipBox(_hdc, out lprc);
+
+
+                return new RectangleF(
+                    lprc.X, lprc.Y,
+                    lprc.Width, lprc.Height);
             }
         }
-        public override void dbug_DrawCrossRect(Color color, Rectangle rect)
-        {
-            var prevColor = this.StrokeColor;
-            this.StrokeColor = color;
-            DrawLine(rect.Location, new Point(rect.Right, rect.Bottom));
-            DrawLine(new Point(rect.Left, rect.Bottom), new Point(rect.Right, rect.Top));
-            this.StrokeColor = prevColor;
-        }
-
-#endif
+        
     }
 
 }

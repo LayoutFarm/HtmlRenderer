@@ -11,7 +11,8 @@ namespace LayoutFarm.Drawing
         public abstract void Dispose();
         public abstract int Height { get; }
         public abstract System.IntPtr ToHfont();
-     
+
+        public abstract FontInfo FontInfo { get; }
     }
 
     public abstract class FontFamily
@@ -47,12 +48,11 @@ namespace LayoutFarm.Drawing
     }
     public interface IFonts
     {
-        FontInfo GetFontInfo(Font f);
+        
         FontInfo GetFontInfo(string fontname, float fsize, FontStyle st);
         float MeasureWhitespace(Font f);
 
-        Size MeasureString(string str, Font font); 
-        Size MeasureString(char[] str, int startAt, int len, Font font);
+         Size MeasureString(char[] str, int startAt, int len, Font font);
         Size MeasureString(char[] str, int startAt, int len, Font font, float maxWidth, out int charFit, out int charFitWidth);
         void Dispose();
     }

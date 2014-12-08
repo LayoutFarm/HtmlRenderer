@@ -109,8 +109,9 @@ namespace LayoutFarm.Drawing
             System.Drawing.Font innerFont = ((System.Drawing.Font)(f.InnerFont));
             hFont = innerFont.ToHfont();
             charWidths = gdiFontHelper.MeasureCharWidths(hFont);
-
+             
             this.resolvedFont = f;
+            
         }
         public override Font ResolvedFont
         {

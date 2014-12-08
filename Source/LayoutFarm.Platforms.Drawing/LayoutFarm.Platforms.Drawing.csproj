@@ -8,8 +8,8 @@
     <ProjectGuid>{1AA171E3-523C-4DD5-A169-DE6322991FF5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LayoutFarm.Platforms.OpenTk</RootNamespace>
-    <AssemblyName>LayoutFarm.Platforms.OpenTk</AssemblyName>
+    <RootNamespace>LayoutFarm.Platforms.Drawing</RootNamespace>
+    <AssemblyName>LayoutFarm.Platforms.Drawing</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -54,15 +54,10 @@
     <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\Region.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\Win32Utils.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\0_CanvasCollection.cs" />
-    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\1_MyCanvas_Inits.cs" />
-    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_CanvasProps.cs" />
-    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_CoordinateAndClip.cs" />
-    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_DrawGraphics.cs" />
-    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_IFont_SpecificImpl.cs" />
-    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_IGraphics_SpecificImpl.cs" />
-    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_InvalidateArea.cs" />
-    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_Static.cs" />
-    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\MyCanvas_TextFuncs.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\1_MyCanvas_Specific.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\2_MyCanvas_CoordinateAndClip.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\3_MyCanvas_DrawGraphics.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\4_MyCanvas_TextAndFonts.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\QuadPages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -73,6 +68,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
