@@ -16,7 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing; 
+using LayoutFarm.Drawing;
 using DrawingBridge;
 
 namespace LayoutFarm
@@ -24,31 +24,23 @@ namespace LayoutFarm
 
     partial class MyCanvas : Canvas, IFonts
     {
-        int left;
-        int top;
-        int right;
-        int bottom;
+
+
+
         int pageNumFlags;
         int pageFlags;
 
         System.Drawing.Graphics gx;
-        //------------------------------- 
-        float canvasOriginX = 0;
-        float canvasOriginY = 0;
-        //-------------------------------
         IntPtr hRgn = IntPtr.Zero;
         IntPtr _hdc;
         IntPtr hbmp;
         IntPtr hFont = IntPtr.Zero;
         IntPtr originalHdc = IntPtr.Zero;
-        //------------------------------- 
 
         Stack<System.Drawing.Rectangle> prevRegionRects = new Stack<System.Drawing.Rectangle>();
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
-        //-------------------------------
-        Rect invalidateArea = Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
-        Font currentTextFont = null;
-         
+
+
         //-------------------------------
         System.Drawing.Color currentTextColor = System.Drawing.Color.Black;
         System.Drawing.Pen internalPen;
@@ -57,7 +49,6 @@ namespace LayoutFarm
         //-------------------------------
         bool isFromPrinter = false;
         GraphicsPlatform platform;
-
         public MyCanvas(GraphicsPlatform platform,
             int horizontalPageNum,
             int verticalPageNum,
@@ -118,7 +109,7 @@ namespace LayoutFarm
         {
             ReleaseHdc();
         }
-      
+
         void ClearPreviousStoredValues()
         {
             this.gx.RenderingOrigin = new System.Drawing.Point(0, 0);
@@ -147,7 +138,7 @@ namespace LayoutFarm
 
             currentClipRect = new System.Drawing.Rectangle(0, 0, this.Width, this.Height);
 
-        
+
 
 #if DEBUG
 
@@ -247,7 +238,7 @@ namespace LayoutFarm
                     pageFlags &= ~CANVAS_DIMEN_CHANGED;
                 }
             }
-        } 
+        }
         /// <summary>
         /// Init HDC for the current graphics object to be used to call GDI directly.
         /// </summary>
@@ -351,20 +342,20 @@ namespace LayoutFarm
         static IntPtr defaultHFont;
         static System.Drawing.Font defaultFont;
         static Font defaultFontInfo;
+
+
         static MyCanvas()
         {
             _stringFormat = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericDefault);
             _stringFormat.FormatFlags = System.Drawing.StringFormatFlags.NoClip | System.Drawing.StringFormatFlags.MeasureTrailingSpaces;
             //---------------------------
             MyCanvas.SetupDefaultFont(new System.Drawing.Font("Tahoma", 10));
-
         }
         static void SetupDefaultFont(System.Drawing.Font f)
         {
             defaultFont = f;
             defaultHFont = f.ToHfont();
             defaultFontInfo = FontsUtils.GetCachedFont(f).ResolvedFont;
-
         }
 
         static System.Drawing.Point[] ConvPointArray(Point[] points)
@@ -450,7 +441,7 @@ namespace LayoutFarm
         {
             var prevColor = this.StrokeColor;
             this.StrokeColor = color;
-            DrawLine(rect.Location, new Point(rect.Right, rect.Bottom));
+            DrawLine(rect.Left, rect.Top, rect.Right, rect.Bottom);
             DrawLine(rect.Left, rect.Bottom, rect.Right, rect.Top);
             this.StrokeColor = prevColor;
         }

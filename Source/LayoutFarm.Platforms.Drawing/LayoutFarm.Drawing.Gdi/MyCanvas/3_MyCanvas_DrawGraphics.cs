@@ -160,31 +160,20 @@ namespace LayoutFarm
             ReleaseHdc();
             internalPen.Color = ConvColor(color);
             gx.DrawRectangle(internalPen, left, top, width, height);
-        }
-
-        public override void DrawBezier(Point[] points)
-        {
-            gx.DrawBeziers(internalPen, ConvPointArray(points));
-        }
+        } 
+        
         public override void DrawLine(float x1, float y1, float x2, float y2)
         {
             ReleaseHdc();
             gx.DrawLine(internalPen, x1, y1, x2, y2);
         }
-
-        public override void DrawLine(PointF p1, PointF p2)
-        {
-            gx.DrawLine(internalPen, p1.X, p1.Y, p2.X, p2.Y);
-
-        }
-        public override void DrawPolygon(PointF[] points)
-        {
-            gx.DrawPolygon(internalPen, ConvPointFArray(points));
-        }
-
+     
         public override void FillEllipse(Point[] points)
         {
-            gx.FillEllipse(internalBrush, points[0].X, points[0].Y, points[2].X - points[0].X, points[2].Y - points[0].Y);
+            gx.FillEllipse(internalBrush,
+                points[0].X, points[0].Y,
+                points[2].X - points[0].X, 
+                points[2].Y - points[0].Y);
 
         }
         public override void FillEllipse(int x, int y, int width, int height)
@@ -260,10 +249,7 @@ namespace LayoutFarm
         {
             ReleaseHdc();
             gx.DrawImage(image.InnerImage as System.Drawing.Image, destRect.ToRectF());
-        }
-
-
-
+        } 
         /// <summary>
         /// Fills the interior of a <see cref="T:System.Drawing.Drawing2D.GraphicsPath"/>.
         /// </summary>
@@ -288,33 +274,33 @@ namespace LayoutFarm
         }
 
 
-      
-        //==================================================== 
-        /// <summary>
-        /// Gets the bounding clipping region of this graphics.
-        /// </summary>
-        /// <returns>The bounding rectangle for the clipping region</returns>
-        public override RectangleF GetClip()
-        {
-            if (_hdc == IntPtr.Zero)
-            {
-                var clip1 = gx.ClipBounds;
-                return new RectangleF(
-                    clip1.X, clip1.Y,
-                    clip1.Width, clip1.Height);
-            }
-            else
-            {
-                System.Drawing.Rectangle lprc;
-                DrawingBridge.Win32Utils.GetClipBox(_hdc, out lprc);
+
+        ////==================================================== 
+        ///// <summary>
+        ///// Gets the bounding clipping region of this graphics.
+        ///// </summary>
+        ///// <returns>The bounding rectangle for the clipping region</returns>
+        //public override RectangleF GetClip()
+        //{
+        //    if (_hdc == IntPtr.Zero)
+        //    {
+        //        var clip1 = gx.ClipBounds;
+        //        return new RectangleF(
+        //            clip1.X, clip1.Y,
+        //            clip1.Width, clip1.Height);
+        //    }
+        //    else
+        //    {
+        //        System.Drawing.Rectangle lprc;
+        //        DrawingBridge.Win32Utils.GetClipBox(_hdc, out lprc);
 
 
-                return new RectangleF(
-                    lprc.X, lprc.Y,
-                    lprc.Width, lprc.Height);
-            }
-        }
-        
+        //        return new RectangleF(
+        //            lprc.X, lprc.Y,
+        //            lprc.Width, lprc.Height);
+        //    }
+        //}
+
     }
 
 }

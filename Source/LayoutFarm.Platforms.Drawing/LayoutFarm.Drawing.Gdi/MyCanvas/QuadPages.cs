@@ -385,21 +385,7 @@ namespace LayoutFarm.Drawing
                     } break;
 
             }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        } 
         public void CalculateCanvasPages(int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
             int firstVerticalPageNum = viewportY / physicalCanvasCollection.EachPageHeight;
@@ -550,49 +536,48 @@ namespace LayoutFarm.Drawing
                 case PAGE_A:
                     {
                         TransferDataFromSourceCanvas(
-
                             pageA, logicalArea,
                             clipRect,
                             destPage);
                     } break;
                 case PAGE_AB:
                     {
-                        int remainHeightOfPageA = pageA.Bottom - viewportY; TransferDataFromSourceCanvas(
-
-pageA, logicalArea,
-        Rectangle.Intersect(
-new Rectangle(0, 0, viewportWidth, remainHeightOfPageA),
-clipRect), destPage);
+                        int remainHeightOfPageA = pageA.Bottom - viewportY;
+                        TransferDataFromSourceCanvas(
+                            pageA, logicalArea,
+                            Rectangle.Intersect(
+                                    new Rectangle(0, 0, viewportWidth, remainHeightOfPageA),
+                                    clipRect), destPage);
 
                         TransferDataFromSourceCanvas(
-
                             pageB, logicalArea,
-                                                     Rectangle.Intersect(
-                               new Rectangle(0, remainHeightOfPageA, viewportWidth, viewportHeight - remainHeightOfPageA),
-                               clipRect), destPage);
+                            Rectangle.Intersect(
+                                    new Rectangle(0, remainHeightOfPageA, viewportWidth, viewportHeight - remainHeightOfPageA),
+                                    clipRect), destPage);
                     } break;
                 case PAGE_AC:
                     {
-                        int remainWidthOfPageA = pageA.Right - viewportX; TransferDataFromSourceCanvas(
-pageA, logicalArea,
-        Rectangle.Intersect(
-new Rectangle(0, 0, remainWidthOfPageA, viewportHeight),
-clipRect), destPage);
+                        int remainWidthOfPageA = pageA.Right - viewportX;
+                        TransferDataFromSourceCanvas(pageA, logicalArea,
+                               Rectangle.Intersect(
+                                    new Rectangle(0, 0, remainWidthOfPageA, viewportHeight),
+                                    clipRect), destPage);
 
                         TransferDataFromSourceCanvas(
                             pageC, logicalArea,
-                                                     Rectangle.Intersect(
-                               new Rectangle(remainWidthOfPageA, 0, viewportWidth - remainWidthOfPageA, viewportHeight),
-                               clipRect), destPage);
+                                Rectangle.Intersect(
+                                    new Rectangle(remainWidthOfPageA, 0, viewportWidth - remainWidthOfPageA, viewportHeight),
+                                    clipRect), destPage);
 
                     } break;
                 case PAGE_ABCD:
                     {
-                        int remainHeightOfPageA = pageA.Bottom - viewportY; TransferDataFromSourceCanvas(
-    pageA, logicalArea,
+                        int remainHeightOfPageA = pageA.Bottom - viewportY;
+                        TransferDataFromSourceCanvas(
+                            pageA, logicalArea,
                                 Rectangle.Intersect(
-    new Rectangle(0, 0, viewportWidth, remainHeightOfPageA),
-    clipRect), destPage);
+                                new Rectangle(0, 0, viewportWidth, remainHeightOfPageA),
+                                clipRect), destPage);
 
                         TransferDataFromSourceCanvas(
                             pageB, logicalArea,
@@ -607,12 +592,11 @@ clipRect), destPage);
                                new Rectangle(remainWidthOfPageA, 0, viewportWidth - remainWidthOfPageA, viewportHeight),
                                clipRect), destPage);
 
-                        TransferDataFromSourceCanvas(
-    pageD, logicalArea,
+                        TransferDataFromSourceCanvas(pageD, logicalArea,
                             Rectangle.Intersect(
-      new Rectangle(remainWidthOfPageA, remainHeightOfPageA,
-          viewportWidth - remainWidthOfPageA, viewportHeight - remainHeightOfPageA),
-      clipRect), destPage);
+                                    new Rectangle(remainWidthOfPageA, remainHeightOfPageA,
+                                    viewportWidth - remainWidthOfPageA, viewportHeight - remainHeightOfPageA),
+                                    clipRect), destPage);
 
 
                     } break;
@@ -628,9 +612,9 @@ clipRect), destPage);
             Rectangle logicalClip = Rectangle.Intersect(logicalSourceArea.ToRectangle(), sourceCanvas.Rect);
             if (logicalClip.Width > 0 && logicalClip.Height > 0)
             {
-                destPage.CopyFrom(sourceCanvas,
-logicalClip.Left, logicalClip.Top,
-physicalUpdateArea);
+                destPage.CopyFrom(sourceCanvas, logicalClip.Left,
+                    logicalClip.Top,
+                    physicalUpdateArea);
 
             }
         }
@@ -640,8 +624,6 @@ physicalUpdateArea);
         {
             srcX -= srcCanvas.Left;
             srcY -= srcCanvas.Top;
-
-
         }
 #endif
 

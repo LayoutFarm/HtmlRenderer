@@ -23,7 +23,16 @@ namespace LayoutFarm
 {
     partial class MyCanvas
     {
-        
+        int left;
+        int top;
+        int right;
+        int bottom;
+        float canvasOriginX = 0;
+        float canvasOriginY = 0;
+        Rect invalidateArea = Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
+       
+
+        //--------------------------------------------------------------------
         public override  void SetCanvasOrigin(float x, float y)
         {
             ReleaseHdc();
@@ -91,58 +100,19 @@ namespace LayoutFarm
                     updateArea.ToRectangle().ToRect(),
                     new System.Drawing.Rectangle(0, 0, width, height)));
 
-
             currentClipRect = intersectResult;
             if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
             {
+                //not intersec?
                 return false;
             }
             else
             {
-                gx.SetClip(intersectResult); return true;
-            }
-        }
-
-        public override void DisableClipArea()
-        {
-            gx.ResetClip();
-        }
-        public override void EnableClipArea()
-        {
-            gx.SetClip(currentClipRect);
-        }
-
-        public override Rectangle CurrentClipRect
-        {
-            get
-            {
-                return currentClipRect.ToRect();
-            }
-        }
-
-
-
-        public override bool PushClipArea(int x, int y, int width, int height)
-        {
-            clipRectStack.Push(currentClipRect);
-            System.Drawing.Rectangle intersectRect = System.Drawing.Rectangle.Intersect(
-                currentClipRect,
-                new System.Drawing.Rectangle(x, y, width, height));
-
-
-            if (intersectRect.Width == 0 || intersectRect.Height == 0)
-            {
-                currentClipRect = intersectRect;
-                return false;
-            }
-            else
-            {
-                gx.SetClip(intersectRect);
-                currentClipRect = intersectRect;
+               
+                gx.SetClip(intersectResult);
                 return true;
             }
         }
-
         public override void PopClipArea()
         {
             if (clipRectStack.Count > 0)
@@ -153,6 +123,17 @@ namespace LayoutFarm
             }
         }
 
+       
+
+        public override Rectangle CurrentClipRect
+        {
+            get
+            {
+                return currentClipRect.ToRect();
+            }
+        }
+       
+     
 
         public override int Top
         {
@@ -211,7 +192,6 @@ namespace LayoutFarm
                 return invalidateArea;
             }
         } 
-
         public override void Invalidate(Rect rect)
         {
             invalidateArea.MergeRect(rect);

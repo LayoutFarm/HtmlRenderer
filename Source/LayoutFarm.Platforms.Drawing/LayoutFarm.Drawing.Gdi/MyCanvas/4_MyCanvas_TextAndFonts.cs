@@ -24,7 +24,7 @@ namespace LayoutFarm
     partial class MyCanvas
     {
 
-
+        Font currentTextFont = null;
         Color mycurrentTextColor = Color.Black;
         //======================================
         //IFonts impl

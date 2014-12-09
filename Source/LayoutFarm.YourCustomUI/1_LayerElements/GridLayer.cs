@@ -791,8 +791,13 @@ namespace LayoutFarm.UI
 
 
                 canvasPage.DrawLine(
-                    startGridItemInColumn.RightTopCorner,
-                    stopGridItemInColumn.RightBottomCorner);
+                    startGridItemInColumn.Right,
+                    startGridItemInColumn.Y,
+                    stopGridItemInColumn.Right,
+                    stopGridItemInColumn.Bottom);
+
+                //startGridItemInColumn.RightTopCorner,
+                //stopGridItemInColumn.RightBottomCorner);
 
                 if (n == 0)
                 {

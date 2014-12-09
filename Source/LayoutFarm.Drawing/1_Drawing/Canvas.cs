@@ -36,6 +36,7 @@ namespace LayoutFarm.Drawing
         public abstract int Height { get; }
         public abstract int Bottom { get; }
         public abstract int Right { get; }
+
         public abstract Rectangle Rect { get; }
         public abstract void OffsetCanvasOrigin(int dx, int dy);
         public abstract void OffsetCanvasOriginX(int dx);
@@ -48,13 +49,10 @@ namespace LayoutFarm.Drawing
         //clip area
 
         public abstract bool PushClipArea(int width, int height, Rect updateArea);
-        public abstract void DisableClipArea();
-        public abstract void EnableClipArea();
-        public abstract void SetClip(RectangleF clip, CombineMode combineMode = CombineMode.Replace);
-        public abstract RectangleF GetClip();
-        public abstract Rectangle CurrentClipRect { get; }
-        public abstract bool PushClipArea(int x, int y, int width, int height);
-        public abstract void PopClipArea();
+        public abstract void PopClipArea(); 
+
+        public abstract void SetClip(RectangleF clip, CombineMode combineMode = CombineMode.Replace);         
+        public abstract Rectangle CurrentClipRect { get; }  
         //---------------------------------------
         //buffer
         public abstract void ClearSurface(LayoutFarm.Drawing.Color c);
@@ -80,9 +78,7 @@ namespace LayoutFarm.Drawing
         //-------------------------------------------------------
 
         //lines 
-        public abstract void DrawLine(float x1, float y1, float x2, float y2);
-        public abstract void DrawLine(PointF p1, PointF p2);
-         
+        public abstract void DrawLine(float x1, float y1, float x2, float y2); 
         //-------------------------------------------------------
         //rects 
         public abstract void FillRectangle(Color color, float left, float top, float right, float bottom);
@@ -93,15 +89,15 @@ namespace LayoutFarm.Drawing
         //path,  polygons,ellipse spline,contour,  
         public abstract void FillPath(GraphicsPath gfxPath);
         public abstract void FillPath(GraphicsPath gfxPath, Brush brush);
-        public abstract void DrawPolygon(PointF[] points);
+        public abstract void DrawPath(GraphicsPath gfxPath);
 
         public abstract void FillPolygon(PointF[] points);
         public abstract void FillEllipse(Point[] points);
         public abstract void FillEllipse(int x, int y, int width, int height);
 
-        public abstract void DrawRoundRect(int x, int y, int w, int h, Size cornerSize);
-        public abstract void DrawBezier(Point[] points);
-        public abstract void DrawPath(GraphicsPath gfxPath);
+        
+        public abstract void DrawRoundRect(int x, int y, int w, int h, Size cornerSize);        
+        
         //------------------------------------------------------- 
 
         //images
