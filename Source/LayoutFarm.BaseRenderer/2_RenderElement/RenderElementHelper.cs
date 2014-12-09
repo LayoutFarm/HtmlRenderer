@@ -18,8 +18,7 @@ namespace LayoutFarm
             if (colorBrush == null)
             {
                 return;
-            }
-
+            } 
             canvasPage.FillRectangle(color, 0, 0, width, height);
 
         }

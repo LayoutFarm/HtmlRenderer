@@ -181,15 +181,16 @@ namespace LayoutFarm.Text
                 int linetop = topEndPoint.LineTop;
 
                 destPage.FillRectangle(Color.LightGray, topEndPoint.X, linetop,
-                    bottomEndPoint.X, linetop + topEndPoint.ActualLineHeight);
+                    bottomEndPoint.X - topEndPoint.X, topEndPoint.ActualLineHeight);
 
             }
             else
             {
                 EditableVisualPointInfo topEndPoint = TopEnd; int lineYPos = topEndPoint.LineTop;
 
-                destPage.FillRectangle(Color.LightGray, topEndPoint.X, lineYPos, topEndPoint.CurrentWidth,
-                    lineYPos + topEndPoint.ActualLineHeight);
+                destPage.FillRectangle(Color.LightGray, topEndPoint.X, lineYPos,
+                    topEndPoint.CurrentWidth,
+                    topEndPoint.ActualLineHeight);
 
                 int topLineId = topEndPoint.LineId;
                 int bottomLineId = BottomEnd.LineId;
@@ -201,15 +202,17 @@ namespace LayoutFarm.Text
                         destPage.FillRectangle(Color.LightGray, 0,
                             adjacentStartLine.LineTop,
                             adjacentStartLine.CurrentWidth,
-                            adjacentStartLine.LineTop + adjacentStartLine.ActualLineHeight);
+                            adjacentStartLine.ActualLineHeight);
                         adjacentStartLine = adjacentStartLine.Next;
                     }
                     EditableVisualElementLine adjacentStopLine = BottomEnd.Line.Prev;
                 }
                 VisualPointInfo bottomEndPoint = BottomEnd;
                 lineYPos = bottomEndPoint.LineTop;
+                //destPage.FillRectangle(Color.LightGray, 0, lineYPos, bottomEndPoint.X,
+                //    lineYPos + bottomEndPoint.ActualLineHeight);
                 destPage.FillRectangle(Color.LightGray, 0, lineYPos, bottomEndPoint.X,
-    lineYPos + bottomEndPoint.ActualLineHeight);
+                     bottomEndPoint.ActualLineHeight);
 
             }
         }

@@ -143,11 +143,11 @@ namespace LayoutFarm
         {
             gx.FillRectangle(ConvBrush(brush), left, top, width, height);
         }
-        public override void FillRectangle(Color color, float left, float top, float right, float bottom)
+        public override void FillRectangle(Color color, float left, float top, float width, float height)
         {
             ReleaseHdc();
             internalBrush.Color = ConvColor(color);
-            gx.FillRectangle(internalBrush, left, top, right - left, bottom - top);
+            gx.FillRectangle(internalBrush, left, top, width, height);
         }
 
         //public override RectangleF GetBound(Region rgn)
