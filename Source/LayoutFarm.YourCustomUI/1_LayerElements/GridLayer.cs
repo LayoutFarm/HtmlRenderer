@@ -844,7 +844,7 @@ namespace LayoutFarm.UI
                         if (renderContent != null)
                         {
 
-                            if (canvasPage.PushClipArea(gridItem.Width, gridItem.Height, updateArea))
+                            if (canvasPage.PushClipArea(gridItem.Width, gridItem.Height,ref updateArea))
                             {
                                 renderContent.DrawToThisPage(canvasPage, updateArea);
                             }

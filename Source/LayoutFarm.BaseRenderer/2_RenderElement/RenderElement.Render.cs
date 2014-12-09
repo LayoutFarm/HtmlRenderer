@@ -2,16 +2,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text; 
-using LayoutFarm.Drawing; 
+using System.Text;
+using LayoutFarm.Drawing;
 
 namespace LayoutFarm
 {
     partial class RenderElement
     {
         bool hasTransparentBg;
-       
-    
+
+
         public bool HasSolidBackground
         {
             get
@@ -50,7 +50,7 @@ namespace LayoutFarm
                     drawingChain.OffsetCanvasOrigin(-x, -y);
 
                 }
-               
+
             }
             return false;
         }
@@ -65,7 +65,7 @@ namespace LayoutFarm
             dbugVRoot.dbug_drawLevel++;
 #endif
 
-            if (canvasPage.PushClipArea(b_width, b_Height, updateArea))
+            if (canvasPage.PushClipArea(b_width, b_Height, ref updateArea))
             {
 #if DEBUG
                 if (dbugVRoot.dbug_RecordDrawingChain)
@@ -99,7 +99,7 @@ namespace LayoutFarm
 
             }
         }
-         
+
         public bool HasDoubleScrollableSurface
         {
             get
@@ -119,7 +119,7 @@ namespace LayoutFarm
             }
         }
 
-        
-        
+
+
     }
 }

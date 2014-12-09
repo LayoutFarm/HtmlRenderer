@@ -124,10 +124,10 @@ namespace LayoutFarm
 
         }
 
-        public override void FillRegion(Region rgn)
-        {
-            gx.FillRegion(internalBrush, ConvRgn(rgn));
-        }
+        //public override void FillRegion(Region rgn)
+        //{
+        //    gx.FillRegion(internalBrush, ConvRgn(rgn));
+        //}
 
         public override void FillPath(GraphicsPath gfxPath)
         {
@@ -150,10 +150,10 @@ namespace LayoutFarm
             gx.FillRectangle(internalBrush, left, top, right - left, bottom - top);
         }
 
-        public override RectangleF GetBound(Region rgn)
-        {
-            return (ConvRgn(rgn).GetBounds(gx)).ToRectF();
-        }
+        //public override RectangleF GetBound(Region rgn)
+        //{
+        //    return (ConvRgn(rgn).GetBounds(gx)).ToRectF();
+        //}
 
         public override void DrawRectangle(Color color, float left, float top, float width, float height)
         {
@@ -168,41 +168,30 @@ namespace LayoutFarm
             gx.DrawLine(internalPen, x1, y1, x2, y2);
         }
      
-        public override void FillEllipse(Point[] points)
-        {
-            gx.FillEllipse(internalBrush,
-                points[0].X, points[0].Y,
-                points[2].X - points[0].X, 
-                points[2].Y - points[0].Y);
+         
+        //public override void DrawRoundRect(int x, int y, int w, int h, Size cornerSize)
+        //{
 
-        }
-        public override void FillEllipse(int x, int y, int width, int height)
-        {
-            gx.FillEllipse(internalBrush, x, y, width, height);
-        }
-        public override void DrawRoundRect(int x, int y, int w, int h, Size cornerSize)
-        {
+        //    int cornerSizeW = cornerSize.Width;
+        //    int cornerSizeH = cornerSize.Height;
 
-            int cornerSizeW = cornerSize.Width;
-            int cornerSizeH = cornerSize.Height;
+        //    System.Drawing.Drawing2D.GraphicsPath gxPath = new System.Drawing.Drawing2D.GraphicsPath();
+        //    gxPath.AddArc(new System.Drawing.Rectangle(x, y, cornerSizeW * 2, cornerSizeH * 2), 180, 90);
+        //    gxPath.AddLine(new System.Drawing.Point(x + cornerSizeW, y), new System.Drawing.Point(x + w - cornerSizeW, y));
 
-            System.Drawing.Drawing2D.GraphicsPath gxPath = new System.Drawing.Drawing2D.GraphicsPath();
-            gxPath.AddArc(new System.Drawing.Rectangle(x, y, cornerSizeW * 2, cornerSizeH * 2), 180, 90);
-            gxPath.AddLine(new System.Drawing.Point(x + cornerSizeW, y), new System.Drawing.Point(x + w - cornerSizeW, y));
+        //    gxPath.AddArc(new System.Drawing.Rectangle(x + w - cornerSizeW * 2, y, cornerSizeW * 2, cornerSizeH * 2), -90, 90);
+        //    gxPath.AddLine(new System.Drawing.Point(x + w, y + cornerSizeH), new System.Drawing.Point(x + w, y + h - cornerSizeH));
 
-            gxPath.AddArc(new System.Drawing.Rectangle(x + w - cornerSizeW * 2, y, cornerSizeW * 2, cornerSizeH * 2), -90, 90);
-            gxPath.AddLine(new System.Drawing.Point(x + w, y + cornerSizeH), new System.Drawing.Point(x + w, y + h - cornerSizeH));
+        //    gxPath.AddArc(new System.Drawing.Rectangle(x + w - cornerSizeW * 2, y + h - cornerSizeH * 2, cornerSizeW * 2, cornerSizeH * 2), 0, 90);
+        //    gxPath.AddLine(new System.Drawing.Point(x + w - cornerSizeW, y + h), new System.Drawing.Point(x + cornerSizeW, y + h));
 
-            gxPath.AddArc(new System.Drawing.Rectangle(x + w - cornerSizeW * 2, y + h - cornerSizeH * 2, cornerSizeW * 2, cornerSizeH * 2), 0, 90);
-            gxPath.AddLine(new System.Drawing.Point(x + w - cornerSizeW, y + h), new System.Drawing.Point(x + cornerSizeW, y + h));
+        //    gxPath.AddArc(new System.Drawing.Rectangle(x, y + h - cornerSizeH * 2, cornerSizeW * 2, cornerSizeH * 2), 90, 90);
+        //    gxPath.AddLine(new System.Drawing.Point(x, y + cornerSizeH), new System.Drawing.Point(x, y + h - cornerSizeH));
 
-            gxPath.AddArc(new System.Drawing.Rectangle(x, y + h - cornerSizeH * 2, cornerSizeW * 2, cornerSizeH * 2), 90, 90);
-            gxPath.AddLine(new System.Drawing.Point(x, y + cornerSizeH), new System.Drawing.Point(x, y + h - cornerSizeH));
-
-            gx.FillPath(System.Drawing.Brushes.Yellow, gxPath);
-            gx.DrawPath(System.Drawing.Pens.Red, gxPath);
-            gxPath.Dispose();
-        }
+        //    gx.FillPath(System.Drawing.Brushes.Yellow, gxPath);
+        //    gx.DrawPath(System.Drawing.Pens.Red, gxPath);
+        //    gxPath.Dispose();
+        //}
 
 
         /// <summary>
