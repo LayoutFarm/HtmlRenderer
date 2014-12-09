@@ -316,13 +316,13 @@ namespace HtmlRenderer.Boxes
             }
 
             Painter p = new Painter(this, canvas);
-            float scX = this.ScrollOffset.X;
-            float scY = this.ScrollOffset.Y;
+            int scX = (int)this.ScrollOffset.X;
+            int scY = (int)this.ScrollOffset.Y;
 
             var physicalViewportSize = this.PhysicalViewportBound.Size;
 
-            float ox = canvas.CanvasOriginX;
-            float oy = canvas.CanvasOriginY;
+            int ox = canvas.CanvasOriginX;
+            int oy = canvas.CanvasOriginY;
 
             canvas.SetCanvasOrigin(scX, scY);
 

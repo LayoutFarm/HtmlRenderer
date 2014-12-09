@@ -37,14 +37,11 @@ namespace LayoutFarm.Drawing
         public abstract int Bottom { get; }
         public abstract int Right { get; }
 
-        public abstract Rectangle Rect { get; }
-        //public abstract void OffsetCanvasOrigin(int dx, int dy);
-        //public abstract void OffsetCanvasOriginX(int dx);
-        //public abstract void OffsetCanvasOriginY(int dy);
+        public abstract Rectangle Rect { get; } 
 
-        public abstract float CanvasOriginX { get; }
-        public abstract float CanvasOriginY { get; }
-        public abstract void SetCanvasOrigin(float x, float y);
+        public abstract int CanvasOriginX { get; }
+        public abstract int CanvasOriginY { get; }
+        public abstract void SetCanvasOrigin(int x, int y);
         public abstract bool IntersectsWith(Rect clientRect);
         //---------------------------------------------------------------------
         //clip area

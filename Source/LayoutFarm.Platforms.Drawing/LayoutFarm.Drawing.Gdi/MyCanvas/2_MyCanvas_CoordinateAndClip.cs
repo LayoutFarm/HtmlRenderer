@@ -27,13 +27,13 @@ namespace LayoutFarm.Drawing.WinGdi
         int top;
         int right;
         int bottom;
-        float canvasOriginX = 0;
-        float canvasOriginY = 0;
+        int canvasOriginX = 0;
+        int canvasOriginY = 0;
         Rect invalidateArea = Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
 
 
         //--------------------------------------------------------------------
-        public override void SetCanvasOrigin(float x, float y)
+        public override void SetCanvasOrigin(int x, int y)
         {
             ReleaseHdc();
             //-----------
@@ -49,15 +49,15 @@ namespace LayoutFarm.Drawing.WinGdi
                 currentClipRect.Width,
                 currentClipRect.Height);
         }
-        public override float CanvasOriginX
+        public override int CanvasOriginX
         {
             get { return this.canvasOriginX; }
         }
-        public override float CanvasOriginY
+        public override int CanvasOriginY
         {
             get { return this.canvasOriginY; }
         }
-        
+
 
         /// <summary>
         /// Sets the clipping region of this <see cref="T:System.Drawing.Graphics"/> to the result of the specified operation combining the current clip region and the rectangle specified by a <see cref="T:System.Drawing.RectangleF"/> structure.

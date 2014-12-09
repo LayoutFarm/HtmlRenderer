@@ -456,10 +456,10 @@ namespace HtmlRenderer.Boxes
                             //Console.WriteLine("blockrun");
 
                             CssBlockRun blockRun = (CssBlockRun)w;
-                            float ox = p.CanvasOriginX;
-                            float oy = p.CanvasOriginY;
+                            int ox = p.CanvasOriginX;
+                            int oy = p.CanvasOriginY;
 
-                            p.SetCanvasOrigin(ox + blockRun.Left, oy + blockRun.Top);
+                            p.SetCanvasOrigin(ox + (int)blockRun.Left, oy + (int)blockRun.Top);
 
                             blockRun.BlockBox.Paint(p);
 

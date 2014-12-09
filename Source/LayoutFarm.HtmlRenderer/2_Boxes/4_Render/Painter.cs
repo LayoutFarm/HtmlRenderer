@@ -141,15 +141,15 @@ namespace HtmlRenderer
         //}
         //=========================================================
 
-        public float CanvasOriginX
+        public int CanvasOriginX
         {
             get { return this.canvas.CanvasOriginX; }
         }
-        public float CanvasOriginY
+        public int CanvasOriginY
         {
             get { return this.canvas.CanvasOriginY; }
         }
-        public void SetCanvasOrigin(float x, float y)
+        public void SetCanvasOrigin(int x, int y)
         {
             this.canvas.SetCanvasOrigin(x, y);
         }
