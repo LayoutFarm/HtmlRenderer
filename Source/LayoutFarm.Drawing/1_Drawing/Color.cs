@@ -121,5 +121,9 @@ namespace LayoutFarm.Drawing
         {
             return (uint)((this.a << 24) | (this.r << 16) | (this.g << 8) | this.b);
         }
+        public uint ToABGR()
+        {
+            return (uint)((this.a << 24) | (this.b << 16) | (this.g << 8) | this.r);
+        }
     }
 }
