@@ -276,7 +276,7 @@ namespace HtmlRenderer.Boxes
             }
             if (maxRun != null)
             {
-                var fontInfo = lay.GetFontInfo(maxRun.OwnerBox.ActualFont);
+                var fontInfo = maxRun.OwnerBox.ActualFont.FontInfo;
                 return fontInfo.BaseLine;
             }
             return 0;

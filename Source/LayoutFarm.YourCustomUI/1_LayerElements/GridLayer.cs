@@ -791,8 +791,13 @@ namespace LayoutFarm.UI
 
 
                 canvasPage.DrawLine(
-                    startGridItemInColumn.RightTopCorner,
-                    stopGridItemInColumn.RightBottomCorner);
+                    startGridItemInColumn.Right,
+                    startGridItemInColumn.Y,
+                    stopGridItemInColumn.Right,
+                    stopGridItemInColumn.Bottom);
+
+                //startGridItemInColumn.RightTopCorner,
+                //stopGridItemInColumn.RightBottomCorner);
 
                 if (n == 0)
                 {
@@ -839,7 +844,7 @@ namespace LayoutFarm.UI
                         if (renderContent != null)
                         {
 
-                            if (canvasPage.PushClipArea(gridItem.Width, gridItem.Height, updateArea))
+                            if (canvasPage.PushClipArea(gridItem.Width, gridItem.Height,ref updateArea))
                             {
                                 renderContent.DrawToThisPage(canvasPage, updateArea);
                             }

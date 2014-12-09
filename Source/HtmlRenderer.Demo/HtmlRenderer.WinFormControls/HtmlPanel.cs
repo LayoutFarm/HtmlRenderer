@@ -451,7 +451,7 @@ namespace HtmlRenderer.Demo
 
 
                 myHtmlIsland.CheckDocUpdate();
-                renderCanvas.ClearSurface();
+                renderCanvas.ClearSurface(LayoutFarm.Drawing.Color.White);
                 myHtmlIsland.PerformPaint(renderCanvas);
 
                 IntPtr hdc = GetDC(this.Handle);

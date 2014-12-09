@@ -23,7 +23,17 @@ namespace LayoutFarm
 {
     partial class MyCanvas
     {
-        public override  void SetCanvasOrigin(float x, float y)
+        int left;
+        int top;
+        int right;
+        int bottom;
+        float canvasOriginX = 0;
+        float canvasOriginY = 0;
+        Rect invalidateArea = Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
+
+
+        //--------------------------------------------------------------------
+        public override void SetCanvasOrigin(float x, float y)
         {
             ReleaseHdc();
             //-----------
@@ -33,6 +43,11 @@ namespace LayoutFarm
 
             this.canvasOriginX = x;
             this.canvasOriginY = y;
+
+            this.currentClipRect = new System.Drawing.Rectangle(
+                (int)x, (int)y,
+                currentClipRect.Width,
+                currentClipRect.Height);
         }
         public override float CanvasOriginX
         {
@@ -42,29 +57,7 @@ namespace LayoutFarm
         {
             get { return this.canvasOriginY; }
         }
-        int CanvasOrgX { get { return (int)this.canvasOriginX; } }
-        int CanvasOrgY { get { return (int)this.canvasOriginY; } }
-
-        public override void OffsetCanvasOrigin(int dx, int dy)
-        {
-
-            SetCanvasOrigin(this.canvasOriginX + dx, this.canvasOriginY + dy);
-            currentClipRect.Offset(-dx, -dy);
-        }
-        public override void OffsetCanvasOriginX(int dx)
-        {
-
-            SetCanvasOrigin(this.canvasOriginX + dx, this.canvasOriginY);
-            currentClipRect.Offset(-dx, 0);
-        }
-        public override void OffsetCanvasOriginY(int dy)
-        {
-
-            SetCanvasOrigin(this.canvasOriginX, this.canvasOriginY + dy);
-            currentClipRect.Offset(0, -dy);
-        }
-
-        //--------------------------------------------------------------------
+        
 
         /// <summary>
         /// Sets the clipping region of this <see cref="T:System.Drawing.Graphics"/> to the result of the specified operation combining the current clip region and the rectangle specified by a <see cref="T:System.Drawing.RectangleF"/> structure.
@@ -80,28 +73,8 @@ namespace LayoutFarm
         {
             return clientRect.IntersectsWith(left, top, right, bottom);
         }
-        public override bool PushClipAreaForNativeScrollableElement(Rect updateArea)
-        {
 
-            clipRectStack.Push(currentClipRect);
-
-            System.Drawing.Rectangle intersectResult = System.Drawing.Rectangle.Intersect(
-                currentClipRect,
-                updateArea.ToRectangle().ToRect());
-
-            if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
-            {
-                currentClipRect = intersectResult;
-                return false;
-            }
-
-            gx.SetClip(intersectResult);
-            currentClipRect = intersectResult;
-            return true;
-        }
-
-
-        public override bool PushClipArea(int width, int height, Rect updateArea)
+        public override bool PushClipArea(int width, int height, ref Rect updateArea)
         {
             clipRectStack.Push(currentClipRect);
 
@@ -112,58 +85,19 @@ namespace LayoutFarm
                     updateArea.ToRectangle().ToRect(),
                     new System.Drawing.Rectangle(0, 0, width, height)));
 
-
             currentClipRect = intersectResult;
             if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
             {
+                //not intersec?
                 return false;
             }
             else
             {
-                gx.SetClip(intersectResult); return true;
-            }
-        }
 
-        public override void DisableClipArea()
-        {
-            gx.ResetClip();
-        }
-        public override void EnableClipArea()
-        {
-            gx.SetClip(currentClipRect);
-        }
-
-        public override Rectangle CurrentClipRect
-        {
-            get
-            {
-                return currentClipRect.ToRect();
-            }
-        }
-
-
-
-        public override bool PushClipArea(int x, int y, int width, int height)
-        {
-            clipRectStack.Push(currentClipRect);
-            System.Drawing.Rectangle intersectRect = System.Drawing.Rectangle.Intersect(
-                currentClipRect,
-                new System.Drawing.Rectangle(x, y, width, height));
-
-
-            if (intersectRect.Width == 0 || intersectRect.Height == 0)
-            {
-                currentClipRect = intersectRect;
-                return false;
-            }
-            else
-            {
-                gx.SetClip(intersectRect);
-                currentClipRect = intersectRect;
+                gx.SetClip(intersectResult);
                 return true;
             }
         }
-
         public override void PopClipArea()
         {
             if (clipRectStack.Count > 0)
@@ -173,6 +107,17 @@ namespace LayoutFarm
                 gx.SetClip(currentClipRect);
             }
         }
+
+
+
+        public override Rectangle CurrentClipRect
+        {
+            get
+            {
+                return currentClipRect.ToRect();
+            }
+        }
+
 
 
         public override int Top
@@ -225,7 +170,18 @@ namespace LayoutFarm
                 return Rectangle.FromLTRB(left, top, right, bottom);
             }
         }
-
+        public override Rect InvalidateArea
+        {
+            get
+            {
+                return invalidateArea;
+            }
+        }
+        public override void Invalidate(Rect rect)
+        {
+            invalidateArea.MergeRect(rect);
+            this.IsContentReady = false;
+        }
     }
 
 }

@@ -321,8 +321,7 @@ namespace HtmlRenderer.Boxes
                         //var h = g.MeasureString(" ", ActualFont).Height;
                         //float desc = FontsUtils.GetDescentPx(ActualFont);
                         //y = (float)Math.Round(rectangle.Top + h - desc + 0.5);
-                        FontInfo fontInfo = g.GetFontInfo(ActualFont);
-                        
+                        FontInfo fontInfo = ActualFont.FontInfo;
                         var h = fontInfo.LineHeight;
                         float desc = fontInfo.DescentPx;
                         y = (float)Math.Round(rectangle.Top + h - desc);

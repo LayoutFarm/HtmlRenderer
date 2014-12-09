@@ -98,23 +98,7 @@ namespace LayoutFarm
         {
             return font.FontFamily.GetLineSpacing(font.Style) * font.Size / font.FontFamily.GetEmHeight(font.Style);
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="g"></param>
-        /// <param name="str"></param>
-        /// <param name="font"></param>
-        /// <returns></returns>
-        public static float MeasureStringWidth(LayoutFarm.Drawing.IFonts g, string str, LayoutFarm.Drawing.Font font)
-        {
-            return g.MeasureString(str, font).Width;
-        }
-        public static float MeasureStringWidth(LayoutFarm.Drawing.IFonts g, char[] buffer, int startAt, int len, LayoutFarm.Drawing.Font font)
-        {
-            return g.MeasureString(buffer, startAt, len, font).Width;
-        }
-
+         
 
         /// <summary>
         /// Check if the given font family exists by name
@@ -322,16 +306,15 @@ namespace LayoutFarm
                 int fontAscent = newFont.FontFamily.GetCellAscent(newFont.Style);
                 float descent = newFont.FontFamily.GetCellDescent(newFont.Style);
 
-
+                var myFont = new LayoutFarm.Drawing.MyFont(newFont);
                 fontInfo = new LayoutFarm.Drawing.MyFontInfo(
-
-                    new LayoutFarm.Drawing.MyFont(newFont),
+                    myFont,
                     fontHeight,
                     (fontAscent * fontSize / fontEmHeight),
                     (descent * fontSize / fontEmHeight),
                     fontHeight * fontAscent / lineSpacing,
                     gdiFontHelper);
-
+                myFont.SetFontInfo(fontInfo);
                 //lineSpacing * newFont.FontFamily.GetCellAscent(newFont.Style) / linespace);
 
 

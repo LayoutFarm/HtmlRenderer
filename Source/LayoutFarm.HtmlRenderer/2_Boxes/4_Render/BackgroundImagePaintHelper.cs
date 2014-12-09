@@ -57,7 +57,9 @@ namespace HtmlRenderer.Boxes
             var destRect = new Rectangle(location, imgSize);
 
             // need to clip so repeated image will be cut on rectangle
-            var prevClip = g.GetClip();
+
+            var prevClip = g.CurrentClipRect;
+
             var lRectangle = rectangle;
             lRectangle.Intersect(prevClip);
             g.SetClip(lRectangle);
