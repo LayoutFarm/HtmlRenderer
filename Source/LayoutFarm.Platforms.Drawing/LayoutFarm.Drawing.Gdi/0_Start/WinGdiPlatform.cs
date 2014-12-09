@@ -85,10 +85,9 @@ namespace LayoutFarm.Drawing
             return LayoutFarm.FontsUtils.GetCachedFont((System.Drawing.Font)nativeFont);
 
         }
-        public override Canvas CreateCanvas(int horizontalPageNum, int verticalPageNum, int left, int top, int width, int height)
+        public override Canvas CreateCanvas(int left, int top, int width, int height)
         {
-            return new MyCanvas(this, horizontalPageNum, verticalPageNum,
-                left, top, width, height);
+            return new MyCanvas(this, 0, 0, left, top, width, height);
         }
         public override IFonts SampleIFonts
         {

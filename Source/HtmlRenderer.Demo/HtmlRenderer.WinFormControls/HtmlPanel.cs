@@ -96,7 +96,7 @@ namespace HtmlRenderer.Demo
 
 
             this.gfxPlatform = LayoutFarm.Drawing.CurrentGraphicsPlatform.P;
-            this.renderCanvas = gfxPlatform.CreateCanvas(0, 0, 0, 0, 800, 600);
+            this.renderCanvas = gfxPlatform.CreateCanvas(0, 0, 800, 600);
 
             //-------------------------------------------------------
             myHtmlIsland = new MyHtmlIsland(gfxPlatform);
@@ -104,7 +104,7 @@ namespace HtmlRenderer.Demo
             myHtmlIsland.Refresh += OnRefresh;
             myHtmlIsland.NeedUpdateDom += new EventHandler<EventArgs>(myHtmlIsland_NeedUpdateDom);
             myHtmlIsland.RequestResource += new EventHandler<HtmlResourceRequestEventArgs>(myHtmlIsland_RequestResource);
-            
+
             this.imageContentMan.ImageLoadingRequest += OnImageLoad;
             this.textContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
             //-------------------------------------------------------

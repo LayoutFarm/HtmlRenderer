@@ -35,12 +35,8 @@ namespace LayoutFarm
         IntPtr _hdc;
         IntPtr hbmp;
         IntPtr hFont = IntPtr.Zero;
-        IntPtr originalHdc = IntPtr.Zero;
-
-        Stack<System.Drawing.Rectangle> prevRegionRects = new Stack<System.Drawing.Rectangle>();
-        Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
-
-
+        IntPtr originalHdc = IntPtr.Zero; 
+        Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>(); 
         //-------------------------------
         System.Drawing.Color currentTextColor = System.Drawing.Color.Black;
         System.Drawing.Pen internalPen;
@@ -114,11 +110,8 @@ namespace LayoutFarm
         {
             this.gx.RenderingOrigin = new System.Drawing.Point(0, 0);
             this.canvasOriginX = 0;
-            this.canvasOriginY = 0;
-
-            this.clipRectStack.Clear();
-
-            this.prevRegionRects.Clear();
+            this.canvasOriginY = 0; 
+            this.clipRectStack.Clear(); 
         }
 
         public void ReleaseUnManagedResource()

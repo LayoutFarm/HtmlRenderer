@@ -25,8 +25,7 @@ namespace LayoutFarm.Drawing
         public abstract GraphicsPath CreateGraphicPath();
         public abstract Region CreateRegion();
 
-        public abstract Canvas CreateCanvas(int horizontalPageNum,
-            int verticalPageNum,
+        public abstract Canvas CreateCanvas( 
             int left,
             int top,
             int width,
