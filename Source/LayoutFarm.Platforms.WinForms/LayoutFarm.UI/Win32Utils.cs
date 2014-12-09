@@ -31,36 +31,7 @@ namespace DrawingBridge
         /// </summary>
         public const int BitBltPaint = 0x00EE0086;
 
-        /// <summary>
-        /// Create a compatible memory HDC from the given HDC.<br/>
-        /// The memory HDC can be rendered into without effecting the original HDC.<br/>
-        /// The returned memory HDC and <paramref name="dib"/> must be released using <see cref="ReleaseMemoryHdc"/>.
-        /// </summary>
-        /// <param name="hdc">the HDC to create memory HDC from</param>
-        /// <param name="width">the width of the memory HDC to create</param>
-        /// <param name="height">the height of the memory HDC to create</param>
-        /// <param name="dib">returns used bitmap memory section that must be released when done with memory HDC</param>
-        /// <returns>memory HDC</returns>
-        public static IntPtr CreateMemoryHdc(IntPtr hdc, int width, int height, out IntPtr dib)
-        {
-            // Create a memory DC so we can work off-screen
-            IntPtr memoryHdc = CreateCompatibleDC(hdc);
-            SetBkMode(memoryHdc, 1);
-
-            // Create a device-independent bitmap and select it into our DC
-            var info = new LayoutFarm.BitMapInfo();
-            info.biSize = Marshal.SizeOf(info);
-            info.biWidth = width;
-            info.biHeight = -height;
-            info.biPlanes = 1;
-            info.biBitCount = 32;
-            info.biCompression = 0; // BI_RGB
-            IntPtr ppvBits;
-            dib = CreateDIBSection(hdc, ref info, 0, out ppvBits, IntPtr.Zero, 0);
-            SelectObject(memoryHdc, dib);
-
-            return memoryHdc;
-        }
+    
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern IntPtr GetDC(IntPtr hWnd);
@@ -69,11 +40,7 @@ namespace DrawingBridge
         public static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hdc);
         
         
-        /// <summary>
-        /// Release the given memory HDC and dib section created from <see cref="CreateMemoryHdc"/>.
-        /// </summary>
-        /// <param name="memoryHdc">Memory HDC to release</param>
-        /// <param name="dib">bitmap section to release</param>
+   
         public static void ReleaseMemoryHdc(IntPtr memoryHdc, IntPtr dib)
         {
             DeleteObject(dib);
@@ -168,17 +135,15 @@ namespace DrawingBridge
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool BitBlt(IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, int dwRop);
 
-        [DllImport("gdi32.dll", EntryPoint = "GdiAlphaBlend")]
-        public static extern bool AlphaBlend(IntPtr hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, IntPtr hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, LayoutFarm.BlendFunction blendFunction);
+        //[DllImport("gdi32.dll", EntryPoint = "GdiAlphaBlend")]
+        //public static extern bool AlphaBlend(IntPtr hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, IntPtr hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, LayoutFarm.BlendFunction blendFunction);
 
         [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
         public static extern bool DeleteDC(IntPtr hdc);
 
         [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
         public static extern IntPtr CreateCompatibleDC(IntPtr hdc);
-
-        [DllImport("gdi32.dll")]
-        public static extern IntPtr CreateDIBSection(IntPtr hdc, [In] ref  LayoutFarm.BitMapInfo pbmi, uint iUsage, out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
+ 
     }
 
 

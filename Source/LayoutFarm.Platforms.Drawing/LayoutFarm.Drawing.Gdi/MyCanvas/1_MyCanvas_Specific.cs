@@ -19,7 +19,7 @@ using System.Text;
 using LayoutFarm.Drawing;
 using DrawingBridge;
 
-namespace LayoutFarm
+namespace LayoutFarm.Drawing.WinGdi
 {
 
     partial class MyCanvas : Canvas, IFonts

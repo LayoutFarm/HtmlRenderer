@@ -15,9 +15,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using LayoutFarm.Drawing;
-namespace LayoutFarm
+using System.Text; 
+namespace LayoutFarm.Drawing.WinGdi
 {
 
     partial class MyCanvas
@@ -124,10 +123,6 @@ namespace LayoutFarm
 
         }
 
-        //public override void FillRegion(Region rgn)
-        //{
-        //    gx.FillRegion(internalBrush, ConvRgn(rgn));
-        //}
 
         public override void FillPath(GraphicsPath gfxPath)
         {

@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+  
 
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.Drawing.WinGdi
 {
 
     class CanvasCollection

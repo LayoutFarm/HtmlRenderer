@@ -10,7 +10,7 @@ using System.Text;
 namespace LayoutFarm
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct BlendFunction
+    struct BlendFunction
     {
         public byte BlendOp;
         public byte BlendFlags;
@@ -27,7 +27,7 @@ namespace LayoutFarm
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct BitMapInfo
+    struct BitMapInfo
     {
         public int biSize;
         public int biWidth;

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using LayoutFarm.Drawing.WinGdi;
 
 namespace LayoutFarm.Drawing
 {

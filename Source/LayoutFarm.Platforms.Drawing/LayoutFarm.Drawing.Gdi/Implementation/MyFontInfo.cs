@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.Drawing.WinGdi
 {
     class BasicGdi32FontHelper
     {
