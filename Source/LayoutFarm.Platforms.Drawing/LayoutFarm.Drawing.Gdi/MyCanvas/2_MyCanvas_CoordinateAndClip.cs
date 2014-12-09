@@ -64,10 +64,15 @@ namespace LayoutFarm.Drawing.WinGdi
         /// </summary>
         /// <param name="rect"><see cref="T:System.Drawing.RectangleF"/> structure to combine. </param>
         /// <param name="combineMode">Member of the <see cref="T:System.Drawing.Drawing2D.CombineMode"/> enumeration that specifies the combining operation to use. </param>
-        public override void SetClip(RectangleF rect, CombineMode combineMode = CombineMode.Replace)
+        public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
         {
             ReleaseHdc();
-            gx.SetClip(rect.ToRectF(), (System.Drawing.Drawing2D.CombineMode)combineMode);
+
+            gx.SetClip(
+                new System.Drawing.Rectangle(
+                    rect.X, rect.Y,
+                    rect.Width, rect.Height),
+                    (System.Drawing.Drawing2D.CombineMode)combineMode);
         }
         public override bool IntersectsWith(Rect clientRect)
         {

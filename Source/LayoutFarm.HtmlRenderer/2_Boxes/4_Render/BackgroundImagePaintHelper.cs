@@ -59,10 +59,13 @@ namespace HtmlRenderer.Boxes
             // need to clip so repeated image will be cut on rectangle
 
             var prevClip = g.CurrentClipRect;
-
-            var lRectangle = rectangle;
-            lRectangle.Intersect(prevClip);
-            g.SetClip(lRectangle);
+            LayoutFarm.Drawing.Rectangle copyRect = new LayoutFarm.Drawing.Rectangle(
+               (int)rectangle.X,
+               (int)rectangle.Y,
+               (int)rectangle.Width,
+               (int)rectangle.Height); 
+            copyRect.Intersect(prevClip);
+            g.SetClipRect(copyRect);
 
             switch (box.BackgroundRepeat)
             {
@@ -80,7 +83,7 @@ namespace HtmlRenderer.Boxes
                     break;
             }
 
-            g.SetClip(prevClip);
+            g.SetClipRect(prevClip);
         }
 
 
