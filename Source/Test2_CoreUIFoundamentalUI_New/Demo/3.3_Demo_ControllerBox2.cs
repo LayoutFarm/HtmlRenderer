@@ -16,6 +16,16 @@ namespace LayoutFarm
 
         protected override void OnStartDemo(SampleViewport viewport)
         {
+
+            //--------------------------------
+            {
+                var bgbox = new LayoutFarm.SampleControls.UIEaseBox(800, 600);
+                bgbox.BackColor = Color.White;
+                bgbox.SetLocation(0, 0);
+                SetupBackgroundProperties(bgbox);
+                viewport.AddContent(bgbox);
+            }
+            //--------------------------------
             {
                 var box1 = new LayoutFarm.SampleControls.UIEaseBox(150, 150);
                 box1.BackColor = Color.Red;
@@ -44,7 +54,16 @@ namespace LayoutFarm
                 viewport.AddContent(controllerBox1);
             }
         }
+        void SetupBackgroundProperties(LayoutFarm.SampleControls.UIEaseBox backgroundBox)
+        {
+            //if click on background
+            backgroundBox.MouseDown += (s, e) =>
+            {
+                controllerBox1.TargetBox = null;//release target box
+                controllerBox1.Visible = false;
+            };
 
+        }
         void SetupActiveBoxProperties(LayoutFarm.SampleControls.UIEaseBox box)
         {
             //1. mouse down         
@@ -121,7 +140,7 @@ namespace LayoutFarm
             if (targetBox != null)
             {
                 //move target box too
-                
+
                 targetBox.SetLocation(nearestX + 5, nearestY + 5);
             }
         }

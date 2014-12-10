@@ -171,7 +171,7 @@ namespace HtmlRenderer.Boxes
                         g.SmoothingMode = SmoothingMode.AntiAlias;
                     }
 
-                     
+
                     p.DrawPath(borderPath, borderColor, actualBorderWidth);
                     //using (var pen = GetPen(p.Platform, style, borderColor, actualBorderWidth))
                     //using (borderPath)
@@ -331,7 +331,6 @@ namespace HtmlRenderer.Boxes
                         path = CurrentGraphicsPlatform.CreateGraphicPath();
 
                         if (b.ActualCornerNE > 0 && b.BorderTopStyle >= CssBorderStyle.Visible)
-                        //(b.BorderTopStyle == CssConstants.None || b.BorderTopStyle == CssConstants.Hidden))
                         {
                             path.AddArc(r.Right - b.ActualCornerNE * 2 - b.ActualBorderRightWidth / 2, r.Top + b.ActualBorderTopWidth / 2, b.ActualCornerNE * 2, b.ActualCornerNE * 2, 270f, 90f);
                         }
@@ -342,7 +341,6 @@ namespace HtmlRenderer.Boxes
 
                         if (b.ActualCornerSE > 0 &&
                             b.BorderBottomStyle >= CssBorderStyle.Visible)
-                        //(b.BorderBottomStyle == CssConstants.None || b.BorderBottomStyle == CssConstants.Hidden))
                         {
                             path.AddArc(r.Right - b.ActualCornerSE * 2 - b.ActualBorderRightWidth / 2, r.Bottom - b.ActualCornerSE * 2 - b.ActualBorderBottomWidth / 2, b.ActualCornerSE * 2, b.ActualCornerSE * 2, 0f, 90f);
                         }
@@ -388,7 +386,7 @@ namespace HtmlRenderer.Boxes
         static Pen GetPen(GraphicsPlatform platform, CssBorderStyle style, Color color, float width)
         {
 
-            var p = platform.CreateSolidPen(color);
+            var p = new Pen(color);
             p.Width = width;
             switch (style)
             {

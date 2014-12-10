@@ -15,7 +15,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 namespace LayoutFarm.Drawing.WinGdi
 {
 
@@ -57,7 +57,7 @@ namespace LayoutFarm.Drawing.WinGdi
             set
             {
                 this.fillSolidColor = value;
-                this.internalBrush.Color = ConvColor(value);
+                this.internalSolidBrush.Color = ConvColor(value);
             }
         }
         public override GraphicsPlatform Platform
@@ -127,7 +127,7 @@ namespace LayoutFarm.Drawing.WinGdi
         public override void FillPath(GraphicsPath gfxPath)
         {
 
-            gx.FillPath(internalBrush, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
+            gx.FillPath(internalSolidBrush, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
         }
 
         public override void DrawPath(GraphicsPath gfxPath)
@@ -136,13 +136,59 @@ namespace LayoutFarm.Drawing.WinGdi
         }
         public override void FillRectangle(Brush brush, float left, float top, float width, float height)
         {
-            gx.FillRectangle(ConvBrush(brush), left, top, width, height);
+            //    static System.Drawing.Brush ConvBrush(Brush b)
+            //{
+            //    return b.InnerBrush as System.Drawing.Brush;
+            //}
+            //    switch (brush.BrushNature)
+            //    {
+            //    }
+
+            switch (brush.BrushKind)
+            {
+                case BrushKind.Solid:
+                    {
+                        //use default solid brush
+                        SolidBrush solidBrush = (SolidBrush)brush;
+                        var prevColor = internalSolidBrush.Color;
+                        internalSolidBrush.Color = ConvColor(solidBrush.Color);
+                        gx.FillRectangle(internalSolidBrush, left, top, width, height);
+                        internalSolidBrush.Color = prevColor;
+
+                    } break;
+                case BrushKind.LinearGradient:
+                    {
+                        //draw with gradient
+                        LinearGradientBrush linearBrush = (LinearGradientBrush)brush;
+                        var colors = linearBrush.GetColorArray();
+                        var points = linearBrush.GetStopPointArray();
+                        using (var linearGradBrush = new System.Drawing.Drawing2D.LinearGradientBrush(
+                             points[0].ToPointF(),
+                             points[1].ToPointF(),
+                             ConvColor(colors[0]),
+                             ConvColor(colors[1])))
+                        {
+                            gx.FillRectangle(linearGradBrush, left, top, width, height);
+                        }
+                    } break;
+                case BrushKind.GeometryGradient:
+                    {
+                    } break;
+                case BrushKind.CirculatGraident:
+                    {
+
+                    } break;
+                case BrushKind.Texture:
+                    {
+
+                    } break;
+            }
         }
         public override void FillRectangle(Color color, float left, float top, float width, float height)
         {
             ReleaseHdc();
-            internalBrush.Color = ConvColor(color);
-            gx.FillRectangle(internalBrush, left, top, width, height);
+            internalSolidBrush.Color = ConvColor(color);
+            gx.FillRectangle(internalSolidBrush, left, top, width, height);
         }
 
         //public override RectangleF GetBound(Region rgn)
@@ -155,15 +201,15 @@ namespace LayoutFarm.Drawing.WinGdi
             ReleaseHdc();
             internalPen.Color = ConvColor(color);
             gx.DrawRectangle(internalPen, left, top, width, height);
-        } 
-        
+        }
+
         public override void DrawLine(float x1, float y1, float x2, float y2)
         {
             ReleaseHdc();
             gx.DrawLine(internalPen, x1, y1, x2, y2);
         }
-     
-         
+
+
         //public override void DrawRoundRect(int x, int y, int w, int h, Size cornerSize)
         //{
 
@@ -233,7 +279,7 @@ namespace LayoutFarm.Drawing.WinGdi
         {
             ReleaseHdc();
             gx.DrawImage(image.InnerImage as System.Drawing.Image, destRect.ToRectF());
-        } 
+        }
         /// <summary>
         /// Fills the interior of a <see cref="T:System.Drawing.Drawing2D.GraphicsPath"/>.
         /// </summary>
@@ -241,8 +287,32 @@ namespace LayoutFarm.Drawing.WinGdi
         public override void FillPath(GraphicsPath path, Brush brush)
         {
             ReleaseHdc();
-            gx.FillPath(brush.InnerBrush as System.Drawing.Brush,
-                path.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
+            switch (brush.BrushKind)
+            {
+                case BrushKind.Solid:
+                    {
+                        SolidBrush solidBrush = (SolidBrush)brush;
+                        var prevColor = internalSolidBrush.Color;
+                        internalSolidBrush.Color = ConvColor(solidBrush.Color);
+                        gx.FillPath(internalSolidBrush,
+                            path.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
+                        internalSolidBrush.Color = prevColor;
+                    } break;
+                case BrushKind.LinearGradient:
+                    {
+                        LinearGradientBrush solidBrush = (LinearGradientBrush)brush;
+                        var prevColor = internalSolidBrush.Color;
+                        internalSolidBrush.Color = ConvColor(solidBrush.Color);
+                        gx.FillPath(internalSolidBrush,
+                            path.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
+                        internalSolidBrush.Color = prevColor;
+                    } break;
+                default:
+                    {
+                    } break;
+
+            }
+
         }
 
         /// <summary>
@@ -254,7 +324,7 @@ namespace LayoutFarm.Drawing.WinGdi
             ReleaseHdc();
             //create Point
             var pps = ConvPointFArray(points);
-            gx.FillPolygon(this.internalBrush, pps);
+            gx.FillPolygon(this.internalSolidBrush, pps);
         }
 
 

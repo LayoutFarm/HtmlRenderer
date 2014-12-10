@@ -295,136 +295,136 @@ namespace LayoutFarm.Drawing.Animation
         }
     }
 
-    public class GradientColorTimeline : TimelineBase
-    {
+    //public class GradientColorTimeline : TimelineBase
+    //{
 
-        ArtGradientColorInfo fromValue;
-        ArtGradientColorInfo toValue;
-        ArtGradientColorInfo[] inbetweenValues;
+    //    ArtGradientColorInfo fromValue;
+    //    ArtGradientColorInfo toValue;
+    //    ArtGradientColorInfo[] inbetweenValues;
 
-        public GradientColorTimeline()
-        {
+    //    public GradientColorTimeline()
+    //    {
 
-        }
-        public ArtGradientColorInfo FromValue
-        {
-            get
-            {
-                return fromValue;
-            }
-            set
-            {
-                fromValue = value;
-                stateFlags |= ASSIGN_BEGIN_VALUE;
-            }
-        }
-        public ArtGradientColorInfo ToValue
-        {
-            get
-            {
-                return toValue;
-            }
-            set
-            {
-                toValue = value;
-                stateFlags |= ASSIGN_DEST_VALUE;
-            }
-        }
+    //    }
+    //    public ArtGradientColorInfo FromValue
+    //    {
+    //        get
+    //        {
+    //            return fromValue;
+    //        }
+    //        set
+    //        {
+    //            fromValue = value;
+    //            stateFlags |= ASSIGN_BEGIN_VALUE;
+    //        }
+    //    }
+    //    public ArtGradientColorInfo ToValue
+    //    {
+    //        get
+    //        {
+    //            return toValue;
+    //        }
+    //        set
+    //        {
+    //            toValue = value;
+    //            stateFlags |= ASSIGN_DEST_VALUE;
+    //        }
+    //    }
 
-        protected override void OnDurationChanged()
-        {
-            EvaluateRange();
-        }
+    //    protected override void OnDurationChanged()
+    //    {
+    //        EvaluateRange();
+    //    }
 
-        public void EvaluateRange()
-        {
+    //    public void EvaluateRange()
+    //    {
 
-            int frameDuration = FrameDuration;
-            if (frameDuration > 2)
-            {
+    //        int frameDuration = FrameDuration;
+    //        if (frameDuration > 2)
+    //        {
 
-                if (fromValue == null)
-                {
-                    return;
-                }
+    //            if (fromValue == null)
+    //            {
+    //                return;
+    //            }
 
-                int toColorCount = toValue.ColorCount;
-                if (toColorCount == 2)
-                {
+    //            int toColorCount = toValue.ColorCount;
+    //            if (toColorCount == 2)
+    //            {
 
-                    int inbetweenCount = frameDuration - 2;
-                    inbetweenValues = new ArtGradientColorInfo[inbetweenCount];
+    //                int inbetweenCount = frameDuration - 2;
+    //                inbetweenValues = new ArtGradientColorInfo[inbetweenCount];
 
-                    for (int colorPoint_i = 0; colorPoint_i < 2; ++colorPoint_i)
-                    {
+    //                for (int colorPoint_i = 0; colorPoint_i < 2; ++colorPoint_i)
+    //                {
 
-                        Color fromColor = fromValue.GetColor(colorPoint_i);
-                        Color toColor = toValue.GetColor(colorPoint_i);
-                        Point pos = fromValue.GetPosition(colorPoint_i);
+    //                    Color fromColor = fromValue.GetColor(colorPoint_i);
+    //                    Color toColor = toValue.GetColor(colorPoint_i);
+    //                    Point pos = fromValue.GetPosition(colorPoint_i);
 
-                        ColorComponentStepup rCompo = new ColorComponentStepup(fromColor.R, toColor.R, frameDuration);
-                        ColorComponentStepup gComp = new ColorComponentStepup(fromColor.G, toColor.G, frameDuration);
-                        ColorComponentStepup bComp = new ColorComponentStepup(fromColor.B, toColor.B, frameDuration);
-                        ColorComponentStepup aCompo = new ColorComponentStepup(fromColor.A, toColor.A, frameDuration);
+    //                    ColorComponentStepup rCompo = new ColorComponentStepup(fromColor.R, toColor.R, frameDuration);
+    //                    ColorComponentStepup gComp = new ColorComponentStepup(fromColor.G, toColor.G, frameDuration);
+    //                    ColorComponentStepup bComp = new ColorComponentStepup(fromColor.B, toColor.B, frameDuration);
+    //                    ColorComponentStepup aCompo = new ColorComponentStepup(fromColor.A, toColor.A, frameDuration);
 
-                        for (int i = 0; i < inbetweenCount; i++)
-                        {
+    //                    for (int i = 0; i < inbetweenCount; i++)
+    //                    {
 
-                            ArtGradientColorInfo inbetweenColor = null;
-                            if (colorPoint_i == 0)
-                            {
-                                inbetweenColor = new ArtGradientColorInfo();
-                                inbetweenValues[i] = inbetweenColor;
-                            }
-                            else
-                            {
+    //                        ArtGradientColorInfo inbetweenColor = null;
+    //                        if (colorPoint_i == 0)
+    //                        {
+    //                            inbetweenColor = new ArtGradientColorInfo();
+    //                            inbetweenValues[i] = inbetweenColor;
+    //                        }
+    //                        else
+    //                        {
 
-                                inbetweenColor = inbetweenValues[i];
-                            }
+    //                            inbetweenColor = inbetweenValues[i];
+    //                        }
 
-                            inbetweenColor.AddColor(
-                            Color.FromArgb(
-                                 aCompo.CalculateValue(i),
-                                 rCompo.CalculateValue(i),
-                                 gComp.CalculateValue(i),
-                                 bComp.CalculateValue(i)
-                                ), pos);
-                        }
-                    }
-                }
-                else
-                {
+    //                        inbetweenColor.AddColor(
+    //                        Color.FromArgb(
+    //                             aCompo.CalculateValue(i),
+    //                             rCompo.CalculateValue(i),
+    //                             gComp.CalculateValue(i),
+    //                             bComp.CalculateValue(i)
+    //                            ), pos);
+    //                    }
+    //                }
+    //            }
+    //            else
+    //            {
 
 
-                }
-            }
-        }
+    //            }
+    //        }
+    //    }
 
-        public void SetValueRange(ArtGradientColorInfo fromValue, ArtGradientColorInfo toValue)
-        {
-            this.fromValue = fromValue;
-            this.toValue = toValue;
-            stateFlags = ASSIGN_BOTH;
-            EvaluateRange();
-        }
-        public ArtGradientColorInfo GetValueAtFrameOffset(int frameOffset)
-        {
+    //    public void SetValueRange(ArtGradientColorInfo fromValue, ArtGradientColorInfo toValue)
+    //    {
+    //        this.fromValue = fromValue;
+    //        this.toValue = toValue;
+    //        stateFlags = ASSIGN_BOTH;
+    //        EvaluateRange();
+    //    }
+    //    public ArtGradientColorInfo GetValueAtFrameOffset(int frameOffset)
+    //    {
 
-            if (frameOffset == 0)
-            {
-                return fromValue;
-            }
-            else if (frameOffset > EndFrame - 1)
-            {
-                return toValue;
-            }
-            else
-            {
+    //        if (frameOffset == 0)
+    //        {
+    //            return fromValue;
+    //        }
+    //        else if (frameOffset > EndFrame - 1)
+    //        {
+    //            return toValue;
+    //        }
+    //        else
+    //        {
 
-                return inbetweenValues[frameOffset - 1];
-            }
-        }
-    }
+    //            return inbetweenValues[frameOffset - 1];
+    //        }
+    //    }
+    //}
 
 
 
@@ -452,10 +452,10 @@ namespace LayoutFarm.Drawing.Animation
         {
             base.InnerAppendLast(colorAnimation);
         }
-        public void AppendLast(GradientColorTimeline colorAnimation)
-        {
-            base.InnerAppendLast(colorAnimation);
-        }
+        //public void AppendLast(GradientColorTimeline colorAnimation)
+        //{
+        //    base.InnerAppendLast(colorAnimation);
+        //}
     }
 
 

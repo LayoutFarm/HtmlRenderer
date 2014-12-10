@@ -75,7 +75,7 @@ namespace HtmlRenderer.Demo
         {
             InitializeComponent();
 
-             
+
             _htmlPanel.StylesheetLoad += OnStylesheetLoad;
             _htmlPanel.ImageLoad += OnImageLoad;
 
@@ -404,8 +404,8 @@ namespace HtmlRenderer.Demo
         /// </summary>
         private void OnImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
         {
-            var img = TryLoadResourceImage(e.ImagSource);
-            e.SetResultImage(LayoutFarm.Drawing.CurrentGraphicsPlatform.P.CreateNativeBitmapWrapper(img));
+            var img = TryLoadResourceImage(e.ImagSource); 
+            e.SetResultImage(new LayoutFarm.Drawing.Bitmap(img.Width, img.Height, img));
 
             //if (!e.Handled && htmlTag != null)
             //{
