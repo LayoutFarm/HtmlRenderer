@@ -46,6 +46,8 @@
     <Compile Include="02_PixelBuffer\PixelFormat.cs" />
     <Compile Include="03_SpanGenerators\1_ImgSpanGen.cs" />
     <Compile Include="03_SpanGenerators\ISpanInterpolator.cs" />
+    <Compile Include="07_ISpanInterpolator\SpanInterpolatorLinear.cs" />
+    <Compile Include="07_ISpanInterpolator\SpanInterpolatorPerspectiveLerp.cs" />
     <Compile Include="07_Lines\2.2_LineInterpolators.cs" />
     <Compile Include="07_Lines\2.1_DistanceInterpolators.cs" />
     <Compile Include="07_Lines\2.3_EllipseBrensenhemInterpolator.cs" />
@@ -64,7 +66,6 @@
     <Compile Include="07_Lines\1.3_LineParameters.cs" />
     <Compile Include="04_Scanline\6_ClipLiangBarsky.cs" />
     <Compile Include="01_Base\ColorRGBA.cs" />
-    <Compile Include="04_Scanline\4.4_FillingRule.cs" />
     <Compile Include="03_SpanGenerators\IGammaFunction.cs" />
     <Compile Include="07_Lines\1.1_LinesAA.cs" />
     <Compile Include="04_Scanline\4.2_CellAARasterizer.cs" />
@@ -74,8 +75,6 @@
     <Compile Include="03_SpanGenerators\4_ImgSpanGenGray.cs" />
     <Compile Include="03_SpanGenerators\2_ImgSpanGenRGB.cs" />
     <Compile Include="03_SpanGenerators\3_ImgSpanGenRGBA.cs" />
-    <Compile Include="06_Transfrom\SpanInterpolatorLinear.cs" />
-    <Compile Include="06_Transfrom\SpanInterpolatorPerspectiveLerp.cs" />
     <Compile Include="08_ImageResampling\ImageFilterLookupTable.cs" />
     <Compile Include="08_ImageResampling\FilterImageSpanGenerator.ImageBufferAccessor.cs" />
     <Compile Include="01_Base\NativeBufferMan.cs" />
@@ -93,7 +92,6 @@
     <Compile Include="04_Scanline\3_ScanlineUnpacked8.cs" />
     <Compile Include="04_Scanline\4.1_ScanlineRasterizer.cs" />
     <Compile Include="04_Scanline\5_ScanlineRasToDestBitmapRenderer.cs" />
-    <Compile Include="06_Transfrom\Viewport.cs" />
     <Compile Include="04_Scanline\4.3_VectorClipper.cs" />
   </ItemGroup>
   <ItemGroup>

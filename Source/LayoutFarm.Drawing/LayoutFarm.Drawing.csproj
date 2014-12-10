@@ -95,6 +95,7 @@
     <Compile Include="8_PixelFarm_AggTransforms\LineInterpolators.cs" />
     <Compile Include="7_PixelFarm_AggVertex_Core\RectD.cs" />
     <Compile Include="7_PixelFarm_AggVertex_Core\RectInt.cs" />
+    <Compile Include="8_PixelFarm_AggTransforms\Viewport.cs" />
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\Arc.cs" />
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\BezireCurve.cs" />
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\BoundingRect.cs" />
