@@ -12,14 +12,14 @@ namespace HtmlRenderer
     //----------------------------------------------------------------------------
     public class Painter : BoxVisitor
     {
-        Stack<RectangleF> clipStacks = new Stack<RectangleF>();
+        Stack<Rectangle> clipStacks = new Stack<Rectangle>();
 
         PointF[] borderPoints = new PointF[4];
         PointF htmlContainerScrollOffset;
         HtmlIsland visualRootBox;
         Canvas canvas;
 
-        RectangleF latestClip = new RectangleF(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
+        Rectangle latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
 
         float physicalViewportWidth;
         float physicalViewportHeight;
@@ -87,22 +87,22 @@ namespace HtmlRenderer
             //store lastest clip 
             clipStacks.Push(this.latestClip);
             ////make new clip global 
-            RectangleF intersectResult = RectangleF.Intersect(
+            Rectangle intersectResult = Rectangle.Intersect(
                 latestClip,
-                new RectangleF(0, 0, w, h));
+                new Rectangle(0, 0, (int)w, (int)h));
             this.latestClip = intersectResult;
 
             //ig.DrawRectangle(Pens.Red, intersectResult.X, intersectResult.Y, intersectResult.Width, intersectResult.Height);
-            canvas.SetClip(intersectResult);
+            canvas.SetClipRect(intersectResult);
             return !intersectResult.IsEmpty;
         }
         internal void PopLocalClipArea()
         {
             if (clipStacks.Count > 0)
             {
-                RectangleF prevClip = this.latestClip = clipStacks.Pop();
+                Rectangle prevClip = this.latestClip = clipStacks.Pop();
                 //ig.DrawRectangle(Pens.Green, prevClip.X, prevClip.Y, prevClip.Width, prevClip.Height);
-                canvas.SetClip(prevClip);
+                canvas.SetClipRect(prevClip);
 
             }
         }
@@ -141,15 +141,15 @@ namespace HtmlRenderer
         //}
         //=========================================================
 
-        public float CanvasOriginX
+        public int CanvasOriginX
         {
             get { return this.canvas.CanvasOriginX; }
         }
-        public float CanvasOriginY
+        public int CanvasOriginY
         {
             get { return this.canvas.CanvasOriginY; }
         }
-        public void SetCanvasOrigin(float x, float y)
+        public void SetCanvasOrigin(int x, int y)
         {
             this.canvas.SetCanvasOrigin(x, y);
         }

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.Drawing.WinGdi
 {
 
     class WinGdiPlatform : GraphicsPlatform

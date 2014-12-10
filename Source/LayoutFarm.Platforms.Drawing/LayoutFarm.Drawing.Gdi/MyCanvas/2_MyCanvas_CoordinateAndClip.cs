@@ -19,7 +19,7 @@ using System.Text;
 using LayoutFarm.Drawing;
 
 
-namespace LayoutFarm
+namespace LayoutFarm.Drawing.WinGdi
 {
     partial class MyCanvas
     {
@@ -27,13 +27,13 @@ namespace LayoutFarm
         int top;
         int right;
         int bottom;
-        float canvasOriginX = 0;
-        float canvasOriginY = 0;
+        int canvasOriginX = 0;
+        int canvasOriginY = 0;
         Rect invalidateArea = Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
 
 
         //--------------------------------------------------------------------
-        public override void SetCanvasOrigin(float x, float y)
+        public override void SetCanvasOrigin(int x, int y)
         {
             ReleaseHdc();
             //-----------
@@ -42,32 +42,32 @@ namespace LayoutFarm
             this.gx.TranslateTransform(x, y);
 
             this.canvasOriginX = x;
-            this.canvasOriginY = y;
-
-            this.currentClipRect = new System.Drawing.Rectangle(
-                (int)x, (int)y,
-                currentClipRect.Width,
-                currentClipRect.Height);
+            this.canvasOriginY = y; 
         }
-        public override float CanvasOriginX
+        public override int CanvasOriginX
         {
             get { return this.canvasOriginX; }
         }
-        public override float CanvasOriginY
+        public override int CanvasOriginY
         {
             get { return this.canvasOriginY; }
         }
-        
+
 
         /// <summary>
         /// Sets the clipping region of this <see cref="T:System.Drawing.Graphics"/> to the result of the specified operation combining the current clip region and the rectangle specified by a <see cref="T:System.Drawing.RectangleF"/> structure.
         /// </summary>
         /// <param name="rect"><see cref="T:System.Drawing.RectangleF"/> structure to combine. </param>
         /// <param name="combineMode">Member of the <see cref="T:System.Drawing.Drawing2D.CombineMode"/> enumeration that specifies the combining operation to use. </param>
-        public override void SetClip(RectangleF rect, CombineMode combineMode = CombineMode.Replace)
+        public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
         {
             ReleaseHdc();
-            gx.SetClip(rect.ToRectF(), (System.Drawing.Drawing2D.CombineMode)combineMode);
+
+            gx.SetClip(
+                new System.Drawing.Rectangle(
+                    rect.X, rect.Y,
+                    rect.Width, rect.Height),
+                    (System.Drawing.Drawing2D.CombineMode)combineMode);
         }
         public override bool IntersectsWith(Rect clientRect)
         {

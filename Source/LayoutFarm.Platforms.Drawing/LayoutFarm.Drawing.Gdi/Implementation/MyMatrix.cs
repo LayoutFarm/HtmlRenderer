@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.Drawing.WinGdi
 {
     class MyMatrix : Matrix
     {

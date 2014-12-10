@@ -31,10 +31,8 @@ namespace LayoutFarm.SampleControls
             set;
         }
         protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
-        {
-
-            //sample bg  
-
+        {    
+            //sample bg   
             canvasPage.FillRectangle(BackColor, updateArea._left, updateArea._top, updateArea.Width, updateArea.Height);
             if (this.Layers != null)
             {

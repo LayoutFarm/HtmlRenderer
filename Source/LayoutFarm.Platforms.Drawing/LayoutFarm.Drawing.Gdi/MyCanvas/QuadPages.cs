@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing.Drawing2D;
+using System.Drawing.Drawing2D; 
 
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.Drawing.WinGdi
 {
 
     public class QuadPages
@@ -14,28 +14,30 @@ namespace LayoutFarm.Drawing
         internal MyCanvas pageB;
         internal MyCanvas pageC;
         internal MyCanvas pageD;
+
         CanvasCollection physicalCanvasCollection;
 
-        public QuadPages(int cachedPageNum, int eachCachedPageWidth, int eachCachedPageHeight)
+        public QuadPages(int cachedPageNum, int eachCachedPageWidth,
+            int eachCachedPageHeight)
         {
 
             physicalCanvasCollection = new CanvasCollection(cachedPageNum, eachCachedPageWidth, eachCachedPageHeight);
 
         }
-        public int EachPageWidth
-        {
-            get
-            {
-                return physicalCanvasCollection.EachPageWidth;
-            }
-        }
-        public int EachPageHeight
-        {
-            get
-            {
-                return physicalCanvasCollection.EachPageHeight;
-            }
-        }
+        //public int EachPageWidth
+        //{
+        //    get
+        //    {
+        //        return physicalCanvasCollection.EachPageWidth;
+        //    }
+        //}
+        //public int EachPageHeight
+        //{
+        //    get
+        //    {
+        //        return physicalCanvasCollection.EachPageHeight;
+        //    }
+        //}
         public void Dispose()
         {
             if (physicalCanvasCollection != null)
@@ -96,10 +98,10 @@ namespace LayoutFarm.Drawing
 
         int render_parts = 0;
 
-        public const int PAGE_A = 0;
-        public const int PAGE_AB = 1;
-        public const int PAGE_AC = 2;
-        public const int PAGE_ABCD = 3;
+        internal const int PAGE_A = 0;
+        internal const int PAGE_AB = 1;
+        internal const int PAGE_AC = 2;
+        internal const int PAGE_ABCD = 3;
 
         public void RenderToOutputWindowFullMode(
         ITopWindowRenderBox rootElement,

@@ -16,10 +16,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
 
 
-namespace LayoutFarm
+
+namespace LayoutFarm.Drawing.WinGdi
 {
     partial class MyCanvas
     {
@@ -208,8 +208,14 @@ namespace LayoutFarm
                 {
                     fixed (char* startAddr = &str[0])
                     {
-                        DrawingBridge.Win32Utils.TextOut2(_hdc, (int)Math.Round(logicalTextBox.X + canvasOriginX),
-                            (int)Math.Round(logicalTextBox.Y + canvasOriginY), (startAddr + startAt), len);
+                        //DrawingBridge.Win32Utils.TextOut2(_hdc, 
+                        //    (int)Math.Round(logicalTextBox.X + canvasOriginX),
+                        //    (int)Math.Round(logicalTextBox.Y + canvasOriginY),
+                        //    (startAddr + startAt), len);
+                        DrawingBridge.Win32Utils.TextOut2(_hdc,
+                            (int)logicalTextBox.X + canvasOriginX,
+                            (int)logicalTextBox.Y + canvasOriginY,
+                            (startAddr + startAt), len);
                     }
                 }
             }
@@ -221,8 +227,10 @@ namespace LayoutFarm
                 {
                     fixed (char* startAddr = &str[0])
                     {
-                        DrawingBridge.Win32Utils.TextOut2(_hdc, (int)Math.Round(logicalTextBox.X + canvasOriginX),
-                            (int)Math.Round(logicalTextBox.Y + canvasOriginY), (startAddr + startAt), len);
+                        DrawingBridge.Win32Utils.TextOut2(_hdc,
+                             logicalTextBox.X + canvasOriginX,
+                             logicalTextBox.Y + canvasOriginY,
+                            (startAddr + startAt), len);
                     }
                 }
 

@@ -5,8 +5,8 @@ namespace LayoutFarm.Drawing
     {
 
         public abstract Bitmap CreateBitmap(int width, int height);
-
         public abstract Bitmap CreateNativeBitmapWrapper(object bmp);
+
         public abstract FontInfo CreateNativeFontWrapper(object nativeFont);
 
         public abstract SolidBrush CreateSolidBrush(Color color);

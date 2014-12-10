@@ -15,9 +15,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using LayoutFarm.Drawing;
-namespace LayoutFarm
+using System.Text; 
+namespace LayoutFarm.Drawing.WinGdi
 {
 
     partial class MyCanvas
@@ -124,10 +123,6 @@ namespace LayoutFarm
 
         }
 
-        //public override void FillRegion(Region rgn)
-        //{
-        //    gx.FillRegion(internalBrush, ConvRgn(rgn));
-        //}
 
         public override void FillPath(GraphicsPath gfxPath)
         {
@@ -143,11 +138,11 @@ namespace LayoutFarm
         {
             gx.FillRectangle(ConvBrush(brush), left, top, width, height);
         }
-        public override void FillRectangle(Color color, float left, float top, float right, float bottom)
+        public override void FillRectangle(Color color, float left, float top, float width, float height)
         {
             ReleaseHdc();
             internalBrush.Color = ConvColor(color);
-            gx.FillRectangle(internalBrush, left, top, right - left, bottom - top);
+            gx.FillRectangle(internalBrush, left, top, width, height);
         }
 
         //public override RectangleF GetBound(Region rgn)

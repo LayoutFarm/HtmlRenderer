@@ -125,10 +125,10 @@ namespace HtmlRenderer.Boxes
 
                             drawState = 1;//drawing in viewport area
 
-                            float cX = p.CanvasOriginX;
-                            float cy = p.CanvasOriginY;
+                            int cX = p.CanvasOriginX;
+                            int cy = p.CanvasOriginY;
 
-                            p.SetCanvasOrigin(cX, cy + line.CachedLineTop);
+                            p.SetCanvasOrigin(cX, cy + (int)line.CachedLineTop);
 
                             //1.                                 
                             line.PaintBackgroundAndBorder(p);
@@ -168,8 +168,8 @@ namespace HtmlRenderer.Boxes
                     {
                         p.PushContaingBlock(this);
 
-                        float ox = p.CanvasOriginX;
-                        float oy = p.CanvasOriginY;
+                        int ox = p.CanvasOriginX;
+                        int oy = p.CanvasOriginY;
 
                         var node = this._aa_boxes.GetFirstLinkedNode();
                         while (node != null)
@@ -181,7 +181,7 @@ namespace HtmlRenderer.Boxes
                                 continue;
                             }
 
-                            p.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
+                            p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
                             b.Paint(p);
                             node = node.Next;
                         }
@@ -191,8 +191,8 @@ namespace HtmlRenderer.Boxes
                     else
                     {
                         //if not
-                        float ox = p.CanvasOriginX;
-                        float oy = p.CanvasOriginY;
+                        int ox = p.CanvasOriginX;
+                        int oy = p.CanvasOriginY;
 
                         var node = this._aa_boxes.GetFirstLinkedNode();
                         while (node != null)
@@ -203,7 +203,7 @@ namespace HtmlRenderer.Boxes
                                 node = node.Next;
                                 continue;
                             }
-                            p.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
+                            p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
                             b.Paint(p);
                             node = node.Next;
                         }
