@@ -43,7 +43,7 @@ namespace LayoutFarm
             {
                 return;
             }
-
+            //load 
             System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
             e.SetResultImage(CurrentGraphicsPlatform.P.CreateNativeBitmapWrapper(bmp));
             

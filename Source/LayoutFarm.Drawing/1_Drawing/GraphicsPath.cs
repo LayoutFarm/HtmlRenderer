@@ -20,5 +20,7 @@ namespace LayoutFarm.Drawing
 
 
         public abstract void AddBezierCurve(PointF p1, PointF p2, PointF p3, PointF p4);
+
+       
     }
 }

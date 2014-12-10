@@ -1,8 +1,7 @@
 ﻿using System.Drawing;
 
 namespace LayoutFarm.Drawing.WinGdi
-{
-
+{ 
 
     class MyGraphicsPath : GraphicsPath
     {
@@ -67,7 +66,7 @@ namespace LayoutFarm.Drawing.WinGdi
                 p2.X, p2.Y,
                 p3.X, p3.Y,
                 p4.X, p4.Y);
-
         }
+        
     }
 }

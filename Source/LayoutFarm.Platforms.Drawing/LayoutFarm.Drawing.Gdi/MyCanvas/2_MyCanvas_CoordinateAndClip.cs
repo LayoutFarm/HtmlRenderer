@@ -42,12 +42,7 @@ namespace LayoutFarm.Drawing.WinGdi
             this.gx.TranslateTransform(x, y);
 
             this.canvasOriginX = x;
-            this.canvasOriginY = y;
-
-            this.currentClipRect = new System.Drawing.Rectangle(
-                (int)x, (int)y,
-                currentClipRect.Width,
-                currentClipRect.Height);
+            this.canvasOriginY = y; 
         }
         public override int CanvasOriginX
         {
