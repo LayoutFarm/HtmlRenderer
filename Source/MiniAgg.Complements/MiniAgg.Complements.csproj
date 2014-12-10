@@ -40,6 +40,7 @@
     <Compile Include="0_LayoutFarm.Canvas2dExtension\Canvas2dExtension.cs" />
     <Compile Include="0_LayoutFarm.Canvas2dExtension\FilterMan.cs" />
     <Compile Include="0_LayoutFarm.Canvas2dExtension\ScanlineRasToDestBitmapRendererExtension.cs" />
+    <Compile Include="0_LayoutFarm.Canvas2dExtension\VertexSourceIO.cs" />
     <Compile Include="FontSvg\SvgFont.cs" />
     <Compile Include="FontSvg\SvgFontStore.cs" />
     <Compile Include="Font\FontFace.cs" />
@@ -59,11 +60,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>myfonts_dll.resx</DependentUpon>
     </Compile>
-    <Compile Include="VertexSource\BezireCurve.cs" />
-    <Compile Include="VertexSource\BoundingRect.cs" />
-    <Compile Include="VertexSource\PathWriter.cs" />
-    <Compile Include="VertexSource\VertexData.cs" />
-    <Compile Include="VertexSource\VertexStoreBuilder.cs" />
     <Compile Include="x_notused\KDTree.cs" />
     <Compile Include="0_LayoutFarm.Canvas2dExtension\CanvasPainter.cs" />
     <Compile Include="0_LayoutFarm.Canvas2dExtension\MyTypeFacePrinter.cs" />
@@ -77,7 +73,6 @@
     <Compile Include="Filter\PatternFilterBilnearColorRGBA.cs" />
     <Compile Include="x_notused\x_GlyphWithUnderline.cs" />
     <Compile Include="Image\AlphaMask.cs" />
-    <Compile Include="VertexSource\SimpleRect.cs" />
     <Compile Include="03_SpanGenerators\SpanGradient.cs" />
     <Compile Include="Image\AlphaMaskAdaptor.cs" />
     <Compile Include="Image\FloodFiller.cs" />
@@ -88,17 +83,9 @@
     <Compile Include="Image\Transposer.cs" />
     <Compile Include="x_notused\ImageClipProxyFloat.cs" />
     <Compile Include="x_notused\UnitTests2.cs" />
-    <Compile Include="VertexSource\BSpline.cs" />
-    <Compile Include="VertexSource\Curves.cs" />
     <Compile Include="03_SpanGenerators\SpanGenGourand.cs" />
     <Compile Include="03_SpanGenerators\SpanGenGouraudRGBA.cs" />
     <Compile Include="x_notused\SpanSubDivAdapter.cs" />
-    <Compile Include="VertexSource\Arc.cs" />
-    <Compile Include="VertexSource\Contour.cs" />
-    <Compile Include="VertexSource\ContourGenerator.cs" />
-    <Compile Include="VertexSource\Ellipse.cs" />
-    <Compile Include="VertexSource\CurveFlattener.cs" />
-    <Compile Include="VertexSource\RoundedRect.cs" />
     <Compile Include="FontSvg\SvgFontFace_LiberationSans.cs" />
     <Compile Include="x_notused\SvgFontFaceWithStyle.cs" />
     <Compile Include="x_notused\TextWrapping.cs" />
@@ -107,7 +94,6 @@
     <Compile Include="x_notused\x_UnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="x_notused\UnitTests.cs" />
-    <Compile Include="VertexSource\VertexSourceIO.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
