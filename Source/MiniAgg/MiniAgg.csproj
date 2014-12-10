@@ -37,9 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="00_Context\ImageGraphics2D_RenderImages.cs" />
-    <Compile Include="01_Base\ExtensionAttribute.cs" />
-    <Compile Include="01_Base\Collections.cs" />
-    <Compile Include="01_Base\AggBasics.cs" />
+    <Compile Include="01_Base\AggMemMx.cs" />
     <Compile Include="02_PixelBuffer\ActualImage.cs" />
     <Compile Include="02_PixelBuffer\ChildImage.cs" />
     <Compile Include="02_PixelBuffer\ColorOrder.cs" />
@@ -66,10 +64,8 @@
     <Compile Include="07_Lines\1.3_LineParameters.cs" />
     <Compile Include="04_Scanline\6_ClipLiangBarsky.cs" />
     <Compile Include="01_Base\ColorRGBA.cs" />
-    <Compile Include="06_Transfrom\LineInterpolators.cs" />
     <Compile Include="04_Scanline\4.4_FillingRule.cs" />
     <Compile Include="03_SpanGenerators\IGammaFunction.cs" />
-    <Compile Include="06_Transfrom\4_SimulEqGeneral.cs" />
     <Compile Include="07_Lines\1.1_LinesAA.cs" />
     <Compile Include="04_Scanline\4.2_CellAARasterizer.cs" />
     <Compile Include="08_ImageResampling\IImageFilter.cs" />
@@ -95,14 +91,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="04_Scanline\2_ScanlinePacked8.cs" />
     <Compile Include="04_Scanline\3_ScanlineUnpacked8.cs" />
-    <Compile Include="01_Base\RectD.cs" />
-    <Compile Include="01_Base\RectInt.cs" />
     <Compile Include="04_Scanline\4.1_ScanlineRasterizer.cs" />
     <Compile Include="04_Scanline\5_ScanlineRasToDestBitmapRenderer.cs" />
-    <Compile Include="06_Transfrom\1_Affine.cs" />
-    <Compile Include="06_Transfrom\2_Bilinear.cs" />
-    <Compile Include="06_Transfrom\0_ICoordTransformer.cs" />
-    <Compile Include="06_Transfrom\3_Perspective.cs" />
     <Compile Include="06_Transfrom\Viewport.cs" />
     <Compile Include="04_Scanline\4.3_VectorClipper.cs" />
   </ItemGroup>

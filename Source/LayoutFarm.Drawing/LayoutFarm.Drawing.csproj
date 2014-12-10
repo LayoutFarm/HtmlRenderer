@@ -21,6 +21,7 @@
     <DefineConstants>TRACE;DEBUG;NET20</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,6 +35,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="6_PixelFarm_AggVectorMath\AggBasics.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\AggMath.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\AxisAlignedBoundingBox.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\BezierCurve.cs" />
@@ -85,6 +87,14 @@
     <Compile Include="7_PixelFarm_AggVertex\StrokeGenerator.cs" />
     <Compile Include="7_PixelFarm_AggVertex\StrokeMath.cs" />
     <Compile Include="7_PixelFarm_AggVertex\VertexDistanceList.cs" />
+    <Compile Include="8_PixelFarm_AggTransforms\0_ICoordTransformer.cs" />
+    <Compile Include="8_PixelFarm_AggTransforms\1_Affine.cs" />
+    <Compile Include="8_PixelFarm_AggTransforms\2_Bilinear.cs" />
+    <Compile Include="8_PixelFarm_AggTransforms\3_Perspective.cs" />
+    <Compile Include="8_PixelFarm_AggTransforms\4_SimulEqGeneral.cs" />
+    <Compile Include="8_PixelFarm_AggTransforms\LineInterpolators.cs" />
+    <Compile Include="7_PixelFarm_AggVertex\RectD.cs" />
+    <Compile Include="7_PixelFarm_AggVertex\RectInt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -256,7 +256,7 @@ namespace PixelFarm.Agg
 
             if (y < 0 || y > ymax)
             {
-                AggBasics.MemClear(covers, coversIndex, num_pix);
+                AggMemMx.MemClear(covers, coversIndex, num_pix);
                 return;
             }
 
@@ -265,10 +265,10 @@ namespace PixelFarm.Agg
                 count += x;
                 if (count <= 0)
                 {
-                    AggBasics.MemClear(covers, coversIndex, num_pix);
+                    AggMemMx.MemClear(covers, coversIndex, num_pix);
                     return;
                 }
-                AggBasics.MemClear(covers, coversIndex, -x);
+                AggMemMx.MemClear(covers, coversIndex, -x);
                 coversIndex -= x;
                 x = 0;
             }
@@ -279,10 +279,10 @@ namespace PixelFarm.Agg
                 count -= rest;
                 if (count <= 0)
                 {
-                    AggBasics.MemClear(covers, coversIndex, num_pix);
+                    AggMemMx.MemClear(covers, coversIndex, num_pix);
                     return;
                 }
-                AggBasics.MemClear(covers, coversIndex + count, rest);
+                AggMemMx.MemClear(covers, coversIndex + count, rest);
             }
 
             int maskIndex = m_rbuf.GetBufferOffsetXY(x, y);
@@ -305,7 +305,7 @@ namespace PixelFarm.Agg
 
             if (y < 0 || y > ymax)
             {
-                AggBasics.MemClear(buffer, bufferIndex, num_pix);
+                AggMemMx.MemClear(buffer, bufferIndex, num_pix);
                 return;
             }
 
@@ -314,10 +314,10 @@ namespace PixelFarm.Agg
                 count += x;
                 if (count <= 0)
                 {
-                    AggBasics.MemClear(buffer, bufferIndex, num_pix);
+                    AggMemMx.MemClear(buffer, bufferIndex, num_pix);
                     return;
                 }
-                AggBasics.MemClear(covers, coversIndex, -x);
+                AggMemMx.MemClear(covers, coversIndex, -x);
                 coversIndex -= x;
                 x = 0;
             }
@@ -328,10 +328,10 @@ namespace PixelFarm.Agg
                 count -= rest;
                 if (count <= 0)
                 {
-                    AggBasics.MemClear(buffer, bufferIndex, num_pix);
+                    AggMemMx.MemClear(buffer, bufferIndex, num_pix);
                     return;
                 }
-                AggBasics.MemClear(covers, coversIndex + count, rest);
+                AggMemMx.MemClear(covers, coversIndex + count, rest);
             }
 
             int maskIndex = m_rbuf.GetBufferOffsetXY(x, y);

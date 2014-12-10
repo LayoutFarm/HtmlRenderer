@@ -41,7 +41,8 @@ namespace PixelFarm.Agg.Image
         void init_span(int len, byte cover)
         {
             realloc_span(len);
-            AggBasics.memset(m_spans, 0, cover, len);
+            AggMemMx.memset(m_spans, 0, cover, len);
+             
         }
 
         void init_span(int len, byte[] covers, int coversIndex)

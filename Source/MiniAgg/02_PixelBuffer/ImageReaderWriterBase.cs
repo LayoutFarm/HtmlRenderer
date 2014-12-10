@@ -107,7 +107,7 @@ namespace PixelFarm.Agg
 
                 for (int i = 0; i < clippedSourceImageRect.Height; i++)
                 {
-                    AggBasics.memmove(destBuffer, destOffset, sourceBuffer, sourceOffset, lengthInBytes);
+                    AggMemMx.memmove(destBuffer, destOffset, sourceBuffer, sourceOffset, lengthInBytes);
                     sourceOffset += sourceImage.Stride;
                     destOffset += Stride;
                 }

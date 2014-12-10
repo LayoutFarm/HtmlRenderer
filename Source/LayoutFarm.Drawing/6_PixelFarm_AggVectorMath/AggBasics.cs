@@ -27,64 +27,14 @@ using PixelFarm.VectorMath;
 
 namespace PixelFarm.Agg
 {
-     
-    static public class AggBasics
+    
+
+    public static class AggBasics
     {
-        //----------------------------------------------------------filling_rule_e
-
-        public static void memcpy(byte[] dest,
-            int destIndex, byte[] source,
-            int sourceIndex, int count)
-        {
-            NativeBufferMethods.MemCopy(dest, destIndex, source, sourceIndex, count);
-
-            //#if USE_UNSAFE
-            //#else
-
-            //            for (int i = 0; i < count; i++)
-            //            {
-            //                dest[destIndex + i] = source[sourceIndex + i];
-            //            }
-            //#endif
-        }
-
-
-        public static void memmove(byte[] dest, int destIndex, Byte[] source, int sourceIndex, int Count)
-        {
-            if (source != dest
-                || destIndex < sourceIndex)
-            {
-                memcpy(dest, destIndex, source, sourceIndex, Count);
-            }
-            else
-            {
-                throw new Exception("this code needs to be tested");
-                /*
-                for (int i = Count-1; i > 0; i--)
-                {
-                    dest[destIndex + i] = source[sourceIndex + i];
-                }
-                 */
-            }
-
-        }
-
-
-        public static void memset(byte[] dest, int destIndex, byte byteValue, int count)
-        {
-            NativeBufferMethods.MemSet(dest, destIndex, byteValue, count);
-        }
-        public static void MemClear(Byte[] dest, int destIndex, int count)
-        {
-            NativeBufferMethods.MemSet(dest, destIndex, 0, count);
-
-        }
-
         public static bool is_equal_eps(double v1, double v2, double epsilon)
         {
             return Math.Abs(v1 - v2) <= (epsilon);
         }
-
         //------------------------------------------------------------------deg2rad
         public static double deg2rad(double deg)
         {
