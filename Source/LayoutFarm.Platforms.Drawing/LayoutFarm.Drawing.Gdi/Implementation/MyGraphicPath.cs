@@ -13,6 +13,7 @@ namespace LayoutFarm.Drawing.WinGdi
         public override void AddArc(float x, float y, float width, float height, float startAngle, float sweepAngle)
         {
             p.AddArc(x, y, width, height, startAngle, sweepAngle);
+            
         }
         public override void AddArc(RectangleF rectF, float startAngle, float sweepAngle)
         {
@@ -58,7 +59,6 @@ namespace LayoutFarm.Drawing.WinGdi
                 new System.Drawing.RectangleF(r.X, r.Y, r.Width, r.Height));
         }
         public override object InnerPath { get { return this.p; } }
-
         public override void AddBezierCurve(PointF p1, PointF p2, PointF p3, PointF p4)
         {
             p.AddBezier(

@@ -18,13 +18,13 @@ namespace LayoutFarm.Text
             {
 
                 TextSpanSytle simpleBeh = new TextSpanSytle();
-                simpleBeh.SharedBgColorBrush = new ArtSolidBrush(color);
+               // simpleBeh.SharedBgColorBrush = new ArtSolidBrush(color);
                 return simpleBeh;
             }
             else
             {
                 TextSpanSytle simpleBeh = new TextSpanSytle();
-                simpleBeh.SharedBgColorBrush = new ArtSolidBrush(color);
+                //simpleBeh.SharedBgColorBrush = new ArtSolidBrush(color);
                 return simpleBeh;
 
             }

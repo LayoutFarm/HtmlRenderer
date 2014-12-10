@@ -17,25 +17,25 @@ namespace LayoutFarm.Text
     {
         public TextSpanSytle()
         {
-            this.SharedBgColorBrush = new ArtSolidBrush(Color.White);
+            //this.SharedBgColorBrush = new ArtSolidBrush(Color.White);
         }
         public bool FontBold
         {
             get;
             set;
         }
-        ArtColorBrush sharedBgColorBrush = null;
-        public ArtColorBrush SharedBgColorBrush
-        {
-            get
-            {
-                return sharedBgColorBrush;
-            }
-            set
-            {
-                this.sharedBgColorBrush = value;
-            }
-        }
+        //ArtColorBrush sharedBgColorBrush = null;
+        //public ArtColorBrush SharedBgColorBrush
+        //{
+        //    get
+        //    {
+        //        return sharedBgColorBrush;
+        //    }
+        //    set
+        //    {
+        //        this.sharedBgColorBrush = value;
+        //    }
+        //}
         public Color FontColor
         {
             get;

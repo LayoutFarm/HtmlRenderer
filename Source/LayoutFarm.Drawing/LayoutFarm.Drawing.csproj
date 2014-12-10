@@ -34,6 +34,21 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="6_PixelFarm_AggVectorMath\AggMath.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\AxisAlignedBoundingBox.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\BezierCurve.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\BezierCurveCubic.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\BezierCurveQuadric.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\MathHelper.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\Matrix4x4.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\Quaternion.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\Ray.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\TrackBallController.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\UnitTests.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\Vector2.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\Vector3.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\Vector3Float.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\Vector4.cs" />
     <Compile Include="0_Start\ExtensionAttribute.cs" />
     <Compile Include="1_Drawing\CanvasInvalidateRequestDelegate.cs" />
     <Compile Include="1_Drawing\CombineMode.cs" />
@@ -51,18 +66,25 @@
     <Compile Include="1_Drawing\RectangleF.cs" />
     <Compile Include="1_Drawing\Region.cs" />
     <Compile Include="1_Drawing\ImageBinder.cs" />
-    <Compile Include="1_Drawing\BasicGeometryObjects.cs" />
-    <Compile Include="2_Drawing_Art\ArtColorPalette.cs" />
-    <Compile Include="2_Drawing_Art\ColorComponentStepup.cs" />
-    <Compile Include="2_Drawing_Art\GfxProcessorModule.cs" />
+    <Compile Include="1_Drawing\BasicGeometries.cs" />
+    <Compile Include="4_Animation\ColorComponentStepup.cs" />
+    <Compile Include="4_Animation\GfxProcessorModule.cs" />
     <Compile Include="0_Start\GraphicsPlatform.cs" />
-    <Compile Include="2_Drawing_Art\ArtBrushes.cs" />
     <Compile Include="1_Drawing\Canvas.cs" />
     <Compile Include="1_Drawing\CustomRenderSurface.cs" />
     <Compile Include="1_Drawing\Rect.cs" />
     <Compile Include="4_Animation\Timelines.cs" />
     <Compile Include="4_Animation\ParallelTimeline.cs" />
     <Compile Include="5_BasicRenderBox\ITopWindowRenderBox.cs" />
+    <Compile Include="7_PixelFarm_AggVertex\0_VertexCommandAndOrientation.cs" />
+    <Compile Include="7_PixelFarm_AggVertex\1_VertexStore.cs" />
+    <Compile Include="7_PixelFarm_AggVertex\2_VertexStoreSnap.cs" />
+    <Compile Include="7_PixelFarm_AggVertex\Collections.cs" />
+    <Compile Include="7_PixelFarm_AggVertex\LineCapAndJoin.cs" />
+    <Compile Include="7_PixelFarm_AggVertex\Stroke.cs" />
+    <Compile Include="7_PixelFarm_AggVertex\StrokeGenerator.cs" />
+    <Compile Include="7_PixelFarm_AggVertex\StrokeMath.cs" />
+    <Compile Include="7_PixelFarm_AggVertex\VertexDistanceList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

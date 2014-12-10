@@ -48,7 +48,6 @@
     <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\FontsUtils.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\MyFontInfo.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\MyGraphicPath.cs" />
-    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\MyMatrix.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\MyWin32.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\NativeTextWin32.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\Region.cs" />

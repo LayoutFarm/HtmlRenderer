@@ -35,12 +35,12 @@ namespace LayoutFarm.Drawing.WinGdi
         IntPtr _hdc;
         IntPtr hbmp;
         IntPtr hFont = IntPtr.Zero;
-        IntPtr originalHdc = IntPtr.Zero; 
-        Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>(); 
+        IntPtr originalHdc = IntPtr.Zero;
+        Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
         //-------------------------------
         System.Drawing.Color currentTextColor = System.Drawing.Color.Black;
         System.Drawing.Pen internalPen;
-        System.Drawing.SolidBrush internalBrush;
+        System.Drawing.SolidBrush internalSolidBrush;
         System.Drawing.Rectangle currentClipRect;
         //-------------------------------
         bool isFromPrinter = false;
@@ -64,7 +64,7 @@ namespace LayoutFarm.Drawing.WinGdi
 
 
             internalPen = new System.Drawing.Pen(System.Drawing.Color.Black);
-            internalBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
+            internalSolidBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
 
             originalHdc = MyWin32.CreateCompatibleDC(IntPtr.Zero);
             System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -110,8 +110,8 @@ namespace LayoutFarm.Drawing.WinGdi
         {
             this.gx.RenderingOrigin = new System.Drawing.Point(0, 0);
             this.canvasOriginX = 0;
-            this.canvasOriginY = 0; 
-            this.clipRectStack.Clear(); 
+            this.canvasOriginY = 0;
+            this.clipRectStack.Clear();
         }
 
         public void ReleaseUnManagedResource()
@@ -371,18 +371,13 @@ namespace LayoutFarm.Drawing.WinGdi
             }
             return outputPoints;
         }
+        
         static System.Drawing.Color ConvColor(Color c)
         {
             return System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);
         }
-        static System.Drawing.Brush ConvBrush(Brush b)
-        {
-            return b.InnerBrush as System.Drawing.Brush;
-        }
-        static System.Drawing.Pen ConvPen(Pen p)
-        {
-            return p.InnerPen as System.Drawing.Pen;
-        }
+
+
         static System.Drawing.Bitmap ConvBitmap(Bitmap bmp)
         {
             return bmp.InnerImage as System.Drawing.Bitmap;

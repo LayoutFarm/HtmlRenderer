@@ -26,20 +26,20 @@ namespace Svg.Transforms
             set { this.scaleFactorY = value; }
         }
 
-        public override  Matrix Matrix
-        {
-            get
-            {
-                Matrix matrix = CurrentGraphicsPlatform.CreateMatrix();
-                matrix.Scale(this.X, this.Y);
-                return matrix;
-            }
-        }
+        //public override Matrix Matrix
+        //{
+        //    get
+        //    {
+        //        Matrix matrix = CurrentGraphicsPlatform.CreateMatrix();
+        //        matrix.Scale(this.X, this.Y);
+        //        return matrix;
+        //    }
+        //}
 
-        public override string WriteToString()
-        {
-            return string.Format(CultureInfo.InvariantCulture, "scale({0}, {1})", this.X, this.Y);
-        }
+        //public override string WriteToString()
+        //{
+        //    return string.Format(CultureInfo.InvariantCulture, "scale({0}, {1})", this.X, this.Y);
+        //}
 
         public SvgScale(float x) : this(x, x) { }
 
@@ -49,9 +49,9 @@ namespace Svg.Transforms
             this.scaleFactorY = y;
         }
 
-		public override object Clone()
-		{
-			return new SvgScale(this.X, this.Y);
-		}
+        //public override object Clone()
+        //{
+        //    return new SvgScale(this.X, this.Y);
+        //}
     }
 }
