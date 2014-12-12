@@ -146,7 +146,7 @@ namespace LayoutFarm.Drawing
             //  |       |
             //  SW-----SE
 
-            var path = p.CreateGraphicPath();
+            var path = CurrentGraphicsPlatform.CreateGraphicPath();
 
             nwRadius *= 2;
             neRadius *= 2;

@@ -37,7 +37,7 @@ namespace LayoutFarm.Drawing
         public abstract int Bottom { get; }
         public abstract int Right { get; }
 
-        public abstract Rectangle Rect { get; } 
+        public abstract Rectangle Rect { get; }
 
         public abstract int CanvasOriginX { get; }
         public abstract int CanvasOriginY { get; }
@@ -49,7 +49,7 @@ namespace LayoutFarm.Drawing
         public abstract bool PushClipArea(int width, int height, ref Rect updateArea);
         public abstract void PopClipArea();
 
-        public abstract void SetClipRect(Rectangle  clip, CombineMode combineMode = CombineMode.Replace);
+        public abstract void SetClipRect(Rectangle clip, CombineMode combineMode = CombineMode.Replace);
         public abstract Rectangle CurrentClipRect { get; }
         //---------------------------------------
         //buffer
@@ -88,7 +88,7 @@ namespace LayoutFarm.Drawing
         //-------------------------------------------------------  
         //images
         public abstract void DrawImage(Image image, RectangleF dest, RectangleF src);
-        public abstract void DrawImage(Image image, RectangleF rect);
+        public abstract void DrawImage(Image image, RectangleF dest);
         //---------------------------------------------------------------------------
 #if DEBUG
         public abstract void dbug_DrawRuler(int x);
