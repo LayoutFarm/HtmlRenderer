@@ -124,11 +124,11 @@ namespace LayoutFarm.Drawing
         {
 
         }
-        public List<Color> GetColorArray()
+        public List<Color> GetColors()
         {
             return this.stopColors;
         }
-        public List<PointF> GetStopPointArray()
+        public List<PointF> GetStopPoints()
         {
             return this.stopPoints;
         }

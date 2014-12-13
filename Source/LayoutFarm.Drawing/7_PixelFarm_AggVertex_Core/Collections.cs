@@ -231,6 +231,7 @@ namespace PixelFarm.Agg
             }
         }
 
+        
         public int Count
         {
             get { return currentSize; }
@@ -345,6 +346,7 @@ namespace PixelFarm.Agg
             {
                 return internalArray[i];
             }
+            set { this.internalArray[i] = value; }
         }
 
         public T[] Array

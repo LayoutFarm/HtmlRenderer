@@ -23,6 +23,7 @@ namespace LayoutFarm.Drawing
         public abstract float StrokeWidth { get; set; }
         public abstract Color StrokeColor { get; set; }
         public abstract Color FillColor { get; set; }
+        public abstract Brush CurrentBrush { get; set; }
         //states
         public abstract void Invalidate(Rect rect);
 
@@ -83,7 +84,6 @@ namespace LayoutFarm.Drawing
         public abstract void FillPath(GraphicsPath gfxPath);
         public abstract void FillPath(GraphicsPath gfxPath, Brush brush);
         public abstract void DrawPath(GraphicsPath gfxPath);
-
         public abstract void FillPolygon(PointF[] points);
         //-------------------------------------------------------  
         //images

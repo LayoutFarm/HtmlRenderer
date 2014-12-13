@@ -160,8 +160,8 @@ namespace LayoutFarm.Drawing.WinGdi
                     {
                         //draw with gradient
                         LinearGradientBrush linearBrush = (LinearGradientBrush)brush;
-                        var colors = linearBrush.GetColorArray();
-                        var points = linearBrush.GetStopPointArray();
+                        var colors = linearBrush.GetColors();
+                        var points = linearBrush.GetStopPoints();
                         using (var linearGradBrush = new System.Drawing.Drawing2D.LinearGradientBrush(
                              points[0].ToPointF(),
                              points[1].ToPointF(),

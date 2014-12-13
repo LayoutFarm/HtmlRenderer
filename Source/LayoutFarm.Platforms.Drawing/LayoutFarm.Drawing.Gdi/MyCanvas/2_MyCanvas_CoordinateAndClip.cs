@@ -118,7 +118,17 @@ namespace LayoutFarm.Drawing.WinGdi
             }
         }
 
-
+        public override Brush CurrentBrush
+        {
+            get
+            {
+                return this.currentBrush;
+            }
+            set
+            {
+                this.currentBrush = value;
+            }
+        }
 
         public override int Top
         {
