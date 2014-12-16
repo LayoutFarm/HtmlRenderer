@@ -245,10 +245,7 @@ namespace LayoutFarm.Drawing
             this.y = y;
             this.width = width;
             this.height = height;
-        }
-
-
-
+        } 
         /// <summary>
         ///	Bottom Property
         /// </summary>
@@ -256,8 +253,7 @@ namespace LayoutFarm.Drawing
         /// <remarks>
         ///	The Y coordinate of the bottom edge of the RectangleF.
         ///	Read only.
-        /// </remarks>
-
+        /// </remarks> 
          
         public float Bottom
         {

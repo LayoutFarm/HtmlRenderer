@@ -43,7 +43,7 @@ namespace LayoutFarm.Drawing
         /// <summary>
         /// image used to draw error image icon
         /// </summary>
-        static Image _errorImage; 
+        static Image _errorImage;
         /// <summary>
         /// Check if the given color is visible if painted (has alpha and color values)
         /// </summary>

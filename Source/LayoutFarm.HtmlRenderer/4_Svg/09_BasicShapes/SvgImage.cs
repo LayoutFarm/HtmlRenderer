@@ -130,7 +130,7 @@ namespace LayoutFarm.SvgDom
                                 {
                                     //
                                     g.DrawImage(img, _imgRun.ImageRectangle);
-                                    //g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
+                                   
                                 }
                             }
                             else

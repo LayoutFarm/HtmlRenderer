@@ -30,25 +30,23 @@ namespace LayoutFarm.Drawing.WinGdi
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
             hdc = g.GetHdc();
             isInit = true;
-
         }
-        public int[] MeasureCharWidths(IntPtr hFont)
+        public void MeasureCharWidths(IntPtr hFont, out int[] charWidths, out NativeTextWin32.FontABC[] abcSizes)
         {
             if (!isInit) Init();
 
-
-            int[] charWidths;
+            //only in ascii range
+            //current version
+            charWidths = new int[256];
             MyWin32.SelectObject(hdc, hFont);
 
-            charWidths = new int[256];
             unsafe
             {
 
-                NativeTextWin32.FontABC[] abcSizes = new NativeTextWin32.FontABC[256];
+                abcSizes = new NativeTextWin32.FontABC[256];
                 fixed (NativeTextWin32.FontABC* abc = abcSizes)
                 {
                     NativeTextWin32.GetCharABCWidths(hdc, (uint)0, (uint)255, abc);
-
                 }
 
                 for (int i = 0; i < 161; i++)
@@ -62,7 +60,7 @@ namespace LayoutFarm.Drawing.WinGdi
 
                 }
             }
-            return charWidths;
+
         }
         public int MeasureStringWidth(IntPtr hFont, char[] buffer)
         {
@@ -86,10 +84,12 @@ namespace LayoutFarm.Drawing.WinGdi
 
 
     class MyFontInfo : FontInfo
-    { 
+    {
         int[] charWidths;
+        NativeTextWin32.FontABC[] charAbcWidths;
+
         IntPtr hFont;
-        BasicGdi32FontHelper gdiFontHelper; 
+        BasicGdi32FontHelper gdiFontHelper;
         Font resolvedFont;
 
         public MyFontInfo(Font f,
@@ -97,8 +97,8 @@ namespace LayoutFarm.Drawing.WinGdi
             float descentPx, float baseline,
             BasicGdi32FontHelper gdiFontHelper)
         {
-         
-            
+
+
             this.LineHeight = lineHeight;
             this.DescentPx = descentPx;
             this.AscentPx = ascentPx;
@@ -108,11 +108,12 @@ namespace LayoutFarm.Drawing.WinGdi
             this.gdiFontHelper = gdiFontHelper;
             System.Drawing.Font innerFont = ((System.Drawing.Font)(f.InnerFont));
             hFont = innerFont.ToHfont();
-            charWidths = gdiFontHelper.MeasureCharWidths(hFont);
-             
+            gdiFontHelper.MeasureCharWidths(hFont, out charWidths, out charAbcWidths);
+
             this.resolvedFont = f;
-            
+
         }
+
         public override Font ResolvedFont
         {
             get { return resolvedFont; }
@@ -129,6 +130,7 @@ namespace LayoutFarm.Drawing.WinGdi
             int converted = (int)c;
             if (converted > 160)
             {
+                //Thai Ascii
                 converted -= 3424;
             }
             if (converted < 256 && converted > -1)
@@ -138,6 +140,24 @@ namespace LayoutFarm.Drawing.WinGdi
             else
             {
                 return 0;
+            }
+        }
+        public override FontABC GetCharABCWidth(char c)
+        {
+            int converted = (int)c;
+            if (converted > 160)
+            {
+                //Thai Ascii
+                converted -= 3424;
+            }
+            if (converted < 256 && converted > -1)
+            {
+                var abc = charAbcWidths[converted];
+                return new FontABC(abc.abcA, abc.abcB, abc.abcC);
+            }
+            else
+            {
+                return new FontABC();
             }
         }
         public override int GetStringWidth(char[] buffer)
@@ -161,10 +181,9 @@ namespace LayoutFarm.Drawing.WinGdi
             else
             {
                 return this.gdiFontHelper.MeasureStringWidth(this.hFont, buffer, length);
-
             }
         }
-       
+
     }
-   
+
 }

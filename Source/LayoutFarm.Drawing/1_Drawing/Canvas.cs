@@ -85,10 +85,13 @@ namespace LayoutFarm.Drawing
         public abstract void FillPath(GraphicsPath gfxPath, Brush brush);
         public abstract void DrawPath(GraphicsPath gfxPath);
         public abstract void FillPolygon(PointF[] points);
+        public abstract void FillPolygon(Brush brush, PointF[] points);
         //-------------------------------------------------------  
         //images
         public abstract void DrawImage(Image image, RectangleF dest, RectangleF src);
         public abstract void DrawImage(Image image, RectangleF dest);
+        //public abstract void DrawImage(ReferenceBitmap referenceBmp, RectangleF dest);
+        public abstract void DrawImages(Image image, RectangleF[] destAndSrcPairs);
         //---------------------------------------------------------------------------
 #if DEBUG
         public abstract void dbug_DrawRuler(int x);
@@ -106,6 +109,13 @@ namespace LayoutFarm.Drawing
         public void OffsetCanvasOriginY(int dy)
         {
             this.OffsetCanvasOrigin(0, dy);
+        }
+
+        //for debug
+        public int Note1
+        {
+            get;
+            set;
         }
     }
 }

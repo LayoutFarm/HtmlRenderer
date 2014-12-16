@@ -38,7 +38,7 @@ namespace HtmlRenderer.Boxes
         public static void DrawBackgroundImage(Canvas g, CssBox box, ImageBinder imageBinder, RectangleF rectangle)
         {
 
-            var image = imageBinder.Image;
+            var image =  imageBinder.Image;
 
             //temporary comment image scale code 
             var imgSize = image.Size;
@@ -63,7 +63,7 @@ namespace HtmlRenderer.Boxes
                (int)rectangle.X,
                (int)rectangle.Y,
                (int)rectangle.Width,
-               (int)rectangle.Height); 
+               (int)rectangle.Height);
             copyRect.Intersect(prevClip);
             g.SetClipRect(copyRect);
 

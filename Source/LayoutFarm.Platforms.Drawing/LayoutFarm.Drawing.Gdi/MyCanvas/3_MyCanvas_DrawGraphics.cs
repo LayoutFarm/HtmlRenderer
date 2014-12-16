@@ -174,7 +174,7 @@ namespace LayoutFarm.Drawing.WinGdi
                 case BrushKind.GeometryGradient:
                     {
                     } break;
-                case BrushKind.CirculatGraident:
+                case BrushKind.CircularGraident:
                     {
 
                     } break;
@@ -270,7 +270,6 @@ namespace LayoutFarm.Drawing.WinGdi
                 srcRect.ToRectF(),
                 System.Drawing.GraphicsUnit.Pixel);
         }
-
         /// <summary>
         /// Draws the specified <see cref="T:System.Drawing.Image"/> at the specified location and with the specified size.
         /// </summary>
@@ -278,7 +277,44 @@ namespace LayoutFarm.Drawing.WinGdi
         public override void DrawImage(Image image, RectangleF destRect)
         {
             ReleaseHdc();
-            gx.DrawImage(image.InnerImage as System.Drawing.Image, destRect.ToRectF());
+            if (image.IsReferenceImage)
+            {
+
+                gx.DrawImage(image.InnerImage as System.Drawing.Image,
+                    destRect.ToRectF(),
+                     new System.Drawing.RectangleF(
+                         image.ReferenceX, image.ReferenceY,
+                         image.Width, image.Height),
+                    System.Drawing.GraphicsUnit.Pixel);
+            }
+            else
+            {
+                gx.DrawImage(image.InnerImage as System.Drawing.Image, destRect.ToRectF());
+            }
+        }
+
+        public override void DrawImages(Image image, RectangleF[] destAndSrcPairs)
+        {
+            ReleaseHdc();
+            int j = destAndSrcPairs.Length;
+            if (j > 1)
+            {
+                if ((j % 2) != 0)
+                {
+                    //make it even number
+                    j -= 1;
+                }
+                //loop draw
+                var inner = image.InnerImage as System.Drawing.Image;
+                for (int i = 0; i < j; )
+                {
+                    gx.DrawImage(inner,
+                        destAndSrcPairs[i].ToRectF(),
+                        destAndSrcPairs[i + 1].ToRectF(),
+                        System.Drawing.GraphicsUnit.Pixel);
+                    i += 2;
+                }
+            }
         }
         /// <summary>
         /// Fills the interior of a <see cref="T:System.Drawing.Drawing2D.GraphicsPath"/>.
@@ -327,34 +363,13 @@ namespace LayoutFarm.Drawing.WinGdi
             gx.FillPolygon(this.internalSolidBrush, pps);
         }
 
-
-
-        ////==================================================== 
-        ///// <summary>
-        ///// Gets the bounding clipping region of this graphics.
-        ///// </summary>
-        ///// <returns>The bounding rectangle for the clipping region</returns>
-        //public override RectangleF GetClip()
-        //{
-        //    if (_hdc == IntPtr.Zero)
-        //    {
-        //        var clip1 = gx.ClipBounds;
-        //        return new RectangleF(
-        //            clip1.X, clip1.Y,
-        //            clip1.Width, clip1.Height);
-        //    }
-        //    else
-        //    {
-        //        System.Drawing.Rectangle lprc;
-        //        DrawingBridge.Win32Utils.GetClipBox(_hdc, out lprc);
-
-
-        //        return new RectangleF(
-        //            lprc.X, lprc.Y,
-        //            lprc.Width, lprc.Height);
-        //    }
-        //}
-
+        public override void FillPolygon(Brush brush, PointF[] points)
+        {
+            ReleaseHdc();
+            //create Point
+            var pps = ConvPointFArray(points);
+            gx.FillPolygon(this.internalSolidBrush, pps);
+        }
     }
 
 }
