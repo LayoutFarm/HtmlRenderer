@@ -844,11 +844,11 @@ namespace LayoutFarm.UI
                         if (renderContent != null)
                         {
 
-                            if (canvasPage.PushClipArea(gridItem.Width, gridItem.Height,ref updateArea))
+                            if (canvasPage.PushClipAreaRect(gridItem.Width, gridItem.Height,ref updateArea))
                             {
                                 renderContent.DrawToThisPage(canvasPage, updateArea);
                             }
-                            canvasPage.PopClipArea();
+                            canvasPage.PopClipAreaRect();
                         }
 
 

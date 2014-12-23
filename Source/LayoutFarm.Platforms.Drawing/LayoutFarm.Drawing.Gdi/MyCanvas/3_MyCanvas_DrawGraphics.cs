@@ -48,18 +48,7 @@ namespace LayoutFarm.Drawing.WinGdi
 
             }
         }
-        public override Color FillColor
-        {
-            get
-            {
-                return fillSolidColor;
-            }
-            set
-            {
-                this.fillSolidColor = value;
-                this.internalSolidBrush.Color = ConvColor(value);
-            }
-        }
+
         public override GraphicsPlatform Platform
         {
             get { return this.platform; }
@@ -123,12 +112,6 @@ namespace LayoutFarm.Drawing.WinGdi
 
         }
 
-
-        public override void FillPath(GraphicsPath gfxPath)
-        {
-
-            gx.FillPath(internalSolidBrush, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
-        }
 
         public override void DrawPath(GraphicsPath gfxPath)
         {
@@ -270,29 +253,6 @@ namespace LayoutFarm.Drawing.WinGdi
                 srcRect.ToRectF(),
                 System.Drawing.GraphicsUnit.Pixel);
         }
-        /// <summary>
-        /// Draws the specified <see cref="T:System.Drawing.Image"/> at the specified location and with the specified size.
-        /// </summary>
-        /// <param name="image"><see cref="T:System.Drawing.Image"/> to draw. </param><param name="destRect"><see cref="T:System.Drawing.Rectangle"/> structure that specifies the location and size of the drawn image. </param><exception cref="T:System.ArgumentNullException"><paramref name="image"/> is null.</exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
-        public override void DrawImage(Image image, RectangleF destRect)
-        {
-            ReleaseHdc();
-            if (image.IsReferenceImage)
-            {
-
-                gx.DrawImage(image.InnerImage as System.Drawing.Image,
-                    destRect.ToRectF(),
-                     new System.Drawing.RectangleF(
-                         image.ReferenceX, image.ReferenceY,
-                         image.Width, image.Height),
-                    System.Drawing.GraphicsUnit.Pixel);
-            }
-            else
-            {
-                gx.DrawImage(image.InnerImage as System.Drawing.Image, destRect.ToRectF());
-            }
-        }
-
         public override void DrawImages(Image image, RectangleF[] destAndSrcPairs)
         {
             ReleaseHdc();
@@ -317,10 +277,42 @@ namespace LayoutFarm.Drawing.WinGdi
             }
         }
         /// <summary>
+        /// Draws the specified <see cref="T:System.Drawing.Image"/> at the specified location and with the specified size.
+        /// </summary>
+        /// <param name="image"><see cref="T:System.Drawing.Image"/> to draw. </param><param name="destRect"><see cref="T:System.Drawing.Rectangle"/> structure that specifies the location and size of the drawn image. </param><exception cref="T:System.ArgumentNullException"><paramref name="image"/> is null.</exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
+        public override void DrawImage(Image image, RectangleF destRect)
+        {
+            ReleaseHdc();
+            if (image.IsReferenceImage)
+            {
+                gx.DrawImage(image.InnerImage as System.Drawing.Image,
+                    destRect.ToRectF(),
+                     new System.Drawing.RectangleF(
+                         image.ReferenceX, image.ReferenceY,
+                         image.Width, image.Height),
+                    System.Drawing.GraphicsUnit.Pixel);
+            }
+            else
+            {
+                gx.DrawImage(image.InnerImage as System.Drawing.Image, destRect.ToRectF());
+            }
+
+        }
+        public override void FillPath(Color color, GraphicsPath gfxPath)
+        {
+            ReleaseHdc();
+            //solid color
+            var prevColor = internalSolidBrush.Color;
+            internalSolidBrush.Color = ConvColor(color);
+            gx.FillPath(internalSolidBrush,
+                gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
+            internalSolidBrush.Color = prevColor;
+        }
+        /// <summary>
         /// Fills the interior of a <see cref="T:System.Drawing.Drawing2D.GraphicsPath"/>.
         /// </summary>
         /// <param name="brush"><see cref="T:System.Drawing.Brush"/> that determines the characteristics of the fill. </param><param name="path"><see cref="T:System.Drawing.Drawing2D.GraphicsPath"/> that represents the path to fill. </param><exception cref="T:System.ArgumentNullException"><paramref name="brush"/> is null.-or-<paramref name="path"/> is null.</exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
-        public override void FillPath(GraphicsPath path, Brush brush)
+        public override void FillPath(Brush brush, GraphicsPath path)
         {
             ReleaseHdc();
             switch (brush.BrushKind)
@@ -346,28 +338,22 @@ namespace LayoutFarm.Drawing.WinGdi
                 default:
                     {
                     } break;
-
-            }
-
-        }
-
-        /// <summary>
-        /// Fills the interior of a polygon defined by an array of points specified by <see cref="T:System.Drawing.PointF"/> structures.
-        /// </summary>
-        /// <param name="brush"><see cref="T:System.Drawing.Brush"/> that determines the characteristics of the fill. </param><param name="points">Array of <see cref="T:System.Drawing.PointF"/> structures that represent the vertices of the polygon to fill. </param><exception cref="T:System.ArgumentNullException"><paramref name="brush"/> is null.-or-<paramref name="points"/> is null.</exception>
-        public override void FillPolygon(PointF[] points)
-        {
-            ReleaseHdc();
-            //create Point
-            var pps = ConvPointFArray(points);
-            gx.FillPolygon(this.internalSolidBrush, pps);
-        }
-
+            } 
+        } 
         public override void FillPolygon(Brush brush, PointF[] points)
         {
             ReleaseHdc();
             //create Point
             var pps = ConvPointFArray(points);
+            //use internal solid color            
+            gx.FillPolygon(brush.InnerBrush as System.Drawing.Brush, pps);
+        }
+        public override void FillPolygon(Color color, PointF[] points)
+        {
+            ReleaseHdc();
+            //create Point
+            var pps = ConvPointFArray(points);
+            internalSolidBrush.Color = ConvColor(color);
             gx.FillPolygon(this.internalSolidBrush, pps);
         }
     }

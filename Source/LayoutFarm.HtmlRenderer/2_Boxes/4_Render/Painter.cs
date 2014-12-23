@@ -182,12 +182,7 @@ namespace HtmlRenderer
         internal void PaintBorder(CssBox box, CssSide border, Color solidColor, RectangleF rect)
         {
             PointF[] borderPoints = new PointF[4];
-            var g = this.canvas;
-            var prevColor = g.FillColor;
-            g.FillColor = solidColor;
-            BorderPaintHelper.DrawBorder(border, borderPoints, g, box, rect);
-            g.FillColor = prevColor;
-
+            BorderPaintHelper.DrawBorder(solidColor, border, borderPoints, this.canvas, box, rect);
         }
         //-------------------------------------
         //painting context for canvas , svg
@@ -239,12 +234,7 @@ namespace HtmlRenderer
         //-------
         public void FillPath(GraphicsPath path, Color fillColor)
         {
-            var g = this.canvas;
-            var prevColor = g.FillColor;
-
-            g.FillColor = fillColor;
-            g.FillPath(path);
-            g.FillColor = prevColor;
+            this.canvas.FillPath(fillColor, path);
         }
         public void DrawPath(GraphicsPath path, Color strokeColor, float strokeW)
         {
@@ -270,30 +260,20 @@ namespace HtmlRenderer
         //------
         public void FillRectangle(Color c, float x, float y, float w, float h)
         {
-            var g = this.canvas;
-            var prevColor = g.FillColor;
-            g.FillRectangle(c, x, y, w, h);
-            g.FillColor = prevColor;
+            this.canvas.FillRectangle(c, x, y, w, h);
         }
         public void DrawRectangle(Color c, float x, float y, float w, float h)
         {
-            var g = this.canvas;
-            var prevColor = g.FillColor;
-            g.DrawRectangle(c, x, y, w, h);
-            g.FillColor = prevColor;
-
+            this.canvas.DrawRectangle(c, x, y, w, h);
         }
         //------
         public void DrawImage(Image img, float x, float y, float w, float h)
-        {
-            var g = this.canvas;
-            g.DrawImage(img, new RectangleF(x, y, w, h));
+        { 
+            this.canvas.DrawImage(img, new RectangleF(x, y, w, h));
         }
         public void DrawImage(Image img, RectangleF r)
-        {
-            var g = this.canvas;
-            g.DrawImage(img, r);
-
+        { 
+            this.canvas.DrawImage(img, r); 
         }
         //---------
         public void DrawText(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)
