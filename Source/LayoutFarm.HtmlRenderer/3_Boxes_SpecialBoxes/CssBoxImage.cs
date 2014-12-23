@@ -132,8 +132,8 @@ namespace HtmlRenderer.Boxes
                 case ImageBinderState.Loaded:
                     {
 
-                        Image img;
-                        if ((img = _imgRun.ImageBinder.Image) != null)
+                        Bitmap img;
+                        if ((img = (Bitmap)_imgRun.ImageBinder.Image) != null)
                         {
 
                             if (_imgRun.ImageRectangle == Rectangle.Empty)

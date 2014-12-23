@@ -41,11 +41,7 @@ namespace LayoutFarm.SvgDom
             }
         }
 
-        protected static GraphicsPath CreateNewPath()
-        {
-            return CurrentGraphicsPlatform.CreateGraphicPath();
-        }
-
+       
         public Color FillColor
         {
             get { return this.fillColor; }
@@ -495,7 +491,7 @@ namespace LayoutFarm.SvgDom
             if (this.IsPathValid) { return; }
             ClearCachePath();
 
-            this.myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath();
+            this.myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath(); 
             PointF[] plist = this.pointList;
             int lim = plist.Length - 1;
             for (int i = 0; i < lim; ++i)

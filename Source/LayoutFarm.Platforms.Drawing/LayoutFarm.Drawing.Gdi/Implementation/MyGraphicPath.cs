@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 
 namespace LayoutFarm.Drawing.WinGdi
-{ 
+{
 
     class MyGraphicsPath : GraphicsPath
     {
@@ -13,7 +13,7 @@ namespace LayoutFarm.Drawing.WinGdi
         public override void AddArc(float x, float y, float width, float height, float startAngle, float sweepAngle)
         {
             p.AddArc(x, y, width, height, startAngle, sweepAngle);
-            
+
         }
         public override void AddArc(RectangleF rectF, float startAngle, float sweepAngle)
         {
@@ -47,7 +47,7 @@ namespace LayoutFarm.Drawing.WinGdi
         public override void StartFigure()
         {
             p.StartFigure();
-          
+
         }
         public override void AddEllipse(float x, float y, float w, float h)
         {
@@ -67,6 +67,14 @@ namespace LayoutFarm.Drawing.WinGdi
                 p3.X, p3.Y,
                 p4.X, p4.Y);
         }
-        
+        public override object GetPathData()
+        {
+            return p.PathData;
+        }
+        public override object InnerPath2
+        {
+            get;
+            set;
+        }
     }
 }

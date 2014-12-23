@@ -250,14 +250,14 @@ namespace HtmlRenderer.Boxes
                 {
                     //use bg gradient 
 
-                    brush =  LinearGradientBrush.CreateLinearGradientBrush(rect,
+                    brush = LinearGradientBrush.CreateLinearGradientBrush(rect,
                         ActualBackgroundColor,
                         ActualBackgroundGradient,
                         ActualBackgroundGradientAngle);
                     dispose = true;
                 }
                 else if (RenderUtils.IsColorVisible(ActualBackgroundColor))
-                {  
+                {
                     brush = new SolidBrush(this.ActualBackgroundColor);
                     dispose = true;
                 }
@@ -285,7 +285,7 @@ namespace HtmlRenderer.Boxes
 
                     if (roundrect != null)
                     {
-                        g.FillPath(roundrect, brush);
+                        g.FillPath(brush, roundrect);
                     }
                     else
                     {

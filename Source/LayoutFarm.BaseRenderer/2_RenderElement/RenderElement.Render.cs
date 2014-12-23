@@ -65,7 +65,7 @@ namespace LayoutFarm
             dbugVRoot.dbug_drawLevel++;
 #endif
 
-            if (canvasPage.PushClipArea(b_width, b_Height, ref updateArea))
+            if (canvasPage.PushClipAreaRect(b_width, b_Height, ref updateArea))
             {
 #if DEBUG
                 if (dbugVRoot.dbug_RecordDrawingChain)
@@ -84,7 +84,7 @@ namespace LayoutFarm
 #endif
             }
 
-            canvasPage.PopClipArea();
+            canvasPage.PopClipAreaRect();
 #if DEBUG
             dbugVRoot.dbug_drawLevel--;
 #endif

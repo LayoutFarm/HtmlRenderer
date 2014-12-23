@@ -42,6 +42,7 @@ namespace LayoutFarm.Drawing.WinGdi
         System.Drawing.Pen internalPen;
         System.Drawing.SolidBrush internalSolidBrush;
         System.Drawing.Rectangle currentClipRect;
+        Brush currentBrush;
         //-------------------------------
         bool isFromPrinter = false;
         GraphicsPlatform platform;

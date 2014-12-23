@@ -13,7 +13,7 @@ namespace LayoutFarm.Drawing
     {
         Solid,
         LinearGradient,
-        CirculatGraident,
+        CircularGraident,
         GeometryGradient,
         Texture
     }
@@ -57,9 +57,7 @@ namespace LayoutFarm.Drawing
     {
         object innerBrush;
         Image textureImage;
-        public TextureBrush()
-        {
-        }
+
         public TextureBrush(Image textureImage)
         {
             this.textureImage = textureImage;
@@ -67,6 +65,15 @@ namespace LayoutFarm.Drawing
         public override BrushKind BrushKind
         {
             get { return BrushKind.Texture; }
+        }
+        public Image TextureImage
+        {
+            get { return this.textureImage; }
+        }
+        public object InnerImage2
+        {
+            get;
+            set;
         }
 
         public override object InnerBrush
@@ -87,6 +94,8 @@ namespace LayoutFarm.Drawing
     }
     public abstract class GeometryGraidentBrush : Brush
     {
+
+
     }
     public sealed class LinearGradientBrush : GeometryGraidentBrush
     {
@@ -124,11 +133,11 @@ namespace LayoutFarm.Drawing
         {
 
         }
-        public List<Color> GetColorArray()
+        public List<Color> GetColors()
         {
             return this.stopColors;
         }
-        public List<PointF> GetStopPointArray()
+        public List<PointF> GetStopPoints()
         {
             return this.stopPoints;
         }
@@ -247,6 +256,11 @@ namespace LayoutFarm.Drawing
             return radians * radToDeg;
         }
     }
+
+
+
+
+
 
 
     //-------------------------------------------------------------------

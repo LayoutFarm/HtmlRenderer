@@ -113,72 +113,7 @@ namespace PixelFarm.Agg.VertexSource
             P2,
             P3
         }
-        //public VertexStore xMakeVxs(VertexStoreSnap vsnap)
-        //{
-        //    PathWriter pathWriter = new PathWriter();
-        //    var snapIter = vsnap.GetVertexSnapIter();
-        //    double x, y;
-        //    VertexCmd cmd;
-
-        //    do
-        //    {
-        //        //this vertex
-        //        cmd = snapIter.GetNextVertex(out x, out y); 
-        //        switch (cmd)
-        //        {
-
-        //            case VertexCmd.P2c:
-        //                {
-        //                     //read next command
-        //                    double tx, ty;
-        //                    cmd = snapIter.GetNextVertex(out tx, out ty);
-        //                    pathWriter.Curve3(x, y, tx, ty);
-        //                }
-        //                break;
-        //            case VertexCmd.P3c:
-        //                {
-        //                    //read next2 commmand
-        //                    double p3x, p3y, tx, ty;
-        //                    cmd = snapIter.GetNextVertex(out p3x, out p3y);
-        //                    cmd = snapIter.GetNextVertex(out tx, out ty);
-        //                    pathWriter.Curve4(x, y, p3x, p3y, tx, ty);
-        //                }
-        //                break;
-        //            case VertexCmd.LineTo:
-        //                {
-        //                    pathWriter.LineTo(x, y);
-        //                } break;
-        //            case VertexCmd.MoveTo:
-        //                {
-        //                    pathWriter.MoveTo(x, y);
-        //                } break;
-        //            case VertexCmd.EndAndCloseFigure:
-        //                {
-        //                    pathWriter.CloseFigure();
-        //                } break;
-        //            case VertexCmd.EndFigure:
-        //                {
-        //                    pathWriter.CloseFigure();
-        //                } break;
-        //            case VertexCmd.Stop:
-        //                {
-        //                    pathWriter.Stop();
-        //                }break;
-        //            default:
-        //                {
-
-        //                    ////move to, and end command
-        //                    //vxs.AddVertex(x, y, cmd);
-        //                    ////-----------
-        //                    //latestCurveMode = CurvePointMode.NotCurve;
-        //                    //lastX = x;
-        //                    //lasty = y;
-        //                    //-----------
-        //                } break;
-        //        }
-        //    } while (cmd != VertexCmd.Stop);
-        //    return pathWriter.Vxs;
-        //}
+        
         public VertexStore MakeVxs(VertexStoreSnap vsnap)
         {
 
@@ -344,6 +279,176 @@ namespace PixelFarm.Agg.VertexSource
         public VertexStore MakeVxs(VertexStore srcVxs)
         {
             return MakeVxs(new VertexStoreSnap(srcVxs));
+        }
+        public VertexStore MakeVxs2(VertexStore srcVxs)
+        {
+            return MakeVxs2(new VertexStoreSnap(srcVxs));
+        }
+        public VertexStore MakeVxs2(VertexStoreSnap vsnap)
+        {
+
+            VertexStore vxs = new VertexStore();
+            m_curve3.Reset();
+            m_curve4.Reset();
+            var snapIter = vsnap.GetVertexSnapIter();
+            CurvePointMode latestCurveMode = CurvePointMode.NotCurve;
+            double x, y;
+            VertexCmd cmd;
+            VectorMath.Vector2 c3p2 = new VectorMath.Vector2();
+
+            VectorMath.Vector2 c4p2 = new VectorMath.Vector2();
+            VectorMath.Vector2 c4p3 = new VectorMath.Vector2();
+
+            double lastX = 0;
+            double lasty = 0;
+            double lastMoveX = 0;
+            double lastMoveY = 0;
+
+            do
+            {
+                //this vertex
+                cmd = snapIter.GetNextVertex(out x, out y);
+
+                switch (cmd)
+                {
+                        //this p2 control
+                    case VertexCmd.P2c:
+                        {
+                            switch (latestCurveMode)
+                            {
+                                case CurvePointMode.P2:
+                                    {
+
+
+                                    } break;
+                                case CurvePointMode.P3:
+                                    {
+
+                                    } break;
+                                case CurvePointMode.NotCurve:
+                                    {
+
+                                        c3p2.x = x;
+                                        c3p2.y = y;
+                                    } break;
+                                default:
+                                    {
+                                    } break;
+                            }
+                            latestCurveMode = CurvePointMode.P2;
+                        }
+                        break;
+                    case VertexCmd.P3c:
+                        {
+                            //this is p3c
+                            switch (latestCurveMode)
+                            {
+                                case CurvePointMode.P2:
+                                    {
+                                        c4p2.x = c3p2.x;
+                                        c4p2.y = c3p2.y;
+                                        c4p3.x = x;
+                                        c4p3.y = y;
+                                        c3p2.x = x;
+                                       
+                                    } break;
+                                case CurvePointMode.P3:
+                                    {
+                                        // vxs.AddVertex(x, y, cmd);
+                                        c4p3.x = x;
+                                        c4p3.y = y;
+                                        //m_curve4.MakeLines(vxs,
+                                        //    lastX, lasty,
+                                        //    c3p2.X, c3p2.Y,
+                                        //    c4p2.x, c4p2.y,
+                                        //    x, y);
+
+                                        // vxs.AddVertex(x, y, cmd);
+
+                                    } break;
+                                case CurvePointMode.NotCurve:
+                                    {
+                                        c4p2.x = x;
+                                        c4p2.y = y;
+
+                                    } break;
+                            }
+                            latestCurveMode = CurvePointMode.P3;
+                        }
+                        break;
+                    case VertexCmd.LineTo:
+                        {
+                            switch (latestCurveMode)
+                            {
+                                case CurvePointMode.P2:
+                                    {
+                                        m_curve3.MakeLines(vxs,
+                                            lastX,
+                                            lasty,
+                                            c3p2.X,
+                                            c3p2.Y,
+                                            x,
+                                            y);
+                                    } break;
+                                case CurvePointMode.P3:
+                                    {
+                                        //from curve4
+                                        // vxs.AddVertex(x, y, cmd);
+                                        m_curve4.MakeLines(vxs,
+                                            lastX, lasty,
+                                            c4p2.x, c4p2.y,
+                                            c4p3.x, c4p3.y,
+                                            x, y);
+                                    } break;
+                                default:
+                                    {
+                                        vxs.AddVertex(x, y, cmd);
+                                    } break;
+                            }
+                            //-----------
+                            latestCurveMode = CurvePointMode.NotCurve;
+                            lastX = x;
+                            lasty = y;
+                            //-----------
+                        } break;
+                    case VertexCmd.MoveTo:
+                        {
+                            //move to, and end command
+                            vxs.AddVertex(x, y, cmd);
+                            //-----------
+                            latestCurveMode = CurvePointMode.NotCurve;
+                            lastMoveX = lastX = x;
+                            lastMoveY = lasty = y;
+                            //-----------
+                        } break;
+                    case VertexCmd.EndAndCloseFigure:
+                        {
+                            latestCurveMode = CurvePointMode.NotCurve;
+                            vxs.AddVertex(x, y, cmd);
+                            //move to begin 
+                            lastX = lastMoveX;
+                            lasty = lastMoveY;
+
+                        } break;
+                    case VertexCmd.EndFigure:
+                        {
+                            latestCurveMode = CurvePointMode.NotCurve;
+                            vxs.AddVertex(x, y, cmd);
+
+                        } break;
+                    default:
+                        {
+                            //move to, and end command
+                            vxs.AddVertex(x, y, cmd);
+                            //-----------
+                            latestCurveMode = CurvePointMode.NotCurve;
+                            lastX = x;
+                            lasty = y;
+                            //-----------
+                        } break;
+                }
+            } while (cmd != VertexCmd.Stop);
+            return vxs;
         }
     }
 

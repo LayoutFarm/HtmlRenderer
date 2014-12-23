@@ -17,7 +17,7 @@ namespace LayoutFarm.Drawing
 
     public abstract class FontFamily
     {
-       
+
         public abstract string Name { get; }
     }
 
@@ -27,10 +27,30 @@ namespace LayoutFarm.Drawing
     }
 
     //------------------------------------------
+  
+    public struct FontABC
+    {
+        public int a;
+        public uint b;
+        public int c;
+        public FontABC(int a, uint b, int c)
+        {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+        }
+        public int Sum
+        {
+            get
+            {
+                return a + (int)b + c;
+            }
+        }
+    }
     public abstract class FontInfo
     {
 
-       
+
         public float AscentPx { get; protected set; }
         public float DescentPx { get; protected set; }
         public float BaseLine { get; protected set; }
@@ -40,6 +60,7 @@ namespace LayoutFarm.Drawing
         public int FontSize { get; protected set; }
         public abstract IntPtr HFont { get; }
         public abstract int GetCharWidth(char c);
+        public abstract FontABC GetCharABCWidth(char c);
         public abstract int GetStringWidth(char[] buffer);
         public abstract int GetStringWidth(char[] buffer, int length);
 
@@ -48,7 +69,7 @@ namespace LayoutFarm.Drawing
     }
     public interface IFonts
     {
-        
+
         FontInfo GetFontInfo(string fontname, float fsize, FontStyle st);
         float MeasureWhitespace(Font f);
 

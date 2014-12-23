@@ -48,18 +48,7 @@ namespace LayoutFarm.Drawing.WinGdi
 
             }
         }
-        public override Color FillColor
-        {
-            get
-            {
-                return fillSolidColor;
-            }
-            set
-            {
-                this.fillSolidColor = value;
-                this.internalSolidBrush.Color = ConvColor(value);
-            }
-        }
+
         public override GraphicsPlatform Platform
         {
             get { return this.platform; }
@@ -124,12 +113,6 @@ namespace LayoutFarm.Drawing.WinGdi
         }
 
 
-        public override void FillPath(GraphicsPath gfxPath)
-        {
-
-            gx.FillPath(internalSolidBrush, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
-        }
-
         public override void DrawPath(GraphicsPath gfxPath)
         {
             gx.DrawPath(internalPen, gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
@@ -160,8 +143,8 @@ namespace LayoutFarm.Drawing.WinGdi
                     {
                         //draw with gradient
                         LinearGradientBrush linearBrush = (LinearGradientBrush)brush;
-                        var colors = linearBrush.GetColorArray();
-                        var points = linearBrush.GetStopPointArray();
+                        var colors = linearBrush.GetColors();
+                        var points = linearBrush.GetStopPoints();
                         using (var linearGradBrush = new System.Drawing.Drawing2D.LinearGradientBrush(
                              points[0].ToPointF(),
                              points[1].ToPointF(),
@@ -174,7 +157,7 @@ namespace LayoutFarm.Drawing.WinGdi
                 case BrushKind.GeometryGradient:
                     {
                     } break;
-                case BrushKind.CirculatGraident:
+                case BrushKind.CircularGraident:
                     {
 
                     } break;
@@ -270,7 +253,29 @@ namespace LayoutFarm.Drawing.WinGdi
                 srcRect.ToRectF(),
                 System.Drawing.GraphicsUnit.Pixel);
         }
-
+        public override void DrawImages(Image image, RectangleF[] destAndSrcPairs)
+        {
+            ReleaseHdc();
+            int j = destAndSrcPairs.Length;
+            if (j > 1)
+            {
+                if ((j % 2) != 0)
+                {
+                    //make it even number
+                    j -= 1;
+                }
+                //loop draw
+                var inner = image.InnerImage as System.Drawing.Image;
+                for (int i = 0; i < j; )
+                {
+                    gx.DrawImage(inner,
+                        destAndSrcPairs[i].ToRectF(),
+                        destAndSrcPairs[i + 1].ToRectF(),
+                        System.Drawing.GraphicsUnit.Pixel);
+                    i += 2;
+                }
+            }
+        }
         /// <summary>
         /// Draws the specified <see cref="T:System.Drawing.Image"/> at the specified location and with the specified size.
         /// </summary>
@@ -278,13 +283,36 @@ namespace LayoutFarm.Drawing.WinGdi
         public override void DrawImage(Image image, RectangleF destRect)
         {
             ReleaseHdc();
-            gx.DrawImage(image.InnerImage as System.Drawing.Image, destRect.ToRectF());
+            if (image.IsReferenceImage)
+            {
+                gx.DrawImage(image.InnerImage as System.Drawing.Image,
+                    destRect.ToRectF(),
+                     new System.Drawing.RectangleF(
+                         image.ReferenceX, image.ReferenceY,
+                         image.Width, image.Height),
+                    System.Drawing.GraphicsUnit.Pixel);
+            }
+            else
+            {
+                gx.DrawImage(image.InnerImage as System.Drawing.Image, destRect.ToRectF());
+            }
+
+        }
+        public override void FillPath(Color color, GraphicsPath gfxPath)
+        {
+            ReleaseHdc();
+            //solid color
+            var prevColor = internalSolidBrush.Color;
+            internalSolidBrush.Color = ConvColor(color);
+            gx.FillPath(internalSolidBrush,
+                gfxPath.InnerPath as System.Drawing.Drawing2D.GraphicsPath);
+            internalSolidBrush.Color = prevColor;
         }
         /// <summary>
         /// Fills the interior of a <see cref="T:System.Drawing.Drawing2D.GraphicsPath"/>.
         /// </summary>
         /// <param name="brush"><see cref="T:System.Drawing.Brush"/> that determines the characteristics of the fill. </param><param name="path"><see cref="T:System.Drawing.Drawing2D.GraphicsPath"/> that represents the path to fill. </param><exception cref="T:System.ArgumentNullException"><paramref name="brush"/> is null.-or-<paramref name="path"/> is null.</exception><PermissionSet><IPermission class="System.Security.Permissions.SecurityPermission, mscorlib, Version=2.0.3600.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" version="1" Flags="UnmanagedCode, ControlEvidence"/></PermissionSet>
-        public override void FillPath(GraphicsPath path, Brush brush)
+        public override void FillPath(Brush brush, GraphicsPath path)
         {
             ReleaseHdc();
             switch (brush.BrushKind)
@@ -310,51 +338,24 @@ namespace LayoutFarm.Drawing.WinGdi
                 default:
                     {
                     } break;
-
-            }
-
-        }
-
-        /// <summary>
-        /// Fills the interior of a polygon defined by an array of points specified by <see cref="T:System.Drawing.PointF"/> structures.
-        /// </summary>
-        /// <param name="brush"><see cref="T:System.Drawing.Brush"/> that determines the characteristics of the fill. </param><param name="points">Array of <see cref="T:System.Drawing.PointF"/> structures that represent the vertices of the polygon to fill. </param><exception cref="T:System.ArgumentNullException"><paramref name="brush"/> is null.-or-<paramref name="points"/> is null.</exception>
-        public override void FillPolygon(PointF[] points)
+            } 
+        } 
+        public override void FillPolygon(Brush brush, PointF[] points)
         {
             ReleaseHdc();
             //create Point
             var pps = ConvPointFArray(points);
+            //use internal solid color            
+            gx.FillPolygon(brush.InnerBrush as System.Drawing.Brush, pps);
+        }
+        public override void FillPolygon(Color color, PointF[] points)
+        {
+            ReleaseHdc();
+            //create Point
+            var pps = ConvPointFArray(points);
+            internalSolidBrush.Color = ConvColor(color);
             gx.FillPolygon(this.internalSolidBrush, pps);
         }
-
-
-
-        ////==================================================== 
-        ///// <summary>
-        ///// Gets the bounding clipping region of this graphics.
-        ///// </summary>
-        ///// <returns>The bounding rectangle for the clipping region</returns>
-        //public override RectangleF GetClip()
-        //{
-        //    if (_hdc == IntPtr.Zero)
-        //    {
-        //        var clip1 = gx.ClipBounds;
-        //        return new RectangleF(
-        //            clip1.X, clip1.Y,
-        //            clip1.Width, clip1.Height);
-        //    }
-        //    else
-        //    {
-        //        System.Drawing.Rectangle lprc;
-        //        DrawingBridge.Win32Utils.GetClipBox(_hdc, out lprc);
-
-
-        //        return new RectangleF(
-        //            lprc.X, lprc.Y,
-        //            lprc.Width, lprc.Height);
-        //    }
-        //}
-
     }
 
 }

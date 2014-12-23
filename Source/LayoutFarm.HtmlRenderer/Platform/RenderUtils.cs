@@ -43,7 +43,7 @@ namespace LayoutFarm.Drawing
         /// <summary>
         /// image used to draw error image icon
         /// </summary>
-        static Image _errorImage; 
+        static Image _errorImage;
         /// <summary>
         /// Check if the given color is visible if painted (has alpha and color values)
         /// </summary>
@@ -146,7 +146,7 @@ namespace LayoutFarm.Drawing
             //  |       |
             //  SW-----SE
 
-            var path = p.CreateGraphicPath();
+            var path = CurrentGraphicsPlatform.CreateGraphicPath();
 
             nwRadius *= 2;
             neRadius *= 2;

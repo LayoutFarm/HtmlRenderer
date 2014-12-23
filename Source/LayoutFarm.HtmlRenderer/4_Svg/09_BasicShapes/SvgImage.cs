@@ -82,7 +82,7 @@ namespace LayoutFarm.SvgDom
 
             Canvas g = p.InnerCanvas;
             if (fillColor.A > 0)
-            {  
+            {
                 p.FillPath(_path, this.fillColor);
             }
             //---------------------------------------------------------  
@@ -130,7 +130,7 @@ namespace LayoutFarm.SvgDom
                                 {
                                     //
                                     g.DrawImage(img, _imgRun.ImageRectangle);
-                                    //g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
+                                   
                                 }
                             }
                             else
@@ -156,7 +156,7 @@ namespace LayoutFarm.SvgDom
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
-                 
+
                 p.DrawPath(_path, strokeColor, ActualStrokeWidth);
             }
 
