@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{15285430-FED2-47EA-AF54-F5A3723CE5ED}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LayoutFarm.Platforms.MiniAgg</RootNamespace>
+    <AssemblyName>LayoutFarm.Platforms.MiniAgg</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\0_Start\Conv.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\0_Start\WinGdiPlatform.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\0_Start\WinGdiPortal.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\BitmapBuffer\BitmapHelper.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\BitmapBuffer\WindowsFormsBitmapBackBuffer.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\FontGdiPath\GdiPathConverter.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\FontGdiPath\GdiPathFont.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\FontGdiPath\GdiPathFontFace.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\FontGdiPath\GdiPathFontStore.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\Implementation\Bitmap_Brush_Pen.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\Implementation\FontsUtils.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\Implementation\MyFontInfo.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\Implementation\MyGraphicPath.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\Implementation\MyWin32.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\Implementation\NativeTextWin32.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\Implementation\Region.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\Implementation\Win32Utils.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\MyCanvas\0_CanvasCollection.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\MyCanvas\1_MyCanvas_Specific.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\MyCanvas\2_MyCanvas_CoordinateAndClip.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\MyCanvas\3_MyCanvas_DrawGraphics.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\MyCanvas\4_MyCanvas_TextAndFonts.cs" />
+    <Compile Include="LayoutFarm.Drawing.MiniAgg\MyCanvas\QuadPages.cs" />
+    <Compile Include="LayoutFarm.DrawingGL\Implementation\GLBitmapTextureHelper.cs" />
+    <Compile Include="LayoutFarm.DrawingGL\Implementation\MyBitmapGL.cs" />
+    <Compile Include="LayoutFarm.DrawingGL\MyCanvas_GL\GdiTextBoard.cs" />
+    <Compile Include="LayoutFarm.DrawingGL\MyCanvas_GL\MyCanvasGL_specific.cs" />
+    <Compile Include="LayoutFarm.DrawingGL\0_Start\CanvasGLPlatform.cs" />
+    <Compile Include="LayoutFarm.DrawingGL\0_Start\CanvasGLPortal.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
+      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
+      <Name>LayoutFarm.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiniAgg.Complements\MiniAgg.Complements.csproj">
+      <Project>{AE0DF71E-9B14-4197-B55A-E1E0CE0683C7}</Project>
+      <Name>MiniAgg.Complements</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiniAgg.HardwareGraphics\MiniAgg.HardwareGraphics\MiniAgg.HardwareGraphics.csproj">
+      <Project>{2B1F2C53-2F8D-4E0E-94EB-79171C91337B}</Project>
+      <Name>MiniAgg.HardwareGraphics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiniAgg\MiniAgg.csproj">
+      <Project>{4D5CE655-58FA-4523-8E46-738B941E9E47}</Project>
+      <Name>MiniAgg</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
