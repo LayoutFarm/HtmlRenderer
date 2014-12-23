@@ -13,14 +13,8 @@ namespace LayoutFarm
         public static void DrawBackground(RenderElement visualElement,
            Canvas canvasPage, int width, int height, Color color)
         {
-            ArtColorBrush colorBrush = new ArtSolidBrush(color);
-
-            if (colorBrush == null)
-            {
-                return;
-            }
-
-            canvasPage.FillRectangle(colorBrush, 0, 0, width, height);
+           
+            canvasPage.FillRectangle(color, 0, 0, width, height);
 
         }
 

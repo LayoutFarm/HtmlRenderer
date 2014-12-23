@@ -121,17 +121,17 @@ namespace LayoutFarm
                 else
                 {
                     return element_iden + dbug_GetBoundInfo() + " " + " i" + dbug_obj_id + "a " + dbug_GetLayoutInfo();
-                } 
-            } 
+                }
+            }
         }
 
         protected string dbug_GetBoundInfo()
-        { 
+        {
             Rectangle r = this.BoundRect;
             string output = "{" + r.X + "," + r.Y + "," + r.Width + "," + r.Height +
                 ";dw=" + this.ElementDesiredWidth +
                 ";dh=" + this.ElementDesiredHeight;
-            return output; 
+            return output;
         }
         protected string dbug_GetLayoutInfo()
         {
@@ -194,24 +194,28 @@ namespace LayoutFarm
         {
             if (dbugVRoot.dbug_ShowElementOutline)
             {
-                canvasPage.DrawRectangle(Color.Red, new Rectangle(0, 0, this.Width - 1, this.Height - 1));
+                canvasPage.DrawRectangle(Color.Red,
+                    0, 0, this.Width - 1, this.Height - 1);
 
             }
             if (dbugVRoot.dbug_ForceShowObjectIden)
             {
-                canvasPage.PushTextColor(Color.Blue);
+
+                var prevColor = canvasPage.CurrentTextColor;
+                canvasPage.CurrentTextColor = Color.Blue;
                 canvasPage.DrawText(
                         ("<< " + dbug_FullElementDescription()).ToCharArray()
                         , 0, dbug_element_code_y);
-                canvasPage.PopTextColor();
+                canvasPage.CurrentTextColor = prevColor;
             }
             else if (dbugVRoot.dbug_ShowObjectIden && !dbug_hide_objIden)
             {
-                canvasPage.PushTextColor(Color.Blue);
+                var prevColor = canvasPage.CurrentTextColor;
+                canvasPage.CurrentTextColor = Color.Blue;
                 canvasPage.DrawText(
                         ("<< " + dbug_FullElementDescription()).ToCharArray()
                         , 0, dbug_element_code_y);
-                canvasPage.PopTextColor();
+                canvasPage.CurrentTextColor = prevColor;
             }
         }
 
@@ -230,7 +234,7 @@ namespace LayoutFarm
         protected static void vinv_dbug_ExitTopDownReCalculateContent(RenderElement v)
         {
             var debugVisualLay = dbugGetLayoutTracer();
-            if (debugVisualLay == null) return; 
+            if (debugVisualLay == null) return;
 
             debugVisualLay.WriteInfo(v, "<<TOPDOWN_RECAL_CONTENT ", "-", "&");
             debugVisualLay.PopVisualElement();

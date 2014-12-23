@@ -27,20 +27,20 @@ namespace Svg.Transforms
             set { this.y = value; }
         }
 
-        public override  Matrix Matrix
-        {
-            get
-            {
-                Matrix matrix = CurrentGraphicPlatform.CreateMatrix();
-                matrix.Translate(this.X, this.Y);
-                return matrix;
-            }
-        }
+        //public override  Matrix Matrix
+        //{
+        //    get
+        //    {
+        //        Matrix matrix = CurrentGraphicsPlatform.CreateMatrix();
+        //        matrix.Translate(this.X, this.Y);
+        //        return matrix;
+        //    }
+        //}
 
-        public override string WriteToString()
-        {
-            return string.Format(CultureInfo.InvariantCulture, "translate({0}, {1})", this.X, this.Y);
-        }
+        //public override string WriteToString()
+        //{
+        //    return string.Format(CultureInfo.InvariantCulture, "translate({0}, {1})", this.X, this.Y);
+        //}
 
         public SvgTranslate(float x, float y)
         {
@@ -54,10 +54,10 @@ namespace Svg.Transforms
         }
 
 
-		public override object Clone()
-		{
-			return new SvgTranslate(this.x, this.y);
-		}
+        //public override object Clone()
+        //{
+        //    return new SvgTranslate(this.x, this.y);
+        //}
 
     }
 }

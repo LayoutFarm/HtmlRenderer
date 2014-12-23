@@ -13,8 +13,6 @@
 
 using LayoutFarm.Drawing;
 
-using LayoutFarm.Drawing;
-
 namespace HtmlRenderer.Boxes
 {
     /// <summary>
@@ -51,7 +49,7 @@ namespace HtmlRenderer.Boxes
             var myContainingBlock = lay.LatestContainingBlock;
             if (this.NeedComputedValueEvaluation)
             {
-                this.ReEvaluateComputedValues(lay.Gfx, myContainingBlock);
+                this.ReEvaluateComputedValues(lay.SampleIFonts, myContainingBlock);
             }
             //// fix for hr tag 
             //var maringTopCollapse = MarginTopCollapse(prevSibling);
@@ -129,15 +127,15 @@ namespace HtmlRenderer.Boxes
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(IGraphics g, Painter p)
+        protected override void PaintImp(Painter p)
         {
 
             var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
 
             if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
-                
-                g.FillRectangle(ActualBackgroundColor, rect.X, rect.Y, rect.Width, rect.Height);
+                p.FillRectangle(ActualBackgroundColor, rect.X, rect.Y, rect.Width, rect.Height);
+               
             }
 
             if (rect.Height > 1)

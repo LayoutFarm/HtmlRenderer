@@ -8,22 +8,22 @@ namespace LayoutFarm
 {
 
 
-    public abstract class TopWindowRenderBox : RenderBoxBase
+    public abstract class TopWindowRenderBox : RenderBoxBase, ITopWindowRenderBox
     {
-         
+
         VisualPlainLayer groundLayer;
         public event EventHandler<EventArgs> CanvasForcePaint;
         public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
-            
+
             groundLayer = new VisualPlainLayer(this);
             this.Layers = new VisualLayerCollection();
             this.Layers.AddLayer(groundLayer);
             SetIsWindowRoot(this, true);
             this.HasSpecificSize = true;
         }
-        
+
         public abstract void SetCanvasInvalidateRequest(CanvasInvalidateRequestDelegate canvasInvaliddateReqDel);
         public abstract void ChangeRootGraphicSize(int width, int height);
 
@@ -37,16 +37,16 @@ namespace LayoutFarm
             {
                 CanvasForcePaint(this, EventArgs.Empty);
             }
-        }     
+        }
 
-        
+
         protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
         {
-            canvasPage.FillRectangle(Color.White, new RectangleF(0, 0, this.Width, this.Height));
+            canvasPage.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
             base.BoxDrawContent(canvasPage, updateArea);
         }
-       
-        
+
+
         //----------------------------------------------------------------------------
         //public abstract void RootBeginGraphicUpdate();
         //public abstract void RootEndGraphicUpdate();
@@ -67,7 +67,7 @@ namespace LayoutFarm
             get;
             set;
         }
-      
+
 #if DEBUG
         public abstract void dbugShowRenderPart(Canvas canvasPage, Rect updateArea);
         public RootGraphic dbugVisualRoot

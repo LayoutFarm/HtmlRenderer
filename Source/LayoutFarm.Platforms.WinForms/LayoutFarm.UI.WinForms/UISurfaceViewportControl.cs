@@ -27,7 +27,7 @@ namespace LayoutFarm.UI.WinForms
             this.winBridge.BindWindowControl(this);
         }
 #if DEBUG
-        public IdbugOutputWindow IOutputWin
+        public IdbugOutputWindow IdebugOutputWin
         {
             get { return this.winBridge; }
         }
@@ -150,9 +150,6 @@ namespace LayoutFarm.UI.WinForms
             }
             return base.ProcessDialogKey(keyData);
         }
-
-
-
     }
 
 

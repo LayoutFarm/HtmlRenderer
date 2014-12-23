@@ -91,7 +91,7 @@ namespace HtmlRenderer.Boxes
         //            } break;
         //    }
         //}
-        internal void PaintImage(IGraphics g, RectangleF rect, Painter p)
+        internal void PaintImage(Painter p, RectangleF rect)
         {
 
             PaintBackground(p, rect, true, true);
@@ -132,30 +132,30 @@ namespace HtmlRenderer.Boxes
                 case ImageBinderState.Loaded:
                     {
 
-                        Image img;
-                        if ((img = _imgRun.ImageBinder.Image) != null)
+                        Bitmap img;
+                        if ((img = (Bitmap)_imgRun.ImageBinder.Image) != null)
                         {
 
                             if (_imgRun.ImageRectangle == Rectangle.Empty)
                             {
-                                g.DrawImage(img,
-                                    new RectangleF(r.Left, r.Top,
-                                      img.Width, img.Height));
+                                p.DrawImage(img,
+                                      r.Left, r.Top,
+                                      img.Width, img.Height);
                                 // g.DrawImage(img, Rectangle.Round(r));
                             }
                             else
                             {
                                 //
-                                g.DrawImage(img, _imgRun.ImageRectangle);
+                                p.DrawImage(img, _imgRun.ImageRectangle);
                                 //g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
                             }
                         }
                         else
                         {
-                            RenderUtils.DrawImageLoadingIcon(g, r);
+                            RenderUtils.DrawImageLoadingIcon(p.InnerCanvas, r);
                             if (r.Width > 19 && r.Height > 19)
                             {
-                                g.DrawRectangle(Pens.LightGray, r.X, r.Y, r.Width, r.Height);
+                                p.DrawRectangle(Color.LightGray, r.X, r.Y, r.Width, r.Height);
                             }
                         }
                     } break;
@@ -165,7 +165,7 @@ namespace HtmlRenderer.Boxes
                     } break;
                 case ImageBinderState.Error:
                     {
-                        RenderUtils.DrawImageErrorIcon(g, r);
+                        RenderUtils.DrawImageErrorIcon(p.InnerCanvas, r);
                     } break;
             }
 
@@ -176,11 +176,11 @@ namespace HtmlRenderer.Boxes
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(IGraphics g, Painter p)
+        protected override void PaintImp(Painter p)
         {
             // load image iff it is in visible rectangle  
             //1. single image can't be splited  
-            PaintImage(g, new RectangleF(0, 0, this.SizeWidth, this.SizeHeight), p);
+            PaintImage(p, new RectangleF(0, 0, this.SizeWidth, this.SizeHeight));
         }
 
         /// <summary>

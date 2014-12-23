@@ -9,8 +9,8 @@ namespace LayoutFarm.UI.WinForms
 {
     public class UIPlatformWinForm : UIPlatform
     {
-        GraphicPlatform graphicsPlatform;
-        public UIPlatformWinForm(GraphicPlatform graphicsPlatform)
+        GraphicsPlatform graphicsPlatform;
+        public UIPlatformWinForm(GraphicsPlatform graphicsPlatform)
         {
             this.graphicsPlatform = graphicsPlatform;
         }
@@ -18,7 +18,7 @@ namespace LayoutFarm.UI.WinForms
         {
             return new MyUITimer();
         }
-        public override GraphicPlatform GraphicsPlatform
+        public override GraphicsPlatform GraphicsPlatform
         {
             get { return graphicsPlatform; }
         }

@@ -12,7 +12,7 @@ namespace LayoutFarm.UI
     {
         List<RenderElementRequest> renderRequestList = new List<RenderElementRequest>();
         GraphicsTimerTaskManager graphicTimerTaskMan;
-        GraphicPlatform graphicsPlatform;
+        GraphicsPlatform graphicsPlatform;
 
         static object normalUpdateTask = new object();
         UIPlatform uiPlatform;
@@ -47,7 +47,7 @@ namespace LayoutFarm.UI
             userInputEventBridge.Bind(topwin);
             return userInputEventBridge;
         }
-        protected override GraphicPlatform P
+        protected override GraphicsPlatform P
         {
             get { return graphicsPlatform; }
         }

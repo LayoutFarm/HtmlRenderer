@@ -41,11 +41,7 @@ namespace LayoutFarm.SvgDom
             }
         }
 
-        protected static GraphicsPath CreateNewPath()
-        {
-            return CurrentGraphicPlatform.CreateGraphicPath();
-        }
-
+       
         public Color FillColor
         {
             get { return this.fillColor; }
@@ -147,7 +143,7 @@ namespace LayoutFarm.SvgDom
         }
         static GraphicsPath CreateRectGraphicPath(float x, float y, float w, float h)
         {
-            var _path = CurrentGraphicPlatform.CreateGraphicPath();
+            var _path = CurrentGraphicsPlatform.CreateGraphicPath();
             _path.StartFigure();
             _path.AddRectangle(new RectangleF(x, y, w, h));
             _path.CloseFigure();
@@ -155,7 +151,7 @@ namespace LayoutFarm.SvgDom
         }
         static GraphicsPath CreateRoundRectGraphicPath(float x, float y, float w, float h, float c_rx, float c_ry)
         {
-            var _path = CurrentGraphicPlatform.CreateGraphicPath();
+            var _path = CurrentGraphicsPlatform.CreateGraphicPath();
             var arcBounds = new RectangleF();
             var lineStart = new PointF();
             var lineEnd = new PointF();
@@ -235,24 +231,15 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-            IGraphics g = p.Gfx;
 
             if (fillColor.A > 0)
             {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
-                {
-                    g.FillPath(sb, this.myCachedPath);
-                }
+                p.FillPath(myCachedPath, fillColor);
             }
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
-                using (Pen pen = g.Platform.CreatePen(sb))
-                {
-                    pen.Width = this.ActualStrokeWidth;
-                    g.DrawPath(pen, this.myCachedPath);
-                }
+                p.DrawPath(myCachedPath, strokeColor, this.ActualStrokeWidth);
             }
         }
     }
@@ -305,7 +292,7 @@ namespace LayoutFarm.SvgDom
             if (this.IsPathValid) { return; }
             ClearCachePath();
 
-            myCachedPath = CurrentGraphicPlatform.CreateGraphicPath();
+            myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath();
             myCachedPath.StartFigure();
             myCachedPath.AddEllipse(this.ActualX - this.ActualRadius, this.ActualY - this.ActualRadius, 2 * this.ActualRadius, 2 * ActualRadius);
             myCachedPath.CloseFigure();
@@ -321,25 +308,14 @@ namespace LayoutFarm.SvgDom
             return false;
         }
         public override void Paint(Painter p)
-        {
-            IGraphics g = p.Gfx;
-
+        {   
             if (fillColor.A > 0)
             {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
-                {
-                    g.FillPath(sb, this.myCachedPath);
-                }
+                p.FillPath(myCachedPath, this.fillColor);
             }
-            if (this.strokeColor.A > 0
-                && this.ActualStrokeWidth > 0)
+            if (this.strokeColor.A > 0 && this.ActualStrokeWidth > 0)
             {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
-                using (Pen pen = g.Platform.CreatePen(sb))
-                {
-                    pen.Width = this.ActualStrokeWidth;
-                    g.DrawPath(pen, this.myCachedPath);
-                }
+                p.DrawPath(myCachedPath, this.StrokeColor, this.ActualStrokeWidth);                 
             }
         }
     }
@@ -395,7 +371,7 @@ namespace LayoutFarm.SvgDom
             //path may note need
             if (this.IsPathValid) { return; }
             ClearCachePath();
-            this.myCachedPath = CurrentGraphicPlatform.CreateGraphicPath();
+            this.myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath();
             myCachedPath.StartFigure();
             myCachedPath.AddEllipse(this.ActualX - this.ActualRadiusX, this.ActualY - this.ActualRadiusY, 2 * this.ActualRadiusX, 2 * this.ActualRadiusY);
             myCachedPath.CloseFigure();
@@ -412,25 +388,17 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-            IGraphics g = p.Gfx;
+             
             if (fillColor.A > 0)
             {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
-                {
-                    g.FillPath(sb, this.myCachedPath);
-                }
+                 
+                p.FillPath(myCachedPath, fillColor);
             }
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
-            {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
-                using (Pen pen = g.Platform.CreatePen(sb))
-                {
-                    pen.Width = this.ActualStrokeWidth;
-                    g.DrawPath(pen, this.myCachedPath);
-                }
+            {                    
+                p.DrawPath(myCachedPath, this.strokeColor, this.ActualStrokeWidth);
             }
-
         }
 
     }
@@ -455,7 +423,7 @@ namespace LayoutFarm.SvgDom
             if (this.IsPathValid) { return; }
             ClearCachePath();
 
-            this.myCachedPath = CurrentGraphicPlatform.CreateGraphicPath();
+            this.myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath();
             this.myCachedPath.StartFigure();
             PointF[] plist = this.pointList;
             int lim = plist.Length - 1;
@@ -485,24 +453,17 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-            IGraphics g = p.Gfx;
+             
             if (this.fillColor.A > 0)
             {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
-                {
-                    g.FillPath(sb, this.myCachedPath);
-                }
+                 
+                p.FillPath(myCachedPath, fillColor);
             }
 
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
-            {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
-                using (Pen pen = g.Platform.CreatePen(sb))
-                {
-                    pen.Width = this.ActualStrokeWidth;
-                    g.DrawPath(pen, this.myCachedPath);
-                }
+            {   
+                p.DrawPath(myCachedPath, this.strokeColor, this.ActualStrokeWidth);
             }
 
         }
@@ -530,7 +491,7 @@ namespace LayoutFarm.SvgDom
             if (this.IsPathValid) { return; }
             ClearCachePath();
 
-            this.myCachedPath = CurrentGraphicPlatform.CreateGraphicPath();
+            this.myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath(); 
             PointF[] plist = this.pointList;
             int lim = plist.Length - 1;
             for (int i = 0; i < lim; ++i)
@@ -544,17 +505,11 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-            IGraphics g = p.Gfx;
-
+            
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
-            {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
-                using (Pen pen = g.Platform.CreatePen(sb))
-                {
-                    pen.Width = this.ActualStrokeWidth;
-                    g.DrawPath(pen, this.myCachedPath);
-                }
+            {               
+                p.DrawPath(myCachedPath, this.strokeColor, this.ActualStrokeWidth);
             }
         }
     }
@@ -609,14 +564,11 @@ namespace LayoutFarm.SvgDom
         {
             if (this.strokeColor.A > 0)
             {
-                using (Pen pen = p.Platform.CreateSolidPen(this.strokeColor))
-                {
-                    pen.Width = this.ActualStrokeWidth;
-                    p.Gfx.DrawLine(pen,
-                        this.actualX1, this.actualY1,
-                        this.actualX2, this.actualY2);
-
-                }
+                p.DrawLine(
+                    this.actualX1, this.actualY1,
+                    this.actualX2, this.actualY2,
+                    this.StrokeColor,
+                    this.ActualStrokeWidth);
             }
         }
     }

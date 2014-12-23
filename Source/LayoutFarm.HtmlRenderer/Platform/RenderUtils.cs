@@ -43,7 +43,7 @@ namespace LayoutFarm.Drawing
         /// <summary>
         /// image used to draw error image icon
         /// </summary>
-        static Image _errorImage; 
+        static Image _errorImage;
         /// <summary>
         /// Check if the given color is visible if painted (has alpha and color values)
         /// </summary>
@@ -111,9 +111,9 @@ namespace LayoutFarm.Drawing
         /// </summary>
         /// <param name="g">the device to draw into</param>
         /// <param name="r">the rectangle to draw icon in</param>
-        public static void DrawImageLoadingIcon(IGraphics g, RectangleF r)
+        public static void DrawImageLoadingIcon(Canvas g, RectangleF r)
         {
-            g.DrawRectangle(Pens.LightGray, r.Left + 3, r.Top + 3, 13, 14);
+            g.DrawRectangle(Color.LightGray, r.Left + 3, r.Top + 3, 13, 14);
             var image = GetLoadImage();
             g.DrawImage(image, new RectangleF(r.Left + 4, r.Top + 4, image.Width, image.Height));
         }
@@ -123,9 +123,9 @@ namespace LayoutFarm.Drawing
         /// </summary>
         /// <param name="g">the device to draw into</param>
         /// <param name="r">the rectangle to draw icon in</param>
-        public static void DrawImageErrorIcon(IGraphics g, RectangleF r)
+        public static void DrawImageErrorIcon(Canvas g, RectangleF r)
         {
-            g.DrawRectangle(Pens.LightGray, r.Left + 2, r.Top + 2, 15, 15);
+            g.DrawRectangle(Color.LightGray, r.Left + 2, r.Top + 2, 15, 15);
             var image = GetErrorImage();
             g.DrawImage(image, new RectangleF(r.Left + 3, r.Top + 3, image.Width, image.Height));
         }
@@ -139,14 +139,14 @@ namespace LayoutFarm.Drawing
         /// <param name="seRadius">Radius of the south east corner</param>
         /// <param name="swRadius">Radius of the south west corner</param>
         /// <returns>GraphicsPath with the lines of the rounded rectangle ready to be painted</returns>
-        public static GraphicsPath GetRoundRect(GraphicPlatform p, RectangleF rect, float nwRadius, float neRadius, float seRadius, float swRadius)
+        public static GraphicsPath GetRoundRect(GraphicsPlatform p, RectangleF rect, float nwRadius, float neRadius, float seRadius, float swRadius)
         {
             //  NW-----NE
             //  |       |
             //  |       |
             //  SW-----SE
 
-            var path = p.CreateGraphicPath();
+            var path = CurrentGraphicsPlatform.CreateGraphicPath();
 
             nwRadius *= 2;
             neRadius *= 2;

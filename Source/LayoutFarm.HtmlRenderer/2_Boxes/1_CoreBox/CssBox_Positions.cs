@@ -150,8 +150,8 @@ namespace HtmlRenderer.Boxes
 
         public void ReEvaluateFont(IFonts iFonts, float parentFontSize)
         {
-            FontInfo fontInfo = this._myspec.GetFont(iFonts, parentFontSize);
-            this._actualFont = fontInfo.Font;
+            FontInfo fontInfo = this._myspec.GetFontInfo(iFonts, parentFontSize);
+            this._actualFont = fontInfo.ResolvedFont;
             this._actualLineHeight = fontInfo.LineHeight;
             this._actualEmHeight = fontInfo.LineHeight;
             if (_myspec.WordSpacing.IsNormalWordSpacing)

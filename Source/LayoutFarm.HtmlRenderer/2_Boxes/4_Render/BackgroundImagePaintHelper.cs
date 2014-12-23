@@ -35,10 +35,10 @@ namespace HtmlRenderer.Boxes
         /// <param name="box">the box to draw its background image</param>
         /// <param name="imageLoadHandler">the handler that loads image to draw</param>
         /// <param name="rectangle">the rectangle to draw image in</param>
-        public static void DrawBackgroundImage(IGraphics g, CssBox box, ImageBinder imageBinder, RectangleF rectangle)
+        public static void DrawBackgroundImage(Canvas g, CssBox box, ImageBinder imageBinder, RectangleF rectangle)
         {
 
-            var image = imageBinder.Image;
+            var image =  imageBinder.Image;
 
             //temporary comment image scale code 
             var imgSize = image.Size;
@@ -57,10 +57,15 @@ namespace HtmlRenderer.Boxes
             var destRect = new Rectangle(location, imgSize);
 
             // need to clip so repeated image will be cut on rectangle
-            var prevClip = g.GetClip();
-            var lRectangle = rectangle;
-            lRectangle.Intersect(prevClip);
-            g.SetClip(lRectangle);
+
+            var prevClip = g.CurrentClipRect;
+            LayoutFarm.Drawing.Rectangle copyRect = new LayoutFarm.Drawing.Rectangle(
+               (int)rectangle.X,
+               (int)rectangle.Y,
+               (int)rectangle.Width,
+               (int)rectangle.Height);
+            copyRect.Intersect(prevClip);
+            g.SetClipRect(copyRect);
 
             switch (box.BackgroundRepeat)
             {
@@ -78,7 +83,7 @@ namespace HtmlRenderer.Boxes
                     break;
             }
 
-            g.SetClip(prevClip);
+            g.SetClipRect(prevClip);
         }
 
 
@@ -142,50 +147,55 @@ namespace HtmlRenderer.Boxes
         /// Draw the background image at the required location repeating it over the X axis.<br/>
         /// Adjust location to left if starting location doesn't include all the range (adjusted to center or right).
         /// </summary>
-        static void DrawRepeatX(IGraphics g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
+        static void DrawRepeatX(Canvas g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
         {
             while (destRect.X > rectangle.X)
                 destRect.X -= imgSize.Width;
 
-            using (var brush = g.Platform.CreateTextureBrush(img, srcRect))
-            {
-                brush.TranslateTransform(destRect.X, destRect.Y);
-                g.FillRectangle(brush, rectangle.X, destRect.Y, rectangle.Width, srcRect.Height);
-            }
+            //TODO: replement texture brysg again;
+
+            //using (var brush = g.Platform.CreateTextureBrush(img, srcRect))
+            //{
+            //    brush.TranslateTransform(destRect.X, destRect.Y);
+            //    g.FillRectangle(brush, rectangle.X, destRect.Y, rectangle.Width, srcRect.Height);
+            //}
         }
 
         /// <summary>
         /// Draw the background image at the required location repeating it over the Y axis.<br/>
         /// Adjust location to top if starting location doesn't include all the range (adjusted to center or bottom).
         /// </summary>
-        private static void DrawRepeatY(IGraphics g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
+        private static void DrawRepeatY(Canvas g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
         {
             while (destRect.Y > rectangle.Y)
                 destRect.Y -= imgSize.Height;
 
-            using (var brush = g.Platform.CreateTextureBrush(img, srcRect))
-            {
-                brush.TranslateTransform(destRect.X, destRect.Y);
-                g.FillRectangle(brush, destRect.X, rectangle.Y, srcRect.Width, rectangle.Height);
-            }
+
+            //TODO: reimplement this again
+            //using (var brush = g.Platform.CreateTextureBrush(img, srcRect))
+            //{
+            //    brush.TranslateTransform(destRect.X, destRect.Y);
+            //    g.FillRectangle(brush, destRect.X, rectangle.Y, srcRect.Width, rectangle.Height);
+            //}
         }
 
         /// <summary>
         /// Draw the background image at the required location repeating it over the X and Y axis.<br/>
         /// Adjust location to left-top if starting location doesn't include all the range (adjusted to center or bottom/right).
         /// </summary>
-        private static void DrawRepeat(IGraphics g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
+        private static void DrawRepeat(Canvas g, Image img, RectangleF rectangle, Rectangle srcRect, Rectangle destRect, Size imgSize)
         {
             while (destRect.X > rectangle.X)
                 destRect.X -= imgSize.Width;
             while (destRect.Y > rectangle.Y)
                 destRect.Y -= imgSize.Height;
 
-            using (var brush = g.Platform.CreateTextureBrush(img, srcRect))
-            {
-                brush.TranslateTransform(destRect.X, destRect.Y);
-                g.FillRectangle(brush, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
-            }
+            //TODO: reimplement this again
+            //using (var brush = g.Platform.CreateTextureBrush(img, srcRect))
+            //{
+            //    brush.TranslateTransform(destRect.X, destRect.Y);
+            //    g.FillRectangle(brush, rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+            //}
         }
 
         #endregion

@@ -17,8 +17,8 @@ namespace LayoutFarm
             this.Width = width;
             this.Height = heigth;
         }
-        protected abstract GraphicPlatform P { get; }
-        public IGraphics SampleIGraphics { get { return this.P.SampleIGraphics; } }
+        protected abstract GraphicsPlatform P { get; }
+     
         public IFonts SampleIFonts { get { return this.P.SampleIFonts; } }
 
         public abstract void CaretStartBlink();

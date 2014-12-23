@@ -484,8 +484,8 @@ namespace LayoutFarm.UI
         public void MoveColumnAfter(GridColumn tobeMoveColumn, GridColumn afterColumn)
         {
             this.gridCols.MoveColumnAfter(tobeMoveColumn, afterColumn);
-            this.OwnerInvalidateGraphic(); 
-        } 
+            this.OwnerInvalidateGraphic();
+        }
         public override void TopDownReCalculateContentSize()
         {
 #if DEBUG
@@ -781,6 +781,8 @@ namespace LayoutFarm.UI
 
 
             int n = 0;
+            var prevColor = canvasPage.StrokeColor;
+            canvasPage.StrokeColor = Color.Gray;
             do
             {
 
@@ -788,9 +790,14 @@ namespace LayoutFarm.UI
                 GridCell stopGridItemInColumn = currentColumn.GetCell(stopRowId - 1);
 
 
-                canvasPage.DrawLine(Color.Gray,
-                    startGridItemInColumn.RightTopCorner,
-                    stopGridItemInColumn.RightBottomCorner);
+                canvasPage.DrawLine(
+                    startGridItemInColumn.Right,
+                    startGridItemInColumn.Y,
+                    stopGridItemInColumn.Right,
+                    stopGridItemInColumn.Bottom);
+
+                //startGridItemInColumn.RightTopCorner,
+                //stopGridItemInColumn.RightBottomCorner);
 
                 if (n == 0)
                 {
@@ -806,7 +813,6 @@ namespace LayoutFarm.UI
 
 
                         canvasPage.DrawLine(
-                            Color.Gray,
                             x, gBottom,
                             x + horizontalLineWidth, gBottom);
 
@@ -816,6 +822,7 @@ namespace LayoutFarm.UI
                 currentColumn = currentColumn.NextColumn;
             } while (currentColumn != stopColumn);
 
+            canvasPage.StrokeColor = prevColor;
             currentColumn = startColumn;
             //----------------------------------------------------------------------------
             do
@@ -837,11 +844,11 @@ namespace LayoutFarm.UI
                         if (renderContent != null)
                         {
 
-                            if (canvasPage.PushClipArea(gridItem.Width, gridItem.Height, updateArea))
+                            if (canvasPage.PushClipAreaRect(gridItem.Width, gridItem.Height,ref updateArea))
                             {
                                 renderContent.DrawToThisPage(canvasPage, updateArea);
                             }
-                            canvasPage.PopClipArea();
+                            canvasPage.PopClipAreaRect();
                         }
 
 

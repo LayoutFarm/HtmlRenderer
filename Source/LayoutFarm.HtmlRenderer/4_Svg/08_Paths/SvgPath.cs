@@ -52,7 +52,7 @@ namespace LayoutFarm.SvgDom
                 int segcount = segs.Count;
 
 
-                GraphicsPath gpath = this.myCachedPath = CurrentGraphicPlatform.CreateGraphicPath();
+                GraphicsPath gpath = this.myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath();
                 float lastMoveX = 0;
                 float lastMoveY = 0;
 
@@ -128,7 +128,7 @@ namespace LayoutFarm.SvgDom
                                 //auto calculate for c1,c2 
                                 var quadCurve = (SvgPathSegCurveToQuadratic)seg;
                                 PointF p;
-                                 
+
                                 quadCurve.GetAbsolutePoints(ref lastPoint, out intm_c3_c, out p);
 
                                 SvgCurveHelper.Curve3GetControlPoints(lastPoint, intm_c3_c, p, out p2, out p3);
@@ -200,7 +200,7 @@ namespace LayoutFarm.SvgDom
                                                 SvgCurveHelper.Curve3GetControlPoints(lastPoint, c, p, out p2, out p3);
                                                 gpath.AddBezierCurve(lastPoint, p2, p3, p);
                                                 lastPoint = p;
-                                            }break;
+                                            } break;
                                         case SvgPathCommand.TSmoothQuadraticBezierCurveTo:
                                             {
                                                 //make mirror point
@@ -218,7 +218,7 @@ namespace LayoutFarm.SvgDom
                                                 lastPoint = p;
                                                 intm_c3_c = c;
 
-                                            }break;
+                                            } break;
                                         default:
 
                                             continue;
@@ -283,22 +283,14 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-            IGraphics g = p.Gfx;
+
             if (fillColor.A > 0)
             {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
-                {
-                    g.FillPath(sb, this.myCachedPath);
-                }
+                p.FillPath(this.myCachedPath, this.fillColor);
             }
             if (this.strokeColor.A > 0)
             {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
-                using (Pen pen = g.Platform.CreatePen(sb))
-                {
-                    pen.Width = this.ActualStrokeWidth;
-                    g.DrawPath(pen, this.myCachedPath);
-                }
+                p.DrawPath(this.myCachedPath, this.strokeColor, this.ActualStrokeWidth);
             }
 
         }

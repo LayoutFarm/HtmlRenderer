@@ -44,9 +44,11 @@ namespace LayoutFarm
                 return;
             }
 
+            //load create and load bitmap
             System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
-            e.SetResultImage(CurrentGraphicPlatform.P.CreateBitmap(bmp));
-            
+             
+            e.SetResultImage(new Bitmap(bmp.Width, bmp.Height, bmp));
+
         }
 
     }

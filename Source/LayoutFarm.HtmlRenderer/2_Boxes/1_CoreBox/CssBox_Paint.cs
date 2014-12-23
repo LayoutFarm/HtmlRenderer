@@ -12,7 +12,7 @@ namespace HtmlRenderer.Boxes
     partial class CssBox
     {
 
-        public void Paint(IGraphics g, Painter p)
+        public void Paint(Painter p)
         {
 
 #if DEBUG
@@ -20,7 +20,7 @@ namespace HtmlRenderer.Boxes
 #endif
             if (this._isVisible)
             {
-                PaintImp(g, p);
+                PaintImp(p);
             }
         }
 #if DEBUG
@@ -36,32 +36,28 @@ namespace HtmlRenderer.Boxes
                 //     new PointF(r.Left + 10, r.Top + 10), new SizeF(r.Width, r.Height));
                 //f.Dispose();
 
-                p.dbugDrawDiagonalBox(Pens.Gray, r.Left, r.Top, r.Right, r.Bottom);
+                p.dbugDrawDiagonalBox(Color.Gray, r.Left, r.Top, r.Right, r.Bottom);
             }
             else
             {
 
-                Pen selectedPens = null;
+                Color color = Color.Green;
                 switch (this._cssDisplay)
                 {
                     case Css.CssDisplay.TableCell:
-                        selectedPens = Pens.OrangeRed;
+                        color = Color.OrangeRed;
                         break;
-                    //case Css.CssDisplay.BlockInsideInlineAfterCorrection:
-                    //    selectedPens = Pens.Magenta;
-                    //    break;
-                    default:
-                        selectedPens = Pens.Green;
-                        break;
+
                 }
-                p.dbugDrawDiagonalBox(selectedPens, r.Left, r.Top, r.Right, r.Bottom);
+                p.dbugDrawDiagonalBox(color, r.Left, r.Top, r.Right, r.Bottom);
 
             }
         }
 #endif
 
-        protected virtual void PaintImp(IGraphics g, Painter p)
+        protected virtual void PaintImp(Painter p)
         {
+
 
 
 
@@ -129,10 +125,10 @@ namespace HtmlRenderer.Boxes
 
                             drawState = 1;//drawing in viewport area
 
-                            float cX = g.CanvasOriginX;
-                            float cy = g.CanvasOriginY;
+                            int cX = p.CanvasOriginX;
+                            int cy = p.CanvasOriginY;
 
-                            g.SetCanvasOrigin(cX, cy + line.CachedLineTop);
+                            p.SetCanvasOrigin(cX, cy + (int)line.CachedLineTop);
 
                             //1.                                 
                             line.PaintBackgroundAndBorder(p);
@@ -143,15 +139,15 @@ namespace HtmlRenderer.Boxes
                             }
 
                             //2.                                
-                            line.PaintRuns(g, p);
+                            line.PaintRuns(p);
                             //3. 
-                            line.PaintDecoration(g, p);
+                            line.PaintDecoration(p);
 
 #if DEBUG
-                            line.dbugPaintRuns(g, p);
+                            line.dbugPaintRuns(p);
 #endif
 
-                            g.SetCanvasOrigin(cX, cy);//back
+                            p.SetCanvasOrigin(cX, cy);//back
 
                         }
                         else if (drawState == 1)
@@ -172,8 +168,8 @@ namespace HtmlRenderer.Boxes
                     {
                         p.PushContaingBlock(this);
 
-                        float ox = g.CanvasOriginX;
-                        float oy = g.CanvasOriginY;
+                        int ox = p.CanvasOriginX;
+                        int oy = p.CanvasOriginY;
 
                         var node = this._aa_boxes.GetFirstLinkedNode();
                         while (node != null)
@@ -185,18 +181,18 @@ namespace HtmlRenderer.Boxes
                                 continue;
                             }
 
-                            g.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
-                            b.Paint(g, p);
+                            p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
+                            b.Paint(p);
                             node = node.Next;
                         }
-                        g.SetCanvasOrigin(ox, oy);
+                        p.SetCanvasOrigin(ox, oy);
                         p.PopContainingBlock();
                     }
                     else
                     {
                         //if not
-                        float ox = g.CanvasOriginX;
-                        float oy = g.CanvasOriginY;
+                        int ox = p.CanvasOriginX;
+                        int oy = p.CanvasOriginY;
 
                         var node = this._aa_boxes.GetFirstLinkedNode();
                         while (node != null)
@@ -207,12 +203,12 @@ namespace HtmlRenderer.Boxes
                                 node = node.Next;
                                 continue;
                             }
-                            g.SetCanvasOrigin(ox + b.LocalX, oy + b.LocalY);
-                            b.Paint(g, p);
+                            p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
+                            b.Paint(p);
                             node = node.Next;
                         }
 
-                        g.SetCanvasOrigin(ox, oy);
+                        p.SetCanvasOrigin(ox, oy);
 
                     }
                 }
@@ -251,9 +247,10 @@ namespace HtmlRenderer.Boxes
                 bool dispose = false;
 
                 if (BackgroundGradient != Color.Transparent)
-                { 
-                    //use bg gradient
-                    brush = p.Platform.CreateLinearGradientBrush(rect,
+                {
+                    //use bg gradient 
+
+                    brush = LinearGradientBrush.CreateLinearGradientBrush(rect,
                         ActualBackgroundColor,
                         ActualBackgroundGradient,
                         ActualBackgroundGradientAngle);
@@ -261,12 +258,12 @@ namespace HtmlRenderer.Boxes
                 }
                 else if (RenderUtils.IsColorVisible(ActualBackgroundColor))
                 {
-                    brush = p.Platform.CreateSolidBrush(ActualBackgroundColor);
+                    brush = new SolidBrush(this.ActualBackgroundColor);
                     dispose = true;
                 }
 
 
-                IGraphics g = p.Gfx;
+                Canvas g = p.InnerCanvas;
                 SmoothingMode smooth = g.SmoothingMode;
 
                 if (brush != null)
@@ -292,6 +289,7 @@ namespace HtmlRenderer.Boxes
                     }
                     else
                     {
+
                         g.FillRectangle(brush, (float)Math.Ceiling(rect.X), (float)Math.Ceiling(rect.Y), rect.Width, rect.Height);
                     }
 
@@ -311,7 +309,7 @@ namespace HtmlRenderer.Boxes
                 }
             }
         }
-        internal void PaintDecoration(IGraphics g, RectangleF rectangle, bool isFirst, bool isLast)
+        internal void PaintDecoration(Canvas g, RectangleF rectangle, bool isFirst, bool isLast)
         {
             float y = 0f;
             switch (this.TextDecoration)
@@ -324,7 +322,7 @@ namespace HtmlRenderer.Boxes
                         //var h = g.MeasureString(" ", ActualFont).Height;
                         //float desc = FontsUtils.GetDescentPx(ActualFont);
                         //y = (float)Math.Round(rectangle.Top + h - desc + 0.5);
-                        FontInfo fontInfo = g.GetFontInfo(ActualFont);
+                        FontInfo fontInfo = ActualFont.FontInfo;
                         var h = fontInfo.LineHeight;
                         float desc = fontInfo.DescentPx;
                         y = (float)Math.Round(rectangle.Top + h - desc);
@@ -357,13 +355,11 @@ namespace HtmlRenderer.Boxes
                 x2 -= ActualPaddingRight + ActualBorderRightWidth;
             }
 
-            using (var pen = g.Platform.CreateSolidPen(ActualColor))
-            {
-                g.DrawLine(pen, x1, y, x2, y);
-            }
-            //var pen = RenderUtils.GetPen(ActualColor);
+            var prevColor = g.StrokeColor;
+            g.StrokeColor = ActualColor;
+            g.DrawLine(x1, y, x2, y);
 
-
+            g.StrokeColor = prevColor;
         }
 
 

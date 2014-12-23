@@ -80,13 +80,10 @@ namespace LayoutFarm.SvgDom
         public override void Paint(Painter p)
         {
 
-            IGraphics g = p.Gfx;
+            Canvas g = p.InnerCanvas;
             if (fillColor.A > 0)
             {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.fillColor))
-                {
-                    g.FillPath(sb, this._path);
-                }
+                p.FillPath(_path, this.fillColor);
             }
             //---------------------------------------------------------  
             if (this.ImageBinder != null)
@@ -133,7 +130,7 @@ namespace LayoutFarm.SvgDom
                                 {
                                     //
                                     g.DrawImage(img, _imgRun.ImageRectangle);
-                                    //g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
+                                   
                                 }
                             }
                             else
@@ -141,7 +138,7 @@ namespace LayoutFarm.SvgDom
                                 RenderUtils.DrawImageLoadingIcon(g, r);
                                 if (r.Width > 19 && r.Height > 19)
                                 {
-                                    g.DrawRectangle(Pens.LightGray, r.X, r.Y, r.Width, r.Height);
+                                    g.DrawRectangle(Color.LightGray, r.X, r.Y, r.Width, r.Height);
                                 }
                             }
                         } break;
@@ -159,18 +156,14 @@ namespace LayoutFarm.SvgDom
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
             {
-                using (SolidBrush sb = g.Platform.CreateSolidBrush(this.strokeColor))
-                using (Pen pen = g.Platform.CreatePen(sb))
-                {
-                    pen.Width = this.ActualStrokeWidth;
-                    g.DrawPath(pen, this._path);
-                }
+
+                p.DrawPath(_path, strokeColor, ActualStrokeWidth);
             }
 
         }
         static GraphicsPath CreateRectGraphicPath(float x, float y, float w, float h)
         {
-            var _path = CurrentGraphicPlatform.CreateGraphicPath();
+            var _path = CurrentGraphicsPlatform.CreateGraphicPath();
             _path.StartFigure();
             _path.AddRectangle(new RectangleF(x, y, w, h));
             _path.CloseFigure();

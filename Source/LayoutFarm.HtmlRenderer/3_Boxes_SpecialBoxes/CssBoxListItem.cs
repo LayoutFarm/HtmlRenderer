@@ -30,21 +30,21 @@ namespace HtmlRenderer.Boxes
 
             base.PerformContentLayout(lay);
 
-             if (_listItemBulletBox != null)
-             {
-                 //layout list item
-                 var prevSibling = lay.LatestSiblingBox;
-                 lay.LatestSiblingBox = null;//reset
-                 _listItemBulletBox.PerformLayout(lay);
-                 lay.LatestSiblingBox = prevSibling;
-                 var fRun = _listItemBulletBox.FirstRun;
-                 _listItemBulletBox.FirstRun.SetSize(fRun.Width, fRun.Height);
-                 _listItemBulletBox.FirstRun.SetLocation(_listItemBulletBox.SizeWidth - 5, this.ActualPaddingTop);
-             }
+            if (_listItemBulletBox != null)
+            {
+                //layout list item
+                var prevSibling = lay.LatestSiblingBox;
+                lay.LatestSiblingBox = null;//reset
+                _listItemBulletBox.PerformLayout(lay);
+                lay.LatestSiblingBox = prevSibling;
+                var fRun = _listItemBulletBox.FirstRun;
+                _listItemBulletBox.FirstRun.SetSize(fRun.Width, fRun.Height);
+                _listItemBulletBox.FirstRun.SetLocation(_listItemBulletBox.SizeWidth - 5, this.ActualPaddingTop);
+            }
         }
-        protected override void PaintImp(IGraphics g, Painter p)
+        protected override void PaintImp(Painter p)
         {
-            base.PaintImp(g, p);
+            base.PaintImp(p);
 
         }
     }

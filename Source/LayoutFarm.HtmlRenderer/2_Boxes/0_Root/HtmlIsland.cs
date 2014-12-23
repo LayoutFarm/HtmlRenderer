@@ -80,11 +80,15 @@ namespace HtmlRenderer.Boxes
         ////-----------------------------------------------------------
         ////controll task of this container
 
-        SelectionRange _currentSelectionRange;         
-
-        public HtmlIsland()
+        SelectionRange _currentSelectionRange;
+        GraphicsPlatform gfxPlatforms;
+        public HtmlIsland(GraphicsPlatform gfxPlatforms)
         {
-
+            this.gfxPlatforms = gfxPlatforms;
+        }
+        protected GraphicsPlatform CurrentGfxPlatform
+        {
+            get { return this.gfxPlatforms; }
         }
         public void ClearPreviousSelection()
         {
@@ -262,7 +266,7 @@ namespace HtmlRenderer.Boxes
         protected virtual void OnAllDisposed()
         {
         }
-        public void PerformLayout(IGraphics ig)
+        public void PerformLayout()
         {
 
             if (this._rootBox == null)
@@ -276,10 +280,10 @@ namespace HtmlRenderer.Boxes
             _rootBox.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
 
             CssBox.ValidateComputeValues(_rootBox);
-
-            LayoutVisitor layoutArgs = new LayoutVisitor(ig, this);
+            //----------------------- 
+            LayoutVisitor layoutArgs = new LayoutVisitor(this.CurrentGfxPlatform, this);
             layoutArgs.PushContaingBlock(_rootBox);
-
+            //----------------------- 
             _rootBox.PerformLayout(layoutArgs);
 
             if (_maxSize.Width <= 0.1)
@@ -304,34 +308,34 @@ namespace HtmlRenderer.Boxes
         /// Render the html using the given device.
         /// </summary>
         /// <param name="g"></param>
-        protected void PerformPaint(IGraphics ig)
+        protected void PerformPaint(Canvas canvas)
         {
             if (_rootBox == null)
             {
                 return;
             }
 
-            Painter args = new Painter(this, ig);
-            float scX = this.ScrollOffset.X;
-            float scY = this.ScrollOffset.Y;
+            Painter p = new Painter(this, canvas);
+            int scX = (int)this.ScrollOffset.X;
+            int scY = (int)this.ScrollOffset.Y;
 
             var physicalViewportSize = this.PhysicalViewportBound.Size;
 
-            float ox = ig.CanvasOriginX;
-            float oy = ig.CanvasOriginY;
+            int ox = canvas.CanvasOriginX;
+            int oy = canvas.CanvasOriginY;
 
-            ig.SetCanvasOrigin(scX, scY);
+            canvas.SetCanvasOrigin(scX, scY);
 
-            args.PushContaingBlock(_rootBox);
-            args.SetPhysicalViewportBound(0, 0, physicalViewportSize.Width, physicalViewportSize.Height);
-
-
-            _rootBox.Paint(ig, args);
+            p.PushContaingBlock(_rootBox);
+            p.SetPhysicalViewportBound(0, 0, physicalViewportSize.Width, physicalViewportSize.Height);
 
 
-            args.PopContainingBlock();
+            _rootBox.Paint(p);
 
-            ig.SetCanvasOrigin(ox, oy);
+
+            p.PopContainingBlock();
+
+            canvas.SetCanvasOrigin(ox, oy);
         }
 
 
@@ -349,7 +353,7 @@ namespace HtmlRenderer.Boxes
             rootBox.OnRequestImage(binder, reqBy, false);
         }
         //------------------------------------------------------------------ 
-        protected abstract void RequestRefresh(bool layout); 
+        protected abstract void RequestRefresh(bool layout);
         /// <summary>
         /// Report error in html render process.
         /// </summary>

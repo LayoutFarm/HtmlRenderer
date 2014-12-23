@@ -18,7 +18,7 @@ namespace LayoutFarm.Dev
         {
             InitializeComponent();
             this.Load += new EventHandler(Form1_Load);
-            uiPlatformWinForm = new LayoutFarm.UI.WinForms.UIPlatformWinForm(LayoutFarm.Drawing.CurrentGraphicPlatform.P);
+            uiPlatformWinForm = new LayoutFarm.UI.WinForms.UIPlatformWinForm(LayoutFarm.Drawing.CurrentGraphicsPlatform.P);
         }
 
         void Form1_Load(object sender, EventArgs e)

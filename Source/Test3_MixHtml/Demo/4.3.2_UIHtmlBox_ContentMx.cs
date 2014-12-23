@@ -30,14 +30,14 @@ namespace LayoutFarm
             var htmlBoxContentMx = new UIHtmlBoxContentManager();
             var contentMx = new HtmlRenderer.ContentManagers.ImageContentManager();
 
-                   
+
             htmlBoxContentMx.AddImageContentMan(contentMx);
-            htmlBoxContentMx.Bind(htmlBox);    
+            htmlBoxContentMx.Bind(htmlBox);
 
 
             contentMx.ImageLoadingRequest += new EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs>(contentMx_ImageLoadingRequest);
 
-             
+
             viewport.AddContent(htmlBox);
             string html = "<html><head></head><body><div>OK1</div><div>3 Images</div><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img></body></html>";
             htmlBox.LoadHtmlText(html);
@@ -50,10 +50,11 @@ namespace LayoutFarm
             if (!System.IO.File.Exists(absolutePath))
             {
                 return;
-            } 
-            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
-            e.SetResultImage(CurrentGraphicPlatform.P.CreateBitmap(bmp));
+            }
+            //load
+            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath); 
+            e.SetResultImage(new Bitmap(bmp.Width, bmp.Height, bmp));
         }
-        
+
     }
 }

@@ -11,7 +11,7 @@ namespace LayoutFarm.UI
     partial class MyTopWindowRenderBox
     {
 
-       
+
         static void dbug_WriteInfo(dbugVisualLayoutTracer debugVisualLay, dbugVisitorMessage msg, RenderElement ve)
         {
             if (debugVisualLay != null)
@@ -49,21 +49,22 @@ namespace LayoutFarm.UI
             if (visualroot.dbug_ShowRootUpdateArea)
             {
                 canvasPage.FillRectangle(Color.FromArgb(50, Color.Black),
-                    new Rectangle(updateArea._left, updateArea._top,
-                        updateArea.Width - 1, updateArea.Height - 1));
+                     updateArea._left, updateArea._top,
+                        updateArea.Width - 1, updateArea.Height - 1);
                 canvasPage.FillRectangle(Color.White,
-                    new Rectangle(updateArea._left, updateArea._top, 5, 5));
+                     updateArea._left, updateArea._top, 5, 5);
                 canvasPage.DrawRectangle(Color.Yellow,
-                    new Rectangle(updateArea._left, updateArea._top,
-                        updateArea.Width - 1, updateArea.Height - 1));
+                        updateArea._left, updateArea._top,
+                        updateArea.Width - 1, updateArea.Height - 1);
 
-                canvasPage.PushTextColor(Color.White);
+                Color c_color = canvasPage.CurrentTextColor;
+                canvasPage.CurrentTextColor = Color.White;
                 canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea._left, updateArea._top);
                 if (updateArea.Height > 25)
                 {
                     canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea._left, updateArea._top + (updateArea.Height - 20));
                 }
-                canvasPage.PopTextColor();
+                canvasPage.CurrentTextColor = c_color;
                 visualroot.dbug_RootUpdateCounter++;
             }
         }

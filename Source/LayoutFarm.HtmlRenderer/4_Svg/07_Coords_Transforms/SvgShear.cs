@@ -15,8 +15,8 @@ namespace Svg.Transforms
     /// </summary>
     public sealed class SvgShear : SvgTransform
     {
-        private float shearFactorX;
-        private float shearFactorY;
+        float shearFactorX;
+        float shearFactorY;
 
         public float X
         {
@@ -30,20 +30,20 @@ namespace Svg.Transforms
             set { this.shearFactorY = value; }
         }
 
-        public override Matrix Matrix
-        {
-            get
-            {
-                Matrix matrix = CurrentGraphicPlatform.CreateMatrix();
-                matrix.Shear(this.X, this.Y);
-                return matrix;
-            }
-        }
+        //public override Matrix Matrix
+        //{
+        //    get
+        //    {
+        //        Matrix matrix = CurrentGraphicsPlatform.CreateMatrix();
+        //        matrix.Shear(this.X, this.Y);
+        //        return matrix;
+        //    }
+        //}
 
-        public override string WriteToString()
-        {
-            return string.Format(CultureInfo.InvariantCulture, "shear({0}, {1})", this.X, this.Y);
-        }
+        //public override string WriteToString()
+        //{
+        //    return string.Format(CultureInfo.InvariantCulture, "shear({0}, {1})", this.X, this.Y);
+        //}
 
         public SvgShear(float x) : this(x, x) { }
 
@@ -54,9 +54,9 @@ namespace Svg.Transforms
         }
 
 
-		public override object Clone()
-		{
-			return new SvgShear(this.X, this.Y);
-		}
+        //public override object Clone()
+        //{
+        //    return new SvgShear(this.X, this.Y);
+        //}
     }
 }

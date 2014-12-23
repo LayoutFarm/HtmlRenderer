@@ -214,7 +214,7 @@ namespace HtmlRenderer.Boxes
                         if (box.IsCustomCssBox)
                         {
                             //has custom layout method
-                            box.ReEvaluateComputedValues(lay.Gfx, lay.LatestContainingBlock);
+                            box.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock);
                             ((CustomCssBox)box).CustomRecomputedValue(lay.LatestContainingBlock);
 
                         }
@@ -347,7 +347,7 @@ namespace HtmlRenderer.Boxes
                     //   and move to new anon box
 
                     CssBox anoForInline = CreateAnonBlock(box, childBox);
-                    anoForInline.ReEvaluateComputedValues(lay.Gfx, box);
+                    anoForInline.ReEvaluateComputedValues(lay.SampleIFonts, box);
 
                     var tmp = cnode.Next;
                     do
@@ -492,7 +492,7 @@ namespace HtmlRenderer.Boxes
             {
                 int childNumber = 0;
                 bool splitableParentIsBlock = splitableBox.ParentBox.IsBlock;
-                var fontPool = lay.Gfx;
+                var fontPool = lay.SampleIFonts;
 
                 foreach (CssBox b in splitableBox.GetChildBoxIter())
                 {
@@ -853,7 +853,7 @@ namespace HtmlRenderer.Boxes
         /// </summary>
         /// <param name="g"></param>
         /// <param name="line"></param>
-        private static void ApplyLeftAlignment(IGraphics g, CssLineBox line)
+        private static void ApplyLeftAlignment(Canvas g, CssLineBox line)
         {
             //No alignment needed.
 

@@ -52,6 +52,10 @@
       <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
       <Name>LayoutFarm.BaseRenderer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
+      <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
+      <Name>LayoutFarm.ClientPlatforms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
       <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
       <Name>LayoutFarm.Composers</Name>
@@ -71,10 +75,6 @@
     <ProjectReference Include="..\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
       <Project>{CFB41C52-614E-476C-8BBE-D07C26FB582D}</Project>
       <Name>LayoutFarm.TextEdit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.UserPlatform\LayoutFarm.UserPlatform.csproj">
-      <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
-      <Name>LayoutFarm.UserPlatform</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.YourCustomUI\LayoutFarm.YourCustomUI.csproj">
       <Project>{E4A293C9-B7FB-4A5E-B559-E97150AC3FC3}</Project>
