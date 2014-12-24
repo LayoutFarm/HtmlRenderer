@@ -76,7 +76,7 @@ namespace TestGraphicPackage
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm, this.gfxPlatform, w, h);
             TopWindowRenderBox topWin = rootgfx.CreateTopWindowRenderBox(w, h);
 
-            viewport.InitRootGraphics(topWin, rootgfx.CreateUserEventPortal(topWin));
+            viewport.InitRootGraphics(topWin, rootgfx.CreateUserEventPortal(topWin), LayoutFarm.UI.WinForms.InnerViewportKind.GdiPlus);
             viewport.PaintMe();
 
             simpleForm.Show();

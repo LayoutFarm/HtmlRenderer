@@ -151,7 +151,7 @@ namespace OpenTK
             if (DesignMode)
                 implementation = new DummyGLControl();
             else
-                implementation = new GLControlFactory().CreateGLControl(format, this);
+                implementation = GLControlFactory.CreateGLControl(format, this);
 
             context = implementation.CreateContext(major, minor, flags);
             MakeCurrent();
@@ -391,8 +391,8 @@ namespace OpenTK
         public IntPtr GetEglDisplay()
         {
 
-            var eglContext = ((IGraphicsContextInternal)this.context).Implementation as OpenTK.Platform.Egl.EglContext; 
-            if(eglContext != null )
+            var eglContext = ((IGraphicsContextInternal)this.context).Implementation as OpenTK.Platform.Egl.EglContext;
+            if (eglContext != null)
             {
                 return eglContext.MyWindowInfo.Display;
             }

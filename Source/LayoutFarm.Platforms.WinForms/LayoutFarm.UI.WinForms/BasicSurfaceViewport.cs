@@ -9,21 +9,20 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm.UI.WinForms
 {
 
-    public partial class UISurfaceViewportControl : UserControl
+    partial class BasicSurfaceView : UserControl
     {
 
-        TopWindowRenderBox wintop;
+
         MyPlatformWindowBridge winBridge;
-        public UISurfaceViewportControl()
+        public BasicSurfaceView()
         {
             InitializeComponent();
         }
 
-        public void InitRootGraphics(TopWindowRenderBox wintop, IUserEventPortal userInputEvBridge )
+        public void InitRootGraphics(MyPlatformWindowBridge winBridge)
         {
-            //1.
-            this.wintop = wintop;
-            this.winBridge = new MyPlatformWindowBridge(wintop, userInputEvBridge);
+            //1. 
+            this.winBridge = winBridge;
             this.winBridge.BindWindowControl(this);
         }
 #if DEBUG
@@ -41,40 +40,6 @@ namespace LayoutFarm.UI.WinForms
             base.OnSizeChanged(e);
         }
 
-        public void TopDownRecalculateContent()
-        {
-            wintop.TopDownReCalculateContentSize();
-        }
-
-        public void AddContent(RenderElement vi)
-        {
-            var layer0 = wintop.Layers.Layer0 as VisualPlainLayer;
-            if (layer0 != null)
-            {
-                layer0.AddChild(vi);
-                vi.InvalidateGraphic();
-            }
-        }
-        
-        public RootGraphic WinTopRootGfx
-        {
-            get
-            {
-                return this.wintop.Root;
-            }
-            
-        }
-
-        public void Close()
-        {
-            this.winBridge.Close();
-
-        }
-        public void PaintMe()
-        {
-            this.winBridge.PaintMe();
-
-        }
         protected override void OnMouseEnter(EventArgs e)
         {
             this.winBridge.HandleMouseEnterToViewport();
@@ -97,7 +62,7 @@ namespace LayoutFarm.UI.WinForms
             this.winBridge.HandleGotFocus(e);
             base.OnLostFocus(e);
         }
-        
+
         protected override void OnMouseDown(MouseEventArgs e)
         {
             this.winBridge.HandleMouseDown(e);
