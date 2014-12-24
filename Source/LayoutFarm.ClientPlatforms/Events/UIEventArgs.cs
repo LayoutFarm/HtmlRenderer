@@ -131,7 +131,7 @@ namespace LayoutFarm.UI
             {
                 return new Point(x, y);
             }
-            set
+            internal set
             {
                 x = value.X;
                 y = value.Y;
@@ -156,12 +156,8 @@ namespace LayoutFarm.UI
             {
                 return y;
             }
-        } 
-        public void OffsetCanvasOrigin(Point p)
-        {
-            x += p.X;
-            y += p.Y;
         }
+
         public void OffsetCanvasOrigin(int dx, int dy)
         {
             x += dx;
