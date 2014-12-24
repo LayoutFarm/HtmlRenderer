@@ -15,11 +15,11 @@ namespace LayoutFarm.UI.WinForms
         InnerViewportKind innerViewportKind = InnerViewportKind.GdiPlus;
         BasicSurfaceView mybasicSurfaceView;
         OpenTK.MyGLControl myGLControl;
+        Canvas canvas;
+        bool isInitGLControl = false;
 
         TopWindowRenderBox wintop;
         MyPlatformWindowBridge winBridge;
-
-
 
         public UISurfaceViewportControl()
         {
@@ -31,6 +31,11 @@ namespace LayoutFarm.UI.WinForms
             IUserEventPortal userInputEvBridge,
             InnerViewportKind innerViewportKind)
         {
+            //test*** force  to use gl
+            //innerViewportKind = InnerViewportKind.GL;
+            //----------------------------------------
+
+
             //1.
             this.wintop = wintop;
             this.winBridge = new MyPlatformWindowBridge(wintop, userInputEvBridge);
@@ -39,16 +44,21 @@ namespace LayoutFarm.UI.WinForms
             {
                 case InnerViewportKind.GL:
                     {
-                        innerViewportKind = InnerViewportKind.GL;
+                        this.innerViewportKind = InnerViewportKind.GL;
                         myGLControl = new OpenTK.MyGLControl();
                         myGLControl.Dock = DockStyle.Fill;
+
                         this.Controls.Add(myGLControl);
+                        //--------------------------------------- 
+                        LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
+                        this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, this.Width, this.Height);
                         this.winBridge.BindWindowControl(myGLControl);
+
                     } break;
                 case InnerViewportKind.GdiPlus:
                 default:
                     {
-                        innerViewportKind = InnerViewportKind.GdiPlus;
+                        this.innerViewportKind = InnerViewportKind.GdiPlus;
                         mybasicSurfaceView = new BasicSurfaceView();
                         this.Controls.Add(mybasicSurfaceView);
 
@@ -57,8 +67,7 @@ namespace LayoutFarm.UI.WinForms
                         mybasicSurfaceView.InitRootGraphics(this.winBridge);
                     } break;
             }
-            
-        } 
+        }
 
         void InitializeComponent()
         {
@@ -69,7 +78,48 @@ namespace LayoutFarm.UI.WinForms
             this.Size = new System.Drawing.Size(387, 277);
             this.ResumeLayout(false);
         }
+        protected override void OnLoad(EventArgs e)
+        {
 
+            if (this.innerViewportKind == InnerViewportKind.GL
+                && !isInitGLControl)
+            {
+                //init gl after this control is loaded
+                //set myGLControl detail
+                //1.
+                myGLControl.InitSetup2d(Screen.PrimaryScreen.Bounds);
+                isInitGLControl = true;
+
+                //2.
+                myGLControl.ClearColor = new OpenTK.Graphics.Color4(1f, 1f, 1f, 1f);
+                //3.
+                myGLControl.SetGLPaintHandler(GLPaintMe);
+
+            }
+        }
+        void GLPaintMe(Object sender, EventArgs e)
+        {
+            //gl paint here
+            canvas.ClearSurface(Color.White);
+            myGLControl.SwapBuffers();
+        }
+        public void PaintMe()
+        {
+            switch (this.innerViewportKind)
+            {
+                case InnerViewportKind.GL:
+                    {
+                        if (isInitGLControl)
+                        {
+                            GLPaintMe(null, null);
+                        }
+                    } break;
+                default:
+                    {
+                        this.winBridge.PaintMe();
+                    } break;
+            }
+        }
 #if DEBUG
         public IdbugOutputWindow IdebugOutputWin
         {
@@ -101,20 +151,7 @@ namespace LayoutFarm.UI.WinForms
         {
             this.winBridge.Close();
         }
-        public void PaintMe()
-        {
-            switch (this.innerViewportKind)
-            {
-                case InnerViewportKind.GL:
-                    {
 
-                    } break;
-                default:
-                    {
-                        this.winBridge.PaintMe();
-                    } break;
-            }
-        }
     }
 
 
