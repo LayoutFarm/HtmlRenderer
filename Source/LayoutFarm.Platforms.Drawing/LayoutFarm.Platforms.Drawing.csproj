@@ -64,6 +64,12 @@
     <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\3_MyCanvas_DrawGraphics.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\4_MyCanvas_TextAndFonts.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\QuadPages.cs" />
+    <Compile Include="LayoutFarm.DrawingGL\0_Start\CanvasGLPlatform.cs" />
+    <Compile Include="LayoutFarm.DrawingGL\0_Start\CanvasGLPortal.cs" />
+    <Compile Include="LayoutFarm.DrawingGL\Implementation\GLBitmapTextureHelper.cs" />
+    <Compile Include="LayoutFarm.DrawingGL\Implementation\MyBitmapGL.cs" />
+    <Compile Include="LayoutFarm.DrawingGL\MyCanvas_GL\GdiTextBoard.cs" />
+    <Compile Include="LayoutFarm.DrawingGL\MyCanvas_GL\MyCanvasGL_specific.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -93,6 +99,10 @@
     <ProjectReference Include="..\MiniAgg.Complements\MiniAgg.Complements.csproj">
       <Project>{AE0DF71E-9B14-4197-B55A-E1E0CE0683C7}</Project>
       <Name>MiniAgg.Complements</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiniAgg.HardwareGraphics\MiniAgg.HardwareGraphics.csproj">
+      <Project>{2B1F2C53-2F8D-4E0E-94EB-79171C91337B}</Project>
+      <Name>MiniAgg.HardwareGraphics</Name>
     </ProjectReference>
     <ProjectReference Include="..\MiniAgg\MiniAgg.csproj">
       <Project>{4D5CE655-58FA-4523-8E46-738B941E9E47}</Project>

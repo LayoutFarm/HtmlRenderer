@@ -306,7 +306,7 @@ namespace HtmlRenderer.Composers
         }
 
 
-      
+
         static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, CssBoxHitChain hitPointChain, EventPortalAction eventPortalAction)
         {
             //only listener that need tunnel down 
@@ -337,7 +337,7 @@ namespace HtmlRenderer.Composers
                 //---------------------
                 if (controller != null)
                 {
-                    e.Location = new Point(hitInfo.localX, hitInfo.localY);
+                    e.SetLocation(hitInfo.localX, hitInfo.localY);
                     if (eventPortalAction(controller))
                     {
                         return;
@@ -378,9 +378,8 @@ namespace HtmlRenderer.Composers
                 {
                     //found controller
 
-                    e.CurrentContextElement = controller;
-                    e.Location = new Point(hitInfo.localX, hitInfo.localY);
-
+                    e.CurrentContextElement = controller;                     
+                    e.SetLocation(hitInfo.localX, hitInfo.localY);
                     if (listenerAction())
                     {
                         return;
@@ -388,8 +387,8 @@ namespace HtmlRenderer.Composers
                 }
             }
         }
-       
-        
+
+
         CssBoxHitChain GetFreeHitChain()
         {
             if (hitChainPools.Count > 0)

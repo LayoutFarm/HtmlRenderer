@@ -1,10 +1,13 @@
 ﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
+
+using LayoutFarm.UI.Graphics;
+
 
 namespace LayoutFarm.UI
 {
+
     public delegate void UIMouseEventHandler(object sender, UIMouseEventArgs e);
     public delegate void UIKeyEventHandler(object sender, UIKeyEventArgs e);
     public delegate void UIKeyPressEventHandler(object sender, UIKeyEventArgs e);
@@ -134,6 +137,11 @@ namespace LayoutFarm.UI
                 y = value.Y;
             }
         }
+        public void SetLocation(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
 
         public int X
         {
@@ -148,14 +156,16 @@ namespace LayoutFarm.UI
             {
                 return y;
             }
-        }
-
-
-
+        } 
         public void OffsetCanvasOrigin(Point p)
         {
             x += p.X;
             y += p.Y;
+        }
+        public void OffsetCanvasOrigin(int dx, int dy)
+        {
+            x += dx;
+            y += dy;
         }
         //-----------------------------------------------
         public bool IsCanceled
@@ -450,5 +460,5 @@ namespace LayoutFarm.UI
             base.Clear();
         }
     }
-   
+
 }

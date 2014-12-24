@@ -14,11 +14,15 @@ namespace LayoutFarm.Dev
     {
 
         UIPlatform uiPlatformWinForm;
+        GraphicsPlatform gfxPlatform;
         public FormDemoList()
         {
             InitializeComponent();
             this.Load += new EventHandler(Form1_Load);
-            uiPlatformWinForm = new LayoutFarm.UI.WinForms.UIPlatformWinForm(LayoutFarm.Drawing.CurrentGraphicsPlatform.P);
+
+          
+            this.uiPlatformWinForm = new LayoutFarm.UI.WinForms.UIPlatformWinForm();
+            this.gfxPlatform = LayoutFarm.Drawing.CurrentGraphicsPlatform.P;
         }
 
         void Form1_Load(object sender, EventArgs e)
@@ -74,7 +78,7 @@ namespace LayoutFarm.Dev
             int w = 800;
             int h = 600;
 
-            MyRootGraphic rootgfx = new MyRootGraphic(uiPlatformWinForm, w, h);
+            MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm, this.gfxPlatform, w, h);
             TopWindowRenderBox topRenderBox = rootgfx.CreateTopWindowRenderBox(w, h);
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(topRenderBox,
                 rootgfx.CreateUserEventPortal(topRenderBox), out viewport);
