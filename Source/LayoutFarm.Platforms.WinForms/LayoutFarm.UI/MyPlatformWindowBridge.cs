@@ -6,8 +6,11 @@ using System.Text;
 using System.Windows.Forms;
 using LayoutFarm.Drawing;
 
+
 namespace LayoutFarm.UI
 {
+
+
 
     partial class MyPlatformWindowBridge
     {
@@ -34,9 +37,6 @@ namespace LayoutFarm.UI
         public MyPlatformWindowBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
         {
 
-
-
-
             this.userEventPortal = winEventBridge;
             this.topwin = topwin;
             this.rootGraphic = topwin.Root;
@@ -45,8 +45,8 @@ namespace LayoutFarm.UI
             {
                 PaintToOutputWindow();
             };
-
         }
+
         public void BindWindowControl(Control windowControl)
         {
             this.topwin.MakeCurrent();
@@ -106,11 +106,16 @@ namespace LayoutFarm.UI
         void SetUIMouseEventArgsInfo(UIMouseEventArgs mouseEventArg, MouseEventArgs e)
         {
             mouseEventArg.SetEventInfo(
-                e.Location.ToPoint(),
+                new Graphics.Point(e.X, e.Y),
                 GetUIMouseButton(e.Button),
                 e.Clicks,
                 e.Delta);
-            mouseEventArg.OffsetCanvasOrigin(this.canvasViewport.LogicalViewportLocation);
+
+            OffsetCanvasOrigin(mouseEventArg, this.canvasViewport.LogicalViewportLocation);
+        }
+        static void OffsetCanvasOrigin(UIEventArgs e, LayoutFarm.Drawing.Point p)
+        {
+            e.OffsetCanvasOrigin(p.X, p.Y);
         }
 
         public void Close()
@@ -217,7 +222,9 @@ namespace LayoutFarm.UI
         {
             UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
             canvasViewport.FullMode = false;
-            focusEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
+
+            OffsetCanvasOrigin(focusEventArg, canvasViewport.LogicalViewportLocation);
+
             this.userEventPortal.PortalGotFocus(focusEventArg);
             PaintToOutputWindowIfNeed();
 
@@ -227,8 +234,7 @@ namespace LayoutFarm.UI
         {
             UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
             canvasViewport.FullMode = false;
-            focusEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
-
+            OffsetCanvasOrigin(focusEventArg, canvasViewport.LogicalViewportLocation);
             this.userEventPortal.PortalLostFocus(focusEventArg);
             eventStock.ReleaseEventArgs(focusEventArg);
         }
@@ -284,7 +290,7 @@ namespace LayoutFarm.UI
             if (this.isMouseDown ||
                 this.isDragging)
             {
-                
+
             }
 
 
@@ -372,8 +378,10 @@ namespace LayoutFarm.UI
 
             StopCaretBlink();
             canvasViewport.FullMode = false;
-            keyEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
+             
+            OffsetCanvasOrigin(keyEventArgs, canvasViewport.LogicalViewportLocation);
 #if DEBUG
+
             topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
             topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UI.UIKeys)e.KeyData);
             topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
@@ -405,8 +413,8 @@ namespace LayoutFarm.UI
 
             StopCaretBlink();
             canvasViewport.FullMode = false;
-            keyEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
-
+             
+            OffsetCanvasOrigin(keyEventArgs, canvasViewport.LogicalViewportLocation);
 
             this.userEventPortal.PortalKeyUp(keyEventArgs);
             eventStock.ReleaseEventArgs(keyEventArgs);
@@ -439,8 +447,8 @@ namespace LayoutFarm.UI
 #endif
 
             canvasViewport.FullMode = false;
-            keyPressEventArgs.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
 
+            OffsetCanvasOrigin(keyPressEventArgs, canvasViewport.LogicalViewportLocation);
             this.userEventPortal.PortalKeyPress(keyPressEventArgs);
 
             eventStock.ReleaseEventArgs(keyPressEventArgs);
@@ -456,7 +464,8 @@ namespace LayoutFarm.UI
 
             StopCaretBlink();
             canvasViewport.FullMode = false;
-            keyEventArg.OffsetCanvasOrigin(canvasViewport.LogicalViewportLocation);
+
+            OffsetCanvasOrigin(keyEventArg, canvasViewport.LogicalViewportLocation);
 
             bool result = this.userEventPortal.PortalProcessDialogKey(keyEventArg);
 

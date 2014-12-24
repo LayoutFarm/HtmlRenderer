@@ -85,7 +85,8 @@ namespace HtmlRenderer.Composers.BridgeHtml
                     var controller = SvgElement.UnsafeGetController(hitInfo.svg) as IUserEventPortal;
                     if (controller != null)
                     {
-                        e.Location = new Point((int)hitInfo.x, (int)hitInfo.y);
+
+                        e.SetLocation((int)hitInfo.x, (int)hitInfo.y);
                         if (eventPortalAction(controller))
                         {
                             return;
@@ -128,8 +129,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
                     //found controller
 
                     e.CurrentContextElement = controller;
-                    e.Location = new Point((int)hitInfo.x, (int)hitInfo.y);
-
+                    e.SetLocation((int)hitInfo.x, (int)hitInfo.y);
                     if (listenerAction())
                     {
                         return;
@@ -147,9 +147,8 @@ namespace HtmlRenderer.Composers.BridgeHtml
                 var hitInfo = hitChain.GetHitInfo(i);
                 //---------------------
                 //hit on element 
-                e.SourceHitElement = hitInfo.svg;
-                e.Location = new Point((int)hitInfo.x, (int)hitInfo.y);
-
+                e.SourceHitElement = hitInfo.svg;                 
+                e.SetLocation((int)hitInfo.x, (int)hitInfo.y);
                 if (listenerAction())
                 {
                     return;

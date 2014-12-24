@@ -17,12 +17,12 @@ namespace LayoutFarm.UI
         static object normalUpdateTask = new object();
         UIPlatform uiPlatform;
 
-        public MyRootGraphic(UIPlatform uiPlatform, int width, int height)
+        public MyRootGraphic(UIPlatform uiPlatform, GraphicsPlatform gfxPlatform, int width, int height)
             : base(width, height)
         {
 
             this.uiPlatform = uiPlatform;
-            this.graphicsPlatform = uiPlatform.GraphicsPlatform;
+            this.graphicsPlatform = gfxPlatform;
             this.graphicTimerTaskMan = new GraphicsTimerTaskManager(this, uiPlatform);
 #if DEBUG
             dbugCurrentGlobalVRoot = this;
@@ -39,8 +39,8 @@ namespace LayoutFarm.UI
         }
         public TopWindowRenderBox CreateTopWindowRenderBox(int w, int h)
         {
-            return new MyTopWindowRenderBox(this, w, h); 
-        } 
+            return new MyTopWindowRenderBox(this, w, h);
+        }
         public IUserEventPortal CreateUserEventPortal(TopWindowRenderBox topwin)
         {
             UserInputEventAdapter userInputEventBridge = new UserInputEventAdapter();

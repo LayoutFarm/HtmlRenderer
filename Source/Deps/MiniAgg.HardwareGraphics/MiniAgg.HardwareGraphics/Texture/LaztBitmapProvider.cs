@@ -1,0 +1,19 @@
+﻿//MIT 2014, WinterDev
+
+using System;
+using System.Text;  
+
+namespace LayoutFarm.DrawingGL
+{
+
+
+
+    public abstract class LazyBitmapBufferProvider
+    {
+        public abstract IntPtr GetRawBufferHead();
+        public abstract void ReleaseBufferHead();
+        public abstract int Width { get; }
+        public abstract int Height { get; }
+        public abstract bool IsInvert { get; }
+    }
+}

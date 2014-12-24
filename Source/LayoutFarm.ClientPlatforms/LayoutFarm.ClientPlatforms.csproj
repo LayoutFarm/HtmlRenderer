@@ -34,10 +34,10 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Rect_Point_Size.cs" />
     <Compile Include="Common\UIPlatform.cs" />
     <Compile Include="Common\UITimer.cs" />
     <Compile Include="Common\UITimerTask.cs" />
-    <Compile Include="Events\IUpdateStateChangeListener.cs" />
     <Compile Include="Events\RenderSurfaceScrollRelation.cs" />
     <Compile Include="Common\Clipboard.cs" />
     <Compile Include="Events\IEventListener.cs" />
@@ -50,13 +50,6 @@
     <Compile Include="Common\Keys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
-      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
-      <Name>LayoutFarm.Drawing</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
