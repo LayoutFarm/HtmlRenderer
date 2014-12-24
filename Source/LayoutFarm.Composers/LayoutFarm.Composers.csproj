@@ -82,6 +82,7 @@
     <Compile Include="7_TopWin\UserInputEventAdapter_IEventPortal.cs" />
     <Compile Include="8_ContentManagers\ImageContentManager.cs" />
     <Compile Include="8_ContentManagers\ImageRequestEventArgs.cs" />
+    <Compile Include="8_ContentManagers\IUpdateStateChangeListener.cs" />
     <Compile Include="8_ContentManagers\TextContentManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="5_WebDom.Parser\CssParser.cs" />
