@@ -1,11 +1,11 @@
 ﻿//2014 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.Text;
-
+using System.Text; 
 using LayoutFarm;
 using LayoutFarm.Drawing;
 using LayoutFarm.UI;
+
 namespace LayoutFarm.Text
 {
 
@@ -175,8 +175,8 @@ namespace LayoutFarm.Text
         {
             if (e.Button == UIMouseButtons.Left)
             {
-                InvalidateGraphicOfCurrentLineArea();
-                internalTextLayerController.CaretPos = e.Location;
+                InvalidateGraphicOfCurrentLineArea();                 
+                internalTextLayerController.SetCaretPos(e.Location.X, e.Location.Y);
                 if (internalTextLayerController.SelectionRange != null)
                 {
                     Rectangle r = GetSelectionUpdateArea(); internalTextLayerController.CancelSelect();
@@ -211,7 +211,8 @@ namespace LayoutFarm.Text
 
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
-                internalTextLayerController.CaretPos = e.Location;
+                 
+                internalTextLayerController.SetCaretPos(e.Location.X, e.Location.Y);
                 internalTextLayerController.EndSelect();
                 this.InvalidateGraphic();
 
@@ -221,7 +222,7 @@ namespace LayoutFarm.Text
         {
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
-                internalTextLayerController.CaretPos = e.Location;
+                internalTextLayerController.SetCaretPos(e.Location.X, e.Location.Y);
                 internalTextLayerController.StartSelect();
                 internalTextLayerController.EndSelect();
                 this.InvalidateGraphic();
@@ -231,7 +232,8 @@ namespace LayoutFarm.Text
         {
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
-                internalTextLayerController.CaretPos = e.Location;
+                 
+                internalTextLayerController.SetCaretPos(e.Location.X, e.Location.Y);
                 internalTextLayerController.EndSelect();
                 this.InvalidateGraphic();
             }

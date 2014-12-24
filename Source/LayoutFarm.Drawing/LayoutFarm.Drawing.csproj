@@ -35,6 +35,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="5_BasicRenderBox\IUpdateStateChangeListener.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\AggBasics.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\AggMath.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\AxisAlignedBoundingBox.cs" />

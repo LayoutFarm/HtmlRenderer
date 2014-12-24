@@ -425,7 +425,7 @@ namespace LayoutFarm.UI
                 //--------------------------------------------------------------- 
                 ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
                 {
-                    portal.PortalMouseUp(e); 
+                    portal.PortalMouseUp(e);
                     return true;
                 });
 
@@ -435,7 +435,7 @@ namespace LayoutFarm.UI
 
                     ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                     {
-                        listener.ListenMouseUp(e); 
+                        listener.ListenMouseUp(e);
                         return true;
                     });
                 }
@@ -447,7 +447,7 @@ namespace LayoutFarm.UI
 
                         ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                         {
-                            listener.ListenMouseDoubleClick(e);  
+                            listener.ListenMouseDoubleClick(e);
                             return true;
                         });
                     }
@@ -456,7 +456,7 @@ namespace LayoutFarm.UI
 
                         ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                         {
-                            listener.ListenMouseClick(e); 
+                            listener.ListenMouseClick(e);
                             return true;
                         });
                     }
@@ -517,7 +517,9 @@ namespace LayoutFarm.UI
                 IUserEventPortal eventPortal = hitPoint.hitElement.GetController() as IUserEventPortal;
                 if (eventPortal != null)
                 {
-                    e.Location = hitPoint.point;
+
+                    var ppp = hitPoint.point;
+                    e.SetLocation(ppp.X, ppp.Y);
                     if (eventPortalAction(eventPortal))
                     {
                         return;
@@ -534,7 +536,8 @@ namespace LayoutFarm.UI
                 IEventListener listener = hitInfo.hitElement.GetController() as IEventListener;
                 if (listener != null)
                 {
-                    e.Location = hitInfo.point;
+                    var ppp = hitInfo.point;
+                    e.SetLocation(ppp.X, ppp.Y);
                     e.CurrentContextElement = listener;
 
                     if (listenerAction(listener))

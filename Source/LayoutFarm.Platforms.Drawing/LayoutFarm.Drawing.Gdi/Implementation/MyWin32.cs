@@ -400,12 +400,16 @@ namespace LayoutFarm
         [StructLayout(LayoutKind.Sequential)]
         public struct ABC
         {
-            public int abcA; public uint abcB; public int abcC;
+            public int abcA;
+            public uint abcB;
+            public int abcC;
         }
         [StructLayout(LayoutKind.Sequential)]
         public struct ABCFLOAT
         {
-            public float abcfA; public float abcfB; public float abcfC;
+            public float abcfA;
+            public float abcfB;
+            public float abcfC;
         }
 
 

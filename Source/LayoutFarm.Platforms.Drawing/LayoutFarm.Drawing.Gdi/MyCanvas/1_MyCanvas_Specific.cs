@@ -42,7 +42,6 @@ namespace LayoutFarm.Drawing.WinGdi
         System.Drawing.Pen internalPen;
         System.Drawing.SolidBrush internalSolidBrush;
         System.Drawing.Rectangle currentClipRect;
-        Brush currentBrush;
         //-------------------------------
         bool isFromPrinter = false;
         GraphicsPlatform platform;
@@ -67,21 +66,19 @@ namespace LayoutFarm.Drawing.WinGdi
             internalPen = new System.Drawing.Pen(System.Drawing.Color.Black);
             internalSolidBrush = new System.Drawing.SolidBrush(System.Drawing.Color.Black);
 
+            //-------------------------------------------------------
             originalHdc = MyWin32.CreateCompatibleDC(IntPtr.Zero);
             System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             hbmp = bmp.GetHbitmap();
             MyWin32.SelectObject(originalHdc, hbmp);
             MyWin32.PatBlt(originalHdc, 0, 0, width, height, MyWin32.WHITENESS);
             MyWin32.SetBkMode(originalHdc, MyWin32._SetBkMode_TRANSPARENT);
-
             hFont = MyWin32.SelectObject(originalHdc, hFont);
-
             currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
             hRgn = MyWin32.CreateRectRgn(0, 0, width, height);
             MyWin32.SelectObject(originalHdc, hRgn);
-
             gx = System.Drawing.Graphics.FromHdc(originalHdc);
-
+            //-------------------------------------------------------
 
 
             this.CurrentFont = defaultFontInfo;
@@ -351,7 +348,10 @@ namespace LayoutFarm.Drawing.WinGdi
             defaultHFont = f.ToHfont();
             defaultFontInfo = FontsUtils.GetCachedFont(f).ResolvedFont;
         }
-
+        protected IntPtr GetDefaultHFont()
+        {
+            return defaultHFont;
+        }
         static System.Drawing.Point[] ConvPointArray(Point[] points)
         {
             int j = points.Length;
@@ -372,7 +372,7 @@ namespace LayoutFarm.Drawing.WinGdi
             }
             return outputPoints;
         }
-        
+
         static System.Drawing.Color ConvColor(Color c)
         {
             return System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);

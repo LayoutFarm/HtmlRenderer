@@ -28,10 +28,10 @@ namespace LayoutFarm.Text
         }
         public void SplitCurrentLineIntoNewLine()
         {
-            this.innerTextMan.SplitCurrentLineIntoNewLine(); 
+            this.innerTextMan.SplitCurrentLineIntoNewLine();
         }
-        
-        
+
+
         public EditableTextSpan CurrentTextRun
         {
             get
@@ -521,12 +521,25 @@ namespace LayoutFarm.Text
                         calculatedLineId = line.LineNumber;
 
                     }
-
                     this.CurrentLineNumber = calculatedLineId;
                     this.textLineWriter.CaretXPos = value.X;
-
-                   
                 }
+            }
+        }
+        public void SetCaretPos(int x, int y)
+        {
+            int j = textLineWriter.LineCount;
+            if (j > 0)
+            {
+                EditableVisualElementLine line = textLineWriter.GetTextLineAtPos(y);
+                int calculatedLineId = 0;
+                if (line != null)
+                {
+                    calculatedLineId = line.LineNumber;
+
+                }
+                this.CurrentLineNumber = calculatedLineId;
+                this.textLineWriter.CaretXPos = x;
             }
         }
         public Rectangle CurrentLineArea

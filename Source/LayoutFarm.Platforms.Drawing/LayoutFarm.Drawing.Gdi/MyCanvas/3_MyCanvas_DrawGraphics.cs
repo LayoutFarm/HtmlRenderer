@@ -338,8 +338,10 @@ namespace LayoutFarm.Drawing.WinGdi
                 default:
                     {
                     } break;
-            } 
-        } 
+            }
+
+        }
+
         public override void FillPolygon(Brush brush, PointF[] points)
         {
             ReleaseHdc();

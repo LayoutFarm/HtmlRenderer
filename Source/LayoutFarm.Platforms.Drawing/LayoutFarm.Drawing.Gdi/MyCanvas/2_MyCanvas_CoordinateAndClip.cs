@@ -42,7 +42,7 @@ namespace LayoutFarm.Drawing.WinGdi
             this.gx.TranslateTransform(x, y);
 
             this.canvasOriginX = x;
-            this.canvasOriginY = y; 
+            this.canvasOriginY = y;
         }
         public override int CanvasOriginX
         {
@@ -53,10 +53,6 @@ namespace LayoutFarm.Drawing.WinGdi
             get { return this.canvasOriginY; }
         }
 
-        public override bool IntersectsWith(Rect clientRect)
-        {
-            return clientRect.IntersectsWith(left, top, right, bottom);
-        }
 
         /// <summary>
         /// Sets the clipping region of this <see cref="T:System.Drawing.Graphics"/> to the result of the specified operation combining the current clip region and the rectangle specified by a <see cref="T:System.Drawing.RectangleF"/> structure.
@@ -73,7 +69,11 @@ namespace LayoutFarm.Drawing.WinGdi
                     rect.Width, rect.Height),
                     (System.Drawing.Drawing2D.CombineMode)combineMode);
         }
-       
+        public override bool IntersectsWith(Rect clientRect)
+        {
+            return clientRect.IntersectsWith(left, top, right, bottom);
+        }
+
         public override bool PushClipAreaRect(int width, int height, ref Rect updateArea)
         {
             clipRectStack.Push(currentClipRect);
@@ -117,7 +117,8 @@ namespace LayoutFarm.Drawing.WinGdi
                 return currentClipRect.ToRect();
             }
         }
- 
+
+
 
         public override int Top
         {

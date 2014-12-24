@@ -7,9 +7,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm.Drawing
 {
     public static class MyWinGdiPortal
-    {
-        
-
+    {  
         public static void Start()
         {
             WinGdiPortal.Start();

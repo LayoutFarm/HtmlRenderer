@@ -79,7 +79,7 @@ namespace PixelFarm.Agg.Fonts
                 //------------------------
                 //create vector version, using Path
                 VertexStore vxs = new VertexStore();
-                PixelFarm.Agg.Fonts.GdiFontHelper.ConvertCharToVertexGlyph(gdiFont, c, vxs);                 
+                PixelFarm.Agg.GdiPathConverter.ConvertCharToVertexGlyph(gdiFont, c, vxs);                 
                 found.originalVxs = vxs;
                 //create flatten version 
                 found.flattenVxs = curveFlattener.MakeVxs(vxs);//?

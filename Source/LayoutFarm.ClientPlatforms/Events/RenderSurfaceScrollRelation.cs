@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+
 
 namespace LayoutFarm.UI
 {
@@ -77,13 +77,7 @@ namespace LayoutFarm.UI
         {
             get;
             set;
-        }
-
-
-        public void WindowRootNotifyInvalidArea(Rect clientRect)
-        {
-        }
-
+        } 
 
     }
 }
