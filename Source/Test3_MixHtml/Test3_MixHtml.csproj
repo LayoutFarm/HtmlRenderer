@@ -48,6 +48,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deps\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
+      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
+      <Name>LayoutFarm.Drawing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
       <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
       <Name>LayoutFarm.BaseRenderer</Name>
@@ -59,10 +63,6 @@
     <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
       <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
       <Name>LayoutFarm.Composers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
-      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
-      <Name>LayoutFarm.Drawing</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
       <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
