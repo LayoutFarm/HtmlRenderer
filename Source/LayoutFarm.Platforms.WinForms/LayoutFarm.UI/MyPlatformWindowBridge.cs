@@ -38,7 +38,9 @@ namespace LayoutFarm.UI
                 PaintToOutputWindow();
             };
         }
-
+        internal virtual void OnHostControlLoaded()
+        {
+        }
 
         protected abstract void PaintToOutputWindow();
 
@@ -299,7 +301,7 @@ namespace LayoutFarm.UI
         }
         protected abstract void ChangeCursorStyle(UIMouseEventArgs mouseEventArg);
 
-       
+
 
         public void PaintMe()
         {

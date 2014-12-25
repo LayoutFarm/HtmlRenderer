@@ -16,7 +16,9 @@ namespace LayoutFarm.UI
         public MyPlatformWindowBridgeGdiPlus(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
             : base(topwin, winEventBridge)
         {
+
         }
+
         System.Drawing.Size Size
         {
             get { return this.windowControl.Size; }
@@ -58,6 +60,7 @@ namespace LayoutFarm.UI
                         windowControl.Cursor = Cursors.Hand;
                     } break;
                 case MouseCursorStyle.IBeam:
+
                     {
                         windowControl.Cursor = Cursors.IBeam;
                     } break;

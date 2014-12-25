@@ -12,12 +12,7 @@ namespace LayoutFarm.UI.WinForms
 
     public partial class UISurfaceViewportControl : UserControl
     {
-        InnerViewportKind innerViewportKind = InnerViewportKind.GdiPlus;
-        BasicSurfaceView mybasicSurfaceView;
-        OpenTK.MyGLControl myGLControl;
-        Canvas canvas;
-        bool isInitGLControl = false;
-
+        InnerViewportKind innerViewportKind = InnerViewportKind.GdiPlus;  
         TopWindowRenderBox wintop;
         MyPlatformWindowBridge winBridge;
 
@@ -25,8 +20,6 @@ namespace LayoutFarm.UI.WinForms
         {
             InitializeComponent();
         }
-
-
         public void InitRootGraphics(
             TopWindowRenderBox wintop,
             IUserEventPortal userInputEvBridge,
@@ -43,16 +36,15 @@ namespace LayoutFarm.UI.WinForms
             {
                 case InnerViewportKind.GL:
                     {
+                        LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.Start(); 
                         MyPlatformWindowBridgeOpenGL winBridge = new MyPlatformWindowBridgeOpenGL(wintop, userInputEvBridge);
                         this.innerViewportKind = InnerViewportKind.GL;
-                        myGLControl = new OpenTK.MyGLControl();
+                        var myGLControl = new OpenTK.MyGLControl();
                         myGLControl.Dock = DockStyle.Fill;
 
                         this.Controls.Add(myGLControl);
                         //--------------------------------------- 
-                        LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
-                        this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, this.Width, this.Height);
-
+                       
                         winBridge.BindGLControl(myGLControl);
                         this.winBridge = winBridge;
 
@@ -63,7 +55,7 @@ namespace LayoutFarm.UI.WinForms
                     {
                         MyPlatformWindowBridgeGdiPlus winBridge = new MyPlatformWindowBridgeGdiPlus(wintop, userInputEvBridge);
                         this.innerViewportKind = InnerViewportKind.GdiPlus;
-                        mybasicSurfaceView = new BasicSurfaceView();
+                        var mybasicSurfaceView = new BasicSurfaceView();
                         this.Controls.Add(mybasicSurfaceView);
                         //--------------------------------------- 
                         winBridge.BindWindowControl(mybasicSurfaceView);
@@ -91,47 +83,12 @@ namespace LayoutFarm.UI.WinForms
         protected override void OnLoad(EventArgs e)
         {
 
-            if (this.innerViewportKind == InnerViewportKind.GL
-                && !isInitGLControl)
-            {
-                //init gl after this control is loaded
-                //set myGLControl detail
-                //1.
-                myGLControl.InitSetup2d(Screen.PrimaryScreen.Bounds);
-                isInitGLControl = true;
-
-                //2.
-                myGLControl.ClearColor = new OpenTK.Graphics.Color4(1f, 1f, 1f, 1f);
-                //3.
-                myGLControl.SetGLPaintHandler(GLPaintMe);
-
-            }
-        }
-        void GLPaintMe(Object sender, EventArgs e)
-        {
-            //gl paint here
-            canvas.ClearSurface(Color.White);
-            canvas.StrokeColor = LayoutFarm.Drawing.Color.Blue;
-            canvas.DrawLine(0, 0, 500, 500);
-            //------------------------
-            myGLControl.SwapBuffers();
-        }
+            this.winBridge.OnHostControlLoaded();
+           
+        } 
         public void PaintMe()
         {
-            switch (this.innerViewportKind)
-            {
-                case InnerViewportKind.GL:
-                    {
-                        if (isInitGLControl)
-                        {
-                            GLPaintMe(null, null);
-                        }
-                    } break;
-                default:
-                    {
-                        this.winBridge.PaintMe();
-                    } break;
-            }
+            this.winBridge.PaintMe(); 
         }
 #if DEBUG
         public IdbugOutputWindow IdebugOutputWin
