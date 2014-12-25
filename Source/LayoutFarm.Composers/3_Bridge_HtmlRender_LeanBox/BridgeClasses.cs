@@ -90,7 +90,7 @@ namespace LayoutFarm.Boxes
         {
             return false;
         }
-        public override void CustomRecomputedValue(CssBox containingBlock)
+        public override void CustomRecomputedValue(CssBox containingBlock, GraphicsPlatform gfxPlatform)
         {
             this.SetSize(100, 20);
 

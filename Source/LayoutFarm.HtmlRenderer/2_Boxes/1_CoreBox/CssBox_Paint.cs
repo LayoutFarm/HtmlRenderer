@@ -275,7 +275,7 @@ namespace HtmlRenderer.Boxes
                     bool hasSomeRoundCorner = this.HasSomeRoundCorner;
                     if (hasSomeRoundCorner)
                     {
-                        roundrect = RenderUtils.GetRoundRect(p.Platform, rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
+                        roundrect = RenderUtils.GetRoundRect(p.GraphicsPlatform, rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
                     }
 
                     if (!p.AvoidGeometryAntialias && hasSomeRoundCorner)

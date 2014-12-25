@@ -18,13 +18,17 @@ namespace HtmlRenderer.Boxes
             ChangeDisplayType(this, Css.CssDisplay.Block);
 
         }
-        public override void CustomRecomputedValue(CssBox containingBlock)
+        public override void CustomRecomputedValue(CssBox containingBlock, GraphicsPlatform gfxPlatform)
         {
             var svgElement = this.SvgSpec;
             //recompute value if need 
+
             var cnode = svgElement.GetFirstNode();
 
-            ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(containingBlock.SizeWidth, 100, containingBlock.GetEmHeight());
+            ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(gfxPlatform, 
+                containingBlock.SizeWidth,
+                100,
+                containingBlock.GetEmHeight());
             while (cnode != null)
             {
                 cnode.Value.ReEvaluateComputeValue(ref reEvalArgs);

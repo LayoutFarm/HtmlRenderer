@@ -94,21 +94,18 @@ namespace HtmlRenderer.Demo
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
-
+            //-------------------------------------------------------
             this.gfxPlatform = LayoutFarm.Drawing.CurrentGraphicsPlatform.P;
             this.renderCanvas = gfxPlatform.CreateCanvas(0, 0, 800, 600);
-
             //-------------------------------------------------------
             myHtmlIsland = new MyHtmlIsland(gfxPlatform);
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.Refresh += OnRefresh;
             myHtmlIsland.NeedUpdateDom += new EventHandler<EventArgs>(myHtmlIsland_NeedUpdateDom);
-            myHtmlIsland.RequestResource += new EventHandler<HtmlResourceRequestEventArgs>(myHtmlIsland_RequestResource);
-
+            myHtmlIsland.RequestResource += new EventHandler<HtmlResourceRequestEventArgs>(myHtmlIsland_RequestResource); 
             this.imageContentMan.ImageLoadingRequest += OnImageLoad;
             this.textContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
-            //-------------------------------------------------------
-
+            //------------------------------------------------------- 
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
             {
@@ -116,8 +113,7 @@ namespace HtmlRenderer.Demo
                 {
                     myHtmlIsland.InternalRefreshRequest();
                 }
-            };
-
+            }; 
             timer01.Enabled = true;
             //-------------------------------------------
             _htmlEventBridge = new HtmlInputEventAdapter();
