@@ -44,8 +44,8 @@ namespace HtmlRenderer.Boxes
 
         internal IFonts SampleIFonts
         {
-            get;
-            private set;
+            get { return this.gfxPlatform.SampleIFonts; }
+             
         }
         protected override void OnPushDifferentContaingBlock(CssBox box)
         {
