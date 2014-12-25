@@ -1,6 +1,6 @@
 ﻿namespace LayoutFarm.UI.WinForms
 {
-    partial class MyGLControl
+    partial class GpuOpenGLSurfaceView
     {
         /// <summary> 
         /// Required designer variable.

@@ -45,17 +45,17 @@
   <ItemGroup>
     <Compile Include="0_Start\WinGdiPortal.cs" />
     <Compile Include="dbug\dbugHelper.cs" />
-    <Compile Include="LayoutFarm.UI.WinForms\MyGLControl.cs">
+    <Compile Include="LayoutFarm.UI.WinForms\GpuOpenGLSurfaceView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="LayoutFarm.UI.WinForms\MyGLControl.Designer.cs">
-      <DependentUpon>MyGLControl.cs</DependentUpon>
+    <Compile Include="LayoutFarm.UI.WinForms\GpuOpenGLSurfaceView.Designer.cs">
+      <DependentUpon>GpuOpenGLSurfaceView.cs</DependentUpon>
     </Compile>
-    <Compile Include="LayoutFarm.UI.WinForms\BasicSurfaceViewport.cs">
+    <Compile Include="LayoutFarm.UI.WinForms\CpuGdiPlusSurfaceView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="LayoutFarm.UI.WinForms\BasicSurfaceViewport.Designer.cs">
-      <DependentUpon>BasicSurfaceViewport.cs</DependentUpon>
+    <Compile Include="LayoutFarm.UI.WinForms\CpuGdiPlusSurfaceView.Designer.cs">
+      <DependentUpon>CpuGdiPlusSurfaceView.cs</DependentUpon>
     </Compile>
     <Compile Include="LayoutFarm.UI.WinForms\InnerViewportKind.cs" />
     <Compile Include="LayoutFarm.UI\CanvasEventStock.cs" />
@@ -118,8 +118,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LayoutFarm.UI.WinForms\MyGLControl.resx">
-      <DependentUpon>MyGLControl.cs</DependentUpon>
+    <EmbeddedResource Include="LayoutFarm.UI.WinForms\GpuOpenGLSurfaceView.resx">
+      <DependentUpon>GpuOpenGLSurfaceView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

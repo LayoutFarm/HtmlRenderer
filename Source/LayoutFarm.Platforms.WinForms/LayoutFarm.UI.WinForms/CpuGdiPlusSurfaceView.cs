@@ -9,15 +9,15 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm.UI.WinForms
 {
 
-    partial class BasicSurfaceView : UserControl
+    partial class CpuGdiPlusSurfaceView : UserControl
     {
          
         MyPlatformWindowBridgeGdiPlus winBridge;
-        public BasicSurfaceView()
+        public CpuGdiPlusSurfaceView()
         {
             InitializeComponent();
         }
-        public void InitRootGraphics(MyPlatformWindowBridgeGdiPlus winBridge)
+        public void Bind(MyPlatformWindowBridgeGdiPlus winBridge)
         {
             //1. 
             this.winBridge = winBridge;

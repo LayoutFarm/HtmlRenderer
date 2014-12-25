@@ -36,31 +36,29 @@ namespace LayoutFarm.UI.WinForms
                 case InnerViewportKind.GL:
                     {
                         LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
-                        MyPlatformWindowBridgeOpenGL winBridge = new MyPlatformWindowBridgeOpenGL(wintop, userInputEvBridge);
 
-                        var myGLControl = new MyGLControl();
-                        myGLControl.Dock = DockStyle.Fill;
+                        var bridge = new MyPlatformWindowBridgeOpenGL(wintop, userInputEvBridge);
 
-                        this.Controls.Add(myGLControl);
+                        var view = new GpuOpenGLSurfaceView();
+                        view.Dock = DockStyle.Fill;
+                        this.Controls.Add(view);
                         //--------------------------------------- 
-
-                        winBridge.BindGLControl(myGLControl);
-                        this.winBridge = winBridge;
+                        view.Bind(bridge);
+                        this.winBridge = bridge;
 
 
                     } break;
                 case InnerViewportKind.GdiPlus:
                 default:
                     {
-                        MyPlatformWindowBridgeGdiPlus winBridge = new MyPlatformWindowBridgeGdiPlus(wintop, userInputEvBridge);
+                        var bridge = new MyPlatformWindowBridgeGdiPlus(wintop, userInputEvBridge);
 
-                        var mybasicSurfaceView = new BasicSurfaceView();
-                        this.Controls.Add(mybasicSurfaceView);
+                        var view = new CpuGdiPlusSurfaceView();
+                        view.Dock = DockStyle.Fill;
+                        this.Controls.Add(view);
                         //--------------------------------------- 
-                        winBridge.BindWindowControl(mybasicSurfaceView);
-                        mybasicSurfaceView.Dock = DockStyle.Fill;
-                        mybasicSurfaceView.InitRootGraphics(winBridge);
-                        this.winBridge = winBridge;
+                        view.Bind(bridge);
+                        this.winBridge = bridge;
                     } break;
             }
         }

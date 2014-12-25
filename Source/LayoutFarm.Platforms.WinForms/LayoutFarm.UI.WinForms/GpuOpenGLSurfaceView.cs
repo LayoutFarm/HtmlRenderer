@@ -12,12 +12,13 @@ using OpenTK.Graphics.OpenGL;
 namespace LayoutFarm.UI.WinForms
 {
     //app specific
-    partial class MyGLControl : GLControl
-    { 
+    partial class GpuOpenGLSurfaceView : GLControl
+    {
+        MyPlatformWindowBridgeOpenGL winBridge;
 
         OpenTK.Graphics.Color4 clearColor;
         EventHandler glPaintHandler;
-        public MyGLControl()
+        public GpuOpenGLSurfaceView()
         {
             OpenTK.Graphics.GraphicsMode gfxmode = new OpenTK.Graphics.GraphicsMode(
              DisplayDevice.Default.BitsPerPixel,//default 32 bits color
@@ -31,6 +32,12 @@ namespace LayoutFarm.UI.WinForms
 
             //-----------
             this.InitializeComponent();
+        }
+        public void Bind(MyPlatformWindowBridgeOpenGL winBridge)
+        {
+            //1. 
+            this.winBridge = winBridge;
+            this.winBridge.BindGLControl(this);
         }
         public void SetGLPaintHandler(EventHandler glPaintHandler)
         {

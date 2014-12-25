@@ -14,7 +14,7 @@ namespace LayoutFarm.UI
     class MyPlatformWindowBridgeOpenGL : MyPlatformWindowBridge
     {
         bool isInitGLControl;
-        LayoutFarm.UI.WinForms.MyGLControl windowControl;
+        LayoutFarm.UI.WinForms.GpuOpenGLSurfaceView windowControl;
         Canvas canvas; 
 
         //---------
@@ -26,7 +26,7 @@ namespace LayoutFarm.UI
         /// bind to gl control
         /// </summary>
         /// <param name="myGLControl"></param>
-        public void BindGLControl(LayoutFarm.UI.WinForms.MyGLControl myGLControl)
+        public void BindGLControl(LayoutFarm.UI.WinForms.GpuOpenGLSurfaceView myGLControl)
         {
             this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, myGLControl.Width, myGLControl.Height);
 
