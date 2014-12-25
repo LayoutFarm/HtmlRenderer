@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace LayoutFarm.UI.WinForms
+namespace LayoutFarm.UI.OpenGLView
 {
     //app specific
     partial class GpuOpenGLSurfaceView : GLControl
@@ -60,17 +60,17 @@ namespace LayoutFarm.UI.WinForms
                         (float)clearColor.A / 255f);
                 }
             }
-        } 
+        }
         protected override void OnPaint(PaintEventArgs e)
         {
-            //this.winBridge.PaintMe(e);
-            //base.OnPaint(e);
 
             base.OnPaint(e);
             //------------------------------------------
             if (!this.DesignMode)
             {
                 MakeCurrent();
+                //---------
+                //auto clear color ?
                 GL.Clear(ClearBufferMask.ColorBufferBit);
                 if (glPaintHandler != null)
                 {
@@ -151,7 +151,7 @@ namespace LayoutFarm.UI.WinForms
             base.OnMouseUp(e);
 
         }
-         
+
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {

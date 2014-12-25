@@ -8,49 +8,50 @@ using System.Windows.Forms;
 using LayoutFarm.Drawing;
 
 
-namespace LayoutFarm.UI
+namespace LayoutFarm.UI.GdiPlusView
 {
-    class MyPlatformWindowBridgeGdiPlus : MyPlatformWindowBridge
+    class MyPlatformWindowBridgeGdiPlus : PlatformWindowBridge
     {
         Control windowControl;
+        GdiPlusCanvasViewport gdiPlusViewport;
         public MyPlatformWindowBridgeGdiPlus(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
             : base(topwin, winEventBridge)
         {
 
-        }
-
-        System.Drawing.Size Size
-        {
-            get { return this.windowControl.Size; }
-        }
-
-        protected override void PaintToOutputWindow()
-        {
-            IntPtr hdc = DrawingBridge.Win32Utils.GetDC(this.windowControl.Handle);
-            canvasViewport.PaintMe(hdc);
-            DrawingBridge.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
-        }
-        protected override void PaintToOutputWindowIfNeed()
-        {
-            if (!this.canvasViewport.IsQuadPageValid)
-            {
-                IntPtr hdc = DrawingBridge.Win32Utils.GetDC(this.windowControl.Handle);
-                canvasViewport.PaintMe(hdc);
-                DrawingBridge.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
-            }
         }
         public void BindWindowControl(Control windowControl)
         {
             //bind to anycontrol GDI control 
             this.topwin.MakeCurrent();
             this.windowControl = windowControl;
-            this.canvasViewport = new CanvasViewport(topwin, this.Size.ToSize(), 4);
+            this.canvasViewport = this.gdiPlusViewport = new GdiPlusCanvasViewport(topwin, this.Size.ToSize(), 4);
 
 #if DEBUG
             this.canvasViewport.dbugOutputWindow = this;
 #endif
             this.EvaluateScrollbar();
         }
+        System.Drawing.Size Size
+        {
+            get { return this.windowControl.Size; }
+        }
+        protected override void PaintToOutputWindow()
+        {
+            IntPtr hdc = DrawingBridge.Win32Utils.GetDC(this.windowControl.Handle);             
+            this.gdiPlusViewport.PaintMe(hdc);
+            DrawingBridge.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
+        }
+        protected override void PaintToOutputWindowIfNeed()
+        {
+            if (!this.canvasViewport.IsQuadPageValid)
+            {
+                //platform specific code ***
+                IntPtr hdc = DrawingBridge.Win32Utils.GetDC(this.windowControl.Handle);
+                this.gdiPlusViewport.PaintMe(hdc);
+                DrawingBridge.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
+            }
+        }
+
         protected override void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
         {
             switch (mouseEventArg.MouseCursorStyle)
@@ -60,7 +61,6 @@ namespace LayoutFarm.UI
                         windowControl.Cursor = Cursors.Hand;
                     } break;
                 case MouseCursorStyle.IBeam:
-
                     {
                         windowControl.Cursor = Cursors.IBeam;
                     } break;

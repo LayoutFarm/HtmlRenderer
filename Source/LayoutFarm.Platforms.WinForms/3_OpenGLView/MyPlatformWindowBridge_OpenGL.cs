@@ -9,13 +9,13 @@ using LayoutFarm.Drawing;
 
 using OpenTK.Graphics;
 
-namespace LayoutFarm.UI
+namespace LayoutFarm.UI.OpenGLView
 {
-    class MyPlatformWindowBridgeOpenGL : MyPlatformWindowBridge
+    class MyPlatformWindowBridgeOpenGL : PlatformWindowBridge
     {
         bool isInitGLControl;
-        LayoutFarm.UI.WinForms.GpuOpenGLSurfaceView windowControl;
-        Canvas canvas; 
+        GpuOpenGLSurfaceView windowControl;
+        Canvas canvas;
 
         //---------
         public MyPlatformWindowBridgeOpenGL(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
@@ -26,13 +26,14 @@ namespace LayoutFarm.UI
         /// bind to gl control
         /// </summary>
         /// <param name="myGLControl"></param>
-        public void BindGLControl(LayoutFarm.UI.WinForms.GpuOpenGLSurfaceView myGLControl)
+        public void BindGLControl(GpuOpenGLSurfaceView myGLControl)
         {
             this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, myGLControl.Width, myGLControl.Height);
 
             this.topwin.MakeCurrent();
             this.windowControl = myGLControl;
-            this.canvasViewport = new CanvasViewport(topwin, this.Size.ToSize(), 4);
+            this.canvasViewport = new OpenGLCanvasViewport(topwin, this.Size.ToSize(), 4);
+
 
 #if DEBUG
             this.canvasViewport.dbugOutputWindow = this;
@@ -62,8 +63,13 @@ namespace LayoutFarm.UI
         {
             //gl paint here
             canvas.ClearSurface(Color.White);
-            canvas.StrokeColor = LayoutFarm.Drawing.Color.Blue;
-            canvas.DrawRectangle(Color.Blue, 20, 20, 200, 200);
+            //test draw rect
+            //canvas.StrokeColor = LayoutFarm.Drawing.Color.Blue;
+            //canvas.DrawRectangle(Color.Blue, 20, 20, 200, 200);
+
+
+
+
             //------------------------
             windowControl.SwapBuffers();
         }

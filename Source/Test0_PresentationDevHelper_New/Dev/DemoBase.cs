@@ -12,8 +12,8 @@ namespace LayoutFarm
 
     public class SampleViewport
     {
-        LayoutFarm.UI.WinForms.UISurfaceViewportControl vw;
-        public SampleViewport(LayoutFarm.UI.WinForms.UISurfaceViewportControl vw)
+        LayoutFarm.UI.UISurfaceViewportControl vw;
+        public SampleViewport(LayoutFarm.UI.UISurfaceViewportControl vw)
         {
             this.vw = vw; 
         }

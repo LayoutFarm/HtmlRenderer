@@ -6,15 +6,14 @@ using System.Text;
 using System.Windows.Forms;
 using LayoutFarm.Drawing;
 
-
-namespace LayoutFarm.UI.WinForms
+namespace LayoutFarm.UI
 {
 
     public partial class UISurfaceViewportControl : UserControl
     {
 
         TopWindowRenderBox wintop;
-        MyPlatformWindowBridge winBridge;
+        PlatformWindowBridge winBridge;
 
         public UISurfaceViewportControl()
         {
@@ -37,9 +36,10 @@ namespace LayoutFarm.UI.WinForms
                     {
                         LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
 
-                        var bridge = new MyPlatformWindowBridgeOpenGL(wintop, userInputEvBridge);
 
-                        var view = new GpuOpenGLSurfaceView();
+                        var bridge = new OpenGLView.MyPlatformWindowBridgeOpenGL(wintop, userInputEvBridge);
+
+                        var view = new OpenGLView.GpuOpenGLSurfaceView();
                         view.Dock = DockStyle.Fill;
                         this.Controls.Add(view);
                         //--------------------------------------- 
@@ -51,9 +51,9 @@ namespace LayoutFarm.UI.WinForms
                 case InnerViewportKind.GdiPlus:
                 default:
                     {
-                        var bridge = new MyPlatformWindowBridgeGdiPlus(wintop, userInputEvBridge);
+                        var bridge = new GdiPlusView.MyPlatformWindowBridgeGdiPlus(wintop, userInputEvBridge);
 
-                        var view = new CpuGdiPlusSurfaceView();
+                        var view = new GdiPlusView.CpuGdiPlusSurfaceView();
                         view.Dock = DockStyle.Fill;
                         this.Controls.Add(view);
                         //--------------------------------------- 

@@ -10,7 +10,7 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm.UI
 {
 
-    abstract partial class MyPlatformWindowBridge
+    abstract partial class PlatformWindowBridge
     {
         CanvasEventsStock eventStock = new CanvasEventsStock();
         IUserEventPortal userEventPortal;
@@ -28,7 +28,7 @@ namespace LayoutFarm.UI
 
         RootGraphic rootGraphic;
 
-        public MyPlatformWindowBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
+        public PlatformWindowBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
         {
             this.userEventPortal = winEventBridge;
             this.topwin = topwin;

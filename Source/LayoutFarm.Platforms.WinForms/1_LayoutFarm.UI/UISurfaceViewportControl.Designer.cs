@@ -1,4 +1,4 @@
-﻿namespace LayoutFarm.UI.WinForms
+﻿namespace LayoutFarm.UI
 {
     partial class UISurfaceViewportControl
     {
@@ -16,7 +16,7 @@
 
         #region Component Designer generated code
 
-       
+
 
         #endregion
     }
