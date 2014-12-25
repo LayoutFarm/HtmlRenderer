@@ -26,6 +26,7 @@ namespace LayoutFarm.UI.WinForms
             InitializeComponent();
         }
 
+
         public void InitRootGraphics(
             TopWindowRenderBox wintop,
             IUserEventPortal userInputEvBridge,
@@ -33,9 +34,7 @@ namespace LayoutFarm.UI.WinForms
         {
             //test*** force  to use gl
             //innerViewportKind = InnerViewportKind.GL;
-            //----------------------------------------
-
-
+            //---------------------------------------- 
             //1.
             this.wintop = wintop;
             this.winBridge = new MyPlatformWindowBridge(wintop, userInputEvBridge);
@@ -68,7 +67,10 @@ namespace LayoutFarm.UI.WinForms
                     } break;
             }
         }
-
+        public GraphicsPlatform P
+        {
+            get { return wintop.Root.P; }
+        }
         void InitializeComponent()
         {
             this.SuspendLayout();

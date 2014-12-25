@@ -23,8 +23,8 @@ namespace LayoutFarm.Drawing.DrawingGL
                     return;
                 }
                 isInit = true;
-                CurrentGraphicsPlatform.SetCurrentPlatform(CanvasGLPortal.platform = new CanvasGLPlatform());
-                CurrentGraphicsPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
+                CanvasGLPortal.platform = new CanvasGLPlatform();
+                GraphicsPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
 
             }
         }
