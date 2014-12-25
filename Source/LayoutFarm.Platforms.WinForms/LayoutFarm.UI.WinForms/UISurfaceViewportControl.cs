@@ -33,16 +33,17 @@ namespace LayoutFarm.UI.WinForms
             InnerViewportKind innerViewportKind)
         {
             //test*** force  to use gl
-            //innerViewportKind = InnerViewportKind.GL;
+            innerViewportKind = InnerViewportKind.GL;
             //---------------------------------------- 
             //1.
             this.wintop = wintop;
-            this.winBridge = new MyPlatformWindowBridge(wintop, userInputEvBridge);
+
 
             switch (innerViewportKind)
             {
                 case InnerViewportKind.GL:
                     {
+                        MyPlatformWindowBridgeOpenGL winBridge = new MyPlatformWindowBridgeOpenGL(wintop, userInputEvBridge);
                         this.innerViewportKind = InnerViewportKind.GL;
                         myGLControl = new OpenTK.MyGLControl();
                         myGLControl.Dock = DockStyle.Fill;
@@ -51,19 +52,26 @@ namespace LayoutFarm.UI.WinForms
                         //--------------------------------------- 
                         LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
                         this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, this.Width, this.Height);
-                        this.winBridge.BindWindowControl(myGLControl);
+
+                        winBridge.BindGLControl(myGLControl);
+                        this.winBridge = winBridge;
+
 
                     } break;
                 case InnerViewportKind.GdiPlus:
                 default:
                     {
+                        MyPlatformWindowBridgeGdiPlus winBridge = new MyPlatformWindowBridgeGdiPlus(wintop, userInputEvBridge);
                         this.innerViewportKind = InnerViewportKind.GdiPlus;
                         mybasicSurfaceView = new BasicSurfaceView();
                         this.Controls.Add(mybasicSurfaceView);
-
+                        //--------------------------------------- 
+                        winBridge.BindWindowControl(mybasicSurfaceView);
 
                         mybasicSurfaceView.Dock = DockStyle.Fill;
-                        mybasicSurfaceView.InitRootGraphics(this.winBridge);
+                        mybasicSurfaceView.InitRootGraphics(winBridge);
+
+                        this.winBridge = winBridge;
                     } break;
             }
         }
@@ -103,6 +111,9 @@ namespace LayoutFarm.UI.WinForms
         {
             //gl paint here
             canvas.ClearSurface(Color.White);
+            canvas.StrokeColor = LayoutFarm.Drawing.Color.Blue;
+            canvas.DrawLine(0, 0, 500, 500);
+            //------------------------
             myGLControl.SwapBuffers();
         }
         public void PaintMe()

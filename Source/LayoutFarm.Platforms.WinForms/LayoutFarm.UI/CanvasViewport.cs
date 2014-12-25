@@ -97,17 +97,13 @@ namespace LayoutFarm.UI
         {
             if (isClosed) { return; }
             //------------------------------------ 
-
             topWindowBox.PrepareRender();
-
             //---------------
             this.rootGraphics.IsInRenderPhase = true;
 #if DEBUG
             this.rootGraphics.dbug_rootDrawingMsg.Clear();
             this.rootGraphics.dbug_drawLevel = 0;
-#endif
-
-
+#endif          
             if (fullMode)
             {
                 quadPages.RenderToOutputWindowFullMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
@@ -116,7 +112,6 @@ namespace LayoutFarm.UI
             {
                 //temp to full mode
                 quadPages.RenderToOutputWindowFullMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
-                //quadPages.RenderToOutputWindowPartialMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
             }
             this.rootGraphics.IsInRenderPhase = false;
 

@@ -13,13 +13,13 @@ namespace LayoutFarm.UI.WinForms
     {
 
 
-        MyPlatformWindowBridge winBridge;
+        MyPlatformWindowBridgeGdiPlus winBridge;
         public BasicSurfaceView()
         {
             InitializeComponent();
         }
 
-        public void InitRootGraphics(MyPlatformWindowBridge winBridge)
+        public void InitRootGraphics(MyPlatformWindowBridgeGdiPlus winBridge)
         {
             //1. 
             this.winBridge = winBridge;

@@ -65,6 +65,8 @@
     <Compile Include="LayoutFarm.UI\Conv.cs" />
     <Compile Include="LayoutFarm.UI\MyPlatformWindowBridge.cs" />
     <Compile Include="LayoutFarm.UI\MyPlatformWindowBridge_dbug.cs" />
+    <Compile Include="LayoutFarm.UI\MyPlatformWindowBridge_GdiPlus.cs" />
+    <Compile Include="LayoutFarm.UI\MyPlatformWindowBridge_OpenGL.cs" />
     <Compile Include="LayoutFarm.UI\Win32Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
