@@ -17,10 +17,10 @@ namespace LayoutFarm.Drawing
             {
                 return;
             }
-            isInit = true; 
-            CurrentGraphicsPlatform.SetCurrentPlatform(WinGdiPortal.platform = new WinGdiPlatform());
-            CurrentGraphicsPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
-
+            isInit = true;
+            WinGdiPortal.platform = new WinGdiPlatform();
+            GraphicsPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
+             
         }
         public static void End()
         {

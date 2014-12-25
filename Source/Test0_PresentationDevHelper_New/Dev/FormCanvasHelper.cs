@@ -20,7 +20,7 @@ namespace LayoutFarm.UI
             var innerViewport = canvasViewport = new LayoutFarm.UI.WinForms.UISurfaceViewportControl();
             Rectangle screenClientAreaRect = Conv.ToRect(Screen.PrimaryScreen.WorkingArea);
 
-            canvasViewport.InitRootGraphics(topWin, userInputEvBridge);
+            canvasViewport.InitRootGraphics(topWin, userInputEvBridge, WinForms.InnerViewportKind.GdiPlus);
             canvasViewport.Bounds =
                 new System.Drawing.Rectangle(0, 0,
                     screenClientAreaRect.Width,

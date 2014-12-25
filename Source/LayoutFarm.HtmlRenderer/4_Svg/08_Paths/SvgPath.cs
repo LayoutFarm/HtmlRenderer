@@ -52,7 +52,7 @@ namespace LayoutFarm.SvgDom
                 int segcount = segs.Count;
 
 
-                GraphicsPath gpath = this.myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath();
+                GraphicsPath gpath = this.myCachedPath = args.graphicsPlatform.CreateGraphicsPath();
                 float lastMoveX = 0;
                 float lastMoveY = 0;
 

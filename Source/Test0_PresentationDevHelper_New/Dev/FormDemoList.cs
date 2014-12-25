@@ -15,14 +15,15 @@ namespace LayoutFarm.Dev
 
         UIPlatform uiPlatformWinForm;
         GraphicsPlatform gfxPlatform;
-        public FormDemoList()
+        public FormDemoList(GraphicsPlatform gfxPlatform)
         {
             InitializeComponent();
+            this.gfxPlatform = gfxPlatform;
             this.Load += new EventHandler(Form1_Load);
 
-          
+
             this.uiPlatformWinForm = new LayoutFarm.UI.WinForms.UIPlatformWinForm();
-            this.gfxPlatform = LayoutFarm.Drawing.CurrentGraphicsPlatform.P;
+
         }
 
         void Form1_Load(object sender, EventArgs e)

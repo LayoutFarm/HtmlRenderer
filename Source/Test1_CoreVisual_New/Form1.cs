@@ -16,11 +16,11 @@ namespace TestGraphicPackage
     {
         UIPlatform uiPlatformWinForm;
         LayoutFarm.Drawing.GraphicsPlatform gfxPlatform;
-        public Form1()
+        public Form1(LayoutFarm.Drawing.GraphicsPlatform p)
         {
             InitializeComponent();
             this.uiPlatformWinForm = new LayoutFarm.UI.WinForms.UIPlatformWinForm();
-            this.gfxPlatform = LayoutFarm.Drawing.CurrentGraphicsPlatform.P;
+            this.gfxPlatform = p;
         }
 
         static void ShowFormLayoutInspector(LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport)
@@ -76,7 +76,7 @@ namespace TestGraphicPackage
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm, this.gfxPlatform, w, h);
             TopWindowRenderBox topWin = rootgfx.CreateTopWindowRenderBox(w, h);
 
-            viewport.InitRootGraphics(topWin, rootgfx.CreateUserEventPortal(topWin));
+            viewport.InitRootGraphics(topWin, rootgfx.CreateUserEventPortal(topWin), LayoutFarm.UI.WinForms.InnerViewportKind.GdiPlus);
             viewport.PaintMe();
 
             simpleForm.Show();

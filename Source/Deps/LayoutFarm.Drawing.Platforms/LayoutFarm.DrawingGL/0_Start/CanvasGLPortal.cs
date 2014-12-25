@@ -11,17 +11,22 @@ namespace LayoutFarm.Drawing.DrawingGL
     {
         static bool isInit;
         static CanvasGLPlatform platform;
+
+        static object syncLock = new object();
+
         public static void Start()
         {
-
-            if (isInit)
+            lock (syncLock)
             {
-                return;
-            }
-            isInit = true;
-            CurrentGraphicsPlatform.SetCurrentPlatform(CanvasGLPortal.platform = new CanvasGLPlatform());
-            CurrentGraphicsPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
+                if (isInit)
+                {
+                    return;
+                }
+                isInit = true;
+                CanvasGLPortal.platform = new CanvasGLPlatform();
+                GraphicsPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
 
+            }
         }
         public static void End()
         {

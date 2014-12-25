@@ -47,7 +47,7 @@ namespace LayoutFarm.UI
             userInputEventBridge.Bind(topwin);
             return userInputEventBridge;
         }
-        protected override GraphicsPlatform P
+        public override GraphicsPlatform P
         {
             get { return graphicsPlatform; }
         }

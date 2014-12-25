@@ -13,8 +13,8 @@ namespace TestGraphicPackage
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            LayoutFarm.Drawing.MyWinGdiPortal.Start();
-            Application.Run(new Form1());
+            var platform = LayoutFarm.Drawing.MyWinGdiPortal.Start();
+            Application.Run(new Form1(platform));
             LayoutFarm.Drawing.MyWinGdiPortal.End();
 
         }

@@ -16,7 +16,7 @@ namespace LayoutFarm
 
             ////==================================================
             //html box
-            UIHtmlBox htmlBox = new UIHtmlBox(800, 400);
+            UIHtmlBox htmlBox = new UIHtmlBox(viewport.P, 800, 400);
             
             
             StringBuilder stbuilder = new StringBuilder();

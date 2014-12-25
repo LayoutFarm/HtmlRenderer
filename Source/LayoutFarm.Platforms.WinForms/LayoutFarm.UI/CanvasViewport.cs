@@ -36,13 +36,13 @@ namespace LayoutFarm.UI
             this.rootGraphics = wintop.Root;
 
             this.topWindowBox = wintop;
-            quadPages = new QuadPages(cachedPageNum, viewportSize.Width, viewportSize.Height * 2);
+            quadPages = new QuadPages(rootGraphics.P, cachedPageNum, viewportSize.Width, viewportSize.Height * 2);
 
             this.viewportWidth = viewportSize.Width;
             this.viewportHeight = viewportSize.Height;
 
             canvasInvalidateHandler = Canvas_Invalidate;
-            canvasSizeChangedHandler = Canvas_SizeChanged; 
+            canvasSizeChangedHandler = Canvas_SizeChanged;
 
             wintop.SetCanvasInvalidateRequest(canvasInvalidateHandler);
             viewportX = 0;
@@ -71,7 +71,7 @@ namespace LayoutFarm.UI
 
                 quadPages.ResizeAllPages(viewportWidth, viewportHeight);
                 CalculateCanvasPages();
-                
+
                 topWindowBox.ChangeRootGraphicSize(viewportWidth, viewportHeight);
             }
         }
@@ -98,7 +98,7 @@ namespace LayoutFarm.UI
             if (isClosed) { return; }
             //------------------------------------ 
 
-            topWindowBox.PrepareRender(); 
+            topWindowBox.PrepareRender();
 
             //---------------
             this.rootGraphics.IsInRenderPhase = true;
@@ -106,7 +106,7 @@ namespace LayoutFarm.UI
             this.rootGraphics.dbug_rootDrawingMsg.Clear();
             this.rootGraphics.dbug_drawLevel = 0;
 #endif
-             
+
 
             if (fullMode)
             {
@@ -118,7 +118,7 @@ namespace LayoutFarm.UI
                 quadPages.RenderToOutputWindowFullMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
                 //quadPages.RenderToOutputWindowPartialMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
             }
-            this.rootGraphics.IsInRenderPhase = false;             
+            this.rootGraphics.IsInRenderPhase = false;
 
 #if DEBUG
 
@@ -323,7 +323,7 @@ namespace LayoutFarm.UI
         {
             this.isClosed = true;
             this.rootGraphics.CloseWinRoot();
-             
+
         }
     }
 }

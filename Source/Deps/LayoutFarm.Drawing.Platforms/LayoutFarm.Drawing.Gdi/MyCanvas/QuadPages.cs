@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing.Drawing2D; 
+using System.Drawing.Drawing2D;
 
 namespace LayoutFarm.Drawing.WinGdi
 {
@@ -16,12 +16,14 @@ namespace LayoutFarm.Drawing.WinGdi
         internal MyCanvas pageD;
 
         CanvasCollection physicalCanvasCollection;
-
-        public QuadPages(int cachedPageNum, int eachCachedPageWidth,
+         
+        public QuadPages(GraphicsPlatform gfxPlatform, int cachedPageNum, int eachCachedPageWidth,
             int eachCachedPageHeight)
         {
-
-            physicalCanvasCollection = new CanvasCollection(cachedPageNum, eachCachedPageWidth, eachCachedPageHeight);
+             
+            physicalCanvasCollection = new CanvasCollection(
+                gfxPlatform,
+                cachedPageNum, eachCachedPageWidth, eachCachedPageHeight);
 
         }
         //public int EachPageWidth
@@ -387,7 +389,7 @@ namespace LayoutFarm.Drawing.WinGdi
                     } break;
 
             }
-        } 
+        }
         public void CalculateCanvasPages(int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
             int firstVerticalPageNum = viewportY / physicalCanvasCollection.EachPageHeight;

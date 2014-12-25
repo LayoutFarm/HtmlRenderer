@@ -38,7 +38,7 @@ namespace HtmlRenderer.Demo
             this._splitter = new System.Windows.Forms.Splitter();
             this._reloadColorsLink = new System.Windows.Forms.LinkLabel();
             this._htmlEditor = new System.Windows.Forms.RichTextBox();
-            this._htmlPanel = new HtmlRenderer.Demo.HtmlPanel();
+           
             this._splitContainer1.Panel1.SuspendLayout();
             this._splitContainer1.Panel2.SuspendLayout();
             this._splitContainer1.SuspendLayout();
@@ -85,7 +85,7 @@ namespace HtmlRenderer.Demo
             // 
             // _openExternalViewButton
             // 
-            this._openExternalViewButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this._openExternalViewButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this._openExternalViewButton.Location = new System.Drawing.Point(4, 382);
             this._openExternalViewButton.Name = "_openExternalViewButton";
@@ -98,7 +98,7 @@ namespace HtmlRenderer.Demo
             // 
             // _toggleWebBrowserButton
             // 
-            this._toggleWebBrowserButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this._toggleWebBrowserButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this._toggleWebBrowserButton.Location = new System.Drawing.Point(4, 353);
             this._toggleWebBrowserButton.Name = "_toggleWebBrowserButton";
@@ -111,7 +111,7 @@ namespace HtmlRenderer.Demo
             // 
             // _runTestButton
             // 
-            this._runTestButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this._runTestButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this._runTestButton.Location = new System.Drawing.Point(4, 411);
             this._runTestButton.Name = "_runTestButton";
@@ -234,7 +234,7 @@ namespace HtmlRenderer.Demo
         private HtmlPanel _htmlPanel;
         private System.Windows.Forms.Splitter _splitter;
         private System.Windows.Forms.RichTextBox _htmlEditor;
-       // private HtmlToolTip _htmlToolTip;
+        // private HtmlToolTip _htmlToolTip;
         private System.Windows.Forms.Button _openExternalViewButton;
         private System.Windows.Forms.CheckBox _showGeneratedHtmlCB;
         private System.Windows.Forms.LinkLabel _reloadColorsLink;

@@ -66,6 +66,7 @@ namespace LayoutFarm.SvgDom
             this.ActualHeight = ConvertToPx(myspec.Height, ref args);
             this.ActualStrokeWidth = ConvertToPx(myspec.StrokeWidth, ref args);
             this._path = CreateRectGraphicPath(
+                    args.graphicsPlatform,
                     this.ActualX,
                     this.ActualY,
                     this.ActualWidth,
@@ -130,7 +131,7 @@ namespace LayoutFarm.SvgDom
                                 {
                                     //
                                     g.DrawImage(img, _imgRun.ImageRectangle);
-                                   
+
                                 }
                             }
                             else
@@ -161,9 +162,9 @@ namespace LayoutFarm.SvgDom
             }
 
         }
-        static GraphicsPath CreateRectGraphicPath(float x, float y, float w, float h)
+        static GraphicsPath CreateRectGraphicPath(GraphicsPlatform gfxPlatform, float x, float y, float w, float h)
         {
-            var _path = CurrentGraphicsPlatform.CreateGraphicPath();
+            var _path = gfxPlatform.CreateGraphicsPath();
             _path.StartFigure();
             _path.AddRectangle(new RectangleF(x, y, w, h));
             _path.CloseFigure();

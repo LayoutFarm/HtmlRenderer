@@ -26,7 +26,7 @@ namespace LayoutFarm
             }
             //==================================================
             //html box
-            var htmlBox = new UIHtmlBox(800, 600);
+            var htmlBox = new UIHtmlBox(viewport.P, 800, 600);
             var htmlBoxContentMx = new UIHtmlBoxContentManager();
             var contentMx = new HtmlRenderer.ContentManagers.ImageContentManager();
 
