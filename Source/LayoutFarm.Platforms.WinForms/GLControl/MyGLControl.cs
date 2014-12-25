@@ -53,6 +53,10 @@ namespace OpenTK
             }
         }
 
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+        }
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);

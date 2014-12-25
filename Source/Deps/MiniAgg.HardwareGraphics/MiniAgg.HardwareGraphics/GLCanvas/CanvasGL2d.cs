@@ -406,7 +406,7 @@ namespace LayoutFarm.DrawingGL
                 //set color 
                 float* rectCoords = stackalloc float[12];
                 CreateRectCoords(rectCoords, x, y, w, h);
-                UnsafeDrawV2fList(DrawMode.Triangles, rectCoords, 6);
+                UnsafeDrawV2fList(DrawMode.LineLoop, rectCoords, 6);
             }
 
 

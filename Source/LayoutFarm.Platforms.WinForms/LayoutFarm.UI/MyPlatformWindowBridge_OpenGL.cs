@@ -20,7 +20,6 @@ namespace LayoutFarm.UI
             : base(topwin, winEventBridge)
         {
         }
-
         /// <summary>
         /// bind to gl control
         /// </summary>
@@ -28,8 +27,7 @@ namespace LayoutFarm.UI
         public void BindGLControl(OpenTK.MyGLControl myGLControl)
         {
             this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, myGLControl.Width, myGLControl.Height);
-
-            //bind to anycontrol GDI control
+              
             this.topwin.MakeCurrent();
             this.windowControl = myGLControl;
             this.canvasViewport = new CanvasViewport(topwin, this.Size.ToSize(), 4);
@@ -63,7 +61,7 @@ namespace LayoutFarm.UI
             //gl paint here
             canvas.ClearSurface(Color.White);
             canvas.StrokeColor = LayoutFarm.Drawing.Color.Blue;
-            canvas.DrawLine(0, 0, 500, 500);
+            canvas.DrawRectangle(Color.Blue, 20, 20, 200, 200);
             //------------------------
             windowControl.SwapBuffers();
         }

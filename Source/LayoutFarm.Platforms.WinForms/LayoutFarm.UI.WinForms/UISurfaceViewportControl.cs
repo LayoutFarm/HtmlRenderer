@@ -12,7 +12,7 @@ namespace LayoutFarm.UI.WinForms
 
     public partial class UISurfaceViewportControl : UserControl
     {
-        InnerViewportKind innerViewportKind = InnerViewportKind.GdiPlus;  
+        
         TopWindowRenderBox wintop;
         MyPlatformWindowBridge winBridge;
 
@@ -38,7 +38,7 @@ namespace LayoutFarm.UI.WinForms
                     {
                         LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.Start(); 
                         MyPlatformWindowBridgeOpenGL winBridge = new MyPlatformWindowBridgeOpenGL(wintop, userInputEvBridge);
-                        this.innerViewportKind = InnerViewportKind.GL;
+                         
                         var myGLControl = new OpenTK.MyGLControl();
                         myGLControl.Dock = DockStyle.Fill;
 
@@ -54,15 +54,13 @@ namespace LayoutFarm.UI.WinForms
                 default:
                     {
                         MyPlatformWindowBridgeGdiPlus winBridge = new MyPlatformWindowBridgeGdiPlus(wintop, userInputEvBridge);
-                        this.innerViewportKind = InnerViewportKind.GdiPlus;
+                         
                         var mybasicSurfaceView = new BasicSurfaceView();
                         this.Controls.Add(mybasicSurfaceView);
                         //--------------------------------------- 
-                        winBridge.BindWindowControl(mybasicSurfaceView);
-
+                        winBridge.BindWindowControl(mybasicSurfaceView); 
                         mybasicSurfaceView.Dock = DockStyle.Fill;
                         mybasicSurfaceView.InitRootGraphics(winBridge);
-
                         this.winBridge = winBridge;
                     } break;
             }

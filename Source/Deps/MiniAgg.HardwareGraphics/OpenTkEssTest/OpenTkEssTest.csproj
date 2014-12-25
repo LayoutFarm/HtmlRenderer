@@ -96,6 +96,12 @@
     <Compile Include="05_GLControl\FormMultipleGLControls.Designer.cs">
       <DependentUpon>FormMultipleGLControls.cs</DependentUpon>
     </Compile>
+    <Compile Include="05_GLControl\MyGLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="05_GLControl\MyGLControl.Designer.cs">
+      <DependentUpon>MyGLControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="05_GLControl\WinFormDemoList.cs" />
     <Compile Include="06_GameWindows\GameWindowMsaa.cs" />
     <Compile Include="06_GameWindows\GameWindowSimple.cs" />
@@ -139,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="05_GLControl\FormMultipleGLControls.resx">
       <DependentUpon>FormMultipleGLControls.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="05_GLControl\MyGLControl.resx">
+      <DependentUpon>MyGLControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
