@@ -41,7 +41,7 @@ namespace LayoutFarm.SvgDom
             }
         }
 
-       
+
         public Color FillColor
         {
             get { return this.fillColor; }
@@ -56,12 +56,8 @@ namespace LayoutFarm.SvgDom
 
     public class SvgRect : SvgVisualElement
     {
-
-
         SvgRectSpec rectSpec;
         float actualX, actualY, actualW, actualH, cornerX, cornerY;
-
-
         public SvgRect(SvgRectSpec rectSpec, object controller)
             : base(controller)
         {
@@ -124,6 +120,7 @@ namespace LayoutFarm.SvgDom
             if (this.ActualCornerX == 0 && this.ActualCornerY == 0)
             {
                 this.myCachedPath = CreateRectGraphicPath(
+                    args.graphicsPlatform,
                     this.ActualX,
                     this.ActualY,
                     this.ActualWidth,
@@ -132,6 +129,7 @@ namespace LayoutFarm.SvgDom
             else
             {
                 this.myCachedPath = CreateRoundRectGraphicPath(
+                    args.graphicsPlatform,
                     this.ActualX,
                     this.ActualY,
                     this.ActualWidth,
@@ -141,17 +139,17 @@ namespace LayoutFarm.SvgDom
             }
             ValidatePath();
         }
-        static GraphicsPath CreateRectGraphicPath(float x, float y, float w, float h)
+        static GraphicsPath CreateRectGraphicPath(GraphicsPlatform gfxPlatform, float x, float y, float w, float h)
         {
-            var _path = CurrentGraphicsPlatform.CreateGraphicPath();
+            var _path = gfxPlatform.CreateGraphicsPath();
             _path.StartFigure();
             _path.AddRectangle(new RectangleF(x, y, w, h));
             _path.CloseFigure();
             return _path;
         }
-        static GraphicsPath CreateRoundRectGraphicPath(float x, float y, float w, float h, float c_rx, float c_ry)
+        static GraphicsPath CreateRoundRectGraphicPath(GraphicsPlatform gfxPlatform, float x, float y, float w, float h, float c_rx, float c_ry)
         {
-            var _path = CurrentGraphicsPlatform.CreateGraphicPath();
+            var _path = gfxPlatform.CreateGraphicsPath();
             var arcBounds = new RectangleF();
             var lineStart = new PointF();
             var lineEnd = new PointF();
@@ -292,7 +290,7 @@ namespace LayoutFarm.SvgDom
             if (this.IsPathValid) { return; }
             ClearCachePath();
 
-            myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath();
+            myCachedPath = args.graphicsPlatform.CreateGraphicsPath();
             myCachedPath.StartFigure();
             myCachedPath.AddEllipse(this.ActualX - this.ActualRadius, this.ActualY - this.ActualRadius, 2 * this.ActualRadius, 2 * ActualRadius);
             myCachedPath.CloseFigure();
@@ -308,14 +306,14 @@ namespace LayoutFarm.SvgDom
             return false;
         }
         public override void Paint(Painter p)
-        {   
+        {
             if (fillColor.A > 0)
             {
                 p.FillPath(myCachedPath, this.fillColor);
             }
             if (this.strokeColor.A > 0 && this.ActualStrokeWidth > 0)
             {
-                p.DrawPath(myCachedPath, this.StrokeColor, this.ActualStrokeWidth);                 
+                p.DrawPath(myCachedPath, this.StrokeColor, this.ActualStrokeWidth);
             }
         }
     }
@@ -371,7 +369,7 @@ namespace LayoutFarm.SvgDom
             //path may note need
             if (this.IsPathValid) { return; }
             ClearCachePath();
-            this.myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath();
+            this.myCachedPath = args.graphicsPlatform.CreateGraphicsPath();
             myCachedPath.StartFigure();
             myCachedPath.AddEllipse(this.ActualX - this.ActualRadiusX, this.ActualY - this.ActualRadiusY, 2 * this.ActualRadiusX, 2 * this.ActualRadiusY);
             myCachedPath.CloseFigure();
@@ -388,15 +386,15 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-             
+
             if (fillColor.A > 0)
             {
-                 
+
                 p.FillPath(myCachedPath, fillColor);
             }
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
-            {                    
+            {
                 p.DrawPath(myCachedPath, this.strokeColor, this.ActualStrokeWidth);
             }
         }
@@ -423,7 +421,7 @@ namespace LayoutFarm.SvgDom
             if (this.IsPathValid) { return; }
             ClearCachePath();
 
-            this.myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath();
+            this.myCachedPath = args.graphicsPlatform.CreateGraphicsPath();
             this.myCachedPath.StartFigure();
             PointF[] plist = this.pointList;
             int lim = plist.Length - 1;
@@ -453,16 +451,16 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-             
+
             if (this.fillColor.A > 0)
             {
-                 
+
                 p.FillPath(myCachedPath, fillColor);
             }
 
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
-            {   
+            {
                 p.DrawPath(myCachedPath, this.strokeColor, this.ActualStrokeWidth);
             }
 
@@ -491,7 +489,7 @@ namespace LayoutFarm.SvgDom
             if (this.IsPathValid) { return; }
             ClearCachePath();
 
-            this.myCachedPath = CurrentGraphicsPlatform.CreateGraphicPath(); 
+            this.myCachedPath = args.graphicsPlatform.CreateGraphicsPath();
             PointF[] plist = this.pointList;
             int lim = plist.Length - 1;
             for (int i = 0; i < lim; ++i)
@@ -505,10 +503,10 @@ namespace LayoutFarm.SvgDom
         }
         public override void Paint(Painter p)
         {
-            
+
             if (this.strokeColor.A > 0
                 && this.ActualStrokeWidth > 0)
-            {               
+            {
                 p.DrawPath(myCachedPath, this.strokeColor, this.ActualStrokeWidth);
             }
         }

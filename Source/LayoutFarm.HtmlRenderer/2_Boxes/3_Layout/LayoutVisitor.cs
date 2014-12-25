@@ -25,10 +25,10 @@ namespace HtmlRenderer.Boxes
 
         static int totalLayoutIdEpisode = 0;
         readonly int episodeId = ++totalLayoutIdEpisode;
-
-        internal LayoutVisitor(GraphicsPlatform gfx, HtmlIsland visualRootBox)
+        GraphicsPlatform gfxPlatform;
+        internal LayoutVisitor(GraphicsPlatform gfxPlatform, HtmlIsland visualRootBox)
         {
-            this.SampleIFonts = gfx.SampleIFonts;
+            this.gfxPlatform = gfxPlatform;
             this.htmlIsland = visualRootBox;
             if (episodeId == ushort.MaxValue - 1)
             {
@@ -37,8 +37,11 @@ namespace HtmlRenderer.Boxes
                 episodeId = totalLayoutIdEpisode++;
             }
         }
-       
-       
+        public GraphicsPlatform GraphicsPlatform
+        {
+            get { return this.gfxPlatform; }
+        }
+
         internal IFonts SampleIFonts
         {
             get;
@@ -102,15 +105,15 @@ namespace HtmlRenderer.Boxes
         {
             //depends on Font of this box           
             float w = this.SampleIFonts.MeasureWhitespace(box.ActualFont);
-             
+
             if (!(box.WordSpacing.IsEmpty || box.WordSpacing.IsNormalWordSpacing))
             {
                 w += CssValueParser.ConvertToPxWithFontAdjust(box.WordSpacing, 0, box);
             }
             return w;
-        } 
+        }
         internal float MeasureStringWidth(char[] buffer, int startIndex, int len, Font f)
-        { 
+        {
             return this.SampleIFonts.MeasureString(buffer, startIndex, len, f).Width;
         }
 

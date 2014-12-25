@@ -87,28 +87,29 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// Creates a new HtmlPanel and sets a basic css for it's styling.
         /// </summary>
-        public HtmlPanel()
+        public HtmlPanel(LayoutFarm.Drawing.GraphicsPlatform p)
         {
             AutoScroll = true;
             BackColor = SystemColors.Window;
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
-
-            this.gfxPlatform = LayoutFarm.Drawing.CurrentGraphicsPlatform.P;
+            SetGraphicsPlatform(p);
+        }
+        void SetGraphicsPlatform(LayoutFarm.Drawing.GraphicsPlatform p)
+        {
+            //-------------------------------------------------------
+            this.gfxPlatform = p;
             this.renderCanvas = gfxPlatform.CreateCanvas(0, 0, 800, 600);
-
             //-------------------------------------------------------
             myHtmlIsland = new MyHtmlIsland(gfxPlatform);
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.Refresh += OnRefresh;
             myHtmlIsland.NeedUpdateDom += new EventHandler<EventArgs>(myHtmlIsland_NeedUpdateDom);
             myHtmlIsland.RequestResource += new EventHandler<HtmlResourceRequestEventArgs>(myHtmlIsland_RequestResource);
-
             this.imageContentMan.ImageLoadingRequest += OnImageLoad;
             this.textContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
-            //-------------------------------------------------------
-
+            //------------------------------------------------------- 
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
             {
@@ -117,14 +118,12 @@ namespace HtmlRenderer.Demo
                     myHtmlIsland.InternalRefreshRequest();
                 }
             };
-
             timer01.Enabled = true;
             //-------------------------------------------
             _htmlEventBridge = new HtmlInputEventAdapter();
             _htmlEventBridge.Bind(myHtmlIsland, gfxPlatform.SampleIFonts);
             //------------------------------------------- 
         }
-
         void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
         {
             this.imageContentMan.AddRequestImage(

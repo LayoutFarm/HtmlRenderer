@@ -7,10 +7,11 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm.Drawing
 {
     public static class MyWinGdiPortal
-    {  
-        public static void Start()
+    {
+        public static GraphicsPlatform Start()
         {
             WinGdiPortal.Start();
+            return WinGdiPortal.P;
         }
         public static void End()
         {

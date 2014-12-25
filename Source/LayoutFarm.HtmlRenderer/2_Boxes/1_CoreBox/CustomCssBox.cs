@@ -15,7 +15,7 @@ namespace HtmlRenderer.Boxes
         {
             SetAsCustomCssBox(this);
         }
-        public abstract void CustomRecomputedValue(CssBox containingBlock);
+        public abstract void CustomRecomputedValue(CssBox containingBlock, GraphicsPlatform gfxPlatform);
         public abstract bool CustomContentHitTest(float x, float y, CssBoxHitChain hitChain);
 
     }

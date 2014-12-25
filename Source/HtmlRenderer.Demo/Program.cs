@@ -37,10 +37,10 @@ namespace HtmlRenderer.Demo
 
 
 
-            LayoutFarm.Drawing.MyWinGdiPortal.Start();
-            Application.Run(new DevForm());
+            var platform = LayoutFarm.Drawing.MyWinGdiPortal.Start();
+            Application.Run(new DevForm(platform));
             LayoutFarm.Drawing.MyWinGdiPortal.End();
-             
+
 
             //            Application.Run(new PerfForm());
 

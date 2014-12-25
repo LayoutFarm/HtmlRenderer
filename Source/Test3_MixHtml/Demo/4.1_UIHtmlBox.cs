@@ -13,13 +13,13 @@ namespace LayoutFarm
     class Demo_UIHtmlBox : DemoBase
     {
         protected override void OnStartDemo(SampleViewport viewport)
-        {       
-            
+        {
+
             //html box
-            UIHtmlBox htmlBox = new UIHtmlBox(800, 600); 
+            UIHtmlBox htmlBox = new UIHtmlBox(viewport.P, 800, 600);
             viewport.AddContent(htmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
-            htmlBox.LoadHtmlText(html);  
+            htmlBox.LoadHtmlText(html);
         }
 
     }

@@ -24,7 +24,7 @@ namespace LayoutFarm.Drawing.WinGdi
                 sampleIFonts = null;
             }
         } 
-        public override GraphicsPath CreateGraphicPath()
+        public override GraphicsPath CreateGraphicsPath()
         {
             return new MyGraphicsPath();
         } 

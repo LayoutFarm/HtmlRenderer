@@ -32,14 +32,14 @@ namespace LayoutFarm.Drawing.DrawingGL
        
 
          
-        public override GraphicsPath CreateGraphicPath()
+        public override GraphicsPath CreateGraphicsPath()
         {
             return new MyGraphicsPath();
         }
       
         public override FontInfo CreateNativeFontWrapper(object nativeFont)
         {
-            return LayoutFarm.FontsUtils.GetCachedFont((System.Drawing.Font)nativeFont);
+            return  FontsUtils.GetCachedFont((System.Drawing.Font)nativeFont);
 
         }
         public override Canvas CreateCanvas(int left, int top, int width, int height)
