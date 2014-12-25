@@ -45,6 +45,12 @@
   <ItemGroup>
     <Compile Include="0_Start\WinGdiPortal.cs" />
     <Compile Include="dbug\dbugHelper.cs" />
+    <Compile Include="GLControl\MyGLControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GLControl\MyGLControl.Designer.cs">
+      <DependentUpon>MyGLControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="LayoutFarm.UI.WinForms\BasicSurfaceViewport.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -65,6 +71,8 @@
     <Compile Include="LayoutFarm.UI\Conv.cs" />
     <Compile Include="LayoutFarm.UI\MyPlatformWindowBridge.cs" />
     <Compile Include="LayoutFarm.UI\MyPlatformWindowBridge_dbug.cs" />
+    <Compile Include="LayoutFarm.UI\MyPlatformWindowBridge_GdiPlus.cs" />
+    <Compile Include="LayoutFarm.UI\MyPlatformWindowBridge_OpenGL.cs" />
     <Compile Include="LayoutFarm.UI\Win32Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -109,7 +117,11 @@
       <Name>LayoutFarm.ClientPlatforms</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="GLControl\MyGLControl.resx">
+      <DependentUpon>MyGLControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
