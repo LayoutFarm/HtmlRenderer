@@ -24,10 +24,10 @@ namespace LayoutFarm.UI.GdiPlusView
             //bind to anycontrol GDI control 
             this.topwin.MakeCurrent();
             this.windowControl = windowControl;
-            this.canvasViewport = this.gdiPlusViewport = new GdiPlusCanvasViewport(topwin, this.Size.ToSize(), 4);
+            this.SetBaseCanvasViewport(this.gdiPlusViewport = new GdiPlusCanvasViewport(topwin, this.Size.ToSize(), 4));
 
 #if DEBUG
-            this.canvasViewport.dbugOutputWindow = this;
+            this.gdiPlusViewport.dbugOutputWindow = this;
 #endif
             this.EvaluateScrollbar();
         }
@@ -43,7 +43,7 @@ namespace LayoutFarm.UI.GdiPlusView
         }
         protected override void PaintToOutputWindowIfNeed()
         {
-            if (!this.canvasViewport.IsQuadPageValid)
+            if (!this.gdiPlusViewport.IsQuadPageValid)
             {
                 //platform specific code ***
                 IntPtr hdc = DrawingBridge.Win32Utils.GetDC(this.windowControl.Handle);

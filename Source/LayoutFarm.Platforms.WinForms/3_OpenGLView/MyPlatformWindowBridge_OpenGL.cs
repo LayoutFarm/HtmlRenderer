@@ -16,7 +16,7 @@ namespace LayoutFarm.UI.OpenGLView
         bool isInitGLControl;
         GpuOpenGLSurfaceView windowControl;
         Canvas canvas;
-
+        OpenGLCanvasViewport openGLViewport;
         //---------
         public MyPlatformWindowBridgeOpenGL(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
             : base(topwin, winEventBridge)
@@ -29,14 +29,13 @@ namespace LayoutFarm.UI.OpenGLView
         public void BindGLControl(GpuOpenGLSurfaceView myGLControl)
         {
             this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, myGLControl.Width, myGLControl.Height);
-
             this.topwin.MakeCurrent();
             this.windowControl = myGLControl;
-            this.canvasViewport = new OpenGLCanvasViewport(topwin, this.Size.ToSize(), 4);
+            SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(topwin, this.Size.ToSize(), 4));
 
 
 #if DEBUG
-            this.canvasViewport.dbugOutputWindow = this;
+            this.openGLViewport.dbugOutputWindow = this;
 #endif
             this.EvaluateScrollbar();
         }
@@ -45,40 +44,37 @@ namespace LayoutFarm.UI.OpenGLView
 
             if (!isInitGLControl)
             {
-
                 //init gl after this control is loaded
                 //set myGLControl detail
                 //1.
                 windowControl.InitSetup2d(Screen.PrimaryScreen.Bounds);
                 isInitGLControl = true;
-
                 //2.
                 windowControl.ClearColor = new OpenTK.Graphics.Color4(1f, 1f, 1f, 1f);
                 //3.
-                windowControl.SetGLPaintHandler(GLPaintMe);
 
             }
         }
-        void GLPaintMe(Object sender, EventArgs e)
+
+        //void GLPaintMe(Object sender, EventArgs e)
+        //{
+
+        //}
+        protected override void PaintToOutputWindow()
         {
+            if (!isInitGLControl)
+            {
+                return;
+            }
+            //----------------------------------
             //gl paint here
             canvas.ClearSurface(Color.White);
             //test draw rect
-            //canvas.StrokeColor = LayoutFarm.Drawing.Color.Blue;
-            //canvas.DrawRectangle(Color.Blue, 20, 20, 200, 200);
-
-
-
+            canvas.StrokeColor = LayoutFarm.Drawing.Color.Blue;
+            canvas.DrawRectangle(Color.Blue, 20, 20, 200, 200);
 
             //------------------------
             windowControl.SwapBuffers();
-        }
-        protected override void PaintToOutputWindow()
-        {
-            if (isInitGLControl)
-            {
-                GLPaintMe(null, null);
-            }
         }
         protected override void PaintToOutputWindowIfNeed()
         {

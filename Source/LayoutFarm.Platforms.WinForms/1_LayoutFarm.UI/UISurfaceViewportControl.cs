@@ -25,7 +25,7 @@ namespace LayoutFarm.UI
             InnerViewportKind innerViewportKind)
         {
             //test*** force  to use gl
-            //innerViewportKind = InnerViewportKind.GL;
+            innerViewportKind = InnerViewportKind.GL;
             //---------------------------------------- 
             //1.
             this.wintop = wintop;

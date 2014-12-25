@@ -15,7 +15,7 @@ namespace LayoutFarm.UI
         CanvasEventsStock eventStock = new CanvasEventsStock();
         IUserEventPortal userEventPortal;
         protected TopWindowRenderBox topwin;
-        protected CanvasViewport canvasViewport;
+        CanvasViewport canvasViewport;
 
         bool isDragging;
         bool isMouseDown;
@@ -37,6 +37,10 @@ namespace LayoutFarm.UI
             {
                 PaintToOutputWindow();
             };
+        }
+        protected void SetBaseCanvasViewport(CanvasViewport canvasViewport)
+        {
+            this.canvasViewport = canvasViewport;
         }
         internal virtual void OnHostControlLoaded()
         {
