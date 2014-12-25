@@ -14,8 +14,7 @@ namespace LayoutFarm.UI.OpenGLView
     class MyPlatformWindowBridgeOpenGL : PlatformWindowBridge
     {
         bool isInitGLControl;
-        GpuOpenGLSurfaceView windowControl;
-        Canvas canvas;
+        GpuOpenGLSurfaceView windowControl; 
         OpenGLCanvasViewport openGLViewport;
         //---------
         public MyPlatformWindowBridgeOpenGL(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
@@ -28,12 +27,11 @@ namespace LayoutFarm.UI.OpenGLView
         /// <param name="myGLControl"></param>
         public void BindGLControl(GpuOpenGLSurfaceView myGLControl)
         {
-            this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, myGLControl.Width, myGLControl.Height);
+           
             this.topwin.MakeCurrent();
             this.windowControl = myGLControl;
             SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(topwin, this.Size.ToSize(), 4));
-
-
+            openGLViewport.NotifyWindowControlBinding();
 #if DEBUG
             this.openGLViewport.dbugOutputWindow = this;
 #endif
@@ -66,14 +64,7 @@ namespace LayoutFarm.UI.OpenGLView
             {
                 return;
             }
-            //----------------------------------
-            //gl paint here
-            canvas.ClearSurface(Color.White);
-            //test draw rect
-            canvas.StrokeColor = LayoutFarm.Drawing.Color.Blue;
-            canvas.DrawRectangle(Color.Blue, 20, 20, 200, 200);
-
-            //------------------------
+            this.openGLViewport.PaintMe(); 
             windowControl.SwapBuffers();
         }
         protected override void PaintToOutputWindowIfNeed()
