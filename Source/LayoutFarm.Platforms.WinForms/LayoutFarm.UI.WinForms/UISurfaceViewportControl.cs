@@ -12,7 +12,7 @@ namespace LayoutFarm.UI.WinForms
 
     public partial class UISurfaceViewportControl : UserControl
     {
-        
+
         TopWindowRenderBox wintop;
         MyPlatformWindowBridge winBridge;
 
@@ -31,20 +31,19 @@ namespace LayoutFarm.UI.WinForms
             //1.
             this.wintop = wintop;
 
-
             switch (innerViewportKind)
             {
                 case InnerViewportKind.GL:
                     {
-                        LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.Start(); 
+                        LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
                         MyPlatformWindowBridgeOpenGL winBridge = new MyPlatformWindowBridgeOpenGL(wintop, userInputEvBridge);
-                         
-                        var myGLControl = new OpenTK.MyGLControl();
+
+                        var myGLControl = new MyGLControl();
                         myGLControl.Dock = DockStyle.Fill;
 
                         this.Controls.Add(myGLControl);
                         //--------------------------------------- 
-                       
+
                         winBridge.BindGLControl(myGLControl);
                         this.winBridge = winBridge;
 
@@ -54,11 +53,11 @@ namespace LayoutFarm.UI.WinForms
                 default:
                     {
                         MyPlatformWindowBridgeGdiPlus winBridge = new MyPlatformWindowBridgeGdiPlus(wintop, userInputEvBridge);
-                         
+
                         var mybasicSurfaceView = new BasicSurfaceView();
                         this.Controls.Add(mybasicSurfaceView);
                         //--------------------------------------- 
-                        winBridge.BindWindowControl(mybasicSurfaceView); 
+                        winBridge.BindWindowControl(mybasicSurfaceView);
                         mybasicSurfaceView.Dock = DockStyle.Fill;
                         mybasicSurfaceView.InitRootGraphics(winBridge);
                         this.winBridge = winBridge;
@@ -82,11 +81,11 @@ namespace LayoutFarm.UI.WinForms
         {
 
             this.winBridge.OnHostControlLoaded();
-           
-        } 
+
+        }
         public void PaintMe()
         {
-            this.winBridge.PaintMe(); 
+            this.winBridge.PaintMe();
         }
 #if DEBUG
         public IdbugOutputWindow IdebugOutputWin

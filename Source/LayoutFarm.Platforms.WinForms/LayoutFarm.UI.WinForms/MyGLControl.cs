@@ -9,10 +9,12 @@ using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace OpenTK
+namespace LayoutFarm.UI.WinForms
 {
-    public partial class MyGLControl : GLControl
-    {
+    //app specific
+    partial class MyGLControl : GLControl
+    { 
+
         OpenTK.Graphics.Color4 clearColor;
         EventHandler glPaintHandler;
         public MyGLControl()

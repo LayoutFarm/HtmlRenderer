@@ -1,4 +1,4 @@
-﻿namespace OpenTK
+﻿namespace LayoutFarm.UI.WinForms
 {
     partial class MyGLControl
     {

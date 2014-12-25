@@ -14,8 +14,10 @@ namespace LayoutFarm.UI
     class MyPlatformWindowBridgeOpenGL : MyPlatformWindowBridge
     {
         bool isInitGLControl;
-        OpenTK.MyGLControl windowControl;
-        Canvas canvas;
+        LayoutFarm.UI.WinForms.MyGLControl windowControl;
+        Canvas canvas; 
+
+        //---------
         public MyPlatformWindowBridgeOpenGL(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
             : base(topwin, winEventBridge)
         {
@@ -24,10 +26,10 @@ namespace LayoutFarm.UI
         /// bind to gl control
         /// </summary>
         /// <param name="myGLControl"></param>
-        public void BindGLControl(OpenTK.MyGLControl myGLControl)
+        public void BindGLControl(LayoutFarm.UI.WinForms.MyGLControl myGLControl)
         {
             this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, myGLControl.Width, myGLControl.Height);
-              
+
             this.topwin.MakeCurrent();
             this.windowControl = myGLControl;
             this.canvasViewport = new CanvasViewport(topwin, this.Size.ToSize(), 4);
@@ -67,10 +69,10 @@ namespace LayoutFarm.UI
         }
         protected override void PaintToOutputWindow()
         {
-             if (isInitGLControl)
-             {
-                 GLPaintMe(null, null);
-             }
+            if (isInitGLControl)
+            {
+                GLPaintMe(null, null);
+            }
         }
         protected override void PaintToOutputWindowIfNeed()
         {

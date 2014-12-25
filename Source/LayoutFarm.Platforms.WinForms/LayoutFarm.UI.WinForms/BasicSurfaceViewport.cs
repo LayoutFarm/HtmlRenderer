@@ -11,14 +11,12 @@ namespace LayoutFarm.UI.WinForms
 
     partial class BasicSurfaceView : UserControl
     {
-
-
+         
         MyPlatformWindowBridgeGdiPlus winBridge;
         public BasicSurfaceView()
         {
             InitializeComponent();
         }
-
         public void InitRootGraphics(MyPlatformWindowBridgeGdiPlus winBridge)
         {
             //1. 
