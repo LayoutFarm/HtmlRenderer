@@ -10,40 +10,64 @@ using DrawingBridge;
 namespace LayoutFarm.Drawing.DrawingGL
 {
 
-    partial class MyCanvasGL : LayoutFarm.Drawing.WinGdi.MyCanvas
+    partial class MyCanvasGL
     {
-        CanvasGL2d canvasGL2d;
 
+        Font currentFont;
+        CanvasGL2d canvasGL2d;
         //-------
         //platform specific code
         GdiTextBoard gdiTextBoard;
-
         PixelFarm.Agg.VertexSource.CurveFlattener flattener = new PixelFarm.Agg.VertexSource.CurveFlattener();
         //-------
+        Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
+        System.Drawing.Rectangle currentClipRect;
 
         public MyCanvasGL(GraphicsPlatform platform, int hPageNum, int vPageNum, int left, int top, int width, int height)
-            : base(platform, hPageNum, vPageNum, left, top, width, height)
         {
             canvasGL2d = new CanvasGL2d(width, height);
+            //--------------------------------------------
+            this.platform = platform; 
+            this.left = left;
+            this.top = top;
+            this.right = left + width;
+            this.bottom = top + height;
+            //--------------------------------------------
 
+            this.CurrentFont = defaultFontInfo;
+            this.CurrentTextColor = Color.Black;
+#if DEBUG
+            debug_canvas_id = dbug_canvasCount + 1;
+            dbug_canvasCount += 1;
+#endif
+            this.StrokeWidth = 1;
+             
 
 
             //------------------------
             //platform specific code
             //-------------------------
             gdiTextBoard = new GdiTextBoard(800, 100, new System.Drawing.Font("tahoma", 10));
-
-
+            //----------------------- 
         }
         //-------------------------------------------
         public override void SetCanvasOrigin(int x, int y)
         {
+            //    ReleaseHdc();
+            //    //-----------
+            //    //move back to original ?
+            //    //this.gx.TranslateTransform(-this.canvasOriginX, -this.canvasOriginY);
+            //    //this.gx.TranslateTransform(x, y);
+
+            //this.canvasOriginX = x;
+            //this.canvasOriginY = y;
             canvasGL2d.SetCanvasOrigin(x, y);
         }
         public override int CanvasOriginX
         {
             get
-            {
+            {  
+                
                 return canvasGL2d.CanvasOriginX;
             }
         }
@@ -54,6 +78,7 @@ namespace LayoutFarm.Drawing.DrawingGL
                 return canvasGL2d.CanvasOriginY;
             }
         }
+
         public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
         {
             canvasGL2d.EnableClipRect();
@@ -308,11 +333,11 @@ namespace LayoutFarm.Drawing.DrawingGL
         {
             get
             {
-                return base.StrokeColor;
+                return canvasGL2d.StrokeColor;
             }
             set
             {
-                base.StrokeColor = value;
+
                 canvasGL2d.StrokeColor = value;
             }
         }
@@ -333,41 +358,42 @@ namespace LayoutFarm.Drawing.DrawingGL
         {
             get
             {
-                return base.CurrentFont;
+                return this.currentFont;
             }
             set
             {
                 //sample only *** 
                 //canvasGL2d.CurrentFont = PixelFarm.Agg.Fonts.NativeFontStore.LoadFont("c:\\Windows\\Fonts\\Tahoma.ttf", 10);
-                base.CurrentFont = value;
-            }
-        }
-        public override void DrawText(char[] buffer, int x, int y)
-        {
-            if (this.Note1 == 2)
-            {
 
-                //test draw string to gdi hdc: 
-                //if need Gdi+/gdi to draw string                              
-                //then draw it to hdc and  copy to canvas2d
-                //[ platform specfic code]
-                //1. use bitmap  
-                gdiTextBoard.DrawText(this, buffer, x, y);
+                currentFont = value;
+            }
+        }
+        //public override void DrawText(char[] buffer, int x, int y)
+        //{
+        //    if (this.Note1 == 2)
+        //    {
 
-            }
-            else
-            {
-                canvasGL2d.DrawString(buffer, x, y);
-            }
-        }
-        public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
-        {
-            canvasGL2d.DrawString(buffer, logicalTextBox.X, logicalTextBox.Y);
-        }
-        public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
-        {
-            canvasGL2d.DrawString(str, logicalTextBox.X, logicalTextBox.Y);
-        }
+        //        //test draw string to gdi hdc: 
+        //        //if need Gdi+/gdi to draw string                              
+        //        //then draw it to hdc and  copy to canvas2d
+        //        //[ platform specfic code]
+        //        //1. use bitmap  
+        //        gdiTextBoard.DrawText(this, buffer, x, y);
+
+        //    }
+        //    else
+        //    {
+        //        canvasGL2d.DrawString(buffer, x, y);
+        //    }
+        //}
+        //public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
+        //{
+        //    canvasGL2d.DrawString(buffer, logicalTextBox.X, logicalTextBox.Y);
+        //}
+        //public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
+        //{
+        //    canvasGL2d.DrawString(str, logicalTextBox.X, logicalTextBox.Y);
+        //}
         public override void FillPath(Color color, GraphicsPath path)
         {
             //solid color
@@ -462,31 +488,52 @@ namespace LayoutFarm.Drawing.DrawingGL
                 }
             }
         }
+
+
+
+        //---------------------------------------------------
         public override bool PushClipAreaRect(int width, int height, ref Rect updateArea)
         {
-            if (base.PushClipAreaRect(width, height, ref updateArea))
-            {   
-                //result
-                var currentClipRect = this.CurrentClipRect;
+            this.clipRectStack.Push(currentClipRect);
+
+            System.Drawing.Rectangle intersectResult =
+                System.Drawing.Rectangle.Intersect(
+                    currentClipRect,
+                    System.Drawing.Rectangle.Intersect(
+                    updateArea.ToRectangle().ToRect(),
+                    new System.Drawing.Rectangle(0, 0, width, height)));
+
+            currentClipRect = intersectResult;
+            if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
+            {
+                //not intersec?
+                return false;
+            }
+            else
+            {
                 canvasGL2d.EnableClipRect();
                 canvasGL2d.SetClipRect(currentClipRect.X, currentClipRect.Y, currentClipRect.Width, currentClipRect.Height);
                 return true;
             }
-            else
-            {
-                return false;
-            }
-
         }
         public override void PopClipAreaRect()
         {
-            base.PopClipAreaRect();
-            var currentClipRect = this.CurrentClipRect;
+            if (clipRectStack.Count > 0)
+            {
+                currentClipRect = clipRectStack.Pop();
+            }
+
+
             canvasGL2d.EnableClipRect();
             canvasGL2d.SetClipRect(currentClipRect.X, currentClipRect.Y, currentClipRect.Width, currentClipRect.Height);
-        }
-        
-        //---------------------------------------------------
 
+        }
+        public override Rectangle CurrentClipRect
+        {
+            get
+            {
+                return currentClipRect.ToRect();
+            }
+        }
     }
 }

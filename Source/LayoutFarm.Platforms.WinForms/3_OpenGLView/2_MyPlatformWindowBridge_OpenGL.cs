@@ -53,11 +53,7 @@ namespace LayoutFarm.UI.OpenGLView
 
             }
         }
-
-        //void GLPaintMe(Object sender, EventArgs e)
-        //{
-
-        //}
+         
         protected override void PaintToOutputWindow()
         {
             if (!isInitGLControl)
@@ -69,7 +65,12 @@ namespace LayoutFarm.UI.OpenGLView
         }
         protected override void PaintToOutputWindowIfNeed()
         {
-
+            if (!isInitGLControl)
+            {
+                return;
+            }
+            this.openGLViewport.PaintMe();
+            windowControl.SwapBuffers();
         }
         protected override void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
         {

@@ -19,39 +19,27 @@ using System.Text;
 using LayoutFarm.Drawing;
 
 
-namespace LayoutFarm.Drawing.WinGdi
+namespace LayoutFarm.Drawing.DrawingGL
 {
-    partial class MyCanvas
+    partial class MyCanvasGL
     {
         int left;
         int top;
         int right;
         int bottom;
-        int canvasOriginX = 0;
-        int canvasOriginY = 0;
+        //int canvasOriginX = 0;
+        //int canvasOriginY = 0;
         Rect invalidateArea = Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
 
-        
-        //--------------------------------------------------------------------
-        public override void SetCanvasOrigin(int x, int y)
-        {
-            ReleaseHdc();
-            //-----------
-            //move back to original ?
-            this.gx.TranslateTransform(-this.canvasOriginX, -this.canvasOriginY);
-            this.gx.TranslateTransform(x, y);
-
-            this.canvasOriginX = x;
-            this.canvasOriginY = y;
-        }
-        public override int CanvasOriginX
-        {
-            get { return this.canvasOriginX; }
-        }
-        public override int CanvasOriginY
-        {
-            get { return this.canvasOriginY; }
-        }
+         
+        //public override int CanvasOriginX
+        //{
+        //    get { return this.canvasOriginX; }
+        //}
+        //public override int CanvasOriginY
+        //{
+        //    get { return this.canvasOriginY; }
+        //}
 
 
         /// <summary>
@@ -59,63 +47,64 @@ namespace LayoutFarm.Drawing.WinGdi
         /// </summary>
         /// <param name="rect"><see cref="T:System.Drawing.RectangleF"/> structure to combine. </param>
         /// <param name="combineMode">Member of the <see cref="T:System.Drawing.Drawing2D.CombineMode"/> enumeration that specifies the combining operation to use. </param>
-        public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
-        {
-            ReleaseHdc();
+        //public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
+        //{
+        //    ReleaseHdc();
 
-            gx.SetClip(
-                new System.Drawing.Rectangle(
-                    rect.X, rect.Y,
-                    rect.Width, rect.Height),
-                    (System.Drawing.Drawing2D.CombineMode)combineMode);
-        }
+        //    //gx.SetClip(
+        //    //    new System.Drawing.Rectangle(
+        //    //        rect.X, rect.Y,
+        //    //        rect.Width, rect.Height),
+        //    //        (System.Drawing.Drawing2D.CombineMode)combineMode);
+        //}
         public override bool IntersectsWith(Rect clientRect)
         {
             return clientRect.IntersectsWith(left, top, right, bottom);
         }
 
-        public override bool PushClipAreaRect(int width, int height, ref Rect updateArea)
-        {
-            this.clipRectStack.Push(currentClipRect);
+        //public override bool PushClipAreaRect(int width, int height, ref Rect updateArea)
+        //{
+        //    throw new NotImplementedException();
+        //    //this.clipRectStack.Push(currentClipRect);
 
-            System.Drawing.Rectangle intersectResult =
-                System.Drawing.Rectangle.Intersect(
-                    currentClipRect,
-                    System.Drawing.Rectangle.Intersect(
-                    updateArea.ToRectangle().ToRect(),
-                    new System.Drawing.Rectangle(0, 0, width, height)));
+        //    //System.Drawing.Rectangle intersectResult =
+        //    //    System.Drawing.Rectangle.Intersect(
+        //    //        currentClipRect,
+        //    //        System.Drawing.Rectangle.Intersect(
+        //    //        updateArea.ToRectangle().ToRect(),
+        //    //        new System.Drawing.Rectangle(0, 0, width, height)));
 
-            currentClipRect = intersectResult;
-            if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
-            {
-                //not intersec?
-                return false;
-            }
-            else
-            {
+        //    //currentClipRect = intersectResult;
+        //    //if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
+        //    //{
+        //    //    //not intersec?
+        //    //    return false;
+        //    //}
+        //    //else
+        //    //{
 
-                gx.SetClip(intersectResult);
-                return true;
-            }
-        }
-        public override void PopClipAreaRect()
-        {
-            if (clipRectStack.Count > 0)
-            {
-                currentClipRect = clipRectStack.Pop();
-                gx.SetClip(currentClipRect);
-            }
-        }
+        //    //    gx.SetClip(intersectResult);
+        //    //    return true;
+        //    //}
+        //}
+        //public override void PopClipAreaRect()
+        //{
+        //    throw new NotImplementedException();
+        //    if (clipRectStack.Count > 0)
+        //    {
+        //        //currentClipRect = clipRectStack.Pop();
+        //        //gx.SetClip(currentClipRect);
+        //    }
+        //}
 
-
-
-        public override Rectangle CurrentClipRect
-        {
-            get
-            {
-                return currentClipRect.ToRect();
-            }
-        }
+        //public override Rectangle CurrentClipRect
+        //{
+        //    get
+        //    {
+        //        throw new NotImplementedException();
+        //        //return currentClipRect.ToRect();
+        //    }
+        //}
 
 
 
