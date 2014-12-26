@@ -43,37 +43,39 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="0_Start\Conv.cs" />
     <Compile Include="0_Start\WinGdiPortal.cs" />
-    <Compile Include="dbug\dbugHelper.cs" />
-    <Compile Include="LayoutFarm.UI.WinForms\GpuOpenGLSurfaceView.cs">
+    <Compile Include="0_Start\dbugHelper.cs" />
+    <Compile Include="2_GdiPlusView\1_GdiPlusCanvasViewport.cs" />
+    <Compile Include="3_OpenGLView\0_GpuOpenGLSurfaceView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="LayoutFarm.UI.WinForms\GpuOpenGLSurfaceView.Designer.cs">
-      <DependentUpon>GpuOpenGLSurfaceView.cs</DependentUpon>
+    <Compile Include="3_OpenGLView\0_GpuOpenGLSurfaceView.Designer.cs">
+      <DependentUpon>0_GpuOpenGLSurfaceView.cs</DependentUpon>
     </Compile>
-    <Compile Include="LayoutFarm.UI.WinForms\CpuGdiPlusSurfaceView.cs">
+    <Compile Include="2_GdiPlusView\0_CpuGdiPlusSurfaceView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="LayoutFarm.UI.WinForms\CpuGdiPlusSurfaceView.Designer.cs">
-      <DependentUpon>CpuGdiPlusSurfaceView.cs</DependentUpon>
+    <Compile Include="2_GdiPlusView\0_CpuGdiPlusSurfaceView.Designer.cs">
+      <DependentUpon>0_CpuGdiPlusSurfaceView.cs</DependentUpon>
     </Compile>
-    <Compile Include="LayoutFarm.UI.WinForms\InnerViewportKind.cs" />
-    <Compile Include="LayoutFarm.UI\CanvasEventStock.cs" />
-    <Compile Include="LayoutFarm.UI.WinForms\MyUITimer.cs" />
-    <Compile Include="LayoutFarm.UI.WinForms\UIPlatformWinForms.cs" />
-    <Compile Include="LayoutFarm.UI.WinForms\UISurfaceViewportControl.cs">
+    <Compile Include="1_LayoutFarm.UI\InnerViewportKind.cs" />
+    <Compile Include="1_LayoutFarm.UI\CanvasEventStock.cs" />
+    <Compile Include="1_LayoutFarm.UI\MyUITimer.cs" />
+    <Compile Include="1_LayoutFarm.UI\UIPlatformWinForms.cs" />
+    <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="LayoutFarm.UI.WinForms\UISurfaceViewportControl.Designer.cs">
+    <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.Designer.cs">
       <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="LayoutFarm.UI\CanvasViewport.cs" />
-    <Compile Include="LayoutFarm.UI\Conv.cs" />
-    <Compile Include="LayoutFarm.UI\MyPlatformWindowBridge.cs" />
-    <Compile Include="LayoutFarm.UI\MyPlatformWindowBridge_dbug.cs" />
-    <Compile Include="LayoutFarm.UI.WinForms\MyPlatformWindowBridge_GdiPlus.cs" />
-    <Compile Include="LayoutFarm.UI.WinForms\MyPlatformWindowBridge_OpenGL.cs" />
-    <Compile Include="LayoutFarm.UI.WinForms\Win32Utils.cs" />
+    <Compile Include="1_LayoutFarm.UI\CanvasViewport.cs" />
+    <Compile Include="1_LayoutFarm.UI\PlatformWindowBridge.cs" />
+    <Compile Include="1_LayoutFarm.UI\PlatformWindowBridge_dbug.cs" />
+    <Compile Include="2_GdiPlusView\2_MyPlatformWindowBridge_GdiPlus.cs" />
+    <Compile Include="3_OpenGLView\2_MyPlatformWindowBridge_OpenGL.cs" />
+    <Compile Include="2_GdiPlusView\Win32Utils.cs" />
+    <Compile Include="3_OpenGLView\1_OpenGLCanvasViewport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -118,8 +120,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="LayoutFarm.UI.WinForms\GpuOpenGLSurfaceView.resx">
-      <DependentUpon>GpuOpenGLSurfaceView.cs</DependentUpon>
+    <EmbeddedResource Include="3_OpenGLView\0_GpuOpenGLSurfaceView.resx">
+      <DependentUpon>0_GpuOpenGLSurfaceView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

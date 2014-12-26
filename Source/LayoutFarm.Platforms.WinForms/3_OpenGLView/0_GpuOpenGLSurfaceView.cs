@@ -9,15 +9,15 @@ using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace LayoutFarm.UI.WinForms
+namespace LayoutFarm.UI.OpenGLView
 {
     //app specific
     partial class GpuOpenGLSurfaceView : GLControl
     {
-        MyPlatformWindowBridgeOpenGL winBridge;
-
+        MyPlatformWindowBridgeOpenGL winBridge; 
         OpenTK.Graphics.Color4 clearColor;
-        EventHandler glPaintHandler;
+
+        //EventHandler glPaintHandler;
         public GpuOpenGLSurfaceView()
         {
             OpenTK.Graphics.GraphicsMode gfxmode = new OpenTK.Graphics.GraphicsMode(
@@ -39,10 +39,7 @@ namespace LayoutFarm.UI.WinForms
             this.winBridge = winBridge;
             this.winBridge.BindGLControl(this);
         }
-        public void SetGLPaintHandler(EventHandler glPaintHandler)
-        {
-            this.glPaintHandler = glPaintHandler;
-        }
+        
         public OpenTK.Graphics.Color4 ClearColor
         {
             get { return clearColor; }
@@ -60,23 +57,28 @@ namespace LayoutFarm.UI.WinForms
                         (float)clearColor.A / 255f);
                 }
             }
-        } 
+        }
         protected override void OnPaint(PaintEventArgs e)
         {
-            //this.winBridge.PaintMe(e);
-            //base.OnPaint(e);
 
-            base.OnPaint(e);
+            //base.OnPaint(e);
             //------------------------------------------
             if (!this.DesignMode)
-            {
+            {   
                 MakeCurrent();
-                GL.Clear(ClearBufferMask.ColorBufferBit);
-                if (glPaintHandler != null)
-                {
-                    glPaintHandler(this, e);
-                }
-                SwapBuffers();
+                winBridge.PaintMe();
+                ////---------
+                //////auto clear color ?
+                ////GL.Clear(ClearBufferMask.ColorBufferBit);
+                //if (glPaintHandler != null)
+                //{
+                //    glPaintHandler(this, e);
+                //}
+                //SwapBuffers();
+            }
+            else
+            {
+                base.OnPaint(e);
             }
         }
         public void InitSetup2d(Rectangle screenBound)
@@ -151,7 +153,7 @@ namespace LayoutFarm.UI.WinForms
             base.OnMouseUp(e);
 
         }
-         
+
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {

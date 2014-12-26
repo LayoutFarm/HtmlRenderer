@@ -9,14 +9,13 @@ using LayoutFarm.Drawing;
 
 using OpenTK.Graphics;
 
-namespace LayoutFarm.UI
+namespace LayoutFarm.UI.OpenGLView
 {
-    class MyPlatformWindowBridgeOpenGL : MyPlatformWindowBridge
+    class MyPlatformWindowBridgeOpenGL : PlatformWindowBridge
     {
         bool isInitGLControl;
-        LayoutFarm.UI.WinForms.GpuOpenGLSurfaceView windowControl;
-        Canvas canvas; 
-
+        GpuOpenGLSurfaceView windowControl; 
+        OpenGLCanvasViewport openGLViewport;
         //---------
         public MyPlatformWindowBridgeOpenGL(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
             : base(topwin, winEventBridge)
@@ -26,16 +25,15 @@ namespace LayoutFarm.UI
         /// bind to gl control
         /// </summary>
         /// <param name="myGLControl"></param>
-        public void BindGLControl(LayoutFarm.UI.WinForms.GpuOpenGLSurfaceView myGLControl)
+        public void BindGLControl(GpuOpenGLSurfaceView myGLControl)
         {
-            this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, myGLControl.Width, myGLControl.Height);
-
+           
             this.topwin.MakeCurrent();
             this.windowControl = myGLControl;
-            this.canvasViewport = new CanvasViewport(topwin, this.Size.ToSize(), 4);
-
+            SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(topwin, this.Size.ToSize(), 4));
+            openGLViewport.NotifyWindowControlBinding();
 #if DEBUG
-            this.canvasViewport.dbugOutputWindow = this;
+            this.openGLViewport.dbugOutputWindow = this;
 #endif
             this.EvaluateScrollbar();
         }
@@ -44,35 +42,30 @@ namespace LayoutFarm.UI
 
             if (!isInitGLControl)
             {
-
                 //init gl after this control is loaded
                 //set myGLControl detail
                 //1.
                 windowControl.InitSetup2d(Screen.PrimaryScreen.Bounds);
                 isInitGLControl = true;
-
                 //2.
                 windowControl.ClearColor = new OpenTK.Graphics.Color4(1f, 1f, 1f, 1f);
                 //3.
-                windowControl.SetGLPaintHandler(GLPaintMe);
 
             }
         }
-        void GLPaintMe(Object sender, EventArgs e)
-        {
-            //gl paint here
-            canvas.ClearSurface(Color.White);
-            canvas.StrokeColor = LayoutFarm.Drawing.Color.Blue;
-            canvas.DrawRectangle(Color.Blue, 20, 20, 200, 200);
-            //------------------------
-            windowControl.SwapBuffers();
-        }
+
+        //void GLPaintMe(Object sender, EventArgs e)
+        //{
+
+        //}
         protected override void PaintToOutputWindow()
         {
-            if (isInitGLControl)
+            if (!isInitGLControl)
             {
-                GLPaintMe(null, null);
+                return;
             }
+            this.openGLViewport.PaintMe(); 
+            windowControl.SwapBuffers();
         }
         protected override void PaintToOutputWindowIfNeed()
         {

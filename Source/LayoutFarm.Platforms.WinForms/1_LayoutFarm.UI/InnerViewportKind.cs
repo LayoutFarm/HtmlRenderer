@@ -1,4 +1,4 @@
-﻿namespace LayoutFarm.UI.WinForms
+﻿namespace LayoutFarm.UI
 {
     public enum InnerViewportKind
     {

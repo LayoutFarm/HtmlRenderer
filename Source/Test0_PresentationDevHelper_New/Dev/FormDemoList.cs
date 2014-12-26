@@ -19,10 +19,8 @@ namespace LayoutFarm.Dev
         {
             InitializeComponent();
             this.gfxPlatform = gfxPlatform;
-            this.Load += new EventHandler(Form1_Load);
-
-
-            this.uiPlatformWinForm = new LayoutFarm.UI.WinForms.UIPlatformWinForm();
+            this.Load += new EventHandler(Form1_Load);  
+            this.uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
 
         }
 
@@ -42,7 +40,7 @@ namespace LayoutFarm.Dev
 
             DemoBase selectedDemo = (DemoBase)Activator.CreateInstance(selectedDemoInfo.DemoType);
 
-            LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport;
+            LayoutFarm.UI.UISurfaceViewportControl viewport;
 
             Form formCanvas;
             CreateReadyForm(
@@ -56,7 +54,7 @@ namespace LayoutFarm.Dev
             //ShowFormLayoutInspector(viewport); 
         }
 
-        static void ShowFormLayoutInspector(LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport)
+        static void ShowFormLayoutInspector(LayoutFarm.UI.UISurfaceViewportControl viewport)
         {
 
             var formLayoutInspector = new LayoutFarm.Dev.FormLayoutInspector();
@@ -72,7 +70,7 @@ namespace LayoutFarm.Dev
         }
 
         void CreateReadyForm(
-        out LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport,
+        out LayoutFarm.UI.UISurfaceViewportControl viewport,
         out Form formCanvas)
         {
 
@@ -91,7 +89,7 @@ namespace LayoutFarm.Dev
             formCanvas.WindowState = FormWindowState.Maximized;
             formCanvas.Show();
         }
-        void ShowFormlayoutInspectIfNeed(LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport)
+        void ShowFormlayoutInspectIfNeed(LayoutFarm.UI.UISurfaceViewportControl viewport)
         {
             if (this.chkShowLayoutInspector.Checked)
             {
