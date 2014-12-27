@@ -15,7 +15,8 @@ namespace LayoutFarm.DrawingGL
     {
 
         LayoutFarm.Drawing.Color strokeColor = LayoutFarm.Drawing.Color.Black;
-
+        LayoutFarm.Drawing.CanvasOrientation canvasOritentation = Drawing.CanvasOrientation.LeftTop;
+        
         Tesselator tess = new Tesselator();
         TessListener2 tessListener = new TessListener2();
         //tools---------------------------------

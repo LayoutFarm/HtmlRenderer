@@ -63,18 +63,18 @@ namespace LayoutFarm.UI.OpenGLView
             //------------------------------------------
             if (!this.DesignMode)
             {
-                MakeCurrent();
-                //winBridge.PaintMe();
-                ////---------
-                ////auto clear color ?
-                GL.ClearColor(1f, 1f, 1f, 1f);
-                GL.Clear(ClearBufferMask.ColorBufferBit);
-                //if (glPaintHandler != null)
-                //{
-                //    glPaintHandler(this, e);
-                //}
-                SwapBuffers();
-                
+                //MakeCurrent();
+                ////winBridge.PaintMe();
+                //////---------
+                //////auto clear color ?
+                //GL.ClearColor(1f, 1f, 1f, 1f);
+                //GL.Clear(ClearBufferMask.ColorBufferBit);
+                ////if (glPaintHandler != null)
+                ////{
+                ////    glPaintHandler(this, e);
+                ////}
+                //SwapBuffers();
+
 
             }
             else
@@ -82,11 +82,11 @@ namespace LayoutFarm.UI.OpenGLView
                 base.OnPaint(e);
             }
         }
-        static int drawCount = 0;
+        
         public void InitSetup2d(Rectangle screenBound)
         {
-            int max = Math.Max(screenBound.Width, screenBound.Height);
-            int min = Math.Min(screenBound.Width, screenBound.Height);
+
+            int properW = Math.Min(this.Width, this.Height);
 
             //init
             GL.Enable(EnableCap.Blend);
@@ -94,12 +94,14 @@ namespace LayoutFarm.UI.OpenGLView
 
             //---------------------------------
             //-1 temp fix split scanline in some screen
-            GL.Viewport(0, 0, max, max - 1);
+            GL.Viewport(0, 0, properW, properW - 1);
             //---------------------------------
 
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            GL.Ortho(0, max, 0, max, 0.0, 100);
+            //origin on left-bottom
+            GL.Ortho(0, properW, 0, properW, 0.0, 100);
+            //GL.Ortho(0, properW, properW, 0, 0.0, 100);
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
         }

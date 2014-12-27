@@ -26,8 +26,9 @@ namespace LayoutFarm.Drawing.DrawingGL
         public MyCanvasGL(GraphicsPlatform platform, int hPageNum, int vPageNum, int left, int top, int width, int height)
         {
             canvasGL2d = new CanvasGL2d(width, height);
+           
             //--------------------------------------------
-            this.platform = platform; 
+            this.platform = platform;
             this.left = left;
             this.top = top;
             this.right = left + width;
@@ -41,57 +42,16 @@ namespace LayoutFarm.Drawing.DrawingGL
             dbug_canvasCount += 1;
 #endif
             this.StrokeWidth = 1;
-
-
-            this.currentClipRect = new System.Drawing.Rectangle(0, 0, this.Width, this.Height);
+            this.currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
             //------------------------
             //platform specific code
             //-------------------------
             gdiTextBoard = new GdiTextBoard(800, 100, new System.Drawing.Font("tahoma", 10));
             //----------------------- 
+
         }
         //-------------------------------------------
-        public override void SetCanvasOrigin(int x, int y)
-        {
-            //    ReleaseHdc();
-            //    //-----------
-            //    //move back to original ?
-            //    //this.gx.TranslateTransform(-this.canvasOriginX, -this.canvasOriginY);
-            //    //this.gx.TranslateTransform(x, y);
 
-            //this.canvasOriginX = x;
-            //this.canvasOriginY = y;
-            canvasGL2d.SetCanvasOrigin(x, y);
-        }
-        public override int CanvasOriginX
-        {
-            get
-            {  
-                
-                return canvasGL2d.CanvasOriginX;
-            }
-        }
-        public override int CanvasOriginY
-        {
-            get
-            {
-                return canvasGL2d.CanvasOriginY;
-            }
-        }
-
-        public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
-        {
-            
-            canvasGL2d.EnableClipRect();
-            //--------------------------
-            canvasGL2d.SetClipRect(
-                 rect.X,
-                 rect.Y,
-                 rect.Width,
-                 rect.Height);
-            //--------------------------
-        }
-        //-------------------------------------------
         public override void FillRectangle(Color color, float left, float top, float width, float height)
         {
             canvasGL2d.FillRect(color, left, top, width, height);
@@ -372,7 +332,7 @@ namespace LayoutFarm.Drawing.DrawingGL
         public override void DrawText(char[] buffer, int x, int y)
         {
             if (this.Note1 == 2)
-            {   
+            {
                 //test draw string to gdi hdc: 
                 //if need Gdi+/gdi to draw string                              
                 //then draw it to hdc and  copy to canvas2d
@@ -511,6 +471,7 @@ namespace LayoutFarm.Drawing.DrawingGL
             }
             else
             {
+                updateArea = LayoutFarm.Drawing.Rect.CreateFromRect(intersectResult.ToRect());
                 canvasGL2d.EnableClipRect();
                 canvasGL2d.SetClipRect(currentClipRect.X, currentClipRect.Y, currentClipRect.Width, currentClipRect.Height);
                 return true;

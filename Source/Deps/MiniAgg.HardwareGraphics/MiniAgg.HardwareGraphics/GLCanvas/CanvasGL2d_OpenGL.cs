@@ -13,6 +13,8 @@ namespace LayoutFarm.DrawingGL
 
     public partial class CanvasGL2d
     {
+        LayoutFarm.Drawing.CanvasOrientation orientation;
+
         public LayoutFarm.Drawing.Color StrokeColor
         {
             get { return this.strokeColor; }
@@ -37,28 +39,56 @@ namespace LayoutFarm.DrawingGL
                 ClearBufferMask.DepthBufferBit |
                 ClearBufferMask.StencilBufferBit);
         }
+        public LayoutFarm.Drawing.CanvasOrientation Orientation
+        {
+            get { return this.orientation; }
+            set
+            {
+                this.orientation = value;
+                this.SetCanvasOrigin(this.canvasOriginX, this.canvasOriginY);
+            }
+        }
         public void SetCanvasOrigin(int x, int y)
         {
-            int originalW = 800;
-            //set new viewport
-            GL.Viewport(x, y, originalW, originalW);
+            this.canvasOriginX = x;
+            this.canvasOriginY = y;
+            int properW = Math.Min(this.canvasW, this.canvasH);
+           
+            
+            //int max = 600;
+            //init             
+            //---------------------------------
+            //-1 temp fix split scanline in some screen
+            GL.Viewport(x, y, properW, properW - 1);
+            ////--------------------------------- 
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            GL.Ortho(0, originalW, 0, originalW, 0.0, 100.0);
+            switch (this.orientation)
+            {
+                case Drawing.CanvasOrientation.LeftTop:
+                    {
+                        GL.Ortho(0, properW, properW, 0, 0.0, 100);
+                    } break;
+                default:
+                    {
+                        GL.Ortho(0, properW, 0, properW, 0.0, 100);
+                    } break;
+            }
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
+             
         }
         public void EnableClipRect()
         {
-            GL.Enable(EnableCap.ScissorTest);
+            // GL.Enable(EnableCap.ScissorTest);
         }
         public void DisableClipRect()
         {
-            GL.Disable(EnableCap.ScissorTest);
+            // GL.Disable(EnableCap.ScissorTest);
         }
         public void SetClipRect(int x, int y, int w, int h)
         {
-            GL.Scissor(x, y, w, h);
+            //GL.Scissor(x, y, w, h);
         }
 
 

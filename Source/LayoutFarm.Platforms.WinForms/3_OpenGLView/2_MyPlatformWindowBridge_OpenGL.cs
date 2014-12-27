@@ -14,7 +14,7 @@ namespace LayoutFarm.UI.OpenGLView
     class MyPlatformWindowBridgeOpenGL : PlatformWindowBridge
     {
         bool isInitGLControl;
-        GpuOpenGLSurfaceView windowControl; 
+        GpuOpenGLSurfaceView windowControl;
         OpenGLCanvasViewport openGLViewport;
         //---------
         public MyPlatformWindowBridgeOpenGL(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
@@ -27,7 +27,7 @@ namespace LayoutFarm.UI.OpenGLView
         /// <param name="myGLControl"></param>
         public void BindGLControl(GpuOpenGLSurfaceView myGLControl)
         {
-           
+
             this.topwin.MakeCurrent();
             this.windowControl = myGLControl;
             SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(topwin, this.Size.ToSize(), 4));
@@ -53,28 +53,43 @@ namespace LayoutFarm.UI.OpenGLView
 
             }
         }
-         
+
         protected override void PaintToOutputWindow()
         {
             if (!isInitGLControl)
             {
                 return;
             }
+
+
+            var innumber = dbugCount;
+            dbugCount++;
+            Console.WriteLine(">" + innumber);
             windowControl.MakeCurrent();
-            
-            this.openGLViewport.PaintMe(); 
+
+            this.openGLViewport.PaintMe(innumber);
+
             windowControl.SwapBuffers();
+            Console.WriteLine("<" + innumber);
+
         }
+        static int dbugCount = 0;
         protected override void PaintToOutputWindowIfNeed()
         {
             if (!isInitGLControl)
             {
                 return;
             }
-            
-            windowControl.MakeCurrent(); 
-            this.openGLViewport.PaintMe();
+
+            var innumber = dbugCount;
+            dbugCount++;
+            Console.WriteLine(">" + innumber);
+            windowControl.MakeCurrent();
+
+            this.openGLViewport.PaintMe(innumber);
+
             windowControl.SwapBuffers();
+            Console.WriteLine("<" + innumber);
         }
         protected override void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
         {

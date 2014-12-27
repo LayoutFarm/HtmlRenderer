@@ -30,7 +30,7 @@ namespace LayoutFarm.Drawing.WinGdi
         int canvasOriginX = 0;
         int canvasOriginY = 0;
         Rect invalidateArea = Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
-
+        CanvasOrientation orientation;
         
         //--------------------------------------------------------------------
         public override void SetCanvasOrigin(int x, int y)
@@ -43,6 +43,17 @@ namespace LayoutFarm.Drawing.WinGdi
 
             this.canvasOriginX = x;
             this.canvasOriginY = y;
+        }
+        public override CanvasOrientation Orientation
+        {
+            get
+            {
+                return this.orientation;
+            }
+            set
+            {
+                this.orientation = value;
+            }
         }
         public override int CanvasOriginX
         {
@@ -95,6 +106,8 @@ namespace LayoutFarm.Drawing.WinGdi
             {
 
                 gx.SetClip(intersectResult);
+                updateArea = LayoutFarm.Drawing.Rect.CreateFromRect(intersectResult.ToRect());
+                    //new Rect(intersectResult.X, intersectResult.Y, intersectResult.Width, intersectResult.Height);
                 return true;
             }
         }
