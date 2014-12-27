@@ -104,10 +104,8 @@ namespace LayoutFarm.Drawing.WinGdi
             }
             else
             {
-
-                gx.SetClip(intersectResult);
                 updateArea = LayoutFarm.Drawing.Rect.CreateFromRect(intersectResult.ToRect());
-                    //new Rect(intersectResult.X, intersectResult.Y, intersectResult.Width, intersectResult.Height);
+                gx.SetClip(intersectResult);
                 return true;
             }
         }

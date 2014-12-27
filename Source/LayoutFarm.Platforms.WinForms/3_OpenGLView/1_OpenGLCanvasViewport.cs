@@ -23,27 +23,63 @@ namespace LayoutFarm.UI.OpenGLView
         {
             //this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, this.ViewportWidth, this.ViewportHeight);
             this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, 800, 600);
-
+           
         }
-        void Test01()
+        //----------
+        //for test
+#if DEBUG
+        void dbugTest01()
         {
             canvas.Orientation = CanvasOrientation.LeftTop;
             canvas.ClearSurface(Color.White);
+
             canvas.FillRectangle(Color.Red, 50, 50, 100, 100);
-            canvas.FillRectangle(Color.Blue, 50 + 10, 50 + 10, 100 - 20, 100 - 20);
+
+            dbugGLOffsetCanvasOrigin(50, 50);
+            //simulate draw content 
+            canvas.FillRectangle(Color.Gray, 10, 10, 80, 80);
+            dbugGLOffsetCanvasOrigin(-50, -50);
         }
-        static int dbugCount = 0;
-        public void PaintMe(int controlNum)
+        void dbugGLSetCanvasOrigin(int x, int y)
+        {
+            canvas.SetCanvasOrigin(x, y);
+            //int properW = Math.Min(canvas.Width, canvas.Height);
+            ////int max = 600;
+            ////init             
+            ////---------------------------------
+            ////-1 temp fix split scanline in some screen
+            ////OpenTK.Graphics.OpenGL.GL.Viewport(x, y, properW, properW - 1);
+            //////--------------------------------- 
+            //OpenTK.Graphics.OpenGL.GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Projection);
+            //OpenTK.Graphics.OpenGL.GL.LoadIdentity();
+            //OpenTK.Graphics.OpenGL.GL.Ortho(0, properW, properW, 0, 0.0, 100);
+
+            ////switch (this.orientation)
+            ////{
+            ////    case Drawing.CanvasOrientation.LeftTop:
+            ////        {
+            ////            OpenTK.Graphics.OpenGL.GL.Ortho(0, properW, properW, 0, 0.0, 100);
+            ////        } break;
+            ////    default:
+            ////        {
+            ////            OpenTK.Graphics.OpenGL.GL.Ortho(0, properW, 0, properW, 0.0, 100);
+            ////        } break;
+            ////}
+            //OpenTK.Graphics.OpenGL.GL.MatrixMode(OpenTK.Graphics.OpenGL.MatrixMode.Modelview);
+            //OpenTK.Graphics.OpenGL.GL.LoadIdentity();
+            //OpenTK.Graphics.OpenGL.GL.Translate(x, y, 0);
+        }
+        void dbugGLOffsetCanvasOrigin(int dx, int dy)
+        {
+            dbugGLSetCanvasOrigin(canvas.CanvasOriginX + dx, canvas.CanvasOriginY + dy); 
+        }
+#endif
+        //-------
+
+        public void PaintMe()
         {
             canvas.Orientation = CanvasOrientation.LeftTop;
-            //Test01();
-            if (controlNum != dbugCount)
-            {
-
-            }
-
-            Console.WriteLine(":" + (dbugCount).ToString());
-            dbugCount++;
+            //Test01(); 
             //return;
             //Test01();
             //return;

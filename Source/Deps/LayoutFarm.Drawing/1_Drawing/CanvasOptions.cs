@@ -42,8 +42,9 @@ namespace LayoutFarm.Drawing
     }
     public enum CanvasOrientation
     {
+        
         LeftTop,
-        LeftBottom,
+        LeftBottom, 
        
     }
 }

@@ -56,17 +56,7 @@ namespace LayoutFarm.Drawing.DrawingGL
 
             //this.canvasOriginX = x;
             //this.canvasOriginY = y;
-            if (x != 0 || y != 0)
-            {
-                //this.gx.TranslateTransform(-this.canvasOriginX, -this.canvasOriginY);
-                //this.gx.TranslateTransform(x, y); 
-                canvasGL2d.SetCanvasOrigin(x, y);
-            }
-            else
-            {
-                canvasGL2d.SetCanvasOrigin(x, y);
-            }
-            //canvasGL2d.SetCanvasOrigin(x, y);
+            canvasGL2d.SetCanvasOrigin(x, y);
         }
         public override int CanvasOriginX
         {
@@ -94,13 +84,60 @@ namespace LayoutFarm.Drawing.DrawingGL
                  rect.Width,
                  rect.Height);
             //--------------------------
-        }
-        //-------------------------------------------
+        }        
         public override bool IntersectsWith(Rect clientRect)
         {
             return clientRect.IntersectsWith(left, top, right, bottom);
         }
 
+
+
+
+        //---------------------------------------------------
+        public override bool PushClipAreaRect(int width, int height, ref Rect updateArea)
+        {
+            this.clipRectStack.Push(currentClipRect);
+
+            System.Drawing.Rectangle intersectResult =
+                System.Drawing.Rectangle.Intersect(
+                    currentClipRect,
+                    System.Drawing.Rectangle.Intersect(
+                    updateArea.ToRectangle().ToRect(),
+                    new System.Drawing.Rectangle(0, 0, width, height)));
+
+            currentClipRect = intersectResult;
+            if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
+            {
+                //not intersec?
+                return false;
+            }
+            else
+            {
+                updateArea = LayoutFarm.Drawing.Rect.CreateFromRect(intersectResult.ToRect());
+                canvasGL2d.EnableClipRect();
+                canvasGL2d.SetClipRect(currentClipRect.X, currentClipRect.Y, currentClipRect.Width, currentClipRect.Height);
+                return true;
+            }
+        }
+        public override void PopClipAreaRect()
+        {
+            if (clipRectStack.Count > 0)
+            {
+                currentClipRect = clipRectStack.Pop();
+            }
+
+
+            canvasGL2d.EnableClipRect();
+            canvasGL2d.SetClipRect(currentClipRect.X, currentClipRect.Y, currentClipRect.Width, currentClipRect.Height);
+
+        }
+        public override Rectangle CurrentClipRect
+        {
+            get
+            {
+                return currentClipRect.ToRect();
+            }
+        }
 
         public override int Top
         {

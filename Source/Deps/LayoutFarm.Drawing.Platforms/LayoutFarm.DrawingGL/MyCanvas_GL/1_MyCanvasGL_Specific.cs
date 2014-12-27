@@ -19,6 +19,8 @@ using System.Text;
 using LayoutFarm.Drawing;
 using DrawingBridge;
 
+using LayoutFarm.DrawingGL;
+
 namespace LayoutFarm.Drawing.DrawingGL
 {
 
@@ -27,7 +29,46 @@ namespace LayoutFarm.Drawing.DrawingGL
 
  
         GraphicsPlatform platform;         
-        int pageFlags; 
+        int pageFlags;
+        Font currentFont;
+        CanvasGL2d canvasGL2d;
+        //-------
+        //platform specific code
+        GdiTextBoard gdiTextBoard;
+        PixelFarm.Agg.VertexSource.CurveFlattener flattener = new PixelFarm.Agg.VertexSource.CurveFlattener();
+        //-------
+        Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
+        System.Drawing.Rectangle currentClipRect;
+
+        public MyCanvasGL(GraphicsPlatform platform, int hPageNum, int vPageNum, int left, int top, int width, int height)
+        {
+            canvasGL2d = new CanvasGL2d(width, height);
+            //--------------------------------------------
+            this.platform = platform;
+            this.left = left;
+            this.top = top;
+            this.right = left + width;
+            this.bottom = top + height;
+            //--------------------------------------------
+
+            this.CurrentFont = defaultFontInfo;
+            this.CurrentTextColor = Color.Black;
+#if DEBUG
+            debug_canvas_id = dbug_canvasCount + 1;
+            dbug_canvasCount += 1;
+#endif
+            this.StrokeWidth = 1;
+            this.currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
+
+            //------------------------
+            //platform specific code
+            //-------------------------
+            gdiTextBoard = new GdiTextBoard(800, 100, new System.Drawing.Font("tahoma", 10));
+            //----------------------- 
+        }
+        //-------------------------------------------
+        
+
         ~MyCanvasGL()
         {
             ReleaseUnManagedResource();

@@ -62,18 +62,16 @@ namespace LayoutFarm.UI.OpenGLView
             }
 
 
-            var innumber = dbugCount;
-            dbugCount++;
-            Console.WriteLine(">" + innumber);
+            //var innumber = dbugCount;
+            //dbugCount++;
+            //Console.WriteLine(">" + innumber);
             windowControl.MakeCurrent();
-
-            this.openGLViewport.PaintMe(innumber);
-
+            this.openGLViewport.PaintMe();
             windowControl.SwapBuffers();
-            Console.WriteLine("<" + innumber);
+            //Console.WriteLine("<" + innumber);
 
         }
-        static int dbugCount = 0;
+
         protected override void PaintToOutputWindowIfNeed()
         {
             if (!isInitGLControl)
@@ -81,15 +79,15 @@ namespace LayoutFarm.UI.OpenGLView
                 return;
             }
 
-            var innumber = dbugCount;
-            dbugCount++;
-            Console.WriteLine(">" + innumber);
+            //var innumber = dbugCount;
+            //dbugCount++;
+            //Console.WriteLine(">" + innumber);
+            
             windowControl.MakeCurrent();
-
-            this.openGLViewport.PaintMe(innumber);
-
+            this.openGLViewport.PaintMe();
             windowControl.SwapBuffers();
-            Console.WriteLine("<" + innumber);
+
+            //Console.WriteLine("<" + innumber);
         }
         protected override void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
         {

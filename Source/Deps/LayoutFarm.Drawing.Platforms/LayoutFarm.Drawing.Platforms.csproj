@@ -87,7 +87,6 @@
     <Compile Include="LayoutFarm.DrawingGL\MyCanvas_GL\3_MyCanvasGL_DrawGraphics.cs" />
     <Compile Include="LayoutFarm.DrawingGL\MyCanvas_GL\4_MyCanvasGL_TextAndFonts.cs" />
     <Compile Include="LayoutFarm.DrawingGL\MyCanvas_GL\GdiTextBoard.cs" />
-    <Compile Include="LayoutFarm.DrawingGL\MyCanvas_GL\5_MyCanvasGL_specific.cs" />
     <Compile Include="myfonts_dll.Designer.cs">
       <DependentUpon>myfonts_dll.resx</DependentUpon>
       <AutoGen>True</AutoGen>
