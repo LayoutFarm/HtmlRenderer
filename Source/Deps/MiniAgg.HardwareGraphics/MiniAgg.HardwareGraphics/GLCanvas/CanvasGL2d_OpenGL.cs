@@ -75,8 +75,7 @@ namespace LayoutFarm.DrawingGL
                     } break;
             }
             GL.MatrixMode(MatrixMode.Modelview);
-            GL.LoadIdentity();
-             
+            GL.LoadIdentity();             
         }
         public void EnableClipRect()
         {
