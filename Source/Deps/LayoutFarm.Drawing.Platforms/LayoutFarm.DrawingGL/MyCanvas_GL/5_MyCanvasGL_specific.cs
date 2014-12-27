@@ -41,9 +41,9 @@ namespace LayoutFarm.Drawing.DrawingGL
             dbug_canvasCount += 1;
 #endif
             this.StrokeWidth = 1;
-             
 
 
+            this.currentClipRect = new System.Drawing.Rectangle(0, 0, this.Width, this.Height);
             //------------------------
             //platform specific code
             //-------------------------
@@ -81,6 +81,7 @@ namespace LayoutFarm.Drawing.DrawingGL
 
         public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
         {
+            
             canvasGL2d.EnableClipRect();
             //--------------------------
             canvasGL2d.SetClipRect(
@@ -368,32 +369,31 @@ namespace LayoutFarm.Drawing.DrawingGL
                 currentFont = value;
             }
         }
-        //public override void DrawText(char[] buffer, int x, int y)
-        //{
-        //    if (this.Note1 == 2)
-        //    {
+        public override void DrawText(char[] buffer, int x, int y)
+        {
+            if (this.Note1 == 2)
+            {   
+                //test draw string to gdi hdc: 
+                //if need Gdi+/gdi to draw string                              
+                //then draw it to hdc and  copy to canvas2d
+                //[ platform specfic code]
+                //1. use bitmap  
+                gdiTextBoard.DrawText(this, buffer, x, y);
 
-        //        //test draw string to gdi hdc: 
-        //        //if need Gdi+/gdi to draw string                              
-        //        //then draw it to hdc and  copy to canvas2d
-        //        //[ platform specfic code]
-        //        //1. use bitmap  
-        //        gdiTextBoard.DrawText(this, buffer, x, y);
-
-        //    }
-        //    else
-        //    {
-        //        canvasGL2d.DrawString(buffer, x, y);
-        //    }
-        //}
-        //public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
-        //{
-        //    canvasGL2d.DrawString(buffer, logicalTextBox.X, logicalTextBox.Y);
-        //}
-        //public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
-        //{
-        //    canvasGL2d.DrawString(str, logicalTextBox.X, logicalTextBox.Y);
-        //}
+            }
+            else
+            {
+                canvasGL2d.DrawString(buffer, x, y);
+            }
+        }
+        public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
+        {
+            canvasGL2d.DrawString(buffer, logicalTextBox.X, logicalTextBox.Y);
+        }
+        public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
+        {
+            canvasGL2d.DrawString(str, logicalTextBox.X, logicalTextBox.Y);
+        }
         public override void FillPath(Color color, GraphicsPath path)
         {
             //solid color

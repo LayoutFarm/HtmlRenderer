@@ -63,8 +63,8 @@ namespace LayoutFarm.Drawing.DrawingGL
             //hbmp = IntPtr.Zero;
 
             clipRectStack.Clear();
-
-            //currentClipRect = new System.Drawing.Rectangle(0, 0, this.Width, this.Height);
+            this.currentClipRect = new System.Drawing.Rectangle(0, 0, this.Width, this.Height);
+ 
 
 
 
@@ -124,8 +124,7 @@ namespace LayoutFarm.Drawing.DrawingGL
                 }
             }
         }
-        //int CanvasOrgX { get { return (int)this.canvasOriginX; } }
-        //int CanvasOrgY { get { return (int)this.canvasOriginY; } }
+      
         public bool DimensionInvalid
         {
             get

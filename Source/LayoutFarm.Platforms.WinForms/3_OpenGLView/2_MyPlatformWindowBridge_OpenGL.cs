@@ -60,6 +60,8 @@ namespace LayoutFarm.UI.OpenGLView
             {
                 return;
             }
+            windowControl.MakeCurrent();
+            
             this.openGLViewport.PaintMe(); 
             windowControl.SwapBuffers();
         }
@@ -69,6 +71,8 @@ namespace LayoutFarm.UI.OpenGLView
             {
                 return;
             }
+            
+            windowControl.MakeCurrent(); 
             this.openGLViewport.PaintMe();
             windowControl.SwapBuffers();
         }

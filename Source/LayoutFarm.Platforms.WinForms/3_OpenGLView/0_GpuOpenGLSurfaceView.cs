@@ -14,7 +14,7 @@ namespace LayoutFarm.UI.OpenGLView
     //app specific
     partial class GpuOpenGLSurfaceView : GLControl
     {
-        MyPlatformWindowBridgeOpenGL winBridge; 
+        MyPlatformWindowBridgeOpenGL winBridge;
         OpenTK.Graphics.Color4 clearColor;
 
         //EventHandler glPaintHandler;
@@ -39,7 +39,7 @@ namespace LayoutFarm.UI.OpenGLView
             this.winBridge = winBridge;
             this.winBridge.BindGLControl(this);
         }
-        
+
         public OpenTK.Graphics.Color4 ClearColor
         {
             get { return clearColor; }
@@ -60,27 +60,29 @@ namespace LayoutFarm.UI.OpenGLView
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-
-            //base.OnPaint(e);
             //------------------------------------------
             if (!this.DesignMode)
-            {   
+            {
                 MakeCurrent();
-                winBridge.PaintMe();
+                //winBridge.PaintMe();
                 ////---------
-                //////auto clear color ?
-                ////GL.Clear(ClearBufferMask.ColorBufferBit);
+                ////auto clear color ?
+                GL.ClearColor(1f, 1f, 1f, 1f);
+                GL.Clear(ClearBufferMask.ColorBufferBit);
                 //if (glPaintHandler != null)
                 //{
                 //    glPaintHandler(this, e);
                 //}
-                //SwapBuffers();
+                SwapBuffers();
+                
+
             }
             else
             {
                 base.OnPaint(e);
             }
         }
+        static int drawCount = 0;
         public void InitSetup2d(Rectangle screenBound)
         {
             int max = Math.Max(screenBound.Width, screenBound.Height);

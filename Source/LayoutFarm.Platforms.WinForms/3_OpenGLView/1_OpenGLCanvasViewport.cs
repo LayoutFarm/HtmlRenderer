@@ -15,6 +15,10 @@ namespace LayoutFarm.UI.OpenGLView
         {
             
         }
+        protected override void Canvas_Invalidate(ref Rectangle r)
+        {
+            base.Canvas_Invalidate(ref r);
+        }
         public void NotifyWindowControlBinding()
         {
             this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, this.ViewportWidth, this.ViewportHeight);
@@ -24,8 +28,7 @@ namespace LayoutFarm.UI.OpenGLView
 
             //----------------------------------
             //gl paint here
-            canvas.ClearSurface(Color.White);
-            
+            canvas.ClearSurface(Color.White); 
             ////test draw rect
             //canvas.StrokeColor = LayoutFarm.Drawing.Color.Blue;
             //canvas.DrawRectangle(Color.Blue, 20, 20, 200, 200);
