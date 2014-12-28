@@ -23,8 +23,7 @@ namespace LayoutFarm.Drawing.DrawingGL
 {
     partial class MyCanvasGL
     {
-        //Brush currentBrush;
-        //Font currentTextFont = null;
+       
         Color mycurrentTextColor = Color.Black;
         //======================================
         //IFonts impl

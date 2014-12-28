@@ -298,9 +298,9 @@ namespace LayoutFarm.Drawing.DrawingGL
             set
             {
                 //sample only *** 
-                //canvasGL2d.CurrentFont = PixelFarm.Agg.Fonts.NativeFontStore.LoadFont("c:\\Windows\\Fonts\\Tahoma.ttf", 10);
-                
+                //canvasGL2d.CurrentFont = PixelFarm.Agg.Fonts.NativeFontStore.LoadFont("c:\\Windows\\Fonts\\Tahoma.ttf", 10); 
                 currentFont = value;
+                canvasGL2d.CurrentFont = (PixelFarm.Agg.Fonts.Font)defaultFontInfo.PlatformSpecificFont;
             }
         }
         public override void DrawText(char[] buffer, int x, int y)
@@ -446,7 +446,7 @@ namespace LayoutFarm.Drawing.DrawingGL
             set
             {
                 this.strokeWidth = value;
-            
+
             }
         }
 

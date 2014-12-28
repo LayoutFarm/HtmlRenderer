@@ -345,10 +345,7 @@ namespace LayoutFarm.Drawing.WinGdi
             defaultHFont = f.ToHfont();
             defaultFontInfo = FontsUtils.GetCachedFont(f).ResolvedFont;
         }
-        protected IntPtr GetDefaultHFont()
-        {
-            return defaultHFont;
-        }
+         
         static System.Drawing.Point[] ConvPointArray(Point[] points)
         {
             int j = points.Length;

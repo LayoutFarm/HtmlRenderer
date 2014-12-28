@@ -86,12 +86,12 @@ namespace LayoutFarm.DrawingGL
             switch (this.canvasOrientation)
             {
                 case Drawing.CanvasOrientation.LeftTop:
-                    { 
+                    {
                         //convert to left bottom mode 
                         GL.Scissor(this.canvasOriginX + x,
                            (this.canvasH - (y + h + this.canvasOriginY)), //flip Y --> to bootom 
                             w,
-                            h); 
+                            h);
                     } break;
                 default:
                     {

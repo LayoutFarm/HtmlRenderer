@@ -23,17 +23,17 @@ namespace LayoutFarm.Drawing.WinGdi
                 sampleIFonts.Dispose();
                 sampleIFonts = null;
             }
-        } 
+        }
         public override GraphicsPath CreateGraphicsPath()
         {
             return new MyGraphicsPath();
-        } 
-
-        public override FontInfo CreateNativeFontWrapper(object nativeFont)
-        {
-            return FontsUtils.GetCachedFont((System.Drawing.Font)nativeFont);
-
         }
+        public override FontInfo GetFont(string fontfaceName, float emsize)
+        {
+            System.Drawing.Font nativeFont = new System.Drawing.Font(fontfaceName, emsize); 
+            return FontsUtils.GetCachedFont(nativeFont);
+        }
+
         public override Canvas CreateCanvas(int left, int top, int width, int height)
         {
             return new MyCanvas(this, 0, 0, left, top, width, height);

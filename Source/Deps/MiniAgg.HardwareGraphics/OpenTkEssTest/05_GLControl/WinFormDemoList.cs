@@ -64,7 +64,7 @@ namespace OpenTkEssTest
                 {
 
                     hwBmp = LayoutFarm.DrawingGL.GLBitmapTextureHelper.CreateBitmapTexture(
-                        new Bitmap("../../Data/Textures/logo-dark.jpg"));
+                        new Bitmap("../../../Data/Textures/logo-dark.jpg"));
 
                 }
                 //canvas.DrawImage(hwBmp, 10, 10);

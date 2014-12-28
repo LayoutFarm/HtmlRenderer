@@ -11,8 +11,12 @@ namespace LayoutFarm.Drawing
         public abstract void Dispose();
         public abstract int Height { get; }
         public abstract System.IntPtr ToHfont();
-
         public abstract FontInfo FontInfo { get; }
+        //-------------------------------------------
+
+
+
+        //-------------------------------------------
     }
 
     public abstract class FontFamily
@@ -27,7 +31,7 @@ namespace LayoutFarm.Drawing
     }
 
     //------------------------------------------
-  
+
     public struct FontABC
     {
         public int a;
@@ -65,7 +69,7 @@ namespace LayoutFarm.Drawing
         public abstract int GetStringWidth(char[] buffer, int length);
 
         public abstract Font ResolvedFont { get; }
-
+        public object PlatformSpecificFont { get; set; }
     }
     public interface IFonts
     {

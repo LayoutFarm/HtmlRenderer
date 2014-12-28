@@ -170,8 +170,7 @@ namespace LayoutFarm
         }
         public static LayoutFarm.Drawing.FontInfo GetCachedFont(Font f)
         {
-            LayoutFarm.Drawing.FontInfo found;
-
+            LayoutFarm.Drawing.FontInfo found; 
             if (!_fontInfoCache.TryGetValue(f, out found))
             {
                 //if not found then create it

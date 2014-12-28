@@ -27,24 +27,31 @@ namespace LayoutFarm.Drawing.DrawingGL
                 sampleIFonts = null;
             }
         }
-         
-
-       
-
-         
         public override GraphicsPath CreateGraphicsPath()
         {
             return new MyGraphicsPath();
         }
-      
-        public override FontInfo CreateNativeFontWrapper(object nativeFont)
-        {
-            return  FontsUtils.GetCachedFont((System.Drawing.Font)nativeFont);
 
+        public override FontInfo GetFont(string fontFaceName, float emsize)
+        {
+            return PlatformGetFont(fontFaceName, emsize);
+        }
+        internal static FontInfo PlatformGetFont(string fontFaceName, float emsize)
+        {
+            //create gdi font 
+            System.Drawing.Font f = new System.Drawing.Font(fontFaceName, emsize);
+            FontInfo fontInfo = FontsUtils.GetCachedFont(f);
+            if (fontInfo.PlatformSpecificFont == null)
+            {
+                fontInfo.PlatformSpecificFont = PixelFarm.Agg.Fonts.NativeFontStore.LoadFont(
+                    "c:\\Windows\\Fonts\\" + fontFaceName + ".ttf", //sample only***
+                    (int)emsize);
+            }
+            return fontInfo;
         }
         public override Canvas CreateCanvas(int left, int top, int width, int height)
         {
-            return new MyCanvasGL(this, 0, 0, left, top, width, height); 
+            return new MyCanvasGL(this, 0, 0, left, top, width, height);
         }
         public override IFonts SampleIFonts
         {
