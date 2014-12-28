@@ -31,15 +31,12 @@ namespace LayoutFarm.Drawing.DrawingGL
         GraphicsPlatform platform;
         int pageFlags;
         Font currentFont;
-        CanvasGL2d canvasGL2d;
-        //-------
-        //platform specific code
-        GdiTextBoard gdiTextBoard;
+        CanvasGL2d canvasGL2d; 
         PixelFarm.Agg.VertexSource.CurveFlattener flattener = new PixelFarm.Agg.VertexSource.CurveFlattener();
         //-------
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
-        System.Drawing.Rectangle currentClipRect;
-
+        System.Drawing.Rectangle currentClipRect; 
+         
         public MyCanvasGL(GraphicsPlatform platform, int hPageNum, int vPageNum, int left, int top, int width, int height)
         {
             canvasGL2d = new CanvasGL2d(width, height);
@@ -60,15 +57,9 @@ namespace LayoutFarm.Drawing.DrawingGL
             this.StrokeWidth = 1;
             this.currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
 
-            //------------------------
-            //platform specific code
-            //-------------------------
-            gdiTextBoard = new GdiTextBoard(800, 100, new System.Drawing.Font("tahoma", 10));
-            //----------------------- 
+            
         }
         //-------------------------------------------
-
-
         ~MyCanvasGL()
         {
             ReleaseUnManagedResource();
@@ -278,9 +269,8 @@ namespace LayoutFarm.Drawing.DrawingGL
             _stringFormat = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericDefault);
             _stringFormat.FormatFlags = System.Drawing.StringFormatFlags.NoClip | System.Drawing.StringFormatFlags.MeasureTrailingSpaces;
             //---------------------------
-            defaultFontInfo = CanvasGLPlatform.PlatformGetFont("Tahoma", 10); 
-        }
-      
+            defaultFontInfo = CanvasGLPlatform.PlatformGetFont("Tahoma", 10, FontLoadTechnique.GdiBitmapFont); 
+        } 
 
         static System.Drawing.Point[] ConvPointArray(Point[] points)
         {
@@ -301,8 +291,7 @@ namespace LayoutFarm.Drawing.DrawingGL
                 outputPoints[i] = points[i].ToPointF();
             }
             return outputPoints;
-        }
-
+        } 
         static System.Drawing.Color ConvColor(Color c)
         {
             return System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);

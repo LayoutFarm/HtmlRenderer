@@ -127,6 +127,7 @@
     <Compile Include="Shapes\SlicedSphere.cs" />
     <Compile Include="Shapes\TorusKnot.cs" />
     <Compile Include="Shapes\VertexPositionColor.cs" />
+    <Compile Include="Text\GLTextPrinter.cs" />
     <Compile Include="Utilities\LoaderDDS.cs" />
     <Compile Include="Utilities\LoaderGDI.cs" />
     <Compile Include="Utilities\LoaderStatics.cs" />

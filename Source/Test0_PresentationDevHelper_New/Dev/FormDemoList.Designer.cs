@@ -20,6 +20,7 @@
             this.chkShowLayoutInspector = new System.Windows.Forms.CheckBox();
             this.lstHtmlTestFiles = new System.Windows.Forms.ListBox();
             this.lstDemoList = new System.Windows.Forms.ListBox();
+            this.chkUseGLCanvas = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // chkShowLayoutInspector
@@ -47,15 +48,26 @@
             this.lstDemoList.Size = new System.Drawing.Size(388, 472);
             this.lstDemoList.TabIndex = 15;
             // 
-            // Form1
+            // checkBox1
+            // 
+            this.chkUseGLCanvas.AutoSize = true;
+            this.chkUseGLCanvas.Location = new System.Drawing.Point(300, 20);
+            this.chkUseGLCanvas.Name = "checkBox1";
+            this.chkUseGLCanvas.Size = new System.Drawing.Size(101, 17);
+            this.chkUseGLCanvas.TabIndex = 16;
+            this.chkUseGLCanvas.Text = "Use GL Canvas";
+            this.chkUseGLCanvas.UseVisualStyleBackColor = true;
+            // 
+            // FormDemoList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(858, 529);
+            this.Controls.Add(this.chkUseGLCanvas);
             this.Controls.Add(this.lstDemoList);
             this.Controls.Add(this.lstHtmlTestFiles);
             this.Controls.Add(this.chkShowLayoutInspector);
-            this.Name = "Form1";
+            this.Name = "FormDemoList";
             this.Text = "TestGraphicPackage2";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -67,6 +79,7 @@
         private System.Windows.Forms.CheckBox chkShowLayoutInspector;
         private System.Windows.Forms.ListBox lstHtmlTestFiles;
         private System.Windows.Forms.ListBox lstDemoList;
+        private System.Windows.Forms.CheckBox chkUseGLCanvas;
     }
 }
 

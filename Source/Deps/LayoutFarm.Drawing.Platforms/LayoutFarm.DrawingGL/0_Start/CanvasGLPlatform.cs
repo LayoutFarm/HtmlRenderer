@@ -34,18 +34,29 @@ namespace LayoutFarm.Drawing.DrawingGL
 
         public override FontInfo GetFont(string fontFaceName, float emsize)
         {
-            return PlatformGetFont(fontFaceName, emsize);
+            return PlatformGetFont(fontFaceName, emsize, FontLoadTechnique.GdiBitmapFont);
         }
-        internal static FontInfo PlatformGetFont(string fontFaceName, float emsize)
+        internal static FontInfo PlatformGetFont(string fontFaceName, float emsize, FontLoadTechnique fontLoadTechnique)
         {
             //create gdi font 
             System.Drawing.Font f = new System.Drawing.Font(fontFaceName, emsize);
             FontInfo fontInfo = FontsUtils.GetCachedFont(f);
             if (fontInfo.PlatformSpecificFont == null)
             {
-                fontInfo.PlatformSpecificFont = PixelFarm.Agg.Fonts.NativeFontStore.LoadFont(
-                    "c:\\Windows\\Fonts\\" + fontFaceName + ".ttf", //sample only***
-                    (int)emsize);
+                switch (fontLoadTechnique)
+                {
+                    case FontLoadTechnique.GdiBitmapFont:
+                        {
+                            //use gdi font board  
+                            fontInfo.PlatformSpecificFont = new PixelFarm.Agg.Fonts.GdiTextureFont(800, 100, f);
+                        } break;
+                    default:
+                        {
+                            fontInfo.PlatformSpecificFont = PixelFarm.Agg.Fonts.NativeFontStore.LoadFont(
+                                "c:\\Windows\\Fonts\\" + fontFaceName + ".ttf", //sample only***
+                                (int)emsize);
+                        } break;
+                } 
             }
             return fontInfo;
         }

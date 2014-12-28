@@ -14,20 +14,20 @@ namespace LayoutFarm.DrawingGL
     public partial class CanvasGL2d
     {
 
-        LayoutFarm.Drawing.Color strokeColor = LayoutFarm.Drawing.Color.Black; 
-        LayoutFarm.Drawing.CanvasOrientation canvasOrientation = Drawing.CanvasOrientation.LeftBottom;
-
+        LayoutFarm.Drawing.Color strokeColor = LayoutFarm.Drawing.Color.Black;
+        LayoutFarm.Drawing.CanvasOrientation canvasOrientation = Drawing.CanvasOrientation.LeftTop;
+        PixelFarm.Agg.Fonts.Font currentFont;//temp
 
 
         int canvasOriginX = 0;
         int canvasOriginY = 0;
         int canvasW;
         int canvasH;
-       
+
 
         //tools---------------------------------
         Tesselator tess = new Tesselator();
-        TessListener2 tessListener = new TessListener2(); 
+        TessListener2 tessListener = new TessListener2();
 
         RoundedRect roundRect = new RoundedRect();
         Ellipse ellipse = new Ellipse();
@@ -38,8 +38,8 @@ namespace LayoutFarm.DrawingGL
         GLScanlinePacked8 sclinePack8;
         Arc arcTool = new Arc();
         CurveFlattener curveFlattener = new CurveFlattener();
-        GLTextPrinter textPrinter;      
-    
+     
+
         public CanvasGL2d(int canvasW, int canvasH)
         {
             this.canvasW = canvasW;
@@ -47,9 +47,8 @@ namespace LayoutFarm.DrawingGL
             sclineRas = new GLScanlineRasterizer();
             sclineRasToGL = new GLScanlineRasToDestBitmapRenderer();
             sclinePack8 = new GLScanlinePacked8();
-            tessListener.Connect(tess, Tesselate.Tesselator.WindingRuleType.Odd, true); 
-            textPrinter = new GLTextPrinter(this);
-             
+            tessListener.Connect(tess, Tesselate.Tesselator.WindingRuleType.Odd, true);
+        
         }
         public CanvasSmoothMode SmoothMode
         {
@@ -980,36 +979,7 @@ namespace LayoutFarm.DrawingGL
         public int CanvasOriginY
         {
             get { return this.canvasOriginY; }
-        }
-        ////-----------------------------------------------------
-        //void SetupDefaultFonts()
-        //{
-        //    //test
-        //     this.textPrinter.CurrentFont = PixelFarm.Agg.Fonts.NativeFontStore.LoadFont("c:\\Windows\\Fonts\\Tahoma.ttf", 10);
-
-        //}
-        public PixelFarm.Agg.Fonts.Font CurrentFont
-        {
-            get
-            {
-                return this.textPrinter.CurrentFont;
-            }
-            set
-            {
-                this.textPrinter.CurrentFont = value;
-            }
-        }
-        public void DrawString(string str, float x, float y)
-        {
-
-            this.textPrinter.Print(str.ToCharArray(), x, y);
-
-        }
-        public void DrawString(char[] buff, float x, float y)
-        {
-
-            this.textPrinter.Print(buff, x, y);
-        }
+        } 
 
     }
 }

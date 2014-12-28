@@ -19,7 +19,7 @@ namespace LayoutFarm.Dev
         {
             InitializeComponent();
             this.gfxPlatform = gfxPlatform;
-            this.Load += new EventHandler(Form1_Load);  
+            this.Load += new EventHandler(Form1_Load);
             this.uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
 
         }
@@ -79,8 +79,11 @@ namespace LayoutFarm.Dev
 
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm, this.gfxPlatform, w, h);
             TopWindowRenderBox topRenderBox = rootgfx.CreateTopWindowRenderBox(w, h);
+
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(topRenderBox,
-                rootgfx.CreateUserEventPortal(topRenderBox), out viewport);
+                rootgfx.CreateUserEventPortal(topRenderBox),
+                this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
+                out viewport);
 
             formCanvas.Text = "FormCanvas 1";
 

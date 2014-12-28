@@ -1,16 +1,19 @@
-﻿
-
+﻿//MIT 2014, WinterDev   
 using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Collections.Generic;
-using System.Text;
-using LayoutFarm.Drawing;
-using LayoutFarm.DrawingGL;
-using DrawingBridge;
 
-namespace LayoutFarm.Drawing.DrawingGL
+using PixelFarm;
+using PixelFarm.Agg;
+using LayoutFarm;
+using LayoutFarm.DrawingGL;
+using LayoutFarm.Drawing;
+
+namespace PixelFarm.Agg.Fonts
 {
     //platform specific
-    class GdiTextBoard
+    public class GdiTextureFont : Font
     {
         System.Drawing.Bitmap textBoardBmp;
         System.Drawing.Graphics gx;
@@ -19,11 +22,13 @@ namespace LayoutFarm.Drawing.DrawingGL
         TextureAtlas textureAtlas;
         int width;
         int height;
-        Dictionary<char, LayoutFarm.Drawing.RectangleF> charMap = new Dictionary<char, RectangleF>();
-        LayoutFarm.Drawing.Bitmap myTextBoardBmp;
+        Dictionary<char, LayoutFarm.Drawing.RectangleF> charMap = new Dictionary<char, LayoutFarm.Drawing.RectangleF>();
+        //LayoutFarm.Drawing.Bitmap myTextBoardBmp;
         IntPtr hFont;
-        FontInfo fontInfo;
-        public GdiTextBoard(int width, int height, System.Drawing.Font font)
+        LayoutFarm.Drawing.FontInfo fontInfo;
+        GLBitmap innerGLbmp;
+
+        public GdiTextureFont(int width, int height, System.Drawing.Font font)
         {
             this.width = width;
             this.height = height;
@@ -75,7 +80,7 @@ namespace LayoutFarm.Drawing.DrawingGL
 
                 char c = buffer[i];
                 FontABC abcWidth = fontInfo.GetCharABCWidth(c);
-                int glyphBoxWidth = Math.Abs(abcWidth.a) + (int)abcWidth.b + abcWidth.c; 
+                int glyphBoxWidth = Math.Abs(abcWidth.a) + (int)abcWidth.b + abcWidth.c;
                 if (abcWidth.Sum + curX > this.width)
                 {
                     //start newline
@@ -85,35 +90,35 @@ namespace LayoutFarm.Drawing.DrawingGL
                 }
 
                 NativeTextWin32.TextOut(gxdc, curX, curY, new char[] { c }, 1);
-                charMap.Add(c, new RectangleF(curX, curY, glyphBoxWidth, fontHeight));
+                charMap.Add(c, new LayoutFarm.Drawing.RectangleF(curX, curY, glyphBoxWidth, fontHeight));
                 curX += glyphBoxWidth; //move next 
 
             }
 
             gx.ReleaseHdc(gxdc);
-            myTextBoardBmp = new Bitmap(width, height, new LazyGdiBitmapBufferProvider(this.textBoardBmp));
-            myTextBoardBmp.InnerImage = GLBitmapTextureHelper.CreateBitmapTexture(this.textBoardBmp);
+            //myTextBoardBmp = new Bitmap(width, height, new LazyGdiBitmapBufferProvider(this.textBoardBmp));
+            //myTextBoardBmp.InnerImage = GLBitmapTextureHelper.CreateBitmapTexture(this.textBoardBmp);
 
         }
-        public void DrawText(MyCanvasGL canvasGL2d, char[] buffer, int x, int y)
+        public LayoutFarm.Drawing.RectangleF[] GetGlyphPos(char[] buffer, int x, int y)
         {
-            //same font
-            //load bitmap texture
-            //find texture map position
-            var glbmp = GLBitmapTextureHelper.CreateBitmapTexture(this.textBoardBmp);
+            if (innerGLbmp == null)
+            {
+                innerGLbmp = GLBitmapTextureHelper.CreateBitmapTexture(this.textBoardBmp);
+            }
+
             //create reference bmp
             int len = buffer.Length;
             float curX = x;
             float curY = y;
-
             //create destAndSrcArray
-            LayoutFarm.Drawing.RectangleF[] destAndSrc = new RectangleF[len * 2];
+            LayoutFarm.Drawing.RectangleF[] destAndSrcPairs = new LayoutFarm.Drawing.RectangleF[len * 2];
 
             int pp = 0;
             for (int i = 0; i < len; ++i)
             {
                 //find map glyph
-                RectangleF found;
+                LayoutFarm.Drawing.RectangleF found;
                 if (charMap.TryGetValue(buffer[i], out found))
                 {
                     //found
@@ -122,11 +127,10 @@ namespace LayoutFarm.Drawing.DrawingGL
                     //        found.Width, found.Height),
                     //    found);
                     //dest
-                    destAndSrc[pp] = new RectangleF(curX, curY, found.Width, found.Height);
+                    destAndSrcPairs[pp] = new LayoutFarm.Drawing.RectangleF(curX, curY, found.Width, found.Height);
                     //src
-                    destAndSrc[pp + 1] = found;
+                    destAndSrcPairs[pp + 1] = found;
                     curX += found.Width;
-
                 }
                 else
                 {
@@ -135,12 +139,72 @@ namespace LayoutFarm.Drawing.DrawingGL
                 }
                 pp += 2;
             }
-
-            canvasGL2d.DrawImages(myTextBoardBmp, destAndSrc);
-            glbmp.Dispose();
+            return destAndSrcPairs;
 
         }
+         
+        public GLBitmap BmpBoard
+        {
+            get { return this.innerGLbmp; }
+        }
+        protected override void OnDispose()
+        {
+            if (innerGLbmp != null)
+            {
+                innerGLbmp.Dispose();
+                innerGLbmp = null;
+            }
+        }
+        //-----------
+        public override double AscentInPixels
+        {
+            get { throw new NotImplementedException(); }
+        }
+        public override double CapHeightInPixels
+        {
+            get { throw new NotImplementedException(); }
+        }
+        public override double DescentInPixels
+        {
+            get { throw new NotImplementedException(); }
+        }
+        public override int EmSizeInPixels
+        {
+            get { throw new NotImplementedException(); }
+        }
+        public override FontFace FontFace
+        {
+            get { throw new NotImplementedException(); }
+        }
+        public override FontGlyph GetGlyphByIndex(uint glyphIndex)
+        {
+            throw new NotImplementedException();
+        }
+        public override void GetGlyphPos(char[] buffer, int start, int len, ProperGlyph[] properGlyphs)
+        {
+            throw new NotImplementedException();
+        }
+        public override int GetAdvanceForCharacter(char c)
+        {
+            throw new NotImplementedException();
+        }
+        public override int GetAdvanceForCharacter(char c, char next_c)
+        {
+            throw new NotImplementedException();
+        }
+        public override double XHeightInPixels
+        {
+            get { throw new NotImplementedException(); }
+        }
+        public override FontGlyph GetGlyph(char c)
+        {
+            throw new NotImplementedException();
+        }
 
+        public override bool IsAtlasFont
+        {
+            get { return true; }
+        }
     }
 
 }

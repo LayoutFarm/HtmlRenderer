@@ -24,9 +24,7 @@ namespace LayoutFarm.UI
             IUserEventPortal userInputEvBridge,
             InnerViewportKind innerViewportKind)
         {
-            //test*** force  to use gl
-            innerViewportKind = InnerViewportKind.GL;
-            //---------------------------------------- 
+             
             //1.
             this.wintop = wintop;
 

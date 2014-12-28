@@ -361,42 +361,85 @@ namespace LayoutFarm.DrawingGL
                         {
                             len -= 1;
                         }
-                        for (int i = 0; i < len; )
+                        if (this.canvasOrientation == Drawing.CanvasOrientation.LeftTop)
                         {
-                            //each 
-
-                            var destRect = destAndSrcPairs[i];
-                            var srcRect = destAndSrcPairs[i + 1];
-                            i += 2;
-
-                            if (bmp.IsInvert)
+                            for (int i = 0; i < len; )
                             {
+                                //each 
 
-                                ////arr[0] = 0; arr[1] = 0;
-                                arr[0] = srcRect.Left / fullsrcW; arr[1] = (srcRect.Top + srcRect.Height) / fullsrcH;
-                                //arr[2] = 1; arr[3] = 0;
-                                arr[2] = srcRect.Right / fullsrcW; arr[3] = (srcRect.Top + srcRect.Height) / fullsrcH;
-                                //arr[4] = 1; arr[5] = 1;
-                                arr[4] = srcRect.Right / fullsrcW; arr[5] = srcRect.Top / fullsrcH;
-                                //arr[6] = 0; arr[7] = 1;
-                                arr[6] = srcRect.Left / fullsrcW; arr[7] = srcRect.Top / fullsrcH;
-                            }
-                            else
-                            {
+                                var destRect = destAndSrcPairs[i];
+                                var srcRect = destAndSrcPairs[i + 1];
+                                i += 2;
 
-                                arr[0] = srcRect.Left / fullsrcW; arr[1] = srcRect.Top / fullsrcH;
-                                //arr[2] = 1; arr[3] = 1;
-                                arr[2] = srcRect.Right / fullsrcW; arr[3] = srcRect.Top / fullsrcH;
-                                //arr[4] = 1; arr[5] = 0;
-                                arr[4] = srcRect.Right / fullsrcW; arr[5] = srcRect.Bottom / fullsrcH;
-                                //arr[6] = 0; arr[7] = 0;
-                                arr[6] = srcRect.Left / fullsrcW; arr[7] = srcRect.Bottom / fullsrcH;
+                                if (!bmp.IsInvert)
+                                {
+
+                                    ////arr[0] = 0; arr[1] = 0;
+                                    arr[0] = srcRect.Left / fullsrcW; arr[1] = (srcRect.Top + srcRect.Height) / fullsrcH;
+                                    //arr[2] = 1; arr[3] = 0;
+                                    arr[2] = srcRect.Right / fullsrcW; arr[3] = (srcRect.Top + srcRect.Height) / fullsrcH;
+                                    //arr[4] = 1; arr[5] = 1;
+                                    arr[4] = srcRect.Right / fullsrcW; arr[5] = srcRect.Top / fullsrcH;
+                                    //arr[6] = 0; arr[7] = 1;
+                                    arr[6] = srcRect.Left / fullsrcW; arr[7] = srcRect.Top / fullsrcH;
+                                }
+                                else
+                                {
+
+                                    arr[0] = srcRect.Left / fullsrcW; arr[1] = srcRect.Top / fullsrcH;
+                                    //arr[2] = 1; arr[3] = 1;
+                                    arr[2] = srcRect.Right / fullsrcW; arr[3] = srcRect.Top / fullsrcH;
+                                    //arr[4] = 1; arr[5] = 0;
+                                    arr[4] = srcRect.Right / fullsrcW; arr[5] = srcRect.Bottom / fullsrcH;
+                                    //arr[6] = 0; arr[7] = 0;
+                                    arr[6] = srcRect.Left / fullsrcW; arr[7] = srcRect.Bottom / fullsrcH;
+                                }
+                                GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, (IntPtr)arr);
+                                //------------------------------------------ 
+                                //fill rect with texture                             
+                                FillRectWithTexture(destRect.X, destRect.Y, destRect.Width, destRect.Height);
                             }
-                            GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, (IntPtr)arr);
-                            //------------------------------------------ 
-                            //fill rect with texture                             
-                            FillRectWithTexture(destRect.X, destRect.Y, destRect.Width, destRect.Height);
                         }
+                        else
+                        {
+                            for (int i = 0; i < len; )
+                            {
+                                //each 
+
+                                var destRect = destAndSrcPairs[i];
+                                var srcRect = destAndSrcPairs[i + 1];
+                                i += 2;
+
+                                if (bmp.IsInvert)
+                                {
+
+                                    ////arr[0] = 0; arr[1] = 0;
+                                    arr[0] = srcRect.Left / fullsrcW; arr[1] = (srcRect.Top + srcRect.Height) / fullsrcH;
+                                    //arr[2] = 1; arr[3] = 0;
+                                    arr[2] = srcRect.Right / fullsrcW; arr[3] = (srcRect.Top + srcRect.Height) / fullsrcH;
+                                    //arr[4] = 1; arr[5] = 1;
+                                    arr[4] = srcRect.Right / fullsrcW; arr[5] = srcRect.Top / fullsrcH;
+                                    //arr[6] = 0; arr[7] = 1;
+                                    arr[6] = srcRect.Left / fullsrcW; arr[7] = srcRect.Top / fullsrcH;
+                                }
+                                else
+                                {
+
+                                    arr[0] = srcRect.Left / fullsrcW; arr[1] = srcRect.Top / fullsrcH;
+                                    //arr[2] = 1; arr[3] = 1;
+                                    arr[2] = srcRect.Right / fullsrcW; arr[3] = srcRect.Top / fullsrcH;
+                                    //arr[4] = 1; arr[5] = 0;
+                                    arr[4] = srcRect.Right / fullsrcW; arr[5] = srcRect.Bottom / fullsrcH;
+                                    //arr[6] = 0; arr[7] = 0;
+                                    arr[6] = srcRect.Left / fullsrcW; arr[7] = srcRect.Bottom / fullsrcH;
+                                }
+                                GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, (IntPtr)arr);
+                                //------------------------------------------ 
+                                //fill rect with texture                             
+                                FillRectWithTexture(destRect.X, destRect.Y, destRect.Width, destRect.Height);
+                            }
+                        }
+
                     }
 
                     GL.DisableClientState(ArrayCap.TextureCoordArray);
