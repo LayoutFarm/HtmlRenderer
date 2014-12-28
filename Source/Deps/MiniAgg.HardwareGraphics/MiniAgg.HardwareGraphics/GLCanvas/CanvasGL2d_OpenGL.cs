@@ -11,7 +11,7 @@ using OpenTK.Graphics.OpenGL;
 namespace LayoutFarm.DrawingGL
 {
 
-    public partial class CanvasGL2d
+    partial class CanvasGL2d
     {
 
         public LayoutFarm.Drawing.Color StrokeColor
@@ -73,18 +73,33 @@ namespace LayoutFarm.DrawingGL
         }
         public void EnableClipRect()
         {
-            //GL.Enable(EnableCap.ScissorTest);
+            GL.Enable(EnableCap.ScissorTest);
         }
         public void DisableClipRect()
         {
-            //GL.Disable(EnableCap.ScissorTest);
+            GL.Disable(EnableCap.ScissorTest);
         }
-        public void SetClipRect(int x, int y, int w, int h)
+        public void SetClipRectRel(int x, int y, int w, int h)
         {
-            //GL.Scissor(x, y, w, h);
+            //OpenGL clip is relative to screen
+            //not affected by coord-transform matrix? 
+            switch (this.canvasOrientation)
+            {
+                case Drawing.CanvasOrientation.LeftTop:
+                    { 
+                        //convert to left bottom mode 
+                        GL.Scissor(this.canvasOriginX + x,
+                           (this.canvasH - (y + h + this.canvasOriginY)), //flip Y --> to bootom 
+                            w,
+                            h); 
+                    } break;
+                default:
+                    {
+                        GL.Scissor(this.canvasOriginX + x, this.canvasOriginY + y, w, h);
+                    } break;
+            }
+
         }
-
-
         public void FillPolygon(LayoutFarm.Drawing.Brush brush, float[] vertex2dCoords, int npoints)
         {
             //-------------

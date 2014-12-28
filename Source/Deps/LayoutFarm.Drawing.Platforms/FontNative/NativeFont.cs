@@ -17,9 +17,7 @@ namespace PixelFarm.Agg.Fonts
         /// glyph
         /// </summary>
         Dictionary<char, FontGlyph> dicGlyphs = new Dictionary<char, FontGlyph>();
-        Dictionary<uint, FontGlyph> dicGlyphs2 = new Dictionary<uint, FontGlyph>();
-
-
+        Dictionary<uint, FontGlyph> dicGlyphs2 = new Dictionary<uint, FontGlyph>(); 
         internal NativeFont(NativeFontFace ownerFace, int pixelSize)
         {
             //store unmanage font file information

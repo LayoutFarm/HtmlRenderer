@@ -55,7 +55,7 @@ namespace OpenTkEssTest
         {
             FormTestWinGLControl2 form = new FormTestWinGLControl2();
             CanvasGL2d canvas = new CanvasGL2d(this.Width, this.Height);
-
+            
             form.SetGLPaintHandler((o, s) =>
             {
 

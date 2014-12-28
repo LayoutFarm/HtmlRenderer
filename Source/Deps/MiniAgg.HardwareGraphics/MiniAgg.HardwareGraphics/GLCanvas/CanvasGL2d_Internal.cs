@@ -10,7 +10,7 @@ using PixelFarm.Agg.VertexSource;
 namespace LayoutFarm.DrawingGL
 {
 
-    public partial class CanvasGL2d
+    partial class CanvasGL2d
     {
         static unsafe void CreateRectCoords(float* arr, byte* indices,
                   float x, float y, float w, float h)
@@ -85,7 +85,7 @@ namespace LayoutFarm.DrawingGL
             tessListener.Reset(vertexts);
             //-----------------------
             tess.BeginPolygon();
-            tess.BeginContour(); 
+            tess.BeginContour();
             int j = vertexts.Count;
             for (int i = 0; i < j; ++i)
             {

@@ -17,9 +17,18 @@ namespace LayoutFarm.DrawingGL
         LayoutFarm.Drawing.Color strokeColor = LayoutFarm.Drawing.Color.Black;
         LayoutFarm.Drawing.CanvasOrientation canvasOrientation = Drawing.CanvasOrientation.LeftTop;
 
-        Tesselator tess = new Tesselator();
-        TessListener2 tessListener = new TessListener2();
+
+
+        int canvasOriginX = 0;
+        int canvasOriginY = 0;
+        int canvasW;
+        int canvasH;
+       
+
         //tools---------------------------------
+        Tesselator tess = new Tesselator();
+        TessListener2 tessListener = new TessListener2(); 
+
         RoundedRect roundRect = new RoundedRect();
         Ellipse ellipse = new Ellipse();
         PathWriter ps = new PathWriter();
@@ -29,13 +38,8 @@ namespace LayoutFarm.DrawingGL
         GLScanlinePacked8 sclinePack8;
         Arc arcTool = new Arc();
         CurveFlattener curveFlattener = new CurveFlattener();
-        GLTextPrinter textPrinter;
-
-        int canvasOriginX = 0;
-        int canvasOriginY = 0;
-        int canvasW;
-        int canvasH;
-
+        GLTextPrinter textPrinter;      
+    
         public CanvasGL2d(int canvasW, int canvasH)
         {
             this.canvasW = canvasW;
@@ -43,11 +47,9 @@ namespace LayoutFarm.DrawingGL
             sclineRas = new GLScanlineRasterizer();
             sclineRasToGL = new GLScanlineRasToDestBitmapRenderer();
             sclinePack8 = new GLScanlinePacked8();
-            tessListener.Connect(tess, Tesselate.Tesselator.WindingRuleType.Odd, true);
-
-            SetupDefaultFonts();
+            tessListener.Connect(tess, Tesselate.Tesselator.WindingRuleType.Odd, true); 
             textPrinter = new GLTextPrinter(this);
-
+             
         }
         public CanvasSmoothMode SmoothMode
         {
@@ -908,7 +910,7 @@ namespace LayoutFarm.DrawingGL
             {
                 //use clip rect for fill rect gradient
                 EnableClipRect();
-                SetClipRect((int)x, (int)y, (int)w, (int)h);
+                SetClipRectRel((int)x, (int)y, (int)w, (int)h);
 
                 //early exit
 
@@ -979,13 +981,13 @@ namespace LayoutFarm.DrawingGL
         {
             get { return this.canvasOriginY; }
         }
-        //-----------------------------------------------------
-        void SetupDefaultFonts()
-        {
-            //test
-            //this.textPrinter.CurrentFont = PixelFarm.Agg.Fonts.NativeFontStore.LoadFont("c:\\Windows\\Fonts\\Tahoma.ttf", 10);
+        ////-----------------------------------------------------
+        //void SetupDefaultFonts()
+        //{
+        //    //test
+        //     this.textPrinter.CurrentFont = PixelFarm.Agg.Fonts.NativeFontStore.LoadFont("c:\\Windows\\Fonts\\Tahoma.ttf", 10);
 
-        }
+        //}
         public PixelFarm.Agg.Fonts.Font CurrentFont
         {
             get
