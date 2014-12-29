@@ -33,7 +33,7 @@ namespace LayoutFarm.DrawingGL
             {
                 //temp hard-code here!
                 PixelFarm.Agg.Fonts.GdiTextureFont textureFont = (PixelFarm.Agg.Fonts.GdiTextureFont)currentFont;
-                var srcAndDestList = textureFont.GetGlyphPos(buffer, (int)x, (int)y);
+                var srcAndDestList = textureFont.GetGlyphPos(buffer, start, len, (int)x, (int)y);
                 canvas2d.DrawImages(textureFont.BmpBoard, srcAndDestList);
             }
             else

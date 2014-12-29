@@ -236,6 +236,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="isLast">is it the last rectangle of the element</param>
         internal void PaintBackground(Painter p, RectangleF rect, bool isFirst, bool isLast)
         {
+            
             if (!this.HasVisibleBgColor)
             {
                 return;

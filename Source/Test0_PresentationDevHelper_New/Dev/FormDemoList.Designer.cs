@@ -48,11 +48,13 @@
             this.lstDemoList.Size = new System.Drawing.Size(388, 472);
             this.lstDemoList.TabIndex = 15;
             // 
-            // checkBox1
+            // chkUseGLCanvas
             // 
             this.chkUseGLCanvas.AutoSize = true;
+            this.chkUseGLCanvas.Checked = true;
+            this.chkUseGLCanvas.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUseGLCanvas.Location = new System.Drawing.Point(300, 20);
-            this.chkUseGLCanvas.Name = "checkBox1";
+            this.chkUseGLCanvas.Name = "chkUseGLCanvas";
             this.chkUseGLCanvas.Size = new System.Drawing.Size(101, 17);
             this.chkUseGLCanvas.TabIndex = 16;
             this.chkUseGLCanvas.Text = "Use GL Canvas";
