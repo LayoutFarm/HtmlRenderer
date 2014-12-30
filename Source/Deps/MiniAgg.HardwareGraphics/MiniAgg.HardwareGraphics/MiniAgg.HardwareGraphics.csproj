@@ -49,7 +49,7 @@
     <Compile Include="GLCanvas\ImageFillStyle.cs" />
     <Compile Include="GLCanvas\CanvasGL2d.cs" />
     <Compile Include="GLCanvas\CanvasGL2d_OpenGL.cs" />
-    <Compile Include="GLCanvas\CanvasSmoothMode.cs" />
+    <Compile Include="GLCanvas\CanvasOptions.cs" />
     <Compile Include="GLHelper\GLHelper.cs" />
     <Compile Include="Texture\GLBitmap.cs" />
     <Compile Include="GLCanvas\SvgArc.cs" />

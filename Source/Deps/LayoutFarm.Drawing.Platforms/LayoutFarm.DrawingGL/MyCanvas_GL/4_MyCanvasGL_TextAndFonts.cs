@@ -24,7 +24,7 @@ namespace LayoutFarm.Drawing.DrawingGL
     partial class MyCanvasGL
     {
         GLTextPrinter myGLTextPrinter;
-        Color mycurrentTextColor = Color.Black;
+        Color textColor = Color.Black;
         //======================================
         //IFonts impl
         LayoutFarm.Drawing.FontInfo IFonts.GetFontInfo(string fontname, float fsize, FontStyle st)
@@ -110,13 +110,63 @@ namespace LayoutFarm.Drawing.DrawingGL
         {
             get
             {
-                return mycurrentTextColor;
+                return textColor;
             }
             set
             {
-                mycurrentTextColor = value;
+                textColor = value;
 
             }
         }
+        public override Font CurrentFont
+        {
+            get
+            {
+                return this.currentFont;
+            }
+            set
+            {
+                currentFont = value;
+                if (this.myGLTextPrinter != null)
+                {
+                    //assign font        
+                    this.myGLTextPrinter.CurrentFont = value.FontInfo.PlatformSpecificFont as PixelFarm.Agg.Fonts.Font;
+                }
+                //sample only ***  
+                //canvasGL2d.CurrentFont = (PixelFarm.Agg.Fonts.Font)defaultFontInfo.PlatformSpecificFont;
+            }
+        }
+        public override void DrawText(char[] buffer, int x, int y)
+        {
+
+            //handle draw canvas with 
+            if (this.myGLTextPrinter == null)
+            {
+                this.myGLTextPrinter = new GLTextPrinter(canvasGL2d);
+                this.myGLTextPrinter.CurrentFont = this.currentFont.FontInfo.PlatformSpecificFont as PixelFarm.Agg.Fonts.Font;
+            }
+            myGLTextPrinter.Print(this.textColor, buffer, 0, buffer.Length, x, y);
+
+        }
+        public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
+        {
+            if (this.myGLTextPrinter == null)
+            {
+                this.myGLTextPrinter = new GLTextPrinter(canvasGL2d);
+                this.myGLTextPrinter.CurrentFont = this.currentFont.FontInfo.PlatformSpecificFont as PixelFarm.Agg.Fonts.Font;
+
+            }
+            myGLTextPrinter.Print(this.textColor, buffer, 0, buffer.Length, logicalTextBox.X, logicalTextBox.Y);
+        }
+        public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
+        {
+            if (this.myGLTextPrinter == null)
+            {
+                this.myGLTextPrinter = new GLTextPrinter(canvasGL2d);
+                this.myGLTextPrinter.CurrentFont = this.currentFont.FontInfo.PlatformSpecificFont as PixelFarm.Agg.Fonts.Font;
+            }
+            myGLTextPrinter.Print(this.textColor, str, startAt, len, logicalTextBox.X, logicalTextBox.Y);
+        }
+      
     }
 }

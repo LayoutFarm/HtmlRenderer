@@ -266,7 +266,7 @@ namespace LayoutFarm.DrawingGL
                                     //freeze stencill buffer
                                     GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Keep);
 
-                                    if (this.Note1 == 1)  
+                                    if (this.Note1 == 1)
                                     {
                                         //------------------------------------------
                                         //we already have valid ps from stencil step
@@ -379,70 +379,22 @@ namespace LayoutFarm.DrawingGL
             }
         }
 
-        public void DrawImages(GLBitmap bmp, LayoutFarm.Drawing.RectangleF[] destAndSrcPairs)
+        public void DrawGlyphImages(LayoutFarm.Drawing.Color color, GLBitmap bmp, LayoutFarm.Drawing.RectangleF[] destAndSrcPairs)
         {
-            ////------------------------------------------
-            ////we already have valid ps from stencil step
-            ////------------------------------------------
-            //VertexStore vxs = ps.Vxs;
-            //sclineRas.Reset();
-            //sclineRas.AddPath(vxs);
-            ////-------------------------------------------------------------------------------------
-            ////1.  we draw only alpha channel of this black color to destination color
-            ////so we use  BlendFuncSeparate  as follow ... 
-            //GL.ColorMask(false, false, false, true);
-            ////GL.BlendFuncSeparate(
-            ////     BlendingFactorSrc.DstColor, BlendingFactorDest.DstColor, //the same
-            ////     BlendingFactorSrc.One, BlendingFactorDest.Zero);
+            //TODO: white opaque bg should render in single pass
 
-            ////use alpha chanel from source***
-            //GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.Zero);
-            //sclineRasToGL.FillWithColor(sclineRas, sclinePack8, LayoutFarm.Drawing.Color.Black);
+            //----------------------------
+            //in this version: this technique *** use gray scale gradient , not subpixel rendering
+            //TODO: add subpixel rendering support**
+            //see also: FillPolygon ***
 
-            ////at this point alpha component is fill in to destination 
-            ////-------------------------------------------------------------------------------------
-            ////2. then fill again!, 
-            ////we use alpha information from dest, 
-            ////so we set blend func to ... GL.BlendFunc(BlendingFactorSrc.DstAlpha, BlendingFactorDest.OneMinusDstAlpha)    
-            //GL.ColorMask(true, true, true, true);
-            //GL.BlendFunc(BlendingFactorSrc.DstAlpha, BlendingFactorDest.OneMinusDstAlpha);
-            //{
-            //    //draw box of gradient color
-            //    if (brush.BrushKind == Drawing.BrushKind.LinearGradient)
-            //    {
-            //        var colors = linearGradientBrush.GetColors();
-            //        var points = linearGradientBrush.GetStopPoints();
-            //        uint c1 = colors[0].ToABGR();
-            //        uint c2 = colors[1].ToABGR();
-            //        //create polygon for graident bg 
 
-            //        ArrayList<VertexC4V2f>
-            //             vrx = GLGradientColorProvider.CalculateLinearGradientVxs(
-            //             points[0].X, points[0].Y,
-            //             points[1].X, points[1].Y,
-            //             colors[0],
-            //             colors[1]);
+            //double pass technique:
 
-            //        DrawVertexList(DrawMode.Triangles, vrx, vrx.Count);
-
-            //    }
-            //    else if (brush.BrushKind == Drawing.BrushKind.Texture)
-            //    {
-            //        //draw texture image 
-            //        LayoutFarm.Drawing.TextureBrush tbrush = (LayoutFarm.Drawing.TextureBrush)brush;
-            //        LayoutFarm.Drawing.Image img = tbrush.TextureImage;
-            //        GLBitmap bmpTexture = (GLBitmap)tbrush.InnerImage2;
-            //        this.DrawImage(bmpTexture, 0, 0);
-            //        //GLBitmapTexture bmp = GLBitmapTexture.CreateBitmapTexture(fontGlyph.glyphImage32);
-            //        //this.DrawImage(bmp, 0, 0);
-            //        //bmp.Dispose();
-
-            //    }
-            //}
-            ////restore back 
-            ////3. switch to normal blending mode 
-            //GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-
+            //--------
+            GL.ColorMask(false, false, false, true);
+            //use alpha channel from source***
+            GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.Zero);
             unsafe
             {
                 var prevColor = this.strokeColor;
@@ -549,6 +501,33 @@ namespace LayoutFarm.DrawingGL
                 GL.Disable(EnableCap.Texture2D);
                 this.StrokeColor = prevColor;
             }
+            //enable color again
+            ////at this point alpha component is fill in to destination 
+            ////-------------------------------------------------------------------------------------
+            ////2. then fill again!, 
+            ////we use alpha information from dest, 
+            ////so we set blend func to ... GL.BlendFunc(BlendingFactorSrc.DstAlpha, BlendingFactorDest.OneMinusDstAlpha)    
+            GL.ColorMask(true, true, true, true);
+            GL.BlendFunc(BlendingFactorSrc.DstAlpha, BlendingFactorDest.OneMinusDstAlpha);
+            {
+                int len = destAndSrcPairs.Length;
+                if (len > 1)
+                {
+                    for (int i = 0; i < len; )
+                    {
+                        //each  
+                        var destRect = destAndSrcPairs[i];
+                        var srcRect = destAndSrcPairs[i + 1];
+                        i += 2;
+                        FillRect(color, destRect.X, destRect.Y, destRect.Width, destRect.Height);
+                    }
+                }
+            }
+
+            //3.
+            //set blend mode back
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            //fill with color
         }
 
         public void DrawImage(GLBitmap bmp,

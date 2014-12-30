@@ -51,7 +51,7 @@ namespace LayoutFarm.Drawing.DrawingGL
                         {
                             //use gdi font board  
 
-                            fontInfo.PlatformSpecificFont = new PixelFarm.Agg.Fonts.GdiTextureFont(800, 100, f, fontInfo);
+                            fontInfo.PlatformSpecificFont = new PixelFarm.Agg.Fonts.GdiTextureFont(800, 200, f, fontInfo);
                         } break;
                     default:
                         {

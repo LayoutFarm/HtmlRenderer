@@ -60,6 +60,7 @@ namespace LayoutFarm
         /// <returns>cached font instance</returns>
         public LayoutFarm.Drawing.FontInfo GetCachedFont(string family, float size, FontStyle style)
         {
+             
             var font = TryGetFont(family, size, style);
             if (font == null)
             {
@@ -107,30 +108,7 @@ namespace LayoutFarm
             LayoutFarm.Drawing.FontInfo fontInfo = null;
             FontKey fontKey = new FontKey(family.ToLower(), size, style);
             _fontInfoCacheByFontKey.TryGetValue(fontKey, out fontInfo);
-            return fontInfo;
-
-            //if (_fontsCache.ContainsKey(family))
-            //{
-            //    var a = _fontsCache[family];
-            //    if (a.ContainsKey(size))
-            //    {
-            //        var b = a[size];
-            //        if (b.ContainsKey(style))
-            //        {
-            //            font = b[style];
-            //        }
-            //    }
-            //    else
-            //    {
-            //        _fontsCache[family][size] = new Dictionary<FontStyle, Font>();
-            //    }
-            //}
-            //else
-            //{
-            //    _fontsCache[family] = new Dictionary<float, Dictionary<FontStyle, Font>>();
-            //    _fontsCache[family][size] = new Dictionary<FontStyle, Font>();
-            //}
-            //return font;
+            return fontInfo; 
         }
 
         /// <summary>
