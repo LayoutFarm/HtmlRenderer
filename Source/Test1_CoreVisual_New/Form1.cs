@@ -53,7 +53,9 @@ namespace TestGraphicPackage
 
             TopWindowRenderBox topWin = rootgfx.CreateTopWindowRenderBox(w, h);
             Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(topWin,
-               rootgfx.CreateUserEventPortal(topWin), out viewport);
+               rootgfx.CreateUserEventPortal(topWin),
+               InnerViewportKind.GdiPlus,
+               out viewport);
 
             viewport.PaintMe();
             formCanvas.Show();

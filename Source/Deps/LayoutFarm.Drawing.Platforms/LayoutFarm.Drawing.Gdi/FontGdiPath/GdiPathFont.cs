@@ -16,8 +16,7 @@ namespace PixelFarm.Agg.Fonts
         const int POINTS_PER_INCH = 72;
         const int PIXEL_PER_INCH = 96;
         int emSizeInPixels;
-        double currentEmScalling;
-
+        double currentEmScalling; 
         Dictionary<char, FontGlyph> cachedGlyphs = new Dictionary<char, FontGlyph>();
 
 
@@ -84,13 +83,8 @@ namespace PixelFarm.Agg.Fonts
                 //create flatten version 
                 found.flattenVxs = curveFlattener.MakeVxs(vxs);//?
                 //-------------------------
-
                 //create bmp version 
-                //find vxs bound
-
-                
-
-
+                //find vxs bound 
                 this.cachedGlyphs.Add(c, found);
             }
             return found;
@@ -106,7 +100,10 @@ namespace PixelFarm.Agg.Fonts
         protected override void OnDispose()
         {
         }
-
+        public override bool IsAtlasFont
+        {
+            get { return false; }
+        }
         Agg.VertexSource.CurveFlattener curveFlattener = new Agg.VertexSource.CurveFlattener();
     }
 }

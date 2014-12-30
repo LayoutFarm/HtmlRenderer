@@ -297,36 +297,48 @@ namespace LayoutFarm.Drawing.DrawingGL
             }
             set
             {
-                //sample only *** 
-                //canvasGL2d.CurrentFont = PixelFarm.Agg.Fonts.NativeFontStore.LoadFont("c:\\Windows\\Fonts\\Tahoma.ttf", 10);
-                
                 currentFont = value;
+                if (this.myGLTextPrinter != null)
+                {
+                    //assign font        
+
+                }
+                //sample only ***  
+                //canvasGL2d.CurrentFont = (PixelFarm.Agg.Fonts.Font)defaultFontInfo.PlatformSpecificFont;
             }
         }
         public override void DrawText(char[] buffer, int x, int y)
         {
-            if (this.Note1 == 2)
-            {
-                //test draw string to gdi hdc: 
-                //if need Gdi+/gdi to draw string                              
-                //then draw it to hdc and  copy to canvas2d
-                //[ platform specfic code]
-                //1. use bitmap  
-                gdiTextBoard.DrawText(this, buffer, x, y);
 
-            }
-            else
+            //handle draw canvas with 
+            if (this.myGLTextPrinter == null)
             {
-                canvasGL2d.DrawString(buffer, x, y);
+                this.myGLTextPrinter = new GLTextPrinter(canvasGL2d);
+                this.myGLTextPrinter.CurrentFont = this.currentFont.FontInfo.PlatformSpecificFont as PixelFarm.Agg.Fonts.Font;
             }
+            myGLTextPrinter.Print(buffer, 0, buffer.Length, x, y);
+
         }
+
         public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
         {
-            canvasGL2d.DrawString(buffer, logicalTextBox.X, logicalTextBox.Y);
+            if (this.myGLTextPrinter == null)
+            {
+                this.myGLTextPrinter = new GLTextPrinter(canvasGL2d);
+                this.myGLTextPrinter.CurrentFont = this.currentFont.FontInfo.PlatformSpecificFont as PixelFarm.Agg.Fonts.Font;
+                //this.myGLTextPrinter.CurrentFont = this.currentFont;
+            }
+            myGLTextPrinter.Print(buffer, 0, buffer.Length, logicalTextBox.X, logicalTextBox.Y);
         }
         public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
         {
-            canvasGL2d.DrawString(str, logicalTextBox.X, logicalTextBox.Y);
+            if (this.myGLTextPrinter == null)
+            {
+                this.myGLTextPrinter = new GLTextPrinter(canvasGL2d);
+                this.myGLTextPrinter.CurrentFont = this.currentFont.FontInfo.PlatformSpecificFont as PixelFarm.Agg.Fonts.Font;
+                // this.myGLTextPrinter.CurrentFont = this.currentFont;
+            }
+            myGLTextPrinter.Print(str, startAt, len, logicalTextBox.X, logicalTextBox.Y);
         }
         public override void FillPath(Color color, GraphicsPath path)
         {
@@ -446,7 +458,7 @@ namespace LayoutFarm.Drawing.DrawingGL
             set
             {
                 this.strokeWidth = value;
-            
+
             }
         }
 

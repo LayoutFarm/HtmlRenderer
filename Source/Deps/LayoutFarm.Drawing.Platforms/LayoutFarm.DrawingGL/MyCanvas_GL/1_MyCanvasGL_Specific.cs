@@ -27,19 +27,16 @@ namespace LayoutFarm.Drawing.DrawingGL
     partial class MyCanvasGL : Canvas, IFonts
     {
 
- 
-        GraphicsPlatform platform;         
+
+        GraphicsPlatform platform;
         int pageFlags;
         Font currentFont;
-        CanvasGL2d canvasGL2d;
-        //-------
-        //platform specific code
-        GdiTextBoard gdiTextBoard;
+        CanvasGL2d canvasGL2d; 
         PixelFarm.Agg.VertexSource.CurveFlattener flattener = new PixelFarm.Agg.VertexSource.CurveFlattener();
         //-------
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
-        System.Drawing.Rectangle currentClipRect;
-
+        System.Drawing.Rectangle currentClipRect; 
+         
         public MyCanvasGL(GraphicsPlatform platform, int hPageNum, int vPageNum, int left, int top, int width, int height)
         {
             canvasGL2d = new CanvasGL2d(width, height);
@@ -51,7 +48,7 @@ namespace LayoutFarm.Drawing.DrawingGL
             this.bottom = top + height;
             //--------------------------------------------
 
-            this.CurrentFont = defaultFontInfo;
+            this.CurrentFont = defaultFontInfo.ResolvedFont;
             this.CurrentTextColor = Color.Black;
 #if DEBUG
             debug_canvas_id = dbug_canvasCount + 1;
@@ -60,15 +57,9 @@ namespace LayoutFarm.Drawing.DrawingGL
             this.StrokeWidth = 1;
             this.currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
 
-            //------------------------
-            //platform specific code
-            //-------------------------
-            gdiTextBoard = new GdiTextBoard(800, 100, new System.Drawing.Font("tahoma", 10));
-            //----------------------- 
+            
         }
         //-------------------------------------------
-        
-
         ~MyCanvasGL()
         {
             ReleaseUnManagedResource();
@@ -115,10 +106,10 @@ namespace LayoutFarm.Drawing.DrawingGL
 #endif
         }
 
-        
+
         public void Reset(int hPageNum, int vPageNum, int newWidth, int newHeight)
         {
-            
+
             this.ReleaseUnManagedResource();
             this.ClearPreviousStoredValues();
 
@@ -146,7 +137,7 @@ namespace LayoutFarm.Drawing.DrawingGL
             debug_resetCount++;
 #endif
         }
-       
+
         public bool IsUnused
         {
             get
@@ -211,13 +202,13 @@ namespace LayoutFarm.Drawing.DrawingGL
         /// WARNING: Calling Font.ToHfont() many times without releasing the font handle crashes the app.
         /// </summary>
         void SetFont(Font font)
-        {   
+        {
             throw new NotImplementedException();
             //InitHdc();
             //Win32Utils.SelectObject(_hdc, FontsUtils.GetCachedHFont(font.InnerFont as System.Drawing.Font));
         }
 
-      
+
 
         /// <summary>
         /// Special draw logic to draw transparent text using GDI.<br/>
@@ -271,29 +262,16 @@ namespace LayoutFarm.Drawing.DrawingGL
         const int CANVAS_UNUSED = 1 << (1 - 1);
         const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
 
-
-        static IntPtr defaultHFont;
-        static System.Drawing.Font defaultFont;
-        static Font defaultFontInfo;
-
+        static FontInfo defaultFontInfo;
 
         static MyCanvasGL()
         {
             _stringFormat = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericDefault);
             _stringFormat.FormatFlags = System.Drawing.StringFormatFlags.NoClip | System.Drawing.StringFormatFlags.MeasureTrailingSpaces;
             //---------------------------
-            MyCanvasGL.SetupDefaultFont(new System.Drawing.Font("Tahoma", 10));
-        }
-        static void SetupDefaultFont(System.Drawing.Font f)
-        {
-            defaultFont = f;
-            defaultHFont = f.ToHfont();
-            defaultFontInfo = FontsUtils.GetCachedFont(f).ResolvedFont;
-        }
-        protected IntPtr GetDefaultHFont()
-        {
-            return defaultHFont;
-        }
+            defaultFontInfo = CanvasGLPlatform.PlatformGetFont("Tahoma", 10, FontLoadTechnique.GdiBitmapFont); 
+        } 
+
         static System.Drawing.Point[] ConvPointArray(Point[] points)
         {
             int j = points.Length;
@@ -313,8 +291,7 @@ namespace LayoutFarm.Drawing.DrawingGL
                 outputPoints[i] = points[i].ToPointF();
             }
             return outputPoints;
-        }
-
+        } 
         static System.Drawing.Color ConvColor(Color c)
         {
             return System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);

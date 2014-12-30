@@ -114,5 +114,9 @@ namespace PixelFarm.Agg.Fonts
         {
             throw new NotImplementedException();
         }
+        public override bool IsAtlasFont
+        {
+            get { return false; }
+        }
     }
 }

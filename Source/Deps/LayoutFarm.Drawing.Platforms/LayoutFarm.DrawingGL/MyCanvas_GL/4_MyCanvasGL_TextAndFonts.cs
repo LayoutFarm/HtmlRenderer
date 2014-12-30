@@ -17,24 +17,25 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-
+using LayoutFarm.DrawingGL;
 
 namespace LayoutFarm.Drawing.DrawingGL
 {
     partial class MyCanvasGL
     {
-        //Brush currentBrush;
-        //Font currentTextFont = null;
+        GLTextPrinter myGLTextPrinter;
         Color mycurrentTextColor = Color.Black;
         //======================================
         //IFonts impl
         LayoutFarm.Drawing.FontInfo IFonts.GetFontInfo(string fontname, float fsize, FontStyle st)
         {
-            return FontsUtils.GetCachedFont(fontname, fsize, (System.Drawing.FontStyle)st);
+            //return FontsUtils.GetCachedFont(fontname, fsize, (System.Drawing.FontStyle)st);
+            return this.platform.GetFont(fontname, fsize, st);
         }
         float IFonts.MeasureWhitespace(LayoutFarm.Drawing.Font f)
         {
-            return FontsUtils.MeasureWhitespace(this, f);
+            return FontStore.MeasureWhitespace(this, f);
+
         }
         //======================================
 
@@ -104,7 +105,7 @@ namespace LayoutFarm.Drawing.DrawingGL
             //charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
             //return size.ToSize();
 
-        } 
+        }
         public override Color CurrentTextColor
         {
             get
@@ -116,6 +117,6 @@ namespace LayoutFarm.Drawing.DrawingGL
                 mycurrentTextColor = value;
 
             }
-        } 
+        }
     }
 }

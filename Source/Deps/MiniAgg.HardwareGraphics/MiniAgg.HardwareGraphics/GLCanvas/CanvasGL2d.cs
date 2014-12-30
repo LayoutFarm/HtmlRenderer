@@ -11,7 +11,7 @@ using Tesselate;
 namespace LayoutFarm.DrawingGL
 {
 
-    public partial class CanvasGL2d
+    public partial class CanvasGL2d : IDisposable
     {
 
         LayoutFarm.Drawing.Color strokeColor = LayoutFarm.Drawing.Color.Black;
@@ -23,11 +23,11 @@ namespace LayoutFarm.DrawingGL
         int canvasOriginY = 0;
         int canvasW;
         int canvasH;
-       
+
 
         //tools---------------------------------
         Tesselator tess = new Tesselator();
-        TessListener2 tessListener = new TessListener2(); 
+        TessListener2 tessListener = new TessListener2();
 
         RoundedRect roundRect = new RoundedRect();
         Ellipse ellipse = new Ellipse();
@@ -38,8 +38,8 @@ namespace LayoutFarm.DrawingGL
         GLScanlinePacked8 sclinePack8;
         Arc arcTool = new Arc();
         CurveFlattener curveFlattener = new CurveFlattener();
-        GLTextPrinter textPrinter;      
-    
+
+
         public CanvasGL2d(int canvasW, int canvasH)
         {
             this.canvasW = canvasW;
@@ -47,9 +47,8 @@ namespace LayoutFarm.DrawingGL
             sclineRas = new GLScanlineRasterizer();
             sclineRasToGL = new GLScanlineRasToDestBitmapRenderer();
             sclinePack8 = new GLScanlinePacked8();
-            tessListener.Connect(tess, Tesselate.Tesselator.WindingRuleType.Odd, true); 
-            textPrinter = new GLTextPrinter(this);
-             
+            tessListener.Connect(tess, Tesselate.Tesselator.WindingRuleType.Odd, true);
+
         }
         public CanvasSmoothMode SmoothMode
         {
@@ -411,63 +410,6 @@ namespace LayoutFarm.DrawingGL
                 CreateRectCoords(rectCoords, x, y, w, h);
                 UnsafeDrawV2fList(DrawMode.LineLoop, rectCoords, 6);
             }
-
-
-
-            //early exit
-            //GL.EnableClientState(ArrayCap.ColorArray);
-            //GL.EnableClientState(ArrayCap.VertexArray);
-            //VboC4V3f vbo = GenerateVboC4V3f();
-            ////points 
-            //ArrayList<VertexC4V2f> vrx = new ArrayList<VertexC4V2f>();
-            //CreatePolyLineRectCoords(vrx, this.strokeColor, x, y, w, h);
-            //int pcount = vrx.Count;
-            ////vbo.BindBuffer();
-            //DrawLineStripWithVertexBuffer(vrx, pcount);
-            //vbo.UnbindBuffer();
-            //vbo.Dispose();
-            //GL.DisableClientState(ArrayCap.ColorArray);
-            //GL.DisableClientState(ArrayCap.VertexArray);
-            //------------------------ 
-            //switch (this.SmoothMode)
-            //{
-            //    case CanvasSmoothMode.AggSmooth:
-            //        {
-            //            unsafe
-            //            {
-            //                //early exit
-            //                GL.EnableClientState(ArrayCap.ColorArray);
-            //                GL.EnableClientState(ArrayCap.VertexArray);
-            //                VboC4V3f vbo = GenerateVboC4V3f();
-            //                ////points 
-            //                ArrayList<VertexC4V3f> vrx = new ArrayList<VertexC4V3f>();
-            //                CreateRectCoords(vrx, this.fillColor, x, y, w, h);
-            //                int pcount = vrx.Count;
-            //                vbo.BindBuffer();
-            //                DrawTrianglesWithVertexBuffer(vrx, pcount);
-            //                vbo.UnbindBuffer();
-
-            //                //vbo.Dispose();
-            //                GL.DisableClientState(ArrayCap.ColorArray);
-            //                GL.DisableClientState(ArrayCap.VertexArray);
-            //                //------------------------ 
-            //            }
-            //        } break;
-            //    default:
-            //        {
-            //            unsafe
-            //            {
-            //                float* arr = stackalloc float[8];
-            //                byte* indices = stackalloc byte[6];
-            //                CreateRectCoords2(arr, indices, x, y, w, h);
-            //                GL.EnableClientState(ArrayCap.VertexArray); //***
-            //                //vertex
-            //                GL.VertexPointer(2, VertexPointerType.Float, 0, (IntPtr)arr);
-            //                GL.DrawElements(BeginMode.Lines, 6, DrawElementsType.UnsignedByte, (IntPtr)indices);
-            //                GL.DisableClientState(ArrayCap.VertexArray);
-            //            }
-            //        } break;
-            //}
         }
         public void FillRect(LayoutFarm.Drawing.Color color, float x, float y, float w, float h)
         {
@@ -549,14 +491,6 @@ namespace LayoutFarm.DrawingGL
                         }
                     } break;
             }
-        }
-        static double DegToRad(double degree)
-        {
-            return degree * (Math.PI / 180d);
-        }
-        static double RadToDeg(double degree)
-        {
-            return degree * (180d / Math.PI);
         }
 
         public void DrawArc(float fromX, float fromY, float endX, float endY,
@@ -663,224 +597,6 @@ namespace LayoutFarm.DrawingGL
             sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, this.strokeColor);
         }
 
-        struct CenterFormArc
-        {
-            public double cx;
-            public double cy;
-            public double radStartAngle;
-            public double radSweepDiff;
-            public bool scaleUp;
-
-        }
-
-        static void ComputeArc2(double x0, double y0,
-                             double rx, double ry,
-                             double xAngleRad,
-                             bool largeArcFlag,
-                             bool sweepFlag,
-                             double x, double y, ref CenterFormArc result)
-        {
-
-            //from  SVG1.1 spec
-            //----------------------------------
-            //step1: Compute (x1dash,y1dash)
-            //----------------------------------
-
-            double dx2 = (x0 - x) / 2.0;
-            double dy2 = (y0 - y) / 2.0;
-            double cosAngle = Math.Cos(xAngleRad);
-            double sinAngle = Math.Sin(xAngleRad);
-
-            double x1 = (cosAngle * dx2 + sinAngle * dy2);
-            double y1 = (-sinAngle * dx2 + cosAngle * dy2);
-            // Ensure radii are large enough
-            rx = Math.Abs(rx);
-            ry = Math.Abs(ry);
-
-            double prx = rx * rx;
-            double pry = ry * ry;
-            double px1 = x1 * x1;
-            double py1 = y1 * y1;
-            // check that radii are large enough
-
-
-            double radiiCheck = px1 / prx + py1 / pry;
-            if (radiiCheck > 1)
-            {
-                rx = Math.Sqrt(radiiCheck) * rx;
-                ry = Math.Sqrt(radiiCheck) * ry;
-
-                prx = rx * rx;
-                pry = ry * ry;
-                result.scaleUp = true;
-            }
-
-            //----------------------------------
-            //step2: Compute (cx1,cy1)
-            //----------------------------------
-            double sign = (largeArcFlag == sweepFlag) ? -1 : 1;
-            double sq = ((prx * pry) - (prx * py1) - (pry * px1)) / ((prx * py1) + (pry * px1));
-            sq = (sq < 0) ? 0 : sq;
-            double coef = (sign * Math.Sqrt(sq));
-            double cx1 = coef * ((rx * y1) / ry);
-            double cy1 = coef * -((ry * x1) / rx);
-
-
-            //----------------------------------
-            //step3:  Compute (cx, cy) from (cx1, cy1)
-            //----------------------------------
-            double sx2 = (x0 + x) / 2.0;
-            double sy2 = (y0 + y) / 2.0;
-            double cx = sx2 + (cosAngle * cx1 - sinAngle * cy1);
-            double cy = sy2 + (sinAngle * cx1 + cosAngle * cy1);
-
-            //----------------------------------
-            //step4: Compute theta and anfkediff
-            double ux = (x1 - cx1) / rx;
-            double uy = (y1 - cy1) / ry;
-            double vx = (-x1 - cx1) / rx;
-            double vy = (-y1 - cy1) / ry;
-            double p, n;
-            // Compute the angle start
-            n = Math.Sqrt((ux * ux) + (uy * uy));
-            p = ux; // (1 * ux) + (0 * uy)
-            sign = (uy < 0) ? -1d : 1d;
-            double angleStart = (sign * Math.Acos(p / n));  // Math.toDegrees(sign * Math.Acos(p / n));
-
-            // Compute the angle extent
-            n = Math.Sqrt((ux * ux + uy * uy) * (vx * vx + vy * vy));
-            p = ux * vx + uy * vy;
-            sign = (ux * vy - uy * vx < 0) ? -1d : 1d;
-            double angleExtent = (sign * Math.Acos(p / n));// Math.toDegrees(sign * Math.Acos(p / n));
-
-
-            //if (!sweepFlag && angleExtent > 0)
-            //{
-            //    angleExtent -= 360f;
-            //}
-            //else if (sweepFlag && angleExtent < 0)
-            //{
-            //    angleExtent += 360f;
-            //}
-
-            result.cx = cx;
-            result.cy = cy;
-            result.radStartAngle = angleStart;
-            result.radSweepDiff = angleExtent;
-
-        }
-        static Arc ComputeArc(double x0, double y0,
-                              double rx, double ry,
-                              double angle,
-                              bool largeArcFlag,
-                              bool sweepFlag,
-                               double x, double y)
-        {
-
-            /** 
-         * This constructs an unrotated Arc2D from the SVG specification of an 
-         * Elliptical arc.  To get the final arc you need to apply a rotation
-         * transform such as:
-         * 
-         * AffineTransform.getRotateInstance
-         *     (angle, arc.getX()+arc.getWidth()/2, arc.getY()+arc.getHeight()/2);
-         */
-            //
-            // Elliptical arc implementation based on the SVG specification notes
-            //
-
-            // Compute the half distance between the current and the final point
-            double dx2 = (x0 - x) / 2.0;
-            double dy2 = (y0 - y) / 2.0;
-            // Convert angle from degrees to radians
-            angle = ((angle % 360.0) * Math.PI / 180f);
-            double cosAngle = Math.Cos(angle);
-            double sinAngle = Math.Sin(angle);
-
-            //
-            // Step 1 : Compute (x1, y1)
-            //
-            double x1 = (cosAngle * dx2 + sinAngle * dy2);
-            double y1 = (-sinAngle * dx2 + cosAngle * dy2);
-            // Ensure radii are large enough
-            rx = Math.Abs(rx);
-            ry = Math.Abs(ry);
-            double Prx = rx * rx;
-            double Pry = ry * ry;
-            double Px1 = x1 * x1;
-            double Py1 = y1 * y1;
-            // check that radii are large enough
-            double radiiCheck = Px1 / Prx + Py1 / Pry;
-            if (radiiCheck > 1)
-            {
-                rx = Math.Sqrt(radiiCheck) * rx;
-                ry = Math.Sqrt(radiiCheck) * ry;
-                Prx = rx * rx;
-                Pry = ry * ry;
-            }
-
-            //
-            // Step 2 : Compute (cx1, cy1)
-            //
-            double sign = (largeArcFlag == sweepFlag) ? -1 : 1;
-            double sq = ((Prx * Pry) - (Prx * Py1) - (Pry * Px1)) / ((Prx * Py1) + (Pry * Px1));
-            sq = (sq < 0) ? 0 : sq;
-            double coef = (sign * Math.Sqrt(sq));
-            double cx1 = coef * ((rx * y1) / ry);
-            double cy1 = coef * -((ry * x1) / rx);
-
-            //
-            // Step 3 : Compute (cx, cy) from (cx1, cy1)
-            //
-            double sx2 = (x0 + x) / 2.0;
-            double sy2 = (y0 + y) / 2.0;
-            double cx = sx2 + (cosAngle * cx1 - sinAngle * cy1);
-            double cy = sy2 + (sinAngle * cx1 + cosAngle * cy1);
-
-            //
-            // Step 4 : Compute the angleStart (angle1) and the angleExtent (dangle)
-            //
-            double ux = (x1 - cx1) / rx;
-            double uy = (y1 - cy1) / ry;
-            double vx = (-x1 - cx1) / rx;
-            double vy = (-y1 - cy1) / ry;
-            double p, n;
-            // Compute the angle start
-            n = Math.Sqrt((ux * ux) + (uy * uy));
-            p = ux; // (1 * ux) + (0 * uy)
-            sign = (uy < 0) ? -1d : 1d;
-            double angleStart = (sign * Math.Acos(p / n));  // Math.toDegrees(sign * Math.Acos(p / n));
-
-            // Compute the angle extent
-            n = Math.Sqrt((ux * ux + uy * uy) * (vx * vx + vy * vy));
-            p = ux * vx + uy * vy;
-            sign = (ux * vy - uy * vx < 0) ? -1d : 1d;
-            double angleExtent = (sign * Math.Acos(p / n));// Math.toDegrees(sign * Math.Acos(p / n));
-            if (!sweepFlag && angleExtent > 0)
-            {
-                angleExtent -= 360f;
-            }
-            else if (sweepFlag && angleExtent < 0)
-            {
-                angleExtent += 360f;
-            }
-            //angleExtent %= 360f;
-            //angleStart %= 360f;
-
-            //
-            // We can now build the resulting Arc2D in double precision
-            //
-            //Arc2D.Double arc = new Arc2D.Double();
-            //arc.x = cx - rx;
-            //arc.y = cy - ry;
-            //arc.width = rx * 2.0;
-            //arc.height = ry * 2.0;
-            //arc.start = -angleStart;
-            //arc.extent = -angleExtent;
-            Arc arc = new Arc();
-            arc.Init(x, y, rx, ry, -(angleStart), -(angleExtent));
-            return arc;
-        }
 
 
         public void DrawBezierCurve(float startX, float startY, float endX, float endY,
@@ -981,35 +697,13 @@ namespace LayoutFarm.DrawingGL
         {
             get { return this.canvasOriginY; }
         }
-        ////-----------------------------------------------------
-        //void SetupDefaultFonts()
-        //{
-        //    //test
-        //     this.textPrinter.CurrentFont = PixelFarm.Agg.Fonts.NativeFontStore.LoadFont("c:\\Windows\\Fonts\\Tahoma.ttf", 10);
 
-        //}
-        public PixelFarm.Agg.Fonts.Font CurrentFont
+        public static bool IsGraphicContexReady
         {
             get
             {
-                return this.textPrinter.CurrentFont;
-            }
-            set
-            {
-                this.textPrinter.CurrentFont = value;
+                return false;
             }
         }
-        public void DrawString(string str, float x, float y)
-        {
-
-            this.textPrinter.Print(str.ToCharArray(), x, y);
-
-        }
-        public void DrawString(char[] buff, float x, float y)
-        {
-
-            this.textPrinter.Print(buff, x, y);
-        }
-
     }
 }
