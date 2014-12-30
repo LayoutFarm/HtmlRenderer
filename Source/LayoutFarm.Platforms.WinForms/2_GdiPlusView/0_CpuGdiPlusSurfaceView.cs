@@ -6,20 +6,18 @@ using System.Text;
 using System.Windows.Forms;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm.UI.WinForms
+namespace LayoutFarm.UI.GdiPlusView
 {
 
-    partial class BasicSurfaceView : UserControl
+    partial class CpuGdiPlusSurfaceView : UserControl
     {
-
-
-        MyPlatformWindowBridge winBridge;
-        public BasicSurfaceView()
+         
+        MyPlatformWindowBridgeGdiPlus winBridge;
+        public CpuGdiPlusSurfaceView()
         {
             InitializeComponent();
         }
-
-        public void InitRootGraphics(MyPlatformWindowBridge winBridge)
+        public void Bind(MyPlatformWindowBridgeGdiPlus winBridge)
         {
             //1. 
             this.winBridge = winBridge;

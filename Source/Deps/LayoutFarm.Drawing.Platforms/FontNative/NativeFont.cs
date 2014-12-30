@@ -17,9 +17,7 @@ namespace PixelFarm.Agg.Fonts
         /// glyph
         /// </summary>
         Dictionary<char, FontGlyph> dicGlyphs = new Dictionary<char, FontGlyph>();
-        Dictionary<uint, FontGlyph> dicGlyphs2 = new Dictionary<uint, FontGlyph>();
-
-
+        Dictionary<uint, FontGlyph> dicGlyphs2 = new Dictionary<uint, FontGlyph>(); 
         internal NativeFont(NativeFontFace ownerFace, int pixelSize)
         {
             //store unmanage font file information
@@ -115,6 +113,10 @@ namespace PixelFarm.Agg.Fonts
         public override int GetAdvanceForCharacter(char c, char next_c)
         {
             throw new NotImplementedException();
+        }
+        public override bool IsAtlasFont
+        {
+            get { return false; }
         }
     }
 }

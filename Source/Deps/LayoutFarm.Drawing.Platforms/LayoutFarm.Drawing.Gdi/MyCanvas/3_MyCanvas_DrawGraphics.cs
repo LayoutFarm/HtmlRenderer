@@ -358,6 +358,7 @@ namespace LayoutFarm.Drawing.WinGdi
             internalSolidBrush.Color = ConvColor(color);
             gx.FillPolygon(this.internalSolidBrush, pps);
         }
+
     }
 
 }

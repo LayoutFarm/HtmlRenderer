@@ -55,7 +55,7 @@
     <Compile Include="1_Drawing\CanvasInvalidateRequestDelegate.cs" />
     <Compile Include="1_Drawing\CombineMode.cs" />
     <Compile Include="1_Drawing\Matrix.cs" />
-    <Compile Include="1_Drawing\SmoothingMode.cs" />
+    <Compile Include="1_Drawing\CanvasOptions.cs" />
     <Compile Include="1_Drawing\Brushes_Pens.cs" />
     <Compile Include="1_Drawing\Color.cs" />
     <Compile Include="1_Drawing\DashStyle.cs" />

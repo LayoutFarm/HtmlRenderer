@@ -19,31 +19,18 @@ using System.Text;
 using LayoutFarm.Drawing;
 
 
-namespace LayoutFarm.Drawing.WinGdi
+namespace LayoutFarm.Drawing.DrawingGL
 {
-    partial class MyCanvas
+    partial class MyCanvasGL
     {
         int left;
         int top;
         int right;
         int bottom;
-        int canvasOriginX = 0;
-        int canvasOriginY = 0;
+        //int canvasOriginX = 0;
+        //int canvasOriginY = 0;
         Rect invalidateArea = Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
         CanvasOrientation orientation;
-        
-        //--------------------------------------------------------------------
-        public override void SetCanvasOrigin(int x, int y)
-        {
-            ReleaseHdc();
-            //-----------
-            //move back to original ?
-            this.gx.TranslateTransform(-this.canvasOriginX, -this.canvasOriginY);
-            this.gx.TranslateTransform(x, y);
-
-            this.canvasOriginX = x;
-            this.canvasOriginY = y;
-        }
         public override CanvasOrientation Orientation
         {
             get
@@ -53,38 +40,61 @@ namespace LayoutFarm.Drawing.WinGdi
             set
             {
                 this.orientation = value;
+                if (canvasGL2d != null)
+                {
+                    canvasGL2d.Orientation = value;    
+                }
             }
+        }
+        public override void SetCanvasOrigin(int x, int y)
+        {
+            //    ReleaseHdc();
+            //    //-----------
+            //    //move back to original ?
+            //    //this.gx.TranslateTransform(-this.canvasOriginX, -this.canvasOriginY);
+            //    //this.gx.TranslateTransform(x, y);
+
+            //this.canvasOriginX = x;
+            //this.canvasOriginY = y;
+            canvasGL2d.SetCanvasOrigin(x, y);
         }
         public override int CanvasOriginX
         {
-            get { return this.canvasOriginX; }
+            get
+            {
+
+                return canvasGL2d.CanvasOriginX;
+            }
         }
         public override int CanvasOriginY
         {
-            get { return this.canvasOriginY; }
+            get
+            {
+                return canvasGL2d.CanvasOriginY;
+            }
         }
 
-
-        /// <summary>
-        /// Sets the clipping region of this <see cref="T:System.Drawing.Graphics"/> to the result of the specified operation combining the current clip region and the rectangle specified by a <see cref="T:System.Drawing.RectangleF"/> structure.
-        /// </summary>
-        /// <param name="rect"><see cref="T:System.Drawing.RectangleF"/> structure to combine. </param>
-        /// <param name="combineMode">Member of the <see cref="T:System.Drawing.Drawing2D.CombineMode"/> enumeration that specifies the combining operation to use. </param>
         public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
         {
-            ReleaseHdc();
-
-            gx.SetClip(
-                new System.Drawing.Rectangle(
-                    rect.X, rect.Y,
-                    rect.Width, rect.Height),
-                    (System.Drawing.Drawing2D.CombineMode)combineMode);
+            canvasGL2d.EnableClipRect();
+            //--------------------------
+            canvasGL2d.SetClipRectRel(
+                 rect.X,
+                 rect.Y,
+                 rect.Width,
+                 rect.Height);
+            //--------------------------
         }
+        
         public override bool IntersectsWith(Rect clientRect)
         {
             return clientRect.IntersectsWith(left, top, right, bottom);
         }
 
+
+
+
+        //---------------------------------------------------
         public override bool PushClipAreaRect(int width, int height, ref Rect updateArea)
         {
             this.clipRectStack.Push(currentClipRect);
@@ -105,7 +115,8 @@ namespace LayoutFarm.Drawing.WinGdi
             else
             {
                 updateArea = LayoutFarm.Drawing.Rect.CreateFromRect(intersectResult.ToRect());
-                gx.SetClip(intersectResult);
+                canvasGL2d.EnableClipRect();
+                canvasGL2d.SetClipRectRel(currentClipRect.X, currentClipRect.Y, currentClipRect.Width, currentClipRect.Height);
                 return true;
             }
         }
@@ -114,12 +125,13 @@ namespace LayoutFarm.Drawing.WinGdi
             if (clipRectStack.Count > 0)
             {
                 currentClipRect = clipRectStack.Pop();
-                gx.SetClip(currentClipRect);
             }
+
+
+            canvasGL2d.EnableClipRect();
+            canvasGL2d.SetClipRectRel(currentClipRect.X, currentClipRect.Y, currentClipRect.Width, currentClipRect.Height);
+
         }
-
-
-
         public override Rectangle CurrentClipRect
         {
             get
@@ -127,8 +139,6 @@ namespace LayoutFarm.Drawing.WinGdi
                 return currentClipRect.ToRect();
             }
         }
-
-
 
         public override int Top
         {

@@ -103,6 +103,9 @@ namespace HtmlRenderer
                 Rectangle prevClip = this.latestClip = clipStacks.Pop();
                 //ig.DrawRectangle(Pens.Green, prevClip.X, prevClip.Y, prevClip.Width, prevClip.Height);
                 canvas.SetClipRect(prevClip);
+            }
+            else
+            {
 
             }
         }

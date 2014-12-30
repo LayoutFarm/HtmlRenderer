@@ -10,19 +10,16 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm.UI
 {
 
-
-
-    partial class MyPlatformWindowBridge
+    abstract partial class PlatformWindowBridge
     {
         CanvasEventsStock eventStock = new CanvasEventsStock();
-        CanvasViewport canvasViewport;
         IUserEventPortal userEventPortal;
-        TopWindowRenderBox topwin;
-        Control windowControl;
+        protected TopWindowRenderBox topwin;
+        CanvasViewport canvasViewport;
 
         bool isDragging;
         bool isMouseDown;
-        MouseCursorStyle currentCursorStyle = MouseCursorStyle.Default;
+        protected MouseCursorStyle currentCursorStyle = MouseCursorStyle.Default;
 
         public event EventHandler<ScrollSurfaceRequestEventArgs> VScrollRequest;
         public event EventHandler<ScrollSurfaceRequestEventArgs> HScrollRequest;
@@ -31,51 +28,30 @@ namespace LayoutFarm.UI
 
         RootGraphic rootGraphic;
 
-
-
-
-        public MyPlatformWindowBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
+        public PlatformWindowBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
         {
-
             this.userEventPortal = winEventBridge;
             this.topwin = topwin;
             this.rootGraphic = topwin.Root;
-
             topwin.CanvasForcePaint += (s, e) =>
             {
                 PaintToOutputWindow();
             };
         }
-
-        public void BindWindowControl(Control windowControl)
+        protected void SetBaseCanvasViewport(CanvasViewport canvasViewport)
         {
-            this.topwin.MakeCurrent();
-            this.windowControl = windowControl;
-            this.canvasViewport = new CanvasViewport(topwin, this.Size.ToSize(), 4);
-
-#if DEBUG
-            this.canvasViewport.dbugOutputWindow = this;
-#endif
-            this.EvaluateScrollbar();
+            this.canvasViewport = canvasViewport;
         }
-        void PaintToOutputWindow()
+        internal virtual void OnHostControlLoaded()
         {
-            IntPtr hdc = DrawingBridge.Win32Utils.GetDC(this.windowControl.Handle);
-            canvasViewport.PaintMe(hdc);
-            DrawingBridge.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
         }
 
-        void PaintToOutputWindowIfNeed()
-        {
+        protected abstract void PaintToOutputWindow();
 
-            if (!this.canvasViewport.IsQuadPageValid)
-            {
-                IntPtr hdc = DrawingBridge.Win32Utils.GetDC(this.windowControl.Handle);
-                canvasViewport.PaintMe(hdc);
-                DrawingBridge.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
-            }
 
-        }
+
+
+        protected abstract void PaintToOutputWindowIfNeed();
 
         public void UpdateCanvasViewportSize(int w, int h)
         {
@@ -83,10 +59,6 @@ namespace LayoutFarm.UI
         }
 
 
-        System.Drawing.Size Size
-        {
-            get { return this.windowControl.Size; }
-        }
 
 
         static UIMouseButtons GetUIMouseButton(MouseButtons mouseButton)
@@ -331,25 +303,9 @@ namespace LayoutFarm.UI
             ReleaseMouseEvent(mouseEventArg);
             PaintToOutputWindowIfNeed();
         }
-        void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
-        {
-            switch (mouseEventArg.MouseCursorStyle)
-            {
-                case MouseCursorStyle.Pointer:
-                    {
-                        windowControl.Cursor = Cursors.Hand;
-                    } break;
-                case MouseCursorStyle.IBeam:
-                    {
-                        windowControl.Cursor = Cursors.IBeam;
-                    } break;
-                default:
-                    {
-                        windowControl.Cursor = Cursors.Default;
-                    } break;
-            }
-            this.currentCursorStyle = mouseEventArg.MouseCursorStyle;
-        }
+        protected abstract void ChangeCursorStyle(UIMouseEventArgs mouseEventArg);
+
+
 
         public void PaintMe()
         {
@@ -378,7 +334,7 @@ namespace LayoutFarm.UI
 
             StopCaretBlink();
             canvasViewport.FullMode = false;
-             
+
             OffsetCanvasOrigin(keyEventArgs, canvasViewport.LogicalViewportLocation);
 #if DEBUG
 
@@ -413,7 +369,7 @@ namespace LayoutFarm.UI
 
             StopCaretBlink();
             canvasViewport.FullMode = false;
-             
+
             OffsetCanvasOrigin(keyEventArgs, canvasViewport.LogicalViewportLocation);
 
             this.userEventPortal.PortalKeyUp(keyEventArgs);

@@ -145,5 +145,9 @@ namespace PixelFarm.Agg.Fonts
                 return fontface.Cap_height * currentEmScalling;
             }
         }
+        public override bool IsAtlasFont
+        {
+            get { return false; }
+        }
     }
 }

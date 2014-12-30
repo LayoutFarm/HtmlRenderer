@@ -11,7 +11,7 @@ namespace LayoutFarm.UI
 {
 
 #if DEBUG
-    partial class MyPlatformWindowBridge : IdbugOutputWindow
+    partial class PlatformWindowBridge : IdbugOutputWindow
     {
 
         public event EventHandler dbug_VisualRootDrawMsg;
@@ -37,7 +37,8 @@ namespace LayoutFarm.UI
         }
         System.Drawing.Graphics dbugCreateGraphics()
         {
-            return this.windowControl.CreateGraphics();
+            throw new NotSupportedException();
+            //return this.windowControl.CreateGraphics();
         }
         public void dbug_HighlightMeNow(Rectangle rect)
         {

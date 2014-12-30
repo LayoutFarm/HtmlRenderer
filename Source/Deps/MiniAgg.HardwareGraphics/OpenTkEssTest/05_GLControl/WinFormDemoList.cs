@@ -55,6 +55,7 @@ namespace OpenTkEssTest
         {
             FormTestWinGLControl2 form = new FormTestWinGLControl2();
             CanvasGL2d canvas = new CanvasGL2d(this.Width, this.Height);
+            GLTextPrinter glTextPrinter = new GLTextPrinter(canvas);
 
             form.SetGLPaintHandler((o, s) =>
             {
@@ -64,7 +65,7 @@ namespace OpenTkEssTest
                 {
 
                     hwBmp = LayoutFarm.DrawingGL.GLBitmapTextureHelper.CreateBitmapTexture(
-                        new Bitmap("../../Data/Textures/logo-dark.jpg"));
+                        new Bitmap("../../../Data/Textures/logo-dark.jpg"));
 
                 }
                 //canvas.DrawImage(hwBmp, 10, 10);
@@ -156,15 +157,16 @@ namespace OpenTkEssTest
 
                 canvas.FillVxs(fillColor, fontGlyph.flattenVxs);
 
-
-                canvas.CurrentFont = font;
+                glTextPrinter.CurrentFont = font;
+                 
 
                 canvas.StrokeColor = LayoutFarm.Drawing.Color.Black;
                 canvas.DrawLine(0, 200, 500, 200);
 
                 //test Thai words
-                canvas.DrawString("ดุดีดำด่าด่ำญญู", 80, 200);
-                canvas.DrawString("1234567890", 80, 200);
+                glTextPrinter.Print("ดุดีดำด่าด่ำญญู", 80, 200);
+                //number
+                glTextPrinter.Print("1234567890", 80, 200);
                 GLBitmap bmp = GLBitmapTextureHelper.CreateBitmapTexture(fontGlyph.glyphImage32);
 
                 canvas.DrawImage(bmp, 50, 50);

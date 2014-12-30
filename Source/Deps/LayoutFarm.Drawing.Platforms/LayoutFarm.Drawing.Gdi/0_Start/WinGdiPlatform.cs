@@ -4,7 +4,7 @@ namespace LayoutFarm.Drawing.WinGdi
 
     class WinGdiPlatform : GraphicsPlatform
     {
-
+        static FontStore fontStore = new FontStore();
         System.Drawing.Bitmap sampleBmp;
         IFonts sampleIFonts;
         public WinGdiPlatform()
@@ -23,17 +23,18 @@ namespace LayoutFarm.Drawing.WinGdi
                 sampleIFonts.Dispose();
                 sampleIFonts = null;
             }
-        } 
+        }
+
         public override GraphicsPath CreateGraphicsPath()
         {
             return new MyGraphicsPath();
-        } 
-
-        public override FontInfo CreateNativeFontWrapper(object nativeFont)
-        {
-            return FontsUtils.GetCachedFont((System.Drawing.Font)nativeFont);
-
         }
+        public override FontInfo GetFont(string fontfaceName, float emsize, FontStyle fontStyle)
+        {
+            //System.Drawing.Font nativeFont = new System.Drawing.Font(fontfaceName, emsize,fonts);
+            return fontStore.GetCachedFont(fontfaceName, emsize, (System.Drawing.FontStyle)fontStyle);
+        }
+
         public override Canvas CreateCanvas(int left, int top, int width, int height)
         {
             return new MyCanvas(this, 0, 0, left, top, width, height);
