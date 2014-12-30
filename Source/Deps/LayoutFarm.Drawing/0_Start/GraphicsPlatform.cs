@@ -3,7 +3,7 @@ namespace LayoutFarm.Drawing
 {
     public abstract class GraphicsPlatform
     {
-        public abstract FontInfo GetFont(string fontfaceName, float emsize);
+        public abstract FontInfo GetFont(string fontfaceName, float emsize, FontStyle st);
         public abstract GraphicsPath CreateGraphicsPath();
         public abstract Canvas CreateCanvas(
             int left,
@@ -18,7 +18,6 @@ namespace LayoutFarm.Drawing
             get;
             set;
         }
-
     }
 
 

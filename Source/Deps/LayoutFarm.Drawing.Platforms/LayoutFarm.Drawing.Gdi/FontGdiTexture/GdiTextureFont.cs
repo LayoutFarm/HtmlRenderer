@@ -28,7 +28,7 @@ namespace PixelFarm.Agg.Fonts
         LayoutFarm.Drawing.FontInfo fontInfo;
         GLBitmap innerGLbmp;
 
-        public GdiTextureFont(int width, int height, System.Drawing.Font font)
+        public GdiTextureFont(int width, int height, System.Drawing.Font font, LayoutFarm.Drawing.FontInfo fontInfo)
         {
             this.width = width;
             this.height = height;
@@ -39,7 +39,7 @@ namespace PixelFarm.Agg.Fonts
             gx = System.Drawing.Graphics.FromImage(textBoardBmp);
             //draw character map
             //basic eng  
-            fontInfo = FontsUtils.GetCachedFont(font);
+            this.fontInfo = fontInfo;
             char[] chars = new char[255];
             for (int i = 0; i < 255; ++i)
             {

@@ -18,7 +18,13 @@ namespace LayoutFarm.DrawingGL
         public PixelFarm.Agg.Fonts.Font CurrentFont
         {
             get { return this.currentFont; }
-            set { this.currentFont = value; }
+            set
+            {
+                if (value == null)
+                {
+                }
+                this.currentFont = value;
+            }
         }
 
         public void Print(string t, double x, double y)

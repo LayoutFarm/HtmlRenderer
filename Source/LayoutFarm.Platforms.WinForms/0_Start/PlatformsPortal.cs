@@ -22,4 +22,21 @@ namespace LayoutFarm.Drawing
             get { return WinGdiPortal.P; }
         }
     }
+    public static class MyOpenGLPortal
+    {
+        public static GraphicsPlatform Start()
+        {
+            LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
+            return LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P;
+        }
+        public static void End()
+        {
+            LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.End();
+        }
+        public static GraphicsPlatform P
+        {
+            get { return LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P; }
+        }
+    }
+
 }

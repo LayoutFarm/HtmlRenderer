@@ -29,11 +29,13 @@ namespace LayoutFarm.Drawing.DrawingGL
         //IFonts impl
         LayoutFarm.Drawing.FontInfo IFonts.GetFontInfo(string fontname, float fsize, FontStyle st)
         {
-            return FontsUtils.GetCachedFont(fontname, fsize, (System.Drawing.FontStyle)st);
+            //return FontsUtils.GetCachedFont(fontname, fsize, (System.Drawing.FontStyle)st);
+            return this.platform.GetFont(fontname, fsize, st);
         }
         float IFonts.MeasureWhitespace(LayoutFarm.Drawing.Font f)
         {
-            return FontsUtils.MeasureWhitespace(this, f);
+            return FontStore.MeasureWhitespace(this, f);
+
         }
         //======================================
 
@@ -103,7 +105,7 @@ namespace LayoutFarm.Drawing.DrawingGL
             //charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
             //return size.ToSize();
 
-        } 
+        }
         public override Color CurrentTextColor
         {
             get
@@ -115,6 +117,6 @@ namespace LayoutFarm.Drawing.DrawingGL
                 mycurrentTextColor = value;
 
             }
-        } 
+        }
     }
 }

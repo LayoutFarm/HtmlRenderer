@@ -77,8 +77,10 @@ namespace LayoutFarm.Drawing.WinGdi
             gx = System.Drawing.Graphics.FromHdc(originalHdc);
             //-------------------------------------------------------
 
-
-            this.CurrentFont = defaultFontInfo;
+            //-------------------------------------------------------
+            var fontInfo = platform.GetFont("tahoma", 10, FontStyle.Regular);
+            defaultFont = fontInfo.ResolvedFont;
+            this.CurrentFont = defaultFont;
             this.CurrentTextColor = Color.Black;
 #if DEBUG
             debug_canvas_id = dbug_canvasCount + 1;
@@ -165,6 +167,7 @@ namespace LayoutFarm.Drawing.WinGdi
             MyWin32.SelectObject(originalHdc, hbmp);
             MyWin32.PatBlt(originalHdc, 0, 0, newWidth, newHeight, MyWin32.WHITENESS);
             MyWin32.SetBkMode(originalHdc, MyWin32._SetBkMode_TRANSPARENT);
+
 
             hFont = defaultHFont;
 
@@ -262,7 +265,8 @@ namespace LayoutFarm.Drawing.WinGdi
         void SetFont(Font font)
         {
             InitHdc();
-            Win32Utils.SelectObject(_hdc, FontsUtils.GetCachedHFont(font.InnerFont as System.Drawing.Font));
+            
+            Win32Utils.SelectObject(_hdc, FontStore.GetCachedHFont(font.InnerFont as System.Drawing.Font));
         }
 
         /// <summary>
@@ -293,7 +297,7 @@ namespace LayoutFarm.Drawing.WinGdi
                 Win32Utils.BitBlt(memoryHdc, 0, 0, size.Width, size.Height, hdc, point.X, point.Y, Win32Utils.BitBltCopy);
 
                 // Create and select font
-                Win32Utils.SelectObject(memoryHdc, FontsUtils.GetCachedHFont(font.InnerFont as System.Drawing.Font));
+                Win32Utils.SelectObject(memoryHdc, FontStore.GetCachedHFont(font.InnerFont as System.Drawing.Font));
                 Win32Utils.SetTextColor(memoryHdc, (color.B & 0xFF) << 16 | (color.G & 0xFF) << 8 | color.R);
 
                 // Draw text to memory HDC
@@ -328,24 +332,21 @@ namespace LayoutFarm.Drawing.WinGdi
 
 
         static IntPtr defaultHFont;
-        static System.Drawing.Font defaultFont;
-        static Font defaultFontInfo;
+        Font defaultFont;
 
+        static System.Drawing.Font defaultGdiFont;
 
         static MyCanvas()
         {
             _stringFormat = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericDefault);
             _stringFormat.FormatFlags = System.Drawing.StringFormatFlags.NoClip | System.Drawing.StringFormatFlags.MeasureTrailingSpaces;
             //---------------------------
-            MyCanvas.SetupDefaultFont(new System.Drawing.Font("Tahoma", 10));
+            defaultGdiFont = new System.Drawing.Font("tahoma", 10);
+            defaultHFont = defaultGdiFont.ToHfont();
+
         }
-        static void SetupDefaultFont(System.Drawing.Font f)
-        {
-            defaultFont = f;
-            defaultHFont = f.ToHfont();
-            defaultFontInfo = FontsUtils.GetCachedFont(f).ResolvedFont;
-        }
-         
+
+
         static System.Drawing.Point[] ConvPointArray(Point[] points)
         {
             int j = points.Length;

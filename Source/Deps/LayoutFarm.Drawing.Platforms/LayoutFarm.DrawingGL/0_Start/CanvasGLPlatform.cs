@@ -7,6 +7,8 @@ namespace LayoutFarm.Drawing.DrawingGL
 
     class CanvasGLPlatform : GraphicsPlatform
     {
+        //font store is platform specific
+        static LayoutFarm.FontStore fontStore = new FontStore();
 
         System.Drawing.Bitmap sampleBmp;
         IFonts sampleIFonts;
@@ -32,7 +34,7 @@ namespace LayoutFarm.Drawing.DrawingGL
             return new MyGraphicsPath();
         }
 
-        public override FontInfo GetFont(string fontFaceName, float emsize)
+        public override FontInfo GetFont(string fontFaceName, float emsize, FontStyle fontstyle)
         {
             return PlatformGetFont(fontFaceName, emsize, FontLoadTechnique.GdiBitmapFont);
         }
@@ -40,7 +42,7 @@ namespace LayoutFarm.Drawing.DrawingGL
         {
             //create gdi font 
             System.Drawing.Font f = new System.Drawing.Font(fontFaceName, emsize);
-            FontInfo fontInfo = FontsUtils.GetCachedFont(f);
+            FontInfo fontInfo = fontStore.GetCachedFont(f);
             if (fontInfo.PlatformSpecificFont == null)
             {
                 switch (fontLoadTechnique)
@@ -48,7 +50,8 @@ namespace LayoutFarm.Drawing.DrawingGL
                     case FontLoadTechnique.GdiBitmapFont:
                         {
                             //use gdi font board  
-                            fontInfo.PlatformSpecificFont = new PixelFarm.Agg.Fonts.GdiTextureFont(800, 100, f);
+
+                            fontInfo.PlatformSpecificFont = new PixelFarm.Agg.Fonts.GdiTextureFont(800, 100, f, fontInfo);
                         } break;
                     default:
                         {
@@ -56,7 +59,7 @@ namespace LayoutFarm.Drawing.DrawingGL
                                 "c:\\Windows\\Fonts\\" + fontFaceName + ".ttf", //sample only***
                                 (int)emsize);
                         } break;
-                } 
+                }
             }
             return fontInfo;
         }

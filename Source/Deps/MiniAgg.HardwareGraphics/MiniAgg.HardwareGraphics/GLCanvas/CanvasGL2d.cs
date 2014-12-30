@@ -492,7 +492,7 @@ namespace LayoutFarm.DrawingGL
                     } break;
             }
         }
-       
+
         public void DrawArc(float fromX, float fromY, float endX, float endY,
             float xaxisRotationAngleDec, float rx, float ry,
             SvgArcSize arcSize, SvgArcSweep arcSweep)
@@ -597,7 +597,7 @@ namespace LayoutFarm.DrawingGL
             sclineRasToGL.DrawWithColor(sclineRas, sclinePack8, this.strokeColor);
         }
 
-       
+
 
         public void DrawBezierCurve(float startX, float startY, float endX, float endY,
             float controlX1, float controlY1,
@@ -698,5 +698,12 @@ namespace LayoutFarm.DrawingGL
             get { return this.canvasOriginY; }
         }
 
+        public static bool IsGraphicContexReady
+        {
+            get
+            {
+                return false;
+            }
+        }
     }
 }

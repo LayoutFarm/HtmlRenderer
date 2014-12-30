@@ -30,11 +30,11 @@ namespace LayoutFarm.Drawing.WinGdi
         //IFonts impl
         LayoutFarm.Drawing.FontInfo IFonts.GetFontInfo(string fontname, float fsize, FontStyle st)
         {
-            return FontsUtils.GetCachedFont(fontname, fsize, (System.Drawing.FontStyle)st);
+            return this.platform.GetFont(fontname, fsize, st);             
         }
         float IFonts.MeasureWhitespace(LayoutFarm.Drawing.Font f)
         {
-            return FontsUtils.MeasureWhitespace(this, f);
+            return FontStore.MeasureWhitespace(this, f);
         }
         //======================================
 

@@ -13,8 +13,17 @@ namespace LayoutFarm.Drawing
         public abstract System.IntPtr ToHfont();
         public abstract FontInfo FontInfo { get; }
         //-------------------------------------------
+#if DEBUG
+        static int dbugTotalId = 0;
+        public readonly int dbugId = dbugTotalId++;
+        public Font()
+        {
+            //if (this.dbugId == 2)
+            //{ 
+            //}
 
-
+        }
+#endif
 
         //-------------------------------------------
     }
