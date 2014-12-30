@@ -12,13 +12,11 @@ namespace LayoutFarm.DrawingGL
 {
 
     public partial class CanvasGL2d : IDisposable
-    {
+    {   
 
         LayoutFarm.Drawing.Color strokeColor = LayoutFarm.Drawing.Color.Black;
-        LayoutFarm.Drawing.CanvasOrientation canvasOrientation = Drawing.CanvasOrientation.LeftTop;
-
-
-
+        LayoutFarm.Drawing.CanvasOrientation canvasOrientation = CanvasOptions.DefaultOrientation;
+         
         int canvasOriginX = 0;
         int canvasOriginY = 0;
         int canvasW;

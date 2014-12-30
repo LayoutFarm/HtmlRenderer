@@ -249,7 +249,7 @@ namespace LayoutFarm.Drawing.DrawingGL
             GLBitmap glBitmapTexture = image.InnerImage as GLBitmap;
             if (glBitmapTexture != null)
             {
-                canvasGL2d.DrawImages(glBitmapTexture, destAndSrcPairs);
+                canvasGL2d.DrawGlyphImages(this.textColor, glBitmapTexture, destAndSrcPairs);
             }
             else
             {
@@ -259,7 +259,7 @@ namespace LayoutFarm.Drawing.DrawingGL
                     //create  and replace ?
                     //TODO: add to another field
                     image.InnerImage = glBitmapTexture = GLBitmapTextureHelper.CreateBitmapTexture(currentInnerImage);
-                    canvasGL2d.DrawImages(glBitmapTexture, destAndSrcPairs);
+                    canvasGL2d.DrawGlyphImages(this.textColor, glBitmapTexture, destAndSrcPairs);
                 }
             }
         }
@@ -289,57 +289,8 @@ namespace LayoutFarm.Drawing.DrawingGL
         }
         //---------------------------------------------------
 
-        public override Font CurrentFont
-        {
-            get
-            {
-                return this.currentFont;
-            }
-            set
-            {
-                currentFont = value;
-                if (this.myGLTextPrinter != null)
-                {
-                    //assign font        
 
-                }
-                //sample only ***  
-                //canvasGL2d.CurrentFont = (PixelFarm.Agg.Fonts.Font)defaultFontInfo.PlatformSpecificFont;
-            }
-        }
-        public override void DrawText(char[] buffer, int x, int y)
-        {
 
-            //handle draw canvas with 
-            if (this.myGLTextPrinter == null)
-            {
-                this.myGLTextPrinter = new GLTextPrinter(canvasGL2d);
-                this.myGLTextPrinter.CurrentFont = this.currentFont.FontInfo.PlatformSpecificFont as PixelFarm.Agg.Fonts.Font;
-            }
-            myGLTextPrinter.Print(buffer, 0, buffer.Length, x, y);
-
-        }
-
-        public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
-        {
-            if (this.myGLTextPrinter == null)
-            {
-                this.myGLTextPrinter = new GLTextPrinter(canvasGL2d);
-                this.myGLTextPrinter.CurrentFont = this.currentFont.FontInfo.PlatformSpecificFont as PixelFarm.Agg.Fonts.Font;
-                //this.myGLTextPrinter.CurrentFont = this.currentFont;
-            }
-            myGLTextPrinter.Print(buffer, 0, buffer.Length, logicalTextBox.X, logicalTextBox.Y);
-        }
-        public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
-        {
-            if (this.myGLTextPrinter == null)
-            {
-                this.myGLTextPrinter = new GLTextPrinter(canvasGL2d);
-                this.myGLTextPrinter.CurrentFont = this.currentFont.FontInfo.PlatformSpecificFont as PixelFarm.Agg.Fonts.Font;
-                // this.myGLTextPrinter.CurrentFont = this.currentFont;
-            }
-            myGLTextPrinter.Print(str, startAt, len, logicalTextBox.X, logicalTextBox.Y);
-        }
         public override void FillPath(Color color, GraphicsPath path)
         {
             //solid color

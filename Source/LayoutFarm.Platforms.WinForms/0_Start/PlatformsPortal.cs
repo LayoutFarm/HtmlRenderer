@@ -26,6 +26,9 @@ namespace LayoutFarm.Drawing
     {
         public static GraphicsPlatform Start()
         {
+
+            LayoutFarm.DrawingGL.CanvasOptions.DefaultOrientation = CanvasOrientation.LeftTop;
+
             LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
             return LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P;
         }
