@@ -25,6 +25,7 @@ namespace LayoutFarm.Drawing.DrawingGL
     {
         float strokeWidth = 1f;
         Color fillSolidColor = Color.Transparent;
+        SmoothingMode layoutFarmSmoothMode;
 
         public override void FillRectangle(Color color, float left, float top, float width, float height)
         {
@@ -600,15 +601,23 @@ namespace LayoutFarm.Drawing.DrawingGL
         {
             get
             {
-                throw new NotImplementedException();
-                //ReleaseHdc();
-                //return (SmoothingMode)(gx.SmoothingMode);
+                return this.layoutFarmSmoothMode; 
             }
             set
             {
-                throw new NotImplementedException();
-                //ReleaseHdc();
-                //gx.SmoothingMode = (System.Drawing.Drawing2D.SmoothingMode)value;
+                this.layoutFarmSmoothMode = value;
+                switch (value)
+                {
+                    case Drawing.SmoothingMode.HighQuality:
+                    case Drawing.SmoothingMode.AntiAlias:
+                        {
+                            this.canvasGL2d.SmoothMode = CanvasSmoothMode.AggSmooth;
+                        } break;
+                    default:
+                        {
+                            this.canvasGL2d.SmoothMode = CanvasSmoothMode.No;
+                        } break; 
+                }             
             }
         }
         ///// <summary>
