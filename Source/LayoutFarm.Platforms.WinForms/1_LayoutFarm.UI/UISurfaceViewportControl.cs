@@ -24,9 +24,7 @@ namespace LayoutFarm.UI
             IUserEventPortal userInputEvBridge,
             InnerViewportKind innerViewportKind)
         {
-            //test*** force  to use gl
-            innerViewportKind = InnerViewportKind.GL;
-            //---------------------------------------- 
+             
             //1.
             this.wintop = wintop;
 
@@ -40,7 +38,9 @@ namespace LayoutFarm.UI
                         var bridge = new OpenGLView.MyPlatformWindowBridgeOpenGL(wintop, userInputEvBridge);
 
                         var view = new OpenGLView.GpuOpenGLSurfaceView();
-                        view.Dock = DockStyle.Fill;
+                        view.Width = 800;
+                        view.Height = 600;
+                        //view.Dock = DockStyle.Fill;
                         this.Controls.Add(view);
                         //--------------------------------------- 
                         view.Bind(bridge);

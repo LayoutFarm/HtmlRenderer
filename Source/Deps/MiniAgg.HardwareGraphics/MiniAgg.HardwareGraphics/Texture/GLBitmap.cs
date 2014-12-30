@@ -5,8 +5,8 @@ using System.Text;
 using OpenTK.Graphics.OpenGL;
 
 namespace LayoutFarm.DrawingGL
-{   
-
+{
+    public delegate void TransientGetBufferHead(IntPtr bufferHead);
     public class GLBitmap : IDisposable
     {
         int textureId;
@@ -33,7 +33,7 @@ namespace LayoutFarm.DrawingGL
         public bool IsInvert
         {
             get { return this.isInvertImage; }
-        } 
+        }
         public int Width
         {
             get { return this.width; }
@@ -43,49 +43,38 @@ namespace LayoutFarm.DrawingGL
             get { return this.height; }
         }
 
-
-         
-        //only after gl context is created
-        internal int GetServerTextureId()
+        public void TransientLoadBufferHead(TransientGetBufferHead bufferHeadDel)
         {
-            if (this.textureId == 0)
+            if (this.rawBuffer != null)
             {
-                //server part
-                //gen texture 
-                GL.GenTextures(1, out this.textureId);
-                //bind
-                GL.BindTexture(TextureTarget.Texture2D, this.textureId);
-                if (this.rawBuffer != null)
+                unsafe
                 {
-                    unsafe
+                    fixed (byte* bmpScan0 = &this.rawBuffer[0])
                     {
-                        fixed (byte* bmpScan0 = &this.rawBuffer[0])
-                        {
-                            GL.TexImage2D(TextureTarget.Texture2D, 0,
-                            PixelInternalFormat.Rgba, this.width, this.height, 0,
-                            PixelFormat.Bgra,
-                            PixelType.UnsignedByte, (IntPtr)bmpScan0);
-                        }
+                        bufferHeadDel((IntPtr)bmpScan0);
+                        //GL.TexImage2D(TextureTarget.Texture2D, 0,
+                        //PixelInternalFormat.Rgba, this.width, this.height, 0,
+                        //PixelFormat.Bgra,
+                        //PixelType.UnsignedByte, (IntPtr)bmpScan0);
                     }
                 }
-                else
-                {
-                    //use lazy provider
-                    IntPtr bmpScan0 = this.lazyProvider.GetRawBufferHead();
-                    GL.TexImage2D(TextureTarget.Texture2D, 0,
-                           PixelInternalFormat.Rgba, this.width, this.height, 0,
-                           PixelFormat.Bgra,
-                           PixelType.UnsignedByte, (IntPtr)bmpScan0);
-                    this.lazyProvider.ReleaseBufferHead();
-                }
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             }
-            return this.textureId;
+            else
+            {
+                //use lazy provider
+                IntPtr bmpScan0 = this.lazyProvider.GetRawBufferHead();
+                bufferHeadDel(bmpScan0);
+                //GL.TexImage2D(TextureTarget.Texture2D, 0,
+                //       PixelInternalFormat.Rgba, this.width, this.height, 0,
+                //       PixelFormat.Bgra,
+                //       PixelType.UnsignedByte, (IntPtr)bmpScan0);
+                this.lazyProvider.ReleaseBufferHead();
+            }
+
         }
         public void Dispose()
-        {   
-            GL.DeleteTextures(1, ref textureId);
+        {
+            // GL.DeleteTextures(1, ref textureId);
         }
 
 #if DEBUG

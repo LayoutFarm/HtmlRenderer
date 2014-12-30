@@ -475,11 +475,11 @@ namespace HtmlRenderer.Boxes
                                 color = latestOwner.ActualColor;
                             }
 
+                            
 
                             CssTextRun textRun = (CssTextRun)w;
 
-                            var wordPoint = new PointF(w.Left, w.Top);
-
+                            var wordPoint = new PointF(w.Left, w.Top); 
                             p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
                                textRun.TextStartIndex,
                                textRun.TextLength, font,

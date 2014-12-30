@@ -9,24 +9,28 @@ namespace LayoutFarm.Drawing.DrawingGL
 {
     public static class CanvasGLPortal
     {
-        static bool isInit;
+        //static bool isInit;
+
         static CanvasGLPlatform platform;
+        static CanvasGLPortal()
+        {
+            CanvasGLPortal.platform = new CanvasGLPlatform();
+            GraphicsPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
+            //lock (syncLock)
+            //{
+            //    if (isInit)
+            //    {
+            //        return;
+            //    }
+            //    isInit = true;
+            //    CanvasGLPortal.platform = new CanvasGLPlatform();
+            //    GraphicsPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
 
-        static object syncLock = new object();
-
+            //}
+        }
         public static void Start()
         {
-            lock (syncLock)
-            {
-                if (isInit)
-                {
-                    return;
-                }
-                isInit = true;
-                CanvasGLPortal.platform = new CanvasGLPlatform();
-                GraphicsPlatform.GenericSerifFontName = System.Drawing.FontFamily.GenericSerif.Name;
 
-            }
         }
         public static void End()
         {
@@ -36,5 +40,16 @@ namespace LayoutFarm.Drawing.DrawingGL
         {
             get { return platform; }
         }
+        public static FontInfo GetFontInfo(string fontname, float emsize, FontLoadTechnique fontLoadTechnique)
+        {
+            return CanvasGLPlatform.PlatformGetFont(fontname, emsize, fontLoadTechnique);
+            
+        }
     }
+    public enum FontLoadTechnique
+    {
+        NativeFreeType,
+        GdiBitmapFont
+    }
+
 }

@@ -187,18 +187,15 @@ namespace LayoutFarm.Text
         public void EndSelect()
         {
             if (textLineWriter != null)
-            {
-
+            { 
 #if DEBUG
                 if (dbugEnableTextManRecorder)
                 {
-                    dbugTextManRecorder.WriteInfo("TxLMan::EndSelect");
-
+                    dbugTextManRecorder.WriteInfo("TxLMan::EndSelect"); 
                 }
 #endif
                 selectionRange.EndPoint = GetCurrentPointInfo();
-            }
-
+            } 
         }
         public void CancelSelect()
         {

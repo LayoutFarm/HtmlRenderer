@@ -12,18 +12,23 @@ namespace LayoutFarm.Dev
 {
     public partial class FormDemoList : Form
     {
+        static readonly LayoutFarm.Drawing.GraphicsPlatform gdiPlatform = LayoutFarm.Drawing.MyWinGdiPortal.Start();
+        static readonly LayoutFarm.Drawing.GraphicsPlatform openGLPlatform = LayoutFarm.Drawing.MyOpenGLPortal.Start();
 
         UIPlatform uiPlatformWinForm;
-        GraphicsPlatform gfxPlatform;
-        public FormDemoList(GraphicsPlatform gfxPlatform)
+
+        public FormDemoList()
         {
             InitializeComponent();
-            this.gfxPlatform = gfxPlatform;
-            this.Load += new EventHandler(Form1_Load);  
+            this.Load += new EventHandler(Form1_Load);
             this.uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
 
-        }
 
+        }
+        public TreeView SamplesTreeView
+        {
+            get { return this._samplesTreeView; }
+        }
         void Form1_Load(object sender, EventArgs e)
         {
 
@@ -35,25 +40,34 @@ namespace LayoutFarm.Dev
             //load demo sample
             var selectedDemoInfo = this.lstDemoList.SelectedItem as DemoInfo;
             if (selectedDemoInfo == null) return;
-            //------------------------------------------------------------\
-
-
+            //------------------------------------------------------------ 
             DemoBase selectedDemo = (DemoBase)Activator.CreateInstance(selectedDemoInfo.DemoType);
+            RunDemo(selectedDemo);
 
+            //LayoutFarm.UI.UISurfaceViewportControl viewport; 
+            //Form formCanvas;
+            //CreateReadyForm(
+            //    out viewport,
+            //    out formCanvas);
+
+            //selectedDemo.StartDemo(new SampleViewport(viewport));
+            //viewport.TopDownRecalculateContent();
+            ////==================================================  
+            //viewport.PaintMe();
+            //ShowFormLayoutInspector(viewport); 
+        }
+        public void RunDemo(DemoBase selectedDemo)
+        {
             LayoutFarm.UI.UISurfaceViewportControl viewport;
 
             Form formCanvas;
-            CreateReadyForm(
-                out viewport,
-                out formCanvas);
+            CreateReadyForm(out viewport, out formCanvas);
 
             selectedDemo.StartDemo(new SampleViewport(viewport));
             viewport.TopDownRecalculateContent();
             //==================================================  
             viewport.PaintMe();
-            //ShowFormLayoutInspector(viewport); 
         }
-
         static void ShowFormLayoutInspector(LayoutFarm.UI.UISurfaceViewportControl viewport)
         {
 
@@ -77,10 +91,15 @@ namespace LayoutFarm.Dev
             int w = 800;
             int h = 600;
 
-            MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm, this.gfxPlatform, w, h);
+            MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
+                this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
+                w, h);
             TopWindowRenderBox topRenderBox = rootgfx.CreateTopWindowRenderBox(w, h);
+
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(topRenderBox,
-                rootgfx.CreateUserEventPortal(topRenderBox), out viewport);
+                rootgfx.CreateUserEventPortal(topRenderBox),
+                this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
+                out viewport);
 
             formCanvas.Text = "FormCanvas 1";
 
@@ -100,6 +119,7 @@ namespace LayoutFarm.Dev
         {
             this.lstDemoList.Items.Clear();
         }
+
         public void LoadDemoList(Type sampleAssemblySpecificType)
         {
 
