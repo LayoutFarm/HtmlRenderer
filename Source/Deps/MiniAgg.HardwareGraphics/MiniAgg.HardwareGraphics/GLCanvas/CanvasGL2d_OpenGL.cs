@@ -33,6 +33,8 @@ namespace LayoutFarm.DrawingGL
                 //server part
                 //gen texture 
                 GL.GenTextures(1, out foundTextureId);
+                //add 
+                registerTextures.Add(bmp, foundTextureId);
                 //bind
                 GL.BindTexture(TextureTarget.Texture2D, foundTextureId);
                 bmp.TransientLoadBufferHead((IntPtr bmpScan0) =>
