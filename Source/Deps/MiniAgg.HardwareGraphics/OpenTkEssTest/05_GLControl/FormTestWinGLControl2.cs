@@ -35,7 +35,6 @@ namespace OpenTkEssTest
 
             if (!this.DesignMode)
             {   
-
                 //for 2d 
                 this.myGLControl1.InitSetup2d(Screen.PrimaryScreen.Bounds); 
             }

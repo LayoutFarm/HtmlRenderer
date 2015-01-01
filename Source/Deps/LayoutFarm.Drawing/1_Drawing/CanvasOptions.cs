@@ -30,7 +30,7 @@
 
 namespace LayoutFarm.Drawing
 {
-    
+
     public enum SmoothingMode
     {
         AntiAlias = 4,
@@ -39,5 +39,12 @@ namespace LayoutFarm.Drawing
         HighSpeed = 1,
         Invalid = -1,
         None = 3
+    }
+    public enum CanvasOrientation
+    {
+        
+        LeftTop,
+        LeftBottom, 
+       
     }
 }

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Drawing.Drawing2D; 
+using System.Drawing.Drawing2D;
 
 namespace LayoutFarm.Drawing.WinGdi
 {
@@ -16,28 +16,19 @@ namespace LayoutFarm.Drawing.WinGdi
         internal MyCanvas pageD;
 
         CanvasCollection physicalCanvasCollection;
-
-        public QuadPages(int cachedPageNum, int eachCachedPageWidth,
+         
+        public QuadPages(GraphicsPlatform gfxPlatform, 
+            int cachedPageNum,
+            int eachCachedPageWidth,
             int eachCachedPageHeight)
         {
-
-            physicalCanvasCollection = new CanvasCollection(cachedPageNum, eachCachedPageWidth, eachCachedPageHeight);
+             
+            physicalCanvasCollection = new CanvasCollection(
+                gfxPlatform,
+                cachedPageNum, eachCachedPageWidth, eachCachedPageHeight);
 
         }
-        //public int EachPageWidth
-        //{
-        //    get
-        //    {
-        //        return physicalCanvasCollection.EachPageWidth;
-        //    }
-        //}
-        //public int EachPageHeight
-        //{
-        //    get
-        //    {
-        //        return physicalCanvasCollection.EachPageHeight;
-        //    }
-        //}
+        
         public void Dispose()
         {
             if (physicalCanvasCollection != null)
@@ -104,9 +95,9 @@ namespace LayoutFarm.Drawing.WinGdi
         internal const int PAGE_ABCD = 3;
 
         public void RenderToOutputWindowFullMode(
-        ITopWindowRenderBox rootElement,
-        IntPtr destOutputHdc,
-        int viewportX, int viewportY, int viewportWidth, int viewportHeight)
+            ITopWindowRenderBox topWindowRenderBox,
+            IntPtr destOutputHdc,
+            int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
 
 
@@ -114,14 +105,14 @@ namespace LayoutFarm.Drawing.WinGdi
 
             if (pageA != null && !pageA.IsContentReady)
             {
-                UpdateAllArea(pageA, rootElement);
+                UpdateAllArea(pageA, topWindowRenderBox);
             }
             if (pageB != null)
             {
                 render_part |= PAGE_AB;
                 if (!pageB.IsContentReady)
                 {
-                    UpdateAllArea(pageB, rootElement);
+                    UpdateAllArea(pageB, topWindowRenderBox);
                 }
             }
             if (pageC != null)
@@ -129,7 +120,7 @@ namespace LayoutFarm.Drawing.WinGdi
                 render_part |= PAGE_AC;
                 if (!pageC.IsContentReady)
                 {
-                    UpdateAllArea(pageC, rootElement);
+                    UpdateAllArea(pageC, topWindowRenderBox);
                 }
             }
             if (pageD != null)
@@ -137,7 +128,7 @@ namespace LayoutFarm.Drawing.WinGdi
                 render_part |= PAGE_ABCD;
                 if (!pageD.IsContentReady)
                 {
-                    UpdateAllArea(pageD, rootElement);
+                    UpdateAllArea(pageD, topWindowRenderBox);
                 }
             }
 
@@ -190,15 +181,15 @@ namespace LayoutFarm.Drawing.WinGdi
             }
         }
 
-        static void UpdateAllArea(MyCanvas mycanvas, ITopWindowRenderBox rootElement)
+        static void UpdateAllArea(MyCanvas mycanvas, ITopWindowRenderBox topWindowRenderBox)
         {
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
             Rect rect = Rect.CreateFromRect(mycanvas.Rect);
-            rootElement.DrawToThisPage(mycanvas, rect);
+            topWindowRenderBox.DrawToThisPage(mycanvas, rect);
 
 #if DEBUG
-            rootElement.dbugShowRenderPart(mycanvas, rect);
+            topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
 #endif
 #if DEBUG
 #endif
@@ -387,7 +378,7 @@ namespace LayoutFarm.Drawing.WinGdi
                     } break;
 
             }
-        } 
+        }
         public void CalculateCanvasPages(int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
             int firstVerticalPageNum = viewportY / physicalCanvasCollection.EachPageHeight;

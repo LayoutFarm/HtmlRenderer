@@ -68,7 +68,6 @@ namespace PixelFarm.Agg
         static unsafe extern void memset(byte* dest, byte c, int byteCount);
         [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl)]
         static unsafe extern void memcpy(byte* dest, byte* src, int byteCount);
-
         [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl)]
         static unsafe extern int memcmp(byte* dest, byte* src, int byteCount);
     }

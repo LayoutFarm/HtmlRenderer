@@ -37,12 +37,12 @@ namespace LayoutFarm.SampleControls
             HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
                new HtmlRenderer.Boxes.LeanBoxCreator());
         }
-        public UIHtmlBox(int width, int height)
+        public UIHtmlBox(GraphicsPlatform p, int width, int height)
         {
             this._width = width;
             this._height = height;
 
-            myHtmlIsland = new MyHtmlIsland(CurrentGraphicsPlatform.P);
+            myHtmlIsland = new MyHtmlIsland(p);
 
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.Refresh += OnRefresh;

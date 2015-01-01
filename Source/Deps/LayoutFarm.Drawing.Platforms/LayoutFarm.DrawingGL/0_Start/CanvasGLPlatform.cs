@@ -7,6 +7,8 @@ namespace LayoutFarm.Drawing.DrawingGL
 
     class CanvasGLPlatform : GraphicsPlatform
     {
+        //font store is platform specific
+        static LayoutFarm.FontStore fontStore = new FontStore();
 
         System.Drawing.Bitmap sampleBmp;
         IFonts sampleIFonts;
@@ -27,24 +29,43 @@ namespace LayoutFarm.Drawing.DrawingGL
                 sampleIFonts = null;
             }
         }
-         
-
-       
-
-         
-        public override GraphicsPath CreateGraphicPath()
+        public override GraphicsPath CreateGraphicsPath()
         {
             return new MyGraphicsPath();
         }
-      
-        public override FontInfo CreateNativeFontWrapper(object nativeFont)
-        {
-            return LayoutFarm.FontsUtils.GetCachedFont((System.Drawing.Font)nativeFont);
 
+        public override FontInfo GetFont(string fontFaceName, float emsize, FontStyle fontstyle)
+        {
+            return PlatformGetFont(fontFaceName, emsize, FontLoadTechnique.GdiBitmapFont);
+        }
+        internal static FontInfo PlatformGetFont(string fontFaceName, float emsize, FontLoadTechnique fontLoadTechnique)
+        {
+            //create gdi font 
+            System.Drawing.Font f = new System.Drawing.Font(fontFaceName, emsize);
+            FontInfo fontInfo = fontStore.GetCachedFont(f);
+            if (fontInfo.PlatformSpecificFont == null)
+            {
+                switch (fontLoadTechnique)
+                {
+                    case FontLoadTechnique.GdiBitmapFont:
+                        {
+                            //use gdi font board  
+
+                            fontInfo.PlatformSpecificFont = new PixelFarm.Agg.Fonts.GdiTextureFont(800, 200, f, fontInfo);
+                        } break;
+                    default:
+                        {
+                            fontInfo.PlatformSpecificFont = PixelFarm.Agg.Fonts.NativeFontStore.LoadFont(
+                                "c:\\Windows\\Fonts\\" + fontFaceName + ".ttf", //sample only***
+                                (int)emsize);
+                        } break;
+                }
+            }
+            return fontInfo;
         }
         public override Canvas CreateCanvas(int left, int top, int width, int height)
         {
-            return new MyCanvasGL(this, 0, 0, left, top, width, height); 
+            return new MyCanvasGL(this, 0, 0, left, top, width, height);
         }
         public override IFonts SampleIFonts
         {

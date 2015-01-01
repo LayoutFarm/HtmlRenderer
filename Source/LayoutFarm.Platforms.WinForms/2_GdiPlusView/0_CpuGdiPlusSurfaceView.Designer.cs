@@ -1,6 +1,6 @@
-﻿namespace LayoutFarm.UI.WinForms
+﻿namespace LayoutFarm.UI.GdiPlusView
 {
-    partial class UISurfaceViewportControl
+    partial class CpuGdiPlusSurfaceView
     {
 
         private System.ComponentModel.IContainer components = null;

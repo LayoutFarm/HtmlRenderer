@@ -6,25 +6,23 @@ using System.Text;
 using System.Windows.Forms;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm.UI.WinForms
+namespace LayoutFarm.UI.GdiPlusView
 {
 
-    public partial class UISurfaceViewportControl : UserControl
+    partial class CpuGdiPlusSurfaceView : UserControl
     {
-
-        TopWindowRenderBox wintop;
-        MyPlatformWindowBridge winBridge;
-        public UISurfaceViewportControl()
+         
+        MyPlatformWindowBridgeGdiPlus winBridge;
+        public CpuGdiPlusSurfaceView()
         {
             InitializeComponent();
         }
-
-        public void InitRootGraphics(TopWindowRenderBox wintop, IUserEventPortal userInputEvBridge )
+        public void Bind(MyPlatformWindowBridgeGdiPlus winBridge)
         {
-            //1.
-            this.wintop = wintop;
-            this.winBridge = new MyPlatformWindowBridge(wintop, userInputEvBridge);
+            //1. 
+            this.winBridge = winBridge;
             this.winBridge.BindWindowControl(this);
+           
         }
 #if DEBUG
         public IdbugOutputWindow IdebugOutputWin
@@ -41,40 +39,6 @@ namespace LayoutFarm.UI.WinForms
             base.OnSizeChanged(e);
         }
 
-        public void TopDownRecalculateContent()
-        {
-            wintop.TopDownReCalculateContentSize();
-        }
-
-        public void AddContent(RenderElement vi)
-        {
-            var layer0 = wintop.Layers.Layer0 as VisualPlainLayer;
-            if (layer0 != null)
-            {
-                layer0.AddChild(vi);
-                vi.InvalidateGraphic();
-            }
-        }
-        
-        public RootGraphic WinTopRootGfx
-        {
-            get
-            {
-                return this.wintop.Root;
-            }
-            
-        }
-
-        public void Close()
-        {
-            this.winBridge.Close();
-
-        }
-        public void PaintMe()
-        {
-            this.winBridge.PaintMe();
-
-        }
         protected override void OnMouseEnter(EventArgs e)
         {
             this.winBridge.HandleMouseEnterToViewport();
@@ -97,7 +61,7 @@ namespace LayoutFarm.UI.WinForms
             this.winBridge.HandleGotFocus(e);
             base.OnLostFocus(e);
         }
-        
+
         protected override void OnMouseDown(MouseEventArgs e)
         {
             this.winBridge.HandleMouseDown(e);

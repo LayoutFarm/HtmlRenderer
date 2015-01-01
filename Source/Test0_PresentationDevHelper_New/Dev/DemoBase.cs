@@ -12,16 +12,19 @@ namespace LayoutFarm
 
     public class SampleViewport
     {
-        LayoutFarm.UI.WinForms.UISurfaceViewportControl vw;
-        public SampleViewport(LayoutFarm.UI.WinForms.UISurfaceViewportControl vw)
+        LayoutFarm.UI.UISurfaceViewportControl vw;
+        public SampleViewport(LayoutFarm.UI.UISurfaceViewportControl vw)
         {
-            this.vw = vw;
-            
+            this.vw = vw; 
         }
         public void AddContent(UIElement ui)
         {
              
             this.vw.AddContent(ui.GetPrimaryRenderElement(vw.WinTopRootGfx));
+        }
+        public GraphicsPlatform P
+        {
+            get { return this.vw.P; }
         }
     }
     public abstract class DemoBase

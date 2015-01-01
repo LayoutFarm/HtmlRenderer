@@ -12,14 +12,25 @@ namespace LayoutFarm
     [DemoNote("4.1 UIHtmlBox")]
     class Demo_UIHtmlBox : DemoBase
     {
+        UIHtmlBox htmlBox;
+        string htmltext;
         protected override void OnStartDemo(SampleViewport viewport)
-        {       
-            
+        {
+
             //html box
-            UIHtmlBox htmlBox = new UIHtmlBox(800, 600); 
+            htmlBox = new UIHtmlBox(viewport.P, 800, 600);
             viewport.AddContent(htmlBox);
-            string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
-            htmlBox.LoadHtmlText(html);  
+
+            if (htmltext == null)
+            {
+                htmltext = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
+            }
+
+            htmlBox.LoadHtmlText(htmltext);
+        }
+        public void LoadHtml(string htmltext)
+        {
+            this.htmltext = htmltext;
         }
 
     }

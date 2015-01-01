@@ -22,8 +22,11 @@ namespace LayoutFarm.SvgDom
         public readonly float containerW;
         public readonly float containerH;
         public readonly float emHeight;
-        public ReEvaluateArgs(float containerW, float containerH, float emHeight)
+        public readonly GraphicsPlatform graphicsPlatform;
+
+        public ReEvaluateArgs(GraphicsPlatform graphicsPlatform, float containerW, float containerH, float emHeight)
         {
+            this.graphicsPlatform = graphicsPlatform;
             this.containerW = containerW;
             this.containerH = containerH;
             this.emHeight = emHeight;
@@ -118,7 +121,7 @@ namespace LayoutFarm.SvgDom
                     return 0;
             }
         }
-       
+
         public virtual void Paint(Painter p)
         {
 

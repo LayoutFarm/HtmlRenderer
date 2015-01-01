@@ -8,15 +8,15 @@ using LayoutFarm.Drawing.WinGdi;
 namespace LayoutFarm.UI
 {
 
-    class CanvasViewport
+    abstract class CanvasViewport
     {
         int viewportX;
         int viewportY;
         int viewportWidth;
         int viewportHeight;
-        TopWindowRenderBox topWindowBox;
 
-        QuadPages quadPages = null;
+        protected TopWindowRenderBox topWindowBox;
+        protected RootGraphic rootGraphics;
 
         int h_smallChange = 0;
         int h_largeChange = 0;
@@ -28,31 +28,46 @@ namespace LayoutFarm.UI
 
         bool fullMode = true;
         bool isClosed;//is this viewport closed
-        RootGraphic rootGraphics;
+
 
         public CanvasViewport(TopWindowRenderBox wintop,
             Size viewportSize, int cachedPageNum)
         {
             this.rootGraphics = wintop.Root;
-
             this.topWindowBox = wintop;
-            quadPages = new QuadPages(cachedPageNum, viewportSize.Width, viewportSize.Height * 2);
+
 
             this.viewportWidth = viewportSize.Width;
             this.viewportHeight = viewportSize.Height;
 
             canvasInvalidateHandler = Canvas_Invalidate;
-            canvasSizeChangedHandler = Canvas_SizeChanged; 
+            canvasSizeChangedHandler = Canvas_SizeChanged;
 
             wintop.SetCanvasInvalidateRequest(canvasInvalidateHandler);
             viewportX = 0;
             viewportY = 0;
 
-            CalculateCanvasPages();
+          
         }
-        ~CanvasViewport()
+        protected bool IsClosed
         {
-            quadPages.Dispose();
+            get { return this.isClosed; }
+        }
+        protected int ViewportX
+        {
+            get { return this.viewportX; }
+        }
+        protected int ViewportY
+        {
+            get { return this.viewportY; }
+        }
+        protected int ViewportWidth
+        {
+            get { return this.viewportWidth; }
+        }
+        protected int ViewportHeight
+        {
+            get { return this.viewportHeight; }
         }
 #if DEBUG
         public IdbugOutputWindow dbugOutputWindow
@@ -69,83 +84,37 @@ namespace LayoutFarm.UI
                 this.viewportWidth = viewportWidth;
                 this.viewportHeight = viewportHeight;
 
-                quadPages.ResizeAllPages(viewportWidth, viewportHeight);
+                ResetQuadPages(viewportWidth, viewportHeight);
                 CalculateCanvasPages();
-                
+
                 topWindowBox.ChangeRootGraphicSize(viewportWidth, viewportHeight);
             }
         }
-        void Canvas_CursorChange(object sender, UICursorEventArgs e)
+        protected virtual void ResetQuadPages(int viewportWidth, int viewportHeight)
         {
 
         }
-        void Canvas_SizeChanged(object sender, EventArgs e)
+        protected virtual void Canvas_CursorChange(object sender, UICursorEventArgs e)
+        {
+
+        }
+        protected virtual void Canvas_SizeChanged(object sender, EventArgs e)
         {
             //EvaluateScrollBar();
         }
-        void Canvas_Invalidate(ref Rectangle r)
+        protected virtual void Canvas_Invalidate(ref Rectangle r)
         {
-            quadPages.CanvasInvalidate(r);
         }
-
-
-        public bool IsQuadPageValid
+        public virtual bool IsQuadPageValid
         {
-            get { return this.quadPages.IsValid; }
-        }
-        public void PaintMe(IntPtr hdc)
-        {
-            if (isClosed) { return; }
-            //------------------------------------ 
-
-            topWindowBox.PrepareRender(); 
-
-            //---------------
-            this.rootGraphics.IsInRenderPhase = true;
-#if DEBUG
-            this.rootGraphics.dbug_rootDrawingMsg.Clear();
-            this.rootGraphics.dbug_drawLevel = 0;
-#endif
-             
-
-            if (fullMode)
-            {
-                quadPages.RenderToOutputWindowFullMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
-            }
-            else
-            {
-                //temp to full mode
-                quadPages.RenderToOutputWindowFullMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
-                //quadPages.RenderToOutputWindowPartialMode(topWindowBox, hdc, viewportX, viewportY, viewportWidth, viewportHeight);
-            }
-            this.rootGraphics.IsInRenderPhase = false;             
-
-#if DEBUG
-
-            RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
-            if (visualroot.dbug_RecordDrawingChain)
-            {
-                List<dbugLayoutMsg> outputMsgs = dbugOutputWindow.dbug_rootDocDebugMsgs;
-                outputMsgs.Clear();
-                outputMsgs.Add(new dbugLayoutMsg(null as RenderElement, "[" + debug_render_to_output_count + "]"));
-                visualroot.dbug_DumpRootDrawingMsg(outputMsgs);
-                dbugOutputWindow.dbug_InvokeVisualRootDrawMsg();
-                debug_render_to_output_count++;
-            }
-
-
-            if (dbugHelper01.dbugVE_HighlightMe != null)
-            {
-                dbugOutputWindow.dbug_HighlightMeNow(dbugHelper01.dbugVE_HighlightMe.dbugGetGlobalRect());
-
-            }
-#endif
+            get { return true; }
         }
 
 
 
+
 #if DEBUG
-        int debug_render_to_output_count = -1;
+        internal int debug_render_to_output_count = -1;
 #endif
 
 
@@ -163,10 +132,9 @@ namespace LayoutFarm.UI
             }
         }
 
-        void CalculateCanvasPages()
+        protected virtual void CalculateCanvasPages()
         {
-            quadPages.CalculateCanvasPages(viewportX, viewportY, viewportWidth, viewportHeight);
-            fullMode = true;
+
         }
 
         public void ScrollByNotRaiseEvent(int dx, int dy, out UIScrollEventArgs hScrollEventArgs, out UIScrollEventArgs vScrollEventArgs)
@@ -316,14 +284,16 @@ namespace LayoutFarm.UI
             {
                 hScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(true);
             }
-        }
-
-
+        } 
         public void Close()
         {
+            OnClosing();
             this.isClosed = true;
-            this.rootGraphics.CloseWinRoot();
+            this.rootGraphics.CloseWinRoot(); 
              
+        }
+        protected virtual void OnClosing()
+        {
         }
     }
 }

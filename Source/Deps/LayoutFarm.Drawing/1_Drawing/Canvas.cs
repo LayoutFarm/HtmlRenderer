@@ -3,7 +3,7 @@
 
 namespace LayoutFarm.Drawing
 {
-    public abstract class Canvas
+    public abstract class Canvas : System.IDisposable
     {
 #if DEBUG
         public static int dbug_canvasCount = 0;
@@ -17,6 +17,7 @@ namespace LayoutFarm.Drawing
         {
 
         }
+        public abstract void Dispose();
         public abstract GraphicsPlatform Platform { get; }
         public abstract SmoothingMode SmoothingMode { get; set; }
         //---------------------------------------------------------------------
@@ -94,6 +95,7 @@ namespace LayoutFarm.Drawing
         public abstract void dbug_DrawCrossRect(Color color, Rectangle rect);
 #endif
         //-------------------------------------------------------  
+        public abstract CanvasOrientation Orientation { get; set; }
         public void OffsetCanvasOrigin(int dx, int dy)
         {
             this.SetCanvasOrigin(this.CanvasOriginX + dx, this.CanvasOriginY + dy);
@@ -106,7 +108,7 @@ namespace LayoutFarm.Drawing
         {
             this.OffsetCanvasOrigin(0, dy);
         }
-
+        //-------------------------------------------------------  
         //for debug
         public int Note1
         {

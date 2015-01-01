@@ -16,14 +16,14 @@ namespace TestGraphicPackage
     {
         UIPlatform uiPlatformWinForm;
         LayoutFarm.Drawing.GraphicsPlatform gfxPlatform;
-        public Form1()
+        public Form1(LayoutFarm.Drawing.GraphicsPlatform p)
         {
             InitializeComponent();
-            this.uiPlatformWinForm = new LayoutFarm.UI.WinForms.UIPlatformWinForm();
-            this.gfxPlatform = LayoutFarm.Drawing.CurrentGraphicsPlatform.P;
+            this.uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
+            this.gfxPlatform = p;
         }
 
-        static void ShowFormLayoutInspector(LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport)
+        static void ShowFormLayoutInspector(LayoutFarm.UI.UISurfaceViewportControl viewport)
         {
 
             var formLayoutInspector = new LayoutFarm.Dev.FormLayoutInspector();
@@ -40,7 +40,7 @@ namespace TestGraphicPackage
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
         {
 
-            LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport;
+            LayoutFarm.UI.UISurfaceViewportControl viewport;
 
             int w = 800;
             int h = 600;
@@ -53,7 +53,9 @@ namespace TestGraphicPackage
 
             TopWindowRenderBox topWin = rootgfx.CreateTopWindowRenderBox(w, h);
             Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(topWin,
-               rootgfx.CreateUserEventPortal(topWin), out viewport);
+               rootgfx.CreateUserEventPortal(topWin),
+               InnerViewportKind.GdiPlus,
+               out viewport);
 
             viewport.PaintMe();
             formCanvas.Show();
@@ -66,7 +68,7 @@ namespace TestGraphicPackage
             simpleForm.Text = "SimpleForm2";
             simpleForm.WindowState = FormWindowState.Maximized;
             Rectangle screenClientAreaRect = Screen.PrimaryScreen.WorkingArea;
-            LayoutFarm.UI.WinForms.UISurfaceViewportControl viewport = new LayoutFarm.UI.WinForms.UISurfaceViewportControl();
+            var viewport = new LayoutFarm.UI.UISurfaceViewportControl();
             viewport.Bounds = new Rectangle(0, 0, screenClientAreaRect.Width, screenClientAreaRect.Height);
             simpleForm.Controls.Add(viewport);
 
@@ -76,7 +78,7 @@ namespace TestGraphicPackage
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm, this.gfxPlatform, w, h);
             TopWindowRenderBox topWin = rootgfx.CreateTopWindowRenderBox(w, h);
 
-            viewport.InitRootGraphics(topWin, rootgfx.CreateUserEventPortal(topWin));
+            viewport.InitRootGraphics(topWin, rootgfx.CreateUserEventPortal(topWin), InnerViewportKind.GdiPlus);
             viewport.PaintMe();
 
             simpleForm.Show();

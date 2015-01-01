@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
- 
+
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -12,11 +12,11 @@ namespace HtmlRenderer.Demo
 {
     public partial class DevForm : Form
     {
-        public DevForm()
+        LayoutFarm.Drawing.GraphicsPlatform graphicsPlatform;
+        public DevForm(LayoutFarm.Drawing.GraphicsPlatform graphicsPlatform)
         {
-
+            this.graphicsPlatform = graphicsPlatform;
             InitializeComponent();
-
             this.lstDemoList.DoubleClick += new EventHandler(lstDemoList_DoubleClick);
             LoadDemoList();
         }
@@ -31,7 +31,7 @@ namespace HtmlRenderer.Demo
                 DemoBase demoInstance = (DemoBase)Activator.CreateInstance(demoInfo.DemoType);
                 if (demoInstance != null)
                 {
-                    DemoForm demoForm = new DemoForm();
+                    DemoForm demoForm = new DemoForm(this.graphicsPlatform);
                     demoForm.Show();
                     demoForm.Activate();
 
@@ -77,7 +77,7 @@ namespace HtmlRenderer.Demo
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            DemoForm demoForm = new DemoForm();
+            DemoForm demoForm = new DemoForm(this.graphicsPlatform);
             demoForm.PrepareSamples();
 
             demoForm.Show();
@@ -94,7 +94,7 @@ namespace HtmlRenderer.Demo
         {
             for (int i = 0; i < 10; ++i)
             {
-                DemoForm demoForm = new DemoForm();
+                DemoForm demoForm = new DemoForm(this.graphicsPlatform);
                 demoForm.StartAtSampleIndex = 2;
                 demoForm.PrepareSamples();
 
@@ -108,8 +108,8 @@ namespace HtmlRenderer.Demo
             }
         }
 
-        
-  
+
+
 
 
     }

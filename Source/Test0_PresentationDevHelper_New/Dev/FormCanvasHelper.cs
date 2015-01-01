@@ -13,24 +13,24 @@ namespace LayoutFarm.UI
         public static Form CreateNewFormCanvas(
             TopWindowRenderBox topWin,
             IUserEventPortal userInputEvBridge,
-            out LayoutFarm.UI.WinForms.UISurfaceViewportControl canvasViewport)
+            InnerViewportKind internalViewportKind,
+            out LayoutFarm.UI.UISurfaceViewportControl canvasViewport)
         {
 
             Form form1 = new Form();
-            var innerViewport = canvasViewport = new LayoutFarm.UI.WinForms.UISurfaceViewportControl();
+            var innerViewport = canvasViewport = new LayoutFarm.UI.UISurfaceViewportControl();
             Rectangle screenClientAreaRect = Conv.ToRect(Screen.PrimaryScreen.WorkingArea);
 
-            canvasViewport.InitRootGraphics(topWin, userInputEvBridge);
+            canvasViewport.InitRootGraphics(topWin, userInputEvBridge, internalViewportKind);
             canvasViewport.Bounds =
                 new System.Drawing.Rectangle(0, 0,
                     screenClientAreaRect.Width,
                     screenClientAreaRect.Height);
-            //----------------------
-
+            //---------------------- 
             form1.Controls.Add(canvasViewport);
             //----------------------
             MakeFormCanvas(form1, canvasViewport);
-            //----------------------
+
             form1.SizeChanged += (s, e) =>
             {
                 if (form1.WindowState == FormWindowState.Maximized)
@@ -47,13 +47,13 @@ namespace LayoutFarm.UI
             return form1;
 
         }
-        public static void MakeFormCanvas(Form form1, LayoutFarm.UI.WinForms.UISurfaceViewportControl surfaceViewportControl)
+        public static void MakeFormCanvas(Form form1, LayoutFarm.UI.UISurfaceViewportControl surfaceViewportControl)
         {
             form1.FormClosing += (s, e) =>
             {
                 surfaceViewportControl.Close();
             };
-
+            
         }
 
         static Screen GetScreenFromX(int xpos)

@@ -236,6 +236,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="isLast">is it the last rectangle of the element</param>
         internal void PaintBackground(Painter p, RectangleF rect, bool isFirst, bool isLast)
         {
+            
             if (!this.HasVisibleBgColor)
             {
                 return;
@@ -275,7 +276,7 @@ namespace HtmlRenderer.Boxes
                     bool hasSomeRoundCorner = this.HasSomeRoundCorner;
                     if (hasSomeRoundCorner)
                     {
-                        roundrect = RenderUtils.GetRoundRect(p.Platform, rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
+                        roundrect = RenderUtils.GetRoundRect(p.GraphicsPlatform, rect, ActualCornerNW, ActualCornerNE, ActualCornerSE, ActualCornerSW);
                     }
 
                     if (!p.AvoidGeometryAntialias && hasSomeRoundCorner)

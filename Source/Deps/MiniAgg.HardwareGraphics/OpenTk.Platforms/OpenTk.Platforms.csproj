@@ -63,7 +63,6 @@
     <Compile Include="Input\MouseDevice.cs" />
     <Compile Include="Input\MouseState.cs" />
     <Compile Include="KeyPressEventArgs.cs" />
-    <Compile Include="LayoutFarm.Drawing\ExtensionAttribute.cs" />
     <Compile Include="Minimal.cs" />
     <Compile Include="NativeWindow.cs" />
     <Compile Include="Platform\Egl\AngleProjectEglConfig.cs" />
@@ -140,12 +139,6 @@
     </Compile>
     <Compile Include="UserGLControl\GLControlFactory.cs" />
     <Compile Include="UserGLControl\IGLControl.cs" />
-    <Compile Include="UserGLControl\MyGLControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserGLControl\MyGLControl.Designer.cs">
-      <DependentUpon>MyGLControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserGLControl\WinGLControl.cs" />
     <Compile Include="UserGLControl\X11GLControl.cs" />
     <Compile Include="WindowBorder.cs" />
@@ -159,11 +152,6 @@
       <Project>{D9E24F68-37FA-4C11-AC17-0C351681908F}</Project>
       <Name>OpenTk.CoreGraphics</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="UserGLControl\MyGLControl.resx">
-      <DependentUpon>MyGLControl.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

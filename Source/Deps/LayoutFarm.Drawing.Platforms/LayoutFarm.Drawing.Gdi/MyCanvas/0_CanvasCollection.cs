@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-  
+
 
 namespace LayoutFarm.Drawing.WinGdi
 {
@@ -13,9 +13,10 @@ namespace LayoutFarm.Drawing.WinGdi
         int numOfCachePages;
         int eachPageWidth;
         int eachPageHeight;
-
-        public CanvasCollection(int numOfCachePages, int eachPageWidth, int eachPageHeight)
+        GraphicsPlatform gfxPlatform;
+        public CanvasCollection(GraphicsPlatform gfxPlatform, int numOfCachePages, int eachPageWidth, int eachPageHeight)
         {
+            this.gfxPlatform = gfxPlatform;
             if (eachPageWidth < 1)
             {
                 eachPageWidth = 1;
@@ -97,13 +98,13 @@ namespace LayoutFarm.Drawing.WinGdi
             }
             else
             {
-                return new MyCanvas(CurrentGraphicsPlatform.P,
+                return new MyCanvas(gfxPlatform,
                     hPageNum,
                     vPageNum,
                     hPageNum * eachPageWidth,
                     eachPageHeight * vPageNum,
                     eachPageWidth,
-                    eachPageHeight); 
+                    eachPageHeight);
             }
         }
         public void ReleasePage(MyCanvas page)

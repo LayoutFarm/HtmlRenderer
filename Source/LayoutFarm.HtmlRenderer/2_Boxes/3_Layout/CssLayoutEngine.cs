@@ -215,7 +215,7 @@ namespace HtmlRenderer.Boxes
                         {
                             //has custom layout method
                             box.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock);
-                            ((CustomCssBox)box).CustomRecomputedValue(lay.LatestContainingBlock);
+                            ((CustomCssBox)box).CustomRecomputedValue(lay.LatestContainingBlock, lay.GraphicsPlatform);
 
                         }
                         else

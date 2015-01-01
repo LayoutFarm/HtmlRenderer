@@ -15,11 +15,9 @@ namespace TestGraphicPackage2
             Application.SetCompatibleTextRenderingDefault(false);
 
 
-            LayoutFarm.Drawing.MyWinGdiPortal.Start();
+            var platform = LayoutFarm.Drawing.MyWinGdiPortal.Start();
 
-            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo =
-                LayoutFarm.Drawing.CurrentGraphicsPlatform.CreateNativeFontWrapper(
-                    new System.Drawing.Font("tahoma", 10));
+            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = platform.GetFont("tahoma", 10, LayoutFarm.Drawing.FontStyle.Regular);
 
             var formDemo = new LayoutFarm.Dev.FormDemoList();
             formDemo.LoadDemoList(typeof(Program));
@@ -27,7 +25,7 @@ namespace TestGraphicPackage2
 
             Application.Run(formDemo);
             LayoutFarm.Drawing.MyWinGdiPortal.End();
-             
+
         }
     }
 }

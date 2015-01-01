@@ -38,6 +38,11 @@ namespace PixelFarm.Agg.Fonts
         {
             Dispose();
         }
+
+        public abstract bool IsAtlasFont { get; }
+        
+            
+
     }
 
 
