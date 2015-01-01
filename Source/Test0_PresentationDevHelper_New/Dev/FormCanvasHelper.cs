@@ -26,12 +26,11 @@ namespace LayoutFarm.UI
                 new System.Drawing.Rectangle(0, 0,
                     screenClientAreaRect.Width,
                     screenClientAreaRect.Height);
-            //----------------------
-
+            //---------------------- 
             form1.Controls.Add(canvasViewport);
             //----------------------
             MakeFormCanvas(form1, canvasViewport);
-            //----------------------
+
             form1.SizeChanged += (s, e) =>
             {
                 if (form1.WindowState == FormWindowState.Maximized)
@@ -54,7 +53,7 @@ namespace LayoutFarm.UI
             {
                 surfaceViewportControl.Close();
             };
-
+            
         }
 
         static Screen GetScreenFromX(int xpos)

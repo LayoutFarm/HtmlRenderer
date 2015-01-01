@@ -27,6 +27,7 @@ namespace LayoutFarm.Drawing.DrawingGL
         Color fillSolidColor = Color.Transparent;
         SmoothingMode layoutFarmSmoothMode;
 
+         
         public override void FillRectangle(Color color, float left, float top, float width, float height)
         {
             canvasGL2d.FillRect(color, left, top, width, height);

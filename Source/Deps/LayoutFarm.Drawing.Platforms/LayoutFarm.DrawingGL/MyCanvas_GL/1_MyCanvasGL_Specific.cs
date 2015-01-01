@@ -31,12 +31,12 @@ namespace LayoutFarm.Drawing.DrawingGL
         GraphicsPlatform platform;
         int pageFlags;
         Font currentFont;
-        CanvasGL2d canvasGL2d; 
+        CanvasGL2d canvasGL2d;
         PixelFarm.Agg.VertexSource.CurveFlattener flattener = new PixelFarm.Agg.VertexSource.CurveFlattener();
         //-------
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
-        System.Drawing.Rectangle currentClipRect; 
-         
+        System.Drawing.Rectangle currentClipRect;
+
         public MyCanvasGL(GraphicsPlatform platform, int hPageNum, int vPageNum, int left, int top, int width, int height)
         {
             canvasGL2d = new CanvasGL2d(width, height);
@@ -57,19 +57,28 @@ namespace LayoutFarm.Drawing.DrawingGL
             this.StrokeWidth = 1;
             this.currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
 
-            
+
         }
         //-------------------------------------------
+        bool isDisposed;
+
         ~MyCanvasGL()
         {
-            ReleaseUnManagedResource();
+            Dispose();
         }
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
-            ReleaseHdc();
+            if (isDisposed)
+            {
+                return;
+            }
+            this.isDisposed = true;
+            this.canvasGL2d.Dispose();
+            ReleaseUnManagedResource();
+            this.canvasGL2d = null;
         }
 
         void ClearPreviousStoredValues()
@@ -269,8 +278,8 @@ namespace LayoutFarm.Drawing.DrawingGL
             _stringFormat = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericDefault);
             _stringFormat.FormatFlags = System.Drawing.StringFormatFlags.NoClip | System.Drawing.StringFormatFlags.MeasureTrailingSpaces;
             //---------------------------
-            defaultFontInfo = CanvasGLPlatform.PlatformGetFont("Tahoma", 10, FontLoadTechnique.GdiBitmapFont); 
-        } 
+            defaultFontInfo = CanvasGLPlatform.PlatformGetFont("Tahoma", 10, FontLoadTechnique.GdiBitmapFont);
+        }
 
         static System.Drawing.Point[] ConvPointArray(Point[] points)
         {
@@ -291,7 +300,7 @@ namespace LayoutFarm.Drawing.DrawingGL
                 outputPoints[i] = points[i].ToPointF();
             }
             return outputPoints;
-        } 
+        }
         static System.Drawing.Color ConvColor(Color c)
         {
             return System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);

@@ -260,7 +260,6 @@ namespace LayoutFarm.Text
                         } break;
                 }
             }
-
         }
 
         Size CalculateDrawingStringSize(char[] buffer)

@@ -38,6 +38,7 @@ namespace LayoutFarm.UI.OpenGLView
             //1. 
             this.winBridge = winBridge;
             this.winBridge.BindGLControl(this);
+             
         }
 
         public OpenTK.Graphics.Color4 ClearColor

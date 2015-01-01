@@ -101,6 +101,8 @@ namespace LayoutFarm.Dev
                 this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
                 out viewport);
 
+
+
             formCanvas.Text = "FormCanvas 1";
 
             viewport.PaintMe();

@@ -85,22 +85,21 @@ namespace LayoutFarm.Drawing.WinGdi
 #if DEBUG
             debug_canvas_id = dbug_canvasCount + 1;
             dbug_canvasCount += 1;
-#endif
-
-
+#endif      
             this.StrokeWidth = 1;
         }
 
         ~MyCanvas()
         {
-            ReleaseUnManagedResource();
+            Dispose();
         }
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             ReleaseHdc();
+            ReleaseUnManagedResource();
         }
 
         void ClearPreviousStoredValues()

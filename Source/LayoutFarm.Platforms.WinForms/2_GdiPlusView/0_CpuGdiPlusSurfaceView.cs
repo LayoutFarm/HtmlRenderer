@@ -22,6 +22,7 @@ namespace LayoutFarm.UI.GdiPlusView
             //1. 
             this.winBridge = winBridge;
             this.winBridge.BindWindowControl(this);
+           
         }
 #if DEBUG
         public IdbugOutputWindow IdebugOutputWin

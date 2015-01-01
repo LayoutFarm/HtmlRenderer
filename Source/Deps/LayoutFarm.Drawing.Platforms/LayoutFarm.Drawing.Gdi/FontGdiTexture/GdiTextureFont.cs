@@ -61,12 +61,10 @@ namespace PixelFarm.Agg.Fonts
 
             //PrepareCharacterMapWhiteOnBlack(chars);
             //MakeTransparentOnBlack(textBoardBmp);
-            //------------------
-
-
+            //------------------ 
 #if DEBUG
             //save bmp for debug
-            textBoardBmp.Save("d:\\WImageTest\\font_" + dbugId + ".png");
+            //textBoardBmp.Save("d:\\WImageTest\\font_" + dbugId + ".png");
 
 #endif
             //-------------------

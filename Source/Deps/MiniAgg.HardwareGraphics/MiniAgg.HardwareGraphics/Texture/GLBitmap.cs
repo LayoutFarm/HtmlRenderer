@@ -9,12 +9,13 @@ namespace LayoutFarm.DrawingGL
     public delegate void TransientGetBufferHead(IntPtr bufferHead);
     public class GLBitmap : IDisposable
     {
-        int textureId;
+        
         int width;
         int height;
         byte[] rawBuffer;
         LazyBitmapBufferProvider lazyProvider;
         bool isInvertImage = false;
+        int refCount;
 
         public GLBitmap(int w, int h, byte[] rawBuffer, bool isInvertImage)
         {
@@ -76,6 +77,7 @@ namespace LayoutFarm.DrawingGL
         {
             // GL.DeleteTextures(1, ref textureId);
         }
+
 
 #if DEBUG
 

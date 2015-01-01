@@ -37,6 +37,12 @@ namespace LayoutFarm.UI.OpenGLView
 #endif
             this.EvaluateScrollbar();
         }
+        protected override void OnClosing()
+        {
+            //make current before clear GL resource
+            this.windowControl.MakeCurrent();
+
+        }
         internal override void OnHostControlLoaded()
         {
 
@@ -91,7 +97,7 @@ namespace LayoutFarm.UI.OpenGLView
         }
         protected override void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
         {
-
+            
         }
         System.Drawing.Size Size
         {

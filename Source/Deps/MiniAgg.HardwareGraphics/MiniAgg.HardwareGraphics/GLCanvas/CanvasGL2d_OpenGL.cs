@@ -33,6 +33,8 @@ namespace LayoutFarm.DrawingGL
                 //server part
                 //gen texture 
                 GL.GenTextures(1, out foundTextureId);
+                //add 
+                registerTextures.Add(bmp, foundTextureId);
                 //bind
                 GL.BindTexture(TextureTarget.Texture2D, foundTextureId);
                 bmp.TransientLoadBufferHead((IntPtr bmpScan0) =>
@@ -42,9 +44,11 @@ namespace LayoutFarm.DrawingGL
                     PixelFormat.Bgra,
                     PixelType.UnsignedByte, (IntPtr)bmpScan0);
                 });
-
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+
+                //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
+                //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
             }
             else
             {

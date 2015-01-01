@@ -17,6 +17,7 @@ namespace LayoutFarm.UI
         protected TopWindowRenderBox topwin;
         CanvasViewport canvasViewport;
 
+
         bool isDragging;
         bool isMouseDown;
         protected MouseCursorStyle currentCursorStyle = MouseCursorStyle.Default;
@@ -47,7 +48,6 @@ namespace LayoutFarm.UI
         }
 
         protected abstract void PaintToOutputWindow();
-
 
 
 
@@ -92,9 +92,12 @@ namespace LayoutFarm.UI
 
         public void Close()
         {
+            OnClosing();
             canvasViewport.Close();
         }
-
+        protected virtual void OnClosing()
+        {
+        }
         //---------------------------------------------------------------------
         public void EvaluateScrollbar()
         {
