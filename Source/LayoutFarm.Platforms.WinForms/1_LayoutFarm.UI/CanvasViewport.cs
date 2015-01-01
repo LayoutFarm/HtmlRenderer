@@ -284,14 +284,16 @@ namespace LayoutFarm.UI
             {
                 hScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(true);
             }
-        }
-
-
+        } 
         public void Close()
         {
+            OnClosing();
             this.isClosed = true;
-            this.rootGraphics.CloseWinRoot();
-
+            this.rootGraphics.CloseWinRoot(); 
+             
+        }
+        protected virtual void OnClosing()
+        {
         }
     }
 }

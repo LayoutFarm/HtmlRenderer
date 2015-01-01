@@ -44,6 +44,7 @@ namespace LayoutFarm.UI
                         this.Controls.Add(view);
                         //--------------------------------------- 
                         view.Bind(bridge);
+                       
                         this.winBridge = bridge;
 
 
@@ -51,13 +52,13 @@ namespace LayoutFarm.UI
                 case InnerViewportKind.GdiPlus:
                 default:
                     {
-                        var bridge = new GdiPlusView.MyPlatformWindowBridgeGdiPlus(wintop, userInputEvBridge);
-
+                        var bridge = new GdiPlusView.MyPlatformWindowBridgeGdiPlus(wintop, userInputEvBridge); 
                         var view = new GdiPlusView.CpuGdiPlusSurfaceView();
                         view.Dock = DockStyle.Fill;
                         this.Controls.Add(view);
                         //--------------------------------------- 
                         view.Bind(bridge);
+                        
                         this.winBridge = bridge;
                     } break;
             }

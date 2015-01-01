@@ -9,19 +9,28 @@ namespace LayoutFarm.UI.OpenGLView
     class OpenGLCanvasViewport : CanvasViewport
     {
         Canvas canvas;
+        bool isClosed;
         public OpenGLCanvasViewport(TopWindowRenderBox wintop,
             Size viewportSize, int cachedPageNum)
             : base(wintop, viewportSize, cachedPageNum)
         {
 
         }
+        protected override void OnClosing()
+        {
+            isClosed = true;
+            if (canvas != null)
+            {
+                canvas.Dispose();
+                canvas = null;
+            }
+        }
         protected override void Canvas_Invalidate(ref Rectangle r)
         {
             base.Canvas_Invalidate(ref r);
         }
         public void NotifyWindowControlBinding()
-        {
-            //this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, this.ViewportWidth, this.ViewportHeight);
+        {   
             this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, 800, 600);
            
         }
@@ -78,6 +87,9 @@ namespace LayoutFarm.UI.OpenGLView
 
         public void PaintMe()
         {
+            if (isClosed) return;
+            //---------------------------------------------
+
             canvas.Orientation = CanvasOrientation.LeftTop;
             //Test01(); 
             //return;

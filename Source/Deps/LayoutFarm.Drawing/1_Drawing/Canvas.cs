@@ -3,7 +3,7 @@
 
 namespace LayoutFarm.Drawing
 {
-    public abstract class Canvas
+    public abstract class Canvas : System.IDisposable
     {
 #if DEBUG
         public static int dbug_canvasCount = 0;
@@ -17,6 +17,7 @@ namespace LayoutFarm.Drawing
         {
 
         }
+        public abstract void Dispose();
         public abstract GraphicsPlatform Platform { get; }
         public abstract SmoothingMode SmoothingMode { get; set; }
         //---------------------------------------------------------------------
