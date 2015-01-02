@@ -9,8 +9,8 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
-    [DemoNote("3.3 Demo_ControllerBoxs2")]
-    class Demo_ControllerBoxs2 : DemoBase
+    [DemoNote("3.4 Demo_CompartmentBox")]
+    class Demo_CompartmentBox : DemoBase
     {
         UIControllerBox controllerBox1;
 
@@ -192,14 +192,22 @@ namespace LayoutFarm
         //-----------------------------------------------------------------
         class UIControllerBox : LayoutFarm.SampleControls.UIEaseBox
         {
+
             LayoutFarm.SampleControls.UIGridBox gridBox;
 
+            //small controller box
+            LayoutFarm.SampleControls.UIEaseBox boxLeftTop;
+            LayoutFarm.SampleControls.UIEaseBox boxRightTop;
 
+            LayoutFarm.SampleControls.UIEaseBox boxLeftBottom;
+            LayoutFarm.SampleControls.UIEaseBox boxRightBottom;
+
+
+            DockSpacesController dockspaceController;
             public UIControllerBox(int w, int h)
                 : base(w, h)
             {
-
-
+                SetupDockSpaces();
             }
             public LayoutFarm.UI.UIBox TargetBox
             {
@@ -216,14 +224,21 @@ namespace LayoutFarm
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
 
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.SampleControls.CustomRenderBox;
+                    VisualPlainLayer plain0 = null;
                     if (myRenderElement != null)
                     {
                         VisualLayerCollection layers = new VisualLayerCollection();
                         myRenderElement.Layers = layers;
-                        var plain0 = new VisualPlainLayer(myRenderElement);
+                        plain0 = new VisualPlainLayer(myRenderElement);
                         layers.AddLayer(plain0);
                         plain0.AddChild(gridBox.GetPrimaryRenderElement(rootgfx));
                     }
+                    //------------------------------------------------------
+                    plain0.AddChild(boxLeftTop.GetPrimaryRenderElement(rootgfx));
+                    plain0.AddChild(boxRightTop.GetPrimaryRenderElement(rootgfx));
+                    plain0.AddChild(boxLeftBottom.GetPrimaryRenderElement(rootgfx));
+                    plain0.AddChild(boxRightBottom.GetPrimaryRenderElement(rootgfx));
+                    //------------------------------------------------------
                 }
                 return base.GetPrimaryRenderElement(rootgfx);
             }
@@ -236,9 +251,28 @@ namespace LayoutFarm
                 {
                     //adjust grid size
                     gridBox.SetSize(width - 10, height - 10);
-
+                    this.dockspaceController.SetSize(width, height);
                 }
                 //---------------------------------
+            }
+            //-----
+            void SetupDockSpaces()
+            {
+                //1. controller
+                this.dockspaceController = new DockSpacesController(this, SpaceConcept.NineSpace);
+
+                //2.  
+                this.dockspaceController.LeftTopSpace.Content = boxLeftTop = CreateTinyControlBox();
+                this.dockspaceController.RightTopSpace.Content = boxRightTop = CreateTinyControlBox();
+                this.dockspaceController.LeftBottomSpace.Content = boxLeftBottom = CreateTinyControlBox();
+                this.dockspaceController.RightBottomSpace.Content = boxRightBottom = CreateTinyControlBox();
+            }
+            static SampleControls.UIEaseBox CreateTinyControlBox()
+            {
+                int controllerBoxWH = 10;
+                SampleControls.UIEaseBox tinyBox = new SampleControls.UIEaseBox(controllerBoxWH, controllerBoxWH);
+                tinyBox.BackColor = LayoutFarm.Drawing.Color.Red;
+                return tinyBox;
             }
         }
 

@@ -34,21 +34,25 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="0_UIElement\UIElement.cs" />
-    <Compile Include="0_UIElement\UIElement_EventListener.cs" />
+    <Compile Include="0_UIElement\1_UIElement.cs" />
+    <Compile Include="0_UIElement\2_UIElement_EventListener.cs" />
     <Compile Include="1_LayerElements\0_LayerElement.cs" />
     <Compile Include="1_LayerElements\1_PlainLayerElement.cs" />
-    <Compile Include="1_LayerElements\2_GridLayerElement.cs" />
-    <Compile Include="1_LayerElements\GridLayer.cs" />
+    <Compile Include="1_LayerElements\2_GridLayer.cs" />
     <Compile Include="1_LayerElements\GridTable.cs" />
-    <Compile Include="CustomUI.Sample\CustomRenderElements.cs" />
-    <Compile Include="CustomUI.Sample\LayerHelper.cs" />
-    <Compile Include="CustomUI.Sample\UIBox.cs" />
-    <Compile Include="CustomUI.Sample\UIEaseBox.cs" />
-    <Compile Include="CustomUI.Sample\UIGridBox.cs" />
-    <Compile Include="CustomUI.Sample\UIPanel.cs" />
-    <Compile Include="CustomUI.Sample\UIScrollBar.cs" />
-    <Compile Include="CustomUI.Sample\UITextBox.cs" />
+    <Compile Include="2_CompartmentController\1_NineSpaceController.cs" />
+    <Compile Include="2_CompartmentController\2_DockSpaceController.cs" />
+    <Compile Include="2_CompartmentController\3_FreeSpaceController.cs" />
+    <Compile Include="2_CompartmentController\SpacePart.cs" />
+    <Compile Include="2_CompartmentController\Enums.cs" />
+    <Compile Include="3_CustomUI.Sample\CustomRenderElements.cs" />
+    <Compile Include="3_CustomUI.Sample\LayerHelper.cs" />
+    <Compile Include="0_UIElement\3_UIBox.cs" />
+    <Compile Include="3_CustomUI.Sample\UIEaseBox.cs" />
+    <Compile Include="3_CustomUI.Sample\UIGridBox.cs" />
+    <Compile Include="3_CustomUI.Sample\UIPanel.cs" />
+    <Compile Include="3_CustomUI.Sample\UIScrollBar.cs" />
+    <Compile Include="3_CustomUI.Sample\UITextBox.cs" />
     <Compile Include="CustomUI.Sample_Composites\UIListView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UIHtmlBox\MyCssCustomBoxCreator.cs" />
@@ -81,6 +85,7 @@
       <Name>LayoutFarm.TextEdit</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

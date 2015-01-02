@@ -177,7 +177,7 @@ namespace LayoutFarm
                     int newX = pos.X + e.XDiff;
                     int newY = pos.Y + e.YDiff;
 
-                    
+
                     controllerBox.SetLocation(newX, newY);
                     var targetBox = controllerBox.TargetBox;
                     if (targetBox != null)
@@ -213,7 +213,7 @@ namespace LayoutFarm
                 // 
 
             }
-            public LayoutFarm.SampleControls.UIBox TargetBox
+            public LayoutFarm.UI.UIBox TargetBox
             {
                 get;
                 set;
