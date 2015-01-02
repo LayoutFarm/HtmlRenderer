@@ -116,7 +116,8 @@ namespace LayoutFarm.Drawing.WinGdi
         {
             foreach (MyCanvas canvasPage in cachePages)
             {
-                canvasPage.ReleaseUnManagedResource();
+                canvasPage.Dispose();
+                
             }
             cachePages.Clear();
         }

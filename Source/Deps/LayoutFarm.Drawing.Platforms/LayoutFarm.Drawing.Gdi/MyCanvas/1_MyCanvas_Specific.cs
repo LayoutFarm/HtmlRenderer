@@ -26,6 +26,7 @@ namespace LayoutFarm.Drawing.WinGdi
     {
         int pageNumFlags;
         int pageFlags;
+        bool isDisposed;
 
         System.Drawing.Graphics gx;
         IntPtr hRgn = IntPtr.Zero;
@@ -89,15 +90,21 @@ namespace LayoutFarm.Drawing.WinGdi
             this.StrokeWidth = 1;
         }
 
-        ~MyCanvas()
-        {
-            Dispose();
-        }
+        //~MyCanvas()
+        //{
+        //    Dispose();
+        //}
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public override void Dispose()
         {
+            if (isDisposed)
+            {
+                return;
+            }
+
+            isDisposed = true;
             ReleaseHdc();
             ReleaseUnManagedResource();
         }

@@ -185,7 +185,7 @@ namespace LayoutFarm.UI
             }
         }
         public void HandleMouseEnterToViewport()
-        {
+        {  
 
             //System.Windows.Forms.Cursor.Hide();
         }
@@ -195,6 +195,11 @@ namespace LayoutFarm.UI
         }
         public void HandleGotFocus(EventArgs e)
         {
+            if (canvasViewport.IsClosed)
+            {
+                return;
+            }
+
             UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
             canvasViewport.FullMode = false;
 

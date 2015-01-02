@@ -253,6 +253,83 @@ namespace PixelFarm.Agg.Fonts
             bmp.UnlockBits(bmpdata);
 
         }
+        static void MakeTransparentOnWhite2(System.Drawing.Bitmap bmp)
+        {
+            int bmpW = bmp.Width;
+            int bmpH = bmp.Height;
+
+            //make a transparent bg?
+            var bmpdata = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmpW, bmpH),
+                 System.Drawing.Imaging.ImageLockMode.ReadWrite,
+                bmp.PixelFormat);
+            int stride = bmpdata.Stride;
+            int buffLen = stride * bmpH;
+            byte[] pixelBuffer = new byte[buffLen];
+            System.Runtime.InteropServices.Marshal.Copy(
+                bmpdata.Scan0, pixelBuffer, 0, pixelBuffer.Length);
+            //set white color to transparent
+            unsafe
+            {
+                //not fast,
+                //just fix 
+                fixed (byte* buffH = &pixelBuffer[0])
+                {
+                    for (int i = 0; i < buffLen; )
+                    {
+                        byte r = buffH[i]; //r
+                        byte g = buffH[i + 1];//g
+                        byte b = buffH[i + 2];//b 
+                        var avg = (r + g + b) / 3;
+
+                        buffH[i + 3] = (byte)(255 - avg);
+                        //if ((r == 255) && (g == 255) && (b == 255))
+                        //{
+                        //    //black will have alpha=255 
+                        //    //1. weight balance all chanel (average)
+                        //    buffH[i + 3] = 0;
+                        //    //buffH[i + 3] = (byte)(255 - ((0.21 * r) + (0.72 * g) + (0.07 * b))); 
+                        //}
+                        //else
+                        //{   //black will have alpha=255 
+                        //    //1. weight balance all chanel (average)
+                            
+                        //    ////var avg= (byte)(255 - ((r + g + b) / 3);
+                        //    //var avg = (byte)((r + g + b) / 3);
+                        //    //var avg2 = ((float)avg) / 80;
+                        //    //switch ((int)avg2)
+                        //    //{
+                        //    //    case 0:
+                        //    //        { //most black
+                        //    //            buffH[i + 3] = 255;
+                        //    //        } break;
+                        //    //    case 1:
+                        //    //        {
+                        //    //            buffH[i + 3] = 200;
+                        //    //        } break;
+                        //    //    case 2:
+                        //    //        {
+                        //    //            buffH[i + 3] = 50;
+                        //    //        } break;
+                        //    //    default:
+                        //    //        {
+                        //    //            //most white
+                        //    //            buffH[i + 3] = 0;
+                        //    //        } break;
+                        //    //}
+
+
+                        //     buffH[i + 3] =  (byte)(255 - ((r + g + b) / 3));
+                        //    //buffH[i + 3] = (byte)(255 - ((0.21 * r) + (0.72 * g) + (0.07 * b))); 
+                        //}
+
+                        i += 4;
+                    }
+                }
+            }
+            System.Runtime.InteropServices.Marshal.Copy(pixelBuffer, 0, bmpdata.Scan0, buffLen);
+            bmp.UnlockBits(bmpdata);
+
+        }
         public LayoutFarm.Drawing.RectangleF[] GetGlyphPos(char[] buffer, int start, int len, int x, int y)
         {
             if (innerGLbmp == null)

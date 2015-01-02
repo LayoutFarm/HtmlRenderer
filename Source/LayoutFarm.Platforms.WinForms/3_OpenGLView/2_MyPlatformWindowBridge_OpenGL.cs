@@ -65,9 +65,7 @@ namespace LayoutFarm.UI.OpenGLView
             if (!isInitGLControl)
             {
                 return;
-            }
-
-
+            } 
             //var innumber = dbugCount;
             //dbugCount++;
             //Console.WriteLine(">" + innumber);

@@ -44,6 +44,10 @@ namespace LayoutFarm.DrawingGL
                     PixelFormat.Bgra,
                     PixelType.UnsignedByte, (IntPtr)bmpScan0);
                 });
+
+
+
+
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
@@ -382,8 +386,8 @@ namespace LayoutFarm.DrawingGL
                     } break;
             }
         }
-
-        public void DrawGlyphImages(LayoutFarm.Drawing.Color color, GLBitmap bmp, LayoutFarm.Drawing.RectangleF[] destAndSrcPairs)
+        public void DrawGlyphImages(LayoutFarm.Drawing.Color color,
+           GLBitmap bmp, LayoutFarm.Drawing.RectangleF[] destAndSrcPairs)
         {
             //TODO: white opaque bg should render in single pass
 
@@ -532,6 +536,150 @@ namespace LayoutFarm.DrawingGL
             //set blend mode back
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             //fill with color
+        }
+
+        public void DrawGlyphImages3(LayoutFarm.Drawing.Color color,
+            GLBitmap bmp, LayoutFarm.Drawing.RectangleF[] destAndSrcPairs)
+        {
+
+
+            //GL.Disable(EnableCap.Blend);
+            //GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            ////GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.Zero);
+            unsafe
+            {
+                var prevColor = this.strokeColor;
+                this.StrokeColor = LayoutFarm.Drawing.Color.White;
+
+                GL.Enable(EnableCap.Texture2D);
+                {
+
+                    GL.BindTexture(TextureTarget.Texture2D, GetTextureId(bmp));
+                   // GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureEnvMode.Combine);
+                    GL.EnableClientState(ArrayCap.TextureCoordArray); //***
+
+                    //texture source coord 1= 100% of original width
+                    float* arr = stackalloc float[8];
+                    float fullsrcW = bmp.Width;
+                    float fullsrcH = bmp.Height;
+
+                    int len = destAndSrcPairs.Length;
+                    if (len > 1)
+                    {
+                        if ((len % 2 != 0))
+                        {
+                            len -= 1;
+                        }
+                        if (this.canvasOrientation == Drawing.CanvasOrientation.LeftTop)
+                        {
+                            for (int i = 0; i < len; )
+                            {
+                                //each 
+
+                                var destRect = destAndSrcPairs[i];
+                                var srcRect = destAndSrcPairs[i + 1];
+                                i += 2;
+
+                                if (!bmp.IsInvert)
+                                {
+
+                                    ////arr[0] = 0; arr[1] = 0;
+                                    arr[0] = srcRect.Left / fullsrcW; arr[1] = (srcRect.Top + srcRect.Height) / fullsrcH;
+                                    //arr[2] = 1; arr[3] = 0;
+                                    arr[2] = srcRect.Right / fullsrcW; arr[3] = (srcRect.Top + srcRect.Height) / fullsrcH;
+                                    //arr[4] = 1; arr[5] = 1;
+                                    arr[4] = srcRect.Right / fullsrcW; arr[5] = srcRect.Top / fullsrcH;
+                                    //arr[6] = 0; arr[7] = 1;
+                                    arr[6] = srcRect.Left / fullsrcW; arr[7] = srcRect.Top / fullsrcH;
+                                }
+                                else
+                                {
+
+                                    arr[0] = srcRect.Left / fullsrcW; arr[1] = srcRect.Top / fullsrcH;
+                                    //arr[2] = 1; arr[3] = 1;
+                                    arr[2] = srcRect.Right / fullsrcW; arr[3] = srcRect.Top / fullsrcH;
+                                    //arr[4] = 1; arr[5] = 0;
+                                    arr[4] = srcRect.Right / fullsrcW; arr[5] = srcRect.Bottom / fullsrcH;
+                                    //arr[6] = 0; arr[7] = 0;
+                                    arr[6] = srcRect.Left / fullsrcW; arr[7] = srcRect.Bottom / fullsrcH;
+                                }
+                                GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, (IntPtr)arr);
+                                //------------------------------------------ 
+                                //fill rect with texture                             
+                                FillRectWithTexture(destRect.X, destRect.Y, destRect.Width, destRect.Height);
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 0; i < len; )
+                            {
+                                //each 
+
+                                var destRect = destAndSrcPairs[i];
+                                var srcRect = destAndSrcPairs[i + 1];
+                                i += 2;
+
+                                if (bmp.IsInvert)
+                                {
+
+                                    ////arr[0] = 0; arr[1] = 0;
+                                    arr[0] = srcRect.Left / fullsrcW; arr[1] = (srcRect.Top + srcRect.Height) / fullsrcH;
+                                    //arr[2] = 1; arr[3] = 0;
+                                    arr[2] = srcRect.Right / fullsrcW; arr[3] = (srcRect.Top + srcRect.Height) / fullsrcH;
+                                    //arr[4] = 1; arr[5] = 1;
+                                    arr[4] = srcRect.Right / fullsrcW; arr[5] = srcRect.Top / fullsrcH;
+                                    //arr[6] = 0; arr[7] = 1;
+                                    arr[6] = srcRect.Left / fullsrcW; arr[7] = srcRect.Top / fullsrcH;
+                                }
+                                else
+                                {
+                                    arr[0] = srcRect.Left / fullsrcW; arr[1] = srcRect.Top / fullsrcH;
+                                    //arr[2] = 1; arr[3] = 1;
+                                    arr[2] = srcRect.Right / fullsrcW; arr[3] = srcRect.Top / fullsrcH;
+                                    //arr[4] = 1; arr[5] = 0;
+                                    arr[4] = srcRect.Right / fullsrcW; arr[5] = srcRect.Bottom / fullsrcH;
+                                    //arr[6] = 0; arr[7] = 0;
+                                    arr[6] = srcRect.Left / fullsrcW; arr[7] = srcRect.Bottom / fullsrcH;
+                                }
+                                GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, (IntPtr)arr);
+                                //------------------------------------------ 
+                                //fill rect with texture                             
+                                FillRectWithTexture(destRect.X, destRect.Y, destRect.Width, destRect.Height);
+                            }
+                        }
+                    }
+                    GL.DisableClientState(ArrayCap.TextureCoordArray);
+                }
+                GL.Disable(EnableCap.Texture2D);
+                this.StrokeColor = prevColor;
+            }
+            ////enable color again
+            //////at this point alpha component is fill in to destination 
+            //////-------------------------------------------------------------------------------------
+            //////2. then fill again!, 
+            //////we use alpha information from dest, 
+            //////so we set blend func to ... GL.BlendFunc(BlendingFactorSrc.DstAlpha, BlendingFactorDest.OneMinusDstAlpha)    
+            //GL.ColorMask(true, true, true, true);
+            //GL.BlendFunc(BlendingFactorSrc.DstAlpha, BlendingFactorDest.OneMinusDstAlpha);
+            //{
+            //    int len = destAndSrcPairs.Length;
+            //    if (len > 1)
+            //    {
+            //        for (int i = 0; i < len; )
+            //        {
+            //            //each  
+            //            var destRect = destAndSrcPairs[i];
+            //            var srcRect = destAndSrcPairs[i + 1];
+            //            i += 2;
+            //            FillRect(color, destRect.X, destRect.Y, destRect.Width, destRect.Height);
+            //        }
+            //    }
+            //} 
+            ////3.
+            ////set blend mode back
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            ////fill with color
         }
 
         public void DrawImage(GLBitmap bmp,
