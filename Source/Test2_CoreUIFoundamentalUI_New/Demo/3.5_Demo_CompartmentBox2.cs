@@ -73,7 +73,7 @@ namespace LayoutFarm
             {
                 //1. controller
                 this.dockspaceController = new DockSpacesController(this, SpaceConcept.NineSpace);
-              
+
                 //2.  
                 this.dockspaceController.LeftTopSpace.Content = boxLeftTop = CreateTinyControlBox(SpaceName.LeftTop, Color.Red);
                 this.dockspaceController.RightTopSpace.Content = boxRightTop = CreateTinyControlBox(SpaceName.RightTop, Color.Red);
@@ -81,11 +81,16 @@ namespace LayoutFarm
                 this.dockspaceController.RightBottomSpace.Content = boxRightBottom = CreateTinyControlBox(SpaceName.RightBottom, Color.Red);
                 //3.
                 this.dockspaceController.LeftSpace.Content = boxLeft = CreateTinyControlBox(SpaceName.Left, Color.Blue);
-                this.dockspaceController.TopSpace.Content = boxTop = CreateTinyControlBox(SpaceName.Top, Color.Blue);
-                this.dockspaceController.RightSpace.Content = boxRight = CreateTinyControlBox(SpaceName.Right, Color.Blue);
-                this.dockspaceController.BottomSpace.Content = boxBottom = CreateTinyControlBox(SpaceName.Bottom, Color.Blue);
+                this.dockspaceController.TopSpace.Content = boxTop = CreateTinyControlBox(SpaceName.Top, Color.Yellow);
+                this.dockspaceController.RightSpace.Content = boxRight = CreateTinyControlBox(SpaceName.Right, Color.Green);
+                this.dockspaceController.BottomSpace.Content = boxBottom = CreateTinyControlBox(SpaceName.Bottom, Color.Yellow);
 
-                 
+
+                //--------------------------------
+                //left and right space expansion
+                dockspaceController.LeftSpaceVerticalExpansion = VerticalBoxExpansion.TopBottom;
+                dockspaceController.RightSpaceVerticalExpansion = VerticalBoxExpansion.TopBottom;
+                dockspaceController.SetRightSpaceWidth(200);
                 dockspaceController.SetLeftSpaceWidth(200);
 
             }

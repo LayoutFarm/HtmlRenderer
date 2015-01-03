@@ -379,12 +379,12 @@ namespace LayoutFarm.UI
                     {
 
                         top_x = leftSpaceWidth;
-                        top_w -= leftSpaceWidth;
+                        //top_w -= leftSpaceWidth;
                     }
                     if ((rightBoxVerticalExpansionFlags & VerticalBoxExpansion.Top) == VerticalBoxExpansion.Top)
                     {
 
-                        top_w -= rightSpaceWidth;
+                        //top_w -= rightSpaceWidth;
                     }
                     SetDockBound(spaces[T],
                      top_x,
@@ -409,12 +409,12 @@ namespace LayoutFarm.UI
                     {
 
                         bottom_x = leftSpaceWidth;
-                        bottom_w -= leftSpaceWidth;
+                        //bottom_w -= leftSpaceWidth;
                     }
                     if ((rightBoxVerticalExpansionFlags & VerticalBoxExpansion.Bottom) == VerticalBoxExpansion.Bottom)
                     {
 
-                        bottom_w -= rightSpaceWidth;
+                        //bottom_w -= rightSpaceWidth;
                     }
 
 
