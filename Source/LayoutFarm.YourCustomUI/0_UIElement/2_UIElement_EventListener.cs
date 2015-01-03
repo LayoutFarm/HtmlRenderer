@@ -74,8 +74,7 @@ namespace LayoutFarm.UI
                         var otherElement = currentDraggingElement as IEventListener;
                         otherElement.ListenMouseUp(e);
                         currentDraggingElement = null;
-                    }
-                    
+                    }                    
                 }
                 OnMouseUp(e);
             }

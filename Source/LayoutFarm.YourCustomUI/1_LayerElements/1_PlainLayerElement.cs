@@ -12,6 +12,7 @@ namespace LayoutFarm.UI
         HorizontalStack,
         VerticalStack,
     }
+
     public class PlainLayerElement : LayerElement
     {
 

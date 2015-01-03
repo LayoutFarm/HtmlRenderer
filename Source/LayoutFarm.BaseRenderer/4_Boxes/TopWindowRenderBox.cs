@@ -58,10 +58,11 @@ namespace LayoutFarm
         {
             this.groundLayer.Clear();
         }
-        public void MakeCurrent()
+        public void MakeCurrentTopWindow()
         {
             CurrentTopWindowRenderBox = this;
         }
+
         public static TopWindowRenderBox CurrentTopWindowRenderBox
         {
             get;

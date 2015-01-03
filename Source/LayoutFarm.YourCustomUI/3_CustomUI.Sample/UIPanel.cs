@@ -23,6 +23,8 @@ namespace LayoutFarm.SampleControls
         Color backColor = Color.LightGray;
         int viewportX;
         int viewportY;
+
+        //each panel has 1 default layers
         List<LayerElement> layers = new List<LayerElement>(1);
 
         public UIPanel(int width, int height)
@@ -87,17 +89,18 @@ namespace LayoutFarm.SampleControls
             return primElement;
         }
 
-
         public void AddChildBox(UIElement ui)
         {
             PlainLayerElement layer0 = (PlainLayerElement)this.layers[0];
             layer0.AddUI(ui);
+
             if (this.HasReadyRenderElement)
             {
                 VisualPlainLayer plain1 = this.primElement.Layers.Layer0 as VisualPlainLayer;
                 plain1.AddUI(ui);
             }
         }
+
         //----------------------------------------------------
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
@@ -159,6 +162,36 @@ namespace LayoutFarm.SampleControls
                 primElement.InvalidateGraphic();
             }
         }
+
+
+        public override void PerformContentLayout()
+        {
+            //temp : arrange as vertical stack***
+            PlainLayerElement layer0 = (PlainLayerElement)this.layers[0];
+            int count = layer0.Count;
+            int ypos = 0;
+            for (int i = 0; i < count; ++i)
+            {
+                var element = layer0.GetElement(i) as UIBox;
+                if (element != null)
+                {   
+                    element.PerformContentLayout();                     
+                    element.SetBound(0, ypos, element.Width, element.DesiredHeight);
+                    ypos += element.DesiredHeight;
+                }
+            }
+            this.desiredHeight = ypos;
+        }
+        public override int DesiredHeight
+        {
+            get
+            {
+                return this.desiredHeight;
+            }
+        }
+        //temp***
+        int desiredHeight;
+
     }
 
 

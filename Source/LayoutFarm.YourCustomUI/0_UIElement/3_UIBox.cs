@@ -3,8 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing; 
-using LayoutFarm.Text; 
+using LayoutFarm.Drawing;
+using LayoutFarm.Text;
 
 namespace LayoutFarm.UI
 {
@@ -182,5 +182,19 @@ namespace LayoutFarm.UI
                 }
             }
         }
+
+        public virtual void PerformContentLayout()
+        {
+        }
+        public virtual int DesiredHeight
+        {
+            get { return this.Height; }
+        }
+        public virtual int DesiredWidth
+        {
+            get { return this.Width; }
+        }
+
     }
+
 }

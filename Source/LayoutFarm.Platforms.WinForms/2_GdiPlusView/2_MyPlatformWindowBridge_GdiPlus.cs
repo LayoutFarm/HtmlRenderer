@@ -22,7 +22,7 @@ namespace LayoutFarm.UI.GdiPlusView
         public void BindWindowControl(Control windowControl)
         {
             //bind to anycontrol GDI control 
-            this.topwin.MakeCurrent();
+            this.topwin.MakeCurrentTopWindow();
             this.windowControl = windowControl;
             this.SetBaseCanvasViewport(this.gdiPlusViewport = new GdiPlusCanvasViewport(topwin, this.Size.ToSize(), 4));
 

@@ -90,6 +90,9 @@ namespace LayoutFarm.SampleControls
 
         public void AddItem(UIListItem ui)
         {
+            //append last?
+            //not correct if we remove above item
+            //TODO: use automatic arrange layer 
             ui.SetLocation(0, latestItemY);
             latestItemY += ui.Height;
             panel.AddChildBox(ui);
@@ -165,6 +168,8 @@ namespace LayoutFarm.SampleControls
         public event EventHandler<UIMouseEventArgs> DragStop;
         //---------------------------------------------------- 
     }
+
+
     public class UIListItem : UIBox
     {
         CustomRenderBox primElement;
