@@ -9,7 +9,7 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
-    [DemoNote("3.3 DemoControllerBox2")]
+    [DemoNote("3.3 Demo_ControllerBoxs2")]
     class Demo_ControllerBoxs2 : DemoBase
     {
         UIControllerBox controllerBox1;
@@ -141,7 +141,7 @@ namespace LayoutFarm
             {
                 //move target box too
 
-                targetBox.SetLocation(nearestX + 5, nearestY + 5);
+                targetBox.SetLocation(nearestX + gridSize, nearestY + gridSize);
             }
         }
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
@@ -187,21 +187,21 @@ namespace LayoutFarm
                 }
 
             };
-
-
         }
 
         //-----------------------------------------------------------------
         class UIControllerBox : LayoutFarm.SampleControls.UIEaseBox
         {
             LayoutFarm.SampleControls.UIGridBox gridBox;
+
+
             public UIControllerBox(int w, int h)
                 : base(w, h)
             {
 
 
             }
-            public LayoutFarm.SampleControls.UIBox TargetBox
+            public LayoutFarm.UI.UIBox TargetBox
             {
                 get;
                 set;
@@ -235,13 +235,14 @@ namespace LayoutFarm
                 if (gridBox != null)
                 {
                     //adjust grid size
-
                     gridBox.SetSize(width - 10, height - 10);
 
                 }
                 //---------------------------------
             }
         }
+
+
 
     }
 }

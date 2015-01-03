@@ -52,8 +52,6 @@
             // chkUseGLCanvas
             // 
             this.chkUseGLCanvas.AutoSize = true;
-            this.chkUseGLCanvas.Checked = true;
-            this.chkUseGLCanvas.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkUseGLCanvas.Location = new System.Drawing.Point(300, 20);
             this.chkUseGLCanvas.Name = "chkUseGLCanvas";
             this.chkUseGLCanvas.Size = new System.Drawing.Size(101, 17);

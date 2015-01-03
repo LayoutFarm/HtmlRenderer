@@ -3,13 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using LayoutFarm.Drawing; 
+using LayoutFarm.Text; 
 
-
-using LayoutFarm.Text;
-using LayoutFarm.UI;
-
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.UI
 {
     public abstract class UIBox : UIElement
     {

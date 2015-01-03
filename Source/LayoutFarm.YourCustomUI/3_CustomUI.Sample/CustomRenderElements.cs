@@ -13,6 +13,7 @@ namespace LayoutFarm.SampleControls
 
     public class CustomRenderBox : RenderBoxBase
     {
+
 #if DEBUG
         public bool dbugBreak;
 #endif

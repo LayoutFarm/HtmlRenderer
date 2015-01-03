@@ -185,7 +185,7 @@ namespace LayoutFarm.UI
             }
         }
         public void HandleMouseEnterToViewport()
-        {  
+        {
 
             //System.Windows.Forms.Cursor.Hide();
         }
@@ -267,8 +267,7 @@ namespace LayoutFarm.UI
 
             Point viewLocation = canvasViewport.LogicalViewportLocation;
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
-            if (this.isMouseDown ||
-                this.isDragging)
+            if (this.isMouseDown || this.isDragging)
             {
 
             }

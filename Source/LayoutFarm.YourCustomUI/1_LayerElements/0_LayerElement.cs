@@ -9,11 +9,11 @@ using LayoutFarm.Drawing;
 namespace LayoutFarm.UI
 {
 
-    public class LayerElement
+    public abstract class LayerElement
     {
         public LayerElement()
         {
-        }      
+        }
     }
 
 

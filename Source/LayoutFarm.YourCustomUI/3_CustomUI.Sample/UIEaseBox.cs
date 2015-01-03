@@ -130,6 +130,8 @@ namespace LayoutFarm.SampleControls
             }
         }
         //----------------------------------------------------
+        //for general data
+        public object Tag { get; set; }
     }
 
 
