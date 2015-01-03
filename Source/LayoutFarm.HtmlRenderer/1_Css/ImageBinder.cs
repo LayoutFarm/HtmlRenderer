@@ -1,7 +1,8 @@
 ﻿//BSD 2014,WinterDev
 using System;
+using LayoutFarm.Drawing;
 
-namespace LayoutFarm.Drawing
+namespace HtmlRenderer
 {
     public class ImageBinder
     {

@@ -26,8 +26,7 @@ namespace LayoutFarm
 
                 childLevel0.BackColor = ((i % 2) == 0) ?
                          KnownColors.FromKnownColor(KnownColor.Blue) :
-                         KnownColors.FromKnownColor(KnownColor.Yellow);  
-                
+                         KnownColors.FromKnownColor(KnownColor.Yellow);                  
 
                 treeView.AddItem(childLevel0);
 
@@ -45,15 +44,15 @@ namespace LayoutFarm
                         var childLevel2 = new LayoutFarm.SampleControls.UITreeNode(400, 20);
                         childLevel2.BackColor = ((m % 2) == 0) ?
                           KnownColors.FromKnownColor(KnownColor.OrangeRed) :
-                          KnownColors.FromKnownColor(KnownColor.Wheat); 
-
+                          KnownColors.FromKnownColor(KnownColor.Wheat);
+                        
                         childLevel1.AddChildNode(childLevel2);
                     }
+
+                    //childLevel1.Collapse();
                 }
             }
-
             treeView.PerformContentLayout();
-
         }
     }
 }

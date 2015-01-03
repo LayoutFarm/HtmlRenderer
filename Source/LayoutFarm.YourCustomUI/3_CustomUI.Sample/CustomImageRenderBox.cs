@@ -11,20 +11,27 @@ using LayoutFarm.UI;
 namespace LayoutFarm.SampleControls
 {
 
-    public class CustomRenderBox : RenderBoxBase
+    public class CustomImageRenderBox : RenderBoxBase
     {
 
 #if DEBUG
         public bool dbugBreak;
 #endif
-        public CustomRenderBox(RootGraphic rootgfx, int width, int height)
+        Image image;
+        public CustomImageRenderBox(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
             this.BackColor = Color.LightGray;
-
         }
         public override void ClearAllChildren()
         {
+
+        }
+
+        public Image Image
+        {
+            get { return this.image; }
+            set { this.image = value; }
         }
         public Color BackColor
         {
@@ -32,13 +39,17 @@ namespace LayoutFarm.SampleControls
             set;
         }
         protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
-        {    
-            //sample bg   
-            canvasPage.FillRectangle(BackColor, updateArea._left, updateArea._top, updateArea.Width, updateArea.Height);
-            if (this.Layers != null)
+        {
+            if (this.image != null)
             {
-                this.Layers.LayersDrawContent(canvasPage, updateArea);
+                canvasPage.DrawImage(this.image,
+                    new RectangleF(0, 0, this.Width, this.Height));
             }
+            else
+            {
+                canvasPage.FillRectangle(BackColor, updateArea._left, updateArea._top, updateArea.Width, updateArea.Height);
+            }
+
         }
     }
 

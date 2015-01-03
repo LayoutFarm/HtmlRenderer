@@ -45,12 +45,14 @@
     <Compile Include="2_CompartmentController\3_FreeSpaceController.cs" />
     <Compile Include="2_CompartmentController\SpacePart.cs" />
     <Compile Include="2_CompartmentController\Enums.cs" />
+    <Compile Include="3_CustomUI.Sample\CustomImageRenderBox.cs" />
     <Compile Include="3_CustomUI.Sample\CustomRenderElements.cs" />
     <Compile Include="3_CustomUI.Sample\LayerHelper.cs" />
     <Compile Include="0_UIElement\3_UIBox.cs" />
     <Compile Include="3_CustomUI.Sample\UIEaseBox.cs" />
     <Compile Include="3_CustomUI.Sample\UIGridBox.cs" />
     <Compile Include="3_CustomUI.Sample\UIPanel.cs" />
+    <Compile Include="3_CustomUI.Sample\UIImageBox.cs" />
     <Compile Include="3_CustomUI.Sample\UIScrollBar.cs" />
     <Compile Include="3_CustomUI.Sample\UITextBox.cs" />
     <Compile Include="4_UITreeView\UITreeView.cs" />

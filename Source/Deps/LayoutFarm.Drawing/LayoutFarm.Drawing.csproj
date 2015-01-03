@@ -67,7 +67,6 @@
     <Compile Include="1_Drawing\Rectangle.cs" />
     <Compile Include="1_Drawing\RectangleF.cs" />
     <Compile Include="1_Drawing\Region.cs" />
-    <Compile Include="1_Drawing\ImageBinder.cs" />
     <Compile Include="1_Drawing\BasicGeometries.cs" />
     <Compile Include="4_Animation\ColorComponentStepup.cs" />
     <Compile Include="4_Animation\GfxProcessorModule.cs" />

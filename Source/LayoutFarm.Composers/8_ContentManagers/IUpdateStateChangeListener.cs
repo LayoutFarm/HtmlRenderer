@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm.UI
+namespace HtmlRenderer.ContentManagers
 {
     public interface IUpdateStateChangedListener
     {

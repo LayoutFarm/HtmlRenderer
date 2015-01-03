@@ -164,7 +164,6 @@ namespace LayoutFarm.SampleControls
             //manually perform layout of its content 
             //here: arrange item in panel
             this.panel.PerformContentLayout();
-
         }
     }
 
@@ -175,8 +174,10 @@ namespace LayoutFarm.SampleControls
         bool isOpen = true;//test, open by default
         int newChildNodeY = 10;
         int indentWidth = 10;
-
+        int desiredHeight = 0; //after layout
         List<UITreeNode> childNodes;
+ 
+
         public UITreeNode(int width, int height)
             : base(width, height)
         {
@@ -281,40 +282,45 @@ namespace LayoutFarm.SampleControls
         {
             if (!this.isOpen) return;
 
-            this.isOpen = false;
+            this.isOpen = false; 
 
-
-        }
-
+        } 
         public override void PerformContentLayout()
         {
-            if (childNodes != null)
-            {
-                newChildNodeY = 10;//reset
-                int j = childNodes.Count;
-                for (int i = 0; i < j; ++i)
-                {
-                    var childNode = childNodes[i];
-                    childNode.PerformContentLayout();
-                    //set new size 
-                    childNode.SetBound(indentWidth,
-                        newChildNodeY,
-                        childNode.Width,
-                        childNode.DesiredHeight);
+            //if this has child
+            //reset
+            this.desiredHeight = 10;
+            this.newChildNodeY = 10;
 
-                    newChildNodeY += childNode.DesiredHeight;
+            if (this.isOpen)
+            {   
+                if (childNodes != null)
+                {   
+                    int j = childNodes.Count;
+                    for (int i = 0; i < j; ++i)
+                    {
+                        var childNode = childNodes[i];
+                        childNode.PerformContentLayout();
+                        //set new size 
+                        childNode.SetBound(indentWidth,
+                            newChildNodeY,
+                            childNode.Width,
+                            childNode.DesiredHeight);
+
+                        newChildNodeY += childNode.DesiredHeight;
+                    }
                 }
-
             }
+            this.desiredHeight = newChildNodeY;
         }
         public override int DesiredHeight
         {
             get
             {
-                return this.newChildNodeY;
+                return this.desiredHeight;
             }
         }
-        
+
     }
 
 
