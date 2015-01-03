@@ -144,6 +144,11 @@ namespace LayoutFarm.UI
             this.spaceY = y;
             this.spaceWidth = w;
             this.spaceHeight = h;
+            var uiContent = this.Content;
+            if (uiContent != null)
+            {
+                uiContent.SetBound(x, y, w, h);
+            }
         }
         public void ArrangeContent()
         {

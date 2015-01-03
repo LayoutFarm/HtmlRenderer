@@ -141,7 +141,7 @@ namespace LayoutFarm
             {
                 //move target box too
 
-                targetBox.SetLocation(nearestX + 5, nearestY + 5);
+                targetBox.SetLocation(nearestX + gridSize, nearestY + gridSize);
             }
         }
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
@@ -176,7 +176,6 @@ namespace LayoutFarm
                     e.CancelBubbling = true;
                 }
             };
-
             controllerBox.MouseMove += (s, e) =>
             {
                 if (e.IsMouseDown)
@@ -260,19 +259,194 @@ namespace LayoutFarm
             {
                 //1. controller
                 this.dockspaceController = new DockSpacesController(this, SpaceConcept.NineSpace);
-
                 //2.  
-                this.dockspaceController.LeftTopSpace.Content = boxLeftTop = CreateTinyControlBox();
-                this.dockspaceController.RightTopSpace.Content = boxRightTop = CreateTinyControlBox();
-                this.dockspaceController.LeftBottomSpace.Content = boxLeftBottom = CreateTinyControlBox();
-                this.dockspaceController.RightBottomSpace.Content = boxRightBottom = CreateTinyControlBox();
+                this.dockspaceController.LeftTopSpace.Content = boxLeftTop = CreateTinyControlBox(SpaceName.LeftTop);
+                this.dockspaceController.RightTopSpace.Content = boxRightTop = CreateTinyControlBox(SpaceName.RightTop);
+                this.dockspaceController.LeftBottomSpace.Content = boxLeftBottom = CreateTinyControlBox(SpaceName.LeftBottom);
+                this.dockspaceController.RightBottomSpace.Content = boxRightBottom = CreateTinyControlBox(SpaceName.RightBottom);
             }
-            static SampleControls.UIEaseBox CreateTinyControlBox()
+
+            SampleControls.UIEaseBox CreateTinyControlBox(SpaceName name)
             {
                 int controllerBoxWH = 10;
                 SampleControls.UIEaseBox tinyBox = new SampleControls.UIEaseBox(controllerBoxWH, controllerBoxWH);
                 tinyBox.BackColor = LayoutFarm.Drawing.Color.Red;
+                tinyBox.Tag = name;
+                //add handler for each tiny box
+                tinyBox.DragBegin += (s, e) =>
+                {
+                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true;
+                };
+
+                tinyBox.Dragging += (s, e) =>
+                {
+                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true;
+                };
+                tinyBox.DragLeave += (s, e) =>
+                {
+                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true;
+                };
+                tinyBox.DragEnd += (s, e) =>
+                {
+                    ResizeTargetWithSnapToGrid2(this, e);
+                    e.CancelBubbling = true;
+                };
+                //---------------------------------------------------------------------
+                tinyBox.MouseLeave += (s, e) =>
+                {
+                    if (e.IsMouseDown)
+                    {
+                        ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
+                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                        e.CancelBubbling = true;
+                    }
+                };
+                tinyBox.MouseMove += (s, e) =>
+                {
+                    if (e.IsMouseDown)
+                    {
+                        ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
+                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                        e.CancelBubbling = true;
+                    }
+                };
+                tinyBox.MouseUp += (s, e) =>
+                {
+                    e.MouseCursorStyle = MouseCursorStyle.Default;
+                    e.CancelBubbling = true;
+                };
                 return tinyBox;
+            }
+
+            static void ResizeTargetWithSnapToGrid(SpaceName tinyBoxSpaceName, UIControllerBox controllerBox, UIMouseEventArgs e)
+            {
+                //sample move with snap to grid
+                Point pos = controllerBox.Position;
+                int newX = pos.X + e.XDiff;
+                int newY = pos.Y + e.YDiff;
+                //snap to gridsize =5;
+                //find nearest snap x 
+                int gridSize = 5;
+                float halfGrid = (float)gridSize / 2f;
+                int nearestX = (int)((newX + halfGrid) / gridSize) * gridSize;
+                int nearestY = (int)((newY + halfGrid) / gridSize) * gridSize;
+
+                int xdiff = nearestX - pos.X;
+                int ydiff = nearestY - pos.Y;
+
+                switch (tinyBoxSpaceName)
+                {
+                    case SpaceName.LeftTop:
+                        {
+                            if (xdiff != 0 || ydiff != 0)
+                            {
+                                controllerBox.SetLocation(controllerBox.Left + xdiff, controllerBox.Top + ydiff);
+                                controllerBox.SetSize(controllerBox.Width - xdiff, controllerBox.Height - ydiff);
+
+                                var targetBox = controllerBox.TargetBox;
+                                if (targetBox != null)
+                                {
+                                    //move target box too 
+                                    targetBox.SetBound(controllerBox.Left + 5,
+                                        controllerBox.Top + 5,
+                                        controllerBox.Width - 10,
+                                        controllerBox.Height - 10);
+                                }
+                            }
+
+                        } break;
+                    case SpaceName.RightTop:
+                        {
+                            if (xdiff != 0 || ydiff != 0)
+                            {
+                                controllerBox.SetLocation(controllerBox.Left, controllerBox.Top + ydiff);
+                                controllerBox.SetSize(controllerBox.Width + xdiff, controllerBox.Height - ydiff);
+
+                                var targetBox = controllerBox.TargetBox;
+                                if (targetBox != null)
+                                {
+                                    //move target box too 
+                                    targetBox.SetBound(controllerBox.Left + 5,
+                                        controllerBox.Top + 5,
+                                        controllerBox.Width - 10,
+                                        controllerBox.Height - 10);
+                                }
+                            }
+                        } break;
+                    case SpaceName.RightBottom:
+                        {
+                            if (xdiff != 0 || ydiff != 0)
+                            {
+                                controllerBox.SetSize(controllerBox.Width + xdiff, controllerBox.Height + ydiff);
+                                var targetBox = controllerBox.TargetBox;
+                                if (targetBox != null)
+                                {
+                                    //move target box too 
+                                    targetBox.SetBound(controllerBox.Left + 5,
+                                        controllerBox.Top + 5,
+                                        controllerBox.Width - 10,
+                                        controllerBox.Height - 10);
+                                }
+                            }
+                        } break;
+                    case SpaceName.LeftBottom:
+                        {
+                            if (xdiff != 0 || ydiff != 0)
+                            {
+                                controllerBox.SetLocation(controllerBox.Left + xdiff, controllerBox.Top);
+                                controllerBox.SetSize(controllerBox.Width - xdiff, controllerBox.Height + ydiff);
+
+                                var targetBox = controllerBox.TargetBox;
+                                if (targetBox != null)
+                                {
+                                    //move target box too 
+                                    targetBox.SetBound(controllerBox.Left + 5,
+                                        controllerBox.Top + 5,
+                                        controllerBox.Width - 10,
+                                        controllerBox.Height - 10);
+                                }
+                            }
+                        } break;
+
+                }
+
+
+
+            }
+            static void ResizeTargetWithSnapToGrid2(UIControllerBox controllerBox, UIMouseEventArgs e)
+            {
+                //sample move with snap to grid
+                Point pos = controllerBox.Position;
+                int newX = pos.X + e.XDiff;
+                int newY = pos.Y + e.YDiff;
+                //snap to gridsize =5;
+                //find nearest snap x 
+                int gridSize = 5;
+                float halfGrid = (float)gridSize / 2f;
+                int nearestX = (int)((newX + halfGrid) / gridSize) * gridSize;
+                int nearestY = (int)((newY + halfGrid) / gridSize) * gridSize;
+
+                int xdiff = nearestX - pos.X;
+                if (xdiff != 0)
+                {
+                    controllerBox.SetSize(controllerBox.Width + xdiff, controllerBox.Height);
+                }
+
+                var targetBox = controllerBox.TargetBox;
+                if (targetBox != null)
+                {
+                    //move target box too 
+                    targetBox.SetBound(controllerBox.Left + 5,
+                        controllerBox.Top + 5,
+                        controllerBox.Width - 10,
+                        controllerBox.Height - 10);
+                }
             }
         }
 

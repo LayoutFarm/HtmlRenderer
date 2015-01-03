@@ -252,26 +252,17 @@ namespace LayoutFarm.UI
     {
         public UIMouseButtons Button;
         public int Delta;
-        public int Clicks;
-
+        public int Clicks; 
         public int XDiff;
-        public int YDiff;
-
-        public bool IsMouseDown;
-        //public TopWindowRenderBox WinTop;
-        IEventListener draggingElem;
-
+        public int YDiff; 
+        public bool IsMouseDown; 
         int xdiffFromMouseDown;
-        int ydiffFromMouseDown;
-
-
-
+        int ydiffFromMouseDown; 
 
         public UIMouseEventArgs()
         {
 
-        }
-
+        } 
         public void SetDiff(int xdiff, int ydiff, int xdiffFromMouseDown, int ydiffFromMouseDown)
         {
             this.XDiff = xdiff;
@@ -298,36 +289,12 @@ namespace LayoutFarm.UI
             this.Button = 0;
             this.Clicks = 0;
             this.XDiff = 0;
-            this.YDiff = 0;
-            this.draggingElem = null;
+            this.YDiff = 0; 
             this.MouseCursorStyle = UI.MouseCursorStyle.Default;
             base.Clear();
         }
-        public IEventListener DraggingElement
-        {
-            get { return this.draggingElem; }
-            set { this.draggingElem = value; }
-        }
-        //public void SetEventInfo(Point location, UIMouseButtons button, 
-        //   int lastestLogicalViewportMouseDownX,
-        //   int lastestLogicalViewportMouseDownY,
-        //   int currentLogicalX,
-        //   int currentLogicalY,
-        //   int lastestXDiff,
-        //   int lastestYDiff)
-        //{
 
-        //    Button = button;
-        //    this.Location = location;
-
-        //    this.currentLogicalX = currentLogicalX;
-        //    this.currentLogicalY = currentLogicalY;
-        //    this.lastestLogicalViewportMouseDownY = lastestLogicalViewportMouseDownY;
-        //    this.lastestLogicalViewportMouseDownX = lastestLogicalViewportMouseDownX;
-        //    this.lastestXDiff = lastestXDiff;
-        //    this.lastestYDiff = lastestYDiff;
-        //}
-
+         
 
         public int XDiffFromMouseDownPos
         {

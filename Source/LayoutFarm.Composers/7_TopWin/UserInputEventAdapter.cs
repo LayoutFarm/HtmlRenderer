@@ -358,7 +358,6 @@ namespace LayoutFarm.UI
                         currentMouseActiveElement != listener)
                     {
                         currentMouseActiveElement.ListenMouseLeave(e);
-
                     }
                     if (!e.CancelBubbling)
                     {

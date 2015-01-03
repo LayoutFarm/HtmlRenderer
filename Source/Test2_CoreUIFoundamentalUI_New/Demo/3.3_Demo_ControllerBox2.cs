@@ -141,7 +141,7 @@ namespace LayoutFarm
             {
                 //move target box too
 
-                targetBox.SetLocation(nearestX + 5, nearestY + 5);
+                targetBox.SetLocation(nearestX + gridSize, nearestY + gridSize);
             }
         }
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)

@@ -46,10 +46,10 @@ namespace LayoutFarm.UI
         protected virtual void OnMouseDown(UIMouseEventArgs e)
         {
 
-        } 
+        }
         protected virtual void OnMouseMove(UIMouseEventArgs e)
         {
-        }     
+        }
         protected virtual void OnMouseUp(UIMouseEventArgs e)
         {
         }
@@ -67,7 +67,7 @@ namespace LayoutFarm.UI
         {
         }
         //-------------------------------------------------------
-     
+
         protected virtual void OnDragLeave(UIMouseEventArgs e)
         {
 
@@ -83,7 +83,7 @@ namespace LayoutFarm.UI
         protected virtual void OnDragging(UIMouseEventArgs e)
         {
 
-        } 
+        }
         //------------------------------------------------------------
         protected virtual void OnKeyDown(UIKeyEventArgs e)
         {
@@ -98,10 +98,9 @@ namespace LayoutFarm.UI
         {
             return false;
         }
-        //protected virtual void OnSizeChanged(UISizeChangedEventArgs e)
-        //{
 
-        //}
+        static UIElement currentDraggingElement = null;
+
 #if DEBUG
         object dbugTagObject;
         public object dbugTag
