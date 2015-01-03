@@ -53,6 +53,7 @@
     <Compile Include="3_CustomUI.Sample\UIPanel.cs" />
     <Compile Include="3_CustomUI.Sample\UIScrollBar.cs" />
     <Compile Include="3_CustomUI.Sample\UITextBox.cs" />
+    <Compile Include="4_UITreeView\UITreeView.cs" />
     <Compile Include="CustomUI.Sample_Composites\UIListView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UIHtmlBox\MyCssCustomBoxCreator.cs" />

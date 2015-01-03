@@ -4,25 +4,24 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
- 
+
 using LayoutFarm.Text;
 using LayoutFarm.UI;
 
 namespace LayoutFarm.SampleControls
 {
-    public class UIListView : UIBox
+    public class UITreeView : UIBox
     {
         //composite          
         CustomRenderBox primElement;//background
-
         Color backColor = Color.LightGray;
         int viewportX, viewportY;
         List<LayerElement> layers = new List<LayerElement>(1);
 
         int latestItemY;
 
-        UIPanel panel;
-        public UIListView(int width, int height)
+        UIPanel panel; //panel 
+        public UITreeView(int width, int height)
             : base(width, height)
         {
             PlainLayerElement plainLayer = new PlainLayerElement();
@@ -62,7 +61,6 @@ namespace LayoutFarm.SampleControls
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
                 renderE.HasSpecificSize = true;
-
                 //------------------------------------------------
                 //create visual layer
                 renderE.Layers = new VisualLayerCollection();
@@ -86,17 +84,11 @@ namespace LayoutFarm.SampleControls
             }
             return primElement;
         }
-
-
-        public void AddItem(UIListItem ui)
+        public void AddItem(UITreeNode treeNode)
         {
-            //append last?
-            //not correct if we remove above item
-            //TODO: use automatic arrange layer 
-            ui.SetLocation(0, latestItemY);
-            latestItemY += ui.Height;
-            panel.AddChildBox(ui);
-
+            treeNode.SetLocation(0, latestItemY);
+            latestItemY += treeNode.Height;
+            panel.AddChildBox(treeNode);
         }
         //----------------------------------------------------
         protected override void OnMouseDown(UIMouseEventArgs e)
@@ -155,7 +147,7 @@ namespace LayoutFarm.SampleControls
             this.viewportY = y;
             if (this.HasReadyRenderElement)
             {
-                this.panel.SetViewport(x, y);                 
+                this.panel.SetViewport(x, y);
             }
         }
         //----------------------------------------------------
@@ -166,17 +158,29 @@ namespace LayoutFarm.SampleControls
         public event EventHandler<UIMouseEventArgs> Dragging;
         public event EventHandler<UIMouseEventArgs> DragStart;
         public event EventHandler<UIMouseEventArgs> DragStop;
-        //---------------------------------------------------- 
+        //----------------------------------------------------  
+        public override void PerformContentLayout()
+        {
+            //manually perform layout of its content 
+            //here: arrange item in panel
+            this.panel.PerformContentLayout();
+
+        }
     }
 
-
-    public class UIListItem : UIBox
+    public class UITreeNode : UIBox
     {
-        CustomRenderBox primElement;
+        CustomRenderBox primElement;//bg primary render element
         Color backColor;
-        public UIListItem(int width, int height)
+        bool isOpen = true;//test, open by default
+        int newChildNodeY = 10;
+        int indentWidth = 10;
+
+        List<UITreeNode> childNodes;
+        public UITreeNode(int width, int height)
             : base(width, height)
         {
+
         }
         protected override RenderElement CurrentPrimaryRenderElement
         {
@@ -190,6 +194,7 @@ namespace LayoutFarm.SampleControls
         {
             if (primElement == null)
             {
+                //first time
                 var element = new CustomRenderBox(rootgfx, this.Width, this.Height);
                 element.SetLocation(this.Left, this.Top);
                 element.BackColor = this.backColor;
@@ -209,6 +214,111 @@ namespace LayoutFarm.SampleControls
                 }
             }
         }
+        //------------------------------
+        public bool IsOpen
+        {
+            get { return this.isOpen; }
+            set
+            {
+                this.isOpen = value;
+            }
+        }
+        public int ChildCount
+        {
+            get
+            {
+                if (childNodes == null) return 0;
+                return childNodes.Count;
+            }
+        }
+        public void AddChildNode(UITreeNode treeNode)
+        {
+            if (childNodes == null)
+            {
+                childNodes = new List<UITreeNode>();
+            }
+            this.childNodes.Add(treeNode);
+            //---------------------------
+            //add treenode presentaion
+            if (this.isOpen)
+            {
+                if (this.primElement != null)
+                {
+                    //add child presentation 
+                    //below here
+                    //create layers
+                    VisualPlainLayer plainLayer = null;
+                    if (primElement.Layers == null)
+                    {
+                        primElement.Layers = new VisualLayerCollection();
+                        plainLayer = new VisualPlainLayer(primElement);
+                        primElement.Layers.AddLayer(plainLayer);
+                    }
+                    else
+                    {
+                        plainLayer = (VisualPlainLayer)primElement.Layers.GetLayer(0);
+                    }
+                    //-----------------
+                    //add to layer
+                    var tnRenderElement = treeNode.GetPrimaryRenderElement(primElement.Root);
+                    tnRenderElement.SetLocation(indentWidth, newChildNodeY);
+                    plainLayer.AddChild(tnRenderElement);
+                    newChildNodeY += tnRenderElement.Height;
+                    //-----------------
+                }
+            }
+            //---------------------------
+        }
+        public void Expand()
+        {
+            if (this.isOpen) return;
+
+            this.isOpen = true;
+
+
+        }
+        public void Collapse()
+        {
+            if (!this.isOpen) return;
+
+            this.isOpen = false;
+
+
+        }
+
+        public override void PerformContentLayout()
+        {
+            if (childNodes != null)
+            {
+                newChildNodeY = 10;//reset
+                int j = childNodes.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    var childNode = childNodes[i];
+                    childNode.PerformContentLayout();
+                    //set new size 
+                    childNode.SetBound(indentWidth,
+                        newChildNodeY,
+                        childNode.Width,
+                        childNode.DesiredHeight);
+
+                    newChildNodeY += childNode.DesiredHeight;
+                }
+
+            }
+        }
+        public override int DesiredHeight
+        {
+            get
+            {
+                return this.newChildNodeY;
+            }
+        }
+        
     }
+
+
+
+
 
 }
