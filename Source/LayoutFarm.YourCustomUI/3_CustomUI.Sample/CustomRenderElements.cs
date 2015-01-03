@@ -21,7 +21,7 @@ namespace LayoutFarm.SampleControls
             : base(rootgfx, width, height)
         {
             this.BackColor = Color.LightGray;
-
+            
         }
         public override void ClearAllChildren()
         {

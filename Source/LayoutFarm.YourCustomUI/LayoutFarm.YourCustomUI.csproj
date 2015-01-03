@@ -55,8 +55,9 @@
     <Compile Include="3_CustomUI.Sample\UIImageBox.cs" />
     <Compile Include="3_CustomUI.Sample\UIScrollBar.cs" />
     <Compile Include="3_CustomUI.Sample\UITextBox.cs" />
-    <Compile Include="4_UITreeView\UITreeView.cs" />
+    <Compile Include="CustomUI.Sample_Composites\UITreeView.cs" />
     <Compile Include="CustomUI.Sample_Composites\UIListView.cs" />
+    <Compile Include="CustomUI.Sample_Composites\UIHinge.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UIHtmlBox\MyCssCustomBoxCreator.cs" />
     <Compile Include="UIHtmlBox\UIHtmlBox.cs" />

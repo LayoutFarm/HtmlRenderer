@@ -36,6 +36,7 @@ namespace LayoutFarm
             }
         }
 
+        
         public void AddChild(RenderElement visualElement)
         {
 
@@ -48,15 +49,20 @@ namespace LayoutFarm
 
             LinkedListNode<RenderElement> linkNode = myElements.AddLast(visualElement);
             RenderElement.SetParentLink(visualElement, new SimpleLinkListParentLink(this, linkNode));
-            //position of new visual element
+            //position of new visual element 
+        }
+        public void RemoveChild(RenderElement visualElement)
+        {
+            myElements.Remove(visualElement);
+            RenderElement.SetParentLink(visualElement, null);
 
         }
         public override void Clear()
-        {
+        {   
+            //todo: clear all parent link 
             this.myElements.Clear();
-        }
 
-
+        } 
         IEnumerable<RenderElement> GetDrawingIter()
         {
 
