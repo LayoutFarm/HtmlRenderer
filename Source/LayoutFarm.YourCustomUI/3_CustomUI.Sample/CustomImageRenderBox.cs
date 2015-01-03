@@ -47,9 +47,13 @@ namespace LayoutFarm.SampleControls
             }
             else
             {
-                canvasPage.FillRectangle(BackColor, updateArea._left, updateArea._top, updateArea.Width, updateArea.Height);
+                //when no image
+                //canvasPage.FillRectangle(BackColor, updateArea._left, updateArea._top, updateArea.Width, updateArea.Height);
             }
-
+#if DEBUG
+            //canvasPage.dbug_DrawCrossRect(LayoutFarm.Drawing.Color.Black,
+            //    new Rectangle(0, 0, this.Width, this.Height));
+#endif
         }
     }
 

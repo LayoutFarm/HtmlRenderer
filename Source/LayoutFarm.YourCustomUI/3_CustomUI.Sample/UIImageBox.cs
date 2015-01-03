@@ -40,7 +40,7 @@ namespace LayoutFarm.SampleControls
             {
                 var renderBox = new CustomImageRenderBox(rootgfx, this.Width, this.Height);
                 renderBox.Image = this.image;
-
+                renderBox.SetController(this);
                 this.imgRenderBox = renderBox;
             }
             return this.imgRenderBox;

@@ -236,7 +236,7 @@ namespace LayoutFarm.UI
             this.isMouseDown = true;
             this.isDragging = false;
 
-            this.topwin.MakeCurrent();
+            this.topwin.MakeCurrentTopWindow();
             canvasViewport.FullMode = false;
 
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
@@ -334,7 +334,7 @@ namespace LayoutFarm.UI
         {
 
 
-            this.topwin.MakeCurrent();
+            this.topwin.MakeCurrentTopWindow();
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
 
             SetKeyData(keyEventArgs, e);
@@ -369,7 +369,7 @@ namespace LayoutFarm.UI
         public void HandleKeyUp(KeyEventArgs e)
         {
 
-            this.topwin.MakeCurrent();
+            this.topwin.MakeCurrentTopWindow();
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
             SetKeyData(keyEventArgs, e);
 

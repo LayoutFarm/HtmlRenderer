@@ -592,6 +592,7 @@ ve
                 return parentLink.ParentVisualElement.GetTopWindowRenderBox();
             }
         }
+
         public void StartBubbleUpLayoutInvalidState()
         {
 

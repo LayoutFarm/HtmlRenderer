@@ -16,8 +16,7 @@ namespace LayoutFarm.SampleControls
         CustomRenderBox primElement;//background
         Color backColor = Color.LightGray;
         int viewportX, viewportY;
-        List<LayerElement> layers = new List<LayerElement>(1);
-
+        List<LayerElement> layers = new List<LayerElement>(1); 
         int latestItemY;
 
         UIPanel panel; //panel 
@@ -88,6 +87,7 @@ namespace LayoutFarm.SampleControls
         {
             treeNode.SetLocation(0, latestItemY);
             latestItemY += treeNode.Height;
+            treeNode.SetOwnerTreeView(this);
             panel.AddChildBox(treeNode);
         }
         //----------------------------------------------------
@@ -165,23 +165,41 @@ namespace LayoutFarm.SampleControls
             //here: arrange item in panel
             this.panel.PerformContentLayout();
         }
+        //----------------------------------------------------   
     }
 
     public class UITreeNode : UIBox
     {
+        const int NODE_DEFAULT_HEIGHT = 17;
         CustomRenderBox primElement;//bg primary render element
         Color backColor;
         bool isOpen = true;//test, open by default
-        int newChildNodeY = 10;
-        int indentWidth = 10;
+        int newChildNodeY = NODE_DEFAULT_HEIGHT;
+        int indentWidth = 17;
         int desiredHeight = 0; //after layout
         List<UITreeNode> childNodes;
- 
-
+        UITreeNode parentNode;
+        UITreeView ownerTreeView;
+        //-------------------------- 
+        Image nodeIcon;
+        UIImageBox uiNodeIcon;
+        //--------------------------
         public UITreeNode(int width, int height)
             : base(width, height)
         {
 
+        }
+        public Image NodeIconImage
+        {
+            get { return this.nodeIcon; }
+            set
+            {
+                this.nodeIcon = value;
+                if (uiNodeIcon != null)
+                {
+                    uiNodeIcon.Image = value;
+                }
+            }
         }
         protected override RenderElement CurrentPrimaryRenderElement
         {
@@ -199,6 +217,24 @@ namespace LayoutFarm.SampleControls
                 var element = new CustomRenderBox(rootgfx, this.Width, this.Height);
                 element.SetLocation(this.Left, this.Top);
                 element.BackColor = this.backColor;
+                element.HasSpecificSize = true;
+                //-----------------------------
+                // create default layer for node content
+                VisualPlainLayer plainLayer = null;
+                if (element.Layers == null)
+                {
+                    element.Layers = new VisualLayerCollection();
+                    plainLayer = new VisualPlainLayer(element);
+                    element.Layers.AddLayer(plainLayer);
+                }
+                else
+                {
+                    plainLayer = (VisualPlainLayer)element.Layers.GetLayer(0);
+                }
+                //-----------------------------
+                uiNodeIcon = new UIImageBox(16, 16);//create with default size 
+                SetupNodeIconBehaviour(uiNodeIcon);
+                plainLayer.AddChild(uiNodeIcon.GetPrimaryRenderElement(rootgfx));
                 this.primElement = element;
             }
             return primElement;
@@ -215,14 +251,10 @@ namespace LayoutFarm.SampleControls
                 }
             }
         }
-        //------------------------------
+        //------------------------------------------------
         public bool IsOpen
         {
             get { return this.isOpen; }
-            set
-            {
-                this.isOpen = value;
-            }
         }
         public int ChildCount
         {
@@ -232,13 +264,47 @@ namespace LayoutFarm.SampleControls
                 return childNodes.Count;
             }
         }
+        public UITreeNode ParentNode
+        {
+            get { return this.parentNode; }
+        }
+        public UITreeView TreeView
+        {
+            get
+            {
+                if (this.ownerTreeView != null)
+                {
+                    //top node
+                    return this.ownerTreeView;
+                }
+                else
+                {
+                    if (this.parentNode != null)
+                    {
+                        //recursive
+                        return this.parentNode.TreeView;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+        }
+
+        internal void SetOwnerTreeView(UITreeView ownerTreeView)
+        {
+            this.ownerTreeView = ownerTreeView;
+        }
         public void AddChildNode(UITreeNode treeNode)
         {
+
             if (childNodes == null)
             {
                 childNodes = new List<UITreeNode>();
             }
             this.childNodes.Add(treeNode);
+            treeNode.parentNode = this;
             //---------------------------
             //add treenode presentaion
             if (this.isOpen)
@@ -273,29 +339,27 @@ namespace LayoutFarm.SampleControls
         public void Expand()
         {
             if (this.isOpen) return;
-
-            this.isOpen = true;
-
-
+            this.isOpen = true; 
+            this.TreeView.PerformContentLayout(); 
         }
         public void Collapse()
         {
             if (!this.isOpen) return;
+            this.isOpen = false;
 
-            this.isOpen = false; 
-
-        } 
+            this.TreeView.PerformContentLayout(); 
+        }
         public override void PerformContentLayout()
         {
             //if this has child
             //reset
-            this.desiredHeight = 10;
-            this.newChildNodeY = 10;
+            this.desiredHeight = NODE_DEFAULT_HEIGHT;
+            this.newChildNodeY = NODE_DEFAULT_HEIGHT;
 
             if (this.isOpen)
-            {   
+            {
                 if (childNodes != null)
-                {   
+                {
                     int j = childNodes.Count;
                     for (int i = 0; i < j; ++i)
                     {
@@ -319,6 +383,24 @@ namespace LayoutFarm.SampleControls
             {
                 return this.desiredHeight;
             }
+        }
+        //------------------------------------------------
+        void SetupNodeIconBehaviour(UIImageBox uiNodeIcon)
+        {
+
+            uiNodeIcon.MouseDown += (s, e) =>
+            {
+                if (this.IsOpen)
+                {
+                    //then close
+                    this.Collapse();
+                }
+                else
+                {
+                    this.Expand();
+                }
+            };
+
         }
 
     }
