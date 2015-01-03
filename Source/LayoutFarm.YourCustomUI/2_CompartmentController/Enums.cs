@@ -7,9 +7,10 @@ namespace LayoutFarm.UI
 {
     public enum VerticalBoxExpansion : byte
     {
-        Default,//middel
-        Top,
-        Bottom
+        Default = 0,//middel
+        Top = 0x1,
+        Bottom = 0x2,
+        TopBottom = 0x3 
     }
     public enum SpaceName : byte
     {

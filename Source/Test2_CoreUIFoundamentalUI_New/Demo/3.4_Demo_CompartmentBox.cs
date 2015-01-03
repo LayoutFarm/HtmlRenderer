@@ -213,6 +213,7 @@ namespace LayoutFarm
                 get;
                 set;
             }
+           
             //get primary render element
             public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
             {

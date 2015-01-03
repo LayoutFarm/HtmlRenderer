@@ -95,7 +95,7 @@ namespace LayoutFarm.UI
             //arrange all space posiion 
             this.ArrangeAllDockSpaces();
         }
-        public VerticalBoxExpansion LeftSpaceVerticalExpansionFlags
+        public VerticalBoxExpansion LeftSpaceVerticalExpansion
         {
             get
             {
@@ -153,7 +153,7 @@ namespace LayoutFarm.UI
         }
 
         //-------------------------------------------------------------------
-        public VerticalBoxExpansion RightSpaceVerticalExpansionFlags
+        public VerticalBoxExpansion RightSpaceVerticalExpansion
         {
             get
             {
@@ -404,6 +404,7 @@ namespace LayoutFarm.UI
                         bottom_w = w - (leftSpaceWidth + rightSpaceWidth);
                     }
                     //-----------------------------------------------------
+
                     if ((leftBoxVerticalExpansionFlags & VerticalBoxExpansion.Bottom) == VerticalBoxExpansion.Bottom)
                     {
 
