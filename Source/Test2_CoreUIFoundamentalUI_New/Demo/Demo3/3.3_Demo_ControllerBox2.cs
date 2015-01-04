@@ -19,7 +19,7 @@ namespace LayoutFarm
 
             //--------------------------------
             {
-                var bgbox = new LayoutFarm.SampleControls.UIEaseBox(800, 600);
+                var bgbox = new LayoutFarm.CustomWidgets.UIEaseBox(800, 600);
                 bgbox.BackColor = Color.White;
                 bgbox.SetLocation(0, 0);
                 SetupBackgroundProperties(bgbox);
@@ -27,7 +27,7 @@ namespace LayoutFarm
             }
             //--------------------------------
             {
-                var box1 = new LayoutFarm.SampleControls.UIEaseBox(150, 150);
+                var box1 = new LayoutFarm.CustomWidgets.UIEaseBox(150, 150);
                 box1.BackColor = Color.Red;
                 box1.SetLocation(10, 10);
                 box1.dbugTag = 1;
@@ -36,7 +36,7 @@ namespace LayoutFarm
             }
             //--------------------------------
             {
-                var box2 = new LayoutFarm.SampleControls.UIEaseBox(60, 60);
+                var box2 = new LayoutFarm.CustomWidgets.UIEaseBox(60, 60);
                 box2.SetLocation(50, 50);
                 box2.dbugTag = 2;
                 SetupActiveBoxProperties(box2);
@@ -54,7 +54,7 @@ namespace LayoutFarm
                 viewport.AddContent(controllerBox1);
             }
         }
-        void SetupBackgroundProperties(LayoutFarm.SampleControls.UIEaseBox backgroundBox)
+        void SetupBackgroundProperties(LayoutFarm.CustomWidgets.UIEaseBox backgroundBox)
         {
             //if click on background
             backgroundBox.MouseDown += (s, e) =>
@@ -64,7 +64,7 @@ namespace LayoutFarm
             };
 
         }
-        void SetupActiveBoxProperties(LayoutFarm.SampleControls.UIEaseBox box)
+        void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.UIEaseBox box)
         {
             //1. mouse down         
             box.MouseDown += (s, e) =>
@@ -190,9 +190,9 @@ namespace LayoutFarm
         }
 
         //-----------------------------------------------------------------
-        class UIControllerBox : LayoutFarm.SampleControls.UIEaseBox
+        class UIControllerBox : LayoutFarm.CustomWidgets.UIEaseBox
         {
-            LayoutFarm.SampleControls.UIGridBox gridBox;
+            LayoutFarm.CustomWidgets.UIGridBox gridBox;
 
 
             public UIControllerBox(int w, int h)
@@ -211,11 +211,11 @@ namespace LayoutFarm
             {
                 if (!this.HasReadyRenderElement)
                 {
-                    gridBox = new LayoutFarm.SampleControls.UIGridBox(30, 30);
+                    gridBox = new LayoutFarm.CustomWidgets.UIGridBox(30, 30);
                     gridBox.SetLocation(5, 5);
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
 
-                    var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.SampleControls.CustomRenderBox;
+                    var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
                     if (myRenderElement != null)
                     {
                         VisualLayerCollection layers = new VisualLayerCollection();

@@ -11,14 +11,14 @@ namespace LayoutFarm
     [DemoNote("1.2 MultpleBox")]
     class Demo_MultipleBox : DemoBase
     {
-        LayoutFarm.SampleControls.UICheckBox currentSingleCheckedBox;
+        LayoutFarm.CustomWidgets.CheckBox currentSingleCheckedBox;
 
         protected override void OnStartDemo(SampleViewport viewport)
         {
             SetupImageList();
             for (int i = 1; i < 5; ++i)
             {
-                var textbox = new LayoutFarm.SampleControls.UIEaseBox(30, 30);
+                var textbox = new LayoutFarm.CustomWidgets.EaseBox(30, 30);
                 textbox.SetLocation(i * 40, i * 40);
                 viewport.AddContent(textbox);
             }
@@ -26,7 +26,7 @@ namespace LayoutFarm
             //image box
             //load bitmap with gdi+           
             Bitmap bmp = LoadBitmap("../../Demo/favorites32.png");
-            var imgBox = new SampleControls.UIImageBox(bmp.Width, bmp.Height);
+            var imgBox = new CustomWidgets.ImageBox(bmp.Width, bmp.Height);
             imgBox.Image = bmp;
             viewport.AddContent(imgBox);
 
@@ -38,7 +38,7 @@ namespace LayoutFarm
             //multiple select
             for (int i = 0; i < 4; ++i)
             {
-                var statedBox = new LayoutFarm.SampleControls.UICheckBox(20, boxHeight);
+                var statedBox = new LayoutFarm.CustomWidgets.CheckBox(20, boxHeight);
                 statedBox.SetLocation(10, boxY);
                 boxY += boxHeight + 5;
 
@@ -49,13 +49,13 @@ namespace LayoutFarm
             boxY += 50;
             for (int i = 0; i < 4; ++i)
             {
-                var statedBox = new LayoutFarm.SampleControls.UICheckBox(20, boxHeight);
+                var statedBox = new LayoutFarm.CustomWidgets.CheckBox(20, boxHeight);
                 statedBox.SetLocation(10, boxY);
                 boxY += boxHeight + 5; 
                 viewport.AddContent(statedBox);
                 statedBox.WhenChecked += (s, e) =>
                 {
-                    var selectedBox = (LayoutFarm.SampleControls.UICheckBox)s;
+                    var selectedBox = (LayoutFarm.CustomWidgets.CheckBox)s;
                     if (selectedBox != currentSingleCheckedBox)
                     {
                         if (currentSingleCheckedBox != null)
@@ -69,13 +69,13 @@ namespace LayoutFarm
         }
         static void SetupImageList()
         {
-            if (!LayoutFarm.SampleControls.ResImageList.HasImages)
+            if (!LayoutFarm.CustomWidgets.ResImageList.HasImages)
             {
                 //set imagelists
-                var imgdic = new Dictionary<SampleControls.ImageName, Image>();
-                imgdic[SampleControls.ImageName.CheckBoxUnChecked] = LoadBitmap("../../Demo/arrow_close.png");
-                imgdic[SampleControls.ImageName.CheckBoxChecked] = LoadBitmap("../../Demo/arrow_open.png");
-                LayoutFarm.SampleControls.ResImageList.SetImageList(imgdic);
+                var imgdic = new Dictionary<CustomWidgets.ImageName, Image>();
+                imgdic[CustomWidgets.ImageName.CheckBoxUnChecked] = LoadBitmap("../../Demo/arrow_close.png");
+                imgdic[CustomWidgets.ImageName.CheckBoxChecked] = LoadBitmap("../../Demo/arrow_open.png");
+                LayoutFarm.CustomWidgets.ResImageList.SetImageList(imgdic);
             }
         }
         static Bitmap LoadBitmap(string filename)

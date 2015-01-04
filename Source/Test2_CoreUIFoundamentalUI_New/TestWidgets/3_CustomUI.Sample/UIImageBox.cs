@@ -7,7 +7,7 @@ using System.Text;
 using LayoutFarm.Drawing;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
     public class UIImageBox : UIEaseBox
     {

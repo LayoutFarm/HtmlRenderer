@@ -8,10 +8,10 @@ using LayoutFarm.Drawing;
 using LayoutFarm.Text;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
 
-    public class UIEaseBox : UIBox
+    public class EaseBox : UIBox
     {
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseMove;
@@ -26,7 +26,7 @@ namespace LayoutFarm.SampleControls
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
 
-        public UIEaseBox(int width, int height)
+        public EaseBox(int width, int height)
             : base(width, height)
         {
 

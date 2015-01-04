@@ -10,17 +10,16 @@ using LayoutFarm.UI;
 using LayoutFarm.Text;
 
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
 
-    public class UITextBox : UIBox, IUserEventPortal
+    public class TextBox : UIBox, IUserEventPortal
     {
 
         TextEditRenderBox visualTextEdit;
         bool _multiline;
 
-
-        public UITextBox(int width, int height, bool multiline)
+        public TextBox(int width, int height, bool multiline)
             : base(width, height)
         {
             this._multiline = multiline;

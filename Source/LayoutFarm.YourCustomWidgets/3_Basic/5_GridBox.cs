@@ -8,16 +8,16 @@ using LayoutFarm.Drawing;
 using LayoutFarm.Text;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
-    public class UIGridBox : UIBox
+    public class GridBox : UIBox
     {
         CustomRenderBox gridBox;
         GridTable gridTable = new GridTable();
         CellSizeStyle cellSizeStyle;
         GridLayer gridLayer;
 
-        public UIGridBox(int width, int height)
+        public GridBox(int width, int height)
             : base(width, height)
         {
 

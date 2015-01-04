@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
-using LayoutFarm.SampleControls;
+using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
 
 namespace LayoutFarm
@@ -27,7 +27,7 @@ namespace LayoutFarm
             }
             //==================================================
             //html box
-            var htmlBox = new UIHtmlBox(viewport.P, 800, 600);
+            var htmlBox = new HtmlBox(viewport.P, 800, 600);
             htmlBox.RequestImage += new EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs>(html_ImageReq);
 
             viewport.AddContent(htmlBox);

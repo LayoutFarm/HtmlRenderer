@@ -91,13 +91,12 @@
     <Compile Include="TestWidgets\3_CustomUI.Sample\0_UIEaseBox.cs" />
     <Compile Include="TestWidgets\3_CustomUI.Sample\CustomImageRenderBox.cs" />
     <Compile Include="TestWidgets\3_CustomUI.Sample\CustomRenderElements.cs" />
-    <Compile Include="TestWidgets\3_CustomUI.Sample\LayerHelper.cs" />
+    <Compile Include="TestWidgets\0_UIElement\LayerHelper.cs" />
     <Compile Include="TestWidgets\3_CustomUI.Sample\UIGridBox.cs" />
     <Compile Include="TestWidgets\3_CustomUI.Sample\UIImageBox.cs" />
     <Compile Include="TestWidgets\3_CustomUI.Sample\UIPanel.cs" />
     <Compile Include="TestWidgets\3_CustomUI.Sample\UIScrollBar.cs" />
     <Compile Include="TestWidgets\3_CustomUI.Sample\UITextBox.cs" />
-    <Compile Include="TestWidgets\CustomUI.Sample_Composites\HingeRelation.cs" />
     <Compile Include="TestWidgets\CustomUI.Sample_Composites\UICheckBox.cs" />
     <Compile Include="TestWidgets\CustomUI.Sample_Composites\UIComboBox.cs" />
     <Compile Include="TestWidgets\CustomUI.Sample_Composites\UIHinge.cs" />

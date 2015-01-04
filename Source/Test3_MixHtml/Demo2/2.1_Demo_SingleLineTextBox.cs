@@ -14,7 +14,7 @@ namespace LayoutFarm
 
         protected override void OnStartDemo(SampleViewport viewport)
         {
-            var textbox = new LayoutFarm.SampleControls.UITextBox(400, 30, false);
+            var textbox = new LayoutFarm.CustomWidgets.TextBox(400, 30, false);
             viewport.AddContent(textbox);
             textbox.InvalidateGraphic();
         }

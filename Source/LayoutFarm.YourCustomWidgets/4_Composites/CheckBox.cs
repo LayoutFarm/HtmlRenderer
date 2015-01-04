@@ -8,7 +8,7 @@ using LayoutFarm.Drawing;
 using LayoutFarm.Text;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
     public interface ICheckable
     {
@@ -16,13 +16,13 @@ namespace LayoutFarm.SampleControls
 
     }
 
-    public class UICheckBox : UIPanel, ICheckable
+    public class CheckBox : Panel, ICheckable
     {
         //check icon
 
-        UIImageBox imageBox;
+        ImageBox imageBox;
         bool isChecked;
-        public UICheckBox(int w, int h)
+        public CheckBox(int w, int h)
             : base(w, h)
         {
 
@@ -33,7 +33,7 @@ namespace LayoutFarm.SampleControls
             {
                 //first time
                 RenderElement baseRenderElement = base.GetPrimaryRenderElement(rootgfx);
-                imageBox = new UIImageBox(16, 16);
+                imageBox = new ImageBox(16, 16);
 
                 if (this.isChecked)
                 {

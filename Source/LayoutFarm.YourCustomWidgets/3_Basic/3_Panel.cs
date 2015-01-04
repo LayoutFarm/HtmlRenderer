@@ -4,32 +4,34 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
- 
 using LayoutFarm.Text;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
-    public class UIListView : UIBox
-    {
-        //composite          
-        CustomRenderBox primElement;//background
 
+    public class Panel : UIBox
+    {
+        public event EventHandler<UIMouseEventArgs> MouseDown;
+        public event EventHandler<UIMouseEventArgs> MouseUp;
+
+        public event EventHandler<UIMouseEventArgs> Dragging;
+        public event EventHandler<UIMouseEventArgs> DragBegin;
+        public event EventHandler<UIMouseEventArgs> DragEnd;
+
+        CustomRenderBox primElement;
         Color backColor = Color.LightGray;
-        int viewportX, viewportY;
+        int viewportX;
+        int viewportY;
+
+        //each panel has 1 default layers
         List<LayerElement> layers = new List<LayerElement>(1);
 
-        int latestItemY;
-
-        UIPanel panel;
-        public UIListView(int width, int height)
+        public Panel(int width, int height)
             : base(width, height)
         {
+
             PlainLayerElement plainLayer = new PlainLayerElement();
-            //panel for listview items
-            this.panel = new UIPanel(width, height);
-            panel.BackColor = Color.LightGray;
-            plainLayer.AddUI(panel);
             this.layers.Add(plainLayer);
         }
 
@@ -87,17 +89,18 @@ namespace LayoutFarm.SampleControls
             return primElement;
         }
 
-
-        public void AddItem(UIListItem ui)
+        public void AddChildBox(UIElement ui)
         {
-            //append last?
-            //not correct if we remove above item
-            //TODO: use automatic arrange layer 
-            ui.SetLocation(0, latestItemY);
-            latestItemY += ui.Height;
-            panel.AddChildBox(ui);
+            PlainLayerElement layer0 = (PlainLayerElement)this.layers[0];
+            layer0.AddUI(ui);
 
+            if (this.HasReadyRenderElement)
+            {
+                VisualPlainLayer plain1 = this.primElement.Layers.Layer0 as VisualPlainLayer;
+                plain1.AddUI(ui);
+            }
         }
+
         //----------------------------------------------------
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
@@ -108,17 +111,17 @@ namespace LayoutFarm.SampleControls
         }
         protected override void OnDragBegin(UIMouseEventArgs e)
         {
-            if (this.DragStart != null)
+            if (this.DragBegin != null)
             {
-                this.DragStart(this, e);
+                this.DragBegin(this, e);
             }
             base.OnDragBegin(e);
         }
         protected override void OnDragEnd(UIMouseEventArgs e)
         {
-            if (this.DragStop != null)
+            if (this.DragEnd != null)
             {
-                this.DragStop(this, e);
+                this.DragEnd(this, e);
             }
             base.OnDragEnd(e);
         }
@@ -155,60 +158,42 @@ namespace LayoutFarm.SampleControls
             this.viewportY = y;
             if (this.HasReadyRenderElement)
             {
-                this.panel.SetViewport(x, y);                 
+                primElement.SetViewport(viewportX, viewportY);
+                primElement.InvalidateGraphic();
             }
         }
-        //----------------------------------------------------
-
-        public event EventHandler<UIMouseEventArgs> MouseDown;
-        public event EventHandler<UIMouseEventArgs> MouseUp;
-
-        public event EventHandler<UIMouseEventArgs> Dragging;
-        public event EventHandler<UIMouseEventArgs> DragStart;
-        public event EventHandler<UIMouseEventArgs> DragStop;
-        //---------------------------------------------------- 
-    }
 
 
-    public class UIListItem : UIBox
-    {
-        CustomRenderBox primElement;
-        Color backColor;
-        public UIListItem(int width, int height)
-            : base(width, height)
+        public override void PerformContentLayout()
         {
-        }
-        protected override RenderElement CurrentPrimaryRenderElement
-        {
-            get { return this.primElement; }
-        }
-        protected override bool HasReadyRenderElement
-        {
-            get { return primElement != null; }
-        }
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-        {
-            if (primElement == null)
+            //temp : arrange as vertical stack***
+            PlainLayerElement layer0 = (PlainLayerElement)this.layers[0];
+            int count = layer0.Count;
+            int ypos = 0;
+            for (int i = 0; i < count; ++i)
             {
-                var element = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                element.SetLocation(this.Left, this.Top);
-                element.BackColor = this.backColor;
-                this.primElement = element;
-            }
-            return primElement;
-        }
-        public Color BackColor
-        {
-            get { return this.backColor; }
-            set
-            {
-                this.backColor = value;
-                if (HasReadyRenderElement)
-                {
-                    this.primElement.BackColor = value;
+                var element = layer0.GetElement(i) as UIBox;
+                if (element != null)
+                {   
+                    element.PerformContentLayout();                     
+                    element.SetBound(0, ypos, element.Width, element.DesiredHeight);
+                    ypos += element.DesiredHeight;
                 }
             }
+            this.desiredHeight = ypos;
         }
+        public override int DesiredHeight
+        {
+            get
+            {
+                return this.desiredHeight;
+            }
+        }
+        //temp***
+        int desiredHeight;
+
     }
+
+
 
 }

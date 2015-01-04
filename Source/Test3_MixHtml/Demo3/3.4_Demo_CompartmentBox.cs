@@ -19,7 +19,7 @@ namespace LayoutFarm
 
             //--------------------------------
             {
-                var bgbox = new LayoutFarm.SampleControls.UIEaseBox(800, 600);
+                var bgbox = new LayoutFarm.CustomWidgets.EaseBox(800, 600);
                 bgbox.BackColor = Color.White;
                 bgbox.SetLocation(0, 0);
                 SetupBackgroundProperties(bgbox);
@@ -27,7 +27,7 @@ namespace LayoutFarm
             }
             //--------------------------------
             {
-                var box1 = new LayoutFarm.SampleControls.UIEaseBox(150, 150);
+                var box1 = new LayoutFarm.CustomWidgets.EaseBox(150, 150);
                 box1.BackColor = Color.Red;
                 box1.SetLocation(10, 10);
                 box1.dbugTag = 1;
@@ -36,7 +36,7 @@ namespace LayoutFarm
             }
             //--------------------------------
             {
-                var box2 = new LayoutFarm.SampleControls.UIEaseBox(60, 60);
+                var box2 = new LayoutFarm.CustomWidgets.EaseBox(60, 60);
                 box2.SetLocation(50, 50);
                 box2.dbugTag = 2;
                 SetupActiveBoxProperties(box2);
@@ -54,7 +54,7 @@ namespace LayoutFarm
                 viewport.AddContent(controllerBox1);
             }
         }
-        void SetupBackgroundProperties(LayoutFarm.SampleControls.UIEaseBox backgroundBox)
+        void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)
         {
             //if click on background
             backgroundBox.MouseDown += (s, e) =>
@@ -64,7 +64,7 @@ namespace LayoutFarm
             };
 
         }
-        void SetupActiveBoxProperties(LayoutFarm.SampleControls.UIEaseBox box)
+        void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.EaseBox box)
         {
             //1. mouse down         
             box.MouseDown += (s, e) =>
@@ -189,17 +189,17 @@ namespace LayoutFarm
         }
 
         //-----------------------------------------------------------------
-        class UIControllerBox : LayoutFarm.SampleControls.UIEaseBox
+        class UIControllerBox : LayoutFarm.CustomWidgets.EaseBox
         {
 
-            LayoutFarm.SampleControls.UIGridBox gridBox;
+            LayoutFarm.CustomWidgets.GridBox gridBox;
 
             //small controller box
-            LayoutFarm.SampleControls.UIEaseBox boxLeftTop;
-            LayoutFarm.SampleControls.UIEaseBox boxRightTop;
+            LayoutFarm.CustomWidgets.EaseBox boxLeftTop;
+            LayoutFarm.CustomWidgets.EaseBox boxRightTop;
 
-            LayoutFarm.SampleControls.UIEaseBox boxLeftBottom;
-            LayoutFarm.SampleControls.UIEaseBox boxRightBottom;
+            LayoutFarm.CustomWidgets.EaseBox boxLeftBottom;
+            LayoutFarm.CustomWidgets.EaseBox boxRightBottom;
 
 
             DockSpacesController dockspaceController;
@@ -219,11 +219,11 @@ namespace LayoutFarm
             {
                 if (!this.HasReadyRenderElement)
                 {
-                    gridBox = new LayoutFarm.SampleControls.UIGridBox(30, 30);
+                    gridBox = new LayoutFarm.CustomWidgets.GridBox(30, 30);
                     gridBox.SetLocation(5, 5);
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
 
-                    var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.SampleControls.CustomRenderBox;
+                    var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
                     VisualPlainLayer plain0 = null;
                     if (myRenderElement != null)
                     {
@@ -267,10 +267,10 @@ namespace LayoutFarm
                 this.dockspaceController.RightBottomSpace.Content = boxRightBottom = CreateTinyControlBox(SpaceName.RightBottom);
             }
 
-            SampleControls.UIEaseBox CreateTinyControlBox(SpaceName name)
+            CustomWidgets.EaseBox CreateTinyControlBox(SpaceName name)
             {
                 int controllerBoxWH = 10;
-                SampleControls.UIEaseBox tinyBox = new SampleControls.UIEaseBox(controllerBoxWH, controllerBoxWH);
+                CustomWidgets.EaseBox tinyBox = new CustomWidgets.EaseBox(controllerBoxWH, controllerBoxWH);
                 tinyBox.BackColor = LayoutFarm.Drawing.Color.Red;
                 tinyBox.Tag = name;
                 //add handler for each tiny box

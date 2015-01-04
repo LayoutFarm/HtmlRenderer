@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
 using LayoutFarm.UI;
-using LayoutFarm.SampleControls;
+using LayoutFarm.CustomWidgets;
 
 namespace LayoutFarm
 {
@@ -20,7 +20,7 @@ namespace LayoutFarm
             //--------------------------------
             {
                 //background element
-                var bgbox = new LayoutFarm.SampleControls.UIEaseBox(800, 600);
+                var bgbox = new LayoutFarm.CustomWidgets.UIEaseBox(800, 600);
                 bgbox.BackColor = Color.White;
                 bgbox.SetLocation(0, 0);
                 SetupBackgroundProperties(bgbox);
@@ -34,7 +34,7 @@ namespace LayoutFarm
 
 
         }
-        void SetupBackgroundProperties(LayoutFarm.SampleControls.UIEaseBox backgroundBox)
+        void SetupBackgroundProperties(LayoutFarm.CustomWidgets.UIEaseBox backgroundBox)
         {
             ////if click on background
             //backgroundBox.MouseDown += (s, e) =>
@@ -49,7 +49,7 @@ namespace LayoutFarm
 
 
 
-        class UINinespaceBox : LayoutFarm.SampleControls.UIEaseBox
+        class UINinespaceBox : LayoutFarm.CustomWidgets.UIEaseBox
         {
             UIEaseBox boxLeftTop;
             UIEaseBox boxRightTop;
@@ -94,10 +94,10 @@ namespace LayoutFarm
                 dockspaceController.SetLeftSpaceWidth(200);
 
             }
-            SampleControls.UIEaseBox CreateTinyControlBox(SpaceName name, LayoutFarm.Drawing.Color bgcolor)
+            CustomWidgets.UIEaseBox CreateTinyControlBox(SpaceName name, LayoutFarm.Drawing.Color bgcolor)
             {
                 int controllerBoxWH = 10;
-                SampleControls.UIEaseBox tinyBox = new SampleControls.UIEaseBox(controllerBoxWH, controllerBoxWH);
+                CustomWidgets.UIEaseBox tinyBox = new CustomWidgets.UIEaseBox(controllerBoxWH, controllerBoxWH);
                 tinyBox.BackColor = bgcolor;
                 tinyBox.Tag = name;
                 //add handler for each tiny box
@@ -157,7 +157,7 @@ namespace LayoutFarm
                 if (!this.HasReadyRenderElement)
                 {
 
-                    var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.SampleControls.CustomRenderBox;
+                    var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
                     VisualPlainLayer plain0 = null;
                     if (myRenderElement != null)
                     {
