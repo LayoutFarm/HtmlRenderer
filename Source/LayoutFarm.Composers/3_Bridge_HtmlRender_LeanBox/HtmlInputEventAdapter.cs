@@ -61,7 +61,7 @@ namespace HtmlRenderer.Composers
         public void MouseDown(UIMouseEventArgs e, CssBox startAt)
         {
             if (!_isBinded) return;
-            if (startAt == null) return;             
+            if (startAt == null) return;
             //---------------------------------------------------- 
             ClearPreviousSelection();
             if (_latestMouseDownChain != null)
@@ -110,7 +110,7 @@ namespace HtmlRenderer.Composers
         public void MouseMove(UIMouseEventArgs e, CssBox startAt)
         {
             if (!_isBinded) return;
-            if (startAt == null) return; 
+            if (startAt == null) return;
             //-----------------------------------------
             int x = e.X;
             int y = e.Y;
@@ -197,9 +197,9 @@ namespace HtmlRenderer.Composers
         }
         public void MouseMove(UIMouseEventArgs e)
         {
-            if (!_isBinded) return; 
+            if (!_isBinded) return;
             //---------------------------------------------------- 
-            this.MouseMove(e, this._htmlIsland.GetRootCssBox()); 
+            this.MouseMove(e, this._htmlIsland.GetRootCssBox());
 
         }
         public void MouseUp(UIMouseEventArgs e, CssBox startAt)
@@ -207,7 +207,7 @@ namespace HtmlRenderer.Composers
             if (!_isBinded) return;
             if (startAt == null) return;
             //---------------------------------------------------- 
-             
+
             DateTime snapMouseUpTime = DateTime.Now;
             TimeSpan timediff = snapMouseUpTime - lastimeMouseUp;
             bool isAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;
@@ -269,9 +269,12 @@ namespace HtmlRenderer.Composers
         public void MouseUp(UIMouseEventArgs e)
         {
             MouseUp(e, this._htmlIsland.GetRootCssBox());
-
         }
         public void MouseWheel(UIMouseEventArgs e)
+        {
+            this.MouseWheel(e, this._htmlIsland.GetRootCssBox());
+        }
+        public void MouseWheel(UIMouseEventArgs e, CssBox startAt)
         {
 
         }
@@ -282,20 +285,38 @@ namespace HtmlRenderer.Composers
         }
         public void KeyDown(UIKeyEventArgs e)
         {
+            this.KeyDown(e, this._htmlIsland.GetRootCssBox());
+        }
+
+        public void KeyDown(UIKeyEventArgs e, CssBox startAt)
+        {
             //send focus to current input element
 
         }
+
         public void KeyPress(UIKeyEventArgs e)
+        {
+            this.KeyPress(e, this._htmlIsland.GetRootCssBox());
+        }
+        public void KeyPress(UIKeyEventArgs e, CssBox startAt)
         {
             //send focus to current input element
 
         }
         public bool ProcessDialogKey(UIKeyEventArgs e)
         {
+            return this.ProcessDialogKey(e, this._htmlIsland.GetRootCssBox());
+        }
+        public bool ProcessDialogKey(UIKeyEventArgs e, CssBox startAt)
+        {
             //send focus to current input element
             return false;
         }
         public void KeyUp(UIKeyEventArgs e)
+        {
+            this.KeyUp(e, this._htmlIsland.GetRootCssBox());
+        }
+        public void KeyUp(UIKeyEventArgs e, CssBox startAt)
         {
         }
 

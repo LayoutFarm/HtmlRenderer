@@ -18,6 +18,8 @@ namespace LayoutFarm.CustomWidgets
     public class LightHtmlBox : UIElement, IUserEventPortal
     {
         bool hasWaitingDocToLoad;
+        string waitingHtmlFragment;
+
         LightHtmlBoxHost lightBoxHost;
         int _width;
         int _height;
@@ -26,7 +28,7 @@ namespace LayoutFarm.CustomWidgets
         HtmlFragmentRenderBox frRenderBox;
         object uiHtmlTask = new object();
 
-        RootGraphic rootgfx;
+
         internal LightHtmlBox(LightHtmlBoxHost lightBoxHost, int width, int height)
         {
             this.lightBoxHost = lightBoxHost;
@@ -38,17 +40,16 @@ namespace LayoutFarm.CustomWidgets
 
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
-
-            _htmlInputEventBridge.MouseUp(e);
+            _htmlInputEventBridge.MouseUp(e, frRenderBox.CssBox);
         }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
             e.CurrentContextElement = this;
-            _htmlInputEventBridge.MouseDown(e);
+            _htmlInputEventBridge.MouseDown(e, frRenderBox.CssBox);
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-            _htmlInputEventBridge.MouseMove(e);
+            _htmlInputEventBridge.MouseMove(e, frRenderBox.CssBox);
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
@@ -56,19 +57,19 @@ namespace LayoutFarm.CustomWidgets
         }
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
-            _htmlInputEventBridge.KeyDown(e);
+            _htmlInputEventBridge.KeyDown(e, frRenderBox.CssBox);
         }
         void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
-            _htmlInputEventBridge.KeyPress(e);
+            _htmlInputEventBridge.KeyPress(e, frRenderBox.CssBox);
         }
         void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
-            _htmlInputEventBridge.KeyUp(e);
+            _htmlInputEventBridge.KeyUp(e, frRenderBox.CssBox);
         }
         bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
-            return this._htmlInputEventBridge.ProcessDialogKey(e);
+            return this._htmlInputEventBridge.ProcessDialogKey(e, frRenderBox.CssBox);
         }
         void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
@@ -78,46 +79,46 @@ namespace LayoutFarm.CustomWidgets
         }
         protected override void OnKeyUp(UIKeyEventArgs e)
         {
-            base.OnKeyUp(e);
         }
-
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
 
             if (frRenderBox == null)
             {
-                this.rootgfx = rootgfx;
                 frRenderBox = new HtmlFragmentRenderBox(rootgfx, _width, _height);
                 frRenderBox.SetController(this);
                 frRenderBox.HasSpecificSize = true;
             }
-            //-------------------------
-            //rootgfx.RequestGraphicsIntervalTask(uiHtmlTask,
-            //     TaskIntervalPlan.Animation, 25,
-            //     (s, e) =>
-            //     {
-            //         if (this.myHtmlIsland.InternalRefreshRequest())
-            //         {
-            //             e.NeedUpdate = 1;
-            //         }
-            //     });
-            //------------------------- 
             if (this.hasWaitingDocToLoad)
             {
-                UpdateWaitingHtmlDoc(this.frRenderBox.Root);
+                LoadHtmlFragmentText(this.waitingHtmlFragment);
             }
             return frRenderBox;
         }
-        public void LoadHtmlFragmentText(string html)
+        public void LoadHtmlFragmentText(string htmlFragment)
         {
-            //send fragment html to lightbox host
-
+            if (frRenderBox == null)
+            {
+                this.hasWaitingDocToLoad = true;
+                this.waitingHtmlFragment = htmlFragment;
+            }
+            else
+            {
+                //just parse content and load
+                this.frRenderBox.CssBox = this.lightBoxHost.CreateHtmlFragment(htmlFragment, frRenderBox);
+                this.waitingHtmlFragment = null;
+            }
+            //send fragment html to lightbox host 
             //SetHtml(myHtmlIsland, html, myHtmlIsland.BaseStylesheet);
-
             //if (this.myCssBoxWrapper != null)
             //{
             //    myCssBoxWrapper.InvalidateGraphic();
             //}
+        }
+        public void LoadHtmlFragmentDom()
+        {
+
+
         }
         public override void InvalidateGraphic()
         {
@@ -126,33 +127,7 @@ namespace LayoutFarm.CustomWidgets
             //    myCssBoxWrapper.InvalidateGraphic();
             //}
         }
-        void UpdateWaitingHtmlDoc(RootGraphic rootgfx)
-        {
-            //var builder = new HtmlRenderer.Composers.RenderTreeBuilder(rootgfx);
-            //builder.RequestStyleSheet += (e) =>
-            //{
-            //    if (this.RequestStylesheet != null)
-            //    {
-            //        var req = new TextLoadRequestEventArgs(e.Src);
-            //        RequestStylesheet(this, req);
-            //        e.SetStyleSheet = req.SetStyleSheet;
-            //    }
-            //};
 
-            ////build rootbox from htmldoc
-            //var rootBox = builder.BuildCssRenderTree(this.currentdoc,
-            //    rootgfx.SampleIFonts,
-            //    this.myHtmlIsland,
-            //    this.waitingCssData,
-            //    this.myCssBoxWrapper);
-
-            ////update htmlIsland
-            //var htmlIsland = this.myHtmlIsland;
-            //htmlIsland.SetHtmlDoc(this.currentdoc);
-            //htmlIsland.SetRootCssBox(rootBox, this.waitingCssData);
-            //htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
-            //htmlIsland.PerformLayout();
-        }
     }
 }
 

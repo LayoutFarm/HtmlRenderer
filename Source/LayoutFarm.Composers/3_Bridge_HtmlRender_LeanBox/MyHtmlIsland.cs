@@ -28,7 +28,7 @@ namespace HtmlRenderer.Composers
     {
 
         WebDocument doc;
-        CssActiveSheet activeCssSheet;
+      
 
         /// <summary>
         /// Raised when an error occurred during html rendering.<br/>
@@ -106,11 +106,7 @@ namespace HtmlRenderer.Composers
         {
             this.doc = doc;
         }
-        public void SetRootCssBox(CssBox rootBox, CssActiveSheet activeCss)
-        {
-            this.activeCssSheet = activeCss;
-            base.SetRootCssBox(rootBox);
-        }
+        
         public void CheckDocUpdate()
         {
             if (doc != null &&

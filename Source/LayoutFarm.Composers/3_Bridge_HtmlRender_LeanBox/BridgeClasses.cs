@@ -309,7 +309,7 @@ namespace LayoutFarm.Boxes
             this.myHeight = height; 
             this.Focusable = false;
         }
-        public CssBox Box
+        public CssBox CssBox
         {
             get { return this.cssBox; }
             set { this.cssBox = value; }

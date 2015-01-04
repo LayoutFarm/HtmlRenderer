@@ -19,16 +19,17 @@ namespace LayoutFarm.CustomWidgets
     /// </summary>
     public class LightHtmlBoxHost
     {
-        HtmlRenderer.WebDom.WebDocument currentdoc;
         bool hasWaitingDocToLoad;
-        HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
+        HtmlRenderer.WebDom.WebDocument currentdoc;        
+      
+
         GraphicsPlatform gfxPlatform;
         MyHtmlIsland myHtmlIsland;
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
         public event EventHandler<ImageRequestEventArgs> RequestImage;
         int _width = 800; //temp
         RootGraphic rootgfx;
-        HtmlRenderBox myCssBoxWrapper;
+
         HtmlInputEventAdapter _htmlInputEventBridge;
 
         static LightHtmlBoxHost()
@@ -82,7 +83,7 @@ namespace LayoutFarm.CustomWidgets
         {
             hasWaitingDocToLoad = true;
             //---------------------------
-            if (myCssBoxWrapper == null) return;
+            //if (htmlRenderBox == null) return;
             //---------------------------
 
             var builder = new HtmlRenderer.Composers.RenderTreeBuilder(this.rootgfx);
@@ -95,15 +96,37 @@ namespace LayoutFarm.CustomWidgets
                     e2.SetStyleSheet = req.SetStyleSheet;
                 }
             };
-            var rootBox2 = builder.RefreshCssTree(this.currentdoc,
-                gfxPlatform.SampleIFonts,
-                this.myHtmlIsland);
+
+            var rootBox2 = builder.RefreshCssTree(this.currentdoc);
 
             this.myHtmlIsland.PerformLayout();
 
         }
-        void UpdateWaitingHtmlDoc(RootGraphic rootgfx)
+
+
+        //void SetHtml(MyHtmlIsland htmlIsland, string html, HtmlRenderer.WebDom.CssActiveSheet cssData)
+        //{
+        //    var htmldoc = HtmlRenderer.Composers.WebDocumentParser.ParseDocument(
+        //                     new HtmlRenderer.WebDom.Parser.TextSnapshot(html.ToCharArray()));
+        //    this.currentdoc = htmldoc;
+        //    this.hasWaitingDocToLoad = true;
+        //    this.waitingCssData = cssData;
+        //    ////---------------------------
+        //    //if (htmlRenderBox == null) return;
+        //    ////---------------------------
+        //    //UpdateWaitingHtmlDoc(this.htmlRenderBox.Root);
+        //}
+
+        public LightHtmlBox CreateLightBox(int w, int h)
         {
+            LightHtmlBox lightBox = new LightHtmlBox(this, w, h);
+            return lightBox;
+        }
+
+        //----------------------------------------------------
+        public CssBox CreateHtmlFragment(string htmlFragment, RenderElement container)
+        {
+            //1. builder
             var builder = new HtmlRenderer.Composers.RenderTreeBuilder(rootgfx);
             builder.RequestStyleSheet += (e) =>
             {
@@ -115,43 +138,44 @@ namespace LayoutFarm.CustomWidgets
                 }
             };
 
-            //build rootbox from htmldoc
-            var rootBox = builder.BuildCssRenderTree(this.currentdoc,
-                rootgfx.SampleIFonts,
-                this.myHtmlIsland,
-                this.waitingCssData,
-                this.myCssBoxWrapper);
-
-            //update htmlIsland
-            var htmlIsland = this.myHtmlIsland;
-            htmlIsland.SetHtmlDoc(this.currentdoc);
-            htmlIsland.SetRootCssBox(rootBox, this.waitingCssData);
-            htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
-            htmlIsland.PerformLayout();
-        }
-
-
-        void SetHtml(MyHtmlIsland htmlIsland, string html, HtmlRenderer.WebDom.CssActiveSheet cssData)
-        {
+            //-------------------------------------------------------------------
+            //2. parse
+            //parse fragment to dom
+            //temp fix
+            //TODO: improve technique here
+            htmlFragment = "<html><body>" + htmlFragment + "</body></html>";
             var htmldoc = HtmlRenderer.Composers.WebDocumentParser.ParseDocument(
-                             new HtmlRenderer.WebDom.Parser.TextSnapshot(html.ToCharArray()));
-            this.currentdoc = htmldoc;
-            this.hasWaitingDocToLoad = true;
-            this.waitingCssData = cssData;
-            //---------------------------
-            if (myCssBoxWrapper == null) return;
-            //---------------------------
-            UpdateWaitingHtmlDoc(this.myCssBoxWrapper.Root);
-        }
+                           new HtmlRenderer.WebDom.Parser.TextSnapshot(htmlFragment.ToCharArray()));
+            //3. generate render tree
+            ////build rootbox from htmldoc
+            var rootBox = builder.BuildCssRenderTree(htmldoc,
+                rootgfx.SampleIFonts,
+                myHtmlIsland.BaseStylesheet,
+                container);
 
-        public LightHtmlBox CreateLightBox(int w, int h)
-        {
-            LightHtmlBox lightBox = new LightHtmlBox(this, w, h);
-            return lightBox;
-        }
-        public void LoadNewFragment(string htmlFragment)
-        {
+            ////update htmlIsland
+            //var htmlIsland = this.myHtmlIsland;
+            //htmlIsland.SetHtmlDoc(this.currentdoc);
+            //htmlIsland.SetRootCssBox(rootBox, this.waitingCssData);
+            //htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
+            //htmlIsland.PerformLayout();
 
+
+
+            ////build rootbox from htmldoc
+            //var rootBox = builder.BuildCssRenderTree(this.currentdoc,
+            //    rootgfx.SampleIFonts,
+            //    this.myHtmlIsland,
+            //    this.waitingCssData,
+            //    this.htmlRenderBox);
+
+            ////update htmlIsland
+            //var htmlIsland = this.myHtmlIsland;
+            //htmlIsland.SetHtmlDoc(this.currentdoc);
+            //htmlIsland.SetRootCssBox(rootBox, this.waitingCssData);
+            //htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
+            //htmlIsland.PerformLayout();
+            return null;
         }
 
     }

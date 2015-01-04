@@ -139,7 +139,7 @@ namespace HtmlRenderer.Demo
                 this.textContentMan.AddStyleSheetRequest(req);
                 e2.SetStyleSheet = req.SetStyleSheet;
             };
-            var rootBox2 = builder.RefreshCssTree(this.currentDoc, gfxPlatform.SampleIFonts, this.myHtmlIsland);
+            var rootBox2 = builder.RefreshCssTree(this.currentDoc);
             this.myHtmlIsland.PerformLayout();
         }
 
@@ -307,11 +307,11 @@ namespace HtmlRenderer.Demo
             //build rootbox from htmldoc
             var rootBox = builder.BuildCssRenderTree(htmldoc,
                 gfxPlatform.SampleIFonts,
-                htmlIsland, cssData,
+                 cssData,
                 null);
 
             htmlIsland.SetHtmlDoc(htmldoc);
-            htmlIsland.SetRootCssBox(rootBox, cssData);
+            htmlIsland.SetRootCssBox(rootBox);
         }
 
         public void LoadHtmlDom(HtmlRenderer.WebDom.WebDocument doc, string defaultCss)
@@ -340,11 +340,11 @@ namespace HtmlRenderer.Demo
 
             var rootBox = builder.BuildCssRenderTree(this.currentDoc,
                 gfxPlatform.SampleIFonts,
-                htmlIsland, cssData,
+                cssData,
                 null);
 
             htmlIsland.SetHtmlDoc(this.currentDoc);
-            htmlIsland.SetRootCssBox(rootBox, cssData);
+            htmlIsland.SetRootCssBox(rootBox);
 
         }
         public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.WebDocument doc)
