@@ -63,6 +63,7 @@
     <Compile Include="4_Composites\Menu.cs" />
     <Compile Include="4_Composites\TreeView.cs" />
     <Compile Include="5_HtmlBox\LightHtmlBox.cs" />
+    <Compile Include="5_HtmlBox\LightHtmlBoxHost.cs" />
     <Compile Include="6_InternalResourceMx\ResImageList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="5_HtmlBox\MyCssCustomBoxCreator.cs" />

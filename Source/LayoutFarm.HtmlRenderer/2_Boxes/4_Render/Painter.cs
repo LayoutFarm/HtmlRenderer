@@ -27,12 +27,12 @@ namespace HtmlRenderer
         float physicalViewportY;
 
         bool aviodGeometyAntialias;
-        public Painter(HtmlIsland container, Canvas ig)
+        public Painter(HtmlIsland container, Canvas canvas)
         {
             this.visualRootBox = container;
             this.htmlContainerScrollOffset = container.ScrollOffset;
             this.aviodGeometyAntialias = container.AvoidGeometryAntialias;
-            this.canvas = ig;
+            this.canvas = canvas;
         }
 
         public GraphicsPlatform GraphicsPlatform

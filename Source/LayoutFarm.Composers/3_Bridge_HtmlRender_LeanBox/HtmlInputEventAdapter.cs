@@ -56,20 +56,12 @@ namespace HtmlRenderer.Composers
                 e.SourceHitElement = hitInfo.hitObject;
             }
         }
+        //---------------------------------------------- 
 
-        public void MouseDown(UIMouseEventArgs e)
+        public void MouseDown(UIMouseEventArgs e, CssBox startAt)
         {
-            if (!_isBinded)
-            {
-                return;
-            }
-
-            //find top root 
-            var rootbox = _htmlIsland.GetRootCssBox();
-            if (rootbox == null)
-            {
-                return;
-            }
+            if (!_isBinded) return;
+            if (startAt == null) return;             
             //---------------------------------------------------- 
             ClearPreviousSelection();
             if (_latestMouseDownChain != null)
@@ -89,7 +81,7 @@ namespace HtmlRenderer.Composers
             CssBoxHitChain hitChain = GetFreeHitChain();
             hitChain.SetRootGlobalPosition(x, y);
             //1. hittest 
-            BoxHitUtils.HitTest(rootbox, x, y, hitChain);
+            BoxHitUtils.HitTest(startAt, x, y, hitChain);
             //2. propagate events
             SetEventOrigin(e, hitChain);
 
@@ -111,17 +103,14 @@ namespace HtmlRenderer.Composers
             //save mousedown hitchain
             this._latestMouseDownChain = hitChain;
         }
-        public void MouseMove(UIMouseEventArgs e)
+        public void MouseDown(UIMouseEventArgs e)
         {
-            if (!_isBinded)
-            {
-                return;
-            }
-            CssBox rootbox = _htmlIsland.GetRootCssBox();
-            if (rootbox == null)
-            {
-                return;
-            }
+            this.MouseDown(e, _htmlIsland.GetRootCssBox());
+        }
+        public void MouseMove(UIMouseEventArgs e, CssBox startAt)
+        {
+            if (!_isBinded) return;
+            if (startAt == null) return; 
             //-----------------------------------------
             int x = e.X;
             int y = e.Y;
@@ -135,7 +124,7 @@ namespace HtmlRenderer.Composers
                     CssBoxHitChain hitChain = GetFreeHitChain();
                     hitChain.SetRootGlobalPosition(x, y);
 
-                    BoxHitUtils.HitTest(rootbox, x, y, hitChain);
+                    BoxHitUtils.HitTest(startAt, x, y, hitChain);
                     SetEventOrigin(e, hitChain);
                     //---------------------------------------------------------
                     //propagate mouse drag 
@@ -184,7 +173,7 @@ namespace HtmlRenderer.Composers
                 //---------------------------------------------------------
                 CssBoxHitChain hitChain = GetFreeHitChain();
                 hitChain.SetRootGlobalPosition(x, y);
-                BoxHitUtils.HitTest(rootbox, x, y, hitChain);
+                BoxHitUtils.HitTest(startAt, x, y, hitChain);
                 SetEventOrigin(e, hitChain);
                 //---------------------------------------------------------
 
@@ -206,20 +195,19 @@ namespace HtmlRenderer.Composers
                 ReleaseHitChain(hitChain);
             }
         }
-        public void MouseUp(UIMouseEventArgs e)
+        public void MouseMove(UIMouseEventArgs e)
         {
+            if (!_isBinded) return; 
+            //---------------------------------------------------- 
+            this.MouseMove(e, this._htmlIsland.GetRootCssBox()); 
 
-            if (!_isBinded)
-            {
-                return;
-            }
-            var rootbox = _htmlIsland.GetRootCssBox();
-            if (rootbox == null)
-            {
-                return;
-            }
-
-            //--------------------------------------------
+        }
+        public void MouseUp(UIMouseEventArgs e, CssBox startAt)
+        {
+            if (!_isBinded) return;
+            if (startAt == null) return;
+            //---------------------------------------------------- 
+             
             DateTime snapMouseUpTime = DateTime.Now;
             TimeSpan timediff = snapMouseUpTime - lastimeMouseUp;
             bool isAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;
@@ -232,7 +220,7 @@ namespace HtmlRenderer.Composers
 
             hitChain.SetRootGlobalPosition(e.X, e.Y);
             //1. prob hit chain only 
-            BoxHitUtils.HitTest(rootbox, e.X, e.Y, hitChain);
+            BoxHitUtils.HitTest(startAt, e.X, e.Y, hitChain);
             SetEventOrigin(e, hitChain);
 
             //2. invoke css event and script event   
@@ -278,10 +266,16 @@ namespace HtmlRenderer.Composers
             this._latestMouseDownChain.Clear();
             this._latestMouseDownChain = null;
         }
+        public void MouseUp(UIMouseEventArgs e)
+        {
+            MouseUp(e, this._htmlIsland.GetRootCssBox());
+
+        }
         public void MouseWheel(UIMouseEventArgs e)
         {
 
         }
+
         void ClearPreviousSelection()
         {
             this._htmlIsland.ClearPreviousSelection();
@@ -304,8 +298,6 @@ namespace HtmlRenderer.Composers
         public void KeyUp(UIKeyEventArgs e)
         {
         }
-
-
 
         static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, CssBoxHitChain hitPointChain, EventPortalAction eventPortalAction)
         {
@@ -378,7 +370,7 @@ namespace HtmlRenderer.Composers
                 {
                     //found controller
 
-                    e.CurrentContextElement = controller;                     
+                    e.CurrentContextElement = controller;
                     e.SetLocation(hitInfo.localX, hitInfo.localY);
                     if (listenerAction())
                     {

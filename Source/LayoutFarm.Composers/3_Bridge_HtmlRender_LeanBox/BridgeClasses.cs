@@ -18,7 +18,6 @@ namespace LayoutFarm.Boxes
 
     public class HtmlRenderBox : RenderBoxBase
     {
-
         MyHtmlIsland myHtmlIsland;
         int myWidth;
         int myHeight;
@@ -49,7 +48,7 @@ namespace LayoutFarm.Boxes
 
 
     public sealed class RenderElementInsideCssBox : CustomCssBox
-    {  
+    {
         CssBoxInsideRenderElement wrapper;
         int globalXForRenderElement;
         int globalYForRenderElement;
@@ -113,13 +112,13 @@ namespace LayoutFarm.Boxes
 
                 Rect rect = Rect.CreateFromRect(
                      new Rectangle(0, 0, wrapper.Width, wrapper.Height));
-                this.wrapper.DrawToThisPage(p.InnerCanvas, rect); 
+                this.wrapper.DrawToThisPage(p.InnerCanvas, rect);
 
             }
             else
             {
                 //for debug!
-                p.FillRectangle(Color.Red, 0, 0, 100, 100);                
+                p.FillRectangle(Color.Red, 0, 0, 100, 100);
             }
         }
         RenderElement GetParentRenderElement(out int globalX, out int globalY)
@@ -292,6 +291,46 @@ namespace LayoutFarm.Boxes
 #endif
         }
     }
+
+
+
+    //===================================================================
+    public class HtmlFragmentRenderBox : RenderBoxBase
+    {
+
+        CssBox cssBox;
+        int myWidth;
+        int myHeight;
+        public HtmlFragmentRenderBox(RootGraphic rootgfx,
+            int width, int height)
+            : base(rootgfx, width, height)
+        {
+            this.myWidth = width;
+            this.myHeight = height; 
+            this.Focusable = false;
+        }
+        public CssBox Box
+        {
+            get { return this.cssBox; }
+            set { this.cssBox = value; }
+        }
+        public override void ClearAllChildren()
+        {
+
+        }
+        protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
+        {
+            //myHtmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
+            //myHtmlIsland.CheckDocUpdate();
+            //myHtmlIsland.PerformPaint(canvasPage);
+        }
+        public override void ChildrenHitTestCore(HitChain hitChain)
+        {
+
+        }
+    }
+
+
 
 }
 

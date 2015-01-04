@@ -92,7 +92,6 @@ namespace HtmlRenderer.Boxes
         }
         public void ClearPreviousSelection()
         {
-
             if (_currentSelectionRange != null)
             {
                 _currentSelectionRange.ClearSelectionStatus();
