@@ -7,24 +7,24 @@ using HtmlRenderer;
 using HtmlRenderer.ContentManagers;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
-    public class UIHtmlBoxContentManager
+    public class HtmlBoxContentManager
     {
-        UIHtmlBox htmlBox;
+        HtmlBox htmlBox;
         Dictionary<TextContentManager, int> textContentManList = new Dictionary<TextContentManager, int>();
         Dictionary<ImageContentManager, int> imageContentManList = new Dictionary<ImageContentManager, int>();
 
          
         bool isBinded;
 
-        public UIHtmlBoxContentManager()
+        public HtmlBoxContentManager()
         {
             
         }
 
         
-        public void Bind(UIHtmlBox htmlBox)
+        public void Bind(HtmlBox htmlBox)
         {
 
 

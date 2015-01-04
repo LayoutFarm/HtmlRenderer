@@ -14,12 +14,12 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
             {
-                var textbox = new LayoutFarm.SampleControls.UITextBox(400, 500, true);
+                var textbox = new LayoutFarm.CustomWidgets.TextBox(400, 500, true);
                 viewport.AddContent(textbox);
             }
 
             {
-                var textbox = new LayoutFarm.SampleControls.UITextBox(400, 500, true);
+                var textbox = new LayoutFarm.CustomWidgets.TextBox(400, 500, true);
                 textbox.SetLocation(0, 120);
                 viewport.AddContent(textbox);
             }

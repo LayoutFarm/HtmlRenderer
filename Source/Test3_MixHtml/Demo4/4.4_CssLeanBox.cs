@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
-using LayoutFarm.SampleControls;
+using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
 namespace LayoutFarm
 {
@@ -16,7 +16,7 @@ namespace LayoutFarm
 
             ////==================================================
             //html box
-            UIHtmlBox htmlBox = new UIHtmlBox(viewport.P, 800, 400);
+            HtmlBox htmlBox = new HtmlBox(viewport.P, 800, 400);
             
             
             StringBuilder stbuilder = new StringBuilder();
@@ -32,7 +32,7 @@ namespace LayoutFarm
             //==================================================  
 
             //textbox
-            var textbox = new LayoutFarm.SampleControls.UITextBox(400, 100, true);
+            var textbox = new LayoutFarm.CustomWidgets.TextBox(400, 100, true);
             textbox.SetLocation(0, 200);
             viewport.AddContent(textbox);
             textbox.Focus();

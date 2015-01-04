@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
-using LayoutFarm.SampleControls;
+using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
 
 namespace LayoutFarm
@@ -26,8 +26,8 @@ namespace LayoutFarm
             }
             //==================================================
             //html box
-            var htmlBox = new UIHtmlBox(viewport.P, 800, 600);
-            var htmlBoxContentMx = new UIHtmlBoxContentManager();
+            var htmlBox = new HtmlBox(viewport.P, 800, 600);
+            var htmlBoxContentMx = new HtmlBoxContentManager();
             var contentMx = new HtmlRenderer.ContentManagers.ImageContentManager();
 
 

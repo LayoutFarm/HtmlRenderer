@@ -7,7 +7,7 @@ using LayoutFarm.Drawing;
 using LayoutFarm.Text;
 using LayoutFarm.UI; 
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
 
     public class UIScrollBar : UIBox
@@ -48,7 +48,7 @@ namespace LayoutFarm.SampleControls
 
                 switch (this.ScrollBarType)
                 {
-                    case SampleControls.ScrollBarType.Horizontal:
+                    case CustomWidgets.ScrollBarType.Horizontal:
                         {
 
                         } break;

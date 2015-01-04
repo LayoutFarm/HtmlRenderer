@@ -7,13 +7,13 @@ using System.Text;
 using LayoutFarm.Drawing;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
-    public class UIImageBox : UIEaseBox
+    public class ImageBox : EaseBox
     {
         Image image;//image to draw   
         CustomImageRenderBox imgRenderBox;
-        public UIImageBox(int width, int height)
+        public ImageBox(int width, int height)
             : base(width, height)
         {
 

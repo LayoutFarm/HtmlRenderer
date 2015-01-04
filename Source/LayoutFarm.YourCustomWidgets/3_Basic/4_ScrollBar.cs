@@ -7,15 +7,15 @@ using LayoutFarm.Drawing;
 using LayoutFarm.Text;
 using LayoutFarm.UI; 
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
 
-    public class UIScrollBar : UIBox
+    public class ScrollBar : UIBox
     {
         CustomRenderBox mainBox;
-        UIScrollButton minButton;
-        UIScrollButton maxButton;
-        UIScrollButton scrollButton;
+        ScrollButton minButton;
+        ScrollButton maxButton;
+        ScrollButton scrollButton;
 
         float maxValue;
         float minValue;
@@ -29,7 +29,7 @@ namespace LayoutFarm.SampleControls
 
 
         int minmax_boxHeight = 15;
-        public UIScrollBar(int width, int height)
+        public ScrollBar(int width, int height)
             : base(width, height)
         {
         }
@@ -48,7 +48,7 @@ namespace LayoutFarm.SampleControls
 
                 switch (this.ScrollBarType)
                 {
-                    case SampleControls.ScrollBarType.Horizontal:
+                    case CustomWidgets.ScrollBarType.Horizontal:
                         {
 
                         } break;
@@ -155,7 +155,7 @@ namespace LayoutFarm.SampleControls
         void SetupMinButtonProperties(VisualPlainLayer plain)
         {
 
-            var min_button = new UIScrollButton(this.Width, minmax_boxHeight);
+            var min_button = new ScrollButton(this.Width, minmax_boxHeight);
             min_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
 
             min_button.MouseUp += (s, e) => this.StepSmallToMin();
@@ -166,7 +166,7 @@ namespace LayoutFarm.SampleControls
         }
         void SetupMaxButtonProperties(VisualPlainLayer plain)
         {
-            var max_button = new UIScrollButton(this.Width, minmax_boxHeight);
+            var max_button = new ScrollButton(this.Width, minmax_boxHeight);
             max_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
             max_button.SetLocation(0, this.Height - minmax_boxHeight);
 
@@ -232,7 +232,7 @@ namespace LayoutFarm.SampleControls
             }
 
 
-            var scroll_button = new UIScrollButton(this.Width, thumbBoxLength);
+            var scroll_button = new ScrollButton(this.Width, thumbBoxLength);
             scroll_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkBlue);
 
             int thumbPosY = CalculateThumbPosition() + minmax_boxHeight;
@@ -332,12 +332,12 @@ namespace LayoutFarm.SampleControls
         Vertical,
         Horizontal
     }
-    class UIScrollButton : UIBox
+    class ScrollButton : UIBox
     {
         CustomRenderBox buttonBox;
         Color backColor;
 
-        public UIScrollButton(int width, int height)
+        public ScrollButton(int width, int height)
             : base(width, height)
         {
 
@@ -425,9 +425,9 @@ namespace LayoutFarm.SampleControls
 
     public class ScrollingRelation
     {
-        UIScrollBar scBar;
+        ScrollBar scBar;
         UIBox panel;
-        public ScrollingRelation(UIScrollBar scBar, UIBox panel)
+        public ScrollingRelation(ScrollBar scBar, UIBox panel)
         {
             this.scBar = scBar;
             this.panel = panel;

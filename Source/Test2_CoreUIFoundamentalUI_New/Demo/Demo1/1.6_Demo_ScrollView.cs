@@ -14,7 +14,7 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
 
-            var scbar = new LayoutFarm.SampleControls.UIScrollBar(15, 200);
+            var scbar = new LayoutFarm.CustomWidgets.UIScrollBar(15, 200);
             scbar.SetLocation(10, 10);
             scbar.MinValue = 0;
             scbar.MaxValue = 170;
@@ -22,19 +22,19 @@ namespace LayoutFarm
             viewport.AddContent(scbar);
             //------------------------- 
 
-            var panel = new LayoutFarm.SampleControls.UIPanel(300, 200);
+            var panel = new LayoutFarm.CustomWidgets.UIPanel(300, 200);
             panel.SetLocation(30, 10);
             panel.BackColor = Color.LightGray;
             viewport.AddContent(panel);
             //------------------------- 
 
             //add relation between viewpanel and scroll bar 
-            var scRelation = new LayoutFarm.SampleControls.ScrollingRelation(scbar, panel);
+            var scRelation = new LayoutFarm.CustomWidgets.ScrollingRelation(scbar, panel);
 
             //add content to panel
             for (int i = 0; i < 10; ++i)
             {
-                var box1 = new LayoutFarm.SampleControls.UIEaseBox(30, 30);
+                var box1 = new LayoutFarm.CustomWidgets.UIEaseBox(30, 30);
                 box1.BackColor = Color.OrangeRed;
                 box1.SetLocation(i * 20, i * 40);
 

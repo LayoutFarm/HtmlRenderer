@@ -12,10 +12,10 @@ using LayoutFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.Boxes;
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
 
-    public class UIHtmlBox : UIElement, IUserEventPortal
+    public class HtmlBox : UIElement, IUserEventPortal
     {
         RootGraphic rootgfx;
         HtmlRenderBox myCssBoxWrapper;
@@ -32,12 +32,12 @@ namespace LayoutFarm.SampleControls
         HtmlInputEventAdapter _htmlInputEventBridge;
         object uiHtmlTask = new object();
 
-        static UIHtmlBox()
+        static HtmlBox()
         {
             HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
                new HtmlRenderer.Boxes.LeanBoxCreator());
         }
-        public UIHtmlBox(GraphicsPlatform p, int width, int height)
+        public HtmlBox(GraphicsPlatform p, int width, int height)
         {
             this._width = width;
             this._height = height;

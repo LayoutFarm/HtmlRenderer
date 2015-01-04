@@ -15,7 +15,7 @@ namespace LayoutFarm
         {
 
 
-            var sampleButton = new LayoutFarm.SampleControls.UIEaseBox(30, 30);
+            var sampleButton = new LayoutFarm.CustomWidgets.EaseBox(30, 30);
             viewport.AddContent(sampleButton);
 
             int count = 0;

@@ -13,7 +13,7 @@ namespace LayoutFarm
     {
         protected override void OnStartDemo(SampleViewport viewport)
         {
-            var listview = new LayoutFarm.SampleControls.UIListView(300, 400);
+            var listview = new LayoutFarm.CustomWidgets.ListView(300, 400);
             listview.SetLocation(10, 10);
             listview.BackColor = KnownColors.FromKnownColor(KnownColor.LightGray); 
             viewport.AddContent(listview);
@@ -21,7 +21,7 @@ namespace LayoutFarm
             //add 
             for (int i = 0; i < 10; ++i)
             {
-                var listItem = new LayoutFarm.SampleControls.UIListItem(400, 20);
+                var listItem = new LayoutFarm.CustomWidgets.ListItem(400, 20);
                 if ((i % 2) == 0)
                 {
                     listItem.BackColor = KnownColors.FromKnownColor(KnownColor.OrangeRed);

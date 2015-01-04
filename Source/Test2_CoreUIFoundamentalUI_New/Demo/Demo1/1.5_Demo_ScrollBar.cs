@@ -14,7 +14,7 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
 
-            var scbar = new LayoutFarm.SampleControls.UIScrollBar(15, 200);
+            var scbar = new LayoutFarm.CustomWidgets.UIScrollBar(15, 200);
             scbar.SetLocation(10, 10);
 
             scbar.MinValue = 0;

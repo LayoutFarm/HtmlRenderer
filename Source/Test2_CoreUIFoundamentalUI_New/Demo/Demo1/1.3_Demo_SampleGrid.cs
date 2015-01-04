@@ -16,20 +16,20 @@ namespace LayoutFarm
         {
             //grid0
             {
-                var gridBox = new LayoutFarm.SampleControls.UIGridBox(100, 100);
+                var gridBox = new LayoutFarm.CustomWidgets.UIGridBox(100, 100);
                 gridBox.SetLocation(50, 50);
                 gridBox.BuildGrid(2, 4, CellSizeStyle.UniformCell);
                 viewport.AddContent(gridBox);
             }
             //grid1
             {
-                var gridBox = new LayoutFarm.SampleControls.UIGridBox(100, 100);
+                var gridBox = new LayoutFarm.CustomWidgets.UIGridBox(100, 100);
                 gridBox.SetLocation(200, 50);
                 gridBox.BuildGrid(2, 4, CellSizeStyle.UniformCell);
                  
                 viewport.AddContent(gridBox);
 
-                var simpleButton = new LayoutFarm.SampleControls.UIEaseBox(20, 20);
+                var simpleButton = new LayoutFarm.CustomWidgets.UIEaseBox(20, 20);
                 simpleButton.BackColor = KnownColors.FromKnownColor(KnownColor.OliveDrab);
                 gridBox.AddUI(simpleButton, 1, 1); 
             }
@@ -38,7 +38,7 @@ namespace LayoutFarm
             //-----
             //grid2
             {
-                var gridBox = new LayoutFarm.SampleControls.UIGridBox(100, 100);
+                var gridBox = new LayoutFarm.CustomWidgets.UIGridBox(100, 100);
                 gridBox.SetLocation(350, 50);
                 gridBox.BuildGrid(3, 8, CellSizeStyle.UniformCell);
 

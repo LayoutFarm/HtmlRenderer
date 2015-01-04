@@ -23,7 +23,7 @@ namespace HtmlRenderer.Boxes
                 {
                     case "textbox":
                         {
-                            var textbox = new LayoutFarm.SampleControls.UITextBox(100, 20, false);
+                            var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 20, false);
                             LayoutFarm.Boxes.RenderElementInsideCssBox leanTextBox = new LayoutFarm.Boxes.RenderElementInsideCssBox(textbox,
                                 spec, 
                                 textbox.GetPrimaryRenderElement(rootgfx));
@@ -34,7 +34,7 @@ namespace HtmlRenderer.Boxes
                         }
                 }
             }
-            var simpleBox = new LayoutFarm.SampleControls.UIEaseBox(100, 20);
+            var simpleBox = new LayoutFarm.CustomWidgets.EaseBox(100, 20);
             simpleBox.BackColor = LayoutFarm.Drawing.Color.LightGray;
 
             LayoutFarm.Boxes.RenderElementInsideCssBox leanBox = new LayoutFarm.Boxes.RenderElementInsideCssBox(simpleBox, spec, simpleBox.GetPrimaryRenderElement(rootgfx));

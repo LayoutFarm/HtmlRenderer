@@ -8,7 +8,7 @@ using LayoutFarm.Drawing;
 using LayoutFarm.Text;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
     public class UIGridBox : UIBox
     {

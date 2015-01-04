@@ -8,30 +8,23 @@ using LayoutFarm.Drawing;
 using LayoutFarm.Text;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
 
-    public class CustomImageRenderBox : RenderBoxBase
+    public class CustomRenderBox : RenderBoxBase
     {
 
 #if DEBUG
         public bool dbugBreak;
 #endif
-        Image image;
-        public CustomImageRenderBox(RootGraphic rootgfx, int width, int height)
+        public CustomRenderBox(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
             this.BackColor = Color.LightGray;
+            
         }
         public override void ClearAllChildren()
         {
-
-        }
-
-        public Image Image
-        {
-            get { return this.image; }
-            set { this.image = value; }
         }
         public Color BackColor
         {
@@ -40,15 +33,11 @@ namespace LayoutFarm.SampleControls
         }
         protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
         {
-            if (this.image != null)
+            //sample bg   
+            canvasPage.FillRectangle(BackColor, updateArea._left, updateArea._top, updateArea.Width, updateArea.Height);
+            if (this.Layers != null)
             {
-                canvasPage.DrawImage(this.image,
-                    new RectangleF(0, 0, this.Width, this.Height));
-            }
-            else
-            {
-                //when no image
-                //canvasPage.FillRectangle(BackColor, updateArea._left, updateArea._top, updateArea.Width, updateArea.Height);
+                this.Layers.LayersDrawContent(canvasPage, updateArea);
             }
 #if DEBUG
             //canvasPage.dbug_DrawCrossRect(LayoutFarm.Drawing.Color.Black,

@@ -8,10 +8,10 @@ using LayoutFarm.Drawing;
 using LayoutFarm.Text;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
 
-    public class UIMenuItem : UIBox
+    public class MenuItem : UIBox
     {
 
         CustomRenderBox primElement;//background 
@@ -21,13 +21,13 @@ namespace LayoutFarm.SampleControls
         UIBox landPart;
 
         //2. float part   
-        UIMenuBox floatPart;
+        MenuBox floatPart;
         RenderElement floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
 
-        List<UIMenuItem> childItems;
+        List<MenuItem> childItems;
 
-        public UIMenuItem(int width, int height)
+        public MenuItem(int width, int height)
             : base(width, height)
         {
 
@@ -189,7 +189,7 @@ namespace LayoutFarm.SampleControls
                 }
             }
         }
-        public UIMenuBox FloatPart
+        public MenuBox FloatPart
         {
             get { return this.floatPart; }
             set
@@ -285,20 +285,20 @@ namespace LayoutFarm.SampleControls
         }
 
 
-        public void AddSubMenuItem(UIMenuItem childItem)
+        public void AddSubMenuItem(MenuItem childItem)
         {
             if (childItems == null)
             {
-                childItems = new List<UIMenuItem>();
+                childItems = new List<MenuItem>();
             }
             this.childItems.Add(childItem);
             floatPart.AddChildBox(childItem);
         }
     }
 
-    public class UIMenuBox : UIPanel
+    public class MenuBox : Panel
     {
-        public UIMenuBox(int w, int h)
+        public MenuBox(int w, int h)
             : base(w, h)
         {
         }

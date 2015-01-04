@@ -10,7 +10,7 @@ using LayoutFarm.UI;
 using LayoutFarm.Text;
 
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
 
     public class UITextBox : UIBox, IUserEventPortal

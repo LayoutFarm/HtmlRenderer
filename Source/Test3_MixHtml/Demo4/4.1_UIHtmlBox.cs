@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
-using LayoutFarm.SampleControls;
+using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
 
 namespace LayoutFarm
@@ -12,13 +12,13 @@ namespace LayoutFarm
     [DemoNote("4.1 UIHtmlBox")]
     class Demo_UIHtmlBox : DemoBase
     {
-        UIHtmlBox htmlBox;
+        HtmlBox htmlBox;
         string htmltext;
         protected override void OnStartDemo(SampleViewport viewport)
         {
 
             //html box
-            htmlBox = new UIHtmlBox(viewport.P, 800, 600);
+            htmlBox = new HtmlBox(viewport.P, 800, 600);
             viewport.AddContent(htmlBox);
 
             if (htmltext == null)

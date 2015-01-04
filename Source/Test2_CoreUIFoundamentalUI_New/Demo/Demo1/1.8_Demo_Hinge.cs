@@ -30,13 +30,13 @@ namespace LayoutFarm
             viewport.AddContent(menuItem);
 
         }
-        LayoutFarm.SampleControls.UIComboBox CreateComboBox(int x, int y)
+        LayoutFarm.CustomWidgets.UIComboBox CreateComboBox(int x, int y)
         {
-            LayoutFarm.SampleControls.UIComboBox hingeBox = new SampleControls.UIComboBox(400, 20);
+            LayoutFarm.CustomWidgets.UIComboBox hingeBox = new CustomWidgets.UIComboBox(400, 20);
             hingeBox.SetLocation(x, y);
             //--------------------
             //1. create landing part
-            var landPart = new LayoutFarm.SampleControls.UIPanel(400, 20);
+            var landPart = new LayoutFarm.CustomWidgets.UIPanel(400, 20);
             landPart.BackColor = Color.Green;
             hingeBox.LandPart = landPart;
 
@@ -48,11 +48,11 @@ namespace LayoutFarm
             {
                 arrowBmp = LoadBitmap("../../Demo/arrow_open.png");
             }
-            LayoutFarm.SampleControls.UIImageBox imgBox = new SampleControls.UIImageBox(arrowBmp.Width, arrowBmp.Height);
+            LayoutFarm.CustomWidgets.UIImageBox imgBox = new CustomWidgets.UIImageBox(arrowBmp.Width, arrowBmp.Height);
             imgBox.Image = arrowBmp;
             //--------------------------------------
             //2. float part
-            var floatPart = new LayoutFarm.SampleControls.UIPanel(400, 100);
+            var floatPart = new LayoutFarm.CustomWidgets.UIPanel(400, 100);
             floatPart.BackColor = Color.Blue;
             hingeBox.FloatPart = floatPart;
 
@@ -74,13 +74,13 @@ namespace LayoutFarm
             landPart.AddChildBox(imgBox);
             return hingeBox;
         }
-        LayoutFarm.SampleControls.UIMenuItem CreateMenuItem(int x, int y)
+        LayoutFarm.CustomWidgets.UIMenuItem CreateMenuItem(int x, int y)
         {
-            LayoutFarm.SampleControls.UIMenuItem hingeBox = new SampleControls.UIMenuItem(150, 20);
+            LayoutFarm.CustomWidgets.UIMenuItem hingeBox = new CustomWidgets.UIMenuItem(150, 20);
             hingeBox.SetLocation(x, y);
             //--------------------
             //1. create landing part
-            var landPart = new LayoutFarm.SampleControls.UIPanel(150, 20);
+            var landPart = new LayoutFarm.CustomWidgets.UIPanel(150, 20);
             landPart.BackColor = Color.OrangeRed;
             hingeBox.LandPart = landPart;
             //--------------------------------------
@@ -91,11 +91,11 @@ namespace LayoutFarm
             {
                 arrowBmp = LoadBitmap("../../Demo/arrow_open.png");
             }
-            LayoutFarm.SampleControls.UIImageBox imgBox = new SampleControls.UIImageBox(arrowBmp.Width, arrowBmp.Height);
+            LayoutFarm.CustomWidgets.UIImageBox imgBox = new CustomWidgets.UIImageBox(arrowBmp.Width, arrowBmp.Height);
             imgBox.Image = arrowBmp;
             //--------------------------------------
             //2. float part
-            var floatPart = new LayoutFarm.SampleControls.UIMenuBox(400, 100);
+            var floatPart = new LayoutFarm.CustomWidgets.UIMenuBox(400, 100);
             floatPart.BackColor = Color.Gray;
             hingeBox.FloatPart = floatPart;
 

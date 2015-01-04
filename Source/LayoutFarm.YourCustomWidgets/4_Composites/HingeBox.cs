@@ -8,10 +8,9 @@ using LayoutFarm.Drawing;
 using LayoutFarm.Text;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
-
-    public class UIComboBox : UIBox
+    public class HingeBox : UIBox
     {
 
         CustomRenderBox primElement;//background 
@@ -25,7 +24,7 @@ namespace LayoutFarm.SampleControls
         RenderElement floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
 
-        public UIComboBox(int width, int height)
+        public HingeBox(int width, int height)
             : base(width, height)
         {
 
@@ -65,7 +64,7 @@ namespace LayoutFarm.SampleControls
                 var layers = new VisualLayerCollection();
                 var layer0 = new VisualPlainLayer(renderE);
                 layers.AddLayer(layer0);
-                renderE.Layers = layers; 
+                renderE.Layers = layers;
 
                 if (this.landPart != null)
                 {
@@ -265,5 +264,10 @@ namespace LayoutFarm.SampleControls
                 this.floatPartStyle = value;
             }
         }
+    }
+    public enum HingeFloatPartStyle
+    {
+        Popup,
+        Embeded
     }
 }

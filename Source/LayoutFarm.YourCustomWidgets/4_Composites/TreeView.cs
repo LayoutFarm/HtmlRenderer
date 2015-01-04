@@ -8,9 +8,9 @@ using LayoutFarm.Drawing;
 using LayoutFarm.Text;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.SampleControls
+namespace LayoutFarm.CustomWidgets
 {
-    public class UITreeView : UIBox
+    public class TreeView : UIBox
     {
         //composite          
         CustomRenderBox primElement;//background
@@ -19,13 +19,13 @@ namespace LayoutFarm.SampleControls
         List<LayerElement> layers = new List<LayerElement>(1); 
         int latestItemY;
 
-        UIPanel panel; //panel 
-        public UITreeView(int width, int height)
+        Panel panel; //panel 
+        public TreeView(int width, int height)
             : base(width, height)
         {
             PlainLayerElement plainLayer = new PlainLayerElement();
             //panel for listview items
-            this.panel = new UIPanel(width, height);
+            this.panel = new Panel(width, height);
             panel.BackColor = Color.LightGray;
             plainLayer.AddUI(panel);
             this.layers.Add(plainLayer);
@@ -83,7 +83,7 @@ namespace LayoutFarm.SampleControls
             }
             return primElement;
         }
-        public void AddItem(UITreeNode treeNode)
+        public void AddItem(TreeNode treeNode)
         {
             treeNode.SetLocation(0, latestItemY);
             latestItemY += treeNode.Height;
@@ -168,7 +168,7 @@ namespace LayoutFarm.SampleControls
         //----------------------------------------------------   
     }
 
-    public class UITreeNode : UIBox
+    public class TreeNode : UIBox
     {
         const int NODE_DEFAULT_HEIGHT = 17;
         CustomRenderBox primElement;//bg primary render element
@@ -177,14 +177,14 @@ namespace LayoutFarm.SampleControls
         int newChildNodeY = NODE_DEFAULT_HEIGHT;
         int indentWidth = 17;
         int desiredHeight = 0; //after layout
-        List<UITreeNode> childNodes;
-        UITreeNode parentNode;
-        UITreeView ownerTreeView;
+        List<TreeNode> childNodes;
+        TreeNode parentNode;
+        TreeView ownerTreeView;
         //-------------------------- 
         Image nodeIcon;
-        UIImageBox uiNodeIcon;
+        ImageBox uiNodeIcon;
         //--------------------------
-        public UITreeNode(int width, int height)
+        public TreeNode(int width, int height)
             : base(width, height)
         {
 
@@ -232,7 +232,7 @@ namespace LayoutFarm.SampleControls
                     plainLayer = (VisualPlainLayer)element.Layers.GetLayer(0);
                 }
                 //-----------------------------
-                uiNodeIcon = new UIImageBox(16, 16);//create with default size 
+                uiNodeIcon = new ImageBox(16, 16);//create with default size 
                 SetupNodeIconBehaviour(uiNodeIcon);
                 plainLayer.AddChild(uiNodeIcon.GetPrimaryRenderElement(rootgfx));
                 this.primElement = element;
@@ -264,11 +264,11 @@ namespace LayoutFarm.SampleControls
                 return childNodes.Count;
             }
         }
-        public UITreeNode ParentNode
+        public TreeNode ParentNode
         {
             get { return this.parentNode; }
         }
-        public UITreeView TreeView
+        public TreeView TreeView
         {
             get
             {
@@ -292,16 +292,16 @@ namespace LayoutFarm.SampleControls
             }
         }
 
-        internal void SetOwnerTreeView(UITreeView ownerTreeView)
+        internal void SetOwnerTreeView(TreeView ownerTreeView)
         {
             this.ownerTreeView = ownerTreeView;
         }
-        public void AddChildNode(UITreeNode treeNode)
+        public void AddChildNode(TreeNode treeNode)
         {
 
             if (childNodes == null)
             {
-                childNodes = new List<UITreeNode>();
+                childNodes = new List<TreeNode>();
             }
             this.childNodes.Add(treeNode);
             treeNode.parentNode = this;
@@ -385,7 +385,7 @@ namespace LayoutFarm.SampleControls
             }
         }
         //------------------------------------------------
-        void SetupNodeIconBehaviour(UIImageBox uiNodeIcon)
+        void SetupNodeIconBehaviour(ImageBox uiNodeIcon)
         {
 
             uiNodeIcon.MouseDown += (s, e) =>
