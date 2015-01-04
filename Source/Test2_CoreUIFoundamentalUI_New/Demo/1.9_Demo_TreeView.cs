@@ -8,7 +8,7 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
-    [DemoNote("1.8 TreeView")]
+    [DemoNote("1.9 TreeView")]
     class Demo_TreeView : DemoBase
     {
         protected override void OnStartDemo(SampleViewport viewport)

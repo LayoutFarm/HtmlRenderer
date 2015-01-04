@@ -64,6 +64,7 @@
     <Compile Include="Demo\1.4_Demo_Drag.cs" />
     <Compile Include="Demo\1.6_Demo_ScrollView.cs" />
     <Compile Include="Demo\1.7_Demo_ListView.cs" />
+    <Compile Include="Demo\1.8_Demo_Hinge.cs" />
     <Compile Include="Demo\2.1_Demo_SingleLineTextBox.cs" />
     <Compile Include="Demo\2.2_Demo_MultilineTextBox.cs" />
     <Compile Include="Demo\3.1_Demo_Visible.cs" />
@@ -71,7 +72,7 @@
     <Compile Include="Demo\3.3_Demo_ControllerBox2.cs" />
     <Compile Include="Demo\3.4_Demo_CompartmentBox.cs" />
     <Compile Include="Demo\3.5_Demo_CompartmentBox2.cs" />
-    <Compile Include="Demo\1.8_Demo_TreeView.cs" />
+    <Compile Include="Demo\1.9_Demo_TreeView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="app.config" />
