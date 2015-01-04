@@ -82,10 +82,6 @@
       <Project>{4602B28B-EEEC-4A69-854C-B00B8B616837}</Project>
       <Name>LayoutFarm.Platforms.WinForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.YourCustomUI\LayoutFarm.YourCustomUI.csproj">
-      <Project>{E4A293C9-B7FB-4A5E-B559-E97150AC3FC3}</Project>
-      <Name>LayoutFarm.YourCustomUI</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
