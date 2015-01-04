@@ -11,31 +11,45 @@ namespace LayoutFarm
     [DemoNote("1.8 Hinge")]
     class Demo_Hinge : DemoBase
     {
-        protected override void OnStartDemo(SampleViewport viewport)
+        Bitmap arrowBmp;
+        protected override void OnStartDemo(SampleViewport viewport) 
         {
-
-            var hingeBox1 = CreateHingeBox(20, 20);            
-            //------------
+            var hingeBox1 = CreateComboBox(20, 20); 
             viewport.AddContent(hingeBox1);
-            var hingeBox2 = CreateHingeBox(50, 50);
+
+            var hingeBox2 = CreateComboBox(50, 50);
             viewport.AddContent(hingeBox2);
 
+
+            //------------
+            var menuItem = CreateMenuItem(50, 100);
+            var menuItem2 = CreateMenuItem(5, 5);
+            menuItem.AddSubMenuItem(menuItem2);
+
+
+            viewport.AddContent(menuItem);
+
         }
-        LayoutFarm.SampleControls.UIHinge CreateHingeBox(int x, int y)
+        LayoutFarm.SampleControls.UIComboBox CreateComboBox(int x, int y)
         {
-            LayoutFarm.SampleControls.UIHinge hingeBox = new SampleControls.UIHinge(400, 20);
+            LayoutFarm.SampleControls.UIComboBox hingeBox = new SampleControls.UIComboBox(400, 20);
             hingeBox.SetLocation(x, y);
             //--------------------
             //1. create landing part
             var landPart = new LayoutFarm.SampleControls.UIPanel(400, 20);
             landPart.BackColor = Color.Green;
             hingeBox.LandPart = landPart;
+
+            //--------------------------------------
             //add small px to land part
             //image
-            //load bitmap with gdi+           
-            Bitmap bmp = LoadBitmap("../../Demo/arrow_open.png");
-            LayoutFarm.SampleControls.UIImageBox imgBox = new SampleControls.UIImageBox(bmp.Width, bmp.Height);
-            imgBox.Image = bmp;
+            //load bitmap with gdi+                
+            if (arrowBmp == null)
+            {
+                arrowBmp = LoadBitmap("../../Demo/arrow_open.png");
+            }
+            LayoutFarm.SampleControls.UIImageBox imgBox = new SampleControls.UIImageBox(arrowBmp.Width, arrowBmp.Height);
+            imgBox.Image = arrowBmp;
             //--------------------------------------
             //2. float part
             var floatPart = new LayoutFarm.SampleControls.UIPanel(400, 100);
@@ -60,7 +74,49 @@ namespace LayoutFarm
             landPart.AddChildBox(imgBox);
             return hingeBox;
         }
+        LayoutFarm.SampleControls.UIMenuItem CreateMenuItem(int x, int y)
+        {
+            LayoutFarm.SampleControls.UIMenuItem hingeBox = new SampleControls.UIMenuItem(150, 20);
+            hingeBox.SetLocation(x, y);
+            //--------------------
+            //1. create landing part
+            var landPart = new LayoutFarm.SampleControls.UIPanel(150, 20);
+            landPart.BackColor = Color.OrangeRed;
+            hingeBox.LandPart = landPart;
+            //--------------------------------------
+            //add small px to land part
+            //image
+            //load bitmap with gdi+                
+            if (arrowBmp == null)
+            {
+                arrowBmp = LoadBitmap("../../Demo/arrow_open.png");
+            }
+            LayoutFarm.SampleControls.UIImageBox imgBox = new SampleControls.UIImageBox(arrowBmp.Width, arrowBmp.Height);
+            imgBox.Image = arrowBmp;
+            //--------------------------------------
+            //2. float part
+            var floatPart = new LayoutFarm.SampleControls.UIMenuBox(400, 100);
+            floatPart.BackColor = Color.Gray;
+            hingeBox.FloatPart = floatPart;
 
+            //--------------------------------------
+            //if click on this image then
+            imgBox.MouseDown += (s, e) =>
+            {
+                e.CancelBubbling = true;
+
+                if (hingeBox.IsOpen)
+                {
+                    hingeBox.CloseHinge();
+                }
+                else
+                {
+                    hingeBox.OpenHinge();
+                }
+            };
+            landPart.AddChildBox(imgBox);
+            return hingeBox;
+        }
         static Bitmap LoadBitmap(string filename)
         {
             System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);

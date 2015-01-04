@@ -10,7 +10,8 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.SampleControls
 {
-    public class UIHinge : UIBox
+
+    public class UIMenuItem : UIBox
     {
 
         CustomRenderBox primElement;//background 
@@ -20,11 +21,13 @@ namespace LayoutFarm.SampleControls
         UIBox landPart;
 
         //2. float part   
-        UIBox floatPart;
+        UIMenuBox floatPart;
         RenderElement floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
 
-        public UIHinge(int width, int height)
+        List<UIMenuItem> childItems;
+
+        public UIMenuItem(int width, int height)
             : base(width, height)
         {
 
@@ -66,6 +69,24 @@ namespace LayoutFarm.SampleControls
                 layers.AddLayer(layer0);
                 renderE.Layers = layers;
 
+                //layer0
+
+                //layer0 
+                //int layerCount = this.layers.Count;
+                //for (int m = 0; m < layerCount; ++m)
+                //{
+                //    PlainLayerElement plain = (PlainLayerElement)this.layers[m];
+                //    var groundLayer = new VisualPlainLayer(renderE);
+                //    renderE.Layers.AddLayer(groundLayer);
+
+                //    //---------------------------------
+                //    int j = plain.Count;
+                //    for (int i = 0; i < j; ++i)
+                //    {
+                //        groundLayer.AddUI(plain.GetElement(i));
+                //    }
+                //}
+                //---------------------------------
                 if (this.landPart != null)
                 {
                     layer0.AddChild(this.landPart.GetPrimaryRenderElement(rootgfx));
@@ -168,7 +189,7 @@ namespace LayoutFarm.SampleControls
                 }
             }
         }
-        public UIBox FloatPart
+        public UIMenuBox FloatPart
         {
             get { return this.floatPart; }
             set
@@ -186,9 +207,7 @@ namespace LayoutFarm.SampleControls
         {
             get { return this.isOpen; }
         }
-        //---------------------------------------------------- 
-
-
+        //----------------------------------------------------  
         public void OpenHinge()
         {
             if (isOpen) return;
@@ -264,10 +283,24 @@ namespace LayoutFarm.SampleControls
                 this.floatPartStyle = value;
             }
         }
+
+
+        public void AddSubMenuItem(UIMenuItem childItem)
+        {
+            if (childItems == null)
+            {
+                childItems = new List<UIMenuItem>();
+            }
+            this.childItems.Add(childItem);
+            floatPart.AddChildBox(childItem);
+        }
     }
-    public enum HingeFloatPartStyle
+
+    public class UIMenuBox : UIPanel
     {
-        Popup,
-        Embeded
+        public UIMenuBox(int w, int h)
+            : base(w, h)
+        {
+        }
     }
 }

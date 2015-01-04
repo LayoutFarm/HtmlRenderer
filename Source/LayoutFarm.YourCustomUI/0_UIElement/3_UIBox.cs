@@ -78,6 +78,9 @@ namespace LayoutFarm.UI
         {
             get;
         }
+
+
+
         public int Left
         {
             get
@@ -195,6 +198,13 @@ namespace LayoutFarm.UI
             get { return this.Width; }
         }
 
+
+        //-----------------------------------
+        
+        internal static RenderElement GetCurrentPrimaryRenderElement(UIBox box)
+        {   
+            return box.CurrentPrimaryRenderElement;
+        }
     }
 
 }
