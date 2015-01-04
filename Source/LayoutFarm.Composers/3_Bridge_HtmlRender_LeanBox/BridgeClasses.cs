@@ -49,9 +49,7 @@ namespace LayoutFarm.Boxes
 
 
     public sealed class RenderElementInsideCssBox : CustomCssBox
-    {
-
-
+    {  
         CssBoxInsideRenderElement wrapper;
         int globalXForRenderElement;
         int globalYForRenderElement;
