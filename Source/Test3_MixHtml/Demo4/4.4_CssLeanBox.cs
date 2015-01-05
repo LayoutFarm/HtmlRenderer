@@ -16,9 +16,9 @@ namespace LayoutFarm
 
             ////==================================================
             //html box
-            HtmlBox htmlBox = new HtmlBox(viewport.P, 800, 400);
-            
-            
+            HtmlBox htmlBox = new HtmlBox(800, 400);
+
+
             StringBuilder stbuilder = new StringBuilder();
             stbuilder.Append("<html><head></head><body>");
             stbuilder.Append("<div>custom box1</div>");

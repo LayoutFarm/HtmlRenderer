@@ -26,8 +26,11 @@ namespace LayoutFarm.CustomWidgets
         public event EventHandler<ImageRequestEventArgs> RequestImage;
         int _width = 800; //temp
         RootGraphic rootgfx;
+        HtmlRenderer.Composers.RenderTreeBuilder renderTreeBuilder;
 
         Queue<HtmlInputEventAdapter> inputEventAdapterStock = new Queue<HtmlInputEventAdapter>();
+        Queue<HtmlRenderer.Boxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
+
 
         HtmlRenderer.WebDom.CssActiveSheet baseStyleSheet;
 
@@ -61,6 +64,25 @@ namespace LayoutFarm.CustomWidgets
             get { return this.gfxPlatform; }
         }
 
+        internal HtmlRenderer.Boxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
+        {
+            HtmlRenderer.Boxes.LayoutVisitor lay = null;
+            if (htmlLayoutVisitorStock.Count == 0)
+            {
+                lay = new LayoutVisitor(this.gfxPlatform);
+            }
+            else
+            {
+                lay = this.htmlLayoutVisitorStock.Dequeue();
+            }
+            lay.Bind(island);
+            return lay;
+        }
+        internal void ReleaseHtmlLayoutVisitor(HtmlRenderer.Boxes.LayoutVisitor lay)
+        {
+            lay.UnBind();
+            this.htmlLayoutVisitorStock.Enqueue(lay);
+        }
         internal HtmlInputEventAdapter GetSharedInputEventAdapter(HtmlIsland island)
         {
             HtmlInputEventAdapter adapter = null;
@@ -137,12 +159,10 @@ namespace LayoutFarm.CustomWidgets
         }
 
         //----------------------------------------------------
-
-        public void CreateHtmlFragment(string htmlFragment, RenderElement container, out MyHtmlIsland newIsland, out CssBox newCssBox)
+        void CreateRenderTreeBuidler()
         {
-            //1. builder
-            var builder = new HtmlRenderer.Composers.RenderTreeBuilder(rootgfx);
-            builder.RequestStyleSheet += (e) =>
+            this.renderTreeBuilder = new HtmlRenderer.Composers.RenderTreeBuilder(rootgfx);
+            this.renderTreeBuilder.RequestStyleSheet += (e) =>
             {
                 if (this.RequestStylesheet != null)
                 {
@@ -151,6 +171,11 @@ namespace LayoutFarm.CustomWidgets
                     e.SetStyleSheet = req.SetStyleSheet;
                 }
             };
+        }
+        public void CreateHtmlFragment(string htmlFragment, RenderElement container, out MyHtmlIsland newIsland, out CssBox newCssBox)
+        {
+            //1. builder
+            if (this.renderTreeBuilder == null) CreateRenderTreeBuidler();
 
             //-------------------------------------------------------------------
             //2. parse
@@ -164,17 +189,20 @@ namespace LayoutFarm.CustomWidgets
 
             //3. generate render tree
             ////build rootbox from htmldoc
-            var rootElement = builder.BuildCssRenderTree(htmldoc,
+            var rootElement = renderTreeBuilder.BuildCssRenderTree(htmldoc,
                 rootgfx.SampleIFonts,
                 baseStyleSheet,
                 container);
             //4. create small island
 
-            var htmlIsland = new MyHtmlIsland(this.gfxPlatform);
+            var htmlIsland = new MyHtmlIsland();
             htmlIsland.SetRootCssBox(rootElement);
-            htmlIsland.SetHtmlDoc(htmldoc);
+            htmlIsland.Document = htmldoc;
             htmlIsland.SetMaxSize(this._width, 0);
-            htmlIsland.PerformLayout();
+
+            var lay = this.GetSharedHtmlLayoutVisitor(htmlIsland);
+            htmlIsland.PerformLayout(lay);
+            this.ReleaseHtmlLayoutVisitor(lay);
 
             newIsland = htmlIsland;
             newCssBox = rootElement;
@@ -182,36 +210,40 @@ namespace LayoutFarm.CustomWidgets
         }
         public void CreateHtmlFragment(HtmlRenderer.WebDom.WebDocument htmldoc, RenderElement container, out MyHtmlIsland newIsland, out CssBox newCssBox)
         {
-            //1. builder
-            var builder = new HtmlRenderer.Composers.RenderTreeBuilder(rootgfx);
-            builder.RequestStyleSheet += (e) =>
-            {
-                if (this.RequestStylesheet != null)
-                {
-                    var req = new TextLoadRequestEventArgs(e.Src);
-                    RequestStylesheet(this, req);
-                    e.SetStyleSheet = req.SetStyleSheet;
-                }
-            };
-
+            //1. builder 
+            if (this.renderTreeBuilder == null) CreateRenderTreeBuidler();
+            //-------------------------------------------------------------------
+            //2. skip parse
 
             //3. generate render tree
             ////build rootbox from htmldoc
-            var rootElement = builder.BuildCssRenderTree(htmldoc,
+            var rootElement = renderTreeBuilder.BuildCssRenderTree(htmldoc,
                 rootgfx.SampleIFonts,
                 baseStyleSheet,
                 container);
             //4. create small island
 
-            var htmlIsland = new MyHtmlIsland(this.gfxPlatform);
+            var htmlIsland = new MyHtmlIsland();
             htmlIsland.SetRootCssBox(rootElement);
-            htmlIsland.SetHtmlDoc(htmldoc);
+            htmlIsland.Document = htmldoc;
             htmlIsland.SetMaxSize(this._width, 0);
-            htmlIsland.PerformLayout();
+
+            var lay = this.GetSharedHtmlLayoutVisitor(htmlIsland);
+            htmlIsland.PerformLayout(lay);
+            this.ReleaseHtmlLayoutVisitor(lay);
+                        
 
             newIsland = htmlIsland;
             newCssBox = rootElement;
 
+        }
+
+        internal void RefreshCssTree(HtmlRenderer.WebDom.WebDocument webdoc)
+        {
+            if (this.renderTreeBuilder == null) CreateRenderTreeBuidler();
+            renderTreeBuilder.RefreshCssTree(webdoc);
+
+            //var rootBox2 = builder.RefreshCssTree(myHtmlIsland.Document);
         }
     }
 }

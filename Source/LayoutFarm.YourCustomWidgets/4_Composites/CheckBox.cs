@@ -13,13 +13,11 @@ namespace LayoutFarm.CustomWidgets
     public interface ICheckable
     {
         bool Checked { get; }
-
     }
 
     public class CheckBox : Panel, ICheckable
     {
         //check icon
-
         ImageBox imageBox;
         bool isChecked;
         public CheckBox(int w, int h)
@@ -84,9 +82,7 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
-
-        public event EventHandler WhenChecked;
-
+        public event EventHandler WhenChecked; 
 
     }
 

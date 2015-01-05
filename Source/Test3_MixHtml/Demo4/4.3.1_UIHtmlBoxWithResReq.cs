@@ -27,7 +27,7 @@ namespace LayoutFarm
             }
             //==================================================
             //html box
-            var htmlBox = new HtmlBox(viewport.P, 800, 600);
+            var htmlBox = new HtmlBox(800, 600);
             htmlBox.RequestImage += new EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs>(html_ImageReq);
 
             viewport.AddContent(htmlBox);
@@ -46,7 +46,7 @@ namespace LayoutFarm
 
             //load create and load bitmap
             System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
-             
+
             e.SetResultImage(new Bitmap(bmp.Width, bmp.Height, bmp));
 
         }

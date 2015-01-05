@@ -26,7 +26,7 @@ namespace LayoutFarm
             }
             //==================================================
             //html box
-            var htmlBox = new HtmlBox(viewport.P, 800, 600);
+            var htmlBox = new HtmlBox(800, 600);
             var htmlBoxContentMx = new HtmlBoxContentManager();
             var contentMx = new HtmlRenderer.ContentManagers.ImageContentManager();
 
@@ -52,7 +52,7 @@ namespace LayoutFarm
                 return;
             }
             //load
-            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath); 
+            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
             e.SetResultImage(new Bitmap(bmp.Width, bmp.Height, bmp));
         }
 

@@ -17,7 +17,7 @@ namespace LayoutFarm
 
             ////==================================================
             //html box
-            HtmlBox htmlBox = new HtmlBox(viewport.P, 800, 400);
+            HtmlBox htmlBox = new HtmlBox(800, 400);
             viewport.AddContent(htmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
             htmlBox.LoadHtmlText(html);
@@ -32,5 +32,5 @@ namespace LayoutFarm
         }
 
     }
-   
+
 }

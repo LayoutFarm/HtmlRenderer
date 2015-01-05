@@ -12,8 +12,7 @@ namespace HtmlRenderer.Boxes
     public class LayoutVisitor : BoxVisitor
     {
         HtmlIsland htmlIsland;
-        float totalMarginLeftAndRight;
-
+        float totalMarginLeftAndRight; 
 
         Queue<Dictionary<CssBox, PartialBoxStrip>> dicStripPool;
         Queue<List<PartialBoxStrip>> listStripPool;
@@ -22,12 +21,15 @@ namespace HtmlRenderer.Boxes
         List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
 
         static int totalLayoutIdEpisode = 0;
-        readonly int episodeId = ++totalLayoutIdEpisode;
-
+        int episodeId;
         GraphicsPlatform gfxPlatform;
-        internal LayoutVisitor(GraphicsPlatform gfxPlatform, HtmlIsland htmlIsland)
+
+        public LayoutVisitor(GraphicsPlatform gfxPlatform)
         {
             this.gfxPlatform = gfxPlatform;
+        }
+        public void Bind(HtmlIsland htmlIsland)
+        {
             this.htmlIsland = htmlIsland;
             if (episodeId == ushort.MaxValue - 1)
             {
@@ -35,6 +37,17 @@ namespace HtmlRenderer.Boxes
                 totalLayoutIdEpisode = 1;
                 episodeId = totalLayoutIdEpisode++;
             }
+        }
+        public void UnBind()
+        {
+            this.htmlIsland = null;
+            if (dicStripPool != null) dicStripPool.Clear();
+            if (listStripPool != null) listStripPool.Clear();
+
+            readyDicStrip.Clear();
+            readyListStrip.Clear();
+            totalMarginLeftAndRight = 0;
+
         }
         public GraphicsPlatform GraphicsPlatform
         {
@@ -44,7 +57,7 @@ namespace HtmlRenderer.Boxes
         internal IFonts SampleIFonts
         {
             get { return this.gfxPlatform.SampleIFonts; }
-             
+
         }
         protected override void OnPushDifferentContaingBlock(CssBox box)
         {
