@@ -29,23 +29,21 @@ namespace HtmlRenderer.Composers
         const int DOUBLE_CLICK_SENSE = 150;//ms 
         Stack<CssBoxHitChain> hitChainPools = new Stack<CssBoxHitChain>();
 
-        public HtmlInputEventAdapter()
-        {
-
-        }
-        public void Bind(HtmlIsland htmlIsland, IFonts ifonts)
+        public HtmlInputEventAdapter(IFonts ifonts)
         {
             this.ifonts = ifonts;
-            if (htmlIsland != null)
-            {
-                this._htmlIsland = htmlIsland;
-            }
-            _isBinded = true;
+        } 
+        public void Bind(HtmlIsland htmlIsland)
+        {
+
+            this._htmlIsland = htmlIsland;
+            _isBinded = htmlIsland != null;
         }
         public void Unbind()
         {
             this._htmlIsland = null;
             this._isBinded = false;
+
         }
         static void SetEventOrigin(UIEventArgs e, CssBoxHitChain hitChain)
         {
@@ -152,8 +150,6 @@ namespace HtmlRenderer.Composers
                         {
                             this._htmlIsland.SetSelection(null);
                         }
-
-
                         ForEachEventListenerBubbleUp(e, hitChain, () =>
                         {
 

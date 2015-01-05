@@ -435,8 +435,6 @@ namespace HtmlRenderer.Boxes
             //----------------------------------------------------------------------------- 
             //set height  
             UpdateIfHigher(this, ExpectedHeight);
-
-
             //update back 
             lay.UpdateRootSize(this);
         }

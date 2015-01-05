@@ -22,14 +22,15 @@ using HtmlRenderer.Css;
 
 namespace HtmlRenderer.Boxes
 {
-
+    /// <summary>
+    /// layout and render the html fragment
+    /// </summary>
     public abstract class HtmlIsland : IDisposable
     {
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
         CssBox _rootBox;
-
         /// <summary>
         /// The actual size of the rendered html (after layout)
         /// </summary>
@@ -42,8 +43,8 @@ namespace HtmlRenderer.Boxes
         /// 99999
         /// </summary>
         const int MAX_WIDTH = 99999;
-        ////-----------------------------------------------------------
-        ////controll task of this container 
+
+        
         SelectionRange _currentSelectionRange;
         GraphicsPlatform gfxPlatform;
 
@@ -71,7 +72,7 @@ namespace HtmlRenderer.Boxes
 #if DEBUG
         public static int dbugCount02 = 0;
 #endif
-       
+
 
         public abstract void AddRequestImageBinderUpdate(ImageBinder binder);
 
