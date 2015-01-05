@@ -54,7 +54,7 @@ namespace HtmlRenderer.Composers
             set { this.doc = value; }
         }
 
-        public bool InternalRefreshRequest()
+        public bool NeedRefresh()
         {
 
             //not need to store that binder 
@@ -142,11 +142,8 @@ namespace HtmlRenderer.Composers
                 NeedUpdateDom(this, EventArgs.Empty);
             }
         }
-        public new void PerformPaint(Painter p)
-        {
-            if (doc == null) return;
-            base.PerformPaint(p);
-        }
+         
+
         protected override void OnRootDisposed()
         {
             base.OnRootDisposed();

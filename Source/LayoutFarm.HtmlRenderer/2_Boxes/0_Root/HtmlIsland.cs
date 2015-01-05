@@ -39,6 +39,12 @@ namespace HtmlRenderer.Boxes
 
         float _maxWidth;
         float _maxHeight;
+
+        float _viewportX;
+        float _viewportY;
+        float _viewportW;
+        float _viewportH;
+
         /// <summary>
         /// 99999
         /// </summary>
@@ -221,39 +227,50 @@ namespace HtmlRenderer.Boxes
                 _rootBox.PerformLayout(layoutArgs);
             }
             layoutArgs.PopContainingBlock();
-
         }
-        public RectangleF PhysicalViewportBound
+
+        public float ViewportWidth
         {
-            get;
-            set;
+            get { return this._viewportW; }
         }
-
-        /// <summary>
-        /// Render the html using the given device.
-        /// </summary>
-        /// <param name="g"></param>
-        protected void PerformPaint(Painter p)
+        public float ViewportHeight
+        {
+            get { return this._viewportH; }
+        }
+        public void SetViewportBound(float x, float y, float w, float h)
+        {
+            this._viewportX = x;
+            this._viewportY = y;
+            this._viewportW = w;
+            this._viewportH = h;
+        }
+        public virtual void PerformPaint(Painter p)
         {
             if (_rootBox == null)
             {
                 return;
             }
 
-            
-            var physicalViewportSize = this.PhysicalViewportBound.Size;
+            float viewportW = this.ViewportWidth;
+            float viewportH = this.ViewportHeight;
+
             var canvas = p.InnerCanvas;
+
             int ox = canvas.CanvasOriginX;
             int oy = canvas.CanvasOriginY;
 
             int scX = (int)this.ScrollOffset.X;
             int scY = (int)this.ScrollOffset.Y;
 
-
+            //new canvas origin 
             canvas.SetCanvasOrigin(ox + scX, oy + scY);
 
             p.PushContaingBlock(_rootBox);
-            p.SetPhysicalViewportBound(0, 0, physicalViewportSize.Width, physicalViewportSize.Height);
+
+            p.SetPhysicalViewportBounds(this._viewportX,
+                this._viewportY,
+                viewportW,
+                viewportH);
 
 
             _rootBox.Paint(p);

@@ -184,7 +184,7 @@ namespace LayoutFarm.CustomWidgets
                  (s, e) =>
                  {
 
-                     if (this.myHtmlIsland.InternalRefreshRequest())
+                     if (this.myHtmlIsland.NeedRefresh())
                      {
                          e.NeedUpdate = 1;
                      }

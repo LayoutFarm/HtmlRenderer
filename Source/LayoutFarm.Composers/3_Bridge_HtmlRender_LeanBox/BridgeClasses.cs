@@ -42,7 +42,8 @@ namespace LayoutFarm.Boxes
         }
         protected override void DrawContent(Canvas canvas, Rect updateArea)
         {
-            myHtmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
+
+            myHtmlIsland.SetViewportBound(this.X, this.Y, myWidth, myHeight);
             myHtmlIsland.CheckDocUpdate();
             painter.Bind(myHtmlIsland, canvas);
             myHtmlIsland.PerformPaint(painter);
@@ -335,9 +336,9 @@ namespace LayoutFarm.Boxes
         protected override void DrawContent(Canvas canvas, Rect updateArea)
         {
 
-            htmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
-            htmlIsland.CheckDocUpdate();
 
+            htmlIsland.SetViewportBound(this.X, this.Y, myWidth, myHeight);
+            htmlIsland.CheckDocUpdate();
             var painter = GetSharedPainter(this.htmlIsland, canvas);
             htmlIsland.PerformPaint(painter);
             ReleaseSharedPainter(painter);
