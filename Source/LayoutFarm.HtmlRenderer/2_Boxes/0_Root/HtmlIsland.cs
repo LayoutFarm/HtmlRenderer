@@ -268,7 +268,7 @@ namespace HtmlRenderer.Boxes
             canvas.SetCanvasOrigin(ox + scX, oy + scY);
 
             p.PushContaingBlock(_rootBox);
-            p.SetPhysicalViewportBound(0, oy + scY, physicalViewportSize.Width, physicalViewportSize.Height);
+            p.SetPhysicalViewportBound(0, 0, physicalViewportSize.Width, physicalViewportSize.Height);
 
 
             _rootBox.Paint(p);
