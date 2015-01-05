@@ -20,8 +20,8 @@ namespace LayoutFarm.CustomWidgets
     public class LightHtmlBoxHost
     {
         bool hasWaitingDocToLoad;
-        HtmlRenderer.WebDom.WebDocument currentdoc;        
-      
+        HtmlRenderer.WebDom.WebDocument currentdoc;
+
 
         GraphicsPlatform gfxPlatform;
         MyHtmlIsland myHtmlIsland;
@@ -124,7 +124,8 @@ namespace LayoutFarm.CustomWidgets
         }
 
         //----------------------------------------------------
-        public CssBox CreateHtmlFragment(string htmlFragment, RenderElement container)
+
+        public void CreateHtmlFragment(string htmlFragment, RenderElement container, out MyHtmlIsland newIsland, out CssBox newCssBox)
         {
             //1. builder
             var builder = new HtmlRenderer.Composers.RenderTreeBuilder(rootgfx);
@@ -143,39 +144,27 @@ namespace LayoutFarm.CustomWidgets
             //parse fragment to dom
             //temp fix
             //TODO: improve technique here
-            htmlFragment = "<html><body>" + htmlFragment + "</body></html>";
+            htmlFragment = "<html><head></head><body>" + htmlFragment + "</body></html>";
             var htmldoc = HtmlRenderer.Composers.WebDocumentParser.ParseDocument(
                            new HtmlRenderer.WebDom.Parser.TextSnapshot(htmlFragment.ToCharArray()));
+
             //3. generate render tree
             ////build rootbox from htmldoc
-            var rootBox = builder.BuildCssRenderTree(htmldoc,
+            var rootElement = builder.BuildCssRenderTree(htmldoc,
                 rootgfx.SampleIFonts,
                 myHtmlIsland.BaseStylesheet,
                 container);
+            //4. create small island
 
-            ////update htmlIsland
-            //var htmlIsland = this.myHtmlIsland;
-            //htmlIsland.SetHtmlDoc(this.currentdoc);
-            //htmlIsland.SetRootCssBox(rootBox, this.waitingCssData);
-            //htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
-            //htmlIsland.PerformLayout();
+            var htmlIsland = new MyHtmlIsland(this.gfxPlatform);
+            htmlIsland.SetRootCssBox(rootElement);
+            htmlIsland.SetHtmlDoc(htmldoc);
+            htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
+            htmlIsland.PerformLayout();
 
+            newIsland = htmlIsland;
+            newCssBox = rootElement;
 
-
-            ////build rootbox from htmldoc
-            //var rootBox = builder.BuildCssRenderTree(this.currentdoc,
-            //    rootgfx.SampleIFonts,
-            //    this.myHtmlIsland,
-            //    this.waitingCssData,
-            //    this.htmlRenderBox);
-
-            ////update htmlIsland
-            //var htmlIsland = this.myHtmlIsland;
-            //htmlIsland.SetHtmlDoc(this.currentdoc);
-            //htmlIsland.SetRootCssBox(rootBox, this.waitingCssData);
-            //htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
-            //htmlIsland.PerformLayout();
-            return null;
         }
 
     }

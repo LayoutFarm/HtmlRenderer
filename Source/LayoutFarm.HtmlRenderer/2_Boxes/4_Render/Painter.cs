@@ -16,7 +16,7 @@ namespace HtmlRenderer
 
         PointF[] borderPoints = new PointF[4];
         PointF htmlContainerScrollOffset;
-        HtmlIsland visualRootBox;
+        HtmlIsland htmlIsland;
         Canvas canvas;
 
         Rectangle latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
@@ -27,14 +27,14 @@ namespace HtmlRenderer
         float physicalViewportY;
 
         bool aviodGeometyAntialias;
-        public Painter(HtmlIsland container, Canvas canvas)
+        public Painter(HtmlIsland htmlIsland, Canvas canvas)
         {
-            this.visualRootBox = container;
-            this.htmlContainerScrollOffset = container.ScrollOffset;
-            this.aviodGeometyAntialias = container.AvoidGeometryAntialias;
+            this.htmlIsland = htmlIsland;
+            this.htmlContainerScrollOffset = htmlIsland.ScrollOffset;
+            this.aviodGeometyAntialias = htmlIsland.AvoidGeometryAntialias;
             this.canvas = canvas;
         }
-
+       
         public GraphicsPlatform GraphicsPlatform
         {
             get { return this.canvas.Platform; }
@@ -117,7 +117,7 @@ namespace HtmlRenderer
         public void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, object requestFrom)
         {
             HtmlIsland.RaiseRequestImage(
-                this.visualRootBox,
+                this.htmlIsland,
                 binder,
                 requestFrom,
                 false);
@@ -271,12 +271,12 @@ namespace HtmlRenderer
         }
         //------
         public void DrawImage(Image img, float x, float y, float w, float h)
-        { 
+        {
             this.canvas.DrawImage(img, new RectangleF(x, y, w, h));
         }
         public void DrawImage(Image img, RectangleF r)
-        { 
-            this.canvas.DrawImage(img, r); 
+        {
+            this.canvas.DrawImage(img, r);
         }
         //---------
         public void DrawText(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)

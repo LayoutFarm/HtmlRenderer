@@ -31,13 +31,13 @@ namespace LayoutFarm.CustomWidgets
             get;
             set;
         }
-        protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
+        protected override void BoxDrawContent(Canvas canvas, Rect updateArea)
         {
             //sample bg   
-            canvasPage.FillRectangle(BackColor, updateArea._left, updateArea._top, updateArea.Width, updateArea.Height);
+            canvas.FillRectangle(BackColor, updateArea._left, updateArea._top, updateArea.Width, updateArea.Height);
             if (this.Layers != null)
             {
-                this.Layers.LayersDrawContent(canvasPage, updateArea);
+                this.Layers.LayersDrawContent(canvas, updateArea);
             }
 #if DEBUG
             //canvasPage.dbug_DrawCrossRect(LayoutFarm.Drawing.Color.Black,

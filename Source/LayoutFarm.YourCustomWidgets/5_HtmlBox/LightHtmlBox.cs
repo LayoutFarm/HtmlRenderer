@@ -105,7 +105,10 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load
-                this.frRenderBox.CssBox = this.lightBoxHost.CreateHtmlFragment(htmlFragment, frRenderBox);
+                MyHtmlIsland newIsland;
+                CssBox newCssBox;
+                this.lightBoxHost.CreateHtmlFragment(htmlFragment, frRenderBox, out newIsland, out newCssBox);
+                this.frRenderBox.SetHtmlIsland(newIsland, newCssBox);
                 this.waitingHtmlFragment = null;
             }
             //send fragment html to lightbox host 

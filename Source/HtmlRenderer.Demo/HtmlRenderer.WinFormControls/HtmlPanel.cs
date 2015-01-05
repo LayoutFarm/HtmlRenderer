@@ -113,10 +113,7 @@ namespace HtmlRenderer.Demo
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
             {
-                if (myHtmlIsland != null)
-                {
-                    myHtmlIsland.InternalRefreshRequest();
-                }
+                myHtmlIsland.InternalRefreshRequest();
             };
             timer01.Enabled = true;
             //-------------------------------------------
@@ -416,11 +413,6 @@ namespace HtmlRenderer.Demo
             if (myHtmlIsland != null)
             {
                 myHtmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(ClientSize.Width, 0);
-
-                //using (var g = CreateGraphics())
-                //{
-                //    myHtmlIsland.PerformLayout(g);
-                //}
                 myHtmlIsland.PerformLayout();
                 var asize = myHtmlIsland.ActualSize;
                 AutoScrollMinSize = Size.Round(new SizeF(asize.Width, asize.Height));

@@ -26,7 +26,7 @@ namespace LayoutFarm
             
             //light box can't load full html
             //all light boxs of the same lightbox host share resource with the host
-            string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
+            string html = @"<div>OK1</div><div>OK2</div>";
             //if you want to use full html-> use HtmlBox instead 
 
             lightHtmlBox.LoadHtmlFragmentText(html);

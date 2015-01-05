@@ -27,23 +27,11 @@ namespace HtmlRenderer.Composers
     public class MyHtmlIsland : HtmlIsland, IUpdateStateChangedListener
     {
 
-        WebDocument doc;
-      
-
-        /// <summary>
-        /// Raised when an error occurred during html rendering.<br/>
-        /// </summary>
-        /// <remarks>
-        /// There is no guarantee that the event will be raised on the main thread, it can be raised on thread-pool thread.
-        /// </remarks>
-        //public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
+        WebDocument doc;  
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
         public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
         public event EventHandler<EventArgs> NeedUpdateDom;
-        List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>();
-
-
-
+        List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>(); 
         //----------------------------------------------------------- 
         public MyHtmlIsland(GraphicsPlatform gfxPlatforms)
             : base(gfxPlatforms)
@@ -101,7 +89,6 @@ namespace HtmlRenderer.Composers
 
             }
         }
-
         public void SetHtmlDoc(WebDocument doc)
         {
             this.doc = doc;

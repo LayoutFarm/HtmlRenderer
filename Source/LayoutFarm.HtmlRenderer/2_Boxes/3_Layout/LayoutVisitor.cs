@@ -26,10 +26,10 @@ namespace HtmlRenderer.Boxes
         static int totalLayoutIdEpisode = 0;
         readonly int episodeId = ++totalLayoutIdEpisode;
         GraphicsPlatform gfxPlatform;
-        internal LayoutVisitor(GraphicsPlatform gfxPlatform, HtmlIsland visualRootBox)
+        internal LayoutVisitor(GraphicsPlatform gfxPlatform, HtmlIsland htmlIsland)
         {
             this.gfxPlatform = gfxPlatform;
-            this.htmlIsland = visualRootBox;
+            this.htmlIsland = htmlIsland;
             if (episodeId == ushort.MaxValue - 1)
             {
                 //reset
@@ -87,10 +87,10 @@ namespace HtmlRenderer.Boxes
             return 0;
         }
 
-        internal bool AvoidImageAsyncLoadOrLateBind
-        {
-            get { return this.htmlIsland.AvoidAsyncImagesLoading || this.htmlIsland.AvoidImagesLateLoading; }
-        }
+        //internal bool AvoidImageAsyncLoadOrLateBind
+        //{
+        //    get { return this.htmlIsland.AvoidAsyncImagesLoading || this.htmlIsland.AvoidImagesLateLoading; }
+        //}
 
         internal void RequestImage(ImageBinder binder, CssBox requestFrom)
         {
