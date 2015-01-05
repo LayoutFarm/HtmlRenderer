@@ -359,8 +359,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         public LayoutFarm.RenderElement ContainerElement
         {
             get { return this.containerElement; }
-        }
-
+        } 
     }
 
     static class TableBoxCreator

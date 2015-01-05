@@ -398,7 +398,7 @@ namespace HtmlRenderer.Demo
             base.OnLayout(levent);
 
             // to handle if vertical scrollbar is appearing or disappearing
-            if (myHtmlIsland != null && Math.Abs(myHtmlIsland.MaxSize.Width - ClientSize.Width) > 0.1)
+            if (myHtmlIsland != null && Math.Abs(myHtmlIsland.MaxWidth - ClientSize.Width) > 0.1)
             {
                 PerformHtmlLayout();
                 base.OnLayout(levent);
@@ -412,7 +412,8 @@ namespace HtmlRenderer.Demo
         {
             if (myHtmlIsland != null)
             {
-                myHtmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(ClientSize.Width, 0);
+                //myHtmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(ClientSize.Width, 0);
+                myHtmlIsland.SetMaxSize(ClientSize.Width, 0);
                 myHtmlIsland.PerformLayout();
                 var asize = myHtmlIsland.ActualSize;
                 AutoScrollMinSize = Size.Round(new SizeF(asize.Width, asize.Height));

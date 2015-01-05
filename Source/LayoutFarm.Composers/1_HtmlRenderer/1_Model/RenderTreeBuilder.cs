@@ -34,8 +34,11 @@ namespace HtmlRenderer.Composers
 
         WebDom.Parser.CssParser miniCssParser = new CssParser();
         ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
+
         public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
+
         LayoutFarm.RootGraphic rootgfx;
+
         public RenderTreeBuilder(LayoutFarm.RootGraphic rootgfx)
         {
             this.rootgfx = rootgfx;

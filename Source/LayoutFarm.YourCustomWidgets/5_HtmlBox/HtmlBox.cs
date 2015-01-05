@@ -202,7 +202,8 @@ namespace LayoutFarm.CustomWidgets
             var htmlIsland = this.myHtmlIsland;
             htmlIsland.SetHtmlDoc(this.currentdoc);
             htmlIsland.SetRootCssBox(rootBox);
-            htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
+            //htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
+            htmlIsland.SetMaxSize(this._width, 0);
             htmlIsland.PerformLayout();
         }
         void SetHtml(MyHtmlIsland htmlIsland, string html, HtmlRenderer.WebDom.CssActiveSheet cssData)

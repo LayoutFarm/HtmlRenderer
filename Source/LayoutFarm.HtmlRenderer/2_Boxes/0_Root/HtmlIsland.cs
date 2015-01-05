@@ -22,23 +22,22 @@ using HtmlRenderer.Css;
 
 namespace HtmlRenderer.Boxes
 {
+
     public abstract class HtmlIsland : IDisposable
     {
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
         CssBox _rootBox;
-        /// <summary>
-        /// the max width and height of the rendered html, effects layout, actual size cannot exceed this values.<br/>
-        /// Set zero for unlimited.<br/>
-        /// </summary>
-        SizeF _maxSize;
+
         /// <summary>
         /// The actual size of the rendered html (after layout)
         /// </summary>
         float _actualWidth;
         float _actualHeight;
 
+        float _maxWidth;
+        float _maxHeight;
         /// <summary>
         /// 99999
         /// </summary>
@@ -52,6 +51,7 @@ namespace HtmlRenderer.Boxes
         {
             this.gfxPlatform = gfxPlatforms;
         }
+        public float MaxWidth { get { return this._maxHeight; } }
         protected GraphicsPlatform CurrentGfxPlatform
         {
             get { return this.gfxPlatform; }
@@ -71,7 +71,7 @@ namespace HtmlRenderer.Boxes
 #if DEBUG
         public static int dbugCount02 = 0;
 #endif
-
+       
 
         public abstract void AddRequestImageBinderUpdate(ImageBinder binder);
 
@@ -162,20 +162,11 @@ namespace HtmlRenderer.Boxes
 
         }
 
-
-        /// <summary>
-        /// The max width and height of the rendered html.<br/>
-        /// The max width will effect the html layout wrapping lines, resize images and tables where possible.<br/>
-        /// The max height does NOT effect layout, but will not render outside it (clip).<br/>
-        /// <see cref="ActualSize"/> can be exceed the max size by layout restrictions (unwrappable line, set image size, etc.).<br/>
-        /// Set zero for unlimited (width\height separately).<br/>
-        /// </summary>
-        public SizeF MaxSize
+        public void SetMaxSize(float maxWidth, float maxHeight)
         {
-            get { return _maxSize; }
-            set { _maxSize = value; }
+            this._maxWidth = maxWidth;
+            this._maxHeight = maxHeight;
         }
-
         /// <summary>
         /// The actual size of the rendered html (after layout)
         /// </summary>
@@ -236,7 +227,7 @@ namespace HtmlRenderer.Boxes
             _actualWidth = _actualHeight = 0;
             // if width is not restricted we set it to large value to get the actual later    
             _rootBox.SetLocation(0, 0);
-            _rootBox.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
+            _rootBox.SetSize(this._maxWidth > 0 ? this._maxWidth : MAX_WIDTH, 0);
 
             CssBox.ValidateComputeValues(_rootBox);
             //----------------------- 
@@ -244,7 +235,7 @@ namespace HtmlRenderer.Boxes
             layoutArgs.PushContaingBlock(_rootBox);
             //----------------------- 
             _rootBox.PerformLayout(layoutArgs);
-            if (_maxSize.Width <= 0.1)
+            if (this._maxWidth <= 0.1)
             {
                 // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
 
