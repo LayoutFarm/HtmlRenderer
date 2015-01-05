@@ -9,27 +9,18 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
-    [DemoNote("4.5 LightHtmlBox")]
-    class Demo_LightHtmlBox : DemoBase
+    [DemoNote("4.2 MixHtml and Text")]
+    class Demo_MixHtml : DemoBase
     {
-        LightHtmlBoxHost lightBoxHost;
         protected override void OnStartDemo(SampleViewport viewport)
         {
 
-            lightBoxHost = new LightHtmlBoxHost(viewport.P);
-            lightBoxHost.SetRootGraphic(viewport.ViewportControl.WinTopRootGfx);
-
             ////==================================================
             //html box
-            LightHtmlBox lightHtmlBox = lightBoxHost.CreateLightBox(800,400);
-            viewport.AddContent(lightHtmlBox);
-            
-            //light box can't load full html
-            //all light boxs of the same lightbox host share resource with the host
-            string html = @"<div>OK1</div><div>OK2</div>";
-            //if you want to use full html-> use HtmlBox instead 
-
-            lightHtmlBox.LoadHtmlFragmentText(html);
+            HtmlBox htmlBox = new HtmlBox(viewport.P, 800, 400);
+            viewport.AddContent(htmlBox);
+            string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
+            htmlBox.LoadHtmlText(html);
             //================================================== 
 
             //textbox
@@ -41,4 +32,5 @@ namespace LayoutFarm
         }
 
     }
+   
 }
