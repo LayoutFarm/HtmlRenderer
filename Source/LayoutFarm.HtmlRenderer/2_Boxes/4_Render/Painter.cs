@@ -25,16 +25,26 @@ namespace HtmlRenderer
         float physicalViewportHeight;
         float physicalViewportX;
         float physicalViewportY;
-
         bool aviodGeometyAntialias;
-        public Painter(HtmlIsland htmlIsland, Canvas canvas)
+
+        public Painter()
+        {
+
+        }
+        public void Bind(HtmlIsland htmlIsland, Canvas canvas)
         {
             this.htmlIsland = htmlIsland;
             this.htmlContainerScrollOffset = htmlIsland.ScrollOffset;
             this.aviodGeometyAntialias = htmlIsland.AvoidGeometryAntialias;
-            this.canvas = canvas;
+            this.canvas = canvas; 
+        } 
+        public void UnBind()
+        {
+            //clear
+            this.canvas = null;
+            this.htmlIsland = null;
+            this.clipStacks.Clear();
         }
-       
         public GraphicsPlatform GraphicsPlatform
         {
             get { return this.canvas.Platform; }

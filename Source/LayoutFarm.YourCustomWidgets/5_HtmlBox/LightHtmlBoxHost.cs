@@ -195,8 +195,8 @@ namespace LayoutFarm.CustomWidgets
                 container);
             //4. create small island
 
-            var htmlIsland = new MyHtmlIsland();
-            htmlIsland.SetRootCssBox(rootElement);
+            var htmlIsland = new MyHtmlIsland();             
+            htmlIsland.RootCssBox = rootElement;
             htmlIsland.Document = htmldoc;
             htmlIsland.SetMaxSize(this._width, 0);
 
@@ -224,8 +224,9 @@ namespace LayoutFarm.CustomWidgets
             //4. create small island
 
             var htmlIsland = new MyHtmlIsland();
-            htmlIsland.SetRootCssBox(rootElement);
+             
             htmlIsland.Document = htmldoc;
+            htmlIsland.RootCssBox = rootElement;
             htmlIsland.SetMaxSize(this._width, 0);
 
             var lay = this.GetSharedHtmlLayoutVisitor(htmlIsland);

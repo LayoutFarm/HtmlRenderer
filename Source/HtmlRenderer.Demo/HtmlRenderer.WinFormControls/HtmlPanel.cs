@@ -12,6 +12,8 @@
 
 using System;
 using System.Drawing;
+using System.Collections.Generic;
+
 using System.ComponentModel;
 using System.Windows.Forms;
 using HtmlRenderer.WebDom;
@@ -303,7 +305,7 @@ namespace HtmlRenderer.Demo
                 null);
 
             htmlIsland.Document = htmldoc;
-            htmlIsland.SetRootCssBox(rootBox);
+            htmlIsland.RootCssBox = rootBox;
         }
 
         public void LoadHtmlDom(HtmlRenderer.WebDom.WebDocument doc, string defaultCss)
@@ -341,7 +343,7 @@ namespace HtmlRenderer.Demo
                 null);
 
             htmlIsland.Document = this.currentDoc;
-            htmlIsland.SetRootCssBox(rootBox);
+            htmlIsland.RootCssBox = rootBox;
 
         }
         public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.WebDocument doc)
@@ -450,11 +452,12 @@ namespace HtmlRenderer.Demo
                 myHtmlIsland.ScrollOffset = Conv.ToPointF(AutoScrollPosition);
                 myHtmlIsland.PhysicalViewportBound = Conv.ToRectF(this.Bounds);
 
-
-
                 myHtmlIsland.CheckDocUpdate();
                 renderCanvas.ClearSurface(LayoutFarm.Drawing.Color.White);
-                myHtmlIsland.PerformPaint(renderCanvas);
+                
+                var painter = GetSharedPainter(myHtmlIsland, renderCanvas);
+                myHtmlIsland.PerformPaint(painter);
+                ReleaseSharedPainter(painter);
 
                 IntPtr hdc = GetDC(this.Handle);
                 renderCanvas.RenderTo(hdc, 0, 0, new LayoutFarm.Drawing.Rectangle(0, 0, 800, 600));
@@ -802,5 +805,29 @@ namespace HtmlRenderer.Demo
         #endregion
 
         #endregion
+
+
+        static Painter GetSharedPainter(HtmlRenderer.Boxes.HtmlIsland htmlIsland, LayoutFarm.Drawing.Canvas canvas)
+        {
+            Painter painter = null;
+            if (painterStock.Count == 0)
+            {
+                painter = new Painter();
+            }
+            else
+            {
+                painter = painterStock.Dequeue();
+            }
+
+            painter.Bind(htmlIsland, canvas);
+
+            return painter;
+        }
+        static void ReleaseSharedPainter(Painter p)
+        {
+            p.UnBind();
+            painterStock.Enqueue(p);
+        }
+        static Queue<Painter> painterStock = new Queue<Painter>();
     }
 }

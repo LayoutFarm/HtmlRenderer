@@ -26,9 +26,6 @@ namespace HtmlRenderer.Composers
 
 
 
-
-
-
     public class MyHtmlIsland : HtmlIsland, IUpdateChangeListener
     {
 
@@ -36,10 +33,11 @@ namespace HtmlRenderer.Composers
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
         public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
         public event EventHandler<EventArgs> NeedUpdateDom;
-        //List<ImageBinder> recentUpdateImageBinders = new List<ImageBinder>();
         int newUpdateImageCount = 0;
-
+        SelectionRange _currentSelectionRange;
+        //List<ImageBinder> recentUpdateImageBinders = new List<ImageBinder>();
         //----------------------------------------------------------- 
+
         public MyHtmlIsland()
         {
             this.IsSelectionEnabled = true;
@@ -72,22 +70,33 @@ namespace HtmlRenderer.Composers
 #endif
                 return true;
             }
-            return false; 
-//            if (recentUpdateImageBinders.Count > 0)
-//            {
-//                recentUpdateImageBinders.Clear();
-//                this.RequestRefresh(false);
-//#if DEBUG
-//                dbugCount02++;
-//                //Console.WriteLine(dd);
-//#endif
-//                return true;
-//            }
-//            return false;
+            return false;
+            //            if (recentUpdateImageBinders.Count > 0)
+            //            {
+            //                recentUpdateImageBinders.Clear();
+            //                this.RequestRefresh(false);
+            //#if DEBUG
+            //                dbugCount02++;
+            //                //Console.WriteLine(dd);
+            //#endif
+            //                return true;
+            //            }
+            //            return false;
         }
-
+        public override void ClearPreviousSelection()
+        {
+            if (_currentSelectionRange != null)
+            {
+                _currentSelectionRange.ClearSelectionStatus();
+                _currentSelectionRange = null;
+            }
+        }
+        public override void SetSelection(SelectionRange selRange)
+        {
+            _currentSelectionRange = selRange;
+        }
         void IUpdateChangeListener.AddUpdatedImageBinder(ImageBinder binder)
-        {   
+        {
             //not need to store that binder 
             //(else if you want to debug)
 
@@ -133,10 +142,10 @@ namespace HtmlRenderer.Composers
                 NeedUpdateDom(this, EventArgs.Empty);
             }
         }
-        public new void PerformPaint(LayoutFarm.Drawing.Canvas canvas)
+        public new void PerformPaint(Painter p)
         {
             if (doc == null) return;
-            base.PerformPaint(canvas);
+            base.PerformPaint(p);
         }
         protected override void OnRootDisposed()
         {

@@ -103,7 +103,7 @@ namespace HtmlRenderer.Composers
         }
         public void MouseDown(UIMouseEventArgs e)
         {
-            this.MouseDown(e, _htmlIsland.GetRootCssBox());
+            this.MouseDown(e, _htmlIsland.RootCssBox);
         }
         public void MouseMove(UIMouseEventArgs e, CssBox startAt)
         {
@@ -195,7 +195,7 @@ namespace HtmlRenderer.Composers
         {
             if (!_isBinded) return;
             //---------------------------------------------------- 
-            this.MouseMove(e, this._htmlIsland.GetRootCssBox());
+            this.MouseMove(e, this._htmlIsland.RootCssBox);
 
         }
         public void MouseUp(UIMouseEventArgs e, CssBox startAt)
@@ -264,11 +264,11 @@ namespace HtmlRenderer.Composers
         }
         public void MouseUp(UIMouseEventArgs e)
         {
-            MouseUp(e, this._htmlIsland.GetRootCssBox());
+            MouseUp(e, this._htmlIsland.RootCssBox);
         }
         public void MouseWheel(UIMouseEventArgs e)
         {
-            this.MouseWheel(e, this._htmlIsland.GetRootCssBox());
+            this.MouseWheel(e, this._htmlIsland.RootCssBox);
         }
         public void MouseWheel(UIMouseEventArgs e, CssBox startAt)
         {
@@ -281,7 +281,7 @@ namespace HtmlRenderer.Composers
         }
         public void KeyDown(UIKeyEventArgs e)
         {
-            this.KeyDown(e, this._htmlIsland.GetRootCssBox());
+            this.KeyDown(e, this._htmlIsland.RootCssBox);
         }
 
         public void KeyDown(UIKeyEventArgs e, CssBox startAt)
@@ -292,7 +292,7 @@ namespace HtmlRenderer.Composers
 
         public void KeyPress(UIKeyEventArgs e)
         {
-            this.KeyPress(e, this._htmlIsland.GetRootCssBox());
+            this.KeyPress(e, this._htmlIsland.RootCssBox);
         }
         public void KeyPress(UIKeyEventArgs e, CssBox startAt)
         {
@@ -301,7 +301,7 @@ namespace HtmlRenderer.Composers
         }
         public bool ProcessDialogKey(UIKeyEventArgs e)
         {
-            return this.ProcessDialogKey(e, this._htmlIsland.GetRootCssBox());
+            return this.ProcessDialogKey(e, this._htmlIsland.RootCssBox);
         }
         public bool ProcessDialogKey(UIKeyEventArgs e, CssBox startAt)
         {
@@ -310,7 +310,7 @@ namespace HtmlRenderer.Composers
         }
         public void KeyUp(UIKeyEventArgs e)
         {
-            this.KeyUp(e, this._htmlIsland.GetRootCssBox());
+            this.KeyUp(e, this._htmlIsland.RootCssBox);
         }
         public void KeyUp(UIKeyEventArgs e, CssBox startAt)
         {

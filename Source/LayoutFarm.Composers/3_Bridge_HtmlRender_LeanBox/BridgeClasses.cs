@@ -21,6 +21,7 @@ namespace LayoutFarm.Boxes
         MyHtmlIsland myHtmlIsland;
         int myWidth;
         int myHeight;
+        Painter painter;
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height,
             MyHtmlIsland htmlIsland)
@@ -30,6 +31,10 @@ namespace LayoutFarm.Boxes
             this.myHeight = height;
             this.myHtmlIsland = htmlIsland;
             this.Focusable = false;
+
+            this.painter = new Painter();
+
+
         }
         public override void ClearAllChildren()
         {
@@ -39,7 +44,9 @@ namespace LayoutFarm.Boxes
         {
             myHtmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
             myHtmlIsland.CheckDocUpdate();
-            myHtmlIsland.PerformPaint(canvas);
+            painter.Bind(myHtmlIsland, canvas);
+            myHtmlIsland.PerformPaint(painter);
+            painter.UnBind();
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
@@ -319,7 +326,7 @@ namespace LayoutFarm.Boxes
         {
             this.htmlIsland = htmlIsland;
             this.cssBox = box;
-             
+
         }
         public override void ClearAllChildren()
         {
@@ -329,15 +336,40 @@ namespace LayoutFarm.Boxes
         {
 
             htmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
-            htmlIsland.CheckDocUpdate(); 
-            htmlIsland.PerformPaint(canvas);
-            
+            htmlIsland.CheckDocUpdate();
 
+            var painter = GetSharedPainter(this.htmlIsland, canvas);
+            htmlIsland.PerformPaint(painter);
+            ReleaseSharedPainter(painter);
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
 
         }
+
+        static Painter GetSharedPainter(HtmlIsland htmlIsland, Canvas canvas)
+        {
+            Painter painter = null;
+            if (painterStock.Count == 0)
+            {
+                painter = new Painter();
+            }
+            else
+            {
+                painter = painterStock.Dequeue();
+            }
+
+            painter.Bind(htmlIsland, canvas);
+
+            return painter;
+        }
+        static void ReleaseSharedPainter(Painter p)
+        {
+            p.UnBind();
+            painterStock.Enqueue(p);
+        }
+        static Queue<Painter> painterStock = new Queue<Painter>();
+
     }
 
 

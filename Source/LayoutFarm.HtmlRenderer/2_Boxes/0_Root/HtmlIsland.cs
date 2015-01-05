@@ -42,28 +42,35 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// 99999
         /// </summary>
-        const int MAX_WIDTH = 99999; 
-        SelectionRange _currentSelectionRange;
-       
-        public float MaxWidth { get { return this._maxHeight; } }
+        const int MAX_WIDTH = 99999;
 
-        public void ClearPreviousSelection()
-        {
-            if (_currentSelectionRange != null)
-            {
-                _currentSelectionRange.ClearSelectionStatus();
-                _currentSelectionRange = null;
-            }
-        }
-        public void SetSelection(SelectionRange selRange)
-        {
-            _currentSelectionRange = selRange;
-        }
+
+        public float MaxWidth { get { return this._maxHeight; } }
+        public abstract void ClearPreviousSelection();
+        public abstract void SetSelection(SelectionRange selRange);
+
 #if DEBUG
         public static int dbugCount02 = 0;
 #endif
+        public CssBox RootCssBox
+        {
+            get { return this._rootBox; }
+            set
+            {
+                if (_rootBox != null)
+                {
 
-
+                    _rootBox = null;
+                    //---------------------------
+                    this.OnRootDisposed();
+                }
+                _rootBox = value;
+                if (value != null)
+                {
+                    this.OnRootCreated(_rootBox);
+                }
+            }
+        }
 
 
         /// <summary>
@@ -149,9 +156,7 @@ namespace HtmlRenderer.Boxes
         {
             get;
             set;
-
         }
-
         public void SetMaxSize(float maxWidth, float maxHeight)
         {
             this._maxWidth = maxWidth;
@@ -173,24 +178,6 @@ namespace HtmlRenderer.Boxes
             if (newHeight > this._actualHeight)
             {
                 this._actualHeight = newHeight;
-            }
-        }
-        public CssBox GetRootCssBox()
-        {
-            return this._rootBox;
-        }
-        public void SetRootCssBox(CssBox rootBox)
-        {
-            if (_rootBox != null)
-            {
-                _rootBox = null;
-                //---------------------------
-                this.OnRootDisposed();
-            }
-            _rootBox = rootBox;
-            if (rootBox != null)
-            {
-                this.OnRootCreated(_rootBox);
             }
         }
 
@@ -246,18 +233,16 @@ namespace HtmlRenderer.Boxes
         /// Render the html using the given device.
         /// </summary>
         /// <param name="g"></param>
-        protected void PerformPaint(Canvas canvas)
+        protected void PerformPaint(Painter p)
         {
             if (_rootBox == null)
             {
                 return;
             }
 
-            Painter p = new Painter(this, canvas);
-
-
+            
             var physicalViewportSize = this.PhysicalViewportBound.Size;
-
+            var canvas = p.InnerCanvas;
             int ox = canvas.CanvasOriginX;
             int oy = canvas.CanvasOriginY;
 
