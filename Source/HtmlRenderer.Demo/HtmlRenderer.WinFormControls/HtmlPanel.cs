@@ -65,7 +65,7 @@ namespace HtmlRenderer.Demo
         HtmlRenderer.WebDom.WebDocument currentDoc;
 
         MyHtmlIsland myHtmlIsland;
-        HtmlInputEventAdapter _htmlEventBridge;
+        HtmlInputEventAdapter _htmlInputEventAdapter;
         /// <summary>
         /// the raw base stylesheet data used in the control
         /// </summary>
@@ -113,15 +113,12 @@ namespace HtmlRenderer.Demo
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
             {
-                if (myHtmlIsland != null)
-                {
-                    myHtmlIsland.InternalRefreshRequest();
-                }
+                myHtmlIsland.InternalRefreshRequest();
             };
             timer01.Enabled = true;
             //-------------------------------------------
-            _htmlEventBridge = new HtmlInputEventAdapter();
-            _htmlEventBridge.Bind(myHtmlIsland, gfxPlatform.SampleIFonts);
+            _htmlInputEventAdapter = new HtmlInputEventAdapter(gfxPlatform.SampleIFonts);
+            _htmlInputEventAdapter.Bind(myHtmlIsland);
             //------------------------------------------- 
         }
         void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
@@ -139,7 +136,7 @@ namespace HtmlRenderer.Demo
                 this.textContentMan.AddStyleSheetRequest(req);
                 e2.SetStyleSheet = req.SetStyleSheet;
             };
-            var rootBox2 = builder.RefreshCssTree(this.currentDoc, gfxPlatform.SampleIFonts, this.myHtmlIsland);
+            var rootBox2 = builder.RefreshCssTree(this.currentDoc);
             this.myHtmlIsland.PerformLayout();
         }
 
@@ -307,11 +304,11 @@ namespace HtmlRenderer.Demo
             //build rootbox from htmldoc
             var rootBox = builder.BuildCssRenderTree(htmldoc,
                 gfxPlatform.SampleIFonts,
-                htmlIsland, cssData,
+                 cssData,
                 null);
 
             htmlIsland.SetHtmlDoc(htmldoc);
-            htmlIsland.SetRootCssBox(rootBox, cssData);
+            htmlIsland.SetRootCssBox(rootBox);
         }
 
         public void LoadHtmlDom(HtmlRenderer.WebDom.WebDocument doc, string defaultCss)
@@ -340,11 +337,11 @@ namespace HtmlRenderer.Demo
 
             var rootBox = builder.BuildCssRenderTree(this.currentDoc,
                 gfxPlatform.SampleIFonts,
-                htmlIsland, cssData,
+                cssData,
                 null);
 
             htmlIsland.SetHtmlDoc(this.currentDoc);
-            htmlIsland.SetRootCssBox(rootBox, cssData);
+            htmlIsland.SetRootCssBox(rootBox);
 
         }
         public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.WebDocument doc)
@@ -401,7 +398,7 @@ namespace HtmlRenderer.Demo
             base.OnLayout(levent);
 
             // to handle if vertical scrollbar is appearing or disappearing
-            if (myHtmlIsland != null && Math.Abs(myHtmlIsland.MaxSize.Width - ClientSize.Width) > 0.1)
+            if (myHtmlIsland != null && Math.Abs(myHtmlIsland.MaxWidth - ClientSize.Width) > 0.1)
             {
                 PerformHtmlLayout();
                 base.OnLayout(levent);
@@ -415,12 +412,8 @@ namespace HtmlRenderer.Demo
         {
             if (myHtmlIsland != null)
             {
-                myHtmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(ClientSize.Width, 0);
-
-                //using (var g = CreateGraphics())
-                //{
-                //    myHtmlIsland.PerformLayout(g);
-                //}
+                //myHtmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(ClientSize.Width, 0);
+                myHtmlIsland.SetMaxSize(ClientSize.Width, 0);
                 myHtmlIsland.PerformLayout();
                 var asize = myHtmlIsland.ActualSize;
                 AutoScrollMinSize = Size.Round(new SizeF(asize.Width, asize.Height));
@@ -489,7 +482,7 @@ namespace HtmlRenderer.Demo
         {
             base.OnMouseMove(e);
 
-            _htmlEventBridge.MouseMove(CreateMouseEventArg(e));
+            _htmlInputEventAdapter.MouseMove(CreateMouseEventArg(e));
             PaintMe(null);
         }
 
@@ -511,7 +504,7 @@ namespace HtmlRenderer.Demo
         {
             base.OnMouseDown(e);
 
-            this._htmlEventBridge.MouseDown(CreateMouseEventArg(e));
+            this._htmlInputEventAdapter.MouseDown(CreateMouseEventArg(e));
             PaintMe(null);
             //this.Invalidate();
         }
@@ -523,7 +516,7 @@ namespace HtmlRenderer.Demo
         {
             base.OnMouseClick(e);
 
-            this._htmlEventBridge.MouseUp(CreateMouseEventArg(e));
+            this._htmlInputEventAdapter.MouseUp(CreateMouseEventArg(e));
             PaintMe(null);
             // this.Invalidate();
         }

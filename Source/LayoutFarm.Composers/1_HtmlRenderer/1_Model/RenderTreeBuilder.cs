@@ -34,8 +34,11 @@ namespace HtmlRenderer.Composers
 
         WebDom.Parser.CssParser miniCssParser = new CssParser();
         ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
+
         public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
+
         LayoutFarm.RootGraphic rootgfx;
+
         public RenderTreeBuilder(LayoutFarm.RootGraphic rootgfx)
         {
             this.rootgfx = rootgfx;
@@ -160,7 +163,6 @@ namespace HtmlRenderer.Composers
 
         public CssBox BuildCssRenderTree(WebDocument htmldoc,
             IFonts ifonts,
-            HtmlIsland htmlIsland,
             CssActiveSheet cssData,
             LayoutFarm.RenderElement containerElement)
         {
@@ -174,8 +176,8 @@ namespace HtmlRenderer.Composers
 
             htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
-            RootElement bridgeRoot = (RootElement)htmldoc.RootNode;
-            PrepareStylesAndContentOfChildNodes(bridgeRoot, activeCssTemplate);
+
+            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeCssTemplate);
 
             //----------------------------------------------------------------  
             rootBox = BoxCreator.CreateCssRenderRoot(ifonts, containerElement);
@@ -186,14 +188,12 @@ namespace HtmlRenderer.Composers
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
-            SetTextSelectionStyle(htmlIsland, cssData);
+            //SetTextSelectionStyle(htmlIsland, cssData);
             return rootBox;
         }
 
         //----------------------------------------------------------------
-        public CssBox RefreshCssTree(WebDocument htmldoc,
-          IFonts iFonts,
-          HtmlIsland htmlContainer)
+        public CssBox RefreshCssTree(WebDocument htmldoc)
         {
 
             CssBox rootBox = null;
@@ -208,6 +208,7 @@ namespace HtmlRenderer.Composers
             //----------------------------------------------------------------  
             CssBox principalBox = RootElement.InternalGetPrincipalBox(bridgeRoot);
             principalBox.Clear();
+
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);
             boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, false);
 
@@ -370,33 +371,33 @@ namespace HtmlRenderer.Composers
         }
 
 
-        /// <summary>
-        /// Set the selected text style (selection text color and background color).
-        /// </summary>
-        /// <param name="htmlContainer"> </param>
-        /// <param name="cssData">the style data</param>
-        static void SetTextSelectionStyle(HtmlIsland htmlContainer, CssActiveSheet cssData)
-        {
-            //comment out for another technique
+        ///// <summary>
+        ///// Set the selected text style (selection text color and background color).
+        ///// </summary>
+        ///// <param name="htmlContainer"> </param>
+        ///// <param name="cssData">the style data</param>
+        //static void SetTextSelectionStyle(HtmlIsland htmlContainer, CssActiveSheet cssData)
+        //{
+        //    //comment out for another technique
 
 
-            //foreach (var block in cssData.GetCssRuleSetIter("::selection"))
-            //{
-            //    if (block.Properties.ContainsKey("color"))
-            //        htmlContainer.SelectionForeColor = CssValueParser.GetActualColor(block.GetPropertyValueAsString("color"));
-            //    if (block.Properties.ContainsKey("background-color"))
-            //        htmlContainer.SelectionBackColor = CssValueParser.GetActualColor(block.GetPropertyValueAsString("background-color"));
-            //}
+        //    //foreach (var block in cssData.GetCssRuleSetIter("::selection"))
+        //    //{
+        //    //    if (block.Properties.ContainsKey("color"))
+        //    //        htmlContainer.SelectionForeColor = CssValueParser.GetActualColor(block.GetPropertyValueAsString("color"));
+        //    //    if (block.Properties.ContainsKey("background-color"))
+        //    //        htmlContainer.SelectionBackColor = CssValueParser.GetActualColor(block.GetPropertyValueAsString("background-color"));
+        //    //}
 
-            //if (cssData.ContainsCssBlock("::selection"))
-            //{
-            //    var blocks = cssData.GetCssBlock("::selection");
-            //    foreach (var block in blocks)
-            //    {
+        //    //if (cssData.ContainsCssBlock("::selection"))
+        //    //{
+        //    //    var blocks = cssData.GetCssBlock("::selection");
+        //    //    foreach (var block in blocks)
+        //    //    {
 
-            //    }
-            //}
-        }
+        //    //    }
+        //    //}
+        //}
         private static void AssignStylesForElementId(CssBox box, ActiveCssTemplate activeCssTemplate, string elementId)
         {
 

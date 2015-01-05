@@ -31,8 +31,7 @@ namespace HtmlRenderer.Demo
                         span.AddTextContent("ABCD");
                         //3. attach event to specific span
                         span.AttachMouseDownEvent(e =>
-                        {
-
+                        { 
 #if DEBUG
 
                             var s_span = new EaseScriptElement(span);

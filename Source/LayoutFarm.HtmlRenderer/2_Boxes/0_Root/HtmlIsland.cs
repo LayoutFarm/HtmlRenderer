@@ -22,77 +22,43 @@ using HtmlRenderer.Css;
 
 namespace HtmlRenderer.Boxes
 {
+    /// <summary>
+    /// layout and render the html fragment
+    /// </summary>
     public abstract class HtmlIsland : IDisposable
     {
-
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
         CssBox _rootBox;
-
-        /// <summary>
-        /// Gets or sets a value indicating if antialiasing should be avoided 
-        /// for geometry like backgrounds and borders
-        /// </summary>
-        bool _avoidGeometryAntialias;
-
-        /// <summary>
-        /// Gets or sets a value indicating if image asynchronous loading should be avoided (default - false).<br/>
-        /// </summary>
-        bool _avoidAsyncImagesLoading;
-
-        /// <summary>
-        /// Gets or sets a value indicating if image loading only when visible should be avoided (default - false).<br/>
-        /// </summary>
-        bool _avoidImagesLateLoading;
-
-        /// <summary>
-        /// Use GDI+ text rendering to measure/draw text.
-        /// </summary>
-        bool _useGdiPlusTextRendering;
-
-        /// <summary>
-        /// the top-left most location of the rendered html
-        /// </summary>
-        PointF _location;
-
-        /// <summary>
-        /// the max width and height of the rendered html, effects layout, actual size cannot exceed this values.<br/>
-        /// Set zero for unlimited.<br/>
-        /// </summary>
-        SizeF _maxSize;
-
-        /// <summary>
-        /// Gets or sets the scroll offset of the document for scroll controls
-        /// </summary>
-        PointF _scrollOffset;
-
         /// <summary>
         /// The actual size of the rendered html (after layout)
         /// </summary>
         float _actualWidth;
         float _actualHeight;
 
+        float _maxWidth;
+        float _maxHeight;
         /// <summary>
         /// 99999
         /// </summary>
         const int MAX_WIDTH = 99999;
-        ////-----------------------------------------------------------
-        ////controll task of this container
 
+        
         SelectionRange _currentSelectionRange;
-        GraphicsPlatform gfxPlatforms;
+        GraphicsPlatform gfxPlatform;
+
         public HtmlIsland(GraphicsPlatform gfxPlatforms)
         {
-            this.gfxPlatforms = gfxPlatforms;
+            this.gfxPlatform = gfxPlatforms;
         }
+        public float MaxWidth { get { return this._maxHeight; } }
         protected GraphicsPlatform CurrentGfxPlatform
         {
-            get { return this.gfxPlatforms; }
+            get { return this.gfxPlatform; }
         }
         public void ClearPreviousSelection()
         {
-
             if (_currentSelectionRange != null)
             {
                 _currentSelectionRange.ClearSelectionStatus();
@@ -116,8 +82,8 @@ namespace HtmlRenderer.Boxes
         /// </summary>
         public bool AvoidGeometryAntialias
         {
-            get { return _avoidGeometryAntialias; }
-            set { _avoidGeometryAntialias = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -132,8 +98,8 @@ namespace HtmlRenderer.Boxes
         /// </remarks>
         public bool AvoidAsyncImagesLoading
         {
-            get { return _avoidAsyncImagesLoading; }
-            set { _avoidAsyncImagesLoading = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -151,35 +117,35 @@ namespace HtmlRenderer.Boxes
         /// </remarks>
         public bool AvoidImagesLateLoading
         {
-            get { return _avoidImagesLateLoading; }
-            set { _avoidImagesLateLoading = value; }
+            get;
+            set;
         }
 
-        /// <summary>
-        /// Use GDI+ text rendering to measure/draw text.<br/>
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// GDI+ text rendering is less smooth than GDI text rendering but it natively supports alpha channel
-        /// thus allows creating transparent images.
-        /// </para>
-        /// <para>
-        /// While using GDI+ text rendering you can control the text rendering using <see cref="Graphics.TextRenderingHint"/>, note that
-        /// using <see cref="TextRenderingHint.ClearTypeGridFit"/> doesn't work well with transparent background.
-        /// </para>
-        /// </remarks>
-        public bool UseGdiPlusTextRendering
-        {
-            get { return _useGdiPlusTextRendering; }
-            set
-            {
-                if (_useGdiPlusTextRendering != value)
-                {
-                    _useGdiPlusTextRendering = value;
-                    RequestRefresh(true);
-                }
-            }
-        }
+        ///// <summary>
+        ///// Use GDI+ text rendering to measure/draw text.<br/>
+        ///// </summary>
+        ///// <remarks>
+        ///// <para>
+        ///// GDI+ text rendering is less smooth than GDI text rendering but it natively supports alpha channel
+        ///// thus allows creating transparent images.
+        ///// </para>
+        ///// <para>
+        ///// While using GDI+ text rendering you can control the text rendering using <see cref="Graphics.TextRenderingHint"/>, note that
+        ///// using <see cref="TextRenderingHint.ClearTypeGridFit"/> doesn't work well with transparent background.
+        ///// </para>
+        ///// </remarks>
+        //public bool UseGdiPlusTextRendering
+        //{
+        //    get { return _useGdiPlusTextRendering; }
+        //    set
+        //    {
+        //        if (_useGdiPlusTextRendering != value)
+        //        {
+        //            _useGdiPlusTextRendering = value;
+        //            RequestRefresh(true);
+        //        }
+        //    }
+        //}
 
 
         /// <summary>
@@ -192,33 +158,16 @@ namespace HtmlRenderer.Boxes
         /// </example>
         public PointF ScrollOffset
         {
-            get { return _scrollOffset; }
-            set { _scrollOffset = value; }
+            get;
+            set;
+
         }
 
-        /// <summary>
-        /// The top-left most location of the rendered html.<br/>
-        /// This will offset the top-left corner of the rendered html.
-        /// </summary>
-        public PointF Location
+        public void SetMaxSize(float maxWidth, float maxHeight)
         {
-            get { return _location; }
-            set { _location = value; }
+            this._maxWidth = maxWidth;
+            this._maxHeight = maxHeight;
         }
-
-        /// <summary>
-        /// The max width and height of the rendered html.<br/>
-        /// The max width will effect the html layout wrapping lines, resize images and tables where possible.<br/>
-        /// The max height does NOT effect layout, but will not render outside it (clip).<br/>
-        /// <see cref="ActualSize"/> can be exceed the max size by layout restrictions (unwrappable line, set image size, etc.).<br/>
-        /// Set zero for unlimited (width\height separately).<br/>
-        /// </summary>
-        public SizeF MaxSize
-        {
-            get { return _maxSize; }
-            set { _maxSize = value; }
-        }
-
         /// <summary>
         /// The actual size of the rendered html (after layout)
         /// </summary>
@@ -266,6 +215,8 @@ namespace HtmlRenderer.Boxes
         protected virtual void OnAllDisposed()
         {
         }
+
+
         public void PerformLayout()
         {
 
@@ -276,8 +227,8 @@ namespace HtmlRenderer.Boxes
             //----------------------- 
             _actualWidth = _actualHeight = 0;
             // if width is not restricted we set it to large value to get the actual later    
-            _rootBox.SetLocation(_location.X, _location.Y);
-            _rootBox.SetSize(_maxSize.Width > 0 ? _maxSize.Width : MAX_WIDTH, 0);
+            _rootBox.SetLocation(0, 0);
+            _rootBox.SetSize(this._maxWidth > 0 ? this._maxWidth : MAX_WIDTH, 0);
 
             CssBox.ValidateComputeValues(_rootBox);
             //----------------------- 
@@ -285,8 +236,7 @@ namespace HtmlRenderer.Boxes
             layoutArgs.PushContaingBlock(_rootBox);
             //----------------------- 
             _rootBox.PerformLayout(layoutArgs);
-
-            if (_maxSize.Width <= 0.1)
+            if (this._maxWidth <= 0.1)
             {
                 // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
 
@@ -294,7 +244,6 @@ namespace HtmlRenderer.Boxes
                 _actualWidth = _actualHeight = 0;
                 _rootBox.PerformLayout(layoutArgs);
             }
-
             layoutArgs.PopContainingBlock();
 
         }
@@ -316,18 +265,21 @@ namespace HtmlRenderer.Boxes
             }
 
             Painter p = new Painter(this, canvas);
-            int scX = (int)this.ScrollOffset.X;
-            int scY = (int)this.ScrollOffset.Y;
+
 
             var physicalViewportSize = this.PhysicalViewportBound.Size;
 
             int ox = canvas.CanvasOriginX;
             int oy = canvas.CanvasOriginY;
 
-            canvas.SetCanvasOrigin(scX, scY);
+            int scX = (int)this.ScrollOffset.X;
+            int scY = (int)this.ScrollOffset.Y;
+
+
+            canvas.SetCanvasOrigin(ox + scX, oy + scY);
 
             p.PushContaingBlock(_rootBox);
-            p.SetPhysicalViewportBound(0, 0, physicalViewportSize.Width, physicalViewportSize.Height);
+            p.SetPhysicalViewportBound(0, oy + scY, physicalViewportSize.Width, physicalViewportSize.Height);
 
 
             _rootBox.Paint(p);
@@ -344,13 +296,13 @@ namespace HtmlRenderer.Boxes
         protected abstract void OnRequestImage(ImageBinder binder,
             object reqFrom, bool _sync);
 
-        internal static void RaiseRequestImage(HtmlIsland rootBox,
+        internal static void RaiseRequestImage(HtmlIsland htmlIsland,
             ImageBinder binder,
             object reqBy,
             bool _sync)
         {
 
-            rootBox.OnRequestImage(binder, reqBy, false);
+            htmlIsland.OnRequestImage(binder, reqBy, false);
         }
         //------------------------------------------------------------------ 
         protected abstract void RequestRefresh(bool layout);
@@ -399,17 +351,17 @@ namespace HtmlRenderer.Boxes
             return location;
         }
 
-        /// <summary>
-        /// Check if the mouse is currently on the html container.<br/>
-        /// Relevant if the html container is not filled in the hosted control (location is not zero and the size is not the full size of the control).
-        /// </summary>
-        protected bool IsMouseInContainer(Point location)
-        {
-            return location.X >= _location.X &&
-                location.X <= _location.X + _actualWidth &&
-                location.Y >= _location.Y + ScrollOffset.Y &&
-                location.Y <= _location.Y + ScrollOffset.Y + _actualHeight;
-        }
+        ///// <summary>
+        ///// Check if the mouse is currently on the html container.<br/>
+        ///// Relevant if the html container is not filled in the hosted control (location is not zero and the size is not the full size of the control).
+        ///// </summary>
+        //protected bool IsMouseInContainer(Point location)
+        //{
+        //    return location.X >= _location.X &&
+        //        location.X <= _location.X + _actualWidth &&
+        //        location.Y >= _location.Y + ScrollOffset.Y &&
+        //        location.Y <= _location.Y + ScrollOffset.Y + _actualHeight;
+        //}
 
 
         /// <summary>

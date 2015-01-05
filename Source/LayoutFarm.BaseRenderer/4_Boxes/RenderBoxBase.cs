@@ -29,16 +29,16 @@ namespace LayoutFarm
             get { return this.layers; }
             set { this.layers = value; }
         }
-        public sealed override void CustomDrawToThisPage(Canvas canvasPage, Rect updateArea)
+        public sealed override void CustomDrawToThisPage(Canvas canvas, Rect updateArea)
         {
 
-            canvasPage.OffsetCanvasOrigin(-myviewportX, -myviewportY);
+            canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
             updateArea.Offset(myviewportX, myviewportY);
 
 
-            this.BoxDrawContent(canvasPage, updateArea);
+            this.DrawContent(canvas, updateArea);
 
-            canvasPage.OffsetCanvasOrigin(myviewportX, myviewportY);
+            canvas.OffsetCanvasOrigin(myviewportX, myviewportY);
             updateArea.Offset(-myviewportX, -myviewportY);
 
 
@@ -71,11 +71,11 @@ namespace LayoutFarm
             //    layer.InvalidateContentArrangementFromContainerSizeChanged();
             //}
         }
-        protected virtual void BoxDrawContent(Canvas canvasPage, Rect updateArea)
+        protected virtual void DrawContent(Canvas canvas, Rect updateArea)
         {
             //sample ***
             //1. draw background
-            RenderElementHelper.DrawBackground(this, canvasPage, updateArea.Width, updateArea.Height, Color.White);
+            RenderElementHelper.DrawBackground(this, canvas, updateArea.Width, updateArea.Height, Color.White);
             //2. draw each layer
             if (this.layers != null)
             {
@@ -88,18 +88,18 @@ namespace LayoutFarm
                         } break;
                     case 1:
                         {
-                            layers.Layer0.DrawChildContent(canvasPage, updateArea);
+                            layers.Layer0.DrawChildContent(canvas, updateArea);
 #if DEBUG
                             debug_RecordLayerInfo(layers.Layer0);
 #endif
                         } break;
                     case 2:
                         {
-                            layers.Layer0.DrawChildContent(canvasPage, updateArea);
+                            layers.Layer0.DrawChildContent(canvas, updateArea);
 #if DEBUG
                             debug_RecordLayerInfo(layers.Layer0);
 #endif
-                            layers.Layer1.DrawChildContent(canvasPage, updateArea);
+                            layers.Layer1.DrawChildContent(canvas, updateArea);
 #if DEBUG
                             debug_RecordLayerInfo(layers.Layer1);
 #endif
@@ -109,7 +109,7 @@ namespace LayoutFarm
                             for (int i = 0; i < j; ++i)
                             {
                                 var layer = this.layers.GetLayer(i);
-                                layer.DrawChildContent(canvasPage, updateArea);
+                                layer.DrawChildContent(canvas, updateArea);
 #if DEBUG
                                 debug_RecordLayerInfo(layer);
 #endif

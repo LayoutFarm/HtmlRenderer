@@ -25,44 +25,44 @@ namespace LayoutFarm.Text
             get { return this.scrollRelation; }
             set { this.scrollRelation = value; }
         }
-        protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rect updateArea)
         {
 
 
             if (vscrollableSurface != null)
             {
-                vscrollableSurface.DrawToThisPage(canvasPage, updateArea);
+                vscrollableSurface.DrawToThisPage(canvas, updateArea);
             }
             //1. bg
-            RenderElementHelper.DrawBackground(this, canvasPage, updateArea.Width, updateArea.Height, Color.White);
+            RenderElementHelper.DrawBackground(this, canvas, updateArea.Width, updateArea.Height, Color.White);
             //2. sub ground 
             if (internalTextLayerController.SelectionRange != null)
             {
-                internalTextLayerController.SelectionRange.Draw(canvasPage, updateArea);
+                internalTextLayerController.SelectionRange.Draw(canvas, updateArea);
             }
             //3. each layer
             if (vscrollableSurface != null)
             {
-                vscrollableSurface.DrawToThisPage(canvasPage, updateArea);
+                vscrollableSurface.DrawToThisPage(canvas, updateArea);
             }
             else
             {
                 if (this.Layers != null)
                 {
-                    this.Layers.LayersDrawContent(canvasPage, updateArea);
+                    this.Layers.LayersDrawContent(canvas, updateArea);
                 }
             }
 
 #if DEBUG
             //for debug
-            canvasPage.FillRectangle(Color.Red,  0, 0, 5, 5 );
+            canvas.FillRectangle(Color.Red,  0, 0, 5, 5 );
 #endif
 
             //4. caret 
             if (this.stateShowCaret)
             {
                 Point textManCaretPos = internalTextLayerController.CaretPos;
-                this.myCaret.DrawCaret(canvasPage, textManCaretPos.X, textManCaretPos.Y);
+                this.myCaret.DrawCaret(canvas, textManCaretPos.X, textManCaretPos.Y);
             }
 
         }

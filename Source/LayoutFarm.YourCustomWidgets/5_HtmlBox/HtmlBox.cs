@@ -18,7 +18,7 @@ namespace LayoutFarm.CustomWidgets
     public class HtmlBox : UIElement, IUserEventPortal
     {
         RootGraphic rootgfx;
-        HtmlRenderBox myCssBoxWrapper;
+        HtmlRenderBox htmlRenderBox;
         int _width;
         int _height;
         MyHtmlIsland myHtmlIsland;
@@ -29,7 +29,7 @@ namespace LayoutFarm.CustomWidgets
 
         bool hasWaitingDocToLoad;
         HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
-        HtmlInputEventAdapter _htmlInputEventBridge;
+        HtmlInputEventAdapter inputEventAdapter;
         object uiHtmlTask = new object();
 
         static HtmlBox()
@@ -42,10 +42,9 @@ namespace LayoutFarm.CustomWidgets
             this._width = width;
             this._height = height;
 
-            myHtmlIsland = new MyHtmlIsland(p);
-
+            myHtmlIsland = new MyHtmlIsland(p); 
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
-            myHtmlIsland.Refresh += OnRefresh;
+            myHtmlIsland.Refresh += myHtmlIsland_Refresh;
             myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
             myHtmlIsland.RequestResource += myHtmlIsland_RequestResource;
 
@@ -59,16 +58,16 @@ namespace LayoutFarm.CustomWidgets
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
 
-            _htmlInputEventBridge.MouseUp(e);
+            inputEventAdapter.MouseUp(e);
         }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
             e.CurrentContextElement = this;
-            _htmlInputEventBridge.MouseDown(e);
+            inputEventAdapter.MouseDown(e);
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-            _htmlInputEventBridge.MouseMove(e);
+            inputEventAdapter.MouseMove(e);
 
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
@@ -78,19 +77,19 @@ namespace LayoutFarm.CustomWidgets
 
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
-            _htmlInputEventBridge.KeyDown(e);
+            inputEventAdapter.KeyDown(e);
         }
         void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
-            _htmlInputEventBridge.KeyPress(e);
+            inputEventAdapter.KeyPress(e);
         }
         void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
-            _htmlInputEventBridge.KeyUp(e);
+            inputEventAdapter.KeyUp(e);
         }
         bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
-            return this._htmlInputEventBridge.ProcessDialogKey(e);
+            return this.inputEventAdapter.ProcessDialogKey(e);
         }
         void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
@@ -115,10 +114,10 @@ namespace LayoutFarm.CustomWidgets
         {
             hasWaitingDocToLoad = true;
             //---------------------------
-            if (myCssBoxWrapper == null) return;
+            if (htmlRenderBox == null) return;
             //---------------------------
 
-            var builder = new HtmlRenderer.Composers.RenderTreeBuilder(myCssBoxWrapper.Root);
+            var builder = new HtmlRenderer.Composers.RenderTreeBuilder(htmlRenderBox.Root);
             builder.RequestStyleSheet += (e2) =>
             {
                 if (this.RequestStylesheet != null)
@@ -128,9 +127,7 @@ namespace LayoutFarm.CustomWidgets
                     e2.SetStyleSheet = req.SetStyleSheet;
                 }
             };
-            var rootBox2 = builder.RefreshCssTree(this.currentdoc,
-                this.rootgfx.SampleIFonts,
-                this.myHtmlIsland);
+            var rootBox2 = builder.RefreshCssTree(this.currentdoc);
 
             this.myHtmlIsland.PerformLayout();
 
@@ -138,7 +135,7 @@ namespace LayoutFarm.CustomWidgets
         /// <summary>
         /// Handle html renderer invalidate and re-layout as requested.
         /// </summary>
-        void OnRefresh(object sender, HtmlRenderer.WebDom.HtmlRefreshEventArgs e)
+        void myHtmlIsland_Refresh(object sender, HtmlRenderer.WebDom.HtmlRefreshEventArgs e)
         {
             this.InvalidateGraphic();
         }
@@ -150,15 +147,15 @@ namespace LayoutFarm.CustomWidgets
 
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-            if (myCssBoxWrapper == null)
+            if (htmlRenderBox == null)
             {
                 this.rootgfx = rootgfx;
-                myCssBoxWrapper = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
-                myCssBoxWrapper.SetController(this);
-                myCssBoxWrapper.HasSpecificSize = true;
+                htmlRenderBox = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
+                htmlRenderBox.SetController(this);
+                htmlRenderBox.HasSpecificSize = true;
 
-                _htmlInputEventBridge = new HtmlInputEventAdapter();
-                _htmlInputEventBridge.Bind(this.myHtmlIsland, rootgfx.SampleIFonts);
+                inputEventAdapter = new HtmlInputEventAdapter(rootgfx.SampleIFonts);
+                inputEventAdapter.Bind(this.myHtmlIsland);
             }
             //-------------------------
             rootgfx.RequestGraphicsIntervalTask(uiHtmlTask,
@@ -177,9 +174,9 @@ namespace LayoutFarm.CustomWidgets
 
             if (this.hasWaitingDocToLoad)
             {
-                UpdateWaitingHtmlDoc(this.myCssBoxWrapper.Root);
+                UpdateWaitingHtmlDoc(this.htmlRenderBox.Root);
             }
-            return myCssBoxWrapper;
+            return htmlRenderBox;
         }
         void UpdateWaitingHtmlDoc(RootGraphic rootgfx)
         {
@@ -197,15 +194,15 @@ namespace LayoutFarm.CustomWidgets
             //build rootbox from htmldoc
             var rootBox = builder.BuildCssRenderTree(this.currentdoc,
                 rootgfx.SampleIFonts,
-                this.myHtmlIsland,
                 this.waitingCssData,
-                this.myCssBoxWrapper);
+                this.htmlRenderBox);
 
             //update htmlIsland
             var htmlIsland = this.myHtmlIsland;
             htmlIsland.SetHtmlDoc(this.currentdoc);
-            htmlIsland.SetRootCssBox(rootBox, this.waitingCssData);
-            htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
+            htmlIsland.SetRootCssBox(rootBox);
+            //htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
+            htmlIsland.SetMaxSize(this._width, 0);
             htmlIsland.PerformLayout();
         }
         void SetHtml(MyHtmlIsland htmlIsland, string html, HtmlRenderer.WebDom.CssActiveSheet cssData)
@@ -216,9 +213,9 @@ namespace LayoutFarm.CustomWidgets
             this.hasWaitingDocToLoad = true;
             this.waitingCssData = cssData;
             //---------------------------
-            if (myCssBoxWrapper == null) return;
+            if (htmlRenderBox == null) return;
             //---------------------------
-            UpdateWaitingHtmlDoc(this.myCssBoxWrapper.Root);
+            UpdateWaitingHtmlDoc(this.htmlRenderBox.Root);
         }
         public void LoadHtmlText(string html)
         {
@@ -226,16 +223,16 @@ namespace LayoutFarm.CustomWidgets
             //this.tim.Enabled = false;
             SetHtml(myHtmlIsland, html, myHtmlIsland.BaseStylesheet);
             //this.tim.Enabled = true;
-            if (this.myCssBoxWrapper != null)
+            if (this.htmlRenderBox != null)
             {
-                myCssBoxWrapper.InvalidateGraphic();
+                htmlRenderBox.InvalidateGraphic();
             }
         }
         public override void InvalidateGraphic()
         {
-            if (this.myCssBoxWrapper != null)
+            if (this.htmlRenderBox != null)
             {
-                myCssBoxWrapper.InvalidateGraphic();
+                htmlRenderBox.InvalidateGraphic();
             }
         }
     }

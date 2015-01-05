@@ -8,7 +8,7 @@ using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer.Composers.BridgeHtml
 {
-    public class BoxCreator
+    public struct BoxCreator
     {
 
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
@@ -257,7 +257,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
                     newBox = new CssBoxHr(childElement, childElement.Spec);
                     parentBox.AppendChild(newBox);
-                    return newBox; 
+                    return newBox;
                 //-----------------------------------------------------
                 //TODO: simplify this ...
                 //table-display elements, fix display type
@@ -345,9 +345,9 @@ namespace HtmlRenderer.Composers.BridgeHtml
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
             return box;
-        } 
+        }
     }
-    
+
     class CssRenderRoot : CssBox
     {
         LayoutFarm.RenderElement containerElement;
@@ -359,8 +359,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         public LayoutFarm.RenderElement ContainerElement
         {
             get { return this.containerElement; }
-        }
-            
+        } 
     }
 
     static class TableBoxCreator
