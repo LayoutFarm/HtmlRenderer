@@ -39,6 +39,7 @@ namespace HtmlRenderer.Boxes
         float _actualHeight;
 
         float _maxWidth;
+
         float _maxHeight;
 
 
@@ -76,12 +77,6 @@ namespace HtmlRenderer.Boxes
         }
         public bool HasRootBox { get { return this._rootBox != null; } }
 
-
-        public void SetMaxSize(float maxWidth, float maxHeight)
-        {
-            this._maxWidth = maxWidth;
-            this._maxHeight = maxHeight;
-        }
         /// <summary>
         /// The actual size of the rendered html (after layout)
         /// </summary>
@@ -90,6 +85,12 @@ namespace HtmlRenderer.Boxes
             get { return new SizeF(this._actualWidth, this._actualHeight); }
         }
 
+        public void SetMaxSize(float maxWidth, float maxHeight)
+        {
+            this._maxWidth = maxWidth;
+            this._maxHeight = maxHeight;
+        }
+       
 
         public void PerformLayout(LayoutVisitor layoutArgs)
         {

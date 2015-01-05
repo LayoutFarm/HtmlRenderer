@@ -102,42 +102,8 @@ namespace LayoutFarm.CustomWidgets
             adapter.Unbind();
             this.inputEventAdapterStock.Enqueue(adapter);
         }
-        /// <summary>
-        /// Handle html renderer invalidate and re-layout as requested.
-        /// </summary>
-        void OnRefresh(object sender, HtmlRenderer.WebDom.HtmlRefreshEventArgs e)
-        {
-            //this.InvalidateGraphic();
-        }
-
-        void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
-        {
-            if (this.RequestImage != null)
-            {
-                RequestImage(this, new ImageRequestEventArgs(e.binder));
-            }
-        }
-        void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
-        {
-            //hasWaitingDocToLoad = true;
-            ////---------------------------
-            ////if (htmlRenderBox == null) return;
-            ////--------------------------- 
-            //var builder = new HtmlRenderer.Composers.RenderTreeBuilder(this.rootgfx);
-            //builder.RequestStyleSheet += (e2) =>
-            //{
-            //    if (this.RequestStylesheet != null)
-            //    {
-            //        var req = new TextLoadRequestEventArgs(e2.Src);
-            //        RequestStylesheet(this, req);
-            //        e2.SetStyleSheet = req.SetStyleSheet;
-            //    }
-            //}; 
-            //var rootBox2 = builder.RefreshCssTree(this.currentdoc); 
-            //this.myHtmlIsland.PerformLayout();
-
-        }
-
+        
+         
         internal void ChildRequestImage(LightHtmlBox lightBox, ImageRequestEventArgs imgReqArgs)
         {
             if (this.RequestImage != null)
