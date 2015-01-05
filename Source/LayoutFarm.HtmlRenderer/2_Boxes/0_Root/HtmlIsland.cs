@@ -42,21 +42,11 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// 99999
         /// </summary>
-        const int MAX_WIDTH = 99999;
-
-        
+        const int MAX_WIDTH = 99999; 
         SelectionRange _currentSelectionRange;
-        GraphicsPlatform gfxPlatform;
-
-        public HtmlIsland(GraphicsPlatform gfxPlatforms)
-        {
-            this.gfxPlatform = gfxPlatforms;
-        }
+       
         public float MaxWidth { get { return this._maxHeight; } }
-        protected GraphicsPlatform CurrentGfxPlatform
-        {
-            get { return this.gfxPlatform; }
-        }
+
         public void ClearPreviousSelection()
         {
             if (_currentSelectionRange != null)
@@ -74,7 +64,6 @@ namespace HtmlRenderer.Boxes
 #endif
 
 
-        public abstract void AddRequestImageBinderUpdate(ImageBinder binder);
 
 
         /// <summary>
@@ -217,7 +206,7 @@ namespace HtmlRenderer.Boxes
         }
 
 
-        public void PerformLayout()
+        public void PerformLayout(LayoutVisitor layoutArgs)
         {
 
             if (this._rootBox == null)
@@ -232,7 +221,7 @@ namespace HtmlRenderer.Boxes
 
             CssBox.ValidateComputeValues(_rootBox);
             //----------------------- 
-            LayoutVisitor layoutArgs = new LayoutVisitor(this.CurrentGfxPlatform, this);
+            //LayoutVisitor layoutArgs = new LayoutVisitor(this.GraphicsPlatform, this);
             layoutArgs.PushContaingBlock(_rootBox);
             //----------------------- 
             _rootBox.PerformLayout(layoutArgs);

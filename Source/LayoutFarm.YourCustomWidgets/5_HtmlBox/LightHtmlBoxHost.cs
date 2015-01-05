@@ -29,6 +29,8 @@ namespace LayoutFarm.CustomWidgets
         HtmlRenderer.Composers.RenderTreeBuilder renderTreeBuilder;
 
         Queue<HtmlInputEventAdapter> inputEventAdapterStock = new Queue<HtmlInputEventAdapter>();
+        Queue<HtmlRenderer.Boxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
+
 
         HtmlRenderer.WebDom.CssActiveSheet baseStyleSheet;
 
@@ -62,6 +64,25 @@ namespace LayoutFarm.CustomWidgets
             get { return this.gfxPlatform; }
         }
 
+        internal HtmlRenderer.Boxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
+        {
+            HtmlRenderer.Boxes.LayoutVisitor lay = null;
+            if (htmlLayoutVisitorStock.Count == 0)
+            {
+                lay = new LayoutVisitor(this.gfxPlatform);
+            }
+            else
+            {
+                lay = this.htmlLayoutVisitorStock.Dequeue();
+            }
+            lay.Bind(island);
+            return lay;
+        }
+        internal void ReleaseHtmlLayoutVisitor(HtmlRenderer.Boxes.LayoutVisitor lay)
+        {
+            lay.UnBind();
+            this.htmlLayoutVisitorStock.Enqueue(lay);
+        }
         internal HtmlInputEventAdapter GetSharedInputEventAdapter(HtmlIsland island)
         {
             HtmlInputEventAdapter adapter = null;
@@ -174,11 +195,14 @@ namespace LayoutFarm.CustomWidgets
                 container);
             //4. create small island
 
-            var htmlIsland = new MyHtmlIsland(this.gfxPlatform);
+            var htmlIsland = new MyHtmlIsland();
             htmlIsland.SetRootCssBox(rootElement);
             htmlIsland.Document = htmldoc;
             htmlIsland.SetMaxSize(this._width, 0);
-            htmlIsland.PerformLayout();
+
+            var lay = this.GetSharedHtmlLayoutVisitor(htmlIsland);
+            htmlIsland.PerformLayout(lay);
+            this.ReleaseHtmlLayoutVisitor(lay);
 
             newIsland = htmlIsland;
             newCssBox = rootElement;
@@ -199,11 +223,15 @@ namespace LayoutFarm.CustomWidgets
                 container);
             //4. create small island
 
-            var htmlIsland = new MyHtmlIsland(this.gfxPlatform);
+            var htmlIsland = new MyHtmlIsland();
             htmlIsland.SetRootCssBox(rootElement);
             htmlIsland.Document = htmldoc;
             htmlIsland.SetMaxSize(this._width, 0);
-            htmlIsland.PerformLayout();
+
+            var lay = this.GetSharedHtmlLayoutVisitor(htmlIsland);
+            htmlIsland.PerformLayout(lay);
+            this.ReleaseHtmlLayoutVisitor(lay);
+                        
 
             newIsland = htmlIsland;
             newCssBox = rootElement;

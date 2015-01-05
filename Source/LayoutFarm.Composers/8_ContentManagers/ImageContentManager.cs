@@ -12,14 +12,15 @@ namespace HtmlRenderer.ContentManagers
 
 
     
-    public class ImageContentRequest
+    public struct ImageContentRequest
     {
-        public readonly ImageBinder binder;
-        public readonly object requestBy;
-        public readonly IUpdateStateChangedListener listener;
+        internal readonly ImageBinder binder;
+        internal readonly object requestBy;
+        internal readonly IUpdateChangeListener listener;
+
         public ImageContentRequest(ImageBinder binder,
             object requestBy,
-             IUpdateStateChangedListener listener)
+            IUpdateChangeListener listener)
         {
             this.binder = binder;
             this.requestBy = requestBy;
@@ -90,10 +91,8 @@ namespace HtmlRenderer.ContentManagers
                         var firstNode = inputList.First;
                         inputList.RemoveFirst();
 
-                        ImageContentRequest req = firstNode.Value;
-
-                        //wait until finish this  ....
-
+                        ImageContentRequest req = firstNode.Value; 
+                        //wait until finish this  .... 
                         var binder = req.binder;
 
                         //1. check from cache if not found
@@ -121,9 +120,8 @@ namespace HtmlRenderer.ContentManagers
                                 imageCacheLevel0.AddCacheImage(binder.ImageSource, binder.Image);
                                 //send ready image notification to
                                 //parent html container
-
                                 //send data update to owner 
-                                req.listener.AddRequestImageBinderUpdate(binder);
+                                req.listener.AddUpdatedImageBinder(binder);
                             }
                         }
                         else
@@ -134,7 +132,7 @@ namespace HtmlRenderer.ContentManagers
                             binder.SetImage(foundImage);
                             //send ready image notification to
                             //parent html container                             
-                            req.listener.AddRequestImageBinderUpdate(binder);
+                            req.listener.AddUpdatedImageBinder(binder);
                         }
 
                         //next image

@@ -22,6 +22,7 @@ namespace LayoutFarm.CustomWidgets
         int _width;
         int _height;
         MyHtmlIsland myHtmlIsland;
+        LayoutVisitor htmlLayoutVisitor;
 
         HtmlRenderer.WebDom.WebDocument currentdoc;
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
@@ -39,12 +40,12 @@ namespace LayoutFarm.CustomWidgets
             HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
                new HtmlRenderer.Boxes.LeanBoxCreator());
         }
-        public HtmlBox(GraphicsPlatform p, int width, int height)
+        public HtmlBox(int width, int height)
         {
             this._width = width;
             this._height = height;
 
-            myHtmlIsland = new MyHtmlIsland(p);
+            myHtmlIsland = new MyHtmlIsland();
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.Refresh += myHtmlIsland_Refresh;
             myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
@@ -146,7 +147,7 @@ namespace LayoutFarm.CustomWidgets
             //};
 
             var rootBox2 = renderTreeBuilder.RefreshCssTree(this.currentdoc);
-            this.myHtmlIsland.PerformLayout();
+            this.myHtmlIsland.PerformLayout(htmlLayoutVisitor);
 
         }
         /// <summary>
@@ -173,6 +174,9 @@ namespace LayoutFarm.CustomWidgets
 
                 inputEventAdapter = new HtmlInputEventAdapter(rootgfx.SampleIFonts);
                 inputEventAdapter.Bind(this.myHtmlIsland);
+
+                htmlLayoutVisitor = new LayoutVisitor(rootgfx.P);
+                htmlLayoutVisitor.Bind(this.myHtmlIsland);
             }
             //-------------------------
             rootgfx.RequestGraphicsIntervalTask(uiHtmlTask,
@@ -200,7 +204,7 @@ namespace LayoutFarm.CustomWidgets
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
             //------------------------------------------------------------
 
-             
+
             //build rootbox from htmldoc
             var rootBox = renderTreeBuilder.BuildCssRenderTree(this.currentdoc,
                 rootgfx.SampleIFonts,
@@ -213,7 +217,7 @@ namespace LayoutFarm.CustomWidgets
             htmlIsland.SetRootCssBox(rootBox);
             //htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
             htmlIsland.SetMaxSize(this._width, 0);
-            htmlIsland.PerformLayout();
+            htmlIsland.PerformLayout(this.htmlLayoutVisitor);
         }
         void SetHtml(MyHtmlIsland htmlIsland, string html, HtmlRenderer.WebDom.CssActiveSheet cssData)
         {

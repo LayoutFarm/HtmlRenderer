@@ -18,7 +18,7 @@ namespace LayoutFarm
         {
 
             //html box
-            htmlBox = new HtmlBox(viewport.P, 800, 600);
+            htmlBox = new HtmlBox(800, 600);
             viewport.AddContent(htmlBox);
             if (htmltext == null)
             {

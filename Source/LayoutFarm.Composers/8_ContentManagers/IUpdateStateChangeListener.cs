@@ -4,8 +4,8 @@ using LayoutFarm.Drawing;
 
 namespace HtmlRenderer.ContentManagers
 {
-    public interface IUpdateStateChangedListener
+    public interface IUpdateChangeListener
     {
-        void AddRequestImageBinderUpdate(ImageBinder binder);
+        void AddUpdatedImageBinder(ImageBinder binder);
     }
 }

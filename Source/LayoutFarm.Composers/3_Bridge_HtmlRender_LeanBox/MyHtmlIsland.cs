@@ -21,21 +21,26 @@ namespace HtmlRenderer.Composers
     {
         public ImageBinder binder;
         public object requestBy;
-        public IUpdateStateChangedListener updateChangeListener;
+        internal IUpdateChangeListener updateEventListener;
     }
 
-    public class MyHtmlIsland : HtmlIsland, IUpdateStateChangedListener
+
+
+
+
+
+    public class MyHtmlIsland : HtmlIsland, IUpdateChangeListener
     {
 
         WebDocument doc;
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
         public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
         public event EventHandler<EventArgs> NeedUpdateDom;
-        List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>();
+        //List<ImageBinder> recentUpdateImageBinders = new List<ImageBinder>();
+        int newUpdateImageCount = 0;
 
         //----------------------------------------------------------- 
-        public MyHtmlIsland(GraphicsPlatform gfxPlatforms)
-            : base(gfxPlatforms)
+        public MyHtmlIsland()
         {
             this.IsSelectionEnabled = true;
         }
@@ -50,12 +55,16 @@ namespace HtmlRenderer.Composers
             get { return this.doc; }
             set { this.doc = value; }
         }
-       
+
         public bool InternalRefreshRequest()
         {
-            if (requestImageBinderUpdates.Count > 0)
+
+            //not need to store that binder 
+            //(else if you want to debug) 
+            if (this.newUpdateImageCount > 0)
             {
-                requestImageBinderUpdates.Clear();
+                //reset
+                this.newUpdateImageCount = 0;
                 this.RequestRefresh(false);
 #if DEBUG
                 dbugCount02++;
@@ -63,13 +72,29 @@ namespace HtmlRenderer.Composers
 #endif
                 return true;
             }
-            return false;
+            return false; 
+//            if (recentUpdateImageBinders.Count > 0)
+//            {
+//                recentUpdateImageBinders.Clear();
+//                this.RequestRefresh(false);
+//#if DEBUG
+//                dbugCount02++;
+//                //Console.WriteLine(dd);
+//#endif
+//                return true;
+//            }
+//            return false;
         }
 
-        public override void AddRequestImageBinderUpdate(ImageBinder binder)
-        {
-            this.requestImageBinderUpdates.Add(binder);
+        void IUpdateChangeListener.AddUpdatedImageBinder(ImageBinder binder)
+        {   
+            //not need to store that binder 
+            //(else if you want to debug)
+
+            newUpdateImageCount++;
+            //this.recentUpdateImageBinders.Add(binder);
         }
+
         protected override void RequestRefresh(bool layout)
         {
             if (this.Refresh != null)
@@ -88,7 +113,7 @@ namespace HtmlRenderer.Composers
                     HtmlResourceRequestEventArgs resReq = new HtmlResourceRequestEventArgs();
                     resReq.binder = binder;
                     resReq.requestBy = reqFrom;
-                    resReq.updateChangeListener = this;
+                    resReq.updateEventListener = this;
                     RequestResource(this, resReq);
                 }
 
@@ -96,7 +121,9 @@ namespace HtmlRenderer.Composers
         }
 
 
-
+        /// <summary>
+        /// check if dom update
+        /// </summary>
         public void CheckDocUpdate()
         {
             if (doc != null &&

@@ -214,8 +214,11 @@ namespace LayoutFarm.CustomWidgets
             if (frgmRenderBox == null) return;
             //--------------------------- 
             
-            this.lightBoxHost.RefreshCssTree(myHtmlIsland.Document); 
-            myHtmlIsland.PerformLayout();
+            this.lightBoxHost.RefreshCssTree(myHtmlIsland.Document);
+
+            var lay = this.lightBoxHost.GetSharedHtmlLayoutVisitor(myHtmlIsland);
+            myHtmlIsland.PerformLayout(lay);
+            this.lightBoxHost.ReleaseHtmlLayoutVisitor(lay);
 
         }
         /// <summary>
