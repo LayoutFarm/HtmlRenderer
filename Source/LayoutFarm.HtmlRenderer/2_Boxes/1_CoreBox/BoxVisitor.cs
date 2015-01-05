@@ -18,12 +18,12 @@ namespace HtmlRenderer.Boxes
             {
                 this.globalXOffset += box.LocalX;
                 this.globalYOffset += box.LocalY;
-                OnPushDifferentContaingBlock(box);
+                OnPushDifferentContainingBlock(box);
             }
             this.containgBlockStack.Push(box);
             this.latestContaingBlock = box;
         }
-        protected virtual void OnPushDifferentContaingBlock(CssBox box)
+        protected virtual void OnPushDifferentContainingBlock(CssBox box)
         {
         }
         protected virtual void OnPopDifferentContaingBlock(CssBox box)

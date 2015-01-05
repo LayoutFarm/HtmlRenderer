@@ -15,29 +15,27 @@ namespace HtmlRenderer
         Stack<Rectangle> clipStacks = new Stack<Rectangle>();
 
         PointF[] borderPoints = new PointF[4];
-        PointF htmlContainerScrollOffset;
+        //PointF htmlContainerScrollOffset;
         HtmlIsland htmlIsland;
         Canvas canvas;
 
         Rectangle latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
 
-        float physicalViewportWidth;
-        float physicalViewportHeight;
-        float physicalViewportX;
-        float physicalViewportY;
-        bool aviodGeometyAntialias;
+        float viewportX;
+        float viewportY;
+        float viewportWidth;
+        float viewportHeight;
 
+     
         public Painter()
         {
 
         }
         public void Bind(HtmlIsland htmlIsland, Canvas canvas)
         {
-            this.htmlIsland = htmlIsland;
-            this.htmlContainerScrollOffset = htmlIsland.ScrollOffset;
-            this.aviodGeometyAntialias = htmlIsland.AvoidGeometryAntialias;
-            this.canvas = canvas; 
-        } 
+            this.htmlIsland = htmlIsland; 
+            this.canvas = canvas;
+        }
         public void UnBind()
         {
             //clear
@@ -49,12 +47,12 @@ namespace HtmlRenderer
         {
             get { return this.canvas.Platform; }
         }
-        internal void SetPhysicalViewportBounds(float x, float y, float width, float height)
+        public void SetRenderViewport(float x, float y, float width, float height)
         {
-            this.physicalViewportX = x;
-            this.physicalViewportY = y;
-            this.physicalViewportWidth = width;
-            this.physicalViewportHeight = height;
+            this.viewportX = x;
+            this.viewportY = y;
+            this.viewportWidth = width;
+            this.viewportHeight = height;
         }
 
         public Canvas InnerCanvas
@@ -64,25 +62,22 @@ namespace HtmlRenderer
                 return this.canvas;
             }
         }
-        internal bool AvoidGeometryAntialias
+        public bool AvoidGeometryAntialias
         {
-            get { return this.aviodGeometyAntialias; }
+            get;
+            set;
         }
         //-----------------------------------------------------
 
         internal float LocalViewportTop
         {
-            get { return this.physicalViewportY - canvas.CanvasOriginY; }
+            get { return this.viewportY - canvas.CanvasOriginY; }
         }
         internal float LocalViewportBottom
         {
-            get { return (this.physicalViewportY + this.physicalViewportHeight) - canvas.CanvasOriginY; }
+            get { return (this.viewportY + this.viewportHeight) - canvas.CanvasOriginY; }
         }
 
-        public PointF Offset
-        {
-            get { return this.htmlContainerScrollOffset; }
-        }
 
         //=========================================================
         /// <summary>
@@ -165,6 +160,10 @@ namespace HtmlRenderer
         public void SetCanvasOrigin(int x, int y)
         {
             this.canvas.SetCanvasOrigin(x, y);
+        }
+        public void OffsetCanvasOrigin(int dx, int dy)
+        {
+            this.canvas.OffsetCanvasOrigin(dx, dy);
         }
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
