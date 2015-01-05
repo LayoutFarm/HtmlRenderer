@@ -63,6 +63,7 @@ namespace HtmlRenderer.Demo
     public class HtmlPanel : ScrollableControl
     {
         HtmlRenderer.WebDom.WebDocument currentDoc;
+        Composers.RenderTreeBuilder renderTreeBuilder;
 
         MyHtmlIsland myHtmlIsland;
         HtmlInputEventAdapter _htmlInputEventAdapter;
@@ -129,14 +130,10 @@ namespace HtmlRenderer.Demo
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
         {
             //need updater dom
-            var builder = new HtmlRenderer.Composers.RenderTreeBuilder(null);
-            builder.RequestStyleSheet += (e2) =>
-            {
-                var req = new TextLoadRequestEventArgs(e2.Src);
-                this.textContentMan.AddStyleSheetRequest(req);
-                e2.SetStyleSheet = req.SetStyleSheet;
-            };
-            var rootBox2 = builder.RefreshCssTree(this.currentDoc);
+            if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
+            //-----------------------------------------------------------------
+
+            var rootBox2 = this.renderTreeBuilder.RefreshCssTree(this.currentDoc);
             this.myHtmlIsland.PerformLayout();
         }
 
@@ -291,23 +288,18 @@ namespace HtmlRenderer.Demo
         void SetHtml(MyHtmlIsland htmlIsland, string html, CssActiveSheet cssData)
         {
 
-
+            if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
+            //-----------------------------------------------------------------
             var htmldoc = HtmlRenderer.Composers.WebDocumentParser.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
-            var builder = new Composers.RenderTreeBuilder(null);
-            builder.RequestStyleSheet += (e) =>
-            {
-                var req = new TextLoadRequestEventArgs(e.Src);
-                this.textContentMan.AddStyleSheetRequest(req);
-                e.SetStyleSheet = req.SetStyleSheet;
-            };
 
+           
             //build rootbox from htmldoc
-            var rootBox = builder.BuildCssRenderTree(htmldoc,
+            var rootBox = renderTreeBuilder.BuildCssRenderTree(htmldoc,
                 gfxPlatform.SampleIFonts,
                  cssData,
                 null);
 
-            htmlIsland.SetHtmlDoc(htmldoc);
+            htmlIsland.Document = htmldoc;
             htmlIsland.SetRootCssBox(rootBox);
         }
 
@@ -322,11 +314,10 @@ namespace HtmlRenderer.Demo
             PerformLayout();
             Invalidate();
         }
-        void BuildCssBoxTree(MyHtmlIsland htmlIsland, CssActiveSheet cssData)
+        void CreateRenderTreeBuilder()
         {
-
-            var builder = new Composers.RenderTreeBuilder(null);
-            builder.RequestStyleSheet += (e) =>
+            this.renderTreeBuilder = new Composers.RenderTreeBuilder(null);
+            this.renderTreeBuilder.RequestStyleSheet += (e) =>
             {
                 var req = new TextLoadRequestEventArgs(e.Src);
                 this.textContentMan.AddStyleSheetRequest(req);
@@ -334,13 +325,19 @@ namespace HtmlRenderer.Demo
 
             };
 
+        }
+        void BuildCssBoxTree(MyHtmlIsland htmlIsland, CssActiveSheet cssData)
+        {
 
-            var rootBox = builder.BuildCssRenderTree(this.currentDoc,
+            if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
+            //------------------------------------------------------------
+
+            var rootBox = renderTreeBuilder.BuildCssRenderTree(this.currentDoc,
                 gfxPlatform.SampleIFonts,
                 cssData,
                 null);
 
-            htmlIsland.SetHtmlDoc(this.currentDoc);
+            htmlIsland.Document = this.currentDoc;
             htmlIsland.SetRootCssBox(rootBox);
 
         }
@@ -363,7 +360,17 @@ namespace HtmlRenderer.Demo
         /// <returns>generated html</returns>
         public string GetHtml()
         {
-            return myHtmlIsland != null ? myHtmlIsland.GetHtml() : null;
+
+            if (myHtmlIsland == null)
+            {
+                return null;
+            }
+            else
+            {
+                System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
+                myHtmlIsland.GetHtml(stbuilder);
+                return stbuilder.ToString();
+            }
         }
 
 
@@ -713,6 +720,7 @@ namespace HtmlRenderer.Demo
         {
             if (myHtmlIsland != null)
             {
+                this.timer01.Stop();
                 //_htmlContainer.LinkClicked -= OnLinkClicked;
                 //myHtmlIsland.RenderError -= OnRenderError;
                 myHtmlIsland.Refresh -= OnRefresh;

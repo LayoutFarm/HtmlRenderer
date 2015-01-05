@@ -27,11 +27,12 @@ namespace HtmlRenderer.Composers
     public class MyHtmlIsland : HtmlIsland, IUpdateStateChangedListener
     {
 
-        WebDocument doc;  
+        WebDocument doc;
         public event EventHandler<HtmlRefreshEventArgs> Refresh;
         public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
         public event EventHandler<EventArgs> NeedUpdateDom;
-        List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>(); 
+        List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>();
+
         //----------------------------------------------------------- 
         public MyHtmlIsland(GraphicsPlatform gfxPlatforms)
             : base(gfxPlatforms)
@@ -43,8 +44,13 @@ namespace HtmlRenderer.Composers
         {
             get;
             set;
-
         }
+        public WebDocument Document
+        {
+            get { return this.doc; }
+            set { this.doc = value; }
+        }
+       
         public bool InternalRefreshRequest()
         {
             if (requestImageBinderUpdates.Count > 0)
@@ -55,7 +61,6 @@ namespace HtmlRenderer.Composers
                 dbugCount02++;
                 //Console.WriteLine(dd);
 #endif
-
                 return true;
             }
             return false;
@@ -89,14 +94,9 @@ namespace HtmlRenderer.Composers
 
             }
         }
-        public void SetHtmlDoc(WebDocument doc)
-        {
-            this.doc = doc;
-        }
-        public WebDocument Document
-        {
-            get { return this.doc; }
-        }
+
+
+
         public void CheckDocUpdate()
         {
             if (doc != null &&
@@ -126,7 +126,7 @@ namespace HtmlRenderer.Composers
 
         }
 
-        public string GetHtml()
+        public void GetHtml(StringBuilder stbuilder)
         {
             throw new NotSupportedException();
         }

@@ -212,17 +212,9 @@ namespace LayoutFarm.CustomWidgets
             hasWaitingDocToLoad = true;
             //---------------------------
             if (frgmRenderBox == null) return;
-            //---------------------------
-
-            var builder = new HtmlRenderer.Composers.RenderTreeBuilder(frgmRenderBox.Root);
-            builder.RequestStyleSheet += (e2) =>
-            {
-                var req = new TextLoadRequestEventArgs(e2.Src);
-                this.lightBoxHost.ChildRequestStylesheet(this, req);
-                e2.SetStyleSheet = req.SetStyleSheet; 
-            };
-             
-            var rootBox2 = builder.RefreshCssTree(myHtmlIsland.Document);
+            //--------------------------- 
+            
+            this.lightBoxHost.RefreshCssTree(myHtmlIsland.Document); 
             myHtmlIsland.PerformLayout();
 
         }

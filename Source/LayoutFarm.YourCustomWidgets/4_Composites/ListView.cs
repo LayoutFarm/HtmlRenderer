@@ -19,8 +19,7 @@ namespace LayoutFarm.CustomWidgets
         int viewportX, viewportY;
         List<LayerElement> layers = new List<LayerElement>(1);
 
-        int latestItemY;
-
+        int latestItemY; 
         Panel panel;
         public ListView(int width, int height)
             : base(width, height)
@@ -31,8 +30,7 @@ namespace LayoutFarm.CustomWidgets
             panel.BackColor = Color.LightGray;
             plainLayer.AddUI(panel);
             this.layers.Add(plainLayer);
-        }
-
+        } 
         protected override bool HasReadyRenderElement
         {
             get { return this.primElement != null; }

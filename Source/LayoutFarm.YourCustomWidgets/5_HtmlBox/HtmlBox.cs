@@ -32,6 +32,8 @@ namespace LayoutFarm.CustomWidgets
         HtmlInputEventAdapter inputEventAdapter;
         object uiHtmlTask = new object();
 
+
+        HtmlRenderer.Composers.RenderTreeBuilder renderTreeBuilder = null;
         static HtmlBox()
         {
             HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
@@ -42,7 +44,7 @@ namespace LayoutFarm.CustomWidgets
             this._width = width;
             this._height = height;
 
-            myHtmlIsland = new MyHtmlIsland(p); 
+            myHtmlIsland = new MyHtmlIsland(p);
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             myHtmlIsland.Refresh += myHtmlIsland_Refresh;
             myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
@@ -110,15 +112,10 @@ namespace LayoutFarm.CustomWidgets
                 RequestImage(this, new ImageRequestEventArgs(e.binder));
             }
         }
-        void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
+        void CreateRenderTreeBuilder()
         {
-            hasWaitingDocToLoad = true;
-            //---------------------------
-            if (htmlRenderBox == null) return;
-            //---------------------------
-
-            var builder = new HtmlRenderer.Composers.RenderTreeBuilder(htmlRenderBox.Root);
-            builder.RequestStyleSheet += (e2) =>
+            this.renderTreeBuilder = new HtmlRenderer.Composers.RenderTreeBuilder(htmlRenderBox.Root);
+            this.renderTreeBuilder.RequestStyleSheet += (e2) =>
             {
                 if (this.RequestStylesheet != null)
                 {
@@ -127,8 +124,28 @@ namespace LayoutFarm.CustomWidgets
                     e2.SetStyleSheet = req.SetStyleSheet;
                 }
             };
-            var rootBox2 = builder.RefreshCssTree(this.currentdoc);
 
+        }
+        void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
+        {
+            hasWaitingDocToLoad = true;
+            //---------------------------
+            if (htmlRenderBox == null) return;
+            //--------------------------- 
+            if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
+
+            //var builder = new HtmlRenderer.Composers.RenderTreeBuilder(htmlRenderBox.Root);
+            //builder.RequestStyleSheet += (e2) =>
+            //{
+            //    if (this.RequestStylesheet != null)
+            //    {
+            //        var req = new TextLoadRequestEventArgs(e2.Src);
+            //        RequestStylesheet(this, req);
+            //        e2.SetStyleSheet = req.SetStyleSheet;
+            //    }
+            //};
+
+            var rootBox2 = renderTreeBuilder.RefreshCssTree(this.currentdoc);
             this.myHtmlIsland.PerformLayout();
 
         }
@@ -180,26 +197,19 @@ namespace LayoutFarm.CustomWidgets
         }
         void UpdateWaitingHtmlDoc(RootGraphic rootgfx)
         {
-            var builder = new HtmlRenderer.Composers.RenderTreeBuilder(rootgfx);
-            builder.RequestStyleSheet += (e) =>
-            {
-                if (this.RequestStylesheet != null)
-                {
-                    var req = new TextLoadRequestEventArgs(e.Src);
-                    RequestStylesheet(this, req);
-                    e.SetStyleSheet = req.SetStyleSheet;
-                }
-            };
+            if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
+            //------------------------------------------------------------
 
+             
             //build rootbox from htmldoc
-            var rootBox = builder.BuildCssRenderTree(this.currentdoc,
+            var rootBox = renderTreeBuilder.BuildCssRenderTree(this.currentdoc,
                 rootgfx.SampleIFonts,
                 this.waitingCssData,
                 this.htmlRenderBox);
 
             //update htmlIsland
             var htmlIsland = this.myHtmlIsland;
-            htmlIsland.SetHtmlDoc(this.currentdoc);
+            htmlIsland.Document = this.currentdoc;
             htmlIsland.SetRootCssBox(rootBox);
             //htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
             htmlIsland.SetMaxSize(this._width, 0);

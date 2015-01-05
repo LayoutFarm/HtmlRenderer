@@ -42,7 +42,7 @@ namespace LayoutFarm
                 //light box can't load full html
                 //all light boxs of the same lightbox host share resource with the host
                 string html2 = @"<div>OK3</div><div>OK4</div>";
-                //if you want to use full html-> use HtmlBox instead  
+                //if you want to use ful l html-> use HtmlBox instead  
                 lightHtmlBox2.LoadHtmlFragmentText(html2); 
             }
             //==================================================  
@@ -51,7 +51,7 @@ namespace LayoutFarm
                 lightHtmlBox3.SetLocation(0, 100);
                 viewport.AddContent(lightHtmlBox3); 
                 //fragment dom 
-                // create dom then to thie light box
+                //create dom then to thie light box
                 lightHtmlBox3.LoadHtmlFragmentDom(CreateBridgeDoc());
 
             }
