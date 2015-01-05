@@ -119,7 +119,7 @@ namespace HtmlRenderer.Demo
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
             {
-                myHtmlIsland.InternalRefreshRequest();
+                myHtmlIsland.NeedRefresh();
             };
             timer01.Enabled = true;
             //-------------------------------------------
@@ -450,7 +450,14 @@ namespace HtmlRenderer.Demo
             {
 
                 myHtmlIsland.ScrollOffset = Conv.ToPointF(AutoScrollPosition);
-                myHtmlIsland.PhysicalViewportBound = Conv.ToRectF(this.Bounds);
+
+                var bounds = this.Bounds;
+                myHtmlIsland.SetViewportBound(
+                    bounds.X,
+                    bounds.Y,
+                    bounds.Width,
+                    bounds.Height);
+
 
                 myHtmlIsland.CheckDocUpdate();
                 renderCanvas.ClearSurface(LayoutFarm.Drawing.Color.White);

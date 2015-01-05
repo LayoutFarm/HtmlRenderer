@@ -49,7 +49,7 @@ namespace HtmlRenderer
         {
             get { return this.canvas.Platform; }
         }
-        internal void SetPhysicalViewportBound(float x, float y, float width, float height)
+        internal void SetPhysicalViewportBounds(float x, float y, float width, float height)
         {
             this.physicalViewportX = x;
             this.physicalViewportY = y;
