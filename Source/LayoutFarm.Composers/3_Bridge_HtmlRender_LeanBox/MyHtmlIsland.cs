@@ -93,7 +93,10 @@ namespace HtmlRenderer.Composers
         {
             this.doc = doc;
         }
-        
+        public WebDocument Document
+        {
+            get { return this.doc; }
+        }
         public void CheckDocUpdate()
         {
             if (doc != null &&

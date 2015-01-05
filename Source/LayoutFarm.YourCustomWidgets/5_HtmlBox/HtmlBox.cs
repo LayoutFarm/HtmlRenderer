@@ -29,7 +29,7 @@ namespace LayoutFarm.CustomWidgets
 
         bool hasWaitingDocToLoad;
         HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
-        HtmlInputEventAdapter _htmlInputEventBridge;
+        HtmlInputEventAdapter inputEventAdapter;
         object uiHtmlTask = new object();
 
         static HtmlBox()
@@ -42,10 +42,9 @@ namespace LayoutFarm.CustomWidgets
             this._width = width;
             this._height = height;
 
-            myHtmlIsland = new MyHtmlIsland(p);
-
+            myHtmlIsland = new MyHtmlIsland(p); 
             myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
-            myHtmlIsland.Refresh += OnRefresh;
+            myHtmlIsland.Refresh += myHtmlIsland_Refresh;
             myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
             myHtmlIsland.RequestResource += myHtmlIsland_RequestResource;
 
@@ -59,16 +58,16 @@ namespace LayoutFarm.CustomWidgets
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
 
-            _htmlInputEventBridge.MouseUp(e);
+            inputEventAdapter.MouseUp(e);
         }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
             e.CurrentContextElement = this;
-            _htmlInputEventBridge.MouseDown(e);
+            inputEventAdapter.MouseDown(e);
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-            _htmlInputEventBridge.MouseMove(e);
+            inputEventAdapter.MouseMove(e);
 
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
@@ -78,19 +77,19 @@ namespace LayoutFarm.CustomWidgets
 
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
-            _htmlInputEventBridge.KeyDown(e);
+            inputEventAdapter.KeyDown(e);
         }
         void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
-            _htmlInputEventBridge.KeyPress(e);
+            inputEventAdapter.KeyPress(e);
         }
         void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
-            _htmlInputEventBridge.KeyUp(e);
+            inputEventAdapter.KeyUp(e);
         }
         bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
-            return this._htmlInputEventBridge.ProcessDialogKey(e);
+            return this.inputEventAdapter.ProcessDialogKey(e);
         }
         void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
@@ -136,7 +135,7 @@ namespace LayoutFarm.CustomWidgets
         /// <summary>
         /// Handle html renderer invalidate and re-layout as requested.
         /// </summary>
-        void OnRefresh(object sender, HtmlRenderer.WebDom.HtmlRefreshEventArgs e)
+        void myHtmlIsland_Refresh(object sender, HtmlRenderer.WebDom.HtmlRefreshEventArgs e)
         {
             this.InvalidateGraphic();
         }
@@ -155,8 +154,8 @@ namespace LayoutFarm.CustomWidgets
                 htmlRenderBox.SetController(this);
                 htmlRenderBox.HasSpecificSize = true;
 
-                _htmlInputEventBridge = new HtmlInputEventAdapter(rootgfx.SampleIFonts);
-                _htmlInputEventBridge.Bind(this.myHtmlIsland);
+                inputEventAdapter = new HtmlInputEventAdapter(rootgfx.SampleIFonts);
+                inputEventAdapter.Bind(this.myHtmlIsland);
             }
             //-------------------------
             rootgfx.RequestGraphicsIntervalTask(uiHtmlTask,

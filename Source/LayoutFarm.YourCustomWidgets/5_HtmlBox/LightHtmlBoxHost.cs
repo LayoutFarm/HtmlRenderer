@@ -66,14 +66,14 @@ namespace LayoutFarm.CustomWidgets
             HtmlInputEventAdapter adapter = null;
             if (inputEventAdapterStock.Count == 0)
             {
-                adapter = new HtmlInputEventAdapter(this.gfxPlatform.SampleIFonts); 
+                adapter = new HtmlInputEventAdapter(this.gfxPlatform.SampleIFonts);
             }
             else
-            { 
-                adapter= this.inputEventAdapterStock.Dequeue();
+            {
+                adapter = this.inputEventAdapterStock.Dequeue();
             }
             adapter.Bind(island);
-            return adapter; 
+            return adapter;
         }
         internal void ReleaseSharedInputEventAdapter(HtmlInputEventAdapter adapter)
         {
@@ -116,7 +116,20 @@ namespace LayoutFarm.CustomWidgets
 
         }
 
-
+        internal void ChildRequestImage(LightHtmlBox lightBox, ImageRequestEventArgs imgReqArgs)
+        {
+            if (this.RequestImage != null)
+            {
+                this.RequestImage(lightBox, imgReqArgs);
+            }
+        }
+        internal void ChildRequestStylesheet(LightHtmlBox lightBox, TextLoadRequestEventArgs textReqArgs)
+        {
+            if (this.RequestStylesheet != null)
+            {
+                this.RequestStylesheet(lightBox, textReqArgs);
+            }
+        }
         public LightHtmlBox CreateLightBox(int w, int h)
         {
             LightHtmlBox lightBox = new LightHtmlBox(this, w, h);
@@ -167,6 +180,38 @@ namespace LayoutFarm.CustomWidgets
             newCssBox = rootElement;
 
         }
+        public void CreateHtmlFragment(HtmlRenderer.WebDom.WebDocument htmldoc, RenderElement container, out MyHtmlIsland newIsland, out CssBox newCssBox)
+        {
+            //1. builder
+            var builder = new HtmlRenderer.Composers.RenderTreeBuilder(rootgfx);
+            builder.RequestStyleSheet += (e) =>
+            {
+                if (this.RequestStylesheet != null)
+                {
+                    var req = new TextLoadRequestEventArgs(e.Src);
+                    RequestStylesheet(this, req);
+                    e.SetStyleSheet = req.SetStyleSheet;
+                }
+            };
 
+
+            //3. generate render tree
+            ////build rootbox from htmldoc
+            var rootElement = builder.BuildCssRenderTree(htmldoc,
+                rootgfx.SampleIFonts,
+                baseStyleSheet,
+                container);
+            //4. create small island
+
+            var htmlIsland = new MyHtmlIsland(this.gfxPlatform);
+            htmlIsland.SetRootCssBox(rootElement);
+            htmlIsland.SetHtmlDoc(htmldoc);
+            htmlIsland.SetMaxSize(this._width, 0);
+            htmlIsland.PerformLayout();
+
+            newIsland = htmlIsland;
+            newCssBox = rootElement;
+
+        }
     }
 }

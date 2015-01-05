@@ -319,6 +319,7 @@ namespace LayoutFarm.Boxes
         {
             this.htmlIsland = htmlIsland;
             this.cssBox = box;
+             
         }
         public override void ClearAllChildren()
         {
