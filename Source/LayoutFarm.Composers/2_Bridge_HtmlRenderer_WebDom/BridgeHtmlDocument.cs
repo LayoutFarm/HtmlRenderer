@@ -45,13 +45,12 @@ namespace HtmlRenderer.Composers
         {
             return new HtmlTextNode(this, strBufferForElement);
         }
-
-
         internal ActiveCssTemplate ActiveCssTemplate
         {
             get;
             set;
         }
     }
+
 
 }

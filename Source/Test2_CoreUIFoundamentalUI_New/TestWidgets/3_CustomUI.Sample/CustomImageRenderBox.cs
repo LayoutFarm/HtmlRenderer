@@ -38,11 +38,11 @@ namespace LayoutFarm.CustomWidgets
             get;
             set;
         }
-        protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rect updateArea)
         {
             if (this.image != null)
             {
-                canvasPage.DrawImage(this.image,
+                canvas.DrawImage(this.image,
                     new RectangleF(0, 0, this.Width, this.Height));
             }
             else

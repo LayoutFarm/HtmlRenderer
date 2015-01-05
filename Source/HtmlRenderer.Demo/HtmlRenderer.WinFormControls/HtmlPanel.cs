@@ -113,10 +113,7 @@ namespace HtmlRenderer.Demo
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
             {
-                if (myHtmlIsland != null)
-                {
-                    myHtmlIsland.InternalRefreshRequest();
-                }
+                myHtmlIsland.InternalRefreshRequest();
             };
             timer01.Enabled = true;
             //-------------------------------------------
@@ -139,7 +136,7 @@ namespace HtmlRenderer.Demo
                 this.textContentMan.AddStyleSheetRequest(req);
                 e2.SetStyleSheet = req.SetStyleSheet;
             };
-            var rootBox2 = builder.RefreshCssTree(this.currentDoc, gfxPlatform.SampleIFonts, this.myHtmlIsland);
+            var rootBox2 = builder.RefreshCssTree(this.currentDoc);
             this.myHtmlIsland.PerformLayout();
         }
 
@@ -307,11 +304,11 @@ namespace HtmlRenderer.Demo
             //build rootbox from htmldoc
             var rootBox = builder.BuildCssRenderTree(htmldoc,
                 gfxPlatform.SampleIFonts,
-                htmlIsland, cssData,
+                 cssData,
                 null);
 
             htmlIsland.SetHtmlDoc(htmldoc);
-            htmlIsland.SetRootCssBox(rootBox, cssData);
+            htmlIsland.SetRootCssBox(rootBox);
         }
 
         public void LoadHtmlDom(HtmlRenderer.WebDom.WebDocument doc, string defaultCss)
@@ -340,11 +337,11 @@ namespace HtmlRenderer.Demo
 
             var rootBox = builder.BuildCssRenderTree(this.currentDoc,
                 gfxPlatform.SampleIFonts,
-                htmlIsland, cssData,
+                cssData,
                 null);
 
             htmlIsland.SetHtmlDoc(this.currentDoc);
-            htmlIsland.SetRootCssBox(rootBox, cssData);
+            htmlIsland.SetRootCssBox(rootBox);
 
         }
         public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.WebDocument doc)
@@ -416,11 +413,6 @@ namespace HtmlRenderer.Demo
             if (myHtmlIsland != null)
             {
                 myHtmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(ClientSize.Width, 0);
-
-                //using (var g = CreateGraphics())
-                //{
-                //    myHtmlIsland.PerformLayout(g);
-                //}
                 myHtmlIsland.PerformLayout();
                 var asize = myHtmlIsland.ActualSize;
                 AutoScrollMinSize = Size.Round(new SizeF(asize.Width, asize.Height));

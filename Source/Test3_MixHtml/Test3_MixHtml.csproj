@@ -60,6 +60,7 @@
     <Compile Include="Demo4\4.3.2_UIHtmlBox_ContentMx.cs" />
     <Compile Include="Demo4\4.3.1_UIHtmlBoxWithResReq.cs" />
     <Compile Include="Demo4\4.4_CssLeanBox.cs" />
+    <Compile Include="Demo4\4.5_LightHtmlBox.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleViewportExtension.cs" />

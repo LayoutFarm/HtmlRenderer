@@ -191,6 +191,7 @@ namespace HtmlRenderer.Boxes
         {
             get
             {
+                //TODO: review this again!
                 if (this._aa_boxes.Count != 0)
                 {
                     return true;

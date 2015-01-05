@@ -40,10 +40,10 @@ namespace LayoutFarm
         }
 
 
-        protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rect updateArea)
         {
-            canvasPage.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
-            base.BoxDrawContent(canvasPage, updateArea);
+            canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
+            base.DrawContent(canvas, updateArea);
         }
 
 

@@ -18,7 +18,6 @@ namespace LayoutFarm.Boxes
 
     public class HtmlRenderBox : RenderBoxBase
     {
-
         MyHtmlIsland myHtmlIsland;
         int myWidth;
         int myHeight;
@@ -36,11 +35,11 @@ namespace LayoutFarm.Boxes
         {
 
         }
-        protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rect updateArea)
         {
             myHtmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
             myHtmlIsland.CheckDocUpdate();
-            myHtmlIsland.PerformPaint(canvasPage);
+            myHtmlIsland.PerformPaint(canvas);
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
@@ -50,8 +49,6 @@ namespace LayoutFarm.Boxes
 
     public sealed class RenderElementInsideCssBox : CustomCssBox
     {
-
-
         CssBoxInsideRenderElement wrapper;
         int globalXForRenderElement;
         int globalYForRenderElement;
@@ -115,13 +112,13 @@ namespace LayoutFarm.Boxes
 
                 Rect rect = Rect.CreateFromRect(
                      new Rectangle(0, 0, wrapper.Width, wrapper.Height));
-                this.wrapper.DrawToThisPage(p.InnerCanvas, rect); 
+                this.wrapper.DrawToThisPage(p.InnerCanvas, rect);
 
             }
             else
             {
                 //for debug!
-                p.FillRectangle(Color.Red, 0, 0, 100, 100);                
+                p.FillRectangle(Color.Red, 0, 0, 100, 100);
             }
         }
         RenderElement GetParentRenderElement(out int globalX, out int globalY)
@@ -197,8 +194,8 @@ namespace LayoutFarm.Boxes
 
             public override void CustomDrawToThisPage(Canvas canvasPage, Rect updateArea)
             {
-                int x = this.adjustX;
-                int y = this.adjustY;
+                //int x = this.adjustX;
+                //int y = this.adjustY;
                 renderElement.CustomDrawToThisPage(canvasPage, updateArea);
 
             }
@@ -294,6 +291,55 @@ namespace LayoutFarm.Boxes
 #endif
         }
     }
+
+
+
+    //===================================================================
+    public class HtmlFragmentRenderBox : RenderBoxBase
+    {
+
+        MyHtmlIsland htmlIsland;
+        CssBox cssBox;
+        int myWidth;
+        int myHeight;
+        public HtmlFragmentRenderBox(RootGraphic rootgfx,
+            int width, int height)
+            : base(rootgfx, width, height)
+        {
+            this.myWidth = width;
+            this.myHeight = height;
+            this.Focusable = false;
+        }
+
+        public CssBox CssBox
+        {
+            get { return this.cssBox; }
+        }
+        public void SetHtmlIsland(MyHtmlIsland htmlIsland, CssBox box)
+        {
+            this.htmlIsland = htmlIsland;
+            this.cssBox = box;
+        }
+        public override void ClearAllChildren()
+        {
+
+        }
+        protected override void DrawContent(Canvas canvas, Rect updateArea)
+        {
+
+            htmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
+            htmlIsland.CheckDocUpdate(); 
+            htmlIsland.PerformPaint(canvas);
+            
+
+        }
+        public override void ChildrenHitTestCore(HitChain hitChain)
+        {
+
+        }
+    }
+
+
 
 }
 
