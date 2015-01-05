@@ -155,8 +155,8 @@ namespace LayoutFarm.CustomWidgets
                 htmlRenderBox.SetController(this);
                 htmlRenderBox.HasSpecificSize = true;
 
-                _htmlInputEventBridge = new HtmlInputEventAdapter();
-                _htmlInputEventBridge.Bind(this.myHtmlIsland, rootgfx.SampleIFonts);
+                _htmlInputEventBridge = new HtmlInputEventAdapter(rootgfx.SampleIFonts);
+                _htmlInputEventBridge.Bind(this.myHtmlIsland);
             }
             //-------------------------
             rootgfx.RequestGraphicsIntervalTask(uiHtmlTask,

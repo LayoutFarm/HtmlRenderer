@@ -21,7 +21,8 @@ namespace LayoutFarm.CustomWidgets
         string waitingHtmlFragment;
 
         LightHtmlBoxHost lightBoxHost;
-
+        MyHtmlIsland newIsland;
+        CssBox newCssBox;
 
         //presentation
         HtmlFragmentRenderBox frgmRenderBox;
@@ -35,9 +36,6 @@ namespace LayoutFarm.CustomWidgets
             this.lightBoxHost = lightBoxHost;
 
         }
-
-        HtmlInputEventAdapter _htmlInputEventBridge { get { return this.lightBoxHost.InputEventAdaper; } }
-
         protected override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.frgmRenderBox; }
@@ -46,47 +44,101 @@ namespace LayoutFarm.CustomWidgets
         {
             get { return this.frgmRenderBox != null; }
         }
+
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
-            _htmlInputEventBridge.MouseUp(e, frgmRenderBox.CssBox);
+            //0. set context
+            e.CurrentContextElement = this;
+
+            //1. get share input adapter
+            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.newIsland);
+            //2. send event
+            inputAdapter.MouseUp(e, frgmRenderBox.CssBox);
+            //3. release back to host
+            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
+            //0. set context
             e.CurrentContextElement = this;
-            _htmlInputEventBridge.MouseDown(e, frgmRenderBox.CssBox);
+
+            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.newIsland);
+
+            inputAdapter.MouseDown(e, frgmRenderBox.CssBox);
+
+            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
-        {
-            _htmlInputEventBridge.MouseMove(e, frgmRenderBox.CssBox);
+        {   //0. set context
+            e.CurrentContextElement = this;
+
+            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.newIsland);
+
+            inputAdapter.MouseMove(e, frgmRenderBox.CssBox);
+
+            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
-
+            //0. set context
+            e.CurrentContextElement = this;
+            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.newIsland);
+            //?
+            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
-            _htmlInputEventBridge.KeyDown(e, frgmRenderBox.CssBox);
+            //0. set context
+            e.CurrentContextElement = this;
+
+            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.newIsland);
+
+            inputAdapter.KeyDown(e, frgmRenderBox.CssBox);
+
+            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
-            _htmlInputEventBridge.KeyPress(e, frgmRenderBox.CssBox);
+            //0. set context
+            e.CurrentContextElement = this;
+            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.newIsland);
+            inputAdapter.KeyPress(e, frgmRenderBox.CssBox);
+            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
-            _htmlInputEventBridge.KeyUp(e, frgmRenderBox.CssBox);
+            //0. set context
+            e.CurrentContextElement = this;
+            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.newIsland);
+
+            inputAdapter.KeyUp(e, frgmRenderBox.CssBox);
+
+            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
-        {
-            return this._htmlInputEventBridge.ProcessDialogKey(e, frgmRenderBox.CssBox);
+        { //0. set context
+            e.CurrentContextElement = this;
+
+            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.newIsland);
+            inputAdapter.KeyUp(e, frgmRenderBox.CssBox);
+            var result = inputAdapter.ProcessDialogKey(e, frgmRenderBox.CssBox);
+            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            return result;
         }
         void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
+            //0. set context
+            e.CurrentContextElement = this;
         }
         void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
+            //0. set context
+            e.CurrentContextElement = this;
         }
         protected override void OnKeyUp(UIKeyEventArgs e)
         {
+            //0. set context
+            e.CurrentContextElement = this;
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
@@ -116,11 +168,10 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load
-                MyHtmlIsland newIsland;
-                CssBox newCssBox;
+
                 this.lightBoxHost.CreateHtmlFragment(htmlFragment, frgmRenderBox, out newIsland, out newCssBox);
                 this.frgmRenderBox.SetHtmlIsland(newIsland, newCssBox);
-                
+
                 this.waitingHtmlFragment = null;
             }
             //send fragment html to lightbox host 

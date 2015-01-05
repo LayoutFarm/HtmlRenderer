@@ -65,7 +65,7 @@ namespace HtmlRenderer.Demo
         HtmlRenderer.WebDom.WebDocument currentDoc;
 
         MyHtmlIsland myHtmlIsland;
-        HtmlInputEventAdapter _htmlEventBridge;
+        HtmlInputEventAdapter _htmlInputEventAdapter;
         /// <summary>
         /// the raw base stylesheet data used in the control
         /// </summary>
@@ -117,8 +117,8 @@ namespace HtmlRenderer.Demo
             };
             timer01.Enabled = true;
             //-------------------------------------------
-            _htmlEventBridge = new HtmlInputEventAdapter();
-            _htmlEventBridge.Bind(myHtmlIsland, gfxPlatform.SampleIFonts);
+            _htmlInputEventAdapter = new HtmlInputEventAdapter(gfxPlatform.SampleIFonts);
+            _htmlInputEventAdapter.Bind(myHtmlIsland);
             //------------------------------------------- 
         }
         void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
@@ -482,7 +482,7 @@ namespace HtmlRenderer.Demo
         {
             base.OnMouseMove(e);
 
-            _htmlEventBridge.MouseMove(CreateMouseEventArg(e));
+            _htmlInputEventAdapter.MouseMove(CreateMouseEventArg(e));
             PaintMe(null);
         }
 
@@ -504,7 +504,7 @@ namespace HtmlRenderer.Demo
         {
             base.OnMouseDown(e);
 
-            this._htmlEventBridge.MouseDown(CreateMouseEventArg(e));
+            this._htmlInputEventAdapter.MouseDown(CreateMouseEventArg(e));
             PaintMe(null);
             //this.Invalidate();
         }
@@ -516,7 +516,7 @@ namespace HtmlRenderer.Demo
         {
             base.OnMouseClick(e);
 
-            this._htmlEventBridge.MouseUp(CreateMouseEventArg(e));
+            this._htmlInputEventAdapter.MouseUp(CreateMouseEventArg(e));
             PaintMe(null);
             // this.Invalidate();
         }
