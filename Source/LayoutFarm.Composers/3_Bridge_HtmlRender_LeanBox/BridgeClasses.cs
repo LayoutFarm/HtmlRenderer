@@ -35,7 +35,7 @@ namespace LayoutFarm.Boxes
         {
 
         }
-        protected override void BoxDrawContent(Canvas canvas, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rect updateArea)
         {
             myHtmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
             myHtmlIsland.CheckDocUpdate();
@@ -194,8 +194,8 @@ namespace LayoutFarm.Boxes
 
             public override void CustomDrawToThisPage(Canvas canvasPage, Rect updateArea)
             {
-                int x = this.adjustX;
-                int y = this.adjustY;
+                //int x = this.adjustX;
+                //int y = this.adjustY;
                 renderElement.CustomDrawToThisPage(canvasPage, updateArea);
 
             }
@@ -324,14 +324,14 @@ namespace LayoutFarm.Boxes
         {
 
         }
-        protected override void BoxDrawContent(Canvas canvas, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rect updateArea)
         {
 
-            htmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);             
+            htmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
+            htmlIsland.CheckDocUpdate(); 
             htmlIsland.PerformPaint(canvas);
+            
 
-            //htmlIsland.CheckDocUpdate();
-            //htmlIsland.PerformPaint(canvasPage);
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {

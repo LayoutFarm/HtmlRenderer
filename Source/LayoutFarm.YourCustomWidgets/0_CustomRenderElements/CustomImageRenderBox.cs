@@ -38,7 +38,7 @@ namespace LayoutFarm.CustomWidgets
             get;
             set;
         }
-        protected override void BoxDrawContent(Canvas canvas, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rect updateArea)
         {
             if (this.image != null)
             {

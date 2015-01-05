@@ -36,7 +36,7 @@ namespace LayoutFarm
             updateArea.Offset(myviewportX, myviewportY);
 
 
-            this.BoxDrawContent(canvas, updateArea);
+            this.DrawContent(canvas, updateArea);
 
             canvas.OffsetCanvasOrigin(myviewportX, myviewportY);
             updateArea.Offset(-myviewportX, -myviewportY);
@@ -71,7 +71,7 @@ namespace LayoutFarm
             //    layer.InvalidateContentArrangementFromContainerSizeChanged();
             //}
         }
-        protected virtual void BoxDrawContent(Canvas canvas, Rect updateArea)
+        protected virtual void DrawContent(Canvas canvas, Rect updateArea)
         {
             //sample ***
             //1. draw background

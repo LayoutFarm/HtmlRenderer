@@ -27,12 +27,12 @@ namespace HtmlRenderer.Boxes
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
-        CssBox _rootBox; 
+        CssBox _rootBox;
         /// <summary>
         /// the max width and height of the rendered html, effects layout, actual size cannot exceed this values.<br/>
         /// Set zero for unlimited.<br/>
         /// </summary>
-        SizeF _maxSize; 
+        SizeF _maxSize;
         /// <summary>
         /// The actual size of the rendered html (after layout)
         /// </summary>
@@ -161,7 +161,7 @@ namespace HtmlRenderer.Boxes
             set;
 
         }
- 
+
 
         /// <summary>
         /// The max width and height of the rendered html.<br/>
@@ -273,18 +273,21 @@ namespace HtmlRenderer.Boxes
             }
 
             Painter p = new Painter(this, canvas);
-            int scX = (int)this.ScrollOffset.X;
-            int scY = (int)this.ScrollOffset.Y;
+
 
             var physicalViewportSize = this.PhysicalViewportBound.Size;
 
             int ox = canvas.CanvasOriginX;
             int oy = canvas.CanvasOriginY;
 
-            canvas.SetCanvasOrigin(scX, scY);
+            int scX = (int)this.ScrollOffset.X;
+            int scY = (int)this.ScrollOffset.Y;
+
+
+            canvas.SetCanvasOrigin(ox + scX, oy + scY);
 
             p.PushContaingBlock(_rootBox);
-            p.SetPhysicalViewportBound(0, 0, physicalViewportSize.Width, physicalViewportSize.Height);
+            p.SetPhysicalViewportBound(0, oy + scY, physicalViewportSize.Width, physicalViewportSize.Height);
 
 
             _rootBox.Paint(p);
