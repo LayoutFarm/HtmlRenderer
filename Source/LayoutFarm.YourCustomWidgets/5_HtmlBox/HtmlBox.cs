@@ -25,6 +25,7 @@ namespace LayoutFarm.CustomWidgets
         LayoutVisitor htmlLayoutVisitor;
 
         HtmlRenderer.WebDom.WebDocument currentdoc;
+
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
         public event EventHandler<ImageRequestEventArgs> RequestImage;
 
@@ -35,6 +36,7 @@ namespace LayoutFarm.CustomWidgets
 
 
         HtmlRenderer.Composers.RenderTreeBuilder renderTreeBuilder = null;
+        HtmlIslandHost islandHost;
         static HtmlBox()
         {
             HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
@@ -43,16 +45,22 @@ namespace LayoutFarm.CustomWidgets
         public HtmlBox(int width, int height)
         {
             this._width = width;
-            this._height = height;
+            this._height = height; 
 
-            myHtmlIsland = new MyHtmlIsland();
-            myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
-            myHtmlIsland.Refresh += myHtmlIsland_Refresh;
-            myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
-            myHtmlIsland.RequestResource += myHtmlIsland_RequestResource;
-
-            //request ui timer ***
-
+            this.islandHost = new HtmlIslandHost();
+            this.islandHost.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
+            this.islandHost.RequestResource += (s, e) =>
+            {
+                if (this.RequestImage != null)
+                {
+                    RequestImage(this, new ImageRequestEventArgs(e.binder));
+                }
+            };
+           
+            myHtmlIsland = new MyHtmlIsland(islandHost); 
+            myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphic();
+            myHtmlIsland.DomRequestRebuild += myHtmlIsland_NeedUpdateDom; 
+            //request ui timer *** 
             //tim.Interval = 30;
             //tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
         }
@@ -100,19 +108,11 @@ namespace LayoutFarm.CustomWidgets
         void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
         }
-
-
         internal MyHtmlIsland HtmlIsland
         {
             get { return this.myHtmlIsland; }
         }
-        void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
-        {
-            if (this.RequestImage != null)
-            {
-                RequestImage(this, new ImageRequestEventArgs(e.binder));
-            }
-        }
+ 
         void CreateRenderTreeBuilder()
         {
             this.renderTreeBuilder = new HtmlRenderer.Composers.RenderTreeBuilder(htmlRenderBox.Root);
@@ -150,14 +150,7 @@ namespace LayoutFarm.CustomWidgets
             this.myHtmlIsland.PerformLayout(htmlLayoutVisitor);
 
         }
-        /// <summary>
-        /// Handle html renderer invalidate and re-layout as requested.
-        /// </summary>
-        void myHtmlIsland_Refresh(object sender, HtmlRenderer.WebDom.HtmlRefreshEventArgs e)
-        {
-            this.InvalidateGraphic();
-        }
-
+     
         protected override void OnKeyUp(UIKeyEventArgs e)
         {
             base.OnKeyUp(e);
@@ -183,12 +176,10 @@ namespace LayoutFarm.CustomWidgets
                  TaskIntervalPlan.Animation, 25,
                  (s, e) =>
                  {
-
-                     if (this.myHtmlIsland.NeedRefresh())
+                     if (this.myHtmlIsland.RefreshIfNeed())
                      {
                          e.NeedUpdate = 1;
                      }
-
                  });
             //-------------------------
 
@@ -235,7 +226,7 @@ namespace LayoutFarm.CustomWidgets
         {
             //myHtmlBox.LoadHtmlText(html);
             //this.tim.Enabled = false;
-            SetHtml(myHtmlIsland, html, myHtmlIsland.BaseStylesheet);
+            SetHtml(myHtmlIsland, html, this.islandHost.BaseStylesheet);
             //this.tim.Enabled = true;
             if (this.htmlRenderBox != null)
             {

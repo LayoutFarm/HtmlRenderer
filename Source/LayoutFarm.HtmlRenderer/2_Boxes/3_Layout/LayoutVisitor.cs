@@ -12,7 +12,7 @@ namespace HtmlRenderer.Boxes
     public class LayoutVisitor : BoxVisitor
     {
         HtmlIsland htmlIsland;
-        float totalMarginLeftAndRight; 
+        float totalMarginLeftAndRight;
 
         Queue<Dictionary<CssBox, PartialBoxStrip>> dicStripPool;
         Queue<List<PartialBoxStrip>> listStripPool;
@@ -59,7 +59,7 @@ namespace HtmlRenderer.Boxes
             get { return this.gfxPlatform.SampleIFonts; }
 
         }
-        protected override void OnPushDifferentContaingBlock(CssBox box)
+        protected override void OnPushDifferentContainingBlock(CssBox box)
         {
             this.totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
         }
@@ -79,7 +79,7 @@ namespace HtmlRenderer.Boxes
             float candidateRootWidth = Math.Max(box.CalculateMinimumWidth(this.episodeId) + CalculateWidthMarginTotalUp(box),
                          (box.SizeWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.SizeWidth : 0);
 
-            this.htmlIsland.UpdateSizeIfWiderOrHeigher(
+            this.htmlIsland.UpdateSizeIfWiderOrHigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
                 this.ContainerBlockGlobalY + box.SizeHeight);
         }
@@ -106,9 +106,7 @@ namespace HtmlRenderer.Boxes
 
         internal void RequestImage(ImageBinder binder, CssBox requestFrom)
         {
-            HtmlIsland.RaiseRequestImage(
-                this.htmlIsland,
-                binder,
+            this.htmlIsland.RaiseImageRequest(binder,
                 requestFrom,
                 false);
         }

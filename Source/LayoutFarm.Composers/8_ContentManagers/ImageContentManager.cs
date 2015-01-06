@@ -16,11 +16,11 @@ namespace HtmlRenderer.ContentManagers
     {
         internal readonly ImageBinder binder;
         internal readonly object requestBy;
-        internal readonly IUpdateChangeListener listener;
-
+        internal readonly HtmlRenderer.Boxes.IUpdateChangeListener listener;
+        
         public ImageContentRequest(ImageBinder binder,
             object requestBy,
-            IUpdateChangeListener listener)
+            HtmlRenderer.Boxes.IUpdateChangeListener listener)
         {
             this.binder = binder;
             this.requestBy = requestBy;

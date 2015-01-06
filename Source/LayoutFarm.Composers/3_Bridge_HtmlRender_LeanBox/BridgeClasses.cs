@@ -42,11 +42,17 @@ namespace LayoutFarm.Boxes
         }
         protected override void DrawContent(Canvas canvas, Rect updateArea)
         {
-
-            myHtmlIsland.SetViewportBound(this.X, this.Y, myWidth, myHeight);
             myHtmlIsland.CheckDocUpdate();
             painter.Bind(myHtmlIsland, canvas);
+            painter.SetRenderViewport(this.X, this.Y, myWidth, myHeight);
+
+            int vwX, vwY;
+            painter.OffsetCanvasOrigin(vwX = this.ViewportX, vwY = this.ViewportY);
+
             myHtmlIsland.PerformPaint(painter);
+
+            painter.OffsetCanvasOrigin(-vwX, -vwY);
+
             painter.UnBind();
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
@@ -306,7 +312,7 @@ namespace LayoutFarm.Boxes
     public class HtmlFragmentRenderBox : RenderBoxBase
     {
 
-        MyHtmlIsland htmlIsland;
+        MyHtmlIsland tinyHtmlIsland;
         CssBox cssBox;
         int myWidth;
         int myHeight;
@@ -325,7 +331,7 @@ namespace LayoutFarm.Boxes
         }
         public void SetHtmlIsland(MyHtmlIsland htmlIsland, CssBox box)
         {
-            this.htmlIsland = htmlIsland;
+            this.tinyHtmlIsland = htmlIsland;
             this.cssBox = box;
 
         }
@@ -335,12 +341,18 @@ namespace LayoutFarm.Boxes
         }
         protected override void DrawContent(Canvas canvas, Rect updateArea)
         {
+            tinyHtmlIsland.CheckDocUpdate();
 
+            var painter = GetSharedPainter(this.tinyHtmlIsland, canvas);
+            painter.SetRenderViewport(this.X, this.Y, myWidth, myHeight);
 
-            htmlIsland.SetViewportBound(this.X, this.Y, myWidth, myHeight);
-            htmlIsland.CheckDocUpdate();
-            var painter = GetSharedPainter(this.htmlIsland, canvas);
-            htmlIsland.PerformPaint(painter);
+            int vwX, vwY;
+            painter.OffsetCanvasOrigin(vwX = this.ViewportX, vwY = this.ViewportY);
+
+            tinyHtmlIsland.PerformPaint(painter);
+
+            painter.OffsetCanvasOrigin(-vwX, -vwY);
+
             ReleaseSharedPainter(painter);
         }
         public override void ChildrenHitTestCore(HitChain hitChain)

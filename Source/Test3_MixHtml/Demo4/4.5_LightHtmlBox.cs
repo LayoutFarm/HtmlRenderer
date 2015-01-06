@@ -16,11 +16,15 @@ namespace LayoutFarm
     [DemoNote("4.5 LightHtmlBox")]
     class Demo_LightHtmlBox : DemoBase
     {
+        HtmlIslandHost islandHost;
         LightHtmlBoxHost lightBoxHost;
         protected override void OnStartDemo(SampleViewport viewport)
         {
+            this.islandHost = new HtmlIslandHost();
+            this.islandHost.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
 
-            lightBoxHost = new LightHtmlBoxHost(viewport.P);
+            lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P);
+
             lightBoxHost.SetRootGraphic(viewport.ViewportControl.WinTopRootGfx);
 
             ////==================================================
@@ -43,13 +47,13 @@ namespace LayoutFarm
                 //all light boxs of the same lightbox host share resource with the host
                 string html2 = @"<div>OK3</div><div>OK4</div>";
                 //if you want to use ful l html-> use HtmlBox instead  
-                lightHtmlBox2.LoadHtmlFragmentText(html2); 
+                lightHtmlBox2.LoadHtmlFragmentText(html2);
             }
             //==================================================  
             {
                 LightHtmlBox lightHtmlBox3 = lightBoxHost.CreateLightBox(800, 50);
                 lightHtmlBox3.SetLocation(0, 100);
-                viewport.AddContent(lightHtmlBox3); 
+                viewport.AddContent(lightHtmlBox3);
                 //fragment dom 
                 //create dom then to thie light box
                 lightHtmlBox3.LoadHtmlFragmentDom(CreateBridgeDoc());

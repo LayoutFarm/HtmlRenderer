@@ -25,12 +25,13 @@ namespace HtmlRenderer.Boxes
     /// <summary>
     /// layout and render the html fragment
     /// </summary>
-    public abstract class HtmlIsland : IDisposable
+    public abstract class HtmlIsland : IUpdateChangeListener, IDisposable
     {
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
         CssBox _rootBox;
+
         /// <summary>
         /// The actual size of the rendered html (after layout)
         /// </summary>
@@ -40,11 +41,7 @@ namespace HtmlRenderer.Boxes
         float _maxWidth;
         float _maxHeight;
 
-        float _viewportX;
-        float _viewportY;
-        float _viewportW;
-        float _viewportH;
-
+        protected int newUpdateImageCount = 0;
         /// <summary>
         /// 99999
         /// </summary>
@@ -77,97 +74,8 @@ namespace HtmlRenderer.Boxes
                 }
             }
         }
+        public bool HasRootBox { get { return this._rootBox != null; } }
 
-
-        /// <summary>
-        /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
-        /// </summary>
-        public bool AvoidGeometryAntialias
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating if image asynchronous loading should be avoided (default - false).<br/>
-        /// True - images are loaded synchronously during html parsing.<br/>
-        /// False - images are loaded asynchronously to html parsing when downloaded from URL or loaded from disk.<br/>
-        /// </summary>
-        /// <remarks>
-        /// Asynchronously image loading allows to unblock html rendering while image is downloaded or loaded from disk using IO 
-        /// ports to achieve better performance.<br/>
-        /// Asynchronously image loading should be avoided when the full html content must be available during render, like render to image.
-        /// </remarks>
-        public bool AvoidAsyncImagesLoading
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating if image loading only when visible should be avoided (default - false).<br/>
-        /// True - images are loaded as soon as the html is parsed.<br/>
-        /// False - images that are not visible because of scroll location are not loaded until they are scrolled to.
-        /// </summary>
-        /// <remarks>
-        /// Images late loading improve performance if the page contains image outside the visible scroll area, especially if there is large 
-        /// amount of images, as all image loading is delayed (downloading and loading into memory).<br/>
-        /// Late image loading may effect the layout and actual size as image without set size will not have actual size until they are loaded
-        /// resulting in layout change during user scroll.<br/>
-        /// Early image loading may also effect the layout if image without known size above the current scroll location are loaded as they
-        /// will push the html elements down.
-        /// </remarks>
-        public bool AvoidImagesLateLoading
-        {
-            get;
-            set;
-        }
-
-        ///// <summary>
-        ///// Use GDI+ text rendering to measure/draw text.<br/>
-        ///// </summary>
-        ///// <remarks>
-        ///// <para>
-        ///// GDI+ text rendering is less smooth than GDI text rendering but it natively supports alpha channel
-        ///// thus allows creating transparent images.
-        ///// </para>
-        ///// <para>
-        ///// While using GDI+ text rendering you can control the text rendering using <see cref="Graphics.TextRenderingHint"/>, note that
-        ///// using <see cref="TextRenderingHint.ClearTypeGridFit"/> doesn't work well with transparent background.
-        ///// </para>
-        ///// </remarks>
-        //public bool UseGdiPlusTextRendering
-        //{
-        //    get { return _useGdiPlusTextRendering; }
-        //    set
-        //    {
-        //        if (_useGdiPlusTextRendering != value)
-        //        {
-        //            _useGdiPlusTextRendering = value;
-        //            RequestRefresh(true);
-        //        }
-        //    }
-        //}
-
-
-        /// <summary>
-        /// The scroll offset of the html.<br/>
-        /// This will adjust the rendered html by the given offset so the content will be "scrolled".<br/>
-        /// </summary>
-        /// <example>
-        /// Element that is rendered at location (50,100) with offset of (0,200) will not be rendered as it
-        /// will be at -100 therefore outside the client rectangle.
-        /// </example>
-        public PointF ScrollOffset
-        {
-            get;
-            set;
-        }
-        public void SetMaxSize(float maxWidth, float maxHeight)
-        {
-            this._maxWidth = maxWidth;
-            this._maxHeight = maxHeight;
-        }
         /// <summary>
         /// The actual size of the rendered html (after layout)
         /// </summary>
@@ -175,7 +83,69 @@ namespace HtmlRenderer.Boxes
         {
             get { return new SizeF(this._actualWidth, this._actualHeight); }
         }
-        internal void UpdateSizeIfWiderOrHeigher(float newWidth, float newHeight)
+
+        public void SetMaxSize(float maxWidth, float maxHeight)
+        {
+            this._maxWidth = maxWidth;
+            this._maxHeight = maxHeight;
+        }
+
+        public void PerformLayout(LayoutVisitor layoutArgs)
+        {
+
+            if (this._rootBox == null)
+            {
+                return;
+            }
+            //----------------------- 
+            //reset
+            _actualWidth = _actualHeight = 0;
+            // if width is not restricted we set it to large value to get the actual later    
+            _rootBox.SetLocation(0, 0);
+            _rootBox.SetSize(this._maxWidth > 0 ? this._maxWidth : MAX_WIDTH, 0);
+
+            CssBox.ValidateComputeValues(_rootBox);
+            //----------------------- 
+            //LayoutVisitor layoutArgs = new LayoutVisitor(this.GraphicsPlatform, this);
+            layoutArgs.PushContaingBlock(_rootBox);
+            //----------------------- 
+            _rootBox.PerformLayout(layoutArgs);
+            if (this._maxWidth <= 0.1)
+            {
+                // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
+
+                _rootBox.SetWidth((int)Math.Ceiling(this._actualWidth));
+                _actualWidth = _actualHeight = 0;
+                _rootBox.PerformLayout(layoutArgs);
+            }
+            layoutArgs.PopContainingBlock();
+        }
+
+        public void PerformPaint(Painter p)
+        {
+            if (_rootBox == null)
+            {
+                return;
+            }
+            p.PushContaingBlock(_rootBox);
+            _rootBox.Paint(p);
+            p.PopContainingBlock();
+        }
+
+        //------------------------------------------------------------------
+        protected abstract void OnRequestImage(ImageBinder binder,
+            object reqFrom, bool _sync);
+
+        internal void RaiseImageRequest(
+            ImageBinder binder,
+            object reqBy,
+            bool _sync)
+        {
+
+            OnRequestImage(binder, reqBy, false);
+        }
+        
+        internal void UpdateSizeIfWiderOrHigher(float newWidth, float newHeight)
         {
             if (newWidth > this._actualWidth)
             {
@@ -199,126 +169,6 @@ namespace HtmlRenderer.Boxes
         }
 
 
-        public void PerformLayout(LayoutVisitor layoutArgs)
-        {
-
-            if (this._rootBox == null)
-            {
-                return;
-            }
-            //----------------------- 
-            _actualWidth = _actualHeight = 0;
-            // if width is not restricted we set it to large value to get the actual later    
-            _rootBox.SetLocation(0, 0);
-            _rootBox.SetSize(this._maxWidth > 0 ? this._maxWidth : MAX_WIDTH, 0);
-
-            CssBox.ValidateComputeValues(_rootBox);
-            //----------------------- 
-            //LayoutVisitor layoutArgs = new LayoutVisitor(this.GraphicsPlatform, this);
-            layoutArgs.PushContaingBlock(_rootBox);
-            //----------------------- 
-            _rootBox.PerformLayout(layoutArgs);
-            if (this._maxWidth <= 0.1)
-            {
-                // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
-
-                _rootBox.SetWidth((int)Math.Ceiling(this._actualWidth));
-                _actualWidth = _actualHeight = 0;
-                _rootBox.PerformLayout(layoutArgs);
-            }
-            layoutArgs.PopContainingBlock();
-        }
-
-        public float ViewportWidth
-        {
-            get { return this._viewportW; }
-        }
-        public float ViewportHeight
-        {
-            get { return this._viewportH; }
-        }
-        public void SetViewportBound(float x, float y, float w, float h)
-        {
-            this._viewportX = x;
-            this._viewportY = y;
-            this._viewportW = w;
-            this._viewportH = h;
-        }
-        public virtual void PerformPaint(Painter p)
-        {
-            if (_rootBox == null)
-            {
-                return;
-            }
-
-            float viewportW = this.ViewportWidth;
-            float viewportH = this.ViewportHeight;
-
-            var canvas = p.InnerCanvas;
-
-            int ox = canvas.CanvasOriginX;
-            int oy = canvas.CanvasOriginY;
-
-            int scX = (int)this.ScrollOffset.X;
-            int scY = (int)this.ScrollOffset.Y;
-
-            //new canvas origin 
-            canvas.SetCanvasOrigin(ox + scX, oy + scY);
-
-            p.PushContaingBlock(_rootBox);
-
-            p.SetPhysicalViewportBounds(this._viewportX,
-                this._viewportY,
-                viewportW,
-                viewportH);
-
-
-            _rootBox.Paint(p);
-
-
-            p.PopContainingBlock();
-
-            canvas.SetCanvasOrigin(ox, oy);
-        }
-
-
-
-        //------------------------------------------------------------------
-        protected abstract void OnRequestImage(ImageBinder binder,
-            object reqFrom, bool _sync);
-
-        internal static void RaiseRequestImage(HtmlIsland htmlIsland,
-            ImageBinder binder,
-            object reqBy,
-            bool _sync)
-        {
-
-            htmlIsland.OnRequestImage(binder, reqBy, false);
-        }
-        //------------------------------------------------------------------ 
-        protected abstract void RequestRefresh(bool layout);
-        /// <summary>
-        /// Report error in html render process.
-        /// </summary>
-        /// <param name="type">the type of error to report</param>
-        /// <param name="message">the error message</param>
-        /// <param name="exception">optional: the exception that occured</param>
-        public void ReportError(HtmlRenderErrorType type, string message, Exception exception = null)
-        {
-            //try
-            //{
-            //    if (RenderError != null)
-            //    {
-            //        RenderError(this, new HtmlRenderErrorEventArgs(type, message, exception));
-            //    }
-            //}
-            //catch
-            //{
-            //}
-        }
-
-
-
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
@@ -329,36 +179,10 @@ namespace HtmlRenderer.Boxes
         }
 
 
-        #region Private methods
-
-        /// <summary>
-        /// Adjust the offset of the given location by the current scroll offset.
-        /// </summary>
-        /// <param name="location">the location to adjust</param>
-        /// <returns>the adjusted location</returns>
-        protected Point OffsetByScroll(Point location)
-        {
-            location.Offset(-(int)ScrollOffset.X, -(int)ScrollOffset.Y);
-            return location;
-        }
-
-        ///// <summary>
-        ///// Check if the mouse is currently on the html container.<br/>
-        ///// Relevant if the html container is not filled in the hosted control (location is not zero and the size is not the full size of the control).
-        ///// </summary>
-        //protected bool IsMouseInContainer(Point location)
-        //{
-        //    return location.X >= _location.X &&
-        //        location.X <= _location.X + _actualWidth &&
-        //        location.Y >= _location.Y + ScrollOffset.Y &&
-        //        location.Y <= _location.Y + ScrollOffset.Y + _actualHeight;
-        //}
-
-
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        private void Dispose(bool all)
+        void Dispose(bool all)
         {
             try
             {
@@ -389,6 +213,13 @@ namespace HtmlRenderer.Boxes
             { }
         }
 
-        #endregion
+        void IUpdateChangeListener.AddUpdatedImageBinder(ImageBinder binder)
+        {
+            //not need to store that binder 
+            //(else if you want to debug)
+            newUpdateImageCount++;
+            //this.recentUpdateImageBinders.Add(binder);
+        }
+
     }
 }

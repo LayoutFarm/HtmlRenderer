@@ -42,6 +42,8 @@ namespace HtmlRenderer.Composers
             string stylesheet,
             bool combineWithDefault)
         {
+            //TODO: check if can clone CssActiveSheet
+
             var cssData = combineWithDefault ?
                 CssDefaults.DefaultCssData.Clone(new object()) : new WebDom.CssActiveSheet();
 

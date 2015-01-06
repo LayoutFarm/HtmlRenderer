@@ -15,23 +15,21 @@ namespace LayoutFarm.CustomWidgets
         Dictionary<TextContentManager, int> textContentManList = new Dictionary<TextContentManager, int>();
         Dictionary<ImageContentManager, int> imageContentManList = new Dictionary<ImageContentManager, int>();
 
-         
+
         bool isBinded;
 
         public HtmlBoxContentManager()
         {
-            
+
         }
 
-        
+
         public void Bind(HtmlBox htmlBox)
         {
-
-
             this.htmlBox = htmlBox;
-            this.htmlBox.RequestImage += new EventHandler<ImageRequestEventArgs>(htmlBox_RequestImage);
-            this.htmlBox.RequestStylesheet += new EventHandler<TextLoadRequestEventArgs>(htmlBox_RequestStylesheet);
-            this.isBinded = true; 
+            this.htmlBox.RequestImage += htmlBox_RequestImage;
+            this.htmlBox.RequestStylesheet += htmlBox_RequestStylesheet;
+            this.isBinded = true;
 
         }
         void htmlBox_RequestStylesheet(object sender, TextLoadRequestEventArgs e)

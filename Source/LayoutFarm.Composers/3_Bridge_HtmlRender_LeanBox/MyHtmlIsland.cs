@@ -1,4 +1,4 @@
-﻿//BSD 2014,WinterDev
+﻿//BSD 2014-2015 ,WinterDev
 //ArthurHub
 
 using System;
@@ -24,37 +24,68 @@ namespace HtmlRenderer.Composers
         internal IUpdateChangeListener updateEventListener;
     }
 
+    public class HtmlIslandHost
+    {
+        public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
+        SelectionRange _currentSelectionRange;
+
+        public HtmlIslandHost()
+        { 
+        }
+        public WebDom.CssActiveSheet BaseStylesheet { get; set; }
+        public virtual void RequestImage(ImageBinder binder, HtmlIsland reqIsland, object reqFrom, bool _sync)
+        {
+            if (this.RequestResource != null)
+            {
+                HtmlResourceRequestEventArgs resReq = new HtmlResourceRequestEventArgs();
+                resReq.binder = binder;
+                resReq.requestBy = reqFrom;
+                resReq.updateEventListener = reqIsland;
+                RequestResource(this, resReq);
+            }
+        }
+        public virtual void RequestStyleSheet(TextLoadRequestEventArgs e)
+        {
+
+        }
 
 
-    public class MyHtmlIsland : HtmlIsland, IUpdateChangeListener
+        internal SelectionRange SelectionRange
+        {
+            get { return this._currentSelectionRange; }
+            set { this._currentSelectionRange = value; }
+        }
+        internal void ClearPreviousSelection()
+        {
+            if (_currentSelectionRange != null)
+            {
+                _currentSelectionRange.ClearSelectionStatus();
+                _currentSelectionRange = null;
+            }
+        }
+    }
+
+    public sealed class MyHtmlIsland : HtmlIsland
     {
 
+        HtmlIslandHost islandHost;
         WebDocument doc;
-        public event EventHandler<HtmlRefreshEventArgs> Refresh;
-        public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
-        public event EventHandler<EventArgs> NeedUpdateDom;
-        int newUpdateImageCount = 0;
-        SelectionRange _currentSelectionRange;
-        //List<ImageBinder> recentUpdateImageBinders = new List<ImageBinder>();
-        //----------------------------------------------------------- 
 
-        public MyHtmlIsland()
+        public event EventHandler DomVisualRefresh;
+        public event EventHandler DomRequestRebuild;
+
+        public MyHtmlIsland(HtmlIslandHost islandHost)
         {
-            this.IsSelectionEnabled = true;
+            this.islandHost = islandHost;
         }
 
-        public WebDom.CssActiveSheet BaseStylesheet
-        {
-            get;
-            set;
-        }
         public WebDocument Document
         {
             get { return this.doc; }
             set { this.doc = value; }
         }
 
-        public bool NeedRefresh()
+        public bool RefreshIfNeed()
         {
 
             //not need to store that binder 
@@ -63,7 +94,12 @@ namespace HtmlRenderer.Composers
             {
                 //reset
                 this.newUpdateImageCount = 0;
-                this.RequestRefresh(false);
+                this.NeedLayout = false;
+
+                if (DomVisualRefresh != null)
+                {
+                    DomVisualRefresh(this, EventArgs.Empty);
+                }
 #if DEBUG
                 dbugCount02++;
                 //Console.WriteLine(dd);
@@ -85,64 +121,42 @@ namespace HtmlRenderer.Composers
         }
         public override void ClearPreviousSelection()
         {
-            if (_currentSelectionRange != null)
-            {
-                _currentSelectionRange.ClearSelectionStatus();
-                _currentSelectionRange = null;
-            }
+            this.islandHost.ClearPreviousSelection();
         }
         public override void SetSelection(SelectionRange selRange)
         {
-            _currentSelectionRange = selRange;
-        }
-        void IUpdateChangeListener.AddUpdatedImageBinder(ImageBinder binder)
-        {
-            //not need to store that binder 
-            //(else if you want to debug)
-
-            newUpdateImageCount++;
-            //this.recentUpdateImageBinders.Add(binder);
+            this.islandHost.SelectionRange = selRange;
         }
 
-        protected override void RequestRefresh(bool layout)
+
+        public bool NeedLayout
         {
-            if (this.Refresh != null)
-            {
-                this.Refresh(this, new HtmlRefreshEventArgs(layout));
-            }
+            get;
+            private set;
         }
         protected override void OnRequestImage(ImageBinder binder, object reqFrom, bool _sync)
         {
 
             //manage image loading 
-            if (this.RequestResource != null)
+            if (binder.State == ImageBinderState.Unload)
             {
-                if (binder.State == ImageBinderState.Unload)
-                {
-                    HtmlResourceRequestEventArgs resReq = new HtmlResourceRequestEventArgs();
-                    resReq.binder = binder;
-                    resReq.requestBy = reqFrom;
-                    resReq.updateEventListener = this;
-                    RequestResource(this, resReq);
-                }
-
+                this.islandHost.RequestImage(binder, this, reqFrom, _sync);
             }
+
         }
-
-
         /// <summary>
         /// check if dom update
         /// </summary>
         public void CheckDocUpdate()
         {
             if (doc != null &&
-                doc.DocumentState == DocumentState.ChangedAfterIdle &&
-                NeedUpdateDom != null)
+                doc.DocumentState == DocumentState.ChangedAfterIdle
+                && DomRequestRebuild != null)
             {
-                NeedUpdateDom(this, EventArgs.Empty);
+                DomRequestRebuild(this, EventArgs.Empty); 
             }
         }
-         
+
 
         protected override void OnRootDisposed()
         {
@@ -162,25 +176,6 @@ namespace HtmlRenderer.Composers
         public void GetHtml(StringBuilder stbuilder)
         {
             throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Is content selection is enabled for the rendered html (default - true).<br/>
-        /// If set to 'false' the rendered html will be static only with ability to click on links.
-        /// </summary>
-        public bool IsSelectionEnabled
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Is the build-in context menu enabled and will be shown on mouse right click (default - true)
-        /// </summary>
-        public bool IsContextMenuEnabled
-        {
-            get;
-            set;
         }
 
     }

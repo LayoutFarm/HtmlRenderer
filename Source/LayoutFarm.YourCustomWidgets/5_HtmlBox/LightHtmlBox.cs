@@ -19,9 +19,10 @@ namespace LayoutFarm.CustomWidgets
     {
         bool hasWaitingDocToLoad;
         string waitingHtmlFragment;
-        BridgeHtmlDocument waitingHtmlDomFragment;
-
+        BridgeHtmlDocument waitingHtmlDomFragment; 
         LightHtmlBoxHost lightBoxHost;
+
+     
         MyHtmlIsland myHtmlIsland;
         CssBox myCssBox;
 
@@ -171,8 +172,9 @@ namespace LayoutFarm.CustomWidgets
             {
                 //just parse content and load
 
-                this.lightBoxHost.CreateHtmlFragment(htmlFragment, frgmRenderBox, out myHtmlIsland, out myCssBox);
+                this.lightBoxHost.CreateHtmlFragment(htmlFragment, frgmRenderBox, out this.myHtmlIsland, out myCssBox);
                 this.frgmRenderBox.SetHtmlIsland(myHtmlIsland, myCssBox);
+                SetHtmlIslandEventHandlers();
                 this.waitingHtmlFragment = null;
             }
             //send fragment html to lightbox host 
@@ -192,42 +194,31 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this.lightBoxHost.CreateHtmlFragment(htmldoc, frgmRenderBox, out myHtmlIsland, out myCssBox);
+                this.lightBoxHost.CreateHtmlFragment(htmldoc, frgmRenderBox, out this.myHtmlIsland, out myCssBox);
+                
                 this.frgmRenderBox.SetHtmlIsland(myHtmlIsland, myCssBox);
-
-                myHtmlIsland.Refresh += myHtmlIsland_Refresh;
-                myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
-                myHtmlIsland.RequestResource += myHtmlIsland_RequestResource;
-
+                SetHtmlIslandEventHandlers(); 
                 this.waitingHtmlDomFragment = null;
             }
         }
-        void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
+        void SetHtmlIslandEventHandlers()
         {
-            //send request image to LightBoxHost
-            this.lightBoxHost.ChildRequestImage(this, new ImageRequestEventArgs(e.binder));
-        }
-        void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
-        {
-            hasWaitingDocToLoad = true;
-            //---------------------------
-            if (frgmRenderBox == null) return;
-            //--------------------------- 
-            
-            this.lightBoxHost.RefreshCssTree(myHtmlIsland.Document);
+            myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphic(); 
+            myHtmlIsland.DomRequestRebuild += (s, e) =>
+            {
+                hasWaitingDocToLoad = true;
+                //---------------------------
+                if (frgmRenderBox == null) return;
+                //--------------------------- 
 
-            var lay = this.lightBoxHost.GetSharedHtmlLayoutVisitor(myHtmlIsland);
-            myHtmlIsland.PerformLayout(lay);
-            this.lightBoxHost.ReleaseHtmlLayoutVisitor(lay);
+                this.lightBoxHost.RefreshCssTree(myHtmlIsland.Document);
 
+                var lay = this.lightBoxHost.GetSharedHtmlLayoutVisitor(myHtmlIsland);
+                myHtmlIsland.PerformLayout(lay);
+                this.lightBoxHost.ReleaseHtmlLayoutVisitor(lay);
+            };
         }
-        /// <summary>
-        /// Handle html renderer invalidate and re-layout as requested.
-        /// </summary>
-        void myHtmlIsland_Refresh(object sender, HtmlRenderer.WebDom.HtmlRefreshEventArgs e)
-        {
-            this.InvalidateGraphic();
-        }
+ 
 
         public override void InvalidateGraphic()
         {
