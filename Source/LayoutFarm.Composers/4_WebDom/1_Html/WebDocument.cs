@@ -8,7 +8,8 @@ namespace HtmlRenderer.WebDom
     public abstract class WebDocument
     {
         UniqueStringTable uniqueStringTable;
-        Dictionary<string, DomElement> registerElementsById = new Dictionary<string, DomElement>();
+        Dictionary<string, DomElement> registerElementsById;
+
         public WebDocument(UniqueStringTable uniqueStringTable)
         {
             this.uniqueStringTable = uniqueStringTable;
@@ -63,6 +64,8 @@ namespace HtmlRenderer.WebDom
         //-------------------------------------------------------
         internal void RegisterElementById(DomElement element)
         {
+            if (registerElementsById == null) this.registerElementsById = new Dictionary<string, DomElement>();
+
             //replace exisitng if exists *** 
             registerElementsById[element.AttrElementId] = element;
         }

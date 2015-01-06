@@ -1,4 +1,4 @@
-﻿//BSD 2014,WinterDev
+﻿//BSD 2014-2015 ,WinterDev
 //ArthurHub
 
 using System;
@@ -29,6 +29,9 @@ namespace HtmlRenderer.Composers
         public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
         SelectionRange _currentSelectionRange;
 
+        public HtmlIslandHost()
+        { 
+        }
         public WebDom.CssActiveSheet BaseStylesheet { get; set; }
         public virtual void RequestImage(ImageBinder binder, HtmlIsland reqIsland, object reqFrom, bool _sync)
         {
@@ -150,8 +153,7 @@ namespace HtmlRenderer.Composers
                 doc.DocumentState == DocumentState.ChangedAfterIdle
                 && DomRequestRebuild != null)
             {
-                DomRequestRebuild(this, EventArgs.Empty);
-
+                DomRequestRebuild(this, EventArgs.Empty); 
             }
         }
 

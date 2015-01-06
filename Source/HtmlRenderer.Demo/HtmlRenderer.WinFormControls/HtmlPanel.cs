@@ -112,8 +112,9 @@ namespace HtmlRenderer.Demo
 
 
             htmlIslandHost = new HtmlIslandHost();
-            htmlIslandHost.RequestResource += myHtmlIsland_RequestResource;
             htmlIslandHost.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
+            htmlIslandHost.RequestResource += myHtmlIsland_RequestResource;
+          
             
             myHtmlIsland = new MyHtmlIsland(htmlIslandHost); 
             myHtmlIsland.DomVisualRefresh += OnRefresh;

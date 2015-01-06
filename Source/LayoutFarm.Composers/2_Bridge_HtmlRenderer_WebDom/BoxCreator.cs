@@ -12,6 +12,13 @@ namespace HtmlRenderer.Composers.BridgeHtml
     {
 
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
+        LayoutFarm.RootGraphic rootgfx;
+        internal BoxCreator(LayoutFarm.RootGraphic rootgfx)
+        {
+            this.rootgfx = rootgfx;
+
+        }
+
         public static void RegisterCustomCssBoxGenerator(CustomCssBoxGenerator generator)
         {
             generators.Add(generator);
@@ -34,12 +41,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         }
 
 
-        LayoutFarm.RootGraphic rootgfx;
-        internal BoxCreator(LayoutFarm.RootGraphic rootgfx)
-        {
-            this.rootgfx = rootgfx;
-
-        }
+       
         internal void GenerateChildBoxes(HtmlElement parentElement, bool fullmode)
         {
             //recursive ***  

@@ -19,8 +19,7 @@ namespace LayoutFarm.CustomWidgets
     {
         bool hasWaitingDocToLoad;
         string waitingHtmlFragment;
-        BridgeHtmlDocument waitingHtmlDomFragment;
-
+        BridgeHtmlDocument waitingHtmlDomFragment; 
         LightHtmlBoxHost lightBoxHost;
 
      

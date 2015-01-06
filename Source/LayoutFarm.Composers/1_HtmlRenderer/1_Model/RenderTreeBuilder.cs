@@ -33,8 +33,8 @@ namespace HtmlRenderer.Composers
     {
 
         WebDom.Parser.CssParser miniCssParser = new CssParser();
-        ContentTextSplitter contentTextSplitter = new ContentTextSplitter(); 
-        public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet; 
+        ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
+        public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
         LayoutFarm.RootGraphic rootgfx;
 
         public RenderTreeBuilder(LayoutFarm.RootGraphic rootgfx)
@@ -158,8 +158,19 @@ namespace HtmlRenderer.Composers
             }
         }
 
+        public CssBox BuildCssRenderTree(HtmlRenderer.WebDom.WebDocument webdoc,
+            IFonts ifonts,
+            CssActiveSheet cssData,
+            LayoutFarm.RenderElement containerElement)
+        {
+            return this.BuildCssRenderTree(
+                 (HtmlRenderer.Composers.BridgeHtmlDocument)webdoc,
+                 ifonts,
+                 cssData,
+                 containerElement);
 
-        public CssBox BuildCssRenderTree(WebDocument htmldoc,
+        }
+        public CssBox BuildCssRenderTree(HtmlRenderer.Composers.BridgeHtmlDocument bridgeHtmlDoc,
             IFonts ifonts,
             CssActiveSheet cssData,
             LayoutFarm.RenderElement containerElement)
@@ -168,23 +179,21 @@ namespace HtmlRenderer.Composers
             CssBox rootBox = null;
             ActiveCssTemplate activeCssTemplate = null;
             activeCssTemplate = new ActiveCssTemplate(cssData);
-
-            BridgeHtmlDocument bridgeHtmlDoc = (BridgeHtmlDocument)htmldoc;
             bridgeHtmlDoc.ActiveCssTemplate = activeCssTemplate;
 
-            htmldoc.SetDocumentState(DocumentState.Building);
+            bridgeHtmlDoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
 
-            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeCssTemplate);
+            PrepareStylesAndContentOfChildNodes((HtmlElement)bridgeHtmlDoc.RootNode, activeCssTemplate);
 
             //----------------------------------------------------------------  
             rootBox = BoxCreator.CreateCssRenderRoot(ifonts, containerElement);
-            ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
+            ((HtmlElement)bridgeHtmlDoc.RootNode).SetPrincipalBox(rootBox);
 
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);
-            boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, true);
+            boxCreator.GenerateChildBoxes((RootElement)bridgeHtmlDoc.RootNode, true);
 
-            htmldoc.SetDocumentState(DocumentState.Idle);
+            bridgeHtmlDoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
             //SetTextSelectionStyle(htmlIsland, cssData);
             return rootBox;
