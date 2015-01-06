@@ -1,4 +1,4 @@
-//2014 BSD,WinterDev   
+//2014,2015 BSD,WinterDev   
 
 using System;
 namespace PixelFarm.Agg

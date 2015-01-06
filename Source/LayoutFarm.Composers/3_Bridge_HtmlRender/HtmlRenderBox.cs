@@ -1,4 +1,4 @@
-﻿//2014 Apache2, WinterDev
+﻿//2014,2015,2015 Apache2, WinterDev
 
 using System;
 using System.Collections;
@@ -19,7 +19,7 @@ namespace LayoutFarm.Boxes
     public class HtmlRenderBox : RenderBoxBase
     {
         MyHtmlIsland myHtmlIsland;
-       
+
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height,
             MyHtmlIsland htmlIsland)
@@ -28,7 +28,7 @@ namespace LayoutFarm.Boxes
 
             this.myHtmlIsland = htmlIsland;
             this.Focusable = false;
-             
+
         }
         public override void ClearAllChildren()
         {
@@ -38,7 +38,7 @@ namespace LayoutFarm.Boxes
         {
             myHtmlIsland.CheckDocUpdate();
             var painter = PainterStock.GetSharedPainter(myHtmlIsland, canvas);
-             
+
             painter.SetViewportSize(this.Width, this.Height);
 
             int vwX, vwY;
@@ -48,7 +48,7 @@ namespace LayoutFarm.Boxes
 
             painter.OffsetCanvasOrigin(-vwX, -vwY);
 
-            PainterStock.ReleaseSharedPainter(painter);             
+            PainterStock.ReleaseSharedPainter(painter);
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
@@ -134,8 +134,7 @@ namespace LayoutFarm.Boxes
         }
         static Queue<Painter> painterStock = new Queue<Painter>();
     }
-
-
+     
 
     public sealed class RenderElementInsideCssBox : CustomCssBox
     {
