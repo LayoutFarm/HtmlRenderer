@@ -67,10 +67,10 @@
     <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\FontStore.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\MyFontInfo.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\MyGraphicPath.cs" />
-    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\MyWin32.cs" />
-    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\NativeTextWin32.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation.Win32\MyWin32.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation.Win32\NativeTextWin32.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\Region.cs" />
-    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation\Win32Utils.cs" />
+    <Compile Include="LayoutFarm.Drawing.Gdi\Implementation.Win32\Win32Utils.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\0_CanvasCollection.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\1_MyCanvas_Specific.cs" />
     <Compile Include="LayoutFarm.Drawing.Gdi\MyCanvas\2_MyCanvas_CoordinateAndClip.cs" />

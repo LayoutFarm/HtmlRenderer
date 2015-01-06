@@ -9,6 +9,7 @@ using PixelFarm.Agg;
 using LayoutFarm;
 using LayoutFarm.DrawingGL;
 using LayoutFarm.Drawing;
+using Win32;
 
 namespace PixelFarm.Agg.Fonts
 {

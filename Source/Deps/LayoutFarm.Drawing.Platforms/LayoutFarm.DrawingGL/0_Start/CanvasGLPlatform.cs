@@ -8,7 +8,7 @@ namespace LayoutFarm.Drawing.DrawingGL
     class CanvasGLPlatform : GraphicsPlatform
     {
         //font store is platform specific
-        static LayoutFarm.FontStore fontStore = new FontStore();
+        static LayoutFarm.Drawing.WinGdi.FontStore fontStore = new FontStore();
 
         System.Drawing.Bitmap sampleBmp;
         IFonts sampleIFonts;

@@ -15,9 +15,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-
-
+using System.Text; 
+using Win32;
 
 namespace LayoutFarm.Drawing.WinGdi
 {
@@ -62,7 +61,7 @@ namespace LayoutFarm.Drawing.WinGdi
             {
                 fixed (char* startAddr = &buff[0])
                 {
-                    DrawingBridge.Win32Utils.UnsafeGetTextExtentPoint32(_hdc, startAddr + startAt, len, ref size);
+                    Win32.Win32Utils.UnsafeGetTextExtentPoint32(_hdc, startAddr + startAt, len, ref size);
                 }
             }
             return size.ToSize();
@@ -96,7 +95,7 @@ namespace LayoutFarm.Drawing.WinGdi
             {
                 fixed (char* startAddr = &buff[0])
                 {
-                    DrawingBridge.Win32Utils.UnsafeGetTextExtentExPoint(
+                    Win32.Win32Utils.UnsafeGetTextExtentExPoint(
                         _hdc, startAddr + startAt, len,
                         (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
                 }
@@ -212,7 +211,7 @@ namespace LayoutFarm.Drawing.WinGdi
                         //    (int)Math.Round(logicalTextBox.X + canvasOriginX),
                         //    (int)Math.Round(logicalTextBox.Y + canvasOriginY),
                         //    (startAddr + startAt), len);
-                        DrawingBridge.Win32Utils.TextOut2(_hdc,
+                        Win32.Win32Utils.TextOut2(_hdc,
                             (int)logicalTextBox.X + canvasOriginX,
                             (int)logicalTextBox.Y + canvasOriginY,
                             (startAddr + startAt), len);
@@ -227,7 +226,7 @@ namespace LayoutFarm.Drawing.WinGdi
                 {
                     fixed (char* startAddr = &str[0])
                     {
-                        DrawingBridge.Win32Utils.TextOut2(_hdc,
+                        Win32.Win32Utils.TextOut2(_hdc,
                              logicalTextBox.X + canvasOriginX,
                              logicalTextBox.Y + canvasOriginY,
                             (startAddr + startAt), len);

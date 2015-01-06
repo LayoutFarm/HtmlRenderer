@@ -37,18 +37,18 @@ namespace LayoutFarm.UI.GdiPlusView
         }
         protected override void PaintToOutputWindow()
         {
-            IntPtr hdc = DrawingBridge.Win32Utils.GetDC(this.windowControl.Handle);             
+            IntPtr hdc = Win32.Win32Utils.GetDC(this.windowControl.Handle);             
             this.gdiPlusViewport.PaintMe(hdc);
-            DrawingBridge.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
+            Win32.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
         }
         protected override void PaintToOutputWindowIfNeed()
         {
             if (!this.gdiPlusViewport.IsQuadPageValid)
             {
                 //platform specific code ***
-                IntPtr hdc = DrawingBridge.Win32Utils.GetDC(this.windowControl.Handle);
+                IntPtr hdc = Win32.Win32Utils.GetDC(this.windowControl.Handle);
                 this.gdiPlusViewport.PaintMe(hdc);
-                DrawingBridge.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
+                Win32.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
             }
         }
 

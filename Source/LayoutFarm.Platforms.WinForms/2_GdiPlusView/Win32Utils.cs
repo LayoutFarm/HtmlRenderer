@@ -14,7 +14,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Drawing;
 
-namespace DrawingBridge
+namespace Win32
 {
     /// <summary>
     /// Utility for Win32 API.

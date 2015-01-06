@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm
+namespace Win32
 {
     class NativeTextWin32
     {

@@ -1,9 +1,7 @@
-﻿using System.Drawing;
-
+﻿using System.Drawing; 
 namespace LayoutFarm.Drawing.WinGdi
 {
-    
-
+     
     class MyFont : Font
     {
         System.Drawing.Font myFont;

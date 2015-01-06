@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 
-namespace LayoutFarm
+namespace Win32
 {
     [StructLayout(LayoutKind.Sequential)]
     struct BlendFunction
@@ -45,10 +45,9 @@ namespace LayoutFarm
         public byte bmiColors_rgbRed;
         public byte bmiColors_rgbReserved;
     }
+    
     static class MyWin32
     {
-
-
         [DllImport("kernel32.dll", ExactSpelling = true)]
         public static extern IntPtr GlobalAlloc(int flags, int size);
         [DllImport("kernel32.dll", ExactSpelling = true)]

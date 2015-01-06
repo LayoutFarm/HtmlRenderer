@@ -14,7 +14,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Drawing;
 
-namespace DrawingBridge
+namespace Win32
 {
     /// <summary>
     /// Utility for Win32 API.
@@ -48,7 +48,7 @@ namespace DrawingBridge
             SetBkMode(memoryHdc, 1);
 
             // Create a device-independent bitmap and select it into our DC
-            var info = new LayoutFarm.BitMapInfo();
+            var info = new Win32.BitMapInfo();
             info.biSize = Marshal.SizeOf(info);
             info.biWidth = width;
             info.biHeight = -height;
@@ -169,7 +169,7 @@ namespace DrawingBridge
         public static extern bool BitBlt(IntPtr hdc, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hdcSrc, int nXSrc, int nYSrc, int dwRop);
 
         [DllImport("gdi32.dll", EntryPoint = "GdiAlphaBlend")]
-        public static extern bool AlphaBlend(IntPtr hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, IntPtr hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, LayoutFarm.BlendFunction blendFunction);
+        public static extern bool AlphaBlend(IntPtr hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, IntPtr hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, BlendFunction blendFunction);
 
         [DllImport("gdi32.dll", ExactSpelling = true, SetLastError = true)]
         public static extern bool DeleteDC(IntPtr hdc);
@@ -178,7 +178,7 @@ namespace DrawingBridge
         public static extern IntPtr CreateCompatibleDC(IntPtr hdc);
 
         [DllImport("gdi32.dll")]
-        public static extern IntPtr CreateDIBSection(IntPtr hdc, [In] ref  LayoutFarm.BitMapInfo pbmi, uint iUsage, out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
+        public static extern IntPtr CreateDIBSection(IntPtr hdc, [In] ref  Win32.BitMapInfo pbmi, uint iUsage, out IntPtr ppvBits, IntPtr hSection, uint dwOffset);
     }
 
 

@@ -17,7 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
-using DrawingBridge;
+using Win32;
 
 namespace LayoutFarm.Drawing.WinGdi
 {

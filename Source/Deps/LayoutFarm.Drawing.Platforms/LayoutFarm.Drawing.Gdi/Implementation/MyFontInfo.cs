@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Win32;
 
 namespace LayoutFarm.Drawing.WinGdi
 {

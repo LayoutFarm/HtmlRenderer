@@ -33,8 +33,9 @@ namespace LayoutFarm.Drawing.DrawingGL
             return this.platform.GetFont(fontname, fsize, st);
         }
         float IFonts.MeasureWhitespace(LayoutFarm.Drawing.Font f)
-        {
-            return FontStore.MeasureWhitespace(this, f);
+        {   
+            //platform specific
+            return LayoutFarm.Drawing.WinGdi.FontStore.MeasureWhitespace(this, f);
 
         }
         //======================================

@@ -14,12 +14,10 @@
 // "The Art of War"
 
 using System;
-using System.Collections.Generic;
-
+using System.Collections.Generic; 
 using System.Drawing;
-using System.Drawing.Drawing2D;
 
-namespace LayoutFarm
+namespace LayoutFarm.Drawing.WinGdi
 {
 
     struct FontKey
@@ -58,7 +56,7 @@ namespace LayoutFarm
         /// Improve performance not to create same font multiple times.
         /// </summary>
         /// <returns>cached font instance</returns>
-        public LayoutFarm.Drawing.FontInfo GetCachedFont(string family, float size, FontStyle style)
+        public LayoutFarm.Drawing.FontInfo GetCachedFont(string family, float size, System.Drawing.FontStyle style)
         {
              
             var font = TryGetFont(family, size, style);
@@ -90,7 +88,7 @@ namespace LayoutFarm
             }
             return font;
         }
-        public LayoutFarm.Drawing.FontInfo GetCachedFont(Font f)
+        public LayoutFarm.Drawing.FontInfo GetCachedFont(System.Drawing.Font f)
         {
             LayoutFarm.Drawing.FontInfo found;
             if (!_fontInfoCache.TryGetValue(f, out found))
@@ -103,7 +101,7 @@ namespace LayoutFarm
         /// <summary>
         /// Get cached font if it exists in cache or null if it is not.
         /// </summary>
-        LayoutFarm.Drawing.FontInfo TryGetFont(string family, float size, FontStyle style)
+        LayoutFarm.Drawing.FontInfo TryGetFont(string family, float size, System.Drawing.FontStyle style)
         {
             LayoutFarm.Drawing.FontInfo fontInfo = null;
             FontKey fontKey = new FontKey(family.ToLower(), size, style);
@@ -115,18 +113,18 @@ namespace LayoutFarm
         // create font (try using existing font family to support custom fonts)
         /// </summary>
         LayoutFarm.Drawing.FontInfo CreateFont(string family,
-          float size, FontStyle style)
+          float size, System.Drawing.FontStyle style)
         {
 
-            FontFamily fontFamily;
+            System.Drawing.FontFamily fontFamily;
             System.Drawing.Font newFont = null;
             if (_existingFontFamilies.TryGetValue(family, out fontFamily))
             {
-                newFont = new Font(fontFamily, size, style);
+                newFont = new System.Drawing.Font(fontFamily, size, style);
             }
             else
             {
-                newFont = new Font(family, size, style);
+                newFont = new System.Drawing.Font(family, size, style);
             }
             return RegisterFont(newFont, new FontKey(family, size, style));
         }
@@ -279,14 +277,12 @@ namespace LayoutFarm
                 _fontsUnmanagedCache[font] = hFont = font.ToHfont();
             }
             return hFont;
-        }
-
-
+        } 
         /// <summary>
         /// Adds a font family to be used.
         /// </summary>
         /// <param name="fontFamily">The font family to add.</param>
-        public static void AddFontFamily(FontFamily fontFamily)
+        public static void AddFontFamily(System.Drawing.FontFamily fontFamily)
         {
             _existingFontFamilies[fontFamily.Name] = fontFamily;
         }
