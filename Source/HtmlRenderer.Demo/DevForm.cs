@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using System.IO;
 
 
-namespace HtmlRenderer.Demo
+namespace LayoutFarm.Demo
 {
     public partial class DevForm : Form
     {

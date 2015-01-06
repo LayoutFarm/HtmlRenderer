@@ -16,7 +16,7 @@
 using System;
 using LayoutFarm.Drawing; 
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.Boxes
 {
     public enum CssRunKind : byte
     {

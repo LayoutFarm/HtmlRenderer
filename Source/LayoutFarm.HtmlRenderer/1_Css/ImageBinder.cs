@@ -2,7 +2,7 @@
 using System;
 using LayoutFarm.Drawing;
 
-namespace HtmlRenderer
+namespace LayoutFarm
 {
     public class ImageBinder
     {

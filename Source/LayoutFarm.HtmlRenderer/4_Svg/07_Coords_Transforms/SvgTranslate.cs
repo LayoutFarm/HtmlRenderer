@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using LayoutFarm.Drawing;
 using System.Globalization;
 using System.Text;
-using HtmlRenderer;
+using LayoutFarm;
 
 namespace Svg.Transforms
 {

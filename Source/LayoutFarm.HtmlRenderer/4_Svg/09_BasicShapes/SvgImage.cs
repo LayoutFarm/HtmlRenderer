@@ -5,8 +5,8 @@ using System;
 using LayoutFarm.Drawing;
 using System.Collections.Generic;
 
-using HtmlRenderer;
-using HtmlRenderer.Css;
+using LayoutFarm;
+using LayoutFarm.Css;
 using LayoutFarm.SvgDom;
 
 namespace LayoutFarm.SvgDom
@@ -18,14 +18,14 @@ namespace LayoutFarm.SvgDom
         Color strokeColor = Color.Transparent;
         Color fillColor = Color.Black;
         GraphicsPath _path;
-        HtmlRenderer.Boxes.CssImageRun _imgRun;
+        LayoutFarm.Boxes.CssImageRun _imgRun;
 
 
         public SvgImage(SvgImageSpec spec, object controller)
             : base(controller)
         {
             this.imageSpec = spec;
-            this._imgRun = new HtmlRenderer.Boxes.CssImageRun();
+            this._imgRun = new LayoutFarm.Boxes.CssImageRun();
         }
         //----------------------------
         public float ActualX

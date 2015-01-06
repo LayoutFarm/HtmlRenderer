@@ -1,5 +1,5 @@
 ﻿
-namespace HtmlRenderer.WebDom
+namespace LayoutFarm.WebDom
 {
     public class HtmlGenerator
     {

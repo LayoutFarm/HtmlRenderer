@@ -15,10 +15,10 @@
 
 using System;
 using LayoutFarm.Drawing;
-using HtmlRenderer.WebDom;
-using HtmlRenderer.Css;
-using HtmlRenderer.Boxes;
-namespace HtmlRenderer.Composers
+using LayoutFarm.WebDom;
+using LayoutFarm.Css;
+using LayoutFarm.Boxes;
+namespace LayoutFarm.Composers
 {
 
 

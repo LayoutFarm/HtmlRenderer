@@ -15,7 +15,7 @@
 
 using System;
 using System.Collections.Generic;
-namespace HtmlRenderer.WebDom.Parser
+namespace LayoutFarm.WebDom.Parser
 {    
 
     static class HtmlDecodeHelper

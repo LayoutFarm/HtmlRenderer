@@ -3,14 +3,13 @@
 
 using System;
 using System.Collections.Generic;
-using HtmlRenderer.Diagnostics;
+using LayoutFarm.Diagnostics;
 using LayoutFarm.Drawing;
-using HtmlRenderer.WebDom;
-using HtmlRenderer.Boxes;
+using LayoutFarm.WebDom;
+using LayoutFarm.Boxes; 
+using LayoutFarm.Composers.BridgeHtml;
 
-using HtmlRenderer.Composers.BridgeHtml;
-
-namespace HtmlRenderer.Composers
+namespace LayoutFarm.Composers
 {
 
     public class BridgeHtmlDocument : WebDocument

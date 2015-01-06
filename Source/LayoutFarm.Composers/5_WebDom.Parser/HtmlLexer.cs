@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HtmlRenderer.WebDom.Parser
+namespace LayoutFarm.WebDom.Parser
 {    
     enum HtmlLexerEvent
     {

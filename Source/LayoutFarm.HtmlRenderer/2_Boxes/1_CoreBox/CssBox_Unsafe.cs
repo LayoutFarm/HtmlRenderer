@@ -1,8 +1,8 @@
 ﻿//BSD, 2014, WinterDev 
 using System;
 using System.Collections.Generic;
-using HtmlRenderer.Css;
-namespace HtmlRenderer.Boxes
+using LayoutFarm.Css;
+namespace LayoutFarm.Boxes
 {
 
 

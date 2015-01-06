@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections.Generic;
 using LayoutFarm.UI;
 
-namespace HtmlRenderer.WebDom
+namespace LayoutFarm.WebDom
 {
     public delegate void HtmlEventHandler(UIEventArgs e);
 

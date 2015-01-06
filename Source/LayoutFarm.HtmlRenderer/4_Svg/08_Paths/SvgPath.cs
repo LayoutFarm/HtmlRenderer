@@ -6,7 +6,7 @@ using LayoutFarm.Drawing;
 
 using Svg.Pathing;
 using Svg.Transforms;
-using HtmlRenderer;
+using LayoutFarm;
 
 namespace LayoutFarm.SvgDom
 {

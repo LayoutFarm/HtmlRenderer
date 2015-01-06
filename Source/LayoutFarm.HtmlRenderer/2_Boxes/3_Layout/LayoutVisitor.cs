@@ -3,10 +3,10 @@
 using System;
 using System.Collections.Generic;
 
-using HtmlRenderer.Css;
+using LayoutFarm.Css;
 using LayoutFarm.Drawing;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.Boxes
 {
 
     public class LayoutVisitor : BoxVisitor

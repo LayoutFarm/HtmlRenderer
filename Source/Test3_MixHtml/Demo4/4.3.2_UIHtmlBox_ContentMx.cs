@@ -28,14 +28,14 @@ namespace LayoutFarm
             //html box
             var htmlBox = new HtmlBox(800, 600);
             var htmlBoxContentMx = new HtmlBoxContentManager();
-            var contentMx = new HtmlRenderer.ContentManagers.ImageContentManager();
+            var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
 
 
             htmlBoxContentMx.AddImageContentMan(contentMx);
             htmlBoxContentMx.Bind(htmlBox);
 
 
-            contentMx.ImageLoadingRequest += new EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs>(contentMx_ImageLoadingRequest);
+            contentMx.ImageLoadingRequest += new EventHandler<LayoutFarm.ContentManagers.ImageRequestEventArgs>(contentMx_ImageLoadingRequest);
 
 
             viewport.AddContent(htmlBox);
@@ -43,7 +43,7 @@ namespace LayoutFarm
             htmlBox.LoadHtmlText(html);
         }
 
-        void contentMx_ImageLoadingRequest(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
+        void contentMx_ImageLoadingRequest(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
             //load resource -- sync or async? 
             string absolutePath = imgFolderPath + "\\" + e.ImagSource;

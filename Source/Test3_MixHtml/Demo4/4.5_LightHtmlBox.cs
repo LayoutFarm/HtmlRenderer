@@ -7,9 +7,9 @@ using LayoutFarm.Drawing;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
 
-using HtmlRenderer.Composers;
-using HtmlRenderer.WebDom;
-using HtmlRenderer.WebDom.Extension;
+using LayoutFarm.Composers;
+using LayoutFarm.WebDom;
+using LayoutFarm.WebDom.Extension;
 
 namespace LayoutFarm
 {
@@ -21,7 +21,7 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
             this.islandHost = new HtmlIslandHost();
-            this.islandHost.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
+            this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
 
             lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P); 
             lightBoxHost.SetRootGraphic(viewport.ViewportControl.WinTopRootGfx);

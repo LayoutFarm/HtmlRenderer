@@ -13,7 +13,7 @@
 
 using LayoutFarm.Drawing;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.Boxes
 {
     /// <summary>
     /// CSS box for hr element.

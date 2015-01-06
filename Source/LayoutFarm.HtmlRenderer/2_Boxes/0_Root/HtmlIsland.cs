@@ -16,11 +16,11 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
-using HtmlRenderer.Boxes;
-using HtmlRenderer.Diagnostics;
-using HtmlRenderer.Css;
+using LayoutFarm.Boxes;
+using LayoutFarm.Diagnostics;
+using LayoutFarm.Css;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.Boxes
 {
     /// <summary>
     /// layout and render the html fragment

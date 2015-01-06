@@ -15,7 +15,7 @@
 
 using System;
 using System.Collections.Generic; 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.Boxes
 {
 
 

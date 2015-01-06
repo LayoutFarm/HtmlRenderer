@@ -5,8 +5,8 @@ using System;
 using LayoutFarm.Drawing;
 using System.Collections.Generic;
 
-using HtmlRenderer;
-using HtmlRenderer.Css;
+using LayoutFarm;
+using LayoutFarm.Css;
 using LayoutFarm.SvgDom;
 
 namespace LayoutFarm.SvgDom

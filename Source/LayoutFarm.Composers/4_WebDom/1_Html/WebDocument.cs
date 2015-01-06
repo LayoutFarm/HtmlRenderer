@@ -1,8 +1,8 @@
 ﻿//BSD  2014 ,WinterDev  
-using HtmlRenderer.Boxes;
+using LayoutFarm.Boxes;
 using System.Collections.Generic;
 
-namespace HtmlRenderer.WebDom
+namespace LayoutFarm.WebDom
 {
 
     public abstract class WebDocument

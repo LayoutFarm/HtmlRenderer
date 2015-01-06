@@ -23,7 +23,7 @@ namespace LayoutFarm.Drawing
     /// <summary>
     /// Provides some drawing functionallity
     /// </summary>
-    public static class RenderUtils
+    static class RenderUtils
     {
         ///// <summary>
         ///// cache of brush color to brush instance

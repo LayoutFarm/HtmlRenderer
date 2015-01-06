@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
 
-using HtmlRenderer.WebDom;
-using HtmlRenderer;
-using HtmlRenderer.Css;
-using HtmlRenderer.ContentManagers;
-using HtmlRenderer.Composers;
-using HtmlRenderer.Boxes;
+using LayoutFarm.WebDom;
+using LayoutFarm;
+using LayoutFarm.Css;
+using LayoutFarm.ContentManagers;
+using LayoutFarm.Composers;
+using LayoutFarm.Boxes;
 
 namespace LayoutFarm.Boxes
 {
@@ -220,7 +220,7 @@ namespace LayoutFarm.Boxes
             {
                 globalX += (int)cbox.LocalX;
                 globalY += (int)cbox.LocalY;
-                var renderRoot = cbox as HtmlRenderer.Composers.BridgeHtml.CssRenderRoot;
+                var renderRoot = cbox as LayoutFarm.Composers.BridgeHtml.CssRenderRoot;
                 if (renderRoot != null)
                 {
                     this.wrapper.AdjustX = globalX;

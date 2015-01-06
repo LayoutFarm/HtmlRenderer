@@ -7,7 +7,7 @@ using LayoutFarm.Drawing;
 using System.Threading;
 using LayoutFarm.UI;
 
-namespace HtmlRenderer.ContentManagers
+namespace LayoutFarm.ContentManagers
 {
 
 
@@ -16,11 +16,11 @@ namespace HtmlRenderer.ContentManagers
     {
         internal readonly ImageBinder binder;
         internal readonly object requestBy;
-        internal readonly HtmlRenderer.Boxes.IUpdateChangeListener listener;
+        internal readonly LayoutFarm.Boxes.IUpdateChangeListener listener;
         
         public ImageContentRequest(ImageBinder binder,
             object requestBy,
-            HtmlRenderer.Boxes.IUpdateChangeListener listener)
+            LayoutFarm.Boxes.IUpdateChangeListener listener)
         {
             this.binder = binder;
             this.requestBy = requestBy;

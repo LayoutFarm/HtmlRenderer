@@ -18,7 +18,7 @@ using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.Windows.Forms;
 
-namespace HtmlRenderer.Demo
+namespace LayoutFarm.Demo
 {
     static class Program
     {

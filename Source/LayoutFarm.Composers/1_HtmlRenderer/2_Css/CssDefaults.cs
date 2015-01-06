@@ -1,7 +1,7 @@
 //BSD 2014
 //ArthurHub
 
-namespace HtmlRenderer.Composers
+namespace LayoutFarm.Composers
 {  
     public static class CssDefaults
     {    

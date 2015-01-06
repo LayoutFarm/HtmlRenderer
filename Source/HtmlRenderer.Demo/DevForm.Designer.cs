@@ -1,4 +1,4 @@
-﻿namespace HtmlRenderer.Demo
+﻿namespace LayoutFarm.Demo
 {
     partial class DevForm
     {

@@ -5,7 +5,7 @@ using LayoutFarm.Drawing;
 using System.Collections.Generic;
 using LayoutFarm.SvgDom;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.Boxes
 {
 
     public sealed class CssBoxSvgRoot : CustomCssBox

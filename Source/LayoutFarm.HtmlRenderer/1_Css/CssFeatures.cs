@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
-using HtmlRenderer.Css;
+using LayoutFarm.Css;
 
-namespace HtmlRenderer.Css 
+namespace LayoutFarm.Css 
 {
     abstract class CssFeatureBase
     {

@@ -4,9 +4,9 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
-using HtmlRenderer.Css;
+using LayoutFarm.Css;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.Boxes
 {
 
     partial class CssBox

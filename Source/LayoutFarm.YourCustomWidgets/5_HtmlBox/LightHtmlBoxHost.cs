@@ -3,10 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using HtmlRenderer;
-using HtmlRenderer.ContentManagers;
-using HtmlRenderer.Boxes;
-using HtmlRenderer.Composers;
+using LayoutFarm;
+using LayoutFarm.ContentManagers;
+using LayoutFarm.Boxes;
+using LayoutFarm.Composers;
 
 using LayoutFarm.Drawing;
 using LayoutFarm.UI;
@@ -24,16 +24,16 @@ namespace LayoutFarm.CustomWidgets
         RootGraphic rootgfx;
         GraphicsPlatform gfxPlatform;
      
-        HtmlRenderer.Composers.RenderTreeBuilder renderTreeBuilder;
+        LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
         Queue<HtmlInputEventAdapter> inputEventAdapterStock = new Queue<HtmlInputEventAdapter>();
-        Queue<HtmlRenderer.Boxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
+        Queue<LayoutFarm.Boxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
 
          
         static LightHtmlBoxHost()
         {
             //TODO: revise this again
-            HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
-               new HtmlRenderer.Boxes.LeanBoxCreator());
+            LayoutFarm.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
+               new  MyCssBoxGenerator());
         }
 
         public LightHtmlBoxHost(HtmlIslandHost islandHost, GraphicsPlatform gfxPlatform)
@@ -45,9 +45,9 @@ namespace LayoutFarm.CustomWidgets
         {
             this.rootgfx = rootgfx;
         }
-        internal HtmlRenderer.Boxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
+        internal LayoutFarm.Boxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
         {
-            HtmlRenderer.Boxes.LayoutVisitor lay = null;
+            LayoutFarm.Boxes.LayoutVisitor lay = null;
             if (htmlLayoutVisitorStock.Count == 0)
             {
                 lay = new LayoutVisitor(this.gfxPlatform);
@@ -59,7 +59,7 @@ namespace LayoutFarm.CustomWidgets
             lay.Bind(island);
             return lay;
         }
-        internal void ReleaseHtmlLayoutVisitor(HtmlRenderer.Boxes.LayoutVisitor lay)
+        internal void ReleaseHtmlLayoutVisitor(LayoutFarm.Boxes.LayoutVisitor lay)
         {
             lay.UnBind();
             this.htmlLayoutVisitorStock.Enqueue(lay);
@@ -108,7 +108,7 @@ namespace LayoutFarm.CustomWidgets
         //----------------------------------------------------
         void CreateRenderTreeBuidler()
         {
-            this.renderTreeBuilder = new HtmlRenderer.Composers.RenderTreeBuilder(rootgfx);
+            this.renderTreeBuilder = new LayoutFarm.Composers.RenderTreeBuilder(rootgfx);
             this.renderTreeBuilder.RequestStyleSheet += (e) =>
             {
                 var req = new TextLoadRequestEventArgs(e.Src);
@@ -128,8 +128,8 @@ namespace LayoutFarm.CustomWidgets
             //temp fix
             //TODO: improve technique here
             htmlFragment = "<html><head></head><body>" + htmlFragment + "</body></html>";
-            var htmldoc = HtmlRenderer.Composers.WebDocumentParser.ParseDocument(
-                           new HtmlRenderer.WebDom.Parser.TextSnapshot(htmlFragment.ToCharArray()));
+            var htmldoc = LayoutFarm.Composers.WebDocumentParser.ParseDocument(
+                           new LayoutFarm.WebDom.Parser.TextSnapshot(htmlFragment.ToCharArray()));
 
 
             //3. generate render tree
@@ -153,7 +153,7 @@ namespace LayoutFarm.CustomWidgets
             newCssBox = rootElement;
 
         }
-        public void CreateHtmlFragment(HtmlRenderer.Composers.BridgeHtmlDocument htmldoc,
+        public void CreateHtmlFragment(LayoutFarm.Composers.BridgeHtmlDocument htmldoc,
             RenderElement container,
             out MyHtmlIsland newIsland,
             out CssBox newCssBox)
@@ -187,7 +187,7 @@ namespace LayoutFarm.CustomWidgets
 
         }
 
-        internal void RefreshCssTree(HtmlRenderer.WebDom.WebDocument webdoc)
+        internal void RefreshCssTree(LayoutFarm.WebDom.WebDocument webdoc)
         {
             if (this.renderTreeBuilder == null) CreateRenderTreeBuidler();
             renderTreeBuilder.RefreshCssTree(webdoc);

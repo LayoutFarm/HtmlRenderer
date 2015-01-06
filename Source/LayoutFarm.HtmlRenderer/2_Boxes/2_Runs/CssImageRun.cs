@@ -13,7 +13,7 @@
 
 using LayoutFarm.Drawing;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.Boxes
 {
     /// <summary>
     /// Represents a word inside an inline box

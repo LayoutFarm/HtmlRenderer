@@ -1,8 +1,8 @@
 ﻿//BSD 2014, WinterDev 
 using System;
-using HtmlRenderer.Boxes;
+using LayoutFarm.Boxes;
 
-namespace HtmlRenderer
+namespace LayoutFarm
 {
 #if DEBUG
     public delegate void dbugCounterAction();

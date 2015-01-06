@@ -14,7 +14,7 @@
 // "The Art of War"
 
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.Boxes
 {
     partial class CssTableLayoutEngine
     {

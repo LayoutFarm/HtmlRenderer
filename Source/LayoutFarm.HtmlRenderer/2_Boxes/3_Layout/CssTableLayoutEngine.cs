@@ -15,11 +15,11 @@
 
 using System;
 using System.Collections.Generic;
-using HtmlRenderer.Css;
+using LayoutFarm.Css;
 using LayoutFarm.Drawing;
 
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.Boxes
 {
     /// <summary>
     /// Layout engine for tables executing the complex layout of tables with rows/columns/headers/etc.

@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using LayoutFarm.Drawing;
 using LayoutFarm.Drawing;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.Boxes
 {
     /// <summary>
     /// CSS box for image element.

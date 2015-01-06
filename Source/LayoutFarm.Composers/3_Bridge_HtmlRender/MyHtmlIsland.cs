@@ -7,15 +7,15 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using LayoutFarm.Drawing;
-using HtmlRenderer.WebDom;
+using LayoutFarm.WebDom;
 
-using HtmlRenderer.ContentManagers;
-using HtmlRenderer.Diagnostics;
+using LayoutFarm.ContentManagers;
+using LayoutFarm.Diagnostics;
 
-using HtmlRenderer.Boxes;
+using LayoutFarm.Boxes;
 using LayoutFarm.UI;
 
-namespace HtmlRenderer.Composers
+namespace LayoutFarm.Composers
 {
     public class HtmlResourceRequestEventArgs : EventArgs
     {

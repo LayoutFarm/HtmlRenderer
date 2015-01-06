@@ -4,7 +4,7 @@
 using System;
 using System.Globalization;
 
-namespace HtmlRenderer.Css
+namespace LayoutFarm.Css
 {
      
     /// <summary>

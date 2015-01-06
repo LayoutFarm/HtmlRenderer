@@ -4,7 +4,7 @@
 ﻿using System;
 using LayoutFarm.Drawing;
 using System.Globalization;
-using HtmlRenderer;
+using LayoutFarm;
 
 namespace Svg.Transforms
 {

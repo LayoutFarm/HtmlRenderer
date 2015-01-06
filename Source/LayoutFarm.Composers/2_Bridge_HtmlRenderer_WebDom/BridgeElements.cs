@@ -3,13 +3,13 @@
 
 using System;
 using System.Collections.Generic;
-using HtmlRenderer.Diagnostics;
+using LayoutFarm.Diagnostics;
 using LayoutFarm.Drawing;
-using HtmlRenderer.WebDom;
-using HtmlRenderer.Boxes;
+using LayoutFarm.WebDom;
+using LayoutFarm.Boxes;
 using LayoutFarm.UI;
 
-namespace HtmlRenderer.Composers.BridgeHtml
+namespace LayoutFarm.Composers.BridgeHtml
 {
 
     class HtmlElement : DomElement

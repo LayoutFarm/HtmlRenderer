@@ -16,13 +16,13 @@
 using System;
 using LayoutFarm.Drawing;
 using System.Collections.Generic;
-using HtmlRenderer.Css;
-using HtmlRenderer.WebDom;
-using HtmlRenderer.WebDom.Parser;
-using HtmlRenderer.Boxes;
-using HtmlRenderer.Composers.BridgeHtml;
+using LayoutFarm.Css;
+using LayoutFarm.WebDom;
+using LayoutFarm.WebDom.Parser;
+using LayoutFarm.Boxes;
+using LayoutFarm.Composers.BridgeHtml;
 
-namespace HtmlRenderer.Composers
+namespace LayoutFarm.Composers
 {
 
     public static class WebDocumentParser

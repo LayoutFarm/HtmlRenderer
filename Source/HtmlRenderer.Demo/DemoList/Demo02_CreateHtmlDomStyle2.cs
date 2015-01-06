@@ -1,9 +1,9 @@
 ﻿using System;
-using HtmlRenderer.Composers;
-using HtmlRenderer.WebDom;
+using LayoutFarm.Composers;
+using LayoutFarm.WebDom;
 using LayoutFarm;
 using LayoutFarm.UI;
-namespace HtmlRenderer.Demo
+namespace LayoutFarm.Demo
 {
 
     class Demo02_CreateHtmlDomStyle2 : DemoBase
@@ -62,7 +62,7 @@ namespace HtmlRenderer.Demo
 
             //2. add to view 
             panel.LoadHtmlDom(htmldoc,
-               HtmlRenderer.Composers.CssDefaults.DefaultStyleSheet); 
+               LayoutFarm.Composers.CssDefaults.DefaultStyleSheet); 
 
 
         }

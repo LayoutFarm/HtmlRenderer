@@ -3,10 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using HtmlRenderer;
-using HtmlRenderer.ContentManagers;
-using HtmlRenderer.Boxes;
-using HtmlRenderer.Composers;
+using LayoutFarm;
+using LayoutFarm.ContentManagers;
+using LayoutFarm.Boxes;
+using LayoutFarm.Composers;
 
 using LayoutFarm.Drawing;
 using LayoutFarm.UI;
@@ -24,31 +24,31 @@ namespace LayoutFarm.CustomWidgets
         MyHtmlIsland myHtmlIsland;
         LayoutVisitor htmlLayoutVisitor;
 
-        HtmlRenderer.WebDom.WebDocument currentdoc;
+        LayoutFarm.WebDom.WebDocument currentdoc;
 
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
         public event EventHandler<ImageRequestEventArgs> RequestImage;
 
         bool hasWaitingDocToLoad;
-        HtmlRenderer.WebDom.CssActiveSheet waitingCssData;
+        LayoutFarm.WebDom.CssActiveSheet waitingCssData;
         HtmlInputEventAdapter inputEventAdapter;
         object uiHtmlTask = new object();
 
 
-        HtmlRenderer.Composers.RenderTreeBuilder renderTreeBuilder = null;
+        LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder = null;
         HtmlIslandHost islandHost;
         static HtmlBox()
         {
-            HtmlRenderer.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
-               new HtmlRenderer.Boxes.LeanBoxCreator());
+            LayoutFarm.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
+               new MyCssBoxGenerator());
         }
         public HtmlBox(int width, int height)
         {
             this._width = width;
-            this._height = height; 
+            this._height = height;
 
             this.islandHost = new HtmlIslandHost();
-            this.islandHost.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
+            this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
             this.islandHost.RequestResource += (s, e) =>
             {
                 if (this.RequestImage != null)
@@ -56,10 +56,10 @@ namespace LayoutFarm.CustomWidgets
                     RequestImage(this, new ImageRequestEventArgs(e.binder));
                 }
             };
-           
-            myHtmlIsland = new MyHtmlIsland(islandHost); 
+
+            myHtmlIsland = new MyHtmlIsland(islandHost);
             myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphic();
-            myHtmlIsland.DomRequestRebuild += myHtmlIsland_NeedUpdateDom; 
+            myHtmlIsland.DomRequestRebuild += myHtmlIsland_NeedUpdateDom;
             //request ui timer *** 
             //tim.Interval = 30;
             //tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
@@ -112,10 +112,10 @@ namespace LayoutFarm.CustomWidgets
         {
             get { return this.myHtmlIsland; }
         }
- 
+
         void CreateRenderTreeBuilder()
         {
-            this.renderTreeBuilder = new HtmlRenderer.Composers.RenderTreeBuilder(htmlRenderBox.Root);
+            this.renderTreeBuilder = new LayoutFarm.Composers.RenderTreeBuilder(htmlRenderBox.Root);
             this.renderTreeBuilder.RequestStyleSheet += (e2) =>
             {
                 if (this.RequestStylesheet != null)
@@ -150,7 +150,7 @@ namespace LayoutFarm.CustomWidgets
             this.myHtmlIsland.PerformLayout(htmlLayoutVisitor);
 
         }
-     
+
         protected override void OnKeyUp(UIKeyEventArgs e)
         {
             base.OnKeyUp(e);
@@ -210,10 +210,10 @@ namespace LayoutFarm.CustomWidgets
             htmlIsland.SetMaxSize(this._width, 0);
             htmlIsland.PerformLayout(this.htmlLayoutVisitor);
         }
-        void SetHtml(MyHtmlIsland htmlIsland, string html, HtmlRenderer.WebDom.CssActiveSheet cssData)
+        void SetHtml(MyHtmlIsland htmlIsland, string html, LayoutFarm.WebDom.CssActiveSheet cssData)
         {
-            var htmldoc = HtmlRenderer.Composers.WebDocumentParser.ParseDocument(
-                             new HtmlRenderer.WebDom.Parser.TextSnapshot(html.ToCharArray()));
+            var htmldoc = LayoutFarm.Composers.WebDocumentParser.ParseDocument(
+                             new LayoutFarm.WebDom.Parser.TextSnapshot(html.ToCharArray()));
             this.currentdoc = htmldoc;
             this.hasWaitingDocToLoad = true;
             this.waitingCssData = cssData;

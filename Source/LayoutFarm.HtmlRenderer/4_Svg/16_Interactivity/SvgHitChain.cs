@@ -3,7 +3,7 @@
 using System;
 using LayoutFarm.Drawing; 
 using System.Collections.Generic;
-using HtmlRenderer.Css;
+using LayoutFarm.Css;
 
 namespace LayoutFarm.SvgDom
 {

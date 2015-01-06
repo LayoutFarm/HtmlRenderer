@@ -16,9 +16,9 @@
 using System;
 using LayoutFarm.Drawing;
 using LayoutFarm.Drawing;
-using HtmlRenderer.Css;
+using LayoutFarm.Css;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.Boxes
 {
     /// <summary>
     /// Parse CSS properties values like numbers, urls, etc.

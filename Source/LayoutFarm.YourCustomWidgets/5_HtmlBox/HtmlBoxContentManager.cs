@@ -3,8 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using HtmlRenderer;
-using HtmlRenderer.ContentManagers;
+using LayoutFarm;
+using LayoutFarm.ContentManagers;
 using LayoutFarm.UI;
 
 namespace LayoutFarm.CustomWidgets

@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
 
-using HtmlRenderer.Css;
-using HtmlRenderer.Boxes;
+using LayoutFarm.Css;
+using LayoutFarm.Boxes;
 
-namespace HtmlRenderer
+namespace LayoutFarm
 {
     //----------------------------------------------------------------------------
     public class Painter : BoxVisitor
@@ -161,7 +161,7 @@ namespace HtmlRenderer
         }
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
-            HtmlRenderer.Boxes.BorderPaintHelper.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
+            LayoutFarm.Boxes.BorderPaintHelper.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
         }
         internal void PaintBorders(CssBox box, RectangleF rect)
         {

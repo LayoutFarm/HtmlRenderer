@@ -2,7 +2,7 @@
 //ArthurHub 
  
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.Boxes
 {
     partial class CssTableLayoutEngine
     {

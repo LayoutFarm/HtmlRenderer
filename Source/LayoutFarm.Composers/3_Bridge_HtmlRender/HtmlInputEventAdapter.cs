@@ -4,11 +4,11 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
-using HtmlRenderer.Boxes;
-using HtmlRenderer.WebDom;
+using LayoutFarm.Boxes;
+using LayoutFarm.WebDom;
 using LayoutFarm;
 using LayoutFarm.UI;
-namespace HtmlRenderer.Composers
+namespace LayoutFarm.Composers
 {
 
     /// <summary>

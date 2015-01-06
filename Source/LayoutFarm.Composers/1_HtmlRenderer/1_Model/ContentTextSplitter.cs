@@ -1,9 +1,9 @@
 ﻿//BSD 2014,WinterDev  
 using System.Collections.Generic;
-using HtmlRenderer.Css; 
-using HtmlRenderer.Boxes;
+using LayoutFarm.Css; 
+using LayoutFarm.Boxes;
 
-namespace HtmlRenderer.Composers 
+namespace LayoutFarm.Composers 
 { 
     class ContentTextSplitter
     {    

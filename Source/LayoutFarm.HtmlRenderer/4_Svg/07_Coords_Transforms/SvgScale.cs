@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.Drawing;
 using System.Globalization;
-using HtmlRenderer;
+using LayoutFarm;
 namespace Svg.Transforms
 {
     public sealed class SvgScale : SvgTransform

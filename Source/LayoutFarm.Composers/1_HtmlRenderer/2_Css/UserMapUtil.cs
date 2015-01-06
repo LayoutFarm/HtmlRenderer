@@ -3,11 +3,11 @@ using System;
 using LayoutFarm.Drawing;
 using System.Collections.Generic;
 
-using HtmlRenderer.Css;
-using HtmlRenderer.Boxes;
-using HtmlRenderer.Diagnostics;
+using LayoutFarm.Css;
+using LayoutFarm.Boxes;
+using LayoutFarm.Diagnostics;
 
-namespace HtmlRenderer.Composers
+namespace LayoutFarm.Composers
 {
     public enum WellKnownDomNodeName : byte
     {
@@ -163,7 +163,7 @@ namespace HtmlRenderer.Composers
 
 
 
-        static readonly ValueMap<HtmlRenderer.WebDom.WellknownCssPropertyName> _wellKnownCssPropNameMap = new ValueMap<WebDom.WellknownCssPropertyName>();
+        static readonly ValueMap<LayoutFarm.WebDom.WellknownCssPropertyName> _wellKnownCssPropNameMap = new ValueMap<WebDom.WellknownCssPropertyName>();
         static readonly ValueMap<WellKnownDomNodeName> _wellknownHtmlTagNameMap = new ValueMap<WellKnownDomNodeName>();
 
 
@@ -543,7 +543,7 @@ namespace HtmlRenderer.Composers
                  CssValueParser.ConvertToPx(len, box.GetEmHeight(), box));
         }
 
-        public static HtmlRenderer.WebDom.WellknownCssPropertyName GetWellKnownPropName(string propertyName)
+        public static LayoutFarm.WebDom.WellknownCssPropertyName GetWellKnownPropName(string propertyName)
         {
             return _wellKnownCssPropNameMap.GetValueFromString(propertyName, WebDom.WellknownCssPropertyName.Unknown);
         }
@@ -637,7 +637,7 @@ namespace HtmlRenderer.Composers
         }
 
 
-        internal static HtmlRenderer.Css.CssLength AsBorderLength(this WebDom.CssCodeValueExpression value)
+        internal static LayoutFarm.Css.CssLength AsBorderLength(this WebDom.CssCodeValueExpression value)
         {
             if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.BorderLength)
             {

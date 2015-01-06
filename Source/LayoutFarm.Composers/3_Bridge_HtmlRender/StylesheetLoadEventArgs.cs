@@ -16,7 +16,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HtmlRenderer.ContentManagers
+namespace LayoutFarm.ContentManagers
 {
 
     public delegate void RequestStyleSheetEventHandler(StylesheetLoadEventArgs args);

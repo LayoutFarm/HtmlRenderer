@@ -3,11 +3,11 @@
 using System;
 using LayoutFarm.Drawing;
 using System.Collections.Generic;
-using HtmlRenderer.Css;
-using HtmlRenderer.WebDom;
-using HtmlRenderer.Boxes;
+using LayoutFarm.Css;
+using LayoutFarm.WebDom;
+using LayoutFarm.Boxes;
 
-namespace HtmlRenderer.Composers
+namespace LayoutFarm.Composers
 {
 
     class ActiveCssTemplate

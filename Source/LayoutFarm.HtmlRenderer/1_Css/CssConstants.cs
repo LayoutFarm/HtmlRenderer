@@ -15,7 +15,7 @@
 
 using LayoutFarm.Drawing;
 
-namespace HtmlRenderer.Css
+namespace LayoutFarm.Css
 {
 
     /// <summary>

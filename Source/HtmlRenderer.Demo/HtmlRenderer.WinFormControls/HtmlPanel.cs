@@ -16,14 +16,14 @@ using System.Collections.Generic;
 
 using System.ComponentModel;
 using System.Windows.Forms;
-using HtmlRenderer.WebDom;
-using HtmlRenderer.Css;
-using HtmlRenderer.ContentManagers;
-using HtmlRenderer.Composers;
+using LayoutFarm.WebDom;
+using LayoutFarm.Css;
+using LayoutFarm.ContentManagers;
+using LayoutFarm.Composers;
 
 using Conv = LayoutFarm.Drawing.Conv;
 
-namespace HtmlRenderer.Demo
+namespace LayoutFarm.Demo
 {
     /// <summary>
     /// Provides HTML rendering using the text property.<br/>
@@ -64,7 +64,7 @@ namespace HtmlRenderer.Demo
     /// </summary>
     public class HtmlPanel : ScrollableControl
     {
-        HtmlRenderer.WebDom.WebDocument currentDoc;
+        LayoutFarm.WebDom.WebDocument currentDoc;
         Composers.RenderTreeBuilder renderTreeBuilder;
 
         MyHtmlIsland myHtmlIsland;
@@ -86,7 +86,7 @@ namespace HtmlRenderer.Demo
 
         ImageContentManager imageContentMan = new ImageContentManager();
         TextContentManager textContentMan = new TextContentManager();
-        HtmlRenderer.Boxes.LayoutVisitor htmlLayoutVisitor;
+        LayoutFarm.Boxes.LayoutVisitor htmlLayoutVisitor;
 
         LayoutFarm.Drawing.Canvas renderCanvas;
         LayoutFarm.Drawing.GraphicsPlatform gfxPlatform;
@@ -112,7 +112,7 @@ namespace HtmlRenderer.Demo
 
 
             htmlIslandHost = new HtmlIslandHost();
-            htmlIslandHost.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
+            htmlIslandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
             htmlIslandHost.RequestResource += myHtmlIsland_RequestResource;
 
 
@@ -192,7 +192,7 @@ namespace HtmlRenderer.Demo
         /// Raised when an image is about to be loaded by file path or URI.<br/>
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
-        public event EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs> ImageLoad;
+        public event EventHandler<LayoutFarm.ContentManagers.ImageRequestEventArgs> ImageLoad;
 
         /// <summary>
         /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
@@ -253,7 +253,7 @@ namespace HtmlRenderer.Demo
             set
             {
                 _baseRawCssData = value;
-                _baseCssData = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(value, true);
+                _baseCssData = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(value, true);
             }
         }
 
@@ -293,7 +293,7 @@ namespace HtmlRenderer.Demo
 
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
             //-----------------------------------------------------------------
-            var htmldoc = HtmlRenderer.Composers.WebDocumentParser.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
+            var htmldoc = LayoutFarm.Composers.WebDocumentParser.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
 
 
             //build rootbox from htmldoc
@@ -306,10 +306,10 @@ namespace HtmlRenderer.Demo
             htmlIsland.RootCssBox = rootBox;
         }
 
-        public void LoadHtmlDom(HtmlRenderer.WebDom.WebDocument doc, string defaultCss)
+        public void LoadHtmlDom(LayoutFarm.WebDom.WebDocument doc, string defaultCss)
         {
             _baseRawCssData = defaultCss;
-            _baseCssData = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);
+            _baseCssData = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);
             this.currentDoc = doc;
 
             BuildCssBoxTree(myHtmlIsland, _baseCssData);
@@ -344,7 +344,7 @@ namespace HtmlRenderer.Demo
             htmlIsland.RootCssBox = rootBox;
 
         }
-        public void ForceRefreshHtmlDomChange(HtmlRenderer.WebDom.WebDocument doc)
+        public void ForceRefreshHtmlDomChange(LayoutFarm.WebDom.WebDocument doc)
         {
             //RefreshHtmlDomChange(_baseCssData);
             myHtmlIsland_NeedUpdateDom(this, EventArgs.Empty);
@@ -664,7 +664,7 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// Propagate the image load event from root container.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
+        private void OnImageLoad(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
             if (ImageLoad != null)
             {
@@ -820,7 +820,7 @@ namespace HtmlRenderer.Demo
         #endregion
 
 
-        static Painter GetSharedPainter(HtmlRenderer.Boxes.HtmlIsland htmlIsland, LayoutFarm.Drawing.Canvas canvas)
+        static Painter GetSharedPainter(LayoutFarm.Boxes.HtmlIsland htmlIsland, LayoutFarm.Drawing.Canvas canvas)
         {
             Painter painter = null;
             if (painterStock.Count == 0)

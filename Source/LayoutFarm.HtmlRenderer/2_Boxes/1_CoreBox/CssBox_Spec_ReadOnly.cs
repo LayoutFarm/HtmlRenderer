@@ -16,10 +16,10 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
-using HtmlRenderer.Css;
+using LayoutFarm.Css;
 using LayoutFarm.Drawing;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.Boxes
 {
     /// <summary>
     /// Base class for css box to handle the css properties.<br/>

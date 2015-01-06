@@ -22,7 +22,7 @@ using System.Net;
 using System.Text;
 
 
-namespace HtmlRenderer.Composers.BridgeHtml
+namespace LayoutFarm.Composers.BridgeHtml
 {
 
 
@@ -85,7 +85,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         /// <param name="number">the number to convert</param>
         /// <param name="style">the css style to convert by</param>
         /// <returns>converted string</returns>
-        public static string ConvertToAlphaNumber(int number, HtmlRenderer.Css.CssListStyleType style) // =   string style = CssConstants.UpperAlpha)
+        public static string ConvertToAlphaNumber(int number, LayoutFarm.Css.CssListStyleType style) // =   string style = CssConstants.UpperAlpha)
         {
             if (number == 0)
                 return string.Empty;

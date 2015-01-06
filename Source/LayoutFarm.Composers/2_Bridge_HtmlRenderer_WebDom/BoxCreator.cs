@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using LayoutFarm.Drawing;
-using HtmlRenderer.WebDom;
-using HtmlRenderer.Css;
-using HtmlRenderer.Boxes;
+using LayoutFarm.WebDom;
+using LayoutFarm.Css;
+using LayoutFarm.Boxes;
 
-namespace HtmlRenderer.Composers.BridgeHtml
+namespace LayoutFarm.Composers.BridgeHtml
 {
     public struct BoxCreator
     {

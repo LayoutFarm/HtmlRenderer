@@ -2,7 +2,7 @@
 //ArthurHub 
 
 
-namespace HtmlRenderer.Css
+namespace LayoutFarm.Css
 {
 
     partial class BoxSpec
