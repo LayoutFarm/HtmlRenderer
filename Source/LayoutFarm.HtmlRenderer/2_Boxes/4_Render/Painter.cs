@@ -15,25 +15,23 @@ namespace HtmlRenderer
         Stack<Rectangle> clipStacks = new Stack<Rectangle>();
 
         PointF[] borderPoints = new PointF[4];
-        //PointF htmlContainerScrollOffset;
         HtmlIsland htmlIsland;
         Canvas canvas;
 
         Rectangle latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
 
-        float viewportX;
-        float viewportY;
+
         float viewportWidth;
         float viewportHeight;
 
-     
+
         public Painter()
         {
 
         }
         public void Bind(HtmlIsland htmlIsland, Canvas canvas)
         {
-            this.htmlIsland = htmlIsland; 
+            this.htmlIsland = htmlIsland;
             this.canvas = canvas;
         }
         public void UnBind()
@@ -42,15 +40,14 @@ namespace HtmlRenderer
             this.canvas = null;
             this.htmlIsland = null;
             this.clipStacks.Clear();
+            this.latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
         }
         public GraphicsPlatform GraphicsPlatform
         {
             get { return this.canvas.Platform; }
         }
-        public void SetRenderViewport(float x, float y, float width, float height)
+        public void SetViewportSize(float width, float height)
         {
-            this.viewportX = x;
-            this.viewportY = y;
             this.viewportWidth = width;
             this.viewportHeight = height;
         }
@@ -69,16 +66,14 @@ namespace HtmlRenderer
         }
         //-----------------------------------------------------
 
-        internal float LocalViewportTop
+        internal float ViewportTop
         {
-            get { return this.viewportY - canvas.CanvasOriginY; }
+            get { return 0; }
         }
-        internal float LocalViewportBottom
+        internal float ViewportBottom
         {
-            get { return (this.viewportY + this.viewportHeight) - canvas.CanvasOriginY; }
+            get { return this.viewportHeight; }
         }
-
-
         //=========================================================
         /// <summary>
         /// push clip area relative to (0,0) of current CssBox
@@ -121,7 +116,7 @@ namespace HtmlRenderer
         /// <param name="requestFrom"></param>
         public void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, object requestFrom)
         {
-            this.htmlIsland.RaiseImageRequest( 
+            this.htmlIsland.RaiseImageRequest(
                 binder,
                 requestFrom,
                 false);

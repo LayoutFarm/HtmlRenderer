@@ -23,14 +23,14 @@ namespace LayoutFarm
             this.islandHost = new HtmlIslandHost();
             this.islandHost.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
 
-            lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P);
-
+            lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P); 
             lightBoxHost.SetRootGraphic(viewport.ViewportControl.WinTopRootGfx);
 
             ////==================================================
             //html box
             {
                 LightHtmlBox lightHtmlBox = lightBoxHost.CreateLightBox(800, 50);
+                lightHtmlBox.SetLocation(50, 450);
                 viewport.AddContent(lightHtmlBox);
                 //light box can't load full html
                 //all light boxs of the same lightbox host share resource with the host

@@ -108,20 +108,20 @@ namespace HtmlRenderer.Demo
             this.gfxPlatform = p;
             this.renderCanvas = gfxPlatform.CreateCanvas(0, 0, 800, 600);
             //-------------------------------------------------------
-            
+
 
 
             htmlIslandHost = new HtmlIslandHost();
             htmlIslandHost.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             htmlIslandHost.RequestResource += myHtmlIsland_RequestResource;
-          
-            
-            myHtmlIsland = new MyHtmlIsland(htmlIslandHost); 
+
+
+            myHtmlIsland = new MyHtmlIsland(htmlIslandHost);
             myHtmlIsland.DomVisualRefresh += OnRefresh;
             myHtmlIsland.DomRequestRebuild += myHtmlIsland_NeedUpdateDom;
 
             htmlLayoutVisitor = new Boxes.LayoutVisitor(p);
-            htmlLayoutVisitor.Bind(myHtmlIsland); 
+            htmlLayoutVisitor.Bind(myHtmlIsland);
 
             this.imageContentMan.ImageLoadingRequest += OnImageLoad;
             this.textContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
@@ -459,7 +459,7 @@ namespace HtmlRenderer.Demo
 
                 var scrollPos = AutoScrollPosition;
 
-                painter.SetRenderViewport(bounds.X, bounds.Y, bounds.Width, bounds.Height);
+                painter.SetViewportSize(bounds.Width, bounds.Height);
 
                 painter.OffsetCanvasOrigin(scrollPos.X, scrollPos.Y);
 
