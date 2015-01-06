@@ -7,7 +7,7 @@ using System.Text;
 using LayoutFarm.Drawing; 
 
 using LayoutFarm;
-namespace Svg.Transforms
+namespace LayoutFarm.Svg.Transforms
 {
     public abstract class SvgTransform  
     {

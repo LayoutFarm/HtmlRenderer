@@ -176,7 +176,7 @@ namespace LayoutFarm.Text
             if (e.Button == UIMouseButtons.Left)
             {
                 InvalidateGraphicOfCurrentLineArea();                 
-                internalTextLayerController.SetCaretPos(e.Location.X, e.Location.Y);
+                internalTextLayerController.SetCaretPos(e.X, e.Y);
                 if (internalTextLayerController.SelectionRange != null)
                 {
                     Rectangle r = GetSelectionUpdateArea(); internalTextLayerController.CancelSelect();
@@ -211,8 +211,8 @@ namespace LayoutFarm.Text
 
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
-                 
-                internalTextLayerController.SetCaretPos(e.Location.X, e.Location.Y);
+
+                internalTextLayerController.SetCaretPos(e.X, e.Y);
                 internalTextLayerController.EndSelect();
                 this.InvalidateGraphic();
 
@@ -222,7 +222,7 @@ namespace LayoutFarm.Text
         {
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
-                internalTextLayerController.SetCaretPos(e.Location.X, e.Location.Y);
+                internalTextLayerController.SetCaretPos(e.X, e.Y);
                 internalTextLayerController.StartSelect();
                 internalTextLayerController.EndSelect();
                 this.InvalidateGraphic();
@@ -233,7 +233,7 @@ namespace LayoutFarm.Text
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
                  
-                internalTextLayerController.SetCaretPos(e.Location.X, e.Location.Y);
+                internalTextLayerController.SetCaretPos(e.X, e.Y);
                 internalTextLayerController.EndSelect();
                 this.InvalidateGraphic();
             }

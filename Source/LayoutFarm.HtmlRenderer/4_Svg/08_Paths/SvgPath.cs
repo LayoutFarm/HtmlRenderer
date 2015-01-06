@@ -4,8 +4,8 @@ using System.Text;
 
 using LayoutFarm.Drawing;
 
-using Svg.Pathing;
-using Svg.Transforms;
+using LayoutFarm.Svg.Pathing;
+using LayoutFarm.Svg.Transforms;
 using LayoutFarm;
 
 namespace LayoutFarm.SvgDom

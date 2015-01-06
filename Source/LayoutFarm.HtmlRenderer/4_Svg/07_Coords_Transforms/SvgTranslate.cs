@@ -7,24 +7,21 @@ using LayoutFarm.Drawing;
 using System.Globalization;
 using System.Text;
 using LayoutFarm;
-
-namespace Svg.Transforms
+namespace LayoutFarm.Svg.Transforms
 {
     public sealed class SvgTranslate : SvgTransform
     {
-        private float x;
-        private float y;
 
         public float X
         {
-            get { return x; }
-            set { this.x = value; }
+            get;
+            set;
         }
 
         public float Y
         {
-            get { return y; }
-            set { this.y = value; }
+            get;
+            set;
         }
 
         //public override  Matrix Matrix
@@ -44,8 +41,8 @@ namespace Svg.Transforms
 
         public SvgTranslate(float x, float y)
         {
-            this.x = x;
-            this.y = y;
+            this.X = x;
+            this.Y = y;
         }
 
         public SvgTranslate(float x)

@@ -3,10 +3,10 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-using PixelFarm.Agg;
-using PixelFarm.Agg.Image;
+ 
+ 
 
-namespace Mini
+namespace PixelFarm.Agg.Image
 {
     public static class BitmapHelper
     {
@@ -128,7 +128,7 @@ namespace Mini
 
             windowsBitmap.UnlockBits(bitmapData1);
         }
-        internal static void CopyToWindowsBitmapSameSize(
+        public static void CopyToWindowsBitmapSameSize(
             ActualImage actualImage,
             Bitmap windowsBitmap)
         {
@@ -209,7 +209,7 @@ namespace Mini
                 //target
                 fixed (byte* targetH = &buffer[0])
                 {
-                    byte* src = (byte*)scan0; 
+                    byte* src = (byte*)scan0;
 
                     for (int y = h; y > 0; --y)
                     {

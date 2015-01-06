@@ -7,27 +7,25 @@ using System.Text;
 using LayoutFarm.Drawing;
 using System.Globalization;
 using LayoutFarm;
-
-namespace Svg.Transforms
+namespace LayoutFarm.Svg.Transforms
 {
     /// <summary>
     /// The class which applies the specified shear vector to this Matrix.
     /// </summary>
     public sealed class SvgShear : SvgTransform
     {
-        float shearFactorX;
-        float shearFactorY;
+
 
         public float X
         {
-            get { return this.shearFactorX; }
-            set { this.shearFactorX = value; }
+            get;
+            set;
         }
 
         public float Y
         {
-            get { return this.shearFactorY; }
-            set { this.shearFactorY = value; }
+            get;
+            set;
         }
 
         //public override Matrix Matrix
@@ -49,8 +47,8 @@ namespace Svg.Transforms
 
         public SvgShear(float x, float y)
         {
-            this.shearFactorX = x;
-            this.shearFactorY = y;
+            this.X = x;
+            this.Y = y;
         }
 
 

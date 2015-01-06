@@ -5,8 +5,7 @@
 using LayoutFarm.Drawing;
 using System.Globalization;
 using LayoutFarm;
-
-namespace Svg.Transforms
+namespace LayoutFarm.Svg.Transforms
 {
     /// <summary>
     /// The class which applies the specified skew vector to this Matrix.

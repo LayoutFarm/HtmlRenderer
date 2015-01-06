@@ -8,7 +8,7 @@ using LayoutFarm.Drawing;
 using System.Globalization;
 using LayoutFarm;
 
-namespace Svg.Transforms
+namespace LayoutFarm.Svg.Transforms
 {
     public sealed class SvgRotate : SvgTransform
     {

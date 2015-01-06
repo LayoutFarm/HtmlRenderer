@@ -78,7 +78,7 @@ namespace LayoutFarm.UI
         void SetUIMouseEventArgsInfo(UIMouseEventArgs mouseEventArg, MouseEventArgs e)
         {
             mouseEventArg.SetEventInfo(
-                new Graphics.Point(e.X, e.Y),
+                e.X, e.Y,
                 GetUIMouseButton(e.Button),
                 e.Clicks,
                 e.Delta);

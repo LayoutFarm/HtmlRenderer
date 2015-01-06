@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
 
-namespace Svg.Pathing
+namespace LayoutFarm.Svg.Pathing
 {
 
     public class SvgPathDataParser
