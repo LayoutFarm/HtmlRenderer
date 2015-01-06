@@ -19,16 +19,13 @@ namespace LayoutFarm.Boxes
     public class HtmlRenderBox : RenderBoxBase
     {
         MyHtmlIsland myHtmlIsland;
-        int myWidth;
-        int myHeight;
         Painter painter;
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height,
             MyHtmlIsland htmlIsland)
             : base(rootgfx, width, height)
         {
-            this.myWidth = width;
-            this.myHeight = height;
+
             this.myHtmlIsland = htmlIsland;
             this.Focusable = false;
 
@@ -44,7 +41,7 @@ namespace LayoutFarm.Boxes
         {
             myHtmlIsland.CheckDocUpdate();
             painter.Bind(myHtmlIsland, canvas);
-            painter.SetRenderViewport(this.X, this.Y, myWidth, myHeight);
+            painter.SetViewportSize(this.Width, this.Height);
 
             int vwX, vwY;
             painter.OffsetCanvasOrigin(vwX = this.ViewportX, vwY = this.ViewportY);
@@ -314,14 +311,12 @@ namespace LayoutFarm.Boxes
 
         MyHtmlIsland tinyHtmlIsland;
         CssBox cssBox;
-        int myWidth;
-        int myHeight;
+
         public HtmlFragmentRenderBox(RootGraphic rootgfx,
             int width, int height)
             : base(rootgfx, width, height)
         {
-            this.myWidth = width;
-            this.myHeight = height;
+
             this.Focusable = false;
         }
 
@@ -344,7 +339,8 @@ namespace LayoutFarm.Boxes
             tinyHtmlIsland.CheckDocUpdate();
 
             var painter = GetSharedPainter(this.tinyHtmlIsland, canvas);
-            painter.SetRenderViewport(this.X, this.Y, myWidth, myHeight);
+            painter.SetViewportSize(this.Width, this.Height);
+            painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 
             int vwX, vwY;
             painter.OffsetCanvasOrigin(vwX = this.ViewportX, vwY = this.ViewportY);

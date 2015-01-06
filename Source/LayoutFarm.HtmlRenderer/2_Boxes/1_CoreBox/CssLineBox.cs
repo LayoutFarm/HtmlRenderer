@@ -168,8 +168,10 @@ namespace HtmlRenderer.Boxes
             get;
             private set;
         }
+
         internal float CachedLineTop
         {
+            //relative top compare to its parent
             get;
             set;
         }
