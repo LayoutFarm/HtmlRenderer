@@ -14,28 +14,40 @@ namespace HtmlRenderer.Boxes
         HtmlIsland htmlIsland;
         float totalMarginLeftAndRight;
 
-
         Queue<Dictionary<CssBox, PartialBoxStrip>> dicStripPool;
         Queue<List<PartialBoxStrip>> listStripPool;
 
         Dictionary<CssBox, PartialBoxStrip> readyDicStrip = new Dictionary<CssBox, PartialBoxStrip>();
         List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
 
-
-
         static int totalLayoutIdEpisode = 0;
-        readonly int episodeId = ++totalLayoutIdEpisode;
+        int episodeId;
         GraphicsPlatform gfxPlatform;
-        internal LayoutVisitor(GraphicsPlatform gfxPlatform, HtmlIsland visualRootBox)
+
+        public LayoutVisitor(GraphicsPlatform gfxPlatform)
         {
             this.gfxPlatform = gfxPlatform;
-            this.htmlIsland = visualRootBox;
+        }
+        public void Bind(HtmlIsland htmlIsland)
+        {
+            this.htmlIsland = htmlIsland;
             if (episodeId == ushort.MaxValue - 1)
             {
                 //reset
                 totalLayoutIdEpisode = 1;
                 episodeId = totalLayoutIdEpisode++;
             }
+        }
+        public void UnBind()
+        {
+            this.htmlIsland = null;
+            if (dicStripPool != null) dicStripPool.Clear();
+            if (listStripPool != null) listStripPool.Clear();
+
+            readyDicStrip.Clear();
+            readyListStrip.Clear();
+            totalMarginLeftAndRight = 0;
+
         }
         public GraphicsPlatform GraphicsPlatform
         {
@@ -45,9 +57,9 @@ namespace HtmlRenderer.Boxes
         internal IFonts SampleIFonts
         {
             get { return this.gfxPlatform.SampleIFonts; }
-             
+
         }
-        protected override void OnPushDifferentContaingBlock(CssBox box)
+        protected override void OnPushDifferentContainingBlock(CssBox box)
         {
             this.totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
         }
@@ -67,7 +79,7 @@ namespace HtmlRenderer.Boxes
             float candidateRootWidth = Math.Max(box.CalculateMinimumWidth(this.episodeId) + CalculateWidthMarginTotalUp(box),
                          (box.SizeWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.SizeWidth : 0);
 
-            this.htmlIsland.UpdateSizeIfWiderOrHeigher(
+            this.htmlIsland.UpdateSizeIfWiderOrHigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
                 this.ContainerBlockGlobalY + box.SizeHeight);
         }
@@ -87,16 +99,14 @@ namespace HtmlRenderer.Boxes
             return 0;
         }
 
-        internal bool AvoidImageAsyncLoadOrLateBind
-        {
-            get { return this.htmlIsland.AvoidAsyncImagesLoading || this.htmlIsland.AvoidImagesLateLoading; }
-        }
+        //internal bool AvoidImageAsyncLoadOrLateBind
+        //{
+        //    get { return this.htmlIsland.AvoidAsyncImagesLoading || this.htmlIsland.AvoidImagesLateLoading; }
+        //}
 
         internal void RequestImage(ImageBinder binder, CssBox requestFrom)
         {
-            HtmlIsland.RaiseRequestImage(
-                this.htmlIsland,
-                binder,
+            this.htmlIsland.RaiseImageRequest(binder,
                 requestFrom,
                 false);
         }

@@ -36,6 +36,7 @@ namespace HtmlRenderer.Composers
         ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
         public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
         LayoutFarm.RootGraphic rootgfx;
+
         public RenderTreeBuilder(LayoutFarm.RootGraphic rootgfx)
         {
             this.rootgfx = rootgfx;
@@ -157,10 +158,20 @@ namespace HtmlRenderer.Composers
             }
         }
 
-
-        public CssBox BuildCssRenderTree(WebDocument htmldoc,
+        public CssBox BuildCssRenderTree(HtmlRenderer.WebDom.WebDocument webdoc,
             IFonts ifonts,
-            HtmlIsland htmlIsland,
+            CssActiveSheet cssData,
+            LayoutFarm.RenderElement containerElement)
+        {
+            return this.BuildCssRenderTree(
+                 (HtmlRenderer.Composers.BridgeHtmlDocument)webdoc,
+                 ifonts,
+                 cssData,
+                 containerElement);
+
+        }
+        public CssBox BuildCssRenderTree(HtmlRenderer.Composers.BridgeHtmlDocument bridgeHtmlDoc,
+            IFonts ifonts,
             CssActiveSheet cssData,
             LayoutFarm.RenderElement containerElement)
         {
@@ -168,32 +179,28 @@ namespace HtmlRenderer.Composers
             CssBox rootBox = null;
             ActiveCssTemplate activeCssTemplate = null;
             activeCssTemplate = new ActiveCssTemplate(cssData);
-
-            BridgeHtmlDocument bridgeHtmlDoc = (BridgeHtmlDocument)htmldoc;
             bridgeHtmlDoc.ActiveCssTemplate = activeCssTemplate;
 
-            htmldoc.SetDocumentState(DocumentState.Building);
+            bridgeHtmlDoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
-            RootElement bridgeRoot = (RootElement)htmldoc.RootNode;
-            PrepareStylesAndContentOfChildNodes(bridgeRoot, activeCssTemplate);
+
+            PrepareStylesAndContentOfChildNodes((HtmlElement)bridgeHtmlDoc.RootNode, activeCssTemplate);
 
             //----------------------------------------------------------------  
             rootBox = BoxCreator.CreateCssRenderRoot(ifonts, containerElement);
-            ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
+            ((HtmlElement)bridgeHtmlDoc.RootNode).SetPrincipalBox(rootBox);
 
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);
-            boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, true);
+            boxCreator.GenerateChildBoxes((RootElement)bridgeHtmlDoc.RootNode, true);
 
-            htmldoc.SetDocumentState(DocumentState.Idle);
+            bridgeHtmlDoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
-            SetTextSelectionStyle(htmlIsland, cssData);
+            //SetTextSelectionStyle(htmlIsland, cssData);
             return rootBox;
         }
 
         //----------------------------------------------------------------
-        public CssBox RefreshCssTree(WebDocument htmldoc,
-          IFonts iFonts,
-          HtmlIsland htmlContainer)
+        public CssBox RefreshCssTree(WebDocument htmldoc)
         {
 
             CssBox rootBox = null;
@@ -208,6 +215,7 @@ namespace HtmlRenderer.Composers
             //----------------------------------------------------------------  
             CssBox principalBox = RootElement.InternalGetPrincipalBox(bridgeRoot);
             principalBox.Clear();
+
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);
             boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, false);
 
@@ -370,33 +378,33 @@ namespace HtmlRenderer.Composers
         }
 
 
-        /// <summary>
-        /// Set the selected text style (selection text color and background color).
-        /// </summary>
-        /// <param name="htmlContainer"> </param>
-        /// <param name="cssData">the style data</param>
-        static void SetTextSelectionStyle(HtmlIsland htmlContainer, CssActiveSheet cssData)
-        {
-            //comment out for another technique
+        ///// <summary>
+        ///// Set the selected text style (selection text color and background color).
+        ///// </summary>
+        ///// <param name="htmlContainer"> </param>
+        ///// <param name="cssData">the style data</param>
+        //static void SetTextSelectionStyle(HtmlIsland htmlContainer, CssActiveSheet cssData)
+        //{
+        //    //comment out for another technique
 
 
-            //foreach (var block in cssData.GetCssRuleSetIter("::selection"))
-            //{
-            //    if (block.Properties.ContainsKey("color"))
-            //        htmlContainer.SelectionForeColor = CssValueParser.GetActualColor(block.GetPropertyValueAsString("color"));
-            //    if (block.Properties.ContainsKey("background-color"))
-            //        htmlContainer.SelectionBackColor = CssValueParser.GetActualColor(block.GetPropertyValueAsString("background-color"));
-            //}
+        //    //foreach (var block in cssData.GetCssRuleSetIter("::selection"))
+        //    //{
+        //    //    if (block.Properties.ContainsKey("color"))
+        //    //        htmlContainer.SelectionForeColor = CssValueParser.GetActualColor(block.GetPropertyValueAsString("color"));
+        //    //    if (block.Properties.ContainsKey("background-color"))
+        //    //        htmlContainer.SelectionBackColor = CssValueParser.GetActualColor(block.GetPropertyValueAsString("background-color"));
+        //    //}
 
-            //if (cssData.ContainsCssBlock("::selection"))
-            //{
-            //    var blocks = cssData.GetCssBlock("::selection");
-            //    foreach (var block in blocks)
-            //    {
+        //    //if (cssData.ContainsCssBlock("::selection"))
+        //    //{
+        //    //    var blocks = cssData.GetCssBlock("::selection");
+        //    //    foreach (var block in blocks)
+        //    //    {
 
-            //    }
-            //}
-        }
+        //    //    }
+        //    //}
+        //}
         private static void AssignStylesForElementId(CssBox box, ActiveCssTemplate activeCssTemplate, string elementId)
         {
 

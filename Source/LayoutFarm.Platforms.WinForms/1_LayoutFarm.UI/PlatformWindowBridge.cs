@@ -195,6 +195,11 @@ namespace LayoutFarm.UI
         }
         public void HandleGotFocus(EventArgs e)
         {
+            if (canvasViewport.IsClosed)
+            {
+                return;
+            }
+
             UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
             canvasViewport.FullMode = false;
 
@@ -231,7 +236,7 @@ namespace LayoutFarm.UI
             this.isMouseDown = true;
             this.isDragging = false;
 
-            this.topwin.MakeCurrent();
+            this.topwin.MakeCurrentTopWindow();
             canvasViewport.FullMode = false;
 
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
@@ -262,8 +267,7 @@ namespace LayoutFarm.UI
 
             Point viewLocation = canvasViewport.LogicalViewportLocation;
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
-            if (this.isMouseDown ||
-                this.isDragging)
+            if (this.isMouseDown || this.isDragging)
             {
 
             }
@@ -330,7 +334,7 @@ namespace LayoutFarm.UI
         {
 
 
-            this.topwin.MakeCurrent();
+            this.topwin.MakeCurrentTopWindow();
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
 
             SetKeyData(keyEventArgs, e);
@@ -365,7 +369,7 @@ namespace LayoutFarm.UI
         public void HandleKeyUp(KeyEventArgs e)
         {
 
-            this.topwin.MakeCurrent();
+            this.topwin.MakeCurrentTopWindow();
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
             SetKeyData(keyEventArgs, e);
 

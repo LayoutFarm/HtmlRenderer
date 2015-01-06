@@ -15,36 +15,41 @@ namespace HtmlRenderer
         Stack<Rectangle> clipStacks = new Stack<Rectangle>();
 
         PointF[] borderPoints = new PointF[4];
-        PointF htmlContainerScrollOffset;
-        HtmlIsland visualRootBox;
+        HtmlIsland htmlIsland;
         Canvas canvas;
 
         Rectangle latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
 
-        float physicalViewportWidth;
-        float physicalViewportHeight;
-        float physicalViewportX;
-        float physicalViewportY;
 
-        bool aviodGeometyAntialias;
-        public Painter(HtmlIsland container, Canvas ig)
+        float viewportWidth;
+        float viewportHeight;
+
+
+        public Painter()
         {
-            this.visualRootBox = container;
-            this.htmlContainerScrollOffset = container.ScrollOffset;
-            this.aviodGeometyAntialias = container.AvoidGeometryAntialias;
-            this.canvas = ig;
-        }
 
+        }
+        public void Bind(HtmlIsland htmlIsland, Canvas canvas)
+        {
+            this.htmlIsland = htmlIsland;
+            this.canvas = canvas;
+        }
+        public void UnBind()
+        {
+            //clear
+            this.canvas = null;
+            this.htmlIsland = null;
+            this.clipStacks.Clear();
+            this.latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
+        }
         public GraphicsPlatform GraphicsPlatform
         {
             get { return this.canvas.Platform; }
         }
-        internal void SetPhysicalViewportBound(float x, float y, float width, float height)
+        public void SetViewportSize(float width, float height)
         {
-            this.physicalViewportX = x;
-            this.physicalViewportY = y;
-            this.physicalViewportWidth = width;
-            this.physicalViewportHeight = height;
+            this.viewportWidth = width;
+            this.viewportHeight = height;
         }
 
         public Canvas InnerCanvas
@@ -54,26 +59,21 @@ namespace HtmlRenderer
                 return this.canvas;
             }
         }
-        internal bool AvoidGeometryAntialias
+        public bool AvoidGeometryAntialias
         {
-            get { return this.aviodGeometyAntialias; }
+            get;
+            set;
         }
         //-----------------------------------------------------
 
-        internal float LocalViewportTop
+        internal float ViewportTop
         {
-            get { return this.physicalViewportY - canvas.CanvasOriginY; }
+            get { return 0; }
         }
-        internal float LocalViewportBottom
+        internal float ViewportBottom
         {
-            get { return (this.physicalViewportY + this.physicalViewportHeight) - canvas.CanvasOriginY; }
+            get { return this.viewportHeight; }
         }
-
-        public PointF Offset
-        {
-            get { return this.htmlContainerScrollOffset; }
-        }
-
         //=========================================================
         /// <summary>
         /// push clip area relative to (0,0) of current CssBox
@@ -116,8 +116,7 @@ namespace HtmlRenderer
         /// <param name="requestFrom"></param>
         public void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, object requestFrom)
         {
-            HtmlIsland.RaiseRequestImage(
-                this.visualRootBox,
+            this.htmlIsland.RaiseImageRequest(
                 binder,
                 requestFrom,
                 false);
@@ -155,6 +154,10 @@ namespace HtmlRenderer
         public void SetCanvasOrigin(int x, int y)
         {
             this.canvas.SetCanvasOrigin(x, y);
+        }
+        public void OffsetCanvasOrigin(int dx, int dy)
+        {
+            this.canvas.OffsetCanvasOrigin(dx, dy);
         }
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
@@ -271,12 +274,12 @@ namespace HtmlRenderer
         }
         //------
         public void DrawImage(Image img, float x, float y, float w, float h)
-        { 
+        {
             this.canvas.DrawImage(img, new RectangleF(x, y, w, h));
         }
         public void DrawImage(Image img, RectangleF r)
-        { 
-            this.canvas.DrawImage(img, r); 
+        {
+            this.canvas.DrawImage(img, r);
         }
         //---------
         public void DrawText(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)

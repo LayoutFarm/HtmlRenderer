@@ -49,7 +49,7 @@ namespace LayoutFarm.UI
 
           
         }
-        protected bool IsClosed
+        public bool IsClosed
         {
             get { return this.isClosed; }
         }
@@ -289,9 +289,9 @@ namespace LayoutFarm.UI
         {
             OnClosing();
             this.isClosed = true;
-            this.rootGraphics.CloseWinRoot(); 
-             
+            this.rootGraphics.CloseWinRoot();              
         }
+         
         protected virtual void OnClosing()
         {
         }

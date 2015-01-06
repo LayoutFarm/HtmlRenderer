@@ -3,8 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
-
+using LayoutFarm.Drawing; 
 
 namespace HtmlRenderer.Boxes
 {
@@ -13,8 +12,7 @@ namespace HtmlRenderer.Boxes
     {
 
         public void Paint(Painter p)
-        {
-
+        { 
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
 #endif
@@ -62,6 +60,7 @@ namespace HtmlRenderer.Boxes
 
 
             Css.CssDisplay display = this.CssDisplay;
+            //TODO : revise this again
             if (display != Css.CssDisplay.TableCell ||
                 this.EmptyCells != Css.CssEmptyCell.Hide || !IsSpaceOrEmpty)
             {
@@ -102,13 +101,10 @@ namespace HtmlRenderer.Boxes
                 }
                 //---------------------------------------------
                 if (this.LineBoxCount > 0)
-                {
-
-                    float viewport_top = p.LocalViewportTop;
-                    float viewport_bottom = p.LocalViewportBottom;
-
-                    int drawState = 0;
-
+                { 
+                    float viewport_top = p.ViewportTop;
+                    float viewport_bottom = p.ViewportBottom; 
+                    int drawState = 0; 
                     var c_line = this._clientLineBoxes.First;
 
                     while (c_line != null)
@@ -119,6 +115,7 @@ namespace HtmlRenderer.Boxes
                         if (line.CachedLineBottom >= viewport_top &&
                             line.CachedLineTop <= viewport_bottom)
                         {
+
 #if DEBUG
                             dbugCounter.dbugLinePaintCount++;
 #endif
@@ -236,7 +233,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="isLast">is it the last rectangle of the element</param>
         internal void PaintBackground(Painter p, RectangleF rect, bool isFirst, bool isLast)
         {
-            
+
             if (!this.HasVisibleBgColor)
             {
                 return;

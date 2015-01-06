@@ -17,6 +17,7 @@ namespace LayoutFarm
         RootGraphic rootGfx;
         IParentLink parentLink;
         object controller;
+
         public RenderElement(RootGraphic rootGfx, int width, int height)
         {
             this.b_width = width;
@@ -81,7 +82,6 @@ namespace LayoutFarm
 
         public bool Visible
         {
-
             get
             {
                 return ((uiFlags & HIDDEN) == 0);
@@ -400,7 +400,6 @@ namespace LayoutFarm
             {
                 return 0;
             }
-
         }
         public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {

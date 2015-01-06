@@ -9,7 +9,7 @@ namespace LayoutFarm.UI.GdiPlusView
 {
     class GdiPlusCanvasViewport : CanvasViewport
     {
-        QuadPages quadPages = null;
+        QuadPages quadPages = null; 
         public GdiPlusCanvasViewport(TopWindowRenderBox wintop,
             Size viewportSize, int cachedPageNum)
             : base(wintop, viewportSize, cachedPageNum)
@@ -19,7 +19,16 @@ namespace LayoutFarm.UI.GdiPlusView
         }
         ~GdiPlusCanvasViewport()
         {
+            if (quadPages != null)
+            {
+                quadPages.Dispose();
+            }
+        }
+        protected override void OnClosing()
+        {
             quadPages.Dispose();
+            quadPages = null;
+            base.OnClosing();
         }
         protected override void Canvas_Invalidate(ref Rectangle r)
         {

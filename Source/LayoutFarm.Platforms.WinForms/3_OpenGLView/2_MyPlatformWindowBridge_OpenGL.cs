@@ -28,7 +28,7 @@ namespace LayoutFarm.UI.OpenGLView
         public void BindGLControl(GpuOpenGLSurfaceView myGLControl)
         {
 
-            this.topwin.MakeCurrent();
+            this.topwin.MakeCurrentTopWindow();
             this.windowControl = myGLControl;
             SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(topwin, this.Size.ToSize(), 4));
             openGLViewport.NotifyWindowControlBinding();
@@ -65,9 +65,7 @@ namespace LayoutFarm.UI.OpenGLView
             if (!isInitGLControl)
             {
                 return;
-            }
-
-
+            } 
             //var innumber = dbugCount;
             //dbugCount++;
             //Console.WriteLine(">" + innumber);

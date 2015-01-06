@@ -18,7 +18,6 @@ namespace LayoutFarm
             //1.
             elem.uiFlags &= ~IS_GRAPHIC_VALID;
             //2.  
-
             elem.rootGfx.InvalidateGraphicArea(elem, ref rect, out wintop);
 
         }

@@ -18,29 +18,39 @@ namespace LayoutFarm.Boxes
 
     public class HtmlRenderBox : RenderBoxBase
     {
-
         MyHtmlIsland myHtmlIsland;
-        int myWidth;
-        int myHeight;
+        Painter painter;
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height,
             MyHtmlIsland htmlIsland)
             : base(rootgfx, width, height)
         {
-            this.myWidth = width;
-            this.myHeight = height;
+
             this.myHtmlIsland = htmlIsland;
             this.Focusable = false;
+
+            this.painter = new Painter();
+
+
         }
         public override void ClearAllChildren()
         {
 
         }
-        protected override void BoxDrawContent(Canvas canvasPage, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rect updateArea)
         {
-            myHtmlIsland.PhysicalViewportBound = new LayoutFarm.Drawing.RectangleF(0, 0, myWidth, myHeight);
             myHtmlIsland.CheckDocUpdate();
-            myHtmlIsland.PerformPaint(canvasPage);
+            painter.Bind(myHtmlIsland, canvas);
+            painter.SetViewportSize(this.Width, this.Height);
+
+            int vwX, vwY;
+            painter.OffsetCanvasOrigin(vwX = this.ViewportX, vwY = this.ViewportY);
+
+            myHtmlIsland.PerformPaint(painter);
+
+            painter.OffsetCanvasOrigin(-vwX, -vwY);
+
+            painter.UnBind();
         }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
@@ -50,8 +60,6 @@ namespace LayoutFarm.Boxes
 
     public sealed class RenderElementInsideCssBox : CustomCssBox
     {
-
-
         CssBoxInsideRenderElement wrapper;
         int globalXForRenderElement;
         int globalYForRenderElement;
@@ -115,13 +123,13 @@ namespace LayoutFarm.Boxes
 
                 Rect rect = Rect.CreateFromRect(
                      new Rectangle(0, 0, wrapper.Width, wrapper.Height));
-                this.wrapper.DrawToThisPage(p.InnerCanvas, rect); 
+                this.wrapper.DrawToThisPage(p.InnerCanvas, rect);
 
             }
             else
             {
                 //for debug!
-                p.FillRectangle(Color.Red, 0, 0, 100, 100);                
+                p.FillRectangle(Color.Red, 0, 0, 100, 100);
             }
         }
         RenderElement GetParentRenderElement(out int globalX, out int globalY)
@@ -197,8 +205,8 @@ namespace LayoutFarm.Boxes
 
             public override void CustomDrawToThisPage(Canvas canvasPage, Rect updateArea)
             {
-                int x = this.adjustX;
-                int y = this.adjustY;
+                //int x = this.adjustX;
+                //int y = this.adjustY;
                 renderElement.CustomDrawToThisPage(canvasPage, updateArea);
 
             }
@@ -294,6 +302,86 @@ namespace LayoutFarm.Boxes
 #endif
         }
     }
+
+
+
+    //===================================================================
+    public class HtmlFragmentRenderBox : RenderBoxBase
+    {
+
+        MyHtmlIsland tinyHtmlIsland;
+        CssBox cssBox;
+
+        public HtmlFragmentRenderBox(RootGraphic rootgfx,
+            int width, int height)
+            : base(rootgfx, width, height)
+        {
+
+            this.Focusable = false;
+        }
+
+        public CssBox CssBox
+        {
+            get { return this.cssBox; }
+        }
+        public void SetHtmlIsland(MyHtmlIsland htmlIsland, CssBox box)
+        {
+            this.tinyHtmlIsland = htmlIsland;
+            this.cssBox = box;
+
+        }
+        public override void ClearAllChildren()
+        {
+
+        }
+        protected override void DrawContent(Canvas canvas, Rect updateArea)
+        {
+            tinyHtmlIsland.CheckDocUpdate();
+
+            var painter = GetSharedPainter(this.tinyHtmlIsland, canvas);
+            painter.SetViewportSize(this.Width, this.Height);
+            painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
+
+            int vwX, vwY;
+            painter.OffsetCanvasOrigin(vwX = this.ViewportX, vwY = this.ViewportY);
+
+            tinyHtmlIsland.PerformPaint(painter);
+
+            painter.OffsetCanvasOrigin(-vwX, -vwY);
+
+            ReleaseSharedPainter(painter);
+        }
+        public override void ChildrenHitTestCore(HitChain hitChain)
+        {
+
+        }
+
+        static Painter GetSharedPainter(HtmlIsland htmlIsland, Canvas canvas)
+        {
+            Painter painter = null;
+            if (painterStock.Count == 0)
+            {
+                painter = new Painter();
+            }
+            else
+            {
+                painter = painterStock.Dequeue();
+            }
+
+            painter.Bind(htmlIsland, canvas);
+
+            return painter;
+        }
+        static void ReleaseSharedPainter(Painter p)
+        {
+            p.UnBind();
+            painterStock.Enqueue(p);
+        }
+        static Queue<Painter> painterStock = new Queue<Painter>();
+
+    }
+
+
 
 }
 

@@ -1,4 +1,4 @@
-﻿//BSD 2014,WinterDev
+﻿//BSD 2014-2015 ,WinterDev
 //ArthurHub
 
 using System;
@@ -21,110 +21,143 @@ namespace HtmlRenderer.Composers
     {
         public ImageBinder binder;
         public object requestBy;
-        public IUpdateStateChangedListener updateChangeListener;
+        internal IUpdateChangeListener updateEventListener;
     }
 
-    public class MyHtmlIsland : HtmlIsland, IUpdateStateChangedListener
+    public class HtmlIslandHost
+    {
+        public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
+        SelectionRange _currentSelectionRange;
+
+        public HtmlIslandHost()
+        { 
+        }
+        public WebDom.CssActiveSheet BaseStylesheet { get; set; }
+        public virtual void RequestImage(ImageBinder binder, HtmlIsland reqIsland, object reqFrom, bool _sync)
+        {
+            if (this.RequestResource != null)
+            {
+                HtmlResourceRequestEventArgs resReq = new HtmlResourceRequestEventArgs();
+                resReq.binder = binder;
+                resReq.requestBy = reqFrom;
+                resReq.updateEventListener = reqIsland;
+                RequestResource(this, resReq);
+            }
+        }
+        public virtual void RequestStyleSheet(TextLoadRequestEventArgs e)
+        {
+
+        }
+
+
+        internal SelectionRange SelectionRange
+        {
+            get { return this._currentSelectionRange; }
+            set { this._currentSelectionRange = value; }
+        }
+        internal void ClearPreviousSelection()
+        {
+            if (_currentSelectionRange != null)
+            {
+                _currentSelectionRange.ClearSelectionStatus();
+                _currentSelectionRange = null;
+            }
+        }
+    }
+
+    public sealed class MyHtmlIsland : HtmlIsland
     {
 
+        HtmlIslandHost islandHost;
         WebDocument doc;
-        CssActiveSheet activeCssSheet;
 
-        /// <summary>
-        /// Raised when an error occurred during html rendering.<br/>
-        /// </summary>
-        /// <remarks>
-        /// There is no guarantee that the event will be raised on the main thread, it can be raised on thread-pool thread.
-        /// </remarks>
-        //public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
-        public event EventHandler<HtmlRefreshEventArgs> Refresh;
-        public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
-        public event EventHandler<EventArgs> NeedUpdateDom;
-        List<ImageBinder> requestImageBinderUpdates = new List<ImageBinder>();
+        public event EventHandler DomVisualRefresh;
+        public event EventHandler DomRequestRebuild;
 
-
-
-        //----------------------------------------------------------- 
-        public MyHtmlIsland(GraphicsPlatform gfxPlatforms)
-            : base(gfxPlatforms)
+        public MyHtmlIsland(HtmlIslandHost islandHost)
         {
-            this.IsSelectionEnabled = true;
+            this.islandHost = islandHost;
         }
 
-        public WebDom.CssActiveSheet BaseStylesheet
+        public WebDocument Document
         {
-            get;
-            set;
-
+            get { return this.doc; }
+            set { this.doc = value; }
         }
-        public bool InternalRefreshRequest()
+
+        public bool RefreshIfNeed()
         {
-            if (requestImageBinderUpdates.Count > 0)
+
+            //not need to store that binder 
+            //(else if you want to debug) 
+            if (this.newUpdateImageCount > 0)
             {
-                requestImageBinderUpdates.Clear();
-                this.RequestRefresh(false);
+                //reset
+                this.newUpdateImageCount = 0;
+                this.NeedLayout = false;
+
+                if (DomVisualRefresh != null)
+                {
+                    DomVisualRefresh(this, EventArgs.Empty);
+                }
 #if DEBUG
                 dbugCount02++;
                 //Console.WriteLine(dd);
 #endif
-
                 return true;
             }
             return false;
+            //            if (recentUpdateImageBinders.Count > 0)
+            //            {
+            //                recentUpdateImageBinders.Clear();
+            //                this.RequestRefresh(false);
+            //#if DEBUG
+            //                dbugCount02++;
+            //                //Console.WriteLine(dd);
+            //#endif
+            //                return true;
+            //            }
+            //            return false;
+        }
+        public override void ClearPreviousSelection()
+        {
+            this.islandHost.ClearPreviousSelection();
+        }
+        public override void SetSelection(SelectionRange selRange)
+        {
+            this.islandHost.SelectionRange = selRange;
         }
 
-        public override void AddRequestImageBinderUpdate(ImageBinder binder)
+
+        public bool NeedLayout
         {
-            this.requestImageBinderUpdates.Add(binder);
-        }
-        protected override void RequestRefresh(bool layout)
-        {
-            if (this.Refresh != null)
-            {
-                this.Refresh(this, new HtmlRefreshEventArgs(layout));
-            }
+            get;
+            private set;
         }
         protected override void OnRequestImage(ImageBinder binder, object reqFrom, bool _sync)
         {
 
             //manage image loading 
-            if (this.RequestResource != null)
+            if (binder.State == ImageBinderState.Unload)
             {
-                if (binder.State == ImageBinderState.Unload)
-                {
-                    HtmlResourceRequestEventArgs resReq = new HtmlResourceRequestEventArgs();
-                    resReq.binder = binder;
-                    resReq.requestBy = reqFrom;
-                    resReq.updateChangeListener = this;
-                    RequestResource(this, resReq);
-                }
-
+                this.islandHost.RequestImage(binder, this, reqFrom, _sync);
             }
-        }
 
-        public void SetHtmlDoc(WebDocument doc)
-        {
-            this.doc = doc;
         }
-        public void SetRootCssBox(CssBox rootBox, CssActiveSheet activeCss)
-        {
-            this.activeCssSheet = activeCss;
-            base.SetRootCssBox(rootBox);
-        }
+        /// <summary>
+        /// check if dom update
+        /// </summary>
         public void CheckDocUpdate()
         {
             if (doc != null &&
-                doc.DocumentState == DocumentState.ChangedAfterIdle &&
-                NeedUpdateDom != null)
+                doc.DocumentState == DocumentState.ChangedAfterIdle
+                && DomRequestRebuild != null)
             {
-                NeedUpdateDom(this, EventArgs.Empty);
+                DomRequestRebuild(this, EventArgs.Empty); 
             }
         }
-        public new void PerformPaint(LayoutFarm.Drawing.Canvas canvas)
-        {
-            if (doc == null) return;
-            base.PerformPaint(canvas);
-        }
+
+
         protected override void OnRootDisposed()
         {
             base.OnRootDisposed();
@@ -140,28 +173,9 @@ namespace HtmlRenderer.Composers
 
         }
 
-        public string GetHtml()
+        public void GetHtml(StringBuilder stbuilder)
         {
             throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Is content selection is enabled for the rendered html (default - true).<br/>
-        /// If set to 'false' the rendered html will be static only with ability to click on links.
-        /// </summary>
-        public bool IsSelectionEnabled
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Is the build-in context menu enabled and will be shown on mouse right click (default - true)
-        /// </summary>
-        public bool IsContextMenuEnabled
-        {
-            get;
-            set;
         }
 
     }

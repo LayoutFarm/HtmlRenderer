@@ -15,16 +15,20 @@ namespace LayoutFarm
         LayoutFarm.UI.UISurfaceViewportControl vw;
         public SampleViewport(LayoutFarm.UI.UISurfaceViewportControl vw)
         {
-            this.vw = vw; 
+            this.vw = vw;
         }
-        public void AddContent(UIElement ui)
+        public void AddContent(RenderElement renderElement)
         {
-             
-            this.vw.AddContent(ui.GetPrimaryRenderElement(vw.WinTopRootGfx));
+            this.vw.AddContent(renderElement);
+            //this.vw.AddContent(ui.GetPrimaryRenderElement(vw.WinTopRootGfx));
         }
         public GraphicsPlatform P
         {
             get { return this.vw.P; }
+        }
+        public LayoutFarm.UI.UISurfaceViewportControl ViewportControl
+        {
+            get { return this.vw; }
         }
     }
     public abstract class DemoBase

@@ -8,10 +8,17 @@ using HtmlRenderer.Boxes;
 
 namespace HtmlRenderer.Composers.BridgeHtml
 {
-    public class BoxCreator
+    public struct BoxCreator
     {
 
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
+        LayoutFarm.RootGraphic rootgfx;
+        internal BoxCreator(LayoutFarm.RootGraphic rootgfx)
+        {
+            this.rootgfx = rootgfx;
+
+        }
+
         public static void RegisterCustomCssBoxGenerator(CustomCssBoxGenerator generator)
         {
             generators.Add(generator);
@@ -34,12 +41,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         }
 
 
-        LayoutFarm.RootGraphic rootgfx;
-        internal BoxCreator(LayoutFarm.RootGraphic rootgfx)
-        {
-            this.rootgfx = rootgfx;
-
-        }
+       
         internal void GenerateChildBoxes(HtmlElement parentElement, bool fullmode)
         {
             //recursive ***  
@@ -257,7 +259,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
 
                     newBox = new CssBoxHr(childElement, childElement.Spec);
                     parentBox.AppendChild(newBox);
-                    return newBox; 
+                    return newBox;
                 //-----------------------------------------------------
                 //TODO: simplify this ...
                 //table-display elements, fix display type
@@ -345,9 +347,9 @@ namespace HtmlRenderer.Composers.BridgeHtml
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
             return box;
-        } 
+        }
     }
-    
+
     class CssRenderRoot : CssBox
     {
         LayoutFarm.RenderElement containerElement;
@@ -359,8 +361,7 @@ namespace HtmlRenderer.Composers.BridgeHtml
         public LayoutFarm.RenderElement ContainerElement
         {
             get { return this.containerElement; }
-        }
-            
+        } 
     }
 
     static class TableBoxCreator
