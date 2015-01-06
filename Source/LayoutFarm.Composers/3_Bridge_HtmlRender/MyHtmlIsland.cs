@@ -15,7 +15,7 @@ using LayoutFarm.Diagnostics;
 using LayoutFarm.Boxes;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.Composers
+namespace LayoutFarm.Boxes
 {
     public class HtmlResourceRequestEventArgs : EventArgs
     {

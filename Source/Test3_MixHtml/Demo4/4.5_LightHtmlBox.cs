@@ -10,7 +10,7 @@ using LayoutFarm.UI;
 using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
-
+using LayoutFarm.Boxes;
 namespace LayoutFarm
 {
     [DemoNote("4.5 LightHtmlBox")]

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MiniAgg.Complements {
+namespace project_resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace MiniAgg.Complements {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MiniAgg.Complements.myfonts_dll", typeof(myfonts_dll).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("project_resources.myfonts_dll", typeof(myfonts_dll).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

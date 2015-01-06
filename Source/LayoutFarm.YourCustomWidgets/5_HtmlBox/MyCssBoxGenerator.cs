@@ -9,7 +9,10 @@ namespace LayoutFarm.CustomWidgets
 
     class MyCssBoxGenerator : CustomCssBoxGenerator
     {
-        public override LayoutFarm.Boxes.CssBox CreateCssBox(object tag, LayoutFarm.Boxes.CssBox parentBox, BoxSpec spec, LayoutFarm.RootGraphic rootgfx)
+        public override LayoutFarm.Boxes.CssBox CreateCssBox(object tag,
+            LayoutFarm.Boxes.CssBox parentBox,
+            BoxSpec spec,
+            LayoutFarm.RootGraphic rootgfx)
         {
             //check if this is a proper tag 
             DomElement domE = tag as DomElement;
@@ -24,22 +27,29 @@ namespace LayoutFarm.CustomWidgets
                     case "textbox":
                         {
                             var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 20, false);
-                            LayoutFarm.Boxes.RenderElementInsideCssBox leanTextBox = new LayoutFarm.Boxes.RenderElementInsideCssBox(textbox,
-                                spec,
-                                textbox.GetPrimaryRenderElement(rootgfx));
-                            //leanTextBox.AcceptKeyboardFocus = true;
-                            parentBox.AppendChild(leanTextBox);
+                            //create wrapper CssBox 
 
-                            return leanTextBox;
+                            var wrapperBox = this.CreateWrapper(
+                                 textbox,
+                                 textbox.GetPrimaryRenderElement(rootgfx),
+                                 spec);
+
+                            //leanTextBox.AcceptKeyboardFocus = true;
+                            parentBox.AppendChild(wrapperBox);
+
+                            return wrapperBox;
                         }
                 }
             }
             var simpleBox = new LayoutFarm.CustomWidgets.EaseBox(100, 20);
             simpleBox.BackColor = LayoutFarm.Drawing.Color.LightGray;
 
-            LayoutFarm.Boxes.RenderElementInsideCssBox leanBox = new LayoutFarm.Boxes.RenderElementInsideCssBox(simpleBox, spec, simpleBox.GetPrimaryRenderElement(rootgfx));
-            parentBox.AppendChild(leanBox);
-            return leanBox;
+            var wrapperBox2 = this.CreateWrapper(
+                               simpleBox,
+                               simpleBox.GetPrimaryRenderElement(rootgfx),
+                               spec);
+            parentBox.AppendChild(wrapperBox2);
+            return wrapperBox2;
             //return leanBox;
         }
 

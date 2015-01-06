@@ -20,6 +20,7 @@ using LayoutFarm.WebDom;
 using LayoutFarm.Css;
 using LayoutFarm.ContentManagers;
 using LayoutFarm.Composers;
+using LayoutFarm.Boxes;
 
 using Conv = LayoutFarm.Drawing.Conv;
 
@@ -67,8 +68,8 @@ namespace LayoutFarm.Demo
         LayoutFarm.WebDom.WebDocument currentDoc;
         Composers.RenderTreeBuilder renderTreeBuilder;
 
-        MyHtmlIsland myHtmlIsland;
-        HtmlIslandHost htmlIslandHost;
+        LayoutFarm.Boxes.MyHtmlIsland myHtmlIsland;
+        LayoutFarm.Boxes.HtmlIslandHost htmlIslandHost;
 
         HtmlInputEventAdapter _htmlInputEventAdapter;
         /// <summary>
@@ -288,7 +289,7 @@ namespace LayoutFarm.Demo
                 }
             }
         }
-        void SetHtml(MyHtmlIsland htmlIsland, string html, CssActiveSheet cssData)
+        void SetHtml(LayoutFarm.Boxes.MyHtmlIsland htmlIsland, string html, CssActiveSheet cssData)
         {
 
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();

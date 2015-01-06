@@ -51,6 +51,7 @@
     <Compile Include="2_Bridge_HtmlRenderer_WebDom\BridgeHtmlDocument.cs" />
     <Compile Include="3_Bridge_HtmlRender\HtmlRenderBox.cs" />
     <Compile Include="3_Bridge_HtmlRender\HtmlInputEventAdapter.cs" />
+    <Compile Include="3_Bridge_HtmlRender\RenderElementWrapperCssBox.cs" />
     <Compile Include="4_WebDom\1_Html\DomElement.cs" />
     <Compile Include="4_WebDom\1_Html\DomElement_EventListener.cs" />
     <Compile Include="3_Bridge_HtmlRender\StylesheetLoadEventArgs.cs" />
