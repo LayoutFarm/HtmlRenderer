@@ -64,25 +64,25 @@ namespace HtmlRenderer.Composers
 
     public sealed class MyHtmlIsland : HtmlIsland
     {
-         
+
         HtmlIslandHost islandHost;
         WebDocument doc;
 
-        public event EventHandler VisualRefresh;
-        public event EventHandler NeedUpdateDom;
+        public event EventHandler DomVisualRefresh;
+        public event EventHandler DomRequestRebuild;
 
         public MyHtmlIsland(HtmlIslandHost islandHost)
         {
             this.islandHost = islandHost;
         }
-       
+
         public WebDocument Document
         {
             get { return this.doc; }
             set { this.doc = value; }
         }
 
-        public bool CheckIfNeedRefresh()
+        public bool RefreshIfNeed()
         {
 
             //not need to store that binder 
@@ -90,8 +90,13 @@ namespace HtmlRenderer.Composers
             if (this.newUpdateImageCount > 0)
             {
                 //reset
-                this.newUpdateImageCount = 0;                 
-                this.RequestRefresh(false); 
+                this.newUpdateImageCount = 0;
+                this.NeedLayout = false;
+
+                if (DomVisualRefresh != null)
+                {
+                    DomVisualRefresh(this, EventArgs.Empty);
+                }
 #if DEBUG
                 dbugCount02++;
                 //Console.WriteLine(dd);
@@ -120,14 +125,7 @@ namespace HtmlRenderer.Composers
             this.islandHost.SelectionRange = selRange;
         }
 
-        protected override void RequestRefresh(bool layout)
-        {
-            this.NeedLayout = layout;
-            if (VisualRefresh != null)
-            {
-                VisualRefresh(this, EventArgs.Empty);
-            }
-        }
+
         public bool NeedLayout
         {
             get;
@@ -137,7 +135,6 @@ namespace HtmlRenderer.Composers
         {
 
             //manage image loading 
-
             if (binder.State == ImageBinderState.Unload)
             {
                 this.islandHost.RequestImage(binder, this, reqFrom, _sync);
@@ -151,9 +148,9 @@ namespace HtmlRenderer.Composers
         {
             if (doc != null &&
                 doc.DocumentState == DocumentState.ChangedAfterIdle
-                && NeedUpdateDom != null)
+                && DomRequestRebuild != null)
             {
-                NeedUpdateDom(this, EventArgs.Empty);
+                DomRequestRebuild(this, EventArgs.Empty);
 
             }
         }

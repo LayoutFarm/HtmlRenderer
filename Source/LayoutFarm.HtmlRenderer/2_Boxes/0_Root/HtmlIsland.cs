@@ -136,17 +136,15 @@ namespace HtmlRenderer.Boxes
         protected abstract void OnRequestImage(ImageBinder binder,
             object reqFrom, bool _sync);
 
-        internal static void RaiseRequestImage(HtmlIsland htmlIsland,
+        internal void RaiseImageRequest(
             ImageBinder binder,
             object reqBy,
             bool _sync)
         {
 
-            htmlIsland.OnRequestImage(binder, reqBy, false);
+            OnRequestImage(binder, reqBy, false);
         }
-        //------------------------------------------------------------------ 
-        protected abstract void RequestRefresh(bool layout);
-
+        
         internal void UpdateSizeIfWiderOrHigher(float newWidth, float newHeight)
         {
             if (newWidth > this._actualWidth)
@@ -222,6 +220,6 @@ namespace HtmlRenderer.Boxes
             newUpdateImageCount++;
             //this.recentUpdateImageBinders.Add(binder);
         }
-       
+
     }
 }

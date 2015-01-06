@@ -58,8 +58,8 @@ namespace LayoutFarm.CustomWidgets
             };
            
             myHtmlIsland = new MyHtmlIsland(islandHost); 
-            myHtmlIsland.VisualRefresh += (s, e) => this.InvalidateGraphic();
-            myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom; 
+            myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphic();
+            myHtmlIsland.DomRequestRebuild += myHtmlIsland_NeedUpdateDom; 
             //request ui timer *** 
             //tim.Interval = 30;
             //tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
@@ -176,7 +176,7 @@ namespace LayoutFarm.CustomWidgets
                  TaskIntervalPlan.Animation, 25,
                  (s, e) =>
                  {
-                     if (this.myHtmlIsland.CheckIfNeedRefresh())
+                     if (this.myHtmlIsland.RefreshIfNeed())
                      {
                          e.NeedUpdate = 1;
                      }

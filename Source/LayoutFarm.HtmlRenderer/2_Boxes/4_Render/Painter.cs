@@ -121,8 +121,7 @@ namespace HtmlRenderer
         /// <param name="requestFrom"></param>
         public void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, object requestFrom)
         {
-            HtmlIsland.RaiseRequestImage(
-                this.htmlIsland,
+            this.htmlIsland.RaiseImageRequest( 
                 binder,
                 requestFrom,
                 false);

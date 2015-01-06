@@ -12,7 +12,7 @@ namespace HtmlRenderer.Boxes
     public class LayoutVisitor : BoxVisitor
     {
         HtmlIsland htmlIsland;
-        float totalMarginLeftAndRight; 
+        float totalMarginLeftAndRight;
 
         Queue<Dictionary<CssBox, PartialBoxStrip>> dicStripPool;
         Queue<List<PartialBoxStrip>> listStripPool;
@@ -106,9 +106,7 @@ namespace HtmlRenderer.Boxes
 
         internal void RequestImage(ImageBinder binder, CssBox requestFrom)
         {
-            HtmlIsland.RaiseRequestImage(
-                this.htmlIsland,
-                binder,
+            this.htmlIsland.RaiseImageRequest(binder,
                 requestFrom,
                 false);
         }

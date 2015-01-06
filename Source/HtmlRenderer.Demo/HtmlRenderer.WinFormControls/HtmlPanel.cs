@@ -116,8 +116,8 @@ namespace HtmlRenderer.Demo
             htmlIslandHost.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
             
             myHtmlIsland = new MyHtmlIsland(htmlIslandHost); 
-            myHtmlIsland.VisualRefresh += OnRefresh;
-            myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
+            myHtmlIsland.DomVisualRefresh += OnRefresh;
+            myHtmlIsland.DomRequestRebuild += myHtmlIsland_NeedUpdateDom;
 
             htmlLayoutVisitor = new Boxes.LayoutVisitor(p);
             htmlLayoutVisitor.Bind(myHtmlIsland); 
@@ -128,7 +128,7 @@ namespace HtmlRenderer.Demo
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
             {
-                myHtmlIsland.CheckIfNeedRefresh();
+                myHtmlIsland.RefreshIfNeed();
             };
             timer01.Enabled = true;
             //-------------------------------------------
@@ -741,7 +741,7 @@ namespace HtmlRenderer.Demo
                 this.timer01.Stop();
                 //_htmlContainer.LinkClicked -= OnLinkClicked;
                 //myHtmlIsland.RenderError -= OnRenderError;
-                myHtmlIsland.VisualRefresh -= OnRefresh;
+                myHtmlIsland.DomVisualRefresh -= OnRefresh;
                 // myHtmlIsland.ScrollChange -= OnScrollChange;
                 this.textContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
                 this.imageContentMan.ImageLoadingRequest -= OnImageLoad;

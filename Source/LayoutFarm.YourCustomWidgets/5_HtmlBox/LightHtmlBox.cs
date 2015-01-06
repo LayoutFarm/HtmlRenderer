@@ -204,8 +204,8 @@ namespace LayoutFarm.CustomWidgets
         }
         void SetHtmlIslandEventHandlers()
         {
-            myHtmlIsland.VisualRefresh += (s, e) => this.InvalidateGraphic(); 
-            myHtmlIsland.NeedUpdateDom += (s, e) =>
+            myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphic(); 
+            myHtmlIsland.DomRequestRebuild += (s, e) =>
             {
                 hasWaitingDocToLoad = true;
                 //---------------------------
