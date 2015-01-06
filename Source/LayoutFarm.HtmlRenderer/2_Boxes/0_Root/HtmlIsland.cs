@@ -25,7 +25,7 @@ namespace HtmlRenderer.Boxes
     /// <summary>
     /// layout and render the html fragment
     /// </summary>
-    public abstract class HtmlIsland : IDisposable
+    public abstract class HtmlIsland : IUpdateChangeListener, IDisposable
     {
         /// <summary>
         /// the root css box of the parsed html
@@ -39,10 +39,9 @@ namespace HtmlRenderer.Boxes
         float _actualHeight;
 
         float _maxWidth;
-
         float _maxHeight;
 
-
+        protected int newUpdateImageCount = 0;
         /// <summary>
         /// 99999
         /// </summary>
@@ -90,7 +89,6 @@ namespace HtmlRenderer.Boxes
             this._maxWidth = maxWidth;
             this._maxHeight = maxHeight;
         }
-       
 
         public void PerformLayout(LayoutVisitor layoutArgs)
         {
@@ -217,6 +215,13 @@ namespace HtmlRenderer.Boxes
             { }
         }
 
-
+        void IUpdateChangeListener.AddUpdatedImageBinder(ImageBinder binder)
+        {
+            //not need to store that binder 
+            //(else if you want to debug)
+            newUpdateImageCount++;
+            //this.recentUpdateImageBinders.Add(binder);
+        }
+       
     }
 }

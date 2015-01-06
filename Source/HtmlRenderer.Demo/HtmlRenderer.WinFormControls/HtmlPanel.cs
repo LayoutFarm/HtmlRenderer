@@ -68,6 +68,8 @@ namespace HtmlRenderer.Demo
         Composers.RenderTreeBuilder renderTreeBuilder;
 
         MyHtmlIsland myHtmlIsland;
+        HtmlIslandHost htmlIslandHost;
+
         HtmlInputEventAdapter _htmlInputEventAdapter;
         /// <summary>
         /// the raw base stylesheet data used in the control
@@ -106,20 +108,27 @@ namespace HtmlRenderer.Demo
             this.gfxPlatform = p;
             this.renderCanvas = gfxPlatform.CreateCanvas(0, 0, 800, 600);
             //-------------------------------------------------------
-            myHtmlIsland = new MyHtmlIsland();
+            
+
+
+            htmlIslandHost = new HtmlIslandHost();
+            htmlIslandHost.RequestResource += myHtmlIsland_RequestResource;
+            htmlIslandHost.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
+            
+            myHtmlIsland = new MyHtmlIsland(htmlIslandHost); 
+            myHtmlIsland.VisualRefresh += OnRefresh;
+            myHtmlIsland.NeedUpdateDom += myHtmlIsland_NeedUpdateDom;
+
             htmlLayoutVisitor = new Boxes.LayoutVisitor(p);
-            htmlLayoutVisitor.Bind(myHtmlIsland);
-            myHtmlIsland.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
-            myHtmlIsland.Refresh += OnRefresh;
-            myHtmlIsland.NeedUpdateDom += new EventHandler<EventArgs>(myHtmlIsland_NeedUpdateDom);
-            myHtmlIsland.RequestResource += new EventHandler<HtmlResourceRequestEventArgs>(myHtmlIsland_RequestResource);
+            htmlLayoutVisitor.Bind(myHtmlIsland); 
+
             this.imageContentMan.ImageLoadingRequest += OnImageLoad;
             this.textContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
             //------------------------------------------------------- 
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
             {
-                myHtmlIsland.NeedRefresh();
+                myHtmlIsland.CheckIfNeedRefresh();
             };
             timer01.Enabled = true;
             //-------------------------------------------
@@ -212,8 +221,8 @@ namespace HtmlRenderer.Demo
         [Description("Is content selection is enabled for the rendered html.")]
         public bool IsSelectionEnabled
         {
-            get { return myHtmlIsland.IsSelectionEnabled; }
-            set { myHtmlIsland.IsSelectionEnabled = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -227,8 +236,8 @@ namespace HtmlRenderer.Demo
         [Description("Is the build-in context menu enabled and will be shown on mouse right click.")]
         public bool IsContextMenuEnabled
         {
-            get { return myHtmlIsland.IsContextMenuEnabled; }
-            set { myHtmlIsland.IsContextMenuEnabled = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -665,9 +674,10 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// Handle html renderer invalidate and re-layout as requested.
         /// </summary>
-        private void OnRefresh(object sender, HtmlRefreshEventArgs e)
+        private void OnRefresh(object sender, EventArgs e)
         {
-            if (e.Layout)
+            MyHtmlIsland island = (MyHtmlIsland)sender;
+            if (island.NeedLayout)
             {
                 if (InvokeRequired)
                     Invoke(new MethodInvoker(PerformLayout));
@@ -731,7 +741,7 @@ namespace HtmlRenderer.Demo
                 this.timer01.Stop();
                 //_htmlContainer.LinkClicked -= OnLinkClicked;
                 //myHtmlIsland.RenderError -= OnRenderError;
-                myHtmlIsland.Refresh -= OnRefresh;
+                myHtmlIsland.VisualRefresh -= OnRefresh;
                 // myHtmlIsland.ScrollChange -= OnScrollChange;
                 this.textContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
                 this.imageContentMan.ImageLoadingRequest -= OnImageLoad;

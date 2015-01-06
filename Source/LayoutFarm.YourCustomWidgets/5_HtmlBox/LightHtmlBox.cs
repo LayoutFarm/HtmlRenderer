@@ -22,6 +22,8 @@ namespace LayoutFarm.CustomWidgets
         BridgeHtmlDocument waitingHtmlDomFragment;
 
         LightHtmlBoxHost lightBoxHost;
+
+     
         MyHtmlIsland myHtmlIsland;
         CssBox myCssBox;
 
@@ -194,6 +196,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 //just parse content and load 
                 this.lightBoxHost.CreateHtmlFragment(htmldoc, frgmRenderBox, out this.myHtmlIsland, out myCssBox);
+                
                 this.frgmRenderBox.SetHtmlIsland(myHtmlIsland, myCssBox);
                 SetHtmlIslandEventHandlers(); 
                 this.waitingHtmlDomFragment = null;
@@ -201,10 +204,7 @@ namespace LayoutFarm.CustomWidgets
         }
         void SetHtmlIslandEventHandlers()
         {
-            myHtmlIsland.Refresh += (s, e) => this.InvalidateGraphic();
-            
-            myHtmlIsland.RequestResource += (s, e) => this.lightBoxHost.ChildRequestImage(this, new ImageRequestEventArgs(e.binder));
-            
+            myHtmlIsland.VisualRefresh += (s, e) => this.InvalidateGraphic(); 
             myHtmlIsland.NeedUpdateDom += (s, e) =>
             {
                 hasWaitingDocToLoad = true;

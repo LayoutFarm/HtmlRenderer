@@ -341,8 +341,6 @@ namespace LayoutFarm.Boxes
         }
         protected override void DrawContent(Canvas canvas, Rect updateArea)
         {
-
-
             tinyHtmlIsland.CheckDocUpdate();
 
             var painter = GetSharedPainter(this.tinyHtmlIsland, canvas);

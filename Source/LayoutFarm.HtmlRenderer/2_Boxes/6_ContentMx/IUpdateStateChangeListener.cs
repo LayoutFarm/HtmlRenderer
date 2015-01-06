@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
 
-namespace HtmlRenderer.ContentManagers
+namespace HtmlRenderer.Boxes
 {
     public interface IUpdateChangeListener
     {

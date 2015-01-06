@@ -23,12 +23,11 @@ namespace LayoutFarm
             {
                 string sub01 = appPath.Substring(0, pos);
                 imgFolderPath = sub01 + "\\images";
-
             }
             //==================================================
             //html box
             var htmlBox = new HtmlBox(800, 600);
-            htmlBox.RequestImage += new EventHandler<HtmlRenderer.ContentManagers.ImageRequestEventArgs>(html_ImageReq);
+            htmlBox.RequestImage += html_ImageReq;
 
             viewport.AddContent(htmlBox);
             string html = "<html><head></head><body><div>OK1</div><div>3 Images</div><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img></body></html>";
