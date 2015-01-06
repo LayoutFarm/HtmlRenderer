@@ -533,7 +533,7 @@ namespace HtmlRenderer.Composers
         }
         public static CssLength SetLineHeight(this CssBox box, CssLength len)
         {
-            //2014,
+            //2014,2015,
             //from www.w3c.org/wiki/Css/Properties/line-height
 
             //line height in <percentage> : 

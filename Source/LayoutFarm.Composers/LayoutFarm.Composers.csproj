@@ -49,11 +49,11 @@
     <Compile Include="1_HtmlRenderer\2_Css\ValueMaps.cs" />
     <Compile Include="2_Bridge_HtmlRenderer_WebDom\BoxCreator.cs" />
     <Compile Include="2_Bridge_HtmlRenderer_WebDom\BridgeHtmlDocument.cs" />
-    <Compile Include="3_Bridge_HtmlRender_LeanBox\BridgeClasses.cs" />
-    <Compile Include="3_Bridge_HtmlRender_LeanBox\HtmlInputEventAdapter.cs" />
+    <Compile Include="3_Bridge_HtmlRender\HtmlRenderBox.cs" />
+    <Compile Include="3_Bridge_HtmlRender\HtmlInputEventAdapter.cs" />
     <Compile Include="4_WebDom\1_Html\DomElement.cs" />
     <Compile Include="4_WebDom\1_Html\DomElement_EventListener.cs" />
-    <Compile Include="3_Bridge_HtmlRender_LeanBox\StylesheetLoadEventArgs.cs" />
+    <Compile Include="3_Bridge_HtmlRender\StylesheetLoadEventArgs.cs" />
     <Compile Include="4_WebDom\1_Html\DomElement_OnEvents.cs" />
     <Compile Include="4_WebDom\1_Html\ElementChangeKind.cs" />
     <Compile Include="4_WebDom\2_Css\CssAttributeSelector.cs" />
@@ -67,7 +67,7 @@
     <Compile Include="4_WebDom\3_Gen\HtmlGenerationStyle.cs" />
     <Compile Include="4_WebDom\3_Gen\HtmlGenerator.cs" />
     <Compile Include="6_SvgDom\SvgCreator.cs" />
-    <Compile Include="3_Bridge_HtmlRender_LeanBox\MyHtmlIsland.cs" />
+    <Compile Include="3_Bridge_HtmlRender\MyHtmlIsland.cs" />
     <Compile Include="6_SvgDom\SvgRootEventPortal_IUserEventPortal.cs" />
     <Compile Include="6_SvgDom\SvgRootEventPortal.cs" />
     <Compile Include="7_TopWin\0_MyTopWindowRenderBox.cs" />
