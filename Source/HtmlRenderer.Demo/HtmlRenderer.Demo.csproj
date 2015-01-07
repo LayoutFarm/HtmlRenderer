@@ -126,7 +126,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\LayoutFarm.Drawing\PixelFarm.Drawing.csproj">
+    <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
       <Name>PixelFarm.Drawing</Name>
     </ProjectReference>

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 
 using PixelFarm;
 using PixelFarm.Agg;
-using LayoutFarm;
 using PixelFarm.DrawingGL;
 using PixelFarm.Drawing;
 using Win32;

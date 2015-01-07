@@ -125,8 +125,8 @@ namespace PixelFarm.Agg.Fonts
             if (!File.Exists(dllFilename))
             {
                 //extract to it 
-                File.WriteAllBytes(dllFilename, global::project_resources.myfonts_dll.myft);
-                UnsafeMethods.LoadLibrary(dllFilename);
+                //File.WriteAllBytes(dllFilename, global::project_resources.myfonts_dll.myft);
+                //UnsafeMethods.LoadLibrary(dllFilename);
 
             }
             isLoaded = true;

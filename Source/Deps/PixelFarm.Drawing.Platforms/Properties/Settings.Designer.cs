@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LayoutFarm.Platforms.Drawing.Properties {
+namespace PixelFarm.Drawing.Platforms.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
