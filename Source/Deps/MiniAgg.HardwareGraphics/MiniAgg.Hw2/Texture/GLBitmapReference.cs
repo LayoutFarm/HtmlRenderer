@@ -1,7 +1,7 @@
 ﻿//MIT 2014, WinterDev
 using System.Text;
 using System;
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
     public class GLBitmapReference
     {
@@ -23,7 +23,7 @@ namespace LayoutFarm.DrawingGL
         {
             get { return this.ownerBmp; }
         }
-        public LayoutFarm.Drawing.RectangleF GetRectF()
+        public PixelFarm.Drawing.RectangleF GetRectF()
         {
             return new Drawing.RectangleF(this.Left, this.Top, this.Width, this.Height);
         }

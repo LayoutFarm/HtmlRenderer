@@ -1,7 +1,7 @@
-﻿//BSD 2014, WinterDev 
-using LayoutFarm.Drawing; 
+﻿// 2015,2014 ,BSD, WinterDev 
+using PixelFarm.Drawing; 
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     static class CssBoxConstConfig
     {

@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HtmlRenderer.WebDom
+namespace LayoutFarm.WebDom
 {
      
     public class UniqueStringTable

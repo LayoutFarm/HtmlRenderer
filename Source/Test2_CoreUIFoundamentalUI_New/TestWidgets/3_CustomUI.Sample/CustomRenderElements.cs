@@ -1,9 +1,9 @@
-﻿//2014,2015 Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
 using LayoutFarm.Text;
 using LayoutFarm.UI;
@@ -40,7 +40,7 @@ namespace LayoutFarm.CustomWidgets
                 this.Layers.LayersDrawContent(canvas, updateArea);
             }
 #if DEBUG
-            //canvasPage.dbug_DrawCrossRect(LayoutFarm.Drawing.Color.Black,
+            //canvasPage.dbug_DrawCrossRect(PixelFarm.Drawing.Color.Black,
             //    new Rectangle(0, 0, this.Width, this.Height));
 #endif
         }

@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{51D63482-5697-4B16-8401-506965624657}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PixelFarm.Drawing</RootNamespace>
+    <AssemblyName>PixelFarm.Drawing</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NET20</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NET20</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="6_PixelFarm_AggVectorMath\AggBasics.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\AggMath.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\AxisAlignedBoundingBox.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\BezierCurve.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\BezierCurveCubic.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\BezierCurveQuadric.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\MathHelper.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\Matrix4x4.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\Quaternion.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\Ray.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\TrackBallController.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\UnitTests.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\Vector2.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\Vector3.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\Vector3Float.cs" />
+    <Compile Include="6_PixelFarm_AggVectorMath\Vector4.cs" />
+    <Compile Include="0_Start\ExtensionAttribute.cs" />
+    <Compile Include="1_Drawing\CanvasInvalidateRequestDelegate.cs" />
+    <Compile Include="1_Drawing\CombineMode.cs" />
+    <Compile Include="1_Drawing\Matrix.cs" />
+    <Compile Include="1_Drawing\CanvasOptions.cs" />
+    <Compile Include="1_Drawing\Brushes_Pens.cs" />
+    <Compile Include="1_Drawing\Color.cs" />
+    <Compile Include="1_Drawing\DashStyle.cs" />
+    <Compile Include="3_Drawing_Fonts\Fonts.cs" />
+    <Compile Include="1_Drawing\GraphicsPath.cs" />
+    <Compile Include="3_Drawing_Fonts\FontStyle.cs" />
+    <Compile Include="1_Drawing\Image.cs" />
+    <Compile Include="1_Drawing\KnownColors.cs" />
+    <Compile Include="1_Drawing\Rectangle.cs" />
+    <Compile Include="1_Drawing\RectangleF.cs" />
+    <Compile Include="1_Drawing\Region.cs" />
+    <Compile Include="1_Drawing\BasicGeometries.cs" />
+    <Compile Include="4_Animation\ColorComponentStepup.cs" />
+    <Compile Include="4_Animation\GfxProcessorModule.cs" />
+    <Compile Include="0_Start\GraphicsPlatform.cs" />
+    <Compile Include="1_Drawing\Canvas.cs" />
+    <Compile Include="1_Drawing\CustomRenderSurface.cs" />
+    <Compile Include="1_Drawing\Rect.cs" />
+    <Compile Include="4_Animation\Timelines.cs" />
+    <Compile Include="4_Animation\ParallelTimeline.cs" />
+    <Compile Include="5_BasicRenderBox\ITopWindowRenderBox.cs" />
+    <Compile Include="7_PixelFarm_AggVertex_Core\0_VertexCommandAndOrientation.cs" />
+    <Compile Include="7_PixelFarm_AggVertex_Core\1_VertexStore.cs" />
+    <Compile Include="7_PixelFarm_AggVertex_Core\2_VertexStoreSnap.cs" />
+    <Compile Include="7_PixelFarm_AggVertex_Core\Collections.cs" />
+    <Compile Include="7_PixelFarm_AggVertex_Core\LineCapAndJoin.cs" />
+    <Compile Include="7_PixelFarm_AggVertex_Core\Stroke.cs" />
+    <Compile Include="7_PixelFarm_AggVertex_Core\StrokeGenerator.cs" />
+    <Compile Include="7_PixelFarm_AggVertex_Core\StrokeMath.cs" />
+    <Compile Include="7_PixelFarm_AggVertex_Core\VertexDistanceList.cs" />
+    <Compile Include="8_PixelFarm_AggTransforms\0_ICoordTransformer.cs" />
+    <Compile Include="8_PixelFarm_AggTransforms\1_Affine.cs" />
+    <Compile Include="8_PixelFarm_AggTransforms\2_Bilinear.cs" />
+    <Compile Include="8_PixelFarm_AggTransforms\3_Perspective.cs" />
+    <Compile Include="8_PixelFarm_AggTransforms\4_SimulEqGeneral.cs" />
+    <Compile Include="8_PixelFarm_AggTransforms\LineInterpolators.cs" />
+    <Compile Include="7_PixelFarm_AggVertex_Core\RectD.cs" />
+    <Compile Include="7_PixelFarm_AggVertex_Core\RectInt.cs" />
+    <Compile Include="8_PixelFarm_AggTransforms\Viewport.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\Arc.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\BezireCurve.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\BoundingRect.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\BSpline.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\Contour.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\ContourGenerator.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\CurveFlattener.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\Curves.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\Ellipse.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\PathWriter.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\RoundedRect.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\SimpleRect.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\VertexData.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\VertexStoreBuilder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

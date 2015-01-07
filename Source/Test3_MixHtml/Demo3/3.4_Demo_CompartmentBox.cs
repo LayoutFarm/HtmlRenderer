@@ -1,9 +1,9 @@
-﻿//2014,2015 Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
 using LayoutFarm.UI;
 
@@ -271,7 +271,7 @@ namespace LayoutFarm
             {
                 int controllerBoxWH = 10;
                 CustomWidgets.EaseBox tinyBox = new CustomWidgets.EaseBox(controllerBoxWH, controllerBoxWH);
-                tinyBox.BackColor = LayoutFarm.Drawing.Color.Red;
+                tinyBox.BackColor = PixelFarm.Drawing.Color.Red;
                 tinyBox.Tag = name;
                 //add handler for each tiny box
                 tinyBox.DragBegin += (s, e) =>

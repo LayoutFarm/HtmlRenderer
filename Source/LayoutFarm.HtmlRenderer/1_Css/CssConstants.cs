@@ -1,4 +1,4 @@
-//BSD 2014, WinterDev
+// 2015,2014 ,BSD, WinterDev
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox
@@ -13,9 +13,9 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
-namespace HtmlRenderer.Css
+namespace LayoutFarm.Css
 {
 
     /// <summary>

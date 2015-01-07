@@ -1,10 +1,10 @@
-﻿//2014,2015 Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
@@ -32,12 +32,12 @@ namespace LayoutFarm.UI
             {
                 case InnerViewportKind.GL:
                     {
-                        LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
+                        PixelFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
 
 
-                        var bridge = new OpenGLView.MyPlatformWindowBridgeOpenGL(wintop, userInputEvBridge);
+                        var bridge = new OpenGL.MyPlatformWindowBridgeOpenGL(wintop, userInputEvBridge);
 
-                        var view = new OpenGLView.GpuOpenGLSurfaceView();
+                        var view = new OpenGL.GpuOpenGLSurfaceView();
                         view.Width = 800;
                         view.Height = 600;
                         //view.Dock = DockStyle.Fill;
@@ -52,8 +52,8 @@ namespace LayoutFarm.UI
                 case InnerViewportKind.GdiPlus:
                 default:
                     {
-                        var bridge = new GdiPlusView.MyPlatformWindowBridgeGdiPlus(wintop, userInputEvBridge); 
-                        var view = new GdiPlusView.CpuGdiPlusSurfaceView();
+                        var bridge = new GdiPlus.MyPlatformWindowBridgeGdiPlus(wintop, userInputEvBridge); 
+                        var view = new GdiPlus.CpuGdiPlusSurfaceView();
                         view.Dock = DockStyle.Fill;
                         this.Controls.Add(view);
                         //--------------------------------------- 

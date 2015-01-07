@@ -3,7 +3,7 @@
 using System.Text;
  
 
-namespace HtmlRenderer.WebDom
+namespace LayoutFarm.WebDom
 {
 
     /// <summary>

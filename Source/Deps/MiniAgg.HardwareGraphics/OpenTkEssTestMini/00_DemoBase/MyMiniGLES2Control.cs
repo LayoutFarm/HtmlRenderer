@@ -13,7 +13,7 @@ namespace Mini
 {
     public partial class MyMiniGLES2Control : GLControl
     {
-        LayoutFarm.Drawing.Color clearColor;
+        PixelFarm.Drawing.Color clearColor;
         EventHandler glPaintHandler;
 
         static OpenTK.Graphics.GraphicsMode gfxmode = new OpenTK.Graphics.GraphicsMode(
@@ -36,7 +36,7 @@ namespace Mini
         {
             this.glPaintHandler = glPaintHandler;
         }
-        public LayoutFarm.Drawing.Color ClearColor
+        public PixelFarm.Drawing.Color ClearColor
         {
             get { return clearColor; }
             set

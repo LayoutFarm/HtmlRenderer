@@ -1,8 +1,8 @@
-﻿//BSD 2014, WinterDev 
+﻿// 2015,2014 ,BSD, WinterDev 
 //ArthurHub 
 
 
-namespace HtmlRenderer.Css
+namespace LayoutFarm.Css
 {
 
     partial class BoxSpec

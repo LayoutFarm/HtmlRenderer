@@ -1,9 +1,9 @@
 ﻿using System;
-using HtmlRenderer.Composers;
-using HtmlRenderer.WebDom;
+using LayoutFarm.Composers;
+using LayoutFarm.WebDom;
 using LayoutFarm;
 using LayoutFarm.UI;
-namespace HtmlRenderer.Demo
+namespace LayoutFarm.Demo
 {
 
     public delegate void Decorate(DomElement h);

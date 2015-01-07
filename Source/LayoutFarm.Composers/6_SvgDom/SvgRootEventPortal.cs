@@ -3,16 +3,16 @@
 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
-using HtmlRenderer.Boxes;
-using HtmlRenderer.Css;
-using HtmlRenderer.Composers;
-using HtmlRenderer.Composers.BridgeHtml;
-using HtmlRenderer.WebDom;
+using PixelFarm.Drawing;
+using LayoutFarm.HtmlBoxes;
+using LayoutFarm.Css;
+using LayoutFarm.Composers;
+using LayoutFarm.InternalHtmlDom;
+using LayoutFarm.WebDom;
 using LayoutFarm.UI;
-using LayoutFarm.SvgDom;
+using LayoutFarm.Svg;
 
-namespace HtmlRenderer.Composers.BridgeHtml
+namespace LayoutFarm.InternalHtmlDom
 {
 
     partial class SvgRootEventPortal

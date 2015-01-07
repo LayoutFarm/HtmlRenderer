@@ -1,4 +1,4 @@
-//BSD 2014, WinterDev
+// 2015,2014 ,BSD, WinterDev
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox
@@ -15,9 +15,9 @@
 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     //--------------------------
     class PartialBoxStrip
@@ -425,7 +425,7 @@ namespace HtmlRenderer.Boxes
 
 
 
-        internal void PaintRuns(Painter p)
+        internal void PaintRuns(PaintVisitor p)
         {
             //iterate from each words
 
@@ -501,7 +501,7 @@ namespace HtmlRenderer.Boxes
 
 #if DEBUG
 
-        internal void dbugPaintRuns(Painter p)
+        internal void dbugPaintRuns(PaintVisitor p)
         {
 
             //return;
@@ -547,7 +547,7 @@ namespace HtmlRenderer.Boxes
             get;
             set;
         }
-        internal void PaintSelection(Painter p)
+        internal void PaintSelection(PaintVisitor p)
         {
 
             p.FillRectangle(Color.LightGray, this.LineSelectionStart, 0, this.LineSelectionWidth, this.CacheLineHeight);
@@ -555,7 +555,7 @@ namespace HtmlRenderer.Boxes
         }
 
 
-        internal void PaintBackgroundAndBorder(Painter p)
+        internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip
 
@@ -582,7 +582,7 @@ namespace HtmlRenderer.Boxes
             }
         }
 
-        internal void PaintDecoration(Painter p)
+        internal void PaintDecoration(PaintVisitor p)
         {
 
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)

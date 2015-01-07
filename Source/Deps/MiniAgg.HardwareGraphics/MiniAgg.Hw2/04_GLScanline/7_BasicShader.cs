@@ -7,9 +7,9 @@ using PixelFarm.Agg.Image;
 using PixelFarm.Agg.VertexSource;
 using OpenTK;
 using OpenTK.Graphics.ES20;
-using LayoutFarm.DrawingGL;
+using PixelFarm.DrawingGL;
 
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
 
     class BasicShader
@@ -118,7 +118,7 @@ namespace LayoutFarm.DrawingGL
             }
         }
 
-        public void AggDrawLines(AggCoordList3f linesBuffer, int nelements, LayoutFarm.Drawing.Color color)
+        public void AggDrawLines(AggCoordList3f linesBuffer, int nelements, PixelFarm.Drawing.Color color)
         {
             u_useAggColor.SetValue(1); //***
             u_useSolidColor.SetValue(1);
@@ -129,7 +129,7 @@ namespace LayoutFarm.DrawingGL
             GL.DrawArrays(BeginMode.LineStrip, 0, nelements);
         }
         //---------------------------------- 
-        public void DrawLineStripsWithVertexBuffer(CoordList2f linesBuffer, int nelements, LayoutFarm.Drawing.Color color)
+        public void DrawLineStripsWithVertexBuffer(CoordList2f linesBuffer, int nelements, PixelFarm.Drawing.Color color)
         {
             u_useAggColor.SetValue(0);
             u_useSolidColor.SetValue(1);
@@ -138,7 +138,7 @@ namespace LayoutFarm.DrawingGL
             GL.DrawArrays(BeginMode.LineStrip, 0, nelements);
         }
 
-        public void DrawTrianglesWithVertexBuffer(CoordList2f linesBuffer, int nelements, LayoutFarm.Drawing.Color color)
+        public void DrawTrianglesWithVertexBuffer(CoordList2f linesBuffer, int nelements, PixelFarm.Drawing.Color color)
         {
             u_useAggColor.SetValue(0);
             u_useSolidColor.SetValue(1);
@@ -147,7 +147,7 @@ namespace LayoutFarm.DrawingGL
             GL.DrawArrays(BeginMode.Triangles, 0, nelements);
         }
 
-        public unsafe void DrawLineLoopWithVertexBuffer(float* polygon2dVertices, int nelements, LayoutFarm.Drawing.Color color)
+        public unsafe void DrawLineLoopWithVertexBuffer(float* polygon2dVertices, int nelements, PixelFarm.Drawing.Color color)
         {
             u_useAggColor.SetValue(0);
             u_useSolidColor.SetValue(1);
@@ -155,7 +155,7 @@ namespace LayoutFarm.DrawingGL
             a_position.LoadV2f(polygon2dVertices, 2, 0);
             GL.DrawArrays(BeginMode.LineLoop, 0, nelements);
         }
-        public void DrawLine(float x1, float y1, float x2, float y2, LayoutFarm.Drawing.Color color)
+        public void DrawLine(float x1, float y1, float x2, float y2, PixelFarm.Drawing.Color color)
         {
             u_useAggColor.SetValue(0);
             u_useSolidColor.SetValue(1);
@@ -170,7 +170,7 @@ namespace LayoutFarm.DrawingGL
             }
             GL.DrawArrays(BeginMode.Lines, 0, 2);
         }
-        public unsafe void FillTriangleFan(float* polygon2dVertices, int nelements, LayoutFarm.Drawing.Color color)
+        public unsafe void FillTriangleFan(float* polygon2dVertices, int nelements, PixelFarm.Drawing.Color color)
         {
             u_useAggColor.SetValue(0);
             u_useSolidColor.SetValue(1);
@@ -178,7 +178,7 @@ namespace LayoutFarm.DrawingGL
             a_position.LoadV2f(polygon2dVertices, 2, 0);
             GL.DrawArrays(BeginMode.TriangleFan, 0, nelements);
         }
-        public unsafe void FillTriangles(float* polygon2dVertices, int nelements, LayoutFarm.Drawing.Color color)
+        public unsafe void FillTriangles(float* polygon2dVertices, int nelements, PixelFarm.Drawing.Color color)
         {
             u_useAggColor.SetValue(0);
             u_useSolidColor.SetValue(1);

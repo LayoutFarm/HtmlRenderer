@@ -1,10 +1,10 @@
-﻿//2014,2015 Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
 
 namespace LayoutFarm.UI
@@ -78,14 +78,14 @@ namespace LayoutFarm.UI
         void SetUIMouseEventArgsInfo(UIMouseEventArgs mouseEventArg, MouseEventArgs e)
         {
             mouseEventArg.SetEventInfo(
-                new Graphics.Point(e.X, e.Y),
+                e.X, e.Y,
                 GetUIMouseButton(e.Button),
                 e.Clicks,
                 e.Delta);
 
             OffsetCanvasOrigin(mouseEventArg, this.canvasViewport.LogicalViewportLocation);
         }
-        static void OffsetCanvasOrigin(UIEventArgs e, LayoutFarm.Drawing.Point p)
+        static void OffsetCanvasOrigin(UIEventArgs e, PixelFarm.Drawing.Point p)
         {
             e.OffsetCanvasOrigin(p.X, p.Y);
         }

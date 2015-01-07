@@ -2,8 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
-namespace HtmlRenderer.ContentManagers
+using PixelFarm.Drawing;
+namespace LayoutFarm.ContentManagers
 {
     public class ImageRequestEventArgs : EventArgs
     {

@@ -1,17 +1,16 @@
-﻿//2014,2015 Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using HtmlRenderer;
-using HtmlRenderer.ContentManagers;
-using HtmlRenderer.Boxes;
-using HtmlRenderer.Composers;
+using LayoutFarm;
+using LayoutFarm.ContentManagers;
+using LayoutFarm.HtmlBoxes;
+using LayoutFarm.InternalHtmlDom;
+using LayoutFarm.Composers;
 
-using LayoutFarm.Drawing;
-using LayoutFarm.UI;
-using LayoutFarm.Boxes;
-
+using PixelFarm.Drawing;
+using LayoutFarm.UI; 
 namespace LayoutFarm.CustomWidgets
 {
 
@@ -19,7 +18,7 @@ namespace LayoutFarm.CustomWidgets
     {
         bool hasWaitingDocToLoad;
         string waitingHtmlFragment;
-        BridgeHtmlDocument waitingHtmlDomFragment; 
+        HtmlDocument waitingHtmlDomFragment; 
         LightHtmlBoxHost lightBoxHost;
 
      
@@ -184,7 +183,7 @@ namespace LayoutFarm.CustomWidgets
             //    myCssBoxWrapper.InvalidateGraphic();
             //}
         }
-        public void LoadHtmlFragmentDom(BridgeHtmlDocument htmldoc)
+        public void LoadHtmlFragmentDom(HtmlDocument htmldoc)
         {
             if (frgmRenderBox == null)
             {

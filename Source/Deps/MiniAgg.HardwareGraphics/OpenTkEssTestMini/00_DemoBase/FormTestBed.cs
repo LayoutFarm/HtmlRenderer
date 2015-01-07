@@ -26,7 +26,7 @@ namespace Mini
                 miniGLControl = new MyMiniGLES2Control();
                 miniGLControl.Width = w;
                 miniGLControl.Height = h;
-                miniGLControl.ClearColor = LayoutFarm.Drawing.Color.Blue;
+                miniGLControl.ClearColor = PixelFarm.Drawing.Color.Blue;
                 this.Controls.Add(miniGLControl);
             }
             return miniGLControl;

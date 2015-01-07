@@ -2,7 +2,7 @@
 using PixelFarm.Agg;
 using PixelFarm.Agg.VertexSource;
 
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
     public enum ImageFillStyle
     {

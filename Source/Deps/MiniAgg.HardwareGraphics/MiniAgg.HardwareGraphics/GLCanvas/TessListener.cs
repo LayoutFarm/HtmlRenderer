@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterDev
+﻿// 2015,2014 ,BSD, WinterDev
 
 /*
  * Created by SharpDevelop.
@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 
 using Tesselate;
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
     public struct Vertex
     {

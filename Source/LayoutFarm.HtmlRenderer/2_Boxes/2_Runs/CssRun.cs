@@ -14,9 +14,9 @@
 // "The Art of War"
 
 using System;
-using LayoutFarm.Drawing; 
+using PixelFarm.Drawing; 
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     public enum CssRunKind : byte
     {

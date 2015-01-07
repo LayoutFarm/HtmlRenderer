@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using LayoutFarm;
 using LayoutFarm.UI;
 
-namespace HtmlRenderer.WebDom
+namespace LayoutFarm.WebDom
 {
 
     partial class DomElement : IEventListener

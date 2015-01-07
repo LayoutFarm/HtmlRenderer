@@ -1,16 +1,16 @@
-﻿//2014,2015 Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
-
-using HtmlRenderer.Composers;
-using HtmlRenderer.WebDom;
-using HtmlRenderer.WebDom.Extension;
-
+using LayoutFarm.InternalHtmlDom;
+using LayoutFarm.Composers;
+using LayoutFarm.WebDom;
+using LayoutFarm.WebDom.Extension;
+using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm
 {
     [DemoNote("4.5 LightHtmlBox")]
@@ -21,7 +21,7 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
             this.islandHost = new HtmlIslandHost();
-            this.islandHost.BaseStylesheet = HtmlRenderer.Composers.CssParserHelper.ParseStyleSheet(null, true);
+            this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
 
             lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P); 
             lightBoxHost.SetRootGraphic(viewport.ViewportControl.WinTopRootGfx);
@@ -66,9 +66,9 @@ namespace LayoutFarm
             viewport.AddContent(textbox);
             textbox.Focus();
         }
-        BridgeHtmlDocument CreateBridgeDoc()
+        HtmlDocument CreateBridgeDoc()
         {
-            BridgeHtmlDocument htmldoc = new BridgeHtmlDocument();
+            HtmlDocument htmldoc = new HtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  

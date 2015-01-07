@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic; 
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     public struct HitInfo
     {

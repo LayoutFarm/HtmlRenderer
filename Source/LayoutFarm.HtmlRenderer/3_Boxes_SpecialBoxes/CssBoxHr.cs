@@ -11,9 +11,9 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
     /// CSS box for hr element.
@@ -127,7 +127,7 @@ namespace HtmlRenderer.Boxes
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(Painter p)
+        protected override void PaintImp(PaintVisitor p)
         {
 
             var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);

@@ -1,7 +1,7 @@
 ﻿//2014,2015 ,BSD, WinterDev
 
 using System;
-namespace HtmlRenderer.Diagnostics
+namespace LayoutFarm
 {
     public class FeatureDeprecatedAttribute : Attribute
     {

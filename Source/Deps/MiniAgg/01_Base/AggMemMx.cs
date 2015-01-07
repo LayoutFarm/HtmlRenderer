@@ -21,8 +21,7 @@
 //----------------------------------------------------------------------------
 //#define USE_UNSAFE // no real code for this yet
 
-using System;
-using System.IO;
+using System; 
 using PixelFarm.VectorMath;
 
 namespace PixelFarm.Agg

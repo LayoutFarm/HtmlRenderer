@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using PixelFarm.Drawing;
 
-using LayoutFarm.Drawing;
+using LayoutFarm;
+using LayoutFarm.HtmlBoxes;
+using LayoutFarm.Svg.Pathing;
+using LayoutFarm.Svg.Transforms;
 
-using Svg.Pathing;
-using Svg.Transforms;
-using HtmlRenderer;
-
-namespace LayoutFarm.SvgDom
+namespace LayoutFarm.Svg
 {
 
     public class SvgPath : SvgVisualElement
@@ -281,7 +281,7 @@ namespace LayoutFarm.SvgDom
 
             ValidatePath();
         }
-        public override void Paint(Painter p)
+        public override void Paint(PaintVisitor p)
         {
 
             if (fillColor.A > 0)

@@ -190,14 +190,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\LayoutFarm.Drawing.Platforms\LayoutFarm.Drawing.Platforms.csproj">
-      <Project>{1AA171E3-523C-4DD5-A169-DE6322991FF5}</Project>
-      <Name>LayoutFarm.Drawing.Platforms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
-      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
-      <Name>LayoutFarm.Drawing</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\MiniAgg.Complements\MiniAgg.Complements.csproj">
       <Project>{AE0DF71E-9B14-4197-B55A-E1E0CE0683C7}</Project>
       <Name>MiniAgg.Complements</Name>
@@ -209,6 +201,14 @@
     <ProjectReference Include="..\..\MiniTesselate\Tesselate.csproj">
       <Project>{AE37DE1F-22F7-49EE-8732-FC6BC8DC58D9}</Project>
       <Name>Tesselate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PixelFarm.Drawing.Platforms\PixelFarm.Drawing.Platforms.csproj">
+      <Project>{1AA171E3-523C-4DD5-A169-DE6322991FF5}</Project>
+      <Name>PixelFarm.Drawing.Platforms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
+      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
+      <Name>PixelFarm.Drawing</Name>
     </ProjectReference>
     <ProjectReference Include="..\MiniAgg.HardwareGraphics\MiniAgg.HardwareGraphics.csproj">
       <Project>{2B1F2C53-2F8D-4E0E-94EB-79171C91337B}</Project>

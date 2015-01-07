@@ -2,11 +2,10 @@
 //license : Microsoft Public License (MS-PL) 
 
 ﻿using System;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using System.Globalization;
-using HtmlRenderer;
-
-namespace Svg.Transforms
+using LayoutFarm;
+namespace LayoutFarm.Svg.Transforms
 {
     /// <summary>
     /// The class which applies the specified skew vector to this Matrix.

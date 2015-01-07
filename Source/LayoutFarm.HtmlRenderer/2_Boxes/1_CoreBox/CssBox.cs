@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterDev 
+﻿// 2015,2014 ,BSD, WinterDev 
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox
@@ -15,12 +15,12 @@
 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using System.Globalization;
 using System.Text;
-using HtmlRenderer.Css;
+using LayoutFarm.Css;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
 

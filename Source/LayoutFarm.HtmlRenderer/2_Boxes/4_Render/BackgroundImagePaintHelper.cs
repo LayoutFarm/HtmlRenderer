@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterDev
+﻿// 2015,2014 ,BSD, WinterDev
 //ArthurHub 
 
 // "Therefore those skilled at the unorthodox
@@ -14,13 +14,13 @@
 // "The Art of War"
 
 using System;
-using LayoutFarm.Drawing;
-using HtmlRenderer.Boxes;
-using LayoutFarm.Drawing;
-using HtmlRenderer.Css;
+using PixelFarm.Drawing;
+using LayoutFarm.HtmlBoxes;
+using PixelFarm.Drawing;
+using LayoutFarm.Css;
 
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
     /// Contains all the paint code to paint different background images.
@@ -59,7 +59,7 @@ namespace HtmlRenderer.Boxes
             // need to clip so repeated image will be cut on rectangle
 
             var prevClip = g.CurrentClipRect;
-            LayoutFarm.Drawing.Rectangle copyRect = new LayoutFarm.Drawing.Rectangle(
+            PixelFarm.Drawing.Rectangle copyRect = new PixelFarm.Drawing.Rectangle(
                (int)rectangle.X,
                (int)rectangle.Y,
                (int)rectangle.Width,

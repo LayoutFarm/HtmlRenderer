@@ -1,5 +1,5 @@
 ﻿using System;
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
     [Flags]
     public enum SvgArcSweep

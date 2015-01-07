@@ -1,7 +1,7 @@
 ﻿//2014,2015 ,BSD, WinterDev 
 using System;
-namespace HtmlRenderer
-{
+namespace LayoutFarm 
+{ 
     public class MapAttribute : Attribute
     {
         public MapAttribute(string name)

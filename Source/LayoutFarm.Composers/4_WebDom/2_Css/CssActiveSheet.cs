@@ -1,4 +1,4 @@
-//BSD 2014, WinterDev
+// 2015,2014 ,BSD, WinterDev
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox
@@ -15,10 +15,10 @@
 
 using System;
 using System.Collections.Generic;
-using HtmlRenderer.Diagnostics;
-using LayoutFarm.Drawing;
 
-namespace HtmlRenderer.WebDom
+using PixelFarm.Drawing;
+
+namespace LayoutFarm.WebDom
 {
 
     public class CssActiveSheet
@@ -464,7 +464,7 @@ namespace HtmlRenderer.WebDom
 
     class CssPropertyAssignmentCollection
     {
-        Dictionary<HtmlRenderer.WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration> _myAssignments = new Dictionary<WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration>();
+        Dictionary<LayoutFarm.WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration> _myAssignments = new Dictionary<WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration>();
         object owner;
         public CssPropertyAssignmentCollection(object owner)
         {

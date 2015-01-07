@@ -1,4 +1,4 @@
-﻿//2014,2015 Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using LayoutFarm;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using LayoutFarm.UI;
 
 namespace LayoutFarm.Dev

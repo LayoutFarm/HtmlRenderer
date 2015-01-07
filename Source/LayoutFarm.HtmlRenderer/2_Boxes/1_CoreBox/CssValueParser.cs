@@ -1,4 +1,4 @@
-//BSD 2014, WinterDev 
+// 2015,2014 ,BSD, WinterDev 
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox
@@ -14,11 +14,11 @@
 // "The Art of War"
 
 using System;
-using LayoutFarm.Drawing;
-using LayoutFarm.Drawing;
-using HtmlRenderer.Css;
+using PixelFarm.Drawing;
+using PixelFarm.Drawing;
+using LayoutFarm.Css;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
     /// Parse CSS properties values like numbers, urls, etc.

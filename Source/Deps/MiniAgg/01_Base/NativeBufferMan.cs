@@ -1,6 +1,5 @@
-﻿//MIT 2014, WinterDev
-using System;
-using System.IO;
+﻿// 2015,2014 ,MIT, WinterDev
+using System; 
 using System.Runtime.InteropServices;
 namespace PixelFarm.Agg
 {

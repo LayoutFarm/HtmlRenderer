@@ -4,10 +4,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing; 
+using PixelFarm.Drawing; 
 
-using HtmlRenderer;
-namespace Svg.Transforms
+using LayoutFarm;
+namespace LayoutFarm.Svg.Transforms
 {
     public abstract class SvgTransform  
     {

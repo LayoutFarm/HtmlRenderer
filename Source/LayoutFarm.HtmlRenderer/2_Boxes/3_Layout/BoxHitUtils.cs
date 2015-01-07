@@ -14,11 +14,11 @@
 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using System.Text;
-using HtmlRenderer.Diagnostics;
+using LayoutFarm.HtmlDiagnostics;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     //delegate bool EachCssTextRunHandler(CssTextRun trun);
 

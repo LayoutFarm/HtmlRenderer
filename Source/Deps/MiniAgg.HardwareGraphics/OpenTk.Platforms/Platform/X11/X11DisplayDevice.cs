@@ -104,7 +104,7 @@ namespace OpenTK.Platform.X11
                 {
                     DisplayDevice dev = new DisplayDevice();
                     dev.Bounds = new Graphics.Rectangle(screen.X, screen.Y, screen.Width, screen.Height);
-                    //new LayoutFarm.Drawing.Rectangle(screen.X, screen.Y, screen.Width, screen.Height);  //new Rectangle(screen.X, screen.Y, screen.Width, screen.Height);
+                    //new PixelFarm.Drawing.Rectangle(screen.X, screen.Y, screen.Width, screen.Height);  //new Rectangle(screen.X, screen.Y, screen.Width, screen.Height);
 
                     if (first)
                     {

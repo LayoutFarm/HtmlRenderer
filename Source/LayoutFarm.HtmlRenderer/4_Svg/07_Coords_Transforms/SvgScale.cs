@@ -4,26 +4,25 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using System.Globalization;
-using HtmlRenderer;
-namespace Svg.Transforms
+using LayoutFarm;
+namespace LayoutFarm.Svg.Transforms
 {
     public sealed class SvgScale : SvgTransform
     {
-        private float scaleFactorX;
-        private float scaleFactorY;
+
 
         public float X
         {
-            get { return this.scaleFactorX; }
-            set { this.scaleFactorX = value; }
+            get;
+            set;
         }
 
         public float Y
         {
-            get { return this.scaleFactorY; }
-            set { this.scaleFactorY = value; }
+            get;
+            set;
         }
 
         //public override Matrix Matrix
@@ -45,8 +44,8 @@ namespace Svg.Transforms
 
         public SvgScale(float x, float y)
         {
-            this.scaleFactorX = x;
-            this.scaleFactorY = y;
+            this.X = x;
+            this.Y = y;
         }
 
         //public override object Clone()

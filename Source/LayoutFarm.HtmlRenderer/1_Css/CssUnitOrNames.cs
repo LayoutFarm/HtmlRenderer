@@ -1,7 +1,7 @@
 //BSD 2014,WinterDev
 //ArthurHub
 
-namespace HtmlRenderer.Css
+namespace LayoutFarm.Css
 {
 
     /// <summary>

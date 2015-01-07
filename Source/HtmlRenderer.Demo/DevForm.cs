@@ -8,12 +8,12 @@ using System.Windows.Forms;
 using System.IO;
 
 
-namespace HtmlRenderer.Demo
+namespace LayoutFarm.Demo
 {
     public partial class DevForm : Form
     {
-        LayoutFarm.Drawing.GraphicsPlatform graphicsPlatform;
-        public DevForm(LayoutFarm.Drawing.GraphicsPlatform graphicsPlatform)
+        PixelFarm.Drawing.GraphicsPlatform graphicsPlatform;
+        public DevForm(PixelFarm.Drawing.GraphicsPlatform graphicsPlatform)
         {
             this.graphicsPlatform = graphicsPlatform;
             InitializeComponent();

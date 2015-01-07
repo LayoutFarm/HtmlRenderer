@@ -1,9 +1,7 @@
-﻿//2014,2015 Apache2, WinterDev
-using System;
-using System.Collections;
+﻿// 2015,2014 ,Apache2, WinterDev
+using System; 
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
-using System.IO;
+using PixelFarm.Drawing; 
 using System.Text;
 
 namespace LayoutFarm.Text
@@ -15,7 +13,7 @@ namespace LayoutFarm.Text
         public void ReplaceCurrentLineTextRun(IEnumerable<EditableTextSpan> textruns)
         {
             textLineWriter.ReplaceCurrentLine(textruns);
-        } 
+        }
         public void ReplaceLine(int lineNum, IEnumerable<EditableTextSpan> textruns)
         {
 
@@ -29,7 +27,7 @@ namespace LayoutFarm.Text
                 backGroundTextLineWriter.MoveToLine(lineNum);
                 backGroundTextLineWriter.ReplaceCurrentLine(textruns);
             }
-        } 
+        }
         public void LoadTextRun(IEnumerable<EditableTextSpan> runs)
         {
             this.CancelSelect();
@@ -187,15 +185,15 @@ namespace LayoutFarm.Text
         public void EndSelect()
         {
             if (textLineWriter != null)
-            { 
+            {
 #if DEBUG
                 if (dbugEnableTextManRecorder)
                 {
-                    dbugTextManRecorder.WriteInfo("TxLMan::EndSelect"); 
+                    dbugTextManRecorder.WriteInfo("TxLMan::EndSelect");
                 }
 #endif
                 selectionRange.EndPoint = GetCurrentPointInfo();
-            } 
+            }
         }
         public void CancelSelect()
         {

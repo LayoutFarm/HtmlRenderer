@@ -143,45 +143,45 @@ namespace OpenTK
         }
 
         /// <summary>
-        /// Converts an OpenTK.Point instance to a LayoutFarm.Drawing.Point.
+        /// Converts an OpenTK.Point instance to a PixelFarm.Drawing.Point.
         /// </summary>
         /// <param name="point">
         /// The <see cref="Point"/> instance to convert.
         /// </param>
         /// <returns>
-        /// A <see cref="LayoutFarm.Drawing.Point"/> instance equivalent to point.
+        /// A <see cref="PixelFarm.Drawing.Point"/> instance equivalent to point.
         /// </returns>
-        public static implicit operator LayoutFarm.Drawing.Point(Point point)
+        public static implicit operator PixelFarm.Drawing.Point(Point point)
         {
-            return new LayoutFarm.Drawing.Point(point.X, point.Y);
+            return new PixelFarm.Drawing.Point(point.X, point.Y);
         }
 
         /// <summary>
-        /// Converts a LayoutFarm.Drawing.Point instance to an OpenTK.Point.
+        /// Converts a PixelFarm.Drawing.Point instance to an OpenTK.Point.
         /// </summary>
         /// <param name="point">
-        /// The <see cref="LayoutFarm.Drawing.Point"/> instance to convert.
+        /// The <see cref="PixelFarm.Drawing.Point"/> instance to convert.
         /// </param>
         /// <returns>
         /// A <see cref="Point"/> instance equivalent to point.
         /// </returns>
-        public static implicit operator Point(LayoutFarm.Drawing.Point point)
+        public static implicit operator Point(PixelFarm.Drawing.Point point)
         {
             return new Point(point.X, point.Y);
         }
 
         /// <summary>
-        /// Converts an OpenTK.Point instance to a LayoutFarm.Drawing.PointF.
+        /// Converts an OpenTK.Point instance to a PixelFarm.Drawing.PointF.
         /// </summary>
         /// <param name="point">
         /// The <see cref="Point"/> instance to convert.
         /// </param>
         /// <returns>
-        /// A <see cref="LayoutFarm.Drawing.PointF"/> instance equivalent to point.
+        /// A <see cref="PixelFarm.Drawing.PointF"/> instance equivalent to point.
         /// </returns>
-        public static implicit operator LayoutFarm.Drawing.PointF(Point point)
+        public static implicit operator PixelFarm.Drawing.PointF(Point point)
         {
-            return new LayoutFarm.Drawing.PointF(point.X, point.Y);
+            return new PixelFarm.Drawing.PointF(point.X, point.Y);
         }
 
         /// <summary>

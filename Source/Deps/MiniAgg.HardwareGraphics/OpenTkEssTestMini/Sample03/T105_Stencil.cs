@@ -15,7 +15,7 @@ using Mini;
 
 #endregion
 
-using LayoutFarm.DrawingGL;
+using PixelFarm.DrawingGL;
 namespace OpenTkEssTest
 {
     [Info(OrderCode = "105")]
@@ -48,10 +48,10 @@ namespace OpenTkEssTest
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
             canvas2d.SmoothMode = CanvasSmoothMode.AggSmooth; 
-            canvas2d.FillCircle(LayoutFarm.Drawing.Color.OrangeRed, 100, 400, 25); 
-            var color = LayoutFarm.Drawing.Color.OrangeRed;
+            canvas2d.FillCircle(PixelFarm.Drawing.Color.OrangeRed, 100, 400, 25); 
+            var color = PixelFarm.Drawing.Color.OrangeRed;
             canvas2d.FillEllipse(
-                new LayoutFarm.Drawing.Color(
+                new PixelFarm.Drawing.Color(
                     100,
                     color.R,
                     color.G,

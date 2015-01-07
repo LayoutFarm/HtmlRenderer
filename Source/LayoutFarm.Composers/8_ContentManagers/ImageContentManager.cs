@@ -1,13 +1,13 @@
-﻿//BSD 2014, WinterDev 
+﻿// 2015,2014 ,BSD, WinterDev 
 //ArthurHub
 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using System.Threading;
 using LayoutFarm.UI;
 
-namespace HtmlRenderer.ContentManagers
+namespace LayoutFarm.ContentManagers
 {
 
 
@@ -16,11 +16,11 @@ namespace HtmlRenderer.ContentManagers
     {
         internal readonly ImageBinder binder;
         internal readonly object requestBy;
-        internal readonly HtmlRenderer.Boxes.IUpdateChangeListener listener;
+        internal readonly LayoutFarm.HtmlBoxes.IUpdateChangeListener listener;
         
         public ImageContentRequest(ImageBinder binder,
             object requestBy,
-            HtmlRenderer.Boxes.IUpdateChangeListener listener)
+            LayoutFarm.HtmlBoxes.IUpdateChangeListener listener)
         {
             this.binder = binder;
             this.requestBy = requestBy;

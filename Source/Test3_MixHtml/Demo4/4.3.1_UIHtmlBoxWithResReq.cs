@@ -1,9 +1,9 @@
-﻿//2014,2015 Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
 
@@ -33,7 +33,7 @@ namespace LayoutFarm
             string html = "<html><head></head><body><div>OK1</div><div>3 Images</div><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img></body></html>";
             htmlBox.LoadHtmlText(html);
         }
-        void html_ImageReq(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
+        void html_ImageReq(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
             //load resource -- sync or async?
 

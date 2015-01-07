@@ -6,14 +6,14 @@ using System.Text;
 using System.Windows.Forms;
 
 using LayoutFarm;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using LayoutFarm.UI;
 namespace LayoutFarm.Dev
 {
     public partial class FormDemoList : Form
     {
-        static readonly LayoutFarm.Drawing.GraphicsPlatform gdiPlatform = LayoutFarm.Drawing.MyWinGdiPortal.Start();
-        static readonly LayoutFarm.Drawing.GraphicsPlatform openGLPlatform = LayoutFarm.Drawing.MyOpenGLPortal.Start();
+        static readonly PixelFarm.Drawing.GraphicsPlatform gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
+        static readonly PixelFarm.Drawing.GraphicsPlatform openGLPlatform = LayoutFarm.UI.OpenGL.MyOpenGLPortal.Start();
 
         UIPlatform uiPlatformWinForm;
 

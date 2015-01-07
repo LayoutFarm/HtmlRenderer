@@ -1,9 +1,10 @@
 ﻿using System;
-using HtmlRenderer.Composers;
-using HtmlRenderer.WebDom;
+using LayoutFarm.Composers;
+using LayoutFarm.WebDom;
 using LayoutFarm;
 using LayoutFarm.UI;
-namespace HtmlRenderer.Demo
+using LayoutFarm.InternalHtmlDom;
+namespace LayoutFarm.Demo
 {
 
     class Demo03_DynamicContent1 : DemoBase
@@ -15,7 +16,7 @@ namespace HtmlRenderer.Demo
         }
         protected override void OnStartDemo(HtmlPanel panel)
         {
-            BridgeHtmlDocument htmldoc = new BridgeHtmlDocument();
+            HtmlDocument htmldoc = new HtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  
@@ -71,7 +72,7 @@ namespace HtmlRenderer.Demo
 
             //2. add to view 
             panel.LoadHtmlDom(htmldoc,
-               HtmlRenderer.Composers.CssDefaults.DefaultStyleSheet);
+               LayoutFarm.Composers.CssDefaults.DefaultStyleSheet);
 
 
         }

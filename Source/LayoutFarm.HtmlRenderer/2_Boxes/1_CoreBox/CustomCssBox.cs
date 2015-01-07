@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using System.Globalization;
 using System.Text;
-using HtmlRenderer.Css;
+using LayoutFarm.Css;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
     public abstract class CustomCssBox : CssBox

@@ -1,11 +1,11 @@
 ﻿//MS-PL, Apache2 
 //2014,2015, WinterDev
 
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using System.Collections.Generic;
-using LayoutFarm.SvgDom;
+using LayoutFarm.Svg;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
     public sealed class CssBoxSvgRoot : CustomCssBox
@@ -37,7 +37,7 @@ namespace HtmlRenderer.Boxes
 
             this.SetSize(500, 500);
         }
-        protected override void PaintImp(Painter p)
+        protected override void PaintImp(PaintVisitor p)
         {
             var g = p.InnerCanvas;
             var prevMode = g.SmoothingMode;

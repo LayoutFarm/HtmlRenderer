@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterDev
+﻿// 2015,2014 ,BSD, WinterDev
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox
@@ -14,9 +14,9 @@
 // "The Art of War"
 
 using System;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
-namespace HtmlRenderer.Css
+namespace LayoutFarm.Css
 {
 
 
@@ -631,12 +631,12 @@ namespace HtmlRenderer.Css
 
             //-----------------------------------------------------------------------------
             //style
-            FontStyle st = LayoutFarm.Drawing.FontStyle.Regular;
+            FontStyle st = PixelFarm.Drawing.FontStyle.Regular;
             switch (FontStyle)
             {
                 case CssFontStyle.Italic:
                 case CssFontStyle.Oblique:
-                    st |= LayoutFarm.Drawing.FontStyle.Italic;
+                    st |= PixelFarm.Drawing.FontStyle.Italic;
                     break;
             }
             //-----------------------------------------------------
@@ -653,7 +653,7 @@ namespace HtmlRenderer.Css
                     } break;
                 default:
                     {
-                        st |= LayoutFarm.Drawing.FontStyle.Bold;
+                        st |= PixelFarm.Drawing.FontStyle.Bold;
                     } break;
             }
 
