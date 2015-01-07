@@ -1,5 +1,5 @@
 ﻿//MIT 2014, WinterDev
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
     public enum CanvasSmoothMode
     {
@@ -8,7 +8,7 @@ namespace LayoutFarm.DrawingGL
     }
 
     public static class CanvasOptions
-    {   
-        public static LayoutFarm.Drawing.CanvasOrientation DefaultOrientation = Drawing.CanvasOrientation.LeftBottom;
+    {
+        public static Drawing.CanvasOrientation DefaultOrientation = Drawing.CanvasOrientation.LeftBottom;
     }
 }

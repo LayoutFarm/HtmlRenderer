@@ -17,7 +17,7 @@ using System;
 using System.Collections.Generic; 
 using System.Drawing;
 
-namespace LayoutFarm.Drawing.WinGdi
+namespace PixelFarm.Drawing.WinGdi
 {
 
     struct FontKey
@@ -36,7 +36,7 @@ namespace LayoutFarm.Drawing.WinGdi
 
     class FontStore
     {
-        static LayoutFarm.Drawing.WinGdi.BasicGdi32FontHelper gdiFontHelper = new LayoutFarm.Drawing.WinGdi.BasicGdi32FontHelper();
+        static PixelFarm.Drawing.WinGdi.BasicGdi32FontHelper gdiFontHelper = new PixelFarm.Drawing.WinGdi.BasicGdi32FontHelper();
 
         /// <summary>
         /// Allow to map not installed fonts to different
@@ -49,14 +49,14 @@ namespace LayoutFarm.Drawing.WinGdi
         /// </summary>
         static readonly Dictionary<string, System.Drawing.FontFamily> _existingFontFamilies = new Dictionary<string, System.Drawing.FontFamily>(StringComparer.InvariantCultureIgnoreCase);
 
-        readonly Dictionary<System.Drawing.Font, LayoutFarm.Drawing.FontInfo> _fontInfoCache = new Dictionary<System.Drawing.Font, LayoutFarm.Drawing.FontInfo>();
-        readonly Dictionary<FontKey, LayoutFarm.Drawing.FontInfo> _fontInfoCacheByFontKey = new Dictionary<FontKey, LayoutFarm.Drawing.FontInfo>();
+        readonly Dictionary<System.Drawing.Font, PixelFarm.Drawing.FontInfo> _fontInfoCache = new Dictionary<System.Drawing.Font, PixelFarm.Drawing.FontInfo>();
+        readonly Dictionary<FontKey, PixelFarm.Drawing.FontInfo> _fontInfoCacheByFontKey = new Dictionary<FontKey, PixelFarm.Drawing.FontInfo>();
         /// <summary>
         /// Get cached font instance for the given font properties.<br/>
         /// Improve performance not to create same font multiple times.
         /// </summary>
         /// <returns>cached font instance</returns>
-        public LayoutFarm.Drawing.FontInfo GetCachedFont(string family, float size, System.Drawing.FontStyle style)
+        public PixelFarm.Drawing.FontInfo GetCachedFont(string family, float size, System.Drawing.FontStyle style)
         {
              
             var font = TryGetFont(family, size, style);
@@ -88,9 +88,9 @@ namespace LayoutFarm.Drawing.WinGdi
             }
             return font;
         }
-        public LayoutFarm.Drawing.FontInfo GetCachedFont(System.Drawing.Font f)
+        public PixelFarm.Drawing.FontInfo GetCachedFont(System.Drawing.Font f)
         {
-            LayoutFarm.Drawing.FontInfo found;
+            PixelFarm.Drawing.FontInfo found;
             if (!_fontInfoCache.TryGetValue(f, out found))
             {
                 //if not found then create it
@@ -101,9 +101,9 @@ namespace LayoutFarm.Drawing.WinGdi
         /// <summary>
         /// Get cached font if it exists in cache or null if it is not.
         /// </summary>
-        LayoutFarm.Drawing.FontInfo TryGetFont(string family, float size, System.Drawing.FontStyle style)
+        PixelFarm.Drawing.FontInfo TryGetFont(string family, float size, System.Drawing.FontStyle style)
         {
-            LayoutFarm.Drawing.FontInfo fontInfo = null;
+            PixelFarm.Drawing.FontInfo fontInfo = null;
             FontKey fontKey = new FontKey(family.ToLower(), size, style);
             _fontInfoCacheByFontKey.TryGetValue(fontKey, out fontInfo);
             return fontInfo; 
@@ -112,7 +112,7 @@ namespace LayoutFarm.Drawing.WinGdi
         /// <summary>
         // create font (try using existing font family to support custom fonts)
         /// </summary>
-        LayoutFarm.Drawing.FontInfo CreateFont(string family,
+        PixelFarm.Drawing.FontInfo CreateFont(string family,
           float size, System.Drawing.FontStyle style)
         {
 
@@ -129,7 +129,7 @@ namespace LayoutFarm.Drawing.WinGdi
             return RegisterFont(newFont, new FontKey(family, size, style));
         }
 
-        LayoutFarm.Drawing.FontInfo RegisterFont(System.Drawing.Font newFont, FontKey fontKey)
+        PixelFarm.Drawing.FontInfo RegisterFont(System.Drawing.Font newFont, FontKey fontKey)
         {
 
             //from ...
@@ -143,7 +143,7 @@ namespace LayoutFarm.Drawing.WinGdi
 
             //-------------------
             //evaluate this font, collect font matrix in pixel mode
-            LayoutFarm.Drawing.FontInfo fontInfo;
+            PixelFarm.Drawing.FontInfo fontInfo;
             if (!_fontInfoCache.TryGetValue(newFont, out fontInfo))
             {
 
@@ -160,8 +160,8 @@ namespace LayoutFarm.Drawing.WinGdi
                 int fontAscent = newFont.FontFamily.GetCellAscent(newFont.Style);
                 float descent = newFont.FontFamily.GetCellDescent(newFont.Style);
 
-                var myFont = new LayoutFarm.Drawing.WinGdi.MyFont(newFont);
-                fontInfo = new LayoutFarm.Drawing.WinGdi.MyFontInfo(
+                var myFont = new PixelFarm.Drawing.WinGdi.MyFont(newFont);
+                fontInfo = new PixelFarm.Drawing.WinGdi.MyFontInfo(
                     myFont,
                     fontHeight,
                     (fontAscent * fontSize / fontEmHeight),
@@ -251,7 +251,7 @@ namespace LayoutFarm.Drawing.WinGdi
         }
 
         public static float MeasureWhitespace(
-            LayoutFarm.Drawing.IFonts gfx, LayoutFarm.Drawing.Font f)
+            PixelFarm.Drawing.IFonts gfx, PixelFarm.Drawing.Font f)
         {
             float ws;
             var f2 = f.InnerFont as System.Drawing.Font;

@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Text; 
 using Win32;
 
-namespace LayoutFarm.Drawing.WinGdi
+namespace PixelFarm.Drawing.WinGdi
 {
     partial class MyCanvas
     {
@@ -27,11 +27,11 @@ namespace LayoutFarm.Drawing.WinGdi
         Color mycurrentTextColor = Color.Black;
         //======================================
         //IFonts impl
-        LayoutFarm.Drawing.FontInfo IFonts.GetFontInfo(string fontname, float fsize, FontStyle st)
+        PixelFarm.Drawing.FontInfo IFonts.GetFontInfo(string fontname, float fsize, FontStyle st)
         {
             return this.platform.GetFont(fontname, fsize, st);             
         }
-        float IFonts.MeasureWhitespace(LayoutFarm.Drawing.Font f)
+        float IFonts.MeasureWhitespace(PixelFarm.Drawing.Font f)
         {
             return FontStore.MeasureWhitespace(this, f);
         }
@@ -51,7 +51,7 @@ namespace LayoutFarm.Drawing.WinGdi
             //        font2,
             //        System.Drawing.RectangleF.Empty,
             //        _stringFormat)[0].GetBounds(gx).Size;
-            //    return new LayoutFarm.Drawing.Size((int)Math.Round(size.Width), (int)Math.Round(size.Height));
+            //    return new PixelFarm.Drawing.Size((int)Math.Round(size.Width), (int)Math.Round(size.Height));
             //}
             //else
             //{

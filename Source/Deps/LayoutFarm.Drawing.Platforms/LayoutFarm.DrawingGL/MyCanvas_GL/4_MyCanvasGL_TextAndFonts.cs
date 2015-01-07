@@ -17,9 +17,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using LayoutFarm.DrawingGL;
+using PixelFarm.DrawingGL;
 
-namespace LayoutFarm.Drawing.DrawingGL
+namespace PixelFarm.Drawing.DrawingGL
 {
     partial class MyCanvasGL
     {
@@ -27,15 +27,15 @@ namespace LayoutFarm.Drawing.DrawingGL
         Color textColor = Color.Black;
         //======================================
         //IFonts impl
-        LayoutFarm.Drawing.FontInfo IFonts.GetFontInfo(string fontname, float fsize, FontStyle st)
+        PixelFarm.Drawing.FontInfo IFonts.GetFontInfo(string fontname, float fsize, FontStyle st)
         {
             //return FontsUtils.GetCachedFont(fontname, fsize, (System.Drawing.FontStyle)st);
             return this.platform.GetFont(fontname, fsize, st);
         }
-        float IFonts.MeasureWhitespace(LayoutFarm.Drawing.Font f)
+        float IFonts.MeasureWhitespace(PixelFarm.Drawing.Font f)
         {   
             //platform specific
-            return LayoutFarm.Drawing.WinGdi.FontStore.MeasureWhitespace(this, f);
+            return PixelFarm.Drawing.WinGdi.FontStore.MeasureWhitespace(this, f);
 
         }
         //======================================
@@ -56,7 +56,7 @@ namespace LayoutFarm.Drawing.DrawingGL
             //        font2,
             //        System.Drawing.RectangleF.Empty,
             //        _stringFormat)[0].GetBounds(gx).Size;
-            //    return new LayoutFarm.Drawing.Size((int)Math.Round(size.Width), (int)Math.Round(size.Height));
+            //    return new PixelFarm.Drawing.Size((int)Math.Round(size.Width), (int)Math.Round(size.Height));
             //}
             //else
             //{

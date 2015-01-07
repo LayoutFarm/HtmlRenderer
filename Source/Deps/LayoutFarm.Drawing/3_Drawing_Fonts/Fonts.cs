@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LayoutFarm.Drawing
+namespace PixelFarm.Drawing
 {
     public abstract class Font : System.IDisposable
     {

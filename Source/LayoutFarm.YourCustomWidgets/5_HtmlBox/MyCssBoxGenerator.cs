@@ -1,4 +1,4 @@
-﻿using LayoutFarm.Drawing;
+﻿using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.Css;
 using LayoutFarm.Composers;
@@ -42,7 +42,7 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
             var simpleBox = new LayoutFarm.CustomWidgets.EaseBox(100, 20);
-            simpleBox.BackColor = LayoutFarm.Drawing.Color.LightGray;
+            simpleBox.BackColor = PixelFarm.Drawing.Color.LightGray;
 
             var wrapperBox2 = this.CreateWrapper(
                                simpleBox,

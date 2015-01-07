@@ -83,7 +83,7 @@ namespace OpenTK
         #region Bounds
 
         /// <summary>
-        /// Gets a LayoutFarm.Drawing.Rectangle that contains the bounds of this display device.
+        /// Gets a PixelFarm.Drawing.Rectangle that contains the bounds of this display device.
         /// </summary>
         [Obsolete("This property will return invalid results if a monitor changes resolution. Use DisplayDevice.Bounds instead.")]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]

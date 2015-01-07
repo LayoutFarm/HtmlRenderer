@@ -16,10 +16,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using Win32;
 
-namespace LayoutFarm.Drawing.WinGdi
+namespace PixelFarm.Drawing.WinGdi
 {
 
     partial class MyCanvas : Canvas, IFonts

@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.Text
 {

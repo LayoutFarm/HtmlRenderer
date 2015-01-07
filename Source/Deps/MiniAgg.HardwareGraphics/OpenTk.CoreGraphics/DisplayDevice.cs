@@ -388,7 +388,7 @@ namespace OpenTK
                 form.FormBorderStyle = FormBorderStyle.None;
                 form.TopMost = true;
 
-                form.BackColor = LayoutFarm.Drawing.Color.Black;
+                form.BackColor = PixelFarm.Drawing.Color.Black;
                 forms.Add(form);
             }
 
@@ -401,8 +401,8 @@ namespace OpenTK
             int count = 0;
             foreach (Screen s in Screen.AllScreens)
             {
-            //    forms[count++].Location = new LayoutFarm.Drawing.Point(s.Bounds.X, s.Bounds.Y);
-                //forms[count].Size = new LayoutFarm.Drawing.Size(4096, 4096);
+            //    forms[count++].Location = new PixelFarm.Drawing.Point(s.Bounds.X, s.Bounds.Y);
+                //forms[count].Size = new PixelFarm.Drawing.Size(4096, 4096);
                 count++;
             }
         }

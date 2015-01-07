@@ -5,9 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
-namespace LayoutFarm.Drawing.Animation
+namespace PixelFarm.Drawing.Animation
 {   
     public class ParallelTimeline
     {  

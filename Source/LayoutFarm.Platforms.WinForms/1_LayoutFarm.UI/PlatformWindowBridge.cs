@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
 
 namespace LayoutFarm.UI
@@ -85,7 +85,7 @@ namespace LayoutFarm.UI
 
             OffsetCanvasOrigin(mouseEventArg, this.canvasViewport.LogicalViewportLocation);
         }
-        static void OffsetCanvasOrigin(UIEventArgs e, LayoutFarm.Drawing.Point p)
+        static void OffsetCanvasOrigin(UIEventArgs e, PixelFarm.Drawing.Point p)
         {
             e.OffsetCanvasOrigin(p.X, p.Y);
         }

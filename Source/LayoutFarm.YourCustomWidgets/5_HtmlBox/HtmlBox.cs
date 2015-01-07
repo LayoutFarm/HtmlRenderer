@@ -8,7 +8,7 @@ using LayoutFarm.ContentManagers;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Composers;
 
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.HtmlBoxes;
 
@@ -206,7 +206,7 @@ namespace LayoutFarm.CustomWidgets
             var htmlIsland = this.myHtmlIsland;
             htmlIsland.Document = this.currentdoc;
             htmlIsland.RootCssBox = rootBox;
-            //htmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(this._width, 0);
+            //htmlIsland.MaxSize = new PixelFarm.Drawing.SizeF(this._width, 0);
             htmlIsland.SetMaxSize(this._width, 0);
             htmlIsland.PerformLayout(this.htmlLayoutVisitor);
         }

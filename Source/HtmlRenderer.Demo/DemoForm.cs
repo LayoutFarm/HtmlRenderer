@@ -67,11 +67,11 @@ namespace LayoutFarm.Demo
 
         #endregion
 
-        LayoutFarm.Drawing.GraphicsPlatform graphicsPlatform;
+        PixelFarm.Drawing.GraphicsPlatform graphicsPlatform;
         /// <summary>
         /// Init.
         /// </summary>
-        public DemoForm(LayoutFarm.Drawing.GraphicsPlatform p)
+        public DemoForm(PixelFarm.Drawing.GraphicsPlatform p)
         {
 
             this.graphicsPlatform = p;
@@ -408,7 +408,7 @@ namespace LayoutFarm.Demo
         private void OnImageLoad(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
             var img = TryLoadResourceImage(e.ImagSource);
-            e.SetResultImage(new LayoutFarm.Drawing.Bitmap(img.Width, img.Height, img));
+            e.SetResultImage(new PixelFarm.Drawing.Bitmap(img.Width, img.Height, img));
 
             //if (!e.Handled && htmlTag != null)
             //{

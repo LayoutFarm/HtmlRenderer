@@ -14,9 +14,9 @@
 // "The Art of War"
 
 using System;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using LayoutFarm.HtmlBoxes;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using LayoutFarm.Css;
 
 
@@ -59,7 +59,7 @@ namespace LayoutFarm.HtmlBoxes
             // need to clip so repeated image will be cut on rectangle
 
             var prevClip = g.CurrentClipRect;
-            LayoutFarm.Drawing.Rectangle copyRect = new LayoutFarm.Drawing.Rectangle(
+            PixelFarm.Drawing.Rectangle copyRect = new PixelFarm.Drawing.Rectangle(
                (int)rectangle.X,
                (int)rectangle.Y,
                (int)rectangle.Width,

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace LayoutFarm.Drawing.WinGdi
+namespace PixelFarm.Drawing.WinGdi
 {
     class WinGdiPlatform : GraphicsPlatform
     {

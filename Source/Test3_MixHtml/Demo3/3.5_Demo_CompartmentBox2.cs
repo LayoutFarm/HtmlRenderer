@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.CustomWidgets;
 
@@ -94,7 +94,7 @@ namespace LayoutFarm
                 dockspaceController.SetLeftSpaceWidth(200);
 
             }
-            CustomWidgets.EaseBox CreateTinyControlBox(SpaceName name, LayoutFarm.Drawing.Color bgcolor)
+            CustomWidgets.EaseBox CreateTinyControlBox(SpaceName name, PixelFarm.Drawing.Color bgcolor)
             {
                 int controllerBoxWH = 10;
                 CustomWidgets.EaseBox tinyBox = new CustomWidgets.EaseBox(controllerBoxWH, controllerBoxWH);

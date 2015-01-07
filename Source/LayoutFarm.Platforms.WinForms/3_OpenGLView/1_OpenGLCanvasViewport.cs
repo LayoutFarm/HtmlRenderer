@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI.OpenGLView
 {
@@ -31,7 +31,7 @@ namespace LayoutFarm.UI.OpenGLView
         }
         public void NotifyWindowControlBinding()
         {   
-            this.canvas = LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, 800, 600);
+            this.canvas = PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, 800, 600);
            
         }
         //----------
@@ -103,7 +103,7 @@ namespace LayoutFarm.UI.OpenGLView
 
             canvas.ClearSurface(Color.White);
             ////test draw rect
-            //canvas.StrokeColor = LayoutFarm.Drawing.Color.Blue;
+            //canvas.StrokeColor = PixelFarm.Drawing.Color.Blue;
             //canvas.DrawRectangle(Color.Blue, 20, 20, 200, 200);
             ////------------------------
 

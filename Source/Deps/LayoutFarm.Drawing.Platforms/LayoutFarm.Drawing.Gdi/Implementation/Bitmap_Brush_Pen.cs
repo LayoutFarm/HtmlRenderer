@@ -1,5 +1,5 @@
 ﻿using System.Drawing; 
-namespace LayoutFarm.Drawing.WinGdi
+namespace PixelFarm.Drawing.WinGdi
 {
      
     class MyFont : Font

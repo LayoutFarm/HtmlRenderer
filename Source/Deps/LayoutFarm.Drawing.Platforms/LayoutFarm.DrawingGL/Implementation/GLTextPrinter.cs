@@ -3,9 +3,9 @@ using System.Text;
 using System;
 
 using PixelFarm.Agg.Fonts;
-using LayoutFarm.DrawingGL;
+using PixelFarm.DrawingGL;
 
-namespace LayoutFarm.Drawing.DrawingGL
+namespace PixelFarm.Drawing.DrawingGL
 {
     class GLTextPrinter
     {
@@ -28,12 +28,12 @@ namespace LayoutFarm.Drawing.DrawingGL
             }
         }
 
-        public void Print(LayoutFarm.Drawing.Color color, string t, double x, double y)
+        public void Print(PixelFarm.Drawing.Color color, string t, double x, double y)
         {
             var buff = t.ToCharArray();
             Print(color, buff, 0, buff.Length, x, y);
         }
-        public void Print(LayoutFarm.Drawing.Color color, char[] buffer, int start, int len, double x, double y)
+        public void Print(PixelFarm.Drawing.Color color, char[] buffer, int start, int len, double x, double y)
         {
 
             if (this.currentFont.IsAtlasFont)

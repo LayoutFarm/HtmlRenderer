@@ -7,16 +7,16 @@ using System.Text;
 using PixelFarm.Agg;
 using PixelFarm.Agg.VertexSource;
 using Tesselate;
-
-namespace LayoutFarm.DrawingGL
+using PixelFarm.Drawing;
+namespace PixelFarm.DrawingGL
 {
 
     public partial class CanvasGL2d : IDisposable
-    {   
+    {
 
-        LayoutFarm.Drawing.Color strokeColor = LayoutFarm.Drawing.Color.Black;
-        LayoutFarm.Drawing.CanvasOrientation canvasOrientation = CanvasOptions.DefaultOrientation;
-         
+        PixelFarm.Drawing.Color strokeColor = PixelFarm.Drawing.Color.Black;
+        CanvasOrientation canvasOrientation = CanvasOptions.DefaultOrientation;
+
         int canvasOriginX = 0;
         int canvasOriginY = 0;
         int canvasW;
@@ -104,13 +104,13 @@ namespace LayoutFarm.DrawingGL
         public void DrawImage(GLBitmap bmp, float x, float y)
         {
             DrawImage(bmp,
-                   new LayoutFarm.Drawing.RectangleF(0, 0, bmp.Width, bmp.Height),
+                   new PixelFarm.Drawing.RectangleF(0, 0, bmp.Width, bmp.Height),
                    x, y, bmp.Width, bmp.Height);
         }
         public void DrawImage(GLBitmap bmp, float x, float y, float w, float h)
         {
             DrawImage(bmp,
-                new LayoutFarm.Drawing.RectangleF(0, 0, bmp.Width, bmp.Height),
+                new PixelFarm.Drawing.RectangleF(0, 0, bmp.Width, bmp.Height),
                 x, y, w, h);
         }
 
@@ -125,7 +125,7 @@ namespace LayoutFarm.DrawingGL
         //-------------------------------------------------------------------------------
 
 
-        public void FillVxs(LayoutFarm.Drawing.Color color, VertexStore vxs)
+        public void FillVxs(PixelFarm.Drawing.Color color, VertexStore vxs)
         {
             //solid brush
             switch (this.SmoothMode)
@@ -147,7 +147,7 @@ namespace LayoutFarm.DrawingGL
             }
 
         }
-        public void FillVxs(LayoutFarm.Drawing.LinearGradientBrush brush, VertexStore vxs)
+        public void FillVxs( LinearGradientBrush brush, VertexStore vxs)
         {
             switch (this.SmoothMode)
             {
@@ -167,7 +167,7 @@ namespace LayoutFarm.DrawingGL
         }
 
 
-        public void FillVxsSnap(LayoutFarm.Drawing.Color color, VertexStoreSnap snap)
+        public void FillVxsSnap(PixelFarm.Drawing.Color color, VertexStoreSnap snap)
         {
             switch (this.SmoothMode)
             {
@@ -338,7 +338,7 @@ namespace LayoutFarm.DrawingGL
             }
         }
 
-        public void FillPolygon(LayoutFarm.Drawing.Color color, float[] vertex2dCoords, int npoints)
+        public void FillPolygon(PixelFarm.Drawing.Color color, float[] vertex2dCoords, int npoints)
         {
             //-------------
             //Tesselate
@@ -409,7 +409,7 @@ namespace LayoutFarm.DrawingGL
                 UnsafeDrawV2fList(DrawMode.LineLoop, rectCoords, 6);
             }
         }
-        public void FillRect(LayoutFarm.Drawing.Color color, float x, float y, float w, float h)
+        public void FillRect(PixelFarm.Drawing.Color color, float x, float y, float w, float h)
         {
             //fill with solid color 
             unsafe
@@ -421,7 +421,7 @@ namespace LayoutFarm.DrawingGL
             }
 
         }
-        public void FillEllipse(LayoutFarm.Drawing.Color color, float x, float y, float rx, float ry)
+        public void FillEllipse(PixelFarm.Drawing.Color color, float x, float y, float rx, float ry)
         {
             ellipse.Reset(x, y, rx, ry);
             var vxs = ellipse.MakeVxs();
@@ -616,7 +616,7 @@ namespace LayoutFarm.DrawingGL
 
         }
 
-        public void FillRect(LayoutFarm.Drawing.LinearGradientBrush linearGradientBrush, float x, float y, float w, float h)
+        public void FillRect(PixelFarm.Drawing.LinearGradientBrush linearGradientBrush, float x, float y, float w, float h)
         {
 
 
@@ -646,7 +646,7 @@ namespace LayoutFarm.DrawingGL
         }
 
 
-        public void FillRoundRect(LayoutFarm.Drawing.Color color, float x, float y, float w, float h, float rx, float ry)
+        public void FillRoundRect(PixelFarm.Drawing.Color color, float x, float y, float w, float h, float rx, float ry)
         {
 
             roundRect.SetRect(x, y, x + w, y + h);
@@ -675,12 +675,12 @@ namespace LayoutFarm.DrawingGL
             }
 
         }
-        public void FillCircle(LayoutFarm.Drawing.Color color, float x, float y, float radius)
+        public void FillCircle(PixelFarm.Drawing.Color color, float x, float y, float radius)
         {
             FillEllipse(color, x, y, radius, radius);
         }
 
-        public void FillPolygon(LayoutFarm.Drawing.Color color, float[] vertex2dCoords)
+        public void FillPolygon(PixelFarm.Drawing.Color color, float[] vertex2dCoords)
         {
             FillPolygon(color, vertex2dCoords, vertex2dCoords.Length);
         }

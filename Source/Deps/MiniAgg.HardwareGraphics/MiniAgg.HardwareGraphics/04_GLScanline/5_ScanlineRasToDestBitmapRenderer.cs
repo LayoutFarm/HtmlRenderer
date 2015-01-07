@@ -52,7 +52,7 @@ namespace PixelFarm.Agg
         /// <param name="shapeHint"></param>
         public void FillWithColor(GLScanlineRasterizer sclineRas,
                 GLScanline scline,
-                LayoutFarm.Drawing.Color color)
+                PixelFarm.Drawing.Color color)
         {
 
             //early exit
@@ -106,7 +106,7 @@ namespace PixelFarm.Agg
         /// <param name="shapeHint"></param>
         public void DrawWithColor(GLScanlineRasterizer sclineRas,
                 GLScanline scline,
-                LayoutFarm.Drawing.Color color)
+                PixelFarm.Drawing.Color color)
         {
 
             //early exit
@@ -199,7 +199,7 @@ namespace PixelFarm.Agg
         const int BASE_MASK = 255;
         //======================================================================================
 
-        void GLBlendHLine(int x1, int y, int x2, LayoutFarm.Drawing.Color color, byte cover)
+        void GLBlendHLine(int x1, int y, int x2, PixelFarm.Drawing.Color color, byte cover)
         {
             //if (color.A == 0) { return; }
 
@@ -214,22 +214,22 @@ namespace PixelFarm.Agg
                 case 1:
                     {
                         this.mySinglePixelBuffer.AddVertex(new VertexC4V2S(
-                            LayoutFarm.Drawing.Color.FromArgb(alpha, color).ToARGB(),
+                            PixelFarm.Drawing.Color.FromArgb(alpha, color).ToARGB(),
                             x1, y));
 
                     } break;
                 default:
                     {
                         var lineBuffer = this.myLineBuffer;
-                        var c = LayoutFarm.Drawing.Color.FromArgb(alpha, color).ToARGB();
+                        var c = PixelFarm.Drawing.Color.FromArgb(alpha, color).ToARGB();
                         lineBuffer.AddVertex(new VertexC4V2S(c, x1, y));
                         lineBuffer.AddVertex(new VertexC4V2S(c, x2 + 1, y));
 
-                        //var c = LayoutFarm.Drawing.Color.FromArgb(alpha, color).ToARGB();
+                        //var c = PixelFarm.Drawing.Color.FromArgb(alpha, color).ToARGB();
 
                         //for (int i = 0; i < len; ++i)
                         //{
-                        //    //var c = LayoutFarm.Drawing.Color.FromArgb(alpha, color);
+                        //    //var c = PixelFarm.Drawing.Color.FromArgb(alpha, color);
                         //    singlePxBuff.AddVertex(new VertexC4XYZ3I(
                         //        c, x1 + i, y));
                         //}
@@ -243,7 +243,7 @@ namespace PixelFarm.Agg
             //    do
             //    {
             //        singlePxBuff.AddVertex(new VertexC4V2S(
-            //            LayoutFarm.Drawing.Color.FromArgb(alpha, color).ToARGB(),
+            //            PixelFarm.Drawing.Color.FromArgb(alpha, color).ToARGB(),
             //            xpos, y));
             //        xpos++;
             //    }
@@ -251,7 +251,7 @@ namespace PixelFarm.Agg
             //}
         }
         void GLBlendSolidHSpan(int x, int y, int len,
-            LayoutFarm.Drawing.Color sourceColor,
+            PixelFarm.Drawing.Color sourceColor,
             byte[] covers, int coversIndex)
         {
             //int colorAlpha = sourceColor.A;
@@ -275,7 +275,7 @@ namespace PixelFarm.Agg
                     else
                     {
                         pointAndColors.AddVertex(
-                            new VertexC4V2S(LayoutFarm.Drawing.Color.FromArgb(alpha, sourceColor).ToARGB(),
+                            new VertexC4V2S(PixelFarm.Drawing.Color.FromArgb(alpha, sourceColor).ToARGB(),
                             xpos, y));
                     }
                     xpos++;

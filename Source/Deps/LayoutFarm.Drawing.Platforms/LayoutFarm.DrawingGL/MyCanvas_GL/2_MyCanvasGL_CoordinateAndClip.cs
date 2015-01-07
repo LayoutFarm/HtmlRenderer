@@ -16,10 +16,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
 
-namespace LayoutFarm.Drawing.DrawingGL
+namespace PixelFarm.Drawing.DrawingGL
 {
     partial class MyCanvasGL
     {
@@ -114,7 +114,7 @@ namespace LayoutFarm.Drawing.DrawingGL
             }
             else
             {
-                updateArea = LayoutFarm.Drawing.Rect.CreateFromRect(intersectResult.ToRect());
+                updateArea = PixelFarm.Drawing.Rect.CreateFromRect(intersectResult.ToRect());
                 canvasGL2d.EnableClipRect();
                 canvasGL2d.SetClipRectRel(currentClipRect.X, currentClipRect.Y, currentClipRect.Width, currentClipRect.Height);
                 return true;

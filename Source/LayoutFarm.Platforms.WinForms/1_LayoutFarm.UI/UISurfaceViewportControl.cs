@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
@@ -32,7 +32,7 @@ namespace LayoutFarm.UI
             {
                 case InnerViewportKind.GL:
                     {
-                        LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
+                        PixelFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
 
 
                         var bridge = new OpenGLView.MyPlatformWindowBridgeOpenGL(wintop, userInputEvBridge);

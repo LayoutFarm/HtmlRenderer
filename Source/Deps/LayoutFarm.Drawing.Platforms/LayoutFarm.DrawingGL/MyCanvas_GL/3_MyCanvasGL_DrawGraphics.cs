@@ -16,9 +16,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.DrawingGL;
+using PixelFarm.DrawingGL;
 
-namespace LayoutFarm.Drawing.DrawingGL
+namespace PixelFarm.Drawing.DrawingGL
 {
 
     partial class MyCanvasGL
@@ -469,7 +469,7 @@ namespace LayoutFarm.Drawing.DrawingGL
             //MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
             //gx.ReleaseHdc();
         }
-        //public override void ClearSurface(LayoutFarm.Drawing.Color c)
+        //public override void ClearSurface(PixelFarm.Drawing.Color c)
         //{
         //    //ReleaseHdc();
         //    //gx.Clear(System.Drawing.Color.FromArgb(

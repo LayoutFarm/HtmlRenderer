@@ -4,7 +4,7 @@ using System;
 using System.Text;
 using OpenTK.Graphics.OpenGL;
 
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
     public delegate void TransientGetBufferHead(IntPtr bufferHead);
     public class GLBitmap : IDisposable

@@ -16,12 +16,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using Win32;
 
-using LayoutFarm.DrawingGL;
+using PixelFarm.DrawingGL;
 
-namespace LayoutFarm.Drawing.DrawingGL
+namespace PixelFarm.Drawing.DrawingGL
 {
 
     partial class MyCanvasGL : Canvas, IFonts

@@ -16,10 +16,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
 
-namespace LayoutFarm.Drawing.WinGdi
+namespace PixelFarm.Drawing.WinGdi
 {
     partial class MyCanvas
     {
@@ -104,7 +104,7 @@ namespace LayoutFarm.Drawing.WinGdi
             }
             else
             {
-                updateArea = LayoutFarm.Drawing.Rect.CreateFromRect(intersectResult.ToRect());
+                updateArea = PixelFarm.Drawing.Rect.CreateFromRect(intersectResult.ToRect());
                 gx.SetClip(intersectResult);
                 return true;
             }

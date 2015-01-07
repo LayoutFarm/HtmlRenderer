@@ -104,7 +104,7 @@ namespace OpenTK.Platform.MacOS
                                 newRect.Y,
                                 newRect.Width,
                                 newRect.Height));
-                    ///LayoutFarm.Drawing.Conv.ToRect(newRect));
+                    ///PixelFarm.Drawing.Conv.ToRect(newRect));
 
                     displayMap.Add(opentk_dev, currentDisplay);
                 }

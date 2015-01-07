@@ -1,4 +1,4 @@
-﻿namespace LayoutFarm.Drawing
+﻿namespace PixelFarm.Drawing
 {
     public abstract class Image : System.IDisposable
     {

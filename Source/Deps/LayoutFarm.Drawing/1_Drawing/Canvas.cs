@@ -1,7 +1,7 @@
 ﻿//2014,2015 Apache2, WinterDev
 
 
-namespace LayoutFarm.Drawing
+namespace PixelFarm.Drawing
 {
     public abstract class Canvas : System.IDisposable
     {
@@ -53,7 +53,7 @@ namespace LayoutFarm.Drawing
         public abstract Rectangle CurrentClipRect { get; }
         //------------------------------------------------------
         //buffer
-        public abstract void ClearSurface(LayoutFarm.Drawing.Color c);
+        public abstract void ClearSurface(Color c);
         public abstract void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea);
         public abstract void RenderTo(System.IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea);
         //------------------------------------------------------- 

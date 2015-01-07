@@ -35,7 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4_IntegrationModules", "4_I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.ClientPlatforms", "LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj", "{61369865-95B7-49F2-B012-67B4A2427A8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Drawing", "Deps\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj", "{D90D5974-23FA-4230-8C3C-FAC25256EBE9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.Drawing", "Deps\LayoutFarm.Drawing\PixelFarm.Drawing.csproj", "{D90D5974-23FA-4230-8C3C-FAC25256EBE9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Drawing.Platforms", "Deps\LayoutFarm.Drawing.Platforms\LayoutFarm.Drawing.Platforms.csproj", "{1AA171E3-523C-4DD5-A169-DE6322991FF5}"
 EndProject

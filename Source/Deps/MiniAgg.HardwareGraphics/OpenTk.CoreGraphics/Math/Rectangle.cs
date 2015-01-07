@@ -229,45 +229,45 @@ namespace OpenTK
         }
 
         /// <summary>
-        /// Converts an OpenTK.Rectangle instance to a LayoutFarm.Drawing.Rectangle.
+        /// Converts an OpenTK.Rectangle instance to a PixelFarm.Drawing.Rectangle.
         /// </summary>
         /// <param name="rect">
         /// The <see cref="Rectangle"/> instance to convert.
         /// </param>
         /// <returns>
-        /// A <see cref="LayoutFarm.Drawing.Rectangle"/> instance equivalent to rect.
+        /// A <see cref="PixelFarm.Drawing.Rectangle"/> instance equivalent to rect.
         /// </returns>
-        public static implicit operator LayoutFarm.Drawing.Rectangle(Rectangle rect)
+        public static implicit operator PixelFarm.Drawing.Rectangle(Rectangle rect)
         {
-            return new LayoutFarm.Drawing.Rectangle(rect.Location, rect.Size);
+            return new PixelFarm.Drawing.Rectangle(rect.Location, rect.Size);
         }
 
         /// <summary>
-        /// Converts a LayoutFarm.Drawing.Rectangle instance to an OpenTK.Rectangle.
+        /// Converts a PixelFarm.Drawing.Rectangle instance to an OpenTK.Rectangle.
         /// </summary>
         /// <param name="rect">
-        /// The <see cref="LayoutFarm.Drawing.Rectangle"/> instance to convert.
+        /// The <see cref="PixelFarm.Drawing.Rectangle"/> instance to convert.
         /// </param>
         /// <returns>
         /// A <see cref="Rectangle"/> instance equivalent to point.
         /// </returns>
-        public static implicit operator Rectangle(LayoutFarm.Drawing.Rectangle rect)
+        public static implicit operator Rectangle(PixelFarm.Drawing.Rectangle rect)
         {
             return new Rectangle(rect.Location, rect.Size);
         }
 
         /// <summary>
-        /// Converts an OpenTK.Rectangle instance to a LayoutFarm.Drawing.RectangleF.
+        /// Converts an OpenTK.Rectangle instance to a PixelFarm.Drawing.RectangleF.
         /// </summary>
         /// <param name="rect">
         /// The <see cref="Rectangle"/> instance to convert.
         /// </param>
         /// <returns>
-        /// A <see cref="LayoutFarm.Drawing.RectangleF"/> instance equivalent to rect.
+        /// A <see cref="PixelFarm.Drawing.RectangleF"/> instance equivalent to rect.
         /// </returns>
-        public static implicit operator LayoutFarm.Drawing.RectangleF(Rectangle rect)
+        public static implicit operator PixelFarm.Drawing.RectangleF(Rectangle rect)
         {
-            return new LayoutFarm.Drawing.RectangleF(rect.Location, rect.Size);
+            return new PixelFarm.Drawing.RectangleF(rect.Location, rect.Size);
         }
 
         /// <summary>

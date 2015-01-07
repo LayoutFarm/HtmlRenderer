@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
 using LayoutFarm.UI;
 
@@ -271,7 +271,7 @@ namespace LayoutFarm
             {
                 int controllerBoxWH = 10;
                 CustomWidgets.UIEaseBox tinyBox = new CustomWidgets.UIEaseBox(controllerBoxWH, controllerBoxWH);
-                tinyBox.BackColor = LayoutFarm.Drawing.Color.Red;
+                tinyBox.BackColor = PixelFarm.Drawing.Color.Red;
                 tinyBox.Tag = name;
                 //add handler for each tiny box
                 tinyBox.DragBegin += (s, e) =>

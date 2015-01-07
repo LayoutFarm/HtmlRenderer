@@ -2,15 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
-namespace LayoutFarm.Drawing
+namespace PixelFarm.Drawing
 {
 
 #if DEBUG
     public static class dbugHelper01
     {
-        public static RenderElement dbugVE_HighlightMe;
+
+        public static LayoutFarm.RenderElement dbugVE_HighlightMe;
     }
 #endif
 }

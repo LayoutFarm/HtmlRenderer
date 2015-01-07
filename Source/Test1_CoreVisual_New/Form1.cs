@@ -15,8 +15,8 @@ namespace TestGraphicPackage
     public partial class Form1 : Form
     {
         UIPlatform uiPlatformWinForm;
-        LayoutFarm.Drawing.GraphicsPlatform gfxPlatform;
-        public Form1(LayoutFarm.Drawing.GraphicsPlatform p)
+        PixelFarm.Drawing.GraphicsPlatform gfxPlatform;
+        public Form1(PixelFarm.Drawing.GraphicsPlatform p)
         {
             InitializeComponent();
             this.uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();

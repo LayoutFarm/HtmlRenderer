@@ -8,7 +8,7 @@ using LayoutFarm.ContentManagers;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Composers;
 
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.HtmlBoxes;
 

@@ -14,7 +14,7 @@
 // "The Art of War"
 
 using System;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.Css
 {
@@ -631,12 +631,12 @@ namespace LayoutFarm.Css
 
             //-----------------------------------------------------------------------------
             //style
-            FontStyle st = LayoutFarm.Drawing.FontStyle.Regular;
+            FontStyle st = PixelFarm.Drawing.FontStyle.Regular;
             switch (FontStyle)
             {
                 case CssFontStyle.Italic:
                 case CssFontStyle.Oblique:
-                    st |= LayoutFarm.Drawing.FontStyle.Italic;
+                    st |= PixelFarm.Drawing.FontStyle.Italic;
                     break;
             }
             //-----------------------------------------------------
@@ -653,7 +653,7 @@ namespace LayoutFarm.Css
                     } break;
                 default:
                     {
-                        st |= LayoutFarm.Drawing.FontStyle.Bold;
+                        st |= PixelFarm.Drawing.FontStyle.Bold;
                     } break;
             }
 

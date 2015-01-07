@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using PixelFarm;
 using PixelFarm.Agg;
 using LayoutFarm;
-using LayoutFarm.DrawingGL;
-using LayoutFarm.Drawing;
+using PixelFarm.DrawingGL;
+using PixelFarm.Drawing;
 using Win32;
 
 namespace PixelFarm.Agg.Fonts
@@ -23,10 +23,11 @@ namespace PixelFarm.Agg.Fonts
         TextureAtlas textureAtlas;
         int width;
         int height;
-        Dictionary<char, LayoutFarm.Drawing.RectangleF> charMap = new Dictionary<char, LayoutFarm.Drawing.RectangleF>();
+        Dictionary<char, PixelFarm.Drawing.RectangleF> charMap = new Dictionary<char, PixelFarm.Drawing.RectangleF>();
 
         IntPtr hFont;
-        LayoutFarm.Drawing.FontInfo fontInfo;
+
+        PixelFarm.Drawing.FontInfo fontInfo;
         GLBitmap innerGLbmp;
 
 #if DEBUG
@@ -34,7 +35,7 @@ namespace PixelFarm.Agg.Fonts
         public readonly int dbugId = debugTotalId++;
 #endif
 
-        public GdiTextureFont(int width, int height, System.Drawing.Font font, LayoutFarm.Drawing.FontInfo fontInfo)
+        public GdiTextureFont(int width, int height, System.Drawing.Font font, PixelFarm.Drawing.FontInfo fontInfo)
         {
             //if (this.dbugId == 2)
             //{
@@ -110,7 +111,7 @@ namespace PixelFarm.Agg.Fonts
                 }
 
                 NativeTextWin32.TextOut(gxdc, curX, curY, new char[] { c }, 1);
-                charMap.Add(c, new LayoutFarm.Drawing.RectangleF(curX, curY, glyphBoxWidth, fontHeight));
+                charMap.Add(c, new PixelFarm.Drawing.RectangleF(curX, curY, glyphBoxWidth, fontHeight));
                 curX += glyphBoxWidth; //move next 
 
             }
@@ -166,7 +167,7 @@ namespace PixelFarm.Agg.Fonts
                 }
 
                 NativeTextWin32.TextOut(gxdc, curX, curY, new char[] { c }, 1);
-                charMap.Add(c, new LayoutFarm.Drawing.RectangleF(curX, curY, glyphBoxWidth, fontHeight));
+                charMap.Add(c, new PixelFarm.Drawing.RectangleF(curX, curY, glyphBoxWidth, fontHeight));
                 curX += glyphBoxWidth; //move next 
 
             }
@@ -331,30 +332,30 @@ namespace PixelFarm.Agg.Fonts
             bmp.UnlockBits(bmpdata);
 
         }
-        public LayoutFarm.Drawing.RectangleF[] GetGlyphPos(char[] buffer, int start, int len, int x, int y)
+        public PixelFarm.Drawing.RectangleF[] GetGlyphPos(char[] buffer, int start, int len, int x, int y)
         {
             if (innerGLbmp == null)
             {
-                innerGLbmp = LayoutFarm.Drawing.DrawingGL.GLBitmapTextureHelper.CreateBitmapTexture(this.textBoardBmp);
+                innerGLbmp = PixelFarm.Drawing.DrawingGL.GLBitmapTextureHelper.CreateBitmapTexture(this.textBoardBmp);
             }
 
             //create reference bmp 
             float curX = x;
             float curY = y;
             //create destAndSrcArray
-            LayoutFarm.Drawing.RectangleF[] destAndSrcPairs = new LayoutFarm.Drawing.RectangleF[len * 2];
+            PixelFarm.Drawing.RectangleF[] destAndSrcPairs = new PixelFarm.Drawing.RectangleF[len * 2];
 
             int pp = 0;
             int endAt = start + len;
             for (int i = start; i < endAt; ++i)
             {
                 //find map glyph
-                LayoutFarm.Drawing.RectangleF found;
+                PixelFarm.Drawing.RectangleF found;
                 if (charMap.TryGetValue(buffer[i], out found))
                 {
 
                     //dest
-                    destAndSrcPairs[pp] = new LayoutFarm.Drawing.RectangleF(curX, curY, found.Width, found.Height);
+                    destAndSrcPairs[pp] = new PixelFarm.Drawing.RectangleF(curX, curY, found.Width, found.Height);
                     //src
                     destAndSrcPairs[pp + 1] = found;
                     curX += found.Width;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Win32;
 
-namespace LayoutFarm.Drawing.WinGdi
+namespace PixelFarm.Drawing.WinGdi
 {
     class BasicGdi32FontHelper
     {

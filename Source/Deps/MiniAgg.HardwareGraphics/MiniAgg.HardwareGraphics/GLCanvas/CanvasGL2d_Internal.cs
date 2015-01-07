@@ -7,7 +7,7 @@ using System.Text;
 using PixelFarm.Agg;
 using PixelFarm.Agg.VertexSource;
 
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
 
     partial class CanvasGL2d
@@ -301,7 +301,7 @@ namespace LayoutFarm.DrawingGL
 
 
         //static unsafe void CreateLineCoords(ArrayList<VertexC4V2f> vrx,
-        //         LayoutFarm.Drawing.Color color,
+        //         PixelFarm.Drawing.Color color,
         //         float x1, float y1, float x2, float y2)
         //{
         //    uint color_uint = color.ToABGR();
@@ -309,7 +309,7 @@ namespace LayoutFarm.DrawingGL
         //    vrx.AddVertex(new VertexC4V2f(color_uint, x2, y2));
         //}
         //static unsafe void CreateRectCoords(ArrayList<VertexC4V2f> vrx,
-        //           LayoutFarm.Drawing.Color color,
+        //           PixelFarm.Drawing.Color color,
         //           float x, float y, float w, float h)
         //{
         //    uint color_uint = color.ToABGR();
@@ -323,7 +323,7 @@ namespace LayoutFarm.DrawingGL
 
         //}
         //static unsafe void CreatePolyLineRectCoords(ArrayList<VertexC4V2f> vrx,
-        //           LayoutFarm.Drawing.Color color,
+        //           PixelFarm.Drawing.Color color,
         //           float x, float y, float w, float h)
         //{
         //    uint color_uint = color.ToABGR();

@@ -1,14 +1,14 @@
 ﻿using System;
 
-using LayoutFarm.Drawing.WinGdi;
+using PixelFarm.Drawing.WinGdi;
 
-namespace LayoutFarm.Drawing.DrawingGL
+namespace PixelFarm.Drawing.DrawingGL
 {
 
     class CanvasGLPlatform : GraphicsPlatform
     {
         //font store is platform specific
-        static LayoutFarm.Drawing.WinGdi.FontStore fontStore = new FontStore();
+        static PixelFarm.Drawing.WinGdi.FontStore fontStore = new FontStore();
 
         System.Drawing.Bitmap sampleBmp;
         IFonts sampleIFonts;

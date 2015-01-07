@@ -13,9 +13,9 @@ namespace TestGraphicPackage
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var platform = LayoutFarm.Drawing.MyWinGdiPortal.Start();
+            var platform = PixelFarm.Drawing.MyWinGdiPortal.Start();
             Application.Run(new Form1(platform));
-            LayoutFarm.Drawing.MyWinGdiPortal.End();
+            PixelFarm.Drawing.MyWinGdiPortal.End();
 
         }
     }

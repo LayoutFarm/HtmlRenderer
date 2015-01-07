@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using System.Text;
 using Win32;
 
-namespace LayoutFarm.Drawing.WinGdi
+namespace PixelFarm.Drawing.WinGdi
 {
 
     partial class MyCanvas
@@ -103,7 +103,7 @@ namespace LayoutFarm.Drawing.WinGdi
             MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
             gx.ReleaseHdc();
         }
-        public override void ClearSurface(LayoutFarm.Drawing.Color c)
+        public override void ClearSurface(PixelFarm.Drawing.Color c)
         {
             ReleaseHdc();
             gx.Clear(System.Drawing.Color.FromArgb(

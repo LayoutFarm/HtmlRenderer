@@ -22,7 +22,7 @@ using LayoutFarm.ContentManagers;
 using LayoutFarm.Composers;
 using LayoutFarm.HtmlBoxes;
 
-using Conv = LayoutFarm.Drawing.Conv;
+using Conv = PixelFarm.Drawing.Conv;
 
 namespace LayoutFarm.Demo
 {
@@ -89,12 +89,12 @@ namespace LayoutFarm.Demo
         TextContentManager textContentMan = new TextContentManager();
         LayoutFarm.HtmlBoxes.LayoutVisitor htmlLayoutVisitor;
 
-        LayoutFarm.Drawing.Canvas renderCanvas;
-        LayoutFarm.Drawing.GraphicsPlatform gfxPlatform;
+        PixelFarm.Drawing.Canvas renderCanvas;
+        PixelFarm.Drawing.GraphicsPlatform gfxPlatform;
         /// <summary>
         /// Creates a new HtmlPanel and sets a basic css for it's styling.
         /// </summary>
-        public HtmlPanel(LayoutFarm.Drawing.GraphicsPlatform p)
+        public HtmlPanel(PixelFarm.Drawing.GraphicsPlatform p)
         {
             AutoScroll = true;
             BackColor = SystemColors.Window;
@@ -103,7 +103,7 @@ namespace LayoutFarm.Demo
 
             SetGraphicsPlatform(p);
         }
-        void SetGraphicsPlatform(LayoutFarm.Drawing.GraphicsPlatform p)
+        void SetGraphicsPlatform(PixelFarm.Drawing.GraphicsPlatform p)
         {
             //-------------------------------------------------------
             this.gfxPlatform = p;
@@ -165,9 +165,9 @@ namespace LayoutFarm.Demo
         //    };
 
         //    var rootBox = builder.RefreshCssTree(this.currentDoc,
-        //        LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
+        //        PixelFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
         //        this.myHtmlIsland);
-        //    this.myHtmlIsland.PerformLayout(LayoutFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
+        //    this.myHtmlIsland.PerformLayout(PixelFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
         //}
 
 
@@ -423,7 +423,7 @@ namespace LayoutFarm.Demo
         {
             if (myHtmlIsland != null)
             {
-                //myHtmlIsland.MaxSize = new LayoutFarm.Drawing.SizeF(ClientSize.Width, 0);
+                //myHtmlIsland.MaxSize = new PixelFarm.Drawing.SizeF(ClientSize.Width, 0);
                 myHtmlIsland.SetMaxSize(ClientSize.Width, 0);
                 myHtmlIsland.PerformLayout(this.htmlLayoutVisitor);
                 var asize = myHtmlIsland.ActualSize;
@@ -456,7 +456,7 @@ namespace LayoutFarm.Demo
 
                 var painter = GetSharedPainter(myHtmlIsland, renderCanvas);
 
-                renderCanvas.ClearSurface(LayoutFarm.Drawing.Color.White);
+                renderCanvas.ClearSurface(PixelFarm.Drawing.Color.White);
 
                 var scrollPos = AutoScrollPosition;
 
@@ -473,7 +473,7 @@ namespace LayoutFarm.Demo
 
 
                 IntPtr hdc = GetDC(this.Handle);
-                renderCanvas.RenderTo(hdc, 0, 0, new LayoutFarm.Drawing.Rectangle(0, 0, 800, 600));
+                renderCanvas.RenderTo(hdc, 0, 0, new PixelFarm.Drawing.Rectangle(0, 0, 800, 600));
                 ReleaseDC(this.Handle, hdc);
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
                 //var mp = PointToClient(MousePosition);
@@ -821,7 +821,7 @@ namespace LayoutFarm.Demo
         #endregion
 
 
-        static BoxPainter GetSharedPainter(LayoutFarm.HtmlBoxes.HtmlIsland htmlIsland, LayoutFarm.Drawing.Canvas canvas)
+        static BoxPainter GetSharedPainter(LayoutFarm.HtmlBoxes.HtmlIsland htmlIsland, PixelFarm.Drawing.Canvas canvas)
         {
             BoxPainter painter = null;
             if (painterStock.Count == 0)

@@ -15,16 +15,16 @@ namespace TestGraphicPackage2
             Application.SetCompatibleTextRenderingDefault(false);
 
 
-            var platform = LayoutFarm.Drawing.MyWinGdiPortal.Start();
+            var platform = PixelFarm.Drawing.MyWinGdiPortal.Start();
 
-            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = platform.GetFont("tahoma", 10, LayoutFarm.Drawing.FontStyle.Regular);
+            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = platform.GetFont("tahoma", 10, PixelFarm.Drawing.FontStyle.Regular);
 
             var formDemo = new LayoutFarm.Dev.FormDemoList();
             formDemo.LoadDemoList(typeof(Program));
 
 
             Application.Run(formDemo);
-            LayoutFarm.Drawing.MyWinGdiPortal.End();
+            PixelFarm.Drawing.MyWinGdiPortal.End();
 
         }
     }

@@ -31,7 +31,7 @@
 //
 
 
-namespace LayoutFarm.Drawing
+namespace PixelFarm.Drawing
 {
     public struct Color
     {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 
 
-namespace LayoutFarm.Drawing.Animation
+namespace PixelFarm.Drawing.Animation
 {
      
     public class ColorComponentStepup

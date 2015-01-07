@@ -18,8 +18,8 @@ namespace TestGraphicPackage2
 
             //temp
             //TODO: fix this , 
-            var platform = LayoutFarm.Drawing.MyWinGdiPortal.Start();
-            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = platform.GetFont("tahoma", 10, LayoutFarm.Drawing.FontStyle.Regular);
+            var platform = PixelFarm.Drawing.MyWinGdiPortal.Start();
+            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = platform.GetFont("tahoma", 10, PixelFarm.Drawing.FontStyle.Regular);
 
             formDemoList = new LayoutFarm.Dev.FormDemoList();
             formDemoList.LoadDemoList(typeof(Program));
@@ -27,7 +27,7 @@ namespace TestGraphicPackage2
 
             Application.Run(formDemoList);
 
-            //LayoutFarm.Drawing.MyWinGdiPortal.End();
+            //PixelFarm.Drawing.MyWinGdiPortal.End();
 
         }
         static void LoadHtmlSamples(TreeView _samplesTreeView)

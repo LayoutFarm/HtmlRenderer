@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
-using LayoutFarm.DrawingGL;
+using PixelFarm.DrawingGL;
  
-namespace LayoutFarm.Drawing.DrawingGL
+namespace PixelFarm.Drawing.DrawingGL
 { 
     class MyFont : Font
     {

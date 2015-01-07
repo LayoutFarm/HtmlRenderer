@@ -63,7 +63,7 @@ namespace OpenTK.Graphics.ES20
 
         #region public static void ClearColor() overloads
 
-        //public static void ClearColor(LayoutFarm.Drawing.Color color)
+        //public static void ClearColor(PixelFarm.Drawing.Color color)
         //{
         //    GL.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
         //}
@@ -77,7 +77,7 @@ namespace OpenTK.Graphics.ES20
 
         #region public static void BlendColor() overloads
 
-        //public static void BlendColor(LayoutFarm.Drawing.Color color)
+        //public static void BlendColor(PixelFarm.Drawing.Color color)
         //{
         //    GL.BlendColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
         //}

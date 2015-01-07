@@ -28,7 +28,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-namespace LayoutFarm.Drawing
+namespace PixelFarm.Drawing
 {
 
     public enum SmoothingMode

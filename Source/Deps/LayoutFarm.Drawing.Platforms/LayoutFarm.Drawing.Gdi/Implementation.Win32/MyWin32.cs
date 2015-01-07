@@ -538,7 +538,7 @@ namespace Win32
             return ((high << 0x10) | (low & 0xffff));
         }
 
-        public static int ColorToWin32(LayoutFarm.Drawing.Color c)
+        public static int ColorToWin32(PixelFarm.Drawing.Color c)
         {
             return ((c.R | (c.G << 8)) | (c.B << 0x10));
         }

@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
-using LayoutFarm.Drawing.DrawingGL;
+using PixelFarm.Drawing;
+using PixelFarm.Drawing.DrawingGL;
 
-namespace LayoutFarm.Drawing.DrawingGL
+namespace PixelFarm.Drawing.DrawingGL
 {
     public static class CanvasGLPortal
     {

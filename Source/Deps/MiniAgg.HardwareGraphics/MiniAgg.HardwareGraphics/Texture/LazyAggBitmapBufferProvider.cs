@@ -4,7 +4,7 @@ using System;
 using System.Runtime.InteropServices;
 
 using Tesselate; 
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
     public class LazyAggBitmapBufferProvider : LazyBitmapBufferProvider
     {

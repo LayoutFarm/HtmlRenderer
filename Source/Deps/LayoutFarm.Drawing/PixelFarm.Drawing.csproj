@@ -8,8 +8,8 @@
     <ProjectGuid>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LayoutFarm.Drawing</RootNamespace>
-    <AssemblyName>LayoutFarm.Drawing</AssemblyName>
+    <RootNamespace>PixelFarm.Drawing</RootNamespace>
+    <AssemblyName>PixelFarm.Drawing</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -2,24 +2,24 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
-namespace LayoutFarm.Drawing
+namespace PixelFarm.Drawing
 {
     public static class MyWinGdiPortal
     {
         public static GraphicsPlatform Start()
         {
-            LayoutFarm.Drawing.WinGdi.WinGdiPortal.Start();
-            return LayoutFarm.Drawing.WinGdi.WinGdiPortal.P;
+            PixelFarm.Drawing.WinGdi.WinGdiPortal.Start();
+            return PixelFarm.Drawing.WinGdi.WinGdiPortal.P;
         }
         public static void End()
         {
-            LayoutFarm.Drawing.WinGdi.WinGdiPortal.End();
+            PixelFarm.Drawing.WinGdi.WinGdiPortal.End();
         }
         public static GraphicsPlatform P
         {
-            get { return LayoutFarm.Drawing.WinGdi.WinGdiPortal.P; }
+            get { return PixelFarm.Drawing.WinGdi.WinGdiPortal.P; }
         }
     }
     public static class MyOpenGLPortal
@@ -27,18 +27,18 @@ namespace LayoutFarm.Drawing
         public static GraphicsPlatform Start()
         {
 
-            LayoutFarm.DrawingGL.CanvasOptions.DefaultOrientation = CanvasOrientation.LeftTop;
+            PixelFarm.DrawingGL.CanvasOptions.DefaultOrientation = CanvasOrientation.LeftTop;
 
-            LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
-            return LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P;
+            PixelFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
+            return PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P;
         }
         public static void End()
         {
-            LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.End();
+            PixelFarm.Drawing.DrawingGL.CanvasGLPortal.End();
         }
         public static GraphicsPlatform P
         {
-            get { return LayoutFarm.Drawing.DrawingGL.CanvasGLPortal.P; }
+            get { return PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P; }
         }
     }
 

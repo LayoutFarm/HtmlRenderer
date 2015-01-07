@@ -27,7 +27,7 @@
 //
 
 using System;
-namespace LayoutFarm.Drawing
+namespace PixelFarm.Drawing
 {
  
     [Flags]

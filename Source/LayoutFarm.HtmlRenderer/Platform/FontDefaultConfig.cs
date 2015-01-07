@@ -6,7 +6,7 @@ namespace LayoutFarm
         /// <summary>
         /// serif
         /// </summary>
-        internal static string DEFAULT_FONT_NAME = LayoutFarm.Drawing.GraphicsPlatform.GenericSerifFontName;
+        internal static string DEFAULT_FONT_NAME = PixelFarm.Drawing.GraphicsPlatform.GenericSerifFontName;
         /// <summary>
         /// Default font size in points. Change this value to modify the default font size.
         /// </summary>
