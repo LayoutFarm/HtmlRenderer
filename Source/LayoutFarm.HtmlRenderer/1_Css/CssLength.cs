@@ -1,10 +1,10 @@
-//BSD 2014, WinterDev
+// 2015,2014 ,BSD, WinterDev
 //ArthurHub
 
 using System;
 using System.Globalization;
 
-namespace HtmlRenderer.Css
+namespace LayoutFarm.Css
 {
      
     /// <summary>

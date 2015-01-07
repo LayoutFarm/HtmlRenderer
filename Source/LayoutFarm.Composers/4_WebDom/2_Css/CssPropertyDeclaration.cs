@@ -2,10 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using HtmlRenderer.Boxes;
-using HtmlRenderer.Css;
-using LayoutFarm.Drawing;
-namespace HtmlRenderer.WebDom
+using LayoutFarm.HtmlBoxes;
+using LayoutFarm.Css;
+using PixelFarm.Drawing;
+namespace LayoutFarm.WebDom
 {
 
 
@@ -375,7 +375,7 @@ namespace HtmlRenderer.WebDom
 
         CssValueEvaluatedAs evaluatedAs;
         Color cachedColor;
-        HtmlRenderer.Css.CssLength cachedLength;
+        LayoutFarm.Css.CssLength cachedLength;
         int cachedInt;
         protected float number;
 

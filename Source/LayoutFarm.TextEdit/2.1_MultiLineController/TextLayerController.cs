@@ -1,11 +1,9 @@
-﻿//2014,2015 Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 
-using System;
-using System.Collections;
+using System; 
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
-using System.IO;
-using System.Text;
+using PixelFarm.Drawing;
+
 
 namespace LayoutFarm.Text
 {

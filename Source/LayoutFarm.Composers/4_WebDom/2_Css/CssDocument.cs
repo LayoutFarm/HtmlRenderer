@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text; 
 
-namespace HtmlRenderer.WebDom
+namespace LayoutFarm.WebDom
 { 
     public class CssDocument
     {

@@ -1,6 +1,6 @@
 ﻿//MIT 2014, WinterDev
 using System;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 namespace OpenTK.Graphics.ES20
 {
     public static class GLHelper
@@ -14,9 +14,9 @@ namespace OpenTK.Graphics.ES20
                 (float)c.A / 255f);
         }
 
-        public static LayoutFarm.Drawing.Rectangle ConvToRect(Rectangle openTkRect)
+        public static PixelFarm.Drawing.Rectangle ConvToRect(Rectangle openTkRect)
         {
-            return new LayoutFarm.Drawing.Rectangle(
+            return new PixelFarm.Drawing.Rectangle(
                 openTkRect.X,
                 openTkRect.Y,
                 openTkRect.Width,

@@ -1,5 +1,5 @@
 ﻿//MIT 2014, WinterDev
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
     public enum CanvasSmoothMode
     {

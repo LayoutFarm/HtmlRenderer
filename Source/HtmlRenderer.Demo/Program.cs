@@ -1,4 +1,4 @@
-//BSD 2014, WinterDev
+// 2015,2014 ,BSD, WinterDev
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -18,7 +18,7 @@ using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.Windows.Forms;
 
-namespace HtmlRenderer.Demo
+namespace LayoutFarm.Demo
 {
     static class Program
     {
@@ -37,9 +37,9 @@ namespace HtmlRenderer.Demo
 
 
 
-            var platform = LayoutFarm.Drawing.MyWinGdiPortal.Start();
+            var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
             Application.Run(new DevForm(platform));
-            LayoutFarm.Drawing.MyWinGdiPortal.End();
+            LayoutFarm.UI.GdiPlus.MyWinGdiPortal.End();
 
 
             //            Application.Run(new PerfForm());

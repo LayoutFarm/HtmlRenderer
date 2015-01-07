@@ -2,13 +2,13 @@
 //MS-PL,  
 
 using System;
-using LayoutFarm.Drawing; 
+using PixelFarm.Drawing; 
 using System.Collections.Generic;
-using HtmlRenderer;
-using HtmlRenderer.Css;
-using LayoutFarm.SvgDom;
+using LayoutFarm;
+using LayoutFarm.Css;
+using LayoutFarm.Svg;
 
-namespace LayoutFarm.SvgDom
+namespace LayoutFarm.Svg
 {
     public class SvgVisualSpec
     {

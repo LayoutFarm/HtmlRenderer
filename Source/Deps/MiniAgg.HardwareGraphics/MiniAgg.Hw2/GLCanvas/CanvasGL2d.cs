@@ -12,13 +12,13 @@ using Tesselate;
 using PixelFarm.Agg;
 using PixelFarm.Agg.VertexSource;
 
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
 
     public partial class CanvasGL2d
     {
         BasicShader basicShader;
-        LayoutFarm.Drawing.Color strokeColor = LayoutFarm.Drawing.Color.Black;
+        PixelFarm.Drawing.Color strokeColor = PixelFarm.Drawing.Color.Black;
 
         Tesselator tess = new Tesselator();
         TessListener2 tessListener = new TessListener2();
@@ -81,7 +81,7 @@ namespace LayoutFarm.DrawingGL
             set;
         }
 
-        public void Clear(LayoutFarm.Drawing.Color c)
+        public void Clear(PixelFarm.Drawing.Color c)
         {
             //set value for clear color buffer
              
@@ -103,7 +103,7 @@ namespace LayoutFarm.DrawingGL
                 this.aggStroke.Width = value;
             }
         }
-        public LayoutFarm.Drawing.Color StrokeColor
+        public PixelFarm.Drawing.Color StrokeColor
         {
             get { return this.strokeColor; }
             set { this.strokeColor = value; }
@@ -139,17 +139,17 @@ namespace LayoutFarm.DrawingGL
         public void DrawImage(GLBitmap bmp, float x, float y)
         {
             DrawImage(bmp,
-                   new LayoutFarm.Drawing.RectangleF(0, 0, bmp.Width, bmp.Height),
+                   new PixelFarm.Drawing.RectangleF(0, 0, bmp.Width, bmp.Height),
                    x, y, bmp.Width, bmp.Height);
         }
         public void DrawImage(GLBitmap bmp, float x, float y, float w, float h)
         {
             DrawImage(bmp,
-                new LayoutFarm.Drawing.RectangleF(0, 0, bmp.Width, bmp.Height),
+                new PixelFarm.Drawing.RectangleF(0, 0, bmp.Width, bmp.Height),
                 x, y, w, h);
         }
         public void DrawImage(GLBitmap bmp,
-            LayoutFarm.Drawing.RectangleF srcRect,
+            PixelFarm.Drawing.RectangleF srcRect,
             float x, float y, float w, float h)
         {
             unsafe
@@ -210,7 +210,7 @@ namespace LayoutFarm.DrawingGL
         }
         //-------------------------------------------------------------------------------
 
-        public void DrawImages(GLBitmap bmp, LayoutFarm.Drawing.RectangleF[] destAndSrcPairs)
+        public void DrawImages(GLBitmap bmp, PixelFarm.Drawing.RectangleF[] destAndSrcPairs)
         {
 
             unsafe
@@ -277,7 +277,7 @@ namespace LayoutFarm.DrawingGL
             }
         }
 
-        public void FillVxs(LayoutFarm.Drawing.Color color, VertexStore vxs)
+        public void FillVxs(PixelFarm.Drawing.Color color, VertexStore vxs)
         {
             //solid brush
             switch (this.SmoothMode)
@@ -299,7 +299,7 @@ namespace LayoutFarm.DrawingGL
             }
 
         }
-        public void FillVxs(LayoutFarm.Drawing.LinearGradientBrush brush, VertexStore vxs)
+        public void FillVxs(PixelFarm.Drawing.LinearGradientBrush brush, VertexStore vxs)
         {
             switch (this.SmoothMode)
             {
@@ -319,7 +319,7 @@ namespace LayoutFarm.DrawingGL
         }
 
 
-        public void FillVxsSnap(LayoutFarm.Drawing.Color color, VertexStoreSnap snap)
+        public void FillVxsSnap(PixelFarm.Drawing.Color color, VertexStoreSnap snap)
         {
             switch (this.SmoothMode)
             {
@@ -929,13 +929,13 @@ namespace LayoutFarm.DrawingGL
 
             }
         }
-        public void FillRect(LayoutFarm.Drawing.Color color, float x, float y, float w, float h)
+        public void FillRect(PixelFarm.Drawing.Color color, float x, float y, float w, float h)
         {
             CoordList2f coords = new CoordList2f();
             CreateRectCoords(coords, x, y, w, h);
             this.basicShader.DrawTrianglesWithVertexBuffer(coords, coords.Count, color);
         }
-        public void FillRect(LayoutFarm.Drawing.LinearGradientBrush linearGradientBrush, float x, float y, float w, float h)
+        public void FillRect(PixelFarm.Drawing.LinearGradientBrush linearGradientBrush, float x, float y, float w, float h)
         {
 
 
@@ -976,7 +976,7 @@ namespace LayoutFarm.DrawingGL
         }
 
 
-        public void FillRoundRect(LayoutFarm.Drawing.Color color, float x, float y, float w, float h, float rx, float ry)
+        public void FillRoundRect(PixelFarm.Drawing.Color color, float x, float y, float w, float h, float rx, float ry)
         {
 
             roundRect.SetRect(x, y, x + w, y + h);
@@ -1005,7 +1005,7 @@ namespace LayoutFarm.DrawingGL
             }
 
         }
-        public void FillEllipse(LayoutFarm.Drawing.Color color, float x, float y, float rx, float ry)
+        public void FillEllipse(PixelFarm.Drawing.Color color, float x, float y, float rx, float ry)
         {
             ellipse.Reset(x, y, rx, ry);
             var vxs = ellipse.MakeVxs();
@@ -1084,16 +1084,16 @@ namespace LayoutFarm.DrawingGL
                     } break;
             }
         }
-        public void FillCircle(LayoutFarm.Drawing.Color color, float x, float y, float radius)
+        public void FillCircle(PixelFarm.Drawing.Color color, float x, float y, float radius)
         {
             FillEllipse(color, x, y, radius, radius);
         }
 
-        public void FillPolygon(LayoutFarm.Drawing.Color color, float[] vertex2dCoords)
+        public void FillPolygon(PixelFarm.Drawing.Color color, float[] vertex2dCoords)
         {
             FillPolygon(color, vertex2dCoords, vertex2dCoords.Length);
         }
-        public void FillPolygon(LayoutFarm.Drawing.Brush brush, float[] vertex2dCoords, int npoints)
+        public void FillPolygon(PixelFarm.Drawing.Brush brush, float[] vertex2dCoords, int npoints)
         {
             //-------------
             //Tesselate
@@ -1129,7 +1129,7 @@ namespace LayoutFarm.DrawingGL
                         {
                             case Drawing.BrushKind.Solid:
                                 {
-                                    var color = ((LayoutFarm.Drawing.SolidBrush)brush).Color;
+                                    var color = ((PixelFarm.Drawing.SolidBrush)brush).Color;
                                     sclineRasToGL.FillWithColor(sclineRas, sclinePack8, color);
 
                                 } break;
@@ -1150,7 +1150,7 @@ namespace LayoutFarm.DrawingGL
                             case Drawing.BrushKind.LinearGradient:
                             case Drawing.BrushKind.Texture:
                                 {
-                                    var linearGradientBrush = brush as LayoutFarm.Drawing.LinearGradientBrush;
+                                    var linearGradientBrush = brush as PixelFarm.Drawing.LinearGradientBrush;
                                     GL.ClearStencil(0); //set value for clearing stencil buffer 
                                     //actual clear here
                                     GL.Clear(ClearBufferMask.StencilBufferBit);
@@ -1188,7 +1188,7 @@ namespace LayoutFarm.DrawingGL
                                         VertexStore vxs = ps.Vxs;
                                         sclineRas.Reset();
                                         sclineRas.AddPath(vxs);
-                                        sclineRasToGL.FillWithColor(sclineRas, sclinePack8, LayoutFarm.Drawing.Color.White);
+                                        sclineRasToGL.FillWithColor(sclineRas, sclinePack8, PixelFarm.Drawing.Color.White);
                                         //create stencil with normal OpenGL 
                                     }
                                     else
@@ -1198,7 +1198,7 @@ namespace LayoutFarm.DrawingGL
                                         int j2 = j * 2;
                                         VboC4V3f vbo = GenerateVboC4V3f();
                                         ArrayList<VertexC4V3f> vrx = new ArrayList<VertexC4V3f>();
-                                        uint color_uint = LayoutFarm.Drawing.Color.Black.ToABGR();   //color.ToABGR();
+                                        uint color_uint = PixelFarm.Drawing.Color.Black.ToABGR();   //color.ToABGR();
                                         for (int i = 0; i < j; ++i)
                                         {
                                             var v = vertextList[i];
@@ -1239,7 +1239,7 @@ namespace LayoutFarm.DrawingGL
                                              BlendingFactorSrc.DstColor, BlendingFactorDest.DstColor, //the same
                                              BlendingFactorSrc.One, BlendingFactorDest.Zero); //use alpha chanel from source
 
-                                        sclineRasToGL.FillWithColor(sclineRas, sclinePack8, LayoutFarm.Drawing.Color.Black);
+                                        sclineRasToGL.FillWithColor(sclineRas, sclinePack8, PixelFarm.Drawing.Color.Black);
                                         //at this point alpha component is fill in to destination 
                                         //-------------------------------------------------------------------------------------
                                         //2. then fill again!, 
@@ -1278,8 +1278,8 @@ namespace LayoutFarm.DrawingGL
                                             else if (brush.BrushKind == Drawing.BrushKind.Texture)
                                             {
                                                 //draw texture image 
-                                                LayoutFarm.Drawing.TextureBrush tbrush = (LayoutFarm.Drawing.TextureBrush)brush;
-                                                LayoutFarm.Drawing.Image img = tbrush.TextureImage;
+                                                PixelFarm.Drawing.TextureBrush tbrush = (PixelFarm.Drawing.TextureBrush)brush;
+                                                PixelFarm.Drawing.Image img = tbrush.TextureImage;
                                                 GLBitmap bmpTexture = (GLBitmap)tbrush.InnerImage2;
                                                 this.DrawImage(bmpTexture, 0, 0);
                                                 //GLBitmapTexture bmp = GLBitmapTexture.CreateBitmapTexture(fontGlyph.glyphImage32);
@@ -1352,7 +1352,7 @@ namespace LayoutFarm.DrawingGL
                     } break;
             }
         }
-        public void FillPolygon(LayoutFarm.Drawing.Color color, float[] vertex2dCoords, int npoints)
+        public void FillPolygon(PixelFarm.Drawing.Color color, float[] vertex2dCoords, int npoints)
         {
             //-------------
             //Tesselate

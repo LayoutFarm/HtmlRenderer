@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1AA171E3-523C-4DD5-A169-DE6322991FF5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PixelFarm.Drawing.Platforms</RootNamespace>
+    <AssemblyName>PixelFarm.Drawing.Platforms</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CanvasExt\Canvas2dExtension.cs" />
+    <Compile Include="CanvasExt\VertexSourceIO.cs" />
+    <Compile Include="FontNative\NativeBridgeFreeType.cs" />
+    <Compile Include="FontNative\NativeBridgeHB.cs" />
+    <Compile Include="FontNative\NativeBridgeMyFonts.cs" />
+    <Compile Include="FontNative\NativeFont.cs" />
+    <Compile Include="FontNative\NativeFontFace.cs" />
+    <Compile Include="FontNative\NativeFontStore.cs" />
+    <Compile Include="FontNative\UnsafeMethods.cs" />
+    <Compile Include="FontSvg\NativeFontGlyphBuilder.cs" />
+    <Compile Include="FontSvg\SvgFont.cs" />
+    <Compile Include="FontSvg\SvgFontFace.cs" />
+    <Compile Include="FontSvg\SvgFontFace_LiberationSans.cs" />
+    <Compile Include="FontSvg\SvgFontStore.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\0_Start\Conv.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\0_Start\WinGdiPlatform.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\0_Start\WinGdiPortal.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\BitmapBuffer\BitmapHelper.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\FontGdiPath\GdiPathConverter.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\FontGdiPath\GdiPathFont.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\FontGdiPath\GdiPathFontFace.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\FontGdiPath\GdiPathFontStore.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\Implementation\Bitmap_Brush_Pen.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\Implementation\FontStore.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\Implementation\MyFontInfo.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\Implementation\MyGraphicPath.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\Implementation.Win32\MyWin32.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\Implementation.Win32\NativeTextWin32.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\Implementation\Region.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\Implementation.Win32\Win32Utils.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\0_CanvasCollection.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\1_MyCanvas_Specific.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\2_MyCanvas_CoordinateAndClip.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\3_MyCanvas_DrawGraphics.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\4_MyCanvas_TextAndFonts.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\QuadPages.cs" />
+    <Compile Include="PixelFarm.Drawing.DrawingGL\0_Start\CanvasGLPlatform.cs" />
+    <Compile Include="PixelFarm.Drawing.DrawingGL\0_Start\CanvasGLPortal.cs" />
+    <Compile Include="PixelFarm.Drawing.DrawingGL\Implementation\GLBitmapTextureHelper.cs" />
+    <Compile Include="PixelFarm.Drawing.DrawingGL\Implementation\GLTextPrinter.cs" />
+    <Compile Include="PixelFarm.Drawing.DrawingGL\Implementation\MyBitmapGL.cs" />
+    <Compile Include="PixelFarm.Drawing.DrawingGL\MyCanvas_GL\1_MyCanvasGL_Specific.cs" />
+    <Compile Include="PixelFarm.Drawing.DrawingGL\MyCanvas_GL\2_MyCanvasGL_CoordinateAndClip.cs" />
+    <Compile Include="PixelFarm.Drawing.DrawingGL\MyCanvas_GL\3_MyCanvasGL_DrawGraphics.cs" />
+    <Compile Include="PixelFarm.Drawing.DrawingGL\MyCanvas_GL\4_MyCanvasGL_TextAndFonts.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\FontGdiTexture\GdiTextureFont.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MiniAgg.Complements\MiniAgg.Complements.csproj">
+      <Project>{AE0DF71E-9B14-4197-B55A-E1E0CE0683C7}</Project>
+      <Name>MiniAgg.Complements</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiniAgg.HardwareGraphics\MiniAgg.HardwareGraphics\MiniAgg.HardwareGraphics.csproj">
+      <Project>{2B1F2C53-2F8D-4E0E-94EB-79171C91337B}</Project>
+      <Name>MiniAgg.HardwareGraphics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MiniAgg\MiniAgg.csproj">
+      <Project>{4D5CE655-58FA-4523-8E46-738B941E9E47}</Project>
+      <Name>MiniAgg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
+      <Project>{0C869FB2-1F97-422F-9763-5AC12B2EFE0E}</Project>
+      <Name>PixelFarm.Drawing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

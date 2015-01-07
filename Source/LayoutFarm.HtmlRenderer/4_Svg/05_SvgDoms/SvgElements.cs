@@ -2,14 +2,14 @@
 //2014,2015, WinterDev
 
 using System;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using System.Collections.Generic;
 
-using HtmlRenderer;
-using HtmlRenderer.Css;
-using LayoutFarm.SvgDom;
-
-namespace LayoutFarm.SvgDom
+using LayoutFarm;
+using LayoutFarm.Css;
+using LayoutFarm.Svg;
+using LayoutFarm.HtmlBoxes;
+namespace LayoutFarm.Svg
 {
 
     public abstract class SvgNode
@@ -122,7 +122,7 @@ namespace LayoutFarm.SvgDom
             }
         }
 
-        public virtual void Paint(Painter p)
+        public virtual void Paint(PaintVisitor p)
         {
 
         }

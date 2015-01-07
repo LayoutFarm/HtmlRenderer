@@ -1,9 +1,9 @@
 ﻿using System;
-using HtmlRenderer.Composers;
-using HtmlRenderer.WebDom;
+using LayoutFarm.Composers;
+using LayoutFarm.WebDom;
 using LayoutFarm;
 using LayoutFarm.UI;
-namespace HtmlRenderer.Demo
+namespace LayoutFarm.Demo
 {
 
     class Demo05_Dynamic_BoxSpec : DemoBase
@@ -16,7 +16,7 @@ namespace HtmlRenderer.Demo
         protected override void OnStartDemo(HtmlPanel panel)
         {
 
-            BridgeHtmlDocument htmldoc = new BridgeHtmlDocument();
+            HtmlDocument htmldoc = new HtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  
@@ -35,7 +35,7 @@ namespace HtmlRenderer.Demo
 #if DEBUG
 
                             var s_span = new EaseScriptElement(span);
-                            s_span.ChangeFontColor(LayoutFarm.Drawing.Color.Blue);
+                            s_span.ChangeFontColor(PixelFarm.Drawing.Color.Blue);
 #endif
 
                             e.StopPropagation();
@@ -51,8 +51,8 @@ namespace HtmlRenderer.Demo
                             span.ClearAllElements();
                             span.AddTextContent("LMNOP0003");
                             var s_span = new EaseScriptElement(span);
-                            s_span.ChangeFontColor(LayoutFarm.Drawing.Color.Red);
-                            s_span.ChangeBackgroundColor(LayoutFarm.Drawing.Color.Yellow);
+                            s_span.ChangeFontColor(PixelFarm.Drawing.Color.Red);
+                            s_span.ChangeBackgroundColor(PixelFarm.Drawing.Color.Yellow);
 
                         });
                     });
@@ -72,7 +72,7 @@ namespace HtmlRenderer.Demo
 
             //2. add to view 
             panel.LoadHtmlDom(htmldoc,
-               HtmlRenderer.Composers.CssDefaults.DefaultStyleSheet);
+               LayoutFarm.Composers.CssDefaults.DefaultStyleSheet);
 
 
         }

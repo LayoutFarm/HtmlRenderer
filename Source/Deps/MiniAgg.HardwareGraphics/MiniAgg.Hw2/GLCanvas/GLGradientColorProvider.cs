@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Agg;
 
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
     static class GLGradientColorProvider
     {
@@ -12,8 +12,8 @@ namespace LayoutFarm.DrawingGL
         public static ArrayList<VertexC4V3f> CalculateLinearGradientVxs(
             float x1, float y1,
             float x2, float y2,
-            LayoutFarm.Drawing.Color c1,
-            LayoutFarm.Drawing.Color c2)
+            PixelFarm.Drawing.Color c1,
+            PixelFarm.Drawing.Color c2)
         {
 
 
@@ -33,7 +33,7 @@ namespace LayoutFarm.DrawingGL
                 float tmpy = y2;
                 y2 = y1;
                 y1 = tmpy;
-                LayoutFarm.Drawing.Color tmpc = c2;
+                PixelFarm.Drawing.Color tmpc = c2;
                 c2 = c1;
                 c1 = tmpc;
 

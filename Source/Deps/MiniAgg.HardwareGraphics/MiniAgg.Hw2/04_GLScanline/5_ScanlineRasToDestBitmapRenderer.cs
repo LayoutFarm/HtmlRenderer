@@ -23,7 +23,7 @@ using PixelFarm.Agg.Image;
 using PixelFarm.Agg.VertexSource;
 using OpenTK;
 using OpenTK.Graphics.ES20;
-using LayoutFarm.DrawingGL;
+using PixelFarm.DrawingGL;
 
 namespace PixelFarm.Agg
 {
@@ -56,7 +56,7 @@ namespace PixelFarm.Agg
         /// <param name="shapeHint"></param>
         public void FillWithColor(GLScanlineRasterizer sclineRas,
                 GLScanline scline,
-                LayoutFarm.Drawing.Color color)
+                PixelFarm.Drawing.Color color)
         {
 
             //early exit
@@ -118,7 +118,7 @@ namespace PixelFarm.Agg
         /// <param name="shapeHint"></param>
         public void DrawWithColor(GLScanlineRasterizer sclineRas,
                 GLScanline scline,
-                LayoutFarm.Drawing.Color color)
+                PixelFarm.Drawing.Color color)
         {
             //early exit
             if (color.A == 0) { return; }
@@ -196,7 +196,7 @@ namespace PixelFarm.Agg
                             } break;
                         default:
                             {
-                                //var c = LayoutFarm.Drawing.Color.FromArgb(alpha, color).ToARGB();
+                                //var c = PixelFarm.Drawing.Color.FromArgb(alpha, color).ToARGB();
                                 //lineBuffer.AddVertex(new VertexV2S1Cvr(x1, y, alpha));
                                 //lineBuffer.AddVertex(new VertexV2S1Cvr(x2 + 1, y, alpha));
                                 lineBuffer.AddCoord(x1 - 1, alpha);
@@ -237,7 +237,7 @@ namespace PixelFarm.Agg
                             } break;
                         default:
                             {
-                                //var c = LayoutFarm.Drawing.Color.FromArgb(alpha, color).ToARGB();
+                                //var c = PixelFarm.Drawing.Color.FromArgb(alpha, color).ToARGB();
                                 //lineBuffer.AddVertex(new VertexV2S1Cvr(x1, y, alpha));
                                 //lineBuffer.AddVertex(new VertexV2S1Cvr(x2 + 1, y, alpha));
                                 lineBuffer.AddCoord(x1 - 1, 0);

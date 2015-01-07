@@ -1,4 +1,4 @@
-//BSD 2014, WinterDev
+// 2015,2014 ,BSD, WinterDev
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox
@@ -15,11 +15,11 @@
 
 using System;
 using System.Collections.Generic;
-using HtmlRenderer.Css;
-using LayoutFarm.Drawing;
+using LayoutFarm.Css;
+using PixelFarm.Drawing;
 
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
     /// Layout engine for tables executing the complex layout of tables with rows/columns/headers/etc.

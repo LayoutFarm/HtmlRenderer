@@ -32,9 +32,14 @@
 //
 
 using System;
-namespace LayoutFarm.UI.Graphics
+namespace LayoutFarm.UI
 {
-    public struct Size
+    //==================================
+    //these 3 classes 
+    //just for use in this lib only***    
+    //==================================
+
+    struct Size
     {
         int _w, _h;
         public Size(int w, int h)
@@ -76,7 +81,7 @@ namespace LayoutFarm.UI.Graphics
         public static readonly Size Empty = new Size();
 
     }
-    public struct Point
+    struct Point
     {
         int _x, _y;
         public Point(int x, int y)
@@ -122,7 +127,7 @@ namespace LayoutFarm.UI.Graphics
         }
         public static readonly Point Empty = new Point();
     }
-    public struct Rectangle
+    struct Rectangle
     {
         private int x, y, width, height;
 

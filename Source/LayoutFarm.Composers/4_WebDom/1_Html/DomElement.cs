@@ -4,7 +4,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 
-namespace HtmlRenderer.WebDom
+namespace LayoutFarm.WebDom
 {   
     public abstract partial class DomElement : DomNode
     {

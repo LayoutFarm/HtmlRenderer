@@ -2,9 +2,9 @@
 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
     public class CssBoxListItem : CssBox
@@ -42,7 +42,7 @@ namespace HtmlRenderer.Boxes
                 _listItemBulletBox.FirstRun.SetLocation(_listItemBulletBox.SizeWidth - 5, this.ActualPaddingTop);
             }
         }
-        protected override void PaintImp(Painter p)
+        protected override void PaintImp(PaintVisitor p)
         {
             base.PaintImp(p);
 

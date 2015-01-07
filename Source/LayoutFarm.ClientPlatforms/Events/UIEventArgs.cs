@@ -1,9 +1,7 @@
-﻿//2014,2015 Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-
-using LayoutFarm.UI.Graphics;
-
+ 
 
 namespace LayoutFarm.UI
 {
@@ -124,14 +122,14 @@ namespace LayoutFarm.UI
             get;
             set;
         }
-
-        public Point Location
+        
+        internal Point Location
         {
             get
             {
                 return new Point(x, y);
             }
-            internal set
+            set
             {
                 x = value.X;
                 y = value.Y;
@@ -270,13 +268,13 @@ namespace LayoutFarm.UI
             this.xdiffFromMouseDown = xdiffFromMouseDown;
             this.ydiffFromMouseDown = ydiffFromMouseDown;
         }
-        public void SetEventInfo(Point location, UIMouseButtons button, int clicks, int delta)
-        {
-            Location = location;
-            Button = button;
-            Clicks = clicks;
-            Delta = delta;
-        }
+        //public void SetEventInfo(Point location, UIMouseButtons button, int clicks, int delta)
+        //{
+        //    Location = location;
+        //    Button = button;
+        //    Clicks = clicks;
+        //    Delta = delta;
+        //}
         public void SetEventInfo(int x, int y, UIMouseButtons button, int clicks, int delta)
         {
             Location = new Point(x, y);
@@ -393,7 +391,7 @@ namespace LayoutFarm.UI
 
     public class UIInvalidateEventArgs : UIEventArgs
     {
-        public Rectangle InvalidArea;
+        //public Rectangle InvalidArea;
         public UIInvalidateEventArgs()
         {
         }

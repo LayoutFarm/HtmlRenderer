@@ -1,4 +1,4 @@
-//BSD 2014, WinterDev
+// 2015,2014 ,BSD, WinterDev
 //ArthurHub 
 
 // "Therefore those skilled at the unorthodox
@@ -14,11 +14,10 @@
 // "The Art of War"
 
 using System;
-using LayoutFarm.Drawing;
-using HtmlRenderer.Css;
-using HtmlRenderer.Boxes;
+using PixelFarm.Drawing;
+using LayoutFarm.Css; 
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
 
@@ -36,7 +35,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="rect">the bounding rectangle to draw in</param>
         /// <param name="isFirst">is it the first rectangle of the element</param>
         /// <param name="isLast">is it the last rectangle of the element</param>
-        public static void DrawBoxBorders(Painter p, CssBox box, RectangleF rect, bool isFirst, bool isLast)
+        public static void DrawBoxBorders(PaintVisitor p, CssBox box, RectangleF rect, bool isFirst, bool isLast)
         {
 
             if (rect.Width > 0 && rect.Height > 0)
@@ -148,7 +147,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="isLineStart">Specifies if the border is for a starting line (no bevel on left)</param>
         /// <param name="isLineEnd">Specifies if the border is for an ending line (no bevel on right)</param>
         static void DrawBorder(CssSide borderSide, CssBox box,
-            Painter p, RectangleF rect, bool isLineStart, bool isLineEnd)
+            PaintVisitor p, RectangleF rect, bool isLineStart, bool isLineEnd)
         {
 
             float actualBorderWidth;
@@ -288,7 +287,7 @@ namespace HtmlRenderer.Boxes
         /// <param name="b">Box which the border corresponds</param>
         /// <param name="r">the rectangle the border is enclosing</param>
         /// <returns>Beveled border path, null if there is no rounded corners</returns>
-        static GraphicsPath GetRoundedBorderPath(Painter p, CssSide border, CssBox b, RectangleF r)
+        static GraphicsPath GetRoundedBorderPath(PaintVisitor p, CssSide border, CssBox b, RectangleF r)
         {
             GraphicsPath path = null;
 

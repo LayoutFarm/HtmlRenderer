@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 
 using Tesselate;
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
     public struct Vertex
     {

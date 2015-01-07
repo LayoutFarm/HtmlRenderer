@@ -100,11 +100,11 @@ namespace Examples.Tutorial
 
             GL.Begin(BeginMode.Triangles);
 
-            GLHelper.Color3(LayoutFarm.Drawing.Conv.ToColor(Color.MidnightBlue));
+            GLHelper.Color3(PixelFarm.Drawing.Conv.ToColor(Color.MidnightBlue));
             GL.Vertex2(-1.0f, 1.0f);
-            GLHelper.Color3(LayoutFarm.Drawing.Conv.ToColor(Color.SpringGreen));
+            GLHelper.Color3(PixelFarm.Drawing.Conv.ToColor(Color.SpringGreen));
             GL.Vertex2(0.0f, -1.0f);
-            GLHelper.Color3(LayoutFarm.Drawing.Conv.ToColor(Color.Ivory));
+            GLHelper.Color3(PixelFarm.Drawing.Conv.ToColor(Color.Ivory));
             GL.Vertex2(1.0f, 1.0f);
 
             GL.End();

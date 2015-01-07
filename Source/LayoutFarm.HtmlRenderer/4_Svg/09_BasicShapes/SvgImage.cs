@@ -2,14 +2,14 @@
 //2014,2015, WinterDev
 
 using System;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using System.Collections.Generic;
 
-using HtmlRenderer;
-using HtmlRenderer.Css;
-using LayoutFarm.SvgDom;
-
-namespace LayoutFarm.SvgDom
+using LayoutFarm;
+using LayoutFarm.Css;
+using LayoutFarm.Svg;
+using LayoutFarm.HtmlBoxes;
+namespace LayoutFarm.Svg
 {
     public class SvgImage : SvgVisualElement
     {
@@ -18,14 +18,14 @@ namespace LayoutFarm.SvgDom
         Color strokeColor = Color.Transparent;
         Color fillColor = Color.Black;
         GraphicsPath _path;
-        HtmlRenderer.Boxes.CssImageRun _imgRun;
+        LayoutFarm.HtmlBoxes.CssImageRun _imgRun;
 
 
         public SvgImage(SvgImageSpec spec, object controller)
             : base(controller)
         {
             this.imageSpec = spec;
-            this._imgRun = new HtmlRenderer.Boxes.CssImageRun();
+            this._imgRun = new LayoutFarm.HtmlBoxes.CssImageRun();
         }
         //----------------------------
         public float ActualX
@@ -78,7 +78,7 @@ namespace LayoutFarm.SvgDom
             ValidatePath();
 
         }
-        public override void Paint(Painter p)
+        public override void Paint(PaintVisitor p)
         {
 
             Canvas g = p.InnerCanvas;

@@ -14,16 +14,16 @@
 // "The Art of War"
 
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
-namespace LayoutFarm.Drawing
+namespace LayoutFarm 
 {
 
 
     /// <summary>
     /// Provides some drawing functionallity
     /// </summary>
-    public static class RenderUtils
+    static class RenderUtils
     {
         ///// <summary>
         ///// cache of brush color to brush instance

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text; 
 
-namespace HtmlRenderer.WebDom.Parser
+namespace LayoutFarm.WebDom.Parser
 {   
 
     public class CssParser 
@@ -371,7 +371,7 @@ namespace HtmlRenderer.WebDom.Parser
                                     //block name
 
                                     //create css property 
-                                    var wellknownName = HtmlRenderer.Composers.UserMapUtil.GetWellKnownPropName(
+                                    var wellknownName = LayoutFarm.Composers.UserMapUtil.GetWellKnownPropName(
                                          new string(this.textBuffer, start, len));
 
                                     _currentRuleSet.AddCssCodeProperty(this._currentProperty =
@@ -696,19 +696,19 @@ namespace HtmlRenderer.WebDom.Parser
                             //font weight
                             //font named size         
                             //font family
-                            if (HtmlRenderer.Composers.UserMapUtil.IsFontStyle(value.Value))
+                            if (LayoutFarm.Composers.UserMapUtil.IsFontStyle(value.Value))
                             {
                                 newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontStyle, value));
                                 continue;
                             }
 
-                            if (HtmlRenderer.Composers.UserMapUtil.IsFontVariant(value.Value))
+                            if (LayoutFarm.Composers.UserMapUtil.IsFontVariant(value.Value))
                             {
                                 newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontVariant, value));
                                 continue;
                             }
                             //----------
-                            if (HtmlRenderer.Composers.UserMapUtil.IsFontWeight(value.Value))
+                            if (LayoutFarm.Composers.UserMapUtil.IsFontWeight(value.Value))
                             {
                                 newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontWeight, value));
                                 continue;
@@ -869,7 +869,7 @@ namespace HtmlRenderer.WebDom.Parser
                 //what value means ?
                 //border width/ style / color
                 if (cssCodePropertyValue.Hint == CssValueHint.Number ||
-                    HtmlRenderer.Composers.UserMapUtil.IsNamedBorderWidth(cssCodePropertyValue.Value))
+                    LayoutFarm.Composers.UserMapUtil.IsNamedBorderWidth(cssCodePropertyValue.Value))
                 {   
                     //border width
                     switch (borderDirection)
@@ -904,7 +904,7 @@ namespace HtmlRenderer.WebDom.Parser
                 }
 
                 //------
-                if (HtmlRenderer.Composers.UserMapUtil.IsBorderStyle(cssCodePropertyValue.Value))
+                if (LayoutFarm.Composers.UserMapUtil.IsBorderStyle(cssCodePropertyValue.Value))
                 {
 
                     //border style

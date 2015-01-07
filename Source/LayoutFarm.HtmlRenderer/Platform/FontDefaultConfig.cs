@@ -1,13 +1,12 @@
-﻿//BSD 2014, WinterDev 
-using LayoutFarm.Drawing;
-namespace LayoutFarm.Drawing
+﻿// 2015,2014 ,BSD, WinterDev  
+namespace LayoutFarm 
 {
     static class FontDefaultConfig
-    {        
+    {
         /// <summary>
         /// serif
         /// </summary>
-        internal static string DEFAULT_FONT_NAME = LayoutFarm.Drawing.GraphicsPlatform.GenericSerifFontName;
+        internal static string DEFAULT_FONT_NAME = PixelFarm.Drawing.GraphicsPlatform.GenericSerifFontName;
         /// <summary>
         /// Default font size in points. Change this value to modify the default font size.
         /// </summary>

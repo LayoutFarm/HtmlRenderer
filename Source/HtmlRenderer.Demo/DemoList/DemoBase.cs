@@ -1,8 +1,8 @@
 ﻿using System;
-using HtmlRenderer.Composers;
-using HtmlRenderer.WebDom;
+using LayoutFarm.Composers;
+using LayoutFarm.WebDom;
 
-namespace HtmlRenderer.Demo
+namespace LayoutFarm.Demo
 {
     public abstract class DemoBase
     {

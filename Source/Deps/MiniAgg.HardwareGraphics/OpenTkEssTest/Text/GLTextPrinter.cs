@@ -4,7 +4,7 @@ using System;
  
 using PixelFarm.Agg.Fonts;
 
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
     class GLTextPrinter
     {

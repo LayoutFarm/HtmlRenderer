@@ -8,7 +8,7 @@ using PixelFarm.Agg.Image;
 using PixelFarm.Agg.VertexSource;
 using OpenTK;
 using OpenTK.Graphics.ES20;
-using LayoutFarm.DrawingGL;
+using PixelFarm.DrawingGL;
 
 namespace PixelFarm.Agg
 {

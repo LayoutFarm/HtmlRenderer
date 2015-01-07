@@ -1,10 +1,10 @@
-﻿//MIT 2014, WinterDev
+﻿// 2015,2014 ,MIT, WinterDev
 using System.Text;
 using System;
 using System.Runtime.InteropServices;
 
 using Tesselate; 
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
     public class LazyAggBitmapBufferProvider : LazyBitmapBufferProvider
     {

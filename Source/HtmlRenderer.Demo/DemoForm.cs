@@ -24,12 +24,12 @@ using System.Reflection;
 using System.IO;
 
 
-using HtmlRenderer.Diagnostics;
-using HtmlRenderer.WebDom;
+
+using LayoutFarm.WebDom;
 
 using Timer = System.Threading.Timer;
 
-namespace HtmlRenderer.Demo
+namespace LayoutFarm.Demo
 {
     public partial class DemoForm : Form
     {
@@ -67,15 +67,15 @@ namespace HtmlRenderer.Demo
 
         #endregion
 
-        LayoutFarm.Drawing.GraphicsPlatform graphicsPlatform;
+        PixelFarm.Drawing.GraphicsPlatform graphicsPlatform;
         /// <summary>
         /// Init.
         /// </summary>
-        public DemoForm(LayoutFarm.Drawing.GraphicsPlatform p)
+        public DemoForm(PixelFarm.Drawing.GraphicsPlatform p)
         {
 
             this.graphicsPlatform = p;
-            this._htmlPanel = new HtmlRenderer.Demo.HtmlPanel(this.graphicsPlatform);
+            this._htmlPanel = new LayoutFarm.Demo.HtmlPanel(this.graphicsPlatform);
             InitializeComponent();
 
             
@@ -367,7 +367,7 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// Handle stylesheet resolve.
         /// </summary>
-        private static void OnStylesheetLoad(object sender, HtmlRenderer.ContentManagers.TextLoadRequestEventArgs e)
+        private static void OnStylesheetLoad(object sender, LayoutFarm.ContentManagers.TextLoadRequestEventArgs e)
         {
             var stylesheet = GetStylesheet(e.Src);
             if (stylesheet != null)
@@ -405,10 +405,10 @@ namespace HtmlRenderer.Demo
         /// <summary>
         /// On image load in renderer set the image by event async.
         /// </summary>
-        private void OnImageLoad(object sender, HtmlRenderer.ContentManagers.ImageRequestEventArgs e)
+        private void OnImageLoad(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {
             var img = TryLoadResourceImage(e.ImagSource);
-            e.SetResultImage(new LayoutFarm.Drawing.Bitmap(img.Width, img.Height, img));
+            e.SetResultImage(new PixelFarm.Drawing.Bitmap(img.Width, img.Height, img));
 
             //if (!e.Handled && htmlTag != null)
             //{
@@ -458,28 +458,28 @@ namespace HtmlRenderer.Demo
                 switch (src.ToLower())
                 {
                     case "htmlicon":
-                        image = HtmlRenderer.Demo.Resource.html32;
+                        image = LayoutFarm.Demo.Resource.html32;
                         break;
                     case "staricon":
-                        image = HtmlRenderer.Demo.Resource.favorites32;
+                        image = LayoutFarm.Demo.Resource.favorites32;
                         break;
                     case "fonticon":
-                        image = HtmlRenderer.Demo.Resource.font32;
+                        image = LayoutFarm.Demo.Resource.font32;
                         break;
                     case "commenticon":
-                        image = HtmlRenderer.Demo.Resource.comment16;
+                        image = LayoutFarm.Demo.Resource.comment16;
                         break;
                     case "imageicon":
-                        image = HtmlRenderer.Demo.Resource.image32;
+                        image = LayoutFarm.Demo.Resource.image32;
                         break;
                     case "methodicon":
-                        image = HtmlRenderer.Demo.Resource.method16;
+                        image = LayoutFarm.Demo.Resource.method16;
                         break;
                     case "propertyicon":
-                        image = HtmlRenderer.Demo.Resource.property16;
+                        image = LayoutFarm.Demo.Resource.property16;
                         break;
                     case "eventicon":
-                        image = HtmlRenderer.Demo.Resource.Event16;
+                        image = LayoutFarm.Demo.Resource.Event16;
                         break;
                 }
 

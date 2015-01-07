@@ -3,9 +3,9 @@
 
 
 using System;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
-namespace Svg.Pathing
+namespace LayoutFarm.Svg.Pathing
 {
     public enum SvgPathCommand : byte
     {
@@ -199,7 +199,7 @@ namespace Svg.Pathing
         public float X2 { get; private set; }
         public float Y2 { get; private set; }
 
-       
+
         public void GetAbsolutePoints(ref PointF last, out PointF c1, out PointF c2, out PointF p)
         {
             if (this.IsRelative)

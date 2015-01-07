@@ -68,7 +68,7 @@
     <Compile Include="1_Css\CssLength.cs" />
     <Compile Include="1_Css\CssProps.cs" />
     <Compile Include="1_Css\CssUnitOrNames.cs" />
-    <Compile Include="1_Css\ImageBinder.cs" />
+    <Compile Include="0_LayoutFarm\ImageBinder.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CustomCssBox.cs" />
     <Compile Include="2_Boxes\6_ContentMx\IUpdateStateChangeListener.cs" />
     <Compile Include="4_Svg\05_SvgDoms\CssBoxSvgRoot.cs" />
@@ -99,7 +99,7 @@
     <Compile Include="2_Boxes\3_Layout\CssBoxLayoutExtension.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Positions.cs" />
     <Compile Include="2_Boxes\3_Layout\LayoutVisitor.cs" />
-    <Compile Include="2_Boxes\4_Render\Painter.cs" />
+    <Compile Include="2_Boxes\4_Render\PaintVisitor.cs" />
     <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.TableColumns.cs" />
     <Compile Include="3_Boxes_SpecialBoxes\CssBoxListItem.cs" />
@@ -150,16 +150,14 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="0_Start\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="4_Svg\license.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
+    <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
       <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
-      <Name>LayoutFarm.Drawing</Name>
+      <Name>PixelFarm.Drawing</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

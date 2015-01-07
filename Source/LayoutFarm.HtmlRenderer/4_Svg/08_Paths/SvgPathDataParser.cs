@@ -2,9 +2,9 @@
 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
-namespace Svg.Pathing
+namespace LayoutFarm.Svg.Pathing
 {
 
     public class SvgPathDataParser

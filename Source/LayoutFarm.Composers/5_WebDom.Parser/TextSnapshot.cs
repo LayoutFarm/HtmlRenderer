@@ -1,6 +1,6 @@
 ﻿//2014,2015 ,BSD, WinterDev 
 using System;
-namespace HtmlRenderer.WebDom.Parser
+namespace LayoutFarm.WebDom.Parser
 {    
 
     public class TextSnapshot

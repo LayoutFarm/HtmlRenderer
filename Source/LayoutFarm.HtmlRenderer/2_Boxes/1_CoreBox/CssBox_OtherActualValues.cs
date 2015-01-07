@@ -1,13 +1,13 @@
-﻿//BSD 2014, WinterDev
+﻿// 2015,2014 ,BSD, WinterDev
 //ArthurHub
 
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
-using HtmlRenderer.Css;
+using PixelFarm.Drawing;
+using LayoutFarm.Css;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     partial class CssBox
     {

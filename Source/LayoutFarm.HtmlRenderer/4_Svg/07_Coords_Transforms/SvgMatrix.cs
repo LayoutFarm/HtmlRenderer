@@ -4,11 +4,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 using System.Globalization;
-using HtmlRenderer;
+using LayoutFarm;
 
-namespace Svg.Transforms
+namespace LayoutFarm.Svg.Transforms
 {
     /// <summary>
     /// The class which applies custom transform to this Matrix (Required for projects created by the Inkscape).

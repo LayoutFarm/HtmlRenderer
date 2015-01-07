@@ -1,4 +1,4 @@
-﻿//2014,2015 Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
 
@@ -15,17 +15,17 @@ namespace TestGraphicPackage2
             Application.SetCompatibleTextRenderingDefault(false);
 
 
-            var platform = LayoutFarm.Drawing.MyWinGdiPortal.Start();
+            var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
 
-            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = platform.GetFont("tahoma", 10, LayoutFarm.Drawing.FontStyle.Regular);
+            LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = platform.GetFont("tahoma", 10, PixelFarm.Drawing.FontStyle.Regular);
 
             var formDemo = new LayoutFarm.Dev.FormDemoList();
             formDemo.LoadDemoList(typeof(Program));
 
 
             Application.Run(formDemo);
-            LayoutFarm.Drawing.MyWinGdiPortal.End();
-
+            LayoutFarm.UI.GdiPlus.MyWinGdiPortal.End();
+            
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic; 
-using LayoutFarm.DrawingGL;
+using PixelFarm.DrawingGL;
 
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {   
     public enum TextureAtlasAllocResult
     {
@@ -23,7 +23,7 @@ namespace LayoutFarm.DrawingGL
         int currentYPos;
         int currentLineMaxHeight = 0;
 
-        List<LayoutFarm.Drawing.RectangleF> areas = new List<Drawing.RectangleF>();
+        List<PixelFarm.Drawing.RectangleF> areas = new List<Drawing.RectangleF>();
 
         public TextureAtlas(int w, int h)
         {

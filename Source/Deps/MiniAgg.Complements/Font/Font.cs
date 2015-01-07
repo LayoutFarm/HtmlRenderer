@@ -1,10 +1,5 @@
 ﻿//----------------------------------- 
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.IO;
-using PixelFarm.Agg;
+using System; 
 
 namespace PixelFarm.Agg.Fonts
 {

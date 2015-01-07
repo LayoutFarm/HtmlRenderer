@@ -140,23 +140,23 @@ namespace OpenTkEssTest
 
 
             //float[] quadVertices3 = CreateRectCoords(250f, 450f, 100f, 100f);
-            //FillPolygonWithSolidColor(quadVertices3, 6, LayoutFarm.Drawing.Color.Red);
+            //FillPolygonWithSolidColor(quadVertices3, 6, PixelFarm.Drawing.Color.Red);
 
             //float[] quadVertices2 = CreateRectCoords(250f, 450f, 100f, 100f);
             float[] quadVertices2 = CreateRectCoords(260f, 160f, 100f, 100f);
             float[] textureCoords = CreateRectTextureCoords();
 
-            //FillPolygonWithSolidColor2(quadVertices2, textureCoords, 6, LayoutFarm.Drawing.Color.Blue);
-            FillPolygonWithSolidColor(quadVertices2, 6, LayoutFarm.Drawing.Color.Blue);
+            //FillPolygonWithSolidColor2(quadVertices2, textureCoords, 6, PixelFarm.Drawing.Color.Blue);
+            FillPolygonWithSolidColor(quadVertices2, 6, PixelFarm.Drawing.Color.Blue);
             //---------------------------------------------------------
             float[] quadVertices3 = CreateRectCoords(280f, 180f, 100f, 100f);
             float[] textureCoords3 = CreateRectTextureCoords();
 
 
-            FillPolygonWithSolidColor2(quadVertices3, textureCoords3, 6, LayoutFarm.Drawing.Color.Blue); 
+            FillPolygonWithSolidColor2(quadVertices3, textureCoords3, 6, PixelFarm.Drawing.Color.Blue); 
             //---------------------------------------------------------
             float[] quadVertices = CreateRectCoords(250f, 150f, 100f, 100f);
-            FillPolygonWithSolidColor(quadVertices, 6, LayoutFarm.Drawing.Color.Yellow);
+            FillPolygonWithSolidColor(quadVertices, 6, PixelFarm.Drawing.Color.Yellow);
             //---------------------------------------------------------
 
             // DrawLines(0, 0, 300, 300);
@@ -167,7 +167,7 @@ namespace OpenTkEssTest
 
         //-------------------------------
         void FillPolygonWithSolidColor(float[] onlyCoords,
-               int numVertices, LayoutFarm.Drawing.Color c)
+               int numVertices, PixelFarm.Drawing.Color c)
         {
 
             u_useSolidColor.SetValue(1);
@@ -178,7 +178,7 @@ namespace OpenTkEssTest
         }
 
         void FillPolygonWithSolidColor2(float[] onlyCoords, float[] textureCoords,
-            int numVertices, LayoutFarm.Drawing.Color c)
+            int numVertices, PixelFarm.Drawing.Color c)
         {
 
             u_useSolidColor.SetValue(1);

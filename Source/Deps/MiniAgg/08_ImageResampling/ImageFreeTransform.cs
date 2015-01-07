@@ -1,4 +1,4 @@
-﻿//MIT 2014, WinterDev
+﻿// 2015,2014 ,MIT, WinterDev
 
 //---------------------------------------------
 //some code from CodeProject: 'Free Image Transformation'

@@ -91,11 +91,11 @@ namespace OpenTK.Graphics.OpenGL
 
 
         ////----------------------------------------------------
-        //public static void Color3(LayoutFarm.Drawing.Color color)
+        //public static void Color3(PixelFarm.Drawing.Color color)
         //{
         //    GL.Color3(color.R, color.G, color.B);
         //}
-        //public static void Color4(LayoutFarm.Drawing.Color color)
+        //public static void Color4(PixelFarm.Drawing.Color color)
         //{
         //    GL.Color4(color.R, color.G, color.B, color.A);
         //}
@@ -116,7 +116,7 @@ namespace OpenTK.Graphics.OpenGL
         }
 
 
-        //public static void ClearColor(LayoutFarm.Drawing.Color color)
+        //public static void ClearColor(PixelFarm.Drawing.Color color)
         //{
         //    GL.ClearColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
         //}
@@ -130,7 +130,7 @@ namespace OpenTK.Graphics.OpenGL
 
 
 
-        //public static void BlendColor(LayoutFarm.Drawing.Color color)
+        //public static void BlendColor(PixelFarm.Drawing.Color color)
         //{
         //    GL.BlendColor(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
         //}
@@ -659,7 +659,7 @@ namespace OpenTK.Graphics.OpenGL
 
 #endif
 
-        //public static void Rect(LayoutFarm.Drawing.RectangleF rect)
+        //public static void Rect(PixelFarm.Drawing.RectangleF rect)
         //{
         //    GL.Rect(rect.Left, rect.Top, rect.Right, rect.Bottom);
         //}
@@ -670,13 +670,13 @@ namespace OpenTK.Graphics.OpenGL
         }
 #if gl1_3
         [CLSCompliant(false)]
-        public static void Rect(ref LayoutFarm.Drawing.RectangleF rect)
+        public static void Rect(ref PixelFarm.Drawing.RectangleF rect)
         {
             GL.Rect(rect.Left, rect.Top, rect.Right, rect.Bottom);
         }
 
         [CLSCompliant(false)]
-        public static void Rect(ref LayoutFarm.Drawing.Rectangle rect)
+        public static void Rect(ref PixelFarm.Drawing.Rectangle rect)
         {
             GL.Rect(rect.Left, rect.Top, rect.Right, rect.Bottom);
         }

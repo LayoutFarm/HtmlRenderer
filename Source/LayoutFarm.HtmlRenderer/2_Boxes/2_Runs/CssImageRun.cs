@@ -11,9 +11,9 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using LayoutFarm.Drawing;
+using PixelFarm.Drawing;
 
-namespace HtmlRenderer.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
     /// Represents a word inside an inline box
