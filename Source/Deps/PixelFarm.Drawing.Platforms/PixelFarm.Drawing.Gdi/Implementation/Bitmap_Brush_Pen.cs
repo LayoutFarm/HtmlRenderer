@@ -1,4 +1,5 @@
-﻿using System.Drawing; 
+﻿// 2015,2014 ,MIT, WinterDev   
+using System.Drawing; 
 namespace PixelFarm.Drawing.WinGdi
 {
      

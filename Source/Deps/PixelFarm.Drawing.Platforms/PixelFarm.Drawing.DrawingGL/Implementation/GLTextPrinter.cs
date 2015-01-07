@@ -1,10 +1,10 @@
-﻿//MIT 2014, WinterDev
+﻿// 2015,2014 ,MIT, WinterDev
 using System.Text;
 using System;
 
 using PixelFarm.Agg.Fonts;
 using PixelFarm.DrawingGL;
-
+// 2015,2014 ,Apache2, WinterDev
 namespace PixelFarm.Drawing.DrawingGL
 {
     class GLTextPrinter

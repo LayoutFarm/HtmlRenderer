@@ -15,8 +15,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
+using System.Text; 
 using Win32;
 
 namespace PixelFarm.Drawing.WinGdi

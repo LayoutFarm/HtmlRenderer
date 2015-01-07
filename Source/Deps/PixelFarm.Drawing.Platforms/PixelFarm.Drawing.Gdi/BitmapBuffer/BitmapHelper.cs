@@ -1,9 +1,7 @@
-﻿//MIT 2014, WinterDev
+﻿// 2015,2014 ,MIT, WinterDev
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-
- 
  
 
 namespace PixelFarm.Agg.Image

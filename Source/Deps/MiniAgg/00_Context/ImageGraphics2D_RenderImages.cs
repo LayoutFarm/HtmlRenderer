@@ -285,7 +285,7 @@ namespace PixelFarm.Agg
             }
             ReleaseVxs(imgBoundsPath);
         }
-        
+
         int destImageChanged = 0;
 
         public override void Render(IImageReaderWriter source, AffinePlan[] affinePlans)

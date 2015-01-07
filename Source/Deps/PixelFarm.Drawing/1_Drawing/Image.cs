@@ -1,4 +1,5 @@
-﻿namespace PixelFarm.Drawing
+﻿// 2015,2014, MIT, WinterDev
+namespace PixelFarm.Drawing
 {
     public abstract class Image : System.IDisposable
     {

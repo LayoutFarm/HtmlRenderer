@@ -1,13 +1,13 @@
-﻿//MIT 2014,WinterDev 
+﻿// 2015,2014 ,MIT, WinterDev 
 using System;
-using System.Collections.Generic;
-
+using System.Collections.Generic; 
 using System.Text;
 using System.IO;
 
 namespace PixelFarm.Agg.VertexSource
 {
-    public class VertexSourceIO
+#if DEBUG
+    public class dbugVertexSourceIO
     {
         public static void Load(PathWriter vertexSource, string pathAndFileName)
         {
@@ -25,7 +25,7 @@ namespace PixelFarm.Agg.VertexSource
                 {
                     flagsAndCommand |= (VertexCmd)System.Enum.Parse(typeof(VertexCmd), elements[i].Trim());
                 }
-                vxs.AddVertex(x, y, flagsAndCommand);                 
+                vxs.AddVertex(x, y, flagsAndCommand);
             }
         }
 
@@ -189,4 +189,5 @@ namespace PixelFarm.Agg.VertexSource
             int end = reader.ReadInt32();
         }
     }
+#endif
 }

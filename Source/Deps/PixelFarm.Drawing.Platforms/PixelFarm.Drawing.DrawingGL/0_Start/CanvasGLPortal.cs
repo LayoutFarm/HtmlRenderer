@@ -1,9 +1,6 @@
-﻿//2014,2015 Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-using PixelFarm.Drawing.DrawingGL;
+using System.Text; 
 
 namespace PixelFarm.Drawing.DrawingGL
 {

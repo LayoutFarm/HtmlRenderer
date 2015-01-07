@@ -29,7 +29,7 @@
 //
 namespace PixelFarm.Drawing
 {
-    
+
     public enum DashStyle
     {
         Custom = 5,

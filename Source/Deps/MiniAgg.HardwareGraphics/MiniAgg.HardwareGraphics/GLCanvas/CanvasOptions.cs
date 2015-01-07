@@ -1,4 +1,4 @@
-﻿//MIT 2014, WinterDev
+﻿// 2015,2014 ,MIT, WinterDev
 namespace PixelFarm.DrawingGL
 {
     public enum CanvasSmoothMode

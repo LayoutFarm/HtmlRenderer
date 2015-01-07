@@ -1,4 +1,4 @@
-﻿
+﻿//2014,2015 MIT, WinterDev
 
 namespace PixelFarm.Drawing
 {
@@ -48,7 +48,7 @@ namespace PixelFarm.Drawing
         }
         public static readonly Point Empty = new Point();
     }
-    
+
     public struct PointF
     {
         float _x, _y;
@@ -119,7 +119,7 @@ namespace PixelFarm.Drawing
         public static readonly Size Empty = new Size();
 
     }
-   
+
     public struct SizeF
     {
         float _w, _h;

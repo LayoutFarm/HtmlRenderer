@@ -1,10 +1,5 @@
-﻿//MIT 2014 ,WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-
+﻿// 2015,2014 ,MIT, WinterDev
+using System; 
 
 namespace PixelFarm.Drawing
 {

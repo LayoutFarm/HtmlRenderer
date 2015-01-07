@@ -1,4 +1,4 @@
-﻿//2014,2015 Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 
 
 namespace PixelFarm.Drawing

@@ -1,11 +1,8 @@
-﻿//MIT 2014, WinterDev
+﻿// 2015,2014 ,MIT, WinterDev
 //----------------------------------- 
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.IO;
-using PixelFarm.Agg;
+using System.Collections.Generic; 
+
 namespace PixelFarm.Agg.Fonts
 {
     class NativeFont : Font
@@ -17,7 +14,7 @@ namespace PixelFarm.Agg.Fonts
         /// glyph
         /// </summary>
         Dictionary<char, FontGlyph> dicGlyphs = new Dictionary<char, FontGlyph>();
-        Dictionary<uint, FontGlyph> dicGlyphs2 = new Dictionary<uint, FontGlyph>(); 
+        Dictionary<uint, FontGlyph> dicGlyphs2 = new Dictionary<uint, FontGlyph>();
         internal NativeFont(NativeFontFace ownerFace, int pixelSize)
         {
             //store unmanage font file information

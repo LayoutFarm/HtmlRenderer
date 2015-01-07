@@ -1,6 +1,7 @@
-﻿using System;
+﻿// 2015,2014 ,MIT, WinterDev
+using System;
 
-using PixelFarm.Drawing.WinGdi;
+//TODO: revise PixelFarm.Drawing.WinGdi need here
 
 namespace PixelFarm.Drawing.DrawingGL
 {
@@ -8,7 +9,7 @@ namespace PixelFarm.Drawing.DrawingGL
     class CanvasGLPlatform : GraphicsPlatform
     {
         //font store is platform specific
-        static PixelFarm.Drawing.WinGdi.FontStore fontStore = new FontStore();
+        static PixelFarm.Drawing.WinGdi.FontStore fontStore = new PixelFarm.Drawing.WinGdi.FontStore();
 
         System.Drawing.Bitmap sampleBmp;
         IFonts sampleIFonts;
@@ -31,7 +32,7 @@ namespace PixelFarm.Drawing.DrawingGL
         }
         public override GraphicsPath CreateGraphicsPath()
         {
-            return new MyGraphicsPath();
+            return new PixelFarm.Drawing.WinGdi.MyGraphicsPath();
         }
 
         public override FontInfo GetFont(string fontFaceName, float emsize, FontStyle fontstyle)
@@ -79,7 +80,7 @@ namespace PixelFarm.Drawing.DrawingGL
                     }
 
                     System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(sampleBmp);
-                    sampleIFonts = new MyCanvas(this, 0, 0, 0, 0, 2, 2);
+                    sampleIFonts = new PixelFarm.Drawing.WinGdi.MyCanvas(this, 0, 0, 0, 0, 2, 2);
                 }
                 return this.sampleIFonts;
             }

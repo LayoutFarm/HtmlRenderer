@@ -1,7 +1,5 @@
-﻿//2014,2015 Apache2, WinterDev
-using System;
-using System.Collections.Generic;
-
+﻿// 2015,2014 ,Apache2, WinterDev
+ 
 namespace PixelFarm.Drawing
 {
     public struct Rect

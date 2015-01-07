@@ -1,6 +1,4 @@
-//2014,2015 BSD,WinterDev  
-
-
+//2014,2015 BSD,WinterDev   
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 // Copyright (C) 2002-2005 Maxim Shemanarev (http://www.antigrain.com)
@@ -21,8 +19,7 @@
 //----------------------------------------------------------------------------
 //#define USE_UNSAFE // no real code for this yet
 
-using System;
-using System.IO;
+using System; 
 using PixelFarm.VectorMath;
 
 namespace PixelFarm.Agg

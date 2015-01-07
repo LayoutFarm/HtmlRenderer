@@ -16,8 +16,7 @@
 // Class TypeFace.cs
 //
 //----------------------------------------------------------------------------
-using System;
-using System.IO;
+using System; 
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;

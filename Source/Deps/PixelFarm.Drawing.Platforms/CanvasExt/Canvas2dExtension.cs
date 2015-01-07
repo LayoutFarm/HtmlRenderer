@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterDev
+﻿// 2015,2014 ,BSD, WinterDev
 //----------------------------------------------------------------------------
 // Anti-Grain Geometry - Version 2.4
 //
@@ -17,10 +17,7 @@
 // 
 // Class to output the vertex source of a string as a run of glyphs.
 //----------------------------------------------------------------------------
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+using System; 
 
 using PixelFarm.Agg;
 using PixelFarm.Agg.Image;

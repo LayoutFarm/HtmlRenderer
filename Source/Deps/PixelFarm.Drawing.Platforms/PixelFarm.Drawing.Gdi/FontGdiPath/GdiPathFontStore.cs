@@ -1,12 +1,6 @@
-﻿//MIT 2014,WinterDev 
+﻿// 2015,2014 ,MIT, WinterDev 
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.IO;
-using PixelFarm.Agg;
-
-
+using System.Collections.Generic; 
 
 namespace PixelFarm.Agg.Fonts
 {

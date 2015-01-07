@@ -1,6 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// 2015,2014, BSD, WinterDev
+//BSD (Oct,November) 2008, (Jan 2009), 2014 WinterDev
+using System; 
+ 
 namespace PixelFarm.Drawing.Animation
 {
 

@@ -1,4 +1,4 @@
-﻿//BSD 2014,  
+﻿// 2015,2014 ,BSD, WinterDev   
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox
@@ -14,7 +14,7 @@
 // "The Art of War"
 
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace PixelFarm.Drawing.WinGdi
@@ -58,7 +58,7 @@ namespace PixelFarm.Drawing.WinGdi
         /// <returns>cached font instance</returns>
         public PixelFarm.Drawing.FontInfo GetCachedFont(string family, float size, System.Drawing.FontStyle style)
         {
-             
+
             var font = TryGetFont(family, size, style);
             if (font == null)
             {
@@ -106,7 +106,7 @@ namespace PixelFarm.Drawing.WinGdi
             PixelFarm.Drawing.FontInfo fontInfo = null;
             FontKey fontKey = new FontKey(family.ToLower(), size, style);
             _fontInfoCacheByFontKey.TryGetValue(fontKey, out fontInfo);
-            return fontInfo; 
+            return fontInfo;
         }
 
         /// <summary>
@@ -277,7 +277,7 @@ namespace PixelFarm.Drawing.WinGdi
                 _fontsUnmanagedCache[font] = hFont = font.ToHfont();
             }
             return hFont;
-        } 
+        }
         /// <summary>
         /// Adds a font family to be used.
         /// </summary>

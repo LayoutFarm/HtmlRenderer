@@ -1,7 +1,6 @@
 ﻿//2014,2015 BSD,WinterDev   
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Collections.Generic; 
 
 namespace PixelFarm.Agg.Fonts
 {

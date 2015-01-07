@@ -38,5 +38,5 @@ namespace PixelFarm.Drawing
         Union = 2,
         Xor = 3
     }
-  
+
 }

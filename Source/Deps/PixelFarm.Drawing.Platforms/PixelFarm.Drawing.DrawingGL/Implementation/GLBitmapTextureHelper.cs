@@ -1,4 +1,5 @@
-﻿using System;
+﻿// 2015,2014 ,Apache2, WinterDev
+using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using PixelFarm.DrawingGL;

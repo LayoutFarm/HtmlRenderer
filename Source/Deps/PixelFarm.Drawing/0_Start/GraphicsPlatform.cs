@@ -1,4 +1,4 @@
-﻿
+﻿//2014,2015 MIT, WinterDev
 namespace PixelFarm.Drawing
 {
     public abstract class GraphicsPlatform

@@ -1,5 +1,5 @@
-﻿using System;
-
+﻿// 2015,2014, MIT, WinterDev
+using System;
 namespace PixelFarm.Drawing
 {
     public abstract class Font : System.IDisposable

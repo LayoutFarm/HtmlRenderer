@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2014,2015 BSD, WinterDev
+using System;
 namespace PixelFarm.Drawing.WinGdi
 {
     class WinGdiPlatform : GraphicsPlatform

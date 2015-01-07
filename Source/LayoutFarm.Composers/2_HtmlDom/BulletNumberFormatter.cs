@@ -1,4 +1,4 @@
-﻿//BSD 2014, WinterDev 
+﻿// 2015,2014 ,BSD, WinterDev 
 //ArthurHub
 
 // "Therefore those skilled at the unorthodox
@@ -16,9 +16,7 @@
 using System;
 using System.Collections.Generic;
 
-using System.Globalization;
-using System.IO;
-using System.Net;
+using System.Globalization; 
 using System.Text;
 
 

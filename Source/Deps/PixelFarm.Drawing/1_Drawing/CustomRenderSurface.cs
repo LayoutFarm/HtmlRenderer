@@ -1,18 +1,18 @@
-﻿//2014,2015 Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text; 
- 
+using System.Text;
+
 
 namespace PixelFarm.Drawing
 {
 
     public abstract class CustomRenderSurface
     {
-        
+
         public CustomRenderSurface()
-        {          
+        {
         }
 
         public abstract bool FullModeUpdate
@@ -38,7 +38,7 @@ namespace PixelFarm.Drawing
             get;
         }
 
-       
+
         public abstract void DrawToThisPage(Canvas destPage, Rect updateArea);
         //------------------------------------
     }

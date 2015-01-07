@@ -1,6 +1,5 @@
-﻿using System.Drawing;
-using PixelFarm.DrawingGL;
- 
+﻿// 2015,2014 ,Apache2, WinterDev
+using System.Drawing; 
 namespace PixelFarm.Drawing.DrawingGL
 { 
     class MyFont : Font

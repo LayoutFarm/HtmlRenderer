@@ -34,7 +34,7 @@
 using System;
 namespace PixelFarm.Drawing
 {
- 
+
     public struct Rectangle
     {
         private int x, y, width, height;
@@ -318,7 +318,7 @@ namespace PixelFarm.Drawing
         ///	Read only.
         /// </remarks>
 
-         
+
         public int Bottom
         {
             get
@@ -354,7 +354,7 @@ namespace PixelFarm.Drawing
         /// <remarks>
         ///	Indicates if the width or height are zero. Read only.
         /// </remarks>		
-        
+
         public bool IsEmpty
         {
             get
@@ -371,7 +371,7 @@ namespace PixelFarm.Drawing
         ///	The X coordinate of the left edge of the Rectangle.
         ///	Read only.
         /// </remarks>
- 
+
         public int Left
         {
             get
@@ -388,7 +388,7 @@ namespace PixelFarm.Drawing
         ///	The Location of the top-left corner of the Rectangle.
         /// </remarks>
 
-       
+
         public Point Location
         {
             get
@@ -411,7 +411,7 @@ namespace PixelFarm.Drawing
         ///	Read only.
         /// </remarks>
 
-        
+
         public int Right
         {
             get
@@ -428,7 +428,7 @@ namespace PixelFarm.Drawing
         ///	The Size of the Rectangle.
         /// </remarks>
 
-        
+
         public Size Size
         {
             get
@@ -451,7 +451,7 @@ namespace PixelFarm.Drawing
         ///	Read only.
         /// </remarks>
 
-        
+
         public int Top
         {
             get

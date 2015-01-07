@@ -1,6 +1,7 @@
-﻿using System;
+﻿//2014,2015 MIT, WinterDev
+using System;
 using System.Collections.Generic;
- 
+
 namespace PixelFarm.Drawing
 {
     public abstract class Brush : System.IDisposable

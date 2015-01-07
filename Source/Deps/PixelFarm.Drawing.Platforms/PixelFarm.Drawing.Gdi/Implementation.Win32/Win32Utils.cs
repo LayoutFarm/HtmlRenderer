@@ -1,4 +1,6 @@
-﻿// "Therefore those skilled at the unorthodox
+﻿// 2015,2014 ,BSD, WinterDev 
+
+// "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
 // When they come to an end,

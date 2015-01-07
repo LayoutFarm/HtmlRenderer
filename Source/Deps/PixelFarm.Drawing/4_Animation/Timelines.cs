@@ -1,9 +1,11 @@
-﻿//BSD August 2009, 2014, WinterDev
+﻿// 2015,2014 ,BSD, WinterDev
+//BSD August 2009, 2014, WinterDev
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing; 
+ 
 
 //implement simple timeline and animation
 

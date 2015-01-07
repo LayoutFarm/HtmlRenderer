@@ -1,4 +1,4 @@
-﻿//2014,2015 Apache2, WinterDev
+﻿//2014,2015 BSD, WinterDev
 using System;
 using System.Collections.Generic;
 using System.Text; 

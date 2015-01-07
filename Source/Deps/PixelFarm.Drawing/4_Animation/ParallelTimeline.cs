@@ -1,12 +1,10 @@
-﻿//BSD 2014, WinterDev
+﻿// 2015,2014 ,BSD, WinterDev
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-
-using PixelFarm.Drawing;
-
+ 
+ 
 namespace PixelFarm.Drawing.Animation
 {   
     public class ParallelTimeline

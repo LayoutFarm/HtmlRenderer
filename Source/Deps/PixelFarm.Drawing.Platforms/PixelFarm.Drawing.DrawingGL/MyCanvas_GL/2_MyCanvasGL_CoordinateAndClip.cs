@@ -15,8 +15,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
+using System.Text; 
 
 
 namespace PixelFarm.Drawing.DrawingGL
