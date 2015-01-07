@@ -4,7 +4,8 @@
 using System; 
 
 using PixelFarm.Drawing; 
-using LayoutFarm.Css; 
+using LayoutFarm.Css;
+using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm.Svg
 {
@@ -224,7 +225,7 @@ namespace LayoutFarm.Svg
             }
             return false;
         }
-        public override void Paint(BoxPainter p)
+        public override void Paint(PaintVisitor p)
         {
 
             if (fillColor.A > 0)
@@ -302,7 +303,7 @@ namespace LayoutFarm.Svg
 
             return false;
         }
-        public override void Paint(BoxPainter p)
+        public override void Paint(PaintVisitor p)
         {
             if (fillColor.A > 0)
             {
@@ -381,7 +382,7 @@ namespace LayoutFarm.Svg
 
             return false;
         }
-        public override void Paint(BoxPainter p)
+        public override void Paint(PaintVisitor p)
         {
 
             if (fillColor.A > 0)
@@ -446,7 +447,7 @@ namespace LayoutFarm.Svg
                 return pointList;
             }
         }
-        public override void Paint(BoxPainter p)
+        public override void Paint(PaintVisitor p)
         {
 
             if (this.fillColor.A > 0)
@@ -498,7 +499,7 @@ namespace LayoutFarm.Svg
             }
             ValidatePath();
         }
-        public override void Paint(BoxPainter p)
+        public override void Paint(PaintVisitor p)
         {
 
             if (this.strokeColor.A > 0
@@ -555,7 +556,7 @@ namespace LayoutFarm.Svg
 
             ValidatePath();
         }
-        public override void Paint(BoxPainter p)
+        public override void Paint(PaintVisitor p)
         {
             if (this.strokeColor.A > 0)
             {
@@ -592,7 +593,7 @@ namespace LayoutFarm.Svg
             }
             ValidatePath();
         }
-        public override void Paint(BoxPainter p)
+        public override void Paint(PaintVisitor p)
         {
             p.UseCurrentContext = true;
             p.CurrentContextFillColor = spec.ActualColor;

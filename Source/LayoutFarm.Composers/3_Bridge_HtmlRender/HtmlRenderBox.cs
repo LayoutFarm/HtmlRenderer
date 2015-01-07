@@ -111,12 +111,12 @@ namespace LayoutFarm.HtmlBoxes
 
     static class PainterStock
     {
-        internal static BoxPainter GetSharedPainter(HtmlIsland htmlIsland, Canvas canvas)
+        internal static PaintVisitor GetSharedPainter(HtmlIsland htmlIsland, Canvas canvas)
         {
-            BoxPainter painter = null;
+            PaintVisitor painter = null;
             if (painterStock.Count == 0)
             {
-                painter = new BoxPainter();
+                painter = new PaintVisitor();
             }
             else
             {
@@ -127,12 +127,12 @@ namespace LayoutFarm.HtmlBoxes
 
             return painter;
         }
-        internal static void ReleaseSharedPainter(BoxPainter p)
+        internal static void ReleaseSharedPainter(PaintVisitor p)
         {
             p.UnBind();
             painterStock.Enqueue(p);
         }
-        static Queue<BoxPainter> painterStock = new Queue<BoxPainter>();
+        static Queue<PaintVisitor> painterStock = new Queue<PaintVisitor>();
     }
 
 

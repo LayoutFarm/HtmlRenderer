@@ -73,7 +73,7 @@ namespace LayoutFarm.HtmlBoxes
             //} 
             //this.SetSize(500, 500);
         }
-        protected override void PaintImp(BoxPainter p)
+        protected override void PaintImp(PaintVisitor p)
         {
             if (wrapper != null)
             {

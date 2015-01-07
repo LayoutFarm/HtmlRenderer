@@ -11,7 +11,7 @@ namespace LayoutFarm.HtmlBoxes
     partial class CssBox
     {
 
-        public void Paint(BoxPainter p)
+        public void Paint(PaintVisitor p)
         { 
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
@@ -22,7 +22,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 #if DEBUG
-        public void dbugPaint(BoxPainter p, RectangleF r)
+        public void dbugPaint(PaintVisitor p, RectangleF r)
         {
             //return; 
             var htmlE = CssBox.UnsafeGetController(this);
@@ -53,7 +53,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 #endif
 
-        protected virtual void PaintImp(BoxPainter p)
+        protected virtual void PaintImp(PaintVisitor p)
         {
 
 
@@ -231,7 +231,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="rect">the bounding rectangle to draw in</param>
         /// <param name="isFirst">is it the first rectangle of the element</param>
         /// <param name="isLast">is it the last rectangle of the element</param>
-        internal void PaintBackground(BoxPainter p, RectangleF rect, bool isFirst, bool isLast)
+        internal void PaintBackground(PaintVisitor p, RectangleF rect, bool isFirst, bool isLast)
         {
 
             if (!this.HasVisibleBgColor)

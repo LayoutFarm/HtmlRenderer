@@ -35,7 +35,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="2_RenderElement\BitpackProperties.cs" />
     <Compile Include="2_RenderElement\RenderElement_LocationHelper.cs" />
     <Compile Include="2_RenderElement\RenderElementHelper.cs" />
     <Compile Include="3_Layers\3_LayerCollection.cs" />

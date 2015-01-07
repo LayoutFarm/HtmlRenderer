@@ -425,7 +425,7 @@ namespace LayoutFarm.HtmlBoxes
 
 
 
-        internal void PaintRuns(BoxPainter p)
+        internal void PaintRuns(PaintVisitor p)
         {
             //iterate from each words
 
@@ -501,7 +501,7 @@ namespace LayoutFarm.HtmlBoxes
 
 #if DEBUG
 
-        internal void dbugPaintRuns(BoxPainter p)
+        internal void dbugPaintRuns(PaintVisitor p)
         {
 
             //return;
@@ -547,7 +547,7 @@ namespace LayoutFarm.HtmlBoxes
             get;
             set;
         }
-        internal void PaintSelection(BoxPainter p)
+        internal void PaintSelection(PaintVisitor p)
         {
 
             p.FillRectangle(Color.LightGray, this.LineSelectionStart, 0, this.LineSelectionWidth, this.CacheLineHeight);
@@ -555,7 +555,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        internal void PaintBackgroundAndBorder(BoxPainter p)
+        internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip
 
@@ -582,7 +582,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        internal void PaintDecoration(BoxPainter p)
+        internal void PaintDecoration(PaintVisitor p)
         {
 
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)

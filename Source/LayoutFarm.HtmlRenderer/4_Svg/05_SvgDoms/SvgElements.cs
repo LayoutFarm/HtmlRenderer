@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using LayoutFarm;
 using LayoutFarm.Css;
 using LayoutFarm.Svg;
-
+using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm.Svg
 {
 
@@ -122,7 +122,7 @@ namespace LayoutFarm.Svg
             }
         }
 
-        public virtual void Paint(BoxPainter p)
+        public virtual void Paint(PaintVisitor p)
         {
 
         }

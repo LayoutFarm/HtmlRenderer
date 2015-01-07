@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using LayoutFarm;
 using LayoutFarm.Css;
 using LayoutFarm.Svg;
-
+using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm.Svg
 {
     public class SvgImage : SvgVisualElement
@@ -78,7 +78,7 @@ namespace LayoutFarm.Svg
             ValidatePath();
 
         }
-        public override void Paint(BoxPainter p)
+        public override void Paint(PaintVisitor p)
         {
 
             Canvas g = p.InnerCanvas;

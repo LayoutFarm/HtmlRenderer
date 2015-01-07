@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using PixelFarm.Drawing;
 
+using LayoutFarm;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Svg.Pathing;
 using LayoutFarm.Svg.Transforms;
-using LayoutFarm;
 
 namespace LayoutFarm.Svg
 {
@@ -281,7 +281,7 @@ namespace LayoutFarm.Svg
 
             ValidatePath();
         }
-        public override void Paint(BoxPainter p)
+        public override void Paint(PaintVisitor p)
         {
 
             if (fillColor.A > 0)

@@ -821,12 +821,12 @@ namespace LayoutFarm.Demo
         #endregion
 
 
-        static BoxPainter GetSharedPainter(LayoutFarm.HtmlBoxes.HtmlIsland htmlIsland, PixelFarm.Drawing.Canvas canvas)
+        static PaintVisitor GetSharedPainter(LayoutFarm.HtmlBoxes.HtmlIsland htmlIsland, PixelFarm.Drawing.Canvas canvas)
         {
-            BoxPainter painter = null;
+            PaintVisitor painter = null;
             if (painterStock.Count == 0)
             {
-                painter = new BoxPainter();
+                painter = new PaintVisitor();
             }
             else
             {
@@ -837,11 +837,11 @@ namespace LayoutFarm.Demo
 
             return painter;
         }
-        static void ReleaseSharedPainter(BoxPainter p)
+        static void ReleaseSharedPainter(PaintVisitor p)
         {
             p.UnBind();
             painterStock.Enqueue(p);
         }
-        static Queue<BoxPainter> painterStock = new Queue<BoxPainter>();
+        static Queue<PaintVisitor> painterStock = new Queue<PaintVisitor>();
     }
 }

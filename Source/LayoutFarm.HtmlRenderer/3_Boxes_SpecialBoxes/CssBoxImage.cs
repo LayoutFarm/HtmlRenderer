@@ -91,7 +91,7 @@ namespace LayoutFarm.HtmlBoxes
         //            } break;
         //    }
         //}
-        internal void PaintImage(BoxPainter p, RectangleF rect)
+        internal void PaintImage(PaintVisitor p, RectangleF rect)
         {
 
             PaintBackground(p, rect, true, true);
@@ -176,7 +176,7 @@ namespace LayoutFarm.HtmlBoxes
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(BoxPainter p)
+        protected override void PaintImp(PaintVisitor p)
         {
             // load image iff it is in visible rectangle  
             //1. single image can't be splited  

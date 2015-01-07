@@ -7,10 +7,10 @@ using PixelFarm.Drawing;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
 
-namespace LayoutFarm
+namespace LayoutFarm.HtmlBoxes
 {
     //----------------------------------------------------------------------------
-    public class BoxPainter : BoxVisitor
+    public class PaintVisitor : BoxVisitor
     {
         Stack<Rectangle> clipStacks = new Stack<Rectangle>();
         PointF[] borderPoints = new PointF[4];
@@ -24,7 +24,7 @@ namespace LayoutFarm
         float viewportHeight;
 
 
-        public BoxPainter()
+        public PaintVisitor()
         {
 
         }

@@ -120,7 +120,7 @@ namespace LayoutFarm.HtmlBoxes
             layoutArgs.PopContainingBlock();
         }
 
-        public void PerformPaint(BoxPainter p)
+        public void PerformPaint(PaintVisitor p)
         {
             if (_rootBox == null)
             {

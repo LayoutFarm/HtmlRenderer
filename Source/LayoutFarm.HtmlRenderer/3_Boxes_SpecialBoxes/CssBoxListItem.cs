@@ -42,7 +42,7 @@ namespace LayoutFarm.HtmlBoxes
                 _listItemBulletBox.FirstRun.SetLocation(_listItemBulletBox.SizeWidth - 5, this.ActualPaddingTop);
             }
         }
-        protected override void PaintImp(BoxPainter p)
+        protected override void PaintImp(PaintVisitor p)
         {
             base.PaintImp(p);
 
