@@ -18,7 +18,7 @@ namespace TestGraphicPackage2
 
             //temp
             //TODO: fix this , 
-            var platform = PixelFarm.Drawing.MyWinGdiPortal.Start();
+            var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
             LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo = platform.GetFont("tahoma", 10, PixelFarm.Drawing.FontStyle.Regular);
 
             formDemoList = new LayoutFarm.Dev.FormDemoList();

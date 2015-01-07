@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace PixelFarm.Drawing
+namespace LayoutFarm.UI
 {
     /// <summary>
     /// conversion helper

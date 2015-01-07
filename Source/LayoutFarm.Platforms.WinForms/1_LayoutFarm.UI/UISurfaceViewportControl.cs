@@ -35,9 +35,9 @@ namespace LayoutFarm.UI
                         PixelFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
 
 
-                        var bridge = new OpenGLView.MyPlatformWindowBridgeOpenGL(wintop, userInputEvBridge);
+                        var bridge = new OpenGL.MyPlatformWindowBridgeOpenGL(wintop, userInputEvBridge);
 
-                        var view = new OpenGLView.GpuOpenGLSurfaceView();
+                        var view = new OpenGL.GpuOpenGLSurfaceView();
                         view.Width = 800;
                         view.Height = 600;
                         //view.Dock = DockStyle.Fill;
@@ -52,8 +52,8 @@ namespace LayoutFarm.UI
                 case InnerViewportKind.GdiPlus:
                 default:
                     {
-                        var bridge = new GdiPlusView.MyPlatformWindowBridgeGdiPlus(wintop, userInputEvBridge); 
-                        var view = new GdiPlusView.CpuGdiPlusSurfaceView();
+                        var bridge = new GdiPlus.MyPlatformWindowBridgeGdiPlus(wintop, userInputEvBridge); 
+                        var view = new GdiPlus.CpuGdiPlusSurfaceView();
                         view.Dock = DockStyle.Fill;
                         this.Controls.Add(view);
                         //--------------------------------------- 

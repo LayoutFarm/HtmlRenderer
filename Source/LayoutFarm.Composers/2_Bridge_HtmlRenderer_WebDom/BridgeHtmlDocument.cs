@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.HtmlBoxes; 
-using LayoutFarm.Composers.BridgeHtml;
+using LayoutFarm.WebDomImpl;
 
 namespace LayoutFarm.Composers
 {

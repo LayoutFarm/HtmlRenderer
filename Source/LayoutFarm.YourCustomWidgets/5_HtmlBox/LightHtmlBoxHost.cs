@@ -32,7 +32,7 @@ namespace LayoutFarm.CustomWidgets
         static LightHtmlBoxHost()
         {
             //TODO: revise this again
-            LayoutFarm.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
+            LayoutFarm.WebDomImpl.BoxCreator.RegisterCustomCssBoxGenerator(
                new  MyCssBoxGenerator());
         }
 

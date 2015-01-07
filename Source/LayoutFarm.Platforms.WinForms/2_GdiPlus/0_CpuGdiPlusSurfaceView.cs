@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 using PixelFarm.Drawing;
 
-namespace LayoutFarm.UI.GdiPlusView
+namespace LayoutFarm.UI.GdiPlus
 {
 
     partial class CpuGdiPlusSurfaceView : UserControl

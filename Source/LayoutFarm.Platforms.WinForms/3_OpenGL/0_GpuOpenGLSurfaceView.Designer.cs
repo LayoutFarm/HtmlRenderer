@@ -1,4 +1,4 @@
-﻿namespace LayoutFarm.UI.OpenGLView
+﻿namespace LayoutFarm.UI.OpenGL
 {
     partial class GpuOpenGLSurfaceView
     {

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace LayoutFarm.UI.OpenGLView
+namespace LayoutFarm.UI.OpenGL
 {
     //app specific
     partial class GpuOpenGLSurfaceView : GLControl

@@ -9,7 +9,7 @@ using PixelFarm.Drawing;
 
 using OpenTK.Graphics;
 
-namespace LayoutFarm.UI.OpenGLView
+namespace LayoutFarm.UI.OpenGL
 {
     class MyPlatformWindowBridgeOpenGL : PlatformWindowBridge
     {

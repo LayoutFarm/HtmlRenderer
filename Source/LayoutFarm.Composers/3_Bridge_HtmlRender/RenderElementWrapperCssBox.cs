@@ -101,7 +101,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 globalX += (int)cbox.LocalX;
                 globalY += (int)cbox.LocalY;
-                var renderRoot = cbox as LayoutFarm.Composers.BridgeHtml.CssRenderRoot;
+                var renderRoot = cbox as LayoutFarm.WebDomImpl.CssRenderRoot;
                 if (renderRoot != null)
                 {
                     this.wrapper.AdjustX = globalX;

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using PixelFarm.Drawing;
 
 
-namespace LayoutFarm.UI.GdiPlusView
+namespace LayoutFarm.UI.GdiPlus
 {
     class MyPlatformWindowBridgeGdiPlus : PlatformWindowBridge
     {

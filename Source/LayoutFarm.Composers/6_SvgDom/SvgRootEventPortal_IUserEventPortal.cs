@@ -7,12 +7,12 @@ using PixelFarm.Drawing;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Css;
 using LayoutFarm.Composers;
-using LayoutFarm.Composers.BridgeHtml;
+using LayoutFarm.WebDomImpl;
 using LayoutFarm.WebDom;
 using LayoutFarm.UI;
 using LayoutFarm.Svg;
 
-namespace LayoutFarm.Composers.BridgeHtml
+namespace LayoutFarm.WebDomImpl
 {
 
     partial class SvgRootEventPortal : IUserEventPortal

@@ -5,7 +5,7 @@ using System.Text;
 using PixelFarm.Drawing;
 using PixelFarm.Drawing.WinGdi;
 
-namespace LayoutFarm.UI.GdiPlusView
+namespace LayoutFarm.UI.GdiPlus
 {
     class GdiPlusCanvasViewport : CanvasViewport
     {

@@ -1,4 +1,4 @@
-﻿namespace LayoutFarm.UI.GdiPlusView
+﻿namespace LayoutFarm.UI.GdiPlus
 {
     partial class CpuGdiPlusSurfaceView
     {

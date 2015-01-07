@@ -5,8 +5,9 @@ using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
+using LayoutFarm.Composers;
 
-namespace LayoutFarm.Composers.BridgeHtml
+namespace LayoutFarm.WebDomImpl
 {
     public struct BoxCreator
     {
@@ -41,7 +42,7 @@ namespace LayoutFarm.Composers.BridgeHtml
         }
 
 
-       
+
         internal void GenerateChildBoxes(HtmlElement parentElement, bool fullmode)
         {
             //recursive ***  
@@ -361,7 +362,7 @@ namespace LayoutFarm.Composers.BridgeHtml
         public LayoutFarm.RenderElement ContainerElement
         {
             get { return this.containerElement; }
-        } 
+        }
     }
 
     static class TableBoxCreator
@@ -452,7 +453,7 @@ namespace LayoutFarm.Composers.BridgeHtml
         static readonly char[] discItem = new[] { '•' };
         static readonly char[] circleItem = new[] { 'o' };
         static readonly char[] squareItem = new[] { '♠' };
-        static ContentTextSplitter splitter = new ContentTextSplitter();
+        static Composers.ContentTextSplitter splitter = new Composers.ContentTextSplitter();
 
         public static CssBox CreateListItemBox(CssBox parent, HtmlElement childElement)
         {

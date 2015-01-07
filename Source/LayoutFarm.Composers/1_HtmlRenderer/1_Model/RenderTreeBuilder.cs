@@ -20,7 +20,7 @@ using LayoutFarm.Css;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Parser;
 using LayoutFarm.HtmlBoxes;
-using LayoutFarm.Composers.BridgeHtml;
+using LayoutFarm.WebDomImpl;
 
 namespace LayoutFarm.Composers
 {

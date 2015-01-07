@@ -8,8 +8,9 @@ using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
+using LayoutFarm.Composers;
 
-namespace LayoutFarm.Composers.BridgeHtml
+namespace LayoutFarm.WebDomImpl
 {
 
     class HtmlElement : DomElement

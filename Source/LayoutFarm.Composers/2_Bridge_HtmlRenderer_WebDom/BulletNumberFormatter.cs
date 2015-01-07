@@ -22,7 +22,7 @@ using System.Net;
 using System.Text;
 
 
-namespace LayoutFarm.Composers.BridgeHtml
+namespace LayoutFarm.WebDomImpl
 {
 
 

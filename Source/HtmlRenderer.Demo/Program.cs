@@ -37,9 +37,9 @@ namespace LayoutFarm.Demo
 
 
 
-            var platform = PixelFarm.Drawing.MyWinGdiPortal.Start();
+            var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
             Application.Run(new DevForm(platform));
-            PixelFarm.Drawing.MyWinGdiPortal.End();
+            LayoutFarm.UI.GdiPlus.MyWinGdiPortal.End();
 
 
             //            Application.Run(new PerfForm());

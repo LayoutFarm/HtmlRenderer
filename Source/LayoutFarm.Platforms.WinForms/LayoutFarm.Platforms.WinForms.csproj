@@ -44,19 +44,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="0_Start\Conv.cs" />
-    <Compile Include="0_Start\PlatformsPortal.cs" />
     <Compile Include="0_Start\dbugHelper.cs" />
-    <Compile Include="2_GdiPlusView\1_GdiPlusCanvasViewport.cs" />
-    <Compile Include="3_OpenGLView\0_GpuOpenGLSurfaceView.cs">
+    <Compile Include="2_GdiPlus\1_GdiPlusCanvasViewport.cs" />
+    <Compile Include="2_GdiPlus\MyWinGdiPortal.cs" />
+    <Compile Include="3_OpenGL\0_GpuOpenGLSurfaceView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="3_OpenGLView\0_GpuOpenGLSurfaceView.Designer.cs">
+    <Compile Include="3_OpenGL\0_GpuOpenGLSurfaceView.Designer.cs">
       <DependentUpon>0_GpuOpenGLSurfaceView.cs</DependentUpon>
     </Compile>
-    <Compile Include="2_GdiPlusView\0_CpuGdiPlusSurfaceView.cs">
+    <Compile Include="2_GdiPlus\0_CpuGdiPlusSurfaceView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="2_GdiPlusView\0_CpuGdiPlusSurfaceView.Designer.cs">
+    <Compile Include="2_GdiPlus\0_CpuGdiPlusSurfaceView.Designer.cs">
       <DependentUpon>0_CpuGdiPlusSurfaceView.cs</DependentUpon>
     </Compile>
     <Compile Include="1_LayoutFarm.UI\InnerViewportKind.cs" />
@@ -72,10 +72,11 @@
     <Compile Include="1_LayoutFarm.UI\CanvasViewport.cs" />
     <Compile Include="1_LayoutFarm.UI\PlatformWindowBridge.cs" />
     <Compile Include="1_LayoutFarm.UI\PlatformWindowBridge_dbug.cs" />
-    <Compile Include="2_GdiPlusView\2_MyPlatformWindowBridge_GdiPlus.cs" />
-    <Compile Include="3_OpenGLView\2_MyPlatformWindowBridge_OpenGL.cs" />
-    <Compile Include="2_GdiPlusView\Win32Utils.cs" />
-    <Compile Include="3_OpenGLView\1_OpenGLCanvasViewport.cs" />
+    <Compile Include="2_GdiPlus\2_MyPlatformWindowBridge_GdiPlus.cs" />
+    <Compile Include="3_OpenGL\2_MyPlatformWindowBridge_OpenGL.cs" />
+    <Compile Include="2_GdiPlus\Win32Utils.cs" />
+    <Compile Include="3_OpenGL\1_OpenGLCanvasViewport.cs" />
+    <Compile Include="3_OpenGL\MyOpenGLPortal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -120,7 +121,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="3_OpenGLView\0_GpuOpenGLSurfaceView.resx">
+    <EmbeddedResource Include="3_OpenGL\0_GpuOpenGLSurfaceView.resx">
       <DependentUpon>0_GpuOpenGLSurfaceView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

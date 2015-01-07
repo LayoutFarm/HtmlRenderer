@@ -39,7 +39,7 @@ namespace LayoutFarm.CustomWidgets
         HtmlIslandHost islandHost;
         static HtmlBox()
         {
-            LayoutFarm.Composers.BridgeHtml.BoxCreator.RegisterCustomCssBoxGenerator(
+            LayoutFarm.WebDomImpl.BoxCreator.RegisterCustomCssBoxGenerator(
                new MyCssBoxGenerator());
         }
         public HtmlBox(int width, int height)

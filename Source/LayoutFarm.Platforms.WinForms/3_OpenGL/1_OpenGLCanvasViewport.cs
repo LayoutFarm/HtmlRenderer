@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
-namespace LayoutFarm.UI.OpenGLView
+namespace LayoutFarm.UI.OpenGL
 {
     class OpenGLCanvasViewport : CanvasViewport
     {

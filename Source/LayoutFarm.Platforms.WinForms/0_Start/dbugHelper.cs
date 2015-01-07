@@ -1,10 +1,6 @@
 ﻿//2014,2015 Apache2, WinterDev
-using System;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-
-namespace PixelFarm.Drawing
+ 
+namespace LayoutFarm.UI 
 {
 
 #if DEBUG
