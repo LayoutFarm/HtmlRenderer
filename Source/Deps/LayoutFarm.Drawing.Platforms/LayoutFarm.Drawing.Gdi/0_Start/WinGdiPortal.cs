@@ -1,10 +1,9 @@
 ﻿//2014,2015 Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.Text;
-using LayoutFarm.Drawing.WinGdi;
+using System.Text; 
 
-namespace LayoutFarm.Drawing
+namespace LayoutFarm.Drawing.WinGdi
 {
     public static class WinGdiPortal
     {

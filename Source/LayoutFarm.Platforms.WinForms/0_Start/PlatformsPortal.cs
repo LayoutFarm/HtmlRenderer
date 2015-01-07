@@ -10,16 +10,16 @@ namespace LayoutFarm.Drawing
     {
         public static GraphicsPlatform Start()
         {
-            WinGdiPortal.Start();
-            return WinGdiPortal.P;
+            LayoutFarm.Drawing.WinGdi.WinGdiPortal.Start();
+            return LayoutFarm.Drawing.WinGdi.WinGdiPortal.P;
         }
         public static void End()
         {
-            WinGdiPortal.End();
+            LayoutFarm.Drawing.WinGdi.WinGdiPortal.End();
         }
         public static GraphicsPlatform P
         {
-            get { return WinGdiPortal.P; }
+            get { return LayoutFarm.Drawing.WinGdi.WinGdiPortal.P; }
         }
     }
     public static class MyOpenGLPortal

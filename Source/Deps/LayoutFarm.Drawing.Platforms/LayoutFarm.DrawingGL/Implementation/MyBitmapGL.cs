@@ -2,9 +2,7 @@
 using LayoutFarm.DrawingGL;
  
 namespace LayoutFarm.Drawing.DrawingGL
-{
-    
-
+{ 
     class MyFont : Font
     {
         System.Drawing.Font myFont;

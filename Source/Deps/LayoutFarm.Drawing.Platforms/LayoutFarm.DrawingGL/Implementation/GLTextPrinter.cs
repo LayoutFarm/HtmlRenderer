@@ -3,8 +3,9 @@ using System.Text;
 using System;
 
 using PixelFarm.Agg.Fonts;
+using LayoutFarm.DrawingGL;
 
-namespace LayoutFarm.DrawingGL
+namespace LayoutFarm.Drawing.DrawingGL
 {
     class GLTextPrinter
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using LayoutFarm.DrawingGL;
 
-
-namespace LayoutFarm.DrawingGL
+namespace LayoutFarm.Drawing.DrawingGL
 {
     class LazyGdiBitmapBufferProvider : LazyBitmapBufferProvider
     {
@@ -32,7 +32,7 @@ namespace LayoutFarm.DrawingGL
         public override IntPtr GetRawBufferHead()
         {
             this.bmpdata = this.bitmap.LockBits(
-                new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
                 System.Drawing.Imaging.ImageLockMode.ReadOnly,
                 System.Drawing.Imaging.PixelFormat.Format32bppArgb); //read data as 32 bppArgb
             return bmpdata.Scan0;
@@ -47,8 +47,7 @@ namespace LayoutFarm.DrawingGL
         }
     }
     public static class GLBitmapTextureHelper
-    {
-    
+    {   
         public static GLBitmap CreateBitmapTexture(int width, int height, System.Drawing.Bitmap bitmap)
         {
             return new GLBitmap(new LazyGdiBitmapBufferProvider(bitmap));

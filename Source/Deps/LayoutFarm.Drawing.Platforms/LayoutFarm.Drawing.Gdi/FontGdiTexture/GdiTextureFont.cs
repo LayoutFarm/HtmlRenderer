@@ -335,7 +335,7 @@ namespace PixelFarm.Agg.Fonts
         {
             if (innerGLbmp == null)
             {
-                innerGLbmp = GLBitmapTextureHelper.CreateBitmapTexture(this.textBoardBmp);
+                innerGLbmp = LayoutFarm.Drawing.DrawingGL.GLBitmapTextureHelper.CreateBitmapTexture(this.textBoardBmp);
             }
 
             //create reference bmp 

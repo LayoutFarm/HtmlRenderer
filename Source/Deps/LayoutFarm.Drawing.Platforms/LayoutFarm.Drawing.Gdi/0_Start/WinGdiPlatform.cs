@@ -1,7 +1,6 @@
 ﻿using System;
 namespace LayoutFarm.Drawing.WinGdi
 {
-
     class WinGdiPlatform : GraphicsPlatform
     {
         static FontStore fontStore = new FontStore();
