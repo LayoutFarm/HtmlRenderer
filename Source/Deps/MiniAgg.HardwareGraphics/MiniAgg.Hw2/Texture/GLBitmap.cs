@@ -4,7 +4,7 @@ using System;
 using System.Text;
 using OpenTK.Graphics.ES20;
 
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
 
 

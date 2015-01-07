@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</ProjectGuid>
+    <ProjectGuid>{51D63482-5697-4B16-8401-506965624657}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PixelFarm.Drawing</RootNamespace>

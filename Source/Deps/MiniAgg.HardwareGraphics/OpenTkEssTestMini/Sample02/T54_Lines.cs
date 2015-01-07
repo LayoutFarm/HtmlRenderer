@@ -120,7 +120,7 @@ namespace OpenTkEssTest
 
         //-------------------------------
         void FillPolygonWithSolidColor(float[] onlyCoords,
-               int numVertices, LayoutFarm.Drawing.Color c)
+               int numVertices, PixelFarm.Drawing.Color c)
         {
 
             u_useSolidColor.SetValue(1);

@@ -64,10 +64,6 @@
     <Compile Include="Texture\TextureAtlas.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\LayoutFarm.Drawing\LayoutFarm.Drawing.csproj">
-      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
-      <Name>LayoutFarm.Drawing</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\MiniAgg.Complements\MiniAgg.Complements.csproj">
       <Project>{AE0DF71E-9B14-4197-B55A-E1E0CE0683C7}</Project>
       <Name>MiniAgg.Complements</Name>
@@ -79,6 +75,10 @@
     <ProjectReference Include="..\..\MiniTesselate\Tesselate.csproj">
       <Project>{AE37DE1F-22F7-49EE-8732-FC6BC8DC58D9}</Project>
       <Name>Tesselate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
+      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
+      <Name>PixelFarm.Drawing</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenTK.ES\OpenTK.ES.csproj">
       <Project>{d8fae26d-c772-4e86-b9f3-439f0a1718b5}</Project>

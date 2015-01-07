@@ -21,25 +21,25 @@ namespace OpenTkEssTest
         protected void GLClearColor(System.Drawing.Color c)
         {
 
-            GLHelper.ClearColor(LayoutFarm.Drawing.Conv.ToColor(c));
+            GLHelper.ClearColor(PixelFarm.Drawing.Conv.ToColor(c));
         }
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
             glControl1_Resize(this, EventArgs.Empty);   // Ensure the Viewport is set up correctly             
-            GLHelper.ClearColor(LayoutFarm.Drawing.Color.LightGray);
+            GLHelper.ClearColor(PixelFarm.Drawing.Color.LightGray);
         }
 
         private void redButton_Click(object sender, EventArgs e)
         {
-            GLHelper.ClearColor(LayoutFarm.Drawing.Color.Red);
+            GLHelper.ClearColor(PixelFarm.Drawing.Color.Red);
             glControl1.Invalidate();
         }
 
         private void greenButton_Click(object sender, EventArgs e)
         {             
-            GLHelper.ClearColor(LayoutFarm.Drawing.Color.Green);
+            GLHelper.ClearColor(PixelFarm.Drawing.Color.Green);
             glControl1.Invalidate();
         }
 

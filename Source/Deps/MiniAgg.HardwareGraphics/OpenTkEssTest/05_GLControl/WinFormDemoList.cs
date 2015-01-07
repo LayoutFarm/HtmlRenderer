@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using OpenTK.Graphics.OpenGL;
 using Mini;
 
-using LayoutFarm.DrawingGL;
+using PixelFarm.DrawingGL;
 
 namespace OpenTkEssTest
 {
@@ -60,28 +60,28 @@ namespace OpenTkEssTest
             form.SetGLPaintHandler((o, s) =>
             {
 
-                canvas.Clear(LayoutFarm.Drawing.Color.White);
+                canvas.Clear(PixelFarm.Drawing.Color.White);
                 if (hwBmp == null)
                 {
 
-                    hwBmp = LayoutFarm.DrawingGL.GLBitmapTextureHelper.CreateBitmapTexture(
+                    hwBmp = PixelFarm.Drawing.DrawingGL.GLBitmapTextureHelper.CreateBitmapTexture(
                         new Bitmap("../../../Data/Textures/logo-dark.jpg"));
 
                 }
                 //canvas.DrawImage(hwBmp, 10, 10);
                 canvas.DrawImage(hwBmp, 300, 300, hwBmp.Width / 4, hwBmp.Height / 4);
-                canvas.StrokeColor = LayoutFarm.Drawing.Color.DeepPink;
+                canvas.StrokeColor = PixelFarm.Drawing.Color.DeepPink;
                 canvas.DrawLine(0, 300, 500, 300);
 
                 //-----------------------------------------------------
-                canvas.StrokeColor = LayoutFarm.Drawing.Color.Magenta;
+                canvas.StrokeColor = PixelFarm.Drawing.Color.Magenta;
                 //draw line test 
                 canvas.DrawLine(20, 20, 600, 200);
                 //-----------------------------------------------------
                 //smooth with agg 
 
                 canvas.SmoothMode = CanvasSmoothMode.AggSmooth;
-                var fillColor = new LayoutFarm.Drawing.Color(50, 255, 0, 0);  //  LayoutFarm.Drawing.Color.Red;
+                var fillColor = new PixelFarm.Drawing.Color(50, 255, 0, 0);  //  PixelFarm.Drawing.Color.Red;
                 //rect polygon
                 var polygonCoords = new float[]{
                         5,300,
@@ -97,11 +97,11 @@ namespace OpenTkEssTest
                         40+10,300,
                         50+10,340,
                         10f +10,340};
-                canvas.StrokeColor = new LayoutFarm.Drawing.Color(100, 0, 255, 0);  //  L
+                canvas.StrokeColor = new PixelFarm.Drawing.Color(100, 0, 255, 0);  //  L
                 canvas.DrawPolygon(polygonCoords2, polygonCoords2.Length / 2);
 
                 int strokeW = 10;
-                canvas.StrokeColor = LayoutFarm.Drawing.Color.LightGray;
+                canvas.StrokeColor = PixelFarm.Drawing.Color.LightGray;
 
                 for (int i = 1; i < 90; i += 10)
                 {
@@ -118,7 +118,7 @@ namespace OpenTkEssTest
 
 
 
-                var color = LayoutFarm.Drawing.Color.FromArgb(150, LayoutFarm.Drawing.Color.Green);
+                var color = PixelFarm.Drawing.Color.FromArgb(150, PixelFarm.Drawing.Color.Green);
                 canvas.StrokeColor = color;
 
                 ////---------------------------------------------
@@ -133,7 +133,7 @@ namespace OpenTkEssTest
 
 
                 canvas.StrokeWidth = 3;
-                canvas.StrokeColor = LayoutFarm.Drawing.Color.FromArgb(150, LayoutFarm.Drawing.Color.Blue);
+                canvas.StrokeColor = PixelFarm.Drawing.Color.FromArgb(150, PixelFarm.Drawing.Color.Blue);
 
                 //canvas.DrawBezierCurve(0, 0, 500, 500, 0, 250, 500, 250);
                 canvas.DrawBezierCurve(120, 500 - 160, 220, 500 - 40, 35, 500 - 200, 220, 500 - 260);
@@ -145,7 +145,7 @@ namespace OpenTkEssTest
 
                 // canvas.DrawArc(100, 200, 300, 200, 0, 100, 100, SvgArcSize.Large, SvgArcSweep.Negative);
 
-                fillColor = LayoutFarm.Drawing.Color.FromArgb(150, LayoutFarm.Drawing.Color.Black);
+                fillColor = PixelFarm.Drawing.Color.FromArgb(150, PixelFarm.Drawing.Color.Black);
                 canvas.StrokeColor = fillColor;
                 canvas.DrawLine(100, 200, 300, 200);
 
@@ -160,14 +160,14 @@ namespace OpenTkEssTest
                 glTextPrinter.CurrentFont = font;
                  
 
-                canvas.StrokeColor = LayoutFarm.Drawing.Color.Black;
+                canvas.StrokeColor = PixelFarm.Drawing.Color.Black;
                 canvas.DrawLine(0, 200, 500, 200);
 
                 //test Thai words
                 glTextPrinter.Print("ดุดีดำด่าด่ำญญู", 80, 200);
                 //number
                 glTextPrinter.Print("1234567890", 80, 200);
-                GLBitmap bmp = GLBitmapTextureHelper.CreateBitmapTexture(fontGlyph.glyphImage32);
+                GLBitmap bmp = PixelFarm.Drawing.DrawingGL.GLBitmapTextureHelper.CreateBitmapTexture(fontGlyph.glyphImage32);
 
                 canvas.DrawImage(bmp, 50, 50);
                 bmp.Dispose();

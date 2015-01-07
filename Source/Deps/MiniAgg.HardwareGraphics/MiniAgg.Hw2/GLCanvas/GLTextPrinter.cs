@@ -5,7 +5,7 @@ using System;
 using Tesselate;
 using PixelFarm.Agg.Fonts;
 
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
     class GLTextPrinter
     {

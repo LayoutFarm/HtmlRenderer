@@ -1,5 +1,5 @@
 ﻿ 
-namespace LayoutFarm.DrawingGL
+namespace PixelFarm.DrawingGL
 {
     public enum ImageFillStyle
     {
