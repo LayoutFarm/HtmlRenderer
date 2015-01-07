@@ -6,8 +6,9 @@ using LayoutFarm.WebDom;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Composers;
+using LayoutFarm.InternalHtmlDom;
 
-namespace LayoutFarm.WebDomImpl
+namespace LayoutFarm.Composers
 {
     public struct BoxCreator
     {

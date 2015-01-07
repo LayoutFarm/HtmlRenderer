@@ -22,10 +22,8 @@ using System.Net;
 using System.Text;
 
 
-namespace LayoutFarm.WebDomImpl
-{
-
-
+namespace LayoutFarm.InternalHtmlDom
+{  
 
     static class BulletNumberFormatter
     {

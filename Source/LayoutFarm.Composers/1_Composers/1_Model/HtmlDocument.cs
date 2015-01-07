@@ -6,16 +6,17 @@ using System.Collections.Generic;
 
 using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
-using LayoutFarm.HtmlBoxes; 
-using LayoutFarm.WebDomImpl;
+using LayoutFarm.HtmlBoxes;
+using LayoutFarm.InternalHtmlDom;
+using LayoutFarm.Composers;
 
 namespace LayoutFarm.Composers
 {
 
-    public class BridgeHtmlDocument : WebDocument
+    public class HtmlDocument : WebDocument
     {
         DomElement rootNode;
-        public BridgeHtmlDocument()
+        public HtmlDocument()
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
             //default root

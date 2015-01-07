@@ -16,7 +16,7 @@ namespace LayoutFarm.Demo
         }
         protected override void OnStartDemo(HtmlPanel panel)
         {  
-            BridgeHtmlDocument htmldoc = new BridgeHtmlDocument();
+            HtmlDocument htmldoc = new HtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  

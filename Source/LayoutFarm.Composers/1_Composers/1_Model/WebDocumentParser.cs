@@ -20,7 +20,7 @@ using LayoutFarm.Css;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Parser;
 using LayoutFarm.HtmlBoxes;
-using LayoutFarm.WebDomImpl;
+using LayoutFarm.InternalHtmlDom;
 
 namespace LayoutFarm.Composers
 {
@@ -35,7 +35,7 @@ namespace LayoutFarm.Composers
         {
             var parser = new HtmlParser();
             //------------------------
-            var blankHtmlDoc = new BridgeHtmlDocument();
+            var blankHtmlDoc = new HtmlDocument();
             parser.Parse(snapSource, blankHtmlDoc);
             return blankHtmlDoc;
         }

@@ -7,7 +7,7 @@ using LayoutFarm.WebDom;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
 
-namespace LayoutFarm.WebDomImpl
+namespace LayoutFarm.InternalHtmlDom
 {
     static class RunListHelper
     {

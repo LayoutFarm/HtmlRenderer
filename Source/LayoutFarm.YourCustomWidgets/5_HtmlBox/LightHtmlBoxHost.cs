@@ -32,7 +32,7 @@ namespace LayoutFarm.CustomWidgets
         static LightHtmlBoxHost()
         {
             //TODO: revise this again
-            LayoutFarm.WebDomImpl.BoxCreator.RegisterCustomCssBoxGenerator(
+            LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
                new  MyCssBoxGenerator());
         }
 
@@ -153,7 +153,7 @@ namespace LayoutFarm.CustomWidgets
             newCssBox = rootElement;
 
         }
-        public void CreateHtmlFragment(LayoutFarm.Composers.BridgeHtmlDocument htmldoc,
+        public void CreateHtmlFragment(LayoutFarm.Composers.HtmlDocument htmldoc,
             RenderElement container,
             out MyHtmlIsland newIsland,
             out CssBox newCssBox)

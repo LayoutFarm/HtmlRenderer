@@ -6,7 +6,7 @@ using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
-
+using LayoutFarm.InternalHtmlDom;
 using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
@@ -66,9 +66,9 @@ namespace LayoutFarm
             viewport.AddContent(textbox);
             textbox.Focus();
         }
-        BridgeHtmlDocument CreateBridgeDoc()
+        HtmlDocument CreateBridgeDoc()
         {
-            BridgeHtmlDocument htmldoc = new BridgeHtmlDocument();
+            HtmlDocument htmldoc = new HtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  

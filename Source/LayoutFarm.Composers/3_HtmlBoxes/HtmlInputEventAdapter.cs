@@ -8,7 +8,9 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.WebDom;
 using LayoutFarm;
 using LayoutFarm.UI;
-namespace LayoutFarm.Composers
+using LayoutFarm.Composers;
+
+namespace LayoutFarm.HtmlBoxes
 {
 
     /// <summary>

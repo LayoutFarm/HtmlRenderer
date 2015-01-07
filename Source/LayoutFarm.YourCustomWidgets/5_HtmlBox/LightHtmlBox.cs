@@ -6,12 +6,11 @@ using System.Text;
 using LayoutFarm;
 using LayoutFarm.ContentManagers;
 using LayoutFarm.HtmlBoxes;
+using LayoutFarm.InternalHtmlDom;
 using LayoutFarm.Composers;
 
 using PixelFarm.Drawing;
-using LayoutFarm.UI;
-using LayoutFarm.HtmlBoxes;
-
+using LayoutFarm.UI; 
 namespace LayoutFarm.CustomWidgets
 {
 
@@ -19,7 +18,7 @@ namespace LayoutFarm.CustomWidgets
     {
         bool hasWaitingDocToLoad;
         string waitingHtmlFragment;
-        BridgeHtmlDocument waitingHtmlDomFragment; 
+        HtmlDocument waitingHtmlDomFragment; 
         LightHtmlBoxHost lightBoxHost;
 
      
@@ -184,7 +183,7 @@ namespace LayoutFarm.CustomWidgets
             //    myCssBoxWrapper.InvalidateGraphic();
             //}
         }
-        public void LoadHtmlFragmentDom(BridgeHtmlDocument htmldoc)
+        public void LoadHtmlFragmentDom(HtmlDocument htmldoc)
         {
             if (frgmRenderBox == null)
             {

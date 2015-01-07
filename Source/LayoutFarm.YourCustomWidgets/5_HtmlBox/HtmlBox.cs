@@ -9,8 +9,7 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Composers;
 
 using PixelFarm.Drawing;
-using LayoutFarm.UI;
-using LayoutFarm.HtmlBoxes;
+using LayoutFarm.UI; 
 
 namespace LayoutFarm.CustomWidgets
 {
@@ -39,7 +38,7 @@ namespace LayoutFarm.CustomWidgets
         HtmlIslandHost islandHost;
         static HtmlBox()
         {
-            LayoutFarm.WebDomImpl.BoxCreator.RegisterCustomCssBoxGenerator(
+            LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
                new MyCssBoxGenerator());
         }
         public HtmlBox(int width, int height)

@@ -11,7 +11,7 @@ using LayoutFarm;
 using LayoutFarm.Css;
 using LayoutFarm.ContentManagers;
 using LayoutFarm.Composers;
-using LayoutFarm.HtmlBoxes;
+ 
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -101,7 +101,8 @@ namespace LayoutFarm.HtmlBoxes
             {
                 globalX += (int)cbox.LocalX;
                 globalY += (int)cbox.LocalY;
-                var renderRoot = cbox as LayoutFarm.WebDomImpl.CssRenderRoot;
+                var renderRoot = cbox as LayoutFarm.Composers.CssRenderRoot;
+
                 if (renderRoot != null)
                 {
                     this.wrapper.AdjustX = globalX;

@@ -10,7 +10,7 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
 using LayoutFarm.Composers;
 
-namespace LayoutFarm.WebDomImpl
+namespace LayoutFarm.InternalHtmlDom
 {
 
     class HtmlElement : DomElement
@@ -18,7 +18,7 @@ namespace LayoutFarm.WebDomImpl
         CssBox principalBox;
         Css.BoxSpec boxSpec;
         CssRuleSet elementRuleSet; 
-        public HtmlElement(BridgeHtmlDocument owner, int prefix, int localNameIndex)
+        public HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
             this.boxSpec = new Css.BoxSpec();
@@ -121,7 +121,7 @@ namespace LayoutFarm.WebDomImpl
 
     sealed class RootElement : HtmlElement
     {
-        public RootElement(BridgeHtmlDocument ownerDoc)
+        public RootElement(HtmlDocument ownerDoc)
             : base(ownerDoc, 0, 0)
         {
         }

@@ -20,7 +20,7 @@ using LayoutFarm.Css;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Parser;
 using LayoutFarm.HtmlBoxes;
-using LayoutFarm.WebDomImpl;
+using LayoutFarm.InternalHtmlDom;
 
 namespace LayoutFarm.Composers
 {
@@ -164,13 +164,13 @@ namespace LayoutFarm.Composers
             LayoutFarm.RenderElement containerElement)
         {
             return this.BuildCssRenderTree(
-                 (LayoutFarm.Composers.BridgeHtmlDocument)webdoc,
+                 (LayoutFarm.Composers.HtmlDocument)webdoc,
                  ifonts,
                  cssData,
                  containerElement);
 
         }
-        public CssBox BuildCssRenderTree(LayoutFarm.Composers.BridgeHtmlDocument bridgeHtmlDoc,
+        public CssBox BuildCssRenderTree(LayoutFarm.Composers.HtmlDocument bridgeHtmlDoc,
             IFonts ifonts,
             CssActiveSheet cssData,
             LayoutFarm.RenderElement containerElement)
@@ -204,7 +204,7 @@ namespace LayoutFarm.Composers
         {
 
             CssBox rootBox = null;
-            BridgeHtmlDocument bridgeHtmlDoc = (BridgeHtmlDocument)htmldoc;
+            HtmlDocument bridgeHtmlDoc = (HtmlDocument)htmldoc;
             ActiveCssTemplate activeCssTemplate = bridgeHtmlDoc.ActiveCssTemplate;
 
             htmldoc.SetDocumentState(DocumentState.Building);
