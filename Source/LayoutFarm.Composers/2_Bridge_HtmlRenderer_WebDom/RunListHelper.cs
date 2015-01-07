@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 using LayoutFarm.WebDom;
 using LayoutFarm.Css;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm.Composers.BridgeHtml
 {

@@ -1,6 +1,6 @@
 ﻿//BSD 2014, WinterDev
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
     partial class CssBox

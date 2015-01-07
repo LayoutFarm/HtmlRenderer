@@ -1,7 +1,7 @@
 ﻿//BSD 2014,WinterDev  
 using System.Collections.Generic;
 using LayoutFarm.Css; 
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm.Composers 
 { 

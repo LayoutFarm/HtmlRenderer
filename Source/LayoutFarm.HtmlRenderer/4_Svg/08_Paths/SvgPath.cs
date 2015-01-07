@@ -8,7 +8,7 @@ using LayoutFarm.Svg.Pathing;
 using LayoutFarm.Svg.Transforms;
 using LayoutFarm;
 
-namespace LayoutFarm.SvgDom
+namespace LayoutFarm.Svg
 {
 
     public class SvgPath : SvgVisualElement
@@ -281,7 +281,7 @@ namespace LayoutFarm.SvgDom
 
             ValidatePath();
         }
-        public override void Paint(Painter p)
+        public override void Paint(BoxPainter p)
         {
 
             if (fillColor.A > 0)

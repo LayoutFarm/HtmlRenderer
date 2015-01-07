@@ -4,13 +4,13 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Css;
 using LayoutFarm.Composers;
 using LayoutFarm.Composers.BridgeHtml;
 using LayoutFarm.WebDom;
 using LayoutFarm.UI;
-using LayoutFarm.SvgDom;
+using LayoutFarm.Svg;
 
 namespace LayoutFarm.Composers.BridgeHtml
 {

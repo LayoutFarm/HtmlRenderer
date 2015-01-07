@@ -99,7 +99,7 @@
     <Compile Include="2_Boxes\3_Layout\CssBoxLayoutExtension.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Positions.cs" />
     <Compile Include="2_Boxes\3_Layout\LayoutVisitor.cs" />
-    <Compile Include="2_Boxes\4_Render\Painter.cs" />
+    <Compile Include="2_Boxes\4_Render\BoxPainter.cs" />
     <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.TableColumns.cs" />
     <Compile Include="3_Boxes_SpecialBoxes\CssBoxListItem.cs" />
@@ -151,7 +151,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="0_Start\" />
+    <Folder Include="0_LayoutFarm\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="4_Svg\license.txt" />

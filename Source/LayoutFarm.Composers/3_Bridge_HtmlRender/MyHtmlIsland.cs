@@ -10,12 +10,12 @@ using LayoutFarm.Drawing;
 using LayoutFarm.WebDom;
 
 using LayoutFarm.ContentManagers;
-using LayoutFarm.Diagnostics;
 
-using LayoutFarm.Boxes;
+
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     public class HtmlResourceRequestEventArgs : EventArgs
     {

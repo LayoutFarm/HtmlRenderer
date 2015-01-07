@@ -20,7 +20,7 @@ using LayoutFarm.WebDom;
 using LayoutFarm.Css;
 using LayoutFarm.ContentManagers;
 using LayoutFarm.Composers;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 
 using Conv = LayoutFarm.Drawing.Conv;
 
@@ -68,8 +68,8 @@ namespace LayoutFarm.Demo
         LayoutFarm.WebDom.WebDocument currentDoc;
         Composers.RenderTreeBuilder renderTreeBuilder;
 
-        LayoutFarm.Boxes.MyHtmlIsland myHtmlIsland;
-        LayoutFarm.Boxes.HtmlIslandHost htmlIslandHost;
+        LayoutFarm.HtmlBoxes.MyHtmlIsland myHtmlIsland;
+        LayoutFarm.HtmlBoxes.HtmlIslandHost htmlIslandHost;
 
         HtmlInputEventAdapter _htmlInputEventAdapter;
         /// <summary>
@@ -87,7 +87,7 @@ namespace LayoutFarm.Demo
 
         ImageContentManager imageContentMan = new ImageContentManager();
         TextContentManager textContentMan = new TextContentManager();
-        LayoutFarm.Boxes.LayoutVisitor htmlLayoutVisitor;
+        LayoutFarm.HtmlBoxes.LayoutVisitor htmlLayoutVisitor;
 
         LayoutFarm.Drawing.Canvas renderCanvas;
         LayoutFarm.Drawing.GraphicsPlatform gfxPlatform;
@@ -121,7 +121,7 @@ namespace LayoutFarm.Demo
             myHtmlIsland.DomVisualRefresh += OnRefresh;
             myHtmlIsland.DomRequestRebuild += myHtmlIsland_NeedUpdateDom;
 
-            htmlLayoutVisitor = new Boxes.LayoutVisitor(p);
+            htmlLayoutVisitor = new LayoutVisitor(p);
             htmlLayoutVisitor.Bind(myHtmlIsland);
 
             this.imageContentMan.ImageLoadingRequest += OnImageLoad;
@@ -289,7 +289,7 @@ namespace LayoutFarm.Demo
                 }
             }
         }
-        void SetHtml(LayoutFarm.Boxes.MyHtmlIsland htmlIsland, string html, CssActiveSheet cssData)
+        void SetHtml(LayoutFarm.HtmlBoxes.MyHtmlIsland htmlIsland, string html, CssActiveSheet cssData)
         {
 
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
@@ -352,7 +352,7 @@ namespace LayoutFarm.Demo
             this.PaintMe();
 
         }
-        public Boxes.HtmlIsland GetHtmlContainer()
+        public HtmlIsland GetHtmlContainer()
         {
             return this.myHtmlIsland;
         }
@@ -821,12 +821,12 @@ namespace LayoutFarm.Demo
         #endregion
 
 
-        static Painter GetSharedPainter(LayoutFarm.Boxes.HtmlIsland htmlIsland, LayoutFarm.Drawing.Canvas canvas)
+        static BoxPainter GetSharedPainter(LayoutFarm.HtmlBoxes.HtmlIsland htmlIsland, LayoutFarm.Drawing.Canvas canvas)
         {
-            Painter painter = null;
+            BoxPainter painter = null;
             if (painterStock.Count == 0)
             {
-                painter = new Painter();
+                painter = new BoxPainter();
             }
             else
             {
@@ -837,11 +837,11 @@ namespace LayoutFarm.Demo
 
             return painter;
         }
-        static void ReleaseSharedPainter(Painter p)
+        static void ReleaseSharedPainter(BoxPainter p)
         {
             p.UnBind();
             painterStock.Enqueue(p);
         }
-        static Queue<Painter> painterStock = new Queue<Painter>();
+        static Queue<BoxPainter> painterStock = new Queue<BoxPainter>();
     }
 }

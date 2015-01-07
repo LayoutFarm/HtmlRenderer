@@ -3,9 +3,9 @@
 
 using LayoutFarm.Drawing;
 using System.Collections.Generic;
-using LayoutFarm.SvgDom;
+using LayoutFarm.Svg;
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
     public sealed class CssBoxSvgRoot : CustomCssBox
@@ -37,7 +37,7 @@ namespace LayoutFarm.Boxes
 
             this.SetSize(500, 500);
         }
-        protected override void PaintImp(Painter p)
+        protected override void PaintImp(BoxPainter p)
         {
             var g = p.InnerCanvas;
             var prevMode = g.SmoothingMode;

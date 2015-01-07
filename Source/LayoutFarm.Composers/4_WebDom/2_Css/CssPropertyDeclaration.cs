@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Css;
 using LayoutFarm.Drawing;
 namespace LayoutFarm.WebDom

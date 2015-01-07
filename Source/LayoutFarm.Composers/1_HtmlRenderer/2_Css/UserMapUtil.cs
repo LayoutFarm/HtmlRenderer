@@ -4,8 +4,9 @@ using LayoutFarm.Drawing;
 using System.Collections.Generic;
 
 using LayoutFarm.Css;
-using LayoutFarm.Boxes;
-using LayoutFarm.Diagnostics;
+using LayoutFarm.HtmlBoxes;
+
+using LayoutFarm.HtmlDiagnostics;
 
 namespace LayoutFarm.Composers
 {

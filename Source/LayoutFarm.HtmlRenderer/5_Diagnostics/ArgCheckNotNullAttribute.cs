@@ -1,7 +1,7 @@
 //BSD 2014,WinterDev
 
 using System;
-namespace LayoutFarm.Diagnostics
+namespace LayoutFarm.HtmlDiagnostics
 {
     [AttributeUsage(AttributeTargets.Parameter)]
     public class ArgNotNullAttribute : Attribute

@@ -1,6 +1,6 @@
 ﻿//BSD 2014, WinterDev 
 using System;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm
 {

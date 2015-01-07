@@ -8,7 +8,7 @@ using LayoutFarm.Drawing;
 using LayoutFarm.Css;
 
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
 
@@ -296,7 +296,7 @@ namespace LayoutFarm.Boxes
             //evaluate bg 
 
             if (BackgroundGradient != Color.Transparent ||
-                LayoutFarm.Drawing.RenderUtils.IsColorVisible(ActualBackgroundColor))
+                RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
                 tmpBoxCompactFlags |= BoxFlags.HAS_VISIBLE_BG;
             }

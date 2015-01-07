@@ -19,7 +19,7 @@ using LayoutFarm.Drawing;
 using LayoutFarm.Css;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
     /// Base class for css box to handle the css properties.<br/>

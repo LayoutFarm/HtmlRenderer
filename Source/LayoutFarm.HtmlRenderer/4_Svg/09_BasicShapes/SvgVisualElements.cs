@@ -1,15 +1,12 @@
 ﻿//MS-PL, Apache2 
 //2014,2015, WinterDev
 
-using System;
-using LayoutFarm.Drawing;
-using System.Collections.Generic;
+using System; 
 
-using LayoutFarm;
-using LayoutFarm.Css;
-using LayoutFarm.SvgDom;
+using LayoutFarm.Drawing; 
+using LayoutFarm.Css; 
 
-namespace LayoutFarm.SvgDom
+namespace LayoutFarm.Svg
 {
     public abstract class SvgVisualElement : SvgElement
     {
@@ -227,7 +224,7 @@ namespace LayoutFarm.SvgDom
             }
             return false;
         }
-        public override void Paint(Painter p)
+        public override void Paint(BoxPainter p)
         {
 
             if (fillColor.A > 0)
@@ -305,7 +302,7 @@ namespace LayoutFarm.SvgDom
 
             return false;
         }
-        public override void Paint(Painter p)
+        public override void Paint(BoxPainter p)
         {
             if (fillColor.A > 0)
             {
@@ -384,7 +381,7 @@ namespace LayoutFarm.SvgDom
 
             return false;
         }
-        public override void Paint(Painter p)
+        public override void Paint(BoxPainter p)
         {
 
             if (fillColor.A > 0)
@@ -449,7 +446,7 @@ namespace LayoutFarm.SvgDom
                 return pointList;
             }
         }
-        public override void Paint(Painter p)
+        public override void Paint(BoxPainter p)
         {
 
             if (this.fillColor.A > 0)
@@ -501,7 +498,7 @@ namespace LayoutFarm.SvgDom
             }
             ValidatePath();
         }
-        public override void Paint(Painter p)
+        public override void Paint(BoxPainter p)
         {
 
             if (this.strokeColor.A > 0
@@ -558,7 +555,7 @@ namespace LayoutFarm.SvgDom
 
             ValidatePath();
         }
-        public override void Paint(Painter p)
+        public override void Paint(BoxPainter p)
         {
             if (this.strokeColor.A > 0)
             {
@@ -595,7 +592,7 @@ namespace LayoutFarm.SvgDom
             }
             ValidatePath();
         }
-        public override void Paint(Painter p)
+        public override void Paint(BoxPainter p)
         {
             p.UseCurrentContext = true;
             p.CurrentContextFillColor = spec.ActualColor;

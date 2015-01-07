@@ -3,10 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using LayoutFarm.Diagnostics;
+//
 using LayoutFarm.Drawing;
 using LayoutFarm.WebDom;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
 
 namespace LayoutFarm.Composers.BridgeHtml

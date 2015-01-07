@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using LayoutFarm.Drawing;
 using LayoutFarm.Css;
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
     partial class CssBox

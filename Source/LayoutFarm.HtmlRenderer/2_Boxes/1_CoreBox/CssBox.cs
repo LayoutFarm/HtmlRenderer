@@ -20,7 +20,7 @@ using System.Globalization;
 using System.Text;
 using LayoutFarm.Css;
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
 

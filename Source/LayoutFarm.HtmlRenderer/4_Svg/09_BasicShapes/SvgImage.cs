@@ -7,9 +7,9 @@ using System.Collections.Generic;
 
 using LayoutFarm;
 using LayoutFarm.Css;
-using LayoutFarm.SvgDom;
+using LayoutFarm.Svg;
 
-namespace LayoutFarm.SvgDom
+namespace LayoutFarm.Svg
 {
     public class SvgImage : SvgVisualElement
     {
@@ -18,14 +18,14 @@ namespace LayoutFarm.SvgDom
         Color strokeColor = Color.Transparent;
         Color fillColor = Color.Black;
         GraphicsPath _path;
-        LayoutFarm.Boxes.CssImageRun _imgRun;
+        LayoutFarm.HtmlBoxes.CssImageRun _imgRun;
 
 
         public SvgImage(SvgImageSpec spec, object controller)
             : base(controller)
         {
             this.imageSpec = spec;
-            this._imgRun = new LayoutFarm.Boxes.CssImageRun();
+            this._imgRun = new LayoutFarm.HtmlBoxes.CssImageRun();
         }
         //----------------------------
         public float ActualX
@@ -78,7 +78,7 @@ namespace LayoutFarm.SvgDom
             ValidatePath();
 
         }
-        public override void Paint(Painter p)
+        public override void Paint(BoxPainter p)
         {
 
             Canvas g = p.InnerCanvas;

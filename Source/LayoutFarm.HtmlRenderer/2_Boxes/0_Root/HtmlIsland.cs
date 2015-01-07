@@ -16,11 +16,10 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
-using LayoutFarm.Boxes;
-using LayoutFarm.Diagnostics;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Css;
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
     /// layout and render the html fragment
@@ -121,7 +120,7 @@ namespace LayoutFarm.Boxes
             layoutArgs.PopContainingBlock();
         }
 
-        public void PerformPaint(Painter p)
+        public void PerformPaint(BoxPainter p)
         {
             if (_rootBox == null)
             {

@@ -12,8 +12,8 @@
 // 
 // - Sun Tsu,
 // "The Art of War"
-
-namespace LayoutFarm.Diagnostics
+ 
+namespace LayoutFarm.HtmlDiagnostics
 {
     /// <summary>
     /// Enum of possible error types that can be repported.

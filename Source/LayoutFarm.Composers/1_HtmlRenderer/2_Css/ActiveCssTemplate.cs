@@ -5,7 +5,7 @@ using LayoutFarm.Drawing;
 using System.Collections.Generic;
 using LayoutFarm.Css;
 using LayoutFarm.WebDom;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm.Composers
 {

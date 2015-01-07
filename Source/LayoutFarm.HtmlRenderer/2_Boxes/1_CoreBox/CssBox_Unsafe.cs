@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Css;
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
 

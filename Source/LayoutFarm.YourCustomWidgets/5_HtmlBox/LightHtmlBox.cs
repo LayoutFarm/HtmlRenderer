@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm;
 using LayoutFarm.ContentManagers;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Composers;
 
 using LayoutFarm.Drawing;
 using LayoutFarm.UI;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {

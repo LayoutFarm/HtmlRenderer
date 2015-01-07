@@ -1,9 +1,8 @@
-﻿//BSD 2014, WinterDev 
-using LayoutFarm.Drawing;
-namespace LayoutFarm.Drawing
+﻿//BSD 2014, WinterDev  
+namespace LayoutFarm 
 {
     static class FontDefaultConfig
-    {        
+    {
         /// <summary>
         /// serif
         /// </summary>

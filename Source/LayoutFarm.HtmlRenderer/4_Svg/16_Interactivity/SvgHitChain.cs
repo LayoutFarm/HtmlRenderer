@@ -5,7 +5,7 @@ using LayoutFarm.Drawing;
 using System.Collections.Generic;
 using LayoutFarm.Css;
 
-namespace LayoutFarm.SvgDom
+namespace LayoutFarm.Svg
 {
     public class SvgHitChain
     {

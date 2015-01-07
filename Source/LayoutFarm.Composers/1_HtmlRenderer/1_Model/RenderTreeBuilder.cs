@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using LayoutFarm.Css;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Parser;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Composers.BridgeHtml;
 
 namespace LayoutFarm.Composers

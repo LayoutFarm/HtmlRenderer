@@ -15,10 +15,9 @@
 
 using System;
 using LayoutFarm.Drawing;
-using LayoutFarm.Css;
-using LayoutFarm.Boxes;
+using LayoutFarm.Css; 
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
 
@@ -36,7 +35,7 @@ namespace LayoutFarm.Boxes
         /// <param name="rect">the bounding rectangle to draw in</param>
         /// <param name="isFirst">is it the first rectangle of the element</param>
         /// <param name="isLast">is it the last rectangle of the element</param>
-        public static void DrawBoxBorders(Painter p, CssBox box, RectangleF rect, bool isFirst, bool isLast)
+        public static void DrawBoxBorders(BoxPainter p, CssBox box, RectangleF rect, bool isFirst, bool isLast)
         {
 
             if (rect.Width > 0 && rect.Height > 0)
@@ -148,7 +147,7 @@ namespace LayoutFarm.Boxes
         /// <param name="isLineStart">Specifies if the border is for a starting line (no bevel on left)</param>
         /// <param name="isLineEnd">Specifies if the border is for an ending line (no bevel on right)</param>
         static void DrawBorder(CssSide borderSide, CssBox box,
-            Painter p, RectangleF rect, bool isLineStart, bool isLineEnd)
+            BoxPainter p, RectangleF rect, bool isLineStart, bool isLineEnd)
         {
 
             float actualBorderWidth;
@@ -288,7 +287,7 @@ namespace LayoutFarm.Boxes
         /// <param name="b">Box which the border corresponds</param>
         /// <param name="r">the rectangle the border is enclosing</param>
         /// <returns>Beveled border path, null if there is no rounded corners</returns>
-        static GraphicsPath GetRoundedBorderPath(Painter p, CssSide border, CssBox b, RectangleF r)
+        static GraphicsPath GetRoundedBorderPath(BoxPainter p, CssSide border, CssBox b, RectangleF r)
         {
             GraphicsPath path = null;
 

@@ -6,9 +6,9 @@ using LayoutFarm.Drawing;
 using System.Collections.Generic;
 using LayoutFarm;
 using LayoutFarm.Css;
-using LayoutFarm.SvgDom;
+using LayoutFarm.Svg;
 
-namespace LayoutFarm.SvgDom
+namespace LayoutFarm.Svg
 {
     public class SvgVisualSpec
     {

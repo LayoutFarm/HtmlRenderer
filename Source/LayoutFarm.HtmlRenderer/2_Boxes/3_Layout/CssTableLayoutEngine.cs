@@ -19,7 +19,7 @@ using LayoutFarm.Css;
 using LayoutFarm.Drawing;
 
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
     /// Layout engine for tables executing the complex layout of tables with rows/columns/headers/etc.

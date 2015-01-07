@@ -7,9 +7,9 @@ using System.Collections.Generic;
 
 using LayoutFarm;
 using LayoutFarm.Css;
-using LayoutFarm.SvgDom;
+using LayoutFarm.Svg;
 
-namespace LayoutFarm.SvgDom
+namespace LayoutFarm.Svg
 {
 
     public abstract class SvgNode
@@ -122,7 +122,7 @@ namespace LayoutFarm.SvgDom
             }
         }
 
-        public virtual void Paint(Painter p)
+        public virtual void Paint(BoxPainter p)
         {
 
         }

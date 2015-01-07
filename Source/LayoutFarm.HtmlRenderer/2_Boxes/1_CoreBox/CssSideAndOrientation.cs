@@ -13,7 +13,7 @@
 // - Sun Tsu,
 // "The Art of War"
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     
     enum CssSide

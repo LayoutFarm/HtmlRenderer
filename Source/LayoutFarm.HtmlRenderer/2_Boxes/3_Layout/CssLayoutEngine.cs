@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using LayoutFarm.Drawing;
 using LayoutFarm.Css;
 using LayoutFarm.Drawing;
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
 

@@ -9,8 +9,8 @@ namespace LayoutFarm.CustomWidgets
 
     class MyCssBoxGenerator : CustomCssBoxGenerator
     {
-        public override LayoutFarm.Boxes.CssBox CreateCssBox(object tag,
-            LayoutFarm.Boxes.CssBox parentBox,
+        public override LayoutFarm.HtmlBoxes.CssBox CreateCssBox(object tag,
+            LayoutFarm.HtmlBoxes.CssBox parentBox,
             BoxSpec spec,
             LayoutFarm.RootGraphic rootgfx)
         {

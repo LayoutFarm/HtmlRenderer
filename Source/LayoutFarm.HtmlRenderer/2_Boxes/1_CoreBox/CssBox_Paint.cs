@@ -5,13 +5,13 @@ using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing; 
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
     partial class CssBox
     {
 
-        public void Paint(Painter p)
+        public void Paint(BoxPainter p)
         { 
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
@@ -22,7 +22,7 @@ namespace LayoutFarm.Boxes
             }
         }
 #if DEBUG
-        public void dbugPaint(Painter p, RectangleF r)
+        public void dbugPaint(BoxPainter p, RectangleF r)
         {
             //return; 
             var htmlE = CssBox.UnsafeGetController(this);
@@ -53,7 +53,7 @@ namespace LayoutFarm.Boxes
         }
 #endif
 
-        protected virtual void PaintImp(Painter p)
+        protected virtual void PaintImp(BoxPainter p)
         {
 
 
@@ -231,7 +231,7 @@ namespace LayoutFarm.Boxes
         /// <param name="rect">the bounding rectangle to draw in</param>
         /// <param name="isFirst">is it the first rectangle of the element</param>
         /// <param name="isLast">is it the last rectangle of the element</param>
-        internal void PaintBackground(Painter p, RectangleF rect, bool isFirst, bool isLast)
+        internal void PaintBackground(BoxPainter p, RectangleF rect, bool isFirst, bool isLast)
         {
 
             if (!this.HasVisibleBgColor)

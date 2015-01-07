@@ -16,9 +16,9 @@ using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
 using System.Text;
-using LayoutFarm.Diagnostics;
+using LayoutFarm.HtmlDiagnostics;
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     //delegate bool EachCssTextRunHandler(CssTextRun trun);
 

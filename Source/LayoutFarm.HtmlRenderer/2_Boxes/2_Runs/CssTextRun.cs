@@ -14,7 +14,7 @@
 // "The Art of War"
 
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
     /// Represents a word inside an inline box

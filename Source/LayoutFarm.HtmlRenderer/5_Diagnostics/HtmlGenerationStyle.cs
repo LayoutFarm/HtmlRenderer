@@ -13,7 +13,7 @@
 // - Sun Tsu,
 // "The Art of War"
 
-namespace LayoutFarm.Diagnostics
+namespace LayoutFarm.HtmlDiagnostics
 {
     /// <summary>
     /// Controls the way styles are generated when html is generated.

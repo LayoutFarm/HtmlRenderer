@@ -16,11 +16,11 @@ namespace LayoutFarm.ContentManagers
     {
         internal readonly ImageBinder binder;
         internal readonly object requestBy;
-        internal readonly LayoutFarm.Boxes.IUpdateChangeListener listener;
+        internal readonly LayoutFarm.HtmlBoxes.IUpdateChangeListener listener;
         
         public ImageContentRequest(ImageBinder binder,
             object requestBy,
-            LayoutFarm.Boxes.IUpdateChangeListener listener)
+            LayoutFarm.HtmlBoxes.IUpdateChangeListener listener)
         {
             this.binder = binder;
             this.requestBy = requestBy;

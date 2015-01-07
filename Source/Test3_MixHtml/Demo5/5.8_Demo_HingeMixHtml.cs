@@ -9,7 +9,7 @@ using LayoutFarm.UI;
 using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {

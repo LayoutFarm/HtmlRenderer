@@ -17,7 +17,7 @@ using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     //--------------------------
     class PartialBoxStrip
@@ -425,7 +425,7 @@ namespace LayoutFarm.Boxes
 
 
 
-        internal void PaintRuns(Painter p)
+        internal void PaintRuns(BoxPainter p)
         {
             //iterate from each words
 
@@ -501,7 +501,7 @@ namespace LayoutFarm.Boxes
 
 #if DEBUG
 
-        internal void dbugPaintRuns(Painter p)
+        internal void dbugPaintRuns(BoxPainter p)
         {
 
             //return;
@@ -547,7 +547,7 @@ namespace LayoutFarm.Boxes
             get;
             set;
         }
-        internal void PaintSelection(Painter p)
+        internal void PaintSelection(BoxPainter p)
         {
 
             p.FillRectangle(Color.LightGray, this.LineSelectionStart, 0, this.LineSelectionWidth, this.CacheLineHeight);
@@ -555,7 +555,7 @@ namespace LayoutFarm.Boxes
         }
 
 
-        internal void PaintBackgroundAndBorder(Painter p)
+        internal void PaintBackgroundAndBorder(BoxPainter p)
         {
             //iterate each strip
 
@@ -582,7 +582,7 @@ namespace LayoutFarm.Boxes
             }
         }
 
-        internal void PaintDecoration(Painter p)
+        internal void PaintDecoration(BoxPainter p)
         {
 
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)

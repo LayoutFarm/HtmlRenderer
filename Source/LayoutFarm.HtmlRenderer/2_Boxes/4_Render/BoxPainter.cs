@@ -5,15 +5,13 @@ using System.Collections.Generic;
 using LayoutFarm.Drawing;
 
 using LayoutFarm.Css;
-using LayoutFarm.Boxes;
-
+using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm
 {
     //----------------------------------------------------------------------------
-    public class Painter : BoxVisitor
+    public class BoxPainter : BoxVisitor
     {
         Stack<Rectangle> clipStacks = new Stack<Rectangle>();
-
         PointF[] borderPoints = new PointF[4];
         HtmlIsland htmlIsland;
         Canvas canvas;
@@ -25,7 +23,7 @@ namespace LayoutFarm
         float viewportHeight;
 
 
-        public Painter()
+        public BoxPainter()
         {
 
         }
@@ -161,7 +159,7 @@ namespace LayoutFarm
         }
         internal void PaintBorders(CssBox box, RectangleF stripArea, bool isFirstLine, bool isLastLine)
         {
-            LayoutFarm.Boxes.BorderPaintHelper.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
+            LayoutFarm.HtmlBoxes.BorderPaintHelper.DrawBoxBorders(this, box, stripArea, isFirstLine, isLastLine);
         }
         internal void PaintBorders(CssBox box, RectangleF rect)
         {

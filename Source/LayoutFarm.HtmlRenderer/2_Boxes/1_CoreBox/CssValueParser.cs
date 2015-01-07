@@ -18,7 +18,7 @@ using LayoutFarm.Drawing;
 using LayoutFarm.Drawing;
 using LayoutFarm.Css;
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
     /// Parse CSS properties values like numbers, urls, etc.

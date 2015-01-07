@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Text;
 using LayoutFarm;
 using LayoutFarm.ContentManagers;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Composers;
 
 using LayoutFarm.Drawing;
 using LayoutFarm.UI;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {
@@ -26,7 +26,7 @@ namespace LayoutFarm.CustomWidgets
      
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
         Queue<HtmlInputEventAdapter> inputEventAdapterStock = new Queue<HtmlInputEventAdapter>();
-        Queue<LayoutFarm.Boxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
+        Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
 
          
         static LightHtmlBoxHost()
@@ -45,9 +45,9 @@ namespace LayoutFarm.CustomWidgets
         {
             this.rootgfx = rootgfx;
         }
-        internal LayoutFarm.Boxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
+        internal LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
         {
-            LayoutFarm.Boxes.LayoutVisitor lay = null;
+            LayoutFarm.HtmlBoxes.LayoutVisitor lay = null;
             if (htmlLayoutVisitorStock.Count == 0)
             {
                 lay = new LayoutVisitor(this.gfxPlatform);
@@ -59,7 +59,7 @@ namespace LayoutFarm.CustomWidgets
             lay.Bind(island);
             return lay;
         }
-        internal void ReleaseHtmlLayoutVisitor(LayoutFarm.Boxes.LayoutVisitor lay)
+        internal void ReleaseHtmlLayoutVisitor(LayoutFarm.HtmlBoxes.LayoutVisitor lay)
         {
             lay.UnBind();
             this.htmlLayoutVisitorStock.Enqueue(lay);

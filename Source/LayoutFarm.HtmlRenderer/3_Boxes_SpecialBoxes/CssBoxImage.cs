@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using LayoutFarm.Drawing;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
     /// CSS box for image element.
@@ -91,7 +91,7 @@ namespace LayoutFarm.Boxes
         //            } break;
         //    }
         //}
-        internal void PaintImage(Painter p, RectangleF rect)
+        internal void PaintImage(BoxPainter p, RectangleF rect)
         {
 
             PaintBackground(p, rect, true, true);
@@ -176,7 +176,7 @@ namespace LayoutFarm.Boxes
         /// Paints the fragment
         /// </summary>
         /// <param name="g">the device to draw to</param>
-        protected override void PaintImp(Painter p)
+        protected override void PaintImp(BoxPainter p)
         {
             // load image iff it is in visible rectangle  
             //1. single image can't be splited  

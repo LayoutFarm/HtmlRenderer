@@ -1,7 +1,7 @@
 ﻿//BSD 2014,WinterDev
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     class CssBlockRun : CssRun
     {

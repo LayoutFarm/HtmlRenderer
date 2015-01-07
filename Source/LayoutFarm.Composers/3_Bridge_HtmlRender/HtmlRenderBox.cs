@@ -13,7 +13,7 @@ using LayoutFarm.ContentManagers;
 using LayoutFarm.Composers;
 
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
     public class HtmlRenderBox : RenderBoxBase
@@ -111,12 +111,12 @@ namespace LayoutFarm.Boxes
 
     static class PainterStock
     {
-        internal static Painter GetSharedPainter(HtmlIsland htmlIsland, Canvas canvas)
+        internal static BoxPainter GetSharedPainter(HtmlIsland htmlIsland, Canvas canvas)
         {
-            Painter painter = null;
+            BoxPainter painter = null;
             if (painterStock.Count == 0)
             {
-                painter = new Painter();
+                painter = new BoxPainter();
             }
             else
             {
@@ -127,12 +127,12 @@ namespace LayoutFarm.Boxes
 
             return painter;
         }
-        internal static void ReleaseSharedPainter(Painter p)
+        internal static void ReleaseSharedPainter(BoxPainter p)
         {
             p.UnBind();
             painterStock.Enqueue(p);
         }
-        static Queue<Painter> painterStock = new Queue<Painter>();
+        static Queue<BoxPainter> painterStock = new Queue<BoxPainter>();
     }
 
 

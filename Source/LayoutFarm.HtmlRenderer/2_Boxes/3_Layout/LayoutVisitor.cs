@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using LayoutFarm.Css;
 using LayoutFarm.Drawing;
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
     public class LayoutVisitor : BoxVisitor

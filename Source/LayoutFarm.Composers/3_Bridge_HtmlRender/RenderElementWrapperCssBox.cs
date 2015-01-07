@@ -11,9 +11,9 @@ using LayoutFarm;
 using LayoutFarm.Css;
 using LayoutFarm.ContentManagers;
 using LayoutFarm.Composers;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
 
 
@@ -73,7 +73,7 @@ namespace LayoutFarm.Boxes
             //} 
             //this.SetSize(500, 500);
         }
-        protected override void PaintImp(Painter p)
+        protected override void PaintImp(BoxPainter p)
         {
             if (wrapper != null)
             {

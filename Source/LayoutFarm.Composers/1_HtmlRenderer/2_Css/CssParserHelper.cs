@@ -16,7 +16,7 @@
 using System;
 using LayoutFarm.Css;
 using LayoutFarm.Drawing;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm.Composers
 {

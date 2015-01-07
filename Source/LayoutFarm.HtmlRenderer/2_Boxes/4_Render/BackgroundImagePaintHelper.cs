@@ -15,12 +15,12 @@
 
 using System;
 using LayoutFarm.Drawing;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Drawing;
 using LayoutFarm.Css;
 
 
-namespace LayoutFarm.Boxes
+namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
     /// Contains all the paint code to paint different background images.

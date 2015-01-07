@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.Drawing;
-using LayoutFarm.Boxes;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.WebDom;
 using LayoutFarm;
 using LayoutFarm.UI;
