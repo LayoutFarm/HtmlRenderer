@@ -17,8 +17,10 @@ namespace LayoutFarm.UI
         UIHoverMonitorTask hoverMonitoringTask;
         int msgChainVersion;
         TopWindowRenderBox topwin;
+
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
+
         DateTime lastTimeMouseUp;
         const int DOUBLE_CLICK_SENSE = 150;//ms
 
@@ -32,7 +34,6 @@ namespace LayoutFarm.UI
             this.topwin = topwin;
             this.rootgfx = topwin.Root;
             this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
-
 #if DEBUG
             this._previousChain.dbugHitTracker = this.dbugRootGraphic.dbugHitTracker;
 #endif

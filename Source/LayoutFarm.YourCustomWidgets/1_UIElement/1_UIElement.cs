@@ -99,6 +99,7 @@ namespace LayoutFarm.UI
             return false;
         }
 
+        //----------------------------------------------------------
         static UIElement currentDraggingElement = null;
 
 #if DEBUG

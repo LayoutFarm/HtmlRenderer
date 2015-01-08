@@ -268,13 +268,7 @@ namespace LayoutFarm.UI
             this.xdiffFromMouseDown = xdiffFromMouseDown;
             this.ydiffFromMouseDown = ydiffFromMouseDown;
         }
-        //public void SetEventInfo(Point location, UIMouseButtons button, int clicks, int delta)
-        //{
-        //    Location = location;
-        //    Button = button;
-        //    Clicks = clicks;
-        //    Delta = delta;
-        //}
+       
         public void SetEventInfo(int x, int y, UIMouseButtons button, int clicks, int delta)
         {
             Location = new Point(x, y);
@@ -290,10 +284,7 @@ namespace LayoutFarm.UI
             this.YDiff = 0; 
             this.MouseCursorStyle = UI.MouseCursorStyle.Default;
             base.Clear();
-        }
-
-         
-
+        } 
         public int XDiffFromMouseDownPos
         {
             get
@@ -307,14 +298,14 @@ namespace LayoutFarm.UI
             {
                 return this.ydiffFromMouseDown;
             }
-        }
-
+        } 
         public MouseCursorStyle MouseCursorStyle
         {
             get;
             set;
         }
     }
+
     public enum MouseCursorStyle
     {
         Default,
@@ -327,12 +318,6 @@ namespace LayoutFarm.UI
         NorthSouth,
         CustomStyle,
     }
-
-
-
-
-
-
     public enum AffectedElementSideFlags
     {
         None = 0,

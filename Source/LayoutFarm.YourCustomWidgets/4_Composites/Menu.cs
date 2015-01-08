@@ -197,8 +197,7 @@ namespace LayoutFarm.CustomWidgets
                 this.floatPart = value;
                 if (value != null)
                 {
-                    //attach float part
-
+                    //attach float part 
                 }
             }
         }

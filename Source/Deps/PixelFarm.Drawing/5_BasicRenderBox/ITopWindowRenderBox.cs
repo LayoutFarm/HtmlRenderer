@@ -14,6 +14,6 @@ namespace PixelFarm.Drawing
 
     public interface IVisualDrawingChain
     {
-        void UpdateInvalidArea(Canvas targetCanvas,ITopWindowRenderBox rootbox);
+        void UpdateInvalidArea(Canvas targetCanvas, ITopWindowRenderBox rootbox);
     }
 }
