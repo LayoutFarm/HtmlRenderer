@@ -230,7 +230,7 @@ namespace LayoutFarm
                     {
                         //container.VisualScrollableSurface.WindowRootNotifyInvalidArea(elementClientRect);
                     }
-                    Rectangle elementRect = fromElement.BoundRect;
+                    Rectangle elementRect = fromElement.RectBounds;
                     elementRect.Offset(fromElement.ViewportX, fromElement.ViewportY);
                     elementClientRect.Intersect(elementRect);
                     globalX = -fromElement.ViewportX;

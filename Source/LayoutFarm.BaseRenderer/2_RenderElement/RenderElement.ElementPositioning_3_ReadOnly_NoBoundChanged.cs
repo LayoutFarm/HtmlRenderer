@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm
@@ -19,6 +19,7 @@ namespace LayoutFarm
         int b_width;
         int b_Height;
 
+        int uiLayoutFlags;
 
         public bool IntersectsWith(Rectangle r)
         {
@@ -47,12 +48,9 @@ namespace LayoutFarm
             }
             return false;
         }
-        protected Rectangle GetLocalArea()
-        {
-            return new Rectangle(0, 0, b_width, b_Height);
-        }
 
-        public Rectangle BoundRect
+
+        public Rectangle RectBounds
         {
             get
             {
@@ -157,20 +155,19 @@ namespace LayoutFarm
 
         public bool Contains(Point testPoint)
         {
-            if ((uiFlags & HIDDEN) != 0)
-            {
-                return false;
-            }
-            return ContainPoint(testPoint.X, testPoint.Y);
+            return ((uiFlags & RenderElementConst.HIDDEN) != 0) ?
+                        false :
+                        ContainPoint(testPoint.X, testPoint.Y);
+
         }
         public bool IsTestable
         {
-            get { return ((this.uiFlags & HIDDEN) == 0) && (this.parentLink != null); }
+            get { return ((this.uiFlags & RenderElementConst.HIDDEN) == 0) && (this.parentLink != null); }
         }
         public bool HitTestCore(HitChain hitChain)
         {
 
-            if ((uiFlags & HIDDEN) != 0)
+            if ((uiFlags & RenderElementConst.HIDDEN) != 0)
             {
                 return false;
             }
@@ -211,7 +208,7 @@ namespace LayoutFarm
                     hitChain.OffsetTestPoint(b_left, b_top);
                 }
 
-                if ((uiFlags & TRANSPARENT_FOR_ALL_EVENTS) != 0 &&
+                if ((uiFlags & RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS) != 0 &&
                     hitChain.TopMostElement == this)
                 {
                     hitChain.RemoveCurrentHit();
@@ -227,25 +224,16 @@ namespace LayoutFarm
 
                 return false;
             }
-
-
-
         }
 
         public bool FindUnderlingSibling(LinkedList<RenderElement> foundElements)
         {
+            //TODO: need?
             throw new NotSupportedException();
-
-
-
         }
         public bool ContainPoint(int x, int y)
         {
             return ((x >= b_left && x < Right) && (y >= b_top && y < Bottom));
-        }
-        public bool ContainPoint(Point p)
-        {
-            return ContainPoint(p.X, p.Y);
         }
 
         public bool ContainRect(Rectangle r)
@@ -263,28 +251,6 @@ namespace LayoutFarm
                     y + height <= b_top + b_Height;
         }
 
-
-
-
-
-
-
-
-        int uiLayoutFlags;
-        public const int LY_HAS_SPC_WIDTH = 1 << (1 - 1);
-        public const int LY_HAS_SPC_HEIGHT = 1 << (2 - 1);
-        public const int LY_HAS_SPC_SIZE = LY_HAS_SPC_WIDTH | LY_HAS_SPC_HEIGHT;
-        public const int LY_REACH_MIN_WIDTH = 1 << (3 - 1);
-        public const int LY_REACH_MAX_WIDTH = 1 << (4 - 1);
-        public const int LY_REACH_MIN_HEIGHT = 1 << (5 - 1);
-        public const int LY_REACH_MAX_HEIGHT = 1 << (6 - 1);
-        public const int LY_HAS_ARRANGED_CONTENT = 1 << (7 - 1);
-        public const int LAY_HAS_CALCULATED_SIZE = 1 << (8 - 1);
-        public const int LY_SUSPEND = 1 << (9 - 1);
-
-        public const int LY_SUSPEND_GRAPHIC = 1 << (12 - 1);
-        public const int LY_IN_LAYOUT_QUEUE = 1 << (13 - 1);
-        public const int LY_IN_LAYOUT_QCHAIN_UP = 1 << (10 - 1);
 
 
         public int ElementDesiredWidth
@@ -323,19 +289,13 @@ namespace LayoutFarm
         {
             get
             {
-                return ((uiLayoutFlags & LY_HAS_SPC_WIDTH) == LY_HAS_SPC_WIDTH);
+                return ((uiLayoutFlags & RenderElementConst.LY_HAS_SPC_WIDTH) == RenderElementConst.LY_HAS_SPC_WIDTH);
             }
             set
             {
-
-                if (value)
-                {
-                    uiLayoutFlags |= LY_HAS_SPC_WIDTH;
-                }
-                else
-                {
-                    uiLayoutFlags &= ~LY_HAS_SPC_WIDTH;
-                }
+                uiLayoutFlags = value ?
+                   uiLayoutFlags | RenderElementConst.LY_HAS_SPC_WIDTH :
+                   uiLayoutFlags & ~RenderElementConst.LY_HAS_SPC_WIDTH;
             }
         }
 
@@ -343,37 +303,27 @@ namespace LayoutFarm
         {
             get
             {
-                return ((uiLayoutFlags & LY_HAS_SPC_HEIGHT) == LY_HAS_SPC_HEIGHT);
+                return ((uiLayoutFlags & RenderElementConst.LY_HAS_SPC_HEIGHT) == RenderElementConst.LY_HAS_SPC_HEIGHT);
             }
             set
             {
-
-                if (value)
-                {
-                    uiLayoutFlags |= LY_HAS_SPC_HEIGHT;
-                }
-                else
-                {
-                    uiLayoutFlags &= ~LY_HAS_SPC_HEIGHT;
-                }
+                uiLayoutFlags = value ?
+                    uiLayoutFlags | RenderElementConst.LY_HAS_SPC_HEIGHT :
+                    uiLayoutFlags & ~RenderElementConst.LY_HAS_SPC_HEIGHT;
             }
         }
         public bool HasSpecificSize
         {
             get
             {
-                return ((uiLayoutFlags & LY_HAS_SPC_SIZE) != 0);
+                return ((uiLayoutFlags & RenderElementConst.LY_HAS_SPC_SIZE) != 0);
             }
             set
             {
-                if (value)
-                {
-                    uiLayoutFlags |= LY_HAS_SPC_SIZE;
-                }
-                else
-                {
-                    uiLayoutFlags &= ~LY_HAS_SPC_SIZE;
-                }
+                uiLayoutFlags = value ?
+                    uiLayoutFlags | RenderElementConst.LY_HAS_SPC_SIZE :
+                    uiLayoutFlags & ~RenderElementConst.LY_HAS_SPC_SIZE;
+
             }
         }
         public static int GetLayoutSpecificDimensionType(RenderElement visualElement)
@@ -384,13 +334,13 @@ namespace LayoutFarm
         {
             get
             {
-                return ((uiLayoutFlags & LAY_HAS_CALCULATED_SIZE) != 0);
+                return ((uiLayoutFlags & RenderElementConst.LAY_HAS_CALCULATED_SIZE) != 0);
             }
         }
         protected void MarkHasValidCalculateSize()
         {
 
-            uiLayoutFlags |= LAY_HAS_CALCULATED_SIZE;
+            uiLayoutFlags |= RenderElementConst.LAY_HAS_CALCULATED_SIZE;
 #if DEBUG
             this.dbug_ValidateRecalculateSizeEpisode++;
 #endif
@@ -402,38 +352,26 @@ namespace LayoutFarm
         {
             get
             {
-                return (uiLayoutFlags & LY_IN_LAYOUT_QUEUE) != 0;
+                return (uiLayoutFlags & RenderElementConst.LY_IN_LAYOUT_QUEUE) != 0;
             }
             set
             {
-
-                if (value)
-                {
-                    uiLayoutFlags |= LY_IN_LAYOUT_QUEUE;
-                }
-                else
-                {
-                    uiLayoutFlags &= ~LY_IN_LAYOUT_QUEUE;
-                }
+                uiLayoutFlags = value ?
+                      uiLayoutFlags | RenderElementConst.LY_IN_LAYOUT_QUEUE :
+                      uiLayoutFlags & ~RenderElementConst.LY_IN_LAYOUT_QUEUE;
             }
         }
         bool IsInLayoutQueueChainUp
         {
             get
             {
-                return (uiLayoutFlags & LY_IN_LAYOUT_QCHAIN_UP) != 0;
+                return (uiLayoutFlags & RenderElementConst.LY_IN_LAYOUT_QCHAIN_UP) != 0;
             }
             set
             {
-
-                if (value)
-                {
-                    uiLayoutFlags |= LY_IN_LAYOUT_QCHAIN_UP;
-                }
-                else
-                {
-                    uiLayoutFlags &= ~LY_IN_LAYOUT_QCHAIN_UP;
-                }
+                uiLayoutFlags = value ?
+                   uiLayoutFlags | RenderElementConst.LY_IN_LAYOUT_QCHAIN_UP :
+                   uiLayoutFlags & ~RenderElementConst.LY_IN_LAYOUT_QCHAIN_UP;
             }
         }
         public void InvalidateLayoutAndStartBubbleUp()
@@ -595,7 +533,7 @@ ve
         {
             get
             {
-                return (uiLayoutFlags & LAY_HAS_CALCULATED_SIZE) == 0;
+                return (uiLayoutFlags & RenderElementConst.LAY_HAS_CALCULATED_SIZE) == 0;
             }
         }
 #if DEBUG
@@ -615,7 +553,7 @@ ve
 
         public void MarkInvalidContentArrangement()
         {
-            uiLayoutFlags &= ~LY_HAS_ARRANGED_CONTENT;
+            uiLayoutFlags &= ~RenderElementConst.LY_HAS_ARRANGED_CONTENT;
 #if DEBUG
 
             this.dbug_InvalidateContentArrEpisode++;
@@ -625,7 +563,7 @@ ve
         public void MarkInvalidContentSize()
         {
 
-            uiLayoutFlags &= ~LAY_HAS_CALCULATED_SIZE;
+            uiLayoutFlags &= ~RenderElementConst.LAY_HAS_CALCULATED_SIZE;
 #if DEBUG
             this.dbug_InvalidateRecalculateSizeEpisode++;
 #endif
@@ -637,13 +575,13 @@ ve
             this.dbug_ValidateContentArrEpisode++;
 #endif
             this.IsInLayoutQueueChainUp = false;
-            uiLayoutFlags |= LY_HAS_ARRANGED_CONTENT;
+            uiLayoutFlags |= RenderElementConst.LY_HAS_ARRANGED_CONTENT;
         }
         public bool NeedContentArrangement
         {
             get
             {
-                return (uiLayoutFlags & LY_HAS_ARRANGED_CONTENT) == 0;
+                return (uiLayoutFlags & RenderElementConst.LY_HAS_ARRANGED_CONTENT) == 0;
             }
         }
 #if DEBUG

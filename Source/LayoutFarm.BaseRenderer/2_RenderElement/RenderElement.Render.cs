@@ -29,7 +29,7 @@ namespace LayoutFarm
 
         public bool PrepareDrawingChain(RenderBoxes.VisualDrawingChain drawingChain)
         {
-            if ((uiFlags & HIDDEN) == HIDDEN)
+            if ((uiFlags & RenderElementConst.HIDDEN) == RenderElementConst.HIDDEN)
             {
                 return false;
             }
@@ -48,16 +48,14 @@ namespace LayoutFarm
                     drawingChain.OffsetCanvasOrigin(x, y);
                     ((RenderBoxes.RenderBoxBase)this).PrepareOriginalChildContentDrawingChain(drawingChain);
                     drawingChain.OffsetCanvasOrigin(-x, -y);
-
                 }
-
             }
             return false;
         }
         public void DrawToThisPage(Canvas canvasPage, Rectangle updateArea)
         {
 
-            if ((uiFlags & HIDDEN) == HIDDEN)
+            if ((uiFlags & RenderElementConst.HIDDEN) == RenderElementConst.HIDDEN)
             {
                 return;
             }
@@ -78,7 +76,7 @@ namespace LayoutFarm
                 this.CustomDrawToThisPage(canvasPage, updateArea);
 
                 //------------------------------------------
-                uiFlags |= IS_GRAPHIC_VALID;
+                uiFlags |= RenderElementConst.IS_GRAPHIC_VALID;
 #if DEBUG
                 debug_RecordPostDrawInfo(canvasPage);
 #endif
@@ -103,13 +101,13 @@ namespace LayoutFarm
         {
             get
             {
-                return (this.uiFlags & HAS_DOUBLE_SCROLL_SURFACE) != 0;
+                return (this.uiFlags & RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE) != 0;
             }
             protected set
             {
                 uiFlags = value ?
-                      uiFlags | HAS_DOUBLE_SCROLL_SURFACE :
-                      uiFlags & ~HAS_DOUBLE_SCROLL_SURFACE;
+                      uiFlags | RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE :
+                      uiFlags & ~RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE;
             }
         }
 

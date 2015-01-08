@@ -14,7 +14,7 @@ namespace LayoutFarm
         protected static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect, out TopWindowRenderBox wintop)
         {
             //1.
-            elem.uiFlags &= ~IS_GRAPHIC_VALID;
+            elem.uiFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
             //2.  
             elem.rootGfx.InvalidateGraphicArea(elem, ref rect, out wintop);
 
@@ -51,7 +51,7 @@ namespace LayoutFarm
             get
             {
 #if DEBUG
-                return (uiLayoutFlags & LY_SUSPEND_GRAPHIC) != 0;
+                return (uiLayoutFlags & RenderElementConst.LY_SUSPEND_GRAPHIC) != 0;
 #else
                 return ((uiLayoutFlags & LY_SUSPEND_GRAPHIC) != 0) || ((uiFlags & HIDDEN) != 0);
 #endif
@@ -65,8 +65,8 @@ namespace LayoutFarm
         
         public bool InvalidateGraphic(out TopWindowRenderBox wintop)
         {
-            uiFlags &= ~IS_GRAPHIC_VALID;
-            if ((uiLayoutFlags & LY_SUSPEND_GRAPHIC) != 0)
+            uiFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
+            if ((uiLayoutFlags & RenderElementConst.LY_SUSPEND_GRAPHIC) != 0)
             {
 #if DEBUG
                 dbugVRoot.dbug_PushInvalidateMsg(RootGraphic.dbugMsg_BLOCKED, this);
@@ -84,12 +84,12 @@ namespace LayoutFarm
         {
 
             InvalidateGraphic();
-            this.rootGfx.BeginGraphicUpdate(); 
-            this.uiLayoutFlags |= LY_SUSPEND_GRAPHIC;
+            this.rootGfx.BeginGraphicUpdate();
+            this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;
         }
         public void EndGraphicUpdate()
         {
-            this.uiLayoutFlags &= ~LY_SUSPEND_GRAPHIC;
+            this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
             TopWindowRenderBox wintop;
             if (InvalidateGraphic(out wintop))
             {
@@ -100,11 +100,11 @@ namespace LayoutFarm
         { 
             InvalidateGraphic();
             this.rootGfx.BeginGraphicUpdate();
-            this.uiLayoutFlags |= LY_SUSPEND_GRAPHIC;
+            this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;
         }
         void AfterBoundChangedInvalidateGraphics()
         {
-            this.uiLayoutFlags &= ~LY_SUSPEND_GRAPHIC;
+            this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
             TopWindowRenderBox wintop;
             if (InvalidateGraphic(out wintop))
             {

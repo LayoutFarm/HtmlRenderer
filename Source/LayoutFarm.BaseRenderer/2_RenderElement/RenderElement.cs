@@ -85,7 +85,7 @@ namespace LayoutFarm
         {
             get
             {
-                return ((uiFlags & HIDDEN) == 0);
+                return ((uiFlags & RenderElementConst.HIDDEN) == 0);
             }
 
         }
@@ -95,13 +95,14 @@ namespace LayoutFarm
             if (parentLink == null)
             {
 
+
                 if (value)
                 {
-                    uiFlags &= ~HIDDEN;
+                    uiFlags &= ~RenderElementConst.HIDDEN;
                 }
                 else
                 {
-                    uiFlags |= HIDDEN;
+                    uiFlags |= RenderElementConst.HIDDEN;
                 }
             }
             else
@@ -110,11 +111,11 @@ namespace LayoutFarm
                 InvalidateGraphic();
                 if (value)
                 {
-                    uiFlags &= ~HIDDEN;
+                    uiFlags &= ~RenderElementConst.HIDDEN;
                 }
                 else
                 {
-                    uiFlags |= HIDDEN;
+                    uiFlags |= RenderElementConst.HIDDEN;
                 }
                 InvalidateGraphic();
             }
@@ -126,46 +127,20 @@ namespace LayoutFarm
         {
             get
             {
-                return (uiFlags & NOT_ACCEPT_FOCUS) == 0;
+                return (uiFlags & RenderElementConst.NOT_ACCEPT_FOCUS) == 0;
             }
             set
             {
                 if (value)
                 {
-                    uiFlags &= ~NOT_ACCEPT_FOCUS;
+                    uiFlags &= ~RenderElementConst.NOT_ACCEPT_FOCUS;
                 }
                 else
                 {
-                    uiFlags |= NOT_ACCEPT_FOCUS;
+                    uiFlags |= RenderElementConst.NOT_ACCEPT_FOCUS;
                 }
             }
         }
-
-
-
-
-
-        const int IS_TRANSLUCENT_BG = 1 << (1 - 1);
-        const int SCROLLABLE_FULL_MODE = 1 << (2 - 1);
-        const int TRANSPARENT_FOR_ALL_EVENTS = 1 << (3 - 1);
-        const int HIDDEN = 1 << (4 - 1);
-        const int IS_GRAPHIC_VALID = 1 << (5 - 1);
-        const int IS_DRAG_OVERRED = 1 << (6 - 1);
-        const int IS_IN_ANIMATION_MODE = 1 << (7 - 1);
-
-        const int LISTEN_DRAG_EVENT = 1 << (9 - 1);
-        const int ANIMATION_WAITING_FOR_NORMAL_MODE = 1 << (10 - 1);
-        const int IS_BLOCK_ELEMENT = 1 << (11 - 1);
-        const int HAS_OUTER_BOUND_EFFECT = 1 << (12 - 1);
-        const int NOT_ACCEPT_FOCUS = 1 << (13 - 1);
-        const int IS_LINE_BREAK = 1 << (14 - 1);
-        const int IS_STRECHABLE = 1 << (15 - 1);
-
-        const int HAS_DOUBLE_SCROLL_SURFACE = 1 << (22 - 1);
-        const int IS_IN_RENDER_CHAIN = 1 << (24 - 1);
-        const int IS_SCROLLABLE = 1 << (25 - 1);
-        const int FIRST_ARR_PASS = 1 << (27 - 1);
-        const int HAS_SUB_GROUND = 1 << (28 - 1);
 
 
 #if DEBUG
@@ -180,18 +155,14 @@ namespace LayoutFarm
         {
             get
             {
-                return (uiFlags & IS_IN_RENDER_CHAIN) != 0;
+                return (uiFlags & RenderElementConst.IS_IN_RENDER_CHAIN) != 0;
             }
             set
             {
-                if (value)
-                {
-                    uiFlags |= IS_IN_RENDER_CHAIN;
-                }
-                else
-                {
-                    uiFlags &= ~IS_IN_RENDER_CHAIN;
-                }
+                uiFlags = value ?
+                   uiFlags | RenderElementConst.IS_IN_RENDER_CHAIN :
+                   uiFlags & ~RenderElementConst.FIRST_ARR_PASS;
+
             }
         }
 
@@ -200,13 +171,13 @@ namespace LayoutFarm
 
             get
             {
-                return (uiFlags & FIRST_ARR_PASS) != 0;
+                return (uiFlags & RenderElementConst.FIRST_ARR_PASS) != 0;
             }
             set
             {
                 uiFlags = value ?
-                   uiFlags | FIRST_ARR_PASS :
-                   uiFlags & ~FIRST_ARR_PASS;
+                   uiFlags | RenderElementConst.FIRST_ARR_PASS :
+                   uiFlags & ~RenderElementConst.FIRST_ARR_PASS;
             }
         }
 
@@ -214,26 +185,26 @@ namespace LayoutFarm
         {
             get
             {
-                return ((uiFlags & IS_BLOCK_ELEMENT) == IS_BLOCK_ELEMENT);
+                return ((uiFlags & RenderElementConst.IS_BLOCK_ELEMENT) == RenderElementConst.IS_BLOCK_ELEMENT);
             }
             set
             {
                 uiFlags = value ?
-                     uiFlags | IS_BLOCK_ELEMENT :
-                     uiFlags & ~IS_BLOCK_ELEMENT;
+                     uiFlags | RenderElementConst.IS_BLOCK_ELEMENT :
+                     uiFlags & ~RenderElementConst.IS_BLOCK_ELEMENT;
             }
         }
         public bool IsDragedOver
         {
             get
             {
-                return (uiFlags & IS_DRAG_OVERRED) != 0;
+                return (uiFlags & RenderElementConst.IS_DRAG_OVERRED) != 0;
             }
             set
             {
                 uiFlags = value ?
-                     uiFlags | IS_DRAG_OVERRED :
-                     uiFlags & ~IS_DRAG_OVERRED;
+                     uiFlags | RenderElementConst.IS_DRAG_OVERRED :
+                     uiFlags & ~RenderElementConst.IS_DRAG_OVERRED;
             }
         }
 
@@ -241,13 +212,27 @@ namespace LayoutFarm
         {
             get
             {
-                return (uiFlags & LISTEN_DRAG_EVENT) != 0;
+                return (uiFlags & RenderElementConst.LISTEN_DRAG_EVENT) != 0;
             }
             set
             {
                 uiFlags = value ?
-                       uiFlags | LISTEN_DRAG_EVENT :
-                       uiFlags & ~LISTEN_DRAG_EVENT;
+                       uiFlags | RenderElementConst.LISTEN_DRAG_EVENT :
+                       uiFlags & ~RenderElementConst.LISTEN_DRAG_EVENT;
+            }
+        }
+        public bool TransparentForAllEvents
+        {
+            get
+            {
+                return (uiFlags & RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS) != 0;
+            }
+            set
+            {
+                uiFlags = value ?
+                       uiFlags | RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS :
+                       uiFlags & ~RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS;
+
             }
         }
         public virtual void ChildrenHitTestCore(HitChain hitChain)

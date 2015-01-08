@@ -124,7 +124,7 @@ namespace LayoutFarm
 
         protected string dbug_GetBoundInfo()
         {
-            Rectangle r = this.BoundRect;
+            Rectangle r = this.RectBounds;
             string output = "{" + r.X + "," + r.Y + "," + r.Width + "," + r.Height +
                 ";dw=" + this.ElementDesiredWidth +
                 ";dh=" + this.ElementDesiredHeight;

@@ -175,15 +175,15 @@ namespace LayoutFarm.RenderBoxes
             }
             switch (GetLayoutSpecificDimensionType(this))
             {
-                case LY_HAS_SPC_HEIGHT:
+                case RenderElementConst.LY_HAS_SPC_HEIGHT:
                     {
                         finalHeight = cHeight;
                     } break;
-                case LY_HAS_SPC_WIDTH:
+                case RenderElementConst.LY_HAS_SPC_WIDTH:
                     {
                         finalWidth = cWidth;
                     } break;
-                case LY_HAS_SPC_SIZE:
+                case RenderElementConst.LY_HAS_SPC_SIZE:
                     {
                         finalWidth = cWidth;
                         finalHeight = cHeight;

@@ -35,6 +35,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="2_RenderElement\RenderElementConst.cs" />
     <Compile Include="2_RenderElement\RenderElement_LocationHelper.cs" />
     <Compile Include="3_Layers\3_LayerCollection.cs" />
     <Compile Include="1_Root\1_RootGraphic.cs" />
