@@ -21,7 +21,8 @@ namespace LayoutFarm
             groundLayer = new VisualPlainLayer(this);
             this.Layers = new VisualLayerCollection();
             this.Layers.AddLayer(groundLayer);
-            SetIsWindowRoot(this, true);
+             
+            this.IsTopWindow = true;
             this.HasSpecificSize = true;
         }
 

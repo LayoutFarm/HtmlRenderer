@@ -11,18 +11,18 @@ namespace LayoutFarm
 
     public abstract partial class RenderElement
     {
-        bool isWindowRoot;
+
         bool mayHasChild;
         bool mayHasViewport;
         RootGraphic rootGfx;
         IParentLink parentLink;
         object controller;
-        int uiFlags;
+        int propFlags;
 
         public RenderElement(RootGraphic rootGfx, int width, int height)
         {
             this.b_width = width;
-            this.b_Height = height;
+            this.b_height = height;
             this.rootGfx = rootGfx;
 #if DEBUG
             dbug_totalObjectId++;
@@ -85,7 +85,7 @@ namespace LayoutFarm
         {
             get
             {
-                return ((uiFlags & RenderElementConst.HIDDEN) == 0);
+                return ((propFlags & RenderElementConst.HIDDEN) == 0);
             }
 
         }
@@ -98,11 +98,11 @@ namespace LayoutFarm
 
                 if (value)
                 {
-                    uiFlags &= ~RenderElementConst.HIDDEN;
+                    propFlags &= ~RenderElementConst.HIDDEN;
                 }
                 else
                 {
-                    uiFlags |= RenderElementConst.HIDDEN;
+                    propFlags |= RenderElementConst.HIDDEN;
                 }
             }
             else
@@ -111,11 +111,11 @@ namespace LayoutFarm
                 InvalidateGraphic();
                 if (value)
                 {
-                    uiFlags &= ~RenderElementConst.HIDDEN;
+                    propFlags &= ~RenderElementConst.HIDDEN;
                 }
                 else
                 {
-                    uiFlags |= RenderElementConst.HIDDEN;
+                    propFlags |= RenderElementConst.HIDDEN;
                 }
                 InvalidateGraphic();
             }
@@ -127,17 +127,17 @@ namespace LayoutFarm
         {
             get
             {
-                return (uiFlags & RenderElementConst.NOT_ACCEPT_FOCUS) == 0;
+                return (propFlags & RenderElementConst.NOT_ACCEPT_FOCUS) == 0;
             }
             set
             {
                 if (value)
                 {
-                    uiFlags &= ~RenderElementConst.NOT_ACCEPT_FOCUS;
+                    propFlags &= ~RenderElementConst.NOT_ACCEPT_FOCUS;
                 }
                 else
                 {
-                    uiFlags |= RenderElementConst.NOT_ACCEPT_FOCUS;
+                    propFlags |= RenderElementConst.NOT_ACCEPT_FOCUS;
                 }
             }
         }
@@ -155,13 +155,13 @@ namespace LayoutFarm
         {
             get
             {
-                return (uiFlags & RenderElementConst.IS_IN_RENDER_CHAIN) != 0;
+                return (propFlags & RenderElementConst.IS_IN_RENDER_CHAIN) != 0;
             }
             set
             {
-                uiFlags = value ?
-                   uiFlags | RenderElementConst.IS_IN_RENDER_CHAIN :
-                   uiFlags & ~RenderElementConst.FIRST_ARR_PASS;
+                propFlags = value ?
+                   propFlags | RenderElementConst.IS_IN_RENDER_CHAIN :
+                   propFlags & ~RenderElementConst.FIRST_ARR_PASS;
 
             }
         }
@@ -171,13 +171,13 @@ namespace LayoutFarm
 
             get
             {
-                return (uiFlags & RenderElementConst.FIRST_ARR_PASS) != 0;
+                return (propFlags & RenderElementConst.FIRST_ARR_PASS) != 0;
             }
             set
             {
-                uiFlags = value ?
-                   uiFlags | RenderElementConst.FIRST_ARR_PASS :
-                   uiFlags & ~RenderElementConst.FIRST_ARR_PASS;
+                propFlags = value ?
+                   propFlags | RenderElementConst.FIRST_ARR_PASS :
+                   propFlags & ~RenderElementConst.FIRST_ARR_PASS;
             }
         }
 
@@ -185,26 +185,26 @@ namespace LayoutFarm
         {
             get
             {
-                return ((uiFlags & RenderElementConst.IS_BLOCK_ELEMENT) == RenderElementConst.IS_BLOCK_ELEMENT);
+                return ((propFlags & RenderElementConst.IS_BLOCK_ELEMENT) == RenderElementConst.IS_BLOCK_ELEMENT);
             }
             set
             {
-                uiFlags = value ?
-                     uiFlags | RenderElementConst.IS_BLOCK_ELEMENT :
-                     uiFlags & ~RenderElementConst.IS_BLOCK_ELEMENT;
+                propFlags = value ?
+                     propFlags | RenderElementConst.IS_BLOCK_ELEMENT :
+                     propFlags & ~RenderElementConst.IS_BLOCK_ELEMENT;
             }
         }
         public bool IsDragedOver
         {
             get
             {
-                return (uiFlags & RenderElementConst.IS_DRAG_OVERRED) != 0;
+                return (propFlags & RenderElementConst.IS_DRAG_OVERRED) != 0;
             }
             set
             {
-                uiFlags = value ?
-                     uiFlags | RenderElementConst.IS_DRAG_OVERRED :
-                     uiFlags & ~RenderElementConst.IS_DRAG_OVERRED;
+                propFlags = value ?
+                     propFlags | RenderElementConst.IS_DRAG_OVERRED :
+                     propFlags & ~RenderElementConst.IS_DRAG_OVERRED;
             }
         }
 
@@ -212,36 +212,33 @@ namespace LayoutFarm
         {
             get
             {
-                return (uiFlags & RenderElementConst.LISTEN_DRAG_EVENT) != 0;
+                return (propFlags & RenderElementConst.LISTEN_DRAG_EVENT) != 0;
             }
             set
             {
-                uiFlags = value ?
-                       uiFlags | RenderElementConst.LISTEN_DRAG_EVENT :
-                       uiFlags & ~RenderElementConst.LISTEN_DRAG_EVENT;
+                propFlags = value ?
+                       propFlags | RenderElementConst.LISTEN_DRAG_EVENT :
+                       propFlags & ~RenderElementConst.LISTEN_DRAG_EVENT;
             }
         }
         public bool TransparentForAllEvents
         {
             get
             {
-                return (uiFlags & RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS) != 0;
+                return (propFlags & RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS) != 0;
             }
             set
             {
-                uiFlags = value ?
-                       uiFlags | RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS :
-                       uiFlags & ~RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS;
+                propFlags = value ?
+                       propFlags | RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS :
+                       propFlags & ~RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS;
 
             }
         }
         public virtual void ChildrenHitTestCore(HitChain hitChain)
         {
         }
-        internal static void SetIsWindowRoot(RenderElement e, bool isWinRoot)
-        {
-            e.isWindowRoot = isWinRoot;
-        }
+        
         public bool MayHasChild
         {
             get { return this.mayHasChild; }

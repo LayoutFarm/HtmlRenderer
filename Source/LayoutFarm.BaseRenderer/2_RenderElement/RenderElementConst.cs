@@ -15,6 +15,7 @@ namespace LayoutFarm
         public const int IS_GRAPHIC_VALID = 1 << (5 - 1);
         public const int IS_DRAG_OVERRED = 1 << (6 - 1);
         public const int IS_IN_ANIMATION_MODE = 1 << (7 - 1);
+        public const int IS_TOP_RENDERBOX = 1 << (8 - 1);
 
         public const int LISTEN_DRAG_EVENT = 1 << (9 - 1);
         public const int ANIMATION_WAITING_FOR_NORMAL_MODE = 1 << (10 - 1);
@@ -24,6 +25,7 @@ namespace LayoutFarm
         public const int IS_LINE_BREAK = 1 << (14 - 1);
         public const int IS_STRECHABLE = 1 << (15 - 1);
 
+        public const int HAS_TRANSPARENT_BG = 1 << (21 - 1);
         public const int HAS_DOUBLE_SCROLL_SURFACE = 1 << (22 - 1);
         public const int IS_IN_RENDER_CHAIN = 1 << (24 - 1);
         public const int IS_SCROLLABLE = 1 << (25 - 1);

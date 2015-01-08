@@ -20,7 +20,7 @@ namespace LayoutFarm
         public static void SetCalculatedDesiredSize(RenderBoxBase v, int desiredWidth, int desiredHeight)
         {
             v.b_width = desiredWidth;
-            v.b_Height = desiredHeight;
+            v.b_height = desiredHeight;
             v.MarkHasValidCalculateSize();
         }
         public bool IsLayoutSuspending
@@ -91,7 +91,7 @@ namespace LayoutFarm
 
         public void SetWidth(int width)
         {
-            this.SetSize(width, this.b_Height);
+            this.SetSize(width, this.b_height);
         }
         public void SetHeight(int height)
         {
@@ -102,13 +102,13 @@ namespace LayoutFarm
             if (parentLink == null)
             {
                 this.b_width = width;
-                this.b_Height = height;
+                this.b_height = height;
             }
             else
             {
 
                 int prevWidth = this.b_width;
-                int prevHeight = this.b_Height;
+                int prevHeight = this.b_height;
                 this.BeforeBoundChangedInvalidateGraphics();
                 PrivateSetSize(width, height);
                 this.AfterBoundChangedInvalidateGraphics();
@@ -125,7 +125,7 @@ namespace LayoutFarm
             {
 
                 int prevWidth = this.b_width;
-                int prevHeight = this.b_Height;
+                int prevHeight = this.b_height;
                 this.BeginGraphicUpdate();
                 DirectSetVisualElementLocation(this, left, top);
                 this.EndGraphicUpdate();

@@ -17,7 +17,7 @@ namespace LayoutFarm
         int b_top;
         int b_left;
         int b_width;
-        int b_Height;
+        int b_height;
 
         int uiLayoutFlags;
 
@@ -54,7 +54,7 @@ namespace LayoutFarm
         {
             get
             {
-                return new Rectangle(b_left, b_top, b_width, b_Height);
+                return new Rectangle(b_left, b_top, b_width, b_height);
 
             }
         }
@@ -62,7 +62,7 @@ namespace LayoutFarm
         {
             get
             {
-                return new Size(b_width, b_Height);
+                return new Size(b_width, b_height);
             }
         }
         public int X
@@ -98,7 +98,7 @@ namespace LayoutFarm
         {
             get
             {
-                return b_top + b_Height;
+                return b_top + b_height;
             }
         }
         public Point Location
@@ -119,7 +119,7 @@ namespace LayoutFarm
         {
             get
             {
-                return b_Height;
+                return b_height;
             }
         }
         public Point GetGlobalLocation()
@@ -155,19 +155,19 @@ namespace LayoutFarm
 
         public bool Contains(Point testPoint)
         {
-            return ((uiFlags & RenderElementConst.HIDDEN) != 0) ?
+            return ((propFlags & RenderElementConst.HIDDEN) != 0) ?
                         false :
                         ContainPoint(testPoint.X, testPoint.Y);
 
         }
         public bool IsTestable
         {
-            get { return ((this.uiFlags & RenderElementConst.HIDDEN) == 0) && (this.parentLink != null); }
+            get { return ((this.propFlags & RenderElementConst.HIDDEN) == 0) && (this.parentLink != null); }
         }
         public bool HitTestCore(HitChain hitChain)
         {
 
-            if ((uiFlags & RenderElementConst.HIDDEN) != 0)
+            if ((propFlags & RenderElementConst.HIDDEN) != 0)
             {
                 return false;
             }
@@ -175,7 +175,7 @@ namespace LayoutFarm
             int testX;
             int testY;
             hitChain.GetTestPoint(out testX, out testY);
-            if ((testY >= b_top && testY <= (b_top + b_Height)
+            if ((testY >= b_top && testY <= (b_top + b_height)
             && (testX >= b_left && testX <= (b_left + b_width))))
             {
 
@@ -208,7 +208,7 @@ namespace LayoutFarm
                     hitChain.OffsetTestPoint(b_left, b_top);
                 }
 
-                if ((uiFlags & RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS) != 0 &&
+                if ((propFlags & RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS) != 0 &&
                     hitChain.TopMostElement == this)
                 {
                     hitChain.RemoveCurrentHit();
@@ -241,14 +241,14 @@ namespace LayoutFarm
             return r.Left >= b_left &&
                     r.Top >= b_top &&
                     r.Right <= b_left + b_width &&
-                    r.Bottom <= b_top + b_Height;
+                    r.Bottom <= b_top + b_height;
         }
         public bool ContainRect(int x, int y, int width, int height)
         {
             return x >= b_left &&
                     y >= b_top &&
                     x + width <= b_left + b_width &&
-                    y + height <= b_top + b_Height;
+                    y + height <= b_top + b_height;
         }
 
 
@@ -280,7 +280,7 @@ namespace LayoutFarm
         {
             get
             {
-                return b_Height;
+                return b_height;
             }
         }
 

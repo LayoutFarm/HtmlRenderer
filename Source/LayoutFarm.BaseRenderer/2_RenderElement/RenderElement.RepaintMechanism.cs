@@ -14,7 +14,7 @@ namespace LayoutFarm
         protected static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect, out TopWindowRenderBox wintop)
         {
             //1.
-            elem.uiFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
+            elem.propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
             //2.  
             elem.rootGfx.InvalidateGraphicArea(elem, ref rect, out wintop);
 
@@ -65,7 +65,7 @@ namespace LayoutFarm
         
         public bool InvalidateGraphic(out TopWindowRenderBox wintop)
         {
-            uiFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
+            propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
             if ((uiLayoutFlags & RenderElementConst.LY_SUSPEND_GRAPHIC) != 0)
             {
 #if DEBUG
@@ -75,14 +75,12 @@ namespace LayoutFarm
                 return false;
             }
 
-            Rectangle rect = new Rectangle(0, 0, b_width, b_Height);
+            Rectangle rect = new Rectangle(0, 0, b_width, b_height);
             RootInvalidateGraphicArea(this, ref rect, out wintop);
             return wintop != null;
-        }
-         
+        } 
         public void BeginGraphicUpdate()
-        {
-
+        {   
             InvalidateGraphic();
             this.rootGfx.BeginGraphicUpdate();
             this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;

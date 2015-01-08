@@ -55,7 +55,6 @@
     <Compile Include="2_RenderElement\RenderElement.ElementPositioning_0_DirectSetBounds.cs" />
     <Compile Include="2_RenderElement\RenderElement.ElementPositioning_1_WithSizeChanged.cs" />
     <Compile Include="2_RenderElement\RenderElement.ElementPositioning_3_ReadOnly_NoBoundChanged.cs" />
-    <Compile Include="2_RenderElement\RenderElement_States.cs" />
     <Compile Include="2_RenderElement\RenderElement.Render.cs" />
     <Compile Include="2_RenderElement\RenderElement.RepaintMechanism.cs" />
     <Compile Include="3_Layers\0_IParentLink.cs" />

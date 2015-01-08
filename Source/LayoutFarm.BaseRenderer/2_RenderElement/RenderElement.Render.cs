@@ -9,18 +9,19 @@ namespace LayoutFarm
 {
     partial class RenderElement
     {
-        bool hasTransparentBg;
 
 
         public bool HasSolidBackground
         {
             get
             {
-                return !hasTransparentBg;
+                return (propFlags & RenderElementConst.HAS_TRANSPARENT_BG) != 0;
             }
             set
             {
-                this.hasTransparentBg = !value;
+                propFlags = value ?
+                       propFlags | RenderElementConst.HAS_TRANSPARENT_BG :
+                       propFlags & ~RenderElementConst.HAS_TRANSPARENT_BG;
             }
         }
 
@@ -29,7 +30,7 @@ namespace LayoutFarm
 
         public bool PrepareDrawingChain(RenderBoxes.VisualDrawingChain drawingChain)
         {
-            if ((uiFlags & RenderElementConst.HIDDEN) == RenderElementConst.HIDDEN)
+            if ((propFlags & RenderElementConst.HIDDEN) == RenderElementConst.HIDDEN)
             {
                 return false;
             }
@@ -55,7 +56,7 @@ namespace LayoutFarm
         public void DrawToThisPage(Canvas canvasPage, Rectangle updateArea)
         {
 
-            if ((uiFlags & RenderElementConst.HIDDEN) == RenderElementConst.HIDDEN)
+            if ((propFlags & RenderElementConst.HIDDEN) == RenderElementConst.HIDDEN)
             {
                 return;
             }
@@ -63,7 +64,7 @@ namespace LayoutFarm
             dbugVRoot.dbug_drawLevel++;
 #endif
 
-            if (canvasPage.PushClipAreaRect(b_width, b_Height, ref updateArea))
+            if (canvasPage.PushClipAreaRect(b_width, b_height, ref updateArea))
             {
 #if DEBUG
                 if (dbugVRoot.dbug_RecordDrawingChain)
@@ -76,7 +77,7 @@ namespace LayoutFarm
                 this.CustomDrawToThisPage(canvasPage, updateArea);
 
                 //------------------------------------------
-                uiFlags |= RenderElementConst.IS_GRAPHIC_VALID;
+                propFlags |= RenderElementConst.IS_GRAPHIC_VALID;
 #if DEBUG
                 debug_RecordPostDrawInfo(canvasPage);
 #endif
@@ -93,21 +94,28 @@ namespace LayoutFarm
         {
             get
             {
-                return this.isWindowRoot;
+                return (this.propFlags & RenderElementConst.IS_TOP_RENDERBOX) != 0;
             }
+            internal set
+            {
+                propFlags = value ?
+                      propFlags | RenderElementConst.IS_TOP_RENDERBOX :
+                      propFlags & ~RenderElementConst.IS_TOP_RENDERBOX;
+            }
+
         }
 
         public bool HasDoubleScrollableSurface
         {
             get
             {
-                return (this.uiFlags & RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE) != 0;
+                return (this.propFlags & RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE) != 0;
             }
             protected set
             {
-                uiFlags = value ?
-                      uiFlags | RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE :
-                      uiFlags & ~RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE;
+                propFlags = value ?
+                      propFlags | RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE :
+                      propFlags & ~RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE;
             }
         }
 
