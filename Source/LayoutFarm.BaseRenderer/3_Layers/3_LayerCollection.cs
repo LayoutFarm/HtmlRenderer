@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 using System.Text;
 
-namespace LayoutFarm
+namespace LayoutFarm.RenderBoxes
 {
     //for mx single or multiple layer logic
 
@@ -322,7 +322,7 @@ namespace LayoutFarm
                     } break;
             }
         }
-        public static void LayersDrawContent(this VisualLayerCollection layers, Canvas canvas, Rect updateArea)
+        public static void LayersDrawContent(this VisualLayerCollection layers, Canvas canvas, Rectangle updateArea)
         {
             if (layers == null)
             {

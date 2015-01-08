@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
 using System.Text;
-using LayoutFarm;
-
+ 
+using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
 
@@ -745,15 +745,15 @@ namespace LayoutFarm.UI
             return false;
 
         }
-        public override void DrawChildContent(Canvas canvasPage, Rect updateArea)
+        public override void DrawChildContent(Canvas canvasPage, Rectangle updateArea)
         {
-            GridCell leftTopGridItem = GetGridItemByPosition(updateArea._left, updateArea._top);
+            GridCell leftTopGridItem = GetGridItemByPosition(updateArea.Left, updateArea.Top);
             if (leftTopGridItem == null)
             {
                 return;
 
             }
-            GridCell rightBottomGridItem = GetGridItemByPosition(updateArea._right, updateArea._bottom);
+            GridCell rightBottomGridItem = GetGridItemByPosition(updateArea.Right, updateArea.Bottom);
             if (rightBottomGridItem == null)
             {
                 return;
@@ -844,7 +844,7 @@ namespace LayoutFarm.UI
                         if (renderContent != null)
                         {
 
-                            if (canvasPage.PushClipAreaRect(gridItem.Width, gridItem.Height,ref updateArea))
+                            if (canvasPage.PushClipAreaRect(gridItem.Width, gridItem.Height, ref updateArea))
                             {
                                 renderContent.DrawToThisPage(canvasPage, updateArea);
                             }

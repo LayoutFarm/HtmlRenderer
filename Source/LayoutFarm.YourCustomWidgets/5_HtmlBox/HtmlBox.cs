@@ -172,7 +172,7 @@ namespace LayoutFarm.CustomWidgets
             }
             //-------------------------
             rootgfx.RequestGraphicsIntervalTask(uiHtmlTask,
-                 TaskIntervalPlan.Animation, 25,
+                 LayoutFarm.RenderBoxes.TaskIntervalPlan.Animation, 25,
                  (s, e) =>
                  {
                      if (this.myHtmlIsland.RefreshIfNeed())

@@ -6,7 +6,7 @@ using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.CustomWidgets;
-
+using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
     [DemoNote("3.5 Demo_CompartmentBox2")]

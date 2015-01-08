@@ -15,11 +15,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 
 
 namespace PixelFarm.Drawing.DrawingGL
 {
+    static class Conv
+    {
+        public static Rectangle ToRect(System.Drawing.Rectangle r)
+        {
+            return new Rectangle(r.Left, r.Right, r.Top, r.Bottom);
+        }
+    }
     partial class MyCanvasGL
     {
         int left;
@@ -28,7 +35,7 @@ namespace PixelFarm.Drawing.DrawingGL
         int bottom;
         //int canvasOriginX = 0;
         //int canvasOriginY = 0;
-        Rect invalidateArea = Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
+        Rectangle invalidateArea;
         CanvasOrientation orientation;
         public override CanvasOrientation Orientation
         {
@@ -41,7 +48,7 @@ namespace PixelFarm.Drawing.DrawingGL
                 this.orientation = value;
                 if (canvasGL2d != null)
                 {
-                    canvasGL2d.Orientation = value;    
+                    canvasGL2d.Orientation = value;
                 }
             }
         }
@@ -84,8 +91,8 @@ namespace PixelFarm.Drawing.DrawingGL
                  rect.Height);
             //--------------------------
         }
-        
-        public override bool IntersectsWith(Rect clientRect)
+
+        public override bool IntersectsWith(Rectangle clientRect)
         {
             return clientRect.IntersectsWith(left, top, right, bottom);
         }
@@ -94,7 +101,7 @@ namespace PixelFarm.Drawing.DrawingGL
 
 
         //---------------------------------------------------
-        public override bool PushClipAreaRect(int width, int height, ref Rect updateArea)
+        public override bool PushClipAreaRect(int width, int height, ref Rectangle updateArea)
         {
             this.clipRectStack.Push(currentClipRect);
 
@@ -102,7 +109,7 @@ namespace PixelFarm.Drawing.DrawingGL
                 System.Drawing.Rectangle.Intersect(
                     currentClipRect,
                     System.Drawing.Rectangle.Intersect(
-                    updateArea.ToRectangle().ToRect(),
+                    System.Drawing.Rectangle.FromLTRB(updateArea.Left, updateArea.Top, updateArea.Right, updateArea.Bottom),
                     new System.Drawing.Rectangle(0, 0, width, height)));
 
             currentClipRect = intersectResult;
@@ -113,12 +120,13 @@ namespace PixelFarm.Drawing.DrawingGL
             }
             else
             {
-                updateArea = PixelFarm.Drawing.Rect.CreateFromRect(intersectResult.ToRect());
+                updateArea = Conv.ToRect(intersectResult);
                 canvasGL2d.EnableClipRect();
                 canvasGL2d.SetClipRectRel(currentClipRect.X, currentClipRect.Y, currentClipRect.Width, currentClipRect.Height);
                 return true;
             }
         }
+
         public override void PopClipAreaRect()
         {
             if (clipRectStack.Count > 0)
@@ -189,16 +197,17 @@ namespace PixelFarm.Drawing.DrawingGL
                 return Rectangle.FromLTRB(left, top, right, bottom);
             }
         }
-        public override Rect InvalidateArea
+        public override Rectangle InvalidateArea
         {
             get
             {
                 return invalidateArea;
             }
         }
-        public override void Invalidate(Rect rect)
+        public override void Invalidate(Rectangle rect)
         {
-            invalidateArea.MergeRect(rect);
+
+            invalidateArea = Rectangle.Union(rect, invalidateArea);
             this.IsContentReady = false;
         }
     }

@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
 using System.Text;
-namespace LayoutFarm
+
+namespace LayoutFarm.RenderBoxes
 {
 
     public class VisualPlainLayer : VisualLayer
@@ -64,15 +65,13 @@ namespace LayoutFarm
 
         } 
         IEnumerable<RenderElement> GetDrawingIter()
-        {
-
+        { 
             LinkedListNode<RenderElement> curNode = this.myElements.First;
             while (curNode != null)
             {
                 yield return curNode.Value;
                 curNode = curNode.Next;
-            }
-
+            } 
         }
         IEnumerable<RenderElement> GetHitTestIter()
         {
@@ -92,7 +91,7 @@ namespace LayoutFarm
         {
             return false;
         }
-        public override void DrawChildContent(Canvas canvasPage, Rect updateArea)
+        public override void DrawChildContent(Canvas canvasPage, Rectangle updateArea)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) != 0)
             {

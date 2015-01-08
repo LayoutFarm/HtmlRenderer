@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
-namespace LayoutFarm
+namespace LayoutFarm.RenderBoxes
 {
 
     public abstract class GraphicsTimerTaskEventArgs : EventArgs

@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
-using LayoutFarm.Text;
+ 
 using LayoutFarm.UI;
-
+using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
 {
 
@@ -240,7 +240,7 @@ namespace LayoutFarm.CustomWidgets
                         if (floatPartRenderElement != null)
                         {
                             //temp
-                            var parentContainer = floatPartRenderElement.ParentVisualElement as RenderBoxBase;
+                            var parentContainer = floatPartRenderElement.ParentVisualElement as RenderBoxes.RenderBoxBase;
                             if (parentContainer.Layers != null)
                             {
                                 VisualPlainLayer plainLayer = (VisualPlainLayer)parentContainer.Layers.GetLayer(0);

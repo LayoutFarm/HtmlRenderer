@@ -29,9 +29,9 @@ namespace PixelFarm.Drawing.WinGdi
         int bottom;
         int canvasOriginX = 0;
         int canvasOriginY = 0;
-        Rect invalidateArea = Drawing.Rect.CreateFromLTRB(0, 0, 0, 0);
+        Rectangle invalidateArea;
         CanvasOrientation orientation;
-        
+
         //--------------------------------------------------------------------
         public override void SetCanvasOrigin(int x, int y)
         {
@@ -80,12 +80,12 @@ namespace PixelFarm.Drawing.WinGdi
                     rect.Width, rect.Height),
                     (System.Drawing.Drawing2D.CombineMode)combineMode);
         }
-        public override bool IntersectsWith(Rect clientRect)
+        public override bool IntersectsWith(Rectangle clientRect)
         {
             return clientRect.IntersectsWith(left, top, right, bottom);
         }
 
-        public override bool PushClipAreaRect(int width, int height, ref Rect updateArea)
+        public override bool PushClipAreaRect(int width, int height, ref Rectangle updateArea)
         {
             this.clipRectStack.Push(currentClipRect);
 
@@ -93,8 +93,8 @@ namespace PixelFarm.Drawing.WinGdi
                 System.Drawing.Rectangle.Intersect(
                     currentClipRect,
                     System.Drawing.Rectangle.Intersect(
-                    updateArea.ToRectangle().ToRect(),
-                    new System.Drawing.Rectangle(0, 0, width, height)));
+                     System.Drawing.Rectangle.FromLTRB(updateArea.Left, updateArea.Top, updateArea.Right, updateArea.Bottom),
+                     new System.Drawing.Rectangle(0, 0, width, height)));
 
             currentClipRect = intersectResult;
             if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
@@ -104,7 +104,7 @@ namespace PixelFarm.Drawing.WinGdi
             }
             else
             {
-                updateArea = PixelFarm.Drawing.Rect.CreateFromRect(intersectResult.ToRect());
+                updateArea = Conv.ToRect(intersectResult);// PixelFarm.Drawing.Rectangle.CreateFromRect(intersectResult);
                 gx.SetClip(intersectResult);
                 return true;
             }
@@ -180,16 +180,17 @@ namespace PixelFarm.Drawing.WinGdi
                 return Rectangle.FromLTRB(left, top, right, bottom);
             }
         }
-        public override Rect InvalidateArea
+        public override Rectangle InvalidateArea
         {
             get
             {
                 return invalidateArea;
             }
         }
-        public override void Invalidate(Rect rect)
+        public override void Invalidate(Rectangle rect)
         {
-            invalidateArea.MergeRect(rect);
+
+            invalidateArea = Rectangle.Union(rect, invalidateArea);
             this.IsContentReady = false;
         }
     }

@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-namespace LayoutFarm
+
+namespace LayoutFarm.RenderBoxes
 {
 
 
@@ -29,7 +30,7 @@ namespace LayoutFarm
             get { return this.layers; }
             set { this.layers = value; }
         }
-        public sealed override void CustomDrawToThisPage(Canvas canvas, Rect updateArea)
+        public sealed override void CustomDrawToThisPage(Canvas canvas, Rectangle updateArea)
         {
 
             canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
@@ -71,12 +72,14 @@ namespace LayoutFarm
             //    layer.InvalidateContentArrangementFromContainerSizeChanged();
             //}
         }
-        protected virtual void DrawContent(Canvas canvas, Rect updateArea)
+        protected virtual void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             //sample ***
             //1. draw background
-            RenderElementHelper.DrawBackground(this, canvas, updateArea.Width, updateArea.Height, Color.White);
+            canvas.FillRectangle(Color.White, 0, 0, updateArea.Width, updateArea.Height);
+
             //2. draw each layer
+         
             if (this.layers != null)
             {
                 int j = this.layers.LayerCount;

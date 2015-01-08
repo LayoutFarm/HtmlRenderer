@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
-
-
-namespace LayoutFarm
+namespace LayoutFarm.RenderBoxes
 {
 
     public class VisualDrawingChain : IVisualDrawingChain
@@ -117,7 +115,7 @@ namespace LayoutFarm
             int j = containAllAreaTestResults.Count;
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
-            Rect rect = mycanvas.InvalidateArea;
+            Rectangle rect = mycanvas.InvalidateArea;
 
             for (int i = j - 1; i > -1; --i)
             {

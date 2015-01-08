@@ -25,8 +25,8 @@ namespace PixelFarm.Drawing
         public abstract Color StrokeColor { get; set; }
 
         //states
-        public abstract void Invalidate(Rect rect);
-        public abstract Rect InvalidateArea { get; }
+        public abstract void Invalidate(Rectangle rect);
+        public abstract Rectangle InvalidateArea { get; }
         public bool IsContentReady { get; set; }
         //---------------------------------------------------------------------
         // canvas dimension, canvas origin
@@ -42,11 +42,11 @@ namespace PixelFarm.Drawing
         public abstract int CanvasOriginX { get; }
         public abstract int CanvasOriginY { get; }
         public abstract void SetCanvasOrigin(int x, int y);
-        public abstract bool IntersectsWith(Rect clientRect);
+        public abstract bool IntersectsWith(Rectangle clientRect);
         //---------------------------------------------------------------------
         //clip area
 
-        public abstract bool PushClipAreaRect(int width, int height, ref Rect updateArea);
+        public abstract bool PushClipAreaRect(int width, int height, ref Rectangle updateArea);
         public abstract void PopClipAreaRect();
 
         public abstract void SetClipRect(Rectangle clip, CombineMode combineMode = CombineMode.Replace);

@@ -6,7 +6,8 @@ using System.Text;
 using PixelFarm.Drawing;
 
 using LayoutFarm.Text;
-using LayoutFarm.UI;
+using LayoutFarm.UI; 
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {
@@ -38,7 +39,7 @@ namespace LayoutFarm.CustomWidgets
             get;
             set;
         }
-        protected override void DrawContent(Canvas canvas, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             if (this.image != null)
             {

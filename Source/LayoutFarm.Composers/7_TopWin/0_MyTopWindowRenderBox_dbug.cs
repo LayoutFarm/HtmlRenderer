@@ -42,27 +42,27 @@ namespace LayoutFarm.UI
             this.dbug_DumpVisualProps(writer);
             writer.Add(new dbugLayoutMsg(this, "FINISH"));
         }
-        public override void dbugShowRenderPart(Canvas canvasPage, Rect updateArea)
+        public override void dbugShowRenderPart(Canvas canvasPage, Rectangle updateArea)
         {
 
             RootGraphic visualroot = this.dbugVRoot;
             if (visualroot.dbug_ShowRootUpdateArea)
             {
                 canvasPage.FillRectangle(Color.FromArgb(50, Color.Black),
-                     updateArea._left, updateArea._top,
+                     updateArea.Left, updateArea.Top,
                         updateArea.Width - 1, updateArea.Height - 1);
                 canvasPage.FillRectangle(Color.White,
-                     updateArea._left, updateArea._top, 5, 5);
+                     updateArea.Left, updateArea.Top, 5, 5);
                 canvasPage.DrawRectangle(Color.Yellow,
-                        updateArea._left, updateArea._top,
+                        updateArea.Left, updateArea.Top,
                         updateArea.Width - 1, updateArea.Height - 1);
 
                 Color c_color = canvasPage.CurrentTextColor;
                 canvasPage.CurrentTextColor = Color.White;
-                canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea._left, updateArea._top);
+                canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea.Left, updateArea.Top);
                 if (updateArea.Height > 25)
                 {
-                    canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea._left, updateArea._top + (updateArea.Height - 20));
+                    canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea.Left, updateArea.Top + (updateArea.Height - 20));
                 }
                 canvasPage.CurrentTextColor = c_color;
                 visualroot.dbug_RootUpdateCounter++;

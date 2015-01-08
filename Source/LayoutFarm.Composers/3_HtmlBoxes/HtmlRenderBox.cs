@@ -11,7 +11,7 @@ using LayoutFarm;
 using LayoutFarm.Css;
 using LayoutFarm.ContentManagers;
 using LayoutFarm.Composers;
-
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -34,7 +34,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
         }
-        protected override void DrawContent(Canvas canvas, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             myHtmlIsland.CheckDocUpdate();
             var painter = PainterStock.GetSharedPainter(myHtmlIsland, canvas);
@@ -84,7 +84,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
         }
-        protected override void DrawContent(Canvas canvas, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             tinyHtmlIsland.CheckDocUpdate();
 

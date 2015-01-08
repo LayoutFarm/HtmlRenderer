@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 using System.Text;
 
-using LayoutFarm;
+ 
+
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.Text
 {
@@ -193,7 +195,7 @@ namespace LayoutFarm.Text
 
         }
 #endif
-        public override void DrawChildContent(Canvas canvasPage, Rect updateArea)
+        public override void DrawChildContent(Canvas canvasPage, Rectangle updateArea)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) != 0)
             {
@@ -206,8 +208,8 @@ namespace LayoutFarm.Text
             {
 
                 List<EditableVisualElementLine> lines = (List<EditableVisualElementLine>)lineCollection;
-                int renderAreaTop = updateArea._top;
-                int renderAreaBottom = updateArea._bottom;
+                int renderAreaTop = updateArea.Top;
+                int renderAreaBottom = updateArea.Bottom;
                 bool foundFirstLine = false;
                 int j = lines.Count;
 
@@ -246,23 +248,23 @@ namespace LayoutFarm.Text
                     }
 
                     updateArea.OffsetY(-y);
-                    canvasPage.OffsetCanvasOriginY(y); 
+                    canvasPage.OffsetCanvasOriginY(y);
                     while (curNode != null)
                     {
                         EditableTextSpan child = curNode.Value;
                         if (child.IntersectOnHorizontalWith(updateArea))
                         {
                             int x = child.X;
-                            canvasPage.OffsetCanvasOriginX(x); 
+                            canvasPage.OffsetCanvasOriginX(x);
                             updateArea.OffsetX(-x);
                             child.DrawToThisPage(canvasPage, updateArea);
 
-                            canvasPage.OffsetCanvasOriginX(-x); 
+                            canvasPage.OffsetCanvasOriginX(-x);
                             updateArea.OffsetX(x);
                         }
                         curNode = curNode.Next;
                     }
-                    canvasPage.OffsetCanvasOriginY(-y); 
+                    canvasPage.OffsetCanvasOriginY(-y);
                     updateArea.OffsetY(y);
                 }
             }
@@ -282,7 +284,7 @@ namespace LayoutFarm.Text
                 {
 
                     int y = line.Top;
-                    canvasPage.OffsetCanvasOriginY(y); 
+                    canvasPage.OffsetCanvasOriginY(y);
                     updateArea.OffsetY(-y);
                     while (curNode != null)
                     {
@@ -641,7 +643,7 @@ namespace LayoutFarm.Text
             {
                 EditableVisualElementLine line = lines[i];
                 curX = ownerClientLeft;
-                lastestIsBlock = false; 
+                lastestIsBlock = false;
                 line.SetTop(curY_fromTop);
 
                 if (!line.NeedArrange)
@@ -845,7 +847,7 @@ namespace LayoutFarm.Text
                         }
 
                         EditableTextSpan.DirectSetVisualElementSize(currentRun,
-                            v_desired_width, v_desired_height); 
+                            v_desired_width, v_desired_height);
 
 
                         curX += v_desired_width;
@@ -913,7 +915,7 @@ namespace LayoutFarm.Text
             }
 
 
-            int finalHeight = curY_fromTop + maxHeightInRow; 
+            int finalHeight = curY_fromTop + maxHeightInRow;
 
 
             ValidateArrangement();
@@ -946,8 +948,8 @@ namespace LayoutFarm.Text
                 {
 
                     EditableVisualElementLine line = lines[insertAt];
-                    int cy = line.Top; 
-                    textLine.SetTop(cy); 
+                    int cy = line.Top;
+                    textLine.SetTop(cy);
                     textLine.SetLineNumber(insertAt);
                     cy += line.ActualLineHeight;
 
@@ -981,7 +983,7 @@ namespace LayoutFarm.Text
 
                     EditableVisualElementLine line = lines[insertAt];
                     int cy = line.Top;
-                    textLine.SetTop(cy); 
+                    textLine.SetTop(cy);
                     textLine.SetLineNumber(insertAt);
                     cy += line.ActualLineHeight;
 

@@ -6,7 +6,7 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.Text
 {
 
-    class VisualEditableLineParentLink : IParentLink
+    class VisualEditableLineParentLink : LayoutFarm.RenderBoxes.IParentLink
     {
         internal readonly LinkedListNode<EditableTextSpan> internalLinkedNode;
         EditableVisualElementLine ownerLine;

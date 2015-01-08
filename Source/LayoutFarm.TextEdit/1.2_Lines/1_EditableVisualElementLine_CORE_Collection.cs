@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing;
-
-
-
+using PixelFarm.Drawing; 
 
 namespace LayoutFarm.Text
 {
