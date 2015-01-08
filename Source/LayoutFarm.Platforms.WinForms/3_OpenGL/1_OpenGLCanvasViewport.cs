@@ -145,7 +145,7 @@ namespace LayoutFarm.UI.OpenGL
         {
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
-            Rect rect = Rect.CreateFromRect(mycanvas.Rect);
+            Rectangle rect = mycanvas.Rect;
             //mycanvas.FillRectangle(Color.Blue, 50, 50, 100, 100);
             topWindowRenderBox.DrawToThisPage(mycanvas, rect);
 

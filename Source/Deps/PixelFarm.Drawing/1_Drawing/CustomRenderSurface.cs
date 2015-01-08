@@ -39,7 +39,7 @@ namespace PixelFarm.Drawing
         }
 
 
-        public abstract void DrawToThisPage(Canvas destPage, Rect updateArea);
+        public abstract void DrawToThisPage(Canvas destPage, Rectangle updateArea);
         //------------------------------------
     }
 

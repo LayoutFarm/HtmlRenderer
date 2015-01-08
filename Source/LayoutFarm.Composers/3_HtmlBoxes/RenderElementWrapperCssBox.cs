@@ -11,7 +11,7 @@ using LayoutFarm;
 using LayoutFarm.Css;
 using LayoutFarm.ContentManagers;
 using LayoutFarm.Composers;
- 
+
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -80,8 +80,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 GetParentRenderElement(out this.globalXForRenderElement, out this.globalYForRenderElement);
 
-                Rect rect = Rect.CreateFromRect(
-                     new Rectangle(0, 0, wrapper.Width, wrapper.Height));
+                Rectangle rect = new Rectangle(0, 0, wrapper.Width, wrapper.Height);
                 this.wrapper.DrawToThisPage(p.InnerCanvas, rect);
 
             }
@@ -163,7 +162,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
 
-            public override void CustomDrawToThisPage(Canvas canvasPage, Rect updateArea)
+            public override void CustomDrawToThisPage(Canvas canvasPage, Rectangle updateArea)
             {
                 //int x = this.adjustX;
                 //int y = this.adjustY;

@@ -25,7 +25,7 @@ namespace LayoutFarm
         }
 
 
-        public abstract void CustomDrawToThisPage(Canvas canvasPage, Rect updateArea);
+        public abstract void CustomDrawToThisPage(Canvas canvasPage, Rectangle updateArea);
 
         public bool PrepareDrawingChain(VisualDrawingChain drawingChain)
         {
@@ -54,7 +54,7 @@ namespace LayoutFarm
             }
             return false;
         }
-        public void DrawToThisPage(Canvas canvasPage, Rect updateArea)
+        public void DrawToThisPage(Canvas canvasPage, Rectangle updateArea)
         {
 
             if ((uiFlags & HIDDEN) == HIDDEN)

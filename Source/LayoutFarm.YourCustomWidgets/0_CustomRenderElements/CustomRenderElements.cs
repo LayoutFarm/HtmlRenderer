@@ -31,10 +31,10 @@ namespace LayoutFarm.CustomWidgets
             get;
             set;
         }
-        protected override void DrawContent(Canvas canvas, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             //sample bg   
-            canvas.FillRectangle(BackColor, updateArea._left, updateArea._top, updateArea.Width, updateArea.Height);
+            canvas.FillRectangle(BackColor, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
             if (this.Layers != null)
             {
                 this.Layers.LayersDrawContent(canvas, updateArea);

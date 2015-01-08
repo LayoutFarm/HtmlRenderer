@@ -39,7 +39,7 @@ namespace PixelFarm.Drawing.WinGdi
         }
         public void CanvasInvalidate(Rectangle rect)
         {
-            Rect r = Rect.CreateFromRect(rect);
+            Rectangle r = rect;
             if (pageA != null && pageA.IntersectsWith(r))
             {
                 pageA.Invalidate(r);
@@ -185,7 +185,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
-            Rect rect = Rect.CreateFromRect(mycanvas.Rect);
+            Rectangle rect = mycanvas.Rect;
             topWindowRenderBox.DrawToThisPage(mycanvas, rect);
 
 #if DEBUG
@@ -209,7 +209,7 @@ namespace PixelFarm.Drawing.WinGdi
 #if DEBUG
 #endif
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
-            Rect rect = mycanvas.InvalidateArea;
+            Rectangle rect = mycanvas.InvalidateArea;
             rootElement.DrawToThisPage(mycanvas, rect);
 #if DEBUG
             rootElement.dbugShowRenderPart(mycanvas, rect);
@@ -353,10 +353,10 @@ namespace PixelFarm.Drawing.WinGdi
                 case PAGE_A:
                     {
 
-                        Rect invalidateArea = pageA.InvalidateArea;
-                        pageA.RenderTo(destOutputHdc, invalidateArea._left - pageA.Left, invalidateArea._top - pageA.Top,
-                            new Rectangle(invalidateArea._left -
-                                viewportX, invalidateArea._top - viewportY,
+                        Rectangle invalidateArea = pageA.InvalidateArea;
+                        pageA.RenderTo(destOutputHdc, invalidateArea.Left - pageA.Left, invalidateArea.Top - pageA.Top,
+                            new Rectangle(invalidateArea.Left -
+                                viewportX, invalidateArea.Top - viewportY,
                                 invalidateArea.Width, invalidateArea.Height));
 
                     } break;
@@ -515,7 +515,7 @@ namespace PixelFarm.Drawing.WinGdi
         }
 
         public void TransferDataFromSourceCanvas(
-            Rect logicalArea,
+            Rectangle logicalArea,
             int viewportX, int viewportY,
             int viewportWidth, int viewportHeight, Canvas destPage)
         {
@@ -599,10 +599,10 @@ namespace PixelFarm.Drawing.WinGdi
         }
         void TransferDataFromSourceCanvas(
                 Canvas sourceCanvas,
-                Rect logicalSourceArea, Rectangle physicalUpdateArea, Canvas destPage)
+                Rectangle logicalSourceArea, Rectangle physicalUpdateArea, Canvas destPage)
         {
 
-            Rectangle logicalClip = Rectangle.Intersect(logicalSourceArea.ToRectangle(), sourceCanvas.Rect);
+            Rectangle logicalClip = Rectangle.Intersect(logicalSourceArea , sourceCanvas.Rect);
             if (logicalClip.Width > 0 && logicalClip.Height > 0)
             {
                 destPage.CopyFrom(sourceCanvas, logicalClip.Left,

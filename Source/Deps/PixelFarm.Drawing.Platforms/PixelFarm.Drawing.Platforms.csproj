@@ -122,7 +122,7 @@
       <Name>MiniAgg</Name>
     </ProjectReference>
     <ProjectReference Include="..\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
-      <Project>{0C869FB2-1F97-422F-9763-5AC12B2EFE0E}</Project>
+      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing</Name>
     </ProjectReference>
   </ItemGroup>

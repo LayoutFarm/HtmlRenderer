@@ -22,22 +22,6 @@ namespace LayoutFarm
         int b_width;
         int b_Height;
 
-        public bool IntersectsWith(Rect r)
-        {
-            int left = this.b_left;
-
-            if (((left <= r._left) && (this.Right > r._left)) ||
-                ((left >= r._left) && (left < r._right)))
-            {
-                int top = this.b_top;
-                if (((top <= r._top) && (this.Bottom > r._top)) ||
-               ((top >= r._top) && (top < r._bottom)))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
 
         public bool IntersectsWith(Rectangle r)
         {
@@ -55,12 +39,12 @@ namespace LayoutFarm
             }
             return false;
         }
-        public bool IntersectOnHorizontalWith(Rect r)
+        public bool IntersectOnHorizontalWith(Rectangle r)
         {
             int left = this.b_left;
 
-            if (((left <= r._left) && (this.Right > r._left)) ||
-                ((left >= r._left) && (left < r._right)))
+            if (((left <= r.Left) && (this.Right > r.Left)) ||
+                ((left >= r.Left) && (left < r.Right)))
             {
                 return true;
             }
@@ -266,13 +250,7 @@ namespace LayoutFarm
         {
             return ContainPoint(p.X, p.Y);
         }
-        public bool ContainRect(Rect testRect)
-        {
-            return testRect._left >= b_left &&
-                    testRect._top >= b_top &&
-                    testRect._right <= b_left + b_width &&
-                    testRect._bottom <= b_top + b_Height;
-        }
+
         public bool ContainRect(Rectangle r)
         {
             return r.Left >= b_left &&

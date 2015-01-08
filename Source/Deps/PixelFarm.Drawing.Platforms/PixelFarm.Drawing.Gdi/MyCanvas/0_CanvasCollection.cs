@@ -91,7 +91,7 @@ namespace PixelFarm.Drawing.WinGdi
                     page.Reuse(hPageNum, vPageNum);
                 }
 
-                Rect rect = Rect.CreateFromRect(page.Rect);
+                Rectangle rect = page.Rect;
                 page.Invalidate(rect);
 
                 return page;

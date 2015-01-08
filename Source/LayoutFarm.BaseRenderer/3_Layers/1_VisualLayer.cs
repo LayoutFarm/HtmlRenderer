@@ -200,7 +200,7 @@ namespace LayoutFarm
             layerFlags |= ARRANGEMENT_VALID;
         }
 
-        public abstract void DrawChildContent(Canvas canvasPage, Rect updateArea);
+        public abstract void DrawChildContent(Canvas canvasPage, Rectangle updateArea);
         public abstract bool PrepareDrawingChain(VisualDrawingChain chain);
 
 

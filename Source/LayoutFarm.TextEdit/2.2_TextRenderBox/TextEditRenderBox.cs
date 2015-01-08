@@ -25,7 +25,7 @@ namespace LayoutFarm.Text
             get { return this.scrollRelation; }
             set { this.scrollRelation = value; }
         }
-        protected override void DrawContent(Canvas canvas, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
 
 

@@ -17,7 +17,7 @@ namespace LayoutFarm.Text
             : base(g, w, h)
         {
         }
-        public override void CustomDrawToThisPage(Canvas canvasPage, Rect updateArea)
+        public override void CustomDrawToThisPage(Canvas canvasPage, Rectangle updateArea)
         {
         }
         internal void DrawCaret(Canvas canvasPage, int x, int y)

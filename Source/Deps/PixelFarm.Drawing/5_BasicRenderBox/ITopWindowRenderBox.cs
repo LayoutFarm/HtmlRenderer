@@ -6,9 +6,9 @@ namespace PixelFarm.Drawing
     
     public interface ITopWindowRenderBox
     {
-        void DrawToThisPage(Canvas canvas, Rect r);
+        void DrawToThisPage(Canvas canvas, Rectangle r);
 #if DEBUG
-        void dbugShowRenderPart(Canvas canvas, Rect r);
+        void dbugShowRenderPart(Canvas canvas, Rectangle r);
 #endif
     }
 

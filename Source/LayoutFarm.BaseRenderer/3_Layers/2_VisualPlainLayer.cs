@@ -92,7 +92,7 @@ namespace LayoutFarm
         {
             return false;
         }
-        public override void DrawChildContent(Canvas canvasPage, Rect updateArea)
+        public override void DrawChildContent(Canvas canvasPage, Rectangle updateArea)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) != 0)
             {

@@ -34,7 +34,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
         }
-        protected override void DrawContent(Canvas canvas, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             myHtmlIsland.CheckDocUpdate();
             var painter = PainterStock.GetSharedPainter(myHtmlIsland, canvas);
@@ -84,7 +84,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
         }
-        protected override void DrawContent(Canvas canvas, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             tinyHtmlIsland.CheckDocUpdate();
 

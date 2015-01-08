@@ -40,7 +40,7 @@ namespace LayoutFarm
         }
 
 
-        protected override void DrawContent(Canvas canvas, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
             base.DrawContent(canvas, updateArea);
@@ -70,7 +70,7 @@ namespace LayoutFarm
         }
 
 #if DEBUG
-        public abstract void dbugShowRenderPart(Canvas canvasPage, Rect updateArea);
+        public abstract void dbugShowRenderPart(Canvas canvasPage, Rectangle updateArea);
         public RootGraphic dbugVisualRoot
         {
             get

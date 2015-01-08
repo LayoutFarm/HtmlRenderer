@@ -9,7 +9,7 @@ namespace LayoutFarm
     public abstract partial class RootGraphic
     {
         Rectangle flushRect;
-        Rect accumulateInvalidRect;
+        Rectangle accumulateInvalidRect;
         bool hasAccumRect;
 
         public RootGraphic(int width, int heigth)
@@ -109,20 +109,20 @@ namespace LayoutFarm
                 return;
             }
 
-            Rect elemRect = Rect.CreateFromRect(elementClientRect);
-            InvalidateGraphicArea(fromElement, elemRect, out wintop);
+
+            InvalidateGraphicArea(fromElement, elementClientRect, out wintop);
         }
         public void FlushAccumGraphicUpdate(TopWindowRenderBox topbox)
         {
             if (hasAccumRect)
             {
-                topbox.FlushGraphic(accumulateInvalidRect.ToRectangle());
+                topbox.FlushGraphic(accumulateInvalidRect);
                 hasAccumRect = false;
             }
             this.GraphicUpdateBlockCount = 0;
         }
         void InvalidateGraphicArea(RenderElement fromElement,
-            Rect elementClientRect,
+            Rectangle elementClientRect,
             out TopWindowRenderBox wintop)
         {
             if (this.IsInRenderPhase)
@@ -141,7 +141,7 @@ namespace LayoutFarm
             if (dbugMyroot.dbugEnableGraphicInvalidateTrace && dbugMyroot.dbugGraphicInvalidateTracer != null)
             {
 
-                dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(">> :" + elementClientRect.ToRectangle().ToString(),
+                dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(">> :" + elementClientRect.ToString(),
                     startVisualElement);
             }
             int dbug_ncount = 0;
@@ -289,13 +289,13 @@ namespace LayoutFarm
 
             //----------------------------------------
             elementClientRect.Offset(globalX, globalY);
-            Rectangle rootGlobalArea = elementClientRect.ToRectangle();
+            Rectangle rootGlobalArea = elementClientRect;
 
 
-            if (elementClientRect._top > this.Height
-                || elementClientRect._left > this.Width
-                || elementClientRect._bottom < 0
-                || elementClientRect._right < 0)
+            if (elementClientRect.Top > this.Height
+                || elementClientRect.Left > this.Width
+                || elementClientRect.Bottom < 0
+                || elementClientRect.Right < 0)
             {
 #if DEBUG
                 if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
@@ -314,8 +314,8 @@ namespace LayoutFarm
             {
                 if (hasAccumRect)
                 {
-
-                    accumulateInvalidRect.MergeRect(rootGlobalArea);
+                                         
+                    accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, rootGlobalArea);
 #if DEBUG
                     if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
                         dbugMyroot.dbugGraphicInvalidateTracer != null)
@@ -325,14 +325,14 @@ namespace LayoutFarm
                         {
                             state_str = "!!" + state_str;
                         }
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str + accumulateInvalidRect.ToRectangle());
+                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str + accumulateInvalidRect);
                         dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
                     }
 #endif
 
 
                     wintop.FlushGraphic(rootGlobalArea);
-                    this.flushRect = accumulateInvalidRect.ToRectangle();
+                    this.flushRect = accumulateInvalidRect;
 
 
                     hasAccumRect = false;
@@ -364,12 +364,12 @@ namespace LayoutFarm
             {
                 if (!hasAccumRect)
                 {
-                    accumulateInvalidRect = Rect.CreateFromRect(rootGlobalArea);
+                    accumulateInvalidRect = rootGlobalArea;
                     hasAccumRect = true;
                 }
                 else
                 {
-                    accumulateInvalidRect.MergeRect(rootGlobalArea);
+                    accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, rootGlobalArea);
                 }
 
 

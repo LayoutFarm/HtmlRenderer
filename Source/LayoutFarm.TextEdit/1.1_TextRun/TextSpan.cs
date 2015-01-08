@@ -152,11 +152,11 @@ namespace LayoutFarm.Text
 #endif
 
 
-        internal static void DrawTextRun(TextSpan textspan, Canvas canvasPage, Rect updateArea)
+        internal static void DrawTextRun(TextSpan textspan, Canvas canvasPage, Rectangle updateArea)
         {
             textspan.DrawCharacters(canvasPage, updateArea, textspan.mybuffer);
         }
-        public override void CustomDrawToThisPage(Canvas canvasPage, Rect updateArea)
+        public override void CustomDrawToThisPage(Canvas canvasPage, Rectangle updateArea)
         {
             DrawTextRun(this, canvasPage, updateArea);
         }
@@ -202,7 +202,7 @@ namespace LayoutFarm.Text
                 }
             }
         }
-        void DrawCharacters(Canvas canvas, Rect updateArea, char[] textArray)
+        void DrawCharacters(Canvas canvas, Rectangle updateArea, char[] textArray)
         {
 
             int bWidth = this.Width;
