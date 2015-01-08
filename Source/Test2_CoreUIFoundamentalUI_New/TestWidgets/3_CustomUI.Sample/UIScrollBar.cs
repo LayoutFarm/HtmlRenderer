@@ -4,8 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing; 
-using LayoutFarm.Text;
-using LayoutFarm.UI; 
+
+using LayoutFarm.UI;
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {

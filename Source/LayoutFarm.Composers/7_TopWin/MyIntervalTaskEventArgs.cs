@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
+ 
 namespace LayoutFarm.UI
 {
-    class MyIntervalTaskEventArgs : GraphicsTimerTaskEventArgs
+    class MyIntervalTaskEventArgs : LayoutFarm.RenderBoxes.GraphicsTimerTaskEventArgs
     {
         internal void ClearForReuse()
         {

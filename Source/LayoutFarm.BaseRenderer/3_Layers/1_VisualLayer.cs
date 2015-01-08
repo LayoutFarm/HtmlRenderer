@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 using System.Text;
 
-namespace LayoutFarm
+namespace LayoutFarm.RenderBoxes
 {
     public abstract class VisualLayer
     {
@@ -63,7 +63,7 @@ namespace LayoutFarm
                 this.owner.InvalidateGraphic();
             }
         }
-         
+
         public void InvalidateContentArrangementFromContainerSizeChanged()
         {
             layerFlags &= ~ARRANGEMENT_VALID;

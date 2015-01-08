@@ -7,9 +7,7 @@ using PixelFarm.Drawing;
 
 using LayoutFarm;
 using LayoutFarm.UI;
-using LayoutFarm.Text;
-
-
+using LayoutFarm.Text; 
 namespace LayoutFarm.CustomWidgets
 {
 

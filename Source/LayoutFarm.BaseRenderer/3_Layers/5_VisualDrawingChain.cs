@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
-
-
-namespace LayoutFarm
+namespace LayoutFarm.RenderBoxes
 {
 
     public class VisualDrawingChain : IVisualDrawingChain

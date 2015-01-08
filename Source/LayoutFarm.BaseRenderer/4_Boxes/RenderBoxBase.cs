@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-namespace LayoutFarm
+
+namespace LayoutFarm.RenderBoxes
 {
 
 
@@ -75,8 +76,10 @@ namespace LayoutFarm
         {
             //sample ***
             //1. draw background
-            RenderElementHelper.DrawBackground(this, canvas, updateArea.Width, updateArea.Height, Color.White);
+            canvas.FillRectangle(Color.White, 0, 0, updateArea.Width, updateArea.Height);
+
             //2. draw each layer
+         
             if (this.layers != null)
             {
                 int j = this.layers.LayerCount;

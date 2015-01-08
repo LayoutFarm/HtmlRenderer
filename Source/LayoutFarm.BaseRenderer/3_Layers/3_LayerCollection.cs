@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 using System.Text;
 
-namespace LayoutFarm
+namespace LayoutFarm.RenderBoxes
 {
     //for mx single or multiple layer logic
 

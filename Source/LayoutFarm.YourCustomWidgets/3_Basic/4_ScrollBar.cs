@@ -3,10 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing; 
-using LayoutFarm.Text;
-using LayoutFarm.UI; 
+using PixelFarm.Drawing;
 
+using LayoutFarm.UI;
+using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
 {
 
@@ -146,7 +146,7 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 return (int)(this.scrollValue / this.onePixelFor);
-            } 
+            }
         }
         void CreateHScrollbarContent(RootGraphic rootgfx)
         {
@@ -265,7 +265,7 @@ namespace LayoutFarm.CustomWidgets
 
                 int currentMarkAt = (newYPos - minmax_boxHeight);
                 this.scrollValue = (float)(onePixelFor * currentMarkAt);
-                newYPos = CalculateThumbPosition() + minmax_boxHeight; 
+                newYPos = CalculateThumbPosition() + minmax_boxHeight;
                 scroll_button.SetLocation(pos.X, newYPos);
                 scroll_button.InvalidateGraphic();
 

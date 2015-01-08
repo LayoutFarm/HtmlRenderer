@@ -1,10 +1,11 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 using LayoutFarm;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.Text
 {
@@ -175,7 +176,7 @@ namespace LayoutFarm.Text
         {
             if (e.Button == UIMouseButtons.Left)
             {
-                InvalidateGraphicOfCurrentLineArea();                 
+                InvalidateGraphicOfCurrentLineArea();
                 internalTextLayerController.SetCaretPos(e.X, e.Y);
                 if (internalTextLayerController.SelectionRange != null)
                 {
@@ -232,7 +233,7 @@ namespace LayoutFarm.Text
         {
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
-                 
+
                 internalTextLayerController.SetCaretPos(e.X, e.Y);
                 internalTextLayerController.EndSelect();
                 this.InvalidateGraphic();

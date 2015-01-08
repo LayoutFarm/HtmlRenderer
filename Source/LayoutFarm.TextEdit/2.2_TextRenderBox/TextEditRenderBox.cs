@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
+using LayoutFarm.RenderBoxes;
+
 namespace LayoutFarm.Text
 {
 
@@ -34,7 +36,9 @@ namespace LayoutFarm.Text
                 vscrollableSurface.DrawToThisPage(canvas, updateArea);
             }
             //1. bg
-            RenderElementHelper.DrawBackground(this, canvas, updateArea.Width, updateArea.Height, Color.White);
+           
+            canvas.FillRectangle(Color.White, 0, 0, updateArea.Width, updateArea.Height);
+
             //2. sub ground 
             if (internalTextLayerController.SelectionRange != null)
             {

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
+using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
 
@@ -17,6 +17,7 @@ namespace LayoutFarm
         RootGraphic rootGfx;
         IParentLink parentLink;
         object controller;
+        int uiFlags;
 
         public RenderElement(RootGraphic rootGfx, int width, int height)
         {
@@ -141,7 +142,7 @@ namespace LayoutFarm
         }
 
 
-        int uiFlags;
+
 
 
         const int IS_TRANSLUCENT_BG = 1 << (1 - 1);
@@ -161,15 +162,10 @@ namespace LayoutFarm
         const int IS_STRECHABLE = 1 << (15 - 1);
 
         const int HAS_DOUBLE_SCROLL_SURFACE = 1 << (22 - 1);
-        const int HAS_DRAG_BROADCASTABLE = 1 << (23 - 1);
-
         const int IS_IN_RENDER_CHAIN = 1 << (24 - 1);
         const int IS_SCROLLABLE = 1 << (25 - 1);
-        const int IS_PAGE_WINDOW = 1 << (26 - 1);
         const int FIRST_ARR_PASS = 1 << (27 - 1);
         const int HAS_SUB_GROUND = 1 << (28 - 1);
-        const int IS_FLOATING_WINDOW = 1 << (29 - 1);
-
 
 
 #if DEBUG
@@ -179,45 +175,6 @@ namespace LayoutFarm
             return string.Empty;
         }
 #endif
-
-        public bool CanbeFloatingWindow
-        {
-            get
-            {
-                return (uiFlags & IS_FLOATING_WINDOW) != 0;
-            }
-            set
-            {
-                if (value)
-                {
-                    uiFlags |= IS_FLOATING_WINDOW;
-                }
-                else
-                {
-                    uiFlags &= ~IS_FLOATING_WINDOW;
-                }
-            }
-        }
-
-
-        public bool HasDragBroadcastable
-        {
-            get
-            {
-                return (uiFlags & HAS_DRAG_BROADCASTABLE) != 0;
-            }
-            set
-            {
-                if (value)
-                {
-                    uiFlags |= HAS_DRAG_BROADCASTABLE;
-                }
-                else
-                {
-                    uiFlags &= ~HAS_DRAG_BROADCASTABLE;
-                }
-            }
-        }
 
         public bool IsInRenderChain
         {
@@ -238,33 +195,6 @@ namespace LayoutFarm
             }
         }
 
-        //public bool ActAsFloatingWindow
-        //{
-        //    get
-        //    {
-        //        return this.CanbeFloatingWindow &&
-        //            this.ParentVisualElement == this.GetTopWindowRenderBox();
-        //    }
-        //}
-
-        public bool IsPageWindow
-        {
-            get
-            {
-                return (uiFlags & IS_PAGE_WINDOW) != 0;
-            }
-            set
-            {
-                if (value)
-                {
-                    uiFlags |= IS_PAGE_WINDOW;
-                }
-                else
-                {
-                    uiFlags &= ~IS_PAGE_WINDOW;
-                }
-            }
-        }
         public bool FirstArrangementPass
         {
 
@@ -274,14 +204,9 @@ namespace LayoutFarm
             }
             set
             {
-                if (value)
-                {
-                    uiFlags |= FIRST_ARR_PASS;
-                }
-                else
-                {
-                    uiFlags &= ~FIRST_ARR_PASS;
-                }
+                uiFlags = value ?
+                   uiFlags | FIRST_ARR_PASS :
+                   uiFlags & ~FIRST_ARR_PASS;
             }
         }
 
@@ -293,19 +218,11 @@ namespace LayoutFarm
             }
             set
             {
-                if (value)
-                {
-                    uiFlags |= IS_BLOCK_ELEMENT;
-                }
-                else
-                {
-                    uiFlags &= ~IS_BLOCK_ELEMENT;
-                }
+                uiFlags = value ?
+                     uiFlags | IS_BLOCK_ELEMENT :
+                     uiFlags & ~IS_BLOCK_ELEMENT;
             }
         }
-
-
-
         public bool IsDragedOver
         {
             get
@@ -314,14 +231,9 @@ namespace LayoutFarm
             }
             set
             {
-                if (value)
-                {
-                    uiFlags |= IS_DRAG_OVERRED;//
-                }
-                else
-                {
-                    uiFlags &= ~IS_DRAG_OVERRED;
-                }
+                uiFlags = value ?
+                     uiFlags | IS_DRAG_OVERRED :
+                     uiFlags & ~IS_DRAG_OVERRED;
             }
         }
 
@@ -333,21 +245,9 @@ namespace LayoutFarm
             }
             set
             {
-                if (value)
-                {
-                    if (!ListeningDragEvent)
-                    {
-                        uiFlags |= LISTEN_DRAG_EVENT;
-                    }
-                }
-                else
-                {
-                    if (ListeningDragEvent)
-                    {
-                        uiFlags &= ~LISTEN_DRAG_EVENT;
-
-                    }
-                }
+                uiFlags = value ?
+                       uiFlags | LISTEN_DRAG_EVENT :
+                       uiFlags & ~LISTEN_DRAG_EVENT;
             }
         }
         public virtual void ChildrenHitTestCore(HitChain hitChain)
@@ -368,9 +268,6 @@ namespace LayoutFarm
             get { return this.mayHasViewport; }
             protected set { this.mayHasViewport = value; }
         }
-         
-        
-
 
         public int ViewportBottom
         {
@@ -424,7 +321,7 @@ namespace LayoutFarm
         {
             if (this.parentLink != null)
             {
-                return parentLink.ParentVisualElement as RenderBoxBase;
+                return parentLink.ParentVisualElement as RenderBoxes.RenderBoxBase;
             }
             return null;
         }

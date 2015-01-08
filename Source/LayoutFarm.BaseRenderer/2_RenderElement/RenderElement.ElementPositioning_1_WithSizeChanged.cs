@@ -5,30 +5,24 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
-
+using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
 
 
     partial class RenderElement
-    {
-
+    {   
 
         public virtual void TopDownReCalculateContentSize()
         {
             MarkHasValidCalculateSize();
-        }
-
+        } 
         public static void SetCalculatedDesiredSize(RenderBoxBase v, int desiredWidth, int desiredHeight)
-        {
-
+        {   
             v.b_width = desiredWidth;
             v.b_Height = desiredHeight;
             v.MarkHasValidCalculateSize();
-        }
-
-
-
+        } 
         public bool IsLayoutSuspending
         {
             get

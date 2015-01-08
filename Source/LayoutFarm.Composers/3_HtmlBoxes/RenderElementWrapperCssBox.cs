@@ -170,7 +170,7 @@ namespace LayoutFarm.HtmlBoxes
 
             }
         }
-        class RenderBoxWrapperLink : IParentLink
+        class RenderBoxWrapperLink : LayoutFarm.RenderBoxes.IParentLink
         {
             RenderElementWrapperCssBox box;
             public RenderBoxWrapperLink(RenderElementWrapperCssBox box)
@@ -216,7 +216,7 @@ namespace LayoutFarm.HtmlBoxes
             public string dbugGetLinkInfo() { return ""; }
 #endif
         }
-        class RenderBoxWrapperLink2 : IParentLink
+        class RenderBoxWrapperLink2 : LayoutFarm.RenderBoxes.IParentLink
         {
             RenderElement box;
             public RenderBoxWrapperLink2(RenderElement box)

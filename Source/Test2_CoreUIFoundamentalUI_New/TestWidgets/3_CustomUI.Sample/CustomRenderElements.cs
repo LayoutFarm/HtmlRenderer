@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
-using LayoutFarm.Text;
+
 using LayoutFarm.UI;
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {
 
-    public class CustomRenderBox : RenderBoxBase
+    public class CustomRenderBox : RenderBoxes.RenderBoxBase
     {
 
 #if DEBUG

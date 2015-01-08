@@ -27,7 +27,7 @@ namespace LayoutFarm
 
         public abstract void CustomDrawToThisPage(Canvas canvasPage, Rectangle updateArea);
 
-        public bool PrepareDrawingChain(VisualDrawingChain drawingChain)
+        public bool PrepareDrawingChain(RenderBoxes.VisualDrawingChain drawingChain)
         {
             if ((uiFlags & HIDDEN) == HIDDEN)
             {
@@ -46,7 +46,7 @@ namespace LayoutFarm
                     y -= this.ViewportY;
 
                     drawingChain.OffsetCanvasOrigin(x, y);
-                    ((RenderBoxBase)this).PrepareOriginalChildContentDrawingChain(drawingChain);
+                    ((RenderBoxes.RenderBoxBase)this).PrepareOriginalChildContentDrawingChain(drawingChain);
                     drawingChain.OffsetCanvasOrigin(-x, -y);
 
                 }
@@ -96,7 +96,6 @@ namespace LayoutFarm
             get
             {
                 return this.isWindowRoot;
-
             }
         }
 
@@ -108,14 +107,9 @@ namespace LayoutFarm
             }
             protected set
             {
-                if (value)
-                {
-                    this.uiFlags |= HAS_DOUBLE_SCROLL_SURFACE;
-                }
-                else
-                {
-                    this.uiFlags &= ~HAS_DOUBLE_SCROLL_SURFACE;
-                }
+                uiFlags = value ?
+                      uiFlags | HAS_DOUBLE_SCROLL_SURFACE :
+                      uiFlags & ~HAS_DOUBLE_SCROLL_SURFACE;
             }
         }
 
