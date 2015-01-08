@@ -31,7 +31,6 @@ namespace LayoutFarm.UI
             caretEventQ.Push(new UICaretEventArgs());
             cursorEventQ.Push(new UICursorEventArgs());
             popEventQ.Push(new UIPopupEventArgs());
-
             dragEventQ.Push(new UIMouseEventArgs());
         }
         public UIPopupEventArgs GetFreeCanvasPopupEventArgs()
