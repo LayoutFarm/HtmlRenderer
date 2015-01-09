@@ -24,9 +24,7 @@ namespace LayoutFarm
             TopWindowRenderBox wintop;
             InvalidateGraphic(out wintop);
         }
-
-
-
+        
         protected static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect, out TopWindowRenderBox wintop)
         {
             //1.
