@@ -30,7 +30,7 @@ namespace LayoutFarm.RenderBoxes
             get { return this.layers; }
             set { this.layers = value; }
         }
-        public sealed override void CustomDrawToThisPage(Canvas canvas, Rectangle updateArea)
+        public sealed override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
 
             canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);

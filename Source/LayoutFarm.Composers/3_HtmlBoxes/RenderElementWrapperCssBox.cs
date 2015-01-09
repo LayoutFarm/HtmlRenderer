@@ -81,7 +81,7 @@ namespace LayoutFarm.HtmlBoxes
                 GetParentRenderElement(out this.globalXForRenderElement, out this.globalYForRenderElement);
 
                 Rectangle rect = new Rectangle(0, 0, wrapper.Width, wrapper.Height);
-                this.wrapper.DrawToThisPage(p.InnerCanvas, rect);
+                this.wrapper.DrawToThisCanvas(p.InnerCanvas, rect);
 
             }
             else
@@ -162,11 +162,11 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
 
-            public override void CustomDrawToThisPage(Canvas canvasPage, Rectangle updateArea)
+            public override void CustomDrawToThisCanvas(Canvas canvasPage, Rectangle updateArea)
             {
                 //int x = this.adjustX;
                 //int y = this.adjustY;
-                renderElement.CustomDrawToThisPage(canvasPage, updateArea);
+                renderElement.CustomDrawToThisCanvas(canvasPage, updateArea);
 
             }
         }
@@ -179,7 +179,7 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             public bool MayHasOverlapChild { get { return false; } }
-            public RenderElement ParentVisualElement
+            public RenderElement ParentRenderElement
             {
                 get
                 {
@@ -225,7 +225,7 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             public bool MayHasOverlapChild { get { return false; } }
-            public RenderElement ParentVisualElement
+            public RenderElement ParentRenderElement
             {
                 get
                 {
@@ -247,7 +247,7 @@ namespace LayoutFarm.HtmlBoxes
                 goToFinalExit = false;
                 //int globalX;
                 //int globalY;
-                var parent = box.ParentVisualElement;
+                var parent = box.ParentRenderElement;
 
                 if (parent != null)
                 {

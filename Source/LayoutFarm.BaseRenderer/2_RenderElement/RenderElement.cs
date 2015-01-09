@@ -43,14 +43,17 @@ namespace LayoutFarm
         {
             this.controller = controller;
         }
-        public bool HasOwner
+       
+        //==============================================================
+        //parent/child ...
+        public bool HasParent
         {
             get
             {
                 return this.parentLink != null;
             }
         }
-     
+
         public virtual void ClearAllChildren()
         {
 
@@ -61,9 +64,8 @@ namespace LayoutFarm
             {
                 return parentLink;
             }
-        }
-
-        public virtual RenderElement ParentVisualElement
+        } 
+        public virtual RenderElement ParentRenderElement
         {
             get
             {
@@ -71,10 +73,19 @@ namespace LayoutFarm
                 {
                     return null;
                 }
-                return parentLink.ParentVisualElement;
+                return parentLink.ParentRenderElement;
             }
         }
+        public static void RemoveParentLink(RenderElement childElement)
+        {
+            childElement.parentLink = null;
+        }
+        public static void SetParentLink(RenderElement childElement, IParentLink parentLink)
+        {
+            childElement.parentLink = parentLink;
+        }
 
+        //==============================================================
         public bool Visible
         {
             get
@@ -86,7 +97,7 @@ namespace LayoutFarm
         public void SetVisible(bool value)
         {
 
-            propFlags = (value) ?
+            propFlags = value ?
                 propFlags & ~RenderElementConst.HIDDEN :
                 propFlags | RenderElementConst.HIDDEN;
 
@@ -95,7 +106,61 @@ namespace LayoutFarm
                 this.InvalidateGraphics();
             }
         }
+        
+        public bool IsBlockElement
+        {
+            get
+            {
+                return ((propFlags & RenderElementConst.IS_BLOCK_ELEMENT) == RenderElementConst.IS_BLOCK_ELEMENT);
+            }
+            set
+            {
+                propFlags = value ?
+                     propFlags | RenderElementConst.IS_BLOCK_ELEMENT :
+                     propFlags & ~RenderElementConst.IS_BLOCK_ELEMENT;
+            }
+        }
 
+        public bool TransparentForAllEvents
+        {
+            get
+            {
+                return (propFlags & RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS) != 0;
+            }
+            set
+            {
+                propFlags = value ?
+                       propFlags | RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS :
+                       propFlags & ~RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS;
+
+            }
+        }
+       
+
+        public bool MayHasChild
+        {
+            get { return this.mayHasChild; }
+            protected set { this.mayHasChild = value; }
+        } 
+        public bool MayHasViewport
+        {
+            get { return this.mayHasViewport; }
+            protected set { this.mayHasViewport = value; }
+        }
+
+
+        public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
+        {
+            return null;
+        }
+        public virtual void ChildrenHitTestCore(HitChain hitChain)
+        {
+        }
+
+        //==============================================================
+        //internal methods 
+        
+        
         internal bool IsInRenderChain
         {
             get
@@ -126,73 +191,5 @@ namespace LayoutFarm
             }
         }
 
-        public bool IsBlockElement
-        {
-            get
-            {
-                return ((propFlags & RenderElementConst.IS_BLOCK_ELEMENT) == RenderElementConst.IS_BLOCK_ELEMENT);
-            }
-            set
-            {
-                propFlags = value ?
-                     propFlags | RenderElementConst.IS_BLOCK_ELEMENT :
-                     propFlags & ~RenderElementConst.IS_BLOCK_ELEMENT;
-            }
-        }
-        
-        public bool TransparentForAllEvents
-        {
-            get
-            {
-                return (propFlags & RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS) != 0;
-            }
-            set
-            {
-                propFlags = value ?
-                       propFlags | RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS :
-                       propFlags & ~RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS;
-
-            }
-        }
-        public virtual void ChildrenHitTestCore(HitChain hitChain)
-        {
-        }
-
-        public bool MayHasChild
-        {
-            get { return this.mayHasChild; }
-            protected set { this.mayHasChild = value; }
-        }
-
-        public bool MayHasViewport
-        {
-            get { return this.mayHasViewport; }
-            protected set { this.mayHasViewport = value; }
-        }
-
-
-        public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
-        {
-            return null;
-        }
-
-        public static void RemoveParentLink(RenderElement childElement)
-        {
-            childElement.parentLink = null;
-        }
-        public static void SetParentLink(RenderElement childElement, IParentLink lineLinkedNode)
-        {
-            childElement.parentLink = lineLinkedNode;
-        }
-
-        
-        public RenderElement GetOwnerRenderElement()
-        {
-            if (this.parentLink != null)
-            {
-                return parentLink.ParentVisualElement;
-            }
-            return null;
-        }
     }
 }

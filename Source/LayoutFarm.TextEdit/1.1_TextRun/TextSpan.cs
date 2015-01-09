@@ -156,9 +156,9 @@ namespace LayoutFarm.Text
         {
             textspan.DrawCharacters(canvasPage, updateArea, textspan.mybuffer);
         }
-        public override void CustomDrawToThisPage(Canvas canvasPage, Rectangle updateArea)
+        public override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
-            DrawTextRun(this, canvasPage, updateArea);
+            DrawTextRun(this, canvas, updateArea);
         }
 
         protected bool HasStyle

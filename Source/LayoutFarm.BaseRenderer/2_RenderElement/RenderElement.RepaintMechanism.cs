@@ -10,6 +10,22 @@ namespace LayoutFarm
 {
     partial class RenderElement
     {
+        public static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea)
+        {
+            if (localArea.Height == 0 || localArea.Width == 0)
+            {
+                return;
+            }
+            TopWindowRenderBox wintop;
+            RootInvalidateGraphicArea(ve, ref localArea, out wintop);
+        }
+        public void InvalidateGraphics()
+        {
+            TopWindowRenderBox wintop;
+            InvalidateGraphic(out wintop);
+        }
+
+
 
         protected static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect, out TopWindowRenderBox wintop)
         {
@@ -19,15 +35,7 @@ namespace LayoutFarm
             elem.rootGfx.InvalidateGraphicArea(elem, ref rect, out wintop);
 
         }
-        public static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea)
-        {
-            if (localArea.Height == 0 || localArea.Width == 0)
-            {
-                return;
-            }
-            TopWindowRenderBox wintop;
-            RootInvalidateGraphicArea(ve, ref localArea, out wintop);
-        } 
+       
         protected bool vinv_ForceReArrange
         {
 
@@ -45,6 +53,8 @@ namespace LayoutFarm
 
             }
         }
+        
+        
         internal bool IsInvalidateGraphicBlocked
         {
 
@@ -57,12 +67,6 @@ namespace LayoutFarm
 #endif
             }
         }
-        public void InvalidateGraphics()
-        {
-            TopWindowRenderBox wintop;
-            InvalidateGraphic(out wintop);
-        }
-        
         internal bool InvalidateGraphic(out TopWindowRenderBox wintop)
         {
             propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;

@@ -8,24 +8,8 @@ using PixelFarm.Drawing;
 namespace LayoutFarm
 {
     partial class RenderElement
-    {
-
-
-        internal bool HasSolidBackground
-        {
-            get
-            {
-                return (propFlags & RenderElementConst.HAS_TRANSPARENT_BG) != 0;
-            }
-            set
-            {
-                propFlags = value ?
-                       propFlags | RenderElementConst.HAS_TRANSPARENT_BG :
-                       propFlags & ~RenderElementConst.HAS_TRANSPARENT_BG;
-            }
-        }
-         
-        public abstract void CustomDrawToThisPage(Canvas canvasPage, Rectangle updateArea);
+    {   
+        public abstract void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea);
 
         public bool PrepareDrawingChain(RenderBoxes.VisualDrawingChain drawingChain)
         {
@@ -52,7 +36,7 @@ namespace LayoutFarm
             }
             return false;
         }
-        public void DrawToThisPage(Canvas canvasPage, Rectangle updateArea)
+        public void DrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
 
             if ((propFlags & RenderElementConst.HIDDEN) == RenderElementConst.HIDDEN)
@@ -63,26 +47,26 @@ namespace LayoutFarm
             dbugVRoot.dbug_drawLevel++;
 #endif
 
-            if (canvasPage.PushClipAreaRect(b_width, b_height, ref updateArea))
+            if (canvas.PushClipAreaRect(b_width, b_height, ref updateArea))
             {
 #if DEBUG
                 if (dbugVRoot.dbug_RecordDrawingChain)
                 {
-                    dbugVRoot.dbug_AddDrawElement(this, canvasPage);
+                    dbugVRoot.dbug_AddDrawElement(this, canvas);
                 }
 #endif
                 //------------------------------------------
 
-                this.CustomDrawToThisPage(canvasPage, updateArea);
+                this.CustomDrawToThisCanvas(canvas, updateArea);
 
                 //------------------------------------------
                 propFlags |= RenderElementConst.IS_GRAPHIC_VALID;
 #if DEBUG
-                debug_RecordPostDrawInfo(canvasPage);
+                debug_RecordPostDrawInfo(canvas);
 #endif
             }
 
-            canvasPage.PopClipAreaRect();
+            canvas.PopClipAreaRect();
 #if DEBUG
             dbugVRoot.dbug_drawLevel--;
 #endif
@@ -118,7 +102,19 @@ namespace LayoutFarm
             }
         }
 
-
+        internal bool HasSolidBackground
+        {
+            get
+            {
+                return (propFlags & RenderElementConst.HAS_TRANSPARENT_BG) != 0;
+            }
+            set
+            {
+                propFlags = value ?
+                       propFlags | RenderElementConst.HAS_TRANSPARENT_BG :
+                       propFlags & ~RenderElementConst.HAS_TRANSPARENT_BG;
+            }
+        }
 
     }
 }

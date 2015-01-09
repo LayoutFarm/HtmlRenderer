@@ -43,7 +43,7 @@ namespace LayoutFarm
                     else
                     {
 
-                        RenderElement parentElement = this.ParentVisualElement;
+                        RenderElement parentElement = this.ParentRenderElement;
                         if (parentElement != null)
                         {
                             return parentElement.IsLayoutSuspending;
@@ -71,7 +71,7 @@ namespace LayoutFarm
 
             if (this.MayHasChild)
             {
-                if (this.HasOwner)
+                if (this.HasParent)
                 {
                     if (!vinv_IsInTopDownReArrangePhase)
                     {

@@ -117,7 +117,7 @@ namespace LayoutFarm.Text
                 }
             }
         }
-        public RenderElement ParentVisualElement
+        public RenderElement ParentRenderElement
         {
             get
             {

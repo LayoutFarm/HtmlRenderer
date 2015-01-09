@@ -846,7 +846,7 @@ namespace LayoutFarm.UI
 
                             if (canvasPage.PushClipAreaRect(gridItem.Width, gridItem.Height, ref updateArea))
                             {
-                                renderContent.DrawToThisPage(canvasPage, updateArea);
+                                renderContent.DrawToThisCanvas(canvasPage, updateArea);
                             }
                             canvasPage.PopClipAreaRect();
                         }

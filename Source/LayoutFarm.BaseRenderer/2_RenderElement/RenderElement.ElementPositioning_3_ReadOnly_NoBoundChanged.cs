@@ -160,7 +160,7 @@ namespace LayoutFarm
         static Point GetGlobalLocationStatic(RenderElement ui)
         {
 
-            RenderElement parentVisualElement = ui.ParentVisualElement;
+            RenderElement parentVisualElement = ui.ParentRenderElement;
             if (parentVisualElement != null)
             {
                 Point parentGlobalLocation = GetGlobalLocationStatic(parentVisualElement);
@@ -530,7 +530,7 @@ ve
             }
             else
             {
-                return parentLink.ParentVisualElement.GetTopWindowRenderBox();
+                return parentLink.ParentRenderElement.GetTopWindowRenderBox();
             }
         }
 

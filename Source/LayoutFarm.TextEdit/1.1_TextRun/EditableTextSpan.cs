@@ -87,7 +87,7 @@ namespace LayoutFarm.Text
                 return null;
             }
         }
-        public override RenderElement ParentVisualElement
+        public override RenderElement ParentRenderElement
         {
             get
             {

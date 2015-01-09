@@ -109,7 +109,7 @@ namespace LayoutFarm.RenderBoxes
 
                     canvasPage.OffsetCanvasOrigin(x, y);
                     updateArea.Offset(-x, -y);
-                    child.DrawToThisPage(canvasPage, updateArea);
+                    child.DrawToThisCanvas(canvasPage, updateArea);
 
                     canvasPage.OffsetCanvasOrigin(-x, -y);
                     updateArea.Offset(x, y);

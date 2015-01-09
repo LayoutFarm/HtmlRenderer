@@ -195,7 +195,7 @@ namespace LayoutFarm.Text
 
         }
 #endif
-        public override void DrawChildContent(Canvas canvasPage, Rectangle updateArea)
+        public override void DrawChildContent(Canvas canvas, Rectangle updateArea)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) != 0)
             {
@@ -248,23 +248,23 @@ namespace LayoutFarm.Text
                     }
 
                     updateArea.OffsetY(-y);
-                    canvasPage.OffsetCanvasOriginY(y);
+                    canvas.OffsetCanvasOriginY(y);
                     while (curNode != null)
                     {
                         EditableTextSpan child = curNode.Value;
                         if (child.IntersectOnHorizontalWith(updateArea))
                         {
                             int x = child.X;
-                            canvasPage.OffsetCanvasOriginX(x);
+                            canvas.OffsetCanvasOriginX(x);
                             updateArea.OffsetX(-x);
-                            child.DrawToThisPage(canvasPage, updateArea);
+                            child.DrawToThisCanvas(canvas, updateArea);
 
-                            canvasPage.OffsetCanvasOriginX(-x);
+                            canvas.OffsetCanvasOriginX(-x);
                             updateArea.OffsetX(x);
                         }
                         curNode = curNode.Next;
                     }
-                    canvasPage.OffsetCanvasOriginY(-y);
+                    canvas.OffsetCanvasOriginY(-y);
                     updateArea.OffsetY(y);
                 }
             }
@@ -284,7 +284,7 @@ namespace LayoutFarm.Text
                 {
 
                     int y = line.Top;
-                    canvasPage.OffsetCanvasOriginY(y);
+                    canvas.OffsetCanvasOriginY(y);
                     updateArea.OffsetY(-y);
                     while (curNode != null)
                     {
@@ -292,16 +292,16 @@ namespace LayoutFarm.Text
                         if (child.IntersectOnHorizontalWith(updateArea))
                         {
                             int x = child.X;
-                            canvasPage.OffsetCanvasOriginX(x);
+                            canvas.OffsetCanvasOriginX(x);
                             updateArea.OffsetX(-x);
-                            child.DrawToThisPage(canvasPage, updateArea);
+                            child.DrawToThisCanvas(canvas, updateArea);
 
-                            canvasPage.OffsetCanvasOriginX(-x);
+                            canvas.OffsetCanvasOriginX(-x);
                             updateArea.OffsetX(x);
                         }
                         curNode = curNode.Next;
                     }
-                    canvasPage.OffsetCanvasOriginY(-y);
+                    canvas.OffsetCanvasOriginY(-y);
                     updateArea.OffsetY(y);
                 }
 

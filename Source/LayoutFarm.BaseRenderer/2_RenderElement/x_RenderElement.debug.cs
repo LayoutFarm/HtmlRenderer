@@ -123,7 +123,7 @@ namespace LayoutFarm
         }
         public RenderElement dbugParentVisualElement
         {
-            get { return this.ParentVisualElement; }
+            get { return this.ParentRenderElement; }
         }
         public override string ToString()
         {

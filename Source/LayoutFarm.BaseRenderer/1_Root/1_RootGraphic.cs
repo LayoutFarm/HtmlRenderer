@@ -263,7 +263,7 @@ namespace LayoutFarm
                     }
 #endif
 
-                    fromElement = fromElement.ParentVisualElement;
+                    fromElement = fromElement.ParentRenderElement;
                     if (fromElement == null)
                     {
                         return;
