@@ -1,6 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 
-using System; 
+using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
 
@@ -512,7 +512,7 @@ namespace LayoutFarm.Text
                 int j = textLineWriter.LineCount;
                 if (j > 0)
                 {
-                    EditableVisualElementLine line = textLineWriter.GetTextLineAtPos(value.Y);
+                    EditableTextLine line = textLineWriter.GetTextLineAtPos(value.Y);
                     int calculatedLineId = 0;
                     if (line != null)
                     {
@@ -529,7 +529,7 @@ namespace LayoutFarm.Text
             int j = textLineWriter.LineCount;
             if (j > 0)
             {
-                EditableVisualElementLine line = textLineWriter.GetTextLineAtPos(y);
+                EditableTextLine line = textLineWriter.GetTextLineAtPos(y);
                 int calculatedLineId = 0;
                 if (line != null)
                 {

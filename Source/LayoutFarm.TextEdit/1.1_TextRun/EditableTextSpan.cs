@@ -91,7 +91,7 @@ namespace LayoutFarm.Text
         {
             get
             {
-                EditableVisualElementLine ownerline = this.OwnerEditableLine;
+                EditableTextLine ownerline = this.OwnerEditableLine;
                 if (ownerline != null)
                 {
                     return ownerline.OwnerElement;
@@ -141,14 +141,14 @@ namespace LayoutFarm.Text
         }
 
 
-        public EditableVisualElementLine OwnerEditableLine
+        internal EditableTextLine OwnerEditableLine
         {
             get
             {
                 var parentLink = this.ParentLink as VisualEditableLineParentLink;
                 if (parentLink != null)
                 {
-                    return (EditableVisualElementLine)(parentLink.internalLinkedNode.List);
+                    return (EditableTextLine)(parentLink.internalLinkedNode.List);
                 }
                 return null;
             }

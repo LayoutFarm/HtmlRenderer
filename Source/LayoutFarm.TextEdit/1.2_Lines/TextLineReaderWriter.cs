@@ -7,20 +7,15 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.Text
 {
-
-
-
-    public class TextLineWriter : TextLineReader
+    class TextLineWriter : TextLineReader
     {
         BackGroundTextLineWriter backgroundWriter;
-
-
         public TextLineWriter(EditableTextFlowLayer textLayer)
             : base(textLayer)
         {
 
         }
-        public BackGroundTextLineWriter GetBackgroundWriter()
+        internal BackGroundTextLineWriter GetBackgroundWriter()
         {
             if (backgroundWriter == null)
             {
@@ -80,7 +75,7 @@ namespace LayoutFarm.Text
 
         public void JoinWithNextLine()
         {
-            EditableVisualElementLine.InnerDoJoinWithNextLine(this.CurrentLine);
+            EditableTextLine.InnerDoJoinWithNextLine(this.CurrentLine);
             EnsureCurrentTextRun();
         }
         char Delete()
@@ -136,7 +131,7 @@ namespace LayoutFarm.Text
                 EditableTextSpan t = new EditableTextSpan(this.Root, c);
 
                 var owner = this.FlowLayer.OwnerRenderElement;
-                 
+
                 CurrentLine.AddLast(t);
 
                 SetCurrentTextRun(t);
@@ -282,7 +277,7 @@ namespace LayoutFarm.Text
         }
     }
 
-    public abstract class TextLineReader
+    abstract class TextLineReader
     {
 
 #if DEBUG
@@ -293,7 +288,7 @@ namespace LayoutFarm.Text
 #endif
 
         EditableTextFlowLayer visualFlowLayer;
-        EditableVisualElementLine currentLine;
+        EditableTextLine currentLine;
 
         int currentLineY = 0;
         EditableTextSpan currentTextRun;
@@ -335,7 +330,7 @@ namespace LayoutFarm.Text
             this.CharIndex = prevCharIndex;
 
         }
-        protected EditableVisualElementLine CurrentLine
+        protected EditableTextLine CurrentLine
         {
             get
             {
@@ -760,11 +755,13 @@ namespace LayoutFarm.Text
                 return (charIndex == currentLine.CharCount - 1);
             }
         }
-        public EditableVisualElementLine GetTextLine(int lineId)
+
+        internal EditableTextLine GetTextLine(int lineId)
         {
             return TextLayer.GetTextLine(lineId);
         }
-        public EditableVisualElementLine GetTextLineAtPos(int y)
+
+        internal EditableTextLine GetTextLineAtPos(int y)
         {
             return this.TextLayer.GetTextLineAtPos(y);
         }
@@ -814,13 +811,7 @@ namespace LayoutFarm.Text
             currentLine.Copy(selectionRange, output);
             return output;
         }
-        internal EditableTextFlowLayer TextLayer
-        {
-            get
-            {
-                return currentLine.OwnerFlowLayer;
-            }
-        }
+        
         public int LineNumber
         {
             get
@@ -851,9 +842,18 @@ namespace LayoutFarm.Text
                 return currentLine.ParentLineArea;
             }
         }
+
+
+        internal EditableTextFlowLayer TextLayer
+        {
+            get
+            {
+                return currentLine.OwnerFlowLayer;
+            }
+        }
         #endregion
     }
-    public class BackGroundTextLineWriter : TextLineWriter
+    class BackGroundTextLineWriter : TextLineWriter
     {
         public BackGroundTextLineWriter(EditableTextFlowLayer visualElementLayer)
             : base(visualElementLayer)

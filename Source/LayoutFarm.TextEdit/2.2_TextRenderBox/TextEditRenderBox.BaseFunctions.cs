@@ -78,7 +78,7 @@ namespace LayoutFarm.Text
         {
 
             EditableTextFlowLayer flowLayer = this.textLayer;
-            EditableVisualElementLine beginLine = flowLayer.GetTextLineAtPos(beginlineNum);
+            EditableTextLine beginLine = flowLayer.GetTextLineAtPos(beginlineNum);
             if (beginLine == null)
             {
                 return Rectangle.Empty;
@@ -93,7 +93,7 @@ namespace LayoutFarm.Text
             {
                 VisualPointInfo beginPoint = beginLine.GetTextPointInfoFromCharIndex(beginColumnNum);
 
-                EditableVisualElementLine endLine = flowLayer.GetTextLineAtPos(endLineNum);
+                EditableTextLine endLine = flowLayer.GetTextLineAtPos(endLineNum);
                 VisualPointInfo endPoint = endLine.GetTextPointInfoFromCharIndex(endColumnNum);
                 return new Rectangle(beginPoint.X, beginLine.Top, endPoint.X, beginLine.ActualLineHeight);
             }

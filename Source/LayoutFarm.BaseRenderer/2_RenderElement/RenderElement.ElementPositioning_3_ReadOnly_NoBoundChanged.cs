@@ -453,7 +453,7 @@ namespace LayoutFarm
 #endif
 
             bool goFinalExit;
-            RenderElement parentVisualElem = ve.parentLink.NotifyParentToInvalidate(out goFinalExit
+            RenderElement parentRenderElement = ve.parentLink.NotifyParentToInvalidate(out goFinalExit
 #if DEBUG
 ,
 ve
@@ -483,27 +483,27 @@ ve
                 //}
 
 
-                parentVisualElem.MarkInvalidContentSize();
-                parentVisualElem.MarkInvalidContentArrangement();
+                parentRenderElement.MarkInvalidContentSize();
+                parentRenderElement.MarkInvalidContentArrangement();
 
-                if (!parentVisualElem.IsInLayoutQueueChainUp
-                    && !parentVisualElem.IsInLayoutQueue
-                    && !parentVisualElem.IsInLayoutSuspendMode)
+                if (!parentRenderElement.IsInLayoutQueueChainUp
+                    && !parentRenderElement.IsInLayoutQueue
+                    && !parentRenderElement.IsInLayoutSuspendMode)
                 {
 
-                    parentVisualElem.IsInLayoutQueueChainUp = true;
+                    parentRenderElement.IsInLayoutQueueChainUp = true;
 
-                    RenderElement upper = BubbleUpInvalidLayoutToTopMost(parentVisualElem, topBox);
+                    RenderElement upper = BubbleUpInvalidLayoutToTopMost(parentRenderElement, topBox);
 
                     if (upper != null)
                     {
                         upper.IsInLayoutQueueChainUp = true;
-                        parentVisualElem = upper;
+                        parentRenderElement = upper;
                     }
                 }
                 else
                 {
-                    parentVisualElem.IsInLayoutQueueChainUp = true;
+                    parentRenderElement.IsInLayoutQueueChainUp = true;
                 }
             }
 
@@ -512,7 +512,7 @@ ve
             dbugVRoot.dbug_LayoutTraceEndContext(RootGraphic.dbugMsg_E_CHILD_LAYOUT_INV_BUB_exit, ve);
 #endif
 
-            return parentVisualElem;
+            return parentRenderElement;
         }
 
         public TopWindowRenderBox GetTopWindowRenderBox()

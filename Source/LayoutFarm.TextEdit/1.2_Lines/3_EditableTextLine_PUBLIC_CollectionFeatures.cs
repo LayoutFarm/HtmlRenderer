@@ -9,8 +9,8 @@ namespace LayoutFarm.Text
     class VisualEditableLineParentLink : LayoutFarm.RenderBoxes.IParentLink
     {
         internal readonly LinkedListNode<EditableTextSpan> internalLinkedNode;
-        EditableVisualElementLine ownerLine;
-        internal VisualEditableLineParentLink(EditableVisualElementLine ownerLine, LinkedListNode<EditableTextSpan> linkNode)
+        EditableTextLine ownerLine;
+        internal VisualEditableLineParentLink(EditableTextLine ownerLine, LinkedListNode<EditableTextSpan> linkNode)
         {
             this.internalLinkedNode = linkNode;
             this.ownerLine = ownerLine;
@@ -50,7 +50,7 @@ namespace LayoutFarm.Text
             RenderElement parentVisualElem = null;
             goToFinalExit = false;
 
-            EditableVisualElementLine line = this.OwnerLine;
+            EditableTextLine line = this.OwnerLine;
 #if DEBUG
             dbugVRoot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_VisualElementLine_INVALIDATE_enter, ve);
 #endif
@@ -80,11 +80,11 @@ namespace LayoutFarm.Text
                 return this.ownerLine.editableFlowLayer;
             }
         }
-        public EditableVisualElementLine OwnerLine
+        public EditableTextLine OwnerLine
         {
             get
             {
-                return (EditableVisualElementLine)(internalLinkedNode.List);
+                return (EditableTextLine)(internalLinkedNode.List);
             }
         }
         public RenderElement Next
@@ -140,7 +140,7 @@ namespace LayoutFarm.Text
     }
 
 
-    partial class EditableVisualElementLine
+    partial class EditableTextLine
     {
 
 

@@ -19,7 +19,7 @@ namespace LayoutFarm.HtmlBoxes
 
     sealed class RenderElementWrapperCssBox : CustomCssBox
     {
-        CssBoxInsideRenderElement wrapper;
+        CssBoxWrapperRenderElement wrapper;
         int globalXForRenderElement;
         int globalYForRenderElement;
 
@@ -31,7 +31,7 @@ namespace LayoutFarm.HtmlBoxes
             int mmw = 100;
             int mmh = 20;
 
-            this.wrapper = new CssBoxInsideRenderElement(renderElement.Root, mmw, mmh, renderElement);
+            this.wrapper = new CssBoxWrapperRenderElement(renderElement.Root, mmw, mmh, renderElement);
 
             ChangeDisplayType(this, CssDisplay.Block);
 
@@ -90,6 +90,7 @@ namespace LayoutFarm.HtmlBoxes
                 p.FillRectangle(Color.Red, 0, 0, 100, 100);
             }
         }
+
         RenderElement GetParentRenderElement(out int globalX, out int globalY)
         {
             CssBox cbox = this;
@@ -115,13 +116,13 @@ namespace LayoutFarm.HtmlBoxes
 
 
 
-        class CssBoxInsideRenderElement : RenderElement
+        class CssBoxWrapperRenderElement : RenderElement
         {
             RenderElement renderElement;
             int adjustX;
             int adjustY;
 
-            public CssBoxInsideRenderElement(RootGraphic rootgfx, int w, int h, RenderElement renderElement)
+            public CssBoxWrapperRenderElement(RootGraphic rootgfx, int w, int h, RenderElement renderElement)
                 : base(rootgfx, w, h)
             {
                 this.renderElement = renderElement;

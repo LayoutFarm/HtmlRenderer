@@ -30,7 +30,7 @@ namespace LayoutFarm.Text
 
     }
 
-    public class VisualSelectionRange
+      class VisualSelectionRange
     {
         EditableVisualPointInfo startPoint = null;
         EditableVisualPointInfo endPoint = null;
@@ -196,7 +196,7 @@ namespace LayoutFarm.Text
                 int bottomLineId = BottomEnd.LineId;
                 if (bottomLineId - topLineId > 1)
                 {
-                    EditableVisualElementLine adjacentStartLine = topEndPoint.EditableLine.Next;
+                    EditableTextLine adjacentStartLine = topEndPoint.EditableLine.Next;
                     while (adjacentStartLine != BottomEnd.Line)
                     {
                         destPage.FillRectangle(Color.LightGray, 0,
@@ -205,7 +205,7 @@ namespace LayoutFarm.Text
                             adjacentStartLine.ActualLineHeight);
                         adjacentStartLine = adjacentStartLine.Next;
                     }
-                    EditableVisualElementLine adjacentStopLine = BottomEnd.Line.Prev;
+                    EditableTextLine adjacentStopLine = BottomEnd.Line.Prev;
                 }
                 VisualPointInfo bottomEndPoint = BottomEnd;
                 lineYPos = bottomEndPoint.LineTop;
@@ -220,12 +220,12 @@ namespace LayoutFarm.Text
         {
             if (startPoint.TextRun != null && !startPoint.TextRun.HasParent)
             {
-                EditableVisualElementLine startLine = startPoint.EditableLine;
+                EditableTextLine startLine = startPoint.EditableLine;
                 startPoint = startLine.GetTextPointInfoFromCharIndex(startPoint.LineCharIndex);
             }
             if (endPoint.TextRun != null && !endPoint.TextRun.HasParent)
             {
-                EditableVisualElementLine stopLine = endPoint.EditableLine;
+                EditableTextLine stopLine = endPoint.EditableLine;
                 endPoint = stopLine.GetTextPointInfoFromCharIndex(endPoint.LineCharIndex);
             }
 
@@ -238,7 +238,7 @@ namespace LayoutFarm.Text
             EditableTextSpan startRun = null;
             if (startPoint.TextRun == null)
             {
-                EditableVisualElementLine line = startPoint.EditableLine;
+                EditableTextLine line = startPoint.EditableLine;
                 startRun = line.FirstRun;
             }
             else

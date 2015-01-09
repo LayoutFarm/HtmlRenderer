@@ -5,27 +5,21 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
+
 namespace LayoutFarm.UI
 {
-    public enum PlainLayoutType
+
+    public class UICollection
     {
-        NoLayout,
-        HorizontalStack,
-        VerticalStack,
-    }
+         
+        List<UIElement> uiList = new List<UIElement>();
 
-    public class PlainLayerElement : LayerElement
-    {
-
-        PlainLayoutType plainLayoutType;
-        List<UIElement> uiList = new List<UIElement>();        
-
-        public PlainLayerElement()
+        public UICollection()
         {
         }
         public void AddUI(UIElement ui)
         {
-            uiList.Add(ui); 
+            uiList.Add(ui);
         }
         public int Count
         {
@@ -49,7 +43,7 @@ namespace LayoutFarm.UI
         }
 
 
-
-
     }
+
+
 }

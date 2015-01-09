@@ -12,13 +12,13 @@ namespace LayoutFarm.Text
 
 
 
-    partial class EditableVisualElementLine
+    partial class EditableTextLine
     {
         void AddLineBreakAfter(EditableTextSpan afterTextRun)
         {
             if (afterTextRun == null)
             {
-                this.EndWithLineBreak = true; EditableVisualElementLine newline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
+                this.EndWithLineBreak = true; EditableTextLine newline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
                 if (editableFlowLayer.LineCount - 1 != newline.LineNumber)
                 {
                     newline.EndWithLineBreak = true;
@@ -27,7 +27,7 @@ namespace LayoutFarm.Text
             }
             if (afterTextRun.NextTextRun == null)
             {
-                this.EndWithLineBreak = true; EditableVisualElementLine newline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
+                this.EndWithLineBreak = true; EditableTextLine newline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
                 if (editableFlowLayer.LineCount - 1 != newline.LineNumber)
                 {
                     newline.EndWithLineBreak = true;
@@ -44,7 +44,7 @@ namespace LayoutFarm.Text
                     }
                 }
 
-                this.EndWithLineBreak = true; this.LocalSuspendLineReArrange(); EditableVisualElementLine newTextline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
+                this.EndWithLineBreak = true; this.LocalSuspendLineReArrange(); EditableTextLine newTextline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
 
                 int j = tempTextRuns.Count;
 
@@ -80,7 +80,7 @@ namespace LayoutFarm.Text
                     }
                 }
                 this.EndWithLineBreak = true;
-                EditableVisualElementLine newTextline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
+                EditableTextLine newTextline = editableFlowLayer.InsertNewLine(currentLineNumber + 1);
 
                 this.LocalSuspendLineReArrange();
                 newTextline.LocalSuspendLineReArrange();

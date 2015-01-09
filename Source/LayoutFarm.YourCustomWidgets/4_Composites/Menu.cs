@@ -74,7 +74,7 @@ namespace LayoutFarm.CustomWidgets
                 //int layerCount = this.layers.Count;
                 //for (int m = 0; m < layerCount; ++m)
                 //{
-                //    PlainLayerElement plain = (PlainLayerElement)this.layers[m];
+                //    UICollection plain = (UICollection)this.layers[m];
                 //    var groundLayer = new VisualPlainLayer(renderE);
                 //    renderE.Layers.AddLayer(groundLayer);
 

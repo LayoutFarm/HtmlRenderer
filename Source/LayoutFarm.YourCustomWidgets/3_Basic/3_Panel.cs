@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
- 
+
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
@@ -24,14 +24,13 @@ namespace LayoutFarm.CustomWidgets
         int viewportX;
         int viewportY;
 
-        //each panel has 1 default layers
-        List<LayerElement> layers = new List<LayerElement>(1);
+        List<UICollection> layers = new List<UICollection>(1);
 
         public Panel(int width, int height)
             : base(width, height)
         {
 
-            PlainLayerElement plainLayer = new PlainLayerElement();
+            UICollection plainLayer = new UICollection();
             this.layers.Add(plainLayer);
         }
 
@@ -71,7 +70,7 @@ namespace LayoutFarm.CustomWidgets
                 int layerCount = this.layers.Count;
                 for (int m = 0; m < layerCount; ++m)
                 {
-                    PlainLayerElement plain = (PlainLayerElement)this.layers[m];
+                    UICollection plain = (UICollection)this.layers[m];
                     var groundLayer = new VisualPlainLayer(renderE);
                     renderE.Layers.AddLayer(groundLayer);
                     renderE.SetViewport(this.viewportX, this.viewportY);
@@ -91,7 +90,7 @@ namespace LayoutFarm.CustomWidgets
 
         public void AddChildBox(UIElement ui)
         {
-            PlainLayerElement layer0 = (PlainLayerElement)this.layers[0];
+            UICollection layer0 = (UICollection)this.layers[0];
             layer0.AddUI(ui);
 
             if (this.HasReadyRenderElement)
@@ -167,15 +166,15 @@ namespace LayoutFarm.CustomWidgets
         public override void PerformContentLayout()
         {
             //temp : arrange as vertical stack***
-            PlainLayerElement layer0 = (PlainLayerElement)this.layers[0];
+            UICollection layer0 = (UICollection)this.layers[0];
             int count = layer0.Count;
             int ypos = 0;
             for (int i = 0; i < count; ++i)
             {
                 var element = layer0.GetElement(i) as UIBox;
                 if (element != null)
-                {   
-                    element.PerformContentLayout();                     
+                {
+                    element.PerformContentLayout();
                     element.SetBound(0, ypos, element.Width, element.DesiredHeight);
                     ypos += element.DesiredHeight;
                 }

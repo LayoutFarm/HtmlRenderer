@@ -64,7 +64,7 @@ namespace LayoutFarm.Text
             strmWriter.Write(info);
             strmWriter.Write("\r\n"); strmWriter.Flush();
         }
-        public void WriteInfo(VisualSelectionRange range)
+        internal void WriteInfo(VisualSelectionRange range)
         {
             if (range == null)
             {

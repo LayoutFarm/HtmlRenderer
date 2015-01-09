@@ -5,7 +5,7 @@ using System.Text;
 using PixelFarm.Drawing;
 using System.Diagnostics;
 using LayoutFarm.RenderBoxes;
- 
+
 namespace LayoutFarm.Text
 {
 
@@ -14,12 +14,11 @@ namespace LayoutFarm.Text
 #if DEBUG
     [DebuggerDisplay("ELN {dbugShortLineInfo}")]
 #endif
-    public sealed partial class EditableVisualElementLine : LinkedList<EditableTextSpan>
+    sealed partial class EditableTextLine : LinkedList<EditableTextSpan>
     {
 
-        int currentLineNumber;
         internal EditableTextFlowLayer editableFlowLayer;
-
+        int currentLineNumber;  
         int actualLineHeight;
         int actualLineWidth;
         int lineTop;
@@ -35,7 +34,7 @@ namespace LayoutFarm.Text
         static int dbugLineTotalCount = 0;
         internal int dbugLineId;
 #endif
-        internal EditableVisualElementLine(EditableTextFlowLayer ownerFlowLayer)
+        internal EditableTextLine(EditableTextFlowLayer ownerFlowLayer)
         {
 
             this.editableFlowLayer = ownerFlowLayer;
@@ -360,7 +359,7 @@ namespace LayoutFarm.Text
                 return Count == 0;
             }
         }
-        public EditableVisualElementLine Next
+        public EditableTextLine Next
         {
             get
             {
@@ -375,7 +374,7 @@ namespace LayoutFarm.Text
 
             }
         }
-        public EditableVisualElementLine Prev
+        public EditableTextLine Prev
         {
             get
             {
@@ -415,7 +414,7 @@ namespace LayoutFarm.Text
         {
             lineFlags |= LINE_CONTENT_ARRANGED;
         }
-        public static void InnerCopyLineContent(EditableVisualElementLine line, StringBuilder stBuilder)
+        public static void InnerCopyLineContent(EditableTextLine line, StringBuilder stBuilder)
         {
             line.CopyLineContent(stBuilder);
         }

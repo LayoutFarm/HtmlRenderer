@@ -37,8 +37,7 @@
     <Compile Include="1_UIElement\1_UIElement.cs" />
     <Compile Include="1_UIElement\2_UIElement_EventListener.cs" />
     <Compile Include="1_UIElement\3_UIBox.cs" />
-    <Compile Include="2_UIGroupManagement\0_LayerElement.cs" />
-    <Compile Include="2_UIGroupManagement\1_PlainLayerElement.cs" />
+    <Compile Include="1_UIElement\0_UICollection.cs" />
     <Compile Include="2_UIGroupManagement\2_GridLayer.cs" />
     <Compile Include="2_UIGroupManagement\3_GridTable.cs" />
     <Compile Include="2_UIGroupManagement\4_NineSpaceController.cs" />
