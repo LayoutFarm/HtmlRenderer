@@ -11,14 +11,20 @@ namespace LayoutFarm.UI
 
     public class UICollection
     {
-         
-        List<UIElement> uiList = new List<UIElement>();
 
-        public UICollection()
+        List<UIElement> uiList = new List<UIElement>();
+        UIElement owner;
+        public UICollection(UIElement owner)
         {
+            this.owner = owner;
         }
         public void AddUI(UIElement ui)
         {
+#if DEBUG
+            if (this.owner == ui)
+                throw new Exception("cyclic!");
+#endif
+            ui.ParentUI = this.owner;
             uiList.Add(ui);
         }
         public int Count

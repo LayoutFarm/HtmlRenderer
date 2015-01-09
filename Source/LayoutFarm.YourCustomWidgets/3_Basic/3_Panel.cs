@@ -28,9 +28,8 @@ namespace LayoutFarm.CustomWidgets
 
         public Panel(int width, int height)
             : base(width, height)
-        {
-
-            UICollection plainLayer = new UICollection();
+        {   
+            UICollection plainLayer = new UICollection(this);
             this.layers.Add(plainLayer);
         }
 

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
- 
+
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
@@ -296,9 +296,25 @@ namespace LayoutFarm.CustomWidgets
 
     public class MenuBox : Panel
     {
+
         public MenuBox(int w, int h)
             : base(w, h)
         {
+        }
+        public void ShowMenu()
+        {
+            //add to topmost box
+            if (this.ParentUI == null)
+            {
+                var topWindow = TopWindowRenderBox.CurrentTopWindowRenderBox;
+
+
+                if (topWindow != null)
+                {
+                    topWindow.AddChild(this.GetPrimaryRenderElement(topWindow.Root));
+                }
+            }
+
         }
     }
 }

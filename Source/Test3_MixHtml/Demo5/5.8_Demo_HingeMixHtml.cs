@@ -228,9 +228,9 @@ namespace LayoutFarm
                             span.ClearAllElements();
                             span.AddTextContent("XYZ0001");
 #endif
-                            
 
-
+                            menuBox.SetLocation(50, 50);
+                            menuBox.ShowMenu();
                             e.StopPropagation();
 
                         });
