@@ -10,7 +10,7 @@ namespace LayoutFarm.RenderBoxes
     public class VisualPlainLayer : VisualLayer
     {
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
-        public event EventHandler CustomRearrangeContent;
+        //public event EventHandler CustomRearrangeContent;
 
         public VisualPlainLayer(RenderElement owner)
         {
@@ -192,10 +192,10 @@ namespace LayoutFarm.RenderBoxes
             vinv_dbug_EnterLayerReArrangeContent(this);
 #endif
             //this.BeginLayerLayoutUpdate();
-            if (CustomRearrangeContent != null)
-            {
-                CustomRearrangeContent(this, EventArgs.Empty);
-            }
+            //if (CustomRearrangeContent != null)
+            //{
+            //    CustomRearrangeContent(this, EventArgs.Empty);
+            //}
 
             //this.EndLayerLayoutUpdate();
 #if DEBUG

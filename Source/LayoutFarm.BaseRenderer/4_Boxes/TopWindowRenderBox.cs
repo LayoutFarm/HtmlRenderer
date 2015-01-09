@@ -5,15 +5,16 @@ using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 
+ 
 namespace LayoutFarm
 {
 
-
+    
     public abstract class TopWindowRenderBox : RenderBoxBase, ITopWindowRenderBox
     {
 
         VisualPlainLayer groundLayer;
-        public event EventHandler<EventArgs> CanvasForcePaint;
+        PaintToOutputDelegate paintToOutputHandler;
         public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
@@ -21,9 +22,14 @@ namespace LayoutFarm
             groundLayer = new VisualPlainLayer(this);
             this.Layers = new VisualLayerCollection();
             this.Layers.AddLayer(groundLayer);
-             
+
             this.IsTopWindow = true;
             this.HasSpecificSize = true;
+        }
+
+        public void SetPaintToOutputDelegate(PaintToOutputDelegate paintToOutputHandler)
+        {
+            this.paintToOutputHandler = paintToOutputHandler;
         }
 
         public abstract void SetCanvasInvalidateRequest(CanvasInvalidateRequestDelegate canvasInvaliddateReqDel);
@@ -35,10 +41,7 @@ namespace LayoutFarm
         }
         public void ForcePaint()
         {
-            if (this.CanvasForcePaint != null)
-            {
-                CanvasForcePaint(this, EventArgs.Empty);
-            }
+            paintToOutputHandler();
         }
 
 

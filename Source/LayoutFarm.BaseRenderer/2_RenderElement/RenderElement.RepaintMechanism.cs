@@ -45,7 +45,7 @@ namespace LayoutFarm
 
             }
         }
-        public bool IsInvalidateGraphicBlocked
+        internal bool IsInvalidateGraphicBlocked
         {
 
             get
@@ -63,7 +63,7 @@ namespace LayoutFarm
             InvalidateGraphic(out wintop);
         }
         
-        public bool InvalidateGraphic(out TopWindowRenderBox wintop)
+        internal bool InvalidateGraphic(out TopWindowRenderBox wintop)
         {
             propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
             if ((uiLayoutFlags & RenderElementConst.LY_SUSPEND_GRAPHIC) != 0)
@@ -78,14 +78,14 @@ namespace LayoutFarm
             Rectangle rect = new Rectangle(0, 0, b_width, b_height);
             RootInvalidateGraphicArea(this, ref rect, out wintop);
             return wintop != null;
-        } 
-        public void BeginGraphicUpdate()
+        }
+        internal void BeginGraphicUpdate()
         {   
             InvalidateGraphic();
             this.rootGfx.BeginGraphicUpdate();
             this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;
         }
-        public void EndGraphicUpdate()
+        internal void EndGraphicUpdate()
         {
             this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
             TopWindowRenderBox wintop;

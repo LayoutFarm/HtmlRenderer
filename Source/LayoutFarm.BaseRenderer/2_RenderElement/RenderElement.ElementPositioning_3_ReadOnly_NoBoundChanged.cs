@@ -344,10 +344,7 @@ namespace LayoutFarm
 #if DEBUG
             this.dbug_ValidateRecalculateSizeEpisode++;
 #endif
-        }
-
-
-
+        } 
         public bool IsInLayoutQueue
         {
             get

@@ -11,7 +11,7 @@ namespace LayoutFarm
     {
 
 
-        public bool HasSolidBackground
+        internal bool HasSolidBackground
         {
             get
             {
@@ -24,8 +24,7 @@ namespace LayoutFarm
                        propFlags & ~RenderElementConst.HAS_TRANSPARENT_BG;
             }
         }
-
-
+         
         public abstract void CustomDrawToThisPage(Canvas canvasPage, Rectangle updateArea);
 
         public bool PrepareDrawingChain(RenderBoxes.VisualDrawingChain drawingChain)

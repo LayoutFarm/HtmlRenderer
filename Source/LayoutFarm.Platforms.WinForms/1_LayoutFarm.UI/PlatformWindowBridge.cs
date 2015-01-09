@@ -34,10 +34,8 @@ namespace LayoutFarm.UI
             this.userEventPortal = winEventBridge;
             this.topwin = topwin;
             this.rootGraphic = topwin.Root;
-            topwin.CanvasForcePaint += (s, e) =>
-            {
-                PaintToOutputWindow();
-            };
+              
+            topwin.SetPaintToOutputDelegate(this.PaintToOutputWindow);
         }
         protected void SetBaseCanvasViewport(CanvasViewport canvasViewport)
         {

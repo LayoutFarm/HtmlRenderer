@@ -27,7 +27,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             this.myHtmlIsland = htmlIsland;
-            this.Focusable = false;
+
 
         }
         public override void ClearAllChildren()
@@ -65,9 +65,7 @@ namespace LayoutFarm.HtmlBoxes
         public HtmlFragmentRenderBox(RootGraphic rootgfx,
             int width, int height)
             : base(rootgfx, width, height)
-        {
-
-            this.Focusable = false;
+        { 
         }
 
         public CssBox CssBox

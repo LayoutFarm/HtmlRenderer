@@ -123,25 +123,7 @@ namespace LayoutFarm
         }
 
 
-        public bool Focusable
-        {
-            get
-            {
-                return (propFlags & RenderElementConst.NOT_ACCEPT_FOCUS) == 0;
-            }
-            set
-            {
-                if (value)
-                {
-                    propFlags &= ~RenderElementConst.NOT_ACCEPT_FOCUS;
-                }
-                else
-                {
-                    propFlags |= RenderElementConst.NOT_ACCEPT_FOCUS;
-                }
-            }
-        }
-
+       
 
 #if DEBUG
         public override string ToString()
@@ -206,21 +188,7 @@ namespace LayoutFarm
                      propFlags | RenderElementConst.IS_DRAG_OVERRED :
                      propFlags & ~RenderElementConst.IS_DRAG_OVERRED;
             }
-        }
-
-        public bool ListeningDragEvent
-        {
-            get
-            {
-                return (propFlags & RenderElementConst.LISTEN_DRAG_EVENT) != 0;
-            }
-            set
-            {
-                propFlags = value ?
-                       propFlags | RenderElementConst.LISTEN_DRAG_EVENT :
-                       propFlags & ~RenderElementConst.LISTEN_DRAG_EVENT;
-            }
-        }
+        } 
         public bool TransparentForAllEvents
         {
             get

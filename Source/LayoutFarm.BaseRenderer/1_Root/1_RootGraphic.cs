@@ -222,9 +222,7 @@ namespace LayoutFarm
 
 
                 if (fromElement.MayHasViewport && isBubbleUp)
-                {
-
-
+                {   
                     elementClientRect.Offset(globalX, globalY);
                     if (fromElement.HasDoubleScrollableSurface)
                     {
