@@ -41,7 +41,7 @@ namespace LayoutFarm.Text
             {
                 currentTextBox.SwapCaretState();
                 //force render ?
-                currentTextBox.InvalidateGraphic();
+                currentTextBox.InvalidateGraphics();
                 e.NeedUpdate = 1;
             }
             else

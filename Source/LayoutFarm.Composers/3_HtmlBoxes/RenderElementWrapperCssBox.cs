@@ -207,7 +207,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 if (parent != null)
                 {
-                    parent.InvalidateGraphic();
+                    parent.InvalidateGraphics();
                 }
                 return parent;
             }
@@ -251,7 +251,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 if (parent != null)
                 {
-                    parent.InvalidateGraphic();
+                    parent.InvalidateGraphics();
                 }
                 return parent;
             }

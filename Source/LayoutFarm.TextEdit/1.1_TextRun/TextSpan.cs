@@ -76,7 +76,7 @@ namespace LayoutFarm.Text
             //------------------------------------------
 
 
-            this.InvalidateGraphic();
+            this.InvalidateGraphics();
             this.spanStyle = spanStyle;
             if (spanStyle.positionWidth > -1)
             {
@@ -87,7 +87,7 @@ namespace LayoutFarm.Text
                 this.SetHeight(spanStyle.positionHeight);
             }
 
-            this.InvalidateGraphic();
+            this.InvalidateGraphics();
 
 
 

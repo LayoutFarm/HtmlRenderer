@@ -34,7 +34,7 @@ namespace LayoutFarm.UI
                 20,
                 (s, e) =>
                 {
-                    TopWindowRenderBox.CurrentTopWindowRenderBox.InvalidateGraphic();
+                    TopWindowRenderBox.CurrentTopWindowRenderBox.InvalidateGraphics();
                 });
         }
         public TopWindowRenderBox CreateTopWindowRenderBox(int w, int h)

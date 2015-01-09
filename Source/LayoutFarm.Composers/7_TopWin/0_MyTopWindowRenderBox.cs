@@ -190,7 +190,7 @@ namespace LayoutFarm.UI
             else
             {
 
-                RenderElement ownerContainer = veContainerBase.GetOwnerRenderElement();
+                RenderBoxBase ownerContainer = veContainerBase.GetOwnerRenderElement() as RenderBoxBase;
 
                 if (ownerContainer != null && !ownerContainer.IsLayoutSuspending)
                 {

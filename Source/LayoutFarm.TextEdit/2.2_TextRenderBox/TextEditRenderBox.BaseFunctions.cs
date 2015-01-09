@@ -215,7 +215,7 @@ namespace LayoutFarm.Text
 
                 internalTextLayerController.SetCaretPos(e.X, e.Y);
                 internalTextLayerController.EndSelect();
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
 
             }
         }
@@ -226,7 +226,7 @@ namespace LayoutFarm.Text
                 internalTextLayerController.SetCaretPos(e.X, e.Y);
                 internalTextLayerController.StartSelect();
                 internalTextLayerController.EndSelect();
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
             }
         }
         public void OnDragEnd(UIMouseEventArgs e)
@@ -236,7 +236,7 @@ namespace LayoutFarm.Text
 
                 internalTextLayerController.SetCaretPos(e.X, e.Y);
                 internalTextLayerController.EndSelect();
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
             }
         }
 
@@ -515,7 +515,7 @@ namespace LayoutFarm.Text
                             }
                             else
                             {
-                                InvalidateGraphic();
+                                InvalidateGraphics();
 
                             }
 
@@ -879,7 +879,7 @@ namespace LayoutFarm.Text
             }
             else
             {
-                InvalidateGraphic();
+                InvalidateGraphics();
             }
         }
         void RefreshSnapshotCanvas()

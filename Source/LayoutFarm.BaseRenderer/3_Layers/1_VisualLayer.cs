@@ -60,7 +60,7 @@ namespace LayoutFarm.RenderBoxes
         {
             if (this.owner != null)
             {
-                this.owner.InvalidateGraphic();
+                this.owner.InvalidateGraphics();
             }
         }
 

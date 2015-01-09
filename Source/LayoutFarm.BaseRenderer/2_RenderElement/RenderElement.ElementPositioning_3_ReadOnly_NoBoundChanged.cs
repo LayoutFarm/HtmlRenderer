@@ -72,6 +72,37 @@ namespace LayoutFarm
                 return b_left;
             }
         }
+
+        public int ViewportBottom
+        {
+            get
+            {
+                return this.Bottom + this.ViewportY;
+            }
+        }
+        public int ViewportRight
+        {
+            get
+            {
+                return this.Right + this.ViewportX;
+            }
+        }
+        public virtual int ViewportY
+        {
+            get
+            {
+                return 0;
+            }
+
+        }
+        public virtual int ViewportX
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
         public virtual int BubbleUpX
         {
             get { return this.X; }

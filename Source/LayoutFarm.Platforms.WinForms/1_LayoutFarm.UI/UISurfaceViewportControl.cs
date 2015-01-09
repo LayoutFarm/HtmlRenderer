@@ -103,7 +103,7 @@ namespace LayoutFarm.UI
             if (layer0 != null)
             {
                 layer0.AddChild(vi);
-                vi.InvalidateGraphic();
+                vi.InvalidateGraphics();
             }
         }
 

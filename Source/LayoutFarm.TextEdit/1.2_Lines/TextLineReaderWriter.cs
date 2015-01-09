@@ -46,7 +46,7 @@ namespace LayoutFarm.Text
         public void EnsureCurrentTextRun(int index)
         {
             var run = CurrentTextRun;
-            if (run == null || run.IsFreeElement)
+            if (run == null || !run.HasOwner)
             {
                 CharIndex = -1;
                 if (index != -1)
@@ -489,7 +489,7 @@ namespace LayoutFarm.Text
         public EditableVisualPointInfo GetCurrentPointInfo()
         {
 #if DEBUG
-            if (currentTextRun != null && currentTextRun.IsFreeElement)
+            if (currentTextRun != null && !currentTextRun.HasOwner)
             {
                 throw new NotSupportedException();
             }

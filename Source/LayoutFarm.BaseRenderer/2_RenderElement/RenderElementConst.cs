@@ -13,7 +13,7 @@ namespace LayoutFarm
         public const int TRANSPARENT_FOR_ALL_EVENTS = 1 << (3 - 1);
         public const int HIDDEN = 1 << (4 - 1);
         public const int IS_GRAPHIC_VALID = 1 << (5 - 1);
-        public const int IS_DRAG_OVERRED = 1 << (6 - 1);
+       
         public const int IS_IN_ANIMATION_MODE = 1 << (7 - 1);
         public const int IS_TOP_RENDERBOX = 1 << (8 - 1);
 

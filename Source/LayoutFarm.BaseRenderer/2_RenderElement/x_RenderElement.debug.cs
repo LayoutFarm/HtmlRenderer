@@ -121,7 +121,14 @@ namespace LayoutFarm
                 }
             }
         }
-
+        public RenderElement dbugParentVisualElement
+        {
+            get { return this.ParentVisualElement; }
+        }
+        public override string ToString()
+        {
+            return string.Empty;
+        }
         protected string dbug_GetBoundInfo()
         {
             Rectangle r = this.RectBounds;

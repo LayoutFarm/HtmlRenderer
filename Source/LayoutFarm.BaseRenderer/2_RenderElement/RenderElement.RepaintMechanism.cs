@@ -57,7 +57,7 @@ namespace LayoutFarm
 #endif
             }
         }
-        public void InvalidateGraphic()
+        public void InvalidateGraphics()
         {
             TopWindowRenderBox wintop;
             InvalidateGraphic(out wintop);
@@ -81,7 +81,7 @@ namespace LayoutFarm
         }
         internal void BeginGraphicUpdate()
         {   
-            InvalidateGraphic();
+            InvalidateGraphics();
             this.rootGfx.BeginGraphicUpdate();
             this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;
         }
@@ -96,7 +96,7 @@ namespace LayoutFarm
         } 
         void BeforeBoundChangedInvalidateGraphics()
         { 
-            InvalidateGraphic();
+            InvalidateGraphics();
             this.rootGfx.BeginGraphicUpdate();
             this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;
         }

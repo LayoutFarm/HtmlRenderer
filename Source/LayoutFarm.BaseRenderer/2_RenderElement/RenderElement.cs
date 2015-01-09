@@ -43,14 +43,14 @@ namespace LayoutFarm
         {
             this.controller = controller;
         }
-
-        public bool IsFreeElement
+        public bool HasOwner
         {
             get
             {
-                return parentLink == null;
+                return this.parentLink != null;
             }
         }
+     
         public virtual void ClearAllChildren()
         {
 
@@ -62,12 +62,6 @@ namespace LayoutFarm
                 return parentLink;
             }
         }
-#if DEBUG
-        public RenderElement dbugParentVisualElement
-        {
-            get { return this.ParentVisualElement; }
-        }
-#endif
 
         public virtual RenderElement ParentVisualElement
         {
@@ -92,48 +86,17 @@ namespace LayoutFarm
         public void SetVisible(bool value)
         {
 
-            if (parentLink == null)
+            propFlags = (value) ?
+                propFlags & ~RenderElementConst.HIDDEN :
+                propFlags | RenderElementConst.HIDDEN;
+
+            if (parentLink != null)
             {
-
-
-                if (value)
-                {
-                    propFlags &= ~RenderElementConst.HIDDEN;
-                }
-                else
-                {
-                    propFlags |= RenderElementConst.HIDDEN;
-                }
+                this.InvalidateGraphics();
             }
-            else
-            {
-
-                InvalidateGraphic();
-                if (value)
-                {
-                    propFlags &= ~RenderElementConst.HIDDEN;
-                }
-                else
-                {
-                    propFlags |= RenderElementConst.HIDDEN;
-                }
-                InvalidateGraphic();
-            }
-
         }
 
-
-       
-
-#if DEBUG
-        public override string ToString()
-        {
-
-            return string.Empty;
-        }
-#endif
-
-        public bool IsInRenderChain
+        internal bool IsInRenderChain
         {
             get
             {
@@ -148,7 +111,7 @@ namespace LayoutFarm
             }
         }
 
-        public bool FirstArrangementPass
+        internal bool FirstArrangementPass
         {
 
             get
@@ -176,19 +139,7 @@ namespace LayoutFarm
                      propFlags & ~RenderElementConst.IS_BLOCK_ELEMENT;
             }
         }
-        public bool IsDragedOver
-        {
-            get
-            {
-                return (propFlags & RenderElementConst.IS_DRAG_OVERRED) != 0;
-            }
-            set
-            {
-                propFlags = value ?
-                     propFlags | RenderElementConst.IS_DRAG_OVERRED :
-                     propFlags & ~RenderElementConst.IS_DRAG_OVERRED;
-            }
-        } 
+        
         public bool TransparentForAllEvents
         {
             get
@@ -206,7 +157,7 @@ namespace LayoutFarm
         public virtual void ChildrenHitTestCore(HitChain hitChain)
         {
         }
-        
+
         public bool MayHasChild
         {
             get { return this.mayHasChild; }
@@ -219,39 +170,12 @@ namespace LayoutFarm
             protected set { this.mayHasViewport = value; }
         }
 
-        public int ViewportBottom
-        {
-            get
-            {
-                return this.Bottom + this.ViewportY;
-            }
-        }
-        public int ViewportRight
-        {
-            get
-            {
-                return this.Right + this.ViewportX;
-            }
-        }
-        public virtual int ViewportY
-        {
-            get
-            {
-                return 0;
-            }
 
-        }
-        public virtual int ViewportX
-        {
-            get
-            {
-                return 0;
-            }
-        }
         public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
             return null;
         }
+
         public static void RemoveParentLink(RenderElement childElement)
         {
             childElement.parentLink = null;
@@ -260,18 +184,13 @@ namespace LayoutFarm
         {
             childElement.parentLink = lineLinkedNode;
         }
-        public bool HasOwner
-        {
-            get
-            {
-                return this.parentLink != null;
-            }
-        }
+
+        
         public RenderElement GetOwnerRenderElement()
         {
             if (this.parentLink != null)
             {
-                return parentLink.ParentVisualElement as RenderBoxes.RenderBoxBase;
+                return parentLink.ParentVisualElement;
             }
             return null;
         }

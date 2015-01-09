@@ -105,8 +105,8 @@ namespace LayoutFarm.Text
             {
                 if (startPoint != null && endPoint != null)
                 {
-                    if ((startPoint.TextRun != null && startPoint.TextRun.IsFreeElement) ||
-                        (endPoint.TextRun != null && endPoint.TextRun.IsFreeElement))
+                    if ((startPoint.TextRun != null && !startPoint.TextRun.HasOwner) ||
+                        (endPoint.TextRun != null && !endPoint.TextRun.HasOwner))
                     {
                         throw new NotSupportedException("text range err");
                     }
@@ -218,12 +218,12 @@ namespace LayoutFarm.Text
         }
         public void UpdateSelectionRange()
         {
-            if (startPoint.TextRun != null && startPoint.TextRun.IsFreeElement)
+            if (startPoint.TextRun != null && !startPoint.TextRun.HasOwner)
             {
                 EditableVisualElementLine startLine = startPoint.EditableLine;
                 startPoint = startLine.GetTextPointInfoFromCharIndex(startPoint.LineCharIndex);
             }
-            if (endPoint.TextRun != null && endPoint.TextRun.IsFreeElement)
+            if (endPoint.TextRun != null && !endPoint.TextRun.HasOwner)
             {
                 EditableVisualElementLine stopLine = endPoint.EditableLine;
                 endPoint = stopLine.GetTextPointInfoFromCharIndex(endPoint.LineCharIndex);
