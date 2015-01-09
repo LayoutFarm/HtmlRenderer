@@ -211,16 +211,14 @@ namespace LayoutFarm
             {
                 body.AddChild("div", div =>
                 {
+                    MenuBox menuBox = new MenuBox(200, 100);
                     div.AddChild("span", span =>
                     {
-                        //test menubox
-                        MenuBox menuBox = new MenuBox(200, 100);
-
+                        //test menubox 
                         span.AddTextContent("ABCD");
                         //3. attach event to specific span
                         span.AttachMouseDownEvent(e =>
                         {
-
 #if DEBUG
                             // System.Diagnostics.Debugger.Break();                           
                             //test change span property 
@@ -231,6 +229,7 @@ namespace LayoutFarm
 
                             menuBox.SetLocation(50, 50);
                             menuBox.ShowMenu();
+                            
                             e.StopPropagation();
 
                         });
@@ -243,6 +242,10 @@ namespace LayoutFarm
                         {
                             span.ClearAllElements();
                             span.AddTextContent("LMNOP0003");
+
+                            //test hide menu                             
+                            menuBox.HideMenu();
+
                         });
                     });
                     //----------------------

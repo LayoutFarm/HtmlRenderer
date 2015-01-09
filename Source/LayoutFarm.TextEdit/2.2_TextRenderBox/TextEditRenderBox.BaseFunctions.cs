@@ -41,7 +41,9 @@ namespace LayoutFarm.Text
             //    | (1 << UIEventIdentifier.NE_DBLCLICK)
             //    | (1 << UIEventIdentifier.NE_KEY_DOWN)
             //    | (1 << UIEventIdentifier.NE_KEY_PRESS)); 
+
             textLayer = new EditableTextFlowLayer(this);
+
             this.Layers = new VisualLayerCollection();
 
             this.Layers.AddLayer(textLayer);

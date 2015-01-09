@@ -33,16 +33,17 @@ namespace LayoutFarm
             get;
             set;
         }
-        public int Width
+        internal int Width
         {
             get;
             set;
         }
-        public int Height
+        internal int Height
         {
             get;
             set;
         }
+        
         public bool DisableGraphicOutputFlush
         {
             get;
@@ -53,6 +54,7 @@ namespace LayoutFarm
             get;
             set;
         }
+        
         public bool IsInRenderPhase
         {
             get;
@@ -99,20 +101,6 @@ namespace LayoutFarm
             set;
         }
 #endif
-        public void InvalidateGraphicArea(RenderElement fromElement,
-            ref Rectangle elementClientRect,
-            out TopWindowRenderBox wintop)
-        {
-
-            if (IsInRenderPhase)
-            {
-                wintop = null;
-                return;
-            }
-
-
-            InvalidateGraphicArea(fromElement, elementClientRect, out wintop);
-        }
         public void FlushAccumGraphicUpdate(TopWindowRenderBox topbox)
         {
             if (hasAccumRect)
@@ -122,6 +110,19 @@ namespace LayoutFarm
             }
             this.GraphicUpdateBlockCount = 0;
         }
+        public void InvalidateGraphicArea(RenderElement fromElement,
+            ref Rectangle elementClientRect,
+            out TopWindowRenderBox wintop)
+        {
+
+            if (IsInRenderPhase)
+            {
+                wintop = null;
+                return;
+            } 
+            InvalidateGraphicArea(fromElement, elementClientRect, out wintop);
+        }
+
         void InvalidateGraphicArea(RenderElement fromElement,
             Rectangle elementClientRect,
             out TopWindowRenderBox wintop)
@@ -222,7 +223,7 @@ namespace LayoutFarm
 
 
                 if (fromElement.MayHasViewport && isBubbleUp)
-                {   
+                {
                     elementClientRect.Offset(globalX, globalY);
                     if (fromElement.HasDoubleScrollableSurface)
                     {
@@ -313,7 +314,7 @@ namespace LayoutFarm
             {
                 if (hasAccumRect)
                 {
-                                         
+
                     accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, rootGlobalArea);
 #if DEBUG
                     if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
@@ -387,6 +388,8 @@ namespace LayoutFarm
 #endif
             }
         }
+
+
 
     }
 }

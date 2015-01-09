@@ -10,11 +10,10 @@ namespace LayoutFarm.RenderBoxes
     public class VisualPlainLayer : VisualLayer
     {
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
-        //public event EventHandler CustomRearrangeContent;
-
         public VisualPlainLayer(RenderElement owner)
+            : base(owner)
         {
-            this.OwnerRenderElement = owner;
+             
         }
 
 
@@ -37,7 +36,7 @@ namespace LayoutFarm.RenderBoxes
             }
         }
 
-        
+
         public void AddChild(RenderElement visualElement)
         {
 
@@ -59,19 +58,19 @@ namespace LayoutFarm.RenderBoxes
 
         }
         public override void Clear()
-        {   
+        {
             //todo: clear all parent link 
             this.myElements.Clear();
 
-        } 
+        }
         IEnumerable<RenderElement> GetDrawingIter()
-        { 
+        {
             LinkedListNode<RenderElement> curNode = this.myElements.First;
             while (curNode != null)
             {
                 yield return curNode.Value;
                 curNode = curNode.Next;
-            } 
+            }
         }
         IEnumerable<RenderElement> GetHitTestIter()
         {

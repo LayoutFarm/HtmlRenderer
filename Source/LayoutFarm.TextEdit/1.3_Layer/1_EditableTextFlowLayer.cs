@@ -12,23 +12,16 @@ namespace LayoutFarm.Text
 {
 
 
-    public partial class EditableTextFlowLayer : VisualLayer
+    partial class EditableTextFlowLayer : VisualLayer
     {
 
         object lineCollection;
 
         public event EventHandler Reflow;
 
-        public static FontInfo DefaultFontInfo
-        {
-            get;
-            set;
-        }
-
         public EditableTextFlowLayer(RenderBoxBase owner)
-        {
-
-            this.OwnerRenderElement = owner;
+            : base(owner)
+        {             
             lineCollection = new EditableTextLine(this);
         }
 

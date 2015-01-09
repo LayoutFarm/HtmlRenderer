@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
+
 namespace LayoutFarm.UI
 {
 
@@ -15,13 +16,11 @@ namespace LayoutFarm.UI
         GraphicsPlatform graphicsPlatform;
 
         static object normalUpdateTask = new object();
-        UIPlatform uiPlatform;
+        
 
         public MyRootGraphic(UIPlatform uiPlatform, GraphicsPlatform gfxPlatform, int width, int height)
             : base(width, height)
-        {
-
-            this.uiPlatform = uiPlatform;
+        {   
             this.graphicsPlatform = gfxPlatform;
             this.graphicTimerTaskMan = new GraphicsTimerTaskManager(this, uiPlatform);
 #if DEBUG
@@ -34,7 +33,7 @@ namespace LayoutFarm.UI
                 20,
                 (s, e) =>
                 {
-                    TopWindowRenderBox.CurrentTopWindowRenderBox.InvalidateGraphics();
+                    TopWindowRenderBox.CurrentActiveTopWindow.InvalidateGraphics();                                                   
                 });
         }
         public TopWindowRenderBox CreateTopWindowRenderBox(int w, int h)

@@ -276,8 +276,8 @@ namespace LayoutFarm.Text
 
             if (!HasStyle)
             {
-                return LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo;
-            }
+                return LayoutFarm.Text.TextEditRenderBox.DefaultFontInfo;
+            }   
             else
             {
                 TextSpanSytle spanStyle = this.SpanStyle;
@@ -287,7 +287,7 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-                    return LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo;
+                    return LayoutFarm.Text.TextEditRenderBox.DefaultFontInfo;
                 }
             }
         }

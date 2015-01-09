@@ -30,11 +30,11 @@ namespace LayoutFarm.UI
         bool isClosed;//is this viewport closed
 
 
-        public CanvasViewport(TopWindowRenderBox wintop,
+        public CanvasViewport(TopWindowRenderBox topWindowBox,
             Size viewportSize, int cachedPageNum)
         {
-            this.rootGraphics = wintop.Root;
-            this.topWindowBox = wintop;
+            this.rootGraphics = topWindowBox.Root;
+            this.topWindowBox = topWindowBox;
 
 
             this.viewportWidth = viewportSize.Width;
@@ -43,7 +43,7 @@ namespace LayoutFarm.UI
             canvasInvalidateHandler = Canvas_Invalidate;
             canvasSizeChangedHandler = Canvas_SizeChanged;
 
-            wintop.SetCanvasInvalidateRequest(canvasInvalidateHandler);
+            topWindowBox.SetCanvasInvalidateRequest(canvasInvalidateHandler);
             viewportX = 0;
             viewportY = 0;
 

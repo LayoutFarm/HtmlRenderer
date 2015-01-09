@@ -296,25 +296,39 @@ namespace LayoutFarm.CustomWidgets
 
     public class MenuBox : Panel
     {
-
+        bool showing;
+        TopWindowRenderBox topWindow;
+        RenderElement myRenderE;
         public MenuBox(int w, int h)
             : base(w, h)
         {
         }
         public void ShowMenu()
         {
-            //add to topmost box
-            if (this.ParentUI == null)
+            //add to topmost box 
+            if (!showing)
             {
-                var topWindow = TopWindowRenderBox.CurrentTopWindowRenderBox;
-
-
+                this.topWindow = TopWindowRenderBox.CurrentActiveTopWindow;
                 if (topWindow != null)
                 {
-                    topWindow.AddChild(this.GetPrimaryRenderElement(topWindow.Root));
+                    topWindow.AddChild(this.myRenderE = this.GetPrimaryRenderElement(topWindow.Root));
+                }
+                showing = true;
+            }
+        }
+        public void HideMenu()
+        {
+            if (showing)
+            {
+                //remove from top 
+                showing = false;
+                if (this.topWindow != null && this.myRenderE != null)
+                {
+                    var plainLayer = topWindow.Layers.GetLayer(0) as VisualPlainLayer;
+                    plainLayer.RemoveChild(this.myRenderE);
                 }
             }
-
         }
+
     }
 }

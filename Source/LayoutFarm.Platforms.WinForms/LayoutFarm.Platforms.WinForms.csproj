@@ -70,10 +70,10 @@
       <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
     </Compile>
     <Compile Include="1_LayoutFarm.UI\CanvasViewport.cs" />
-    <Compile Include="1_LayoutFarm.UI\PlatformWindowBridge.cs" />
-    <Compile Include="1_LayoutFarm.UI\PlatformWindowBridge_dbug.cs" />
-    <Compile Include="2_GdiPlus\2_MyPlatformWindowBridge_GdiPlus.cs" />
-    <Compile Include="3_OpenGL\2_MyPlatformWindowBridge_OpenGL.cs" />
+    <Compile Include="1_LayoutFarm.UI\TopWindowBridge.cs" />
+    <Compile Include="1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
+    <Compile Include="2_GdiPlus\2_MyTopWindowBridgeGdiPlus.cs" />
+    <Compile Include="3_OpenGL\2_MyTopWindowBridgeOpenGL.cs" />
     <Compile Include="2_GdiPlus\Win32Utils.cs" />
     <Compile Include="3_OpenGL\1_OpenGLCanvasViewport.cs" />
     <Compile Include="3_OpenGL\MyOpenGLPortal.cs" />

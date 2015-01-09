@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
@@ -24,8 +24,8 @@ namespace LayoutFarm
             TopWindowRenderBox wintop;
             InvalidateGraphic(out wintop);
         }
-        
-        protected static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect, out TopWindowRenderBox wintop)
+
+        static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect, out TopWindowRenderBox wintop)
         {
             //1.
             elem.propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
@@ -33,7 +33,7 @@ namespace LayoutFarm
             elem.rootGfx.InvalidateGraphicArea(elem, ref rect, out wintop);
 
         }
-       
+
         protected bool vinv_ForceReArrange
         {
 
@@ -51,8 +51,8 @@ namespace LayoutFarm
 
             }
         }
-        
-        
+
+
         internal bool IsInvalidateGraphicBlocked
         {
 
@@ -81,8 +81,9 @@ namespace LayoutFarm
             RootInvalidateGraphicArea(this, ref rect, out wintop);
             return wintop != null;
         }
+
         internal void BeginGraphicUpdate()
-        {   
+        {
             InvalidateGraphics();
             this.rootGfx.BeginGraphicUpdate();
             this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;
@@ -95,9 +96,9 @@ namespace LayoutFarm
             {
                 this.rootGfx.EndGraphicUpdate(wintop);
             }
-        } 
+        }
         void BeforeBoundChangedInvalidateGraphics()
-        { 
+        {
             InvalidateGraphics();
             this.rootGfx.BeginGraphicUpdate();
             this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;

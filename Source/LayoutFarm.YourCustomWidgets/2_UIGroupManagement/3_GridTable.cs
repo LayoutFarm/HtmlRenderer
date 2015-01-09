@@ -14,7 +14,7 @@ namespace LayoutFarm.UI
         UniformCell
     }
 
-    public enum CellNeighbor
+    enum CellNeighbor
     {
         Left,
         Right,
@@ -22,7 +22,7 @@ namespace LayoutFarm.UI
         Down
     }
 
-    public class GridColumn
+    class GridColumn
     {
 
         GridTable.GridColumnCollection parentColumnCollection;
@@ -230,7 +230,7 @@ namespace LayoutFarm.UI
 #endif
     }
 
-    public class GridRow
+    class GridRow
     {
 
         GridTable.GridRowCollection parentRowCollection;
@@ -440,7 +440,7 @@ namespace LayoutFarm.UI
             //    oldrect.Height = height;
             //    cell.SetRectBound(oldrect);
             //}
-        } 
+        }
         public void CalculateRowHeight()
         {
 
@@ -469,7 +469,7 @@ namespace LayoutFarm.UI
 
     }
 
-    public class GridCell
+    class GridCell
     {
 
         internal GridRow row;
@@ -667,7 +667,7 @@ namespace LayoutFarm.UI
     }
 
 
-    public partial class GridTable
+    partial class GridTable
     {
         GridColumnCollection cols;
         GridRowCollection rows;
@@ -718,7 +718,7 @@ namespace LayoutFarm.UI
             get { return this.rows; }
         }
 
-        
+
     }
 
     partial class GridTable

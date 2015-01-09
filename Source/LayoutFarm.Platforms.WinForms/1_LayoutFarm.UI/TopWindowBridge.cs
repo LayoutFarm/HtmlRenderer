@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
-using PixelFarm.Drawing;
 
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
 
-    abstract partial class PlatformWindowBridge
+    abstract partial class TopWindowBridge
     {
         CanvasEventsStock eventStock = new CanvasEventsStock();
         IUserEventPortal userEventPortal;
@@ -29,12 +29,12 @@ namespace LayoutFarm.UI
 
         RootGraphic rootGraphic;
 
-        public PlatformWindowBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
+        public TopWindowBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
         {
             this.userEventPortal = winEventBridge;
             this.topwin = topwin;
             this.rootGraphic = topwin.Root;
-              
+
             topwin.SetPaintToOutputDelegate(this.PaintToOutputWindow);
         }
         protected void SetBaseCanvasViewport(CanvasViewport canvasViewport)

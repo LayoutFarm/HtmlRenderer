@@ -95,7 +95,7 @@ namespace LayoutFarm.UI
 
         void graphicTimer1_Tick(object sender, EventArgs e)
         {
-            if (TopWindowRenderBox.CurrentTopWindowRenderBox == null)
+            if (TopWindowRenderBox.CurrentActiveTopWindow == null)
             {
                 return;
             }
@@ -117,7 +117,7 @@ namespace LayoutFarm.UI
                 MyIntervalTaskEventArgs args = GetTaskEventArgs();
                 int j = this.fastIntervalTaskList.Count;
                 if (j > 0)
-                {                       
+                {
                     for (int i = 0; i < j; ++i)
                     {
                         fastIntervalTaskList[i].InvokeHandler(args);
@@ -147,11 +147,11 @@ namespace LayoutFarm.UI
                         needUpdate |= args.NeedUpdate;
                     }
                 }
-                FreeTaskEventArgs(args); 
-            } 
+                FreeTaskEventArgs(args);
+            }
             if (needUpdate > 0)
             {
-                TopWindowRenderBox.CurrentTopWindowRenderBox.ForcePaint();
+                TopWindowRenderBox.CurrentActiveTopWindow.ForcePaint();                 
             }
 
         }

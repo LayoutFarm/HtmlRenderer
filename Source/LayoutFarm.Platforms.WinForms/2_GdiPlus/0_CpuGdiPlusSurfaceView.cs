@@ -12,12 +12,12 @@ namespace LayoutFarm.UI.GdiPlus
     partial class CpuGdiPlusSurfaceView : UserControl
     {
          
-        MyPlatformWindowBridgeGdiPlus winBridge;
+        MyTopWindowBridgeGdiPlus winBridge;
         public CpuGdiPlusSurfaceView()
         {
             InitializeComponent();
         }
-        public void Bind(MyPlatformWindowBridgeGdiPlus winBridge)
+        public void Bind(MyTopWindowBridgeGdiPlus winBridge)
         {
             //1. 
             this.winBridge = winBridge;

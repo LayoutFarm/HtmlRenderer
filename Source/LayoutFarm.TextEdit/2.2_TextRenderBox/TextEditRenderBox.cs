@@ -12,7 +12,11 @@ namespace LayoutFarm.Text
 
     partial class TextEditRenderBox
     {
-
+        public static FontInfo DefaultFontInfo
+        {
+            get;
+            set;
+        }
 
         RenderSurfaceScrollRelation scrollRelation;
         CustomRenderSurface vscrollableSurface;//built in 

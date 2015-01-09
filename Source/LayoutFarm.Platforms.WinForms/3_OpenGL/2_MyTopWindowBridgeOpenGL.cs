@@ -1,5 +1,4 @@
-﻿
-// 2015,2014 ,Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,13 +10,13 @@ using OpenTK.Graphics;
 
 namespace LayoutFarm.UI.OpenGL
 {
-    class MyPlatformWindowBridgeOpenGL : PlatformWindowBridge
+    class MyTopWindowBridgeOpenGL : TopWindowBridge
     {
         bool isInitGLControl;
         GpuOpenGLSurfaceView windowControl;
         OpenGLCanvasViewport openGLViewport;
         //---------
-        public MyPlatformWindowBridgeOpenGL(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
+        public MyTopWindowBridgeOpenGL(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
             : base(topwin, winEventBridge)
         {
         }
@@ -29,6 +28,7 @@ namespace LayoutFarm.UI.OpenGL
         {
 
             this.topwin.MakeCurrentTopWindow();
+
             this.windowControl = myGLControl;
             SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(topwin, this.Size.ToSize(), 4));
             openGLViewport.NotifyWindowControlBinding();
@@ -65,7 +65,7 @@ namespace LayoutFarm.UI.OpenGL
             if (!isInitGLControl)
             {
                 return;
-            } 
+            }
             //var innumber = dbugCount;
             //dbugCount++;
             //Console.WriteLine(">" + innumber);
@@ -86,7 +86,7 @@ namespace LayoutFarm.UI.OpenGL
             //var innumber = dbugCount;
             //dbugCount++;
             //Console.WriteLine(">" + innumber);
-            
+
             windowControl.MakeCurrent();
             this.openGLViewport.PaintMe();
             windowControl.SwapBuffers();
@@ -95,7 +95,7 @@ namespace LayoutFarm.UI.OpenGL
         }
         protected override void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
         {
-            
+
         }
         System.Drawing.Size Size
         {

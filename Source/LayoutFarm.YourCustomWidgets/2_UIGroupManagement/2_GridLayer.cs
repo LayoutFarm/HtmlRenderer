@@ -9,7 +9,7 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
 
-    public sealed class GridLayer : VisualLayer
+    sealed class GridLayer : VisualLayer
     {
         GridTable.GridRowCollection gridRows;
         GridTable.GridColumnCollection gridCols;
@@ -19,8 +19,9 @@ namespace LayoutFarm.UI
         GridTable gridTable;
 
         public GridLayer(RenderElement owner, int nColumns, int nRows, CellSizeStyle cellSizeStyle)
+            : base(owner)
         {
-            this.OwnerRenderElement = owner;
+             
             this.cellSizeStyle = cellSizeStyle;
             this.gridTable = new GridTable();
 

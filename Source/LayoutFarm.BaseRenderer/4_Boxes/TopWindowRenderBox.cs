@@ -4,12 +4,10 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
-
- 
 namespace LayoutFarm
 {
 
-    
+
     public abstract class TopWindowRenderBox : RenderBoxBase, ITopWindowRenderBox
     {
 
@@ -31,7 +29,10 @@ namespace LayoutFarm
         {
             this.paintToOutputHandler = paintToOutputHandler;
         }
-
+        public void ForcePaint()
+        {
+            paintToOutputHandler();
+        }
         public abstract void SetCanvasInvalidateRequest(CanvasInvalidateRequestDelegate canvasInvaliddateReqDel);
         public abstract void ChangeRootGraphicSize(int width, int height);
 
@@ -39,10 +40,7 @@ namespace LayoutFarm
         {
             groundLayer.AddChild(renderE);
         }
-        public void ForcePaint()
-        {
-            paintToOutputHandler();
-        }
+       
 
 
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
@@ -65,13 +63,8 @@ namespace LayoutFarm
         }
         public void MakeCurrentTopWindow()
         {
-            CurrentTopWindowRenderBox = this;
-        }
 
-        public static TopWindowRenderBox CurrentTopWindowRenderBox
-        {
-            get;
-            set;
+            CurrentActiveTopWindow = this;
         }
 
 #if DEBUG
@@ -84,5 +77,8 @@ namespace LayoutFarm
             }
         }
 #endif
+
+
+        public static TopWindowRenderBox CurrentActiveTopWindow { get; private set; }
     }
 }
