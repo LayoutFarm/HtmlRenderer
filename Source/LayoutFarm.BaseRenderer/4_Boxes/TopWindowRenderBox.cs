@@ -10,10 +10,10 @@ namespace LayoutFarm
 
     public abstract class TopWindowRenderBox : RenderBoxBase, ITopWindowRenderBox
     {
-        public delegate void PaintToOutputDelegate();
+       
 
         VisualPlainLayer groundLayer;
-        PaintToOutputDelegate paintToOutputHandler;
+        //PaintToOutputDelegate paintToOutputHandler;
         public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
@@ -26,15 +26,15 @@ namespace LayoutFarm
             this.HasSpecificSize = true;
         }
 
-        public void SetPaintToOutputDelegate(PaintToOutputDelegate paintToOutputHandler)
-        {
-            this.paintToOutputHandler = paintToOutputHandler;
-        }
-        public void ForcePaint()
-        {
-            //raise paint event
-            paintToOutputHandler();
-        }
+        //public void SetPaintToOutputDelegate(PaintToOutputDelegate paintToOutputHandler)
+        //{
+        //    this.paintToOutputHandler = paintToOutputHandler;
+        //}
+        //public void ForcePaint()
+        //{
+        //    //raise paint event
+        //    paintToOutputHandler();
+        //}
 
         public abstract void SetCanvasInvalidateRequest(CanvasInvalidateRequestDelegate canvasInvaliddateReqDel);
         public abstract void ChangeRootGraphicSize(int width, int height);

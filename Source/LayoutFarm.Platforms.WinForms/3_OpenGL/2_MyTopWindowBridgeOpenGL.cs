@@ -16,8 +16,8 @@ namespace LayoutFarm.UI.OpenGL
         GpuOpenGLSurfaceView windowControl;
         OpenGLCanvasViewport openGLViewport;
         //---------
-        public MyTopWindowBridgeOpenGL(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
-            : base(topwin, winEventBridge)
+        public MyTopWindowBridgeOpenGL(RootGraphic root, IUserEventPortal winEventBridge)
+            : base(root, winEventBridge)
         {
         }
         /// <summary>

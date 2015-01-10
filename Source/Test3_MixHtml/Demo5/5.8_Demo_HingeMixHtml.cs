@@ -228,6 +228,7 @@ namespace LayoutFarm
 #endif
 
                             menuBox.SetLocation(50, 50);
+                            //add to top window
                             menuBox.ShowMenu(lightBoxHost.RootGfx);
                             
                             e.StopPropagation();

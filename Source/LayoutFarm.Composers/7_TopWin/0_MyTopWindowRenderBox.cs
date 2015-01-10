@@ -11,7 +11,7 @@ namespace LayoutFarm.UI
 
     partial class MyTopWindowRenderBox : TopWindowRenderBox
     {
-
+      
         List<RenderElement> layoutQueue = new List<RenderElement>();
         List<RenderElement> layoutQueue2 = new List<RenderElement>();
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();

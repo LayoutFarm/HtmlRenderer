@@ -97,8 +97,7 @@ namespace LayoutFarm.Dev
 
             TopWindowRenderBox topRenderBox = rootgfx.TopWindowRenderBox;
 
-            formCanvas = FormCanvasHelper.CreateNewFormCanvas(topRenderBox,
-                rootgfx.CreateUserEventPortal(topRenderBox),
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
                 this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
                 out viewport);
 

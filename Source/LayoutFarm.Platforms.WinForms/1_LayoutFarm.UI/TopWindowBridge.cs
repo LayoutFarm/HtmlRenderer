@@ -29,13 +29,13 @@ namespace LayoutFarm.UI
 
         RootGraphic rootGraphic;
 
-        public TopWindowBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
+        public TopWindowBridge(RootGraphic rootGraphic, IUserEventPortal winEventBridge)
         {
             this.userEventPortal = winEventBridge;
-            this.topwin = topwin;
-            this.rootGraphic = topwin.Root;
-
-            topwin.SetPaintToOutputDelegate(this.PaintToOutputWindow);
+            this.rootGraphic = rootGraphic;
+            this.topwin = rootGraphic.TopWindowRenderBox;
+            rootGraphic.SetPaintToOutputHandler(this.PaintToOutputWindow);
+            
         }
         protected void SetBaseCanvasViewport(CanvasViewport canvasViewport)
         {
@@ -234,7 +234,7 @@ namespace LayoutFarm.UI
             this.isMouseDown = true;
             this.isDragging = false;
 
-           
+
             canvasViewport.FullMode = false;
 
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
@@ -332,7 +332,7 @@ namespace LayoutFarm.UI
         {
 
 
-          
+
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
 
             SetKeyData(keyEventArgs, e);
@@ -367,7 +367,7 @@ namespace LayoutFarm.UI
         public void HandleKeyUp(KeyEventArgs e)
         {
 
-           
+
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
             SetKeyData(keyEventArgs, e);
 

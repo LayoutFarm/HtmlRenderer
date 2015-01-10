@@ -148,7 +148,7 @@ namespace LayoutFarm.UI
             }
             if (needUpdate > 0)
             {
-                this.rootgfx.TopWindowRenderBox.ForcePaint();                 
+                this.rootgfx.ForcePaint();                 
             }
 
         }

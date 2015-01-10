@@ -11,9 +11,13 @@ namespace LayoutFarm.UI
 
     public class MyRootGraphic : RootGraphic
     {
+       
+       
+
         List<RenderElementRequest> renderRequestList = new List<RenderElementRequest>();
         GraphicsTimerTaskManager graphicTimerTaskMan;
         GraphicsPlatform graphicsPlatform;
+        
 
         static object normalUpdateTask = new object();
 
@@ -53,7 +57,11 @@ namespace LayoutFarm.UI
                 this.topWindowRenderBox = value;
             }
         }
-
+        
+        public override void ForcePaint()
+        {
+            this.paintToOutputHandler();
+        }
         TopWindowRenderBox CreateTopWindowRenderBox(int w, int h)
         {
             return new MyTopWindowRenderBox(this, w, h);

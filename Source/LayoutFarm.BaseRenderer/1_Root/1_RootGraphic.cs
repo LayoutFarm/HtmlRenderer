@@ -9,6 +9,9 @@ namespace LayoutFarm
 {
     public abstract partial class RootGraphic
     {
+        public delegate void PaintToOutputDelegate();
+
+
         Rectangle flushRect;
         Rectangle accumulateInvalidRect;
         bool hasAccumRect;
@@ -25,8 +28,9 @@ namespace LayoutFarm
 
         public abstract void CaretStartBlink();
         public abstract void CaretStopBlink();
-
         public abstract void ClearRenderRequests(TopWindowRenderBox topwin);
+
+       
 
         public int GraphicUpdateBlockCount
         {
@@ -43,7 +47,7 @@ namespace LayoutFarm
             get;
             set;
         }
-        
+
         public bool DisableGraphicOutputFlush
         {
             get;
@@ -54,7 +58,7 @@ namespace LayoutFarm
             get;
             set;
         }
-        
+
         public bool IsInRenderPhase
         {
             get;
@@ -77,6 +81,13 @@ namespace LayoutFarm
             }
         }
 
+        public abstract void ForcePaint();
+        protected PaintToOutputDelegate paintToOutputHandler;
+        public void SetPaintToOutputHandler(PaintToOutputDelegate paintToOutputHandler)
+        {
+            this.paintToOutputHandler = paintToOutputHandler;
+        }
+
         public abstract GraphicsTimerTask RequestGraphicsIntervalTask(
             object uniqueName,
             TaskIntervalPlan planName,
@@ -85,6 +96,7 @@ namespace LayoutFarm
 
         public abstract void RemoveIntervalTask(object uniqueName);
 
+        
 #if DEBUG
         RootGraphic dbugVRoot
         {
@@ -119,7 +131,7 @@ namespace LayoutFarm
             {
                 wintop = null;
                 return;
-            } 
+            }
             InvalidateGraphicArea(fromElement, elementClientRect, out wintop);
         }
 
