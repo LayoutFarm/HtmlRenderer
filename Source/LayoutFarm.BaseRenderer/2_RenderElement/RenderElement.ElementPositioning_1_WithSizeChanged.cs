@@ -63,6 +63,8 @@ namespace LayoutFarm
             }
         }
 
+
+
         public void ResumeLayout()
         {
             uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND;
@@ -99,6 +101,7 @@ namespace LayoutFarm
         {
             if (parentLink == null)
             {
+                //direct set size
                 this.b_width = width;
                 this.b_height = height;
             }
@@ -108,8 +111,11 @@ namespace LayoutFarm
                 int dbug_prevWidth = this.b_width;
                 int dbug_prevHeight = this.b_height;
 #endif
+
                 this.BeforeBoundChangedInvalidateGraphics();
+               
                 PrivateSetSize(width, height);
+                
                 this.AfterBoundChangedInvalidateGraphics();
             }
         }

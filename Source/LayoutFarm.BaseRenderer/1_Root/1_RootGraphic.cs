@@ -145,7 +145,6 @@ namespace LayoutFarm
             int globalX = 0;
             int globalY = 0;
             bool isBubbleUp = false;
-
             RenderElement startVisualElement = fromElement;
 #if DEBUG
 
@@ -163,8 +162,8 @@ namespace LayoutFarm
 
             do
             {
-#if DEBUG
 
+#if DEBUG
                 if (!fromElement.Visible)
                 {
 

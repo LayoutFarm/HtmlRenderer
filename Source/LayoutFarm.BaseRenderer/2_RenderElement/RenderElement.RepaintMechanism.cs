@@ -25,7 +25,6 @@ namespace LayoutFarm
             }
 
             Rectangle rect = new Rectangle(0, 0, b_width, b_height);
-
             RootInvalidateGraphicArea(this, ref rect);
             return true;//TODO: review this 
         }
@@ -111,7 +110,20 @@ namespace LayoutFarm
                 this.rootGfx.EndGraphicUpdate();
             }
         }
+        internal bool IsInRenderChain
+        {
+            get
+            {
+                return (propFlags & RenderElementConst.IS_IN_RENDER_CHAIN) != 0;
+            }
+            set
+            {
+                propFlags = value ?
+                   propFlags | RenderElementConst.IS_IN_RENDER_CHAIN :
+                   propFlags & ~RenderElementConst.FIRST_ARR_PASS;
 
+            }
+        }
     }
 
 }

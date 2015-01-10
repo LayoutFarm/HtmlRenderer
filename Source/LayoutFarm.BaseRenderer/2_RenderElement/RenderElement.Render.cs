@@ -10,7 +10,6 @@ namespace LayoutFarm
     partial class RenderElement
     {
         public abstract void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea);
-
         public bool PrepareDrawingChain(RenderBoxes.VisualDrawingChain drawingChain)
         {
             if ((propFlags & RenderElementConst.HIDDEN) == RenderElementConst.HIDDEN)
@@ -70,51 +69,8 @@ namespace LayoutFarm
 #if DEBUG
             dbugVRoot.dbug_drawLevel--;
 #endif
-        }
-
-
-        public bool IsTopWindow
-        {
-            get
-            {
-                return (this.propFlags & RenderElementConst.IS_TOP_RENDERBOX) != 0;
-            }
-            set
-            {
-                propFlags = value ?
-                      propFlags | RenderElementConst.IS_TOP_RENDERBOX :
-                      propFlags & ~RenderElementConst.IS_TOP_RENDERBOX;
-            }
-
-        }
-
-        public bool HasDoubleScrollableSurface
-        {
-            get
-            {
-                return (this.propFlags & RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE) != 0;
-            }
-            protected set
-            {
-                propFlags = value ?
-                      propFlags | RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE :
-                      propFlags & ~RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE;
-            }
-        }
-
-        internal bool HasSolidBackground
-        {
-            get
-            {
-                return (propFlags & RenderElementConst.HAS_TRANSPARENT_BG) != 0;
-            }
-            set
-            {
-                propFlags = value ?
-                       propFlags | RenderElementConst.HAS_TRANSPARENT_BG :
-                       propFlags & ~RenderElementConst.HAS_TRANSPARENT_BG;
-            }
-        }
+        } 
+      
 
     }
 }

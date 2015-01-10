@@ -38,8 +38,10 @@ namespace LayoutFarm
         internal const int LY_REACH_MAX_WIDTH = 1 << (4 - 1);
         internal const int LY_REACH_MIN_HEIGHT = 1 << (5 - 1);
         internal const int LY_REACH_MAX_HEIGHT = 1 << (6 - 1);
+
         internal const int LY_HAS_ARRANGED_CONTENT = 1 << (7 - 1);
         internal const int LAY_HAS_CALCULATED_SIZE = 1 << (8 - 1);
+         
         internal const int LY_SUSPEND = 1 << (9 - 1);
 
         internal const int LY_SUSPEND_GRAPHIC = 1 << (12 - 1);

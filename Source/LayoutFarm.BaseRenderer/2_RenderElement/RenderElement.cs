@@ -126,8 +126,8 @@ namespace LayoutFarm
         }
         public virtual void ChildrenHitTestCore(HitChain hitChain)
         {
-        }
 
+        }
         //==============================================================
         public bool Visible
         {
@@ -163,42 +163,136 @@ namespace LayoutFarm
             }
         }
 
+        public bool IsTopWindow
+        {
+            get
+            {
+                return (this.propFlags & RenderElementConst.IS_TOP_RENDERBOX) != 0;
+            }
+            set
+            {
+                propFlags = value ?
+                      propFlags | RenderElementConst.IS_TOP_RENDERBOX :
+                      propFlags & ~RenderElementConst.IS_TOP_RENDERBOX;
+            }
+
+        }
+
+        internal bool HasDoubleScrollableSurface
+        {
+            get
+            {
+                return (this.propFlags & RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE) != 0;
+            }
+            set
+            {
+                propFlags = value ?
+                      propFlags | RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE :
+                      propFlags & ~RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE;
+            }
+        }
+
+        internal bool HasSolidBackground
+        {
+            get
+            {
+                return (propFlags & RenderElementConst.HAS_TRANSPARENT_BG) != 0;
+            }
+            set
+            {
+                propFlags = value ?
+                       propFlags | RenderElementConst.HAS_TRANSPARENT_BG :
+                       propFlags & ~RenderElementConst.HAS_TRANSPARENT_BG;
+            }
+        }
+        
+
 
         //==============================================================
+        //hit test
 
-
-        //internal methods  
-        internal bool IsInRenderChain
+        public bool HitTestCore(HitChain hitChain)
         {
-            get
-            {
-                return (propFlags & RenderElementConst.IS_IN_RENDER_CHAIN) != 0;
-            }
-            set
-            {
-                propFlags = value ?
-                   propFlags | RenderElementConst.IS_IN_RENDER_CHAIN :
-                   propFlags & ~RenderElementConst.FIRST_ARR_PASS;
 
+            if ((propFlags & RenderElementConst.HIDDEN) != 0)
+            {
+                return false;
+            }
+
+            int testX;
+            int testY;
+            hitChain.GetTestPoint(out testX, out testY);
+            if ((testY >= b_top && testY <= (b_top + b_height)
+            && (testX >= b_left && testX <= (b_left + b_width))))
+            {
+
+                if (this.MayHasViewport)
+                {
+                    hitChain.OffsetTestPoint(
+                        -b_left + this.ViewportX,
+                        -b_top + this.ViewportY);
+                }
+                else
+                {
+                    hitChain.OffsetTestPoint(-b_left, -b_top);
+                }
+
+                hitChain.AddHitObject(this);
+
+                if (this.MayHasChild)
+                {
+                    this.ChildrenHitTestCore(hitChain);
+                }
+
+                if (this.MayHasViewport)
+                {
+                    hitChain.OffsetTestPoint(
+                            b_left - this.ViewportX,
+                            b_top - this.ViewportY);
+                }
+                else
+                {
+                    hitChain.OffsetTestPoint(b_left, b_top);
+                }
+
+                if ((propFlags & RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS) != 0 &&
+                    hitChain.TopMostElement == this)
+                {
+                    hitChain.RemoveCurrentHit();
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+
+                return false;
             }
         }
 
-        internal bool FirstArrangementPass
+
+        //==============================================================
+        public TopWindowRenderBox GetTopWindowRenderBox()
         {
+            if (parentLink == null) { return null; }
 
-            get
-            {
-                return (propFlags & RenderElementConst.FIRST_ARR_PASS) != 0;
-            }
-            set
-            {
-                propFlags = value ?
-                   propFlags | RenderElementConst.FIRST_ARR_PASS :
-                   propFlags & ~RenderElementConst.FIRST_ARR_PASS;
-            }
+            return this.rootGfx.TopWindowRenderBox;
         }
-
-
+        public static void DirectSetVisualElementSize(RenderElement visualElement, int width, int height)
+        {
+            visualElement.b_width = width;
+            visualElement.b_height = height;
+        }
+        public static void DirectSetVisualElementLocation(RenderElement visualElement, int x, int y)
+        {
+            visualElement.b_left = x;
+            visualElement.b_top = y;
+        } 
+        
+        
 
     }
 }
