@@ -6,7 +6,7 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.RenderBoxes
 {
-
+    public delegate void PaintToOutputDelegate();
 
 #if DEBUG
     [System.Diagnostics.DebuggerDisplay("RenderBoxBase {dbugGetCssBoxInfo}")]
@@ -30,7 +30,7 @@ namespace LayoutFarm.RenderBoxes
             get { return this.layers; }
             set { this.layers = value; }
         }
-        public sealed override void CustomDrawToThisPage(Canvas canvas, Rectangle updateArea)
+        public sealed override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
 
             canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
@@ -175,15 +175,15 @@ namespace LayoutFarm.RenderBoxes
             }
             switch (GetLayoutSpecificDimensionType(this))
             {
-                case LY_HAS_SPC_HEIGHT:
+                case RenderElementConst.LY_HAS_SPC_HEIGHT:
                     {
                         finalHeight = cHeight;
                     } break;
-                case LY_HAS_SPC_WIDTH:
+                case RenderElementConst.LY_HAS_SPC_WIDTH:
                     {
                         finalWidth = cWidth;
                     } break;
-                case LY_HAS_SPC_SIZE:
+                case RenderElementConst.LY_HAS_SPC_SIZE:
                     {
                         finalWidth = cWidth;
                         finalHeight = cHeight;
@@ -347,5 +347,5 @@ namespace LayoutFarm.RenderBoxes
     }
 
 
-
+ 
 }

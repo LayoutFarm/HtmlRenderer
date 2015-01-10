@@ -16,14 +16,14 @@ namespace LayoutFarm.CustomWidgets
 
         Color backColor = Color.LightGray;
         int viewportX, viewportY;
-        List<LayerElement> layers = new List<LayerElement>(1);
+        List<UICollection> layers = new List<UICollection>(1);
 
         int latestItemY; 
         Panel panel;
         public ListView(int width, int height)
             : base(width, height)
         {
-            PlainLayerElement plainLayer = new PlainLayerElement();
+            UICollection plainLayer = new UICollection(this);
             //panel for listview items
             this.panel = new Panel(width, height);
             panel.BackColor = Color.LightGray;
@@ -66,7 +66,7 @@ namespace LayoutFarm.CustomWidgets
                 int layerCount = this.layers.Count;
                 for (int m = 0; m < layerCount; ++m)
                 {
-                    PlainLayerElement plain = (PlainLayerElement)this.layers[m];
+                    UICollection plain = (UICollection)this.layers[m];
                     var groundLayer = new VisualPlainLayer(renderE);
                     renderE.Layers.AddLayer(groundLayer);
                     renderE.SetViewport(this.viewportX, this.viewportY);

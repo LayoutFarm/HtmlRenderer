@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
- 
+
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
@@ -15,14 +15,14 @@ namespace LayoutFarm.CustomWidgets
         CustomRenderBox primElement;//background
         Color backColor = Color.LightGray;
         int viewportX, viewportY;
-        List<LayerElement> layers = new List<LayerElement>(1); 
+        List<UICollection> layers = new List<UICollection>(1);
         int latestItemY;
 
         Panel panel; //panel 
         public TreeView(int width, int height)
             : base(width, height)
         {
-            PlainLayerElement plainLayer = new PlainLayerElement();
+            UICollection plainLayer = new UICollection(this);
             //panel for listview items
             this.panel = new Panel(width, height);
             panel.BackColor = Color.LightGray;
@@ -65,7 +65,7 @@ namespace LayoutFarm.CustomWidgets
                 int layerCount = this.layers.Count;
                 for (int m = 0; m < layerCount; ++m)
                 {
-                    PlainLayerElement plain = (PlainLayerElement)this.layers[m];
+                    UICollection plain = (UICollection)this.layers[m];
                     var groundLayer = new VisualPlainLayer(renderE);
                     renderE.Layers.AddLayer(groundLayer);
                     renderE.SetViewport(this.viewportX, this.viewportY);
@@ -338,15 +338,15 @@ namespace LayoutFarm.CustomWidgets
         public void Expand()
         {
             if (this.isOpen) return;
-            this.isOpen = true; 
-            this.TreeView.PerformContentLayout(); 
+            this.isOpen = true;
+            this.TreeView.PerformContentLayout();
         }
         public void Collapse()
         {
             if (!this.isOpen) return;
             this.isOpen = false;
 
-            this.TreeView.PerformContentLayout(); 
+            this.TreeView.PerformContentLayout();
         }
         public override void PerformContentLayout()
         {

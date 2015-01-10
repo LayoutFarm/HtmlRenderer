@@ -10,11 +10,11 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI.GdiPlus
 {
-    class MyPlatformWindowBridgeGdiPlus : PlatformWindowBridge
+    class MyTopWindowBridgeGdiPlus : TopWindowBridge
     {
         Control windowControl;
         GdiPlusCanvasViewport gdiPlusViewport;
-        public MyPlatformWindowBridgeGdiPlus(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
+        public MyTopWindowBridgeGdiPlus(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
             : base(topwin, winEventBridge)
         {
 

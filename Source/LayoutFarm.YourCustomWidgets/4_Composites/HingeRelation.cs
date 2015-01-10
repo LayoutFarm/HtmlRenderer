@@ -123,7 +123,7 @@ namespace LayoutFarm.CustomWidgets
                         if (floatPartRenderElement != null)
                         {
                             //temp
-                            var parentContainer = floatPartRenderElement.ParentVisualElement as RenderBoxBase;
+                            var parentContainer = floatPartRenderElement.ParentRenderElement as RenderBoxBase;
                             if (parentContainer.Layers != null)
                             {
                                 VisualPlainLayer plainLayer = (VisualPlainLayer)parentContainer.Layers.GetLayer(0);

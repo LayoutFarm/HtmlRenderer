@@ -191,16 +191,26 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                //TODO: review this again!
                 if (this._aa_boxes.Count != 0)
                 {
-                    return true;
+                    return false;
                 }
                 else if (this._aa_contentRuns != null)
                 {
-                    return this._aa_contentRuns.Count > 0;
+                    return this._aa_contentRuns.Count == 0;
                 }
+
                 return true;
+                ////TODO: review this again!
+                //if (this._aa_boxes.Count != 0)
+                //{
+                //    return true;
+                //}
+                //else if (this._aa_contentRuns != null)
+                //{
+                //    return this._aa_contentRuns.Count > 0;
+                //}
+                //return true;
             }
         }
         void ResetTextFlags()

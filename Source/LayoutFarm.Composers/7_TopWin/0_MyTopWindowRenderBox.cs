@@ -190,12 +190,12 @@ namespace LayoutFarm.UI
             else
             {
 
-                RenderElement ownerContainer = veContainerBase.GetOwnerRenderElement();
+                RenderBoxBase ownerContainer = veContainerBase.ParentRenderElement as RenderBoxBase;
 
                 if (ownerContainer != null && !ownerContainer.IsLayoutSuspending)
                 {
 
-                    if (ownerContainer.HasOwner)
+                    if (ownerContainer.HasParent)
                     {
 
                         RenderElement found = FindTopMostToBeRecalculate(ownerContainer);

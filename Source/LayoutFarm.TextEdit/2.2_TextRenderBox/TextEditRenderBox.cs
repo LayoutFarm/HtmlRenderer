@@ -12,7 +12,11 @@ namespace LayoutFarm.Text
 
     partial class TextEditRenderBox
     {
-
+        public static FontInfo DefaultFontInfo
+        {
+            get;
+            set;
+        }
 
         RenderSurfaceScrollRelation scrollRelation;
         CustomRenderSurface vscrollableSurface;//built in 
@@ -148,10 +152,10 @@ namespace LayoutFarm.Text
 
             if (vscrollableSurface == null)
             {
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
 
                 this.SetViewport(x, y);
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
             }
             else
             {
@@ -168,7 +172,7 @@ namespace LayoutFarm.Text
                 this.SetViewport(x, y);
                 vscrollableSurface.QuadPagesCalculateCanvas();
                 vscrollableSurface.FullModeUpdate = true;
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
 
                 vscrollableSurface.FullModeUpdate = false;
             }
@@ -295,12 +299,12 @@ namespace LayoutFarm.Text
             if (vscrollableSurface != null)
             {
                 scrollRelation.RaiseProperEvents(hScrollEventArgs, vScrollEventArgs);
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
                 vscrollableSurface.FullModeUpdate = false;
             }
             else
             {
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
             }
         }
         void MyScrollTo(int x, int y)

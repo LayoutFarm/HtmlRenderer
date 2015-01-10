@@ -8,7 +8,7 @@ namespace LayoutFarm.Text
 {
 
 
-    partial class EditableVisualElementLine
+    partial class EditableTextLine
     {
 
         void AddNormalRunToLast(EditableTextSpan v)

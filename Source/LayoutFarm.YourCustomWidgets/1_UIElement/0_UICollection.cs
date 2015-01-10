@@ -5,27 +5,27 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
+
 namespace LayoutFarm.UI
 {
-    public enum PlainLayoutType
-    {
-        NoLayout,
-        HorizontalStack,
-        VerticalStack,
-    }
 
-    public class PlainLayerElement : LayerElement
+    public class UICollection
     {
 
-        PlainLayoutType plainLayoutType;
-        List<UIElement> uiList = new List<UIElement>();        
-
-        public PlainLayerElement()
+        List<UIElement> uiList = new List<UIElement>();
+        UIElement owner;
+        public UICollection(UIElement owner)
         {
+            this.owner = owner;
         }
         public void AddUI(UIElement ui)
         {
-            uiList.Add(ui); 
+#if DEBUG
+            if (this.owner == ui)
+                throw new Exception("cyclic!");
+#endif
+            ui.ParentUI = this.owner;
+            uiList.Add(ui);
         }
         public int Count
         {
@@ -49,7 +49,7 @@ namespace LayoutFarm.UI
         }
 
 
-
-
     }
+
+
 }

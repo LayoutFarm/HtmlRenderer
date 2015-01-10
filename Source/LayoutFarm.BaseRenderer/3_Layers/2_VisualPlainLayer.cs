@@ -10,11 +10,10 @@ namespace LayoutFarm.RenderBoxes
     public class VisualPlainLayer : VisualLayer
     {
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
-        public event EventHandler CustomRearrangeContent;
-
         public VisualPlainLayer(RenderElement owner)
+            : base(owner)
         {
-            this.OwnerRenderElement = owner;
+             
         }
 
 
@@ -37,7 +36,7 @@ namespace LayoutFarm.RenderBoxes
             }
         }
 
-        
+
         public void AddChild(RenderElement visualElement)
         {
 
@@ -59,19 +58,19 @@ namespace LayoutFarm.RenderBoxes
 
         }
         public override void Clear()
-        {   
+        {
             //todo: clear all parent link 
             this.myElements.Clear();
 
-        } 
+        }
         IEnumerable<RenderElement> GetDrawingIter()
-        { 
+        {
             LinkedListNode<RenderElement> curNode = this.myElements.First;
             while (curNode != null)
             {
                 yield return curNode.Value;
                 curNode = curNode.Next;
-            } 
+            }
         }
         IEnumerable<RenderElement> GetHitTestIter()
         {
@@ -109,7 +108,7 @@ namespace LayoutFarm.RenderBoxes
 
                     canvasPage.OffsetCanvasOrigin(x, y);
                     updateArea.Offset(-x, -y);
-                    child.DrawToThisPage(canvasPage, updateArea);
+                    child.DrawToThisCanvas(canvasPage, updateArea);
 
                     canvasPage.OffsetCanvasOrigin(-x, -y);
                     updateArea.Offset(x, y);
@@ -192,10 +191,10 @@ namespace LayoutFarm.RenderBoxes
             vinv_dbug_EnterLayerReArrangeContent(this);
 #endif
             //this.BeginLayerLayoutUpdate();
-            if (CustomRearrangeContent != null)
-            {
-                CustomRearrangeContent(this, EventArgs.Empty);
-            }
+            //if (CustomRearrangeContent != null)
+            //{
+            //    CustomRearrangeContent(this, EventArgs.Empty);
+            //}
 
             //this.EndLayerLayoutUpdate();
 #if DEBUG

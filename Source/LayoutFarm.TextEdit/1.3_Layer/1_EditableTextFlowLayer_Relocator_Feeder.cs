@@ -15,10 +15,10 @@ namespace LayoutFarm.Text
         {
 
             EditableTextFlowLayer flowLayer;
-            List<EditableVisualElementLine> sourceLines;
+            List<EditableTextLine> sourceLines;
             bool isMultiLine = false;
             int currentRelocatorLineId = 0;
-            EditableVisualElementLine currentLine;
+            EditableTextLine currentLine;
             FlowFeeder feeder = null;
             bool isFirstRunOfLine = true;
 
@@ -48,19 +48,19 @@ namespace LayoutFarm.Text
                 this.feeder.Load(flowLayer);
                 if ((flowLayer.layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
                 {
-                    Load((List<EditableVisualElementLine>)flowLayer.lineCollection);
+                    Load((List<EditableTextLine>)flowLayer.lineCollection);
                 }
                 else
                 {
-                    Load((EditableVisualElementLine)flowLayer.lineCollection);
+                    Load((EditableTextLine)flowLayer.lineCollection);
                 }
             }
-            void Load(EditableVisualElementLine sourceLine)
+            void Load(EditableTextLine sourceLine)
             {
                 this.currentLine = sourceLine;
                 isFirstRunOfLine = true;
             }
-            void Load(List<EditableVisualElementLine> sourceLines)
+            void Load(List<EditableTextLine> sourceLines)
             {
 
                 if (sourceLines.Count > 0)
@@ -99,7 +99,7 @@ namespace LayoutFarm.Text
                 else
                 {
                     v = feeder.CurrentRun;
-                    EditableVisualElementLine sourceLine = v.OwnerEditableLine;
+                    EditableTextLine sourceLine = v.OwnerEditableLine;
                     sourceLine.SplitToNewLine(v);
                     feeder.Read(); currentRelocatorLineId = sourceLineId + 1;
                     currentLine = sourceLines[currentRelocatorLineId];
@@ -157,7 +157,7 @@ namespace LayoutFarm.Text
             {
 
                 EditableTextSpan currentRun = feeder.CurrentRun;
-                EditableVisualElementLine line = currentRun.OwnerEditableLine;
+                EditableTextLine line = currentRun.OwnerEditableLine;
                 line.SplitToNewLine(currentRun);
 
                 feeder.Read();
@@ -186,7 +186,7 @@ namespace LayoutFarm.Text
                     else
                     {
                         currentRelocatorLineId++;
-                        EditableVisualElementLine newLine = new EditableVisualElementLine(flowLayer);
+                        EditableTextLine newLine = new EditableTextLine(flowLayer);
                         flowLayer.AppendLine(newLine);
                         currentLine = newLine;
                     }
@@ -195,9 +195,9 @@ namespace LayoutFarm.Text
                 {
 
                     currentRelocatorLineId++;
-                    EditableVisualElementLine newLine = new EditableVisualElementLine(flowLayer);
+                    EditableTextLine newLine = new EditableTextLine(flowLayer);
                     flowLayer.AppendLine(newLine);
-                    sourceLines = (List<EditableVisualElementLine>)flowLayer.lineCollection;
+                    sourceLines = (List<EditableTextLine>)flowLayer.lineCollection;
                     currentLine = newLine;
                     isMultiLine = true;
                 }
@@ -273,10 +273,10 @@ namespace LayoutFarm.Text
         class FlowFeeder
         {
 
-            List<EditableVisualElementLine> sourceLines;
+            List<EditableTextLine> sourceLines;
             bool isMultiLine = false;
             int currentFeederLineId = 0;
-            EditableVisualElementLine currentLine;
+            EditableTextLine currentLine;
 
             LinkedListNode<EditableTextSpan> curNode;
 
@@ -292,21 +292,21 @@ namespace LayoutFarm.Text
                 this.flowLayer = flowLayer;
                 if ((flowLayer.layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
                 {
-                    Load((List<EditableVisualElementLine>)flowLayer.lineCollection);
+                    Load((List<EditableTextLine>)flowLayer.lineCollection);
                 }
                 else
                 {
-                    Load((EditableVisualElementLine)flowLayer.lineCollection);
+                    Load((EditableTextLine)flowLayer.lineCollection);
                 }
             }
-            void Load(EditableVisualElementLine sourceLine)
+            void Load(EditableTextLine sourceLine)
             {
 
                 this.currentLine = sourceLine;
                 readState = 2;
 
             }
-            void Load(List<EditableVisualElementLine> sourceLines)
+            void Load(List<EditableTextLine> sourceLines)
             {
 
                 if (sourceLines.Count > 0)
@@ -382,7 +382,7 @@ namespace LayoutFarm.Text
             {
                 LinkedListNode<EditableTextSpan> tobeRemoveNode = curNode;
                 EditableTextSpan v = tobeRemoveNode.Value;
-                EditableVisualElementLine line = v.OwnerEditableLine;
+                EditableTextLine line = v.OwnerEditableLine;
 
                 if (tobeRemoveNode == line.First)
                 {
@@ -440,9 +440,9 @@ namespace LayoutFarm.Text
                                 {
                                     if (!isMultiLine)
                                     {
-                                        if (flowLayer.lineCollection is List<EditableVisualElementLine>)
+                                        if (flowLayer.lineCollection is List<EditableTextLine>)
                                         {
-                                            sourceLines = (List<EditableVisualElementLine>)flowLayer.lineCollection;
+                                            sourceLines = (List<EditableTextLine>)flowLayer.lineCollection;
                                             isMultiLine = true;
                                         }
                                     }
@@ -577,9 +577,9 @@ namespace LayoutFarm.Text
                                 {
                                     if (!isMultiLine)
                                     {
-                                        if (flowLayer.lineCollection is List<EditableVisualElementLine>)
+                                        if (flowLayer.lineCollection is List<EditableTextLine>)
                                         {
-                                            sourceLines = (List<EditableVisualElementLine>)flowLayer.lineCollection;
+                                            sourceLines = (List<EditableTextLine>)flowLayer.lineCollection;
                                             isMultiLine = true;
                                         }
                                     }

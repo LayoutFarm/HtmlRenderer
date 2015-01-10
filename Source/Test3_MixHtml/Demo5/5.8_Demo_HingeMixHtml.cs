@@ -176,8 +176,7 @@ namespace LayoutFarm
             floatPart.BackColor = Color.LightGray;
             mnuItem.FloatPart = floatPart;
             //--------------------------------------
-            //add mix html here
-
+            //add mix html here 
             {
                 LightHtmlBox lightHtmlBox2 = lightBoxHost.CreateLightBox(floatPart.Width, floatPart.Height);
                 lightHtmlBox2.SetLocation(0, 0);
@@ -186,7 +185,7 @@ namespace LayoutFarm
                 //all light boxs of the same lightbox host share resource with the host
                 string html2 = @"<div>OK1</div><div>OK2</div><div>OK3</div><div>OK4</div>";
                 //if you want to use ful l html-> use HtmlBox instead  
-                lightHtmlBox2.LoadHtmlFragmentDom(CreateSampleHtmlDoc());
+                lightHtmlBox2.LoadHtmlFragmentDom(CreateSampleHtmlDoc(floatPart));
                 //lightHtmlBox2.LoadHtmlFragmentText(html2);
             }
 
@@ -199,7 +198,8 @@ namespace LayoutFarm
             Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
             return bmp;
         }
-        static HtmlDocument CreateSampleHtmlDoc()
+
+        HtmlDocument CreateSampleHtmlDoc(MenuBox ownerMenuBox)
         {
             HtmlDocument htmldoc = new HtmlDocument();
             var rootNode = htmldoc.RootNode;
@@ -211,8 +211,10 @@ namespace LayoutFarm
             {
                 body.AddChild("div", div =>
                 {
+                    MenuBox menuBox = new MenuBox(200, 100);
                     div.AddChild("span", span =>
                     {
+                        //test menubox 
                         span.AddTextContent("ABCD");
                         //3. attach event to specific span
                         span.AttachMouseDownEvent(e =>
@@ -220,11 +222,14 @@ namespace LayoutFarm
 #if DEBUG
                             // System.Diagnostics.Debugger.Break();                           
                             //test change span property 
-                            //clear prev content and add new  text content 
+                            //clear prev content and add new  text content                             
                             span.ClearAllElements();
                             span.AddTextContent("XYZ0001");
 #endif
 
+                            menuBox.SetLocation(50, 50);
+                            menuBox.ShowMenu();
+                            
                             e.StopPropagation();
 
                         });
@@ -237,6 +242,10 @@ namespace LayoutFarm
                         {
                             span.ClearAllElements();
                             span.AddTextContent("LMNOP0003");
+
+                            //test hide menu                             
+                            menuBox.HideMenu();
+
                         });
                     });
                     //----------------------

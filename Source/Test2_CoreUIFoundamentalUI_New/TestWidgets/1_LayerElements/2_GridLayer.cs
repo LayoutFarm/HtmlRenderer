@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
 using System.Text;
- 
+
 using LayoutFarm.RenderBoxes;
+
+
 namespace LayoutFarm.UI
 {
 
-    public sealed class GridLayer : VisualLayer
+    sealed class GridLayer : VisualLayer
     {
         GridTable.GridRowCollection gridRows;
         GridTable.GridColumnCollection gridCols;
@@ -18,8 +20,8 @@ namespace LayoutFarm.UI
         GridTable gridTable;
 
         public GridLayer(RenderElement owner, int nColumns, int nRows, CellSizeStyle cellSizeStyle)
-        {
-            this.OwnerRenderElement = owner;
+            : base(owner)
+        {             
             this.cellSizeStyle = cellSizeStyle;
             this.gridTable = new GridTable();
 
@@ -846,7 +848,7 @@ namespace LayoutFarm.UI
 
                             if (canvasPage.PushClipAreaRect(gridItem.Width, gridItem.Height, ref updateArea))
                             {
-                                renderContent.DrawToThisPage(canvasPage, updateArea);
+                                renderContent.DrawToThisCanvas(canvasPage, updateArea);
                             }
                             canvasPage.PopClipAreaRect();
                         }

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
- 
+
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
@@ -74,7 +74,7 @@ namespace LayoutFarm.CustomWidgets
                 //int layerCount = this.layers.Count;
                 //for (int m = 0; m < layerCount; ++m)
                 //{
-                //    PlainLayerElement plain = (PlainLayerElement)this.layers[m];
+                //    UICollection plain = (UICollection)this.layers[m];
                 //    var groundLayer = new VisualPlainLayer(renderE);
                 //    renderE.Layers.AddLayer(groundLayer);
 
@@ -256,7 +256,7 @@ namespace LayoutFarm.CustomWidgets
                         if (floatPartRenderElement != null)
                         {
                             //temp
-                            var parentContainer = floatPartRenderElement.ParentVisualElement as RenderBoxes.RenderBoxBase;
+                            var parentContainer = floatPartRenderElement.ParentRenderElement as RenderBoxes.RenderBoxBase;
                             if (parentContainer.Layers != null)
                             {
                                 VisualPlainLayer plainLayer = (VisualPlainLayer)parentContainer.Layers.GetLayer(0);
@@ -296,9 +296,39 @@ namespace LayoutFarm.CustomWidgets
 
     public class MenuBox : Panel
     {
+        bool showing;
+        TopWindowRenderBox topWindow;
+        RenderElement myRenderE;
         public MenuBox(int w, int h)
             : base(w, h)
         {
         }
+        public void ShowMenu()
+        {
+            //add to topmost box 
+            if (!showing)
+            {
+                this.topWindow = TopWindowRenderBox.CurrentActiveTopWindow;
+                if (topWindow != null)
+                {
+                    topWindow.AddChild(this.myRenderE = this.GetPrimaryRenderElement(topWindow.Root));
+                }
+                showing = true;
+            }
+        }
+        public void HideMenu()
+        {
+            if (showing)
+            {
+                //remove from top 
+                showing = false;
+                if (this.topWindow != null && this.myRenderE != null)
+                {
+                    var plainLayer = topWindow.Layers.GetLayer(0) as VisualPlainLayer;
+                    plainLayer.RemoveChild(this.myRenderE);
+                }
+            }
+        }
+
     }
 }

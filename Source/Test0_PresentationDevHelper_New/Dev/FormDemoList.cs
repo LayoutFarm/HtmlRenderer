@@ -94,6 +94,7 @@ namespace LayoutFarm.Dev
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
                 this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
                 w, h);
+
             TopWindowRenderBox topRenderBox = rootgfx.CreateTopWindowRenderBox(w, h);
 
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(topRenderBox,

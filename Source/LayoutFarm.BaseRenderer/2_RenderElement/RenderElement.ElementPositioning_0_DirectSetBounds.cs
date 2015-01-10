@@ -17,7 +17,7 @@ namespace LayoutFarm
         public static void DirectSetVisualElementSize(RenderElement visualElement, int width, int height)
         { 
             visualElement.b_width = width;
-            visualElement.b_Height = height;
+            visualElement.b_height = height;
         } 
         public static void DirectSetVisualElementLocation(RenderElement visualElement, int x, int y)
         {   

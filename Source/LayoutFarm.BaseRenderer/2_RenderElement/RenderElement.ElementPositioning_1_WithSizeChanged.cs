@@ -11,18 +11,18 @@ namespace LayoutFarm
 
 
     partial class RenderElement
-    {   
+    {
 
         public virtual void TopDownReCalculateContentSize()
         {
             MarkHasValidCalculateSize();
-        } 
+        }
         public static void SetCalculatedDesiredSize(RenderBoxBase v, int desiredWidth, int desiredHeight)
-        {   
+        {
             v.b_width = desiredWidth;
-            v.b_Height = desiredHeight;
+            v.b_height = desiredHeight;
             v.MarkHasValidCalculateSize();
-        } 
+        }
         public bool IsLayoutSuspending
         {
             get
@@ -30,12 +30,12 @@ namespace LayoutFarm
 
                 if (this.IsTopWindow)
                 {
-                    return (this.uiLayoutFlags & LY_SUSPEND) != 0;
+                    return (this.uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0;
                 }
                 else
                 {
 
-                    if ((this.uiLayoutFlags & LY_SUSPEND) != 0)
+                    if ((this.uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0)
                     {
 
                         return true;
@@ -43,7 +43,7 @@ namespace LayoutFarm
                     else
                     {
 
-                        RenderElement parentElement = this.ParentVisualElement;
+                        RenderElement parentElement = this.ParentRenderElement;
                         if (parentElement != null)
                         {
                             return parentElement.IsLayoutSuspending;
@@ -61,17 +61,17 @@ namespace LayoutFarm
         {
             get
             {
-                return (uiLayoutFlags & LY_SUSPEND) != 0;
+                return (uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0;
             }
         }
 
         public void ResumeLayout()
         {
-            uiLayoutFlags &= ~LY_SUSPEND;
+            uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND;
 
             if (this.MayHasChild)
             {
-                if (this.HasOwner)
+                if (this.HasParent)
                 {
                     if (!vinv_IsInTopDownReArrangePhase)
                     {
@@ -91,7 +91,7 @@ namespace LayoutFarm
 
         public void SetWidth(int width)
         {
-            this.SetSize(width, this.b_Height);
+            this.SetSize(width, this.b_height);
         }
         public void SetHeight(int height)
         {
@@ -102,13 +102,13 @@ namespace LayoutFarm
             if (parentLink == null)
             {
                 this.b_width = width;
-                this.b_Height = height;
+                this.b_height = height;
             }
             else
             {
 
                 int prevWidth = this.b_width;
-                int prevHeight = this.b_Height;
+                int prevHeight = this.b_height;
                 this.BeforeBoundChangedInvalidateGraphics();
                 PrivateSetSize(width, height);
                 this.AfterBoundChangedInvalidateGraphics();
@@ -125,9 +125,9 @@ namespace LayoutFarm
             {
 
                 int prevWidth = this.b_width;
-                int prevHeight = this.b_Height;
-                this.BeginGraphicUpdate(); 
-                DirectSetVisualElementLocation(this, left, top); 
+                int prevHeight = this.b_height;
+                this.BeginGraphicUpdate();
+                DirectSetVisualElementLocation(this, left, top);
                 this.EndGraphicUpdate();
             }
         }

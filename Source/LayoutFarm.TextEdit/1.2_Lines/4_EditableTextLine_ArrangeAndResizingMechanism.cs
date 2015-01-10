@@ -8,7 +8,7 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.Text
 {
 
-    partial class EditableVisualElementLine
+    partial class EditableTextLine
     {
         public void RefreshInlineArrange()
         {

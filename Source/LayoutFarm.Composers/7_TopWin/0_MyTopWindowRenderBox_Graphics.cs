@@ -22,20 +22,7 @@ namespace LayoutFarm.UI
             get { return this.rootGraphic.LayoutQueueClearing; }
             set { this.rootGraphic.LayoutQueueClearing = value; }
         }
-        //bool DisableGraphicOutputFlush
-        //{
-        //    get { return this.rootGraphic.DisableGraphicOutputFlush; }
-        //    set { this.rootGraphic.DisableGraphicOutputFlush = value; }
-        //}
-        //int GraphicUpdateSuspendCount
-        //{
-        //    get { return this.rootGraphic.GraphicUpdateBlockCount; }
-        //    set { this.rootGraphic.GraphicUpdateBlockCount = value; }
-        //}
-        //void FlushAccumGraphicUpdate()
-        //{
-        //    this.rootGraphic.FlushAccumGraphicUpdate(this);
-        //}
+       
 
         public override void FlushGraphic(Rectangle rect)
         {

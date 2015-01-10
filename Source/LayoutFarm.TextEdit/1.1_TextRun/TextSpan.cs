@@ -76,7 +76,7 @@ namespace LayoutFarm.Text
             //------------------------------------------
 
 
-            this.InvalidateGraphic();
+            this.InvalidateGraphics();
             this.spanStyle = spanStyle;
             if (spanStyle.positionWidth > -1)
             {
@@ -87,7 +87,7 @@ namespace LayoutFarm.Text
                 this.SetHeight(spanStyle.positionHeight);
             }
 
-            this.InvalidateGraphic();
+            this.InvalidateGraphics();
 
 
 
@@ -156,9 +156,9 @@ namespace LayoutFarm.Text
         {
             textspan.DrawCharacters(canvasPage, updateArea, textspan.mybuffer);
         }
-        public override void CustomDrawToThisPage(Canvas canvasPage, Rectangle updateArea)
+        public override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
-            DrawTextRun(this, canvasPage, updateArea);
+            DrawTextRun(this, canvas, updateArea);
         }
 
         protected bool HasStyle
@@ -276,8 +276,8 @@ namespace LayoutFarm.Text
 
             if (!HasStyle)
             {
-                return LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo;
-            }
+                return LayoutFarm.Text.TextEditRenderBox.DefaultFontInfo;
+            }   
             else
             {
                 TextSpanSytle spanStyle = this.SpanStyle;
@@ -287,7 +287,7 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-                    return LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo;
+                    return LayoutFarm.Text.TextEditRenderBox.DefaultFontInfo;
                 }
             }
         }

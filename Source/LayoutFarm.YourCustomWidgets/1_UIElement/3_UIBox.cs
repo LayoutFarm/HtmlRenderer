@@ -157,7 +157,7 @@ namespace LayoutFarm.UI
         {
             if (this.HasReadyRenderElement)
             {
-                this.CurrentPrimaryRenderElement.InvalidateGraphic();
+                this.CurrentPrimaryRenderElement.InvalidateGraphics();
             }
         }
         public virtual int ViewportX

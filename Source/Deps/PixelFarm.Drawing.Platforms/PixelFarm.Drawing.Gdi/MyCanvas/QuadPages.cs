@@ -186,7 +186,7 @@ namespace PixelFarm.Drawing.WinGdi
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
             Rectangle rect = mycanvas.Rect;
-            topWindowRenderBox.DrawToThisPage(mycanvas, rect);
+            topWindowRenderBox.DrawToThisCanvas(mycanvas, rect);
 
 #if DEBUG
             topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
@@ -210,7 +210,7 @@ namespace PixelFarm.Drawing.WinGdi
 #endif
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
             Rectangle rect = mycanvas.InvalidateArea;
-            rootElement.DrawToThisPage(mycanvas, rect);
+            rootElement.DrawToThisCanvas(mycanvas, rect);
 #if DEBUG
             rootElement.dbugShowRenderPart(mycanvas, rect);
 #endif

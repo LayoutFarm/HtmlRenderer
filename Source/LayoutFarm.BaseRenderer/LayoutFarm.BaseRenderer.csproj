@@ -35,7 +35,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="2_RenderElement\RenderElement_LocationHelper.cs" />
+    <Compile Include="2_RenderElement\RenderElementConst.cs" />
+    <Compile Include="2_RenderElement\x_RenderElement_LocationHelper.cs" />
     <Compile Include="3_Layers\3_LayerCollection.cs" />
     <Compile Include="1_Root\1_RootGraphic.cs" />
     <Compile Include="1_Root\1_RootGraphic_p1_dbug.cs" />
@@ -54,7 +55,6 @@
     <Compile Include="2_RenderElement\RenderElement.ElementPositioning_0_DirectSetBounds.cs" />
     <Compile Include="2_RenderElement\RenderElement.ElementPositioning_1_WithSizeChanged.cs" />
     <Compile Include="2_RenderElement\RenderElement.ElementPositioning_3_ReadOnly_NoBoundChanged.cs" />
-    <Compile Include="2_RenderElement\RenderElement_States.cs" />
     <Compile Include="2_RenderElement\RenderElement.Render.cs" />
     <Compile Include="2_RenderElement\RenderElement.RepaintMechanism.cs" />
     <Compile Include="3_Layers\0_IParentLink.cs" />

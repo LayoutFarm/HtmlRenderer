@@ -115,22 +115,22 @@ namespace LayoutFarm.Text
     }
 
 
-    public class EditableVisualPointInfo : VisualPointInfo
+    class EditableVisualPointInfo : VisualPointInfo
     {
-        EditableVisualElementLine line;
-        public EditableVisualPointInfo(EditableVisualElementLine line, int index)
+        EditableTextLine line;
+        internal EditableVisualPointInfo(EditableTextLine line, int index)
             : base(index)
         {
             this.line = line;
         }
-        public EditableVisualElementLine Line
+        public EditableTextLine Line
         {
             get
             {
                 return this.line;
             }
         }
-        public EditableVisualElementLine EditableLine
+        public EditableTextLine EditableLine
         {
             get
             {

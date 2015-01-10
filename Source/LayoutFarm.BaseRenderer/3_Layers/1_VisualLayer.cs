@@ -35,8 +35,9 @@ namespace LayoutFarm.RenderBoxes
 
         int postCalculateContentWidth;
         int postCalculateContentHeight;
-        public VisualLayer()
+        public VisualLayer(RenderElement owner)
         {
+            this.owner = owner;
 #if DEBUG
             this.dbug_layer_id = dbug_layer_id_count;
             ++dbug_layer_id_count;
@@ -47,30 +48,10 @@ namespace LayoutFarm.RenderBoxes
         {
             get { return this.owner.Root; }
         }
-
         public abstract void Clear();
-        public void OwnerInvalidateGraphicAndStartBubbleUp()
-        {
-            if (this.owner != null)
-            {
-                this.owner.InvalidateLayoutAndStartBubbleUp();
-            }
-        }
-        public void OwnerInvalidateGraphic()
-        {
-            if (this.owner != null)
-            {
-                this.owner.InvalidateGraphic();
-            }
-        }
 
-        public void InvalidateContentArrangementFromContainerSizeChanged()
-        {
-            layerFlags &= ~ARRANGEMENT_VALID;
-#if DEBUG
-            this.dbug_InvalidateCount++;
-#endif
-        }
+
+
         public RenderElement InvalidateArrangement()
         {
 #if DEBUG
@@ -88,14 +69,10 @@ namespace LayoutFarm.RenderBoxes
             }
             set
             {
-                if (value)
-                {
-                    layerFlags &= ~IS_LAYER_HIDDEN;
-                }
-                else
-                {
-                    layerFlags |= IS_LAYER_HIDDEN;
-                }
+                layerFlags = value ?
+                    layerFlags & ~IS_LAYER_HIDDEN :
+                    layerFlags | IS_LAYER_HIDDEN;
+
             }
         }
 
@@ -107,15 +84,22 @@ namespace LayoutFarm.RenderBoxes
             }
         }
 
-#if DEBUG
-        public RootGraphic dbugVRoot
+
+        protected void OwnerInvalidateGraphicAndStartBubbleUp()
         {
-            get
+            if (this.owner != null)
             {
-                return LayoutFarm.RootGraphic.dbugCurrentGlobalVRoot;
+                this.owner.InvalidateLayoutAndStartBubbleUp();
             }
         }
-#endif
+        protected void OwnerInvalidateGraphic()
+        {
+            if (this.owner != null)
+            {
+                this.owner.InvalidateGraphics();
+            }
+        }
+
 
         protected void BeginDrawingChildContent()
         {
@@ -134,14 +118,10 @@ namespace LayoutFarm.RenderBoxes
             }
             set
             {
-                if (value)
-                {
-                    layerFlags |= DOUBLE_BACKCANVAS_WIDTH;
-                }
-                else
-                {
-                    layerFlags &= ~DOUBLE_BACKCANVAS_WIDTH;
-                }
+                layerFlags = value ?
+                    layerFlags | DOUBLE_BACKCANVAS_WIDTH :
+                    layerFlags & ~DOUBLE_BACKCANVAS_WIDTH;
+
             }
         }
 
@@ -153,14 +133,9 @@ namespace LayoutFarm.RenderBoxes
             }
             set
             {
-                if (value)
-                {
-                    layerFlags |= DOUBLE_BACKCANVAS_HEIGHT;
-                }
-                else
-                {
-                    layerFlags &= ~DOUBLE_BACKCANVAS_HEIGHT;
-                }
+                layerFlags = value ?
+                    layerFlags | DOUBLE_BACKCANVAS_HEIGHT :
+                    layerFlags & ~DOUBLE_BACKCANVAS_HEIGHT;
             }
         }
         protected void SetDoubleCanvas(bool useWithWidth, bool useWithHeight)
@@ -186,10 +161,10 @@ namespace LayoutFarm.RenderBoxes
         public abstract bool HitTestCore(HitChain hitChain);
         public abstract void TopDownReCalculateContentSize();
         public abstract void TopDownReArrangeContent();
-
         public abstract IEnumerable<RenderElement> GetRenderElementIter();
         public abstract IEnumerable<RenderElement> GetRenderElementReverseIter();
-
+        public abstract void DrawChildContent(Canvas canvasPage, Rectangle updateArea);
+        public abstract bool PrepareDrawingChain(VisualDrawingChain chain);
 
         protected void ValidateArrangement()
         {
@@ -200,19 +175,16 @@ namespace LayoutFarm.RenderBoxes
             layerFlags |= ARRANGEMENT_VALID;
         }
 
-        public abstract void DrawChildContent(Canvas canvasPage, Rectangle updateArea);
-        public abstract bool PrepareDrawingChain(VisualDrawingChain chain);
 
-
-        public void BeginLayerLayoutUpdate()
+        protected void BeginLayerLayoutUpdate()
         {
             owner.BeginGraphicUpdate();
         }
-        public void EndLayerLayoutUpdate()
+        protected void EndLayerLayoutUpdate()
         {
             owner.EndGraphicUpdate();
         }
-        public bool NeedReArrangeContent
+        bool NeedReArrangeContent
         {
             get
             {
@@ -220,7 +192,7 @@ namespace LayoutFarm.RenderBoxes
                 return (layerFlags & ARRANGEMENT_VALID) == 0;
             }
         }
-        public bool HasCalculateContentSize
+        bool HasCalculateContentSize
         {
             get
             {
@@ -237,6 +209,13 @@ namespace LayoutFarm.RenderBoxes
         }
 
 #if DEBUG
+        public RootGraphic dbugVRoot
+        {
+            get
+            {
+                return LayoutFarm.RootGraphic.dbugCurrentGlobalVRoot;
+            }
+        }
         public string dbugLayerState
         {
             get
@@ -332,10 +311,7 @@ namespace LayoutFarm.RenderBoxes
         public RenderElement OwnerRenderElement
         {
             get { return this.owner; }
-            set
-            {
-                this.owner = value;
-            }
+            
         }
         protected static bool vinv_IsInTopDownReArrangePhase
         {

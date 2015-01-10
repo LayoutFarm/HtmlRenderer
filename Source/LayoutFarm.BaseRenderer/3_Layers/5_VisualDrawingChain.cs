@@ -138,7 +138,7 @@ namespace LayoutFarm.RenderBoxes
 
                     rect.Offset(-globalLocation.X, -globalLocation.Y);
 
-                    ve.DrawToThisPage(mycanvas, rect);
+                    ve.DrawToThisCanvas(mycanvas, rect);
 #if DEBUG
                     rootElement.dbugShowRenderPart(mycanvas, rect);
 #endif

@@ -9,7 +9,7 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.Text
 {
 
-    partial class EditableVisualElementLine
+    partial class EditableTextLine
     {
         #region Hidden Original Method Do Not Use
         public new void AddLast(LinkedListNode<EditableTextSpan> visualNode)

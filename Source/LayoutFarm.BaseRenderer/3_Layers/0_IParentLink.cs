@@ -11,7 +11,7 @@ namespace LayoutFarm.RenderBoxes
     public interface IParentLink
     {
         bool MayHasOverlapChild { get; }
-        RenderElement ParentVisualElement { get; } 
+        RenderElement ParentRenderElement { get; } 
         void AdjustLocation(ref Point p);
 
         RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point);
@@ -64,7 +64,7 @@ namespace LayoutFarm.RenderBoxes
             }
         }
 
-        public RenderElement ParentVisualElement
+        public RenderElement ParentRenderElement
         {
             get
             {

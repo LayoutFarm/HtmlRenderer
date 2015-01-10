@@ -218,7 +218,7 @@ namespace LayoutFarm.Text
                 int j = textLineWriter.LineCount;
                 if (j > 0)
                 {
-                    EditableVisualElementLine textLine = textLineWriter.GetTextLineAtPos(y);
+                    EditableTextLine textLine = textLineWriter.GetTextLineAtPos(y);
                     if (textLine != null)
                     {
                         return textLine.GetTextPointInfoFromCaretPoint(x);

@@ -2,10 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+
 namespace LayoutFarm.UI
-{
-
-
+{  
     public abstract class NinespaceController
     {
         //----------------------------

@@ -14,7 +14,7 @@ namespace LayoutFarm.UI
     {
 
         TopWindowRenderBox wintop;
-        PlatformWindowBridge winBridge;
+        TopWindowBridge winBridge;
 
         public UISurfaceViewportControl()
         {
@@ -36,7 +36,7 @@ namespace LayoutFarm.UI
                         PixelFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
 
 
-                        var bridge = new OpenGL.MyPlatformWindowBridgeOpenGL(wintop, userInputEvBridge);
+                        var bridge = new OpenGL.MyTopWindowBridgeOpenGL(wintop, userInputEvBridge);
 
                         var view = new OpenGL.GpuOpenGLSurfaceView();
                         view.Width = 800;
@@ -53,7 +53,7 @@ namespace LayoutFarm.UI
                 case InnerViewportKind.GdiPlus:
                 default:
                     {
-                        var bridge = new GdiPlus.MyPlatformWindowBridgeGdiPlus(wintop, userInputEvBridge); 
+                        var bridge = new GdiPlus.MyTopWindowBridgeGdiPlus(wintop, userInputEvBridge); 
                         var view = new GdiPlus.CpuGdiPlusSurfaceView();
                         view.Dock = DockStyle.Fill;
                         this.Controls.Add(view);
@@ -103,7 +103,7 @@ namespace LayoutFarm.UI
             if (layer0 != null)
             {
                 layer0.AddChild(vi);
-                vi.InvalidateGraphic();
+                vi.InvalidateGraphics();
             }
         }
 

@@ -41,7 +41,9 @@ namespace LayoutFarm.Text
             //    | (1 << UIEventIdentifier.NE_DBLCLICK)
             //    | (1 << UIEventIdentifier.NE_KEY_DOWN)
             //    | (1 << UIEventIdentifier.NE_KEY_PRESS)); 
+
             textLayer = new EditableTextFlowLayer(this);
+
             this.Layers = new VisualLayerCollection();
 
             this.Layers.AddLayer(textLayer);
@@ -78,7 +80,7 @@ namespace LayoutFarm.Text
         {
 
             EditableTextFlowLayer flowLayer = this.textLayer;
-            EditableVisualElementLine beginLine = flowLayer.GetTextLineAtPos(beginlineNum);
+            EditableTextLine beginLine = flowLayer.GetTextLineAtPos(beginlineNum);
             if (beginLine == null)
             {
                 return Rectangle.Empty;
@@ -93,7 +95,7 @@ namespace LayoutFarm.Text
             {
                 VisualPointInfo beginPoint = beginLine.GetTextPointInfoFromCharIndex(beginColumnNum);
 
-                EditableVisualElementLine endLine = flowLayer.GetTextLineAtPos(endLineNum);
+                EditableTextLine endLine = flowLayer.GetTextLineAtPos(endLineNum);
                 VisualPointInfo endPoint = endLine.GetTextPointInfoFromCharIndex(endColumnNum);
                 return new Rectangle(beginPoint.X, beginLine.Top, endPoint.X, beginLine.ActualLineHeight);
             }
@@ -215,7 +217,7 @@ namespace LayoutFarm.Text
 
                 internalTextLayerController.SetCaretPos(e.X, e.Y);
                 internalTextLayerController.EndSelect();
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
 
             }
         }
@@ -226,7 +228,7 @@ namespace LayoutFarm.Text
                 internalTextLayerController.SetCaretPos(e.X, e.Y);
                 internalTextLayerController.StartSelect();
                 internalTextLayerController.EndSelect();
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
             }
         }
         public void OnDragEnd(UIMouseEventArgs e)
@@ -236,7 +238,7 @@ namespace LayoutFarm.Text
 
                 internalTextLayerController.SetCaretPos(e.X, e.Y);
                 internalTextLayerController.EndSelect();
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
             }
         }
 
@@ -515,7 +517,7 @@ namespace LayoutFarm.Text
                             }
                             else
                             {
-                                InvalidateGraphic();
+                                InvalidateGraphics();
 
                             }
 
@@ -879,7 +881,7 @@ namespace LayoutFarm.Text
             }
             else
             {
-                InvalidateGraphic();
+                InvalidateGraphics();
             }
         }
         void RefreshSnapshotCanvas()

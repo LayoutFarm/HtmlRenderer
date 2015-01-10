@@ -76,7 +76,7 @@ namespace LayoutFarm.CustomWidgets
         {
             if (visualTextEdit != null)
             {
-                visualTextEdit.InvalidateGraphic();
+                visualTextEdit.InvalidateGraphics();
             }
         }
 

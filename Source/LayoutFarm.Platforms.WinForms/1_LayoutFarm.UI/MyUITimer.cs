@@ -8,6 +8,7 @@ namespace LayoutFarm.UI
 {
     class MyUITimer : UITimer
     {
+        //platform specific
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         public MyUITimer()
         {

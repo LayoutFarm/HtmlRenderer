@@ -19,7 +19,7 @@ namespace LayoutFarm.HtmlBoxes
 
     sealed class RenderElementWrapperCssBox : CustomCssBox
     {
-        CssBoxInsideRenderElement wrapper;
+        CssBoxWrapperRenderElement wrapper;
         int globalXForRenderElement;
         int globalYForRenderElement;
 
@@ -31,7 +31,7 @@ namespace LayoutFarm.HtmlBoxes
             int mmw = 100;
             int mmh = 20;
 
-            this.wrapper = new CssBoxInsideRenderElement(renderElement.Root, mmw, mmh, renderElement);
+            this.wrapper = new CssBoxWrapperRenderElement(renderElement.Root, mmw, mmh, renderElement);
 
             ChangeDisplayType(this, CssDisplay.Block);
 
@@ -81,7 +81,7 @@ namespace LayoutFarm.HtmlBoxes
                 GetParentRenderElement(out this.globalXForRenderElement, out this.globalYForRenderElement);
 
                 Rectangle rect = new Rectangle(0, 0, wrapper.Width, wrapper.Height);
-                this.wrapper.DrawToThisPage(p.InnerCanvas, rect);
+                this.wrapper.DrawToThisCanvas(p.InnerCanvas, rect);
 
             }
             else
@@ -90,6 +90,7 @@ namespace LayoutFarm.HtmlBoxes
                 p.FillRectangle(Color.Red, 0, 0, 100, 100);
             }
         }
+
         RenderElement GetParentRenderElement(out int globalX, out int globalY)
         {
             CssBox cbox = this;
@@ -115,13 +116,13 @@ namespace LayoutFarm.HtmlBoxes
 
 
 
-        class CssBoxInsideRenderElement : RenderElement
+        class CssBoxWrapperRenderElement : RenderElement
         {
             RenderElement renderElement;
             int adjustX;
             int adjustY;
 
-            public CssBoxInsideRenderElement(RootGraphic rootgfx, int w, int h, RenderElement renderElement)
+            public CssBoxWrapperRenderElement(RootGraphic rootgfx, int w, int h, RenderElement renderElement)
                 : base(rootgfx, w, h)
             {
                 this.renderElement = renderElement;
@@ -162,11 +163,11 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
 
-            public override void CustomDrawToThisPage(Canvas canvasPage, Rectangle updateArea)
+            public override void CustomDrawToThisCanvas(Canvas canvasPage, Rectangle updateArea)
             {
                 //int x = this.adjustX;
                 //int y = this.adjustY;
-                renderElement.CustomDrawToThisPage(canvasPage, updateArea);
+                renderElement.CustomDrawToThisCanvas(canvasPage, updateArea);
 
             }
         }
@@ -179,7 +180,7 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             public bool MayHasOverlapChild { get { return false; } }
-            public RenderElement ParentVisualElement
+            public RenderElement ParentRenderElement
             {
                 get
                 {
@@ -207,7 +208,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 if (parent != null)
                 {
-                    parent.InvalidateGraphic();
+                    parent.InvalidateGraphics();
                 }
                 return parent;
             }
@@ -225,7 +226,7 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             public bool MayHasOverlapChild { get { return false; } }
-            public RenderElement ParentVisualElement
+            public RenderElement ParentRenderElement
             {
                 get
                 {
@@ -247,11 +248,11 @@ namespace LayoutFarm.HtmlBoxes
                 goToFinalExit = false;
                 //int globalX;
                 //int globalY;
-                var parent = box.ParentVisualElement;
+                var parent = box.ParentRenderElement;
 
                 if (parent != null)
                 {
-                    parent.InvalidateGraphic();
+                    parent.InvalidateGraphics();
                 }
                 return parent;
             }

@@ -229,14 +229,14 @@ namespace LayoutFarm.CustomWidgets
             //this.tim.Enabled = true;
             if (this.htmlRenderBox != null)
             {
-                htmlRenderBox.InvalidateGraphic();
+                htmlRenderBox.InvalidateGraphics();
             }
         }
         public override void InvalidateGraphic()
         {
             if (this.htmlRenderBox != null)
             {
-                htmlRenderBox.InvalidateGraphic();
+                htmlRenderBox.InvalidateGraphics();
             }
         }
     }

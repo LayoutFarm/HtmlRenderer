@@ -8,28 +8,12 @@ using PixelFarm.Drawing;
 namespace LayoutFarm
 {
     partial class RenderElement
-    {
-        bool hasTransparentBg;
-
-
-        public bool HasSolidBackground
-        {
-            get
-            {
-                return !hasTransparentBg;
-            }
-            set
-            {
-                this.hasTransparentBg = !value;
-            }
-        }
-
-
-        public abstract void CustomDrawToThisPage(Canvas canvasPage, Rectangle updateArea);
+    {   
+        public abstract void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea);
 
         public bool PrepareDrawingChain(RenderBoxes.VisualDrawingChain drawingChain)
         {
-            if ((uiFlags & HIDDEN) == HIDDEN)
+            if ((propFlags & RenderElementConst.HIDDEN) == RenderElementConst.HIDDEN)
             {
                 return false;
             }
@@ -48,16 +32,14 @@ namespace LayoutFarm
                     drawingChain.OffsetCanvasOrigin(x, y);
                     ((RenderBoxes.RenderBoxBase)this).PrepareOriginalChildContentDrawingChain(drawingChain);
                     drawingChain.OffsetCanvasOrigin(-x, -y);
-
                 }
-
             }
             return false;
         }
-        public void DrawToThisPage(Canvas canvasPage, Rectangle updateArea)
+        public void DrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
 
-            if ((uiFlags & HIDDEN) == HIDDEN)
+            if ((propFlags & RenderElementConst.HIDDEN) == RenderElementConst.HIDDEN)
             {
                 return;
             }
@@ -65,26 +47,26 @@ namespace LayoutFarm
             dbugVRoot.dbug_drawLevel++;
 #endif
 
-            if (canvasPage.PushClipAreaRect(b_width, b_Height, ref updateArea))
+            if (canvas.PushClipAreaRect(b_width, b_height, ref updateArea))
             {
 #if DEBUG
                 if (dbugVRoot.dbug_RecordDrawingChain)
                 {
-                    dbugVRoot.dbug_AddDrawElement(this, canvasPage);
+                    dbugVRoot.dbug_AddDrawElement(this, canvas);
                 }
 #endif
                 //------------------------------------------
 
-                this.CustomDrawToThisPage(canvasPage, updateArea);
+                this.CustomDrawToThisCanvas(canvas, updateArea);
 
                 //------------------------------------------
-                uiFlags |= IS_GRAPHIC_VALID;
+                propFlags |= RenderElementConst.IS_GRAPHIC_VALID;
 #if DEBUG
-                debug_RecordPostDrawInfo(canvasPage);
+                debug_RecordPostDrawInfo(canvas);
 #endif
             }
 
-            canvasPage.PopClipAreaRect();
+            canvas.PopClipAreaRect();
 #if DEBUG
             dbugVRoot.dbug_drawLevel--;
 #endif
@@ -95,25 +77,44 @@ namespace LayoutFarm
         {
             get
             {
-                return this.isWindowRoot;
+                return (this.propFlags & RenderElementConst.IS_TOP_RENDERBOX) != 0;
             }
+            internal set
+            {
+                propFlags = value ?
+                      propFlags | RenderElementConst.IS_TOP_RENDERBOX :
+                      propFlags & ~RenderElementConst.IS_TOP_RENDERBOX;
+            }
+
         }
 
         public bool HasDoubleScrollableSurface
         {
             get
             {
-                return (this.uiFlags & HAS_DOUBLE_SCROLL_SURFACE) != 0;
+                return (this.propFlags & RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE) != 0;
             }
             protected set
             {
-                uiFlags = value ?
-                      uiFlags | HAS_DOUBLE_SCROLL_SURFACE :
-                      uiFlags & ~HAS_DOUBLE_SCROLL_SURFACE;
+                propFlags = value ?
+                      propFlags | RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE :
+                      propFlags & ~RenderElementConst.HAS_DOUBLE_SCROLL_SURFACE;
             }
         }
 
-
+        internal bool HasSolidBackground
+        {
+            get
+            {
+                return (propFlags & RenderElementConst.HAS_TRANSPARENT_BG) != 0;
+            }
+            set
+            {
+                propFlags = value ?
+                       propFlags | RenderElementConst.HAS_TRANSPARENT_BG :
+                       propFlags & ~RenderElementConst.HAS_TRANSPARENT_BG;
+            }
+        }
 
     }
 }

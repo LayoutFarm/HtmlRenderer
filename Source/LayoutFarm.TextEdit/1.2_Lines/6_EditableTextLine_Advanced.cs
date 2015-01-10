@@ -9,9 +9,9 @@ namespace LayoutFarm.Text
 {
 
 
-    partial class EditableVisualElementLine
+    partial class EditableTextLine
     {
-        public static void InnerDoJoinWithNextLine(EditableVisualElementLine line)
+        public static void InnerDoJoinWithNextLine(EditableTextLine line)
         {
             line.JoinWithNextLine();
         }
@@ -19,7 +19,7 @@ namespace LayoutFarm.Text
         {
             if (!IsLastLine)
             {
-                EditableVisualElementLine lowerLine = editableFlowLayer.GetTextLine(currentLineNumber + 1);
+                EditableTextLine lowerLine = editableFlowLayer.GetTextLine(currentLineNumber + 1);
 
                 this.LocalSuspendLineReArrange();
                 int cx = 0;
@@ -78,8 +78,8 @@ namespace LayoutFarm.Text
                 else
                 {
 
-                    EditableVisualElementLine startLine = null;
-                    EditableVisualElementLine stopLine = null;
+                    EditableTextLine startLine = null;
+                    EditableTextLine stopLine = null;
 
                     if (startPoint.LineId == currentLineNumber)
                     {
@@ -127,7 +127,7 @@ namespace LayoutFarm.Text
                         for (int i = startLineId + 1; i < stopLineId; i++)
                         {
                             output.AddLast(new EditableTextSpan(this.Root, '\n'));
-                            EditableVisualElementLine line = editableFlowLayer.GetTextLine(i);
+                            EditableTextLine line = editableFlowLayer.GetTextLine(i);
                             line.Copy(output);
                         }
                         if (endPoint.LineCharIndex > -1)
@@ -142,8 +142,8 @@ namespace LayoutFarm.Text
             else
             {
 
-                EditableVisualElementLine startLine = null;
-                EditableVisualElementLine stopLine = null;
+                EditableTextLine startLine = null;
+                EditableTextLine stopLine = null;
 
                 if (startPoint.LineId == currentLineNumber)
                 {
@@ -210,7 +210,7 @@ namespace LayoutFarm.Text
                     for (int i = startLineId + 1; i < stopLineId; i++)
                     {
                         output.AddLast(new EditableTextSpan(this.Root, '\n'));
-                        EditableVisualElementLine line = editableFlowLayer.GetTextLine(i);
+                        EditableTextLine line = editableFlowLayer.GetTextLine(i);
                         line.Copy(output);
                     }
                     stopLine.LeftCopy(endPoint, output);
@@ -241,7 +241,7 @@ endPoint.LineCharIndex - startPoint.LineCharIndex, false);
                         }
                         else
                         {
-                            EditableVisualElementLine line = editableFlowLayer.GetTextLine(startPoint.LineId);
+                            EditableTextLine line = editableFlowLayer.GetTextLine(startPoint.LineId);
                             line.Remove(removedRun);
                         }
                     }
@@ -250,8 +250,8 @@ endPoint.LineCharIndex - startPoint.LineCharIndex, false);
                 {
                     EditableVisualPointInfo newStartPoint = null;
                     EditableVisualPointInfo newStopPoint = null;
-                    EditableVisualElementLine startLine = null;
-                    EditableVisualElementLine stopLine = null;
+                    EditableTextLine startLine = null;
+                    EditableTextLine stopLine = null;
 
                     if (startPoint.LineId == currentLineNumber)
                     {
@@ -322,7 +322,7 @@ endPoint.LineCharIndex - startPoint.LineCharIndex, false);
                         }
                         for (int i = stopLineId - 1; i > startLineId; i--)
                         {
-                            EditableVisualElementLine line = editableFlowLayer.GetTextLine(i);
+                            EditableTextLine line = editableFlowLayer.GetTextLine(i);
                             line.Clear();
                             line.JoinWithNextLine();
                         }
@@ -346,8 +346,8 @@ endPoint.LineCharIndex - startPoint.LineCharIndex, false);
             {
                 VisualPointInfo newStartPoint = null;
                 VisualPointInfo newStopPoint = null;
-                EditableVisualElementLine startLine = null;
-                EditableVisualElementLine stopLine = null;
+                EditableTextLine startLine = null;
+                EditableTextLine stopLine = null;
                 if (startPoint.LineId == this.currentLineNumber)
                 {
                     startLine = this;
@@ -414,7 +414,7 @@ endPoint.LineCharIndex - startPoint.LineCharIndex, false);
                     }
                     for (int i = stopLineId - 1; i > startLineId; i--)
                     {
-                        EditableVisualElementLine line = editableFlowLayer.GetTextLine(i);
+                        EditableTextLine line = editableFlowLayer.GetTextLine(i);
                         line.Clear();
                         line.JoinWithNextLine();
                     }
@@ -507,7 +507,7 @@ endPoint.LineCharIndex - startPoint.LineCharIndex, false);
                 EditableVisualPointInfo newStartRangePointInfo = null;
                 EditableVisualPointInfo newEndRangePointInfo = null;
 
-                EditableVisualElementLine line = this;
+                EditableTextLine line = this;
                 if (startPoint.LineId != currentLineNumber)
                 {
                     line = editableFlowLayer.GetTextLine(startPoint.LineId);
@@ -595,7 +595,7 @@ endPoint.LineCharIndex - startPoint.LineCharIndex, false);
             }
             else
             {
-                EditableVisualElementLine workingLine = this;
+                EditableTextLine workingLine = this;
                 if (startPoint.LineId != currentLineNumber)
                 {
                     workingLine = editableFlowLayer.GetTextLine(startPoint.LineId);
@@ -878,11 +878,11 @@ EditableTextSpan onTextRun, int textRunCharOffset, int textRunPixelOffset)
         }
 
 
-        internal EditableVisualElementLine SplitToNewLine(EditableTextSpan startVisualElement)
+        internal EditableTextLine SplitToNewLine(EditableTextSpan startVisualElement)
         {
 
             LinkedListNode<EditableTextSpan> curNode = GetLineLinkedNode(startVisualElement);
-            EditableVisualElementLine newSplitedLine = editableFlowLayer.InsertNewLine(this.currentLineNumber + 1);
+            EditableTextLine newSplitedLine = editableFlowLayer.InsertNewLine(this.currentLineNumber + 1);
             newSplitedLine.LocalSuspendLineReArrange();
             while (curNode != null)
             {

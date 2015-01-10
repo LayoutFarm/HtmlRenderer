@@ -121,10 +121,17 @@ namespace LayoutFarm
                 }
             }
         }
-
+        public RenderElement dbugParentVisualElement
+        {
+            get { return this.ParentRenderElement; }
+        }
+        public override string ToString()
+        {
+            return string.Empty;
+        }
         protected string dbug_GetBoundInfo()
         {
-            Rectangle r = this.BoundRect;
+            Rectangle r = this.RectBounds;
             string output = "{" + r.X + "," + r.Y + "," + r.Width + "," + r.Height +
                 ";dw=" + this.ElementDesiredWidth +
                 ";dh=" + this.ElementDesiredHeight;
