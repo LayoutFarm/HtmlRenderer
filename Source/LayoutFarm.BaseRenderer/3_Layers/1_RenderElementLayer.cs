@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LayoutFarm.RenderBoxes
 {
-    public abstract class VisualLayer
+    public abstract class ElementLayerBase
     {
 
 #if DEBUG
@@ -35,7 +35,7 @@ namespace LayoutFarm.RenderBoxes
 
         int postCalculateContentWidth;
         int postCalculateContentHeight;
-        public VisualLayer(RenderElement owner)
+        public ElementLayerBase(RenderElement owner)
         {
             this.owner = owner;
 #if DEBUG
@@ -244,7 +244,7 @@ namespace LayoutFarm.RenderBoxes
                 return visualroot.dbug_GetLastestVisualLayoutTracer();
             }
         }
-        protected static void vinv_dbug_EnterLayerReCalculateContent(VisualLayer layer)
+        protected static void vinv_dbug_EnterLayerReCalculateContent(ElementLayerBase layer)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -257,7 +257,7 @@ namespace LayoutFarm.RenderBoxes
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
-            VisualLayer layer = (VisualLayer)debugVisualLay.PeekElement();
+            ElementLayerBase layer = (ElementLayerBase)debugVisualLay.PeekElement();
             debugVisualLay.WriteInfo("<..L_RECAL_TOPDOWN  :" + layer.ToString());
             debugVisualLay.PopLayerElement();
 
@@ -279,7 +279,7 @@ namespace LayoutFarm.RenderBoxes
             debugVisualLay.EndCurrentContext();
 
         }
-        protected static void vinv_dbug_EnterLayerReArrangeContent(VisualLayer layer)
+        protected static void vinv_dbug_EnterLayerReArrangeContent(ElementLayerBase layer)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -293,7 +293,7 @@ namespace LayoutFarm.RenderBoxes
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
 
-            VisualLayer layer = (VisualLayer)debugVisualLay.PeekElement();
+            ElementLayerBase layer = (ElementLayerBase)debugVisualLay.PeekElement();
             debugVisualLay.WriteInfo("<..LAYER_ARR :" + layer.ToString());
             debugVisualLay.PopLayerElement();
 

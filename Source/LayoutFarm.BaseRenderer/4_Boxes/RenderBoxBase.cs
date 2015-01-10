@@ -6,15 +6,13 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.RenderBoxes
 {
-    public delegate void PaintToOutputDelegate();
+   
 
 #if DEBUG
     [System.Diagnostics.DebuggerDisplay("RenderBoxBase {dbugGetCssBoxInfo}")]
 #endif
     public abstract class RenderBoxBase : RenderElement
     {
-
-
         VisualLayerCollection layers;
         int myviewportX;
         int myviewportY;
@@ -29,21 +27,6 @@ namespace LayoutFarm.RenderBoxes
         {
             get { return this.layers; }
             set { this.layers = value; }
-        }
-        public sealed override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
-        {
-
-            canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
-            updateArea.Offset(myviewportX, myviewportY);
-
-
-            this.DrawContent(canvas, updateArea);
-
-            canvas.OffsetCanvasOrigin(myviewportX, myviewportY);
-            updateArea.Offset(-myviewportX, -myviewportY);
-
-
-            //-------------------
         }
         public void SetViewport(int viewportX, int viewportY)
         {
@@ -64,14 +47,20 @@ namespace LayoutFarm.RenderBoxes
                 return this.myviewportY;
             }
         }
-        public void InvalidateContentArrangementFromContainerSizeChanged()
+       
+        
+        public sealed override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
-            this.MarkInvalidContentArrangement();
-            //foreach (VisualLayer layer in this.GetAllLayerBottomToTopIter())
-            //{
-            //    layer.InvalidateContentArrangementFromContainerSizeChanged();
-            //}
-        }
+
+            canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
+            updateArea.Offset(myviewportX, myviewportY);  
+
+            this.DrawContent(canvas, updateArea);
+
+            canvas.OffsetCanvasOrigin(myviewportX, myviewportY);
+            updateArea.Offset(-myviewportX, -myviewportY); 
+        }      
+        
         protected virtual void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             //sample ***
@@ -137,7 +126,14 @@ namespace LayoutFarm.RenderBoxes
             }
         }
 
-
+        public void InvalidateContentArrangementFromContainerSizeChanged()
+        {
+            this.MarkInvalidContentArrangement();
+            //foreach (VisualLayer layer in this.GetAllLayerBottomToTopIter())
+            //{
+            //    layer.InvalidateContentArrangementFromContainerSizeChanged();
+            //}
+        }
         protected static void InnerDoTopDownReCalculateContentSize(RenderBoxBase containerBase)
         {
             containerBase.TopDownReCalculateContentSize();
@@ -333,7 +329,7 @@ namespace LayoutFarm.RenderBoxes
 
             writer.LeaveCurrentLevel();
         }
-        void debug_RecordLayerInfo(VisualLayer layer)
+        void debug_RecordLayerInfo(ElementLayerBase layer)
         {
             RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
             if (visualroot.dbug_RecordDrawingChain)

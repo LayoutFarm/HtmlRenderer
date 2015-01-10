@@ -10,6 +10,7 @@ namespace LayoutFarm
 
     public abstract class TopWindowRenderBox : RenderBoxBase, ITopWindowRenderBox
     {
+        public delegate void PaintToOutputDelegate();
 
         VisualPlainLayer groundLayer;
         PaintToOutputDelegate paintToOutputHandler;
@@ -31,8 +32,10 @@ namespace LayoutFarm
         }
         public void ForcePaint()
         {
+            //raise paint event
             paintToOutputHandler();
         }
+
         public abstract void SetCanvasInvalidateRequest(CanvasInvalidateRequestDelegate canvasInvaliddateReqDel);
         public abstract void ChangeRootGraphicSize(int width, int height);
 
@@ -49,10 +52,7 @@ namespace LayoutFarm
             base.DrawContent(canvas, updateArea);
         }
 
-
-        //----------------------------------------------------------------------------
-        //public abstract void RootBeginGraphicUpdate();
-        //public abstract void RootEndGraphicUpdate();
+         
         public abstract void AddToLayoutQueue(RenderElement vs);
         public abstract void FlushGraphic(Rectangle rect);
         public abstract void PrepareRender();
@@ -61,11 +61,7 @@ namespace LayoutFarm
         {
             this.groundLayer.Clear();
         }
-        public void MakeCurrentTopWindow()
-        {
-
-            CurrentActiveTopWindow = this;
-        }
+         
 
 #if DEBUG
         public abstract void dbugShowRenderPart(Canvas canvasPage, Rectangle updateArea);
@@ -79,6 +75,6 @@ namespace LayoutFarm
 #endif
 
 
-        public static TopWindowRenderBox CurrentActiveTopWindow { get; private set; }
+        
     }
 }

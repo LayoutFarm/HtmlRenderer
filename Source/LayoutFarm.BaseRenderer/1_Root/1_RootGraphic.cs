@@ -389,7 +389,11 @@ namespace LayoutFarm
             }
         }
 
-
+        public abstract TopWindowRenderBox TopWindowRenderBox
+        {
+            get;
+            protected set;
+        }
 
     }
 }

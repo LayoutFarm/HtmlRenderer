@@ -12,7 +12,7 @@ namespace LayoutFarm.Text
 {
 
 
-    partial class EditableTextFlowLayer : VisualLayer
+    partial class EditableTextFlowLayer : ElementLayerBase
     {
 
         object lineCollection;

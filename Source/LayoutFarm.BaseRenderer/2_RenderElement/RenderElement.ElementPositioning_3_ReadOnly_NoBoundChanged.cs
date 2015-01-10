@@ -517,6 +517,7 @@ ve
 
         public TopWindowRenderBox GetTopWindowRenderBox()
         {
+            //recursive 
             if (parentLink == null)
             {
                 if (this.IsTopWindow)

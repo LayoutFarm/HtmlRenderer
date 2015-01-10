@@ -95,7 +95,7 @@ namespace LayoutFarm.Dev
                 this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
                 w, h);
 
-            TopWindowRenderBox topRenderBox = rootgfx.CreateTopWindowRenderBox(w, h);
+            TopWindowRenderBox topRenderBox = rootgfx.TopWindowRenderBox;
 
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(topRenderBox,
                 rootgfx.CreateUserEventPortal(topRenderBox),

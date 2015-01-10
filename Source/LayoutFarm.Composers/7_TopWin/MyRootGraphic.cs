@@ -16,11 +16,11 @@ namespace LayoutFarm.UI
         GraphicsPlatform graphicsPlatform;
 
         static object normalUpdateTask = new object();
-        
 
+        TopWindowRenderBox topWindowRenderBox;
         public MyRootGraphic(UIPlatform uiPlatform, GraphicsPlatform gfxPlatform, int width, int height)
             : base(width, height)
-        {   
+        {
             this.graphicsPlatform = gfxPlatform;
             this.graphicTimerTaskMan = new GraphicsTimerTaskManager(this, uiPlatform);
 #if DEBUG
@@ -28,15 +28,33 @@ namespace LayoutFarm.UI
             dbug_Init();
 #endif
 
+            //create default  render box
+            this.topWindowRenderBox = CreateTopWindowRenderBox(width, height);
+
             this.RequestGraphicsIntervalTask(normalUpdateTask,
                 TaskIntervalPlan.Animation,
                 20,
                 (s, e) =>
                 {
-                    TopWindowRenderBox.CurrentActiveTopWindow.InvalidateGraphics();                                                   
+                    topWindowRenderBox.InvalidateGraphics();
                 });
+
+
+
         }
-        public TopWindowRenderBox CreateTopWindowRenderBox(int w, int h)
+        public override TopWindowRenderBox TopWindowRenderBox
+        {
+            get
+            {
+                return this.topWindowRenderBox;
+            }
+            protected set
+            {
+                this.topWindowRenderBox = value;
+            }
+        }
+
+        TopWindowRenderBox CreateTopWindowRenderBox(int w, int h)
         {
             return new MyTopWindowRenderBox(this, w, h);
         }

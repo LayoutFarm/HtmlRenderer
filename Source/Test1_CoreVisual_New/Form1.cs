@@ -51,7 +51,7 @@ namespace TestGraphicPackage
                 w,
                 h);
 
-            TopWindowRenderBox topWin = rootgfx.CreateTopWindowRenderBox(w, h);
+            TopWindowRenderBox topWin = rootgfx.TopWindowRenderBox;
             Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(topWin,
                rootgfx.CreateUserEventPortal(topWin),
                InnerViewportKind.GdiPlus,
@@ -77,7 +77,7 @@ namespace TestGraphicPackage
 
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm, this.gfxPlatform, w, h);
 
-            TopWindowRenderBox topWin = rootgfx.CreateTopWindowRenderBox(w, h);
+            TopWindowRenderBox topWin = rootgfx.TopWindowRenderBox;
             viewport.InitRootGraphics(topWin, rootgfx.CreateUserEventPortal(topWin), InnerViewportKind.GdiPlus);
             viewport.PaintMe();
 

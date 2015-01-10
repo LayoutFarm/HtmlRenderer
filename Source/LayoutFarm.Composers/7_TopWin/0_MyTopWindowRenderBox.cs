@@ -9,7 +9,7 @@ namespace LayoutFarm.UI
 {
 
 
-    public partial class MyTopWindowRenderBox : TopWindowRenderBox
+    partial class MyTopWindowRenderBox : TopWindowRenderBox
     {
 
         List<RenderElement> layoutQueue = new List<RenderElement>();
