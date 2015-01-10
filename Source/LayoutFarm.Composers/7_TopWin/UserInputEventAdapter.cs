@@ -88,7 +88,7 @@ namespace LayoutFarm.UI
         }
         void FlushAccumGraphicUpdate()
         {
-            this.MyRootGraphic.FlushAccumGraphicUpdate(this.topwin);
+            this.MyRootGraphic.FlushAccumGraphicUpdate();
         }
 
         public IEventListener CurrentKeyboardFocusedElement

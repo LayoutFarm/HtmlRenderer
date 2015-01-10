@@ -35,7 +35,7 @@ namespace LayoutFarm.UI
 #endif
 
             //create default  render box
-            this.topWindowRenderBox = new LayoutFarm.TopWindowRenderBox(this, width, height);
+            this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
 
             this.RequestGraphicsIntervalTask(normalUpdateTask,
                 TaskIntervalPlan.Animation,
@@ -61,7 +61,7 @@ namespace LayoutFarm.UI
         }
         public override void PrepareRender()
         {
-            this.ClearRenderRequests(this.TopWindowRenderBox);
+            this.ClearRenderRequests();
             //clear layoutqueue
             if (layoutQueue.Count == 0)
             {
@@ -89,11 +89,11 @@ namespace LayoutFarm.UI
             get { return graphicsPlatform; }
         }
 
-        public override void ClearRenderRequests(TopWindowRenderBox topwin)
+        public override void ClearRenderRequests()
         {
             if (this.VisualRequestCount > 0)
             {
-                this.ClearVisualRequests(topwin);
+                this.ClearVisualRequests();
             }
         }
 
@@ -149,7 +149,7 @@ namespace LayoutFarm.UI
                 return renderRequestList.Count;
             }
         }
-        void ClearVisualRequests(TopWindowRenderBox wintop)
+        void ClearVisualRequests()
         {
             int j = renderRequestList.Count;
             for (int i = 0; i < j; ++i)
@@ -160,8 +160,7 @@ namespace LayoutFarm.UI
 
                     case RequestCommand.AddToWindowRoot:
                         {
-                            wintop.AddChild(req.ve);
-
+                            this.TopWindowRenderBox.AddChild(req.ve);
                         } break;
                     case RequestCommand.DoFocus:
                         {

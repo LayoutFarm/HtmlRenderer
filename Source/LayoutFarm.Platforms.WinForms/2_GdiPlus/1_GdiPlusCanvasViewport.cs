@@ -9,11 +9,11 @@ namespace LayoutFarm.UI.GdiPlus
 {
     class GdiPlusCanvasViewport : CanvasViewport
     {
-        QuadPages quadPages = null; 
+        QuadPages quadPages = null;
         public GdiPlusCanvasViewport(TopWindowRenderBox wintop,
             Size viewportSize, int cachedPageNum)
             : base(wintop, viewportSize, cachedPageNum)
-        { 
+        {
             quadPages = new QuadPages(wintop.Root.P, cachedPageNum, viewportSize.Width, viewportSize.Height * 2);
             this.CalculateCanvasPages();
         }
@@ -54,7 +54,7 @@ namespace LayoutFarm.UI.GdiPlus
         {
             if (this.IsClosed) { return; }
             //------------------------------------ 
-             
+
             this.rootGraphics.PrepareRender();
             //---------------
             this.rootGraphics.IsInRenderPhase = true;

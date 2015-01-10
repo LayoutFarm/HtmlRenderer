@@ -28,7 +28,7 @@ namespace LayoutFarm
 
         public abstract void CaretStartBlink();
         public abstract void CaretStopBlink();
-        public abstract void ClearRenderRequests(TopWindowRenderBox topwin);
+        public abstract void ClearRenderRequests();
 
         public abstract void AddToLayoutQueue(RenderElement renderElement);
 
@@ -76,7 +76,7 @@ namespace LayoutFarm
             if (GraphicUpdateBlockCount <= 0)
             {
                 DisableGraphicOutputFlush = false;
-                FlushAccumGraphicUpdate(this.TopWindowRenderBox);
+                FlushAccumGraphicUpdate();
                 GraphicUpdateBlockCount = 0;
             }
         }
@@ -116,7 +116,7 @@ namespace LayoutFarm
         }
 #endif
         public abstract void PrepareRender();
-        public void FlushAccumGraphicUpdate(TopWindowRenderBox topbox)
+        public void FlushAccumGraphicUpdate()
         {
             if (hasAccumRect)
             {
