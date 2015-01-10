@@ -4,7 +4,7 @@ using System;
 namespace PixelFarm.Drawing
 {
     
-    public interface ITopWindowRenderBox
+    public interface IRenderElement
     {
         void DrawToThisCanvas(Canvas canvas, Rectangle r);
 #if DEBUG
@@ -14,6 +14,6 @@ namespace PixelFarm.Drawing
 
     public interface IVisualDrawingChain
     {
-        void UpdateInvalidArea(Canvas targetCanvas, ITopWindowRenderBox rootbox);
+        void UpdateInvalidArea(Canvas targetCanvas, IRenderElement rootbox);
     }
 }

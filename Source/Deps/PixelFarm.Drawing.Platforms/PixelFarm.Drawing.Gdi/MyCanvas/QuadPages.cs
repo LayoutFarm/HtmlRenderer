@@ -95,7 +95,7 @@ namespace PixelFarm.Drawing.WinGdi
         internal const int PAGE_ABCD = 3;
 
         public void RenderToOutputWindowFullMode(
-            ITopWindowRenderBox topWindowRenderBox,
+            IRenderElement topWindowRenderBox,
             IntPtr destOutputHdc,
             int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
@@ -181,7 +181,7 @@ namespace PixelFarm.Drawing.WinGdi
             }
         }
 
-        static void UpdateAllArea(MyCanvas mycanvas, ITopWindowRenderBox topWindowRenderBox)
+        static void UpdateAllArea(MyCanvas mycanvas, IRenderElement topWindowRenderBox)
         {
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
@@ -198,13 +198,13 @@ namespace PixelFarm.Drawing.WinGdi
             mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
         }
 
-        static void UpdateInvalidArea(MyCanvas mycanvas, ITopWindowRenderBox rootElement, IVisualDrawingChain renderingChain)
+        static void UpdateInvalidArea(MyCanvas mycanvas, IRenderElement rootElement, IVisualDrawingChain renderingChain)
         {
 
             renderingChain.UpdateInvalidArea(mycanvas, rootElement);
 
         }
-        static void UpdateInvalidArea(MyCanvas mycanvas, ITopWindowRenderBox rootElement)
+        static void UpdateInvalidArea(MyCanvas mycanvas, IRenderElement rootElement)
         {
 #if DEBUG
 #endif
@@ -221,7 +221,7 @@ namespace PixelFarm.Drawing.WinGdi
 
 
         public void RenderToOutputWindowPartialMode(
-            ITopWindowRenderBox rootElement,
+            IRenderElement rootElement,
             IntPtr destOutputHdc,
             int viewportX, int viewportY,
             int viewportWidth, int viewportHeight)

@@ -70,13 +70,13 @@ namespace LayoutFarm
             GraphicUpdateBlockCount++;
             DisableGraphicOutputFlush = true;
         }
-        public void EndGraphicUpdate(TopWindowRenderBox topbox)
+        public void EndGraphicUpdate()
         {
             GraphicUpdateBlockCount--;
             if (GraphicUpdateBlockCount <= 0)
             {
                 DisableGraphicOutputFlush = false;
-                FlushAccumGraphicUpdate(topbox);
+                FlushAccumGraphicUpdate(this.TopWindowRenderBox);
                 GraphicUpdateBlockCount = 0;
             }
         }
@@ -126,18 +126,7 @@ namespace LayoutFarm
             }
             this.GraphicUpdateBlockCount = 0;
         }
-        public void InvalidateGraphicArea(RenderElement fromElement,
-            ref Rectangle elementClientRect,
-            out TopWindowRenderBox wintop)
-        {
 
-            if (IsInRenderPhase)
-            {
-                wintop = null;
-                return;
-            }
-            InvalidateGraphicArea(fromElement, elementClientRect, out wintop);
-        }
         public void SetCanvasInvalidateRequest(CanvasInvalidateRequestDelegate canvasInvaliddateReqDel)
         {
             this.canvasInvaliddateReqDel = canvasInvaliddateReqDel;
@@ -147,15 +136,12 @@ namespace LayoutFarm
         {
             this.canvasInvaliddateReqDel(ref rect);
         }
-        void InvalidateGraphicArea(RenderElement fromElement,
-            Rectangle elementClientRect,
-            out TopWindowRenderBox wintop)
+
+        public void InvalidateGraphicArea(RenderElement fromElement,ref Rectangle elementClientRect)
         {
-            if (this.IsInRenderPhase)
-            {
-                wintop = null;
-                return;
-            }
+            if (this.IsInRenderPhase) { return; }             
+            //--------------------------------------
+
             int globalX = 0;
             int globalY = 0;
             bool isBubbleUp = false;
@@ -173,7 +159,7 @@ namespace LayoutFarm
             int dbug_ncount = 0;
 
 #endif
-            wintop = null;
+
 
             do
             {
@@ -262,7 +248,7 @@ namespace LayoutFarm
 
                 if (fromElement.IsTopWindow)
                 {
-                    wintop = (TopWindowRenderBox)fromElement;
+
                     break;
                 }
                 else

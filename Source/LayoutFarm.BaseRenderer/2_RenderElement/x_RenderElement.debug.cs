@@ -376,6 +376,42 @@ namespace LayoutFarm
         }
         //temp
         static object dbugInitObject;
+
+
+#if DEBUG
+        public void dbugShowRenderPart(Canvas canvasPage, Rectangle updateArea)
+        {
+            RootGraphic visualroot = this.dbugVRoot;
+            if (visualroot.dbug_ShowRootUpdateArea)
+            {
+                canvasPage.FillRectangle(Color.FromArgb(50, Color.Black),
+                     updateArea.Left, updateArea.Top,
+                        updateArea.Width - 1, updateArea.Height - 1);
+                canvasPage.FillRectangle(Color.White,
+                     updateArea.Left, updateArea.Top, 5, 5);
+                canvasPage.DrawRectangle(Color.Yellow,
+                        updateArea.Left, updateArea.Top,
+                        updateArea.Width - 1, updateArea.Height - 1);
+
+                Color c_color = canvasPage.CurrentTextColor;
+                canvasPage.CurrentTextColor = Color.White;
+                canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea.Left, updateArea.Top);
+                if (updateArea.Height > 25)
+                {
+                    canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea.Left, updateArea.Top + (updateArea.Height - 20));
+                }
+                canvasPage.CurrentTextColor = c_color;
+                visualroot.dbug_RootUpdateCounter++;
+            }
+        }
+        public RootGraphic dbugVisualRoot
+        {
+            get
+            {
+                return this.Root;
+            }
+        }
+#endif 
     }
 #endif
 }

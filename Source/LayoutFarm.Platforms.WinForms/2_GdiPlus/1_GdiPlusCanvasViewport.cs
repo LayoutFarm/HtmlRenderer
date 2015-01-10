@@ -54,7 +54,8 @@ namespace LayoutFarm.UI.GdiPlus
         {
             if (this.IsClosed) { return; }
             //------------------------------------ 
-            topWindowBox.PrepareRender();
+             
+            this.rootGraphics.PrepareRender();
             //---------------
             this.rootGraphics.IsInRenderPhase = true;
 #if DEBUG

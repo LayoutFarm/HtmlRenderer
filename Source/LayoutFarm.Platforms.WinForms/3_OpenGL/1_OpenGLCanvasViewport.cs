@@ -109,7 +109,8 @@ namespace LayoutFarm.UI.OpenGL
 
             if (this.IsClosed) { return; }
             //------------------------------------ 
-            topWindowBox.PrepareRender();
+             
+            this.rootGraphics.PrepareRender();
             //---------------
             this.rootGraphics.IsInRenderPhase = true;
 #if DEBUG
@@ -141,7 +142,7 @@ namespace LayoutFarm.UI.OpenGL
 #endif
         }
 
-        static void UpdateAllArea(Canvas mycanvas, ITopWindowRenderBox topWindowRenderBox)
+        static void UpdateAllArea(Canvas mycanvas, IRenderElement topWindowRenderBox)
         {
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);

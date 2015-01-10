@@ -16,21 +16,21 @@ namespace LayoutFarm
             {
                 return;
             }
-            TopWindowRenderBox wintop;
-            RootInvalidateGraphicArea(ve, ref localArea, out wintop);
+
+            RootInvalidateGraphicArea(ve, ref localArea);
         }
         public void InvalidateGraphics()
         {
-            TopWindowRenderBox wintop;
-            InvalidateGraphic(out wintop);
+
+            InvalidateGraphic();
         }
 
-        static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect, out TopWindowRenderBox wintop)
+        static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect)
         {
             //1.
             elem.propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
             //2.  
-            elem.rootGfx.InvalidateGraphicArea(elem, ref rect, out wintop);
+            elem.rootGfx.InvalidateGraphicArea(elem, ref rect);
 
         }
 
@@ -67,7 +67,7 @@ namespace LayoutFarm
 #endif
             }
         }
-        internal bool InvalidateGraphic(out TopWindowRenderBox wintop)
+        internal bool InvalidateGraphic()
         {
             propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
             if ((uiLayoutFlags & RenderElementConst.LY_SUSPEND_GRAPHIC) != 0)
@@ -75,13 +75,14 @@ namespace LayoutFarm
 #if DEBUG
                 dbugVRoot.dbug_PushInvalidateMsg(RootGraphic.dbugMsg_BLOCKED, this);
 #endif
-                wintop = null;
+
                 return false;
             }
 
             Rectangle rect = new Rectangle(0, 0, b_width, b_height);
-            RootInvalidateGraphicArea(this, ref rect, out wintop);
-            return wintop != null;
+
+            RootInvalidateGraphicArea(this, ref rect);
+            return true;//TODO: review this 
         }
 
         internal void BeginGraphicUpdate()
@@ -93,10 +94,10 @@ namespace LayoutFarm
         internal void EndGraphicUpdate()
         {
             this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
-            TopWindowRenderBox wintop;
-            if (InvalidateGraphic(out wintop))
+
+            if (InvalidateGraphic())
             {
-                this.rootGfx.EndGraphicUpdate(wintop);
+                this.rootGfx.EndGraphicUpdate();
             }
         }
         void BeforeBoundChangedInvalidateGraphics()
@@ -108,10 +109,10 @@ namespace LayoutFarm
         void AfterBoundChangedInvalidateGraphics()
         {
             this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
-            TopWindowRenderBox wintop;
-            if (InvalidateGraphic(out wintop))
+
+            if (InvalidateGraphic())
             {
-                this.rootGfx.EndGraphicUpdate(wintop);
+                this.rootGfx.EndGraphicUpdate();
             }
         }
 

@@ -77,7 +77,7 @@ namespace LayoutFarm.UI
         {
             this.paintToOutputHandler();
         }
-        
+
         public IUserEventPortal CreateUserEventPortal(TopWindowRenderBox topwin)
         {
             UserInputEventAdapter userInputEventBridge = new UserInputEventAdapter();
@@ -173,8 +173,8 @@ namespace LayoutFarm.UI
                     case RequestCommand.InvalidateArea:
                         {
                             Rectangle r = (Rectangle)req.parameters;
-                            TopWindowRenderBox wintop2;
-                            this.InvalidateGraphicArea(req.ve, ref r, out wintop2);
+
+                            this.InvalidateGraphicArea(req.ve, ref r);
                         } break;
 
                 }
