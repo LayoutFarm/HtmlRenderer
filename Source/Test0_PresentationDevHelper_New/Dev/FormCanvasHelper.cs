@@ -15,14 +15,13 @@ namespace LayoutFarm.UI
             InnerViewportKind internalViewportKind,
             out LayoutFarm.UI.UISurfaceViewportControl canvasViewport)
         {
-            var topWin = myRootGfx.TopWindowRenderBox;
-            var userInputEvBridge = myRootGfx.CreateUserEventPortal(topWin);
+    
 
             Form form1 = new Form();
             var innerViewport = canvasViewport = new LayoutFarm.UI.UISurfaceViewportControl();
             Rectangle screenClientAreaRect = Conv.ToRect(Screen.PrimaryScreen.WorkingArea);
 
-            canvasViewport.InitRootGraphics(myRootGfx, userInputEvBridge, internalViewportKind);
+            canvasViewport.InitRootGraphics(myRootGfx, myRootGfx.UserInputEventAdapter, internalViewportKind);
             canvasViewport.Bounds =
                 new System.Drawing.Rectangle(0, 0,
                     screenClientAreaRect.Width,

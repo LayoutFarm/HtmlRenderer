@@ -99,7 +99,7 @@ namespace LayoutFarm.UI
             e.Clear();
             canvasInvalidatedEventsQ.Push(e);
         }
-        public UIMouseEventArgs GetFreeMouseEventArgs(TopWindowRenderBox wintop)
+        public UIMouseEventArgs GetFreeMouseEventArgs()
         {
             if (mouseEventsQ.Count > 0)
             {

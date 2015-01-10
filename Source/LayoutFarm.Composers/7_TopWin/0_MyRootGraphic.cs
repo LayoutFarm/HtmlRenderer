@@ -22,6 +22,7 @@ namespace LayoutFarm.UI
 
 
         static object normalUpdateTask = new object();
+        UserInputEventAdapter userInputEventAdapter;
 
         TopWindowRenderBox topWindowRenderBox;
         public MyRootGraphic(UIPlatform uiPlatform, GraphicsPlatform gfxPlatform, int width, int height)
@@ -36,7 +37,7 @@ namespace LayoutFarm.UI
 
             //create default  render box
             this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
-
+            this.userInputEventAdapter = CreateUserEventPortal();
             this.RequestGraphicsIntervalTask(normalUpdateTask,
                 TaskIntervalPlan.Animation,
                 20,
@@ -44,9 +45,11 @@ namespace LayoutFarm.UI
                 {
                     topWindowRenderBox.InvalidateGraphics();
                 });
+        }
 
-
-
+        public IUserEventPortal UserInputEventAdapter
+        {
+            get { return this.userInputEventAdapter; }
         }
         public override TopWindowRenderBox TopWindowRenderBox
         {
@@ -78,10 +81,10 @@ namespace LayoutFarm.UI
             this.paintToOutputHandler();
         }
 
-        public IUserEventPortal CreateUserEventPortal(TopWindowRenderBox topwin)
+        UserInputEventAdapter CreateUserEventPortal()
         {
             UserInputEventAdapter userInputEventBridge = new UserInputEventAdapter();
-            userInputEventBridge.Bind(topwin);
+            userInputEventBridge.Bind(this.TopWindowRenderBox);
             return userInputEventBridge;
         }
         public override GraphicsPlatform P
