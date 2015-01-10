@@ -23,11 +23,12 @@ namespace LayoutFarm.RenderBoxes
             this.MayHasViewport = true;
             this.MayHasChild = true;
         }
-        public VisualLayerCollection Layers
+        protected VisualLayerCollection MyLayers
         {
             get { return this.layers; }
             set { this.layers = value; }
         }
+        
         public void SetViewport(int viewportX, int viewportY)
         {
             this.myviewportX = viewportX;

@@ -15,8 +15,8 @@ namespace LayoutFarm
             : base(rootGfx, width, height)
         {
             groundLayer = new VisualPlainLayer(this);
-            this.Layers = new VisualLayerCollection();
-            this.Layers.AddLayer(groundLayer);
+            this.MyLayers = new VisualLayerCollection();
+            this.MyLayers.AddLayer(groundLayer);
 
             this.IsTopWindow = true;
             this.HasSpecificSize = true;
@@ -29,7 +29,11 @@ namespace LayoutFarm
         public override void ClearAllChildren()
         {
             this.groundLayer.Clear();
-        } 
+        }
+        public VisualPlainLayer Layer0
+        {
+            get { return this.groundLayer; }
+        }
     }
 
 }

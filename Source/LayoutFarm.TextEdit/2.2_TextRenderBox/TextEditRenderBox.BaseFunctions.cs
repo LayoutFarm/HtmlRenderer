@@ -44,9 +44,8 @@ namespace LayoutFarm.Text
 
             textLayer = new EditableTextFlowLayer(this);
 
-            this.Layers = new VisualLayerCollection();
-
-            this.Layers.AddLayer(textLayer);
+            this.MyLayers = new VisualLayerCollection();
+            this.MyLayers.AddLayer(textLayer);
 
 
             internalTextLayerController = new InternalTextLayerController(this, textLayer);

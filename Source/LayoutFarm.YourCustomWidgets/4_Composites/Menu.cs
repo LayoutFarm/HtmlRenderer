@@ -21,7 +21,7 @@ namespace LayoutFarm.CustomWidgets
 
         //2. float part   
         MenuBox floatPart;
-        RenderElement floatPartRenderElement;
+        CustomRenderBox floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
 
         List<MenuItem> childItems;
@@ -227,7 +227,7 @@ namespace LayoutFarm.CustomWidgets
                         {
                             Point globalLocation = primElement.GetGlobalLocation();
                             floatPart.SetLocation(globalLocation.X, globalLocation.Y + primElement.Height);
-                            this.floatPartRenderElement = this.floatPart.GetPrimaryRenderElement(primElement.Root);
+                            this.floatPartRenderElement = this.floatPart.GetPrimaryRenderElement(primElement.Root) as CustomRenderBox;
                             topRenderBox.AddChild(floatPartRenderElement);
                         }
 
@@ -256,7 +256,7 @@ namespace LayoutFarm.CustomWidgets
                         if (floatPartRenderElement != null)
                         {
                             //temp
-                            var parentContainer = floatPartRenderElement.ParentRenderElement as RenderBoxes.RenderBoxBase;
+                            var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
                             if (parentContainer.Layers != null)
                             {
                                 VisualPlainLayer plainLayer = (VisualPlainLayer)parentContainer.Layers.GetLayer(0);
@@ -310,7 +310,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.topWindow = rootgfx.TopWindowRenderBox;
                 if (topWindow != null)
-                {   
+                {
                     topWindow.AddChild(this.myRenderE = this.GetPrimaryRenderElement(topWindow.Root));
                 }
                 showing = true;
@@ -324,7 +324,7 @@ namespace LayoutFarm.CustomWidgets
                 showing = false;
                 if (this.topWindow != null && this.myRenderE != null)
                 {
-                    var plainLayer = topWindow.Layers.GetLayer(0) as VisualPlainLayer;
+                    var plainLayer = topWindow.Layer0;
                     plainLayer.RemoveChild(this.myRenderE);
                 }
             }

@@ -36,14 +36,19 @@ namespace LayoutFarm.CustomWidgets
         {
             //sample bg   
             canvas.FillRectangle(BackColor, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
-            if (this.Layers != null)
+            if (this.MyLayers != null)
             {
-                this.Layers.LayersDrawContent(canvas, updateArea);
+                this.MyLayers.LayersDrawContent(canvas, updateArea);
             }
 #if DEBUG
             //canvasPage.dbug_DrawCrossRect(PixelFarm.Drawing.Color.Black,
             //    new Rectangle(0, 0, this.Width, this.Height));
 #endif
+        }
+        public VisualLayerCollection Layers
+        {
+            get { return this.MyLayers; }
+            set { this.MyLayers = value; }
         }
     }
 

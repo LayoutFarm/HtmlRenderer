@@ -4,8 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
- 
-using LayoutFarm.UI; 
+
+using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.CustomWidgets
@@ -21,7 +21,7 @@ namespace LayoutFarm.CustomWidgets
             : base(rootgfx, width, height)
         {
             this.BackColor = Color.LightGray;
-            
+
         }
         public override void ClearAllChildren()
         {
@@ -30,6 +30,11 @@ namespace LayoutFarm.CustomWidgets
         {
             get;
             set;
+        }
+        public VisualLayerCollection Layers
+        {
+            get { return this.MyLayers; }
+            set { this.MyLayers = value; }
         }
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {

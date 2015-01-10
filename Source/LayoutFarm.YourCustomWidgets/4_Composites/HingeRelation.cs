@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
- 
-using LayoutFarm.UI; 
+
+using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {
     public class HingeRelation
-    {   
+    {
         bool isOpen;
         //1. land part
         UIBox landPart;
@@ -76,10 +76,10 @@ namespace LayoutFarm.CustomWidgets
 
         public void OpenHinge()
         {
-            if (isOpen) return; 
-            this.isOpen = true; 
+            if (isOpen) return;
+            this.isOpen = true;
             //-----------------------------------
-            if (landPart == null) return; 
+            if (landPart == null) return;
             if (floatPart == null) return;
 
 
@@ -123,7 +123,7 @@ namespace LayoutFarm.CustomWidgets
                         if (floatPartRenderElement != null)
                         {
                             //temp
-                            var parentContainer = floatPartRenderElement.ParentRenderElement as RenderBoxBase;
+                            var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
                             if (parentContainer.Layers != null)
                             {
                                 VisualPlainLayer plainLayer = (VisualPlainLayer)parentContainer.Layers.GetLayer(0);

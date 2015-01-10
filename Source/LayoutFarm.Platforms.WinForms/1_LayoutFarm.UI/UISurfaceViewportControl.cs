@@ -95,11 +95,11 @@ namespace LayoutFarm.UI
 #endif
         public void TopDownRecalculateContent()
         {
-            this.rootgfx.TopWindowRenderBox.TopDownReCalculateContentSize();             
+            this.rootgfx.TopWindowRenderBox.TopDownReCalculateContentSize();
         }
         public void AddContent(RenderElement vi)
         {
-            var layer0 = this.rootgfx.TopWindowRenderBox.Layers.Layer0 as VisualPlainLayer;
+            var layer0 = this.rootgfx.TopWindowRenderBox.Layer0 as VisualPlainLayer;
             if (layer0 != null)
             {
                 layer0.AddChild(vi);
