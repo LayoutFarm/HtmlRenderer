@@ -10,7 +10,34 @@ namespace LayoutFarm
 {
     partial class RenderElement
     {
-        public static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea)
+        
+        public bool InvalidateGraphics()
+        {
+
+            propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
+            if ((uiLayoutFlags & RenderElementConst.LY_SUSPEND_GRAPHIC) != 0)
+            {
+#if DEBUG
+                dbugVRoot.dbug_PushInvalidateMsg(RootGraphic.dbugMsg_BLOCKED, this);
+#endif
+
+                return false;
+            }
+
+            Rectangle rect = new Rectangle(0, 0, b_width, b_height);
+
+            RootInvalidateGraphicArea(this, ref rect);
+            return true;//TODO: review this 
+        }
+
+        static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect)
+        {
+            //1.
+            elem.propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
+            //2.  
+            elem.rootGfx.InvalidateGraphicArea(elem, ref rect); 
+        } 
+        protected static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea)
         {
             if (localArea.Height == 0 || localArea.Width == 0)
             {
@@ -19,22 +46,6 @@ namespace LayoutFarm
 
             RootInvalidateGraphicArea(ve, ref localArea);
         }
-        public void InvalidateGraphics()
-        {
-
-            InvalidateGraphic();
-        }
-
-        static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect)
-        {
-            //1.
-            elem.propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
-            //2.  
-            elem.rootGfx.InvalidateGraphicArea(elem, ref rect);
-
-        }
-
-
         //TODO: review this again
         protected bool ForceReArrange
         {
@@ -68,23 +79,7 @@ namespace LayoutFarm
 #endif
             }
         }
-        internal bool InvalidateGraphic()
-        {
-            propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
-            if ((uiLayoutFlags & RenderElementConst.LY_SUSPEND_GRAPHIC) != 0)
-            {
-#if DEBUG
-                dbugVRoot.dbug_PushInvalidateMsg(RootGraphic.dbugMsg_BLOCKED, this);
-#endif
-
-                return false;
-            }
-
-            Rectangle rect = new Rectangle(0, 0, b_width, b_height);
-
-            RootInvalidateGraphicArea(this, ref rect);
-            return true;//TODO: review this 
-        }
+         
 
         internal void BeginGraphicUpdate()
         {
@@ -96,7 +91,7 @@ namespace LayoutFarm
         {
             this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
 
-            if (InvalidateGraphic())
+            if (InvalidateGraphics())
             {
                 this.rootGfx.EndGraphicUpdate();
             }
@@ -111,7 +106,7 @@ namespace LayoutFarm
         {
             this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
 
-            if (InvalidateGraphic())
+            if (InvalidateGraphics())
             {
                 this.rootGfx.EndGraphicUpdate();
             }

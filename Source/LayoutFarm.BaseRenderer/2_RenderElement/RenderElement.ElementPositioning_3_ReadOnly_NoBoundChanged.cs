@@ -24,29 +24,21 @@ namespace LayoutFarm
         public bool IntersectsWith(Rectangle r)
         {
             int left = this.b_left;
-
             if (((left <= r.Left) && (this.Right > r.Left)) ||
                 ((left >= r.Left) && (left < r.Right)))
             {
                 int top = this.b_top;
-                if (((top <= r.Top) && (this.Bottom > r.Top)) ||
-               ((top >= r.Top) && (top < r.Bottom)))
-                {
-                    return true;
-                }
+
+                return (((top <= r.Top) && (this.Bottom > r.Top)) ||
+                          ((top >= r.Top) && (top < r.Bottom)));
             }
             return false;
         }
-        public bool IntersectOnHorizontalWith(Rectangle r)
+        public bool IntersectOnHorizontalWith(ref Rectangle r)
         {
             int left = this.b_left;
-
-            if (((left <= r.Left) && (this.Right > r.Left)) ||
-                ((left >= r.Left) && (left < r.Right)))
-            {
-                return true;
-            }
-            return false;
+            return (((left <= r.Left) && (this.Right > r.Left)) ||
+                     ((left >= r.Left) && (left < r.Right)));
         }
 
 
@@ -55,7 +47,6 @@ namespace LayoutFarm
             get
             {
                 return new Rectangle(b_left, b_top, b_width, b_height);
-
             }
         }
         public Size Size
@@ -157,6 +148,7 @@ namespace LayoutFarm
         {
             return GetGlobalLocationStatic(this);
         }
+
         static Point GetGlobalLocationStatic(RenderElement ui)
         {
 
@@ -189,9 +181,8 @@ namespace LayoutFarm
             return ((propFlags & RenderElementConst.HIDDEN) != 0) ?
                         false :
                         ContainPoint(testPoint.X, testPoint.Y);
-
         }
-        public bool IsTestable
+        public bool VisibleAndHasParent
         {
             get { return ((this.propFlags & RenderElementConst.HIDDEN) == 0) && (this.parentLink != null); }
         }
@@ -266,7 +257,6 @@ namespace LayoutFarm
         {
             return ((x >= b_left && x < Right) && (y >= b_top && y < Bottom));
         }
-
         public bool ContainRect(Rectangle r)
         {
             return r.Left >= b_left &&
@@ -298,13 +288,11 @@ namespace LayoutFarm
                 return b_left + this.ElementDesiredWidth;
             }
         }
-
         public int ElementDesiredBottom
         {
             get
             {
                 return b_top + this.ElementDesiredHeight;
-
             }
         }
         public int ElementDesiredHeight
@@ -357,7 +345,8 @@ namespace LayoutFarm
 
             }
         }
-        public static int GetLayoutSpecificDimensionType(RenderElement visualElement)
+
+        internal static int GetLayoutSpecificDimensionType(RenderElement visualElement)
         {
             return visualElement.uiLayoutFlags & 0x3;
         }
@@ -402,7 +391,7 @@ namespace LayoutFarm
                    uiLayoutFlags & ~RenderElementConst.LY_IN_LAYOUT_QCHAIN_UP;
             }
         }
-        public void InvalidateLayoutAndStartBubbleUp()
+        internal void InvalidateLayoutAndStartBubbleUp()
         {
             MarkInvalidContentSize();
             MarkInvalidContentArrangement();
@@ -516,22 +505,9 @@ ve
 
         public TopWindowRenderBox GetTopWindowRenderBox()
         {
-            if (parentLink == null)
-            {
-                if (this.IsTopWindow)
-                {
-                    return (TopWindowRenderBox)this;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            else
-            {
-                return this.rootGfx.TopWindowRenderBox;
+            if (parentLink == null) { return null; }
 
-            }
+            return this.rootGfx.TopWindowRenderBox;
         }
 
         public void StartBubbleUpLayoutInvalidState()
@@ -541,10 +517,10 @@ ve
             dbugVRoot.dbug_LayoutTraceBeginContext(RootGraphic.dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter, this);
 #endif
 
-            
+
             RenderElement tobeAddToLayoutQueue = BubbleUpInvalidLayoutToTopMost(this);
 
-            if (tobeAddToLayoutQueue != null 
+            if (tobeAddToLayoutQueue != null
                 && !tobeAddToLayoutQueue.IsInLayoutQueue)
             {
                 this.rootGfx.AddToLayoutQueue(tobeAddToLayoutQueue);
@@ -563,15 +539,7 @@ ve
                 return (uiLayoutFlags & RenderElementConst.LAY_HAS_CALCULATED_SIZE) == 0;
             }
         }
-#if DEBUG
-        public bool dbugNeedReCalculateContentSize
-        {
-            get
-            {
-                return this.NeedReCalculateContentSize;
-            }
-        }
-#endif
+
         public int GetReLayoutState()
         {
             return (uiLayoutFlags >> (7 - 1)) & 0x3;
@@ -588,8 +556,7 @@ ve
 #endif
         }
         public void MarkInvalidContentSize()
-        {
-
+        {   
             uiLayoutFlags &= ~RenderElementConst.LAY_HAS_CALCULATED_SIZE;
 #if DEBUG
             this.dbug_InvalidateRecalculateSizeEpisode++;
@@ -611,14 +578,5 @@ ve
                 return (uiLayoutFlags & RenderElementConst.LY_HAS_ARRANGED_CONTENT) == 0;
             }
         }
-#if DEBUG
-        public bool dbugNeedContentArrangement
-        {
-            get
-            {
-                return this.NeedContentArrangement;
-            }
-        }
-#endif
     }
 }

@@ -170,7 +170,7 @@ namespace LayoutFarm.UI
                 {
                     HitInfo hitInfo = previousChain.GetHitInfo(i);
                     RenderElement elem = hitInfo.hitElement;
-                    if (elem != null && elem.IsTestable)
+                    if (elem != null && elem.VisibleAndHasParent)
                     {
                         if (elem.Contains(hitInfo.point))
                         {

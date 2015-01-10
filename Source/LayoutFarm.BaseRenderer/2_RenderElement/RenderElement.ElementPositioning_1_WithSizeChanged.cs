@@ -17,47 +17,45 @@ namespace LayoutFarm
         {
             MarkHasValidCalculateSize();
         }
-        public static void SetCalculatedDesiredSize(RenderBoxBase v, int desiredWidth, int desiredHeight)
+
+        internal static void SetCalculatedDesiredSize(RenderBoxBase v, int desiredWidth, int desiredHeight)
         {
             v.b_width = desiredWidth;
             v.b_height = desiredHeight;
             v.MarkHasValidCalculateSize();
         }
-        public bool IsLayoutSuspending
+        public static bool IsLayoutSuspending(RenderBoxBase re)
         {
-            get
+            //recursive
+            if (re.IsTopWindow)
+            {
+                return (re.uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0;
+            }
+            else
             {
 
-                if (this.IsTopWindow)
+                if ((re.uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0)
                 {
-                    return (this.uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0;
+
+                    return true;
                 }
                 else
                 {
 
-                    if ((this.uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0)
+                    var parentElement = re.ParentRenderElement as RenderBoxBase;
+                    if (parentElement != null)
                     {
-
-                        return true;
+                        return IsLayoutSuspending(parentElement);
                     }
                     else
                     {
-
-                        RenderElement parentElement = this.ParentRenderElement;
-                        if (parentElement != null)
-                        {
-                            return parentElement.IsLayoutSuspending;
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                 }
             }
         }
 
-        public bool IsInLayoutSuspendMode
+        bool IsInLayoutSuspendMode
         {
             get
             {
@@ -106,9 +104,10 @@ namespace LayoutFarm
             }
             else
             {
-
-                int prevWidth = this.b_width;
-                int prevHeight = this.b_height;
+#if DEBUG
+                int dbug_prevWidth = this.b_width;
+                int dbug_prevHeight = this.b_height;
+#endif
                 this.BeforeBoundChangedInvalidateGraphics();
                 PrivateSetSize(width, height);
                 this.AfterBoundChangedInvalidateGraphics();
@@ -123,9 +122,10 @@ namespace LayoutFarm
             }
             else
             {
-
-                int prevWidth = this.b_width;
-                int prevHeight = this.b_height;
+#if DEBUG
+                int dbug_prevLeft = this.b_left;
+                int dbug_prevTop = this.b_top;
+#endif
                 this.BeginGraphicUpdate();
                 DirectSetVisualElementLocation(this, left, top);
                 this.EndGraphicUpdate();

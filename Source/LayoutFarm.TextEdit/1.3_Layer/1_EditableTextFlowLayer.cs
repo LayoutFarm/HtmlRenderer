@@ -245,7 +245,7 @@ namespace LayoutFarm.Text
                     while (curNode != null)
                     {
                         EditableTextSpan child = curNode.Value;
-                        if (child.IntersectOnHorizontalWith(updateArea))
+                        if (child.IntersectOnHorizontalWith(ref updateArea))
                         {
                             int x = child.X;
                             canvas.OffsetCanvasOriginX(x);
@@ -282,7 +282,7 @@ namespace LayoutFarm.Text
                     while (curNode != null)
                     {
                         EditableTextSpan child = curNode.Value;
-                        if (child.IntersectOnHorizontalWith(updateArea))
+                        if (child.IntersectOnHorizontalWith(ref updateArea))
                         {
                             int x = child.X;
                             canvas.OffsetCanvasOriginX(x);

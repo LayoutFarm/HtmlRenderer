@@ -271,7 +271,7 @@ namespace LayoutFarm.UI
 
 #endif
 
-            if (veContainerBase.IsLayoutSuspending)
+            if (RenderElement.IsLayoutSuspending((RenderBoxBase)veContainerBase))
             {
 #if DEBUG
                 dbug_WriteInfo(debugVisualLay, dbugVisitorMessage.E_RECAL_BUB_EARLY_EXIT, veContainerBase);
@@ -304,9 +304,9 @@ namespace LayoutFarm.UI
             else
             {
 
-                RenderBoxBase ownerContainer = veContainerBase.ParentRenderElement as RenderBoxBase;
+                var ownerContainer = veContainerBase.ParentRenderElement as RenderBoxBase;
 
-                if (ownerContainer != null && !ownerContainer.IsLayoutSuspending)
+                if (ownerContainer != null && !RenderBoxBase.IsLayoutSuspending(ownerContainer))
                 {
 
                     if (ownerContainer.HasParent)
@@ -348,7 +348,7 @@ namespace LayoutFarm.UI
                     {
                         dbug_WriteInfo(debugVisualLay, dbugVisitorMessage.NO_OWNER_LAY, null);
                     }
-                    else if (ownerContainer.IsLayoutSuspending)
+                    else if (RenderElement.IsLayoutSuspending(ownerContainer))
                     {
                         dbug_WriteInfo(debugVisualLay, dbugVisitorMessage.OWNER_LAYER_SUSPEND_SO_EARLY_EXIT, null);
                     }

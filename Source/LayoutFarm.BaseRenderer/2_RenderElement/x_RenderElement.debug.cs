@@ -40,6 +40,20 @@ namespace LayoutFarm
 
     partial class RenderElement
     {
+        public bool dbugNeedContentArrangement
+        {
+            get
+            {
+                return this.NeedContentArrangement;
+            }
+        }
+        public bool dbugNeedReCalculateContentSize
+        {
+            get
+            {
+                return this.NeedReCalculateContentSize;
+            }
+        }
         public Rectangle dbugGetGlobalRect()
         {
             return new Rectangle(GetGlobalLocationStatic(this), Size);

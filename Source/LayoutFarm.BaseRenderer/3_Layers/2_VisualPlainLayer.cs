@@ -135,15 +135,13 @@ namespace LayoutFarm.RenderBoxes
 
         }
 #endif
-
-
         public override bool HitTestCore(HitChain hitChain)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) == 0)
             {
-                foreach (RenderElement ui in this.GetHitTestIter())
+                foreach (RenderElement renderE in this.GetHitTestIter())
                 {
-                    if (ui.HitTestCore(hitChain))
+                    if (renderE.HitTestCore(hitChain))
                     {
                         return true;
                     }

@@ -208,7 +208,7 @@ namespace LayoutFarm.RenderBoxes
 #endif
 
             this.MarkValidContentArrangement();
-            IsInTopDownReArrangePhase = true;
+            
             IsInTopDownReArrangePhase = true;
 
             this.layers.ForceTopDownReArrangeContent();

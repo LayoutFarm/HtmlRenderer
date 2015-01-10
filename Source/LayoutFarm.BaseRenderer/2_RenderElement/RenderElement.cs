@@ -12,8 +12,7 @@ namespace LayoutFarm
     public abstract partial class RenderElement : IRenderElement
     {
 
-        bool mayHasChild;
-        bool mayHasViewport;
+
         RootGraphic rootGfx;
         IParentLink parentLink;
         object controller;
@@ -35,6 +34,10 @@ namespace LayoutFarm
             get { return this.rootGfx; }
         }
 
+
+
+        //==============================================================
+        //controller-listener
         public object GetController()
         {
             return controller;
@@ -42,6 +45,20 @@ namespace LayoutFarm
         public void SetController(object controller)
         {
             this.controller = controller;
+        }
+        public bool TransparentForAllEvents
+        {
+            get
+            {
+                return (propFlags & RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS) != 0;
+            }
+            set
+            {
+                propFlags = value ?
+                       propFlags | RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS :
+                       propFlags & ~RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS;
+
+            }
         }
 
         //==============================================================
@@ -53,7 +70,6 @@ namespace LayoutFarm
                 return this.parentLink != null;
             }
         }
-
         public virtual void ClearAllChildren()
         {
 
@@ -84,6 +100,33 @@ namespace LayoutFarm
         {
             childElement.parentLink = parentLink;
         }
+        public bool MayHasChild
+        {
+            get { return (propFlags & RenderElementConst.MAY_HAS_CHILD) != 0; }
+            protected set
+            {
+                propFlags = value ?
+                      propFlags | RenderElementConst.MAY_HAS_CHILD :
+                      propFlags & ~RenderElementConst.MAY_HAS_CHILD;
+            }
+        }
+        public bool MayHasViewport
+        {
+            get { return (propFlags & RenderElementConst.MAY_HAS_VIEWPORT) != 0; }
+            protected set
+            {
+                propFlags = value ?
+                      propFlags | RenderElementConst.MAY_HAS_VIEWPORT :
+                      propFlags & ~RenderElementConst.MAY_HAS_VIEWPORT;
+            }
+        }
+        public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
+        {
+            return null;
+        }
+        public virtual void ChildrenHitTestCore(HitChain hitChain)
+        {
+        }
 
         //==============================================================
         public bool Visible
@@ -106,7 +149,6 @@ namespace LayoutFarm
                 this.InvalidateGraphics();
             }
         }
-
         public bool IsBlockElement
         {
             get
@@ -121,46 +163,11 @@ namespace LayoutFarm
             }
         }
 
-        public bool TransparentForAllEvents
-        {
-            get
-            {
-                return (propFlags & RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS) != 0;
-            }
-            set
-            {
-                propFlags = value ?
-                       propFlags | RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS :
-                       propFlags & ~RenderElementConst.TRANSPARENT_FOR_ALL_EVENTS;
-
-            }
-        }
-
-
-        public bool MayHasChild
-        {
-            get { return this.mayHasChild; }
-            protected set { this.mayHasChild = value; }
-        }
-        public bool MayHasViewport
-        {
-            get { return this.mayHasViewport; }
-            protected set { this.mayHasViewport = value; }
-        }
-
-
-        public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
-        {
-            return null;
-        }
-        public virtual void ChildrenHitTestCore(HitChain hitChain)
-        {
-        }
 
         //==============================================================
-        //internal methods 
 
 
+        //internal methods  
         internal bool IsInRenderChain
         {
             get
@@ -190,6 +197,8 @@ namespace LayoutFarm
                    propFlags & ~RenderElementConst.FIRST_ARR_PASS;
             }
         }
+
+
 
     }
 }
