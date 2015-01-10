@@ -2,8 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text; 
-using PixelFarm.Drawing; 
+using System.Text;
+using PixelFarm.Drawing;
 
 namespace LayoutFarm
 {
@@ -235,7 +235,7 @@ namespace LayoutFarm
             debugVisualLay.WriteInfo(v, ">>TOPDOWN_RECAL_CONTENT ", "-", "&");
 
         }
-        protected static void vinv_dbug_ExitTopDownReCalculateContent(RenderElement v)
+        public static void vinv_dbug_ExitTopDownReCalculateContent(RenderElement v)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -244,11 +244,11 @@ namespace LayoutFarm
             debugVisualLay.PopVisualElement();
 
         }
-        protected static void vinv_dbug_SetInitObject(RenderElement ve)
+        public static void vinv_dbug_SetInitObject(RenderElement ve)
         {
             dbugInitObject = ve;
         }
-        protected static void vinv_dbug_EnterReArrangeContent(RenderElement v)
+        public static void vinv_dbug_EnterReArrangeContent(RenderElement v)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -260,7 +260,7 @@ namespace LayoutFarm
 
         }
 
-        protected static void vinv_dbug_ExitReArrangeContent(RenderElement ve)
+        public static void vinv_dbug_ExitReArrangeContent(RenderElement ve)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -271,7 +271,7 @@ namespace LayoutFarm
             debugVisualLay.PopVisualElement();
 
         }
-        protected static void vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m, int i)
+        public static void vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m, int i)
         {
             //RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
             //if (visualroot == null || !visualroot.dbug_IsRecordLayoutTraceEnable)
@@ -305,7 +305,7 @@ namespace LayoutFarm
             //        } break;
             //}
         }
-        protected static void vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m)
+        public static void vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -335,7 +335,7 @@ namespace LayoutFarm
             //}
         }
 
-        protected static void vinv_dbug_EndLayoutTrace()
+        public static void vinv_dbug_EndLayoutTrace()
         {
 
             var debugVisualLay = dbugGetLayoutTracer();

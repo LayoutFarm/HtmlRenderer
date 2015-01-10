@@ -40,8 +40,10 @@ namespace LayoutFarm
             get { return true; }
             set { }
         }
-        protected static bool vinv_IsInTopDownReArrangePhase
+
+        public static bool vinv_IsInTopDownReArrangePhase
         {
+            //TODO: review this again !
             get
             {
                 return true;

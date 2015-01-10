@@ -43,10 +43,10 @@ namespace LayoutFarm.UI
             canvasInvalidateHandler = Canvas_Invalidate;
             canvasSizeChangedHandler = Canvas_SizeChanged;
 
-            topWindowBox.SetCanvasInvalidateRequest(canvasInvalidateHandler);
+            
+            topWindowBox.Root.SetCanvasInvalidateRequest(canvasInvalidateHandler);
             viewportX = 0;
-            viewportY = 0;
-
+            viewportY = 0; 
           
         }
         public bool IsClosed

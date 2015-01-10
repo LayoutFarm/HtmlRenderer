@@ -8,12 +8,9 @@ namespace LayoutFarm
 {
 
 
-    public abstract class TopWindowRenderBox : RenderBoxBase, ITopWindowRenderBox
-    {
-       
-
+    public sealed class TopWindowRenderBox : RenderBoxBase, ITopWindowRenderBox
+    {   
         VisualPlainLayer groundLayer;
-        //PaintToOutputDelegate paintToOutputHandler;
         public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
@@ -26,24 +23,24 @@ namespace LayoutFarm
             this.HasSpecificSize = true;
         }
 
-        //public void SetPaintToOutputDelegate(PaintToOutputDelegate paintToOutputHandler)
-        //{
-        //    this.paintToOutputHandler = paintToOutputHandler;
-        //}
-        //public void ForcePaint()
-        //{
-        //    //raise paint event
-        //    paintToOutputHandler();
-        //}
+        public void ChangeRootGraphicSize(int width, int height)
+        {
+            Size currentSize = this.Size;
+            if (currentSize.Width != width || currentSize.Height != height)
+            {
+                this.SetSize(width, height);
 
-        public abstract void SetCanvasInvalidateRequest(CanvasInvalidateRequestDelegate canvasInvaliddateReqDel);
-        public abstract void ChangeRootGraphicSize(int width, int height);
+                this.InvalidateContentArrangementFromContainerSizeChanged();
+                this.TopDownReCalculateContentSize();
+                this.TopDownReArrangeContentIfNeed();
+            }
+        }
 
         public void AddChild(RenderElement renderE)
         {
             groundLayer.AddChild(renderE);
         }
-       
+
 
 
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
@@ -52,19 +49,49 @@ namespace LayoutFarm
             base.DrawContent(canvas, updateArea);
         }
 
-         
-        public abstract void AddToLayoutQueue(RenderElement vs);
-        public abstract void FlushGraphic(Rectangle rect);
-        public abstract void PrepareRender();
+
+        public void AddToLayoutQueue(RenderElement vs)
+        {
+            this.Root.AddToLayoutQueue(vs);
+        }
+
+        public void PrepareRender()
+        {
+            this.Root.PrepareRender();
+        }
         //---------------------------------------------------------------------------- 
         public override void ClearAllChildren()
         {
             this.groundLayer.Clear();
         }
-         
+
 
 #if DEBUG
-        public abstract void dbugShowRenderPart(Canvas canvasPage, Rectangle updateArea);
+        public void dbugShowRenderPart(Canvas canvasPage, Rectangle updateArea)
+        {
+            RootGraphic visualroot = this.dbugVRoot;
+            if (visualroot.dbug_ShowRootUpdateArea)
+            {
+                canvasPage.FillRectangle(Color.FromArgb(50, Color.Black),
+                     updateArea.Left, updateArea.Top,
+                        updateArea.Width - 1, updateArea.Height - 1);
+                canvasPage.FillRectangle(Color.White,
+                     updateArea.Left, updateArea.Top, 5, 5);
+                canvasPage.DrawRectangle(Color.Yellow,
+                        updateArea.Left, updateArea.Top,
+                        updateArea.Width - 1, updateArea.Height - 1);
+
+                Color c_color = canvasPage.CurrentTextColor;
+                canvasPage.CurrentTextColor = Color.White;
+                canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea.Left, updateArea.Top);
+                if (updateArea.Height > 25)
+                {
+                    canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea.Left, updateArea.Top + (updateArea.Height - 20));
+                }
+                canvasPage.CurrentTextColor = c_color;
+                visualroot.dbug_RootUpdateCounter++;
+            }
+        }
         public RootGraphic dbugVisualRoot
         {
             get
@@ -75,6 +102,6 @@ namespace LayoutFarm
 #endif
 
 
-        
+
     }
 }

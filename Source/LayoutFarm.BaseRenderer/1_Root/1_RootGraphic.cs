@@ -30,7 +30,7 @@ namespace LayoutFarm
         public abstract void CaretStopBlink();
         public abstract void ClearRenderRequests(TopWindowRenderBox topwin);
 
-       
+        public abstract void AddToLayoutQueue(RenderElement renderElement);
 
         public int GraphicUpdateBlockCount
         {
@@ -83,6 +83,8 @@ namespace LayoutFarm
 
         public abstract void ForcePaint();
         protected PaintToOutputDelegate paintToOutputHandler;
+        CanvasInvalidateRequestDelegate canvasInvaliddateReqDel;
+
         public void SetPaintToOutputHandler(PaintToOutputDelegate paintToOutputHandler)
         {
             this.paintToOutputHandler = paintToOutputHandler;
@@ -96,7 +98,7 @@ namespace LayoutFarm
 
         public abstract void RemoveIntervalTask(object uniqueName);
 
-        
+
 #if DEBUG
         RootGraphic dbugVRoot
         {
@@ -113,11 +115,13 @@ namespace LayoutFarm
             set;
         }
 #endif
+        public abstract void PrepareRender();
         public void FlushAccumGraphicUpdate(TopWindowRenderBox topbox)
         {
             if (hasAccumRect)
             {
-                topbox.FlushGraphic(accumulateInvalidRect);
+                this.FlushGrapchics(accumulateInvalidRect);
+
                 hasAccumRect = false;
             }
             this.GraphicUpdateBlockCount = 0;
@@ -134,7 +138,15 @@ namespace LayoutFarm
             }
             InvalidateGraphicArea(fromElement, elementClientRect, out wintop);
         }
+        public void SetCanvasInvalidateRequest(CanvasInvalidateRequestDelegate canvasInvaliddateReqDel)
+        {
+            this.canvasInvaliddateReqDel = canvasInvaliddateReqDel;
 
+        }
+        void FlushGrapchics(Rectangle rect)
+        {
+            this.canvasInvaliddateReqDel(ref rect);
+        }
         void InvalidateGraphicArea(RenderElement fromElement,
             Rectangle elementClientRect,
             out TopWindowRenderBox wintop)
@@ -343,7 +355,8 @@ namespace LayoutFarm
 #endif
 
 
-                    wintop.FlushGraphic(rootGlobalArea);
+
+                    this.FlushGrapchics(rootGlobalArea);
                     this.flushRect = accumulateInvalidRect;
 
 
@@ -352,7 +365,8 @@ namespace LayoutFarm
                 else
                 {
 
-                    wintop.FlushGraphic(rootGlobalArea);
+                    this.FlushGrapchics(rootGlobalArea);
+
 
 #if DEBUG
                     if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
