@@ -27,7 +27,7 @@ namespace LayoutFarm
             this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
 
             lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P);
-            lightBoxHost.SetRootGraphic(viewport.ViewportControl.WinTopRootGfx);
+            lightBoxHost.RootGfx = viewport.ViewportControl.WinTopRootGfx;
 
             //-----------
             var comboBox1 = CreateComboBox(20, 20);
@@ -228,7 +228,8 @@ namespace LayoutFarm
 #endif
 
                             menuBox.SetLocation(50, 50);
-                            menuBox.ShowMenu();
+                            //add to top window
+                            menuBox.ShowMenu(lightBoxHost.RootGfx);
                             
                             e.StopPropagation();
 

@@ -95,10 +95,7 @@ namespace LayoutFarm.UI
 
         void graphicTimer1_Tick(object sender, EventArgs e)
         {
-            if (TopWindowRenderBox.CurrentActiveTopWindow == null)
-            {
-                return;
-            }
+            
             //-------------------------------------------------
             tickAccum += fastPlanInterval;
             bool doCaretPlan = false;
@@ -151,7 +148,7 @@ namespace LayoutFarm.UI
             }
             if (needUpdate > 0)
             {
-                TopWindowRenderBox.CurrentActiveTopWindow.ForcePaint();                 
+                this.rootgfx.ForcePaint();                 
             }
 
         }

@@ -849,8 +849,8 @@ namespace LayoutFarm.Text
                     if (r.Width >= this.Width)
                     {
 #if DEBUG
-                        vinv_dbug_SetInitObject(this);
-                        vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.ArtVisualTextSurafce_EnsureCaretVisible);
+                        dbug_SetInitObject(this);
+                        dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.ArtVisualTextSurafce_EnsureCaretVisible);
 
 #endif
 
@@ -859,7 +859,7 @@ namespace LayoutFarm.Text
                         RefreshSnapshotCanvas();
 
 #if DEBUG
-                        vinv_dbug_EndLayoutTrace();
+                        dbug_EndLayoutTrace();
 #endif
 
                     }

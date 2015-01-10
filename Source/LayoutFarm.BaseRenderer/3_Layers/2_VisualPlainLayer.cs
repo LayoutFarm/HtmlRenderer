@@ -7,7 +7,7 @@ using System.Text;
 namespace LayoutFarm.RenderBoxes
 {
 
-    public class VisualPlainLayer : VisualLayer
+    public class VisualPlainLayer : ElementLayerBase
     {
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
         public VisualPlainLayer(RenderElement owner)

@@ -206,6 +206,7 @@ namespace LayoutFarm.CustomWidgets
                 case HingeFloatPartStyle.Popup:
                     {
                         //add float part to top window layer
+                       
                         var topRenderBox = primElement.GetTopWindowRenderBox();
                         if (topRenderBox != null)
                         {

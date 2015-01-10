@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using PixelFarm.Drawing;
-
+ 
 namespace LayoutFarm.UI
 {
 
@@ -29,13 +29,13 @@ namespace LayoutFarm.UI
 
         RootGraphic rootGraphic;
 
-        public TopWindowBridge(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
+        public TopWindowBridge(RootGraphic rootGraphic, IUserEventPortal winEventBridge)
         {
             this.userEventPortal = winEventBridge;
-            this.topwin = topwin;
-            this.rootGraphic = topwin.Root;
-
-            topwin.SetPaintToOutputDelegate(this.PaintToOutputWindow);
+            this.rootGraphic = rootGraphic;
+            this.topwin = rootGraphic.TopWindowRenderBox;
+            rootGraphic.SetPaintToOutputHandler(this.PaintToOutputWindow);
+            
         }
         protected void SetBaseCanvasViewport(CanvasViewport canvasViewport)
         {
@@ -218,7 +218,7 @@ namespace LayoutFarm.UI
         }
         UIMouseEventArgs GetReadyMouseEventArgs(MouseEventArgs e)
         {
-            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs(this.topwin);
+            UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
             SetUIMouseEventArgsInfo(mouseEventArg, e);
 
             this.isDragging = mouseEventArg.IsMouseDown = this.isMouseDown;
@@ -234,7 +234,7 @@ namespace LayoutFarm.UI
             this.isMouseDown = true;
             this.isDragging = false;
 
-            this.topwin.MakeCurrentTopWindow();
+
             canvasViewport.FullMode = false;
 
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
@@ -332,7 +332,7 @@ namespace LayoutFarm.UI
         {
 
 
-            this.topwin.MakeCurrentTopWindow();
+
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
 
             SetKeyData(keyEventArgs, e);
@@ -367,7 +367,7 @@ namespace LayoutFarm.UI
         public void HandleKeyUp(KeyEventArgs e)
         {
 
-            this.topwin.MakeCurrentTopWindow();
+
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
             SetKeyData(keyEventArgs, e);
 

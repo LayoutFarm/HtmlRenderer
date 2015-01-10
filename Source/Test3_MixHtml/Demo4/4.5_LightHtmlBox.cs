@@ -24,7 +24,7 @@ namespace LayoutFarm
             this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
 
             lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P);
-            lightBoxHost.SetRootGraphic(viewport.ViewportControl.WinTopRootGfx);
+            lightBoxHost.RootGfx = viewport.ViewportControl.WinTopRootGfx;
 
             ////==================================================
             //html box

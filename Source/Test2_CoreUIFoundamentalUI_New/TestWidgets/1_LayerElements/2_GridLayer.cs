@@ -10,7 +10,7 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
 
-    sealed class GridLayer : VisualLayer
+    sealed class GridLayer : ElementLayerBase
     {
         GridTable.GridRowCollection gridRows;
         GridTable.GridColumnCollection gridCols;

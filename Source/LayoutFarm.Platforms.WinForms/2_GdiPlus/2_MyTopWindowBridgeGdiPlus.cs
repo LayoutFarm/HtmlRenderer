@@ -14,15 +14,15 @@ namespace LayoutFarm.UI.GdiPlus
     {
         Control windowControl;
         GdiPlusCanvasViewport gdiPlusViewport;
-        public MyTopWindowBridgeGdiPlus(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
-            : base(topwin, winEventBridge)
+        public MyTopWindowBridgeGdiPlus(RootGraphic root, IUserEventPortal winEventBridge)
+            : base(root, winEventBridge)
         {
 
         }
         public void BindWindowControl(Control windowControl)
         {
             //bind to anycontrol GDI control 
-            this.topwin.MakeCurrentTopWindow();
+
             this.windowControl = windowControl;
             this.SetBaseCanvasViewport(this.gdiPlusViewport = new GdiPlusCanvasViewport(topwin, this.Size.ToSize(), 4));
 
@@ -37,7 +37,7 @@ namespace LayoutFarm.UI.GdiPlus
         }
         protected override void PaintToOutputWindow()
         {
-            IntPtr hdc = Win32.Win32Utils.GetDC(this.windowControl.Handle);             
+            IntPtr hdc = Win32.Win32Utils.GetDC(this.windowControl.Handle);
             this.gdiPlusViewport.PaintMe(hdc);
             Win32.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
         }
@@ -51,7 +51,6 @@ namespace LayoutFarm.UI.GdiPlus
                 Win32.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
             }
         }
-
         protected override void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
         {
             switch (mouseEventArg.MouseCursorStyle)
@@ -71,5 +70,8 @@ namespace LayoutFarm.UI.GdiPlus
             }
             this.currentCursorStyle = mouseEventArg.MouseCursorStyle;
         }
+
+
+
     }
 }

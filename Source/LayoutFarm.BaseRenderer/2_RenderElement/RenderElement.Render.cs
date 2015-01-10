@@ -8,7 +8,7 @@ using PixelFarm.Drawing;
 namespace LayoutFarm
 {
     partial class RenderElement
-    {   
+    {
         public abstract void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea);
 
         public bool PrepareDrawingChain(RenderBoxes.VisualDrawingChain drawingChain)
@@ -79,7 +79,7 @@ namespace LayoutFarm
             {
                 return (this.propFlags & RenderElementConst.IS_TOP_RENDERBOX) != 0;
             }
-            internal set
+            set
             {
                 propFlags = value ?
                       propFlags | RenderElementConst.IS_TOP_RENDERBOX :

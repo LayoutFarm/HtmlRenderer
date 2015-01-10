@@ -6,15 +6,13 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.RenderBoxes
 {
-    public delegate void PaintToOutputDelegate();
+   
 
 #if DEBUG
     [System.Diagnostics.DebuggerDisplay("RenderBoxBase {dbugGetCssBoxInfo}")]
 #endif
     public abstract class RenderBoxBase : RenderElement
     {
-
-
         VisualLayerCollection layers;
         int myviewportX;
         int myviewportY;
@@ -29,21 +27,6 @@ namespace LayoutFarm.RenderBoxes
         {
             get { return this.layers; }
             set { this.layers = value; }
-        }
-        public sealed override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
-        {
-
-            canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
-            updateArea.Offset(myviewportX, myviewportY);
-
-
-            this.DrawContent(canvas, updateArea);
-
-            canvas.OffsetCanvasOrigin(myviewportX, myviewportY);
-            updateArea.Offset(-myviewportX, -myviewportY);
-
-
-            //-------------------
         }
         public void SetViewport(int viewportX, int viewportY)
         {
@@ -64,14 +47,20 @@ namespace LayoutFarm.RenderBoxes
                 return this.myviewportY;
             }
         }
-        public void InvalidateContentArrangementFromContainerSizeChanged()
+       
+        
+        public sealed override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
-            this.MarkInvalidContentArrangement();
-            //foreach (VisualLayer layer in this.GetAllLayerBottomToTopIter())
-            //{
-            //    layer.InvalidateContentArrangementFromContainerSizeChanged();
-            //}
-        }
+
+            canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
+            updateArea.Offset(myviewportX, myviewportY);  
+
+            this.DrawContent(canvas, updateArea);
+
+            canvas.OffsetCanvasOrigin(myviewportX, myviewportY);
+            updateArea.Offset(-myviewportX, -myviewportY); 
+        }      
+        
         protected virtual void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             //sample ***
@@ -137,7 +126,14 @@ namespace LayoutFarm.RenderBoxes
             }
         }
 
-
+        public void InvalidateContentArrangementFromContainerSizeChanged()
+        {
+            this.MarkInvalidContentArrangement();
+            //foreach (VisualLayer layer in this.GetAllLayerBottomToTopIter())
+            //{
+            //    layer.InvalidateContentArrangementFromContainerSizeChanged();
+            //}
+        }
         protected static void InnerDoTopDownReCalculateContentSize(RenderBoxBase containerBase)
         {
             containerBase.TopDownReCalculateContentSize();
@@ -149,12 +145,12 @@ namespace LayoutFarm.RenderBoxes
         public override sealed void TopDownReCalculateContentSize()
         {
 
-            if (!vinv_ForceReArrange && this.HasCalculatedSize)
+            if (!ForceReArrange && this.HasCalculatedSize)
             {
                 return;
             }
 #if DEBUG
-            vinv_dbug_EnterTopDownReCalculateContent(this);
+            dbug_EnterTopDownReCalculateContent(this);
 #endif
             int cHeight = this.Height;
             int cWidth = this.Width;
@@ -193,7 +189,7 @@ namespace LayoutFarm.RenderBoxes
 
             SetCalculatedDesiredSize(this, finalWidth, finalHeight);
 #if DEBUG
-            vinv_dbug_ExitTopDownReCalculateContent(this);
+            dbug_ExitTopDownReCalculateContent(this);
 #endif
 
         }
@@ -204,23 +200,23 @@ namespace LayoutFarm.RenderBoxes
         {
 
 #if DEBUG
-            vinv_dbug_EnterReArrangeContent(this);
+            dbug_EnterReArrangeContent(this);
             dbug_topDownReArrContentPass++;
             this.dbug_BeginArr++;
-            vinv_debug_PushTopDownElement(this);
+            debug_PushTopDownElement(this);
 #endif
 
             this.MarkValidContentArrangement();
-            vinv_IsInTopDownReArrangePhase = true;
-            vinv_IsInTopDownReArrangePhase = true;
+            IsInTopDownReArrangePhase = true;
+            IsInTopDownReArrangePhase = true;
 
             this.layers.ForceTopDownReArrangeContent();
             // BoxEvaluateScrollBar();
 
 #if DEBUG
             this.dbug_FinishArr++;
-            vinv_debug_PopTopDownElement(this);
-            vinv_dbug_ExitReArrangeContent();
+            debug_PopTopDownElement(this);
+            dbug_ExitReArrangeContent();
 #endif
         }
 
@@ -230,13 +226,13 @@ namespace LayoutFarm.RenderBoxes
             bool isIncr = false;
 #endif
 
-            if (!vinv_ForceReArrange && !this.NeedContentArrangement)
+            if (!ForceReArrange && !this.NeedContentArrangement)
             {
                 if (!this.FirstArrangementPass)
                 {
                     this.FirstArrangementPass = true;
 #if DEBUG
-                    vinv_dbug_WriteInfo(dbugVisitorMessage.PASS_FIRST_ARR);
+                    dbug_WriteInfo(dbugVisitorMessage.PASS_FIRST_ARR);
 #endif
 
                 }
@@ -246,7 +242,7 @@ namespace LayoutFarm.RenderBoxes
                     isIncr = true;
                     this.dbugVRoot.dbugNotNeedArrCount++;
                     this.dbugVRoot.dbugNotNeedArrCountEpisode++;
-                    vinv_dbug_WriteInfo(dbugVisitorMessage.NOT_NEED_ARR);
+                    dbug_WriteInfo(dbugVisitorMessage.NOT_NEED_ARR);
                     this.dbugVRoot.dbugNotNeedArrCount--;
 #endif
                 }
@@ -306,9 +302,7 @@ namespace LayoutFarm.RenderBoxes
 
             }
         }
-
-
-
+         
         public int ClientTop
         {
             get
@@ -333,7 +327,7 @@ namespace LayoutFarm.RenderBoxes
 
             writer.LeaveCurrentLevel();
         }
-        void debug_RecordLayerInfo(VisualLayer layer)
+        void debug_RecordLayerInfo(ElementLayerBase layer)
         {
             RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
             if (visualroot.dbug_RecordDrawingChain)

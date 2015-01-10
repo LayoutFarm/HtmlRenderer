@@ -16,8 +16,8 @@ namespace LayoutFarm.UI.OpenGL
         GpuOpenGLSurfaceView windowControl;
         OpenGLCanvasViewport openGLViewport;
         //---------
-        public MyTopWindowBridgeOpenGL(TopWindowRenderBox topwin, IUserEventPortal winEventBridge)
-            : base(topwin, winEventBridge)
+        public MyTopWindowBridgeOpenGL(RootGraphic root, IUserEventPortal winEventBridge)
+            : base(root, winEventBridge)
         {
         }
         /// <summary>
@@ -27,7 +27,7 @@ namespace LayoutFarm.UI.OpenGL
         public void BindGLControl(GpuOpenGLSurfaceView myGLControl)
         {
 
-            this.topwin.MakeCurrentTopWindow();
+            
 
             this.windowControl = myGLControl;
             SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(topwin, this.Size.ToSize(), 4));

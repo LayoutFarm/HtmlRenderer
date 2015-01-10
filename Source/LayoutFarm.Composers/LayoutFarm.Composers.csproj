@@ -71,11 +71,8 @@
     <Compile Include="3_HtmlBoxes\MyHtmlIsland.cs" />
     <Compile Include="6_SvgDom\SvgRootEventPortal_IUserEventPortal.cs" />
     <Compile Include="6_SvgDom\SvgRootEventPortal.cs" />
-    <Compile Include="7_TopWin\0_MyTopWindowRenderBox.cs" />
-    <Compile Include="7_TopWin\0_MyTopWindowRenderBox_dbug.cs" />
-    <Compile Include="7_TopWin\0_MyTopWindowRenderBox_Graphics.cs" />
     <Compile Include="7_TopWin\MyIntervalTaskEventArgs.cs" />
-    <Compile Include="7_TopWin\MyRootGraphic.cs" />
+    <Compile Include="7_TopWin\0_MyRootGraphic.cs" />
     <Compile Include="7_TopWin\GraphicsTimerTasksManager.cs" />
     <Compile Include="7_TopWin\UIHoverMonitor.cs" />
     <Compile Include="7_TopWin\UserInputEventAdapter.cs" />

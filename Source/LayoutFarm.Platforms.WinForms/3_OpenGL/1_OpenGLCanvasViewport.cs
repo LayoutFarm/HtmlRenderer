@@ -30,9 +30,9 @@ namespace LayoutFarm.UI.OpenGL
             base.Canvas_Invalidate(ref r);
         }
         public void NotifyWindowControlBinding()
-        {   
+        {
             this.canvas = PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, 800, 600);
-           
+
         }
         //----------
         //for test
@@ -80,7 +80,7 @@ namespace LayoutFarm.UI.OpenGL
         }
         void dbugGLOffsetCanvasOrigin(int dx, int dy)
         {
-            dbugGLSetCanvasOrigin(canvas.CanvasOriginX + dx, canvas.CanvasOriginY + dy); 
+            dbugGLSetCanvasOrigin(canvas.CanvasOriginX + dx, canvas.CanvasOriginY + dy);
         }
 #endif
         //-------
@@ -109,7 +109,8 @@ namespace LayoutFarm.UI.OpenGL
 
             if (this.IsClosed) { return; }
             //------------------------------------ 
-            topWindowBox.PrepareRender();
+
+            this.rootGraphics.PrepareRender();
             //---------------
             this.rootGraphics.IsInRenderPhase = true;
 #if DEBUG
@@ -141,7 +142,7 @@ namespace LayoutFarm.UI.OpenGL
 #endif
         }
 
-        static void UpdateAllArea(Canvas mycanvas, ITopWindowRenderBox topWindowRenderBox)
+        static void UpdateAllArea(Canvas mycanvas, IRenderElement topWindowRenderBox)
         {
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);

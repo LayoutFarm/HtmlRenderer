@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.UI
@@ -13,21 +13,21 @@ namespace LayoutFarm.UI
     public partial class UISurfaceViewportControl : UserControl
     {
 
-        TopWindowRenderBox wintop;
-        TopWindowBridge winBridge;
 
+        TopWindowBridge winBridge;
+        RootGraphic rootgfx;
         public UISurfaceViewportControl()
         {
             InitializeComponent();
         }
         public void InitRootGraphics(
-            TopWindowRenderBox wintop,
+            RootGraphic rootgfx,
             IUserEventPortal userInputEvBridge,
             InnerViewportKind innerViewportKind)
         {
-             
+
             //1.
-            this.wintop = wintop;
+            this.rootgfx = rootgfx;
 
             switch (innerViewportKind)
             {
@@ -36,7 +36,7 @@ namespace LayoutFarm.UI
                         PixelFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
 
 
-                        var bridge = new OpenGL.MyTopWindowBridgeOpenGL(wintop, userInputEvBridge);
+                        var bridge = new OpenGL.MyTopWindowBridgeOpenGL(rootgfx, userInputEvBridge);
 
                         var view = new OpenGL.GpuOpenGLSurfaceView();
                         view.Width = 800;
@@ -45,7 +45,7 @@ namespace LayoutFarm.UI
                         this.Controls.Add(view);
                         //--------------------------------------- 
                         view.Bind(bridge);
-                       
+
                         this.winBridge = bridge;
 
 
@@ -53,20 +53,20 @@ namespace LayoutFarm.UI
                 case InnerViewportKind.GdiPlus:
                 default:
                     {
-                        var bridge = new GdiPlus.MyTopWindowBridgeGdiPlus(wintop, userInputEvBridge); 
+                        var bridge = new GdiPlus.MyTopWindowBridgeGdiPlus(rootgfx, userInputEvBridge);
                         var view = new GdiPlus.CpuGdiPlusSurfaceView();
                         view.Dock = DockStyle.Fill;
                         this.Controls.Add(view);
                         //--------------------------------------- 
                         view.Bind(bridge);
-                        
+
                         this.winBridge = bridge;
                     } break;
             }
         }
         public GraphicsPlatform P
         {
-            get { return wintop.Root.P; }
+            get { return this.rootgfx.P; }
         }
         void InitializeComponent()
         {
@@ -95,11 +95,11 @@ namespace LayoutFarm.UI
 #endif
         public void TopDownRecalculateContent()
         {
-            wintop.TopDownReCalculateContentSize();
+            this.rootgfx.TopWindowRenderBox.TopDownReCalculateContentSize();             
         }
         public void AddContent(RenderElement vi)
         {
-            var layer0 = wintop.Layers.Layer0 as VisualPlainLayer;
+            var layer0 = this.rootgfx.TopWindowRenderBox.Layers.Layer0 as VisualPlainLayer;
             if (layer0 != null)
             {
                 layer0.AddChild(vi);
@@ -111,7 +111,7 @@ namespace LayoutFarm.UI
         {
             get
             {
-                return this.wintop.Root;
+                return this.rootgfx;
             }
         }
         public void Close()

@@ -95,10 +95,9 @@ namespace LayoutFarm.Dev
                 this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
                 w, h);
 
-            TopWindowRenderBox topRenderBox = rootgfx.CreateTopWindowRenderBox(w, h);
+            TopWindowRenderBox topRenderBox = rootgfx.TopWindowRenderBox;
 
-            formCanvas = FormCanvasHelper.CreateNewFormCanvas(topRenderBox,
-                rootgfx.CreateUserEventPortal(topRenderBox),
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
                 this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
                 out viewport);
 

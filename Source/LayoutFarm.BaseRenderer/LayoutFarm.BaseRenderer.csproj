@@ -60,7 +60,7 @@
     <Compile Include="3_Layers\0_IParentLink.cs" />
     <Compile Include="2_RenderElement\x_RenderElement.debug.cs" />
     <Compile Include="4_Boxes\RenderBoxBase.cs" />
-    <Compile Include="3_Layers\1_VisualLayer.cs" />
+    <Compile Include="3_Layers\1_RenderElementLayer.cs" />
     <Compile Include="3_Layers\2_VisualPlainLayer.cs" />
     <Compile Include="5_HitTest\HitPointChain.cs" />
     <Compile Include="6_debug\dbugHitTracker.cs" />

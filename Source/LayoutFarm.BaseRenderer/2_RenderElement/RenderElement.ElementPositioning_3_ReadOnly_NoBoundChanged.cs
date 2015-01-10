@@ -375,7 +375,7 @@ namespace LayoutFarm
 #if DEBUG
             this.dbug_ValidateRecalculateSizeEpisode++;
 #endif
-        } 
+        }
         public bool IsInLayoutQueue
         {
             get
@@ -415,7 +415,7 @@ namespace LayoutFarm
         {
             ve.InvalidateLayoutAndStartBubbleUp();
         }
-        static RenderElement BubbleUpInvalidLayoutToTopMost(RenderElement ve, TopWindowRenderBox topBox)
+        static RenderElement BubbleUpInvalidLayoutToTopMost(RenderElement ve)
         {
 
 #if DEBUG
@@ -436,18 +436,17 @@ namespace LayoutFarm
                 return null;
             }
 
-            if (topBox != null)
+
+            if (ve.rootGfx.LayoutQueueClearing)
             {
-                if (ve.rootGfx.LayoutQueueClearing)
-                {
-                    return null;
-                }
-                else if (topBox.IsInLayoutQueue)
-                {
-                    ve.IsInLayoutQueueChainUp = true;
-                    topBox.AddToLayoutQueue(ve);
-                }
+                return null;
             }
+            else if (ve.rootGfx.TopWindowRenderBox.IsInLayoutQueue)
+            {
+                ve.IsInLayoutQueueChainUp = true;
+                ve.rootGfx.AddToLayoutQueue(ve);
+            }
+
 #if DEBUG
             dbugVRoot.dbug_LayoutTraceBeginContext(RootGraphic.dbugMsg_E_CHILD_LAYOUT_INV_BUB_enter, ve);
 #endif
@@ -493,7 +492,7 @@ ve
 
                     parentRenderElement.IsInLayoutQueueChainUp = true;
 
-                    RenderElement upper = BubbleUpInvalidLayoutToTopMost(parentRenderElement, topBox);
+                    RenderElement upper = BubbleUpInvalidLayoutToTopMost(parentRenderElement);
 
                     if (upper != null)
                     {
@@ -530,7 +529,8 @@ ve
             }
             else
             {
-                return parentLink.ParentRenderElement.GetTopWindowRenderBox();
+                return this.rootGfx.TopWindowRenderBox;
+
             }
         }
 
@@ -541,14 +541,13 @@ ve
             dbugVRoot.dbug_LayoutTraceBeginContext(RootGraphic.dbugMsg_E_LAYOUT_INV_BUB_FIRST_enter, this);
 #endif
 
-            TopWindowRenderBox topWinBox = this.GetTopWindowRenderBox();
-            RenderElement tobeAddToLayoutQueue = BubbleUpInvalidLayoutToTopMost(this, topWinBox);
+            
+            RenderElement tobeAddToLayoutQueue = BubbleUpInvalidLayoutToTopMost(this);
 
-            if (tobeAddToLayoutQueue != null
-                && topWinBox != null
+            if (tobeAddToLayoutQueue != null 
                 && !tobeAddToLayoutQueue.IsInLayoutQueue)
             {
-                topWinBox.AddToLayoutQueue(tobeAddToLayoutQueue);
+                this.rootGfx.AddToLayoutQueue(tobeAddToLayoutQueue);
             }
 
 #if DEBUG

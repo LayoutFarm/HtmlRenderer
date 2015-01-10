@@ -9,7 +9,7 @@ namespace LayoutFarm
 {
 
 
-    public abstract partial class RenderElement
+    public abstract partial class RenderElement : IRenderElement
     {
 
         bool mayHasChild;
@@ -43,7 +43,7 @@ namespace LayoutFarm
         {
             this.controller = controller;
         }
-       
+
         //==============================================================
         //parent/child ...
         public bool HasParent
@@ -64,7 +64,7 @@ namespace LayoutFarm
             {
                 return parentLink;
             }
-        } 
+        }
         public virtual RenderElement ParentRenderElement
         {
             get
@@ -106,7 +106,7 @@ namespace LayoutFarm
                 this.InvalidateGraphics();
             }
         }
-        
+
         public bool IsBlockElement
         {
             get
@@ -135,13 +135,13 @@ namespace LayoutFarm
 
             }
         }
-       
+
 
         public bool MayHasChild
         {
             get { return this.mayHasChild; }
             protected set { this.mayHasChild = value; }
-        } 
+        }
         public bool MayHasViewport
         {
             get { return this.mayHasViewport; }
@@ -159,8 +159,8 @@ namespace LayoutFarm
 
         //==============================================================
         //internal methods 
-        
-        
+
+
         internal bool IsInRenderChain
         {
             get

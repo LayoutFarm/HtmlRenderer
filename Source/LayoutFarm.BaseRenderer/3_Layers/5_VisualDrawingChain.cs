@@ -106,7 +106,7 @@ namespace LayoutFarm.RenderBoxes
             currentClipRect.Offset(0, -dy);
         }
 
-        void IVisualDrawingChain.UpdateInvalidArea(Canvas mycanvas, ITopWindowRenderBox rootElement)
+        void IVisualDrawingChain.UpdateInvalidArea(Canvas mycanvas, IRenderElement rootElement)
         {
             List<RenderElement> selectedVisualElements = this.selectedVisualElements;
             List<bool> containAllAreaTestResults = this.containAllAreaTestResults;

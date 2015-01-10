@@ -303,14 +303,14 @@ namespace LayoutFarm.CustomWidgets
             : base(w, h)
         {
         }
-        public void ShowMenu()
+        public void ShowMenu(RootGraphic rootgfx)
         {
             //add to topmost box 
             if (!showing)
             {
-                this.topWindow = TopWindowRenderBox.CurrentActiveTopWindow;
+                this.topWindow = rootgfx.TopWindowRenderBox;
                 if (topWindow != null)
-                {
+                {   
                     topWindow.AddChild(this.myRenderE = this.GetPrimaryRenderElement(topWindow.Root));
                 }
                 showing = true;

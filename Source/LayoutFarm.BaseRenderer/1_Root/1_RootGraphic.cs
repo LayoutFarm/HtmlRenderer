@@ -9,6 +9,9 @@ namespace LayoutFarm
 {
     public abstract partial class RootGraphic
     {
+        public delegate void PaintToOutputDelegate();
+
+
         Rectangle flushRect;
         Rectangle accumulateInvalidRect;
         bool hasAccumRect;
@@ -25,8 +28,9 @@ namespace LayoutFarm
 
         public abstract void CaretStartBlink();
         public abstract void CaretStopBlink();
+        public abstract void ClearRenderRequests();
 
-        public abstract void ClearRenderRequests(TopWindowRenderBox topwin);
+        public abstract void AddToLayoutQueue(RenderElement renderElement);
 
         public int GraphicUpdateBlockCount
         {
@@ -43,7 +47,7 @@ namespace LayoutFarm
             get;
             set;
         }
-        
+
         public bool DisableGraphicOutputFlush
         {
             get;
@@ -54,7 +58,7 @@ namespace LayoutFarm
             get;
             set;
         }
-        
+
         public bool IsInRenderPhase
         {
             get;
@@ -66,15 +70,24 @@ namespace LayoutFarm
             GraphicUpdateBlockCount++;
             DisableGraphicOutputFlush = true;
         }
-        public void EndGraphicUpdate(TopWindowRenderBox topbox)
+        public void EndGraphicUpdate()
         {
             GraphicUpdateBlockCount--;
             if (GraphicUpdateBlockCount <= 0)
             {
                 DisableGraphicOutputFlush = false;
-                FlushAccumGraphicUpdate(topbox);
+                FlushAccumGraphicUpdate();
                 GraphicUpdateBlockCount = 0;
             }
+        }
+
+        public abstract void ForcePaint();
+        protected PaintToOutputDelegate paintToOutputHandler;
+        CanvasInvalidateRequestDelegate canvasInvaliddateReqDel;
+
+        public void SetPaintToOutputHandler(PaintToOutputDelegate paintToOutputHandler)
+        {
+            this.paintToOutputHandler = paintToOutputHandler;
         }
 
         public abstract GraphicsTimerTask RequestGraphicsIntervalTask(
@@ -84,6 +97,7 @@ namespace LayoutFarm
             EventHandler<GraphicsTimerTaskEventArgs> tickhandler);
 
         public abstract void RemoveIntervalTask(object uniqueName);
+
 
 #if DEBUG
         RootGraphic dbugVRoot
@@ -101,37 +115,33 @@ namespace LayoutFarm
             set;
         }
 #endif
-        public void FlushAccumGraphicUpdate(TopWindowRenderBox topbox)
+        public abstract void PrepareRender();
+        public void FlushAccumGraphicUpdate()
         {
             if (hasAccumRect)
             {
-                topbox.FlushGraphic(accumulateInvalidRect);
+                this.FlushGrapchics(accumulateInvalidRect);
+
                 hasAccumRect = false;
             }
             this.GraphicUpdateBlockCount = 0;
         }
-        public void InvalidateGraphicArea(RenderElement fromElement,
-            ref Rectangle elementClientRect,
-            out TopWindowRenderBox wintop)
-        {
 
-            if (IsInRenderPhase)
-            {
-                wintop = null;
-                return;
-            } 
-            InvalidateGraphicArea(fromElement, elementClientRect, out wintop);
+        public void SetCanvasInvalidateRequest(CanvasInvalidateRequestDelegate canvasInvaliddateReqDel)
+        {
+            this.canvasInvaliddateReqDel = canvasInvaliddateReqDel;
+
+        }
+        void FlushGrapchics(Rectangle rect)
+        {
+            this.canvasInvaliddateReqDel(ref rect);
         }
 
-        void InvalidateGraphicArea(RenderElement fromElement,
-            Rectangle elementClientRect,
-            out TopWindowRenderBox wintop)
+        public void InvalidateGraphicArea(RenderElement fromElement,ref Rectangle elementClientRect)
         {
-            if (this.IsInRenderPhase)
-            {
-                wintop = null;
-                return;
-            }
+            if (this.IsInRenderPhase) { return; }             
+            //--------------------------------------
+
             int globalX = 0;
             int globalY = 0;
             bool isBubbleUp = false;
@@ -149,7 +159,7 @@ namespace LayoutFarm
             int dbug_ncount = 0;
 
 #endif
-            wintop = null;
+
 
             do
             {
@@ -238,7 +248,7 @@ namespace LayoutFarm
 
                 if (fromElement.IsTopWindow)
                 {
-                    wintop = (TopWindowRenderBox)fromElement;
+
                     break;
                 }
                 else
@@ -331,7 +341,8 @@ namespace LayoutFarm
 #endif
 
 
-                    wintop.FlushGraphic(rootGlobalArea);
+
+                    this.FlushGrapchics(rootGlobalArea);
                     this.flushRect = accumulateInvalidRect;
 
 
@@ -340,7 +351,8 @@ namespace LayoutFarm
                 else
                 {
 
-                    wintop.FlushGraphic(rootGlobalArea);
+                    this.FlushGrapchics(rootGlobalArea);
+
 
 #if DEBUG
                     if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
@@ -389,7 +401,11 @@ namespace LayoutFarm
             }
         }
 
-
+        public abstract TopWindowRenderBox TopWindowRenderBox
+        {
+            get;
+            protected set;
+        }
 
     }
 }

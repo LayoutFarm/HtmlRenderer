@@ -43,11 +43,11 @@ namespace LayoutFarm.UI
             canvasInvalidateHandler = Canvas_Invalidate;
             canvasSizeChangedHandler = Canvas_SizeChanged;
 
-            topWindowBox.SetCanvasInvalidateRequest(canvasInvalidateHandler);
+
+            topWindowBox.Root.SetCanvasInvalidateRequest(canvasInvalidateHandler);
             viewportX = 0;
             viewportY = 0;
 
-          
         }
         public bool IsClosed
         {
@@ -87,7 +87,18 @@ namespace LayoutFarm.UI
                 ResetQuadPages(viewportWidth, viewportHeight);
                 CalculateCanvasPages();
 
-                topWindowBox.ChangeRootGraphicSize(viewportWidth, viewportHeight);
+                
+            }
+        }
+        void ChangeRootGraphicSize(int width, int height)
+        {
+            Size currentSize = topWindowBox.Size;
+            if (currentSize.Width != width || currentSize.Height != height)
+            {
+                topWindowBox.SetSize(width, height); 
+                topWindowBox.InvalidateContentArrangementFromContainerSizeChanged();
+                topWindowBox.TopDownReCalculateContentSize();
+                topWindowBox.TopDownReArrangeContentIfNeed();
             }
         }
         protected virtual void ResetQuadPages(int viewportWidth, int viewportHeight)
@@ -284,14 +295,14 @@ namespace LayoutFarm.UI
             {
                 hScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(true);
             }
-        } 
+        }
         public void Close()
         {
             OnClosing();
             this.isClosed = true;
-            this.rootGraphics.CloseWinRoot();              
+            this.rootGraphics.CloseWinRoot();
         }
-         
+
         protected virtual void OnClosing()
         {
         }
