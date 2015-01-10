@@ -302,13 +302,13 @@ namespace LayoutFarm.Text
         public static void InnerTextRunTopDownReCalculateContentSize(TextSpan ve)
         {
 #if DEBUG
-            vinv_dbug_EnterTopDownReCalculateContent(ve);
+            dbug_EnterTopDownReCalculateContent(ve);
 #endif
 
             ve.UpdateRunWidth();
 
 #if DEBUG
-            vinv_dbug_ExitTopDownReCalculateContent(ve);
+            dbug_ExitTopDownReCalculateContent(ve);
 #endif
         }
         public override void TopDownReCalculateContentSize()

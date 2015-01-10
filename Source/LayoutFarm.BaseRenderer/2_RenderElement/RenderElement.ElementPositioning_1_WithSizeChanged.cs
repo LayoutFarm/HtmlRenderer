@@ -73,7 +73,7 @@ namespace LayoutFarm
             {
                 if (this.HasParent)
                 {
-                    if (!vinv_IsInTopDownReArrangePhase)
+                    if (!IsInTopDownReArrangePhase)
                     {
                         this.StartBubbleUpLayoutInvalidState();
                     }
@@ -139,7 +139,7 @@ namespace LayoutFarm
             if (this.MayHasChild)
             {
                 RenderBoxBase vscont = (RenderBoxBase)this;
-                if (!vinv_IsInTopDownReArrangePhase)
+                if (!IsInTopDownReArrangePhase)
                 {
                     vscont.InvalidateContentArrangementFromContainerSizeChanged();
                     this.InvalidateLayoutAndStartBubbleUp();
@@ -147,7 +147,7 @@ namespace LayoutFarm
                 else
                 {
 #if DEBUG
-                    vinv_dbug_SetInitObject(this);
+                    dbug_SetInitObject(this);
 #endif
                     vscont.ForceTopDownReArrangeContent();
                 }

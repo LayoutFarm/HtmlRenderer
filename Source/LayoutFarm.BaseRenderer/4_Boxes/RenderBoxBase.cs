@@ -145,12 +145,12 @@ namespace LayoutFarm.RenderBoxes
         public override sealed void TopDownReCalculateContentSize()
         {
 
-            if (!vinv_ForceReArrange && this.HasCalculatedSize)
+            if (!ForceReArrange && this.HasCalculatedSize)
             {
                 return;
             }
 #if DEBUG
-            vinv_dbug_EnterTopDownReCalculateContent(this);
+            dbug_EnterTopDownReCalculateContent(this);
 #endif
             int cHeight = this.Height;
             int cWidth = this.Width;
@@ -189,7 +189,7 @@ namespace LayoutFarm.RenderBoxes
 
             SetCalculatedDesiredSize(this, finalWidth, finalHeight);
 #if DEBUG
-            vinv_dbug_ExitTopDownReCalculateContent(this);
+            dbug_ExitTopDownReCalculateContent(this);
 #endif
 
         }
@@ -200,23 +200,23 @@ namespace LayoutFarm.RenderBoxes
         {
 
 #if DEBUG
-            vinv_dbug_EnterReArrangeContent(this);
+            dbug_EnterReArrangeContent(this);
             dbug_topDownReArrContentPass++;
             this.dbug_BeginArr++;
-            vinv_debug_PushTopDownElement(this);
+            debug_PushTopDownElement(this);
 #endif
 
             this.MarkValidContentArrangement();
-            vinv_IsInTopDownReArrangePhase = true;
-            vinv_IsInTopDownReArrangePhase = true;
+            IsInTopDownReArrangePhase = true;
+            IsInTopDownReArrangePhase = true;
 
             this.layers.ForceTopDownReArrangeContent();
             // BoxEvaluateScrollBar();
 
 #if DEBUG
             this.dbug_FinishArr++;
-            vinv_debug_PopTopDownElement(this);
-            vinv_dbug_ExitReArrangeContent();
+            debug_PopTopDownElement(this);
+            dbug_ExitReArrangeContent();
 #endif
         }
 
@@ -226,13 +226,13 @@ namespace LayoutFarm.RenderBoxes
             bool isIncr = false;
 #endif
 
-            if (!vinv_ForceReArrange && !this.NeedContentArrangement)
+            if (!ForceReArrange && !this.NeedContentArrangement)
             {
                 if (!this.FirstArrangementPass)
                 {
                     this.FirstArrangementPass = true;
 #if DEBUG
-                    vinv_dbug_WriteInfo(dbugVisitorMessage.PASS_FIRST_ARR);
+                    dbug_WriteInfo(dbugVisitorMessage.PASS_FIRST_ARR);
 #endif
 
                 }
@@ -242,7 +242,7 @@ namespace LayoutFarm.RenderBoxes
                     isIncr = true;
                     this.dbugVRoot.dbugNotNeedArrCount++;
                     this.dbugVRoot.dbugNotNeedArrCountEpisode++;
-                    vinv_dbug_WriteInfo(dbugVisitorMessage.NOT_NEED_ARR);
+                    dbug_WriteInfo(dbugVisitorMessage.NOT_NEED_ARR);
                     this.dbugVRoot.dbugNotNeedArrCount--;
 #endif
                 }

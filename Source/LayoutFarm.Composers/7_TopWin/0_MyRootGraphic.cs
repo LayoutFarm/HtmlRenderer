@@ -194,10 +194,10 @@ namespace LayoutFarm.UI
                         {
 
 #if DEBUG
-                            RenderElement.vinv_dbug_SetInitObject(contvs);
-                            RenderElement.vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_CAL_ARR, i);
+                            RenderElement.dbug_SetInitObject(contvs);
+                            RenderElement.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_CAL_ARR, i);
 #endif
-                            if (!RenderElement.vinv_IsInTopDownReArrangePhase)
+                            if (!RenderElement.IsInTopDownReArrangePhase)
                             {
                                 RenderElement topMostToBeCal = FindTopMostToBeRecalculate(contvs);
                                 if (topMostToBeCal != null)
@@ -207,7 +207,7 @@ namespace LayoutFarm.UI
                             }
                             contvs.TopDownReArrangeContentIfNeed();
 #if DEBUG
-                            RenderElement.vinv_dbug_EndLayoutTrace();
+                            RenderElement.dbug_EndLayoutTrace();
 #endif
                         }
                         else
@@ -215,12 +215,12 @@ namespace LayoutFarm.UI
 
 #if DEBUG
 
-                            RenderElement.vinv_dbug_SetInitObject(contvs);
-                            RenderElement.vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_ARR_CAL, i);
+                            RenderElement.dbug_SetInitObject(contvs);
+                            RenderElement.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_ARR_CAL, i);
 #endif
                             contvs.TopDownReArrangeContentIfNeed();
 #if DEBUG
-                            RenderElement.vinv_dbug_EndLayoutTrace();
+                            RenderElement.dbug_EndLayoutTrace();
 #endif
                         }
 
@@ -228,10 +228,10 @@ namespace LayoutFarm.UI
                 case 1:
                     {
 #if DEBUG
-                        RenderElement.vinv_dbug_SetInitObject(contvs);
-                        RenderElement.vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_CAL, i);
+                        RenderElement.dbug_SetInitObject(contvs);
+                        RenderElement.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_CAL, i);
 #endif
-                        if (!RenderElement.vinv_IsInTopDownReArrangePhase)
+                        if (!RenderElement.IsInTopDownReArrangePhase)
                         {
                             RenderElement topMostToBeCal = FindTopMostToBeRecalculate(contvs);
                             if (topMostToBeCal != null)
@@ -242,7 +242,7 @@ namespace LayoutFarm.UI
                         contvs.TopDownReArrangeContentIfNeed();
 
 #if DEBUG
-                        RenderElement.vinv_dbug_EndLayoutTrace();
+                        RenderElement.dbug_EndLayoutTrace();
 #endif
 
                     } break;
@@ -250,12 +250,12 @@ namespace LayoutFarm.UI
                     {
 
 #if DEBUG
-                        RenderElement.vinv_dbug_SetInitObject(contvs);
-                        RenderElement.vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_ARR, i);
+                        RenderElement.dbug_SetInitObject(contvs);
+                        RenderElement.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_ARR, i);
 #endif
                         contvs.TopDownReArrangeContentIfNeed();
 #if DEBUG
-                        RenderElement.vinv_dbug_EndLayoutTrace();
+                        RenderElement.dbug_EndLayoutTrace();
 #endif
 
 

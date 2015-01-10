@@ -224,7 +224,7 @@ namespace LayoutFarm
         }
 
         //-------------------------------------------------------------------------
-        protected static void vinv_dbug_EnterTopDownReCalculateContent(RenderElement v)
+        protected static void dbug_EnterTopDownReCalculateContent(RenderElement v)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -235,7 +235,7 @@ namespace LayoutFarm
             debugVisualLay.WriteInfo(v, ">>TOPDOWN_RECAL_CONTENT ", "-", "&");
 
         }
-        public static void vinv_dbug_ExitTopDownReCalculateContent(RenderElement v)
+        public static void dbug_ExitTopDownReCalculateContent(RenderElement v)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -244,11 +244,11 @@ namespace LayoutFarm
             debugVisualLay.PopVisualElement();
 
         }
-        public static void vinv_dbug_SetInitObject(RenderElement ve)
+        public static void dbug_SetInitObject(RenderElement ve)
         {
             dbugInitObject = ve;
         }
-        public static void vinv_dbug_EnterReArrangeContent(RenderElement v)
+        public static void dbug_EnterReArrangeContent(RenderElement v)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -260,7 +260,7 @@ namespace LayoutFarm
 
         }
 
-        public static void vinv_dbug_ExitReArrangeContent(RenderElement ve)
+        public static void dbug_ExitReArrangeContent(RenderElement ve)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -271,7 +271,7 @@ namespace LayoutFarm
             debugVisualLay.PopVisualElement();
 
         }
-        public static void vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m, int i)
+        public static void dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m, int i)
         {
             //RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
             //if (visualroot == null || !visualroot.dbug_IsRecordLayoutTraceEnable)
@@ -305,7 +305,7 @@ namespace LayoutFarm
             //        } break;
             //}
         }
-        public static void vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m)
+        public static void dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -335,7 +335,7 @@ namespace LayoutFarm
             //}
         }
 
-        public static void vinv_dbug_EndLayoutTrace()
+        public static void dbug_EndLayoutTrace()
         {
 
             var debugVisualLay = dbugGetLayoutTracer();
@@ -359,18 +359,18 @@ namespace LayoutFarm
         }
 
         //-----------------------------------------------------------------
-        protected static void vinv_dbug_WriteInfo(dbugVisitorMessage m)
+        protected static void dbug_WriteInfo(dbugVisitorMessage m)
         {
 
         }
-        protected static void vinv_debug_PushTopDownElement(RenderElement ve)
+        protected static void debug_PushTopDownElement(RenderElement ve)
         {
         }
-        protected static void vinv_debug_PopTopDownElement(RenderElement ve)
+        protected static void debug_PopTopDownElement(RenderElement ve)
         {
 
         }
-        protected static void vinv_dbug_ExitReArrangeContent()
+        protected static void dbug_ExitReArrangeContent()
         {
 
         }
