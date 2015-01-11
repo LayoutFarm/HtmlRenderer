@@ -164,8 +164,7 @@ namespace LayoutFarm.RenderBoxes
         public abstract IEnumerable<RenderElement> GetRenderElementIter();
         public abstract IEnumerable<RenderElement> GetRenderElementReverseIter();
         public abstract void DrawChildContent(Canvas canvasPage, Rectangle updateArea);
-        public abstract bool PrepareDrawingChain(VisualDrawingChain chain);
-
+       
         protected void ValidateArrangement()
         {
 #if DEBUG

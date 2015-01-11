@@ -127,42 +127,7 @@ namespace LayoutFarm.Text
         }
 
 
-        public override bool PrepareDrawingChain(VisualDrawingChain chain)
-        {
-            if ((layerFlags & IS_LAYER_HIDDEN) == 0)
-            {
-
-                if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
-                {
-                    List<EditableTextLine> lines = (List<EditableTextLine>)lineCollection;
-                    int j = lines.Count;
-                    int testYPos = chain.UpdateAreaY;
-                    for (int i = 0; i < j; ++i)
-                    {
-                        EditableTextLine line = lines[i];
-                        if (line.LineBottom < testYPos)
-                        {
-                            continue;
-                        }
-                        else if (line.PrepareRenderingChain(chain))
-                        {
-                            return true;
-                        }
-                        else if (line.LineTop > testYPos)
-                        {
-                            return false;
-                        }
-                    }
-                }
-                else
-                {
-                    EditableTextLine onlyLine = (EditableTextLine)lineCollection;
-                    return onlyLine.PrepareRenderingChain(chain);
-                }
-
-            }
-            return false;
-        }
+      
 #if DEBUG
         void debug_RecordLineInfo(RenderBoxBase owner, EditableTextLine line)
         {

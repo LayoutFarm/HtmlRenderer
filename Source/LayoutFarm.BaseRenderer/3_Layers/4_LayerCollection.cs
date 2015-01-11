@@ -138,51 +138,7 @@ namespace LayoutFarm.RenderBoxes
     public static class VisualLayerCollectionHelper
     {
 
-        public static void PrepareOriginalChildContentDrawingChain(this VisualLayerCollection layers, VisualDrawingChain chain)
-        {
-
-            if (layers != null)
-            {
-                int j = layers.LayerCount;
-                switch (j)
-                {
-                    case 0:
-                        {
-
-                        } break;
-                    case 1:
-                        {
-                            layers.Layer0.PrepareDrawingChain(chain);
-                            //#if DEBUG
-                            //                            debug_RecordLayerInfo(layers.Layer0);
-                            //#endif
-                        } break;
-                    case 2:
-                        {
-                            layers.Layer1.PrepareDrawingChain(chain);
-                            layers.Layer0.PrepareDrawingChain(chain);
-                            //#if DEBUG
-                            //                            debug_RecordLayerInfo(layers.Layer0);
-                            //#endif
-
-                            //#if DEBUG
-                            //                            debug_RecordLayerInfo(layers.Layer1);
-                            //#endif
-                        } break;
-                    default:
-                        {
-                            for (int i = j - 1; i >= -1; --i)
-                            {
-                                var layer = layers.GetLayer(i);
-                                layer.PrepareDrawingChain(chain);
-                                //#if DEBUG
-                                //                                debug_RecordLayerInfo(layer);
-                                //#endif
-                            }
-                        } break;
-                }
-            }
-        }
+   
         public static void ChildrenHitTestCore(this VisualLayerCollection layers, HitChain hitChain)
         {
             if (layers == null) return;

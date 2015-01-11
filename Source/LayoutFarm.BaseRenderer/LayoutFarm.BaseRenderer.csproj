@@ -51,7 +51,6 @@
     <Compile Include="1_Root\2_RenderRequest.cs" />
     <Compile Include="6_debug\dbug.cs" />
     <Compile Include="6_debug\dbugVisitorMessage.cs" />
-    <Compile Include="3_Layers\5_VisualDrawingChain.cs" />
     <Compile Include="2_RenderElement\RenderElement.cs" />
     <Compile Include="2_RenderElement\RenderElement.ElementPositioning_1_WithSizeChanged.cs" />
     <Compile Include="2_RenderElement\RenderElement.ElementPositioning_1_NoBoundChanged.cs" />

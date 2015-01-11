@@ -111,14 +111,7 @@ namespace LayoutFarm.RenderBoxes
                 }
             }
         }
-        public void PrepareOriginalChildContentDrawingChain(VisualDrawingChain chain)
-        {
-
-            if (this.layers != null)
-            {
-                layers.PrepareOriginalChildContentDrawingChain(chain);
-            }
-        }
+     
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
             if (this.layers != null)
@@ -286,6 +279,7 @@ namespace LayoutFarm.RenderBoxes
                 {
                     var layer0 = this.layers.Layer0;
                     Size s1 = layer0.PostCalculateContentSize;
+
                     if (s1.Width < this.Width)
                     {
                         s1.Width = this.Width;
