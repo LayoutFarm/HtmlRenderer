@@ -19,28 +19,8 @@ namespace LayoutFarm
         int b_width;
         int b_height;
 
-        int uiLayoutFlags;
-
-        public bool IntersectsWith(Rectangle r)
-        {
-            int left = this.b_left;
-            if (((left <= r.Left) && (this.Right > r.Left)) ||
-                ((left >= r.Left) && (left < r.Right)))
-            {
-                int top = this.b_top;
-
-                return (((top <= r.Top) && (this.Bottom > r.Top)) ||
-                          ((top >= r.Top) && (top < r.Bottom)));
-            }
-            return false;
-        }
-        public bool IntersectOnHorizontalWith(ref Rectangle r)
-        {
-            int left = this.b_left;
-            return (((left <= r.Left) && (this.Right > r.Left)) ||
-                     ((left >= r.Left) && (left < r.Right)));
-        }
-
+        int uiLayoutFlags; 
+        //-----------------------------------------------
 
         public Rectangle RectBounds
         {
@@ -62,45 +42,6 @@ namespace LayoutFarm
             {
                 return b_left;
             }
-        }
-
-        public int ViewportBottom
-        {
-            get
-            {
-                return this.Bottom + this.ViewportY;
-            }
-        }
-        public int ViewportRight
-        {
-            get
-            {
-                return this.Right + this.ViewportX;
-            }
-        }
-        public virtual int ViewportY
-        {
-            get
-            {
-                return 0;
-            }
-
-        }
-        public virtual int ViewportX
-        {
-            get
-            {
-                return 0;
-            }
-        }
-
-        public virtual int BubbleUpX
-        {
-            get { return this.X; }
-        }
-        public virtual int BubbleUpY
-        {
-            get { return this.Y; }
         }
         public int Y
         {
@@ -144,6 +85,50 @@ namespace LayoutFarm
                 return b_height;
             }
         }
+        
+        
+        //-----------------------------------------------
+        public virtual int ViewportY
+        {
+            get
+            {
+                return 0;
+            }
+
+        }
+        public virtual int ViewportX
+        {
+            get
+            {
+                return 0;
+            }
+        }
+        public int ViewportBottom
+        {
+            get
+            {
+                return this.Bottom + this.ViewportY;
+            }
+        }
+        public int ViewportRight
+        {
+            get
+            {
+                return this.Right + this.ViewportX;
+            }
+        }
+        
+        //-----------------------------------------------
+        public virtual int BubbleUpX
+        {
+            get { return this.X; }
+        }
+        public virtual int BubbleUpY
+        {
+            get { return this.Y; }
+        }
+
+        //-----------------------------------------------
         public Point GetGlobalLocation()
         {
             return GetGlobalLocationStatic(this);
@@ -174,44 +159,8 @@ namespace LayoutFarm
                 return re.Location;
             }
         }
-        public bool Contains(Point testPoint)
-        {
-            return ((propFlags & RenderElementConst.HIDDEN) != 0) ?
-                        false :
-                        ContainPoint(testPoint.X, testPoint.Y);
-        }
-        public bool VisibleAndHasParent
-        {
-            get { return ((this.propFlags & RenderElementConst.HIDDEN) == 0) && (this.parentLink != null); }
-        }
-        
-         
-        
-        
-        public bool FindUnderlingSibling(LinkedList<RenderElement> foundElements)
-        {
-            //TODO: need?
-            throw new NotSupportedException();
-        }
-        public bool ContainPoint(int x, int y)
-        {
-            return ((x >= b_left && x < Right) && (y >= b_top && y < Bottom));
-        }
-        public bool ContainRect(Rectangle r)
-        {
-            return r.Left >= b_left &&
-                    r.Top >= b_top &&
-                    r.Right <= b_left + b_width &&
-                    r.Bottom <= b_top + b_height;
-        }
-        public bool ContainRect(int x, int y, int width, int height)
-        {
-            return x >= b_left &&
-                    y >= b_top &&
-                    x + width <= b_left + b_width &&
-                    y + height <= b_top + b_height;
-        }
 
+        //-----------------------------------------------
 
 
         public int ElementDesiredWidth
@@ -243,6 +192,7 @@ namespace LayoutFarm
             }
         }
 
+        //-----------------------------------------------
 
         public bool HasSpecificWidth
         {
@@ -286,6 +236,52 @@ namespace LayoutFarm
         }
 
 
+        public bool Contains(Point testPoint)
+        {
+            return ((propFlags & RenderElementConst.HIDDEN) != 0) ?
+                        false :
+                        ContainPoint(testPoint.X, testPoint.Y);
+        }
+        public bool ContainPoint(int x, int y)
+        {
+            return ((x >= b_left && x < Right) && (y >= b_top && y < Bottom));
+        }
+        public bool ContainRect(Rectangle r)
+        {
+            return r.Left >= b_left &&
+                    r.Top >= b_top &&
+                    r.Right <= b_left + b_width &&
+                    r.Bottom <= b_top + b_height;
+        }
+        public bool ContainRect(int x, int y, int width, int height)
+        {
+            return x >= b_left &&
+                    y >= b_top &&
+                    x + width <= b_left + b_width &&
+                    y + height <= b_top + b_height;
+        }
+
+        public bool IntersectsWith(Rectangle r)
+        {
+            int left = this.b_left;
+            if (((left <= r.Left) && (this.Right > r.Left)) ||
+                ((left >= r.Left) && (left < r.Right)))
+            {
+                int top = this.b_top;
+
+                return (((top <= r.Top) && (this.Bottom > r.Top)) ||
+                          ((top >= r.Top) && (top < r.Bottom)));
+            }
+            return false;
+        }
+        public bool IntersectOnHorizontalWith(ref Rectangle r)
+        {
+            int left = this.b_left;
+            return (((left <= r.Left) && (this.Right > r.Left)) ||
+                     ((left >= r.Left) && (left < r.Right)));
+        }
+    
+       
         
     }
 }
