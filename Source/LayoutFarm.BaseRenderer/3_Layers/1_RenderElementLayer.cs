@@ -28,10 +28,10 @@ namespace LayoutFarm.RenderBoxes
         protected const int ARRANGEMENT_VALID = 1 << (23 - 1);
         protected const int HAS_CALCULATE_SIZE = 1 << (24 - 1);
 
-        protected const int FLOWLAYER_HAS_MULTILINE = 1 << (25 - 1); 
-        
-        RenderElement owner; 
-        
+        protected const int FLOWLAYER_HAS_MULTILINE = 1 << (25 - 1);
+
+        RenderElement owner;
+
         int postCalculateContentWidth;
         int postCalculateContentHeight;
 
@@ -164,7 +164,7 @@ namespace LayoutFarm.RenderBoxes
         public abstract IEnumerable<RenderElement> GetRenderElementIter();
         public abstract IEnumerable<RenderElement> GetRenderElementReverseIter();
         public abstract void DrawChildContent(Canvas canvasPage, Rectangle updateArea);
-       
+
         protected void ValidateArrangement()
         {
 #if DEBUG
@@ -173,14 +173,14 @@ namespace LayoutFarm.RenderBoxes
 
             layerFlags |= ARRANGEMENT_VALID;
         }
-        protected void BeginLayerLayoutUpdate()
-        {
-            owner.BeginGraphicUpdate();
-        }
-        protected void EndLayerLayoutUpdate()
-        {
-            owner.EndGraphicUpdate();
-        }
+        //protected void BeginLayerLayoutUpdate()
+        //{
+        //    owner.BeginGraphicUpdate();
+        //}
+        //protected void EndLayerLayoutUpdate()
+        //{
+        //    owner.EndGraphicUpdate();
+        //}
         bool NeedReArrangeContent
         {
             get
@@ -308,7 +308,7 @@ namespace LayoutFarm.RenderBoxes
         public RenderElement OwnerRenderElement
         {
             get { return this.owner; }
-            
+
         }
         protected static bool vinv_IsInTopDownReArrangePhase
         {

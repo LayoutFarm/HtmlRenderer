@@ -79,18 +79,11 @@ namespace LayoutFarm.UI
         RootGraphic MyRootGraphic
         {
             get { return rootgfx; }
-        }
-        //---------------------------------------------------------------------
-        bool DisableGraphicOutputFlush
-        {
-            get { return this.MyRootGraphic.DisableGraphicOutputFlush; }
-            set { this.MyRootGraphic.DisableGraphicOutputFlush = value; }
-        }
+        } 
         void FlushAccumGraphicUpdate()
         {
             this.MyRootGraphic.FlushAccumGraphicUpdate();
-        }
-
+        } 
         public IEventListener CurrentKeyboardFocusedElement
         {
             get
@@ -251,7 +244,7 @@ namespace LayoutFarm.UI
             RenderElement hitElement = hitPointChain.TopMostElement;
             if (hitCount > 0)
             {
-                DisableGraphicOutputFlush = true;
+
                 //------------------------------
                 //1. origin object 
                 SetEventOrigin(e, hitPointChain);
@@ -321,7 +314,7 @@ namespace LayoutFarm.UI
             //{
             //    this.CurrentKeyboardFocusedElement = hitElement.GetController() as IEventListener;
             //}
-            DisableGraphicOutputFlush = false;
+
             FlushAccumGraphicUpdate();
 
 #if DEBUG
@@ -340,7 +333,7 @@ namespace LayoutFarm.UI
             hoverMonitoringTask.Reset();
             hoverMonitoringTask.Enabled = true;
             //-------------------------------------------------------
-            DisableGraphicOutputFlush = true;
+
             SetEventOrigin(e, hitPointChain);
             //-------------------------------------------------------
             ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
@@ -379,7 +372,7 @@ namespace LayoutFarm.UI
                 }
             }
 
-            DisableGraphicOutputFlush = false;
+
             SwapHitChain(hitPointChain);
 
         }
@@ -420,7 +413,7 @@ namespace LayoutFarm.UI
             if (hitCount > 0)
             {
 
-                DisableGraphicOutputFlush = true;
+
                 SetEventOrigin(e, hitPointChain);
                 //--------------------------------------------------------------- 
                 ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
@@ -464,7 +457,7 @@ namespace LayoutFarm.UI
                 }
 
                 //---------------------------------------------------------------
-                DisableGraphicOutputFlush = false;
+
                 FlushAccumGraphicUpdate();
             }
             SwapHitChain(hitPointChain);
@@ -475,6 +468,8 @@ namespace LayoutFarm.UI
             {
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyDown(e);
+
+                this.FlushAccumGraphicUpdate();
             }
         }
         protected void OnKeyUp(UIKeyEventArgs e)
@@ -483,6 +478,7 @@ namespace LayoutFarm.UI
             {
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyUp(e);
+                this.FlushAccumGraphicUpdate();
             }
         }
         protected void OnKeyPress(UIKeyEventArgs e)

@@ -9,10 +9,13 @@ namespace LayoutFarm
 {
     public abstract partial class RootGraphic
     {
+
         public delegate void PaintToOutputDelegate();
 
+        protected PaintToOutputDelegate paintToOutputHandler;
+        CanvasInvalidateRequestDelegate canvasInvaliddateReqDel;
 
-        Rectangle flushRect;
+        int accumRectVer;
         Rectangle accumulateInvalidRect;
         bool hasAccumRect;
 
@@ -32,23 +35,13 @@ namespace LayoutFarm
 
         public abstract void AddToLayoutQueue(RenderElement renderElement);
 
-        public int GraphicUpdateBlockCount
-        {
-            get;
-            set;
-        }
+        
         internal int Width
         {
             get;
             set;
         }
         internal int Height
-        {
-            get;
-            set;
-        }
-
-        public bool DisableGraphicOutputFlush
         {
             get;
             set;
@@ -65,32 +58,17 @@ namespace LayoutFarm
             set;
         }
         public abstract void CloseWinRoot();
-        public void BeginGraphicUpdate()
-        {
-            GraphicUpdateBlockCount++;
-            DisableGraphicOutputFlush = true;
-        }
-        public void EndGraphicUpdate()
-        {
-            GraphicUpdateBlockCount--;
-            if (GraphicUpdateBlockCount <= 0)
-            {
-                DisableGraphicOutputFlush = false;
-                FlushAccumGraphicUpdate();
-                GraphicUpdateBlockCount = 0;
-            }
-        }
+
 
         public abstract void ForcePaint();
-        protected PaintToOutputDelegate paintToOutputHandler;
-        CanvasInvalidateRequestDelegate canvasInvaliddateReqDel;
+
 
         public void SetPaintToOutputHandler(PaintToOutputDelegate paintToOutputHandler)
         {
             this.paintToOutputHandler = paintToOutputHandler;
         }
 
-        public abstract GraphicsTimerTask RequestGraphicsIntervalTask(
+        public abstract GraphicsTimerTask SubSccribeGraphicsIntervalTask(
             object uniqueName,
             TaskIntervalPlan planName,
             int intervalMs,
@@ -116,15 +94,16 @@ namespace LayoutFarm
         }
 #endif
         public abstract void PrepareRender();
+         
         public void FlushAccumGraphicUpdate()
         {
             if (hasAccumRect)
             {
-                this.FlushGrapchics(accumulateInvalidRect);
-
                 hasAccumRect = false;
             }
-            this.GraphicUpdateBlockCount = 0;
+ 
+            this.canvasInvaliddateReqDel(accumulateInvalidRect);
+            this.accumRectVer = 0;             
         }
 
         public void SetCanvasInvalidateRequest(CanvasInvalidateRequestDelegate canvasInvaliddateReqDel)
@@ -132,14 +111,15 @@ namespace LayoutFarm
             this.canvasInvaliddateReqDel = canvasInvaliddateReqDel;
 
         }
-        void FlushGrapchics(Rectangle rect)
-        {
-            this.canvasInvaliddateReqDel(ref rect);
-        }
 
-        public void InvalidateGraphicArea(RenderElement fromElement,ref Rectangle elementClientRect)
+
+        public void AddToInvalidateQueue(RenderElement fromElement, ref Rectangle elementTotalBoundChanged)
         {
-            if (this.IsInRenderPhase) { return; }             
+
+        }
+        public void InvalidateGraphicArea(RenderElement fromElement, ref Rectangle elementClientRect)
+        {
+            if (this.IsInRenderPhase) { return; }
             //--------------------------------------
 
             int globalX = 0;
@@ -157,9 +137,7 @@ namespace LayoutFarm
             }
             int dbug_ncount = 0;
 
-#endif
-
-
+#endif     
             do
             {
 
@@ -316,88 +294,33 @@ namespace LayoutFarm
 #endif
                 return;
             }
-
-
-
-            if (!this.DisableGraphicOutputFlush)
+            //--------------------------------------------------------------------------------------------------
+            if (!hasAccumRect)
             {
-                if (hasAccumRect)
-                {
-
-                    accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, rootGlobalArea);
-#if DEBUG
-                    if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                        dbugMyroot.dbugGraphicInvalidateTracer != null)
-                    {
-                        string state_str = "SUDDEN_1: ";
-                        if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
-                        {
-                            state_str = "!!" + state_str;
-                        }
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str + accumulateInvalidRect);
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
-                    }
-#endif
-
-
-
-                    this.FlushGrapchics(rootGlobalArea);
-                    this.flushRect = accumulateInvalidRect;
-
-
-                    hasAccumRect = false;
-                }
-                else
-                {
-
-                    this.FlushGrapchics(rootGlobalArea);
-
-
-#if DEBUG
-                    if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                    dbugMyroot.dbugGraphicInvalidateTracer != null)
-                    {
-
-                        string state_str = "SUDDEN_2: ";
-                        if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
-                        {
-                            state_str = "!!" + state_str;
-                        }
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str +
-                               rootGlobalArea.ToString() + " " +
-                               startVisualElement.dbug_FullElementDescription());
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
-                    }
-#endif
-                }
+                accumulateInvalidRect = rootGlobalArea;
+                hasAccumRect = true;
             }
             else
             {
-                if (!hasAccumRect)
-                {
-                    accumulateInvalidRect = rootGlobalArea;
-                    hasAccumRect = true;
-                }
-                else
-                {
-                    accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, rootGlobalArea);
-                }
-
-
-#if DEBUG
-                if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                    dbugMyroot.dbugGraphicInvalidateTracer != null)
-                {
-                    string state_str = "ACC: ";
-                    if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
-                    {
-                        state_str = "!!" + state_str;
-                    }
-                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("ACC: " + accumulateInvalidRect.ToString());
-                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
-                }
-#endif
+                accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, rootGlobalArea);
             }
+            //----------------------
+            accumRectVer++;
+            //----------------------
+#if DEBUG
+            if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
+                dbugMyroot.dbugGraphicInvalidateTracer != null)
+            {
+                string state_str = "ACC: ";
+                if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
+                {
+                    state_str = "!!" + state_str;
+                }
+                dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("ACC: " + accumulateInvalidRect.ToString());
+                dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
+            }
+#endif
+
         }
 
         public abstract TopWindowRenderBox TopWindowRenderBox

@@ -87,7 +87,7 @@ namespace LayoutFarm.UI
                 ResetQuadPages(viewportWidth, viewportHeight);
                 CalculateCanvasPages();
 
-                
+
             }
         }
         void ChangeRootGraphicSize(int width, int height)
@@ -95,7 +95,7 @@ namespace LayoutFarm.UI
             Size currentSize = topWindowBox.Size;
             if (currentSize.Width != width || currentSize.Height != height)
             {
-                topWindowBox.SetSize(width, height); 
+                topWindowBox.SetSize(width, height);
                 topWindowBox.InvalidateContentArrangementFromContainerSizeChanged();
                 topWindowBox.TopDownReCalculateContentSize();
                 topWindowBox.TopDownReArrangeContentIfNeed();
@@ -113,7 +113,7 @@ namespace LayoutFarm.UI
         {
             //EvaluateScrollBar();
         }
-        protected virtual void Canvas_Invalidate(ref Rectangle r)
+        protected virtual void Canvas_Invalidate(Rectangle r)
         {
         }
         public virtual bool IsQuadPageValid

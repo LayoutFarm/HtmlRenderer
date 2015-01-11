@@ -29,7 +29,7 @@ namespace LayoutFarm.Text
                 return;
             }
             caretRegistered = true;
-            task = root.RequestGraphicsIntervalTask(
+            task = root.SubSccribeGraphicsIntervalTask(
                 caretBlinkTask,
                 TaskIntervalPlan.CaretBlink,
                 300,

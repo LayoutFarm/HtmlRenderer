@@ -109,7 +109,7 @@ namespace LayoutFarm.UI
             vinv_dbug_EnterLayerReArrangeContent(this);
 #endif
             //--------------------------------- 
-            this.BeginLayerLayoutUpdate();
+            //this.BeginLayerLayoutUpdate();
             //---------------------------------
             if (gridCols != null && gridCols.Count > 0)
             {
@@ -134,7 +134,7 @@ namespace LayoutFarm.UI
 
             ValidateArrangement();
             //---------------------------------
-            this.EndLayerLayoutUpdate();
+            //this.EndLayerLayoutUpdate();
 
 #if DEBUG
             vinv_dbug_ExitLayerReArrangeContent();

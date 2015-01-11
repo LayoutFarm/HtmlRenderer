@@ -171,7 +171,7 @@ namespace LayoutFarm.CustomWidgets
                 htmlLayoutVisitor.Bind(this.myHtmlIsland);
             }
             //-------------------------
-            rootgfx.RequestGraphicsIntervalTask(uiHtmlTask,
+            rootgfx.SubSccribeGraphicsIntervalTask(uiHtmlTask,
                  LayoutFarm.RenderBoxes.TaskIntervalPlan.Animation, 25,
                  (s, e) =>
                  {

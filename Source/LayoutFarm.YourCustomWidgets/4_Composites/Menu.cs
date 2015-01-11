@@ -254,14 +254,12 @@ namespace LayoutFarm.CustomWidgets
                 case HingeFloatPartStyle.Popup:
                     {
                         if (floatPartRenderElement != null)
-                        {
-                            //temp
+                        {                            //temp
                             var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
                             if (parentContainer.Layers != null)
                             {
                                 PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
                                 plainLayer.RemoveChild(floatPartRenderElement);
-
                             }
                         }
 

@@ -4,5 +4,5 @@
 namespace PixelFarm.Drawing
 {
 
-    public delegate void CanvasInvalidateRequestDelegate(ref Rectangle invalidateArea);
+    public delegate void CanvasInvalidateRequestDelegate(Rectangle invalidateArea);
 }
