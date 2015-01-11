@@ -15,7 +15,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 using Win32;
 
 namespace PixelFarm.Drawing.WinGdi
@@ -40,7 +40,7 @@ namespace PixelFarm.Drawing.WinGdi
         System.Drawing.SolidBrush internalSolidBrush;
         System.Drawing.Rectangle currentClipRect;
         //-------------------------------
-        bool isFromPrinter = false;
+
         GraphicsPlatform platform;
         public MyCanvas(GraphicsPlatform platform,
             int horizontalPageNum,
@@ -85,7 +85,7 @@ namespace PixelFarm.Drawing.WinGdi
 #if DEBUG
             debug_canvas_id = dbug_canvasCount + 1;
             dbug_canvasCount += 1;
-#endif      
+#endif
             this.StrokeWidth = 1;
         }
 
@@ -270,7 +270,7 @@ namespace PixelFarm.Drawing.WinGdi
         void SetFont(Font font)
         {
             InitHdc();
-            
+
             Win32Utils.SelectObject(_hdc, FontStore.GetCachedHFont(font.InnerFont as System.Drawing.Font));
         }
 

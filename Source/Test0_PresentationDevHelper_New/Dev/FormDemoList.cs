@@ -61,12 +61,18 @@ namespace LayoutFarm.Dev
             LayoutFarm.UI.UISurfaceViewportControl viewport;
 
             Form formCanvas;
-            CreateReadyForm(out viewport, out formCanvas);
-
+            CreateReadyForm(out viewport, out formCanvas); 
             selectedDemo.StartDemo(new SampleViewport(viewport));
             viewport.TopDownRecalculateContent();
             //==================================================  
             viewport.PaintMe();
+
+            if (this.chkShowLayoutInspector.Checked)
+            {
+                ShowFormLayoutInspector(viewport);
+            }
+
+
         }
         static void ShowFormLayoutInspector(LayoutFarm.UI.UISurfaceViewportControl viewport)
         {
@@ -95,6 +101,7 @@ namespace LayoutFarm.Dev
                 this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
                 w, h);
 
+            
             TopWindowRenderBox topRenderBox = rootgfx.TopWindowRenderBox;
 
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
@@ -163,6 +170,11 @@ namespace LayoutFarm.Dev
             {
                 this.lstDemoList.Items.Add(demo);
             }
+
+        }
+
+        private void chkShowLayoutInspector_CheckedChanged(object sender, EventArgs e)
+        {
 
         }
     }

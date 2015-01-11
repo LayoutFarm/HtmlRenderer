@@ -5,6 +5,7 @@ namespace PixelFarm.Drawing
 {
     public abstract class Canvas : System.IDisposable
     {
+        bool isContentReady;
 #if DEBUG
         public static int dbug_canvasCount = 0;
         public int debug_resetCount = 0;
@@ -17,6 +18,7 @@ namespace PixelFarm.Drawing
         {
 
         }
+
         public abstract void Dispose();
         public abstract GraphicsPlatform Platform { get; }
         public abstract SmoothingMode SmoothingMode { get; set; }
@@ -25,9 +27,21 @@ namespace PixelFarm.Drawing
         public abstract Color StrokeColor { get; set; }
 
         //states
+        public abstract void ResetInvalidateArea();
         public abstract void Invalidate(Rectangle rect);
         public abstract Rectangle InvalidateArea { get; }
-        public bool IsContentReady { get; set; }
+
+        public bool IsContentReady
+        {
+            get { return isContentReady; }
+            set
+            {
+                this.isContentReady = value;
+                //if (!value)
+                //{
+                //}
+            }
+        }
         //---------------------------------------------------------------------
         // canvas dimension, canvas origin
         public abstract int Top { get; }

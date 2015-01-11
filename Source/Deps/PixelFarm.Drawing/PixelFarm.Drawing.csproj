@@ -52,7 +52,7 @@
     <Compile Include="6_PixelFarm_AggVectorMath\Vector3Float.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\Vector4.cs" />
     <Compile Include="0_Start\ExtensionAttribute.cs" />
-    <Compile Include="1_Drawing\CanvasInvalidateRequestDelegate.cs" />
+    <Compile Include="1_Drawing\CanvasPaintToOutputDelegate.cs" />
     <Compile Include="1_Drawing\CombineMode.cs" />
     <Compile Include="1_Drawing\Matrix.cs" />
     <Compile Include="1_Drawing\CanvasOptions.cs" />

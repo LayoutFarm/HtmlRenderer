@@ -206,9 +206,12 @@ namespace PixelFarm.Drawing.DrawingGL
         }
         public override void Invalidate(Rectangle rect)
         {
-
             invalidateArea = Rectangle.Union(rect, invalidateArea);
             this.IsContentReady = false;
+        }
+        public override void ResetInvalidateArea()
+        {
+            this.invalidateArea = Rectangle.Empty;
         }
     }
 

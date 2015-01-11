@@ -13,7 +13,7 @@ namespace LayoutFarm
         public delegate void PaintToOutputDelegate();
 
         protected PaintToOutputDelegate paintToOutputHandler;
-        CanvasInvalidateRequestDelegate canvasInvaliddateReqDel;
+        CanvasPaintToOutputDelegate canvasPaintToOutput;
 
         int accumRectVer;
         Rectangle accumulateInvalidRect;
@@ -24,7 +24,7 @@ namespace LayoutFarm
             this.Width = width;
             this.Height = heigth;
         }
-
+    
         public abstract GraphicsPlatform P { get; }
 
         public IFonts SampleIFonts { get { return this.P.SampleIFonts; } }
@@ -78,7 +78,7 @@ namespace LayoutFarm
 
 
 #if DEBUG
-        
+
         bool dbugNeedContentArrangement
         {
             get;
@@ -92,20 +92,19 @@ namespace LayoutFarm
 #endif
         public abstract void PrepareRender();
 
-        public void FlushAccumGraphicUpdate()
+
+        public void FlushAccumGraphics()
         {
-            if (hasAccumRect)
-            {
-                hasAccumRect = false;
+            if (!this.hasAccumRect)
+            {   
             }
-
-            this.canvasInvaliddateReqDel(accumulateInvalidRect);
+            this.canvasPaintToOutput(accumulateInvalidRect);
             this.accumRectVer = 0;
+            hasAccumRect = false;
         }
-
-        public void SetCanvasInvalidateRequest(CanvasInvalidateRequestDelegate canvasInvaliddateReqDel)
+        public void SetCanvasPaintToOutputDel(CanvasPaintToOutputDelegate canvasPaintToOutput)
         {
-            this.canvasInvaliddateReqDel = canvasInvaliddateReqDel;
+            this.canvasPaintToOutput = canvasPaintToOutput;
         }
 
 #if DEBUG
@@ -127,18 +126,34 @@ namespace LayoutFarm
             }
         }
 #endif
+
+
+
         public void AddToInvalidateGraphicQueue(RenderElement fromElement, Rectangle totalBounds)
         {
             //total bounds = total bounds at level
 
             if (this.IsInRenderPhase) { return; }
             //--------------------------------------            
-            //bubble up ,find global rect coord
+            //bubble up ,find global offset of 'fromElement' 
             //and then merge to accumulate rect
             int globalX = 0;
             int globalY = 0;
-            bool isBubbleUp = false;
+            bool passFirstRound = false;
 
+            // start with parent of fromElement *** 
+            // unlike InvalidateGraphicArea()
+            if (!fromElement.Visible)
+            {
+                return;
+            }
+            fromElement = fromElement.ParentRenderElement;
+            //--------------------------------------- 
+            if (fromElement == null)
+            {
+                return;
+            }
+            //--------------------------------------- 
 #if DEBUG
             int dbug_ncount = 0;
             dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, dbug_ncount, ">> :" + totalBounds.ToString());
@@ -160,11 +175,10 @@ namespace LayoutFarm
 #endif
                     return;
                 }
-                //--------------------------------------------------------------------- 
+                //---------------------------------------------------------------------  
 
-
-#if DEBUG   
-                dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, dbug_ncount, ">> "); 
+#if DEBUG
+                dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, dbug_ncount, ">> ");
 #endif
 
 
@@ -172,7 +186,7 @@ namespace LayoutFarm
                 globalY += fromElement.BubbleUpY;
 
 
-                if (fromElement.MayHasViewport && isBubbleUp)
+                if (fromElement.MayHasViewport && passFirstRound)
                 {
                     totalBounds.Offset(globalX, globalY);
                     if (fromElement.HasDoubleScrollableSurface)
@@ -188,16 +202,14 @@ namespace LayoutFarm
 
                 if (fromElement.IsTopWindow)
                 {
-
                     break;
                 }
                 else
                 {
-
 #if DEBUG
                     if (fromElement.dbugParentVisualElement == null)
                     {
-                        dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, 0, "BLOCKED3: ");  
+                        dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, 0, "BLOCKED3: ");
                     }
 #endif
 
@@ -208,7 +220,7 @@ namespace LayoutFarm
                     }
                 }
 
-                isBubbleUp = true;
+                passFirstRound = true;
 
             } while (true);
 
@@ -374,7 +386,7 @@ namespace LayoutFarm
 
             //----------------------------------------
             elemClientRect.Offset(globalX, globalY);
-            Rectangle rootGlobalArea = elemClientRect;
+
 
 
             if (elemClientRect.Top > this.Height
@@ -395,12 +407,12 @@ namespace LayoutFarm
             //--------------------------------------------------------------------------------------------------
             if (!hasAccumRect)
             {
-                accumulateInvalidRect = rootGlobalArea;
+                accumulateInvalidRect = elemClientRect;
                 hasAccumRect = true;
             }
             else
             {
-                accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, rootGlobalArea);
+                accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, elemClientRect);
             }
             //----------------------
             accumRectVer++;

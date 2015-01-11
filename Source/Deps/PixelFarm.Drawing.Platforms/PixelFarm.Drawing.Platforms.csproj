@@ -76,7 +76,6 @@
     <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\2_MyCanvas_CoordinateAndClip.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\3_MyCanvas_DrawGraphics.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\4_MyCanvas_TextAndFonts.cs" />
-    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\QuadPages.cs" />
     <Compile Include="PixelFarm.Drawing.DrawingGL\0_Start\CanvasGLPlatform.cs" />
     <Compile Include="PixelFarm.Drawing.DrawingGL\0_Start\CanvasGLPortal.cs" />
     <Compile Include="PixelFarm.Drawing.DrawingGL\Implementation\GLBitmapTextureHelper.cs" />
@@ -87,6 +86,7 @@
     <Compile Include="PixelFarm.Drawing.DrawingGL\MyCanvas_GL\3_MyCanvasGL_DrawGraphics.cs" />
     <Compile Include="PixelFarm.Drawing.DrawingGL\MyCanvas_GL\4_MyCanvasGL_TextAndFonts.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\FontGdiTexture\GdiTextureFont.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\QuadPages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

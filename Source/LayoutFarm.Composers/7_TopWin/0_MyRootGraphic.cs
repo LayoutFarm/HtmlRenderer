@@ -9,7 +9,7 @@ namespace LayoutFarm.UI
 {
 
 
-    public class MyRootGraphic : RootGraphic
+    public sealed class MyRootGraphic : RootGraphic
     {
         List<RenderElement> layoutQueue = new List<RenderElement>();
         List<RenderElement> layoutQueue2 = new List<RenderElement>();
@@ -42,11 +42,12 @@ namespace LayoutFarm.UI
                 TaskIntervalPlan.Animation,
                 20,
                 (s, e) =>
-                {
-                    //topWindowRenderBox.InvalidateGraphics();
-                    this.FlushAccumGraphicUpdate();
+                {   
+                    this.FlushAccumGraphics();
                 });
         }
+
+        
         public IUserEventPortal UserInputEventAdapter
         {
             get { return this.userInputEventAdapter; }
@@ -83,9 +84,8 @@ namespace LayoutFarm.UI
 
         UserInputEventAdapter CreateUserEventPortal()
         {
-            UserInputEventAdapter userInputEventBridge = new UserInputEventAdapter();
-            userInputEventBridge.Bind(this.TopWindowRenderBox);
-            return userInputEventBridge;
+            return new UI.UserInputEventAdapter(this);
+
         }
         public override GraphicsPlatform P
         {

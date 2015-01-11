@@ -10,9 +10,9 @@ namespace LayoutFarm.UI.OpenGL
     {
         Canvas canvas;
         bool isClosed;
-        public OpenGLCanvasViewport(TopWindowRenderBox wintop,
+        public OpenGLCanvasViewport(RootGraphic root,
             Size viewportSize, int cachedPageNum)
-            : base(wintop, viewportSize, cachedPageNum)
+            : base(root, viewportSize, cachedPageNum)
         {
 
         }
@@ -152,8 +152,7 @@ namespace LayoutFarm.UI.OpenGL
 
 #if DEBUG
             topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
-#endif
-#if DEBUG
+ 
 #endif
 
             mycanvas.IsContentReady = true;

@@ -9,26 +9,26 @@ namespace PixelFarm.Drawing.WinGdi
 
     public class QuadPages
     {
-
+          
         internal MyCanvas pageA;
         internal MyCanvas pageB;
         internal MyCanvas pageC;
         internal MyCanvas pageD;
 
         CanvasCollection physicalCanvasCollection;
-         
-        public QuadPages(GraphicsPlatform gfxPlatform, 
+
+        public QuadPages(GraphicsPlatform gfxPlatform,
             int cachedPageNum,
             int eachCachedPageWidth,
             int eachCachedPageHeight)
         {
-             
+
             physicalCanvasCollection = new CanvasCollection(
                 gfxPlatform,
                 cachedPageNum, eachCachedPageWidth, eachCachedPageHeight);
 
         }
-        
+
         public void Dispose()
         {
             if (physicalCanvasCollection != null)
@@ -191,26 +191,20 @@ namespace PixelFarm.Drawing.WinGdi
 #if DEBUG
             topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
 #endif
-#if DEBUG
-#endif
 
             mycanvas.IsContentReady = true;
             mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
         }
 
-        static void UpdateInvalidArea(MyCanvas mycanvas, IRenderElement rootElement, IVisualDrawingChain renderingChain)
-        {
 
-            renderingChain.UpdateInvalidArea(mycanvas, rootElement);
-
-        }
         static void UpdateInvalidArea(MyCanvas mycanvas, IRenderElement rootElement)
         {
-#if DEBUG
-#endif
+
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
             Rectangle rect = mycanvas.InvalidateArea;
+            //Console.WriteLine("update:" + rect.ToString());
             rootElement.DrawToThisCanvas(mycanvas, rect);
+
 #if DEBUG
             rootElement.dbugShowRenderPart(mycanvas, rect);
 #endif
@@ -221,144 +215,80 @@ namespace PixelFarm.Drawing.WinGdi
 
 
         public void RenderToOutputWindowPartialMode(
-            IRenderElement rootElement,
+            IRenderElement renderE,
             IntPtr destOutputHdc,
             int viewportX, int viewportY,
             int viewportWidth, int viewportHeight)
         {
 
-            //temp ****
-            IVisualDrawingChain renderChain = null;
+
             switch (render_parts)
             {
                 case PAGE_A:
                     {
-
                         if (!pageA.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageA, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageA, rootElement);
-                            }
+                            UpdateInvalidArea(pageA, renderE);
                         }
                     } break;
                 case PAGE_AB:
                     {
                         if (!pageA.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageA, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageA, rootElement);
-                            }
+                            UpdateInvalidArea(pageA, renderE);
                         }
                         if (!pageB.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageB, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageB, rootElement);
-                            }
+                            UpdateInvalidArea(pageB, renderE);
                         }
                     } break;
                 case PAGE_AC:
                     {
                         if (!pageA.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageA, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageA, rootElement);
-
-                            }
+                            UpdateInvalidArea(pageA, renderE);
                         }
                         if (!pageC.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageC, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageC, rootElement);
-                            }
+                            UpdateInvalidArea(pageC, renderE);
                         }
                     } break;
                 case PAGE_ABCD:
                     {
                         if (!pageA.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageA, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageA, rootElement);
-                            }
+                            UpdateInvalidArea(pageA, renderE);
                         }
                         if (!pageB.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageB, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageB, rootElement);
-                            }
+                            UpdateInvalidArea(pageB, renderE);
                         }
                         if (!pageC.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageC, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageC, rootElement);
-                            }
+                            UpdateInvalidArea(pageC, renderE);
                         }
                         if (!pageD.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageD, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageD, rootElement);
-                            }
+                            UpdateInvalidArea(pageD, renderE);
                         }
                     } break;
             }
-
-
-
+            //----------------------------------------------------------------------------------------------------------
             switch (render_parts)
             {
                 case PAGE_A:
                     {
 
                         Rectangle invalidateArea = pageA.InvalidateArea;
+                        ////Console.WriteLine("update2:" + invalidateArea.ToString());
+                      
+
                         pageA.RenderTo(destOutputHdc, invalidateArea.Left - pageA.Left, invalidateArea.Top - pageA.Top,
                             new Rectangle(invalidateArea.Left -
                                 viewportX, invalidateArea.Top - viewportY,
-                                invalidateArea.Width, invalidateArea.Height));
+                                invalidateArea.Width, invalidateArea.Height)); 
 
+                        pageA.ResetInvalidateArea();
                     } break;
                 case PAGE_AB:
                     {
@@ -602,7 +532,7 @@ namespace PixelFarm.Drawing.WinGdi
                 Rectangle logicalSourceArea, Rectangle physicalUpdateArea, Canvas destPage)
         {
 
-            Rectangle logicalClip = Rectangle.Intersect(logicalSourceArea , sourceCanvas.Rect);
+            Rectangle logicalClip = Rectangle.Intersect(logicalSourceArea, sourceCanvas.Rect);
             if (logicalClip.Width > 0 && logicalClip.Height > 0)
             {
                 destPage.CopyFrom(sourceCanvas, logicalClip.Left,

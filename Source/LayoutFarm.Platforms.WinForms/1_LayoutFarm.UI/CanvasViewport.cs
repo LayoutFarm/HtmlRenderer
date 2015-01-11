@@ -23,19 +23,18 @@ namespace LayoutFarm.UI
         int v_smallChange = 0;
         int v_largeChange = 0;
 
-        CanvasInvalidateRequestDelegate canvasInvalidateHandler;
+        CanvasPaintToOutputDelegate canvasInvalidateHandler;
         EventHandler<EventArgs> canvasSizeChangedHandler;
 
         bool fullMode = true;
         bool isClosed;//is this viewport closed
 
 
-        public CanvasViewport(TopWindowRenderBox topWindowBox,
+        public CanvasViewport(RootGraphic rootgfx,
             Size viewportSize, int cachedPageNum)
         {
-            this.rootGraphics = topWindowBox.Root;
-            this.topWindowBox = topWindowBox;
-
+            this.rootGraphics = rootgfx;
+            this.topWindowBox = rootgfx.TopWindowRenderBox;
 
             this.viewportWidth = viewportSize.Width;
             this.viewportHeight = viewportSize.Height;
@@ -44,7 +43,7 @@ namespace LayoutFarm.UI
             canvasSizeChangedHandler = Canvas_SizeChanged;
 
 
-            topWindowBox.Root.SetCanvasInvalidateRequest(canvasInvalidateHandler);
+            topWindowBox.Root.SetCanvasPaintToOutputDel(canvasInvalidateHandler);
             viewportX = 0;
             viewportY = 0;
 
@@ -92,6 +91,7 @@ namespace LayoutFarm.UI
         }
         void ChangeRootGraphicSize(int width, int height)
         {
+
             Size currentSize = topWindowBox.Size;
             if (currentSize.Width != width || currentSize.Height != height)
             {
