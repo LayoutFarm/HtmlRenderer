@@ -36,11 +36,9 @@ namespace LayoutFarm
                 this.b_width = width;
                 this.b_height = height;
                 
-                //combine before and after rect
-                var totalChangedBounds = Rectangle.Union(prevBounds, this.RectBounds);
-                //add to invalidate root invalidate queue
-
-                this.rootGfx.AddToInvalidateQueue(this, ref totalChangedBounds);                
+                //combine before and after rect 
+                //add to invalidate root invalidate queue 
+                this.rootGfx.AddToInvalidateGraphicQueue(this, Rectangle.Union(prevBounds, this.RectBounds));                
 
                  
             }
@@ -62,11 +60,10 @@ namespace LayoutFarm
                 this.b_left = left;
                 this.b_top = top;
                 //----------------   
-                //combine before and after rect
-                var totalChangedBounds = Rectangle.Union(prevBounds, this.RectBounds);
-
+                //combine before and after rect  
                 //add to invalidate root invalidate queue
-                this.rootGfx.AddToInvalidateQueue(this,ref totalChangedBounds); 
+
+                this.rootGfx.AddToInvalidateGraphicQueue(this, Rectangle.Union(prevBounds, this.RectBounds)); 
             }
         }
 

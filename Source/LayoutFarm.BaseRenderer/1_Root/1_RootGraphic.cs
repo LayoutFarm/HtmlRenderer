@@ -35,7 +35,7 @@ namespace LayoutFarm
 
         public abstract void AddToLayoutQueue(RenderElement renderElement);
 
-        
+
         internal int Width
         {
             get;
@@ -78,10 +78,7 @@ namespace LayoutFarm
 
 
 #if DEBUG
-        RootGraphic dbugVRoot
-        {
-            get { return this; }
-        }
+        
         bool dbugNeedContentArrangement
         {
             get;
@@ -94,114 +91,80 @@ namespace LayoutFarm
         }
 #endif
         public abstract void PrepareRender();
-         
+
         public void FlushAccumGraphicUpdate()
         {
             if (hasAccumRect)
             {
                 hasAccumRect = false;
             }
- 
+
             this.canvasInvaliddateReqDel(accumulateInvalidRect);
-            this.accumRectVer = 0;             
+            this.accumRectVer = 0;
         }
 
         public void SetCanvasInvalidateRequest(CanvasInvalidateRequestDelegate canvasInvaliddateReqDel)
         {
             this.canvasInvaliddateReqDel = canvasInvaliddateReqDel;
-
         }
 
-
-        public void AddToInvalidateQueue(RenderElement fromElement, ref Rectangle elementTotalBoundChanged)
+#if DEBUG
+        void dbugWriteStopGfxBubbleUp(RenderElement fromElement, ref int dbug_ncount, int nleftOnStack, string state_str)
         {
-
+            RootGraphic dbugMyroot = this;
+            if (dbugMyroot.dbugEnableGraphicInvalidateTrace && dbugMyroot.dbugGraphicInvalidateTracer != null)
+            {
+                if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
+                {
+                    state_str = "!!" + state_str;
+                }
+                dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement);
+                while (dbug_ncount > nleftOnStack)
+                {
+                    dbugMyroot.dbugGraphicInvalidateTracer.PopElement();
+                    dbug_ncount--;
+                }
+            }
         }
-        public void InvalidateGraphicArea(RenderElement fromElement, ref Rectangle elementClientRect)
+#endif
+        public void AddToInvalidateGraphicQueue(RenderElement fromElement, Rectangle totalBounds)
         {
+            //total bounds = total bounds at level
+
             if (this.IsInRenderPhase) { return; }
-            //--------------------------------------
-
+            //--------------------------------------            
+            //bubble up ,find global rect coord
+            //and then merge to accumulate rect
             int globalX = 0;
             int globalY = 0;
             bool isBubbleUp = false;
-            RenderElement startVisualElement = fromElement;
+
 #if DEBUG
-
-            RootGraphic dbugMyroot = this.dbugVRoot;
-            if (dbugMyroot.dbugEnableGraphicInvalidateTrace && dbugMyroot.dbugGraphicInvalidateTracer != null)
-            {
-
-                dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(">> :" + elementClientRect.ToString(),
-                    startVisualElement);
-            }
             int dbug_ncount = 0;
-
-#endif     
+            dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, dbug_ncount, ">> :" + totalBounds.ToString());
+#endif
             do
             {
 
-#if DEBUG
                 if (!fromElement.Visible)
                 {
-
-                    if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                        dbugMyroot.dbugGraphicInvalidateTracer != null)
-                    {
-
-                        string state_str = "EARLY-RET: ";
-                        if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
-                        {
-                            state_str = "!!" + state_str;
-                        }
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement);
-                        while (dbug_ncount > 0)
-                        {
-                            dbugMyroot.dbugGraphicInvalidateTracer.PopElement();
-                            dbug_ncount--;
-                        }
-                    }
-                    return;
-                }
-                else if (fromElement.IsInvalidateGraphicBlocked)
-                {
-                    if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                            dbugMyroot.dbugGraphicInvalidateTracer != null)
-                    {
-                        string state_str = "BLOCKED2: ";
-                        if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
-                        {
-                            state_str = "!!" + state_str;
-                        }
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement); while (dbug_ncount > 0)
-                        {
-                            dbugMyroot.dbugGraphicInvalidateTracer.PopElement();
-                            dbug_ncount--;
-                        }
-                    }
-                    return;
-                }
-#else 
-                if (!fromElement.Visible || fromElement.IsInvalidateGraphicBlocked)
-                {
-                    return;
-                }
-#endif
-
-
 #if DEBUG
-                if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                    dbugMyroot.dbugGraphicInvalidateTracer != null)
-                {
-                    dbug_ncount++;
-                    dbugMyroot.dbugGraphicInvalidateTracer.PushVisualElement(fromElement);
-                    string state_str = ">> ";
-                    if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
-                    {
-                        state_str = "!!" + state_str;
-                    }
-                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement);
+                    dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, 0, "EARLY-RET: ");
+#endif
+                    return;
                 }
+                else if (fromElement.BlockGraphicUpdateBubble)
+                {
+#if DEBUG
+                    dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, 0, "BLOCKED2: ");
+#endif
+                    return;
+                }
+                //--------------------------------------------------------------------- 
+
+
+#if DEBUG   
+                dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, dbug_ncount, ">> "); 
 #endif
 
 
@@ -211,14 +174,14 @@ namespace LayoutFarm
 
                 if (fromElement.MayHasViewport && isBubbleUp)
                 {
-                    elementClientRect.Offset(globalX, globalY);
+                    totalBounds.Offset(globalX, globalY);
                     if (fromElement.HasDoubleScrollableSurface)
                     {
                         //container.VisualScrollableSurface.WindowRootNotifyInvalidArea(elementClientRect);
                     }
                     Rectangle elementRect = fromElement.RectBounds;
                     elementRect.Offset(fromElement.ViewportX, fromElement.ViewportY);
-                    elementClientRect.Intersect(elementRect);
+                    totalBounds.Intersect(elementRect);
                     globalX = -fromElement.ViewportX;
                     globalY = -fromElement.ViewportY;
                 }
@@ -234,20 +197,7 @@ namespace LayoutFarm
 #if DEBUG
                     if (fromElement.dbugParentVisualElement == null)
                     {
-                        if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                            dbugMyroot.dbugGraphicInvalidateTracer != null)
-                        {
-                            string state_str = "BLOCKED3: ";
-                            if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
-                            {
-                                state_str = "!!" + state_str;
-                            }
-                            dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement); while (dbug_ncount > 0)
-                            {
-                                dbugMyroot.dbugGraphicInvalidateTracer.PopElement();
-                                dbug_ncount--;
-                            }
-                        }
+                        dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, 0, "BLOCKED3: ");  
                     }
 #endif
 
@@ -263,6 +213,7 @@ namespace LayoutFarm
             } while (true);
 
 #if DEBUG
+            var dbugMyroot = this;
             if (dbugMyroot.dbugEnableGraphicInvalidateTrace
              && dbugMyroot.dbugGraphicInvalidateTracer != null)
             {
@@ -275,14 +226,161 @@ namespace LayoutFarm
 #endif
 
             //----------------------------------------
-            elementClientRect.Offset(globalX, globalY);
-            Rectangle rootGlobalArea = elementClientRect;
+            totalBounds.Offset(globalX, globalY);
+            Rectangle rootGlobalArea = totalBounds;
 
 
-            if (elementClientRect.Top > this.Height
-                || elementClientRect.Left > this.Width
-                || elementClientRect.Bottom < 0
-                || elementClientRect.Right < 0)
+            if (totalBounds.Top > this.Height
+                || totalBounds.Left > this.Width
+                || totalBounds.Bottom < 0
+                || totalBounds.Right < 0)
+            {
+#if DEBUG
+                if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
+                    dbugMyroot.dbugGraphicInvalidateTracer != null)
+                {
+                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("ZERO-EEX");
+                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
+                }
+#endif
+                return;
+            }
+            //--------------------------------------------------------------------------------------------------
+            if (!hasAccumRect)
+            {
+                accumulateInvalidRect = rootGlobalArea;
+                hasAccumRect = true;
+            }
+            else
+            {
+                accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, rootGlobalArea);
+            }
+            //----------------------
+            accumRectVer++;
+            //----------------------
+#if DEBUG
+            if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
+                dbugMyroot.dbugGraphicInvalidateTracer != null)
+            {
+                string state_str = "ACC: ";
+                if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
+                {
+                    state_str = "!!" + state_str;
+                }
+                dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("ACC: " + accumulateInvalidRect.ToString());
+                dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
+            }
+#endif
+
+
+        }
+        public void InvalidateGraphicArea(RenderElement fromElement, ref Rectangle elemClientRect)
+        {
+            //total bounds = total bounds at level
+
+            if (this.IsInRenderPhase) { return; }
+            //--------------------------------------            
+            //bubble up ,find global rect coord
+            //and then merge to accumulate rect
+            int globalX = 0;
+            int globalY = 0;
+            bool isBubbleUp = false;
+
+#if DEBUG
+            int dbug_ncount = 0;
+            dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, dbug_ncount, ">> :" + elemClientRect.ToString());
+#endif
+            do
+            {
+
+                if (!fromElement.Visible)
+                {
+#if DEBUG
+                    dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, 0, "EARLY-RET: ");
+#endif
+                    return;
+                }
+                else if (fromElement.BlockGraphicUpdateBubble)
+                {
+#if DEBUG
+                    dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, 0, "BLOCKED2: ");
+#endif
+                    return;
+                }
+                //--------------------------------------------------------------------- 
+
+
+#if DEBUG
+                dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, dbug_ncount, ">> ");
+#endif
+
+
+                globalX += fromElement.BubbleUpX;
+                globalY += fromElement.BubbleUpY;
+
+
+                if (fromElement.MayHasViewport && isBubbleUp)
+                {
+                    elemClientRect.Offset(globalX, globalY);
+                    if (fromElement.HasDoubleScrollableSurface)
+                    {
+                        //container.VisualScrollableSurface.WindowRootNotifyInvalidArea(elementClientRect);
+                    }
+                    Rectangle elementRect = fromElement.RectBounds;
+                    elementRect.Offset(fromElement.ViewportX, fromElement.ViewportY);
+                    elemClientRect.Intersect(elementRect);
+                    globalX = -fromElement.ViewportX;
+                    globalY = -fromElement.ViewportY;
+                }
+
+                if (fromElement.IsTopWindow)
+                {
+
+                    break;
+                }
+                else
+                {
+
+#if DEBUG
+                    if (fromElement.dbugParentVisualElement == null)
+                    {
+                        dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, 0, "BLOCKED3: ");
+                    }
+#endif
+
+                    fromElement = fromElement.ParentRenderElement;
+                    if (fromElement == null)
+                    {
+                        return;
+                    }
+                }
+
+                isBubbleUp = true;
+
+            } while (true);
+
+#if DEBUG
+            var dbugMyroot = this;
+            if (dbugMyroot.dbugEnableGraphicInvalidateTrace
+             && dbugMyroot.dbugGraphicInvalidateTracer != null)
+            {
+                while (dbug_ncount > 0)
+                {
+                    dbugMyroot.dbugGraphicInvalidateTracer.PopElement();
+                    dbug_ncount--;
+                }
+            }
+#endif
+
+            //----------------------------------------
+            elemClientRect.Offset(globalX, globalY);
+            Rectangle rootGlobalArea = elemClientRect;
+
+
+            if (elemClientRect.Top > this.Height
+                || elemClientRect.Left > this.Width
+                || elemClientRect.Bottom < 0
+                || elemClientRect.Right < 0)
             {
 #if DEBUG
                 if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&

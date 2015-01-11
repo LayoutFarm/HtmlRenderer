@@ -67,7 +67,7 @@ namespace LayoutFarm
         }
 
 
-        internal bool IsInvalidateGraphicBlocked
+        internal bool BlockGraphicUpdateBubble
         {
 
             get
