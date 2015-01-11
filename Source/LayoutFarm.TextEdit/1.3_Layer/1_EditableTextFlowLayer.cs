@@ -3,16 +3,13 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
 using System.Text;
-
-
-
 using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.Text
 {
 
 
-    partial class EditableTextFlowLayer : ElementLayerBase
+    partial class EditableTextFlowLayer : RenderElementLayer
     {
 
         object lineCollection;
@@ -22,6 +19,8 @@ namespace LayoutFarm.Text
         public EditableTextFlowLayer(RenderBoxBase owner)
             : base(owner)
         {             
+            //start with single line per layer
+            //and can change to multiline
             lineCollection = new EditableTextLine(this);
         }
 

@@ -14,7 +14,7 @@ namespace LayoutFarm.CustomWidgets
 
     static class LayerHelpers
     {   
-        public static void AddUI(this VisualPlainLayer plainLayer, UIElement ui)
+        public static void AddUI(this PlainLayer plainLayer, UIElement ui)
         {
             plainLayer.AddChild(ui.GetPrimaryRenderElement(plainLayer.Root));
         }

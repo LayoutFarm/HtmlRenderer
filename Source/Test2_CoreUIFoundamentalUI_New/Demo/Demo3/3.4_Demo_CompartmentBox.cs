@@ -225,12 +225,12 @@ namespace LayoutFarm
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
 
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-                    VisualPlainLayer plain0 = null;
+                    PlainLayer plain0 = null;
                     if (myRenderElement != null)
                     {
                         VisualLayerCollection layers = new VisualLayerCollection();
                         myRenderElement.Layers = layers;
-                        plain0 = new VisualPlainLayer(myRenderElement);
+                        plain0 = new PlainLayer(myRenderElement);
                         layers.AddLayer(plain0);
                         plain0.AddChild(gridBox.GetPrimaryRenderElement(rootgfx));
                     }

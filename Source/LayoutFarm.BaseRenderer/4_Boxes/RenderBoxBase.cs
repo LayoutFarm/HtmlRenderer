@@ -328,7 +328,7 @@ namespace LayoutFarm.RenderBoxes
 
             writer.LeaveCurrentLevel();
         }
-        void debug_RecordLayerInfo(ElementLayerBase layer)
+        void debug_RecordLayerInfo(RenderElementLayer layer)
         {
             RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
             if (visualroot.dbug_RecordDrawingChain)

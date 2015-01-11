@@ -38,7 +38,7 @@
     <Compile Include="2_RenderElement\RenderElement.Layout.cs" />
     <Compile Include="2_RenderElement\RenderElementConst.cs" />
     <Compile Include="2_RenderElement\x_RenderElement_LocationHelper.cs" />
-    <Compile Include="3_Layers\3_LayerCollection.cs" />
+    <Compile Include="3_Layers\4_LayerCollection.cs" />
     <Compile Include="1_Root\1_RootGraphic.cs" />
     <Compile Include="1_Root\1_RootGraphic_p1_dbug.cs" />
     <Compile Include="1_Root\1_RootGraphic_p2_dbug.cs" />
@@ -61,7 +61,7 @@
     <Compile Include="2_RenderElement\x_RenderElement.debug.cs" />
     <Compile Include="4_Boxes\RenderBoxBase.cs" />
     <Compile Include="3_Layers\1_RenderElementLayer.cs" />
-    <Compile Include="3_Layers\2_VisualPlainLayer.cs" />
+    <Compile Include="3_Layers\2_PlainLayer.cs" />
     <Compile Include="5_HitTest\HitPointChain.cs" />
     <Compile Include="6_debug\dbugHitTracker.cs" />
     <Compile Include="6_debug\IdbugOutputWindow.cs" />

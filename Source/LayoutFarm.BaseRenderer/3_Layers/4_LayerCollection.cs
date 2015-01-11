@@ -11,15 +11,15 @@ namespace LayoutFarm.RenderBoxes
     public class VisualLayerCollection
     {
 
-        ElementLayerBase layer0;
-        ElementLayerBase layer1;
-        List<ElementLayerBase> otherLayers;
+        RenderElementLayer layer0;
+        RenderElementLayer layer1;
+        List<RenderElementLayer> otherLayers;
         int layerCount;
         public VisualLayerCollection()
         {
 
         }
-        public ElementLayerBase GetLayer(int index)
+        public RenderElementLayer GetLayer(int index)
         {
             switch (index)
             {
@@ -46,16 +46,16 @@ namespace LayoutFarm.RenderBoxes
         {
             get { return this.layerCount; }
         }
-        public ElementLayerBase Layer0
+        public RenderElementLayer Layer0
         {
             get { return this.layer0; }
         }
-        public ElementLayerBase Layer1
+        public RenderElementLayer Layer1
         {
             get { return this.layer1; }
         }
 
-        public void AddLayer(ElementLayerBase layer)
+        public void AddLayer(RenderElementLayer layer)
         {
             switch (layerCount)
             {
@@ -74,7 +74,7 @@ namespace LayoutFarm.RenderBoxes
                         //more than two layer,
                         if (otherLayers == null)
                         {
-                            otherLayers = new List<ElementLayerBase>();
+                            otherLayers = new List<RenderElementLayer>();
                         }
                         otherLayers.Add(layer);
                         layerCount++;

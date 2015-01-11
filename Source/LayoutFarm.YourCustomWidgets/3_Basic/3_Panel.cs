@@ -70,7 +70,7 @@ namespace LayoutFarm.CustomWidgets
                 for (int m = 0; m < layerCount; ++m)
                 {
                     UICollection plain = (UICollection)this.layers[m];
-                    var groundLayer = new VisualPlainLayer(renderE);
+                    var groundLayer = new PlainLayer(renderE);
                     renderE.Layers.AddLayer(groundLayer);
                     renderE.SetViewport(this.viewportX, this.viewportY);
                     //---------------------------------
@@ -94,7 +94,7 @@ namespace LayoutFarm.CustomWidgets
 
             if (this.HasReadyRenderElement)
             {
-                VisualPlainLayer plain1 = this.primElement.Layers.Layer0 as VisualPlainLayer;
+                PlainLayer plain1 = this.primElement.Layers.Layer0 as PlainLayer;
                 plain1.AddUI(ui);
             }
         }

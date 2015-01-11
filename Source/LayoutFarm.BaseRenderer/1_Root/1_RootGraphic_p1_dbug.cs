@@ -143,7 +143,7 @@ namespace LayoutFarm
 
         }
 
-        public void dbug_AddDrawLayer(ElementLayerBase layer)
+        public void dbug_AddDrawLayer(RenderElementLayer layer)
         {
 
             dbug_rootDrawingMsg.AddLast(new dbugLayoutMsg(layer,
@@ -293,7 +293,7 @@ namespace LayoutFarm
         public int dbugNotNeedArrCountEpisode = 0;
 
 
-        public void dbug_PushLayoutTraceMessage(dbugVisualRootMsg msg, ElementLayerBase layer)
+        public void dbug_PushLayoutTraceMessage(dbugVisualRootMsg msg, RenderElementLayer layer)
         {
             if (dbugLastestDebugVisualLay != null)
             {

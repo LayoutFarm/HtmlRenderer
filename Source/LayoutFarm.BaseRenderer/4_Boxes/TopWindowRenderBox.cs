@@ -10,11 +10,11 @@ namespace LayoutFarm
 
     public sealed class TopWindowRenderBox : RenderBoxBase
     {
-        VisualPlainLayer groundLayer;
+        PlainLayer groundLayer;
         public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
-            groundLayer = new VisualPlainLayer(this);
+            groundLayer = new PlainLayer(this);
             this.MyLayers = new VisualLayerCollection();
             this.MyLayers.AddLayer(groundLayer);
 
@@ -30,7 +30,7 @@ namespace LayoutFarm
         {
             this.groundLayer.Clear();
         }
-        public VisualPlainLayer Layer0
+        public PlainLayer Layer0
         {
             get { return this.groundLayer; }
         }

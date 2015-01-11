@@ -48,7 +48,7 @@ namespace LayoutFarm.Dev
             {
                 case dbugLayoutMsgOwnerKind.Layer:
                     {
-                        ElementLayerBase layer = (ElementLayerBase)msg.owner;
+                        RenderElementLayer layer = (RenderElementLayer)msg.owner;
                     } break;
                 case dbugLayoutMsgOwnerKind.Line:
                     {
@@ -80,8 +80,8 @@ namespace LayoutFarm.Dev
             {
                 case dbugLayoutMsgOwnerKind.Layer:
                     {
-                        ElementLayerBase layer =
-                           (ElementLayerBase)msg.owner;
+                        RenderElementLayer layer =
+                           (RenderElementLayer)msg.owner;
                     } break;
                 case dbugLayoutMsgOwnerKind.Line:
                     {
