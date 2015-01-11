@@ -34,7 +34,12 @@ namespace LayoutFarm
             get { return this.rootGfx; }
         }
 
+        public TopWindowRenderBox GetTopWindowRenderBox()
+        {
+            if (parentLink == null) { return null; }
 
+            return this.rootGfx.TopWindowRenderBox;
+        }
 
         //==============================================================
         //controller-listener
@@ -135,7 +140,6 @@ namespace LayoutFarm
             {
                 return ((propFlags & RenderElementConst.HIDDEN) == 0);
             }
-
         }
         public void SetVisible(bool value)
         {
@@ -205,8 +209,11 @@ namespace LayoutFarm
                        propFlags & ~RenderElementConst.HAS_TRANSPARENT_BG;
             }
         }
-        
 
+        public bool VisibleAndHasParent
+        {
+            get { return ((this.propFlags & RenderElementConst.HIDDEN) == 0) && (this.parentLink != null); }
+        }
 
         //==============================================================
         //hit test
@@ -273,14 +280,56 @@ namespace LayoutFarm
             }
         }
 
-
-        //==============================================================
-        public TopWindowRenderBox GetTopWindowRenderBox()
+        public bool FindUnderlingSibling(LinkedList<RenderElement> foundElements)
         {
-            if (parentLink == null) { return null; }
-
-            return this.rootGfx.TopWindowRenderBox;
+            //TODO: need?
+            throw new NotSupportedException();
         }
+        
+        //==============================================================
+        //render...
+        public abstract void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea);
+
+        public void DrawToThisCanvas(Canvas canvas, Rectangle updateArea)
+        {
+
+            if ((propFlags & RenderElementConst.HIDDEN) == RenderElementConst.HIDDEN)
+            {
+                return;
+            }
+#if DEBUG
+            dbugVRoot.dbug_drawLevel++;
+#endif
+
+            if (canvas.PushClipAreaRect(b_width, b_height, ref updateArea))
+            {
+#if DEBUG
+                if (dbugVRoot.dbug_RecordDrawingChain)
+                {
+                    dbugVRoot.dbug_AddDrawElement(this, canvas);
+                }
+#endif
+                //------------------------------------------
+
+                this.CustomDrawToThisCanvas(canvas, updateArea);
+
+                //------------------------------------------
+                propFlags |= RenderElementConst.IS_GRAPHIC_VALID;
+#if DEBUG
+                debug_RecordPostDrawInfo(canvas);
+#endif
+            }
+
+            canvas.PopClipAreaRect();
+#if DEBUG
+            dbugVRoot.dbug_drawLevel--;
+#endif
+        } 
+      
+        
+        //==============================================================
+        //set location and size , not bubble***
+     
         public static void DirectSetVisualElementSize(RenderElement visualElement, int width, int height)
         {
             visualElement.b_width = width;
@@ -291,8 +340,6 @@ namespace LayoutFarm
             visualElement.b_left = x;
             visualElement.b_top = y;
         } 
-        
-        
 
     }
 }

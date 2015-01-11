@@ -123,7 +123,7 @@ namespace LayoutFarm.CustomWidgets
             VisualLayerCollection layers = new VisualLayerCollection();
             bgBox.Layers = layers;
 
-            VisualPlainLayer plain = new VisualPlainLayer(bgBox);
+            PlainLayer plain = new PlainLayer(bgBox);
             layers.AddLayer(plain);
             //-----------------------------------------------------
 
@@ -153,7 +153,7 @@ namespace LayoutFarm.CustomWidgets
         {
 
         }
-        void SetupMinButtonProperties(VisualPlainLayer plain)
+        void SetupMinButtonProperties(PlainLayer plain)
         {
 
             var min_button = new UIScrollButton(this.Width, minmax_boxHeight);
@@ -165,7 +165,7 @@ namespace LayoutFarm.CustomWidgets
             plain.AddUI(min_button);
             this.minButton = min_button;
         }
-        void SetupMaxButtonProperties(VisualPlainLayer plain)
+        void SetupMaxButtonProperties(PlainLayer plain)
         {
             var max_button = new UIScrollButton(this.Width, minmax_boxHeight);
             max_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
@@ -178,7 +178,7 @@ namespace LayoutFarm.CustomWidgets
             this.maxButton = max_button;
 
         }
-        void SetupScrollButtonProperties(VisualPlainLayer plain)
+        void SetupScrollButtonProperties(PlainLayer plain)
         {
             //calculate scroll length ratio
             //scroll button height is ratio with real scroll length

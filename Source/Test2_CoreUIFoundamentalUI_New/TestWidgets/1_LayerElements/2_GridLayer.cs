@@ -10,7 +10,7 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
 
-    sealed class GridLayer : ElementLayerBase
+    sealed class GridLayer : RenderElementLayer
     {
         GridTable.GridRowCollection gridRows;
         GridTable.GridColumnCollection gridCols;
@@ -630,123 +630,7 @@ namespace LayoutFarm.UI
 
 #endif
 
-        public override bool PrepareDrawingChain(VisualDrawingChain chain)
-        {
-
-            GridCell leftTopGridItem = GetGridItemByPosition(chain.UpdateAreaX, chain.UpdateAreaY);
-            if (leftTopGridItem == null)
-            {
-                return false;
-            }
-
-
-            GridCell rightBottomGridItem = GetGridItemByPosition(chain.UpdateAreaRight, chain.UpdateAreaBottom);
-            if (rightBottomGridItem == null)
-            {
-                return false;
-            }
-
-            GridColumn startColumn = leftTopGridItem.column;
-            GridColumn currentColumn = startColumn;
-            GridRow startRow = leftTopGridItem.row;
-            GridColumn stopColumn = rightBottomGridItem.column.NextColumn;
-            GridRow stopRow = rightBottomGridItem.row.NextRow;
-
-            int startRowId = startRow.RowIndex;
-            int stopRowId = 0;
-            if (stopRow == null)
-            {
-                stopRowId = gridRows.Count;
-            }
-            else
-            {
-                stopRowId = stopRow.RowIndex;
-            }
-
-            //----------------------------------------------------------------------------
-            //draw border
-            //Pen autoBorderPen = new Pen(Color.DarkGray);
-            //autoBorderPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-            //int n = 0;
-            //do
-            //{
-
-            //   
-            //   
-            //    GridItem startGridItemInColumn = currentColumn.GetCell(startRowId);
-            //    GridItem stopGridItemInColumn = currentColumn.GetCell(stopRowId - 1);
-
-            //    
-            //   
-            //    //canvasPage.DrawLine(Color.DarkGray,
-            //    //    startGridItemInColumn.RightTopCorner,
-            //    //    stopGridItemInColumn.RightBottomCorner);
-
-            //    if (n == 0)
-            //    {
-            //        
-            //        int horizontalLineWidth = rightBottomGridItem.Right - startGridItemInColumn.X;
-            //      
-            //        
-            //        for (int i = startRowId; i < stopRowId; i++)
-            //        {
-            //           
-            //            
-            //            GridItem gridItem = currentColumn.GetCell(i);
-            //            int x = gridItem.X;
-            //            int gBottom = gridItem.Bottom;
-
-            //            
-            //            canvasPage.DrawLine(
-            //                Color.DarkGray,
-            //                x, gBottom,
-            //                x + horizontalLineWidth, gBottom);
-
-            //        }
-            //        n = 1; 
-            //    }
-            //   
-            //    currentColumn = currentColumn.NextColumn;
-            //} while (currentColumn != stopColumn);
-
-            //autoBorderPen.Dispose();
-
-            currentColumn = startColumn;
-            //----------------------------------------------------------------------------
-            do
-            {
-
-
-                for (int i = startRowId; i < stopRowId; i++)
-                {
-
-                    GridCell gridItem = currentColumn.GetCell(i);
-
-                    if (gridItem != null && gridItem.HasContent)
-                    {
-                        var renderE = gridItem.ContentElement as RenderElement;
-                        if (renderE.PrepareDrawingChain(chain))
-                        {
-                            return true;
-                        }
-                    }
-#if DEBUG
-                    //else
-                    //{
-                    //    canvasPage.DrawText(new char[] { '0' }, gridItem.X, gridItem.Y);
-                    //}
-#endif
-
-
-                }
-
-                currentColumn = currentColumn.NextColumn;
-
-            } while (currentColumn != stopColumn);
-
-            return false;
-
-        }
+       
         public override void DrawChildContent(Canvas canvasPage, Rectangle updateArea)
         {
             GridCell leftTopGridItem = GetGridItemByPosition(updateArea.Left, updateArea.Top);

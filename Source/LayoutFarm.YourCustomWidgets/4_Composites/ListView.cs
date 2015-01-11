@@ -67,7 +67,7 @@ namespace LayoutFarm.CustomWidgets
                 for (int m = 0; m < layerCount; ++m)
                 {
                     UICollection plain = (UICollection)this.layers[m];
-                    var groundLayer = new VisualPlainLayer(renderE);
+                    var groundLayer = new PlainLayer(renderE);
                     renderE.Layers.AddLayer(groundLayer);
                     renderE.SetViewport(this.viewportX, this.viewportY);
                     //---------------------------------

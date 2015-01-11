@@ -99,7 +99,7 @@ namespace LayoutFarm.UI
         }
         public void AddContent(RenderElement vi)
         {
-            var layer0 = this.rootgfx.TopWindowRenderBox.Layer0 as VisualPlainLayer;
+            var layer0 = this.rootgfx.TopWindowRenderBox.Layer0 as PlainLayer;
             if (layer0 != null)
             {
                 layer0.AddChild(vi);

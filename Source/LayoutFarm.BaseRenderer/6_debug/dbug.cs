@@ -67,7 +67,7 @@ namespace LayoutFarm
                 this.msgOwnerKind = dbugLayoutMsgOwnerKind.VisualElement;
             }
         }
-        public dbugLayoutMsg(ElementLayerBase layer, string msg)
+        public dbugLayoutMsg(RenderElementLayer layer, string msg)
         {
             this.owner = layer;
             this.msg = msg;

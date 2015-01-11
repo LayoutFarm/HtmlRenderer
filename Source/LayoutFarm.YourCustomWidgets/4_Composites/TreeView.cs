@@ -66,7 +66,7 @@ namespace LayoutFarm.CustomWidgets
                 for (int m = 0; m < layerCount; ++m)
                 {
                     UICollection plain = (UICollection)this.layers[m];
-                    var groundLayer = new VisualPlainLayer(renderE);
+                    var groundLayer = new PlainLayer(renderE);
                     renderE.Layers.AddLayer(groundLayer);
                     renderE.SetViewport(this.viewportX, this.viewportY);
                     //---------------------------------
@@ -219,16 +219,16 @@ namespace LayoutFarm.CustomWidgets
                 element.HasSpecificSize = true;
                 //-----------------------------
                 // create default layer for node content
-                VisualPlainLayer plainLayer = null;
+                PlainLayer plainLayer = null;
                 if (element.Layers == null)
                 {
                     element.Layers = new VisualLayerCollection();
-                    plainLayer = new VisualPlainLayer(element);
+                    plainLayer = new PlainLayer(element);
                     element.Layers.AddLayer(plainLayer);
                 }
                 else
                 {
-                    plainLayer = (VisualPlainLayer)element.Layers.GetLayer(0);
+                    plainLayer = (PlainLayer)element.Layers.GetLayer(0);
                 }
                 //-----------------------------
                 uiNodeIcon = new ImageBox(16, 16);//create with default size 
@@ -313,16 +313,16 @@ namespace LayoutFarm.CustomWidgets
                     //add child presentation 
                     //below here
                     //create layers
-                    VisualPlainLayer plainLayer = null;
+                    PlainLayer plainLayer = null;
                     if (primElement.Layers == null)
                     {
                         primElement.Layers = new VisualLayerCollection();
-                        plainLayer = new VisualPlainLayer(primElement);
+                        plainLayer = new PlainLayer(primElement);
                         primElement.Layers.AddLayer(plainLayer);
                     }
                     else
                     {
-                        plainLayer = (VisualPlainLayer)primElement.Layers.GetLayer(0);
+                        plainLayer = (PlainLayer)primElement.Layers.GetLayer(0);
                     }
                     //-----------------
                     //add to layer

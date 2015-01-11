@@ -78,35 +78,7 @@ namespace LayoutFarm.Text
             }
             this.actualLineWidth = lw;
             this.actualLineHeight = maxHeight;
-        }
-
-
-        internal bool PrepareRenderingChain(VisualDrawingChain chain)
-        {
-            if (this.Count == 0)
-            {
-                return false;
-            }
-            else
-            {
-                LinkedListNode<EditableTextSpan> cnode = this.First;
-                chain.OffsetCanvasOriginY(this.lineTop);
-
-                while (cnode != null)
-                {
-                    if (cnode.Value.PrepareDrawingChain(chain))
-                    {
-                        chain.OffsetCanvasOriginY(-this.lineTop);
-                        return true;
-                    }
-                    cnode = cnode.Next;
-                }
-
-                chain.OffsetCanvasOriginY(-this.lineTop);
-                return false;
-            }
-        }
-
+        } 
         internal bool HitTestCore(HitChain hitChain)
         {
 
@@ -119,11 +91,8 @@ namespace LayoutFarm.Text
                 return false;
             }
             else
-            {
-
-
-                LinkedListNode<EditableTextSpan> cnode = this.First;
-
+            { 
+                LinkedListNode<EditableTextSpan> cnode = this.First; 
                 int curLineTop = this.lineTop;
                 hitChain.OffsetTestPoint(0, -curLineTop);
                 while (cnode != null)

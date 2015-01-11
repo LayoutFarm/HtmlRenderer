@@ -221,7 +221,7 @@ namespace LayoutFarm
                     {
                         VisualLayerCollection layers = new VisualLayerCollection();
                         myRenderElement.Layers = layers;
-                        var plain0 = new VisualPlainLayer(myRenderElement);
+                        var plain0 = new PlainLayer(myRenderElement);
                         layers.AddLayer(plain0);
                         plain0.AddChild(gridBox.GetPrimaryRenderElement(rootgfx));
                     }

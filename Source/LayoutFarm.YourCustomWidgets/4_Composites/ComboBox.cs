@@ -63,7 +63,7 @@ namespace LayoutFarm.CustomWidgets
                 //------------------------------------------------
                 //create visual layer
                 var layers = new VisualLayerCollection();
-                var layer0 = new VisualPlainLayer(renderE);
+                var layer0 = new PlainLayer(renderE);
                 layers.AddLayer(layer0);
                 renderE.Layers = layers; 
 
@@ -150,7 +150,7 @@ namespace LayoutFarm.CustomWidgets
                     if (primElement != null)
                     {
                         //add 
-                        var visualPlainLayer = primElement.Layers.GetLayer(0) as VisualPlainLayer;
+                        var visualPlainLayer = primElement.Layers.GetLayer(0) as PlainLayer;
                         if (visualPlainLayer != null)
                         {
                             visualPlainLayer.AddChild(value.GetPrimaryRenderElement(primElement.Root));
@@ -243,7 +243,7 @@ namespace LayoutFarm.CustomWidgets
                             var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
                             if (parentContainer.Layers != null)
                             {
-                                VisualPlainLayer plainLayer = (VisualPlainLayer)parentContainer.Layers.GetLayer(0);
+                                PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
                                 plainLayer.RemoveChild(floatPartRenderElement);
 
                             }

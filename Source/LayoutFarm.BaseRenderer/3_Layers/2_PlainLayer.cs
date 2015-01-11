@@ -7,10 +7,10 @@ using System.Text;
 namespace LayoutFarm.RenderBoxes
 {
 
-    public class VisualPlainLayer : ElementLayerBase
+    public class PlainLayer : RenderElementLayer
     {
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
-        public VisualPlainLayer(RenderElement owner)
+        public PlainLayer(RenderElement owner)
             : base(owner)
         {
              
@@ -48,7 +48,7 @@ namespace LayoutFarm.RenderBoxes
 #endif
 
             LinkedListNode<RenderElement> linkNode = myElements.AddLast(visualElement);
-            RenderElement.SetParentLink(visualElement, new SimpleLinkListParentLink(this, linkNode));
+            RenderElement.SetParentLink(visualElement, new PlainLayerParentLink(this, linkNode));
             //position of new visual element 
         }
         public void RemoveChild(RenderElement visualElement)
@@ -82,14 +82,8 @@ namespace LayoutFarm.RenderBoxes
                 curNode = curNode.Previous;
             }
 
-        }
-
-
-
-        public override bool PrepareDrawingChain(VisualDrawingChain chain)
-        {
-            return false;
-        }
+        } 
+        
         public override void DrawChildContent(Canvas canvasPage, Rectangle updateArea)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) != 0)
@@ -218,6 +212,76 @@ namespace LayoutFarm.RenderBoxes
 
             return "plain layer " + "(L" + dbug_layer_id + this.dbugLayerState + ") postcal:" +
                 this.PostCalculateContentSize.ToString() + " of " + this.OwnerRenderElement.dbug_FullElementDescription();
+        }
+#endif
+    }
+
+
+    //==========================================================================
+
+    class PlainLayerParentLink : IParentLink
+    {
+        public readonly LinkedListNode<RenderElement> internalLinkedNode;
+        PlainLayer ownerLayer;
+
+        public PlainLayerParentLink(PlainLayer ownerLayer,
+            LinkedListNode<RenderElement> internalLinkedNode)
+        {
+            this.ownerLayer = ownerLayer;
+            this.internalLinkedNode = internalLinkedNode;
+        }
+
+        public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
+        {
+            var curnode = internalLinkedNode.Previous;
+            while (curnode != null)
+            {
+                var element = curnode.Value;
+                if (element.Contains(point))
+                {
+                    return element;
+                }
+                curnode = curnode.Previous;
+            }
+            return null;
+        }
+         
+        public bool MayHasOverlapChild
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+        public RenderElement ParentRenderElement
+        {
+            get
+            {
+                return this.ownerLayer.OwnerRenderElement;
+            }
+        }
+
+        public RenderElement NotifyParentToInvalidate(out bool goToFinalExit
+
+#if DEBUG
+, RenderElement ve
+#endif
+)
+        {
+            goToFinalExit = false;
+            return ownerLayer.InvalidateArrangement();
+        }
+        public void AdjustLocation(ref  Point p)
+        {
+
+        }
+
+
+#if DEBUG
+        public string dbugGetLinkInfo()
+        {
+            return ownerLayer.ToString();
         }
 #endif
     }

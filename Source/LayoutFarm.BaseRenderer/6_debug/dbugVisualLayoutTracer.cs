@@ -54,7 +54,7 @@ namespace LayoutFarm
             EndCurrentContext();
 
         }
-        public void PushLayerElement( ElementLayerBase layer)
+        public void PushLayerElement( RenderElementLayer layer)
         {
             elementStack.Push(layer);
             BeginNewContext();
@@ -115,7 +115,7 @@ namespace LayoutFarm
             strmWriter.Write(v.dbug_FullElementDescription());
             strmWriter.Write("\r\n"); strmWriter.Flush();
         }
-        public void WriteInfo(string info, ElementLayerBase layer)
+        public void WriteInfo(string info, RenderElementLayer layer)
         {
             ++msgLineNum;
             ShouldBreak();

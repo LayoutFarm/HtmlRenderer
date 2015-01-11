@@ -113,9 +113,9 @@ namespace LayoutFarm
 #endif
 
                 this.BeforeBoundChangedInvalidateGraphics();
-               
+
                 PrivateSetSize(width, height);
-                
+
                 this.AfterBoundChangedInvalidateGraphics();
             }
         }
@@ -128,12 +128,19 @@ namespace LayoutFarm
             }
             else
             {
-#if DEBUG
-                int dbug_prevLeft = this.b_left;
-                int dbug_prevTop = this.b_top;
-#endif
+
+                var prevBounds = this.RectBounds;
+
                 this.BeginGraphicUpdate();
-                DirectSetVisualElementLocation(this, left, top);
+
+                //----------------
+                //set bound
+                this.b_left = left;
+                this.b_top = top;
+                //----------------
+
+                var currentBounds = this.RectBounds;
+
                 this.EndGraphicUpdate();
             }
         }

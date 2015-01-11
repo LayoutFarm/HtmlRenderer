@@ -126,7 +126,7 @@ namespace LayoutFarm.CustomWidgets
                             var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
                             if (parentContainer.Layers != null)
                             {
-                                VisualPlainLayer plainLayer = (VisualPlainLayer)parentContainer.Layers.GetLayer(0);
+                                PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
                                 plainLayer.RemoveChild(floatPartRenderElement);
                             }
                         }
