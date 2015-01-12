@@ -57,7 +57,7 @@ namespace LayoutFarm.CustomWidgets
             };
 
             myHtmlIsland = new MyHtmlIsland(islandHost);
-            myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphic();
+            myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphics();
             myHtmlIsland.DomRequestRebuild += myHtmlIsland_NeedUpdateDom;
             //request ui timer *** 
             //tim.Interval = 30;
@@ -171,8 +171,8 @@ namespace LayoutFarm.CustomWidgets
                 htmlLayoutVisitor.Bind(this.myHtmlIsland);
             }
             //-------------------------
-            rootgfx.RequestGraphicsIntervalTask(uiHtmlTask,
-                 TaskIntervalPlan.Animation, 25,
+            rootgfx.SubscribeGraphicsIntervalTask(uiHtmlTask,
+                 LayoutFarm.RenderBoxes.TaskIntervalPlan.Animation, 25,
                  (s, e) =>
                  {
                      if (this.myHtmlIsland.RefreshIfNeed())
@@ -220,25 +220,19 @@ namespace LayoutFarm.CustomWidgets
             if (htmlRenderBox == null) return;
             //---------------------------
             UpdateWaitingHtmlDoc(this.htmlRenderBox.Root);
+            htmlRenderBox.InvalidateGraphics();
         }
         public void LoadHtmlText(string html)
         {
-            //myHtmlBox.LoadHtmlText(html);
-            //this.tim.Enabled = false;
-            SetHtml(myHtmlIsland, html, this.islandHost.BaseStylesheet);
-            //this.tim.Enabled = true;
-            if (this.htmlRenderBox != null)
-            {
-                htmlRenderBox.InvalidateGraphic();
-            }
+           
+            SetHtml(myHtmlIsland, html, this.islandHost.BaseStylesheet); 
+             
         }
-        public override void InvalidateGraphic()
+        public override void InvalidateGraphics()
         {
-            if (this.htmlRenderBox != null)
-            {
-                htmlRenderBox.InvalidateGraphic();
-            }
+            this.htmlRenderBox.InvalidateGraphics();
         }
+         
     }
 }
 

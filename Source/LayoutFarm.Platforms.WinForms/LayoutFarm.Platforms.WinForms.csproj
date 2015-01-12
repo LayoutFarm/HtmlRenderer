@@ -43,6 +43,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="0_Start\CanvasViewport.cs" />
     <Compile Include="0_Start\Conv.cs" />
     <Compile Include="0_Start\dbugHelper.cs" />
     <Compile Include="2_GdiPlus\1_GdiPlusCanvasViewport.cs" />
@@ -69,11 +70,10 @@
     <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.Designer.cs">
       <DependentUpon>UISurfaceViewportControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="1_LayoutFarm.UI\CanvasViewport.cs" />
-    <Compile Include="1_LayoutFarm.UI\PlatformWindowBridge.cs" />
-    <Compile Include="1_LayoutFarm.UI\PlatformWindowBridge_dbug.cs" />
-    <Compile Include="2_GdiPlus\2_MyPlatformWindowBridge_GdiPlus.cs" />
-    <Compile Include="3_OpenGL\2_MyPlatformWindowBridge_OpenGL.cs" />
+    <Compile Include="1_LayoutFarm.UI\TopWindowBridge.cs" />
+    <Compile Include="1_LayoutFarm.UI\TopWindowBridge_dbug.cs" />
+    <Compile Include="2_GdiPlus\2_MyTopWindowBridgeGdiPlus.cs" />
+    <Compile Include="3_OpenGL\2_MyTopWindowBridgeOpenGL.cs" />
     <Compile Include="2_GdiPlus\Win32Utils.cs" />
     <Compile Include="3_OpenGL\1_OpenGLCanvasViewport.cs" />
     <Compile Include="3_OpenGL\MyOpenGLPortal.cs" />
@@ -108,7 +108,7 @@
       <Name>PixelFarm.Drawing.Platforms</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
-      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
+      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
+using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
     class GraphicsTimerTaskManager
@@ -29,6 +29,11 @@ namespace LayoutFarm.UI
             uiTimer1.Tick += new EventHandler(graphicTimer1_Tick);
             uiTimer1.Enabled = true;
             //--------------------------------------
+        }
+        public bool Enabled
+        {
+            get { return this.uiTimer1.Enabled; }
+            set { this.uiTimer1.Enabled = value; }
         }
         public void CloseAllWorkers()
         {
@@ -95,10 +100,7 @@ namespace LayoutFarm.UI
 
         void graphicTimer1_Tick(object sender, EventArgs e)
         {
-            if (TopWindowRenderBox.CurrentTopWindowRenderBox == null)
-            {
-                return;
-            }
+
             //-------------------------------------------------
             tickAccum += fastPlanInterval;
             bool doCaretPlan = false;
@@ -117,7 +119,7 @@ namespace LayoutFarm.UI
                 MyIntervalTaskEventArgs args = GetTaskEventArgs();
                 int j = this.fastIntervalTaskList.Count;
                 if (j > 0)
-                {                       
+                {
                     for (int i = 0; i < j; ++i)
                     {
                         fastIntervalTaskList[i].InvokeHandler(args);
@@ -147,11 +149,11 @@ namespace LayoutFarm.UI
                         needUpdate |= args.NeedUpdate;
                     }
                 }
-                FreeTaskEventArgs(args); 
-            } 
+                FreeTaskEventArgs(args);
+            }
             if (needUpdate > 0)
             {
-                TopWindowRenderBox.CurrentTopWindowRenderBox.ForcePaint();
+                this.rootgfx.ForcePaint();
             }
 
         }

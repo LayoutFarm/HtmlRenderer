@@ -4,10 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
- 
-using LayoutFarm.Text;
+  
 using LayoutFarm.UI;
-
+using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
 {
     public class ListView : UIBox
@@ -17,14 +16,14 @@ namespace LayoutFarm.CustomWidgets
 
         Color backColor = Color.LightGray;
         int viewportX, viewportY;
-        List<LayerElement> layers = new List<LayerElement>(1);
+        List<UICollection> layers = new List<UICollection>(1);
 
         int latestItemY; 
         Panel panel;
         public ListView(int width, int height)
             : base(width, height)
         {
-            PlainLayerElement plainLayer = new PlainLayerElement();
+            UICollection plainLayer = new UICollection(this);
             //panel for listview items
             this.panel = new Panel(width, height);
             panel.BackColor = Color.LightGray;
@@ -56,7 +55,8 @@ namespace LayoutFarm.CustomWidgets
             if (primElement == null)
             {
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                RenderElement.DirectSetVisualElementLocation(renderE, this.Left, this.Top);
+                 
+                renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
                 renderE.HasSpecificSize = true;
@@ -67,8 +67,8 @@ namespace LayoutFarm.CustomWidgets
                 int layerCount = this.layers.Count;
                 for (int m = 0; m < layerCount; ++m)
                 {
-                    PlainLayerElement plain = (PlainLayerElement)this.layers[m];
-                    var groundLayer = new VisualPlainLayer(renderE);
+                    UICollection plain = (UICollection)this.layers[m];
+                    var groundLayer = new PlainLayer(renderE);
                     renderE.Layers.AddLayer(groundLayer);
                     renderE.SetViewport(this.viewportX, this.viewportY);
                     //---------------------------------

@@ -6,7 +6,7 @@ using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.CustomWidgets;
-
+using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
     [DemoNote("3.5 Demo_CompartmentBox2")]
@@ -158,12 +158,12 @@ namespace LayoutFarm
                 {
 
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-                    VisualPlainLayer plain0 = null;
+                    PlainLayer plain0 = null;
                     if (myRenderElement != null)
                     {
                         VisualLayerCollection layers = new VisualLayerCollection();
                         myRenderElement.Layers = layers;
-                        plain0 = new VisualPlainLayer(myRenderElement);
+                        plain0 = new PlainLayer(myRenderElement);
                         layers.AddLayer(plain0);
 
                     }

@@ -9,7 +9,7 @@ namespace LayoutFarm.WebDom.Extension
 
     public delegate void Decorate(DomElement h);
 
-    public static class BridgeHtmlExtension
+    public static class MyHtmlDocExtension
     {
         //level 1
         public static DomElement AddChild(this DomElement elem, string elementName)

@@ -23,27 +23,32 @@ namespace LayoutFarm.CustomWidgets
 
         RootGraphic rootgfx;
         GraphicsPlatform gfxPlatform;
-     
+
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
         Queue<HtmlInputEventAdapter> inputEventAdapterStock = new Queue<HtmlInputEventAdapter>();
         Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
 
-         
+
         static LightHtmlBoxHost()
         {
             //TODO: revise this again
             LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
-               new  MyCssBoxGenerator());
+               new MyCssBoxGenerator());
         }
 
         public LightHtmlBoxHost(HtmlIslandHost islandHost, GraphicsPlatform gfxPlatform)
         {
             this.gfxPlatform = gfxPlatform;
-            this.islandHost = islandHost; 
+            this.islandHost = islandHost;
         }
-        public void SetRootGraphic(RootGraphic rootgfx)
+        
+        public RootGraphic RootGfx
         {
-            this.rootgfx = rootgfx;
+            get { return this.rootgfx; }
+            set
+            {
+                this.rootgfx = value ;
+            }
         }
         internal LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
         {
@@ -191,7 +196,7 @@ namespace LayoutFarm.CustomWidgets
         {
             if (this.renderTreeBuilder == null) CreateRenderTreeBuidler();
             renderTreeBuilder.RefreshCssTree(webdoc);
-             
+
         }
     }
 }

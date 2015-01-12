@@ -23,8 +23,8 @@ namespace LayoutFarm
             this.islandHost = new HtmlIslandHost();
             this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
 
-            lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P); 
-            lightBoxHost.SetRootGraphic(viewport.ViewportControl.WinTopRootGfx);
+            lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P);
+            lightBoxHost.RootGfx = viewport.ViewportControl.WinTopRootGfx;
 
             ////==================================================
             //html box
@@ -56,7 +56,7 @@ namespace LayoutFarm
                 viewport.AddContent(lightHtmlBox3);
                 //fragment dom 
                 //create dom then to thie light box
-                lightHtmlBox3.LoadHtmlFragmentDom(CreateBridgeDoc());
+                lightHtmlBox3.LoadHtmlFragmentDom(CreateSampleHtmlDoc());
 
             }
             //================================================== 
@@ -66,7 +66,7 @@ namespace LayoutFarm
             viewport.AddContent(textbox);
             textbox.Focus();
         }
-        HtmlDocument CreateBridgeDoc()
+        static HtmlDocument CreateSampleHtmlDoc()
         {
             HtmlDocument htmldoc = new HtmlDocument();
             var rootNode = htmldoc.RootNode;

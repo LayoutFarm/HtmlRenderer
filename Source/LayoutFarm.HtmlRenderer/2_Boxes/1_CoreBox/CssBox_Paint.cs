@@ -3,7 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -12,7 +12,7 @@ namespace LayoutFarm.HtmlBoxes
     {
 
         public void Paint(PaintVisitor p)
-        { 
+        {
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
 #endif
@@ -56,172 +56,173 @@ namespace LayoutFarm.HtmlBoxes
         protected virtual void PaintImp(PaintVisitor p)
         {
 
-
-
-
             Css.CssDisplay display = this.CssDisplay;
-            //TODO : revise this again
-            if (display != Css.CssDisplay.TableCell ||
-                this.EmptyCells != Css.CssEmptyCell.Hide || !IsSpaceOrEmpty)
+             
+
+            if (display == Css.CssDisplay.TableCell &&
+                this.EmptyCells == Css.CssEmptyCell.Hide &&
+                this.IsSpaceOrEmpty)
+            {
+                return;
+            }
+            //----------------------------------------------- 
+            bool hasPrevClip = false;
+            RectangleF prevClip = RectangleF.Empty;
+
+            if ((this._boxCompactFlags & BoxFlags.OVERFLOW_HIDDEN) != 0)
+            {
+                var expectedW = this.ExpectedWidth;
+                var expectedH = this.ExpectedHeight;
+                //clip width 
+                if (expectedH > 0)
+                {
+                    if (!(hasPrevClip = p.PushLocalClipArea(expectedW, expectedH)))
+                    {
+                        p.PopLocalClipArea();
+                        return;
+                    }
+                }
+            }
+
+            //---------------------------------------------
+            if (display != Css.CssDisplay.Inline)
             {
 
-                bool hasPrevClip = false;
-                RectangleF prevClip = RectangleF.Empty;
+                RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
 
-                if ((this._boxCompactFlags & BoxFlags.OVERFLOW_HIDDEN) != 0)
+                PaintBackground(p, bound, true, true);
+
+                if (this.HasSomeVisibleBorder)
                 {
-                    var expectedW = this.ExpectedWidth;
-                    var expectedH = this.ExpectedHeight;
-                    //clip width 
-                    if (expectedH > 0)
-                    {
-                        if (!(hasPrevClip = p.PushLocalClipArea(expectedW, expectedH)))
-                        {
-                            p.PopLocalClipArea();
-                            return;
-                        }
-                    }
+                    p.PaintBorders(this, bound, true, true);
                 }
+#if DEBUG
+                dbugPaint(p, bound);
+#endif
+            }
+            //---------------------------------------------
+            if (this.LineBoxCount > 0)
+            {
+                float viewport_top = p.ViewportTop;
+                float viewport_bottom = p.ViewportBottom;
+                int drawState = 0;
+                var c_line = this._clientLineBoxes.First;
 
-                //---------------------------------------------
-                if (display != Css.CssDisplay.Inline)
+                while (c_line != null)
                 {
 
-                    RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
+                    var line = c_line.Value;
 
-                    PaintBackground(p, bound, true, true);
-
-                    if (this.HasSomeVisibleBorder)
+                    if (line.CachedLineBottom >= viewport_top &&
+                        line.CachedLineTop <= viewport_bottom)
                     {
-                        p.PaintBorders(this, bound, true, true);
-                    }
+
 #if DEBUG
-                    dbugPaint(p, bound);
+                        dbugCounter.dbugLinePaintCount++;
 #endif
+
+                        drawState = 1;//drawing in viewport area
+
+                        int cX = p.CanvasOriginX;
+                        int cy = p.CanvasOriginY;
+
+                        p.SetCanvasOrigin(cX, cy + (int)line.CachedLineTop);
+
+                        //1.                                 
+                        line.PaintBackgroundAndBorder(p);
+
+                        if (line.LineSelectionWidth > 0)
+                        {
+                            line.PaintSelection(p);
+                        }
+
+                        //2.                                
+                        line.PaintRuns(p);
+                        //3. 
+                        line.PaintDecoration(p);
+
+#if DEBUG
+                        line.dbugPaintRuns(p);
+#endif
+
+                        p.SetCanvasOrigin(cX, cy);//back
+
+                    }
+                    else if (drawState == 1)
+                    {
+                        //outof viewport -> break
+                        break;
+                    }
+
+                    //----------------------------------------
+                    c_line = c_line.Next;
                 }
-                //---------------------------------------------
-                if (this.LineBoxCount > 0)
-                { 
-                    float viewport_top = p.ViewportTop;
-                    float viewport_bottom = p.ViewportBottom; 
-                    int drawState = 0; 
-                    var c_line = this._clientLineBoxes.First;
+            }
+            else
+            {
 
-                    while (c_line != null)
+
+                if (this.HasContainingBlockProperty)
+                {
+                    p.PushContaingBlock(this);
+
+                    int ox = p.CanvasOriginX;
+                    int oy = p.CanvasOriginY;
+
+                    var node = this._aa_boxes.GetFirstLinkedNode();
+                    while (node != null)
                     {
-
-                        var line = c_line.Value;
-
-                        if (line.CachedLineBottom >= viewport_top &&
-                            line.CachedLineTop <= viewport_bottom)
+                        CssBox b = node.Value;
+                        if (b.CssDisplay == Css.CssDisplay.None)
                         {
-
-#if DEBUG
-                            dbugCounter.dbugLinePaintCount++;
-#endif
-
-                            drawState = 1;//drawing in viewport area
-
-                            int cX = p.CanvasOriginX;
-                            int cy = p.CanvasOriginY;
-
-                            p.SetCanvasOrigin(cX, cy + (int)line.CachedLineTop);
-
-                            //1.                                 
-                            line.PaintBackgroundAndBorder(p);
-
-                            if (line.LineSelectionWidth > 0)
-                            {
-                                line.PaintSelection(p);
-                            }
-
-                            //2.                                
-                            line.PaintRuns(p);
-                            //3. 
-                            line.PaintDecoration(p);
-
-#if DEBUG
-                            line.dbugPaintRuns(p);
-#endif
-
-                            p.SetCanvasOrigin(cX, cy);//back
-
-                        }
-                        else if (drawState == 1)
-                        {
-                            //outof viewport -> break
-                            break;
+                            node = node.Next;
+                            continue;
                         }
 
-                        //----------------------------------------
-                        c_line = c_line.Next;
+                        p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
+                        b.Paint(p);
+                        node = node.Next;
                     }
+                    p.SetCanvasOrigin(ox, oy);
+                    p.PopContainingBlock();
                 }
                 else
                 {
+                    //if not
+                    int ox = p.CanvasOriginX;
+                    int oy = p.CanvasOriginY;
 
-
-                    if (this.HasContainingBlockProperty)
+                    var node = this._aa_boxes.GetFirstLinkedNode();
+                    while (node != null)
                     {
-                        p.PushContaingBlock(this);
-
-                        int ox = p.CanvasOriginX;
-                        int oy = p.CanvasOriginY;
-
-                        var node = this._aa_boxes.GetFirstLinkedNode();
-                        while (node != null)
+                        CssBox b = node.Value;
+                        if (b.CssDisplay == Css.CssDisplay.None)
                         {
-                            CssBox b = node.Value;
-                            if (b.CssDisplay == Css.CssDisplay.None)
-                            {
-                                node = node.Next;
-                                continue;
-                            }
-
-                            p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
-                            b.Paint(p);
                             node = node.Next;
+                            continue;
                         }
-                        p.SetCanvasOrigin(ox, oy);
-                        p.PopContainingBlock();
+                        p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
+                        b.Paint(p);
+                        node = node.Next;
                     }
-                    else
-                    {
-                        //if not
-                        int ox = p.CanvasOriginX;
-                        int oy = p.CanvasOriginY;
 
-                        var node = this._aa_boxes.GetFirstLinkedNode();
-                        while (node != null)
-                        {
-                            CssBox b = node.Value;
-                            if (b.CssDisplay == Css.CssDisplay.None)
-                            {
-                                node = node.Next;
-                                continue;
-                            }
-                            p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
-                            b.Paint(p);
-                            node = node.Next;
-                        }
+                    p.SetCanvasOrigin(ox, oy);
 
-                        p.SetCanvasOrigin(ox, oy);
-
-                    }
                 }
-                //------------------------------------------
-                //debug
-                //var clientLeft = this.ClientLeft;
-                //g.DrawRectangle(Pens.GreenYellow, 0, 0, 5, 10);
-                //g.DrawRectangle(Pens.HotPink, this.ClientRight - 5, 0, 5, 10);
-                //------------------------------------------  
-                //must! , 
-                if (hasPrevClip)
-                {
-                    p.PopLocalClipArea();
-                }
-
             }
+            //------------------------------------------
+            //debug
+            //var clientLeft = this.ClientLeft;
+            //g.DrawRectangle(Pens.GreenYellow, 0, 0, 5, 10);
+            //g.DrawRectangle(Pens.HotPink, this.ClientRight - 5, 0, 5, 10);
+            //------------------------------------------  
+            //must! , 
+            if (hasPrevClip)
+            {
+                p.PopLocalClipArea();
+            }
+
+
         }
 
         /// <summary>

@@ -91,7 +91,7 @@ namespace PixelFarm.Drawing.WinGdi
                     page.Reuse(hPageNum, vPageNum);
                 }
 
-                Rect rect = Rect.CreateFromRect(page.Rect);
+                Rectangle rect = page.Rect;
                 page.Invalidate(rect);
 
                 return page;
@@ -114,9 +114,9 @@ namespace PixelFarm.Drawing.WinGdi
         }
         public void Dispose()
         {
-            foreach (MyCanvas canvasPage in cachePages)
+            foreach (MyCanvas canvas in cachePages)
             {
-                canvasPage.Dispose();
+                canvas.Dispose();
                 
             }
             cachePages.Clear();

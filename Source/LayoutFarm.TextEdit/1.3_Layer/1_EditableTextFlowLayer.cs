@@ -3,31 +3,25 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
 using System.Text;
-
-using LayoutFarm;
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.Text
 {
 
 
-    public partial class EditableTextFlowLayer : VisualLayer
+    partial class EditableTextFlowLayer : RenderElementLayer
     {
 
         object lineCollection;
 
         public event EventHandler Reflow;
 
-        public static FontInfo DefaultFontInfo
-        {
-            get;
-            set;
-        }
-
         public EditableTextFlowLayer(RenderBoxBase owner)
-        {
-
-            this.OwnerRenderElement = owner;
-            lineCollection = new EditableVisualElementLine(this);
+            : base(owner)
+        {             
+            //start with single line per layer
+            //and can change to multiline
+            lineCollection = new EditableTextLine(this);
         }
 
         public void SetUseDoubleCanvas(bool useWithWidth, bool useWithHeight)
@@ -61,7 +55,7 @@ namespace LayoutFarm.Text
 
             if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
             {
-                List<EditableVisualElementLine> lines = (List<EditableVisualElementLine>)lineCollection;
+                List<EditableTextLine> lines = (List<EditableTextLine>)lineCollection;
                 int j = lines.Count;
                 for (int i = 0; i < j; ++i)
                 {
@@ -75,7 +69,7 @@ namespace LayoutFarm.Text
             }
             else
             {
-                EditableVisualElementLine onlyLine = (EditableVisualElementLine)lineCollection;
+                EditableTextLine onlyLine = (EditableTextLine)lineCollection;
                 LinkedListNode<EditableTextSpan> curNode = onlyLine.First;
                 while (curNode != null)
                 {
@@ -91,7 +85,7 @@ namespace LayoutFarm.Text
 
             if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
             {
-                List<EditableVisualElementLine> lines = (List<EditableVisualElementLine>)lineCollection;
+                List<EditableTextLine> lines = (List<EditableTextLine>)lineCollection;
                 int j = lines.Count;
                 for (int i = 0; i < j; ++i)
                 {
@@ -105,7 +99,7 @@ namespace LayoutFarm.Text
             }
             else
             {
-                EditableVisualElementLine onlyLine = (EditableVisualElementLine)lineCollection;
+                EditableTextLine onlyLine = (EditableTextLine)lineCollection;
                 LinkedListNode<EditableTextSpan> curNode = onlyLine.Last;
                 while (curNode != null)
                 {
@@ -122,7 +116,7 @@ namespace LayoutFarm.Text
             {
                 if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
                 {
-                    return ((List<EditableVisualElementLine>)lineCollection).Count;
+                    return ((List<EditableTextLine>)lineCollection).Count;
                 }
                 else
                 {
@@ -133,44 +127,9 @@ namespace LayoutFarm.Text
         }
 
 
-        public override bool PrepareDrawingChain(VisualDrawingChain chain)
-        {
-            if ((layerFlags & IS_LAYER_HIDDEN) == 0)
-            {
-
-                if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
-                {
-                    List<EditableVisualElementLine> lines = (List<EditableVisualElementLine>)lineCollection;
-                    int j = lines.Count;
-                    int testYPos = chain.UpdateAreaY;
-                    for (int i = 0; i < j; ++i)
-                    {
-                        EditableVisualElementLine line = lines[i];
-                        if (line.LineBottom < testYPos)
-                        {
-                            continue;
-                        }
-                        else if (line.PrepareRenderingChain(chain))
-                        {
-                            return true;
-                        }
-                        else if (line.LineTop > testYPos)
-                        {
-                            return false;
-                        }
-                    }
-                }
-                else
-                {
-                    EditableVisualElementLine onlyLine = (EditableVisualElementLine)lineCollection;
-                    return onlyLine.PrepareRenderingChain(chain);
-                }
-
-            }
-            return false;
-        }
+      
 #if DEBUG
-        void debug_RecordLineInfo(RenderBoxBase owner, EditableVisualElementLine line)
+        void debug_RecordLineInfo(RenderBoxBase owner, EditableTextLine line)
         {
             RootGraphic visualroot = this.dbugVRoot;
             if (visualroot.dbug_RecordDrawingChain)
@@ -193,7 +152,7 @@ namespace LayoutFarm.Text
 
         }
 #endif
-        public override void DrawChildContent(Canvas canvasPage, Rect updateArea)
+        public override void DrawChildContent(Canvas canvas, Rectangle updateArea)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) != 0)
             {
@@ -205,16 +164,16 @@ namespace LayoutFarm.Text
             if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
             {
 
-                List<EditableVisualElementLine> lines = (List<EditableVisualElementLine>)lineCollection;
-                int renderAreaTop = updateArea._top;
-                int renderAreaBottom = updateArea._bottom;
+                List<EditableTextLine> lines = (List<EditableTextLine>)lineCollection;
+                int renderAreaTop = updateArea.Top;
+                int renderAreaBottom = updateArea.Bottom;
                 bool foundFirstLine = false;
                 int j = lines.Count;
 
                 for (int i = 0; i < j; ++i)
                 {
 
-                    EditableVisualElementLine line = lines[i];
+                    EditableTextLine line = lines[i];
 
 #if DEBUG
                     if (this.OwnerRenderElement is RenderBoxBase)
@@ -246,29 +205,29 @@ namespace LayoutFarm.Text
                     }
 
                     updateArea.OffsetY(-y);
-                    canvasPage.OffsetCanvasOriginY(y); 
+                    canvas.OffsetCanvasOriginY(y);
                     while (curNode != null)
                     {
                         EditableTextSpan child = curNode.Value;
-                        if (child.IntersectOnHorizontalWith(updateArea))
+                        if (child.IntersectOnHorizontalWith(ref updateArea))
                         {
                             int x = child.X;
-                            canvasPage.OffsetCanvasOriginX(x); 
+                            canvas.OffsetCanvasOriginX(x);
                             updateArea.OffsetX(-x);
-                            child.DrawToThisPage(canvasPage, updateArea);
+                            child.DrawToThisCanvas(canvas, updateArea);
 
-                            canvasPage.OffsetCanvasOriginX(-x); 
+                            canvas.OffsetCanvasOriginX(-x);
                             updateArea.OffsetX(x);
                         }
                         curNode = curNode.Next;
                     }
-                    canvasPage.OffsetCanvasOriginY(-y); 
+                    canvas.OffsetCanvasOriginY(-y);
                     updateArea.OffsetY(y);
                 }
             }
             else
             {
-                EditableVisualElementLine line = (EditableVisualElementLine)lineCollection;
+                EditableTextLine line = (EditableTextLine)lineCollection;
 #if DEBUG
                 if (OwnerRenderElement is RenderBoxBase)
                 {
@@ -282,24 +241,24 @@ namespace LayoutFarm.Text
                 {
 
                     int y = line.Top;
-                    canvasPage.OffsetCanvasOriginY(y); 
+                    canvas.OffsetCanvasOriginY(y);
                     updateArea.OffsetY(-y);
                     while (curNode != null)
                     {
                         EditableTextSpan child = curNode.Value;
-                        if (child.IntersectOnHorizontalWith(updateArea))
+                        if (child.IntersectOnHorizontalWith(ref updateArea))
                         {
                             int x = child.X;
-                            canvasPage.OffsetCanvasOriginX(x);
+                            canvas.OffsetCanvasOriginX(x);
                             updateArea.OffsetX(-x);
-                            child.DrawToThisPage(canvasPage, updateArea);
+                            child.DrawToThisCanvas(canvas, updateArea);
 
-                            canvasPage.OffsetCanvasOriginX(-x);
+                            canvas.OffsetCanvasOriginX(-x);
                             updateArea.OffsetX(x);
                         }
                         curNode = curNode.Next;
                     }
-                    canvasPage.OffsetCanvasOriginY(-y);
+                    canvas.OffsetCanvasOriginY(-y);
                     updateArea.OffsetY(y);
                 }
 
@@ -315,13 +274,13 @@ namespace LayoutFarm.Text
             {
                 if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
                 {
-                    List<EditableVisualElementLine> lines = (List<EditableVisualElementLine>)lineCollection;
+                    List<EditableTextLine> lines = (List<EditableTextLine>)lineCollection;
                     int j = lines.Count;
                     int testYPos = hitChain.TestPoint.Y;
 
                     for (int i = 0; i < j; ++i)
                     {
-                        EditableVisualElementLine line = lines[i];
+                        EditableTextLine line = lines[i];
                         if (line.LineBottom < testYPos)
                         {
                             continue;
@@ -338,7 +297,7 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-                    EditableVisualElementLine onlyLine = (EditableVisualElementLine)lineCollection;
+                    EditableTextLine onlyLine = (EditableTextLine)lineCollection;
                     return onlyLine.HitTestCore(hitChain);
                 }
             }
@@ -496,7 +455,7 @@ namespace LayoutFarm.Text
 #if DEBUG
             vinv_dbug_EnterLayerReArrangeContent(this);
 #endif
-            this.BeginLayerLayoutUpdate();
+            //this.BeginLayerLayoutUpdate();
 
             RenderBoxBase container = this.OwnerRenderElement as RenderBoxBase;
             if (container != null)
@@ -509,7 +468,7 @@ namespace LayoutFarm.Text
                 Reflow(this, EventArgs.Empty);
             }
 
-            this.EndLayerLayoutUpdate();
+            //this.EndLayerLayoutUpdate();
 #if DEBUG
             vinv_dbug_ExitLayerReArrangeContent();
 #endif
@@ -525,8 +484,8 @@ namespace LayoutFarm.Text
             if (this.LineCount > 1)
             {
 
-                List<EditableVisualElementLine> lines = (List<EditableVisualElementLine>)this.lineCollection;
-                EditableVisualElementLine lastline = lines[lines.Count - 1];
+                List<EditableTextLine> lines = (List<EditableTextLine>)this.lineCollection;
+                EditableTextLine lastline = lines[lines.Count - 1];
                 SetPostCalculateLayerContentSize(lastline.ActualLineWidth, lastline.ActualLineHeight + lastline.LineTop);
 
             }
@@ -541,9 +500,9 @@ namespace LayoutFarm.Text
         }
 
 
-        public EditableVisualElementLine GetTextLine(int lineId)
+        internal EditableTextLine GetTextLine(int lineId)
         {
-            List<EditableVisualElementLine> lines = lineCollection as List<EditableVisualElementLine>;
+            List<EditableTextLine> lines = lineCollection as List<EditableTextLine>;
             if (lines != null)
             {
                 if (lineId < lines.Count)
@@ -553,7 +512,7 @@ namespace LayoutFarm.Text
             }
             else if (lineId == 0)
             {
-                return (EditableVisualElementLine)lineCollection;
+                return (EditableTextLine)lineCollection;
             }
 
             return null;
@@ -561,19 +520,19 @@ namespace LayoutFarm.Text
 
 
 
-        public EditableVisualElementLine GetTextLineAtPos(int y)
+        internal EditableTextLine GetTextLineAtPos(int y)
         {
             if (lineCollection != null)
             {
-                if (lineCollection is List<EditableVisualElementLine>)
+                if (lineCollection is List<EditableTextLine>)
                 {
-                    List<EditableVisualElementLine> lines = lineCollection as List<EditableVisualElementLine>;
+                    List<EditableTextLine> lines = lineCollection as List<EditableTextLine>;
                     if (lines != null)
                     {
                         int j = lines.Count;
                         for (int i = 0; i < j; ++i)
                         {
-                            EditableVisualElementLine line = lines[i];
+                            EditableTextLine line = lines[i];
                             if (line.IntersectsWith(y))
                             {
                                 return line;
@@ -584,7 +543,7 @@ namespace LayoutFarm.Text
                 else
                 {
 
-                    EditableVisualElementLine line = (EditableVisualElementLine)lineCollection;
+                    EditableTextLine line = (EditableTextLine)lineCollection;
                     if (line.IntersectsWith(y))
                     {
                         return line;
@@ -593,21 +552,21 @@ namespace LayoutFarm.Text
             }
             return null;
         }
-        void AppendLine(EditableVisualElementLine line)
+        void AppendLine(EditableTextLine line)
         {
             if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
             {
-                List<EditableVisualElementLine> lines = (List<EditableVisualElementLine>)lineCollection;
+                List<EditableTextLine> lines = (List<EditableTextLine>)lineCollection;
                 int lineCount = lines.Count;
-                EditableVisualElementLine lastLine = lines[lineCount - 1];
+                EditableTextLine lastLine = lines[lineCount - 1];
                 line.SetLineNumber(lineCount);
                 line.SetTop(lastLine.Top + lastLine.ActualLineHeight);
                 lines.Add(line);
             }
             else
             {
-                EditableVisualElementLine onlyLine = (EditableVisualElementLine)lineCollection;
-                List<EditableVisualElementLine> newLineList = new List<EditableVisualElementLine>();
+                EditableTextLine onlyLine = (EditableTextLine)lineCollection;
+                List<EditableTextLine> newLineList = new List<EditableTextLine>();
                 newLineList.Add(onlyLine);
                 line.SetTop(onlyLine.ActualLineHeight);
                 line.SetLineNumber(1);
@@ -626,7 +585,7 @@ namespace LayoutFarm.Text
             long startTick = DateTime.Now.Ticks;
 #endif
 
-            List<EditableVisualElementLine> lines = (List<EditableVisualElementLine>)this.lineCollection;
+            List<EditableTextLine> lines = (List<EditableTextLine>)this.lineCollection;
             int ownerClientRight = ownerClientLeft + ownerClientWidth;
             int curX = 0;
             int curY = 0;
@@ -635,13 +594,13 @@ namespace LayoutFarm.Text
             int maxWidth = 0;
             int curY_fromTop = ownerClientTop;
 
-            int maxHeightInRow = EditableVisualElementLine.DEFAULT_LINE_HEIGHT;
+            int maxHeightInRow = EditableTextLine.DEFAULT_LINE_HEIGHT;
             int lineCount = lines.Count;
             for (int i = 0; i < lineCount; ++i)
             {
-                EditableVisualElementLine line = lines[i];
+                EditableTextLine line = lines[i];
                 curX = ownerClientLeft;
-                lastestIsBlock = false; 
+                lastestIsBlock = false;
                 line.SetTop(curY_fromTop);
 
                 if (!line.NeedArrange)
@@ -654,8 +613,8 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-                    maxHeightInRow = EditableVisualElementLine.DEFAULT_LINE_HEIGHT;
-                    EditableVisualElementLine newLine = null;
+                    maxHeightInRow = EditableTextLine.DEFAULT_LINE_HEIGHT;
+                    EditableTextLine newLine = null;
                     line.ValidateContentArrangement();
 
                     bool isFirstRunInThisLine = true;
@@ -700,11 +659,11 @@ namespace LayoutFarm.Text
                             (curX + v_desired_width > ownerClientRight))
                             {
 
-                                newLine = new EditableVisualElementLine(this);
+                                newLine = new EditableTextLine(this);
                                 newLine.AddLast(currentRun);
                                 curY = curY_fromTop + maxHeightInRow;
                                 curY_fromTop = curY;
-                                maxHeightInRow = EditableVisualElementLine.DEFAULT_LINE_HEIGHT;
+                                maxHeightInRow = EditableTextLine.DEFAULT_LINE_HEIGHT;
 
                                 EditableTextSpan nextR = currentRun.NextTextRun;
 
@@ -780,7 +739,7 @@ namespace LayoutFarm.Text
                 return;
             }
             int ownerClientRight = ownerClientLeft + ownerClientWidth;
-            int default_line_height = EditableVisualElementLine.DEFAULT_LINE_HEIGHT;
+            int default_line_height = EditableTextLine.DEFAULT_LINE_HEIGHT;
 
             int curX = 0;
             int curY = 0;
@@ -845,7 +804,7 @@ namespace LayoutFarm.Text
                         }
 
                         EditableTextSpan.DirectSetVisualElementSize(currentRun,
-                            v_desired_width, v_desired_height); 
+                            v_desired_width, v_desired_height);
 
 
                         curX += v_desired_width;
@@ -913,7 +872,7 @@ namespace LayoutFarm.Text
             }
 
 
-            int finalHeight = curY_fromTop + maxHeightInRow; 
+            int finalHeight = curY_fromTop + maxHeightInRow;
 
 
             ValidateArrangement();
@@ -921,20 +880,20 @@ namespace LayoutFarm.Text
         }
 
 
-        internal EditableVisualElementLine InsertNewLine(int insertAt)
+        internal EditableTextLine InsertNewLine(int insertAt)
         {
-            EditableVisualElementLine newLine = new EditableVisualElementLine(this);
+            EditableTextLine newLine = new EditableTextLine(this);
             this.InsertLine(insertAt, newLine);
             return newLine;
         }
-        void InsertLine(int insertAt, EditableVisualElementLine textLine)
+        void InsertLine(int insertAt, EditableTextLine textLine)
         {
             if (insertAt < 0)
             {
                 throw new NotSupportedException();
             }
 
-            List<EditableVisualElementLine> lines = lineCollection as List<EditableVisualElementLine>;
+            List<EditableTextLine> lines = lineCollection as List<EditableTextLine>;
             if (lines != null)
             {
                 int j = lines.Count;
@@ -945,9 +904,9 @@ namespace LayoutFarm.Text
                 else
                 {
 
-                    EditableVisualElementLine line = lines[insertAt];
-                    int cy = line.Top; 
-                    textLine.SetTop(cy); 
+                    EditableTextLine line = lines[insertAt];
+                    int cy = line.Top;
+                    textLine.SetTop(cy);
                     textLine.SetLineNumber(insertAt);
                     cy += line.ActualLineHeight;
 
@@ -965,8 +924,8 @@ namespace LayoutFarm.Text
             else
             {
 
-                lines = new List<EditableVisualElementLine>();
-                lines.Add((EditableVisualElementLine)lineCollection);
+                lines = new List<EditableTextLine>();
+                lines.Add((EditableTextLine)lineCollection);
                 lineCollection = lines;
                 FlowLayerHasMultiLines = true;
 
@@ -979,9 +938,9 @@ namespace LayoutFarm.Text
                 else
                 {
 
-                    EditableVisualElementLine line = lines[insertAt];
+                    EditableTextLine line = lines[insertAt];
                     int cy = line.Top;
-                    textLine.SetTop(cy); 
+                    textLine.SetTop(cy);
                     textLine.SetLineNumber(insertAt);
                     cy += line.ActualLineHeight;
 
@@ -1009,7 +968,7 @@ namespace LayoutFarm.Text
 
         public void CopyContentToStringBuilder(StringBuilder stBuilder)
         {
-            List<EditableVisualElementLine> lines = lineCollection as List<EditableVisualElementLine>;
+            List<EditableTextLine> lines = lineCollection as List<EditableTextLine>;
             if (lines != null)
             {
                 int j = lines.Count;
@@ -1026,15 +985,15 @@ namespace LayoutFarm.Text
             }
             else
             {
-                ((EditableVisualElementLine)lineCollection).CopyLineContent(stBuilder);
+                ((EditableTextLine)lineCollection).CopyLineContent(stBuilder);
 
             }
         }
 
         internal IEnumerable<EditableTextSpan> TextRunForward(EditableTextSpan startRun, EditableTextSpan stopRun)
         {
-            EditableVisualElementLine currentLine = startRun.OwnerEditableLine;
-            EditableVisualElementLine stopLine = stopRun.OwnerEditableLine;
+            EditableTextLine currentLine = startRun.OwnerEditableLine;
+            EditableTextLine stopLine = stopRun.OwnerEditableLine;
             if (currentLine == stopLine)
             {
                 foreach (EditableTextSpan r in currentLine.GetVisualElementForward(startRun, stopRun))

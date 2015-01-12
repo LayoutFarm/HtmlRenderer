@@ -76,7 +76,6 @@
     <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\2_MyCanvas_CoordinateAndClip.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\3_MyCanvas_DrawGraphics.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\4_MyCanvas_TextAndFonts.cs" />
-    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\QuadPages.cs" />
     <Compile Include="PixelFarm.Drawing.DrawingGL\0_Start\CanvasGLPlatform.cs" />
     <Compile Include="PixelFarm.Drawing.DrawingGL\0_Start\CanvasGLPortal.cs" />
     <Compile Include="PixelFarm.Drawing.DrawingGL\Implementation\GLBitmapTextureHelper.cs" />
@@ -87,6 +86,7 @@
     <Compile Include="PixelFarm.Drawing.DrawingGL\MyCanvas_GL\3_MyCanvasGL_DrawGraphics.cs" />
     <Compile Include="PixelFarm.Drawing.DrawingGL\MyCanvas_GL\4_MyCanvasGL_TextAndFonts.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\FontGdiTexture\GdiTextureFont.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\QuadPages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -122,7 +122,7 @@
       <Name>MiniAgg</Name>
     </ProjectReference>
     <ProjectReference Include="..\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
-      <Project>{0C869FB2-1F97-422F-9763-5AC12B2EFE0E}</Project>
+      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing</Name>
     </ProjectReference>
   </ItemGroup>

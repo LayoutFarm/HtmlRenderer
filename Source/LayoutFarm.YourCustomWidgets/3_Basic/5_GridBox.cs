@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 
 using PixelFarm.Drawing;
-using LayoutFarm.Text;
+ 
 using LayoutFarm.UI;
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {
@@ -44,8 +45,7 @@ namespace LayoutFarm.CustomWidgets
         public override void SetSize(int width, int height)
         {
             //readjust cellsize
-            base.SetSize(width, height);
-
+            base.SetSize(width, height); 
 
             //----------------------------------
             var cols = gridTable.Columns;
@@ -124,8 +124,9 @@ namespace LayoutFarm.CustomWidgets
         {
             if (gridBox == null)
             {
-                var myGridBox = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                RenderElement.DirectSetVisualElementLocation(myGridBox, this.Left, this.Top);
+                var myGridBox = new CustomRenderBox(rootgfx, this.Width, this.Height);                 
+                myGridBox.SetLocation(this.Left, this.Top);
+
                 this.gridBox = myGridBox;
 
                 var layers = new VisualLayerCollection();

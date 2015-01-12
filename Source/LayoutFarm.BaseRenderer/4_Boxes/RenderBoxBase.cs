@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-namespace LayoutFarm
+
+namespace LayoutFarm.RenderBoxes
 {
 
 
@@ -12,8 +13,6 @@ namespace LayoutFarm
 #endif
     public abstract class RenderBoxBase : RenderElement
     {
-
-
         VisualLayerCollection layers;
         int myviewportX;
         int myviewportY;
@@ -24,30 +23,18 @@ namespace LayoutFarm
             this.MayHasViewport = true;
             this.MayHasChild = true;
         }
-        public VisualLayerCollection Layers
+        protected VisualLayerCollection MyLayers
         {
             get { return this.layers; }
             set { this.layers = value; }
         }
-        public sealed override void CustomDrawToThisPage(Canvas canvas, Rect updateArea)
-        {
 
-            canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
-            updateArea.Offset(myviewportX, myviewportY);
-
-
-            this.DrawContent(canvas, updateArea);
-
-            canvas.OffsetCanvasOrigin(myviewportX, myviewportY);
-            updateArea.Offset(-myviewportX, -myviewportY);
-
-
-            //-------------------
-        }
         public void SetViewport(int viewportX, int viewportY)
         {
             this.myviewportX = viewportX;
             this.myviewportY = viewportY;
+
+            this.InvalidateGraphics();
         }
         public override int ViewportX
         {
@@ -63,20 +50,28 @@ namespace LayoutFarm
                 return this.myviewportY;
             }
         }
-        public void InvalidateContentArrangementFromContainerSizeChanged()
+
+
+        public sealed override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
-            this.MarkInvalidContentArrangement();
-            //foreach (VisualLayer layer in this.GetAllLayerBottomToTopIter())
-            //{
-            //    layer.InvalidateContentArrangementFromContainerSizeChanged();
-            //}
+            canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
+            updateArea.Offset(myviewportX, myviewportY);
+
+            this.DrawContent(canvas, updateArea);
+
+            canvas.OffsetCanvasOrigin(myviewportX, myviewportY);
+            updateArea.Offset(-myviewportX, -myviewportY);
         }
-        protected virtual void DrawContent(Canvas canvas, Rect updateArea)
+
+        protected virtual void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             //sample ***
             //1. draw background
-            RenderElementHelper.DrawBackground(this, canvas, updateArea.Width, updateArea.Height, Color.White);
+            //canvas.FillRectangle(Color.White, 0, 0, updateArea.Width, updateArea.Height);
+            canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
+
             //2. draw each layer
+
             if (this.layers != null)
             {
                 int j = this.layers.LayerCount;
@@ -118,14 +113,7 @@ namespace LayoutFarm
                 }
             }
         }
-        public void PrepareOriginalChildContentDrawingChain(VisualDrawingChain chain)
-        {
 
-            if (this.layers != null)
-            {
-                layers.PrepareOriginalChildContentDrawingChain(chain);
-            }
-        }
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
             if (this.layers != null)
@@ -134,7 +122,14 @@ namespace LayoutFarm
             }
         }
 
-
+        public void InvalidateContentArrangementFromContainerSizeChanged()
+        {
+            this.MarkInvalidContentArrangement();
+            //foreach (VisualLayer layer in this.GetAllLayerBottomToTopIter())
+            //{
+            //    layer.InvalidateContentArrangementFromContainerSizeChanged();
+            //}
+        }
         protected static void InnerDoTopDownReCalculateContentSize(RenderBoxBase containerBase)
         {
             containerBase.TopDownReCalculateContentSize();
@@ -146,12 +141,12 @@ namespace LayoutFarm
         public override sealed void TopDownReCalculateContentSize()
         {
 
-            if (!vinv_ForceReArrange && this.HasCalculatedSize)
+            if (!ForceReArrange && this.HasCalculatedSize)
             {
                 return;
             }
 #if DEBUG
-            vinv_dbug_EnterTopDownReCalculateContent(this);
+            dbug_EnterTopDownReCalculateContent(this);
 #endif
             int cHeight = this.Height;
             int cWidth = this.Width;
@@ -172,15 +167,15 @@ namespace LayoutFarm
             }
             switch (GetLayoutSpecificDimensionType(this))
             {
-                case LY_HAS_SPC_HEIGHT:
+                case RenderElementConst.LY_HAS_SPC_HEIGHT:
                     {
                         finalHeight = cHeight;
                     } break;
-                case LY_HAS_SPC_WIDTH:
+                case RenderElementConst.LY_HAS_SPC_WIDTH:
                     {
                         finalWidth = cWidth;
                     } break;
-                case LY_HAS_SPC_SIZE:
+                case RenderElementConst.LY_HAS_SPC_SIZE:
                     {
                         finalWidth = cWidth;
                         finalHeight = cHeight;
@@ -190,7 +185,7 @@ namespace LayoutFarm
 
             SetCalculatedDesiredSize(this, finalWidth, finalHeight);
 #if DEBUG
-            vinv_dbug_ExitTopDownReCalculateContent(this);
+            dbug_ExitTopDownReCalculateContent(this);
 #endif
 
         }
@@ -201,23 +196,23 @@ namespace LayoutFarm
         {
 
 #if DEBUG
-            vinv_dbug_EnterReArrangeContent(this);
+            dbug_EnterReArrangeContent(this);
             dbug_topDownReArrContentPass++;
             this.dbug_BeginArr++;
-            vinv_debug_PushTopDownElement(this);
+            debug_PushTopDownElement(this);
 #endif
 
             this.MarkValidContentArrangement();
-            vinv_IsInTopDownReArrangePhase = true;
-            vinv_IsInTopDownReArrangePhase = true;
+
+            IsInTopDownReArrangePhase = true;
 
             this.layers.ForceTopDownReArrangeContent();
             // BoxEvaluateScrollBar();
 
 #if DEBUG
             this.dbug_FinishArr++;
-            vinv_debug_PopTopDownElement(this);
-            vinv_dbug_ExitReArrangeContent();
+            debug_PopTopDownElement(this);
+            dbug_ExitReArrangeContent();
 #endif
         }
 
@@ -227,13 +222,13 @@ namespace LayoutFarm
             bool isIncr = false;
 #endif
 
-            if (!vinv_ForceReArrange && !this.NeedContentArrangement)
+            if (!ForceReArrange && !this.NeedContentArrangement)
             {
                 if (!this.FirstArrangementPass)
                 {
                     this.FirstArrangementPass = true;
 #if DEBUG
-                    vinv_dbug_WriteInfo(dbugVisitorMessage.PASS_FIRST_ARR);
+                    dbug_WriteInfo(dbugVisitorMessage.PASS_FIRST_ARR);
 #endif
 
                 }
@@ -243,7 +238,7 @@ namespace LayoutFarm
                     isIncr = true;
                     this.dbugVRoot.dbugNotNeedArrCount++;
                     this.dbugVRoot.dbugNotNeedArrCountEpisode++;
-                    vinv_dbug_WriteInfo(dbugVisitorMessage.NOT_NEED_ARR);
+                    dbug_WriteInfo(dbugVisitorMessage.NOT_NEED_ARR);
                     this.dbugVRoot.dbugNotNeedArrCount--;
 #endif
                 }
@@ -286,6 +281,7 @@ namespace LayoutFarm
                 {
                     var layer0 = this.layers.Layer0;
                     Size s1 = layer0.PostCalculateContentSize;
+
                     if (s1.Width < this.Width)
                     {
                         s1.Width = this.Width;
@@ -303,8 +299,6 @@ namespace LayoutFarm
 
             }
         }
-
-
 
         public int ClientTop
         {
@@ -330,7 +324,7 @@ namespace LayoutFarm
 
             writer.LeaveCurrentLevel();
         }
-        void debug_RecordLayerInfo(VisualLayer layer)
+        void debug_RecordLayerInfo(RenderElementLayer layer)
         {
             RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
             if (visualroot.dbug_RecordDrawingChain)

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing; 
-
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.Text
 {
@@ -39,7 +39,7 @@ namespace LayoutFarm.Text
         public override void ClearAllChildren()
         {
             internalTextLayerController.Clear();
-            this.Layers.ClearAllContentInEachLayer();
+            this.MyLayers.ClearAllContentInEachLayer();
         }
 
         public int Column

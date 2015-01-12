@@ -16,19 +16,19 @@ namespace PixelFarm.Drawing.WinGdi
         internal MyCanvas pageD;
 
         CanvasCollection physicalCanvasCollection;
-         
-        public QuadPages(GraphicsPlatform gfxPlatform, 
+
+        public QuadPages(GraphicsPlatform gfxPlatform,
             int cachedPageNum,
             int eachCachedPageWidth,
             int eachCachedPageHeight)
         {
-             
+
             physicalCanvasCollection = new CanvasCollection(
                 gfxPlatform,
                 cachedPageNum, eachCachedPageWidth, eachCachedPageHeight);
 
         }
-        
+
         public void Dispose()
         {
             if (physicalCanvasCollection != null)
@@ -39,7 +39,7 @@ namespace PixelFarm.Drawing.WinGdi
         }
         public void CanvasInvalidate(Rectangle rect)
         {
-            Rect r = Rect.CreateFromRect(rect);
+            Rectangle r = rect;
             if (pageA != null && pageA.IntersectsWith(r))
             {
                 pageA.Invalidate(r);
@@ -95,7 +95,7 @@ namespace PixelFarm.Drawing.WinGdi
         internal const int PAGE_ABCD = 3;
 
         public void RenderToOutputWindowFullMode(
-            ITopWindowRenderBox topWindowRenderBox,
+            IRenderElement topWindowRenderBox,
             IntPtr destOutputHdc,
             int viewportX, int viewportY, int viewportWidth, int viewportHeight)
         {
@@ -181,36 +181,29 @@ namespace PixelFarm.Drawing.WinGdi
             }
         }
 
-        static void UpdateAllArea(MyCanvas mycanvas, ITopWindowRenderBox topWindowRenderBox)
+        static void UpdateAllArea(MyCanvas mycanvas, IRenderElement topWindowRenderBox)
         {
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
-            Rect rect = Rect.CreateFromRect(mycanvas.Rect);
-            topWindowRenderBox.DrawToThisPage(mycanvas, rect);
+            Rectangle rect = mycanvas.Rect;
+            topWindowRenderBox.DrawToThisCanvas(mycanvas, rect);
 
 #if DEBUG
             topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
-#endif
-#if DEBUG
 #endif
 
             mycanvas.IsContentReady = true;
             mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
         }
 
-        static void UpdateInvalidArea(MyCanvas mycanvas, ITopWindowRenderBox rootElement, IVisualDrawingChain renderingChain)
+
+        static void UpdateInvalidArea(MyCanvas mycanvas, IRenderElement rootElement)
         {
 
-            renderingChain.UpdateInvalidArea(mycanvas, rootElement);
-
-        }
-        static void UpdateInvalidArea(MyCanvas mycanvas, ITopWindowRenderBox rootElement)
-        {
-#if DEBUG
-#endif
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
-            Rect rect = mycanvas.InvalidateArea;
-            rootElement.DrawToThisPage(mycanvas, rect);
+            Rectangle rect = mycanvas.InvalidateArea;
+            rootElement.DrawToThisCanvas(mycanvas, rect);
+
 #if DEBUG
             rootElement.dbugShowRenderPart(mycanvas, rect);
 #endif
@@ -221,144 +214,80 @@ namespace PixelFarm.Drawing.WinGdi
 
 
         public void RenderToOutputWindowPartialMode(
-            ITopWindowRenderBox rootElement,
+            IRenderElement renderE,
             IntPtr destOutputHdc,
             int viewportX, int viewportY,
             int viewportWidth, int viewportHeight)
         {
 
-            //temp ****
-            IVisualDrawingChain renderChain = null;
+
             switch (render_parts)
             {
                 case PAGE_A:
                     {
-
                         if (!pageA.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageA, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageA, rootElement);
-                            }
+                            UpdateInvalidArea(pageA, renderE);
                         }
                     } break;
                 case PAGE_AB:
                     {
                         if (!pageA.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageA, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageA, rootElement);
-                            }
+                            UpdateInvalidArea(pageA, renderE);
                         }
                         if (!pageB.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageB, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageB, rootElement);
-                            }
+                            UpdateInvalidArea(pageB, renderE);
                         }
                     } break;
                 case PAGE_AC:
                     {
                         if (!pageA.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageA, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageA, rootElement);
-
-                            }
+                            UpdateInvalidArea(pageA, renderE);
                         }
                         if (!pageC.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageC, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageC, rootElement);
-                            }
+                            UpdateInvalidArea(pageC, renderE);
                         }
                     } break;
                 case PAGE_ABCD:
                     {
                         if (!pageA.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageA, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageA, rootElement);
-                            }
+                            UpdateInvalidArea(pageA, renderE);
                         }
                         if (!pageB.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageB, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageB, rootElement);
-                            }
+                            UpdateInvalidArea(pageB, renderE);
                         }
                         if (!pageC.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageC, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageC, rootElement);
-                            }
+                            UpdateInvalidArea(pageC, renderE);
                         }
                         if (!pageD.IsContentReady)
                         {
-                            if (renderChain != null)
-                            {
-                                UpdateInvalidArea(pageD, rootElement, renderChain);
-                            }
-                            else
-                            {
-                                UpdateInvalidArea(pageD, rootElement);
-                            }
+                            UpdateInvalidArea(pageD, renderE);
                         }
                     } break;
             }
-
-
-
+            //----------------------------------------------------------------------------------------------------------
             switch (render_parts)
             {
                 case PAGE_A:
                     {
 
-                        Rect invalidateArea = pageA.InvalidateArea;
-                        pageA.RenderTo(destOutputHdc, invalidateArea._left - pageA.Left, invalidateArea._top - pageA.Top,
-                            new Rectangle(invalidateArea._left -
-                                viewportX, invalidateArea._top - viewportY,
+                        Rectangle invalidateArea = pageA.InvalidateArea;
+                        ////Console.WriteLine("update2:" + invalidateArea.ToString());
+
+
+                        pageA.RenderTo(destOutputHdc, invalidateArea.Left - pageA.Left, invalidateArea.Top - pageA.Top,
+                            new Rectangle(invalidateArea.Left -
+                                viewportX, invalidateArea.Top - viewportY,
                                 invalidateArea.Width, invalidateArea.Height));
 
+                        pageA.ResetInvalidateArea();
                     } break;
                 case PAGE_AB:
                     {
@@ -510,115 +439,9 @@ namespace PixelFarm.Drawing.WinGdi
                 pageD.IsUnused = true;
                 pageD = null;
             }
-
-
         }
 
-        public void TransferDataFromSourceCanvas(
-            Rect logicalArea,
-            int viewportX, int viewportY,
-            int viewportWidth, int viewportHeight, Canvas destPage)
-        {
 
-            Rectangle clipRect = Rectangle.Intersect(
-            new Rectangle(0, 0, viewportWidth, viewportHeight),
-            destPage.CurrentClipRect);
-
-            switch (render_parts)
-            {
-                case PAGE_A:
-                    {
-                        TransferDataFromSourceCanvas(
-                            pageA, logicalArea,
-                            clipRect,
-                            destPage);
-                    } break;
-                case PAGE_AB:
-                    {
-                        int remainHeightOfPageA = pageA.Bottom - viewportY;
-                        TransferDataFromSourceCanvas(
-                            pageA, logicalArea,
-                            Rectangle.Intersect(
-                                    new Rectangle(0, 0, viewportWidth, remainHeightOfPageA),
-                                    clipRect), destPage);
-
-                        TransferDataFromSourceCanvas(
-                            pageB, logicalArea,
-                            Rectangle.Intersect(
-                                    new Rectangle(0, remainHeightOfPageA, viewportWidth, viewportHeight - remainHeightOfPageA),
-                                    clipRect), destPage);
-                    } break;
-                case PAGE_AC:
-                    {
-                        int remainWidthOfPageA = pageA.Right - viewportX;
-                        TransferDataFromSourceCanvas(pageA, logicalArea,
-                               Rectangle.Intersect(
-                                    new Rectangle(0, 0, remainWidthOfPageA, viewportHeight),
-                                    clipRect), destPage);
-
-                        TransferDataFromSourceCanvas(
-                            pageC, logicalArea,
-                                Rectangle.Intersect(
-                                    new Rectangle(remainWidthOfPageA, 0, viewportWidth - remainWidthOfPageA, viewportHeight),
-                                    clipRect), destPage);
-
-                    } break;
-                case PAGE_ABCD:
-                    {
-                        int remainHeightOfPageA = pageA.Bottom - viewportY;
-                        TransferDataFromSourceCanvas(
-                            pageA, logicalArea,
-                                Rectangle.Intersect(
-                                new Rectangle(0, 0, viewportWidth, remainHeightOfPageA),
-                                clipRect), destPage);
-
-                        TransferDataFromSourceCanvas(
-                            pageB, logicalArea,
-                                                     Rectangle.Intersect(
-                               new Rectangle(0, remainHeightOfPageA, viewportWidth, viewportHeight - remainHeightOfPageA),
-                               clipRect), destPage);
-
-                        int remainWidthOfPageA = pageA.Right - viewportX;
-                        TransferDataFromSourceCanvas(
-                            pageC, logicalArea,
-                                                     Rectangle.Intersect(
-                               new Rectangle(remainWidthOfPageA, 0, viewportWidth - remainWidthOfPageA, viewportHeight),
-                               clipRect), destPage);
-
-                        TransferDataFromSourceCanvas(pageD, logicalArea,
-                            Rectangle.Intersect(
-                                    new Rectangle(remainWidthOfPageA, remainHeightOfPageA,
-                                    viewportWidth - remainWidthOfPageA, viewportHeight - remainHeightOfPageA),
-                                    clipRect), destPage);
-
-
-                    } break;
-            }
-
-
-        }
-        void TransferDataFromSourceCanvas(
-                Canvas sourceCanvas,
-                Rect logicalSourceArea, Rectangle physicalUpdateArea, Canvas destPage)
-        {
-
-            Rectangle logicalClip = Rectangle.Intersect(logicalSourceArea.ToRectangle(), sourceCanvas.Rect);
-            if (logicalClip.Width > 0 && logicalClip.Height > 0)
-            {
-                destPage.CopyFrom(sourceCanvas, logicalClip.Left,
-                    logicalClip.Top,
-                    physicalUpdateArea);
-
-            }
-        }
-
-#if DEBUG
-        void dbug_PrintBitbltInfo(Canvas srcCanvas, string srcCanvasName, int srcX, int srcY, Canvas destCanvas, Rectangle destRect)
-        {
-            srcX -= srcCanvas.Left;
-            srcY -= srcCanvas.Top;
-        }
-#endif
 
     }
 }

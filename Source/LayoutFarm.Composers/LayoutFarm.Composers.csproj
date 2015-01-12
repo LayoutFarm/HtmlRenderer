@@ -71,11 +71,8 @@
     <Compile Include="3_HtmlBoxes\MyHtmlIsland.cs" />
     <Compile Include="6_SvgDom\SvgRootEventPortal_IUserEventPortal.cs" />
     <Compile Include="6_SvgDom\SvgRootEventPortal.cs" />
-    <Compile Include="7_TopWin\0_MyTopWindowRenderBox.cs" />
-    <Compile Include="7_TopWin\0_MyTopWindowRenderBox_dbug.cs" />
-    <Compile Include="7_TopWin\0_MyTopWindowRenderBox_Graphics.cs" />
     <Compile Include="7_TopWin\MyIntervalTaskEventArgs.cs" />
-    <Compile Include="7_TopWin\MyRootGraphic.cs" />
+    <Compile Include="7_TopWin\0_MyRootGraphic.cs" />
     <Compile Include="7_TopWin\GraphicsTimerTasksManager.cs" />
     <Compile Include="7_TopWin\UIHoverMonitor.cs" />
     <Compile Include="7_TopWin\UserInputEventAdapter.cs" />
@@ -100,7 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
-      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
+      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">

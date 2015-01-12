@@ -11,7 +11,7 @@ using LayoutFarm;
 using LayoutFarm.Css;
 using LayoutFarm.ContentManagers;
 using LayoutFarm.Composers;
-
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -27,14 +27,14 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             this.myHtmlIsland = htmlIsland;
-            this.Focusable = false;
+
 
         }
         public override void ClearAllChildren()
         {
 
         }
-        protected override void DrawContent(Canvas canvas, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             myHtmlIsland.CheckDocUpdate();
             var painter = PainterStock.GetSharedPainter(myHtmlIsland, canvas);
@@ -65,9 +65,7 @@ namespace LayoutFarm.HtmlBoxes
         public HtmlFragmentRenderBox(RootGraphic rootgfx,
             int width, int height)
             : base(rootgfx, width, height)
-        {
-
-            this.Focusable = false;
+        { 
         }
 
         public CssBox CssBox
@@ -84,7 +82,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
         }
-        protected override void DrawContent(Canvas canvas, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             tinyHtmlIsland.CheckDocUpdate();
 

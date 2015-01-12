@@ -3,10 +3,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing; 
-using LayoutFarm.Text;
-using LayoutFarm.UI; 
+using PixelFarm.Drawing;
 
+using LayoutFarm.UI;
+using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
 {
 
@@ -116,13 +116,13 @@ namespace LayoutFarm.CustomWidgets
         {
             CustomRenderBox bgBox = new CustomRenderBox(rootgfx, this.Width, this.Height);
             bgBox.HasSpecificSize = true;
-            RenderElement.DirectSetVisualElementLocation(bgBox, this.Left, this.Top);
+            bgBox.SetLocation(this.Left, this.Top);             
             //---------------------------------------------------------
 
             VisualLayerCollection layers = new VisualLayerCollection();
             bgBox.Layers = layers;
 
-            VisualPlainLayer plain = new VisualPlainLayer(bgBox);
+            PlainLayer plain = new PlainLayer(bgBox);
             layers.AddLayer(plain);
             //-----------------------------------------------------
 
@@ -146,13 +146,13 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 return (int)(this.scrollValue / this.onePixelFor);
-            } 
+            }
         }
         void CreateHScrollbarContent(RootGraphic rootgfx)
         {
 
         }
-        void SetupMinButtonProperties(VisualPlainLayer plain)
+        void SetupMinButtonProperties(PlainLayer plain)
         {
 
             var min_button = new ScrollButton(this.Width, minmax_boxHeight);
@@ -164,7 +164,7 @@ namespace LayoutFarm.CustomWidgets
             plain.AddUI(min_button);
             this.minButton = min_button;
         }
-        void SetupMaxButtonProperties(VisualPlainLayer plain)
+        void SetupMaxButtonProperties(PlainLayer plain)
         {
             var max_button = new ScrollButton(this.Width, minmax_boxHeight);
             max_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
@@ -177,7 +177,7 @@ namespace LayoutFarm.CustomWidgets
             this.maxButton = max_button;
 
         }
-        void SetupScrollButtonProperties(VisualPlainLayer plain)
+        void SetupScrollButtonProperties(PlainLayer plain)
         {
             //calculate scroll length ratio
             //scroll button height is ratio with real scroll length
@@ -265,9 +265,8 @@ namespace LayoutFarm.CustomWidgets
 
                 int currentMarkAt = (newYPos - minmax_boxHeight);
                 this.scrollValue = (float)(onePixelFor * currentMarkAt);
-                newYPos = CalculateThumbPosition() + minmax_boxHeight; 
-                scroll_button.SetLocation(pos.X, newYPos);
-                scroll_button.InvalidateGraphic();
+                newYPos = CalculateThumbPosition() + minmax_boxHeight;
+                scroll_button.SetLocation(pos.X, newYPos); 
 
                 if (this.UserScroll != null)
                 {
@@ -373,9 +372,10 @@ namespace LayoutFarm.CustomWidgets
             {
                 var button_box = new CustomRenderBox(rootgfx, this.Width, this.Height);
                 button_box.HasSpecificSize = true;
-                button_box.BackColor = this.backColor;
-                RenderElement.DirectSetVisualElementLocation(button_box, this.Left, this.Top);
+                button_box.BackColor = this.backColor;                 
+                button_box.SetLocation(this.Left, this.Top);
                 button_box.SetController(this);
+
                 this.buttonBox = button_box;
             }
             return buttonBox;

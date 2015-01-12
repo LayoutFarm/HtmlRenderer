@@ -5,9 +5,8 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
-using LayoutFarm.Text;
 using LayoutFarm.UI;
-
+using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
 {
     public class TreeView : UIBox
@@ -16,14 +15,14 @@ namespace LayoutFarm.CustomWidgets
         CustomRenderBox primElement;//background
         Color backColor = Color.LightGray;
         int viewportX, viewportY;
-        List<LayerElement> layers = new List<LayerElement>(1); 
+        List<UICollection> layers = new List<UICollection>(1);
         int latestItemY;
 
         Panel panel; //panel 
         public TreeView(int width, int height)
             : base(width, height)
         {
-            PlainLayerElement plainLayer = new PlainLayerElement();
+            UICollection plainLayer = new UICollection(this);
             //panel for listview items
             this.panel = new Panel(width, height);
             panel.BackColor = Color.LightGray;
@@ -55,8 +54,8 @@ namespace LayoutFarm.CustomWidgets
         {
             if (primElement == null)
             {
-                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                RenderElement.DirectSetVisualElementLocation(renderE, this.Left, this.Top);
+                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);                 
+                renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
                 renderE.HasSpecificSize = true;
@@ -66,8 +65,8 @@ namespace LayoutFarm.CustomWidgets
                 int layerCount = this.layers.Count;
                 for (int m = 0; m < layerCount; ++m)
                 {
-                    PlainLayerElement plain = (PlainLayerElement)this.layers[m];
-                    var groundLayer = new VisualPlainLayer(renderE);
+                    UICollection plain = (UICollection)this.layers[m];
+                    var groundLayer = new PlainLayer(renderE);
                     renderE.Layers.AddLayer(groundLayer);
                     renderE.SetViewport(this.viewportX, this.viewportY);
                     //---------------------------------
@@ -220,16 +219,16 @@ namespace LayoutFarm.CustomWidgets
                 element.HasSpecificSize = true;
                 //-----------------------------
                 // create default layer for node content
-                VisualPlainLayer plainLayer = null;
+                PlainLayer plainLayer = null;
                 if (element.Layers == null)
                 {
                     element.Layers = new VisualLayerCollection();
-                    plainLayer = new VisualPlainLayer(element);
+                    plainLayer = new PlainLayer(element);
                     element.Layers.AddLayer(plainLayer);
                 }
                 else
                 {
-                    plainLayer = (VisualPlainLayer)element.Layers.GetLayer(0);
+                    plainLayer = (PlainLayer)element.Layers.GetLayer(0);
                 }
                 //-----------------------------
                 uiNodeIcon = new ImageBox(16, 16);//create with default size 
@@ -314,16 +313,16 @@ namespace LayoutFarm.CustomWidgets
                     //add child presentation 
                     //below here
                     //create layers
-                    VisualPlainLayer plainLayer = null;
+                    PlainLayer plainLayer = null;
                     if (primElement.Layers == null)
                     {
                         primElement.Layers = new VisualLayerCollection();
-                        plainLayer = new VisualPlainLayer(primElement);
+                        plainLayer = new PlainLayer(primElement);
                         primElement.Layers.AddLayer(plainLayer);
                     }
                     else
                     {
-                        plainLayer = (VisualPlainLayer)primElement.Layers.GetLayer(0);
+                        plainLayer = (PlainLayer)primElement.Layers.GetLayer(0);
                     }
                     //-----------------
                     //add to layer
@@ -339,15 +338,15 @@ namespace LayoutFarm.CustomWidgets
         public void Expand()
         {
             if (this.isOpen) return;
-            this.isOpen = true; 
-            this.TreeView.PerformContentLayout(); 
+            this.isOpen = true;
+            this.TreeView.PerformContentLayout();
         }
         public void Collapse()
         {
             if (!this.isOpen) return;
             this.isOpen = false;
 
-            this.TreeView.PerformContentLayout(); 
+            this.TreeView.PerformContentLayout();
         }
         public override void PerformContentLayout()
         {
@@ -366,7 +365,7 @@ namespace LayoutFarm.CustomWidgets
                         var childNode = childNodes[i];
                         childNode.PerformContentLayout();
                         //set new size 
-                        childNode.SetBound(indentWidth,
+                        childNode.SetBounds(indentWidth,
                             newChildNodeY,
                             childNode.Width,
                             childNode.DesiredHeight);

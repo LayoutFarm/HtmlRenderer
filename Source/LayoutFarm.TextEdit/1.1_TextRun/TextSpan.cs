@@ -76,7 +76,7 @@ namespace LayoutFarm.Text
             //------------------------------------------
 
 
-            this.InvalidateGraphic();
+            this.InvalidateGraphics();
             this.spanStyle = spanStyle;
             if (spanStyle.positionWidth > -1)
             {
@@ -87,7 +87,7 @@ namespace LayoutFarm.Text
                 this.SetHeight(spanStyle.positionHeight);
             }
 
-            this.InvalidateGraphic();
+            this.InvalidateGraphics();
 
 
 
@@ -152,13 +152,13 @@ namespace LayoutFarm.Text
 #endif
 
 
-        internal static void DrawTextRun(TextSpan textspan, Canvas canvasPage, Rect updateArea)
+        internal static void DrawTextRun(TextSpan textspan, Canvas canvasPage, Rectangle updateArea)
         {
             textspan.DrawCharacters(canvasPage, updateArea, textspan.mybuffer);
         }
-        public override void CustomDrawToThisPage(Canvas canvasPage, Rect updateArea)
+        public override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
-            DrawTextRun(this, canvasPage, updateArea);
+            DrawTextRun(this, canvas, updateArea);
         }
 
         protected bool HasStyle
@@ -202,7 +202,7 @@ namespace LayoutFarm.Text
                 }
             }
         }
-        void DrawCharacters(Canvas canvas, Rect updateArea, char[] textArray)
+        void DrawCharacters(Canvas canvas, Rectangle updateArea, char[] textArray)
         {
 
             int bWidth = this.Width;
@@ -276,8 +276,8 @@ namespace LayoutFarm.Text
 
             if (!HasStyle)
             {
-                return LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo;
-            }
+                return LayoutFarm.Text.TextEditRenderBox.DefaultFontInfo;
+            }   
             else
             {
                 TextSpanSytle spanStyle = this.SpanStyle;
@@ -287,7 +287,7 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-                    return LayoutFarm.Text.EditableTextFlowLayer.DefaultFontInfo;
+                    return LayoutFarm.Text.TextEditRenderBox.DefaultFontInfo;
                 }
             }
         }
@@ -302,13 +302,13 @@ namespace LayoutFarm.Text
         public static void InnerTextRunTopDownReCalculateContentSize(TextSpan ve)
         {
 #if DEBUG
-            vinv_dbug_EnterTopDownReCalculateContent(ve);
+            dbug_EnterTopDownReCalculateContent(ve);
 #endif
 
             ve.UpdateRunWidth();
 
 #if DEBUG
-            vinv_dbug_ExitTopDownReCalculateContent(ve);
+            dbug_ExitTopDownReCalculateContent(ve);
 #endif
         }
         public override void TopDownReCalculateContentSize()

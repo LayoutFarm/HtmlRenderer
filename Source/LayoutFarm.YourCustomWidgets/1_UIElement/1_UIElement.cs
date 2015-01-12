@@ -8,6 +8,7 @@ namespace LayoutFarm.UI
     public abstract partial class UIElement : IEventListener
     {
         int oneBitNativeEventFlags;
+        UIElement parentElement;
         public UIElement()
         {
         }
@@ -21,7 +22,13 @@ namespace LayoutFarm.UI
             get { return false; }
         }
         public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
-        public abstract void InvalidateGraphic();
+
+        public abstract void InvalidateGraphics();
+        public UIElement ParentUI
+        {
+            get { return this.parentElement; }
+            set { this.parentElement = value; }
+        }
 
         //-------------------------------------------------------
         protected virtual void OnShown()
@@ -99,6 +106,7 @@ namespace LayoutFarm.UI
             return false;
         }
 
+        //----------------------------------------------------------
         static UIElement currentDraggingElement = null;
 
 #if DEBUG

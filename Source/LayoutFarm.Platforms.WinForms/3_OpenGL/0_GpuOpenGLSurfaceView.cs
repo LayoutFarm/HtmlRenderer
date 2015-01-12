@@ -14,7 +14,7 @@ namespace LayoutFarm.UI.OpenGL
     //app specific
     partial class GpuOpenGLSurfaceView : GLControl
     {
-        MyPlatformWindowBridgeOpenGL winBridge;
+        MyTopWindowBridgeOpenGL winBridge;
         OpenTK.Graphics.Color4 clearColor;
 
         //EventHandler glPaintHandler;
@@ -33,7 +33,7 @@ namespace LayoutFarm.UI.OpenGL
             //-----------
             this.InitializeComponent();
         }
-        public void Bind(MyPlatformWindowBridgeOpenGL winBridge)
+        public void Bind(MyTopWindowBridgeOpenGL winBridge)
         {
             //1. 
             this.winBridge = winBridge;

@@ -4,13 +4,19 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
+using LayoutFarm.RenderBoxes;
+
 namespace LayoutFarm.Text
 {
 
 
     partial class TextEditRenderBox
     {
-
+        public static FontInfo DefaultFontInfo
+        {
+            get;
+            set;
+        }
 
         RenderSurfaceScrollRelation scrollRelation;
         CustomRenderSurface vscrollableSurface;//built in 
@@ -25,7 +31,7 @@ namespace LayoutFarm.Text
             get { return this.scrollRelation; }
             set { this.scrollRelation = value; }
         }
-        protected override void DrawContent(Canvas canvas, Rect updateArea)
+        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
 
 
@@ -34,7 +40,9 @@ namespace LayoutFarm.Text
                 vscrollableSurface.DrawToThisPage(canvas, updateArea);
             }
             //1. bg
-            RenderElementHelper.DrawBackground(this, canvas, updateArea.Width, updateArea.Height, Color.White);
+           
+            canvas.FillRectangle(Color.White, 0, 0, updateArea.Width, updateArea.Height);
+
             //2. sub ground 
             if (internalTextLayerController.SelectionRange != null)
             {
@@ -47,9 +55,9 @@ namespace LayoutFarm.Text
             }
             else
             {
-                if (this.Layers != null)
+                if (this.MyLayers != null)
                 {
-                    this.Layers.LayersDrawContent(canvas, updateArea);
+                    this.MyLayers.LayersDrawContent(canvas, updateArea);
                 }
             }
 
@@ -144,10 +152,10 @@ namespace LayoutFarm.Text
 
             if (vscrollableSurface == null)
             {
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
 
                 this.SetViewport(x, y);
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
             }
             else
             {
@@ -164,7 +172,7 @@ namespace LayoutFarm.Text
                 this.SetViewport(x, y);
                 vscrollableSurface.QuadPagesCalculateCanvas();
                 vscrollableSurface.FullModeUpdate = true;
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
 
                 vscrollableSurface.FullModeUpdate = false;
             }
@@ -291,12 +299,12 @@ namespace LayoutFarm.Text
             if (vscrollableSurface != null)
             {
                 scrollRelation.RaiseProperEvents(hScrollEventArgs, vScrollEventArgs);
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
                 vscrollableSurface.FullModeUpdate = false;
             }
             else
             {
-                this.InvalidateGraphic();
+                this.InvalidateGraphics();
             }
         }
         void MyScrollTo(int x, int y)

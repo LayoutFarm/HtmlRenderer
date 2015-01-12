@@ -603,7 +603,17 @@ namespace PixelFarm.Drawing
             return !((Left >= rect.Right) || (Right <= rect.Left) ||
                 (Top >= rect.Bottom) || (Bottom <= rect.Top));
         }
-
+        public bool IntersectsWith(int left, int top, int right, int bottom)
+        {
+            if (((this.Left <= left) && (this.Right > left)) || ((this.Left >= left) && (this.Left < right)))
+            {
+                if (((this.Top <= top) && (this.Bottom > top)) || ((this.Top >= top) && (this.Top < bottom)))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         private bool IntersectsWithInclusive(Rectangle r)
         {
             return !((Left > r.Right) || (Right < r.Left) ||
@@ -637,7 +647,14 @@ namespace PixelFarm.Drawing
             x += pos.X;
             y += pos.Y;
         }
-
+        public void OffsetX(int dx)
+        {
+            x += dx;
+        }
+        public void OffsetY(int dy)
+        {
+            y += dy;
+        }
         /// <summary>
         ///	ToString Method
         /// </summary>

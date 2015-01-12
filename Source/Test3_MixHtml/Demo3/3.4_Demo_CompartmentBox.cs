@@ -6,6 +6,7 @@ using System.Text;
 using PixelFarm.Drawing;
 
 using LayoutFarm.UI;
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm
 {
@@ -69,8 +70,7 @@ namespace LayoutFarm
             //1. mouse down         
             box.MouseDown += (s, e) =>
             {
-                box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
-                box.InvalidateGraphic();
+                box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue); 
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
 
                 //--------------------------------------------
@@ -87,9 +87,7 @@ namespace LayoutFarm
             box.MouseUp += (s, e) =>
             {
                 e.MouseCursorStyle = MouseCursorStyle.Default;
-                box.BackColor = Color.LightGray;
-                box.InvalidateGraphic();
-
+                box.BackColor = Color.LightGray; 
                 //hide controller
                 controllerBox1.Visible = false;
                 controllerBox1.TargetBox = null;
@@ -224,12 +222,12 @@ namespace LayoutFarm
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
 
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-                    VisualPlainLayer plain0 = null;
+                    PlainLayer plain0 = null;
                     if (myRenderElement != null)
                     {
                         VisualLayerCollection layers = new VisualLayerCollection();
                         myRenderElement.Layers = layers;
-                        plain0 = new VisualPlainLayer(myRenderElement);
+                        plain0 = new PlainLayer(myRenderElement);
                         layers.AddLayer(plain0);
                         plain0.AddChild(gridBox.GetPrimaryRenderElement(rootgfx));
                     }
@@ -354,7 +352,7 @@ namespace LayoutFarm
                                 if (targetBox != null)
                                 {
                                     //move target box too 
-                                    targetBox.SetBound(controllerBox.Left + 5,
+                                    targetBox.SetBounds(controllerBox.Left + 5,
                                         controllerBox.Top + 5,
                                         controllerBox.Width - 10,
                                         controllerBox.Height - 10);
@@ -373,7 +371,7 @@ namespace LayoutFarm
                                 if (targetBox != null)
                                 {
                                     //move target box too 
-                                    targetBox.SetBound(controllerBox.Left + 5,
+                                    targetBox.SetBounds(controllerBox.Left + 5,
                                         controllerBox.Top + 5,
                                         controllerBox.Width - 10,
                                         controllerBox.Height - 10);
@@ -389,7 +387,7 @@ namespace LayoutFarm
                                 if (targetBox != null)
                                 {
                                     //move target box too 
-                                    targetBox.SetBound(controllerBox.Left + 5,
+                                    targetBox.SetBounds(controllerBox.Left + 5,
                                         controllerBox.Top + 5,
                                         controllerBox.Width - 10,
                                         controllerBox.Height - 10);
@@ -407,7 +405,7 @@ namespace LayoutFarm
                                 if (targetBox != null)
                                 {
                                     //move target box too 
-                                    targetBox.SetBound(controllerBox.Left + 5,
+                                    targetBox.SetBounds(controllerBox.Left + 5,
                                         controllerBox.Top + 5,
                                         controllerBox.Width - 10,
                                         controllerBox.Height - 10);
@@ -443,7 +441,7 @@ namespace LayoutFarm
                 if (targetBox != null)
                 {
                     //move target box too 
-                    targetBox.SetBound(controllerBox.Left + 5,
+                    targetBox.SetBounds(controllerBox.Left + 5,
                         controllerBox.Top + 5,
                         controllerBox.Width - 10,
                         controllerBox.Height - 10);

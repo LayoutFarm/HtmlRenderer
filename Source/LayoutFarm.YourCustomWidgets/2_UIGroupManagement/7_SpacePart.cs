@@ -147,7 +147,7 @@ namespace LayoutFarm.UI
             var uiContent = this.Content;
             if (uiContent != null)
             {
-                uiContent.SetBound(x, y, w, h);
+                uiContent.SetBounds(x, y, w, h);
             }
         }
         public void ArrangeContent()

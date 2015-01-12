@@ -17,12 +17,12 @@ namespace LayoutFarm.Text
             : base(g, w, h)
         {
         }
-        public override void CustomDrawToThisPage(Canvas canvasPage, Rect updateArea)
+        public override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
         }
-        internal void DrawCaret(Canvas canvasPage, int x, int y)
+        internal void DrawCaret(Canvas canvas, int x, int y)
         {
-            canvasPage.FillRectangle(Color.Black, x, y, this.Width, this.Height );
+            canvas.FillRectangle(Color.Black, x, y, this.Width, this.Height);
         }
     }
 }

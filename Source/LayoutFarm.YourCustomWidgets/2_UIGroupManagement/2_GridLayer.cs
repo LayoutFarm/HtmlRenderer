@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 using System.Text;
 using LayoutFarm;
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.UI
 {
 
-    public sealed class GridLayer : VisualLayer
+    sealed class GridLayer : RenderElementLayer
     {
         GridTable.GridRowCollection gridRows;
         GridTable.GridColumnCollection gridCols;
@@ -18,8 +19,9 @@ namespace LayoutFarm.UI
         GridTable gridTable;
 
         public GridLayer(RenderElement owner, int nColumns, int nRows, CellSizeStyle cellSizeStyle)
+            : base(owner)
         {
-            this.OwnerRenderElement = owner;
+
             this.cellSizeStyle = cellSizeStyle;
             this.gridTable = new GridTable();
 
@@ -107,7 +109,7 @@ namespace LayoutFarm.UI
             vinv_dbug_EnterLayerReArrangeContent(this);
 #endif
             //--------------------------------- 
-            this.BeginLayerLayoutUpdate();
+            //this.BeginLayerLayoutUpdate();
             //---------------------------------
             if (gridCols != null && gridCols.Count > 0)
             {
@@ -132,7 +134,7 @@ namespace LayoutFarm.UI
 
             ValidateArrangement();
             //---------------------------------
-            this.EndLayerLayoutUpdate();
+            //this.EndLayerLayoutUpdate();
 
 #if DEBUG
             vinv_dbug_ExitLayerReArrangeContent();
@@ -628,132 +630,16 @@ namespace LayoutFarm.UI
 
 #endif
 
-        public override bool PrepareDrawingChain(VisualDrawingChain chain)
+
+        public override void DrawChildContent(Canvas canvas, Rectangle updateArea)
         {
-
-            GridCell leftTopGridItem = GetGridItemByPosition(chain.UpdateAreaX, chain.UpdateAreaY);
-            if (leftTopGridItem == null)
-            {
-                return false;
-            }
-
-
-            GridCell rightBottomGridItem = GetGridItemByPosition(chain.UpdateAreaRight, chain.UpdateAreaBottom);
-            if (rightBottomGridItem == null)
-            {
-                return false;
-            }
-
-            GridColumn startColumn = leftTopGridItem.column;
-            GridColumn currentColumn = startColumn;
-            GridRow startRow = leftTopGridItem.row;
-            GridColumn stopColumn = rightBottomGridItem.column.NextColumn;
-            GridRow stopRow = rightBottomGridItem.row.NextRow;
-
-            int startRowId = startRow.RowIndex;
-            int stopRowId = 0;
-            if (stopRow == null)
-            {
-                stopRowId = gridRows.Count;
-            }
-            else
-            {
-                stopRowId = stopRow.RowIndex;
-            }
-
-            //----------------------------------------------------------------------------
-            //draw border
-            //Pen autoBorderPen = new Pen(Color.DarkGray);
-            //autoBorderPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dot;
-            //int n = 0;
-            //do
-            //{
-
-            //   
-            //   
-            //    GridItem startGridItemInColumn = currentColumn.GetCell(startRowId);
-            //    GridItem stopGridItemInColumn = currentColumn.GetCell(stopRowId - 1);
-
-            //    
-            //   
-            //    //canvasPage.DrawLine(Color.DarkGray,
-            //    //    startGridItemInColumn.RightTopCorner,
-            //    //    stopGridItemInColumn.RightBottomCorner);
-
-            //    if (n == 0)
-            //    {
-            //        
-            //        int horizontalLineWidth = rightBottomGridItem.Right - startGridItemInColumn.X;
-            //      
-            //        
-            //        for (int i = startRowId; i < stopRowId; i++)
-            //        {
-            //           
-            //            
-            //            GridItem gridItem = currentColumn.GetCell(i);
-            //            int x = gridItem.X;
-            //            int gBottom = gridItem.Bottom;
-
-            //            
-            //            canvasPage.DrawLine(
-            //                Color.DarkGray,
-            //                x, gBottom,
-            //                x + horizontalLineWidth, gBottom);
-
-            //        }
-            //        n = 1; 
-            //    }
-            //   
-            //    currentColumn = currentColumn.NextColumn;
-            //} while (currentColumn != stopColumn);
-
-            //autoBorderPen.Dispose();
-
-            currentColumn = startColumn;
-            //----------------------------------------------------------------------------
-            do
-            {
-
-
-                for (int i = startRowId; i < stopRowId; i++)
-                {
-
-                    GridCell gridItem = currentColumn.GetCell(i);
-
-                    if (gridItem != null && gridItem.HasContent)
-                    {
-                        var renderE = gridItem.ContentElement as RenderElement;
-                        if (renderE.PrepareDrawingChain(chain))
-                        {
-                            return true;
-                        }
-                    }
-#if DEBUG
-                    //else
-                    //{
-                    //    canvasPage.DrawText(new char[] { '0' }, gridItem.X, gridItem.Y);
-                    //}
-#endif
-
-
-                }
-
-                currentColumn = currentColumn.NextColumn;
-
-            } while (currentColumn != stopColumn);
-
-            return false;
-
-        }
-        public override void DrawChildContent(Canvas canvasPage, Rect updateArea)
-        {
-            GridCell leftTopGridItem = GetGridItemByPosition(updateArea._left, updateArea._top);
+            GridCell leftTopGridItem = GetGridItemByPosition(updateArea.Left, updateArea.Top);
             if (leftTopGridItem == null)
             {
                 return;
 
             }
-            GridCell rightBottomGridItem = GetGridItemByPosition(updateArea._right, updateArea._bottom);
+            GridCell rightBottomGridItem = GetGridItemByPosition(updateArea.Right, updateArea.Bottom);
             if (rightBottomGridItem == null)
             {
                 return;
@@ -781,8 +667,8 @@ namespace LayoutFarm.UI
 
 
             int n = 0;
-            var prevColor = canvasPage.StrokeColor;
-            canvasPage.StrokeColor = Color.Gray;
+            var prevColor = canvas.StrokeColor;
+            canvas.StrokeColor = Color.Gray;
             do
             {
 
@@ -790,7 +676,7 @@ namespace LayoutFarm.UI
                 GridCell stopGridItemInColumn = currentColumn.GetCell(stopRowId - 1);
 
 
-                canvasPage.DrawLine(
+                canvas.DrawLine(
                     startGridItemInColumn.Right,
                     startGridItemInColumn.Y,
                     stopGridItemInColumn.Right,
@@ -812,7 +698,7 @@ namespace LayoutFarm.UI
                         int gBottom = gridItem.Bottom;
 
 
-                        canvasPage.DrawLine(
+                        canvas.DrawLine(
                             x, gBottom,
                             x + horizontalLineWidth, gBottom);
 
@@ -822,7 +708,7 @@ namespace LayoutFarm.UI
                 currentColumn = currentColumn.NextColumn;
             } while (currentColumn != stopColumn);
 
-            canvasPage.StrokeColor = prevColor;
+            canvas.StrokeColor = prevColor;
             currentColumn = startColumn;
             //----------------------------------------------------------------------------
             do
@@ -838,27 +724,27 @@ namespace LayoutFarm.UI
 
                         int x = gridItem.X;
                         int y = gridItem.Y;
-                        canvasPage.OffsetCanvasOrigin(x, y);
+                        canvas.OffsetCanvasOrigin(x, y);
                         updateArea.Offset(-x, -y);
                         var renderContent = gridItem.ContentElement as RenderElement;
                         if (renderContent != null)
                         {
 
-                            if (canvasPage.PushClipAreaRect(gridItem.Width, gridItem.Height,ref updateArea))
+                            if (canvas.PushClipAreaRect(gridItem.Width, gridItem.Height,ref updateArea))
                             {
-                                renderContent.DrawToThisPage(canvasPage, updateArea);
+                                renderContent.DrawToThisCanvas(canvas, updateArea);
                             }
-                            canvasPage.PopClipAreaRect();
+                            canvas.PopClipAreaRect();
                         }
 
 
-                        canvasPage.OffsetCanvasOrigin(-x, -y);
+                        canvas.OffsetCanvasOrigin(-x, -y);
                         updateArea.Offset(x, y);
                     }
 #if DEBUG
                     else
                     {
-                        canvasPage.DrawText(new char[] { '.' }, gridItem.X, gridItem.Y);
+                        canvas.DrawText(new char[] { '.' }, gridItem.X, gridItem.Y);
                     }
 #endif
                 }

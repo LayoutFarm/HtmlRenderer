@@ -7,9 +7,7 @@ using PixelFarm.Drawing;
 
 using LayoutFarm;
 using LayoutFarm.UI;
-using LayoutFarm.Text;
-
-
+using LayoutFarm.Text; 
 namespace LayoutFarm.CustomWidgets
 {
 
@@ -48,9 +46,8 @@ namespace LayoutFarm.CustomWidgets
         {
             if (visualTextEdit == null)
             {
-                var tbox = new TextEditRenderBox(rootgfx, this.Width, this.Height, _multiline);
-                RenderElement.DirectSetVisualElementLocation(tbox, this.Left, this.Top);
-
+                var tbox = new TextEditRenderBox(rootgfx, this.Width, this.Height, _multiline);                 
+                tbox.SetLocation(this.Left, this.Top);
                 tbox.HasSpecificSize = true;
 
                 tbox.SetController(this);
@@ -73,14 +70,9 @@ namespace LayoutFarm.CustomWidgets
         protected override void OnDoubleClick(UIMouseEventArgs e)
         {
             visualTextEdit.OnDoubleClick(e);
+            e.CancelBubbling = true;
         }
-        public override void InvalidateGraphic()
-        {
-            if (visualTextEdit != null)
-            {
-                visualTextEdit.InvalidateGraphic();
-            }
-        }
+     
 
         protected override void OnKeyPress(UIKeyEventArgs e)
         {

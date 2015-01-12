@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
-using LayoutFarm.Text;
+ 
 using LayoutFarm.UI;
-
+using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
 {   
 
 
     static class LayerHelpers
     {   
-        public static void AddUI(this VisualPlainLayer plainLayer, UIElement ui)
+        public static void AddUI(this PlainLayer plainLayer, UIElement ui)
         {
             plainLayer.AddChild(ui.GetPrimaryRenderElement(plainLayer.Root));
         }

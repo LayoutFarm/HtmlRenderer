@@ -10,9 +10,9 @@ namespace LayoutFarm.UI.OpenGL
     {
         Canvas canvas;
         bool isClosed;
-        public OpenGLCanvasViewport(TopWindowRenderBox wintop,
+        public OpenGLCanvasViewport(RootGraphic root,
             Size viewportSize, int cachedPageNum)
-            : base(wintop, viewportSize, cachedPageNum)
+            : base(root, viewportSize, cachedPageNum)
         {
 
         }
@@ -25,14 +25,14 @@ namespace LayoutFarm.UI.OpenGL
                 canvas = null;
             }
         }
-        protected override void Canvas_Invalidate(ref Rectangle r)
+        protected override void Canvas_Invalidated(Rectangle r)
         {
-            base.Canvas_Invalidate(ref r);
+            base.Canvas_Invalidated(r);
         }
         public void NotifyWindowControlBinding()
-        {   
+        {
             this.canvas = PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, 800, 600);
-           
+
         }
         //----------
         //for test
@@ -80,7 +80,7 @@ namespace LayoutFarm.UI.OpenGL
         }
         void dbugGLOffsetCanvasOrigin(int dx, int dy)
         {
-            dbugGLSetCanvasOrigin(canvas.CanvasOriginX + dx, canvas.CanvasOriginY + dy); 
+            dbugGLSetCanvasOrigin(canvas.CanvasOriginX + dx, canvas.CanvasOriginY + dy);
         }
 #endif
         //-------
@@ -109,7 +109,8 @@ namespace LayoutFarm.UI.OpenGL
 
             if (this.IsClosed) { return; }
             //------------------------------------ 
-            topWindowBox.PrepareRender();
+
+            this.rootGraphics.PrepareRender();
             //---------------
             this.rootGraphics.IsInRenderPhase = true;
 #if DEBUG
@@ -141,18 +142,17 @@ namespace LayoutFarm.UI.OpenGL
 #endif
         }
 
-        static void UpdateAllArea(Canvas mycanvas, ITopWindowRenderBox topWindowRenderBox)
+        static void UpdateAllArea(Canvas mycanvas, IRenderElement topWindowRenderBox)
         {
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
-            Rect rect = Rect.CreateFromRect(mycanvas.Rect);
+            Rectangle rect = mycanvas.Rect;
             //mycanvas.FillRectangle(Color.Blue, 50, 50, 100, 100);
-            topWindowRenderBox.DrawToThisPage(mycanvas, rect);
+            topWindowRenderBox.DrawToThisCanvas(mycanvas, rect);
 
 #if DEBUG
             topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
-#endif
-#if DEBUG
+ 
 #endif
 
             mycanvas.IsContentReady = true;

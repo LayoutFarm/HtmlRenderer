@@ -6,9 +6,10 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using LayoutFarm;
+ 
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.Dev
 {   
@@ -47,7 +48,7 @@ namespace LayoutFarm.Dev
             {
                 case dbugLayoutMsgOwnerKind.Layer:
                     {
-                        VisualLayer layer = (VisualLayer)msg.owner;
+                        RenderElementLayer layer = (RenderElementLayer)msg.owner;
                     } break;
                 case dbugLayoutMsgOwnerKind.Line:
                     {
@@ -79,8 +80,8 @@ namespace LayoutFarm.Dev
             {
                 case dbugLayoutMsgOwnerKind.Layer:
                     {
-                        VisualLayer layer =
-                           (VisualLayer)msg.owner;
+                        RenderElementLayer layer =
+                           (RenderElementLayer)msg.owner;
                     } break;
                 case dbugLayoutMsgOwnerKind.Line:
                     {

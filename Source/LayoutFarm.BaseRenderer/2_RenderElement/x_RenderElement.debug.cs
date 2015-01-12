@@ -2,8 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text; 
-using PixelFarm.Drawing; 
+using System.Text;
+using PixelFarm.Drawing;
 
 namespace LayoutFarm
 {
@@ -40,6 +40,20 @@ namespace LayoutFarm
 
     partial class RenderElement
     {
+        public bool dbugNeedContentArrangement
+        {
+            get
+            {
+                return this.NeedContentArrangement;
+            }
+        }
+        public bool dbugNeedReCalculateContentSize
+        {
+            get
+            {
+                return this.NeedReCalculateContentSize;
+            }
+        }
         public Rectangle dbugGetGlobalRect()
         {
             return new Rectangle(GetGlobalLocationStatic(this), Size);
@@ -121,10 +135,17 @@ namespace LayoutFarm
                 }
             }
         }
-
+        public RenderElement dbugParentVisualElement
+        {
+            get { return this.ParentRenderElement; }
+        }
+        public override string ToString()
+        {
+            return string.Empty;
+        }
         protected string dbug_GetBoundInfo()
         {
-            Rectangle r = this.BoundRect;
+            Rectangle r = this.RectBounds;
             string output = "{" + r.X + "," + r.Y + "," + r.Width + "," + r.Height +
                 ";dw=" + this.ElementDesiredWidth +
                 ";dh=" + this.ElementDesiredHeight;
@@ -217,7 +238,7 @@ namespace LayoutFarm
         }
 
         //-------------------------------------------------------------------------
-        protected static void vinv_dbug_EnterTopDownReCalculateContent(RenderElement v)
+        protected static void dbug_EnterTopDownReCalculateContent(RenderElement v)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -228,7 +249,7 @@ namespace LayoutFarm
             debugVisualLay.WriteInfo(v, ">>TOPDOWN_RECAL_CONTENT ", "-", "&");
 
         }
-        protected static void vinv_dbug_ExitTopDownReCalculateContent(RenderElement v)
+        public static void dbug_ExitTopDownReCalculateContent(RenderElement v)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -237,11 +258,11 @@ namespace LayoutFarm
             debugVisualLay.PopVisualElement();
 
         }
-        protected static void vinv_dbug_SetInitObject(RenderElement ve)
+        public static void dbug_SetInitObject(RenderElement ve)
         {
             dbugInitObject = ve;
         }
-        protected static void vinv_dbug_EnterReArrangeContent(RenderElement v)
+        public static void dbug_EnterReArrangeContent(RenderElement v)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -253,7 +274,7 @@ namespace LayoutFarm
 
         }
 
-        protected static void vinv_dbug_ExitReArrangeContent(RenderElement ve)
+        public static void dbug_ExitReArrangeContent(RenderElement ve)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -264,7 +285,7 @@ namespace LayoutFarm
             debugVisualLay.PopVisualElement();
 
         }
-        protected static void vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m, int i)
+        public static void dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m, int i)
         {
             //RootGraphic visualroot = RootGraphic.dbugCurrentGlobalVRoot;
             //if (visualroot == null || !visualroot.dbug_IsRecordLayoutTraceEnable)
@@ -298,7 +319,7 @@ namespace LayoutFarm
             //        } break;
             //}
         }
-        protected static void vinv_dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m)
+        public static void dbug_StartLayoutTrace(dbugVisualElementLayoutMsg m)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -328,7 +349,7 @@ namespace LayoutFarm
             //}
         }
 
-        protected static void vinv_dbug_EndLayoutTrace()
+        public static void dbug_EndLayoutTrace()
         {
 
             var debugVisualLay = dbugGetLayoutTracer();
@@ -352,23 +373,59 @@ namespace LayoutFarm
         }
 
         //-----------------------------------------------------------------
-        protected static void vinv_dbug_WriteInfo(dbugVisitorMessage m)
+        protected static void dbug_WriteInfo(dbugVisitorMessage m)
         {
 
         }
-        protected static void vinv_debug_PushTopDownElement(RenderElement ve)
+        protected static void debug_PushTopDownElement(RenderElement ve)
         {
         }
-        protected static void vinv_debug_PopTopDownElement(RenderElement ve)
+        protected static void debug_PopTopDownElement(RenderElement ve)
         {
 
         }
-        protected static void vinv_dbug_ExitReArrangeContent()
+        protected static void dbug_ExitReArrangeContent()
         {
 
         }
         //temp
         static object dbugInitObject;
+
+
+#if DEBUG
+        public void dbugShowRenderPart(Canvas canvasPage, Rectangle updateArea)
+        {
+            RootGraphic visualroot = this.dbugVRoot;
+            if (visualroot.dbug_ShowRootUpdateArea)
+            {
+                canvasPage.FillRectangle(Color.FromArgb(50, Color.Black),
+                     updateArea.Left, updateArea.Top,
+                        updateArea.Width - 1, updateArea.Height - 1);
+                canvasPage.FillRectangle(Color.White,
+                     updateArea.Left, updateArea.Top, 5, 5);
+                canvasPage.DrawRectangle(Color.Yellow,
+                        updateArea.Left, updateArea.Top,
+                        updateArea.Width - 1, updateArea.Height - 1);
+
+                Color c_color = canvasPage.CurrentTextColor;
+                canvasPage.CurrentTextColor = Color.White;
+                canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea.Left, updateArea.Top);
+                if (updateArea.Height > 25)
+                {
+                    canvasPage.DrawText(visualroot.dbug_RootUpdateCounter.ToString().ToCharArray(), updateArea.Left, updateArea.Top + (updateArea.Height - 20));
+                }
+                canvasPage.CurrentTextColor = c_color;
+                visualroot.dbug_RootUpdateCounter++;
+            }
+        }
+        public RootGraphic dbugVisualRoot
+        {
+            get
+            {
+                return this.Root;
+            }
+        }
+#endif 
     }
 #endif
 }

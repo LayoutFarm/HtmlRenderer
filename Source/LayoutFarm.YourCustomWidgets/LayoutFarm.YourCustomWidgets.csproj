@@ -37,8 +37,7 @@
     <Compile Include="1_UIElement\1_UIElement.cs" />
     <Compile Include="1_UIElement\2_UIElement_EventListener.cs" />
     <Compile Include="1_UIElement\3_UIBox.cs" />
-    <Compile Include="2_UIGroupManagement\0_LayerElement.cs" />
-    <Compile Include="2_UIGroupManagement\1_PlainLayerElement.cs" />
+    <Compile Include="1_UIElement\0_UICollection.cs" />
     <Compile Include="2_UIGroupManagement\2_GridLayer.cs" />
     <Compile Include="2_UIGroupManagement\3_GridTable.cs" />
     <Compile Include="2_UIGroupManagement\4_NineSpaceController.cs" />
@@ -72,7 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
-      <Project>{D90D5974-23FA-4230-8C3C-FAC25256EBE9}</Project>
+      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">

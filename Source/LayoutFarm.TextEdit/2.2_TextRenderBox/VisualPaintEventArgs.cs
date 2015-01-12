@@ -11,8 +11,8 @@ namespace LayoutFarm.Text
     public class VisualPaintEventArgs : EventArgs
     {
         public Canvas canvas;
-        public Rect updateArea;
-        public VisualPaintEventArgs(Canvas canvas, Rect updateArea)
+        public Rectangle updateArea;
+        public VisualPaintEventArgs(Canvas canvas, Rectangle updateArea)
         {   
             this.canvas = canvas;
             this.updateArea = updateArea;
@@ -24,7 +24,7 @@ namespace LayoutFarm.Text
                 return canvas;
             }
         }
-        public Rect UpdateArea
+        public Rectangle UpdateArea
         {
             get
             {

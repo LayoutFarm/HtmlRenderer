@@ -10,18 +10,18 @@ using LayoutFarm.InternalHtmlDom;
 using LayoutFarm.Composers;
 
 using PixelFarm.Drawing;
-using LayoutFarm.UI; 
+using LayoutFarm.UI;
 namespace LayoutFarm.CustomWidgets
 {
 
     public class LightHtmlBox : UIBox, IUserEventPortal
     {
         bool hasWaitingDocToLoad;
-        string waitingHtmlFragment;
-        HtmlDocument waitingHtmlDomFragment; 
+        string waitingHtmlString;
+        HtmlDocument waitingHtmlDomFragment;
         LightHtmlBoxHost lightBoxHost;
 
-     
+
         MyHtmlIsland myHtmlIsland;
         CssBox myCssBox;
 
@@ -156,7 +156,14 @@ namespace LayoutFarm.CustomWidgets
             }
             if (this.hasWaitingDocToLoad)
             {
-                LoadHtmlFragmentText(this.waitingHtmlFragment);
+                if (this.waitingHtmlDomFragment != null)
+                {
+                    LoadHtmlFragmentDom(this.waitingHtmlDomFragment);
+                }
+                else
+                {
+                    LoadHtmlFragmentText(this.waitingHtmlString);
+                }
             }
             return frgmRenderBox;
         }
@@ -165,7 +172,7 @@ namespace LayoutFarm.CustomWidgets
             if (frgmRenderBox == null)
             {
                 this.hasWaitingDocToLoad = true;
-                this.waitingHtmlFragment = htmlFragment;
+                this.waitingHtmlString = htmlFragment;
             }
             else
             {
@@ -174,14 +181,10 @@ namespace LayoutFarm.CustomWidgets
                 this.lightBoxHost.CreateHtmlFragment(htmlFragment, frgmRenderBox, out this.myHtmlIsland, out myCssBox);
                 this.frgmRenderBox.SetHtmlIsland(myHtmlIsland, myCssBox);
                 SetHtmlIslandEventHandlers();
-                this.waitingHtmlFragment = null;
-            }
-            //send fragment html to lightbox host 
-            //SetHtml(myHtmlIsland, html, myHtmlIsland.BaseStylesheet);
-            //if (this.myCssBoxWrapper != null)
-            //{
-            //    myCssBoxWrapper.InvalidateGraphic();
-            //}
+
+                this.waitingHtmlDomFragment = null;
+                this.waitingHtmlString = null;
+            } 
         }
         public void LoadHtmlFragmentDom(HtmlDocument htmldoc)
         {
@@ -189,20 +192,23 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.hasWaitingDocToLoad = true;
                 this.waitingHtmlDomFragment = htmldoc;
+                
             }
             else
             {
                 //just parse content and load 
                 this.lightBoxHost.CreateHtmlFragment(htmldoc, frgmRenderBox, out this.myHtmlIsland, out myCssBox);
-                
+
                 this.frgmRenderBox.SetHtmlIsland(myHtmlIsland, myCssBox);
-                SetHtmlIslandEventHandlers(); 
+                SetHtmlIslandEventHandlers();
+
                 this.waitingHtmlDomFragment = null;
+                this.waitingHtmlString = null;
             }
         }
         void SetHtmlIslandEventHandlers()
         {
-            myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphic(); 
+            myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphics();
             myHtmlIsland.DomRequestRebuild += (s, e) =>
             {
                 hasWaitingDocToLoad = true;
@@ -216,11 +222,10 @@ namespace LayoutFarm.CustomWidgets
                 myHtmlIsland.PerformLayout(lay);
                 this.lightBoxHost.ReleaseHtmlLayoutVisitor(lay);
             };
-        }
- 
+        } 
+        public override void InvalidateGraphics()
+        {   
 
-        public override void InvalidateGraphic()
-        {
             //if (this.myCssBoxWrapper != null)
             //{
             //    myCssBoxWrapper.InvalidateGraphic();

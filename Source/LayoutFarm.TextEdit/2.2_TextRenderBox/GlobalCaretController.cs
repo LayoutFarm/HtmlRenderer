@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using LayoutFarm.UI;
+using LayoutFarm.RenderBoxes;
+
 namespace LayoutFarm.Text
 {
 
@@ -27,7 +29,7 @@ namespace LayoutFarm.Text
                 return;
             }
             caretRegistered = true;
-            task = root.RequestGraphicsIntervalTask(
+            task = root.SubscribeGraphicsIntervalTask(
                 caretBlinkTask,
                 TaskIntervalPlan.CaretBlink,
                 300,
@@ -39,7 +41,7 @@ namespace LayoutFarm.Text
             {
                 currentTextBox.SwapCaretState();
                 //force render ?
-                currentTextBox.InvalidateGraphic();
+                currentTextBox.InvalidateGraphics();
                 e.NeedUpdate = 1;
             }
             else
