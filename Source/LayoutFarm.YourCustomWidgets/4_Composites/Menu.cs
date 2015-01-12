@@ -231,7 +231,7 @@ namespace LayoutFarm.CustomWidgets
                             this.floatPartRenderElement = this.floatPart.GetPrimaryRenderElement(primElement.Root) as CustomRenderBox;
                             topRenderBox.AddChild(floatPartRenderElement);
                             //temp here
-                            topRenderBox.InvalidateGraphics();
+                             
                         }
 
                     } break;

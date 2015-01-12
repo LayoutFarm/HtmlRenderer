@@ -33,6 +33,8 @@ namespace LayoutFarm.RenderBoxes
         {
             this.myviewportX = viewportX;
             this.myviewportY = viewportY;
+
+            this.InvalidateGraphics();
         }
         public override int ViewportX
         {

@@ -158,7 +158,7 @@ namespace LayoutFarm.CustomWidgets
             if (this.HasReadyRenderElement)
             {
                 primElement.SetViewport(viewportX, viewportY);
-                primElement.InvalidateGraphics();
+               
             }
         }
 

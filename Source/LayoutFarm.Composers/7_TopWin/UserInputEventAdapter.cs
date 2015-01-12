@@ -240,7 +240,7 @@ namespace LayoutFarm.UI
                 //1. origin object 
                 SetEventOrigin(e, hitPointChain);
                 //------------------------------
-                //portal
+                //portal                
                 ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
                 {
                     portal.PortalMouseDown(e);
@@ -255,7 +255,6 @@ namespace LayoutFarm.UI
                 //use events
                 if (!e.CancelBubbling)
                 {
-
                     ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                     {
                         listener.ListenMouseDown(e);
@@ -271,26 +270,30 @@ namespace LayoutFarm.UI
 
 #if DEBUG
             RootGraphic visualroot = this.dbugRootGraphic;
+
             if (visualroot.dbug_RecordHitChain)
             {
                 visualroot.dbug_rootHitChainMsg.Clear();
-                int i = 0;
-                //foreach (HitPoint hp in hitPointChain.dbugGetHitPairIter())
-                //{
+                 
 
-                //    RenderElement ve = hp.hitObject as RenderElement;
-                //    if (ve != null)
-                //    {
-                //        ve.dbug_WriteOwnerLayerInfo(visualroot, i);
-                //        ve.dbug_WriteOwnerLineInfo(visualroot, i);
+                HitInfo hitInfo;
+                for (int tt = hitPointChain.Count - 1; tt >= 0; --tt)
+                {
+                    hitInfo = hitPointChain.GetHitInfo(tt);
+                    RenderElement ve = hitInfo.hitElement;
+                    if (ve != null)
+                    {
+                        ve.dbug_WriteOwnerLayerInfo(visualroot, tt);
+                        ve.dbug_WriteOwnerLineInfo(visualroot, tt);
 
-                //        string hit_info = new string('.', i) + " [" + i + "] "
-                //            + "(" + hp.point.X + "," + hp.point.Y + ") "
-                //            + ve.dbug_FullElementDescription();
-                //        visualroot.dbug_rootHitChainMsg.AddLast(new dbugLayoutMsg(ve, hit_info));
-                //    }
-                //    i++;
-                //}
+                        string hit_info = new string('.', tt) + " [" + tt + "] "
+                            + "(" + hitInfo.point.X + "," + hitInfo.point.Y + ") "
+                            + ve.dbug_FullElementDescription();
+                        visualroot.dbug_rootHitChainMsg.AddLast(new dbugLayoutMsg(ve, hit_info));
+                    }
+                }
+
+               
             }
 #endif
 
@@ -301,10 +304,7 @@ namespace LayoutFarm.UI
             {
                 return;
             }
-            //if (hitElement.Focusable)
-            //{
-            //    this.CurrentKeyboardFocusedElement = hitElement.GetController() as IEventListener;
-            //}
+
 
             FlushAccumGraphicUpdate();
 

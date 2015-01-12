@@ -220,17 +220,13 @@ namespace LayoutFarm.CustomWidgets
             if (htmlRenderBox == null) return;
             //---------------------------
             UpdateWaitingHtmlDoc(this.htmlRenderBox.Root);
+            htmlRenderBox.InvalidateGraphics();
         }
         public void LoadHtmlText(string html)
         {
-            //myHtmlBox.LoadHtmlText(html);
-            //this.tim.Enabled = false;
-            SetHtml(myHtmlIsland, html, this.islandHost.BaseStylesheet);
-            //this.tim.Enabled = true;
-            if (this.htmlRenderBox != null)
-            {
-                htmlRenderBox.InvalidateGraphics();
-            }
+           
+            SetHtml(myHtmlIsland, html, this.islandHost.BaseStylesheet); 
+             
         }
         public override void InvalidateGraphics()
         {

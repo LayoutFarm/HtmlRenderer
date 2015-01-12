@@ -40,21 +40,22 @@ namespace LayoutFarm
             }
             this.rootGfx.InvalidateGraphicArea(parent, ref totalBounds); 
         }
-        static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect)
+
+        static void RootInvalidateGraphicArea(RenderElement re, ref Rectangle rect)
         {
             //1.
-            elem.propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
+            re.propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
             //2.  
-            elem.rootGfx.InvalidateGraphicArea(elem, ref rect);
+            re.rootGfx.InvalidateGraphicArea(re, ref rect);
         }
-        protected static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea)
+
+        public static void InvalidateGraphicLocalArea(RenderElement re, Rectangle localArea)
         {
             if (localArea.Height == 0 || localArea.Width == 0)
             {
                 return;
-            }
-
-            RootInvalidateGraphicArea(ve, ref localArea);
+            } 
+            RootInvalidateGraphicArea(re, ref localArea);
         }
 
         //TODO: review this again

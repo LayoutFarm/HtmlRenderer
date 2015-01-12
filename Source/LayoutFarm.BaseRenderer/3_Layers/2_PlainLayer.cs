@@ -13,10 +13,8 @@ namespace LayoutFarm.RenderBoxes
         public PlainLayer(RenderElement owner)
             : base(owner)
         {
-             
+
         }
-
-
         public override IEnumerable<RenderElement> GetRenderElementReverseIter()
         {
             LinkedListNode<RenderElement> cur = myElements.Last;
@@ -37,31 +35,34 @@ namespace LayoutFarm.RenderBoxes
         }
 
 
-        public void AddChild(RenderElement visualElement)
+        public void AddChild(RenderElement re)
         {
 
 #if DEBUG
-            if (visualElement.ParentLink != null)
+            if (re.ParentLink != null)
             {
 
             }
 #endif
 
-            LinkedListNode<RenderElement> linkNode = myElements.AddLast(visualElement);
-            RenderElement.SetParentLink(visualElement, new PlainLayerParentLink(this, linkNode));
+            LinkedListNode<RenderElement> linkNode = myElements.AddLast(re);
+            RenderElement.SetParentLink(re, new PlainLayerParentLink(this, linkNode));
             //position of new visual element 
+            re.InvalidateGraphics();
         }
-        public void RemoveChild(RenderElement visualElement)
+        public void RemoveChild(RenderElement re)
         {
-            myElements.Remove(visualElement);
-            RenderElement.SetParentLink(visualElement, null);
+            myElements.Remove(re);
 
+            var bounds = re.RectBounds;
+            RenderElement.SetParentLink(re, null);
+            RenderElement.InvalidateGraphicLocalArea(this.OwnerRenderElement, bounds);
         }
         public override void Clear()
         {
             //todo: clear all parent link 
             this.myElements.Clear();
-
+            this.OwnerRenderElement.InvalidateGraphics();
         }
         IEnumerable<RenderElement> GetDrawingIter()
         {
@@ -82,8 +83,8 @@ namespace LayoutFarm.RenderBoxes
                 curNode = curNode.Previous;
             }
 
-        } 
-        
+        }
+
         public override void DrawChildContent(Canvas canvasPage, Rectangle updateArea)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) != 0)
@@ -246,7 +247,7 @@ namespace LayoutFarm.RenderBoxes
             }
             return null;
         }
-         
+
         public bool MayHasOverlapChild
         {
             get
