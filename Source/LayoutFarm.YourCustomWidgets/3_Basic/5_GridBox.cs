@@ -45,8 +45,7 @@ namespace LayoutFarm.CustomWidgets
         public override void SetSize(int width, int height)
         {
             //readjust cellsize
-            base.SetSize(width, height);
-
+            base.SetSize(width, height); 
 
             //----------------------------------
             var cols = gridTable.Columns;

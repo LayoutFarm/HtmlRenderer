@@ -140,7 +140,14 @@ namespace LayoutFarm.UI
         {
             CurrentKeyboardFocusedElement = null;
         }
-
+        void DisableGraphicsTimer()
+        {
+            this.rootgfx.GfxTimerEnabled = false;
+        }
+        void EnableGraphicsTimer()
+        {
+            this.rootgfx.GfxTimerEnabled = true;
+        }
         static RenderElement HitTestOnPreviousChain(HitChain hitPointChain, HitChain previousChain, int x, int y)
         {
 
@@ -215,7 +222,7 @@ namespace LayoutFarm.UI
 
         protected void OnMouseDown(UIMouseEventArgs e)
         {
-
+            this.DisableGraphicsTimer();
 #if DEBUG
             if (this.dbugRootGraphic.dbugEnableGraphicInvalidateTrace)
             {
@@ -274,7 +281,7 @@ namespace LayoutFarm.UI
             if (visualroot.dbug_RecordHitChain)
             {
                 visualroot.dbug_rootHitChainMsg.Clear();
-                 
+
 
                 HitInfo hitInfo;
                 for (int tt = hitPointChain.Count - 1; tt >= 0; --tt)
@@ -293,21 +300,16 @@ namespace LayoutFarm.UI
                     }
                 }
 
-               
+
             }
 #endif
-
-
             SwapHitChain(hitPointChain);
 
+            this.EnableGraphicsTimer();
             if (local_msgVersion != msgChainVersion)
             {
                 return;
             }
-
-
-            FlushAccumGraphicUpdate();
-
 #if DEBUG
             visualroot.dbugHitTracker.Write("stop-mousedown");
             visualroot.dbugHitTracker.Play = false;
@@ -316,7 +318,7 @@ namespace LayoutFarm.UI
 
         protected void OnMouseMove(UIMouseEventArgs e)
         {
-
+           
             HitChain hitPointChain = GetFreeHitChain();
             HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
             //-------------------------------------------------------
@@ -366,6 +368,7 @@ namespace LayoutFarm.UI
 
             SwapHitChain(hitPointChain);
 
+            
         }
         protected void OnGotFocus(UIFocusEventArgs e)
         {
@@ -379,7 +382,7 @@ namespace LayoutFarm.UI
         protected void OnMouseUp(UIMouseEventArgs e)
         {
 
-
+            this.DisableGraphicsTimer();
             DateTime snapMouseUpTime = DateTime.Now;
             TimeSpan timediff = snapMouseUpTime - lastTimeMouseUp;
             bool isAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;
@@ -447,11 +450,10 @@ namespace LayoutFarm.UI
 
                 }
 
-                //---------------------------------------------------------------
 
-                FlushAccumGraphicUpdate();
             }
             SwapHitChain(hitPointChain);
+            this.EnableGraphicsTimer();
         }
         protected void OnKeyDown(UIKeyEventArgs e)
         {

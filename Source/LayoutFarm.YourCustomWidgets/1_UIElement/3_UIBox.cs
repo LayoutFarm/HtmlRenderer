@@ -32,7 +32,7 @@ namespace LayoutFarm.UI
             this._top = top;
 
             if (this.HasReadyRenderElement)
-            {   
+            {
                 this.CurrentPrimaryRenderElement.SetLocation(left, top);
             }
         }
@@ -48,17 +48,9 @@ namespace LayoutFarm.UI
         }
         public void SetBounds(int left, int top, int width, int height)
         {
-            this._left = left;
-            this._top = top;
-            this._width = width;
-            this._height = height;
-
-            if (this.HasReadyRenderElement)
-            {
-                this.CurrentPrimaryRenderElement.SetBounds(left, top, width, height);
-            }
+            SetLocation(left, top);
+            SetSize(width,height);             
         }
-
         protected abstract RenderElement CurrentPrimaryRenderElement
         {
             get;

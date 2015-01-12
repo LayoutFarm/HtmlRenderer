@@ -22,15 +22,22 @@ namespace LayoutFarm.UI
             this.latestLogicalMouseDownY = e.Y;
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
+         
+            //auto pause?
+           
             this.OnMouseDown(e);
-        }
+          
+
+        }        
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
 
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
 
+            
             this.OnMouseUp(e);
+             
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
@@ -45,13 +52,15 @@ namespace LayoutFarm.UI
 
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
+
+             
             this.OnMouseMove(e);
+          
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
             this.OnMouseWheel(e);
         }
-
         //------------------------------------------------------------
         void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
@@ -72,11 +81,15 @@ namespace LayoutFarm.UI
         //------------------------------------------------------------
         void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
+           
             this.OnGotFocus(e);
+             
         }
         void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
+            
             this.OnLostFocus(e);
+            
         }
 
     }
