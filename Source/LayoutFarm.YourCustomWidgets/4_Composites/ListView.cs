@@ -55,7 +55,8 @@ namespace LayoutFarm.CustomWidgets
             if (primElement == null)
             {
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                RenderElement.DirectSetVisualElementLocation(renderE, this.Left, this.Top);
+                 
+                renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
                 renderE.HasSpecificSize = true;
@@ -67,7 +68,7 @@ namespace LayoutFarm.CustomWidgets
                 for (int m = 0; m < layerCount; ++m)
                 {
                     UICollection plain = (UICollection)this.layers[m];
-                    var groundLayer = new VisualPlainLayer(renderE);
+                    var groundLayer = new PlainLayer(renderE);
                     renderE.Layers.AddLayer(groundLayer);
                     renderE.SetViewport(this.viewportX, this.viewportY);
                     //---------------------------------

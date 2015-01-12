@@ -9,10 +9,13 @@ namespace LayoutFarm
 {
     public abstract partial class RootGraphic
     {
+
         public delegate void PaintToOutputDelegate();
 
+        protected PaintToOutputDelegate paintToOutputHandler;
+        CanvasPaintToOutputDelegate canvasPaintToOutput;
 
-        Rectangle flushRect;
+        int accumRectVer;
         Rectangle accumulateInvalidRect;
         bool hasAccumRect;
 
@@ -32,23 +35,14 @@ namespace LayoutFarm
 
         public abstract void AddToLayoutQueue(RenderElement renderElement);
 
-        public int GraphicUpdateBlockCount
-        {
-            get;
-            set;
-        }
+
+        public abstract bool GfxTimerEnabled { get; set; }
         internal int Width
         {
             get;
             set;
         }
         internal int Height
-        {
-            get;
-            set;
-        }
-
-        public bool DisableGraphicOutputFlush
         {
             get;
             set;
@@ -65,32 +59,17 @@ namespace LayoutFarm
             set;
         }
         public abstract void CloseWinRoot();
-        public void BeginGraphicUpdate()
-        {
-            GraphicUpdateBlockCount++;
-            DisableGraphicOutputFlush = true;
-        }
-        public void EndGraphicUpdate()
-        {
-            GraphicUpdateBlockCount--;
-            if (GraphicUpdateBlockCount <= 0)
-            {
-                DisableGraphicOutputFlush = false;
-                FlushAccumGraphicUpdate();
-                GraphicUpdateBlockCount = 0;
-            }
-        }
+
 
         public abstract void ForcePaint();
-        protected PaintToOutputDelegate paintToOutputHandler;
-        CanvasInvalidateRequestDelegate canvasInvaliddateReqDel;
+
 
         public void SetPaintToOutputHandler(PaintToOutputDelegate paintToOutputHandler)
         {
             this.paintToOutputHandler = paintToOutputHandler;
         }
 
-        public abstract GraphicsTimerTask RequestGraphicsIntervalTask(
+        public abstract GraphicsTimerTask SubscribeGraphicsIntervalTask(
             object uniqueName,
             TaskIntervalPlan planName,
             int intervalMs,
@@ -100,10 +79,7 @@ namespace LayoutFarm
 
 
 #if DEBUG
-        RootGraphic dbugVRoot
-        {
-            get { return this; }
-        }
+
         bool dbugNeedContentArrangement
         {
             get;
@@ -116,115 +92,92 @@ namespace LayoutFarm
         }
 #endif
         public abstract void PrepareRender();
-        public void FlushAccumGraphicUpdate()
+
+
+        public void FlushAccumGraphics()
         {
-            if (hasAccumRect)
+            if (!this.hasAccumRect)
             {
-                this.FlushGrapchics(accumulateInvalidRect);
-
-                hasAccumRect = false;
+                return;
             }
-            this.GraphicUpdateBlockCount = 0;
+
+            this.canvasPaintToOutput(accumulateInvalidRect);
+            this.accumRectVer = 0;
+            hasAccumRect = false;
+        }
+        public void SetCanvasPaintToOutputDel(CanvasPaintToOutputDelegate canvasPaintToOutput)
+        {
+            this.canvasPaintToOutput = canvasPaintToOutput;
         }
 
-        public void SetCanvasInvalidateRequest(CanvasInvalidateRequestDelegate canvasInvaliddateReqDel)
+#if DEBUG
+        void dbugWriteStopGfxBubbleUp(RenderElement fromElement, ref int dbug_ncount, int nleftOnStack, string state_str)
         {
-            this.canvasInvaliddateReqDel = canvasInvaliddateReqDel;
-
+            RootGraphic dbugMyroot = this;
+            if (dbugMyroot.dbugEnableGraphicInvalidateTrace && dbugMyroot.dbugGraphicInvalidateTracer != null)
+            {
+                if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
+                {
+                    state_str = "!!" + state_str;
+                }
+                dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement);
+                while (dbug_ncount > nleftOnStack)
+                {
+                    dbugMyroot.dbugGraphicInvalidateTracer.PopElement();
+                    dbug_ncount--;
+                }
+            }
         }
-        void FlushGrapchics(Rectangle rect)
+#endif
+        public int RootWidth
         {
-            this.canvasInvaliddateReqDel(ref rect);
+            get { return this.TopWindowRenderBox.Width; }
+        }
+        public int RootHeight
+        {
+            get { return this.TopWindowRenderBox.Height; }
         }
 
-        public void InvalidateGraphicArea(RenderElement fromElement,ref Rectangle elementClientRect)
-        {
-            if (this.IsInRenderPhase) { return; }             
-            //--------------------------------------
 
+        
+        public void InvalidateGraphicArea(RenderElement fromElement, ref Rectangle elemClientRect)
+        {
+            //total bounds = total bounds at level
+
+            if (this.IsInRenderPhase) { return; }
+            //--------------------------------------            
+            //bubble up ,find global rect coord
+            //and then merge to accumulate rect
             int globalX = 0;
             int globalY = 0;
             bool isBubbleUp = false;
 
-            RenderElement startVisualElement = fromElement;
 #if DEBUG
-
-            RootGraphic dbugMyroot = this.dbugVRoot;
-            if (dbugMyroot.dbugEnableGraphicInvalidateTrace && dbugMyroot.dbugGraphicInvalidateTracer != null)
-            {
-
-                dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(">> :" + elementClientRect.ToString(),
-                    startVisualElement);
-            }
             int dbug_ncount = 0;
-
+            dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, dbug_ncount, ">> :" + elemClientRect.ToString());
 #endif
-
-
             do
             {
-#if DEBUG
 
                 if (!fromElement.Visible)
                 {
-
-                    if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                        dbugMyroot.dbugGraphicInvalidateTracer != null)
-                    {
-
-                        string state_str = "EARLY-RET: ";
-                        if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
-                        {
-                            state_str = "!!" + state_str;
-                        }
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement);
-                        while (dbug_ncount > 0)
-                        {
-                            dbugMyroot.dbugGraphicInvalidateTracer.PopElement();
-                            dbug_ncount--;
-                        }
-                    }
-                    return;
-                }
-                else if (fromElement.IsInvalidateGraphicBlocked)
-                {
-                    if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                            dbugMyroot.dbugGraphicInvalidateTracer != null)
-                    {
-                        string state_str = "BLOCKED2: ";
-                        if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
-                        {
-                            state_str = "!!" + state_str;
-                        }
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement); while (dbug_ncount > 0)
-                        {
-                            dbugMyroot.dbugGraphicInvalidateTracer.PopElement();
-                            dbug_ncount--;
-                        }
-                    }
-                    return;
-                }
-#else 
-                if (!fromElement.Visible || fromElement.IsInvalidateGraphicBlocked)
-                {
-                    return;
-                }
+#if DEBUG
+                    dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, 0, "EARLY-RET: ");
 #endif
+                    return;
+                }
+                else if (fromElement.BlockGraphicUpdateBubble)
+                {
+#if DEBUG
+                    dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, 0, "BLOCKED2: ");
+#endif
+                    return;
+                }
+                //--------------------------------------------------------------------- 
 
 
 #if DEBUG
-                if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                    dbugMyroot.dbugGraphicInvalidateTracer != null)
-                {
-                    dbug_ncount++;
-                    dbugMyroot.dbugGraphicInvalidateTracer.PushVisualElement(fromElement);
-                    string state_str = ">> ";
-                    if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
-                    {
-                        state_str = "!!" + state_str;
-                    }
-                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement);
-                }
+                dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, dbug_ncount, ">> ");
 #endif
 
 
@@ -234,14 +187,14 @@ namespace LayoutFarm
 
                 if (fromElement.MayHasViewport && isBubbleUp)
                 {
-                    elementClientRect.Offset(globalX, globalY);
+                    elemClientRect.Offset(globalX, globalY);
                     if (fromElement.HasDoubleScrollableSurface)
                     {
                         //container.VisualScrollableSurface.WindowRootNotifyInvalidArea(elementClientRect);
                     }
                     Rectangle elementRect = fromElement.RectBounds;
                     elementRect.Offset(fromElement.ViewportX, fromElement.ViewportY);
-                    elementClientRect.Intersect(elementRect);
+                    elemClientRect.Intersect(elementRect);
                     globalX = -fromElement.ViewportX;
                     globalY = -fromElement.ViewportY;
                 }
@@ -257,20 +210,7 @@ namespace LayoutFarm
 #if DEBUG
                     if (fromElement.dbugParentVisualElement == null)
                     {
-                        if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                            dbugMyroot.dbugGraphicInvalidateTracer != null)
-                        {
-                            string state_str = "BLOCKED3: ";
-                            if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
-                            {
-                                state_str = "!!" + state_str;
-                            }
-                            dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str, fromElement); while (dbug_ncount > 0)
-                            {
-                                dbugMyroot.dbugGraphicInvalidateTracer.PopElement();
-                                dbug_ncount--;
-                            }
-                        }
+                        dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, 0, "BLOCKED3: ");
                     }
 #endif
 
@@ -286,6 +226,7 @@ namespace LayoutFarm
             } while (true);
 
 #if DEBUG
+            var dbugMyroot = this;
             if (dbugMyroot.dbugEnableGraphicInvalidateTrace
              && dbugMyroot.dbugGraphicInvalidateTracer != null)
             {
@@ -298,14 +239,14 @@ namespace LayoutFarm
 #endif
 
             //----------------------------------------
-            elementClientRect.Offset(globalX, globalY);
-            Rectangle rootGlobalArea = elementClientRect;
+            elemClientRect.Offset(globalX, globalY);
 
 
-            if (elementClientRect.Top > this.Height
-                || elementClientRect.Left > this.Width
-                || elementClientRect.Bottom < 0
-                || elementClientRect.Right < 0)
+
+            if (elemClientRect.Top > this.Height
+                || elemClientRect.Left > this.Width
+                || elemClientRect.Bottom < 0
+                || elemClientRect.Right < 0)
             {
 #if DEBUG
                 if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
@@ -317,88 +258,34 @@ namespace LayoutFarm
 #endif
                 return;
             }
-
-
-
-            if (!this.DisableGraphicOutputFlush)
+            //--------------------------------------------------------------------------------------------------
+            if (!hasAccumRect)
             {
-                if (hasAccumRect)
-                {
-
-                    accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, rootGlobalArea);
-#if DEBUG
-                    if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                        dbugMyroot.dbugGraphicInvalidateTracer != null)
-                    {
-                        string state_str = "SUDDEN_1: ";
-                        if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
-                        {
-                            state_str = "!!" + state_str;
-                        }
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str + accumulateInvalidRect);
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
-                    }
-#endif
-
-
-
-                    this.FlushGrapchics(rootGlobalArea);
-                    this.flushRect = accumulateInvalidRect;
-
-
-                    hasAccumRect = false;
-                }
-                else
-                {
-
-                    this.FlushGrapchics(rootGlobalArea);
-
-
-#if DEBUG
-                    if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                    dbugMyroot.dbugGraphicInvalidateTracer != null)
-                    {
-
-                        string state_str = "SUDDEN_2: ";
-                        if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
-                        {
-                            state_str = "!!" + state_str;
-                        }
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo(state_str +
-                               rootGlobalArea.ToString() + " " +
-                               startVisualElement.dbug_FullElementDescription());
-                        dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
-                    }
-#endif
-                }
+                accumulateInvalidRect = elemClientRect;
+                hasAccumRect = true;
             }
             else
             {
-                if (!hasAccumRect)
-                {
-                    accumulateInvalidRect = rootGlobalArea;
-                    hasAccumRect = true;
-                }
-                else
-                {
-                    accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, rootGlobalArea);
-                }
-
-
-#if DEBUG
-                if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                    dbugMyroot.dbugGraphicInvalidateTracer != null)
-                {
-                    string state_str = "ACC: ";
-                    if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
-                    {
-                        state_str = "!!" + state_str;
-                    }
-                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("ACC: " + accumulateInvalidRect.ToString());
-                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
-                }
-#endif
+                accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, elemClientRect);
             }
+
+            //----------------------
+            accumRectVer++;
+            //----------------------
+#if DEBUG
+            if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
+                dbugMyroot.dbugGraphicInvalidateTracer != null)
+            {
+                string state_str = "ACC: ";
+                if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
+                {
+                    state_str = "!!" + state_str;
+                }
+                dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("ACC: " + accumulateInvalidRect.ToString());
+                dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
+            }
+#endif
+
         }
 
         public abstract TopWindowRenderBox TopWindowRenderBox

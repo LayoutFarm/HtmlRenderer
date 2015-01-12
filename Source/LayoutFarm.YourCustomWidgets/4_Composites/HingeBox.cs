@@ -54,14 +54,15 @@ namespace LayoutFarm.CustomWidgets
             if (primElement == null)
             {
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                RenderElement.DirectSetVisualElementLocation(renderE, this.Left, this.Top);
+           
+                this.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
                 renderE.HasSpecificSize = true;
                 //------------------------------------------------
                 //create visual layer
                 var layers = new VisualLayerCollection();
-                var layer0 = new VisualPlainLayer(renderE);
+                var layer0 = new PlainLayer(renderE);
                 layers.AddLayer(layer0);
                 renderE.Layers = layers;
 
@@ -148,7 +149,7 @@ namespace LayoutFarm.CustomWidgets
                     if (primElement != null)
                     {
                         //add 
-                        var visualPlainLayer = primElement.Layers.GetLayer(0) as VisualPlainLayer;
+                        var visualPlainLayer = primElement.Layers.GetLayer(0) as PlainLayer;
                         if (visualPlainLayer != null)
                         {
                             visualPlainLayer.AddChild(value.GetPrimaryRenderElement(primElement.Root));
@@ -238,10 +239,10 @@ namespace LayoutFarm.CustomWidgets
                         if (floatPartRenderElement != null)
                         {
                             //temp
-                            var parentContainer = floatPartRenderElement.ParentRenderElement as RenderBoxes.RenderBoxBase;
+                            var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
                             if (parentContainer.Layers != null)
                             {
-                                VisualPlainLayer plainLayer = (VisualPlainLayer)parentContainer.Layers.GetLayer(0);
+                                PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
                                 plainLayer.RemoveChild(floatPartRenderElement);
 
                             }

@@ -50,15 +50,17 @@ namespace LayoutFarm
             //1. mouse down         
             box.MouseDown += (s, e) =>
             {
-                box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
-                box.InvalidateGraphic();
+                box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue); 
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
 
                 //--------------------------------------------
                 //move controller here
-                controllerBox1.SetLocation(box.Left - 5, box.Top - 5);
-                controllerBox1.SetSize(box.Width + 10, box.Height + 10);
+               
+                controllerBox1.SetBounds(box.Left - 5, box.Top - 5,
+                                         box.Width + 10, box.Height + 10);
                 controllerBox1.Visible = true;
+                 
+
                 controllerBox1.TargetBox = box;
                 //--------------------------------------------
             };
@@ -67,10 +69,7 @@ namespace LayoutFarm
             box.MouseUp += (s, e) =>
             {
                 e.MouseCursorStyle = MouseCursorStyle.Default;
-                box.BackColor = Color.LightGray;
-                box.InvalidateGraphic();
-
-                //hide controller
+                box.BackColor = Color.LightGray; 
                 controllerBox1.Visible = false;
                 controllerBox1.TargetBox = null;
             };

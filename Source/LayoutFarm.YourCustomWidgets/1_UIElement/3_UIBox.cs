@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
- 
+
 
 namespace LayoutFarm.UI
 {
@@ -25,6 +25,7 @@ namespace LayoutFarm.UI
             this._width = width;
             this._height = height;
         }
+
         public void SetLocation(int left, int top)
         {
             this._left = left;
@@ -32,8 +33,7 @@ namespace LayoutFarm.UI
 
             if (this.HasReadyRenderElement)
             {
-                var renderE = this.CurrentPrimaryRenderElement;
-                renderE.SetLocation(left, top);
+                this.CurrentPrimaryRenderElement.SetLocation(left, top);
             }
         }
         public virtual void SetSize(int width, int height)
@@ -43,33 +43,14 @@ namespace LayoutFarm.UI
 
             if (this.HasReadyRenderElement)
             {
-                RenderElement.DirectSetVisualElementSize(
-                   this.CurrentPrimaryRenderElement,
-                   _width,
-                   _height);
+                this.CurrentPrimaryRenderElement.SetSize(_width, _height);
             }
         }
-        public void SetBound(int left, int top, int width, int height)
+        public void SetBounds(int left, int top, int width, int height)
         {
-            this._left = left;
-            this._top = top;
-            this._width = width;
-            this._height = height;
-
-            if (this.HasReadyRenderElement)
-            {
-                RenderElement.DirectSetVisualElementLocation(
-                    this.CurrentPrimaryRenderElement,
-                    _left,
-                    _top);
-
-                RenderElement.DirectSetVisualElementSize(
-                    this.CurrentPrimaryRenderElement,
-                    _width,
-                    _height);
-            }
+            SetLocation(left, top);
+            SetSize(width,height);             
         }
-
         protected abstract RenderElement CurrentPrimaryRenderElement
         {
             get;
@@ -78,9 +59,6 @@ namespace LayoutFarm.UI
         {
             get;
         }
-
-
-
         public int Left
         {
             get
@@ -153,7 +131,7 @@ namespace LayoutFarm.UI
             }
         }
 
-        public override void InvalidateGraphic()
+        public override void InvalidateGraphics()
         {
             if (this.HasReadyRenderElement)
             {
@@ -200,9 +178,9 @@ namespace LayoutFarm.UI
 
 
         //-----------------------------------
-        
+
         internal static RenderElement GetCurrentPrimaryRenderElement(UIBox box)
-        {   
+        {
             return box.CurrentPrimaryRenderElement;
         }
     }

@@ -30,6 +30,11 @@ namespace LayoutFarm.UI
             uiTimer1.Enabled = true;
             //--------------------------------------
         }
+        public bool Enabled
+        {
+            get { return this.uiTimer1.Enabled; }
+            set { this.uiTimer1.Enabled = value; }
+        }
         public void CloseAllWorkers()
         {
             this.uiTimer1.Enabled = false;
@@ -95,7 +100,7 @@ namespace LayoutFarm.UI
 
         void graphicTimer1_Tick(object sender, EventArgs e)
         {
-            
+
             //-------------------------------------------------
             tickAccum += fastPlanInterval;
             bool doCaretPlan = false;
@@ -148,7 +153,7 @@ namespace LayoutFarm.UI
             }
             if (needUpdate > 0)
             {
-                this.rootgfx.ForcePaint();                 
+                this.rootgfx.ForcePaint();
             }
 
         }

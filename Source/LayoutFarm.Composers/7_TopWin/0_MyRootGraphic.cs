@@ -9,7 +9,7 @@ namespace LayoutFarm.UI
 {
 
 
-    public class MyRootGraphic : RootGraphic
+    public sealed class MyRootGraphic : RootGraphic
     {
         List<RenderElement> layoutQueue = new List<RenderElement>();
         List<RenderElement> layoutQueue2 = new List<RenderElement>();
@@ -38,15 +38,26 @@ namespace LayoutFarm.UI
             //create default  render box
             this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
             this.userInputEventAdapter = CreateUserEventPortal();
-            this.RequestGraphicsIntervalTask(normalUpdateTask,
+            this.SubscribeGraphicsIntervalTask(normalUpdateTask,
                 TaskIntervalPlan.Animation,
                 20,
                 (s, e) =>
                 {
-                    topWindowRenderBox.InvalidateGraphics();
+                    this.FlushAccumGraphics();
                 });
         }
-
+        public override bool GfxTimerEnabled
+        {
+            get
+            {
+                return this.graphicTimerTaskMan.Enabled;
+            }
+            set
+            {
+                this.graphicTimerTaskMan.Enabled = value;
+            }
+        }
+         
         public IUserEventPortal UserInputEventAdapter
         {
             get { return this.userInputEventAdapter; }
@@ -83,9 +94,8 @@ namespace LayoutFarm.UI
 
         UserInputEventAdapter CreateUserEventPortal()
         {
-            UserInputEventAdapter userInputEventBridge = new UserInputEventAdapter();
-            userInputEventBridge.Bind(this.TopWindowRenderBox);
-            return userInputEventBridge;
+            return new UI.UserInputEventAdapter(this);
+
         }
         public override GraphicsPlatform P
         {
@@ -132,7 +142,7 @@ namespace LayoutFarm.UI
         }
 
         //-------------------------------------------------------------------------------
-        public override GraphicsTimerTask RequestGraphicsIntervalTask(
+        public override GraphicsTimerTask SubscribeGraphicsIntervalTask(
             object uniqueName,
             TaskIntervalPlan planName,
             int intervalMs,
@@ -174,8 +184,7 @@ namespace LayoutFarm.UI
                         } break;
                     case RequestCommand.InvalidateArea:
                         {
-                            Rectangle r = (Rectangle)req.parameters;
-
+                            Rectangle r = (Rectangle)req.parameters; 
                             this.InvalidateGraphicArea(req.ve, ref r);
                         } break;
 
@@ -271,7 +280,7 @@ namespace LayoutFarm.UI
 
 #endif
 
-            if (veContainerBase.IsLayoutSuspending)
+            if (RenderElement.IsLayoutSuspending((RenderBoxBase)veContainerBase))
             {
 #if DEBUG
                 dbug_WriteInfo(debugVisualLay, dbugVisitorMessage.E_RECAL_BUB_EARLY_EXIT, veContainerBase);
@@ -304,9 +313,9 @@ namespace LayoutFarm.UI
             else
             {
 
-                RenderBoxBase ownerContainer = veContainerBase.ParentRenderElement as RenderBoxBase;
+                var ownerContainer = veContainerBase.ParentRenderElement as RenderBoxBase;
 
-                if (ownerContainer != null && !ownerContainer.IsLayoutSuspending)
+                if (ownerContainer != null && !RenderBoxBase.IsLayoutSuspending(ownerContainer))
                 {
 
                     if (ownerContainer.HasParent)
@@ -348,7 +357,7 @@ namespace LayoutFarm.UI
                     {
                         dbug_WriteInfo(debugVisualLay, dbugVisitorMessage.NO_OWNER_LAY, null);
                     }
-                    else if (ownerContainer.IsLayoutSuspending)
+                    else if (RenderElement.IsLayoutSuspending(ownerContainer))
                     {
                         dbug_WriteInfo(debugVisualLay, dbugVisitorMessage.OWNER_LAYER_SUSPEND_SO_EARLY_EXIT, null);
                     }

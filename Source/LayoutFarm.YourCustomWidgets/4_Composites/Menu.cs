@@ -21,7 +21,7 @@ namespace LayoutFarm.CustomWidgets
 
         //2. float part   
         MenuBox floatPart;
-        RenderElement floatPartRenderElement;
+        CustomRenderBox floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
 
         List<MenuItem> childItems;
@@ -56,15 +56,16 @@ namespace LayoutFarm.CustomWidgets
         {
             if (primElement == null)
             {
-                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                RenderElement.DirectSetVisualElementLocation(renderE, this.Left, this.Top);
-                renderE.BackColor = backColor;
-                renderE.SetController(this);
+                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height); 
+                renderE.SetLocation(this.Left, this.Top);
+                renderE.BackColor = backColor;                
                 renderE.HasSpecificSize = true;
+
+                renderE.SetController(this);
                 //------------------------------------------------
                 //create visual layer
                 var layers = new VisualLayerCollection();
-                var layer0 = new VisualPlainLayer(renderE);
+                var layer0 = new PlainLayer(renderE);
                 layers.AddLayer(layer0);
                 renderE.Layers = layers;
 
@@ -169,7 +170,7 @@ namespace LayoutFarm.CustomWidgets
                     if (primElement != null)
                     {
                         //add 
-                        var visualPlainLayer = primElement.Layers.GetLayer(0) as VisualPlainLayer;
+                        var visualPlainLayer = primElement.Layers.GetLayer(0) as PlainLayer;
                         if (visualPlainLayer != null)
                         {
                             visualPlainLayer.AddChild(value.GetPrimaryRenderElement(primElement.Root));
@@ -227,8 +228,10 @@ namespace LayoutFarm.CustomWidgets
                         {
                             Point globalLocation = primElement.GetGlobalLocation();
                             floatPart.SetLocation(globalLocation.X, globalLocation.Y + primElement.Height);
-                            this.floatPartRenderElement = this.floatPart.GetPrimaryRenderElement(primElement.Root);
+                            this.floatPartRenderElement = this.floatPart.GetPrimaryRenderElement(primElement.Root) as CustomRenderBox;
                             topRenderBox.AddChild(floatPartRenderElement);
+                            //temp here
+                             
                         }
 
                     } break;
@@ -253,16 +256,16 @@ namespace LayoutFarm.CustomWidgets
                     } break;
                 case HingeFloatPartStyle.Popup:
                     {
-                        if (floatPartRenderElement != null)
-                        {
-                            //temp
-                            var parentContainer = floatPartRenderElement.ParentRenderElement as RenderBoxes.RenderBoxBase;
-                            if (parentContainer.Layers != null)
-                            {
-                                VisualPlainLayer plainLayer = (VisualPlainLayer)parentContainer.Layers.GetLayer(0);
-                                plainLayer.RemoveChild(floatPartRenderElement);
 
+
+                        var topRenderBox = primElement.GetTopWindowRenderBox();
+                        if (topRenderBox != null)
+                        {
+                            if (this.floatPartRenderElement != null)
+                            {
+                                topRenderBox.Layer0.RemoveChild(floatPartRenderElement);
                             }
+
                         }
 
                     } break;
@@ -310,7 +313,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.topWindow = rootgfx.TopWindowRenderBox;
                 if (topWindow != null)
-                {   
+                {
                     topWindow.AddChild(this.myRenderE = this.GetPrimaryRenderElement(topWindow.Root));
                 }
                 showing = true;
@@ -324,7 +327,7 @@ namespace LayoutFarm.CustomWidgets
                 showing = false;
                 if (this.topWindow != null && this.myRenderE != null)
                 {
-                    var plainLayer = topWindow.Layers.GetLayer(0) as VisualPlainLayer;
+                    var plainLayer = topWindow.Layer0;
                     plainLayer.RemoveChild(this.myRenderE);
                 }
             }

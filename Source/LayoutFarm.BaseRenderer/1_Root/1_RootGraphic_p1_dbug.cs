@@ -11,22 +11,25 @@ namespace LayoutFarm
 {
 #if DEBUG
     partial class RootGraphic
-    {   
+    {
 
-        public bool dbug_ShowRootUpdateArea = false;
-        public bool dbug_ShowNativeScrollableElementUpdateArea = false;
-        public bool dbug_ShowNativeScrollableElementDrawToThisPage = false;
-        public bool dbug_ShowElementOutline = false;
-        public bool dbug_ShowObjectIden = false;
-        public bool dbug_ForceShowObjectIden = false; public bool dbug_RecordHitChain = false; public bool dbug_RecordDrawingChain = false;
-        public bool dbugEnableGraphicInvalidateTrace = false;
-        public bool dbug_StartTestMode = false;
-        public bool dbugEnableLayoutProfiler = false;
+        public bool dbug_ShowRootUpdateArea;
+        public bool dbug_ShowNativeScrollableElementUpdateArea;
+        public bool dbug_ShowNativeScrollableElementDrawToThisPage;
+        public bool dbug_ShowElementOutline;
+        public bool dbug_ShowObjectIden;
+        public bool dbug_ForceShowObjectIden;
+        public bool dbug_RecordHitChain;
+        public bool dbug_RecordDrawingChain;
+        public bool dbugEnableGraphicInvalidateTrace;
+        public bool dbug_StartTestMode;
+        public bool dbugEnableLayoutProfiler;
         public System.IO.StreamWriter dbugLayoutProfilerWriter;
         public bool dbugEventIsDragging;
 
 
-        public int dbug_RootUpdateCounter = 0; public int dbug_drawLevel = 0;
+        public int dbug_RootUpdateCounter;
+        public int dbug_drawLevel;
         public LinkedList<dbugLayoutMsg> dbug_rootHitChainMsg = new LinkedList<dbugLayoutMsg>();
         public LinkedList<dbugLayoutMsg> dbug_rootDrawingMsg = new LinkedList<dbugLayoutMsg>();
         public dbugHitTestTracker dbugHitTracker;
@@ -35,21 +38,25 @@ namespace LayoutFarm
         public dbugVisualEvalScrollBarTrace dbugEvalScrollBarTracer;
         public void dbug_DisableAllDebugInfo()
         {
-            dbug_ShowRootUpdateArea = false;
-            dbug_ShowNativeScrollableElementUpdateArea = false;
-            dbug_ShowNativeScrollableElementDrawToThisPage = false;
-            dbug_ShowElementOutline = false;
-            dbug_ShowObjectIden = false;
-            dbug_ForceShowObjectIden = false; dbug_RecordHitChain = false; dbug_RecordDrawingChain = false;
+            dbug_ShowRootUpdateArea =
+            dbug_ShowNativeScrollableElementUpdateArea =
+            dbug_ShowNativeScrollableElementDrawToThisPage =
+            dbug_ShowElementOutline =
+            dbug_ShowObjectIden =
+            dbug_ForceShowObjectIden =
+            dbug_RecordHitChain =
+            dbug_RecordDrawingChain = false;
         }
         public void dbug_EnableAllDebugInfo()
         {
-            dbug_ShowRootUpdateArea = true;
-            dbug_ShowNativeScrollableElementUpdateArea = true;
-            dbug_ShowNativeScrollableElementDrawToThisPage = true;
-            dbug_ShowElementOutline = true;
-            dbug_ShowObjectIden = true;
-            dbug_ForceShowObjectIden = true; dbug_RecordHitChain = true; dbug_RecordDrawingChain = true;
+            dbug_ShowRootUpdateArea =
+            dbug_ShowNativeScrollableElementUpdateArea =
+            dbug_ShowNativeScrollableElementDrawToThisPage =
+            dbug_ShowElementOutline =
+            dbug_ShowObjectIden =
+            dbug_ForceShowObjectIden =
+            dbug_RecordHitChain =
+            dbug_RecordDrawingChain = true;
         }
         public void dbug_Init()
         {
@@ -143,7 +150,7 @@ namespace LayoutFarm
 
         }
 
-        public void dbug_AddDrawLayer(ElementLayerBase layer)
+        public void dbug_AddDrawLayer(RenderElementLayer layer)
         {
 
             dbug_rootDrawingMsg.AddLast(new dbugLayoutMsg(layer,
@@ -293,7 +300,7 @@ namespace LayoutFarm
         public int dbugNotNeedArrCountEpisode = 0;
 
 
-        public void dbug_PushLayoutTraceMessage(dbugVisualRootMsg msg, ElementLayerBase layer)
+        public void dbug_PushLayoutTraceMessage(dbugVisualRootMsg msg, RenderElementLayer layer)
         {
             if (dbugLastestDebugVisualLay != null)
             {
@@ -339,7 +346,7 @@ namespace LayoutFarm
         {
             return null;
         }
-        public static RootGraphic dbugCurrentGlobalVRoot; 
+        public static RootGraphic dbugCurrentGlobalVRoot;
     }
 #endif
 }

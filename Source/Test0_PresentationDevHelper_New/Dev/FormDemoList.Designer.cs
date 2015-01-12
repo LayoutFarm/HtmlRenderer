@@ -33,6 +33,7 @@
             this.chkShowLayoutInspector.TabIndex = 5;
             this.chkShowLayoutInspector.Text = "Also show LayoutInspector";
             this.chkShowLayoutInspector.UseVisualStyleBackColor = true;
+            this.chkShowLayoutInspector.CheckedChanged += new System.EventHandler(this.chkShowLayoutInspector_CheckedChanged);
             // 
             // lstHtmlTestFiles
             // 

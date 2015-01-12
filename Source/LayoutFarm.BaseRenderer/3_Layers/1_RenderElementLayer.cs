@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LayoutFarm.RenderBoxes
 {
-    public abstract class ElementLayerBase
+    public abstract class RenderElementLayer
     {
 
 #if DEBUG
@@ -30,12 +30,12 @@ namespace LayoutFarm.RenderBoxes
 
         protected const int FLOWLAYER_HAS_MULTILINE = 1 << (25 - 1);
 
-
         RenderElement owner;
 
         int postCalculateContentWidth;
         int postCalculateContentHeight;
-        public ElementLayerBase(RenderElement owner)
+
+        public RenderElementLayer(RenderElement owner)
         {
             this.owner = owner;
 #if DEBUG
@@ -164,7 +164,6 @@ namespace LayoutFarm.RenderBoxes
         public abstract IEnumerable<RenderElement> GetRenderElementIter();
         public abstract IEnumerable<RenderElement> GetRenderElementReverseIter();
         public abstract void DrawChildContent(Canvas canvasPage, Rectangle updateArea);
-        public abstract bool PrepareDrawingChain(VisualDrawingChain chain);
 
         protected void ValidateArrangement()
         {
@@ -174,16 +173,14 @@ namespace LayoutFarm.RenderBoxes
 
             layerFlags |= ARRANGEMENT_VALID;
         }
-
-
-        protected void BeginLayerLayoutUpdate()
-        {
-            owner.BeginGraphicUpdate();
-        }
-        protected void EndLayerLayoutUpdate()
-        {
-            owner.EndGraphicUpdate();
-        }
+        //protected void BeginLayerLayoutUpdate()
+        //{
+        //    owner.BeginGraphicUpdate();
+        //}
+        //protected void EndLayerLayoutUpdate()
+        //{
+        //    owner.EndGraphicUpdate();
+        //}
         bool NeedReArrangeContent
         {
             get
@@ -244,7 +241,7 @@ namespace LayoutFarm.RenderBoxes
                 return visualroot.dbug_GetLastestVisualLayoutTracer();
             }
         }
-        protected static void vinv_dbug_EnterLayerReCalculateContent(ElementLayerBase layer)
+        protected static void vinv_dbug_EnterLayerReCalculateContent(RenderElementLayer layer)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -257,7 +254,7 @@ namespace LayoutFarm.RenderBoxes
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
-            ElementLayerBase layer = (ElementLayerBase)debugVisualLay.PeekElement();
+            RenderElementLayer layer = (RenderElementLayer)debugVisualLay.PeekElement();
             debugVisualLay.WriteInfo("<..L_RECAL_TOPDOWN  :" + layer.ToString());
             debugVisualLay.PopLayerElement();
 
@@ -279,7 +276,7 @@ namespace LayoutFarm.RenderBoxes
             debugVisualLay.EndCurrentContext();
 
         }
-        protected static void vinv_dbug_EnterLayerReArrangeContent(ElementLayerBase layer)
+        protected static void vinv_dbug_EnterLayerReArrangeContent(RenderElementLayer layer)
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
@@ -293,7 +290,7 @@ namespace LayoutFarm.RenderBoxes
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
 
-            ElementLayerBase layer = (ElementLayerBase)debugVisualLay.PeekElement();
+            RenderElementLayer layer = (RenderElementLayer)debugVisualLay.PeekElement();
             debugVisualLay.WriteInfo("<..LAYER_ARR :" + layer.ToString());
             debugVisualLay.PopLayerElement();
 
@@ -311,7 +308,7 @@ namespace LayoutFarm.RenderBoxes
         public RenderElement OwnerRenderElement
         {
             get { return this.owner; }
-            
+
         }
         protected static bool vinv_IsInTopDownReArrangePhase
         {

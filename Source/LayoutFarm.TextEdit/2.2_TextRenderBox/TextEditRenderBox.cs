@@ -55,9 +55,9 @@ namespace LayoutFarm.Text
             }
             else
             {
-                if (this.Layers != null)
+                if (this.MyLayers != null)
                 {
-                    this.Layers.LayersDrawContent(canvas, updateArea);
+                    this.MyLayers.LayersDrawContent(canvas, updateArea);
                 }
             }
 

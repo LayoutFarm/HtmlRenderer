@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
- 
+
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
@@ -56,16 +56,17 @@ namespace LayoutFarm.CustomWidgets
             if (primElement == null)
             {
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                RenderElement.DirectSetVisualElementLocation(renderE, this.Left, this.Top);
+                 
+                renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
                 renderE.HasSpecificSize = true;
                 //------------------------------------------------
                 //create visual layer
                 var layers = new VisualLayerCollection();
-                var layer0 = new VisualPlainLayer(renderE);
+                var layer0 = new PlainLayer(renderE);
                 layers.AddLayer(layer0);
-                renderE.Layers = layers; 
+                renderE.Layers = layers;
 
                 if (this.landPart != null)
                 {
@@ -150,7 +151,7 @@ namespace LayoutFarm.CustomWidgets
                     if (primElement != null)
                     {
                         //add 
-                        var visualPlainLayer = primElement.Layers.GetLayer(0) as VisualPlainLayer;
+                        var visualPlainLayer = primElement.Layers.GetLayer(0) as PlainLayer;
                         if (visualPlainLayer != null)
                         {
                             visualPlainLayer.AddChild(value.GetPrimaryRenderElement(primElement.Root));
@@ -237,18 +238,22 @@ namespace LayoutFarm.CustomWidgets
                     } break;
                 case HingeFloatPartStyle.Popup:
                     {
-                        if (floatPartRenderElement != null)
+                        //if (floatPartRenderElement != null)
+                        //{
+                        //    //temp
+                        //    var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
+                        //    if (parentContainer.Layers != null)
+                        //    {
+                        //        PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
+                        //        plainLayer.RemoveChild(floatPartRenderElement);
+
+                        //    }
+                        //}
+                        TopWindowRenderBox topRenderBox = primElement.GetTopWindowRenderBox();
+                        if (topRenderBox != null)
                         {
-                            //temp
-                            var parentContainer = floatPartRenderElement.ParentRenderElement as RenderBoxes.RenderBoxBase;
-                            if (parentContainer.Layers != null)
-                            {
-                                VisualPlainLayer plainLayer = (VisualPlainLayer)parentContainer.Layers.GetLayer(0);
-                                plainLayer.RemoveChild(floatPartRenderElement);
-
-                            }
+                            topRenderBox.Layer0.RemoveChild(floatPartRenderElement);                             
                         }
-
                     } break;
                 case HingeFloatPartStyle.Embeded:
                     {

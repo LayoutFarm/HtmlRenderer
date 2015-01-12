@@ -16,7 +16,7 @@ namespace LayoutFarm
         {
             var textbox = new LayoutFarm.CustomWidgets.TextBox(400, 30, false);
             viewport.AddContent(textbox);
-            textbox.InvalidateGraphic();
+            textbox.InvalidateGraphics();
         }
     }
 }

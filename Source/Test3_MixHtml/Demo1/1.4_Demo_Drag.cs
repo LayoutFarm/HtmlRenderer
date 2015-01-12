@@ -37,7 +37,7 @@ namespace LayoutFarm
             box.MouseDown += (s, e) =>
             {  
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
-                box.InvalidateGraphic();
+                
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
             };
 
@@ -46,7 +46,7 @@ namespace LayoutFarm
             {
                 e.MouseCursorStyle = MouseCursorStyle.Default;
                 box.BackColor = Color.LightGray;
-                box.InvalidateGraphic();
+                
             };
 
             //3. drag
@@ -70,8 +70,7 @@ namespace LayoutFarm
             box.DragEnd += (s, e) =>
             {
                 box.BackColor = Color.LightGray;
-                e.MouseCursorStyle = MouseCursorStyle.Default; 
-                box.InvalidateGraphic();
+                e.MouseCursorStyle = MouseCursorStyle.Default;  
                
             };
         }

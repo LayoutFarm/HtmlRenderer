@@ -10,13 +10,13 @@ namespace LayoutFarm
 
     public sealed class TopWindowRenderBox : RenderBoxBase
     {
-        VisualPlainLayer groundLayer;
+        PlainLayer groundLayer;
         public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
         {
-            groundLayer = new VisualPlainLayer(this);
-            this.Layers = new VisualLayerCollection();
-            this.Layers.AddLayer(groundLayer);
+            groundLayer = new PlainLayer(this);
+            this.MyLayers = new VisualLayerCollection();
+            this.MyLayers.AddLayer(groundLayer);
 
             this.IsTopWindow = true;
             this.HasSpecificSize = true;
@@ -24,12 +24,17 @@ namespace LayoutFarm
         public void AddChild(RenderElement renderE)
         {
             groundLayer.AddChild(renderE);
+            renderE.InvalidateGraphics();
         }
         //---------------------------------------------------------------------------- 
         public override void ClearAllChildren()
         {
             this.groundLayer.Clear();
-        } 
+        }
+        public PlainLayer Layer0
+        {
+            get { return this.groundLayer; }
+        }
     }
 
 }

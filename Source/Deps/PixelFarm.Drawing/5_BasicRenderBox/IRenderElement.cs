@@ -6,14 +6,11 @@ namespace PixelFarm.Drawing
     
     public interface IRenderElement
     {
-        void DrawToThisCanvas(Canvas canvas, Rectangle r);
+        void DrawToThisCanvas(Canvas canvas, Rectangle updateArea);
 #if DEBUG
         void dbugShowRenderPart(Canvas canvas, Rectangle r);
 #endif
     }
 
-    public interface IVisualDrawingChain
-    {
-        void UpdateInvalidArea(Canvas targetCanvas, IRenderElement rootbox);
-    }
+    
 }
