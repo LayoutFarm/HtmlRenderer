@@ -24,6 +24,7 @@ namespace LayoutFarm
         public void AddChild(RenderElement renderE)
         {
             groundLayer.AddChild(renderE);
+            renderE.InvalidateGraphics();
         }
         //---------------------------------------------------------------------------- 
         public override void ClearAllChildren()

@@ -56,11 +56,12 @@ namespace LayoutFarm.CustomWidgets
         {
             if (primElement == null)
             {
-                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                RenderElement.DirectSetVisualElementLocation(renderE, this.Left, this.Top);
-                renderE.BackColor = backColor;
-                renderE.SetController(this);
+                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height); 
+                renderE.SetLocation(this.Left, this.Top);
+                renderE.BackColor = backColor;                
                 renderE.HasSpecificSize = true;
+
+                renderE.SetController(this);
                 //------------------------------------------------
                 //create visual layer
                 var layers = new VisualLayerCollection();
@@ -230,7 +231,7 @@ namespace LayoutFarm.CustomWidgets
                             this.floatPartRenderElement = this.floatPart.GetPrimaryRenderElement(primElement.Root) as CustomRenderBox;
                             topRenderBox.AddChild(floatPartRenderElement);
                             //temp here
-                            topRenderBox.InvalidateGraphics();
+                             
                         }
 
                     } break;

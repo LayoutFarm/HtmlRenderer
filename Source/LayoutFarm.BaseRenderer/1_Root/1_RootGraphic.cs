@@ -24,7 +24,7 @@ namespace LayoutFarm
             this.Width = width;
             this.Height = heigth;
         }
-    
+
         public abstract GraphicsPlatform P { get; }
 
         public IFonts SampleIFonts { get { return this.P.SampleIFonts; } }
@@ -97,9 +97,10 @@ namespace LayoutFarm
         public void FlushAccumGraphics()
         {
             if (!this.hasAccumRect)
-            {   
+            {
+                return;
             }
-            
+
             this.canvasPaintToOutput(accumulateInvalidRect);
             this.accumRectVer = 0;
             hasAccumRect = false;
@@ -128,167 +129,17 @@ namespace LayoutFarm
             }
         }
 #endif
-
-
-
-        public void AddToInvalidateGraphicQueue(RenderElement fromElement, Rectangle totalBounds)
+        public int RootWidth
         {
-            //total bounds = total bounds at level
-            
-            if (this.IsInRenderPhase) { return; }
-            //--------------------------------------            
-            //bubble up ,find global offset of 'fromElement' 
-            //and then merge to accumulate rect
-            int globalX = 0;
-            int globalY = 0;
-            bool passFirstRound = false;
-
-            // start with parent of fromElement *** 
-            // unlike InvalidateGraphicArea()
-            if (!fromElement.Visible)
-            {
-                return;
-            }
-            fromElement = fromElement.ParentRenderElement;
-            //--------------------------------------- 
-            if (fromElement == null)
-            {
-                return;
-            }
-            //--------------------------------------- 
-#if DEBUG
-            int dbug_ncount = 0;
-            dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, dbug_ncount, ">> :" + totalBounds.ToString());
-#endif
-            do
-            {
-
-                if (!fromElement.Visible)
-                {
-#if DEBUG
-                    dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, 0, "EARLY-RET: ");
-#endif
-                    return;
-                }
-                else if (fromElement.BlockGraphicUpdateBubble)
-                {
-#if DEBUG
-                    dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, 0, "BLOCKED2: ");
-#endif
-                    return;
-                }
-                //---------------------------------------------------------------------  
-
-#if DEBUG
-                dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, dbug_ncount, ">> ");
-#endif
-
-
-                globalX += fromElement.BubbleUpX;
-                globalY += fromElement.BubbleUpY;
-
-
-                if (fromElement.MayHasViewport && passFirstRound)
-                {
-                    totalBounds.Offset(globalX, globalY);
-                    if (fromElement.HasDoubleScrollableSurface)
-                    {
-                        //container.VisualScrollableSurface.WindowRootNotifyInvalidArea(elementClientRect);
-                    }
-                    Rectangle elementRect = fromElement.RectBounds;
-                    elementRect.Offset(fromElement.ViewportX, fromElement.ViewportY);
-                    totalBounds.Intersect(elementRect);
-                    globalX = -fromElement.ViewportX;
-                    globalY = -fromElement.ViewportY;
-                }
-
-                if (fromElement.IsTopWindow)
-                {
-                    break;
-                }
-                else
-                {
-#if DEBUG
-                    if (fromElement.dbugParentVisualElement == null)
-                    {
-                        dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, 0, "BLOCKED3: ");
-                    }
-#endif
-
-                    fromElement = fromElement.ParentRenderElement;
-                    if (fromElement == null)
-                    {
-                        return;
-                    }
-                }
-
-                passFirstRound = true;
-
-            } while (true);
-
-#if DEBUG
-            var dbugMyroot = this;
-            if (dbugMyroot.dbugEnableGraphicInvalidateTrace
-             && dbugMyroot.dbugGraphicInvalidateTracer != null)
-            {
-                while (dbug_ncount > 0)
-                {
-                    dbugMyroot.dbugGraphicInvalidateTracer.PopElement();
-                    dbug_ncount--;
-                }
-            }
-#endif
-
-            //----------------------------------------
-            totalBounds.Offset(globalX, globalY);
-             
-
-
-            if (totalBounds.Top > this.Height
-                || totalBounds.Left > this.Width
-                || totalBounds.Bottom < 0
-                || totalBounds.Right < 0)
-            {
-#if DEBUG
-                if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                    dbugMyroot.dbugGraphicInvalidateTracer != null)
-                {
-                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("ZERO-EEX");
-                    dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
-                }
-#endif
-                return;
-            }
-            //--------------------------------------------------------------------------------------------------
-            if (!hasAccumRect)
-            {
-                accumulateInvalidRect = totalBounds;
-                hasAccumRect = true;
-            }
-            else
-            {
-                accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, totalBounds);
-            }
-            //----------------------
-            accumRectVer++;
-            //----------------------
- 
-#if DEBUG
-            if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
-                dbugMyroot.dbugGraphicInvalidateTracer != null)
-            {
-                string state_str = "ACC: ";
-                if (this.dbugNeedContentArrangement || this.dbugNeedReCalculateContentSize)
-                {
-                    state_str = "!!" + state_str;
-                }
-                dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("ACC: " + accumulateInvalidRect.ToString());
-                dbugMyroot.dbugGraphicInvalidateTracer.WriteInfo("\r\n");
-            }
-#endif
-
-
+            get { return this.TopWindowRenderBox.Width; }
         }
+        public int RootHeight
+        {
+            get { return this.TopWindowRenderBox.Height; }
+        }
+
+
+        
         public void InvalidateGraphicArea(RenderElement fromElement, ref Rectangle elemClientRect)
         {
             //total bounds = total bounds at level
@@ -417,7 +268,7 @@ namespace LayoutFarm
             {
                 accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, elemClientRect);
             }
-            
+
             //----------------------
             accumRectVer++;
             //----------------------

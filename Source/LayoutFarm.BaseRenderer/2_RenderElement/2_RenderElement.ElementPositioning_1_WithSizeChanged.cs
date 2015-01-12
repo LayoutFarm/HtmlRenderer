@@ -30,19 +30,18 @@ namespace LayoutFarm
             }
             else
             {
- 
+
                 var prevBounds = this.RectBounds;
 
                 this.b_width = width;
                 this.b_height = height;
-                
-                //combine before and after rect 
-                //add to invalidate root invalidate queue 
-                this.rootGfx.AddToInvalidateGraphicQueue(this, Rectangle.Union(prevBounds, this.RectBounds));                
 
-                 
+                //combine before and after rect 
+                //add to invalidate root invalidate queue  
+                this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));
             }
         }
+        
         public void SetLocation(int left, int top)
         {
             if (parentLink == null)
@@ -54,19 +53,37 @@ namespace LayoutFarm
             {
                 //set location not affect its content size 
 
-                var prevBounds = this.RectBounds; 
+                var prevBounds = this.RectBounds;
                 //----------------
-                //set bound
+                
                 this.b_left = left;
                 this.b_top = top;
                 //----------------   
                 //combine before and after rect  
                 //add to invalidate root invalidate queue
-
-                this.rootGfx.AddToInvalidateGraphicQueue(this, Rectangle.Union(prevBounds, this.RectBounds)); 
+                this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));                 
             }
         }
 
+        public void SetBounds(int left, int top, int width, int height)
+        {
+            if (parentLink == null)
+            {
+                this.b_left = left;
+                this.b_top = top;
+                this.b_width = width;
+                this.b_height = height;
+            }
+            else
+            {
+                var prevBounds = this.RectBounds;
+                this.b_left = left;
+                this.b_top = top;
+                this.b_width = width;
+                this.b_height = height;
+                this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));             
+            }
+        }
 
         public void ResumeLayout()
         {

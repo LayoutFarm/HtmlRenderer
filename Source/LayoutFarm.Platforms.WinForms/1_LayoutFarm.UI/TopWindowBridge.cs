@@ -417,6 +417,7 @@ namespace LayoutFarm.UI
 
             eventStock.ReleaseEventArgs(keyPressEventArgs);
 
+            
             PaintToOutputWindowIfNeed();
         }
 

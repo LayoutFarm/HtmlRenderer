@@ -23,7 +23,7 @@ namespace LayoutFarm.UI
         }
         public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
 
-        public abstract void InvalidateGraphic();
+        public abstract void InvalidateGraphics();
         public UIElement ParentUI
         {
             get { return this.parentElement; }

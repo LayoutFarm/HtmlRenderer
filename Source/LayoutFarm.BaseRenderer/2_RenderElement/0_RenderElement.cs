@@ -143,9 +143,7 @@ namespace LayoutFarm
         }
         public void SetVisible(bool value)
         {
-            //check if visible change?
-
-
+            //check if visible change? 
             if (this.Visible != value)
             {
                 propFlags = value ?
@@ -332,8 +330,7 @@ namespace LayoutFarm
 #if DEBUG
             dbugVRoot.dbug_drawLevel--;
 #endif
-        }
-
+        } 
 
         //==============================================================
         //set location and size , not bubble***

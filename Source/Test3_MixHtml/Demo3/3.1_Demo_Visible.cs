@@ -30,17 +30,13 @@ namespace LayoutFarm
             //1. mouse down         
             box1.MouseDown += (s, e) =>
             {
-                box1.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
-                box1.InvalidateGraphic(); 
+                box1.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue); 
                 box2.Visible = false;
                 
             };
             box1.MouseUp += (s, e) =>
             {
-                box1.BackColor = Color.Red;
-                box1.InvalidateGraphic();
-
-
+                box1.BackColor = Color.Red;  
                 box2.Visible = true;
             }; 
 

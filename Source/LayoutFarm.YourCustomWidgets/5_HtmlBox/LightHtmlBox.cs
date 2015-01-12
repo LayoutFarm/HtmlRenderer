@@ -208,7 +208,7 @@ namespace LayoutFarm.CustomWidgets
         }
         void SetHtmlIslandEventHandlers()
         {
-            myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphic();
+            myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphics();
             myHtmlIsland.DomRequestRebuild += (s, e) =>
             {
                 hasWaitingDocToLoad = true;
@@ -222,11 +222,10 @@ namespace LayoutFarm.CustomWidgets
                 myHtmlIsland.PerformLayout(lay);
                 this.lightBoxHost.ReleaseHtmlLayoutVisitor(lay);
             };
-        }
+        } 
+        public override void InvalidateGraphics()
+        {   
 
-
-        public override void InvalidateGraphic()
-        {
             //if (this.myCssBoxWrapper != null)
             //{
             //    myCssBoxWrapper.InvalidateGraphic();

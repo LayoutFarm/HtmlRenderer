@@ -57,7 +57,7 @@ namespace LayoutFarm.CustomWidgets
             };
 
             myHtmlIsland = new MyHtmlIsland(islandHost);
-            myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphic();
+            myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphics();
             myHtmlIsland.DomRequestRebuild += myHtmlIsland_NeedUpdateDom;
             //request ui timer *** 
             //tim.Interval = 30;
@@ -220,25 +220,19 @@ namespace LayoutFarm.CustomWidgets
             if (htmlRenderBox == null) return;
             //---------------------------
             UpdateWaitingHtmlDoc(this.htmlRenderBox.Root);
+            htmlRenderBox.InvalidateGraphics();
         }
         public void LoadHtmlText(string html)
         {
-            //myHtmlBox.LoadHtmlText(html);
-            //this.tim.Enabled = false;
-            SetHtml(myHtmlIsland, html, this.islandHost.BaseStylesheet);
-            //this.tim.Enabled = true;
-            if (this.htmlRenderBox != null)
-            {
-                htmlRenderBox.InvalidateGraphics();
-            }
+           
+            SetHtml(myHtmlIsland, html, this.islandHost.BaseStylesheet); 
+             
         }
-        public override void InvalidateGraphic()
+        public override void InvalidateGraphics()
         {
-            if (this.htmlRenderBox != null)
-            {
-                htmlRenderBox.InvalidateGraphics();
-            }
+            this.htmlRenderBox.InvalidateGraphics();
         }
+         
     }
 }
 

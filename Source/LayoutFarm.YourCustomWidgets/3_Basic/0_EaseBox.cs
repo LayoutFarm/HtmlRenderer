@@ -60,9 +60,10 @@ namespace LayoutFarm.CustomWidgets
             if (primElement == null)
             {
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                RenderElement.DirectSetVisualElementLocation(renderE, this.Left, this.Top);
-                renderE.BackColor = backColor;
                 renderE.SetController(this);
+                  
+                renderE.BackColor = backColor;
+                renderE.SetLocation(this.Left, this.Top);                                                 
                 renderE.SetVisible(this.Visible);
                 
                 primElement = renderE;

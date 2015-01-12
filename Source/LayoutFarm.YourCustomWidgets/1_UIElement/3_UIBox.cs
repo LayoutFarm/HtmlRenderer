@@ -25,21 +25,6 @@ namespace LayoutFarm.UI
             this._width = width;
             this._height = height;
         }
-        public void BeginGfx()
-        {
-            //stop flush timer
-            if (this.HasReadyRenderElement)
-            {
-                this.CurrentPrimaryRenderElement.Root.GfxTimerEnabled = false;
-            }
-        }
-        public void EndGfx()
-        {
-            if (this.HasReadyRenderElement)
-            {
-                this.CurrentPrimaryRenderElement.Root.GfxTimerEnabled = true;
-            }
-        }
 
         public void SetLocation(int left, int top)
         {
@@ -48,8 +33,7 @@ namespace LayoutFarm.UI
 
             if (this.HasReadyRenderElement)
             {
-                var renderE = this.CurrentPrimaryRenderElement;
-                renderE.SetLocation(left, top);
+                this.CurrentPrimaryRenderElement.SetLocation(left, top);
             }
         }
         public virtual void SetSize(int width, int height)
@@ -59,33 +43,14 @@ namespace LayoutFarm.UI
 
             if (this.HasReadyRenderElement)
             {
-                RenderElement.DirectSetVisualElementSize(
-                   this.CurrentPrimaryRenderElement,
-                   _width,
-                   _height);
+                this.CurrentPrimaryRenderElement.SetSize(_width, _height);
             }
         }
-        public void SetBound(int left, int top, int width, int height)
+        public void SetBounds(int left, int top, int width, int height)
         {
-            this._left = left;
-            this._top = top;
-            this._width = width;
-            this._height = height;
-
-            if (this.HasReadyRenderElement)
-            {
-                RenderElement.DirectSetVisualElementLocation(
-                    this.CurrentPrimaryRenderElement,
-                    _left,
-                    _top);
-
-                RenderElement.DirectSetVisualElementSize(
-                    this.CurrentPrimaryRenderElement,
-                    _width,
-                    _height);
-            }
+            SetLocation(left, top);
+            SetSize(width,height);             
         }
-
         protected abstract RenderElement CurrentPrimaryRenderElement
         {
             get;
@@ -94,9 +59,6 @@ namespace LayoutFarm.UI
         {
             get;
         }
-
-
-
         public int Left
         {
             get
@@ -169,7 +131,7 @@ namespace LayoutFarm.UI
             }
         }
 
-        public override void InvalidateGraphic()
+        public override void InvalidateGraphics()
         {
             if (this.HasReadyRenderElement)
             {

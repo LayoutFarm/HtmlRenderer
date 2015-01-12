@@ -58,9 +58,10 @@ namespace LayoutFarm.CustomWidgets
             if (primElement == null)
             {
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                RenderElement.DirectSetVisualElementLocation(renderE, this.Left, this.Top);
-                renderE.BackColor = backColor;
                 renderE.SetController(this);
+
+                renderE.SetLocation(this.Left, this.Top);
+                renderE.BackColor = backColor;                
                 renderE.HasSpecificSize = true;
 
                 //------------------------------------------------
@@ -157,7 +158,7 @@ namespace LayoutFarm.CustomWidgets
             if (this.HasReadyRenderElement)
             {
                 primElement.SetViewport(viewportX, viewportY);
-                primElement.InvalidateGraphics();
+               
             }
         }
 
@@ -174,7 +175,7 @@ namespace LayoutFarm.CustomWidgets
                 if (element != null)
                 {
                     element.PerformContentLayout();
-                    element.SetBound(0, ypos, element.Width, element.DesiredHeight);
+                    element.SetBounds(0, ypos, element.Width, element.DesiredHeight);
                     ypos += element.DesiredHeight;
                 }
             }

@@ -32,11 +32,10 @@ namespace PixelFarm.Drawing.DrawingGL
         int left;
         int top;
         int right;
-        int bottom;
-        //int canvasOriginX = 0;
-        //int canvasOriginY = 0;
+        int bottom; 
         Rectangle invalidateArea;
         CanvasOrientation orientation;
+        bool isEmptyInvalidateArea;
         public override CanvasOrientation Orientation
         {
             get
@@ -198,15 +197,29 @@ namespace PixelFarm.Drawing.DrawingGL
                 return invalidateArea;
             }
         }
-       
-        public override void Invalidate(Rectangle rect)
-        {
-            invalidateArea = Rectangle.Union(rect, invalidateArea);
-            this.IsContentReady = false;
-        }
+
         public override void ResetInvalidateArea()
         {
             this.invalidateArea = Rectangle.Empty;
+            this.isEmptyInvalidateArea = true;//set
+
+        }
+        public override void Invalidate(Rectangle rect)
+        {
+            if (isEmptyInvalidateArea)
+            {
+
+                invalidateArea = rect;
+                isEmptyInvalidateArea = false;
+
+            }
+            else
+            {
+                invalidateArea = Rectangle.Union(rect, invalidateArea);
+            }
+
+            //need to draw again
+            this.IsContentReady = false;
         }
     }
 

@@ -184,8 +184,7 @@ namespace LayoutFarm.UI
                         } break;
                     case RequestCommand.InvalidateArea:
                         {
-                            Rectangle r = (Rectangle)req.parameters;
-
+                            Rectangle r = (Rectangle)req.parameters; 
                             this.InvalidateGraphicArea(req.ve, ref r);
                         } break;
 
