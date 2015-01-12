@@ -59,10 +59,7 @@ namespace LayoutFarm.UI
 
             if (this.HasReadyRenderElement)
             {
-                RenderElement.DirectSetVisualElementSize(
-                   this.CurrentPrimaryRenderElement,
-                   _width,
-                   _height);
+                this.CurrentPrimaryRenderElement.SetSize(_width, _height);
             }
         }
         public void SetBound(int left, int top, int width, int height)
@@ -74,15 +71,7 @@ namespace LayoutFarm.UI
 
             if (this.HasReadyRenderElement)
             {
-                RenderElement.DirectSetVisualElementLocation(
-                    this.CurrentPrimaryRenderElement,
-                    _left,
-                    _top);
-
-                RenderElement.DirectSetVisualElementSize(
-                    this.CurrentPrimaryRenderElement,
-                    _width,
-                    _height);
+                this.CurrentPrimaryRenderElement.SetBounds(left, top, width, height); 
             }
         }
 

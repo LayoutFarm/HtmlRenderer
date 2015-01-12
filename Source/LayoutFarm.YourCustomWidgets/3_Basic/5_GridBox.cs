@@ -125,8 +125,9 @@ namespace LayoutFarm.CustomWidgets
         {
             if (gridBox == null)
             {
-                var myGridBox = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                RenderElement.DirectSetVisualElementLocation(myGridBox, this.Left, this.Top);
+                var myGridBox = new CustomRenderBox(rootgfx, this.Width, this.Height);                 
+                myGridBox.SetLocation(this.Left, this.Top);
+
                 this.gridBox = myGridBox;
 
                 var layers = new VisualLayerCollection();

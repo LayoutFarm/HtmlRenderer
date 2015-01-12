@@ -116,7 +116,7 @@ namespace LayoutFarm.CustomWidgets
         {
             CustomRenderBox bgBox = new CustomRenderBox(rootgfx, this.Width, this.Height);
             bgBox.HasSpecificSize = true;
-            RenderElement.DirectSetVisualElementLocation(bgBox, this.Left, this.Top);
+            bgBox.SetLocation(this.Left, this.Top);             
             //---------------------------------------------------------
 
             VisualLayerCollection layers = new VisualLayerCollection();
@@ -373,9 +373,10 @@ namespace LayoutFarm.CustomWidgets
             {
                 var button_box = new CustomRenderBox(rootgfx, this.Width, this.Height);
                 button_box.HasSpecificSize = true;
-                button_box.BackColor = this.backColor;
-                RenderElement.DirectSetVisualElementLocation(button_box, this.Left, this.Top);
+                button_box.BackColor = this.backColor;                 
+                button_box.SetLocation(this.Left, this.Top);
                 button_box.SetController(this);
+
                 this.buttonBox = button_box;
             }
             return buttonBox;

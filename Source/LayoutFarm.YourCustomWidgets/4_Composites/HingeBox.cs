@@ -54,7 +54,8 @@ namespace LayoutFarm.CustomWidgets
             if (primElement == null)
             {
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                RenderElement.DirectSetVisualElementLocation(renderE, this.Left, this.Top);
+           
+                this.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
                 renderE.HasSpecificSize = true;
