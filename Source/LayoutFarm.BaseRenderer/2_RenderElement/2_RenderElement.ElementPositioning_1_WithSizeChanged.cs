@@ -37,11 +37,11 @@ namespace LayoutFarm
                 this.b_height = height;
 
                 //combine before and after rect 
-                //add to invalidate root invalidate queue 
-                this.rootGfx.AddToInvalidateGraphicQueue(this, Rectangle.Union(prevBounds, this.RectBounds));
-
+                //add to invalidate root invalidate queue  
+                this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));
             }
         }
+        
         public void SetLocation(int left, int top)
         {
             if (parentLink == null)
@@ -61,8 +61,7 @@ namespace LayoutFarm
                 //----------------   
                 //combine before and after rect  
                 //add to invalidate root invalidate queue
-
-                this.rootGfx.AddToInvalidateGraphicQueue(this, Rectangle.Union(prevBounds, this.RectBounds));
+                this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));                 
             }
         }
 
@@ -82,7 +81,7 @@ namespace LayoutFarm
                 this.b_top = top;
                 this.b_width = width;
                 this.b_height = height;
-                this.rootGfx.AddToInvalidateGraphicQueue(this, Rectangle.Union(prevBounds, this.RectBounds));
+                this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));             
             }
         }
 

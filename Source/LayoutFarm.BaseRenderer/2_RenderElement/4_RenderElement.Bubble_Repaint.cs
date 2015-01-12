@@ -10,7 +10,7 @@ namespace LayoutFarm
 {
     partial class RenderElement
     {
-        
+
         public bool InvalidateGraphics()
         {
 
@@ -29,13 +29,24 @@ namespace LayoutFarm
             return true;//TODO: review this 
         }
 
+        internal void InvalidateGraphicBounds(Rectangle totalBounds)
+        {
+            propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
+            var parent = this.ParentRenderElement; //start at parent ****
+            //--------------------------------------- 
+            if (parent == null)
+            {
+                return;
+            }
+            this.rootGfx.InvalidateGraphicArea(parent, ref totalBounds); 
+        }
         static void RootInvalidateGraphicArea(RenderElement elem, ref Rectangle rect)
         {
             //1.
             elem.propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
             //2.  
-            elem.rootGfx.InvalidateGraphicArea(elem, ref rect); 
-        } 
+            elem.rootGfx.InvalidateGraphicArea(elem, ref rect);
+        }
         protected static void InvalidateGraphicLocalArea(RenderElement ve, Rectangle localArea)
         {
             if (localArea.Height == 0 || localArea.Width == 0)
@@ -78,14 +89,14 @@ namespace LayoutFarm
                 return ((uiLayoutFlags & LY_SUSPEND_GRAPHIC) != 0) || ((uiFlags & HIDDEN) != 0);
 #endif
             }
-        } 
+        }
         //internal void BeginGraphicUpdate()
         //{
         //    InvalidateGraphics();
         //    this.rootGfx.BeginGraphicUpdate();
         //    this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;
         //}
-        
+
         //internal void EndGraphicUpdate()
         //{
         //    this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
