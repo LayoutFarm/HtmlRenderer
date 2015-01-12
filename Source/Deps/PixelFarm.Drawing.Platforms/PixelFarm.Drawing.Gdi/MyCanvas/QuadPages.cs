@@ -9,7 +9,7 @@ namespace PixelFarm.Drawing.WinGdi
 
     public class QuadPages
     {
-          
+
         internal MyCanvas pageA;
         internal MyCanvas pageB;
         internal MyCanvas pageC;
@@ -202,7 +202,6 @@ namespace PixelFarm.Drawing.WinGdi
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
             Rectangle rect = mycanvas.InvalidateArea;
-            //Console.WriteLine("update:" + rect.ToString());
             rootElement.DrawToThisCanvas(mycanvas, rect);
 
 #if DEBUG
@@ -281,12 +280,12 @@ namespace PixelFarm.Drawing.WinGdi
 
                         Rectangle invalidateArea = pageA.InvalidateArea;
                         ////Console.WriteLine("update2:" + invalidateArea.ToString());
-                      
+
 
                         pageA.RenderTo(destOutputHdc, invalidateArea.Left - pageA.Left, invalidateArea.Top - pageA.Top,
                             new Rectangle(invalidateArea.Left -
                                 viewportX, invalidateArea.Top - viewportY,
-                                invalidateArea.Width, invalidateArea.Height)); 
+                                invalidateArea.Width, invalidateArea.Height));
 
                         pageA.ResetInvalidateArea();
                     } break;
@@ -440,115 +439,9 @@ namespace PixelFarm.Drawing.WinGdi
                 pageD.IsUnused = true;
                 pageD = null;
             }
-
-
         }
 
-        public void TransferDataFromSourceCanvas(
-            Rectangle logicalArea,
-            int viewportX, int viewportY,
-            int viewportWidth, int viewportHeight, Canvas destPage)
-        {
 
-            Rectangle clipRect = Rectangle.Intersect(
-            new Rectangle(0, 0, viewportWidth, viewportHeight),
-            destPage.CurrentClipRect);
-
-            switch (render_parts)
-            {
-                case PAGE_A:
-                    {
-                        TransferDataFromSourceCanvas(
-                            pageA, logicalArea,
-                            clipRect,
-                            destPage);
-                    } break;
-                case PAGE_AB:
-                    {
-                        int remainHeightOfPageA = pageA.Bottom - viewportY;
-                        TransferDataFromSourceCanvas(
-                            pageA, logicalArea,
-                            Rectangle.Intersect(
-                                    new Rectangle(0, 0, viewportWidth, remainHeightOfPageA),
-                                    clipRect), destPage);
-
-                        TransferDataFromSourceCanvas(
-                            pageB, logicalArea,
-                            Rectangle.Intersect(
-                                    new Rectangle(0, remainHeightOfPageA, viewportWidth, viewportHeight - remainHeightOfPageA),
-                                    clipRect), destPage);
-                    } break;
-                case PAGE_AC:
-                    {
-                        int remainWidthOfPageA = pageA.Right - viewportX;
-                        TransferDataFromSourceCanvas(pageA, logicalArea,
-                               Rectangle.Intersect(
-                                    new Rectangle(0, 0, remainWidthOfPageA, viewportHeight),
-                                    clipRect), destPage);
-
-                        TransferDataFromSourceCanvas(
-                            pageC, logicalArea,
-                                Rectangle.Intersect(
-                                    new Rectangle(remainWidthOfPageA, 0, viewportWidth - remainWidthOfPageA, viewportHeight),
-                                    clipRect), destPage);
-
-                    } break;
-                case PAGE_ABCD:
-                    {
-                        int remainHeightOfPageA = pageA.Bottom - viewportY;
-                        TransferDataFromSourceCanvas(
-                            pageA, logicalArea,
-                                Rectangle.Intersect(
-                                new Rectangle(0, 0, viewportWidth, remainHeightOfPageA),
-                                clipRect), destPage);
-
-                        TransferDataFromSourceCanvas(
-                            pageB, logicalArea,
-                                                     Rectangle.Intersect(
-                               new Rectangle(0, remainHeightOfPageA, viewportWidth, viewportHeight - remainHeightOfPageA),
-                               clipRect), destPage);
-
-                        int remainWidthOfPageA = pageA.Right - viewportX;
-                        TransferDataFromSourceCanvas(
-                            pageC, logicalArea,
-                                                     Rectangle.Intersect(
-                               new Rectangle(remainWidthOfPageA, 0, viewportWidth - remainWidthOfPageA, viewportHeight),
-                               clipRect), destPage);
-
-                        TransferDataFromSourceCanvas(pageD, logicalArea,
-                            Rectangle.Intersect(
-                                    new Rectangle(remainWidthOfPageA, remainHeightOfPageA,
-                                    viewportWidth - remainWidthOfPageA, viewportHeight - remainHeightOfPageA),
-                                    clipRect), destPage);
-
-
-                    } break;
-            }
-
-
-        }
-        void TransferDataFromSourceCanvas(
-                Canvas sourceCanvas,
-                Rectangle logicalSourceArea, Rectangle physicalUpdateArea, Canvas destPage)
-        {
-
-            Rectangle logicalClip = Rectangle.Intersect(logicalSourceArea, sourceCanvas.Rect);
-            if (logicalClip.Width > 0 && logicalClip.Height > 0)
-            {
-                destPage.CopyFrom(sourceCanvas, logicalClip.Left,
-                    logicalClip.Top,
-                    physicalUpdateArea);
-
-            }
-        }
-
-#if DEBUG
-        void dbug_PrintBitbltInfo(Canvas srcCanvas, string srcCanvasName, int srcX, int srcY, Canvas destCanvas, Rectangle destRect)
-        {
-            srcX -= srcCanvas.Left;
-            srcY -= srcCanvas.Top;
-        }
-#endif
 
     }
 }

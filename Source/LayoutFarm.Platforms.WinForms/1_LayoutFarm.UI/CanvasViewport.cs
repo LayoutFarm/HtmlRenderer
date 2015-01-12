@@ -23,7 +23,7 @@ namespace LayoutFarm.UI
         int v_smallChange = 0;
         int v_largeChange = 0;
 
-        CanvasPaintToOutputDelegate canvasInvalidateHandler;
+        CanvasPaintToOutputDelegate canvasPaintToOutputDel;
         EventHandler<EventArgs> canvasSizeChangedHandler;
 
         bool fullMode = true;
@@ -39,11 +39,11 @@ namespace LayoutFarm.UI
             this.viewportWidth = viewportSize.Width;
             this.viewportHeight = viewportSize.Height;
 
-            canvasInvalidateHandler = Canvas_Invalidate;
+            canvasPaintToOutputDel = Canvas_PaintToOutput;
             canvasSizeChangedHandler = Canvas_SizeChanged;
 
 
-            topWindowBox.Root.SetCanvasPaintToOutputDel(canvasInvalidateHandler);
+            rootgfx.SetCanvasPaintToOutputDel(canvasPaintToOutputDel);
             viewportX = 0;
             viewportY = 0;
 
@@ -90,8 +90,7 @@ namespace LayoutFarm.UI
             }
         }
         void ChangeRootGraphicSize(int width, int height)
-        {
-
+        {   
             Size currentSize = topWindowBox.Size;
             if (currentSize.Width != width || currentSize.Height != height)
             {
@@ -113,7 +112,7 @@ namespace LayoutFarm.UI
         {
             //EvaluateScrollBar();
         }
-        protected virtual void Canvas_Invalidate(Rectangle r)
+        protected virtual void Canvas_PaintToOutput(Rectangle r)
         {
         }
         public virtual bool IsQuadPageValid

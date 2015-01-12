@@ -25,9 +25,9 @@ namespace LayoutFarm.UI.OpenGL
                 canvas = null;
             }
         }
-        protected override void Canvas_Invalidate(Rectangle r)
+        protected override void Canvas_PaintToOutput(Rectangle r)
         {
-            base.Canvas_Invalidate(r);
+            base.Canvas_PaintToOutput(r);
         }
         public void NotifyWindowControlBinding()
         {

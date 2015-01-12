@@ -56,9 +56,12 @@ namespace LayoutFarm
 
                 //--------------------------------------------
                 //move controller here
+                controllerBox1.BeginGfx();
                 controllerBox1.SetLocation(box.Left - 5, box.Top - 5);
                 controllerBox1.SetSize(box.Width + 10, box.Height + 10);
                 controllerBox1.Visible = true;
+                controllerBox1.EndGfx();
+
                 controllerBox1.TargetBox = box;
                 //--------------------------------------------
             };

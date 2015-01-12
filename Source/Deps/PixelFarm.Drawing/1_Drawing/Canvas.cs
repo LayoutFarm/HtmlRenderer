@@ -30,6 +30,7 @@ namespace PixelFarm.Drawing
         public abstract void ResetInvalidateArea();
         public abstract void Invalidate(Rectangle rect);
         public abstract Rectangle InvalidateArea { get; }
+        
 
         public bool IsContentReady
         {
@@ -60,7 +61,7 @@ namespace PixelFarm.Drawing
         //---------------------------------------------------------------------
         //clip area
 
-        public abstract bool PushClipAreaRect(int width, int height, ref Rectangle updateArea);
+        public abstract bool PushClipAreaRect(int width, int height,ref Rectangle updateArea);
         public abstract void PopClipAreaRect();
 
         public abstract void SetClipRect(Rectangle clip, CombineMode combineMode = CombineMode.Replace);

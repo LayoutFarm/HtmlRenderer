@@ -21,7 +21,7 @@ namespace LayoutFarm.UI
         public GridLayer(RenderElement owner, int nColumns, int nRows, CellSizeStyle cellSizeStyle)
             : base(owner)
         {
-             
+
             this.cellSizeStyle = cellSizeStyle;
             this.gridTable = new GridTable();
 
@@ -630,7 +630,7 @@ namespace LayoutFarm.UI
 
 #endif
 
- 
+
         public override void DrawChildContent(Canvas canvas, Rectangle updateArea)
         {
             GridCell leftTopGridItem = GetGridItemByPosition(updateArea.Left, updateArea.Top);
@@ -730,7 +730,7 @@ namespace LayoutFarm.UI
                         if (renderContent != null)
                         {
 
-                            if (canvas.PushClipAreaRect(gridItem.Width, gridItem.Height, ref updateArea))
+                            if (canvas.PushClipAreaRect(gridItem.Width, gridItem.Height,ref updateArea))
                             {
                                 renderContent.DrawToThisCanvas(canvas, updateArea);
                             }

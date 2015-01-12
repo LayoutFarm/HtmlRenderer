@@ -95,27 +95,21 @@ namespace PixelFarm.Drawing.DrawingGL
         public override bool IntersectsWith(Rectangle clientRect)
         {
             return clientRect.IntersectsWith(left, top, right, bottom);
-        }
-
-
-
-
+        } 
         //---------------------------------------------------
-        public override bool PushClipAreaRect(int width, int height, ref Rectangle updateArea)
+        public override bool PushClipAreaRect(int width, int height,ref Rectangle updateArea)
         {
             this.clipRectStack.Push(currentClipRect);
 
             System.Drawing.Rectangle intersectResult =
                 System.Drawing.Rectangle.Intersect(
-                    currentClipRect,
-                    System.Drawing.Rectangle.Intersect(
-                    System.Drawing.Rectangle.FromLTRB(updateArea.Left, updateArea.Top, updateArea.Right, updateArea.Bottom),
-                    new System.Drawing.Rectangle(0, 0, width, height)));
+                System.Drawing.Rectangle.FromLTRB(updateArea.Left, updateArea.Top, updateArea.Right, updateArea.Bottom),
+                new System.Drawing.Rectangle(0, 0, width, height));
 
             currentClipRect = intersectResult;
             if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
             {
-                //not intersec?
+                //not intersect?
                 return false;
             }
             else
@@ -204,6 +198,7 @@ namespace PixelFarm.Drawing.DrawingGL
                 return invalidateArea;
             }
         }
+       
         public override void Invalidate(Rectangle rect)
         {
             invalidateArea = Rectangle.Union(rect, invalidateArea);

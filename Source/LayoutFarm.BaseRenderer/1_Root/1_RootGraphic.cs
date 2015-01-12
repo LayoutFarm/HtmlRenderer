@@ -36,6 +36,7 @@ namespace LayoutFarm
         public abstract void AddToLayoutQueue(RenderElement renderElement);
 
 
+        public abstract bool GfxTimerEnabled { get; set; }
         internal int Width
         {
             get;
@@ -68,7 +69,7 @@ namespace LayoutFarm
             this.paintToOutputHandler = paintToOutputHandler;
         }
 
-        public abstract GraphicsTimerTask SubSccribeGraphicsIntervalTask(
+        public abstract GraphicsTimerTask SubscribeGraphicsIntervalTask(
             object uniqueName,
             TaskIntervalPlan planName,
             int intervalMs,
@@ -98,6 +99,7 @@ namespace LayoutFarm
             if (!this.hasAccumRect)
             {   
             }
+            
             this.canvasPaintToOutput(accumulateInvalidRect);
             this.accumRectVer = 0;
             hasAccumRect = false;
@@ -132,7 +134,7 @@ namespace LayoutFarm
         public void AddToInvalidateGraphicQueue(RenderElement fromElement, Rectangle totalBounds)
         {
             //total bounds = total bounds at level
-
+            
             if (this.IsInRenderPhase) { return; }
             //--------------------------------------            
             //bubble up ,find global offset of 'fromElement' 
@@ -239,7 +241,7 @@ namespace LayoutFarm
 
             //----------------------------------------
             totalBounds.Offset(globalX, globalY);
-            Rectangle rootGlobalArea = totalBounds;
+             
 
 
             if (totalBounds.Top > this.Height
@@ -260,16 +262,17 @@ namespace LayoutFarm
             //--------------------------------------------------------------------------------------------------
             if (!hasAccumRect)
             {
-                accumulateInvalidRect = rootGlobalArea;
+                accumulateInvalidRect = totalBounds;
                 hasAccumRect = true;
             }
             else
             {
-                accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, rootGlobalArea);
+                accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, totalBounds);
             }
             //----------------------
             accumRectVer++;
             //----------------------
+ 
 #if DEBUG
             if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
                 dbugMyroot.dbugGraphicInvalidateTracer != null)
@@ -414,6 +417,7 @@ namespace LayoutFarm
             {
                 accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, elemClientRect);
             }
+            
             //----------------------
             accumRectVer++;
             //----------------------

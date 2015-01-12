@@ -145,9 +145,9 @@ namespace LayoutFarm
         {
             //check if visible change?
 
-          
+
             if (this.Visible != value)
-            {   
+            {
                 propFlags = value ?
                     propFlags & ~RenderElementConst.HIDDEN :
                     propFlags | RenderElementConst.HIDDEN;
@@ -305,7 +305,7 @@ namespace LayoutFarm
 #if DEBUG
             dbugVRoot.dbug_drawLevel++;
 #endif
-
+            
             if (canvas.PushClipAreaRect(b_width, b_height, ref updateArea))
             {
 #if DEBUG
@@ -324,7 +324,10 @@ namespace LayoutFarm
                 debug_RecordPostDrawInfo(canvas);
 #endif
             }
+            else
+            {
 
+            }
             canvas.PopClipAreaRect();
 #if DEBUG
             dbugVRoot.dbug_drawLevel--;

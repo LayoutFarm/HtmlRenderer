@@ -38,16 +38,26 @@ namespace LayoutFarm.UI
             //create default  render box
             this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
             this.userInputEventAdapter = CreateUserEventPortal();
-            this.SubSccribeGraphicsIntervalTask(normalUpdateTask,
+            this.SubscribeGraphicsIntervalTask(normalUpdateTask,
                 TaskIntervalPlan.Animation,
                 20,
                 (s, e) =>
-                {   
+                {
                     this.FlushAccumGraphics();
                 });
         }
-
-        
+        public override bool GfxTimerEnabled
+        {
+            get
+            {
+                return this.graphicTimerTaskMan.Enabled;
+            }
+            set
+            {
+                this.graphicTimerTaskMan.Enabled = value;
+            }
+        }
+         
         public IUserEventPortal UserInputEventAdapter
         {
             get { return this.userInputEventAdapter; }
@@ -132,7 +142,7 @@ namespace LayoutFarm.UI
         }
 
         //-------------------------------------------------------------------------------
-        public override GraphicsTimerTask SubSccribeGraphicsIntervalTask(
+        public override GraphicsTimerTask SubscribeGraphicsIntervalTask(
             object uniqueName,
             TaskIntervalPlan planName,
             int intervalMs,

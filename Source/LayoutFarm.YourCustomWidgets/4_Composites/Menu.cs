@@ -229,6 +229,8 @@ namespace LayoutFarm.CustomWidgets
                             floatPart.SetLocation(globalLocation.X, globalLocation.Y + primElement.Height);
                             this.floatPartRenderElement = this.floatPart.GetPrimaryRenderElement(primElement.Root) as CustomRenderBox;
                             topRenderBox.AddChild(floatPartRenderElement);
+                            //temp here
+                            topRenderBox.InvalidateGraphics();
                         }
 
                     } break;
@@ -253,14 +255,16 @@ namespace LayoutFarm.CustomWidgets
                     } break;
                 case HingeFloatPartStyle.Popup:
                     {
-                        if (floatPartRenderElement != null)
-                        {                            //temp
-                            var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
-                            if (parentContainer.Layers != null)
+
+
+                        var topRenderBox = primElement.GetTopWindowRenderBox();
+                        if (topRenderBox != null)
+                        {
+                            if (this.floatPartRenderElement != null)
                             {
-                                PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
-                                plainLayer.RemoveChild(floatPartRenderElement);
+                                topRenderBox.Layer0.RemoveChild(floatPartRenderElement);
                             }
+
                         }
 
                     } break;

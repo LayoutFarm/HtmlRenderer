@@ -76,7 +76,7 @@
     <Compile Include="1_Drawing\Rect.cs" />
     <Compile Include="4_Animation\Timelines.cs" />
     <Compile Include="4_Animation\ParallelTimeline.cs" />
-    <Compile Include="5_BasicRenderBox\ITopWindowRenderBox.cs" />
+    <Compile Include="5_BasicRenderBox\IRenderElement.cs" />
     <Compile Include="7_PixelFarm_AggVertex_Core\0_VertexCommandAndOrientation.cs" />
     <Compile Include="7_PixelFarm_AggVertex_Core\1_VertexStore.cs" />
     <Compile Include="7_PixelFarm_AggVertex_Core\2_VertexStoreSnap.cs" />

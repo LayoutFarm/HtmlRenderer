@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
- 
+
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
@@ -65,7 +65,7 @@ namespace LayoutFarm.CustomWidgets
                 var layers = new VisualLayerCollection();
                 var layer0 = new PlainLayer(renderE);
                 layers.AddLayer(layer0);
-                renderE.Layers = layers; 
+                renderE.Layers = layers;
 
                 if (this.landPart != null)
                 {
@@ -237,18 +237,22 @@ namespace LayoutFarm.CustomWidgets
                     } break;
                 case HingeFloatPartStyle.Popup:
                     {
-                        if (floatPartRenderElement != null)
+                        //if (floatPartRenderElement != null)
+                        //{
+                        //    //temp
+                        //    var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
+                        //    if (parentContainer.Layers != null)
+                        //    {
+                        //        PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
+                        //        plainLayer.RemoveChild(floatPartRenderElement);
+
+                        //    }
+                        //}
+                        TopWindowRenderBox topRenderBox = primElement.GetTopWindowRenderBox();
+                        if (topRenderBox != null)
                         {
-                            //temp
-                            var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
-                            if (parentContainer.Layers != null)
-                            {
-                                PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
-                                plainLayer.RemoveChild(floatPartRenderElement);
-
-                            }
+                            topRenderBox.Layer0.RemoveChild(floatPartRenderElement);                             
                         }
-
                     } break;
                 case HingeFloatPartStyle.Embeded:
                     {
