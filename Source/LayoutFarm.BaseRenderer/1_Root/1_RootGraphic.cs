@@ -98,6 +98,7 @@ namespace LayoutFarm
         {
             if (!this.hasAccumRect)
             {
+                return;
             }
 
             this.canvasPaintToOutput(accumulateInvalidRect);

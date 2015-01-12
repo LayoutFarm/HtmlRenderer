@@ -24,6 +24,8 @@ namespace LayoutFarm.UI.GdiPlus
                 quadPages.Dispose();
             }
         }
+
+        static int dbugCount = 0;
         protected override void OnClosing()
         {
             quadPages.Dispose();
@@ -33,6 +35,7 @@ namespace LayoutFarm.UI.GdiPlus
         protected override void Canvas_Invalidated(Rectangle r)
         {
             quadPages.CanvasInvalidate(r);
+            //Console.WriteLine((dbugCount++).ToString() + " " + r.ToString());
         }
         public override bool IsQuadPageValid
         {

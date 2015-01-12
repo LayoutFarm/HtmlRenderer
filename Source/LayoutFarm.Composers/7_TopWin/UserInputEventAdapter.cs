@@ -35,6 +35,16 @@ namespace LayoutFarm.UI
 #endif
         }
 
+
+        public void EnableGraphicsTimer()
+        {
+            this.rootgfx.GfxTimerEnabled = true;
+        }
+        public void DisableGraphicsTimer()
+        {
+            this.rootgfx.GfxTimerEnabled = false;            
+        }
+
 #if DEBUG
         RootGraphic dbugRootGraphic
         {
@@ -71,7 +81,7 @@ namespace LayoutFarm.UI
             RelaseHitChain(this._previousChain);
             this._previousChain = hitChain;
         }
-        void FlushAccumGraphicUpdate()
+        void FlushAccumGraphics()
         {
             this.rootgfx.FlushAccumGraphics();
         }
@@ -140,14 +150,7 @@ namespace LayoutFarm.UI
         {
             CurrentKeyboardFocusedElement = null;
         }
-        void DisableGraphicsTimer()
-        {
-            this.rootgfx.GfxTimerEnabled = false;
-        }
-        void EnableGraphicsTimer()
-        {
-            this.rootgfx.GfxTimerEnabled = true;
-        }
+        
         static RenderElement HitTestOnPreviousChain(HitChain hitPointChain, HitChain previousChain, int x, int y)
         {
 
@@ -222,7 +225,7 @@ namespace LayoutFarm.UI
 
         protected void OnMouseDown(UIMouseEventArgs e)
         {
-            this.DisableGraphicsTimer();
+           
 #if DEBUG
             if (this.dbugRootGraphic.dbugEnableGraphicInvalidateTrace)
             {
@@ -299,13 +302,12 @@ namespace LayoutFarm.UI
                         visualroot.dbug_rootHitChainMsg.AddLast(new dbugLayoutMsg(ve, hit_info));
                     }
                 }
-
-
             }
 #endif
             SwapHitChain(hitPointChain);
 
-            this.EnableGraphicsTimer();
+            this.FlushAccumGraphics();
+
             if (local_msgVersion != msgChainVersion)
             {
                 return;
@@ -367,7 +369,7 @@ namespace LayoutFarm.UI
 
 
             SwapHitChain(hitPointChain);
-
+            this.FlushAccumGraphics();
             
         }
         protected void OnGotFocus(UIFocusEventArgs e)
@@ -382,7 +384,7 @@ namespace LayoutFarm.UI
         protected void OnMouseUp(UIMouseEventArgs e)
         {
 
-            this.DisableGraphicsTimer();
+ 
             DateTime snapMouseUpTime = DateTime.Now;
             TimeSpan timediff = snapMouseUpTime - lastTimeMouseUp;
             bool isAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;
@@ -448,12 +450,10 @@ namespace LayoutFarm.UI
                         });
                     }
 
-                }
-
-
+                } 
             }
             SwapHitChain(hitPointChain);
-            this.EnableGraphicsTimer();
+            this.FlushAccumGraphics();
         }
         protected void OnKeyDown(UIKeyEventArgs e)
         {
@@ -462,7 +462,7 @@ namespace LayoutFarm.UI
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyDown(e);
 
-                this.FlushAccumGraphicUpdate();
+                this.FlushAccumGraphics();
             }
         }
         protected void OnKeyUp(UIKeyEventArgs e)
@@ -471,7 +471,7 @@ namespace LayoutFarm.UI
             {
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyUp(e);
-                this.FlushAccumGraphicUpdate();
+                this.FlushAccumGraphics();
             }
         }
         protected void OnKeyPress(UIKeyEventArgs e)
@@ -481,6 +481,7 @@ namespace LayoutFarm.UI
             {
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyPress(e);
+                this.FlushAccumGraphics();
             }
         }
         protected bool OnProcessDialogKey(UIKeyEventArgs e)
@@ -490,6 +491,7 @@ namespace LayoutFarm.UI
             {
                 e.SourceHitElement = currentKbFocusElem;
                 result = currentKbFocusElem.ListenProcessDialogKey(e);
+                this.FlushAccumGraphics();
             }
             return result;
         }

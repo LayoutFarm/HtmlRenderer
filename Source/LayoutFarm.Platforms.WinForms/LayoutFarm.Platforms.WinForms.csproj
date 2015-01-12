@@ -43,9 +43,9 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="0_Start\CanvasViewport.cs" />
     <Compile Include="0_Start\Conv.cs" />
     <Compile Include="0_Start\dbugHelper.cs" />
-    <Compile Include="1_LayoutFarm.UI\CanvasViewport.cs" />
     <Compile Include="2_GdiPlus\1_GdiPlusCanvasViewport.cs" />
     <Compile Include="2_GdiPlus\MyWinGdiPortal.cs" />
     <Compile Include="3_OpenGL\0_GpuOpenGLSurfaceView.cs">

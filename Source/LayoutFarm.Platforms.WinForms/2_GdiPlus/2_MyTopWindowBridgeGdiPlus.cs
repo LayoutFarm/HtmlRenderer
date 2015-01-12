@@ -43,6 +43,7 @@ namespace LayoutFarm.UI.GdiPlus
         }
         protected override void PaintToOutputWindowIfNeed()
         {
+            
             if (!this.gdiPlusViewport.IsQuadPageValid)
             {
                 //platform specific code ***
