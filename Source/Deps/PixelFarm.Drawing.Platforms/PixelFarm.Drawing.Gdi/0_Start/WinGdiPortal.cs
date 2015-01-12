@@ -29,5 +29,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             get { return platform; }
         }
+
+
     }
 }

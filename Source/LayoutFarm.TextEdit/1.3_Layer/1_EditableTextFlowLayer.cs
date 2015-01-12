@@ -455,7 +455,7 @@ namespace LayoutFarm.Text
 #if DEBUG
             vinv_dbug_EnterLayerReArrangeContent(this);
 #endif
-            this.BeginLayerLayoutUpdate();
+            //this.BeginLayerLayoutUpdate();
 
             RenderBoxBase container = this.OwnerRenderElement as RenderBoxBase;
             if (container != null)
@@ -468,7 +468,7 @@ namespace LayoutFarm.Text
                 Reflow(this, EventArgs.Empty);
             }
 
-            this.EndLayerLayoutUpdate();
+            //this.EndLayerLayoutUpdate();
 #if DEBUG
             vinv_dbug_ExitLayerReArrangeContent();
 #endif

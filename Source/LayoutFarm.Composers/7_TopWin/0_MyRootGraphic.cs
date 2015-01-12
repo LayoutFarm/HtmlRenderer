@@ -9,7 +9,7 @@ namespace LayoutFarm.UI
 {
 
 
-    public class MyRootGraphic : RootGraphic
+    public sealed class MyRootGraphic : RootGraphic
     {
         List<RenderElement> layoutQueue = new List<RenderElement>();
         List<RenderElement> layoutQueue2 = new List<RenderElement>();
@@ -38,15 +38,26 @@ namespace LayoutFarm.UI
             //create default  render box
             this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
             this.userInputEventAdapter = CreateUserEventPortal();
-            this.RequestGraphicsIntervalTask(normalUpdateTask,
+            this.SubscribeGraphicsIntervalTask(normalUpdateTask,
                 TaskIntervalPlan.Animation,
                 20,
                 (s, e) =>
                 {
-                    topWindowRenderBox.InvalidateGraphics();
+                    this.FlushAccumGraphics();
                 });
         }
-
+        public override bool GfxTimerEnabled
+        {
+            get
+            {
+                return this.graphicTimerTaskMan.Enabled;
+            }
+            set
+            {
+                this.graphicTimerTaskMan.Enabled = value;
+            }
+        }
+         
         public IUserEventPortal UserInputEventAdapter
         {
             get { return this.userInputEventAdapter; }
@@ -83,9 +94,8 @@ namespace LayoutFarm.UI
 
         UserInputEventAdapter CreateUserEventPortal()
         {
-            UserInputEventAdapter userInputEventBridge = new UserInputEventAdapter();
-            userInputEventBridge.Bind(this.TopWindowRenderBox);
-            return userInputEventBridge;
+            return new UI.UserInputEventAdapter(this);
+
         }
         public override GraphicsPlatform P
         {
@@ -132,7 +142,7 @@ namespace LayoutFarm.UI
         }
 
         //-------------------------------------------------------------------------------
-        public override GraphicsTimerTask RequestGraphicsIntervalTask(
+        public override GraphicsTimerTask SubscribeGraphicsIntervalTask(
             object uniqueName,
             TaskIntervalPlan planName,
             int intervalMs,

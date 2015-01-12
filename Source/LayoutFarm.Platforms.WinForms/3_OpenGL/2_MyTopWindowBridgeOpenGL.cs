@@ -19,18 +19,16 @@ namespace LayoutFarm.UI.OpenGL
         public MyTopWindowBridgeOpenGL(RootGraphic root, IUserEventPortal winEventBridge)
             : base(root, winEventBridge)
         {
+
         }
         /// <summary>
         /// bind to gl control
         /// </summary>
         /// <param name="myGLControl"></param>
         public void BindGLControl(GpuOpenGLSurfaceView myGLControl)
-        {
-
-            
-
+        {   
             this.windowControl = myGLControl;
-            SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(topwin, this.Size.ToSize(), 4));
+            SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(this.RootGfx, this.Size.ToSize(), 4));
             openGLViewport.NotifyWindowControlBinding();
 #if DEBUG
             this.openGLViewport.dbugOutputWindow = this;

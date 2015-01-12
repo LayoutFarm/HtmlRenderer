@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
- 
+
 
 namespace LayoutFarm.UI
 {
@@ -25,6 +25,22 @@ namespace LayoutFarm.UI
             this._width = width;
             this._height = height;
         }
+        public void BeginGfx()
+        {
+            //stop flush timer
+            if (this.HasReadyRenderElement)
+            {
+                this.CurrentPrimaryRenderElement.Root.GfxTimerEnabled = false;
+            }
+        }
+        public void EndGfx()
+        {
+            if (this.HasReadyRenderElement)
+            {
+                this.CurrentPrimaryRenderElement.Root.GfxTimerEnabled = true;
+            }
+        }
+
         public void SetLocation(int left, int top)
         {
             this._left = left;
@@ -200,9 +216,9 @@ namespace LayoutFarm.UI
 
 
         //-----------------------------------
-        
+
         internal static RenderElement GetCurrentPrimaryRenderElement(UIBox box)
-        {   
+        {
             return box.CurrentPrimaryRenderElement;
         }
     }

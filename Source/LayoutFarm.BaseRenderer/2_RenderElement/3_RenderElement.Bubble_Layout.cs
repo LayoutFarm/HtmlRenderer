@@ -13,6 +13,88 @@ namespace LayoutFarm
 
     partial class RenderElement
     {
+        public virtual void TopDownReCalculateContentSize()
+        {
+            MarkHasValidCalculateSize();
+        }
+
+        internal static void SetCalculatedDesiredSize(RenderBoxBase v, int desiredWidth, int desiredHeight)
+        {
+            v.b_width = desiredWidth;
+            v.b_height = desiredHeight;
+            v.MarkHasValidCalculateSize();
+        }
+        public static bool IsLayoutSuspending(RenderBoxBase re)
+        {
+            //recursive
+            if (re.IsTopWindow)
+            {
+                return (re.uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0;
+            }
+            else
+            {
+
+                if ((re.uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0)
+                {
+
+                    return true;
+                }
+                else
+                {
+
+                    var parentElement = re.ParentRenderElement as RenderBoxBase;
+                    if (parentElement != null)
+                    {
+                        return IsLayoutSuspending(parentElement);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        bool IsInLayoutSuspendMode
+        {
+            get
+            {
+                return (uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0;
+            }
+        }
+//        void PrivateSetSize(int width, int height)
+//        {
+//            RenderElement.DirectSetVisualElementSize(this, width, height);
+
+//            if (this.MayHasChild)
+//            {
+//                RenderBoxBase vscont = (RenderBoxBase)this;
+//                if (!IsInTopDownReArrangePhase)
+//                {
+//                    vscont.InvalidateContentArrangementFromContainerSizeChanged();
+//                    this.InvalidateLayoutAndStartBubbleUp();
+//                }
+//                else
+//                {
+//#if DEBUG
+//                    dbug_SetInitObject(this);
+//#endif
+//                    vscont.ForceTopDownReArrangeContent();
+//                }
+//            }
+//            else
+//            {
+//#if DEBUG
+//                this.dbug_BeginArr++;
+//#endif
+
+//                this.MarkValidContentArrangement();
+//#if DEBUG
+//                this.dbug_FinishArr++;
+//#endif
+//            }
+//        }
+
         internal static int GetLayoutSpecificDimensionType(RenderElement visualElement)
         {
             return visualElement.uiLayoutFlags & 0x3;

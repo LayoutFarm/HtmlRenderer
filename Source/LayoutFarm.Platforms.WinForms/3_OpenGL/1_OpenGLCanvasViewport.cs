@@ -10,9 +10,9 @@ namespace LayoutFarm.UI.OpenGL
     {
         Canvas canvas;
         bool isClosed;
-        public OpenGLCanvasViewport(TopWindowRenderBox wintop,
+        public OpenGLCanvasViewport(RootGraphic root,
             Size viewportSize, int cachedPageNum)
-            : base(wintop, viewportSize, cachedPageNum)
+            : base(root, viewportSize, cachedPageNum)
         {
 
         }
@@ -25,9 +25,9 @@ namespace LayoutFarm.UI.OpenGL
                 canvas = null;
             }
         }
-        protected override void Canvas_Invalidate(ref Rectangle r)
+        protected override void Canvas_PaintToOutput(Rectangle r)
         {
-            base.Canvas_Invalidate(ref r);
+            base.Canvas_PaintToOutput(r);
         }
         public void NotifyWindowControlBinding()
         {
@@ -152,8 +152,7 @@ namespace LayoutFarm.UI.OpenGL
 
 #if DEBUG
             topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
-#endif
-#if DEBUG
+ 
 #endif
 
             mycanvas.IsContentReady = true;

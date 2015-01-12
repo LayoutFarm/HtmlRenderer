@@ -12,57 +12,60 @@ namespace LayoutFarm
 
     partial class RenderElement
     {
-
-        public virtual void TopDownReCalculateContentSize()
+        public void SetWidth(int width)
         {
-            MarkHasValidCalculateSize();
+            this.SetSize(width, this.b_height);
         }
-
-        internal static void SetCalculatedDesiredSize(RenderBoxBase v, int desiredWidth, int desiredHeight)
+        public void SetHeight(int height)
         {
-            v.b_width = desiredWidth;
-            v.b_height = desiredHeight;
-            v.MarkHasValidCalculateSize();
+            this.SetSize(this.b_width, height);
         }
-        public static bool IsLayoutSuspending(RenderBoxBase re)
+        public void SetSize(int width, int height)
         {
-            //recursive
-            if (re.IsTopWindow)
+            if (parentLink == null)
             {
-                return (re.uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0;
+                //direct set size
+                this.b_width = width;
+                this.b_height = height;
             }
             else
             {
+ 
+                var prevBounds = this.RectBounds;
 
-                if ((re.uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0)
-                {
+                this.b_width = width;
+                this.b_height = height;
+                
+                //combine before and after rect 
+                //add to invalidate root invalidate queue 
+                this.rootGfx.AddToInvalidateGraphicQueue(this, Rectangle.Union(prevBounds, this.RectBounds));                
 
-                    return true;
-                }
-                else
-                {
-
-                    var parentElement = re.ParentRenderElement as RenderBoxBase;
-                    if (parentElement != null)
-                    {
-                        return IsLayoutSuspending(parentElement);
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
+                 
             }
         }
-
-        bool IsInLayoutSuspendMode
+        public void SetLocation(int left, int top)
         {
-            get
+            if (parentLink == null)
             {
-                return (uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0;
+                this.b_left = left;
+                this.b_top = top;
+            }
+            else
+            {
+                //set location not affect its content size 
+
+                var prevBounds = this.RectBounds; 
+                //----------------
+                //set bound
+                this.b_left = left;
+                this.b_top = top;
+                //----------------   
+                //combine before and after rect  
+                //add to invalidate root invalidate queue
+
+                this.rootGfx.AddToInvalidateGraphicQueue(this, Rectangle.Union(prevBounds, this.RectBounds)); 
             }
         }
-
 
 
         public void ResumeLayout()
@@ -88,96 +91,6 @@ namespace LayoutFarm
                 }
             }
         }
-
-        public void SetWidth(int width)
-        {
-            this.SetSize(width, this.b_height);
-        }
-        public void SetHeight(int height)
-        {
-            this.SetSize(this.b_width, height);
-        }
-        public void SetSize(int width, int height)
-        {
-            if (parentLink == null)
-            {
-                //direct set size
-                this.b_width = width;
-                this.b_height = height;
-            }
-            else
-            {
-#if DEBUG
-                int dbug_prevWidth = this.b_width;
-                int dbug_prevHeight = this.b_height;
-#endif
-
-                this.BeforeBoundChangedInvalidateGraphics();
-
-                PrivateSetSize(width, height);
-
-                this.AfterBoundChangedInvalidateGraphics();
-            }
-        }
-        public void SetLocation(int left, int top)
-        {
-            if (parentLink == null)
-            {
-                this.b_left = left;
-                this.b_top = top;
-            }
-            else
-            {
-
-                var prevBounds = this.RectBounds;
-
-                this.BeginGraphicUpdate();
-
-                //----------------
-                //set bound
-                this.b_left = left;
-                this.b_top = top;
-                //----------------
-
-                var currentBounds = this.RectBounds;
-
-                this.EndGraphicUpdate();
-            }
-        }
-
-        void PrivateSetSize(int width, int height)
-        {
-            RenderElement.DirectSetVisualElementSize(this, width, height);
-
-            if (this.MayHasChild)
-            {
-                RenderBoxBase vscont = (RenderBoxBase)this;
-                if (!IsInTopDownReArrangePhase)
-                {
-                    vscont.InvalidateContentArrangementFromContainerSizeChanged();
-                    this.InvalidateLayoutAndStartBubbleUp();
-                }
-                else
-                {
-#if DEBUG
-                    dbug_SetInitObject(this);
-#endif
-                    vscont.ForceTopDownReArrangeContent();
-                }
-            }
-            else
-            {
-#if DEBUG
-                this.dbug_BeginArr++;
-#endif
-
-                this.MarkValidContentArrangement();
-#if DEBUG
-                this.dbug_FinishArr++;
-#endif
-            }
-        }
-
 
 
     }

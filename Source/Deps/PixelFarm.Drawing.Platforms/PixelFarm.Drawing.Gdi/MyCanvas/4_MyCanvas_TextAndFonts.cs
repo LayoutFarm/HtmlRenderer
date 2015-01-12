@@ -15,7 +15,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 using Win32;
 
 namespace PixelFarm.Drawing.WinGdi
@@ -29,7 +29,7 @@ namespace PixelFarm.Drawing.WinGdi
         //IFonts impl
         PixelFarm.Drawing.FontInfo IFonts.GetFontInfo(string fontname, float fsize, FontStyle st)
         {
-            return this.platform.GetFont(fontname, fsize, st);             
+            return this.platform.GetFont(fontname, fsize, st);
         }
         float IFonts.MeasureWhitespace(PixelFarm.Drawing.Font f)
         {
@@ -111,54 +111,34 @@ namespace PixelFarm.Drawing.WinGdi
 
 
         public override void DrawText(char[] buffer, int x, int y)
-        {
+        {   
+            ReleaseHdc();
+            IntPtr gxdc = gx.GetHdc();
+            MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
+            NativeTextWin32.TextOut(gxdc, x, y, buffer, buffer.Length);
+            MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
+            gx.ReleaseHdc(gxdc);
 
-            if (isFromPrinter)
-            {
-                //gx.DrawString(new string(buffer),
-                //        ConvFont(prevFonts.Peek().Font),
-                //        internalBrush,
-                //        x,
-                //        y);
-
-            }
-            else
-            {
-                IntPtr gxdc = gx.GetHdc();
-                MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
-                NativeTextWin32.TextOut(gxdc, x, y, buffer, buffer.Length);
-                MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
-                gx.ReleaseHdc(gxdc);
-            }
         }
         public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
         {
 
-            if (isFromPrinter)
-            {
-                //gx.DrawString(
-                //    new string(buffer),
-                //    ConvFont(prevFonts.Peek().Font),
-                //    internalBrush,
-                //    logicalTextBox.ToRect());
-            }
-            else
-            {
-                IntPtr gxdc = gx.GetHdc();
-                MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
-                System.Drawing.Rectangle clipRect =
-                    System.Drawing.Rectangle.Intersect(logicalTextBox.ToRect(), currentClipRect);
-                clipRect.Offset(CanvasOrgX, CanvasOrgY);
-                MyWin32.SetRectRgn(hRgn, clipRect.X, clipRect.Y, clipRect.Right, clipRect.Bottom);
-                MyWin32.SelectClipRgn(gxdc, hRgn);
-                NativeTextWin32.TextOut(gxdc, logicalTextBox.X, logicalTextBox.Y, buffer, buffer.Length);
-                MyWin32.SelectClipRgn(gxdc, IntPtr.Zero);
+            ReleaseHdc();
+            IntPtr gxdc = gx.GetHdc();
+            MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
+            System.Drawing.Rectangle clipRect =
+                System.Drawing.Rectangle.Intersect(logicalTextBox.ToRect(), currentClipRect);
+            clipRect.Offset(CanvasOrgX, CanvasOrgY);
+            MyWin32.SetRectRgn(hRgn, clipRect.X, clipRect.Y, clipRect.Right, clipRect.Bottom);
+            MyWin32.SelectClipRgn(gxdc, hRgn);
+            NativeTextWin32.TextOut(gxdc, logicalTextBox.X, logicalTextBox.Y, buffer, buffer.Length);
+            MyWin32.SelectClipRgn(gxdc, IntPtr.Zero);
 
-                MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
-                gx.ReleaseHdc();
-            }
+            MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
+            gx.ReleaseHdc();
+
         }
-        
+
         public override Font CurrentFont
         {
             get

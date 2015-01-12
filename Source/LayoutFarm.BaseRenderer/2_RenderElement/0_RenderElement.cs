@@ -143,14 +143,19 @@ namespace LayoutFarm
         }
         public void SetVisible(bool value)
         {
+            //check if visible change?
 
-            propFlags = value ?
-                propFlags & ~RenderElementConst.HIDDEN :
-                propFlags | RenderElementConst.HIDDEN;
 
-            if (parentLink != null)
+            if (this.Visible != value)
             {
-                this.InvalidateGraphics();
+                propFlags = value ?
+                    propFlags & ~RenderElementConst.HIDDEN :
+                    propFlags | RenderElementConst.HIDDEN;
+
+                if (parentLink != null)
+                {
+                    this.InvalidateGraphics();
+                }
             }
         }
         public bool IsBlockElement
@@ -285,7 +290,7 @@ namespace LayoutFarm
             //TODO: need?
             throw new NotSupportedException();
         }
-        
+
         //==============================================================
         //render...
         public abstract void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea);
@@ -300,7 +305,7 @@ namespace LayoutFarm
 #if DEBUG
             dbugVRoot.dbug_drawLevel++;
 #endif
-
+            
             if (canvas.PushClipAreaRect(b_width, b_height, ref updateArea))
             {
 #if DEBUG
@@ -319,17 +324,20 @@ namespace LayoutFarm
                 debug_RecordPostDrawInfo(canvas);
 #endif
             }
+            else
+            {
 
+            }
             canvas.PopClipAreaRect();
 #if DEBUG
             dbugVRoot.dbug_drawLevel--;
 #endif
-        } 
-      
-        
+        }
+
+
         //==============================================================
         //set location and size , not bubble***
-     
+
         public static void DirectSetVisualElementSize(RenderElement visualElement, int width, int height)
         {
             visualElement.b_width = width;
@@ -339,7 +347,7 @@ namespace LayoutFarm
         {
             visualElement.b_left = x;
             visualElement.b_top = y;
-        } 
+        }
 
     }
 }

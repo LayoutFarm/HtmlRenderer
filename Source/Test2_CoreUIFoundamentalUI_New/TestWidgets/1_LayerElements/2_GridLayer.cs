@@ -21,7 +21,7 @@ namespace LayoutFarm.UI
 
         public GridLayer(RenderElement owner, int nColumns, int nRows, CellSizeStyle cellSizeStyle)
             : base(owner)
-        {             
+        {
             this.cellSizeStyle = cellSizeStyle;
             this.gridTable = new GridTable();
 
@@ -109,7 +109,7 @@ namespace LayoutFarm.UI
             vinv_dbug_EnterLayerReArrangeContent(this);
 #endif
             //--------------------------------- 
-            this.BeginLayerLayoutUpdate();
+            //this.BeginLayerLayoutUpdate();
             //---------------------------------
             if (gridCols != null && gridCols.Count > 0)
             {
@@ -134,7 +134,7 @@ namespace LayoutFarm.UI
 
             ValidateArrangement();
             //---------------------------------
-            this.EndLayerLayoutUpdate();
+            //this.EndLayerLayoutUpdate();
 
 #if DEBUG
             vinv_dbug_ExitLayerReArrangeContent();
@@ -630,7 +630,7 @@ namespace LayoutFarm.UI
 
 #endif
 
-       
+
         public override void DrawChildContent(Canvas canvasPage, Rectangle updateArea)
         {
             GridCell leftTopGridItem = GetGridItemByPosition(updateArea.Left, updateArea.Top);
@@ -730,7 +730,7 @@ namespace LayoutFarm.UI
                         if (renderContent != null)
                         {
 
-                            if (canvasPage.PushClipAreaRect(gridItem.Width, gridItem.Height, ref updateArea))
+                            if (canvasPage.PushClipAreaRect(gridItem.Width, gridItem.Height,ref updateArea))
                             {
                                 renderContent.DrawToThisCanvas(canvasPage, updateArea);
                             }

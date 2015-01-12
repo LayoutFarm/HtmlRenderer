@@ -6,7 +6,7 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.RenderBoxes
 {
-   
+
 
 #if DEBUG
     [System.Diagnostics.DebuggerDisplay("RenderBoxBase {dbugGetCssBoxInfo}")]
@@ -28,7 +28,7 @@ namespace LayoutFarm.RenderBoxes
             get { return this.layers; }
             set { this.layers = value; }
         }
-        
+
         public void SetViewport(int viewportX, int viewportY)
         {
             this.myviewportX = viewportX;
@@ -48,28 +48,28 @@ namespace LayoutFarm.RenderBoxes
                 return this.myviewportY;
             }
         }
-       
-        
+
+
         public sealed override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
-
             canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
-            updateArea.Offset(myviewportX, myviewportY);  
+            updateArea.Offset(myviewportX, myviewportY);
 
             this.DrawContent(canvas, updateArea);
 
             canvas.OffsetCanvasOrigin(myviewportX, myviewportY);
-            updateArea.Offset(-myviewportX, -myviewportY); 
-        }      
-        
+            updateArea.Offset(-myviewportX, -myviewportY);
+        }
+
         protected virtual void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             //sample ***
             //1. draw background
-            canvas.FillRectangle(Color.White, 0, 0, updateArea.Width, updateArea.Height);
+            //canvas.FillRectangle(Color.White, 0, 0, updateArea.Width, updateArea.Height);
+            canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
 
             //2. draw each layer
-         
+
             if (this.layers != null)
             {
                 int j = this.layers.LayerCount;
@@ -111,7 +111,7 @@ namespace LayoutFarm.RenderBoxes
                 }
             }
         }
-     
+
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
             if (this.layers != null)
@@ -201,7 +201,7 @@ namespace LayoutFarm.RenderBoxes
 #endif
 
             this.MarkValidContentArrangement();
-            
+
             IsInTopDownReArrangePhase = true;
 
             this.layers.ForceTopDownReArrangeContent();
@@ -297,7 +297,7 @@ namespace LayoutFarm.RenderBoxes
 
             }
         }
-         
+
         public int ClientTop
         {
             get
@@ -336,5 +336,5 @@ namespace LayoutFarm.RenderBoxes
     }
 
 
- 
+
 }

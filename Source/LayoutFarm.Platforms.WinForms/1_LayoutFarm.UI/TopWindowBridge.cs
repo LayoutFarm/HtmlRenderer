@@ -34,8 +34,11 @@ namespace LayoutFarm.UI
             this.userEventPortal = winEventBridge;
             this.rootGraphic = rootGraphic;
             this.topwin = rootGraphic.TopWindowRenderBox;
-            rootGraphic.SetPaintToOutputHandler(this.PaintToOutputWindow);
-            
+            rootGraphic.SetPaintToOutputHandler(this.PaintToOutputWindow); 
+        }
+        public  RootGraphic RootGfx
+        {
+            get { return this.rootGraphic; }
         }
         protected void SetBaseCanvasViewport(CanvasViewport canvasViewport)
         {

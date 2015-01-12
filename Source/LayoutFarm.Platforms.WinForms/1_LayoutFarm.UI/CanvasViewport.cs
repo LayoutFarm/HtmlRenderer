@@ -23,28 +23,27 @@ namespace LayoutFarm.UI
         int v_smallChange = 0;
         int v_largeChange = 0;
 
-        CanvasInvalidateRequestDelegate canvasInvalidateHandler;
+        CanvasPaintToOutputDelegate canvasPaintToOutputDel;
         EventHandler<EventArgs> canvasSizeChangedHandler;
 
         bool fullMode = true;
         bool isClosed;//is this viewport closed
 
 
-        public CanvasViewport(TopWindowRenderBox topWindowBox,
+        public CanvasViewport(RootGraphic rootgfx,
             Size viewportSize, int cachedPageNum)
         {
-            this.rootGraphics = topWindowBox.Root;
-            this.topWindowBox = topWindowBox;
-
+            this.rootGraphics = rootgfx;
+            this.topWindowBox = rootgfx.TopWindowRenderBox;
 
             this.viewportWidth = viewportSize.Width;
             this.viewportHeight = viewportSize.Height;
 
-            canvasInvalidateHandler = Canvas_Invalidate;
+            canvasPaintToOutputDel = Canvas_PaintToOutput;
             canvasSizeChangedHandler = Canvas_SizeChanged;
 
 
-            topWindowBox.Root.SetCanvasInvalidateRequest(canvasInvalidateHandler);
+            rootgfx.SetCanvasPaintToOutputDel(canvasPaintToOutputDel);
             viewportX = 0;
             viewportY = 0;
 
@@ -87,15 +86,15 @@ namespace LayoutFarm.UI
                 ResetQuadPages(viewportWidth, viewportHeight);
                 CalculateCanvasPages();
 
-                
+
             }
         }
         void ChangeRootGraphicSize(int width, int height)
-        {
+        {   
             Size currentSize = topWindowBox.Size;
             if (currentSize.Width != width || currentSize.Height != height)
             {
-                topWindowBox.SetSize(width, height); 
+                topWindowBox.SetSize(width, height);
                 topWindowBox.InvalidateContentArrangementFromContainerSizeChanged();
                 topWindowBox.TopDownReCalculateContentSize();
                 topWindowBox.TopDownReArrangeContentIfNeed();
@@ -113,7 +112,7 @@ namespace LayoutFarm.UI
         {
             //EvaluateScrollBar();
         }
-        protected virtual void Canvas_Invalidate(ref Rectangle r)
+        protected virtual void Canvas_PaintToOutput(Rectangle r)
         {
         }
         public virtual bool IsQuadPageValid

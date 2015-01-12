@@ -45,6 +45,7 @@ namespace LayoutFarm
 
             RootInvalidateGraphicArea(ve, ref localArea);
         }
+
         //TODO: review this again
         protected bool ForceReArrange
         {
@@ -66,7 +67,7 @@ namespace LayoutFarm
         }
 
 
-        internal bool IsInvalidateGraphicBlocked
+        internal bool BlockGraphicUpdateBubble
         {
 
             get
@@ -77,53 +78,38 @@ namespace LayoutFarm
                 return ((uiLayoutFlags & LY_SUSPEND_GRAPHIC) != 0) || ((uiFlags & HIDDEN) != 0);
 #endif
             }
-        }
-         
+        } 
+        //internal void BeginGraphicUpdate()
+        //{
+        //    InvalidateGraphics();
+        //    this.rootGfx.BeginGraphicUpdate();
+        //    this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;
+        //}
+        
+        //internal void EndGraphicUpdate()
+        //{
+        //    this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
 
-        internal void BeginGraphicUpdate()
-        {
-            InvalidateGraphics();
-            this.rootGfx.BeginGraphicUpdate();
-            this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;
-        }
-        internal void EndGraphicUpdate()
-        {
-            this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
+        //    if (InvalidateGraphics())
+        //    {
+        //        this.rootGfx.EndGraphicUpdate();
+        //    }
+        //}
+        //void BeforeBoundChangedInvalidateGraphics()
+        //{
+        //    InvalidateGraphics();
+        //    this.rootGfx.BeginGraphicUpdate();
+        //    this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;
+        //}
+        //void AfterBoundChangedInvalidateGraphics()
+        //{
+        //    this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
 
-            if (InvalidateGraphics())
-            {
-                this.rootGfx.EndGraphicUpdate();
-            }
-        }
-        void BeforeBoundChangedInvalidateGraphics()
-        {
-            InvalidateGraphics();
-            this.rootGfx.BeginGraphicUpdate();
-            this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;
-        }
-        void AfterBoundChangedInvalidateGraphics()
-        {
-            this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
-
-            if (InvalidateGraphics())
-            {
-                this.rootGfx.EndGraphicUpdate();
-            }
-        }
-        internal bool IsInRenderChain
-        {
-            get
-            {
-                return (propFlags & RenderElementConst.IS_IN_RENDER_CHAIN) != 0;
-            }
-            set
-            {
-                propFlags = value ?
-                   propFlags | RenderElementConst.IS_IN_RENDER_CHAIN :
-                   propFlags & ~RenderElementConst.FIRST_ARR_PASS;
-
-            }
-        }
+        //    if (InvalidateGraphics())
+        //    {
+        //        this.rootGfx.EndGraphicUpdate();
+        //    }
+        //} 
     }
 
 }
