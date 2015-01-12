@@ -46,9 +46,8 @@ namespace LayoutFarm.CustomWidgets
         {
             if (visualTextEdit == null)
             {
-                var tbox = new TextEditRenderBox(rootgfx, this.Width, this.Height, _multiline);
-                RenderElement.DirectSetVisualElementLocation(tbox, this.Left, this.Top);
-
+                var tbox = new TextEditRenderBox(rootgfx, this.Width, this.Height, _multiline);                 
+                tbox.SetLocation(this.Left, this.Top);
                 tbox.HasSpecificSize = true;
 
                 tbox.SetController(this);
@@ -71,14 +70,9 @@ namespace LayoutFarm.CustomWidgets
         protected override void OnDoubleClick(UIMouseEventArgs e)
         {
             visualTextEdit.OnDoubleClick(e);
+            e.CancelBubbling = true;
         }
-        public override void InvalidateGraphic()
-        {
-            if (visualTextEdit != null)
-            {
-                visualTextEdit.InvalidateGraphics();
-            }
-        }
+     
 
         protected override void OnKeyPress(UIKeyEventArgs e)
         {

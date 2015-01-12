@@ -175,7 +175,7 @@ namespace LayoutFarm.CustomWidgets
                 if (element != null)
                 {
                     element.PerformContentLayout();
-                    element.SetBound(0, ypos, element.Width, element.DesiredHeight);
+                    element.SetBounds(0, ypos, element.Width, element.DesiredHeight);
                     ypos += element.DesiredHeight;
                 }
             }

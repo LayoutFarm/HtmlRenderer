@@ -47,9 +47,8 @@ namespace LayoutFarm.UI
             this._top = top;
 
             if (this.HasReadyRenderElement)
-            {
-                var renderE = this.CurrentPrimaryRenderElement;
-                renderE.SetLocation(left, top);
+            {   
+                this.CurrentPrimaryRenderElement.SetLocation(left, top);
             }
         }
         public virtual void SetSize(int width, int height)
@@ -62,7 +61,7 @@ namespace LayoutFarm.UI
                 this.CurrentPrimaryRenderElement.SetSize(_width, _height);
             }
         }
-        public void SetBound(int left, int top, int width, int height)
+        public void SetBounds(int left, int top, int width, int height)
         {
             this._left = left;
             this._top = top;
@@ -71,7 +70,7 @@ namespace LayoutFarm.UI
 
             if (this.HasReadyRenderElement)
             {
-                this.CurrentPrimaryRenderElement.SetBounds(left, top, width, height); 
+                this.CurrentPrimaryRenderElement.SetBounds(left, top, width, height);
             }
         }
 
@@ -83,9 +82,6 @@ namespace LayoutFarm.UI
         {
             get;
         }
-
-
-
         public int Left
         {
             get
@@ -158,7 +154,7 @@ namespace LayoutFarm.UI
             }
         }
 
-        public override void InvalidateGraphic()
+        public override void InvalidateGraphics()
         {
             if (this.HasReadyRenderElement)
             {

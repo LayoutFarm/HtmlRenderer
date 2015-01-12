@@ -24,7 +24,7 @@ namespace LayoutFarm
             this.Width = width;
             this.Height = heigth;
         }
-    
+
         public abstract GraphicsPlatform P { get; }
 
         public IFonts SampleIFonts { get { return this.P.SampleIFonts; } }
@@ -97,9 +97,9 @@ namespace LayoutFarm
         public void FlushAccumGraphics()
         {
             if (!this.hasAccumRect)
-            {   
+            {
             }
-            
+
             this.canvasPaintToOutput(accumulateInvalidRect);
             this.accumRectVer = 0;
             hasAccumRect = false;
@@ -128,13 +128,20 @@ namespace LayoutFarm
             }
         }
 #endif
-
+        public int RootWidth
+        {
+            get { return this.TopWindowRenderBox.Width; }
+        }
+        public int RootHeight
+        {
+            get { return this.TopWindowRenderBox.Height; }
+        }
 
 
         public void AddToInvalidateGraphicQueue(RenderElement fromElement, Rectangle totalBounds)
         {
             //total bounds = total bounds at level
-            
+
             if (this.IsInRenderPhase) { return; }
             //--------------------------------------            
             //bubble up ,find global offset of 'fromElement' 
@@ -241,7 +248,7 @@ namespace LayoutFarm
 
             //----------------------------------------
             totalBounds.Offset(globalX, globalY);
-             
+
 
 
             if (totalBounds.Top > this.Height
@@ -272,7 +279,7 @@ namespace LayoutFarm
             //----------------------
             accumRectVer++;
             //----------------------
- 
+
 #if DEBUG
             if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
                 dbugMyroot.dbugGraphicInvalidateTracer != null)
@@ -417,7 +424,7 @@ namespace LayoutFarm
             {
                 accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, elemClientRect);
             }
-            
+
             //----------------------
             accumRectVer++;
             //----------------------

@@ -330,8 +330,7 @@ namespace LayoutFarm
 #if DEBUG
             dbugVRoot.dbug_drawLevel--;
 #endif
-        }
-
+        } 
 
         //==============================================================
         //set location and size , not bubble***

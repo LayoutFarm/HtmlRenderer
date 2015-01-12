@@ -15,7 +15,7 @@ namespace LayoutFarm.UI
         int viewportWidth;
         int viewportHeight;
 
-        protected TopWindowRenderBox topWindowBox;
+        protected IRenderElement topWindowBox;
         protected RootGraphic rootGraphics;
 
         int h_smallChange = 0;
@@ -39,7 +39,7 @@ namespace LayoutFarm.UI
             this.viewportWidth = viewportSize.Width;
             this.viewportHeight = viewportSize.Height;
 
-            canvasPaintToOutputDel = Canvas_PaintToOutput;
+            canvasPaintToOutputDel = Canvas_Invalidated;
             canvasSizeChangedHandler = Canvas_SizeChanged;
 
 
@@ -85,20 +85,18 @@ namespace LayoutFarm.UI
 
                 ResetQuadPages(viewportWidth, viewportHeight);
                 CalculateCanvasPages();
-
-
             }
         }
         void ChangeRootGraphicSize(int width, int height)
-        {   
-            Size currentSize = topWindowBox.Size;
-            if (currentSize.Width != width || currentSize.Height != height)
-            {
-                topWindowBox.SetSize(width, height);
-                topWindowBox.InvalidateContentArrangementFromContainerSizeChanged();
-                topWindowBox.TopDownReCalculateContentSize();
-                topWindowBox.TopDownReArrangeContentIfNeed();
-            }
+        {
+            //Size currentSize = topWindowBox.Size;
+            //if (currentSize.Width != width || currentSize.Height != height)
+            //{
+            //    topWindowBox.SetSize(width, height);
+            //    topWindowBox.InvalidateContentArrangementFromContainerSizeChanged();
+            //    topWindowBox.TopDownReCalculateContentSize();
+            //    topWindowBox.TopDownReArrangeContentIfNeed();
+            //}
         }
         protected virtual void ResetQuadPages(int viewportWidth, int viewportHeight)
         {
@@ -112,8 +110,9 @@ namespace LayoutFarm.UI
         {
             //EvaluateScrollBar();
         }
-        protected virtual void Canvas_PaintToOutput(Rectangle r)
-        {
+        protected virtual void Canvas_Invalidated(Rectangle r)
+        { 
+
         }
         public virtual bool IsQuadPageValid
         {
@@ -171,11 +170,11 @@ namespace LayoutFarm.UI
             else if (dy > 0)
             {
                 int old_y = viewportY;
-                int viewportButtom = viewportY + viewportHeight; if (viewportButtom + dy > topWindowBox.Height)
+                int viewportButtom = viewportY + viewportHeight; if (viewportButtom + dy > rootGraphics.RootHeight)
                 {
-                    if (viewportButtom < topWindowBox.Height)
+                    if (viewportButtom < rootGraphics.RootHeight)
                     {
-                        viewportY = topWindowBox.Height - viewportHeight;
+                        viewportY = rootGraphics.RootHeight - viewportHeight;
                     }
                 }
                 else
@@ -194,11 +193,11 @@ namespace LayoutFarm.UI
             {
 
                 int old_x = viewportX;
-                int viewportRight = viewportX + viewportWidth; if (viewportRight + dx > topWindowBox.Width)
+                int viewportRight = viewportX + viewportWidth; if (viewportRight + dx > rootGraphics.RootWidth)
                 {
-                    if (viewportRight < topWindowBox.Width)
+                    if (viewportRight < rootGraphics.RootWidth)
                     {
-                        viewportX = topWindowBox.Width - viewportWidth;
+                        viewportX = rootGraphics.RootWidth - viewportWidth;
                     }
                 }
                 else
@@ -231,9 +230,9 @@ namespace LayoutFarm.UI
         {
             hScrollEventArgs = null;
             vScrollEventArgs = null;
-            if (x > topWindowBox.Width - viewportWidth)
+            if (x > rootGraphics.RootWidth - viewportWidth)
             {
-                x = topWindowBox.Width - viewportWidth;
+                x = rootGraphics.RootWidth - viewportWidth;
 
             }
             if (x < 0)
@@ -246,9 +245,9 @@ namespace LayoutFarm.UI
             }
             else if (y > 0)
             {
-                if (y > topWindowBox.Height - viewportHeight)
+                if (y > rootGraphics.RootHeight - viewportHeight)
                 {
-                    y = topWindowBox.Height - viewportHeight;
+                    y = rootGraphics.RootHeight - viewportHeight;
                     if (y < 0)
                     {
                         y = 0;
@@ -276,7 +275,7 @@ namespace LayoutFarm.UI
             h_largeChange = viewportWidth;
             h_smallChange = h_largeChange / 4;
 
-            if (topWindowBox.Height <= viewportHeight)
+            if (rootGraphics.RootHeight <= viewportHeight)
             {
 
                 vScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(false);
@@ -286,7 +285,7 @@ namespace LayoutFarm.UI
                 vScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(true);
             }
 
-            if (topWindowBox.Width <= viewportWidth)
+            if (rootGraphics.RootWidth <= viewportWidth)
             {
                 hScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(false);
             }

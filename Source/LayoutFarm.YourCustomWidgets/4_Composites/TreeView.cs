@@ -365,7 +365,7 @@ namespace LayoutFarm.CustomWidgets
                         var childNode = childNodes[i];
                         childNode.PerformContentLayout();
                         //set new size 
-                        childNode.SetBound(indentWidth,
+                        childNode.SetBounds(indentWidth,
                             newChildNodeY,
                             childNode.Width,
                             childNode.DesiredHeight);

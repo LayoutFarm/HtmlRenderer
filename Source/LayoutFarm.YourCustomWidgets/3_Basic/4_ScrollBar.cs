@@ -266,8 +266,7 @@ namespace LayoutFarm.CustomWidgets
                 int currentMarkAt = (newYPos - minmax_boxHeight);
                 this.scrollValue = (float)(onePixelFor * currentMarkAt);
                 newYPos = CalculateThumbPosition() + minmax_boxHeight;
-                scroll_button.SetLocation(pos.X, newYPos);
-                scroll_button.InvalidateGraphic();
+                scroll_button.SetLocation(pos.X, newYPos); 
 
                 if (this.UserScroll != null)
                 {

@@ -70,8 +70,7 @@ namespace LayoutFarm
             //1. mouse down         
             box.MouseDown += (s, e) =>
             {
-                box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
-                box.InvalidateGraphic();
+                box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue); 
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
 
                 //--------------------------------------------
@@ -88,9 +87,7 @@ namespace LayoutFarm
             box.MouseUp += (s, e) =>
             {
                 e.MouseCursorStyle = MouseCursorStyle.Default;
-                box.BackColor = Color.LightGray;
-                box.InvalidateGraphic();
-
+                box.BackColor = Color.LightGray;  
                 //hide controller
                 controllerBox1.Visible = false;
                 controllerBox1.TargetBox = null;
