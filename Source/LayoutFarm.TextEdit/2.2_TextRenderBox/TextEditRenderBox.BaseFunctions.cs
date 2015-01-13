@@ -235,23 +235,7 @@ namespace LayoutFarm.Text
             }
 
         }
-        public void OnDrag(UIMouseEventArgs e)
-        {
-            dbugMouseDragging++;
-            if (!isDragBegin)
-            {
-
-            }
-
-            if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
-            {
-
-                internalTextLayerController.SetCaretPos(e.X, e.Y);
-                internalTextLayerController.EndSelect();
-                this.InvalidateGraphics();
-
-            }
-        }
+        
 
         bool isDragBegin;
 #if DEBUG
@@ -270,6 +254,22 @@ namespace LayoutFarm.Text
                 internalTextLayerController.StartSelect();
                 internalTextLayerController.EndSelect();
                 this.InvalidateGraphics();
+            }
+        }
+        public void OnDrag(UIMouseEventArgs e)
+        {
+            dbugMouseDragging++;
+            if (!isDragBegin)
+            {
+
+            } 
+            if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
+            {
+
+                internalTextLayerController.SetCaretPos(e.X, e.Y);
+                internalTextLayerController.EndSelect();
+                this.InvalidateGraphics();
+
             }
         }
         public void OnDragEnd(UIMouseEventArgs e)

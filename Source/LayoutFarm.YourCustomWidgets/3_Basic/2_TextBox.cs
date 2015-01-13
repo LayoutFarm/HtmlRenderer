@@ -16,7 +16,7 @@ namespace LayoutFarm.CustomWidgets
 
         TextEditRenderBox visualTextEdit;
         bool _multiline;
- 
+
 
         public TextBox(int width, int height, bool multiline)
             : base(width, height)
@@ -99,8 +99,6 @@ namespace LayoutFarm.CustomWidgets
         }
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
-             
-
             this.Focus();
             e.MouseCursorStyle = MouseCursorStyle.IBeam;
             e.CancelBubbling = true;
@@ -133,9 +131,9 @@ namespace LayoutFarm.CustomWidgets
         }
 
 #if DEBUG
-        int dbugMouseDragBegin = 0;
-        int dbugMouseDragging = 0;
-        int dbugMouseDragEnd = 0;
+        //int dbugMouseDragBegin = 0;
+        //int dbugMouseDragging = 0;
+        //int dbugMouseDragEnd = 0;
 #endif
         //protected override void OnDragBegin(UIMouseEventArgs e)
         //{
@@ -187,12 +185,12 @@ namespace LayoutFarm.CustomWidgets
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
             this.OnMouseMove(e);
-           
+
         }
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
             this.OnMouseUp(e);
-             
+
         }
 
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
