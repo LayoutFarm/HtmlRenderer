@@ -31,6 +31,7 @@ namespace LayoutFarm.Text
             myCaret = new CaretRenderElement(rootgfx, 2, 17);
             myCaret.TransparentForAllEvents = true;
             this.MayHasViewport = true;
+
             //RegisterNativeEvent((1 << UIEventIdentifier.NE_DRAG_START)
             //    | (1 << UIEventIdentifier.NE_DRAGING)
             //    | (1 << UIEventIdentifier.NE_DRAG_STOP)
@@ -108,6 +109,7 @@ namespace LayoutFarm.Text
             {
                 return;
             }
+
             this.SetCaretState(true);
 
             char c = e.KeyChar;
@@ -151,18 +153,39 @@ namespace LayoutFarm.Text
 
         }
 
+#if DEBUG
+        static int dbugCaretSwapCount = 0;
+
+#endif
         internal void SwapCaretState()
         {
+
             this.stateShowCaret = !stateShowCaret;
+            this.InvalidateGraphics();
+            //int swapcount = dbugCaretSwapCount++; 
+            //if (stateShowCaret)
+            //{
+            //    Console.WriteLine(">>on " + swapcount);
+            //    this.InvalidateGraphics();
+            //    Console.WriteLine("<<on " + swapcount); 
+            //}
+            //else
+            //{   
+            //    Console.WriteLine(">>off " + swapcount);
+            //    this.InvalidateGraphics();
+            //    Console.WriteLine("<<off " + swapcount);
+            //}
+
         }
         internal void SetCaretState(bool visible)
         {
             this.stateShowCaret = visible;
+            this.InvalidateGraphics();
         }
         public void Focus()
         {
-            this.SetCaretState(true);
             GlobalCaretController.CurrentTextEditBox = this;
+            this.SetCaretState(true);
             this.isFocus = true;
         }
         public bool IsFocused

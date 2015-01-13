@@ -372,8 +372,7 @@ namespace LayoutFarm.UI
 
 
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
-            SetKeyData(keyEventArgs, e);
-
+            SetKeyData(keyEventArgs, e); 
 
             StopCaretBlink();
             canvasViewport.FullMode = false;

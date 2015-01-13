@@ -66,11 +66,25 @@ namespace LayoutFarm.Text
             canvas.FillRectangle(Color.Red,  0, 0, 5, 5 );
 #endif
 
+            //if (GlobalCaretController.CurrentTextEditBox == this)
+            //{
+            //    if (stateShowCaret)
+            //    {
+            //    }
+            //    else
+            //    {
+            //    }
+            //}
             //4. caret 
             if (this.stateShowCaret)
             {
                 Point textManCaretPos = internalTextLayerController.CaretPos;
                 this.myCaret.DrawCaret(canvas, textManCaretPos.X, textManCaretPos.Y);
+            }
+            else
+            {
+
+
             }
 
         }

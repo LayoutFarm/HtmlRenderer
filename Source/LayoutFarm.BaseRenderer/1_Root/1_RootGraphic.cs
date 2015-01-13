@@ -31,6 +31,8 @@ namespace LayoutFarm
 
         public abstract void CaretStartBlink();
         public abstract void CaretStopBlink();
+        public bool CaretHandleRegistered { get; set; }
+
         public abstract void ClearRenderRequests();
 
         public abstract void AddToLayoutQueue(RenderElement renderElement);
@@ -293,6 +295,6 @@ namespace LayoutFarm
             get;
             protected set;
         }
-
+        
     }
 }
