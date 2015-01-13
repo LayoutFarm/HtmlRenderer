@@ -15,11 +15,11 @@ namespace LayoutFarm.UI
         RootGraphic rootgfx;
         UITimer uiTimer1;
 
-        int fastPlanInterval = 25;//ms 
+        int fastPlanInterval = 20;//ms 
         int caretBlinkInterval = 500;//ms (2 fps)
         int tickAccum = 0;
 
-        bool enableCaretPlan = true;
+        bool enableCaretBlink = true;
         public GraphicsTimerTaskManager(RootGraphic rootgfx, UIPlatform platform)
         {
             this.rootgfx = rootgfx;
@@ -41,11 +41,11 @@ namespace LayoutFarm.UI
         }
         public void StartCaretBlinkTask()
         {
-            enableCaretPlan = true;
+            enableCaretBlink = true;
         }
         public void StopCaretBlinkTask()
         {
-            enableCaretPlan = false;
+            enableCaretBlink = false;
         }
 
         public GraphicsTimerTask SubscribeGraphicsTimerTask(
@@ -97,21 +97,28 @@ namespace LayoutFarm.UI
         }
 
 
+#if DEBUG
+        static int dbugCount = 0;
+#endif
+
 
         void graphicTimer1_Tick(object sender, EventArgs e)
         {
 
             //-------------------------------------------------
             tickAccum += fastPlanInterval;
+            //Console.WriteLine("tickaccum:" + tickAccum.ToString());
+            //-------------------------------------------------
             bool doCaretPlan = false;
             if (tickAccum > caretBlinkInterval)
             {
+                // Console.WriteLine("*********");
                 tickAccum = 0;//reset
                 doCaretPlan = true;
             }
             //-------------------------------------------------
             int needUpdate = 0;
-            if (doCaretPlan && enableCaretPlan)
+            if (enableCaretBlink && doCaretPlan)
             {
                 //-------------------------------------------------
                 //1. fast and animation plan
@@ -136,6 +143,7 @@ namespace LayoutFarm.UI
                     needUpdate |= args.NeedUpdate;
                 }
                 FreeTaskEventArgs(args);
+
             }
             else
             {
@@ -151,9 +159,11 @@ namespace LayoutFarm.UI
                 }
                 FreeTaskEventArgs(args);
             }
+
+
             if (needUpdate > 0)
             {
-                this.rootgfx.ForcePaint();
+                this.rootgfx.FlushAccumGraphics(); 
             }
 
         }

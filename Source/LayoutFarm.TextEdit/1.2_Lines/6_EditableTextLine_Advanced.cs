@@ -54,9 +54,9 @@ namespace LayoutFarm.Text
             {
                 output.AddLast(curNode.Value.Clone());
                 curNode = curNode.Next;
-            } 
+            }
         }
-        
+
         public void Copy(VisualSelectionRange selectionRange, LinkedList<EditableTextSpan> output)
         {
             EditableVisualPointInfo startPoint = selectionRange.StartPoint;
@@ -230,8 +230,8 @@ namespace LayoutFarm.Text
 
                     EditableTextSpan removedRun = (EditableTextSpan)startPoint.TextRun;
                     EditableTextSpan.InnerRemove(removedRun,
-    startPoint.LocalSelectedIndex + 1,
-endPoint.LineCharIndex - startPoint.LineCharIndex, false);
+                                    startPoint.LocalSelectedIndex + 1,
+                                    endPoint.LineCharIndex - startPoint.LineCharIndex, false);
 
                     if (removedRun.CharacterCount == 0)
                     {
@@ -796,7 +796,7 @@ endPoint.LineCharIndex - startPoint.LineCharIndex, false);
 
 
         EditableVisualPointInfo CreateTextPointInfo(int lineId, int lineCharIndex, int caretPixelX,
-EditableTextSpan onTextRun, int textRunCharOffset, int textRunPixelOffset)
+            EditableTextSpan onTextRun, int textRunCharOffset, int textRunPixelOffset)
         {
             EditableVisualPointInfo textPointInfo = new EditableVisualPointInfo(this, lineCharIndex);
             textPointInfo.SetAdditionVisualInfo(onTextRun, textRunCharOffset, caretPixelX, textRunPixelOffset);

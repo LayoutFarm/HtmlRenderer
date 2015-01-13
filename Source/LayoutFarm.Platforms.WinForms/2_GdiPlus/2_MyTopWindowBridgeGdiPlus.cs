@@ -21,10 +21,12 @@ namespace LayoutFarm.UI.GdiPlus
         }
         public void BindWindowControl(Control windowControl)
         {
-            //bind to anycontrol GDI control 
-
+            //bind to anycontrol GDI control  
             this.windowControl = windowControl;
             this.SetBaseCanvasViewport(this.gdiPlusViewport = new GdiPlusCanvasViewport(this.RootGfx, this.Size.ToSize(), 4));
+            this.RootGfx.SetPaintDelegates(
+                    this.gdiPlusViewport.CanvasInvlidateArea,
+                    this.PaintToOutputWindow);             
 
 #if DEBUG
             this.gdiPlusViewport.dbugOutputWindow = this;
@@ -43,7 +45,7 @@ namespace LayoutFarm.UI.GdiPlus
         }
         protected override void PaintToOutputWindowIfNeed()
         {
-            
+
             if (!this.gdiPlusViewport.IsQuadPageValid)
             {
                 //platform specific code ***

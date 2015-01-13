@@ -13,7 +13,7 @@ namespace LayoutFarm.Text
     {
         static bool enableCaretBlink = true;//default
         static TextEditRenderBox currentTextBox;
-        static bool caretRegistered = false;
+        
         static EventHandler<GraphicsTimerTaskEventArgs> tickHandler;
         static object caretBlinkTask = new object();
         static GraphicsTimerTask task;
@@ -24,29 +24,28 @@ namespace LayoutFarm.Text
         }
         internal static void RegisterCaretBlink(RootGraphic root)
         {
-            if (caretRegistered)
+            if (!root.CaretHandleRegistered)
             {
-                return;
+                root.CaretHandleRegistered = true;
+                task = root.SubscribeGraphicsIntervalTask(
+                    caretBlinkTask,
+                    TaskIntervalPlan.CaretBlink,
+                    20,
+                    tickHandler);
+               
             }
-            caretRegistered = true;
-            task = root.SubscribeGraphicsIntervalTask(
-                caretBlinkTask,
-                TaskIntervalPlan.CaretBlink,
-                300,
-                tickHandler);
         }
         static void caret_TickHandler(object sender, GraphicsTimerTaskEventArgs e)
         {
+             
             if (currentTextBox != null)
             {
-                currentTextBox.SwapCaretState();
-                //force render ?
-                currentTextBox.InvalidateGraphics();
+                currentTextBox.SwapCaretState();  
                 e.NeedUpdate = 1;
             }
             else
             {
-
+                //Console.WriteLine("no current textbox");
             }
 
         }
@@ -71,9 +70,7 @@ namespace LayoutFarm.Text
                         //stop caret on prev element
                         currentTextBox.SetCaretState(false);
                         var evlistener = currentTextBox.GetController() as IEventListener;
-
                         currentTextBox = null;
-
                         if (evlistener != null)
                         {
                             evlistener.ListenLostFocus(null);
@@ -81,6 +78,7 @@ namespace LayoutFarm.Text
                     }
                 }
                 currentTextBox = value;
+                 
             }
         }
 

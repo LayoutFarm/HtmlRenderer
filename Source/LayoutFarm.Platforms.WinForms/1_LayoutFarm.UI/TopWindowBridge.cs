@@ -6,7 +6,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using PixelFarm.Drawing;
- 
+
 namespace LayoutFarm.UI
 {
 
@@ -20,6 +20,13 @@ namespace LayoutFarm.UI
 
         bool isDragging;
         bool isMouseDown;
+
+        Keys lastKeydownKey;
+        bool lastKeydownWithControl;
+        bool lastKeydownWithAlt;
+        bool lastKeydownWithShift;
+
+
         protected MouseCursorStyle currentCursorStyle = MouseCursorStyle.Default;
 
         public event EventHandler<ScrollSurfaceRequestEventArgs> VScrollRequest;
@@ -34,9 +41,9 @@ namespace LayoutFarm.UI
             this.userEventPortal = winEventBridge;
             this.rootGraphic = rootGraphic;
             this.topwin = rootGraphic.TopWindowRenderBox;
-            rootGraphic.SetPaintToOutputHandler(this.PaintToOutputWindow); 
+           
         }
-        public  RootGraphic RootGfx
+        public RootGraphic RootGfx
         {
             get { return this.rootGraphic; }
         }
@@ -49,9 +56,6 @@ namespace LayoutFarm.UI
         }
 
         protected abstract void PaintToOutputWindow();
-
-
-
         protected abstract void PaintToOutputWindowIfNeed();
 
         public void UpdateCanvasViewportSize(int w, int h)
@@ -312,9 +316,6 @@ namespace LayoutFarm.UI
             PaintToOutputWindowIfNeed();
         }
         protected abstract void ChangeCursorStyle(UIMouseEventArgs mouseEventArg);
-
-
-
         public void PaintMe()
         {
             if (canvasViewport != null)
@@ -324,38 +325,37 @@ namespace LayoutFarm.UI
                 PaintToOutputWindow();
             }
         }
-
         public void PaintMe(PaintEventArgs e)
         {
             PaintMe();
         }
-
-
         public void HandleKeyDown(KeyEventArgs e)
         {
 
+            this.lastKeydownKey = e.KeyCode;
+            this.lastKeydownWithAlt = e.Alt;
+            this.lastKeydownWithControl = e.Control;
+            this.lastKeydownWithShift = e.Shift;
+
+            //            UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
+
+            //            SetKeyData(keyEventArgs, e);
+
+            //            StopCaretBlink();
+            //            canvasViewport.FullMode = false;
+
+            //            OffsetCanvasOrigin(keyEventArgs, canvasViewport.LogicalViewportLocation);
+            //#if DEBUG
+
+            //            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+            //            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UI.UIKeys)e.KeyData);
+            //            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+            //#endif
 
 
-            UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
-
-            SetKeyData(keyEventArgs, e);
-
-            StopCaretBlink();
-            canvasViewport.FullMode = false;
-
-            OffsetCanvasOrigin(keyEventArgs, canvasViewport.LogicalViewportLocation);
-#if DEBUG
-
-            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UI.UIKeys)e.KeyData);
-            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-#endif
-
-
-            this.userEventPortal.PortalKeyDown(keyEventArgs);
-            eventStock.ReleaseEventArgs(keyEventArgs);
-
-            PaintToOutputWindowIfNeed();
+            //            this.userEventPortal.PortalKeyDown(keyEventArgs);
+            //            eventStock.ReleaseEventArgs(keyEventArgs); 
+            //            PaintToOutputWindowIfNeed();
 
         }
         void StartCaretBlink()
@@ -374,7 +374,6 @@ namespace LayoutFarm.UI
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
             SetKeyData(keyEventArgs, e);
 
-
             StopCaretBlink();
             canvasViewport.FullMode = false;
 
@@ -391,10 +390,31 @@ namespace LayoutFarm.UI
         {
             keyEventArgs.SetEventInfo((int)e.KeyCode, e.Shift, e.Alt, e.Control);
         }
+        void SetKeyData(UIKeyEventArgs keyEventArgs, KeyPressEventArgs e)
+        {
+            keyEventArgs.SetEventInfo(e.KeyChar, this.lastKeydownWithShift, this.lastKeydownWithAlt, this.lastKeydownWithControl);
+        }
         public void HandleKeyPress(KeyPressEventArgs e)
         {
             if (char.IsControl(e.KeyChar))
             {
+                UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
+                SetKeyData(keyEventArgs, e);
+                StopCaretBlink();
+                canvasViewport.FullMode = false;
+                OffsetCanvasOrigin(keyEventArgs, canvasViewport.LogicalViewportLocation);
+#if DEBUG
+
+                topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+                topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UI.UIKeys)this.lastKeydownKey);
+                topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+#endif
+
+
+                this.userEventPortal.PortalKeyDown(keyEventArgs);
+
+                eventStock.ReleaseEventArgs(keyEventArgs);
+                PaintToOutputWindowIfNeed();
                 return;
             }
 
@@ -417,7 +437,7 @@ namespace LayoutFarm.UI
 
             eventStock.ReleaseEventArgs(keyPressEventArgs);
 
-            
+
             PaintToOutputWindowIfNeed();
         }
 
