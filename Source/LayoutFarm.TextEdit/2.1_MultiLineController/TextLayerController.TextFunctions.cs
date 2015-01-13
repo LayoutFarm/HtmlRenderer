@@ -165,15 +165,10 @@ namespace LayoutFarm.Text
             backGroundTextLineWriter.MoveToLine(lineNum);
             backGroundTextLineWriter.CopyLineContent(output);
         }
-        bool isStartSelect;
-#if DEBUG
-        int dbugSelectStart = 0;
-        int dbugSelectEnd = 0;
-#endif
+
         public void StartSelect()
         {
-            dbugSelectStart++;
-            isStartSelect = true;
+
             if (textLineWriter != null)
             {
                 selectionRange = new VisualSelectionRange(GetCurrentPointInfo(), GetCurrentPointInfo());
@@ -185,27 +180,11 @@ namespace LayoutFarm.Text
 
             }
 #endif
-            if (selectionRange == null)
-            {
-            }
+
         }
         public void EndSelect()
         {
-            if (dbugSelectEnd + 1 != dbugSelectStart)
-            {
 
-            }
-            else
-            {
-
-            }
-            dbugSelectEnd++;
-           
-            if (!isStartSelect)
-            {
-
-            }
-            isStartSelect = false;
             if (textLineWriter != null)
             {
 #if DEBUG
@@ -217,12 +196,10 @@ namespace LayoutFarm.Text
                 selectionRange.EndPoint = GetCurrentPointInfo();
             }
         }
-#if DEBUG
-        int dbugCancel = 0;
-#endif
+
         public void CancelSelect()
         {
-            dbugCancel++;
+
 #if DEBUG
             if (dbugEnableTextManRecorder)
             {

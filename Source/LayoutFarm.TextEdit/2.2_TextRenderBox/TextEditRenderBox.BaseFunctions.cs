@@ -233,9 +233,8 @@ namespace LayoutFarm.Text
                 internalTextLayerController.CharIndex += textRun.CharacterCount;
                 internalTextLayerController.EndSelect();
             }
-
         }
-        
+
 
         bool isDragBegin;
 #if DEBUG
@@ -244,33 +243,38 @@ namespace LayoutFarm.Text
         int dbugMouseDragEnd = 0;
 #endif
 
-        public void OnDragBegin(UIMouseEventArgs e)
-        {
-            dbugMouseDragBegin++;
-            isDragBegin = true;
-            if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
-            {
-                internalTextLayerController.SetCaretPos(e.X, e.Y);
-                internalTextLayerController.StartSelect();
-                internalTextLayerController.EndSelect();
-                this.InvalidateGraphics();
-            }
-        }
+
         public void OnDrag(UIMouseEventArgs e)
         {
-            dbugMouseDragging++;
             if (!isDragBegin)
             {
-
-            } 
-            if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
-            {
-
-                internalTextLayerController.SetCaretPos(e.X, e.Y);
-                internalTextLayerController.EndSelect();
-                this.InvalidateGraphics();
-
+                dbugMouseDragBegin++;
+                //first time
+                isDragBegin = true;
+                if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
+                {
+                    internalTextLayerController.SetCaretPos(e.X, e.Y);
+                    internalTextLayerController.StartSelect();
+                    internalTextLayerController.EndSelect();
+                    this.InvalidateGraphics();
+                }
             }
+            else
+            {
+                dbugMouseDragging++;
+                if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
+                {
+                    if (internalTextLayerController.SelectionRange == null)
+                    {
+                        internalTextLayerController.StartSelect();
+                    }
+                    internalTextLayerController.SetCaretPos(e.X, e.Y);
+                    internalTextLayerController.EndSelect();
+                    this.InvalidateGraphics();
+
+                }
+            }
+
         }
         public void OnDragEnd(UIMouseEventArgs e)
         {
@@ -282,7 +286,10 @@ namespace LayoutFarm.Text
             isDragBegin = false;
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
-
+                if (internalTextLayerController.SelectionRange == null)
+                {
+                    internalTextLayerController.StartSelect();
+                }
                 internalTextLayerController.SetCaretPos(e.X, e.Y);
                 internalTextLayerController.EndSelect();
                 this.InvalidateGraphics();

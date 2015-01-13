@@ -118,7 +118,8 @@ namespace LayoutFarm.Text
 
         public override void InvokeUndo(InternalTextLayerController textdom)
         {
-            textdom.CancelSelect(); textdom.AddTextRunsToCurrentLine(deletedTextRuns);
+            textdom.CancelSelect();
+            textdom.AddTextRunsToCurrentLine(deletedTextRuns);
         }
         public override void InvokeRedo(InternalTextLayerController textdom)
         {
@@ -149,7 +150,8 @@ namespace LayoutFarm.Text
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
-            textdom.StartSelect(); textdom.CurrentLineNumber = endLineNumber;
+            textdom.StartSelect(); 
+            textdom.CurrentLineNumber = endLineNumber;
             textdom.CharIndex = endCharIndex;
             textdom.EndSelect();
 
