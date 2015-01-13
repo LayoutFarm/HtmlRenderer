@@ -80,23 +80,7 @@ namespace LayoutFarm.UI.OpenGL
 
         }
 
-        protected override void PaintToOutputWindowIfNeed()
-        {
-            if (!isInitGLControl)
-            {
-                return;
-            }
-
-            //var innumber = dbugCount;
-            //dbugCount++;
-            //Console.WriteLine(">" + innumber);
-
-            windowControl.MakeCurrent();
-            this.openGLViewport.PaintMe();
-            windowControl.SwapBuffers();
-
-            //Console.WriteLine("<" + innumber);
-        }
+ 
         protected override void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
         {
 
