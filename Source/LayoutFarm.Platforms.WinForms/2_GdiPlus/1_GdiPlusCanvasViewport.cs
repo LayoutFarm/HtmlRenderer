@@ -32,8 +32,9 @@ namespace LayoutFarm.UI.GdiPlus
             quadPages = null;
             base.OnClosing();
         }
-        protected override void Canvas_Invalidated(Rectangle r)
-        {   
+
+        public override void CanvasInvlidateArea(Rectangle r)
+        {
             quadPages.CanvasInvalidate(r);
             //Console.WriteLine((dbugCount++).ToString() + " " + r.ToString());
         }

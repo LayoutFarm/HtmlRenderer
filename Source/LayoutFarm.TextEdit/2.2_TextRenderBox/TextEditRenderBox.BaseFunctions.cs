@@ -161,20 +161,20 @@ namespace LayoutFarm.Text
         {
 
             this.stateShowCaret = !stateShowCaret;
-            this.InvalidateGraphics();
-            //int swapcount = dbugCaretSwapCount++; 
-            //if (stateShowCaret)
-            //{
-            //    Console.WriteLine(">>on " + swapcount);
-            //    this.InvalidateGraphics();
-            //    Console.WriteLine("<<on " + swapcount); 
-            //}
-            //else
-            //{   
-            //    Console.WriteLine(">>off " + swapcount);
-            //    this.InvalidateGraphics();
-            //    Console.WriteLine("<<off " + swapcount);
-            //}
+             
+            int swapcount = dbugCaretSwapCount++;
+            if (stateShowCaret)
+            {
+                Console.WriteLine(">>on " + swapcount);
+                this.InvalidateGraphics();
+                Console.WriteLine("<<on " + swapcount);
+            }
+            else
+            {
+                Console.WriteLine(">>off " + swapcount);
+                this.InvalidateGraphics();
+                Console.WriteLine("<<off " + swapcount);
+            }
 
         }
         internal void SetCaretState(bool visible)

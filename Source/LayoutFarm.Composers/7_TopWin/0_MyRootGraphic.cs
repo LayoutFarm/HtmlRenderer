@@ -87,10 +87,7 @@ namespace LayoutFarm.UI
         void ClearNotificationSizeChangeList()
         {
         }
-        public override void ForcePaint()
-        {
-            this.paintToOutputHandler();
-        }
+        
 
         UserInputEventAdapter CreateUserEventPortal()
         {

@@ -14,7 +14,8 @@ namespace LayoutFarm.UI.OpenGL
             Size viewportSize, int cachedPageNum)
             : base(root, viewportSize, cachedPageNum)
         {
-
+           
+            
         }
         protected override void OnClosing()
         {
@@ -25,9 +26,8 @@ namespace LayoutFarm.UI.OpenGL
                 canvas = null;
             }
         }
-        protected override void Canvas_Invalidated(Rectangle r)
-        {
-            base.Canvas_Invalidated(r);
+        public override void CanvasInvlidateArea(Rectangle r)
+        { 
         }
         public void NotifyWindowControlBinding()
         {
@@ -152,7 +152,7 @@ namespace LayoutFarm.UI.OpenGL
 
 #if DEBUG
             topWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
- 
+
 #endif
 
             mycanvas.IsContentReady = true;

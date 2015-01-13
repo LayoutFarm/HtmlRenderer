@@ -10,10 +10,10 @@ namespace LayoutFarm
     public abstract partial class RootGraphic
     {
 
-        public delegate void PaintToOutputDelegate();
+        public delegate void PaintToOutputWindowDelegate();
 
-        protected PaintToOutputDelegate paintToOutputHandler;
-        CanvasPaintToOutputDelegate canvasPaintToOutput;
+        protected PaintToOutputWindowDelegate paintToOutputWindowHandler;
+        CanvasInvalidateDelegate canvasInvalidateDelegate;
 
         int accumRectVer;
         Rectangle accumulateInvalidRect;
@@ -63,13 +63,6 @@ namespace LayoutFarm
         public abstract void CloseWinRoot();
 
 
-        public abstract void ForcePaint();
-
-
-        public void SetPaintToOutputHandler(PaintToOutputDelegate paintToOutputHandler)
-        {
-            this.paintToOutputHandler = paintToOutputHandler;
-        }
 
         public abstract GraphicsTimerTask SubscribeGraphicsIntervalTask(
             object uniqueName,
@@ -94,8 +87,6 @@ namespace LayoutFarm
         }
 #endif
         public abstract void PrepareRender();
-
-
         public void FlushAccumGraphics()
         {
             if (!this.hasAccumRect)
@@ -103,15 +94,18 @@ namespace LayoutFarm
                 return;
             }
 
-            this.canvasPaintToOutput(accumulateInvalidRect);
+            this.canvasInvalidateDelegate(accumulateInvalidRect);
+            this.paintToOutputWindowHandler();
+
             this.accumRectVer = 0;
             hasAccumRect = false;
         }
-        public void SetCanvasPaintToOutputDel(CanvasPaintToOutputDelegate canvasPaintToOutput)
+        public void SetPaintDelegates(CanvasInvalidateDelegate canvasPaintToOutput, PaintToOutputWindowDelegate paintToOutputHandler)
         {
-            this.canvasPaintToOutput = canvasPaintToOutput;
+            this.canvasInvalidateDelegate = canvasPaintToOutput;
+            this.paintToOutputWindowHandler = paintToOutputHandler;
         }
-
+         
 #if DEBUG
         void dbugWriteStopGfxBubbleUp(RenderElement fromElement, ref int dbug_ncount, int nleftOnStack, string state_str)
         {
@@ -141,7 +135,7 @@ namespace LayoutFarm
         }
 
 
-        
+
         public void InvalidateGraphicArea(RenderElement fromElement, ref Rectangle elemClientRect)
         {
             //total bounds = total bounds at level
@@ -295,6 +289,6 @@ namespace LayoutFarm
             get;
             protected set;
         }
-        
+
     }
 }

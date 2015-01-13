@@ -161,11 +161,10 @@ namespace LayoutFarm.UI
             }
 
 
-            //if (needUpdate > 0)
-            //{
-            //    this.rootgfx.FlushAccumGraphics();
-            //    //this.rootgfx.ForcePaint();
-            //}
+            if (needUpdate > 0)
+            {
+                this.rootgfx.FlushAccumGraphics(); 
+            }
 
         }
         Stack<MyIntervalTaskEventArgs> taskEventPools = new Stack<MyIntervalTaskEventArgs>();
