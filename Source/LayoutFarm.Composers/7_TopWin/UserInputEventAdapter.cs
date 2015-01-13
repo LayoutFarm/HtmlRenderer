@@ -461,7 +461,7 @@ namespace LayoutFarm.UI
             {
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyDown(e);
-
+                
                 this.FlushAccumGraphics();
             }
         }

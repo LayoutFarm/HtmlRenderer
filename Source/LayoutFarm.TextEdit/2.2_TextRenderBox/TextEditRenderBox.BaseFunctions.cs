@@ -106,12 +106,13 @@ namespace LayoutFarm.Text
         public void OnKeyPress(UIKeyEventArgs e)
         {
             this.SetCaretState(true);
+            //------------------------
             if (e.IsControlKey)
             {
-                return;
-            }
+                OnKeyDown(e);
 
-            //this.SetCaretState(true);
+                return;
+            }  
 
             char c = e.KeyChar;
             e.CancelBubbling = true;
