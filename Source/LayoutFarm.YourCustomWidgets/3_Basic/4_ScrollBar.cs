@@ -412,14 +412,7 @@ namespace LayoutFarm.CustomWidgets
             }
             e.CancelBubbling = true; 
         }
-        //protected override void OnDragging(UIMouseEventArgs e)
-        //{
-        //    if (Dragging != null)
-        //    {
-        //        Dragging(this, e);
-        //    }
-        //    base.OnDragging(e);
-        //}
+      
     }
 
     public class ScrollBarCreationParameters

@@ -95,40 +95,7 @@ namespace LayoutFarm.CustomWidgets
                 MouseUp(this, e);
             }
         }
-        //----------------------------------------------------
-
-
-        //protected override void OnDragLeave(UIMouseEventArgs e)
-        //{
-        //    //if (this.DragLeave != null)
-        //    //{
-        //    //    this.DragLeave(this, e);
-        //    //}
-        //}
-        //protected override void OnDragBegin(UIMouseEventArgs e)
-        //{
-        //    //if (this.DragBegin != null)
-        //    //{
-        //    //    this.DragBegin(this, e);
-        //    //}
-
-        //}
-        //protected override void OnDragEnd(UIMouseEventArgs e)
-        //{
-        //    //if (this.DragEnd != null)
-        //    //{
-        //    //    this.DragEnd(this, e);
-        //    //}
-
-        //}
        
-        //protected override void OnDragging(UIMouseEventArgs e)
-        //{
-        //    //if (this.Dragging != null)
-        //    //{
-        //    //    Dragging(this, e);
-        //    //}
-        //}
         //----------------------------------------------------
         //for general data
         public object Tag { get; set; }

@@ -36,31 +36,18 @@ namespace LayoutFarm.UI
 
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
+            //TODO: review this again
+            if (e.IsDragging)
+            {
+                currentDraggingElement = this;
+            }
+
             OnMouseMove(e);
-            //if (isMouseDown)
-            //{
-            //    if (isDragging)
-            //    {
-            //        OnDragging(e);
-            //    }
-            //    else
-            //    {
-            //        //first time
-            //        this.isDragging = true;
-            //        OnDragBegin(e);
-            //        //store current dragging element
-            //        currentDraggingElement = this;
-            //    }
-            //}
-            //else
-            //{
-            //    this.isDragging = false;
-            //    OnMouseMove(e);
-            //}
+             
         }
         void IEventListener.ListenMouseUp(UIMouseEventArgs e)
         {
-
+            //TODO: review this again
             if (currentDraggingElement != null && currentDraggingElement != this)
             {
                 var otherElement = currentDraggingElement as IEventListener;

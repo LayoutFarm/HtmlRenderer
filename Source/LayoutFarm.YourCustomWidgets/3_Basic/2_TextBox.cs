@@ -187,39 +187,12 @@ namespace LayoutFarm.CustomWidgets
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
             this.OnMouseMove(e);
-            //if (e.IsDragging)
-            //{
-
-            //}
-            //if (this.isMouseDown)
-            //{
-            //    if (isDragging)
-            //    {
-            //        this.OnDragging(e);
-            //    }
-            //    else
-            //    {
-            //        isDragging = true;
-            //        this.OnDragBegin(e);
-            //    }
-            //}
-            //else
-            //{
-            //    this.OnMouseMove(e);
-            //}
+           
         }
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
             this.OnMouseUp(e);
-            //if (isDragging)
-            //{
-            //    this.OnDragEnd(e);
-            //}
-            //else
-            //{
-            //    this.OnMouseUp(e);
-            //}
-            //this.isMouseDown = isDragging = false;
+             
         }
 
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
