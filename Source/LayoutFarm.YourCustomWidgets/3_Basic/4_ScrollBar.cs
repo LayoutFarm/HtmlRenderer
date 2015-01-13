@@ -410,8 +410,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 MouseMove(this, e);
             }
-            e.CancelBubbling = true;
-             
+            e.CancelBubbling = true; 
         }
         //protected override void OnDragging(UIMouseEventArgs e)
         //{

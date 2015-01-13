@@ -29,7 +29,7 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenMouseDown(UIMouseEventArgs e)
         {
-            
+
             OnMouseDown(e);
         }
 
@@ -60,7 +60,16 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenMouseUp(UIMouseEventArgs e)
         {
+
+            if (currentDraggingElement != null && currentDraggingElement != this)
+            {
+                var otherElement = currentDraggingElement as IEventListener;
+                otherElement.ListenMouseUp(e);
+                currentDraggingElement = null; 
+            }
+
             OnMouseUp(e);
+
             //if (isDragging)
             //{
             //    //mouse up

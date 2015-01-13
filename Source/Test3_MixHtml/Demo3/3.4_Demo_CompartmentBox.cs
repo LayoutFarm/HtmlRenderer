@@ -92,28 +92,7 @@ namespace LayoutFarm
                 controllerBox1.Visible = false;
                 controllerBox1.TargetBox = null;
             };
-            box.MouseMove += (s, e) =>
-            {
-                if (e.IsDragging)
-                {
-                    box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
-                    Point pos = box.Position;
-                    box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                }
-            };
-            box.MouseLeave += (s, e) =>
-            {
-                if (e.IsDragging)
-                {
-                    box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
-                    Point pos = box.Position;
-                    //continue dragging on the same element 
-                    box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
-                }
-            };
+            
         }
 
         static void MoveWithSnapToGrid(UIControllerBox controllerBox, UIMouseEventArgs e)

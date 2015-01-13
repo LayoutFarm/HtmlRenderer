@@ -59,8 +59,6 @@ namespace LayoutFarm
                 controllerBox1.SetBounds(box.Left - 5, box.Top - 5,
                                          box.Width + 10, box.Height + 10);
                 controllerBox1.Visible = true;
-
-
                 controllerBox1.TargetBox = box;
                 //--------------------------------------------
             };
@@ -72,20 +70,7 @@ namespace LayoutFarm
                 box.BackColor = Color.LightGray;
                 controllerBox1.Visible = false;
                 controllerBox1.TargetBox = null;
-            };
-            box.MouseLeave += (s, e) =>
-            {
-                if (e.IsDragging)
-                {
-                    box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
-                    Point pos = box.Position;
-                    //continue dragging on the same element 
-                    box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
-                }
-
-            };
+            }; 
 
         }
 
@@ -126,17 +111,11 @@ namespace LayoutFarm
                         //move target box too
                         targetBox.SetLocation(newX + 5, newY + 5);
                     }
-
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.CancelBubbling = true;
                 }
             };
-            controllerBox.MouseUp += (s, e) =>
-            {
-                controllerBox.Visible = false;
-                controllerBox.TargetBox = null;
-            };
-
+             
         }
 
         //-----------------------------------------------------------------

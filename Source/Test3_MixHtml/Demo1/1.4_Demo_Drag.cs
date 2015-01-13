@@ -39,13 +39,23 @@ namespace LayoutFarm
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
             };
-
             //2. mouse up
             box.MouseUp += (s, e) =>
             {
                 e.MouseCursorStyle = MouseCursorStyle.Default;
                 box.BackColor = Color.LightGray;
 
+            };
+            box.MouseMove += (s, e) =>
+            {
+                if (e.IsDragging)
+                {
+                    box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
+                    Point pos = box.Position; 
+                    box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true;
+                }
             };
             box.MouseLeave += (s, e) =>
             {
