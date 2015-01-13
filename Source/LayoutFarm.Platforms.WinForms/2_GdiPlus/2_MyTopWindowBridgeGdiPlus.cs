@@ -43,17 +43,7 @@ namespace LayoutFarm.UI.GdiPlus
             this.gdiPlusViewport.PaintMe(hdc);
             Win32.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
         }
-        protected override void PaintToOutputWindowIfNeed()
-        {
-
-            if (!this.gdiPlusViewport.IsQuadPageValid)
-            {
-                //platform specific code ***
-                IntPtr hdc = Win32.Win32Utils.GetDC(this.windowControl.Handle);
-                this.gdiPlusViewport.PaintMe(hdc);
-                Win32.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
-            }
-        }
+         
         protected override void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
         {
             switch (mouseEventArg.MouseCursorStyle)

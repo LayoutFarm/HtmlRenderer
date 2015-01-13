@@ -41,7 +41,7 @@ namespace LayoutFarm.UI
             this.userEventPortal = winEventBridge;
             this.rootGraphic = rootGraphic;
             this.topwin = rootGraphic.TopWindowRenderBox;
-           
+
         }
         public RootGraphic RootGfx
         {
@@ -56,7 +56,7 @@ namespace LayoutFarm.UI
         }
 
         protected abstract void PaintToOutputWindow();
-        protected abstract void PaintToOutputWindowIfNeed();
+
 
         public void UpdateCanvasViewportSize(int w, int h)
         {
@@ -209,11 +209,12 @@ namespace LayoutFarm.UI
             canvasViewport.FullMode = false;
 
             OffsetCanvasOrigin(focusEventArg, canvasViewport.LogicalViewportLocation);
-
             this.userEventPortal.PortalGotFocus(focusEventArg);
-            PaintToOutputWindowIfNeed();
-
             eventStock.ReleaseEventArgs(focusEventArg);
+
+
+
+
         }
         public void HandleLostFocus(EventArgs e)
         {
@@ -254,8 +255,7 @@ namespace LayoutFarm.UI
             }
             ReleaseMouseEvent(mouseEventArg);
             //----------- 
-            PaintToOutputWindowIfNeed();
-            //---------------
+
 #if DEBUG
             RootGraphic visualroot = this.topwin.dbugVRoot;
             if (visualroot.dbug_RecordHitChain)
@@ -276,17 +276,14 @@ namespace LayoutFarm.UI
             {
 
             }
-
-
             this.userEventPortal.PortalMouseMove(mouseEventArg);
-
             if (currentCursorStyle != mouseEventArg.MouseCursorStyle)
             {
                 //change cursor if need
                 ChangeCursorStyle(mouseEventArg);
             }
             ReleaseMouseEvent(mouseEventArg);
-            PaintToOutputWindowIfNeed();
+
         }
         public void HandleMouseUp(MouseEventArgs e)
         {
@@ -303,7 +300,7 @@ namespace LayoutFarm.UI
             }
 
             ReleaseMouseEvent(mouseEventArg);
-            PaintToOutputWindowIfNeed();
+
         }
         public void HandleMouseWheel(MouseEventArgs e)
         {
@@ -311,9 +308,8 @@ namespace LayoutFarm.UI
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
             canvasViewport.FullMode = true;
             this.userEventPortal.PortalMouseWheel(mouseEventArg);
-
             ReleaseMouseEvent(mouseEventArg);
-            PaintToOutputWindowIfNeed();
+
         }
         protected abstract void ChangeCursorStyle(UIMouseEventArgs mouseEventArg);
         public void PaintMe()
@@ -325,10 +321,7 @@ namespace LayoutFarm.UI
                 PaintToOutputWindow();
             }
         }
-        public void PaintMe(PaintEventArgs e)
-        {
-            PaintMe();
-        }
+
         public void HandleKeyDown(KeyEventArgs e)
         {
 
@@ -337,25 +330,23 @@ namespace LayoutFarm.UI
             this.lastKeydownWithControl = e.Control;
             this.lastKeydownWithShift = e.Shift;
 
-            //            UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
+            UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
+            SetKeyData(keyEventArgs, e);
+            StopCaretBlink();
+            canvasViewport.FullMode = false;
+            OffsetCanvasOrigin(keyEventArgs, canvasViewport.LogicalViewportLocation);
 
-            //            SetKeyData(keyEventArgs, e);
+#if DEBUG
 
-            //            StopCaretBlink();
-            //            canvasViewport.FullMode = false;
-
-            //            OffsetCanvasOrigin(keyEventArgs, canvasViewport.LogicalViewportLocation);
-            //#if DEBUG
-
-            //            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-            //            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UI.UIKeys)e.KeyData);
-            //            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-            //#endif
+            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UI.UIKeys)this.lastKeydownKey);
+            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
+#endif
 
 
-            //            this.userEventPortal.PortalKeyDown(keyEventArgs);
-            //            eventStock.ReleaseEventArgs(keyEventArgs); 
-            //            PaintToOutputWindowIfNeed();
+            this.userEventPortal.PortalKeyDown(keyEventArgs);
+
+            eventStock.ReleaseEventArgs(keyEventArgs);
 
         }
         void StartCaretBlink()
@@ -397,31 +388,12 @@ namespace LayoutFarm.UI
         public void HandleKeyPress(KeyPressEventArgs e)
         {
             if (char.IsControl(e.KeyChar))
-            {
-                UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
-                SetKeyData(keyEventArgs, e);
-                StopCaretBlink();
-                canvasViewport.FullMode = false;
-                OffsetCanvasOrigin(keyEventArgs, canvasViewport.LogicalViewportLocation);
-#if DEBUG
-
-                topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-                topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UI.UIKeys)this.lastKeydownKey);
-                topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-#endif
-
-
-                this.userEventPortal.PortalKeyDown(keyEventArgs);
-
-                eventStock.ReleaseEventArgs(keyEventArgs);
-                PaintToOutputWindowIfNeed();
+            {   
                 return;
-            }
-
+            } 
 
             UIKeyEventArgs keyPressEventArgs = eventStock.GetFreeKeyPressEventArgs();
             keyPressEventArgs.SetKeyChar(e.KeyChar);
-
 
             StopCaretBlink();
 #if DEBUG
@@ -438,7 +410,6 @@ namespace LayoutFarm.UI
             eventStock.ReleaseEventArgs(keyPressEventArgs);
 
 
-            PaintToOutputWindowIfNeed();
         }
 
         public bool ProcessDialogKey(Keys keyData)
@@ -451,15 +422,9 @@ namespace LayoutFarm.UI
             canvasViewport.FullMode = false;
 
             OffsetCanvasOrigin(keyEventArg, canvasViewport.LogicalViewportLocation);
-
             bool result = this.userEventPortal.PortalProcessDialogKey(keyEventArg);
-
             eventStock.ReleaseEventArgs(keyEventArg);
-            if (result)
-            {
-                PaintToOutputWindowIfNeed();
 
-            }
             return result;
         }
 
