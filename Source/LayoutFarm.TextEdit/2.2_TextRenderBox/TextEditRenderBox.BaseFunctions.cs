@@ -105,12 +105,13 @@ namespace LayoutFarm.Text
 
         public void OnKeyPress(UIKeyEventArgs e)
         {
+            this.SetCaretState(true);
             if (e.IsControlKey)
             {
                 return;
             }
 
-            this.SetCaretState(true);
+            //this.SetCaretState(true);
 
             char c = e.KeyChar;
             e.CancelBubbling = true;
@@ -161,7 +162,7 @@ namespace LayoutFarm.Text
         {
 
             this.stateShowCaret = !stateShowCaret;
-             
+
             int swapcount = dbugCaretSwapCount++;
             if (stateShowCaret)
             {
@@ -285,16 +286,21 @@ namespace LayoutFarm.Text
         {
 
         }
+        public void OnKeyUp(UIKeyEventArgs e)
+        {
+            this.SetCaretState(true);
+
+        }
         public void OnKeyDown(UIKeyEventArgs e)
         {
-
+            this.SetCaretState(true);
             if (!e.HasKeyData)
             {
                 return;
             }
 
             UIKeys keycode = (UIKeys)e.KeyData;
-            this.SetCaretState(true);
+
 
             switch (keycode)
             {

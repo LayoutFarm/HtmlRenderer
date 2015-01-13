@@ -321,10 +321,7 @@ namespace LayoutFarm.UI
                 PaintToOutputWindow();
             }
         }
-        public void PaintMe(PaintEventArgs e)
-        {
-            PaintMe();
-        }
+        
         public void HandleKeyDown(KeyEventArgs e)
         {
 
@@ -332,27 +329,7 @@ namespace LayoutFarm.UI
             this.lastKeydownWithAlt = e.Alt;
             this.lastKeydownWithControl = e.Control;
             this.lastKeydownWithShift = e.Shift;
-
-            //            UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
-
-            //            SetKeyData(keyEventArgs, e);
-
-            //            StopCaretBlink();
-            //            canvasViewport.FullMode = false;
-
-            //            OffsetCanvasOrigin(keyEventArgs, canvasViewport.LogicalViewportLocation);
-            //#if DEBUG
-
-            //            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-            //            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UI.UIKeys)e.KeyData);
-            //            topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
-            //#endif
-
-
-            //            this.userEventPortal.PortalKeyDown(keyEventArgs);
-            //            eventStock.ReleaseEventArgs(keyEventArgs); 
-            //            PaintToOutputWindowIfNeed();
-
+              
         }
         void StartCaretBlink()
         {
@@ -397,6 +374,7 @@ namespace LayoutFarm.UI
                 UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
                 SetKeyData(keyEventArgs, e);
                 StopCaretBlink();
+
                 canvasViewport.FullMode = false;
                 OffsetCanvasOrigin(keyEventArgs, canvasViewport.LogicalViewportLocation);
 #if DEBUG
@@ -416,8 +394,7 @@ namespace LayoutFarm.UI
 
 
             UIKeyEventArgs keyPressEventArgs = eventStock.GetFreeKeyPressEventArgs();
-            keyPressEventArgs.SetKeyChar(e.KeyChar);
-
+            keyPressEventArgs.SetKeyChar(e.KeyChar); 
 
             StopCaretBlink();
 #if DEBUG

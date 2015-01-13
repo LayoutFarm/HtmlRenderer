@@ -71,9 +71,7 @@ namespace LayoutFarm.CustomWidgets
         {
             visualTextEdit.OnDoubleClick(e);
             e.CancelBubbling = true;
-        }
-     
-
+        } 
         protected override void OnKeyPress(UIKeyEventArgs e)
         {
             visualTextEdit.OnKeyPress(e);
@@ -82,11 +80,11 @@ namespace LayoutFarm.CustomWidgets
         protected override void OnKeyDown(UIKeyEventArgs e)
         {
             visualTextEdit.OnKeyDown(e);
-            e.CancelBubbling = true;
-
+            e.CancelBubbling = true; 
         }
         protected override void OnKeyUp(UIKeyEventArgs e)
         {
+            visualTextEdit.OnKeyUp(e);
             e.CancelBubbling = true;
         }
         protected override bool OnProcessDialogKey(UIKeyEventArgs e)
