@@ -112,7 +112,7 @@ namespace LayoutFarm.Text
                 OnKeyDown(e);
 
                 return;
-            }  
+            }
 
             char c = e.KeyChar;
             e.CancelBubbling = true;
@@ -155,28 +155,29 @@ namespace LayoutFarm.Text
 
         }
 
-#if DEBUG
-        static int dbugCaretSwapCount = 0;
+        //#if DEBUG
+        //        static int dbugCaretSwapCount = 0;
 
-#endif
+        //#endif
         internal void SwapCaretState()
         {
 
             this.stateShowCaret = !stateShowCaret;
+            this.InvalidateGraphics();
 
-            int swapcount = dbugCaretSwapCount++;
-            if (stateShowCaret)
-            {
-                Console.WriteLine(">>on " + swapcount);
-                this.InvalidateGraphics();
-                Console.WriteLine("<<on " + swapcount);
-            }
-            else
-            {
-                Console.WriteLine(">>off " + swapcount);
-                this.InvalidateGraphics();
-                Console.WriteLine("<<off " + swapcount);
-            }
+            //int swapcount = dbugCaretSwapCount++;
+            //if (stateShowCaret)
+            //{
+            //    Console.WriteLine(">>on " + swapcount);
+            //    this.InvalidateGraphics();
+            //    Console.WriteLine("<<on " + swapcount);
+            //}
+            //else
+            //{
+            //    Console.WriteLine(">>off " + swapcount);
+            //    this.InvalidateGraphics();
+            //    Console.WriteLine("<<off " + swapcount);
+            //}
 
         }
         internal void SetCaretState(bool visible)
@@ -206,7 +207,8 @@ namespace LayoutFarm.Text
                 internalTextLayerController.SetCaretPos(e.X, e.Y);
                 if (internalTextLayerController.SelectionRange != null)
                 {
-                    Rectangle r = GetSelectionUpdateArea(); internalTextLayerController.CancelSelect();
+                    Rectangle r = GetSelectionUpdateArea();
+                    internalTextLayerController.CancelSelect();
                     InvalidateGraphicLocalArea(this, r);
                 }
                 else
@@ -233,20 +235,19 @@ namespace LayoutFarm.Text
             }
 
         }
-        public void OnDrag(UIMouseEventArgs e)
-        {
+        
 
-            if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
-            {
+        bool isDragBegin;
+#if DEBUG
+        int dbugMouseDragBegin = 0;
+        int dbugMouseDragging = 0;
+        int dbugMouseDragEnd = 0;
+#endif
 
-                internalTextLayerController.SetCaretPos(e.X, e.Y);
-                internalTextLayerController.EndSelect();
-                this.InvalidateGraphics();
-
-            }
-        }
         public void OnDragBegin(UIMouseEventArgs e)
         {
+            dbugMouseDragBegin++;
+            isDragBegin = true;
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
                 internalTextLayerController.SetCaretPos(e.X, e.Y);
@@ -255,8 +256,30 @@ namespace LayoutFarm.Text
                 this.InvalidateGraphics();
             }
         }
+        public void OnDrag(UIMouseEventArgs e)
+        {
+            dbugMouseDragging++;
+            if (!isDragBegin)
+            {
+
+            } 
+            if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
+            {
+
+                internalTextLayerController.SetCaretPos(e.X, e.Y);
+                internalTextLayerController.EndSelect();
+                this.InvalidateGraphics();
+
+            }
+        }
         public void OnDragEnd(UIMouseEventArgs e)
         {
+            dbugMouseDragEnd++;
+            if (!isDragBegin)
+            {
+
+            }
+            isDragBegin = false;
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
 
@@ -518,6 +541,8 @@ namespace LayoutFarm.Text
                             TextSpanSytle defaultBeh1 = internalTextLayerController.GetFirstTextStyleInSelectedRange();
 
                             TextSpanSytle textStyle = null;
+                            //test only 
+                            //TODO: make this more configurable
                             if (defaultBeh1 != null)
                             {
                                 TextSpanSytle defaultBeh = ((TextSpanSytle)defaultBeh1);

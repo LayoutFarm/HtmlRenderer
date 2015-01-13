@@ -19,11 +19,7 @@ namespace LayoutFarm.UI
         MouseUp,
         MouseHover,
 
-        DragBegin,
-        Dragging,
-        DragEnd,
-         
-
+    
         KeyDown,
         KeyUp,
         KeyPress,

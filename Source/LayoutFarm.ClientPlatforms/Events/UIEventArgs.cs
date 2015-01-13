@@ -1,7 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
- 
+
 
 namespace LayoutFarm.UI
 {
@@ -122,7 +122,7 @@ namespace LayoutFarm.UI
             get;
             set;
         }
-        
+
         internal Point Location
         {
             get
@@ -248,19 +248,21 @@ namespace LayoutFarm.UI
 
     public class UIMouseEventArgs : UIEventArgs
     {
+
         public UIMouseButtons Button;
         public int Delta;
-        public int Clicks; 
+        public int Clicks;
         public int XDiff;
-        public int YDiff; 
-        public bool IsMouseDown; 
+        public int YDiff;
+
+
         int xdiffFromMouseDown;
-        int ydiffFromMouseDown; 
+        int ydiffFromMouseDown;
+
 
         public UIMouseEventArgs()
         {
-
-        } 
+        }
         public void SetDiff(int xdiff, int ydiff, int xdiffFromMouseDown, int ydiffFromMouseDown)
         {
             this.XDiff = xdiff;
@@ -268,23 +270,27 @@ namespace LayoutFarm.UI
             this.xdiffFromMouseDown = xdiffFromMouseDown;
             this.ydiffFromMouseDown = ydiffFromMouseDown;
         }
-       
-        public void SetEventInfo(int x, int y, UIMouseButtons button, int clicks, int delta)
+
+        public void SetEventInfo(int x, int y, UIMouseButtons button, int clicks, int delta, bool isDragging)
         {
             Location = new Point(x, y);
             Button = button;
             Clicks = clicks;
             Delta = delta;
+            this.IsDragging = isDragging;
         }
         public override void Clear()
         {
             this.Button = 0;
             this.Clicks = 0;
             this.XDiff = 0;
-            this.YDiff = 0; 
+            this.YDiff = 0;
             this.MouseCursorStyle = UI.MouseCursorStyle.Default;
+            this.IsDragging = false;
+
             base.Clear();
-        } 
+
+        }
         public int XDiffFromMouseDownPos
         {
             get
@@ -298,8 +304,14 @@ namespace LayoutFarm.UI
             {
                 return this.ydiffFromMouseDown;
             }
-        } 
+        }
         public MouseCursorStyle MouseCursorStyle
+        {
+            get;
+            set;
+        }
+
+        public bool IsDragging
         {
             get;
             set;

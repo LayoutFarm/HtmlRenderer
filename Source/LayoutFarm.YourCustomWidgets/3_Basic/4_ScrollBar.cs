@@ -116,7 +116,7 @@ namespace LayoutFarm.CustomWidgets
         {
             CustomRenderBox bgBox = new CustomRenderBox(rootgfx, this.Width, this.Height);
             bgBox.HasSpecificSize = true;
-            bgBox.SetLocation(this.Left, this.Top);             
+            bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
 
             VisualLayerCollection layers = new VisualLayerCollection();
@@ -242,14 +242,16 @@ namespace LayoutFarm.CustomWidgets
             this.scrollButton = scroll_button;
 
             //3. drag
-            scroll_button.Dragging += (s, e) =>
+            scroll_button.MouseMove += (s, e) =>
             {
 
+                if (!e.IsDragging)
+                {
+                    return;
+                }
                 Point pos = scroll_button.Position;
-                //if vscroll bar then move only y axis
-
-                int newYPos = (int)(pos.Y + e.YDiff);
-
+                //if vscroll bar then move only y axis 
+                int newYPos = (int)(pos.Y + e.YDiff); 
 
                 //clamp!
                 if (newYPos >= this.Height - (minmax_boxHeight + scrollButton.Height))
@@ -266,7 +268,7 @@ namespace LayoutFarm.CustomWidgets
                 int currentMarkAt = (newYPos - minmax_boxHeight);
                 this.scrollValue = (float)(onePixelFor * currentMarkAt);
                 newYPos = CalculateThumbPosition() + minmax_boxHeight;
-                scroll_button.SetLocation(pos.X, newYPos); 
+                scroll_button.SetLocation(pos.X, newYPos);
 
                 if (this.UserScroll != null)
                 {
@@ -372,7 +374,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 var button_box = new CustomRenderBox(rootgfx, this.Width, this.Height);
                 button_box.HasSpecificSize = true;
-                button_box.BackColor = this.backColor;                 
+                button_box.BackColor = this.backColor;
                 button_box.SetLocation(this.Left, this.Top);
                 button_box.SetController(this);
 
@@ -383,7 +385,8 @@ namespace LayoutFarm.CustomWidgets
         //------------------------------------------------------
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
-        public event EventHandler<UIMouseEventArgs> Dragging;
+        public event EventHandler<UIMouseEventArgs> MouseMove;
+
 
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
@@ -401,14 +404,15 @@ namespace LayoutFarm.CustomWidgets
             }
             e.CancelBubbling = true;
         }
-        protected override void OnDragging(UIMouseEventArgs e)
+        protected override void OnMouseMove(UIMouseEventArgs e)
         {
-            if (Dragging != null)
+            if (this.MouseMove != null)
             {
-                Dragging(this, e);
+                MouseMove(this, e);
             }
-            base.OnDragging(e);
+            e.CancelBubbling = true; 
         }
+      
     }
 
     public class ScrollBarCreationParameters

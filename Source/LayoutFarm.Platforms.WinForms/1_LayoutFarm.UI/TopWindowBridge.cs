@@ -18,8 +18,9 @@ namespace LayoutFarm.UI
         CanvasViewport canvasViewport;
 
 
-        bool isDragging;
+
         bool isMouseDown;
+        bool isDragging;
 
         Keys lastKeydownKey;
         bool lastKeydownWithControl;
@@ -86,7 +87,8 @@ namespace LayoutFarm.UI
                 e.X, e.Y,
                 GetUIMouseButton(e.Button),
                 e.Clicks,
-                e.Delta);
+                e.Delta,
+                this.isDragging);
 
             OffsetCanvasOrigin(mouseEventArg, this.canvasViewport.LogicalViewportLocation);
         }
@@ -229,7 +231,6 @@ namespace LayoutFarm.UI
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
             SetUIMouseEventArgsInfo(mouseEventArg, e);
 
-            this.isDragging = mouseEventArg.IsMouseDown = this.isMouseDown;
             return mouseEventArg;
         }
         void ReleaseMouseEvent(UIMouseEventArgs e)
@@ -239,12 +240,12 @@ namespace LayoutFarm.UI
         //------------------------------------------------------------------------
         public void HandleMouseDown(MouseEventArgs e)
         {
+            //clear
             this.isMouseDown = true;
             this.isDragging = false;
-
+            //---------------------
 
             canvasViewport.FullMode = false;
-
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
 
             this.userEventPortal.PortalMouseDown(mouseEventArg);
@@ -271,11 +272,12 @@ namespace LayoutFarm.UI
         {
 
             Point viewLocation = canvasViewport.LogicalViewportLocation;
-            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
-            if (this.isMouseDown || this.isDragging)
-            {
 
-            }
+            this.isDragging = this.isMouseDown;//before GetReadyMouseEventArgs ***
+
+            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
+
+
             this.userEventPortal.PortalMouseMove(mouseEventArg);
             if (currentCursorStyle != mouseEventArg.MouseCursorStyle)
             {
@@ -289,7 +291,9 @@ namespace LayoutFarm.UI
         {
 
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
-            this.isDragging = this.isMouseDown = false;//reset
+            this.isMouseDown = this.isDragging = false;//after GetReadyMouseEventArgs *** 
+
+
             canvasViewport.FullMode = false;
 
             this.userEventPortal.PortalMouseUp(mouseEventArg);
@@ -388,9 +392,9 @@ namespace LayoutFarm.UI
         public void HandleKeyPress(KeyPressEventArgs e)
         {
             if (char.IsControl(e.KeyChar))
-            {   
+            {
                 return;
-            } 
+            }
 
             UIKeyEventArgs keyPressEventArgs = eventStock.GetFreeKeyPressEventArgs();
             keyPressEventArgs.SetKeyChar(e.KeyChar);

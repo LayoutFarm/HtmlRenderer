@@ -497,20 +497,11 @@ namespace LayoutFarm.Demo
         /// </summary>
         protected override void OnClick(EventArgs e)
         {
+            this.isMouseDown = this.isDragging = false;
             base.OnClick(e);
             Focus();
         }
 
-        /// <summary>
-        /// Handle mouse move to handle hover cursor and text selection. 
-        /// </summary>
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
-
-            _htmlInputEventAdapter.MouseMove(CreateMouseEventArg(e));
-            PaintMe(null);
-        }
 
         /// <summary>
         /// Handle mouse leave to handle cursor change.
@@ -523,16 +514,36 @@ namespace LayoutFarm.Demo
             //    _htmlContainer.HandleMouseLeave(this);
         }
 
+        bool isMouseDown = false;
+        bool isDragging = false;
         /// <summary>
         /// Handle mouse down to handle selection. 
         /// </summary>
         protected override void OnMouseDown(MouseEventArgs e)
         {
+            this.isMouseDown = true;
+            this.isDragging = false;
+
             base.OnMouseDown(e);
 
             this._htmlInputEventAdapter.MouseDown(CreateMouseEventArg(e));
             PaintMe(null);
             //this.Invalidate();
+        }
+        /// <summary>
+        /// Handle mouse move to handle hover cursor and text selection. 
+        /// </summary>
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+            this.isDragging = this.isMouseDown;
+
+            var mouseE = CreateMouseEventArg(e);
+
+
+            _htmlInputEventAdapter.MouseMove(mouseE);
+
+            PaintMe(null);
         }
 
         /// <summary>
@@ -542,8 +553,15 @@ namespace LayoutFarm.Demo
         {
             base.OnMouseClick(e);
 
-            this._htmlInputEventAdapter.MouseUp(CreateMouseEventArg(e));
+            //get mouseE before reset isMouseDown and isDragging
+            var mouseE = CreateMouseEventArg(e);
+
+            this.isMouseDown = this.isDragging = false;
+
+            this._htmlInputEventAdapter.MouseUp(mouseE);
+
             PaintMe(null);
+            this.isMouseDown = this.isDragging = false;
             // this.Invalidate();
         }
         LayoutFarm.UI.UIMouseEventArgs CreateMouseEventArg(MouseEventArgs e)
@@ -553,7 +571,8 @@ namespace LayoutFarm.Demo
                 e.X, e.Y,
                 GetUIMouseButton(e.Button),
                 e.Clicks,
-                e.Delta);
+                e.Delta,
+                this.isDragging);             
             return mouseE;
         }
 
