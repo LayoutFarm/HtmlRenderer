@@ -40,7 +40,7 @@ namespace LayoutFarm.Text
                 vscrollableSurface.DrawToThisPage(canvas, updateArea);
             }
             //1. bg
-           
+
             canvas.FillRectangle(Color.White, 0, 0, updateArea.Width, updateArea.Height);
 
             //2. sub ground 
@@ -63,7 +63,7 @@ namespace LayoutFarm.Text
 
 #if DEBUG
             //for debug
-            canvas.FillRectangle(Color.Red,  0, 0, 5, 5 );
+            canvas.FillRectangle(Color.Red, 0, 0, 5, 5);
 #endif
 
             //if (GlobalCaretController.CurrentTextEditBox == this)
@@ -83,8 +83,6 @@ namespace LayoutFarm.Text
             }
             else
             {
-
-
             }
 
         }

@@ -237,18 +237,14 @@ namespace LayoutFarm.Text
 
 
         bool isDragBegin;
-#if DEBUG
-        int dbugMouseDragBegin = 0;
-        int dbugMouseDragging = 0;
-        int dbugMouseDragEnd = 0;
-#endif
+
 
 
         public void OnDrag(UIMouseEventArgs e)
         {
             if (!isDragBegin)
             {
-                dbugMouseDragBegin++;
+                //dbugMouseDragBegin++;
                 //first time
                 isDragBegin = true;
                 if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
@@ -261,7 +257,7 @@ namespace LayoutFarm.Text
             }
             else
             {
-                dbugMouseDragging++;
+                //dbugMouseDragging++;
                 if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
                 {
                     if (internalTextLayerController.SelectionRange == null)
@@ -278,11 +274,11 @@ namespace LayoutFarm.Text
         }
         public void OnDragEnd(UIMouseEventArgs e)
         {
-            dbugMouseDragEnd++;
-            if (!isDragBegin)
-            {
+            //dbugMouseDragEnd++;
+            //if (!isDragBegin)
+            //{
 
-            }
+            //}
             isDragBegin = false;
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
@@ -331,8 +327,6 @@ namespace LayoutFarm.Text
             }
 
             UIKeys keycode = (UIKeys)e.KeyData;
-
-
             switch (keycode)
             {
                 case UIKeys.Back:
@@ -864,7 +858,7 @@ namespace LayoutFarm.Text
                                 ScrollBy(0, lineArea.Top - ViewportY);
                             }
                             else
-                            {   //
+                            {
                                 InvalidateGraphicOfCurrentLineArea();
                             }
 
@@ -883,7 +877,6 @@ namespace LayoutFarm.Text
                     {
 
                         DoTab();
-
 
                         return true;
                     }
