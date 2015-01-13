@@ -15,9 +15,9 @@ namespace LayoutFarm.CustomWidgets
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
 
-        public event EventHandler<UIMouseEventArgs> Dragging;
-        public event EventHandler<UIMouseEventArgs> DragBegin;
-        public event EventHandler<UIMouseEventArgs> DragEnd;
+        //public event EventHandler<UIMouseEventArgs> Dragging;
+        //public event EventHandler<UIMouseEventArgs> DragBegin;
+        //public event EventHandler<UIMouseEventArgs> DragEnd;
 
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
@@ -28,7 +28,7 @@ namespace LayoutFarm.CustomWidgets
 
         public Panel(int width, int height)
             : base(width, height)
-        {   
+        {
             UICollection plainLayer = new UICollection(this);
             this.layers.Add(plainLayer);
         }
@@ -61,7 +61,7 @@ namespace LayoutFarm.CustomWidgets
                 renderE.SetController(this);
 
                 renderE.SetLocation(this.Left, this.Top);
-                renderE.BackColor = backColor;                
+                renderE.BackColor = backColor;
                 renderE.HasSpecificSize = true;
 
                 //------------------------------------------------
@@ -108,22 +108,22 @@ namespace LayoutFarm.CustomWidgets
                 this.MouseDown(this, e);
             }
         }
-        protected override void OnDragBegin(UIMouseEventArgs e)
-        {
-            if (this.DragBegin != null)
-            {
-                this.DragBegin(this, e);
-            }
-            base.OnDragBegin(e);
-        }
-        protected override void OnDragEnd(UIMouseEventArgs e)
-        {
-            if (this.DragEnd != null)
-            {
-                this.DragEnd(this, e);
-            }
-            base.OnDragEnd(e);
-        }
+        //protected override void OnDragBegin(UIMouseEventArgs e)
+        //{
+        //    if (this.DragBegin != null)
+        //    {
+        //        this.DragBegin(this, e);
+        //    }
+        //    base.OnDragBegin(e);
+        //}
+        //protected override void OnDragEnd(UIMouseEventArgs e)
+        //{
+        //    if (this.DragEnd != null)
+        //    {
+        //        this.DragEnd(this, e);
+        //    }
+        //    base.OnDragEnd(e);
+        //}
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -132,14 +132,14 @@ namespace LayoutFarm.CustomWidgets
             }
             base.OnMouseUp(e);
         }
-        protected override void OnDragging(UIMouseEventArgs e)
-        {
-            if (this.Dragging != null)
-            {
-                Dragging(this, e);
-            }
-            base.OnDragging(e);
-        }
+        //protected override void OnDragging(UIMouseEventArgs e)
+        //{
+        //    if (this.Dragging != null)
+        //    {
+        //        Dragging(this, e);
+        //    }
+        //    base.OnDragging(e);
+        // }
 
         public override int ViewportX
         {
@@ -158,7 +158,7 @@ namespace LayoutFarm.CustomWidgets
             if (this.HasReadyRenderElement)
             {
                 primElement.SetViewport(viewportX, viewportY);
-               
+
             }
         }
 

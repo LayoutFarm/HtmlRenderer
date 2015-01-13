@@ -70,7 +70,7 @@ namespace LayoutFarm
             //1. mouse down         
             box.MouseDown += (s, e) =>
             {
-                box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue); 
+                box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
 
                 //--------------------------------------------
@@ -87,36 +87,33 @@ namespace LayoutFarm
             box.MouseUp += (s, e) =>
             {
                 e.MouseCursorStyle = MouseCursorStyle.Default;
-                box.BackColor = Color.LightGray; 
+                box.BackColor = Color.LightGray;
                 //hide controller
                 controllerBox1.Visible = false;
                 controllerBox1.TargetBox = null;
             };
-
-            ////3. drag
-            //box.Dragging += (s, e) =>
-            //{
-            //    box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
-            //    Point pos = box.Position;
-            //    box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
-            //    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-            //};
-
-            //box.DragLeave += (s, e) =>
-            //{
-            //    box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
-            //    Point pos = box.Position;
-            //    //continue dragging on the same element 
-            //    box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
-            //    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-            //    e.CancelBubbling = true;
-            //};
-            //box.DragStop += (s, e) =>
-            //{
-            //    box.BackColor = Color.LightGray;
-            //    e.MouseCursorStyle = MouseCursorStyle.Default;
-            //    box.InvalidateGraphic();
-            //};
+            box.MouseMove += (s, e) =>
+            {
+                if (e.IsDragging)
+                {
+                    box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
+                    Point pos = box.Position;
+                    box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                }
+            };
+            box.MouseLeave += (s, e) =>
+            {
+                if (e.IsDragging)
+                {
+                    box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
+                    Point pos = box.Position;
+                    //continue dragging on the same element 
+                    box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true;
+                }
+            };
         }
 
         static void MoveWithSnapToGrid(UIControllerBox controllerBox, UIMouseEventArgs e)
@@ -145,29 +142,10 @@ namespace LayoutFarm
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
             //for controller box
-            controllerBox.DragBegin += (s, e) =>
-            {
-                MoveWithSnapToGrid(controllerBox, e);
-                e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                e.CancelBubbling = true;
-            };
 
-            controllerBox.Dragging += (s, e) =>
-            {
-                MoveWithSnapToGrid(controllerBox, e);
-                e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                e.CancelBubbling = true;
-            };
-            controllerBox.DragLeave += (s, e) =>
-            {
-
-                MoveWithSnapToGrid(controllerBox, e);
-                e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                e.CancelBubbling = true;
-            };
             controllerBox.MouseLeave += (s, e) =>
             {
-                if (e.IsMouseDown)
+                if (e.IsDragging)
                 {
                     MoveWithSnapToGrid(controllerBox, e);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
@@ -176,7 +154,7 @@ namespace LayoutFarm
             };
             controllerBox.MouseMove += (s, e) =>
             {
-                if (e.IsMouseDown)
+                if (e.IsDragging)
                 {
                     MoveWithSnapToGrid(controllerBox, e);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
@@ -211,7 +189,7 @@ namespace LayoutFarm
                 get;
                 set;
             }
-           
+
             //get primary render element
             public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
             {
@@ -272,43 +250,21 @@ namespace LayoutFarm
                 tinyBox.BackColor = PixelFarm.Drawing.Color.Red;
                 tinyBox.Tag = name;
                 //add handler for each tiny box
-                tinyBox.DragBegin += (s, e) =>
-                {
-                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
-                };
 
-                tinyBox.Dragging += (s, e) =>
-                {
-                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
-                };
-                tinyBox.DragLeave += (s, e) =>
-                {
-                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
-                };
-                tinyBox.DragEnd += (s, e) =>
-                {
-                    ResizeTargetWithSnapToGrid2(this, e);
-                    e.CancelBubbling = true;
-                };
                 //---------------------------------------------------------------------
-                tinyBox.MouseLeave += (s, e) =>
+
+                tinyBox.MouseMove += (s, e) =>
                 {
-                    if (e.IsMouseDown)
+                    if (e.IsDragging)
                     {
                         ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
                         e.MouseCursorStyle = MouseCursorStyle.Pointer;
                         e.CancelBubbling = true;
                     }
                 };
-                tinyBox.MouseMove += (s, e) =>
+                tinyBox.MouseLeave += (s, e) =>
                 {
-                    if (e.IsMouseDown)
+                    if (e.IsDragging)
                     {
                         ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
                         e.MouseCursorStyle = MouseCursorStyle.Pointer;
@@ -317,6 +273,10 @@ namespace LayoutFarm
                 };
                 tinyBox.MouseUp += (s, e) =>
                 {
+                    if (e.IsDragging)
+                    {
+                        ResizeTargetWithSnapToGrid2(this, e);
+                    }
                     e.MouseCursorStyle = MouseCursorStyle.Default;
                     e.CancelBubbling = true;
                 };

@@ -16,11 +16,7 @@ namespace LayoutFarm.CustomWidgets
         public event EventHandler<UIMouseEventArgs> MouseMove;
         public event EventHandler<UIMouseEventArgs> MouseUp;
         public event EventHandler<UIMouseEventArgs> MouseLeave;
-
-        public event EventHandler<UIMouseEventArgs> Dragging;
-        public event EventHandler<UIMouseEventArgs> DragLeave;
-        public event EventHandler<UIMouseEventArgs> DragBegin;
-        public event EventHandler<UIMouseEventArgs> DragEnd;
+         
 
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
@@ -92,29 +88,6 @@ namespace LayoutFarm.CustomWidgets
                 this.MouseLeave(this, e);
             }
         }
-        protected override void OnDragLeave(UIMouseEventArgs e)
-        {
-            if (this.DragLeave != null)
-            {
-                this.DragLeave(this, e);
-            }
-        }
-        protected override void OnDragBegin(UIMouseEventArgs e)
-        {
-            if (this.DragBegin != null)
-            {
-                this.DragBegin(this, e);
-            }
-
-        }
-        protected override void OnDragEnd(UIMouseEventArgs e)
-        {
-            if (this.DragEnd != null)
-            {
-                this.DragEnd(this, e);
-            }
-
-        }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -122,13 +95,40 @@ namespace LayoutFarm.CustomWidgets
                 MouseUp(this, e);
             }
         }
-        protected override void OnDragging(UIMouseEventArgs e)
-        {
-            if (this.Dragging != null)
-            {
-                Dragging(this, e);
-            }
-        }
+        //----------------------------------------------------
+
+
+        //protected override void OnDragLeave(UIMouseEventArgs e)
+        //{
+        //    //if (this.DragLeave != null)
+        //    //{
+        //    //    this.DragLeave(this, e);
+        //    //}
+        //}
+        //protected override void OnDragBegin(UIMouseEventArgs e)
+        //{
+        //    //if (this.DragBegin != null)
+        //    //{
+        //    //    this.DragBegin(this, e);
+        //    //}
+
+        //}
+        //protected override void OnDragEnd(UIMouseEventArgs e)
+        //{
+        //    //if (this.DragEnd != null)
+        //    //{
+        //    //    this.DragEnd(this, e);
+        //    //}
+
+        //}
+       
+        //protected override void OnDragging(UIMouseEventArgs e)
+        //{
+        //    //if (this.Dragging != null)
+        //    //{
+        //    //    Dragging(this, e);
+        //    //}
+        //}
         //----------------------------------------------------
         //for general data
         public object Tag { get; set; }

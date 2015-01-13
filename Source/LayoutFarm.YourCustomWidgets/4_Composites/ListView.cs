@@ -104,22 +104,22 @@ namespace LayoutFarm.CustomWidgets
                 this.MouseDown(this, e);
             }
         }
-        protected override void OnDragBegin(UIMouseEventArgs e)
-        {
-            if (this.DragStart != null)
-            {
-                this.DragStart(this, e);
-            }
-            base.OnDragBegin(e);
-        }
-        protected override void OnDragEnd(UIMouseEventArgs e)
-        {
-            if (this.DragStop != null)
-            {
-                this.DragStop(this, e);
-            }
-            base.OnDragEnd(e);
-        }
+        //protected override void OnDragBegin(UIMouseEventArgs e)
+        //{
+        //    if (this.DragStart != null)
+        //    {
+        //        this.DragStart(this, e);
+        //    }
+        //    base.OnDragBegin(e);
+        //}
+        //protected override void OnDragEnd(UIMouseEventArgs e)
+        //{
+        //    if (this.DragStop != null)
+        //    {
+        //        this.DragStop(this, e);
+        //    }
+        //    base.OnDragEnd(e);
+        //}
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -128,14 +128,14 @@ namespace LayoutFarm.CustomWidgets
             }
             base.OnMouseUp(e);
         }
-        protected override void OnDragging(UIMouseEventArgs e)
-        {
-            if (this.Dragging != null)
-            {
-                Dragging(this, e);
-            }
-            base.OnDragging(e);
-        }
+        //protected override void OnDragging(UIMouseEventArgs e)
+        //{
+        //    if (this.Dragging != null)
+        //    {
+        //        Dragging(this, e);
+        //    }
+        //    base.OnDragging(e);
+        //}
 
         public override int ViewportX
         {

@@ -50,16 +50,16 @@ namespace LayoutFarm
             //1. mouse down         
             box.MouseDown += (s, e) =>
             {
-                box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue); 
+                box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
 
                 //--------------------------------------------
                 //move controller here
-               
+
                 controllerBox1.SetBounds(box.Left - 5, box.Top - 5,
                                          box.Width + 10, box.Height + 10);
                 controllerBox1.Visible = true;
-                 
+
 
                 controllerBox1.TargetBox = box;
                 //--------------------------------------------
@@ -69,88 +69,52 @@ namespace LayoutFarm
             box.MouseUp += (s, e) =>
             {
                 e.MouseCursorStyle = MouseCursorStyle.Default;
-                box.BackColor = Color.LightGray; 
+                box.BackColor = Color.LightGray;
                 controllerBox1.Visible = false;
                 controllerBox1.TargetBox = null;
             };
+            box.MouseLeave += (s, e) =>
+            {
+                if (e.IsDragging)
+                {
+                    box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
+                    Point pos = box.Position;
+                    //continue dragging on the same element 
+                    box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true;
+                }
 
-            ////3. drag
-            //box.Dragging += (s, e) =>
-            //{
-            //    box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
-            //    Point pos = box.Position;
-            //    box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
-            //    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-            //};
+            };
 
-            //box.DragLeave += (s, e) =>
-            //{
-            //    box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
-            //    Point pos = box.Position;
-            //    //continue dragging on the same element 
-            //    box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
-            //    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-            //    e.CancelBubbling = true;
-            //};
-            //box.DragStop += (s, e) =>
-            //{
-            //    box.BackColor = Color.LightGray;
-            //    e.MouseCursorStyle = MouseCursorStyle.Default;
-            //    box.InvalidateGraphic();
-            //};
         }
 
 
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
-            //for controller box
-            controllerBox.DragBegin += (s, e) =>
+            //for controller box  
+            controllerBox.MouseMove += (s, e) =>
             {
-                Point pos = controllerBox.Position;
-                controllerBox.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
-                var targetBox = controllerBox.TargetBox;
-                if (targetBox != null)
+                if (e.IsDragging)
                 {
-                    //move target box too
-                    targetBox.SetLocation(pos.X + 5, pos.Y + 5);
-
-                }
-            };
-
-            controllerBox.Dragging += (s, e) =>
-            {
-                Point pos = controllerBox.Position;
-                controllerBox.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
-                var targetBox = controllerBox.TargetBox;
-                if (targetBox != null)
-                {
-                    //move target box too
-                    targetBox.SetLocation(pos.X + 5, pos.Y + 5);
-                }
-            };
+                    Point pos = controllerBox.Position;
+                    int newX = pos.X + e.XDiff;
+                    int newY = pos.Y + e.YDiff;
 
 
-            controllerBox.DragLeave += (s, e) =>
-            {
-
-                Point pos = controllerBox.Position;
-                //continue dragging on the same element 
-                int newX = pos.X + e.XDiff;
-                int newY = pos.Y + e.YDiff;
-                controllerBox.SetLocation(newX, newY);
-                var targetBox = controllerBox.TargetBox;
-                if (targetBox != null)
-                {
-                    //move target box too
-                    targetBox.SetLocation(newX + 5, newY + 5);
+                    controllerBox.SetLocation(newX, newY);
+                    var targetBox = controllerBox.TargetBox;
+                    if (targetBox != null)
+                    {
+                        //move target box too
+                        targetBox.SetLocation(newX + 5, newY + 5);
+                    }
                 }
 
-                e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                e.CancelBubbling = true;
             };
             controllerBox.MouseLeave += (s, e) =>
             {
-                if (e.IsMouseDown)
+                if (e.IsDragging)
                 {
                     Point pos = controllerBox.Position;
                     int newX = pos.X + e.XDiff;
@@ -167,39 +131,11 @@ namespace LayoutFarm
                     e.CancelBubbling = true;
                 }
             };
-
-            controllerBox.MouseMove += (s, e) =>
+            controllerBox.MouseUp += (s, e) =>
             {
-                if (e.IsMouseDown)
-                {
-                    Point pos = controllerBox.Position;
-                    int newX = pos.X + e.XDiff;
-                    int newY = pos.Y + e.YDiff;
-
-
-                    controllerBox.SetLocation(newX, newY);
-                    var targetBox = controllerBox.TargetBox;
-                    if (targetBox != null)
-                    {
-                        //move target box too
-                        targetBox.SetLocation(newX + 5, newY + 5);
-                    }
-                }
-
+                controllerBox.Visible = false;
+                controllerBox.TargetBox = null;
             };
-
-            //controllerBox.DragEnd += (s, e) =>
-            //{
-            //    controllerBox.TargetBox = null;
-            //    controllerBox.Visible = false;
-
-            //};
-
-            //controllerBox.MouseUp += (s, e) =>
-            //{
-            //    controllerBox.Visible = false;
-            //    controllerBox.TargetBox = null;
-            //};
 
         }
 

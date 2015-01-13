@@ -73,24 +73,7 @@ namespace LayoutFarm.UI
         protected virtual void OnMouseHover(UIMouseEventArgs e)
         {
         }
-        //-------------------------------------------------------
-
-        protected virtual void OnDragLeave(UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragBegin(UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragEnd(UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragging(UIMouseEventArgs e)
-        {
-
-        }
+        
         //------------------------------------------------------------
         protected virtual void OnKeyDown(UIKeyEventArgs e)
         {
