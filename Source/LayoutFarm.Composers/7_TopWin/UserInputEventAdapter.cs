@@ -530,10 +530,10 @@ namespace LayoutFarm.UI
                 IEventListener listener = hitInfo.hitElement.GetController() as IEventListener;
                 if (listener != null)
                 {
-                    var ppp = hitInfo.point;
-                    e.SetLocation(ppp.X, ppp.Y);
+                    var hitPoint = hitInfo.point;
+                    e.SetLocation(hitPoint.X, hitPoint.Y);
                     e.CurrentContextElement = listener;
-
+                    
                     if (listenerAction(listener))
                     {
                         return;
