@@ -66,6 +66,7 @@ namespace LayoutFarm.CustomWidgets
                 {
                     this.isChecked = value;
                     //check check image too!
+
                     if (this.isChecked)
                     {
                         imageBox.Image = ResImageList.GetImage(ImageName.CheckBoxChecked);
@@ -74,6 +75,8 @@ namespace LayoutFarm.CustomWidgets
                     {
                         imageBox.Image = ResImageList.GetImage(ImageName.CheckBoxUnChecked);
                     }
+
+                    
 
                     if (value && this.WhenChecked != null)
                     {

@@ -27,6 +27,7 @@ namespace LayoutFarm.CustomWidgets
                 if (this.imgRenderBox != null)
                 {
                     this.imgRenderBox.Image = value;
+                    this.InvalidateGraphics();
                 }
             }
         }
