@@ -73,8 +73,10 @@ namespace LayoutFarm.UI.GdiPlus
             else
             {
                 //temp to full mode
+                //quadPages.RenderToOutputWindowFullMode(rootGraphics.TopWindowRenderBox, hdc, this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
+
                 quadPages.RenderToOutputWindowPartialMode(rootGraphics.TopWindowRenderBox, hdc, this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
-                //quadPages.RenderToOutputWindowFullMode(topWindowBox, hdc, this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
+                 
             }
             this.rootGraphics.IsInRenderPhase = false;
 

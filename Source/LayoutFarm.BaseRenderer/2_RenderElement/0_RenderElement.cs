@@ -152,7 +152,7 @@ namespace LayoutFarm
 
                 if (parentLink != null)
                 {
-                    this.InvalidateGraphics();
+                    this.InvalidateGraphicBounds(this.RectBounds);                     
                 }
             }
         }
@@ -303,7 +303,7 @@ namespace LayoutFarm
 #if DEBUG
             dbugVRoot.dbug_drawLevel++;
 #endif
-            
+
             if (canvas.PushClipAreaRect(b_width, b_height, ref updateArea))
             {
 #if DEBUG
@@ -330,7 +330,7 @@ namespace LayoutFarm
 #if DEBUG
             dbugVRoot.dbug_drawLevel--;
 #endif
-        } 
+        }
 
         //==============================================================
         //set location and size , not bubble***

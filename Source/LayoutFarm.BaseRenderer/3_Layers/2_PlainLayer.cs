@@ -95,7 +95,7 @@ namespace LayoutFarm.RenderBoxes
             this.BeginDrawingChildContent();
             foreach (RenderElement child in this.GetDrawingIter())
             {
-                if (child.IntersectsWith(updateArea))
+                if (child.IntersectsWith(ref updateArea))
                 {
 
                     int x = child.X;

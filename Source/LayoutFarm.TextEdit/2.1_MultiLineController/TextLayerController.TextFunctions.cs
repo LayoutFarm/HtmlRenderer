@@ -1,7 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System; 
+using System;
 using System.Collections.Generic;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 using System.Text;
 
 namespace LayoutFarm.Text
@@ -54,7 +54,8 @@ namespace LayoutFarm.Text
                 textLineWriter.EnsureCurrentTextRun();
 
                 undoActionCollection.AddDocAction(
-                    new DocActionInsertRuns(new EditableTextSpan[] { newTextRun }, startLineNum, startCharIndex,
+                    new DocActionInsertRuns(
+                        new EditableTextSpan[] { newTextRun }, startLineNum, startCharIndex,
                         textLineWriter.LineNumber, textLineWriter.CharIndex));
             }
 
@@ -87,7 +88,8 @@ namespace LayoutFarm.Text
 
             bool isRecordingHx = EnableUndoHistoryRecording;
 
-            EnableUndoHistoryRecording = false; foreach (EditableTextSpan t in textRuns)
+            EnableUndoHistoryRecording = false; 
+            foreach (EditableTextSpan t in textRuns)
             {
                 if (t.IsLineBreak)
                 {
@@ -168,9 +170,9 @@ namespace LayoutFarm.Text
 
         public void StartSelect()
         {
+
             if (textLineWriter != null)
             {
-
                 selectionRange = new VisualSelectionRange(GetCurrentPointInfo(), GetCurrentPointInfo());
             }
 #if DEBUG
@@ -184,6 +186,7 @@ namespace LayoutFarm.Text
         }
         public void EndSelect()
         {
+
             if (textLineWriter != null)
             {
 #if DEBUG
@@ -195,8 +198,10 @@ namespace LayoutFarm.Text
                 selectionRange.EndPoint = GetCurrentPointInfo();
             }
         }
+
         public void CancelSelect()
         {
+
 #if DEBUG
             if (dbugEnableTextManRecorder)
             {
@@ -206,7 +211,6 @@ namespace LayoutFarm.Text
 #endif
             selectionRange = null;
         }
-
         public VisualPointInfo FindTextRunOnPosition(int x, int y)
         {
             if (y < 0)
@@ -222,10 +226,7 @@ namespace LayoutFarm.Text
                     if (textLine != null)
                     {
                         return textLine.GetTextPointInfoFromCaretPoint(x);
-                    }
-
-
-
+                    } 
                 }
                 return null;
             }

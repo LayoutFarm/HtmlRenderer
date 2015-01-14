@@ -67,32 +67,7 @@ namespace LayoutFarm.WebDom
         protected virtual void OnMouseWheel(UIMouseEventArgs e)
         {
 
-        }
-        protected virtual void OnDragStart(UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragEnter(UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragOver(UIMouseEventArgs e)
-        {
-        }
-        protected virtual void OnDragLeave(UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragStop(UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragging(UIMouseEventArgs e)
-        {
-        }
-        protected virtual void OnDragDrop(UIMouseEventArgs e)
-        {
-        }
+        } 
         protected virtual void OnCollapsed()
         {
         }

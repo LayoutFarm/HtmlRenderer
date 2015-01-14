@@ -100,35 +100,11 @@ namespace LayoutFarm
                 CustomWidgets.EaseBox tinyBox = new CustomWidgets.EaseBox(controllerBoxWH, controllerBoxWH);
                 tinyBox.BackColor = bgcolor;
                 tinyBox.Tag = name;
-                //add handler for each tiny box
-                tinyBox.DragBegin += (s, e) =>
-                {
-
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
-                };
-
-                tinyBox.Dragging += (s, e) =>
-                {
-
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
-                };
-                tinyBox.DragLeave += (s, e) =>
-                {
-
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
-                };
-                tinyBox.DragEnd += (s, e) =>
-                {
-
-                    e.CancelBubbling = true;
-                };
+               
                 //---------------------------------------------------------------------
                 tinyBox.MouseLeave += (s, e) =>
                 {
-                    if (e.IsMouseDown)
+                    if (e.IsDragging)
                     {
 
                         e.MouseCursorStyle = MouseCursorStyle.Pointer;
@@ -137,7 +113,7 @@ namespace LayoutFarm
                 };
                 tinyBox.MouseMove += (s, e) =>
                 {
-                    if (e.IsMouseDown)
+                    if (e.IsDragging)
                     {
 
                         e.MouseCursorStyle = MouseCursorStyle.Pointer;

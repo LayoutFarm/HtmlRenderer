@@ -173,14 +173,7 @@ namespace LayoutFarm.RenderBoxes
 
             layerFlags |= ARRANGEMENT_VALID;
         }
-        //protected void BeginLayerLayoutUpdate()
-        //{
-        //    owner.BeginGraphicUpdate();
-        //}
-        //protected void EndLayerLayoutUpdate()
-        //{
-        //    owner.EndGraphicUpdate();
-        //}
+        
         bool NeedReArrangeContent
         {
             get

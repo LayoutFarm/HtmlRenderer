@@ -30,7 +30,7 @@ namespace LayoutFarm.Text
 
     }
 
-      class VisualSelectionRange
+    class VisualSelectionRange
     {
         EditableVisualPointInfo startPoint = null;
         EditableVisualPointInfo endPoint = null;
@@ -186,10 +186,11 @@ namespace LayoutFarm.Text
             }
             else
             {
-                EditableVisualPointInfo topEndPoint = TopEnd; int lineYPos = topEndPoint.LineTop;
+                EditableVisualPointInfo topEndPoint = TopEnd;
+                int lineYPos = topEndPoint.LineTop;
 
                 destPage.FillRectangle(Color.LightGray, topEndPoint.X, lineYPos,
-                    topEndPoint.CurrentWidth,
+                    topEndPoint.CurrentWidth - topEndPoint.X,
                     topEndPoint.ActualLineHeight);
 
                 int topLineId = topEndPoint.LineId;
@@ -209,8 +210,7 @@ namespace LayoutFarm.Text
                 }
                 VisualPointInfo bottomEndPoint = BottomEnd;
                 lineYPos = bottomEndPoint.LineTop;
-                //destPage.FillRectangle(Color.LightGray, 0, lineYPos, bottomEndPoint.X,
-                //    lineYPos + bottomEndPoint.ActualLineHeight);
+                 
                 destPage.FillRectangle(Color.LightGray, 0, lineYPos, bottomEndPoint.X,
                      bottomEndPoint.ActualLineHeight);
 
@@ -254,10 +254,7 @@ namespace LayoutFarm.Text
                     yield return t;
                 }
             }
-
-
         }
-
         public VisualSelectionRangeSnapShot GetSelectionRangeSnapshot()
         {
             return new VisualSelectionRangeSnapShot(
