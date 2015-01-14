@@ -31,6 +31,7 @@ namespace LayoutFarm.Text
             myCaret = new CaretRenderElement(rootgfx, 2, 17);
             myCaret.TransparentForAllEvents = true;
             this.MayHasViewport = true;
+
             //RegisterNativeEvent((1 << UIEventIdentifier.NE_DRAG_START)
             //    | (1 << UIEventIdentifier.NE_DRAGING)
             //    | (1 << UIEventIdentifier.NE_DRAG_STOP)
@@ -104,11 +105,14 @@ namespace LayoutFarm.Text
 
         public void OnKeyPress(UIKeyEventArgs e)
         {
+            this.SetCaretState(true);
+            //------------------------
             if (e.IsControlKey)
             {
+                OnKeyDown(e);
+
                 return;
             }
-            this.SetCaretState(true);
 
             char c = e.KeyChar;
             e.CancelBubbling = true;
@@ -144,6 +148,7 @@ namespace LayoutFarm.Text
         }
         void InvalidateGraphicOfCurrentLineArea()
         {
+             
 #if DEBUG
             Rectangle c_lineArea = this.internalTextLayerController.CurrentParentLineArea;
 #endif
@@ -151,18 +156,40 @@ namespace LayoutFarm.Text
 
         }
 
+        //#if DEBUG
+        //        static int dbugCaretSwapCount = 0;
+
+        //#endif
         internal void SwapCaretState()
         {
+
             this.stateShowCaret = !stateShowCaret;
+            this.InvalidateGraphics();
+
+            //int swapcount = dbugCaretSwapCount++;
+            //if (stateShowCaret)
+            //{
+            //    Console.WriteLine(">>on " + swapcount);
+            //    this.InvalidateGraphics();
+            //    Console.WriteLine("<<on " + swapcount);
+            //}
+            //else
+            //{
+            //    Console.WriteLine(">>off " + swapcount);
+            //    this.InvalidateGraphics();
+            //    Console.WriteLine("<<off " + swapcount);
+            //}
+
         }
         internal void SetCaretState(bool visible)
         {
             this.stateShowCaret = visible;
+            this.InvalidateGraphics();
         }
         public void Focus()
         {
-            this.SetCaretState(true);
             GlobalCaretController.CurrentTextEditBox = this;
+            this.SetCaretState(true);
             this.isFocus = true;
         }
         public bool IsFocused
@@ -181,7 +208,8 @@ namespace LayoutFarm.Text
                 internalTextLayerController.SetCaretPos(e.X, e.Y);
                 if (internalTextLayerController.SelectionRange != null)
                 {
-                    Rectangle r = GetSelectionUpdateArea(); internalTextLayerController.CancelSelect();
+                    Rectangle r = GetSelectionUpdateArea();
+                    internalTextLayerController.CancelSelect();
                     InvalidateGraphicLocalArea(this, r);
                 }
                 else
@@ -206,35 +234,59 @@ namespace LayoutFarm.Text
                 internalTextLayerController.CharIndex += textRun.CharacterCount;
                 internalTextLayerController.EndSelect();
             }
-
         }
+
+
+        bool isDragBegin;
+
+
+
         public void OnDrag(UIMouseEventArgs e)
         {
-
-            if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
+            if (!isDragBegin)
             {
-
-                internalTextLayerController.SetCaretPos(e.X, e.Y);
-                internalTextLayerController.EndSelect();
-                this.InvalidateGraphics();
-
+                //dbugMouseDragBegin++;
+                //first time
+                isDragBegin = true;
+                if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
+                {
+                    internalTextLayerController.SetCaretPos(e.X, e.Y);
+                    internalTextLayerController.StartSelect();
+                    internalTextLayerController.EndSelect();
+                    this.InvalidateGraphics();
+                }
             }
-        }
-        public void OnDragBegin(UIMouseEventArgs e)
-        {
-            if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
+            else
             {
-                internalTextLayerController.SetCaretPos(e.X, e.Y);
-                internalTextLayerController.StartSelect();
-                internalTextLayerController.EndSelect();
-                this.InvalidateGraphics();
+                //dbugMouseDragging++;
+                if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
+                {
+                    if (internalTextLayerController.SelectionRange == null)
+                    {
+                        internalTextLayerController.StartSelect();
+                    }
+                    internalTextLayerController.SetCaretPos(e.X, e.Y);
+                    internalTextLayerController.EndSelect();
+                    this.InvalidateGraphics();
+
+                }
             }
+
         }
         public void OnDragEnd(UIMouseEventArgs e)
         {
+            //dbugMouseDragEnd++;
+            //if (!isDragBegin)
+            //{
+
+            //}
+            isDragBegin = false;
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
-
+                if (internalTextLayerController.SelectionRange == null)
+                {
+                    internalTextLayerController.StartSelect();
+                }
                 internalTextLayerController.SetCaretPos(e.X, e.Y);
                 internalTextLayerController.EndSelect();
                 this.InvalidateGraphics();
@@ -262,17 +314,20 @@ namespace LayoutFarm.Text
         {
 
         }
+        public void OnKeyUp(UIKeyEventArgs e)
+        {
+            this.SetCaretState(true);
+
+        }
         public void OnKeyDown(UIKeyEventArgs e)
         {
-
+            this.SetCaretState(true);
             if (!e.HasKeyData)
             {
                 return;
             }
 
             UIKeys keycode = (UIKeys)e.KeyData;
-            this.SetCaretState(true);
-
             switch (keycode)
             {
                 case UIKeys.Back:
@@ -488,6 +543,8 @@ namespace LayoutFarm.Text
                             TextSpanSytle defaultBeh1 = internalTextLayerController.GetFirstTextStyleInSelectedRange();
 
                             TextSpanSytle textStyle = null;
+                            //test only 
+                            //TODO: make this more configurable
                             if (defaultBeh1 != null)
                             {
                                 TextSpanSytle defaultBeh = ((TextSpanSytle)defaultBeh1);
@@ -531,6 +588,7 @@ namespace LayoutFarm.Text
         {
             UIKeys keyData = (UIKeys)e.KeyData;
 
+            SetCaretState(true);
 
             if (isInVerticalPhase && (keyData != UIKeys.Up || keyData != UIKeys.Down))
             {
@@ -802,10 +860,10 @@ namespace LayoutFarm.Text
                                 ScrollBy(0, lineArea.Top - ViewportY);
                             }
                             else
-                            {   //
+                            {
+                                EnsureCaretVisible();
                                 InvalidateGraphicOfCurrentLineArea();
                             }
-
                         }
                         else
                         {
@@ -813,7 +871,6 @@ namespace LayoutFarm.Text
                         if (textSurfaceEventListener != null)
                         {
                             TextSurfaceEventListener.NotifyArrowKeyCaretPosChanged(textSurfaceEventListener, keyData);
-
                         }
                         return true;
                     }
@@ -821,7 +878,6 @@ namespace LayoutFarm.Text
                     {
 
                         DoTab();
-
 
                         return true;
                     }

@@ -97,7 +97,7 @@ namespace LayoutFarm.HtmlBoxes
                     DomVisualRefresh(this, EventArgs.Empty);
                 }
 #if DEBUG
-                dbugCount02++;
+                //dbugCount02++;
                 //Console.WriteLine(dd);
 #endif
                 return true;

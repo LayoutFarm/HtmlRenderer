@@ -26,10 +26,16 @@ namespace LayoutFarm.UI.OpenGL
         /// </summary>
         /// <param name="myGLControl"></param>
         public void BindGLControl(GpuOpenGLSurfaceView myGLControl)
-        {   
+        {
             this.windowControl = myGLControl;
             SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(this.RootGfx, this.Size.ToSize(), 4));
+            RootGfx.SetPaintDelegates(
+                (r) => { }, //still do nothing
+                this.PaintToOutputWindow);
+
+
             openGLViewport.NotifyWindowControlBinding();
+
 #if DEBUG
             this.openGLViewport.dbugOutputWindow = this;
 #endif
@@ -74,23 +80,7 @@ namespace LayoutFarm.UI.OpenGL
 
         }
 
-        protected override void PaintToOutputWindowIfNeed()
-        {
-            if (!isInitGLControl)
-            {
-                return;
-            }
-
-            //var innumber = dbugCount;
-            //dbugCount++;
-            //Console.WriteLine(">" + innumber);
-
-            windowControl.MakeCurrent();
-            this.openGLViewport.PaintMe();
-            windowControl.SwapBuffers();
-
-            //Console.WriteLine("<" + innumber);
-        }
+ 
         protected override void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
         {
 

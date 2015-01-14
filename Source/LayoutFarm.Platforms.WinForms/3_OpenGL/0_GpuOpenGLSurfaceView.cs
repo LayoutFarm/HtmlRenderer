@@ -157,9 +157,7 @@ namespace LayoutFarm.UI.OpenGL
             this.winBridge.HandleMouseUp(e);
             base.OnMouseUp(e);
 
-        }
-
-
+        } 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
             this.winBridge.HandleMouseWheel(e);

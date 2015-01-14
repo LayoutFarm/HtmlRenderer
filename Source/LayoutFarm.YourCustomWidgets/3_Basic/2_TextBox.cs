@@ -7,7 +7,7 @@ using PixelFarm.Drawing;
 
 using LayoutFarm;
 using LayoutFarm.UI;
-using LayoutFarm.Text; 
+using LayoutFarm.Text;
 namespace LayoutFarm.CustomWidgets
 {
 
@@ -16,6 +16,7 @@ namespace LayoutFarm.CustomWidgets
 
         TextEditRenderBox visualTextEdit;
         bool _multiline;
+
 
         public TextBox(int width, int height, bool multiline)
             : base(width, height)
@@ -46,7 +47,7 @@ namespace LayoutFarm.CustomWidgets
         {
             if (visualTextEdit == null)
             {
-                var tbox = new TextEditRenderBox(rootgfx, this.Width, this.Height, _multiline);                 
+                var tbox = new TextEditRenderBox(rootgfx, this.Width, this.Height, _multiline);
                 tbox.SetLocation(this.Left, this.Top);
                 tbox.HasSpecificSize = true;
 
@@ -61,7 +62,7 @@ namespace LayoutFarm.CustomWidgets
             }
             return visualTextEdit;
         }
-         
+
         protected override void OnMouseLeave(UIMouseEventArgs e)
         {
             e.MouseCursorStyle = MouseCursorStyle.Arrow;
@@ -72,8 +73,6 @@ namespace LayoutFarm.CustomWidgets
             visualTextEdit.OnDoubleClick(e);
             e.CancelBubbling = true;
         }
-     
-
         protected override void OnKeyPress(UIKeyEventArgs e)
         {
             visualTextEdit.OnKeyPress(e);
@@ -83,10 +82,10 @@ namespace LayoutFarm.CustomWidgets
         {
             visualTextEdit.OnKeyDown(e);
             e.CancelBubbling = true;
-
         }
         protected override void OnKeyUp(UIKeyEventArgs e)
         {
+            visualTextEdit.OnKeyUp(e);
             e.CancelBubbling = true;
         }
         protected override bool OnProcessDialogKey(UIKeyEventArgs e)
@@ -100,8 +99,6 @@ namespace LayoutFarm.CustomWidgets
         }
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
-            this.isMouseDown = true;
-
             this.Focus();
             e.MouseCursorStyle = MouseCursorStyle.IBeam;
             e.CancelBubbling = true;
@@ -110,89 +107,90 @@ namespace LayoutFarm.CustomWidgets
         }
         protected override void OnMouseMove(UIMouseEventArgs e)
         {
-            base.OnMouseMove(e);
+            if (e.IsDragging)
+            {
+                visualTextEdit.OnDrag(e);
+                e.CancelBubbling = true;
+                e.MouseCursorStyle = MouseCursorStyle.IBeam;
+            }
+
+            //base.OnMouseMove(e);
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
-            visualTextEdit.OnMouseUp(e);
-            this.isMouseDown = this.isDragging = false;
+            if (e.IsDragging)
+            {
+                visualTextEdit.OnDragEnd(e);
+            }
+            else
+            {
+                visualTextEdit.OnMouseUp(e);
+            }
             e.MouseCursorStyle = MouseCursorStyle.Default;
             e.CancelBubbling = true;
         }
 
-        protected override void OnDragBegin(UIMouseEventArgs e)
-        {
-            visualTextEdit.OnDragBegin(e);
-            e.CancelBubbling = true;
-            e.MouseCursorStyle = MouseCursorStyle.IBeam;
-        }
-        protected override void OnDragging(UIMouseEventArgs e)
-        {
-            visualTextEdit.OnDrag(e);
-            e.CancelBubbling = true;
-            e.MouseCursorStyle = MouseCursorStyle.IBeam;
-        }
-        protected override void OnDragEnd(UIMouseEventArgs e)
-        {
-            visualTextEdit.OnDragEnd(e);
-            this.isMouseDown = this.isDragging = false;
-            e.MouseCursorStyle = MouseCursorStyle.Default;
-            e.CancelBubbling = true;
-        }
+#if DEBUG
+        //int dbugMouseDragBegin = 0;
+        //int dbugMouseDragging = 0;
+        //int dbugMouseDragEnd = 0;
+#endif
+        //protected override void OnDragBegin(UIMouseEventArgs e)
+        //{
+        //    dbugMouseDragBegin++;
+        //    this.isMouseDown = this.isDragging = true;
+        //    visualTextEdit.OnDragBegin(e);
+        //    e.CancelBubbling = true;
+        //    e.MouseCursorStyle = MouseCursorStyle.IBeam;
+        //}
+        //protected override void OnDragging(UIMouseEventArgs e)
+        //{
+        //    dbugMouseDragging++;
+
+        //    visualTextEdit.OnDrag(e);
+        //    e.CancelBubbling = true;
+        //    e.MouseCursorStyle = MouseCursorStyle.IBeam;
+        //}
+        //protected override void OnDragEnd(UIMouseEventArgs e)
+        //{
+        //    dbugMouseDragEnd++;
+        //    visualTextEdit.OnDragEnd(e);
+        //    this.isMouseDown = this.isDragging = false;
+        //    e.MouseCursorStyle = MouseCursorStyle.Default;
+        //    e.CancelBubbling = true;
+        //}
         //------------------------------------------------------
-        bool isMouseDown;
-        bool isDragging;
+
 
         void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
             this.OnKeyPress(e);
-        } 
+        }
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
             this.OnKeyDown(e);
-        } 
+        }
         void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
-            this.OnKeyUp(e); 
+            this.OnKeyUp(e);
         }
-
         bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
             return this.OnProcessDialogKey(e);
-        } 
+        }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
-            this.OnMouseDown(e);  
-        } 
+            this.OnMouseDown(e);
+        }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-            if (this.isMouseDown)
-            {
-                if (isDragging)
-                {
-                    this.OnDragging(e);                   
-                }
-                else
-                {                    
-                    isDragging = true;
-                    this.OnDragBegin(e);                    
-                }
-            }
-            else
-            {
-                this.OnMouseMove(e);                
-            } 
+            this.OnMouseMove(e);
+
         }
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
-            if (isDragging)
-            {
-                this.OnDragEnd(e);                
-            }
-            else
-            {
-                this.OnMouseUp(e);     
-            }  
+            this.OnMouseUp(e);
+
         }
 
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)

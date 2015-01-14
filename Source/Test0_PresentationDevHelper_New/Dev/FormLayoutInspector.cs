@@ -6,13 +6,13 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
- 
+
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.Dev
-{   
+{
     public partial class FormLayoutInspector : Form
     {
 
@@ -147,8 +147,7 @@ namespace LayoutFarm.Dev
 
                 FileStream fs = new FileStream("c:\\WImageTest\\invalidate\\lim_" + Guid.NewGuid().ToString() + ".txt", FileMode.Create);
                 StreamWriter strmWriter = new StreamWriter(fs);
-                strmWriter.AutoFlush = true;
-
+                strmWriter.AutoFlush = true; 
 
                 for (int i = 0; i < j; ++i)
                 {
@@ -167,7 +166,7 @@ namespace LayoutFarm.Dev
             this.vwport = vwport;
             IdbugOutputWindow outputWin = vwport.IdebugOutputWin;
             outputWin.dbug_VisualRootDrawMsg += rootDrawMsgEventHandler;
-            outputWin.dbug_VisualRootHitChainMsg += new EventHandler(artUISurfaceViewport1_dbug_VisualRootHitChainMsg);
+            outputWin.dbug_VisualRootHitChainMsg += artUISurfaceViewport1_dbug_VisualRootHitChainMsg;
             outputWin.dbug_EnableAllDebugInfo();
 #endif
         }
@@ -194,7 +193,7 @@ namespace LayoutFarm.Dev
             if (!pauseRecord)
             {
                 pauseRecord = true; vwport.IdebugOutputWin.dbug_VisualRootDrawMsg -= rootDrawMsgEventHandler;
-                this.Text = "Pause - LayoutFarm Victory 2012";
+                this.Text = "Pause - LayoutFarm LayoutInspector 2015";
 
                 StringBuilder stBuilder = new StringBuilder();
                 CollectList1Item(stBuilder);
@@ -205,7 +204,7 @@ namespace LayoutFarm.Dev
             {
                 pauseRecord = false;
                 vwport.IdebugOutputWin.dbug_VisualRootDrawMsg += rootDrawMsgEventHandler;
-                this.Text = "LayoutFarm Victory 2012";
+                this.Text = "LayoutFarm LayoutInspector 2015";
             }
         }
 #endif

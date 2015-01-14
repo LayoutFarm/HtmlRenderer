@@ -35,44 +35,41 @@ namespace LayoutFarm
         {
             //1. mouse down         
             box.MouseDown += (s, e) =>
-            {  
+            {
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
-                
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
             };
-
             //2. mouse up
             box.MouseUp += (s, e) =>
             {
                 e.MouseCursorStyle = MouseCursorStyle.Default;
                 box.BackColor = Color.LightGray;
-                
-            };
 
-            //3. drag
-            box.Dragging += (s, e) =>
-            {
-                box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
-                Point pos = box.Position;
-                box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
-                e.MouseCursorStyle = MouseCursorStyle.Pointer;
             };
-
-            box.DragLeave += (s, e) =>
+            box.MouseMove += (s, e) =>
             {
-                box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
-                Point pos = box.Position;
-                //continue dragging on the same element 
-                box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
-                e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                e.CancelBubbling = true;
+                if (e.IsDragging)
+                {
+                    box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
+                    Point pos = box.Position; 
+                    box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true;
+                }
             };
-            box.DragEnd += (s, e) =>
+            box.MouseLeave += (s, e) =>
             {
-                box.BackColor = Color.LightGray;
-                e.MouseCursorStyle = MouseCursorStyle.Default;  
-               
+                if (e.IsDragging)
+                {
+                    box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
+                    Point pos = box.Position;
+                    //continue dragging on the same element 
+                    box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true;
+                }
             };
+             
         }
 
     }

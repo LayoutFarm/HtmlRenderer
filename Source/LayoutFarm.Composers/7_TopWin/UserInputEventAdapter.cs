@@ -461,7 +461,7 @@ namespace LayoutFarm.UI
             {
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyDown(e);
-
+                
                 this.FlushAccumGraphics();
             }
         }
@@ -491,7 +491,10 @@ namespace LayoutFarm.UI
             {
                 e.SourceHitElement = currentKbFocusElem;
                 result = currentKbFocusElem.ListenProcessDialogKey(e);
-                this.FlushAccumGraphics();
+                if (result)
+                {
+                    this.FlushAccumGraphics();
+                }
             }
             return result;
         }

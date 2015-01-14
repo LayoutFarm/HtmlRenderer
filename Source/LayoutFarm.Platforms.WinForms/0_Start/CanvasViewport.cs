@@ -23,7 +23,7 @@ namespace LayoutFarm.UI
         int v_smallChange = 0;
         int v_largeChange = 0;
 
-        CanvasPaintToOutputDelegate canvasPaintToOutputDel;
+
         EventHandler<EventArgs> canvasSizeChangedHandler;
 
         bool fullMode = true;
@@ -37,16 +37,12 @@ namespace LayoutFarm.UI
             this.topWindowBox = rootgfx.TopWindowRenderBox;
 
             this.viewportWidth = viewportSize.Width;
-            this.viewportHeight = viewportSize.Height;
-
-            canvasPaintToOutputDel = Canvas_Invalidated;
+            this.viewportHeight = viewportSize.Height; 
+           
             canvasSizeChangedHandler = Canvas_SizeChanged;
 
-
-            rootgfx.SetCanvasPaintToOutputDel(canvasPaintToOutputDel);
             viewportX = 0;
             viewportY = 0;
-
         }
         public bool IsClosed
         {
@@ -110,10 +106,7 @@ namespace LayoutFarm.UI
         {
             //EvaluateScrollBar();
         }
-        protected virtual void Canvas_Invalidated(Rectangle r)
-        {
-
-        }
+        public abstract void CanvasInvlidateArea(Rectangle r);
         public virtual bool IsQuadPageValid
         {
             get { return true; }

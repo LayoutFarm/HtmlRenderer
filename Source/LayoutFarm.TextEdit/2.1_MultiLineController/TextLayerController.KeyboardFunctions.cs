@@ -1,7 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 namespace LayoutFarm.Text
-{ 
+{
     partial class InternalTextLayerController
     {
 
@@ -24,8 +24,9 @@ namespace LayoutFarm.Text
                 char deletedChar = textLineWriter.DoDelete();
                 if (deletedChar == '\0')
                 {
-                    undoActionCollection.AddDocAction(new DocActionJoinWithNextLine(
-textLineWriter.LineNumber, textLineWriter.CharIndex));
+                    undoActionCollection.AddDocAction(
+                        new DocActionJoinWithNextLine(
+                            textLineWriter.LineNumber, textLineWriter.CharIndex));
 
                     JoinWithNextLine();
                     updateJustCurrentLine = false;
@@ -33,7 +34,8 @@ textLineWriter.LineNumber, textLineWriter.CharIndex));
                 else
                 {
                     undoActionCollection.AddDocAction(
-new DocActionDeleteChar(deletedChar, textLineWriter.LineNumber, textLineWriter.CharIndex));
+                        new DocActionDeleteChar(
+                            deletedChar, textLineWriter.LineNumber, textLineWriter.CharIndex));
 
                     char nextChar = textLineWriter.NextChar;
 
@@ -86,8 +88,11 @@ new DocActionDeleteChar(deletedChar, textLineWriter.LineNumber, textLineWriter.C
                 {
                     if (!IsOnFirstLine)
                     {
-                        CurrentLineNumber--; DoEnd(); undoActionCollection.AddDocAction(new DocActionJoinWithNextLine(
-textLineWriter.LineNumber, textLineWriter.CharIndex));
+                        CurrentLineNumber--;
+                        DoEnd();
+                        undoActionCollection.AddDocAction(
+                            new DocActionJoinWithNextLine(
+                                textLineWriter.LineNumber, textLineWriter.CharIndex));
 
                         JoinWithNextLine();
                     }
@@ -99,7 +104,8 @@ textLineWriter.LineNumber, textLineWriter.CharIndex));
                 else
                 {
                     undoActionCollection.AddDocAction(
-new DocActionDeleteChar(deletedChar, textLineWriter.LineNumber, textLineWriter.CharIndex));
+                            new DocActionDeleteChar(
+                                deletedChar, textLineWriter.LineNumber, textLineWriter.CharIndex));
 #if DEBUG
                     if (dbugEnableTextManRecorder) dbugTextManRecorder.EndContext();
 #endif

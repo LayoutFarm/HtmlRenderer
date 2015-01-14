@@ -88,7 +88,11 @@ namespace PixelFarm.Drawing.WinGdi
 #endif
             this.StrokeWidth = 1;
         }
+        public override string ToString()
+        {
+            return "visible_clip" + this.gx.VisibleClipBounds.ToString();
 
+        }
         //~MyCanvas()
         //{
         //    Dispose();
@@ -245,6 +249,7 @@ namespace PixelFarm.Drawing.WinGdi
                 //var clip = _g.Clip.GetHrgn(_g);
                 _hdc = gx.GetHdc();
                 Win32Utils.SetBkMode(_hdc, 1);
+                 
                 //Win32Utils.SelectClipRgn(_hdc, clip);
                 //Win32Utils.DeleteObject(clip);
             }

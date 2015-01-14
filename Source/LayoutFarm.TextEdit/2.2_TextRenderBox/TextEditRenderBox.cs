@@ -40,7 +40,7 @@ namespace LayoutFarm.Text
                 vscrollableSurface.DrawToThisPage(canvas, updateArea);
             }
             //1. bg
-           
+
             canvas.FillRectangle(Color.White, 0, 0, updateArea.Width, updateArea.Height);
 
             //2. sub ground 
@@ -48,6 +48,7 @@ namespace LayoutFarm.Text
             {
                 internalTextLayerController.SelectionRange.Draw(canvas, updateArea);
             }
+
             //3. each layer
             if (vscrollableSurface != null)
             {
@@ -63,14 +64,19 @@ namespace LayoutFarm.Text
 
 #if DEBUG
             //for debug
-            canvas.FillRectangle(Color.Red,  0, 0, 5, 5 );
+            canvas.FillRectangle(Color.Red, 0, 0, 5, 5);
 #endif
+
 
             //4. caret 
             if (this.stateShowCaret)
             {
                 Point textManCaretPos = internalTextLayerController.CaretPos;
                 this.myCaret.DrawCaret(canvas, textManCaretPos.X, textManCaretPos.Y);
+
+            }
+            else
+            {
             }
 
         }

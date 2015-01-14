@@ -8,8 +8,8 @@ namespace LayoutFarm.UI
     partial class UIElement
     {
 
-        bool isMouseDown;
-        bool isDragging;
+        //bool isMouseDown;
+        //bool isDragging;
 
         void IEventListener.ListenKeyPress(UIKeyEventArgs e)
         {
@@ -29,57 +29,54 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenMouseDown(UIMouseEventArgs e)
         {
-            this.isMouseDown = true;
+
             OnMouseDown(e);
         }
 
 
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
+            //TODO: review this again
+            if (e.IsDragging)
+            {
+                currentDraggingElement = this;
+            }
 
-            if (isMouseDown)
-            {
-                if (isDragging)
-                {
-                    OnDragging(e);
-                }
-                else
-                {
-                    //first time
-                    this.isDragging = true;
-                    OnDragBegin(e);
-                    //store current dragging element
-                    currentDraggingElement = this;
-                }
-            }
-            else
-            {
-                this.isDragging = false;
-                OnMouseMove(e);
-            }
+            OnMouseMove(e);
+             
         }
         void IEventListener.ListenMouseUp(UIMouseEventArgs e)
         {
-            if (isDragging)
+            //TODO: review this again
+            if (currentDraggingElement != null && currentDraggingElement != this)
             {
-                //mouse up
-                OnDragEnd(e);
-            }
-            else
-            {
-                if (currentDraggingElement != null)
-                {
-                    if (currentDraggingElement != this)
-                    {
-                        var otherElement = currentDraggingElement as IEventListener;
-                        otherElement.ListenMouseUp(e);
-                        currentDraggingElement = null;
-                    }                    
-                }
-                OnMouseUp(e);
+                var otherElement = currentDraggingElement as IEventListener;
+                otherElement.ListenMouseUp(e);
+                currentDraggingElement = null; 
             }
 
-            this.isDragging = this.isMouseDown = false;
+            OnMouseUp(e);
+
+            //if (isDragging)
+            //{
+            //    //mouse up
+            //    OnDragEnd(e);
+            //}
+            //else
+            //{
+            //    if (currentDraggingElement != null)
+            //    {
+            //        if (currentDraggingElement != this)
+            //        {
+            //            var otherElement = currentDraggingElement as IEventListener;
+            //            otherElement.ListenMouseUp(e);
+            //            currentDraggingElement = null;
+            //        }                    
+            //    }
+            //    OnMouseUp(e);
+            //}
+
+            //this.isDragging = this.isMouseDown = false;
         }
         void IEventListener.ListenMouseClick(UIMouseEventArgs e)
         {
@@ -94,14 +91,15 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenMouseLeave(UIMouseEventArgs e)
         {
-            if (isDragging)
-            {
-                OnDragLeave(e);
-            }
-            else
-            {
-                OnMouseLeave(e);
-            }
+            OnMouseLeave(e);
+            //if (isDragging)
+            //{
+            //    OnDragLeave(e);
+            //}
+            //else
+            //{
+            //    OnMouseLeave(e);
+            //}
         }
         void IEventListener.ListenGotFocus(UIFocusEventArgs e)
         {

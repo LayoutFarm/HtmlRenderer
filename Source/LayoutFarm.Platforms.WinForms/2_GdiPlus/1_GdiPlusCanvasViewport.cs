@@ -25,14 +25,15 @@ namespace LayoutFarm.UI.GdiPlus
             }
         }
 
-        static int dbugCount = 0;
+        //static int dbugCount = 0;
         protected override void OnClosing()
         {
             quadPages.Dispose();
             quadPages = null;
             base.OnClosing();
         }
-        protected override void Canvas_Invalidated(Rectangle r)
+
+        public override void CanvasInvlidateArea(Rectangle r)
         {
             quadPages.CanvasInvalidate(r);
             //Console.WriteLine((dbugCount++).ToString() + " " + r.ToString());
@@ -72,8 +73,10 @@ namespace LayoutFarm.UI.GdiPlus
             else
             {
                 //temp to full mode
+                //quadPages.RenderToOutputWindowFullMode(rootGraphics.TopWindowRenderBox, hdc, this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
+
                 quadPages.RenderToOutputWindowPartialMode(rootGraphics.TopWindowRenderBox, hdc, this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
-                //quadPages.RenderToOutputWindowFullMode(topWindowBox, hdc, this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
+                 
             }
             this.rootGraphics.IsInRenderPhase = false;
 

@@ -289,7 +289,7 @@ namespace LayoutFarm.Text
             RemoveSelectedText();
 
             undoActionCollection.AddDocAction(
-    new DocActionSplitToNewLine(textLineWriter.LineNumber, textLineWriter.CharIndex));
+                 new DocActionSplitToNewLine(textLineWriter.LineNumber, textLineWriter.CharIndex));
 
             textLineWriter.SplitToNewLine();
 

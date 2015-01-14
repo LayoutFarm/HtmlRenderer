@@ -4,5 +4,5 @@
 namespace PixelFarm.Drawing
 {
 
-    public delegate void CanvasPaintToOutputDelegate(Rectangle paintArea);
+    public delegate void CanvasInvalidateDelegate(Rectangle paintArea);
 }
