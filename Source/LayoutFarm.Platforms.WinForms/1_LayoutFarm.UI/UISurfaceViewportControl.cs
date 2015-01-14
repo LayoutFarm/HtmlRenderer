@@ -107,7 +107,7 @@ namespace LayoutFarm.UI
             }
         }
 
-        public RootGraphic WinTopRootGfx
+        public RootGraphic RootGfx
         {
             get
             {
