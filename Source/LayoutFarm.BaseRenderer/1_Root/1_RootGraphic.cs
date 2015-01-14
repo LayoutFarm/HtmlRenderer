@@ -15,7 +15,7 @@ namespace LayoutFarm
         protected PaintToOutputWindowDelegate paintToOutputWindowHandler;
         CanvasInvalidateDelegate canvasInvalidateDelegate;
 
-        int accumRectVer;
+
         Rectangle accumulateInvalidRect;
         bool hasAccumRect;
 
@@ -24,21 +24,14 @@ namespace LayoutFarm
             this.Width = width;
             this.Height = heigth;
         }
-
         public abstract GraphicsPlatform P { get; }
-
         public IFonts SampleIFonts { get { return this.P.SampleIFonts; } }
 
-        public abstract void CaretStartBlink();
-        public abstract void CaretStopBlink();
-        public bool CaretHandleRegistered { get; set; }
-
-        public abstract void ClearRenderRequests();
-
-        public abstract void AddToLayoutQueue(RenderElement renderElement);
-
-
-        public abstract bool GfxTimerEnabled { get; set; }
+        public abstract TopWindowRenderBox TopWindowRenderBox
+        {
+            get;
+            protected set;
+        }
         internal int Width
         {
             get;
@@ -49,21 +42,29 @@ namespace LayoutFarm
             get;
             set;
         }
+        public int RootWidth
+        {
+            get { return this.TopWindowRenderBox.Width; }
+        }
+        public int RootHeight
+        {
+            get { return this.TopWindowRenderBox.Height; }
+        }
+        public abstract void CloseWinRoot();
+        //-------------------------------------------------------------------------
+
+
+        public abstract void ClearRenderRequests();
+        public abstract void AddToLayoutQueue(RenderElement renderElement);
         public bool LayoutQueueClearing
         {
             get;
             set;
         }
 
-        public bool IsInRenderPhase
-        {
-            get;
-            set;
-        }
-        public abstract void CloseWinRoot();
-
-
-
+        //--------------------------------------------------------------------------
+        //timers
+        public abstract bool GfxTimerEnabled { get; set; }
         public abstract GraphicsTimerTask SubscribeGraphicsIntervalTask(
             object uniqueName,
             TaskIntervalPlan planName,
@@ -72,7 +73,7 @@ namespace LayoutFarm
 
         public abstract void RemoveIntervalTask(object uniqueName);
 
-
+        //--------------------------------------------------------------------------
 #if DEBUG
 
         bool dbugNeedContentArrangement
@@ -86,6 +87,8 @@ namespace LayoutFarm
             set;
         }
 #endif
+        //--------------------------------------------------------------------------
+
         public abstract void PrepareRender();
         public void FlushAccumGraphics()
         {
@@ -97,7 +100,7 @@ namespace LayoutFarm
             this.canvasInvalidateDelegate(accumulateInvalidRect);
             this.paintToOutputWindowHandler();
 
-            this.accumRectVer = 0;
+
             hasAccumRect = false;
         }
         public void SetPaintDelegates(CanvasInvalidateDelegate canvasPaintToOutput, PaintToOutputWindowDelegate paintToOutputHandler)
@@ -105,7 +108,7 @@ namespace LayoutFarm
             this.canvasInvalidateDelegate = canvasPaintToOutput;
             this.paintToOutputWindowHandler = paintToOutputHandler;
         }
-         
+
 #if DEBUG
         void dbugWriteStopGfxBubbleUp(RenderElement fromElement, ref int dbug_ncount, int nleftOnStack, string state_str)
         {
@@ -125,17 +128,6 @@ namespace LayoutFarm
             }
         }
 #endif
-        public int RootWidth
-        {
-            get { return this.TopWindowRenderBox.Width; }
-        }
-        public int RootHeight
-        {
-            get { return this.TopWindowRenderBox.Height; }
-        }
-
-
-
         public void InvalidateGraphicArea(RenderElement fromElement, ref Rectangle elemClientRect)
         {
             //total bounds = total bounds at level
@@ -265,8 +257,7 @@ namespace LayoutFarm
                 accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, elemClientRect);
             }
 
-            //----------------------
-            accumRectVer++;
+
             //----------------------
 #if DEBUG
             if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
@@ -283,12 +274,17 @@ namespace LayoutFarm
 #endif
 
         }
-
-        public abstract TopWindowRenderBox TopWindowRenderBox
+        public bool IsInRenderPhase
         {
             get;
-            protected set;
+            set;
         }
+        //--------------------------------------------- 
+        //carets ...
+        public abstract void CaretStartBlink();
+        public abstract void CaretStopBlink();
+        public bool CaretHandleRegistered { get; set; }
+        //---------------------------------------------
 
     }
 }

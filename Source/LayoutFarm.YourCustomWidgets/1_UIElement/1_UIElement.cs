@@ -40,7 +40,7 @@ namespace LayoutFarm.UI
         protected virtual void OnLostFocus(UIFocusEventArgs e)
         {
         }
-        protected virtual void OnLostMouseFocus(UIFocusEventArgs e)
+        protected virtual void OnLostMouseFocus(UIMouseEventArgs e)
         {
         }
         protected virtual void OnGotFocus(UIFocusEventArgs e)
@@ -73,7 +73,7 @@ namespace LayoutFarm.UI
         protected virtual void OnMouseHover(UIMouseEventArgs e)
         {
         }
-        
+
         //------------------------------------------------------------
         protected virtual void OnKeyDown(UIKeyEventArgs e)
         {
@@ -88,9 +88,6 @@ namespace LayoutFarm.UI
         {
             return false;
         }
-
-        //----------------------------------------------------------
-        static UIElement currentDraggingElement = null;
 
 #if DEBUG
         object dbugTagObject;

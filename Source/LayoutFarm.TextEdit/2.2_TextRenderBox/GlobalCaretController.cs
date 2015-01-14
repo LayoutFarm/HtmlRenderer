@@ -73,7 +73,7 @@ namespace LayoutFarm.Text
                         currentTextBox = null;
                         if (evlistener != null)
                         {
-                            evlistener.ListenLostFocus(null);
+                            evlistener.ListenLostKeyboardFocus(null);
                         }
                     }
                 }

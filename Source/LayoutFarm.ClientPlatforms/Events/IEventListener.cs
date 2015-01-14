@@ -19,12 +19,18 @@ namespace LayoutFarm.UI
         void ListenMouseUp(UIMouseEventArgs e);
         void ListenMouseLeave(UIMouseEventArgs e);
         void ListenMouseWheel(UIMouseEventArgs e);
-
+        void ListenLostMouseFocus(UIMouseEventArgs e);
+        //--------------------------------------------------------------------------
+ 
         void ListenMouseClick(UIMouseEventArgs e);
         void ListenMouseDoubleClick(UIMouseEventArgs e);
         //--------------------------------------------------------------------------
-        void ListenGotFocus(UIFocusEventArgs e);
-        void ListenLostFocus(UIFocusEventArgs e);
+        void ListenGotKeyboardFocus(UIFocusEventArgs e);
+        void ListenLostKeyboardFocus(UIFocusEventArgs e);
+        //--------------------------------------------------------------------------
+
+        
+
         //--------------------------------------------------------------------------
         bool AcceptKeyboardFocus { get; }
     }

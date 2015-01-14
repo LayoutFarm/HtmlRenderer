@@ -302,8 +302,7 @@ namespace LayoutFarm.UI
                 }
             }
 #endif
-            SwapHitChain(hitPointChain);
-
+            SwapHitChain(hitPointChain); 
             this.FlushAccumGraphics();
 
             if (local_msgVersion != msgChainVersion)
