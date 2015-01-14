@@ -19,12 +19,12 @@ using System.Text;
 using PixelFarm.Drawing;
 using PixelFarm.DrawingGL;
 
-using Win32; 
+using Win32;
 
 namespace PixelFarm.Drawing.DrawingGL
 {
 
-    partial class MyCanvasGL : Canvas, IFonts
+    partial class MyCanvasGL : Canvas, IFonts, IDisposable
     {
 
 
@@ -64,12 +64,9 @@ namespace PixelFarm.Drawing.DrawingGL
 
         ~MyCanvasGL()
         {
-            Dispose();
+            CloseCanvas();
         }
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public override void Dispose()
+        public override void CloseCanvas()
         {
             if (isDisposed)
             {
@@ -79,6 +76,25 @@ namespace PixelFarm.Drawing.DrawingGL
             this.canvasGL2d.Dispose();
             ReleaseUnManagedResource();
             this.canvasGL2d = null;
+        }
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        void IDisposable.Dispose()
+        {
+            if (isDisposed)
+            {
+                return;
+            }
+            this.CloseCanvas();
+        }
+        void IFonts.Dispose()
+        {
+            if (isDisposed)
+            {
+                return;
+            }
+            this.CloseCanvas();
         }
 
         void ClearPreviousStoredValues()
