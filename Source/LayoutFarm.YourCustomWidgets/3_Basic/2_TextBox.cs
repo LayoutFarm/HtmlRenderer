@@ -100,6 +100,7 @@ namespace LayoutFarm.CustomWidgets
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
             this.Focus();
+
             e.MouseCursorStyle = MouseCursorStyle.IBeam;
             e.CancelBubbling = true;
             e.CurrentContextElement = this;

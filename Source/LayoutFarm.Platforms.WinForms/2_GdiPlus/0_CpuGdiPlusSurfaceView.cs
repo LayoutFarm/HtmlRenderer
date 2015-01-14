@@ -11,7 +11,7 @@ namespace LayoutFarm.UI.GdiPlus
 
     partial class CpuGdiPlusSurfaceView : UserControl
     {
-         
+
         MyTopWindowBridgeGdiPlus winBridge;
         public CpuGdiPlusSurfaceView()
         {
@@ -22,7 +22,7 @@ namespace LayoutFarm.UI.GdiPlus
             //1. 
             this.winBridge = winBridge;
             this.winBridge.BindWindowControl(this);
-           
+
         }
 #if DEBUG
         public IdbugOutputWindow IdebugOutputWin
@@ -108,7 +108,9 @@ namespace LayoutFarm.UI.GdiPlus
         }
         protected override bool ProcessDialogKey(Keys keyData)
         {
-            if (this.winBridge.ProcessDialogKey(keyData))
+            
+           
+            if (this.winBridge.HandleProcessDialogKey(keyData))
             {
                 return true;
             }

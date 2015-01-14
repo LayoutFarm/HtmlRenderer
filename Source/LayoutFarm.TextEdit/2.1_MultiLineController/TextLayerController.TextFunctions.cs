@@ -88,7 +88,7 @@ namespace LayoutFarm.Text
 
             bool isRecordingHx = EnableUndoHistoryRecording;
 
-            EnableUndoHistoryRecording = false; 
+            EnableUndoHistoryRecording = false;
             foreach (EditableTextSpan t in textRuns)
             {
                 if (t.IsLineBreak)
@@ -182,7 +182,6 @@ namespace LayoutFarm.Text
 
             }
 #endif
-
         }
         public void EndSelect()
         {
@@ -211,6 +210,24 @@ namespace LayoutFarm.Text
 #endif
             selectionRange = null;
         }
+
+        public void StartSelectIfNoSelection()
+        {
+            if (this.selectionRange == null)
+            {
+                this.StartSelect();
+            }
+        }
+        public void EndSelectIfNoSelection()
+        {
+            if (this.selectionRange == null)
+            {
+                this.StartSelect();
+            }
+            this.EndSelect();
+
+        }
+
         public VisualPointInfo FindTextRunOnPosition(int x, int y)
         {
             if (y < 0)
@@ -226,7 +243,7 @@ namespace LayoutFarm.Text
                     if (textLine != null)
                     {
                         return textLine.GetTextPointInfoFromCaretPoint(x);
-                    } 
+                    }
                 }
                 return null;
             }
