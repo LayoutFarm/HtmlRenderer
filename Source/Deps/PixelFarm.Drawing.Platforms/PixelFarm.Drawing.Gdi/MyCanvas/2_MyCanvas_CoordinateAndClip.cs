@@ -29,7 +29,7 @@ namespace PixelFarm.Drawing.WinGdi
         int bottom;
         int canvasOriginX = 0;
         int canvasOriginY = 0;
-        Rectangle invalidateArea; 
+        Rectangle invalidateArea;
         CanvasOrientation orientation;
         bool isEmptyInvalidateArea;
 
@@ -37,13 +37,13 @@ namespace PixelFarm.Drawing.WinGdi
         public override void SetCanvasOrigin(int x, int y)
         {
             ReleaseHdc();
-            //-----------
-            //move back to original ?
-            this.gx.TranslateTransform(x - this.canvasOriginX, y - this.canvasOriginY);
-            //this.gx.TranslateTransform(x, y);
-            //-----------
-            //offset current clip rect
+            //----------- 
+            int total_dx = x - canvasOriginX;
+            int total_dy = y - canvasOriginY;
+            this.gx.TranslateTransform(total_dx, total_dy);
 
+            //clip rect move to another direction***
+            this.currentClipRect.Offset(-total_dx, -total_dy);
 
             this.canvasOriginX = x;
             this.canvasOriginY = y;
@@ -191,7 +191,7 @@ namespace PixelFarm.Drawing.WinGdi
                 return invalidateArea;
             }
         }
-        
+
         public override void ResetInvalidateArea()
         {
             this.invalidateArea = Rectangle.Empty;
@@ -202,14 +202,14 @@ namespace PixelFarm.Drawing.WinGdi
         {
             if (isEmptyInvalidateArea)
             {
-                 
-                invalidateArea = rect; 
+
+                invalidateArea = rect;
                 isEmptyInvalidateArea = false;
 
             }
             else
             {
-                invalidateArea = Rectangle.Union(rect, invalidateArea); 
+                invalidateArea = Rectangle.Union(rect, invalidateArea);
             }
 
             //need to draw again

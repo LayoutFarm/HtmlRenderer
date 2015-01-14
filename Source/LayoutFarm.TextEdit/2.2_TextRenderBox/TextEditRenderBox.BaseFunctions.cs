@@ -148,6 +148,7 @@ namespace LayoutFarm.Text
         }
         void InvalidateGraphicOfCurrentLineArea()
         {
+             
 #if DEBUG
             Rectangle c_lineArea = this.internalTextLayerController.CurrentParentLineArea;
 #endif
@@ -587,6 +588,7 @@ namespace LayoutFarm.Text
         {
             UIKeys keyData = (UIKeys)e.KeyData;
 
+            SetCaretState(true);
 
             if (isInVerticalPhase && (keyData != UIKeys.Up || keyData != UIKeys.Down))
             {
@@ -859,9 +861,9 @@ namespace LayoutFarm.Text
                             }
                             else
                             {
+                                EnsureCaretVisible();
                                 InvalidateGraphicOfCurrentLineArea();
                             }
-
                         }
                         else
                         {
@@ -869,7 +871,6 @@ namespace LayoutFarm.Text
                         if (textSurfaceEventListener != null)
                         {
                             TextSurfaceEventListener.NotifyArrowKeyCaretPosChanged(textSurfaceEventListener, keyData);
-
                         }
                         return true;
                     }

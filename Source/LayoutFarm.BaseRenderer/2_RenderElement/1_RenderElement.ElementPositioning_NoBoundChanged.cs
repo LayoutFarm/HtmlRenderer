@@ -19,7 +19,7 @@ namespace LayoutFarm
         int b_width;
         int b_height;
 
-        int uiLayoutFlags; 
+        int uiLayoutFlags;
         //-----------------------------------------------
 
         public Rectangle RectBounds
@@ -85,8 +85,8 @@ namespace LayoutFarm
                 return b_height;
             }
         }
-        
-        
+
+
         //-----------------------------------------------
         public virtual int ViewportY
         {
@@ -117,7 +117,7 @@ namespace LayoutFarm
                 return this.Right + this.ViewportX;
             }
         }
-        
+
         //-----------------------------------------------
         public virtual int BubbleUpX
         {
@@ -132,7 +132,7 @@ namespace LayoutFarm
         public Point GetGlobalLocation()
         {
             return GetGlobalLocationStatic(this);
-        }     
+        }
         static Point GetGlobalLocationStatic(RenderElement re)
         {
 
@@ -260,8 +260,12 @@ namespace LayoutFarm
                     x + width <= b_left + b_width &&
                     y + height <= b_top + b_height;
         }
-
-        public bool IntersectsWith(Rectangle r)
+        /// <summary>
+        /// no rect change
+        /// </summary>
+        /// <param name="r"></param>
+        /// <returns></returns>
+        public bool IntersectsWith(ref Rectangle r)
         {
             int left = this.b_left;
             if (((left <= r.Left) && (this.Right > r.Left)) ||
@@ -274,14 +278,19 @@ namespace LayoutFarm
             }
             return false;
         }
+        /// <summary>
+        /// no rect change
+        /// </summary>
+        /// <param name="r"></param>
+        /// <returns></returns>
         public bool IntersectOnHorizontalWith(ref Rectangle r)
         {
             int left = this.b_left;
             return (((left <= r.Left) && (this.Right > r.Left)) ||
                      ((left >= r.Left) && (left < r.Right)));
         }
-    
-       
-        
+
+
+
     }
 }

@@ -391,6 +391,7 @@ namespace LayoutFarm.UI
         }
         public void HandleKeyPress(KeyPressEventArgs e)
         {
+           
             if (char.IsControl(e.KeyChar))
             {
                 return;

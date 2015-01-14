@@ -18,7 +18,7 @@ namespace LayoutFarm.Text
 
         public EditableTextFlowLayer(RenderBoxBase owner)
             : base(owner)
-        {             
+        {
             //start with single line per layer
             //and can change to multiline
             lineCollection = new EditableTextLine(this);
@@ -127,7 +127,7 @@ namespace LayoutFarm.Text
         }
 
 
-      
+
 #if DEBUG
         void debug_RecordLineInfo(RenderBoxBase owner, EditableTextLine line)
         {
@@ -202,18 +202,21 @@ namespace LayoutFarm.Text
                         {
                             break;
                         }
-                    }
+                    } 
 
                     updateArea.OffsetY(-y);
                     canvas.OffsetCanvasOriginY(y);
                     while (curNode != null)
                     {
+
                         EditableTextSpan child = curNode.Value;
                         if (child.IntersectOnHorizontalWith(ref updateArea))
                         {
                             int x = child.X;
                             canvas.OffsetCanvasOriginX(x);
                             updateArea.OffsetX(-x);
+
+
                             child.DrawToThisCanvas(canvas, updateArea);
 
                             canvas.OffsetCanvasOriginX(-x);
@@ -251,6 +254,7 @@ namespace LayoutFarm.Text
                             int x = child.X;
                             canvas.OffsetCanvasOriginX(x);
                             updateArea.OffsetX(-x);
+
                             child.DrawToThisCanvas(canvas, updateArea);
 
                             canvas.OffsetCanvasOriginX(-x);
