@@ -214,8 +214,7 @@ namespace LayoutFarm.Text
                         {
                             int x = child.X;
                             canvas.OffsetCanvasOriginX(x);
-                            updateArea.OffsetX(-x);
-
+                            updateArea.OffsetX(-x); 
 
                             child.DrawToThisCanvas(canvas, updateArea);
 
