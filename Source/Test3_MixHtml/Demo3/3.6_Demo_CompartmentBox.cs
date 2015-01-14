@@ -13,12 +13,19 @@ namespace LayoutFarm
     [DemoNote("3.6 Demo_DragSelectionBox")]
     class Demo_DragSelectionBox : DemoBase
     {
-        UIControllerBox controllerBox1;
+
         UISelectionBox selectionBox;
         bool selectionBoxIsShown;
+        RootGraphic rootgfx;
+        List<LayoutFarm.CustomWidgets.EaseBox> userBoxes = new List<CustomWidgets.EaseBox>();
+        Queue<UIControllerBox> userControllerPool = new Queue<UIControllerBox>();
+        List<UIControllerBox> workingControllerBoxes = new List<UIControllerBox>();
+
+        SampleViewport viewport;
         protected override void OnStartDemo(SampleViewport viewport)
         {
-
+            this.viewport = viewport;
+            this.rootgfx = viewport.ViewportControl.RootGfx;
             //--------------------------------
             {
                 var bgbox = new LayoutFarm.CustomWidgets.EaseBox(800, 600);
@@ -29,12 +36,15 @@ namespace LayoutFarm
             }
             //--------------------------------
             {
+                //user box1
                 var box1 = new LayoutFarm.CustomWidgets.EaseBox(150, 150);
                 box1.BackColor = Color.Red;
                 box1.SetLocation(10, 10);
                 box1.dbugTag = 1;
                 SetupActiveBoxProperties(box1);
                 viewport.AddContent(box1);
+
+                userBoxes.Add(box1);
             }
             //--------------------------------
             {
@@ -43,20 +53,11 @@ namespace LayoutFarm
                 box2.dbugTag = 2;
                 SetupActiveBoxProperties(box2);
                 viewport.AddContent(box2);
+
+                userBoxes.Add(box2);
             }
 
-            //--------------------------------
-            {
-                //controller box 1 (red corners)
-                controllerBox1 = new UIControllerBox(40, 40);
-                Color c = KnownColors.FromKnownColor(KnownColor.Yellow);
-                controllerBox1.BackColor = new Color(100, c.R, c.G, c.B);
-                controllerBox1.SetLocation(200, 200);
-                controllerBox1.dbugTag = 3;
-                controllerBox1.Visible = false;
-                SetupControllerBoxProperties(controllerBox1);
-                viewport.AddContent(controllerBox1);
-            }
+
             //--------------------------------
             {
                 selectionBox = new UISelectionBox(1, 1);
@@ -67,13 +68,56 @@ namespace LayoutFarm
             }
         }
 
+        UIControllerBox GetFreeUserControllerBox()
+        {
+            if (userControllerPool.Count > 0)
+            {
+                return userControllerPool.Dequeue();
+            }
+            else
+            {
+                //create new one
+
+                //controller box 1 (red corners)
+                var controllerBox1 = new UIControllerBox(40, 40);
+                Color c = KnownColors.FromKnownColor(KnownColor.Yellow);
+                controllerBox1.BackColor = new Color(100, c.R, c.G, c.B);
+                controllerBox1.SetLocation(200, 200);
+                controllerBox1.dbugTag = 3;
+                controllerBox1.Visible = false;
+                SetupControllerBoxProperties(controllerBox1);
+                viewport.AddContent(controllerBox1);
+                //-------------------------------------------
+                workingControllerBoxes.Add(controllerBox1);
+
+                return controllerBox1;
+            }
+        }
+        void ReleaseUserControllerBox(UIControllerBox userControllerBox)
+        {
+            workingControllerBoxes.Remove(userControllerBox);
+            this.userControllerPool.Enqueue(userControllerBox);
+        }
+        void RemoveAllUserControllerBoxes()
+        {
+            int j = this.workingControllerBoxes.Count;
+            for (int i = j - 1; i >= 0; --i)
+            {
+                var userControolerBox = this.workingControllerBoxes[i];
+                userControolerBox.Visible = false;
+                userControolerBox.TargetBox = null;
+
+                userControllerPool.Enqueue(userControolerBox);
+            }
+
+        }
         void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)
         {
             //if click on background
             backgroundBox.MouseDown += (s, e) =>
             {
-                controllerBox1.TargetBox = null;//release target box
-                controllerBox1.Visible = false;
+                //remove all controller box
+                RemoveAllUserControllerBoxes();
             };
 
             //when start drag on bg
@@ -121,6 +165,7 @@ namespace LayoutFarm
             {
                 if (!selectionBoxIsShown)
                 {
+                    FindSelectedUserBoxes();
                     selectionBox.Visible = false;
                     selectionBox.SetSize(1, 1);
                     selectionBoxIsShown = false;
@@ -128,6 +173,48 @@ namespace LayoutFarm
                 }
             };
         }
+
+        void FindSelectedUserBoxes()
+        {
+            //find users box in selected area
+            int j = this.userBoxes.Count;
+
+            var primSelectionBox = selectionBox.GetPrimaryRenderElement(rootgfx);
+            var primGlobalPoint = primSelectionBox.GetGlobalLocation();
+            var selectedRectArea = new Rectangle(primGlobalPoint, primSelectionBox.Size);
+
+            List<CustomWidgets.EaseBox> selectedList = new List<CustomWidgets.EaseBox>();
+            for (int i = 0; i < j; ++i)
+            {
+                var box = userBoxes[i];
+                var primElement = userBoxes[i].GetPrimaryRenderElement(rootgfx);
+                if (!primElement.Visible)
+                {
+                    continue;
+                }
+                //get global area 
+                Point globalLocation = primElement.GetGlobalLocation();
+                var userElementArea = new Rectangle(globalLocation, primElement.Size);
+                if (selectedRectArea.Contains(userElementArea))
+                {
+                    //selected= true;
+                    selectedList.Add(userBoxes[i]);
+                    //------
+                    //create user controller box for the selected box
+
+                    var userControllerBox = GetFreeUserControllerBox();
+
+                    userControllerBox.TargetBox = box;
+                    userControllerBox.SetLocation(box.Left - 5, box.Top - 5);
+                    userControllerBox.SetSize(box.Width + 10, box.Height + 10);
+                    userControllerBox.Visible = true;
+
+                }
+            }
+
+        }
+
+
         void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.EaseBox box)
         {
             //1. mouse down         
@@ -137,11 +224,13 @@ namespace LayoutFarm
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
 
                 //--------------------------------------------
-                //move controller here
-                controllerBox1.TargetBox = box;
-                controllerBox1.SetLocation(box.Left - 5, box.Top - 5);
-                controllerBox1.SetSize(box.Width + 10, box.Height + 10);
-                controllerBox1.Visible = true;
+                //request user controller for this box
+                var userControllerBox = GetFreeUserControllerBox();
+
+                userControllerBox.TargetBox = box;
+                userControllerBox.SetLocation(box.Left - 5, box.Top - 5);
+                userControllerBox.SetSize(box.Width + 10, box.Height + 10);
+                userControllerBox.Visible = true;
 
                 //--------------------------------------------
             };
@@ -151,9 +240,8 @@ namespace LayoutFarm
             {
                 e.MouseCursorStyle = MouseCursorStyle.Default;
                 box.BackColor = Color.LightGray;
-                //hide controller
-                controllerBox1.Visible = false;
-                controllerBox1.TargetBox = null;
+
+                RemoveAllUserControllerBoxes();
             };
 
         }
@@ -164,6 +252,7 @@ namespace LayoutFarm
             {
                 if (selectionBoxIsShown)
                 {
+                    FindSelectedUserBoxes();
                     selectionBox.Visible = false;
                     selectionBox.SetSize(1, 1);
                     selectionBoxIsShown = false;
@@ -179,7 +268,7 @@ namespace LayoutFarm
                     int y = pos.Y;
                     //temp fix here 
                     //TODO: get global position of selected box
-                    
+
                     int w = (selectionBox.Left + e.X) - pos.X;
                     int h = (selectionBox.Top + e.Y) - pos.Y;
 
