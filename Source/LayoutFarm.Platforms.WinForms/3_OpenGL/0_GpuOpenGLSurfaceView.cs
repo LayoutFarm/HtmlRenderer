@@ -180,7 +180,7 @@ namespace LayoutFarm.UI.OpenGL
         }
         protected override bool ProcessDialogKey(Keys keyData)
         {
-            if (this.winBridge.ProcessDialogKey(keyData))
+            if (this.winBridge.HandleProcessDialogKey(keyData))
             {
                 return true;
             }
