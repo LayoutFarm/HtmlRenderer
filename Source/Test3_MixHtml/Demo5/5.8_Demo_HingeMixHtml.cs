@@ -27,7 +27,7 @@ namespace LayoutFarm
             this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
 
             lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P);
-            lightBoxHost.RootGfx = viewport.ViewportControl.WinTopRootGfx;
+            lightBoxHost.RootGfx = viewport.ViewportControl.RootGfx;
 
             //-----------
             var comboBox1 = CreateComboBox(20, 20);
