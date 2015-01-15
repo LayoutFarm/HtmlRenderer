@@ -14,19 +14,13 @@ namespace LayoutFarm
     {
         protected override void OnStartDemo(SampleViewport viewport)
         {
-
-            var miniAggg = new MiniAggCanvasRenderElement(viewport.ViewportControl.RootGfx, 800, 600);
+            
+            var bgRenderBox = new CustomRenderBox(viewport.Root, 800, 600);
+            bgRenderBox.BackColor = Color.LightGray;
+            viewport.AddContent(bgRenderBox);
+            //---------------------------------------------------------------------
+            var miniAggg = new MiniAggCanvasRenderElement(viewport.Root, 400, 600);
             viewport.AddContent(miniAggg);
-
-            //var sampleButton = new LayoutFarm.CustomWidgets.EaseBox(30, 30);
-            //viewport.AddContent(sampleButton);
-
-            //int count = 0;
-            //sampleButton.MouseDown += new EventHandler<UIMouseEventArgs>((s, e2) =>
-            //{
-            //    Console.WriteLine("click :" + (count++));
-            //});
-
         }
     }
 }

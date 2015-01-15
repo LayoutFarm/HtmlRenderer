@@ -56,10 +56,13 @@ namespace LayoutFarm.CustomWidgets
             //when no image
             //---------------------
 
-            canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
+           // canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
             if (needUpdate)
             {
-                gfx2d.Clear(ColorRGBA.White);
+                //default bg => transparent !,
+
+                //gfx2d.Clear(ColorRGBA.White);//if want opaque bg
+                
                 lionFill.OnDraw(gfx2d);
                 //---------------------------------
                 var buffer = actualImage.GetBuffer();
