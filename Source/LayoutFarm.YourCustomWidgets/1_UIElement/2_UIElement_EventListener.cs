@@ -37,8 +37,7 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenLostMouseFocus(UIMouseEventArgs e)
         {
-            OnLostMouseFocus(e);
-
+            OnLostSelectedFocus(e);
         }
         void IEventListener.ListenMouseClick(UIMouseEventArgs e)
         {

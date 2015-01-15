@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 using LayoutFarm.UI;
 
 namespace LayoutFarm.CustomWidgets
@@ -12,11 +12,12 @@ namespace LayoutFarm.CustomWidgets
 
     public class EaseBox : UIBox
     {
+
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseMove;
         public event EventHandler<UIMouseEventArgs> MouseUp;
         public event EventHandler<UIMouseEventArgs> MouseLeave;
-         
+        public event EventHandler<UIMouseEventArgs> LostSelectedFocus;
 
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
@@ -57,11 +58,11 @@ namespace LayoutFarm.CustomWidgets
             {
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
                 renderE.SetController(this);
-                  
+
                 renderE.BackColor = backColor;
-                renderE.SetLocation(this.Left, this.Top);                                                 
+                renderE.SetLocation(this.Left, this.Top);
                 renderE.SetVisible(this.Visible);
-                
+
                 primElement = renderE;
             }
             return primElement;
@@ -95,7 +96,14 @@ namespace LayoutFarm.CustomWidgets
                 MouseUp(this, e);
             }
         }
-       
+        protected override void OnLostSelectedFocus(UIMouseEventArgs e)
+        {
+            if (this.LostSelectedFocus != null)
+            {
+                this.LostSelectedFocus(this, e);
+            }
+        }
+
         //----------------------------------------------------
         //for general data
         public object Tag { get; set; }

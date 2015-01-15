@@ -40,7 +40,7 @@ namespace LayoutFarm.UI
         protected virtual void OnLostFocus(UIFocusEventArgs e)
         {
         }
-        protected virtual void OnLostMouseFocus(UIMouseEventArgs e)
+        protected virtual void OnLostSelectedFocus(UIMouseEventArgs e)
         {
         }
         protected virtual void OnGotFocus(UIFocusEventArgs e)

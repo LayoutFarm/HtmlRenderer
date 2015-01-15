@@ -68,18 +68,15 @@ namespace LayoutFarm.UI
     {
         int x;
         int y;
-
-
         public UIEventArgs()
         {
 
         }
-
         public virtual void Clear()
         {
-            x = 0;
-            y = 0;
-            CancelBubbling = false;
+            x = y = 0;
+            this.SourceHitElement = this.CurrentContextElement = null;
+            this.Shift = this.Alt = this.Control = this.CancelBubbling = false;
         }
 
         public object SourceHitElement
@@ -89,6 +86,7 @@ namespace LayoutFarm.UI
         }
         public IEventListener CurrentContextElement
         {
+            //TODO: review here, ensure set this value 
             get;
             set;
         }

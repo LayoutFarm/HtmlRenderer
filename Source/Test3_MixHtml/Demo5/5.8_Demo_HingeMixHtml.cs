@@ -116,13 +116,13 @@ namespace LayoutFarm
             {
                 e.CancelBubbling = true;
 
-                if (mnuItem.IsOpen)
+                if (mnuItem.IsOpened)
                 {
-                    mnuItem.CloseHinge();
+                    mnuItem.Close();
                 }
                 else
                 {
-                    mnuItem.OpenHinge();
+                    mnuItem.Open();
                 }
             };
             //--------------------------------------
@@ -161,13 +161,13 @@ namespace LayoutFarm
             {
                 e.CancelBubbling = true;
 
-                if (mnuItem.IsOpen)
+                if (mnuItem.IsOpened)
                 {
-                    mnuItem.CloseHinge();
+                    mnuItem.Close();
                 }
                 else
                 {
-                    mnuItem.OpenHinge();
+                    mnuItem.Open();
                 }
             };
             //--------------------------------------

@@ -20,6 +20,7 @@ namespace LayoutFarm.UI
 
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
+        IEventListener currentMouseDown;
 
         DateTime lastTimeMouseUp;
         const int DOUBLE_CLICK_SENSE = 150;//ms
@@ -42,7 +43,7 @@ namespace LayoutFarm.UI
         }
         public void DisableGraphicsTimer()
         {
-            this.rootgfx.GfxTimerEnabled = false;            
+            this.rootgfx.GfxTimerEnabled = false;
         }
 
 #if DEBUG
@@ -150,7 +151,7 @@ namespace LayoutFarm.UI
         {
             CurrentKeyboardFocusedElement = null;
         }
-        
+
         static RenderElement HitTestOnPreviousChain(HitChain hitPointChain, HitChain previousChain, int x, int y)
         {
 
@@ -223,7 +224,7 @@ namespace LayoutFarm.UI
         }
         protected void OnMouseDown(UIMouseEventArgs e)
         {
-           
+
 #if DEBUG
             if (this.dbugRootGraphic.dbugEnableGraphicInvalidateTrace)
             {
@@ -248,10 +249,16 @@ namespace LayoutFarm.UI
                 //1. origin object 
                 SetEventOrigin(e, hitPointChain);
                 //------------------------------
+
+
                 //portal                
                 ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
                 {
                     portal.PortalMouseDown(e);
+
+                    //*****
+                    this.currentMouseDown = e.CurrentContextElement;
+
                     if (e.CurrentContextElement.AcceptKeyboardFocus)
                     {
                         this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
@@ -263,15 +270,40 @@ namespace LayoutFarm.UI
                 //use events
                 if (!e.CancelBubbling)
                 {
+                    bool mouseDownHitInLoop = false;
+                    var prevMouseDownElement = this.currentMouseDown;
+                    e.CurrentContextElement = this.currentMouseDown = null; //clear
+
                     ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                     {
+                        mouseDownHitInLoop = true;
+
+                        this.currentMouseDown = e.CurrentContextElement;
                         listener.ListenMouseDown(e);
+                      
                         if (e.CurrentContextElement.AcceptKeyboardFocus)
                         {
                             this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
                         }
+                        //------------------------------------------------------- 
+
+                        if (prevMouseDownElement != null &&
+                            prevMouseDownElement != listener)
+                        {
+                            //mouse up on another element 
+                            //eg. drag 
+                            prevMouseDownElement.ListenLostMouseFocus(e);
+                        }
                         return true;
                     });
+
+
+                    if (!mouseDownHitInLoop && prevMouseDownElement != null)
+                    {
+                        prevMouseDownElement.ListenLostMouseFocus(e);
+                    }
+
+
                 }
             }
             //---------------------------------------------------------------
@@ -302,7 +334,7 @@ namespace LayoutFarm.UI
                 }
             }
 #endif
-            SwapHitChain(hitPointChain); 
+            SwapHitChain(hitPointChain);
             this.FlushAccumGraphics();
 
             if (local_msgVersion != msgChainVersion)
@@ -317,7 +349,7 @@ namespace LayoutFarm.UI
 
         protected void OnMouseMove(UIMouseEventArgs e)
         {
-           
+
             HitChain hitPointChain = GetFreeHitChain();
             HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
             //-------------------------------------------------------
@@ -367,7 +399,7 @@ namespace LayoutFarm.UI
 
             SwapHitChain(hitPointChain);
             this.FlushAccumGraphics();
-            
+
         }
         protected void OnGotFocus(UIFocusEventArgs e)
         {
@@ -381,7 +413,7 @@ namespace LayoutFarm.UI
         protected void OnMouseUp(UIMouseEventArgs e)
         {
 
- 
+
             DateTime snapMouseUpTime = DateTime.Now;
             TimeSpan timediff = snapMouseUpTime - lastTimeMouseUp;
             bool isAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;
@@ -405,8 +437,6 @@ namespace LayoutFarm.UI
 
             if (hitCount > 0)
             {
-
-
                 SetEventOrigin(e, hitPointChain);
                 //--------------------------------------------------------------- 
                 ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
@@ -414,23 +444,20 @@ namespace LayoutFarm.UI
                     portal.PortalMouseUp(e);
                     return true;
                 });
-
                 //---------------------------------------------------------------
                 if (!e.CancelBubbling)
                 {
-
                     ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
-                    {
+                    {   
                         listener.ListenMouseUp(e);
                         return true;
                     });
                 }
-
+                //---------------------------------------------------------------
                 if (!e.CancelBubbling)
                 {
                     if (isAlsoDoubleClick)
                     {
-
                         ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                         {
                             listener.ListenMouseDoubleClick(e);
@@ -447,7 +474,7 @@ namespace LayoutFarm.UI
                         });
                     }
 
-                } 
+                }
             }
             SwapHitChain(hitPointChain);
             this.FlushAccumGraphics();
@@ -458,7 +485,7 @@ namespace LayoutFarm.UI
             {
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyDown(e);
-                
+
                 this.FlushAccumGraphics();
             }
         }
@@ -530,7 +557,7 @@ namespace LayoutFarm.UI
                     var hitPoint = hitInfo.point;
                     e.SetLocation(hitPoint.X, hitPoint.Y);
                     e.CurrentContextElement = listener;
-                    
+
                     if (listenerAction(listener))
                     {
                         return;
