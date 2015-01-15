@@ -43,7 +43,7 @@ namespace LayoutFarm.UI
             this.keyData = keydata;
             this.Shift = shift;
             this.Alt = alt;
-            this.Control = control;
+            this.Ctrl = control;
         }
         public void SetKeyChar(char c)
         {
@@ -76,7 +76,7 @@ namespace LayoutFarm.UI
         {
             x = y = 0;
             this.SourceHitElement = this.CurrentContextElement = null;
-            this.Shift = this.Alt = this.Control = this.CancelBubbling = false;
+            this.Shift = this.Alt = this.Ctrl = this.CancelBubbling = false;
         }
 
         public object SourceHitElement
@@ -91,20 +91,6 @@ namespace LayoutFarm.UI
             set;
         }
 
-        public bool IsShiftKeyDown
-        {
-            get { return this.Shift; }
-        }
-        public bool IsAltKeyDown
-        {
-            get { return this.Alt; }
-        }
-        public bool IsCtrlKeyDown
-        {
-            get { return this.Control; }
-
-        }
-
         public bool Shift
         {
             get;
@@ -115,11 +101,13 @@ namespace LayoutFarm.UI
             get;
             set;
         }
-        public bool Control
+        public bool Ctrl
         {
             get;
             set;
+
         }
+         
 
         internal Point Location
         {

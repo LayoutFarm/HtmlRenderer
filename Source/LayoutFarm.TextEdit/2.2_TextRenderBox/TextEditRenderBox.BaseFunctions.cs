@@ -359,7 +359,7 @@ namespace LayoutFarm.Text
                 case UIKeys.Home:
                     {
 
-                        if (!e.IsShiftKeyDown)
+                        if (!e.Shift)
                         {
                             internalTextLayerController.DoHome();
                             internalTextLayerController.CancelSelect();
@@ -377,7 +377,7 @@ namespace LayoutFarm.Text
                     } break;
                 case UIKeys.End:
                     {
-                        if (!e.IsShiftKeyDown)
+                        if (!e.Shift)
                         {
                             internalTextLayerController.DoEnd();
                             internalTextLayerController.CancelSelect();
@@ -444,7 +444,7 @@ namespace LayoutFarm.Text
                     } break;
             }
 
-            if (e.HasKeyData && e.Control)
+            if (e.HasKeyData && e.Ctrl)
             {
 
                 switch (keycode)
@@ -644,7 +644,7 @@ namespace LayoutFarm.Text
                         }
 
                         InvalidateGraphicOfCurrentLineArea();
-                        if (!e.IsShiftKeyDown)
+                        if (!e.Shift)
                         {
                             internalTextLayerController.CancelSelect();
                         }
@@ -693,7 +693,7 @@ namespace LayoutFarm.Text
                             } 
                         }
                         //-------------------
-                        if (e.IsShiftKeyDown)
+                        if (e.Shift)
                         {
                             internalTextLayerController.EndSelectIfNoSelection();
                         }
@@ -717,7 +717,7 @@ namespace LayoutFarm.Text
                         }
 
                         InvalidateGraphicOfCurrentLineArea();
-                        if (!e.IsShiftKeyDown)
+                        if (!e.Shift)
                         {
                             internalTextLayerController.CancelSelect();
                         }
@@ -764,7 +764,7 @@ namespace LayoutFarm.Text
                             }
                         }
                         //-------------------
-                        if (e.IsShiftKeyDown)
+                        if (e.Shift)
                         {
                             internalTextLayerController.EndSelectIfNoSelection();
                         }
@@ -796,7 +796,7 @@ namespace LayoutFarm.Text
                             }
                            
                             //----------------------------                          
-                            if (!e.IsShiftKeyDown)
+                            if (!e.Shift)
                             {
                                 internalTextLayerController.CancelSelect();
                             }
@@ -818,7 +818,7 @@ namespace LayoutFarm.Text
                             }
                             //----------------------------
 
-                            if (e.IsShiftKeyDown)
+                            if (e.Shift)
                             {
                                 internalTextLayerController.EndSelectIfNoSelection();
                             }
@@ -859,7 +859,7 @@ namespace LayoutFarm.Text
                             }
 
                             //----------------------------                          
-                            if (!e.IsShiftKeyDown)
+                            if (!e.Shift)
                             {
                                 internalTextLayerController.CancelSelect();
                             }
@@ -881,7 +881,7 @@ namespace LayoutFarm.Text
                             } 
 
                             //----------------------------
-                            if (e.IsShiftKeyDown)
+                            if (e.Shift)
                             {
                                 internalTextLayerController.EndSelectIfNoSelection();
                             }
