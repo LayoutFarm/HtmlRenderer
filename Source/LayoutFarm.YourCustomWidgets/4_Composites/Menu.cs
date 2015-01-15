@@ -15,7 +15,9 @@ namespace LayoutFarm.CustomWidgets
 
         CustomRenderBox primElement;//background 
         Color backColor = Color.LightGray;
-        bool isOpen;
+        bool thisMenuOpened;
+
+
         //1. land part
         UIBox landPart;
 
@@ -56,9 +58,9 @@ namespace LayoutFarm.CustomWidgets
         {
             if (primElement == null)
             {
-                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height); 
+                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
                 renderE.SetLocation(this.Left, this.Top);
-                renderE.BackColor = backColor;                
+                renderE.BackColor = backColor;
                 renderE.HasSpecificSize = true;
 
                 renderE.SetController(this);
@@ -69,24 +71,6 @@ namespace LayoutFarm.CustomWidgets
                 layers.AddLayer(layer0);
                 renderE.Layers = layers;
 
-                //layer0
-
-                //layer0 
-                //int layerCount = this.layers.Count;
-                //for (int m = 0; m < layerCount; ++m)
-                //{
-                //    UICollection plain = (UICollection)this.layers[m];
-                //    var groundLayer = new VisualPlainLayer(renderE);
-                //    renderE.Layers.AddLayer(groundLayer);
-
-                //    //---------------------------------
-                //    int j = plain.Count;
-                //    for (int i = 0; i < j; ++i)
-                //    {
-                //        groundLayer.AddUI(plain.GetElement(i));
-                //    }
-                //}
-                //---------------------------------
                 if (this.landPart != null)
                 {
                     layer0.AddChild(this.landPart.GetPrimaryRenderElement(rootgfx));
@@ -109,7 +93,6 @@ namespace LayoutFarm.CustomWidgets
                 this.MouseDown(this, e);
             }
         }
-        
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -118,12 +101,12 @@ namespace LayoutFarm.CustomWidgets
             }
             base.OnMouseUp(e);
         }
-        
+
         //---------------------------------------------------- 
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
 
-         
+
         //----------------------------------------------------  
         public UIBox LandPart
         {
@@ -176,20 +159,18 @@ namespace LayoutFarm.CustomWidgets
             }
         }
         //---------------------------------------------------- 
-        public bool IsOpen
+        public bool IsOpened
         {
-            get { return this.isOpen; }
+            get { return this.thisMenuOpened; }
         }
-        //----------------------------------------------------  
-        public void OpenHinge()
+        public void Open()
         {
-            if (isOpen) return;
-            this.isOpen = true;
+            if (thisMenuOpened) return;
+            this.thisMenuOpened = true;
 
             //-----------------------------------
             if (this.primElement == null) return;
             if (floatPart == null) return;
-
 
             switch (floatPartStyle)
             {
@@ -205,7 +186,7 @@ namespace LayoutFarm.CustomWidgets
                             this.floatPartRenderElement = this.floatPart.GetPrimaryRenderElement(primElement.Root) as CustomRenderBox;
                             topRenderBox.AddChild(floatPartRenderElement);
                             //temp here
-                             
+
                         }
 
                     } break;
@@ -214,11 +195,12 @@ namespace LayoutFarm.CustomWidgets
 
                     } break;
             }
+
         }
-        public void CloseHinge()
+        public void Close()
         {
-            if (!isOpen) return;
-            this.isOpen = false;
+            if (!thisMenuOpened) return;
+            this.thisMenuOpened = false;
 
             if (this.primElement == null) return;
             if (floatPart == null) return;
@@ -230,8 +212,6 @@ namespace LayoutFarm.CustomWidgets
                     } break;
                 case HingeFloatPartStyle.Popup:
                     {
-
-
                         var topRenderBox = primElement.GetTopWindowRenderBox();
                         if (topRenderBox != null)
                         {
@@ -239,9 +219,7 @@ namespace LayoutFarm.CustomWidgets
                             {
                                 topRenderBox.Layer0.RemoveChild(floatPartRenderElement);
                             }
-
                         }
-
                     } break;
                 case HingeFloatPartStyle.Embeded:
                     {
@@ -249,7 +227,42 @@ namespace LayoutFarm.CustomWidgets
 
             }
         }
+        public void MaintenanceParentOpenState()
+        {
+            if (this.ParentMenuItem != null)
+            {
+                this.ParentMenuItem.MaintenceOpenState = true;
+                this.ParentMenuItem.MaintenanceParentOpenState();
+            }
+        }
+        public void UnmaintenanceParentOpenState()
+        {
+            if (this.ParentMenuItem != null)
+            {
+                this.ParentMenuItem.MaintenceOpenState = false;
+                this.ParentMenuItem.MaintenanceParentOpenState();
+            }
+        }
+        public bool MaintenceOpenState
+        {
+            get;
+            private set;
+        }
+        public void CloseRecursiveUp()
+        {
+            this.Close();
 
+            if (this.ParentMenuItem != null &&
+               !this.ParentMenuItem.MaintenceOpenState)
+            {
+                this.ParentMenuItem.CloseRecursiveUp();
+            }
+        }
+        public MenuItem ParentMenuItem
+        {
+            get;
+            private set;
+        }
         public HingeFloatPartStyle FloatPartStyle
         {
             get { return this.floatPartStyle; }
@@ -258,8 +271,6 @@ namespace LayoutFarm.CustomWidgets
                 this.floatPartStyle = value;
             }
         }
-
-
         public void AddSubMenuItem(MenuItem childItem)
         {
             if (childItems == null)
@@ -268,6 +279,7 @@ namespace LayoutFarm.CustomWidgets
             }
             this.childItems.Add(childItem);
             floatPart.AddChildBox(childItem);
+            childItem.ParentMenuItem = this;
         }
     }
 

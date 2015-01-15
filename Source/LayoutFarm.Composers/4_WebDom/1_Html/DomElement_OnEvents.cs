@@ -57,6 +57,10 @@ namespace LayoutFarm.WebDom
 
 
         }
+        protected virtual void OnLostMouseFocus(UIMouseEventArgs e)
+        {
+
+        }
         protected virtual void OnMouseDown(UIMouseEventArgs e)
         {
             if (this.evhMouseDown != null)
@@ -67,7 +71,7 @@ namespace LayoutFarm.WebDom
         protected virtual void OnMouseWheel(UIMouseEventArgs e)
         {
 
-        } 
+        }
         protected virtual void OnCollapsed()
         {
         }
