@@ -15,8 +15,7 @@ namespace PixelFarm.Drawing
         //const int CANVAS_UNUSED = 1 << (1 - 1);
         //const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
         public Canvas()
-        {
-
+        { 
         }
         public abstract void CloseCanvas();
         

@@ -5,15 +5,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{14840A73-6D38-4A2A-A71C-F84DC4FB4620}</ProjectGuid>
+    <ProjectGuid>{F01C5DAD-5CFC-49EE-8DAA-2BA80C26BAB4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Test3_MixHtml</RootNamespace>
-    <AssemblyName>Test3_MixHtml</AssemblyName>
+    <RootNamespace>Test4_MiniAggCanvas</RootNamespace>
+    <AssemblyName>Test4_MiniAggCanvas</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+     
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,45 +32,49 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Demo1\1.1_Demo_SingleButton.cs" />
-    <Compile Include="Demo1\1.2_Demo_MultipleBoxes.cs" />
-    <Compile Include="Demo1\1.3_Demo_SampleGrid.cs" />
-    <Compile Include="Demo1\1.4_Demo_Drag.cs" />
-    <Compile Include="Demo1\1.5_Demo_ScrollBar.cs" />
-    <Compile Include="Demo1\1.6_Demo_ScrollView.cs" />
-    <Compile Include="Demo1\1.7_Demo_ListView.cs" />
-    <Compile Include="Demo1\1.8_Demo_Hinge.cs" />
-    <Compile Include="Demo1\1.9_Demo_TreeView.cs" />
-    <Compile Include="Demo2\2.1_Demo_SingleLineTextBox.cs" />
-    <Compile Include="Demo2\2.2_Demo_MultilineTextBox.cs" />
-    <Compile Include="Demo3\3.1_Demo_Visible.cs" />
-    <Compile Include="Demo3\3.2_Demo_ControllerBox.cs" />
-    <Compile Include="Demo3\3.3_Demo_ControllerBox2.cs" />
-    <Compile Include="Demo3\3.6_Demo_CompartmentBox.cs" />
-    <Compile Include="Demo3\3.5_Demo_CompartmentBox2.cs" />
-    <Compile Include="Demo3\3.4_CompartmentBox.cs" />
-    <Compile Include="Demo4\4.1_UIHtmlBox.cs" />
-    <Compile Include="Demo4\4.2_MixHtml.cs" />
-    <Compile Include="Demo4\4.3.2_UIHtmlBox_ContentMx.cs" />
-    <Compile Include="Demo4\4.3.1_UIHtmlBoxWithResReq.cs" />
-    <Compile Include="Demo4\4.4_CssLeanBox.cs" />
-    <Compile Include="Demo4\4.5_LightHtmlBox.cs" />
-    <Compile Include="Demo5\5.8_Demo_HingeMixHtml.cs" />
-    <Compile Include="HtmlDomExtension\HtmlDomExtension.cs" />
+    <Compile Include="AggSprite\BasicSprite.cs" />
+    <Compile Include="AggSprite\LionDataStore.cs" />
+    <Compile Include="AggSprite\LionSprite.cs" />
+    <Compile Include="AggSprite\SpriteShape.cs" />
+    <Compile Include="Demo\1.1_DemoAggCanvas_Lion.cs" />
+    <Compile Include="MiniAggCanvasRenderElement\MiniAggCanvasRenderElement.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleViewportExtension.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deps\MiniAgg.Complements\MiniAgg.Complements.csproj">
+      <Project>{AE0DF71E-9B14-4197-B55A-E1E0CE0683C7}</Project>
+      <Name>MiniAgg.Complements</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\MiniAgg\MiniAgg.csproj">
+      <Project>{4D5CE655-58FA-4523-8E46-738B941E9E47}</Project>
+      <Name>MiniAgg</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing</Name>
@@ -105,9 +111,6 @@
       <Project>{05C84CAB-2F5D-4D74-9A62-EADDF5B4CC0B}</Project>
       <Name>Test0_PresentationDevHelper_New</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="temp\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
