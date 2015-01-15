@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0_Demo", "0_Demo", "{C3BA13
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5_Platforms.Windows", "5_Platforms.Windows", "{BF639FC7-246F-4F5A-9051-39CE0AD4B544}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2_AbstractClient", "2_AbstractClient", "{3BA8D292-2DD5-49D2-8D77-AB7113B6E007}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2_BaseModules", "2_BaseModules", "{3BA8D292-2DD5-49D2-8D77-AB7113B6E007}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4_IntegrationModules", "4_IntegrationModules", "{9C0C4A5D-D6B8-4C16-AA49-585AA37302E1}"
 EndProject

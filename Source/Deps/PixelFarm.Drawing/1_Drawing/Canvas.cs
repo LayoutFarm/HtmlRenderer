@@ -3,7 +3,7 @@
 
 namespace PixelFarm.Drawing
 {
-    public abstract class Canvas : System.IDisposable
+    public abstract class Canvas 
     {
         bool isContentReady;
 #if DEBUG
@@ -18,8 +18,8 @@ namespace PixelFarm.Drawing
         {
 
         }
-
-        public abstract void Dispose();
+        public abstract void CloseCanvas();
+        
         public abstract GraphicsPlatform Platform { get; }
         public abstract SmoothingMode SmoothingMode { get; set; }
         //---------------------------------------------------------------------

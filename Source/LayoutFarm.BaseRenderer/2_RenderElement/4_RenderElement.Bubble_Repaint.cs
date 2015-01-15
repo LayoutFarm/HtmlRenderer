@@ -87,7 +87,7 @@ namespace LayoutFarm
 #if DEBUG
                 return (uiLayoutFlags & RenderElementConst.LY_SUSPEND_GRAPHIC) != 0;
 #else
-                return ((uiLayoutFlags & LY_SUSPEND_GRAPHIC) != 0) || ((uiFlags & HIDDEN) != 0);
+                return (uiLayoutFlags & RenderElementConst.LY_SUSPEND_GRAPHIC) != 0;
 #endif
             }
         }

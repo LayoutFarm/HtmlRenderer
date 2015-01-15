@@ -13,16 +13,15 @@ namespace LayoutFarm.UI.OpenGL
         public OpenGLCanvasViewport(RootGraphic root,
             Size viewportSize, int cachedPageNum)
             : base(root, viewportSize, cachedPageNum)
-        {
-           
-            
+        { 
         }
         protected override void OnClosing()
         {
             isClosed = true;
             if (canvas != null)
             {
-                canvas.Dispose();
+
+                canvas.CloseCanvas();
                 canvas = null;
             }
         }

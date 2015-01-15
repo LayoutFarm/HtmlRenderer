@@ -32,6 +32,11 @@ namespace LayoutFarm.WebDom
         {
             OnMouseDown(e);
         }
+        void IEventListener.ListenLostMouseFocus(UIMouseEventArgs e)
+        {
+            OnLostMouseFocus(e);
+
+        }
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
             OnMouseMove(e);
@@ -41,7 +46,7 @@ namespace LayoutFarm.WebDom
             OnMouseUp(e);
         }
         void IEventListener.ListenMouseClick(UIMouseEventArgs e)
-        {   
+        {
         }
         void IEventListener.ListenMouseDoubleClick(UIMouseEventArgs e)
         {
@@ -55,11 +60,11 @@ namespace LayoutFarm.WebDom
         {
             OnMouseLeave(e);
         }
-        void IEventListener.ListenGotFocus(UIFocusEventArgs e)
+        void IEventListener.ListenGotKeyboardFocus(UIFocusEventArgs e)
         {
             OnGotFocus(e);
         }
-        void IEventListener.ListenLostFocus(UIFocusEventArgs e)
+        void IEventListener.ListenLostKeyboardFocus(UIFocusEventArgs e)
         {
             OnLostFocus(e);
         }

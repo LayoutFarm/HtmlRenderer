@@ -6,11 +6,7 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.UI
 {
     partial class UIElement
-    {
-
-        //bool isMouseDown;
-        //bool isDragging;
-
+    {   
         void IEventListener.ListenKeyPress(UIKeyEventArgs e)
         {
             OnKeyPress(e);
@@ -28,55 +24,20 @@ namespace LayoutFarm.UI
             return OnProcessDialogKey(e);
         }
         void IEventListener.ListenMouseDown(UIMouseEventArgs e)
-        {
-
+        {   
             OnMouseDown(e);
-        }
-
-
+        } 
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
-        {
-            //TODO: review this again
-            if (e.IsDragging)
-            {
-                currentDraggingElement = this;
-            }
-
-            OnMouseMove(e);
-             
+        {  
+            OnMouseMove(e); 
         }
         void IEventListener.ListenMouseUp(UIMouseEventArgs e)
+        {   
+            OnMouseUp(e); 
+        }
+        void IEventListener.ListenLostMouseFocus(UIMouseEventArgs e)
         {
-            //TODO: review this again
-            if (currentDraggingElement != null && currentDraggingElement != this)
-            {
-                var otherElement = currentDraggingElement as IEventListener;
-                otherElement.ListenMouseUp(e);
-                currentDraggingElement = null; 
-            }
-
-            OnMouseUp(e);
-
-            //if (isDragging)
-            //{
-            //    //mouse up
-            //    OnDragEnd(e);
-            //}
-            //else
-            //{
-            //    if (currentDraggingElement != null)
-            //    {
-            //        if (currentDraggingElement != this)
-            //        {
-            //            var otherElement = currentDraggingElement as IEventListener;
-            //            otherElement.ListenMouseUp(e);
-            //            currentDraggingElement = null;
-            //        }                    
-            //    }
-            //    OnMouseUp(e);
-            //}
-
-            //this.isDragging = this.isMouseDown = false;
+            OnLostSelectedFocus(e);
         }
         void IEventListener.ListenMouseClick(UIMouseEventArgs e)
         {
@@ -91,21 +52,13 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenMouseLeave(UIMouseEventArgs e)
         {
-            OnMouseLeave(e);
-            //if (isDragging)
-            //{
-            //    OnDragLeave(e);
-            //}
-            //else
-            //{
-            //    OnMouseLeave(e);
-            //}
+            OnMouseLeave(e);  
         }
-        void IEventListener.ListenGotFocus(UIFocusEventArgs e)
+        void IEventListener.ListenGotKeyboardFocus(UIFocusEventArgs e)
         {
             OnGotFocus(e);
         }
-        void IEventListener.ListenLostFocus(UIFocusEventArgs e)
+        void IEventListener.ListenLostKeyboardFocus(UIFocusEventArgs e)
         {
             OnLostFocus(e);
         }

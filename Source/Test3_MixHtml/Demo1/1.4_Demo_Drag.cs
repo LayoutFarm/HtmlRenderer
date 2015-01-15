@@ -18,7 +18,7 @@ namespace LayoutFarm
                 var box1 = new LayoutFarm.CustomWidgets.EaseBox(50, 50);
                 box1.BackColor = Color.Red;
                 box1.SetLocation(10, 10);
-                box1.dbugTag = 1;
+                //box1.dbugTag = 1;
                 SetupActiveBoxProperties(box1);
                 viewport.AddContent(box1);
             }
@@ -26,7 +26,7 @@ namespace LayoutFarm
             {
                 var box2 = new LayoutFarm.CustomWidgets.EaseBox(30, 30);
                 box2.SetLocation(50, 50);
-                box2.dbugTag = 2;
+                //box2.dbugTag = 2;
                 SetupActiveBoxProperties(box2);
                 viewport.AddContent(box2);
             }

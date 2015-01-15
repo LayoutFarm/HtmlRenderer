@@ -116,8 +116,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             foreach (MyCanvas canvas in cachePages)
             {
-                canvas.Dispose();
-                
+                canvas.CloseCanvas();
             }
             cachePages.Clear();
         }

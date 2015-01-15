@@ -65,7 +65,7 @@ namespace LayoutFarm.HtmlBoxes
         public HtmlFragmentRenderBox(RootGraphic rootgfx,
             int width, int height)
             : base(rootgfx, width, height)
-        { 
+        {
         }
 
         public CssBox CssBox
@@ -88,8 +88,9 @@ namespace LayoutFarm.HtmlBoxes
 
             var painter = PainterStock.GetSharedPainter(this.tinyHtmlIsland, canvas);
             painter.SetViewportSize(this.Width, this.Height);
+#if DEBUG
             painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
-
+#endif
             int vwX, vwY;
             painter.OffsetCanvasOrigin(vwX = this.ViewportX, vwY = this.ViewportY);
 

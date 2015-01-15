@@ -16,6 +16,7 @@ namespace LayoutFarm.UI
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
 
 
+
         List<RenderElementRequest> renderRequestList = new List<RenderElementRequest>();
         GraphicsTimerTaskManager graphicTimerTaskMan;
         GraphicsPlatform graphicsPlatform;
@@ -37,7 +38,7 @@ namespace LayoutFarm.UI
 
             //create default  render box
             this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
-            this.userInputEventAdapter = CreateUserEventPortal();
+            this.userInputEventAdapter = new UI.UserInputEventAdapter(this);
             this.SubscribeGraphicsIntervalTask(normalUpdateTask,
                 TaskIntervalPlan.Animation,
                 20,
@@ -57,7 +58,7 @@ namespace LayoutFarm.UI
                 this.graphicTimerTaskMan.Enabled = value;
             }
         }
-         
+
         public IUserEventPortal UserInputEventAdapter
         {
             get { return this.userInputEventAdapter; }
@@ -87,13 +88,8 @@ namespace LayoutFarm.UI
         void ClearNotificationSizeChangeList()
         {
         }
-        
 
-        UserInputEventAdapter CreateUserEventPortal()
-        {
-            return new UI.UserInputEventAdapter(this);
-
-        }
+ 
         public override GraphicsPlatform P
         {
             get { return graphicsPlatform; }
@@ -181,7 +177,7 @@ namespace LayoutFarm.UI
                         } break;
                     case RequestCommand.InvalidateArea:
                         {
-                            Rectangle r = (Rectangle)req.parameters; 
+                            Rectangle r = (Rectangle)req.parameters;
                             this.InvalidateGraphicArea(req.ve, ref r);
                         } break;
 

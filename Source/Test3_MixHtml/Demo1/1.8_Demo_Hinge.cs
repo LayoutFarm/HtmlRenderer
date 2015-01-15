@@ -12,9 +12,10 @@ namespace LayoutFarm
     class Demo_Hinge : DemoBase
     {
         Bitmap arrowBmp;
-        protected override void OnStartDemo(SampleViewport viewport) 
+        protected override void OnStartDemo(SampleViewport viewport)
         {
-            var comboBox1 = CreateComboBox(20, 20); 
+
+            var comboBox1 = CreateComboBox(20, 20);
             viewport.AddContent(comboBox1);
 
             var comboBox2 = CreateComboBox(50, 50);
@@ -30,16 +31,16 @@ namespace LayoutFarm
             viewport.AddContent(menuItem);
 
         }
+
         LayoutFarm.CustomWidgets.ComboBox CreateComboBox(int x, int y)
         {
-            LayoutFarm.CustomWidgets.ComboBox comboBox = new CustomWidgets.ComboBox(400, 20);
+            var comboBox = new CustomWidgets.ComboBox(400, 20);
             comboBox.SetLocation(x, y);
             //--------------------
             //1. create landing part
             var landPart = new LayoutFarm.CustomWidgets.Panel(400, 20);
             landPart.BackColor = Color.Green;
             comboBox.LandPart = landPart;
-
             //--------------------------------------
             //add small px to land part
             //image
@@ -61,7 +62,6 @@ namespace LayoutFarm
             imgBox.MouseDown += (s, e) =>
             {
                 e.CancelBubbling = true;
-
                 if (comboBox.IsOpen)
                 {
                     comboBox.CloseHinge();
@@ -71,12 +71,20 @@ namespace LayoutFarm
                     comboBox.OpenHinge();
                 }
             };
+            imgBox.LostSelectedFocus += (s, e) =>
+            {
+                if (comboBox.IsOpen)
+                {
+                    comboBox.CloseHinge();
+                }
+            };
+
             landPart.AddChildBox(imgBox);
             return comboBox;
         }
         LayoutFarm.CustomWidgets.MenuItem CreateMenuItem(int x, int y)
         {
-            LayoutFarm.CustomWidgets.MenuItem mnuItem = new CustomWidgets.MenuItem(150, 20);
+            var mnuItem = new CustomWidgets.MenuItem(150, 20);
             mnuItem.SetLocation(x, y);
             //--------------------
             //1. create landing part
@@ -100,16 +108,30 @@ namespace LayoutFarm
             imgBox.MouseDown += (s, e) =>
             {
                 e.CancelBubbling = true;
-
-                if (mnuItem.IsOpen)
+                //1. maintenace parent menu***
+                mnuItem.MaintenanceParentOpenState();
+                //-----------------------------------------------
+                if (mnuItem.IsOpened)
                 {
-                    mnuItem.CloseHinge();
+                    mnuItem.Close();
                 }
                 else
                 {
-                    mnuItem.OpenHinge();
+                    mnuItem.Open();
                 }
             };
+            imgBox.MouseUp += (s, e) =>
+            {
+                mnuItem.UnmaintenanceParentOpenState();
+            };
+            imgBox.LostSelectedFocus += (s, e) =>
+            {
+                if (!mnuItem.MaintenceOpenState)
+                {
+                    mnuItem.CloseRecursiveUp();
+                }
+            };
+
             //--------------------------------------
             //2. float part
             var floatPart = new LayoutFarm.CustomWidgets.MenuBox(400, 100);

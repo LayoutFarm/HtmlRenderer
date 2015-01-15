@@ -21,7 +21,7 @@ using Win32;
 namespace PixelFarm.Drawing.WinGdi
 {
 
-    partial class MyCanvas : Canvas, IFonts
+    partial class MyCanvas : Canvas, IFonts, IDisposable
     {
         int pageNumFlags;
         int pageFlags;
@@ -93,14 +93,8 @@ namespace PixelFarm.Drawing.WinGdi
             return "visible_clip" + this.gx.VisibleClipBounds.ToString();
 
         }
-        //~MyCanvas()
-        //{
-        //    Dispose();
-        //}
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public override void Dispose()
+
+        public override void CloseCanvas()
         {
             if (isDisposed)
             {
@@ -110,6 +104,25 @@ namespace PixelFarm.Drawing.WinGdi
             isDisposed = true;
             ReleaseHdc();
             ReleaseUnManagedResource();
+        }
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        void IDisposable.Dispose()
+        {
+            if (isDisposed)
+            {
+                return;
+            }
+            this.CloseCanvas();
+        }
+        void IFonts.Dispose()
+        {
+            if (isDisposed)
+            {
+                return;
+            }
+            this.CloseCanvas();
         }
 
         void ClearPreviousStoredValues()
@@ -249,7 +262,7 @@ namespace PixelFarm.Drawing.WinGdi
                 //var clip = _g.Clip.GetHrgn(_g);
                 _hdc = gx.GetHdc();
                 Win32Utils.SetBkMode(_hdc, 1);
-                 
+
                 //Win32Utils.SelectClipRgn(_hdc, clip);
                 //Win32Utils.DeleteObject(clip);
             }
