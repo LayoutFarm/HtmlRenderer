@@ -15,7 +15,7 @@ namespace LayoutFarm.CustomWidgets
 {
 
     //expose MiniAggCanvas
-    public class MiniAggCanvasRenderElement : RenderBoxBase
+    public class MiniAggCanvasRenderElement : RenderBoxBase, IDisposable
     {
 
 
@@ -56,13 +56,13 @@ namespace LayoutFarm.CustomWidgets
             //when no image
             //---------------------
 
-           // canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
+            // canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
             if (needUpdate)
             {
                 //default bg => transparent !,
 
                 //gfx2d.Clear(ColorRGBA.White);//if want opaque bg
-                
+
                 lionFill.OnDraw(gfx2d);
                 //---------------------------------
                 var buffer = actualImage.GetBuffer();
@@ -70,8 +70,8 @@ namespace LayoutFarm.CustomWidgets
                 {
                     this.currentGdiPlusBmp.Dispose();
                 }
-                
-                this.currentGdiPlusBmp = new System.Drawing.Bitmap(this.Width, this.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);               
+
+                this.currentGdiPlusBmp = new System.Drawing.Bitmap(this.Width, this.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                 CopyFromAggActualImageToGdiPlusBitmap(this.actualImage, this.currentGdiPlusBmp);
                 this.currentGdiPlusBmp.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipY);
                 this.bmp = new Bitmap(this.Width, this.Height, currentGdiPlusBmp);
@@ -88,6 +88,25 @@ namespace LayoutFarm.CustomWidgets
             //    new Rectangle(0, 0, this.Width, this.Height));
 #endif
         }
+
+        void IDisposable.Dispose()
+        {
+            //-------------------------
+            //TODO: review this again 
+            //about resource mx
+            //------------------------- 
+            if (bmp != null)
+            {
+                bmp.Dispose();
+                bmp = null;
+            }
+            if (currentGdiPlusBmp != null)
+            {
+                currentGdiPlusBmp.Dispose();
+                currentGdiPlusBmp = null;
+            }
+        }
+
         static void CopyFromAggActualImageToGdiPlusBitmap(ActualImage aggActualImage, System.Drawing.Bitmap bitmap)
         {
             //platform specific
