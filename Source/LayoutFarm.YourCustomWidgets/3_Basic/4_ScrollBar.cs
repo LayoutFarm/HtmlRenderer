@@ -106,6 +106,7 @@ namespace LayoutFarm.CustomWidgets
                 this.UserScroll(this, EventArgs.Empty);
             }
         }
+
         void UpdateScrollButtonPosition()
         {
             int thumbPosY = CalculateThumbPosition() + minmax_boxHeight;
@@ -117,6 +118,7 @@ namespace LayoutFarm.CustomWidgets
         {
             CustomRenderBox bgBox = new CustomRenderBox(rootgfx, this.Width, this.Height);
             bgBox.HasSpecificSize = true;
+            bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
 
@@ -157,7 +159,7 @@ namespace LayoutFarm.CustomWidgets
         void SetupMinButtonProperties(PlainLayer plain)
         {
 
-            var min_button = new ScrollButton(this.Width, minmax_boxHeight);
+            var min_button = new ScrollButton(this.Width, minmax_boxHeight, this);
             min_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
 
             min_button.MouseUp += (s, e) => this.StepSmallToMin();
@@ -168,7 +170,7 @@ namespace LayoutFarm.CustomWidgets
         }
         void SetupMaxButtonProperties(PlainLayer plain)
         {
-            var max_button = new ScrollButton(this.Width, minmax_boxHeight);
+            var max_button = new ScrollButton(this.Width, minmax_boxHeight, this);
             max_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
             max_button.SetLocation(0, this.Height - minmax_boxHeight);
 
@@ -192,10 +194,15 @@ namespace LayoutFarm.CustomWidgets
             int thumbBoxLength = 1;
             if (contentLength < physicalScrollLength)
             {
+                int nsteps = (int)Math.Round(contentLength / smallChange);
+
                 //small change value reflect thumbbox size
-                thumbBoxLength = (int)(ratio1 * this.SmallChange);
-                float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
-                this.onePixelFor = contentLength / (physicalScrollLength);
+                // thumbBoxLength = (int)(ratio1 * this.SmallChange);
+                int eachStepLength = (int)(physicalScrollLength / (float)(nsteps + 2));
+                thumbBoxLength = eachStepLength * 2; 
+                //float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
+                //this.onePixelFor = contentLength / (physicalScrollLength);
+                this.onePixelFor = contentLength / (physicalScrollLength - thumbBoxLength);
             }
             else
             {
@@ -219,9 +226,9 @@ namespace LayoutFarm.CustomWidgets
         }
         void SetupScrollButtonProperties(PlainLayer plain)
         {
-          
 
-            var scroll_button = new ScrollButton(this.Width, 10); //create with default value
+
+            var scroll_button = new ScrollButton(this.Width, 10, this); //create with default value
             scroll_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkBlue);
             int thumbPosY = CalculateThumbPosition() + minmax_boxHeight;
             scroll_button.SetLocation(0, thumbPosY);
@@ -363,17 +370,57 @@ namespace LayoutFarm.CustomWidgets
 
         public event EventHandler<EventArgs> UserScroll;
 
+
+        //tempfix here
+        internal void ChildNotifyMouseWheel(UIMouseEventArgs e)
+        {
+            if (e.Delta < 0)
+            {   //scroll down
+                this.StepSmallToMax();
+            }
+            else
+            {
+                //up
+                this.StepSmallToMin();
+            }
+
+        }
+        protected override void OnMouseWheel(UIMouseEventArgs e)
+        {
+            if (e.Delta < 0)
+            {   //scroll down
+                this.StepSmallToMax();
+            }
+            else
+            {
+                //up
+                this.StepSmallToMin();
+            }
+        }
     }
     public enum ScrollBarType
     {
         Vertical,
         Horizontal
     }
+
+
     class ScrollButton : EaseBox
     {
-        public ScrollButton(int w, int h)
+        public ScrollButton(int w, int h, ScrollBar owner)
             : base(w, h)
         {
+            this.OwnerScrollBar = owner;
+        }
+        internal ScrollBar OwnerScrollBar
+        {
+            get;
+            set;
+        }
+        protected override void OnMouseWheel(UIMouseEventArgs e)
+        {
+            this.OwnerScrollBar.ChildNotifyMouseWheel(e);
+
         }
     }
 
