@@ -13,9 +13,9 @@ namespace LayoutFarm.CustomWidgets
     public class ScrollBar : UIBox
     {
         CustomRenderBox mainBox;
-        ScrollButton minButton;
-        ScrollButton maxButton;
-        ScrollButton scrollButton;
+        ScrollBarButton minButton;
+        ScrollBarButton maxButton;
+        ScrollBarButton scrollButton;
 
         float maxValue;
         float minValue;
@@ -159,7 +159,7 @@ namespace LayoutFarm.CustomWidgets
         void SetupMinButtonProperties(PlainLayer plain)
         {
 
-            var min_button = new ScrollButton(this.Width, minmax_boxHeight, this);
+            var min_button = new ScrollBarButton(this.Width, minmax_boxHeight, this);
             min_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
 
             min_button.MouseUp += (s, e) => this.StepSmallToMin();
@@ -170,7 +170,7 @@ namespace LayoutFarm.CustomWidgets
         }
         void SetupMaxButtonProperties(PlainLayer plain)
         {
-            var max_button = new ScrollButton(this.Width, minmax_boxHeight, this);
+            var max_button = new ScrollBarButton(this.Width, minmax_boxHeight, this);
             max_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
             max_button.SetLocation(0, this.Height - minmax_boxHeight);
 
@@ -199,7 +199,7 @@ namespace LayoutFarm.CustomWidgets
                 //small change value reflect thumbbox size
                 // thumbBoxLength = (int)(ratio1 * this.SmallChange);
                 int eachStepLength = (int)(physicalScrollLength / (float)(nsteps + 2));
-                thumbBoxLength = eachStepLength * 2; 
+                thumbBoxLength = eachStepLength * 2;
                 //float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
                 //this.onePixelFor = contentLength / (physicalScrollLength);
                 this.onePixelFor = contentLength / (physicalScrollLength - thumbBoxLength);
@@ -228,7 +228,7 @@ namespace LayoutFarm.CustomWidgets
         {
 
 
-            var scroll_button = new ScrollButton(this.Width, 10, this); //create with default value
+            var scroll_button = new ScrollBarButton(this.Width, 10, this); //create with default value
             scroll_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkBlue);
             int thumbPosY = CalculateThumbPosition() + minmax_boxHeight;
             scroll_button.SetLocation(0, thumbPosY);
@@ -241,6 +241,7 @@ namespace LayoutFarm.CustomWidgets
             //----------------------------
             //3. drag
 
+
             scroll_button.MouseMove += (s, e) =>
             {
                 if (!e.IsDragging)
@@ -250,9 +251,13 @@ namespace LayoutFarm.CustomWidgets
                 //----------------------------------
 
                 //dragging ...
+                //find y-diff 
+                int ydiff = e.Y - scroll_button.LatestMouseDownY;
+
                 Point pos = scroll_button.Position;
+
                 //if vscroll bar then move only y axis 
-                int newYPos = (int)(pos.Y + e.YDiff);
+                int newYPos = (int)(pos.Y + ydiff);
 
                 //clamp!
                 if (newYPos >= this.Height - (minmax_boxHeight + scrollButton.Height))
@@ -405,9 +410,11 @@ namespace LayoutFarm.CustomWidgets
     }
 
 
-    class ScrollButton : EaseBox
+    class ScrollBarButton : EaseBox
     {
-        public ScrollButton(int w, int h, ScrollBar owner)
+
+
+        public ScrollBarButton(int w, int h, ScrollBar owner)
             : base(w, h)
         {
             this.OwnerScrollBar = owner;
@@ -420,7 +427,22 @@ namespace LayoutFarm.CustomWidgets
         protected override void OnMouseWheel(UIMouseEventArgs e)
         {
             this.OwnerScrollBar.ChildNotifyMouseWheel(e);
-
+        }
+        public int LatestMouseDownX
+        {
+            get;
+            set;
+        }
+        public int LatestMouseDownY
+        {
+            get;
+            set;
+        }
+        protected override void OnMouseDown(UIMouseEventArgs e)
+        {
+            this.LatestMouseDownX = e.X;
+            this.LatestMouseDownY = e.Y;
+            base.OnMouseDown(e);
         }
     }
 
