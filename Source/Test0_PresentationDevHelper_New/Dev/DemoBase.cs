@@ -30,6 +30,10 @@ namespace LayoutFarm
         {
             get { return this.vw; }
         }
+        public RootGraphic Root
+        {
+            get { return this.vw.RootGfx; }
+        }
     }
     public abstract class DemoBase
     {

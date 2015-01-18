@@ -16,7 +16,10 @@ namespace LayoutFarm.UI.GdiPlus
         public CpuGdiPlusSurfaceView()
         {
             InitializeComponent();
+            this.MouseWheel += new MouseEventHandler(CpuGdiPlusSurfaceView_MouseWheel);
         }
+
+
         public void Bind(MyTopWindowBridgeGdiPlus winBridge)
         {
             //1. 
@@ -89,7 +92,7 @@ namespace LayoutFarm.UI.GdiPlus
         protected override void OnMouseWheel(MouseEventArgs e)
         {
             this.winBridge.HandleMouseWheel(e);
-            base.OnMouseWheel(e);
+            //not call to base class
         }
         protected override void OnKeyDown(KeyEventArgs e)
         {
@@ -108,13 +111,18 @@ namespace LayoutFarm.UI.GdiPlus
         }
         protected override bool ProcessDialogKey(Keys keyData)
         {
-            
-           
+
+
             if (this.winBridge.HandleProcessDialogKey(keyData))
             {
                 return true;
             }
             return base.ProcessDialogKey(keyData);
+        }
+
+        void CpuGdiPlusSurfaceView_MouseWheel(object sender, MouseEventArgs e)
+        {
+            this.winBridge.HandleMouseWheel(e);
         }
     }
 
