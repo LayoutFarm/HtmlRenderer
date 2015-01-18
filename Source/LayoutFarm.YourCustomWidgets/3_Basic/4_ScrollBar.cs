@@ -646,10 +646,20 @@ namespace LayoutFarm.CustomWidgets
         {
             this.scBar = scBar;
             this.panel = panel;
-            scBar.UserScroll += (s, e) =>
+            if (scBar.ScrollBarType == ScrollBarType.Horizontal)
             {
-                panel.SetViewport(0, (int)scBar.ScrollValue);
-            };
+                scBar.UserScroll += (s, e) =>
+                {
+                    panel.SetViewport((int)scBar.ScrollValue, panel.ViewportY);
+                };
+            }
+            else
+            {
+                scBar.UserScroll += (s, e) =>
+                {
+                    panel.SetViewport(panel.ViewportX, (int)scBar.ScrollValue);
+                };
+            }
 
         }
     }
