@@ -51,14 +51,12 @@ namespace LayoutFarm.UI
                 e.Y - this.latestLogicalMouseDownY);
 
             this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y;
-
+            this.prevLogicalMouseY = e.Y; 
              
-            this.OnMouseMove(e);
-          
+            this.OnMouseMove(e); 
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
-        {
+        {   
             this.OnMouseWheel(e);
         }
         //------------------------------------------------------------
