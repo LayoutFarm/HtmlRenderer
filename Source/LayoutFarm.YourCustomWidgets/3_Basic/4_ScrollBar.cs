@@ -23,13 +23,11 @@ namespace LayoutFarm.CustomWidgets
         float largeChange;
         float scrollValue;
 
-        bool isHorizontalScrollBar;
 
 
         double onePixelFor = 1;
+        protected int minmax_boxHeight = 15;
 
-
-        int minmax_boxHeight = 15;
         public ScrollBar(int width, int height)
             : base(width, height)
         {
@@ -51,7 +49,7 @@ namespace LayoutFarm.CustomWidgets
                 {
                     case CustomWidgets.ScrollBarType.Horizontal:
                         {
-
+                            CreateHScrollbarContent(rootgfx);
                         } break;
                     default:
                         {
@@ -109,10 +107,24 @@ namespace LayoutFarm.CustomWidgets
 
         void UpdateScrollButtonPosition()
         {
-            int thumbPosY = CalculateThumbPosition() + minmax_boxHeight;
-            scrollButton.SetLocation(0, thumbPosY);
+            switch (this.ScrollBarType)
+            {
+                default:
+                case ScrollBarType.Vertical:
+                    {
+                        int thumbPosY = CalculateThumbPosition() + minmax_boxHeight;
+                        scrollButton.SetLocation(0, thumbPosY);
+                    } break;
+                case ScrollBarType.Horizontal:
+                    {
+                        int thumbPosX = CalculateThumbPosition() + minmax_boxHeight;
+                        scrollButton.SetLocation(thumbPosX, 0);
+                    } break;
+            }
 
         }
+
+
         //--------------------------------------------------------------------------
         void CreateVScrollbarContent(RootGraphic rootgfx)
         {
@@ -135,54 +147,83 @@ namespace LayoutFarm.CustomWidgets
             //MaxButton
             SetupMaxButtonProperties(plain);
             //ScrollButton
-            SetupScrollButtonProperties(plain);
+            SetupVerticalScrollButtonProperties(plain);
             //--------------
             this.mainBox = bgBox;
         }
+        void CreateHScrollbarContent(RootGraphic rootgfx)
+        {
+            CustomRenderBox bgBox = new CustomRenderBox(rootgfx, this.Width, this.Height);
+            bgBox.HasSpecificSize = true;
+            bgBox.SetController(this);
+            bgBox.SetLocation(this.Left, this.Top);
+            //---------------------------------------------------------
+
+            VisualLayerCollection layers = new VisualLayerCollection();
+            bgBox.Layers = layers;
+
+            PlainLayer plain = new PlainLayer(bgBox);
+            layers.AddLayer(plain);
+            //-----------------------------------------------------
+
+
+            //MinButton
+            SetupMinButtonProperties(plain);
+            //MaxButton
+            SetupMaxButtonProperties(plain);
+            //ScrollButton
+            SetupHorizontalScrollButtonProperties(plain);
+            //--------------
+            this.mainBox = bgBox;
+        }
+
         //----------------------------------------------------------------------- 
         int CalculateThumbPosition()
         {
             return (int)(this.scrollValue / this.onePixelFor);
-            //if (this.isScrollLengthLargerThanRealValue)
-            //{
-            //    return (int)(this.scrollValue / this.onePixelFor);
-            //}
-            //else
-            //{
-            //    return (int)(this.scrollValue / this.onePixelFor);
-            //}
         }
-        void CreateHScrollbarContent(RootGraphic rootgfx)
-        {
 
-        }
         void SetupMinButtonProperties(PlainLayer plain)
         {
-
-            var min_button = new ScrollBarButton(this.Width, minmax_boxHeight, this);
+            ScrollBarButton min_button;
+            if (this.ScrollBarType == ScrollBarType.Horizontal)
+            {
+                min_button = new ScrollBarButton(minmax_boxHeight, this.Height, this);
+            }
+            else
+            {
+                min_button = new ScrollBarButton(this.Width, minmax_boxHeight, this);
+            }
             min_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
-
             min_button.MouseUp += (s, e) => this.StepSmallToMin();
-
-
             plain.AddUI(min_button);
             this.minButton = min_button;
         }
         void SetupMaxButtonProperties(PlainLayer plain)
         {
-            var max_button = new ScrollBarButton(this.Width, minmax_boxHeight, this);
+            ScrollBarButton max_button;
+            if (this.ScrollBarType == ScrollBarType.Horizontal)
+            {
+                max_button = new ScrollBarButton(minmax_boxHeight, this.Height, this);
+                max_button.SetLocation(this.Width - minmax_boxHeight, 0);
+            }
+            else
+            {
+                max_button = new ScrollBarButton(this.Width, minmax_boxHeight, this);
+                max_button.SetLocation(0, this.Height - minmax_boxHeight);
+            }
+
+
             max_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
-            max_button.SetLocation(0, this.Height - minmax_boxHeight);
-
-
             max_button.MouseUp += (s, e) => this.StepSmallToMax();
-
             plain.AddUI(max_button);
             this.maxButton = max_button;
-
         }
 
-        void EvaluateScrollBarProperties()
+        //---------------------------------------------------------------------------
+        //vertical scrollbar
+
+        void EvaluateVerticalScrollBarProperties()
         {
             //calculate scroll length ratio
             //scroll button height is ratio with real scroll length
@@ -212,7 +253,7 @@ namespace LayoutFarm.CustomWidgets
                 this.onePixelFor = contentLength / (physicalScrollLength - physicalSmallEach);
             }
 
-            if (this.isHorizontalScrollBar)
+            if (this.ScrollBarType == CustomWidgets.ScrollBarType.Horizontal)
             {
                 throw new NotSupportedException();
             }
@@ -224,20 +265,16 @@ namespace LayoutFarm.CustomWidgets
                     thumbBoxLength);
             }
         }
-        void SetupScrollButtonProperties(PlainLayer plain)
+        void SetupVerticalScrollButtonProperties(PlainLayer plain)
         {
-
-
             var scroll_button = new ScrollBarButton(this.Width, 10, this); //create with default value
             scroll_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkBlue);
             int thumbPosY = CalculateThumbPosition() + minmax_boxHeight;
             scroll_button.SetLocation(0, thumbPosY);
             plain.AddUI(scroll_button);
             this.scrollButton = scroll_button;
-
             //----------------------------
-
-            EvaluateScrollBarProperties();
+            EvaluateVerticalScrollBarProperties();
             //----------------------------
             //3. drag
 
@@ -322,6 +359,144 @@ namespace LayoutFarm.CustomWidgets
 
         }
 
+        //---------------------------------------------------------------------------
+        //horizontal scrollbar
+        void EvaluateHorizontalScrollBarProperties()
+        {
+            //calculate scroll length ratio
+            //scroll button height is ratio with real scroll length
+            float contentLength = this.maxValue - this.minValue;
+            //2. 
+            float physicalScrollLength = this.Width - (this.minmax_boxHeight + this.minmax_boxHeight);
+            //3. 
+            double ratio1 = physicalScrollLength / contentLength;
+            int thumbBoxLength = 1;
+            if (contentLength < physicalScrollLength)
+            {
+                int nsteps = (int)Math.Round(contentLength / smallChange);
+
+                //small change value reflect thumbbox size
+                // thumbBoxLength = (int)(ratio1 * this.SmallChange);
+                int eachStepLength = (int)(physicalScrollLength / (float)(nsteps + 2));
+                thumbBoxLength = eachStepLength * 2;
+                //float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
+                //this.onePixelFor = contentLength / (physicalScrollLength);
+                this.onePixelFor = contentLength / (physicalScrollLength - thumbBoxLength);
+            }
+            else
+            {
+                //small change value reflect thumbbox size
+                thumbBoxLength = (int)(ratio1 * this.SmallChange);
+                float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
+                this.onePixelFor = contentLength / (physicalScrollLength - physicalSmallEach);
+            }
+
+            if (this.ScrollBarType == CustomWidgets.ScrollBarType.Horizontal)
+            {
+                this.scrollButton.SetSize(
+                    thumbBoxLength,
+                    this.scrollButton.Height);
+
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
+        void SetupHorizontalScrollButtonProperties(PlainLayer plain)
+        {
+            var scroll_button = new ScrollBarButton(10, this.Height, this); //create with default value
+            scroll_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkBlue);
+            int thumbPosX = CalculateThumbPosition() + minmax_boxHeight;
+            scroll_button.SetLocation(thumbPosX, 0);
+            plain.AddUI(scroll_button);
+            this.scrollButton = scroll_button;
+            //----------------------------
+
+            EvaluateHorizontalScrollBarProperties();
+            //----------------------------
+            //3. drag
+
+
+            scroll_button.MouseMove += (s, e) =>
+            {
+                if (!e.IsDragging)
+                {
+                    return;
+                }
+                //----------------------------------
+
+                //dragging ...
+                //find x-diff 
+                int xdiff = e.X - scroll_button.LatestMouseDownX;
+
+                Point pos = scroll_button.Position;
+
+                //if vscroll bar then move only y axis 
+                int newXPos = (int)(pos.X + xdiff);
+
+                //clamp!
+                if (newXPos >= this.Width - (minmax_boxHeight + scrollButton.Width))
+                {
+                    newXPos = this.Width - (minmax_boxHeight + scrollButton.Width);
+                }
+                else if (newXPos < minmax_boxHeight)
+                {
+                    newXPos = minmax_boxHeight;
+                }
+
+                //calculate value from position 
+
+                int currentMarkAt = (newXPos - minmax_boxHeight);
+                this.scrollValue = (float)(onePixelFor * currentMarkAt);
+                newXPos = CalculateThumbPosition() + minmax_boxHeight;
+                scroll_button.SetLocation(newXPos, pos.Y);
+
+                if (this.UserScroll != null)
+                {
+                    this.UserScroll(this, EventArgs.Empty);
+                }
+
+                e.StopPropagation();
+            };
+            //-------------------------------------------
+            //4.
+            scroll_button.MouseLeave += (s, e) =>
+            {
+                if (e.IsDragging)
+                {
+
+                    Point pos = scroll_button.Position;
+                    //if vscroll bar then move only y axis 
+                    int newXPos = (int)(pos.X + e.XDiff);
+
+                    //clamp!
+                    if (newXPos >= this.Width - (minmax_boxHeight + scrollButton.Width))
+                    {
+                        newXPos = this.Width - (minmax_boxHeight + scrollButton.Width);
+                    }
+                    else if (newXPos < minmax_boxHeight)
+                    {
+                        newXPos = minmax_boxHeight;
+                    }
+
+                    //calculate value from position 
+
+                    int currentMarkAt = (newXPos - minmax_boxHeight);
+                    this.scrollValue = (float)(onePixelFor * currentMarkAt);
+                    newXPos = CalculateThumbPosition() + minmax_boxHeight;
+                    scroll_button.SetLocation(newXPos, pos.Y);
+
+                    if (this.UserScroll != null)
+                    {
+                        this.UserScroll(this, EventArgs.Empty);
+                    }
+
+                    e.StopPropagation();
+                }
+            };
+
+        }
 
 
         //----------------------------------------------------------------------- 
@@ -403,6 +578,11 @@ namespace LayoutFarm.CustomWidgets
             }
         }
     }
+
+
+
+
+
     public enum ScrollBarType
     {
         Vertical,
