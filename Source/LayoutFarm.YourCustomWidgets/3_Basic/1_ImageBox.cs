@@ -42,6 +42,7 @@ namespace LayoutFarm.CustomWidgets
                 var renderBox = new CustomImageRenderBox(rootgfx, this.Width, this.Height);
                 renderBox.Image = this.image;
                 renderBox.SetController(this);
+                SetPrimaryRenderElement(renderBox);
                 this.imgRenderBox = renderBox;
             }
             return this.imgRenderBox;

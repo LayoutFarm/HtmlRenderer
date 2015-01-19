@@ -12,7 +12,7 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
 {
 
-    public class CustomImageRenderBox : RenderBoxBase
+    public class CustomImageRenderBox : CustomRenderBox
     {
 
 #if DEBUG
@@ -33,12 +33,7 @@ namespace LayoutFarm.CustomWidgets
         {
             get { return this.image; }
             set { this.image = value; }
-        }
-        public Color BackColor
-        {
-            get;
-            set;
-        }
+        } 
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             if (this.image != null)
