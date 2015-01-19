@@ -68,13 +68,36 @@ namespace LayoutFarm
             panel.SetLocation(x + 30, y + 30);
             panel.BackColor = Color.LightGray;
             viewport.AddContent(panel);
+
+            //-------------------------  
+            //load images...
+            int lastY = 0;
+            for (int i = 0; i < 5; ++i)
+            {
+
+                var bmp = LoadBitmap("../../images/0" + (i + 1) + ".jpg");
+
+                var imgbox = new LayoutFarm.CustomWidgets.ImageBox(bmp.Width, bmp.Height);
+                panel.AddChildBox(imgbox);
+                imgbox.Image = bmp;
+                imgbox.BackColor = Color.OrangeRed;
+                //imgbox.SetLocation(i * 20, (i * 50) + 5);
+                imgbox.SetLocation(0, lastY);
+                lastY = bmp.Height + 5;
+
+            }
+            //--------------------------
+            //panel may need more 
+            panel.SetViewport(0, 0);
+
+
             //-------------------------  
             {
                 //vertical scrollbar
                 var vscbar = new LayoutFarm.CustomWidgets.ScrollBar(15, 200);
                 vscbar.SetLocation(x + 10, y + 10);
                 vscbar.MinValue = 0;
-                vscbar.MaxValue = 170;
+                vscbar.MaxValue = lastY;
                 vscbar.SmallChange = 20;
                 viewport.AddContent(vscbar);
                 //add relation between viewpanel and scroll bar 
@@ -93,23 +116,6 @@ namespace LayoutFarm
                 //add relation between viewpanel and scroll bar 
                 var scRelation = new LayoutFarm.CustomWidgets.ScrollingRelation(hscbar, panel);
             }
-            //-------------------------  
-            //load images...
-            for (int i = 0; i < 5; ++i)
-            {
-
-                var bmp = LoadBitmap("../../images/0" + (i + 1) + ".jpg");
-
-                var imgbox = new LayoutFarm.CustomWidgets.ImageBox(bmp.Width, bmp.Height);
-                panel.AddChildBox(imgbox);
-                imgbox.Image = bmp;
-                imgbox.BackColor = Color.OrangeRed;
-                imgbox.SetLocation(i * 20, (i * 50) + 5);
-
-            }
-            //--------------------------   
-
-            panel.SetViewport(0, 0);
         }
         static Bitmap LoadBitmap(string filename)
         {
