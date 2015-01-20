@@ -72,6 +72,7 @@ namespace LayoutFarm
             //-------------------------  
             //load images...
             int lastY = 0;
+           
             for (int i = 0; i < 5; ++i)
             {
 
@@ -83,13 +84,13 @@ namespace LayoutFarm
                 imgbox.BackColor = Color.OrangeRed;
                 //imgbox.SetLocation(i * 20, (i * 50) + 5);
                 imgbox.SetLocation(0, lastY);
-                lastY = bmp.Height + 5;
+                
+                lastY += bmp.Height + 5;
 
             }
             //--------------------------
             //panel may need more 
             panel.SetViewport(0, 0);
-
 
             //-------------------------  
             {
