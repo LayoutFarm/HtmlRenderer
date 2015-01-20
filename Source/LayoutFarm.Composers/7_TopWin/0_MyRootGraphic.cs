@@ -11,8 +11,11 @@ namespace LayoutFarm.UI
 
     public sealed class MyRootGraphic : RootGraphic
     {
+
         List<RenderElement> layoutQueue = new List<RenderElement>();
         List<RenderElement> layoutQueue2 = new List<RenderElement>();
+        List<object> layoutQueue3 = new List<object>();
+
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
 
 
@@ -76,6 +79,9 @@ namespace LayoutFarm.UI
         }
         public override void PrepareRender()
         {
+            //clear layout queue before render***
+
+            this.ClearLayoutQueue3();
             this.ClearRenderRequests();
             //clear layoutqueue
             if (layoutQueue.Count == 0)
@@ -87,9 +93,8 @@ namespace LayoutFarm.UI
         }
         void ClearNotificationSizeChangeList()
         {
-        }
 
- 
+        }
         public override GraphicsPlatform P
         {
             get { return graphicsPlatform; }
@@ -394,6 +399,11 @@ namespace LayoutFarm.UI
             renderElement.IsInLayoutQueue = true;
             layoutQueue.Add(renderElement);
         }
+        void ClearLayoutQueue3()
+        {
+
+        }
+
         void ClearLayoutQueue()
         {
             this.LayoutQueueClearing = true;

@@ -22,7 +22,14 @@ namespace LayoutFarm.UI
             get { return false; }
         }
         public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
-
+        protected abstract RenderElement CurrentPrimaryRenderElement
+        {
+            get;
+        }
+        internal static RenderElement GetCurrentPrimaryRenderElement(UIElement box)
+        {
+            return box.CurrentPrimaryRenderElement;
+        }
         public abstract void InvalidateGraphics();
         public UIElement ParentUI
         {
@@ -88,7 +95,7 @@ namespace LayoutFarm.UI
         {
             return false;
         }
-
+      
 #if DEBUG
         object dbugTagObject;
         public object dbugTag

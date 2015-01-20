@@ -13,6 +13,7 @@ namespace LayoutFarm
 
     partial class RenderElement
     {
+
         public virtual void TopDownReCalculateContentSize()
         {
             MarkHasValidCalculateSize();

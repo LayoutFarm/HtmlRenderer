@@ -232,7 +232,10 @@ namespace LayoutFarm.CustomWidgets
         {
             this.htmlRenderBox.InvalidateGraphics();
         }
-         
+        protected override RenderElement CurrentPrimaryRenderElement
+        {
+            get { return this.htmlRenderBox; }
+        }
     }
 }
 

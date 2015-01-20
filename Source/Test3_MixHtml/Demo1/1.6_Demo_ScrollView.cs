@@ -77,16 +77,15 @@ namespace LayoutFarm
             {
 
                 var bmp = LoadBitmap("../../images/0" + (i + 1) + ".jpg");
-
-                var imgbox = new LayoutFarm.CustomWidgets.ImageBox(bmp.Width, bmp.Height);
-                panel.AddChildBox(imgbox);
+                var imgbox = new LayoutFarm.CustomWidgets.ImageBox(bmp.Width, bmp.Height);               
                 imgbox.Image = bmp;
-                imgbox.BackColor = Color.OrangeRed;
-                //imgbox.SetLocation(i * 20, (i * 50) + 5);
-                imgbox.SetLocation(0, lastY);
-                
+                imgbox.BackColor = Color.OrangeRed;   
+                imgbox.SetLocation(0, lastY); 
+
                 lastY += bmp.Height + 5;
 
+                panel.AddChildBox(imgbox);
+               
             }
             //--------------------------
             //panel may need more 

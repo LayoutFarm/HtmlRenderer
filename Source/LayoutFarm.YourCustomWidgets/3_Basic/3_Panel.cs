@@ -14,7 +14,7 @@ namespace LayoutFarm.CustomWidgets
     {
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
-         
+
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
         int viewportX;
@@ -88,14 +88,22 @@ namespace LayoutFarm.CustomWidgets
         {
             UICollection layer0 = (UICollection)this.layers[0];
             layer0.AddUI(ui);
-
             if (this.HasReadyRenderElement)
             {
                 PlainLayer plain1 = this.primElement.Layers.Layer0 as PlainLayer;
                 plain1.AddUI(ui);
             }
         }
-
+        public void RemoveChildBox(UIElement ui)
+        {
+            UICollection layer0 = (UICollection)this.layers[0];
+            layer0.RemoveUI(ui);
+            if (this.HasReadyRenderElement)
+            {
+                PlainLayer plain1 = this.primElement.Layers.Layer0 as PlainLayer;
+                plain1.RemoveUI(ui);
+            }
+        }
         //----------------------------------------------------
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
@@ -103,8 +111,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.MouseDown(this, e);
             }
-        }
-         
+        } 
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -113,7 +120,7 @@ namespace LayoutFarm.CustomWidgets
             }
             base.OnMouseUp(e);
         }
-         
+
         public override int ViewportX
         {
             get { return this.viewportX; }

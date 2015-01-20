@@ -53,9 +53,10 @@
     <Compile Include="Demo3\3.1_Demo_Visible.cs" />
     <Compile Include="Demo3\3.2_Demo_ControllerBox.cs" />
     <Compile Include="Demo3\3.3_Demo_ControllerBox2.cs" />
-    <Compile Include="Demo3\3.6_Demo_CompartmentBox.cs" />
+    <Compile Include="Demo3\3.6_Demo_DragSelectionBox.cs" />
     <Compile Include="Demo3\3.5_Demo_CompartmentBox2.cs" />
     <Compile Include="Demo3\3.4_CompartmentBox.cs" />
+    <Compile Include="Demo3\3.7_Compartment_withSpliter.cs" />
     <Compile Include="Demo4\4.1_UIHtmlBox.cs" />
     <Compile Include="Demo4\4.2_MixHtml.cs" />
     <Compile Include="Demo4\4.3.2_UIHtmlBox_ContentMx.cs" />
