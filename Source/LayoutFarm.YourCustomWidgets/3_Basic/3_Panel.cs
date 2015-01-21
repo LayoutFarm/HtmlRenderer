@@ -171,6 +171,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public override void PerformContentLayout()
         {
+            this.InvalidateGraphics();
             //temp : arrange as vertical stack***
             switch (this.PanelLayoutKind)
             {

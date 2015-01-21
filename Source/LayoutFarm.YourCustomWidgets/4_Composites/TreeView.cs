@@ -137,6 +137,7 @@ namespace LayoutFarm.CustomWidgets
         //----------------------------------------------------  
         public override void PerformContentLayout()
         {
+             
             //manually perform layout of its content 
             //here: arrange item in panel
             this.panel.PerformContentLayout();
@@ -327,6 +328,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public override void PerformContentLayout()
         {
+            this.InvalidateGraphics();
             //if this has child
             //reset
             this.desiredHeight = NODE_DEFAULT_HEIGHT;
