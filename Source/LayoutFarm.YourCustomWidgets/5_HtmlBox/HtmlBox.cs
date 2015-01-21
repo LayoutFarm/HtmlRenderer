@@ -9,7 +9,7 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Composers;
 
 using PixelFarm.Drawing;
-using LayoutFarm.UI; 
+using LayoutFarm.UI;
 
 namespace LayoutFarm.CustomWidgets
 {
@@ -223,10 +223,8 @@ namespace LayoutFarm.CustomWidgets
             htmlRenderBox.InvalidateGraphics();
         }
         public void LoadHtmlText(string html)
-        {
-           
+        { 
             SetHtml(myHtmlIsland, html, this.islandHost.BaseStylesheet); 
-             
         }
         public override void InvalidateGraphics()
         {
@@ -235,6 +233,10 @@ namespace LayoutFarm.CustomWidgets
         protected override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.htmlRenderBox; }
+        }
+        protected override bool HasReadyRenderElement
+        {
+            get { return this.htmlRenderBox != null; }
         }
     }
 }

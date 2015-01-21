@@ -31,8 +31,7 @@ namespace LayoutFarm
                          KnownColors.FromKnownColor(KnownColor.Blue) :
                          KnownColors.FromKnownColor(KnownColor.Yellow);
                 treeView.AddItem(childLevel0);
-                childLevel0.NodeIconImage = nodeOpen;
-                
+                childLevel0.NodeIconImage = nodeOpen; 
                 for (int n = 0; n < 4; ++n)
                 {
                     var childLevel1 = new LayoutFarm.CustomWidgets.TreeNode(400, 20);
@@ -51,12 +50,10 @@ namespace LayoutFarm
                           KnownColors.FromKnownColor(KnownColor.Wheat);
                         childLevel2.NodeIconImage = nodeOpen;
                         childLevel1.AddChildNode(childLevel2);
-                    }
-
-                    //childLevel1.Collapse();
+                    }  
                 }
             }
-            treeView.PerformContentLayout();
+            
         }
         static Bitmap LoadBitmap(string filename)
         {

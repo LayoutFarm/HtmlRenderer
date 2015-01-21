@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-  
+
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
@@ -13,12 +13,11 @@ namespace LayoutFarm.CustomWidgets
     {
         //composite          
         CustomRenderBox primElement;//background
-
         Color backColor = Color.LightGray;
         int viewportX, viewportY;
         List<UICollection> layers = new List<UICollection>(1);
 
-        int latestItemY; 
+
         Panel panel;
         public ListView(int width, int height)
             : base(width, height)
@@ -26,10 +25,11 @@ namespace LayoutFarm.CustomWidgets
             UICollection plainLayer = new UICollection(this);
             //panel for listview items
             this.panel = new Panel(width, height);
+            this.panel.PanelLayoutKind = PanelLayoutKind.VerticalStack;
             panel.BackColor = Color.LightGray;
             plainLayer.AddUI(panel);
             this.layers.Add(plainLayer);
-        } 
+        }
         protected override bool HasReadyRenderElement
         {
             get { return this.primElement != null; }
@@ -55,7 +55,7 @@ namespace LayoutFarm.CustomWidgets
             if (primElement == null)
             {
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                 
+
                 renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
@@ -88,11 +88,6 @@ namespace LayoutFarm.CustomWidgets
 
         public void AddItem(ListItem ui)
         {
-            //append last?
-            //not correct if we remove above item
-            //TODO: use automatic arrange layer 
-            ui.SetLocation(0, latestItemY);
-            latestItemY += ui.Height;
             panel.AddChildBox(ui);
 
         }
@@ -103,7 +98,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.MouseDown(this, e);
             }
-        } 
+        }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -112,7 +107,7 @@ namespace LayoutFarm.CustomWidgets
             }
             base.OnMouseUp(e);
         }
-         
+
 
         public override int ViewportX
         {
@@ -130,7 +125,7 @@ namespace LayoutFarm.CustomWidgets
             this.viewportY = y;
             if (this.HasReadyRenderElement)
             {
-                this.panel.SetViewport(x, y);                 
+                this.panel.SetViewport(x, y);
             }
         }
         //----------------------------------------------------
@@ -138,7 +133,7 @@ namespace LayoutFarm.CustomWidgets
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
 
-        
+
     }
 
 

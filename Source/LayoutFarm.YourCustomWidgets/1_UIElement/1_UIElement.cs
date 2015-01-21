@@ -30,6 +30,10 @@ namespace LayoutFarm.UI
         {
             return box.CurrentPrimaryRenderElement;
         }
+        protected abstract bool HasReadyRenderElement
+        {
+            get;
+        }
         public abstract void InvalidateGraphics();
         public UIElement ParentUI
         {
@@ -95,7 +99,19 @@ namespace LayoutFarm.UI
         {
             return false;
         }
-      
+
+        //------------------------------------------------------------
+        protected void InvalidateLayout()
+        {
+            //add to layout queue
+            if (this.HasReadyRenderElement)
+            {
+                this.CurrentPrimaryRenderElement.Root.AddToLayoutQueue(this.CurrentPrimaryRenderElement);
+            }
+        }
+        protected virtual void OnContentLayout()
+        {
+        }
 #if DEBUG
         object dbugTagObject;
         public object dbugTag

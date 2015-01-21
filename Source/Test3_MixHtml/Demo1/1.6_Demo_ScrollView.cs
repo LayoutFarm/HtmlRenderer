@@ -64,28 +64,39 @@ namespace LayoutFarm
         }
         void AddScrollView2(SampleViewport viewport, int x, int y)
         {
-            var panel = new LayoutFarm.CustomWidgets.Panel(400, 175);
+            var panel = new LayoutFarm.CustomWidgets.Panel(400, 300);
             panel.SetLocation(x + 30, y + 30);
             panel.BackColor = Color.LightGray;
+            panel.PanelLayoutKind = CustomWidgets.PanelLayoutKind.VerticalStack;
             viewport.AddContent(panel);
 
             //-------------------------  
             //load images...
             int lastY = 0;
-           
+
             for (int i = 0; i < 5; ++i)
             {
 
                 var bmp = LoadBitmap("../../images/0" + (i + 1) + ".jpg");
-                var imgbox = new LayoutFarm.CustomWidgets.ImageBox(bmp.Width, bmp.Height);               
+                var imgbox = new LayoutFarm.CustomWidgets.ImageBox(bmp.Width, bmp.Height);
                 imgbox.Image = bmp;
-                imgbox.BackColor = Color.OrangeRed;   
-                imgbox.SetLocation(0, lastY); 
+                imgbox.BackColor = Color.OrangeRed;
+                imgbox.SetLocation(0, lastY);
+
+                imgbox.MouseUp += (s, e) =>
+                {
+                    if (e.Button == UIMouseButtons.Right)
+                    {
+                        //test remove this imgbox on right mouse click
+                        panel.RemoveChildBox(imgbox);
+                    }
+
+                };
+
 
                 lastY += bmp.Height + 5;
-
                 panel.AddChildBox(imgbox);
-               
+
             }
             //--------------------------
             //panel may need more 

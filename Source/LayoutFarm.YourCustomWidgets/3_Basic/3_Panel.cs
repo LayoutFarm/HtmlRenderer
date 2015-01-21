@@ -9,11 +9,18 @@ using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
 {
+    public enum PanelLayoutKind
+    {
+        Absolute,
+        VerticalStack,
+        HorizontalStack
+    }
 
     public class Panel : UIBox
     {
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
+        PanelLayoutKind panelLayoutKind;
 
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
@@ -28,6 +35,7 @@ namespace LayoutFarm.CustomWidgets
             UICollection plainLayer = new UICollection(this);
             this.layers.Add(plainLayer);
         }
+
 
         protected override bool HasReadyRenderElement
         {
@@ -84,6 +92,14 @@ namespace LayoutFarm.CustomWidgets
             return primElement;
         }
 
+        public PanelLayoutKind PanelLayoutKind
+        {
+            get { return this.panelLayoutKind; }
+            set
+            {
+                this.panelLayoutKind = value;
+            }
+        }
         public void AddChildBox(UIElement ui)
         {
             UICollection layer0 = (UICollection)this.layers[0];
@@ -92,6 +108,10 @@ namespace LayoutFarm.CustomWidgets
             {
                 PlainLayer plain1 = this.primElement.Layers.Layer0 as PlainLayer;
                 plain1.AddUI(ui);
+                if (this.panelLayoutKind != PanelLayoutKind.Absolute)
+                {
+                    this.InvalidateLayout();
+                }
             }
         }
         public void RemoveChildBox(UIElement ui)
@@ -102,6 +122,10 @@ namespace LayoutFarm.CustomWidgets
             {
                 PlainLayer plain1 = this.primElement.Layers.Layer0 as PlainLayer;
                 plain1.RemoveUI(ui);
+                if (this.panelLayoutKind != PanelLayoutKind.Absolute)
+                {
+                    this.InvalidateLayout();
+                }
             }
         }
         //----------------------------------------------------
@@ -111,7 +135,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.MouseDown(this, e);
             }
-        } 
+        }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -141,25 +165,37 @@ namespace LayoutFarm.CustomWidgets
 
             }
         }
-
-
+        protected override void OnContentLayout()
+        {
+            this.PerformContentLayout();
+        }
         public override void PerformContentLayout()
         {
             //temp : arrange as vertical stack***
-            UICollection layer0 = (UICollection)this.layers[0];
-            int count = layer0.Count;
-            int ypos = 0;
-            for (int i = 0; i < count; ++i)
+            switch (this.PanelLayoutKind)
             {
-                var element = layer0.GetElement(i) as UIBox;
-                if (element != null)
-                {
-                    element.PerformContentLayout();
-                    element.SetBounds(0, ypos, element.Width, element.DesiredHeight);
-                    ypos += element.DesiredHeight;
-                }
+                case CustomWidgets.PanelLayoutKind.VerticalStack:
+                    {
+                        UICollection layer0 = (UICollection)this.layers[0];
+                        int count = layer0.Count;
+                        int ypos = 0;
+                        for (int i = 0; i < count; ++i)
+                        {
+                            var element = layer0.GetElement(i) as UIBox;
+                            if (element != null)
+                            {
+                                element.PerformContentLayout();
+                                element.SetBounds(0, ypos, element.Width, element.DesiredHeight);
+                                ypos += element.DesiredHeight;
+                            }
+                        }
+                        this.desiredHeight = ypos;
+                    } break;
+                default:
+                    {
+                    } break;
             }
-            this.desiredHeight = ypos;
+
         }
         public override int DesiredHeight
         {

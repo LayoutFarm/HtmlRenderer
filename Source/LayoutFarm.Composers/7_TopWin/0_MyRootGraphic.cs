@@ -82,13 +82,14 @@ namespace LayoutFarm.UI
             //clear layout queue before render***
 
             this.ClearLayoutQueue3();
+            this.ClearLayoutQueue2();
             this.ClearRenderRequests();
             //clear layoutqueue
             if (layoutQueue.Count == 0)
             {
                 return;
             }
-            ClearLayoutQueue();
+            // ClearLayoutQueue();
             ClearNotificationSizeChangeList();
         }
         void ClearNotificationSizeChangeList()
@@ -403,7 +404,24 @@ namespace LayoutFarm.UI
         {
 
         }
-
+        void ClearLayoutQueue2()
+        {
+            this.LayoutQueueClearing = true;
+            int j = this.layoutQueue.Count;
+            for (int i = this.layoutQueue.Count - 1; i >= 0; --i)
+            {
+                //clear
+                var renderE = this.layoutQueue[i];
+                var controller = renderE.GetController() as IEventListener;
+                if (controller != null)
+                {
+                    controller.HandleContentLayout();
+                }
+                renderE.IsInLayoutQueue = false;
+                this.layoutQueue.RemoveAt(i);
+            }
+            this.LayoutQueueClearing = false;
+        }
         void ClearLayoutQueue()
         {
             this.LayoutQueueClearing = true;

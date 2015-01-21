@@ -29,6 +29,7 @@ namespace LayoutFarm.UI
         void ListenLostKeyboardFocus(UIFocusEventArgs e);
         //--------------------------------------------------------------------------
 
+        void HandleContentLayout();
         
 
         //--------------------------------------------------------------------------

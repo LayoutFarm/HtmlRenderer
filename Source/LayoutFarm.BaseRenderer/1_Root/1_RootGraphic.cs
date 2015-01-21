@@ -56,6 +56,7 @@ namespace LayoutFarm
 
         public abstract void ClearRenderRequests();
         public abstract void AddToLayoutQueue(RenderElement renderElement);
+         
         public bool LayoutQueueClearing
         {
             get;

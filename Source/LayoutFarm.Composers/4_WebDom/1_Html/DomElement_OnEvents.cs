@@ -128,9 +128,8 @@ namespace LayoutFarm.WebDom
         {
 
         }
-        //protected virtual void OnSizeChanged(UISizeChangedEventArgs e)
-        //{
-
-        //}
+        protected virtual void OnContentLayout()
+        {
+        }
     }
 }

@@ -25,6 +25,7 @@ namespace LayoutFarm.CustomWidgets
             UICollection plainLayer = new UICollection(this);
             //panel for listview items
             this.panel = new Panel(width, height);
+            panel.PanelLayoutKind = PanelLayoutKind.VerticalStack;
             panel.BackColor = Color.LightGray;
             plainLayer.AddUI(panel);
             this.layers.Add(plainLayer);
@@ -88,6 +89,7 @@ namespace LayoutFarm.CustomWidgets
             latestItemY += treeNode.Height;
             treeNode.SetOwnerTreeView(this);
             panel.AddChildBox(treeNode);
+
         }
         //----------------------------------------------------
         protected override void OnMouseDown(UIMouseEventArgs e)
@@ -337,8 +339,8 @@ namespace LayoutFarm.CustomWidgets
                     int j = childNodes.Count;
                     for (int i = 0; i < j; ++i)
                     {
-                        var childNode = childNodes[i];
-                        childNode.PerformContentLayout();
+                        var childNode = childNodes[i];                         
+                        childNode.PerformContentLayout();//manaul?
                         //set new size 
                         childNode.SetBounds(indentWidth,
                             newChildNodeY,

@@ -16,14 +16,17 @@ namespace LayoutFarm.CustomWidgets
     {
         public static void AddUI(this PlainLayer plainLayer, UIElement ui)
         {
-            plainLayer.AddChild(ui.GetPrimaryRenderElement(plainLayer.Root));
+            var renderE = ui.GetPrimaryRenderElement(plainLayer.Root);
+            plainLayer.AddChild(renderE);
+            renderE.InvalidateGraphics();
         }
         public static void RemoveUI(this PlainLayer plainLayer, UIElement ui)
         {
             var currentRenderElement = UIElement.GetCurrentPrimaryRenderElement(ui);
             if (currentRenderElement != null)
             {
-                plainLayer.AddChild(currentRenderElement);
+                currentRenderElement.InvalidateGraphics();
+                plainLayer.RemoveChild(currentRenderElement);
             }
 
         }

@@ -51,14 +51,9 @@ namespace LayoutFarm.UI
             SetLocation(left, top);
             SetSize(width, height);
         }
-     
+      
 
-
-
-        protected abstract bool HasReadyRenderElement
-        {
-            get;
-        }
+       
 
         public int Left
         {
