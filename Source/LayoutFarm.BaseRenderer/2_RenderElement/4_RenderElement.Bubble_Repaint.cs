@@ -91,37 +91,7 @@ namespace LayoutFarm
 #endif
             }
         }
-        //internal void BeginGraphicUpdate()
-        //{
-        //    InvalidateGraphics();
-        //    this.rootGfx.BeginGraphicUpdate();
-        //    this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;
-        //}
-
-        //internal void EndGraphicUpdate()
-        //{
-        //    this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
-
-        //    if (InvalidateGraphics())
-        //    {
-        //        this.rootGfx.EndGraphicUpdate();
-        //    }
-        //}
-        //void BeforeBoundChangedInvalidateGraphics()
-        //{
-        //    InvalidateGraphics();
-        //    this.rootGfx.BeginGraphicUpdate();
-        //    this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;
-        //}
-        //void AfterBoundChangedInvalidateGraphics()
-        //{
-        //    this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
-
-        //    if (InvalidateGraphics())
-        //    {
-        //        this.rootGfx.EndGraphicUpdate();
-        //    }
-        //} 
+         
     }
 
 }

@@ -51,6 +51,7 @@ namespace LayoutFarm
 
         class UINinespaceBox : LayoutFarm.CustomWidgets.EaseBox
         {
+            //-------------------------------------
             EaseBox boxLeftTop;
             EaseBox boxRightTop;
             EaseBox boxLeftBottom;
@@ -61,9 +62,13 @@ namespace LayoutFarm
             EaseBox boxRight;
             EaseBox boxBottom;
             //-------------------------------------
+
+            //-------------------------------------
             EaseBox centerBox;
 
             DockSpacesController dockspaceController;
+           
+
             public UINinespaceBox(int w, int h)
                 : base(w, h)
             {
@@ -75,56 +80,34 @@ namespace LayoutFarm
                 this.dockspaceController = new DockSpacesController(this, SpaceConcept.NineSpace);
 
                 //2.  
-                this.dockspaceController.LeftTopSpace.Content = boxLeftTop = CreateTinyControlBox(SpaceName.LeftTop, Color.Red);
-                this.dockspaceController.RightTopSpace.Content = boxRightTop = CreateTinyControlBox(SpaceName.RightTop, Color.Red);
-                this.dockspaceController.LeftBottomSpace.Content = boxLeftBottom = CreateTinyControlBox(SpaceName.LeftBottom, Color.Red);
-                this.dockspaceController.RightBottomSpace.Content = boxRightBottom = CreateTinyControlBox(SpaceName.RightBottom, Color.Red);
+                this.dockspaceController.LeftTopSpace.Content = boxLeftTop = CreateSpaceBox(SpaceName.LeftTop, Color.Red);
+                this.dockspaceController.RightTopSpace.Content = boxRightTop = CreateSpaceBox(SpaceName.RightTop, Color.Red);
+                this.dockspaceController.LeftBottomSpace.Content = boxLeftBottom = CreateSpaceBox(SpaceName.LeftBottom, Color.Red);
+                this.dockspaceController.RightBottomSpace.Content = boxRightBottom = CreateSpaceBox(SpaceName.RightBottom, Color.Red);
                 //3.
-                this.dockspaceController.LeftSpace.Content = boxLeft = CreateTinyControlBox(SpaceName.Left, Color.Blue);
-                this.dockspaceController.TopSpace.Content = boxTop = CreateTinyControlBox(SpaceName.Top, Color.Yellow);
-                this.dockspaceController.RightSpace.Content = boxRight = CreateTinyControlBox(SpaceName.Right, Color.Green);
-                this.dockspaceController.BottomSpace.Content = boxBottom = CreateTinyControlBox(SpaceName.Bottom, Color.Yellow);
+                this.dockspaceController.LeftSpace.Content = boxLeft = CreateSpaceBox(SpaceName.Left, Color.Blue);
+                this.dockspaceController.TopSpace.Content = boxTop = CreateSpaceBox(SpaceName.Top, Color.Yellow);
+                this.dockspaceController.RightSpace.Content = boxRight = CreateSpaceBox(SpaceName.Right, Color.Green);
+                this.dockspaceController.BottomSpace.Content = boxBottom = CreateSpaceBox(SpaceName.Bottom, Color.Yellow);
 
 
-                //--------------------------------
+                //------------------------------------------------------------------------------------
                 //left and right space expansion
                 dockspaceController.LeftSpaceVerticalExpansion = VerticalBoxExpansion.TopBottom;
                 dockspaceController.RightSpaceVerticalExpansion = VerticalBoxExpansion.TopBottom;
                 dockspaceController.SetRightSpaceWidth(200);
                 dockspaceController.SetLeftSpaceWidth(200);
 
+            
             }
-            CustomWidgets.EaseBox CreateTinyControlBox(SpaceName name, PixelFarm.Drawing.Color bgcolor)
+
+       
+            static CustomWidgets.EaseBox CreateSpaceBox(SpaceName name, PixelFarm.Drawing.Color bgcolor)
             {
                 int controllerBoxWH = 10;
                 CustomWidgets.EaseBox tinyBox = new CustomWidgets.EaseBox(controllerBoxWH, controllerBoxWH);
                 tinyBox.BackColor = bgcolor;
                 tinyBox.Tag = name;
-               
-                //---------------------------------------------------------------------
-                tinyBox.MouseLeave += (s, e) =>
-                {
-                    if (e.IsDragging)
-                    {
-
-                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                        e.CancelBubbling = true;
-                    }
-                };
-                tinyBox.MouseMove += (s, e) =>
-                {
-                    if (e.IsDragging)
-                    {
-
-                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                        e.CancelBubbling = true;
-                    }
-                };
-                tinyBox.MouseUp += (s, e) =>
-                {
-                    e.MouseCursorStyle = MouseCursorStyle.Default;
-                    e.CancelBubbling = true;
-                };
                 return tinyBox;
             }
 
@@ -153,6 +136,9 @@ namespace LayoutFarm
                     plain0.AddChild(boxRight.GetPrimaryRenderElement(rootgfx));
                     plain0.AddChild(boxTop.GetPrimaryRenderElement(rootgfx));
                     plain0.AddChild(boxBottom.GetPrimaryRenderElement(rootgfx));
+                    //------------------------------------------------------
+                   
+
                 }
                 return base.GetPrimaryRenderElement(rootgfx);
             }

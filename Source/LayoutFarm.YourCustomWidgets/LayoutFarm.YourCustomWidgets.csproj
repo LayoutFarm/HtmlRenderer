@@ -45,6 +45,7 @@
     <Compile Include="2_UIGroupManagement\6_FreeSpaceController.cs" />
     <Compile Include="2_UIGroupManagement\8_SpacePartEnums.cs" />
     <Compile Include="2_UIGroupManagement\7_SpacePart.cs" />
+    <Compile Include="2_UIGroupManagement\9_NinespaceGrippers.cs" />
     <Compile Include="3_Basic\0_EaseBox.cs" />
     <Compile Include="0_CustomRenderElements\CustomImageRenderBox.cs" />
     <Compile Include="0_CustomRenderElements\CustomRenderElements.cs" />

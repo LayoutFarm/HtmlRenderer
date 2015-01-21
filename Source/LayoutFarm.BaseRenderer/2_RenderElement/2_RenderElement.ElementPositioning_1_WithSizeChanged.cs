@@ -84,21 +84,6 @@ namespace LayoutFarm
                 this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));
             }
         }
-
-        public void ResumeLayout()
-        {
-            uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND;
-
-            if (this.MayHasChild)
-            {
-                if (this.IsTopWindow)
-                {
-                    this.TopDownReCalculateContentSize();
-                    ((RenderBoxBase)this).TopDownReArrangeContentIfNeed();
-                } 
-            }
-        }
-
-
+         
     }
 }

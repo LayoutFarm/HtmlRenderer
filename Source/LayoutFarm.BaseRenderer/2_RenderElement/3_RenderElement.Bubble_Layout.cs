@@ -18,50 +18,11 @@ namespace LayoutFarm
         {
             MarkHasValidCalculateSize();
         }
-
         internal static void SetCalculatedDesiredSize(RenderBoxBase v, int desiredWidth, int desiredHeight)
         {
             v.b_width = desiredWidth;
             v.b_height = desiredHeight;
             v.MarkHasValidCalculateSize();
-        }
-        public static bool IsLayoutSuspending(RenderBoxBase re)
-        {
-            //recursive
-            if (re.IsTopWindow)
-            {
-                return (re.uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0;
-            }
-            else
-            {
-
-                if ((re.uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0)
-                {
-
-                    return true;
-                }
-                else
-                {
-
-                    var parentElement = re.ParentRenderElement as RenderBoxBase;
-                    if (parentElement != null)
-                    {
-                        return IsLayoutSuspending(parentElement);
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-            }
-        }
-
-        bool IsInLayoutSuspendMode
-        {
-            get
-            {
-                return (uiLayoutFlags & RenderElementConst.LY_SUSPEND) != 0;
-            }
         }
 
 
@@ -98,14 +59,14 @@ namespace LayoutFarm
                       uiLayoutFlags & ~RenderElementConst.LY_IN_LAYOUT_QUEUE;
             }
         }
-         
+
         public bool NeedReCalculateContentSize
         {
             get
             {
                 return (uiLayoutFlags & RenderElementConst.LAY_HAS_CALCULATED_SIZE) == 0;
             }
-        } 
+        }
 
         internal void MarkInvalidContentArrangement()
         {
@@ -129,7 +90,7 @@ namespace LayoutFarm
 #if DEBUG
             this.dbug_ValidateContentArrEpisode++;
 #endif
-             
+
             uiLayoutFlags |= RenderElementConst.LY_HAS_ARRANGED_CONTENT;
         }
         public bool NeedContentArrangement
