@@ -223,7 +223,7 @@ namespace LayoutFarm.UI
                 currentColumn = currentColumn.NextColumn;
             }
 
-            this.OwnerInvalidateGraphicAndStartBubbleUp();
+             
         }
         public int UniformCellWidth
         {

@@ -41,7 +41,7 @@ namespace LayoutFarm
                 this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));
             }
         }
-        
+
         public void SetLocation(int left, int top)
         {
             if (parentLink == null)
@@ -55,13 +55,13 @@ namespace LayoutFarm
 
                 var prevBounds = this.RectBounds;
                 //----------------
-                
+
                 this.b_left = left;
                 this.b_top = top;
                 //----------------   
                 //combine before and after rect  
                 //add to invalidate root invalidate queue
-                this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));                 
+                this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));
             }
         }
 
@@ -81,7 +81,7 @@ namespace LayoutFarm
                 this.b_top = top;
                 this.b_width = width;
                 this.b_height = height;
-                this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));             
+                this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));
             }
         }
 
@@ -91,21 +91,11 @@ namespace LayoutFarm
 
             if (this.MayHasChild)
             {
-                if (this.HasParent)
+                if (this.IsTopWindow)
                 {
-                    if (!IsInTopDownReArrangePhase)
-                    {
-                        this.StartBubbleUpLayoutInvalidState();
-                    }
-                }
-                else
-                {
-                    if (this.IsTopWindow)
-                    {
-                        this.TopDownReCalculateContentSize();
-                        ((RenderBoxBase)this).TopDownReArrangeContentIfNeed();
-                    }
-                }
+                    this.TopDownReCalculateContentSize();
+                    ((RenderBoxBase)this).TopDownReArrangeContentIfNeed();
+                } 
             }
         }
 

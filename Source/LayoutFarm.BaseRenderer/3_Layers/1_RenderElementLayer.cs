@@ -82,16 +82,7 @@ namespace LayoutFarm.RenderBoxes
             {
                 return new Size(postCalculateContentWidth, postCalculateContentHeight);
             }
-        }
-
-
-        protected void OwnerInvalidateGraphicAndStartBubbleUp()
-        {
-            if (this.owner != null)
-            {
-                this.owner.InvalidateLayoutAndStartBubbleUp();
-            }
-        }
+        } 
         protected void OwnerInvalidateGraphic()
         {
             if (this.owner != null)
@@ -173,7 +164,7 @@ namespace LayoutFarm.RenderBoxes
 
             layerFlags |= ARRANGEMENT_VALID;
         }
-        
+
         bool NeedReArrangeContent
         {
             get

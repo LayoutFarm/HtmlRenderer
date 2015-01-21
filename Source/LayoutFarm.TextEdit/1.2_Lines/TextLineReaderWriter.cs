@@ -102,10 +102,7 @@ namespace LayoutFarm.Text
                     CurrentLine.Remove(removingTextRun);
                     EnsureCurrentTextRun();
                 }
-                else
-                {
-                    removingTextRun.StartBubbleUpLayoutInvalidState();
-                }
+                 
 
                 return toBeRemovedChar;
             }
