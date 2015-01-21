@@ -85,11 +85,20 @@ namespace LayoutFarm.CustomWidgets
             return primElement;
         }
 
-
+        protected override void OnContentLayout()
+        {
+            panel.PerformContentLayout();
+        }
         public void AddItem(ListItem ui)
         {
             panel.AddChildBox(ui);
-
+        }
+        public override bool NeedContentLayout
+        {
+            get
+            {
+                return this.panel.NeedContentLayout;
+            }
         }
         //----------------------------------------------------
         protected override void OnMouseDown(UIMouseEventArgs e)

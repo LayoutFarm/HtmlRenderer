@@ -9,6 +9,7 @@ namespace LayoutFarm.UI
     {
         int oneBitNativeEventFlags;
         UIElement parentElement;
+
         public UIElement()
         {
         }
@@ -40,7 +41,10 @@ namespace LayoutFarm.UI
             get { return this.parentElement; }
             set { this.parentElement = value; }
         }
-
+        public virtual bool NeedContentLayout
+        {
+            get { return false; }
+        }
         //-------------------------------------------------------
         protected virtual void OnShown()
         {
@@ -101,7 +105,7 @@ namespace LayoutFarm.UI
         }
 
         //------------------------------------------------------------
-        protected void InvalidateLayout()
+        public void InvalidateLayout()
         {
             //add to layout queue
             if (this.HasReadyRenderElement)

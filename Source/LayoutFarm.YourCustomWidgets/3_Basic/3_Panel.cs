@@ -28,6 +28,7 @@ namespace LayoutFarm.CustomWidgets
         int viewportY;
 
         List<UICollection> layers = new List<UICollection>(1);
+        bool needContentLayout;
 
         public Panel(int width, int height)
             : base(width, height)
@@ -91,7 +92,13 @@ namespace LayoutFarm.CustomWidgets
             }
             return primElement;
         }
-
+        public override bool NeedContentLayout
+        {
+            get
+            {
+                return this.needContentLayout;
+            }
+        }
         public PanelLayoutKind PanelLayoutKind
         {
             get { return this.panelLayoutKind; }
@@ -102,6 +109,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public void AddChildBox(UIElement ui)
         {
+            needContentLayout = true;
             UICollection layer0 = (UICollection)this.layers[0];
             layer0.AddUI(ui);
             if (this.HasReadyRenderElement)
@@ -113,9 +121,16 @@ namespace LayoutFarm.CustomWidgets
                     this.InvalidateLayout();
                 }
             }
+
+            if (ui.NeedContentLayout)
+            {
+                ui.InvalidateLayout();
+            }
+
         }
         public void RemoveChildBox(UIElement ui)
         {
+            needContentLayout = true;
             UICollection layer0 = (UICollection)this.layers[0];
             layer0.RemoveUI(ui);
             if (this.HasReadyRenderElement)

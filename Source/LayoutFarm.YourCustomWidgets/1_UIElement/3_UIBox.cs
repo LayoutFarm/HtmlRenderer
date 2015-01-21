@@ -175,7 +175,7 @@ namespace LayoutFarm.UI
 
         //-----------------------------------
 
-        
+        public object Tag { get; set; }
     }
 
 }

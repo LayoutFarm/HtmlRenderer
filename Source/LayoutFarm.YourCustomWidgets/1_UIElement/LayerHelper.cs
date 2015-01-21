@@ -18,7 +18,6 @@ namespace LayoutFarm.CustomWidgets
         {
             var renderE = ui.GetPrimaryRenderElement(plainLayer.Root);
             plainLayer.AddChild(renderE);
-            renderE.InvalidateGraphics();
         }
         public static void RemoveUI(this PlainLayer plainLayer, UIElement ui)
         {
