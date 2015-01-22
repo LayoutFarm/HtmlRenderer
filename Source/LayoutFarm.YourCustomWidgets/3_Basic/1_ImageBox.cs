@@ -13,6 +13,7 @@ namespace LayoutFarm.CustomWidgets
     {
         Image image;//image to draw   
         CustomImageRenderBox imgRenderBox;
+       
         public ImageBox(int width, int height)
             : base(width, height)
         {
@@ -40,8 +41,7 @@ namespace LayoutFarm.CustomWidgets
             if (imgRenderBox == null)
             {
                 var renderBox = new CustomImageRenderBox(rootgfx, this.Width, this.Height);
-                renderBox.SetLocation(this.Left, this.Top);
-
+                renderBox.SetLocation(this.Left, this.Top); 
                 renderBox.Image = this.image;
                 renderBox.SetController(this);
                 renderBox.BackColor = this.BackColor;                                 

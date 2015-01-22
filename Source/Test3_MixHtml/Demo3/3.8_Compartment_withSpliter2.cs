@@ -7,6 +7,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.RenderBoxes;
+
 namespace LayoutFarm
 {
     [DemoNote("3.8 Demo_CompartmentWithSpliter2")]
@@ -34,6 +35,7 @@ namespace LayoutFarm
             //--------------------------------
             //test add some content to the ninespace box
             var sampleListView = CreateSampleListView();
+            ninespaceBox.LeftSpace.PanelLayoutKind = PanelLayoutKind.VerticalStack;
             ninespaceBox.LeftSpace.AddChildBox(sampleListView);
 
         }
