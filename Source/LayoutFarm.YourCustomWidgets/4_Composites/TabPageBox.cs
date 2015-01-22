@@ -31,6 +31,7 @@ namespace LayoutFarm.CustomWidgets
             //panel for listview items
             this.panel = new Panel(width, height);
             this.panel.PanelLayoutKind = PanelLayoutKind.VerticalStack;
+
             panel.BackColor = Color.LightGray;
             plainLayer.AddUI(panel);
             this.layers.Add(plainLayer);
@@ -149,6 +150,7 @@ namespace LayoutFarm.CustomWidgets
         public void ClearPages()
         {
             //TODO: implement this
+            
         }
         public int SelectedIndex
         {

@@ -131,5 +131,8 @@ namespace LayoutFarm.WebDom
         protected virtual void OnContentLayout()
         {
         }
+        protected virtual void OnContentUpdate()
+        {
+        }
     }
 }

@@ -74,5 +74,9 @@ namespace LayoutFarm.WebDom
         {
             OnContentLayout();
         }
+        void IEventListener.HandleContentUpdate()
+        {
+            OnContentUpdate();
+        }
     }
 }

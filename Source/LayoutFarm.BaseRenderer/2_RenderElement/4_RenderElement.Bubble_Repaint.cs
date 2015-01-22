@@ -28,8 +28,11 @@ namespace LayoutFarm
             RootInvalidateGraphicArea(this, ref rect);
             return true;//TODO: review this 
         }
-
-        internal void InvalidateGraphicBounds(Rectangle totalBounds)
+        public void InvalidateGraphicBounds()
+        {
+            this.InvalidateGraphicBounds(this.RectBounds);
+        }
+        public void InvalidateGraphicBounds(Rectangle totalBounds)
         {
             propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
             var parent = this.ParentRenderElement; //start at parent ****
@@ -38,7 +41,7 @@ namespace LayoutFarm
             {
                 return;
             }
-            this.rootGfx.InvalidateGraphicArea(parent, ref totalBounds); 
+            this.rootGfx.InvalidateGraphicArea(parent, ref totalBounds);
         }
 
         static void RootInvalidateGraphicArea(RenderElement re, ref Rectangle rect)
@@ -54,7 +57,7 @@ namespace LayoutFarm
             if (localArea.Height == 0 || localArea.Width == 0)
             {
                 return;
-            } 
+            }
             RootInvalidateGraphicArea(re, ref localArea);
         }
 
@@ -91,7 +94,7 @@ namespace LayoutFarm
 #endif
             }
         }
-         
+
     }
 
 }

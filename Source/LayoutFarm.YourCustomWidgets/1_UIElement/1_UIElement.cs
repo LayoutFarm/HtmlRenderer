@@ -116,6 +116,10 @@ namespace LayoutFarm.UI
         protected virtual void OnContentLayout()
         {
         }
+        protected virtual void OnContentUpdate()
+        {
+        }
+
 #if DEBUG
         object dbugTagObject;
         public object dbugTag

@@ -134,6 +134,13 @@ namespace LayoutFarm.UI
                 this.CurrentPrimaryRenderElement.InvalidateGraphics();
             }
         }
+        public void InvalidateOuterGraphics()
+        {
+            if (this.CurrentPrimaryRenderElement != null)
+            {
+                this.CurrentPrimaryRenderElement.InvalidateGraphicBounds();
+            }
+        }
         public virtual int ViewportX
         {
             get { return 0; }

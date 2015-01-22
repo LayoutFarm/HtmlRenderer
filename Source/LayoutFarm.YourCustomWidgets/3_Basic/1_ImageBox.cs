@@ -11,24 +11,23 @@ namespace LayoutFarm.CustomWidgets
 {
     public class ImageBox : EaseBox
     {
-        Image image;//image to draw   
+
         CustomImageRenderBox imgRenderBox;
-       
+        ImageBinder imageBinder;
         public ImageBox(int width, int height)
             : base(width, height)
         {
 
         }
-        public Image Image
+        public ImageBinder ImageBinder
         {
-            get { return this.image; }
+            get { return this.imageBinder; }
             set
             {
-                this.image = value;
+                this.imageBinder = value;
                 if (this.imgRenderBox != null)
                 {
-                    this.imgRenderBox.Image = value;
-                    this.InvalidateGraphics();
+                    this.imgRenderBox.ImageBinder = value;
                 }
             }
         }
@@ -41,10 +40,10 @@ namespace LayoutFarm.CustomWidgets
             if (imgRenderBox == null)
             {
                 var renderBox = new CustomImageRenderBox(rootgfx, this.Width, this.Height);
-                renderBox.SetLocation(this.Left, this.Top); 
-                renderBox.Image = this.image;
+                renderBox.SetLocation(this.Left, this.Top);
+                renderBox.ImageBinder = imageBinder;
                 renderBox.SetController(this);
-                renderBox.BackColor = this.BackColor;                                 
+                renderBox.BackColor = this.BackColor;
                 SetPrimaryRenderElement(renderBox);
                 this.imgRenderBox = renderBox;
             }
@@ -54,6 +53,13 @@ namespace LayoutFarm.CustomWidgets
         {
             get { return this.imgRenderBox; }
         }
-
+        protected override void OnContentUpdate()
+        {
+            if (imageBinder.State == ImageBinderState.Loaded)
+            {
+                this.SetSize(this.imageBinder.ImageWidth, this.imageBinder.ImageHeight);
+                this.ParentUI.InvalidateLayout();
+            }
+        }
     }
 }

@@ -67,6 +67,11 @@ namespace LayoutFarm.UI
         {
             OnContentLayout();
         }
+        void IEventListener.HandleContentUpdate()
+        {
+            OnContentUpdate();
+        }
+
 
     }
 }

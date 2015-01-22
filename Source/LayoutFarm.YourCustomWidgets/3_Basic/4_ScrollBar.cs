@@ -23,8 +23,6 @@ namespace LayoutFarm.CustomWidgets
         float largeChange;
         float scrollValue;
 
-
-
         double onePixelFor = 1;
         protected int minmax_boxHeight = 15;
         const int SCROLL_BOX_SIZE_LIMIT = 10;
@@ -226,6 +224,28 @@ namespace LayoutFarm.CustomWidgets
         //---------------------------------------------------------------------------
         //vertical scrollbar
 
+        public void ReEvaluateScrollBar()
+        {
+            if (this.scrollButton == null)
+            {
+                return;
+            }
+            //-------------------------
+            switch (this.ScrollBarType)
+            {
+                default:
+                case CustomWidgets.ScrollBarType.Vertical:
+                    {
+                        EvaluateVerticalScrollBarProperties();
+                    } break;
+                case CustomWidgets.ScrollBarType.Horizontal:
+                    {
+                        EvaluateHorizontalScrollBarProperties();
+                    } break;
+            }
+
+
+        }
         void EvaluateVerticalScrollBarProperties()
         {
             //calculate scroll length ratio
@@ -237,7 +257,8 @@ namespace LayoutFarm.CustomWidgets
             double ratio1 = physicalScrollLength / contentLength;
             int scrollBoxLength = 1;
 
-
+            
+        
             if (contentLength < physicalScrollLength)
             {
                 int nsteps = (int)Math.Round(contentLength / smallChange);
@@ -257,7 +278,7 @@ namespace LayoutFarm.CustomWidgets
                 //thumbbox should not smaller than minimum limit 
                 if (scrollBoxLength < SCROLL_BOX_SIZE_LIMIT)
                 {
-                    scrollBoxLength = SCROLL_BOX_SIZE_LIMIT;  
+                    scrollBoxLength = SCROLL_BOX_SIZE_LIMIT;
                     this.onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
                 }
                 else
@@ -265,7 +286,7 @@ namespace LayoutFarm.CustomWidgets
                     float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
                     this.onePixelFor = contentLength / (physicalScrollLength - physicalSmallEach);
                 }
-                 
+
             }
 
             if (this.ScrollBarType == CustomWidgets.ScrollBarType.Horizontal)
@@ -278,6 +299,10 @@ namespace LayoutFarm.CustomWidgets
                 this.scrollButton.SetSize(
                     this.scrollButton.Width,
                     scrollBoxLength);
+                this.InvalidateOuterGraphics();
+                
+                //this.scrollButton.InvalidateOuterGraphics();
+
             }
         }
         void SetupVerticalScrollButtonProperties(PlainLayer plain)
@@ -292,8 +317,6 @@ namespace LayoutFarm.CustomWidgets
             EvaluateVerticalScrollBarProperties();
             //----------------------------
             //3. drag
-
-
             scroll_button.MouseMove += (s, e) =>
             {
                 if (!e.IsDragging)
@@ -412,7 +435,7 @@ namespace LayoutFarm.CustomWidgets
                     float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
                     this.onePixelFor = contentLength / (physicalScrollLength - physicalSmallEach);
                 }
-                 
+
             }
 
             if (this.ScrollBarType == CustomWidgets.ScrollBarType.Horizontal)
@@ -575,6 +598,7 @@ namespace LayoutFarm.CustomWidgets
         public event EventHandler<EventArgs> UserScroll;
 
 
+
         //tempfix here
         internal void ChildNotifyMouseWheel(UIMouseEventArgs e)
         {
@@ -684,7 +708,34 @@ namespace LayoutFarm.CustomWidgets
                     panel.SetViewport(panel.ViewportX, (int)scBar.ScrollValue);
                 };
             }
+        }
+        public ScrollingRelation(ScrollBar scBar, LayoutFarm.CustomWidgets.Panel panel)
+        {
+            this.scBar = scBar;
+            this.panel = panel;
 
+            panel.LayoutFinished += (s, e) =>
+            {
+                scBar.MaxValue = panel.DesiredHeight;
+                scBar.ReEvaluateScrollBar();
+
+            };
+
+
+            if (scBar.ScrollBarType == ScrollBarType.Horizontal)
+            {
+                scBar.UserScroll += (s, e) =>
+                {
+                    panel.SetViewport((int)scBar.ScrollValue, panel.ViewportY);
+                };
+            }
+            else
+            {
+                scBar.UserScroll += (s, e) =>
+                {
+                    panel.SetViewport(panel.ViewportX, (int)scBar.ScrollValue);
+                };
+            }
         }
     }
 

@@ -159,7 +159,7 @@ namespace LayoutFarm.CustomWidgets
         TreeNode parentNode;
         TreeView ownerTreeView;
         //-------------------------- 
-        Image nodeIcon;
+        ImageBinder nodeIcon;
         ImageBox uiNodeIcon;
         //--------------------------
         public TreeNode(int width, int height)
@@ -167,7 +167,7 @@ namespace LayoutFarm.CustomWidgets
         {
 
         }
-        public Image NodeIconImage
+        public ImageBinder NodeIconImage
         {
             get { return this.nodeIcon; }
             set
@@ -175,7 +175,7 @@ namespace LayoutFarm.CustomWidgets
                 this.nodeIcon = value;
                 if (uiNodeIcon != null)
                 {
-                    uiNodeIcon.Image = value;
+                    uiNodeIcon.ImageBinder = value;
                 }
             }
         }
@@ -206,13 +206,13 @@ namespace LayoutFarm.CustomWidgets
                     element.Layers.AddLayer(plainLayer);
                 }
                 else
-                {    
+                {
                     plainLayer = (PlainLayer)element.Layers.GetLayer(0);
                 }
                 //-----------------------------
                 uiNodeIcon = new ImageBox(16, 16);//create with default size 
                 SetupNodeIconBehaviour(uiNodeIcon);
-                plainLayer.AddChild(uiNodeIcon.GetPrimaryRenderElement(rootgfx)); 
+                plainLayer.AddChild(uiNodeIcon.GetPrimaryRenderElement(rootgfx));
                 //-----------------------------
                 myTextRun = new CustomTextRun(rootgfx, 10, 17);
                 myTextRun.SetLocation(16, 0);

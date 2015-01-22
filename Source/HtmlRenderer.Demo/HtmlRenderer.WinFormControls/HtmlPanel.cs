@@ -141,7 +141,7 @@ namespace LayoutFarm.Demo
         void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
         {
             this.imageContentMan.AddRequestImage(
-                new ImageContentRequest(e.binder, null, this.myHtmlIsland));
+                new ImageContentRequest(e.binder, null, null));
         }
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
         {
@@ -572,7 +572,7 @@ namespace LayoutFarm.Demo
                 GetUIMouseButton(e.Button),
                 e.Clicks,
                 e.Delta,
-                this.isDragging);             
+                this.isDragging);
             return mouseE;
         }
 

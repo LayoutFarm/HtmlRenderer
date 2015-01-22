@@ -17,7 +17,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         public ImageBinder binder;
         public object requestBy;
-        internal IUpdateChangeListener updateEventListener;
+         
     }
 
     public class HtmlIslandHost
@@ -35,8 +35,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 HtmlResourceRequestEventArgs resReq = new HtmlResourceRequestEventArgs();
                 resReq.binder = binder;
-                resReq.requestBy = reqFrom;
-                resReq.updateEventListener = reqIsland;
+                resReq.requestBy = reqFrom; 
                 RequestResource(this, resReq);
             }
         }
