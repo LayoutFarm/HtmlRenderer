@@ -256,9 +256,9 @@ namespace LayoutFarm.CustomWidgets
             //3. 
             double ratio1 = physicalScrollLength / contentLength;
             int scrollBoxLength = 1;
+             
 
-            
-        
+
             if (contentLength < physicalScrollLength)
             {
                 int nsteps = (int)Math.Round(contentLength / smallChange);
@@ -300,7 +300,7 @@ namespace LayoutFarm.CustomWidgets
                     this.scrollButton.Width,
                     scrollBoxLength);
                 this.InvalidateOuterGraphics();
-                
+
                 //this.scrollButton.InvalidateOuterGraphics();
 
             }

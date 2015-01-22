@@ -42,6 +42,7 @@ namespace LayoutFarm.UI
                 20,
                 (s, e) =>
                 {
+                    this.PrepareRender();
                     this.FlushAccumGraphics();
                 });
         }
