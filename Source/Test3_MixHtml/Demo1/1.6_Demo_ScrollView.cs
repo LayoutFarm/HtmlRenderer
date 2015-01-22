@@ -16,13 +16,18 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
             imageContentMan.ImageLoadingRequest += (s, e) =>
-            {                 
-                
+            {
                 e.SetResultImage(LoadBitmap(e.ImagSource));
                 e.ImageBinder.State = ImageBinderState.Loaded;
             };
-            AddScrollView1(viewport, 0, 0); 
+            AddScrollView1(viewport, 0, 0);
             AddScrollView2(viewport, 250, 0);
+        }
+        void LazyImageLoad(object sender, ImageBinder binder)
+        {
+            //load here as need
+            imageContentMan.AddRequestImage(new ImageContentRequest(binder, sender, (IEventListener)sender));
+
         }
         void AddScrollView1(SampleViewport viewport, int x, int y)
         {
@@ -83,15 +88,15 @@ namespace LayoutFarm
 
             for (int i = 0; i < 5; ++i)
             {
+                var imgbox = new LayoutFarm.CustomWidgets.ImageBox(36, 400);
+
                 ImageBinder binder = new ImageBinder("../../images/0" + (i + 1) + ".jpg");
-                //var bmp = LoadBitmap("../../images/0" + (i + 1) + ".jpg");
-                //var imgbox = new LayoutFarm.CustomWidgets.ImageBox(bmp.Width, bmp.Height);
-                //imgbox.Image = bmp;
+                binder.SetLazyFunc(imgbox, LazyImageLoad);
 
-                var imgbox = new LayoutFarm.CustomWidgets.ImageBox(36, 36);
+                //if use lazy img load func
+                //imageContentMan.AddRequestImage(new ImageContentRequest(binder, imgbox, imgbox));
+
                 imgbox.ImageBinder = binder;
-                imageContentMan.AddRequestImage(new ImageContentRequest(binder, imgbox, imgbox));
-
                 imgbox.BackColor = Color.OrangeRed;
                 imgbox.SetLocation(0, lastY);
 

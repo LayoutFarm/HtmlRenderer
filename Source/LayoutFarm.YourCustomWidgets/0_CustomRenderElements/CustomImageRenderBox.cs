@@ -45,7 +45,13 @@ namespace LayoutFarm.CustomWidgets
                             canvas.DrawImage(imageBinder.Image,
                                 new RectangleF(0, 0, this.Width, this.Height));
                         } break;
-
+                    case ImageBinderState.Unload:
+                        {
+                            if (this.imageBinder.HasLazyFunc)
+                            {
+                                this.imageBinder.LazyLoadImage();
+                            }
+                        } break;
                 }
 
             }

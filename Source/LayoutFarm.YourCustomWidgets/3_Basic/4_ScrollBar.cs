@@ -255,9 +255,7 @@ namespace LayoutFarm.CustomWidgets
             float physicalScrollLength = this.Height - (this.minmax_boxHeight + this.minmax_boxHeight);
             //3. 
             double ratio1 = physicalScrollLength / contentLength;
-            int scrollBoxLength = 1;
-             
-
+            int scrollBoxLength = 1; 
 
             if (contentLength < physicalScrollLength)
             {

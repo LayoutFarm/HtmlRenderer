@@ -172,10 +172,10 @@ namespace LayoutFarm.ContentManagers
             }
             working = false;
         }
+        
         public void AddRequestImage(ImageContentRequest contentReq)
         {
             //binder and req box 
-
             //1. 
             contentReq.binder.State = ImageBinderState.Loading;
             //2.
@@ -185,5 +185,6 @@ namespace LayoutFarm.ContentManagers
             //and store in outputlist         
             hasSomeInputHint = true;
         }
+        
     }
 }
