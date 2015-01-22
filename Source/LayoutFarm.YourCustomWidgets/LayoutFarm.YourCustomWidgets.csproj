@@ -62,6 +62,7 @@
     <Compile Include="4_Composites\HingeBox.cs" />
     <Compile Include="4_Composites\ListView.cs" />
     <Compile Include="4_Composites\Menu.cs" />
+    <Compile Include="4_Composites\TabPageBox.cs" />
     <Compile Include="4_Composites\TreeView.cs" />
     <Compile Include="5_HtmlBox\LightHtmlBox.cs" />
     <Compile Include="5_HtmlBox\LightHtmlBoxHost.cs" />

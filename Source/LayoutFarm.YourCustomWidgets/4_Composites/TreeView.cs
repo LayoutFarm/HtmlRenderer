@@ -206,7 +206,7 @@ namespace LayoutFarm.CustomWidgets
                     element.Layers.AddLayer(plainLayer);
                 }
                 else
-                {
+                {    
                     plainLayer = (PlainLayer)element.Layers.GetLayer(0);
                 }
                 //-----------------------------
