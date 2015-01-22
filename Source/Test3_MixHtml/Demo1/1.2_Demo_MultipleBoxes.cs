@@ -15,6 +15,10 @@ namespace LayoutFarm
 
         protected override void OnStartDemo(SampleViewport viewport)
         {
+
+
+
+
             SetupImageList();
             for (int i = 1; i < 5; ++i)
             {
@@ -25,9 +29,9 @@ namespace LayoutFarm
             //--------------------
             //image box
             //load bitmap with gdi+           
-            Bitmap bmp = LoadBitmap("../../Demo/favorites32.png");
-            var imgBox = new CustomWidgets.ImageBox(bmp.Width, bmp.Height);
-            imgBox.Image = bmp;
+            ImageBinder imgBinder = LoadImage("../../Demo/favorites32.png");
+            var imgBox = new CustomWidgets.ImageBox(imgBinder.Image.Width, imgBinder.Image.Height);
+            imgBox.ImageBinder = imgBinder;
             viewport.AddContent(imgBox);
 
             //--------------------
@@ -51,7 +55,7 @@ namespace LayoutFarm
             {
                 var statedBox = new LayoutFarm.CustomWidgets.CheckBox(20, boxHeight);
                 statedBox.SetLocation(10, boxY);
-                boxY += boxHeight + 5; 
+                boxY += boxHeight + 5;
                 viewport.AddContent(statedBox);
                 statedBox.WhenChecked += (s, e) =>
                 {
@@ -83,6 +87,16 @@ namespace LayoutFarm
             System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
             Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
             return bmp;
+        }
+        static ImageBinder LoadImage(string filename)
+        {
+            System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
+            Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
+
+            ImageBinder binder = new ImageBinder(null);
+            binder.SetImage(bmp);
+            binder.State = ImageBinderState.Loaded;
+            return binder;
         }
     }
 }

@@ -25,6 +25,7 @@ namespace LayoutFarm.CustomWidgets
             UICollection plainLayer = new UICollection(this);
             //panel for listview items
             this.panel = new Panel(width, height);
+            panel.PanelLayoutKind = PanelLayoutKind.VerticalStack;
             panel.BackColor = Color.LightGray;
             plainLayer.AddUI(panel);
             this.layers.Add(plainLayer);
@@ -54,7 +55,7 @@ namespace LayoutFarm.CustomWidgets
         {
             if (primElement == null)
             {
-                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);                 
+                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
                 renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
@@ -88,6 +89,7 @@ namespace LayoutFarm.CustomWidgets
             latestItemY += treeNode.Height;
             treeNode.SetOwnerTreeView(this);
             panel.AddChildBox(treeNode);
+
         }
         //----------------------------------------------------
         protected override void OnMouseDown(UIMouseEventArgs e)
@@ -97,7 +99,7 @@ namespace LayoutFarm.CustomWidgets
                 this.MouseDown(this, e);
             }
         }
-       
+
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -106,7 +108,7 @@ namespace LayoutFarm.CustomWidgets
             }
             base.OnMouseUp(e);
         }
-        
+
 
         public override int ViewportX
         {
@@ -131,10 +133,11 @@ namespace LayoutFarm.CustomWidgets
 
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
-         
+
         //----------------------------------------------------  
         public override void PerformContentLayout()
         {
+
             //manually perform layout of its content 
             //here: arrange item in panel
             this.panel.PerformContentLayout();
@@ -146,6 +149,7 @@ namespace LayoutFarm.CustomWidgets
     {
         const int NODE_DEFAULT_HEIGHT = 17;
         CustomRenderBox primElement;//bg primary render element
+        CustomTextRun myTextRun;
         Color backColor;
         bool isOpen = true;//test, open by default
         int newChildNodeY = NODE_DEFAULT_HEIGHT;
@@ -155,7 +159,7 @@ namespace LayoutFarm.CustomWidgets
         TreeNode parentNode;
         TreeView ownerTreeView;
         //-------------------------- 
-        Image nodeIcon;
+        ImageBinder nodeIcon;
         ImageBox uiNodeIcon;
         //--------------------------
         public TreeNode(int width, int height)
@@ -163,7 +167,7 @@ namespace LayoutFarm.CustomWidgets
         {
 
         }
-        public Image NodeIconImage
+        public ImageBinder NodeIconImage
         {
             get { return this.nodeIcon; }
             set
@@ -171,7 +175,7 @@ namespace LayoutFarm.CustomWidgets
                 this.nodeIcon = value;
                 if (uiNodeIcon != null)
                 {
-                    uiNodeIcon.Image = value;
+                    uiNodeIcon.ImageBinder = value;
                 }
             }
         }
@@ -209,6 +213,12 @@ namespace LayoutFarm.CustomWidgets
                 uiNodeIcon = new ImageBox(16, 16);//create with default size 
                 SetupNodeIconBehaviour(uiNodeIcon);
                 plainLayer.AddChild(uiNodeIcon.GetPrimaryRenderElement(rootgfx));
+                //-----------------------------
+                myTextRun = new CustomTextRun(rootgfx, 10, 17);
+                myTextRun.SetLocation(16, 0);
+                myTextRun.Text = "Test01";
+                plainLayer.AddChild(myTextRun);
+                //-----------------------------
                 this.primElement = element;
             }
             return primElement;
@@ -325,6 +335,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public override void PerformContentLayout()
         {
+            this.InvalidateGraphics();
             //if this has child
             //reset
             this.desiredHeight = NODE_DEFAULT_HEIGHT;
@@ -338,7 +349,7 @@ namespace LayoutFarm.CustomWidgets
                     for (int i = 0; i < j; ++i)
                     {
                         var childNode = childNodes[i];
-                        childNode.PerformContentLayout();
+                        childNode.PerformContentLayout();//manaul?
                         //set new size 
                         childNode.SetBounds(indentWidth,
                             newChildNodeY,

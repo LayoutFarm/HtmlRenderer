@@ -11,21 +11,22 @@ namespace LayoutFarm.ContentManagers
 {
 
 
-    
+
     public struct ImageContentRequest
     {
         internal readonly ImageBinder binder;
         internal readonly object requestBy;
-        internal readonly LayoutFarm.HtmlBoxes.IUpdateChangeListener listener;
-        
+        internal readonly IEventListener listener;
+
         public ImageContentRequest(ImageBinder binder,
             object requestBy,
-            LayoutFarm.HtmlBoxes.IUpdateChangeListener listener)
+            IEventListener listener)
         {
             this.binder = binder;
             this.requestBy = requestBy;
             this.listener = listener;
         }
+
     }
 
 
@@ -65,7 +66,7 @@ namespace LayoutFarm.ContentManagers
 
         object outputListSync = new object();
         object inputListSync = new object();
-
+        bool working = false;
 
         public ImageContentManager()
         {
@@ -77,72 +78,89 @@ namespace LayoutFarm.ContentManagers
         }
         void timImageLoadMonitor_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (hasSomeInputHint)
+            lock (inputListSync)
             {
-
-                lock (inputListSync)
+                if (working)
                 {
-                    int j = inputList.Count;
-                    //load image in this list
-                    List<ImageBinder> tmploadingList = new List<ImageBinder>();
-                    //copy data out 
-                    for (int i = 0; i < j; ++i)
+                    return;
+                }
+                if (!hasSomeInputHint)
+                {
+                    return;
+                }
+                working = true;
+            }
+
+
+
+            int j = inputList.Count;
+            //load image in this list
+            List<ImageBinder> tmploadingList = new List<ImageBinder>();
+            //copy data out 
+            for (int i = 0; i < j; ++i)
+            {
+                var firstNode = inputList.First;
+                inputList.RemoveFirst();
+
+                ImageContentRequest req = firstNode.Value;
+                //wait until finish this  .... 
+                var binder = req.binder;
+
+                //1. check from cache if not found
+                //then send request to external ... 
+
+                Image foundImage;
+                if (!this.imageCacheLevel0.TryGetCacheImage(
+                    binder.ImageSource,
+                    out foundImage))
+                {
+
+                    this.ImageLoadingRequest(
+                        this,
+                        new ContentManagers.ImageRequestEventArgs(
+                        binder));
+
+                    //....
+                    //process image infomation
+                    //.... 
+                    if (binder.State == ImageBinderState.Loaded)
                     {
-                        var firstNode = inputList.First;
-                        inputList.RemoveFirst();
 
-                        ImageContentRequest req = firstNode.Value; 
-                        //wait until finish this  .... 
-                        var binder = req.binder;
-
-                        //1. check from cache if not found
-                        //then send request to external ... 
-
-                        Image foundImage;
-                        if (!this.imageCacheLevel0.TryGetCacheImage(
-                            binder.ImageSource,
-                            out foundImage))
+                        //store to cache 
+                        //TODO: implement caching policy  
+                        imageCacheLevel0.AddCacheImage(binder.ImageSource, binder.Image);
+                        //send ready image notification to
+                        //parent html container
+                        //send data update to owner 
+                        //req.listener.AddUpdatedImageBinder(binder);
+                        if (req.listener != null)
                         {
-
-                            this.ImageLoadingRequest(
-                                this,
-                                new ContentManagers.ImageRequestEventArgs(
-                                binder));
-
-                            //....
-                            //process image infomation
-                            //.... 
-                            if (binder.State == ImageBinderState.Loaded)
-                            {
-
-                                //store to cache 
-                                //TODO: implement caching policy  
-                                imageCacheLevel0.AddCacheImage(binder.ImageSource, binder.Image);
-                                //send ready image notification to
-                                //parent html container
-                                //send data update to owner 
-                                req.listener.AddUpdatedImageBinder(binder);
-                            }
+                            req.listener.HandleContentUpdate();
                         }
-                        else
-                        {
-                            //process image infomation
-                            //.... 
-
-                            binder.SetImage(foundImage);
-                            //send ready image notification to
-                            //parent html container                             
-                            req.listener.AddUpdatedImageBinder(binder);
-                        }
-
-                        //next image
-                    }
-                    if (j == 0)
-                    {
-                        hasSomeInputHint = false;
                     }
                 }
+                else
+                {
+                    //process image infomation
+                    //.... 
+
+                    binder.SetImage(foundImage);
+                    //send ready image notification to
+                    //parent html container                             
+                    if (req.listener != null)
+                    {
+                        req.listener.HandleContentUpdate();
+                    }
+                }
+
+                //next image
             }
+            if (j == 0)
+            {
+                hasSomeInputHint = false;
+            }
+
+
             if (hasSomeOutputHint)
             {
                 lock (outputListSync)
@@ -152,6 +170,7 @@ namespace LayoutFarm.ContentManagers
                     }
                 }
             }
+            working = false;
         }
         public void AddRequestImage(ImageContentRequest contentReq)
         {

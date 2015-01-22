@@ -61,7 +61,7 @@ namespace LayoutFarm.Dev
             LayoutFarm.UI.UISurfaceViewportControl viewport;
 
             Form formCanvas;
-            CreateReadyForm(out viewport, out formCanvas); 
+            CreateReadyForm(out viewport, out formCanvas);
             selectedDemo.StartDemo(new SampleViewport(viewport));
             viewport.TopDownRecalculateContent();
             //==================================================  
@@ -90,8 +90,8 @@ namespace LayoutFarm.Dev
         }
 
         void CreateReadyForm(
-        out LayoutFarm.UI.UISurfaceViewportControl viewport,
-        out Form formCanvas)
+            out LayoutFarm.UI.UISurfaceViewportControl viewport,
+            out Form formCanvas)
         {
 
             int w = 800;
@@ -99,9 +99,8 @@ namespace LayoutFarm.Dev
 
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
                 this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
-                w, h);
+                w, h); 
 
-            
             TopWindowRenderBox topRenderBox = rootgfx.TopWindowRenderBox;
 
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,

@@ -41,7 +41,9 @@ namespace LayoutFarm.CustomWidgets
         {
             foreach (ImageContentManager key in imageContentManList.Keys)
             {
-                key.AddRequestImage(new ImageContentRequest(e.ImageBinder, null, htmlBox.HtmlIsland));
+                key.AddRequestImage(
+                    new ImageContentRequest(e.ImageBinder,
+                    null, htmlBox));
             }
         }
         public void AddTextContentMan(TextContentManager textMan)

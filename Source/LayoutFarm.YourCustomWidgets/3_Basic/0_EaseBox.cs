@@ -104,9 +104,7 @@ namespace LayoutFarm.CustomWidgets
             }
         }
 
-        //----------------------------------------------------
-        //for general data
-        public object Tag { get; set; }
+     
     }
 
 

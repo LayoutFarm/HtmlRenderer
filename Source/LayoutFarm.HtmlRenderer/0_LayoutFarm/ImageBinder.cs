@@ -3,7 +3,7 @@ using System;
 using PixelFarm.Drawing;
 
 namespace LayoutFarm
-{   
+{
     public class ImageBinder
     {
         Image _image;
@@ -32,6 +32,37 @@ namespace LayoutFarm
         {
             get { return this._image; }
         }
+       
+        public int ImageWidth
+        {
+            get
+            {
+                if (this._image != null)
+                {
+                    return this._image.Width;
+                }
+                else
+                {
+                    return 16;
+                }
+            }
+        }
+        public int ImageHeight
+        {
+
+            get
+            {
+                if (this._image != null)
+                {
+                    return this._image.Height;
+                }
+                else
+                {
+                    return 16;
+                }
+            }
+        }
+
         public void SetImage(Image image)
         {
             if (image != null)

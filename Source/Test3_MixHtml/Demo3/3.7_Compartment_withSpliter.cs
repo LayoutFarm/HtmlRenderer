@@ -9,8 +9,8 @@ using LayoutFarm.CustomWidgets;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
-    [DemoNote("3.5 Demo_CompartmentBox2")]
-    class Demo_CompartmentBox2 : DemoBase
+    [DemoNote("3.7 Demo_CompartmentWithSpliter")]
+    class Demo_CompartmentWithSpliter : DemoBase
     {
 
         UINinespaceBox ninespaceBox;
@@ -31,27 +31,14 @@ namespace LayoutFarm
             ninespaceBox = new UINinespaceBox(800, 600);
             viewport.AddContent(ninespaceBox);
             ninespaceBox.SetSize(800, 600);
-
-
         }
         void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)
         {
-            ////if click on background
-            //backgroundBox.MouseDown += (s, e) =>
-            //{
-            //    controllerBox1.TargetBox = null;//release target box
-            //    controllerBox1.Visible = false;
-            //};
 
         }
 
-
-
-
-
         class UINinespaceBox : LayoutFarm.CustomWidgets.EaseBox
         {
-            //-------------------------------------
             EaseBox boxLeftTop;
             EaseBox boxRightTop;
             EaseBox boxLeftBottom;
@@ -62,13 +49,18 @@ namespace LayoutFarm
             EaseBox boxRight;
             EaseBox boxBottom;
             //-------------------------------------
-
-            //-------------------------------------
             EaseBox centerBox;
 
-            DockSpacesController dockspaceController;
-           
 
+
+            EaseBox gripperLeft;
+            EaseBox gripperRight;
+            EaseBox gripperTop;
+            EaseBox gripperBottom;
+
+
+            DockSpacesController dockspaceController;
+            NinespaceGrippers ninespaceGrippers;
             public UINinespaceBox(int w, int h)
                 : base(w, h)
             {
@@ -91,24 +83,81 @@ namespace LayoutFarm
                 this.dockspaceController.BottomSpace.Content = boxBottom = CreateSpaceBox(SpaceName.Bottom, Color.Yellow);
 
 
-                //------------------------------------------------------------------------------------
+                //--------------------------------
                 //left and right space expansion
                 dockspaceController.LeftSpaceVerticalExpansion = VerticalBoxExpansion.TopBottom;
                 dockspaceController.RightSpaceVerticalExpansion = VerticalBoxExpansion.TopBottom;
                 dockspaceController.SetRightSpaceWidth(200);
                 dockspaceController.SetLeftSpaceWidth(200);
 
-            
+                //------------------------------------------------------------------------------------
+                this.ninespaceGrippers = new NinespaceGrippers(this.dockspaceController);
+                this.ninespaceGrippers.LeftGripper = gripperLeft = CreateGripper(Color.Red, false);
+                this.ninespaceGrippers.RightGripper = gripperRight = CreateGripper(Color.Red, false);
+                this.ninespaceGrippers.TopGripper = gripperTop = CreateGripper(Color.Red, true);
+                this.ninespaceGrippers.BottomGripper = gripperBottom = CreateGripper(Color.Red, true);
+                this.ninespaceGrippers.UpdateGripperPositions();
+                //------------------------------------------------------------------------------------
             }
 
-       
+            CustomWidgets.EaseBox CreateGripper(PixelFarm.Drawing.Color bgcolor, bool isVertical)
+            {
+                int controllerBoxWH = 10;
+                CustomWidgets.EaseBox gripperBox = new CustomWidgets.EaseBox(controllerBoxWH, controllerBoxWH);
+                gripperBox.BackColor = bgcolor;
+                ////---------------------------------------------------------------------
+                gripperBox.MouseLeave += (s, e) =>
+                {
+                    if (e.IsDragging)
+                    {
+                        Point pos = gripperBox.Position;
+                        if (isVertical)
+                        {
+                            gripperBox.SetLocation(pos.X, pos.Y + e.YDiff);
+                        }
+                        else
+                        {
+                            gripperBox.SetLocation(pos.X + e.XDiff, pos.Y);
+                        }
+                        this.ninespaceGrippers.UpdateNinespaces();
+                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                        e.CancelBubbling = true;
+                    }
+                };
+                gripperBox.MouseMove += (s, e) =>
+                {
+                    if (e.IsDragging)
+                    {
+                        Point pos = gripperBox.Position;
+                        if (isVertical)
+                        {
+                            gripperBox.SetLocation(pos.X, pos.Y + e.YDiff);
+                        }
+                        else
+                        {
+                            gripperBox.SetLocation(pos.X + e.XDiff, pos.Y);
+                        }
+
+                        this.ninespaceGrippers.UpdateNinespaces();
+                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                        e.CancelBubbling = true;
+                    }
+                };
+                gripperBox.MouseUp += (s, e) =>
+                {
+                    e.MouseCursorStyle = MouseCursorStyle.Default;
+                    e.CancelBubbling = true;
+                };
+
+                return gripperBox;
+            }
             static CustomWidgets.EaseBox CreateSpaceBox(SpaceName name, PixelFarm.Drawing.Color bgcolor)
             {
                 int controllerBoxWH = 10;
-                CustomWidgets.EaseBox tinyBox = new CustomWidgets.EaseBox(controllerBoxWH, controllerBoxWH);
-                tinyBox.BackColor = bgcolor;
-                tinyBox.Tag = name;
-                return tinyBox;
+                CustomWidgets.EaseBox spaceBox = new CustomWidgets.EaseBox(controllerBoxWH, controllerBoxWH);
+                spaceBox.BackColor = bgcolor;
+                spaceBox.Tag = name;
+                return spaceBox;
             }
 
             public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
@@ -136,9 +185,14 @@ namespace LayoutFarm
                     plain0.AddChild(boxRight.GetPrimaryRenderElement(rootgfx));
                     plain0.AddChild(boxTop.GetPrimaryRenderElement(rootgfx));
                     plain0.AddChild(boxBottom.GetPrimaryRenderElement(rootgfx));
-                    //------------------------------------------------------
-                   
 
+                    //grippers
+                    plain0.AddChild(gripperLeft.GetPrimaryRenderElement(rootgfx));
+                    plain0.AddChild(gripperRight.GetPrimaryRenderElement(rootgfx));
+                    plain0.AddChild(gripperTop.GetPrimaryRenderElement(rootgfx));
+                    plain0.AddChild(gripperBottom.GetPrimaryRenderElement(rootgfx));
+
+                    //------------------------------------------------------
                 }
                 return base.GetPrimaryRenderElement(rootgfx);
             }
