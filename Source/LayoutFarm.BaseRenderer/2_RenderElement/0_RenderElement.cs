@@ -152,7 +152,7 @@ namespace LayoutFarm
 
                 if (parentLink != null)
                 {
-                    this.InvalidateGraphicBounds(this.RectBounds);                     
+                    this.InvalidateGraphicBounds(this.RectBounds);
                 }
             }
         }

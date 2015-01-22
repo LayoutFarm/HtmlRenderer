@@ -56,6 +56,7 @@ namespace LayoutFarm
 
         public abstract void ClearRenderRequests();
         public abstract void AddToLayoutQueue(RenderElement renderElement);
+         
         public bool LayoutQueueClearing
         {
             get;
@@ -92,10 +93,12 @@ namespace LayoutFarm
         public abstract void PrepareRender();
         public void FlushAccumGraphics()
         {
+
             if (!this.hasAccumRect)
             {
                 return;
             }
+            
 
             this.canvasInvalidateDelegate(accumulateInvalidRect);
             this.paintToOutputWindowHandler();

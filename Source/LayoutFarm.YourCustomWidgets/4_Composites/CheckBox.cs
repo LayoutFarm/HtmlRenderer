@@ -35,11 +35,11 @@ namespace LayoutFarm.CustomWidgets
 
                 if (this.isChecked)
                 {
-                    imageBox.Image = ResImageList.GetImage(ImageName.CheckBoxChecked);
+                    imageBox.ImageBinder = ResImageList.GetImageBinder(ImageName.CheckBoxChecked);
                 }
                 else
                 {
-                    imageBox.Image = ResImageList.GetImage(ImageName.CheckBoxUnChecked);
+                    imageBox.ImageBinder = ResImageList.GetImageBinder(ImageName.CheckBoxUnChecked);
                 }
 
                 imageBox.MouseDown += (s, e) =>
@@ -69,11 +69,11 @@ namespace LayoutFarm.CustomWidgets
 
                     if (this.isChecked)
                     {
-                        imageBox.Image = ResImageList.GetImage(ImageName.CheckBoxChecked);
+                        imageBox.ImageBinder = ResImageList.GetImageBinder(ImageName.CheckBoxChecked);
                     }
                     else
                     {
-                        imageBox.Image = ResImageList.GetImage(ImageName.CheckBoxUnChecked);
+                        imageBox.ImageBinder = ResImageList.GetImageBinder(ImageName.CheckBoxUnChecked);
                     }
 
                     

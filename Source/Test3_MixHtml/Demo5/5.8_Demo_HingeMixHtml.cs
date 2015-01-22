@@ -16,7 +16,7 @@ namespace LayoutFarm
     [DemoNote("5.8 HingeMixHtml")]
     class Demo_HingeMixHtml : DemoBase
     {
-        Bitmap arrowBmp;
+        ImageBinder arrowBmp;
         HtmlIslandHost islandHost;
         LightHtmlBoxHost lightBoxHost;
 
@@ -61,10 +61,10 @@ namespace LayoutFarm
             //load bitmap with gdi+                
             if (arrowBmp == null)
             {
-                arrowBmp = LoadBitmap("../../Demo/arrow_open.png");
+                arrowBmp = LoadImage("../../Demo/arrow_open.png");
             }
-            LayoutFarm.CustomWidgets.ImageBox imgBox = new CustomWidgets.ImageBox(arrowBmp.Width, arrowBmp.Height);
-            imgBox.Image = arrowBmp;
+            LayoutFarm.CustomWidgets.ImageBox imgBox = new CustomWidgets.ImageBox(arrowBmp.Image.Width, arrowBmp.Image.Height);
+            imgBox.ImageBinder = arrowBmp;
             //--------------------------------------
             //2. float part
             var floatPart = new LayoutFarm.CustomWidgets.Panel(400, 100);
@@ -104,10 +104,10 @@ namespace LayoutFarm
             //load bitmap with gdi+                
             if (arrowBmp == null)
             {
-                arrowBmp = LoadBitmap("../../Demo/arrow_open.png");
+                arrowBmp = LoadImage("../../Demo/arrow_open.png");
             }
-            LayoutFarm.CustomWidgets.ImageBox imgBox = new CustomWidgets.ImageBox(arrowBmp.Width, arrowBmp.Height);
-            imgBox.Image = arrowBmp;
+            LayoutFarm.CustomWidgets.ImageBox imgBox = new CustomWidgets.ImageBox(arrowBmp.Image.Width, arrowBmp.Image.Height);
+            imgBox.ImageBinder = arrowBmp;
             landPart.AddChildBox(imgBox);
 
             //--------------------------------------
@@ -149,10 +149,10 @@ namespace LayoutFarm
             //load bitmap with gdi+                
             if (arrowBmp == null)
             {
-                arrowBmp = LoadBitmap("../../Demo/arrow_open.png");
+                arrowBmp = LoadImage("../../Demo/arrow_open.png");
             }
-            LayoutFarm.CustomWidgets.ImageBox imgBox = new CustomWidgets.ImageBox(arrowBmp.Width, arrowBmp.Height);
-            imgBox.Image = arrowBmp;
+            LayoutFarm.CustomWidgets.ImageBox imgBox = new CustomWidgets.ImageBox(arrowBmp.Image.Width, arrowBmp.Image.Height);
+            imgBox.ImageBinder = arrowBmp;
             landPart.AddChildBox(imgBox);
 
             //--------------------------------------
@@ -192,13 +192,16 @@ namespace LayoutFarm
             //--------------------------------------
             return mnuItem;
         }
-        static Bitmap LoadBitmap(string filename)
+        
+        static ImageBinder LoadImage(string filename)
         {
             System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
             Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
-            return bmp;
+            ImageBinder binder = new ImageBinder(null);
+            binder.SetImage(bmp);
+            binder.State = ImageBinderState.Loaded;
+            return binder;
         }
-
         HtmlDocument CreateSampleHtmlDoc(MenuBox ownerMenuBox)
         {
             HtmlDocument htmldoc = new HtmlDocument();
@@ -230,7 +233,7 @@ namespace LayoutFarm
                             menuBox.SetLocation(50, 50);
                             //add to top window
                             menuBox.ShowMenu(lightBoxHost.RootGfx);
-                            
+
                             e.StopPropagation();
 
                         });

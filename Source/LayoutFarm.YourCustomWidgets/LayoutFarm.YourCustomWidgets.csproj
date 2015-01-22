@@ -34,6 +34,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="0_CustomRenderElements\CustomTextRun.cs" />
     <Compile Include="1_UIElement\1_UIElement.cs" />
     <Compile Include="1_UIElement\2_UIElement_EventListener.cs" />
     <Compile Include="1_UIElement\3_UIBox.cs" />
@@ -45,6 +46,7 @@
     <Compile Include="2_UIGroupManagement\6_FreeSpaceController.cs" />
     <Compile Include="2_UIGroupManagement\8_SpacePartEnums.cs" />
     <Compile Include="2_UIGroupManagement\7_SpacePart.cs" />
+    <Compile Include="2_UIGroupManagement\9_NinespaceGrippers.cs" />
     <Compile Include="3_Basic\0_EaseBox.cs" />
     <Compile Include="0_CustomRenderElements\CustomImageRenderBox.cs" />
     <Compile Include="0_CustomRenderElements\CustomRenderElements.cs" />
@@ -60,6 +62,7 @@
     <Compile Include="4_Composites\HingeBox.cs" />
     <Compile Include="4_Composites\ListView.cs" />
     <Compile Include="4_Composites\Menu.cs" />
+    <Compile Include="4_Composites\TabPageBox.cs" />
     <Compile Include="4_Composites\TreeView.cs" />
     <Compile Include="5_HtmlBox\LightHtmlBox.cs" />
     <Compile Include="5_HtmlBox\LightHtmlBoxHost.cs" />

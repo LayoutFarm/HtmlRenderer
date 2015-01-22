@@ -82,8 +82,9 @@ namespace LayoutFarm.UI
             RelaseHitChain(this._previousChain);
             this._previousChain = hitChain;
         }
-        void FlushAccumGraphics()
+        void PrepareRenderAndFlushAccumGraphics()
         {
+            this.rootgfx.PrepareRender();
             this.rootgfx.FlushAccumGraphics();
         }
         public IEventListener CurrentKeyboardFocusedElement
@@ -335,7 +336,7 @@ namespace LayoutFarm.UI
             }
 #endif
             SwapHitChain(hitPointChain);
-            this.FlushAccumGraphics();
+            this.PrepareRenderAndFlushAccumGraphics();
 
             if (local_msgVersion != msgChainVersion)
             {
@@ -398,7 +399,7 @@ namespace LayoutFarm.UI
 
 
             SwapHitChain(hitPointChain);
-            this.FlushAccumGraphics();
+            this.PrepareRenderAndFlushAccumGraphics();
 
         }
         protected void OnGotFocus(UIFocusEventArgs e)
@@ -477,7 +478,7 @@ namespace LayoutFarm.UI
                 }
             }
             SwapHitChain(hitPointChain);
-            this.FlushAccumGraphics();
+            this.PrepareRenderAndFlushAccumGraphics();
         }
         protected void OnKeyDown(UIKeyEventArgs e)
         {
@@ -486,7 +487,7 @@ namespace LayoutFarm.UI
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyDown(e);
 
-                this.FlushAccumGraphics();
+                this.PrepareRenderAndFlushAccumGraphics();
             }
         }
         protected void OnKeyUp(UIKeyEventArgs e)
@@ -495,7 +496,7 @@ namespace LayoutFarm.UI
             {
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyUp(e);
-                this.FlushAccumGraphics();
+                this.PrepareRenderAndFlushAccumGraphics();
             }
         }
         protected void OnKeyPress(UIKeyEventArgs e)
@@ -505,7 +506,7 @@ namespace LayoutFarm.UI
             {
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyPress(e);
-                this.FlushAccumGraphics();
+                this.PrepareRenderAndFlushAccumGraphics();
             }
         }
         protected bool OnProcessDialogKey(UIKeyEventArgs e)
@@ -517,7 +518,7 @@ namespace LayoutFarm.UI
                 result = currentKbFocusElem.ListenProcessDialogKey(e);
                 if (result)
                 {
-                    this.FlushAccumGraphics();
+                    this.PrepareRenderAndFlushAccumGraphics();
                 }
             }
             return result;

@@ -9,18 +9,34 @@ using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
 {
-
+    public enum PanelLayoutKind
+    {
+        Absolute,
+        VerticalStack,
+        HorizontalStack
+    }
+    public enum PanelStretch
+    {
+        None,
+        Horizontal,
+        Vertical,
+        Both,
+    }
     public class Panel : UIBox
     {
-        public event EventHandler<UIMouseEventArgs> MouseDown;
-        public event EventHandler<UIMouseEventArgs> MouseUp;
-         
+
+        public event EventHandler<EventArgs> LayoutFinished;
+
+        PanelLayoutKind panelLayoutKind;
+        PanelStretch panelChildStretch;        
+
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
         int viewportX;
         int viewportY;
 
         List<UICollection> layers = new List<UICollection>(1);
+        bool needContentLayout;
 
         public Panel(int width, int height)
             : base(width, height)
@@ -28,6 +44,7 @@ namespace LayoutFarm.CustomWidgets
             UICollection plainLayer = new UICollection(this);
             this.layers.Add(plainLayer);
         }
+
 
         protected override bool HasReadyRenderElement
         {
@@ -83,37 +100,60 @@ namespace LayoutFarm.CustomWidgets
             }
             return primElement;
         }
-
+        public override bool NeedContentLayout
+        {
+            get
+            {
+                return this.needContentLayout;
+            }
+        }
+        public PanelLayoutKind PanelLayoutKind
+        {
+            get { return this.panelLayoutKind; }
+            set
+            {
+                this.panelLayoutKind = value;
+            }
+        }
         public void AddChildBox(UIElement ui)
         {
+            needContentLayout = true;
             UICollection layer0 = (UICollection)this.layers[0];
             layer0.AddUI(ui);
-
             if (this.HasReadyRenderElement)
             {
                 PlainLayer plain1 = this.primElement.Layers.Layer0 as PlainLayer;
                 plain1.AddUI(ui);
+                if (this.panelLayoutKind != PanelLayoutKind.Absolute)
+                {
+                    this.InvalidateLayout();
+                }
             }
-        }
 
-        //----------------------------------------------------
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            if (this.MouseDown != null)
+            if (ui.NeedContentLayout)
             {
-                this.MouseDown(this, e);
+                ui.InvalidateLayout();
+            }
+
+        }
+        public void RemoveChildBox(UIElement ui)
+        {
+            needContentLayout = true;
+            UICollection layer0 = (UICollection)this.layers[0];
+            layer0.RemoveUI(ui);
+            if (this.HasReadyRenderElement)
+            {
+                PlainLayer plain1 = this.primElement.Layers.Layer0 as PlainLayer;               
+                if (this.panelLayoutKind != PanelLayoutKind.Absolute)
+                {
+                    this.InvalidateLayout();
+                }
+
+                plain1.RemoveUI(ui);
             }
         }
-         
-        protected override void OnMouseUp(UIMouseEventArgs e)
-        {
-            if (this.MouseUp != null)
-            {
-                MouseUp(this, e);
-            }
-            base.OnMouseUp(e);
-        }
-         
+        
+
         public override int ViewportX
         {
             get { return this.viewportX; }
@@ -134,25 +174,83 @@ namespace LayoutFarm.CustomWidgets
 
             }
         }
-
-
+        protected override void OnContentLayout()
+        {
+            this.PerformContentLayout();
+        }
         public override void PerformContentLayout()
         {
+            this.InvalidateGraphics();
             //temp : arrange as vertical stack***
-            UICollection layer0 = (UICollection)this.layers[0];
-            int count = layer0.Count;
-            int ypos = 0;
-            for (int i = 0; i < count; ++i)
+            switch (this.PanelLayoutKind)
             {
-                var element = layer0.GetElement(i) as UIBox;
-                if (element != null)
-                {
-                    element.PerformContentLayout();
-                    element.SetBounds(0, ypos, element.Width, element.DesiredHeight);
-                    ypos += element.DesiredHeight;
-                }
+                case CustomWidgets.PanelLayoutKind.VerticalStack:
+                    {
+                        UICollection layer0 = (UICollection)this.layers[0];
+                        int count = layer0.Count;
+                        int ypos = 0;
+
+                        //todo: implement stretching ...
+                        //switch (this.panelChildStretch)
+                        //{
+                        //    case PanelStretch.Horizontal:
+                        //        {
+                        //        } break;
+                        //    case PanelStretch.Vertical:
+                        //        {
+                        //        } break;
+                        //    case PanelStretch.Both:
+                        //        {
+                        //        } break;
+                        //}
+
+                        for (int i = 0; i < count; ++i)
+                        {
+                            var element = layer0.GetElement(i) as UIBox;
+                            if (element != null)
+                            {
+                                element.PerformContentLayout();
+                                element.SetBounds(0, ypos, element.Width, element.DesiredHeight);
+                                ypos += element.DesiredHeight;
+                            }
+                        }
+                        this.desiredHeight = ypos;
+                    } break;
+                case CustomWidgets.PanelLayoutKind.HorizontalStack:
+                    {
+                        UICollection layer0 = (UICollection)this.layers[0];
+                        int count = layer0.Count;
+                        int xpos = 0;
+                        int d_h = 0;
+                        for (int i = 0; i < count; ++i)
+                        {
+                            var element = layer0.GetElement(i) as UIBox;
+                            if (element != null)
+                            {
+                                element.PerformContentLayout();
+                                element.SetBounds(xpos, 0, element.DesiredWidth, element.DesiredHeight);
+                                xpos += element.DesiredWidth;
+                                if (d_h < element.DesiredHeight)
+                                {
+                                    d_h = element.DesiredHeight;
+                                }
+                            }
+                        }
+
+                        this.desiredWidth = xpos;
+                        this.desiredHeight = d_h;
+
+
+                    } break;
+                default:
+                    {
+                    } break;
             }
-            this.desiredHeight = ypos;
+            //------------------------------------------------
+            if (this.LayoutFinished != null)
+            {
+                this.LayoutFinished(this, EventArgs.Empty);
+            }
         }
         public override int DesiredHeight
         {
@@ -161,9 +259,16 @@ namespace LayoutFarm.CustomWidgets
                 return this.desiredHeight;
             }
         }
+        public override int DesiredWidth
+        {
+            get
+            {
+                return this.desiredWidth;
+            }
+        }
         //temp***
         int desiredHeight;
-
+        int desiredWidth;
     }
 
 

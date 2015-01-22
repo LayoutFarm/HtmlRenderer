@@ -163,6 +163,7 @@ namespace LayoutFarm.UI
 
             if (needUpdate > 0)
             {
+                this.rootgfx.PrepareRender();
                 this.rootgfx.FlushAccumGraphics(); 
             }
 

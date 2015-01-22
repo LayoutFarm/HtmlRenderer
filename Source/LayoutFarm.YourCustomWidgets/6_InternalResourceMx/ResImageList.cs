@@ -30,7 +30,16 @@ namespace LayoutFarm.CustomWidgets
             images.TryGetValue(imageName, out found);
             return found;
         }
+        public static ImageBinder GetImageBinder(ImageName imageName)
+        {
+            Image found;
+            images.TryGetValue(imageName, out found);
 
+            ImageBinder binder = new ImageBinder(null);
+            binder.SetImage(found);
+            binder.State = ImageBinderState.Loaded;
+            return binder;
+        }
     }
 
     public enum ImageName

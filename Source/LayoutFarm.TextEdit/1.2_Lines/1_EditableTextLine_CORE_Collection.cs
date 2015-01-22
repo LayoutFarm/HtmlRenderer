@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.Text
 {
@@ -13,13 +13,13 @@ namespace LayoutFarm.Text
 
         void AddNormalRunToLast(EditableTextSpan v)
         {
-            EditableTextSpan.SetParentLink(v, new VisualEditableLineParentLink(this, base.AddLast(v))); 
- 
+            EditableTextSpan.SetParentLink(v, new VisualEditableLineParentLink(this, base.AddLast(v)));
+
             if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
             {
                 return;
-            } 
-            v.StartBubbleUpLayoutInvalidState(); 
+            }
+
 
         }
         void AddNormalRunToFirst(EditableTextSpan v)
@@ -29,7 +29,7 @@ namespace LayoutFarm.Text
             {
                 return;
             }
-            v.StartBubbleUpLayoutInvalidState();
+
 
         }
 
@@ -45,7 +45,7 @@ namespace LayoutFarm.Text
             {
                 return;
             }
-            v.StartBubbleUpLayoutInvalidState();
+
 
         }
         void AddNormalRunAfter(EditableTextSpan afterVisualElement, EditableTextSpan v)
@@ -59,7 +59,7 @@ namespace LayoutFarm.Text
                 return;
             }
 
-            v.StartBubbleUpLayoutInvalidState();
+
 
         }
         public new void Clear()
@@ -83,10 +83,7 @@ namespace LayoutFarm.Text
             }
 #endif
 
-            if ((lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) == 0)
-            {
-                v.StartBubbleUpLayoutInvalidState();
-            }
+
             base.Remove(GetLineLinkedNode(v));
 
             EditableTextSpan.RemoveParentLink(v);
@@ -106,15 +103,15 @@ namespace LayoutFarm.Text
             }
             else
             {
-                var ownerVe = editableFlowLayer.OwnerRenderElement;
-                if (ownerVe != null)
-                {
-                    RenderElement.InnerInvalidateLayoutAndStartBubbleUp(ownerVe);
-                }
-                else
-                {
-                    throw new NotSupportedException();
-                }
+                //var ownerVe = editableFlowLayer.OwnerRenderElement;
+                //if (ownerVe != null)
+                //{
+                //    RenderElement.InnerInvalidateLayoutAndStartBubbleUp(ownerVe);
+                //}
+                //else
+                //{
+                //    throw new NotSupportedException();
+                //}
             }
         }
     }

@@ -6,19 +6,19 @@ using System.Text;
 using PixelFarm.Drawing;
 
 using LayoutFarm.Text;
-using LayoutFarm.UI; 
+using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {
 
-    public class CustomImageRenderBox : RenderBoxBase
+    public class CustomImageRenderBox : CustomRenderBox
     {
 
 #if DEBUG
         public bool dbugBreak;
 #endif
-        Image image;
+        ImageBinder imageBinder;
         public CustomImageRenderBox(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
@@ -29,22 +29,31 @@ namespace LayoutFarm.CustomWidgets
 
         }
 
-        public Image Image
+        public ImageBinder ImageBinder
         {
-            get { return this.image; }
-            set { this.image = value; }
-        }
-        public Color BackColor
-        {
-            get;
-            set;
+            get { return this.imageBinder; }
+            set { this.imageBinder = value; }
         }
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
-            if (this.image != null)
+            if (this.imageBinder != null)
             {
-                canvas.DrawImage(this.image,
-                    new RectangleF(0, 0, this.Width, this.Height));
+                switch (imageBinder.State)
+                {
+                    case ImageBinderState.Loaded:
+                        {
+                            canvas.DrawImage(imageBinder.Image,
+                                new RectangleF(0, 0, this.Width, this.Height));
+                        } break;
+                    case ImageBinderState.Unload:
+                        {
+                            if (this.imageBinder.HasLazyFunc)
+                            {
+                                this.imageBinder.LazyLoadImage();
+                            }
+                        } break;
+                }
+
             }
             else
             {

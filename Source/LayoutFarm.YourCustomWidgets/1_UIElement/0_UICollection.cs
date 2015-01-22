@@ -31,9 +31,10 @@ namespace LayoutFarm.UI
         {
             get { return this.uiList.Count; }
         }
-        public void RemoveUI(UIElement ui)
+        public bool RemoveUI(UIElement ui)
         {
             //remove specific ui
+            return uiList.Remove(ui);
         }
         public void RemoveAt(int index)
         {

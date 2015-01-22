@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace LayoutFarm.UI
-{  
+{
     public abstract class NinespaceController
     {
         //----------------------------
@@ -35,11 +35,11 @@ namespace LayoutFarm.UI
         protected int rightSpaceWidth = 1;
         protected int centerSpaceWidth = -1;
 
-        protected  int sizeW;
+        protected int sizeW;
         protected int sizeH;
 
         protected SpaceConcept dockSpaceConcept = SpaceConcept.FiveSpace;
-        protected UIBox myOwner; 
+        protected UIBox myOwner;
 
         public NinespaceController(UIBox owner, SpaceConcept initConcept)
         {
@@ -61,14 +61,14 @@ namespace LayoutFarm.UI
             this.sizeW = owner.Width;
 
         }
-      
+
         protected SpacePart InitSpace(SpaceName name)
         {
             //only call from ctor?
             SpacePart dockspace = new SpacePart(this, 10, 10, name);
             return dockspace;
         }
-        public UIElement Container
+        public UIBox Owner
         {
             get
             {
@@ -130,6 +130,8 @@ namespace LayoutFarm.UI
             set
             {
                 dockSpaceConcept = value;
+                //TODO: change concept?
+
             }
         }
 
@@ -506,9 +508,7 @@ namespace LayoutFarm.UI
             //this.dbugVRoot.dbug_PushLayoutTraceMessage("^Set LeftSpaceWidth=" + value);
 #endif
             this.HasSpecificLeftSpaceWidth = true;
-            this.InvalidateArrangementInAllDockSpaces();
-
-
+            this.InvalidateArrangementInAllDockSpaces(); 
             this.ArrangeAllSpaces();
         }
 
@@ -911,5 +911,8 @@ namespace LayoutFarm.UI
         {
         }
     }
+
+
+
 
 }

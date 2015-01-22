@@ -70,6 +70,13 @@ namespace LayoutFarm.WebDom
         }
 
         bool IEventListener.AcceptKeyboardFocus { get { return false; } }
-
+        void IEventListener.HandleContentLayout()
+        {
+            OnContentLayout();
+        }
+        void IEventListener.HandleContentUpdate()
+        {
+            OnContentUpdate();
+        }
     }
 }
