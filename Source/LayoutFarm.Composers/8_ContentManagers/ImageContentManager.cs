@@ -156,6 +156,11 @@ namespace LayoutFarm.ContentManagers
 
         public void AddRequestImage(ImageBinder contentReq)
         {
+            if (contentReq.ImageSource == null && !contentReq.HasLazyFunc)
+            {
+                contentReq.State = ImageBinderState.NoImage;
+                return;
+            }
             //binder and req box 
             //1. 
             contentReq.State = ImageBinderState.Loading;

@@ -28,16 +28,23 @@ namespace LayoutFarm.Composers
         static CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
         {
             string imgsrc;
+
             ImageBinder imgBinder = null;
             if (childElement.TryGetAttribute(WellknownName.Src, out imgsrc))
             {
-                imgBinder = new ClientImageBinder(imgsrc);
+                var clientImageBinder = new ClientImageBinder(imgsrc);
+                imgBinder = clientImageBinder;
+                clientImageBinder.SetOwner(childElement);
             }
             else
             {
-                imgBinder = new ClientImageBinder(null);
+                var clientImageBinder = new ClientImageBinder(null);
+                imgBinder = clientImageBinder;
+                clientImageBinder.SetOwner(childElement);
             }
+          
             CssBoxImage boxImage = new CssBoxImage(childElement, childElement.Spec, imgBinder);
+
             parent.AppendChild(boxImage);
             return boxImage;
         }

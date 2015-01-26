@@ -28,6 +28,15 @@ namespace LayoutFarm.Composers
             {
                 return rootNode;
             }
+            set
+            {
+                this.rootNode = value;
+            }
+        }
+        public override int DomUpdateVersion
+        {
+            get;
+            set;
         }
         public override DomElement CreateElement(string prefix, string localName)
         {
