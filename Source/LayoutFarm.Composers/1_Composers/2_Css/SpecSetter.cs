@@ -159,7 +159,7 @@ namespace LayoutFarm.Composers
                     spec.BackgroundColor = cssValue.AsColor();
                     break;
                 case WellknownCssPropertyName.BackgroundImage:
-                    spec.BackgroundImageBinder = new  ImageBinder(cssValue.GetTranslatedStringValue());
+                    spec.BackgroundImageBinder = new ClientImageBinder(cssValue.GetTranslatedStringValue());
                     break;
                 case WellknownCssPropertyName.BackgroundPosition:
 
@@ -172,15 +172,8 @@ namespace LayoutFarm.Composers
                     spec.BackgroundGradient = cssValue.AsColor();
                     break;
                 case WellknownCssPropertyName.BackgroundGradientAngle:
-                    {
-                        spec.BackgroundGradientAngle = cssValue.AsNumber();
-
-                        //float angle;
-                        //if (float.TryParse(cssValue.GetTranslatedStringValue(), out angle))
-                        //{
-                        //    cssBox.BackgroundGradientAngle = angle;
-                        //}
-                    } break;
+                    spec.BackgroundGradientAngle = cssValue.AsNumber();
+                    break;
                 case WellknownCssPropertyName.Color:
                     spec.Color = cssValue.AsColor();
                     break;

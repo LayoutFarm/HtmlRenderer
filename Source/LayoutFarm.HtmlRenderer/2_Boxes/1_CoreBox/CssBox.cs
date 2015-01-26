@@ -45,7 +45,7 @@ namespace LayoutFarm.HtmlBoxes
         static int dbugTotalId;
         public int dbugMark;
 #endif
-        public CssBox(object controller, BoxSpec spec)
+        public CssBox(object controller, BoxSpec spec)            
         {
 
             this._aa_boxes = new CssBoxCollection();

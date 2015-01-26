@@ -140,8 +140,7 @@ namespace LayoutFarm.Demo
         }
         void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
         {
-            this.imageContentMan.AddRequestImage(
-                new ImageContentRequest(e.binder, null, null));
+            this.imageContentMan.AddRequestImage(e.binder);
         }
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
         {

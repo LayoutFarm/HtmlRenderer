@@ -141,12 +141,12 @@ namespace LayoutFarm
 
             return mnuItem;
         }
-       
+
         static ImageBinder LoadImage(string filename)
         {
             System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
             Bitmap bmp = new Bitmap(gdiBmp.Width, gdiBmp.Height, gdiBmp);
-            ImageBinder binder = new ImageBinder(null);
+            ImageBinder binder = new ClientImageBinder(null);
             binder.SetImage(bmp);
             binder.State = ImageBinderState.Loaded;
             return binder;

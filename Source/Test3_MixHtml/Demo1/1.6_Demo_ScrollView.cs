@@ -23,10 +23,10 @@ namespace LayoutFarm
             AddScrollView1(viewport, 0, 0);
             AddScrollView2(viewport, 250, 0);
         }
-        void LazyImageLoad(object sender, ImageBinder binder)
+        void LazyImageLoad(ImageBinder binder)
         {
             //load here as need
-            imageContentMan.AddRequestImage(new ImageContentRequest(binder, sender, (IEventListener)sender));
+            imageContentMan.AddRequestImage(binder);
 
         }
         void AddScrollView1(SampleViewport viewport, int x, int y)
@@ -89,9 +89,9 @@ namespace LayoutFarm
             for (int i = 0; i < 5; ++i)
             {
                 var imgbox = new LayoutFarm.CustomWidgets.ImageBox(36, 400);
-
-                ImageBinder binder = new ImageBinder("../../images/0" + (i + 1) + ".jpg");
-                binder.SetLazyFunc(imgbox, LazyImageLoad);
+                ClientImageBinder binder = new ClientImageBinder("../../images/0" + (i + 1) + ".jpg");
+                binder.SetOwner(imgbox);
+                binder.SetLazyFunc(LazyImageLoad);
 
                 //if use lazy img load func
                 //imageContentMan.AddRequestImage(new ImageContentRequest(binder, imgbox, imgbox));

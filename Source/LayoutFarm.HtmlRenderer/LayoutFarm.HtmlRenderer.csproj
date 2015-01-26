@@ -85,6 +85,7 @@
     <Compile Include="4_Svg\08_Paths\SvgPathDataParser.cs" />
     <Compile Include="4_Svg\08_Paths\SvgPathSegments.cs" />
     <Compile Include="4_Svg\09_BasicShapes\SvgImage.cs" />
+    <Compile Include="4_Svg\09_BasicShapes\SvgImageBinder.cs" />
     <Compile Include="4_Svg\09_BasicShapes\SvgSpec.cs" />
     <Compile Include="4_Svg\09_BasicShapes\SvgVisualElements.cs" />
     <Compile Include="4_Svg\16_Interactivity\SvgHitChain.cs" />

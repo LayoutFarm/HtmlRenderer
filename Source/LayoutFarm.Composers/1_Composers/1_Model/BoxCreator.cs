@@ -31,11 +31,11 @@ namespace LayoutFarm.Composers
             ImageBinder imgBinder = null;
             if (childElement.TryGetAttribute(WellknownName.Src, out imgsrc))
             {
-                imgBinder = new ImageBinder(imgsrc);
+                imgBinder = new ClientImageBinder(imgsrc);
             }
             else
             {
-                imgBinder = new ImageBinder(null);
+                imgBinder = new ClientImageBinder(null);
             }
             CssBoxImage boxImage = new CssBoxImage(childElement, childElement.Spec, imgBinder);
             parent.AppendChild(boxImage);

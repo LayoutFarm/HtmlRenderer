@@ -11,8 +11,6 @@ namespace LayoutFarm
 
     public abstract partial class RenderElement : IRenderElement
     {
-
-
         RootGraphic rootGfx;
         IParentLink parentLink;
         object controller;
