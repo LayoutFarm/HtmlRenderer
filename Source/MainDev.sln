@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5_Platforms.Windows", "5_Pl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2_BaseModules", "2_BaseModules", "{3BA8D292-2DD5-49D2-8D77-AB7113B6E007}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4_IntegrationModules", "4_IntegrationModules", "{9C0C4A5D-D6B8-4C16-AA49-585AA37302E1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4_IntegratedModules", "4_IntegratedModules", "{9C0C4A5D-D6B8-4C16-AA49-585AA37302E1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.ClientPlatforms", "LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj", "{61369865-95B7-49F2-B012-67B4A2427A8B}"
 EndProject

@@ -19,7 +19,7 @@ namespace LayoutFarm.Text
             }
         }
         TextSurfaceEventListener textSurfaceEventListener;
-        public TextSurfaceEventListener TextDomListener
+        public TextSurfaceEventListener TextSurfaceListener
         {
             get
             {

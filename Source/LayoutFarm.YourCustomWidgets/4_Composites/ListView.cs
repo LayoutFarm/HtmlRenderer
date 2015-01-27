@@ -16,8 +16,8 @@ namespace LayoutFarm.CustomWidgets
         Color backColor = Color.LightGray;
         int viewportX, viewportY;
         List<UICollection> layers = new List<UICollection>(1);
-
-
+        List<ListItem> items = new List<ListItem>();
+        int selectedIndex = -1;//default = no selection
         Panel panel;
         public ListView(int width, int height)
             : base(width, height)
@@ -80,6 +80,7 @@ namespace LayoutFarm.CustomWidgets
                 }
 
                 //---------------------------------
+                renderE.SetVisible(this.Visible);
                 primElement = renderE;
             }
             return primElement;
@@ -89,15 +90,80 @@ namespace LayoutFarm.CustomWidgets
         {
             panel.PerformContentLayout();
         }
-        public void AddItem(ListItem ui)
-        {
-            panel.AddChildBox(ui);
-        }
         public override bool NeedContentLayout
         {
             get
             {
                 return this.panel.NeedContentLayout;
+            }
+        }
+        //----------------------------------------------------
+        public void AddItem(ListItem ui)
+        {
+            items.Add(ui);
+            panel.AddChildBox(ui);
+        }
+        public int ItemCount
+        {
+            get { return this.items.Count; }
+        }
+        public void RemoveAt(int index)
+        {
+            var item = items[index];
+            panel.RemoveChildBox(item);
+            items.RemoveAt(index);
+
+        }
+        public ListItem GetItem(int index)
+        {
+            return items[index];
+        }
+        public void Remove(ListItem item)
+        {
+            items.Remove(item);
+            panel.RemoveChildBox(item);
+        }
+        public void ClearItems()
+        {
+            this.selectedIndex = -1;
+            this.items.Clear();
+            this.panel.ClearItems();
+        }
+        //----------------------------------------------------
+
+        public int SelectedIndex
+        {
+            get { return this.selectedIndex; }
+            set
+            {
+                if (value < this.ItemCount)
+                {
+
+                    if (this.selectedIndex != value)
+                    {
+                        //1. current item
+                        if (selectedIndex > -1)
+                        {
+                            //switch back
+                            GetItem(this.selectedIndex).BackColor = Color.LightGray;
+                        }
+
+                        this.selectedIndex = value;
+                        if (value == -1)
+                        {
+                            //no selection
+                        }
+                        else
+                        {
+                            //highlight selection item
+                            GetItem(this.SelectedIndex).BackColor = Color.Yellow;
+                        }
+                    }
+                }
+                else
+                {
+                    throw new Exception("out of range");
+                }
             }
         }
         //----------------------------------------------------
@@ -148,7 +214,10 @@ namespace LayoutFarm.CustomWidgets
 
     public class ListItem : UIBox
     {
-        CustomRenderBox primElement;
+        CustomContainerRenderBox primElement;
+        CustomTextRun listItemText;
+
+        string itemText;
         Color backColor;
         public ListItem(int width, int height)
             : base(width, height)
@@ -166,9 +235,21 @@ namespace LayoutFarm.CustomWidgets
         {
             if (primElement == null)
             {
-                var element = new CustomRenderBox(rootgfx, this.Width, this.Height);
+                //1.
+                var element = new CustomContainerRenderBox(rootgfx, this.Width, this.Height);
+
                 element.SetLocation(this.Left, this.Top);
                 element.BackColor = this.backColor;
+
+
+                listItemText = new CustomTextRun(rootgfx, this.Width, this.Height);
+                element.AddChildBox(listItemText);
+
+                if (this.itemText != null)
+                {
+                    listItemText.Text = this.itemText;
+                }
+
                 this.primElement = element;
             }
             return primElement;
@@ -185,6 +266,20 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
+        public string Text
+        {
+            get { return this.itemText; }
+            set
+            {
+                this.itemText = value;
+                if (listItemText != null)
+                {
+                    listItemText.Text = value;
+                }
+            }
+        }
+
+
     }
 
 }

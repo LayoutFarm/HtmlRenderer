@@ -13,7 +13,7 @@ namespace LayoutFarm.CustomWidgets
 
     public class TextBox : UIBox, IUserEventPortal
     {
-
+        TextSurfaceEventListener textSurfaceListener;
         TextEditRenderBox visualTextEdit;
         bool _multiline;
 
@@ -22,7 +22,9 @@ namespace LayoutFarm.CustomWidgets
             : base(width, height)
         {
             this._multiline = multiline;
+
         }
+
         public override bool AcceptKeyboardFocus
         {
             get
@@ -57,11 +59,57 @@ namespace LayoutFarm.CustomWidgets
                   | 1 << UIEventIdentifier.NE_LOST_FOCUS
                   | 1 << UIEventIdentifier.NE_SIZE_CHANGED
                   );
-
+                if (this.textSurfaceListener != null)
+                {
+                    tbox.TextSurfaceListener = textSurfaceListener;
+                }
                 this.visualTextEdit = tbox;
             }
             return visualTextEdit;
         }
+        //----------------------------------------------------------------
+        public TextSurfaceEventListener TextEventListener
+        {
+            get { return this.textSurfaceListener; }
+            set
+            {
+                this.textSurfaceListener = value;
+
+                if (this.visualTextEdit != null)
+                {
+                    this.visualTextEdit.TextSurfaceListener = value;
+                }
+
+            }
+        }
+        public EditableTextSpan CurrentTextSpan
+        {
+            get
+            {
+
+                return this.visualTextEdit.CurrentTextRun;
+            }
+        }
+        public void ReplaceCurrentTextRunContent(int nBackspaces, string newstr)
+        {
+            if (visualTextEdit != null)
+            {
+                
+                visualTextEdit.ReplaceCurrentTextRunContent(nBackspaces, newstr);
+            }
+        }
+        public void ReplaceCurrentLineTextRuns(IEnumerable<EditableTextSpan> textRuns)
+        {
+            if (visualTextEdit != null)
+            {
+                visualTextEdit.ReplaceCurrentLineTextRuns(textRuns);
+            }
+        }
+        public void CopyCurrentLine(StringBuilder stbuilder)
+        {
+            visualTextEdit.CopyCurrentLine(stbuilder);
+        }
+        //----------------------------------------------------------------
 
         protected override void OnMouseLeave(UIMouseEventArgs e)
         {

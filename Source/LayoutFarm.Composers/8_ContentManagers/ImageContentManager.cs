@@ -12,22 +12,6 @@ namespace LayoutFarm.ContentManagers
 
 
 
-    public struct ImageContentRequest
-    {
-        internal readonly ImageBinder binder;
-        internal readonly object requestBy;
-        internal readonly IEventListener listener;
-
-        public ImageContentRequest(ImageBinder binder,
-            object requestBy,
-            IEventListener listener)
-        {
-            this.binder = binder;
-            this.requestBy = requestBy;
-            this.listener = listener;
-        }
-
-    }
 
 
     class ImageCacheSystem
@@ -52,7 +36,7 @@ namespace LayoutFarm.ContentManagers
 
         public event EventHandler<ImageRequestEventArgs> ImageLoadingRequest;
 
-        LinkedList<ImageContentRequest> inputList = new LinkedList<ImageContentRequest>();
+        LinkedList<ImageBinder> inputList = new LinkedList<ImageBinder>();
         LinkedList<ImageBinder> outputList = new LinkedList<ImageBinder>();
 
 
@@ -102,9 +86,9 @@ namespace LayoutFarm.ContentManagers
                 var firstNode = inputList.First;
                 inputList.RemoveFirst();
 
-                ImageContentRequest req = firstNode.Value;
+                ImageBinder binder = firstNode.Value;
                 //wait until finish this  .... 
-                var binder = req.binder;
+
 
                 //1. check from cache if not found
                 //then send request to external ... 
@@ -119,38 +103,35 @@ namespace LayoutFarm.ContentManagers
                         this,
                         new ContentManagers.ImageRequestEventArgs(
                         binder));
-
                     //....
                     //process image infomation
                     //.... 
                     if (binder.State == ImageBinderState.Loaded)
                     {
-
                         //store to cache 
                         //TODO: implement caching policy  
                         imageCacheLevel0.AddCacheImage(binder.ImageSource, binder.Image);
-                        //send ready image notification to
-                        //parent html container
-                        //send data update to owner 
-                        //req.listener.AddUpdatedImageBinder(binder);
-                        if (req.listener != null)
-                        {
-                            req.listener.HandleContentUpdate();
-                        }
+                        ////send ready image notification to
+                        ////parent html container
+                        ////send data update to owner 
+                        ////req.listener.AddUpdatedImageBinder(binder);
+                        //if (req.listener != null)
+                        //{
+                        //    req.listener.HandleContentUpdate();
+                        //}
                     }
                 }
                 else
                 {
                     //process image infomation
-                    //.... 
-
+                    //....  
                     binder.SetImage(foundImage);
-                    //send ready image notification to
-                    //parent html container                             
-                    if (req.listener != null)
-                    {
-                        req.listener.HandleContentUpdate();
-                    }
+                    ////send ready image notification to
+                    ////parent html container                             
+                    //if (req.listener != null)
+                    //{
+                    //    req.listener.HandleContentUpdate();
+                    //}
                 }
 
                 //next image
@@ -172,12 +153,17 @@ namespace LayoutFarm.ContentManagers
             }
             working = false;
         }
-        
-        public void AddRequestImage(ImageContentRequest contentReq)
+
+        public void AddRequestImage(ImageBinder contentReq)
         {
+            if (contentReq.ImageSource == null && !contentReq.HasLazyFunc)
+            {
+                contentReq.State = ImageBinderState.NoImage;
+                return;
+            }
             //binder and req box 
             //1. 
-            contentReq.binder.State = ImageBinderState.Loading;
+            contentReq.State = ImageBinderState.Loading;
             //2.
             inputList.AddLast(contentReq);
 
@@ -185,6 +171,6 @@ namespace LayoutFarm.ContentManagers
             //and store in outputlist         
             hasSomeInputHint = true;
         }
-        
+
     }
 }

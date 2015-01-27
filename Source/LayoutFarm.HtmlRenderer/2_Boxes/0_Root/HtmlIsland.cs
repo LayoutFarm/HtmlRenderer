@@ -40,7 +40,7 @@ namespace LayoutFarm.HtmlBoxes
         float _maxWidth;
         float _maxHeight;
 
-        protected int newUpdateImageCount = 0;
+        
         /// <summary>
         /// 99999
         /// </summary>

@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using PixelFarm.Drawing;
-using LayoutFarm.WebDom; 
-using LayoutFarm.ContentManagers; 
+using LayoutFarm.WebDom;
+using LayoutFarm.ContentManagers;
 using LayoutFarm.UI;
 
 namespace LayoutFarm.HtmlBoxes
@@ -17,7 +17,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         public ImageBinder binder;
         public object requestBy;
-         
+
     }
 
     public class HtmlIslandHost
@@ -26,7 +26,7 @@ namespace LayoutFarm.HtmlBoxes
         SelectionRange _currentSelectionRange;
 
         public HtmlIslandHost()
-        { 
+        {
         }
         public WebDom.CssActiveSheet BaseStylesheet { get; set; }
         public virtual void RequestImage(ImageBinder binder, HtmlIsland reqIsland, object reqFrom, bool _sync)
@@ -35,7 +35,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 HtmlResourceRequestEventArgs resReq = new HtmlResourceRequestEventArgs();
                 resReq.binder = binder;
-                resReq.requestBy = reqFrom; 
+                resReq.requestBy = reqFrom;
                 RequestResource(this, resReq);
             }
         }
@@ -65,7 +65,7 @@ namespace LayoutFarm.HtmlBoxes
 
         HtmlIslandHost islandHost;
         WebDocument doc;
-
+        int lastDomUpdateVersion;
         public event EventHandler DomVisualRefresh;
         public event EventHandler DomRequestRebuild;
 
@@ -77,7 +77,11 @@ namespace LayoutFarm.HtmlBoxes
         public WebDocument Document
         {
             get { return this.doc; }
-            set { this.doc = value; }
+            set
+            {
+                this.doc = value;
+
+            }
         }
 
         public bool RefreshIfNeed()
@@ -85,10 +89,11 @@ namespace LayoutFarm.HtmlBoxes
 
             //not need to store that binder 
             //(else if you want to debug) 
-            if (this.newUpdateImageCount > 0)
+            if (this.lastDomUpdateVersion != doc.DomUpdateVersion)
             {
+                this.lastDomUpdateVersion = doc.DomUpdateVersion;
                 //reset
-                this.newUpdateImageCount = 0;
+                
                 this.NeedLayout = false;
 
                 if (DomVisualRefresh != null)
@@ -148,7 +153,7 @@ namespace LayoutFarm.HtmlBoxes
                 doc.DocumentState == DocumentState.ChangedAfterIdle
                 && DomRequestRebuild != null)
             {
-                DomRequestRebuild(this, EventArgs.Empty); 
+                DomRequestRebuild(this, EventArgs.Empty);
             }
         }
 

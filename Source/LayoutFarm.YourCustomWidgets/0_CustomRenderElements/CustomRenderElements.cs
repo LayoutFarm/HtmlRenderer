@@ -13,7 +13,7 @@ namespace LayoutFarm.CustomWidgets
 
     public class CustomRenderBox : RenderBoxBase
     {
-
+        Color backColor;
 #if DEBUG
         public bool dbugBreak;
 #endif
@@ -23,13 +23,23 @@ namespace LayoutFarm.CustomWidgets
             this.BackColor = Color.LightGray;
 
         }
+
         public override void ClearAllChildren()
         {
+
         }
         public Color BackColor
         {
-            get;
-            set;
+            get { return this.backColor; }
+            set
+            {
+                this.backColor = value;
+                if (this.ParentLink != null)
+                {
+                    this.InvalidateGraphics();
+                }
+            }
+
         }
         public VisualLayerCollection Layers
         {

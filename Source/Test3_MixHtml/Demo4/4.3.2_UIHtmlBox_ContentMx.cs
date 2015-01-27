@@ -35,7 +35,7 @@ namespace LayoutFarm
             htmlBoxContentMx.Bind(htmlBox);
 
 
-            contentMx.ImageLoadingRequest += new EventHandler<LayoutFarm.ContentManagers.ImageRequestEventArgs>(contentMx_ImageLoadingRequest);
+            contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
 
 
             viewport.AddContent(htmlBox);

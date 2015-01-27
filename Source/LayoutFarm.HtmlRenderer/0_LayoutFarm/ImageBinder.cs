@@ -1,20 +1,17 @@
-﻿//BSD 2014,WinterDev
+﻿//BSD 2014-2015,WinterDev
 using System;
 using PixelFarm.Drawing;
 
 namespace LayoutFarm
 {
-    public class ImageBinder
+    public abstract class ImageBinder
     {
 
         Image _image;
-        string _imageSource;
-        object _owner;
+        string _imageSource; 
         LazyLoadImageFunc lazyLoadImgFunc;
-        private ImageBinder()
+        public ImageBinder()
         {
-            this.State = ImageBinderState.NoImage;
-
         }
         public ImageBinder(string imgSource)
         {
@@ -71,30 +68,40 @@ namespace LayoutFarm
             {
                 this._image = image;
                 this.State = ImageBinderState.Loaded;
+                this.OnImageChanged();
             }
+        }
+        protected virtual void OnImageChanged()
+        {
+
         }
         public bool HasLazyFunc
         {
             get { return this.lazyLoadImgFunc != null; }
         }
-        public void SetLazyFunc(object owner, LazyLoadImageFunc lazyLoadFunc)
+        
+        public void SetLazyFunc(LazyLoadImageFunc lazyLoadFunc)
         {
-            this._owner = owner;
+
             this.lazyLoadImgFunc = lazyLoadFunc;
         }
         public void LazyLoadImage()
         {
             if (this.lazyLoadImgFunc != null)
             {
-                this.lazyLoadImgFunc(_owner, this);
+                this.lazyLoadImgFunc(this);
             }
         }
+        public static readonly ImageBinder NoImage = new NoImageImageBinder();
 
-        public static readonly ImageBinder NoImage = new ImageBinder();
+        class NoImageImageBinder : ImageBinder
+        {
 
+        }
     }
 
-    public delegate void LazyLoadImageFunc(object owner, ImageBinder binder);
+
+    public delegate void LazyLoadImageFunc(ImageBinder binder);
 
 
 

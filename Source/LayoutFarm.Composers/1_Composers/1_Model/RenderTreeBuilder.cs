@@ -72,22 +72,22 @@ namespace LayoutFarm.Composers
                     case WebDom.HtmlNodeType.OpenElement:
                     case WebDom.HtmlNodeType.ShortElement:
                         {
-                            HtmlElement bridgeElement = (HtmlElement)node;
-                            bridgeElement.WellknownElementName = UserMapUtil.EvaluateTagName(bridgeElement.LocalName);
-                            switch (bridgeElement.WellknownElementName)
+                            HtmlElement htmlElement = (HtmlElement)node;
+                            htmlElement.WellknownElementName = UserMapUtil.EvaluateTagName(htmlElement.LocalName);
+                            switch (htmlElement.WellknownElementName)
                             {
                                 case WellKnownDomNodeName.style:
                                     {
                                         //style element should have textnode child
-                                        int j = bridgeElement.ChildrenCount;
+                                        int j = htmlElement.ChildrenCount;
                                         for (int i = 0; i < j; ++i)
                                         {
-                                            var ch = bridgeElement.GetChildNode(i);
+                                            var ch = htmlElement.GetChildNode(i);
                                             switch (ch.NodeType)
                                             {
                                                 case HtmlNodeType.TextNode:
                                                     {
-                                                        HtmlTextNode textNode = (HtmlTextNode)bridgeElement.GetChildNode(0);
+                                                        HtmlTextNode textNode = (HtmlTextNode)htmlElement.GetChildNode(0);
                                                         activeCssTemplate.LoadRawStyleElementContent(new string(textNode.GetOriginalBuffer()));
                                                         //break
                                                         i = j;
@@ -100,7 +100,7 @@ namespace LayoutFarm.Composers
                                     {
                                         //<link rel="stylesheet"
                                         DomAttribute relAttr;
-                                        if (bridgeElement.TryGetAttribute(WellknownName.Rel, out relAttr)
+                                        if (htmlElement.TryGetAttribute(WellknownName.Rel, out relAttr)
                                             && relAttr.Value.ToLower() == "stylesheet")
                                         {
                                             //if found
@@ -108,7 +108,7 @@ namespace LayoutFarm.Composers
                                             CssActiveSheet stylesheetData;
 
                                             DomAttribute hrefAttr;
-                                            if (bridgeElement.TryGetAttribute(WellknownName.Href, out hrefAttr))
+                                            if (htmlElement.TryGetAttribute(WellknownName.Href, out hrefAttr))
                                             {
                                                 RaiseRequestStyleSheet(
                                                     hrefAttr.Value,
@@ -132,11 +132,11 @@ namespace LayoutFarm.Composers
                             }
                             //-----------------------------                            
                             //apply style for this node  
-                            ApplyStyleSheetForSingleBridgeElement(bridgeElement, parentElement.Spec, activeCssTemplate);
+                            ApplyStyleSheetForSingleHtmlElement(htmlElement, parentElement.Spec, activeCssTemplate);
                             //-----------------------------
 
                             //recursive 
-                            PrepareStylesAndContentOfChildNodes(bridgeElement, activeCssTemplate);
+                            PrepareStylesAndContentOfChildNodes(htmlElement, activeCssTemplate);
                             //-----------------------------
                         } break;
                     case WebDom.HtmlNodeType.TextNode:
@@ -170,7 +170,7 @@ namespace LayoutFarm.Composers
                  containerElement);
 
         }
-        public CssBox BuildCssRenderTree(LayoutFarm.Composers.HtmlDocument bridgeHtmlDoc,
+        public CssBox BuildCssRenderTree(LayoutFarm.Composers.HtmlDocument htmldoc,
             IFonts ifonts,
             CssActiveSheet cssData,
             LayoutFarm.RenderElement containerElement)
@@ -179,41 +179,41 @@ namespace LayoutFarm.Composers
             CssBox rootBox = null;
             ActiveCssTemplate activeCssTemplate = null;
             activeCssTemplate = new ActiveCssTemplate(cssData);
-            bridgeHtmlDoc.ActiveCssTemplate = activeCssTemplate;
+            htmldoc.ActiveCssTemplate = activeCssTemplate;
 
-            bridgeHtmlDoc.SetDocumentState(DocumentState.Building);
+            htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
 
-            PrepareStylesAndContentOfChildNodes((HtmlElement)bridgeHtmlDoc.RootNode, activeCssTemplate);
+            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeCssTemplate);
 
             //----------------------------------------------------------------  
             rootBox = BoxCreator.CreateCssRenderRoot(ifonts, containerElement);
-            ((HtmlElement)bridgeHtmlDoc.RootNode).SetPrincipalBox(rootBox);
+            ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);
-            boxCreator.GenerateChildBoxes((RootElement)bridgeHtmlDoc.RootNode, true);
+            boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, true);
 
-            bridgeHtmlDoc.SetDocumentState(DocumentState.Idle);
+            htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
             //SetTextSelectionStyle(htmlIsland, cssData);
             return rootBox;
         }
 
         //----------------------------------------------------------------
-        public CssBox RefreshCssTree(WebDocument htmldoc)
+        public CssBox RefreshCssTree(WebDocument webdoc)
         {
 
             CssBox rootBox = null;
-            HtmlDocument bridgeHtmlDoc = (HtmlDocument)htmldoc;
-            ActiveCssTemplate activeCssTemplate = bridgeHtmlDoc.ActiveCssTemplate;
+            HtmlDocument htmldoc = (HtmlDocument)webdoc;
+            ActiveCssTemplate activeCssTemplate = htmldoc.ActiveCssTemplate;
 
             htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
-            RootElement bridgeRoot = (RootElement)htmldoc.RootNode;
-            PrepareStylesAndContentOfChildNodes(bridgeRoot, activeCssTemplate);
+            RootElement rootElement = (RootElement)htmldoc.RootNode;
+            PrepareStylesAndContentOfChildNodes(rootElement, activeCssTemplate);
 
             //----------------------------------------------------------------  
-            CssBox principalBox = RootElement.InternalGetPrincipalBox(bridgeRoot);
+            CssBox principalBox = RootElement.InternalGetPrincipalBox(rootElement);
             principalBox.Clear();
 
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);
@@ -260,7 +260,7 @@ namespace LayoutFarm.Composers
 
         }
 #endif
-        void ApplyStyleSheetForSingleBridgeElement(
+        void ApplyStyleSheetForSingleHtmlElement(
           HtmlElement element,
           BoxSpec parentSpec,
           ActiveCssTemplate activeCssTemplate)
@@ -360,10 +360,10 @@ namespace LayoutFarm.Composers
             curSpec.Freeze(); //***
             //===================== 
         }
-        void ApplyStyleSheetTopDownForBridgeElement(HtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
+        void ApplyStyleSheetTopDownForHtmlElement(HtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
         {
 
-            ApplyStyleSheetForSingleBridgeElement(element, parentSpec, activeCssTemplate);
+            ApplyStyleSheetForSingleHtmlElement(element, parentSpec, activeCssTemplate);
             BoxSpec curSpec = element.Spec;
 
             int n = element.ChildrenCount;
@@ -372,7 +372,7 @@ namespace LayoutFarm.Composers
                 HtmlElement childElement = element.GetChildNode(i) as HtmlElement;
                 if (childElement != null)
                 {
-                    ApplyStyleSheetTopDownForBridgeElement(childElement, curSpec, activeCssTemplate);
+                    ApplyStyleSheetTopDownForHtmlElement(childElement, curSpec, activeCssTemplate);
                 }
             }
         }

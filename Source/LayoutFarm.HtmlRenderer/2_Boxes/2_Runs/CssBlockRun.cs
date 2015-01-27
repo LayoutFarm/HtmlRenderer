@@ -1,4 +1,4 @@
-﻿//BSD 2014,WinterDev
+﻿//BSD 2014-2015,WinterDev
 using PixelFarm.Drawing;
 
 namespace LayoutFarm.HtmlBoxes

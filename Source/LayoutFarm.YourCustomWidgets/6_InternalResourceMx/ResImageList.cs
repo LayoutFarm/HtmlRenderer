@@ -35,7 +35,7 @@ namespace LayoutFarm.CustomWidgets
             Image found;
             images.TryGetValue(imageName, out found);
 
-            ImageBinder binder = new ImageBinder(null);
+            ImageBinder binder = new ClientImageBinder(null);
             binder.SetImage(found);
             binder.State = ImageBinderState.Loaded;
             return binder;
