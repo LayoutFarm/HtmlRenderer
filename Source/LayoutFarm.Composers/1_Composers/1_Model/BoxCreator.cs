@@ -66,14 +66,14 @@ namespace LayoutFarm.Composers
                         CssBox hostBox = HtmlElement.InternalGetPrincipalBox(parentElement);
 
                         //only one child -- easy 
-                        DomNode bridgeChild = parentElement.GetChildNode(0);
+                        DomNode child = parentElement.GetChildNode(0);
                         int newBox = 0;
-                        switch (bridgeChild.NodeType)
+                        switch (child.NodeType)
                         {
                             case HtmlNodeType.TextNode:
                                 {
 
-                                    HtmlTextNode singleTextNode = (HtmlTextNode)bridgeChild;
+                                    HtmlTextNode singleTextNode = (HtmlTextNode)child;
                                     RunListHelper.AddRunList(hostBox, parentElement.Spec, singleTextNode);
 
                                 } break;
@@ -81,7 +81,7 @@ namespace LayoutFarm.Composers
                             case HtmlNodeType.OpenElement:
                                 {
 
-                                    HtmlElement childElement = (HtmlElement)bridgeChild;
+                                    HtmlElement childElement = (HtmlElement)child;
                                     var spec = childElement.Spec;
                                     if (spec.CssDisplay == CssDisplay.None)
                                     {
