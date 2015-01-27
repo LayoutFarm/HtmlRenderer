@@ -67,7 +67,7 @@ namespace LayoutFarm.CustomWidgets
             }
             return visualTextEdit;
         }
-
+        //----------------------------------------------------------------
         public TextSurfaceEventListener TextEventListener
         {
             get { return this.textSurfaceListener; }
@@ -85,11 +85,31 @@ namespace LayoutFarm.CustomWidgets
         public EditableTextSpan CurrentTextSpan
         {
             get
-            {   
+            {
+
                 return this.visualTextEdit.CurrentTextRun;
             }
         }
-
+        public void ReplaceCurrentTextRunContent(int nBackspaces, string newstr)
+        {
+            if (visualTextEdit != null)
+            {
+                
+                visualTextEdit.ReplaceCurrentTextRunContent(nBackspaces, newstr);
+            }
+        }
+        public void ReplaceCurrentLineTextRuns(IEnumerable<EditableTextSpan> textRuns)
+        {
+            if (visualTextEdit != null)
+            {
+                visualTextEdit.ReplaceCurrentLineTextRuns(textRuns);
+            }
+        }
+        public void CopyCurrentLine(StringBuilder stbuilder)
+        {
+            visualTextEdit.CopyCurrentLine(stbuilder);
+        }
+        //----------------------------------------------------------------
 
         protected override void OnMouseLeave(UIMouseEventArgs e)
         {

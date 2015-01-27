@@ -20,7 +20,6 @@ namespace LayoutFarm
 #if DEBUG
                 dbugVRoot.dbug_PushInvalidateMsg(RootGraphic.dbugMsg_BLOCKED, this);
 #endif
-
                 return false;
             }
 
