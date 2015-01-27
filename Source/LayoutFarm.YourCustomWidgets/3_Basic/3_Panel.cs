@@ -28,7 +28,7 @@ namespace LayoutFarm.CustomWidgets
         public event EventHandler<EventArgs> LayoutFinished;
 
         PanelLayoutKind panelLayoutKind;
-        PanelStretch panelChildStretch;        
+        PanelStretch panelChildStretch;
 
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
@@ -143,7 +143,7 @@ namespace LayoutFarm.CustomWidgets
             layer0.RemoveUI(ui);
             if (this.HasReadyRenderElement)
             {
-                PlainLayer plain1 = this.primElement.Layers.Layer0 as PlainLayer;               
+                PlainLayer plain1 = this.primElement.Layers.Layer0 as PlainLayer;
                 if (this.panelLayoutKind != PanelLayoutKind.Absolute)
                 {
                     this.InvalidateLayout();
@@ -152,7 +152,22 @@ namespace LayoutFarm.CustomWidgets
                 plain1.RemoveUI(ui);
             }
         }
-        
+        public void ClearItems()
+        {
+            needContentLayout = true;
+            UICollection layer0 = (UICollection)this.layers[0];
+            layer0.Clear();
+            if (this.HasReadyRenderElement)
+            {
+                PlainLayer plain1 = this.primElement.Layers.Layer0 as PlainLayer;
+                plain1.Clear();
+                if (this.panelLayoutKind != PanelLayoutKind.Absolute)
+                {
+                    this.InvalidateLayout();
+                }
+            }
+
+        }
 
         public override int ViewportX
         {

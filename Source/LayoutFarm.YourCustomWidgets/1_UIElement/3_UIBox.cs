@@ -50,11 +50,7 @@ namespace LayoutFarm.UI
         {
             SetLocation(left, top);
             SetSize(width, height);
-        }
-      
-
-       
-
+        } 
         public int Left
         {
             get

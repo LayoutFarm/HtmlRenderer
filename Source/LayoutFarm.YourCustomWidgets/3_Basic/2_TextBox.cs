@@ -74,12 +74,22 @@ namespace LayoutFarm.CustomWidgets
             set
             {
                 this.textSurfaceListener = value;
+
                 if (this.visualTextEdit != null)
                 {
                     this.visualTextEdit.TextSurfaceListener = value;
                 }
+
             }
         }
+        public EditableTextSpan CurrentTextSpan
+        {
+            get
+            {   
+                return this.visualTextEdit.CurrentTextRun;
+            }
+        }
+
 
         protected override void OnMouseLeave(UIMouseEventArgs e)
         {
