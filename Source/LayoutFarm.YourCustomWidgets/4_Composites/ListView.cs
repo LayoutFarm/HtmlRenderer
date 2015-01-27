@@ -166,7 +166,9 @@ namespace LayoutFarm.CustomWidgets
         {
             if (primElement == null)
             {
+                //1.
                 var element = new CustomRenderBox(rootgfx, this.Width, this.Height);
+                
                 element.SetLocation(this.Left, this.Top);
                 element.BackColor = this.backColor;
                 this.primElement = element;

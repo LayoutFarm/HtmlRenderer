@@ -343,6 +343,5 @@ namespace LayoutFarm
             visualElement.b_left = x;
             visualElement.b_top = y;
         }
-
     }
 }

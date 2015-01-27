@@ -15,8 +15,7 @@
 
 using System;
 using System.Collections.Generic;
-using PixelFarm.Drawing;
-using PixelFarm.Drawing;
+using PixelFarm.Drawing; 
 
 namespace LayoutFarm.HtmlBoxes
 {

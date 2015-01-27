@@ -23,8 +23,10 @@ namespace LayoutFarm.CustomWidgets
             this.BackColor = Color.LightGray;
 
         }
+        
         public override void ClearAllChildren()
         {
+
         }
         public Color BackColor
         {

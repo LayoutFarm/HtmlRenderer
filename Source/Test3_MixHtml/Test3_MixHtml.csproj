@@ -50,6 +50,7 @@
     <Compile Include="Demo1\1.9_Demo_TreeView.cs" />
     <Compile Include="Demo2\2.1_Demo_SingleLineTextBox.cs" />
     <Compile Include="Demo2\2.2_Demo_MultilineTextBox.cs" />
+    <Compile Include="Demo2\2.3_Demo_SingleLineTextBox_WithSuggestion.cs" />
     <Compile Include="Demo3\3.1_Demo_Visible.cs" />
     <Compile Include="Demo3\3.2_Demo_ControllerBox.cs" />
     <Compile Include="Demo3\3.3_Demo_ControllerBox2.cs" />
@@ -109,9 +110,7 @@
       <Name>Test0_PresentationDevHelper_New</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="temp\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
