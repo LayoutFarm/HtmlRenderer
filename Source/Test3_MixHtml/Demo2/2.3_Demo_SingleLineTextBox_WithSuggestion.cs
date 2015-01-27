@@ -26,7 +26,8 @@ namespace LayoutFarm
             var textSurfaceListener = new LayoutFarm.Text.TextSurfaceEventListener();
             textSurfaceListener.CharacterAdded += (s, e) => UpdateSuggestionList();
             textSurfaceListener.CharacterRemoved += (s, e) => UpdateSuggestionList();
-
+            textSurfaceListener.PreviewArrowKeyDown += new EventHandler<Text.TextDomEventArgs>(textSurfaceListener_PreviewArrowKeyDown);
+            textSurfaceListener.PreviewEnterKeyDown += new EventHandler<Text.TextDomEventArgs>(textSurfaceListener_PreviewEnterKeyDown);
             textbox.TextEventListener = textSurfaceListener;
             //------------------------------------ 
             viewport.AddContent(textbox);
@@ -34,15 +35,62 @@ namespace LayoutFarm
             //------------------------------------ 
             BuildSampleCountryList();
         }
+
+
+        void textSurfaceListener_PreviewArrowKeyDown(object sender, Text.TextDomEventArgs e)
+        {
+            //update selection in list box
+            switch (e.key)
+            {
+                case UIKeys.Down:
+                    {
+                        if (listView.SelectedIndex < listView.ItemCount - 1)
+                        {
+                            listView.SelectedIndex++;
+                        }
+
+                    } break;
+                case UIKeys.Up:
+                    {
+                        if (listView.SelectedIndex > 0)
+                        {
+                            listView.SelectedIndex--;
+                        }
+
+                    } break;
+            }
+
+        }
+        void textSurfaceListener_PreviewEnterKeyDown(object sender, Text.TextDomEventArgs e)
+        {
+            //accept selected text
+            if (textbox.CurrentTextSpan != null)
+            {
+                if (textbox.CurrentTextSpan != null)
+                {
+                    textbox.ReplaceCurrentTextRunContent(textbox.CurrentTextSpan.CharacterCount,
+                        (string)listView.GetItem(listView.SelectedIndex).Tag);
+                    
+                    //------------------------------------- 
+                    //then hide suggestion list
+                    listView.ClearItems();
+                    listView.Visible = false;
+                    //--------------------------------------
+
+                }
+
+                e.Canceled = true;
+            }
+        }
         void UpdateSuggestionList()
         {
             //find suggestion words 
             listView.ClearItems();
             if (textbox.CurrentTextSpan == null)
-            { 
+            {
                 listView.Visible = false;
                 return;
-            } 
+            }
             //-------------------------------------------------------------------------
             //In this example  all country name start with Captial letter so ...
             string currentTextSpanText = textbox.CurrentTextSpan.Text.ToUpper();
@@ -52,17 +100,18 @@ namespace LayoutFarm
             if (words.TryGetValue(firstChar, out keywords))
             {
                 int j = keywords.Count;
-
+                int listViewWidth = listView.Width;
                 for (int i = 0; i < j; ++i)
                 {
                     string choice = keywords[i].ToUpper();
                     if (choice.StartsWith(currentTextSpanText))
                     {
-                        CustomWidgets.ListItem item = new CustomWidgets.ListItem(20, 17);
+                        CustomWidgets.ListItem item = new CustomWidgets.ListItem(listViewWidth, 17);
                         item.BackColor = Color.LightGray;
-                        item.Text = keywords[i];
+                        item.Tag = item.Text = keywords[i];
+
                         listView.AddItem(item);
-                    } 
+                    }
                 }
             }
             listView.Visible = true;

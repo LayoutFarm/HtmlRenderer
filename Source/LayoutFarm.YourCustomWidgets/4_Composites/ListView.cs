@@ -17,7 +17,7 @@ namespace LayoutFarm.CustomWidgets
         int viewportX, viewportY;
         List<UICollection> layers = new List<UICollection>(1);
         List<ListItem> items = new List<ListItem>();
-
+        int selectedIndex = -1;//default = no selection
         Panel panel;
         public ListView(int width, int height)
             : base(width, height)
@@ -125,7 +125,46 @@ namespace LayoutFarm.CustomWidgets
         }
         public void ClearItems()
         {
+            this.selectedIndex = -1;
+            this.items.Clear();
             this.panel.ClearItems();
+        }
+        //----------------------------------------------------
+
+        public int SelectedIndex
+        {
+            get { return this.selectedIndex; }
+            set
+            {
+                if (value < this.ItemCount)
+                {
+
+                    if (this.selectedIndex != value)
+                    {
+                        //1. current item
+                        if (selectedIndex > -1)
+                        {
+                            //switch back
+                            GetItem(this.selectedIndex).BackColor = Color.LightGray;
+                        }
+
+                        this.selectedIndex = value;
+                        if (value == -1)
+                        {
+                            //no selection
+                        }
+                        else
+                        {
+                            //highlight selection item
+                            GetItem(this.SelectedIndex).BackColor = Color.Yellow;
+                        }
+                    }
+                }
+                else
+                {
+                    throw new Exception("out of range");
+                }
+            }
         }
         //----------------------------------------------------
         protected override void OnMouseDown(UIMouseEventArgs e)
@@ -239,6 +278,8 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
+
+
     }
 
 }

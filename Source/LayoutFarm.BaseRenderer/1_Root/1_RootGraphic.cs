@@ -99,7 +99,6 @@ namespace LayoutFarm
                 return;
             }
             
-
             this.canvasInvalidateDelegate(accumulateInvalidRect);
             this.paintToOutputWindowHandler();
 
