@@ -15,6 +15,7 @@ namespace LayoutFarm.CustomWidgets
     {
 
         char[] textBuffer;
+     
 #if DEBUG
         public bool dbugBreak;
 #endif
@@ -34,14 +35,14 @@ namespace LayoutFarm.CustomWidgets
                 }
                 else
                 {
-                    this.textBuffer = value.ToCharArray();
+                    this.textBuffer = value.ToCharArray(); 
                 }
             }
-        } 
+        }
         public override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
             if (this.textBuffer != null)
-            {
+            {   
                 canvas.DrawText(this.textBuffer, this.X, this.Y);
             }
         }

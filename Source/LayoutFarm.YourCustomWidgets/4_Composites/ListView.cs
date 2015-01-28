@@ -278,8 +278,11 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
-
-
+        //----------------- 
+        public void AddChild(RenderElement renderE)
+        {
+            primElement.AddChildBox(renderE);
+        } 
     }
 
 }

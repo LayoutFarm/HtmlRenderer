@@ -76,7 +76,7 @@ namespace LayoutFarm.CustomWidgets
                 renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.HasSpecificSize = true;
-
+                renderE.SetViewport(this.viewportX, this.viewportY);
                 //------------------------------------------------
                 //create visual layer
                 renderE.Layers = new VisualLayerCollection();
@@ -86,7 +86,7 @@ namespace LayoutFarm.CustomWidgets
                     UICollection plain = (UICollection)this.layers[m];
                     var groundLayer = new PlainLayer(renderE);
                     renderE.Layers.AddLayer(groundLayer);
-                    renderE.SetViewport(this.viewportX, this.viewportY);
+
                     //---------------------------------
                     int j = plain.Count;
                     for (int i = 0; i < j; ++i)
@@ -192,6 +192,35 @@ namespace LayoutFarm.CustomWidgets
         protected override void OnContentLayout()
         {
             this.PerformContentLayout();
+        }
+        protected override void OnMouseWheel(UIMouseEventArgs e)
+        {
+            //vertical scroll
+            if (this.desiredHeight > this.Height)
+            {
+                if (e.Delta < 0)
+                {
+                    //down
+                    this.viewportY += 20;
+                    if (viewportY > desiredHeight - this.Height)
+                    {
+                        this.viewportY = desiredHeight - this.Height;
+                    }
+                }
+                else
+                {
+                    //up
+                    this.viewportY -= 20;
+                    if (viewportY < 0)
+                    {
+                        viewportY = 0;
+                    }
+                }
+                this.primElement.SetViewport(viewportX, viewportY);
+                this.InvalidateGraphics();
+                 
+            }
+            
         }
         public override void PerformContentLayout()
         {
