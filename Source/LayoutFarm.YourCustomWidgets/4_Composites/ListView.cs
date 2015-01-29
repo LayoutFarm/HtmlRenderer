@@ -116,7 +116,14 @@ namespace LayoutFarm.CustomWidgets
         }
         public ListItem GetItem(int index)
         {
-            return items[index];
+            if (index < 0)
+            {
+                return null;
+            }
+            else
+            {
+                return items[index];
+            }
         }
         public void Remove(ListItem item)
         {
@@ -282,7 +289,7 @@ namespace LayoutFarm.CustomWidgets
         public void AddChild(RenderElement renderE)
         {
             primElement.AddChildBox(renderE);
-        } 
+        }
     }
 
 }

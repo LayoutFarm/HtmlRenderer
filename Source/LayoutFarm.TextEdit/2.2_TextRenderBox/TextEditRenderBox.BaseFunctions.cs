@@ -192,6 +192,7 @@ namespace LayoutFarm.Text
             this.SetCaretState(true);
             this.isFocus = true;
         }
+        
         public bool IsFocused
         {
             get
