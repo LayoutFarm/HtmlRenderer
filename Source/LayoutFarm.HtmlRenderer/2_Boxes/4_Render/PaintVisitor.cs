@@ -16,13 +16,11 @@ namespace LayoutFarm.HtmlBoxes
         PointF[] borderPoints = new PointF[4];
         HtmlIsland htmlIsland;
         Canvas canvas;
-
         Rectangle latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
 
 
         float viewportWidth;
         float viewportHeight;
-
 
         public PaintVisitor()
         {
@@ -33,6 +31,7 @@ namespace LayoutFarm.HtmlBoxes
             this.htmlIsland = htmlIsland;
             this.canvas = canvas;
         }
+        
         public void UnBind()
         {
             //clear
@@ -115,10 +114,18 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="requestFrom"></param>
         public void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, object requestFrom)
         {
-            this.htmlIsland.RaiseImageRequest(
-                binder,
-                requestFrom,
-                false);
+            if (htmlIsland != null)
+            {
+                this.htmlIsland.RaiseImageRequest(
+                    binder,
+                    requestFrom,
+                    false);
+            }
+            else
+            {
+                binder.LazyLoadImage();
+            }
+
             //--------------------------------------------------
             if (binder.State == ImageBinderState.Loaded)
             {
