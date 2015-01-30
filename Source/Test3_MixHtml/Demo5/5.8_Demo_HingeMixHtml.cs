@@ -54,7 +54,6 @@ namespace LayoutFarm
             var landPart = new LayoutFarm.CustomWidgets.Panel(400, 20);
             landPart.BackColor = Color.Green;
             comboBox.LandPart = landPart;
-
             //--------------------------------------
             //add small px to land part
             //image
@@ -183,7 +182,7 @@ namespace LayoutFarm
                 floatPart.AddChildBox(lightHtmlBox2);
                 //light box can't load full html
                 //all light boxs of the same lightbox host share resource with the host
-                string html2 = @"<div>OK1</div><div>OK2</div><div>OK3</div><div>OK4</div>";
+                //string html2 = @"<div>OK1</div><div>OK2</div><div>OK3</div><div>OK4</div>";
                 //if you want to use ful l html-> use HtmlBox instead  
                 lightHtmlBox2.LoadHtmlFragmentDom(CreateSampleHtmlDoc(floatPart));
                 //lightHtmlBox2.LoadHtmlFragmentText(html2);
