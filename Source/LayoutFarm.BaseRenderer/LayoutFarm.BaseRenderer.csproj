@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="2_RenderElement\3_RenderElement.Bubble_Layout.cs" />
+    <Compile Include="2_RenderElement\ImageBinder.cs" />
     <Compile Include="2_RenderElement\RenderElementConst.cs" />
     <Compile Include="2_RenderElement\x_RenderElement_LocationHelper.cs" />
     <Compile Include="3_Layers\4_LayerCollection.cs" />
