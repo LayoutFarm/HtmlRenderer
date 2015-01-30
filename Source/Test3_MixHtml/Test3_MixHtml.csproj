@@ -51,6 +51,7 @@
     <Compile Include="Demo2\2.1_Demo_SingleLineTextBox.cs" />
     <Compile Include="Demo2\2.2_Demo_MultilineTextBox.cs" />
     <Compile Include="Demo2\2.3_Demo_SingleLineTextBox_WithSuggestion.cs" />
+    <Compile Include="Demo2\2.4_Demo_SingleTextLine_With_Compartment.cs" />
     <Compile Include="Demo3\3.1_Demo_Visible.cs" />
     <Compile Include="Demo3\3.2_Demo_ControllerBox.cs" />
     <Compile Include="Demo3\3.3_Demo_ControllerBox2.cs" />

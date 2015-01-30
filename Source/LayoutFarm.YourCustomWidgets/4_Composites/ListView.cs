@@ -116,7 +116,14 @@ namespace LayoutFarm.CustomWidgets
         }
         public ListItem GetItem(int index)
         {
-            return items[index];
+            if (index < 0)
+            {
+                return null;
+            }
+            else
+            {
+                return items[index];
+            }
         }
         public void Remove(ListItem item)
         {
@@ -242,7 +249,7 @@ namespace LayoutFarm.CustomWidgets
                 element.BackColor = this.backColor;
 
 
-                listItemText = new CustomTextRun(rootgfx, this.Width, this.Height);
+                listItemText = new CustomTextRun(rootgfx, 200, this.Height);
                 element.AddChildBox(listItemText);
 
                 if (this.itemText != null)
@@ -278,8 +285,11 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
-
-
+        //----------------- 
+        public void AddChild(RenderElement renderE)
+        {
+            primElement.AddChildBox(renderE);
+        }
     }
 
 }

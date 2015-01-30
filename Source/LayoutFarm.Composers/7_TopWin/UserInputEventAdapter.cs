@@ -281,18 +281,20 @@ namespace LayoutFarm.UI
 
                         this.currentMouseDown = e.CurrentContextElement;
                         listener.ListenMouseDown(e);
-                      
+
                         if (e.CurrentContextElement.AcceptKeyboardFocus)
                         {
                             this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
+                        }
+                        else
+                        {
+                            this.CurrentKeyboardFocusedElement = null;
                         }
                         //------------------------------------------------------- 
 
                         if (prevMouseDownElement != null &&
                             prevMouseDownElement != listener)
                         {
-                            //mouse up on another element 
-                            //eg. drag 
                             prevMouseDownElement.ListenLostMouseFocus(e);
                         }
                         return true;
@@ -449,7 +451,7 @@ namespace LayoutFarm.UI
                 if (!e.CancelBubbling)
                 {
                     ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
-                    {   
+                    {
                         listener.ListenMouseUp(e);
                         return true;
                     });

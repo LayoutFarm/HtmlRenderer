@@ -3,8 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing;
-
+using PixelFarm.Drawing; 
 using LayoutFarm.UI;
 
 namespace LayoutFarm
@@ -19,8 +18,7 @@ namespace LayoutFarm
         }
         public void AddContent(RenderElement renderElement)
         {
-            this.vw.AddContent(renderElement);
-            //this.vw.AddContent(ui.GetPrimaryRenderElement(vw.WinTopRootGfx));
+            this.vw.AddContent(renderElement); 
         }
         public GraphicsPlatform P
         {

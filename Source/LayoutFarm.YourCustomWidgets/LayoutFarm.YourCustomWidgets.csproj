@@ -57,6 +57,7 @@
     <Compile Include="3_Basic\3_Panel.cs" />
     <Compile Include="3_Basic\4_ScrollBar.cs" />
     <Compile Include="3_Basic\2_TextBox.cs" />
+    <Compile Include="3_Basic\6_Label.cs" />
     <Compile Include="4_Composites\HingeRelation.cs" />
     <Compile Include="4_Composites\CheckBox.cs" />
     <Compile Include="4_Composites\ComboBox.cs" />

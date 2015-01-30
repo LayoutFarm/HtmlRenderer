@@ -10,9 +10,12 @@ using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm
 {
-    [DemoNote("3.8 Demo_CompartmentWithSpliter2")]
-    class Demo_CompartmentWithSpliter2 : DemoBase
+    [DemoNote("2.4 Demo_SingleTextLine_With_Compartment")]
+    class Demo_SingleTextLine_With_Compartment : DemoBase
     {
+        LayoutFarm.CustomWidgets.TextBox textbox;
+        LayoutFarm.CustomWidgets.ListView listView;
+        Dictionary<char, List<string>> words = new Dictionary<char, List<string>>();
 
         UINinespaceBox ninespaceBox;
         protected override void OnStartDemo(SampleViewport viewport)
@@ -34,37 +37,378 @@ namespace LayoutFarm
             ninespaceBox.SetSize(800, 600);
             //--------------------------------
             //test add some content to the ninespace box
-            var sampleListView = CreateSampleListView();
-            ninespaceBox.LeftSpace.PanelLayoutKind = PanelLayoutKind.VerticalStack;
-            ninespaceBox.LeftSpace.AddChildBox(sampleListView);
+
+
+            textbox = new LayoutFarm.CustomWidgets.TextBox(400, 30, false);
+            listView = new CustomWidgets.ListView(300, 200);
+            listView.SetLocation(0, 40);
+            listView.Visible = false;
+            //------------------------------------
+            //create special text surface listener
+            var textSurfaceListener = new LayoutFarm.Text.TextSurfaceEventListener();
+            textSurfaceListener.CharacterAdded += (s, e) => UpdateSuggestionList();
+            textSurfaceListener.CharacterRemoved += (s, e) => UpdateSuggestionList();
+            textSurfaceListener.PreviewArrowKeyDown += new EventHandler<Text.TextDomEventArgs>(textSurfaceListener_PreviewArrowKeyDown);
+            textSurfaceListener.PreviewEnterKeyDown += new EventHandler<Text.TextDomEventArgs>(textSurfaceListener_PreviewEnterKeyDown);
+            textbox.TextEventListener = textSurfaceListener;
+            //------------------------------------ 
+
+            //------------------------------------ 
+            BuildSampleCountryList();
+            ninespaceBox.LeftSpace.AddChildBox(textbox);
+            ninespaceBox.RightSpace.AddChildBox(listView);
 
         }
         void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)
         {
 
         }
-        
-        static LayoutFarm.CustomWidgets.ListView CreateSampleListView()
+
+        void textSurfaceListener_PreviewArrowKeyDown(object sender, Text.TextDomEventArgs e)
         {
-            var listview = new LayoutFarm.CustomWidgets.ListView(300, 400);
-            listview.SetLocation(10, 10);
-            listview.BackColor = KnownColors.FromKnownColor(KnownColor.LightGray);
-            //add 
-            for (int i = 0; i < 10; ++i)
+            //update selection in list box
+            switch (e.key)
             {
-                var listItem = new LayoutFarm.CustomWidgets.ListItem(400, 20);
-                if ((i % 2) == 0)
-                {
-                    listItem.BackColor = KnownColors.FromKnownColor(KnownColor.OrangeRed);
-                }
-                else
-                {
-                    listItem.BackColor = KnownColors.FromKnownColor(KnownColor.Orange);
-                }
-                listview.AddItem(listItem);
+                case UIKeys.Down:
+                    {
+                        if (listView.SelectedIndex < listView.ItemCount - 1)
+                        {
+                            listView.SelectedIndex++;
+                        }
+
+                    } break;
+                case UIKeys.Up:
+                    {
+                        if (listView.SelectedIndex > 0)
+                        {
+                            listView.SelectedIndex--;
+                        }
+
+                    } break;
             }
-            return listview;
+
         }
+        void textSurfaceListener_PreviewEnterKeyDown(object sender, Text.TextDomEventArgs e)
+        {
+            //accept selected text 
+            if (textbox.CurrentTextSpan != null)
+            {
+
+                ListItem selectedItem = listView.GetItem(listView.SelectedIndex);
+                if (selectedItem != null)
+                {
+                    textbox.ReplaceCurrentTextRunContent(textbox.CurrentTextSpan.CharacterCount,
+                        (string)selectedItem.Tag);
+                    //------------------------------------- 
+                    //then hide suggestion list
+                    listView.ClearItems();
+                    listView.Visible = false;
+                    //--------------------------------------
+                }
+                e.Canceled = true;
+            }
+        }
+        void UpdateSuggestionList()
+        {
+            //find suggestion words 
+            listView.ClearItems();
+            if (textbox.CurrentTextSpan == null)
+            {
+                listView.Visible = false;
+                return;
+            }
+            //-------------------------------------------------------------------------
+            //In this example  all country name start with Captial letter so ...
+            string currentTextSpanText = textbox.CurrentTextSpan.Text.ToUpper();
+            char firstChar = currentTextSpanText[0];
+
+            List<string> keywords;
+            if (words.TryGetValue(firstChar, out keywords))
+            {
+                int j = keywords.Count;
+                int listViewWidth = listView.Width;
+                for (int i = 0; i < j; ++i)
+                {
+                    string choice = keywords[i].ToUpper();
+                    if (choice.StartsWith(currentTextSpanText))
+                    {
+                        CustomWidgets.ListItem item = new CustomWidgets.ListItem(listViewWidth, 17);
+                        item.BackColor = Color.LightGray;
+                        item.Tag = item.Text = keywords[i];
+
+                        listView.AddItem(item);
+                    }
+                }
+            }
+            listView.Visible = true;
+            //-------------------------------------------------------------------------
+        }
+
+        void BuildSampleCountryList()
+        {
+
+            AddKeywordList(@"
+Afghanistan
+Albania
+Algeria
+American Samoa
+Andorra
+Angola
+Anguilla
+Antarctica
+Antigua and Barbuda
+Argentina
+Armenia
+Aruba
+Australia
+Austria
+Azerbaijan
+Bahamas
+Bahrain
+Bangladesh
+Barbados
+Belarus
+Belgium
+Belize
+Benin
+Bermuda
+Bhutan
+Bolivia
+Bosnia and Herzegovina
+Botswana
+Brazil
+Brunei Darussalam
+Bulgaria
+Burkina Faso
+Burundi
+Cambodia
+Cameroon
+Canada
+Cape Verde
+Cayman Islands
+Central African Republic
+Chad
+Chile
+China
+Christmas Island
+Cocos (Keeling) Islands
+Colombia
+Comoros
+Democratic Republic of the Congo (Kinshasa)
+'Congo, Republic of (Brazzaville)'
+Cook Islands
+Costa Rica
+Ivory Coast
+Croatia
+Cuba
+Cyprus
+Czech Republic
+Denmark
+Djibouti
+Dominica
+Dominican Republic
+East Timor (Timor-Leste)
+Ecuador
+Egypt
+El Salvador
+Equatorial Guinea
+Eritrea
+Estonia
+Ethiopia
+Falkland Islands
+Faroe Islands
+Fiji
+Finland
+France
+French Guiana
+French Polynesia
+French Southern Territories
+Gabon
+Gambia
+Georgia
+Germany
+Ghana
+Gibraltar
+Great Britain
+Greece
+Greenland
+Grenada
+Guadeloupe
+Guam
+Guatemala
+Guinea
+Guinea-Bissau
+Guyana
+Haiti
+Holy See
+Honduras
+Hong Kong
+Hungary
+Iceland
+India
+Indonesia
+Iran (Islamic Republic of)
+Iraq
+Ireland
+Israel
+Italy
+Jamaica
+Japan
+Jordan
+Kazakhstan
+Kenya
+Kiribati
+'Korea, Democratic People's Rep. (North Korea)'
+'Korea, Republic of (South Korea)'
+Kuwait
+Kyrgyzstan
+'Lao, People's Democratic Republic'
+Latvia
+Lebanon
+Lesotho
+Liberia
+Libya
+Liechtenstein
+Lithuania
+Luxembourg
+Macau
+'Macedonia, Rep. of'
+Madagascar
+Malawi
+Malaysia
+Maldives
+Mali
+Malta
+Marshall Islands
+Martinique
+Mauritania
+Mauritius
+Mayotte
+Mexico
+'Micronesia, Federal States of'
+'Moldova, Republic of'
+Monaco
+Mongolia
+Montenegro
+Montserrat
+Morocco
+Mozambique
+'Myanmar, Burma'
+Namibia
+Nauru
+Nepal
+Netherlands
+Netherlands Antilles
+New Caledonia
+New Zealand
+Nicaragua
+Niger
+Nigeria
+Niue
+Northern Mariana Islands
+Norway
+Oman
+Pakistan
+Palau
+Palestinian territories
+Panama
+Papua New Guinea
+Paraguay
+Peru
+Philippines
+Pitcairn Island
+Poland
+Portugal
+Puerto Rico
+Qatar
+Reunion Island
+Romania
+Russian Federation
+Rwanda
+Saint Kitts and Nevis
+Saint Lucia
+Saint Vincent and the Grenadines
+Samoa
+San Marino
+Sao Tome and Principe
+Saudi Arabia
+Senegal
+Serbia
+Seychelles
+Sierra Leone
+Singapore
+Slovakia (Slovak Republic)
+Slovenia
+Solomon Islands
+Somalia
+South Africa
+South Sudan
+Spain
+Sri Lanka
+Sudan
+Suriname
+Swaziland
+Sweden
+Switzerland
+'Syria, Syrian Arab Republic'
+Taiwan (Republic of China)
+Tajikistan
+Tanzania; officially the United Republic of Tanzania
+Thailand
+Tibet
+Timor-Leste (East Timor)
+Togo
+Tokelau
+Tonga
+Trinidad and Tobago
+Tunisia
+Turkey
+Turkmenistan
+Turks and Caicos Islands
+Tuvalu
+Uganda
+Ukraine
+United Arab Emirates
+United Kingdom
+United States
+Uruguay
+Uzbekistan
+Vanuatu
+Vatican City State (Holy See)
+Venezuela
+Vietnam
+Virgin Islands (British)
+Virgin Islands (U.S.)
+Wallis and Futuna Islands
+Western Sahara
+Yemen
+Zambia
+Zimbabwe");
+        }
+        void AddKeywordList(string keywordString)
+        {
+
+            string[] seplist = keywordString.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            int j = seplist.Length;
+            for (int i = 0; i < j; ++i)
+            {
+                string sepWord = seplist[i];
+                if (sepWord.StartsWith("'"))
+                {
+                    sepWord = sepWord.Substring(1, sepWord.Length - 2);
+                }
+                char firstChar = sepWord[0];
+                List<string> list;
+                if (!words.TryGetValue(firstChar, out list))
+                {
+                    list = new List<string>();
+                    words.Add(firstChar, list);
+                }
+                list.Add(sepWord);
+                list.Sort();
+            }
+        }
+
 
         class UINinespaceBox : LayoutFarm.CustomWidgets.EaseBox
         {

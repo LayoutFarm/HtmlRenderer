@@ -37,6 +37,7 @@ namespace LayoutFarm.CustomWidgets
             //request keyboard focus
             visualTextEdit.Focus();
         }
+        
         protected override bool HasReadyRenderElement
         {
             get { return this.visualTextEdit != null; }
@@ -114,7 +115,7 @@ namespace LayoutFarm.CustomWidgets
         protected override void OnMouseLeave(UIMouseEventArgs e)
         {
             e.MouseCursorStyle = MouseCursorStyle.Arrow;
-            e.CancelBubbling = true;
+            
         }
         protected override void OnDoubleClick(UIMouseEventArgs e)
         {
