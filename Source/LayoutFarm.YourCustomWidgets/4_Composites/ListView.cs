@@ -249,7 +249,7 @@ namespace LayoutFarm.CustomWidgets
                 element.BackColor = this.backColor;
 
 
-                listItemText = new CustomTextRun(rootgfx, this.Width, this.Height);
+                listItemText = new CustomTextRun(rootgfx, 200, this.Height);
                 element.AddChildBox(listItemText);
 
                 if (this.itemText != null)

@@ -49,7 +49,8 @@ namespace LayoutFarm.CustomWidgets
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             //sample bg   
-            canvas.FillRectangle(BackColor, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
+            //canvas.FillRectangle(BackColor, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
+            canvas.FillRectangle(BackColor, 0, 0, this.Width, this.Height);
             if (this.Layers != null)
             {
                 this.Layers.LayersDrawContent(canvas, updateArea);

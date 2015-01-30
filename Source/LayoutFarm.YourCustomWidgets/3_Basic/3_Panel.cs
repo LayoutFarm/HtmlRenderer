@@ -43,6 +43,8 @@ namespace LayoutFarm.CustomWidgets
         {
             UICollection plainLayer = new UICollection(this);
             this.layers.Add(plainLayer);
+            this.desiredHeight = height;
+            this.desiredWidth = width;
         }
 
 
@@ -224,6 +226,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public override void PerformContentLayout()
         {
+           
             this.InvalidateGraphics();
             //temp : arrange as vertical stack***
             switch (this.PanelLayoutKind)

@@ -15,7 +15,7 @@ namespace LayoutFarm.CustomWidgets
     {
 
         char[] textBuffer;
-     
+        Color textColor;
 #if DEBUG
         public bool dbugBreak;
 #endif
@@ -39,13 +39,22 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
+        public Color TextColor
+        {
+            get { return this.textColor; }
+            set { this.textColor = value; }
+        }
         public override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
             if (this.textBuffer != null)
-            {   
+            {
+                var prevColor = canvas.CurrentTextColor;
+                canvas.CurrentTextColor = textColor;
                 canvas.DrawText(this.textBuffer, this.X, this.Y);
+                canvas.CurrentTextColor = prevColor;
             }
         }
+       
 
     }
 
