@@ -34,7 +34,7 @@ namespace LayoutFarm.HtmlBoxes
     /// To know more about boxes visit CSS spec:
     /// http://www.w3.org/TR/CSS21/box.html
     /// </remarks>
-    public partial class CssBox
+    public partial class CssBox : RenderElement
     {
 
         readonly Css.BoxSpec _myspec;
@@ -46,6 +46,7 @@ namespace LayoutFarm.HtmlBoxes
         public int dbugMark;
 #endif
         public CssBox(object controller, BoxSpec spec, RootGraphic rootgfx)
+            : base(rootgfx, 5, 5)
         {
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
@@ -66,6 +67,7 @@ namespace LayoutFarm.HtmlBoxes
 
         }
         public CssBox(object controller, BoxSpec spec, RootGraphic rootgfx, CssDisplay fixDisplayType)
+            : base(rootgfx, 5, 5)
         {
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
