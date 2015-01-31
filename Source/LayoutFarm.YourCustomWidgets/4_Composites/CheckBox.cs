@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using PixelFarm.Drawing;
- 
+
 using LayoutFarm.UI;
 
 namespace LayoutFarm.CustomWidgets
@@ -76,7 +76,7 @@ namespace LayoutFarm.CustomWidgets
                         imageBox.ImageBinder = ResImageList.GetImageBinder(ImageName.CheckBoxUnChecked);
                     }
 
-                    
+
 
                     if (value && this.WhenChecked != null)
                     {
@@ -85,7 +85,7 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
-        public event EventHandler WhenChecked; 
+        public event EventHandler WhenChecked;
 
     }
 

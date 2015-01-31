@@ -28,7 +28,7 @@ namespace LayoutFarm.CustomWidgets
         //presentation
         HtmlFragmentRenderBox frgmRenderBox;
 
-        object uiHtmlTask = new object();
+        
 
 
         internal LightHtmlBox(LightHtmlBoxHost lightBoxHost, int width, int height)
