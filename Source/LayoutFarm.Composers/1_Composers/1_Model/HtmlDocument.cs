@@ -60,6 +60,5 @@ namespace LayoutFarm.Composers
             set;
         }
     }
-
-
+     
 }

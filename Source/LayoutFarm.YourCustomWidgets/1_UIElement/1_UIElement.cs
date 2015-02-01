@@ -8,8 +8,7 @@ namespace LayoutFarm.UI
     public abstract partial class UIElement : IEventListener
     {
         int oneBitNativeEventFlags;
-        UIElement parentElement;
-
+        UIElement parentElement; 
         public UIElement()
         {
         }
@@ -23,6 +22,9 @@ namespace LayoutFarm.UI
             get { return false; }
         }
         public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
+
+
+
         protected abstract RenderElement CurrentPrimaryRenderElement
         {
             get;
@@ -41,6 +43,8 @@ namespace LayoutFarm.UI
             get { return this.parentElement; }
             set { this.parentElement = value; }
         }
+       
+        
         public virtual bool NeedContentLayout
         {
             get { return false; }

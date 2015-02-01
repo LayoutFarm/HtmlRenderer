@@ -204,15 +204,42 @@ namespace PixelFarm.Drawing.WinGdi
                 {
                     fixed (char* startAddr = &str[0])
                     {
-                        //DrawingBridge.Win32Utils.TextOut2(_hdc, 
-                        //    (int)Math.Round(logicalTextBox.X + canvasOriginX),
-                        //    (int)Math.Round(logicalTextBox.Y + canvasOriginY),
-                        //    (startAddr + startAt), len);
                         Win32.Win32Utils.TextOut2(_hdc,
                             (int)logicalTextBox.X + canvasOriginX,
                             (int)logicalTextBox.Y + canvasOriginY,
                             (startAddr + startAt), len);
                     }
+
+                    //ReleaseHdc();
+
+                    //IntPtr gxdc = gx.GetHdc();
+                    ////MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
+
+                    ////System.Drawing.Rectangle clipRect =
+                    ////    System.Drawing.Rectangle.Intersect(logicalTextBox.ToRect(), currentClipRect);
+                    ////clipRect.Offset(CanvasOrgX, CanvasOrgY);
+
+                    //MyWin32.SetRectRgn(hRgn,
+                    //    logicalTextBox.X + canvasOriginX,
+                    //    logicalTextBox.Y + canvasOriginY,
+                    //    logicalTextBox.Right + canvasOriginX,
+                    //    logicalTextBox.Bottom +canvasOriginY);
+                    //MyWin32.SelectClipRgn(gxdc, hRgn);
+
+                    //fixed (char* startAddr = &str[0])
+                    //{
+
+                    //    Win32.Win32Utils.TextOut2(_hdc,
+                    //        (int)logicalTextBox.X + canvasOriginX,
+                    //        (int)logicalTextBox.Y + canvasOriginY,
+                    //        (startAddr + startAt), len);
+                    //}
+
+                    //MyWin32.SelectClipRgn(gxdc, IntPtr.Zero);
+
+                    //// MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
+                    //gx.ReleaseHdc();
+
                 }
             }
             else

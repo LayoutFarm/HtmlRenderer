@@ -10,12 +10,9 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.CustomWidgets
 {
-    public interface ICheckable
-    {
-        bool Checked { get; }
-    }
 
-    public class CheckBox : Panel, ICheckable
+
+    public class CheckBox : Panel
     {
         //check icon
         ImageBox imageBox;
