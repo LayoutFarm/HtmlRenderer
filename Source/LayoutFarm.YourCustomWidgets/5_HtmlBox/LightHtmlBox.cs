@@ -25,6 +25,12 @@ namespace LayoutFarm.CustomWidgets
         //presentation
         HtmlFragmentRenderBox frgmRenderBox;
 
+        static LightHtmlBox()
+        {
+            LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
+                new MyCssBoxGenerator());
+        }
+
         public LightHtmlBox(LightHtmlBoxHost lightBoxHost, int width, int height)
             : base(width, height)
         {

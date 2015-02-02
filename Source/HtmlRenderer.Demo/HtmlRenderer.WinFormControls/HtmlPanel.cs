@@ -70,7 +70,7 @@ namespace LayoutFarm.Demo
 
         LayoutFarm.HtmlBoxes.HtmlIslandHost htmlIslandHost;
         LayoutFarm.HtmlBoxes.MyHtmlIsland myHtmlIsland;
-    
+
 
         HtmlInputEventAdapter _htmlInputEventAdapter;
         /// <summary>
@@ -130,7 +130,7 @@ namespace LayoutFarm.Demo
             //------------------------------------------------------- 
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
-            {   
+            {
                 myHtmlIsland.RefreshIfNeed();
             };
             timer01.Enabled = true;
@@ -339,7 +339,8 @@ namespace LayoutFarm.Demo
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
             //------------------------------------------------------------
 
-            var rootBox = renderTreeBuilder.BuildCssRenderTree(this.currentDoc,
+            var rootBox = renderTreeBuilder.BuildCssRenderTree(
+                (LayoutFarm.Composers.HtmlDocument)this.currentDoc,
                 gfxPlatform.SampleIFonts,
                 cssData,
                 null);

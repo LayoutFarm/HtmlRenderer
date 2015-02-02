@@ -157,26 +157,12 @@ namespace LayoutFarm.Composers
                 }
             }
         }
-
-        public CssBox BuildCssRenderTree(LayoutFarm.WebDom.WebDocument webdoc,
-            IFonts ifonts,
-            CssActiveSheet cssActiveSheet,
-            RenderElement containerElement)
-        {
-            return this.BuildCssRenderTree(
-                 (LayoutFarm.Composers.HtmlDocument)webdoc,
-                 ifonts,
-                 cssActiveSheet,
-                 containerElement);
-
-        }
+         
         public CssBox BuildCssRenderTree(HtmlDocument htmldoc,
             IFonts ifonts,
             CssActiveSheet cssActiveSheet,
             RenderElement containerElement)
-        {
-
-            CssBox rootBox = null;
+        { 
             htmldoc.ActiveCssTemplate = new ActiveCssTemplate(cssActiveSheet);
 
             htmldoc.SetDocumentState(DocumentState.Building);
@@ -185,7 +171,7 @@ namespace LayoutFarm.Composers
             PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, htmldoc.ActiveCssTemplate);
 
             //----------------------------------------------------------------  
-            rootBox = BoxCreator.CreateCssRenderRoot(ifonts, containerElement, this.rootgfx);
+            CssBox rootBox = BoxCreator.CreateCssRenderRoot(ifonts, containerElement, this.rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);
@@ -202,8 +188,7 @@ namespace LayoutFarm.Composers
            IFonts ifonts, 
            RenderElement containerElement)
         {
-
-            CssBox rootBox = null;
+              
 
             HtmlDocument htmldoc = domElement.OwnerDocument as HtmlDocument;
             HtmlElement startAtHtmlElement = (HtmlElement)domElement;
@@ -213,6 +198,11 @@ namespace LayoutFarm.Composers
 
          
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);
+            //----------------------------------------------------------------  
+            CssBox rootBox = BoxCreator.CreateCssRenderRoot(ifonts, containerElement, this.rootgfx);
+            ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
+            //----------------------------------------------------------------  
+
             boxCreator.GenerateChildBoxes(startAtHtmlElement, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
