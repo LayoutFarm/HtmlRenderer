@@ -74,13 +74,11 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (!this.HasReadyRenderElement)
             {
-
-                var lightBoxHost = uiCreationContext.GetLightBoxHost(rootgfx);
-
-                LightHtmlBox lightHtmlBox2 = lightBoxHost.CreateLightBox(this.Width, this.Height);
-                lightHtmlBox2.LoadHtmlFragmentDom(CreateSampleHtmlDoc());
-                lightHtmlBox2.SetLocation(this.Left, this.Top);
-                myRenderE = lightHtmlBox2.GetPrimaryRenderElement(rootgfx);
+                 
+                LightHtmlBox lightHtmlBox = uiCreationContext.GetLightBoxHost(rootgfx).CreateLightBox(this.Width, this.Height);
+                lightHtmlBox.LoadHtmlFragmentDom(CreateSampleHtmlDoc());
+                lightHtmlBox.SetLocation(this.Left, this.Top);
+                myRenderE = lightHtmlBox.GetPrimaryRenderElement(rootgfx);
                 return myRenderE;
 
                 //floatPart.AddChildBox(lightHtmlBox2);

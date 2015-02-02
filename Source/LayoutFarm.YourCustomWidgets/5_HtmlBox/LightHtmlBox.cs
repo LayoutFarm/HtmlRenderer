@@ -20,9 +20,8 @@ namespace LayoutFarm.CustomWidgets
         string waitingHtmlString;
         HtmlDocument waitingHtmlDomFragment;
         LightHtmlBoxHost lightBoxHost;
-
-
         MyHtmlIsland myHtmlIsland; 
+
         //presentation
         HtmlFragmentRenderBox frgmRenderBox; 
 
@@ -162,18 +161,19 @@ namespace LayoutFarm.CustomWidgets
             }
             return frgmRenderBox;
         }
-        public void LoadHtmlFragmentText(string htmlFragment)
+        public void LoadHtmlFragmentText(string htmlstr)
         {
             if (frgmRenderBox == null)
             {
                 this.hasWaitingDocToLoad = true;
-                this.waitingHtmlString = htmlFragment;
+                this.waitingHtmlString = htmlstr;
             }
             else
             {
-                //just parse content and load
 
-                this.myHtmlIsland = this.lightBoxHost.CreateHtmlIsland(htmlFragment, frgmRenderBox);
+                //TODO:  review here***
+                htmlstr = "<html><head></head><body>" + htmlstr + "</body></html>"; 
+                this.myHtmlIsland = this.lightBoxHost.CreateHtmlIsland(htmlstr, frgmRenderBox);
 
                 SetHtmlIslandEventHandlers();
 

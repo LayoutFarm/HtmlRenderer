@@ -122,11 +122,10 @@ namespace LayoutFarm.CustomWidgets
         }
         public MyHtmlIsland CreateHtmlIsland(string htmlFragment, HtmlFragmentRenderBox container)
         {
-            //TODO:  review here***
-            htmlFragment = "<html><head></head><body>" + htmlFragment + "</body></html>";
-
+           
             return CreateHtmlIsland(
-                WebDocumentParser.ParseDocument(new LayoutFarm.WebDom.Parser.TextSnapshot(htmlFragment.ToCharArray())),
+                WebDocumentParser.ParseDocument(
+                    new LayoutFarm.WebDom.Parser.TextSnapshot(htmlFragment.ToCharArray())),
                 container);
         }
         public MyHtmlIsland CreateHtmlIsland(HtmlDocument htmldoc,

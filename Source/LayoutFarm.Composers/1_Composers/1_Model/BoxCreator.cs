@@ -346,12 +346,12 @@ namespace LayoutFarm.Composers
             return null;
         }
 
-        internal static CssBox CreateCssRenderRoot(IFonts iFonts, LayoutFarm.RenderElement containerElement)
+        internal static CssBox CreateCssRenderRoot(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
-            var box = new CssRenderRoot(spec, containerElement);
+            var box = new CssRenderRoot(spec, containerElement, rootgfx);
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
@@ -362,8 +362,8 @@ namespace LayoutFarm.Composers
     class CssRenderRoot : CssBox
     {
         LayoutFarm.RenderElement containerElement;
-        public CssRenderRoot(BoxSpec spec, LayoutFarm.RenderElement containerElement)
-            : base(null, spec, containerElement.Root)
+        public CssRenderRoot(BoxSpec spec, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
+            : base(null, spec, rootgfx)
         {
             this.containerElement = containerElement;
         }

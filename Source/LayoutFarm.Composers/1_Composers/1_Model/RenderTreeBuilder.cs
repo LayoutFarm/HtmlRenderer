@@ -186,7 +186,7 @@ namespace LayoutFarm.Composers
             PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeCssTemplate);
 
             //----------------------------------------------------------------  
-            rootBox = BoxCreator.CreateCssRenderRoot(ifonts, containerElement);
+            rootBox = BoxCreator.CreateCssRenderRoot(ifonts, containerElement, this.rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);

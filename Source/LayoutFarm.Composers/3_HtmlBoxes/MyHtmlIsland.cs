@@ -81,12 +81,14 @@ namespace LayoutFarm.HtmlBoxes
 
         public bool RefreshIfNeed()
         {
+            if (rootElement == null) return false;
+            //----------------------------------
+
             int latestDomUpdateVersion = this.rootElement.OwnerDocument.DomUpdateVersion;
             if (this.lastDomUpdateVersion != latestDomUpdateVersion)
             {
                 this.lastDomUpdateVersion = latestDomUpdateVersion;
-                //reset
-
+                //reset 
                 this.NeedLayout = false;
 
                 if (DomVisualRefresh != null)

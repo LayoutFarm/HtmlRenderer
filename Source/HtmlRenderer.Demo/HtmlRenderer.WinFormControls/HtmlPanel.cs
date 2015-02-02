@@ -68,8 +68,9 @@ namespace LayoutFarm.Demo
         LayoutFarm.WebDom.WebDocument currentDoc;
         Composers.RenderTreeBuilder renderTreeBuilder;
 
-        LayoutFarm.HtmlBoxes.MyHtmlIsland myHtmlIsland;
         LayoutFarm.HtmlBoxes.HtmlIslandHost htmlIslandHost;
+        LayoutFarm.HtmlBoxes.MyHtmlIsland myHtmlIsland;
+    
 
         HtmlInputEventAdapter _htmlInputEventAdapter;
         /// <summary>
@@ -129,7 +130,7 @@ namespace LayoutFarm.Demo
             //------------------------------------------------------- 
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
-            {
+            {   
                 myHtmlIsland.RefreshIfNeed();
             };
             timer01.Enabled = true;
@@ -310,6 +311,9 @@ namespace LayoutFarm.Demo
         {
             _baseRawCssData = defaultCss;
             _baseCssData = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);
+            //-----------------
+
+
 
             myHtmlIsland.RootElement = (this.currentDoc = doc).RootNode;
             BuildCssBoxTree(myHtmlIsland, _baseCssData);
