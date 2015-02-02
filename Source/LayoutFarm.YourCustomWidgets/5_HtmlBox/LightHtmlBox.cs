@@ -16,12 +16,18 @@ namespace LayoutFarm.CustomWidgets
 
     public class LightHtmlBox : UIBox, IUserEventPortal
     {
-        bool hasWaitingDocToLoad;
-
-        string waitingHtmlString;
-        string waitingHtmlFragment;
-        HtmlDocument waitingHtmlDomFragment;
+        WaitingContent waitingContentKind;
+        string waitingHtmlFragmentString;
+        HtmlDocument waitingHtmlDoc;
         WebDom.DomElement waitingDomElement;
+
+        enum WaitingContent : byte
+        {
+            NoWaitingContent,
+            HtmlFragmentString,
+            HtmlFragmentDomElement,
+            HtmlDocument
+        }
 
         LightHtmlBoxHost lightBoxHost;
         MyHtmlIsland myHtmlIsland;
@@ -158,45 +164,34 @@ namespace LayoutFarm.CustomWidgets
                 //set to this field if ready
                 this.frgmRenderBox = newFrRenderBox;
             }
-            if (this.hasWaitingDocToLoad)
+            switch (this.waitingContentKind)
             {
-                if (this.waitingHtmlDomFragment != null)
-                {
-                    LoadHtmlDom(this.waitingHtmlDomFragment);
-                }
-                else if (this.waitingDomElement != null)
-                {
-                    LoadHtmlFragmentDom(this.waitingDomElement);
-                }
-                else
-                {
-
-                }
+                default:
+                case WaitingContent.NoWaitingContent:
+                    break;
+                case WaitingContent.HtmlDocument:
+                    {
+                        LoadHtmlDom(this.waitingHtmlDoc);
+                    } break;
+                case WaitingContent.HtmlFragmentDomElement:
+                    {
+                        LoadHtmlFragmentDom(this.waitingDomElement);
+                    } break;
+                case WaitingContent.HtmlFragmentString:
+                    {
+                        LoadHtmlFragmentString(this.waitingHtmlFragmentString);
+                    } break;
             }
+
             return frgmRenderBox;
         }
-        //public void LoadHtmlString(string htmlstr)
-        //{
-        //    //if (frgmRenderBox == null)
-        //    //{
-        //    //    this.hasWaitingDocToLoad = true;
-        //    //    this.waitingHtmlString = htmlstr;
-        //    //}
-        //    //else
-        //    //{
-        //    //    this.myHtmlIsland = this.lightBoxHost.CreateHtmlIsland(htmlstr, frgmRenderBox);
-        //    //    SetHtmlIslandEventHandlers();
 
-        //    //    this.waitingHtmlDomFragment = null;
-        //    //    this.waitingHtmlString = null;
-        //    //}
-        //}
         public void LoadHtmlDom(HtmlDocument htmldoc)
         {
             if (frgmRenderBox == null)
             {
-                this.hasWaitingDocToLoad = true;
-                this.waitingHtmlDomFragment = htmldoc;
+                this.waitingContentKind = WaitingContent.HtmlDocument;
+                this.waitingHtmlDoc = htmldoc;
             }
             else
             {
@@ -205,17 +200,23 @@ namespace LayoutFarm.CustomWidgets
 
                 SetHtmlIslandEventHandlers();
 
-                this.waitingHtmlDomFragment = null;
-                this.waitingHtmlString = null;
+                ClearWaitingContent();
             }
         }
+        void ClearWaitingContent()
+        {
+            this.waitingHtmlDoc = null;
+            this.waitingHtmlFragmentString = null;
+            this.waitingDomElement = null;
+            waitingContentKind = WaitingContent.NoWaitingContent;
 
+        }
         public void LoadHtmlFragmentString(string fragmentHtmlString)
         {
             if (frgmRenderBox == null)
             {
-                this.hasWaitingDocToLoad = true;
-                this.waitingHtmlFragment = fragmentHtmlString;
+                this.waitingContentKind = WaitingContent.HtmlFragmentString;
+                this.waitingHtmlFragmentString = fragmentHtmlString;
             }
             else
             {
@@ -224,18 +225,15 @@ namespace LayoutFarm.CustomWidgets
 
                 SetHtmlIslandEventHandlers();
 
-                this.waitingHtmlDomFragment = null;
-                this.waitingHtmlString = null;
+                ClearWaitingContent();
             }
         }
         public void LoadHtmlFragmentDom(WebDom.DomElement domElement)
         {
 
-            //TODO:  review here***
-            //    htmlstr = "<html><head></head><body>" + htmlstr + "</body></html>";
             if (frgmRenderBox == null)
             {
-                this.hasWaitingDocToLoad = true;
+                this.waitingContentKind = WaitingContent.HtmlFragmentDomElement;
                 this.waitingDomElement = domElement;
             }
             else
@@ -245,9 +243,7 @@ namespace LayoutFarm.CustomWidgets
                 this.myHtmlIsland = this.lightBoxHost.CreateHtmlIsland(domElement, frgmRenderBox);
 
                 SetHtmlIslandEventHandlers();
-
-                this.waitingHtmlDomFragment = null;
-                this.waitingHtmlString = null;
+                ClearWaitingContent();
             }
         }
 
@@ -257,7 +253,7 @@ namespace LayoutFarm.CustomWidgets
             myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphics();
             myHtmlIsland.DomRequestRebuild += (s, e) =>
             {
-                hasWaitingDocToLoad = true;
+                
                 //---------------------------
                 if (frgmRenderBox == null) return;
                 //--------------------------- 
