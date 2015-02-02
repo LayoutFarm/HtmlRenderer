@@ -29,7 +29,7 @@ namespace LayoutFarm
             ////==================================================
             //html box
             {
-                LightHtmlBox lightHtmlBox = lightBoxHost.CreateLightBox(800, 50);
+                LightHtmlBox lightHtmlBox = new LightHtmlBox(lightBoxHost, 800, 50);
                 lightHtmlBox.SetLocation(50, 450);
                 viewport.AddContent(lightHtmlBox);
                 //light box can't load full html
@@ -40,7 +40,7 @@ namespace LayoutFarm
             }
             //==================================================  
             {
-                LightHtmlBox lightHtmlBox2 = lightBoxHost.CreateLightBox(800, 50);
+                LightHtmlBox lightHtmlBox2 = new LightHtmlBox(lightBoxHost, 800, 50);
                 lightHtmlBox2.SetLocation(0, 60);
                 viewport.AddContent(lightHtmlBox2);
                 //light box can't load full html
@@ -51,7 +51,7 @@ namespace LayoutFarm
             }
             //==================================================  
             {
-                LightHtmlBox lightHtmlBox3 = lightBoxHost.CreateLightBox(800, 50);
+                LightHtmlBox lightHtmlBox3 = new LightHtmlBox(lightBoxHost, 800, 50);
                 lightHtmlBox3.SetLocation(0, 100);
                 viewport.AddContent(lightHtmlBox3);
                 //fragment dom 

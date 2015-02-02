@@ -160,30 +160,29 @@ namespace LayoutFarm.Composers
 
         public CssBox BuildCssRenderTree(LayoutFarm.WebDom.WebDocument webdoc,
             IFonts ifonts,
-            CssActiveSheet cssData,
-            LayoutFarm.RenderElement containerElement)
+            CssActiveSheet cssActiveSheet,
+            RenderElement containerElement)
         {
             return this.BuildCssRenderTree(
                  (LayoutFarm.Composers.HtmlDocument)webdoc,
                  ifonts,
-                 cssData,
+                 cssActiveSheet,
                  containerElement);
 
         }
         public CssBox BuildCssRenderTree(HtmlDocument htmldoc,
             IFonts ifonts,
-            CssActiveSheet cssData,
+            CssActiveSheet cssActiveSheet,
             RenderElement containerElement)
         {
 
             CssBox rootBox = null;
-            ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(cssData);
-            htmldoc.ActiveCssTemplate = activeCssTemplate;
+            htmldoc.ActiveCssTemplate = new ActiveCssTemplate(cssActiveSheet);
 
             htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
 
-            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeCssTemplate);
+            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, htmldoc.ActiveCssTemplate);
 
             //----------------------------------------------------------------  
             rootBox = BoxCreator.CreateCssRenderRoot(ifonts, containerElement, this.rootgfx);
@@ -197,6 +196,32 @@ namespace LayoutFarm.Composers
             //SetTextSelectionStyle(htmlIsland, cssData);
             return rootBox;
         }
+
+
+        public CssBox BuildCssRenderTree(DomElement domElement,
+           IFonts ifonts, 
+           RenderElement containerElement)
+        {
+
+            CssBox rootBox = null;
+
+            HtmlDocument htmldoc = domElement.OwnerDocument as HtmlDocument;
+            HtmlElement startAtHtmlElement = (HtmlElement)domElement;
+
+            htmldoc.SetDocumentState(DocumentState.Building); 
+            PrepareStylesAndContentOfChildNodes(startAtHtmlElement, htmldoc.ActiveCssTemplate);
+
+         
+            BoxCreator boxCreator = new BoxCreator(this.rootgfx);
+            boxCreator.GenerateChildBoxes(startAtHtmlElement, true);
+
+            htmldoc.SetDocumentState(DocumentState.Idle);
+            //----------------------------------------------------------------  
+            //SetTextSelectionStyle(htmlIsland, cssData);
+            return rootBox;
+        }
+
+
         //----------------------------------------------------------------
         public void RefreshCssTree(DomElement startAt)
         {
@@ -210,6 +235,7 @@ namespace LayoutFarm.Composers
 
             //----------------------------------------------------------------  
             HtmlElement.InternalGetPrincipalBox(startAtElement).Clear();
+            //----------------------------------------------------------------  
 
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);
             boxCreator.GenerateChildBoxes(startAtElement, false);

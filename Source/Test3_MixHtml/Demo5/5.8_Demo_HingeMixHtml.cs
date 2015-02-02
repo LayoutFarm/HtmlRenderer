@@ -176,9 +176,9 @@ namespace LayoutFarm
             mnuItem.FloatPart = floatPart;
             //--------------------------------------
             //add mix html here 
-            {                  
-                 
-                LightHtmlBox lightHtmlBox2 = lightBoxHost.CreateLightBox(floatPart.Width, floatPart.Height);
+            {
+
+                LightHtmlBox lightHtmlBox2 = new LightHtmlBox(lightBoxHost, floatPart.Width, floatPart.Height);
                 lightHtmlBox2.SetLocation(0, 0);
                 floatPart.AddChildBox(lightHtmlBox2);
                 //light box can't load full html
@@ -192,7 +192,7 @@ namespace LayoutFarm
             //--------------------------------------
             return mnuItem;
         }
-        
+
         static ImageBinder LoadImage(string filename)
         {
             System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);

@@ -300,7 +300,7 @@ namespace LayoutFarm.Demo
             //build rootbox from htmldoc
             var rootBox = renderTreeBuilder.BuildCssRenderTree(htmldoc,
                 gfxPlatform.SampleIFonts,
-                 cssData,
+                cssData,
                 null);
 
             htmlIsland.RootElement = htmldoc.RootNode;

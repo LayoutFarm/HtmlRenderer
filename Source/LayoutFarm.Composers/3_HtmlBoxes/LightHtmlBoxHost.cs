@@ -27,12 +27,12 @@ namespace LayoutFarm.CustomWidgets
         Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
 
 
-        static LightHtmlBoxHost()
-        {
-            //TODO: revise this again
-            LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
-               new MyCssBoxGenerator());
-        }
+        //static LightHtmlBoxHost()
+        //{
+        //    //TODO: revise this again
+        //    LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
+        //       new MyCssBoxGenerator());
+        //}
 
         public LightHtmlBoxHost(HtmlIslandHost islandHost, GraphicsPlatform gfxPlatform)
         {
@@ -48,7 +48,7 @@ namespace LayoutFarm.CustomWidgets
                 this.rootgfx = value;
             }
         }
-        internal LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
+        public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
         {
             LayoutFarm.HtmlBoxes.LayoutVisitor lay = null;
             if (htmlLayoutVisitorStock.Count == 0)
@@ -62,12 +62,12 @@ namespace LayoutFarm.CustomWidgets
             lay.Bind(island);
             return lay;
         }
-        internal void ReleaseHtmlLayoutVisitor(LayoutFarm.HtmlBoxes.LayoutVisitor lay)
+        public void ReleaseHtmlLayoutVisitor(LayoutFarm.HtmlBoxes.LayoutVisitor lay)
         {
             lay.UnBind();
             this.htmlLayoutVisitorStock.Enqueue(lay);
         }
-        internal HtmlInputEventAdapter GetSharedInputEventAdapter(HtmlIsland island)
+        public HtmlInputEventAdapter GetSharedInputEventAdapter(HtmlIsland island)
         {
             HtmlInputEventAdapter adapter = null;
             if (inputEventAdapterStock.Count == 0)
@@ -81,7 +81,7 @@ namespace LayoutFarm.CustomWidgets
             adapter.Bind(island);
             return adapter;
         }
-        internal void ReleaseSharedInputEventAdapter(HtmlInputEventAdapter adapter)
+        public void ReleaseSharedInputEventAdapter(HtmlInputEventAdapter adapter)
         {
             adapter.Unbind();
             this.inputEventAdapterStock.Enqueue(adapter);
@@ -102,11 +102,11 @@ namespace LayoutFarm.CustomWidgets
         //        this.RequestStylesheet(lightBox, textReqArgs);
         //    }
         //}
-        public LightHtmlBox CreateLightBox(int w, int h)
-        {
-            LightHtmlBox lightBox = new LightHtmlBox(this, w, h);
-            return lightBox;
-        }
+        //public LightHtmlBox CreateLightBox(int w, int h)
+        //{
+        //    LightHtmlBox lightBox = new LightHtmlBox(this, w, h);
+        //    return lightBox;
+        //}
 
         //----------------------------------------------------
         void CreateRenderTreeBuilder()
@@ -122,7 +122,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public MyHtmlIsland CreateHtmlIsland(string htmlFragment, HtmlFragmentRenderBox container)
         {
-           
+
             return CreateHtmlIsland(
                 WebDocumentParser.ParseDocument(
                     new LayoutFarm.WebDom.Parser.TextSnapshot(htmlFragment.ToCharArray())),
@@ -131,7 +131,7 @@ namespace LayoutFarm.CustomWidgets
         public MyHtmlIsland CreateHtmlIsland(HtmlDocument htmldoc,
             HtmlFragmentRenderBox container)
         {
-            CssBox newCssBox = null;
+
             //1. builder 
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
             //-------------------------------------------------------------------
@@ -139,6 +139,7 @@ namespace LayoutFarm.CustomWidgets
 
             //2. generate render tree
             ////build rootbox from htmldoc
+
             var rootElement = renderTreeBuilder.BuildCssRenderTree(htmldoc,
                 rootgfx.SampleIFonts,
                 this.islandHost.BaseStylesheet,
@@ -155,12 +156,13 @@ namespace LayoutFarm.CustomWidgets
             htmlIsland.PerformLayout(lay);
             this.ReleaseHtmlLayoutVisitor(lay);
 
-            newCssBox = rootElement;
-            container.SetHtmlIsland(htmlIsland, newCssBox);
+
+            container.SetHtmlIsland(htmlIsland, rootElement);
             return htmlIsland;
         }
 
-        internal void RefreshCssTree(WebDom.DomElement element)
+
+        public void RefreshCssTree(WebDom.DomElement element)
         {
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
             renderTreeBuilder.RefreshCssTree(element);

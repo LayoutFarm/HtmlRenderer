@@ -20,12 +20,12 @@ namespace LayoutFarm.CustomWidgets
         string waitingHtmlString;
         HtmlDocument waitingHtmlDomFragment;
         LightHtmlBoxHost lightBoxHost;
-        MyHtmlIsland myHtmlIsland; 
+        MyHtmlIsland myHtmlIsland;
 
         //presentation
-        HtmlFragmentRenderBox frgmRenderBox; 
+        HtmlFragmentRenderBox frgmRenderBox;
 
-        internal LightHtmlBox(LightHtmlBoxHost lightBoxHost, int width, int height)
+        public LightHtmlBox(LightHtmlBoxHost lightBoxHost, int width, int height)
             : base(width, height)
         {
             this.lightBoxHost = lightBoxHost;
@@ -172,7 +172,7 @@ namespace LayoutFarm.CustomWidgets
             {
 
                 //TODO:  review here***
-                htmlstr = "<html><head></head><body>" + htmlstr + "</body></html>"; 
+                htmlstr = "<html><head></head><body>" + htmlstr + "</body></html>";
                 this.myHtmlIsland = this.lightBoxHost.CreateHtmlIsland(htmlstr, frgmRenderBox);
 
                 SetHtmlIslandEventHandlers();

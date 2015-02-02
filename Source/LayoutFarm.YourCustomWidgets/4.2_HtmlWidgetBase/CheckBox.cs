@@ -13,17 +13,17 @@ using LayoutFarm.CustomWidgets;
 
 namespace LayoutFarm.HtmlWidgets
 {
-    class UICreationContext<T>
+    class SharedHtmlContext<T>
     {
         HtmlIslandHost islandHost;
         LightHtmlBoxHost lightBoxHost;
         HtmlDocument myHtmlDoc = new HtmlDocument();
         DomElement myHtmlRootElement;
         DomElement bodyNode;
-        public UICreationContext()
+        public SharedHtmlContext()
         {
             myHtmlRootElement = myHtmlDoc.RootNode;
-            bodyNode = myHtmlRootElement.AddChild("body");
+            bodyNode = (DomElement)myHtmlRootElement.AddChild("body");
         }
         public LightHtmlBoxHost GetLightBoxHost(RootGraphic rootgfx)
         {
@@ -37,13 +37,19 @@ namespace LayoutFarm.HtmlWidgets
             }
             return lightBoxHost;
         }
+
+        public DomElement SharedBodyNode
+        {
+            get { return this.bodyNode; }
+        }
+
     }
 
     public class CheckBox : Panel
     {
 
 
-        static UICreationContext<CheckBox> uiCreationContext = new UICreationContext<CheckBox>();
+        static SharedHtmlContext<CheckBox> sharedHtmlContext = new SharedHtmlContext<CheckBox>();
         //check icon 
         bool isChecked;
 
@@ -74,8 +80,8 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (!this.HasReadyRenderElement)
             {
-                 
-                LightHtmlBox lightHtmlBox = uiCreationContext.GetLightBoxHost(rootgfx).CreateLightBox(this.Width, this.Height);
+
+                LightHtmlBox lightHtmlBox = new LightHtmlBox(sharedHtmlContext.GetLightBoxHost(rootgfx), this.Width, this.Height);
                 lightHtmlBox.LoadHtmlFragmentDom(CreateSampleHtmlDoc());
                 lightHtmlBox.SetLocation(this.Left, this.Top);
                 myRenderE = lightHtmlBox.GetPrimaryRenderElement(rootgfx);
