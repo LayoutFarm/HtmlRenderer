@@ -178,7 +178,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 //just parse content and load
 
-                this.myHtmlIsland = this.lightBoxHost.CreateHtmlFragment(htmlFragment, frgmRenderBox);
+                this.myHtmlIsland = this.lightBoxHost.CreateHtmlIsland(htmlFragment, frgmRenderBox);
 
                 SetHtmlIslandEventHandlers();
 
@@ -196,7 +196,7 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this.myHtmlIsland = this.lightBoxHost.CreateHtmlFragment(htmldoc, frgmRenderBox);
+                this.myHtmlIsland = this.lightBoxHost.CreateHtmlIsland(htmldoc, frgmRenderBox);
 
                 SetHtmlIslandEventHandlers();
 

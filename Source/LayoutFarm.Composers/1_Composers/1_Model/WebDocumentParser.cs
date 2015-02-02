@@ -31,7 +31,7 @@ namespace LayoutFarm.Composers
         /// Parses the source html to css boxes tree structure.
         /// </summary>
         /// <param name="source">the html source to parse</param>
-        public static WebDocument ParseDocument(TextSnapshot snapSource)
+        public static HtmlDocument ParseDocument(TextSnapshot snapSource)
         {
             var parser = new HtmlParser();
             //------------------------
