@@ -202,6 +202,20 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 unsafe
                 {
+
+                    var intersectRect = Rectangle.Intersect(logicalTextBox,
+                        new Rectangle(currentClipRect.Left,
+                            currentClipRect.Top,
+                            currentClipRect.Width,
+                            currentClipRect.Height)); 
+                    intersectRect.Offset(canvasOriginX, canvasOriginY); 
+                    MyWin32.SetRectRgn(hRgn,
+                     intersectRect.Left,
+                     intersectRect.Top,
+                     intersectRect.Right,
+                     intersectRect.Bottom);
+                    MyWin32.SelectClipRgn(_hdc, hRgn); 
+
                     fixed (char* startAddr = &str[0])
                     {
                         Win32.Win32Utils.TextOut2(_hdc,
@@ -210,42 +224,28 @@ namespace PixelFarm.Drawing.WinGdi
                             (startAddr + startAt), len);
                     }
 
-                    //ReleaseHdc();
-
-                    //IntPtr gxdc = gx.GetHdc();
-                    ////MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
-
-                    ////System.Drawing.Rectangle clipRect =
-                    ////    System.Drawing.Rectangle.Intersect(logicalTextBox.ToRect(), currentClipRect);
-                    ////clipRect.Offset(CanvasOrgX, CanvasOrgY);
-
-                    //MyWin32.SetRectRgn(hRgn,
-                    //    logicalTextBox.X + canvasOriginX,
-                    //    logicalTextBox.Y + canvasOriginY,
-                    //    logicalTextBox.Right + canvasOriginX,
-                    //    logicalTextBox.Bottom +canvasOriginY);
-                    //MyWin32.SelectClipRgn(gxdc, hRgn);
-
-                    //fixed (char* startAddr = &str[0])
-                    //{
-
-                    //    Win32.Win32Utils.TextOut2(_hdc,
-                    //        (int)logicalTextBox.X + canvasOriginX,
-                    //        (int)logicalTextBox.Y + canvasOriginY,
-                    //        (startAddr + startAt), len);
-                    //}
-
-                    //MyWin32.SelectClipRgn(gxdc, IntPtr.Zero);
-
-                    //// MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
-                    //gx.ReleaseHdc();
-
                 }
             }
             else
             {
                 //translucent / transparent text
                 InitHdc();
+
+                var intersectRect = Rectangle.Intersect(logicalTextBox,
+                        new Rectangle(currentClipRect.Left,
+                            currentClipRect.Top,
+                            currentClipRect.Width,
+                            currentClipRect.Height));
+                intersectRect.Offset(canvasOriginX, canvasOriginY);
+                MyWin32.SetRectRgn(hRgn,
+                 intersectRect.Left,
+                 intersectRect.Top,
+                 intersectRect.Right,
+                 intersectRect.Bottom);
+                MyWin32.SelectClipRgn(_hdc, hRgn); 
+
+
+
                 unsafe
                 {
                     fixed (char* startAddr = &str[0])

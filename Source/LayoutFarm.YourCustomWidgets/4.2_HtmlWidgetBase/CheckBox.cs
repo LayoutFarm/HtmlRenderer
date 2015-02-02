@@ -23,7 +23,8 @@ namespace LayoutFarm.HtmlWidgets
         bool isChecked;
 
         RenderElement myRenderE;
-
+        ImageBox imageBox;
+         
         public CheckBox(int w, int h)
             : base(w, h)
         {
