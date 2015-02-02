@@ -53,7 +53,7 @@ namespace LayoutFarm.HtmlWidgets
 
                 LightHtmlBox lightHtmlBox = new LightHtmlBox(lightBoxHost, this.Width, this.Height);
 
-                lightHtmlBox.LoadHtmlFragmentDom2(CreateSampleHtmlDoc2(lightBoxHost.SharedBodyElement));
+                lightHtmlBox.LoadHtmlFragmentDom(CreateSampleHtmlDoc2(lightBoxHost.SharedBodyElement));
                 lightHtmlBox.SetLocation(this.Left, this.Top);
                 myRenderE = lightHtmlBox.GetPrimaryRenderElement(rootgfx);
                 return myRenderE;

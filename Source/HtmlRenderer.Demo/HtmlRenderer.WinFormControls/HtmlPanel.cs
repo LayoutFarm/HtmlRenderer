@@ -294,7 +294,8 @@ namespace LayoutFarm.Demo
 
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
             //-----------------------------------------------------------------
-            var htmldoc = LayoutFarm.Composers.WebDocumentParser.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
+            var htmldoc = LayoutFarm.Composers.WebDocumentParser.ParseDocument(
+                          new WebDom.Parser.TextSnapshot(html.ToCharArray()));
 
 
             //build rootbox from htmldoc

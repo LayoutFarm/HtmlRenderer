@@ -101,11 +101,15 @@ namespace LayoutFarm.HtmlBoxes
         }
         public MyHtmlIsland CreateHtmlIsland(string htmlFragment, HtmlFragmentRenderBox container)
         {
+            var newDivHost = this.myDefaultHtmlDoc.CreateElement("div");
+            myHtmlBodyElement.AddChild(newDivHost);
+            WebDocumentParser.ParseHtmlDom(
+                     new LayoutFarm.WebDom.Parser.TextSnapshot(htmlFragment.ToCharArray()),
+                     this.myDefaultHtmlDoc,
+                     newDivHost);
 
-            return CreateHtmlIsland(
-                WebDocumentParser.ParseDocument(
-                    new LayoutFarm.WebDom.Parser.TextSnapshot(htmlFragment.ToCharArray())),
-                container);
+
+            return CreateHtmlIsland(newDivHost, container);
         }
         public MyHtmlIsland CreateHtmlIsland(HtmlDocument htmldoc,
             HtmlFragmentRenderBox container)

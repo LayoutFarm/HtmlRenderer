@@ -19,6 +19,7 @@ namespace LayoutFarm.CustomWidgets
         bool hasWaitingDocToLoad;
 
         string waitingHtmlString;
+        string waitingHtmlFragment;
         HtmlDocument waitingHtmlDomFragment;
         WebDom.DomElement waitingDomElement;
 
@@ -161,40 +162,36 @@ namespace LayoutFarm.CustomWidgets
             {
                 if (this.waitingHtmlDomFragment != null)
                 {
-                    LoadHtmlFragmentDom(this.waitingHtmlDomFragment);
+                    LoadHtmlDom(this.waitingHtmlDomFragment);
                 }
                 else if (this.waitingDomElement != null)
                 {
-                    LoadHtmlFragmentDom2(this.waitingDomElement);
+                    LoadHtmlFragmentDom(this.waitingDomElement);
                 }
                 else
                 {
-                    LoadHtmlFragmentText(this.waitingHtmlString);
+
                 }
             }
             return frgmRenderBox;
         }
-        public void LoadHtmlFragmentText(string htmlstr)
-        {
-            if (frgmRenderBox == null)
-            {
-                this.hasWaitingDocToLoad = true;
-                this.waitingHtmlString = htmlstr;
-            }
-            else
-            {
+        //public void LoadHtmlString(string htmlstr)
+        //{
+        //    //if (frgmRenderBox == null)
+        //    //{
+        //    //    this.hasWaitingDocToLoad = true;
+        //    //    this.waitingHtmlString = htmlstr;
+        //    //}
+        //    //else
+        //    //{
+        //    //    this.myHtmlIsland = this.lightBoxHost.CreateHtmlIsland(htmlstr, frgmRenderBox);
+        //    //    SetHtmlIslandEventHandlers();
 
-                //TODO:  review here***
-                htmlstr = "<html><head></head><body>" + htmlstr + "</body></html>";
-                this.myHtmlIsland = this.lightBoxHost.CreateHtmlIsland(htmlstr, frgmRenderBox);
-
-                SetHtmlIslandEventHandlers();
-
-                this.waitingHtmlDomFragment = null;
-                this.waitingHtmlString = null;
-            }
-        }
-        public void LoadHtmlFragmentDom(HtmlDocument htmldoc)
+        //    //    this.waitingHtmlDomFragment = null;
+        //    //    this.waitingHtmlString = null;
+        //    //}
+        //}
+        public void LoadHtmlDom(HtmlDocument htmldoc)
         {
             if (frgmRenderBox == null)
             {
@@ -212,8 +209,30 @@ namespace LayoutFarm.CustomWidgets
                 this.waitingHtmlString = null;
             }
         }
-        public void LoadHtmlFragmentDom2(WebDom.DomElement domElement)
+
+        public void LoadHtmlFragmentString(string fragmentHtmlString)
         {
+            if (frgmRenderBox == null)
+            {
+                this.hasWaitingDocToLoad = true;
+                this.waitingHtmlFragment = fragmentHtmlString;
+            }
+            else
+            {
+                //just parse content and load 
+                this.myHtmlIsland = this.lightBoxHost.CreateHtmlIsland(fragmentHtmlString, frgmRenderBox);
+
+                SetHtmlIslandEventHandlers();
+
+                this.waitingHtmlDomFragment = null;
+                this.waitingHtmlString = null;
+            }
+        }
+        public void LoadHtmlFragmentDom(WebDom.DomElement domElement)
+        {
+
+            //TODO:  review here***
+            //    htmlstr = "<html><head></head><body>" + htmlstr + "</body></html>";
             if (frgmRenderBox == null)
             {
                 this.hasWaitingDocToLoad = true;

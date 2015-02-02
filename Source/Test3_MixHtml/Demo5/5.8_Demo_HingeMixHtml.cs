@@ -185,7 +185,7 @@ namespace LayoutFarm
                 //all light boxs of the same lightbox host share resource with the host
                 //string html2 = @"<div>OK1</div><div>OK2</div><div>OK3</div><div>OK4</div>";
                 //if you want to use ful l html-> use HtmlBox instead  
-                lightHtmlBox2.LoadHtmlFragmentDom(CreateSampleHtmlDoc(floatPart));
+                lightHtmlBox2.LoadHtmlDom(CreateSampleHtmlDoc(floatPart));
                 //lightHtmlBox2.LoadHtmlFragmentText(html2);
             }
 
