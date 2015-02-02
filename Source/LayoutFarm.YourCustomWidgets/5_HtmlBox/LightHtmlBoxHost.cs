@@ -41,13 +41,13 @@ namespace LayoutFarm.CustomWidgets
             this.gfxPlatform = gfxPlatform;
             this.islandHost = islandHost;
         }
-        
+
         public RootGraphic RootGfx
         {
             get { return this.rootgfx; }
             set
             {
-                this.rootgfx = value ;
+                this.rootgfx = value;
             }
         }
         internal LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
@@ -122,8 +122,10 @@ namespace LayoutFarm.CustomWidgets
 
             };
         }
-        public void CreateHtmlFragment(string htmlFragment, RenderElement container, out MyHtmlIsland newIsland, out CssBox newCssBox)
+        public MyHtmlIsland CreateHtmlFragment(string htmlFragment, HtmlFragmentRenderBox container)
         {
+            CssBox newCssBox = null;
+             
             //1. builder
             if (this.renderTreeBuilder == null) CreateRenderTreeBuidler();
 
@@ -154,15 +156,16 @@ namespace LayoutFarm.CustomWidgets
             htmlIsland.PerformLayout(lay);
             this.ReleaseHtmlLayoutVisitor(lay);
 
-            newIsland = htmlIsland;
+             
             newCssBox = rootElement;
 
+            container.SetHtmlIsland(htmlIsland, newCssBox);
+            return htmlIsland;
         }
-        public void CreateHtmlFragment(LayoutFarm.Composers.HtmlDocument htmldoc,
-            RenderElement container,
-            out MyHtmlIsland newIsland,
-            out CssBox newCssBox)
+        public MyHtmlIsland CreateHtmlFragment(HtmlDocument htmldoc,
+            HtmlFragmentRenderBox container)
         {
+            CssBox newCssBox = null;
             //1. builder 
             if (this.renderTreeBuilder == null) CreateRenderTreeBuidler();
             //-------------------------------------------------------------------
@@ -185,17 +188,16 @@ namespace LayoutFarm.CustomWidgets
             var lay = this.GetSharedHtmlLayoutVisitor(htmlIsland);
             htmlIsland.PerformLayout(lay);
             this.ReleaseHtmlLayoutVisitor(lay);
-
-
-            newIsland = htmlIsland;
+                         
             newCssBox = rootElement;
-
+            container.SetHtmlIsland(htmlIsland, newCssBox);
+            return htmlIsland;
         }
 
         internal void RefreshCssTree(LayoutFarm.WebDom.WebDocument webdoc)
         {
             if (this.renderTreeBuilder == null) CreateRenderTreeBuidler();
-            renderTreeBuilder.RefreshCssTree(webdoc);
+            renderTreeBuilder.RefreshCssTree((HtmlDocument)webdoc);
 
         }
     }

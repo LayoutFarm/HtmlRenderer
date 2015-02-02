@@ -148,7 +148,7 @@ namespace LayoutFarm.Demo
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
             //-----------------------------------------------------------------
 
-            var rootBox2 = this.renderTreeBuilder.RefreshCssTree(this.currentDoc);
+            this.renderTreeBuilder.RefreshCssTree((LayoutFarm.Composers.HtmlDocument)this.currentDoc);
             this.myHtmlIsland.PerformLayout(this.htmlLayoutVisitor);
         }
 

@@ -287,6 +287,6 @@ namespace LayoutFarm
         public abstract void CaretStopBlink();
         public bool CaretHandleRegistered { get; set; }
         //---------------------------------------------
-
+               
     }
 }

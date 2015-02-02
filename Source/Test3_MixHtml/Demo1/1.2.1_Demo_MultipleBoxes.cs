@@ -16,6 +16,8 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
 
+             
+            //-----------------------
             SetupImageList();
             for (int i = 1; i < 5; ++i)
             {

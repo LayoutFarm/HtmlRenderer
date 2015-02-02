@@ -13,18 +13,43 @@ using LayoutFarm.CustomWidgets;
 
 namespace LayoutFarm.HtmlWidgets
 {
+    class UICreationContext<T>
+    {
+        HtmlIslandHost islandHost;
+        LightHtmlBoxHost lightBoxHost;
+        HtmlDocument myHtmlDoc = new HtmlDocument();
+        DomElement myHtmlRootElement;
+        DomElement bodyNode;
+        public UICreationContext()
+        {
+            myHtmlRootElement = myHtmlDoc.RootNode;
+            bodyNode = myHtmlRootElement.AddChild("body");
+        }
+        public LightHtmlBoxHost GetLightBoxHost(RootGraphic rootgfx)
+        {
+            if (islandHost == null)
+            {
+                this.islandHost = new HtmlIslandHost();
+                this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
+
+                lightBoxHost = new LightHtmlBoxHost(islandHost, rootgfx.P);
+                lightBoxHost.RootGfx = rootgfx;
+            }
+            return lightBoxHost;
+        }
+    }
+
     public class CheckBox : Panel
     {
 
 
-        HtmlIslandHost islandHost;
-        LightHtmlBoxHost lightBoxHost;
+        static UICreationContext<CheckBox> uiCreationContext = new UICreationContext<CheckBox>();
         //check icon 
         bool isChecked;
 
         RenderElement myRenderE;
         ImageBox imageBox;
-         
+
         public CheckBox(int w, int h)
             : base(w, h)
         {
@@ -44,21 +69,20 @@ namespace LayoutFarm.HtmlWidgets
                 return this.myRenderE != null;
             }
         }
+
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (!this.HasReadyRenderElement)
             {
-                this.islandHost = new HtmlIslandHost();
-                this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
 
-                lightBoxHost = new LightHtmlBoxHost(islandHost, rootgfx.P);
-                lightBoxHost.RootGfx = rootgfx;
+                var lightBoxHost = uiCreationContext.GetLightBoxHost(rootgfx);
 
                 LightHtmlBox lightHtmlBox2 = lightBoxHost.CreateLightBox(this.Width, this.Height);
                 lightHtmlBox2.LoadHtmlFragmentDom(CreateSampleHtmlDoc());
                 lightHtmlBox2.SetLocation(this.Left, this.Top);
                 myRenderE = lightHtmlBox2.GetPrimaryRenderElement(rootgfx);
                 return myRenderE;
+
                 //floatPart.AddChildBox(lightHtmlBox2);
                 ////light box can't load full html
                 ////all light boxs of the same lightbox host share resource with the host
@@ -125,6 +149,7 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
         public event EventHandler WhenChecked;
+
         HtmlDocument CreateSampleHtmlDoc()
         {
 

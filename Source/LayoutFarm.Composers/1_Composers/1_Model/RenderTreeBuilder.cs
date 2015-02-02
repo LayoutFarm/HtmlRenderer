@@ -170,15 +170,14 @@ namespace LayoutFarm.Composers
                  containerElement);
 
         }
-        public CssBox BuildCssRenderTree(LayoutFarm.Composers.HtmlDocument htmldoc,
+        public CssBox BuildCssRenderTree(HtmlDocument htmldoc,
             IFonts ifonts,
             CssActiveSheet cssData,
-            LayoutFarm.RenderElement containerElement)
+            RenderElement containerElement)
         {
 
             CssBox rootBox = null;
-            ActiveCssTemplate activeCssTemplate = null;
-            activeCssTemplate = new ActiveCssTemplate(cssData);
+            ActiveCssTemplate activeCssTemplate = new ActiveCssTemplate(cssData);
             htmldoc.ActiveCssTemplate = activeCssTemplate;
 
             htmldoc.SetDocumentState(DocumentState.Building);
@@ -200,29 +199,24 @@ namespace LayoutFarm.Composers
         }
 
         //----------------------------------------------------------------
-        public CssBox RefreshCssTree(WebDocument webdoc)
+        public void RefreshCssTree(HtmlDocument htmldoc)
         {
-
-            CssBox rootBox = null;
-            HtmlDocument htmldoc = (HtmlDocument)webdoc;
-            ActiveCssTemplate activeCssTemplate = htmldoc.ActiveCssTemplate;
 
             htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
-            RootElement rootElement = (RootElement)htmldoc.RootNode;
-            PrepareStylesAndContentOfChildNodes(rootElement, activeCssTemplate);
+            HtmlElement rootElement = (HtmlElement)htmldoc.RootNode;
+            PrepareStylesAndContentOfChildNodes(rootElement, htmldoc.ActiveCssTemplate);
 
             //----------------------------------------------------------------  
-            CssBox principalBox = RootElement.InternalGetPrincipalBox(rootElement);
-            principalBox.Clear();
+            HtmlElement.InternalGetPrincipalBox(rootElement).Clear();
 
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);
-            boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, false);
+            boxCreator.GenerateChildBoxes(rootElement, false);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
 
-            return rootBox;
+
         }
         //------------------------------------------
         #region Private methods

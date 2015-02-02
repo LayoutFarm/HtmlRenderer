@@ -23,12 +23,12 @@ namespace LayoutFarm.CustomWidgets
 
 
         MyHtmlIsland myHtmlIsland;
-        CssBox myCssBox;
+
 
         //presentation
         HtmlFragmentRenderBox frgmRenderBox;
 
-        
+
 
 
         internal LightHtmlBox(LightHtmlBoxHost lightBoxHost, int width, int height)
@@ -178,13 +178,13 @@ namespace LayoutFarm.CustomWidgets
             {
                 //just parse content and load
 
-                this.lightBoxHost.CreateHtmlFragment(htmlFragment, frgmRenderBox, out this.myHtmlIsland, out myCssBox);
-                this.frgmRenderBox.SetHtmlIsland(myHtmlIsland, myCssBox);
+                this.myHtmlIsland = this.lightBoxHost.CreateHtmlFragment(htmlFragment, frgmRenderBox);
+
                 SetHtmlIslandEventHandlers();
 
                 this.waitingHtmlDomFragment = null;
                 this.waitingHtmlString = null;
-            } 
+            }
         }
         public void LoadHtmlFragmentDom(HtmlDocument htmldoc)
         {
@@ -192,14 +192,12 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.hasWaitingDocToLoad = true;
                 this.waitingHtmlDomFragment = htmldoc;
-                
             }
             else
             {
                 //just parse content and load 
-                this.lightBoxHost.CreateHtmlFragment(htmldoc, frgmRenderBox, out this.myHtmlIsland, out myCssBox);
+                this.myHtmlIsland = this.lightBoxHost.CreateHtmlFragment(htmldoc, frgmRenderBox);
 
-                this.frgmRenderBox.SetHtmlIsland(myHtmlIsland, myCssBox);
                 SetHtmlIslandEventHandlers();
 
                 this.waitingHtmlDomFragment = null;
@@ -222,9 +220,9 @@ namespace LayoutFarm.CustomWidgets
                 myHtmlIsland.PerformLayout(lay);
                 this.lightBoxHost.ReleaseHtmlLayoutVisitor(lay);
             };
-        } 
+        }
         public override void InvalidateGraphics()
-        {   
+        {
 
             //if (this.myCssBoxWrapper != null)
             //{

@@ -80,7 +80,6 @@ namespace LayoutFarm.HtmlBoxes
             set
             {
                 this.doc = value;
-
             }
         }
 

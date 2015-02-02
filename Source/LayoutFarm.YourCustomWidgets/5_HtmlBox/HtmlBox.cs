@@ -145,7 +145,7 @@ namespace LayoutFarm.CustomWidgets
             //    }
             //};
 
-            var rootBox2 = renderTreeBuilder.RefreshCssTree(this.currentdoc);
+            renderTreeBuilder.RefreshCssTree((HtmlDocument)this.currentdoc);
             this.myHtmlIsland.PerformLayout(htmlLayoutVisitor);
 
         }
@@ -223,8 +223,8 @@ namespace LayoutFarm.CustomWidgets
             htmlRenderBox.InvalidateGraphics();
         }
         public void LoadHtmlText(string html)
-        { 
-            SetHtml(myHtmlIsland, html, this.islandHost.BaseStylesheet); 
+        {
+            SetHtml(myHtmlIsland, html, this.islandHost.BaseStylesheet);
         }
         public override void InvalidateGraphics()
         {
