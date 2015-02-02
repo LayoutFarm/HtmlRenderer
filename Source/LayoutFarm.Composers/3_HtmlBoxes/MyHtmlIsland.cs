@@ -64,7 +64,7 @@ namespace LayoutFarm.HtmlBoxes
     {
 
         HtmlIslandHost islandHost;
-        WebDocument doc;
+        DomElement rootElement;
         int lastDomUpdateVersion;
         public event EventHandler DomVisualRefresh;
         public event EventHandler DomRequestRebuild;
@@ -73,26 +73,20 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.islandHost = islandHost;
         }
-
-        public WebDocument Document
+        public DomElement RootElement
         {
-            get { return this.doc; }
-            set
-            {
-                this.doc = value;
-            }
+            get { return this.rootElement; }
+            set { this.rootElement = value; }
         }
 
         public bool RefreshIfNeed()
         {
-
-            //not need to store that binder 
-            //(else if you want to debug) 
-            if (this.lastDomUpdateVersion != doc.DomUpdateVersion)
+            int latestDomUpdateVersion = this.rootElement.OwnerDocument.DomUpdateVersion;
+            if (this.lastDomUpdateVersion != latestDomUpdateVersion)
             {
-                this.lastDomUpdateVersion = doc.DomUpdateVersion;
+                this.lastDomUpdateVersion = latestDomUpdateVersion;
                 //reset
-                
+
                 this.NeedLayout = false;
 
                 if (DomVisualRefresh != null)
@@ -106,17 +100,7 @@ namespace LayoutFarm.HtmlBoxes
                 return true;
             }
             return false;
-            //            if (recentUpdateImageBinders.Count > 0)
-            //            {
-            //                recentUpdateImageBinders.Clear();
-            //                this.RequestRefresh(false);
-            //#if DEBUG
-            //                dbugCount02++;
-            //                //Console.WriteLine(dd);
-            //#endif
-            //                return true;
-            //            }
-            //            return false;
+
         }
         public override void ClearPreviousSelection()
         {
@@ -148,8 +132,8 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public void CheckDocUpdate()
         {
-            if (doc != null &&
-                doc.DocumentState == DocumentState.ChangedAfterIdle
+            if (rootElement != null &&
+                rootElement.OwnerDocument.DocumentState == DocumentState.ChangedAfterIdle
                 && DomRequestRebuild != null)
             {
                 DomRequestRebuild(this, EventArgs.Empty);

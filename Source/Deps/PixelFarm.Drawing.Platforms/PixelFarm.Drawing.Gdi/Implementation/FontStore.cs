@@ -212,9 +212,9 @@ namespace PixelFarm.Drawing.WinGdi
 
             foreach (var family in System.Drawing.FontFamily.Families)
             {
-                if (_existingFontFamilies.ContainsKey (family.Name) == false)
+                if (_existingFontFamilies.ContainsKey(family.Name) == false)
                 {
-                    _existingFontFamilies.Add (family.Name, family);
+                    _existingFontFamilies.Add(family.Name, family);
                 }
             }
         }

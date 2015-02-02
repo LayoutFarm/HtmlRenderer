@@ -148,7 +148,7 @@ namespace LayoutFarm.Demo
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
             //-----------------------------------------------------------------
 
-            this.renderTreeBuilder.RefreshCssTree((LayoutFarm.Composers.HtmlDocument)this.currentDoc);
+            this.renderTreeBuilder.RefreshCssTree(this.currentDoc.RootNode);
             this.myHtmlIsland.PerformLayout(this.htmlLayoutVisitor);
         }
 
@@ -302,7 +302,7 @@ namespace LayoutFarm.Demo
                  cssData,
                 null);
 
-            htmlIsland.Document = htmldoc;
+            htmlIsland.RootElement = htmldoc.RootNode;
             htmlIsland.RootCssBox = rootBox;
         }
 
@@ -310,8 +310,8 @@ namespace LayoutFarm.Demo
         {
             _baseRawCssData = defaultCss;
             _baseCssData = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);
-            this.currentDoc = doc;
 
+            myHtmlIsland.RootElement = (this.currentDoc = doc).RootNode;
             BuildCssBoxTree(myHtmlIsland, _baseCssData);
             //---------------------
             PerformLayout();
@@ -340,7 +340,7 @@ namespace LayoutFarm.Demo
                 cssData,
                 null);
 
-            htmlIsland.Document = this.currentDoc;
+
             htmlIsland.RootCssBox = rootBox;
 
         }

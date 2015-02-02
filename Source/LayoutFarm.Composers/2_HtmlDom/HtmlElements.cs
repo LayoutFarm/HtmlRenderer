@@ -17,7 +17,7 @@ namespace LayoutFarm.InternalHtmlDom
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;
-        CssRuleSet elementRuleSet; 
+        CssRuleSet elementRuleSet;
         public HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
@@ -116,7 +116,7 @@ namespace LayoutFarm.InternalHtmlDom
             get;
             set;
         }
-         
+
     }
 
     sealed class RootElement : HtmlElement

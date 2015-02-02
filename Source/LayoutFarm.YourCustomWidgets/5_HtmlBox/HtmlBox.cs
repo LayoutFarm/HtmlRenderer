@@ -145,7 +145,7 @@ namespace LayoutFarm.CustomWidgets
             //    }
             //};
 
-            renderTreeBuilder.RefreshCssTree((HtmlDocument)this.currentdoc);
+            renderTreeBuilder.RefreshCssTree(this.currentdoc.RootNode);
             this.myHtmlIsland.PerformLayout(htmlLayoutVisitor);
 
         }
@@ -203,7 +203,7 @@ namespace LayoutFarm.CustomWidgets
 
             //update htmlIsland
             var htmlIsland = this.myHtmlIsland;
-            htmlIsland.Document = this.currentdoc;
+            htmlIsland.RootElement = this.currentdoc.RootNode;
             htmlIsland.RootCssBox = rootBox;
             //htmlIsland.MaxSize = new PixelFarm.Drawing.SizeF(this._width, 0);
             htmlIsland.SetMaxSize(this._width, 0);

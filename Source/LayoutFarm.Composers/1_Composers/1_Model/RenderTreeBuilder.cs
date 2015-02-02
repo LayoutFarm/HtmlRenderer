@@ -197,26 +197,24 @@ namespace LayoutFarm.Composers
             //SetTextSelectionStyle(htmlIsland, cssData);
             return rootBox;
         }
-
         //----------------------------------------------------------------
-        public void RefreshCssTree(HtmlDocument htmldoc)
+        public void RefreshCssTree(DomElement startAt)
         {
 
-            htmldoc.SetDocumentState(DocumentState.Building);
-            //----------------------------------------------------------------  
-            HtmlElement rootElement = (HtmlElement)htmldoc.RootNode;
-            PrepareStylesAndContentOfChildNodes(rootElement, htmldoc.ActiveCssTemplate);
+            HtmlElement startAtElement = (HtmlElement)startAt;
+            startAtElement.OwnerDocument.SetDocumentState(DocumentState.Building);
+
+            //----------------------------------------------------------------     
+            PrepareStylesAndContentOfChildNodes(startAtElement, ((HtmlDocument)startAtElement.OwnerDocument).ActiveCssTemplate);
+
 
             //----------------------------------------------------------------  
-            HtmlElement.InternalGetPrincipalBox(rootElement).Clear();
+            HtmlElement.InternalGetPrincipalBox(startAtElement).Clear();
 
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);
-            boxCreator.GenerateChildBoxes(rootElement, false);
-
-            htmldoc.SetDocumentState(DocumentState.Idle);
-            //----------------------------------------------------------------  
-
-
+            boxCreator.GenerateChildBoxes(startAtElement, false);
+            startAtElement.OwnerDocument.SetDocumentState(DocumentState.Idle);
+            //----------------------------------------------------------------   
         }
         //------------------------------------------
         #region Private methods

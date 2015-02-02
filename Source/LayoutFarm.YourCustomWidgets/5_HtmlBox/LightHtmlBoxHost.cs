@@ -10,7 +10,6 @@ using LayoutFarm.Composers;
 
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {
@@ -20,7 +19,6 @@ namespace LayoutFarm.CustomWidgets
     public class LightHtmlBoxHost
     {
         HtmlIslandHost islandHost;
-
         RootGraphic rootgfx;
         GraphicsPlatform gfxPlatform;
 
@@ -123,7 +121,7 @@ namespace LayoutFarm.CustomWidgets
             };
         }
         public MyHtmlIsland CreateHtmlIsland(string htmlFragment, HtmlFragmentRenderBox container)
-        {   
+        {
             //TODO:  review here***
             htmlFragment = "<html><head></head><body>" + htmlFragment + "</body></html>";
 
@@ -138,19 +136,19 @@ namespace LayoutFarm.CustomWidgets
             //1. builder 
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
             //-------------------------------------------------------------------
-            //2. skip parse
 
-            //3. generate render tree
+
+            //2. generate render tree
             ////build rootbox from htmldoc
             var rootElement = renderTreeBuilder.BuildCssRenderTree(htmldoc,
                 rootgfx.SampleIFonts,
                 this.islandHost.BaseStylesheet,
                 container);
-            //4. create small island
+            //3. create small island
 
             var htmlIsland = new MyHtmlIsland(this.islandHost);
 
-            htmlIsland.Document = htmldoc;
+            htmlIsland.RootElement = htmldoc.RootNode;
             htmlIsland.RootCssBox = rootElement;
             htmlIsland.SetMaxSize(container.Width, 0);
 
@@ -163,10 +161,10 @@ namespace LayoutFarm.CustomWidgets
             return htmlIsland;
         }
 
-        internal void RefreshCssTree(LayoutFarm.WebDom.WebDocument webdoc)
+        internal void RefreshCssTree(WebDom.DomElement element)
         {
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
-            renderTreeBuilder.RefreshCssTree((HtmlDocument)webdoc);
+            renderTreeBuilder.RefreshCssTree(element);
 
         }
     }

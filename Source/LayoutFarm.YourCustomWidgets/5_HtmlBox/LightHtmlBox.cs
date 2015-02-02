@@ -22,14 +22,9 @@ namespace LayoutFarm.CustomWidgets
         LightHtmlBoxHost lightBoxHost;
 
 
-        MyHtmlIsland myHtmlIsland;
-
-
+        MyHtmlIsland myHtmlIsland; 
         //presentation
-        HtmlFragmentRenderBox frgmRenderBox;
-
-
-
+        HtmlFragmentRenderBox frgmRenderBox; 
 
         internal LightHtmlBox(LightHtmlBoxHost lightBoxHost, int width, int height)
             : base(width, height)
@@ -214,7 +209,7 @@ namespace LayoutFarm.CustomWidgets
                 if (frgmRenderBox == null) return;
                 //--------------------------- 
 
-                this.lightBoxHost.RefreshCssTree(myHtmlIsland.Document);
+                this.lightBoxHost.RefreshCssTree(myHtmlIsland.RootElement);
 
                 var lay = this.lightBoxHost.GetSharedHtmlLayoutVisitor(myHtmlIsland);
                 myHtmlIsland.PerformLayout(lay);
