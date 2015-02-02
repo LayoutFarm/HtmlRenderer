@@ -11,7 +11,7 @@ using LayoutFarm.Composers;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.CustomWidgets
+namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
     /// common host for light htmlbox
@@ -21,6 +21,8 @@ namespace LayoutFarm.CustomWidgets
         HtmlIslandHost islandHost;
         RootGraphic rootgfx;
         GraphicsPlatform gfxPlatform;
+        HtmlDocument myDefaultHtmlDoc;
+        WebDom.DomElement myHtmlBodyElement;
 
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
         Queue<HtmlInputEventAdapter> inputEventAdapterStock = new Queue<HtmlInputEventAdapter>();
@@ -28,19 +30,24 @@ namespace LayoutFarm.CustomWidgets
 
 
 
-        public LightHtmlBoxHost(HtmlIslandHost islandHost, GraphicsPlatform gfxPlatform)
+        public LightHtmlBoxHost(HtmlIslandHost islandHost, GraphicsPlatform gfxPlatform, RootGraphic rootgfx)
         {
+
             this.gfxPlatform = gfxPlatform;
             this.islandHost = islandHost;
+            this.rootgfx = rootgfx;
+            this.myDefaultHtmlDoc = new HtmlDocument();
+            this.myDefaultHtmlDoc.ActiveCssTemplate = new ActiveCssTemplate(this.islandHost.BaseStylesheet);
+            this.myHtmlBodyElement = myDefaultHtmlDoc.CreateElement("body");
+            myDefaultHtmlDoc.RootNode.AddChild(myHtmlBodyElement);
         }
-
+        public WebDom.DomElement SharedBodyElement
+        {
+            get { return this.myHtmlBodyElement; }
+        }
         public RootGraphic RootGfx
         {
             get { return this.rootgfx; }
-            set
-            {
-                this.rootgfx = value;
-            }
         }
         public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
         {
@@ -140,13 +147,16 @@ namespace LayoutFarm.CustomWidgets
             //1. builder 
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
             //-------------------------------------------------------------------
-
-
             //2. generate render tree
             ////build rootbox from htmldoc
+            var hostDivElement = myHtmlBodyElement.OwnerDocument.CreateElement("div");
+            myHtmlBodyElement.AddChild(hostDivElement);
 
-            var rootElement = renderTreeBuilder.BuildCssRenderTree(domElement,
-                rootgfx.SampleIFonts, 
+
+            var rootElement = renderTreeBuilder.BuildCssRenderTree(
+                hostDivElement,
+                domElement,
+                rootgfx.SampleIFonts,
                 container);
             //3. create small island
 

@@ -23,8 +23,8 @@ namespace LayoutFarm
             this.islandHost = new HtmlIslandHost();
             this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
 
-            lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P);
-            lightBoxHost.RootGfx = viewport.ViewportControl.RootGfx;
+            lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P, viewport.Root);
+             
 
             ////==================================================
             //html box

@@ -13,10 +13,17 @@ namespace LayoutFarm
     {
         LayoutFarm.HtmlWidgets.CheckBox currentSingleCheckedBox;
 
+        LayoutFarm.HtmlBoxes.HtmlIslandHost islandHost;
+        LayoutFarm.HtmlBoxes.LightHtmlBoxHost lightBoxHost;
+
+
         protected override void OnStartDemo(SampleViewport viewport)
         {
+            this.islandHost = new HtmlBoxes.HtmlIslandHost();
+            this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
 
-             
+            this.lightBoxHost = new HtmlBoxes.LightHtmlBoxHost(islandHost, viewport.P, viewport.Root);
+
             //-----------------------
             SetupImageList();
             for (int i = 1; i < 5; ++i)
@@ -53,7 +60,7 @@ namespace LayoutFarm
             boxY += 50;
             for (int i = 0; i < 4; ++i)
             {
-                var statedBox = new LayoutFarm.HtmlWidgets.CheckBox(100, boxHeight);
+                var statedBox = new LayoutFarm.HtmlWidgets.CheckBox(lightBoxHost, 100, boxHeight);
                 statedBox.SetLocation(10, boxY);
                 boxY += boxHeight + 5;
                 viewport.AddContent(statedBox);

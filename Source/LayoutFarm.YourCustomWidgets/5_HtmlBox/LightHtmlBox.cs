@@ -17,8 +17,11 @@ namespace LayoutFarm.CustomWidgets
     public class LightHtmlBox : UIBox, IUserEventPortal
     {
         bool hasWaitingDocToLoad;
+
         string waitingHtmlString;
         HtmlDocument waitingHtmlDomFragment;
+        WebDom.DomElement waitingDomElement;
+
         LightHtmlBoxHost lightBoxHost;
         MyHtmlIsland myHtmlIsland;
 
@@ -160,6 +163,10 @@ namespace LayoutFarm.CustomWidgets
                 {
                     LoadHtmlFragmentDom(this.waitingHtmlDomFragment);
                 }
+                else if (this.waitingDomElement != null)
+                {
+                    LoadHtmlFragmentDom2(this.waitingDomElement);
+                }
                 else
                 {
                     LoadHtmlFragmentText(this.waitingHtmlString);
@@ -205,6 +212,27 @@ namespace LayoutFarm.CustomWidgets
                 this.waitingHtmlString = null;
             }
         }
+        public void LoadHtmlFragmentDom2(WebDom.DomElement domElement)
+        {
+            if (frgmRenderBox == null)
+            {
+                this.hasWaitingDocToLoad = true;
+                this.waitingDomElement = domElement;
+            }
+            else
+            {
+                //just parse content and load 
+
+                this.myHtmlIsland = this.lightBoxHost.CreateHtmlIsland(domElement, frgmRenderBox);
+
+                SetHtmlIslandEventHandlers();
+
+                this.waitingHtmlDomFragment = null;
+                this.waitingHtmlString = null;
+            }
+        }
+
+
         void SetHtmlIslandEventHandlers()
         {
             myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphics();

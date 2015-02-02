@@ -357,6 +357,17 @@ namespace LayoutFarm.Composers
             //------------------------------------
             return box;
         }
+        internal static CssBox CreateCssIsolateBox(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
+        {
+            var spec = new BoxSpec();
+            spec.CssDisplay = CssDisplay.Block;
+            spec.Freeze();
+            var box = new CssIsolateBox(spec, containerElement, rootgfx);
+            //------------------------------------
+            box.ReEvaluateFont(iFonts, 10);
+            //------------------------------------
+            return box;
+        }
     }
 
     class CssRenderRoot : CssBox
@@ -372,7 +383,19 @@ namespace LayoutFarm.Composers
             get { return this.containerElement; }
         }
     }
-
+    class CssIsolateBox : CssBox
+    {
+        LayoutFarm.RenderElement containerElement;
+        public CssIsolateBox(BoxSpec spec, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
+            : base(null, spec, rootgfx)
+        {
+            this.containerElement = containerElement;
+        }
+        public LayoutFarm.RenderElement ContainerElement
+        {
+            get { return this.containerElement; }
+        }
+    }
     static class TableBoxCreator
     {
 

@@ -157,12 +157,12 @@ namespace LayoutFarm.Composers
                 }
             }
         }
-         
+
         public CssBox BuildCssRenderTree(HtmlDocument htmldoc,
             IFonts ifonts,
             CssActiveSheet cssActiveSheet,
             RenderElement containerElement)
-        { 
+        {
             htmldoc.ActiveCssTemplate = new ActiveCssTemplate(cssActiveSheet);
 
             htmldoc.SetDocumentState(DocumentState.Building);
@@ -184,23 +184,33 @@ namespace LayoutFarm.Composers
         }
 
 
-        public CssBox BuildCssRenderTree(DomElement domElement,
-           IFonts ifonts, 
+        public CssBox BuildCssRenderTree(
+           DomElement hostElement,
+           DomElement domElement,
+           IFonts ifonts,
            RenderElement containerElement)
         {
-              
+
 
             HtmlDocument htmldoc = domElement.OwnerDocument as HtmlDocument;
             HtmlElement startAtHtmlElement = (HtmlElement)domElement;
 
-            htmldoc.SetDocumentState(DocumentState.Building); 
+            htmldoc.SetDocumentState(DocumentState.Building);
             PrepareStylesAndContentOfChildNodes(startAtHtmlElement, htmldoc.ActiveCssTemplate);
+             
+            CssBox docRoot = HtmlElement.InternalGetPrincipalBox((HtmlElement)htmldoc.RootNode);
+            if (docRoot == null)
+            {
+                docRoot = BoxCreator.CreateCssRenderRoot(ifonts, containerElement, this.rootgfx);
+                ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(docRoot);
+            }
 
-         
+
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);
             //----------------------------------------------------------------  
-            CssBox rootBox = BoxCreator.CreateCssRenderRoot(ifonts, containerElement, this.rootgfx);
-            ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
+            CssBox isolationBox = BoxCreator.CreateCssIsolateBox(ifonts, containerElement, this.rootgfx);
+            docRoot.AppendChild(isolationBox);
+            ((HtmlElement)domElement).SetPrincipalBox(isolationBox);
             //----------------------------------------------------------------  
 
             boxCreator.GenerateChildBoxes(startAtHtmlElement, true);
@@ -208,7 +218,7 @@ namespace LayoutFarm.Composers
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
             //SetTextSelectionStyle(htmlIsland, cssData);
-            return rootBox;
+            return isolationBox;
         }
 
 
@@ -222,12 +232,15 @@ namespace LayoutFarm.Composers
             //----------------------------------------------------------------     
             PrepareStylesAndContentOfChildNodes(startAtElement, ((HtmlDocument)startAtElement.OwnerDocument).ActiveCssTemplate);
 
-
-            //----------------------------------------------------------------  
-            HtmlElement.InternalGetPrincipalBox(startAtElement).Clear();
+            CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(startAtElement);
+            if (existingCssBox != null)
+            {
+                existingCssBox.Clear();
+            }
             //----------------------------------------------------------------  
 
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);
+
             boxCreator.GenerateChildBoxes(startAtElement, false);
             startAtElement.OwnerDocument.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------   

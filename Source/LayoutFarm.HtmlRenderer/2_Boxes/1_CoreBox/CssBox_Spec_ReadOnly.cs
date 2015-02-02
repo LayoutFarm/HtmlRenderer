@@ -31,7 +31,8 @@ namespace LayoutFarm.HtmlBoxes
 
 
     partial class CssBox
-    {
+    {   
+        
         public CssLength Height
         {
             get { return this._myspec.Height; }

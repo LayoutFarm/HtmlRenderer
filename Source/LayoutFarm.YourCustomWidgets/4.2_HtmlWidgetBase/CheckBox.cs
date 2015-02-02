@@ -13,53 +13,23 @@ using LayoutFarm.CustomWidgets;
 
 namespace LayoutFarm.HtmlWidgets
 {
-    class SharedHtmlContext<T>
-    {
-        HtmlIslandHost islandHost;
-        LightHtmlBoxHost lightBoxHost;
-        HtmlDocument myHtmlDoc = new HtmlDocument();
-        DomElement myHtmlRootElement;
-        DomElement bodyNode;
-        public SharedHtmlContext()
-        {
-            myHtmlRootElement = myHtmlDoc.RootNode;
-            bodyNode = (DomElement)myHtmlRootElement.AddChild("body");
-        }
-        public LightHtmlBoxHost GetLightBoxHost(RootGraphic rootgfx)
-        {
-            if (islandHost == null)
-            {
-                this.islandHost = new HtmlIslandHost();
-                this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
 
-                lightBoxHost = new LightHtmlBoxHost(islandHost, rootgfx.P);
-                lightBoxHost.RootGfx = rootgfx;
-            }
-            return lightBoxHost;
-        }
-
-        public DomElement SharedBodyNode
-        {
-            get { return this.bodyNode; }
-        }
-
-    }
 
     public class CheckBox : Panel
     {
 
 
-        static SharedHtmlContext<CheckBox> sharedHtmlContext = new SharedHtmlContext<CheckBox>();
+
         //check icon 
         bool isChecked;
 
         RenderElement myRenderE;
         ImageBox imageBox;
-
-        public CheckBox(int w, int h)
+        LightHtmlBoxHost lightBoxHost;
+        public CheckBox(LightHtmlBoxHost lightBoxHost, int w, int h)
             : base(w, h)
         {
-
+            this.lightBoxHost = lightBoxHost;
         }
         protected override RenderElement CurrentPrimaryRenderElement
         {
@@ -81,8 +51,9 @@ namespace LayoutFarm.HtmlWidgets
             if (!this.HasReadyRenderElement)
             {
 
-                LightHtmlBox lightHtmlBox = new LightHtmlBox(sharedHtmlContext.GetLightBoxHost(rootgfx), this.Width, this.Height);
-                lightHtmlBox.LoadHtmlFragmentDom(CreateSampleHtmlDoc());
+                LightHtmlBox lightHtmlBox = new LightHtmlBox(lightBoxHost, this.Width, this.Height);
+
+                lightHtmlBox.LoadHtmlFragmentDom2(CreateSampleHtmlDoc2(lightBoxHost.SharedBodyElement));
                 lightHtmlBox.SetLocation(this.Left, this.Top);
                 myRenderE = lightHtmlBox.GetPrimaryRenderElement(rootgfx);
                 return myRenderE;
@@ -223,6 +194,74 @@ namespace LayoutFarm.HtmlWidgets
                 });
 
             return myHtmlDoc;
+        }
+
+        DomElement CreateSampleHtmlDoc2(DomElement parent)
+        {
+
+            HtmlDocument htmldoc = (HtmlDocument)parent.OwnerDocument;
+            //1. create body node             
+            // and content   
+            //style 2, lambda and adhoc attach event
+            var domElement =
+                parent.AddChild("div", div =>
+                {
+                    var styleAttr = htmldoc.CreateAttribute(WellknownName.Style);
+                    styleAttr.Value = "font:10pt tahoma";
+                    div.AddAttribute(styleAttr);
+
+                    MenuBox menuBox = new MenuBox(200, 100);
+                    div.AddChild("span", span =>
+                    {
+                        //test menubox 
+                        span.AddTextContent("ABCD");
+                        //3. attach event to specific span
+                        span.AttachMouseDownEvent(e =>
+                        {
+#if DEBUG
+                            // System.Diagnostics.Debugger.Break();                           
+                            //test change span property 
+                            //clear prev content and add new  text content                             
+                            span.ClearAllElements();
+                            span.AddTextContent("XYZ0001");
+#endif
+
+                            menuBox.SetLocation(50, 50);
+                            //add to top window
+                            menuBox.ShowMenu(this.CurrentPrimaryRenderElement.Root);
+
+                            e.StopPropagation();
+
+                        });
+                    });
+
+                    div.AddChild("span", span =>
+                    {
+                        span.AddTextContent("EFGHIJK");
+                        span.AttachMouseDownEvent(e =>
+                        {
+                            span.ClearAllElements();
+                            span.AddTextContent("LMNOP0003");
+
+                            //test hide menu                             
+                            menuBox.HideMenu();
+
+                        });
+                    });
+                    //----------------------
+                    div.AttachEvent(UIEventName.MouseDown, e =>
+                    {
+#if DEBUG
+                        //this will not print 
+                        //if e has been stop by its child
+                        // System.Diagnostics.Debugger.Break();
+                        Console.WriteLine("div");
+#endif
+
+                    });
+                });
+
+            return domElement;
         }
     }
 
