@@ -35,7 +35,8 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="controller">the html tag data of this box</param>
-        public CssBoxImage(object controller, Css.BoxSpec boxSpec, RootGraphic rootgfx, ImageBinder binder)
+        public CssBoxImage(object controller, Css.BoxSpec boxSpec,
+            RootGraphic rootgfx, ImageBinder binder)
             : base(controller, boxSpec, rootgfx)
         {
 
@@ -43,53 +44,30 @@ namespace LayoutFarm.HtmlBoxes
             this._imgRun.ImageBinder = binder;
             this._imgRun.SetOwner(this);
 
+            var runlist = new List<CssRun>(1);
+            runlist.Add(_imgRun);
+            CssBox.UnsafeSetContentRuns(this, runlist, false);
+        }
+        public override void Clear()
+        {
+            base.Clear();
 
             var runlist = new List<CssRun>(1);
-
             runlist.Add(_imgRun);
-
             CssBox.UnsafeSetContentRuns(this, runlist, false);
 
         }
 
-        ///// <summary>
-        ///// Get the image of this image box.
-        ///// </summary>
-        //public Image Image
-        //{
-        //    get { return this._imgRun.ImageBinder.Image; }
-        //}
-        //void OnImageBinderLoadingComplete()
-        //{
-        //    //when binder state changed 
-        //    switch (_imgBinder.State)
-        //    {
-        //        case ImageBinderState.Loaded:
-        //            {
-        //                //get image from binder
-        //                //-----------------------
-        //                var img = _imgBinder.Image;
-        //                _imageWord.Image = img;
-        //                _imageWord.ImageRectangle = new Rectangle(0, 0, img.Width, img.Height);
-        //                _imageLoadingComplete = true;
-        //                this.RunSizeMeasurePass = false;
-        //                //-----------------------
+        public ImageBinder ImageBinder
+        {
+            get { return this._imgRun.ImageBinder; }
+            set
+            {
+                this._imgRun.ImageBinder = value;
+                this.RunSizeMeasurePass = false;
 
-        //                //if (_imageLoadingComplete && image == null)
-        //                //{
-        //                //    SetErrorBorder();
-        //                //} 
-        //                //if (!HtmlContainer.AvoidImagesLateLoading || async)
-        //                //{
-        //                //    var width = this.Width;//new CssLength(Width);
-        //                //    var height = this.Height;// new CssLength(Height);
-        //                //    var layout = (width.Number <= 0 || width.Unit != CssUnit.Pixels) || (height.Number <= 0 || height.Unit != CssUnit.Pixels);
-        //                //    HtmlContainer.RequestRefresh(layout);
-        //                //}
-
-        //            } break;
-        //    }
-        //}
+            }
+        }
         internal void PaintImage(PaintVisitor p, RectangleF rect)
         {
 
@@ -140,13 +118,13 @@ namespace LayoutFarm.HtmlBoxes
                                 p.DrawImage(img,
                                       r.Left, r.Top,
                                       img.Width, img.Height);
-                                // g.DrawImage(img, Rectangle.Round(r));
+
                             }
                             else
                             {
-                                //
+
                                 p.DrawImage(img, _imgRun.ImageRectangle);
-                                //g.DrawImage(_imageWord.Image, Rectangle.Round(r), _imageWord.ImageRectangle);
+
                             }
                         }
                         else
@@ -188,10 +166,13 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">the device to use</param>
         internal override void MeasureRunsSize(LayoutVisitor lay)
         {
-            if (!this.RunSizeMeasurePass)
+            if (this.RunSizeMeasurePass)
             {
-                this.RunSizeMeasurePass = true;
+                return;
             }
+
+            this.RunSizeMeasurePass = true;
+
             CssLayoutEngine.MeasureImageSize(_imgRun, lay);
         }
         #region Private methods

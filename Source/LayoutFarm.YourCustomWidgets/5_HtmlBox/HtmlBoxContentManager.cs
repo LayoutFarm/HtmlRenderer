@@ -9,6 +9,7 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.CustomWidgets
 {
+
     public class HtmlBoxContentManager
     {
         HtmlBox htmlBox;

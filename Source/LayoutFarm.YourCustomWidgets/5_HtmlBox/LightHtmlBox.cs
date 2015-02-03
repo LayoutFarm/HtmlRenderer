@@ -35,6 +35,9 @@ namespace LayoutFarm.CustomWidgets
         //presentation
         HtmlFragmentRenderBox frgmRenderBox;
 
+        object uiHtmlTask = new object();
+        bool isRegistered = false;
+
         static LightHtmlBox()
         {
             LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
@@ -45,8 +48,8 @@ namespace LayoutFarm.CustomWidgets
             : base(width, height)
         {
             this.lightBoxHost = lightBoxHost;
-
         }
+
         protected override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.frgmRenderBox; }
@@ -154,6 +157,20 @@ namespace LayoutFarm.CustomWidgets
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
+            if (!isRegistered)
+            {
+                isRegistered = true;
+
+                rootgfx.SubscribeGraphicsIntervalTask(uiHtmlTask,
+                 LayoutFarm.RenderBoxes.TaskIntervalPlan.Animation, 25,
+                 (s, e) =>
+                 {  
+                     if (this.myHtmlIsland.RefreshIfNeed())
+                     {
+                         e.NeedUpdate = 1;
+                     }
+                 });
+            }
 
             if (frgmRenderBox == null)
             {
@@ -253,7 +270,7 @@ namespace LayoutFarm.CustomWidgets
             myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphics();
             myHtmlIsland.DomRequestRebuild += (s, e) =>
             {
-                
+
                 //---------------------------
                 if (frgmRenderBox == null) return;
                 //--------------------------- 
@@ -265,14 +282,14 @@ namespace LayoutFarm.CustomWidgets
                 this.lightBoxHost.ReleaseHtmlLayoutVisitor(lay);
             };
         }
-        public override void InvalidateGraphics()
-        {
+        //public override void InvalidateGraphics()
+        //{
 
-            //if (this.myCssBoxWrapper != null)
-            //{
-            //    myCssBoxWrapper.InvalidateGraphic();
-            //}
-        }
+        //    //if (this.myCssBoxWrapper != null)
+        //    //{
+        //    //    myCssBoxWrapper.InvalidateGraphic();
+        //    //}
+        //}
 
     }
 }

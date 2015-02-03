@@ -197,7 +197,7 @@ namespace LayoutFarm.Composers
 
             htmldoc.SetDocumentState(DocumentState.Building);
             PrepareStylesAndContentOfChildNodes(startAtHtmlElement, htmldoc.ActiveCssTemplate);
-             
+
             CssBox docRoot = HtmlElement.InternalGetPrincipalBox((HtmlElement)htmldoc.RootNode);
             if (docRoot == null)
             {
@@ -1000,6 +1000,39 @@ namespace LayoutFarm.Composers
                             {
                                 var spec = tag.Spec;
                                 spec.Width = TranslateLength(attr);
+
+                            } break;
+                        case WellknownName.Src:
+                            {
+
+                                var cssBoxImage = HtmlElement.InternalGetPrincipalBox(tag) as CssBoxImage;
+                                if (cssBoxImage != null)
+                                {
+                                    string imgsrc;
+                                    //ImageBinder imgBinder = null;
+                                    if (tag.TryGetAttribute(WellknownName.Src, out imgsrc))
+                                    {
+                                        var cssBoxImage1 = HtmlElement.InternalGetPrincipalBox(tag) as CssBoxImage;
+                                        var imgbinder1 = cssBoxImage1.ImageBinder;
+                                        if (imgbinder1.ImageSource != imgsrc)
+                                        {
+                                            var clientImageBinder = new ClientImageBinder(imgsrc);
+                                            imgbinder1 = clientImageBinder;
+                                            clientImageBinder.SetOwner(tag);
+                                            cssBoxImage1.ImageBinder = clientImageBinder;
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        //var clientImageBinder = new ClientImageBinder(null);
+                                        //imgBinder = clientImageBinder;
+                                        //clientImageBinder.SetOwner(tag);
+
+                                    }
+
+                                }
+
 
                             } break;
                     }

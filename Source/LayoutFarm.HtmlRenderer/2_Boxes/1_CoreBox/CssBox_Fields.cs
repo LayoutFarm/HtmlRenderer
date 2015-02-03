@@ -14,7 +14,7 @@
 // "The Art of War"
 
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 namespace LayoutFarm.HtmlBoxes
 {
 
@@ -127,7 +127,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this._aa_boxes.InsertBefore(this, beforeBox, box);
         }
-        public void Clear()
+        public virtual void Clear()
         {
             //_aa_contentRuns may come from other data source
             //so just set it to null

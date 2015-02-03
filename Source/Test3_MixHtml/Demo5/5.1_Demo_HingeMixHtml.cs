@@ -13,7 +13,7 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
-    [DemoNote("5.8 HingeMixHtml")]
+    [DemoNote("5.1 HingeMixHtml")]
     class Demo_HingeMixHtml : DemoBase
     {
         ImageBinder arrowBmp;

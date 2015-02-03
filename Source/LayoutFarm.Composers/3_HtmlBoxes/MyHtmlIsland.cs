@@ -79,7 +79,7 @@ namespace LayoutFarm.HtmlBoxes
             set { this.rootElement = value; }
         }
 
-        public bool RefreshIfNeed()
+        public override bool RefreshIfNeed()
         {
             if (rootElement == null) return false;
             //----------------------------------

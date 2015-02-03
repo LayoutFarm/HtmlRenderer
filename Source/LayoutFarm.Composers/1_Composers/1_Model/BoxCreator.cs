@@ -28,7 +28,6 @@ namespace LayoutFarm.Composers
         static CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
         {
             string imgsrc;
-
             ImageBinder imgBinder = null;
             if (childElement.TryGetAttribute(WellknownName.Src, out imgsrc))
             {
@@ -223,7 +222,6 @@ namespace LayoutFarm.Composers
                                                     GenerateChildBoxes(childElement, fullmode);
                                                     childElement.SkipPrincipalBoxEvalulation = true;
                                                 }
-
                                             }
                                         }
                                         newBox++;

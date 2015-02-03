@@ -28,7 +28,8 @@ namespace LayoutFarm.HtmlBoxes
         Queue<HtmlInputEventAdapter> inputEventAdapterStock = new Queue<HtmlInputEventAdapter>();
         Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
 
-
+        object uiHtmlTask = new object();
+         
 
         public LightHtmlBoxHost(HtmlIslandHost islandHost, GraphicsPlatform gfxPlatform, RootGraphic rootgfx)
         {
@@ -39,7 +40,9 @@ namespace LayoutFarm.HtmlBoxes
             this.myDefaultHtmlDoc = new HtmlDocument();
             this.myDefaultHtmlDoc.ActiveCssTemplate = new ActiveCssTemplate(this.islandHost.BaseStylesheet);
             this.myHtmlBodyElement = myDefaultHtmlDoc.CreateElement("body");
-            myDefaultHtmlDoc.RootNode.AddChild(myHtmlBodyElement);
+            myDefaultHtmlDoc.RootNode.AddChild(myHtmlBodyElement); 
+
+             
         }
         public WebDom.DomElement SharedBodyElement
         {

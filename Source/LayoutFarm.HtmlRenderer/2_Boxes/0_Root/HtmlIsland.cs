@@ -40,7 +40,7 @@ namespace LayoutFarm.HtmlBoxes
         float _maxWidth;
         float _maxHeight;
 
-        
+
         /// <summary>
         /// 99999
         /// </summary>
@@ -177,7 +177,10 @@ namespace LayoutFarm.HtmlBoxes
             Dispose(true);
         }
 
-
+        public virtual bool RefreshIfNeed()
+        {
+            return false;
+        }
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
@@ -212,6 +215,6 @@ namespace LayoutFarm.HtmlBoxes
             { }
         }
 
-       
+
     }
 }

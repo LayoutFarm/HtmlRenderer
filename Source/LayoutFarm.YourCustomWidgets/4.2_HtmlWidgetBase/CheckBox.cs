@@ -18,14 +18,16 @@ namespace LayoutFarm.HtmlWidgets
     public class CheckBox : Panel
     {
 
-
-
-        //check icon 
         bool isChecked;
 
         RenderElement myRenderE;
-        ImageBox imageBox;
+        DomElement imageBox;
+
+        LightHtmlBox lightHtmlBox;
         LightHtmlBoxHost lightBoxHost;
+
+       
+
         public CheckBox(LightHtmlBoxHost lightBoxHost, int w, int h)
             : base(w, h)
         {
@@ -48,50 +50,19 @@ namespace LayoutFarm.HtmlWidgets
 
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
+            
             if (!this.HasReadyRenderElement)
             {
-
-                LightHtmlBox lightHtmlBox = new LightHtmlBox(lightBoxHost, this.Width, this.Height);
-
-                lightHtmlBox.LoadHtmlFragmentDom(CreateSampleHtmlDoc2(lightBoxHost.SharedBodyElement));
+                lightHtmlBox = new LightHtmlBox(lightBoxHost, this.Width, this.Height);
+                lightHtmlBox.LoadHtmlFragmentDom(CreateDomElement(lightBoxHost.SharedBodyElement));
                 lightHtmlBox.SetLocation(this.Left, this.Top);
                 myRenderE = lightHtmlBox.GetPrimaryRenderElement(rootgfx);
                 return myRenderE;
 
-                //floatPart.AddChildBox(lightHtmlBox2);
-                ////light box can't load full html
-                ////all light boxs of the same lightbox host share resource with the host
-                ////string html2 = @"<div>OK1</div><div>OK2</div><div>OK3</div><div>OK4</div>";
-                ////if you want to use ful l html-> use HtmlBox instead  
-                //lightHtmlBox2.LoadHtmlFragmentDom(CreateSampleHtmlDoc(floatPart));
-
-                //var dom = CreateSampleHtmlDoc();
-                //return null;
-                //generate custom html checkbox 
-                //RenderElement baseRenderElement = base.GetPrimaryRenderElement(rootgfx);
-                //imageBox = new ImageBox(16, 16);
-                //if (this.isChecked)
-                //{
-                //    imageBox.ImageBinder = ResImageList.GetImageBinder(ImageName.CheckBoxChecked);
-                //}
-                //else
-                //{
-                //    imageBox.ImageBinder = ResImageList.GetImageBinder(ImageName.CheckBoxUnChecked);
-                //}
-
-                //imageBox.MouseDown += (s, e) =>
-                //{
-                //    //toggle checked/unchecked
-                //    this.Checked = !this.Checked;
-
-                //};
-                //this.AddChildBox(imageBox);
-                //return baseRenderElement;
             }
             else
             {
                 return myRenderE;
-                //return base.GetPrimaryRenderElement(rootgfx);
             }
 
         }
@@ -104,18 +75,19 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     this.isChecked = value;
                     //check check image too!
-
+                    ImageBinder imgBinder = null;
                     if (this.isChecked)
                     {
-                        imageBox.ImageBinder = ResImageList.GetImageBinder(ImageName.CheckBoxChecked);
+                        imgBinder = ResImageList.GetImageBinder(ImageName.CheckBoxChecked);
                     }
                     else
                     {
-                        imageBox.ImageBinder = ResImageList.GetImageBinder(ImageName.CheckBoxUnChecked);
+                        imgBinder = ResImageList.GetImageBinder(ImageName.CheckBoxUnChecked);
                     }
+                    //----------
 
 
-
+                    //----------
                     if (value && this.WhenChecked != null)
                     {
                         this.WhenChecked(this, EventArgs.Empty);
@@ -125,140 +97,70 @@ namespace LayoutFarm.HtmlWidgets
         }
         public event EventHandler WhenChecked;
 
-        HtmlDocument CreateSampleHtmlDoc()
-        {
-
-            HtmlDocument myHtmlDoc = new HtmlDocument();
-            var myHtmlRootElement = myHtmlDoc.RootNode;
-            var bodyNode = myHtmlRootElement.AddChild("body");
-
-            //1. create body node             
-            // and content   
-            //style 2, lambda and adhoc attach event
-            var dombox =
-                bodyNode.AddChild("div", div =>
-                {
-                    var styleAttr = myHtmlDoc.CreateAttribute(WellknownName.Style);
-                    styleAttr.Value = "font:10pt tahoma";
-                    div.AddAttribute(styleAttr);
-
-                    MenuBox menuBox = new MenuBox(200, 100);
-                    div.AddChild("span", span =>
-                    {
-                        //test menubox 
-                        span.AddTextContent("ABCD");
-                        //3. attach event to specific span
-                        span.AttachMouseDownEvent(e =>
-                        {
-#if DEBUG
-                            // System.Diagnostics.Debugger.Break();                           
-                            //test change span property 
-                            //clear prev content and add new  text content                             
-                            span.ClearAllElements();
-                            span.AddTextContent("XYZ0001");
-#endif
-
-                            menuBox.SetLocation(50, 50);
-                            //add to top window
-                            menuBox.ShowMenu(this.CurrentPrimaryRenderElement.Root);
-
-                            e.StopPropagation();
-
-                        });
-                    });
-
-                    div.AddChild("span", span =>
-                    {
-                        span.AddTextContent("EFGHIJK");
-                        span.AttachMouseDownEvent(e =>
-                        {
-                            span.ClearAllElements();
-                            span.AddTextContent("LMNOP0003");
-
-                            //test hide menu                             
-                            menuBox.HideMenu();
-
-                        });
-                    });
-                    //----------------------
-                    div.AttachEvent(UIEventName.MouseDown, e =>
-                    {
-#if DEBUG
-                        //this will not print 
-                        //if e has been stop by its child
-                        // System.Diagnostics.Debugger.Break();
-                        Console.WriteLine("div");
-#endif
-
-                    });
-                });
-
-            return myHtmlDoc;
-        }
-
-        DomElement CreateSampleHtmlDoc2(DomElement parent)
+        DomElement CreateDomElement(DomElement parent)
         {
 
             HtmlDocument htmldoc = (HtmlDocument)parent.OwnerDocument;
+
+            //TODO: use template engine, 
+            //ideas:  AngularJS style ?
+
             //1. create body node             
             // and content   
             //style 2, lambda and adhoc attach event
+
+
             var domElement =
                 parent.AddChild("div", div =>
                 {
                     var styleAttr = htmldoc.CreateAttribute(WellknownName.Style);
-                    styleAttr.Value = "font:10pt tahoma";
+                    styleAttr.Value = "font:10pt tahoma;";
                     div.AddAttribute(styleAttr);
 
-                    MenuBox menuBox = new MenuBox(200, 100);
-                    div.AddChild("span", span =>
+
+                    div.AddChild("img", img =>
                     {
-                        //test menubox 
-                        span.AddTextContent("ABCD");
+                        this.imageBox = img;
+
+                        //change style
+                        var imgAttr = htmldoc.CreateAttribute(WellknownName.Src);
+                        imgAttr.Value = "../../Demo/arrow_close.png";
+                        img.AddAttribute(imgAttr);
                         //3. attach event to specific span
-                        span.AttachMouseDownEvent(e =>
+
+                        img.AttachMouseDownEvent(e =>
                         {
-#if DEBUG
-                            // System.Diagnostics.Debugger.Break();                           
-                            //test change span property 
-                            //clear prev content and add new  text content                             
-                            span.ClearAllElements();
-                            span.AddTextContent("XYZ0001");
-#endif
 
-                            menuBox.SetLocation(50, 50);
-                            //add to top window
-                            menuBox.ShowMenu(this.CurrentPrimaryRenderElement.Root);
-
+                            imgAttr.Value = "../../Demo/arrow_open.png";
                             e.StopPropagation();
 
+                            img.NotifyChange(ElementChangeKind.AttributeChanged);
+
+                            this.InvalidateGraphics();
                         });
                     });
 
-                    div.AddChild("span", span =>
-                    {
-                        span.AddTextContent("EFGHIJK");
-                        span.AttachMouseDownEvent(e =>
-                        {
-                            span.ClearAllElements();
-                            span.AddTextContent("LMNOP0003");
-
-                            //test hide menu                             
-                            menuBox.HideMenu();
-
-                        });
-                    });
+                    //div.AddChild("span", span =>
+                    //{
+                    //    span.AddTextContent("EFGHIJK");
+                    //    span.AttachMouseDownEvent(e =>
+                    //    {
+                    //        span.ClearAllElements();
+                    //        span.AddTextContent("LMNOP0003");
+                    //        this.InvalidateGraphics();
+                    //    });
+                    //});
                     //----------------------
-                    div.AttachEvent(UIEventName.MouseDown, e =>
-                    {
-#if DEBUG
-                        //this will not print 
-                        //if e has been stop by its child
-                        // System.Diagnostics.Debugger.Break();
-                        Console.WriteLine("div");
-#endif
+//                    div.AttachEvent(UIEventName.MouseDown, e =>
+//                    {
+//#if DEBUG
+//                        //this will not print 
+//                        //if e has been stop by its child
+//                        // System.Diagnostics.Debugger.Break();
+//                        Console.WriteLine("div");
+//#endif
 
-                    });
+//                    });
                 });
 
             return domElement;

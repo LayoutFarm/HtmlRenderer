@@ -80,6 +80,12 @@ namespace LayoutFarm.InternalHtmlDom
         {
             return element.principalBox;
         }
+        protected override void OnContentUpdate()
+        {
+            base.OnContentUpdate();
+            OnChangeInIdleState(ElementChangeKind.ContentUpdate);
+             
+        } 
         //------------------------------------
         protected override void OnChangeInIdleState(ElementChangeKind changeKind)
         {

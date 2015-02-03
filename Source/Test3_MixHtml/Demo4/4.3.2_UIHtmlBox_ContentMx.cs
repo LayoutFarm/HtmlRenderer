@@ -28,13 +28,9 @@ namespace LayoutFarm
             //html box
             var htmlBox = new HtmlBox(800, 600);
             var htmlBoxContentMx = new HtmlBoxContentManager();
-            var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
-
-
+            var contentMx = new LayoutFarm.ContentManagers.ImageContentManager(); 
             htmlBoxContentMx.AddImageContentMan(contentMx);
-            htmlBoxContentMx.Bind(htmlBox);
-
-
+            htmlBoxContentMx.Bind(htmlBox); 
             contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
 
 

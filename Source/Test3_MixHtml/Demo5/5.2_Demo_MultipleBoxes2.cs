@@ -8,57 +8,34 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
-    [DemoNote("1.2.1 MultpleBox")]
+    [DemoNote("5.2 MultpleBox2")]
     class Demo_MultipleBox2 : DemoBase
     {
         LayoutFarm.HtmlWidgets.CheckBox currentSingleCheckedBox;
 
         LayoutFarm.HtmlBoxes.HtmlIslandHost islandHost;
         LayoutFarm.HtmlBoxes.LightHtmlBoxHost lightBoxHost;
-
+        LayoutFarm.ContentManagers.ImageContentManager imageContentMan = new ContentManagers.ImageContentManager();
 
         protected override void OnStartDemo(SampleViewport viewport)
         {
+
+
+            imageContentMan.ImageLoadingRequest += (s, e) =>
+            {
+                e.SetResultImage(LoadBitmap(e.ImagSource));
+
+            };
             this.islandHost = new HtmlBoxes.HtmlIslandHost();
             this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
 
+            islandHost.RequestResource += myHtmlIsland_RequestResource;
             this.lightBoxHost = new HtmlBoxes.LightHtmlBoxHost(islandHost, viewport.P, viewport.Root);
 
-            //-----------------------
-            SetupImageList();
-            for (int i = 1; i < 5; ++i)
-            {
-                var textbox = new LayoutFarm.CustomWidgets.EaseBox(30, 30);
-                textbox.SetLocation(i * 40, i * 40);
-                viewport.AddContent(textbox);
-            }
-            //--------------------
-            //image box
-            //load bitmap with gdi+           
-            ImageBinder imgBinder = LoadImage("../../Demo/favorites32.png");
-            var imgBox = new CustomWidgets.ImageBox(imgBinder.Image.Width, imgBinder.Image.Height);
-            imgBox.ImageBinder = imgBinder;
-            viewport.AddContent(imgBox);
-
-            //--------------------
-            //checked box
-            int boxHeight = 20;
-
+            
+            int boxHeight = 35;
             int boxY = 50;
-            //multiple select
-            for (int i = 0; i < 4; ++i)
-            {
-                var statedBox = new LayoutFarm.CustomWidgets.CheckBox(20, boxHeight);
-                statedBox.SetLocation(10, boxY);
-                boxY += boxHeight + 5;
-
-                viewport.AddContent(statedBox);
-            }
-            //-------------------------------------------------------------------------
-            //single select 
-            boxHeight = 35;
-            boxY += 50;
-            for (int i = 0; i < 4; ++i)
+            for (int i = 0; i < 1; ++i)
             {
                 var statedBox = new LayoutFarm.HtmlWidgets.CheckBox(lightBoxHost, 100, boxHeight);
                 statedBox.SetLocation(10, boxY);
@@ -77,6 +54,12 @@ namespace LayoutFarm
                     }
                 };
             }
+        }
+
+
+        void myHtmlIsland_RequestResource(object sender, LayoutFarm.HtmlBoxes.HtmlResourceRequestEventArgs e)
+        {
+            this.imageContentMan.AddRequestImage(e.binder);
         }
         static void SetupImageList()
         {
