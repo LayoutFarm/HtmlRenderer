@@ -26,7 +26,7 @@ namespace LayoutFarm.CustomWidgets
         LayoutFarm.WebDom.WebDocument currentdoc;
 
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
-        public event EventHandler<ImageRequestEventArgs> RequestImage;
+       
 
         bool hasWaitingDocToLoad;
         LayoutFarm.WebDom.CssActiveSheet waitingCssData;
@@ -36,25 +36,27 @@ namespace LayoutFarm.CustomWidgets
 
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder = null;
         HtmlIslandHost islandHost;
+
         static HtmlBox()
         {
             LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
                new MyCssBoxGenerator());
         }
-        public HtmlBox(int width, int height)
+        public HtmlBox(HtmlIslandHost islandHost, int width, int height)
         {
             this._width = width;
             this._height = height;
+            this.islandHost = islandHost;
 
-            this.islandHost = new HtmlIslandHost();
-            this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
-            this.islandHost.RequestResource += (s, e) =>
-            {
-                if (this.RequestImage != null)
-                {
-                    RequestImage(this, new ImageRequestEventArgs(e.binder));
-                }
-            };
+            //this.islandHost = new HtmlIslandHost();
+            //this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
+            //this.islandHost.RequestResource += (s, e) =>
+            //{
+            //    if (this.RequestImage != null)
+            //    {
+            //        RequestImage(this, new ImageRequestEventArgs(e.binder));
+            //    }
+            //};
 
             myHtmlIsland = new MyHtmlIsland(islandHost);
             myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphics();
@@ -63,8 +65,13 @@ namespace LayoutFarm.CustomWidgets
             //tim.Interval = 30;
             //tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
         }
-        //--------------------------------------------------------------------
+        public HtmlIslandHost HtmlIslandHost
+        {
+            get { return this.islandHost; }
+        }
 
+        //--------------------------------------------------------------------
+        
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
 

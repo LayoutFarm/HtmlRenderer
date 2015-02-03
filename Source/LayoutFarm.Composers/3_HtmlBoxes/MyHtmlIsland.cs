@@ -25,8 +25,11 @@ namespace LayoutFarm.HtmlBoxes
         public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
         SelectionRange _currentSelectionRange;
 
-        public HtmlIslandHost()
+        GraphicsPlatform gfxplatform;
+        public HtmlIslandHost(GraphicsPlatform gfxplatform)
         {
+            this.gfxplatform = gfxplatform;
+
         }
         public WebDom.CssActiveSheet BaseStylesheet { get; set; }
         public virtual void RequestImage(ImageBinder binder, HtmlIsland reqIsland, object reqFrom, bool _sync)
@@ -57,6 +60,66 @@ namespace LayoutFarm.HtmlBoxes
                 _currentSelectionRange.ClearSelectionStatus();
                 _currentSelectionRange = null;
             }
+        }
+
+
+        //------------------------
+        Queue<HtmlInputEventAdapter> inputEventAdapterStock = new Queue<HtmlInputEventAdapter>();
+        Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
+        LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
+
+        public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island, GraphicsPlatform gfxPlatform)
+        {
+            LayoutFarm.HtmlBoxes.LayoutVisitor lay = null;
+            if (htmlLayoutVisitorStock.Count == 0)
+            {
+                lay = new LayoutVisitor(gfxPlatform);
+            }
+            else
+            {
+                lay = this.htmlLayoutVisitorStock.Dequeue();
+            }
+            lay.Bind(island);
+            return lay;
+        }
+        public void ReleaseHtmlLayoutVisitor(LayoutFarm.HtmlBoxes.LayoutVisitor lay)
+        {
+            lay.UnBind();
+            this.htmlLayoutVisitorStock.Enqueue(lay);
+        }
+        public HtmlInputEventAdapter GetSharedInputEventAdapter(HtmlIsland island, IFonts ifonts)
+        {
+            HtmlInputEventAdapter adapter = null;
+            if (inputEventAdapterStock.Count == 0)
+            {
+                adapter = new HtmlInputEventAdapter(ifonts);
+            }
+            else
+            {
+                adapter = this.inputEventAdapterStock.Dequeue();
+            }
+            adapter.Bind(island);
+            return adapter;
+        }
+        public void ReleaseSharedInputEventAdapter(HtmlInputEventAdapter adapter)
+        {
+            adapter.Unbind();
+            this.inputEventAdapterStock.Enqueue(adapter);
+        }
+        internal LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder(RootGraphic rootgfx)
+        {
+            if (this.renderTreeBuilder == null)
+            {
+                renderTreeBuilder = new Composers.RenderTreeBuilder(rootgfx);
+                this.renderTreeBuilder.RequestStyleSheet += (e) =>
+                {
+                    var req = new TextLoadRequestEventArgs(e.Src);
+                    this.RequestStyleSheet(req);
+                    e.SetStyleSheet = req.SetStyleSheet;
+
+                };
+            }
+            return renderTreeBuilder;
         }
     }
 

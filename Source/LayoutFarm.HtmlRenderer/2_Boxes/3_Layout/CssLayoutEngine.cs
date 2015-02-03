@@ -492,7 +492,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 int childNumber = 0;
                 bool splitableParentIsBlock = splitableBox.ParentBox.IsBlock;
-                var fontPool = lay.SampleIFonts;
+                var ifonts = lay.SampleIFonts;
 
                 foreach (CssBox b in splitableBox.GetChildBoxIter())
                 {
@@ -506,7 +506,7 @@ namespace LayoutFarm.HtmlBoxes
 
                     if (b.NeedComputedValueEvaluation)
                     {
-                        b.ReEvaluateComputedValues(fontPool, hostBox);
+                        b.ReEvaluateComputedValues(ifonts, hostBox);
                     }
 
                     b.MeasureRunsSize(lay);

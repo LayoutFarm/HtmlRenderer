@@ -12,31 +12,26 @@ namespace LayoutFarm
     class Demo_MultipleBox2 : DemoBase
     {
         LayoutFarm.HtmlWidgets.CheckBox currentSingleCheckedBox;
-
-        LayoutFarm.HtmlBoxes.HtmlIslandHost islandHost;
-        LayoutFarm.HtmlBoxes.LightHtmlBoxHost lightBoxHost;
         LayoutFarm.ContentManagers.ImageContentManager imageContentMan = new ContentManagers.ImageContentManager();
 
         protected override void OnStartDemo(SampleViewport viewport)
         {
-
-
             imageContentMan.ImageLoadingRequest += (s, e) =>
             {
                 e.SetResultImage(LoadBitmap(e.ImagSource));
-
             };
-            this.islandHost = new HtmlBoxes.HtmlIslandHost();
-            this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
-
-            islandHost.RequestResource += myHtmlIsland_RequestResource;
-            this.lightBoxHost = new HtmlBoxes.LightHtmlBoxHost(islandHost, viewport.P, viewport.Root);
-
-            
             int boxHeight = 35;
             int boxY = 50;
-            for (int i = 0; i < 1; ++i)
+
+            var islandHost = new HtmlBoxes.HtmlIslandHost(viewport.P);
+            islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
+            islandHost.RequestResource += (s, e) => this.imageContentMan.AddRequestImage(e.binder);
+            //-------------------------------------------------------------------
+            for (int i = 0; i < 2; ++i)
             {
+
+                var lightBoxHost = new HtmlBoxes.LightHtmlBoxHost(islandHost, viewport.P, viewport.Root);
+
                 var statedBox = new LayoutFarm.HtmlWidgets.CheckBox(lightBoxHost, 100, boxHeight);
                 statedBox.SetLocation(10, boxY);
                 boxY += boxHeight + 5;
@@ -57,10 +52,7 @@ namespace LayoutFarm
         }
 
 
-        void myHtmlIsland_RequestResource(object sender, LayoutFarm.HtmlBoxes.HtmlResourceRequestEventArgs e)
-        {
-            this.imageContentMan.AddRequestImage(e.binder);
-        }
+       
         static void SetupImageList()
         {
             if (!LayoutFarm.CustomWidgets.ResImageList.HasImages)

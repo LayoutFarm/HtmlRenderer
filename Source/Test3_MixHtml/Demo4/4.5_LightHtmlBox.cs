@@ -17,18 +17,16 @@ namespace LayoutFarm
     class Demo_LightHtmlBox : DemoBase
     {
         HtmlIslandHost islandHost;
-        LightHtmlBoxHost lightBoxHost;
+
         protected override void OnStartDemo(SampleViewport viewport)
         {
-            this.islandHost = new HtmlIslandHost();
+            this.islandHost = new HtmlIslandHost(viewport.P);
             this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
-
-            lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P, viewport.Root);
-             
 
             ////==================================================
             //html box
             {
+                var lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P, viewport.Root);
                 LightHtmlBox lightHtmlBox = new LightHtmlBox(lightBoxHost, 800, 50);
                 lightHtmlBox.SetLocation(50, 450);
                 viewport.AddContent(lightHtmlBox);
@@ -40,6 +38,7 @@ namespace LayoutFarm
             }
             //==================================================  
             {
+                var lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P, viewport.Root);
                 LightHtmlBox lightHtmlBox2 = new LightHtmlBox(lightBoxHost, 800, 50);
                 lightHtmlBox2.SetLocation(0, 60);
                 viewport.AddContent(lightHtmlBox2);
@@ -51,6 +50,7 @@ namespace LayoutFarm
             }
             //==================================================  
             {
+                var lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P, viewport.Root);
                 LightHtmlBox lightHtmlBox3 = new LightHtmlBox(lightBoxHost, 800, 50);
                 lightHtmlBox3.SetLocation(0, 100);
                 viewport.AddContent(lightHtmlBox3);

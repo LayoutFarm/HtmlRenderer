@@ -8,8 +8,14 @@ namespace LayoutFarm
     {
 
         Image _image;
-        string _imageSource; 
+        string _imageSource;
         LazyLoadImageFunc lazyLoadImgFunc;
+
+#if DEBUG
+        static int dbugTotalId;
+        public int dbugId = dbugTotalId++;
+#endif
+
         public ImageBinder()
         {
         }
@@ -79,7 +85,7 @@ namespace LayoutFarm
         {
             get { return this.lazyLoadImgFunc != null; }
         }
-        
+
         public void SetLazyFunc(LazyLoadImageFunc lazyLoadFunc)
         {
 

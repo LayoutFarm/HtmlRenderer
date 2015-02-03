@@ -603,7 +603,7 @@ namespace LayoutFarm.Css
                 return this._backgroundFeats.BackgroundColor;
             }
         }
-        internal FontInfo GetFontInfo(IFonts fontPool, float parentFontSize)
+        internal FontInfo GetFontInfo(IFonts ifonts, float parentFontSize)
         {
 
             //---------------------------------------
@@ -713,7 +713,7 @@ namespace LayoutFarm.Css
                 fsize = FontDefaultConfig.DEFAULT_FONT_SIZE;
             }
 
-            FontInfo fontInfo = fontPool.GetFontInfo(fontFam, fsize, st);
+            FontInfo fontInfo = ifonts.GetFontInfo(fontFam, fsize, st);
             if (!relateToParent)
             {
                 //cahce value

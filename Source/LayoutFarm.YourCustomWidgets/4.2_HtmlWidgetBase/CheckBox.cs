@@ -26,8 +26,6 @@ namespace LayoutFarm.HtmlWidgets
         LightHtmlBox lightHtmlBox;
         LightHtmlBoxHost lightBoxHost;
 
-       
-
         public CheckBox(LightHtmlBoxHost lightBoxHost, int w, int h)
             : base(w, h)
         {
@@ -139,28 +137,28 @@ namespace LayoutFarm.HtmlWidgets
                             this.InvalidateGraphics();
                         });
                     });
+                    div.AddChild("img", img =>
+                    {
+                        this.imageBox = img;
 
-                    //div.AddChild("span", span =>
-                    //{
-                    //    span.AddTextContent("EFGHIJK");
-                    //    span.AttachMouseDownEvent(e =>
-                    //    {
-                    //        span.ClearAllElements();
-                    //        span.AddTextContent("LMNOP0003");
-                    //        this.InvalidateGraphics();
-                    //    });
-                    //});
-                    //----------------------
-//                    div.AttachEvent(UIEventName.MouseDown, e =>
-//                    {
-//#if DEBUG
-//                        //this will not print 
-//                        //if e has been stop by its child
-//                        // System.Diagnostics.Debugger.Break();
-//                        Console.WriteLine("div");
-//#endif
+                        //change style
+                        var imgAttr = htmldoc.CreateAttribute(WellknownName.Src);
+                        imgAttr.Value = "../../Demo/arrow_close.png";
+                        img.AddAttribute(imgAttr);
+                        //3. attach event to specific span
 
-//                    });
+                        img.AttachMouseDownEvent(e =>
+                        {
+
+                            imgAttr.Value = "../../Demo/arrow_open.png";
+                            e.StopPropagation();
+
+                            img.NotifyChange(ElementChangeKind.AttributeChanged);
+
+                            this.InvalidateGraphics();
+                        });
+                    });
+                     
                 });
 
             return domElement;

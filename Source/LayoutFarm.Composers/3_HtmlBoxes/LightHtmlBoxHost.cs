@@ -24,25 +24,18 @@ namespace LayoutFarm.HtmlBoxes
         HtmlDocument myDefaultHtmlDoc;
         WebDom.DomElement myHtmlBodyElement;
 
-        LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
-        Queue<HtmlInputEventAdapter> inputEventAdapterStock = new Queue<HtmlInputEventAdapter>();
-        Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
-
-        object uiHtmlTask = new object();
-         
-
         public LightHtmlBoxHost(HtmlIslandHost islandHost, GraphicsPlatform gfxPlatform, RootGraphic rootgfx)
         {
 
             this.gfxPlatform = gfxPlatform;
             this.islandHost = islandHost;
             this.rootgfx = rootgfx;
+            //-----------------------------------------------------------------------------------------------
             this.myDefaultHtmlDoc = new HtmlDocument();
             this.myDefaultHtmlDoc.ActiveCssTemplate = new ActiveCssTemplate(this.islandHost.BaseStylesheet);
             this.myHtmlBodyElement = myDefaultHtmlDoc.CreateElement("body");
-            myDefaultHtmlDoc.RootNode.AddChild(myHtmlBodyElement); 
+            myDefaultHtmlDoc.RootNode.AddChild(myHtmlBodyElement);
 
-             
         }
         public WebDom.DomElement SharedBodyElement
         {
@@ -54,54 +47,23 @@ namespace LayoutFarm.HtmlBoxes
         }
         public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
         {
-            LayoutFarm.HtmlBoxes.LayoutVisitor lay = null;
-            if (htmlLayoutVisitorStock.Count == 0)
-            {
-                lay = new LayoutVisitor(this.gfxPlatform);
-            }
-            else
-            {
-                lay = this.htmlLayoutVisitorStock.Dequeue();
-            }
-            lay.Bind(island);
-            return lay;
+            return islandHost.GetSharedHtmlLayoutVisitor(island, gfxPlatform);
         }
         public void ReleaseHtmlLayoutVisitor(LayoutFarm.HtmlBoxes.LayoutVisitor lay)
         {
-            lay.UnBind();
-            this.htmlLayoutVisitorStock.Enqueue(lay);
+            islandHost.ReleaseHtmlLayoutVisitor(lay);
         }
         public HtmlInputEventAdapter GetSharedInputEventAdapter(HtmlIsland island)
         {
-            HtmlInputEventAdapter adapter = null;
-            if (inputEventAdapterStock.Count == 0)
-            {
-                adapter = new HtmlInputEventAdapter(this.gfxPlatform.SampleIFonts);
-            }
-            else
-            {
-                adapter = this.inputEventAdapterStock.Dequeue();
-            }
-            adapter.Bind(island);
-            return adapter;
+            return islandHost.GetSharedInputEventAdapter(island, rootgfx.SampleIFonts);
+
         }
         public void ReleaseSharedInputEventAdapter(HtmlInputEventAdapter adapter)
         {
-            adapter.Unbind();
-            this.inputEventAdapterStock.Enqueue(adapter);
+            this.islandHost.ReleaseSharedInputEventAdapter(adapter);
         }
         //----------------------------------------------------
-        void CreateRenderTreeBuilder()
-        {
-            this.renderTreeBuilder = new LayoutFarm.Composers.RenderTreeBuilder(rootgfx);
-            this.renderTreeBuilder.RequestStyleSheet += (e) =>
-            {
-                var req = new TextLoadRequestEventArgs(e.Src);
-                islandHost.RequestStyleSheet(req);
-                e.SetStyleSheet = req.SetStyleSheet;
 
-            };
-        }
         public MyHtmlIsland CreateHtmlIsland(string htmlFragment, HtmlFragmentRenderBox container)
         {
             var newDivHost = this.myDefaultHtmlDoc.CreateElement("div");
@@ -110,8 +72,6 @@ namespace LayoutFarm.HtmlBoxes
                      new LayoutFarm.WebDom.Parser.TextSnapshot(htmlFragment.ToCharArray()),
                      this.myDefaultHtmlDoc,
                      newDivHost);
-
-
             return CreateHtmlIsland(newDivHost, container);
         }
         public MyHtmlIsland CreateHtmlIsland(HtmlDocument htmldoc,
@@ -119,7 +79,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             //1. builder 
-            if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
+            var renderTreeBuilder = this.islandHost.GetRenderTreeBuilder(this.rootgfx);
             //-------------------------------------------------------------------
 
 
@@ -152,7 +112,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             //1. builder 
-            if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
+            var renderTreeBuilder = this.islandHost.GetRenderTreeBuilder(this.rootgfx);
             //-------------------------------------------------------------------
             //2. generate render tree
             ////build rootbox from htmldoc
@@ -184,7 +144,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public void RefreshCssTree(WebDom.DomElement element)
         {
-            if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
+            var renderTreeBuilder = this.islandHost.GetRenderTreeBuilder(this.rootgfx);
             renderTreeBuilder.RefreshCssTree(element);
 
         }

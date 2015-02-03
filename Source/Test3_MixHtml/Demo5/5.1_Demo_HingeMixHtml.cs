@@ -23,11 +23,9 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
             //init host
-            this.islandHost = new HtmlIslandHost();
-            this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
-
-            lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P, viewport.Root);
-              
+            this.islandHost = new HtmlIslandHost(viewport.P);
+            this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true); 
+            lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P, viewport.Root); 
 
             //-----------
             var comboBox1 = CreateComboBox(20, 20);

@@ -111,9 +111,7 @@ namespace LayoutFarm.Demo
             this.renderCanvas = gfxPlatform.CreateCanvas(0, 0, 800, 600);
             //-------------------------------------------------------
 
-
-
-            htmlIslandHost = new HtmlIslandHost();
+            htmlIslandHost = new HtmlIslandHost(p);
             htmlIslandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
             htmlIslandHost.RequestResource += myHtmlIsland_RequestResource;
 

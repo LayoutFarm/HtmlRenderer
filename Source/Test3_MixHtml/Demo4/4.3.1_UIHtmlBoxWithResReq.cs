@@ -12,7 +12,29 @@ namespace LayoutFarm
     [DemoNote("4.3.1 UIHtmlBox with Resource Request1")]
     class Demo_UIHtmlBox_WithResReq1 : DemoBase
     {
+        HtmlBoxes.HtmlIslandHost islandHost;
+        HtmlBoxes.HtmlIslandHost GetIslandHost(SampleViewport viewport)
+        {
+            if (islandHost == null)
+            {
+                islandHost = new HtmlBoxes.HtmlIslandHost(viewport.P);
+                islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
+                islandHost.RequestResource += (s, e) =>
+                {
+                    //load resource -- sync or async? 
+                    string absolutePath = imgFolderPath + "\\" + e.binder.ImageSource;
+                    if (!System.IO.File.Exists(absolutePath))
+                    {
+                        return;
+                    }
 
+                    //load create and load bitmap
+                    System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
+                    e.binder.SetImage(new Bitmap(bmp.Width, bmp.Height, bmp));
+                };
+            }
+            return islandHost;
+        }
 
         string imgFolderPath = null;
         protected override void OnStartDemo(SampleViewport viewport)
@@ -26,28 +48,12 @@ namespace LayoutFarm
             }
             //==================================================
             //html box
-            var htmlBox = new HtmlBox(800, 600);
-            htmlBox.RequestImage += html_ImageReq;
+            var htmlBox = new HtmlBox(GetIslandHost(viewport), 800, 600);
+
 
             viewport.AddContent(htmlBox);
             string html = "<html><head></head><body><div>OK1</div><div>3 Images</div><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img></body></html>";
             htmlBox.LoadHtmlText(html);
-        }
-        void html_ImageReq(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
-        {
-            //load resource -- sync or async?
-
-            string absolutePath = imgFolderPath + "\\" + e.ImagSource;
-            if (!System.IO.File.Exists(absolutePath))
-            {
-                return;
-            }
-
-            //load create and load bitmap
-            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
-
-            e.SetResultImage(new Bitmap(bmp.Width, bmp.Height, bmp));
-
         }
 
     }

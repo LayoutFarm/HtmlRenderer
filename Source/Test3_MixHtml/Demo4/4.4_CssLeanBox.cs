@@ -11,12 +11,24 @@ namespace LayoutFarm
     [DemoNote("4.4 CssLeanBox")]
     class Demo_CssLeanBox : DemoBase
     {
+        HtmlBoxes.HtmlIslandHost islandHost;
+        HtmlBoxes.HtmlIslandHost GetIslandHost(SampleViewport viewport)
+        {
+            if (islandHost == null)
+            {
+                islandHost = new HtmlBoxes.HtmlIslandHost(viewport.P);
+                islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
+                //islandHost.RequestResource += myHtmlIsland_RequestResource;
+            } 
+            return islandHost;             
+        }
         protected override void OnStartDemo(SampleViewport viewport)
         {
 
             ////==================================================
             //html box
-            HtmlBox htmlBox = new HtmlBox(800, 400);
+            var islandHost = GetIslandHost(viewport);
+            HtmlBox htmlBox = new HtmlBox(islandHost, 800, 400);
 
 
             StringBuilder stbuilder = new StringBuilder();
