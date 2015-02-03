@@ -203,8 +203,7 @@ namespace LayoutFarm.CustomWidgets
 
 
             //build rootbox from htmldoc
-            var rootBox = renderTreeBuilder.BuildCssRenderTree((HtmlDocument)this.currentdoc,
-                rootgfx.SampleIFonts,
+            var rootBox = renderTreeBuilder.BuildCssRenderTree((HtmlDocument)this.currentdoc, 
                 this.waitingCssData,
                 this.htmlRenderBox);
 

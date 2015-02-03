@@ -19,35 +19,26 @@ namespace LayoutFarm.HtmlBoxes
     public class LightHtmlBoxHost
     {
         HtmlIslandHost islandHost;
-        RootGraphic rootgfx;
-        GraphicsPlatform gfxPlatform;
         HtmlDocument myDefaultHtmlDoc;
         WebDom.DomElement myHtmlBodyElement;
 
-        public LightHtmlBoxHost(HtmlIslandHost islandHost, GraphicsPlatform gfxPlatform, RootGraphic rootgfx)
+        public LightHtmlBoxHost(HtmlIslandHost islandHost)
         {
-
-            this.gfxPlatform = gfxPlatform;
-            this.islandHost = islandHost;
-            this.rootgfx = rootgfx;
+            this.islandHost = islandHost; 
             //-----------------------------------------------------------------------------------------------
             this.myDefaultHtmlDoc = new HtmlDocument();
             this.myDefaultHtmlDoc.ActiveCssTemplate = new ActiveCssTemplate(this.islandHost.BaseStylesheet);
             this.myHtmlBodyElement = myDefaultHtmlDoc.CreateElement("body");
-            myDefaultHtmlDoc.RootNode.AddChild(myHtmlBodyElement);
-
+            myDefaultHtmlDoc.RootNode.AddChild(myHtmlBodyElement); 
         }
         public WebDom.DomElement SharedBodyElement
         {
             get { return this.myHtmlBodyElement; }
         }
-        public RootGraphic RootGfx
-        {
-            get { return this.rootgfx; }
-        }
+
         public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
         {
-            return islandHost.GetSharedHtmlLayoutVisitor(island, gfxPlatform);
+            return islandHost.GetSharedHtmlLayoutVisitor(island);
         }
         public void ReleaseHtmlLayoutVisitor(LayoutFarm.HtmlBoxes.LayoutVisitor lay)
         {
@@ -55,7 +46,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public HtmlInputEventAdapter GetSharedInputEventAdapter(HtmlIsland island)
         {
-            return islandHost.GetSharedInputEventAdapter(island, rootgfx.SampleIFonts);
+            return islandHost.GetSharedInputEventAdapter(island);
 
         }
         public void ReleaseSharedInputEventAdapter(HtmlInputEventAdapter adapter)
@@ -79,7 +70,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             //1. builder 
-            var renderTreeBuilder = this.islandHost.GetRenderTreeBuilder(this.rootgfx);
+            var renderTreeBuilder = this.islandHost.GetRenderTreeBuilder(container.Root);
             //-------------------------------------------------------------------
 
 
@@ -87,7 +78,6 @@ namespace LayoutFarm.HtmlBoxes
             ////build rootbox from htmldoc
 
             var rootElement = renderTreeBuilder.BuildCssRenderTree(htmldoc,
-                rootgfx.SampleIFonts,
                 this.islandHost.BaseStylesheet,
                 container);
             //3. create small island
@@ -112,7 +102,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             //1. builder 
-            var renderTreeBuilder = this.islandHost.GetRenderTreeBuilder(this.rootgfx);
+            var renderTreeBuilder = this.islandHost.GetRenderTreeBuilder(container.Root);
             //-------------------------------------------------------------------
             //2. generate render tree
             ////build rootbox from htmldoc
@@ -122,8 +112,7 @@ namespace LayoutFarm.HtmlBoxes
 
             var rootElement = renderTreeBuilder.BuildCssRenderTree(
                 hostDivElement,
-                domElement,
-                rootgfx.SampleIFonts,
+                domElement, 
                 container);
             //3. create small island
 
@@ -142,11 +131,10 @@ namespace LayoutFarm.HtmlBoxes
             return htmlIsland;
         }
 
-        public void RefreshCssTree(WebDom.DomElement element)
+        public void RefreshCssTree(WebDom.DomElement element, RootGraphic rootgfx)
         {
-            var renderTreeBuilder = this.islandHost.GetRenderTreeBuilder(this.rootgfx);
-            renderTreeBuilder.RefreshCssTree(element);
-
+            var renderTreeBuilder = this.islandHost.GetRenderTreeBuilder(rootgfx);
+            renderTreeBuilder.RefreshCssTree(element); 
         }
     }
 }

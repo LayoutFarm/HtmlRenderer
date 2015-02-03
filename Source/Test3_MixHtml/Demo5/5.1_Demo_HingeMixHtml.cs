@@ -19,13 +19,14 @@ namespace LayoutFarm
         ImageBinder arrowBmp;
         HtmlIslandHost islandHost;
         LightHtmlBoxHost lightBoxHost;
-
+        SampleViewport sampleViewport;
         protected override void OnStartDemo(SampleViewport viewport)
         {
+            sampleViewport = viewport;
             //init host
             this.islandHost = new HtmlIslandHost(viewport.P);
-            this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true); 
-            lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P, viewport.Root); 
+            this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
+            lightBoxHost = new LightHtmlBoxHost(islandHost);
 
             //-----------
             var comboBox1 = CreateComboBox(20, 20);
@@ -230,7 +231,7 @@ namespace LayoutFarm
 
                             menuBox.SetLocation(50, 50);
                             //add to top window
-                            menuBox.ShowMenu(lightBoxHost.RootGfx);
+                            menuBox.ShowMenu(sampleViewport.Root);
 
                             e.StopPropagation();
 

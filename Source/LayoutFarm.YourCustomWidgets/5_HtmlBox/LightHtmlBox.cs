@@ -157,6 +157,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
+
             if (!isRegistered)
             {
                 isRegistered = true;
@@ -164,7 +165,7 @@ namespace LayoutFarm.CustomWidgets
                 rootgfx.SubscribeGraphicsIntervalTask(uiHtmlTask,
                  LayoutFarm.RenderBoxes.TaskIntervalPlan.Animation, 25,
                  (s, e) =>
-                 {  
+                 {
                      if (this.myHtmlIsland.RefreshIfNeed())
                      {
                          e.NeedUpdate = 1;
@@ -174,6 +175,7 @@ namespace LayoutFarm.CustomWidgets
 
             if (frgmRenderBox == null)
             {
+
                 var newFrRenderBox = new HtmlFragmentRenderBox(rootgfx, this.Width, this.Height);
                 newFrRenderBox.SetController(this);
                 newFrRenderBox.HasSpecificSize = true;
@@ -275,7 +277,7 @@ namespace LayoutFarm.CustomWidgets
                 if (frgmRenderBox == null) return;
                 //--------------------------- 
 
-                this.lightBoxHost.RefreshCssTree(myHtmlIsland.RootElement);
+                this.lightBoxHost.RefreshCssTree(myHtmlIsland.RootElement, frgmRenderBox.Root);
 
                 var lay = this.lightBoxHost.GetSharedHtmlLayoutVisitor(myHtmlIsland);
                 myHtmlIsland.PerformLayout(lay);

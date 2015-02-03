@@ -158,11 +158,11 @@ namespace LayoutFarm.Composers
             }
         }
 
-        public CssBox BuildCssRenderTree(HtmlDocument htmldoc,
-            IFonts ifonts,
+        public CssBox BuildCssRenderTree(HtmlDocument htmldoc, 
             CssActiveSheet cssActiveSheet,
             RenderElement containerElement)
-        {
+        {   
+            
             htmldoc.ActiveCssTemplate = new ActiveCssTemplate(cssActiveSheet);
 
             htmldoc.SetDocumentState(DocumentState.Building);
@@ -171,7 +171,7 @@ namespace LayoutFarm.Composers
             PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, htmldoc.ActiveCssTemplate);
 
             //----------------------------------------------------------------  
-            CssBox rootBox = BoxCreator.CreateCssRenderRoot(ifonts, containerElement, this.rootgfx);
+            CssBox rootBox = BoxCreator.CreateCssRenderRoot(this.rootgfx.SampleIFonts, containerElement, this.rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
             BoxCreator boxCreator = new BoxCreator(this.rootgfx);
@@ -186,12 +186,11 @@ namespace LayoutFarm.Composers
 
         public CssBox BuildCssRenderTree(
            DomElement hostElement,
-           DomElement domElement,
-           IFonts ifonts,
+           DomElement domElement, 
            RenderElement containerElement)
         {
 
-
+            IFonts ifonts = this.rootgfx.SampleIFonts;
             HtmlDocument htmldoc = domElement.OwnerDocument as HtmlDocument;
             HtmlElement startAtHtmlElement = (HtmlElement)domElement;
 

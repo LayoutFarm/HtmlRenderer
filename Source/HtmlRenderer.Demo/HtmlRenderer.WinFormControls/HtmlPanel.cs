@@ -297,8 +297,7 @@ namespace LayoutFarm.Demo
 
 
             //build rootbox from htmldoc
-            var rootBox = renderTreeBuilder.BuildCssRenderTree(htmldoc,
-                gfxPlatform.SampleIFonts,
+            var rootBox = renderTreeBuilder.BuildCssRenderTree(htmldoc, 
                 cssData,
                 null);
 
@@ -339,8 +338,7 @@ namespace LayoutFarm.Demo
             //------------------------------------------------------------
 
             var rootBox = renderTreeBuilder.BuildCssRenderTree(
-                (LayoutFarm.Composers.HtmlDocument)this.currentDoc,
-                gfxPlatform.SampleIFonts,
+                (LayoutFarm.Composers.HtmlDocument)this.currentDoc, 
                 cssData,
                 null);
 

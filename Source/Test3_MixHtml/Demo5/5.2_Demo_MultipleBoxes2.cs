@@ -30,7 +30,7 @@ namespace LayoutFarm
             for (int i = 0; i < 2; ++i)
             {
 
-                var lightBoxHost = new HtmlBoxes.LightHtmlBoxHost(islandHost, viewport.P, viewport.Root);
+                var lightBoxHost = new HtmlBoxes.LightHtmlBoxHost(islandHost);
 
                 var statedBox = new LayoutFarm.HtmlWidgets.CheckBox(lightBoxHost, 100, boxHeight);
                 statedBox.SetLocation(10, boxY);
@@ -52,7 +52,7 @@ namespace LayoutFarm
         }
 
 
-       
+
         static void SetupImageList()
         {
             if (!LayoutFarm.CustomWidgets.ResImageList.HasImages)

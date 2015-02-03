@@ -31,6 +31,7 @@ namespace LayoutFarm.HtmlBoxes
             this.gfxplatform = gfxplatform;
 
         }
+        public GraphicsPlatform GfxPlatform { get { return this.gfxplatform; } }
         public WebDom.CssActiveSheet BaseStylesheet { get; set; }
         public virtual void RequestImage(ImageBinder binder, HtmlIsland reqIsland, object reqFrom, bool _sync)
         {
@@ -68,12 +69,12 @@ namespace LayoutFarm.HtmlBoxes
         Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
 
-        public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island, GraphicsPlatform gfxPlatform)
+        public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
         {
             LayoutFarm.HtmlBoxes.LayoutVisitor lay = null;
             if (htmlLayoutVisitorStock.Count == 0)
             {
-                lay = new LayoutVisitor(gfxPlatform);
+                lay = new LayoutVisitor(this.gfxplatform);
             }
             else
             {
@@ -87,12 +88,12 @@ namespace LayoutFarm.HtmlBoxes
             lay.UnBind();
             this.htmlLayoutVisitorStock.Enqueue(lay);
         }
-        public HtmlInputEventAdapter GetSharedInputEventAdapter(HtmlIsland island, IFonts ifonts)
+        public HtmlInputEventAdapter GetSharedInputEventAdapter(HtmlIsland island)
         {
             HtmlInputEventAdapter adapter = null;
             if (inputEventAdapterStock.Count == 0)
             {
-                adapter = new HtmlInputEventAdapter(ifonts);
+                adapter = new HtmlInputEventAdapter(this.gfxplatform.SampleIFonts);
             }
             else
             {
@@ -121,6 +122,12 @@ namespace LayoutFarm.HtmlBoxes
             }
             return renderTreeBuilder;
         }
+
+        public LightHtmlBoxHost CreateLightHtmlIslandHost()
+        {
+            throw new NotSupportedException();
+        }
+
     }
 
     public sealed class MyHtmlIsland : HtmlIsland
