@@ -24,35 +24,18 @@ namespace LayoutFarm.HtmlBoxes
 
         public LightHtmlBoxHost(HtmlIslandHost islandHost)
         {
-            this.islandHost = islandHost; 
+            this.islandHost = islandHost;
             //-----------------------------------------------------------------------------------------------
             this.myDefaultHtmlDoc = new HtmlDocument();
             this.myDefaultHtmlDoc.ActiveCssTemplate = new ActiveCssTemplate(this.islandHost.BaseStylesheet);
             this.myHtmlBodyElement = myDefaultHtmlDoc.CreateElement("body");
-            myDefaultHtmlDoc.RootNode.AddChild(myHtmlBodyElement); 
+            myDefaultHtmlDoc.RootNode.AddChild(myHtmlBodyElement);
         }
         public WebDom.DomElement SharedBodyElement
         {
             get { return this.myHtmlBodyElement; }
         }
 
-        public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
-        {
-            return islandHost.GetSharedHtmlLayoutVisitor(island);
-        }
-        public void ReleaseHtmlLayoutVisitor(LayoutFarm.HtmlBoxes.LayoutVisitor lay)
-        {
-            islandHost.ReleaseHtmlLayoutVisitor(lay);
-        }
-        public HtmlInputEventAdapter GetSharedInputEventAdapter(HtmlIsland island)
-        {
-            return islandHost.GetSharedInputEventAdapter(island);
-
-        }
-        public void ReleaseSharedInputEventAdapter(HtmlInputEventAdapter adapter)
-        {
-            this.islandHost.ReleaseSharedInputEventAdapter(adapter);
-        }
         //----------------------------------------------------
 
         public MyHtmlIsland CreateHtmlIsland(string htmlFragment, HtmlFragmentRenderBox container)
@@ -88,9 +71,9 @@ namespace LayoutFarm.HtmlBoxes
             htmlIsland.RootCssBox = rootElement;
             htmlIsland.SetMaxSize(container.Width, 0);
 
-            var lay = this.GetSharedHtmlLayoutVisitor(htmlIsland);
+            var lay = islandHost.GetSharedHtmlLayoutVisitor(htmlIsland);
             htmlIsland.PerformLayout(lay);
-            this.ReleaseHtmlLayoutVisitor(lay);
+            islandHost.ReleaseHtmlLayoutVisitor(lay);
 
 
             container.SetHtmlIsland(htmlIsland, rootElement);
@@ -112,7 +95,7 @@ namespace LayoutFarm.HtmlBoxes
 
             var rootElement = renderTreeBuilder.BuildCssRenderTree(
                 hostDivElement,
-                domElement, 
+                domElement,
                 container);
             //3. create small island
 
@@ -122,9 +105,9 @@ namespace LayoutFarm.HtmlBoxes
             htmlIsland.RootCssBox = rootElement;
             htmlIsland.SetMaxSize(container.Width, 0);
 
-            var lay = this.GetSharedHtmlLayoutVisitor(htmlIsland);
+            var lay = islandHost.GetSharedHtmlLayoutVisitor(htmlIsland);
             htmlIsland.PerformLayout(lay);
-            this.ReleaseHtmlLayoutVisitor(lay);
+            islandHost.ReleaseHtmlLayoutVisitor(lay);
 
 
             container.SetHtmlIsland(htmlIsland, rootElement);
@@ -134,7 +117,7 @@ namespace LayoutFarm.HtmlBoxes
         public void RefreshCssTree(WebDom.DomElement element, RootGraphic rootgfx)
         {
             var renderTreeBuilder = this.islandHost.GetRenderTreeBuilder(rootgfx);
-            renderTreeBuilder.RefreshCssTree(element); 
+            renderTreeBuilder.RefreshCssTree(element);
         }
     }
 }

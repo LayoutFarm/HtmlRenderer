@@ -30,9 +30,9 @@ namespace LayoutFarm
             for (int i = 0; i < 2; ++i)
             {
 
-                var lightBoxHost = new HtmlBoxes.LightHtmlBoxHost(islandHost);
+               
 
-                var statedBox = new LayoutFarm.HtmlWidgets.CheckBox(lightBoxHost, 100, boxHeight);
+                var statedBox = new LayoutFarm.HtmlWidgets.CheckBox(islandHost, 100, boxHeight);
                 statedBox.SetLocation(10, boxY);
                 boxY += boxHeight + 5;
                 viewport.AddContent(statedBox);

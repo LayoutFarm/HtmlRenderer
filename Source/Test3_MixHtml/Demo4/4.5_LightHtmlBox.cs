@@ -25,8 +25,8 @@ namespace LayoutFarm
             ////==================================================
             //html box
             {
-                var lightBoxHost = new LightHtmlBoxHost(islandHost);
-                LightHtmlBox lightHtmlBox = new LightHtmlBox(lightBoxHost, 800, 50);
+                
+                LightHtmlBox lightHtmlBox = new LightHtmlBox(islandHost, 800, 50);
                 lightHtmlBox.SetLocation(50, 450);
                 viewport.AddContent(lightHtmlBox);
                 //light box can't load full html
@@ -37,8 +37,8 @@ namespace LayoutFarm
             }
             //==================================================  
             {
-                var lightBoxHost = new LightHtmlBoxHost(islandHost);
-                LightHtmlBox lightHtmlBox2 = new LightHtmlBox(lightBoxHost, 800, 50);
+             
+                LightHtmlBox lightHtmlBox2 = new LightHtmlBox(islandHost, 800, 50);
                 lightHtmlBox2.SetLocation(0, 60);
                 viewport.AddContent(lightHtmlBox2);
                 //light box can't load full html
@@ -49,8 +49,8 @@ namespace LayoutFarm
             }
             //==================================================  
             {
-                var lightBoxHost = new LightHtmlBoxHost(islandHost);
-                LightHtmlBox lightHtmlBox3 = new LightHtmlBox(lightBoxHost, 800, 50);
+         
+                LightHtmlBox lightHtmlBox3 = new LightHtmlBox(islandHost, 800, 50);
                 lightHtmlBox3.SetLocation(0, 100);
                 viewport.AddContent(lightHtmlBox3);
                 //fragment dom 

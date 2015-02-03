@@ -31,6 +31,7 @@ namespace LayoutFarm.CustomWidgets
 
         LightHtmlBoxHost lightBoxHost;
         MyHtmlIsland myHtmlIsland;
+        HtmlIslandHost htmlIslandHost;
 
         //presentation
         HtmlFragmentRenderBox frgmRenderBox;
@@ -44,12 +45,16 @@ namespace LayoutFarm.CustomWidgets
                 new MyCssBoxGenerator());
         }
 
-        public LightHtmlBox(LightHtmlBoxHost lightBoxHost, int width, int height)
+        public LightHtmlBox(HtmlIslandHost htmlIslandHost, int width, int height)
             : base(width, height)
         {
-            this.lightBoxHost = lightBoxHost;
+            this.htmlIslandHost = htmlIslandHost;
+            this.lightBoxHost = new LightHtmlBoxHost(htmlIslandHost);
         }
-
+        public LightHtmlBoxHost LightBoxHost 
+        {
+            get { return this.lightBoxHost; }
+        }
         protected override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.frgmRenderBox; }
@@ -65,79 +70,79 @@ namespace LayoutFarm.CustomWidgets
             e.CurrentContextElement = this;
 
             //1. get share input adapter
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
             //2. send event
             inputAdapter.MouseUp(e, frgmRenderBox.CssBox);
             //3. release back to host
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
 
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
 
             inputAdapter.MouseDown(e, frgmRenderBox.CssBox);
 
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {   //0. set context
             e.CurrentContextElement = this;
 
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
 
             inputAdapter.MouseMove(e, frgmRenderBox.CssBox);
 
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
             //?
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
 
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
 
             inputAdapter.KeyDown(e, frgmRenderBox.CssBox);
 
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
             inputAdapter.KeyPress(e, frgmRenderBox.CssBox);
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
 
             inputAdapter.KeyUp(e, frgmRenderBox.CssBox);
 
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
 
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
             inputAdapter.KeyUp(e, frgmRenderBox.CssBox);
             var result = inputAdapter.ProcessDialogKey(e, frgmRenderBox.CssBox);
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
             return result;
         }
         void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
@@ -279,9 +284,9 @@ namespace LayoutFarm.CustomWidgets
 
                 this.lightBoxHost.RefreshCssTree(myHtmlIsland.RootElement, frgmRenderBox.Root);
 
-                var lay = this.lightBoxHost.GetSharedHtmlLayoutVisitor(myHtmlIsland);
+                var lay = this.htmlIslandHost.GetSharedHtmlLayoutVisitor(myHtmlIsland);
                 myHtmlIsland.PerformLayout(lay);
-                this.lightBoxHost.ReleaseHtmlLayoutVisitor(lay);
+                this.htmlIslandHost.ReleaseHtmlLayoutVisitor(lay);
             };
         }
         //public override void InvalidateGraphics()

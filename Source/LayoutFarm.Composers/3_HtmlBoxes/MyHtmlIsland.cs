@@ -121,12 +121,7 @@ namespace LayoutFarm.HtmlBoxes
                 };
             }
             return renderTreeBuilder;
-        }
-
-        public LightHtmlBoxHost CreateLightHtmlIslandHost()
-        {
-            throw new NotSupportedException();
-        }
+        } 
 
     }
 

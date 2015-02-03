@@ -18,7 +18,7 @@ namespace LayoutFarm
     {
         ImageBinder arrowBmp;
         HtmlIslandHost islandHost;
-        LightHtmlBoxHost lightBoxHost;
+        
         SampleViewport sampleViewport;
         protected override void OnStartDemo(SampleViewport viewport)
         {
@@ -26,7 +26,7 @@ namespace LayoutFarm
             //init host
             this.islandHost = new HtmlIslandHost(viewport.P);
             this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
-            lightBoxHost = new LightHtmlBoxHost(islandHost);
+             
 
             //-----------
             var comboBox1 = CreateComboBox(20, 20);
@@ -177,7 +177,7 @@ namespace LayoutFarm
             //add mix html here 
             {
 
-                LightHtmlBox lightHtmlBox2 = new LightHtmlBox(lightBoxHost, floatPart.Width, floatPart.Height);
+                LightHtmlBox lightHtmlBox2 = new LightHtmlBox(islandHost, floatPart.Width, floatPart.Height);
                 lightHtmlBox2.SetLocation(0, 0);
                 floatPart.AddChildBox(lightHtmlBox2);
                 //light box can't load full html

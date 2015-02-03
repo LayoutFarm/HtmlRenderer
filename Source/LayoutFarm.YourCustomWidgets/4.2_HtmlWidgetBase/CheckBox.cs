@@ -23,13 +23,16 @@ namespace LayoutFarm.HtmlWidgets
         RenderElement myRenderE;
         DomElement imageBox;
 
-        LightHtmlBox lightHtmlBox;
-        LightHtmlBoxHost lightBoxHost;
 
-        public CheckBox(LightHtmlBoxHost lightBoxHost, int w, int h)
+        HtmlIslandHost htmlIslandHost;
+        LightHtmlBox lightHtmlBox;
+
+
+        public CheckBox(HtmlIslandHost htmlIslandHost, int w, int h)
             : base(w, h)
         {
-            this.lightBoxHost = lightBoxHost;
+            this.htmlIslandHost = htmlIslandHost;
+
         }
         protected override RenderElement CurrentPrimaryRenderElement
         {
@@ -48,11 +51,11 @@ namespace LayoutFarm.HtmlWidgets
 
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-            
+
             if (!this.HasReadyRenderElement)
             {
-                lightHtmlBox = new LightHtmlBox(lightBoxHost, this.Width, this.Height);
-                lightHtmlBox.LoadHtmlFragmentDom(CreateDomElement(lightBoxHost.SharedBodyElement));
+                lightHtmlBox = new LightHtmlBox(htmlIslandHost, this.Width, this.Height);
+                lightHtmlBox.LoadHtmlFragmentDom(CreateDomElement(lightHtmlBox.LightBoxHost.SharedBodyElement));
                 lightHtmlBox.SetLocation(this.Left, this.Top);
                 myRenderE = lightHtmlBox.GetPrimaryRenderElement(rootgfx);
                 return myRenderE;
@@ -158,7 +161,7 @@ namespace LayoutFarm.HtmlWidgets
                             this.InvalidateGraphics();
                         });
                     });
-                     
+
                 });
 
             return domElement;
