@@ -32,8 +32,10 @@ namespace LayoutFarm.HtmlBoxes
 
         public HtmlIslandHost(GraphicsPlatform gfxplatform, WebDom.CssActiveSheet activeSheet)
         {
+
             this.gfxplatform = gfxplatform;
             this.commonHtmlDoc = new Composers.HtmlDocument();
+
             this.BaseStylesheet = activeSheet;
             this.commonHtmlDoc.ActiveCssTemplate = new Composers.ActiveCssTemplate(activeSheet);
         }
@@ -47,7 +49,7 @@ namespace LayoutFarm.HtmlBoxes
             this.islandUpdateHandler = islandUpdateHandler;
         }
 
-        
+
         public GraphicsPlatform GfxPlatform { get { return this.gfxplatform; } }
         public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
 
@@ -83,6 +85,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public Composers.FragmentHtmlDocument CreateNewFragmentHtml()
         {
+
             return new Composers.FragmentHtmlDocument(this.commonHtmlDoc);
         }
 
@@ -165,7 +168,7 @@ namespace LayoutFarm.HtmlBoxes
         public MyHtmlIsland(HtmlIslandHost islandHost)
         {
             this.islandHost = islandHost;
-            
+
         }
 
         public bool IsInUpdateQueue

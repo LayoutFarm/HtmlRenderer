@@ -46,11 +46,37 @@ namespace LayoutFarm.HtmlWidgets
                     div.SetAttribute("style", "font:10pt tahoma;");
                     div.AddChild("div", div2 =>
                     {
+                        //init
                         div2.SetAttribute("style", "padding:5px;background-color:#dddddd;");
                         div2.AddChild("span", span =>
                         {
                             span.AddTextContent(this.buttonText);
                         });
+                        //------------------------------
+
+                        div2.AttachMouseDownEvent(e =>
+                        {
+                            div2.dbugMark = 1;
+                            // div2.SetAttribute("style", "padding:5px;background-color:#aaaaaa;");
+                            EaseScriptElement ee = new EaseScriptElement(div2);
+                            ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa));
+
+                            e.StopPropagation();
+                            this.InvalidateGraphics();
+
+                        });
+                        div2.AttachMouseUpEvent(e =>
+                        {
+                            div2.dbugMark = 2;
+                            //div2.SetAttribute("style", "padding:5px;background-color:#dddddd;");
+                            //this.InvalidateGraphics();
+                            EaseScriptElement ee = new EaseScriptElement(div2);
+                            ee.ChangeBackgroundColor(Color.FromArgb(0xdd, 0xdd, 0xdd));
+                            e.StopPropagation();
+
+                            this.InvalidateGraphics();
+                        });
+
                     });
                 });
 

@@ -8,7 +8,7 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.InternalHtmlDom;
 
 namespace LayoutFarm.Composers
-{   
+{
     public struct EaseScriptElement
     {
         HtmlElement elem;
@@ -21,7 +21,7 @@ namespace LayoutFarm.Composers
             get { return this.elem != null; }
         }
 
-        
+
         public void ChangeFontColor(Color newcolor)
         {
             //change prop
@@ -65,33 +65,44 @@ namespace LayoutFarm.Composers
                 return;
             }
 
-            HtmlElement.InvokeNotifyChangeOnIdleState(
-                elem,
-                ElementChangeKind.Spec);
+            //HtmlElement.InvokeNotifyChangeOnIdleState(
+            //    elem,
+            //    ElementChangeKind.Spec);
 
             var existingRuleSet = elem.ElementRuleSet;
             if (existingRuleSet == null)
             {
                 //create new one                     
                 elem.ElementRuleSet = existingRuleSet = new CssRuleSet();
-                elem.IsStyleEvaluated = true;
+                elem.IsStyleEvaluated = false;
             }
-         
+
             //-------------------------------------
+            existingRuleSet.RemoveCssProperty(WellknownCssPropertyName.BackgroundColor);
             existingRuleSet.AddCssCodeProperty(
                new CssPropertyDeclaration(
                    WellknownCssPropertyName.BackgroundColor,
                    new CssCodeColor(backgroundColor)));
-            HtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
+            // HtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
 
             elem.SkipPrincipalBoxEvalulation = false;
-            
-            var cssbox = HtmlElement.InternalGetPrincipalBox(elem);
+
+            CssBox cssbox = HtmlElement.InternalGetPrincipalBox(elem);
 
             if (cssbox != null)
             {
+
+#if DEBUG
+                cssbox.dbugMark1++;
+#endif
+
                 CssBox.InvalidateComputeValue(cssbox);
             }
+            //elem.OwnerDocument.DomUpdateVersion++;
+            HtmlElement.InvokeNotifyChangeOnIdleState(
+               elem,
+               ElementChangeKind.Spec);
+             
         }
 
 

@@ -40,7 +40,9 @@ namespace LayoutFarm.HtmlBoxes
         readonly Css.BoxSpec _myspec;
         readonly object _controller;
         RootGraphic rootgfx;
+
 #if DEBUG
+        public int dbugMark1;
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark;

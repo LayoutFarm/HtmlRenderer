@@ -85,7 +85,9 @@ namespace LayoutFarm.InternalHtmlDom
             base.OnContentUpdate();
             OnChangeInIdleState(ElementChangeKind.ContentUpdate);
              
-        } 
+        }
+        
+
         //------------------------------------
         protected override void OnChangeInIdleState(ElementChangeKind changeKind)
         {

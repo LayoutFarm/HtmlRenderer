@@ -324,6 +324,13 @@ namespace LayoutFarm.Composers
 
             }
 
+            //if (element.dbugMark == 1)
+            //{
+            //}
+            //else if (element.dbugMark == 2)
+            //{
+            //}
+
             //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
             //------------------------------------------------------------------- 
             //4. a style attribute value 
