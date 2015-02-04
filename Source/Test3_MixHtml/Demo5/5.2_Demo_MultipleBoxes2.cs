@@ -33,7 +33,7 @@ namespace LayoutFarm
                 var button = new LayoutFarm.HtmlWidgets.Button(islandHost, 100, boxHeight);
                 button.SetLocation(boxX, 20);
                 button.Text = "button" + i;
-                boxX += 100;
+                boxX += 100 + 2;
                 viewport.AddContent(button);
             }
             //-------------------------------------------------------------------

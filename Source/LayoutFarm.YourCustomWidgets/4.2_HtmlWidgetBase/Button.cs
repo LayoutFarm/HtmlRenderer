@@ -29,7 +29,7 @@ namespace LayoutFarm.HtmlWidgets
             {
                 this.buttonText = value;
             }
-        } 
+        }
         protected override FragmentHtmlDocument CreatePresentationDom()
         {
 
@@ -44,9 +44,13 @@ namespace LayoutFarm.HtmlWidgets
                 htmldoc.RootNode.AddChild("div", div =>
                 {
                     div.SetAttribute("style", "font:10pt tahoma;");
-                    div.AddChild("span", span =>
+                    div.AddChild("div", div2 =>
                     {
-                        span.AddTextContent(this.buttonText);
+                        div2.SetAttribute("style", "padding:5px;background-color:#dddddd;");
+                        div2.AddChild("span", span =>
+                        {
+                            span.AddTextContent(this.buttonText);
+                        });
                     });
                 });
 
