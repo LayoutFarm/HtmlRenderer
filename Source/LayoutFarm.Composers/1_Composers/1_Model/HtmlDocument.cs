@@ -16,6 +16,9 @@ namespace LayoutFarm.Composers
     public class HtmlDocument : WebDocument
     {
         DomElement rootNode;
+        int domUpdateVersion;
+
+        internal EventHandler DomUpdated;
         public HtmlDocument()
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
@@ -41,9 +44,17 @@ namespace LayoutFarm.Composers
         }
         public override int DomUpdateVersion
         {
-            get;
-            set;
+            get { return this.domUpdateVersion; }
+            set
+            {
+                this.domUpdateVersion = value;
+                if (DomUpdated != null)
+                {
+                    DomUpdated(this, EventArgs.Empty);
+                }
+            }
         }
+
         public override DomElement CreateElement(string prefix, string localName)
         {
             return new HtmlElement(this,

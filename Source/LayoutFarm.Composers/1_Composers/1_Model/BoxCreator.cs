@@ -14,12 +14,7 @@ namespace LayoutFarm.Composers
     {
 
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
-        LayoutFarm.RootGraphic rootgfx;
-        internal BoxCreator(LayoutFarm.RootGraphic rootgfx)
-        {
-            this.rootgfx = rootgfx;
-
-        }
+        
 
         public static void RegisterCustomCssBoxGenerator(CustomCssBoxGenerator generator)
         {
@@ -245,6 +240,8 @@ namespace LayoutFarm.Composers
 
             alreadyHandleChildrenNodes = false;
             CssBox newBox = null;
+            var rootgfx = parentBox.Root;
+
             //----------------------------------------- 
             //1. create new box
             //----------------------------------------- 
@@ -295,7 +292,7 @@ namespace LayoutFarm.Composers
                 case WellKnownDomNodeName.X:
                     {
                         alreadyHandleChildrenNodes = true;
-                        newBox = CreateCustomBox(parentBox, childElement, childElement.Spec);
+                        newBox = CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx);
                         if (newBox == null)
                         {
                             goto default;
@@ -331,11 +328,11 @@ namespace LayoutFarm.Composers
             }
         }
 
-        CssBox CreateCustomBox(CssBox parent, object tag, BoxSpec boxspec)
+        CssBox CreateCustomBox(CssBox parent, object tag, BoxSpec boxspec, RootGraphic rootgfx)
         {
             for (int i = generators.Count - 1; i >= 0; --i)
             {
-                var newbox = generators[i].CreateCssBox(tag, parent, boxspec, this.rootgfx);
+                var newbox = generators[i].CreateCssBox(tag, parent, boxspec, rootgfx);
                 if (newbox != null)
                 {
                     return newbox;

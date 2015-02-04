@@ -35,11 +35,10 @@ namespace LayoutFarm.Composers
         WebDom.Parser.CssParser miniCssParser = new CssParser();
         ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
         public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
-        LayoutFarm.RootGraphic rootgfx;
-
-        public RenderTreeBuilder(LayoutFarm.RootGraphic rootgfx)
+        GraphicsPlatform gfxPlatform;
+        public RenderTreeBuilder(GraphicsPlatform gfxPlatform)
         {
-            this.rootgfx = rootgfx;
+            this.gfxPlatform = gfxPlatform;
         }
         void RaiseRequestStyleSheet(
             string hrefSource,
@@ -158,11 +157,11 @@ namespace LayoutFarm.Composers
             }
         }
 
-        public CssBox BuildCssRenderTree(HtmlDocument htmldoc, 
+        public CssBox BuildCssRenderTree(HtmlDocument htmldoc,
             CssActiveSheet cssActiveSheet,
             RenderElement containerElement)
-        {   
-            
+        {
+
             htmldoc.ActiveCssTemplate = new ActiveCssTemplate(cssActiveSheet);
 
             htmldoc.SetDocumentState(DocumentState.Building);
@@ -170,11 +169,14 @@ namespace LayoutFarm.Composers
 
             PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, htmldoc.ActiveCssTemplate);
 
+
             //----------------------------------------------------------------  
-            CssBox rootBox = BoxCreator.CreateCssRenderRoot(this.rootgfx.SampleIFonts, containerElement, this.rootgfx);
+            RootGraphic rootgfx = (containerElement != null) ? containerElement.Root : null;
+
+            CssBox rootBox = BoxCreator.CreateCssRenderRoot(this.gfxPlatform.SampleIFonts, containerElement, rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
-            BoxCreator boxCreator = new BoxCreator(this.rootgfx);
+            BoxCreator boxCreator = new BoxCreator();
             boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
@@ -186,11 +188,11 @@ namespace LayoutFarm.Composers
 
         public CssBox BuildCssRenderTree(
            DomElement hostElement,
-           DomElement domElement, 
+           DomElement domElement,
            RenderElement containerElement)
         {
-
-            IFonts ifonts = this.rootgfx.SampleIFonts;
+            var rootgfx = containerElement.Root;
+            IFonts ifonts = rootgfx.SampleIFonts;
             HtmlDocument htmldoc = domElement.OwnerDocument as HtmlDocument;
             HtmlElement startAtHtmlElement = (HtmlElement)domElement;
 
@@ -200,14 +202,14 @@ namespace LayoutFarm.Composers
             CssBox docRoot = HtmlElement.InternalGetPrincipalBox((HtmlElement)htmldoc.RootNode);
             if (docRoot == null)
             {
-                docRoot = BoxCreator.CreateCssRenderRoot(ifonts, containerElement, this.rootgfx);
+                docRoot = BoxCreator.CreateCssRenderRoot(ifonts, containerElement, rootgfx);
                 ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(docRoot);
             }
 
 
-            BoxCreator boxCreator = new BoxCreator(this.rootgfx);
+            BoxCreator boxCreator = new BoxCreator();
             //----------------------------------------------------------------  
-            CssBox isolationBox = BoxCreator.CreateCssIsolateBox(ifonts, containerElement, this.rootgfx);
+            CssBox isolationBox = BoxCreator.CreateCssIsolateBox(ifonts, containerElement, rootgfx);
             docRoot.AppendChild(isolationBox);
             ((HtmlElement)domElement).SetPrincipalBox(isolationBox);
             //----------------------------------------------------------------  
@@ -238,7 +240,7 @@ namespace LayoutFarm.Composers
             }
             //----------------------------------------------------------------  
 
-            BoxCreator boxCreator = new BoxCreator(this.rootgfx);
+            BoxCreator boxCreator = new BoxCreator();
 
             boxCreator.GenerateChildBoxes(startAtElement, false);
             startAtElement.OwnerDocument.SetDocumentState(DocumentState.Idle);
@@ -1020,7 +1022,7 @@ namespace LayoutFarm.Composers
                                             clientImageBinder.SetOwner(tag);
                                             cssBoxImage1.ImageBinder = clientImageBinder;
                                         }
-                                        
+
                                     }
                                     else
                                     {

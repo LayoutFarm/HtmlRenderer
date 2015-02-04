@@ -97,6 +97,7 @@ namespace LayoutFarm.Demo
         /// </summary>
         public HtmlPanel(PixelFarm.Drawing.GraphicsPlatform p)
         {
+
             AutoScroll = true;
             BackColor = SystemColors.Window;
             SetStyle(ControlStyles.ResizeRedraw, true);
@@ -111,7 +112,7 @@ namespace LayoutFarm.Demo
             this.renderCanvas = gfxPlatform.CreateCanvas(0, 0, 800, 600);
             //-------------------------------------------------------
 
-            htmlIslandHost = new HtmlIslandHost(p);  
+            htmlIslandHost = new HtmlIslandHost(p);
 
             htmlIslandHost.RequestResource += myHtmlIsland_RequestResource;
             myHtmlIsland = new MyHtmlIsland(htmlIslandHost);
@@ -316,7 +317,7 @@ namespace LayoutFarm.Demo
         }
         void CreateRenderTreeBuilder()
         {
-            this.renderTreeBuilder = new Composers.RenderTreeBuilder(null);
+            this.renderTreeBuilder = new Composers.RenderTreeBuilder(this.gfxPlatform);
             this.renderTreeBuilder.RequestStyleSheet += (e) =>
             {
                 var req = new TextLoadRequestEventArgs(e.Src);

@@ -25,7 +25,6 @@ namespace LayoutFarm.HtmlBoxes
         public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
         SelectionRange _currentSelectionRange;
         GraphicsPlatform gfxplatform;
-
         Composers.HtmlDocument commonHtmlDoc;
 
 
@@ -122,11 +121,11 @@ namespace LayoutFarm.HtmlBoxes
             adapter.Unbind();
             this.inputEventAdapterStock.Enqueue(adapter);
         }
-        public LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder(RootGraphic rootgfx)
+        public LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder()
         {
             if (this.renderTreeBuilder == null)
             {
-                renderTreeBuilder = new Composers.RenderTreeBuilder(rootgfx);
+                renderTreeBuilder = new Composers.RenderTreeBuilder(this.gfxplatform);
                 this.renderTreeBuilder.RequestStyleSheet += (e) =>
                 {
                     var req = new TextLoadRequestEventArgs(e.Src);
@@ -137,9 +136,6 @@ namespace LayoutFarm.HtmlBoxes
             }
             return renderTreeBuilder;
         }
-
-
-
 
 
     }
@@ -169,10 +165,14 @@ namespace LayoutFarm.HtmlBoxes
         public WebDocument WebDocument
         {
             get { return this.webdoc; }
-            set { this.webdoc = value; }
+            set
+            {
+                this.webdoc = value;
+
+            }
         }
 
-        public override bool RefreshIfNeed()
+        public bool RefreshIfNeed()
         {
             if (webdoc == null) return false;
             //----------------------------------

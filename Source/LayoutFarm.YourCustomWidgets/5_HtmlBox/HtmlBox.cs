@@ -26,7 +26,7 @@ namespace LayoutFarm.CustomWidgets
         LayoutFarm.WebDom.WebDocument currentdoc;
 
         public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
-       
+
 
         bool hasWaitingDocToLoad;
         LayoutFarm.WebDom.CssActiveSheet waitingCssData;
@@ -71,7 +71,7 @@ namespace LayoutFarm.CustomWidgets
         }
 
         //--------------------------------------------------------------------
-        
+
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
 
@@ -121,16 +121,18 @@ namespace LayoutFarm.CustomWidgets
 
         void CreateRenderTreeBuilder()
         {
-            this.renderTreeBuilder = new LayoutFarm.Composers.RenderTreeBuilder(htmlRenderBox.Root);
-            this.renderTreeBuilder.RequestStyleSheet += (e2) =>
-            {
-                if (this.RequestStylesheet != null)
-                {
-                    var req = new TextLoadRequestEventArgs(e2.Src);
-                    RequestStylesheet(this, req);
-                    e2.SetStyleSheet = req.SetStyleSheet;
-                }
-            };
+            this.renderTreeBuilder = this.islandHost.GetRenderTreeBuilder();
+
+            //this.renderTreeBuilder = new LayoutFarm.Composers.RenderTreeBuilder();
+            //this.renderTreeBuilder.RequestStyleSheet += (e2) =>
+            //{
+            //    if (this.RequestStylesheet != null)
+            //    {
+            //        var req = new TextLoadRequestEventArgs(e2.Src);
+            //        RequestStylesheet(this, req);
+            //        e2.SetStyleSheet = req.SetStyleSheet;
+            //    }
+            //};
 
         }
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
@@ -203,7 +205,7 @@ namespace LayoutFarm.CustomWidgets
 
 
             //build rootbox from htmldoc
-            var rootBox = renderTreeBuilder.BuildCssRenderTree((HtmlDocument)this.currentdoc, 
+            var rootBox = renderTreeBuilder.BuildCssRenderTree((HtmlDocument)this.currentdoc,
                 this.waitingCssData,
                 this.htmlRenderBox);
 

@@ -45,7 +45,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             //1. builder 
-            var renderTreeBuilder = islandHost.GetRenderTreeBuilder(container.Root);
+            var renderTreeBuilder = islandHost.GetRenderTreeBuilder();
             //-------------------------------------------------------------------
 
 
@@ -80,7 +80,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             //1. builder 
-            var renderTreeBuilder = islandHost.GetRenderTreeBuilder(container.Root);
+            var renderTreeBuilder = islandHost.GetRenderTreeBuilder();
             //-------------------------------------------------------------------
             //2. generate render tree
             ////build rootbox from htmldoc

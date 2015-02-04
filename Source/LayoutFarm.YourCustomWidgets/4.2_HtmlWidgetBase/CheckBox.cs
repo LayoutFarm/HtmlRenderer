@@ -94,9 +94,9 @@ namespace LayoutFarm.HtmlWidgets
         }
         public event EventHandler WhenChecked;
 
-        HtmlDocument CreateHtml()
+        FragmentHtmlDocument CreateHtml()
         {
-            HtmlDocument htmldoc = this.htmlIslandHost.CreateNewFragmentHtml();
+            FragmentHtmlDocument htmldoc = this.htmlIslandHost.CreateNewFragmentHtml();
 
             //TODO: use template engine, 
             //ideas:  AngularJS style ?

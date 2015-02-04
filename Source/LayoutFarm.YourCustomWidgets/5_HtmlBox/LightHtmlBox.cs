@@ -18,13 +18,12 @@ namespace LayoutFarm.CustomWidgets
     {
         WaitingContent waitingContentKind;
         string waitingHtmlFragmentString;
-        HtmlDocument waitingHtmlDoc;
-        
+        FragmentHtmlDocument waitingHtmlDoc;
+
         enum WaitingContent : byte
         {
             NoWaitingContent,
             HtmlFragmentString,
-             
             HtmlDocument
         }
 
@@ -191,7 +190,7 @@ namespace LayoutFarm.CustomWidgets
                 case WaitingContent.HtmlDocument:
                     {
                         LoadHtmlDom(this.waitingHtmlDoc);
-                    } break; 
+                    } break;
                 case WaitingContent.HtmlFragmentString:
                     {
                         LoadHtmlFragmentString(this.waitingHtmlFragmentString);
@@ -204,11 +203,11 @@ namespace LayoutFarm.CustomWidgets
         void ClearWaitingContent()
         {
             this.waitingHtmlDoc = null;
-            this.waitingHtmlFragmentString = null; 
+            this.waitingHtmlFragmentString = null;
             waitingContentKind = WaitingContent.NoWaitingContent;
 
         }
-        public void LoadHtmlDom(HtmlDocument htmldoc)
+        public void LoadHtmlDom(FragmentHtmlDocument htmldoc)
         {
             if (frgmRenderBox == null)
             {
@@ -218,12 +217,12 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this.myHtmlIsland = HtmlIslandHelper.CreateHtmlIsland(this.htmlIslandHost, htmldoc, frgmRenderBox); 
-                SetHtmlIslandEventHandlers(); 
+                this.myHtmlIsland = HtmlIslandHelper.CreateHtmlIsland(this.htmlIslandHost, htmldoc, frgmRenderBox);
+                SetHtmlIslandEventHandlers();
                 ClearWaitingContent();
             }
         }
-     
+
         public void LoadHtmlFragmentString(string fragmentHtmlString)
         {
             if (frgmRenderBox == null)
@@ -241,7 +240,7 @@ namespace LayoutFarm.CustomWidgets
                 ClearWaitingContent();
             }
         }
-         
+
 
         void SetHtmlIslandEventHandlers()
         {
@@ -252,8 +251,8 @@ namespace LayoutFarm.CustomWidgets
                 //---------------------------
                 if (frgmRenderBox == null) return;
                 //--------------------------- 
-                htmlIslandHost.GetRenderTreeBuilder(frgmRenderBox.Root).RefreshCssTree(myHtmlIsland.RootElement);
-                
+                htmlIslandHost.GetRenderTreeBuilder().RefreshCssTree(myHtmlIsland.RootElement);
+
                 var lay = this.htmlIslandHost.GetSharedHtmlLayoutVisitor(myHtmlIsland);
                 myHtmlIsland.PerformLayout(lay);
                 this.htmlIslandHost.ReleaseHtmlLayoutVisitor(lay);

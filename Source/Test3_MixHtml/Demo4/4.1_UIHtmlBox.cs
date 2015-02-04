@@ -20,9 +20,7 @@ namespace LayoutFarm
         {
             if (islandHost == null)
             {
-                islandHost = new HtmlBoxes.HtmlIslandHost(viewport.P);
-                 
-                //islandHost.RequestResource += myHtmlIsland_RequestResource;
+                islandHost = new HtmlBoxes.HtmlIslandHost(viewport.P); 
             }
             return islandHost;
         }

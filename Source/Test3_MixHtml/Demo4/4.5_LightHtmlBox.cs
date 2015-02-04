@@ -65,9 +65,9 @@ namespace LayoutFarm
             viewport.AddContent(textbox);
             textbox.Focus();
         }
-        HtmlDocument CreateSampleHtmlDoc()
+        FragmentHtmlDocument CreateSampleHtmlDoc()
         {
-            HtmlDocument htmldoc = islandHost.CreateNewFragmentHtml();// new HtmlDocument();
+            FragmentHtmlDocument htmldoc = islandHost.CreateNewFragmentHtml();// new HtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  

@@ -199,9 +199,9 @@ namespace LayoutFarm
             binder.State = ImageBinderState.Loaded;
             return binder;
         }
-        HtmlDocument CreateSampleHtmlDoc(MenuBox ownerMenuBox)
+        FragmentHtmlDocument CreateSampleHtmlDoc(MenuBox ownerMenuBox)
         {
-            HtmlDocument htmldoc = islandHost.CreateNewFragmentHtml();// new HtmlDocument();
+            FragmentHtmlDocument htmldoc = islandHost.CreateNewFragmentHtml();// new HtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  
