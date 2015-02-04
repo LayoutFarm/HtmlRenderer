@@ -17,7 +17,7 @@ namespace LayoutFarm
             if (islandHost == null)
             {
                 islandHost = new HtmlBoxes.HtmlIslandHost(viewport.P);
-                islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
+                 
                 //islandHost.RequestResource += myHtmlIsland_RequestResource;
             } 
             return islandHost;             

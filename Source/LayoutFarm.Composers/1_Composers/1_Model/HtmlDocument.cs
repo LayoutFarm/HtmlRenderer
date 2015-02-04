@@ -22,6 +22,12 @@ namespace LayoutFarm.Composers
             //default root
             rootNode = new RootElement(this);
         }
+        internal HtmlDocument(UniqueStringTable sharedUniqueStringTable)
+            : base(sharedUniqueStringTable)
+        {
+            //default root
+            rootNode = new RootElement(this);
+        }
         public override DomElement RootNode
         {
             get
@@ -54,11 +60,32 @@ namespace LayoutFarm.Composers
         {
             return new HtmlTextNode(this, strBufferForElement);
         }
-        internal ActiveCssTemplate ActiveCssTemplate
+        internal virtual ActiveCssTemplate ActiveCssTemplate
         {
             get;
             set;
         }
     }
-     
+
+    public class FragmentHtmlDocument : HtmlDocument
+    {
+        HtmlDocument primaryHtmlDoc;
+        internal FragmentHtmlDocument(HtmlDocument primaryHtmlDoc)
+            : base(primaryHtmlDoc.UniqueStringTable)
+        {
+            this.primaryHtmlDoc = primaryHtmlDoc;
+        }
+        internal override ActiveCssTemplate ActiveCssTemplate
+        {
+            get
+            {
+                return this.primaryHtmlDoc.ActiveCssTemplate;
+            }
+            set
+            {
+
+            }
+        }
+
+    }
 }

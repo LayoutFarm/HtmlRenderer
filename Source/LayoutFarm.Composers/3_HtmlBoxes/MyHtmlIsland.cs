@@ -24,15 +24,26 @@ namespace LayoutFarm.HtmlBoxes
     {
         public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
         SelectionRange _currentSelectionRange;
-
         GraphicsPlatform gfxplatform;
-        public HtmlIslandHost(GraphicsPlatform gfxplatform)
+
+        Composers.HtmlDocument commonHtmlDoc;
+
+
+        public HtmlIslandHost(GraphicsPlatform gfxplatform, WebDom.CssActiveSheet activeSheet)
         {
             this.gfxplatform = gfxplatform;
-
+            this.commonHtmlDoc = new Composers.HtmlDocument();
+            this.BaseStylesheet = activeSheet;
+            this.commonHtmlDoc.ActiveCssTemplate = new Composers.ActiveCssTemplate(activeSheet);
+        }
+        public HtmlIslandHost(GraphicsPlatform gfxplatform)
+            : this(gfxplatform, LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true))
+        {
+            //use default style sheet
         }
         public GraphicsPlatform GfxPlatform { get { return this.gfxplatform; } }
-        public WebDom.CssActiveSheet BaseStylesheet { get; set; }
+        public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
+
         public virtual void RequestImage(ImageBinder binder, HtmlIsland reqIsland, object reqFrom, bool _sync)
         {
             if (this.RequestResource != null)
@@ -63,6 +74,10 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
+        public Composers.FragmentHtmlDocument CreateNewFragmentHtml()
+        {
+            return new Composers.FragmentHtmlDocument(this.commonHtmlDoc);
+        }
 
         //------------------------
         Queue<HtmlInputEventAdapter> inputEventAdapterStock = new Queue<HtmlInputEventAdapter>();
@@ -122,6 +137,11 @@ namespace LayoutFarm.HtmlBoxes
             }
             return renderTreeBuilder;
         }
+
+
+
+
+
     }
 
 
@@ -132,7 +152,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         WebDocument webdoc;
         HtmlIslandHost islandHost;
-         
+
         int lastDomUpdateVersion;
         public event EventHandler DomVisualRefresh;
         public event EventHandler DomRequestRebuild;
@@ -151,7 +171,7 @@ namespace LayoutFarm.HtmlBoxes
             get { return this.webdoc; }
             set { this.webdoc = value; }
         }
-         
+
         public override bool RefreshIfNeed()
         {
             if (webdoc == null) return false;

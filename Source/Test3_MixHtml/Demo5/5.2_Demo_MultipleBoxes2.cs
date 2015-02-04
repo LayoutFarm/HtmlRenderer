@@ -23,8 +23,7 @@ namespace LayoutFarm
             int boxHeight = 35;
             int boxY = 50;
 
-            var islandHost = new HtmlBoxes.HtmlIslandHost(viewport.P);
-            islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
+            var islandHost = new HtmlBoxes.HtmlIslandHost(viewport.P);         
             islandHost.RequestResource += (s, e) => this.imageContentMan.AddRequestImage(e.binder);
             //-------------------------------------------------------------------
             for (int i = 0; i < 2; ++i)

@@ -17,8 +17,7 @@ namespace LayoutFarm
         {
             if (islandHost == null)
             {
-                islandHost = new HtmlBoxes.HtmlIslandHost(viewport.P);
-                islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
+                islandHost = new HtmlBoxes.HtmlIslandHost(viewport.P);           
                 islandHost.RequestResource += (s, e) =>
                 {
                     //load resource -- sync or async? 

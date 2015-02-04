@@ -23,7 +23,7 @@ namespace LayoutFarm.HtmlBoxes
             HtmlFragmentRenderBox container)
         {
 
-            var htmldoc = new HtmlDocument();
+            var htmldoc = islandHost.CreateNewFragmentHtml();
             var myHtmlBodyElement = htmldoc.CreateElement("body");
             htmldoc.RootNode.AddChild(myHtmlBodyElement);
 

@@ -18,15 +18,13 @@ namespace LayoutFarm
     {
         ImageBinder arrowBmp;
         HtmlIslandHost islandHost;
-        
+
         SampleViewport sampleViewport;
         protected override void OnStartDemo(SampleViewport viewport)
         {
             sampleViewport = viewport;
             //init host
             this.islandHost = new HtmlIslandHost(viewport.P);
-            this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
-             
 
             //-----------
             var comboBox1 = CreateComboBox(20, 20);
@@ -203,7 +201,7 @@ namespace LayoutFarm
         }
         HtmlDocument CreateSampleHtmlDoc(MenuBox ownerMenuBox)
         {
-            HtmlDocument htmldoc = new HtmlDocument();
+            HtmlDocument htmldoc = islandHost.CreateNewFragmentHtml();// new HtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  

@@ -21,11 +21,11 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
             this.islandHost = new HtmlIslandHost(viewport.P);
-            this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true); 
+
             ////==================================================
             //html box
             {
-                
+
                 LightHtmlBox lightHtmlBox = new LightHtmlBox(islandHost, 800, 50);
                 lightHtmlBox.SetLocation(50, 450);
                 viewport.AddContent(lightHtmlBox);
@@ -37,7 +37,7 @@ namespace LayoutFarm
             }
             //==================================================  
             {
-             
+
                 LightHtmlBox lightHtmlBox2 = new LightHtmlBox(islandHost, 800, 50);
                 lightHtmlBox2.SetLocation(0, 60);
                 viewport.AddContent(lightHtmlBox2);
@@ -49,7 +49,7 @@ namespace LayoutFarm
             }
             //==================================================  
             {
-         
+
                 LightHtmlBox lightHtmlBox3 = new LightHtmlBox(islandHost, 800, 50);
                 lightHtmlBox3.SetLocation(0, 100);
                 viewport.AddContent(lightHtmlBox3);
@@ -65,9 +65,9 @@ namespace LayoutFarm
             viewport.AddContent(textbox);
             textbox.Focus();
         }
-        static HtmlDocument CreateSampleHtmlDoc()
+        HtmlDocument CreateSampleHtmlDoc()
         {
-            HtmlDocument htmldoc = new HtmlDocument();
+            HtmlDocument htmldoc = islandHost.CreateNewFragmentHtml();// new HtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  

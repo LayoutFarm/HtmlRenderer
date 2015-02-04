@@ -96,7 +96,7 @@ namespace LayoutFarm.HtmlWidgets
 
         HtmlDocument CreateHtml()
         {
-            HtmlDocument htmldoc = new HtmlDocument();
+            HtmlDocument htmldoc = this.htmlIslandHost.CreateNewFragmentHtml();
 
             //TODO: use template engine, 
             //ideas:  AngularJS style ?
