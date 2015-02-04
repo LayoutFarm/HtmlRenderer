@@ -13,47 +13,39 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.HtmlBoxes
 {
-    /// <summary>
-    /// common host for light htmlbox
-    /// </summary>
-    public class LightHtmlBoxHost
+     
+    public static class HtmlIslandHelper
     {
-        HtmlIslandHost islandHost;
-        HtmlDocument myDefaultHtmlDoc;
-        WebDom.DomElement myHtmlBodyElement;
 
-        public LightHtmlBoxHost(HtmlIslandHost islandHost)
+        public static MyHtmlIsland CreateHtmlIsland(
+            HtmlIslandHost islandHost,
+            string htmlFragment,
+            HtmlFragmentRenderBox container)
         {
-            this.islandHost = islandHost;
-            //-----------------------------------------------------------------------------------------------
-            this.myDefaultHtmlDoc = new HtmlDocument();
-            this.myDefaultHtmlDoc.ActiveCssTemplate = new ActiveCssTemplate(this.islandHost.BaseStylesheet);
-            this.myHtmlBodyElement = myDefaultHtmlDoc.CreateElement("body");
-            myDefaultHtmlDoc.RootNode.AddChild(myHtmlBodyElement);
-        }
-        public WebDom.DomElement SharedBodyElement
-        {
-            get { return this.myHtmlBodyElement; }
-        }
 
-        //----------------------------------------------------
+            var htmldoc = new HtmlDocument(); 
+            var myHtmlBodyElement = htmldoc.CreateElement("body");
+            htmldoc.RootNode.AddChild(myHtmlBodyElement);
 
-        public MyHtmlIsland CreateHtmlIsland(string htmlFragment, HtmlFragmentRenderBox container)
-        {
-            var newDivHost = this.myDefaultHtmlDoc.CreateElement("div");
+
+            var newDivHost = htmldoc.CreateElement("div");
             myHtmlBodyElement.AddChild(newDivHost);
+
             WebDocumentParser.ParseHtmlDom(
                      new LayoutFarm.WebDom.Parser.TextSnapshot(htmlFragment.ToCharArray()),
-                     this.myDefaultHtmlDoc,
+                     htmldoc,
                      newDivHost);
-            return CreateHtmlIsland(newDivHost, container);
+
+            return CreateHtmlIsland(islandHost, newDivHost, myHtmlBodyElement, container);
         }
-        public MyHtmlIsland CreateHtmlIsland(HtmlDocument htmldoc,
+        public static MyHtmlIsland CreateHtmlIsland(
+            HtmlIslandHost islandHost,
+            HtmlDocument htmldoc,
             HtmlFragmentRenderBox container)
         {
 
             //1. builder 
-            var renderTreeBuilder = this.islandHost.GetRenderTreeBuilder(container.Root);
+            var renderTreeBuilder = islandHost.GetRenderTreeBuilder(container.Root);
             //-------------------------------------------------------------------
 
 
@@ -61,13 +53,13 @@ namespace LayoutFarm.HtmlBoxes
             ////build rootbox from htmldoc
 
             var rootElement = renderTreeBuilder.BuildCssRenderTree(htmldoc,
-                this.islandHost.BaseStylesheet,
+                islandHost.BaseStylesheet,
                 container);
             //3. create small island
 
-            var htmlIsland = new MyHtmlIsland(this.islandHost);
+            var htmlIsland = new MyHtmlIsland(islandHost);
 
-            htmlIsland.RootElement = htmldoc.RootNode;
+            htmlIsland.WebDocument = htmldoc;
             htmlIsland.RootCssBox = rootElement;
             htmlIsland.SetMaxSize(container.Width, 0);
 
@@ -80,16 +72,19 @@ namespace LayoutFarm.HtmlBoxes
             return htmlIsland;
         }
 
-        public MyHtmlIsland CreateHtmlIsland(WebDom.DomElement domElement,
-           HtmlFragmentRenderBox container)
+        static MyHtmlIsland CreateHtmlIsland(
+         HtmlIslandHost islandHost,
+         WebDom.DomElement domElement,
+         WebDom.DomElement myHtmlBodyElement,
+         HtmlFragmentRenderBox container)
         {
 
             //1. builder 
-            var renderTreeBuilder = this.islandHost.GetRenderTreeBuilder(container.Root);
+            var renderTreeBuilder = islandHost.GetRenderTreeBuilder(container.Root);
             //-------------------------------------------------------------------
             //2. generate render tree
             ////build rootbox from htmldoc
-            var hostDivElement = myHtmlBodyElement.OwnerDocument.CreateElement("div");
+            var hostDivElement = domElement.OwnerDocument.CreateElement("div");
             myHtmlBodyElement.AddChild(hostDivElement);
 
 
@@ -99,9 +94,9 @@ namespace LayoutFarm.HtmlBoxes
                 container);
             //3. create small island
 
-            var htmlIsland = new MyHtmlIsland(this.islandHost);
+            var htmlIsland = new MyHtmlIsland(islandHost);
 
-            htmlIsland.RootElement = domElement;
+            htmlIsland.WebDocument = domElement.OwnerDocument;
             htmlIsland.RootCssBox = rootElement;
             htmlIsland.SetMaxSize(container.Width, 0);
 
@@ -114,6 +109,6 @@ namespace LayoutFarm.HtmlBoxes
             return htmlIsland;
         }
 
-        
+
     }
 }

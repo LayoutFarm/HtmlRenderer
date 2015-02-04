@@ -121,15 +121,15 @@ namespace LayoutFarm.HtmlBoxes
                 };
             }
             return renderTreeBuilder;
-        } 
+        }
 
     }
 
     public sealed class MyHtmlIsland : HtmlIsland
     {
-
+        WebDocument webdoc;
         HtmlIslandHost islandHost;
-        DomElement rootElement;
+         
         int lastDomUpdateVersion;
         public event EventHandler DomVisualRefresh;
         public event EventHandler DomRequestRebuild;
@@ -138,18 +138,23 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.islandHost = islandHost;
         }
+
         public DomElement RootElement
         {
-            get { return this.rootElement; }
-            set { this.rootElement = value; }
+            get { return webdoc.RootNode; }
         }
-
+        public WebDocument WebDocument
+        {
+            get { return this.webdoc; }
+            set { this.webdoc = value; }
+        }
+         
         public override bool RefreshIfNeed()
         {
-            if (rootElement == null) return false;
+            if (webdoc == null) return false;
             //----------------------------------
 
-            int latestDomUpdateVersion = this.rootElement.OwnerDocument.DomUpdateVersion;
+            int latestDomUpdateVersion = webdoc.DomUpdateVersion;
             if (this.lastDomUpdateVersion != latestDomUpdateVersion)
             {
                 this.lastDomUpdateVersion = latestDomUpdateVersion;
@@ -199,8 +204,8 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         public void CheckDocUpdate()
         {
-            if (rootElement != null &&
-                rootElement.OwnerDocument.DocumentState == DocumentState.ChangedAfterIdle
+            if (webdoc != null &&
+                webdoc.DocumentState == DocumentState.ChangedAfterIdle
                 && DomRequestRebuild != null)
             {
                 DomRequestRebuild(this, EventArgs.Empty);

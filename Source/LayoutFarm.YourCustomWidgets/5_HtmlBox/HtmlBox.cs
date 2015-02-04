@@ -209,7 +209,7 @@ namespace LayoutFarm.CustomWidgets
 
             //update htmlIsland
             var htmlIsland = this.myHtmlIsland;
-            htmlIsland.RootElement = this.currentdoc.RootNode;
+            htmlIsland.WebDocument = this.currentdoc;
             htmlIsland.RootCssBox = rootBox;
             //htmlIsland.MaxSize = new PixelFarm.Drawing.SizeF(this._width, 0);
             htmlIsland.SetMaxSize(this._width, 0);

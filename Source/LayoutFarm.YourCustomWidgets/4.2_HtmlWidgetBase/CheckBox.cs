@@ -55,7 +55,7 @@ namespace LayoutFarm.HtmlWidgets
             if (!this.HasReadyRenderElement)
             {
                 lightHtmlBox = new LightHtmlBox(htmlIslandHost, this.Width, this.Height);
-                lightHtmlBox.LoadHtmlFragmentDom(CreateDomElement(lightHtmlBox.LightBoxHost.SharedBodyElement));
+                lightHtmlBox.LoadHtmlDom(CreateHtml());
                 lightHtmlBox.SetLocation(this.Left, this.Top);
                 myRenderE = lightHtmlBox.GetPrimaryRenderElement(rootgfx);
                 return myRenderE;
@@ -98,10 +98,9 @@ namespace LayoutFarm.HtmlWidgets
         }
         public event EventHandler WhenChecked;
 
-        DomElement CreateDomElement(DomElement parent)
+        HtmlDocument CreateHtml()
         {
-
-            HtmlDocument htmldoc = (HtmlDocument)parent.OwnerDocument;
+            HtmlDocument htmldoc = new HtmlDocument();
 
             //TODO: use template engine, 
             //ideas:  AngularJS style ?
@@ -112,7 +111,7 @@ namespace LayoutFarm.HtmlWidgets
 
 
             var domElement =
-                parent.AddChild("div", div =>
+                htmldoc.RootNode.AddChild("div", div =>
                 {
                     var styleAttr = htmldoc.CreateAttribute(WellknownName.Style);
                     styleAttr.Value = "font:10pt tahoma;";
@@ -164,7 +163,7 @@ namespace LayoutFarm.HtmlWidgets
 
                 });
 
-            return domElement;
+            return htmldoc;
         }
     }
 

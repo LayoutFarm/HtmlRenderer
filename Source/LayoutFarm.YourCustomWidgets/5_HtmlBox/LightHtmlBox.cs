@@ -19,17 +19,16 @@ namespace LayoutFarm.CustomWidgets
         WaitingContent waitingContentKind;
         string waitingHtmlFragmentString;
         HtmlDocument waitingHtmlDoc;
-        WebDom.DomElement waitingDomElement;
-
+        
         enum WaitingContent : byte
         {
             NoWaitingContent,
             HtmlFragmentString,
-            HtmlFragmentDomElement,
+             
             HtmlDocument
         }
 
-        LightHtmlBoxHost lightBoxHost;
+
         MyHtmlIsland myHtmlIsland;
         HtmlIslandHost htmlIslandHost;
 
@@ -49,12 +48,8 @@ namespace LayoutFarm.CustomWidgets
             : base(width, height)
         {
             this.htmlIslandHost = htmlIslandHost;
-            this.lightBoxHost = new LightHtmlBoxHost(htmlIslandHost);
         }
-        public LightHtmlBoxHost LightBoxHost 
-        {
-            get { return this.lightBoxHost; }
-        }
+
         protected override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.frgmRenderBox; }
@@ -196,11 +191,7 @@ namespace LayoutFarm.CustomWidgets
                 case WaitingContent.HtmlDocument:
                     {
                         LoadHtmlDom(this.waitingHtmlDoc);
-                    } break;
-                case WaitingContent.HtmlFragmentDomElement:
-                    {
-                        LoadHtmlFragmentDom(this.waitingDomElement);
-                    } break;
+                    } break; 
                 case WaitingContent.HtmlFragmentString:
                     {
                         LoadHtmlFragmentString(this.waitingHtmlFragmentString);
@@ -209,7 +200,14 @@ namespace LayoutFarm.CustomWidgets
 
             return frgmRenderBox;
         }
+        //-----------------------------------------------------------------------------------------------------
+        void ClearWaitingContent()
+        {
+            this.waitingHtmlDoc = null;
+            this.waitingHtmlFragmentString = null; 
+            waitingContentKind = WaitingContent.NoWaitingContent;
 
+        }
         public void LoadHtmlDom(HtmlDocument htmldoc)
         {
             if (frgmRenderBox == null)
@@ -220,21 +218,12 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this.myHtmlIsland = this.lightBoxHost.CreateHtmlIsland(htmldoc, frgmRenderBox);
-
-                SetHtmlIslandEventHandlers();
-
+                this.myHtmlIsland = HtmlIslandHelper.CreateHtmlIsland(this.htmlIslandHost, htmldoc, frgmRenderBox); 
+                SetHtmlIslandEventHandlers(); 
                 ClearWaitingContent();
             }
         }
-        void ClearWaitingContent()
-        {
-            this.waitingHtmlDoc = null;
-            this.waitingHtmlFragmentString = null;
-            this.waitingDomElement = null;
-            waitingContentKind = WaitingContent.NoWaitingContent;
-
-        }
+     
         public void LoadHtmlFragmentString(string fragmentHtmlString)
         {
             if (frgmRenderBox == null)
@@ -245,32 +234,14 @@ namespace LayoutFarm.CustomWidgets
             else
             {
                 //just parse content and load 
-                this.myHtmlIsland = this.lightBoxHost.CreateHtmlIsland(fragmentHtmlString, frgmRenderBox);
+                this.myHtmlIsland = HtmlIslandHelper.CreateHtmlIsland(this.htmlIslandHost, fragmentHtmlString, frgmRenderBox);
 
                 SetHtmlIslandEventHandlers();
 
                 ClearWaitingContent();
             }
         }
-        public void LoadHtmlFragmentDom(WebDom.DomElement domElement)
-        {
-
-            if (frgmRenderBox == null)
-            {
-                this.waitingContentKind = WaitingContent.HtmlFragmentDomElement;
-                this.waitingDomElement = domElement;
-            }
-            else
-            {
-                //just parse content and load 
-
-                this.myHtmlIsland = this.lightBoxHost.CreateHtmlIsland(domElement, frgmRenderBox);
-
-                SetHtmlIslandEventHandlers();
-                ClearWaitingContent();
-            }
-        }
-
+         
 
         void SetHtmlIslandEventHandlers()
         {
@@ -282,21 +253,16 @@ namespace LayoutFarm.CustomWidgets
                 if (frgmRenderBox == null) return;
                 //--------------------------- 
                 htmlIslandHost.GetRenderTreeBuilder(frgmRenderBox.Root).RefreshCssTree(myHtmlIsland.RootElement);
-                //this.lightBoxHost.RefreshCssTree(myHtmlIsland.RootElement, frgmRenderBox.Root);
-
+                
                 var lay = this.htmlIslandHost.GetSharedHtmlLayoutVisitor(myHtmlIsland);
                 myHtmlIsland.PerformLayout(lay);
                 this.htmlIslandHost.ReleaseHtmlLayoutVisitor(lay);
             };
         }
-        //public override void InvalidateGraphics()
-        //{
-
-        //    //if (this.myCssBoxWrapper != null)
-        //    //{
-        //    //    myCssBoxWrapper.InvalidateGraphic();
-        //    //}
-        //}
+        public MyHtmlIsland HtmlIsland
+        {
+            get { return this.myHtmlIsland; }
+        }
 
     }
 }

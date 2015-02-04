@@ -50,9 +50,9 @@
     <Compile Include="1_Composers\2_Css\ValueMaps.cs" />
     <Compile Include="1_Composers\1_Model\BoxCreator.cs" />
     <Compile Include="1_Composers\1_Model\HtmlDocument.cs" />
+    <Compile Include="3_HtmlBoxes\HtmlIslandHelper.cs" />
     <Compile Include="3_HtmlBoxes\HtmlRenderBox.cs" />
     <Compile Include="3_HtmlBoxes\HtmlInputEventAdapter.cs" />
-    <Compile Include="3_HtmlBoxes\LightHtmlBoxHost.cs" />
     <Compile Include="3_HtmlBoxes\RenderElementWrapperCssBox.cs" />
     <Compile Include="4_WebDom\1_Html\DomElement.cs" />
     <Compile Include="4_WebDom\1_Html\DomElement_EventListener.cs" />

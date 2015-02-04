@@ -78,6 +78,7 @@
     <Compile Include="4.2_HtmlWidgetBase\ScrollBar.cs" />
     <Compile Include="4.2_HtmlWidgetBase\TabPageBox.cs" />
     <Compile Include="4.2_HtmlWidgetBase\TreeView.cs" />
+    <Compile Include="5_HtmlBox\HtmlIslandHelper.cs" />
     <Compile Include="5_HtmlBox\LightHtmlBox.cs" />
     <Compile Include="6_InternalResourceMx\ResImageList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -297,11 +297,11 @@ namespace LayoutFarm.Demo
 
 
             //build rootbox from htmldoc
-            var rootBox = renderTreeBuilder.BuildCssRenderTree(htmldoc, 
+            var rootBox = renderTreeBuilder.BuildCssRenderTree(htmldoc,
                 cssData,
                 null);
 
-            htmlIsland.RootElement = htmldoc.RootNode;
+            htmlIsland.WebDocument = htmldoc;
             htmlIsland.RootCssBox = rootBox;
         }
 
@@ -309,11 +309,8 @@ namespace LayoutFarm.Demo
         {
             _baseRawCssData = defaultCss;
             _baseCssData = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);
-            //-----------------
-
-
-
-            myHtmlIsland.RootElement = (this.currentDoc = doc).RootNode;
+            //-----------------  
+            myHtmlIsland.WebDocument = (this.currentDoc = doc);
             BuildCssBoxTree(myHtmlIsland, _baseCssData);
             //---------------------
             PerformLayout();
@@ -338,7 +335,7 @@ namespace LayoutFarm.Demo
             //------------------------------------------------------------
 
             var rootBox = renderTreeBuilder.BuildCssRenderTree(
-                (LayoutFarm.Composers.HtmlDocument)this.currentDoc, 
+                (LayoutFarm.Composers.HtmlDocument)this.currentDoc,
                 cssData,
                 null);
 
