@@ -27,9 +27,10 @@ namespace LayoutFarm
 
             islandHost.RequestResource += (s, e) => this.imageContentMan.AddRequestImage(e.binder);
             //-------------------------------------------------------------------
-            for (int i = 0; i < 2; ++i)
+            for (int i = 0; i < 10; ++i)
             {
                 var statedBox = new LayoutFarm.HtmlWidgets.CheckBox(islandHost, 100, boxHeight);
+                statedBox.Text = "chk" + i;                     
                 statedBox.SetLocation(10, boxY);
                 boxY += boxHeight + 5;
                 viewport.AddContent(statedBox);

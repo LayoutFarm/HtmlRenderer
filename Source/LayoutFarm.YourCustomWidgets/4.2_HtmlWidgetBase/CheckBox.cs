@@ -12,57 +12,43 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.CustomWidgets;
 
 namespace LayoutFarm.HtmlWidgets
-{
+{   
 
-
-    public class CheckBox : Panel
+    public class CheckBox : WidgetBase
     {
 
         bool isChecked;
-
-
         HtmlIslandHost htmlIslandHost;
         LightHtmlBox lightHtmlBox;
+        string checkBoxText = "";
 
         public CheckBox(HtmlIslandHost htmlIslandHost, int w, int h)
             : base(w, h)
         {
+
             this.htmlIslandHost = htmlIslandHost;
-
         }
-        protected override RenderElement CurrentPrimaryRenderElement
+        public override UIElement GetPrimaryUIElement()
         {
-            get
-            {
-                return UIElement.GetCurrentPrimaryRenderElement(lightHtmlBox);
-            }
-        }
-        protected override bool HasReadyRenderElement
-        {
-            get
-            {
-                return this.lightHtmlBox != null;
-            }
-        }
-
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-        {
-
-            if (!this.HasReadyRenderElement)
+            if (this.lightHtmlBox == null)
             {
                 var lightHtmlBox = new LightHtmlBox(htmlIslandHost, this.Width, this.Height);
-                lightHtmlBox.LoadHtmlDom(CreateHtml());
+                lightHtmlBox.LoadHtmlDom(CreatePresentationDom());
                 lightHtmlBox.SetLocation(this.Left, this.Top);
-
                 this.lightHtmlBox = lightHtmlBox;
-                return lightHtmlBox.GetPrimaryRenderElement(rootgfx);
-
             }
-            else
+            return this.lightHtmlBox;
+        }
+
+        //---------------------------------------------------------------------------
+        public string Text
+        {
+            get { return this.checkBoxText; }
+            set
             {
-                return lightHtmlBox.GetPrimaryRenderElement(rootgfx);
-            }
+                this.checkBoxText = value;
 
+            }
         }
         public bool Checked
         {
@@ -93,27 +79,23 @@ namespace LayoutFarm.HtmlWidgets
                 }
             }
         }
-        public event EventHandler WhenChecked;
-
-        FragmentHtmlDocument CreateHtml()
+        public event EventHandler WhenChecked; 
+        FragmentHtmlDocument CreatePresentationDom()
         {
-            FragmentHtmlDocument htmldoc = this.htmlIslandHost.CreateNewFragmentHtml();
 
+            FragmentHtmlDocument htmldoc = this.htmlIslandHost.CreateNewFragmentHtml();
             //TODO: use template engine, 
             //ideas:  AngularJS style ?
 
             //1. create body node             
             // and content   
-            //style 2, lambda and adhoc attach event
-
-
+            //style 2, lambda and adhoc attach event  
             var domElement =
                 htmldoc.RootNode.AddChild("div", div =>
                 {
                     div.SetAttribute("style", "font:10pt tahoma;");
                     div.AddChild("img", img =>
                     {
-
                         //init 
                         bool is_close = true;
                         img.SetAttribute("src", "../../Demo/arrow_close.png");
@@ -125,12 +107,12 @@ namespace LayoutFarm.HtmlWidgets
                             is_close = !is_close;
                             e.StopPropagation();
 
-                            this.InvalidateGraphics();
+                            lightHtmlBox.InvalidateGraphics();
                         });
+
                     });
                     div.AddChild("img", img =>
                     {
-
                         //change style
                         bool is_close = true;
                         img.SetAttribute("src", "../../Demo/arrow_close.png");
@@ -144,15 +126,16 @@ namespace LayoutFarm.HtmlWidgets
                             is_close = !is_close;
                             e.StopPropagation();
 
-                            this.InvalidateGraphics();
+                            lightHtmlBox.InvalidateGraphics();
                         });
                     });
-
+                    div.AddChild("span", span =>
+                    {
+                        span.AddTextContent(this.checkBoxText);
+                    });
                 });
 
             return htmldoc;
         }
     }
-
-
 }
