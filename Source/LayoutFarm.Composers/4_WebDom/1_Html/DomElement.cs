@@ -11,7 +11,7 @@ namespace LayoutFarm.WebDom
 
         internal int nodePrefixNameIndex;
         internal int nodeLocalNameIndex;
-        List<DomAttribute> myAttributes;
+        Dictionary<int, DomAttribute> myAttributes;
         List<DomNode> myChildrenNodes;
         //------------------------------------------- 
         DomAttribute attrElemId;
@@ -47,11 +47,11 @@ namespace LayoutFarm.WebDom
         {
             if (myAttributes != null)
             {
-                int j = myAttributes.Count;
-                for (int i = 0; i < j; ++i)
+                foreach (DomAttribute attr in myAttributes.Values)
                 {
-                    yield return myAttributes[i];
+                    yield return attr;
                 }
+                 
             }
         }
         public IEnumerable<DomNode> GetChildNodeIterForward()
@@ -80,17 +80,15 @@ namespace LayoutFarm.WebDom
                 }
             }
         }
-
         public DomNode GetChildNode(int index)
         {
             return this.myChildrenNodes[index];
         }
-
-        public void AddAttribute(DomAttribute attr)
+        public void SetAttribute(DomAttribute attr)
         {
             if (myAttributes == null)
             {
-                myAttributes = new List<DomAttribute>();
+                myAttributes = new Dictionary<int, DomAttribute>();
             }
             //-----------
             //some wellknownattr 
@@ -106,7 +104,39 @@ namespace LayoutFarm.WebDom
                         this.attrClass = attr;
                     } break;
             }
-            myAttributes.Add(attr);
+            //--------------------
+            var attrNameIndex = this.OwnerDocument.AddStringIfNotExists(attr.LocalName); 
+            myAttributes[attrNameIndex]= attr;//update or replace 
+            attr.SetParent(this);
+            NotifyChange(ElementChangeKind.AddAttribute);
+        }
+        public void SetAttribute(string attrName, string value)
+        {
+            DomAttribute domAttr = this.OwnerDocument.CreateAttribute(null, attrName);
+            domAttr.Value = value;
+            SetAttribute(domAttr);
+        }
+        public void AddAttribute(DomAttribute attr)
+        {
+            if (myAttributes == null)
+            {
+                myAttributes = new Dictionary<int, DomAttribute>();
+            }
+            //-----------
+            //some wellknownattr 
+            switch (attr.LocalNameIndex)
+            {
+                case (int)WellknownName.Id:
+                    {
+                        this.attrElemId = attr;
+                        this.OwnerDocument.RegisterElementById(this);
+                    } break;
+                case (int)WellknownName.Class:
+                    {
+                        this.attrClass = attr;
+                    } break;
+            }
+            myAttributes.Add(attr.LocalNameIndex, attr);
             attr.SetParent(this);
             NotifyChange(ElementChangeKind.AddAttribute);
         }
@@ -189,6 +219,9 @@ namespace LayoutFarm.WebDom
         {
             if (myAttributes != null)
             {
+                DomAttribute found;
+                myAttributes.TryGetValue(attrLocalNameIndex, out found);
+                return found;
                 for (int i = myAttributes.Count - 1; i >= 0; --i)
                 {
                     if (myAttributes[i].nodeLocalNameIndex == attrLocalNameIndex)
