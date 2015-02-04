@@ -109,29 +109,17 @@ namespace LayoutFarm.HtmlWidgets
             var domElement =
                 htmldoc.RootNode.AddChild("div", div =>
                 {
-                    var styleAttr = htmldoc.CreateAttribute(WellknownName.Style);
-                    styleAttr.Value = "font:10pt tahoma;";
-                    div.AddAttribute(styleAttr);
-
-
+                    div.SetAttribute("style", "font:10pt tahoma;");
                     div.AddChild("img", img =>
                     {
                         this.imageBox = img;
 
-                        //change style
-                        var imgAttr = htmldoc.CreateAttribute(WellknownName.Src);
-                        imgAttr.Value = "../../Demo/arrow_close.png";
-                        img.AddAttribute(imgAttr);
-                        //3. attach event to specific span
-
+                        //change style 
+                        img.SetAttribute("src", "../../Demo/arrow_close.png"); 
                         img.AttachMouseDownEvent(e =>
                         {
-
-                            imgAttr.Value = "../../Demo/arrow_open.png";
+                            img.SetAttribute("src", "../../Demo/arrow_open.png");   
                             e.StopPropagation();
-
-                            img.NotifyChange(ElementChangeKind.AttributeChanged);
-
                             this.InvalidateGraphics();
                         });
                     });
@@ -140,19 +128,12 @@ namespace LayoutFarm.HtmlWidgets
                         this.imageBox = img;
 
                         //change style
-                        var imgAttr = htmldoc.CreateAttribute(WellknownName.Src);
-                        imgAttr.Value = "../../Demo/arrow_close.png";
-                        img.AddAttribute(imgAttr);
-                        //3. attach event to specific span
-
+                        img.SetAttribute("src", "../../Demo/arrow_close.png"); 
+                        //3. attach event to specific span 
                         img.AttachMouseDownEvent(e =>
-                        {
-
-                            imgAttr.Value = "../../Demo/arrow_open.png";
+                        {   
+                            img.SetAttribute("src", "../../Demo/arrow_open.png");  
                             e.StopPropagation();
-
-                            img.NotifyChange(ElementChangeKind.AttributeChanged);
-
                             this.InvalidateGraphics();
                         });
                     });

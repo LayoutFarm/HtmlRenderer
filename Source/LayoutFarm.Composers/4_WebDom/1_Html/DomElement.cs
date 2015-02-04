@@ -115,7 +115,9 @@ namespace LayoutFarm.WebDom
             DomAttribute domAttr = this.OwnerDocument.CreateAttribute(null, attrName);
             domAttr.Value = value;
             SetAttribute(domAttr);
+
         }
+        
         public void AddAttribute(DomAttribute attr)
         {
             if (myAttributes == null)
@@ -222,13 +224,7 @@ namespace LayoutFarm.WebDom
                 DomAttribute found;
                 myAttributes.TryGetValue(attrLocalNameIndex, out found);
                 return found;
-                for (int i = myAttributes.Count - 1; i >= 0; --i)
-                {
-                    if (myAttributes[i].nodeLocalNameIndex == attrLocalNameIndex)
-                    {
-                        return myAttributes[i];
-                    }
-                }
+                 
             }
             return null;
         }
