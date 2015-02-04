@@ -17,7 +17,7 @@ namespace LayoutFarm.InternalHtmlDom
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;
-        CssRuleSet elementRuleSet; 
+        CssRuleSet elementRuleSet;
         public HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
@@ -80,6 +80,12 @@ namespace LayoutFarm.InternalHtmlDom
         {
             return element.principalBox;
         }
+        protected override void OnContentUpdate()
+        {
+            base.OnContentUpdate();
+            OnChangeInIdleState(ElementChangeKind.ContentUpdate);
+             
+        } 
         //------------------------------------
         protected override void OnChangeInIdleState(ElementChangeKind changeKind)
         {
@@ -116,7 +122,7 @@ namespace LayoutFarm.InternalHtmlDom
             get;
             set;
         }
-         
+
     }
 
     sealed class RootElement : HtmlElement

@@ -16,8 +16,17 @@ namespace LayoutFarm.Composers
     public class HtmlDocument : WebDocument
     {
         DomElement rootNode;
+        int domUpdateVersion;
+        EventHandler DomUpdatedHandler;
+
         public HtmlDocument()
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
+        {
+            //default root
+            rootNode = new RootElement(this);
+        }
+        internal HtmlDocument(UniqueStringTable sharedUniqueStringTable)
+            : base(sharedUniqueStringTable)
         {
             //default root
             rootNode = new RootElement(this);
@@ -28,7 +37,24 @@ namespace LayoutFarm.Composers
             {
                 return rootNode;
             }
+            set
+            {
+                this.rootNode = value;
+            }
         }
+        public override int DomUpdateVersion
+        {
+            get { return this.domUpdateVersion; }
+            set
+            {
+                this.domUpdateVersion = value;
+                if (DomUpdatedHandler != null)
+                {
+                    DomUpdatedHandler(this, EventArgs.Empty);
+                }
+            }
+        }
+
         public override DomElement CreateElement(string prefix, string localName)
         {
             return new HtmlElement(this,
@@ -45,12 +71,38 @@ namespace LayoutFarm.Composers
         {
             return new HtmlTextNode(this, strBufferForElement);
         }
-        internal ActiveCssTemplate ActiveCssTemplate
+        internal virtual ActiveCssTemplate ActiveCssTemplate
         {
             get;
             set;
         }
+
+        internal void SetDomUpdateHandler(EventHandler h)
+        {
+            this.DomUpdatedHandler = h;
+        }
+
     }
 
+    public class FragmentHtmlDocument : HtmlDocument
+    {
+        HtmlDocument primaryHtmlDoc;
+        internal FragmentHtmlDocument(HtmlDocument primaryHtmlDoc)
+            : base(primaryHtmlDoc.UniqueStringTable)
+        {
+            this.primaryHtmlDoc = primaryHtmlDoc;
+        }
+        internal override ActiveCssTemplate ActiveCssTemplate
+        {
+            get
+            {
+                return this.primaryHtmlDoc.ActiveCssTemplate;
+            }
+            set
+            {
 
+            }
+        }
+
+    }
 }

@@ -9,6 +9,7 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.CustomWidgets
 {
+
     public class HtmlBoxContentManager
     {
         HtmlBox htmlBox;
@@ -27,23 +28,25 @@ namespace LayoutFarm.CustomWidgets
         public void Bind(HtmlBox htmlBox)
         {
             this.htmlBox = htmlBox;
-            this.htmlBox.RequestImage += htmlBox_RequestImage;
+            this.htmlBox.HtmlIslandHost.RequestResource += (s, e) =>
+                {
+                    foreach (ImageContentManager key in imageContentManList.Keys)
+                    {
+                        key.AddRequestImage(e.binder);
+                    }
+                };
             this.htmlBox.RequestStylesheet += htmlBox_RequestStylesheet;
             this.isBinded = true;
 
         }
+
+
         void htmlBox_RequestStylesheet(object sender, TextLoadRequestEventArgs e)
         {
 
         }
 
-        void htmlBox_RequestImage(object sender, ImageRequestEventArgs e)
-        {
-            foreach (ImageContentManager key in imageContentManList.Keys)
-            {
-                key.AddRequestImage(new ImageContentRequest(e.ImageBinder, null, htmlBox.HtmlIsland));
-            }
-        }
+         
         public void AddTextContentMan(TextContentManager textMan)
         {
             if (this.textContentManList.ContainsKey(textMan))

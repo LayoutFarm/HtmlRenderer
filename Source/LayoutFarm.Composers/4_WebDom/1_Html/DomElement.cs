@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections.Generic;
 
 namespace LayoutFarm.WebDom
-{   
+{
     public abstract partial class DomElement : DomNode
     {
 
@@ -108,6 +108,7 @@ namespace LayoutFarm.WebDom
             }
             myAttributes.Add(attr);
             attr.SetParent(this);
+            NotifyChange(ElementChangeKind.AddAttribute);
         }
         public void AddChild(DomNode childNode)
         {
@@ -166,7 +167,8 @@ namespace LayoutFarm.WebDom
             }
 
         }
-        void NotifyChange(ElementChangeKind changeKind)
+
+        public void NotifyChange(ElementChangeKind changeKind)
         {
             switch (this.DocState)
             {
@@ -276,15 +278,15 @@ namespace LayoutFarm.WebDom
                 return null;
             }
         }
-         
+
         public string Name
         {
             get { return this.LocalName; }
         }
-        
-       
+
+
     }
 
 
- 
+
 }

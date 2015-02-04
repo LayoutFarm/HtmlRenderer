@@ -73,7 +73,7 @@ namespace LayoutFarm.Svg
                     this.ActualHeight);
             if (this._imgRun.ImageBinder == null)
             {
-                this._imgRun.ImageBinder = new ImageBinder(myspec.ImageSrc);
+                this._imgRun.ImageBinder = new SvgImageBinder(myspec.ImageSrc);
             }
             ValidatePath();
 

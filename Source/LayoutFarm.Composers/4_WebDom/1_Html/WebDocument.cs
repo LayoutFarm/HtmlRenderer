@@ -18,8 +18,9 @@ namespace LayoutFarm.WebDom
         public abstract DomElement RootNode
         {
             get;
+            set;
         }
-
+        public abstract int DomUpdateVersion { get; set; }
         public int AddStringIfNotExists(string uniqueString)
         {
             return uniqueStringTable.AddStringIfNotExist(uniqueString);
@@ -78,6 +79,10 @@ namespace LayoutFarm.WebDom
         public void SetDocumentState(DocumentState docstate)
         {
             this.DocumentState = docstate;
+        }
+        internal UniqueStringTable UniqueStringTable
+        {
+            get { return this.uniqueStringTable; }
         }
     }
 

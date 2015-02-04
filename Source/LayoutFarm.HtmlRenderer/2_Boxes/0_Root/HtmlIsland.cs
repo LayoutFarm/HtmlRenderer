@@ -24,7 +24,7 @@ namespace LayoutFarm.HtmlBoxes
     /// <summary>
     /// layout and render the html fragment
     /// </summary>
-    public abstract class HtmlIsland : IUpdateChangeListener, IDisposable
+    public abstract class HtmlIsland : IDisposable
     {
         /// <summary>
         /// the root css box of the parsed html
@@ -40,7 +40,7 @@ namespace LayoutFarm.HtmlBoxes
         float _maxWidth;
         float _maxHeight;
 
-        protected int newUpdateImageCount = 0;
+
         /// <summary>
         /// 99999
         /// </summary>
@@ -143,7 +143,7 @@ namespace LayoutFarm.HtmlBoxes
 
             OnRequestImage(binder, reqBy, false);
         }
-        
+
         internal void UpdateSizeIfWiderOrHigher(float newWidth, float newHeight)
         {
             if (newWidth > this._actualWidth)
@@ -212,13 +212,6 @@ namespace LayoutFarm.HtmlBoxes
             { }
         }
 
-        void IUpdateChangeListener.AddUpdatedImageBinder(ImageBinder binder)
-        {
-            //not need to store that binder 
-            //(else if you want to debug)
-            newUpdateImageCount++;
-            //this.recentUpdateImageBinders.Add(binder);
-        }
 
     }
 }

@@ -56,6 +56,8 @@ namespace LayoutFarm
 
         public abstract void ClearRenderRequests();
         public abstract void AddToLayoutQueue(RenderElement renderElement);
+        public abstract void AddToUpdateQueue(object toupdateObj);
+
         public bool LayoutQueueClearing
         {
             get;
@@ -92,11 +94,12 @@ namespace LayoutFarm
         public abstract void PrepareRender();
         public void FlushAccumGraphics()
         {
+
             if (!this.hasAccumRect)
             {
                 return;
             }
-
+            
             this.canvasInvalidateDelegate(accumulateInvalidRect);
             this.paintToOutputWindowHandler();
 
@@ -285,6 +288,6 @@ namespace LayoutFarm
         public abstract void CaretStopBlink();
         public bool CaretHandleRegistered { get; set; }
         //---------------------------------------------
-
+               
     }
 }

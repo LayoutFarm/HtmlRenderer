@@ -1,4 +1,4 @@
-﻿//BSD 2014,WinterDev
+﻿//BSD 2014-2015,WinterDev
 
 using System;
 using System.Collections.Generic;
@@ -10,8 +10,8 @@ namespace LayoutFarm.HtmlBoxes
     public class CssBoxListItem : CssBox
     {
         CssBox _listItemBulletBox;
-        public CssBoxListItem(object controller, Css.BoxSpec spec)
-            : base(controller, spec)
+        public CssBoxListItem(object controller, Css.BoxSpec spec, RootGraphic rootgfx)
+            : base(controller, spec, rootgfx)
         {
         }
         public CssBox BulletBox

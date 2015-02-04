@@ -4,32 +4,38 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-  
+
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
 {
-    public class ListView : UIBox
+    //tab page similar to listview
+
+    public class TabPageContainer : UIBox
     {
         //composite          
         CustomRenderBox primElement;//background
-
         Color backColor = Color.LightGray;
         int viewportX, viewportY;
         List<UICollection> layers = new List<UICollection>(1);
+        List<TabPage> tabPageCollection = new List<TabPage>();
 
-        int latestItemY; 
+        TabPage currentPage;
         Panel panel;
-        public ListView(int width, int height)
+        int currentSelectedIndex;
+
+        public TabPageContainer(int width, int height)
             : base(width, height)
         {
             UICollection plainLayer = new UICollection(this);
             //panel for listview items
             this.panel = new Panel(width, height);
+            this.panel.PanelLayoutKind = PanelLayoutKind.VerticalStack;
+
             panel.BackColor = Color.LightGray;
             plainLayer.AddUI(panel);
             this.layers.Add(plainLayer);
-        } 
+        }
         protected override bool HasReadyRenderElement
         {
             get { return this.primElement != null; }
@@ -55,7 +61,7 @@ namespace LayoutFarm.CustomWidgets
             if (primElement == null)
             {
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                 
+
                 renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
@@ -85,35 +91,18 @@ namespace LayoutFarm.CustomWidgets
             return primElement;
         }
 
-
-        public void AddItem(ListItem ui)
+        protected override void OnContentLayout()
         {
-            //append last?
-            //not correct if we remove above item
-            //TODO: use automatic arrange layer 
-            ui.SetLocation(0, latestItemY);
-            latestItemY += ui.Height;
-            panel.AddChildBox(ui);
-
+            panel.PerformContentLayout();
         }
-        //----------------------------------------------------
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            if (this.MouseDown != null)
-            {
-                this.MouseDown(this, e);
-            }
-        } 
-        protected override void OnMouseUp(UIMouseEventArgs e)
-        {
-            if (this.MouseUp != null)
-            {
-                MouseUp(this, e);
-            }
-            base.OnMouseUp(e);
-        }
-         
 
+        public override bool NeedContentLayout
+        {
+            get
+            {
+                return this.panel.NeedContentLayout;
+            }
+        }
         public override int ViewportX
         {
             get { return this.viewportX; }
@@ -130,25 +119,76 @@ namespace LayoutFarm.CustomWidgets
             this.viewportY = y;
             if (this.HasReadyRenderElement)
             {
-                this.panel.SetViewport(x, y);                 
+                this.panel.SetViewport(x, y);
             }
         }
+
+
         //----------------------------------------------------
+        public List<TabPage> TabPageList
+        {
+            get { return this.tabPageCollection; }
+        }
+        public void AddItem(TabPage ui)
+        {
+            tabPageCollection.Add(ui);
+            ui.Owner = this;
 
-        public event EventHandler<UIMouseEventArgs> MouseDown;
-        public event EventHandler<UIMouseEventArgs> MouseUp;
-
-        
+            //show only one page per time
+            if (currentPage == null)
+            {
+                currentPage = ui;
+                panel.AddChildBox(ui);
+            }
+        }
+        public void RemoveItem(TabPage p)
+        {
+            p.Owner = null;
+            tabPageCollection.Remove(p);
+            panel.RemoveChildBox(p);
+        }
+        public void ClearPages()
+        {
+            //TODO: implement this
+            
+        }
+        public int SelectedIndex
+        {
+            get { return this.currentSelectedIndex; }
+            set
+            {
+                if (value > -1 && value < this.tabPageCollection.Count
+                    && this.currentSelectedIndex != value)
+                {
+                    this.currentSelectedIndex = value;
+                    TabPage selectednedSelectedPage = this.tabPageCollection[value];
+                    if (currentPage != null)
+                    {
+                        this.panel.RemoveChildBox(currentPage);
+                    }
+                    this.currentPage = selectednedSelectedPage;
+                    this.panel.AddChildBox(currentPage);
+                }
+            }
+        }
     }
 
 
-    public class ListItem : UIBox
+    public class TabPage : UIBox
     {
         CustomRenderBox primElement;
         Color backColor;
-        public ListItem(int width, int height)
+        TabPageContainer owner;
+        public TabPage(int width, int height)
             : base(width, height)
         {
+
+        }
+        public TabPageContainer Owner
+        {
+            get { return this.owner; }
+            internal set { this.owner = value; }
+
         }
         protected override RenderElement CurrentPrimaryRenderElement
         {
@@ -182,5 +222,4 @@ namespace LayoutFarm.CustomWidgets
             }
         }
     }
-
 }

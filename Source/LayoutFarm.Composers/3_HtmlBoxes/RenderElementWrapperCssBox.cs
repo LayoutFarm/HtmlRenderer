@@ -26,7 +26,7 @@ namespace LayoutFarm.HtmlBoxes
         public RenderElementWrapperCssBox(object controller,
              BoxSpec spec,
              RenderElement renderElement)
-            : base(controller, spec, CssDisplay.Block)
+            : base(controller, spec, renderElement.Root, CssDisplay.Block)
         {
             int mmw = 100;
             int mmh = 20;

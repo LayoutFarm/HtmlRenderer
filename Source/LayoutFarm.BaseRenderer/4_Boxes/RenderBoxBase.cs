@@ -56,8 +56,13 @@ namespace LayoutFarm.RenderBoxes
         {
             canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
             updateArea.Offset(myviewportX, myviewportY);
+            var currentClipRect = canvas.CurrentClipRect;
+
+            
 
             this.DrawContent(canvas, updateArea);
+
+             
 
             canvas.OffsetCanvasOrigin(myviewportX, myviewportY);
             updateArea.Offset(-myviewportX, -myviewportY);

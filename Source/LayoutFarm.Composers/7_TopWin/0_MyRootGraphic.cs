@@ -11,12 +11,12 @@ namespace LayoutFarm.UI
 
     public sealed class MyRootGraphic : RootGraphic
     {
+
         List<RenderElement> layoutQueue = new List<RenderElement>();
-        List<RenderElement> layoutQueue2 = new List<RenderElement>();
+        List<HtmlBoxes.MyHtmlIsland> htmlIslandQueue = new List<HtmlBoxes.MyHtmlIsland>();
+
+
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
-
-
-
         List<RenderElementRequest> renderRequestList = new List<RenderElementRequest>();
         GraphicsTimerTaskManager graphicTimerTaskMan;
         GraphicsPlatform graphicsPlatform;
@@ -44,6 +44,7 @@ namespace LayoutFarm.UI
                 20,
                 (s, e) =>
                 {
+                    this.PrepareRender();
                     this.FlushAccumGraphics();
                 });
         }
@@ -76,20 +77,21 @@ namespace LayoutFarm.UI
         }
         public override void PrepareRender()
         {
+            //clear layout queue before render*** 
+            this.ClearLayoutQueue();
+
             this.ClearRenderRequests();
-            //clear layoutqueue
+
             if (layoutQueue.Count == 0)
             {
                 return;
             }
-            ClearLayoutQueue();
             ClearNotificationSizeChangeList();
         }
         void ClearNotificationSizeChangeList()
         {
-        }
 
- 
+        }
         public override GraphicsPlatform P
         {
             get { return graphicsPlatform; }
@@ -185,208 +187,19 @@ namespace LayoutFarm.UI
             }
             renderRequestList.Clear();
         }
-        static void ClearLayoutOn(RenderBoxBase contvs, int i)
-        {
 
-            switch (contvs.GetReLayoutState())
-            {
-                case 0:
-                    {
-                        if (contvs.NeedReCalculateContentSize)
-                        {
-
-#if DEBUG
-                            RenderElement.dbug_SetInitObject(contvs);
-                            RenderElement.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_CAL_ARR, i);
-#endif
-                            if (!RenderElement.IsInTopDownReArrangePhase)
-                            {
-                                RenderElement topMostToBeCal = FindTopMostToBeRecalculate(contvs);
-                                if (topMostToBeCal != null)
-                                {
-                                    topMostToBeCal.TopDownReCalculateContentSize();
-                                }
-                            }
-                            contvs.TopDownReArrangeContentIfNeed();
-#if DEBUG
-                            RenderElement.dbug_EndLayoutTrace();
-#endif
-                        }
-                        else
-                        {
-
-#if DEBUG
-
-                            RenderElement.dbug_SetInitObject(contvs);
-                            RenderElement.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_ARR_CAL, i);
-#endif
-                            contvs.TopDownReArrangeContentIfNeed();
-#if DEBUG
-                            RenderElement.dbug_EndLayoutTrace();
-#endif
-                        }
-
-                    } break;
-                case 1:
-                    {
-#if DEBUG
-                        RenderElement.dbug_SetInitObject(contvs);
-                        RenderElement.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_CAL, i);
-#endif
-                        if (!RenderElement.IsInTopDownReArrangePhase)
-                        {
-                            RenderElement topMostToBeCal = FindTopMostToBeRecalculate(contvs);
-                            if (topMostToBeCal != null)
-                            {
-                                topMostToBeCal.TopDownReCalculateContentSize();
-                            }
-                        }
-                        contvs.TopDownReArrangeContentIfNeed();
-
-#if DEBUG
-                        RenderElement.dbug_EndLayoutTrace();
-#endif
-
-                    } break;
-                case 2:
-                    {
-
-#if DEBUG
-                        RenderElement.dbug_SetInitObject(contvs);
-                        RenderElement.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.Clear_ARR, i);
-#endif
-                        contvs.TopDownReArrangeContentIfNeed();
-#if DEBUG
-                        RenderElement.dbug_EndLayoutTrace();
-#endif
-
-
-                    } break;
-
-            }
-        }
-        static RenderElement FindTopMostToBeRecalculate(RenderElement veContainerBase)
-        {
-
-#if DEBUG
-            dbugVisualLayoutTracer debugVisualLay = RootGraphic.dbugCurrentGlobalVRoot.dbug_GetLastestVisualLayoutTracer();
-
-#endif
-
-            if (RenderElement.IsLayoutSuspending((RenderBoxBase)veContainerBase))
-            {
-#if DEBUG
-                dbug_WriteInfo(debugVisualLay, dbugVisitorMessage.E_RECAL_BUB_EARLY_EXIT, veContainerBase);
-
-#endif
-                return null;
-            }
-
-            if (!veContainerBase.NeedReCalculateContentSize)
-            {
-#if DEBUG
-                dbug_WriteInfo(debugVisualLay, dbugVisitorMessage.NOT_NEED_RECAL, veContainerBase);
-#endif
-                return null;
-            }
-#if DEBUG
-
-            dbug_BeginNewContext(debugVisualLay, dbugVisitorMessage.E_RECAL_BUB_0, veContainerBase);
-#endif
-
-
-            if (veContainerBase.IsTopWindow)
-            {
-#if DEBUG
-
-                dbug_EndCurrentContext(debugVisualLay, dbugVisitorMessage.E_RECAL_BUB_1, veContainerBase);
-#endif
-                return veContainerBase;
-            }
-            else
-            {
-
-                var ownerContainer = veContainerBase.ParentRenderElement as RenderBoxBase;
-
-                if (ownerContainer != null && !RenderBoxBase.IsLayoutSuspending(ownerContainer))
-                {
-
-                    if (ownerContainer.HasParent)
-                    {
-
-                        RenderElement found = FindTopMostToBeRecalculate(ownerContainer);
-                        if (found != null)
-                        {
-#if DEBUG
-
-                            dbug_EndCurrentContext(debugVisualLay, dbugVisitorMessage.E_RECAL_BUB_1, veContainerBase);
-#endif
-                            return found;
-                        }
-                        else
-                        {
-#if DEBUG
-
-                            dbug_EndCurrentContext(debugVisualLay, dbugVisitorMessage.E_RECAL_BUB_1, veContainerBase);
-#endif
-                            return veContainerBase;
-                        }
-
-                    }
-                    else
-                    {
-#if DEBUG
-
-                        dbug_EndCurrentContext(debugVisualLay, dbugVisitorMessage.E_RECAL_BUB_1, veContainerBase);
-#endif
-                        return ownerContainer;
-                    }
-
-                }
-#if DEBUG
-                else
-                {
-                    if (ownerContainer == null)
-                    {
-                        dbug_WriteInfo(debugVisualLay, dbugVisitorMessage.NO_OWNER_LAY, null);
-                    }
-                    else if (RenderElement.IsLayoutSuspending(ownerContainer))
-                    {
-                        dbug_WriteInfo(debugVisualLay, dbugVisitorMessage.OWNER_LAYER_SUSPEND_SO_EARLY_EXIT, null);
-                    }
-                }
-#endif
-            }
-
-#if DEBUG
-
-            dbug_EndCurrentContext(debugVisualLay, dbugVisitorMessage.E_RECAL_BUB_1, veContainerBase);
-#endif
-            return null;
-        }
 
         public override void AddToLayoutQueue(RenderElement renderElement)
         {
 
 #if DEBUG
-
             RootGraphic dbugVisualRoot = this;
 #endif
-
-            if (LayoutQueueClearing)
+            if (renderElement.IsInLayoutQueue)
             {
-                if (renderElement.IsInLayoutQueue)
-                {
-                    return;
-                }
-                else
-                {
-                    renderElement.IsInLayoutQueue = true;
-                    layoutQueue2.Add(renderElement);
-                    return;
-                }
+                return;
             }
-
+            renderElement.IsInLayoutQueue = true;
 #if DEBUG
             dbugVisualRoot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_ADD_TO_LAYOUT_QUEUE, renderElement);
 #endif
@@ -394,67 +207,49 @@ namespace LayoutFarm.UI
             renderElement.IsInLayoutQueue = true;
             layoutQueue.Add(renderElement);
         }
+        public override void AddToUpdateQueue(object toupdateObj)
+        {
+            var htmlIsland = toupdateObj as HtmlBoxes.MyHtmlIsland;
+            if (htmlIsland != null && !htmlIsland.IsInUpdateQueue)
+            {
+                htmlIsland.IsInUpdateQueue = true;
+                htmlIslandQueue.Add(htmlIsland);
+            }
+        }
         void ClearLayoutQueue()
         {
+
             this.LayoutQueueClearing = true;
-
-#if DEBUG
-            RootGraphic visualroot = this;
-            int total = layoutQueue.Count;
-            visualroot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_CLEAR_LAYOUT_enter, total);
-#endif
-
-            var topwin = this.TopWindowRenderBox;
-            if (topwin.NeedReCalculateContentSize || topwin.NeedContentArrangement)
+            int j = this.layoutQueue.Count;
+            for (int i = this.layoutQueue.Count - 1; i >= 0; --i)
             {
-                ClearLayoutOn(topwin, 0);
-                this.TopWindowRenderBox.IsInLayoutQueue = false;
-            }
-            else
-            {
-            }
-            int preClear = layoutQueue.Count;
-            for (int i = preClear - 1; i > -1; --i)
-            {
-
-                RenderElement elem = layoutQueue[i];
-                if (elem.ParentLink != null && elem.MayHasChild)
+                //clear
+                var renderE = this.layoutQueue[i];
+                var controller = renderE.GetController() as IEventListener;
+                if (controller != null)
                 {
-                    RenderBoxBase contvs = (RenderBoxBase)elem;
-                    ClearLayoutOn(contvs, i);
+                    controller.HandleContentLayout();
                 }
-                elem.IsInLayoutQueue = false;
+                renderE.IsInLayoutQueue = false;
+                this.layoutQueue.RemoveAt(i);
             }
-
-            layoutQueue.Clear();
+            //-------------------------------- 
+            j = this.htmlIslandQueue.Count;
+            for (int i = 0; i < j; ++i)
+            {
+                var htmlIsland = htmlIslandQueue[i];
+                htmlIsland.IsInUpdateQueue = false;
+                htmlIsland.RefreshIfNeed();                
+            }
+            for (int i = j - 1; i >= 0; --i)
+            {
+                htmlIslandQueue.RemoveAt(i);
+            }
+            
+            //-------------------------------- 
             this.LayoutQueueClearing = false;
-            if (layoutQueue2.Count > 0)
-            {
-
-                int lay2Count = layoutQueue2.Count;
-                for (int i = 0; i < lay2Count; ++i)
-                {
-                    RenderElement elem = layoutQueue2[i];
-                    if (elem.NeedContentArrangement)
-                    {
-                        elem.ResumeLayout();
-                    }
-                }
-
-                for (int i = 0; i < lay2Count; ++i)
-                {
-                    RenderElement elem = layoutQueue2[i];
-                    elem.IsInLayoutQueue = false;
-                }
-
-                layoutQueue2.Clear();
-            }
-
-#if DEBUG
-
-            visualroot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_CLEAR_LAYOUT_exit);
-#endif
         }
+
 
 #if DEBUG
 

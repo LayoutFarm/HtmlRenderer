@@ -46,7 +46,7 @@ namespace LayoutFarm
 
         internal const int LY_SUSPEND_GRAPHIC = 1 << (12 - 1);
         internal const int LY_IN_LAYOUT_QUEUE = 1 << (13 - 1);
-        internal const int LY_IN_LAYOUT_QCHAIN_UP = 1 << (10 - 1);
+        
 
 
     }

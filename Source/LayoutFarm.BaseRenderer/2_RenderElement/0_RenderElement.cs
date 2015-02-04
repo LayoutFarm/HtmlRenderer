@@ -11,8 +11,6 @@ namespace LayoutFarm
 
     public abstract partial class RenderElement : IRenderElement
     {
-
-
         RootGraphic rootGfx;
         IParentLink parentLink;
         object controller;
@@ -152,7 +150,7 @@ namespace LayoutFarm
 
                 if (parentLink != null)
                 {
-                    this.InvalidateGraphicBounds(this.RectBounds);                     
+                    this.InvalidateGraphicBounds(this.RectBounds);
                 }
             }
         }
@@ -345,6 +343,5 @@ namespace LayoutFarm
             visualElement.b_left = x;
             visualElement.b_top = y;
         }
-
     }
 }

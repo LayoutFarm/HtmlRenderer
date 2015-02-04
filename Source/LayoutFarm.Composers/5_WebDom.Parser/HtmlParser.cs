@@ -65,8 +65,8 @@ namespace LayoutFarm.WebDom.Parser
                     } break;
                 case HtmlLexerEvent.Attribute:
                     {
-                        string nodename = textSnapshot.Substring(startIndex, len); 
-                        curAttr = this._resultHtmlDoc.CreateAttribute(null, nodename); 
+                        string nodename = textSnapshot.Substring(startIndex, len);
+                        curAttr = this._resultHtmlDoc.CreateAttribute(null, nodename);
 
                     } break;
                 case HtmlLexerEvent.NodeNameOrAttribute:
@@ -195,9 +195,8 @@ namespace LayoutFarm.WebDom.Parser
             }
         }
 
-        void ResetParser()
+        public void ResetParser()
         {
-
             this._resultHtmlDoc = null;
             this.htmlNodeStack.Clear();
             this.curHtmlNode = null;
@@ -205,24 +204,24 @@ namespace LayoutFarm.WebDom.Parser
             this.curTextNode = null;
             this.parseState = 0;
             this.textSnapshot = null;
-
         }
         /// <summary>
         /// parse to htmldom
         /// </summary>
         /// <param name="stbuilder"></param>
-        public void Parse(TextSnapshot textSnapshot, WebDocument blankHtmlDoc)
+        public void Parse(TextSnapshot textSnapshot, WebDocument htmldoc, DomElement currentNode)
         {
-            ResetParser();
+           
 
             this.textSnapshot = textSnapshot;
             //1. lex 
             lexer.BeginLex();
             //2. mini parser    
-            this.curHtmlNode = blankHtmlDoc.RootNode;
-            this._resultHtmlDoc = blankHtmlDoc;
+            this.curHtmlNode = currentNode;
+            this._resultHtmlDoc = htmldoc;
             lexer.Analyze(textSnapshot);
             lexer.EndLex();
+
         }
 
 

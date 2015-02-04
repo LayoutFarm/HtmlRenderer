@@ -18,7 +18,7 @@ namespace LayoutFarm.Text
         }
         public void AttachTextDomListener(TextSurfaceEventListener listener)
         {
-            this.visualTextSurface.TextDomListener = listener;
+            this.visualTextSurface.TextSurfaceListener = listener;
         }
         public void AddTextRunsToCurrentLine(IEnumerable<EditableTextSpan> textRuns)
         {

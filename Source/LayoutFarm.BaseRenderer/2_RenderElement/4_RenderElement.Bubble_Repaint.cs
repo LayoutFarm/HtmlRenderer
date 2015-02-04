@@ -20,7 +20,6 @@ namespace LayoutFarm
 #if DEBUG
                 dbugVRoot.dbug_PushInvalidateMsg(RootGraphic.dbugMsg_BLOCKED, this);
 #endif
-
                 return false;
             }
 
@@ -28,8 +27,11 @@ namespace LayoutFarm
             RootInvalidateGraphicArea(this, ref rect);
             return true;//TODO: review this 
         }
-
-        internal void InvalidateGraphicBounds(Rectangle totalBounds)
+        public void InvalidateGraphicBounds()
+        {
+            this.InvalidateGraphicBounds(this.RectBounds);
+        }
+        public void InvalidateGraphicBounds(Rectangle totalBounds)
         {
             propFlags &= ~RenderElementConst.IS_GRAPHIC_VALID;
             var parent = this.ParentRenderElement; //start at parent ****
@@ -38,7 +40,7 @@ namespace LayoutFarm
             {
                 return;
             }
-            this.rootGfx.InvalidateGraphicArea(parent, ref totalBounds); 
+            this.rootGfx.InvalidateGraphicArea(parent, ref totalBounds);
         }
 
         static void RootInvalidateGraphicArea(RenderElement re, ref Rectangle rect)
@@ -54,7 +56,7 @@ namespace LayoutFarm
             if (localArea.Height == 0 || localArea.Width == 0)
             {
                 return;
-            } 
+            }
             RootInvalidateGraphicArea(re, ref localArea);
         }
 
@@ -91,37 +93,7 @@ namespace LayoutFarm
 #endif
             }
         }
-        //internal void BeginGraphicUpdate()
-        //{
-        //    InvalidateGraphics();
-        //    this.rootGfx.BeginGraphicUpdate();
-        //    this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;
-        //}
 
-        //internal void EndGraphicUpdate()
-        //{
-        //    this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
-
-        //    if (InvalidateGraphics())
-        //    {
-        //        this.rootGfx.EndGraphicUpdate();
-        //    }
-        //}
-        //void BeforeBoundChangedInvalidateGraphics()
-        //{
-        //    InvalidateGraphics();
-        //    this.rootGfx.BeginGraphicUpdate();
-        //    this.uiLayoutFlags |= RenderElementConst.LY_SUSPEND_GRAPHIC;
-        //}
-        //void AfterBoundChangedInvalidateGraphics()
-        //{
-        //    this.uiLayoutFlags &= ~RenderElementConst.LY_SUSPEND_GRAPHIC;
-
-        //    if (InvalidateGraphics())
-        //    {
-        //        this.rootGfx.EndGraphicUpdate();
-        //    }
-        //} 
     }
 
 }

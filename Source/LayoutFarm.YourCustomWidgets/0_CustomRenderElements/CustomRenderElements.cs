@@ -13,7 +13,7 @@ namespace LayoutFarm.CustomWidgets
 
     public class CustomRenderBox : RenderBoxBase
     {
-
+        Color backColor;
 #if DEBUG
         public bool dbugBreak;
 #endif
@@ -23,13 +23,23 @@ namespace LayoutFarm.CustomWidgets
             this.BackColor = Color.LightGray;
 
         }
+
         public override void ClearAllChildren()
         {
+
         }
         public Color BackColor
         {
-            get;
-            set;
+            get { return this.backColor; }
+            set
+            {
+                this.backColor = value;
+                if (this.ParentLink != null)
+                {
+                    this.InvalidateGraphics();
+                }
+            }
+
         }
         public VisualLayerCollection Layers
         {
@@ -39,7 +49,8 @@ namespace LayoutFarm.CustomWidgets
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             //sample bg   
-            canvas.FillRectangle(BackColor, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
+            //canvas.FillRectangle(BackColor, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
+            canvas.FillRectangle(BackColor, 0, 0, this.Width, this.Height);
             if (this.Layers != null)
             {
                 this.Layers.LayersDrawContent(canvas, updateArea);

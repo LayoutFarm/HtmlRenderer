@@ -92,7 +92,7 @@ namespace LayoutFarm
                 controllerBox1.Visible = false;
                 controllerBox1.TargetBox = null;
             };
-            
+
         }
 
         static void MoveWithSnapToGrid(UIControllerBox controllerBox, UIMouseEventArgs e)
@@ -149,15 +149,15 @@ namespace LayoutFarm
 
             LayoutFarm.CustomWidgets.GridBox gridBox;
 
-            //small controller box
+            //-------------------------------------------
             LayoutFarm.CustomWidgets.EaseBox boxLeftTop;
             LayoutFarm.CustomWidgets.EaseBox boxRightTop;
-
             LayoutFarm.CustomWidgets.EaseBox boxLeftBottom;
             LayoutFarm.CustomWidgets.EaseBox boxRightBottom;
-
+            //-------------------------------------------
 
             DockSpacesController dockspaceController;
+             
             public UIControllerBox(int w, int h)
                 : base(w, h)
             {
@@ -220,6 +220,8 @@ namespace LayoutFarm
                 this.dockspaceController.RightTopSpace.Content = boxRightTop = CreateTinyControlBox(SpaceName.RightTop);
                 this.dockspaceController.LeftBottomSpace.Content = boxLeftBottom = CreateTinyControlBox(SpaceName.LeftBottom);
                 this.dockspaceController.RightBottomSpace.Content = boxRightBottom = CreateTinyControlBox(SpaceName.RightBottom);
+
+             
             }
 
             CustomWidgets.EaseBox CreateTinyControlBox(SpaceName name)

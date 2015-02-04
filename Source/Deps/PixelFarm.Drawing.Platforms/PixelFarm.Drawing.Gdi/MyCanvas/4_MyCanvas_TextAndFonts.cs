@@ -25,6 +25,7 @@ namespace PixelFarm.Drawing.WinGdi
         Brush currentBrush;
         Font currentTextFont = null;
         Color mycurrentTextColor = Color.Black;
+        IntPtr rectRgn;
         //======================================
         //IFonts impl
         PixelFarm.Drawing.FontInfo IFonts.GetFontInfo(string fontname, float fsize, FontStyle st)
@@ -111,13 +112,29 @@ namespace PixelFarm.Drawing.WinGdi
 
 
         public override void DrawText(char[] buffer, int x, int y)
-        {   
+        {
             ReleaseHdc();
+
             IntPtr gxdc = gx.GetHdc();
             MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
+            System.Drawing.Rectangle clipRect = currentClipRect;
+            //System.Drawing.Rectangle.Intersect(logicalTextBox.ToRect(), currentClipRect);
+            clipRect.Offset(CanvasOrgX, CanvasOrgY);
+            MyWin32.SetRectRgn(hRgn, clipRect.X, clipRect.Y, clipRect.Right, clipRect.Bottom);
+            MyWin32.SelectClipRgn(gxdc, hRgn);
             NativeTextWin32.TextOut(gxdc, x, y, buffer, buffer.Length);
+            MyWin32.SelectClipRgn(gxdc, IntPtr.Zero);
+
             MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
-            gx.ReleaseHdc(gxdc);
+            gx.ReleaseHdc();
+
+
+            //IntPtr gxdc = gx.GetHdc();
+            //MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
+
+            //NativeTextWin32.TextOut(gxdc, x, y, buffer, buffer.Length);
+            //MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
+            //gx.ReleaseHdc(gxdc);
 
         }
         public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
@@ -185,23 +202,50 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 unsafe
                 {
+
+                    var intersectRect = Rectangle.Intersect(logicalTextBox,
+                        new Rectangle(currentClipRect.Left,
+                            currentClipRect.Top,
+                            currentClipRect.Width,
+                            currentClipRect.Height)); 
+                    intersectRect.Offset(canvasOriginX, canvasOriginY); 
+                    MyWin32.SetRectRgn(hRgn,
+                     intersectRect.Left,
+                     intersectRect.Top,
+                     intersectRect.Right,
+                     intersectRect.Bottom);
+                    MyWin32.SelectClipRgn(_hdc, hRgn); 
+
                     fixed (char* startAddr = &str[0])
                     {
-                        //DrawingBridge.Win32Utils.TextOut2(_hdc, 
-                        //    (int)Math.Round(logicalTextBox.X + canvasOriginX),
-                        //    (int)Math.Round(logicalTextBox.Y + canvasOriginY),
-                        //    (startAddr + startAt), len);
                         Win32.Win32Utils.TextOut2(_hdc,
                             (int)logicalTextBox.X + canvasOriginX,
                             (int)logicalTextBox.Y + canvasOriginY,
                             (startAddr + startAt), len);
                     }
+
                 }
             }
             else
             {
                 //translucent / transparent text
                 InitHdc();
+
+                var intersectRect = Rectangle.Intersect(logicalTextBox,
+                        new Rectangle(currentClipRect.Left,
+                            currentClipRect.Top,
+                            currentClipRect.Width,
+                            currentClipRect.Height));
+                intersectRect.Offset(canvasOriginX, canvasOriginY);
+                MyWin32.SetRectRgn(hRgn,
+                 intersectRect.Left,
+                 intersectRect.Top,
+                 intersectRect.Right,
+                 intersectRect.Bottom);
+                MyWin32.SelectClipRgn(_hdc, hRgn); 
+
+
+
                 unsafe
                 {
                     fixed (char* startAddr = &str[0])

@@ -138,11 +138,7 @@ namespace LayoutFarm.Css
         public CssLength BorderLeftWidth
         {
             get { return this._borderFeats.LeftWidth; }
-            set
-            {
-                if (Assignable()) CheckBorderVersion().LeftWidth = value;
-                //this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_LEFT;
-            }
+            set { if (Assignable()) CheckBorderVersion().LeftWidth = value; }
         }
 
         public CssLength BorderRightWidth
@@ -151,7 +147,6 @@ namespace LayoutFarm.Css
             set
             {
                 if (Assignable()) CheckBorderVersion().RightWidth = value;
-                // this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_RIGHT;
             }
         }
 
@@ -161,7 +156,7 @@ namespace LayoutFarm.Css
             set
             {
                 if (Assignable()) CheckBorderVersion().BottomWidth = value;
-                //this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_BOTTOM;
+
             }
         }
 
@@ -171,7 +166,7 @@ namespace LayoutFarm.Css
             set
             {
                 if (Assignable()) CheckBorderVersion().TopWidth = value;
-                //this._prop_pass_eval &= ~CssBoxAssignments.BORDER_WIDTH_TOP;
+
             }
         }
         //--------------------------------------------------------------------------------------
@@ -185,8 +180,7 @@ namespace LayoutFarm.Css
             get { return this._borderFeats.LeftStyle; }
             set
             {
-                if (Assignable())
-                    CheckBorderVersion().LeftStyle = value;
+                if (Assignable()) CheckBorderVersion().LeftStyle = value;
             }
         }
         public CssBorderStyle BorderRightStyle
@@ -219,8 +213,7 @@ namespace LayoutFarm.Css
             get { return this._borderFeats.RightColor; }
             set
             {
-                if (Assignable())
-                    CheckBorderVersion().RightColor = value;
+                if (Assignable()) CheckBorderVersion().RightColor = value;
             }
 
         }
@@ -230,8 +223,7 @@ namespace LayoutFarm.Css
             get { return this._borderFeats.TopColor; }
             set
             {
-                if (Assignable())
-                    CheckBorderVersion().TopColor = value;
+                if (Assignable()) CheckBorderVersion().TopColor = value;
             }
         }
         public CssLength BorderSpacingVertical
@@ -336,7 +328,6 @@ namespace LayoutFarm.Css
             set
             {
                 if (Assignable()) CheckPaddingVersion().Right = value;
-
             }
         }
 
@@ -450,7 +441,6 @@ namespace LayoutFarm.Css
             set
             {
                 if (Assignable()) _lineHeight = value;
-                // this._prop_pass_eval &= ~CssBoxAssignments.LINE_HEIGHT;
             }
         }
         public CssVerticalAlign VerticalAlign
@@ -613,7 +603,7 @@ namespace LayoutFarm.Css
                 return this._backgroundFeats.BackgroundColor;
             }
         }
-        internal FontInfo GetFontInfo(IFonts fontPool, float parentFontSize)
+        internal FontInfo GetFontInfo(IFonts ifonts, float parentFontSize)
         {
 
             //---------------------------------------
@@ -723,7 +713,7 @@ namespace LayoutFarm.Css
                 fsize = FontDefaultConfig.DEFAULT_FONT_SIZE;
             }
 
-            FontInfo fontInfo = fontPool.GetFontInfo(fontFam, fsize, st);
+            FontInfo fontInfo = ifonts.GetFontInfo(fontFam, fsize, st);
             if (!relateToParent)
             {
                 //cahce value
@@ -783,9 +773,7 @@ namespace LayoutFarm.Css
             return true;
 
         }
-#endif
-
-
+#endif 
     }
 
 

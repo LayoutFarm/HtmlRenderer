@@ -6,7 +6,7 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.UI
 {
     partial class UIElement
-    {   
+    {
         void IEventListener.ListenKeyPress(UIKeyEventArgs e)
         {
             OnKeyPress(e);
@@ -24,16 +24,17 @@ namespace LayoutFarm.UI
             return OnProcessDialogKey(e);
         }
         void IEventListener.ListenMouseDown(UIMouseEventArgs e)
-        {   
+        {
             OnMouseDown(e);
-        } 
+        
+        }
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
-        {  
-            OnMouseMove(e); 
+        {
+            OnMouseMove(e);
         }
         void IEventListener.ListenMouseUp(UIMouseEventArgs e)
-        {   
-            OnMouseUp(e); 
+        {
+            OnMouseUp(e);
         }
         void IEventListener.ListenLostMouseFocus(UIMouseEventArgs e)
         {
@@ -52,7 +53,7 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenMouseLeave(UIMouseEventArgs e)
         {
-            OnMouseLeave(e);  
+            OnMouseLeave(e);
         }
         void IEventListener.ListenGotKeyboardFocus(UIFocusEventArgs e)
         {
@@ -62,6 +63,16 @@ namespace LayoutFarm.UI
         {
             OnLostFocus(e);
         }
+
+        void IEventListener.HandleContentLayout()
+        {
+            OnContentLayout();
+        }
+        void IEventListener.HandleContentUpdate()
+        {
+            OnContentUpdate();
+        }
+
 
     }
 }

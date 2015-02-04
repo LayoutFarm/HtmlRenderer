@@ -52,12 +52,18 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 #endif
+        public override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
+        {
+            var p = PainterStock2.GetSharedPainter(null, canvas);             
+            this.Paint(p);
+            PainterStock2.ReleaseSharedPainter(p);
 
+        }
         protected virtual void PaintImp(PaintVisitor p)
         {
 
             Css.CssDisplay display = this.CssDisplay;
-             
+
 
             if (display == Css.CssDisplay.TableCell &&
                 this.EmptyCells == Css.CssEmptyCell.Hide &&

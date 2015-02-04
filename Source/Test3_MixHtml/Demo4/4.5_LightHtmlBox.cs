@@ -17,46 +17,44 @@ namespace LayoutFarm
     class Demo_LightHtmlBox : DemoBase
     {
         HtmlIslandHost islandHost;
-        LightHtmlBoxHost lightBoxHost;
+
         protected override void OnStartDemo(SampleViewport viewport)
         {
-            this.islandHost = new HtmlIslandHost();
-            this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
-
-            lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P);
-            lightBoxHost.RootGfx = viewport.ViewportControl.RootGfx;
-
+            islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);
             ////==================================================
             //html box
             {
-                LightHtmlBox lightHtmlBox = lightBoxHost.CreateLightBox(800, 50);
+
+                LightHtmlBox lightHtmlBox = new LightHtmlBox(islandHost, 800, 50);
                 lightHtmlBox.SetLocation(50, 450);
                 viewport.AddContent(lightHtmlBox);
                 //light box can't load full html
                 //all light boxs of the same lightbox host share resource with the host
                 string html = @"<div>OK1</div><div>OK2</div>";
                 //if you want to use full html-> use HtmlBox instead  
-                lightHtmlBox.LoadHtmlFragmentText(html);
+                lightHtmlBox.LoadHtmlFragmentString(html);
             }
             //==================================================  
             {
-                LightHtmlBox lightHtmlBox2 = lightBoxHost.CreateLightBox(800, 50);
+
+                LightHtmlBox lightHtmlBox2 = new LightHtmlBox(islandHost, 800, 50);
                 lightHtmlBox2.SetLocation(0, 60);
                 viewport.AddContent(lightHtmlBox2);
                 //light box can't load full html
                 //all light boxs of the same lightbox host share resource with the host
                 string html2 = @"<div>OK3</div><div>OK4</div>";
                 //if you want to use ful l html-> use HtmlBox instead  
-                lightHtmlBox2.LoadHtmlFragmentText(html2);
+                lightHtmlBox2.LoadHtmlFragmentString(html2);
             }
             //==================================================  
             {
-                LightHtmlBox lightHtmlBox3 = lightBoxHost.CreateLightBox(800, 50);
+
+                LightHtmlBox lightHtmlBox3 = new LightHtmlBox(islandHost, 800, 50);
                 lightHtmlBox3.SetLocation(0, 100);
                 viewport.AddContent(lightHtmlBox3);
                 //fragment dom 
                 //create dom then to thie light box
-                lightHtmlBox3.LoadHtmlFragmentDom(CreateSampleHtmlDoc());
+                lightHtmlBox3.LoadHtmlDom(CreateSampleHtmlDoc());
 
             }
             //================================================== 
@@ -66,9 +64,9 @@ namespace LayoutFarm
             viewport.AddContent(textbox);
             textbox.Focus();
         }
-        static HtmlDocument CreateSampleHtmlDoc()
+        FragmentHtmlDocument CreateSampleHtmlDoc()
         {
-            HtmlDocument htmldoc = new HtmlDocument();
+            FragmentHtmlDocument htmldoc = islandHost.CreateNewFragmentHtml();// new HtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  

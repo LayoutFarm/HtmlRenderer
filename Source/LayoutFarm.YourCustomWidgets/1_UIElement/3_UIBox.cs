@@ -49,16 +49,8 @@ namespace LayoutFarm.UI
         public void SetBounds(int left, int top, int width, int height)
         {
             SetLocation(left, top);
-            SetSize(width,height);             
-        }
-        protected abstract RenderElement CurrentPrimaryRenderElement
-        {
-            get;
-        }
-        protected abstract bool HasReadyRenderElement
-        {
-            get;
-        }
+            SetSize(width, height);
+        } 
         public int Left
         {
             get
@@ -138,6 +130,13 @@ namespace LayoutFarm.UI
                 this.CurrentPrimaryRenderElement.InvalidateGraphics();
             }
         }
+        public void InvalidateOuterGraphics()
+        {
+            if (this.CurrentPrimaryRenderElement != null)
+            {
+                this.CurrentPrimaryRenderElement.InvalidateGraphicBounds();
+            }
+        }
         public virtual int ViewportX
         {
             get { return 0; }
@@ -179,10 +178,7 @@ namespace LayoutFarm.UI
 
         //-----------------------------------
 
-        internal static RenderElement GetCurrentPrimaryRenderElement(UIBox box)
-        {
-            return box.CurrentPrimaryRenderElement;
-        }
+        public object Tag { get; set; }
     }
 
 }

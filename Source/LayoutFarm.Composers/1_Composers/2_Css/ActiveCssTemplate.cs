@@ -15,6 +15,10 @@ namespace LayoutFarm.Composers
 
         CssActiveSheet activeSheet;
         bool isCloneOnce = false;
+        Dictionary<TemplateKey, BoxSpec> templatesForTagName = new Dictionary<TemplateKey, BoxSpec>();
+        UniqueStringTable ustrTable = new UniqueStringTable(); 
+
+
         public ActiveCssTemplate(CssActiveSheet activeSheet)
         {
             this.activeSheet = activeSheet;
@@ -66,15 +70,9 @@ namespace LayoutFarm.Composers
             }
         }
 
-        Dictionary<TemplateKey, BoxSpec> templatesForTagName = new Dictionary<TemplateKey, BoxSpec>();
-        UniqueStringTable ustrTable = new UniqueStringTable();
+       
 
-
-
-
-        static readonly char[] _whiteSplitter = new[] { ' ' };
-
-
+        static readonly char[] _whiteSplitter = new[] { ' ' }; 
         internal void ApplyActiveTemplate(string elemName, string class_value, BoxSpec currentBoxSpec, BoxSpec parentSpec)
         {
 

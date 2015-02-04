@@ -9,6 +9,8 @@ namespace LayoutFarm.UI
     {
         int oneBitNativeEventFlags;
         UIElement parentElement;
+        UIContext uiContext;
+
         public UIElement()
         {
         }
@@ -23,6 +25,20 @@ namespace LayoutFarm.UI
         }
         public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
 
+        
+
+        protected abstract RenderElement CurrentPrimaryRenderElement
+        {
+            get;
+        }
+        internal static RenderElement GetCurrentPrimaryRenderElement(UIElement box)
+        {
+            return box.CurrentPrimaryRenderElement;
+        }
+        protected abstract bool HasReadyRenderElement
+        {
+            get;
+        }
         public abstract void InvalidateGraphics();
         public UIElement ParentUI
         {
@@ -30,6 +46,11 @@ namespace LayoutFarm.UI
             set { this.parentElement = value; }
         }
 
+
+        public virtual bool NeedContentLayout
+        {
+            get { return false; }
+        }
         //-------------------------------------------------------
         protected virtual void OnShown()
         {
@@ -87,6 +108,22 @@ namespace LayoutFarm.UI
         protected virtual bool OnProcessDialogKey(UIKeyEventArgs e)
         {
             return false;
+        }
+
+        //------------------------------------------------------------
+        public void InvalidateLayout()
+        {
+            //add to layout queue
+            if (this.HasReadyRenderElement)
+            {
+                this.CurrentPrimaryRenderElement.Root.AddToLayoutQueue(this.CurrentPrimaryRenderElement);
+            }
+        }
+        protected virtual void OnContentLayout()
+        {
+        }
+        protected virtual void OnContentUpdate()
+        {
         }
 
 #if DEBUG
