@@ -107,7 +107,7 @@ namespace LayoutFarm.HtmlBoxes
             adapter.Unbind();
             this.inputEventAdapterStock.Enqueue(adapter);
         }
-        internal LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder(RootGraphic rootgfx)
+        public LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder(RootGraphic rootgfx)
         {
             if (this.renderTreeBuilder == null)
             {

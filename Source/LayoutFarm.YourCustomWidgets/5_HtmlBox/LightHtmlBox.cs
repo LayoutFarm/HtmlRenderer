@@ -281,8 +281,8 @@ namespace LayoutFarm.CustomWidgets
                 //---------------------------
                 if (frgmRenderBox == null) return;
                 //--------------------------- 
-
-                this.lightBoxHost.RefreshCssTree(myHtmlIsland.RootElement, frgmRenderBox.Root);
+                htmlIslandHost.GetRenderTreeBuilder(frgmRenderBox.Root).RefreshCssTree(myHtmlIsland.RootElement);
+                //this.lightBoxHost.RefreshCssTree(myHtmlIsland.RootElement, frgmRenderBox.Root);
 
                 var lay = this.htmlIslandHost.GetSharedHtmlLayoutVisitor(myHtmlIsland);
                 myHtmlIsland.PerformLayout(lay);

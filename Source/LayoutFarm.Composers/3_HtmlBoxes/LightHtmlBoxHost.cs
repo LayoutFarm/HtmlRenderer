@@ -114,10 +114,6 @@ namespace LayoutFarm.HtmlBoxes
             return htmlIsland;
         }
 
-        public void RefreshCssTree(WebDom.DomElement element, RootGraphic rootgfx)
-        {
-            var renderTreeBuilder = this.islandHost.GetRenderTreeBuilder(rootgfx);
-            renderTreeBuilder.RefreshCssTree(element);
-        }
+        
     }
 }
