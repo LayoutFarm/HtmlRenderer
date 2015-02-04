@@ -26,8 +26,8 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="controller">the html tag data of this box</param>
-        public CssBoxHr(object controller, Css.BoxSpec spec)
-            : base(controller, spec)
+        public CssBoxHr(object controller, Css.BoxSpec spec,RootGraphic rootgfx)
+            : base(controller, spec, rootgfx)
         {
             ChangeDisplayType(this, Css.CssDisplay.Block);
         }

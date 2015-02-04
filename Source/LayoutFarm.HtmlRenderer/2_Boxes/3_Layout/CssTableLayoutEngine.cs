@@ -111,10 +111,10 @@ namespace LayoutFarm.HtmlBoxes
             {
                 var latestCB = lay.LatestContainingBlock;
                 float box_fontsize = box.ActualFont.Size;
-                var fontPool = lay.SampleIFonts;
+                var ifonts = lay.SampleIFonts;
                 foreach (var childBox in box.GetChildBoxIter())
                 {
-                    childBox.ReEvaluateFont(fontPool, box_fontsize);
+                    childBox.ReEvaluateFont(ifonts, box_fontsize);
                     childBox.MeasureRunsSize(lay);
                     S1_RecursiveMeasureRunContentSize(childBox, lay); //recursive
                 }

@@ -111,14 +111,6 @@ namespace LayoutFarm.ContentManagers
                         //store to cache 
                         //TODO: implement caching policy  
                         imageCacheLevel0.AddCacheImage(binder.ImageSource, binder.Image);
-                        ////send ready image notification to
-                        ////parent html container
-                        ////send data update to owner 
-                        ////req.listener.AddUpdatedImageBinder(binder);
-                        //if (req.listener != null)
-                        //{
-                        //    req.listener.HandleContentUpdate();
-                        //}
                     }
                 }
                 else
@@ -126,12 +118,7 @@ namespace LayoutFarm.ContentManagers
                     //process image infomation
                     //....  
                     binder.SetImage(foundImage);
-                    ////send ready image notification to
-                    ////parent html container                             
-                    //if (req.listener != null)
-                    //{
-                    //    req.listener.HandleContentUpdate();
-                    //}
+
                 }
 
                 //next image

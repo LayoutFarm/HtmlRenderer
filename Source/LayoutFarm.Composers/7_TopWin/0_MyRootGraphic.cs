@@ -13,6 +13,8 @@ namespace LayoutFarm.UI
     {
 
         List<RenderElement> layoutQueue = new List<RenderElement>();
+        List<HtmlBoxes.MyHtmlIsland> htmlIslandQueue = new List<HtmlBoxes.MyHtmlIsland>();
+
 
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
         List<RenderElementRequest> renderRequestList = new List<RenderElementRequest>();
@@ -205,9 +207,18 @@ namespace LayoutFarm.UI
             renderElement.IsInLayoutQueue = true;
             layoutQueue.Add(renderElement);
         }
-
+        public override void AddToUpdateQueue(object toupdateObj)
+        {
+            var htmlIsland = toupdateObj as HtmlBoxes.MyHtmlIsland;
+            if (htmlIsland != null && !htmlIsland.IsInUpdateQueue)
+            {
+                htmlIsland.IsInUpdateQueue = true;
+                htmlIslandQueue.Add(htmlIsland);
+            }
+        }
         void ClearLayoutQueue()
         {
+
             this.LayoutQueueClearing = true;
             int j = this.layoutQueue.Count;
             for (int i = this.layoutQueue.Count - 1; i >= 0; --i)
@@ -222,6 +233,20 @@ namespace LayoutFarm.UI
                 renderE.IsInLayoutQueue = false;
                 this.layoutQueue.RemoveAt(i);
             }
+            //-------------------------------- 
+            j = this.htmlIslandQueue.Count;
+            for (int i = 0; i < j; ++i)
+            {
+                var htmlIsland = htmlIslandQueue[i];
+                htmlIsland.IsInUpdateQueue = false;
+                htmlIsland.RefreshIfNeed();                
+            }
+            for (int i = j - 1; i >= 0; --i)
+            {
+                htmlIslandQueue.RemoveAt(i);
+            }
+            
+            //-------------------------------- 
             this.LayoutQueueClearing = false;
         }
 

@@ -16,27 +16,35 @@ namespace LayoutFarm.CustomWidgets
 
     public class LightHtmlBox : UIBox, IUserEventPortal
     {
-        bool hasWaitingDocToLoad;
-        string waitingHtmlString;
-        HtmlDocument waitingHtmlDomFragment;
-        LightHtmlBoxHost lightBoxHost;
+        WaitingContent waitingContentKind;
+        string waitingHtmlFragmentString;
+        FragmentHtmlDocument waitingHtmlDoc;
+
+        enum WaitingContent : byte
+        {
+            NoWaitingContent,
+            HtmlFragmentString,
+            HtmlDocument
+        }
 
 
         MyHtmlIsland myHtmlIsland;
-        CssBox myCssBox;
+        HtmlIslandHost htmlIslandHost;
 
         //presentation
-        HtmlFragmentRenderBox frgmRenderBox;
+        HtmlFragmentRenderBox frgmRenderBox; 
+        static LightHtmlBox()
+        {
+            LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
+                new MyCssBoxGenerator());
+        }
 
-        object uiHtmlTask = new object();
-
-
-        internal LightHtmlBox(LightHtmlBoxHost lightBoxHost, int width, int height)
+        public LightHtmlBox(HtmlIslandHost htmlIslandHost, int width, int height)
             : base(width, height)
         {
-            this.lightBoxHost = lightBoxHost;
-
+            this.htmlIslandHost = htmlIslandHost;
         }
+
         protected override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.frgmRenderBox; }
@@ -52,79 +60,79 @@ namespace LayoutFarm.CustomWidgets
             e.CurrentContextElement = this;
 
             //1. get share input adapter
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
             //2. send event
             inputAdapter.MouseUp(e, frgmRenderBox.CssBox);
             //3. release back to host
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
 
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
 
             inputAdapter.MouseDown(e, frgmRenderBox.CssBox);
 
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {   //0. set context
             e.CurrentContextElement = this;
 
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
 
             inputAdapter.MouseMove(e, frgmRenderBox.CssBox);
 
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
             //?
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
 
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
 
             inputAdapter.KeyDown(e, frgmRenderBox.CssBox);
 
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
             inputAdapter.KeyPress(e, frgmRenderBox.CssBox);
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
 
             inputAdapter.KeyUp(e, frgmRenderBox.CssBox);
 
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
 
-            var inputAdapter = this.lightBoxHost.GetSharedInputEventAdapter(this.myHtmlIsland);
+            var inputAdapter = this.htmlIslandHost.GetSharedInputEventAdapter(this.myHtmlIsland);
             inputAdapter.KeyUp(e, frgmRenderBox.CssBox);
             var result = inputAdapter.ProcessDialogKey(e, frgmRenderBox.CssBox);
-            this.lightBoxHost.ReleaseSharedInputEventAdapter(inputAdapter);
+            this.htmlIslandHost.ReleaseSharedInputEventAdapter(inputAdapter);
             return result;
         }
         void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
@@ -144,9 +152,10 @@ namespace LayoutFarm.CustomWidgets
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-
+              
             if (frgmRenderBox == null)
             {
+
                 var newFrRenderBox = new HtmlFragmentRenderBox(rootgfx, this.Width, this.Height);
                 newFrRenderBox.SetController(this);
                 newFrRenderBox.HasSpecificSize = true;
@@ -154,82 +163,85 @@ namespace LayoutFarm.CustomWidgets
                 //set to this field if ready
                 this.frgmRenderBox = newFrRenderBox;
             }
-            if (this.hasWaitingDocToLoad)
+            switch (this.waitingContentKind)
             {
-                if (this.waitingHtmlDomFragment != null)
-                {
-                    LoadHtmlFragmentDom(this.waitingHtmlDomFragment);
-                }
-                else
-                {
-                    LoadHtmlFragmentText(this.waitingHtmlString);
-                }
+                default:
+                case WaitingContent.NoWaitingContent:
+                    break;
+                case WaitingContent.HtmlDocument:
+                    {
+                        LoadHtmlDom(this.waitingHtmlDoc);
+                    } break;
+                case WaitingContent.HtmlFragmentString:
+                    {
+                        LoadHtmlFragmentString(this.waitingHtmlFragmentString);
+                    } break;
             }
+
             return frgmRenderBox;
         }
-        public void LoadHtmlFragmentText(string htmlFragment)
+        //-----------------------------------------------------------------------------------------------------
+        void ClearWaitingContent()
         {
-            if (frgmRenderBox == null)
-            {
-                this.hasWaitingDocToLoad = true;
-                this.waitingHtmlString = htmlFragment;
-            }
-            else
-            {
-                //just parse content and load
+            this.waitingHtmlDoc = null;
+            this.waitingHtmlFragmentString = null;
+            waitingContentKind = WaitingContent.NoWaitingContent;
 
-                this.lightBoxHost.CreateHtmlFragment(htmlFragment, frgmRenderBox, out this.myHtmlIsland, out myCssBox);
-                this.frgmRenderBox.SetHtmlIsland(myHtmlIsland, myCssBox);
-                SetHtmlIslandEventHandlers();
-
-                this.waitingHtmlDomFragment = null;
-                this.waitingHtmlString = null;
-            } 
         }
-        public void LoadHtmlFragmentDom(HtmlDocument htmldoc)
+        public void LoadHtmlDom(FragmentHtmlDocument htmldoc)
         {
             if (frgmRenderBox == null)
             {
-                this.hasWaitingDocToLoad = true;
-                this.waitingHtmlDomFragment = htmldoc;
-                
+                this.waitingContentKind = WaitingContent.HtmlDocument;
+                this.waitingHtmlDoc = htmldoc;
             }
             else
             {
                 //just parse content and load 
-                this.lightBoxHost.CreateHtmlFragment(htmldoc, frgmRenderBox, out this.myHtmlIsland, out myCssBox);
-
-                this.frgmRenderBox.SetHtmlIsland(myHtmlIsland, myCssBox);
+                this.myHtmlIsland = HtmlIslandHelper.CreateHtmlIsland(this.htmlIslandHost, htmldoc, frgmRenderBox);
                 SetHtmlIslandEventHandlers();
-
-                this.waitingHtmlDomFragment = null;
-                this.waitingHtmlString = null;
+                ClearWaitingContent();
             }
         }
+
+        public void LoadHtmlFragmentString(string fragmentHtmlString)
+        {
+            if (frgmRenderBox == null)
+            {
+                this.waitingContentKind = WaitingContent.HtmlFragmentString;
+                this.waitingHtmlFragmentString = fragmentHtmlString;
+            }
+            else
+            {
+                //just parse content and load 
+                this.myHtmlIsland = HtmlIslandHelper.CreateHtmlIsland(this.htmlIslandHost, fragmentHtmlString, frgmRenderBox);
+
+                SetHtmlIslandEventHandlers();
+
+                ClearWaitingContent();
+            }
+        }
+
+
         void SetHtmlIslandEventHandlers()
         {
             myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphics();
             myHtmlIsland.DomRequestRebuild += (s, e) =>
             {
-                hasWaitingDocToLoad = true;
+
                 //---------------------------
                 if (frgmRenderBox == null) return;
                 //--------------------------- 
+                htmlIslandHost.GetRenderTreeBuilder().RefreshCssTree(myHtmlIsland.RootElement);
 
-                this.lightBoxHost.RefreshCssTree(myHtmlIsland.Document);
-
-                var lay = this.lightBoxHost.GetSharedHtmlLayoutVisitor(myHtmlIsland);
+                var lay = this.htmlIslandHost.GetSharedHtmlLayoutVisitor(myHtmlIsland);
                 myHtmlIsland.PerformLayout(lay);
-                this.lightBoxHost.ReleaseHtmlLayoutVisitor(lay);
+                this.htmlIslandHost.ReleaseHtmlLayoutVisitor(lay);
             };
-        } 
-        public override void InvalidateGraphics()
-        {   
-
-            //if (this.myCssBoxWrapper != null)
-            //{
-            //    myCssBoxWrapper.InvalidateGraphic();
-            //}
+        }
+        public MyHtmlIsland HtmlIsland
+        {
+            get { return this.myHtmlIsland; }
         }
 
     }

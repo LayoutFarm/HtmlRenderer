@@ -16,9 +16,8 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
             imageContentMan.ImageLoadingRequest += (s, e) =>
-            {
-                e.SetResultImage(LoadBitmap(e.ImagSource));
-                e.ImageBinder.State = ImageBinderState.Loaded;
+            { 
+                e.SetResultImage(LoadBitmap(e.ImagSource)); 
             };
             AddScrollView1(viewport, 0, 0);
             AddScrollView2(viewport, 250, 0);

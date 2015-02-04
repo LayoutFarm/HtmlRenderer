@@ -27,18 +27,55 @@ namespace LayoutFarm.Composers
 
     public static class WebDocumentParser
     {
+
+
         /// <summary>
         /// Parses the source html to css boxes tree structure.
         /// </summary>
         /// <param name="source">the html source to parse</param>
-        public static WebDocument ParseDocument(TextSnapshot snapSource)
+        public static HtmlDocument ParseDocument(TextSnapshot snapSource)
         {
-            var parser = new HtmlParser();
+            var parser = GetHtmlParser();
             //------------------------
             var blankHtmlDoc = new HtmlDocument();
-            parser.Parse(snapSource, blankHtmlDoc);
+            parser.Parse(snapSource, blankHtmlDoc, blankHtmlDoc.RootNode);
+            FreeHtmlParser(parser);
             return blankHtmlDoc;
         }
+
+        public static void ParseHtmlDom(TextSnapshot snapSource, HtmlDocument htmldoc, WebDom.DomElement parentElement)
+        {
+            var parser = GetHtmlParser();
+            //------------------------ 
+            parser.Parse(snapSource, htmldoc, parentElement);
+            FreeHtmlParser(parser); 
+
+        }
+        static Queue<HtmlParser> sharedParsers = new Queue<HtmlParser>();
+        static object sharedParserLock1 = new object();
+        static HtmlParser GetHtmlParser()
+        {
+            lock (sharedParserLock1)
+            {
+                if (sharedParsers.Count == 0)
+                {
+                    return new HtmlParser();
+                }
+                else
+                {
+                    return sharedParsers.Dequeue();
+                }
+            }
+        }
+        static void FreeHtmlParser(HtmlParser parser)
+        {
+            parser.ResetParser();
+            lock (sharedParserLock1)
+            {
+                sharedParsers.Enqueue(parser);
+            }
+        }
+
     }
 
 }

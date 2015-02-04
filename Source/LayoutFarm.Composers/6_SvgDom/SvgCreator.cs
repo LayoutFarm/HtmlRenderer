@@ -31,6 +31,7 @@ namespace LayoutFarm.InternalHtmlDom
             CssBoxSvgRoot rootBox = new CssBoxSvgRoot(
                 svgRootController,
                 elementNode.Spec,
+                parentBox.RootGfx,
                 fragment);
 
             svgRootController.SvgRoot = rootBox;

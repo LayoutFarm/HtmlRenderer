@@ -69,9 +69,8 @@
     <Compile Include="1_Css\CssLength.cs" />
     <Compile Include="1_Css\CssProps.cs" />
     <Compile Include="1_Css\CssUnitOrNames.cs" />
-    <Compile Include="0_LayoutFarm\ImageBinder.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CustomCssBox.cs" />
-    <Compile Include="2_Boxes\6_ContentMx\IUpdateStateChangeListener.cs" />
+    <Compile Include="2_Boxes\4_Render\PainterStock2.cs" />
     <Compile Include="4_Svg\05_SvgDoms\CssBoxSvgRoot.cs" />
     <Compile Include="4_Svg\05_SvgDoms\SvgElements.cs" />
     <Compile Include="4_Svg\07_Coords_Transforms\SvgMatrix.cs" />
@@ -157,9 +156,16 @@
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
+      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
+      <Name>LayoutFarm.BaseRenderer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="4_Svg\license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="0_LayoutFarm\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

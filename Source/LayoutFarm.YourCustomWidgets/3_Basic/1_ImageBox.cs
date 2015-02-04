@@ -28,6 +28,7 @@ namespace LayoutFarm.CustomWidgets
                 if (this.imgRenderBox != null)
                 {
                     this.imgRenderBox.ImageBinder = value;
+                    this.InvalidateGraphics();
                 }
             }
         }

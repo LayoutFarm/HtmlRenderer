@@ -40,7 +40,7 @@ namespace LayoutFarm.HtmlBoxes
         float _maxWidth;
         float _maxHeight;
 
-        
+
         /// <summary>
         /// 99999
         /// </summary>
@@ -212,6 +212,6 @@ namespace LayoutFarm.HtmlBoxes
             { }
         }
 
-       
+
     }
 }

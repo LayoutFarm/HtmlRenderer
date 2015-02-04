@@ -393,8 +393,7 @@ namespace Win32
                 return rect;
             }
 
-            public static readonly Win32Rect Empty = new Win32Rect(0, 0, 0, 0);
-
+            public static readonly Win32Rect Empty = new Win32Rect(0, 0, 0, 0); 
         }
         [StructLayout(LayoutKind.Sequential)]
         public struct ABC
