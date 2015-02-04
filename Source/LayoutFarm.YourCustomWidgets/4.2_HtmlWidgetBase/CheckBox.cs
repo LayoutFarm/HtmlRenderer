@@ -20,10 +20,10 @@ namespace LayoutFarm.HtmlWidgets
 
         bool isChecked;
 
-        RenderElement myRenderE;
-        DomElement imageBox;
+
         HtmlIslandHost htmlIslandHost;
         LightHtmlBox lightHtmlBox;
+
         public CheckBox(HtmlIslandHost htmlIslandHost, int w, int h)
             : base(w, h)
         {
@@ -34,14 +34,14 @@ namespace LayoutFarm.HtmlWidgets
         {
             get
             {
-                return this.myRenderE;
+                return UIElement.GetCurrentPrimaryRenderElement(lightHtmlBox);
             }
         }
         protected override bool HasReadyRenderElement
         {
             get
             {
-                return this.myRenderE != null;
+                return this.lightHtmlBox != null;
             }
         }
 
@@ -50,16 +50,17 @@ namespace LayoutFarm.HtmlWidgets
 
             if (!this.HasReadyRenderElement)
             {
-                lightHtmlBox = new LightHtmlBox(htmlIslandHost, this.Width, this.Height);
+                var lightHtmlBox = new LightHtmlBox(htmlIslandHost, this.Width, this.Height);
                 lightHtmlBox.LoadHtmlDom(CreateHtml());
                 lightHtmlBox.SetLocation(this.Left, this.Top);
-                myRenderE = lightHtmlBox.GetPrimaryRenderElement(rootgfx);
-                return myRenderE;
+
+                this.lightHtmlBox = lightHtmlBox;
+                return lightHtmlBox.GetPrimaryRenderElement(rootgfx);
 
             }
             else
             {
-                return myRenderE;
+                return lightHtmlBox.GetPrimaryRenderElement(rootgfx);
             }
 
         }
@@ -112,7 +113,7 @@ namespace LayoutFarm.HtmlWidgets
                     div.SetAttribute("style", "font:10pt tahoma;");
                     div.AddChild("img", img =>
                     {
-                        this.imageBox = img;
+
                         //init 
                         bool is_close = true;
                         img.SetAttribute("src", "../../Demo/arrow_close.png");
@@ -129,7 +130,6 @@ namespace LayoutFarm.HtmlWidgets
                     });
                     div.AddChild("img", img =>
                     {
-                        this.imageBox = img;
 
                         //change style
                         bool is_close = true;
@@ -138,7 +138,7 @@ namespace LayoutFarm.HtmlWidgets
                         img.AttachMouseDownEvent(e =>
                         {
                             img.SetAttribute("src", is_close ?
-                                "../../Demo/arrow_open.png" : 
+                                "../../Demo/arrow_open.png" :
                                 "../../Demo/arrow_close.png");
 
                             is_close = !is_close;
