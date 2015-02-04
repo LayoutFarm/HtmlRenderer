@@ -13,8 +13,8 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.HtmlBoxes
 {
-     
-    public static class HtmlIslandHelper
+
+    static class HtmlIslandHelper
     {
 
         public static MyHtmlIsland CreateHtmlIsland(
@@ -23,7 +23,7 @@ namespace LayoutFarm.HtmlBoxes
             HtmlFragmentRenderBox container)
         {
 
-            var htmldoc = new HtmlDocument(); 
+            var htmldoc = new HtmlDocument();
             var myHtmlBodyElement = htmldoc.CreateElement("body");
             htmldoc.RootNode.AddChild(myHtmlBodyElement);
 

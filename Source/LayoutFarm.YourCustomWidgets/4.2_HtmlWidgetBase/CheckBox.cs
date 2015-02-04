@@ -21,13 +21,9 @@ namespace LayoutFarm.HtmlWidgets
         bool isChecked;
 
         RenderElement myRenderE;
-        DomElement imageBox;
-
-
+        DomElement imageBox; 
         HtmlIslandHost htmlIslandHost;
-        LightHtmlBox lightHtmlBox;
-
-
+        LightHtmlBox lightHtmlBox; 
         public CheckBox(HtmlIslandHost htmlIslandHost, int w, int h)
             : base(w, h)
         {
