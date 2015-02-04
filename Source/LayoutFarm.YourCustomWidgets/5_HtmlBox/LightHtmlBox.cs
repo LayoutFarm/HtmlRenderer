@@ -31,14 +31,20 @@ namespace LayoutFarm.CustomWidgets
         MyHtmlIsland myHtmlIsland;
         HtmlIslandHost htmlIslandHost;
 
-        //presentation
-        HtmlFragmentRenderBox frgmRenderBox; 
+
+
+
+
         static LightHtmlBox()
         {
             LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
+                typeof(MyCssBoxGenerator),
                 new MyCssBoxGenerator());
-        }
+        } 
 
+
+        //presentation
+        HtmlFragmentRenderBox frgmRenderBox;
         public LightHtmlBox(HtmlIslandHost htmlIslandHost, int width, int height)
             : base(width, height)
         {
@@ -152,7 +158,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-              
+
             if (frgmRenderBox == null)
             {
 

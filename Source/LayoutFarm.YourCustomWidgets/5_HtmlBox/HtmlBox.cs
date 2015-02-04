@@ -40,8 +40,10 @@ namespace LayoutFarm.CustomWidgets
         static HtmlBox()
         {
             LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
+               typeof(MyCssBoxGenerator),
                new MyCssBoxGenerator());
         }
+
         public HtmlBox(HtmlIslandHost islandHost, int width, int height)
         {
             this._width = width;
@@ -179,7 +181,7 @@ namespace LayoutFarm.CustomWidgets
                 htmlLayoutVisitor = new LayoutVisitor(rootgfx.P);
                 htmlLayoutVisitor.Bind(this.myHtmlIsland);
             }
-             
+
 
             if (this.hasWaitingDocToLoad)
             {
