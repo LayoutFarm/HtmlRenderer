@@ -12,34 +12,18 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.CustomWidgets;
 
 namespace LayoutFarm.HtmlWidgets
-{   
+{
 
-    public class CheckBox : WidgetBase
+    public class CheckBox : LightHtmlWidgetBase
     {
 
         bool isChecked;
-        HtmlIslandHost htmlIslandHost;
-        LightHtmlBox lightHtmlBox;
         string checkBoxText = "";
-
+        public event EventHandler WhenChecked;
         public CheckBox(HtmlIslandHost htmlIslandHost, int w, int h)
-            : base(w, h)
-        {
-
-            this.htmlIslandHost = htmlIslandHost;
-        }
-        public override UIElement GetPrimaryUIElement()
-        {
-            if (this.lightHtmlBox == null)
-            {
-                var lightHtmlBox = new LightHtmlBox(htmlIslandHost, this.Width, this.Height);
-                lightHtmlBox.LoadHtmlDom(CreatePresentationDom());
-                lightHtmlBox.SetLocation(this.Left, this.Top);
-                this.lightHtmlBox = lightHtmlBox;
-            }
-            return this.lightHtmlBox;
-        }
-
+            : base(htmlIslandHost, w, h)
+        { 
+        } 
         //---------------------------------------------------------------------------
         public string Text
         {
@@ -47,7 +31,6 @@ namespace LayoutFarm.HtmlWidgets
             set
             {
                 this.checkBoxText = value;
-
             }
         }
         public bool Checked
@@ -79,11 +62,11 @@ namespace LayoutFarm.HtmlWidgets
                 }
             }
         }
-        public event EventHandler WhenChecked; 
-        FragmentHtmlDocument CreatePresentationDom()
+
+        protected override FragmentHtmlDocument CreatePresentationDom()
         {
 
-            FragmentHtmlDocument htmldoc = this.htmlIslandHost.CreateNewFragmentHtml();
+            FragmentHtmlDocument htmldoc = this.HtmlIslandHost.CreateNewFragmentHtml();
             //TODO: use template engine, 
             //ideas:  AngularJS style ?
 
@@ -107,7 +90,7 @@ namespace LayoutFarm.HtmlWidgets
                             is_close = !is_close;
                             e.StopPropagation();
 
-                            lightHtmlBox.InvalidateGraphics();
+                            this.InvalidateGraphics();
                         });
 
                     });
@@ -126,7 +109,7 @@ namespace LayoutFarm.HtmlWidgets
                             is_close = !is_close;
                             e.StopPropagation();
 
-                            lightHtmlBox.InvalidateGraphics();
+                            this.InvalidateGraphics();
                         });
                     });
                     div.AddChild("span", span =>

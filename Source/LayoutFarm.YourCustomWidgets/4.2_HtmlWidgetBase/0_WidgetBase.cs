@@ -7,6 +7,8 @@ using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.WebDom;
+using LayoutFarm.CustomWidgets;
+using LayoutFarm.Composers;
 
 namespace LayoutFarm.HtmlWidgets
 {
@@ -33,11 +35,11 @@ namespace LayoutFarm.HtmlWidgets
         }
         public int Left
         {
-            get { return this.left; } 
+            get { return this.left; }
         }
         public int Top
         {
-            get { return this.top; } 
+            get { return this.top; }
         }
 
         public abstract UIElement GetPrimaryUIElement();
@@ -47,5 +49,37 @@ namespace LayoutFarm.HtmlWidgets
             this.left = left;
             this.top = top;
         }
+    }
+
+    public abstract class LightHtmlWidgetBase : WidgetBase
+    {
+        HtmlIslandHost htmlIslandHost;
+        LightHtmlBox lightHtmlBox;
+        public LightHtmlWidgetBase(HtmlIslandHost htmlIslandHost, int w, int h)
+            : base(w, h)
+        {
+            this.htmlIslandHost = htmlIslandHost;
+        }
+        public override UIElement GetPrimaryUIElement()
+        {
+            if (this.lightHtmlBox == null)
+            {
+                var lightHtmlBox = new LightHtmlBox(htmlIslandHost, this.Width, this.Height);
+
+                lightHtmlBox.LoadHtmlDom(CreatePresentationDom());
+                lightHtmlBox.SetLocation(this.Left, this.Top);
+                this.lightHtmlBox = lightHtmlBox;
+            }
+            return this.lightHtmlBox;
+        }
+        protected HtmlIslandHost HtmlIslandHost
+        {
+            get { return this.htmlIslandHost; }
+        }
+        protected void InvalidateGraphics()
+        {
+            this.lightHtmlBox.InvalidateGraphics();
+        }
+        protected abstract FragmentHtmlDocument CreatePresentationDom();
     }
 }
