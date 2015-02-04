@@ -14,12 +14,7 @@ namespace LayoutFarm.Composers
     {
 
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
-        LayoutFarm.RootGraphic rootgfx;
-        internal BoxCreator(LayoutFarm.RootGraphic rootgfx)
-        {
-            this.rootgfx = rootgfx;
-
-        }
+        
 
         public static void RegisterCustomCssBoxGenerator(CustomCssBoxGenerator generator)
         {
@@ -28,7 +23,6 @@ namespace LayoutFarm.Composers
         static CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
         {
             string imgsrc;
-
             ImageBinder imgBinder = null;
             if (childElement.TryGetAttribute(WellknownName.Src, out imgsrc))
             {
@@ -42,8 +36,8 @@ namespace LayoutFarm.Composers
                 imgBinder = clientImageBinder;
                 clientImageBinder.SetOwner(childElement);
             }
-          
-            CssBoxImage boxImage = new CssBoxImage(childElement, childElement.Spec, imgBinder);
+
+            CssBoxImage boxImage = new CssBoxImage(childElement, childElement.Spec, parent.RootGfx, imgBinder);
 
             parent.AppendChild(boxImage);
             return boxImage;
@@ -223,7 +217,6 @@ namespace LayoutFarm.Composers
                                                     GenerateChildBoxes(childElement, fullmode);
                                                     childElement.SkipPrincipalBoxEvalulation = true;
                                                 }
-
                                             }
                                         }
                                         newBox++;
@@ -247,6 +240,8 @@ namespace LayoutFarm.Composers
 
             alreadyHandleChildrenNodes = false;
             CssBox newBox = null;
+            var rootgfx = parentBox.Root;
+
             //----------------------------------------- 
             //1. create new box
             //----------------------------------------- 
@@ -255,7 +250,7 @@ namespace LayoutFarm.Composers
             {
                 case WellKnownDomNodeName.br:
                     //special treatment for br
-                    newBox = new CssBox(childElement, childElement.Spec);
+                    newBox = new CssBox(childElement, childElement.Spec, parentBox.RootGfx);
                     parentBox.AppendChild(newBox);
 
                     CssBox.SetAsBrBox(newBox);
@@ -266,7 +261,7 @@ namespace LayoutFarm.Composers
                     return CreateImageBox(parentBox, childElement);
                 case WellKnownDomNodeName.hr:
 
-                    newBox = new CssBoxHr(childElement, childElement.Spec);
+                    newBox = new CssBoxHr(childElement, childElement.Spec, parentBox.RootGfx);
                     parentBox.AppendChild(newBox);
                     return newBox;
                 //-----------------------------------------------------
@@ -297,7 +292,7 @@ namespace LayoutFarm.Composers
                 case WellKnownDomNodeName.X:
                     {
                         alreadyHandleChildrenNodes = true;
-                        newBox = CreateCustomBox(parentBox, childElement, childElement.Spec);
+                        newBox = CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx);
                         if (newBox == null)
                         {
                             goto default;
@@ -326,18 +321,18 @@ namespace LayoutFarm.Composers
                         case CssDisplay.ListItem:
                             return ListItemBoxCreator.CreateListItemBox(parentBox, childElement);
                         default:
-                            newBox = new CssBox(childElement, childSpec);
+                            newBox = new CssBox(childElement, childSpec, parentBox.RootGfx);
                             parentBox.AppendChild(newBox);
                             return newBox;
                     }
             }
         }
 
-        CssBox CreateCustomBox(CssBox parent, object tag, BoxSpec boxspec)
+        CssBox CreateCustomBox(CssBox parent, object tag, BoxSpec boxspec, RootGraphic rootgfx)
         {
             for (int i = generators.Count - 1; i >= 0; --i)
             {
-                var newbox = generators[i].CreateCssBox(tag, parent, boxspec, this.rootgfx);
+                var newbox = generators[i].CreateCssBox(tag, parent, boxspec, rootgfx);
                 if (newbox != null)
                 {
                     return newbox;
@@ -346,12 +341,23 @@ namespace LayoutFarm.Composers
             return null;
         }
 
-        internal static CssBox CreateCssRenderRoot(IFonts iFonts, LayoutFarm.RenderElement containerElement)
+        internal static CssBox CreateCssRenderRoot(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
-            var box = new CssRenderRoot(spec, containerElement);
+            var box = new CssRenderRoot(spec, containerElement, rootgfx);
+            //------------------------------------
+            box.ReEvaluateFont(iFonts, 10);
+            //------------------------------------
+            return box;
+        }
+        internal static CssBox CreateCssIsolateBox(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
+        {
+            var spec = new BoxSpec();
+            spec.CssDisplay = CssDisplay.Block;
+            spec.Freeze();
+            var box = new CssIsolateBox(spec, containerElement, rootgfx);
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
@@ -362,8 +368,8 @@ namespace LayoutFarm.Composers
     class CssRenderRoot : CssBox
     {
         LayoutFarm.RenderElement containerElement;
-        public CssRenderRoot(BoxSpec spec, LayoutFarm.RenderElement containerElement)
-            : base(null, spec)
+        public CssRenderRoot(BoxSpec spec, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
+            : base(null, spec, rootgfx)
         {
             this.containerElement = containerElement;
         }
@@ -372,14 +378,26 @@ namespace LayoutFarm.Composers
             get { return this.containerElement; }
         }
     }
-
+    class CssIsolateBox : CssBox
+    {
+        LayoutFarm.RenderElement containerElement;
+        public CssIsolateBox(BoxSpec spec, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
+            : base(null, spec, rootgfx)
+        {
+            this.containerElement = containerElement;
+        }
+        public LayoutFarm.RenderElement ContainerElement
+        {
+            get { return this.containerElement; }
+        }
+    }
     static class TableBoxCreator
     {
 
         public static CssBox CreateOtherPredefinedTableElement(CssBox parent,
             HtmlElement childElement, CssDisplay selectedCssDisplayType)
         {
-            var newBox = new CssBox(childElement, childElement.Spec, selectedCssDisplayType);
+            var newBox = new CssBox(childElement, childElement.Spec, parent.RootGfx, selectedCssDisplayType);
             parent.AppendChild(newBox);
             return newBox;
         }
@@ -389,11 +407,11 @@ namespace LayoutFarm.Composers
             CssBox col = null;
             if (fixDisplayType)
             {
-                col = new CssBox(childElement, childElement.Spec, selectedCssDisplayType);
+                col = new CssBox(childElement, childElement.Spec, parent.RootGfx, selectedCssDisplayType);
             }
             else
             {
-                col = new CssBox(childElement, childElement.Spec);
+                col = new CssBox(childElement, childElement.Spec, parent.RootGfx);
 
             }
             parent.AppendChild(col);
@@ -420,11 +438,11 @@ namespace LayoutFarm.Composers
             CssBox tableCell = null;
             if (fixDisplayType)
             {
-                tableCell = new CssBox(childElement, childElement.Spec, CssDisplay.TableCell);
+                tableCell = new CssBox(childElement, childElement.Spec, parent.RootGfx, CssDisplay.TableCell);
             }
             else
             {
-                tableCell = new CssBox(childElement, childElement.Spec);
+                tableCell = new CssBox(childElement, childElement.Spec, parent.RootGfx);
             }
             parent.AppendChild(tableCell);
             //----------------------------------------------------------------------------------------------
@@ -468,7 +486,7 @@ namespace LayoutFarm.Composers
 
 
             var spec = childElement.Spec;
-            var newBox = new CssBoxListItem(childElement, spec);
+            var newBox = new CssBoxListItem(childElement, spec, parent.RootGfx);
 
             parent.AppendChild(newBox);
 
@@ -476,7 +494,7 @@ namespace LayoutFarm.Composers
             {
 
                 //create sub item collection 
-                var itemBulletBox = new CssBox(null, spec.GetAnonVersion());
+                var itemBulletBox = new CssBox(null, spec.GetAnonVersion(), parent.RootGfx);
                 newBox.BulletBox = itemBulletBox;
 
                 CssBox.UnsafeSetParent(itemBulletBox, newBox);

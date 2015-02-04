@@ -34,20 +34,21 @@ namespace LayoutFarm.HtmlBoxes
     /// To know more about boxes visit CSS spec:
     /// http://www.w3.org/TR/CSS21/box.html
     /// </remarks>
-    public partial class CssBox
+    public partial class CssBox : RenderElement
     {
 
         readonly Css.BoxSpec _myspec;
-        readonly object _controller; 
-
+        readonly object _controller;
+        RootGraphic rootgfx;
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark;
 #endif
-        public CssBox(object controller, BoxSpec spec)            
+        public CssBox(object controller, BoxSpec spec, RootGraphic rootgfx)
+            : base(rootgfx, 5, 5)
         {
-
+            this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
             this._controller = controller;
 
@@ -65,8 +66,10 @@ namespace LayoutFarm.HtmlBoxes
             ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
-        public CssBox(object controller, BoxSpec spec, CssDisplay fixDisplayType)
+        public CssBox(object controller, BoxSpec spec, RootGraphic rootgfx, CssDisplay fixDisplayType)
+            : base(rootgfx, 5, 5)
         {
+            this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
             this._controller = controller;
 
@@ -87,7 +90,10 @@ namespace LayoutFarm.HtmlBoxes
             ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
-
+        public RootGraphic RootGfx
+        {
+            get { return this.rootgfx; }
+        }
 
         /// <summary>
         /// Gets the parent box of this box
@@ -97,21 +103,21 @@ namespace LayoutFarm.HtmlBoxes
             get { return _parentBox; }
         }
 
-        /// <summary>
-        /// 1. remove this box from its parent and 2. add to new parent box
-        /// </summary>
-        /// <param name="parentBox"></param>
-        internal void SetNewParentBox(CssBox parentBox)
-        {
-            if (this._parentBox != null)
-            {
-                this._parentBox._aa_boxes.Remove(this);
-            }
-            if (parentBox != null)
-            {
-                parentBox._aa_boxes.AddChild(parentBox, this);
-            }
-        }
+        ///// <summary>
+        ///// 1. remove this box from its parent and 2. add to new parent box
+        ///// </summary>
+        ///// <param name="parentBox"></param>
+        //internal void SetNewParentBox(CssBox parentBox)
+        //{
+        //    if (this._parentBox != null)
+        //    {
+        //        this._parentBox._aa_boxes.Remove(this);
+        //    }
+        //    if (parentBox != null)
+        //    {
+        //        parentBox._aa_boxes.AddChild(parentBox, this);
+        //    }
+        //}
 
         /// <summary>
         /// Is the box is of "br" element.
@@ -397,7 +403,7 @@ namespace LayoutFarm.HtmlBoxes
             //by override performContentLayout 
             PerformContentLayout(lay);
         }
-        #region Private Methods
+
 
         //static int dbugCC = 0;
 
@@ -734,13 +740,13 @@ namespace LayoutFarm.HtmlBoxes
         //    }
         //}
 #endif
-        #endregion
+
 
         //-----------------------------------------------------------------
         public static CssBox AddNewAnonInline(CssBox parent)
         {
             var spec = CssBox.UnsafeGetBoxSpec(parent);
-            var newBox = new CssBox(null, spec.GetAnonVersion());
+            var newBox = new CssBox(null, spec.GetAnonVersion(), parent.rootgfx);
 
             parent.AppendChild(newBox);
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);

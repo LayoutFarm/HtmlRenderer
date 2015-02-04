@@ -83,7 +83,11 @@ namespace LayoutFarm.HtmlBoxes
         public ImageBinder ImageBinder
         {
             get { return this.imgBinder; }
-            set { this.imgBinder = value; }
+            set
+            {
+                
+                this.imgBinder = value;
+            }
         }
         /// <summary>
         /// the image rectange restriction as returned from image load event

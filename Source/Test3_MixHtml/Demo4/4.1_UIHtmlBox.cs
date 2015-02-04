@@ -14,11 +14,22 @@ namespace LayoutFarm
     {
         HtmlBox htmlBox;
         string htmltext;
+
+        HtmlBoxes.HtmlIslandHost islandHost;
+        HtmlBoxes.HtmlIslandHost GetIslandHost(SampleViewport viewport)
+        {
+            if (islandHost == null)
+            {
+                islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);                 
+            }
+            return islandHost;
+        }
+
         protected override void OnStartDemo(SampleViewport viewport)
         {
 
             //html box
-            htmlBox = new HtmlBox(800, 600);
+            htmlBox = new HtmlBox(GetIslandHost(viewport), 800, 600);
             viewport.AddContent(htmlBox);
             if (htmltext == null)
             {

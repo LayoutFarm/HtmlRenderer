@@ -202,23 +202,50 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 unsafe
                 {
+
+                    var intersectRect = Rectangle.Intersect(logicalTextBox,
+                        new Rectangle(currentClipRect.Left,
+                            currentClipRect.Top,
+                            currentClipRect.Width,
+                            currentClipRect.Height)); 
+                    intersectRect.Offset(canvasOriginX, canvasOriginY); 
+                    MyWin32.SetRectRgn(hRgn,
+                     intersectRect.Left,
+                     intersectRect.Top,
+                     intersectRect.Right,
+                     intersectRect.Bottom);
+                    MyWin32.SelectClipRgn(_hdc, hRgn); 
+
                     fixed (char* startAddr = &str[0])
                     {
-                        //DrawingBridge.Win32Utils.TextOut2(_hdc, 
-                        //    (int)Math.Round(logicalTextBox.X + canvasOriginX),
-                        //    (int)Math.Round(logicalTextBox.Y + canvasOriginY),
-                        //    (startAddr + startAt), len);
                         Win32.Win32Utils.TextOut2(_hdc,
                             (int)logicalTextBox.X + canvasOriginX,
                             (int)logicalTextBox.Y + canvasOriginY,
                             (startAddr + startAt), len);
                     }
+
                 }
             }
             else
             {
                 //translucent / transparent text
                 InitHdc();
+
+                var intersectRect = Rectangle.Intersect(logicalTextBox,
+                        new Rectangle(currentClipRect.Left,
+                            currentClipRect.Top,
+                            currentClipRect.Width,
+                            currentClipRect.Height));
+                intersectRect.Offset(canvasOriginX, canvasOriginY);
+                MyWin32.SetRectRgn(hRgn,
+                 intersectRect.Left,
+                 intersectRect.Top,
+                 intersectRect.Right,
+                 intersectRect.Bottom);
+                MyWin32.SelectClipRgn(_hdc, hRgn); 
+
+
+
                 unsafe
                 {
                     fixed (char* startAddr = &str[0])

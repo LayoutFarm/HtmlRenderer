@@ -10,8 +10,8 @@ namespace LayoutFarm.HtmlBoxes
 
     public sealed class CssBoxSvgRoot : CustomCssBox
     {
-        public CssBoxSvgRoot(object controller, Css.BoxSpec spec, SvgElement svgElem)
-            : base(controller, spec, Css.CssDisplay.Block)
+        public CssBoxSvgRoot(object controller, Css.BoxSpec spec, RootGraphic rootgfx, SvgElement svgElem)
+            : base(controller, spec, rootgfx, Css.CssDisplay.Block)
         {
             //create svg node 
             this.SvgSpec = svgElem;
@@ -25,7 +25,7 @@ namespace LayoutFarm.HtmlBoxes
 
             var cnode = svgElement.GetFirstNode();
 
-            ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(gfxPlatform, 
+            ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(gfxPlatform,
                 containingBlock.SizeWidth,
                 100,
                 containingBlock.GetEmHeight());

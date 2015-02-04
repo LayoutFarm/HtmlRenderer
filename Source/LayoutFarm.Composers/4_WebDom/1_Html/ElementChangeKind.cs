@@ -9,6 +9,8 @@ namespace LayoutFarm.WebDom
         AddChild,
         AddAttribute,
         RemoveChild,
-        Spec
+        Spec,
+        ContentUpdate,
+        AttributeChanged
     }
 }

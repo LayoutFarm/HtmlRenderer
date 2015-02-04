@@ -13,22 +13,18 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
-    [DemoNote("5.8 HingeMixHtml")]
+    [DemoNote("5.1 HingeMixHtml")]
     class Demo_HingeMixHtml : DemoBase
     {
         ImageBinder arrowBmp;
         HtmlIslandHost islandHost;
-        LightHtmlBoxHost lightBoxHost;
 
+        SampleViewport sampleViewport;
         protected override void OnStartDemo(SampleViewport viewport)
         {
+            sampleViewport = viewport;
             //init host
-            this.islandHost = new HtmlIslandHost();
-            this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
-
-            lightBoxHost = new LightHtmlBoxHost(islandHost, viewport.P);
-            lightBoxHost.RootGfx = viewport.ViewportControl.RootGfx;
-
+            islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);
             //-----------
             var comboBox1 = CreateComboBox(20, 20);
             viewport.AddContent(comboBox1);
@@ -54,7 +50,6 @@ namespace LayoutFarm
             var landPart = new LayoutFarm.CustomWidgets.Panel(400, 20);
             landPart.BackColor = Color.Green;
             comboBox.LandPart = landPart;
-
             //--------------------------------------
             //add small px to land part
             //image
@@ -178,21 +173,22 @@ namespace LayoutFarm
             //--------------------------------------
             //add mix html here 
             {
-                LightHtmlBox lightHtmlBox2 = lightBoxHost.CreateLightBox(floatPart.Width, floatPart.Height);
+
+                LightHtmlBox lightHtmlBox2 = new LightHtmlBox(islandHost, floatPart.Width, floatPart.Height);
                 lightHtmlBox2.SetLocation(0, 0);
                 floatPart.AddChildBox(lightHtmlBox2);
                 //light box can't load full html
                 //all light boxs of the same lightbox host share resource with the host
-                string html2 = @"<div>OK1</div><div>OK2</div><div>OK3</div><div>OK4</div>";
+                //string html2 = @"<div>OK1</div><div>OK2</div><div>OK3</div><div>OK4</div>";
                 //if you want to use ful l html-> use HtmlBox instead  
-                lightHtmlBox2.LoadHtmlFragmentDom(CreateSampleHtmlDoc(floatPart));
+                lightHtmlBox2.LoadHtmlDom(CreateSampleHtmlDoc(floatPart));
                 //lightHtmlBox2.LoadHtmlFragmentText(html2);
             }
 
             //--------------------------------------
             return mnuItem;
         }
-        
+
         static ImageBinder LoadImage(string filename)
         {
             System.Drawing.Bitmap gdiBmp = new System.Drawing.Bitmap(filename);
@@ -202,9 +198,9 @@ namespace LayoutFarm
             binder.State = ImageBinderState.Loaded;
             return binder;
         }
-        HtmlDocument CreateSampleHtmlDoc(MenuBox ownerMenuBox)
+        FragmentHtmlDocument CreateSampleHtmlDoc(MenuBox ownerMenuBox)
         {
-            HtmlDocument htmldoc = new HtmlDocument();
+            FragmentHtmlDocument htmldoc = islandHost.CreateNewFragmentHtml();// new HtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  
@@ -232,7 +228,7 @@ namespace LayoutFarm
 
                             menuBox.SetLocation(50, 50);
                             //add to top window
-                            menuBox.ShowMenu(lightBoxHost.RootGfx);
+                            menuBox.ShowMenu(sampleViewport.Root);
 
                             e.StopPropagation();
 

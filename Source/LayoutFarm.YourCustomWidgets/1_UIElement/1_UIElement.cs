@@ -9,6 +9,7 @@ namespace LayoutFarm.UI
     {
         int oneBitNativeEventFlags;
         UIElement parentElement;
+        UIContext uiContext;
 
         public UIElement()
         {
@@ -23,6 +24,9 @@ namespace LayoutFarm.UI
             get { return false; }
         }
         public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
+
+        
+
         protected abstract RenderElement CurrentPrimaryRenderElement
         {
             get;
@@ -41,6 +45,8 @@ namespace LayoutFarm.UI
             get { return this.parentElement; }
             set { this.parentElement = value; }
         }
+
+
         public virtual bool NeedContentLayout
         {
             get { return false; }

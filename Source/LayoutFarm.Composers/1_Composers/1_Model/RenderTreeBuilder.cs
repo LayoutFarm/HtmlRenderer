@@ -35,11 +35,10 @@ namespace LayoutFarm.Composers
         WebDom.Parser.CssParser miniCssParser = new CssParser();
         ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
         public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
-        LayoutFarm.RootGraphic rootgfx;
-
-        public RenderTreeBuilder(LayoutFarm.RootGraphic rootgfx)
+        GraphicsPlatform gfxPlatform;
+        public RenderTreeBuilder(GraphicsPlatform gfxPlatform)
         {
-            this.rootgfx = rootgfx;
+            this.gfxPlatform = gfxPlatform;
         }
         void RaiseRequestStyleSheet(
             string hrefSource,
@@ -158,39 +157,26 @@ namespace LayoutFarm.Composers
             }
         }
 
-        public CssBox BuildCssRenderTree(LayoutFarm.WebDom.WebDocument webdoc,
-            IFonts ifonts,
-            CssActiveSheet cssData,
-            LayoutFarm.RenderElement containerElement)
-        {
-            return this.BuildCssRenderTree(
-                 (LayoutFarm.Composers.HtmlDocument)webdoc,
-                 ifonts,
-                 cssData,
-                 containerElement);
-
-        }
-        public CssBox BuildCssRenderTree(LayoutFarm.Composers.HtmlDocument htmldoc,
-            IFonts ifonts,
-            CssActiveSheet cssData,
-            LayoutFarm.RenderElement containerElement)
+        public CssBox BuildCssRenderTree(HtmlDocument htmldoc,
+            CssActiveSheet cssActiveSheet,
+            RenderElement containerElement)
         {
 
-            CssBox rootBox = null;
-            ActiveCssTemplate activeCssTemplate = null;
-            activeCssTemplate = new ActiveCssTemplate(cssData);
-            htmldoc.ActiveCssTemplate = activeCssTemplate;
+            htmldoc.ActiveCssTemplate = new ActiveCssTemplate(cssActiveSheet);
 
             htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
 
-            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeCssTemplate);
+            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, htmldoc.ActiveCssTemplate);
+
 
             //----------------------------------------------------------------  
-            rootBox = BoxCreator.CreateCssRenderRoot(ifonts, containerElement);
+            RootGraphic rootgfx = (containerElement != null) ? containerElement.Root : null;
+
+            CssBox rootBox = BoxCreator.CreateCssRenderRoot(this.gfxPlatform.SampleIFonts, containerElement, rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
-            BoxCreator boxCreator = new BoxCreator(this.rootgfx);
+            BoxCreator boxCreator = new BoxCreator();
             boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
@@ -199,30 +185,66 @@ namespace LayoutFarm.Composers
             return rootBox;
         }
 
-        //----------------------------------------------------------------
-        public CssBox RefreshCssTree(WebDocument webdoc)
-        {
 
-            CssBox rootBox = null;
-            HtmlDocument htmldoc = (HtmlDocument)webdoc;
-            ActiveCssTemplate activeCssTemplate = htmldoc.ActiveCssTemplate;
+        public CssBox BuildCssRenderTree(
+           DomElement hostElement,
+           DomElement domElement,
+           RenderElement containerElement)
+        {
+            var rootgfx = containerElement.Root;
+            IFonts ifonts = rootgfx.SampleIFonts;
+            HtmlDocument htmldoc = domElement.OwnerDocument as HtmlDocument;
+            HtmlElement startAtHtmlElement = (HtmlElement)domElement;
 
             htmldoc.SetDocumentState(DocumentState.Building);
-            //----------------------------------------------------------------  
-            RootElement rootElement = (RootElement)htmldoc.RootNode;
-            PrepareStylesAndContentOfChildNodes(rootElement, activeCssTemplate);
+            PrepareStylesAndContentOfChildNodes(startAtHtmlElement, htmldoc.ActiveCssTemplate);
 
-            //----------------------------------------------------------------  
-            CssBox principalBox = RootElement.InternalGetPrincipalBox(rootElement);
-            principalBox.Clear();
+            CssBox docRoot = HtmlElement.InternalGetPrincipalBox((HtmlElement)htmldoc.RootNode);
+            if (docRoot == null)
+            {
+                docRoot = BoxCreator.CreateCssRenderRoot(ifonts, containerElement, rootgfx);
+                ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(docRoot);
+            }
 
-            BoxCreator boxCreator = new BoxCreator(this.rootgfx);
-            boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, false);
+
+            BoxCreator boxCreator = new BoxCreator();
+            //----------------------------------------------------------------  
+            CssBox isolationBox = BoxCreator.CreateCssIsolateBox(ifonts, containerElement, rootgfx);
+            docRoot.AppendChild(isolationBox);
+            ((HtmlElement)domElement).SetPrincipalBox(isolationBox);
+            //----------------------------------------------------------------  
+
+            boxCreator.GenerateChildBoxes(startAtHtmlElement, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
+            //SetTextSelectionStyle(htmlIsland, cssData);
+            return isolationBox;
+        }
 
-            return rootBox;
+
+        //----------------------------------------------------------------
+        public void RefreshCssTree(DomElement startAt)
+        {
+
+            HtmlElement startAtElement = (HtmlElement)startAt;
+            startAtElement.OwnerDocument.SetDocumentState(DocumentState.Building);
+
+            //----------------------------------------------------------------     
+            PrepareStylesAndContentOfChildNodes(startAtElement, ((HtmlDocument)startAtElement.OwnerDocument).ActiveCssTemplate);
+
+            CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(startAtElement);
+            if (existingCssBox != null)
+            {
+                existingCssBox.Clear();
+            }
+            //----------------------------------------------------------------  
+
+            BoxCreator boxCreator = new BoxCreator();
+
+            boxCreator.GenerateChildBoxes(startAtElement, false);
+            startAtElement.OwnerDocument.SetDocumentState(DocumentState.Idle);
+            //----------------------------------------------------------------   
         }
         //------------------------------------------
         #region Private methods
@@ -979,6 +1001,39 @@ namespace LayoutFarm.Composers
                             {
                                 var spec = tag.Spec;
                                 spec.Width = TranslateLength(attr);
+
+                            } break;
+                        case WellknownName.Src:
+                            {
+
+                                var cssBoxImage = HtmlElement.InternalGetPrincipalBox(tag) as CssBoxImage;
+                                if (cssBoxImage != null)
+                                {
+                                    string imgsrc;
+                                    //ImageBinder imgBinder = null;
+                                    if (tag.TryGetAttribute(WellknownName.Src, out imgsrc))
+                                    {
+                                        var cssBoxImage1 = HtmlElement.InternalGetPrincipalBox(tag) as CssBoxImage;
+                                        var imgbinder1 = cssBoxImage1.ImageBinder;
+                                        if (imgbinder1.ImageSource != imgsrc)
+                                        {
+                                            var clientImageBinder = new ClientImageBinder(imgsrc);
+                                            imgbinder1 = clientImageBinder;
+                                            clientImageBinder.SetOwner(tag);
+                                            cssBoxImage1.ImageBinder = clientImageBinder;
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        //var clientImageBinder = new ClientImageBinder(null);
+                                        //imgBinder = clientImageBinder;
+                                        //clientImageBinder.SetOwner(tag);
+
+                                    }
+
+                                }
+
 
                             } break;
                     }

@@ -65,11 +65,13 @@ namespace LayoutFarm.Demo
     /// </summary>
     public class HtmlPanel : ScrollableControl
     {
+        List<MyHtmlIsland> waitingUpdateList = new List<MyHtmlIsland>();
         LayoutFarm.WebDom.WebDocument currentDoc;
         Composers.RenderTreeBuilder renderTreeBuilder;
 
-        LayoutFarm.HtmlBoxes.MyHtmlIsland myHtmlIsland;
         LayoutFarm.HtmlBoxes.HtmlIslandHost htmlIslandHost;
+        LayoutFarm.HtmlBoxes.MyHtmlIsland myHtmlIsland;
+
 
         HtmlInputEventAdapter _htmlInputEventAdapter;
         /// <summary>
@@ -96,6 +98,7 @@ namespace LayoutFarm.Demo
         /// </summary>
         public HtmlPanel(PixelFarm.Drawing.GraphicsPlatform p)
         {
+
             AutoScroll = true;
             BackColor = SystemColors.Window;
             SetStyle(ControlStyles.ResizeRedraw, true);
@@ -103,6 +106,7 @@ namespace LayoutFarm.Demo
 
             SetGraphicsPlatform(p);
         }
+
         void SetGraphicsPlatform(PixelFarm.Drawing.GraphicsPlatform p)
         {
             //-------------------------------------------------------
@@ -110,16 +114,22 @@ namespace LayoutFarm.Demo
             this.renderCanvas = gfxPlatform.CreateCanvas(0, 0, 800, 600);
             //-------------------------------------------------------
 
+            htmlIslandHost = new HtmlIslandHost(p);
 
-
-            htmlIslandHost = new HtmlIslandHost();
-            htmlIslandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
             htmlIslandHost.RequestResource += myHtmlIsland_RequestResource;
-
-
             myHtmlIsland = new MyHtmlIsland(htmlIslandHost);
             myHtmlIsland.DomVisualRefresh += OnRefresh;
             myHtmlIsland.DomRequestRebuild += myHtmlIsland_NeedUpdateDom;
+            //-------------------------------------------------------
+            htmlIslandHost.SetHtmlIslandUpdateHandler((island) =>
+            {
+                var updatedIsland = island as MyHtmlIsland;
+                if (updatedIsland != null && !updatedIsland.IsInUpdateQueue)
+                {
+                    updatedIsland.IsInUpdateQueue = true;
+                    waitingUpdateList.Add(updatedIsland);
+                }
+            });
 
             htmlLayoutVisitor = new LayoutVisitor(p);
             htmlLayoutVisitor.Bind(myHtmlIsland);
@@ -130,7 +140,19 @@ namespace LayoutFarm.Demo
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
             {
-                myHtmlIsland.RefreshIfNeed();
+                //clear waiting
+                int j = waitingUpdateList.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    var htmlIsland = waitingUpdateList[i];
+                    htmlIsland.IsInUpdateQueue = false;
+                    htmlIsland.RefreshIfNeed();
+                }
+                for (int i = j - 1; i >= 0; --i)
+                {
+                    waitingUpdateList.RemoveAt(i);                     
+                }
+
             };
             timer01.Enabled = true;
             //-------------------------------------------
@@ -148,7 +170,7 @@ namespace LayoutFarm.Demo
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
             //-----------------------------------------------------------------
 
-            var rootBox2 = this.renderTreeBuilder.RefreshCssTree(this.currentDoc);
+            this.renderTreeBuilder.RefreshCssTree(this.currentDoc.RootNode);
             this.myHtmlIsland.PerformLayout(this.htmlLayoutVisitor);
         }
 
@@ -293,16 +315,16 @@ namespace LayoutFarm.Demo
 
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
             //-----------------------------------------------------------------
-            var htmldoc = LayoutFarm.Composers.WebDocumentParser.ParseDocument(new WebDom.Parser.TextSnapshot(html.ToCharArray()));
+            var htmldoc = LayoutFarm.Composers.WebDocumentParser.ParseDocument(
+                          new WebDom.Parser.TextSnapshot(html.ToCharArray()));
 
 
             //build rootbox from htmldoc
             var rootBox = renderTreeBuilder.BuildCssRenderTree(htmldoc,
-                gfxPlatform.SampleIFonts,
-                 cssData,
+                cssData,
                 null);
 
-            htmlIsland.Document = htmldoc;
+            htmlIsland.WebDocument = htmldoc;
             htmlIsland.RootCssBox = rootBox;
         }
 
@@ -310,8 +332,8 @@ namespace LayoutFarm.Demo
         {
             _baseRawCssData = defaultCss;
             _baseCssData = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);
-            this.currentDoc = doc;
-
+            //-----------------  
+            myHtmlIsland.WebDocument = (this.currentDoc = doc);
             BuildCssBoxTree(myHtmlIsland, _baseCssData);
             //---------------------
             PerformLayout();
@@ -319,7 +341,7 @@ namespace LayoutFarm.Demo
         }
         void CreateRenderTreeBuilder()
         {
-            this.renderTreeBuilder = new Composers.RenderTreeBuilder(null);
+            this.renderTreeBuilder = new Composers.RenderTreeBuilder(this.gfxPlatform);
             this.renderTreeBuilder.RequestStyleSheet += (e) =>
             {
                 var req = new TextLoadRequestEventArgs(e.Src);
@@ -335,12 +357,12 @@ namespace LayoutFarm.Demo
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
             //------------------------------------------------------------
 
-            var rootBox = renderTreeBuilder.BuildCssRenderTree(this.currentDoc,
-                gfxPlatform.SampleIFonts,
+            var rootBox = renderTreeBuilder.BuildCssRenderTree(
+                (LayoutFarm.Composers.HtmlDocument)this.currentDoc,
                 cssData,
                 null);
 
-            htmlIsland.Document = this.currentDoc;
+
             htmlIsland.RootCssBox = rootBox;
 
         }
@@ -759,10 +781,7 @@ namespace LayoutFarm.Demo
             if (myHtmlIsland != null)
             {
                 this.timer01.Stop();
-                //_htmlContainer.LinkClicked -= OnLinkClicked;
-                //myHtmlIsland.RenderError -= OnRenderError;
                 myHtmlIsland.DomVisualRefresh -= OnRefresh;
-                // myHtmlIsland.ScrollChange -= OnScrollChange;
                 this.textContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
                 this.imageContentMan.ImageLoadingRequest -= OnImageLoad;
 

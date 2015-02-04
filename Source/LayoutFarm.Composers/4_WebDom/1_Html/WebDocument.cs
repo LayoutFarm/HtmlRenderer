@@ -80,6 +80,10 @@ namespace LayoutFarm.WebDom
         {
             this.DocumentState = docstate;
         }
+        internal UniqueStringTable UniqueStringTable
+        {
+            get { return this.uniqueStringTable; }
+        }
     }
 
     public enum DocumentState
