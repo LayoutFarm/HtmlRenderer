@@ -151,7 +151,6 @@ namespace LayoutFarm.HtmlBoxes
                 islandUpdateHandler(island);
             }
         }
-
     }
 
     public sealed class MyHtmlIsland : HtmlIsland

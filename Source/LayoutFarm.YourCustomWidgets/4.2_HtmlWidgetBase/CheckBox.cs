@@ -21,9 +21,9 @@ namespace LayoutFarm.HtmlWidgets
         bool isChecked;
 
         RenderElement myRenderE;
-        DomElement imageBox; 
+        DomElement imageBox;
         HtmlIslandHost htmlIslandHost;
-        LightHtmlBox lightHtmlBox; 
+        LightHtmlBox lightHtmlBox;
         public CheckBox(HtmlIslandHost htmlIslandHost, int w, int h)
             : base(w, h)
         {
@@ -113,13 +113,17 @@ namespace LayoutFarm.HtmlWidgets
                     div.AddChild("img", img =>
                     {
                         this.imageBox = img;
-
-                        //change style 
-                        img.SetAttribute("src", "../../Demo/arrow_close.png"); 
+                        //init 
+                        bool is_close = true;
+                        img.SetAttribute("src", "../../Demo/arrow_close.png");
                         img.AttachMouseDownEvent(e =>
                         {
-                            img.SetAttribute("src", "../../Demo/arrow_open.png");   
+                            img.SetAttribute("src", is_close ?
+                                "../../Demo/arrow_open.png" :
+                                "../../Demo/arrow_close.png");
+                            is_close = !is_close;
                             e.StopPropagation();
+
                             this.InvalidateGraphics();
                         });
                     });
@@ -128,12 +132,18 @@ namespace LayoutFarm.HtmlWidgets
                         this.imageBox = img;
 
                         //change style
-                        img.SetAttribute("src", "../../Demo/arrow_close.png"); 
+                        bool is_close = true;
+                        img.SetAttribute("src", "../../Demo/arrow_close.png");
                         //3. attach event to specific span 
                         img.AttachMouseDownEvent(e =>
-                        {   
-                            img.SetAttribute("src", "../../Demo/arrow_open.png");  
+                        {
+                            img.SetAttribute("src", is_close ?
+                                "../../Demo/arrow_open.png" : 
+                                "../../Demo/arrow_close.png");
+
+                            is_close = !is_close;
                             e.StopPropagation();
+
                             this.InvalidateGraphics();
                         });
                     });
