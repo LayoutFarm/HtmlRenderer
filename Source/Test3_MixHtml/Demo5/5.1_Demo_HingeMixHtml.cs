@@ -24,8 +24,7 @@ namespace LayoutFarm
         {
             sampleViewport = viewport;
             //init host
-            this.islandHost = new HtmlIslandHost(viewport.P);
-
+            islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);
             //-----------
             var comboBox1 = CreateComboBox(20, 20);
             viewport.AddContent(comboBox1);

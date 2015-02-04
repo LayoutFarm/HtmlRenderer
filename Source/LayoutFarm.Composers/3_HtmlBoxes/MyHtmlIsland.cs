@@ -19,9 +19,11 @@ namespace LayoutFarm.HtmlBoxes
         public object requestBy;
 
     }
+    public delegate void HtmlIslandUpdated(HtmlIsland island);
 
     public class HtmlIslandHost
     {
+        HtmlIslandUpdated islandUpdateHandler;
         public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
         SelectionRange _currentSelectionRange;
         GraphicsPlatform gfxplatform;
@@ -40,6 +42,12 @@ namespace LayoutFarm.HtmlBoxes
         {
             //use default style sheet
         }
+        public void SetHtmlIslandUpdateHandler(HtmlIslandUpdated islandUpdateHandler)
+        {
+            this.islandUpdateHandler = islandUpdateHandler;
+        }
+
+        
         public GraphicsPlatform GfxPlatform { get { return this.gfxplatform; } }
         public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
 
@@ -136,13 +144,15 @@ namespace LayoutFarm.HtmlBoxes
             }
             return renderTreeBuilder;
         }
-
+        internal void NotifyIslandUpdate(HtmlIsland island)
+        {
+            if (islandUpdateHandler != null)
+            {
+                islandUpdateHandler(island);
+            }
+        }
 
     }
-
-
-
-
 
     public sealed class MyHtmlIsland : HtmlIsland
     {
@@ -156,8 +166,14 @@ namespace LayoutFarm.HtmlBoxes
         public MyHtmlIsland(HtmlIslandHost islandHost)
         {
             this.islandHost = islandHost;
+            
         }
 
+        public bool IsInUpdateQueue
+        {
+            get;
+            set;
+        }
         public DomElement RootElement
         {
             get { return webdoc.RootNode; }
@@ -167,8 +183,27 @@ namespace LayoutFarm.HtmlBoxes
             get { return this.webdoc; }
             set
             {
-                this.webdoc = value;
 
+                var htmldoc = this.webdoc as Composers.HtmlDocument;
+                if (htmldoc != null)
+                {
+                    //clear
+                    htmldoc.SetDomUpdateHandler(null);
+                }
+                //------------------------------------
+                this.webdoc = value;
+                //when attach  
+                htmldoc = value as Composers.HtmlDocument;
+                if (htmldoc != null)
+                {
+                    //attach monitor
+                    htmldoc.SetDomUpdateHandler((s, e) =>
+                    {
+                        //when update
+                        //add to update queue
+                        this.islandHost.NotifyIslandUpdate(this);
+                    });
+                }
             }
         }
 

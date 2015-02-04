@@ -17,8 +17,8 @@ namespace LayoutFarm.Composers
     {
         DomElement rootNode;
         int domUpdateVersion;
+        EventHandler DomUpdatedHandler;
 
-        internal EventHandler DomUpdated;
         public HtmlDocument()
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
@@ -48,9 +48,9 @@ namespace LayoutFarm.Composers
             set
             {
                 this.domUpdateVersion = value;
-                if (DomUpdated != null)
+                if (DomUpdatedHandler != null)
                 {
-                    DomUpdated(this, EventArgs.Empty);
+                    DomUpdatedHandler(this, EventArgs.Empty);
                 }
             }
         }
@@ -76,6 +76,12 @@ namespace LayoutFarm.Composers
             get;
             set;
         }
+
+        internal void SetDomUpdateHandler(EventHandler h)
+        {
+            this.DomUpdatedHandler = h;
+        }
+
     }
 
     public class FragmentHtmlDocument : HtmlDocument

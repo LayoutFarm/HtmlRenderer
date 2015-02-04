@@ -17,11 +17,10 @@ namespace LayoutFarm
         {
             if (islandHost == null)
             {
-                islandHost = new HtmlBoxes.HtmlIslandHost(viewport.P);
+                islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);
             }
             return islandHost;
-        }
-
+        } 
 
         string imgFolderPath = null;
         protected override void OnStartDemo(SampleViewport viewport)

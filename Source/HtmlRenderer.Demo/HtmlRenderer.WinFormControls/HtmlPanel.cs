@@ -65,6 +65,7 @@ namespace LayoutFarm.Demo
     /// </summary>
     public class HtmlPanel : ScrollableControl
     {
+        List<MyHtmlIsland> waitingUpdateList = new List<MyHtmlIsland>();
         LayoutFarm.WebDom.WebDocument currentDoc;
         Composers.RenderTreeBuilder renderTreeBuilder;
 
@@ -105,6 +106,7 @@ namespace LayoutFarm.Demo
 
             SetGraphicsPlatform(p);
         }
+
         void SetGraphicsPlatform(PixelFarm.Drawing.GraphicsPlatform p)
         {
             //-------------------------------------------------------
@@ -118,6 +120,16 @@ namespace LayoutFarm.Demo
             myHtmlIsland = new MyHtmlIsland(htmlIslandHost);
             myHtmlIsland.DomVisualRefresh += OnRefresh;
             myHtmlIsland.DomRequestRebuild += myHtmlIsland_NeedUpdateDom;
+            //-------------------------------------------------------
+            htmlIslandHost.SetHtmlIslandUpdateHandler((island) =>
+            {
+                var updatedIsland = island as MyHtmlIsland;
+                if (updatedIsland != null && !updatedIsland.IsInUpdateQueue)
+                {
+                    updatedIsland.IsInUpdateQueue = true;
+                    waitingUpdateList.Add(updatedIsland);
+                }
+            });
 
             htmlLayoutVisitor = new LayoutVisitor(p);
             htmlLayoutVisitor.Bind(myHtmlIsland);
@@ -128,7 +140,19 @@ namespace LayoutFarm.Demo
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
             {
-                myHtmlIsland.RefreshIfNeed();
+                //clear waiting
+                int j = waitingUpdateList.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    var htmlIsland = waitingUpdateList[i];
+                    htmlIsland.IsInUpdateQueue = false;
+                    htmlIsland.RefreshIfNeed();
+                }
+                for (int i = j - 1; i >= 0; --i)
+                {
+                    waitingUpdateList.RemoveAt(i);                     
+                }
+
             };
             timer01.Enabled = true;
             //-------------------------------------------
@@ -757,10 +781,7 @@ namespace LayoutFarm.Demo
             if (myHtmlIsland != null)
             {
                 this.timer01.Stop();
-                //_htmlContainer.LinkClicked -= OnLinkClicked;
-                //myHtmlIsland.RenderError -= OnRenderError;
                 myHtmlIsland.DomVisualRefresh -= OnRefresh;
-                // myHtmlIsland.ScrollChange -= OnScrollChange;
                 this.textContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
                 this.imageContentMan.ImageLoadingRequest -= OnImageLoad;
 

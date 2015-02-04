@@ -179,18 +179,7 @@ namespace LayoutFarm.CustomWidgets
                 htmlLayoutVisitor = new LayoutVisitor(rootgfx.P);
                 htmlLayoutVisitor.Bind(this.myHtmlIsland);
             }
-            //-------------------------
-            rootgfx.SubscribeGraphicsIntervalTask(uiHtmlTask,
-                 LayoutFarm.RenderBoxes.TaskIntervalPlan.Animation, 25,
-                 (s, e) =>
-                 {
-                     if (this.myHtmlIsland.RefreshIfNeed())
-                     {
-                         e.NeedUpdate = 1;
-                     }
-                 });
-            //-------------------------
-
+             
 
             if (this.hasWaitingDocToLoad)
             {

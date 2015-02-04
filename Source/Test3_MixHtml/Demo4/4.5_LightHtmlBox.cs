@@ -20,8 +20,7 @@ namespace LayoutFarm
 
         protected override void OnStartDemo(SampleViewport viewport)
         {
-            this.islandHost = new HtmlIslandHost(viewport.P);
-
+            islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);
             ////==================================================
             //html box
             {

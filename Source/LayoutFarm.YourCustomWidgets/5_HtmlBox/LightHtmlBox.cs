@@ -32,11 +32,7 @@ namespace LayoutFarm.CustomWidgets
         HtmlIslandHost htmlIslandHost;
 
         //presentation
-        HtmlFragmentRenderBox frgmRenderBox;
-
-        object uiHtmlTask = new object();
-        bool isRegistered = false;
-
+        HtmlFragmentRenderBox frgmRenderBox; 
         static LightHtmlBox()
         {
             LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
@@ -156,22 +152,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-
-            if (!isRegistered)
-            {
-                isRegistered = true;
-
-                rootgfx.SubscribeGraphicsIntervalTask(uiHtmlTask,
-                 LayoutFarm.RenderBoxes.TaskIntervalPlan.Animation, 25,
-                 (s, e) =>
-                 {
-                     if (this.myHtmlIsland.RefreshIfNeed())
-                     {
-                         e.NeedUpdate = 1;
-                     }
-                 });
-            }
-
+              
             if (frgmRenderBox == null)
             {
 

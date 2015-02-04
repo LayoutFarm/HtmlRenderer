@@ -23,14 +23,12 @@ namespace LayoutFarm
             int boxHeight = 35;
             int boxY = 50;
 
-            var islandHost = new HtmlBoxes.HtmlIslandHost(viewport.P);         
+            var islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);
+
             islandHost.RequestResource += (s, e) => this.imageContentMan.AddRequestImage(e.binder);
             //-------------------------------------------------------------------
             for (int i = 0; i < 2; ++i)
             {
-
-               
-
                 var statedBox = new LayoutFarm.HtmlWidgets.CheckBox(islandHost, 100, boxHeight);
                 statedBox.SetLocation(10, boxY);
                 boxY += boxHeight + 5;
