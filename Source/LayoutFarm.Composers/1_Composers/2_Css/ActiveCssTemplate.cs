@@ -16,7 +16,7 @@ namespace LayoutFarm.Composers
         CssActiveSheet activeSheet;
         bool isCloneOnce = false;
         Dictionary<TemplateKey, BoxSpec> templatesForTagName = new Dictionary<TemplateKey, BoxSpec>();
-        UniqueStringTable ustrTable = new UniqueStringTable(); 
+        UniqueStringTable ustrTable = new UniqueStringTable();
 
 
         public ActiveCssTemplate(CssActiveSheet activeSheet)
@@ -34,7 +34,11 @@ namespace LayoutFarm.Composers
                 this.activeSheet = value;
             }
         }
-
+        public void ClearCacheContent()
+        {
+            this.templatesForTagName.Clear();
+            this.ustrTable = new UniqueStringTable();
+        }
         void CloneActiveCssSheetOnce()
         {
             if (!isCloneOnce)
@@ -68,17 +72,24 @@ namespace LayoutFarm.Composers
                 this.classNameKey = classNameKey;
                 this.version = version;
             }
+#if DEBUG
+            public override string ToString()
+            {
+                return "t:" + tagNameKey + "c:" + classNameKey + "v:" + version;
+            }
+#endif
         }
 
-       
 
-        static readonly char[] _whiteSplitter = new[] { ' ' }; 
+
+        static readonly char[] _whiteSplitter = new[] { ' ' };
         internal void ApplyActiveTemplate(string elemName, string class_value, BoxSpec currentBoxSpec, BoxSpec parentSpec)
         {
-
+            //if (currentBoxSpec.__aa_dbugId == 12)
+            //{
+            //}
             //1. tag name key
             int tagNameKey = ustrTable.AddStringIfNotExist(elemName);
-
             //2. class name key
             int classNameKey = 0;
             if (class_value != null)
@@ -99,6 +110,10 @@ namespace LayoutFarm.Composers
             {
                 //create template for specific key  
                 boxTemplate = new BoxSpec();
+                //if (boxTemplate.__aa_dbugId == 30)
+                //{
+                //}
+
                 BoxSpec.CloneAllStyles(boxTemplate, currentBoxSpec);
                 BoxSpec.SetVersionNumber(currentBoxSpec, parentSpec.VersionNumber + 1);
 
@@ -145,13 +160,15 @@ namespace LayoutFarm.Composers
                             }
                         }
                     }
-                } 
-                templatesForTagName.Add(key, boxTemplate);
-                boxTemplate.Freeze(); 
-               
+                }
+
+                if (!currentBoxSpec.DoNotCache)
+                {
+                    templatesForTagName.Add(key, boxTemplate);
+                }
+                boxTemplate.Freeze();
             }
             BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
-
         }
 
 

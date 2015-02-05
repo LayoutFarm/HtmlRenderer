@@ -80,6 +80,7 @@ namespace LayoutFarm.Css
             target._right = source._right;
 
             target._width = source._width;
+            
             target._height = source._height;
             target._maxWidth = source._maxWidth;
             target._position = source._position;

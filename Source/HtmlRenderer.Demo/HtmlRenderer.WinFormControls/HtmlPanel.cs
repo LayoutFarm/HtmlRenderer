@@ -150,7 +150,7 @@ namespace LayoutFarm.Demo
                 }
                 for (int i = j - 1; i >= 0; --i)
                 {
-                    waitingUpdateList.RemoveAt(i);                     
+                    waitingUpdateList.RemoveAt(i);
                 }
 
             };
@@ -315,12 +315,12 @@ namespace LayoutFarm.Demo
 
             if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
             //-----------------------------------------------------------------
-            var htmldoc = LayoutFarm.Composers.WebDocumentParser.ParseDocument(
+            var htmldoc = this.currentDoc = LayoutFarm.Composers.WebDocumentParser.ParseDocument(
                           new WebDom.Parser.TextSnapshot(html.ToCharArray()));
 
 
             //build rootbox from htmldoc
-            var rootBox = renderTreeBuilder.BuildCssRenderTree(htmldoc,
+            var rootBox = renderTreeBuilder.BuildCssRenderTree((Composers.HtmlDocument)htmldoc,
                 cssData,
                 null);
 
