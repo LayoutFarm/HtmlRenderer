@@ -7,6 +7,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 using LayoutFarm.CustomWidgets;
+
 namespace LayoutFarm.HtmlWidgets
 {
 
@@ -74,33 +75,12 @@ namespace LayoutFarm.HtmlWidgets
                 if (this.floatPart != null)
                 {
 
-                }
-
+                } 
                 //---------------------------------
                 primElement = renderE;
             }
             return primElement;
         }
-        //----------------------------------------------------
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            if (this.MouseDown != null)
-            {
-                this.MouseDown(this, e);
-            }
-        } 
-        protected override void OnMouseUp(UIMouseEventArgs e)
-        {
-            if (this.MouseUp != null)
-            {
-                MouseUp(this, e);
-            }
-            base.OnMouseUp(e);
-        }
-        
-        public event EventHandler<UIMouseEventArgs> MouseDown;
-        public event EventHandler<UIMouseEventArgs> MouseUp;
-
          
         //----------------------------------------------------  
         public UIBox LandPart

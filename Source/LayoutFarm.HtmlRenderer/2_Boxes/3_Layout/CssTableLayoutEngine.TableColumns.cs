@@ -1,15 +1,26 @@
 ﻿// 2015,2014 ,BSD, WinterDev
 //ArthurHub 
- 
+
 
 namespace LayoutFarm.HtmlBoxes
 {
     partial class CssTableLayoutEngine
     {
+        enum ColumnSpecificWidthLevel : byte
+        {
+            None,
+            StartAtMin,
+            Adjust,
+
+            ExpandToMax,
+            FromCellConstraint
+        }
+
         class TableColumn
         {
             int index;
-            bool hasSpecificWidth;
+            ColumnSpecificWidthLevel spWidthLevel;
+
             float actualWidth;
             float minWidth;
             float maxWidth;
@@ -21,33 +32,55 @@ namespace LayoutFarm.HtmlBoxes
             public float Width
             {
                 get { return this.actualWidth; }
-                set
-                {
-                    hasSpecificWidth = true;
-                    this.actualWidth = value;
-                }
             }
-            public bool HasSpecificWidth
+            public void SetWidth(float width, ColumnSpecificWidthLevel specificWidthLevel)
             {
-                get { return this.hasSpecificWidth; }
-            }
-            public void UpdateIfWider(float newWidth)
-            {
-                if (newWidth >= this.actualWidth)
-                {
-                    this.Width = newWidth;
-                }
+
+                this.SpecificWidthLevel = specificWidthLevel;
+                this.actualWidth = width;
             }
             public float MinWidth
             {
                 get { return this.minWidth; }
-                set { this.minWidth = value; }
             }
-
             public float MaxWidth
             {
                 get { return this.maxWidth; }
-                set { this.maxWidth = value; }
+            }
+            public bool HasSpecificWidth
+            {
+                get { return this.spWidthLevel == ColumnSpecificWidthLevel.FromCellConstraint; }
+            }
+            public ColumnSpecificWidthLevel SpecificWidthLevel
+            {
+                get { return this.spWidthLevel; }
+                private set
+                {
+                    //if (this.index == 1 && value == ColumnSpecificWidthLevel.FromCellConstraint)
+                    //{ 
+                    //}
+                    if (this.spWidthLevel == ColumnSpecificWidthLevel.FromCellConstraint)
+                    {
+                    }
+                    else
+                    {
+                        this.spWidthLevel = value;
+                    }
+                }
+            }
+            //-----------------------------------------------------
+            public void S3_UpdateIfWider(float newWidth, ColumnSpecificWidthLevel level)
+            {
+                //called at state3 only
+                if (newWidth > this.actualWidth)
+                {
+                    this.actualWidth = newWidth;
+                    this.SpecificWidthLevel = level;
+                }
+            }
+            public void S5_SetMinWidth(float minWidth)
+            {
+                this.minWidth = minWidth;
             }
             public void UpdateMinMaxWidthIfWider(float newMinWidth, float newMaxWidth)
             {
@@ -70,13 +103,25 @@ namespace LayoutFarm.HtmlBoxes
                 get { return this.actualWidth >= this.maxWidth; }
             }
 
-            public void AddMoreWidthValue(float offset)
+            public void AddMoreWidthValue(float offset, ColumnSpecificWidthLevel level)
             {
                 this.actualWidth += offset;
+                this.SpecificWidthLevel = level;
             }
-            public void UserMinWidth()
+            public void UseMinWidth()
             {
                 this.actualWidth = this.minWidth;
+                this.SpecificWidthLevel = ColumnSpecificWidthLevel.StartAtMin;
+            }
+            public void UseMaxWidth()
+            {
+                this.actualWidth = this.MaxWidth;
+                this.SpecificWidthLevel = ColumnSpecificWidthLevel.ExpandToMax;
+            }
+            public void AdjustDecrByOne()
+            {
+                this.actualWidth--;
+                this.SpecificWidthLevel = ColumnSpecificWidthLevel.Adjust;
             }
         }
         class TableColumnCollection
@@ -92,7 +137,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             public void SetColumnWidth(int colIndex, float width)
             {
-                columns[colIndex].Width = width;
+                columns[colIndex].SetWidth(width, ColumnSpecificWidthLevel.FromCellConstraint);
             }
             public TableColumn this[int index]
             {
@@ -108,14 +153,25 @@ namespace LayoutFarm.HtmlBoxes
                 for (int i = columns.Length - 1; i >= 0; --i)
                 {
                     var col = columns[i];
-                    if (!col.HasSpecificWidth)
+                    switch (col.SpecificWidthLevel)
                     {
-                        numOfUnspecificColWidth++;
+                        case ColumnSpecificWidthLevel.None:
+                            {
+                                numOfUnspecificColWidth++;
+                            } break;
+                        default:
+                            {
+                                occupiedSpace += col.Width;
+                            } break;
                     }
-                    else
-                    {
-                        occupiedSpace += col.Width;
-                    }
+                    //if (!col.HasSpecificWidth)
+                    //{
+                    //    numOfUnspecificColWidth++;
+                    //}
+                    //else
+                    //{
+                    //    occupiedSpace += col.Width;
+                    //}
                 }
             }
 
@@ -162,16 +218,17 @@ namespace LayoutFarm.HtmlBoxes
 
             }
 
-            public void AddMoreWidthToColumns(bool onlyNonspeicificWidth, float value)
+            public void S4_AddMoreWidthToColumns(bool onlyNonspeicificWidth, float value)
             {
                 if (onlyNonspeicificWidth)
                 {
                     for (int i = columns.Length - 1; i >= 0; --i)
                     {
                         var col = columns[i];
+
                         if (!col.HasSpecificWidth)
                         {
-                            col.AddMoreWidthValue(value);
+                            col.AddMoreWidthValue(value, ColumnSpecificWidthLevel.Adjust);
                         }
                     }
                 }
@@ -179,7 +236,7 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     for (int i = columns.Length - 1; i >= 0; --i)
                     {
-                        columns[i].AddMoreWidthValue(value);
+                        columns[i].AddMoreWidthValue(value, ColumnSpecificWidthLevel.Adjust);
                     }
                 }
             }
@@ -187,7 +244,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 for (int i = columns.Length - 1; i >= 0; --i)
                 {
-                    columns[i].UserMinWidth();
+                    columns[i].UseMinWidth();
                 }
             }
             /// <summary>

@@ -14,55 +14,24 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm.HtmlWidgets
 {
 
-
-    public class CheckBox : Panel
+    public class CheckBox : LightHtmlWidgetBase
     {
 
         bool isChecked;
-
-
-        HtmlIslandHost htmlIslandHost;
-        LightHtmlBox lightHtmlBox;
-
+        string checkBoxText = "";
+        public event EventHandler WhenChecked;
         public CheckBox(HtmlIslandHost htmlIslandHost, int w, int h)
-            : base(w, h)
+            : base(htmlIslandHost, w, h)
+        { 
+        } 
+        //---------------------------------------------------------------------------
+        public string Text
         {
-            this.htmlIslandHost = htmlIslandHost;
-
-        }
-        protected override RenderElement CurrentPrimaryRenderElement
-        {
-            get
+            get { return this.checkBoxText; }
+            set
             {
-                return UIElement.GetCurrentPrimaryRenderElement(lightHtmlBox);
+                this.checkBoxText = value;
             }
-        }
-        protected override bool HasReadyRenderElement
-        {
-            get
-            {
-                return this.lightHtmlBox != null;
-            }
-        }
-
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-        {
-
-            if (!this.HasReadyRenderElement)
-            {
-                var lightHtmlBox = new LightHtmlBox(htmlIslandHost, this.Width, this.Height);
-                lightHtmlBox.LoadHtmlDom(CreateHtml());
-                lightHtmlBox.SetLocation(this.Left, this.Top);
-
-                this.lightHtmlBox = lightHtmlBox;
-                return lightHtmlBox.GetPrimaryRenderElement(rootgfx);
-
-            }
-            else
-            {
-                return lightHtmlBox.GetPrimaryRenderElement(rootgfx);
-            }
-
         }
         public bool Checked
         {
@@ -93,27 +62,23 @@ namespace LayoutFarm.HtmlWidgets
                 }
             }
         }
-        public event EventHandler WhenChecked;
 
-        FragmentHtmlDocument CreateHtml()
+        protected override FragmentHtmlDocument CreatePresentationDom()
         {
-            FragmentHtmlDocument htmldoc = this.htmlIslandHost.CreateNewFragmentHtml();
 
+            FragmentHtmlDocument htmldoc = this.HtmlIslandHost.CreateNewFragmentHtml();
             //TODO: use template engine, 
             //ideas:  AngularJS style ?
 
             //1. create body node             
             // and content   
-            //style 2, lambda and adhoc attach event
-
-
+            //style 2, lambda and adhoc attach event  
             var domElement =
                 htmldoc.RootNode.AddChild("div", div =>
                 {
                     div.SetAttribute("style", "font:10pt tahoma;");
                     div.AddChild("img", img =>
                     {
-
                         //init 
                         bool is_close = true;
                         img.SetAttribute("src", "../../Demo/arrow_close.png");
@@ -127,10 +92,10 @@ namespace LayoutFarm.HtmlWidgets
 
                             this.InvalidateGraphics();
                         });
+
                     });
                     div.AddChild("img", img =>
                     {
-
                         //change style
                         bool is_close = true;
                         img.SetAttribute("src", "../../Demo/arrow_close.png");
@@ -147,12 +112,13 @@ namespace LayoutFarm.HtmlWidgets
                             this.InvalidateGraphics();
                         });
                     });
-
+                    div.AddChild("span", span =>
+                    {
+                        span.AddTextContent(this.checkBoxText);
+                    });
                 });
 
             return htmldoc;
         }
     }
-
-
 }

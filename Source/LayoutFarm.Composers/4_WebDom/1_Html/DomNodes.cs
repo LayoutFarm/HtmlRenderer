@@ -31,6 +31,7 @@ namespace LayoutFarm.WebDom
 #if DEBUG
         static int dbugTotalId;
         public int dbugId;
+        public int dbugMark;
 #endif
 
         internal DomNode(WebDocument ownerDoc)

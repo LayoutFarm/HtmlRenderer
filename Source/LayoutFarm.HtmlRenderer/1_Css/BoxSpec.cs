@@ -24,6 +24,7 @@ namespace LayoutFarm.Css
     {
         int _versionNum;
         bool _freezed;
+
         //==========================================================
         #region css values Inherit From Parent (by default)
         //inherit from parent by default
@@ -88,8 +89,6 @@ namespace LayoutFarm.Css
         {
 
         }
-        //---------------------------------------------------------------
-
         public void Freeze()
         {
             this._freezed = true;
@@ -103,9 +102,24 @@ namespace LayoutFarm.Css
             _backgroundFeats.Freeze();//7   
         }
 
+        public bool DoNotCache
+        {
+            get;
+            set;
+        }
         public void Defreeze()
         {
             this._freezed = false;
+            _fontFeats.DeFreeze(); //1.
+            _listFeats.DeFreeze(); //2. 
+
+            _borderFeats.DeFreeze();//3.
+            _paddingFeats.DeFreeze();//4.
+            _marginFeats.DeFreeze();//5.
+            _cornerFeats.DeFreeze();//6.
+            _backgroundFeats.DeFreeze();//7   
+
+
         }
         public bool IsFreezed
         {
@@ -113,10 +127,12 @@ namespace LayoutFarm.Css
         }
         bool Assignable()
         {
+#if DEBUG
             if (_freezed)
             {
-
+                //throw new NotSupportedException();
             }
+#endif
             return !_freezed;
         }
         //---------------------------------------------------------------
@@ -372,15 +388,14 @@ namespace LayoutFarm.Css
         public Color BackgroundColor
         {
             get { return this._backgroundFeats.BackgroundColor; }
-            set { if (Assignable()) CheckBgVersion().BackgroundColor = value; }
+            set { if (Assignable()) this.CheckBgVersion().BackgroundColor = value; }
+
         }
         public ImageBinder BackgroundImageBinder
         {
             get { return this._backgroundFeats.BackgroundImageBinder; }
             set { if (Assignable()) CheckBgVersion().BackgroundImageBinder = value; }
         }
-
-
         public CssLength BackgroundPositionX
         {
             get { return this._backgroundFeats.BackgroundPosX; }
@@ -773,7 +788,7 @@ namespace LayoutFarm.Css
             return true;
 
         }
-#endif 
+#endif
     }
 
 

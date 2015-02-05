@@ -8,6 +8,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 using LayoutFarm.CustomWidgets;
+
 namespace LayoutFarm.HtmlWidgets
 {
     public class HingeBox : UIBox
@@ -88,8 +89,7 @@ namespace LayoutFarm.HtmlWidgets
             {
                 this.MouseDown(this, e);
             }
-        }
-       
+        } 
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -97,13 +97,10 @@ namespace LayoutFarm.HtmlWidgets
                 MouseUp(this, e);
             }
             base.OnMouseUp(e);
-        }
-         
-        //----------------------------------------------------
-
+        } 
+        //---------------------------------------------------- 
         public event EventHandler<UIMouseEventArgs> MouseDown;
-        public event EventHandler<UIMouseEventArgs> MouseUp;
-         
+        public event EventHandler<UIMouseEventArgs> MouseUp; 
         //----------------------------------------------------  
         public UIBox LandPart
         {
@@ -240,6 +237,8 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
     }
+
+
     public enum HingeFloatPartStyle
     {
         Popup,

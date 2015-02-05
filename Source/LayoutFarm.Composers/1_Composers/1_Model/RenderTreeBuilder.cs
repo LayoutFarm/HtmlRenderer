@@ -162,12 +162,13 @@ namespace LayoutFarm.Composers
             RenderElement containerElement)
         {
 
-            htmldoc.ActiveCssTemplate = new ActiveCssTemplate(cssActiveSheet);
+            htmldoc.CssActiveSheet = cssActiveSheet;
 
             htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
 
-            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, htmldoc.ActiveCssTemplate);
+            ActiveCssTemplate activeTemplate = new ActiveCssTemplate(cssActiveSheet);
+            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
 
 
             //----------------------------------------------------------------  
@@ -197,7 +198,8 @@ namespace LayoutFarm.Composers
             HtmlElement startAtHtmlElement = (HtmlElement)domElement;
 
             htmldoc.SetDocumentState(DocumentState.Building);
-            PrepareStylesAndContentOfChildNodes(startAtHtmlElement, htmldoc.ActiveCssTemplate);
+            ActiveCssTemplate activeTemplate = new ActiveCssTemplate(htmldoc.CssActiveSheet);
+            PrepareStylesAndContentOfChildNodes(startAtHtmlElement, activeTemplate);
 
             CssBox docRoot = HtmlElement.InternalGetPrincipalBox((HtmlElement)htmldoc.RootNode);
             if (docRoot == null)
@@ -229,9 +231,11 @@ namespace LayoutFarm.Composers
 
             HtmlElement startAtElement = (HtmlElement)startAt;
             startAtElement.OwnerDocument.SetDocumentState(DocumentState.Building);
-
             //----------------------------------------------------------------     
-            PrepareStylesAndContentOfChildNodes(startAtElement, ((HtmlDocument)startAtElement.OwnerDocument).ActiveCssTemplate);
+            //clear active template
+
+            ActiveCssTemplate activeTemplate = new ActiveCssTemplate(((HtmlDocument)startAtElement.OwnerDocument).CssActiveSheet);
+            PrepareStylesAndContentOfChildNodes(startAtElement, activeTemplate);
 
             CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(startAtElement);
             if (existingCssBox != null)
@@ -287,7 +291,12 @@ namespace LayoutFarm.Composers
           BoxSpec parentSpec,
           ActiveCssTemplate activeCssTemplate)
         {
+
             BoxSpec curSpec = element.Spec;
+            //if (curSpec.__aa_dbugId == 10)
+            //{
+
+            //}
             //0. 
             BoxSpec.InheritStyles(curSpec, parentSpec);
             //--------------------------------
@@ -324,6 +333,13 @@ namespace LayoutFarm.Composers
 
             }
 
+            //if (element.dbugMark == 1)
+            //{
+            //}
+            //else if (element.dbugMark == 2)
+            //{
+            //}
+
             //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
             //------------------------------------------------------------------- 
             //4. a style attribute value 
@@ -338,10 +354,7 @@ namespace LayoutFarm.Composers
                     //step up version number
                     //after apply style  
                     BoxSpec.SetVersionNumber(curSpec, curSpec.VersionNumber + 1);
-                    if (curSpec.IsFreezed)
-                    {
-                        curSpec.Defreeze();
-                    }
+
                     foreach (WebDom.CssPropertyDeclaration propDecl in parsedRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(
@@ -349,6 +362,8 @@ namespace LayoutFarm.Composers
                             parentSpec,
                             propDecl);
                     }
+
+                    curSpec.DoNotCache = true;
                 }
                 //----------------------------------------------------------------
                 element.IsStyleEvaluated = true;
@@ -364,6 +379,7 @@ namespace LayoutFarm.Composers
                     {
                         curSpec.Defreeze();
                     }
+                    curSpec.DoNotCache = true;
                     foreach (WebDom.CssPropertyDeclaration propDecl in elemRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(
