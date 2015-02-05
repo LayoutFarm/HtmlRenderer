@@ -363,6 +363,7 @@ namespace LayoutFarm.HtmlBoxes
                                 if (childBox.CssDisplay == CssDisplay.TableCell)
                                 {
                                     CssLength cellWidth = childBox.Width;
+
                                     if (cellWidth.IsAuto)
                                     {
                                         float cellBoxWidth = CssValueParser.ConvertToPx(childBox.Width, availbleWidthForAllCells, childBox);
@@ -373,7 +374,7 @@ namespace LayoutFarm.HtmlBoxes
 
                                             for (int n = i; n < i + colspan; n++)
                                             {
-                                                columnCollection[n].S3_UpdateIfWider(cellBoxWidth);
+                                                columnCollection[n].S3_UpdateIfWider(cellBoxWidth, ColumnSpecificWidthLevel.Adjust);
                                             }
                                         }
                                     }
@@ -387,7 +388,7 @@ namespace LayoutFarm.HtmlBoxes
 
                                             for (int n = i; n < i + colspan; n++)
                                             {
-                                                columnCollection[n].S3_UpdateIfWider2(cellBoxWidth);
+                                                columnCollection[n].S3_UpdateIfWider(cellBoxWidth, ColumnSpecificWidthLevel.FromCellConstraint);
                                             }
                                         }
                                     }
@@ -420,7 +421,14 @@ namespace LayoutFarm.HtmlBoxes
                 this.columnCollection.CountUnspecificWidthColumnAndOccupiedSpace(
                     out numOfNonSpec, out occupiedSpace);
 
-                int orgNumOfNans = numOfNonSpec;
+                ///original number of nonspecific width
+                int orgNumOfNonSpecificWidth = numOfNonSpec;
+#if DEBUG
+                if (orgNumOfNonSpecificWidth == 0)
+                {
+                    throw new NotSupportedException();
+                }
+#endif
                 bool hasSomeNonSpecificWidth = numOfNonSpec < this.columnCollection.Count;
 
                 if (numOfNonSpec > 0)
@@ -429,31 +437,39 @@ namespace LayoutFarm.HtmlBoxes
                     S4S7_CalculateColumnsMinMaxWidthByContent(true);
 
                     // set the columns that can fulfill by the max width in a loop because it changes the nanWidth
-                    int oldNumOfNonSpefic;
+                    int oldNumOfNonSpecific;
                     int colWidthCount = columnCollection.Count;
                     do
                     {
-                        oldNumOfNonSpefic = numOfNonSpec;
+                        oldNumOfNonSpecific = numOfNonSpec;
                         for (int i = 0; i < colWidthCount; i++)
                         {
-                            float nanWidth = (availCellSpace - occupiedSpace) / numOfNonSpec;
+                            //calculate every loop
+                            float suggestedWidth = (availCellSpace - occupiedSpace) / numOfNonSpec;
                             TableColumn col = this.columnCollection[i];
-                            if (!col.HasSpecificWidth && col.MaxWidth < nanWidth)
+                            switch (col.SpecificWidthLevel)
                             {
-                                col.Width = col.MaxWidth;
-                                numOfNonSpec--;
-                                occupiedSpace += col.Width;
+                                case ColumnSpecificWidthLevel.None:
+                                    {
+                                        if (col.MaxWidth < suggestedWidth)
+                                        {
+                                            col.UseMaxWidth();
+                                            numOfNonSpec--;
+                                            occupiedSpace += col.Width;
+                                        }
+                                    } break;
+                                default:
+                                    break;
                             }
                         }
-
-                    } while (oldNumOfNonSpefic != numOfNonSpec);
+                    } while (oldNumOfNonSpecific != numOfNonSpec);
 
 
                     if (numOfNonSpec > 0)
                     {
                         // Determine width that will be assigned to un assigned widths
                         float nanWidth = (availCellSpace - occupiedSpace) / numOfNonSpec;
-                        this.columnCollection.AddMoreWidthToColumns(true, nanWidth);
+                        this.columnCollection.S4_AddMoreWidthToColumns(true, nanWidth);
                     }
                 }
 
@@ -461,19 +477,20 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     int colWidthCount = this.columnCollection.Count;
 
-                    if (orgNumOfNans > 0)
+                    if (orgNumOfNonSpecificWidth > 0)
                     {
                         // spread extra width between all non width specified columns
-                        float extWidth = (availCellSpace - occupiedSpace) / orgNumOfNans;
-                        this.columnCollection.AddMoreWidthToColumns(hasSomeNonSpecificWidth, extWidth);
+                        float extWidth = (availCellSpace - occupiedSpace) / orgNumOfNonSpecificWidth;
+                        this.columnCollection.S4_AddMoreWidthToColumns(hasSomeNonSpecificWidth, extWidth);
                     }
                     else
                     {
-                        // spread extra width between all columns with respect to relative sizes 
+                        // spread extra width between all columns with respect to relative sizes  
                         for (int i = colWidthCount - 1; i >= 0; --i)
                         {
                             var col = this.columnCollection[i];
-                            col.AddMoreWidthValue((availCellSpace - occupiedSpace) * (col.Width / occupiedSpace));
+                            col.AddMoreWidthValue((availCellSpace - occupiedSpace) * (col.Width / occupiedSpace),
+                                 ColumnSpecificWidthLevel.Adjust);
                         }
                     }
                 }
@@ -492,7 +509,8 @@ namespace LayoutFarm.HtmlBoxes
                     TableColumn col = this.columnCollection[i];
                     if (!col.HasSpecificWidth)
                     {
-                        col.Width = c_width = col.MinWidth;
+                        c_width = col.MinWidth;
+                        col.UseMinWidth();
                     }
                     occupiedSpace += c_width;
                 }
@@ -503,7 +521,8 @@ namespace LayoutFarm.HtmlBoxes
                     TableColumn col = this.columnCollection[i];
                     if (!col.TouchUpperLimit)
                     {
-                        col.Width = c_width = Math.Min(c_width + (availCellSpace - occupiedSpace) / Convert.ToSingle(colWidthCount - i), col.MaxWidth);
+                        col.SetWidth(c_width = Math.Min(c_width + (availCellSpace - occupiedSpace) / Convert.ToSingle(colWidthCount - i), col.MaxWidth),
+                             ColumnSpecificWidthLevel.Adjust);
                         occupiedSpace += c_width;
                     }
                 }
@@ -528,7 +547,7 @@ namespace LayoutFarm.HtmlBoxes
                 while (this.columnCollection.FindFirstReducibleColumnWidth(cIndex, out foundAt))
                 {
 
-                    columnCollection[foundAt].Width -= 1f;
+                    columnCollection[foundAt].AdjustDecrByOne();
                     cIndex = foundAt + 1;
                     if (cIndex >= col_count)
                     {
@@ -595,7 +614,8 @@ namespace LayoutFarm.HtmlBoxes
                                 var col = this.columnCollection[i];
                                 if (col.Width > largeWidth - 0.1)
                                 {
-                                    col.Width -= decrease;
+
+                                    col.AddMoreWidthValue(-decrease, ColumnSpecificWidthLevel.Adjust);
                                 }
                             }
 
@@ -644,8 +664,8 @@ namespace LayoutFarm.HtmlBoxes
                                 var col = columnCollection[i];
                                 if (!hit || col.Width + 1 < col.MaxWidth)
                                 {
-                                    col.Width += minIncrement;
 
+                                    col.AddMoreWidthValue(minIncrement, ColumnSpecificWidthLevel.Adjust);
                                 }
                             }
 
@@ -677,7 +697,7 @@ namespace LayoutFarm.HtmlBoxes
                             this.columnCollection[affect_col].UseMinWidth();
                             if (grid_index < col_count - 1)
                             {
-                                this.columnCollection[grid_index + 1].Width -= (col.Width - col.MinWidth);
+                                this.columnCollection[grid_index + 1].AddMoreWidthValue(-(col.Width - col.MinWidth), ColumnSpecificWidthLevel.Adjust);
                             }
                         }
                     }
@@ -944,7 +964,7 @@ namespace LayoutFarm.HtmlBoxes
                 //----------
                 cnode = cnode.GetNextNode();
                 n++;
-            } 
+            }
             insertAt = null;
             return false;
         }

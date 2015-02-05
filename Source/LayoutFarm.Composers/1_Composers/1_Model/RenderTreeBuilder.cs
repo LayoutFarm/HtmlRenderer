@@ -229,9 +229,11 @@ namespace LayoutFarm.Composers
 
             HtmlElement startAtElement = (HtmlElement)startAt;
             startAtElement.OwnerDocument.SetDocumentState(DocumentState.Building);
-
             //----------------------------------------------------------------     
-            PrepareStylesAndContentOfChildNodes(startAtElement, ((HtmlDocument)startAtElement.OwnerDocument).ActiveCssTemplate);
+            //clear active template
+            ActiveCssTemplate activeTemplate = ((HtmlDocument)startAtElement.OwnerDocument).ActiveCssTemplate;
+            activeTemplate.ClearCacheContent();
+            PrepareStylesAndContentOfChildNodes(startAtElement, activeTemplate);
 
             CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(startAtElement);
             if (existingCssBox != null)
@@ -287,7 +289,12 @@ namespace LayoutFarm.Composers
           BoxSpec parentSpec,
           ActiveCssTemplate activeCssTemplate)
         {
+            
             BoxSpec curSpec = element.Spec;
+            //if (curSpec.__aa_dbugId == 10)
+            //{
+
+            //}
             //0. 
             BoxSpec.InheritStyles(curSpec, parentSpec);
             //--------------------------------
@@ -353,6 +360,8 @@ namespace LayoutFarm.Composers
                             parentSpec,
                             propDecl);
                     }
+
+                    curSpec.DoNotCache = true;
                 }
                 //----------------------------------------------------------------
                 element.IsStyleEvaluated = true;
@@ -368,6 +377,7 @@ namespace LayoutFarm.Composers
                     {
                         curSpec.Defreeze();
                     }
+                    curSpec.DoNotCache = true;
                     foreach (WebDom.CssPropertyDeclaration propDecl in elemRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(

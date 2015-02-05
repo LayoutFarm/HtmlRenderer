@@ -71,17 +71,17 @@ namespace LayoutFarm.Composers
         {
             return new HtmlTextNode(this, strBufferForElement);
         }
-        internal virtual ActiveCssTemplate ActiveCssTemplate
-        {
-            get;
-            set;
-        }
+
 
         internal void SetDomUpdateHandler(EventHandler h)
         {
             this.DomUpdatedHandler = h;
         }
-
+        internal ActiveCssTemplate ActiveCssTemplate
+        {
+            get;
+            set;
+        }
     }
 
     public class FragmentHtmlDocument : HtmlDocument
@@ -91,18 +91,8 @@ namespace LayoutFarm.Composers
             : base(primaryHtmlDoc.UniqueStringTable)
         {
             this.primaryHtmlDoc = primaryHtmlDoc;
-        }
-        internal override ActiveCssTemplate ActiveCssTemplate
-        {
-            get
-            {
-                return this.primaryHtmlDoc.ActiveCssTemplate;
-            }
-            set
-            {
-
-            }
-        }
+            this.ActiveCssTemplate = new ActiveCssTemplate(primaryHtmlDoc.ActiveCssTemplate.ActiveSheet);
+        }        
 
     }
 }
