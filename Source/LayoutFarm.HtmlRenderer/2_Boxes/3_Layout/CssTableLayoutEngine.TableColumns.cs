@@ -35,6 +35,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             public void SetWidth(float width, ColumnSpecificWidthLevel specificWidthLevel)
             {
+
                 this.SpecificWidthLevel = specificWidthLevel;
                 this.actualWidth = width;
             }
@@ -55,6 +56,9 @@ namespace LayoutFarm.HtmlBoxes
                 get { return this.spWidthLevel; }
                 private set
                 {
+                    //if (this.index == 1 && value == ColumnSpecificWidthLevel.FromCellConstraint)
+                    //{ 
+                    //}
                     if (this.spWidthLevel == ColumnSpecificWidthLevel.FromCellConstraint)
                     {
                     }
@@ -70,7 +74,7 @@ namespace LayoutFarm.HtmlBoxes
                 //called at state3 only
                 if (newWidth > this.actualWidth)
                 {
-                    this.actualWidth = this.minWidth;
+                    this.actualWidth = newWidth;
                     this.SpecificWidthLevel = level;
                 }
             }
@@ -149,14 +153,25 @@ namespace LayoutFarm.HtmlBoxes
                 for (int i = columns.Length - 1; i >= 0; --i)
                 {
                     var col = columns[i];
-                    if (!col.HasSpecificWidth)
+                    switch (col.SpecificWidthLevel)
                     {
-                        numOfUnspecificColWidth++;
+                        case ColumnSpecificWidthLevel.None:
+                            {
+                                numOfUnspecificColWidth++;
+                            } break;
+                        default:
+                            {
+                                occupiedSpace += col.Width;
+                            } break;
                     }
-                    else
-                    {
-                        occupiedSpace += col.Width;
-                    }
+                    //if (!col.HasSpecificWidth)
+                    //{
+                    //    numOfUnspecificColWidth++;
+                    //}
+                    //else
+                    //{
+                    //    occupiedSpace += col.Width;
+                    //}
                 }
             }
 

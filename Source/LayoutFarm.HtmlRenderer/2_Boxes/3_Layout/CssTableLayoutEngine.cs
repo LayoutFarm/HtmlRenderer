@@ -363,6 +363,7 @@ namespace LayoutFarm.HtmlBoxes
                                 if (childBox.CssDisplay == CssDisplay.TableCell)
                                 {
                                     CssLength cellWidth = childBox.Width;
+
                                     if (cellWidth.IsAuto)
                                     {
                                         float cellBoxWidth = CssValueParser.ConvertToPx(childBox.Width, availbleWidthForAllCells, childBox);
@@ -422,6 +423,12 @@ namespace LayoutFarm.HtmlBoxes
 
                 ///original number of nonspecific width
                 int orgNumOfNonSpecificWidth = numOfNonSpec;
+#if DEBUG
+                if (orgNumOfNonSpecificWidth == 0)
+                {
+                    throw new NotSupportedException();
+                }
+#endif
                 bool hasSomeNonSpecificWidth = numOfNonSpec < this.columnCollection.Count;
 
                 if (numOfNonSpec > 0)
@@ -430,26 +437,32 @@ namespace LayoutFarm.HtmlBoxes
                     S4S7_CalculateColumnsMinMaxWidthByContent(true);
 
                     // set the columns that can fulfill by the max width in a loop because it changes the nanWidth
-                    int oldNumOfNonSpefic;
+                    int oldNumOfNonSpecific;
                     int colWidthCount = columnCollection.Count;
                     do
                     {
-                        oldNumOfNonSpefic = numOfNonSpec;
+                        oldNumOfNonSpecific = numOfNonSpec;
                         for (int i = 0; i < colWidthCount; i++)
                         {
                             //calculate every loop
                             float suggestedWidth = (availCellSpace - occupiedSpace) / numOfNonSpec;
                             TableColumn col = this.columnCollection[i];
-                            if (!col.HasSpecificWidth && col.MaxWidth < suggestedWidth)
+                            switch (col.SpecificWidthLevel)
                             {
-
-                                col.UseMaxWidth();
-                                numOfNonSpec--;
-                                occupiedSpace += col.Width;
+                                case ColumnSpecificWidthLevel.None:
+                                    {
+                                        if (col.MaxWidth < suggestedWidth)
+                                        {
+                                            col.UseMaxWidth();
+                                            numOfNonSpec--;
+                                            occupiedSpace += col.Width;
+                                        }
+                                    } break;
+                                default:
+                                    break;
                             }
                         }
-
-                    } while (oldNumOfNonSpefic != numOfNonSpec);
+                    } while (oldNumOfNonSpecific != numOfNonSpec);
 
 
                     if (numOfNonSpec > 0)

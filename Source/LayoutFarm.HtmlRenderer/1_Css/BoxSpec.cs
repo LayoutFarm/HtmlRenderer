@@ -24,6 +24,7 @@ namespace LayoutFarm.Css
     {
         int _versionNum;
         bool _freezed;
+
         //==========================================================
         #region css values Inherit From Parent (by default)
         //inherit from parent by default
@@ -101,6 +102,11 @@ namespace LayoutFarm.Css
             _backgroundFeats.Freeze();//7   
         }
 
+        public bool DoNotCache
+        {
+            get;
+            set;
+        }
         public void Defreeze()
         {
             this._freezed = false;
