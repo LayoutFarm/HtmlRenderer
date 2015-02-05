@@ -12,14 +12,14 @@ namespace LayoutFarm
     [DemoNote("4.3.2 UIHtmlBox with ContentMx")]
     class Demo_UIHtmlBox_ContentMx : DemoBase
     {
-        HtmlBoxes.HtmlIslandHost islandHost;
-        HtmlBoxes.HtmlIslandHost GetIslandHost(SampleViewport viewport)
+        HtmlBoxes.HtmlHost htmlHost;
+        HtmlBoxes.HtmlHost GetHtmlHost(SampleViewport viewport)
         {
-            if (islandHost == null)
+            if (htmlHost == null)
             {
-                islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);
+                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);
             }
-            return islandHost;
+            return htmlHost;
         } 
 
         string imgFolderPath = null;
@@ -35,7 +35,7 @@ namespace LayoutFarm
             }
             //==================================================
             //html box
-            var htmlBox = new HtmlBox(GetIslandHost(viewport), 800, 600);
+            var htmlBox = new HtmlBox(GetHtmlHost(viewport), 800, 600);
             var htmlBoxContentMx = new HtmlBoxContentManager();
             var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
             htmlBoxContentMx.AddImageContentMan(contentMx);

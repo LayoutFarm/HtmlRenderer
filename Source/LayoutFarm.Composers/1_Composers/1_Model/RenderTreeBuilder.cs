@@ -178,11 +178,11 @@ namespace LayoutFarm.Composers
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
             BoxCreator boxCreator = new BoxCreator();
-            boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, true);
+            boxCreator.GenerateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
-            //SetTextSelectionStyle(htmlIsland, cssData);
+            //SetTextSelectionStyle(htmlCont, cssData);
             return rootBox;
         }
 
@@ -220,7 +220,7 @@ namespace LayoutFarm.Composers
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
-            //SetTextSelectionStyle(htmlIsland, cssData);
+            //SetTextSelectionStyle(htmlCont, cssData);
             return isolationBox;
         }
 

@@ -14,16 +14,16 @@ using LayoutFarm.UI;
 namespace LayoutFarm.HtmlBoxes
 {
 
-    static class HtmlIslandHelper
+    static class HtmlContainerHelper
     {
 
-        public static MyHtmlIsland CreateHtmlIsland(
-            HtmlIslandHost islandHost,
+        public static MyHtmlContainer CreateHtmlContainer(
+            HtmlHost htmlHost,
             string htmlFragment,
             HtmlFragmentRenderBox container)
         {
 
-            var htmldoc = islandHost.CreateNewFragmentHtml();
+            var htmldoc = htmlHost.CreateNewFragmentHtml();
             var myHtmlBodyElement = htmldoc.CreateElement("body");
             htmldoc.RootNode.AddChild(myHtmlBodyElement);
 
@@ -36,16 +36,16 @@ namespace LayoutFarm.HtmlBoxes
                      htmldoc,
                      newDivHost);
 
-            return CreateHtmlIsland(islandHost, newDivHost, myHtmlBodyElement, container);
+            return CreateHtmlContainer(htmlHost, newDivHost, myHtmlBodyElement, container);
         }
-        public static MyHtmlIsland CreateHtmlIsland(
-            HtmlIslandHost islandHost,
+        public static MyHtmlContainer CreateHtmlContainer(
+            HtmlHost htmlHost,
             HtmlDocument htmldoc,
             HtmlFragmentRenderBox container)
         {
 
             //1. builder 
-            var renderTreeBuilder = islandHost.GetRenderTreeBuilder();
+            var renderTreeBuilder = htmlHost.GetRenderTreeBuilder();
             //-------------------------------------------------------------------
 
 
@@ -53,34 +53,34 @@ namespace LayoutFarm.HtmlBoxes
             ////build rootbox from htmldoc
 
             var rootElement = renderTreeBuilder.BuildCssRenderTree(htmldoc,
-                islandHost.BaseStylesheet,
+                htmlHost.BaseStylesheet,
                 container);
-            //3. create small island
+            //3. create small htmlContainer
 
-            var htmlIsland = new MyHtmlIsland(islandHost);
+            var htmlContainer = new MyHtmlContainer(htmlHost);
 
-            htmlIsland.WebDocument = htmldoc;
-            htmlIsland.RootCssBox = rootElement;
-            htmlIsland.SetMaxSize(container.Width, 0);
+            htmlContainer.WebDocument = htmldoc;
+            htmlContainer.RootCssBox = rootElement;
+            htmlContainer.SetMaxSize(container.Width, 0);
 
-            var lay = islandHost.GetSharedHtmlLayoutVisitor(htmlIsland);
-            htmlIsland.PerformLayout(lay);
-            islandHost.ReleaseHtmlLayoutVisitor(lay);
+            var lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
+            htmlContainer.PerformLayout(lay);
+            htmlHost.ReleaseHtmlLayoutVisitor(lay);
 
 
-            container.SetHtmlIsland(htmlIsland, rootElement);
-            return htmlIsland;
+            container.SetHtmlContainer(htmlContainer, rootElement);
+            return htmlContainer;
         }
 
-        static MyHtmlIsland CreateHtmlIsland(
-         HtmlIslandHost islandHost,
+        static MyHtmlContainer CreateHtmlContainer(
+         HtmlHost htmlHost,
          WebDom.DomElement domElement,
          WebDom.DomElement myHtmlBodyElement,
          HtmlFragmentRenderBox container)
         {
 
             //1. builder 
-            var renderTreeBuilder = islandHost.GetRenderTreeBuilder();
+            var renderTreeBuilder = htmlHost.GetRenderTreeBuilder();
             //-------------------------------------------------------------------
             //2. generate render tree
             ////build rootbox from htmldoc
@@ -92,21 +92,21 @@ namespace LayoutFarm.HtmlBoxes
                 hostDivElement,
                 domElement,
                 container);
-            //3. create small island
+            //3. create small htmlContainer
 
-            var htmlIsland = new MyHtmlIsland(islandHost);
+            var htmlContainer = new MyHtmlContainer(htmlHost);
 
-            htmlIsland.WebDocument = domElement.OwnerDocument;
-            htmlIsland.RootCssBox = rootElement;
-            htmlIsland.SetMaxSize(container.Width, 0);
+            htmlContainer.WebDocument = domElement.OwnerDocument;
+            htmlContainer.RootCssBox = rootElement;
+            htmlContainer.SetMaxSize(container.Width, 0);
 
-            var lay = islandHost.GetSharedHtmlLayoutVisitor(htmlIsland);
-            htmlIsland.PerformLayout(lay);
-            islandHost.ReleaseHtmlLayoutVisitor(lay);
+            var lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
+            htmlContainer.PerformLayout(lay);
+            htmlHost.ReleaseHtmlLayoutVisitor(lay);
 
 
-            container.SetHtmlIsland(htmlIsland, rootElement);
-            return htmlIsland;
+            container.SetHtmlContainer(htmlContainer, rootElement);
+            return htmlContainer;
         }
 
 

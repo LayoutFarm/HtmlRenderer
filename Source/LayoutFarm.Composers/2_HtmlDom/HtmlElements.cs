@@ -126,9 +126,9 @@ namespace LayoutFarm.InternalHtmlDom
 
     }
 
-    sealed class RootElement : HtmlElement
+    sealed class HtmlRootElement : HtmlElement
     {
-        public RootElement(HtmlDocument ownerDoc)
+        public HtmlRootElement(HtmlDocument ownerDoc)
             : base(ownerDoc, 0, 0)
         {
         }

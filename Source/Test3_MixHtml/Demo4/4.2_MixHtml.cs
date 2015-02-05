@@ -12,22 +12,22 @@ namespace LayoutFarm
     [DemoNote("4.2 MixHtml and Text")]
     class Demo_MixHtml : DemoBase
     {
-        HtmlBoxes.HtmlIslandHost islandHost;
-        HtmlBoxes.HtmlIslandHost GetIslandHost(SampleViewport viewport)
+        HtmlBoxes.HtmlHost htmlHost;
+        HtmlBoxes.HtmlHost GetHtmlHost(SampleViewport viewport)
         {
-            if (islandHost == null)
+            if (htmlHost == null)
             {
-                islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);
+                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);
             }
-            return islandHost;
+            return htmlHost;
         }
         protected override void OnStartDemo(SampleViewport viewport)
         {
 
-            var htmlIslandHost = GetIslandHost(viewport);
+            var htmlhost = GetHtmlHost(viewport);
             ////==================================================
             //html box
-            HtmlBox htmlBox = new HtmlBox(htmlIslandHost, 800, 400);
+            HtmlBox htmlBox = new HtmlBox(htmlhost, 800, 400);
             viewport.AddContent(htmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
             htmlBox.LoadHtmlText(html);

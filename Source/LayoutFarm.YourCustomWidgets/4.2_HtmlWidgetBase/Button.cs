@@ -17,8 +17,8 @@ namespace LayoutFarm.HtmlWidgets
     public class Button : LightHtmlWidgetBase
     {
         string buttonText = "";
-        public Button(HtmlIslandHost htmlIslandHost, int w, int h)
-            : base(htmlIslandHost, w, h)
+        public Button(HtmlHost htmlhost, int w, int h)
+            : base(htmlhost, w, h)
         {
         }
         //---------------------------------------------------------------------------
@@ -33,7 +33,7 @@ namespace LayoutFarm.HtmlWidgets
         protected override FragmentHtmlDocument CreatePresentationDom()
         {
 
-            FragmentHtmlDocument htmldoc = this.HtmlIslandHost.CreateNewFragmentHtml();
+            FragmentHtmlDocument htmldoc = this.HtmlHost.CreateNewFragmentHtml();
             //TODO: use template engine, 
             //ideas:  AngularJS style ?
 

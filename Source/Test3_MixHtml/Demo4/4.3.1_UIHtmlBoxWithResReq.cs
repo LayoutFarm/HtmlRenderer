@@ -12,13 +12,13 @@ namespace LayoutFarm
     [DemoNote("4.3.1 UIHtmlBox with Resource Request1")]
     class Demo_UIHtmlBox_WithResReq1 : DemoBase
     {
-        HtmlBoxes.HtmlIslandHost islandHost;
-        HtmlBoxes.HtmlIslandHost GetIslandHost(SampleViewport viewport)
+        HtmlBoxes.HtmlHost htmlHost;
+        HtmlBoxes.HtmlHost GetHtmlHost(SampleViewport viewport)
         {
-            if (islandHost == null)
+            if (htmlHost == null)
             {
-                islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);
-                islandHost.RequestImage += (s, e) =>
+                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);
+                htmlHost.RequestImage += (s, e) =>
                 {
                     //load resource -- sync or async? 
                     string absolutePath = imgFolderPath + "\\" + e.binder.ImageSource;
@@ -32,7 +32,7 @@ namespace LayoutFarm
                     e.binder.SetImage(new Bitmap(bmp.Width, bmp.Height, bmp));
                 };
             }
-            return islandHost;
+            return htmlHost;
         }
 
         string imgFolderPath = null;
@@ -47,7 +47,7 @@ namespace LayoutFarm
             }
             //==================================================
             //html box
-            var htmlBox = new HtmlBox(GetIslandHost(viewport), 800, 600);
+            var htmlBox = new HtmlBox(GetHtmlHost(viewport), 800, 600);
 
 
             viewport.AddContent(htmlBox);

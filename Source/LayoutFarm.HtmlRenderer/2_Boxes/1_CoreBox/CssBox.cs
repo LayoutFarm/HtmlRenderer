@@ -484,7 +484,8 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //this has background
                 if (this.BackgroundImageBinder.State == ImageBinderState.Unload)
-                {
+                {  
+
                     lay.RequestImage(this.BackgroundImageBinder, this);
                 }
             }

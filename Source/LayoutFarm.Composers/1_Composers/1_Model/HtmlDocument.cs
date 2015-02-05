@@ -23,13 +23,13 @@ namespace LayoutFarm.Composers
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
             //default root
-            rootNode = new RootElement(this);
+            rootNode = new HtmlRootElement(this);
         }
         internal HtmlDocument(UniqueStringTable sharedUniqueStringTable)
             : base(sharedUniqueStringTable)
         {
             //default root
-            rootNode = new RootElement(this);
+            rootNode = new HtmlRootElement(this);
         }
         public override DomElement RootNode
         {

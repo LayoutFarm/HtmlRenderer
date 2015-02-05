@@ -20,8 +20,8 @@ namespace LayoutFarm.HtmlWidgets
         bool isChecked;
         string checkBoxText = "";
         public event EventHandler WhenChecked;
-        public CheckBox(HtmlIslandHost htmlIslandHost, int w, int h)
-            : base(htmlIslandHost, w, h)
+        public CheckBox(HtmlHost htmlhost, int w, int h)
+            : base(htmlhost, w, h)
         { 
         } 
         //---------------------------------------------------------------------------
@@ -66,7 +66,7 @@ namespace LayoutFarm.HtmlWidgets
         protected override FragmentHtmlDocument CreatePresentationDom()
         {
 
-            FragmentHtmlDocument htmldoc = this.HtmlIslandHost.CreateNewFragmentHtml();
+            FragmentHtmlDocument htmldoc = this.HtmlHost.CreateNewFragmentHtml();
             //TODO: use template engine, 
             //ideas:  AngularJS style ?
 

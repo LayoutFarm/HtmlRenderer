@@ -8,17 +8,16 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
-    public static class HtmlIslandHostCreatorHelper
+    public static class HtmlHostCreatorHelper
     {
-        public static HtmlBoxes.HtmlIslandHost CreateHtmlIslandHost(SampleViewport sampleViewport)
-        {
-
-            HtmlBoxes.HtmlIslandHost htmlIslandHost = new HtmlBoxes.HtmlIslandHost(sampleViewport.P);
-            htmlIslandHost.SetHtmlIslandUpdateHandler((htmlIsland) =>
+        public static HtmlBoxes.HtmlHost CreateHtmlHost(SampleViewport sampleViewport)
+        {   
+            HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost(sampleViewport.P);
+            htmlhost.SetHtmlContainerUpdateHandler((htmlCont) =>
             {
-                sampleViewport.Root.AddToUpdateQueue(htmlIsland);
+                sampleViewport.Root.AddToUpdateQueue(htmlCont);
             });
-            return htmlIslandHost;
+            return htmlhost;
         }
     }
 

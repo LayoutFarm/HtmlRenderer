@@ -14,7 +14,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         Stack<Rectangle> clipStacks = new Stack<Rectangle>();
         PointF[] borderPoints = new PointF[4];
-        HtmlIsland htmlIsland;
+        HtmlContainer htmlContainer;
         Canvas canvas;
         Rectangle latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
 
@@ -26,9 +26,9 @@ namespace LayoutFarm.HtmlBoxes
         {
 
         }
-        public void Bind(HtmlIsland htmlIsland, Canvas canvas)
+        public void Bind(HtmlContainer htmlCont, Canvas canvas)
         {
-            this.htmlIsland = htmlIsland;
+            this.htmlContainer = htmlCont;
             this.canvas = canvas;
         }
         
@@ -36,7 +36,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             //clear
             this.canvas = null;
-            this.htmlIsland = null;
+            this.htmlContainer = null;
             this.clipStacks.Clear();
             this.latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
         }
@@ -114,9 +114,9 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="requestFrom"></param>
         public void RequestImageAsync(ImageBinder binder, CssImageRun imgRun, object requestFrom)
         {
-            if (htmlIsland != null)
+            if (htmlContainer != null)
             {
-                this.htmlIsland.RaiseImageRequest(
+                this.htmlContainer.RaiseImageRequest(
                     binder,
                     requestFrom,
                     false);

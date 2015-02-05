@@ -18,15 +18,15 @@ namespace LayoutFarm.HtmlBoxes
 
     public class HtmlRenderBox : RenderBoxBase
     {
-        MyHtmlIsland myHtmlIsland;
+        MyHtmlContainer myHtmlContainer;
 
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height,
-            MyHtmlIsland htmlIsland)
+            MyHtmlContainer htmlCont)
             : base(rootgfx, width, height)
         {
 
-            this.myHtmlIsland = htmlIsland;
+            this.myHtmlContainer = htmlCont;
 
 
         }
@@ -36,15 +36,15 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
-            myHtmlIsland.CheckDocUpdate();
-            var painter = PainterStock.GetSharedPainter(myHtmlIsland, canvas);
+            myHtmlContainer.CheckDocUpdate();
+            var painter = PainterStock.GetSharedPainter(myHtmlContainer, canvas);
 
             painter.SetViewportSize(this.Width, this.Height);
 
             int vwX, vwY;
             painter.OffsetCanvasOrigin(vwX = this.ViewportX, vwY = this.ViewportY);
 
-            myHtmlIsland.PerformPaint(painter);
+            myHtmlContainer.PerformPaint(painter);
 
             painter.OffsetCanvasOrigin(-vwX, -vwY);
 
@@ -59,7 +59,7 @@ namespace LayoutFarm.HtmlBoxes
     public class HtmlFragmentRenderBox : RenderBoxBase
     {
 
-        MyHtmlIsland tinyHtmlIsland;
+        MyHtmlContainer myHtmlCont;
         CssBox cssBox;
 
         public HtmlFragmentRenderBox(RootGraphic rootgfx,
@@ -72,9 +72,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.cssBox; }
         }
-        public void SetHtmlIsland(MyHtmlIsland htmlIsland, CssBox box)
+        public void SetHtmlContainer(MyHtmlContainer htmlCont, CssBox box)
         {
-            this.tinyHtmlIsland = htmlIsland;
+            this.myHtmlCont = htmlCont;
             this.cssBox = box;
 
         }
@@ -84,9 +84,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
-            tinyHtmlIsland.CheckDocUpdate();
+            myHtmlCont.CheckDocUpdate();
 
-            var painter = PainterStock.GetSharedPainter(this.tinyHtmlIsland, canvas);
+            var painter = PainterStock.GetSharedPainter(this.myHtmlCont, canvas);
             painter.SetViewportSize(this.Width, this.Height);
 #if DEBUG
             painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
@@ -94,7 +94,7 @@ namespace LayoutFarm.HtmlBoxes
             int vwX, vwY;
             painter.OffsetCanvasOrigin(vwX = this.ViewportX, vwY = this.ViewportY);
 
-            tinyHtmlIsland.PerformPaint(painter);
+            myHtmlCont.PerformPaint(painter);
 
             painter.OffsetCanvasOrigin(-vwX, -vwY);
 
@@ -110,7 +110,7 @@ namespace LayoutFarm.HtmlBoxes
 
     static class PainterStock
     {
-        internal static PaintVisitor GetSharedPainter(HtmlIsland htmlIsland, Canvas canvas)
+        internal static PaintVisitor GetSharedPainter(HtmlContainer htmlCont, Canvas canvas)
         {
             PaintVisitor painter = null;
             if (painterStock.Count == 0)
@@ -122,7 +122,7 @@ namespace LayoutFarm.HtmlBoxes
                 painter = painterStock.Dequeue();
             }
 
-            painter.Bind(htmlIsland, canvas);
+            painter.Bind(htmlCont, canvas);
 
             return painter;
         }

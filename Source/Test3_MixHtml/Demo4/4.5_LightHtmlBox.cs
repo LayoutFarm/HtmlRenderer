@@ -16,16 +16,16 @@ namespace LayoutFarm
     [DemoNote("4.5 LightHtmlBox")]
     class Demo_LightHtmlBox : DemoBase
     {
-        HtmlIslandHost islandHost;
+        HtmlHost htmlHost;
 
         protected override void OnStartDemo(SampleViewport viewport)
         {
-            islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);
+            htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);
             ////==================================================
             //html box
             {
 
-                LightHtmlBox lightHtmlBox = new LightHtmlBox(islandHost, 800, 50);
+                LightHtmlBox lightHtmlBox = new LightHtmlBox(htmlHost, 800, 50);
                 lightHtmlBox.SetLocation(50, 450);
                 viewport.AddContent(lightHtmlBox);
                 //light box can't load full html
@@ -37,7 +37,7 @@ namespace LayoutFarm
             //==================================================  
             {
 
-                LightHtmlBox lightHtmlBox2 = new LightHtmlBox(islandHost, 800, 50);
+                LightHtmlBox lightHtmlBox2 = new LightHtmlBox(htmlHost, 800, 50);
                 lightHtmlBox2.SetLocation(0, 60);
                 viewport.AddContent(lightHtmlBox2);
                 //light box can't load full html
@@ -49,7 +49,7 @@ namespace LayoutFarm
             //==================================================  
             {
 
-                LightHtmlBox lightHtmlBox3 = new LightHtmlBox(islandHost, 800, 50);
+                LightHtmlBox lightHtmlBox3 = new LightHtmlBox(htmlHost, 800, 50);
                 lightHtmlBox3.SetLocation(0, 100);
                 viewport.AddContent(lightHtmlBox3);
                 //fragment dom 
@@ -66,7 +66,7 @@ namespace LayoutFarm
         }
         FragmentHtmlDocument CreateSampleHtmlDoc()
         {
-            FragmentHtmlDocument htmldoc = islandHost.CreateNewFragmentHtml();// new HtmlDocument();
+            FragmentHtmlDocument htmldoc = htmlHost.CreateNewFragmentHtml();// new HtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  
