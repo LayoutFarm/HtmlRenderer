@@ -115,12 +115,7 @@ namespace LayoutFarm.Demo
             //-------------------------------------------------------
 
             htmlIslandHost = new HtmlIslandHost(p);
-
-            htmlIslandHost.RequestResource += myHtmlIsland_RequestResource;
-            myHtmlIsland = new MyHtmlIsland(htmlIslandHost);
-            myHtmlIsland.DomVisualRefresh += OnRefresh;
-            myHtmlIsland.DomRequestRebuild += myHtmlIsland_NeedUpdateDom;
-            //-------------------------------------------------------
+            htmlIslandHost.RequestImage += (s, e) => this.imageContentMan.AddRequestImage(e.binder);
             htmlIslandHost.SetHtmlIslandUpdateHandler((island) =>
             {
                 var updatedIsland = island as MyHtmlIsland;
@@ -130,6 +125,13 @@ namespace LayoutFarm.Demo
                     waitingUpdateList.Add(updatedIsland);
                 }
             });
+            //-------------------------------------------------------
+
+            myHtmlIsland = new MyHtmlIsland(htmlIslandHost);
+            myHtmlIsland.DomVisualRefresh += OnRefresh;
+            myHtmlIsland.DomRequestRebuild += myHtmlIsland_NeedUpdateDom;
+            //-------------------------------------------------------
+           
 
             htmlLayoutVisitor = new LayoutVisitor(p);
             htmlLayoutVisitor.Bind(myHtmlIsland);
@@ -160,10 +162,7 @@ namespace LayoutFarm.Demo
             _htmlInputEventAdapter.Bind(myHtmlIsland);
             //------------------------------------------- 
         }
-        void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
-        {
-            this.imageContentMan.AddRequestImage(e.binder);
-        }
+
         void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
         {
             //need updater dom

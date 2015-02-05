@@ -28,7 +28,7 @@ namespace LayoutFarm.CustomWidgets
         public void Bind(HtmlBox htmlBox)
         {
             this.htmlBox = htmlBox;
-            this.htmlBox.HtmlIslandHost.RequestResource += (s, e) =>
+            this.htmlBox.HtmlIslandHost.RequestImage += (s, e) =>
                 {
                     foreach (ImageContentManager key in imageContentManList.Keys)
                     {

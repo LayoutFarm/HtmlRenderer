@@ -13,7 +13,7 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.HtmlBoxes
 {
-    public class HtmlResourceRequestEventArgs : EventArgs
+    public class HtmlImageRequestEventArgs : EventArgs
     {
         public ImageBinder binder;
         public object requestBy;
@@ -24,7 +24,8 @@ namespace LayoutFarm.HtmlBoxes
     public class HtmlIslandHost
     {
         HtmlIslandUpdated islandUpdateHandler;
-        public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
+        public event EventHandler<HtmlImageRequestEventArgs> RequestImage;
+
         SelectionRange _currentSelectionRange;
         GraphicsPlatform gfxplatform;
         Composers.HtmlDocument commonHtmlDoc;
@@ -53,14 +54,14 @@ namespace LayoutFarm.HtmlBoxes
         public GraphicsPlatform GfxPlatform { get { return this.gfxplatform; } }
         public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
 
-        public virtual void RequestImage(ImageBinder binder, HtmlIsland reqIsland, object reqFrom, bool _sync)
+        public void ChildRequestImage(ImageBinder binder, HtmlIsland reqIsland, object reqFrom, bool _sync)
         {
-            if (this.RequestResource != null)
+            if (this.RequestImage != null)
             {
-                HtmlResourceRequestEventArgs resReq = new HtmlResourceRequestEventArgs();
+                HtmlImageRequestEventArgs resReq = new HtmlImageRequestEventArgs();
                 resReq.binder = binder;
                 resReq.requestBy = reqFrom;
-                RequestResource(this, resReq);
+                RequestImage(this, resReq);
             }
         }
         public virtual void RequestStyleSheet(TextLoadRequestEventArgs e)
@@ -160,7 +161,6 @@ namespace LayoutFarm.HtmlBoxes
     {
         WebDocument webdoc;
         HtmlIslandHost islandHost;
-
         int lastDomUpdateVersion;
         public event EventHandler DomVisualRefresh;
         public event EventHandler DomRequestRebuild;
@@ -250,12 +250,11 @@ namespace LayoutFarm.HtmlBoxes
             private set;
         }
         protected override void OnRequestImage(ImageBinder binder, object reqFrom, bool _sync)
-        {
-
-            //manage image loading 
+        { 
+            //send request to host
             if (binder.State == ImageBinderState.Unload)
             {
-                this.islandHost.RequestImage(binder, this, reqFrom, _sync);
+                this.islandHost.ChildRequestImage(binder, this, reqFrom, _sync);
             }
 
         }

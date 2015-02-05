@@ -18,7 +18,7 @@ namespace LayoutFarm
             if (islandHost == null)
             {
                 islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);
-                islandHost.RequestResource += (s, e) =>
+                islandHost.RequestImage += (s, e) =>
                 {
                     //load resource -- sync or async? 
                     string absolutePath = imgFolderPath + "\\" + e.binder.ImageSource;
