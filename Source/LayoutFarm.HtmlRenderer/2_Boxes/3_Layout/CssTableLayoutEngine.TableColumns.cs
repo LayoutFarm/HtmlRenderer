@@ -13,7 +13,6 @@ namespace LayoutFarm.HtmlBoxes
             Adjust,
 
             ExpandToMax,
-            FromItsContent,
             FromCellConstraint
         }
 

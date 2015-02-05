@@ -387,7 +387,7 @@ namespace LayoutFarm.HtmlBoxes
 
                                             for (int n = i; n < i + colspan; n++)
                                             {
-                                                columnCollection[n].S3_UpdateIfWider(cellBoxWidth, ColumnSpecificWidthLevel.FromItsContent);
+                                                columnCollection[n].S3_UpdateIfWider(cellBoxWidth, ColumnSpecificWidthLevel.FromCellConstraint);
                                             }
                                         }
                                     }
