@@ -27,17 +27,17 @@ namespace LayoutFarm.HtmlBoxes
     sealed partial class CssTableLayoutEngine
     {
 
-        
+
         /// <summary>
         /// the main box of the table
         /// </summary>
-        readonly CssBox _tableBox; 
+        readonly CssBox _tableBox;
         readonly List<CssBox> _allRowBoxes = new List<CssBox>();
         IFonts _tmpIFonts;
         TableColumnCollection columnCollection;
 
         const int MAX_COL_AT_THIS_VERSION = 20;
-        
+
         /// <summary>
         /// Init.
         /// </summary>
@@ -362,15 +362,33 @@ namespace LayoutFarm.HtmlBoxes
                                 var childBox = cnode;
                                 if (childBox.CssDisplay == CssDisplay.TableCell)
                                 {
-                                    float cellBoxWidth = CssValueParser.ConvertToPx(childBox.Width, availbleWidthForAllCells, childBox);
-                                    if (cellBoxWidth > 0) //If some width specified
+                                    CssLength cellWidth = childBox.Width;
+                                    if (cellWidth.IsAuto)
                                     {
-                                        int colspan = childBox.ColSpan;
-                                        cellBoxWidth /= colspan;
-
-                                        for (int n = i; n < i + colspan; n++)
+                                        float cellBoxWidth = CssValueParser.ConvertToPx(childBox.Width, availbleWidthForAllCells, childBox);
+                                        if (cellBoxWidth > 0) //If some width specified
                                         {
-                                            columnCollection[n].UpdateIfWider(cellBoxWidth);
+                                            int colspan = childBox.ColSpan;
+                                            cellBoxWidth /= colspan;
+
+                                            for (int n = i; n < i + colspan; n++)
+                                            {
+                                                columnCollection[n].S3_UpdateIfWider(cellBoxWidth);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        float cellBoxWidth = CssValueParser.ConvertToPx(childBox.Width, availbleWidthForAllCells, childBox);
+                                        if (cellBoxWidth > 0) //If some width specified
+                                        {
+                                            int colspan = childBox.ColSpan;
+                                            cellBoxWidth /= colspan;
+
+                                            for (int n = i; n < i + colspan; n++)
+                                            {
+                                                columnCollection[n].S3_UpdateIfWider2(cellBoxWidth);
+                                            }
                                         }
                                     }
                                 }
@@ -384,31 +402,7 @@ namespace LayoutFarm.HtmlBoxes
                             break;
                         }
                     }
-                    //for (i = 0; i < col_limit; ++i)// limit column width check
-                    //{
 
-                    //    if (!columnCollection[i].HasSpecificWidth)
-                    //    {
-                    //        if (i < row.ChildCount)
-                    //        {
-                    //            var childBox = row.GetChildBox(i);
-                    //            if (childBox.CssDisplay == CssDisplay.TableCell)
-                    //            {
-                    //                float cellBoxWidth = CssValueParser.ConvertToPx(childBox.Width, availbleWidthForAllCells, childBox);
-                    //                if (cellBoxWidth > 0) //If some width specified
-                    //                {
-                    //                    int colspan = childBox.ColSpan;
-                    //                    cellBoxWidth /= colspan;
-
-                    //                    for (int n = i; n < i + colspan; n++)
-                    //                    {
-                    //                        columnCollection[n].UpdateIfWider(cellBoxWidth);
-                    //                    }
-                    //                }
-                    //            }
-                    //        }
-                    //    }
-                    //}
                 }
             }
             return availbleWidthForAllCells;
@@ -432,7 +426,7 @@ namespace LayoutFarm.HtmlBoxes
                 if (numOfNonSpec > 0)
                 {
                     // Determine the max width for each column
-                    CalculateColumnsMinMaxWidthByContent(true);
+                    S4S7_CalculateColumnsMinMaxWidthByContent(true);
 
                     // set the columns that can fulfill by the max width in a loop because it changes the nanWidth
                     int oldNumOfNonSpefic;
@@ -488,7 +482,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 float occupiedSpace = 0f;
                 //Get the minimum and maximum full length of NaN boxes        
-                CalculateColumnsMinMaxWidthByContent(true);
+                S4S7_CalculateColumnsMinMaxWidthByContent(true);
 
                 int colWidthCount = this.columnCollection.Count;
 
@@ -554,7 +548,7 @@ namespace LayoutFarm.HtmlBoxes
                 if (maxWidth < widthSum)
                 {
                     //Get the minimum and maximum full length of NaN boxes
-                    CalculateColumnsMinMaxWidthByContent(false);
+                    S4S7_CalculateColumnsMinMaxWidthByContent(false);
 
                     // lower all the columns to the minimum
                     this.columnCollection.LowerAllColumnToMinWidth();
@@ -680,7 +674,7 @@ namespace LayoutFarm.HtmlBoxes
                         if (col.Width < col.MinWidth)
                         {
                             int affect_col = grid_index + cellBox.ColSpan - 1;
-                            this.columnCollection[affect_col].UserMinWidth();
+                            this.columnCollection[affect_col].UseMinWidth();
                             if (grid_index < col_count - 1)
                             {
                                 this.columnCollection[grid_index + 1].Width -= (col.Width - col.MinWidth);
@@ -950,24 +944,7 @@ namespace LayoutFarm.HtmlBoxes
                 //----------
                 cnode = cnode.GetNextNode();
                 n++;
-            }
-
-            //for (int n = 0; n < cellCount; ++n)
-            //{
-            //    //all cell in this row
-            //    if (colcount == cIndex)
-            //    {
-            //        //insert new spacing box for table 
-            //        //at 'colcount' index                        
-            //        insertAt = colcount;
-            //        return true;//found
-            //    }
-            //    else
-            //    {
-            //        colcount++;
-            //        cIndex -= (curRow.GetChildBox(n)).RowSpan - 1;
-            //    }
-            //}
+            } 
             insertAt = null;
             return false;
         }
@@ -1023,14 +1000,14 @@ namespace LayoutFarm.HtmlBoxes
         /// the min width possible without clipping content<br/>
         /// the max width the cell content can take without wrapping<br/>
         /// </summary>
-        /// <param name="onlyNans">if to measure only columns that have no calculated width</param>
+        /// <param name="s4_onlyNonCalculated">if to measure only columns that have no calculated width</param>
         /// <param name="minFullWidths">return the min width for each column - the min width possible without clipping content</param>
         /// <param name="maxFullWidths">return the max width for each column - the max width the cell content can take without wrapping</param>
-        private void CalculateColumnsMinMaxWidthByContent(bool onlyNans)
+        void S4S7_CalculateColumnsMinMaxWidthByContent(bool s4_onlyNonCalculated)
         {
 
             int col_count = this.columnCollection.Count;
-            if (onlyNans)
+            if (s4_onlyNonCalculated)
             {
                 var ifonts = _tmpIFonts;
                 foreach (CssBox row in _allRowBoxes)
@@ -1265,14 +1242,11 @@ namespace LayoutFarm.HtmlBoxes
                     float spanned_width = 0;
                     float minimumCellWidth = cellBox.CalculateMinimumWidth(layoutIdEpisode);
 
-                    if (colspan > 1)
-                    {
-                        col.MinWidth = Math.Max(col.MinWidth, minimumCellWidth - spanned_width);
-                    }
-                    else
-                    {
-                        col.MinWidth = Math.Max(col.MinWidth, minimumCellWidth);
-                    }
+                    col.S5_SetMinWidth(Math.Max(col.MinWidth,
+                        (colspan > 1) ?
+                            minimumCellWidth - spanned_width :
+                            Math.Max(col.MinWidth, minimumCellWidth)));
+
 
                     gridIndex += cellBox.ColSpan;
                 }

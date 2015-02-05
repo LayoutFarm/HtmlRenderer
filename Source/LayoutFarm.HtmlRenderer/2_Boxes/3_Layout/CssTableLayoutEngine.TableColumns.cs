@@ -1,6 +1,6 @@
 ﻿// 2015,2014 ,BSD, WinterDev
 //ArthurHub 
- 
+
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -10,6 +10,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             int index;
             bool hasSpecificWidth;
+            bool useSpecificWidth;
             float actualWidth;
             float minWidth;
             float maxWidth;
@@ -27,27 +28,40 @@ namespace LayoutFarm.HtmlBoxes
                     this.actualWidth = value;
                 }
             }
+            public float MinWidth
+            {
+                get { return this.minWidth; }
+            }
+            public float MaxWidth
+            {
+                get { return this.maxWidth; }
+            }
             public bool HasSpecificWidth
             {
                 get { return this.hasSpecificWidth; }
             }
-            public void UpdateIfWider(float newWidth)
+            //-----------------------------------------------------
+            public void S3_UpdateIfWider(float newWidth)
             {
+                //called at state3 only
                 if (newWidth >= this.actualWidth)
                 {
                     this.Width = newWidth;
                 }
             }
-            public float MinWidth
+            public void S3_UpdateIfWider2(float newWidth)
             {
-                get { return this.minWidth; }
-                set { this.minWidth = value; }
+                //called at state3 only
+                if (newWidth >= this.actualWidth)
+                {
+                    this.Width = newWidth;
+                }
+                this.useSpecificWidth = true;
             }
-
-            public float MaxWidth
+           
+            public void S5_SetMinWidth(float minWidth)
             {
-                get { return this.maxWidth; }
-                set { this.maxWidth = value; }
+                this.minWidth = minWidth;
             }
             public void UpdateMinMaxWidthIfWider(float newMinWidth, float newMaxWidth)
             {
@@ -72,9 +86,12 @@ namespace LayoutFarm.HtmlBoxes
 
             public void AddMoreWidthValue(float offset)
             {
-                this.actualWidth += offset;
+                if (!useSpecificWidth)
+                {
+                    this.actualWidth += offset;
+                }
             }
-            public void UserMinWidth()
+            public void UseMinWidth()
             {
                 this.actualWidth = this.minWidth;
             }
@@ -187,7 +204,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 for (int i = columns.Length - 1; i >= 0; --i)
                 {
-                    columns[i].UserMinWidth();
+                    columns[i].UseMinWidth();
                 }
             }
             /// <summary>
