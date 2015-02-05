@@ -24,8 +24,8 @@ namespace LayoutFarm
 
 
             var islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);
-
             islandHost.RequestImage += (s, e) => this.imageContentMan.AddRequestImage(e.binder);
+
             //-------------------------------------------------------------------
             int boxX = 0;
             for (int i = 0; i < 5; ++i)

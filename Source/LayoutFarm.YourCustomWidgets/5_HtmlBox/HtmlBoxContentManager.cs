@@ -17,14 +17,11 @@ namespace LayoutFarm.CustomWidgets
         Dictionary<ImageContentManager, int> imageContentManList = new Dictionary<ImageContentManager, int>();
 
 
-        bool isBinded;
-
+        bool isBinded; 
         public HtmlBoxContentManager()
         {
 
-        }
-
-
+        } 
         public void Bind(HtmlBox htmlBox)
         {
             this.htmlBox = htmlBox;
