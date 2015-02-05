@@ -244,8 +244,7 @@ namespace LayoutFarm.UI
             for (int i = j - 1; i >= 0; --i)
             {
                 htmlIslandQueue.RemoveAt(i);
-            }
-            
+            } 
             //-------------------------------- 
             this.LayoutQueueClearing = false;
         }

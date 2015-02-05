@@ -511,13 +511,7 @@ namespace LayoutFarm.HtmlBoxes
                                     CssBox.UnsafeGetTextBuffer(this),
                                     textRun.TextStartIndex,
                                     textRun.TextLength,
-                                    actualFont);
-
-                                //run.Width = FontsUtils.MeasureStringWidth(lay.Gfx,
-                                //    CssBox.UnsafeGetTextBuffer(this),
-                                //    textRun.TextStartIndex,
-                                //    textRun.TextLength,
-                                //    actualFont);
+                                    actualFont); 
 
                             } break;
                         case CssRunKind.SingleSpace:

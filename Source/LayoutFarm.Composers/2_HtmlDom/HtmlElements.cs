@@ -83,8 +83,7 @@ namespace LayoutFarm.InternalHtmlDom
         protected override void OnContentUpdate()
         {
             base.OnContentUpdate();
-            OnChangeInIdleState(ElementChangeKind.ContentUpdate);
-             
+            OnChangeInIdleState(ElementChangeKind.ContentUpdate); 
         }
         
 

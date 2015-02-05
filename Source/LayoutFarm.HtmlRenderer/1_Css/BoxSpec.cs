@@ -124,7 +124,7 @@ namespace LayoutFarm.Css
 #if DEBUG
             if (_freezed)
             {
-                throw new NotSupportedException();
+                //throw new NotSupportedException();
             }
 #endif
             return !_freezed;

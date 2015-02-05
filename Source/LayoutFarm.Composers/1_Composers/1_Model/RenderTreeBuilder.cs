@@ -345,10 +345,7 @@ namespace LayoutFarm.Composers
                     //step up version number
                     //after apply style  
                     BoxSpec.SetVersionNumber(curSpec, curSpec.VersionNumber + 1);
-                    if (curSpec.IsFreezed)
-                    {
-                        curSpec.Defreeze();
-                    }
+                   
                     foreach (WebDom.CssPropertyDeclaration propDecl in parsedRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(
