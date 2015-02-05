@@ -70,18 +70,17 @@ namespace LayoutFarm.Composers
         public override DomTextNode CreateTextNode(char[] strBufferForElement)
         {
             return new HtmlTextNode(this, strBufferForElement);
-        }
-
-
+        } 
         internal void SetDomUpdateHandler(EventHandler h)
         {
             this.DomUpdatedHandler = h;
         }
-        internal ActiveCssTemplate ActiveCssTemplate
+        internal CssActiveSheet CssActiveSheet
         {
             get;
             set;
         }
+        
     }
 
     public class FragmentHtmlDocument : HtmlDocument
@@ -91,7 +90,7 @@ namespace LayoutFarm.Composers
             : base(primaryHtmlDoc.UniqueStringTable)
         {
             this.primaryHtmlDoc = primaryHtmlDoc;
-            this.ActiveCssTemplate = new ActiveCssTemplate(primaryHtmlDoc.ActiveCssTemplate.ActiveSheet);
+            
         }        
 
     }

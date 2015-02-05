@@ -37,7 +37,7 @@ namespace LayoutFarm.HtmlBoxes
             this.commonHtmlDoc = new Composers.HtmlDocument();
 
             this.BaseStylesheet = activeSheet;
-            this.commonHtmlDoc.ActiveCssTemplate = new Composers.ActiveCssTemplate(activeSheet);
+            this.commonHtmlDoc.CssActiveSheet = activeSheet;
         }
         public HtmlIslandHost(GraphicsPlatform gfxplatform)
             : this(gfxplatform, LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true))

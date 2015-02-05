@@ -162,12 +162,13 @@ namespace LayoutFarm.Composers
             RenderElement containerElement)
         {
 
-            htmldoc.ActiveCssTemplate = new ActiveCssTemplate(cssActiveSheet);
+            htmldoc.CssActiveSheet = cssActiveSheet;
 
             htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
 
-            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, htmldoc.ActiveCssTemplate);
+            ActiveCssTemplate activeTemplate = new ActiveCssTemplate(cssActiveSheet);
+            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
 
 
             //----------------------------------------------------------------  
@@ -197,7 +198,8 @@ namespace LayoutFarm.Composers
             HtmlElement startAtHtmlElement = (HtmlElement)domElement;
 
             htmldoc.SetDocumentState(DocumentState.Building);
-            PrepareStylesAndContentOfChildNodes(startAtHtmlElement, htmldoc.ActiveCssTemplate);
+            ActiveCssTemplate activeTemplate = new ActiveCssTemplate(htmldoc.CssActiveSheet);
+            PrepareStylesAndContentOfChildNodes(startAtHtmlElement, activeTemplate);
 
             CssBox docRoot = HtmlElement.InternalGetPrincipalBox((HtmlElement)htmldoc.RootNode);
             if (docRoot == null)
@@ -231,8 +233,8 @@ namespace LayoutFarm.Composers
             startAtElement.OwnerDocument.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------     
             //clear active template
-            ActiveCssTemplate activeTemplate = ((HtmlDocument)startAtElement.OwnerDocument).ActiveCssTemplate;
-            activeTemplate.ClearCacheContent();
+
+            ActiveCssTemplate activeTemplate = new ActiveCssTemplate(((HtmlDocument)startAtElement.OwnerDocument).CssActiveSheet);
             PrepareStylesAndContentOfChildNodes(startAtElement, activeTemplate);
 
             CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(startAtElement);
@@ -289,7 +291,7 @@ namespace LayoutFarm.Composers
           BoxSpec parentSpec,
           ActiveCssTemplate activeCssTemplate)
         {
-            
+
             BoxSpec curSpec = element.Spec;
             //if (curSpec.__aa_dbugId == 10)
             //{
@@ -352,7 +354,7 @@ namespace LayoutFarm.Composers
                     //step up version number
                     //after apply style  
                     BoxSpec.SetVersionNumber(curSpec, curSpec.VersionNumber + 1);
-                   
+
                     foreach (WebDom.CssPropertyDeclaration propDecl in parsedRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(
