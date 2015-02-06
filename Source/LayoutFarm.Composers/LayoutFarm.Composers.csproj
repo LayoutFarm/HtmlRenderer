@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="1_Composers\1_Builder\ClientBinder.cs" />
+    <Compile Include="1_Composers\1_Builder\xTopDownActiveCssTemplate.cs" />
     <Compile Include="1_Composers\1_Builder\WebDocumentParser.cs" />
     <Compile Include="1_Composers\1_Builder\TopDownActiveCssTemplate.cs" />
     <Compile Include="1_Composers\1_Builder\CustomCssBoxGenerator.cs" />

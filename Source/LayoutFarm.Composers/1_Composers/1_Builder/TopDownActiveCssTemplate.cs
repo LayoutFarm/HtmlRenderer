@@ -16,13 +16,26 @@ namespace LayoutFarm.Composers
 
         CssActiveSheet activeSheet;
         bool isCloneOnce = false;
-        Dictionary<TemplateKey, BoxSpec> templatesForTagName = new Dictionary<TemplateKey, BoxSpec>();
-        UniqueStringTable ustrTable = new UniqueStringTable();
 
+
+        UniqueStringTable ustrTable = new UniqueStringTable();
+        List<BoxSpecLevel> specLevels = new List<BoxSpecLevel>();
+        int currentSpecLevel = 0;
 
         public TopDownActiveCssTemplate(CssActiveSheet activeSheet)
         {
             this.activeSheet = activeSheet;
+            specLevels.Add(new BoxSpecLevel(0));
+        }
+        public void EnterLevel()
+        {
+            currentSpecLevel++;
+            specLevels.Add(new BoxSpecLevel(currentSpecLevel));
+        }
+        public void ExitLevel()
+        {
+            currentSpecLevel--;
+            specLevels.RemoveAt(specLevels.Count - 1);//remove last level
         }
         public CssActiveSheet ActiveSheet
         {
@@ -37,7 +50,9 @@ namespace LayoutFarm.Composers
         }
         public void ClearCacheContent()
         {
-            this.templatesForTagName.Clear();
+            specLevels.Clear();
+            this.currentSpecLevel = 0;
+            specLevels.Add(new BoxSpecLevel(0));
             this.ustrTable = new UniqueStringTable();
         }
         void CloneActiveCssSheetOnce()
@@ -59,36 +74,84 @@ namespace LayoutFarm.Composers
             CloneActiveCssSheetOnce();
             activeSheet.Combine(anotherActiveSheet);
         }
+
+
+
         //--------------------------------------------------------------------------------------------------       
-
-
-        struct TemplateKey
+        struct TemplateKey2
         {
             public readonly int tagNameKey;
             public readonly int classNameKey;
-            public readonly int version;
-            public TemplateKey(int tagNameKey, int classNameKey, int version)
+            public TemplateKey2(int tagNameKey, int classNameKey)
             {
                 this.tagNameKey = tagNameKey;
                 this.classNameKey = classNameKey;
-                this.version = version;
             }
 #if DEBUG
             public override string ToString()
             {
-                return "t:" + tagNameKey + "c:" + classNameKey + "v:" + version;
+                return "t:" + this.tagNameKey + ",c:" + this.classNameKey;
             }
 #endif
         }
-
-
+        class BoxSpecLevel
+        {
+            readonly int level;
+            Dictionary<TemplateKey2, BoxSpec> specCollections;
+            public BoxSpecLevel(int level)
+            {
+                this.level = level;
+            }
+            public void AddBoxSpec(TemplateKey2 key, BoxSpec spec)
+            {
+                //add box spec at this level
+                if (specCollections == null)
+                {
+                    specCollections = new Dictionary<TemplateKey2, BoxSpec>();
+                }
+                //add or replace if exists
+                specCollections[key] = spec;
+            }
+            public BoxSpec SearchUp(TemplateKey2 key)
+            {
+                //recursive search up
+                BoxSpec found = null;
+                if (specCollections != null)
+                {
+                    if (specCollections.TryGetValue(key, out found))
+                    {
+                        return found;
+                    }
+                }
+                return null;
+            }
+        }
+        //-----------------------------------------------------------------------------------------------
 
         static readonly char[] _whiteSplitter = new[] { ' ' };
+        void SaveBoxSpec(TemplateKey2 key, BoxSpec spec)
+        {
+            //add at last(top) level
+            specLevels[specLevels.Count - 1].AddBoxSpec(key, spec);
+        }
+        BoxSpec SearchUpBoxSpec(TemplateKey2 templateKey)
+        {
+            //bottom up 
+            for (int i = specLevels.Count - 1; i >= 0; --i)
+            {
+                BoxSpecLevel boxSpecLevel = specLevels[i];
+                BoxSpec found = boxSpecLevel.SearchUp(templateKey);
+                if (found != null)
+                {
+                    return found;
+                }
+            }
+            //not found
+            return null;
+        }
         internal void ApplyActiveTemplate(string elemName, string class_value, BoxSpec currentBoxSpec, BoxSpec parentSpec)
         {
-            //if (currentBoxSpec.__aa_dbugId == 12)
-            //{
-            //}
+
             //1. tag name key
             int tagNameKey = ustrTable.AddStringIfNotExist(elemName);
             //2. class name key
@@ -98,16 +161,9 @@ namespace LayoutFarm.Composers
                 classNameKey = ustrTable.AddStringIfNotExist(class_value);
             }
 
-            int parentSpecVersion = 0;
-
-            if (parentSpec != null)
-            {
-                parentSpecVersion = parentSpec.VersionNumber;
-            }
-
-            TemplateKey key = new TemplateKey(tagNameKey, classNameKey, parentSpecVersion);
-            BoxSpec boxTemplate;
-            if (!templatesForTagName.TryGetValue(key, out boxTemplate))
+            var templateKey = new TemplateKey2(tagNameKey, classNameKey);
+            BoxSpec boxTemplate = SearchUpBoxSpec(templateKey);
+            if (boxTemplate == null)
             {
                 //create template for specific key  
                 boxTemplate = new BoxSpec();
@@ -165,7 +221,7 @@ namespace LayoutFarm.Composers
 
                 if (!currentBoxSpec.DoNotCache)
                 {
-                    templatesForTagName.Add(key, boxTemplate);
+                    SaveBoxSpec(templateKey, boxTemplate);
                 }
                 boxTemplate.Freeze();
             }
