@@ -21,7 +21,7 @@ namespace LayoutFarm.HtmlBoxes
         List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
 
         static int totalLayoutIdEpisode = 0;
-        int episodeId;
+        int episodeId =1;
         GraphicsPlatform gfxPlatform;
 
         public LayoutVisitor(GraphicsPlatform gfxPlatform)
@@ -98,7 +98,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             return 0;
         }
- 
+
 
         internal void RequestImage(ImageBinder binder, CssBox requestFrom)
         {
