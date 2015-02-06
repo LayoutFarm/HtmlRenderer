@@ -22,8 +22,8 @@ namespace LayoutFarm.HtmlBoxes
             ColumnSpecificWidthLevel spWidthLevel;
 
             float actualWidth;
-            float minWidth;
-            float maxWidth;
+            float minContentWidth;
+            float maxContentWidth;
 
             public TableColumn(int index)
             {
@@ -39,13 +39,13 @@ namespace LayoutFarm.HtmlBoxes
                 this.SpecificWidthLevel = specificWidthLevel;
                 this.actualWidth = width;
             }
-            public float MinWidth
+            public float MinContentWidth
             {
-                get { return this.minWidth; }
+                get { return this.minContentWidth; }
             }
-            public float MaxWidth
+            public float MaxContentWidth
             {
-                get { return this.maxWidth; }
+                get { return this.maxContentWidth; }
             }
             public bool HasSpecificWidth
             {
@@ -80,27 +80,27 @@ namespace LayoutFarm.HtmlBoxes
             }
             public void S5_SetMinWidth(float minWidth)
             {
-                this.minWidth = minWidth;
+                this.minContentWidth = minWidth;
             }
-            public void UpdateMinMaxWidthIfWider(float newMinWidth, float newMaxWidth)
+            public void UpdateMinMaxContentWidthIfWider(float newMinContentWidth, float newMaxContentWidth)
             {
-                if (newMinWidth > this.minWidth)
+                if (newMinContentWidth > this.minContentWidth)
                 {
-                    this.minWidth = newMinWidth;
+                    this.minContentWidth = newMinContentWidth;
                 }
 
-                if (newMaxWidth > this.maxWidth)
+                if (newMaxContentWidth > this.maxContentWidth)
                 {
-                    this.maxWidth = newMaxWidth;
+                    this.maxContentWidth = newMaxContentWidth;
                 }
             }
             public bool TouchLowerLimit
             {
-                get { return this.actualWidth <= this.minWidth; }
+                get { return this.actualWidth <= this.minContentWidth; }
             }
             public bool TouchUpperLimit
             {
-                get { return this.actualWidth >= this.maxWidth; }
+                get { return this.actualWidth >= this.maxContentWidth; }
             }
 
             public void AddMoreWidthValue(float offset, ColumnSpecificWidthLevel level)
@@ -110,12 +110,12 @@ namespace LayoutFarm.HtmlBoxes
             }
             public void UseMinWidth()
             {
-                this.actualWidth = this.minWidth;
+                this.actualWidth = this.minContentWidth;
                 this.SpecificWidthLevel = ColumnSpecificWidthLevel.StartAtMin;
             }
             public void UseMaxWidth()
             {
-                this.actualWidth = this.MaxWidth;
+                this.actualWidth = this.MaxContentWidth;
                 this.SpecificWidthLevel = ColumnSpecificWidthLevel.ExpandToMax;
             }
             public void AdjustDecrByOne()
@@ -256,7 +256,7 @@ namespace LayoutFarm.HtmlBoxes
                 int min_widths_len = this.columns.Length;
                 for (int i = realcolindex; (i < min_widths_len) && (i < rowCellCount || i < realcolindex + colspan - 1); ++i)
                 {
-                    w += this.columns[i].MinWidth;
+                    w += this.columns[i].MinContentWidth;
                 }
                 return w;
             }
