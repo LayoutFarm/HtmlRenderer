@@ -78,8 +78,7 @@ namespace LayoutFarm.HtmlBoxes
 
             List<CssBox> userColumnList = S2_PrepareTableCellBoxes();
 
-            // Determine Row and Column Count, and ColumnWidths
-
+            // Determine Row and Column Count, and ColumnWidths 
             float availableWidthForAllCells = S3_CalculateCountAndWidth(userColumnList);
 
             S4_DetermineMissingColumnWidths(availableWidthForAllCells);
@@ -401,138 +400,185 @@ namespace LayoutFarm.HtmlBoxes
         void S4_DetermineMissingColumnWidths(float availableWidthForAllCells)
         {
 
+            float occupiedSpace = 0f;
+            //Get the minimum and maximum full length of NaN boxes        
+            S4S7_CalculateColumnsMinMaxWidthByContent(true);
 
-            if (_tableBox.Width.Number > 0) //If a width was specified,
+            int colWidthCount = this.columnCollection.Count;
+
+            //if no user specific column width
+            //set each column to start at minimum width
+
+            for (int i = colWidthCount - 1; i >= 0; --i)
             {
-                float occupiedSpace;
-                int numOfNonSpec;
-                this.columnCollection.CountUnspecificWidthColumnAndOccupiedSpace(
-                    out numOfNonSpec, out occupiedSpace);
-
-                ///original number of nonspecific width
-                int orgNumOfNonSpecificWidth = numOfNonSpec;
-#if DEBUG
-                if (orgNumOfNonSpecificWidth == 0)
+                float c_width = 0;
+                TableColumn col = this.columnCollection[i];
+                if (!col.HasSpecificWidth)
                 {
-                    throw new NotSupportedException();
+                    c_width = col.MinWidth;
+                    col.UseMinWidth();
                 }
-#endif
-                bool hasSomeNonSpecificWidth = numOfNonSpec < this.columnCollection.Count;
-
-                if (numOfNonSpec > 0)
-                {
-                    // Determine the max width for each column
-                    S4S7_CalculateColumnsMinMaxWidthByContent(true);
-
-                    // set the columns that can fulfill by the max width in a loop because it changes the nanWidth
-                    int oldNumOfNonSpecific;
-                    int colWidthCount = columnCollection.Count;
-                    do
-                    {
-                        oldNumOfNonSpecific = numOfNonSpec;
-                        for (int i = 0; i < colWidthCount; i++)
-                        {
-                            //calculate every loop
-                            float suggestedWidth = (availableWidthForAllCells - occupiedSpace) / numOfNonSpec;
-                            TableColumn col = this.columnCollection[i];
-                            switch (col.SpecificWidthLevel)
-                            {
-                                case ColumnSpecificWidthLevel.None:
-                                    {
-                                        if (col.MaxWidth < suggestedWidth)
-                                        {
-                                            col.UseMaxWidth();
-                                            numOfNonSpec--;
-                                            occupiedSpace += col.Width;
-                                        }
-                                    } break;
-                                default:
-                                    break;
-                            }
-                        }
-                    } while (oldNumOfNonSpecific != numOfNonSpec);
-
-
-                    if (numOfNonSpec > 0)
-                    {
-                        // Determine width that will be assigned to un assigned widths
-                        float nanWidth = (availableWidthForAllCells - occupiedSpace) / numOfNonSpec;
-                        this.columnCollection.S4_AddMoreWidthToColumns(true, nanWidth);
-                    }
-                }
-
-                if (numOfNonSpec == 0 && occupiedSpace < availableWidthForAllCells)
-                {
-                    int colWidthCount = this.columnCollection.Count;
-
-                    if (orgNumOfNonSpecificWidth > 0)
-                    {
-                        // spread extra width between all non width specified columns
-                        float extWidth = (availableWidthForAllCells - occupiedSpace) / orgNumOfNonSpecificWidth;
-                        this.columnCollection.S4_AddMoreWidthToColumns(hasSomeNonSpecificWidth, extWidth);
-                    }
-                    else
-                    {
-                        // spread extra width between all columns with respect to relative sizes  
-                        for (int i = colWidthCount - 1; i >= 0; --i)
-                        {
-                            var col = this.columnCollection[i];
-                            col.AddMoreWidthValue((availableWidthForAllCells - occupiedSpace) * (col.Width / occupiedSpace),
-                                 ColumnSpecificWidthLevel.Adjust);
-                        }
-                    }
-                }
+                occupiedSpace += c_width;
             }
-            else
+
+            // spread extra width between all columns
+            if ((availableWidthForAllCells - occupiedSpace) > 0)
             {
-                float occupiedSpace = 0f;
-                //Get the minimum and maximum full length of NaN boxes        
-                S4S7_CalculateColumnsMinMaxWidthByContent(true);
-
-                int colWidthCount = this.columnCollection.Count;
-
-                //if no user specific column width
-                //set each column to start at minimum width
-
-                for (int i = colWidthCount - 1; i >= 0; --i)
+                for (int i = 0; i < colWidthCount; i++)
                 {
-                    float c_width = 0;
+
                     TableColumn col = this.columnCollection[i];
-                    if (!col.HasSpecificWidth)
+                    float c_width = col.Width;
+                    float remainingWidth = availableWidthForAllCells - occupiedSpace;
+                    if (remainingWidth > 0)
                     {
-                        c_width = col.MinWidth;
-                        col.UseMinWidth();
-                    }
-                    occupiedSpace += c_width;
-                }
-
-                // spread extra width between all columns
-                if ((availableWidthForAllCells - occupiedSpace) > 0)
-                {
-                    for (int i = 0; i < colWidthCount; i++)
-                    {
-
-                        TableColumn col = this.columnCollection[i];
-                        float c_width = col.Width;
-                        float remainingWidth = availableWidthForAllCells - occupiedSpace;
-                        if (remainingWidth > 0)
+                        if (!col.HasSpecificWidth && !col.TouchUpperLimit)
                         {
-                            if (!col.HasSpecificWidth && !col.TouchUpperLimit)
-                            {
 
-                                float newW = Math.Min(
-                                   c_width + (remainingWidth) / ((float)(colWidthCount - i)),
-                                   col.MaxWidth);
+                            float newW = Math.Min(
+                               c_width + (remainingWidth) / ((float)(colWidthCount - i)),
+                               col.MaxWidth);
 
-                                col.SetWidth(newW, ColumnSpecificWidthLevel.Adjust);
+                            col.SetWidth(newW, ColumnSpecificWidthLevel.Adjust);
 
-                                occupiedSpace += (newW - c_width);
-                            }
+                            occupiedSpace += (newW - c_width);
                         }
-
                     }
+
                 }
             }
+
+            //            if (_tableBox.Width.Number > 0) //If a width was specified,
+            //            {
+            //                float occupiedSpace;
+            //                int numOfNonSpec;
+            //                this.columnCollection.CountUnspecificWidthColumnAndOccupiedSpace(
+            //                    out numOfNonSpec, out occupiedSpace);
+
+            //                ///original number of nonspecific width
+            //                int orgNumOfNonSpecificWidth = numOfNonSpec;
+            //#if DEBUG
+            //                if (orgNumOfNonSpecificWidth == 0)
+            //                {
+            //                    throw new NotSupportedException();
+            //                }
+            //#endif
+            //                bool hasSomeNonSpecificWidth = numOfNonSpec < this.columnCollection.Count;
+
+            //                if (numOfNonSpec > 0)
+            //                {
+            //                    // Determine the max width for each column
+            //                    S4S7_CalculateColumnsMinMaxWidthByContent(true);
+
+            //                    // set the columns that can fulfill by the max width in a loop because it changes the nanWidth
+            //                    int oldNumOfNonSpecific;
+            //                    int colWidthCount = columnCollection.Count;
+            //                    do
+            //                    {
+            //                        oldNumOfNonSpecific = numOfNonSpec;
+            //                        for (int i = 0; i < colWidthCount; i++)
+            //                        {
+            //                            //calculate every loop
+            //                            float suggestedWidth = (availableWidthForAllCells - occupiedSpace) / numOfNonSpec;
+            //                            TableColumn col = this.columnCollection[i];
+            //                            switch (col.SpecificWidthLevel)
+            //                            {
+            //                                case ColumnSpecificWidthLevel.None:
+            //                                    {
+            //                                        if (col.MaxWidth < suggestedWidth)
+            //                                        {
+            //                                            col.UseMaxWidth();
+            //                                            numOfNonSpec--;
+            //                                            occupiedSpace += col.Width;
+            //                                        }
+            //                                    } break;
+            //                                default:
+            //                                    break;
+            //                            }
+            //                        }
+            //                    } while (oldNumOfNonSpecific != numOfNonSpec);
+
+
+            //                    if (numOfNonSpec > 0)
+            //                    {
+            //                        // Determine width that will be assigned to un assigned widths
+            //                        float nanWidth = (availableWidthForAllCells - occupiedSpace) / numOfNonSpec;
+            //                        this.columnCollection.S4_AddMoreWidthToColumns(true, nanWidth);
+            //                    }
+            //                }
+
+            //                if (numOfNonSpec == 0 && occupiedSpace < availableWidthForAllCells)
+            //                {
+            //                    int colWidthCount = this.columnCollection.Count;
+
+            //                    if (orgNumOfNonSpecificWidth > 0)
+            //                    {
+            //                        // spread extra width between all non width specified columns
+            //                        float extWidth = (availableWidthForAllCells - occupiedSpace) / orgNumOfNonSpecificWidth;
+            //                        this.columnCollection.S4_AddMoreWidthToColumns(hasSomeNonSpecificWidth, extWidth);
+            //                    }
+            //                    else
+            //                    {
+            //                        // spread extra width between all columns with respect to relative sizes  
+            //                        for (int i = colWidthCount - 1; i >= 0; --i)
+            //                        {
+            //                            var col = this.columnCollection[i];
+            //                            col.AddMoreWidthValue((availableWidthForAllCells - occupiedSpace) * (col.Width / occupiedSpace),
+            //                                 ColumnSpecificWidthLevel.Adjust);
+            //                        }
+            //                    }
+            //                }
+            //            }
+            //            else
+            //            {
+            //                float occupiedSpace = 0f;
+            //                //Get the minimum and maximum full length of NaN boxes        
+            //                S4S7_CalculateColumnsMinMaxWidthByContent(true);
+
+            //                int colWidthCount = this.columnCollection.Count;
+
+            //                //if no user specific column width
+            //                //set each column to start at minimum width
+
+            //                for (int i = colWidthCount - 1; i >= 0; --i)
+            //                {
+            //                    float c_width = 0;
+            //                    TableColumn col = this.columnCollection[i];
+            //                    if (!col.HasSpecificWidth)
+            //                    {
+            //                        c_width = col.MinWidth;
+            //                        col.UseMinWidth();
+            //                    }
+            //                    occupiedSpace += c_width;
+            //                }
+
+            //                // spread extra width between all columns
+            //                if ((availableWidthForAllCells - occupiedSpace) > 0)
+            //                {
+            //                    for (int i = 0; i < colWidthCount; i++)
+            //                    {
+
+            //                        TableColumn col = this.columnCollection[i];
+            //                        float c_width = col.Width;
+            //                        float remainingWidth = availableWidthForAllCells - occupiedSpace;
+            //                        if (remainingWidth > 0)
+            //                        {
+            //                            if (!col.HasSpecificWidth && !col.TouchUpperLimit)
+            //                            {
+
+            //                                float newW = Math.Min(
+            //                                   c_width + (remainingWidth) / ((float)(colWidthCount - i)),
+            //                                   col.MaxWidth);
+
+            //                                col.SetWidth(newW, ColumnSpecificWidthLevel.Adjust);
+
+            //                                occupiedSpace += (newW - c_width);
+            //                            }
+            //                        }
+
+            //                    }
+            //                }
+            //            }
         }
 
 
