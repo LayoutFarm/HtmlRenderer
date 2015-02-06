@@ -542,15 +542,23 @@ namespace LayoutFarm.HtmlBoxes
             get;
             set;
         }
+
+        int lineSelectionWidth;
         internal int LineSelectionWidth
         {
-            get;
-            set;
+            get { return this.lineSelectionWidth; }
+            set
+            {
+                this.lineSelectionWidth = value;                
+            }
         }
         internal void PaintSelection(PaintVisitor p)
         {
-
-            p.FillRectangle(Color.LightGray, this.LineSelectionStart, 0, this.LineSelectionWidth, this.CacheLineHeight);
+            //config paint selection color
+            p.FillRectangle(Color.LightGray,
+                this.LineSelectionStart, 0, 
+                this.LineSelectionWidth, 
+                this.CacheLineHeight); 
 
         }
 
