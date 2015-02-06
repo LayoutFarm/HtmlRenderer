@@ -37,19 +37,19 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="1_Composers\1_Model\ClientBinder.cs" />
-    <Compile Include="1_Composers\1_Model\WebDocumentParser.cs" />
-    <Compile Include="1_Composers\2_Css\ActiveCssTemplate.cs" />
-    <Compile Include="1_Composers\1_Model\CustomCssBoxGenerator.cs" />
-    <Compile Include="1_Composers\1_Model\RenderTreeBuilder.cs" />
+    <Compile Include="1_Composers\1_Builder\ClientBinder.cs" />
+    <Compile Include="1_Composers\1_Builder\WebDocumentParser.cs" />
+    <Compile Include="1_Composers\1_Builder\TopDownActiveCssTemplate.cs" />
+    <Compile Include="1_Composers\1_Builder\CustomCssBoxGenerator.cs" />
+    <Compile Include="1_Composers\1_Builder\RenderTreeBuilder.cs" />
     <Compile Include="1_Composers\3_Scriptable\EaseScriptElement.cs" />
     <Compile Include="2_HtmlDom\BulletNumberFormatter.cs" />
-    <Compile Include="1_Composers\1_Model\ContentTextSplitter.cs" />
+    <Compile Include="1_Composers\1_Builder\ContentTextSplitter.cs" />
     <Compile Include="1_Composers\2_Css\SpecSetter.cs" />
     <Compile Include="1_Composers\2_Css\UserMapUtil.cs" />
     <Compile Include="1_Composers\2_Css\ValueMaps.cs" />
-    <Compile Include="1_Composers\1_Model\BoxCreator.cs" />
-    <Compile Include="1_Composers\1_Model\HtmlDocument.cs" />
+    <Compile Include="1_Composers\1_Builder\BoxCreator.cs" />
+    <Compile Include="1_Composers\1_Builder\HtmlDocument.cs" />
     <Compile Include="3_HtmlBoxes\HtmlRenderBox.cs" />
     <Compile Include="3_HtmlBoxes\HtmlInputEventAdapter.cs" />
     <Compile Include="3_HtmlBoxes\RenderElementWrapperCssBox.cs" />

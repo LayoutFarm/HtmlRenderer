@@ -9,8 +9,9 @@ using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm.Composers
 {
+    //for RenderTreeBuilder ***
 
-    class ActiveCssTemplate
+    class TopDownActiveCssTemplate
     {
 
         CssActiveSheet activeSheet;
@@ -19,7 +20,7 @@ namespace LayoutFarm.Composers
         UniqueStringTable ustrTable = new UniqueStringTable();
 
 
-        public ActiveCssTemplate(CssActiveSheet activeSheet)
+        public TopDownActiveCssTemplate(CssActiveSheet activeSheet)
         {
             this.activeSheet = activeSheet;
         }

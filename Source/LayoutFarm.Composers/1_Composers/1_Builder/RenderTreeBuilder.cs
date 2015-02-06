@@ -61,7 +61,7 @@ namespace LayoutFarm.Composers
 
         void PrepareStylesAndContentOfChildNodes(
           HtmlElement parentElement,
-          ActiveCssTemplate activeCssTemplate)
+          TopDownActiveCssTemplate activeCssTemplate)
         {
             //recursive 
             foreach (WebDom.DomNode node in parentElement.GetChildNodeIterForward())
@@ -167,7 +167,7 @@ namespace LayoutFarm.Composers
             htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
 
-            ActiveCssTemplate activeTemplate = new ActiveCssTemplate(cssActiveSheet);
+            TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(cssActiveSheet);
             PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
 
 
@@ -198,7 +198,7 @@ namespace LayoutFarm.Composers
             HtmlElement startAtHtmlElement = (HtmlElement)domElement;
 
             htmldoc.SetDocumentState(DocumentState.Building);
-            ActiveCssTemplate activeTemplate = new ActiveCssTemplate(htmldoc.CssActiveSheet);
+            TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(htmldoc.CssActiveSheet);
             PrepareStylesAndContentOfChildNodes(startAtHtmlElement, activeTemplate);
 
             CssBox docRoot = HtmlElement.InternalGetPrincipalBox((HtmlElement)htmldoc.RootNode);
@@ -234,7 +234,7 @@ namespace LayoutFarm.Composers
             //----------------------------------------------------------------     
             //clear active template
 
-            ActiveCssTemplate activeTemplate = new ActiveCssTemplate(((HtmlDocument)startAtElement.OwnerDocument).CssActiveSheet);
+            TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(((HtmlDocument)startAtElement.OwnerDocument).CssActiveSheet);
             PrepareStylesAndContentOfChildNodes(startAtElement, activeTemplate);
 
             CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(startAtElement);
@@ -289,7 +289,7 @@ namespace LayoutFarm.Composers
         void ApplyStyleSheetForSingleHtmlElement(
           HtmlElement element,
           BoxSpec parentSpec,
-          ActiveCssTemplate activeCssTemplate)
+          TopDownActiveCssTemplate activeCssTemplate)
         {
 
             BoxSpec curSpec = element.Spec;
@@ -398,7 +398,7 @@ namespace LayoutFarm.Composers
             curSpec.Freeze(); //***
             //===================== 
         }
-        void ApplyStyleSheetTopDownForHtmlElement(HtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
+        void ApplyStyleSheetTopDownForHtmlElement(HtmlElement element, BoxSpec parentSpec, TopDownActiveCssTemplate activeCssTemplate)
         {
 
             ApplyStyleSheetForSingleHtmlElement(element, parentSpec, activeCssTemplate);
@@ -443,7 +443,7 @@ namespace LayoutFarm.Composers
         //    //    }
         //    //}
         //}
-        private static void AssignStylesForElementId(CssBox box, ActiveCssTemplate activeCssTemplate, string elementId)
+        private static void AssignStylesForElementId(CssBox box, TopDownActiveCssTemplate activeCssTemplate, string elementId)
         {
 
             throw new NotSupportedException();
