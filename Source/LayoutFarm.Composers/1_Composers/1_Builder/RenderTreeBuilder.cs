@@ -63,11 +63,12 @@ namespace LayoutFarm.Composers
            HtmlElement parentElement,
            TopDownActiveCssTemplate activeCssTemplate)
         {
-            activeCssTemplate.EnterLevel();
-
+             
             //recursive 
             foreach (WebDom.DomNode node in parentElement.GetChildNodeIterForward())
             {
+                activeCssTemplate.EnterLevel();
+
                 switch (node.NodeType)
                 {
                     case WebDom.HtmlNodeType.OpenElement:
@@ -95,6 +96,7 @@ namespace LayoutFarm.Composers
                                                     } break;
                                             }
                                         }
+                                        activeCssTemplate.ExitLevel();
                                         continue;
                                     }
                                 case WellKnownDomNodeName.link:
@@ -127,7 +129,7 @@ namespace LayoutFarm.Composers
 
                                             }
                                         }
-
+                                        activeCssTemplate.ExitLevel();
                                         continue;
                                     }
                             }
@@ -156,10 +158,9 @@ namespace LayoutFarm.Composers
 
                         } break;
                 }
-            }
 
-
-            activeCssTemplate.ExitLevel();
+                activeCssTemplate.ExitLevel();
+            } 
         }
 
         public CssBox BuildCssRenderTree(HtmlDocument htmldoc,
