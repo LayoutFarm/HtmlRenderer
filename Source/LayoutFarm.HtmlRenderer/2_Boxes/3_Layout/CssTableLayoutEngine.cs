@@ -411,11 +411,12 @@ namespace LayoutFarm.HtmlBoxes
 
             for (int i = colWidthCount - 1; i >= 0; --i)
             {
-                float c_width = 0;
+
                 TableColumn col = this.columnCollection[i];
+                float c_width = col.Width;
                 if (!col.HasSpecificWidth)
                 {
-                    c_width = col.MinWidth;
+                    c_width = col.MinContentWidth;
                     col.UseMinWidth();
                 }
                 occupiedSpace += c_width;
@@ -432,21 +433,54 @@ namespace LayoutFarm.HtmlBoxes
                     float remainingWidth = availableWidthForAllCells - occupiedSpace;
                     if (remainingWidth > 0)
                     {
-                        if (!col.HasSpecificWidth && !col.TouchUpperLimit)
+                        if (!col.HasSpecificWidth)// && !col.TouchUpperLimit)
                         {
 
                             float newW = Math.Min(
                                c_width + (remainingWidth) / ((float)(colWidthCount - i)),
-                               col.MaxWidth);
-
+                               col.MaxContentWidth);
                             col.SetWidth(newW, ColumnSpecificWidthLevel.Adjust);
-
                             occupiedSpace += (newW - c_width);
                         }
                     }
+                }
+                //----------
+                //if remaining width
+                
+            }
+            if ((availableWidthForAllCells - occupiedSpace) > 0)
+            {
+                if (_tableBox.Width.Number > 0)
+                {
+                    //fill remaining space
+                    if ((availableWidthForAllCells - occupiedSpace) > 0)
+                    {
+                        for (int i = 0; i < colWidthCount; i++)
+                        {
+                            TableColumn col = this.columnCollection[i];
+                            float c_width = col.Width;
+                            float remainingWidth = availableWidthForAllCells - occupiedSpace;
+                            if (remainingWidth > 0)
+                            {
+                                if (!col.HasSpecificWidth)// && !col.TouchUpperLimit)
+                                { 
+                                    float newW = c_width + (remainingWidth) / ((float)(colWidthCount - i));
+                                    col.SetWidth(newW, ColumnSpecificWidthLevel.Adjust);
+                                    occupiedSpace += (newW - c_width);
+                                }
+                            }
+                        }
+                    }
+                    if ((availableWidthForAllCells - occupiedSpace) > 0)
+                    {
 
+                    }
                 }
             }
+             
+            
+            //------------------------------------------------------------------------------------------------
+            //below here is old version
 
             //            if (_tableBox.Width.Number > 0) //If a width was specified,
             //            {
@@ -605,10 +639,10 @@ namespace LayoutFarm.HtmlBoxes
                     float spanned_width = 0;
                     float minimumCellWidth = cellBox.CalculateMinimumWidth(layoutIdEpisode);
 
-                    col.S5_SetMinWidth(Math.Max(col.MinWidth,
+                    col.S5_SetMinWidth(Math.Max(col.MinContentWidth,
                         (colspan > 1) ?
                             minimumCellWidth - spanned_width :
-                            Math.Max(col.MinWidth, minimumCellWidth)));
+                            Math.Max(col.MinContentWidth, minimumCellWidth)));
 
 
                     gridIndex += cellBox.ColSpan;
@@ -724,7 +758,7 @@ namespace LayoutFarm.HtmlBoxes
                             for (int i = 0; i < colCount; i++)
                             {
                                 var col = columnCollection[i];
-                                if (col.Width + 1 < col.MaxWidth)
+                                if (col.Width + 1 < col.MaxContentWidth)
                                 {
                                     nonMaxedColumns++;
                                 }
@@ -740,9 +774,9 @@ namespace LayoutFarm.HtmlBoxes
                             for (int i = 0; i < colCount; i++)
                             {
                                 var col = columnCollection[i];
-                                if (col.Width + 0.1 < col.MaxWidth)
+                                if (col.Width + 0.1 < col.MaxContentWidth)
                                 {
-                                    minIncrement = Math.Min(minIncrement, col.MaxWidth - col.Width);
+                                    minIncrement = Math.Min(minIncrement, col.MaxContentWidth - col.Width);
                                     hit = true;
                                 }
                             }
@@ -750,7 +784,7 @@ namespace LayoutFarm.HtmlBoxes
                             for (int i = 0; i < colCount; i++)
                             {
                                 var col = columnCollection[i];
-                                if (!hit || col.Width + 1 < col.MaxWidth)
+                                if (!hit || col.Width + 1 < col.MaxContentWidth)
                                 {
 
                                     col.AddMoreWidthValue(minIncrement, ColumnSpecificWidthLevel.Adjust);
@@ -779,13 +813,13 @@ namespace LayoutFarm.HtmlBoxes
                     if (grid_index < col_count)
                     {
                         TableColumn col = this.columnCollection[grid_index];
-                        if (col.Width < col.MinWidth)
+                        if (col.Width < col.MinContentWidth)
                         {
                             int affect_col = grid_index + cellBox.ColSpan - 1;
                             this.columnCollection[affect_col].UseMinWidth();
                             if (grid_index < col_count - 1)
                             {
-                                this.columnCollection[grid_index + 1].AddMoreWidthValue(-(col.Width - col.MinWidth), ColumnSpecificWidthLevel.Adjust);
+                                this.columnCollection[grid_index + 1].AddMoreWidthValue(-(col.Width - col.MinContentWidth), ColumnSpecificWidthLevel.Adjust);
                             }
                         }
                     }
@@ -1129,7 +1163,7 @@ namespace LayoutFarm.HtmlBoxes
                         if (!col.HasSpecificWidth)
                         {
                             float minWidth, maxWidth;
-                            CalculateMinMaxWidth(
+                            CalculateMinMaxContentWidths(
                                 cellBox,
                                 _tableBox,
                                 ifonts,
@@ -1140,7 +1174,7 @@ namespace LayoutFarm.HtmlBoxes
 
                             if (colSpan == 1)
                             {
-                                col.UpdateMinMaxWidthIfWider(minWidth, maxWidth);
+                                col.UpdateMinMaxContentWidthIfWider(minWidth, maxWidth);
                             }
                             else
                             {
@@ -1148,7 +1182,7 @@ namespace LayoutFarm.HtmlBoxes
                                 maxWidth /= colSpan;
                                 for (int n = 0; n < colSpan; n++)
                                 {
-                                    columnCollection[cIndex + n].UpdateMinMaxWidthIfWider(minWidth, maxWidth);
+                                    columnCollection[cIndex + n].UpdateMinMaxContentWidthIfWider(minWidth, maxWidth);
                                 }
                             }
                         }
@@ -1166,20 +1200,20 @@ namespace LayoutFarm.HtmlBoxes
                     foreach (CssBox cellBox in row.GetChildBoxIter())
                     {
                         int cIndex = gridIndex < col_count ? gridIndex : col_count - 1;
-                        float minWidth, maxWidth;
-                        CalculateMinMaxWidth(cellBox, _tableBox, ifonts, out minWidth, out maxWidth);
+                        float minContentWidth, maxContentWidth;
+                        CalculateMinMaxContentWidths(cellBox, _tableBox, ifonts, out minContentWidth, out maxContentWidth);
                         int colSpan = cellBox.ColSpan;
                         if (colSpan == 1)
                         {
-                            columnCollection[cIndex].UpdateMinMaxWidthIfWider(minWidth, maxWidth);
+                            columnCollection[cIndex].UpdateMinMaxContentWidthIfWider(minContentWidth, maxContentWidth);
                         }
                         else
                         {
-                            minWidth /= colSpan;
-                            maxWidth /= colSpan;
+                            minContentWidth /= colSpan;
+                            maxContentWidth /= colSpan;
                             for (int n = 0; n < colSpan; n++)
                             {
-                                columnCollection[cIndex + n].UpdateMinMaxWidthIfWider(minWidth, maxWidth);
+                                columnCollection[cIndex + n].UpdateMinMaxContentWidthIfWider(minContentWidth, maxContentWidth);
                             }
                         }
                         //----
@@ -1196,7 +1230,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="minWidth">The minimum width the content must be so it won't overflow (largest word + padding).</param>
         /// <param name="maxWidth">The total width the content can take without line wrapping (with padding).</param>
-        static void CalculateMinMaxWidth(CssBox box,
+        static void CalculateMinMaxContentWidths(CssBox box,
             CssBox cbBox,
             IFonts iFonts,
             out float minWidth, out float maxWidth)
