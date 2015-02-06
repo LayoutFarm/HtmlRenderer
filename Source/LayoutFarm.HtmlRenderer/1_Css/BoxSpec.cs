@@ -22,7 +22,7 @@ namespace LayoutFarm.Css
 
     public sealed partial class BoxSpec
     {
-        int _versionNum;
+
         bool _freezed;
 
         //==========================================================
