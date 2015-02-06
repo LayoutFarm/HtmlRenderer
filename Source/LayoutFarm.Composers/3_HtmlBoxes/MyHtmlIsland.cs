@@ -9,28 +9,29 @@ using System.Diagnostics;
 using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.ContentManagers;
-using LayoutFarm.UI;
-
+using LayoutFarm.UI; 
 namespace LayoutFarm.HtmlBoxes
 {
-    public class HtmlResourceRequestEventArgs : EventArgs
+    public class HtmlImageRequestEventArgs : EventArgs
     {
         public ImageBinder binder;
         public object requestBy;
 
     }
-    public delegate void HtmlIslandUpdated(HtmlIsland island);
+    public delegate void HtmlContainerUpdateHandler(HtmlContainer htmlCont);
 
-    public class HtmlIslandHost
+    public class HtmlHost
     {
-        HtmlIslandUpdated islandUpdateHandler;
-        public event EventHandler<HtmlResourceRequestEventArgs> RequestResource;
+        HtmlContainerUpdateHandler htmlContainerUpdateHandler;
+        public event EventHandler<HtmlImageRequestEventArgs> RequestImage;
+        public event EventHandler<TextLoadRequestEventArgs> RequestStyleSheet;
+
         SelectionRange _currentSelectionRange;
         GraphicsPlatform gfxplatform;
         Composers.HtmlDocument commonHtmlDoc;
 
 
-        public HtmlIslandHost(GraphicsPlatform gfxplatform, WebDom.CssActiveSheet activeSheet)
+        public HtmlHost(GraphicsPlatform gfxplatform, WebDom.CssActiveSheet activeSheet)
         {
 
             this.gfxplatform = gfxplatform;
@@ -39,35 +40,57 @@ namespace LayoutFarm.HtmlBoxes
             this.BaseStylesheet = activeSheet;
             this.commonHtmlDoc.CssActiveSheet = activeSheet;
         }
-        public HtmlIslandHost(GraphicsPlatform gfxplatform)
+        public HtmlHost(GraphicsPlatform gfxplatform)
             : this(gfxplatform, LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true))
         {
             //use default style sheet
         }
-        public void SetHtmlIslandUpdateHandler(HtmlIslandUpdated islandUpdateHandler)
+        public void SetHtmlContainerUpdateHandler(HtmlContainerUpdateHandler htmlContainerUpdateHandler)
         {
-            this.islandUpdateHandler = islandUpdateHandler;
+            this.htmlContainerUpdateHandler = htmlContainerUpdateHandler;
         }
 
 
         public GraphicsPlatform GfxPlatform { get { return this.gfxplatform; } }
         public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
 
-        public virtual void RequestImage(ImageBinder binder, HtmlIsland reqIsland, object reqFrom, bool _sync)
+        public void ChildRequestImage(ImageBinder binder, HtmlContainer htmlCont, object reqFrom, bool _sync)
         {
-            if (this.RequestResource != null)
+            if (this.RequestImage != null)
             {
-                HtmlResourceRequestEventArgs resReq = new HtmlResourceRequestEventArgs();
+                HtmlImageRequestEventArgs resReq = new HtmlImageRequestEventArgs();
                 resReq.binder = binder;
                 resReq.requestBy = reqFrom;
-                RequestResource(this, resReq);
+                RequestImage(this, resReq);
             }
         }
-        public virtual void RequestStyleSheet(TextLoadRequestEventArgs e)
+      
+        /// <summary>
+        /// Get stylesheet by given key.
+        /// </summary>
+        static string GetDefaultStyleSheet(string src)
         {
-
+            if (src == "StyleSheet")
+            {
+                return @"h1, h2, h3 { color: navy; font-weight:normal; }
+                    h1 { margin-bottom: .47em }
+                    h2 { margin-bottom: .3em }
+                    h3 { margin-bottom: .4em }
+                    ul { margin-top: .5em }
+                    ul li {margin: .25em}
+                    body { font:10pt Tahoma }
+		            pre  { border:solid 1px gray; background-color:#eee; padding:1em }
+                    a:link { text-decoration: none; }
+                    a:hover { text-decoration: underline; }
+                    .gray    { color:gray; }
+                    .example { background-color:#efefef; corner-radius:5px; padding:0.5em; }
+                    .whitehole { background-color:white; corner-radius:10px; padding:15px; }
+                    .caption { font-size: 1.1em }
+                    .comment { color: green; margin-bottom: 5px; margin-left: 3px; }
+                    .comment2 { color: green; }";
+            }
+            return null;
         }
-
 
         internal SelectionRange SelectionRange
         {
@@ -94,7 +117,7 @@ namespace LayoutFarm.HtmlBoxes
         Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
 
-        public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlIsland island)
+        public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlContainer htmlCont)
         {
             LayoutFarm.HtmlBoxes.LayoutVisitor lay = null;
             if (htmlLayoutVisitorStock.Count == 0)
@@ -105,7 +128,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 lay = this.htmlLayoutVisitorStock.Dequeue();
             }
-            lay.Bind(island);
+            lay.Bind(htmlCont);
             return lay;
         }
         public void ReleaseHtmlLayoutVisitor(LayoutFarm.HtmlBoxes.LayoutVisitor lay)
@@ -113,7 +136,7 @@ namespace LayoutFarm.HtmlBoxes
             lay.UnBind();
             this.htmlLayoutVisitorStock.Enqueue(lay);
         }
-        public HtmlInputEventAdapter GetSharedInputEventAdapter(HtmlIsland island)
+        public HtmlInputEventAdapter GetSharedInputEventAdapter(HtmlContainer htmlCont)
         {
             HtmlInputEventAdapter adapter = null;
             if (inputEventAdapterStock.Count == 0)
@@ -124,7 +147,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 adapter = this.inputEventAdapterStock.Dequeue();
             }
-            adapter.Bind(island);
+            adapter.Bind(htmlCont);
             return adapter;
         }
         public void ReleaseSharedInputEventAdapter(HtmlInputEventAdapter adapter)
@@ -139,36 +162,46 @@ namespace LayoutFarm.HtmlBoxes
                 renderTreeBuilder = new Composers.RenderTreeBuilder(this.gfxplatform);
                 this.renderTreeBuilder.RequestStyleSheet += (e) =>
                 {
-                    var req = new TextLoadRequestEventArgs(e.Src);
-                    this.RequestStyleSheet(req);
-                    e.SetStyleSheet = req.SetStyleSheet;
-
+                   
+                    //---------------------------
+                    var stylesheet = GetDefaultStyleSheet(e.Src);
+                    if (stylesheet != null)
+                    {
+                        e.SetStyleSheet = stylesheet;
+                    }
+                    else if (RequestStyleSheet != null)
+                    {
+                        var req = new TextLoadRequestEventArgs(e.Src);
+                        RequestStyleSheet(this, req);
+                        e.SetStyleSheet = req.SetStyleSheet;
+                    }
+                    //---------------------------
+                    
                 };
             }
             return renderTreeBuilder;
         }
-        internal void NotifyIslandUpdate(HtmlIsland island)
+        internal void NotifyHtmlContainerUpdate(HtmlContainer htmlCont)
         {
-            if (islandUpdateHandler != null)
+            if (htmlContainerUpdateHandler != null)
             {
-                islandUpdateHandler(island);
+                htmlContainerUpdateHandler(htmlCont);
             }
         }
     }
 
-    public sealed class MyHtmlIsland : HtmlIsland
+    public sealed class MyHtmlContainer : HtmlContainer
     {
         WebDocument webdoc;
-        HtmlIslandHost islandHost;
+        HtmlHost htmlhost;
 
         int lastDomUpdateVersion;
         public event EventHandler DomVisualRefresh;
         public event EventHandler DomRequestRebuild;
 
-        public MyHtmlIsland(HtmlIslandHost islandHost)
+        public MyHtmlContainer(HtmlHost htmlhost)
         {
-            this.islandHost = islandHost;
-
+            this.htmlhost = htmlhost;
         }
 
         public bool IsInUpdateQueue
@@ -203,7 +236,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         //when update
                         //add to update queue
-                        this.islandHost.NotifyIslandUpdate(this);
+                        this.htmlhost.NotifyHtmlContainerUpdate(this);
                     });
                 }
             }
@@ -236,11 +269,11 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void ClearPreviousSelection()
         {
-            this.islandHost.ClearPreviousSelection();
+            this.htmlhost.ClearPreviousSelection();
         }
         public override void SetSelection(SelectionRange selRange)
         {
-            this.islandHost.SelectionRange = selRange;
+            this.htmlhost.SelectionRange = selRange;
         }
 
 
@@ -251,11 +284,10 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void OnRequestImage(ImageBinder binder, object reqFrom, bool _sync)
         {
-
-            //manage image loading 
+            //send request to host
             if (binder.State == ImageBinderState.Unload)
             {
-                this.islandHost.RequestImage(binder, this, reqFrom, _sync);
+                this.htmlhost.ChildRequestImage(binder, this, reqFrom, _sync);
             }
 
         }

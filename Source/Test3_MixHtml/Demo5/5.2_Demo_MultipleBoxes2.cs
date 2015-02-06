@@ -23,14 +23,14 @@ namespace LayoutFarm
             int boxHeight = 35;
 
 
-            var islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);
+            var htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);
+            htmlHost.RequestImage += (s, e) => this.imageContentMan.AddRequestImage(e.binder);
 
-            islandHost.RequestResource += (s, e) => this.imageContentMan.AddRequestImage(e.binder);
             //-------------------------------------------------------------------
             int boxX = 0;
             for (int i = 0; i < 5; ++i)
             {
-                var button = new LayoutFarm.HtmlWidgets.Button(islandHost, 100, boxHeight);
+                var button = new LayoutFarm.HtmlWidgets.Button(htmlHost, 100, boxHeight);
                 button.SetLocation(boxX, 20);
                 button.Text = "button" + i;
                 boxX += 100 + 2;
@@ -40,7 +40,7 @@ namespace LayoutFarm
             int boxY = 70;
             for (int i = 0; i < 10; ++i)
             {
-                var statedBox = new LayoutFarm.HtmlWidgets.CheckBox(islandHost, 100, boxHeight);
+                var statedBox = new LayoutFarm.HtmlWidgets.CheckBox(htmlHost, 100, boxHeight);
                 statedBox.Text = "chk" + i;
                 statedBox.SetLocation(10, boxY);
                 boxY += boxHeight + 5;

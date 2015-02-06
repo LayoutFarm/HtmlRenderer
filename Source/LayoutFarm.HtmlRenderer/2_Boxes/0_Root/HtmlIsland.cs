@@ -21,10 +21,8 @@ using LayoutFarm.Css;
 
 namespace LayoutFarm.HtmlBoxes
 {
-    /// <summary>
-    /// layout and render the html fragment
-    /// </summary>
-    public abstract class HtmlIsland : IDisposable
+     
+    public abstract class HtmlContainer : IDisposable
     {
         /// <summary>
         /// the root css box of the parsed html

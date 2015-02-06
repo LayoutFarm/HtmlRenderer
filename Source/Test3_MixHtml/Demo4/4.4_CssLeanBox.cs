@@ -11,22 +11,22 @@ namespace LayoutFarm
     [DemoNote("4.4 CssLeanBox")]
     class Demo_CssLeanBox : DemoBase
     {
-        HtmlBoxes.HtmlIslandHost islandHost;
-        HtmlBoxes.HtmlIslandHost GetIslandHost(SampleViewport viewport)
+        HtmlBoxes.HtmlHost htmlHost;
+        HtmlBoxes.HtmlHost GetHtmlHost(SampleViewport viewport)
         {
-            if (islandHost == null)
+            if (htmlHost == null)
             {
-                islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);
+                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);
             } 
-            return islandHost;             
+            return htmlHost;             
         }
         protected override void OnStartDemo(SampleViewport viewport)
         {
 
             ////==================================================
             //html box
-            var islandHost = GetIslandHost(viewport);
-            HtmlBox htmlBox = new HtmlBox(islandHost, 800, 400);
+            var htmlHost = GetHtmlHost(viewport);
+            HtmlBox htmlBox = new HtmlBox(htmlHost, 800, 400);
 
 
             StringBuilder stbuilder = new StringBuilder();

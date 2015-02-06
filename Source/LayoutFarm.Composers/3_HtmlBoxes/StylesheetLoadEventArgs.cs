@@ -30,8 +30,7 @@ namespace LayoutFarm.ContentManagers
     /// </summary>
     public sealed class StylesheetLoadEventArgs : EventArgs
     {
-
-
+         
         string _src;
         /// <summary>
         /// Init.

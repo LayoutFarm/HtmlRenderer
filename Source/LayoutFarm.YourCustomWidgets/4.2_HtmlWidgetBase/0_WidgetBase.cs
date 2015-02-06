@@ -53,18 +53,18 @@ namespace LayoutFarm.HtmlWidgets
 
     public abstract class LightHtmlWidgetBase : WidgetBase
     {
-        HtmlIslandHost htmlIslandHost;
+        HtmlHost htmlhost;
         LightHtmlBox lightHtmlBox;
-        public LightHtmlWidgetBase(HtmlIslandHost htmlIslandHost, int w, int h)
+        public LightHtmlWidgetBase(HtmlHost htmlhost, int w, int h)
             : base(w, h)
         {
-            this.htmlIslandHost = htmlIslandHost;
+            this.htmlhost = htmlhost;
         }
         public override UIElement GetPrimaryUIElement()
         {
             if (this.lightHtmlBox == null)
             {
-                var lightHtmlBox = new LightHtmlBox(htmlIslandHost, this.Width, this.Height);
+                var lightHtmlBox = new LightHtmlBox(htmlhost, this.Width, this.Height);
 
                 lightHtmlBox.LoadHtmlDom(CreatePresentationDom());
                 lightHtmlBox.SetLocation(this.Left, this.Top);
@@ -72,9 +72,9 @@ namespace LayoutFarm.HtmlWidgets
             }
             return this.lightHtmlBox;
         }
-        protected HtmlIslandHost HtmlIslandHost
+        protected HtmlHost HtmlHost
         {
-            get { return this.htmlIslandHost; }
+            get { return this.htmlhost; }
         }
         protected void InvalidateGraphics()
         {

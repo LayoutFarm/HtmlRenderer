@@ -11,7 +11,7 @@ namespace LayoutFarm.HtmlBoxes
 
     public class LayoutVisitor : BoxVisitor
     {
-        HtmlIsland htmlIsland;
+        HtmlContainer htmlContainer;
         float totalMarginLeftAndRight;
 
         Queue<Dictionary<CssBox, PartialBoxStrip>> dicStripPool;
@@ -28,9 +28,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.gfxPlatform = gfxPlatform;
         }
-        public void Bind(HtmlIsland htmlIsland)
+        public void Bind(HtmlContainer htmlCont)
         {
-            this.htmlIsland = htmlIsland;
+            this.htmlContainer = htmlCont;
             if (episodeId == ushort.MaxValue - 1)
             {
                 //reset
@@ -40,7 +40,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void UnBind()
         {
-            this.htmlIsland = null;
+            this.htmlContainer = null;
             if (dicStripPool != null) dicStripPool.Clear();
             if (listStripPool != null) listStripPool.Clear();
 
@@ -79,7 +79,7 @@ namespace LayoutFarm.HtmlBoxes
             float candidateRootWidth = Math.Max(box.CalculateMinimumWidth(this.episodeId) + CalculateWidthMarginTotalUp(box),
                          (box.SizeWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.SizeWidth : 0);
 
-            this.htmlIsland.UpdateSizeIfWiderOrHigher(
+            this.htmlContainer.UpdateSizeIfWiderOrHigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
                 this.ContainerBlockGlobalY + box.SizeHeight);
         }
@@ -98,15 +98,11 @@ namespace LayoutFarm.HtmlBoxes
             }
             return 0;
         }
-
-        //internal bool AvoidImageAsyncLoadOrLateBind
-        //{
-        //    get { return this.htmlIsland.AvoidAsyncImagesLoading || this.htmlIsland.AvoidImagesLateLoading; }
-        //}
+ 
 
         internal void RequestImage(ImageBinder binder, CssBox requestFrom)
         {
-            this.htmlIsland.RaiseImageRequest(binder,
+            this.htmlContainer.RaiseImageRequest(binder,
                 requestFrom,
                 false);
         }
@@ -207,6 +203,7 @@ namespace LayoutFarm.HtmlBoxes
                 this.listStripPool.Enqueue(list);
             }
         }
+
 
         //---------------------------------------------------------------
 

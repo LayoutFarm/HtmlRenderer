@@ -34,9 +34,9 @@ namespace LayoutFarm.Composers
 
         WebDom.Parser.CssParser miniCssParser = new CssParser();
         ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
-        public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
+        internal event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
         GraphicsPlatform gfxPlatform;
-        public RenderTreeBuilder(GraphicsPlatform gfxPlatform)
+        internal RenderTreeBuilder(GraphicsPlatform gfxPlatform)
         {
             this.gfxPlatform = gfxPlatform;
         }
@@ -178,11 +178,11 @@ namespace LayoutFarm.Composers
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
             BoxCreator boxCreator = new BoxCreator();
-            boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, true);
+            boxCreator.GenerateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
-            //SetTextSelectionStyle(htmlIsland, cssData);
+            //SetTextSelectionStyle(htmlCont, cssData);
             return rootBox;
         }
 
@@ -220,7 +220,7 @@ namespace LayoutFarm.Composers
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
-            //SetTextSelectionStyle(htmlIsland, cssData);
+            //SetTextSelectionStyle(htmlCont, cssData);
             return isolationBox;
         }
 
