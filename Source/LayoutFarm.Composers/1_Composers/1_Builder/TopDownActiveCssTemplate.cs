@@ -169,11 +169,8 @@ namespace LayoutFarm.Composers
                 boxTemplate = new BoxSpec();
                 //if (boxTemplate.__aa_dbugId == 30)
                 //{
-                //}
-
-                BoxSpec.CloneAllStyles(boxTemplate, currentBoxSpec);
-                BoxSpec.SetVersionNumber(currentBoxSpec, parentSpec.VersionNumber + 1);
-
+                //} 
+                BoxSpec.CloneAllStyles(boxTemplate, currentBoxSpec); 
                 //*** 
                 //----------------------------
                 //1. tag name

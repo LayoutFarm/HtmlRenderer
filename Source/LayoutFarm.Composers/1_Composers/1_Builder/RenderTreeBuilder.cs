@@ -351,10 +351,7 @@ namespace LayoutFarm.Composers
                 if (element.TryGetAttribute(WellknownName.Style, out attrStyleValue))
                 {
                     parsedRuleSet = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray());
-                    //step up version number
-                    //after apply style  
-                    BoxSpec.SetVersionNumber(curSpec, curSpec.VersionNumber + 1);
-
+                   
                     foreach (WebDom.CssPropertyDeclaration propDecl in parsedRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(
@@ -374,7 +371,7 @@ namespace LayoutFarm.Composers
                 var elemRuleSet = element.ElementRuleSet;
                 if (elemRuleSet != null)
                 {
-                    BoxSpec.SetVersionNumber(curSpec, curSpec.VersionNumber + 1);
+                     
                     if (curSpec.IsFreezed)
                     {
                         curSpec.Defreeze();
