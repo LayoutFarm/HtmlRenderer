@@ -45,7 +45,7 @@ namespace LayoutFarm.Composers
             if (!isCloneOnce)
             {
                 //clone 
-                activeSheet = activeSheet.Clone(new object());
+                activeSheet = activeSheet.Clone();
                 isCloneOnce = true;
             }
         }

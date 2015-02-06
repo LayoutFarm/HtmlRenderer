@@ -215,7 +215,7 @@ namespace LayoutFarm.WebDom
             this.rulesForElementId.TryGetValue(elementId, out found);
             return found;
         }
-        public CssActiveSheet Clone(object newOwner)
+        public CssActiveSheet Clone()
         {
             CssActiveSheet newclone = new CssActiveSheet();
             newclone.rulesForTagName = CloneNew(this.rulesForTagName);
