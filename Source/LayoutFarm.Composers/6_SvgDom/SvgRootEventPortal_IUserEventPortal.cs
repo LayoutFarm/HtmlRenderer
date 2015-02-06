@@ -152,14 +152,14 @@ namespace LayoutFarm.InternalHtmlDom
                         //if (hitChain.Count > 0)
                         //{
                         //    //create selection range 
-                        //    this._htmlIsland.SetSelection(new SelectionRange(
+                        //    this._htmlContainer.SetSelection(new SelectionRange(
                         //        _latestMouseDownChain,
                         //        hitChain,
                         //        this.ifonts));
                         //}
                         //else
                         //{
-                        //    this._htmlIsland.SetSelection(null);
+                        //    this._htmlContainer.SetSelection(null);
                         //}
 
 

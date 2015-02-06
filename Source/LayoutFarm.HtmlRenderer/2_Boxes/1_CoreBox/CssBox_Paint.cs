@@ -54,7 +54,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         public override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
-            var p = PainterStock2.GetSharedPainter(null, canvas);             
+            var p = PainterStock2.GetSharedPainter(null, canvas);
             this.Paint(p);
             PainterStock2.ReleaseSharedPainter(p);
 
@@ -95,8 +95,23 @@ namespace LayoutFarm.HtmlBoxes
             {
 
                 RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
-
                 PaintBackground(p, bound, true, true);
+
+                //if (this.dbugMark1 > 0)
+                //{
+                //    if ((this.dbugMark1 % 2) == 0)
+                //    {
+                //        p.FillRectangle(Color.Red, 0, 0, 10, 10);
+                //        //PaintBackground(p, bound, true, true);
+                //    }
+                //    else
+                //    {
+                //        p.FillRectangle(Color.Green, 0, 0, 10, 10);
+                //        //PaintBackground(p, bound, true, true);
+                //    }
+                //}
+
+
 
                 if (this.HasSomeVisibleBorder)
                 {
@@ -240,7 +255,16 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="isLast">is it the last rectangle of the element</param>
         internal void PaintBackground(PaintVisitor p, RectangleF rect, bool isFirst, bool isLast)
         {
-
+            //if (this.dbugMark1 > 0)
+            //{
+            //    Console.WriteLine(this.dbugMark1);
+            //    if ((this.dbugMark1 % 2) == 0)
+            //    {
+            //    }
+            //    else
+            //    {
+            //    }
+            //}
             if (!this.HasVisibleBgColor)
             {
                 return;

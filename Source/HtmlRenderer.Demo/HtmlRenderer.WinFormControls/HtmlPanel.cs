@@ -65,12 +65,12 @@ namespace LayoutFarm.Demo
     /// </summary>
     public class HtmlPanel : ScrollableControl
     {
-        List<MyHtmlIsland> waitingUpdateList = new List<MyHtmlIsland>();
+        List<MyHtmlContainer> waitingUpdateList = new List<MyHtmlContainer>();
         LayoutFarm.WebDom.WebDocument currentDoc;
-        Composers.RenderTreeBuilder renderTreeBuilder;
 
-        LayoutFarm.HtmlBoxes.HtmlIslandHost htmlIslandHost;
-        LayoutFarm.HtmlBoxes.MyHtmlIsland myHtmlIsland;
+
+        LayoutFarm.HtmlBoxes.HtmlHost htmlhost;
+        LayoutFarm.HtmlBoxes.MyHtmlContainer htmlContainer;
 
 
         HtmlInputEventAdapter _htmlInputEventAdapter;
@@ -114,25 +114,29 @@ namespace LayoutFarm.Demo
             this.renderCanvas = gfxPlatform.CreateCanvas(0, 0, 800, 600);
             //-------------------------------------------------------
 
-            htmlIslandHost = new HtmlIslandHost(p);
+            htmlhost = new HtmlHost(p);
+            htmlhost.RequestImage += (s, e) => this.imageContentMan.AddRequestImage(e.binder);
+            htmlhost.RequestStyleSheet += (s, e) => this.textContentMan.AddStyleSheetRequest(e);
 
-            htmlIslandHost.RequestResource += myHtmlIsland_RequestResource;
-            myHtmlIsland = new MyHtmlIsland(htmlIslandHost);
-            myHtmlIsland.DomVisualRefresh += OnRefresh;
-            myHtmlIsland.DomRequestRebuild += myHtmlIsland_NeedUpdateDom;
-            //-------------------------------------------------------
-            htmlIslandHost.SetHtmlIslandUpdateHandler((island) =>
+            htmlhost.SetHtmlContainerUpdateHandler(htmlCont =>
             {
-                var updatedIsland = island as MyHtmlIsland;
-                if (updatedIsland != null && !updatedIsland.IsInUpdateQueue)
+                var updatedHtmlCont = htmlCont as MyHtmlContainer;
+                if (updatedHtmlCont != null && !updatedHtmlCont.IsInUpdateQueue)
                 {
-                    updatedIsland.IsInUpdateQueue = true;
-                    waitingUpdateList.Add(updatedIsland);
+                    updatedHtmlCont.IsInUpdateQueue = true;
+                    waitingUpdateList.Add(updatedHtmlCont);
                 }
             });
+            //-------------------------------------------------------
+
+            htmlContainer = new MyHtmlContainer(htmlhost);
+            htmlContainer.DomVisualRefresh += OnRefresh;
+            htmlContainer.DomRequestRebuild += myHtmlContainer_NeedUpdateDom;
+            //-------------------------------------------------------
+
 
             htmlLayoutVisitor = new LayoutVisitor(p);
-            htmlLayoutVisitor.Bind(myHtmlIsland);
+            htmlLayoutVisitor.Bind(htmlContainer);
 
             this.imageContentMan.ImageLoadingRequest += OnImageLoad;
             this.textContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
@@ -144,64 +148,30 @@ namespace LayoutFarm.Demo
                 int j = waitingUpdateList.Count;
                 for (int i = 0; i < j; ++i)
                 {
-                    var htmlIsland = waitingUpdateList[i];
-                    htmlIsland.IsInUpdateQueue = false;
-                    htmlIsland.RefreshIfNeed();
+                    var htmlCont = waitingUpdateList[i];
+                    htmlCont.IsInUpdateQueue = false;
+                    htmlCont.RefreshIfNeed();
                 }
                 for (int i = j - 1; i >= 0; --i)
                 {
-                    waitingUpdateList.RemoveAt(i);                     
+                    waitingUpdateList.RemoveAt(i);
                 }
 
             };
             timer01.Enabled = true;
             //-------------------------------------------
             _htmlInputEventAdapter = new HtmlInputEventAdapter(gfxPlatform.SampleIFonts);
-            _htmlInputEventAdapter.Bind(myHtmlIsland);
+            _htmlInputEventAdapter.Bind(htmlContainer);
             //------------------------------------------- 
         }
-        void myHtmlIsland_RequestResource(object sender, HtmlResourceRequestEventArgs e)
-        {
-            this.imageContentMan.AddRequestImage(e.binder);
-        }
-        void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
-        {
-            //need updater dom
-            if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
-            //-----------------------------------------------------------------
 
-            this.renderTreeBuilder.RefreshCssTree(this.currentDoc.RootNode);
-            this.myHtmlIsland.PerformLayout(this.htmlLayoutVisitor);
+        void myHtmlContainer_NeedUpdateDom(object sender, EventArgs e)
+        {
+            
+            this.htmlhost.GetRenderTreeBuilder().RefreshCssTree(this.currentDoc.RootNode);
+            this.htmlContainer.PerformLayout(this.htmlLayoutVisitor);
         }
 
-        //void RefreshHtmlDomChange()
-        //{
-
-        //    var builder = new Composers.RenderTreeBuilder();
-        //    builder.RequestStyleSheet += (e) =>
-        //    {
-        //        var req = new TextLoadRequestEventArgs(e.Src);
-        //        this.textContentMan.AddStyleSheetRequest(req);
-        //        e.SetStyleSheet = req.SetStyleSheet;
-        //    };
-
-        //    var rootBox = builder.RefreshCssTree(this.currentDoc,
-        //        PixelFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics,
-        //        this.myHtmlIsland);
-        //    this.myHtmlIsland.PerformLayout(PixelFarm.Drawing.CurrentGraphicPlatform.P.SampleIGraphics);
-        //}
-
-
-        ///// <summary>
-        ///// Raised when the user clicks on a link in the html.<br/>
-        ///// Allows canceling the execution of the link.
-        ///// </summary>
-        //public event EventHandler<HtmlLinkClickedEventArgs> LinkClicked;
-
-        ///// <summary>
-        ///// Raised when an error occurred during html rendering.<br/>
-        ///// </summary>
-        //public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
 
         /// <summary>
         /// Raised when a stylesheet is about to be loaded by file path or URI by link element.<br/>
@@ -304,28 +274,28 @@ namespace LayoutFarm.Demo
                 if (!IsDisposed)
                 {
                     VerticalScroll.Value = VerticalScroll.Minimum;
-                    SetHtml(myHtmlIsland, Text, _baseCssData);
+                    SetHtml(htmlContainer, Text, _baseCssData);
                     PerformLayout();
                     Invalidate();
                 }
             }
         }
-        void SetHtml(LayoutFarm.HtmlBoxes.MyHtmlIsland htmlIsland, string html, CssActiveSheet cssData)
+        void SetHtml(LayoutFarm.HtmlBoxes.MyHtmlContainer htmlContainer, string html, CssActiveSheet cssData)
         {
 
-            if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
+            
             //-----------------------------------------------------------------
-            var htmldoc = LayoutFarm.Composers.WebDocumentParser.ParseDocument(
+            var htmldoc = this.currentDoc = LayoutFarm.Composers.WebDocumentParser.ParseDocument(
                           new WebDom.Parser.TextSnapshot(html.ToCharArray()));
 
 
             //build rootbox from htmldoc
-            var rootBox = renderTreeBuilder.BuildCssRenderTree(htmldoc,
+            var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree((Composers.HtmlDocument)htmldoc,
                 cssData,
                 null);
 
-            htmlIsland.WebDocument = htmldoc;
-            htmlIsland.RootCssBox = rootBox;
+            htmlContainer.WebDocument = htmldoc;
+            htmlContainer.RootCssBox = rootBox;
         }
 
         public void LoadHtmlDom(LayoutFarm.WebDom.WebDocument doc, string defaultCss)
@@ -333,49 +303,34 @@ namespace LayoutFarm.Demo
             _baseRawCssData = defaultCss;
             _baseCssData = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);
             //-----------------  
-            myHtmlIsland.WebDocument = (this.currentDoc = doc);
-            BuildCssBoxTree(myHtmlIsland, _baseCssData);
+            htmlContainer.WebDocument = (this.currentDoc = doc);
+            BuildCssBoxTree(htmlContainer, _baseCssData);
             //---------------------
             PerformLayout();
             Invalidate();
         }
-        void CreateRenderTreeBuilder()
-        {
-            this.renderTreeBuilder = new Composers.RenderTreeBuilder(this.gfxPlatform);
-            this.renderTreeBuilder.RequestStyleSheet += (e) =>
-            {
-                var req = new TextLoadRequestEventArgs(e.Src);
-                this.textContentMan.AddStyleSheetRequest(req);
-                e.SetStyleSheet = req.SetStyleSheet;
 
-            };
+        void BuildCssBoxTree(MyHtmlContainer htmlCont, CssActiveSheet cssData)
+        {                 
 
-        }
-        void BuildCssBoxTree(MyHtmlIsland htmlIsland, CssActiveSheet cssData)
-        {
-
-            if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
-            //------------------------------------------------------------
-
-            var rootBox = renderTreeBuilder.BuildCssRenderTree(
+            var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree(
                 (LayoutFarm.Composers.HtmlDocument)this.currentDoc,
                 cssData,
                 null);
 
-
-            htmlIsland.RootCssBox = rootBox;
+            htmlCont.RootCssBox = rootBox;
 
         }
         public void ForceRefreshHtmlDomChange(LayoutFarm.WebDom.WebDocument doc)
         {
             //RefreshHtmlDomChange(_baseCssData);
-            myHtmlIsland_NeedUpdateDom(this, EventArgs.Empty);
+            myHtmlContainer_NeedUpdateDom(this, EventArgs.Empty);
             this.PaintMe();
 
         }
-        public HtmlIsland GetHtmlContainer()
+        public HtmlContainer GetHtmlContainer()
         {
-            return this.myHtmlIsland;
+            return this.htmlContainer;
         }
 
 
@@ -386,14 +341,14 @@ namespace LayoutFarm.Demo
         public string GetHtml()
         {
 
-            if (myHtmlIsland == null)
+            if (htmlContainer == null)
             {
                 return null;
             }
             else
             {
                 System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
-                myHtmlIsland.GetHtml(stbuilder);
+                htmlContainer.GetHtml(stbuilder);
                 return stbuilder.ToString();
             }
         }
@@ -430,7 +385,7 @@ namespace LayoutFarm.Demo
             base.OnLayout(levent);
 
             // to handle if vertical scrollbar is appearing or disappearing
-            if (myHtmlIsland != null && Math.Abs(myHtmlIsland.MaxWidth - ClientSize.Width) > 0.1)
+            if (htmlContainer != null && Math.Abs(htmlContainer.MaxWidth - ClientSize.Width) > 0.1)
             {
                 PerformHtmlLayout();
                 base.OnLayout(levent);
@@ -442,12 +397,12 @@ namespace LayoutFarm.Demo
         /// </summary>
         void PerformHtmlLayout()
         {
-            if (myHtmlIsland != null)
+            if (htmlContainer != null)
             {
-                //myHtmlIsland.MaxSize = new PixelFarm.Drawing.SizeF(ClientSize.Width, 0);
-                myHtmlIsland.SetMaxSize(ClientSize.Width, 0);
-                myHtmlIsland.PerformLayout(this.htmlLayoutVisitor);
-                var asize = myHtmlIsland.ActualSize;
+                //htmlContainer.MaxSize = new PixelFarm.Drawing.SizeF(ClientSize.Width, 0);
+                htmlContainer.SetMaxSize(ClientSize.Width, 0);
+                htmlContainer.PerformLayout(this.htmlLayoutVisitor);
+                var asize = htmlContainer.ActualSize;
                 AutoScrollMinSize = Size.Round(new SizeF(asize.Width, asize.Height));
             }
         }
@@ -466,16 +421,16 @@ namespace LayoutFarm.Demo
         }
         void PaintMe(PaintEventArgs e)
         {
-            if (myHtmlIsland != null)
+            if (htmlContainer != null)
             {
 
 
 
                 var bounds = this.Bounds;
 
-                myHtmlIsland.CheckDocUpdate();
+                htmlContainer.CheckDocUpdate();
 
-                var painter = GetSharedPainter(myHtmlIsland, renderCanvas);
+                var painter = GetSharedPainter(htmlContainer, renderCanvas);
 
                 renderCanvas.ClearSurface(PixelFarm.Drawing.Color.White);
 
@@ -485,7 +440,7 @@ namespace LayoutFarm.Demo
 
                 painter.OffsetCanvasOrigin(scrollPos.X, scrollPos.Y);
 
-                myHtmlIsland.PerformPaint(painter);
+                htmlContainer.PerformPaint(painter);
 
                 painter.OffsetCanvasOrigin(-scrollPos.X, -scrollPos.Y);
 
@@ -718,8 +673,8 @@ namespace LayoutFarm.Demo
         /// </summary>
         private void OnRefresh(object sender, EventArgs e)
         {
-            MyHtmlIsland island = (MyHtmlIsland)sender;
-            if (island.NeedLayout)
+            MyHtmlContainer htmlCont = (MyHtmlContainer)sender;
+            if (htmlCont.NeedLayout)
             {
                 if (InvokeRequired)
                     Invoke(new MethodInvoker(PerformLayout));
@@ -778,15 +733,15 @@ namespace LayoutFarm.Demo
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if (myHtmlIsland != null)
+            if (htmlContainer != null)
             {
                 this.timer01.Stop();
-                myHtmlIsland.DomVisualRefresh -= OnRefresh;
+                htmlContainer.DomVisualRefresh -= OnRefresh;
                 this.textContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
                 this.imageContentMan.ImageLoadingRequest -= OnImageLoad;
 
-                myHtmlIsland.Dispose();
-                myHtmlIsland = null;
+                htmlContainer.Dispose();
+                htmlContainer = null;
             }
             base.Dispose(disposing);
         }
@@ -858,7 +813,7 @@ namespace LayoutFarm.Demo
         #endregion
 
 
-        static PaintVisitor GetSharedPainter(LayoutFarm.HtmlBoxes.HtmlIsland htmlIsland, PixelFarm.Drawing.Canvas canvas)
+        static PaintVisitor GetSharedPainter(LayoutFarm.HtmlBoxes.HtmlContainer htmlCont, PixelFarm.Drawing.Canvas canvas)
         {
             PaintVisitor painter = null;
             if (painterStock.Count == 0)
@@ -870,7 +825,7 @@ namespace LayoutFarm.Demo
                 painter = painterStock.Dequeue();
             }
 
-            painter.Bind(htmlIsland, canvas);
+            painter.Bind(htmlCont, canvas);
 
             return painter;
         }

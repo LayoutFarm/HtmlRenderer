@@ -13,7 +13,7 @@ namespace LayoutFarm.UI
     {
 
         List<RenderElement> layoutQueue = new List<RenderElement>();
-        List<HtmlBoxes.MyHtmlIsland> htmlIslandQueue = new List<HtmlBoxes.MyHtmlIsland>();
+        List<HtmlBoxes.MyHtmlContainer> htmlContainerUpdateQueue = new List<HtmlBoxes.MyHtmlContainer>();
 
 
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
@@ -209,11 +209,11 @@ namespace LayoutFarm.UI
         }
         public override void AddToUpdateQueue(object toupdateObj)
         {
-            var htmlIsland = toupdateObj as HtmlBoxes.MyHtmlIsland;
-            if (htmlIsland != null && !htmlIsland.IsInUpdateQueue)
+            var htmlCont = toupdateObj as HtmlBoxes.MyHtmlContainer;
+            if (htmlCont != null && !htmlCont.IsInUpdateQueue)
             {
-                htmlIsland.IsInUpdateQueue = true;
-                htmlIslandQueue.Add(htmlIsland);
+                htmlCont.IsInUpdateQueue = true;
+                htmlContainerUpdateQueue.Add(htmlCont);
             }
         }
         void ClearLayoutQueue()
@@ -234,18 +234,17 @@ namespace LayoutFarm.UI
                 this.layoutQueue.RemoveAt(i);
             }
             //-------------------------------- 
-            j = this.htmlIslandQueue.Count;
+            j = this.htmlContainerUpdateQueue.Count;
             for (int i = 0; i < j; ++i)
             {
-                var htmlIsland = htmlIslandQueue[i];
-                htmlIsland.IsInUpdateQueue = false;
-                htmlIsland.RefreshIfNeed();                
+                var htmlCont = htmlContainerUpdateQueue[i];
+                htmlCont.IsInUpdateQueue = false;
+                htmlCont.RefreshIfNeed();                
             }
             for (int i = j - 1; i >= 0; --i)
             {
-                htmlIslandQueue.RemoveAt(i);
-            }
-            
+                htmlContainerUpdateQueue.RemoveAt(i);
+            } 
             //-------------------------------- 
             this.LayoutQueueClearing = false;
         }

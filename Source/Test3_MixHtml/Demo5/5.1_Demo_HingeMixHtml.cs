@@ -17,14 +17,14 @@ namespace LayoutFarm
     class Demo_HingeMixHtml : DemoBase
     {
         ImageBinder arrowBmp;
-        HtmlIslandHost islandHost;
+        HtmlHost htmlHost;
 
         SampleViewport sampleViewport;
         protected override void OnStartDemo(SampleViewport viewport)
         {
             sampleViewport = viewport;
             //init host
-            islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);
+            htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);
             //-----------
             var comboBox1 = CreateComboBox(20, 20);
             viewport.AddContent(comboBox1);
@@ -174,7 +174,7 @@ namespace LayoutFarm
             //add mix html here 
             {
 
-                LightHtmlBox lightHtmlBox2 = new LightHtmlBox(islandHost, floatPart.Width, floatPart.Height);
+                LightHtmlBox lightHtmlBox2 = new LightHtmlBox(htmlHost, floatPart.Width, floatPart.Height);
                 lightHtmlBox2.SetLocation(0, 0);
                 floatPart.AddChildBox(lightHtmlBox2);
                 //light box can't load full html
@@ -200,7 +200,7 @@ namespace LayoutFarm
         }
         FragmentHtmlDocument CreateSampleHtmlDoc(MenuBox ownerMenuBox)
         {
-            FragmentHtmlDocument htmldoc = islandHost.CreateNewFragmentHtml();// new HtmlDocument();
+            FragmentHtmlDocument htmldoc = htmlHost.CreateNewFragmentHtml();// new HtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  

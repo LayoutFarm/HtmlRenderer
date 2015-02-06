@@ -56,7 +56,7 @@
     <Compile Include="3_Basic\5_GridBox.cs" />
     <Compile Include="3_Basic\1_ImageBox.cs" />
     <Compile Include="3_Basic\3_Panel.cs" />
-    <Compile Include="4.2_HtmlWidgetBase\0_HtmlWidgetBase.cs" />
+    <Compile Include="4.2_HtmlWidgetBase\0_WidgetBase.cs" />
     <Compile Include="4.1_Composites\ScrollBar.cs" />
     <Compile Include="3_Basic\2_TextBox.cs" />
     <Compile Include="3_Basic\6_Label.cs" />
@@ -68,6 +68,7 @@
     <Compile Include="4.1_Composites\Menu.cs" />
     <Compile Include="4.1_Composites\TabPageBox.cs" />
     <Compile Include="4.1_Composites\TreeView.cs" />
+    <Compile Include="4.2_HtmlWidgetBase\Button.cs" />
     <Compile Include="4.2_HtmlWidgetBase\CheckBox.cs" />
     <Compile Include="4.2_HtmlWidgetBase\ComboBox.cs" />
     <Compile Include="4.2_HtmlWidgetBase\HingeBox.cs" />
@@ -112,7 +113,9 @@
       <Name>LayoutFarm.TextEdit</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="7_UIBehaviours\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

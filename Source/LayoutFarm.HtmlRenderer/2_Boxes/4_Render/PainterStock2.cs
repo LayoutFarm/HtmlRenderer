@@ -13,7 +13,7 @@ namespace LayoutFarm.HtmlBoxes
 {
     static class PainterStock2
     {
-        internal static PaintVisitor GetSharedPainter(HtmlIsland htmlIsland, Canvas canvas)
+        internal static PaintVisitor GetSharedPainter(HtmlContainer htmlCont, Canvas canvas)
         {
             PaintVisitor painter = null;
             if (painterStock.Count == 0)
@@ -25,7 +25,7 @@ namespace LayoutFarm.HtmlBoxes
                 painter = painterStock.Dequeue();
             }
 
-            painter.Bind(htmlIsland, canvas);
+            painter.Bind(htmlCont, canvas);
 
             return painter;
         }

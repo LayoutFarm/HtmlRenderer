@@ -17,18 +17,15 @@ namespace LayoutFarm.CustomWidgets
         Dictionary<ImageContentManager, int> imageContentManList = new Dictionary<ImageContentManager, int>();
 
 
-        bool isBinded;
-
+        bool isBinded; 
         public HtmlBoxContentManager()
         {
 
-        }
-
-
+        } 
         public void Bind(HtmlBox htmlBox)
         {
             this.htmlBox = htmlBox;
-            this.htmlBox.HtmlIslandHost.RequestResource += (s, e) =>
+            this.htmlBox.HtmlHost.RequestImage += (s, e) =>
                 {
                     foreach (ImageContentManager key in imageContentManList.Keys)
                     {

@@ -1,9 +1,9 @@
 ﻿//BSD  2014 ,WinterDev
 
-using System; 
+using System;
 using System.Collections.Generic;
 using System.Text;
-  
+
 
 namespace LayoutFarm.WebDom
 {
@@ -132,6 +132,21 @@ namespace LayoutFarm.WebDom
         {
             this._decls.Add(property);
         }
+        public void RemoveCssProperty(WellknownCssPropertyName wellknownName)
+        {
+            if (wellknownName == WellknownCssPropertyName.Unknown)
+            {
+                //can't delete
+                return;
+            }
+            for (int i = _decls.Count - 1; i >= 0; --i)
+            {
+                if (_decls[i].WellknownPropertyName == wellknownName)
+                {
+                    _decls.RemoveAt(i);
+                }
+            }
+        }
         public CssElementSelector GetSelector()
         {
             return this.elementSelector;
@@ -148,7 +163,7 @@ namespace LayoutFarm.WebDom
             get { return CssDocMemberKind.RuleSet; }
         }
 
-        
+
     }
 
 

@@ -132,8 +132,8 @@ namespace LayoutFarm.WebDom
         {
         }
         protected virtual void OnContentUpdate()
-        {   
-           this.OwnerDocument.DomUpdateVersion++; 
+        {
+            this.OwnerDocument.DomUpdateVersion++;
         }
     }
 }

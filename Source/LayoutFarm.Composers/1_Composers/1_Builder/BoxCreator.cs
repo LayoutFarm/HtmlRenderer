@@ -14,10 +14,18 @@ namespace LayoutFarm.Composers
     {
 
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
-        
 
-        public static void RegisterCustomCssBoxGenerator(CustomCssBoxGenerator generator)
+
+        public static void RegisterCustomCssBoxGenerator(System.Type t, CustomCssBoxGenerator generator)
         {
+            for (int i = generators.Count - 1; i >= 0; --i)
+            {
+                if (generators[i].GetType() == t)
+                {
+                    return;
+                }
+            }
+
             generators.Add(generator);
         }
         static CssBox CreateImageBox(CssBox parent, HtmlElement childElement)

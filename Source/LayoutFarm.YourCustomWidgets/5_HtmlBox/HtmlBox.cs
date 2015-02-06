@@ -20,7 +20,7 @@ namespace LayoutFarm.CustomWidgets
         HtmlRenderBox htmlRenderBox;
         int _width;
         int _height;
-        MyHtmlIsland myHtmlIsland;
+        MyHtmlContainer myHtmlContainer;
         LayoutVisitor htmlLayoutVisitor;
 
         LayoutFarm.WebDom.WebDocument currentdoc;
@@ -35,39 +35,33 @@ namespace LayoutFarm.CustomWidgets
 
 
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder = null;
-        HtmlIslandHost islandHost;
+        HtmlHost htmlHost;
 
         static HtmlBox()
         {
             LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
+               typeof(MyCssBoxGenerator),
                new MyCssBoxGenerator());
         }
-        public HtmlBox(HtmlIslandHost islandHost, int width, int height)
+
+        public HtmlBox(HtmlHost htmlHost, int width, int height)
         {
             this._width = width;
             this._height = height;
-            this.islandHost = islandHost;
+            this.htmlHost = htmlHost;
 
-            //this.islandHost = new HtmlIslandHost();
-            //this.islandHost.BaseStylesheet = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true);
-            //this.islandHost.RequestResource += (s, e) =>
-            //{
-            //    if (this.RequestImage != null)
-            //    {
-            //        RequestImage(this, new ImageRequestEventArgs(e.binder));
-            //    }
-            //};
+            
 
-            myHtmlIsland = new MyHtmlIsland(islandHost);
-            myHtmlIsland.DomVisualRefresh += (s, e) => this.InvalidateGraphics();
-            myHtmlIsland.DomRequestRebuild += myHtmlIsland_NeedUpdateDom;
+            myHtmlContainer = new MyHtmlContainer(htmlHost);
+            myHtmlContainer.DomVisualRefresh += (s, e) => this.InvalidateGraphics();
+            myHtmlContainer.DomRequestRebuild += htmlContainer_NeedUpdateDom;
             //request ui timer *** 
             //tim.Interval = 30;
             //tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
         }
-        public HtmlIslandHost HtmlIslandHost
+        public HtmlHost HtmlHost
         {
-            get { return this.islandHost; }
+            get { return this.htmlHost; }
         }
 
         //--------------------------------------------------------------------
@@ -114,14 +108,14 @@ namespace LayoutFarm.CustomWidgets
         void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
         }
-        internal MyHtmlIsland HtmlIsland
+        internal MyHtmlContainer HtmlContainer
         {
-            get { return this.myHtmlIsland; }
+            get { return this.myHtmlContainer; }
         }
 
         void CreateRenderTreeBuilder()
         {
-            this.renderTreeBuilder = this.islandHost.GetRenderTreeBuilder();
+            this.renderTreeBuilder = this.htmlHost.GetRenderTreeBuilder();
 
             //this.renderTreeBuilder = new LayoutFarm.Composers.RenderTreeBuilder();
             //this.renderTreeBuilder.RequestStyleSheet += (e2) =>
@@ -135,7 +129,7 @@ namespace LayoutFarm.CustomWidgets
             //};
 
         }
-        void myHtmlIsland_NeedUpdateDom(object sender, EventArgs e)
+        void htmlContainer_NeedUpdateDom(object sender, EventArgs e)
         {
             hasWaitingDocToLoad = true;
             //---------------------------
@@ -155,7 +149,7 @@ namespace LayoutFarm.CustomWidgets
             //};
 
             renderTreeBuilder.RefreshCssTree(this.currentdoc.RootNode);
-            this.myHtmlIsland.PerformLayout(htmlLayoutVisitor);
+            this.myHtmlContainer.PerformLayout(htmlLayoutVisitor);
 
         }
 
@@ -169,17 +163,17 @@ namespace LayoutFarm.CustomWidgets
             if (htmlRenderBox == null)
             {
                 this.rootgfx = rootgfx;
-                htmlRenderBox = new HtmlRenderBox(rootgfx, _width, _height, myHtmlIsland);
+                htmlRenderBox = new HtmlRenderBox(rootgfx, _width, _height, myHtmlContainer);
                 htmlRenderBox.SetController(this);
                 htmlRenderBox.HasSpecificSize = true;
 
                 inputEventAdapter = new HtmlInputEventAdapter(rootgfx.SampleIFonts);
-                inputEventAdapter.Bind(this.myHtmlIsland);
+                inputEventAdapter.Bind(this.myHtmlContainer);
 
                 htmlLayoutVisitor = new LayoutVisitor(rootgfx.P);
-                htmlLayoutVisitor.Bind(this.myHtmlIsland);
+                htmlLayoutVisitor.Bind(this.myHtmlContainer);
             }
-             
+
 
             if (this.hasWaitingDocToLoad)
             {
@@ -198,15 +192,14 @@ namespace LayoutFarm.CustomWidgets
                 this.waitingCssData,
                 this.htmlRenderBox);
 
-            //update htmlIsland
-            var htmlIsland = this.myHtmlIsland;
-            htmlIsland.WebDocument = this.currentdoc;
-            htmlIsland.RootCssBox = rootBox;
-            //htmlIsland.MaxSize = new PixelFarm.Drawing.SizeF(this._width, 0);
-            htmlIsland.SetMaxSize(this._width, 0);
-            htmlIsland.PerformLayout(this.htmlLayoutVisitor);
+             
+            var htmlCont = this.myHtmlContainer;
+            htmlCont.WebDocument = this.currentdoc;
+            htmlCont.RootCssBox = rootBox; 
+            htmlCont.SetMaxSize(this._width, 0);
+            htmlCont.PerformLayout(this.htmlLayoutVisitor);
         }
-        void SetHtml(MyHtmlIsland htmlIsland, string html, LayoutFarm.WebDom.CssActiveSheet cssData)
+        void SetHtml(MyHtmlContainer htmlCont, string html, LayoutFarm.WebDom.CssActiveSheet cssData)
         {
             var htmldoc = LayoutFarm.Composers.WebDocumentParser.ParseDocument(
                              new LayoutFarm.WebDom.Parser.TextSnapshot(html.ToCharArray()));
@@ -221,7 +214,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public void LoadHtmlText(string html)
         {
-            SetHtml(myHtmlIsland, html, this.islandHost.BaseStylesheet);
+            SetHtml(myHtmlContainer, html, this.htmlHost.BaseStylesheet);
         }
         public override void InvalidateGraphics()
         {

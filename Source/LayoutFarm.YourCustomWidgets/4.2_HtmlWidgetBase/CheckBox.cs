@@ -14,54 +14,24 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm.HtmlWidgets
 {
 
-
-    public class CheckBox : Panel
+    public class CheckBox : LightHtmlWidgetBase
     {
 
         bool isChecked;
-
-        RenderElement myRenderE;
-        DomElement imageBox; 
-        HtmlIslandHost htmlIslandHost;
-        LightHtmlBox lightHtmlBox; 
-        public CheckBox(HtmlIslandHost htmlIslandHost, int w, int h)
-            : base(w, h)
+        string checkBoxText = "";
+        public event EventHandler WhenChecked;
+        public CheckBox(HtmlHost htmlhost, int w, int h)
+            : base(htmlhost, w, h)
+        { 
+        } 
+        //---------------------------------------------------------------------------
+        public string Text
         {
-            this.htmlIslandHost = htmlIslandHost;
-
-        }
-        protected override RenderElement CurrentPrimaryRenderElement
-        {
-            get
+            get { return this.checkBoxText; }
+            set
             {
-                return this.myRenderE;
+                this.checkBoxText = value;
             }
-        }
-        protected override bool HasReadyRenderElement
-        {
-            get
-            {
-                return this.myRenderE != null;
-            }
-        }
-
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-        {
-
-            if (!this.HasReadyRenderElement)
-            {
-                lightHtmlBox = new LightHtmlBox(htmlIslandHost, this.Width, this.Height);
-                lightHtmlBox.LoadHtmlDom(CreateHtml());
-                lightHtmlBox.SetLocation(this.Left, this.Top);
-                myRenderE = lightHtmlBox.GetPrimaryRenderElement(rootgfx);
-                return myRenderE;
-
-            }
-            else
-            {
-                return myRenderE;
-            }
-
         }
         public bool Checked
         {
@@ -92,76 +62,63 @@ namespace LayoutFarm.HtmlWidgets
                 }
             }
         }
-        public event EventHandler WhenChecked;
 
-        FragmentHtmlDocument CreateHtml()
+        protected override FragmentHtmlDocument CreatePresentationDom()
         {
-            FragmentHtmlDocument htmldoc = this.htmlIslandHost.CreateNewFragmentHtml();
 
+            FragmentHtmlDocument htmldoc = this.HtmlHost.CreateNewFragmentHtml();
             //TODO: use template engine, 
             //ideas:  AngularJS style ?
 
             //1. create body node             
             // and content   
-            //style 2, lambda and adhoc attach event
-
-
+            //style 2, lambda and adhoc attach event  
             var domElement =
                 htmldoc.RootNode.AddChild("div", div =>
                 {
-                    var styleAttr = htmldoc.CreateAttribute(WellknownName.Style);
-                    styleAttr.Value = "font:10pt tahoma;";
-                    div.AddAttribute(styleAttr);
-
-
+                    div.SetAttribute("style", "font:10pt tahoma;");
                     div.AddChild("img", img =>
                     {
-                        this.imageBox = img;
-
-                        //change style
-                        var imgAttr = htmldoc.CreateAttribute(WellknownName.Src);
-                        imgAttr.Value = "../../Demo/arrow_close.png";
-                        img.AddAttribute(imgAttr);
-                        //3. attach event to specific span
-
+                        //init 
+                        bool is_close = true;
+                        img.SetAttribute("src", "../../Demo/arrow_close.png");
                         img.AttachMouseDownEvent(e =>
                         {
-
-                            imgAttr.Value = "../../Demo/arrow_open.png";
+                            img.SetAttribute("src", is_close ?
+                                "../../Demo/arrow_open.png" :
+                                "../../Demo/arrow_close.png");
+                            is_close = !is_close;
                             e.StopPropagation();
 
-                            img.NotifyChange(ElementChangeKind.AttributeChanged);
+                            this.InvalidateGraphics();
+                        });
+
+                    });
+                    div.AddChild("img", img =>
+                    {
+                        //change style
+                        bool is_close = true;
+                        img.SetAttribute("src", "../../Demo/arrow_close.png");
+                        //3. attach event to specific span 
+                        img.AttachMouseDownEvent(e =>
+                        {
+                            img.SetAttribute("src", is_close ?
+                                "../../Demo/arrow_open.png" :
+                                "../../Demo/arrow_close.png");
+
+                            is_close = !is_close;
+                            e.StopPropagation();
 
                             this.InvalidateGraphics();
                         });
                     });
-                    div.AddChild("img", img =>
+                    div.AddChild("span", span =>
                     {
-                        this.imageBox = img;
-
-                        //change style
-                        var imgAttr = htmldoc.CreateAttribute(WellknownName.Src);
-                        imgAttr.Value = "../../Demo/arrow_close.png";
-                        img.AddAttribute(imgAttr);
-                        //3. attach event to specific span
-
-                        img.AttachMouseDownEvent(e =>
-                        {
-
-                            imgAttr.Value = "../../Demo/arrow_open.png";
-                            e.StopPropagation();
-
-                            img.NotifyChange(ElementChangeKind.AttributeChanged);
-
-                            this.InvalidateGraphics();
-                        });
+                        span.AddTextContent(this.checkBoxText);
                     });
-
                 });
 
             return htmldoc;
         }
     }
-
-
 }

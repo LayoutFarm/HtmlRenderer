@@ -20,7 +20,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         DateTime lastimeMouseUp;
         //-----------------------------------------------
-        HtmlIsland _htmlIsland;
+        HtmlContainer _htmlContainer;
         CssBoxHitChain _latestMouseDownChain = null;
         int _mousedownX;
         int _mousedownY;
@@ -35,15 +35,15 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.ifonts = ifonts;
         } 
-        public void Bind(HtmlIsland htmlIsland)
+        public void Bind(HtmlContainer htmlCont)
         {
 
-            this._htmlIsland = htmlIsland;
-            _isBinded = htmlIsland != null;
+            this._htmlContainer = htmlCont;
+            _isBinded = htmlCont != null;
         }
         public void Unbind()
         {
-            this._htmlIsland = null;
+            this._htmlContainer = null;
             this._isBinded = false;
 
         }
@@ -105,7 +105,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void MouseDown(UIMouseEventArgs e)
         {
-            this.MouseDown(e, _htmlIsland.RootCssBox);
+            this.MouseDown(e, _htmlContainer.RootCssBox);
         }
         public void MouseMove(UIMouseEventArgs e, CssBox startAt)
         {
@@ -143,14 +143,14 @@ namespace LayoutFarm.HtmlBoxes
                         if (hitChain.Count > 0)
                         {
                             //create selection range 
-                            this._htmlIsland.SetSelection(new SelectionRange(
+                            this._htmlContainer.SetSelection(new SelectionRange(
                                 _latestMouseDownChain,
                                 hitChain,
                                 this.ifonts));
                         }
                         else
                         {
-                            this._htmlIsland.SetSelection(null);
+                            this._htmlContainer.SetSelection(null);
                         }
                         ForEachEventListenerBubbleUp(e, hitChain, () =>
                         {
@@ -197,7 +197,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (!_isBinded) return;
             //---------------------------------------------------- 
-            this.MouseMove(e, this._htmlIsland.RootCssBox);
+            this.MouseMove(e, this._htmlContainer.RootCssBox);
 
         }
         public void MouseUp(UIMouseEventArgs e, CssBox startAt)
@@ -266,11 +266,11 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void MouseUp(UIMouseEventArgs e)
         {
-            MouseUp(e, this._htmlIsland.RootCssBox);
+            MouseUp(e, this._htmlContainer.RootCssBox);
         }
         public void MouseWheel(UIMouseEventArgs e)
         {
-            this.MouseWheel(e, this._htmlIsland.RootCssBox);
+            this.MouseWheel(e, this._htmlContainer.RootCssBox);
         }
         public void MouseWheel(UIMouseEventArgs e, CssBox startAt)
         {
@@ -279,11 +279,11 @@ namespace LayoutFarm.HtmlBoxes
 
         void ClearPreviousSelection()
         {
-            this._htmlIsland.ClearPreviousSelection();
+            this._htmlContainer.ClearPreviousSelection();
         }
         public void KeyDown(UIKeyEventArgs e)
         {
-            this.KeyDown(e, this._htmlIsland.RootCssBox);
+            this.KeyDown(e, this._htmlContainer.RootCssBox);
         }
 
         public void KeyDown(UIKeyEventArgs e, CssBox startAt)
@@ -294,7 +294,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public void KeyPress(UIKeyEventArgs e)
         {
-            this.KeyPress(e, this._htmlIsland.RootCssBox);
+            this.KeyPress(e, this._htmlContainer.RootCssBox);
         }
         public void KeyPress(UIKeyEventArgs e, CssBox startAt)
         {
@@ -303,7 +303,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public bool ProcessDialogKey(UIKeyEventArgs e)
         {
-            return this.ProcessDialogKey(e, this._htmlIsland.RootCssBox);
+            return this.ProcessDialogKey(e, this._htmlContainer.RootCssBox);
         }
         public bool ProcessDialogKey(UIKeyEventArgs e, CssBox startAt)
         {
@@ -312,7 +312,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void KeyUp(UIKeyEventArgs e)
         {
-            this.KeyUp(e, this._htmlIsland.RootCssBox);
+            this.KeyUp(e, this._htmlContainer.RootCssBox);
         }
         public void KeyUp(UIKeyEventArgs e, CssBox startAt)
         {

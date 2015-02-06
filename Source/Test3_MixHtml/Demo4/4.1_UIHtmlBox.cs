@@ -15,21 +15,21 @@ namespace LayoutFarm
         HtmlBox htmlBox;
         string htmltext;
 
-        HtmlBoxes.HtmlIslandHost islandHost;
-        HtmlBoxes.HtmlIslandHost GetIslandHost(SampleViewport viewport)
+        HtmlBoxes.HtmlHost htmlHost;
+        HtmlBoxes.HtmlHost GetHtmlHost(SampleViewport viewport)
         {
-            if (islandHost == null)
+            if (htmlHost == null)
             {
-                islandHost = HtmlIslandHostCreatorHelper.CreateHtmlIslandHost(viewport);                 
+                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);                 
             }
-            return islandHost;
+            return htmlHost;
         }
 
         protected override void OnStartDemo(SampleViewport viewport)
         {
 
             //html box
-            htmlBox = new HtmlBox(GetIslandHost(viewport), 800, 600);
+            htmlBox = new HtmlBox(GetHtmlHost(viewport), 800, 600);
             viewport.AddContent(htmlBox);
             if (htmltext == null)
             {

@@ -23,13 +23,13 @@ namespace LayoutFarm.Composers
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
             //default root
-            rootNode = new RootElement(this);
+            rootNode = new HtmlRootElement(this);
         }
         internal HtmlDocument(UniqueStringTable sharedUniqueStringTable)
             : base(sharedUniqueStringTable)
         {
             //default root
-            rootNode = new RootElement(this);
+            rootNode = new HtmlRootElement(this);
         }
         public override DomElement RootNode
         {
@@ -70,18 +70,17 @@ namespace LayoutFarm.Composers
         public override DomTextNode CreateTextNode(char[] strBufferForElement)
         {
             return new HtmlTextNode(this, strBufferForElement);
-        }
-        internal virtual ActiveCssTemplate ActiveCssTemplate
-        {
-            get;
-            set;
-        }
-
+        } 
         internal void SetDomUpdateHandler(EventHandler h)
         {
             this.DomUpdatedHandler = h;
         }
-
+        internal CssActiveSheet CssActiveSheet
+        {
+            get;
+            set;
+        }
+        
     }
 
     public class FragmentHtmlDocument : HtmlDocument
@@ -91,18 +90,8 @@ namespace LayoutFarm.Composers
             : base(primaryHtmlDoc.UniqueStringTable)
         {
             this.primaryHtmlDoc = primaryHtmlDoc;
-        }
-        internal override ActiveCssTemplate ActiveCssTemplate
-        {
-            get
-            {
-                return this.primaryHtmlDoc.ActiveCssTemplate;
-            }
-            set
-            {
-
-            }
-        }
+            
+        }        
 
     }
 }

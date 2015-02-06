@@ -75,7 +75,9 @@ namespace LayoutFarm.Demo
         {
 
             this.graphicsPlatform = p;
+
             this._htmlPanel = new LayoutFarm.Demo.HtmlPanel(this.graphicsPlatform);
+
             InitializeComponent();
 
             

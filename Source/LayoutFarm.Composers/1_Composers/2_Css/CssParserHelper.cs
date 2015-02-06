@@ -45,7 +45,8 @@ namespace LayoutFarm.Composers
             //TODO: check if can clone CssActiveSheet
 
             var cssData = combineWithDefault ?
-                CssDefaults.DefaultCssData.Clone(new object()) : new WebDom.CssActiveSheet();
+                CssDefaults.DefaultCssData.Clone() :
+                new WebDom.CssActiveSheet();
 
             if (!string.IsNullOrEmpty(stylesheet))
             {

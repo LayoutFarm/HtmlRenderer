@@ -40,7 +40,9 @@ namespace LayoutFarm.HtmlBoxes
         readonly Css.BoxSpec _myspec;
         readonly object _controller;
         RootGraphic rootgfx;
+
 #if DEBUG
+        public int dbugMark1;
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark;
@@ -482,7 +484,8 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //this has background
                 if (this.BackgroundImageBinder.State == ImageBinderState.Unload)
-                {
+                {  
+
                     lay.RequestImage(this.BackgroundImageBinder, this);
                 }
             }
@@ -509,13 +512,7 @@ namespace LayoutFarm.HtmlBoxes
                                     CssBox.UnsafeGetTextBuffer(this),
                                     textRun.TextStartIndex,
                                     textRun.TextLength,
-                                    actualFont);
-
-                                //run.Width = FontsUtils.MeasureStringWidth(lay.Gfx,
-                                //    CssBox.UnsafeGetTextBuffer(this),
-                                //    textRun.TextStartIndex,
-                                //    textRun.TextLength,
-                                //    actualFont);
+                                    actualFont); 
 
                             } break;
                         case CssRunKind.SingleSpace:

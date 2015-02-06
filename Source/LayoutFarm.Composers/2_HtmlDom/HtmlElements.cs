@@ -83,9 +83,10 @@ namespace LayoutFarm.InternalHtmlDom
         protected override void OnContentUpdate()
         {
             base.OnContentUpdate();
-            OnChangeInIdleState(ElementChangeKind.ContentUpdate);
-             
-        } 
+            OnChangeInIdleState(ElementChangeKind.ContentUpdate); 
+        }
+        
+
         //------------------------------------
         protected override void OnChangeInIdleState(ElementChangeKind changeKind)
         {
@@ -125,9 +126,9 @@ namespace LayoutFarm.InternalHtmlDom
 
     }
 
-    sealed class RootElement : HtmlElement
+    sealed class HtmlRootElement : HtmlElement
     {
-        public RootElement(HtmlDocument ownerDoc)
+        public HtmlRootElement(HtmlDocument ownerDoc)
             : base(ownerDoc, 0, 0)
         {
         }

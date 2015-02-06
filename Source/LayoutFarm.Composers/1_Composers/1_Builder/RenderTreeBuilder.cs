@@ -34,9 +34,9 @@ namespace LayoutFarm.Composers
 
         WebDom.Parser.CssParser miniCssParser = new CssParser();
         ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
-        public event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
+        internal event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
         GraphicsPlatform gfxPlatform;
-        public RenderTreeBuilder(GraphicsPlatform gfxPlatform)
+        internal RenderTreeBuilder(GraphicsPlatform gfxPlatform)
         {
             this.gfxPlatform = gfxPlatform;
         }
@@ -60,12 +60,15 @@ namespace LayoutFarm.Composers
 
 
         void PrepareStylesAndContentOfChildNodes(
-          HtmlElement parentElement,
-          ActiveCssTemplate activeCssTemplate)
+           HtmlElement parentElement,
+           TopDownActiveCssTemplate activeCssTemplate)
         {
+             
             //recursive 
             foreach (WebDom.DomNode node in parentElement.GetChildNodeIterForward())
             {
+                activeCssTemplate.EnterLevel();
+
                 switch (node.NodeType)
                 {
                     case WebDom.HtmlNodeType.OpenElement:
@@ -93,6 +96,7 @@ namespace LayoutFarm.Composers
                                                     } break;
                                             }
                                         }
+                                        activeCssTemplate.ExitLevel();
                                         continue;
                                     }
                                 case WellKnownDomNodeName.link:
@@ -125,7 +129,7 @@ namespace LayoutFarm.Composers
 
                                             }
                                         }
-
+                                        activeCssTemplate.ExitLevel();
                                         continue;
                                     }
                             }
@@ -154,7 +158,9 @@ namespace LayoutFarm.Composers
 
                         } break;
                 }
-            }
+
+                activeCssTemplate.ExitLevel();
+            } 
         }
 
         public CssBox BuildCssRenderTree(HtmlDocument htmldoc,
@@ -162,12 +168,13 @@ namespace LayoutFarm.Composers
             RenderElement containerElement)
         {
 
-            htmldoc.ActiveCssTemplate = new ActiveCssTemplate(cssActiveSheet);
+            htmldoc.CssActiveSheet = cssActiveSheet;
 
             htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
 
-            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, htmldoc.ActiveCssTemplate);
+            TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(cssActiveSheet);
+            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
 
 
             //----------------------------------------------------------------  
@@ -177,11 +184,11 @@ namespace LayoutFarm.Composers
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
             BoxCreator boxCreator = new BoxCreator();
-            boxCreator.GenerateChildBoxes((RootElement)htmldoc.RootNode, true);
+            boxCreator.GenerateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
-            //SetTextSelectionStyle(htmlIsland, cssData);
+            //SetTextSelectionStyle(htmlCont, cssData);
             return rootBox;
         }
 
@@ -197,7 +204,8 @@ namespace LayoutFarm.Composers
             HtmlElement startAtHtmlElement = (HtmlElement)domElement;
 
             htmldoc.SetDocumentState(DocumentState.Building);
-            PrepareStylesAndContentOfChildNodes(startAtHtmlElement, htmldoc.ActiveCssTemplate);
+            TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(htmldoc.CssActiveSheet);
+            PrepareStylesAndContentOfChildNodes(startAtHtmlElement, activeTemplate);
 
             CssBox docRoot = HtmlElement.InternalGetPrincipalBox((HtmlElement)htmldoc.RootNode);
             if (docRoot == null)
@@ -218,7 +226,7 @@ namespace LayoutFarm.Composers
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
-            //SetTextSelectionStyle(htmlIsland, cssData);
+            //SetTextSelectionStyle(htmlCont, cssData);
             return isolationBox;
         }
 
@@ -229,9 +237,11 @@ namespace LayoutFarm.Composers
 
             HtmlElement startAtElement = (HtmlElement)startAt;
             startAtElement.OwnerDocument.SetDocumentState(DocumentState.Building);
-
             //----------------------------------------------------------------     
-            PrepareStylesAndContentOfChildNodes(startAtElement, ((HtmlDocument)startAtElement.OwnerDocument).ActiveCssTemplate);
+            //clear active template
+
+            TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(((HtmlDocument)startAtElement.OwnerDocument).CssActiveSheet);
+            PrepareStylesAndContentOfChildNodes(startAtElement, activeTemplate);
 
             CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(startAtElement);
             if (existingCssBox != null)
@@ -285,18 +295,17 @@ namespace LayoutFarm.Composers
         void ApplyStyleSheetForSingleHtmlElement(
           HtmlElement element,
           BoxSpec parentSpec,
-          ActiveCssTemplate activeCssTemplate)
+          TopDownActiveCssTemplate activeCssTemplate)
         {
-            BoxSpec curSpec = element.Spec;
-            //0. 
+
+            BoxSpec curSpec = element.Spec; 
             BoxSpec.InheritStyles(curSpec, parentSpec);
             //--------------------------------
             string classValue = null;
             if (element.HasAttributeClass)
             {
                 classValue = element.AttrClassValue;
-            }
-
+            } 
             //--------------------------------
             //1. apply style  
             activeCssTemplate.ApplyActiveTemplate(element.LocalName,
@@ -324,6 +333,13 @@ namespace LayoutFarm.Composers
 
             }
 
+            //if (element.dbugMark == 1)
+            //{
+            //}
+            //else if (element.dbugMark == 2)
+            //{
+            //}
+
             //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
             //------------------------------------------------------------------- 
             //4. a style attribute value 
@@ -335,13 +351,7 @@ namespace LayoutFarm.Composers
                 if (element.TryGetAttribute(WellknownName.Style, out attrStyleValue))
                 {
                     parsedRuleSet = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray());
-                    //step up version number
-                    //after apply style  
-                    BoxSpec.SetVersionNumber(curSpec, curSpec.VersionNumber + 1);
-                    if (curSpec.IsFreezed)
-                    {
-                        curSpec.Defreeze();
-                    }
+                   
                     foreach (WebDom.CssPropertyDeclaration propDecl in parsedRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(
@@ -349,6 +359,8 @@ namespace LayoutFarm.Composers
                             parentSpec,
                             propDecl);
                     }
+
+                    curSpec.DoNotCache = true;
                 }
                 //----------------------------------------------------------------
                 element.IsStyleEvaluated = true;
@@ -359,45 +371,26 @@ namespace LayoutFarm.Composers
                 var elemRuleSet = element.ElementRuleSet;
                 if (elemRuleSet != null)
                 {
-                    BoxSpec.SetVersionNumber(curSpec, curSpec.VersionNumber + 1);
+                     
                     if (curSpec.IsFreezed)
                     {
                         curSpec.Defreeze();
                     }
+                    curSpec.DoNotCache = true;
                     foreach (WebDom.CssPropertyDeclaration propDecl in elemRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(
                             curSpec,
                             parentSpec,
                             propDecl);
-                    }
-
-                }
-
-            }
-
-
-
+                    } 
+                } 
+            } 
             //===================== 
             curSpec.Freeze(); //***
             //===================== 
         }
-        void ApplyStyleSheetTopDownForHtmlElement(HtmlElement element, BoxSpec parentSpec, ActiveCssTemplate activeCssTemplate)
-        {
-
-            ApplyStyleSheetForSingleHtmlElement(element, parentSpec, activeCssTemplate);
-            BoxSpec curSpec = element.Spec;
-
-            int n = element.ChildrenCount;
-            for (int i = 0; i < n; ++i)
-            {
-                HtmlElement childElement = element.GetChildNode(i) as HtmlElement;
-                if (childElement != null)
-                {
-                    ApplyStyleSheetTopDownForHtmlElement(childElement, curSpec, activeCssTemplate);
-                }
-            }
-        }
+         
 
 
         ///// <summary>
@@ -427,7 +420,7 @@ namespace LayoutFarm.Composers
         //    //    }
         //    //}
         //}
-        private static void AssignStylesForElementId(CssBox box, ActiveCssTemplate activeCssTemplate, string elementId)
+        private static void AssignStylesForElementId(CssBox box, TopDownActiveCssTemplate activeCssTemplate, string elementId)
         {
 
             throw new NotSupportedException();

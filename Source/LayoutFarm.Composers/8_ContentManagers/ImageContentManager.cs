@@ -8,29 +8,26 @@ using System.Threading;
 using LayoutFarm.UI;
 
 namespace LayoutFarm.ContentManagers
-{
+{   
 
-
-
-
-
-    class ImageCacheSystem
+    public class ImageRequestEventArgs : EventArgs
     {
-        Dictionary<string, Image> cacheImages = new Dictionary<string, Image>();
-        public ImageCacheSystem()
+        public ImageRequestEventArgs(ImageBinder binder)
         {
+            this.ImageBinder = binder;
         }
-        public bool TryGetCacheImage(string url, out Image img)
+
+        public ImageBinder ImageBinder { get; private set; }
+        public string ImagSource
         {
-            return cacheImages.TryGetValue(url, out img);
+            get { return this.ImageBinder.ImageSource; }
         }
-        public void AddCacheImage(string url, Image img)
+        public void SetResultImage(Image img)
         {
-            this.cacheImages[url] = img;
+            this.ImageBinder.SetImage(img);
         }
     }
-
-
+    
     public class ImageContentManager
     {
 

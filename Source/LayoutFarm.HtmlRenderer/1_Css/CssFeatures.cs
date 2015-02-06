@@ -34,9 +34,7 @@ namespace LayoutFarm.Css
 
         protected bool Assignable()
         {
-            if (this.freezed)
-            {
-            }
+            
             return !this.freezed;
         }
     }

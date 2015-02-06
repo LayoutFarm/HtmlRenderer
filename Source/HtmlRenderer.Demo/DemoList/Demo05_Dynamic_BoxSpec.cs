@@ -31,7 +31,7 @@ namespace LayoutFarm.Demo
                         span.AddTextContent("ABCD");
                         //3. attach event to specific span
                         span.AttachMouseDownEvent(e =>
-                        { 
+                        {
 #if DEBUG
 
                             var s_span = new EaseScriptElement(span);
@@ -41,6 +41,7 @@ namespace LayoutFarm.Demo
                             e.StopPropagation();
 
                         });
+
                     });
 
                     div.AddChild("span", span =>
@@ -53,6 +54,13 @@ namespace LayoutFarm.Demo
                             var s_span = new EaseScriptElement(span);
                             s_span.ChangeFontColor(PixelFarm.Drawing.Color.Red);
                             s_span.ChangeBackgroundColor(PixelFarm.Drawing.Color.Yellow);
+
+                        });
+                        span.AttachMouseUpEvent(e =>
+                        {
+                            var s_span = new EaseScriptElement(span);
+                            s_span.ChangeFontColor(PixelFarm.Drawing.Color.Black);
+                            s_span.ChangeBackgroundColor(PixelFarm.Drawing.Color.White);
 
                         });
                     });

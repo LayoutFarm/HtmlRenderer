@@ -37,19 +37,19 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="1_Composers\1_Model\ClientBinder.cs" />
-    <Compile Include="1_Composers\1_Model\WebDocumentParser.cs" />
-    <Compile Include="1_Composers\2_Css\ActiveCssTemplate.cs" />
-    <Compile Include="1_Composers\1_Model\CustomCssBoxGenerator.cs" />
-    <Compile Include="1_Composers\1_Model\RenderTreeBuilder.cs" />
+    <Compile Include="1_Composers\1_Builder\ClientBinder.cs" />
+    <Compile Include="1_Composers\1_Builder\WebDocumentParser.cs" />
+    <Compile Include="1_Composers\1_Builder\TopDownActiveCssTemplate.cs" />
+    <Compile Include="1_Composers\1_Builder\CustomCssBoxGenerator.cs" />
+    <Compile Include="1_Composers\1_Builder\RenderTreeBuilder.cs" />
     <Compile Include="1_Composers\3_Scriptable\EaseScriptElement.cs" />
     <Compile Include="2_HtmlDom\BulletNumberFormatter.cs" />
-    <Compile Include="1_Composers\1_Model\ContentTextSplitter.cs" />
+    <Compile Include="1_Composers\1_Builder\ContentTextSplitter.cs" />
     <Compile Include="1_Composers\2_Css\SpecSetter.cs" />
     <Compile Include="1_Composers\2_Css\UserMapUtil.cs" />
     <Compile Include="1_Composers\2_Css\ValueMaps.cs" />
-    <Compile Include="1_Composers\1_Model\BoxCreator.cs" />
-    <Compile Include="1_Composers\1_Model\HtmlDocument.cs" />
+    <Compile Include="1_Composers\1_Builder\BoxCreator.cs" />
+    <Compile Include="1_Composers\1_Builder\HtmlDocument.cs" />
     <Compile Include="3_HtmlBoxes\HtmlRenderBox.cs" />
     <Compile Include="3_HtmlBoxes\HtmlInputEventAdapter.cs" />
     <Compile Include="3_HtmlBoxes\RenderElementWrapperCssBox.cs" />
@@ -69,7 +69,7 @@
     <Compile Include="4_WebDom\3_Gen\HtmlGenerationStyle.cs" />
     <Compile Include="4_WebDom\3_Gen\HtmlGenerator.cs" />
     <Compile Include="6_SvgDom\SvgCreator.cs" />
-    <Compile Include="3_HtmlBoxes\MyHtmlIsland.cs" />
+    <Compile Include="3_HtmlBoxes\HtmlHostAndHtmlContainer.cs" />
     <Compile Include="6_SvgDom\SvgRootEventPortal_IUserEventPortal.cs" />
     <Compile Include="6_SvgDom\SvgRootEventPortal.cs" />
     <Compile Include="7_TopWin\MyIntervalTaskEventArgs.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="7_TopWin\UserInputEventAdapter.cs" />
     <Compile Include="7_TopWin\UserInputEventAdapter_IEventPortal.cs" />
     <Compile Include="8_ContentManagers\ImageContentManager.cs" />
-    <Compile Include="8_ContentManagers\ImageRequestEventArgs.cs" />
+    <Compile Include="8_ContentManagers\ImageCacheSystem.cs" />
     <Compile Include="8_ContentManagers\TextContentManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="5_WebDom.Parser\CssParser.cs" />
