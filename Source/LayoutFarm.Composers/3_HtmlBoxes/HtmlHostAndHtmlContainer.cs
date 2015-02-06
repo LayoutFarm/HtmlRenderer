@@ -10,6 +10,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.ContentManagers;
 using LayoutFarm.UI; 
+
 namespace LayoutFarm.HtmlBoxes
 {
     public class HtmlImageRequestEventArgs : EventArgs
@@ -17,9 +18,7 @@ namespace LayoutFarm.HtmlBoxes
         public ImageBinder binder;
         public object requestBy;
 
-    }
-    public delegate void HtmlContainerUpdateHandler(HtmlContainer htmlCont);
-
+    } 
     public class HtmlHost
     {
         HtmlContainerUpdateHandler htmlContainerUpdateHandler;
@@ -190,6 +189,7 @@ namespace LayoutFarm.HtmlBoxes
         }
     }
 
+    public delegate void HtmlContainerUpdateHandler(HtmlContainer htmlCont);
     public sealed class MyHtmlContainer : HtmlContainer
     {
         WebDocument webdoc;

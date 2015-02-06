@@ -38,7 +38,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="1_Composers\1_Builder\ClientBinder.cs" />
-    <Compile Include="1_Composers\1_Builder\xTopDownActiveCssTemplate.cs" />
     <Compile Include="1_Composers\1_Builder\WebDocumentParser.cs" />
     <Compile Include="1_Composers\1_Builder\TopDownActiveCssTemplate.cs" />
     <Compile Include="1_Composers\1_Builder\CustomCssBoxGenerator.cs" />
@@ -70,7 +69,7 @@
     <Compile Include="4_WebDom\3_Gen\HtmlGenerationStyle.cs" />
     <Compile Include="4_WebDom\3_Gen\HtmlGenerator.cs" />
     <Compile Include="6_SvgDom\SvgCreator.cs" />
-    <Compile Include="3_HtmlBoxes\MyHtmlIsland.cs" />
+    <Compile Include="3_HtmlBoxes\HtmlHostAndHtmlContainer.cs" />
     <Compile Include="6_SvgDom\SvgRootEventPortal_IUserEventPortal.cs" />
     <Compile Include="6_SvgDom\SvgRootEventPortal.cs" />
     <Compile Include="7_TopWin\MyIntervalTaskEventArgs.cs" />
