@@ -67,7 +67,7 @@ namespace LayoutFarm.Demo
     {
         List<MyHtmlContainer> waitingUpdateList = new List<MyHtmlContainer>();
         LayoutFarm.WebDom.WebDocument currentDoc;
-        Composers.RenderTreeBuilder renderTreeBuilder;
+
 
         LayoutFarm.HtmlBoxes.HtmlHost htmlhost;
         LayoutFarm.HtmlBoxes.MyHtmlContainer htmlContainer;
@@ -116,6 +116,8 @@ namespace LayoutFarm.Demo
 
             htmlhost = new HtmlHost(p);
             htmlhost.RequestImage += (s, e) => this.imageContentMan.AddRequestImage(e.binder);
+            htmlhost.RequestStyleSheet += (s, e) => this.textContentMan.AddStyleSheetRequest(e);
+
             htmlhost.SetHtmlContainerUpdateHandler(htmlCont =>
             {
                 var updatedHtmlCont = htmlCont as MyHtmlContainer;
@@ -165,15 +167,12 @@ namespace LayoutFarm.Demo
 
         void myHtmlContainer_NeedUpdateDom(object sender, EventArgs e)
         {
-            //need updater dom
-            if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
-            //-----------------------------------------------------------------
-
-            this.renderTreeBuilder.RefreshCssTree(this.currentDoc.RootNode);
+            
+            this.htmlhost.GetRenderTreeBuilder().RefreshCssTree(this.currentDoc.RootNode);
             this.htmlContainer.PerformLayout(this.htmlLayoutVisitor);
         }
 
-         
+
         /// <summary>
         /// Raised when a stylesheet is about to be loaded by file path or URI by link element.<br/>
         /// This event allows to provide the stylesheet manually or provide new source (file or uri) to load from.<br/>
@@ -284,14 +283,14 @@ namespace LayoutFarm.Demo
         void SetHtml(LayoutFarm.HtmlBoxes.MyHtmlContainer htmlContainer, string html, CssActiveSheet cssData)
         {
 
-            if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
+            
             //-----------------------------------------------------------------
             var htmldoc = this.currentDoc = LayoutFarm.Composers.WebDocumentParser.ParseDocument(
                           new WebDom.Parser.TextSnapshot(html.ToCharArray()));
 
 
             //build rootbox from htmldoc
-            var rootBox = renderTreeBuilder.BuildCssRenderTree((Composers.HtmlDocument)htmldoc,
+            var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree((Composers.HtmlDocument)htmldoc,
                 cssData,
                 null);
 
@@ -310,29 +309,14 @@ namespace LayoutFarm.Demo
             PerformLayout();
             Invalidate();
         }
-        void CreateRenderTreeBuilder()
-        {
-            this.renderTreeBuilder = new Composers.RenderTreeBuilder(this.gfxPlatform);
-            this.renderTreeBuilder.RequestStyleSheet += (e) =>
-            {
-                var req = new TextLoadRequestEventArgs(e.Src);
-                this.textContentMan.AddStyleSheetRequest(req);
-                e.SetStyleSheet = req.SetStyleSheet;
 
-            };
-
-        }
         void BuildCssBoxTree(MyHtmlContainer htmlCont, CssActiveSheet cssData)
-        {
+        {                 
 
-            if (this.renderTreeBuilder == null) CreateRenderTreeBuilder();
-            //------------------------------------------------------------
-
-            var rootBox = renderTreeBuilder.BuildCssRenderTree(
+            var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree(
                 (LayoutFarm.Composers.HtmlDocument)this.currentDoc,
                 cssData,
                 null);
-
 
             htmlCont.RootCssBox = rootBox;
 

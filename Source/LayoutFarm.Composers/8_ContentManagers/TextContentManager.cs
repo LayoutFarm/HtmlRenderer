@@ -27,7 +27,7 @@ namespace LayoutFarm.ContentManagers
         /// </summary>
         public event EventHandler<TextLoadRequestEventArgs> StylesheetLoadingRequest;
         public TextContentManager()
-        {
+        { 
 
         }
         public void AddStyleSheetRequest(TextLoadRequestEventArgs arg)

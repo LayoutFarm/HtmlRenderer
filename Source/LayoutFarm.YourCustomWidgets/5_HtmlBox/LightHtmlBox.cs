@@ -233,8 +233,7 @@ namespace LayoutFarm.CustomWidgets
         {
             myHtmlCont.DomVisualRefresh += (s, e) => this.InvalidateGraphics();
             myHtmlCont.DomRequestRebuild += (s, e) =>
-            {
-
+            {  
                 //---------------------------
                 if (frgmRenderBox == null) return;
                 //--------------------------- 
