@@ -130,9 +130,11 @@ namespace LayoutFarm.Demo
             //-------------------------------------------------------
 
             htmlContainer = new MyHtmlContainer(htmlhost);
-            htmlContainer.DomVisualRefresh += OnRefresh;
-            htmlContainer.DomRequestRebuild += myHtmlContainer_NeedUpdateDom;
-            //-------------------------------------------------------
+            htmlContainer.AttachEssentialHandlers(
+                OnRefresh,
+                myHtmlContainer_NeedUpdateDom,
+                OnRefresh);
+             
 
 
             htmlLayoutVisitor = new LayoutVisitor(p);
@@ -735,8 +737,8 @@ namespace LayoutFarm.Demo
             if (htmlContainer != null)
             {
                 this.timer01.Stop();
-                htmlContainer.DomVisualRefresh -= OnRefresh;
-                this.textContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
+                htmlContainer.DetachEssentialHandlers();
+                this.textContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;                
                 this.imageContentMan.ImageLoadingRequest -= OnImageLoad;
 
                 htmlContainer.Dispose();

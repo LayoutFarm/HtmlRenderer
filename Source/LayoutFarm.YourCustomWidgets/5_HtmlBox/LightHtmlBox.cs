@@ -40,7 +40,7 @@ namespace LayoutFarm.CustomWidgets
             LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
                 typeof(MyCssBoxGenerator),
                 new MyCssBoxGenerator());
-        } 
+        }
 
 
         //presentation
@@ -231,18 +231,24 @@ namespace LayoutFarm.CustomWidgets
 
         void SetHtmlContainerEventHandlers()
         {
-            myHtmlCont.DomVisualRefresh += (s, e) => this.InvalidateGraphics();
-            myHtmlCont.DomRequestRebuild += (s, e) =>
-            {  
-                //---------------------------
-                if (frgmRenderBox == null) return;
-                //--------------------------- 
-                htmlhost.GetRenderTreeBuilder().RefreshCssTree(myHtmlCont.RootElement);
+            myHtmlCont.AttachEssentialHandlers(
+                //1.
+                (s, e) => this.InvalidateGraphics(),
+                //2.
+                (s, e) =>
+                {
+                    //---------------------------
+                    if (frgmRenderBox == null) return;
+                    //--------------------------- 
+                    htmlhost.GetRenderTreeBuilder().RefreshCssTree(myHtmlCont.RootElement);
 
-                var lay = this.htmlhost.GetSharedHtmlLayoutVisitor(myHtmlCont);
-                myHtmlCont.PerformLayout(lay);
-                this.htmlhost.ReleaseHtmlLayoutVisitor(lay);
-            };
+                    var lay = this.htmlhost.GetSharedHtmlLayoutVisitor(myHtmlCont);
+                    myHtmlCont.PerformLayout(lay);
+                    this.htmlhost.ReleaseHtmlLayoutVisitor(lay);
+                },
+                //3.
+                (s, e) => this.InvalidateGraphics());
+
         }
         public MyHtmlContainer HtmlContainer
         {

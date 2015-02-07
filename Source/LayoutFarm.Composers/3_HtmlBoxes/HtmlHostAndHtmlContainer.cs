@@ -9,7 +9,7 @@ using System.Diagnostics;
 using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.ContentManagers;
-using LayoutFarm.UI; 
+using LayoutFarm.UI;
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -18,7 +18,7 @@ namespace LayoutFarm.HtmlBoxes
         public ImageBinder binder;
         public object requestBy;
 
-    } 
+    }
     public class HtmlHost
     {
         HtmlContainerUpdateHandler htmlContainerUpdateHandler;
@@ -63,7 +63,7 @@ namespace LayoutFarm.HtmlBoxes
                 RequestImage(this, resReq);
             }
         }
-      
+
         /// <summary>
         /// Get stylesheet by given key.
         /// </summary>
@@ -161,7 +161,7 @@ namespace LayoutFarm.HtmlBoxes
                 renderTreeBuilder = new Composers.RenderTreeBuilder(this.gfxplatform);
                 this.renderTreeBuilder.RequestStyleSheet += (e) =>
                 {
-                   
+
                     //---------------------------
                     var stylesheet = GetDefaultStyleSheet(e.Src);
                     if (stylesheet != null)
@@ -175,7 +175,7 @@ namespace LayoutFarm.HtmlBoxes
                         e.SetStyleSheet = req.SetStyleSheet;
                     }
                     //---------------------------
-                    
+
                 };
             }
             return renderTreeBuilder;
@@ -197,14 +197,29 @@ namespace LayoutFarm.HtmlBoxes
         HtmlHost htmlhost;
 
         int lastDomUpdateVersion;
-        public event EventHandler DomVisualRefresh;
-        public event EventHandler DomRequestRebuild;
+        EventHandler DomVisualRefresh;
+        EventHandler DomRequestRebuild;
+        EventHandler ContInvalidateHanlder;
 
         public MyHtmlContainer(HtmlHost htmlhost)
         {
             this.htmlhost = htmlhost;
         }
 
+        public void AttachEssentialHandlers(EventHandler domVisualRefreshHandler,
+            EventHandler domRequestRebuildHandler,
+            EventHandler containerInvalidateHandler)
+        {
+            this.DomVisualRefresh = domVisualRefreshHandler;
+            this.DomRequestRebuild = domRequestRebuildHandler;            
+            this.ContInvalidateHanlder = containerInvalidateHandler;
+        }
+        public void DetachEssentialHandlers()
+        {
+            this.DomVisualRefresh = 
+                this.DomRequestRebuild =
+                this.ContInvalidateHanlder = null;
+        }
         public bool IsInUpdateQueue
         {
             get;
@@ -276,12 +291,14 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.htmlhost.SelectionRange = selRange;
         }
-
-
         public bool NeedLayout
         {
             get;
             private set;
+        }
+        public override void ContainerInvalidateGraphics()
+        {
+            ContInvalidateHanlder(this, EventArgs.Empty);
         }
         protected override void OnRequestImage(ImageBinder binder, object reqFrom, bool _sync)
         {
