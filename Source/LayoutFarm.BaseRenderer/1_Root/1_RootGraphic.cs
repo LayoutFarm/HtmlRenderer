@@ -7,7 +7,7 @@ using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm
 {
-    public abstract partial class RootGraphic
+    public abstract partial class RootGraphic : IRootGraphics
     {
 
         public delegate void PaintToOutputWindowDelegate();

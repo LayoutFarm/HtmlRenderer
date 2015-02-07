@@ -160,8 +160,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 renderTreeBuilder = new Composers.RenderTreeBuilder(this.gfxplatform);
                 this.renderTreeBuilder.RequestStyleSheet += (e) =>
-                {
-
+                {   
                     //---------------------------
                     var stylesheet = GetDefaultStyleSheet(e.Src);
                     if (stylesheet != null)
@@ -174,8 +173,7 @@ namespace LayoutFarm.HtmlBoxes
                         RequestStyleSheet(this, req);
                         e.SetStyleSheet = req.SetStyleSheet;
                     }
-                    //---------------------------
-
+                    //--------------------------- 
                 };
             }
             return renderTreeBuilder;

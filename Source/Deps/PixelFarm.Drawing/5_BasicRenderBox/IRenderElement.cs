@@ -12,5 +12,9 @@ namespace PixelFarm.Drawing
 #endif
     }
 
+    public interface IRootGraphics
+    {
+
+    }
     
 }
