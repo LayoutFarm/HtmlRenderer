@@ -62,24 +62,27 @@ namespace LayoutFarm.CustomWidgets
         public HtmlHost HtmlHost
         {
             get { return this.htmlHost; }
-        }
-
-        //--------------------------------------------------------------------
-
+        } 
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
 
             inputEventAdapter.MouseUp(e);
+            this.InvalidateGraphics();
         }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
             e.CurrentContextElement = this;
             inputEventAdapter.MouseDown(e);
+            this.InvalidateGraphics();
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
             inputEventAdapter.MouseMove(e);
-
+            if (e.IsDragging)
+            {
+                //the version update when drag ?
+                this.InvalidateGraphics();
+            }
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {

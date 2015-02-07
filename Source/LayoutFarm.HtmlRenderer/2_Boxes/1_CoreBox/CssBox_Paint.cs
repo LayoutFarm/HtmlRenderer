@@ -58,7 +58,7 @@ namespace LayoutFarm.HtmlBoxes
             this.Paint(p);
             PainterStock2.ReleaseSharedPainter(p);
 
-        }
+        } 
         protected virtual void PaintImp(PaintVisitor p)
         {
 
@@ -151,6 +151,7 @@ namespace LayoutFarm.HtmlBoxes
 
                         //1.                                 
                         line.PaintBackgroundAndBorder(p);
+                         
 
                         if (line.LineSelectionWidth > 0)
                         {

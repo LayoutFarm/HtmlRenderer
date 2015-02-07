@@ -422,9 +422,7 @@ namespace LayoutFarm.Demo
         void PaintMe(PaintEventArgs e)
         {
             if (htmlContainer != null)
-            {
-
-
+            { 
 
                 var bounds = this.Bounds;
 
@@ -447,10 +445,12 @@ namespace LayoutFarm.Demo
                 ReleaseSharedPainter(painter);
                 //------------------------------------------------------------
 
-
+                //Win32 specific code
                 IntPtr hdc = GetDC(this.Handle);
                 renderCanvas.RenderTo(hdc, 0, 0, new PixelFarm.Drawing.Rectangle(0, 0, 800, 600));
                 ReleaseDC(this.Handle, hdc);
+
+
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
                 //var mp = PointToClient(MousePosition);
                 //_htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));
