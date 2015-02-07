@@ -32,18 +32,13 @@ namespace LayoutFarm.CustomWidgets
                         key.AddRequestImage(e.binder);
                     }
                 };
-            this.htmlBox.RequestStylesheet += htmlBox_RequestStylesheet;
-            
+            this.htmlBox.HtmlHost.RequestStyleSheet += (s, e) =>
+            {
 
-        }
-
-
-        void htmlBox_RequestStylesheet(object sender, TextLoadRequestEventArgs e)
-        {
-
-        }
-
-         
+            };
+             
+        } 
+        
         public void AddTextContentMan(TextContentManager textMan)
         {
             if (this.textContentManList.ContainsKey(textMan))

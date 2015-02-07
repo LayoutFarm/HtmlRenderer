@@ -153,13 +153,12 @@ namespace LayoutFarm.HtmlBoxes
                             this._htmlContainer.SetSelection(null);
                         }
                         ForEachEventListenerBubbleUp(e, hitChain, () =>
-                        {
-
+                        { 
                             e.CurrentContextElement.ListenMouseMove(e);
                             return true;
                         });
-                    }
-
+                        
+                    } 
 
                     //---------------------------------------------------------
                     ReleaseHitChain(hitChain);

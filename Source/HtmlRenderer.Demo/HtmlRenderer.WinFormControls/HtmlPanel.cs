@@ -150,7 +150,7 @@ namespace LayoutFarm.Demo
                 {
                     var htmlCont = waitingUpdateList[i];
                     htmlCont.IsInUpdateQueue = false;
-                    htmlCont.RefreshIfNeed();
+                    htmlCont.RefreshDomIfNeed();
                 }
                 for (int i = j - 1; i >= 0; --i)
                 {
@@ -681,8 +681,7 @@ namespace LayoutFarm.Demo
                 else
                     PerformLayout();
             }
-            if (InvokeRequired)
-                // Invoke(new MethodInvoker(Invalidate));
+            if (InvokeRequired) 
                 Invoke(new MethodInvoker(this.PaintMe));
             else
                 this.PaintMe();

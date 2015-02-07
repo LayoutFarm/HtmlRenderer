@@ -190,6 +190,7 @@ namespace LayoutFarm.HtmlBoxes
     }
 
     public delegate void HtmlContainerUpdateHandler(HtmlContainer htmlCont);
+
     public sealed class MyHtmlContainer : HtmlContainer
     {
         WebDocument webdoc;
@@ -242,7 +243,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        public bool RefreshIfNeed()
+        public bool RefreshDomIfNeed()
         {
             if (webdoc == null) return false;
             //----------------------------------

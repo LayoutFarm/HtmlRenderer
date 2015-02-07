@@ -25,8 +25,7 @@ namespace LayoutFarm.CustomWidgets
 
         LayoutFarm.WebDom.WebDocument currentdoc;
 
-        public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
-
+      
 
         bool hasWaitingDocToLoad;
         LayoutFarm.WebDom.CssActiveSheet waitingCssData;
@@ -49,8 +48,7 @@ namespace LayoutFarm.CustomWidgets
             this._width = width;
             this._height = height;
             this.htmlHost = htmlHost;
-
-            
+             
 
             myHtmlContainer = new MyHtmlContainer(htmlHost);
             myHtmlContainer.DomVisualRefresh += (s, e) => this.InvalidateGraphics();
@@ -64,8 +62,7 @@ namespace LayoutFarm.CustomWidgets
             get { return this.htmlHost; }
         } 
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
-        {
-
+        {    
             inputEventAdapter.MouseUp(e);
             this.InvalidateGraphics();
         }

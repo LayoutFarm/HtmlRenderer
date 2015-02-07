@@ -543,14 +543,11 @@ namespace LayoutFarm.HtmlBoxes
             set;
         }
 
-        int lineSelectionWidth;
+        
         internal int LineSelectionWidth
         {
-            get { return this.lineSelectionWidth; }
-            set
-            {
-                this.lineSelectionWidth = value;                
-            }
+            get;
+            set;
         }
         internal void PaintSelection(PaintVisitor p)
         {

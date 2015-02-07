@@ -62,6 +62,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="0_LayoutFarm\4_ImageBinder.cs" />
     <Compile Include="1_Css\BoxSpec.cs" />
     <Compile Include="1_Css\BoxSpec_CopyAndVersioning.cs" />
     <Compile Include="1_Css\CssConstants.cs" />
@@ -164,9 +165,7 @@
   <ItemGroup>
     <Content Include="4_Svg\license.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="0_LayoutFarm\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
