@@ -87,16 +87,17 @@ namespace LayoutFarm.Demo
         Timer timer01 = new Timer();
 
 
-        ImageContentManager imageContentMan = new ImageContentManager();
-        TextContentManager textContentMan = new TextContentManager();
+        
         LayoutFarm.HtmlBoxes.LayoutVisitor htmlLayoutVisitor;
 
         PixelFarm.Drawing.Canvas renderCanvas;
         PixelFarm.Drawing.GraphicsPlatform gfxPlatform;
+        int canvasW;
+        int canvasH;
         /// <summary>
         /// Creates a new HtmlPanel and sets a basic css for it's styling.
         /// </summary>
-        public HtmlPanel(PixelFarm.Drawing.GraphicsPlatform p)
+        public HtmlPanel(PixelFarm.Drawing.GraphicsPlatform p, int w, int h)
         {
 
             AutoScroll = true;
@@ -104,19 +105,13 @@ namespace LayoutFarm.Demo
             SetStyle(ControlStyles.ResizeRedraw, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 
-            SetGraphicsPlatform(p);
-        }
-
-        void SetGraphicsPlatform(PixelFarm.Drawing.GraphicsPlatform p)
-        {
-            //-------------------------------------------------------
             this.gfxPlatform = p;
-            this.renderCanvas = gfxPlatform.CreateCanvas(0, 0, 800, 600);
-            //-------------------------------------------------------
-
-            htmlhost = new HtmlHost(p);
-            htmlhost.RequestImage += (s, e) => this.imageContentMan.AddRequestImage(e.binder);
-            htmlhost.RequestStyleSheet += (s, e) => this.textContentMan.AddStyleSheetRequest(e);
+            this.renderCanvas = gfxPlatform.CreateCanvas(0, 0,
+                this.canvasW = w, this.canvasH = h);
+        }
+        public void SetHtmlHost(HtmlHost htmlhost)
+        {
+            this.htmlhost = htmlhost;
 
             htmlhost.SetHtmlContainerUpdateHandler(htmlCont =>
             {
@@ -127,21 +122,17 @@ namespace LayoutFarm.Demo
                     waitingUpdateList.Add(updatedHtmlCont);
                 }
             });
-            //-------------------------------------------------------
 
             htmlContainer = new MyHtmlContainer(htmlhost);
             htmlContainer.AttachEssentialHandlers(
                 OnRefresh,
                 myHtmlContainer_NeedUpdateDom,
-                OnRefresh);
-             
+                OnRefresh); 
 
-
-            htmlLayoutVisitor = new LayoutVisitor(p);
+            htmlLayoutVisitor = new LayoutVisitor(this.gfxPlatform);
             htmlLayoutVisitor.Bind(htmlContainer);
 
-            this.imageContentMan.ImageLoadingRequest += OnImageLoad;
-            this.textContentMan.StylesheetLoadingRequest += OnStylesheetLoad;
+            
             //------------------------------------------------------- 
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
@@ -164,29 +155,30 @@ namespace LayoutFarm.Demo
             //-------------------------------------------
             _htmlInputEventAdapter = new HtmlInputEventAdapter(gfxPlatform.SampleIFonts);
             _htmlInputEventAdapter.Bind(htmlContainer);
-            //------------------------------------------- 
+            //-------------------------------------------
         }
+
 
         void myHtmlContainer_NeedUpdateDom(object sender, EventArgs e)
         {
-            
+
             this.htmlhost.GetRenderTreeBuilder().RefreshCssTree(this.currentDoc.RootNode);
             this.htmlContainer.PerformLayout(this.htmlLayoutVisitor);
         }
 
 
-        /// <summary>
-        /// Raised when a stylesheet is about to be loaded by file path or URI by link element.<br/>
-        /// This event allows to provide the stylesheet manually or provide new source (file or uri) to load from.<br/>
-        /// If no alternative data is provided the original source will be used.<br/>
-        /// </summary>
-        public event EventHandler<TextLoadRequestEventArgs> StylesheetLoad;
+        ///// <summary>
+        ///// Raised when a stylesheet is about to be loaded by file path or URI by link element.<br/>
+        ///// This event allows to provide the stylesheet manually or provide new source (file or uri) to load from.<br/>
+        ///// If no alternative data is provided the original source will be used.<br/>
+        ///// </summary>
+        //public event EventHandler<TextLoadRequestEventArgs> StylesheetLoad;
 
-        /// <summary>
-        /// Raised when an image is about to be loaded by file path or URI.<br/>
-        /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
-        /// </summary>
-        public event EventHandler<LayoutFarm.ContentManagers.ImageRequestEventArgs> ImageLoad;
+        ///// <summary>
+        ///// Raised when an image is about to be loaded by file path or URI.<br/>
+        ///// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
+        ///// </summary>
+        //public event EventHandler<LayoutFarm.ContentManagers.ImageRequestEventArgs> ImageLoad;
 
         /// <summary>
         /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
@@ -285,7 +277,7 @@ namespace LayoutFarm.Demo
         void SetHtml(LayoutFarm.HtmlBoxes.MyHtmlContainer htmlContainer, string html, CssActiveSheet cssData)
         {
 
-            
+
             //-----------------------------------------------------------------
             var htmldoc = this.currentDoc = LayoutFarm.Composers.WebDocumentParser.ParseDocument(
                           new WebDom.Parser.TextSnapshot(html.ToCharArray()));
@@ -313,7 +305,7 @@ namespace LayoutFarm.Demo
         }
 
         void BuildCssBoxTree(MyHtmlContainer htmlCont, CssActiveSheet cssData)
-        {                 
+        {
 
             var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree(
                 (LayoutFarm.Composers.HtmlDocument)this.currentDoc,
@@ -424,7 +416,7 @@ namespace LayoutFarm.Demo
         void PaintMe(PaintEventArgs e)
         {
             if (htmlContainer != null)
-            { 
+            {
 
                 var bounds = this.Bounds;
 
@@ -648,27 +640,27 @@ namespace LayoutFarm.Demo
         //    //}
         //}
 
-        /// <summary>
-        /// Propagate the stylesheet load event from root container.
-        /// </summary>
-        private void OnStylesheetLoad(object sender, TextLoadRequestEventArgs e)
-        {
-            if (StylesheetLoad != null)
-            {
-                StylesheetLoad(this, e);
-            }
-        }
+        ///// <summary>
+        ///// Propagate the stylesheet load event from root container.
+        ///// </summary>
+        //private void OnStylesheetLoad(object sender, TextLoadRequestEventArgs e)
+        //{
+        //    if (StylesheetLoad != null)
+        //    {
+        //        StylesheetLoad(this, e);
+        //    }
+        //}
 
-        /// <summary>
-        /// Propagate the image load event from root container.
-        /// </summary>
-        private void OnImageLoad(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
-        {
-            if (ImageLoad != null)
-            {
-                ImageLoad(this, e);
-            }
-        }
+        ///// <summary>
+        ///// Propagate the image load event from root container.
+        ///// </summary>
+        //private void OnImageLoad(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
+        //{
+        //    if (ImageLoad != null)
+        //    {
+        //        ImageLoad(this, e);
+        //    }
+        //}
 
         /// <summary>
         /// Handle html renderer invalidate and re-layout as requested.
@@ -683,7 +675,7 @@ namespace LayoutFarm.Demo
                 else
                     PerformLayout();
             }
-            if (InvokeRequired) 
+            if (InvokeRequired)
                 Invoke(new MethodInvoker(this.PaintMe));
             else
                 this.PaintMe();
@@ -738,9 +730,7 @@ namespace LayoutFarm.Demo
             {
                 this.timer01.Stop();
                 htmlContainer.DetachEssentialHandlers();
-                this.textContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;                
-                this.imageContentMan.ImageLoadingRequest -= OnImageLoad;
-
+                 
                 htmlContainer.Dispose();
                 htmlContainer = null;
             }

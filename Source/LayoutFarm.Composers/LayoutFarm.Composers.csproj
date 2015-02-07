@@ -55,7 +55,6 @@
     <Compile Include="3_HtmlBoxes\RenderElementWrapperCssBox.cs" />
     <Compile Include="4_WebDom\1_Html\DomElement.cs" />
     <Compile Include="4_WebDom\1_Html\DomElement_EventListener.cs" />
-    <Compile Include="3_HtmlBoxes\StylesheetLoadEventArgs.cs" />
     <Compile Include="4_WebDom\1_Html\DomElement_OnEvents.cs" />
     <Compile Include="4_WebDom\1_Html\ElementChangeKind.cs" />
     <Compile Include="4_WebDom\2_Css\CssAttributeSelector.cs" />

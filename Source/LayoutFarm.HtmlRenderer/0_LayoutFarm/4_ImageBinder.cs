@@ -102,7 +102,10 @@ namespace LayoutFarm
 
         class NoImageImageBinder : ImageBinder
         {
-
+            public NoImageImageBinder()
+            {
+                this.State = ImageBinderState.NoImage;
+            }
         }
     }
 

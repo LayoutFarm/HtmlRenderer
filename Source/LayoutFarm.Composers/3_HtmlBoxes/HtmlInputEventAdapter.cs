@@ -34,7 +34,7 @@ namespace LayoutFarm.HtmlBoxes
         public HtmlInputEventAdapter(IFonts ifonts)
         {
             this.ifonts = ifonts;
-        } 
+        }
         public void Bind(HtmlContainer htmlCont)
         {
 
@@ -64,6 +64,7 @@ namespace LayoutFarm.HtmlBoxes
             if (startAt == null) return;
             //---------------------------------------------------- 
             ClearPreviousSelection();
+
             this._htmlContainer.ContainerInvalidateGraphics();
             if (_latestMouseDownChain != null)
             {
@@ -97,7 +98,7 @@ namespace LayoutFarm.HtmlBoxes
                 ForEachEventListenerBubbleUp(e, hitChain, () =>
                 {
                     e.CurrentContextElement.ListenMouseDown(e);
-                    return true;
+                    return e.CancelBubbling;
                 });
             }
             //----------------------------------
@@ -139,7 +140,7 @@ namespace LayoutFarm.HtmlBoxes
 
                     if (!e.CancelBubbling)
                     {
-                        ClearPreviousSelection(); 
+                        ClearPreviousSelection();
                         if (hitChain.Count > 0)
                         {
                             //create selection range 
@@ -153,12 +154,12 @@ namespace LayoutFarm.HtmlBoxes
                             this._htmlContainer.SetSelection(null);
                         }
                         ForEachEventListenerBubbleUp(e, hitChain, () =>
-                        { 
+                        {
                             e.CurrentContextElement.ListenMouseMove(e);
                             return true;
                         });
                         this._htmlContainer.ContainerInvalidateGraphics();
-                    } 
+                    }
 
                     //---------------------------------------------------------
                     ReleaseHitChain(hitChain);
@@ -232,7 +233,7 @@ namespace LayoutFarm.HtmlBoxes
                 ForEachEventListenerBubbleUp(e, hitChain, () =>
                 {
                     e.CurrentContextElement.ListenMouseUp(e);
-                    return true;
+                    return e.CancelBubbling;
                 });
             }
 
@@ -246,7 +247,7 @@ namespace LayoutFarm.HtmlBoxes
                     ForEachEventListenerBubbleUp(e, hitChain, () =>
                     {
                         e.CurrentContextElement.ListenMouseDoubleClick(e);
-                        return true;
+                        return e.CancelBubbling;
                     });
                 }
                 else
@@ -254,7 +255,7 @@ namespace LayoutFarm.HtmlBoxes
                     ForEachEventListenerBubbleUp(e, hitChain, () =>
                     {
                         e.CurrentContextElement.ListenMouseClick(e);
-                        return true;
+                        return e.CancelBubbling;
                     });
                 }
             }
@@ -274,7 +275,7 @@ namespace LayoutFarm.HtmlBoxes
         public void MouseWheel(UIMouseEventArgs e, CssBox startAt)
         {
 
-        } 
+        }
         void ClearPreviousSelection()
         {
             this._htmlContainer.ClearPreviousSelection();
