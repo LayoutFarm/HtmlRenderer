@@ -12,7 +12,7 @@ namespace LayoutFarm
     {
         public static HtmlBoxes.HtmlHost CreateHtmlHost(SampleViewport sampleViewport,
             EventHandler<ContentManagers.ImageRequestEventArgs> imageReqHandler,
-            EventHandler<ContentManagers.TextLoadRequestEventArgs> textReq)
+            EventHandler<ContentManagers.TextRequestEventArgs> textReq)
         {
             HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost(sampleViewport.P);
             htmlhost.AttachEssentailHandlers(imageReqHandler, textReq);

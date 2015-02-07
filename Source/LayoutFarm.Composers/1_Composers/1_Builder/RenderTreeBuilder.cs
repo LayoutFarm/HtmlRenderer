@@ -41,24 +41,17 @@ namespace LayoutFarm.Composers
         {
             this.gfxPlatform = gfxPlatform;
         }
-        void RaiseRequestStyleSheet(
-            string hrefSource,
-            out string stylesheet,
-            out CssActiveSheet stylesheetData)
+        string RaiseRequestStyleSheet(string hrefSource)
         {
             if (hrefSource == null || RequestStyleSheet == null)
             {
-                stylesheet = null;
-                stylesheetData = null;
-                return;
+                return null;
             }
 
-            var e = new ContentManagers.StylesheetLoadEventArgs(hrefSource);
+            var e = new ContentManagers.TextRequestEventArgs(hrefSource);
             RequestStyleSheet(e);
-            stylesheet = e.SetStyleSheet;
-            stylesheetData = e.SetStyleSheetData;
+            return e.TextContent;
         }
-
 
         void PrepareStylesAndContentOfChildNodes(
            HtmlElement parentElement,
@@ -108,26 +101,15 @@ namespace LayoutFarm.Composers
                                             && relAttr.Value.ToLower() == "stylesheet")
                                         {
                                             //if found
-                                            string stylesheet;
-                                            CssActiveSheet stylesheetData;
 
                                             DomAttribute hrefAttr;
                                             if (htmlElement.TryGetAttribute(WellknownName.Href, out hrefAttr))
                                             {
-                                                RaiseRequestStyleSheet(
-                                                    hrefAttr.Value,
-                                                    out stylesheet,
-                                                    out stylesheetData);
-
+                                                string stylesheet = RaiseRequestStyleSheet(hrefAttr.Value);
                                                 if (stylesheet != null)
                                                 {
                                                     activeCssTemplate.LoadRawStyleElementContent(stylesheet);
-                                                }
-                                                else if (stylesheetData != null)
-                                                {
-                                                    activeCssTemplate.LoadAnotherStylesheet(stylesheetData);
-                                                }
-
+                                                }  
                                             }
                                         }
                                         activeCssTemplate.ExitLevel();

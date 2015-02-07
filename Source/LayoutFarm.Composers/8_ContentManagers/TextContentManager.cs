@@ -8,14 +8,17 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.ContentManagers
 {
-    public class TextLoadRequestEventArgs : EventArgs
+    public delegate void RequestStyleSheetEventHandler(TextRequestEventArgs args);
+
+    public class TextRequestEventArgs : EventArgs
     {
-        public TextLoadRequestEventArgs(string src)
+        public TextRequestEventArgs(string src)
         {
             this.Src = src;
         }
         public string Src { get; private set; }
-        public string SetStyleSheet { get; set; }
+        public string TextContent { get; set; } 
+      
     }
 
     public class TextContentManager
@@ -25,15 +28,17 @@ namespace LayoutFarm.ContentManagers
         /// This event allows to provide the stylesheet manually or provide new source (file or Uri) to load from.<br/>
         /// If no alternative data is provided the original source will be used.<br/>
         /// </summary>
-        public event EventHandler<TextLoadRequestEventArgs> StylesheetLoadingRequest;
+        public event EventHandler<TextRequestEventArgs> StylesheetLoadingRequest;
         public TextContentManager()
         { 
 
         }
-        public void AddStyleSheetRequest(TextLoadRequestEventArgs arg)
+        public void AddStyleSheetRequest(TextRequestEventArgs arg)
         {
             this.StylesheetLoadingRequest(this, arg);
         }
     }
+     
 
+ 
 }

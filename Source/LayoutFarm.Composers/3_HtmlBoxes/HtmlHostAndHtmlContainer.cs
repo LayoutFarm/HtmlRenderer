@@ -18,7 +18,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         HtmlContainerUpdateHandler htmlContainerUpdateHandler;
         EventHandler<ImageRequestEventArgs> requestImage;
-        EventHandler<TextLoadRequestEventArgs> requestStyleSheet;
+        EventHandler<TextRequestEventArgs> requestStyleSheet;
 
         SelectionRange _currentSelectionRange;
         GraphicsPlatform gfxplatform;
@@ -41,7 +41,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void AttachEssentailHandlers(
             EventHandler<ImageRequestEventArgs> reqImageHandler,
-            EventHandler<TextLoadRequestEventArgs> reqStyleSheetHandler)
+            EventHandler<TextRequestEventArgs> reqStyleSheetHandler)
         {
             this.requestImage = reqImageHandler;
             this.requestStyleSheet = reqStyleSheetHandler;
@@ -140,10 +140,8 @@ namespace LayoutFarm.HtmlBoxes
                 this.renderTreeBuilder.RequestStyleSheet += (e) =>
                 {
                     if (requestStyleSheet != null)
-                    {
-                        var req = new TextLoadRequestEventArgs(e.Src);
-                        requestStyleSheet(this, req);
-                        e.SetStyleSheet = req.SetStyleSheet;
+                    {   
+                        requestStyleSheet(this, e); 
                     }
                 };
             }

@@ -404,12 +404,12 @@ namespace LayoutFarm.Demo
         /// <summary>
         /// Handle stylesheet resolve.
         /// </summary>
-        void HandleStylesheetRequest(object sender, TextLoadRequestEventArgs e)
+        void HandleStylesheetRequest(object sender, TextRequestEventArgs e)
         {
             var stylesheet = GetBuiltInStyleSheet(e.Src);
             if (stylesheet != null)
             {
-                e.SetStyleSheet = stylesheet;
+                e.TextContent = stylesheet;
             }
             else
             {
@@ -419,7 +419,7 @@ namespace LayoutFarm.Demo
                 string fullStyleSheetFilename = this.htmlRootFolder + "\\" + e.Src;
                 if (File.Exists(fullStyleSheetFilename))
                 {
-                    e.SetStyleSheet = File.ReadAllText(fullStyleSheetFilename);
+                    e.TextContent = File.ReadAllText(fullStyleSheetFilename);
                 }
             }
         }
