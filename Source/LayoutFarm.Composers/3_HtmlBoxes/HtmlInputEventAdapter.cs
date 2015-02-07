@@ -247,7 +247,7 @@ namespace LayoutFarm.HtmlBoxes
                     ForEachEventListenerBubbleUp(e, hitChain, () =>
                     {
                         e.CurrentContextElement.ListenMouseDoubleClick(e);
-                        return true;
+                        return e.CancelBubbling;
                     });
                 }
                 else
@@ -255,7 +255,7 @@ namespace LayoutFarm.HtmlBoxes
                     ForEachEventListenerBubbleUp(e, hitChain, () =>
                     {
                         e.CurrentContextElement.ListenMouseClick(e);
-                        return true;
+                        return e.CancelBubbling;
                     });
                 }
             }
