@@ -11,7 +11,7 @@ namespace LayoutFarm
     public static class HtmlHostCreatorHelper
     {
         public static HtmlBoxes.HtmlHost CreateHtmlHost(SampleViewport sampleViewport,
-            EventHandler<HtmlImageRequestEventArgs> imageReqHandler,
+            EventHandler<ContentManagers.ImageRequestEventArgs> imageReqHandler,
             EventHandler<ContentManagers.TextLoadRequestEventArgs> textReq)
         {
             HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost(sampleViewport.P);

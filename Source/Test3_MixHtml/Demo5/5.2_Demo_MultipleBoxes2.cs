@@ -24,7 +24,7 @@ namespace LayoutFarm
 
 
             var htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
-                (s, e) => this.imageContentMan.AddRequestImage(e.binder),
+                (s, e) => this.imageContentMan.AddRequestImage(e.ImageBinder),
                 (s, e) => { });
             //-------------------------------------------------------------------
             int boxX = 0;

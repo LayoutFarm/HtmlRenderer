@@ -22,7 +22,7 @@ namespace LayoutFarm
                     (s, e) =>
                     {
                         //load resource -- sync or async? 
-                        string absolutePath = imgFolderPath + "\\" + e.binder.ImageSource;
+                        string absolutePath = imgFolderPath + "\\" + e.ImageBinder.ImageSource;
                         if (!System.IO.File.Exists(absolutePath))
                         {
                             return;
@@ -30,7 +30,7 @@ namespace LayoutFarm
 
                         //load create and load bitmap
                         System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
-                        e.binder.SetImage(new Bitmap(bmp.Width, bmp.Height, bmp));
+                        e.ImageBinder.SetImage(new Bitmap(bmp.Width, bmp.Height, bmp));
                     },
                     //2. stylesheet request
                     (s, e) =>

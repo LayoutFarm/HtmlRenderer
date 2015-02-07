@@ -29,7 +29,7 @@ namespace LayoutFarm.CustomWidgets
                 {
                     foreach (ImageContentManager key in imageContentManList.Keys)
                     {
-                        key.AddRequestImage(e.binder);
+                        key.AddRequestImage(e.ImageBinder);
                     }
                 },
                 //2. stylesheet request
