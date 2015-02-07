@@ -76,13 +76,11 @@ namespace LayoutFarm.Demo
 
 
             this.graphicsPlatform = p;
-
-
             this._htmlPanel = new LayoutFarm.Demo.HtmlPanel(this.graphicsPlatform, 800, 600);
             this.htmlHost = new LayoutFarm.HtmlBoxes.HtmlHost(p);
             htmlHost.AttachEssentailHandlers(
-                this.OnImageLoad,
-                this.OnStylesheetLoad);
+                this.HandleImageRequest,
+                this.HandleStylesheetRequest);
             _htmlPanel.SetHtmlHost(htmlHost);
 
             InitializeComponent();
@@ -375,28 +373,6 @@ namespace LayoutFarm.Demo
             //SyntaxHilight.AddColoredText(_htmlEditor.Text, _htmlEditor);
         }
 
-        /// <summary>
-        /// Handle stylesheet resolve.
-        /// </summary>
-        void OnStylesheetLoad(object sender, LayoutFarm.ContentManagers.TextLoadRequestEventArgs e)
-        {
-            var stylesheet = GetBuiltInStyleSheet(e.Src);
-            if (stylesheet != null)
-            {
-                e.SetStyleSheet = stylesheet;
-            }
-            else
-            {
-                //load external style sheet
-                //beware request destination and request origin
-                //check style sheet ...
-                string fullStyleSheetFilename = this.htmlRootFolder + "\\" + e.Src;
-                if (File.Exists(fullStyleSheetFilename))
-                {
-                    e.SetStyleSheet = File.ReadAllText(fullStyleSheetFilename);
-                }
-            }
-        }
 
         /// <summary>
         /// Get stylesheet by given key.
@@ -425,22 +401,50 @@ namespace LayoutFarm.Demo
             return null;
         }
 
+        /// <summary>
+        /// Handle stylesheet resolve.
+        /// </summary>
+        void HandleStylesheetRequest(object sender, TextLoadRequestEventArgs e)
+        {
+            var stylesheet = GetBuiltInStyleSheet(e.Src);
+            if (stylesheet != null)
+            {
+                e.SetStyleSheet = stylesheet;
+            }
+            else
+            {
+                //load external style sheet
+                //beware request destination and request origin
+                //check style sheet ...
+                string fullStyleSheetFilename = this.htmlRootFolder + "\\" + e.Src;
+                if (File.Exists(fullStyleSheetFilename))
+                {
+                    e.SetStyleSheet = File.ReadAllText(fullStyleSheetFilename);
+                }
+            }
+        }
 
         /// <summary>
         /// On image load in renderer set the image by event async.
         /// </summary>
-        private void OnImageLoad(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
+        void HandleImageRequest(object sender, ImageRequestEventArgs e)
         {
             var img = TryLoadResourceImage(e.ImagSource);
-            e.SetResultImage(new PixelFarm.Drawing.Bitmap(img.Width, img.Height, img));
-
-
-
+            if (img != null)
+            {
+                e.SetResultImage(new PixelFarm.Drawing.Bitmap(img.Width, img.Height, img));
+            }
+            else
+            {
+                //no image found
+                e.ImageBinder.State = ImageBinderState.Error;
+            }
         }
+
         /// <summary>
         /// Get image by resource key.
         /// </summary>
-        private Image TryLoadResourceImage(string src)
+        Image TryLoadResourceImage(string src)
         {
             Image image;
             if (!_imageCache.TryGetValue(src, out image))
@@ -472,9 +476,24 @@ namespace LayoutFarm.Demo
                         image = LayoutFarm.Demo.Resource.Event16;
                         break;
                 }
-
+                //----------------------------------
                 if (image != null)
+                {   
+                    //cache
                     _imageCache[src] = image;
+                }
+                else
+                {
+                    //load local image ?
+                    string fullImageFileName = this.htmlRootFolder + "\\" + src;
+                    if (File.Exists(fullImageFileName))
+                    {
+                        image = new Bitmap(fullImageFileName);
+                        //cache
+                        _imageCache[src] = image;
+                    } 
+                }
+                //----------------------------------
             }
             return image;
         }
