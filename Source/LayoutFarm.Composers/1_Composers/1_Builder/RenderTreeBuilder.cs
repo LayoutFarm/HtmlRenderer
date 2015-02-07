@@ -63,7 +63,7 @@ namespace LayoutFarm.Composers
            HtmlElement parentElement,
            TopDownActiveCssTemplate activeCssTemplate)
         {
-             
+
             //recursive 
             foreach (WebDom.DomNode node in parentElement.GetChildNodeIterForward())
             {
@@ -160,7 +160,7 @@ namespace LayoutFarm.Composers
                 }
 
                 activeCssTemplate.ExitLevel();
-            } 
+            }
         }
 
         public CssBox BuildCssRenderTree(HtmlDocument htmldoc,
@@ -183,7 +183,7 @@ namespace LayoutFarm.Composers
             CssBox rootBox = BoxCreator.CreateCssRenderRoot(this.gfxPlatform.SampleIFonts, containerElement, rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
-            BoxCreator boxCreator = new BoxCreator();
+            BoxCreator boxCreator = new BoxCreator(rootgfx);
             boxCreator.GenerateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
@@ -215,7 +215,7 @@ namespace LayoutFarm.Composers
             }
 
 
-            BoxCreator boxCreator = new BoxCreator();
+            BoxCreator boxCreator = new BoxCreator(rootgfx);
             //----------------------------------------------------------------  
             CssBox isolationBox = BoxCreator.CreateCssIsolateBox(ifonts, containerElement, rootgfx);
             docRoot.AppendChild(isolationBox);
@@ -250,7 +250,7 @@ namespace LayoutFarm.Composers
             }
             //----------------------------------------------------------------  
 
-            BoxCreator boxCreator = new BoxCreator();
+            BoxCreator boxCreator = new BoxCreator((RootGraphic)existingCssBox.RootGfx);
 
             boxCreator.GenerateChildBoxes(startAtElement, false);
             startAtElement.OwnerDocument.SetDocumentState(DocumentState.Idle);
@@ -298,14 +298,14 @@ namespace LayoutFarm.Composers
           TopDownActiveCssTemplate activeCssTemplate)
         {
 
-            BoxSpec curSpec = element.Spec; 
+            BoxSpec curSpec = element.Spec;
             BoxSpec.InheritStyles(curSpec, parentSpec);
             //--------------------------------
             string classValue = null;
             if (element.HasAttributeClass)
             {
                 classValue = element.AttrClassValue;
-            } 
+            }
             //--------------------------------
             //1. apply style  
             activeCssTemplate.ApplyActiveTemplate(element.LocalName,
@@ -351,7 +351,7 @@ namespace LayoutFarm.Composers
                 if (element.TryGetAttribute(WellknownName.Style, out attrStyleValue))
                 {
                     parsedRuleSet = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray());
-                   
+
                     foreach (WebDom.CssPropertyDeclaration propDecl in parsedRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(
@@ -371,7 +371,7 @@ namespace LayoutFarm.Composers
                 var elemRuleSet = element.ElementRuleSet;
                 if (elemRuleSet != null)
                 {
-                     
+
                     if (curSpec.IsFreezed)
                     {
                         curSpec.Defreeze();
@@ -383,14 +383,14 @@ namespace LayoutFarm.Composers
                             curSpec,
                             parentSpec,
                             propDecl);
-                    } 
-                } 
-            } 
+                    }
+                }
+            }
             //===================== 
             curSpec.Freeze(); //***
             //===================== 
         }
-         
+
 
 
         ///// <summary>

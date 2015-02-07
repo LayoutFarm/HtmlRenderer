@@ -36,7 +36,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="parent">the parent box of this box</param>
         /// <param name="controller">the html tag data of this box</param>
         public CssBoxImage(object controller, Css.BoxSpec boxSpec,
-            RootGraphic rootgfx, ImageBinder binder)
+            IRootGraphics rootgfx, ImageBinder binder)
             : base(controller, boxSpec, rootgfx)
         {
 

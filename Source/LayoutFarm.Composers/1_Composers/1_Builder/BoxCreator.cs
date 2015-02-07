@@ -15,7 +15,11 @@ namespace LayoutFarm.Composers
 
         static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
 
-
+        RootGraphic rootgfx;
+        public BoxCreator(RootGraphic rootgfx)
+        {
+            this.rootgfx = rootgfx;
+        }
         public static void RegisterCustomCssBoxGenerator(System.Type t, CustomCssBoxGenerator generator)
         {
             for (int i = generators.Count - 1; i >= 0; --i)
@@ -248,8 +252,6 @@ namespace LayoutFarm.Composers
 
             alreadyHandleChildrenNodes = false;
             CssBox newBox = null;
-            var rootgfx = parentBox.RootGfx;
-
             //----------------------------------------- 
             //1. create new box
             //----------------------------------------- 
@@ -376,7 +378,8 @@ namespace LayoutFarm.Composers
     class CssRenderRoot : CssBox
     {
         LayoutFarm.RenderElement containerElement;
-        public CssRenderRoot(BoxSpec spec, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
+        public CssRenderRoot(BoxSpec spec,
+            LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
             : base(null, spec, rootgfx)
         {
             this.containerElement = containerElement;
@@ -491,8 +494,6 @@ namespace LayoutFarm.Composers
 
         public static CssBox CreateListItemBox(CssBox parent, HtmlElement childElement)
         {
-
-
             var spec = childElement.Spec;
             var newBox = new CssBoxListItem(childElement, spec, parent.RootGfx);
 
