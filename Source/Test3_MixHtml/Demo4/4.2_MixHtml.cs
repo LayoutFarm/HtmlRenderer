@@ -12,19 +12,11 @@ namespace LayoutFarm
     [DemoNote("4.2 MixHtml and Text")]
     class Demo_MixHtml : DemoBase
     {
-        HtmlBoxes.HtmlHost htmlHost;
-        HtmlBoxes.HtmlHost GetHtmlHost(SampleViewport viewport)
-        {
-            if (htmlHost == null)
-            {
-                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);
-            }
-            return htmlHost;
-        }
+
         protected override void OnStartDemo(SampleViewport viewport)
         {
 
-            var htmlhost = GetHtmlHost(viewport);
+            var htmlhost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
             ////==================================================
             //html box
             HtmlBox htmlBox = new HtmlBox(htmlhost, 800, 400);

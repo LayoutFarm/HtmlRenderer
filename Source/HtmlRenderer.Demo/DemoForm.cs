@@ -22,7 +22,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
-
+using LayoutFarm.ContentManagers;
 
 
 using LayoutFarm.WebDom;
@@ -33,7 +33,6 @@ namespace LayoutFarm.Demo
 {
     public partial class DemoForm : Form
     {
-        #region Fields and Consts
 
         /// <summary>
         /// Cache for resource images
@@ -65,24 +64,27 @@ namespace LayoutFarm.Demo
         /// </summary>
         private bool _updateLock;
 
-        #endregion
-
         PixelFarm.Drawing.GraphicsPlatform graphicsPlatform;
+        LayoutFarm.HtmlBoxes.HtmlHost htmlHost;
+        string htmlRootFolder;
+
         /// <summary>
         /// Init.
         /// </summary>
         public DemoForm(PixelFarm.Drawing.GraphicsPlatform p)
         {
 
-            this.graphicsPlatform = p;
 
-            this._htmlPanel = new LayoutFarm.Demo.HtmlPanel(this.graphicsPlatform);
+            this.graphicsPlatform = p;
+            this._htmlPanel = new LayoutFarm.Demo.HtmlPanel(this.graphicsPlatform, 800, 600);
+            this.htmlHost = new LayoutFarm.HtmlBoxes.HtmlHost(p);
+            htmlHost.AttachEssentailHandlers(
+                this.HandleImageRequest,
+                this.HandleStylesheetRequest);
+            _htmlPanel.SetHtmlHost(htmlHost);
 
             InitializeComponent();
 
-            
-            _htmlPanel.StylesheetLoad += OnStylesheetLoad;
-            _htmlPanel.ImageLoad += OnImageLoad;
 
             //_htmlToolTip.ImageLoad += OnImageLoad; 
             //_htmlToolTip.SetToolTip(_htmlPanel, Resources.Tooltip);
@@ -98,8 +100,9 @@ namespace LayoutFarm.Demo
             this.Text += " : " + Path.GetDirectoryName(Application.ExecutablePath);
 
             this._samplesTreeView.NodeMouseClick += new TreeNodeMouseClickEventHandler(_samplesTreeView_NodeMouseClick);
-
         }
+
+
 
         void _samplesTreeView_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -113,7 +116,11 @@ namespace LayoutFarm.Demo
             //load file
             _updateLock = true;
             Application.UseWaitCursor = true;
+
+            //set root folder of current html panel
+            this.htmlRootFolder = Path.GetDirectoryName(filename);
             _htmlPanel.Text = File.ReadAllText(filename);
+
             Application.UseWaitCursor = false;
             _updateLock = false;
             UpdateWebBrowserHtml();
@@ -316,39 +323,39 @@ namespace LayoutFarm.Demo
             //}
         }
 
-        /// <summary>
-        /// Fix the raw html by replacing bridge object properties calls with path to file with the data returned from the property.
-        /// </summary>
-        /// <returns>fixed html</returns>
-        private string GetFixedHtml()
-        {
-            var html = _htmlEditor.Text;
-            html = Regex.Replace(html, @"src=\""(\w.*?)\""", match =>
-                {
-                    var img = TryLoadResourceImage(match.Groups[1].Value);
-                    if (img != null)
-                    {
-                        var tmpFile = Path.GetTempFileName();
-                        img.Save(tmpFile, ImageFormat.Jpeg);
-                        return string.Format("src=\"{0}\"", tmpFile);
-                    }
-                    return match.Value;
-                }, RegexOptions.IgnoreCase);
+        ///// <summary>
+        ///// Fix the raw html by replacing bridge object properties calls with path to file with the data returned from the property.
+        ///// </summary>
+        ///// <returns>fixed html</returns>
+        //private string GetFixedHtml()
+        //{
+        //    var html = _htmlEditor.Text;
+        //    html = Regex.Replace(html, @"src=\""(\w.*?)\""", match =>
+        //        {
+        //            var img = TryLoadResourceImage(match.Groups[1].Value);
+        //            if (img != null)
+        //            {
+        //                var tmpFile = Path.GetTempFileName();
+        //                img.Save(tmpFile, ImageFormat.Jpeg);
+        //                return string.Format("src=\"{0}\"", tmpFile);
+        //            }
+        //            return match.Value;
+        //        }, RegexOptions.IgnoreCase);
 
-            html = Regex.Replace(html, @"href=\""(\w.*?)\""", match =>
-            {
-                var stylesheet = GetStylesheet(match.Groups[1].Value);
-                if (stylesheet != null)
-                {
-                    var tmpFile = Path.GetTempFileName();
-                    File.WriteAllText(tmpFile, stylesheet);
-                    return string.Format("href=\"{0}\"", tmpFile);
-                }
-                return match.Value;
-            }, RegexOptions.IgnoreCase);
+        //    html = Regex.Replace(html, @"href=\""(\w.*?)\""", match =>
+        //    {
+        //        var stylesheet = GetBuiltInStyleSheet(match.Groups[1].Value);
+        //        if (stylesheet != null)
+        //        {
+        //            var tmpFile = Path.GetTempFileName();
+        //            File.WriteAllText(tmpFile, stylesheet);
+        //            return string.Format("href=\"{0}\"", tmpFile);
+        //        }
+        //        return match.Value;
+        //    }, RegexOptions.IgnoreCase);
 
-            return html;
-        }
+        //    return html;
+        //}
 
         /// <summary>
         /// On change if to show generated html or regular update the web browser to show the new choice.
@@ -366,20 +373,11 @@ namespace LayoutFarm.Demo
             //SyntaxHilight.AddColoredText(_htmlEditor.Text, _htmlEditor);
         }
 
-        /// <summary>
-        /// Handle stylesheet resolve.
-        /// </summary>
-        private static void OnStylesheetLoad(object sender, LayoutFarm.ContentManagers.TextLoadRequestEventArgs e)
-        {
-            var stylesheet = GetStylesheet(e.Src);
-            if (stylesheet != null)
-                e.SetStyleSheet = stylesheet;
-        }
 
         /// <summary>
         /// Get stylesheet by given key.
         /// </summary>
-        private static string GetStylesheet(string src)
+        private static string GetBuiltInStyleSheet(string src)
         {
             if (src == "StyleSheet")
             {
@@ -403,56 +401,50 @@ namespace LayoutFarm.Demo
             return null;
         }
 
+        /// <summary>
+        /// Handle stylesheet resolve.
+        /// </summary>
+        void HandleStylesheetRequest(object sender, TextRequestEventArgs e)
+        {
+            var stylesheet = GetBuiltInStyleSheet(e.Src);
+            if (stylesheet != null)
+            {
+                e.TextContent = stylesheet;
+            }
+            else
+            {
+                //load external style sheet
+                //beware request destination and request origin
+                //check style sheet ...
+                string fullStyleSheetFilename = this.htmlRootFolder + "\\" + e.Src;
+                if (File.Exists(fullStyleSheetFilename))
+                {
+                    e.TextContent = File.ReadAllText(fullStyleSheetFilename);
+                }
+            }
+        }
 
         /// <summary>
         /// On image load in renderer set the image by event async.
         /// </summary>
-        private void OnImageLoad(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
+        void HandleImageRequest(object sender, ImageRequestEventArgs e)
         {
             var img = TryLoadResourceImage(e.ImagSource);
-            e.SetResultImage(new PixelFarm.Drawing.Bitmap(img.Width, img.Height, img));
-
-            //if (!e.Handled && htmlTag != null)
-            //{
-            //    string attrValue = null;
-            //    if ((attrValue = htmlTag.TryGetAttribute("byevent", null)) != null)
-            //    {
-            //        int delay;
-            //        if (int.TryParse(attrValue, out delay))
-            //        {
-            //            e.Handled = true;
-            //            ThreadPool.QueueUserWorkItem(state =>
-            //            {
-            //                Thread.Sleep(delay);
-            //                e.Callback("https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-snc7/c0.44.403.403/p403x403/318890_10151195988833836_1081776452_n.jpg");
-            //            });
-            //            return;
-            //        }
-            //        else
-            //        {
-            //            e.Callback("http://sphotos-a.xx.fbcdn.net/hphotos-ash4/c22.0.403.403/p403x403/263440_10152243591765596_773620816_n.jpg");
-            //            return;
-            //        }
-            //    }
-            //    else if ((attrValue = htmlTag.TryGetAttribute("byevent", null)) != null)
-            //    {
-            //        var split = attrValue.Split(',');
-            //        var rect = new Rectangle(int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2]), int.Parse(split[3]));
-            //        e.Callback(img ?? Resources.html32, rect);
-            //        return;
-            //    }
-            //}
-
-            //if (img != null)
-            //{
-            //    e.Callback(img);
-            //}
+            if (img != null)
+            {
+                e.SetResultImage(new PixelFarm.Drawing.Bitmap(img.Width, img.Height, img));
+            }
+            else
+            {
+                //no image found
+                e.ImageBinder.State = ImageBinderState.Error;
+            }
         }
 
         /// <summary>
         /// Get image by resource key.
         /// </summary>
-        private Image TryLoadResourceImage(string src)
+        Image TryLoadResourceImage(string src)
         {
             Image image;
             if (!_imageCache.TryGetValue(src, out image))
@@ -484,9 +476,24 @@ namespace LayoutFarm.Demo
                         image = LayoutFarm.Demo.Resource.Event16;
                         break;
                 }
-
+                //----------------------------------
                 if (image != null)
+                {   
+                    //cache
                     _imageCache[src] = image;
+                }
+                else
+                {
+                    //load local image ?
+                    string fullImageFileName = this.htmlRootFolder + "\\" + src;
+                    if (File.Exists(fullImageFileName))
+                    {
+                        image = new Bitmap(fullImageFileName);
+                        //cache
+                        _imageCache[src] = image;
+                    } 
+                }
+                //----------------------------------
             }
             return image;
         }

@@ -85,7 +85,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="5_HtmlBox\MyCssBoxGenerator.cs" />
     <Compile Include="5_HtmlBox\HtmlBox.cs" />
-    <Compile Include="5_HtmlBox\HtmlBoxContentManager.cs" />
+    <Compile Include="5_HtmlBox\HtmlHostContentManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">

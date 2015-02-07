@@ -32,7 +32,7 @@ namespace TestGraphicPackage2
         }
         static void LoadHtmlSamples(TreeView _samplesTreeView)
         {
-             
+
             //find sample folder 
             string execFromFolder = System.IO.Path.GetDirectoryName(Application.ExecutablePath);
 
@@ -82,8 +82,8 @@ namespace TestGraphicPackage2
                 //load html from file 
                 var fileContent = System.IO.File.ReadAllText(filename);
                 LayoutFarm.Demo_UIHtmlBox demoHtmlBox = new LayoutFarm.Demo_UIHtmlBox();
-                demoHtmlBox.LoadHtml(fileContent);
-                formDemoList.RunDemo(demoHtmlBox); 
+                demoHtmlBox.LoadHtml(filename, fileContent);
+                formDemoList.RunDemo(demoHtmlBox);
 
             }
 

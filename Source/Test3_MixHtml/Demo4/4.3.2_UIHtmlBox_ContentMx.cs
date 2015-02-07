@@ -17,10 +17,18 @@ namespace LayoutFarm
         {
             if (htmlHost == null)
             {
-                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);
+                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
+                var htmlBoxContentMx = new HtmlHostContentManager();
+
+                var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
+                contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
+
+                htmlBoxContentMx.AddImageContentMan(contentMx);
+                htmlBoxContentMx.Bind(htmlHost);
+
             }
             return htmlHost;
-        } 
+        }
 
         string imgFolderPath = null;
         protected override void OnStartDemo(SampleViewport viewport)
@@ -36,12 +44,6 @@ namespace LayoutFarm
             //==================================================
             //html box
             var htmlBox = new HtmlBox(GetHtmlHost(viewport), 800, 600);
-            var htmlBoxContentMx = new HtmlBoxContentManager();
-            var contentMx = new LayoutFarm.ContentManagers.ImageContentManager();
-            htmlBoxContentMx.AddImageContentMan(contentMx);
-            htmlBoxContentMx.Bind(htmlBox);
-            contentMx.ImageLoadingRequest += contentMx_ImageLoadingRequest;
-
 
             viewport.AddContent(htmlBox);
             string html = "<html><head></head><body><div>OK1</div><div>3 Images</div><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img><img src=\"sample01.png\"></img></body></html>";

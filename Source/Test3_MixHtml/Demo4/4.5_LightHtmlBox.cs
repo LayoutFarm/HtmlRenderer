@@ -20,7 +20,7 @@ namespace LayoutFarm
 
         protected override void OnStartDemo(SampleViewport viewport)
         {
-            htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);
+            htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
             ////==================================================
             //html box
             {

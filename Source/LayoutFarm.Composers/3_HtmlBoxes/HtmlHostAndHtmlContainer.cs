@@ -13,17 +13,12 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.HtmlBoxes
 {
-    public class HtmlImageRequestEventArgs : EventArgs
-    {
-        public ImageBinder binder;
-        public object requestBy;
-
-    }
+     
     public class HtmlHost
     {
         HtmlContainerUpdateHandler htmlContainerUpdateHandler;
-        public event EventHandler<HtmlImageRequestEventArgs> RequestImage;
-        public event EventHandler<TextLoadRequestEventArgs> RequestStyleSheet;
+        EventHandler<ImageRequestEventArgs> requestImage;
+        EventHandler<TextRequestEventArgs> requestStyleSheet;
 
         SelectionRange _currentSelectionRange;
         GraphicsPlatform gfxplatform;
@@ -34,15 +29,27 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             this.gfxplatform = gfxplatform;
-            this.commonHtmlDoc = new Composers.HtmlDocument();
-
             this.BaseStylesheet = activeSheet;
+
+            this.commonHtmlDoc = new Composers.HtmlDocument();
             this.commonHtmlDoc.CssActiveSheet = activeSheet;
         }
         public HtmlHost(GraphicsPlatform gfxplatform)
             : this(gfxplatform, LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true))
         {
             //use default style sheet
+        }
+        public void AttachEssentailHandlers(
+            EventHandler<ImageRequestEventArgs> reqImageHandler,
+            EventHandler<TextRequestEventArgs> reqStyleSheetHandler)
+        {
+            this.requestImage = reqImageHandler;
+            this.requestStyleSheet = reqStyleSheetHandler;
+        }
+        public void DetachEssentailHanlders()
+        {
+            this.requestImage = null;
+            this.requestStyleSheet = null;
         }
         public void SetHtmlContainerUpdateHandler(HtmlContainerUpdateHandler htmlContainerUpdateHandler)
         {
@@ -55,42 +62,13 @@ namespace LayoutFarm.HtmlBoxes
 
         public void ChildRequestImage(ImageBinder binder, HtmlContainer htmlCont, object reqFrom, bool _sync)
         {
-            if (this.RequestImage != null)
+            if (this.requestImage != null)
             {
-                HtmlImageRequestEventArgs resReq = new HtmlImageRequestEventArgs();
-                resReq.binder = binder;
+                ImageRequestEventArgs resReq = new ImageRequestEventArgs(binder); 
                 resReq.requestBy = reqFrom;
-                RequestImage(this, resReq);
+                requestImage(this, resReq);
             }
-        }
-
-        /// <summary>
-        /// Get stylesheet by given key.
-        /// </summary>
-        static string GetDefaultStyleSheet(string src)
-        {
-            if (src == "StyleSheet")
-            {
-                return @"h1, h2, h3 { color: navy; font-weight:normal; }
-                    h1 { margin-bottom: .47em }
-                    h2 { margin-bottom: .3em }
-                    h3 { margin-bottom: .4em }
-                    ul { margin-top: .5em }
-                    ul li {margin: .25em}
-                    body { font:10pt Tahoma }
-		            pre  { border:solid 1px gray; background-color:#eee; padding:1em }
-                    a:link { text-decoration: none; }
-                    a:hover { text-decoration: underline; }
-                    .gray    { color:gray; }
-                    .example { background-color:#efefef; corner-radius:5px; padding:0.5em; }
-                    .whitehole { background-color:white; corner-radius:10px; padding:15px; }
-                    .caption { font-size: 1.1em }
-                    .comment { color: green; margin-bottom: 5px; margin-left: 3px; }
-                    .comment2 { color: green; }";
-            }
-            return null;
-        }
-
+        } 
         internal SelectionRange SelectionRange
         {
             get { return this._currentSelectionRange; }
@@ -160,20 +138,11 @@ namespace LayoutFarm.HtmlBoxes
             {
                 renderTreeBuilder = new Composers.RenderTreeBuilder(this.gfxplatform);
                 this.renderTreeBuilder.RequestStyleSheet += (e) =>
-                {   
-                    //---------------------------
-                    var stylesheet = GetDefaultStyleSheet(e.Src);
-                    if (stylesheet != null)
-                    {
-                        e.SetStyleSheet = stylesheet;
+                {
+                    if (requestStyleSheet != null)
+                    {   
+                        requestStyleSheet(this, e); 
                     }
-                    else if (RequestStyleSheet != null)
-                    {
-                        var req = new TextLoadRequestEventArgs(e.Src);
-                        RequestStyleSheet(this, req);
-                        e.SetStyleSheet = req.SetStyleSheet;
-                    }
-                    //--------------------------- 
                 };
             }
             return renderTreeBuilder;
@@ -195,9 +164,9 @@ namespace LayoutFarm.HtmlBoxes
         HtmlHost htmlhost;
 
         int lastDomUpdateVersion;
-        EventHandler DomVisualRefresh;
-        EventHandler DomRequestRebuild;
-        EventHandler ContInvalidateHanlder;
+        EventHandler domVisualRefresh;
+        EventHandler domRequestRebuild;
+        EventHandler containerInvalidateHanlder;
 
         public MyHtmlContainer(HtmlHost htmlhost)
         {
@@ -208,15 +177,15 @@ namespace LayoutFarm.HtmlBoxes
             EventHandler domRequestRebuildHandler,
             EventHandler containerInvalidateHandler)
         {
-            this.DomVisualRefresh = domVisualRefreshHandler;
-            this.DomRequestRebuild = domRequestRebuildHandler;            
-            this.ContInvalidateHanlder = containerInvalidateHandler;
+            this.domVisualRefresh = domVisualRefreshHandler;
+            this.domRequestRebuild = domRequestRebuildHandler;
+            this.containerInvalidateHanlder = containerInvalidateHandler;
         }
         public void DetachEssentialHandlers()
         {
-            this.DomVisualRefresh = 
-                this.DomRequestRebuild =
-                this.ContInvalidateHanlder = null;
+            this.domVisualRefresh =
+                this.domRequestRebuild =
+                this.containerInvalidateHanlder = null;
         }
         public bool IsInUpdateQueue
         {
@@ -268,9 +237,9 @@ namespace LayoutFarm.HtmlBoxes
                 //reset 
                 this.NeedLayout = false;
 
-                if (DomVisualRefresh != null)
+                if (domVisualRefresh != null)
                 {
-                    DomVisualRefresh(this, EventArgs.Empty);
+                    domVisualRefresh(this, EventArgs.Empty);
                 }
 #if DEBUG
                 //dbugCount02++;
@@ -296,7 +265,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void ContainerInvalidateGraphics()
         {
-            ContInvalidateHanlder(this, EventArgs.Empty);
+            containerInvalidateHanlder(this, EventArgs.Empty);
         }
         protected override void OnRequestImage(ImageBinder binder, object reqFrom, bool _sync)
         {
@@ -314,9 +283,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (webdoc != null &&
                 webdoc.DocumentState == DocumentState.ChangedAfterIdle
-                && DomRequestRebuild != null)
+                && domRequestRebuild != null)
             {
-                DomRequestRebuild(this, EventArgs.Empty);
+                domRequestRebuild(this, EventArgs.Empty);
             }
         }
 
