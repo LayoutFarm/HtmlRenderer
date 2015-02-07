@@ -42,9 +42,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// 99999
         /// </summary>
-        const int MAX_WIDTH = 99999;
-
-
+        const int MAX_WIDTH = 99999; 
         public float MaxWidth { get { return this._maxHeight; } }
         public abstract void ClearPreviousSelection();
         public abstract void SetSelection(SelectionRange selRange);
