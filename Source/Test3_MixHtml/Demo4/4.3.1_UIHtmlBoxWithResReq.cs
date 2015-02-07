@@ -18,19 +18,26 @@ namespace LayoutFarm
             if (htmlHost == null)
             {
                 htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);
-                htmlHost.RequestImage += (s, e) =>
-                {
-                    //load resource -- sync or async? 
-                    string absolutePath = imgFolderPath + "\\" + e.binder.ImageSource;
-                    if (!System.IO.File.Exists(absolutePath))
+                htmlHost.AttachEssentailHandlers(
+                    //1. img request
+                    (s, e) =>
                     {
-                        return;
-                    }
+                        //load resource -- sync or async? 
+                        string absolutePath = imgFolderPath + "\\" + e.binder.ImageSource;
+                        if (!System.IO.File.Exists(absolutePath))
+                        {
+                            return;
+                        }
 
-                    //load create and load bitmap
-                    System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
-                    e.binder.SetImage(new Bitmap(bmp.Width, bmp.Height, bmp));
-                };
+                        //load create and load bitmap
+                        System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(absolutePath);
+                        e.binder.SetImage(new Bitmap(bmp.Width, bmp.Height, bmp));
+                    },
+                    //2. stylesheet request
+                    (s, e) =>
+                    {
+                    });
+
             }
             return htmlHost;
         }

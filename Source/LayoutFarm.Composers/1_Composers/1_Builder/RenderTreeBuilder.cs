@@ -36,6 +36,7 @@ namespace LayoutFarm.Composers
         ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
         internal event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
         GraphicsPlatform gfxPlatform;
+
         internal RenderTreeBuilder(GraphicsPlatform gfxPlatform)
         {
             this.gfxPlatform = gfxPlatform;

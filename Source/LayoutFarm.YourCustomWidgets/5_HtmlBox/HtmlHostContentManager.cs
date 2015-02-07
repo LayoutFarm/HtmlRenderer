@@ -10,35 +10,36 @@ using LayoutFarm.UI;
 namespace LayoutFarm.CustomWidgets
 {
 
-    public class HtmlBoxContentManager
+    public class HtmlHostContentManager
     {
-        HtmlBox htmlBox;
+        HtmlBoxes.HtmlHost htmlHost;
         Dictionary<TextContentManager, int> textContentManList = new Dictionary<TextContentManager, int>();
         Dictionary<ImageContentManager, int> imageContentManList = new Dictionary<ImageContentManager, int>();
 
-
-         
-        public HtmlBoxContentManager()
+        public HtmlHostContentManager()
         {
 
-        } 
-        public void Bind(HtmlBox htmlBox)
+        }
+        public void Bind(HtmlBoxes.HtmlHost htmlHost)
         {
-            this.htmlBox = htmlBox;
-            this.htmlBox.HtmlHost.RequestImage += (s, e) =>
+            this.htmlHost = htmlHost;
+            this.htmlHost.AttachEssentailHandlers(
+                //1. image req
+                (s, e) =>
                 {
                     foreach (ImageContentManager key in imageContentManList.Keys)
                     {
                         key.AddRequestImage(e.binder);
                     }
-                };
-            this.htmlBox.HtmlHost.RequestStyleSheet += (s, e) =>
-            {
+                },
+                //2. stylesheet request
+                (s, e) =>
+                {
 
-            };
-             
-        } 
-        
+                });
+
+        }
+
         public void AddTextContentMan(TextContentManager textMan)
         {
             if (this.textContentManList.ContainsKey(textMan))

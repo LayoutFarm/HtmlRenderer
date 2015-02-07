@@ -22,8 +22,8 @@ namespace LayoutFarm.HtmlBoxes
     public class HtmlHost
     {
         HtmlContainerUpdateHandler htmlContainerUpdateHandler;
-        public event EventHandler<HtmlImageRequestEventArgs> RequestImage;
-        public event EventHandler<TextLoadRequestEventArgs> RequestStyleSheet;
+        EventHandler<HtmlImageRequestEventArgs> RequestImage;
+        EventHandler<TextLoadRequestEventArgs> RequestStyleSheet;
 
         SelectionRange _currentSelectionRange;
         GraphicsPlatform gfxplatform;
@@ -43,6 +43,17 @@ namespace LayoutFarm.HtmlBoxes
             : this(gfxplatform, LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null, true))
         {
             //use default style sheet
+        }
+        public void AttachEssentailHandlers(EventHandler<HtmlImageRequestEventArgs> reqImageHandler,
+            EventHandler<TextLoadRequestEventArgs> reqStyleSheetHandler)
+        {
+            this.RequestImage = reqImageHandler;
+            this.RequestStyleSheet = reqStyleSheetHandler;
+        }
+        public void DetachEssentailHanlders()
+        {
+            this.RequestImage = null;
+            this.RequestStyleSheet = null;
         }
         public void SetHtmlContainerUpdateHandler(HtmlContainerUpdateHandler htmlContainerUpdateHandler)
         {
@@ -160,7 +171,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 renderTreeBuilder = new Composers.RenderTreeBuilder(this.gfxplatform);
                 this.renderTreeBuilder.RequestStyleSheet += (e) =>
-                {   
+                {
                     //---------------------------
                     var stylesheet = GetDefaultStyleSheet(e.Src);
                     if (stylesheet != null)
@@ -209,12 +220,12 @@ namespace LayoutFarm.HtmlBoxes
             EventHandler containerInvalidateHandler)
         {
             this.DomVisualRefresh = domVisualRefreshHandler;
-            this.DomRequestRebuild = domRequestRebuildHandler;            
+            this.DomRequestRebuild = domRequestRebuildHandler;
             this.ContInvalidateHanlder = containerInvalidateHandler;
         }
         public void DetachEssentialHandlers()
         {
-            this.DomVisualRefresh = 
+            this.DomVisualRefresh =
                 this.DomRequestRebuild =
                 this.ContInvalidateHanlder = null;
         }

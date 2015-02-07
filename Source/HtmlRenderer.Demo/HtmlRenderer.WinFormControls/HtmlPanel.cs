@@ -115,9 +115,10 @@ namespace LayoutFarm.Demo
             //-------------------------------------------------------
 
             htmlhost = new HtmlHost(p);
-            htmlhost.RequestImage += (s, e) => this.imageContentMan.AddRequestImage(e.binder);
-            htmlhost.RequestStyleSheet += (s, e) => this.textContentMan.AddStyleSheetRequest(e);
-
+            htmlhost.AttachEssentailHandlers(
+                (s, e) => this.imageContentMan.AddRequestImage(e.binder),
+                (s, e) => this.textContentMan.AddStyleSheetRequest(e));
+             
             htmlhost.SetHtmlContainerUpdateHandler(htmlCont =>
             {
                 var updatedHtmlCont = htmlCont as MyHtmlContainer;

@@ -23,9 +23,10 @@ namespace LayoutFarm
             int boxHeight = 35;
 
 
-            var htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);
-            htmlHost.RequestImage += (s, e) => this.imageContentMan.AddRequestImage(e.binder);
-
+            var htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);             
+            htmlHost.AttachEssentailHandlers(
+                (s, e) => this.imageContentMan.AddRequestImage(e.binder),
+                (s, e) => { });
             //-------------------------------------------------------------------
             int boxX = 0;
             for (int i = 0; i < 5; ++i)
