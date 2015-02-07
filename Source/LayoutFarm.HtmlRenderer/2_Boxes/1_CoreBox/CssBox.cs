@@ -39,7 +39,7 @@ namespace LayoutFarm.HtmlBoxes
 
         readonly Css.BoxSpec _myspec;
         readonly object _controller;
-        RootGraphic rootgfx;
+        IRootGraphics rootgfx;
 
 #if DEBUG
         public int dbugMark1;
@@ -47,7 +47,7 @@ namespace LayoutFarm.HtmlBoxes
         static int dbugTotalId;
         public int dbugMark;
 #endif
-        public CssBox(object controller, BoxSpec spec, RootGraphic rootgfx)
+        public CssBox(object controller, BoxSpec spec, IRootGraphics rootgfx)
         {
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
@@ -67,7 +67,7 @@ namespace LayoutFarm.HtmlBoxes
             ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
-        public CssBox(object controller, BoxSpec spec, RootGraphic rootgfx, CssDisplay fixDisplayType)
+        public CssBox(object controller, BoxSpec spec, IRootGraphics rootgfx, CssDisplay fixDisplayType)
         {
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
@@ -90,7 +90,7 @@ namespace LayoutFarm.HtmlBoxes
             ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
-        public RootGraphic RootGfx
+        public IRootGraphics RootGfx
         {
             get { return this.rootgfx; }
         }

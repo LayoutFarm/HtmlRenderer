@@ -10,7 +10,7 @@ namespace LayoutFarm.HtmlBoxes
 
     public abstract class CustomCssBox : CssBox
     {
-        public CustomCssBox(object controller, BoxSpec boxspec, RootGraphic rootgfx, CssDisplay fixDisplayType)
+        public CustomCssBox(object controller, BoxSpec boxspec, IRootGraphics rootgfx, CssDisplay fixDisplayType)
             : base(controller, boxspec, rootgfx, fixDisplayType)
         {
             SetAsCustomCssBox(this);

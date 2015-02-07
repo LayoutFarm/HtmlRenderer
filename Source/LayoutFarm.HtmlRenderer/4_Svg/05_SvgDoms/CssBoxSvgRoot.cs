@@ -10,7 +10,7 @@ namespace LayoutFarm.HtmlBoxes
 
     public sealed class CssBoxSvgRoot : CustomCssBox
     {
-        public CssBoxSvgRoot(object controller, Css.BoxSpec spec, RootGraphic rootgfx, SvgElement svgElem)
+        public CssBoxSvgRoot(object controller, Css.BoxSpec spec, IRootGraphics rootgfx, SvgElement svgElem)
             : base(controller, spec, rootgfx, Css.CssDisplay.Block)
         {
             //create svg node 
