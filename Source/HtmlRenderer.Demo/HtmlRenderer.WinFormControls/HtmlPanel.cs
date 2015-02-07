@@ -130,9 +130,11 @@ namespace LayoutFarm.Demo
             //-------------------------------------------------------
 
             htmlContainer = new MyHtmlContainer(htmlhost);
-            htmlContainer.DomVisualRefresh += OnRefresh;
-            htmlContainer.DomRequestRebuild += myHtmlContainer_NeedUpdateDom;
-            //-------------------------------------------------------
+            htmlContainer.AttachEssentialHandlers(
+                OnRefresh,
+                myHtmlContainer_NeedUpdateDom,
+                OnRefresh);
+             
 
 
             htmlLayoutVisitor = new LayoutVisitor(p);
@@ -150,7 +152,7 @@ namespace LayoutFarm.Demo
                 {
                     var htmlCont = waitingUpdateList[i];
                     htmlCont.IsInUpdateQueue = false;
-                    htmlCont.RefreshIfNeed();
+                    htmlCont.RefreshDomIfNeed();
                 }
                 for (int i = j - 1; i >= 0; --i)
                 {
@@ -422,9 +424,7 @@ namespace LayoutFarm.Demo
         void PaintMe(PaintEventArgs e)
         {
             if (htmlContainer != null)
-            {
-
-
+            { 
 
                 var bounds = this.Bounds;
 
@@ -447,10 +447,12 @@ namespace LayoutFarm.Demo
                 ReleaseSharedPainter(painter);
                 //------------------------------------------------------------
 
-
+                //Win32 specific code
                 IntPtr hdc = GetDC(this.Handle);
                 renderCanvas.RenderTo(hdc, 0, 0, new PixelFarm.Drawing.Rectangle(0, 0, 800, 600));
                 ReleaseDC(this.Handle, hdc);
+
+
                 // call mouse move to handle paint after scroll or html change affecting mouse cursor.
                 //var mp = PointToClient(MousePosition);
                 //_htmlContainer.HandleMouseMove(this, new MouseEventArgs(MouseButtons.None, 0, mp.X, mp.Y, 0));
@@ -681,8 +683,7 @@ namespace LayoutFarm.Demo
                 else
                     PerformLayout();
             }
-            if (InvokeRequired)
-                // Invoke(new MethodInvoker(Invalidate));
+            if (InvokeRequired) 
                 Invoke(new MethodInvoker(this.PaintMe));
             else
                 this.PaintMe();
@@ -736,8 +737,8 @@ namespace LayoutFarm.Demo
             if (htmlContainer != null)
             {
                 this.timer01.Stop();
-                htmlContainer.DomVisualRefresh -= OnRefresh;
-                this.textContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;
+                htmlContainer.DetachEssentialHandlers();
+                this.textContentMan.StylesheetLoadingRequest -= OnStylesheetLoad;                
                 this.imageContentMan.ImageLoadingRequest -= OnImageLoad;
 
                 htmlContainer.Dispose();

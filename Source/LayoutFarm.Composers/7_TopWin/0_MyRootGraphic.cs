@@ -239,7 +239,7 @@ namespace LayoutFarm.UI
             {
                 var htmlCont = htmlContainerUpdateQueue[i];
                 htmlCont.IsInUpdateQueue = false;
-                htmlCont.RefreshIfNeed();                
+                htmlCont.RefreshDomIfNeed();                
             }
             for (int i = j - 1; i >= 0; --i)
             {

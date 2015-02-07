@@ -25,7 +25,6 @@ namespace LayoutFarm.CustomWidgets
 
         LayoutFarm.WebDom.WebDocument currentdoc;
 
-        public event EventHandler<TextLoadRequestEventArgs> RequestStylesheet;
 
 
         bool hasWaitingDocToLoad;
@@ -50,11 +49,13 @@ namespace LayoutFarm.CustomWidgets
             this._height = height;
             this.htmlHost = htmlHost;
 
-            
 
             myHtmlContainer = new MyHtmlContainer(htmlHost);
-            myHtmlContainer.DomVisualRefresh += (s, e) => this.InvalidateGraphics();
-            myHtmlContainer.DomRequestRebuild += htmlContainer_NeedUpdateDom;
+
+            myHtmlContainer.AttachEssentialHandlers(
+                (s, e) => this.InvalidateGraphics(),//visual refresh
+                 htmlContainer_NeedUpdateDom,
+                (s, e) => this.InvalidateGraphics());
             //request ui timer *** 
             //tim.Interval = 30;
             //tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
@@ -63,27 +64,21 @@ namespace LayoutFarm.CustomWidgets
         {
             get { return this.htmlHost; }
         }
-
-        //--------------------------------------------------------------------
-
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
-
-            inputEventAdapter.MouseUp(e);
+            inputEventAdapter.MouseUp(e); 
         }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
             e.CurrentContextElement = this;
-            inputEventAdapter.MouseDown(e);
+            inputEventAdapter.MouseDown(e); 
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-            inputEventAdapter.MouseMove(e);
-
+            inputEventAdapter.MouseMove(e); 
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
-        {
-
+        { 
         }
 
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
@@ -192,10 +187,10 @@ namespace LayoutFarm.CustomWidgets
                 this.waitingCssData,
                 this.htmlRenderBox);
 
-             
+
             var htmlCont = this.myHtmlContainer;
             htmlCont.WebDocument = this.currentdoc;
-            htmlCont.RootCssBox = rootBox; 
+            htmlCont.RootCssBox = rootBox;
             htmlCont.SetMaxSize(this._width, 0);
             htmlCont.PerformLayout(this.htmlLayoutVisitor);
         }

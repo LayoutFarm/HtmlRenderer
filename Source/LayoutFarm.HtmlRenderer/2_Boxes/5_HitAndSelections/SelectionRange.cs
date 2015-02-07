@@ -1,7 +1,7 @@
 ﻿//BSD 2014 ,WinterDev 
 using System;
 using System.Collections.Generic;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -12,7 +12,7 @@ namespace LayoutFarm.HtmlBoxes
         //start line
 
         CssLineBox startHitHostLine;
-        
+
         //--------------------- 
         //on end line  
         int endHitRunCharIndex;
@@ -22,7 +22,7 @@ namespace LayoutFarm.HtmlBoxes
         public SelectionRange(CssBoxHitChain startChain,
             CssBoxHitChain endChain,
             IFonts ifonts)
-        {   
+        {
             if (IsOnTheSameLine(startChain, endChain))
             {
                 //on the same line
@@ -44,11 +44,11 @@ namespace LayoutFarm.HtmlBoxes
                     startChain = tmp;
                 }
             }
-             
+
             //1.
             this.SetupStartHitPoint(startChain, ifonts);
             //2. 
-            
+
             this.SetupEndHitPoint(endChain, ifonts);
 
         }
@@ -82,8 +82,10 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
+         
         public void ClearSelectionStatus()
         {
+             
             if (this.selectedLines != null)
             {
                 for (int i = selectedLines.Count - 1; i >= 0; --i)
@@ -153,7 +155,7 @@ namespace LayoutFarm.HtmlBoxes
                         break;
                     }
                 }
-            } 
+            }
         }
         static IEnumerable<CssLineBox> GetLineWalkIter(CssLineBox startLine, CssBox endBox)
         {
@@ -207,7 +209,7 @@ namespace LayoutFarm.HtmlBoxes
                     }
                 }
             }
-        } 
+        }
         void SetupStartHitPoint(CssBoxHitChain startChain, IFonts ifonts)
         {
             HitInfo startHit = startChain.GetLastHit();
@@ -225,7 +227,7 @@ namespace LayoutFarm.HtmlBoxes
                              out sel_index,
                              out sel_offset);
 
-                       
+
                         //modify hitpoint
                         CssLineBox hostLine = (CssLineBox)startChain.GetHitInfo(startChain.Count - 2).hitObject;
                         hostLine.LineSelectionStart = (int)(run.Left + sel_offset);
@@ -449,7 +451,7 @@ namespace LayoutFarm.HtmlBoxes
                         float globalHitY = endChain.RootGlobalY;
                         //check if should use first line of this box                         
                         //or last line box this box
-                         
+
                         foreach (var line in GetLineWalkIter(this.startHitHostLine, hitBox))
                         {
                             if (line == startHitHostLine)

@@ -2,12 +2,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 
 namespace LayoutFarm.WebDom.Parser
-{   
+{
 
-    public class CssParser 
+    public class CssParser
     {
         CssLexer lexer;
         char[] textBuffer;
@@ -491,7 +491,7 @@ namespace LayoutFarm.WebDom.Parser
                                 {
                                     var literalValue = new string(this.textBuffer, start, len);
 
-                                } break;
+                                } break; 
                             case CssTokenName.LParen:
                                 {
                                     //function 
@@ -531,8 +531,7 @@ namespace LayoutFarm.WebDom.Parser
                                 } break;
                             case CssTokenName.NumberUnit:
                                 {
-                                    //number unit
-
+                                    //number unit 
                                     this._currentProperty.AddUnitToLatestValue(new string(this.textBuffer, start, len));
                                 } break;
                             case CssTokenName.Sharp:
@@ -870,7 +869,7 @@ namespace LayoutFarm.WebDom.Parser
                 //border width/ style / color
                 if (cssCodePropertyValue.Hint == CssValueHint.Number ||
                     LayoutFarm.Composers.UserMapUtil.IsNamedBorderWidth(cssCodePropertyValue.Value))
-                {   
+                {
                     //border width
                     switch (borderDirection)
                     {

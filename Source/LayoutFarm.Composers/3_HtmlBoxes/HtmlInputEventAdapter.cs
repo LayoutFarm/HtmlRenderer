@@ -64,6 +64,7 @@ namespace LayoutFarm.HtmlBoxes
             if (startAt == null) return;
             //---------------------------------------------------- 
             ClearPreviousSelection();
+            this._htmlContainer.ContainerInvalidateGraphics();
             if (_latestMouseDownChain != null)
             {
                 ReleaseHitChain(_latestMouseDownChain);
@@ -138,8 +139,7 @@ namespace LayoutFarm.HtmlBoxes
 
                     if (!e.CancelBubbling)
                     {
-                        ClearPreviousSelection();
-
+                        ClearPreviousSelection(); 
                         if (hitChain.Count > 0)
                         {
                             //create selection range 
@@ -153,13 +153,12 @@ namespace LayoutFarm.HtmlBoxes
                             this._htmlContainer.SetSelection(null);
                         }
                         ForEachEventListenerBubbleUp(e, hitChain, () =>
-                        {
-
+                        { 
                             e.CurrentContextElement.ListenMouseMove(e);
                             return true;
                         });
-                    }
-
+                        this._htmlContainer.ContainerInvalidateGraphics();
+                    } 
 
                     //---------------------------------------------------------
                     ReleaseHitChain(hitChain);
@@ -275,8 +274,7 @@ namespace LayoutFarm.HtmlBoxes
         public void MouseWheel(UIMouseEventArgs e, CssBox startAt)
         {
 
-        }
-
+        } 
         void ClearPreviousSelection()
         {
             this._htmlContainer.ClearPreviousSelection();

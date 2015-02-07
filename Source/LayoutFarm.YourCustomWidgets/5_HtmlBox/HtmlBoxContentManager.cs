@@ -17,7 +17,7 @@ namespace LayoutFarm.CustomWidgets
         Dictionary<ImageContentManager, int> imageContentManList = new Dictionary<ImageContentManager, int>();
 
 
-        bool isBinded; 
+         
         public HtmlBoxContentManager()
         {
 
@@ -32,18 +32,13 @@ namespace LayoutFarm.CustomWidgets
                         key.AddRequestImage(e.binder);
                     }
                 };
-            this.htmlBox.RequestStylesheet += htmlBox_RequestStylesheet;
-            this.isBinded = true;
+            this.htmlBox.HtmlHost.RequestStyleSheet += (s, e) =>
+            {
 
-        }
-
-
-        void htmlBox_RequestStylesheet(object sender, TextLoadRequestEventArgs e)
-        {
-
-        }
-
-         
+            };
+             
+        } 
+        
         public void AddTextContentMan(TextContentManager textMan)
         {
             if (this.textContentManList.ContainsKey(textMan))

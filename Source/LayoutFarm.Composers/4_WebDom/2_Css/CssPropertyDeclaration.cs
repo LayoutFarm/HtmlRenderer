@@ -54,7 +54,6 @@ namespace LayoutFarm.WebDom
             if (moreValues != null)
             {
                 latestValue = moreValues[moreValues.Count - 1] as CssCodePrimitiveExpression;
-
             }
             else
             {
