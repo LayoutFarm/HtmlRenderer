@@ -11,23 +11,15 @@ namespace LayoutFarm
     [DemoNote("4.4 CssLeanBox")]
     class Demo_CssLeanBox : DemoBase
     {
-        HtmlBoxes.HtmlHost htmlHost;
-        HtmlBoxes.HtmlHost GetHtmlHost(SampleViewport viewport)
-        {
-            if (htmlHost == null)
-            {
-                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);
-            } 
-            return htmlHost;             
-        }
+
         protected override void OnStartDemo(SampleViewport viewport)
         {
 
             ////==================================================
             //html box
-            var htmlHost = GetHtmlHost(viewport);
-            HtmlBox htmlBox = new HtmlBox(htmlHost, 800, 400);
+            var htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
 
+            HtmlBox htmlBox = new HtmlBox(htmlHost, 800, 400); 
 
             StringBuilder stbuilder = new StringBuilder();
             stbuilder.Append("<html><head></head><body>");

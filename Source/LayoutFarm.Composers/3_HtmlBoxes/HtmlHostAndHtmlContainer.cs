@@ -33,10 +33,10 @@ namespace LayoutFarm.HtmlBoxes
         public HtmlHost(GraphicsPlatform gfxplatform, WebDom.CssActiveSheet activeSheet)
         {
 
-            this.gfxplatform = gfxplatform;
-            this.commonHtmlDoc = new Composers.HtmlDocument();
-
+            this.gfxplatform = gfxplatform; 
             this.BaseStylesheet = activeSheet;
+
+            this.commonHtmlDoc = new Composers.HtmlDocument();
             this.commonHtmlDoc.CssActiveSheet = activeSheet;
         }
         public HtmlHost(GraphicsPlatform gfxplatform)
@@ -44,7 +44,8 @@ namespace LayoutFarm.HtmlBoxes
         {
             //use default style sheet
         }
-        public void AttachEssentailHandlers(EventHandler<HtmlImageRequestEventArgs> reqImageHandler,
+        public void AttachEssentailHandlers(
+            EventHandler<HtmlImageRequestEventArgs> reqImageHandler,
             EventHandler<TextLoadRequestEventArgs> reqStyleSheetHandler)
         {
             this.requestImage = reqImageHandler;
@@ -75,32 +76,32 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        /// <summary>
-        /// Get stylesheet by given key.
-        /// </summary>
-        static string GetDefaultStyleSheet(string src)
-        {
-            if (src == "StyleSheet")
-            {
-                return @"h1, h2, h3 { color: navy; font-weight:normal; }
-                    h1 { margin-bottom: .47em }
-                    h2 { margin-bottom: .3em }
-                    h3 { margin-bottom: .4em }
-                    ul { margin-top: .5em }
-                    ul li {margin: .25em}
-                    body { font:10pt Tahoma }
-		            pre  { border:solid 1px gray; background-color:#eee; padding:1em }
-                    a:link { text-decoration: none; }
-                    a:hover { text-decoration: underline; }
-                    .gray    { color:gray; }
-                    .example { background-color:#efefef; corner-radius:5px; padding:0.5em; }
-                    .whitehole { background-color:white; corner-radius:10px; padding:15px; }
-                    .caption { font-size: 1.1em }
-                    .comment { color: green; margin-bottom: 5px; margin-left: 3px; }
-                    .comment2 { color: green; }";
-            }
-            return null;
-        }
+//        /// <summary>
+//        /// Get stylesheet by given key.
+//        /// </summary>
+//        static string GetDefaultStyleSheet(string src)
+//        {
+//            if (src == "StyleSheet")
+//            {
+//                return @"h1, h2, h3 { color: navy; font-weight:normal; }
+//                    h1 { margin-bottom: .47em }
+//                    h2 { margin-bottom: .3em }
+//                    h3 { margin-bottom: .4em }
+//                    ul { margin-top: .5em }
+//                    ul li {margin: .25em}
+//                    body { font:10pt Tahoma }
+//		            pre  { border:solid 1px gray; background-color:#eee; padding:1em }
+//                    a:link { text-decoration: none; }
+//                    a:hover { text-decoration: underline; }
+//                    .gray    { color:gray; }
+//                    .example { background-color:#efefef; corner-radius:5px; padding:0.5em; }
+//                    .whitehole { background-color:white; corner-radius:10px; padding:15px; }
+//                    .caption { font-size: 1.1em }
+//                    .comment { color: green; margin-bottom: 5px; margin-left: 3px; }
+//                    .comment2 { color: green; }";
+//            }
+//            return null;
+//        }
 
         internal SelectionRange SelectionRange
         {
@@ -172,18 +173,24 @@ namespace LayoutFarm.HtmlBoxes
                 renderTreeBuilder = new Composers.RenderTreeBuilder(this.gfxplatform);
                 this.renderTreeBuilder.RequestStyleSheet += (e) =>
                 {
-                    //---------------------------
-                    var stylesheet = GetDefaultStyleSheet(e.Src);
-                    if (stylesheet != null)
-                    {
-                        e.SetStyleSheet = stylesheet;
-                    }
-                    else if (requestStyleSheet != null)
+                    if (requestStyleSheet != null)
                     {
                         var req = new TextLoadRequestEventArgs(e.Src);
                         requestStyleSheet(this, req);
                         e.SetStyleSheet = req.SetStyleSheet;
                     }
+                    //---------------------------
+                    //var stylesheet = GetDefaultStyleSheet(e.Src);
+                    //if (stylesheet != null)
+                    //{
+                    //    e.SetStyleSheet = stylesheet;
+                    //}
+                    //else if (requestStyleSheet != null)
+                    //{
+                    //    var req = new TextLoadRequestEventArgs(e.Src);
+                    //    requestStyleSheet(this, req);
+                    //    e.SetStyleSheet = req.SetStyleSheet;
+                    //}
                     //--------------------------- 
                 };
             }

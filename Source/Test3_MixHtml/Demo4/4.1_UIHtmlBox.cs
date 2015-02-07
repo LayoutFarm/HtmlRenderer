@@ -14,22 +14,12 @@ namespace LayoutFarm
     {
         HtmlBox htmlBox;
         string htmltext;
-
-        HtmlBoxes.HtmlHost htmlHost;
-        HtmlBoxes.HtmlHost GetHtmlHost(SampleViewport viewport)
-        {
-            if (htmlHost == null)
-            {
-                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);                 
-            }
-            return htmlHost;
-        }
-
+        
         protected override void OnStartDemo(SampleViewport viewport)
         {
-
             //html box
-            htmlBox = new HtmlBox(GetHtmlHost(viewport), 800, 600);
+            var host = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
+            htmlBox = new HtmlBox(host, 800, 600);
             viewport.AddContent(htmlBox);
             if (htmltext == null)
             {

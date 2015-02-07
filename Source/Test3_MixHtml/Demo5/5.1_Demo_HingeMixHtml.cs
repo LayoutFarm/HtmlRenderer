@@ -24,7 +24,7 @@ namespace LayoutFarm
         {
             sampleViewport = viewport;
             //init host
-            htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);
+            htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
             //-----------
             var comboBox1 = CreateComboBox(20, 20);
             viewport.AddContent(comboBox1);

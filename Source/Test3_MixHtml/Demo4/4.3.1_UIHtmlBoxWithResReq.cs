@@ -17,8 +17,7 @@ namespace LayoutFarm
         {
             if (htmlHost == null)
             {
-                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport);
-                htmlHost.AttachEssentailHandlers(
+                htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
                     //1. img request
                     (s, e) =>
                     {
