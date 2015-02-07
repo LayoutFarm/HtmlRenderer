@@ -21,7 +21,7 @@ using LayoutFarm.Css;
 
 namespace LayoutFarm.HtmlBoxes
 {
-     
+
     public abstract class HtmlContainer : IDisposable
     {
         /// <summary>
@@ -43,8 +43,6 @@ namespace LayoutFarm.HtmlBoxes
         /// 99999
         /// </summary>
         const int MAX_WIDTH = 99999;
-
-
         public float MaxWidth { get { return this._maxHeight; } }
         public abstract void ClearPreviousSelection();
         public abstract void SetSelection(SelectionRange selRange);
@@ -128,7 +126,7 @@ namespace LayoutFarm.HtmlBoxes
             _rootBox.Paint(p);
             p.PopContainingBlock();
         }
-
+        
         //------------------------------------------------------------------
         protected abstract void OnRequestImage(ImageBinder binder,
             object reqFrom, bool _sync);
@@ -138,10 +136,10 @@ namespace LayoutFarm.HtmlBoxes
             object reqBy,
             bool _sync)
         {
-
+            //TODO: sync or async?
             OnRequestImage(binder, reqBy, false);
         }
-
+        public abstract void ContainerInvalidateGraphics();
         internal void UpdateSizeIfWiderOrHigher(float newWidth, float newHeight)
         {
             if (newWidth > this._actualWidth)

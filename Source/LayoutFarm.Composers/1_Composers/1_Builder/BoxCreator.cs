@@ -248,7 +248,7 @@ namespace LayoutFarm.Composers
 
             alreadyHandleChildrenNodes = false;
             CssBox newBox = null;
-            var rootgfx = parentBox.Root;
+            var rootgfx = parentBox.RootGfx;
 
             //----------------------------------------- 
             //1. create new box
