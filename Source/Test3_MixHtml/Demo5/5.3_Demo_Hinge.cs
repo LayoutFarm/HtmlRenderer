@@ -8,60 +8,42 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.WebWidgets
 {
-    [DemoNote("5.2 MultpleBox2")]
-    class Demo_MultipleBox2 : DemoBase
+    [DemoNote("5.3 Hinge")]
+    class Demo_Hinge : DemoBase
     {
-        LayoutFarm.HtmlWidgets.CheckBox currentSingleCheckedBox;
-        LayoutFarm.ContentManagers.ImageContentManager imageContentMan = new ContentManagers.ImageContentManager();
 
+        LayoutFarm.ContentManagers.ImageContentManager imageContentMan = new ContentManagers.ImageContentManager();
+        LayoutFarm.HtmlBoxes.HtmlHost htmlHost;
         protected override void OnStartDemo(SampleViewport viewport)
         {
             imageContentMan.ImageLoadingRequest += (s, e) =>
             {
                 e.SetResultImage(LoadBitmap(e.ImagSource));
             };
-            int boxHeight = 35;
 
-
-            var htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
-                (s, e) => this.imageContentMan.AddRequestImage(e.ImageBinder),
-                (s, e) => { });
+            htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
+              (s, e) => this.imageContentMan.AddRequestImage(e.ImageBinder),
+              (s, e) => { });
             //-------------------------------------------------------------------
+            
+
             int boxX = 0;
-            for (int i = 0; i < 5; ++i)
+            for (int i = 0; i < 1; ++i)
             {
-                var button = new LayoutFarm.HtmlWidgets.Button(htmlHost, 100, boxHeight);
-                button.SetLocation(boxX, 20);
-                button.Text = "button" + i;
+                var hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(htmlHost, 100, 30);
+                hingeBox.SetLocation(boxX, 20);
                 boxX += 100 + 2;
-                viewport.AddContent(button);
-            }
-            //-------------------------------------------------------------------
-            int boxY = 70;
-            for (int i = 0; i < 10; ++i)
-            {
-                var statedBox = new LayoutFarm.HtmlWidgets.CheckBox(htmlHost, 100, boxHeight);
-                statedBox.Text = "chk" + i;
-                statedBox.SetLocation(10, boxY);
-                boxY += boxHeight + 5;
-                viewport.AddContent(statedBox);
-
-                statedBox.WhenChecked += (s, e) =>
-                {
-                    var selectedBox = (LayoutFarm.HtmlWidgets.CheckBox)s;
-                    if (selectedBox != currentSingleCheckedBox)
-                    {
-                        if (currentSingleCheckedBox != null)
-                        {
-                            currentSingleCheckedBox.Checked = false;
-                        }
-                        currentSingleCheckedBox = selectedBox;
-                    }
-                };
+                viewport.AddContent(hingeBox);
             }
         }
+        LayoutFarm.HtmlWidgets.HingeBox CreateHingeBox(int w, int h)
+        {
+            var hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(htmlHost, 100, 30); 
+            //1. set land part detail
+            //2. set float part detail
 
-
+            return hingeBox;
+        }
 
         static void SetupImageList()
         {

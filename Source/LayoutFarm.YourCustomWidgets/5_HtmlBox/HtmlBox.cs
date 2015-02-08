@@ -215,7 +215,7 @@ namespace LayoutFarm.CustomWidgets
         {
             this.htmlRenderBox.InvalidateGraphics();
         }
-        protected override RenderElement CurrentPrimaryRenderElement
+        public override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.htmlRenderBox; }
         }

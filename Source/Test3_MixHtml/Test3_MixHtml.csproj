@@ -69,6 +69,7 @@
     <Compile Include="Demo4\4.4_CssLeanBox.cs" />
     <Compile Include="Demo4\4.5_LightHtmlBox.cs" />
     <Compile Include="Demo5\5.1_Demo_HingeMixHtml.cs" />
+    <Compile Include="Demo5\5.3_Demo_Hinge.cs" />
     <Compile Include="HtmlHostCreatorHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

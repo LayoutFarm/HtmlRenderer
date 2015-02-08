@@ -11,7 +11,8 @@ using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.CustomWidgets;
-namespace LayoutFarm
+
+namespace LayoutFarm.WebWidgets
 {
     [DemoNote("5.1 HingeMixHtml")]
     class Demo_HingeMixHtml : DemoBase

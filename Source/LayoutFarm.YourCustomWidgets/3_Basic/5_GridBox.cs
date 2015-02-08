@@ -112,7 +112,7 @@ namespace LayoutFarm.CustomWidgets
             get { return this.cellSizeStyle; }
             set { this.cellSizeStyle = value; }
         }
-        protected override RenderElement CurrentPrimaryRenderElement
+        public override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.gridBox; }
         }

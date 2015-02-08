@@ -42,7 +42,7 @@ namespace LayoutFarm.CustomWidgets
         {
             get { return this.visualTextEdit != null; }
         }
-        protected override RenderElement CurrentPrimaryRenderElement
+        public override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.visualTextEdit; }
         }

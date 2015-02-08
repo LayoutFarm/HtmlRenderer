@@ -50,7 +50,7 @@ namespace LayoutFarm.CustomWidgets
             }
             return this.imgRenderBox;
         }
-        protected override RenderElement CurrentPrimaryRenderElement
+        public override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.imgRenderBox; }
         }

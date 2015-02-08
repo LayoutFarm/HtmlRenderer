@@ -26,13 +26,11 @@ namespace LayoutFarm.HtmlBoxes
             : base(rootgfx, width, height)
         {
 
-            this.myHtmlContainer = htmlCont;
-
-
+            this.myHtmlContainer = htmlCont; 
         }
         public override void ClearAllChildren()
         {
-
+            
         }
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {

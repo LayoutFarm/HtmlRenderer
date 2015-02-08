@@ -30,10 +30,7 @@ namespace LayoutFarm.CustomWidgets
 
         MyHtmlContainer myHtmlCont;
         HtmlHost htmlhost;
-
-
-
-
+         
 
         static LightHtmlBox()
         {
@@ -51,7 +48,7 @@ namespace LayoutFarm.CustomWidgets
             this.htmlhost = htmlhost;
         }
 
-        protected override RenderElement CurrentPrimaryRenderElement
+        public override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.frgmRenderBox; }
         }

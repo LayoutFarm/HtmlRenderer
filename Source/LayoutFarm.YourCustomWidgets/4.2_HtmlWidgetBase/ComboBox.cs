@@ -35,7 +35,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             get { return this.primElement != null; }
         }
-        protected override RenderElement CurrentPrimaryRenderElement
+        public override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.primElement; }
         }

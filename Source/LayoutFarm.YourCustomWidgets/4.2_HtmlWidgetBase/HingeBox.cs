@@ -4,154 +4,108 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
+using LayoutFarm.Composers;
+using LayoutFarm.WebDom;
+using LayoutFarm.WebDom.Extension;
 using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.CustomWidgets;
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.HtmlWidgets
 {
-    public class HingeBox : UIBox
+
+    public class HingeBox : LightHtmlWidgetBase
     {
 
-        CustomRenderBox primElement;//background 
+        RenderElement landPartRenderElement;//background 
+
         Color backColor = Color.LightGray;
         bool isOpen;
         //1. land part
-        UIBox landPart;
-
+        LightHtmlBox landPart;
         //2. float part   
-        UIBox floatPart;
+        LightHtmlBox floatPart;
+
         RenderElement floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
 
-        public HingeBox(int width, int height)
-            : base(width, height)
+        public HingeBox(HtmlHost htmlhost, int w, int h)
+            : base(htmlhost, w, h)
         {
+            //1. create land part
+            this.landPart = (LightHtmlBox)GetPrimaryUIElement();
+            //2. float part
 
+            //----------------------------------------------------------------------
+            this.floatPart = new LightHtmlBox(htmlhost, this.Width, 300);
+            this.floatPart.Visible = false;
+            this.floatPart.LoadHtmlDom(CreateFloatPartDom());
         }
-
-        protected override bool HasReadyRenderElement
+        FragmentHtmlDocument CreateFloatPartDom()
         {
-            get { return this.primElement != null; }
-        }
-        protected override RenderElement CurrentPrimaryRenderElement
-        {
-            get { return this.primElement; }
-        }
-        public Color BackColor
-        {
-            get { return this.backColor; }
-            set
-            {
-                this.backColor = value;
-                if (HasReadyRenderElement)
+            //create land part 
+            FragmentHtmlDocument htmldoc = this.HtmlHost.CreateNewFragmentHtml();
+            var domElement =
+                htmldoc.RootNode.AddChild("div", div =>
                 {
-                    this.primElement.BackColor = value;
-                }
-            }
+                    for (int i = 0; i < 10; ++i)
+                    {
+                        div.AddChild("div", div2 =>
+                        {
+                            div.AddTextContent("HELLO!" + i);
+                        });
+                    }
+                });
+            return htmldoc;
         }
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        protected override FragmentHtmlDocument CreatePresentationDom()
         {
-            if (primElement == null)
-            {
-                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-           
-                this.SetLocation(this.Left, this.Top);
-                renderE.BackColor = backColor;
-                renderE.SetController(this);
-                renderE.HasSpecificSize = true;
-                //------------------------------------------------
-                //create visual layer
-                var layers = new VisualLayerCollection();
-                var layer0 = new PlainLayer(renderE);
-                layers.AddLayer(layer0);
-                renderE.Layers = layers;
-
-                if (this.landPart != null)
+            //create land part 
+            FragmentHtmlDocument htmldoc = this.HtmlHost.CreateNewFragmentHtml();
+            var domElement =
+                htmldoc.RootNode.AddChild("div", div =>
                 {
-                    layer0.AddChild(this.landPart.GetPrimaryRenderElement(rootgfx));
-                }
-                if (this.floatPart != null)
-                {
+                    div.SetAttribute("style", "font:10pt tahoma;");
+                    div.AddChild("img", img =>
+                    {
+                        //init 
+                        img.SetAttribute("src", "../../Demo/arrow_close.png");
+                        img.AttachMouseDownEvent(e =>
+                        {
+                            //img.SetAttribute("src", this.IsOpen ?
+                            //    "../../Demo/arrow_open.png" :
+                            //    "../../Demo/arrow_close.png");
+                            ////------------------------------
 
-                }
+                            if (this.IsOpen)
+                            {
+                                img.SetAttribute("src", "../../Demo/arrow_close.png");
+                                this.CloseHinge();
+                            }
+                            else
+                            {
+                                img.SetAttribute("src", "../../Demo/arrow_open.png");
+                                this.OpenHinge();
+                            }
 
-                //---------------------------------
-                primElement = renderE;
-            }
-            return primElement;
+                            this.InvalidateGraphics();
+                            //----------------------------- 
+                            e.StopPropagation();
+                        });
+
+                    });
+                });
+            return htmldoc;
         }
-        //----------------------------------------------------
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            if (this.MouseDown != null)
-            {
-                this.MouseDown(this, e);
-            }
-        } 
-        protected override void OnMouseUp(UIMouseEventArgs e)
-        {
-            if (this.MouseUp != null)
-            {
-                MouseUp(this, e);
-            }
-            base.OnMouseUp(e);
-        } 
-        //---------------------------------------------------- 
-        public event EventHandler<UIMouseEventArgs> MouseDown;
-        public event EventHandler<UIMouseEventArgs> MouseUp; 
-        //----------------------------------------------------  
-        public UIBox LandPart
+        public LightHtmlBox LandPart
         {
             get { return this.landPart; }
-            set
-            {
-                this.landPart = value;
-                if (value != null)
-                {
-                    //if new value not null
-                    //check existing land part
-                    if (this.landPart != null)
-                    {
-                        //remove existing landpart
-
-                    }
-
-                    if (primElement != null)
-                    {
-                        //add 
-                        var visualPlainLayer = primElement.Layers.GetLayer(0) as PlainLayer;
-                        if (visualPlainLayer != null)
-                        {
-                            visualPlainLayer.AddChild(value.GetPrimaryRenderElement(primElement.Root));
-                        }
-
-                    }
-
-                }
-                else
-                {
-                    if (this.landPart != null)
-                    {
-                        //remove existing landpart
-
-                    }
-                }
-            }
         }
-        public UIBox FloatPart
+        public LightHtmlBox FloatPart
         {
             get { return this.floatPart; }
-            set
-            {
-                this.floatPart = value;
-                if (value != null)
-                {
-                    //attach float part
 
-                }
-            }
         }
         //---------------------------------------------------- 
         public bool IsOpen
@@ -166,8 +120,11 @@ namespace LayoutFarm.HtmlWidgets
             if (isOpen) return;
             this.isOpen = true;
 
-            //-----------------------------------
-            if (this.primElement == null) return;
+            if (this.landPartRenderElement == null)
+            {
+                landPartRenderElement = this.landPart.CurrentPrimaryRenderElement;
+            }
+
             if (floatPart == null) return;
 
 
@@ -177,12 +134,12 @@ namespace LayoutFarm.HtmlWidgets
                 case HingeFloatPartStyle.Popup:
                     {
                         //add float part to top window layer
-                        var topRenderBox = primElement.GetTopWindowRenderBox();
+                        var topRenderBox = landPartRenderElement.GetTopWindowRenderBox();
                         if (topRenderBox != null)
                         {
-                            Point globalLocation = primElement.GetGlobalLocation();
-                            floatPart.SetLocation(globalLocation.X, globalLocation.Y + primElement.Height);
-                            this.floatPartRenderElement = this.floatPart.GetPrimaryRenderElement(primElement.Root);
+                            Point globalLocation = landPartRenderElement.GetGlobalLocation();
+                            floatPart.SetLocation(globalLocation.X, globalLocation.Y + landPartRenderElement.Height);
+                            this.floatPartRenderElement = this.floatPart.GetPrimaryRenderElement(landPartRenderElement.Root);
                             topRenderBox.AddChild(floatPartRenderElement);
                         }
 
@@ -198,7 +155,12 @@ namespace LayoutFarm.HtmlWidgets
             if (!isOpen) return;
             this.isOpen = false;
 
-            if (this.primElement == null) return;
+            if (this.landPartRenderElement == null)
+            {
+                landPartRenderElement = this.landPart.CurrentPrimaryRenderElement;
+            }
+
+            if (this.landPartRenderElement == null) return;
             if (floatPart == null) return;
 
             switch (floatPartStyle)
@@ -211,13 +173,14 @@ namespace LayoutFarm.HtmlWidgets
                         if (floatPartRenderElement != null)
                         {
                             //temp
-                            var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
-                            if (parentContainer.Layers != null)
-                            {
-                                PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
-                                plainLayer.RemoveChild(floatPartRenderElement);
+                            var parentContainer = floatPartRenderElement.ParentRenderElement as TopWindowRenderBox;
+                            parentContainer.RemoveChild(floatPartRenderElement);
+                            //if (parentContainer.Layers != null)
+                            //{
+                            //    PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
+                            //    plainLayer.RemoveChild(floatPartRenderElement);
 
-                            }
+                            //}
                         }
 
                     } break;

@@ -27,7 +27,7 @@ namespace LayoutFarm.UI
 
         
 
-        protected abstract RenderElement CurrentPrimaryRenderElement
+        public abstract RenderElement CurrentPrimaryRenderElement
         {
             get;
         }
