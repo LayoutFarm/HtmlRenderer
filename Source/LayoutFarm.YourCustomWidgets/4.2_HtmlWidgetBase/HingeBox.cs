@@ -19,7 +19,7 @@ namespace LayoutFarm.HtmlWidgets
     {
 
         RenderElement landPartRenderElement;//background 
-
+        DomElement presentationNode;
         Color backColor = Color.LightGray;
         bool isOpen;
         //1. land part
@@ -51,45 +51,49 @@ namespace LayoutFarm.HtmlWidgets
                 });
             return htmldoc;
         }
-        protected override FragmentHtmlDocument CreatePresentationDom()
+        protected override DomElement GetPresentationDomNode(DomElement hostNode)
         {
-            //create land part 
-            FragmentHtmlDocument htmldoc = this.HtmlHost.CreateNewFragmentHtml();
-            var domElement =
-                htmldoc.RootNode.AddChild("div", div =>
+            if (presentationNode != null)
+            {
+                return presentationNode;
+            }
+            //-------------------
+            presentationNode = hostNode.OwnerDocument.CreateElement("div");
+            presentationNode.AddChild("div", div =>
+            {
+                div.SetAttribute("style", "font:10pt tahoma;");
+                div.AddChild("img", img =>
                 {
-                    div.SetAttribute("style", "font:10pt tahoma;");
-                    div.AddChild("img", img =>
+                    //init 
+                    img.SetAttribute("src", "../../Demo/arrow_close.png");
+                    img.AttachMouseDownEvent(e =>
                     {
-                        //init 
-                        img.SetAttribute("src", "../../Demo/arrow_close.png");
-                        img.AttachMouseDownEvent(e =>
+                        //img.SetAttribute("src", this.IsOpen ?
+                        //    "../../Demo/arrow_open.png" :
+                        //    "../../Demo/arrow_close.png");
+                        ////------------------------------
+
+                        if (this.IsOpen)
                         {
-                            //img.SetAttribute("src", this.IsOpen ?
-                            //    "../../Demo/arrow_open.png" :
-                            //    "../../Demo/arrow_close.png");
-                            ////------------------------------
+                            img.SetAttribute("src", "../../Demo/arrow_close.png");
+                            this.CloseHinge();
+                        }
+                        else
+                        {
+                            img.SetAttribute("src", "../../Demo/arrow_open.png");
+                            this.OpenHinge();
+                        }
 
-                            if (this.IsOpen)
-                            {
-                                img.SetAttribute("src", "../../Demo/arrow_close.png");
-                                this.CloseHinge();
-                            }
-                            else
-                            {
-                                img.SetAttribute("src", "../../Demo/arrow_open.png");
-                                this.OpenHinge();
-                            }
-
-                            this.InvalidateGraphics();
-                            //----------------------------- 
-                            e.StopPropagation();
-                        });
-
+                        this.InvalidateGraphics();
+                        //----------------------------- 
+                        e.StopPropagation();
                     });
+
                 });
-            return htmldoc;
+            });
+            return presentationNode;
         }
+
         public LightHtmlBox LandPart
         {
             get { return this.landPart; }
@@ -110,7 +114,7 @@ namespace LayoutFarm.HtmlWidgets
                     this.floatPart.Visible = false;
                     this.floatPart.LoadHtmlDom(CreateFloatPartDom());
                 }
-            } 
+            }
 
             return landPart;
         }

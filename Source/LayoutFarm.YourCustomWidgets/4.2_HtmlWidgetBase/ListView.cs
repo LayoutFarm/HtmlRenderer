@@ -26,10 +26,9 @@ namespace LayoutFarm.HtmlWidgets
         {
 
         }
-        //----------------------------------------------------
-        protected override Composers.FragmentHtmlDocument CreatePresentationDom()
+        protected override WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode)
         {
-            throw new NotImplementedException();
+            return null;
         }
         public void AddItem(ListItem ui)
         {

@@ -63,12 +63,17 @@ namespace LayoutFarm.HtmlWidgets
         }
         public override UIElement GetPrimaryUIElement(HtmlHost htmlhost)
         {
-           
             if (this.lightHtmlBox == null)
             {
                 this.myHtmlHost = htmlhost;
-                var lightHtmlBox = new LightHtmlBox(htmlhost, this.Width, this.Height); 
-                lightHtmlBox.LoadHtmlDom(CreatePresentationDom());
+                var lightHtmlBox = new LightHtmlBox(htmlhost, this.Width, this.Height);
+                FragmentHtmlDocument htmldoc = htmlhost.CreateNewFragmentHtml();
+                var presentationDom = GetPresentationDomNode(htmldoc.RootNode);
+                if (presentationDom != null)
+                {
+                    htmldoc.RootNode.AddChild(presentationDom);
+                    lightHtmlBox.LoadHtmlDom(htmldoc);
+                }
                 lightHtmlBox.SetLocation(this.Left, this.Top);
                 this.lightHtmlBox = lightHtmlBox;
             }
@@ -81,7 +86,7 @@ namespace LayoutFarm.HtmlWidgets
         protected void InvalidateGraphics()
         {
             this.lightHtmlBox.InvalidateGraphics();
-        }
-        protected abstract FragmentHtmlDocument CreatePresentationDom();
+        } 
+        protected abstract WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode);
     }
 }
