@@ -11,6 +11,9 @@ namespace LayoutFarm.Css
 
         public static void InheritStyles(BoxSpec target, BoxSpec source)
         {
+            if (target.__aa_dbugId == 4)
+            {
+            }
             //if (__aa_dbugId == 11)
             //{
 
@@ -80,7 +83,7 @@ namespace LayoutFarm.Css
             target._right = source._right;
 
             target._width = source._width;
-            
+
             target._height = source._height;
             target._maxWidth = source._maxWidth;
             target._position = source._position;
@@ -97,7 +100,7 @@ namespace LayoutFarm.Css
             //===================================== 
             target._cssDirection = source._cssDirection;
         }
- 
+
         public BoxSpec GetAnonVersion()
         {
             if (anonVersion != null)

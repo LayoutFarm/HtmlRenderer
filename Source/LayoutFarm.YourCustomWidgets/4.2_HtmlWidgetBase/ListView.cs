@@ -29,9 +29,9 @@ namespace LayoutFarm.HtmlWidgets
         protected override WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode)
         {
             if (pnode != null) return pnode;
-
             //--------------------------------
             pnode = hostNode.OwnerDocument.CreateElement("div");
+            pnode.SetAttribute("style", "font:10pt tahoma");
             int j = items.Count;
             if (j > 0)
             {
@@ -152,7 +152,7 @@ namespace LayoutFarm.HtmlWidgets
 
     }
     public class ListItem
-    { 
+    {
         WebDom.DomElement pnode;
         WebDom.DomElement textSpanNode;
         string itemText;
@@ -191,11 +191,10 @@ namespace LayoutFarm.HtmlWidgets
             }
             var ownerdoc = hostNode.OwnerDocument;
             pnode = ownerdoc.CreateElement("div");
+           // pnode.SetAttribute("style", "font:10pt tahoma");
 
             textSpanNode = ownerdoc.CreateElement("span");
-            textSpanNode.SetAttribute("font", "10pt tahoma");   
             textSpanNode.AddChild(ownerdoc.CreateTextNode(itemText.ToCharArray()));
-
             pnode.AddChild(textSpanNode);
 
             return pnode;
