@@ -20,31 +20,42 @@ namespace LayoutFarm.HtmlWidgets
         List<UICollection> layers = new List<UICollection>(1);
         List<ListItem> items = new List<ListItem>();
         int selectedIndex = -1;//default = no selection
+        WebDom.DomElement pnode;
 
         public ListView(int w, int h)
             : base(w, h)
         {
-
         }
         protected override WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode)
         {
-            return null;
+            if (pnode != null) return pnode;
+
+            //--------------------------------
+            pnode = hostNode.OwnerDocument.CreateElement("div");
+            int j = items.Count;
+            if (j > 0)
+            {
+                for (int i = 0; i < j; ++i)
+                {
+                    //itemnode
+                    pnode.AddChild(items[i].GetPresentationNode(pnode));
+                }
+            }
+            return pnode;
         }
         public void AddItem(ListItem ui)
         {
             items.Add(ui);
-
+            if (pnode != null)
+            {
+                pnode.AddChild(ui.GetPresentationNode(pnode));
+            }
         }
         public int ItemCount
         {
             get { return this.items.Count; }
         }
-        public void RemoveAt(int index)
-        {
-            var item = items[index];
-            items.RemoveAt(index);
 
-        }
         public ListItem GetItem(int index)
         {
             if (index < 0)
@@ -59,6 +70,12 @@ namespace LayoutFarm.HtmlWidgets
         public void Remove(ListItem item)
         {
             items.Remove(item);
+
+        }
+        public void RemoveAt(int index)
+        {
+            var item = items[index];
+            items.RemoveAt(index);
 
         }
         public void ClearItems()
@@ -135,10 +152,9 @@ namespace LayoutFarm.HtmlWidgets
 
     }
     public class ListItem
-    {
-
-        CustomTextRun listItemText;
-
+    { 
+        WebDom.DomElement pnode;
+        WebDom.DomElement textSpanNode;
         string itemText;
         Color backColor;
         int width;
@@ -162,18 +178,29 @@ namespace LayoutFarm.HtmlWidgets
             set
             {
                 this.itemText = value;
-                if (listItemText != null)
-                {
-                    listItemText.Text = value;
-                }
+
             }
         }
-        //----------------- 
-        public void AddChild(RenderElement renderE)
+        public WebDom.DomElement GetPresentationNode(WebDom.DomElement hostNode)
         {
-            //add content to list item
+            if (pnode != null) return pnode;
+            //------------------------------
+            if (itemText == null)
+            {
+                itemText = "";
+            }
+            var ownerdoc = hostNode.OwnerDocument;
+            pnode = ownerdoc.CreateElement("div");
 
+            textSpanNode = ownerdoc.CreateElement("span");
+            textSpanNode.SetAttribute("font", "10pt tahoma");   
+            textSpanNode.AddChild(ownerdoc.CreateTextNode(itemText.ToCharArray()));
+
+            pnode.AddChild(textSpanNode);
+
+            return pnode;
         }
+
     }
 
 }

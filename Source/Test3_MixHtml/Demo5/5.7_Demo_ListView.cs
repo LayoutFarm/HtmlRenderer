@@ -28,23 +28,21 @@ namespace LayoutFarm.WebWidgets
               (s, e) => { });
             //-------------------------------------------------------------------
 
-            int boxX = 0;
-            for (int i = 0; i < 1; ++i)
-            {
-                var hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(100, 30);
-                hingeBox.SetLocation(boxX, 20);
-                boxX += 100 + 2;
-                AddToViewport(hingeBox);
-            }
-        }
-        LayoutFarm.HtmlWidgets.HingeBox CreateHingeBox(int w, int h)
-        {
-            var hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(100, 30);
-            //1. set land part detail
-            //2. set float part detail
 
-            return hingeBox;
+            var listview = new LayoutFarm.HtmlWidgets.ListView(100, 100);
+            listview.SetLocation(30, 20);
+            //add listview item 
+            for (int i = 0; i < 10; ++i)
+            {
+                var listItem = new HtmlWidgets.ListItem(100, 20);
+                listItem.Text = "item" + i;
+                listview.AddItem(listItem);
+
+            }
+            AddToViewport(listview);
+
         }
+
 
         static void SetupImageList()
         {
