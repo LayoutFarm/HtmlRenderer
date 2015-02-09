@@ -17,8 +17,8 @@ namespace LayoutFarm.HtmlWidgets
     public class Button : LightHtmlWidgetBase
     {
         string buttonText = "";
-        public Button(HtmlHost htmlhost, int w, int h)
-            : base(htmlhost, w, h)
+        public Button(int w, int h)
+            : base(w, h)
         {
         }
         //---------------------------------------------------------------------------

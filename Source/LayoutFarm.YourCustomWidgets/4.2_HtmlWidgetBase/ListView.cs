@@ -21,11 +21,11 @@ namespace LayoutFarm.HtmlWidgets
         List<ListItem> items = new List<ListItem>();
         int selectedIndex = -1;//default = no selection
 
-        public ListView(HtmlHost htmlhost, int w, int h)
-            : base(htmlhost, w, h)
+        public ListView(int w, int h)
+            : base(w, h)
         {
 
-        } 
+        }
         //----------------------------------------------------
         protected override Composers.FragmentHtmlDocument CreatePresentationDom()
         {

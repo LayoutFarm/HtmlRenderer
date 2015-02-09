@@ -31,7 +31,7 @@ namespace LayoutFarm.WebWidgets
             int boxX = 0;
             for (int i = 0; i < 1; ++i)
             {
-                var hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(myHtmlHost, 100, 30);
+                var hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(100, 30);
                 hingeBox.SetLocation(boxX, 20);
                 boxX += 100 + 2;
                 AddToViewport(hingeBox);
@@ -39,7 +39,7 @@ namespace LayoutFarm.WebWidgets
         }
         LayoutFarm.HtmlWidgets.HingeBox CreateHingeBox(int w, int h)
         {
-            var hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(myHtmlHost, 100, 30);
+            var hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(100, 30);
             //1. set land part detail
             //2. set float part detail
 

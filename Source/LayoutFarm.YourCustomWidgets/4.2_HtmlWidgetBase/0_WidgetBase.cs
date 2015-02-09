@@ -53,19 +53,21 @@ namespace LayoutFarm.HtmlWidgets
 
     public abstract class LightHtmlWidgetBase : WidgetBase
     {
-        HtmlHost htmlhost;
+
         LightHtmlBox lightHtmlBox;
-        public LightHtmlWidgetBase(HtmlHost htmlhost, int w, int h)
+        HtmlHost myHtmlHost;
+        public LightHtmlWidgetBase(int w, int h)
             : base(w, h)
         {
-            this.htmlhost = htmlhost;
+
         }
         public override UIElement GetPrimaryUIElement(HtmlHost htmlhost)
         {
+           
             if (this.lightHtmlBox == null)
             {
-                var lightHtmlBox = new LightHtmlBox(htmlhost, this.Width, this.Height);
-
+                this.myHtmlHost = htmlhost;
+                var lightHtmlBox = new LightHtmlBox(htmlhost, this.Width, this.Height); 
                 lightHtmlBox.LoadHtmlDom(CreatePresentationDom());
                 lightHtmlBox.SetLocation(this.Left, this.Top);
                 this.lightHtmlBox = lightHtmlBox;
@@ -74,7 +76,7 @@ namespace LayoutFarm.HtmlWidgets
         }
         protected HtmlHost HtmlHost
         {
-            get { return this.htmlhost; }
+            get { return this.myHtmlHost; }
         }
         protected void InvalidateGraphics()
         {

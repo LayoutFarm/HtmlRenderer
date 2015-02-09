@@ -30,17 +30,9 @@ namespace LayoutFarm.HtmlWidgets
         RenderElement floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
 
-        public HingeBox(HtmlHost htmlhost, int w, int h)
-            : base(htmlhost, w, h)
+        public HingeBox(int w, int h)
+            : base(w, h)
         {
-            //1. create land part
-            this.landPart = (LightHtmlBox)GetPrimaryUIElement(htmlhost);
-            //2. float part
-
-            //----------------------------------------------------------------------
-            this.floatPart = new LightHtmlBox(htmlhost, this.Width, 300);
-            this.floatPart.Visible = false;
-            this.floatPart.LoadHtmlDom(CreateFloatPartDom());
         }
         FragmentHtmlDocument CreateFloatPartDom()
         {
@@ -106,6 +98,21 @@ namespace LayoutFarm.HtmlWidgets
         {
             get { return this.floatPart; }
 
+        }
+        public override UIElement GetPrimaryUIElement(HtmlHost htmlhost)
+        {
+            if (this.landPart == null)
+            {
+                this.landPart = (LightHtmlBox)base.GetPrimaryUIElement(htmlhost);
+                if (floatPart == null)
+                {
+                    this.floatPart = new LightHtmlBox(htmlhost, this.Width, 300);
+                    this.floatPart.Visible = false;
+                    this.floatPart.LoadHtmlDom(CreateFloatPartDom());
+                }
+            } 
+
+            return landPart;
         }
         //---------------------------------------------------- 
         public bool IsOpen

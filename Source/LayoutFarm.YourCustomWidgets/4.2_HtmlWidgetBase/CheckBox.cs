@@ -20,10 +20,10 @@ namespace LayoutFarm.HtmlWidgets
         bool isChecked;
         string checkBoxText = "";
         public event EventHandler WhenChecked;
-        public CheckBox(HtmlHost htmlhost, int w, int h)
-            : base(htmlhost, w, h)
-        { 
-        } 
+        public CheckBox(int w, int h)
+            : base(w, h)
+        {
+        }
         //---------------------------------------------------------------------------
         public string Text
         {
