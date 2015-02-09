@@ -14,8 +14,12 @@ namespace LayoutFarm.WebWidgets
         LayoutFarm.HtmlWidgets.CheckBox currentSingleCheckedBox;
         LayoutFarm.ContentManagers.ImageContentManager imageContentMan = new ContentManagers.ImageContentManager();
 
+        HtmlBoxes.HtmlHost myHtmlHost;
+        SampleViewport sampleViewport;
+
         protected override void OnStartDemo(SampleViewport viewport)
         {
+            this.sampleViewport = viewport;
             imageContentMan.ImageLoadingRequest += (s, e) =>
             {
                 e.SetResultImage(LoadBitmap(e.ImagSource));
@@ -23,7 +27,7 @@ namespace LayoutFarm.WebWidgets
             int boxHeight = 35;
 
 
-            var htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
+            var htmlHost = myHtmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
                 (s, e) => this.imageContentMan.AddRequestImage(e.ImageBinder),
                 (s, e) => { });
             //-------------------------------------------------------------------
@@ -34,7 +38,8 @@ namespace LayoutFarm.WebWidgets
                 button.SetLocation(boxX, 20);
                 button.Text = "button" + i;
                 boxX += 100 + 2;
-                viewport.AddContent(button);
+                AddToViewport(button);
+
             }
             //-------------------------------------------------------------------
             int boxY = 70;
@@ -44,8 +49,8 @@ namespace LayoutFarm.WebWidgets
                 statedBox.Text = "chk" + i;
                 statedBox.SetLocation(10, boxY);
                 boxY += boxHeight + 5;
-                viewport.AddContent(statedBox);
 
+                AddToViewport(statedBox);
                 statedBox.WhenChecked += (s, e) =>
                 {
                     var selectedBox = (LayoutFarm.HtmlWidgets.CheckBox)s;
@@ -61,8 +66,10 @@ namespace LayoutFarm.WebWidgets
             }
         }
 
-
-
+        void AddToViewport(HtmlWidgets.LightHtmlWidgetBase htmlWidget)
+        {
+            this.sampleViewport.AddContent(this.myHtmlHost, htmlWidget);
+        }
         static void SetupImageList()
         {
             if (!LayoutFarm.CustomWidgets.ResImageList.HasImages)

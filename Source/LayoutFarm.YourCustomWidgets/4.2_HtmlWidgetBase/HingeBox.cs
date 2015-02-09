@@ -34,7 +34,7 @@ namespace LayoutFarm.HtmlWidgets
             : base(htmlhost, w, h)
         {
             //1. create land part
-            this.landPart = (LightHtmlBox)GetPrimaryUIElement();
+            this.landPart = (LightHtmlBox)GetPrimaryUIElement(htmlhost);
             //2. float part
 
             //----------------------------------------------------------------------

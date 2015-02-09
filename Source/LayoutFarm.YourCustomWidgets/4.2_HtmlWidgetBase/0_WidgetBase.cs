@@ -42,7 +42,7 @@ namespace LayoutFarm.HtmlWidgets
             get { return this.top; }
         }
 
-        public abstract UIElement GetPrimaryUIElement();
+        public abstract UIElement GetPrimaryUIElement(HtmlHost htmlhost);
 
         public void SetLocation(int left, int top)
         {
@@ -60,7 +60,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             this.htmlhost = htmlhost;
         }
-        public override UIElement GetPrimaryUIElement()
+        public override UIElement GetPrimaryUIElement(HtmlHost htmlhost)
         {
             if (this.lightHtmlBox == null)
             {

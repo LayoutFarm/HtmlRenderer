@@ -13,32 +13,38 @@ namespace LayoutFarm.WebWidgets
     {
 
         LayoutFarm.ContentManagers.ImageContentManager imageContentMan = new ContentManagers.ImageContentManager();
-        LayoutFarm.HtmlBoxes.HtmlHost htmlHost;
+        LayoutFarm.HtmlBoxes.HtmlHost myHtmlHost;
+        SampleViewport sampleViewport;
         protected override void OnStartDemo(SampleViewport viewport)
         {
+            this.sampleViewport = viewport;
             imageContentMan.ImageLoadingRequest += (s, e) =>
             {
                 e.SetResultImage(LoadBitmap(e.ImagSource));
             };
 
-            htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
+            myHtmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
               (s, e) => this.imageContentMan.AddRequestImage(e.ImageBinder),
               (s, e) => { });
             //-------------------------------------------------------------------
-            
+
 
             int boxX = 0;
             for (int i = 0; i < 1; ++i)
             {
-                var hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(htmlHost, 100, 30);
+                var hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(myHtmlHost, 100, 30);
                 hingeBox.SetLocation(boxX, 20);
                 boxX += 100 + 2;
-                viewport.AddContent(hingeBox);
+                AddToViewport(hingeBox);
             }
+        }
+        void AddToViewport(HtmlWidgets.LightHtmlWidgetBase htmlWidget)
+        {
+            this.sampleViewport.AddContent(this.myHtmlHost, htmlWidget);
         }
         LayoutFarm.HtmlWidgets.HingeBox CreateHingeBox(int w, int h)
         {
-            var hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(htmlHost, 100, 30); 
+            var hingeBox = new LayoutFarm.HtmlWidgets.HingeBox(myHtmlHost, 100, 30);
             //1. set land part detail
             //2. set float part detail
 

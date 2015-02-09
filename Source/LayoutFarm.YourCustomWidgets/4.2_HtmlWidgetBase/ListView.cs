@@ -25,18 +25,7 @@ namespace LayoutFarm.HtmlWidgets
             : base(htmlhost, w, h)
         {
 
-        }
-        //protected override void OnContentLayout()
-        //{
-        //    panel.PerformContentLayout();
-        //}
-        //public override bool NeedContentLayout
-        //{
-        //    get
-        //    {
-        //        return this.panel.NeedContentLayout;
-        //    }
-        //}
+        } 
         //----------------------------------------------------
         protected override Composers.FragmentHtmlDocument CreatePresentationDom()
         {
