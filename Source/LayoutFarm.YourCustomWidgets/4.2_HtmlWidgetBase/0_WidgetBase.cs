@@ -51,11 +51,15 @@ namespace LayoutFarm.HtmlWidgets
         }
     }
 
-    public abstract class LightHtmlWidgetBase : WidgetBase
+    public abstract class LightHtmlWidgetBase : WidgetBase, IScrollable
     {
 
         LightHtmlBox lightHtmlBox;
         HtmlHost myHtmlHost;
+        int viewportX;
+        int viewportY;
+        public event EventHandler LayoutFinished;
+
         public LightHtmlWidgetBase(int w, int h)
             : base(w, h)
         {
@@ -86,7 +90,39 @@ namespace LayoutFarm.HtmlWidgets
         protected void InvalidateGraphics()
         {
             this.lightHtmlBox.InvalidateGraphics();
-        } 
+        }
         protected abstract WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode);
+
+        //------------------------------------------
+        public void SetViewport(int x, int y)
+        {
+            this.viewportX = x;
+            this.viewportY = y;
+            lightHtmlBox.SetViewport(x, y);
+        }
+        public int ViewportX
+        {
+            get { return this.viewportX; }
+
+        }
+        public int ViewportY
+        {
+            get { return this.viewportY; }
+        }
+        
+        public int DesiredWidth
+        {
+            get
+            {
+                return this.Width;
+            }
+        }
+        public int DesiredHeight
+        {
+            get
+            {
+                return this.Height;
+            }
+        }
     }
 }

@@ -26,11 +26,11 @@ namespace LayoutFarm.HtmlBoxes
             : base(rootgfx, width, height)
         {
 
-            this.myHtmlContainer = htmlCont; 
+            this.myHtmlContainer = htmlCont;
         }
         public override void ClearAllChildren()
         {
-            
+
         }
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
@@ -90,7 +90,8 @@ namespace LayoutFarm.HtmlBoxes
             painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 #endif
             int vwX, vwY;
-            painter.OffsetCanvasOrigin(vwX = this.ViewportX, vwY = this.ViewportY);
+
+            painter.OffsetCanvasOrigin(vwX = this.ViewportX, vwY = -this.ViewportY);
 
             myHtmlCont.PerformPaint(painter);
 
@@ -101,9 +102,7 @@ namespace LayoutFarm.HtmlBoxes
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
 
-        }
-
-
+        } 
     }
 
     static class PainterStock

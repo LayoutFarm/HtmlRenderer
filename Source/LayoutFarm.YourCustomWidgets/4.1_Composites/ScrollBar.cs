@@ -255,7 +255,7 @@ namespace LayoutFarm.CustomWidgets
             float physicalScrollLength = this.Height - (this.minmax_boxHeight + this.minmax_boxHeight);
             //3. 
             double ratio1 = physicalScrollLength / contentLength;
-            int scrollBoxLength = 1; 
+            int scrollBoxLength = 1;
 
             if (contentLength < physicalScrollLength)
             {
@@ -687,34 +687,16 @@ namespace LayoutFarm.CustomWidgets
     public class ScrollingRelation
     {
         ScrollBar scBar;
-        UIBox panel;
-        public ScrollingRelation(ScrollBar scBar, UIBox panel)
-        {
-            this.scBar = scBar;
-            this.panel = panel;
-            if (scBar.ScrollBarType == ScrollBarType.Horizontal)
-            {
-                scBar.UserScroll += (s, e) =>
-                {
-                    panel.SetViewport((int)scBar.ScrollValue, panel.ViewportY);
-                };
-            }
-            else
-            {
-                scBar.UserScroll += (s, e) =>
-                {
-                    panel.SetViewport(panel.ViewportX, (int)scBar.ScrollValue);
-                };
-            }
-        }
-        public ScrollingRelation(ScrollBar scBar, LayoutFarm.CustomWidgets.Panel panel)
-        {
-            this.scBar = scBar;
-            this.panel = panel;
+        IScrollable scrollableSurface;
 
-            panel.LayoutFinished += (s, e) =>
+        public ScrollingRelation(ScrollBar scBar, IScrollable scrollableSurface)
+        {
+            this.scBar = scBar;
+            this.scrollableSurface = scrollableSurface;
+
+            scrollableSurface.LayoutFinished += (s, e) =>
             {
-                scBar.MaxValue = panel.DesiredHeight;
+                scBar.MaxValue = scrollableSurface.DesiredHeight;
                 scBar.ReEvaluateScrollBar();
 
             };
@@ -724,14 +706,14 @@ namespace LayoutFarm.CustomWidgets
             {
                 scBar.UserScroll += (s, e) =>
                 {
-                    panel.SetViewport((int)scBar.ScrollValue, panel.ViewportY);
+                    scrollableSurface.SetViewport((int)scBar.ScrollValue, scrollableSurface.ViewportY);
                 };
             }
             else
             {
                 scBar.UserScroll += (s, e) =>
                 {
-                    panel.SetViewport(panel.ViewportX, (int)scBar.ScrollValue);
+                    scrollableSurface.SetViewport(scrollableSurface.ViewportX, (int)scBar.ScrollValue);
                 };
             }
         }

@@ -25,7 +25,7 @@ namespace LayoutFarm.CustomWidgets
     public class Panel : UIBox
     {
 
-        public event EventHandler<EventArgs> LayoutFinished;
+
 
         PanelLayoutKind panelLayoutKind;
         PanelStretch panelChildStretch;
@@ -220,13 +220,13 @@ namespace LayoutFarm.CustomWidgets
                 }
                 this.primElement.SetViewport(viewportX, viewportY);
                 this.InvalidateGraphics();
-                 
+
             }
-            
+
         }
         public override void PerformContentLayout()
         {
-           
+
             this.InvalidateGraphics();
             //temp : arrange as vertical stack***
             switch (this.PanelLayoutKind)
@@ -294,10 +294,7 @@ namespace LayoutFarm.CustomWidgets
                     } break;
             }
             //------------------------------------------------
-            if (this.LayoutFinished != null)
-            {
-                this.LayoutFinished(this, EventArgs.Empty);
-            }
+            this.RaiseLayoutFinished();
         }
         public override int DesiredHeight
         {

@@ -21,14 +21,12 @@ namespace LayoutFarm.WebWidgets
             imageContentMan.ImageLoadingRequest += (s, e) =>
             {
                 e.SetResultImage(LoadBitmap(e.ImagSource));
-            };
-
+            }; 
             myHtmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport,
               (s, e) => this.imageContentMan.AddRequestImage(e.ImageBinder),
               (s, e) => { });
             //-------------------------------------------------------------------
-
-
+             
             int boxX = 0;
             for (int i = 0; i < 1; ++i)
             {

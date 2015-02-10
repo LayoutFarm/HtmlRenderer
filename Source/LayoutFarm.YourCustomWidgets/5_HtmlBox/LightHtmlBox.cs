@@ -251,6 +251,15 @@ namespace LayoutFarm.CustomWidgets
         {
             get { return this.myHtmlCont; }
         }
+        public override void SetViewport(int x, int y)
+        {
+            base.SetViewport(x, y);
+            if (frgmRenderBox != null)
+            {
+                frgmRenderBox.SetViewport(x, y);
+            }
+        }
+
 
     }
 }
