@@ -10,6 +10,23 @@ using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm.Composers
 {
     //for RenderTreeBuilder ***
+    //--------------------------------------------------------------------------------------------------       
+    struct CssTemplateKey
+    {
+        public readonly int tagNameKey;
+        public readonly int classNameKey;
+        public CssTemplateKey(int tagNameKey, int classNameKey)
+        {
+            this.tagNameKey = tagNameKey;
+            this.classNameKey = classNameKey;
+        }
+#if DEBUG
+        public override string ToString()
+        {
+            return "t:" + this.tagNameKey + ",c:" + this.classNameKey;
+        }
+#endif
+    }
 
     class TopDownActiveCssTemplate
     {
@@ -77,42 +94,26 @@ namespace LayoutFarm.Composers
 
 
 
-        //--------------------------------------------------------------------------------------------------       
-        struct TemplateKey2
-        {
-            public readonly int tagNameKey;
-            public readonly int classNameKey;
-            public TemplateKey2(int tagNameKey, int classNameKey)
-            {
-                this.tagNameKey = tagNameKey;
-                this.classNameKey = classNameKey;
-            }
-#if DEBUG
-            public override string ToString()
-            {
-                return "t:" + this.tagNameKey + ",c:" + this.classNameKey;
-            }
-#endif
-        }
+
         class BoxSpecLevel
         {
             readonly int level;
-            Dictionary<TemplateKey2, BoxSpec> specCollections;
+            Dictionary<CssTemplateKey, BoxSpec> specCollections;
             public BoxSpecLevel(int level)
             {
                 this.level = level;
             }
-            public void AddBoxSpec(TemplateKey2 key, BoxSpec spec)
+            public void AddBoxSpec(CssTemplateKey key, BoxSpec spec)
             {
                 //add box spec at this level
                 if (specCollections == null)
                 {
-                    specCollections = new Dictionary<TemplateKey2, BoxSpec>();
+                    specCollections = new Dictionary<CssTemplateKey, BoxSpec>();
                 }
                 //add or replace if exists
                 specCollections[key] = spec;
             }
-            public BoxSpec SearchUp(TemplateKey2 key)
+            public BoxSpec SearchUp(CssTemplateKey key)
             {
                 //recursive search up
                 BoxSpec found = null;
@@ -129,12 +130,12 @@ namespace LayoutFarm.Composers
         //-----------------------------------------------------------------------------------------------
 
         static readonly char[] _whiteSplitter = new[] { ' ' };
-        void SaveBoxSpec(TemplateKey2 key, BoxSpec spec)
+        public void CacheBoxSpec(CssTemplateKey key, BoxSpec spec)
         {
             //add at last(top) level
             specLevels[specLevels.Count - 1].AddBoxSpec(key, spec);
         }
-        BoxSpec SearchUpBoxSpec(TemplateKey2 templateKey)
+        BoxSpec SearchUpBoxSpec(CssTemplateKey templateKey)
         {
             //bottom up 
             for (int i = specLevels.Count - 1; i >= 0; --i)
@@ -149,7 +150,13 @@ namespace LayoutFarm.Composers
             //not found
             return null;
         }
-        internal void ApplyActiveTemplate(string elemName, string class_value, BoxSpec currentBoxSpec, BoxSpec parentSpec)
+
+        internal BoxSpec GetActiveTemplate(string elemName,
+            string class_value,
+            BoxSpec currentBoxSpec,
+            BoxSpec parentSpec,
+            out CssTemplateKey templateKey,
+            out bool newlyCreated)
         {
 
             //1. tag name key
@@ -160,17 +167,25 @@ namespace LayoutFarm.Composers
             {
                 classNameKey = ustrTable.AddStringIfNotExist(class_value);
             }
-
-            var templateKey = new TemplateKey2(tagNameKey, classNameKey);
+            templateKey = new CssTemplateKey(tagNameKey, classNameKey);
             BoxSpec boxTemplate = SearchUpBoxSpec(templateKey);
-            if (boxTemplate == null)
+            if (boxTemplate != null)
             {
+                newlyCreated = false;
+                return boxTemplate;
+                //BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
+
+            }
+            else
+            {
+                newlyCreated = true;
                 //create template for specific key  
                 boxTemplate = new BoxSpec();
                 //if (boxTemplate.__aa_dbugId == 30)
                 //{
                 //} 
-                BoxSpec.CloneAllStyles(boxTemplate, currentBoxSpec); 
+                //copy current spec to boxTemplate
+                BoxSpec.CloneAllStyles(boxTemplate, currentBoxSpec);
                 //*** 
                 //----------------------------
                 //1. tag name
@@ -215,15 +230,92 @@ namespace LayoutFarm.Composers
                         }
                     }
                 }
-
-                if (!currentBoxSpec.DoNotCache)
-                {
-                    SaveBoxSpec(templateKey, boxTemplate);
-                }
+                //if (!currentBoxSpec.DoNotCache)
+                //{
+                //    CacheBoxSpec(templateKey, boxTemplate);
+                //}
                 boxTemplate.Freeze();
+                return boxTemplate;
+                //BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
             }
-            BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
         }
+
+
+        //internal void oldApplyActiveTemplate(string elemName, string class_value, BoxSpec currentBoxSpec, BoxSpec parentSpec)
+        //{
+
+        //    //1. tag name key
+        //    int tagNameKey = ustrTable.AddStringIfNotExist(elemName);
+        //    //2. class name key
+        //    int classNameKey = 0;
+        //    if (class_value != null)
+        //    {
+        //        classNameKey = ustrTable.AddStringIfNotExist(class_value);
+        //    } 
+        //    var templateKey = new TemplateKey2(tagNameKey, classNameKey);
+        //    BoxSpec boxTemplate = SearchUpBoxSpec(templateKey);
+        //    if (boxTemplate == null)
+        //    {
+        //        //create template for specific key  
+        //        boxTemplate = new BoxSpec();
+        //        //if (boxTemplate.__aa_dbugId == 30)
+        //        //{
+        //        //} 
+        //        //copy current spec to boxTemplate
+        //        BoxSpec.CloneAllStyles(boxTemplate, currentBoxSpec); 
+        //        //*** 
+        //        //----------------------------
+        //        //1. tag name
+        //        CssRuleSetGroup ruleGroup = activeSheet.GetRuleSetForTagName(elemName);
+        //        if (ruleGroup != null)
+        //        {
+        //            //currentBoxSpec.VersionNumber++;
+        //            foreach (WebDom.CssPropertyDeclaration decl in ruleGroup.GetPropertyDeclIter())
+        //            {
+        //                SpecSetter.AssignPropertyValue(boxTemplate, parentSpec, decl);
+        //            }
+        //        }
+        //        //----------------------------
+        //        //2. series of class
+        //        if (class_value != null)
+        //        {
+        //            //currentBoxSpec.VersionNumber++;
+        //            string[] classNames = class_value.Split(_whiteSplitter, StringSplitOptions.RemoveEmptyEntries);
+        //            int j = classNames.Length;
+        //            if (j > 0)
+        //            {
+        //                for (int i = 0; i < j; ++i)
+        //                {
+
+        //                    CssRuleSetGroup ruleSetGroup = activeSheet.GetRuleSetForClassName(classNames[i]);
+        //                    if (ruleSetGroup != null)
+        //                    {
+        //                        foreach (var propDecl in ruleSetGroup.GetPropertyDeclIter())
+        //                        {
+        //                            SpecSetter.AssignPropertyValue(boxTemplate, parentSpec, propDecl);
+        //                        }
+        //                        //---------------------------------------------------------
+        //                        //find subgroup for more specific conditions
+        //                        int subgroupCount = ruleSetGroup.SubGroupCount;
+        //                        for (int m = 0; m < subgroupCount; ++m)
+        //                        {
+        //                            //find if selector condition match with this box
+        //                            CssRuleSetGroup ruleSetSubGroup = ruleSetGroup.GetSubGroup(m);
+        //                            var selector = ruleSetSubGroup.OriginalSelector;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        } 
+        //        if (!currentBoxSpec.DoNotCache)
+        //        {
+        //            CacheBoxSpec(templateKey, boxTemplate);
+        //        }
+        //        boxTemplate.Freeze();
+        //    }
+
+        //    BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
+        //}
 
 
         internal void ApplyActiveTemplateForSpecificElementId(DomElement element)

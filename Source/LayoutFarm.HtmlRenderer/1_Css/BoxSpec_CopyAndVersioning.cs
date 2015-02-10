@@ -11,9 +11,9 @@ namespace LayoutFarm.Css
 
         public static void InheritStyles(BoxSpec target, BoxSpec source)
         {
-            if (target.__aa_dbugId == 4)
-            {
-            }
+            //if (target.__aa_dbugId == 4)
+            //{
+            //}
             //if (__aa_dbugId == 11)
             //{
 
