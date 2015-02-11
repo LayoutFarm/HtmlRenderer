@@ -16,10 +16,10 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
             imageContentMan.ImageLoadingRequest += (s, e) =>
-            { 
-                e.SetResultImage(LoadBitmap(e.ImagSource)); 
+            {
+                e.SetResultImage(LoadBitmap(e.ImagSource));
             };
-            AddScrollView1(viewport, 0, 0);
+             AddScrollView1(viewport, 0, 0);
             AddScrollView2(viewport, 250, 0);
         }
         void LazyImageLoad(ImageBinder binder)
@@ -63,14 +63,14 @@ namespace LayoutFarm
             //add content to panel
             for (int i = 0; i < 10; ++i)
             {
-                var box1 = new LayoutFarm.CustomWidgets.EaseBox(30, 30);
+                var box1 = new LayoutFarm.CustomWidgets.EaseBox(400, 30);
                 box1.BackColor = Color.OrangeRed;
                 box1.SetLocation(i * 20, i * 40);
 
                 panel.AddChildBox(box1);
             }
             //--------------------------   
-
+            panel.PerformContentLayout();
             panel.SetViewport(0, 0);
         }
         void AddScrollView2(SampleViewport viewport, int x, int y)
@@ -143,6 +143,7 @@ namespace LayoutFarm
                 //add relation between viewpanel and scroll bar 
                 var scRelation = new LayoutFarm.CustomWidgets.ScrollingRelation(hscbar, panel);
             }
+            panel.PerformContentLayout();
         }
         static Bitmap LoadBitmap(string filename)
         {

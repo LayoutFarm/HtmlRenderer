@@ -79,6 +79,14 @@ namespace LayoutFarm.HtmlWidgets
                     lightHtmlBox.LoadHtmlDom(htmldoc);
                 }
                 lightHtmlBox.SetLocation(this.Left, this.Top);
+                lightHtmlBox.LayoutFinished += (s, e) =>
+                {
+                    if (LayoutFinished != null)
+                    {
+                        this.LayoutFinished(this, EventArgs.Empty);
+                    }
+
+                };
                 this.lightHtmlBox = lightHtmlBox;
             }
             return this.lightHtmlBox;
@@ -105,11 +113,19 @@ namespace LayoutFarm.HtmlWidgets
             get { return this.viewportX; }
 
         }
+
         public int ViewportY
         {
             get { return this.viewportY; }
         }
-        
+        public int ViewportWidth
+        {
+            get { return this.Width; }
+        }
+        public int ViewportHeight
+        {
+            get { return this.Height; }
+        }
         public int DesiredWidth
         {
             get
@@ -121,7 +137,15 @@ namespace LayoutFarm.HtmlWidgets
         {
             get
             {
-                return this.Height;
+                if (this.lightHtmlBox != null)
+                {
+                    return this.lightHtmlBox.DesiredHeight;
+                }
+                else
+                {
+                    return this.Height;
+                }
+
             }
         }
     }

@@ -87,7 +87,7 @@ namespace LayoutFarm.Demo
         Timer timer01 = new Timer();
 
 
-        
+
         LayoutFarm.HtmlBoxes.LayoutVisitor htmlLayoutVisitor;
 
         PixelFarm.Drawing.Canvas renderCanvas;
@@ -127,12 +127,13 @@ namespace LayoutFarm.Demo
             htmlContainer.AttachEssentialHandlers(
                 OnRefresh,
                 myHtmlContainer_NeedUpdateDom,
-                OnRefresh); 
+                OnRefresh,
+                null);
 
             htmlLayoutVisitor = new LayoutVisitor(this.gfxPlatform);
             htmlLayoutVisitor.Bind(htmlContainer);
 
-            
+
             //------------------------------------------------------- 
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
@@ -730,7 +731,7 @@ namespace LayoutFarm.Demo
             {
                 this.timer01.Stop();
                 htmlContainer.DetachEssentialHandlers();
-                 
+
                 htmlContainer.Dispose();
                 htmlContainer = null;
             }
