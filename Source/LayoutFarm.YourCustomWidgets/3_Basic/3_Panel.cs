@@ -250,7 +250,7 @@ namespace LayoutFarm.CustomWidgets
                         //        {
                         //        } break;
                         //}
-
+                        int maxRight = 0;
                         for (int i = 0; i < count; ++i)
                         {
                             var element = layer0.GetElement(i) as UIBox;
@@ -259,16 +259,27 @@ namespace LayoutFarm.CustomWidgets
                                 element.PerformContentLayout();
                                 element.SetBounds(0, ypos, element.Width, element.DesiredHeight);
                                 ypos += element.DesiredHeight;
+
+                                int tmp_right = element.DesiredWidth + element.Left;
+                                if (tmp_right > maxRight)
+                                {
+                                    maxRight = tmp_right;
+                                }
+
                             }
                         }
                         this.desiredHeight = ypos;
+                        this.desiredWidth = maxRight;
+
                     } break;
                 case CustomWidgets.PanelLayoutKind.HorizontalStack:
                     {
                         UICollection layer0 = (UICollection)this.layers[0];
                         int count = layer0.Count;
                         int xpos = 0;
-                        int d_h = 0;
+
+                        int maxBottom = 0;
+
                         for (int i = 0; i < count; ++i)
                         {
                             var element = layer0.GetElement(i) as UIBox;
@@ -277,20 +288,48 @@ namespace LayoutFarm.CustomWidgets
                                 element.PerformContentLayout();
                                 element.SetBounds(xpos, 0, element.DesiredWidth, element.DesiredHeight);
                                 xpos += element.DesiredWidth;
-                                if (d_h < element.DesiredHeight)
+
+                                int tmp_bottom = element.DesiredHeight + element.Top;
+                                if (tmp_bottom > maxBottom)
                                 {
-                                    d_h = element.DesiredHeight;
+                                    maxBottom = tmp_bottom;
                                 }
+
                             }
                         }
 
                         this.desiredWidth = xpos;
-                        this.desiredHeight = d_h;
-
-
+                        this.desiredHeight = maxBottom;
                     } break;
                 default:
                     {
+                        UICollection layer0 = (UICollection)this.layers[0];
+                        int count = layer0.Count;
+                        int maxRight = 0;
+                        int maxBottom = 0;
+
+                        for (int i = 0; i < count; ++i)
+                        {
+                            var element = layer0.GetElement(i) as UIBox;
+                            if (element != null)
+                            {
+                                element.PerformContentLayout();
+                                int tmp_right = element.DesiredWidth + element.Left;
+                                if (tmp_right > maxRight)
+                                {
+                                    maxRight = tmp_right;
+                                }
+                                int tmp_bottom = element.DesiredHeight + element.Top;
+                                if (tmp_bottom > maxBottom)
+                                {
+                                    maxBottom = tmp_bottom;
+                                }
+                            }
+                        }
+
+                        this.desiredWidth = maxRight;
+                        this.desiredHeight = maxBottom;
+
                     } break;
             }
             //------------------------------------------------
