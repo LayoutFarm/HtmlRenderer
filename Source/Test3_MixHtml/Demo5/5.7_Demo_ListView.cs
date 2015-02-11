@@ -32,7 +32,7 @@ namespace LayoutFarm.WebWidgets
             var listview = new LayoutFarm.HtmlWidgets.ListView(100, 100);
             listview.SetLocation(30, 20);
             //add listview item 
-            for (int i = 0; i < 40; ++i)
+            for (int i = 0; i < 100; ++i)
             {
                 var listItem = new HtmlWidgets.ListItem(100, 20);
                 listItem.Text = "item" + i;

@@ -767,17 +767,14 @@ namespace LayoutFarm.HtmlWidgets
                 scrollBoxLength = (int)((physicalScrollLength * scrollableSurface.ViewportHeight) / contentLength);
                 if (scrollBoxLength < sc.ScrollBoxSizeLimit)
                 {
-
                     scrollBoxLength = sc.ScrollBoxSizeLimit;
-                    onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
+                    onePixelFor = (double)contentLength / (double)(physicalScrollLength - (scrollBoxLength));
                 }
                 else
                 {
-                    //this.lowerMaxLimit = contentLength - this.ViewportHeight;
-                    sc.MaxValue = contentLength - scrollableSurface.ViewportHeight;
-                    onePixelFor = ((double)scrollableSurface.ViewportHeight) / (double)((((physicalScrollLength) * scrollableSurface.ViewportHeight) / contentLength));
+                    onePixelFor = (double)contentLength / (double)physicalScrollLength;
                 }
-
+                sc.MaxValue = contentLength - scrollableSurface.ViewportHeight;
             });
             //--------------------------------------------------------------------------------------
             //1st evaluate  
@@ -810,15 +807,14 @@ namespace LayoutFarm.HtmlWidgets
                 scrollBoxLength = (int)((physicalScrollLength * scrollableSurface.ViewportWidth) / contentLength);
                 if (scrollBoxLength < sc.ScrollBoxSizeLimit)
                 {
-
                     scrollBoxLength = sc.ScrollBoxSizeLimit;
-                    onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
+                    onePixelFor = (double)contentLength / (double)(physicalScrollLength - scrollBoxLength);
                 }
                 else
                 {
-                    sc.MaxValue = contentLength - scrollableSurface.ViewportWidth;
-                    onePixelFor = ((double)scrollableSurface.ViewportWidth) / (double)((((physicalScrollLength) * scrollableSurface.ViewportWidth) / contentLength));
+                    onePixelFor = (double)contentLength / (double)physicalScrollLength;
                 }
+                sc.MaxValue = contentLength - scrollableSurface.ViewportWidth;
 
             });
             //--------------------------------------------------------------------------------------
