@@ -113,11 +113,19 @@ namespace LayoutFarm.HtmlWidgets
             get { return this.viewportX; }
 
         }
+
         public int ViewportY
         {
             get { return this.viewportY; }
         }
-
+        public int ViewportWidth
+        {
+            get { return this.Width; }
+        }
+        public int ViewportHeight
+        {
+            get { return this.Height; }
+        }
         public int DesiredWidth
         {
             get

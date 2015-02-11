@@ -32,7 +32,7 @@ namespace LayoutFarm.WebWidgets
             var listview = new LayoutFarm.HtmlWidgets.ListView(100, 100);
             listview.SetLocation(30, 20);
             //add listview item 
-            for (int i = 0; i < 20; ++i)
+            for (int i = 0; i < 40; ++i)
             {
                 var listItem = new HtmlWidgets.ListItem(100, 20);
                 listItem.Text = "item" + i;
@@ -48,11 +48,11 @@ namespace LayoutFarm.WebWidgets
                 var vscbar = new LayoutFarm.HtmlWidgets.ScrollBar(15, 100);
                 vscbar.SetLocation(10, 20);
                 vscbar.MinValue = 0;
-                vscbar.MaxValue = 170;
-                vscbar.SmallChange = 20;
-                vscbar.RelativeView = true;
-                vscbar.ViewportHeight = listview.Height;
+                vscbar.MaxValue = 100;
+                vscbar.SmallChange = 20; 
+               
                 viewport.AddContent(vscbar);
+
                 //add relation between viewpanel and scroll bar 
                 var scRelation = new LayoutFarm.HtmlWidgets.ScrollingRelation(vscbar, listview);
             }
