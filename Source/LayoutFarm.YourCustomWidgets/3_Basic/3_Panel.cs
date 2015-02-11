@@ -294,7 +294,7 @@ namespace LayoutFarm.CustomWidgets
                     } break;
             }
             //------------------------------------------------
-            this.RaiseLayoutFinished();
+            base.RaiseLayoutFinished();
         }
         public override int DesiredHeight
         {

@@ -694,11 +694,14 @@ namespace LayoutFarm.CustomWidgets
             this.scBar = scBar;
             this.scrollableSurface = scrollableSurface;
 
+            //1st evaluate 
+            scBar.MaxValue = scrollableSurface.DesiredHeight;
+            scBar.ReEvaluateScrollBar();
+
             scrollableSurface.LayoutFinished += (s, e) =>
             {
                 scBar.MaxValue = scrollableSurface.DesiredHeight;
                 scBar.ReEvaluateScrollBar();
-
             };
 
 
@@ -718,5 +721,6 @@ namespace LayoutFarm.CustomWidgets
             }
         }
     }
+    
 
 }

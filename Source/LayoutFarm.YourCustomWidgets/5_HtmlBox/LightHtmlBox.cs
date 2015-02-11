@@ -30,7 +30,7 @@ namespace LayoutFarm.CustomWidgets
 
         MyHtmlContainer myHtmlCont;
         HtmlHost htmlhost;
-         
+
 
         static LightHtmlBox()
         {
@@ -47,7 +47,15 @@ namespace LayoutFarm.CustomWidgets
         {
             this.htmlhost = htmlhost;
         }
+        protected override void OnContentLayout()
+        {
+            this.PerformContentLayout();
+        }
+        public override void PerformContentLayout()
+        {
 
+            this.RaiseLayoutFinished();
+        }
         public override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.frgmRenderBox; }
@@ -204,6 +212,7 @@ namespace LayoutFarm.CustomWidgets
                 this.myHtmlCont = HtmlContainerHelper.CreateHtmlContainer(this.htmlhost, htmldoc, frgmRenderBox);
                 SetHtmlContainerEventHandlers();
                 ClearWaitingContent();
+                RaiseLayoutFinished();
             }
         }
 
@@ -244,7 +253,9 @@ namespace LayoutFarm.CustomWidgets
                     this.htmlhost.ReleaseHtmlLayoutVisitor(lay);
                 },
                 //3.
-                (s, e) => this.InvalidateGraphics());
+                (s, e) => this.InvalidateGraphics(),
+                //4
+                (s, e) => { this.RaiseLayoutFinished(); });
 
         }
         public MyHtmlContainer HtmlContainer
@@ -259,7 +270,21 @@ namespace LayoutFarm.CustomWidgets
                 frgmRenderBox.SetViewport(x, y);
             }
         }
-
+        public override int DesiredWidth
+        {
+            get
+            {
+                return this.frgmRenderBox.HtmlWidth;
+            }
+        } 
+        public override int DesiredHeight
+        {
+            get
+            {
+                return this.frgmRenderBox.HtmlHeight;
+            }
+        }
+       
 
     }
 }

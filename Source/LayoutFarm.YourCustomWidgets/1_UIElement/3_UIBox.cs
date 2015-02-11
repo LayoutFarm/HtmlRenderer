@@ -8,17 +8,7 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
-    public interface IScrollable
-    {
-        void SetViewport(int x, int y);
-        int ViewportX { get; }
-        int ViewportY { get; }
-        event EventHandler LayoutFinished;
-        int DesiredHeight { get; }
-        int DesiredWidth { get; }
-    }
-
-
+    
     public abstract class UIBox : UIElement, IScrollable
     {
         int _left;
@@ -37,6 +27,7 @@ namespace LayoutFarm.UI
             this._height = height;
         }
 
+        
         protected void RaiseLayoutFinished()
         {
             if (this.LayoutFinished != null)
@@ -182,6 +173,7 @@ namespace LayoutFarm.UI
 
         public virtual void PerformContentLayout()
         {
+            
         }
         public virtual int DesiredHeight
         {

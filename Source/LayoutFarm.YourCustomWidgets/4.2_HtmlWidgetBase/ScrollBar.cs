@@ -28,8 +28,6 @@ namespace LayoutFarm.HtmlWidgets
         protected int minmax_boxHeight = 15;
         const int SCROLL_BOX_SIZE_LIMIT = 10;
 
-
-
         public ScrollBar(int width, int height)
             : base(width, height)
         {
@@ -68,10 +66,19 @@ namespace LayoutFarm.HtmlWidgets
             set;
         }
         //--------------------------------------------------------------------------
-
+        public bool RelativeView { get; set; }
+        public int ViewportHeight { get; set; }
         public void StepSmallToMax()
         {
-            if (this.scrollValue + smallChange < this.MaxValue)
+            if (this.RelativeView)
+            {
+                //check lower 
+                if ((this.scrollButton.Top + this.scrollButton.Height) >= this.Height - minmax_boxHeight)
+                {
+                    return;
+                }
+            }
+            if (this.scrollValue + smallChange <= this.MaxValue)
             {
                 scrollValue = this.scrollValue + smallChange;
             }
@@ -272,19 +279,53 @@ namespace LayoutFarm.HtmlWidgets
             }
             else
             {
-                //small change value reflect thumbbox size
-                scrollBoxLength = (int)(ratio1 * this.SmallChange);
-                //thumbbox should not smaller than minimum limit 
-                if (scrollBoxLength < SCROLL_BOX_SIZE_LIMIT)
+                if (this.RelativeView)
                 {
-                    scrollBoxLength = SCROLL_BOX_SIZE_LIMIT;
-                    this.onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
+                    //1. 
+                    scrollBoxLength = (int)((physicalScrollLength * this.ViewportHeight) / contentLength);
+
+                    //small change value reflect thumbbox size
+                    // scrollBoxLength = (int)(ratio1 * this.SmallChange);
+                    //thumbbox should not smaller than minimum limit 
+                    if (scrollBoxLength < SCROLL_BOX_SIZE_LIMIT)
+                    {
+
+                        scrollBoxLength = SCROLL_BOX_SIZE_LIMIT;
+                        this.onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
+                    }
+                    else
+                    {
+                        //float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
+                        //this.onePixelFor = contentLength / (physicalScrollLength - physicalSmallEach);
+                        //this.onePixelFor = (contentLength - this.ViewportHeight) / this.ViewportHeight;
+                        this.maxValue = contentLength - this.ViewportHeight;
+                        this.onePixelFor = ((float)maxValue) / (float)this.ViewportHeight;
+
+                        //this.onePixelFor = (contentLength - this.ViewportHeight) / (physicalScrollLength - scrollBoxLength);
+                        this.onePixelFor = ((double)this.ViewportHeight) / (double)(((physicalScrollLength * this.ViewportHeight) / contentLength));
+                    }
                 }
                 else
                 {
-                    float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
-                    this.onePixelFor = contentLength / (physicalScrollLength - physicalSmallEach);
-                } 
+                    scrollBoxLength = (int)((physicalScrollLength * physicalScrollLength) / contentLength);
+
+                    //small change value reflect thumbbox size
+                    // scrollBoxLength = (int)(ratio1 * this.SmallChange);
+                    //thumbbox should not smaller than minimum limit 
+                    if (scrollBoxLength < SCROLL_BOX_SIZE_LIMIT)
+                    {
+
+                        scrollBoxLength = SCROLL_BOX_SIZE_LIMIT;
+                        this.onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
+                    }
+                    else
+                    {
+                        //float physicalSmallEach = (physicalScrollLength / contentLength) * smallChange;
+                        //this.onePixelFor = contentLength / (physicalScrollLength - physicalSmallEach);
+                        this.onePixelFor = contentLength / (physicalScrollLength - scrollBoxLength);
+
+                    }
+                }
             }
 
             if (this.ScrollBarType == ScrollBarType.Horizontal)
@@ -687,36 +728,22 @@ namespace LayoutFarm.HtmlWidgets
     public class ScrollingRelation
     {
         ScrollBar scBar;
-        UIBox panel;
-        public ScrollingRelation(ScrollBar scBar, UIBox panel)
-        {
-            this.scBar = scBar;
-            this.panel = panel;
-            if (scBar.ScrollBarType == ScrollBarType.Horizontal)
-            {
-                scBar.UserScroll += (s, e) =>
-                {
-                    panel.SetViewport((int)scBar.ScrollValue, panel.ViewportY);
-                };
-            }
-            else
-            {
-                scBar.UserScroll += (s, e) =>
-                {
-                    panel.SetViewport(panel.ViewportX, (int)scBar.ScrollValue);
-                };
-            }
-        }
-        public ScrollingRelation(ScrollBar scBar, LayoutFarm.CustomWidgets.Panel panel)
-        {
-            this.scBar = scBar;
-            this.panel = panel;
+        IScrollable scrollableSurface;
 
-            panel.LayoutFinished += (s, e) =>
+        public ScrollingRelation(ScrollBar scBar, IScrollable scrollableSurface)
+        {
+            this.scBar = scBar;
+            this.scrollableSurface = scrollableSurface;
+
+            //1st evaluate 
+
+            scBar.MaxValue = scrollableSurface.DesiredHeight;
+            scBar.ReEvaluateScrollBar();
+
+            scrollableSurface.LayoutFinished += (s, e) =>
             {
-                scBar.MaxValue = panel.DesiredHeight;
+                scBar.MaxValue = scrollableSurface.DesiredHeight;
                 scBar.ReEvaluateScrollBar();
-
             };
 
 
@@ -724,17 +751,19 @@ namespace LayoutFarm.HtmlWidgets
             {
                 scBar.UserScroll += (s, e) =>
                 {
-                    panel.SetViewport((int)scBar.ScrollValue, panel.ViewportY);
+                    scrollableSurface.SetViewport((int)scBar.ScrollValue, scrollableSurface.ViewportY);
                 };
             }
             else
             {
                 scBar.UserScroll += (s, e) =>
                 {
-                    panel.SetViewport(panel.ViewportX, (int)scBar.ScrollValue);
+                    scrollableSurface.SetViewport(scrollableSurface.ViewportX, (int)scBar.ScrollValue);
                 };
             }
         }
     }
+
+
 
 }
