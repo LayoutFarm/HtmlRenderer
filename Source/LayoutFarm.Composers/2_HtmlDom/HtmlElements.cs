@@ -13,7 +13,7 @@ using LayoutFarm.Composers;
 namespace LayoutFarm.InternalHtmlDom
 {
 
-    class HtmlElement : DomElement
+    public class HtmlElement : DomElement
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;
@@ -59,11 +59,11 @@ namespace LayoutFarm.InternalHtmlDom
         }
 
         //------------------------------------
-        protected CssBox GetPrincipalBox()
+        public CssBox GetPrincipalBox()
         {
             return this.principalBox;
-        } 
-        internal void SetPrincipalBox(CssBox box)
+        }
+        public void SetPrincipalBox(CssBox box)
         {
             this.principalBox = box;
             this.SkipPrincipalBoxEvalulation = true;
@@ -82,9 +82,9 @@ namespace LayoutFarm.InternalHtmlDom
         protected override void OnContentUpdate()
         {
             base.OnContentUpdate();
-            OnChangeInIdleState(ElementChangeKind.ContentUpdate); 
+            OnChangeInIdleState(ElementChangeKind.ContentUpdate);
         }
-        
+
 
         //------------------------------------
         protected override void OnChangeInIdleState(ElementChangeKind changeKind)
@@ -133,7 +133,27 @@ namespace LayoutFarm.InternalHtmlDom
         }
     }
 
-    class HtmlTextNode : DomTextNode
+    sealed class ExternalHtmlElement : HtmlElement
+    {
+        LazyCssBoxCreator lazyCreator;
+        RenderElementWrapperCssBox wrapper;
+        public ExternalHtmlElement(HtmlDocument owner, int prefix, int localNameIndex, LazyCssBoxCreator lazyCreator)
+            : base(owner, prefix, localNameIndex)
+        {
+            this.lazyCreator = lazyCreator;
+        }
+        public CssBox GetCssBox(RootGraphic rootgfx)
+        {
+            if (wrapper != null) return wrapper;
+            RenderElement re;
+            object controller;
+            lazyCreator(rootgfx, out re, out controller);
+            return wrapper = new RenderElementWrapperCssBox(controller, this.Spec, re);
+        }
+
+    }
+    public delegate void LazyCssBoxCreator(RootGraphic rootgfx, out RenderElement re, out object controller);
+    public class HtmlTextNode : DomTextNode
     {
         //---------------------------------
         //this node may be simple text node  
@@ -178,7 +198,7 @@ namespace LayoutFarm.InternalHtmlDom
 
     }
 
-    enum TextSplitPartKind : byte
+    public enum TextSplitPartKind : byte
     {
         Text = 1,
         Whitespace,

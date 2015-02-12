@@ -20,7 +20,7 @@ namespace LayoutFarm.Composers
         {
             this.rootgfx = rootgfx;
             this.htmlHost = htmlHost;
-            
+
         }
 
         static CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
@@ -291,7 +291,20 @@ namespace LayoutFarm.Composers
                 //test extension box
                 case WellKnownDomNodeName.X:
                     {
-                        alreadyHandleChildrenNodes = true;
+                        alreadyHandleChildrenNodes = true; 
+                        //-----------------------------------------------
+                        ExternalHtmlElement externalHtmlElement = childElement as ExternalHtmlElement;
+                        if (externalHtmlElement != null)
+                        {
+                            newBox = externalHtmlElement.GetCssBox(rootgfx);
+                            if (newBox != null)
+                            {
+                                parentBox.AppendChild(newBox);
+                                return newBox;
+                            }
+
+                        }
+                        //----------------------------------------------- 
                         newBox = this.htmlHost.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx);
                         if (newBox == null)
                         {
@@ -327,7 +340,7 @@ namespace LayoutFarm.Composers
                     }
             }
         }
-        
+
 
         internal static CssBox CreateCssRenderRoot(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
         {

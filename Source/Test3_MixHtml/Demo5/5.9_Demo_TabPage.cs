@@ -17,13 +17,14 @@ namespace LayoutFarm.WebWidgets
             var tabContainer = new LayoutFarm.HtmlWidgets.TabPageContainer(300, 400);
             tabContainer.SetLocation(10, 10);
             AddToViewport(tabContainer);
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < 1; ++i)
             {
                 var tabPage = new LayoutFarm.HtmlWidgets.TabPage();
                 tabPage.PageTitle = "page" + i;
 
                 //test bridge 
                 var panel01 = new CustomWidgets.Panel(100, 100);
+                panel01.BackColor = Color.OrangeRed;
                 tabPage.ContentUI = panel01;
                 tabContainer.AddItem(tabPage);
             }
