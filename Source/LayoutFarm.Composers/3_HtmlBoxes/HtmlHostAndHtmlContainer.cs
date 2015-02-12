@@ -16,6 +16,8 @@ namespace LayoutFarm.HtmlBoxes
 
     public class HtmlHost
     {
+        List<LayoutFarm.Composers.CustomCssBoxGenerator> generators = new List<LayoutFarm.Composers.CustomCssBoxGenerator>();
+
         HtmlContainerUpdateHandler htmlContainerUpdateHandler;
         EventHandler<ImageRequestEventArgs> requestImage;
         EventHandler<TextRequestEventArgs> requestStyleSheet;
@@ -39,6 +41,8 @@ namespace LayoutFarm.HtmlBoxes
         {
             //use default style sheet
         }
+
+
         public void AttachEssentailHandlers(
             EventHandler<ImageRequestEventArgs> reqImageHandler,
             EventHandler<TextRequestEventArgs> reqStyleSheetHandler)
@@ -136,7 +140,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (this.renderTreeBuilder == null)
             {
-                renderTreeBuilder = new Composers.RenderTreeBuilder(this.gfxplatform);
+                renderTreeBuilder = new Composers.RenderTreeBuilder(this);
                 this.renderTreeBuilder.RequestStyleSheet += (e) =>
                 {
                     if (requestStyleSheet != null)
@@ -154,6 +158,39 @@ namespace LayoutFarm.HtmlBoxes
                 htmlContainerUpdateHandler(htmlCont);
             }
         }
+
+        //--------------------------------------------------- 
+
+        public bool HasRegisterCssBoxGenerator(Type t)
+        {
+            for (int i = generators.Count - 1; i >= 0; --i)
+            {
+                if (generators[i].GetType() == t)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public void RegisterCssBoxGenerator(LayoutFarm.Composers.CustomCssBoxGenerator cssBoxGenerator)
+        {
+            this.generators.Add(cssBoxGenerator);
+        }
+
+        public CssBox CreateCustomBox(CssBox parent, LayoutFarm.WebDom.DomElement tag, LayoutFarm.Css.BoxSpec boxspec, RootGraphic rootgfx)
+        {
+
+            for (int i = generators.Count - 1; i >= 0; --i)
+            {
+                var newbox = generators[i].CreateCssBox(tag, parent, boxspec, rootgfx);
+                if (newbox != null)
+                {
+                    return newbox;
+                }
+            }
+            return null;
+        }
+        //---------------------------------------------------
     }
 
     public delegate void HtmlContainerUpdateHandler(HtmlContainer htmlCont);

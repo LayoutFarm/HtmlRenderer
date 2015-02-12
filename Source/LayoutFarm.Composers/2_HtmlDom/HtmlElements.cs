@@ -62,8 +62,7 @@ namespace LayoutFarm.InternalHtmlDom
         protected CssBox GetPrincipalBox()
         {
             return this.principalBox;
-        }
-
+        } 
         internal void SetPrincipalBox(CssBox box)
         {
             this.principalBox = box;

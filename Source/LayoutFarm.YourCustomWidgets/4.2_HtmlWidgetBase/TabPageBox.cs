@@ -17,7 +17,9 @@ namespace LayoutFarm.HtmlWidgets
     {
         DomElement pnode;
         DomElement titleBar;
-        DomElement contentBar;
+        DomElement contentNode;
+        DomElement tabTitleList;
+
         Color backColor = Color.LightGray;
         List<TabPage> tabPageCollection = new List<TabPage>();
 
@@ -48,15 +50,16 @@ namespace LayoutFarm.HtmlWidgets
             var ownerdoc = hostNode.OwnerDocument;
             pnode = ownerdoc.CreateElement("div");
             pnode.SetAttribute("style", "font:10pt tahoma");
-            //------------------------------
-
+            //------------------------------ 
             titleBar = ownerdoc.CreateElement("div");
             titleBar.AddTextContent("hello tabPage");
-
             pnode.AddChild(titleBar);
-
-            contentBar = ownerdoc.CreateElement("div");
-            pnode.AddChild(contentBar);
+            //------------------------------ 
+            tabTitleList = ownerdoc.CreateElement("div");
+            pnode.AddChild(tabTitleList);
+            //------------------------------ 
+            contentNode = ownerdoc.CreateElement("div");
+            pnode.AddChild(contentNode);
             //------------------------------
             return pnode;
         }
@@ -69,9 +72,17 @@ namespace LayoutFarm.HtmlWidgets
                 if (currentPage == null)
                 {
                     currentPage = tabPage;
+                    //add tab button into list
+                    this.tabTitleList.AddChild(tabPage.GetTitleNode(pnode));
+                    //add page body
+                    contentNode.AddChild(tabPage.GetPageBody(pnode));
                 }
-                //add tab 
-                this.titleBar.AddChild(tabPage.GetPresentationNode(pnode));
+                else
+                {
+                    //add tab button into list
+                    this.tabTitleList.AddChild(tabPage.GetTitleNode(pnode));
+                }
+
             }
             //ui.Owner = this;
             ////show only one page per time
@@ -116,7 +127,9 @@ namespace LayoutFarm.HtmlWidgets
 
     public class TabPage
     {
-        DomElement domNode;
+        DomElement titleNode;
+        DomElement contentNode;
+        UIElement contentUI;
         public TabPage()
         {
 
@@ -126,15 +139,16 @@ namespace LayoutFarm.HtmlWidgets
             get;
             set;
         }
-        public DomElement GetPresentationNode(WebDom.DomElement hostNode)
+
+        public DomElement GetTitleNode(DomElement hostNode)
         {
-            if (domNode != null) return domNode;
+            //-------------------------------------
+            if (titleNode != null) return titleNode;
             //create dom node
             var ownerdoc = hostNode.OwnerDocument;
-            this.domNode = ownerdoc.CreateElement("div");
-
-
-            domNode.AddChild("span", span =>
+            this.titleNode = ownerdoc.CreateElement("div");
+            titleNode.SetAttribute("style", "display:inline");
+            titleNode.AddChild("span", span =>
             {
                 if (PageTitle == null)
                 {
@@ -145,8 +159,37 @@ namespace LayoutFarm.HtmlWidgets
                     span.AddTextContent(this.PageTitle);
                 }
             });
-
-            return domNode;
+            //-------------------------------------
+            return titleNode;
         }
+        public DomElement GetPageBody(DomElement hostNode)
+        {
+            if (contentNode != null) return contentNode;
+            var ownerdoc = hostNode.OwnerDocument;
+            contentNode = ownerdoc.CreateElement("div");
+            if (this.contentUI != null)
+            {
+                //add content ui to the body of page
+                //creat html wrapper for this ...
+
+
+            }
+            return contentNode;
+        }
+        public UIElement ContentUI
+        {
+            get { return this.contentUI; }
+            set
+            {
+                this.contentUI = value;
+                //add ui to content node if 
+                if (this.contentNode != null)
+                {
+                }
+
+            }
+        }
+
+
     }
 }

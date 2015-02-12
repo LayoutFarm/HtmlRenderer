@@ -20,17 +20,14 @@ namespace LayoutFarm.WebWidgets
             for (int i = 0; i < 10; ++i)
             {
                 var tabPage = new LayoutFarm.HtmlWidgets.TabPage();
-                if ((i % 2) == 0)
-                {
-                    //tabPage.BackColor = KnownColors.FromKnownColor(KnownColor.OrangeRed);
-                }
-                else
-                {
-                    //tabPage.BackColor = KnownColors.FromKnownColor(KnownColor.Yellow);
-                }
                 tabPage.PageTitle = "page" + i;
+
+                //test bridge 
+                var panel01 = new CustomWidgets.Panel(100, 100);
+                tabPage.ContentUI = panel01;
                 tabContainer.AddItem(tabPage);
             }
+
             //tabContainer.SelectedIndex = 1; 
         }
 

@@ -13,25 +13,16 @@ namespace LayoutFarm.Composers
     public struct BoxCreator
     {
 
-        static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
 
+        HtmlHost htmlHost;
         RootGraphic rootgfx;
-        public BoxCreator(RootGraphic rootgfx)
+        public BoxCreator(RootGraphic rootgfx, HtmlHost htmlHost)
         {
             this.rootgfx = rootgfx;
+            this.htmlHost = htmlHost;
+            
         }
-        public static void RegisterCustomCssBoxGenerator(System.Type t, CustomCssBoxGenerator generator)
-        {
-            for (int i = generators.Count - 1; i >= 0; --i)
-            {
-                if (generators[i].GetType() == t)
-                {
-                    return;
-                }
-            }
 
-            generators.Add(generator);
-        }
         static CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
         {
             string imgsrc;
@@ -54,7 +45,6 @@ namespace LayoutFarm.Composers
             parent.AppendChild(boxImage);
             return boxImage;
         }
-
 
 
         internal void GenerateChildBoxes(HtmlElement parentElement, bool fullmode)
@@ -302,7 +292,7 @@ namespace LayoutFarm.Composers
                 case WellKnownDomNodeName.X:
                     {
                         alreadyHandleChildrenNodes = true;
-                        newBox = CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx);
+                        newBox = this.htmlHost.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx);
                         if (newBox == null)
                         {
                             goto default;
@@ -337,19 +327,7 @@ namespace LayoutFarm.Composers
                     }
             }
         }
-
-        CssBox CreateCustomBox(CssBox parent, object tag, BoxSpec boxspec, RootGraphic rootgfx)
-        {
-            for (int i = generators.Count - 1; i >= 0; --i)
-            {
-                var newbox = generators[i].CreateCssBox(tag, parent, boxspec, rootgfx);
-                if (newbox != null)
-                {
-                    return newbox;
-                }
-            }
-            return null;
-        }
+        
 
         internal static CssBox CreateCssRenderRoot(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
         {
