@@ -60,12 +60,11 @@ namespace LayoutFarm.HtmlWidgets
         public void AddItem(TabPage tabPage)
         {
             tabPageCollection.Add(tabPage);
-            if (pnode != null &&  currentPage == null)
+            if (pnode != null && currentPage == null)
             {
                 currentPage = tabPage;
                 //add tab 
-                contentBar.AddChild(tabPage.GetPresentationNode(pnode));
-
+                contentBar.AddChild(tabPage.GetPresentationNode(pnode)); 
             }
             //ui.Owner = this;
             ////show only one page per time
