@@ -48,6 +48,7 @@
     <Compile Include="Demo1\1.7_Demo_ListView.cs" />
     <Compile Include="Demo1\1.8_Demo_Hinge.cs" />
     <Compile Include="Demo1\1.9_Demo_TreeView.cs" />
+    <Compile Include="Demo5\5.0_HtmlDemoBase.cs" />
     <Compile Include="Demo5\5.2_Demo_MultipleBoxes2.cs" />
     <Compile Include="Demo2\2.1_Demo_SingleLineTextBox.cs" />
     <Compile Include="Demo2\2.2_Demo_MultilineTextBox.cs" />
@@ -61,7 +62,7 @@
     <Compile Include="Demo3\3.4_CompartmentBox.cs" />
     <Compile Include="Demo3\3.7_Compartment_withSpliter.cs" />
     <Compile Include="Demo3\3.8_Compartment_withSpliter2.cs" />
-    <Compile Include="Demo3\3.9_Demo_TabPage.cs" />
+    <Compile Include="Demo5\5.9_Demo_TabPage.cs" />
     <Compile Include="Demo4\4.1_UIHtmlBox.cs" />
     <Compile Include="Demo4\4.2_MixHtml.cs" />
     <Compile Include="Demo4\4.3.2_UIHtmlBox_ContentMx.cs" />

@@ -53,6 +53,7 @@ namespace LayoutFarm.HtmlBoxes
             this._aa_boxes = new CssBoxCollection();
             this._controller = controller;
 
+             
 #if DEBUG
             if (!spec.IsFreezed)
             {
@@ -399,6 +400,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
         {
+            
             //derived class can perform its own layout algo            
             //by override performContentLayout 
             PerformContentLayout(lay);

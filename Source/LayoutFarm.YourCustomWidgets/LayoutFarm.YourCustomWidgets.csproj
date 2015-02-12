@@ -67,7 +67,6 @@
     <Compile Include="4.1_Composites\HingeBox.cs" />
     <Compile Include="4.1_Composites\ListView.cs" />
     <Compile Include="4.1_Composites\Menu.cs" />
-    <Compile Include="4.1_Composites\TabPageBox.cs" />
     <Compile Include="4.1_Composites\TreeView.cs" />
     <Compile Include="4.2_HtmlWidgetBase\Button.cs" />
     <Compile Include="4.2_HtmlWidgetBase\CheckBox.cs" />

@@ -104,6 +104,9 @@ namespace LayoutFarm.HtmlBoxes
             //----------------------------------
             //save mousedown hitchain
             this._latestMouseDownChain = hitChain;
+            if (this._latestMouseDownChain == null)
+            {
+            }
         }
         public void MouseDown(UIMouseEventArgs e)
         {
@@ -145,9 +148,21 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             //create selection range 
                             this._htmlContainer.SetSelection(new SelectionRange(
-                                _latestMouseDownChain,
-                                hitChain,
-                                this.ifonts));
+                               _latestMouseDownChain,
+                               hitChain,
+                               this.ifonts));
+
+                            //if (_latestMouseDownChain.Count > 0)
+                            //{
+                            //    this._htmlContainer.SetSelection(new SelectionRange(
+                            //    _latestMouseDownChain,
+                            //    hitChain,
+                            //    this.ifonts));
+                            //}
+                            //else
+                            //{
+                            //    this._htmlContainer.SetSelection(null);
+                            //}
                         }
                         else
                         {
@@ -261,9 +276,16 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             ReleaseHitChain(hitChain);
-            this._latestMouseDownChain.Clear();
-            this._latestMouseDownChain = null;
+
+            if (this._latestMouseDownChain != null)
+            {
+                this._latestMouseDownChain.Clear();
+                //Console.WriteLine(dbugNN++);
+                this._latestMouseDownChain = null;
+            }
+
         }
+        //int dbugNN = 0;
         public void MouseUp(UIMouseEventArgs e)
         {
             MouseUp(e, this._htmlContainer.RootCssBox);

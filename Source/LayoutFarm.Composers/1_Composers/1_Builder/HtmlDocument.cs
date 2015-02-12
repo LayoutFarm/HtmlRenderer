@@ -70,7 +70,17 @@ namespace LayoutFarm.Composers
         public override DomTextNode CreateTextNode(char[] strBufferForElement)
         {
             return new HtmlTextNode(this, strBufferForElement);
-        } 
+        }
+
+        public DomElement CreateWrapperElement(
+            LazyCssBoxCreator lazyCssBoxCreator)
+        {   
+            return new ExternalHtmlElement(this,
+                AddStringIfNotExists(null),
+                AddStringIfNotExists("x"),
+                lazyCssBoxCreator);
+        }
+
         internal void SetDomUpdateHandler(EventHandler h)
         {
             this.DomUpdatedHandler = h;
@@ -80,8 +90,9 @@ namespace LayoutFarm.Composers
             get;
             set;
         }
-        
+
     }
+
 
     public class FragmentHtmlDocument : HtmlDocument
     {
@@ -90,8 +101,8 @@ namespace LayoutFarm.Composers
             : base(primaryHtmlDoc.UniqueStringTable)
         {
             this.primaryHtmlDoc = primaryHtmlDoc;
-            
-        }        
+
+        }
 
     }
 }

@@ -35,11 +35,11 @@ namespace LayoutFarm.Composers
         WebDom.Parser.CssParser miniCssParser = new CssParser();
         ContentTextSplitter contentTextSplitter = new ContentTextSplitter();
         internal event ContentManagers.RequestStyleSheetEventHandler RequestStyleSheet;
-        GraphicsPlatform gfxPlatform;
 
-        internal RenderTreeBuilder(GraphicsPlatform gfxPlatform)
+        HtmlHost htmlHost;
+        internal RenderTreeBuilder(HtmlHost htmlHost)
         {
-            this.gfxPlatform = gfxPlatform;
+            this.htmlHost = htmlHost;
         }
         string RaiseRequestStyleSheet(string hrefSource)
         {
@@ -163,10 +163,10 @@ namespace LayoutFarm.Composers
             //----------------------------------------------------------------  
             RootGraphic rootgfx = (containerElement != null) ? containerElement.Root : null;
 
-            CssBox rootBox = BoxCreator.CreateCssRenderRoot(this.gfxPlatform.SampleIFonts, containerElement, rootgfx);
+            CssBox rootBox = BoxCreator.CreateCssRenderRoot(this.htmlHost.GfxPlatform.SampleIFonts, containerElement, rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
-            BoxCreator boxCreator = new BoxCreator(rootgfx);
+            BoxCreator boxCreator = new BoxCreator((RootGraphic)rootBox.RootGfx, this.htmlHost);
             boxCreator.GenerateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
@@ -198,7 +198,7 @@ namespace LayoutFarm.Composers
             }
 
 
-            BoxCreator boxCreator = new BoxCreator(rootgfx);
+            BoxCreator boxCreator = new BoxCreator(rootgfx, this.htmlHost);
             //----------------------------------------------------------------  
             CssBox isolationBox = BoxCreator.CreateCssIsolateBox(ifonts, containerElement, rootgfx);
             docRoot.AppendChild(isolationBox);
@@ -233,7 +233,7 @@ namespace LayoutFarm.Composers
             }
             //----------------------------------------------------------------  
 
-            BoxCreator boxCreator = new BoxCreator((RootGraphic)existingCssBox.RootGfx);
+            BoxCreator boxCreator = new BoxCreator((RootGraphic)existingCssBox.RootGfx, this.htmlHost);
 
             boxCreator.GenerateChildBoxes(startAtElement, false);
             startAtElement.OwnerDocument.SetDocumentState(DocumentState.Idle);
@@ -347,7 +347,7 @@ namespace LayoutFarm.Composers
                             parentSpec,
                             propDecl);
                     }
-                    curSpec.DoNotCache = true; 
+                    curSpec.DoNotCache = true;
                 }
                 else
                 {

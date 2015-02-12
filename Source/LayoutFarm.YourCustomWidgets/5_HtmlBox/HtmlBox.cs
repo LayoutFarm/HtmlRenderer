@@ -35,20 +35,22 @@ namespace LayoutFarm.CustomWidgets
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder = null;
         HtmlHost htmlHost;
 
-        static HtmlBox()
-        {
-            LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
-               typeof(MyCssBoxGenerator),
-               new MyCssBoxGenerator());
-        }
+        //static HtmlBox()
+        //{
+        //    LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
+        //       typeof(MyCssBoxGenerator),
+        //       new MyCssBoxGenerator());
+        //}
 
         public HtmlBox(HtmlHost htmlHost, int width, int height)
             : base(width, height)
         {
-
+            if (htmlHost.HasRegisterCssBoxGenerator(typeof(MyCssBoxGenerator)))
+            {
+                htmlHost.RegisterCssBoxGenerator(new MyCssBoxGenerator());
+            }
+            //--------
             this.htmlHost = htmlHost;
-
-
             myHtmlContainer = new MyHtmlContainer(htmlHost);
 
             myHtmlContainer.AttachEssentialHandlers(

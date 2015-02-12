@@ -25,27 +25,22 @@ namespace LayoutFarm.CustomWidgets
             NoWaitingContent,
             HtmlFragmentString,
             HtmlDocument
-        }
-
+        } 
 
         MyHtmlContainer myHtmlCont;
-        HtmlHost htmlhost;
-
-
-        static LightHtmlBox()
-        {
-            LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
-                typeof(MyCssBoxGenerator),
-                new MyCssBoxGenerator());
-        }
-
-
+        HtmlHost htmlhost; 
         //presentation
         HtmlFragmentRenderBox frgmRenderBox;
-        public LightHtmlBox(HtmlHost htmlhost, int width, int height)
+        public LightHtmlBox(HtmlHost htmlHost, int width, int height)
             : base(width, height)
         {
-            this.htmlhost = htmlhost;
+            if (htmlHost.HasRegisterCssBoxGenerator(typeof(MyCssBoxGenerator)))
+            {
+                htmlHost.RegisterCssBoxGenerator(new MyCssBoxGenerator());
+            }
+            //--------
+
+            this.htmlhost = htmlHost;
         }
         protected override void OnContentLayout()
         {
@@ -276,7 +271,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 return this.frgmRenderBox.HtmlWidth;
             }
-        } 
+        }
         public override int DesiredHeight
         {
             get
@@ -284,7 +279,7 @@ namespace LayoutFarm.CustomWidgets
                 return this.frgmRenderBox.HtmlHeight;
             }
         }
-       
+
 
     }
 }

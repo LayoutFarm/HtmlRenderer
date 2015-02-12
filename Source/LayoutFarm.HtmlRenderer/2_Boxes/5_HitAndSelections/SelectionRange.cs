@@ -65,6 +65,7 @@ namespace LayoutFarm.HtmlBoxes
                 default:
                 case HitObjectKind.Unknown:
                     {
+                        return null;
                         throw new NotSupportedException();
                     }
                 case HitObjectKind.LineBox:
@@ -82,10 +83,10 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-         
+
         public void ClearSelectionStatus()
         {
-             
+
             if (this.selectedLines != null)
             {
                 for (int i = selectedLines.Count - 1; i >= 0; --i)
@@ -325,9 +326,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             //dbugCounter++;
-            HitInfo endHit = endChain.GetLastHit();
-
-
+            HitInfo endHit = endChain.GetLastHit(); 
             switch (endHit.hitObjectKind)
             {
                 default:
