@@ -29,16 +29,7 @@ namespace LayoutFarm.HtmlWidgets
         public TabPageContainer(int width, int height)
             : base(width, height)
         {
-            //UICollection plainLayer = new UICollection(this);
-            ////panel for listview items
-            //this.panel = new Panel(width, height);
-            //this.panel.PanelLayoutKind = PanelLayoutKind.VerticalStack;
-
-            //panel.BackColor = Color.LightGray;
-            //plainLayer.AddUI(panel);
-            //this.layers.Add(plainLayer);
         }
-
         public List<TabPage> TabPageList
         {
             get { return this.tabPageCollection; }
@@ -66,7 +57,10 @@ namespace LayoutFarm.HtmlWidgets
         public void AddItem(TabPage tabPage)
         {
             //1. store in collection
+
             tabPageCollection.Add(tabPage);
+            tabPage.OwnerContainer = this;
+
             if (pnode != null)
             {
                 if (currentPage == null)
@@ -82,15 +76,7 @@ namespace LayoutFarm.HtmlWidgets
                     //add tab button into list
                     this.tabTitleList.AddChild(tabPage.GetTitleNode(pnode));
                 }
-
             }
-            //ui.Owner = this;
-            ////show only one page per time
-            //if (currentPage == null)
-            //{
-            //    currentPage = ui;
-            //    panel.AddChildBox(ui);
-            //}
         }
         public void RemoveItem(TabPage p)
         {
@@ -121,7 +107,14 @@ namespace LayoutFarm.HtmlWidgets
                 }
             }
         }
+        //------------------------
+        internal void ChildNotifyTabMouseDown(TabPage childPage)
+        {
+            //change content ***
+            contentNode.ClearAllElements();
+            contentNode.AddChild(childPage.GetPageBody(contentNode));
 
+        }
     }
 
 
@@ -139,7 +132,11 @@ namespace LayoutFarm.HtmlWidgets
             get;
             set;
         }
-
+        internal TabPageContainer OwnerContainer
+        {
+            get;
+            set;
+        }
         public DomElement GetTitleNode(DomElement hostNode)
         {
             //-------------------------------------
@@ -158,7 +155,20 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     span.AddTextContent(this.PageTitle);
                 }
+                span.AttachMouseDownEvent(e =>
+                {
+                    if (this.OwnerContainer != null)
+                    {
+                        this.OwnerContainer.ChildNotifyTabMouseDown(this);
+                    }
+                });
             });
+            ////mouse down on title
+            //titleNode.AttachMouseDownEvent(e =>
+            //{
+
+
+            //});
             //-------------------------------------
             return titleNode;
         }
@@ -175,7 +185,7 @@ namespace LayoutFarm.HtmlWidgets
                 LayoutFarm.Composers.HtmlDocument htmldoc = (LayoutFarm.Composers.HtmlDocument)ownerdoc;
                 var wrapperElement = htmldoc.CreateWrapperElement((RootGraphic rootgfx, out RenderElement renderE, out object controller) =>
                 {
-                    renderE = contentUI.GetPrimaryRenderElement(rootgfx); 
+                    renderE = contentUI.GetPrimaryRenderElement(rootgfx);
                     controller = contentUI;
 
                 });

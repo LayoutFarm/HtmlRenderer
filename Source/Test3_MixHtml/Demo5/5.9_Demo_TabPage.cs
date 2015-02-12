@@ -35,7 +35,7 @@ namespace LayoutFarm.WebWidgets
                 //tabPage.ContentUI = panel01;
 
                 var lightHtmlBox = new CustomWidgets.LightHtmlBox(this.myHtmlHost, 300, 200);
-                lightHtmlBox.LoadHtmlDom(CreateSampleHtmlDoc());                
+                lightHtmlBox.LoadHtmlDom(CreateSampleHtmlDoc(tabPage.PageTitle));
                 tabPage.ContentUI = lightHtmlBox;
 
 
@@ -44,7 +44,7 @@ namespace LayoutFarm.WebWidgets
 
             //tabContainer.SelectedIndex = 1; 
         }
-        FragmentHtmlDocument CreateSampleHtmlDoc()
+        FragmentHtmlDocument CreateSampleHtmlDoc(string pageNote)
         {
             FragmentHtmlDocument htmldoc = this.myHtmlHost.CreateNewFragmentHtml();// new HtmlDocument();
             var rootNode = htmldoc.RootNode;
@@ -58,7 +58,8 @@ namespace LayoutFarm.WebWidgets
                 {
                     div.AddChild("span", span =>
                     {
-                        span.AddTextContent("ABCD");
+                        span.SetAttribute("style", "font:16pt tahoma");
+                        span.AddTextContent("ABCD:" + pageNote);
                         //3. attach event to specific span
                         span.AttachMouseDownEvent(e =>
                         {
