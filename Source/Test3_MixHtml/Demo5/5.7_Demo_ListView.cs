@@ -41,16 +41,15 @@ namespace LayoutFarm.WebWidgets
             }
             AddToViewport(listview);
             //-------------------------------------------------------------------
-            //add vertical scrollbar
-
+            //add vertical scrollbar 
             {
                 //vertical scrollbar
                 var vscbar = new LayoutFarm.HtmlWidgets.ScrollBar(15, 100);
                 vscbar.SetLocation(10, 20);
                 vscbar.MinValue = 0;
                 vscbar.MaxValue = 100;
-                vscbar.SmallChange = 20; 
-               
+                vscbar.SmallChange = 20;
+
                 viewport.AddContent(vscbar);
 
                 //add relation between viewpanel and scroll bar 
