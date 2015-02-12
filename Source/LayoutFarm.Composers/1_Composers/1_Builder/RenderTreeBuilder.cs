@@ -109,7 +109,7 @@ namespace LayoutFarm.Composers
                                                 if (stylesheet != null)
                                                 {
                                                     activeCssTemplate.LoadRawStyleElementContent(stylesheet);
-                                                }  
+                                                }
                                             }
                                         }
                                         activeCssTemplate.ExitLevel();
@@ -291,11 +291,16 @@ namespace LayoutFarm.Composers
             }
             //--------------------------------
             //1. apply style  
-            activeCssTemplate.ApplyActiveTemplate(element.LocalName,
-               classValue,//class
-               curSpec,
-               parentSpec);
-
+            bool isNewlyCreated;
+            CssTemplateKey boxSpecKey;
+            var boxSpec = activeCssTemplate.GetActiveTemplate(element.LocalName,
+                 classValue,//class
+                 curSpec,
+                 parentSpec,
+                 out boxSpecKey,
+                 out isNewlyCreated);
+            //-------------------------------------------------------------------  
+            BoxSpec.CloneAllStyles(curSpec, boxSpec);
             //-------------------------------------------------------------------  
             //2. specific id 
             if (element.HasAttributeElementId)
@@ -342,19 +347,22 @@ namespace LayoutFarm.Composers
                             parentSpec,
                             propDecl);
                     }
+                    curSpec.DoNotCache = true; 
+                }
+                else
+                {
 
-                    curSpec.DoNotCache = true;
                 }
                 //----------------------------------------------------------------
                 element.IsStyleEvaluated = true;
                 element.ElementRuleSet = parsedRuleSet;
+                activeCssTemplate.CacheBoxSpec(boxSpecKey, curSpec);
             }
             else
             {
                 var elemRuleSet = element.ElementRuleSet;
                 if (elemRuleSet != null)
                 {
-
                     if (curSpec.IsFreezed)
                     {
                         curSpec.Defreeze();
@@ -368,6 +376,7 @@ namespace LayoutFarm.Composers
                             propDecl);
                     }
                 }
+                //activeCssTemplate.CacheBoxSpec(boxSpecKey, boxSpec);
             }
             //===================== 
             curSpec.Freeze(); //***

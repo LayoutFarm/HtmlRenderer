@@ -78,7 +78,14 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return new SizeF(this._actualWidth, this._actualHeight); }
         }
-
+        public float ActualWidth
+        {
+            get { return (int)this._actualWidth; }
+        }
+        public float ActualHeight
+        {
+            get { return (int)this._actualHeight; }
+        }
         public void SetMaxSize(float maxWidth, float maxHeight)
         {
             this._maxWidth = maxWidth;
@@ -114,8 +121,11 @@ namespace LayoutFarm.HtmlBoxes
                 _rootBox.PerformLayout(layoutArgs);
             }
             layoutArgs.PopContainingBlock();
+            OnLayoutFinished();
         }
-
+        protected virtual void OnLayoutFinished()
+        {
+        }
         public void PerformPaint(PaintVisitor p)
         {
             if (_rootBox == null)
@@ -126,7 +136,7 @@ namespace LayoutFarm.HtmlBoxes
             _rootBox.Paint(p);
             p.PopContainingBlock();
         }
-        
+
         //------------------------------------------------------------------
         protected abstract void OnRequestImage(ImageBinder binder,
             object reqFrom, bool _sync);
@@ -149,6 +159,7 @@ namespace LayoutFarm.HtmlBoxes
             if (newHeight > this._actualHeight)
             {
                 this._actualHeight = newHeight;
+               
             }
         }
 

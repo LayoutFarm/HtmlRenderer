@@ -31,7 +31,7 @@ namespace LayoutFarm.HtmlBoxes
             this.htmlContainer = htmlCont;
             this.canvas = canvas;
         }
-        
+
         public void UnBind()
         {
             //clear

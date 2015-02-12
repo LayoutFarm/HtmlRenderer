@@ -20,7 +20,7 @@ namespace LayoutFarm.HtmlBoxes
         public static MyHtmlContainer CreateHtmlContainer(
             HtmlHost htmlHost,
             string htmlFragment,
-            HtmlFragmentRenderBox container)
+            HtmlFragmentRenderBox htmlFrgmentRenderBox)
         {
 
             var htmldoc = htmlHost.CreateNewFragmentHtml();
@@ -36,12 +36,12 @@ namespace LayoutFarm.HtmlBoxes
                      htmldoc,
                      newDivHost);
 
-            return CreateHtmlContainer(htmlHost, newDivHost, myHtmlBodyElement, container);
+            return CreateHtmlContainer(htmlHost, newDivHost, myHtmlBodyElement, htmlFrgmentRenderBox);
         }
         public static MyHtmlContainer CreateHtmlContainer(
             HtmlHost htmlHost,
             HtmlDocument htmldoc,
-            HtmlFragmentRenderBox container)
+            HtmlFragmentRenderBox htmlFrgmentRenderBox)
         {
 
             //1. builder 
@@ -54,21 +54,21 @@ namespace LayoutFarm.HtmlBoxes
 
             var rootElement = renderTreeBuilder.BuildCssRenderTree(htmldoc,
                 htmlHost.BaseStylesheet,
-                container);
+                htmlFrgmentRenderBox);
             //3. create small htmlContainer
 
             var htmlContainer = new MyHtmlContainer(htmlHost);
 
             htmlContainer.WebDocument = htmldoc;
             htmlContainer.RootCssBox = rootElement;
-            htmlContainer.SetMaxSize(container.Width, 0);
+            htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);
 
             var lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
             htmlContainer.PerformLayout(lay);
             htmlHost.ReleaseHtmlLayoutVisitor(lay);
 
 
-            container.SetHtmlContainer(htmlContainer, rootElement);
+            htmlFrgmentRenderBox.SetHtmlContainer(htmlContainer, rootElement);
             return htmlContainer;
         }
 
