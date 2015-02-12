@@ -19,7 +19,7 @@ namespace LayoutFarm.WebWidgets
             AddToViewport(tabContainer);
             for (int i = 0; i < 10; ++i)
             {
-                var tabPage = new LayoutFarm.HtmlWidgets.TabPage(400, 20);
+                var tabPage = new LayoutFarm.HtmlWidgets.TabPage();
                 if ((i % 2) == 0)
                 {
                     //tabPage.BackColor = KnownColors.FromKnownColor(KnownColor.OrangeRed);
@@ -28,6 +28,7 @@ namespace LayoutFarm.WebWidgets
                 {
                     //tabPage.BackColor = KnownColors.FromKnownColor(KnownColor.Yellow);
                 }
+                tabPage.PageTitle = "page" + i;
                 tabContainer.AddItem(tabPage);
             }
             //tabContainer.SelectedIndex = 1; 

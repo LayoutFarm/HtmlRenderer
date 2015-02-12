@@ -47,6 +47,9 @@ namespace LayoutFarm.HtmlWidgets
             //------------------------------
             var ownerdoc = hostNode.OwnerDocument;
             pnode = ownerdoc.CreateElement("div");
+            pnode.SetAttribute("style", "font:10pt tahoma");
+            //------------------------------
+
             titleBar = ownerdoc.CreateElement("div");
             titleBar.AddTextContent("hello tabPage");
 
@@ -59,12 +62,16 @@ namespace LayoutFarm.HtmlWidgets
         }
         public void AddItem(TabPage tabPage)
         {
+            //1. store in collection
             tabPageCollection.Add(tabPage);
-            if (pnode != null && currentPage == null)
+            if (pnode != null)
             {
-                currentPage = tabPage;
+                if (currentPage == null)
+                {
+                    currentPage = tabPage;
+                }
                 //add tab 
-                contentBar.AddChild(tabPage.GetPresentationNode(pnode)); 
+                this.titleBar.AddChild(tabPage.GetPresentationNode(pnode));
             }
             //ui.Owner = this;
             ////show only one page per time
@@ -110,13 +117,14 @@ namespace LayoutFarm.HtmlWidgets
     public class TabPage
     {
         DomElement domNode;
-        TabPageContainer owner;
-        int width;
-        int height;
-        public TabPage(int width, int height)
+        public TabPage()
         {
-            this.width = width;
-            this.height = height;
+
+        }
+        public string PageTitle
+        {
+            get;
+            set;
         }
         public DomElement GetPresentationNode(WebDom.DomElement hostNode)
         {
@@ -124,9 +132,18 @@ namespace LayoutFarm.HtmlWidgets
             //create dom node
             var ownerdoc = hostNode.OwnerDocument;
             this.domNode = ownerdoc.CreateElement("div");
+
+
             domNode.AddChild("span", span =>
             {
-                span.AddTextContent("tabPage");
+                if (PageTitle == null)
+                {
+                    span.AddTextContent("");
+                }
+                else
+                {
+                    span.AddTextContent(this.PageTitle);
+                }
             });
 
             return domNode;
