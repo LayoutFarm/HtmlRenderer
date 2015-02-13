@@ -234,7 +234,6 @@ namespace LayoutFarm.Composers
             //----------------------------------------------------------------  
 
             BoxCreator boxCreator = new BoxCreator((RootGraphic)existingCssBox.RootGfx, this.htmlHost);
-
             boxCreator.GenerateChildBoxes(startAtElement, false);
             startAtElement.OwnerDocument.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------   

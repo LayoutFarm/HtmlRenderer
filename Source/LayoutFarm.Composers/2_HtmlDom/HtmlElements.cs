@@ -68,7 +68,16 @@ namespace LayoutFarm.InternalHtmlDom
             this.principalBox = box;
             this.SkipPrincipalBoxEvalulation = true;
         }
+        public override void ClearAllElements()
+        {
+            //clear presentation 
+            if (principalBox != null)
+            {
+                principalBox.Clear();
+            }
+            base.ClearAllElements();
 
+        }
         internal bool SkipPrincipalBoxEvalulation
         {
             get;
@@ -83,9 +92,7 @@ namespace LayoutFarm.InternalHtmlDom
         {
             base.OnContentUpdate();
             OnChangeInIdleState(ElementChangeKind.ContentUpdate);
-        }
-
-
+        } 
         //------------------------------------
         protected override void OnChangeInIdleState(ElementChangeKind changeKind)
         {

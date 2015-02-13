@@ -25,6 +25,7 @@ namespace LayoutFarm.HtmlBoxes
         int _mousedownX;
         int _mousedownY;
         bool _isMouseDown;
+        CssBox _mouseDownStartAt;
         IFonts ifonts;
         bool _isBinded;
 
@@ -58,6 +59,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         //---------------------------------------------- 
 
+        int lastLayoutVersion;
         public void MouseDown(UIMouseEventArgs e, CssBox startAt)
         {
             if (!_isBinded) return;
@@ -71,11 +73,12 @@ namespace LayoutFarm.HtmlBoxes
                 ReleaseHitChain(_latestMouseDownChain);
                 _latestMouseDownChain = null;
             }
-
+            this.lastLayoutVersion = this._htmlContainer.LayoutVersion;
             //----------------------------------------------------
             int x = e.X;
             int y = e.Y;
 
+            this._mouseDownStartAt = startAt;
             this._mousedownX = x;
             this._mousedownY = y;
             this._isMouseDown = true;
@@ -104,6 +107,7 @@ namespace LayoutFarm.HtmlBoxes
             //----------------------------------
             //save mousedown hitchain
             this._latestMouseDownChain = hitChain;
+
             if (this._latestMouseDownChain == null)
             {
             }
@@ -130,6 +134,10 @@ namespace LayoutFarm.HtmlBoxes
                     hitChain.SetRootGlobalPosition(x, y);
 
                     BoxHitUtils.HitTest(startAt, x, y, hitChain);
+                    //if (hitChain.Count == 0)
+                    //{
+
+                    //}
                     SetEventOrigin(e, hitChain);
                     //---------------------------------------------------------
                     //propagate mouse drag 
@@ -144,25 +152,33 @@ namespace LayoutFarm.HtmlBoxes
                     if (!e.CancelBubbling)
                     {
                         ClearPreviousSelection();
-                        if (hitChain.Count > 0)
+                        if (_latestMouseDownChain.Count > 0 && hitChain.Count > 0)
                         {
-                            //create selection range 
-                            this._htmlContainer.SetSelection(new SelectionRange(
-                               _latestMouseDownChain,
-                               hitChain,
-                               this.ifonts));
+                            if (this._htmlContainer.LayoutVersion != this.lastLayoutVersion)
+                            {
+                                //the dom has been changed so...
+                                //need to evaluate hitchain at mousedown position again
+                                int lastRootGlobalX = _latestMouseDownChain.RootGlobalX;
+                                int lastRootGlobalY = _latestMouseDownChain.RootGlobalY;
 
-                            //if (_latestMouseDownChain.Count > 0)
-                            //{
-                            //    this._htmlContainer.SetSelection(new SelectionRange(
-                            //    _latestMouseDownChain,
-                            //    hitChain,
-                            //    this.ifonts));
-                            //}
-                            //else
-                            //{
-                            //    this._htmlContainer.SetSelection(null);
-                            //}
+                                _latestMouseDownChain.Clear();
+                                _latestMouseDownChain.SetRootGlobalPosition(lastRootGlobalX, lastRootGlobalY);
+                                BoxHitUtils.HitTest(_mouseDownStartAt, lastRootGlobalX, lastRootGlobalY, _latestMouseDownChain);
+
+                            }
+                            //create selection range 
+                            var newSelectionRange = new SelectionRange(
+                                  _latestMouseDownChain,
+                                   hitChain,
+                                   this.ifonts);
+                            if (newSelectionRange.IsValid)
+                            {
+                                this._htmlContainer.SetSelection(newSelectionRange);
+                            }
+                            else
+                            {
+                                this._htmlContainer.SetSelection(null);
+                            }
                         }
                         else
                         {

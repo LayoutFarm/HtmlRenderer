@@ -12,13 +12,12 @@ namespace LayoutFarm.HtmlBoxes
         //start line
 
         CssLineBox startHitHostLine;
-
         //--------------------- 
         //on end line  
         int endHitRunCharIndex;
         //---------------------      
         List<CssLineBox> selectedLines;
-
+        bool isValid = true;
         public SelectionRange(CssBoxHitChain startChain,
             CssBoxHitChain endChain,
             IFonts ifonts)
@@ -48,9 +47,17 @@ namespace LayoutFarm.HtmlBoxes
             //1.
             this.SetupStartHitPoint(startChain, ifonts);
             //2. 
-
+            if (this.startHitHostLine == null)
+            {
+                this.isValid = false;
+                return;
+            }
             this.SetupEndHitPoint(endChain, ifonts);
 
+        }
+        public bool IsValid
+        {
+            get { return this.isValid; }
         }
         static bool IsOnTheSameLine(CssBoxHitChain startChain, CssBoxHitChain endChain)
         {
@@ -326,7 +333,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             //dbugCounter++;
-            HitInfo endHit = endChain.GetLastHit(); 
+            HitInfo endHit = endChain.GetLastHit();
             switch (endHit.hitObjectKind)
             {
                 default:

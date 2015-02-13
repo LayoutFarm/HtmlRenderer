@@ -58,32 +58,32 @@ namespace LayoutFarm.WebWidgets
                 {
                     div.AddChild("span", span =>
                     {
-                        span.SetAttribute("style", "font:16pt tahoma");
+                        span.SetAttribute("style", "font:16pt tahoma;background-color:red");
                         span.AddTextContent("ABCD:" + pageNote);
                         //3. attach event to specific span
-                        span.AttachMouseDownEvent(e =>
-                        {
-#if DEBUG
-                            // System.Diagnostics.Debugger.Break();                           
-                            //test change span property 
-                            //clear prev content and add new  text content 
-                            span.ClearAllElements();
-                            span.AddTextContent("XYZ0001");
-#endif
+//                        span.AttachMouseDownEvent(e =>
+//                        {
+//#if DEBUG
+//                            // System.Diagnostics.Debugger.Break();                           
+//                            //test change span property 
+//                            //clear prev content and add new  text content 
+//                            span.ClearAllElements();
+//                            span.AddTextContent("XYZ0001");
+//#endif
 
-                            e.StopPropagation();
+//                            e.StopPropagation();
 
-                        });
+//                        });
                     });
 
                     div.AddChild("span", span =>
                     {
                         span.AddTextContent("EFGHIJK");
-                        span.AttachMouseDownEvent(e =>
-                        {
-                            span.ClearAllElements();
-                            span.AddTextContent("LMNOP0003");
-                        });
+                        //span.AttachMouseDownEvent(e =>
+                        //{
+                        //    span.ClearAllElements();
+                        //    span.AddTextContent("LMNOP0003");
+                        //});
                     });
                     //----------------------
                     div.AttachEvent(UIEventName.MouseDown, e =>
@@ -92,7 +92,7 @@ namespace LayoutFarm.WebWidgets
                         //this will not print 
                         //if e has been stop by its child
                         // System.Diagnostics.Debugger.Break();
-                        Console.WriteLine("div");
+                        //Console.WriteLine("div");
 #endif
 
                     });

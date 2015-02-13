@@ -25,12 +25,14 @@ namespace LayoutFarm.CustomWidgets
             NoWaitingContent,
             HtmlFragmentString,
             HtmlDocument
-        } 
+        }
 
         MyHtmlContainer myHtmlCont;
-        HtmlHost htmlhost; 
+        HtmlHost htmlhost;
         //presentation
         HtmlFragmentRenderBox frgmRenderBox;
+        HtmlInputEventAdapter inputEventAdapter;
+
         public LightHtmlBox(HtmlHost htmlHost, int width, int height)
             : base(width, height)
         {
@@ -60,86 +62,108 @@ namespace LayoutFarm.CustomWidgets
             get { return this.frgmRenderBox != null; }
         }
 
+        HtmlInputEventAdapter GetInputEventAdapter()
+        {
+            if (inputEventAdapter == null)
+            {
+                inputEventAdapter = this.htmlhost.GetNewInputEventAdapter();
+                inputEventAdapter.Bind(myHtmlCont);
+            }
+            return inputEventAdapter;
+        }
+
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
+            GetInputEventAdapter().MouseUp(e, frgmRenderBox.CssBox);
 
-            //1. get share input adapter
-            var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
-            //2. send event
-            inputAdapter.MouseUp(e, frgmRenderBox.CssBox);
-            //3. release back to host
-            this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
+            ////1. get share input adapter
+            //var inputAdapter = GetInputEventAdapter();
+            ////2. send event
+            //inputAdapter.MouseUp(e, frgmRenderBox.CssBox);
+            ////3. release back to host
+            //this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
-            //0. set context
+
             e.CurrentContextElement = this;
+            GetInputEventAdapter().MouseDown(e, frgmRenderBox.CssBox);
 
-            var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
+            //var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
 
-            inputAdapter.MouseDown(e, frgmRenderBox.CssBox);
+            //inputAdapter.MouseDown(e, frgmRenderBox.CssBox);
 
-            this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
+            //this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
-        {   //0. set context
+        {
+            //0. set context
             e.CurrentContextElement = this;
+            GetInputEventAdapter().MouseMove(e, frgmRenderBox.CssBox);
 
-            var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
+            //var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
 
-            inputAdapter.MouseMove(e, frgmRenderBox.CssBox);
+            //inputAdapter.MouseMove(e, frgmRenderBox.CssBox);
 
-            this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
+            //this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
-            var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
-            //?
-            this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
+
+
+            //var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
+            ////?
+            //this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
+            GetInputEventAdapter().KeyDown(e, frgmRenderBox.CssBox);
+            //var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
 
-            var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
+            //inputAdapter.KeyDown(e, frgmRenderBox.CssBox);
 
-            inputAdapter.KeyDown(e, frgmRenderBox.CssBox);
-
-            this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
+            //this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
-            var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
-            inputAdapter.KeyPress(e, frgmRenderBox.CssBox);
-            this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
+            GetInputEventAdapter().KeyPress(e, frgmRenderBox.CssBox);
+
+            //var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
+            //inputAdapter.KeyPress(e, frgmRenderBox.CssBox);
+            //this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
-            var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
+            GetInputEventAdapter().KeyUp(e, frgmRenderBox.CssBox);
+            //var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
 
-            inputAdapter.KeyUp(e, frgmRenderBox.CssBox);
+            //inputAdapter.KeyUp(e, frgmRenderBox.CssBox);
 
-            this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
+            //this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
             //0. set context
             e.CurrentContextElement = this;
-
-            var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
-            inputAdapter.KeyUp(e, frgmRenderBox.CssBox);
-            var result = inputAdapter.ProcessDialogKey(e, frgmRenderBox.CssBox);
-            this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
+            var result = GetInputEventAdapter().ProcessDialogKey(e, frgmRenderBox.CssBox);
             return result;
+
+            //var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
+            //inputAdapter.KeyUp(e, frgmRenderBox.CssBox);
+
+            //var result = inputAdapter.ProcessDialogKey(e, frgmRenderBox.CssBox);
+            //this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
+            //return result;
         }
         void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {

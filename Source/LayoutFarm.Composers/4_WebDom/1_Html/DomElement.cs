@@ -51,7 +51,7 @@ namespace LayoutFarm.WebDom
                 {
                     yield return attr;
                 }
-                 
+
             }
         }
         public IEnumerable<DomNode> GetChildNodeIterForward()
@@ -105,8 +105,8 @@ namespace LayoutFarm.WebDom
                     } break;
             }
             //--------------------
-            var attrNameIndex = this.OwnerDocument.AddStringIfNotExists(attr.LocalName); 
-            myAttributes[attrNameIndex]= attr;//update or replace 
+            var attrNameIndex = this.OwnerDocument.AddStringIfNotExists(attr.LocalName);
+            myAttributes[attrNameIndex] = attr;//update or replace 
             attr.SetParent(this);
             NotifyChange(ElementChangeKind.AddAttribute);
         }
@@ -117,7 +117,7 @@ namespace LayoutFarm.WebDom
             SetAttribute(domAttr);
 
         }
-        
+
         public void AddAttribute(DomAttribute attr)
         {
             if (myAttributes == null)
@@ -190,14 +190,18 @@ namespace LayoutFarm.WebDom
         /// <summary>
         /// clear all children elements
         /// </summary>
-        public void ClearAllElements()
+        public virtual void ClearAllElements()
         {
             if (this.myChildrenNodes != null)
             {
+                for (int i = this.myChildrenNodes.Count - 1; i >= 0; --i)
+                {
+                    //clear content 
+                    myChildrenNodes[i].SetParent(null);
+                }
                 this.myChildrenNodes.Clear();
                 NotifyChange(ElementChangeKind.ClearAllChildren);
             }
-
         }
 
         public void NotifyChange(ElementChangeKind changeKind)
@@ -224,7 +228,7 @@ namespace LayoutFarm.WebDom
                 DomAttribute found;
                 myAttributes.TryGetValue(attrLocalNameIndex, out found);
                 return found;
-                 
+
             }
             return null;
         }

@@ -43,7 +43,7 @@ namespace LayoutFarm.Demo
                 //-------------------------------
 #if DEBUG
                 // System.Diagnostics.Debugger.Break();
-                Console.WriteLine("span");
+                //Console.WriteLine("span");
 #endif
                 //test stop propagation 
                 e.StopPropagation();
@@ -57,7 +57,7 @@ namespace LayoutFarm.Demo
                 //this will not print 
                 //if e has been stop by its child
                 // System.Diagnostics.Debugger.Break();
-                Console.WriteLine("div");
+                //Console.WriteLine("div");
 #endif
 
             });
