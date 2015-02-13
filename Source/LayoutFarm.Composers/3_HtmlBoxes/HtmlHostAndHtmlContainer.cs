@@ -117,6 +117,12 @@ namespace LayoutFarm.HtmlBoxes
             lay.UnBind();
             this.htmlLayoutVisitorStock.Enqueue(lay);
         }
+        
+        public HtmlInputEventAdapter GetNewInputEventAdapter()
+        {
+            return new HtmlInputEventAdapter(this.gfxplatform.SampleIFonts); 
+        }
+      
         public HtmlInputEventAdapter GetSharedInputEventAdapter(HtmlContainer htmlCont)
         {
             HtmlInputEventAdapter adapter = null;
@@ -131,11 +137,13 @@ namespace LayoutFarm.HtmlBoxes
             adapter.Bind(htmlCont);
             return adapter;
         }
+
         public void ReleaseSharedInputEventAdapter(HtmlInputEventAdapter adapter)
         {
             adapter.Unbind();
             this.inputEventAdapterStock.Enqueue(adapter);
         }
+
         public LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder()
         {
             if (this.renderTreeBuilder == null)
@@ -203,7 +211,7 @@ namespace LayoutFarm.HtmlBoxes
         int lastDomUpdateVersion;
         EventHandler domVisualRefresh;
         EventHandler domRequestRebuild;
-        EventHandler containerInvalidateGfxHanlder;
+        EventHandler containerInvalidateGfxHandler;
         EventHandler domFinished;
 
         public MyHtmlContainer(HtmlHost htmlhost)
@@ -218,7 +226,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.domVisualRefresh = domVisualRefreshHandler;
             this.domRequestRebuild = domRequestRebuildHandler;
-            this.containerInvalidateGfxHanlder = containerInvalidateGfxHanlder;
+            this.containerInvalidateGfxHandler = containerInvalidateGfxHanlder;
             this.domFinished = domFinished;
 
         }
@@ -226,7 +234,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.domVisualRefresh =
                 this.domRequestRebuild =
-                this.containerInvalidateGfxHanlder =
+                this.containerInvalidateGfxHandler =
                  this.domFinished = null;
         }
         protected override void OnLayoutFinished()
@@ -314,7 +322,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void ContainerInvalidateGraphics()
         {
-            containerInvalidateGfxHanlder(this, EventArgs.Empty);
+            containerInvalidateGfxHandler(this, EventArgs.Empty);
         }
         protected override void OnRequestImage(ImageBinder binder, object reqFrom, bool _sync)
         {

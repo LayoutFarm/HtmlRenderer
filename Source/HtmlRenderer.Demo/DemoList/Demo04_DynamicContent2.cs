@@ -28,18 +28,26 @@ namespace LayoutFarm.Demo
                 {
                     div.AddChild("span", span =>
                     {
+                        bool isChanged = false;
                         span.AddTextContent("ABCD");
                         //3. attach event to specific span
                         span.AttachMouseDownEvent(e =>
                         {
+                            if (!isChanged)
+                            {
 #if DEBUG
-                            // System.Diagnostics.Debugger.Break();                           
-                            //test change span property 
-                            //clear prev content and add new  text content 
-                            span.ClearAllElements();
-                            span.AddTextContent("XYZ0001");
+                                // System.Diagnostics.Debugger.Break();                           
+                                //test change span property 
+                                //clear prev content and add new  text content 
+                                span.ClearAllElements();
+                                span.AddTextContent("XYZ0001");
 #endif
+                                //    isChanged = true;
+                            }
+                            else
+                            {
 
+                            }
                             e.StopPropagation();
 
                         });

@@ -144,25 +144,21 @@ namespace LayoutFarm.HtmlBoxes
                     if (!e.CancelBubbling)
                     {
                         ClearPreviousSelection();
-                        if (hitChain.Count > 0)
+                        if (_latestMouseDownChain.Count > 0 && hitChain.Count > 0)
                         {
                             //create selection range 
-                            this._htmlContainer.SetSelection(new SelectionRange(
-                               _latestMouseDownChain,
-                               hitChain,
-                               this.ifonts));
-
-                            //if (_latestMouseDownChain.Count > 0)
-                            //{
-                            //    this._htmlContainer.SetSelection(new SelectionRange(
-                            //    _latestMouseDownChain,
-                            //    hitChain,
-                            //    this.ifonts));
-                            //}
-                            //else
-                            //{
-                            //    this._htmlContainer.SetSelection(null);
-                            //}
+                            var newSelectionRange = new SelectionRange(
+                                  _latestMouseDownChain,
+                                   hitChain,
+                                   this.ifonts);
+                            if (newSelectionRange.IsValid)
+                            {
+                                this._htmlContainer.SetSelection(newSelectionRange);
+                            }
+                            else
+                            {
+                                this._htmlContainer.SetSelection(null);
+                            }
                         }
                         else
                         {
