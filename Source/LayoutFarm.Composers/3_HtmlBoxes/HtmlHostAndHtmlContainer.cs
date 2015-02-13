@@ -19,10 +19,11 @@ namespace LayoutFarm.HtmlBoxes
         List<LayoutFarm.Composers.CustomCssBoxGenerator> generators = new List<LayoutFarm.Composers.CustomCssBoxGenerator>();
 
         HtmlContainerUpdateHandler htmlContainerUpdateHandler;
+
         EventHandler<ImageRequestEventArgs> requestImage;
         EventHandler<TextRequestEventArgs> requestStyleSheet;
 
-        SelectionRange _currentSelectionRange;
+
         GraphicsPlatform gfxplatform;
         Composers.HtmlDocument commonHtmlDoc;
 
@@ -58,9 +59,7 @@ namespace LayoutFarm.HtmlBoxes
         public void SetHtmlContainerUpdateHandler(HtmlContainerUpdateHandler htmlContainerUpdateHandler)
         {
             this.htmlContainerUpdateHandler = htmlContainerUpdateHandler;
-        }
-
-
+        } 
         public GraphicsPlatform GfxPlatform { get { return this.gfxplatform; } }
         public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
 
@@ -73,28 +72,13 @@ namespace LayoutFarm.HtmlBoxes
                 requestImage(this, resReq);
             }
         }
-        internal SelectionRange SelectionRange
-        {
-            get { return this._currentSelectionRange; }
-            set { this._currentSelectionRange = value; }
-        }
-        internal void ClearPreviousSelection()
-        {
-            if (_currentSelectionRange != null)
-            {
-                _currentSelectionRange.ClearSelectionStatus();
-                _currentSelectionRange = null;
-            }
-        }
 
         public Composers.FragmentHtmlDocument CreateNewFragmentHtml()
         {
-
             return new Composers.FragmentHtmlDocument(this.commonHtmlDoc);
         }
 
-        //------------------------
-        Queue<HtmlInputEventAdapter> inputEventAdapterStock = new Queue<HtmlInputEventAdapter>();
+        //------------------------         
         Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
 
@@ -117,32 +101,12 @@ namespace LayoutFarm.HtmlBoxes
             lay.UnBind();
             this.htmlLayoutVisitorStock.Enqueue(lay);
         }
-        
+
         public HtmlInputEventAdapter GetNewInputEventAdapter()
         {
-            return new HtmlInputEventAdapter(this.gfxplatform.SampleIFonts); 
+            return new HtmlInputEventAdapter(this.gfxplatform.SampleIFonts);
         }
-      
-        public HtmlInputEventAdapter GetSharedInputEventAdapter(HtmlContainer htmlCont)
-        {
-            HtmlInputEventAdapter adapter = null;
-            if (inputEventAdapterStock.Count == 0)
-            {
-                adapter = new HtmlInputEventAdapter(this.gfxplatform.SampleIFonts);
-            }
-            else
-            {
-                adapter = this.inputEventAdapterStock.Dequeue();
-            }
-            adapter.Bind(htmlCont);
-            return adapter;
-        }
-
-        public void ReleaseSharedInputEventAdapter(HtmlInputEventAdapter adapter)
-        {
-            adapter.Unbind();
-            this.inputEventAdapterStock.Enqueue(adapter);
-        }
+ 
 
         public LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder()
         {
@@ -207,7 +171,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         WebDocument webdoc;
         HtmlHost htmlhost;
-
+        SelectionRange _currentSelectionRange;
         int lastDomUpdateVersion;
         EventHandler domVisualRefresh;
         EventHandler domRequestRebuild;
@@ -309,12 +273,20 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void ClearPreviousSelection()
         {
-            this.htmlhost.ClearPreviousSelection();
+            if (this._currentSelectionRange != null)
+            {
+                _currentSelectionRange.ClearSelectionStatus();
+                _currentSelectionRange = null;
+            }
         }
         public override void SetSelection(SelectionRange selRange)
         {
-            this.htmlhost.SelectionRange = selRange;
+            if (selRange == null)
+            {
+            }
+            this._currentSelectionRange = selRange;
         }
+
         public bool NeedLayout
         {
             get;

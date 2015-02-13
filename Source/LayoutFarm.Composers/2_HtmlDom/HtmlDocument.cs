@@ -17,7 +17,8 @@ namespace LayoutFarm.Composers
     {
         DomElement rootNode;
         int domUpdateVersion;
-        EventHandler DomUpdatedHandler;
+        EventHandler domUpdatedHandler;
+
 
         public HtmlDocument()
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
@@ -48,9 +49,9 @@ namespace LayoutFarm.Composers
             set
             {
                 this.domUpdateVersion = value;
-                if (DomUpdatedHandler != null)
+                if (domUpdatedHandler != null)
                 {
-                    DomUpdatedHandler(this, EventArgs.Empty);
+                    domUpdatedHandler(this, EventArgs.Empty);
                 }
             }
         }
@@ -74,7 +75,7 @@ namespace LayoutFarm.Composers
 
         public DomElement CreateWrapperElement(
             LazyCssBoxCreator lazyCssBoxCreator)
-        {   
+        {
             return new ExternalHtmlElement(this,
                 AddStringIfNotExists(null),
                 AddStringIfNotExists("x"),
@@ -83,7 +84,7 @@ namespace LayoutFarm.Composers
 
         internal void SetDomUpdateHandler(EventHandler h)
         {
-            this.DomUpdatedHandler = h;
+            this.domUpdatedHandler = h;
         }
         internal CssActiveSheet CssActiveSheet
         {
