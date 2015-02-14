@@ -119,7 +119,58 @@ namespace LayoutFarm.HtmlWidgets
             //---------------------------------
             var ownerdoc = hostNode.OwnerDocument;
             pnode = ownerdoc.CreateElement("div");
-            pnode.SetAttribute("style", "display:block");
+            //---------------------------------
+            //bar part
+            pnode.AddChild("div", node_bar =>
+            {
+                this.nodeBar = node_bar;
+                node_bar.AddChild("img", node_icon =>
+                {
+                    this.nodeIcon = node_icon;
+                    SetupNodeIconBehaviour(node_icon);
+                });
+                node_bar.AddChild("span", node_span =>
+                {
+                    this.nodeSpan = node_span;
+                    if (this.nodeString != null)
+                    {
+                        node_span.AddTextContent(this.nodeString);
+                    }
+                });
+            });
+            //---------------------------------
+            //content part
+            //indent  
+            pnode.AddChild("div", node_body =>
+            {
+                this.nodeBody = node_body;
+                node_body.SetAttribute("style", "padding-left:17px");
+                node_body.AddChild("div", node_content =>
+                {
+                    this.nodeContent = node_content;
+                    if (childNodes != null)
+                    {
+                        nodeContent.SetAttribute("style", "padding-left:0px");
+                        int j = childNodes.Count;
+                        for (int i = 0; i < j; ++i)
+                        {
+                            var childnode = childNodes[i].GetPrimaryPresentationNode(nodeContent);
+                            node_content.AddChild(childnode);
+                        }
+                    }
+                });
+
+            });
+            return pnode;
+        }
+        DomElement GetPrimaryPresentationNode2(DomElement hostNode)
+        {
+            //implement wth table
+
+            if (this.pnode != null) return pnode;
+            //---------------------------------
+            var ownerdoc = hostNode.OwnerDocument;
+            pnode = ownerdoc.CreateElement("div");
             //---------------------------------
             //bar part
             pnode.AddChild("div", node_bar =>
@@ -293,7 +344,7 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     htmlPNode.RemoveChild(this.nodeBody);
                 }
-                 
+
             }
             //this.TreeView.PerformContentLayout();
         }
