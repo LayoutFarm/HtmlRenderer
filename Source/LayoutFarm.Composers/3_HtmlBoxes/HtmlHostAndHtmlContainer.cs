@@ -25,7 +25,7 @@ namespace LayoutFarm.HtmlBoxes
 
 
         GraphicsPlatform gfxplatform;
-        Composers.HtmlDocument commonHtmlDoc;
+        HtmlDocument commonHtmlDoc;
 
 
         public HtmlHost(GraphicsPlatform gfxplatform, WebDom.CssActiveSheet activeSheet)
@@ -34,7 +34,7 @@ namespace LayoutFarm.HtmlBoxes
             this.gfxplatform = gfxplatform;
             this.BaseStylesheet = activeSheet;
 
-            this.commonHtmlDoc = new Composers.HtmlDocument();
+            this.commonHtmlDoc = new HtmlDocument();
             this.commonHtmlDoc.CssActiveSheet = activeSheet;
         }
         public HtmlHost(GraphicsPlatform gfxplatform)
@@ -59,7 +59,7 @@ namespace LayoutFarm.HtmlBoxes
         public void SetHtmlContainerUpdateHandler(HtmlContainerUpdateHandler htmlContainerUpdateHandler)
         {
             this.htmlContainerUpdateHandler = htmlContainerUpdateHandler;
-        } 
+        }
         public GraphicsPlatform GfxPlatform { get { return this.gfxplatform; } }
         public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
 
@@ -73,9 +73,9 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        public Composers.FragmentHtmlDocument CreateNewFragmentHtml()
+        public FragmentHtmlDocument CreateNewFragmentHtml()
         {
-            return new Composers.FragmentHtmlDocument(this.commonHtmlDoc);
+            return new FragmentHtmlDocument(this.commonHtmlDoc);
         }
 
         //------------------------         
@@ -106,7 +106,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             return new HtmlInputEventAdapter(this.gfxplatform.SampleIFonts);
         }
- 
+
 
         public LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder()
         {
@@ -223,7 +223,7 @@ namespace LayoutFarm.HtmlBoxes
             set
             {
 
-                var htmldoc = this.webdoc as Composers.HtmlDocument;
+                var htmldoc = this.webdoc as HtmlDocument;
                 if (htmldoc != null)
                 {
                     //clear
@@ -232,7 +232,7 @@ namespace LayoutFarm.HtmlBoxes
                 //------------------------------------
                 this.webdoc = value;
                 //when attach  
-                htmldoc = value as Composers.HtmlDocument;
+                htmldoc = value as HtmlDocument;
                 if (htmldoc != null)
                 {
                     //attach monitor

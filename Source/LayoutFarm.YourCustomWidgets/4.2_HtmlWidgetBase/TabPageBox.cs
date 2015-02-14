@@ -182,7 +182,7 @@ namespace LayoutFarm.HtmlWidgets
                 //add content ui to the body of page
                 //creat html wrapper for this ...        
 
-                LayoutFarm.Composers.HtmlDocument htmldoc = (LayoutFarm.Composers.HtmlDocument)ownerdoc;
+                HtmlDocument htmldoc = (HtmlDocument)ownerdoc;
                 var wrapperElement = htmldoc.CreateWrapperElement((RootGraphic rootgfx, out RenderElement renderE, out object controller) =>
                 {
                     renderE = contentUI.GetPrimaryRenderElement(rootgfx);

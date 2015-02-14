@@ -7,19 +7,17 @@ using PixelFarm.Drawing;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Css;
 using LayoutFarm.Composers;
-using LayoutFarm.InternalHtmlDom;
+
 
 
 using LayoutFarm.WebDom;
 using LayoutFarm.UI;
 using LayoutFarm.Svg;
 
-namespace LayoutFarm.InternalHtmlDom
+namespace LayoutFarm.Svg
 {
     static class SvgCreator
-    {
-
-
+    {   
         public static CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
             Css.BoxSpec spec)

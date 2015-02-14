@@ -6,7 +6,7 @@ using LayoutFarm.WebDom;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Composers;
-using LayoutFarm.InternalHtmlDom;
+
 
 namespace LayoutFarm.Composers
 {
@@ -317,7 +317,7 @@ namespace LayoutFarm.Composers
                     {
                         //1. create svg container node
                         alreadyHandleChildrenNodes = true;
-                        return SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
+                        return Svg.SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
                     }
                 //---------------------------------------------------
                 default:

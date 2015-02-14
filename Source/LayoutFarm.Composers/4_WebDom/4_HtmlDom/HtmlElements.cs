@@ -10,7 +10,7 @@ using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
 using LayoutFarm.Composers;
 
-namespace LayoutFarm.InternalHtmlDom
+namespace LayoutFarm.WebDom
 {
 
     public class HtmlElement : DomElement

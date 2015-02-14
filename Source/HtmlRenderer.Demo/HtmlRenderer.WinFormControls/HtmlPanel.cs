@@ -285,7 +285,7 @@ namespace LayoutFarm.Demo
 
 
             //build rootbox from htmldoc
-            var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree((Composers.HtmlDocument)htmldoc,
+            var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree((WebDom.HtmlDocument)htmldoc,
                 cssData,
                 null);
 
@@ -309,7 +309,7 @@ namespace LayoutFarm.Demo
         {
 
             var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree(
-                (LayoutFarm.Composers.HtmlDocument)this.currentDoc,
+                (LayoutFarm.WebDom.HtmlDocument)this.currentDoc,
                 cssData,
                 null);
 
