@@ -15,8 +15,7 @@ namespace LayoutFarm.HtmlWidgets
     public class ListView : LightHtmlWidgetBase
     {
         //composite           
-        Color backColor = Color.LightGray;
-        int viewportX, viewportY;
+        Color backColor = Color.LightGray; 
         List<UICollection> layers = new List<UICollection>(1);
         List<ListItem> items = new List<ListItem>();
         int selectedIndex = -1;//default = no selection
@@ -120,35 +119,7 @@ namespace LayoutFarm.HtmlWidgets
                 }
             }
         }
-        public int ViewportX
-        {
-            get { return this.viewportX; }
-        }
-        public int ViewportY
-        {
-            get { return this.viewportY; }
-        }
-
-        //public override int ViewportX
-        //{
-        //    get { return this.viewportX; }
-
-        //}
-        //public override int ViewportY
-        //{
-        //    get { return this.viewportY; }
-
-        //}
-        public void SetViewport(int x, int y)
-        {
-            this.viewportX = x;
-            this.viewportY = y;
-            //set viewport 
-            //if (this.HasReadyRenderElement)
-            //{
-            //    this.panel.SetViewport(x, y);
-            //}
-        }
+         
 
     }
     public class ListItem
