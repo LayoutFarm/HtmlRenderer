@@ -3,14 +3,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+
+using PixelFarm.Drawing;
+
 using LayoutFarm;
 using LayoutFarm.ContentManagers;
 using LayoutFarm.HtmlBoxes;
-using LayoutFarm.InternalHtmlDom;
-using LayoutFarm.Composers;
 
-using PixelFarm.Drawing;
+using LayoutFarm.Composers;
+using LayoutFarm.WebDom;
 using LayoutFarm.UI;
+
 namespace LayoutFarm.CustomWidgets
 {
 

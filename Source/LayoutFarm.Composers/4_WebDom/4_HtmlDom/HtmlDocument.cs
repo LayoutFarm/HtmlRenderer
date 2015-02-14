@@ -4,13 +4,11 @@
 using System;
 using System.Collections.Generic;
 
-using PixelFarm.Drawing;
-using LayoutFarm.WebDom;
-using LayoutFarm.HtmlBoxes;
-using LayoutFarm.InternalHtmlDom;
+using PixelFarm.Drawing; 
+using LayoutFarm.HtmlBoxes; 
 using LayoutFarm.Composers;
 
-namespace LayoutFarm.Composers
+namespace LayoutFarm.WebDom
 {
 
     public class HtmlDocument : WebDocument

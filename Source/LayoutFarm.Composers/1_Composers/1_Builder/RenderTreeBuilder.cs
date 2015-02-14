@@ -20,7 +20,6 @@ using LayoutFarm.Css;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Parser;
 using LayoutFarm.HtmlBoxes;
-using LayoutFarm.InternalHtmlDom;
 
 namespace LayoutFarm.Composers
 {
@@ -795,7 +794,7 @@ namespace LayoutFarm.Composers
 
         static void AssignSvgAttributes(HtmlElement tag)
         {
-            SvgCreator.TranslateSvgAttributesMain(tag);
+            Svg.SvgCreator.TranslateSvgAttributesMain(tag);
         }
         static void AssignStylesFromTranslatedAttributesHTML5(HtmlElement tag)
         {

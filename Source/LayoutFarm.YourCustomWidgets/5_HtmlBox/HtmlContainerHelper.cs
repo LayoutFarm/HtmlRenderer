@@ -40,7 +40,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public static MyHtmlContainer CreateHtmlContainer(
             HtmlHost htmlHost,
-            HtmlDocument htmldoc,
+            WebDom.HtmlDocument htmldoc,
             HtmlFragmentRenderBox htmlFrgmentRenderBox)
         {
 
