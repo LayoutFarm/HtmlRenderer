@@ -179,6 +179,7 @@ namespace LayoutFarm.WebDom
                         bool result = myChildrenNodes.Remove(childNode);
                         if (result)
                         {
+                            childNode.SetParent(null);
                             NotifyChange(ElementChangeKind.RemoveChild);
                         }
                         return result;

@@ -15,7 +15,7 @@ using LayoutFarm.CustomWidgets;
 
 namespace LayoutFarm.WebWidgets
 {
-    [DemoNote("5.9 DemoTabPage")]
+    [DemoNote("5.3 DemoTabPage")]
     class DemoTabPage : HtmlDemoBase
     {
         protected override void OnHtmlHostCreated()
