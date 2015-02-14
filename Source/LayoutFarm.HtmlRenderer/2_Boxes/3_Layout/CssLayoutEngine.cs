@@ -220,10 +220,13 @@ namespace LayoutFarm.HtmlBoxes
                         }
                         else
                         {
+
                             if (ContainsInlinesOnly(box))
                             {
                                 //This will automatically set the bottom of this block
+
                                 PerformLayoutLinesContext(box, lay);
+
                             }
                             else if (box.ChildCount > 0)
                             {
@@ -490,6 +493,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
+
                 int childNumber = 0;
                 bool splitableParentIsBlock = splitableBox.ParentBox.IsBlock;
                 var ifonts = lay.SampleIFonts;
