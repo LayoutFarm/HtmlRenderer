@@ -11,7 +11,12 @@ using LayoutFarm.RenderBoxes;
 using LayoutFarm.CustomWidgets;
 namespace LayoutFarm.HtmlWidgets
 {
+
+
     public delegate void ScrollBarEvaluator(ScrollBar scBar, out double onePixelFore, out int scrollBoxHeight);
+
+
+
 
     public class ScrollBar : UIBox
     {
