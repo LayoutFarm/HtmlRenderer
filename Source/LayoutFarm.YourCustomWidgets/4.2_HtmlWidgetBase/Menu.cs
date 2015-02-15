@@ -279,7 +279,7 @@ namespace LayoutFarm.HtmlWidgets
     {
         bool showing;
         TopWindowRenderBox topWindow;
-        UIElement primaryUI;
+
         List<MenuItem> menuItems;
         DomElement pnode;
         MenuItem currentActiveMenuItem;
@@ -288,10 +288,7 @@ namespace LayoutFarm.HtmlWidgets
             : base(w, h)
         {
         }
-        public override UIElement GetPrimaryUIElement(HtmlBoxes.HtmlHost htmlhost)
-        {
-            return this.primaryUI = base.GetPrimaryUIElement(htmlhost);
-        }
+
         protected override DomElement GetPresentationDomNode(DomElement hostNode)
         {
             if (pnode != null) return pnode;
@@ -330,11 +327,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             this.topWindow = topwin;
         }
-        public void ShowMenu2(RootGraphic rootgfx, HtmlBoxes.HtmlHost htmlHost)
-        {
-            //add to top most
-
-        }
+      
         public void ShowMenu(RootGraphic rootgfx, HtmlBoxes.HtmlHost htmlHost)
         {
             //add to topmost box 
@@ -346,7 +339,7 @@ namespace LayoutFarm.HtmlWidgets
                     if (pnode == null)
                     {
                         var primUI = this.GetPrimaryUIElement(htmlHost) as LightHtmlBox;
-                        this.topWindow.AddChild(primaryUI.GetPrimaryRenderElement(rootgfx));
+                        this.topWindow.AddChild(this.CurrentPrimaryUIElement.GetPrimaryRenderElement(rootgfx));
                     }
                     else
                     {
@@ -357,7 +350,7 @@ namespace LayoutFarm.HtmlWidgets
                             var htmldoc = primUI.HtmlContainer.WebDocument as HtmlDocument;
                             htmldoc.RootNode.AddChild(pnode);
                         }
-                        this.topWindow.AddChild(primaryUI.GetPrimaryRenderElement(rootgfx));
+                        this.topWindow.AddChild(CurrentPrimaryUIElement.GetPrimaryRenderElement(rootgfx));
                     }
                 }
                 showing = true;
@@ -378,7 +371,7 @@ namespace LayoutFarm.HtmlWidgets
                     var parent = pnode.ParentNode as HtmlElement;
                     if (parent != null)
                     {
-                        var renderE = this.GetPrimaryRenderElement2(this.RootGfx);
+                        var renderE = this.GetPrimaryRenderElement(this.RootGfx);
                         parent.RemoveChild(pnode);
                         if (renderE != null)
                         {
@@ -400,14 +393,6 @@ namespace LayoutFarm.HtmlWidgets
         {
             get { return this.topWindow.Root; }
         }
-        internal RenderElement GetPrimaryRenderElement2(RootGraphic rootgfx)
-        {
-            if (this.primaryUI != null)
-            {
-                return primaryUI.GetPrimaryRenderElement(rootgfx);
-            }
-            return null;
-        }
-
+       
     }
 }

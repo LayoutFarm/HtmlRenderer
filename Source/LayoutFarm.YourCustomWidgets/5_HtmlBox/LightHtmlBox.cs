@@ -42,6 +42,11 @@ namespace LayoutFarm.CustomWidgets
            
             this.htmlhost = htmlHost;
         }
+        internal HtmlHost HtmlHost
+        {
+            get { return this.htmlhost; }
+        }
+            
         protected override void OnContentLayout()
         {
             this.PerformContentLayout();

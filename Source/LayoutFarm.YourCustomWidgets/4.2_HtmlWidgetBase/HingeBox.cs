@@ -104,21 +104,20 @@ namespace LayoutFarm.HtmlWidgets
             get { return this.floatPart; }
             set { this.floatPart = value; }
         }
-        public override UIElement GetPrimaryUIElement(HtmlHost htmlhost)
+        protected override void OnPrimaryUIElementCrated(HtmlHost htmlhost)
         {
             if (this.landPart == null)
             {
-                this.landPart = (LightHtmlBox)base.GetPrimaryUIElement(htmlhost);
-                if (floatPart == null)
-                {
-                    this.floatPart = new LightHtmlBox(htmlhost, this.Width, 300);
-                    this.floatPart.Visible = false;
-                    this.floatPart.LoadHtmlDom(CreateFloatPartDom());
-                }
+                this.landPart = (LightHtmlBox)base.GetPrimaryUIElement(htmlhost); 
             }
-
-            return landPart;
+            if (floatPart == null)
+            {
+                this.floatPart = new LightHtmlBox(htmlhost, this.Width, 300);
+                this.floatPart.Visible = false;
+                this.floatPart.LoadHtmlDom(CreateFloatPartDom());
+            }
         }
+        
         //---------------------------------------------------- 
         public bool IsOpen
         {

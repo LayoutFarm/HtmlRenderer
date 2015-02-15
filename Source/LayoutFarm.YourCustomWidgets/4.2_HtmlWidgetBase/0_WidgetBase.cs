@@ -13,12 +13,15 @@ using LayoutFarm.Composers;
 namespace LayoutFarm.HtmlWidgets
 {
 
-    public abstract class WidgetBase
+    public abstract class WidgetBase : IScrollable
     {
         int width;
         int height;
         int left;
         int top;
+        int viewportX;
+        int viewportY;
+        public event EventHandler LayoutFinished;
 
         public WidgetBase(int w, int h)
         {
@@ -44,21 +47,43 @@ namespace LayoutFarm.HtmlWidgets
 
         public abstract UIElement GetPrimaryUIElement(HtmlHost htmlhost);
 
-        public void SetLocation(int left, int top)
+        public virtual void SetLocation(int left, int top)
         {
             this.left = left;
             this.top = top;
         }
+        public virtual void SetSize(int width, int height)
+        {
+            this.width = width;
+            this.height = height;
+        }
+        public virtual void SetViewport(int x, int y)
+        {
+            this.viewportX = x;
+            this.viewportY = y;
+        }
+        public int ViewportX { get { return this.viewportX; } }
+        public int ViewportY { get { return this.viewportY; } }
+        public int ViewportWidth { get { return this.Width; } }
+        public int ViewportHeight { get { return this.Height; } }
+        public virtual int DesiredWidth { get { return this.Width; } }
+        public virtual int DesiredHeight { get { return this.height; } }
+
+        protected void RaiseEventLayoutFinished()
+        {
+            if (this.LayoutFinished != null)
+            {
+                this.LayoutFinished(this, EventArgs.Empty);
+            }
+        }
+
     }
 
-    public abstract class LightHtmlWidgetBase : WidgetBase, IScrollable
+    public abstract class LightHtmlWidgetBase : WidgetBase
     {
 
         LightHtmlBox lightHtmlBox; //primary ui element
-        HtmlHost myHtmlHost;
-        int viewportX;
-        int viewportY;
-        public event EventHandler LayoutFinished;
+
 
         public LightHtmlWidgetBase(int w, int h)
             : base(w, h)
@@ -69,7 +94,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (this.lightHtmlBox == null)
             {
-                this.myHtmlHost = htmlhost;
+
                 var lightHtmlBox = new LightHtmlBox(htmlhost, this.Width, this.Height);
                 FragmentHtmlDocument htmldoc = htmlhost.CreateNewFragmentHtml();
                 var presentationDom = GetPresentationDomNode(htmldoc.RootNode);
@@ -78,22 +103,36 @@ namespace LayoutFarm.HtmlWidgets
                     htmldoc.RootNode.AddChild(presentationDom);
                     lightHtmlBox.LoadHtmlDom(htmldoc);
                 }
-                lightHtmlBox.SetLocation(this.Left, this.Top);
-                lightHtmlBox.LayoutFinished += (s, e) =>
-                {
-                    if (LayoutFinished != null)
-                    {
-                        this.LayoutFinished(this, EventArgs.Empty);
-                    }
 
-                };
+                lightHtmlBox.SetLocation(this.Left, this.Top);
+
+                lightHtmlBox.LayoutFinished += (s, e) => this.RaiseEventLayoutFinished();
+
                 this.lightHtmlBox = lightHtmlBox;
+                //first time
+                OnPrimaryUIElementCrated(htmlhost);
             }
             return this.lightHtmlBox;
         }
+        public RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+        {
+            return lightHtmlBox.GetPrimaryRenderElement(rootgfx);
+        }
+        protected virtual void OnPrimaryUIElementCrated(HtmlHost htmlhost)
+        {
+
+        }
+        protected UIElement CurrentPrimaryUIElement
+        {
+            get { return this.lightHtmlBox; }
+        }
+
         public HtmlHost HtmlHost
         {
-            get { return this.myHtmlHost; }
+            get
+            {
+                return lightHtmlBox.HtmlHost;
+            }
         }
         protected void InvalidateGraphics()
         {
@@ -101,40 +140,17 @@ namespace LayoutFarm.HtmlWidgets
         }
 
         protected abstract WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode);
-
         //------------------------------------------
-        public void SetViewport(int x, int y)
-        {
-            this.viewportX = x;
-            this.viewportY = y;
-            lightHtmlBox.SetViewport(x, y);
-        }
-        public int ViewportX
-        {
-            get { return this.viewportX; }
 
-        }
-
-        public int ViewportY
+        public override void SetViewport(int x, int y)
         {
-            get { return this.viewportY; }
-        }
-        public int ViewportWidth
-        {
-            get { return this.Width; }
-        }
-        public int ViewportHeight
-        {
-            get { return this.Height; }
-        }
-        public int DesiredWidth
-        {
-            get
+            base.SetViewport(x, y);
+            if (this.lightHtmlBox != null)
             {
-                return this.Width;
+                lightHtmlBox.SetViewport(x, y);
             }
         }
-        public int DesiredHeight
+        public override int DesiredHeight
         {
             get
             {
@@ -142,12 +158,9 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     return this.lightHtmlBox.DesiredHeight;
                 }
-                else
-                {
-                    return this.Height;
-                }
-
+                return base.DesiredHeight;
             }
         }
+
     }
 }
