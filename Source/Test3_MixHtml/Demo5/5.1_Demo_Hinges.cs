@@ -49,12 +49,9 @@ namespace LayoutFarm.WebWidgets
                 }
 
                 rootMenuItem.AddSubMenuItem(menuItem);
-            }
-
+            } 
             AddToViewport(rootMenuBox);
-            rootMenuBox.SetTopWindowRenderBox(this.sampleViewport.Root.TopWindowRenderBox);
         }
-
         LayoutFarm.HtmlWidgets.ComboBox CreateComboBox(int x, int y)
         {
 

@@ -78,6 +78,7 @@ namespace LayoutFarm.Demo
             this.graphicsPlatform = p;
             this._htmlPanel = new LayoutFarm.Demo.HtmlPanel(this.graphicsPlatform, 800, 600);
             this.htmlHost = new LayoutFarm.HtmlBoxes.HtmlHost(p);
+
             htmlHost.AttachEssentailHandlers(
                 this.HandleImageRequest,
                 this.HandleStylesheetRequest);

@@ -19,11 +19,11 @@ namespace LayoutFarm.CustomWidgets
 
     public class LightHtmlBox : UIBox, IUserEventPortal
     {
-        WaitingContent waitingContentKind;
+        WaitingContentKind waitingContentKind;
         string waitingHtmlFragmentString;
         FragmentHtmlDocument waitingHtmlDoc;
 
-        enum WaitingContent : byte
+        enum WaitingContentKind : byte
         {
             NoWaitingContent,
             HtmlFragmentString,
@@ -39,14 +39,14 @@ namespace LayoutFarm.CustomWidgets
         public LightHtmlBox(HtmlHost htmlHost, int width, int height)
             : base(width, height)
         {
-            if (htmlHost.HasRegisterCssBoxGenerator(typeof(MyCssBoxGenerator)))
-            {
-                htmlHost.RegisterCssBoxGenerator(new MyCssBoxGenerator());
-            }
-            //--------
-
+           
             this.htmlhost = htmlHost;
         }
+        internal HtmlHost HtmlHost
+        {
+            get { return this.htmlhost; }
+        }
+            
         protected override void OnContentLayout()
         {
             this.PerformContentLayout();
@@ -199,13 +199,13 @@ namespace LayoutFarm.CustomWidgets
             switch (this.waitingContentKind)
             {
                 default:
-                case WaitingContent.NoWaitingContent:
+                case WaitingContentKind.NoWaitingContent:
                     break;
-                case WaitingContent.HtmlDocument:
+                case WaitingContentKind.HtmlDocument:
                     {
                         LoadHtmlDom(this.waitingHtmlDoc);
                     } break;
-                case WaitingContent.HtmlFragmentString:
+                case WaitingContentKind.HtmlFragmentString:
                     {
                         LoadHtmlFragmentString(this.waitingHtmlFragmentString);
                     } break;
@@ -218,14 +218,14 @@ namespace LayoutFarm.CustomWidgets
         {
             this.waitingHtmlDoc = null;
             this.waitingHtmlFragmentString = null;
-            waitingContentKind = WaitingContent.NoWaitingContent;
+            waitingContentKind = WaitingContentKind.NoWaitingContent;
 
         }
         public void LoadHtmlDom(FragmentHtmlDocument htmldoc)
         {
             if (frgmRenderBox == null)
             {
-                this.waitingContentKind = WaitingContent.HtmlDocument;
+                this.waitingContentKind = WaitingContentKind.HtmlDocument;
                 this.waitingHtmlDoc = htmldoc;
             }
             else
@@ -242,7 +242,7 @@ namespace LayoutFarm.CustomWidgets
         {
             if (frgmRenderBox == null)
             {
-                this.waitingContentKind = WaitingContent.HtmlFragmentString;
+                this.waitingContentKind = WaitingContentKind.HtmlFragmentString;
                 this.waitingHtmlFragmentString = fragmentHtmlString;
             }
             else

@@ -31,7 +31,7 @@ namespace LayoutFarm.HtmlWidgets
                 this.buttonText = value;
             }
         }
-        protected override DomElement GetPresentationDomNode(DomElement hostNode)
+        public override DomElement GetPresentationDomNode(DomElement hostNode)
         {
             if (pnode != null) return pnode;
             //----------------------------------
@@ -54,6 +54,7 @@ namespace LayoutFarm.HtmlWidgets
                     ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa));
 
                     e.StopPropagation();
+
                     this.InvalidateGraphics();
 
                 });
