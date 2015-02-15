@@ -21,7 +21,8 @@ namespace LayoutFarm
         {
             //add widget to viewport
             //must create a WidgetHolder
-            LayoutFarm.HtmlWidgets.WidgetHolder holder = new HtmlWidgets.WidgetHolder(ui); 
+
+            var holder = new HtmlWidgets.WidgetHolder(ui);
             AddContent(viewport, ui.GetPrimaryUIElement(host));
         }
     }

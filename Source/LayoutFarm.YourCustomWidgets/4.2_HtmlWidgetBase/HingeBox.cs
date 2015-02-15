@@ -23,9 +23,9 @@ namespace LayoutFarm.HtmlWidgets
         Color backColor = Color.LightGray;
         bool isOpen;
         //1. land part
-        LightHtmlBox landPart;
+        HtmlBox landPart;
         //2. float part   
-        LightHtmlBox floatPart;
+        HtmlBox floatPart;
 
         RenderElement floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
@@ -94,12 +94,12 @@ namespace LayoutFarm.HtmlWidgets
             return presentationNode;
         }
 
-        public LightHtmlBox LandPart
+        public HtmlBox LandPart
         {
             get { return this.landPart; }
             set { this.landPart = value; }
         }
-        public LightHtmlBox FloatPart
+        public HtmlBox FloatPart
         {
             get { return this.floatPart; }
             set { this.floatPart = value; }
@@ -108,11 +108,11 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (this.landPart == null)
             {
-                this.landPart = (LightHtmlBox)base.GetPrimaryUIElement(htmlhost);
+                this.landPart = (HtmlBox)base.GetPrimaryUIElement(htmlhost);
             }
             if (floatPart == null)
             {
-                this.floatPart = new LightHtmlBox(htmlhost, this.Width, 300);
+                this.floatPart = new HtmlBox(htmlhost, this.Width, 300);
                 this.floatPart.Visible = false;
                 this.floatPart.LoadHtmlDom(CreateFloatPartDom());
             }

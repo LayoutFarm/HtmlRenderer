@@ -15,61 +15,14 @@ using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.HtmlBoxes
 {
-
+ 
     public class HtmlRenderBox : RenderBoxBase
-    {
-        MyHtmlContainer myHtmlCont;
-
-        public HtmlRenderBox(RootGraphic rootgfx,
-            int width, int height,
-            MyHtmlContainer htmlCont)
-            : base(rootgfx, width, height)
-        {
-
-            this.myHtmlCont = htmlCont;
-        }
-        public override void ClearAllChildren()
-        {
-
-        }
-        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
-        {
-            myHtmlCont.CheckDocUpdate();
-            var painter = PainterStock.GetSharedPainter(myHtmlCont, canvas);
-
-            painter.SetViewportSize(this.Width, this.Height);
-
-            int vwX, vwY;
-
-            painter.OffsetCanvasOrigin(vwX = this.ViewportX, vwY = this.ViewportY);
-
-            myHtmlCont.PerformPaint(painter);
-
-            painter.OffsetCanvasOrigin(-vwX, -vwY);
-
-            PainterStock.ReleaseSharedPainter(painter);
-        }
-        public override void ChildrenHitTestCore(HitChain hitChain)
-        {
-        }
-        public int HtmlWidth
-        {
-            get { return (int)this.myHtmlCont.ActualWidth; }
-        }
-        public int HtmlHeight
-        {
-            get { return (int)this.myHtmlCont.ActualHeight; }
-        }
-    }
-
-    //===================================================================
-    public class HtmlFragmentRenderBox : RenderBoxBase
     {
 
         MyHtmlContainer myHtmlCont;
         CssBox cssBox;
 
-        public HtmlFragmentRenderBox(RootGraphic rootgfx,
+        public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height)
             : base(rootgfx, width, height)
         {

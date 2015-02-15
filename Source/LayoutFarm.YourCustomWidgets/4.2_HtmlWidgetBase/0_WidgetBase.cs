@@ -45,7 +45,7 @@ namespace LayoutFarm.HtmlWidgets
             get { return this.top; }
         }
 
-        public abstract UIElement GetPrimaryUIElement(HtmlHost htmlhost);
+        //public abstract UIElement GetPrimaryUIElement(HtmlHost htmlhost);
 
         public virtual void SetLocation(int left, int top)
         {
@@ -80,7 +80,7 @@ namespace LayoutFarm.HtmlWidgets
 
     public sealed class WidgetHolder
     {
-        LightHtmlBox lightHtmlBox;
+        HtmlBox lightHtmlBox;
         LightHtmlWidgetBase widget;
 
         public WidgetHolder(LightHtmlWidgetBase widget)
@@ -92,7 +92,7 @@ namespace LayoutFarm.HtmlWidgets
             if (this.lightHtmlBox == null)
             {
 
-                var lightHtmlBox = new LightHtmlBox(htmlhost, widget.Width, widget.Height);
+                var lightHtmlBox = new HtmlBox(htmlhost, widget.Width, widget.Height);
                 FragmentHtmlDocument htmldoc = htmlhost.CreateNewFragmentHtml();
                 var presentationDom = widget.GetPresentationDomNode(htmldoc.RootNode);
                 if (presentationDom != null)
@@ -116,18 +116,18 @@ namespace LayoutFarm.HtmlWidgets
     public abstract class LightHtmlWidgetBase : WidgetBase
     {
         DomElement myPresentationDom;
-        LightHtmlBox lightHtmlBox; //primary ui element
+        HtmlBox lightHtmlBox; //primary ui element
         public LightHtmlWidgetBase(int w, int h)
             : base(w, h)
         {
         }
 
-        public override UIElement GetPrimaryUIElement(HtmlHost htmlhost)
+        public virtual UIElement GetPrimaryUIElement(HtmlHost htmlhost)
         {
             if (this.lightHtmlBox == null)
             {
 
-                var lightHtmlBox = new LightHtmlBox(htmlhost, this.Width, this.Height);
+                var lightHtmlBox = new HtmlBox(htmlhost, this.Width, this.Height);
                 FragmentHtmlDocument htmldoc = htmlhost.CreateNewFragmentHtml();
                 myPresentationDom = GetPresentationDomNode(htmldoc.RootNode);
                 if (myPresentationDom != null)
@@ -136,7 +136,7 @@ namespace LayoutFarm.HtmlWidgets
                     lightHtmlBox.LoadHtmlDom(htmldoc);
                 }
 
-                lightHtmlBox.SetLocation(this.Left, this.Top); 
+                lightHtmlBox.SetLocation(this.Left, this.Top);
                 lightHtmlBox.LayoutFinished += (s, e) => this.RaiseEventLayoutFinished();
 
                 this.lightHtmlBox = lightHtmlBox;
@@ -155,7 +155,7 @@ namespace LayoutFarm.HtmlWidgets
             {
                 if (this.myPresentationDom == null)
                 {
-                    var primUI = this.GetPrimaryUIElement(htmlhost) as LightHtmlBox;
+                    var primUI = this.GetPrimaryUIElement(htmlhost) as HtmlBox;
                     topWindow.AddChild(primUI.GetPrimaryRenderElement(htmlhost.RootGfx));
                 }
                 else
@@ -163,7 +163,7 @@ namespace LayoutFarm.HtmlWidgets
                     var parent = myPresentationDom.ParentNode as HtmlElement;
                     if (parent == null)
                     {
-                        var primUI = this.GetPrimaryUIElement(htmlhost) as LightHtmlBox;
+                        var primUI = this.GetPrimaryUIElement(htmlhost) as HtmlBox;
                         var htmldoc = primUI.HtmlContainer.WebDocument as HtmlDocument;
                         htmldoc.RootNode.AddChild(myPresentationDom);
                     }
