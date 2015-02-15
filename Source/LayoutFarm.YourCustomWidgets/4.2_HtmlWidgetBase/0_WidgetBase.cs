@@ -117,13 +117,15 @@ namespace LayoutFarm.HtmlWidgets
     {
         DomElement myPresentationDom;
         HtmlBox lightHtmlBox; //primary ui element
+        HtmlHost htmlhost;
         public LightHtmlWidgetBase(int w, int h)
             : base(w, h)
         {
         }
 
-        public virtual UIElement GetPrimaryUIElement(HtmlHost htmlhost)
+        public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
         {
+            this.htmlhost = htmlhost;
             if (this.lightHtmlBox == null)
             {
 
@@ -141,7 +143,7 @@ namespace LayoutFarm.HtmlWidgets
 
                 this.lightHtmlBox = lightHtmlBox;
                 //first time
-                OnPrimaryUIElementCrated(htmlhost);
+                OnPrimaryUIElementCreated(htmlhost);
             }
             return this.lightHtmlBox;
         }
@@ -153,23 +155,17 @@ namespace LayoutFarm.HtmlWidgets
             var topWindow = htmlhost.TopWindowRenderBox;
             if (topWindow != null)
             {
-                if (this.myPresentationDom == null)
-                {
-                    var primUI = this.GetPrimaryUIElement(htmlhost) as HtmlBox;
-                    topWindow.AddChild(primUI.GetPrimaryRenderElement(htmlhost.RootGfx));
-                }
-                else
+                var primUI = this.GetPrimaryUIElement(htmlhost) as HtmlBox;
+                if (this.myPresentationDom != null)
                 {
                     var parent = myPresentationDom.ParentNode as HtmlElement;
                     if (parent == null)
                     {
-                        var primUI = this.GetPrimaryUIElement(htmlhost) as HtmlBox;
                         var htmldoc = primUI.HtmlContainer.WebDocument as HtmlDocument;
                         htmldoc.RootNode.AddChild(myPresentationDom);
                     }
-                    topWindow.AddChild(CurrentPrimaryUIElement.GetPrimaryRenderElement(htmlhost.RootGfx));
                 }
-
+                topWindow.AddChild(primUI.GetPrimaryRenderElement(htmlhost.RootGfx));
             }
         }
         protected void RemoveSelfFromTopWindow()
@@ -188,20 +184,16 @@ namespace LayoutFarm.HtmlWidgets
                 }
             }
         }
-        protected virtual void OnPrimaryUIElementCrated(HtmlHost htmlhost)
+        protected virtual void OnPrimaryUIElementCreated(HtmlHost htmlhost)
         {
 
-        }
-        protected UIElement CurrentPrimaryUIElement
-        {
-            get { return this.lightHtmlBox; }
         }
 
         public HtmlHost HtmlHost
         {
             get
             {
-                return lightHtmlBox.HtmlHost;
+                return htmlhost;
             }
         }
         protected void InvalidateGraphics()
@@ -232,7 +224,7 @@ namespace LayoutFarm.HtmlWidgets
 
         internal static void RaiseOnPrimaryUIElementCrated(LightHtmlWidgetBase widget, HtmlHost htmlhost)
         {
-            widget.OnPrimaryUIElementCrated(htmlhost);
+            widget.OnPrimaryUIElementCreated(htmlhost);
         }
         public override void SetLocation(int left, int top)
         {

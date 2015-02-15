@@ -97,14 +97,12 @@ namespace LayoutFarm.HtmlWidgets
         public HtmlBox LandPart
         {
             get { return this.landPart; }
-            set { this.landPart = value; }
         }
         public HtmlBox FloatPart
         {
             get { return this.floatPart; }
-            set { this.floatPart = value; }
         }
-        protected override void OnPrimaryUIElementCrated(HtmlHost htmlhost)
+        protected override void OnPrimaryUIElementCreated(HtmlHost htmlhost)
         {
             if (this.landPart == null)
             {
