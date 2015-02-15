@@ -110,11 +110,12 @@ namespace LayoutFarm.HtmlWidgets
             }
             return this.lightHtmlBox;
         }
+
     }
 
     public abstract class LightHtmlWidgetBase : WidgetBase
     {
-
+        DomElement myPresentationDom;
         LightHtmlBox lightHtmlBox; //primary ui element
         public LightHtmlWidgetBase(int w, int h)
             : base(w, h)
@@ -128,15 +129,14 @@ namespace LayoutFarm.HtmlWidgets
 
                 var lightHtmlBox = new LightHtmlBox(htmlhost, this.Width, this.Height);
                 FragmentHtmlDocument htmldoc = htmlhost.CreateNewFragmentHtml();
-                var presentationDom = GetPresentationDomNode(htmldoc.RootNode);
-                if (presentationDom != null)
+                myPresentationDom = GetPresentationDomNode(htmldoc.RootNode);
+                if (myPresentationDom != null)
                 {
-                    htmldoc.RootNode.AddChild(presentationDom);
+                    htmldoc.RootNode.AddChild(myPresentationDom);
                     lightHtmlBox.LoadHtmlDom(htmldoc);
                 }
 
-                lightHtmlBox.SetLocation(this.Left, this.Top);
-
+                lightHtmlBox.SetLocation(this.Left, this.Top); 
                 lightHtmlBox.LayoutFinished += (s, e) => this.RaiseEventLayoutFinished();
 
                 this.lightHtmlBox = lightHtmlBox;
@@ -145,9 +145,48 @@ namespace LayoutFarm.HtmlWidgets
             }
             return this.lightHtmlBox;
         }
-        public RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
+
+        protected void AddSelfTopTopWindow()
         {
-            return lightHtmlBox.GetPrimaryRenderElement(rootgfx);
+            var htmlhost = this.HtmlHost;
+            if (htmlhost == null) return;
+            var topWindow = htmlhost.TopWindowRenderBox;
+            if (topWindow != null)
+            {
+                if (this.myPresentationDom == null)
+                {
+                    var primUI = this.GetPrimaryUIElement(htmlhost) as LightHtmlBox;
+                    topWindow.AddChild(primUI.GetPrimaryRenderElement(htmlhost.RootGfx));
+                }
+                else
+                {
+                    var parent = myPresentationDom.ParentNode as HtmlElement;
+                    if (parent == null)
+                    {
+                        var primUI = this.GetPrimaryUIElement(htmlhost) as LightHtmlBox;
+                        var htmldoc = primUI.HtmlContainer.WebDocument as HtmlDocument;
+                        htmldoc.RootNode.AddChild(myPresentationDom);
+                    }
+                    topWindow.AddChild(CurrentPrimaryUIElement.GetPrimaryRenderElement(htmlhost.RootGfx));
+                }
+
+            }
+        }
+        protected void RemoveSelfFromTopWindow()
+        {
+            //TODO: review here again 
+            if (lightHtmlBox != null)
+            {
+                RenderElement currentRenderE = lightHtmlBox.CurrentPrimaryRenderElement;
+                if (currentRenderE != null && currentRenderE.HasParent)
+                {
+                    var topRenderBox = currentRenderE.ParentRenderElement as TopWindowRenderBox;
+                    if (topRenderBox != null)
+                    {
+                        topRenderBox.RemoveChild(currentRenderE);
+                    }
+                }
+            }
         }
         protected virtual void OnPrimaryUIElementCrated(HtmlHost htmlhost)
         {
@@ -171,8 +210,6 @@ namespace LayoutFarm.HtmlWidgets
         }
 
         public abstract WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode);
-        //------------------------------------------
-
         public override void SetViewport(int x, int y)
         {
             base.SetViewport(x, y);
@@ -197,6 +234,13 @@ namespace LayoutFarm.HtmlWidgets
         {
             widget.OnPrimaryUIElementCrated(htmlhost);
         }
-
+        public override void SetLocation(int left, int top)
+        {
+            base.SetLocation(left, top);
+            if (this.lightHtmlBox != null)
+            {
+                lightHtmlBox.SetLocation(left, top);
+            }
+        }
     }
 }

@@ -27,14 +27,12 @@ namespace LayoutFarm.HtmlWidgets
         //2. float part   
         MenuBox floatPart;
         HingeFloatPartStyle floatPartStyle;
-
         List<MenuItem> childItems;
 
         public MenuItem(int width, int height)
         {
 
         }
-
         public DomElement GetPresentationDomNode(DomElement hostNode)
         {
             if (pnode != null) return pnode;
@@ -72,35 +70,6 @@ namespace LayoutFarm.HtmlWidgets
                     }
                 });
             });
-            ////--------------------------------------
-            ////if click on this image then
-            //imgBox.MouseDown += (s, e) =>
-            //{
-            //    e.CancelBubbling = true;
-            //    //1. maintenace parent menu***
-            //    mnuItem.MaintenanceParentOpenState();
-            //    //-----------------------------------------------
-            //    if (mnuItem.IsOpened)
-            //    {
-            //        mnuItem.Close();
-            //    }
-            //    else
-            //    {
-            //        mnuItem.Open();
-            //    }
-            //};
-            //imgBox.MouseUp += (s, e) =>
-            //{
-            //    mnuItem.UnmaintenanceParentOpenState();
-            //};
-            //imgBox.LostSelectedFocus += (s, e) =>
-            //{
-            //    if (!mnuItem.MaintenceOpenState)
-            //    {
-            //        mnuItem.CloseRecursiveUp();
-            //    }
-            //};
-
             pnode.AddChild("span", content =>
             {
                 if (menuItemText != null)
@@ -110,9 +79,11 @@ namespace LayoutFarm.HtmlWidgets
             });
 
             //--------------------------------------------------------
-            floatPart = new MenuBox(400, 200);
+            //create simple menu item box 
+
             if (childItems != null)
             {
+                floatPart = new MenuBox(400, 200);
                 int j = childItems.Count;
                 for (int i = 0; i < j; ++i)
                 {
@@ -121,6 +92,7 @@ namespace LayoutFarm.HtmlWidgets
             }
             return pnode;
         }
+        public DomElement CurrentDomElement { get { return this.pnode; } }
         public string MenuItemText
         {
             get { return this.menuItemText; }
@@ -152,20 +124,11 @@ namespace LayoutFarm.HtmlWidgets
                     {
                         //add float part to top window layer
                         if (this.ownerMenuBox == null) return;
-                        var topRenderBox = ownerMenuBox.TopWindowRenderBox;
-                        if (topRenderBox == null) return;
-                        //------------------------------------------------ 
                         if (floatPart != null)
                         {
-                            //show float part
-                            //position relative to this menuItem
-                            var htmlPNode = pnode as HtmlElement;
-                            HtmlBoxes.CssBox nodePrincipalBox = htmlPNode.GetPrincipalBox();
-                            //find global position of nodePrincipalBox
-                            Point p = nodePrincipalBox.GetElementGlobalLocation();
-                            floatPart.SetLocation(p.X + this.ownerMenuBox.Width, p.Y);
-                            floatPart.ShowMenu(this.ownerMenuBox.RootGfx, this.ownerMenuBox.HtmlHost);
+                            floatPart.ShowMenu(this);
                         }
+
 
                     } break;
                 case HingeFloatPartStyle.Embeded:
@@ -193,15 +156,10 @@ namespace LayoutFarm.HtmlWidgets
                 case HingeFloatPartStyle.Popup:
                     {
                         if (this.ownerMenuBox == null) return;
-                        //------------------------------------------------ 
-                        var topRenderBox = ownerMenuBox.TopWindowRenderBox;
-                        if (topRenderBox == null) return;
-                        //------------------------------------------------ 
-                        HtmlElement htmlPNode = pnode as HtmlElement;
+
                         if (floatPart != null)
                         {
                             floatPart.HideMenu();
-
                         }
 
                     } break;
@@ -211,9 +169,11 @@ namespace LayoutFarm.HtmlWidgets
 
             }
         }
-        internal void SetOwnerMenuBox(MenuBox menuBox)
+
+        internal MenuBox OwnerMenuBox
         {
-            this.ownerMenuBox = menuBox;
+            get { return this.ownerMenuBox; }
+            set { this.ownerMenuBox = value; }
         }
         public void MaintenanceParentOpenState()
         {
@@ -278,17 +238,15 @@ namespace LayoutFarm.HtmlWidgets
     public class MenuBox : LightHtmlWidgetBase
     {
         bool showing;
-        TopWindowRenderBox topWindow;
-
         List<MenuItem> menuItems;
         DomElement pnode;
         MenuItem currentActiveMenuItem;
+
 
         public MenuBox(int w, int h)
             : base(w, h)
         {
         }
-
         public override DomElement GetPresentationDomNode(DomElement hostNode)
         {
             if (pnode != null) return pnode;
@@ -316,43 +274,31 @@ namespace LayoutFarm.HtmlWidgets
             {
                 pnode.AddChild(mnuItem.GetPresentationDomNode(pnode));
             }
-            mnuItem.SetOwnerMenuBox(this);
-        }
-        internal TopWindowRenderBox TopWindowRenderBox
-        {
-            get { return this.topWindow; }
+            mnuItem.OwnerMenuBox = this;
         }
 
-        public void SetTopWindowRenderBox(TopWindowRenderBox topwin)
-        {
-            this.topWindow = topwin;
-        }
-      
-        public void ShowMenu(RootGraphic rootgfx, HtmlBoxes.HtmlHost htmlHost)
+
+
+        public void ShowMenu(MenuItem relativeToMenuItem)
         {
             //add to topmost box 
+
             if (!showing)
             {
-                this.topWindow = rootgfx.TopWindowRenderBox;
-                if (topWindow != null)
+                var host = relativeToMenuItem.OwnerMenuBox.HtmlHost;
+
+                if (this.pnode == null)
                 {
-                    if (pnode == null)
-                    {
-                        var primUI = this.GetPrimaryUIElement(htmlHost) as LightHtmlBox;
-                        this.topWindow.AddChild(this.CurrentPrimaryUIElement.GetPrimaryRenderElement(rootgfx));
-                    }
-                    else
-                    {
-                        var parent = pnode.ParentNode as HtmlElement;
-                        if (parent == null)
-                        {
-                            var primUI = this.GetPrimaryUIElement(htmlHost) as LightHtmlBox;
-                            var htmldoc = primUI.HtmlContainer.WebDocument as HtmlDocument;
-                            htmldoc.RootNode.AddChild(pnode);
-                        }
-                        this.topWindow.AddChild(CurrentPrimaryUIElement.GetPrimaryRenderElement(rootgfx));
-                    }
+                    //create presentation first
+                    var fragmentdoc = host.CreateNewFragmentHtml();
+                    this.GetPrimaryUIElement(host);
                 }
+                HtmlElement relativeMenuItemElement = relativeToMenuItem.CurrentDomElement as HtmlElement;
+                var nodePrincipalBox = relativeMenuItemElement.GetPrincipalBox();
+                Point p = nodePrincipalBox.GetElementGlobalLocation();
+                this.SetLocation(p.X + relativeToMenuItem.OwnerMenuBox.Width, p.Y);
+
+                this.AddSelfTopTopWindow();
                 showing = true;
             }
         }
@@ -371,12 +317,8 @@ namespace LayoutFarm.HtmlWidgets
                     var parent = pnode.ParentNode as HtmlElement;
                     if (parent != null)
                     {
-                        var renderE = this.GetPrimaryRenderElement(this.RootGfx);
                         parent.RemoveChild(pnode);
-                        if (renderE != null)
-                        {
-                            this.topWindow.RemoveChild(renderE);
-                        }
+                        this.RemoveSelfFromTopWindow();
                     }
                 }
                 showing = false;
@@ -389,10 +331,7 @@ namespace LayoutFarm.HtmlWidgets
             set { this.currentActiveMenuItem = value; }
         }
 
-        internal RootGraphic RootGfx
-        {
-            get { return this.topWindow.Root; }
-        }
-       
+
+
     }
 }
