@@ -39,7 +39,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void Bind(HtmlContainer htmlCont)
         {
-
             this._htmlContainer = htmlCont;
             _isBinded = htmlCont != null;
         }

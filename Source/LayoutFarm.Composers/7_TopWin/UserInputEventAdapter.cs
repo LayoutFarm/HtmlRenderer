@@ -244,12 +244,12 @@ namespace LayoutFarm.UI
 
             RenderElement hitElement = hitPointChain.TopMostElement;
             if (hitCount > 0)
-            {
-
+            {   
                 //------------------------------
                 //1. origin object 
                 SetEventOrigin(e, hitPointChain);
                 //------------------------------ 
+                var prevMouseDownElement = this.currentMouseDown;
 
                 //portal                
                 ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
@@ -257,7 +257,8 @@ namespace LayoutFarm.UI
                     portal.PortalMouseDown(e);
                     //*****
                     this.currentMouseDown = e.CurrentContextElement;
-                   
+
+
                     if (e.CurrentContextElement != null && e.CurrentContextElement.AcceptKeyboardFocus)
                     {
                         this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
@@ -269,14 +270,10 @@ namespace LayoutFarm.UI
                 //use events
                 if (!e.CancelBubbling)
                 {
-                    bool mouseDownHitInLoop = false;
-                    var prevMouseDownElement = this.currentMouseDown;
-                    e.CurrentContextElement = this.currentMouseDown = null; //clear
 
+                    e.CurrentContextElement = this.currentMouseDown = null; //clear 
                     ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                     {
-                        mouseDownHitInLoop = true;
-
                         this.currentMouseDown = e.CurrentContextElement;
                         listener.ListenMouseDown(e);
 
@@ -294,18 +291,20 @@ namespace LayoutFarm.UI
                             prevMouseDownElement != listener)
                         {
                             prevMouseDownElement.ListenLostMouseFocus(e);
+                            prevMouseDownElement = null;//clear
                         }
                         return true;
                     });
-
-
-                    if (!mouseDownHitInLoop && prevMouseDownElement != null)
-                    {
-                        prevMouseDownElement.ListenLostMouseFocus(e);
-                    }
-
-
                 }
+
+                if (prevMouseDownElement != currentMouseDown &&
+                    prevMouseDownElement != null)
+                {
+                    prevMouseDownElement.ListenLostMouseFocus(e);
+                    prevMouseDownElement = null;
+                }
+
+
             }
             //---------------------------------------------------------------
 
