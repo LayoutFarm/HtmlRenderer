@@ -19,6 +19,7 @@ namespace LayoutFarm.HtmlBoxes
     public class HtmlInputEventAdapter
     {
         DateTime lastimeMouseUp;
+        IEventListener currentMouseDown;
         //-----------------------------------------------
         HtmlContainer _htmlContainer;
         CssBoxHitChain _latestMouseDownChain = null;
@@ -38,7 +39,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void Bind(HtmlContainer htmlCont)
         {
-
             this._htmlContainer = htmlCont;
             _isBinded = htmlCont != null;
         }
@@ -98,19 +98,28 @@ namespace LayoutFarm.HtmlBoxes
 
             if (!e.CancelBubbling)
             {
+                var prevMouseDownElement = this.currentMouseDown;
+                e.CurrentContextElement = this.currentMouseDown = null; //clear
+                
                 ForEachEventListenerBubbleUp(e, hitChain, () =>
                 {
+                    //TODO: check accept keyboard
+                    this.currentMouseDown = e.CurrentContextElement;
                     e.CurrentContextElement.ListenMouseDown(e);
+                    
+                    if (prevMouseDownElement != null &&
+                        prevMouseDownElement != currentMouseDown)
+                    {
+                        prevMouseDownElement.ListenLostMouseFocus(e);
+                    }
+
                     return e.CancelBubbling;
                 });
             }
             //----------------------------------
             //save mousedown hitchain
             this._latestMouseDownChain = hitChain;
-
-            if (this._latestMouseDownChain == null)
-            {
-            }
+             
         }
         public void MouseDown(UIMouseEventArgs e)
         {
@@ -134,10 +143,7 @@ namespace LayoutFarm.HtmlBoxes
                     hitChain.SetRootGlobalPosition(x, y);
 
                     BoxHitUtils.HitTest(startAt, x, y, hitChain);
-                    //if (hitChain.Count == 0)
-                    //{
-
-                    //}
+                    
                     SetEventOrigin(e, hitChain);
                     //---------------------------------------------------------
                     //propagate mouse drag 
@@ -146,9 +152,7 @@ namespace LayoutFarm.HtmlBoxes
                         portal.PortalMouseMove(e);
                         return true;
                     });
-                    //---------------------------------------------------------  
-
-
+                    //---------------------------------------------------------   
                     if (!e.CancelBubbling)
                     {
                         ClearPreviousSelection();
@@ -184,6 +188,7 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             this._htmlContainer.SetSelection(null);
                         }
+                     
                         ForEachEventListenerBubbleUp(e, hitChain, () =>
                         {
                             e.CurrentContextElement.ListenMouseMove(e);

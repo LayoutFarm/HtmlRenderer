@@ -379,6 +379,10 @@ namespace LayoutFarm.Composers
         {
             get { return this.containerElement; }
         }
+        protected override Point GetElementGlobalLocationImpl()
+        {
+            return containerElement.GetGlobalLocation();             
+        }
     }
     class CssIsolateBox : CssBox
     {

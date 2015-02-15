@@ -91,7 +91,7 @@ namespace LayoutFarm.HtmlWidgets
             }
             return this.lightHtmlBox;
         }
-        protected HtmlHost HtmlHost
+        public HtmlHost HtmlHost
         {
             get { return this.myHtmlHost; }
         }

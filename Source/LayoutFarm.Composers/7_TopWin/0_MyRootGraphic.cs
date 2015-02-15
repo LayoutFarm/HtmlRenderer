@@ -38,7 +38,7 @@ namespace LayoutFarm.UI
 
             //create default  render box
             this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
-            this.userInputEventAdapter = new UI.UserInputEventAdapter(this);
+            this.userInputEventAdapter = new UserInputEventAdapter(this);
             this.SubscribeGraphicsIntervalTask(normalUpdateTask,
                 TaskIntervalPlan.Animation,
                 20,
@@ -239,12 +239,12 @@ namespace LayoutFarm.UI
             {
                 var htmlCont = htmlContainerUpdateQueue[i];
                 htmlCont.IsInUpdateQueue = false;
-                htmlCont.RefreshDomIfNeed();                
+                htmlCont.RefreshDomIfNeed();
             }
             for (int i = j - 1; i >= 0; --i)
             {
                 htmlContainerUpdateQueue.RemoveAt(i);
-            } 
+            }
             //-------------------------------- 
             this.LayoutQueueClearing = false;
         }

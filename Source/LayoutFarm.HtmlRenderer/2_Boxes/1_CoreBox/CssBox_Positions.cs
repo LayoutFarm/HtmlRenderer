@@ -777,7 +777,17 @@ namespace LayoutFarm.HtmlBoxes
 
         protected virtual Point GetElementGlobalLocationImpl()
         {
-            return new Point(0, 0);
+            int pos_left = (int)this._localX;
+            int pos_top = (int)this._localY;
+
+            if (this.ParentBox != null)
+            {
+                Point pp = this.ParentBox.GetElementGlobalLocation();
+                pos_left += pp.X;
+                pos_top += pp.Y;
+            }
+
+            return new Point(pos_left, pos_top);
         }
         public Point GetElementGlobalLocation()
         {

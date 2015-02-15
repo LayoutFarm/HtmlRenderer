@@ -244,23 +244,22 @@ namespace LayoutFarm.UI
 
             RenderElement hitElement = hitPointChain.TopMostElement;
             if (hitCount > 0)
-            {
-
+            {   
                 //------------------------------
                 //1. origin object 
                 SetEventOrigin(e, hitPointChain);
-                //------------------------------
-
+                //------------------------------ 
+                var prevMouseDownElement = this.currentMouseDown;
 
                 //portal                
                 ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
                 {
                     portal.PortalMouseDown(e);
-
                     //*****
                     this.currentMouseDown = e.CurrentContextElement;
 
-                    if (e.CurrentContextElement.AcceptKeyboardFocus)
+
+                    if (e.CurrentContextElement != null && e.CurrentContextElement.AcceptKeyboardFocus)
                     {
                         this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
                     }
@@ -271,14 +270,10 @@ namespace LayoutFarm.UI
                 //use events
                 if (!e.CancelBubbling)
                 {
-                    bool mouseDownHitInLoop = false;
-                    var prevMouseDownElement = this.currentMouseDown;
-                    e.CurrentContextElement = this.currentMouseDown = null; //clear
 
+                    e.CurrentContextElement = this.currentMouseDown = null; //clear 
                     ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                     {
-                        mouseDownHitInLoop = true;
-
                         this.currentMouseDown = e.CurrentContextElement;
                         listener.ListenMouseDown(e);
 
@@ -296,18 +291,20 @@ namespace LayoutFarm.UI
                             prevMouseDownElement != listener)
                         {
                             prevMouseDownElement.ListenLostMouseFocus(e);
+                            prevMouseDownElement = null;//clear
                         }
                         return true;
                     });
-
-
-                    if (!mouseDownHitInLoop && prevMouseDownElement != null)
-                    {
-                        prevMouseDownElement.ListenLostMouseFocus(e);
-                    }
-
-
                 }
+
+                if (prevMouseDownElement != currentMouseDown &&
+                    prevMouseDownElement != null)
+                {
+                    prevMouseDownElement.ListenLostMouseFocus(e);
+                    prevMouseDownElement = null;
+                }
+
+
             }
             //---------------------------------------------------------------
 
@@ -535,11 +532,13 @@ namespace LayoutFarm.UI
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
             {
                 HitInfo hitPoint = hitPointChain.GetHitInfo(i);
-                IUserEventPortal eventPortal = hitPoint.hitElement.GetController() as IUserEventPortal;
+                object currentHitElement = hitPoint.hitElement.GetController();
+                IUserEventPortal eventPortal = currentHitElement as IUserEventPortal;
                 if (eventPortal != null)
                 {
 
                     var ppp = hitPoint.point;
+                    e.CurrentContextElement = currentHitElement as IEventListener;
                     e.SetLocation(ppp.X, ppp.Y);
                     if (eventPortalAction(eventPortal))
                     {

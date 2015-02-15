@@ -97,11 +97,12 @@ namespace LayoutFarm.HtmlWidgets
         public LightHtmlBox LandPart
         {
             get { return this.landPart; }
+            set { this.landPart = value; }
         }
         public LightHtmlBox FloatPart
         {
             get { return this.floatPart; }
-
+            set { this.floatPart = value; }
         }
         public override UIElement GetPrimaryUIElement(HtmlHost htmlhost)
         {
