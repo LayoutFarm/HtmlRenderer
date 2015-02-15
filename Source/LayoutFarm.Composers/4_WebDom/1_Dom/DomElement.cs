@@ -20,7 +20,7 @@ namespace LayoutFarm.WebDom
 
         HtmlEventHandler evhMouseDown;
         HtmlEventHandler evhMouseUp;
-
+        HtmlEventHandler evhMouseLostFocus;
 
         public DomElement(WebDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)

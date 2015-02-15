@@ -46,6 +46,9 @@ namespace LayoutFarm.HtmlWidgets
                 menuIcon = item_icon;
                 menuIcon.AttachMouseDownEvent(e =>
                 {
+                    //****
+                    this.MaintenanceParentOpenState();
+
                     if (this.IsOpened)
                     {
                         this.Close();
@@ -54,9 +57,50 @@ namespace LayoutFarm.HtmlWidgets
                     {
                         this.Open();
                     }
+                    e.StopPropagation();
                 });
-
+                menuIcon.AttachMouseUpEvent(e =>
+                {
+                    this.UnmaintenanceParentOpenState();
+                    e.StopPropagation();
+                });
+                menuIcon.AttachEventOnMouseLostFocus(e =>
+                {
+                    if (!this.MaintenaceOpenState)
+                    {
+                        this.CloseRecursiveUp();
+                    }
+                });
             });
+            ////--------------------------------------
+            ////if click on this image then
+            //imgBox.MouseDown += (s, e) =>
+            //{
+            //    e.CancelBubbling = true;
+            //    //1. maintenace parent menu***
+            //    mnuItem.MaintenanceParentOpenState();
+            //    //-----------------------------------------------
+            //    if (mnuItem.IsOpened)
+            //    {
+            //        mnuItem.Close();
+            //    }
+            //    else
+            //    {
+            //        mnuItem.Open();
+            //    }
+            //};
+            //imgBox.MouseUp += (s, e) =>
+            //{
+            //    mnuItem.UnmaintenanceParentOpenState();
+            //};
+            //imgBox.LostSelectedFocus += (s, e) =>
+            //{
+            //    if (!mnuItem.MaintenceOpenState)
+            //    {
+            //        mnuItem.CloseRecursiveUp();
+            //    }
+            //};
+
             pnode.AddChild("span", content =>
             {
                 if (menuItemText != null)
@@ -99,6 +143,8 @@ namespace LayoutFarm.HtmlWidgets
             if (pnode == null) return;
             if (floatPart == null) return;
 
+            this.ownerMenuBox.CurrentActiveMenuItem = this;
+
             switch (floatPartStyle)
             {
                 default:
@@ -117,7 +163,7 @@ namespace LayoutFarm.HtmlWidgets
                             HtmlBoxes.CssBox nodePrincipalBox = htmlPNode.GetPrincipalBox();
                             //find global position of nodePrincipalBox
                             Point p = nodePrincipalBox.GetElementGlobalLocation();
-
+                            floatPart.SetLocation(p.X + this.ownerMenuBox.Width, p.Y);
                             floatPart.ShowMenu(this.ownerMenuBox.RootGfx, this.ownerMenuBox.HtmlHost);
                         }
 
@@ -136,6 +182,8 @@ namespace LayoutFarm.HtmlWidgets
 
             if (pnode == null) return;
             if (floatPart == null) return;
+
+            this.ownerMenuBox.CurrentActiveMenuItem = null;
 
             switch (floatPartStyle)
             {
@@ -171,7 +219,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (this.ParentMenuItem != null)
             {
-                this.ParentMenuItem.MaintenceOpenState = true;
+                this.ParentMenuItem.MaintenaceOpenState = true;
                 this.ParentMenuItem.MaintenanceParentOpenState();
             }
         }
@@ -179,11 +227,11 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (this.ParentMenuItem != null)
             {
-                this.ParentMenuItem.MaintenceOpenState = false;
+                this.ParentMenuItem.MaintenaceOpenState = false;
                 this.ParentMenuItem.MaintenanceParentOpenState();
             }
         }
-        public bool MaintenceOpenState
+        public bool MaintenaceOpenState
         {
             get;
             private set;
@@ -193,7 +241,7 @@ namespace LayoutFarm.HtmlWidgets
             this.Close();
 
             if (this.ParentMenuItem != null &&
-               !this.ParentMenuItem.MaintenceOpenState)
+               !this.ParentMenuItem.MaintenaceOpenState)
             {
                 this.ParentMenuItem.CloseRecursiveUp();
             }
@@ -234,6 +282,7 @@ namespace LayoutFarm.HtmlWidgets
         UIElement primaryUI;
         List<MenuItem> menuItems;
         DomElement pnode;
+        MenuItem currentActiveMenuItem;
 
         public MenuBox(int w, int h)
             : base(w, h)
@@ -319,6 +368,10 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (showing)
             {
+                if (this.currentActiveMenuItem != null)
+                {
+                    this.currentActiveMenuItem.Close();
+                }
                 //remove from parent
                 if (this.pnode != null)
                 {
@@ -337,6 +390,11 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
 
+        internal MenuItem CurrentActiveMenuItem
+        {
+            get { return this.currentActiveMenuItem; }
+            set { this.currentActiveMenuItem = value; }
+        }
 
         internal RootGraphic RootGfx
         {

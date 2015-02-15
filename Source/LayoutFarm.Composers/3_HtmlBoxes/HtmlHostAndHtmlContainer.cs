@@ -106,8 +106,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             return new HtmlInputEventAdapter(this.gfxplatform.SampleIFonts);
         }
-
-
         public LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder()
         {
             if (this.renderTreeBuilder == null)

@@ -249,18 +249,16 @@ namespace LayoutFarm.UI
                 //------------------------------
                 //1. origin object 
                 SetEventOrigin(e, hitPointChain);
-                //------------------------------
-
+                //------------------------------ 
 
                 //portal                
                 ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
                 {
                     portal.PortalMouseDown(e);
-
                     //*****
                     this.currentMouseDown = e.CurrentContextElement;
-
-                    if (e.CurrentContextElement.AcceptKeyboardFocus)
+                   
+                    if (e.CurrentContextElement != null && e.CurrentContextElement.AcceptKeyboardFocus)
                     {
                         this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
                     }
@@ -535,11 +533,13 @@ namespace LayoutFarm.UI
             for (int i = hitPointChain.Count - 1; i >= 0; --i)
             {
                 HitInfo hitPoint = hitPointChain.GetHitInfo(i);
-                IUserEventPortal eventPortal = hitPoint.hitElement.GetController() as IUserEventPortal;
+                object currentHitElement = hitPoint.hitElement.GetController();
+                IUserEventPortal eventPortal = currentHitElement as IUserEventPortal;
                 if (eventPortal != null)
                 {
 
                     var ppp = hitPoint.point;
+                    e.CurrentContextElement = currentHitElement as IEventListener;
                     e.SetLocation(ppp.X, ppp.Y);
                     if (eventPortalAction(eventPortal))
                     {
