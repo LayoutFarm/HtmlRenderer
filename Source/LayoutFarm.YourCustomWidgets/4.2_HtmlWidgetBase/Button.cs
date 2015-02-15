@@ -51,9 +51,10 @@ namespace LayoutFarm.HtmlWidgets
                     div2.dbugMark = 1;
                     // div2.SetAttribute("style", "padding:5px;background-color:#aaaaaa;");
                     EaseScriptElement ee = new EaseScriptElement(div2);
-                    ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa));
+                    ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa)); 
 
                     e.StopPropagation();
+
                     this.InvalidateGraphics();
 
                 });

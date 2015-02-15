@@ -131,7 +131,7 @@ namespace LayoutFarm.HtmlBoxes
 
         //--------------------------------------------------- 
 
-        public bool HasRegisterCssBoxGenerator(Type t)
+        public bool AlreadyRegisterCssBoxGen(Type t)
         {
             for (int i = generators.Count - 1; i >= 0; --i)
             {

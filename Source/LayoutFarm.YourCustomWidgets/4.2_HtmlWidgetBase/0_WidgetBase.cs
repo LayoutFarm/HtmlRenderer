@@ -54,7 +54,7 @@ namespace LayoutFarm.HtmlWidgets
     public abstract class LightHtmlWidgetBase : WidgetBase, IScrollable
     {
 
-        LightHtmlBox lightHtmlBox;
+        LightHtmlBox lightHtmlBox; //primary ui element
         HtmlHost myHtmlHost;
         int viewportX;
         int viewportY;
@@ -99,6 +99,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             this.lightHtmlBox.InvalidateGraphics();
         }
+
         protected abstract WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode);
 
         //------------------------------------------

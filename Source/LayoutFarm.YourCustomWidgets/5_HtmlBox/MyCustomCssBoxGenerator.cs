@@ -7,7 +7,7 @@ using LayoutFarm;
 namespace LayoutFarm.CustomWidgets
 {
 
-    class MyCssBoxGenerator : CustomCssBoxGenerator
+    public class MyCustomCssBoxGenerator : CustomCssBoxGenerator
     {
         public override LayoutFarm.HtmlBoxes.CssBox CreateCssBox(object tag,
             LayoutFarm.HtmlBoxes.CssBox parentBox,
