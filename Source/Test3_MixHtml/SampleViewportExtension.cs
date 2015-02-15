@@ -17,13 +17,7 @@ namespace LayoutFarm
         {
             viewport.ViewportControl.AddContent(ui.GetPrimaryRenderElement(viewport.ViewportControl.RootGfx));
         }
-        public static void AddContent(this SampleViewport viewport, HtmlBoxes.HtmlHost host, HtmlWidgets.LightHtmlWidgetBase ui)
-        {
-            //add widget to viewport
-            //must create a WidgetHolder
-            LayoutFarm.HtmlWidgets.WidgetHolder holder = new HtmlWidgets.WidgetHolder(ui); 
-            AddContent(viewport, ui.GetPrimaryUIElement(host));
-        }
+      
     }
 
 }

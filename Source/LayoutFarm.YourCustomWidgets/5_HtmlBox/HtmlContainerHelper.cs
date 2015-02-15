@@ -16,11 +16,45 @@ namespace LayoutFarm.HtmlBoxes
 
     static class HtmlContainerHelper
     {
+        public static MyHtmlContainer CreateHtmlContainerFromFullHtml(
+            HtmlHost htmlHost,
+            string fullHtmlString,
+            HtmlRenderBox htmlFrgmentRenderBox)
+        {
 
-        public static MyHtmlContainer CreateHtmlContainer(
+
+            var htmldoc = WebDocumentParser.ParseDocument(
+                 new LayoutFarm.WebDom.Parser.TextSnapshot(fullHtmlString.ToCharArray()));
+            //1. builder 
+            var renderTreeBuilder = htmlHost.GetRenderTreeBuilder();
+            //------------------------------------------------------------------- 
+            //2. generate render tree
+            ////build rootbox from htmldoc
+
+            var rootElement = renderTreeBuilder.BuildCssRenderTree(htmldoc,
+                htmlHost.BaseStylesheet,
+                htmlFrgmentRenderBox);
+            //3. create small htmlContainer
+
+            var htmlContainer = new MyHtmlContainer(htmlHost);
+
+            htmlContainer.WebDocument = htmldoc;
+            htmlContainer.RootCssBox = rootElement;
+            htmlContainer.SetMaxSize(htmlFrgmentRenderBox.Width, 0);
+
+            var lay = htmlHost.GetSharedHtmlLayoutVisitor(htmlContainer);
+            htmlContainer.PerformLayout(lay);
+            htmlHost.ReleaseHtmlLayoutVisitor(lay);
+
+
+            htmlFrgmentRenderBox.SetHtmlContainer(htmlContainer, rootElement);
+            return htmlContainer;
+
+        }
+        public static MyHtmlContainer CreateHtmlContainerFromFragmentHtml(
             HtmlHost htmlHost,
             string htmlFragment,
-            HtmlFragmentRenderBox htmlFrgmentRenderBox)
+            HtmlRenderBox htmlFrgmentRenderBox)
         {
 
             var htmldoc = htmlHost.CreateNewFragmentHtml();
@@ -41,7 +75,7 @@ namespace LayoutFarm.HtmlBoxes
         public static MyHtmlContainer CreateHtmlContainer(
             HtmlHost htmlHost,
             WebDom.HtmlDocument htmldoc,
-            HtmlFragmentRenderBox htmlFrgmentRenderBox)
+            HtmlRenderBox htmlFrgmentRenderBox)
         {
 
             //1. builder 
@@ -76,7 +110,7 @@ namespace LayoutFarm.HtmlBoxes
          HtmlHost htmlHost,
          WebDom.DomElement domElement,
          WebDom.DomElement myHtmlBodyElement,
-         HtmlFragmentRenderBox container)
+         HtmlRenderBox container)
         {
 
             //1. builder 

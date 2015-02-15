@@ -34,7 +34,7 @@ namespace LayoutFarm.WebWidgets
                 //panel01.BackColor = Color.OrangeRed;
                 //tabPage.ContentUI = panel01;
 
-                var lightHtmlBox = new CustomWidgets.LightHtmlBox(this.myHtmlHost, 300, 200);
+                var lightHtmlBox = new CustomWidgets.HtmlBox(this.myHtmlHost, 300, 200);
                 lightHtmlBox.LoadHtmlDom(CreateSampleHtmlDoc(tabPage.PageTitle));
                 tabPage.ContentUI = lightHtmlBox;
 

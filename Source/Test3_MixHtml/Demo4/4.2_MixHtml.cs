@@ -19,10 +19,10 @@ namespace LayoutFarm
             var htmlhost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
             ////==================================================
             //html box
-            HtmlBox htmlBox = new HtmlBox(htmlhost, 800, 400);
+            var htmlBox = new HtmlBox(htmlhost, 800, 400);
             viewport.AddContent(htmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
-            htmlBox.LoadHtmlText(html);
+            htmlBox.LoadHtmlString(html);
             //================================================== 
 
             //textbox
