@@ -51,7 +51,7 @@ namespace LayoutFarm.HtmlWidgets
                 });
             return htmldoc;
         }
-        protected override DomElement GetPresentationDomNode(DomElement hostNode)
+        public override DomElement GetPresentationDomNode(DomElement hostNode)
         {
             if (presentationNode != null)
             {
@@ -108,7 +108,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (this.landPart == null)
             {
-                this.landPart = (LightHtmlBox)base.GetPrimaryUIElement(htmlhost); 
+                this.landPart = (LightHtmlBox)base.GetPrimaryUIElement(htmlhost);
             }
             if (floatPart == null)
             {
@@ -117,7 +117,7 @@ namespace LayoutFarm.HtmlWidgets
                 this.floatPart.LoadHtmlDom(CreateFloatPartDom());
             }
         }
-        
+
         //---------------------------------------------------- 
         public bool IsOpen
         {

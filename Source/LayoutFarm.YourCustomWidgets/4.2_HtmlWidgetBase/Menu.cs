@@ -289,7 +289,7 @@ namespace LayoutFarm.HtmlWidgets
         {
         }
 
-        protected override DomElement GetPresentationDomNode(DomElement hostNode)
+        public override DomElement GetPresentationDomNode(DomElement hostNode)
         {
             if (pnode != null) return pnode;
             //------------------

@@ -63,8 +63,8 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
 
-        protected override DomElement GetPresentationDomNode(DomElement hostNode)
-        {     
+        public override DomElement GetPresentationDomNode(DomElement hostNode)
+        {
             //TODO: use template engine, 
             //ideas:  AngularJS style ?
 
@@ -117,6 +117,6 @@ namespace LayoutFarm.HtmlWidgets
 
             return pnode;
         }
-      
+
     }
 }

@@ -31,7 +31,7 @@ namespace LayoutFarm.HtmlWidgets
                 this.buttonText = value;
             }
         }
-        protected override DomElement GetPresentationDomNode(DomElement hostNode)
+        public override DomElement GetPresentationDomNode(DomElement hostNode)
         {
             if (pnode != null) return pnode;
             //----------------------------------
@@ -51,7 +51,7 @@ namespace LayoutFarm.HtmlWidgets
                     div2.dbugMark = 1;
                     // div2.SetAttribute("style", "padding:5px;background-color:#aaaaaa;");
                     EaseScriptElement ee = new EaseScriptElement(div2);
-                    ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa)); 
+                    ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa));
 
                     e.StopPropagation();
 

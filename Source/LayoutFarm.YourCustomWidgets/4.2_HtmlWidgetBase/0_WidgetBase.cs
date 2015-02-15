@@ -69,27 +69,58 @@ namespace LayoutFarm.HtmlWidgets
         public virtual int DesiredWidth { get { return this.Width; } }
         public virtual int DesiredHeight { get { return this.height; } }
 
-        protected void RaiseEventLayoutFinished()
+        internal void RaiseEventLayoutFinished()
         {
             if (this.LayoutFinished != null)
             {
                 this.LayoutFinished(this, EventArgs.Empty);
             }
         }
+    }
 
+    public sealed class WidgetHolder
+    {
+        LightHtmlBox lightHtmlBox;
+        LightHtmlWidgetBase widget;
+
+        public WidgetHolder(LightHtmlWidgetBase widget)
+        {
+            this.widget = widget;
+        }
+        public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
+        {
+            if (this.lightHtmlBox == null)
+            {
+
+                var lightHtmlBox = new LightHtmlBox(htmlhost, widget.Width, widget.Height);
+                FragmentHtmlDocument htmldoc = htmlhost.CreateNewFragmentHtml();
+                var presentationDom = widget.GetPresentationDomNode(htmldoc.RootNode);
+                if (presentationDom != null)
+                {
+                    htmldoc.RootNode.AddChild(presentationDom);
+                    lightHtmlBox.LoadHtmlDom(htmldoc);
+                }
+
+                lightHtmlBox.SetLocation(widget.Left, widget.Top);
+                lightHtmlBox.LayoutFinished += (s, e) => widget.RaiseEventLayoutFinished();
+
+                this.lightHtmlBox = lightHtmlBox;
+                //first time
+                LightHtmlWidgetBase.RaiseOnPrimaryUIElementCrated(widget, htmlhost);
+            }
+            return this.lightHtmlBox;
+        }
     }
 
     public abstract class LightHtmlWidgetBase : WidgetBase
     {
 
         LightHtmlBox lightHtmlBox; //primary ui element
-
-
         public LightHtmlWidgetBase(int w, int h)
             : base(w, h)
         {
-
         }
+
         public override UIElement GetPrimaryUIElement(HtmlHost htmlhost)
         {
             if (this.lightHtmlBox == null)
@@ -139,7 +170,7 @@ namespace LayoutFarm.HtmlWidgets
             this.lightHtmlBox.InvalidateGraphics();
         }
 
-        protected abstract WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode);
+        public abstract WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode);
         //------------------------------------------
 
         public override void SetViewport(int x, int y)
@@ -160,6 +191,11 @@ namespace LayoutFarm.HtmlWidgets
                 }
                 return base.DesiredHeight;
             }
+        }
+
+        internal static void RaiseOnPrimaryUIElementCrated(LightHtmlWidgetBase widget, HtmlHost htmlhost)
+        {
+            widget.OnPrimaryUIElementCrated(htmlhost);
         }
 
     }
