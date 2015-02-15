@@ -3,7 +3,7 @@ using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 using LayoutFarm;
 using LayoutFarm.UI;
-using LayoutFarm.InternalHtmlDom;
+
 namespace LayoutFarm.Demo
 {
 
@@ -63,7 +63,7 @@ namespace LayoutFarm.Demo
                         //this will not print 
                         //if e has been stop by its child
                         // System.Diagnostics.Debugger.Break();
-                        Console.WriteLine("div");
+                        //Console.WriteLine("div");
 #endif
 
                     });

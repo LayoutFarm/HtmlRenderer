@@ -87,7 +87,7 @@ namespace LayoutFarm.Css
         //------------------
         public BoxSpec()
         {
-
+            
         }
         public void Freeze()
         {

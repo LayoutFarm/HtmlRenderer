@@ -17,9 +17,9 @@ namespace LayoutFarm
         {
             viewport.ViewportControl.AddContent(ui.GetPrimaryRenderElement(viewport.ViewportControl.RootGfx));
         }
-        public static void AddContent(this SampleViewport viewport, HtmlWidgets.WidgetBase ui)
+        public static void AddContent(this SampleViewport viewport, HtmlBoxes.HtmlHost host, HtmlWidgets.WidgetBase ui)
         {
-            AddContent(viewport, ui.GetPrimaryUIElement());
+            AddContent(viewport, ui.GetPrimaryUIElement(host));
         }
     }
 

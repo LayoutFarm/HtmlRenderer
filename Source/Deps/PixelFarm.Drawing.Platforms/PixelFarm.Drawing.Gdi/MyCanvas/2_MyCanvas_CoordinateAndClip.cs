@@ -36,6 +36,7 @@ namespace PixelFarm.Drawing.WinGdi
         //--------------------------------------------------------------------
         public override void SetCanvasOrigin(int x, int y)
         {
+            
             ReleaseHdc();
             //----------- 
             int total_dx = x - canvasOriginX;

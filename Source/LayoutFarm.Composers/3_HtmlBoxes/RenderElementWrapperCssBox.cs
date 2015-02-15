@@ -17,7 +17,7 @@ namespace LayoutFarm.HtmlBoxes
 {
 
 
-    sealed class RenderElementWrapperCssBox : CustomCssBox
+    public sealed class RenderElementWrapperCssBox : CustomCssBox
     {
         CssBoxWrapperRenderElement wrapper;
         int globalXForRenderElement;
@@ -28,8 +28,8 @@ namespace LayoutFarm.HtmlBoxes
              RenderElement renderElement)
             : base(controller, spec, renderElement.Root, CssDisplay.Block)
         {
-            int mmw = 100;
-            int mmh = 20;
+            int mmw = renderElement.Width;
+            int mmh = renderElement.Height;
 
             this.wrapper = new CssBoxWrapperRenderElement(renderElement.Root, mmw, mmh, renderElement);
 

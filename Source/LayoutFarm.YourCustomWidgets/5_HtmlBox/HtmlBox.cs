@@ -14,12 +14,11 @@ using LayoutFarm.UI;
 namespace LayoutFarm.CustomWidgets
 {
 
-    public class HtmlBox : UIElement, IUserEventPortal
+    public class HtmlBox : UIBox, IUserEventPortal
     {
         RootGraphic rootgfx;
         HtmlRenderBox htmlRenderBox;
-        int _width;
-        int _height;
+
         MyHtmlContainer myHtmlContainer;
         LayoutVisitor htmlLayoutVisitor;
 
@@ -36,26 +35,29 @@ namespace LayoutFarm.CustomWidgets
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder = null;
         HtmlHost htmlHost;
 
-        static HtmlBox()
-        {
-            LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
-               typeof(MyCssBoxGenerator),
-               new MyCssBoxGenerator());
-        }
+        //static HtmlBox()
+        //{
+        //    LayoutFarm.Composers.BoxCreator.RegisterCustomCssBoxGenerator(
+        //       typeof(MyCssBoxGenerator),
+        //       new MyCssBoxGenerator());
+        //}
 
         public HtmlBox(HtmlHost htmlHost, int width, int height)
+            : base(width, height)
         {
-            this._width = width;
-            this._height = height;
+            if (htmlHost.HasRegisterCssBoxGenerator(typeof(MyCssBoxGenerator)))
+            {
+                htmlHost.RegisterCssBoxGenerator(new MyCssBoxGenerator());
+            }
+            //--------
             this.htmlHost = htmlHost;
-
-
             myHtmlContainer = new MyHtmlContainer(htmlHost);
 
             myHtmlContainer.AttachEssentialHandlers(
                 (s, e) => this.InvalidateGraphics(),//visual refresh
                  htmlContainer_NeedUpdateDom,
-                (s, e) => this.InvalidateGraphics());
+                (s, e) => this.InvalidateGraphics(),
+                (s, e) => { this.RaiseLayoutFinished(); });
             //request ui timer *** 
             //tim.Interval = 30;
             //tim.Elapsed += new System.Timers.ElapsedEventHandler(tim_Elapsed);
@@ -66,19 +68,19 @@ namespace LayoutFarm.CustomWidgets
         }
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
-            inputEventAdapter.MouseUp(e); 
+            inputEventAdapter.MouseUp(e);
         }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
             e.CurrentContextElement = this;
-            inputEventAdapter.MouseDown(e); 
+            inputEventAdapter.MouseDown(e);
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-            inputEventAdapter.MouseMove(e); 
+            inputEventAdapter.MouseMove(e);
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
-        { 
+        {
         }
 
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
@@ -158,7 +160,7 @@ namespace LayoutFarm.CustomWidgets
             if (htmlRenderBox == null)
             {
                 this.rootgfx = rootgfx;
-                htmlRenderBox = new HtmlRenderBox(rootgfx, _width, _height, myHtmlContainer);
+                htmlRenderBox = new HtmlRenderBox(rootgfx, this.Width, this.Height, myHtmlContainer);
                 htmlRenderBox.SetController(this);
                 htmlRenderBox.HasSpecificSize = true;
 
@@ -183,7 +185,7 @@ namespace LayoutFarm.CustomWidgets
 
 
             //build rootbox from htmldoc
-            var rootBox = renderTreeBuilder.BuildCssRenderTree((HtmlDocument)this.currentdoc,
+            var rootBox = renderTreeBuilder.BuildCssRenderTree((WebDom.HtmlDocument)this.currentdoc,
                 this.waitingCssData,
                 this.htmlRenderBox);
 
@@ -191,7 +193,7 @@ namespace LayoutFarm.CustomWidgets
             var htmlCont = this.myHtmlContainer;
             htmlCont.WebDocument = this.currentdoc;
             htmlCont.RootCssBox = rootBox;
-            htmlCont.SetMaxSize(this._width, 0);
+            htmlCont.SetMaxSize(this.Width, 0);
             htmlCont.PerformLayout(this.htmlLayoutVisitor);
         }
         void SetHtml(MyHtmlContainer htmlCont, string html, LayoutFarm.WebDom.CssActiveSheet cssData)
@@ -215,13 +217,27 @@ namespace LayoutFarm.CustomWidgets
         {
             this.htmlRenderBox.InvalidateGraphics();
         }
-        protected override RenderElement CurrentPrimaryRenderElement
+        public override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.htmlRenderBox; }
         }
         protected override bool HasReadyRenderElement
         {
             get { return this.htmlRenderBox != null; }
+        }
+        public override int DesiredWidth
+        {
+            get
+            {
+                return this.htmlRenderBox.HtmlWidth;
+            }
+        }
+        public override int DesiredHeight
+        {
+            get
+            {
+                return this.htmlRenderBox.HtmlHeight;
+            }
         }
     }
 }

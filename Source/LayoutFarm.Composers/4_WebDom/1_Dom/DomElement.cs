@@ -20,7 +20,7 @@ namespace LayoutFarm.WebDom
 
         HtmlEventHandler evhMouseDown;
         HtmlEventHandler evhMouseUp;
-
+        HtmlEventHandler evhMouseLostFocus;
 
         public DomElement(WebDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
@@ -51,7 +51,7 @@ namespace LayoutFarm.WebDom
                 {
                     yield return attr;
                 }
-                 
+
             }
         }
         public IEnumerable<DomNode> GetChildNodeIterForward()
@@ -105,8 +105,8 @@ namespace LayoutFarm.WebDom
                     } break;
             }
             //--------------------
-            var attrNameIndex = this.OwnerDocument.AddStringIfNotExists(attr.LocalName); 
-            myAttributes[attrNameIndex]= attr;//update or replace 
+            var attrNameIndex = this.OwnerDocument.AddStringIfNotExists(attr.LocalName);
+            myAttributes[attrNameIndex] = attr;//update or replace 
             attr.SetParent(this);
             NotifyChange(ElementChangeKind.AddAttribute);
         }
@@ -117,7 +117,7 @@ namespace LayoutFarm.WebDom
             SetAttribute(domAttr);
 
         }
-        
+
         public void AddAttribute(DomAttribute attr)
         {
             if (myAttributes == null)
@@ -179,6 +179,7 @@ namespace LayoutFarm.WebDom
                         bool result = myChildrenNodes.Remove(childNode);
                         if (result)
                         {
+                            childNode.SetParent(null);
                             NotifyChange(ElementChangeKind.RemoveChild);
                         }
                         return result;
@@ -190,14 +191,18 @@ namespace LayoutFarm.WebDom
         /// <summary>
         /// clear all children elements
         /// </summary>
-        public void ClearAllElements()
+        public virtual void ClearAllElements()
         {
             if (this.myChildrenNodes != null)
             {
+                for (int i = this.myChildrenNodes.Count - 1; i >= 0; --i)
+                {
+                    //clear content 
+                    myChildrenNodes[i].SetParent(null);
+                }
                 this.myChildrenNodes.Clear();
                 NotifyChange(ElementChangeKind.ClearAllChildren);
             }
-
         }
 
         public void NotifyChange(ElementChangeKind changeKind)
@@ -224,7 +229,7 @@ namespace LayoutFarm.WebDom
                 DomAttribute found;
                 myAttributes.TryGetValue(attrLocalNameIndex, out found);
                 return found;
-                 
+
             }
             return null;
         }

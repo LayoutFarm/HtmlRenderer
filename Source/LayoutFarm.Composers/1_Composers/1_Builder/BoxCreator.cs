@@ -6,32 +6,23 @@ using LayoutFarm.WebDom;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Composers;
-using LayoutFarm.InternalHtmlDom;
+
 
 namespace LayoutFarm.Composers
 {
     public struct BoxCreator
     {
 
-        static List<CustomCssBoxGenerator> generators = new List<CustomCssBoxGenerator>();
 
+        HtmlHost htmlHost;
         RootGraphic rootgfx;
-        public BoxCreator(RootGraphic rootgfx)
+        public BoxCreator(RootGraphic rootgfx, HtmlHost htmlHost)
         {
             this.rootgfx = rootgfx;
-        }
-        public static void RegisterCustomCssBoxGenerator(System.Type t, CustomCssBoxGenerator generator)
-        {
-            for (int i = generators.Count - 1; i >= 0; --i)
-            {
-                if (generators[i].GetType() == t)
-                {
-                    return;
-                }
-            }
+            this.htmlHost = htmlHost;
 
-            generators.Add(generator);
         }
+
         static CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
         {
             string imgsrc;
@@ -54,7 +45,6 @@ namespace LayoutFarm.Composers
             parent.AppendChild(boxImage);
             return boxImage;
         }
-
 
 
         internal void GenerateChildBoxes(HtmlElement parentElement, bool fullmode)
@@ -301,8 +291,21 @@ namespace LayoutFarm.Composers
                 //test extension box
                 case WellKnownDomNodeName.X:
                     {
-                        alreadyHandleChildrenNodes = true;
-                        newBox = CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx);
+                        alreadyHandleChildrenNodes = true; 
+                        //-----------------------------------------------
+                        ExternalHtmlElement externalHtmlElement = childElement as ExternalHtmlElement;
+                        if (externalHtmlElement != null)
+                        {
+                            newBox = externalHtmlElement.GetCssBox(rootgfx);
+                            if (newBox != null)
+                            {
+                                parentBox.AppendChild(newBox);
+                                return newBox;
+                            }
+
+                        }
+                        //----------------------------------------------- 
+                        newBox = this.htmlHost.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx);
                         if (newBox == null)
                         {
                             goto default;
@@ -314,7 +317,7 @@ namespace LayoutFarm.Composers
                     {
                         //1. create svg container node
                         alreadyHandleChildrenNodes = true;
-                        return SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
+                        return Svg.SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
                     }
                 //---------------------------------------------------
                 default:
@@ -338,18 +341,6 @@ namespace LayoutFarm.Composers
             }
         }
 
-        CssBox CreateCustomBox(CssBox parent, object tag, BoxSpec boxspec, RootGraphic rootgfx)
-        {
-            for (int i = generators.Count - 1; i >= 0; --i)
-            {
-                var newbox = generators[i].CreateCssBox(tag, parent, boxspec, rootgfx);
-                if (newbox != null)
-                {
-                    return newbox;
-                }
-            }
-            return null;
-        }
 
         internal static CssBox CreateCssRenderRoot(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
         {
@@ -387,6 +378,10 @@ namespace LayoutFarm.Composers
         public LayoutFarm.RenderElement ContainerElement
         {
             get { return this.containerElement; }
+        }
+        protected override Point GetElementGlobalLocationImpl()
+        {
+            return containerElement.GetGlobalLocation();             
         }
     }
     class CssIsolateBox : CssBox

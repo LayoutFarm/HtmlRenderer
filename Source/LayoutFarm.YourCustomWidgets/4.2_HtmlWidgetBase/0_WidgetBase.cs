@@ -42,7 +42,7 @@ namespace LayoutFarm.HtmlWidgets
             get { return this.top; }
         }
 
-        public abstract UIElement GetPrimaryUIElement();
+        public abstract UIElement GetPrimaryUIElement(HtmlHost htmlhost);
 
         public void SetLocation(int left, int top)
         {
@@ -51,35 +51,102 @@ namespace LayoutFarm.HtmlWidgets
         }
     }
 
-    public abstract class LightHtmlWidgetBase : WidgetBase
+    public abstract class LightHtmlWidgetBase : WidgetBase, IScrollable
     {
-        HtmlHost htmlhost;
+
         LightHtmlBox lightHtmlBox;
-        public LightHtmlWidgetBase(HtmlHost htmlhost, int w, int h)
+        HtmlHost myHtmlHost;
+        int viewportX;
+        int viewportY;
+        public event EventHandler LayoutFinished;
+
+        public LightHtmlWidgetBase(int w, int h)
             : base(w, h)
         {
-            this.htmlhost = htmlhost;
+
         }
-        public override UIElement GetPrimaryUIElement()
+        public override UIElement GetPrimaryUIElement(HtmlHost htmlhost)
         {
             if (this.lightHtmlBox == null)
             {
+                this.myHtmlHost = htmlhost;
                 var lightHtmlBox = new LightHtmlBox(htmlhost, this.Width, this.Height);
-
-                lightHtmlBox.LoadHtmlDom(CreatePresentationDom());
+                FragmentHtmlDocument htmldoc = htmlhost.CreateNewFragmentHtml();
+                var presentationDom = GetPresentationDomNode(htmldoc.RootNode);
+                if (presentationDom != null)
+                {
+                    htmldoc.RootNode.AddChild(presentationDom);
+                    lightHtmlBox.LoadHtmlDom(htmldoc);
+                }
                 lightHtmlBox.SetLocation(this.Left, this.Top);
+                lightHtmlBox.LayoutFinished += (s, e) =>
+                {
+                    if (LayoutFinished != null)
+                    {
+                        this.LayoutFinished(this, EventArgs.Empty);
+                    }
+
+                };
                 this.lightHtmlBox = lightHtmlBox;
             }
             return this.lightHtmlBox;
         }
-        protected HtmlHost HtmlHost
+        public HtmlHost HtmlHost
         {
-            get { return this.htmlhost; }
+            get { return this.myHtmlHost; }
         }
         protected void InvalidateGraphics()
         {
             this.lightHtmlBox.InvalidateGraphics();
         }
-        protected abstract FragmentHtmlDocument CreatePresentationDom();
+        protected abstract WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode);
+
+        //------------------------------------------
+        public void SetViewport(int x, int y)
+        {
+            this.viewportX = x;
+            this.viewportY = y;
+            lightHtmlBox.SetViewport(x, y);
+        }
+        public int ViewportX
+        {
+            get { return this.viewportX; }
+
+        }
+
+        public int ViewportY
+        {
+            get { return this.viewportY; }
+        }
+        public int ViewportWidth
+        {
+            get { return this.Width; }
+        }
+        public int ViewportHeight
+        {
+            get { return this.Height; }
+        }
+        public int DesiredWidth
+        {
+            get
+            {
+                return this.Width;
+            }
+        }
+        public int DesiredHeight
+        {
+            get
+            {
+                if (this.lightHtmlBox != null)
+                {
+                    return this.lightHtmlBox.DesiredHeight;
+                }
+                else
+                {
+                    return this.Height;
+                }
+
+            }
+        }
     }
 }

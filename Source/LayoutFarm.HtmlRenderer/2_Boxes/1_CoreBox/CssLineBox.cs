@@ -475,12 +475,8 @@ namespace LayoutFarm.HtmlBoxes
                                 latestOwner = w.OwnerBox;
                                 font = latestOwner.ActualFont;
                                 color = latestOwner.ActualColor;
-                            }
-
-                            
-
-                            CssTextRun textRun = (CssTextRun)w;
-
+                            } 
+                            CssTextRun textRun = (CssTextRun)w; 
                             var wordPoint = new PointF(w.Left, w.Top); 
                             p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
                                textRun.TextStartIndex,

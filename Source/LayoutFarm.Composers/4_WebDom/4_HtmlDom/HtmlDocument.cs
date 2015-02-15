@@ -4,20 +4,19 @@
 using System;
 using System.Collections.Generic;
 
-using PixelFarm.Drawing;
-using LayoutFarm.WebDom;
-using LayoutFarm.HtmlBoxes;
-using LayoutFarm.InternalHtmlDom;
+using PixelFarm.Drawing; 
+using LayoutFarm.HtmlBoxes; 
 using LayoutFarm.Composers;
 
-namespace LayoutFarm.Composers
+namespace LayoutFarm.WebDom
 {
 
     public class HtmlDocument : WebDocument
     {
         DomElement rootNode;
         int domUpdateVersion;
-        EventHandler DomUpdatedHandler;
+        EventHandler domUpdatedHandler;
+
 
         public HtmlDocument()
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
@@ -48,9 +47,9 @@ namespace LayoutFarm.Composers
             set
             {
                 this.domUpdateVersion = value;
-                if (DomUpdatedHandler != null)
+                if (domUpdatedHandler != null)
                 {
-                    DomUpdatedHandler(this, EventArgs.Empty);
+                    domUpdatedHandler(this, EventArgs.Empty);
                 }
             }
         }
@@ -70,18 +69,29 @@ namespace LayoutFarm.Composers
         public override DomTextNode CreateTextNode(char[] strBufferForElement)
         {
             return new HtmlTextNode(this, strBufferForElement);
-        } 
+        }
+
+        public DomElement CreateWrapperElement(
+            LazyCssBoxCreator lazyCssBoxCreator)
+        {
+            return new ExternalHtmlElement(this,
+                AddStringIfNotExists(null),
+                AddStringIfNotExists("x"),
+                lazyCssBoxCreator);
+        }
+
         internal void SetDomUpdateHandler(EventHandler h)
         {
-            this.DomUpdatedHandler = h;
+            this.domUpdatedHandler = h;
         }
         internal CssActiveSheet CssActiveSheet
         {
             get;
             set;
         }
-        
+
     }
+
 
     public class FragmentHtmlDocument : HtmlDocument
     {
@@ -90,8 +100,8 @@ namespace LayoutFarm.Composers
             : base(primaryHtmlDoc.UniqueStringTable)
         {
             this.primaryHtmlDoc = primaryHtmlDoc;
-            
-        }        
+
+        }
 
     }
 }

@@ -43,34 +43,40 @@
     <Compile Include="1_Composers\1_Builder\CustomCssBoxGenerator.cs" />
     <Compile Include="1_Composers\1_Builder\RenderTreeBuilder.cs" />
     <Compile Include="1_Composers\3_Scriptable\EaseScriptElement.cs" />
-    <Compile Include="2_HtmlDom\BulletNumberFormatter.cs" />
+    <Compile Include="4_WebDom\4_HtmlDom\BulletNumberFormatter.cs" />
     <Compile Include="1_Composers\1_Builder\ContentTextSplitter.cs" />
     <Compile Include="1_Composers\2_Css\SpecSetter.cs" />
     <Compile Include="1_Composers\2_Css\UserMapUtil.cs" />
     <Compile Include="1_Composers\2_Css\ValueMaps.cs" />
     <Compile Include="1_Composers\1_Builder\BoxCreator.cs" />
-    <Compile Include="1_Composers\1_Builder\HtmlDocument.cs" />
+    <Compile Include="4_WebDom\4_HtmlDom\HtmlDocument.cs" />
     <Compile Include="3_HtmlBoxes\HtmlRenderBox.cs" />
     <Compile Include="3_HtmlBoxes\HtmlInputEventAdapter.cs" />
     <Compile Include="3_HtmlBoxes\RenderElementWrapperCssBox.cs" />
-    <Compile Include="4_WebDom\1_Html\DomElement.cs" />
-    <Compile Include="4_WebDom\1_Html\DomElement_EventListener.cs" />
-    <Compile Include="4_WebDom\1_Html\DomElement_OnEvents.cs" />
-    <Compile Include="4_WebDom\1_Html\ElementChangeKind.cs" />
+    <Compile Include="4_WebDom\1_Dom\DomElement.cs" />
+    <Compile Include="4_WebDom\1_Dom\DomElement_EventListener.cs" />
+    <Compile Include="4_WebDom\1_Dom\DomElement_OnEvents.cs" />
+    <Compile Include="4_WebDom\1_Dom\ElementChangeKind.cs" />
     <Compile Include="4_WebDom\2_Css\CssAttributeSelector.cs" />
     <Compile Include="4_WebDom\2_Css\CssDocMembers.cs" />
     <Compile Include="4_WebDom\2_Css\CssDocument.cs" />
     <Compile Include="4_WebDom\2_Css\CssActiveSheet.cs" />
     <Compile Include="1_Composers\2_Css\CssDefaults.cs" />
     <Compile Include="1_Composers\2_Css\CssParserHelper.cs" />
-    <Compile Include="2_HtmlDom\RunListHelper.cs" />
-    <Compile Include="2_HtmlDom\HtmlElements.cs" />
+    <Compile Include="4_WebDom\4_HtmlDom\RunListHelper.cs" />
+    <Compile Include="4_WebDom\4_HtmlDom\HtmlElements.cs" />
     <Compile Include="4_WebDom\3_Gen\HtmlGenerationStyle.cs" />
     <Compile Include="4_WebDom\3_Gen\HtmlGenerator.cs" />
-    <Compile Include="6_SvgDom\SvgCreator.cs" />
+    <Compile Include="5_WebDom.Parser\CssParser.cs" />
+    <Compile Include="5_WebDom.Parser\dbugLexerReport.cs" />
+    <Compile Include="5_WebDom.Parser\HtmlLexer.cs" />
+    <Compile Include="5_WebDom.Parser\HtmlParser.cs" />
+    <Compile Include="5_WebDom.Parser\HtmlUtils.cs" />
+    <Compile Include="5_WebDom.Parser\TextSnapshot.cs" />
+    <Compile Include="6_Svg\SvgCreator.cs" />
     <Compile Include="3_HtmlBoxes\HtmlHostAndHtmlContainer.cs" />
-    <Compile Include="6_SvgDom\SvgRootEventPortal_IUserEventPortal.cs" />
-    <Compile Include="6_SvgDom\SvgRootEventPortal.cs" />
+    <Compile Include="6_Svg\SvgRootEventPortal_IUserEventPortal.cs" />
+    <Compile Include="6_Svg\SvgRootEventPortal.cs" />
     <Compile Include="7_TopWin\MyIntervalTaskEventArgs.cs" />
     <Compile Include="7_TopWin\0_MyRootGraphic.cs" />
     <Compile Include="7_TopWin\GraphicsTimerTasksManager.cs" />
@@ -81,16 +87,10 @@
     <Compile Include="8_ContentManagers\ImageCacheSystem.cs" />
     <Compile Include="8_ContentManagers\TextContentManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="5_WebDom.Parser\CssParser.cs" />
-    <Compile Include="5_WebDom.Parser\dbugLexerReport.cs" />
-    <Compile Include="5_WebDom.Parser\HtmlLexer.cs" />
-    <Compile Include="5_WebDom.Parser\HtmlParser.cs" />
-    <Compile Include="5_WebDom.Parser\HtmlUtils.cs" />
-    <Compile Include="5_WebDom.Parser\TextSnapshot.cs" />
-    <Compile Include="4_WebDom\1_Html\WebDocument.cs" />
-    <Compile Include="4_WebDom\1_Html\DomNodes.cs" />
-    <Compile Include="4_WebDom\1_Html\StringTable.cs" />
-    <Compile Include="4_WebDom\1_Html\WellknownElementName.cs" />
+    <Compile Include="4_WebDom\1_Dom\WebDocument.cs" />
+    <Compile Include="4_WebDom\1_Dom\DomNodes.cs" />
+    <Compile Include="4_WebDom\1_Dom\StringTable.cs" />
+    <Compile Include="4_WebDom\1_Dom\WellknownElementName.cs" />
     <Compile Include="4_WebDom\2_Css\CssElementSelectors.cs" />
     <Compile Include="4_WebDom\2_Css\CssPropertyDeclaration.cs" />
     <Compile Include="4_WebDom\2_Css\WellknownCssPropertyName.cs" />
@@ -114,7 +114,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="6_SvgDom\0_License.txt" />
+    <Content Include="6_Svg\0_License.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="0_Start\" />

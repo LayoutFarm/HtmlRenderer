@@ -6,7 +6,7 @@ using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
-using LayoutFarm.InternalHtmlDom;
+
 using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
@@ -111,7 +111,7 @@ namespace LayoutFarm
                         //this will not print 
                         //if e has been stop by its child
                         // System.Diagnostics.Debugger.Break();
-                        Console.WriteLine("div");
+                        //Console.WriteLine("div");
 #endif
 
                     });

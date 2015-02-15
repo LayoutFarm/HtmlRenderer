@@ -24,8 +24,10 @@ namespace LayoutFarm.WebDom
                     {
                         this.evhMouseUp += handler;
                     } break;
+
             }
         }
+
         public void DetachEvent(UIEventName eventName, HtmlEventHandler handler)
         {
             switch (eventName)
@@ -42,12 +44,16 @@ namespace LayoutFarm.WebDom
 
         }
         //-------------------------------------------------------
+        public void AttachEventOnMouseLostFocus(HtmlEventHandler handler)
+        {
+            this.evhMouseLostFocus += handler;
+        }
+
+        //-------------------------------------------------------
         protected virtual void OnLostFocus(UIFocusEventArgs e)
         {
         }
-        protected virtual void OnLostMouseFocus(UIFocusEventArgs e)
-        {
-        }
+        
         protected virtual void OnGotFocus(UIFocusEventArgs e)
         {
         }
@@ -59,7 +65,10 @@ namespace LayoutFarm.WebDom
         }
         protected virtual void OnLostMouseFocus(UIMouseEventArgs e)
         {
-
+            if (this.evhMouseLostFocus != null)
+            {
+                this.evhMouseLostFocus(e);
+            }
         }
         protected virtual void OnMouseDown(UIMouseEventArgs e)
         {

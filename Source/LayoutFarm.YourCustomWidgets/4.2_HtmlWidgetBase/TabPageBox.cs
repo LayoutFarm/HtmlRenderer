@@ -4,7 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
+using LayoutFarm.WebDom;
+using LayoutFarm.WebDom.Extension;
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 using LayoutFarm.CustomWidgets;
@@ -12,146 +13,80 @@ namespace LayoutFarm.HtmlWidgets
 {
     //tab page similar to listview
 
-    public class TabPageContainer : UIBox
+    public class TabPageContainer : LightHtmlWidgetBase
     {
-        //composite          
-        CustomRenderBox primElement;//background
+        DomElement pnode;
+        DomElement titleBar;
+        DomElement contentNode;
+        DomElement tabTitleList;
+
         Color backColor = Color.LightGray;
-        int viewportX, viewportY;
-        List<UICollection> layers = new List<UICollection>(1);
         List<TabPage> tabPageCollection = new List<TabPage>();
 
         TabPage currentPage;
-        Panel panel;
         int currentSelectedIndex;
 
         public TabPageContainer(int width, int height)
             : base(width, height)
         {
-            UICollection plainLayer = new UICollection(this);
-            //panel for listview items
-            this.panel = new Panel(width, height);
-            this.panel.PanelLayoutKind = PanelLayoutKind.VerticalStack;
-
-            panel.BackColor = Color.LightGray;
-            plainLayer.AddUI(panel);
-            this.layers.Add(plainLayer);
         }
-        protected override bool HasReadyRenderElement
-        {
-            get { return this.primElement != null; }
-        }
-        protected override RenderElement CurrentPrimaryRenderElement
-        {
-            get { return this.primElement; }
-        }
-        public Color BackColor
-        {
-            get { return this.backColor; }
-            set
-            {
-                this.backColor = value;
-                if (HasReadyRenderElement)
-                {
-                    this.primElement.BackColor = value;
-                }
-            }
-        }
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-        {
-            if (primElement == null)
-            {
-                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-
-                renderE.SetLocation(this.Left, this.Top);
-                renderE.BackColor = backColor;
-                renderE.SetController(this);
-                renderE.HasSpecificSize = true;
-
-                //------------------------------------------------
-                //create visual layer
-                renderE.Layers = new VisualLayerCollection();
-                int layerCount = this.layers.Count;
-                for (int m = 0; m < layerCount; ++m)
-                {
-                    UICollection plain = (UICollection)this.layers[m];
-                    var groundLayer = new PlainLayer(renderE);
-                    renderE.Layers.AddLayer(groundLayer);
-                    renderE.SetViewport(this.viewportX, this.viewportY);
-                    //---------------------------------
-                    int j = plain.Count;
-                    for (int i = 0; i < j; ++i)
-                    {
-                        groundLayer.AddUI(plain.GetElement(i));
-                    }
-                }
-
-                //---------------------------------
-                primElement = renderE;
-            }
-            return primElement;
-        }
-
-        protected override void OnContentLayout()
-        {
-            panel.PerformContentLayout();
-        }
-
-        public override bool NeedContentLayout
-        {
-            get
-            {
-                return this.panel.NeedContentLayout;
-            }
-        }
-        public override int ViewportX
-        {
-            get { return this.viewportX; }
-
-        }
-        public override int ViewportY
-        {
-            get { return this.viewportY; }
-
-        }
-        public override void SetViewport(int x, int y)
-        {
-            this.viewportX = x;
-            this.viewportY = y;
-            if (this.HasReadyRenderElement)
-            {
-                this.panel.SetViewport(x, y);
-            }
-        }
-
-
-        //----------------------------------------------------
         public List<TabPage> TabPageList
         {
             get { return this.tabPageCollection; }
         }
-        public void AddItem(TabPage ui)
+        protected override WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode)
         {
-            tabPageCollection.Add(ui);
-            ui.Owner = this;
+            if (pnode != null) return pnode;
+            //------------------------------
+            var ownerdoc = hostNode.OwnerDocument;
+            pnode = ownerdoc.CreateElement("div");
+            pnode.SetAttribute("style", "font:10pt tahoma");
+            //------------------------------ 
+            titleBar = ownerdoc.CreateElement("div");
+            titleBar.AddTextContent("hello tabPage");
+            pnode.AddChild(titleBar);
+            //------------------------------ 
+            tabTitleList = ownerdoc.CreateElement("div");
+            pnode.AddChild(tabTitleList);
+            //------------------------------ 
+            contentNode = ownerdoc.CreateElement("div");
+            pnode.AddChild(contentNode);
+            //------------------------------
+            return pnode;
+        }
+        public void AddItem(TabPage tabPage)
+        {
+            //1. store in collection
 
-            //show only one page per time
-            if (currentPage == null)
+            tabPageCollection.Add(tabPage);
+            tabPage.OwnerContainer = this;
+
+            if (pnode != null)
             {
-                currentPage = ui;
-                panel.AddChildBox(ui);
+                if (currentPage == null)
+                {
+                    currentPage = tabPage;
+                    //add tab button into list
+                    this.tabTitleList.AddChild(tabPage.GetTitleNode(pnode));
+                    //add page body
+                    contentNode.AddChild(tabPage.GetPageBody(pnode));
+                }
+                else
+                {
+                    //add tab button into list
+                    this.tabTitleList.AddChild(tabPage.GetTitleNode(pnode));
+                }
             }
         }
         public void RemoveItem(TabPage p)
         {
-            p.Owner = null;
-            tabPageCollection.Remove(p);
-            panel.RemoveChildBox(p);
+            //p.Owner = null;
+            //tabPageCollection.Remove(p);
+            //panel.RemoveChildBox(p);
         }
         public void ClearPages()
         {
             //TODO: implement this
-            
         }
         public int SelectedIndex
         {
@@ -163,64 +98,116 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     this.currentSelectedIndex = value;
                     TabPage selectednedSelectedPage = this.tabPageCollection[value];
-                    if (currentPage != null)
-                    {
-                        this.panel.RemoveChildBox(currentPage);
-                    }
-                    this.currentPage = selectednedSelectedPage;
-                    this.panel.AddChildBox(currentPage);
+                    //if (currentPage != null)
+                    //{
+                    //    this.panel.RemoveChildBox(currentPage);
+                    //}
+                    //this.currentPage = selectednedSelectedPage;
+                    //this.panel.AddChildBox(currentPage);
                 }
             }
+        }
+        //------------------------
+        internal void ChildNotifyTabMouseDown(TabPage childPage)
+        {
+            //change content ***
+            contentNode.ClearAllElements();
+            contentNode.AddChild(childPage.GetPageBody(contentNode));
+
         }
     }
 
 
-    public class TabPage : UIBox
+    public class TabPage
     {
-        CustomRenderBox primElement;
-        Color backColor;
-        TabPageContainer owner;
-        public TabPage(int width, int height)
-            : base(width, height)
+        DomElement titleNode;
+        DomElement contentNode;
+        UIElement contentUI;
+        public TabPage()
         {
 
         }
-        public TabPageContainer Owner
+        public string PageTitle
         {
-            get { return this.owner; }
-            internal set { this.owner = value; }
-
+            get;
+            set;
         }
-        protected override RenderElement CurrentPrimaryRenderElement
+        internal TabPageContainer OwnerContainer
         {
-            get { return this.primElement; }
+            get;
+            set;
         }
-        protected override bool HasReadyRenderElement
+        public DomElement GetTitleNode(DomElement hostNode)
         {
-            get { return primElement != null; }
-        }
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-        {
-            if (primElement == null)
+            //-------------------------------------
+            if (titleNode != null) return titleNode;
+            //create dom node
+            var ownerdoc = hostNode.OwnerDocument;
+            this.titleNode = ownerdoc.CreateElement("div");
+            titleNode.SetAttribute("style", "display:inline");
+            titleNode.AddChild("span", span =>
             {
-                var element = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                element.SetLocation(this.Left, this.Top);
-                element.BackColor = this.backColor;
-                this.primElement = element;
-            }
-            return primElement;
+                if (PageTitle == null)
+                {
+                    span.AddTextContent("");
+                }
+                else
+                {
+                    span.AddTextContent(this.PageTitle);
+                }
+                span.AttachMouseDownEvent(e =>
+                {
+                    if (this.OwnerContainer != null)
+                    {
+                        this.OwnerContainer.ChildNotifyTabMouseDown(this);
+                    }
+                });
+            });
+            ////mouse down on title
+            //titleNode.AttachMouseDownEvent(e =>
+            //{
+
+
+            //});
+            //-------------------------------------
+            return titleNode;
         }
-        public Color BackColor
+        public DomElement GetPageBody(DomElement hostNode)
         {
-            get { return this.backColor; }
+            if (contentNode != null) return contentNode;
+            var ownerdoc = hostNode.OwnerDocument;
+            contentNode = ownerdoc.CreateElement("div");
+            if (this.contentUI != null)
+            {
+                //add content ui to the body of page
+                //creat html wrapper for this ...        
+
+                HtmlDocument htmldoc = (HtmlDocument)ownerdoc;
+                var wrapperElement = htmldoc.CreateWrapperElement((RootGraphic rootgfx, out RenderElement renderE, out object controller) =>
+                {
+                    renderE = contentUI.GetPrimaryRenderElement(rootgfx);
+                    controller = contentUI;
+
+                });
+                contentNode.AddChild(wrapperElement);
+
+            }
+            return contentNode;
+        }
+        public UIElement ContentUI
+        {
+            get { return this.contentUI; }
             set
             {
-                this.backColor = value;
-                if (HasReadyRenderElement)
+                this.contentUI = value;
+                //add ui to content node if 
+                if (this.contentNode != null)
                 {
-                    this.primElement.BackColor = value;
                 }
+
             }
         }
+
+
     }
 }

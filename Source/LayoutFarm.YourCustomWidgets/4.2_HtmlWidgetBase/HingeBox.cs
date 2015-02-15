@@ -4,154 +4,120 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
+using LayoutFarm.Composers;
+using LayoutFarm.WebDom;
+using LayoutFarm.WebDom.Extension;
 using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.CustomWidgets;
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.HtmlWidgets
 {
-    public class HingeBox : UIBox
+
+    public class HingeBox : LightHtmlWidgetBase
     {
 
-        CustomRenderBox primElement;//background 
+        RenderElement landPartRenderElement;//background 
+        DomElement presentationNode;
         Color backColor = Color.LightGray;
         bool isOpen;
         //1. land part
-        UIBox landPart;
-
+        LightHtmlBox landPart;
         //2. float part   
-        UIBox floatPart;
+        LightHtmlBox floatPart;
+
         RenderElement floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
 
-        public HingeBox(int width, int height)
-            : base(width, height)
+        public HingeBox(int w, int h)
+            : base(w, h)
         {
-
         }
-
-        protected override bool HasReadyRenderElement
+        FragmentHtmlDocument CreateFloatPartDom()
         {
-            get { return this.primElement != null; }
-        }
-        protected override RenderElement CurrentPrimaryRenderElement
-        {
-            get { return this.primElement; }
-        }
-        public Color BackColor
-        {
-            get { return this.backColor; }
-            set
-            {
-                this.backColor = value;
-                if (HasReadyRenderElement)
+            //create land part 
+            FragmentHtmlDocument htmldoc = this.HtmlHost.CreateNewFragmentHtml();
+            var domElement =
+                htmldoc.RootNode.AddChild("div", div =>
                 {
-                    this.primElement.BackColor = value;
-                }
-            }
-        }
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-        {
-            if (primElement == null)
-            {
-                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-           
-                this.SetLocation(this.Left, this.Top);
-                renderE.BackColor = backColor;
-                renderE.SetController(this);
-                renderE.HasSpecificSize = true;
-                //------------------------------------------------
-                //create visual layer
-                var layers = new VisualLayerCollection();
-                var layer0 = new PlainLayer(renderE);
-                layers.AddLayer(layer0);
-                renderE.Layers = layers;
-
-                if (this.landPart != null)
-                {
-                    layer0.AddChild(this.landPart.GetPrimaryRenderElement(rootgfx));
-                }
-                if (this.floatPart != null)
-                {
-
-                }
-
-                //---------------------------------
-                primElement = renderE;
-            }
-            return primElement;
-        }
-        //----------------------------------------------------
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            if (this.MouseDown != null)
-            {
-                this.MouseDown(this, e);
-            }
-        } 
-        protected override void OnMouseUp(UIMouseEventArgs e)
-        {
-            if (this.MouseUp != null)
-            {
-                MouseUp(this, e);
-            }
-            base.OnMouseUp(e);
-        } 
-        //---------------------------------------------------- 
-        public event EventHandler<UIMouseEventArgs> MouseDown;
-        public event EventHandler<UIMouseEventArgs> MouseUp; 
-        //----------------------------------------------------  
-        public UIBox LandPart
-        {
-            get { return this.landPart; }
-            set
-            {
-                this.landPart = value;
-                if (value != null)
-                {
-                    //if new value not null
-                    //check existing land part
-                    if (this.landPart != null)
+                    for (int i = 0; i < 10; ++i)
                     {
-                        //remove existing landpart
-
-                    }
-
-                    if (primElement != null)
-                    {
-                        //add 
-                        var visualPlainLayer = primElement.Layers.GetLayer(0) as PlainLayer;
-                        if (visualPlainLayer != null)
+                        div.AddChild("div", div2 =>
                         {
-                            visualPlainLayer.AddChild(value.GetPrimaryRenderElement(primElement.Root));
+                            div.AddTextContent("HELLO!" + i);
+                        });
+                    }
+                });
+            return htmldoc;
+        }
+        protected override DomElement GetPresentationDomNode(DomElement hostNode)
+        {
+            if (presentationNode != null)
+            {
+                return presentationNode;
+            }
+            //-------------------
+            presentationNode = hostNode.OwnerDocument.CreateElement("div");
+            presentationNode.AddChild("div", div =>
+            {
+                div.SetAttribute("style", "font:10pt tahoma;");
+                div.AddChild("img", img =>
+                {
+                    //init 
+                    img.SetAttribute("src", "../../Demo/arrow_close.png");
+                    img.AttachMouseDownEvent(e =>
+                    {
+                        //img.SetAttribute("src", this.IsOpen ?
+                        //    "../../Demo/arrow_open.png" :
+                        //    "../../Demo/arrow_close.png");
+                        ////------------------------------
+
+                        if (this.IsOpen)
+                        {
+                            img.SetAttribute("src", "../../Demo/arrow_close.png");
+                            this.CloseHinge();
+                        }
+                        else
+                        {
+                            img.SetAttribute("src", "../../Demo/arrow_open.png");
+                            this.OpenHinge();
                         }
 
-                    }
+                        this.InvalidateGraphics();
+                        //----------------------------- 
+                        e.StopPropagation();
+                    });
 
-                }
-                else
-                {
-                    if (this.landPart != null)
-                    {
-                        //remove existing landpart
-
-                    }
-                }
-            }
+                });
+            });
+            return presentationNode;
         }
-        public UIBox FloatPart
+
+        public LightHtmlBox LandPart
+        {
+            get { return this.landPart; }
+            set { this.landPart = value; }
+        }
+        public LightHtmlBox FloatPart
         {
             get { return this.floatPart; }
-            set
+            set { this.floatPart = value; }
+        }
+        public override UIElement GetPrimaryUIElement(HtmlHost htmlhost)
+        {
+            if (this.landPart == null)
             {
-                this.floatPart = value;
-                if (value != null)
+                this.landPart = (LightHtmlBox)base.GetPrimaryUIElement(htmlhost);
+                if (floatPart == null)
                 {
-                    //attach float part
-
+                    this.floatPart = new LightHtmlBox(htmlhost, this.Width, 300);
+                    this.floatPart.Visible = false;
+                    this.floatPart.LoadHtmlDom(CreateFloatPartDom());
                 }
             }
+
+            return landPart;
         }
         //---------------------------------------------------- 
         public bool IsOpen
@@ -166,8 +132,11 @@ namespace LayoutFarm.HtmlWidgets
             if (isOpen) return;
             this.isOpen = true;
 
-            //-----------------------------------
-            if (this.primElement == null) return;
+            if (this.landPartRenderElement == null)
+            {
+                landPartRenderElement = this.landPart.CurrentPrimaryRenderElement;
+            }
+
             if (floatPart == null) return;
 
 
@@ -177,12 +146,12 @@ namespace LayoutFarm.HtmlWidgets
                 case HingeFloatPartStyle.Popup:
                     {
                         //add float part to top window layer
-                        var topRenderBox = primElement.GetTopWindowRenderBox();
+                        var topRenderBox = landPartRenderElement.GetTopWindowRenderBox();
                         if (topRenderBox != null)
                         {
-                            Point globalLocation = primElement.GetGlobalLocation();
-                            floatPart.SetLocation(globalLocation.X, globalLocation.Y + primElement.Height);
-                            this.floatPartRenderElement = this.floatPart.GetPrimaryRenderElement(primElement.Root);
+                            Point globalLocation = landPartRenderElement.GetGlobalLocation();
+                            floatPart.SetLocation(globalLocation.X, globalLocation.Y + landPartRenderElement.Height);
+                            this.floatPartRenderElement = this.floatPart.GetPrimaryRenderElement(landPartRenderElement.Root);
                             topRenderBox.AddChild(floatPartRenderElement);
                         }
 
@@ -198,7 +167,12 @@ namespace LayoutFarm.HtmlWidgets
             if (!isOpen) return;
             this.isOpen = false;
 
-            if (this.primElement == null) return;
+            if (this.landPartRenderElement == null)
+            {
+                landPartRenderElement = this.landPart.CurrentPrimaryRenderElement;
+            }
+
+            if (this.landPartRenderElement == null) return;
             if (floatPart == null) return;
 
             switch (floatPartStyle)
@@ -211,13 +185,14 @@ namespace LayoutFarm.HtmlWidgets
                         if (floatPartRenderElement != null)
                         {
                             //temp
-                            var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
-                            if (parentContainer.Layers != null)
-                            {
-                                PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
-                                plainLayer.RemoveChild(floatPartRenderElement);
+                            var parentContainer = floatPartRenderElement.ParentRenderElement as TopWindowRenderBox;
+                            parentContainer.RemoveChild(floatPartRenderElement);
+                            //if (parentContainer.Layers != null)
+                            //{
+                            //    PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
+                            //    plainLayer.RemoveChild(floatPartRenderElement);
 
-                            }
+                            //}
                         }
 
                     } break;

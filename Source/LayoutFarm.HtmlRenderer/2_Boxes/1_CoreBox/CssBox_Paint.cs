@@ -13,12 +13,16 @@ namespace LayoutFarm.HtmlBoxes
 
         public void Paint(PaintVisitor p)
         {
+            
+           
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
 #endif
             if (this._isVisible)
             {
+
                 PaintImp(p);
+
             }
         }
 #if DEBUG
@@ -51,7 +55,7 @@ namespace LayoutFarm.HtmlBoxes
 
             }
         }
-#endif  
+#endif
         protected virtual void PaintImp(PaintVisitor p)
         {
 
@@ -122,6 +126,7 @@ namespace LayoutFarm.HtmlBoxes
                 int drawState = 0;
                 var c_line = this._clientLineBoxes.First;
 
+
                 while (c_line != null)
                 {
 
@@ -144,7 +149,7 @@ namespace LayoutFarm.HtmlBoxes
 
                         //1.                                 
                         line.PaintBackgroundAndBorder(p);
-                         
+
 
                         if (line.LineSelectionWidth > 0)
                         {
