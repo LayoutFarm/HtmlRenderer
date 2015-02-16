@@ -36,7 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="0_Start\ExtensionAttribute.cs" />
-    <Compile Include="1_Css\CssValueParser.cs" />
     <Compile Include="1_Css\CssDefaults.cs" />
     <Compile Include="1_Css\CssParserHelper.cs" />
     <Compile Include="1_Css\UserMapUtil.cs" />

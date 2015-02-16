@@ -371,7 +371,7 @@ namespace LayoutFarm.WebDom.Parser
                                     //block name
 
                                     //create css property 
-                                    var wellknownName = LayoutFarm.Composers.UserMapUtil.GetWellKnownPropName(
+                                    var wellknownName = LayoutFarm.Composers.UserMapUtil2.GetWellKnownPropName(
                                          new string(this.textBuffer, start, len));
 
                                     _currentRuleSet.AddCssCodeProperty(this._currentProperty =
@@ -695,19 +695,19 @@ namespace LayoutFarm.WebDom.Parser
                             //font weight
                             //font named size         
                             //font family
-                            if (LayoutFarm.Composers.UserMapUtil.IsFontStyle(value.Value))
+                            if (LayoutFarm.Composers.UserMapUtil2.IsFontStyle(value.Value))
                             {
                                 newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontStyle, value));
                                 continue;
                             }
 
-                            if (LayoutFarm.Composers.UserMapUtil.IsFontVariant(value.Value))
+                            if (LayoutFarm.Composers.UserMapUtil2.IsFontVariant(value.Value))
                             {
                                 newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontVariant, value));
                                 continue;
                             }
                             //----------
-                            if (LayoutFarm.Composers.UserMapUtil.IsFontWeight(value.Value))
+                            if (LayoutFarm.Composers.UserMapUtil2.IsFontWeight(value.Value))
                             {
                                 newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontWeight, value));
                                 continue;
@@ -868,7 +868,7 @@ namespace LayoutFarm.WebDom.Parser
                 //what value means ?
                 //border width/ style / color
                 if (cssCodePropertyValue.Hint == CssValueHint.Number ||
-                    LayoutFarm.Composers.UserMapUtil.IsNamedBorderWidth(cssCodePropertyValue.Value))
+                    LayoutFarm.Composers.UserMapUtil2.IsNamedBorderWidth(cssCodePropertyValue.Value))
                 {
                     //border width
                     switch (borderDirection)
@@ -903,7 +903,7 @@ namespace LayoutFarm.WebDom.Parser
                 }
 
                 //------
-                if (LayoutFarm.Composers.UserMapUtil.IsBorderStyle(cssCodePropertyValue.Value))
+                if (LayoutFarm.Composers.UserMapUtil2.IsBorderStyle(cssCodePropertyValue.Value))
                 {
 
                     //border style

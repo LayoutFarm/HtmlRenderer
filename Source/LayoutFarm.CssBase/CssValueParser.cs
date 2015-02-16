@@ -22,7 +22,7 @@ namespace LayoutFarm.HtmlBoxes
     /// <summary>
     /// Parse CSS properties values like numbers, urls, etc.
     /// </summary>
-    public static class CssValueParser
+    public static class CssValueParser2
     {
         ///// <summary>
         ///// get length in pixel

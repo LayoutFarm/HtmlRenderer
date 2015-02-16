@@ -47,36 +47,19 @@
     <Compile Include="1_Composers\4_Diagnostic\ArgCheckNotNullAttribute.cs" />
     <Compile Include="1_Composers\4_Diagnostic\HtmlGenerationStyle.cs" />
     <Compile Include="1_Composers\4_Diagnostic\HtmlRenderErrorType.cs" />
-    <Compile Include="4_WebDom\4_HtmlDom\BulletNumberFormatter.cs" />
+    <Compile Include="4_WebDom\BulletNumberFormatter.cs" />
     <Compile Include="1_Composers\1_Builder\ContentTextSplitter.cs" />
     <Compile Include="1_Composers\2_Css\SpecSetter.cs" />
     <Compile Include="1_Composers\2_Css\UserMapUtil.cs" />
-    <Compile Include="1_Composers\2_Css\ValueMaps.cs" />
     <Compile Include="1_Composers\1_Builder\BoxCreator.cs" />
-    <Compile Include="4_WebDom\4_HtmlDom\HtmlDocument.cs" />
+    <Compile Include="4_WebDom\HtmlDocument.cs" />
     <Compile Include="3_HtmlBoxes\HtmlRenderBox.cs" />
     <Compile Include="3_HtmlBoxes\HtmlInputEventAdapter.cs" />
     <Compile Include="3_HtmlBoxes\RenderElementWrapperCssBox.cs" />
-    <Compile Include="4_WebDom\1_Dom\DomElement.cs" />
-    <Compile Include="4_WebDom\1_Dom\DomElement_EventListener.cs" />
-    <Compile Include="4_WebDom\1_Dom\DomElement_OnEvents.cs" />
-    <Compile Include="4_WebDom\1_Dom\ElementChangeKind.cs" />
-    <Compile Include="4_WebDom\2_Css\CssAttributeSelector.cs" />
-    <Compile Include="4_WebDom\2_Css\CssDocMembers.cs" />
-    <Compile Include="4_WebDom\2_Css\CssDocument.cs" />
-    <Compile Include="4_WebDom\2_Css\CssActiveSheet.cs" />
     <Compile Include="1_Composers\2_Css\CssDefaults.cs" />
     <Compile Include="1_Composers\2_Css\CssParserHelper.cs" />
-    <Compile Include="4_WebDom\4_HtmlDom\RunListHelper.cs" />
-    <Compile Include="4_WebDom\4_HtmlDom\HtmlElements.cs" />
-    <Compile Include="4_WebDom\3_Gen\HtmlGenerationStyle.cs" />
-    <Compile Include="4_WebDom\3_Gen\HtmlGenerator.cs" />
-    <Compile Include="5_WebDom.Parser\CssParser.cs" />
-    <Compile Include="5_WebDom.Parser\dbugLexerReport.cs" />
-    <Compile Include="5_WebDom.Parser\HtmlLexer.cs" />
-    <Compile Include="5_WebDom.Parser\HtmlParser.cs" />
-    <Compile Include="5_WebDom.Parser\HtmlUtils.cs" />
-    <Compile Include="5_WebDom.Parser\TextSnapshot.cs" />
+    <Compile Include="4_WebDom\RunListHelper.cs" />
+    <Compile Include="4_WebDom\HtmlElements.cs" />
     <Compile Include="6_Svg\SvgCreator.cs" />
     <Compile Include="3_HtmlBoxes\HtmlHostAndHtmlContainer.cs" />
     <Compile Include="6_Svg\SvgRootEventPortal_IUserEventPortal.cs" />
@@ -91,13 +74,6 @@
     <Compile Include="8_ContentManagers\ImageCacheSystem.cs" />
     <Compile Include="8_ContentManagers\TextContentManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="4_WebDom\1_Dom\WebDocument.cs" />
-    <Compile Include="4_WebDom\1_Dom\DomNodes.cs" />
-    <Compile Include="4_WebDom\1_Dom\StringTable.cs" />
-    <Compile Include="4_WebDom\1_Dom\WellknownElementName.cs" />
-    <Compile Include="4_WebDom\2_Css\CssElementSelectors.cs" />
-    <Compile Include="4_WebDom\2_Css\CssPropertyDeclaration.cs" />
-    <Compile Include="4_WebDom\2_Css\WellknownCssPropertyName.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
@@ -119,6 +95,10 @@
     <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
       <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
       <Name>LayoutFarm.HtmlRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj">
+      <Project>{A7E65FD9-329D-4902-BCDA-51EE4F992FD5}</Project>
+      <Name>LayoutFarm.WebDom</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

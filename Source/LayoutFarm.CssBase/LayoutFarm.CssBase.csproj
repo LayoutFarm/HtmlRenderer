@@ -39,6 +39,7 @@
     <Compile Include="CssLength.cs" />
     <Compile Include="CssProps.cs" />
     <Compile Include="CssUnitOrNames.cs" />
+    <Compile Include="CssValueParser.cs" />
     <Compile Include="DeprecatedAttribute.cs" />
     <Compile Include="KnownColors.cs" />
     <Compile Include="MapAttribute.cs" />

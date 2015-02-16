@@ -2,9 +2,9 @@
 //ArthurHub
 
 namespace LayoutFarm.Composers
-{  
+{
     public static class CssDefaults
-    {    
+    {
         /// <summary>
         /// default CSS parsed data singleton
         /// </summary>
