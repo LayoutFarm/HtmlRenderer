@@ -115,8 +115,10 @@ namespace LayoutFarm.HtmlWidgets
 
     public abstract class LightHtmlWidgetBase : WidgetBase
     {
+
         DomElement myPresentationDom;
         HtmlBox lightHtmlBox; //primary ui element
+        
         HtmlHost htmlhost;
         public LightHtmlWidgetBase(int w, int h)
             : base(w, h)
@@ -148,7 +150,7 @@ namespace LayoutFarm.HtmlWidgets
             return this.lightHtmlBox;
         }
 
-        protected void AddSelfTopTopWindow()
+        protected void AddSelfToTopWindow()
         {
             var htmlhost = this.HtmlHost;
             if (htmlhost == null) return;
@@ -193,6 +195,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             get
             {
+                
                 return htmlhost;
             }
         }
