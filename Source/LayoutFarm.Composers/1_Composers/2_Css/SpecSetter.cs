@@ -18,12 +18,17 @@ using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
+
 namespace LayoutFarm.Composers
 {
 
 
     public static class SpecSetter
     {
+        internal static Color AsColor(WebDom.CssCodeValueExpression value)
+        {
+            return CssColorConv.ConvertToActualColor(UserMapUtil.AsColor(value));
+        }
         //=======================================================================================
         public static void AssignPropertyValue(BoxSpec spec, BoxSpec parentSpec, CssPropertyDeclaration decl)
         {
@@ -39,6 +44,32 @@ namespace LayoutFarm.Composers
             else
             {
                 SetPropertyValue(spec, decl);
+            }
+        }
+        static void SetBackgroundPosition(this CssBox box, WebDom.CssCodeValueExpression value)
+        {
+            //TODO: implement background position from combination value
+            throw new NotSupportedException();
+        }
+        static void SetBackgroundPosition(this BoxSpec box, WebDom.CssCodeValueExpression value)
+        {
+            //TODO: implement background position from combination value
+            throw new NotSupportedException();
+        }
+        static void SetBorderSpacing(BoxSpec box, WebDom.CssCodeValueExpression value)
+        {
+            WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
+            if (primValue == null)
+            {
+                //2 values?
+                //box.BorderSpacingHorizontal = new CssLength(r[0].Value);
+                //box.BorderSpacingVertical = new CssLength(r[1].Value);
+                throw new NotSupportedException();
+            }
+            else
+            {
+                //primitive value 
+                box.BorderSpacingHorizontal = box.BorderSpacingVertical = UserMapUtil.AsLength(primValue);
             }
         }
         static void SetPropertyValue(BoxSpec spec, WebDom.CssPropertyDeclaration decl)
@@ -78,28 +109,29 @@ namespace LayoutFarm.Composers
                     break;
                 //------------------------------------------------
                 case WellknownCssPropertyName.BorderBottomColor:
-                    spec.BorderBottomColor = cssValue.AsColor();
+                    spec.BorderBottomColor = AsColor(cssValue);
                     break;
                 case WellknownCssPropertyName.BorderLeftColor:
-                    spec.BorderLeftColor = cssValue.AsColor();
+                    spec.BorderLeftColor = AsColor(cssValue);
                     break;
                 case WellknownCssPropertyName.BorderRightColor:
-                    spec.BorderRightColor = cssValue.AsColor();
+                    spec.BorderRightColor = AsColor(cssValue);
                     break;
                 case WellknownCssPropertyName.BorderTopColor:
-                    spec.BorderTopColor = cssValue.AsColor();
+                    spec.BorderTopColor = AsColor(cssValue); ;
                     break;
                 //------------------------------------------------
                 case WellknownCssPropertyName.BorderSpacing:
 
-                    spec.SetBorderSpacing(cssValue);
+                    SetBorderSpacing(spec, cssValue);
                     break;
                 case WellknownCssPropertyName.BorderCollapse:
                     spec.BorderCollapse = UserMapUtil.GetBorderCollapse(cssValue);
                     break;
                 //------------------------------------------------
                 case WellknownCssPropertyName.CornerRadius:
-                    spec.SetCornerRadius(cssValue);
+
+                    SetCornerRadius(spec, cssValue);
                     break;
                 case WellknownCssPropertyName.CornerNWRadius:
                     spec.CornerNWRadius = cssValue.AsLength();
@@ -156,26 +188,25 @@ namespace LayoutFarm.Composers
                     spec.Height = cssValue.AsLength();
                     break;
                 case WellknownCssPropertyName.BackgroundColor:
-                    spec.BackgroundColor = cssValue.AsColor();
+                    spec.BackgroundColor = AsColor(cssValue);
                     break;
                 case WellknownCssPropertyName.BackgroundImage:
                     spec.BackgroundImageBinder = new ClientImageBinder(cssValue.GetTranslatedStringValue());
                     break;
                 case WellknownCssPropertyName.BackgroundPosition:
-
-                    spec.SetBackgroundPosition(cssValue);
+                    SetBackgroundPosition(spec, cssValue);
                     break;
                 case WellknownCssPropertyName.BackgroundRepeat:
                     spec.BackgroundRepeat = UserMapUtil.GetBackgroundRepeat(cssValue);
                     break;
                 case WellknownCssPropertyName.BackgroundGradient:
-                    spec.BackgroundGradient = cssValue.AsColor();
+                    spec.BackgroundGradient = AsColor(cssValue);
                     break;
                 case WellknownCssPropertyName.BackgroundGradientAngle:
                     spec.BackgroundGradientAngle = cssValue.AsNumber();
                     break;
                 case WellknownCssPropertyName.Color:
-                    spec.Color = cssValue.AsColor();
+                    spec.Color = AsColor(cssValue);
                     break;
 
                 case WellknownCssPropertyName.Direction:
@@ -224,8 +255,8 @@ namespace LayoutFarm.Composers
                     spec.FontFamily = cssValue.GetTranslatedStringValue();
                     break;
                 case WellknownCssPropertyName.FontSize:
-                    spec.SetFontSize(cssValue);
 
+                    SetFontSize(spec, cssValue);
                     break;
                 case WellknownCssPropertyName.FontStyle:
                     spec.FontStyle = UserMapUtil.GetFontStyle(cssValue);
@@ -251,6 +282,119 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.Overflow:
                     spec.Overflow = UserMapUtil.GetOverflow(cssValue);
                     break;
+            }
+        }
+        static CssLength SetLineHeight(this CssBox box, CssLength len)
+        {
+            //2014,2015,
+            //from www.w3c.org/wiki/Css/Properties/line-height
+
+            //line height in <percentage> : 
+            //The computed value if the property is percentage multiplied by the 
+            //element's computed font size. 
+            return CssLength.MakePixelLength(
+                 CssValueParser.ConvertToPx(len, box.GetEmHeight(), box));
+        }
+        static void SetCornerRadius(BoxSpec box, WebDom.CssCodeValueExpression value)
+        {
+            WebDom.CssCodePrimitiveExpression prim = value as WebDom.CssCodePrimitiveExpression;
+            if (prim == null)
+            {
+                //combinator values?
+                throw new NotSupportedException();
+                return;
+            }
+            box.CornerNERadius = box.CornerNWRadius =
+               box.CornerSERadius = box.CornerSWRadius = UserMapUtil.AsLength(prim);
+
+
+            ////parse corner radius 
+            //System.Text.RegularExpressions.MatchCollection r =
+            //    HtmlRenderer.Parse.RegexParserUtils.Match(HtmlRenderer.Parse.RegexParserUtils.CssLength, value);
+            //switch (r.Count)
+            //{
+            //    case 1:
+            //        box.CornerNERadius = box.CornerNWRadius =
+            //            box.CornerSERadius = box.CornerSWRadius = new CssLength(r[0].Value);
+            //        break;
+            //    case 2:
+            //        box.CornerNERadius = box.CornerNWRadius = new CssLength(r[0].Value);
+            //        box.CornerSERadius = box.CornerSWRadius = new CssLength(r[1].Value);
+            //        break;
+            //    case 3:
+            //        box.CornerNERadius = new CssLength(r[0].Value);
+            //        box.CornerNWRadius = new CssLength(r[1].Value);
+            //        box.CornerSERadius = new CssLength(r[2].Value);
+            //        break;
+            //    case 4:
+            //        box.CornerNERadius = new CssLength(r[0].Value);
+            //        box.CornerNWRadius = new CssLength(r[1].Value);
+            //        box.CornerSERadius = new CssLength(r[2].Value);
+            //        box.CornerSWRadius = new CssLength(r[3].Value);
+            //        break;
+            //}
+        }
+        static void SetFontSize(this BoxSpec box, WebDom.CssCodeValueExpression value)
+        {
+            //number + value
+            WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
+            if (primValue == null)
+            {
+                return;
+            }
+            switch (primValue.Hint)
+            {
+                case WebDom.CssValueHint.Number:
+                    {
+                        //has unit or not
+                        //?
+                        //or percent ? 
+
+                        CssLength len = UserMapUtil.AsLength(primValue);
+                        if (len.HasError)
+                        {
+                            len = CssLength.FontSizeMedium;
+                        }
+                        box.FontSize = len;
+
+                    } break;
+                case WebDom.CssValueHint.Iden:
+                    {
+                        switch (primValue.GetTranslatedStringValue())
+                        {
+                            default:
+                                {
+                                    throw new NotSupportedException();
+                                }
+                            case CssConstants.Medium:
+                                box.FontSize = CssLength.FontSizeMedium;
+                                break;
+                            case CssConstants.Small:
+                                box.FontSize = CssLength.FontSizeSmall;
+                                break;
+                            case CssConstants.XSmall:
+                                box.FontSize = CssLength.FontSizeXSmall;
+                                break;
+                            case CssConstants.XXSmall:
+                                box.FontSize = CssLength.FontSizeXXSmall;
+                                break;
+                            case CssConstants.Large:
+                                box.FontSize = CssLength.FontSizeLarge;
+                                break;
+                            case CssConstants.XLarge:
+                                box.FontSize = CssLength.FontSizeLarge;
+                                break;
+                            case CssConstants.XXLarge:
+                                box.FontSize = CssLength.FontSizeLarger;
+                                break;
+                            case CssConstants.Smaller:
+                                box.FontSize = CssLength.FontSizeSmaller;
+                                break;
+                            case CssConstants.Larger:
+                                box.FontSize = CssLength.FontSizeLarger;
+                                break;
+                        }
+                    } break;
             }
         }
         /// <summary>

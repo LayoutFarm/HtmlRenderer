@@ -150,6 +150,10 @@
       <Project>{4602B28B-EEEC-4A69-854C-B00B8B616837}</Project>
       <Name>LayoutFarm.Platforms.WinForms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj">
+      <Project>{A7E65FD9-329D-4902-BCDA-51EE4F992FD5}</Project>
+      <Name>LayoutFarm.WebDom</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\comment16.gif" />

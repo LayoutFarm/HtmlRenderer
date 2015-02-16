@@ -184,7 +184,7 @@ namespace LayoutFarm.WebDom
         internal int nodeLocalNameIndex;
         string attrValue;
 
-        internal DomAttribute(WebDocument ownerDoc,
+        public DomAttribute(WebDocument ownerDoc,
             int nodePrefixNameIndex,
             int nodeLocalNameIndex)
             : base(ownerDoc)
