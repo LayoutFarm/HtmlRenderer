@@ -65,11 +65,7 @@
     <Compile Include="0_LayoutFarm\4_ImageBinder.cs" />
     <Compile Include="1_Css\BoxSpec.cs" />
     <Compile Include="1_Css\BoxSpec_CopyAndVersioning.cs" />
-    <Compile Include="1_Css\CssConstants.cs" />
     <Compile Include="1_Css\CssFeatures.cs" />
-    <Compile Include="1_Css\CssLength.cs" />
-    <Compile Include="1_Css\CssProps.cs" />
-    <Compile Include="1_Css\CssUnitOrNames.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CustomCssBox.cs" />
     <Compile Include="4_Svg\05_SvgDoms\CssBoxSvgRoot.cs" />
     <Compile Include="4_Svg\05_SvgDoms\SvgElements.cs" />
@@ -104,8 +100,6 @@
     <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.CssVerticalCellSpacingBox.cs" />
     <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.TableColumns.cs" />
     <Compile Include="3_Boxes_SpecialBoxes\CssBoxListItem.cs" />
-    <Compile Include="5_Diagnostics\DeprecatedAttribute.cs" />
-    <Compile Include="Platform\MapAttribute.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBoxCollection.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Unsafe.cs" />
     <Compile Include="5_Diagnostics\dbug.cs" />
@@ -123,13 +117,10 @@
     <Compile Include="2_Boxes\1_CoreBox\CssLineBox.cs" />
     <Compile Include="2_Boxes\3_Layout\CssTableLayoutEngine.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssSideAndOrientation.cs" />
-    <Compile Include="5_Diagnostics\HtmlRenderErrorType.cs" />
-    <Compile Include="5_Diagnostics\HtmlGenerationStyle.cs" />
     <Compile Include="2_Boxes\4_Render\BackgroundImagePaintHelper.cs" />
     <Compile Include="2_Boxes\4_Render\BorderPaintHelper.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssValueParser.cs" />
     <Compile Include="2_Boxes\0_Root\HtmlContainer.cs" />
-    <Compile Include="5_Diagnostics\ArgCheckNotNullAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="2_Boxes\3_Layout\BoxHitUtils.cs" />
     <Compile Include="Platform\RenderUtils.cs" />
@@ -155,6 +146,10 @@
     <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
+      <Project>{5164EC24-95C4-4333-BD4E-70EE625CCEB4}</Project>
+      <Name>LayoutFarm.CssBase</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

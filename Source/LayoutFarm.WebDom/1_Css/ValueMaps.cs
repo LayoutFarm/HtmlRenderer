@@ -3,11 +3,11 @@
 using System;
 using System.Collections.Generic;
 
-namespace LayoutFarm.Composers
+namespace LayoutFarm.WebDom
 {
 
 
-    class ValueMap<T>
+    public class ValueMap<T>
     {
         static Type mapNameAttrType = typeof(MapAttribute);
         readonly Dictionary<string, T> stringToValue;

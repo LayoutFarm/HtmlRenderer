@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Generic;
 
-using PixelFarm.Drawing;
 
 namespace LayoutFarm.WebDom
 {
@@ -31,7 +30,7 @@ namespace LayoutFarm.WebDom
         Dictionary<string, CssRuleSetGroup> rulesForAll = new Dictionary<string, CssRuleSetGroup>();
 
 #if DEBUG
-        CssActiveSheet dbugOriginal; 
+        CssActiveSheet dbugOriginal;
 #endif
 
         public CssActiveSheet()
@@ -197,19 +196,19 @@ namespace LayoutFarm.WebDom
             }
         }
 
-        internal CssRuleSetGroup GetRuleSetForTagName(string tagName)
+        public CssRuleSetGroup GetRuleSetForTagName(string tagName)
         {
             CssRuleSetGroup found;
             rulesForTagName.TryGetValue(tagName, out found);
             return found;
         }
-        internal CssRuleSetGroup GetRuleSetForClassName(string className)
+        public CssRuleSetGroup GetRuleSetForClassName(string className)
         {
             CssRuleSetGroup found;
             this.rulesForClassName.TryGetValue(className, out found);
             return found;
         }
-        internal CssRuleSetGroup GetRuleSetForId(string elementId)
+        public CssRuleSetGroup GetRuleSetForId(string elementId)
         {
             CssRuleSetGroup found;
             this.rulesForElementId.TryGetValue(elementId, out found);
@@ -289,7 +288,7 @@ namespace LayoutFarm.WebDom
     /// <summary>
     /// ruleset and its subgroups
     /// </summary>
-    class CssRuleSetGroup
+    public class CssRuleSetGroup
     {
 
         CssPropertyAssignmentCollection _assignments;
@@ -462,7 +461,7 @@ namespace LayoutFarm.WebDom
     }
 
 
-    class CssPropertyAssignmentCollection
+    public class CssPropertyAssignmentCollection
     {
         Dictionary<LayoutFarm.WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration> _myAssignments = new Dictionary<WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration>();
         object owner;

@@ -1,10 +1,10 @@
 //BSD 2014
 //ArthurHub
-
+ 
 namespace LayoutFarm.Composers
-{  
+{
     public static class CssDefaults
-    {    
+    {
         /// <summary>
         /// default CSS parsed data singleton
         /// </summary>
@@ -13,14 +13,14 @@ namespace LayoutFarm.Composers
         /// <summary>
         /// default CSS parsed data singleton
         /// </summary>
-        internal static WebDom.CssActiveSheet DefaultCssData
+        public static WebDom.CssActiveSheet DefaultCssData
         {
             get
             {
                 if (_defaultCssData == null)
                 {
                     _defaultCssData = new WebDom.CssActiveSheet();
-                    CssParserHelper.ParseStyleSheet(_defaultCssData, CssDefaults.DefaultStyleSheet);
+                    LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(_defaultCssData, CssDefaults.DefaultStyleSheet);
                 }
                 return _defaultCssData;
             }

@@ -240,7 +240,9 @@ namespace LayoutFarm.Demo
             set
             {
                 _baseRawCssData = value;
-                _baseCssData = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(value, true);
+                _baseCssData = LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(value,
+                    LayoutFarm.Composers.CssDefaults.DefaultCssData,
+                    true);
             }
         }
 
@@ -296,7 +298,9 @@ namespace LayoutFarm.Demo
         public void LoadHtmlDom(LayoutFarm.WebDom.WebDocument doc, string defaultCss)
         {
             _baseRawCssData = defaultCss;
-            _baseCssData = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(defaultCss, true);
+            _baseCssData = LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(defaultCss,
+                CssDefaults.DefaultCssData,
+                true);
             //-----------------  
             htmlContainer.WebDocument = (this.currentDoc = doc);
             BuildCssBoxTree(htmlContainer, _baseCssData);

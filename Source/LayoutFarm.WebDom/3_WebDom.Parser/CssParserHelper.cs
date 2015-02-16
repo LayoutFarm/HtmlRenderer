@@ -15,10 +15,9 @@
 
 using System;
 using LayoutFarm.Css;
-using PixelFarm.Drawing;
 using LayoutFarm.HtmlBoxes;
 
-namespace LayoutFarm.Composers
+namespace LayoutFarm.WebDom.Parser
 {
 
     /// <summary>
@@ -40,12 +39,13 @@ namespace LayoutFarm.Composers
         /// <returns>the CSS data with parsed CSS objects (never null)</returns>
         public static WebDom.CssActiveSheet ParseStyleSheet(
             string stylesheet,
+            WebDom.CssActiveSheet defaultActiveSheet,
             bool combineWithDefault)
         {
             //TODO: check if can clone CssActiveSheet
 
             var cssData = combineWithDefault ?
-                CssDefaults.DefaultCssData.Clone() :
+                defaultActiveSheet.Clone() :
                 new WebDom.CssActiveSheet();
 
             if (!string.IsNullOrEmpty(stylesheet))
@@ -65,7 +65,7 @@ namespace LayoutFarm.Composers
         /// </summary>
         /// <param name="cssData">the CSS data to fill with parsed CSS objects</param>
         /// <param name="cssTextSource">raw css stylesheet to parse</param>
-        internal static void ParseStyleSheet(WebDom.CssActiveSheet cssData, string cssTextSource)
+        public static void ParseStyleSheet(WebDom.CssActiveSheet cssData, string cssTextSource)
         {
             if (!String.IsNullOrEmpty(cssTextSource))
             {

@@ -2,9 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Css;
-using PixelFarm.Drawing;
+
 namespace LayoutFarm.WebDom
 {
 
@@ -194,14 +193,14 @@ namespace LayoutFarm.WebDom
     }
     public class CssCodeColor : CssCodeValueExpression
     {
-        Color color;
-        public CssCodeColor(Color color)
+        CssColor color;
+        public CssCodeColor(CssColor color)
             : base(CssValueHint.HexColor)
         {
             this.color = color;
             SetColorValue(color);
         }
-        public Color ActualColor
+        public CssColor ActualColor
         {
             get { return this.color; }
         }
@@ -373,7 +372,7 @@ namespace LayoutFarm.WebDom
         }
 
         CssValueEvaluatedAs evaluatedAs;
-        Color cachedColor;
+        CssColor cachedColor;
         LayoutFarm.Css.CssLength cachedLength;
         int cachedInt;
         protected float number;
@@ -395,7 +394,7 @@ namespace LayoutFarm.WebDom
             this.evaluatedAs = evaluatedAs;
             this.cachedInt = intValue;
         }
-        public void SetColorValue(Color color)
+        public void SetColorValue(CssColor color)
         {
             this.evaluatedAs = CssValueEvaluatedAs.Color;
             this.cachedColor = color;
@@ -414,7 +413,7 @@ namespace LayoutFarm.WebDom
             }
         }
 
-        public Color GetCacheColor()
+        public CssColor GetCacheColor()
         {
             return this.cachedColor;
         }

@@ -17,7 +17,7 @@ using LayoutFarm.Svg;
 namespace LayoutFarm.Svg
 {
     static class SvgCreator
-    {   
+    {
         public static CssBoxSvgRoot CreateSvgBox(CssBox parentBox,
             HtmlElement elementNode,
             Css.BoxSpec spec)
