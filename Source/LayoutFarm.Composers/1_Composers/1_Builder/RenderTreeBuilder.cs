@@ -1033,7 +1033,7 @@ namespace LayoutFarm.Composers
         /// <returns></returns>
         public static CssLength TranslateLength(DomAttribute attr)
         {
-            return UserMapUtil2.TranslateLength(attr.Value.ToLower());
+            return UserMapUtil.TranslateLength(attr.Value.ToLower());
 
         }
         private static CssLength TranslateLength(CssLength len)

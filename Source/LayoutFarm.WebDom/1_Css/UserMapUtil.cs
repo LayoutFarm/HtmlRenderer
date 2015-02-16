@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 
 using LayoutFarm.Css;
-using LayoutFarm.HtmlBoxes; 
- 
+using LayoutFarm.HtmlBoxes;
+
 namespace LayoutFarm.WebDom
 {
     public enum WellKnownDomNodeName : byte
@@ -133,7 +133,7 @@ namespace LayoutFarm.WebDom
     }
 
 
-    public static class UserMapUtil2
+    public static class UserMapUtil
     {
 
         static readonly ValueMap<CssDisplay> _cssDisplayMap = new ValueMap<CssDisplay>();
@@ -166,7 +166,7 @@ namespace LayoutFarm.WebDom
 
 
 
-        static UserMapUtil2()
+        static UserMapUtil()
         {
 
         }
@@ -382,7 +382,7 @@ namespace LayoutFarm.WebDom
         //    stbuilder.Append(box.CornerSWRadius);
         //    return stbuilder.ToString();
         //}
-        static CssUnitOrNames GetCssUnit(string u)
+        public static CssUnitOrNames GetCssUnit(string u)
         {
             switch (u)
             {
@@ -558,7 +558,7 @@ namespace LayoutFarm.WebDom
         }
 
 
-        internal static LayoutFarm.Css.CssLength AsBorderLength(this WebDom.CssCodeValueExpression value)
+        public static LayoutFarm.Css.CssLength AsBorderLength(this WebDom.CssCodeValueExpression value)
         {
             if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.BorderLength)
             {
@@ -592,7 +592,7 @@ namespace LayoutFarm.WebDom
         }
 
 
-        internal static CssLength AsLength(this WebDom.CssCodeValueExpression value)
+        public static CssLength AsLength(this WebDom.CssCodeValueExpression value)
         {
             if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.Length)
             {
@@ -629,7 +629,7 @@ namespace LayoutFarm.WebDom
 
 
 
-        internal static CssLength AsTranslatedLength(this WebDom.CssCodeValueExpression value)
+        public static CssLength AsTranslatedLength(this WebDom.CssCodeValueExpression value)
         {
             if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.TranslatedLength)
             {
@@ -667,7 +667,7 @@ namespace LayoutFarm.WebDom
             }
             return value.GetCacheCssLength();
         }
-        internal static CssColor AsColor(this WebDom.CssCodeValueExpression value)
+        public static CssColor AsColor(this WebDom.CssCodeValueExpression value)
         {
             if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.Color)
             {

@@ -50,7 +50,6 @@
     <Compile Include="4_WebDom\BulletNumberFormatter.cs" />
     <Compile Include="1_Composers\1_Builder\ContentTextSplitter.cs" />
     <Compile Include="1_Composers\2_Css\SpecSetter.cs" />
-    <Compile Include="1_Composers\2_Css\UserMapUtil.cs" />
     <Compile Include="1_Composers\1_Builder\BoxCreator.cs" />
     <Compile Include="4_WebDom\HtmlDocument.cs" />
     <Compile Include="3_HtmlBoxes\HtmlRenderBox.cs" />
