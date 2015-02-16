@@ -36,8 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="0_Start\ExtensionAttribute.cs" />
-    <Compile Include="1_Css\CssDefaults.cs" />
-    <Compile Include="1_Css\CssParserHelper.cs" />
     <Compile Include="1_Css\UserMapUtil.cs" />
     <Compile Include="1_Css\ValueMaps.cs" />
     <Compile Include="4_WebDom\1_Dom\DomElement.cs" />
@@ -56,6 +54,7 @@
     <Compile Include="4_WebDom\2_Css\CssPropertyDeclaration.cs" />
     <Compile Include="4_WebDom\2_Css\WellknownCssPropertyName.cs" />
     <Compile Include="5_WebDom.Parser\CssParser.cs" />
+    <Compile Include="5_WebDom.Parser\CssParserHelper.cs" />
     <Compile Include="5_WebDom.Parser\dbugLexerReport.cs" />
     <Compile Include="5_WebDom.Parser\HtmlLexer.cs" />
     <Compile Include="5_WebDom.Parser\HtmlParser.cs" />

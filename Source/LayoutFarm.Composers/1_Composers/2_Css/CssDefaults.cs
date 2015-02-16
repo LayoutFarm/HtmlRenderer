@@ -13,7 +13,7 @@ namespace LayoutFarm.Composers
         /// <summary>
         /// default CSS parsed data singleton
         /// </summary>
-        internal static WebDom.CssActiveSheet DefaultCssData
+        public static WebDom.CssActiveSheet DefaultCssData
         {
             get
             {
