@@ -298,7 +298,7 @@ namespace LayoutFarm.HtmlWidgets
                 Point p = nodePrincipalBox.GetElementGlobalLocation();
                 this.SetLocation(p.X + relativeToMenuItem.OwnerMenuBox.Width, p.Y);
 
-                this.AddSelfTopTopWindow();
+                this.AddSelfToTopWindow();
                 showing = true;
             }
         }

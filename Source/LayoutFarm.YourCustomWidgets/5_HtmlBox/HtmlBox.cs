@@ -21,7 +21,7 @@ namespace LayoutFarm.CustomWidgets
     {
         WaitingContentKind waitingContentKind;
         string waitingHtmlString;
-        FragmentHtmlDocument waitingHtmlDoc;
+        HtmlDocument waitingHtmlDoc;
 
         enum WaitingContentKind : byte
         {
@@ -79,50 +79,26 @@ namespace LayoutFarm.CustomWidgets
 
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
-            //0. set context
+
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseUp(e, htmlRenderBox.CssBox);
-
-            ////1. get share input adapter
-            //var inputAdapter = GetInputEventAdapter();
-            ////2. send event
-            //inputAdapter.MouseUp(e, frgmRenderBox.CssBox);
-            ////3. release back to host
-            //this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
 
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseDown(e, htmlRenderBox.CssBox);
-
-            //var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
-
-            //inputAdapter.MouseDown(e, frgmRenderBox.CssBox);
-
-            //this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-            //0. set context
+
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseMove(e, htmlRenderBox.CssBox);
-
-            //var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
-
-            //inputAdapter.MouseMove(e, frgmRenderBox.CssBox);
-
-            //this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
-            //0. set context
+
             e.CurrentContextElement = this;
-
-
-            //var inputAdapter = this.htmlhost.GetSharedInputEventAdapter(this.myHtmlCont);
-            ////?
-            //this.htmlhost.ReleaseSharedInputEventAdapter(inputAdapter);
         }
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
@@ -206,7 +182,7 @@ namespace LayoutFarm.CustomWidgets
             waitingContentKind = WaitingContentKind.NoWaitingContent;
 
         }
-        public void LoadHtmlDom(FragmentHtmlDocument htmldoc)
+        public void LoadHtmlDom(HtmlDocument htmldoc)
         {
             if (htmlRenderBox == null)
             {
