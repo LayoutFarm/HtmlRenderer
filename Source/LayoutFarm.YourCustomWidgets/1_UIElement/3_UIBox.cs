@@ -8,14 +8,15 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
-    public abstract class UIBox : UIElement
+
+    public abstract class UIBox : UIElement, IScrollable
     {
         int _left;
         int _top;
         int _width;
         int _height;
         bool _hide;
-
+        public event EventHandler LayoutFinished;
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
@@ -26,6 +27,14 @@ namespace LayoutFarm.UI
             this._height = height;
         }
 
+
+        protected void RaiseLayoutFinished()
+        {
+            if (this.LayoutFinished != null)
+            {
+                this.LayoutFinished(this, EventArgs.Empty);
+            }
+        }
         public void SetLocation(int left, int top)
         {
             this._left = left;
@@ -50,7 +59,7 @@ namespace LayoutFarm.UI
         {
             SetLocation(left, top);
             SetSize(width, height);
-        } 
+        }
         public int Left
         {
             get
@@ -145,9 +154,16 @@ namespace LayoutFarm.UI
         {
             get { return 0; }
         }
+        public virtual int ViewportWidth
+        {
+            get { return this.Width; }
+        }
+        public virtual int ViewportHeight
+        {
+            get { return this.Height; }
+        }
         public virtual void SetViewport(int x, int y)
         {
-
         }
 
         public bool Visible
@@ -165,6 +181,7 @@ namespace LayoutFarm.UI
 
         public virtual void PerformContentLayout()
         {
+
         }
         public virtual int DesiredHeight
         {
@@ -174,7 +191,6 @@ namespace LayoutFarm.UI
         {
             get { return this.Width; }
         }
-
 
         //-----------------------------------
 

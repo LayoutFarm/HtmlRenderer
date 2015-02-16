@@ -28,10 +28,12 @@ namespace LayoutFarm.Demo
                 {
                     div.AddChild("span", span =>
                     {
+
                         span.AddTextContent("ABCD");
                         //3. attach event to specific span
                         span.AttachMouseDownEvent(e =>
                         {
+
 #if DEBUG
                             // System.Diagnostics.Debugger.Break();                           
                             //test change span property 
@@ -39,7 +41,7 @@ namespace LayoutFarm.Demo
                             span.ClearAllElements();
                             span.AddTextContent("XYZ0001");
 #endif
-
+                             
                             e.StopPropagation();
 
                         });
@@ -61,7 +63,7 @@ namespace LayoutFarm.Demo
                         //this will not print 
                         //if e has been stop by its child
                         // System.Diagnostics.Debugger.Break();
-                        Console.WriteLine("div");
+                        //Console.WriteLine("div");
 #endif
 
                     });

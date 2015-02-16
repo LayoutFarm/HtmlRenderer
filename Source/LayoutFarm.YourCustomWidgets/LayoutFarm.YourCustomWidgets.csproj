@@ -41,6 +41,7 @@
     <Compile Include="1_UIElement\3_UIBox.cs" />
     <Compile Include="1_UIElement\4_UICollection.cs" />
     <Compile Include="1_UIElement\0_UIContext.cs" />
+    <Compile Include="1_UIElement\5_IScrollable.cs" />
     <Compile Include="2_UIGroupManagement\2_GridLayer.cs" />
     <Compile Include="2_UIGroupManagement\3_GridTable.cs" />
     <Compile Include="2_UIGroupManagement\4_NineSpaceController.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="4.1_Composites\HingeBox.cs" />
     <Compile Include="4.1_Composites\ListView.cs" />
     <Compile Include="4.1_Composites\Menu.cs" />
-    <Compile Include="4.1_Composites\TabPageBox.cs" />
     <Compile Include="4.1_Composites\TreeView.cs" />
     <Compile Include="4.2_HtmlWidgetBase\Button.cs" />
     <Compile Include="4.2_HtmlWidgetBase\CheckBox.cs" />
@@ -80,11 +80,10 @@
     <Compile Include="4.2_HtmlWidgetBase\TabPageBox.cs" />
     <Compile Include="4.2_HtmlWidgetBase\TreeView.cs" />
     <Compile Include="5_HtmlBox\HtmlContainerHelper.cs" />
-    <Compile Include="5_HtmlBox\LightHtmlBox.cs" />
+    <Compile Include="5_HtmlBox\HtmlBox.cs" />
     <Compile Include="6_InternalResourceMx\ResImageList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="5_HtmlBox\MyCssBoxGenerator.cs" />
-    <Compile Include="5_HtmlBox\HtmlBox.cs" />
+    <Compile Include="5_HtmlBox\MyCustomCssBoxGenerator.cs" />
     <Compile Include="5_HtmlBox\HtmlHostContentManager.cs" />
   </ItemGroup>
   <ItemGroup>

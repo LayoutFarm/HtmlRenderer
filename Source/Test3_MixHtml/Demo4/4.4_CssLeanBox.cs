@@ -19,7 +19,7 @@ namespace LayoutFarm
             //html box
             var htmlHost = HtmlHostCreatorHelper.CreateHtmlHost(viewport, null, null);
 
-            HtmlBox htmlBox = new HtmlBox(htmlHost, 800, 400); 
+            var htmlBox = new HtmlBox(htmlHost, 800, 400);
 
             StringBuilder stbuilder = new StringBuilder();
             stbuilder.Append("<html><head></head><body>");
@@ -29,7 +29,7 @@ namespace LayoutFarm
             stbuilder.Append("<x type=\"textbox\" id=\"my_custombox1\"></x>");
             stbuilder.Append("</body></html>");
 
-            htmlBox.LoadHtmlText(stbuilder.ToString());
+            htmlBox.LoadHtmlString(stbuilder.ToString());
             viewport.AddContent(htmlBox);
             //==================================================  
 

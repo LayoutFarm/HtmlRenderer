@@ -129,13 +129,6 @@ namespace PixelFarm.Drawing.WinGdi
             gx.ReleaseHdc();
 
 
-            //IntPtr gxdc = gx.GetHdc();
-            //MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
-
-            //NativeTextWin32.TextOut(gxdc, x, y, buffer, buffer.Length);
-            //MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
-            //gx.ReleaseHdc(gxdc);
-
         }
         public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
         {
@@ -201,20 +194,19 @@ namespace PixelFarm.Drawing.WinGdi
             if (color.A == 255)
             {
                 unsafe
-                {
-
+                {   
                     var intersectRect = Rectangle.Intersect(logicalTextBox,
                         new Rectangle(currentClipRect.Left,
                             currentClipRect.Top,
                             currentClipRect.Width,
-                            currentClipRect.Height)); 
-                    intersectRect.Offset(canvasOriginX, canvasOriginY); 
+                            currentClipRect.Height));
+                    intersectRect.Offset(canvasOriginX, canvasOriginY);
                     MyWin32.SetRectRgn(hRgn,
                      intersectRect.Left,
                      intersectRect.Top,
                      intersectRect.Right,
                      intersectRect.Bottom);
-                    MyWin32.SelectClipRgn(_hdc, hRgn); 
+                    MyWin32.SelectClipRgn(_hdc, hRgn);
 
                     fixed (char* startAddr = &str[0])
                     {
@@ -242,7 +234,7 @@ namespace PixelFarm.Drawing.WinGdi
                  intersectRect.Top,
                  intersectRect.Right,
                  intersectRect.Bottom);
-                MyWin32.SelectClipRgn(_hdc, hRgn); 
+                MyWin32.SelectClipRgn(_hdc, hRgn);
 
 
 

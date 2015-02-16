@@ -5,152 +5,65 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
+using LayoutFarm.WebDom;
+using LayoutFarm.WebDom.Extension;
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 using LayoutFarm.CustomWidgets;
+
 namespace LayoutFarm.HtmlWidgets
 {
-    public class TreeView : UIBox
+    public class TreeView : LightHtmlWidgetBase
     {
         //composite          
-        CustomRenderBox primElement;//background
-        Color backColor = Color.LightGray;
-        int viewportX, viewportY;
-        List<UICollection> layers = new List<UICollection>(1);
-        int latestItemY;
+        List<TreeNode> treeNodes = new List<TreeNode>();
+        DomElement pnode;
 
-        Panel panel; //panel 
+        //content 
         public TreeView(int width, int height)
             : base(width, height)
         {
-            UICollection plainLayer = new UICollection(this);
-            //panel for listview items
-            this.panel = new Panel(width, height);
-            panel.PanelLayoutKind = PanelLayoutKind.VerticalStack;
-            panel.BackColor = Color.LightGray;
-            plainLayer.AddUI(panel);
-            this.layers.Add(plainLayer);
         }
-
-        protected override bool HasReadyRenderElement
+        public override DomElement GetPresentationDomNode(DomElement hostNode)
         {
-            get { return this.primElement != null; }
-        }
-        protected override RenderElement CurrentPrimaryRenderElement
-        {
-            get { return this.primElement; }
-        }
-        public Color BackColor
-        {
-            get { return this.backColor; }
-            set
+            if (pnode != null) return pnode;
+            //create primary presentation node
+            var ownerdoc = hostNode.OwnerDocument;
+            pnode = ownerdoc.CreateElement("div");
+            pnode.SetAttribute("style", "font:10pt tahoma");
+            int j = treeNodes.Count;
+            for (int i = 0; i < j; ++i)
             {
-                this.backColor = value;
-                if (HasReadyRenderElement)
-                {
-                    this.primElement.BackColor = value;
-                }
-            }
-        }
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-        {
-            if (primElement == null)
-            {
-                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                renderE.SetLocation(this.Left, this.Top);
-                renderE.BackColor = backColor;
-                renderE.SetController(this);
-                renderE.HasSpecificSize = true;
-                //------------------------------------------------
-                //create visual layer
-                renderE.Layers = new VisualLayerCollection();
-                int layerCount = this.layers.Count;
-                for (int m = 0; m < layerCount; ++m)
-                {
-                    UICollection plain = (UICollection)this.layers[m];
-                    var groundLayer = new PlainLayer(renderE);
-                    renderE.Layers.AddLayer(groundLayer);
-                    renderE.SetViewport(this.viewportX, this.viewportY);
-                    //---------------------------------
-                    int j = plain.Count;
-                    for (int i = 0; i < j; ++i)
-                    {
-                        groundLayer.AddUI(plain.GetElement(i));
-                    }
-                }
 
-                //---------------------------------
-                primElement = renderE;
+                pnode.AddChild(treeNodes[i].GetPrimaryPresentationNode(pnode));
             }
-            return primElement;
+            return pnode;
         }
         public void AddItem(TreeNode treeNode)
         {
-            treeNode.SetLocation(0, latestItemY);
-            latestItemY += treeNode.Height;
-            treeNode.SetOwnerTreeView(this);
-            panel.AddChildBox(treeNode);
-
-        }
-        //----------------------------------------------------
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            if (this.MouseDown != null)
+            treeNodes.Add(treeNode);
+            if (pnode != null)
             {
-                this.MouseDown(this, e);
             }
         }
-
-        protected override void OnMouseUp(UIMouseEventArgs e)
-        {
-            if (this.MouseUp != null)
-            {
-                MouseUp(this, e);
-            }
-            base.OnMouseUp(e);
-        }
-
-
-        public override int ViewportX
-        {
-            get { return this.viewportX; }
-
-        }
-        public override int ViewportY
-        {
-            get { return this.viewportY; }
-
-        }
-        public override void SetViewport(int x, int y)
-        {
-            this.viewportX = x;
-            this.viewportY = y;
-            if (this.HasReadyRenderElement)
-            {
-                this.panel.SetViewport(x, y);
-            }
-        }
-        //----------------------------------------------------
-
-        public event EventHandler<UIMouseEventArgs> MouseDown;
-        public event EventHandler<UIMouseEventArgs> MouseUp;
-
-        //----------------------------------------------------  
-        public override void PerformContentLayout()
+        public void PerformContentLayout()
         {
 
-            //manually perform layout of its content 
-            //here: arrange item in panel
-            this.panel.PerformContentLayout();
         }
+        //public override void PerformContentLayout()
+        //{
+
+        //    //manually perform layout of its content 
+        //    //here: arrange item in panel
+        //    //this.panel.PerformContentLayout();
+        //}
         //----------------------------------------------------   
     }
 
-    public class TreeNode : UIBox
+    public class TreeNode
     {
         const int NODE_DEFAULT_HEIGHT = 17;
-        CustomRenderBox primElement;//bg primary render element
-        CustomTextRun myTextRun;
+
         Color backColor;
         bool isOpen = true;//test, open by default
         int newChildNodeY = NODE_DEFAULT_HEIGHT;
@@ -160,83 +73,187 @@ namespace LayoutFarm.HtmlWidgets
         TreeNode parentNode;
         TreeView ownerTreeView;
         //-------------------------- 
-        ImageBinder nodeIcon;
-        ImageBox uiNodeIcon;
-        //--------------------------
-        public TreeNode(int width, int height)
-            : base(width, height)
-        {
 
-        }
-        public ImageBinder NodeIconImage
+        DomElement pnode;
+        DomElement nodeBar;
+        DomElement nodeIcon;
+        DomElement nodeSpan;
+        DomElement nodeBody;
+        DomElement nodeContent;
+        string nodeString;
+        int width;
+        int height;
+
+        public TreeNode(int width, int height)
         {
-            get { return this.nodeIcon; }
+            this.width = width;
+            this.height = height;
+        }
+        public string NodeText
+        {
+            get { return this.nodeString; }
             set
             {
-                this.nodeIcon = value;
-                if (uiNodeIcon != null)
-                {
-                    uiNodeIcon.ImageBinder = value;
-                }
+                this.nodeString = value;
+
             }
         }
-        protected override RenderElement CurrentPrimaryRenderElement
+
+        void SetupNodeIconBehaviour(DomElement uiNodeIcon)
         {
-            get { return this.primElement; }
-        }
-        protected override bool HasReadyRenderElement
-        {
-            get { return primElement != null; }
-        }
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-        {
-            if (primElement == null)
+            uiNodeIcon.AttachMouseDownEvent(e =>
             {
-                //first time
-                var element = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                element.SetLocation(this.Left, this.Top);
-                element.BackColor = this.backColor;
-                element.HasSpecificSize = true;
-                //-----------------------------
-                // create default layer for node content
-                PlainLayer plainLayer = null;
-                if (element.Layers == null)
+                if (this.IsOpen)
                 {
-                    element.Layers = new VisualLayerCollection();
-                    plainLayer = new PlainLayer(element);
-                    element.Layers.AddLayer(plainLayer);
+                    //then close
+                    this.Collapse();
                 }
                 else
                 {
-                    plainLayer = (PlainLayer)element.Layers.GetLayer(0);
+                    this.Expand();
                 }
-                //-----------------------------
-                uiNodeIcon = new ImageBox(16, 16);//create with default size 
-                SetupNodeIconBehaviour(uiNodeIcon);
-                plainLayer.AddChild(uiNodeIcon.GetPrimaryRenderElement(rootgfx));
-                //-----------------------------
-                myTextRun = new CustomTextRun(rootgfx, 10, 17);
-                myTextRun.SetLocation(16, 0);
-                myTextRun.Text = "Test01";
-                plainLayer.AddChild(myTextRun);
-                //-----------------------------
-                this.primElement = element;
-            }
-            return primElement;
+            });
         }
-        public Color BackColor
+        public DomElement GetPrimaryPresentationNode(DomElement hostNode)
         {
-            get { return this.backColor; }
-            set
+            if (this.pnode != null) return pnode;
+            //---------------------------------
+            var ownerdoc = hostNode.OwnerDocument;
+            pnode = ownerdoc.CreateElement("div");
+            //---------------------------------
+            //bar part
+            pnode.AddChild("div", node_bar =>
             {
-                this.backColor = value;
-                if (HasReadyRenderElement)
+                this.nodeBar = node_bar;
+                node_bar.AddChild("img", node_icon =>
                 {
-                    this.primElement.BackColor = value;
-                }
-            }
+                    this.nodeIcon = node_icon;
+                    SetupNodeIconBehaviour(node_icon);
+                });
+                node_bar.AddChild("span", node_span =>
+                {
+                    this.nodeSpan = node_span;
+                    if (this.nodeString != null)
+                    {
+                        node_span.AddTextContent(this.nodeString);
+                    }
+                });
+            });
+            //---------------------------------
+            //content part
+            //indent  
+            pnode.AddChild("div", node_body =>
+            {
+                this.nodeBody = node_body;
+                node_body.SetAttribute("style", "padding-left:17px");
+                node_body.AddChild("div", node_content =>
+                {
+                    this.nodeContent = node_content;
+                    if (childNodes != null)
+                    {
+                        nodeContent.SetAttribute("style", "padding-left:0px");
+                        int j = childNodes.Count;
+                        for (int i = 0; i < j; ++i)
+                        {
+                            var childnode = childNodes[i].GetPrimaryPresentationNode(nodeContent);
+                            node_content.AddChild(childnode);
+                        }
+                    }
+                });
+
+            });
+            return pnode;
         }
-        //------------------------------------------------
+        DomElement GetPrimaryPresentationNode2(DomElement hostNode)
+        {
+            //implement wth table
+
+            if (this.pnode != null) return pnode;
+            //---------------------------------
+            var ownerdoc = hostNode.OwnerDocument;
+            pnode = ownerdoc.CreateElement("div");
+            //---------------------------------
+            //bar part
+            pnode.AddChild("div", node_bar =>
+            {
+                this.nodeBar = node_bar;
+                node_bar.AddChild("img", node_icon =>
+                {
+                    this.nodeIcon = node_icon;
+                    SetupNodeIconBehaviour(node_icon);
+                });
+                node_bar.AddChild("span", node_span =>
+                {
+                    this.nodeSpan = node_span;
+                    if (this.nodeString != null)
+                    {
+                        node_span.AddTextContent(this.nodeString);
+                    }
+                });
+            });
+            //---------------------------------
+            //content part
+            //indent  
+            pnode.AddChild("div", node_body =>
+            {
+                this.nodeBody = node_body;
+                //implement with table
+                //plan: => implement with inline div***
+
+                node_body.AddChild("table", table =>
+                {
+                    table.AddChild("tr", tr =>
+                    {
+                        tr.AddChild("td", td1 =>
+                        {
+                            //indent
+                            td1.SetAttribute("style", "width:20px");
+                        });
+                        tr.AddChild("td", td1 =>
+                        {
+                            this.nodeContent = td1;
+                            if (childNodes != null)
+                            {
+                                int j = childNodes.Count;
+                                for (int i = 0; i < j; ++i)
+                                {
+                                    var childnode = childNodes[i].GetPrimaryPresentationNode(nodeContent);
+                                    nodeContent.AddChild(childnode);
+                                }
+                            }
+                        });
+                    });
+                });
+                //node_body.SetAttribute("style", "background-color:yellow");
+                //node_body.AddChild("div", node_indent =>
+                //{
+                //    node_indent.SetAttribute("style", "width:32px;display:inline");
+                //    node_indent.AddChild("img", img2 => { });
+
+                //});
+                //node_body.AddChild("div", node_content =>
+                //{
+                //    node_content.SetAttribute("style", "display:inline");
+                //    //start with blank content
+                //    this.nodeContent = node_content;
+                //    if (childNodes != null)
+                //    {
+                //        int j = childNodes.Count;
+                //        for (int i = 0; i < j; ++i)
+                //        {
+                //            var childnode = childNodes[i].GetPrimaryPresentationNode(node_content);
+                //            node_content.AddChild(childnode);
+                //        }
+                //    }
+
+                //});
+            });
+
+
+            //---------------------
+            return pnode;
+        }
+
         public bool IsOpen
         {
             get { return this.isOpen; }
@@ -294,29 +311,11 @@ namespace LayoutFarm.HtmlWidgets
             //add treenode presentaion
             if (this.isOpen)
             {
-                if (this.primElement != null)
+                if (this.nodeContent != null)
                 {
                     //add child presentation 
-                    //below here
-                    //create layers
-                    PlainLayer plainLayer = null;
-                    if (primElement.Layers == null)
-                    {
-                        primElement.Layers = new VisualLayerCollection();
-                        plainLayer = new PlainLayer(primElement);
-                        primElement.Layers.AddLayer(plainLayer);
-                    }
-                    else
-                    {
-                        plainLayer = (PlainLayer)primElement.Layers.GetLayer(0);
-                    }
-                    //-----------------
-                    //add to layer
-                    var tnRenderElement = treeNode.GetPrimaryRenderElement(primElement.Root);
-                    tnRenderElement.SetLocation(indentWidth, newChildNodeY);
-                    plainLayer.AddChild(tnRenderElement);
-                    newChildNodeY += tnRenderElement.Height;
-                    //-----------------
+                    nodeContent.AddChild(
+                        treeNode.GetPrimaryPresentationNode(nodeContent));
                 }
             }
             //---------------------------
@@ -325,51 +324,67 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (this.isOpen) return;
             this.isOpen = true;
-            this.TreeView.PerformContentLayout();
+            if (this.nodeBody != null)
+            {
+                if (nodeBody.ParentNode == null)
+                {
+                    pnode.AddChild(nodeBody);
+                }
+            }
+
+            //this.TreeView.PerformContentLayout();
         }
         public void Collapse()
         {
             if (!this.isOpen) return;
             this.isOpen = false;
-
-            this.TreeView.PerformContentLayout();
-        }
-        public override void PerformContentLayout()
-        {
-            this.InvalidateGraphics();
-            //if this has child
-            //reset
-            this.desiredHeight = NODE_DEFAULT_HEIGHT;
-            this.newChildNodeY = NODE_DEFAULT_HEIGHT;
-
-            if (this.isOpen)
+            if (this.nodeBody != null)
             {
-                if (childNodes != null)
+                HtmlElement htmlPNode = this.pnode as HtmlElement;
+                if (htmlPNode != null)
                 {
-                    int j = childNodes.Count;
-                    for (int i = 0; i < j; ++i)
-                    {
-                        var childNode = childNodes[i];
-                        childNode.PerformContentLayout();//manaul?
-                        //set new size 
-                        childNode.SetBounds(indentWidth,
-                            newChildNodeY,
-                            childNode.Width,
-                            childNode.DesiredHeight);
-
-                        newChildNodeY += childNode.DesiredHeight;
-                    }
+                    htmlPNode.RemoveChild(this.nodeBody);
                 }
+
             }
-            this.desiredHeight = newChildNodeY;
+            //this.TreeView.PerformContentLayout();
         }
-        public override int DesiredHeight
-        {
-            get
-            {
-                return this.desiredHeight;
-            }
-        }
+        //public override void PerformContentLayout()
+        //{
+        //    //this.InvalidateGraphics();
+        //    ////if this has child
+        //    ////reset
+        //    //this.desiredHeight = NODE_DEFAULT_HEIGHT;
+        //    //this.newChildNodeY = NODE_DEFAULT_HEIGHT;
+
+        //    //if (this.isOpen)
+        //    //{
+        //    //    if (childNodes != null)
+        //    //    {
+        //    //        int j = childNodes.Count;
+        //    //        for (int i = 0; i < j; ++i)
+        //    //        {
+        //    //            var childNode = childNodes[i];
+        //    //            childNode.PerformContentLayout();//manaul?
+        //    //            //set new size 
+        //    //            childNode.SetBounds(indentWidth,
+        //    //                newChildNodeY,
+        //    //                childNode.Width,
+        //    //                childNode.DesiredHeight);
+
+        //    //            newChildNodeY += childNode.DesiredHeight;
+        //    //        }
+        //    //    }
+        //    //}
+        //    //this.desiredHeight = newChildNodeY;
+        //}
+        //public override int DesiredHeight
+        //{
+        //    get
+        //    {
+        //        return this.desiredHeight;
+        //    }
+        //}
         //------------------------------------------------
         void SetupNodeIconBehaviour(ImageBox uiNodeIcon)
         {

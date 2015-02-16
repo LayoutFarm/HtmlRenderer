@@ -23,10 +23,13 @@ namespace LayoutFarm
         }
         public void AddChild(RenderElement renderE)
         {
-            groundLayer.AddChild(renderE);
-            renderE.InvalidateGraphics();
+            groundLayer.AddChild(renderE); 
         }
-        //---------------------------------------------------------------------------- 
+        public void RemoveChild(RenderElement renderE)
+        {
+            groundLayer.RemoveChild(renderE); 
+        }
+        //-------------------------------------------------------------------------- 
         public override void ClearAllChildren()
         {
             this.groundLayer.Clear();

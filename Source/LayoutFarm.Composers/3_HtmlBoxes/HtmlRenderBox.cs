@@ -15,54 +15,14 @@ using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.HtmlBoxes
 {
-
+ 
     public class HtmlRenderBox : RenderBoxBase
-    {
-        MyHtmlContainer myHtmlContainer;
-
-        public HtmlRenderBox(RootGraphic rootgfx,
-            int width, int height,
-            MyHtmlContainer htmlCont)
-            : base(rootgfx, width, height)
-        {
-
-            this.myHtmlContainer = htmlCont;
-
-
-        }
-        public override void ClearAllChildren()
-        {
-
-        }
-        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
-        {
-            myHtmlContainer.CheckDocUpdate();
-            var painter = PainterStock.GetSharedPainter(myHtmlContainer, canvas);
-
-            painter.SetViewportSize(this.Width, this.Height);
-
-            int vwX, vwY;
-            painter.OffsetCanvasOrigin(vwX = this.ViewportX, vwY = this.ViewportY);
-
-            myHtmlContainer.PerformPaint(painter);
-
-            painter.OffsetCanvasOrigin(-vwX, -vwY);
-
-            PainterStock.ReleaseSharedPainter(painter);
-        }
-        public override void ChildrenHitTestCore(HitChain hitChain)
-        {
-        }
-    }
-
-    //===================================================================
-    public class HtmlFragmentRenderBox : RenderBoxBase
     {
 
         MyHtmlContainer myHtmlCont;
         CssBox cssBox;
 
-        public HtmlFragmentRenderBox(RootGraphic rootgfx,
+        public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height)
             : base(rootgfx, width, height)
         {
@@ -91,12 +51,8 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             painter.dbugDrawDiagonalBox(Color.Blue, this.X, this.Y, this.Width, this.Height);
 #endif
-            int vwX, vwY;
-            painter.OffsetCanvasOrigin(vwX = this.ViewportX, vwY = this.ViewportY);
-
-            myHtmlCont.PerformPaint(painter);
-
-            painter.OffsetCanvasOrigin(-vwX, -vwY);
+            
+            myHtmlCont.PerformPaint(painter); 
 
             PainterStock.ReleaseSharedPainter(painter);
         }
@@ -104,8 +60,14 @@ namespace LayoutFarm.HtmlBoxes
         {
 
         }
-
-
+        public int HtmlWidth
+        {
+            get { return (int)this.myHtmlCont.ActualWidth; }
+        }
+        public int HtmlHeight
+        {
+            get { return (int)this.myHtmlCont.ActualHeight; }
+        }
     }
 
     static class PainterStock

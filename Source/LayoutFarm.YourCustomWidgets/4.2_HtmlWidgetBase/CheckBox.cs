@@ -16,14 +16,14 @@ namespace LayoutFarm.HtmlWidgets
 
     public class CheckBox : LightHtmlWidgetBase
     {
-
+        DomElement pnode;
         bool isChecked;
         string checkBoxText = "";
         public event EventHandler WhenChecked;
-        public CheckBox(HtmlHost htmlhost, int w, int h)
-            : base(htmlhost, w, h)
-        { 
-        } 
+        public CheckBox(int w, int h)
+            : base(w, h)
+        {
+        }
         //---------------------------------------------------------------------------
         public string Text
         {
@@ -63,62 +63,60 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
 
-        protected override FragmentHtmlDocument CreatePresentationDom()
+        public override DomElement GetPresentationDomNode(DomElement hostNode)
         {
-
-            FragmentHtmlDocument htmldoc = this.HtmlHost.CreateNewFragmentHtml();
             //TODO: use template engine, 
             //ideas:  AngularJS style ?
 
             //1. create body node             
             // and content   
             //style 2, lambda and adhoc attach event  
-            var domElement =
-                htmldoc.RootNode.AddChild("div", div =>
+            if (pnode != null) return pnode;
+            //---------------------------------------------------
+            pnode = hostNode.OwnerDocument.CreateElement("div");
+            pnode.AddChild("img", img =>
+            {
+                //init 
+                bool is_close = true;
+                img.SetAttribute("src", "../../Demo/arrow_close.png");
+                img.AttachMouseDownEvent(e =>
                 {
-                    div.SetAttribute("style", "font:10pt tahoma;");
-                    div.AddChild("img", img =>
-                    {
-                        //init 
-                        bool is_close = true;
-                        img.SetAttribute("src", "../../Demo/arrow_close.png");
-                        img.AttachMouseDownEvent(e =>
-                        {
-                            img.SetAttribute("src", is_close ?
-                                "../../Demo/arrow_open.png" :
-                                "../../Demo/arrow_close.png");
-                            is_close = !is_close;
-                            e.StopPropagation();
+                    img.SetAttribute("src", is_close ?
+                        "../../Demo/arrow_open.png" :
+                        "../../Demo/arrow_close.png");
+                    is_close = !is_close;
+                    e.StopPropagation();
 
-                            this.InvalidateGraphics();
-                        });
+                    this.InvalidateGraphics();
+                });
+            });
+            pnode.AddChild("img", img =>
+            {
 
-                    });
-                    div.AddChild("img", img =>
-                    {
-                        //change style
-                        bool is_close = true;
-                        img.SetAttribute("src", "../../Demo/arrow_close.png");
-                        //3. attach event to specific span 
-                        img.AttachMouseDownEvent(e =>
-                        {
-                            img.SetAttribute("src", is_close ?
-                                "../../Demo/arrow_open.png" :
-                                "../../Demo/arrow_close.png");
+                //change style
+                bool is_close = true;
+                img.SetAttribute("src", "../../Demo/arrow_close.png");
+                //3. attach event to specific span 
+                img.AttachMouseDownEvent(e =>
+                {
+                    img.SetAttribute("src", is_close ?
+                        "../../Demo/arrow_open.png" :
+                        "../../Demo/arrow_close.png");
 
-                            is_close = !is_close;
-                            e.StopPropagation();
+                    is_close = !is_close;
+                    e.StopPropagation();
 
-                            this.InvalidateGraphics();
-                        });
-                    });
-                    div.AddChild("span", span =>
-                    {
-                        span.AddTextContent(this.checkBoxText);
-                    });
+                    this.InvalidateGraphics();
                 });
 
-            return htmldoc;
+            });
+            pnode.AddChild("span", span =>
+            {
+                span.AddTextContent(this.checkBoxText);
+            });
+
+            return pnode;
         }
+
     }
 }

@@ -99,7 +99,7 @@ namespace LayoutFarm.Dev
 
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
                 this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
-                w, h); 
+                w, h);
 
             TopWindowRenderBox topRenderBox = rootgfx.TopWindowRenderBox;
 
@@ -137,7 +137,7 @@ namespace LayoutFarm.Dev
             List<DemoInfo> demoInfoList = new List<DemoInfo>();
             foreach (var t in thisAssem.GetTypes())
             {
-                if (demoBaseType.IsAssignableFrom(t) && t != demoBaseType)
+                if (demoBaseType.IsAssignableFrom(t) && t != demoBaseType && !t.IsAbstract)
                 {
                     string demoTypeName = t.Name;
                     object[] notes = t.GetCustomAttributes(typeof(DemoNoteAttribute), false);

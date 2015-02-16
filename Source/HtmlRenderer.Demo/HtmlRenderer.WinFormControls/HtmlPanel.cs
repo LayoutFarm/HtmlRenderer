@@ -87,7 +87,7 @@ namespace LayoutFarm.Demo
         Timer timer01 = new Timer();
 
 
-        
+
         LayoutFarm.HtmlBoxes.LayoutVisitor htmlLayoutVisitor;
 
         PixelFarm.Drawing.Canvas renderCanvas;
@@ -127,12 +127,13 @@ namespace LayoutFarm.Demo
             htmlContainer.AttachEssentialHandlers(
                 OnRefresh,
                 myHtmlContainer_NeedUpdateDom,
-                OnRefresh); 
+                OnRefresh,
+                null);
 
             htmlLayoutVisitor = new LayoutVisitor(this.gfxPlatform);
             htmlLayoutVisitor.Bind(htmlContainer);
 
-            
+
             //------------------------------------------------------- 
             timer01.Interval = 20;//20ms?
             timer01.Tick += (s, e) =>
@@ -284,7 +285,7 @@ namespace LayoutFarm.Demo
 
 
             //build rootbox from htmldoc
-            var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree((Composers.HtmlDocument)htmldoc,
+            var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree((WebDom.HtmlDocument)htmldoc,
                 cssData,
                 null);
 
@@ -308,7 +309,7 @@ namespace LayoutFarm.Demo
         {
 
             var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree(
-                (LayoutFarm.Composers.HtmlDocument)this.currentDoc,
+                (LayoutFarm.WebDom.HtmlDocument)this.currentDoc,
                 cssData,
                 null);
 
@@ -730,7 +731,7 @@ namespace LayoutFarm.Demo
             {
                 this.timer01.Stop();
                 htmlContainer.DetachEssentialHandlers();
-                 
+
                 htmlContainer.Dispose();
                 htmlContainer = null;
             }

@@ -18,15 +18,20 @@ namespace LayoutFarm.HtmlBoxes
     /// </summary>
     public class HtmlInputEventAdapter
     {
-        DateTime lastimeMouseUp;
-        //-----------------------------------------------
         HtmlContainer _htmlContainer;
         CssBoxHitChain _latestMouseDownChain = null;
+        //-----------------------------------------------
+        DateTime lastimeMouseUp;
+        IEventListener currentMouseDown;   
         int _mousedownX;
         int _mousedownY;
         bool _isMouseDown;
+        CssBox _mouseDownStartAt;
+        //-----------------------------------------------
+
         IFonts ifonts;
         bool _isBinded;
+        int lastDomLayoutVersion;
 
         const int DOUBLE_CLICK_SENSE = 150;//ms 
         Stack<CssBoxHitChain> hitChainPools = new Stack<CssBoxHitChain>();
@@ -37,7 +42,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void Bind(HtmlContainer htmlCont)
         {
-
             this._htmlContainer = htmlCont;
             _isBinded = htmlCont != null;
         }
@@ -58,6 +62,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         //---------------------------------------------- 
 
+       
         public void MouseDown(UIMouseEventArgs e, CssBox startAt)
         {
             if (!_isBinded) return;
@@ -71,11 +76,12 @@ namespace LayoutFarm.HtmlBoxes
                 ReleaseHitChain(_latestMouseDownChain);
                 _latestMouseDownChain = null;
             }
-
+            this.lastDomLayoutVersion = this._htmlContainer.LayoutVersion;
             //----------------------------------------------------
             int x = e.X;
             int y = e.Y;
 
+            this._mouseDownStartAt = startAt;
             this._mousedownX = x;
             this._mousedownY = y;
             this._isMouseDown = true;
@@ -95,15 +101,28 @@ namespace LayoutFarm.HtmlBoxes
 
             if (!e.CancelBubbling)
             {
+                var prevMouseDownElement = this.currentMouseDown;
+                e.CurrentContextElement = this.currentMouseDown = null; //clear
+                
                 ForEachEventListenerBubbleUp(e, hitChain, () =>
                 {
+                    //TODO: check accept keyboard
+                    this.currentMouseDown = e.CurrentContextElement;
                     e.CurrentContextElement.ListenMouseDown(e);
+                    
+                    if (prevMouseDownElement != null &&
+                        prevMouseDownElement != currentMouseDown)
+                    {
+                        prevMouseDownElement.ListenLostMouseFocus(e);
+                    }
+
                     return e.CancelBubbling;
                 });
             }
             //----------------------------------
             //save mousedown hitchain
             this._latestMouseDownChain = hitChain;
+             
         }
         public void MouseDown(UIMouseEventArgs e)
         {
@@ -127,6 +146,7 @@ namespace LayoutFarm.HtmlBoxes
                     hitChain.SetRootGlobalPosition(x, y);
 
                     BoxHitUtils.HitTest(startAt, x, y, hitChain);
+                    
                     SetEventOrigin(e, hitChain);
                     //---------------------------------------------------------
                     //propagate mouse drag 
@@ -135,24 +155,43 @@ namespace LayoutFarm.HtmlBoxes
                         portal.PortalMouseMove(e);
                         return true;
                     });
-                    //---------------------------------------------------------  
-
-
+                    //---------------------------------------------------------   
                     if (!e.CancelBubbling)
                     {
                         ClearPreviousSelection();
-                        if (hitChain.Count > 0)
+                        if (_latestMouseDownChain.Count > 0 && hitChain.Count > 0)
                         {
+                            if (this._htmlContainer.LayoutVersion != this.lastDomLayoutVersion)
+                            {
+                                //the dom has been changed so...
+                                //need to evaluate hitchain at mousedown position again
+                                int lastRootGlobalX = _latestMouseDownChain.RootGlobalX;
+                                int lastRootGlobalY = _latestMouseDownChain.RootGlobalY;
+
+                                _latestMouseDownChain.Clear();
+                                _latestMouseDownChain.SetRootGlobalPosition(lastRootGlobalX, lastRootGlobalY);
+                                BoxHitUtils.HitTest(_mouseDownStartAt, lastRootGlobalX, lastRootGlobalY, _latestMouseDownChain);
+
+                            }
                             //create selection range 
-                            this._htmlContainer.SetSelection(new SelectionRange(
-                                _latestMouseDownChain,
-                                hitChain,
-                                this.ifonts));
+                            var newSelectionRange = new SelectionRange(
+                                  _latestMouseDownChain,
+                                   hitChain,
+                                   this.ifonts);
+                            if (newSelectionRange.IsValid)
+                            {
+                                this._htmlContainer.SetSelection(newSelectionRange);
+                            }
+                            else
+                            {
+                                this._htmlContainer.SetSelection(null);
+                            }
                         }
                         else
                         {
                             this._htmlContainer.SetSelection(null);
                         }
+                     
                         ForEachEventListenerBubbleUp(e, hitChain, () =>
                         {
                             e.CurrentContextElement.ListenMouseMove(e);
@@ -261,9 +300,16 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             ReleaseHitChain(hitChain);
-            this._latestMouseDownChain.Clear();
-            this._latestMouseDownChain = null;
+
+            if (this._latestMouseDownChain != null)
+            {
+                this._latestMouseDownChain.Clear();
+                //Console.WriteLine(dbugNN++);
+                this._latestMouseDownChain = null;
+            }
+
         }
+        //int dbugNN = 0;
         public void MouseUp(UIMouseEventArgs e)
         {
             MouseUp(e, this._htmlContainer.RootCssBox);

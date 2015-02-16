@@ -4,162 +4,104 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
+using LayoutFarm.WebDom;
+using LayoutFarm.WebDom.Extension;
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 using LayoutFarm.CustomWidgets;
+
 namespace LayoutFarm.HtmlWidgets
 {
 
-    public class MenuItem : UIBox
+    public class MenuItem
     {
+        string menuItemText;
 
-        CustomRenderBox primElement;//background 
-        Color backColor = Color.LightGray;
+        DomElement pnode;
+        DomElement menuIcon;
+
+        MenuBox ownerMenuBox;
+
         bool thisMenuOpened;
-
-
-        //1. land part
-        UIBox landPart;
 
         //2. float part   
         MenuBox floatPart;
-        CustomRenderBox floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
-
         List<MenuItem> childItems;
 
         public MenuItem(int width, int height)
-            : base(width, height)
         {
 
         }
+        public DomElement GetPresentationDomNode(DomElement hostNode)
+        {
+            if (pnode != null) return pnode;
+            //-----------------------------------
+            var doc = hostNode.OwnerDocument;
+            this.pnode = doc.CreateElement("div");
+            pnode.AddChild("img", item_icon =>
+            {
+                menuIcon = item_icon;
+                menuIcon.AttachMouseDownEvent(e =>
+                {
+                    //****
+                    this.MaintenanceParentOpenState();
 
-        protected override bool HasReadyRenderElement
-        {
-            get { return this.primElement != null; }
+                    if (this.IsOpened)
+                    {
+                        this.Close();
+                    }
+                    else
+                    {
+                        this.Open();
+                    }
+                    e.StopPropagation();
+                });
+                menuIcon.AttachMouseUpEvent(e =>
+                {
+                    this.UnmaintenanceParentOpenState();
+                    e.StopPropagation();
+                });
+                menuIcon.AttachEventOnMouseLostFocus(e =>
+                {
+                    if (!this.MaintenaceOpenState)
+                    {
+                        this.CloseRecursiveUp();
+                    }
+                });
+            });
+            pnode.AddChild("span", content =>
+            {
+                if (menuItemText != null)
+                {
+                    pnode.AddTextContent(this.menuItemText);
+                }
+            });
+
+            //--------------------------------------------------------
+            //create simple menu item box 
+
+            if (childItems != null)
+            {
+                floatPart = new MenuBox(400, 200);
+                int j = childItems.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    floatPart.AddChildBox(childItems[i]);
+                }
+            }
+            return pnode;
         }
-        protected override RenderElement CurrentPrimaryRenderElement
+        public DomElement CurrentDomElement { get { return this.pnode; } }
+        public string MenuItemText
         {
-            get { return this.primElement; }
-        }
-        public Color BackColor
-        {
-            get { return this.backColor; }
+            get { return this.menuItemText; }
             set
             {
-                this.backColor = value;
-                if (HasReadyRenderElement)
-                {
-                    this.primElement.BackColor = value;
-                }
+                this.menuItemText = value;
             }
         }
-        public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-        {
-            if (primElement == null)
-            {
-                var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                renderE.SetLocation(this.Left, this.Top);
-                renderE.BackColor = backColor;
-                renderE.HasSpecificSize = true;
 
-                renderE.SetController(this);
-                //------------------------------------------------
-                //create visual layer
-                var layers = new VisualLayerCollection();
-                var layer0 = new PlainLayer(renderE);
-                layers.AddLayer(layer0);
-                renderE.Layers = layers;
-
-                if (this.landPart != null)
-                {
-                    layer0.AddChild(this.landPart.GetPrimaryRenderElement(rootgfx));
-                }
-                if (this.floatPart != null)
-                {
-
-                }
-
-                //---------------------------------
-                primElement = renderE;
-            }
-            return primElement;
-        }
-        //----------------------------------------------------
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            if (this.MouseDown != null)
-            {
-                this.MouseDown(this, e);
-            }
-        }
-        protected override void OnMouseUp(UIMouseEventArgs e)
-        {
-            if (this.MouseUp != null)
-            {
-                MouseUp(this, e);
-            }
-            base.OnMouseUp(e);
-        }
-
-        //---------------------------------------------------- 
-        public event EventHandler<UIMouseEventArgs> MouseDown;
-        public event EventHandler<UIMouseEventArgs> MouseUp;
-
-
-        //----------------------------------------------------  
-        public UIBox LandPart
-        {
-            get { return this.landPart; }
-            set
-            {
-                this.landPart = value;
-                if (value != null)
-                {
-                    //if new value not null
-                    //check existing land part
-                    if (this.landPart != null)
-                    {
-                        //remove existing landpart
-
-                    }
-
-                    if (primElement != null)
-                    {
-                        //add 
-                        var visualPlainLayer = primElement.Layers.GetLayer(0) as PlainLayer;
-                        if (visualPlainLayer != null)
-                        {
-                            visualPlainLayer.AddChild(value.GetPrimaryRenderElement(primElement.Root));
-                        }
-
-                    }
-
-                }
-                else
-                {
-                    if (this.landPart != null)
-                    {
-                        //remove existing landpart
-
-                    }
-                }
-            }
-        }
-        public MenuBox FloatPart
-        {
-            get { return this.floatPart; }
-            set
-            {
-                this.floatPart = value;
-                if (value != null)
-                {
-                    //attach float part 
-                }
-            }
-        }
-        //---------------------------------------------------- 
         public bool IsOpened
         {
             get { return this.thisMenuOpened; }
@@ -170,8 +112,10 @@ namespace LayoutFarm.HtmlWidgets
             this.thisMenuOpened = true;
 
             //-----------------------------------
-            if (this.primElement == null) return;
+            if (pnode == null) return;
             if (floatPart == null) return;
+
+            this.ownerMenuBox.CurrentActiveMenuItem = this;
 
             switch (floatPartStyle)
             {
@@ -179,16 +123,12 @@ namespace LayoutFarm.HtmlWidgets
                 case HingeFloatPartStyle.Popup:
                     {
                         //add float part to top window layer
-                        var topRenderBox = primElement.GetTopWindowRenderBox();
-                        if (topRenderBox != null)
+                        if (this.ownerMenuBox == null) return;
+                        if (floatPart != null)
                         {
-                            Point globalLocation = primElement.GetGlobalLocation();
-                            floatPart.SetLocation(globalLocation.X, globalLocation.Y + primElement.Height);
-                            this.floatPartRenderElement = this.floatPart.GetPrimaryRenderElement(primElement.Root) as CustomRenderBox;
-                            topRenderBox.AddChild(floatPartRenderElement);
-                            //temp here
-
+                            floatPart.ShowMenu(this);
                         }
+
 
                     } break;
                 case HingeFloatPartStyle.Embeded:
@@ -203,8 +143,10 @@ namespace LayoutFarm.HtmlWidgets
             if (!thisMenuOpened) return;
             this.thisMenuOpened = false;
 
-            if (this.primElement == null) return;
+            if (pnode == null) return;
             if (floatPart == null) return;
+
+            this.ownerMenuBox.CurrentActiveMenuItem = null;
 
             switch (floatPartStyle)
             {
@@ -213,14 +155,13 @@ namespace LayoutFarm.HtmlWidgets
                     } break;
                 case HingeFloatPartStyle.Popup:
                     {
-                        var topRenderBox = primElement.GetTopWindowRenderBox();
-                        if (topRenderBox != null)
+                        if (this.ownerMenuBox == null) return;
+
+                        if (floatPart != null)
                         {
-                            if (this.floatPartRenderElement != null)
-                            {
-                                topRenderBox.Layer0.RemoveChild(floatPartRenderElement);
-                            }
+                            floatPart.HideMenu();
                         }
+
                     } break;
                 case HingeFloatPartStyle.Embeded:
                     {
@@ -228,11 +169,17 @@ namespace LayoutFarm.HtmlWidgets
 
             }
         }
+
+        internal MenuBox OwnerMenuBox
+        {
+            get { return this.ownerMenuBox; }
+            set { this.ownerMenuBox = value; }
+        }
         public void MaintenanceParentOpenState()
         {
             if (this.ParentMenuItem != null)
             {
-                this.ParentMenuItem.MaintenceOpenState = true;
+                this.ParentMenuItem.MaintenaceOpenState = true;
                 this.ParentMenuItem.MaintenanceParentOpenState();
             }
         }
@@ -240,11 +187,11 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (this.ParentMenuItem != null)
             {
-                this.ParentMenuItem.MaintenceOpenState = false;
+                this.ParentMenuItem.MaintenaceOpenState = false;
                 this.ParentMenuItem.MaintenanceParentOpenState();
             }
         }
-        public bool MaintenceOpenState
+        public bool MaintenaceOpenState
         {
             get;
             private set;
@@ -254,7 +201,7 @@ namespace LayoutFarm.HtmlWidgets
             this.Close();
 
             if (this.ParentMenuItem != null &&
-               !this.ParentMenuItem.MaintenceOpenState)
+               !this.ParentMenuItem.MaintenaceOpenState)
             {
                 this.ParentMenuItem.CloseRecursiveUp();
             }
@@ -279,46 +226,112 @@ namespace LayoutFarm.HtmlWidgets
                 childItems = new List<MenuItem>();
             }
             this.childItems.Add(childItem);
-            floatPart.AddChildBox(childItem);
             childItem.ParentMenuItem = this;
+            if (floatPart != null)
+            {
+                floatPart.AddChildBox(childItem);
+            }
+
         }
     }
 
-    public class MenuBox : Panel
+    public class MenuBox : LightHtmlWidgetBase
     {
         bool showing;
-        TopWindowRenderBox topWindow;
-        RenderElement myRenderE;
+        List<MenuItem> menuItems;
+        DomElement pnode;
+        MenuItem currentActiveMenuItem;
+
+
         public MenuBox(int w, int h)
             : base(w, h)
         {
         }
-        public void ShowMenu(RootGraphic rootgfx)
+        public override DomElement GetPresentationDomNode(DomElement hostNode)
+        {
+            if (pnode != null) return pnode;
+            //------------------
+            var doc = hostNode.OwnerDocument;
+            pnode = doc.CreateElement("div");
+            if (menuItems != null)
+            {
+                int j = menuItems.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    pnode.AddChild(menuItems[i].GetPresentationDomNode(pnode));
+                }
+            }
+            return pnode;
+        }
+        public void AddChildBox(MenuItem mnuItem)
+        {
+            if (menuItems == null)
+            {
+                menuItems = new List<MenuItem>();
+            }
+            this.menuItems.Add(mnuItem);
+            if (pnode != null)
+            {
+                pnode.AddChild(mnuItem.GetPresentationDomNode(pnode));
+            }
+            mnuItem.OwnerMenuBox = this;
+        }
+
+
+
+        public void ShowMenu(MenuItem relativeToMenuItem)
         {
             //add to topmost box 
+
             if (!showing)
             {
-                this.topWindow = rootgfx.TopWindowRenderBox;
-                if (topWindow != null)
+                var host = relativeToMenuItem.OwnerMenuBox.HtmlHost;
+
+                if (this.pnode == null)
                 {
-                    topWindow.AddChild(this.myRenderE = this.GetPrimaryRenderElement(topWindow.Root));
+                    //create presentation first
+                    var fragmentdoc = host.CreateNewFragmentHtml();
+                    this.GetPrimaryUIElement(host);
                 }
+                HtmlElement relativeMenuItemElement = relativeToMenuItem.CurrentDomElement as HtmlElement;
+                var nodePrincipalBox = relativeMenuItemElement.GetPrincipalBox();
+                Point p = nodePrincipalBox.GetElementGlobalLocation();
+                this.SetLocation(p.X + relativeToMenuItem.OwnerMenuBox.Width, p.Y);
+
+                this.AddSelfToTopWindow();
                 showing = true;
             }
         }
+
         public void HideMenu()
         {
             if (showing)
             {
-                //remove from top 
-                showing = false;
-                if (this.topWindow != null && this.myRenderE != null)
+                if (this.currentActiveMenuItem != null)
                 {
-                    var plainLayer = topWindow.Layer0;
-                    plainLayer.RemoveChild(this.myRenderE);
+                    this.currentActiveMenuItem.Close();
                 }
+                //remove from parent
+                if (this.pnode != null)
+                {
+                    var parent = pnode.ParentNode as HtmlElement;
+                    if (parent != null)
+                    {
+                        parent.RemoveChild(pnode);
+                        this.RemoveSelfFromTopWindow();
+                    }
+                }
+                showing = false;
             }
         }
+
+        internal MenuItem CurrentActiveMenuItem
+        {
+            get { return this.currentActiveMenuItem; }
+            set { this.currentActiveMenuItem = value; }
+        }
+
+
 
     }
 }

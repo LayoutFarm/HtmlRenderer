@@ -6,7 +6,7 @@ using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.UI;
-using LayoutFarm.InternalHtmlDom;
+
 using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
@@ -25,7 +25,7 @@ namespace LayoutFarm
             //html box
             {
 
-                LightHtmlBox lightHtmlBox = new LightHtmlBox(htmlHost, 800, 50);
+                HtmlBox lightHtmlBox = new HtmlBox(htmlHost, 800, 50);
                 lightHtmlBox.SetLocation(50, 450);
                 viewport.AddContent(lightHtmlBox);
                 //light box can't load full html
@@ -37,7 +37,7 @@ namespace LayoutFarm
             //==================================================  
             {
 
-                LightHtmlBox lightHtmlBox2 = new LightHtmlBox(htmlHost, 800, 50);
+                HtmlBox lightHtmlBox2 = new HtmlBox(htmlHost, 800, 50);
                 lightHtmlBox2.SetLocation(0, 60);
                 viewport.AddContent(lightHtmlBox2);
                 //light box can't load full html
@@ -49,7 +49,7 @@ namespace LayoutFarm
             //==================================================  
             {
 
-                LightHtmlBox lightHtmlBox3 = new LightHtmlBox(htmlHost, 800, 50);
+                HtmlBox lightHtmlBox3 = new HtmlBox(htmlHost, 800, 50);
                 lightHtmlBox3.SetLocation(0, 100);
                 viewport.AddContent(lightHtmlBox3);
                 //fragment dom 
@@ -111,7 +111,7 @@ namespace LayoutFarm
                         //this will not print 
                         //if e has been stop by its child
                         // System.Diagnostics.Debugger.Break();
-                        Console.WriteLine("div");
+                        //Console.WriteLine("div");
 #endif
 
                     });

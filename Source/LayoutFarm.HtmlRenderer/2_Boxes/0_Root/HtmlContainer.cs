@@ -46,7 +46,7 @@ namespace LayoutFarm.HtmlBoxes
         public float MaxWidth { get { return this._maxHeight; } }
         public abstract void ClearPreviousSelection();
         public abstract void SetSelection(SelectionRange selRange);
-
+         
 #if DEBUG
         public static int dbugCount02 = 0;
 #endif
@@ -78,13 +78,27 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return new SizeF(this._actualWidth, this._actualHeight); }
         }
-
+        public float ActualWidth
+        {
+            get { return (int)this._actualWidth; }
+        }
+        public float ActualHeight
+        {
+            get { return (int)this._actualHeight; }
+        }
         public void SetMaxSize(float maxWidth, float maxHeight)
         {
             this._maxWidth = maxWidth;
             this._maxHeight = maxHeight;
         }
-
+        int layoutVersion;
+        public int LayoutVersion
+        {
+            get
+            {
+                return this.layoutVersion;
+            }
+        }
         public void PerformLayout(LayoutVisitor layoutArgs)
         {
 
@@ -108,14 +122,20 @@ namespace LayoutFarm.HtmlBoxes
             if (this._maxWidth <= 0.1)
             {
                 // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
-
                 _rootBox.SetWidth((int)Math.Ceiling(this._actualWidth));
                 _actualWidth = _actualHeight = 0;
                 _rootBox.PerformLayout(layoutArgs);
             }
             layoutArgs.PopContainingBlock();
-        }
+            OnLayoutFinished();
 
+            //----------------------- 
+            unchecked { layoutVersion++; }
+            //----------------------- 
+        }
+        protected virtual void OnLayoutFinished()
+        {
+        }
         public void PerformPaint(PaintVisitor p)
         {
             if (_rootBox == null)
@@ -126,7 +146,7 @@ namespace LayoutFarm.HtmlBoxes
             _rootBox.Paint(p);
             p.PopContainingBlock();
         }
-        
+
         //------------------------------------------------------------------
         protected abstract void OnRequestImage(ImageBinder binder,
             object reqFrom, bool _sync);
@@ -149,6 +169,7 @@ namespace LayoutFarm.HtmlBoxes
             if (newHeight > this._actualHeight)
             {
                 this._actualHeight = newHeight;
+
             }
         }
 
