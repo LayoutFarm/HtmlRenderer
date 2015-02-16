@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET20</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -35,12 +35,15 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="1_Composers\1_Builder\ContentTextSplitter.cs" />
+    <Compile Include="0_Start\ExtensionAttribute.cs" />
+    <Compile Include="1_Composers\2_Css\CssValueParser.cs" />
+    <Compile Include="1_Composers\Color.cs" />
     <Compile Include="1_Composers\2_Css\CssDefaults.cs" />
     <Compile Include="1_Composers\2_Css\CssParserHelper.cs" />
     <Compile Include="1_Composers\2_Css\UserMapUtil.cs" />
     <Compile Include="1_Composers\2_Css\ValueMaps.cs" />
     <Compile Include="1_Composers\DeprecatedAttribute.cs" />
+    <Compile Include="1_Composers\KnownColors.cs" />
     <Compile Include="1_Composers\MapAttribute.cs" />
     <Compile Include="4_WebDom\1_Dom\DomElement.cs" />
     <Compile Include="4_WebDom\1_Dom\DomElement_EventListener.cs" />
@@ -57,8 +60,6 @@
     <Compile Include="4_WebDom\2_Css\CssElementSelectors.cs" />
     <Compile Include="4_WebDom\2_Css\CssPropertyDeclaration.cs" />
     <Compile Include="4_WebDom\2_Css\WellknownCssPropertyName.cs" />
-    <Compile Include="4_WebDom\3_Gen\HtmlGenerationStyle.cs" />
-    <Compile Include="4_WebDom\3_Gen\HtmlGenerator.cs" />
     <Compile Include="5_WebDom.Parser\CssParser.cs" />
     <Compile Include="5_WebDom.Parser\dbugLexerReport.cs" />
     <Compile Include="5_WebDom.Parser\HtmlLexer.cs" />
@@ -67,14 +68,8 @@
     <Compile Include="5_WebDom.Parser\TextSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="0_Start\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
-      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
-      <Name>PixelFarm.Drawing</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
       <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
       <Name>LayoutFarm.ClientPlatforms</Name>
