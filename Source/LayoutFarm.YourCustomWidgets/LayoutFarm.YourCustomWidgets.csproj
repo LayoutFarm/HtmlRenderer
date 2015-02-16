@@ -80,11 +80,10 @@
     <Compile Include="4.2_HtmlWidgetBase\TabPageBox.cs" />
     <Compile Include="4.2_HtmlWidgetBase\TreeView.cs" />
     <Compile Include="5_HtmlBox\HtmlContainerHelper.cs" />
-    <Compile Include="5_HtmlBox\LightHtmlBox.cs" />
+    <Compile Include="5_HtmlBox\HtmlBox.cs" />
     <Compile Include="6_InternalResourceMx\ResImageList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="5_HtmlBox\MyCssBoxGenerator.cs" />
-    <Compile Include="5_HtmlBox\HtmlBox.cs" />
+    <Compile Include="5_HtmlBox\MyCustomCssBoxGenerator.cs" />
     <Compile Include="5_HtmlBox\HtmlHostContentManager.cs" />
   </ItemGroup>
   <ItemGroup>

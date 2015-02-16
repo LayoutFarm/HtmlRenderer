@@ -34,7 +34,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             get { return this.tabPageCollection; }
         }
-        protected override WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode)
+        public override WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode)
         {
             if (pnode != null) return pnode;
             //------------------------------

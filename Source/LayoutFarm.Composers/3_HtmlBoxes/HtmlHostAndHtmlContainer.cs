@@ -26,7 +26,7 @@ namespace LayoutFarm.HtmlBoxes
 
         GraphicsPlatform gfxplatform;
         HtmlDocument commonHtmlDoc;
-
+        RootGraphic rootgfx;
 
         public HtmlHost(GraphicsPlatform gfxplatform, WebDom.CssActiveSheet activeSheet)
         {
@@ -42,6 +42,14 @@ namespace LayoutFarm.HtmlBoxes
         {
             //use default style sheet
         }
+
+        public void SetRootGraphics(RootGraphic rootgfx)
+        {
+            this.rootgfx = rootgfx;
+        }
+        public RootGraphic RootGfx { get { return this.rootgfx; } }
+        public TopWindowRenderBox TopWindowRenderBox { get { return this.rootgfx.TopWindowRenderBox; } }
+
 
 
         public void AttachEssentailHandlers(
@@ -131,7 +139,7 @@ namespace LayoutFarm.HtmlBoxes
 
         //--------------------------------------------------- 
 
-        public bool HasRegisterCssBoxGenerator(Type t)
+        public bool AlreadyRegisterCssBoxGen(Type t)
         {
             for (int i = generators.Count - 1; i >= 0; --i)
             {

@@ -30,11 +30,11 @@ namespace LayoutFarm
             viewport.AddContent(htmlBox);
             if (htmltext == null)
             {
-               
+
                 htmltext = @"<html><head></head><body>NOT FOUND!</body></html>";
             }
 
-            htmlBox.LoadHtmlText(htmltext);
+            htmlBox.LoadHtmlString(htmltext);
         }
         public void LoadHtml(string documentRootPath, string htmltext)
         {
@@ -61,7 +61,7 @@ namespace LayoutFarm
                 return;
             }
             //if found
-            e.TextContent = System.IO.File.ReadAllText(absolutePath); 
+            e.TextContent = System.IO.File.ReadAllText(absolutePath);
         }
     }
 }

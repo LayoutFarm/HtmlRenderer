@@ -24,7 +24,7 @@ namespace LayoutFarm.HtmlWidgets
             : base(width, height)
         {
         }
-        protected override DomElement GetPresentationDomNode(DomElement hostNode)
+        public override DomElement GetPresentationDomNode(DomElement hostNode)
         {
             if (pnode != null) return pnode;
             //create primary presentation node

@@ -18,17 +18,20 @@ namespace LayoutFarm.HtmlBoxes
     /// </summary>
     public class HtmlInputEventAdapter
     {
-        DateTime lastimeMouseUp;
-        IEventListener currentMouseDown;
-        //-----------------------------------------------
         HtmlContainer _htmlContainer;
         CssBoxHitChain _latestMouseDownChain = null;
+        //-----------------------------------------------
+        DateTime lastimeMouseUp;
+        IEventListener currentMouseDown;   
         int _mousedownX;
         int _mousedownY;
         bool _isMouseDown;
         CssBox _mouseDownStartAt;
+        //-----------------------------------------------
+
         IFonts ifonts;
         bool _isBinded;
+        int lastDomLayoutVersion;
 
         const int DOUBLE_CLICK_SENSE = 150;//ms 
         Stack<CssBoxHitChain> hitChainPools = new Stack<CssBoxHitChain>();
@@ -59,7 +62,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         //---------------------------------------------- 
 
-        int lastLayoutVersion;
+       
         public void MouseDown(UIMouseEventArgs e, CssBox startAt)
         {
             if (!_isBinded) return;
@@ -73,7 +76,7 @@ namespace LayoutFarm.HtmlBoxes
                 ReleaseHitChain(_latestMouseDownChain);
                 _latestMouseDownChain = null;
             }
-            this.lastLayoutVersion = this._htmlContainer.LayoutVersion;
+            this.lastDomLayoutVersion = this._htmlContainer.LayoutVersion;
             //----------------------------------------------------
             int x = e.X;
             int y = e.Y;
@@ -158,7 +161,7 @@ namespace LayoutFarm.HtmlBoxes
                         ClearPreviousSelection();
                         if (_latestMouseDownChain.Count > 0 && hitChain.Count > 0)
                         {
-                            if (this._htmlContainer.LayoutVersion != this.lastLayoutVersion)
+                            if (this._htmlContainer.LayoutVersion != this.lastDomLayoutVersion)
                             {
                                 //the dom has been changed so...
                                 //need to evaluate hitchain at mousedown position again

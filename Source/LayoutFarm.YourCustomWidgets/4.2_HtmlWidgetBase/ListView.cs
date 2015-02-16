@@ -25,7 +25,7 @@ namespace LayoutFarm.HtmlWidgets
             : base(w, h)
         {
         }
-        protected override WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode)
+        public override WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode)
         {
             if (pnode != null) return pnode;
             //--------------------------------
