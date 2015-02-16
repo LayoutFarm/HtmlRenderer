@@ -17,7 +17,7 @@ using System;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
 
-namespace LayoutFarm.Composers
+namespace LayoutFarm.WebDom.Parser
 {
 
     /// <summary>

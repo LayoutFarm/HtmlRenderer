@@ -3,10 +3,9 @@ using System;
 using System.Collections.Generic;
 
 using LayoutFarm.Css;
-using LayoutFarm.HtmlBoxes;
-
-using LayoutFarm.WebDom;
-namespace LayoutFarm.Composers
+using LayoutFarm.HtmlBoxes; 
+ 
+namespace LayoutFarm.WebDom
 {
     public enum WellKnownDomNodeName : byte
     {
