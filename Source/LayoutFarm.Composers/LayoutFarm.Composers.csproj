@@ -42,7 +42,11 @@
     <Compile Include="1_Composers\1_Builder\TopDownActiveCssTemplate.cs" />
     <Compile Include="1_Composers\1_Builder\CustomCssBoxGenerator.cs" />
     <Compile Include="1_Composers\1_Builder\RenderTreeBuilder.cs" />
+    <Compile Include="1_Composers\2_Css\CssColorConv.cs" />
     <Compile Include="1_Composers\3_Scriptable\EaseScriptElement.cs" />
+    <Compile Include="1_Composers\4_Diagnostic\ArgCheckNotNullAttribute.cs" />
+    <Compile Include="1_Composers\4_Diagnostic\HtmlGenerationStyle.cs" />
+    <Compile Include="1_Composers\4_Diagnostic\HtmlRenderErrorType.cs" />
     <Compile Include="4_WebDom\4_HtmlDom\BulletNumberFormatter.cs" />
     <Compile Include="1_Composers\1_Builder\ContentTextSplitter.cs" />
     <Compile Include="1_Composers\2_Css\SpecSetter.cs" />
@@ -107,6 +111,10 @@
     <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
       <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
       <Name>LayoutFarm.ClientPlatforms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
+      <Project>{5164EC24-95C4-4333-BD4E-70EE625CCEB4}</Project>
+      <Name>LayoutFarm.CssBase</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
       <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>

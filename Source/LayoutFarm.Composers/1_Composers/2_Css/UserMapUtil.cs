@@ -2,7 +2,7 @@
 using System;
 using PixelFarm.Drawing;
 using System.Collections.Generic;
-
+using LayoutFarm;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
 
@@ -390,7 +390,7 @@ namespace LayoutFarm.Composers
             switch (u)
             {
                 case CssConstants.Em:
-                    
+
                     return CssUnitOrNames.Ems;
                 case CssConstants.Ex:
                     return CssUnitOrNames.Ex;
@@ -754,16 +754,16 @@ namespace LayoutFarm.Composers
             {
                 if (value is WebDom.CssCodeColor)
                 {
-                    return ((WebDom.CssCodeColor)value).ActualColor;
+                    return CssColorConv.ConvertToActualColor(((WebDom.CssCodeColor)value).ActualColor);
                 }
                 else
                 {
                     Color actualColor = CssValueParser.GetActualColor(value.GetTranslatedStringValue());
-                    value.SetColorValue(actualColor);
+                    value.SetColorValue(CssColorConv.ConvertToCssColor(actualColor));
                     return actualColor;
                 }
             }
-            return value.GetCacheColor();
+            return CssColorConv.ConvertToActualColor(value.GetCacheColor());
         }
 
         internal static void SetFontSize(this BoxSpec box, WebDom.CssCodeValueExpression value)

@@ -33,10 +33,10 @@
 
 namespace LayoutFarm.WebDom
 {
-    public struct Color
+    public struct CssColor
     {
         byte r, g, b, a;
-        public Color(byte a, byte r, byte g, byte b)
+        public CssColor(byte a, byte r, byte g, byte b)
         {
             this.r = r;
             this.g = g;
@@ -59,35 +59,35 @@ namespace LayoutFarm.WebDom
         {
             get { return this.a; }
         }
-        public static Color FromArgb(int a, Color c)
+        public static CssColor FromArgb(int a, CssColor c)
         {
-            return new Color((byte)a, c.R, c.G, c.B);
+            return new CssColor((byte)a, c.R, c.G, c.B);
         }
-        public static Color FromArgb(int a, int r, int g, int b)
+        public static CssColor FromArgb(int a, int r, int g, int b)
         {
-            return new Color((byte)a, (byte)r, (byte)g, (byte)b);
+            return new CssColor((byte)a, (byte)r, (byte)g, (byte)b);
         }
-        public static Color FromArgb(int r, int g, int b)
+        public static CssColor FromArgb(int r, int g, int b)
         {
-            return new Color(255, (byte)r, (byte)g, (byte)b);
+            return new CssColor(255, (byte)r, (byte)g, (byte)b);
         }
 
 
-        public static readonly Color Empty = new Color(0, 0, 0, 0);
-        public static readonly Color Transparent = new Color(0, 255, 255, 255);
-        public static readonly Color White = new Color(255, 255, 255, 255);
-        public static readonly Color Black = new Color(255, 0, 0, 0);
-        public static readonly Color Blue = new Color(255, 0, 0, 255);
-        public static readonly Color Red = new Color(255, 255, 0, 0);
-        public static readonly Color Yellow = new Color(255, 255, 255, 0);
-        public static readonly Color LightGray = new Color(0xFF, 0xD3, 0xD3, 0xD3);
-        public static readonly Color Gray = new Color(0xFF, 0x80, 0x80, 0x80);
+        public static readonly CssColor Empty = new CssColor(0, 0, 0, 0);
+        public static readonly CssColor Transparent = new CssColor(0, 255, 255, 255);
+        public static readonly CssColor White = new CssColor(255, 255, 255, 255);
+        public static readonly CssColor Black = new CssColor(255, 0, 0, 0);
+        public static readonly CssColor Blue = new CssColor(255, 0, 0, 255);
+        public static readonly CssColor Red = new CssColor(255, 255, 0, 0);
+        public static readonly CssColor Yellow = new CssColor(255, 255, 255, 0);
+        public static readonly CssColor LightGray = new CssColor(0xFF, 0xD3, 0xD3, 0xD3);
+        public static readonly CssColor Gray = new CssColor(0xFF, 0x80, 0x80, 0x80);
 
 
-        public static readonly Color Green = new Color(0xFF, 0x00, 0x80, 0x00);
-        public static readonly Color OrangeRed = new Color(0xFF, 0xFF, 0x45, 0x00);//0xFF FF 45 00
-        public static readonly Color DeepPink = new Color(0xFF, 0xFF, 0x14, 0x93);
-        public static readonly Color Magenta = new Color(0xFF, 0xFF, 0, 0xFF);
+        public static readonly CssColor Green = new CssColor(0xFF, 0x00, 0x80, 0x00);
+        public static readonly CssColor OrangeRed = new CssColor(0xFF, 0xFF, 0x45, 0x00);//0xFF FF 45 00
+        public static readonly CssColor DeepPink = new CssColor(0xFF, 0xFF, 0x14, 0x93);
+        public static readonly CssColor Magenta = new CssColor(0xFF, 0xFF, 0, 0xFF);
 
 
 
@@ -95,24 +95,24 @@ namespace LayoutFarm.WebDom
         //{
         //    return new Color(c.A, c.R, c.G, c.B);
         //}
-        public static Color FromName(string name)
+        public static CssColor FromName(string name)
         {
 
             var color = KnownColors.FromKnownColor(name);
-            return new Color(color.A, color.R, color.G, color.B);
+            return new CssColor(color.A, color.R, color.G, color.B);
 
         }
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
-        public static bool operator ==(Color c1, Color c2)
+        public static bool operator ==(CssColor c1, CssColor c2)
         {
             return (uint)((c1.a << 24) | (c1.r << 16) | (c1.g << 8) | (c1.b)) ==
                    (uint)((c2.a << 24) | (c2.r << 16) | (c2.g << 8) | (c2.b));
 
         }
-        public static bool operator !=(Color c1, Color c2)
+        public static bool operator !=(CssColor c1, CssColor c2)
         {
             return (uint)((c1.a << 24) | (c1.r << 16) | (c1.g << 8) | (c1.b)) !=
                   (uint)((c2.a << 24) | (c2.r << 16) | (c2.g << 8) | (c2.b));

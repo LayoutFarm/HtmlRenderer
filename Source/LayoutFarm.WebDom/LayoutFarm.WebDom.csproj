@@ -36,15 +36,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="0_Start\ExtensionAttribute.cs" />
-    <Compile Include="1_Composers\2_Css\CssValueParser.cs" />
-    <Compile Include="1_Composers\Color.cs" />
-    <Compile Include="1_Composers\2_Css\CssDefaults.cs" />
-    <Compile Include="1_Composers\2_Css\CssParserHelper.cs" />
-    <Compile Include="1_Composers\2_Css\UserMapUtil.cs" />
-    <Compile Include="1_Composers\2_Css\ValueMaps.cs" />
-    <Compile Include="1_Composers\DeprecatedAttribute.cs" />
-    <Compile Include="1_Composers\KnownColors.cs" />
-    <Compile Include="1_Composers\MapAttribute.cs" />
+    <Compile Include="1_Css\CssValueParser.cs" />
+    <Compile Include="1_Css\CssDefaults.cs" />
+    <Compile Include="1_Css\CssParserHelper.cs" />
+    <Compile Include="1_Css\UserMapUtil.cs" />
+    <Compile Include="1_Css\ValueMaps.cs" />
     <Compile Include="4_WebDom\1_Dom\DomElement.cs" />
     <Compile Include="4_WebDom\1_Dom\DomElement_EventListener.cs" />
     <Compile Include="4_WebDom\1_Dom\DomElement_OnEvents.cs" />
@@ -74,9 +70,9 @@
       <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
       <Name>LayoutFarm.ClientPlatforms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
-      <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
-      <Name>LayoutFarm.HtmlRenderer</Name>
+    <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
+      <Project>{5164EC24-95C4-4333-BD4E-70EE625CCEB4}</Project>
+      <Name>LayoutFarm.CssBase</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

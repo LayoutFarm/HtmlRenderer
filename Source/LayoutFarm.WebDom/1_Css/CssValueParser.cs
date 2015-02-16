@@ -24,74 +24,74 @@ namespace LayoutFarm.HtmlBoxes
     /// </summary>
     public static class CssValueParser
     {
-        /// <summary>
-        /// get length in pixel
-        /// </summary>
-        /// <param name="length"></param>
-        /// <param name="hundredPercent"></param>
-        /// <param name="box"></param>
-        /// <returns></returns>
-        public static float ConvertToPx(CssLength length, float hundredPercent, CssBox box)
-        {
-            //Return zero if no length specified, zero specified      
-            switch (length.UnitOrNames)
-            {
-                case CssUnitOrNames.EmptyValue:
-                    return 0;
-                case CssUnitOrNames.Percent:
-                    return (length.Number / 100f) * hundredPercent;
-                case CssUnitOrNames.Ems:
-                    return length.Number * box.GetEmHeight();
-                case CssUnitOrNames.Ex:
-                    return length.Number * (box.GetEmHeight() / 2);
-                case CssUnitOrNames.Pixels:
-                    //atodo: check support for hi dpi
-                    return length.Number;
-                case CssUnitOrNames.Milimeters:
-                    return length.Number * 3.779527559f; //3 pixels per millimeter      
-                case CssUnitOrNames.Centimeters:
-                    return length.Number * 37.795275591f; //37 pixels per centimeter 
-                case CssUnitOrNames.Inches:
-                    return length.Number * 96f; //96 pixels per inch 
-                case CssUnitOrNames.Points:
-                    return length.Number * (96f / 72f); // 1 point = 1/72 of inch   
-                case CssUnitOrNames.Picas:
-                    return length.Number * 16f; // 1 pica = 12 points 
-                default:
-                    return 0;
-            }
-        }
+        ///// <summary>
+        ///// get length in pixel
+        ///// </summary>
+        ///// <param name="length"></param>
+        ///// <param name="hundredPercent"></param>
+        ///// <param name="box"></param>
+        ///// <returns></returns>
+        //public static float ConvertToPx(CssLength length, float hundredPercent, CssBox box)
+        //{
+        //    //Return zero if no length specified, zero specified      
+        //    switch (length.UnitOrNames)
+        //    {
+        //        case CssUnitOrNames.EmptyValue:
+        //            return 0;
+        //        case CssUnitOrNames.Percent:
+        //            return (length.Number / 100f) * hundredPercent;
+        //        case CssUnitOrNames.Ems:
+        //            return length.Number * box.GetEmHeight();
+        //        case CssUnitOrNames.Ex:
+        //            return length.Number * (box.GetEmHeight() / 2);
+        //        case CssUnitOrNames.Pixels:
+        //            //atodo: check support for hi dpi
+        //            return length.Number;
+        //        case CssUnitOrNames.Milimeters:
+        //            return length.Number * 3.779527559f; //3 pixels per millimeter      
+        //        case CssUnitOrNames.Centimeters:
+        //            return length.Number * 37.795275591f; //37 pixels per centimeter 
+        //        case CssUnitOrNames.Inches:
+        //            return length.Number * 96f; //96 pixels per inch 
+        //        case CssUnitOrNames.Points:
+        //            return length.Number * (96f / 72f); // 1 point = 1/72 of inch   
+        //        case CssUnitOrNames.Picas:
+        //            return length.Number * 16f; // 1 pica = 12 points 
+        //        default:
+        //            return 0;
+        //    }
+        //}
 
-        public static float ConvertToPxWithFontAdjust(CssLength length, float hundredPercent, CssBox box)
-        {
-            //Return zero if no length specified, zero specified     
-            switch (length.UnitOrNames)
-            {
-                case CssUnitOrNames.EmptyValue:
-                    return 0;
-                case CssUnitOrNames.Percent:
-                    return (length.Number / 100f) * hundredPercent;
-                case CssUnitOrNames.Ems:
-                    return length.Number * box.GetEmHeight();
-                case CssUnitOrNames.Ex:
-                    return length.Number * (box.GetEmHeight() / 2);
-                case CssUnitOrNames.Pixels:
-                    //atodo: check support for hi dpi
-                    return length.Number * (72f / 96f); //font adjust
-                case CssUnitOrNames.Milimeters:
-                    return length.Number * 3.779527559f; //3 pixels per millimeter      
-                case CssUnitOrNames.Centimeters:
-                    return length.Number * 37.795275591f; //37 pixels per centimeter 
-                case CssUnitOrNames.Inches:
-                    return length.Number * 96f; //96 pixels per inch 
-                case CssUnitOrNames.Points:
-                    return length.Number * (96f / 72f); // 1 point = 1/72 of inch   
-                case CssUnitOrNames.Picas:
-                    return length.Number * 16f; // 1 pica = 12 points 
-                default:
-                    return 0;
-            }
-        }
+        //public static float ConvertToPxWithFontAdjust(CssLength length, float hundredPercent, CssBox box)
+        //{
+        //    //Return zero if no length specified, zero specified     
+        //    switch (length.UnitOrNames)
+        //    {
+        //        case CssUnitOrNames.EmptyValue:
+        //            return 0;
+        //        case CssUnitOrNames.Percent:
+        //            return (length.Number / 100f) * hundredPercent;
+        //        case CssUnitOrNames.Ems:
+        //            return length.Number * box.GetEmHeight();
+        //        case CssUnitOrNames.Ex:
+        //            return length.Number * (box.GetEmHeight() / 2);
+        //        case CssUnitOrNames.Pixels:
+        //            //atodo: check support for hi dpi
+        //            return length.Number * (72f / 96f); //font adjust
+        //        case CssUnitOrNames.Milimeters:
+        //            return length.Number * 3.779527559f; //3 pixels per millimeter      
+        //        case CssUnitOrNames.Centimeters:
+        //            return length.Number * 37.795275591f; //37 pixels per centimeter 
+        //        case CssUnitOrNames.Inches:
+        //            return length.Number * 96f; //96 pixels per inch 
+        //        case CssUnitOrNames.Points:
+        //            return length.Number * (96f / 72f); // 1 point = 1/72 of inch   
+        //        case CssUnitOrNames.Picas:
+        //            return length.Number * 16f; // 1 pica = 12 points 
+        //        default:
+        //            return 0;
+        //    }
+        //}
 
 
         /// <summary>
@@ -99,30 +99,30 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="colorValue">color string value to parse</param>
         /// <returns>Color value</returns>
-        public static Color GetActualColor(string colorValue)
+        public static CssColor GetActualColor(string colorValue)
         {
-            Color color;
+            CssColor color;
             TryGetColor(colorValue, 0, colorValue.Length, out color);
             return color;
         }
-        public static float GetActualBorderWidth(CssLength borderValue, CssBox b)
-        {
-            //------------------------------
-            //plan: use extended cssunit
-            //------------------------------
-            switch (borderValue.UnitOrNames)
-            {
-                case CssUnitOrNames.EmptyValue://as medium 
-                case CssUnitOrNames.BorderMedium:
-                    return 2f;
-                case CssUnitOrNames.BorderThin:
-                    return 1f;
-                case CssUnitOrNames.BorderThick:
-                    return 4f;
-                default:
-                    return Math.Abs(ConvertToPx(borderValue, 1, b));
-            }
-        }
+        //public static float GetActualBorderWidth(CssLength borderValue, CssBox b)
+        //{
+        //    //------------------------------
+        //    //plan: use extended cssunit
+        //    //------------------------------
+        //    switch (borderValue.UnitOrNames)
+        //    {
+        //        case CssUnitOrNames.EmptyValue://as medium 
+        //        case CssUnitOrNames.BorderMedium:
+        //            return 2f;
+        //        case CssUnitOrNames.BorderThin:
+        //            return 1f;
+        //        case CssUnitOrNames.BorderThick:
+        //            return 4f;
+        //        default:
+        //            return Math.Abs(ConvertToPx(borderValue, 1, b));
+        //    }
+        //}
 
 
         #region Private methods
@@ -138,7 +138,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="length">substring length</param>
         /// <param name="color">return the parsed color</param>
         /// <returns>true - valid color, false - otherwise</returns>
-        private static bool TryGetColor(string str, int idx, int length, out Color color)
+        private static bool TryGetColor(string str, int idx, int length, out CssColor color)
         {
             try
             {
@@ -164,7 +164,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             catch
             { }
-            color = Color.Black;
+            color = CssColor.Black;
             return false;
         }
         /// <summary>
@@ -189,7 +189,7 @@ namespace LayoutFarm.HtmlBoxes
         /// Get color by parsing given hex value color string (#A28B34).
         /// </summary>
         /// <returns>true - valid color, false - otherwise</returns>
-        private static bool GetColorByHex(string str, int idx, int length, out Color color)
+        private static bool GetColorByHex(string str, int idx, int length, out CssColor color)
         {
             int r = -1;
             int g = -1;
@@ -211,10 +211,10 @@ namespace LayoutFarm.HtmlBoxes
             }
             if (r > -1 && g > -1 && b > -1)
             {
-                color = Color.FromArgb(r, g, b);
+                color = CssColor.FromArgb(r, g, b);
                 return true;
             }
-            color = Color.Empty;
+            color = CssColor.Empty;
             return false;
         }
 
@@ -222,7 +222,7 @@ namespace LayoutFarm.HtmlBoxes
         /// Get color by parsing given RGB value color string (RGB(255,180,90))
         /// </summary>
         /// <returns>true - valid color, false - otherwise</returns>
-        private static bool GetColorByRgb(string str, int idx, int length, out Color color)
+        private static bool GetColorByRgb(string str, int idx, int length, out CssColor color)
         {
             int r = -1;
             int g = -1;
@@ -244,10 +244,10 @@ namespace LayoutFarm.HtmlBoxes
 
             if (r > -1 && g > -1 && b > -1)
             {
-                color = Color.FromArgb(r, g, b);
+                color = CssColor.FromArgb(r, g, b);
                 return true;
             }
-            color = Color.Empty;
+            color = CssColor.Empty;
             return false;
         }
 
@@ -255,7 +255,7 @@ namespace LayoutFarm.HtmlBoxes
         /// Get color by parsing given RGBA value color string (RGBA(255,180,90,180))
         /// </summary>
         /// <returns>true - valid color, false - otherwise</returns>
-        private static bool GetColorByRgba(string str, int idx, int length, out Color color)
+        private static bool GetColorByRgba(string str, int idx, int length, out CssColor color)
         {
             int r = -1;
             int g = -1;
@@ -283,10 +283,10 @@ namespace LayoutFarm.HtmlBoxes
 
             if (r > -1 && g > -1 && b > -1 && a > -1)
             {
-                color = Color.FromArgb(a, r, g, b);
+                color = CssColor.FromArgb(a, r, g, b);
                 return true;
             }
-            color = Color.Empty;
+            color = CssColor.Empty;
             return false;
         }
 
@@ -294,9 +294,9 @@ namespace LayoutFarm.HtmlBoxes
         /// Get color by given name, including .NET name.
         /// </summary>
         /// <returns>true - valid color, false - otherwise</returns>
-        private static bool GetColorByName(string str, int idx, int length, out Color color)
+        private static bool GetColorByName(string str, int idx, int length, out CssColor color)
         {
-            color = Color.FromName(str.Substring(idx, length));
+            color = CssColor.FromName(str.Substring(idx, length));
             return color.A > 0;
         }
 

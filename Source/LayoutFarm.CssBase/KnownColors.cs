@@ -34,7 +34,7 @@ using System.Collections.Generic;
 namespace LayoutFarm.WebDom
 {
 
-    public enum KnownColor
+    public enum CssKnownColor
     {
         Empty,	/* 000 - Empty */
         ActiveBorder,	/* 001 - ActiveBorder */
@@ -400,37 +400,37 @@ namespace LayoutFarm.WebDom
  
         };
 
-        static Dictionary<string, Color> colorsByName = new Dictionary<string, Color>();
+        static Dictionary<string, CssColor> colorsByName = new Dictionary<string, CssColor>();
         static KnownColors()
         {
             int j = argbValues.Length;
             for (short i = 0; i < j; ++i)
             {
                 string colorName = GetName(i).ToUpper();
-                colorsByName[colorName] = FromKnownColor((KnownColor)i);
+                colorsByName[colorName] = FromKnownColor((CssKnownColor)i);
             }
-            colorsByName["NONE"] = Color.Empty;
+            colorsByName["NONE"] = CssColor.Empty;
         }
 
-        public static Color FromKnownColor(string colorName)
+        public static CssColor FromKnownColor(string colorName)
         {
             colorName = colorName.ToUpper();
-            Color c;
+            CssColor c;
             if (!colorsByName.TryGetValue(colorName.ToUpper(), out c))
             {
-                return Color.Black;
+                return CssColor.Black;
             }
             return c;
         }
-        public static Color FromKnownColor(KnownColor kc)
+        public static CssColor FromKnownColor(CssKnownColor kc)
         {
             int index = (int)kc;
             if (index < 0 || index > argbValues.Length)
             {
-                return Color.Black;
+                return CssColor.Black;
             }
             uint colorValue = argbValues[index];
-            return new Color((byte)(colorValue >> 24),
+            return new CssColor((byte)(colorValue >> 24),
                      (byte)((colorValue >> 16) & 0xFF),
                      (byte)((colorValue >> 8) & 0xFF),
                      (byte)(colorValue & 0xFF));
@@ -617,7 +617,7 @@ namespace LayoutFarm.WebDom
                 default: return "";
             }
         }
-        public static string GetName(KnownColor kc)
+        public static string GetName(CssKnownColor kc)
         {
             return GetName((short)kc);
         }
