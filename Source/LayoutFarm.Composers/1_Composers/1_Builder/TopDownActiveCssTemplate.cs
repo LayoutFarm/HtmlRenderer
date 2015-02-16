@@ -84,7 +84,7 @@ namespace LayoutFarm.Composers
         public void LoadRawStyleElementContent(string rawStyleElementContent)
         {
             CloneActiveCssSheetOnce();
-            CssParserHelper.ParseStyleSheet(activeSheet, rawStyleElementContent);
+            LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(activeSheet, rawStyleElementContent);
         }
         public void LoadAnotherStylesheet(WebDom.CssActiveSheet anotherActiveSheet)
         {

@@ -240,7 +240,7 @@ namespace LayoutFarm.Demo
             set
             {
                 _baseRawCssData = value;
-                _baseCssData = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(value,
+                _baseCssData = LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(value,
                     LayoutFarm.Composers.CssDefaults.DefaultCssData,
                     true);
             }
@@ -298,7 +298,7 @@ namespace LayoutFarm.Demo
         public void LoadHtmlDom(LayoutFarm.WebDom.WebDocument doc, string defaultCss)
         {
             _baseRawCssData = defaultCss;
-            _baseCssData = LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(defaultCss,
+            _baseCssData = LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(defaultCss,
                 CssDefaults.DefaultCssData,
                 true);
             //-----------------  

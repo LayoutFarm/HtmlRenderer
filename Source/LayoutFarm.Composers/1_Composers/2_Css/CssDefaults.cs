@@ -1,6 +1,6 @@
 //BSD 2014
 //ArthurHub
-
+ 
 namespace LayoutFarm.Composers
 {
     public static class CssDefaults
@@ -20,7 +20,7 @@ namespace LayoutFarm.Composers
                 if (_defaultCssData == null)
                 {
                     _defaultCssData = new WebDom.CssActiveSheet();
-                    CssParserHelper.ParseStyleSheet(_defaultCssData, CssDefaults.DefaultStyleSheet);
+                    LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(_defaultCssData, CssDefaults.DefaultStyleSheet);
                 }
                 return _defaultCssData;
             }

@@ -38,7 +38,7 @@ namespace LayoutFarm.HtmlBoxes
             this.commonHtmlDoc.CssActiveSheet = activeSheet;
         }
         public HtmlHost(GraphicsPlatform gfxplatform)
-            : this(gfxplatform, LayoutFarm.Composers.CssParserHelper.ParseStyleSheet(null,
+            : this(gfxplatform, LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(null,
               LayoutFarm.Composers.CssDefaults.DefaultCssData,
              true))
         {
