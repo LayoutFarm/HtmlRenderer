@@ -85,11 +85,11 @@ namespace LayoutFarm.UI
         }
         public void PaintMe()
         {
-            this.winBridge.PaintMe();
+            this.winBridge.PaintToOutputWindow();
         }
-        public void PrintMe()
+        public void PrintMe(Canvas targetCanvas)
         {
-            this.winBridge.PaintMeToPrinter();
+            this.winBridge.PaintToCanvas(targetCanvas);
         }
 #if DEBUG
         public IdbugOutputWindow IdebugOutputWin

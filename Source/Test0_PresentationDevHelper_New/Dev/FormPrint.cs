@@ -24,8 +24,28 @@ namespace LayoutFarm.Dev
         }
         private void cmdPrint_Click(object sender, EventArgs e)
         {
-             
-            vwport.PrintMe();
+            using (var bmp = new Bitmap(800, 600, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+            using (var g = System.Drawing.Graphics.FromImage(bmp))
+            {
+                var canvas = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.P.CreateCanvas(g, 0, 0, 800, 600);
+                vwport.PrintMe(canvas);
+                bmp.Save("d:\\WImageTest\\testhtml.bmp");
+            }
+
+        }
+
+        private void cmdPrintToPrinter_Click(object sender, EventArgs e)
+        {
+            System.Drawing.Printing.PrintDocument printdoc = new System.Drawing.Printing.PrintDocument();
+            printdoc.PrintPage += (e2, s2) =>
+            {
+                var g = s2.Graphics;
+                var canvas = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.P.CreateCanvas(g, 0, 0, 800, 600);
+                vwport.PrintMe(canvas);
+
+            };
+
+            printdoc.Print();
         }
     }
 }

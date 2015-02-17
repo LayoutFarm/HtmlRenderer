@@ -37,13 +37,13 @@ namespace LayoutFarm.UI.GdiPlus
         {
             get { return this.windowControl.Size; }
         }
-        protected override void PaintToOutputWindow()
+        public override void PaintToOutputWindow()
         {
             IntPtr hdc = Win32.Win32Utils.GetDC(this.windowControl.Handle);
             this.gdiPlusViewport.PaintMe(hdc);
             Win32.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
         }
-        protected override void PaintToCanvas(Canvas canvas)
+        public override void PaintToCanvas(Canvas canvas)
         {
             this.gdiPlusViewport.PaintMe(canvas);
 

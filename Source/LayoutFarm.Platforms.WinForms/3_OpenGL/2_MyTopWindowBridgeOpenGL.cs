@@ -63,11 +63,11 @@ namespace LayoutFarm.UI.OpenGL
 
             }
         }
-        protected override void PaintToCanvas(Canvas canvas)
+        public override void PaintToCanvas(Canvas canvas)
         {
             throw new NotImplementedException();
         }
-        protected override void PaintToOutputWindow()
+        public override void PaintToOutputWindow()
         {
             if (!isInitGLControl)
             {
@@ -83,7 +83,7 @@ namespace LayoutFarm.UI.OpenGL
 
         }
 
- 
+
         protected override void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
         {
 

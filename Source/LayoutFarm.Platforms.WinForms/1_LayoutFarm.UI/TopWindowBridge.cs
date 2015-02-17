@@ -56,8 +56,8 @@ namespace LayoutFarm.UI
         {
         }
 
-        protected abstract void PaintToOutputWindow();
-        protected abstract void PaintToCanvas(Canvas canvas);
+        public abstract void PaintToOutputWindow();
+        public abstract void PaintToCanvas(Canvas canvas);
 
         public void UpdateCanvasViewportSize(int w, int h)
         {
@@ -316,31 +316,7 @@ namespace LayoutFarm.UI
 
         }
         protected abstract void ChangeCursorStyle(UIMouseEventArgs mouseEventArg);
-        public void PaintMe()
-        {
-            if (canvasViewport != null)
-            {
-                //temp ? for debug
-                canvasViewport.FullMode = true;
-                PaintToOutputWindow();
-            }
-        }
-        //platform specific
-        public void PaintMeToPrinter()
-        {
-            if (canvasViewport != null)
-            {
-                //temp ? for debug
-                canvasViewport.FullMode = true;
-                //create platform printer canvas 
-                System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(800, 600, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
-                var printingCanvas = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.P.CreateCanvas(g, 0, 0, 800, 600);
-                PaintToCanvas(printingCanvas);
-                bmp.Save("d:\\WImageTest\\testhtml.bmp");
-            }
-        }
-
+        
         public void HandleKeyDown(KeyEventArgs e)
         {
 
