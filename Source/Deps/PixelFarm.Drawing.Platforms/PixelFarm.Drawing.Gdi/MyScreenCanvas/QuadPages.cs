@@ -10,10 +10,10 @@ namespace PixelFarm.Drawing.WinGdi
     public class QuadPages
     {
 
-        internal MyCanvas pageA;
-        internal MyCanvas pageB;
-        internal MyCanvas pageC;
-        internal MyCanvas pageD;
+        internal MyScreenCanvas pageA;
+        internal MyScreenCanvas pageB;
+        internal MyScreenCanvas pageC;
+        internal MyScreenCanvas pageD;
 
         CanvasCollection physicalCanvasCollection;
 
@@ -181,7 +181,7 @@ namespace PixelFarm.Drawing.WinGdi
             }
         }
 
-        static void UpdateAllArea(MyCanvas mycanvas, IRenderElement topWindowRenderBox)
+        static void UpdateAllArea(MyScreenCanvas mycanvas, IRenderElement topWindowRenderBox)
         {
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
@@ -197,7 +197,7 @@ namespace PixelFarm.Drawing.WinGdi
         }
 
 
-        static void UpdateInvalidArea(MyCanvas mycanvas, IRenderElement rootElement)
+        static void UpdateInvalidArea(MyScreenCanvas mycanvas, IRenderElement rootElement)
         {
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);

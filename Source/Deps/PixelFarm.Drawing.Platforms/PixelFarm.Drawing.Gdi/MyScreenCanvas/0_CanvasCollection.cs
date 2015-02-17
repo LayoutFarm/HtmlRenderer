@@ -9,7 +9,7 @@ namespace PixelFarm.Drawing.WinGdi
 
     class CanvasCollection
     {
-        List<MyCanvas> cachePages;
+        List<MyScreenCanvas> cachePages;
         int numOfCachePages;
         int eachPageWidth;
         int eachPageHeight;
@@ -25,7 +25,7 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 eachPageHeight = 1;
             }
-            cachePages = new List<MyCanvas>(numOfCachePages);
+            cachePages = new List<MyScreenCanvas>(numOfCachePages);
             this.eachPageWidth = eachPageWidth;
             this.eachPageHeight = eachPageHeight;
             this.numOfCachePages = numOfCachePages;
@@ -58,12 +58,12 @@ namespace PixelFarm.Drawing.WinGdi
             }
 
         }
-        public MyCanvas GetCanvasPage(int hPageNum, int vPageNum)
+        public MyScreenCanvas GetCanvasPage(int hPageNum, int vPageNum)
         {
             int j = cachePages.Count;
             for (int i = j - 1; i > -1; i--)
             {
-                MyCanvas page = cachePages[i];
+                MyScreenCanvas page = cachePages[i];
                 if (page.IsPageNumber(hPageNum, vPageNum))
                 {
                     cachePages.RemoveAt(i);
@@ -78,7 +78,7 @@ namespace PixelFarm.Drawing.WinGdi
 
             if (j >= numOfCachePages)
             {
-                MyCanvas page = cachePages[0];
+                MyScreenCanvas page = cachePages[0];
                 cachePages.RemoveAt(0);
                 page.IsUnused = false;
 
@@ -98,7 +98,7 @@ namespace PixelFarm.Drawing.WinGdi
             }
             else
             {
-                return new MyCanvas(gfxPlatform,
+                return new MyScreenCanvas(gfxPlatform,
                     hPageNum,
                     vPageNum,
                     hPageNum * eachPageWidth,
@@ -107,14 +107,14 @@ namespace PixelFarm.Drawing.WinGdi
                     eachPageHeight);
             }
         }
-        public void ReleasePage(MyCanvas page)
+        public void ReleasePage(MyScreenCanvas page)
         {
             page.IsUnused = true;
             cachePages.Add(page);
         }
         public void Dispose()
         {
-            foreach (MyCanvas canvas in cachePages)
+            foreach (MyScreenCanvas canvas in cachePages)
             {
                 canvas.CloseCanvas();
             }

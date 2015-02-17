@@ -21,7 +21,7 @@ using Win32;
 namespace PixelFarm.Drawing.WinGdi
 {
 
-    partial class MyPrintingCanvas : Canvas, IFonts, IDisposable
+    partial class MyGdiPlusCanvas : Canvas, IFonts, IDisposable
     {
 
          
@@ -37,7 +37,7 @@ namespace PixelFarm.Drawing.WinGdi
         //-------------------------------
         System.Drawing.Graphics targetGfx;
         GraphicsPlatform platform;
-        public MyPrintingCanvas(GraphicsPlatform platform,
+        public MyGdiPlusCanvas(GraphicsPlatform platform,
             System.Drawing.Graphics targetGfx,
             int left, int top,
             int width,
@@ -190,7 +190,7 @@ namespace PixelFarm.Drawing.WinGdi
         Font defaultFont;
 
 
-        static MyPrintingCanvas()
+        static MyGdiPlusCanvas()
         {
             _stringFormat = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericDefault);
             _stringFormat.FormatFlags = System.Drawing.StringFormatFlags.NoClip | System.Drawing.StringFormatFlags.MeasureTrailingSpaces;

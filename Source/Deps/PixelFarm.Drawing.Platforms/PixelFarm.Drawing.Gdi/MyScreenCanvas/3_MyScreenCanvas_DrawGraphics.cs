@@ -21,7 +21,7 @@ using Win32;
 namespace PixelFarm.Drawing.WinGdi
 {
 
-    partial class MyCanvas
+    partial class MyScreenCanvas
     {
         float strokeWidth = 1f;
         Color fillSolidColor = Color.Transparent;

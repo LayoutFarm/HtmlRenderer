@@ -21,7 +21,7 @@ using PixelFarm.Drawing;
 
 namespace PixelFarm.Drawing.WinGdi
 {
-    partial class MyCanvas
+    partial class MyScreenCanvas
     {
         int left;
         int top;

@@ -85,7 +85,7 @@ namespace PixelFarm.Drawing.DrawingGL
                     }
 
                     System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(sampleBmp);
-                    sampleIFonts = new PixelFarm.Drawing.WinGdi.MyCanvas(this, 0, 0, 0, 0, 2, 2);
+                    sampleIFonts = new PixelFarm.Drawing.WinGdi.MyScreenCanvas(this, 0, 0, 0, 0, 2, 2);
                 }
                 return this.sampleIFonts;
             }
