@@ -23,26 +23,22 @@ namespace PixelFarm.Drawing.WinGdi
 
     partial class MyPrintingCanvas : Canvas, IFonts, IDisposable
     {
-        int pageNumFlags;
+
         int pageFlags;
         bool isDisposed;
-
-        IntPtr originalHdc = IntPtr.Zero;
         System.Drawing.Graphics gx;
-        IntPtr hRgn = IntPtr.Zero;
-        IntPtr tempDc;//temp dc from gx
-        IntPtr hbmp;
-        IntPtr hFont = IntPtr.Zero;
+        IntPtr hRgn;
+        IntPtr tempDc;
 
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
         //-------------------------------
-        System.Drawing.Bitmap bgBmp;
+
         System.Drawing.Color currentTextColor = System.Drawing.Color.Black;
         System.Drawing.Pen internalPen;
         System.Drawing.SolidBrush internalSolidBrush;
         System.Drawing.Rectangle currentClipRect;
         //-------------------------------
-
+        System.Drawing.Graphics targetGfx;
         GraphicsPlatform platform;
         public MyPrintingCanvas(GraphicsPlatform platform,
             System.Drawing.Graphics targetGfx,
@@ -54,17 +50,23 @@ namespace PixelFarm.Drawing.WinGdi
             //platform specific Win32
             //1.
             this.platform = platform;
+            this.targetGfx = this.gx = targetGfx;
 
-             
             //2. dimension
             this.left = left;
             this.top = top;
             this.right = left + width;
             this.bottom = top + height;
 
-            CreateGraphicsFromNativeHdc(width, height);
-
-
+            hRgn = MyWin32.CreateRectRgn(0, 0, width, height);
+            //4. font
+            IntPtr hFont = defaultHFont;
+            var orgHdc = gx.GetHdc();
+            hFont = MyWin32.SelectObject(orgHdc, hFont);
+            //5. region
+            hRgn = MyWin32.CreateRectRgn(0, 0, width, height);
+            MyWin32.SelectObject(orgHdc, hRgn);
+            gx.ReleaseHdc(orgHdc);
             //-------------------------------------------------------
             currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
 
@@ -81,30 +83,7 @@ namespace PixelFarm.Drawing.WinGdi
 #endif
             this.StrokeWidth = 1;
         }
-        void CreateGraphicsFromNativeHdc(int width, int height)
-        {
 
-            //3. create original dc from memory dc and prepare background
-            var orgHdc = MyWin32.CreateCompatibleDC(IntPtr.Zero);
-
-            bgBmp = new System.Drawing.Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            hbmp = bgBmp.GetHbitmap();
-            MyWin32.SelectObject(orgHdc, hbmp);
-            MyWin32.PatBlt(orgHdc, 0, 0, width, height, MyWin32.WHITENESS);
-            MyWin32.SetBkMode(orgHdc, MyWin32._SetBkMode_TRANSPARENT);
-
-            //4. font
-            hFont = MyWin32.SelectObject(orgHdc, hFont);
-
-            //5. region
-            hRgn = MyWin32.CreateRectRgn(0, 0, width, height);
-            MyWin32.SelectObject(orgHdc, hRgn);
-
-            //6. create graphics from hdc***  
-
-            gx = System.Drawing.Graphics.FromHdc(orgHdc);
-            this.originalHdc = orgHdc;
-        }
         public override string ToString()
         {
             return "visible_clip" + this.gx.VisibleClipBounds.ToString();
@@ -152,85 +131,14 @@ namespace PixelFarm.Drawing.WinGdi
 
         void ReleaseUnManagedResource()
         {
-
-            if (hRgn != IntPtr.Zero)
-            {
-                MyWin32.DeleteObject(hRgn);
-                hRgn = IntPtr.Zero;
-            }
-
-            MyWin32.DeleteDC(originalHdc);
-            originalHdc = IntPtr.Zero;
-            MyWin32.DeleteObject(hbmp);
-            hbmp = IntPtr.Zero;
             clipRectStack.Clear();
-
             currentClipRect = new System.Drawing.Rectangle(0, 0, this.Width, this.Height);
-
-
-
 #if DEBUG
 
             debug_releaseCount++;
 #endif
         }
 
-        public void Reuse(int hPageNum, int vPageNum)
-        {
-            this.pageNumFlags = (hPageNum << 8) | vPageNum;
-
-            int w = this.Width;
-            int h = this.Height;
-
-            this.ClearPreviousStoredValues();
-
-            currentClipRect = new System.Drawing.Rectangle(0, 0, w, h);
-            gx.Clear(System.Drawing.Color.White);
-            MyWin32.SetRectRgn(hRgn, 0, 0, w, h);
-
-            left = hPageNum * w;
-            top = vPageNum * h;
-            right = left + w;
-            bottom = top + h;
-        }
-        public void Reset(int hPageNum, int vPageNum, int newWidth, int newHeight)
-        {
-            this.pageNumFlags = (hPageNum << 8) | vPageNum;
-            this.ReleaseUnManagedResource();
-            this.ClearPreviousStoredValues();
-
-            var orgHdc = MyWin32.CreateCompatibleDC(IntPtr.Zero);
-            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(newWidth, newHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            hbmp = bmp.GetHbitmap();
-            MyWin32.SelectObject(orgHdc, hbmp);
-            MyWin32.PatBlt(orgHdc, 0, 0, newWidth, newHeight, MyWin32.WHITENESS);
-            MyWin32.SetBkMode(orgHdc, MyWin32._SetBkMode_TRANSPARENT);
-
-
-            hFont = defaultHFont;
-
-            MyWin32.SelectObject(orgHdc, hFont);
-            currentClipRect = new System.Drawing.Rectangle(0, 0, newWidth, newHeight);
-            MyWin32.SelectObject(orgHdc, hRgn);
-            gx = System.Drawing.Graphics.FromHdc(orgHdc);
-            this.originalHdc = orgHdc;
-
-            gx.Clear(System.Drawing.Color.White);
-            MyWin32.SetRectRgn(hRgn, 0, 0, newWidth, newHeight);
-
-
-            left = hPageNum * newWidth;
-            top = vPageNum * newHeight;
-            right = left + newWidth;
-            bottom = top + newHeight;
-#if DEBUG
-            debug_resetCount++;
-#endif
-        }
-        public bool IsPageNumber(int hPageNum, int vPageNum)
-        {
-            return pageNumFlags == ((hPageNum << 8) | vPageNum);
-        }
         public bool IsUnused
         {
             get
@@ -314,9 +222,7 @@ namespace PixelFarm.Drawing.WinGdi
         /// </summary>
         void SetTextColor(Color color)
         {
-            InitHdc();
-            int rgb = (color.B & 0xFF) << 16 | (color.G & 0xFF) << 8 | color.R;
-            Win32Utils.SetTextColor(tempDc, rgb);
+            this.currentTextColor = ConvColor(color);
         }
 
         /// <summary>

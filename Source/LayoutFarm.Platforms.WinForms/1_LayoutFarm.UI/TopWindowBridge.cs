@@ -333,8 +333,11 @@ namespace LayoutFarm.UI
                 //temp ? for debug
                 canvasViewport.FullMode = true;
                 //create platform printer canvas 
-                var printingCanvas = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.P.CreateCanvas(0, 0, 800, 600);
-
+                System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(800, 600, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
+                var printingCanvas = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.P.CreateCanvas(g, 0, 0, 800, 600);
+                PaintToCanvas(printingCanvas);
+                bmp.Save("d:\\WImageTest\\testhtml.bmp");
             }
         }
 
