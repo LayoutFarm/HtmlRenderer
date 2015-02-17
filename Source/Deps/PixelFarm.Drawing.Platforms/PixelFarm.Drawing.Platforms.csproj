@@ -72,11 +72,11 @@
     <Compile Include="PixelFarm.Drawing.Gdi\Implementation.Win32\NativeTextWin32.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\Implementation\Region.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\Implementation.Win32\Win32Utils.cs" />
-    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\0_CanvasCollection.cs" />
-    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\1_MyCanvas_Specific.cs" />
-    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\2_MyCanvas_CoordinateAndClip.cs" />
-    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\3_MyCanvas_DrawGraphics.cs" />
-    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\4_MyCanvas_TextAndFonts.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyScreenCanvas\0_CanvasCollection.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyScreenCanvas\1_MyScreenCanvas_Specific.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyScreenCanvas\2_MyScreenCanvas_CoordinateAndClip.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyScreenCanvas\3_MyScreenCanvas_DrawGraphics.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyScreenCanvas\4_MyScreenCanvas_TextAndFonts.cs" />
     <Compile Include="PixelFarm.Drawing.DrawingGL\0_Start\CanvasGLPlatform.cs" />
     <Compile Include="PixelFarm.Drawing.DrawingGL\0_Start\CanvasGLPortal.cs" />
     <Compile Include="PixelFarm.Drawing.DrawingGL\Implementation\GLBitmapTextureHelper.cs" />
@@ -87,7 +87,11 @@
     <Compile Include="PixelFarm.Drawing.DrawingGL\MyCanvas_GL\3_MyCanvasGL_DrawGraphics.cs" />
     <Compile Include="PixelFarm.Drawing.DrawingGL\MyCanvas_GL\4_MyCanvasGL_TextAndFonts.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\FontGdiTexture\GdiTextureFont.cs" />
-    <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\QuadPages.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyScreenCanvas\QuadPages.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyGdiPlusCanvas\1_MyGdiPlusCanvas_Specific.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyGdiPlusCanvas\2_MyGdiPlusCanvas_CoordinateAndClip.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyGdiPlusCanvas\3_MyGdiPlusCanvas_DrawGraphics.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyGdiPlusCanvas\4_MyGdiPlusCanvas_TextAndFonts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

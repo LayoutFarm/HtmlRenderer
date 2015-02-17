@@ -21,7 +21,7 @@ using Win32;
 namespace PixelFarm.Drawing.WinGdi
 {
 
-    partial class MyCanvas
+    partial class MyScreenCanvas
     {
         float strokeWidth = 1f;
         Color fillSolidColor = Color.Transparent;
@@ -57,43 +57,6 @@ namespace PixelFarm.Drawing.WinGdi
         }
 
 
-        //==========================================================
-        public override void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea)
-        {
-            MyCanvas s1 = (MyCanvas)sourceCanvas;
-
-            if (s1.gx != null)
-            {
-                int phySrcX = logicalSrcX - s1.left;
-                int phySrcY = logicalSrcY - s1.top;
-
-                System.Drawing.Rectangle postIntersect =
-                    System.Drawing.Rectangle.Intersect(currentClipRect, destArea.ToRect());
-                phySrcX += postIntersect.X - destArea.X;
-                phySrcY += postIntersect.Y - destArea.Y;
-                destArea = postIntersect.ToRect();
-
-                IntPtr gxdc = gx.GetHdc();
-
-                MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
-                IntPtr source_gxdc = s1.gx.GetHdc();
-                MyWin32.SetViewportOrgEx(source_gxdc, s1.CanvasOrgX, s1.CanvasOrgY, IntPtr.Zero);
-
-
-                MyWin32.BitBlt(gxdc, destArea.X, destArea.Y, destArea.Width, destArea.Height, source_gxdc, phySrcX, phySrcY, MyWin32.SRCCOPY);
-
-
-                MyWin32.SetViewportOrgEx(source_gxdc, -s1.CanvasOrgX, -s1.CanvasOrgY, IntPtr.Zero);
-
-                s1.gx.ReleaseHdc();
-
-                MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
-                gx.ReleaseHdc();
-
-
-
-            }
-        }
         public override void RenderTo(IntPtr destHdc, int sourceX, int sourceY, Rectangle destArea)
         {
             IntPtr gxdc = gx.GetHdc();
@@ -175,11 +138,7 @@ namespace PixelFarm.Drawing.WinGdi
             internalSolidBrush.Color = ConvColor(color);
             gx.FillRectangle(internalSolidBrush, left, top, width, height);
         }
-
-        //public override RectangleF GetBound(Region rgn)
-        //{
-        //    return (ConvRgn(rgn).GetBounds(gx)).ToRectF();
-        //}
+         
 
         public override void DrawRectangle(Color color, float left, float top, float width, float height)
         {
@@ -347,7 +306,7 @@ namespace PixelFarm.Drawing.WinGdi
         public override void FillPolygon(Brush brush, PointF[] points)
         {
             ReleaseHdc();
-            //create Point
+            
             var pps = ConvPointFArray(points);
             //use internal solid color            
             gx.FillPolygon(brush.InnerBrush as System.Drawing.Brush, pps);
@@ -355,12 +314,49 @@ namespace PixelFarm.Drawing.WinGdi
         public override void FillPolygon(Color color, PointF[] points)
         {
             ReleaseHdc();
-            //create Point
+           
             var pps = ConvPointFArray(points);
             internalSolidBrush.Color = ConvColor(color);
             gx.FillPolygon(this.internalSolidBrush, pps);
         }
 
+        ////==========================================================
+        //public override void CopyFrom(Canvas sourceCanvas, int logicalSrcX, int logicalSrcY, Rectangle destArea)
+        //{
+        //    MyCanvas s1 = (MyCanvas)sourceCanvas;
+
+        //    if (s1.gx != null)
+        //    {
+        //        int phySrcX = logicalSrcX - s1.left;
+        //        int phySrcY = logicalSrcY - s1.top;
+
+        //        System.Drawing.Rectangle postIntersect =
+        //            System.Drawing.Rectangle.Intersect(currentClipRect, destArea.ToRect());
+        //        phySrcX += postIntersect.X - destArea.X;
+        //        phySrcY += postIntersect.Y - destArea.Y;
+        //        destArea = postIntersect.ToRect();
+
+        //        IntPtr gxdc = gx.GetHdc();
+
+        //        MyWin32.SetViewportOrgEx(gxdc, CanvasOrgX, CanvasOrgY, IntPtr.Zero);
+        //        IntPtr source_gxdc = s1.gx.GetHdc();
+        //        MyWin32.SetViewportOrgEx(source_gxdc, s1.CanvasOrgX, s1.CanvasOrgY, IntPtr.Zero);
+
+
+        //        MyWin32.BitBlt(gxdc, destArea.X, destArea.Y, destArea.Width, destArea.Height, source_gxdc, phySrcX, phySrcY, MyWin32.SRCCOPY);
+
+
+        //        MyWin32.SetViewportOrgEx(source_gxdc, -s1.CanvasOrgX, -s1.CanvasOrgY, IntPtr.Zero);
+
+        //        s1.gx.ReleaseHdc();
+
+        //        MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
+        //        gx.ReleaseHdc();
+
+
+
+        //    }
+        //}
     }
 
 }

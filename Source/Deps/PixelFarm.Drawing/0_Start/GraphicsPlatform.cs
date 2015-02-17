@@ -10,7 +10,13 @@ namespace PixelFarm.Drawing
             int top,
             int width,
             int height);
-
+        public abstract Canvas CreateCanvas(
+            object platformCanvas,
+            int left,
+            int top,
+            int width,
+            int height
+         );
         public abstract IFonts SampleIFonts { get; }
 
         public static string GenericSerifFontName

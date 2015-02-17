@@ -85,7 +85,7 @@ namespace LayoutFarm.UI.GdiPlus
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-            this.winBridge.PaintMe();
+            this.winBridge.PaintToOutputWindow();
             base.OnPaint(e);
         }
 

@@ -22,6 +22,7 @@
             this.lstDemoList = new System.Windows.Forms.ListBox();
             this.chkUseGLCanvas = new System.Windows.Forms.CheckBox();
             this._samplesTreeView = new System.Windows.Forms.TreeView();
+            this.chkShowFormPrint = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // chkShowLayoutInspector
@@ -67,11 +68,23 @@
             this._samplesTreeView.Size = new System.Drawing.Size(387, 399);
             this._samplesTreeView.TabIndex = 17;
             // 
+            // chkShowFormPrint
+            // 
+            this.chkShowFormPrint.AutoSize = true;
+            this.chkShowFormPrint.Location = new System.Drawing.Point(180, 5);
+            this.chkShowFormPrint.Name = "chkShowFormPrint";
+            this.chkShowFormPrint.Size = new System.Drawing.Size(100, 17);
+            this.chkShowFormPrint.TabIndex = 18;
+            this.chkShowFormPrint.Text = "Show FormPrint";
+            this.chkShowFormPrint.UseVisualStyleBackColor = true;
+            this.chkShowFormPrint.CheckedChanged += new System.EventHandler(this.chkShowFormPrint_CheckedChanged);
+            // 
             // FormDemoList
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(858, 529);
+            this.Controls.Add(this.chkShowFormPrint);
             this.Controls.Add(this._samplesTreeView);
             this.Controls.Add(this.chkUseGLCanvas);
             this.Controls.Add(this.lstDemoList);
@@ -91,6 +104,7 @@
         private System.Windows.Forms.ListBox lstDemoList;
         private System.Windows.Forms.CheckBox chkUseGLCanvas;
         private System.Windows.Forms.TreeView _samplesTreeView;
+        private System.Windows.Forms.CheckBox chkShowFormPrint;
     }
 }
 

@@ -68,6 +68,11 @@ namespace PixelFarm.Drawing.DrawingGL
         {
             return new MyCanvasGL(this, 0, 0, left, top, width, height);
         }
+        public override Canvas CreateCanvas(object platformCanvas, int left, int top, int width, int height)
+        {
+            //current version is  not support printing
+            throw new NotImplementedException();
+        }
         public override IFonts SampleIFonts
         {
             get
@@ -80,7 +85,7 @@ namespace PixelFarm.Drawing.DrawingGL
                     }
 
                     System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(sampleBmp);
-                    sampleIFonts = new PixelFarm.Drawing.WinGdi.MyCanvas(this, 0, 0, 0, 0, 2, 2);
+                    sampleIFonts = new PixelFarm.Drawing.WinGdi.MyScreenCanvas(this, 0, 0, 0, 0, 2, 2);
                 }
                 return this.sampleIFonts;
             }

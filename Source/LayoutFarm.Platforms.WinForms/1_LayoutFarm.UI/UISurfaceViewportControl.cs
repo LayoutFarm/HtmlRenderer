@@ -85,7 +85,11 @@ namespace LayoutFarm.UI
         }
         public void PaintMe()
         {
-            this.winBridge.PaintMe();
+            this.winBridge.PaintToOutputWindow();
+        }
+        public void PrintMe(Canvas targetCanvas)
+        {
+            this.winBridge.PaintToCanvas(targetCanvas);
         }
 #if DEBUG
         public IdbugOutputWindow IdebugOutputWin
@@ -103,7 +107,7 @@ namespace LayoutFarm.UI
             if (layer0 != null)
             {
                 layer0.AddChild(vi);
-               
+
             }
         }
 
