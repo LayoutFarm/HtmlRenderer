@@ -41,8 +41,13 @@ namespace PixelFarm.Drawing.WinGdi
         }
         public override Canvas CreateCanvas(object platformCanvas, int left, int top, int width, int height)
         {
-            var g = platformCanvas as System.Drawing.Graphics;
-            return new MyPrintingCanvas(this, g, left, top, width, height);
+
+            return new MyPrintingCanvas(this,
+                platformCanvas as System.Drawing.Graphics,
+                left,
+                top, 
+                width,
+                height);
         }
         public override IFonts SampleIFonts
         {

@@ -21,10 +21,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             this.fontInfo = fontInfo;
         }
-        public System.IntPtr ToHFont()
-        {
-            return this.hFont;
-        }
+     
         public override string Name
         {
             get { return this.myFont.Name; }
@@ -34,7 +31,10 @@ namespace PixelFarm.Drawing.WinGdi
             get { return this.myFont.Height; }
         }
         public override System.IntPtr ToHfont()
-        {
+        {   /// <summary>
+            /// Set a resource (e.g. a font) for the specified device context.
+            /// WARNING: Calling Font.ToHfont() many times without releasing the font handle crashes the app.
+            /// </summary>
             return this.hFont;
         }
         public override float Size

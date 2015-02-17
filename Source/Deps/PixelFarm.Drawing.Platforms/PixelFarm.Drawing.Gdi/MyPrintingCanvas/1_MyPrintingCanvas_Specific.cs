@@ -26,10 +26,7 @@ namespace PixelFarm.Drawing.WinGdi
 
         int pageFlags;
         bool isDisposed;
-        System.Drawing.Graphics gx;
-        IntPtr hRgn;
-        IntPtr tempDc;
-
+        System.Drawing.Graphics gx; 
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
         //-------------------------------
 
@@ -58,14 +55,14 @@ namespace PixelFarm.Drawing.WinGdi
             this.right = left + width;
             this.bottom = top + height;
 
-            hRgn = MyWin32.CreateRectRgn(0, 0, width, height);
+            //hRgn = MyWin32.CreateRectRgn(0, 0, width, height);
             //4. font
             IntPtr hFont = defaultHFont;
             var orgHdc = gx.GetHdc();
             hFont = MyWin32.SelectObject(orgHdc, hFont);
             //5. region
-            hRgn = MyWin32.CreateRectRgn(0, 0, width, height);
-            MyWin32.SelectObject(orgHdc, hRgn);
+            //hRgn = MyWin32.CreateRectRgn(0, 0, width, height);
+            //MyWin32.SelectObject(orgHdc, hRgn);
             gx.ReleaseHdc(orgHdc);
             //-------------------------------------------------------
             currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
@@ -98,7 +95,7 @@ namespace PixelFarm.Drawing.WinGdi
             }
 
             isDisposed = true;
-            ReleaseHdc();
+             
             ReleaseUnManagedResource();
         }
         /// <summary>
@@ -139,91 +136,10 @@ namespace PixelFarm.Drawing.WinGdi
 #endif
         }
 
-        public bool IsUnused
-        {
-            get
-            {
-                return (pageFlags & CANVAS_UNUSED) != 0;
-            }
-            set
-            {
-                if (value)
-                {
-                    pageFlags |= CANVAS_UNUSED;
-                }
-                else
-                {
-                    pageFlags &= ~CANVAS_UNUSED;
-                }
-            }
-        }
         int CanvasOrgX { get { return (int)this.canvasOriginX; } }
         int CanvasOrgY { get { return (int)this.canvasOriginY; } }
-        public bool DimensionInvalid
-        {
-            get
-            {
-                return (pageFlags & CANVAS_DIMEN_CHANGED) != 0;
-            }
-            set
-            {
-                if (value)
-                {
-                    pageFlags |= CANVAS_DIMEN_CHANGED;
-                }
-                else
-                {
-                    pageFlags &= ~CANVAS_DIMEN_CHANGED;
-                }
-            }
-        }
-        /// <summary>
-        /// Init HDC for the current graphics object to be used to call GDI directly.
-        /// </summary>
-        void InitHdc()
-        {
-            if (tempDc == IntPtr.Zero)
-            {
-                //var clip = _g.Clip.GetHrgn(_g);
-                tempDc = gx.GetHdc();
-                Win32Utils.SetBkMode(tempDc, 1);
 
-                //Win32Utils.SelectClipRgn(_hdc, clip);
-                //Win32Utils.DeleteObject(clip);
-            }
-        }
-
-        /// <summary>
-        /// Release current HDC to be able to use <see cref="Graphics"/> methods.
-        /// </summary>
-        void ReleaseHdc()
-        {
-            if (tempDc != IntPtr.Zero)
-            {
-                Win32Utils.SelectClipRgn(tempDc, IntPtr.Zero);
-                gx.ReleaseHdc(tempDc);
-                tempDc = IntPtr.Zero;
-            }
-        }
-
-        /// <summary>
-        /// Set a resource (e.g. a font) for the specified device context.
-        /// WARNING: Calling Font.ToHfont() many times without releasing the font handle crashes the app.
-        /// </summary>
-        void SetFont(Font font)
-        {
-            InitHdc();
-
-            Win32Utils.SelectObject(tempDc, FontStore.GetCachedHFont(font.InnerFont as System.Drawing.Font));
-        }
-
-        /// <summary>
-        /// Set the text color of the device context.
-        /// </summary>
-        void SetTextColor(Color color)
-        {
-            this.currentTextColor = ConvColor(color);
-        }
+       
 
         /// <summary>
         /// Special draw logic to draw transparent text using GDI.<br/>
@@ -277,10 +193,12 @@ namespace PixelFarm.Drawing.WinGdi
         const int CANVAS_DIMEN_CHANGED = 1 << (2 - 1);
 
 
+        static System.Drawing.Font defaultGdiFont;
         static IntPtr defaultHFont;
+
+
         Font defaultFont;
 
-        static System.Drawing.Font defaultGdiFont;
 
         static MyPrintingCanvas()
         {
