@@ -25,7 +25,6 @@ namespace PixelFarm.Drawing.WinGdi
 
         Font currentTextFont = null;
         Color mycurrentTextColor = Color.Black;
-
         //======================================
         //IFonts impl
         PixelFarm.Drawing.FontInfo IFonts.GetFontInfo(string fontname, float fsize, FontStyle st)
