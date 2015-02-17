@@ -26,7 +26,7 @@ namespace PixelFarm.Drawing.WinGdi
 
         int pageFlags;
         bool isDisposed;
-        System.Drawing.Graphics gx; 
+        System.Drawing.Graphics gx;
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
         //-------------------------------
 
@@ -53,18 +53,8 @@ namespace PixelFarm.Drawing.WinGdi
             this.left = left;
             this.top = top;
             this.right = left + width;
-            this.bottom = top + height;
+            this.bottom = top + height; 
 
-            //hRgn = MyWin32.CreateRectRgn(0, 0, width, height);
-            //4. font
-            IntPtr hFont = defaultHFont;
-            var orgHdc = gx.GetHdc();
-            hFont = MyWin32.SelectObject(orgHdc, hFont);
-            //5. region
-            //hRgn = MyWin32.CreateRectRgn(0, 0, width, height);
-            //MyWin32.SelectObject(orgHdc, hRgn);
-            gx.ReleaseHdc(orgHdc);
-            //-------------------------------------------------------
             currentClipRect = new System.Drawing.Rectangle(0, 0, width, height);
 
             var fontInfo = platform.GetFont("tahoma", 10, FontStyle.Regular);
@@ -95,7 +85,7 @@ namespace PixelFarm.Drawing.WinGdi
             }
 
             isDisposed = true;
-             
+
             ReleaseUnManagedResource();
         }
         /// <summary>
@@ -139,7 +129,7 @@ namespace PixelFarm.Drawing.WinGdi
         int CanvasOrgX { get { return (int)this.canvasOriginX; } }
         int CanvasOrgY { get { return (int)this.canvasOriginY; } }
 
-       
+
 
         /// <summary>
         /// Special draw logic to draw transparent text using GDI.<br/>
@@ -207,25 +197,13 @@ namespace PixelFarm.Drawing.WinGdi
             //---------------------------
             defaultGdiFont = new System.Drawing.Font("tahoma", 10);
             defaultHFont = defaultGdiFont.ToHfont();
-
         }
 
-
-        static System.Drawing.Point[] ConvPointArray(Point[] points)
-        {
-            int j = points.Length;
-            System.Drawing.Point[] outputPoints = new System.Drawing.Point[j];
-            for (int i = 0; i < j; ++i)
-            {
-                outputPoints[i] = points[i].ToPoint();
-            }
-            return outputPoints;
-        }
         static System.Drawing.PointF[] ConvPointFArray(PointF[] points)
         {
             int j = points.Length;
             System.Drawing.PointF[] outputPoints = new System.Drawing.PointF[j];
-            for (int i = 0; i < j; ++i)
+            for (int i = j - 1; i >= 0; ++i)
             {
                 outputPoints[i] = points[i].ToPointF();
             }
@@ -236,37 +214,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             return System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);
         }
-
-
-        static System.Drawing.Bitmap ConvBitmap(Bitmap bmp)
-        {
-            return bmp.InnerImage as System.Drawing.Bitmap;
-        }
-        static System.Drawing.Image ConvBitmap(Image img)
-        {
-            return img.InnerImage as System.Drawing.Image;
-        }
-        static System.Drawing.Drawing2D.GraphicsPath ConvPath(GraphicsPath p)
-        {
-            return p.InnerPath as System.Drawing.Drawing2D.GraphicsPath;
-        }
-        static System.Drawing.Font ConvFont(Font f)
-        {
-            return f.InnerFont as System.Drawing.Font;
-        }
-        static System.Drawing.Region ConvRgn(Region rgn)
-        {
-            return rgn.InnerRegion as System.Drawing.Region;
-        }
-        static System.Drawing.Drawing2D.GraphicsPath ConvFont(GraphicsPath p)
-        {
-            return p.InnerPath as System.Drawing.Drawing2D.GraphicsPath;
-        }
-        //=========================================================
-
-
-
-
+         
 
         //debug
 #if DEBUG

@@ -36,8 +36,8 @@ namespace PixelFarm.Drawing.WinGdi
         //--------------------------------------------------------------------
         public override void SetCanvasOrigin(int x, int y)
         {
-            
-             
+
+
             //----------- 
             int total_dx = x - canvasOriginX;
             int total_dy = y - canvasOriginY;
@@ -77,8 +77,6 @@ namespace PixelFarm.Drawing.WinGdi
         /// <param name="combineMode">Member of the <see cref="T:System.Drawing.Drawing2D.CombineMode"/> enumeration that specifies the combining operation to use. </param>
         public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
         {
-             
-
             gx.SetClip(
                 new System.Drawing.Rectangle(
                     rect.X, rect.Y,
@@ -117,18 +115,18 @@ namespace PixelFarm.Drawing.WinGdi
         {
             if (clipRectStack.Count > 0)
             {
-                 
+
                 currentClipRect = clipRectStack.Pop();
                 gx.SetClip(currentClipRect);
             }
-        } 
+        }
         public override Rectangle CurrentClipRect
         {
             get
             {
                 return currentClipRect.ToRect();
             }
-        } 
+        }
         public override int Top
         {
             get
@@ -142,7 +140,7 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 return left;
             }
-        } 
+        }
         public override int Width
         {
             get

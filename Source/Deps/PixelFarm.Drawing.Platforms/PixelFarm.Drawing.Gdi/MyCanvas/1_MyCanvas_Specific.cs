@@ -386,23 +386,11 @@ namespace PixelFarm.Drawing.WinGdi
             defaultHFont = defaultGdiFont.ToHfont();
 
         }
-
-
-        static System.Drawing.Point[] ConvPointArray(Point[] points)
-        {
-            int j = points.Length;
-            System.Drawing.Point[] outputPoints = new System.Drawing.Point[j];
-            for (int i = 0; i < j; ++i)
-            {
-                outputPoints[i] = points[i].ToPoint();
-            }
-            return outputPoints;
-        }
         static System.Drawing.PointF[] ConvPointFArray(PointF[] points)
         {
             int j = points.Length;
             System.Drawing.PointF[] outputPoints = new System.Drawing.PointF[j];
-            for (int i = 0; i < j; ++i)
+            for (int i = j - 1; i >= 0; ++i)
             {
                 outputPoints[i] = points[i].ToPointF();
             }
@@ -413,35 +401,6 @@ namespace PixelFarm.Drawing.WinGdi
         {
             return System.Drawing.Color.FromArgb(c.A, c.R, c.G, c.B);
         }
-
-
-        static System.Drawing.Bitmap ConvBitmap(Bitmap bmp)
-        {
-            return bmp.InnerImage as System.Drawing.Bitmap;
-        }
-        static System.Drawing.Image ConvBitmap(Image img)
-        {
-            return img.InnerImage as System.Drawing.Image;
-        }
-        static System.Drawing.Drawing2D.GraphicsPath ConvPath(GraphicsPath p)
-        {
-            return p.InnerPath as System.Drawing.Drawing2D.GraphicsPath;
-        }
-        static System.Drawing.Font ConvFont(Font f)
-        {
-            return f.InnerFont as System.Drawing.Font;
-        }
-        static System.Drawing.Region ConvRgn(Region rgn)
-        {
-            return rgn.InnerRegion as System.Drawing.Region;
-        }
-        static System.Drawing.Drawing2D.GraphicsPath ConvFont(GraphicsPath p)
-        {
-            return p.InnerPath as System.Drawing.Drawing2D.GraphicsPath;
-        }
-        //=========================================================
-
-
 
 
 

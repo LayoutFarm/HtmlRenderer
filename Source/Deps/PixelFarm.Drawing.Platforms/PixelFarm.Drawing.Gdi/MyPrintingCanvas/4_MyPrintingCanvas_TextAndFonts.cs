@@ -75,7 +75,7 @@ namespace PixelFarm.Drawing.WinGdi
             //    throw new NotSupportedException("Char fit string measuring is not supported for GDI+ text rendering");
             //}
 
-            this.currentTextFont = font; 
+            this.currentTextFont = font;
             var tempDc = gx.GetHdc();
             var size = new System.Drawing.Size();
             unsafe
@@ -104,8 +104,8 @@ namespace PixelFarm.Drawing.WinGdi
             }
             set
             {
-                 
-                this.currentTextFont = value; 
+
+                this.currentTextFont = value;
             }
         }
         public override Color CurrentTextColor
@@ -116,7 +116,8 @@ namespace PixelFarm.Drawing.WinGdi
             }
             set
             {
-                mycurrentTextColor = value;
+                this.currentTextColor = 
+                    ConvColor(this.mycurrentTextColor = value);
             }
         }
         public override void DrawText(char[] buffer, int x, int y)
@@ -145,7 +146,7 @@ namespace PixelFarm.Drawing.WinGdi
 
         }
 
-        
+
 
         public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
         {
@@ -164,7 +165,7 @@ namespace PixelFarm.Drawing.WinGdi
                 // intersectRect.Bottom);
                 //MyWin32.SelectClipRgn(tempDc, hRgn);
 
-                 
+
 
                 var tmpColor = this.internalSolidBrush.Color;
                 internalSolidBrush.Color = this.currentTextColor;
@@ -190,7 +191,7 @@ namespace PixelFarm.Drawing.WinGdi
                 //        (startAddr + startAt), len);
                 //}
 
-            } 
+            }
         }
     }
 }
