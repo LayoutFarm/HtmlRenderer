@@ -34,9 +34,8 @@ namespace TestGraphicPackage
                 formLayoutInspector = null;
             };
             formLayoutInspector.Connect(viewport);
-            formLayoutInspector.Show();
-
         }
+        
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
         {
 

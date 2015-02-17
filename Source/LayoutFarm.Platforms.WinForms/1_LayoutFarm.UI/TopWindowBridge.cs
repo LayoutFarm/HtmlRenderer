@@ -56,8 +56,8 @@ namespace LayoutFarm.UI
         {
         }
 
-        protected abstract void PaintToOutputWindow();
-
+        public abstract void PaintToOutputWindow();
+        public abstract void PaintToCanvas(Canvas canvas);
 
         public void UpdateCanvasViewportSize(int w, int h)
         {
@@ -316,19 +316,10 @@ namespace LayoutFarm.UI
 
         }
         protected abstract void ChangeCursorStyle(UIMouseEventArgs mouseEventArg);
-        public void PaintMe()
-        {
-            if (canvasViewport != null)
-            {
-                //temp ? for debug
-                canvasViewport.FullMode = true;
-                PaintToOutputWindow();
-            }
-        }
-
+        
         public void HandleKeyDown(KeyEventArgs e)
         {
-            
+
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
             SetKeyData(keyEventArgs, e);
 
@@ -419,7 +410,7 @@ namespace LayoutFarm.UI
                 (int)keyData,
                 this.lastKeydownWithShift = ((keyData & Keys.Shift) == Keys.Shift),
                 this.lastKeydownWithAlt = ((keyData & Keys.Alt) == Keys.Alt),
-                this.lastKeydownWithControl = ((keyData & Keys.Control) == Keys.Control)); 
+                this.lastKeydownWithControl = ((keyData & Keys.Control) == Keys.Control));
 
             StopCaretBlink();
             canvasViewport.FullMode = false;
