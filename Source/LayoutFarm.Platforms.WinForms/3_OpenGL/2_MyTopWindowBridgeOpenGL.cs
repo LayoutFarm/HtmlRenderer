@@ -63,7 +63,10 @@ namespace LayoutFarm.UI.OpenGL
 
             }
         }
-
+        protected override void PaintToCanvas(Canvas canvas)
+        {
+            throw new NotImplementedException();
+        }
         protected override void PaintToOutputWindow()
         {
             if (!isInitGLControl)

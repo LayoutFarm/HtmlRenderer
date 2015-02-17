@@ -57,7 +57,7 @@ namespace LayoutFarm.UI
         }
 
         protected abstract void PaintToOutputWindow();
-
+        protected abstract void PaintToCanvas(Canvas canvas);
 
         public void UpdateCanvasViewportSize(int w, int h)
         {
@@ -325,10 +325,22 @@ namespace LayoutFarm.UI
                 PaintToOutputWindow();
             }
         }
+        //platform specific
+        public void PaintMeToPrinter()
+        {
+            if (canvasViewport != null)
+            {
+                //temp ? for debug
+                canvasViewport.FullMode = true;
+                //create platform printer canvas 
+                var printingCanvas = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.P.CreateCanvas(0, 0, 800, 600);
+
+            }
+        }
 
         public void HandleKeyDown(KeyEventArgs e)
         {
-            
+
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
             SetKeyData(keyEventArgs, e);
 
@@ -419,7 +431,7 @@ namespace LayoutFarm.UI
                 (int)keyData,
                 this.lastKeydownWithShift = ((keyData & Keys.Shift) == Keys.Shift),
                 this.lastKeydownWithAlt = ((keyData & Keys.Alt) == Keys.Alt),
-                this.lastKeydownWithControl = ((keyData & Keys.Control) == Keys.Control)); 
+                this.lastKeydownWithControl = ((keyData & Keys.Control) == Keys.Control));
 
             StopCaretBlink();
             canvasViewport.FullMode = false;

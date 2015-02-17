@@ -88,6 +88,10 @@
     <Compile Include="PixelFarm.Drawing.DrawingGL\MyCanvas_GL\4_MyCanvasGL_TextAndFonts.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\FontGdiTexture\GdiTextureFont.cs" />
     <Compile Include="PixelFarm.Drawing.Gdi\MyCanvas\QuadPages.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyPrintingCanvas\1_MyPrintingCanvas_Specific.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyPrintingCanvas\2_MyPrintingCanvas_CoordinateAndClip.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyPrintingCanvas\3_MyPrintingCanvas_DrawGraphics.cs" />
+    <Compile Include="PixelFarm.Drawing.Gdi\MyPrintingCanvas\4_MyPrintingCanvas_TextAndFonts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -20,7 +20,7 @@ using Win32;
 
 namespace PixelFarm.Drawing.WinGdi
 {
-    partial class MyCanvas
+    partial class MyPrintingCanvas
     {
          
         Font currentTextFont = null;

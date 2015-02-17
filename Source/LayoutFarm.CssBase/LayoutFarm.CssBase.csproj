@@ -41,7 +41,7 @@
     <Compile Include="CssUnitOrNames.cs" />
     <Compile Include="CssValueParser.cs" />
     <Compile Include="DeprecatedAttribute.cs" />
-    <Compile Include="KnownColors.cs" />
+    <Compile Include="CssKnownColor.cs" />
     <Compile Include="MapAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

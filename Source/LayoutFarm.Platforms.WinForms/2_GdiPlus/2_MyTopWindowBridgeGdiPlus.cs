@@ -19,14 +19,14 @@ namespace LayoutFarm.UI.GdiPlus
         {
 
         }
-        public void BindWindowControl(Control windowControl)
+        internal void BindWindowControl(Control windowControl)
         {
             //bind to anycontrol GDI control  
             this.windowControl = windowControl;
             this.SetBaseCanvasViewport(this.gdiPlusViewport = new GdiPlusCanvasViewport(this.RootGfx, this.Size.ToSize(), 4));
             this.RootGfx.SetPaintDelegates(
                     this.gdiPlusViewport.CanvasInvlidateArea,
-                    this.PaintToOutputWindow);             
+                    this.PaintToOutputWindow);
 
 #if DEBUG
             this.gdiPlusViewport.dbugOutputWindow = this;
@@ -43,7 +43,11 @@ namespace LayoutFarm.UI.GdiPlus
             this.gdiPlusViewport.PaintMe(hdc);
             Win32.Win32Utils.ReleaseDC(this.windowControl.Handle, hdc);
         }
-         
+        protected override void PaintToCanvas(Canvas canvas)
+        {
+            this.gdiPlusViewport.PaintMe(canvas);
+
+        }
         protected override void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
         {
             switch (mouseEventArg.MouseCursorStyle)

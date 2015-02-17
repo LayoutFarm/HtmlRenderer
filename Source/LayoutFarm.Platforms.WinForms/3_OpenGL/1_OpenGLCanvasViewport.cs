@@ -13,7 +13,7 @@ namespace LayoutFarm.UI.OpenGL
         public OpenGLCanvasViewport(RootGraphic root,
             Size viewportSize, int cachedPageNum)
             : base(root, viewportSize, cachedPageNum)
-        { 
+        {
         }
         protected override void OnClosing()
         {
@@ -26,9 +26,9 @@ namespace LayoutFarm.UI.OpenGL
             }
         }
         public override void CanvasInvlidateArea(Rectangle r)
-        { 
+        {
         }
-        public void NotifyWindowControlBinding()
+        internal void NotifyWindowControlBinding()
         {
             this.canvas = PixelFarm.Drawing.DrawingGL.CanvasGLPortal.P.CreateCanvas(0, 0, 800, 600);
 

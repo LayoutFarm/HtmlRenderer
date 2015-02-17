@@ -72,6 +72,10 @@ namespace LayoutFarm.Dev
                 ShowFormLayoutInspector(viewport);
             }
 
+            if (this.chkShowFormPrint.Checked)
+            {
+                ShowFormPrint(viewport);
+            }
 
         }
         static void ShowFormLayoutInspector(LayoutFarm.UI.UISurfaceViewportControl viewport)
@@ -88,7 +92,19 @@ namespace LayoutFarm.Dev
             formLayoutInspector.Show();
 
         }
+        static void ShowFormPrint(LayoutFarm.UI.UISurfaceViewportControl viewport)
+        {
 
+            var formPrint = new LayoutFarm.Dev.FormPrint();
+            formPrint.Show();
+
+            formPrint.FormClosed += (s, e2) =>
+            {
+                formPrint = null;
+            };
+            formPrint.Connect(viewport);
+
+        }
         void CreateReadyForm(
             out LayoutFarm.UI.UISurfaceViewportControl viewport,
             out Form formCanvas)
@@ -116,13 +132,7 @@ namespace LayoutFarm.Dev
             formCanvas.WindowState = FormWindowState.Maximized;
             formCanvas.Show();
         }
-        void ShowFormlayoutInspectIfNeed(LayoutFarm.UI.UISurfaceViewportControl viewport)
-        {
-            if (this.chkShowLayoutInspector.Checked)
-            {
-                ShowFormLayoutInspector(viewport);
-            }
-        }
+
         public void ClearDemoList()
         {
             this.lstDemoList.Items.Clear();
@@ -173,6 +183,11 @@ namespace LayoutFarm.Dev
         }
 
         private void chkShowLayoutInspector_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void chkShowFormPrint_CheckedChanged(object sender, EventArgs e)
         {
 
         }

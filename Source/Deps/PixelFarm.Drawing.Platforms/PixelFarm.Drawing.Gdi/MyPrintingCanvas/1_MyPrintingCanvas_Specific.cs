@@ -21,7 +21,7 @@ using Win32;
 namespace PixelFarm.Drawing.WinGdi
 {
 
-    partial class MyCanvas : Canvas, IFonts, IDisposable
+    partial class MyPrintingCanvas : Canvas, IFonts, IDisposable
     {
         int pageNumFlags;
         int pageFlags;
@@ -44,9 +44,8 @@ namespace PixelFarm.Drawing.WinGdi
         //-------------------------------
 
         GraphicsPlatform platform;
-        public MyCanvas(GraphicsPlatform platform,
-            int horizontalPageNum,
-            int verticalPageNum,
+        public MyPrintingCanvas(GraphicsPlatform platform,
+            System.Drawing.Graphics targetGfx,
             int left, int top,
             int width,
             int height)
@@ -56,7 +55,7 @@ namespace PixelFarm.Drawing.WinGdi
             //1.
             this.platform = platform;
 
-            this.pageNumFlags = (horizontalPageNum << 8) | verticalPageNum;
+             
             //2. dimension
             this.left = left;
             this.top = top;
@@ -377,7 +376,7 @@ namespace PixelFarm.Drawing.WinGdi
 
         static System.Drawing.Font defaultGdiFont;
 
-        static MyCanvas()
+        static MyPrintingCanvas()
         {
             _stringFormat = new System.Drawing.StringFormat(System.Drawing.StringFormat.GenericDefault);
             _stringFormat.FormatFlags = System.Drawing.StringFormatFlags.NoClip | System.Drawing.StringFormatFlags.MeasureTrailingSpaces;

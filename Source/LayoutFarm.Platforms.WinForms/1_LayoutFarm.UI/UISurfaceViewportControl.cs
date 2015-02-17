@@ -87,6 +87,10 @@ namespace LayoutFarm.UI
         {
             this.winBridge.PaintMe();
         }
+        public void PrintMe()
+        {
+            this.winBridge.PaintMeToPrinter();
+        }
 #if DEBUG
         public IdbugOutputWindow IdebugOutputWin
         {
@@ -103,7 +107,7 @@ namespace LayoutFarm.UI
             if (layer0 != null)
             {
                 layer0.AddChild(vi);
-               
+
             }
         }
 
