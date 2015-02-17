@@ -390,7 +390,7 @@ namespace PixelFarm.Drawing.WinGdi
         {
             int j = points.Length;
             System.Drawing.PointF[] outputPoints = new System.Drawing.PointF[j];
-            for (int i = j - 1; i >= 0; ++i)
+            for (int i = j - 1; i >= 0; --i)
             {
                 outputPoints[i] = points[i].ToPointF();
             }
