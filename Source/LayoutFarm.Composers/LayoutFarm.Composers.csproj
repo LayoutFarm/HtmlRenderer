@@ -65,6 +65,7 @@
     <Compile Include="7_TopWin\MyIntervalTaskEventArgs.cs" />
     <Compile Include="7_TopWin\0_MyRootGraphic.cs" />
     <Compile Include="7_TopWin\GraphicsTimerTasksManager.cs" />
+    <Compile Include="7_TopWin\ToNotifySizeChangedEvent.cs" />
     <Compile Include="7_TopWin\UIHoverMonitor.cs" />
     <Compile Include="7_TopWin\UserInputEventAdapter.cs" />
     <Compile Include="7_TopWin\UserInputEventAdapter_IEventPortal.cs" />
@@ -74,6 +75,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deps\icu.net\icu.net.csproj">
+      <Project>{28A0072F-AE0B-449A-8494-B53F09756273}</Project>
+      <Name>icu.net</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing</Name>

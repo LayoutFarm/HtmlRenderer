@@ -107,20 +107,9 @@ namespace LayoutFarm.UI
             set;
 
         }
-         
 
-        internal Point Location
-        {
-            get
-            {
-                return new Point(x, y);
-            }
-            set
-            {
-                x = value.X;
-                y = value.Y;
-            }
-        }
+
+        
         public void SetLocation(int x, int y)
         {
             this.x = x;
@@ -259,7 +248,8 @@ namespace LayoutFarm.UI
 
         public void SetEventInfo(int x, int y, UIMouseButtons button, int clicks, int delta, bool isDragging)
         {
-            Location = new Point(x, y);
+            
+            this.SetLocation(x, y);
             Button = button;
             Clicks = clicks;
             Delta = delta;
