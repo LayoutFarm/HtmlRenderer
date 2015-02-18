@@ -65,6 +65,7 @@
     <Compile Include="7_TopWin\MyIntervalTaskEventArgs.cs" />
     <Compile Include="7_TopWin\0_MyRootGraphic.cs" />
     <Compile Include="7_TopWin\GraphicsTimerTasksManager.cs" />
+    <Compile Include="7_TopWin\ToNotifySizeChangedEvent.cs" />
     <Compile Include="7_TopWin\UIHoverMonitor.cs" />
     <Compile Include="7_TopWin\UserInputEventAdapter.cs" />
     <Compile Include="7_TopWin\UserInputEventAdapter_IEventPortal.cs" />
