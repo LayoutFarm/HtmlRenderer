@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NET20</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -36,6 +36,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="0_Start\ExtensionAttribute.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\AggBasics.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\AggMath.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\AxisAlignedBoundingBox.cs" />
@@ -52,7 +53,6 @@
     <Compile Include="6_PixelFarm_AggVectorMath\Vector3.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\Vector3Float.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\Vector4.cs" />
-    <Compile Include="0_Start\ExtensionAttribute.cs" />
     <Compile Include="1_Drawing\CanvasPaintToOutputDelegate.cs" />
     <Compile Include="1_Drawing\CombineMode.cs" />
     <Compile Include="1_Drawing\Matrix.cs" />

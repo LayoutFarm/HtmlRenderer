@@ -63,7 +63,9 @@
     <Compile Include="3_WebDom.Parser\TextSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="4_WordSplitters\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
       <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
