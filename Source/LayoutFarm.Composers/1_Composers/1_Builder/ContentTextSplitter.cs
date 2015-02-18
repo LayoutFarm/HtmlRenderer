@@ -61,7 +61,8 @@ namespace LayoutFarm.Composers
                 runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
             }
         }
-        public void ParseWordContent(char[] textBuffer, BoxSpec spec, out List<CssRun> runlistOutput, out bool hasSomeCharacter)
+        public void ParseWordContent(char[] textBuffer, BoxSpec spec,
+            out List<CssRun> runlistOutput, out bool hasSomeCharacter)
         {
 
             bool preserverLine = false;
@@ -152,10 +153,19 @@ namespace LayoutFarm.Composers
                         {
                             if (char.IsWhiteSpace(c0))
                             {
-                                //other whitespace
+
                                 parsingState = WordParsingState.Whitespace;
                                 startIndex = i;
                                 appendLength = 1;//start collect whitespace
+                            }
+                            else if (char.IsPunctuation(c0))
+                            {
+                                parsingState = WordParsingState.Init;
+                                startIndex = i;
+                                appendLength = 1;
+                                //add single token
+                                runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
+                                newRun++;
                             }
                             else
                             {
@@ -170,21 +180,7 @@ namespace LayoutFarm.Composers
                         } break;
                     case WordParsingState.Whitespace:
                         {
-                            if (!char.IsWhiteSpace(c0))
-                            {
-                                //switch to character mode   
-                                if (newRun > 0 || preserveWhiteSpace)
-                                {
-                                    runlist.Add(CssTextRun.CreateWhitespace(preserveWhiteSpace ? appendLength : 1));
-                                    newRun++;
-                                }
-                                if (c0 > '~') { needICUSplitter = true; }
-
-                                parsingState = WordParsingState.CharacterCollecting;
-                                startIndex = i;//start collect
-                                appendLength = 1;//start append length 
-                            }
-                            else
+                            if (char.IsWhiteSpace(c0))
                             {
                                 if (appendLength == 0)
                                 {
@@ -192,10 +188,39 @@ namespace LayoutFarm.Composers
                                 }
                                 appendLength++;
                             }
+                            else
+                            {
+
+                                if (newRun > 0 || preserveWhiteSpace)
+                                {
+                                    runlist.Add(CssTextRun.CreateWhitespace(preserveWhiteSpace ? appendLength : 1));
+                                    newRun++;
+                                }
+                                //-----------------------------------------------------
+
+                                if (char.IsPunctuation(c0))
+                                {
+                                    parsingState = WordParsingState.Init;
+                                    startIndex = i;
+                                    appendLength = 1;
+                                    //add single token
+                                    runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
+                                    newRun++;
+                                }
+                                else
+                                {
+                                    if (c0 > '~') { needICUSplitter = true; }
+
+                                    parsingState = WordParsingState.CharacterCollecting;
+                                    startIndex = i;//start collect
+                                    appendLength = 1;//start append length 
+                                }
+                            }
                         } break;
                     case WordParsingState.CharacterCollecting:
                         {
-                            if (char.IsWhiteSpace(c0))
+                            bool isWhiteSpace;
+                            if ((isWhiteSpace = char.IsWhiteSpace(c0)) || char.IsPunctuation(c0))
                             {
                                 //flush collecting token  
                                 if (needICUSplitter)
@@ -209,12 +234,23 @@ namespace LayoutFarm.Composers
 
                                 newRun++;
                                 hasSomeCharacter = true;
-                                parsingState = WordParsingState.Whitespace;
                                 startIndex = i;//start collect
                                 appendLength = 1; //collect whitespace
+
+                                if (isWhiteSpace)
+                                {
+                                    parsingState = WordParsingState.Whitespace;
+                                }
+                                else
+                                {
+                                    parsingState = WordParsingState.Init;
+                                    runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
+                                    newRun++;
+                                }
+                                //---------------------------------------- 
                             }
                             else
-                            {   
+                            {
                                 if (c0 > '~') { needICUSplitter = true; }
 
                                 if (appendLength == 0)
@@ -223,7 +259,9 @@ namespace LayoutFarm.Composers
                                 }
                                 appendLength++;
                             }
+
                         } break;
+
                 }
             }
             //--------------------
