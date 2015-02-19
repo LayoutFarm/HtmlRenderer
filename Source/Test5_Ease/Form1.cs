@@ -19,12 +19,14 @@ namespace Test5_Ease
             //1. create viewport
             easeViewport = EaseHost.CreateViewportControl(this, 800, 600);
             //2. add
-            this.Controls.Add(easeViewport.ViewportControl);
+            this.panel1.Controls.Add(easeViewport.ViewportControl);
+            //this.Controls.Add(easeViewport.ViewportControl);
             this.Load += new EventHandler(Form1_Load);
         }
 
         void Form1_Load(object sender, EventArgs e)
         {
+            //load sample html text
             easeViewport.Ready();
             string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
             //read text file
