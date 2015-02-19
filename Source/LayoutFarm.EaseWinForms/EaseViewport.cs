@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using LayoutFarm.WebDom;
+
 namespace LayoutFarm.Ease
 {
     public class EaseViewport
@@ -27,7 +29,11 @@ namespace LayoutFarm.Ease
         {
             userWorkspace.LoadHtml(originalFileName, htmlText);
         }
+        public WebDocument GetHtmlDom()
+        {
+            return userWorkspace.GetHtmlDom();
 
+        }
     }
 
 }

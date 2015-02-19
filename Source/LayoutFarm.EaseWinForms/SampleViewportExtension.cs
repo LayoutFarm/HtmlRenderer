@@ -7,15 +7,15 @@ using PixelFarm.Drawing;
 
 using LayoutFarm.UI;
 
-namespace LayoutFarm
+namespace LayoutFarm 
 {
 
-    public static class SampleViewportExtension
+    static class SampleViewportExtension
     {
 
         public static void AddContent(this SampleViewport viewport, UIElement ui)
         {
-            viewport.ViewportControl.AddContent(ui.GetPrimaryRenderElement(viewport.ViewportControl.RootGfx));             
+            viewport.ViewportControl.AddContent(ui.GetPrimaryRenderElement(viewport.ViewportControl.RootGfx));
         }
     }
 

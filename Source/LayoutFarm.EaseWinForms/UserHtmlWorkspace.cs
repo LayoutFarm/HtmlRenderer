@@ -26,11 +26,16 @@ namespace LayoutFarm
                 (s, e) => contentMx.AddRequestImage(e.ImageBinder),
                 contentMx_LoadStyleSheet);
 
-            htmlBox = new HtmlBox(host, 800, 600);
+            //1. htmlbox
+            int viewportW = viewport.ViewportControl.Width;
+            int viewportH = viewport.ViewportControl.Height;
+            htmlBox = new HtmlBox(host, viewportW, viewportH);
             viewport.AddContent(htmlBox);
+
+            //2. add scroll bar to viewport
+
             if (htmltext == null)
             {
-
                 htmltext = @"<html><head></head><body>NOT FOUND!</body></html>";
             }
 
@@ -41,6 +46,10 @@ namespace LayoutFarm
             this.documentRootPath = System.IO.Path.GetDirectoryName(documentRootPath);
             this.htmltext = htmltext;
             htmlBox.LoadHtmlString(htmltext);
+        }
+        public WebDom.WebDocument GetHtmlDom()
+        {
+            return htmlBox.HtmlContainer.WebDocument;
         }
         void contentMx_ImageLoadingRequest(object sender, LayoutFarm.ContentManagers.ImageRequestEventArgs e)
         {

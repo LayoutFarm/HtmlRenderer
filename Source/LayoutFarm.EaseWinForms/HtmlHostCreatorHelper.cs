@@ -8,7 +8,7 @@ using LayoutFarm.UI;
 using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm
 {
-    public static class HtmlHostCreatorHelper
+    static class HtmlHostCreatorHelper
     {
         public static HtmlBoxes.HtmlHost CreateHtmlHost(SampleViewport sampleViewport,
             EventHandler<ContentManagers.ImageRequestEventArgs> imageReqHandler,

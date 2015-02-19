@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="EaseViewport.cs" />
     <Compile Include="EaseHost.cs" />
+    <Compile Include="HtmlDomExtension.cs" />
     <Compile Include="UserHtmlWorkspace.cs" />
     <Compile Include="HtmlHostCreatorHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -97,6 +98,9 @@
       <Project>{05C84CAB-2F5D-4D74-9A62-EADDF5B4CC0B}</Project>
       <Name>Test0_PresentationDevHelper_New</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="HtmlDomInterfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
