@@ -18,7 +18,8 @@ namespace LayoutFarm.WebDom
         CssBox principalBox;
         Css.BoxSpec boxSpec;
         CssRuleSet elementRuleSet;
-        public HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
+
+        internal HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
             this.boxSpec = new Css.BoxSpec();
@@ -58,6 +59,20 @@ namespace LayoutFarm.WebDom
 
         }
 
+        public override void SetAttribute(DomAttribute attr)
+        {
+            base.SetAttribute(attr);
+
+            switch ((WellknownName)attr.LocalNameIndex)
+            {
+                case WellknownName.Style:
+                    {
+                        //parse and evaluate style here
+
+
+                    } break;
+            }
+        }
         //------------------------------------
         public CssBox GetPrincipalBox()
         {
@@ -92,7 +107,7 @@ namespace LayoutFarm.WebDom
         {
             base.OnContentUpdate();
             OnChangeInIdleState(ElementChangeKind.ContentUpdate);
-        } 
+        }
         //------------------------------------
         protected override void OnChangeInIdleState(ElementChangeKind changeKind)
         {

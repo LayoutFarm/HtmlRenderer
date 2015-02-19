@@ -46,8 +46,12 @@ namespace LayoutFarm.Composers
             return boxImage;
         }
 
-
-        internal void GenerateChildBoxes(HtmlElement parentElement, bool fullmode)
+        /// <summary>
+        /// update some or generate all cssbox
+        /// </summary>
+        /// <param name="parentElement"></param>
+        /// <param name="fullmode">update all nodes (true) or somenode (false)</param>
+        internal void UpdateChildBoxes(HtmlElement parentElement, bool fullmode)
         {
             //recursive ***  
             //first just generate into primary pricipal box
@@ -93,7 +97,7 @@ namespace LayoutFarm.Composers
                                         childElement.SetPrincipalBox(newbox);
                                         if (!alreadyHandleChildrenNode)
                                         {
-                                            GenerateChildBoxes(childElement, fullmode);
+                                            UpdateChildBoxes(childElement, fullmode);
                                         }
                                     }
                                     else
@@ -106,7 +110,7 @@ namespace LayoutFarm.Composers
                                             childElement.SetPrincipalBox(box);
                                             if (!alreadyHandleChildrenNode)
                                             {
-                                                GenerateChildBoxes(childElement, fullmode);
+                                                UpdateChildBoxes(childElement, fullmode);
                                             }
                                         }
                                         else
@@ -116,7 +120,7 @@ namespace LayoutFarm.Composers
                                             if (!childElement.SkipPrincipalBoxEvalulation)
                                             {
                                                 existing.Clear();
-                                                GenerateChildBoxes(childElement, fullmode);
+                                                UpdateChildBoxes(childElement, fullmode);
                                                 childElement.SkipPrincipalBoxEvalulation = true;
                                             }
                                         }
@@ -192,7 +196,7 @@ namespace LayoutFarm.Composers
                                             childElement.SetPrincipalBox(box);
                                             if (!alreadyHandleChildrenNode)
                                             {
-                                                GenerateChildBoxes(childElement, fullmode);
+                                                UpdateChildBoxes(childElement, fullmode);
                                             }
                                         }
                                         else
@@ -206,7 +210,7 @@ namespace LayoutFarm.Composers
                                                 childElement.SetPrincipalBox(box);
                                                 if (!alreadyHandleChildrenNode)
                                                 {
-                                                    GenerateChildBoxes(childElement, fullmode);
+                                                    UpdateChildBoxes(childElement, fullmode);
                                                 }
                                             }
                                             else
@@ -216,7 +220,7 @@ namespace LayoutFarm.Composers
                                                 if (!childElement.SkipPrincipalBoxEvalulation)
                                                 {
                                                     existingCssBox.Clear();
-                                                    GenerateChildBoxes(childElement, fullmode);
+                                                    UpdateChildBoxes(childElement, fullmode);
                                                     childElement.SkipPrincipalBoxEvalulation = true;
                                                 }
                                             }
@@ -291,7 +295,7 @@ namespace LayoutFarm.Composers
                 //test extension box
                 case WellKnownDomNodeName.X:
                     {
-                        alreadyHandleChildrenNodes = true; 
+                        alreadyHandleChildrenNodes = true;
                         //-----------------------------------------------
                         ExternalHtmlElement externalHtmlElement = childElement as ExternalHtmlElement;
                         if (externalHtmlElement != null)
@@ -381,7 +385,7 @@ namespace LayoutFarm.Composers
         }
         protected override Point GetElementGlobalLocationImpl()
         {
-            return containerElement.GetGlobalLocation();             
+            return containerElement.GetGlobalLocation();
         }
     }
     class CssIsolateBox : CssBox

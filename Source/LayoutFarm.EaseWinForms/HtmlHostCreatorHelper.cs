@@ -19,7 +19,7 @@ namespace LayoutFarm
             htmlhost.RegisterCssBoxGenerator(new LayoutFarm.CustomWidgets.MyCustomCssBoxGenerator());
 
             htmlhost.AttachEssentailHandlers(imageReqHandler, textReq);
-            htmlhost.SetHtmlContainerUpdateHandler((htmlCont) =>
+            htmlhost.SetHtmlContainerUpdateHandler(htmlCont =>
             {
                 sampleViewport.Root.AddToUpdateQueue(htmlCont);
             });

@@ -166,7 +166,7 @@ namespace LayoutFarm.Composers
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
             BoxCreator boxCreator = new BoxCreator((RootGraphic)rootBox.RootGfx, this.htmlHost);
-            boxCreator.GenerateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
+            boxCreator.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
@@ -204,7 +204,7 @@ namespace LayoutFarm.Composers
             ((HtmlElement)domElement).SetPrincipalBox(isolationBox);
             //----------------------------------------------------------------  
 
-            boxCreator.GenerateChildBoxes(startAtHtmlElement, true);
+            boxCreator.UpdateChildBoxes(startAtHtmlElement, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
@@ -233,7 +233,7 @@ namespace LayoutFarm.Composers
             //----------------------------------------------------------------  
 
             BoxCreator boxCreator = new BoxCreator((RootGraphic)existingCssBox.RootGfx, this.htmlHost);
-            boxCreator.GenerateChildBoxes(startAtElement, false);
+            boxCreator.UpdateChildBoxes(startAtElement, false);
             startAtElement.OwnerDocument.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------   
         }

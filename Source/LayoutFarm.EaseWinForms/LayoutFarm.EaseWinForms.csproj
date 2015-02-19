@@ -37,6 +37,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EaseDomElement.cs" />
     <Compile Include="EaseViewport.cs" />
     <Compile Include="EaseHost.cs" />
     <Compile Include="HtmlDomExtension.cs" />

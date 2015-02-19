@@ -68,8 +68,6 @@ namespace Test5_Ease
                     });
                 });
             });
-
-
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -85,12 +83,28 @@ namespace Test5_Ease
             var domNodeA = webdoc.GetElementById("a");
             var domNodeB = webdoc.GetElementById("b");
 
+
+
             domNodeA.AddTextContent("Hello from A");
             domNodeB.AddChild("div", div =>
             {
                 div.SetAttribute("style", "background-color:yellow");
                 div.AddTextContent("Hello from B");
+            });
 
+            domNodeB.AttachMouseDownEvent(ev =>
+            {
+                var domB = new EaseDomElement(domNodeB);
+                domB.SetBackgroundColor(Color.Red);
+                ev.StopPropagation();
+                //domNodeB.SetAttribute("style", "background-color:red");
+            });
+            domNodeB.AttachMouseUpEvent(ev =>
+            {
+                var domB = new EaseDomElement(domNodeB);
+                domB.SetBackgroundColor(Color.Yellow);
+                ev.StopPropagation();
+                //domNodeB.SetAttribute("style", "background-color:red");
             });
         }
 
