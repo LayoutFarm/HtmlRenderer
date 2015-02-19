@@ -87,6 +87,10 @@ namespace LayoutFarm.UI
         {
             this.winBridge.PaintToOutputWindow();
         }
+        public void PaintMeFullMode()
+        {
+            this.winBridge.PaintToOutputWindowFullMode();
+        }
         public void PrintMe(Canvas targetCanvas)
         {
             this.winBridge.PaintToCanvas(targetCanvas);

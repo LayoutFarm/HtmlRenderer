@@ -70,6 +70,13 @@ namespace LayoutFarm.WebDom
             //replace exisitng if exists *** 
             registerElementsById[element.AttrElementId] = element;
         }
+        public DomElement GetElementById(string elementId)
+        {
+            if (registerElementsById == null) return null;
+            DomElement found;
+            registerElementsById.TryGetValue(elementId, out found);
+            return found;
+        }
         //-------------------------------------------------------
         public DocumentState DocumentState
         {

@@ -28,6 +28,7 @@ namespace LayoutFarm.Ease
         public void LoadHtml(string originalFileName, string htmlText)
         {
             userWorkspace.LoadHtml(originalFileName, htmlText);
+            viewportControl.PaintMeFullMode();
         }
         public WebDocument GetHtmlDom()
         {

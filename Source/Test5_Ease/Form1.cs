@@ -72,5 +72,27 @@ namespace Test5_Ease
 
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
+
+            //1. blank html
+            var fileContent = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div><body><html>";
+            easeViewport.LoadHtml(filename, fileContent);
+            //2. access dom  
+            WebDocument webdoc = easeViewport.GetHtmlDom();
+            //3. get element by id 
+            var domNodeA = webdoc.GetElementById("a");
+            var domNodeB = webdoc.GetElementById("b");
+
+            domNodeA.AddTextContent("Hello from A");
+            domNodeB.AddChild("div", div =>
+            {
+                div.SetAttribute("style", "background-color:yellow");
+                div.AddTextContent("Hello from B");
+
+            });
+        }
+
     }
 }
