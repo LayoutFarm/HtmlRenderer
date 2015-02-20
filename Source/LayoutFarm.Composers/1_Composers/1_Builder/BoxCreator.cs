@@ -542,7 +542,7 @@ namespace LayoutFarm.Composers
 
                 List<CssRun> runlist;
                 bool hasSomeCharacter;
-                splitter.ParseWordContent(text_content, spec, out runlist, out  hasSomeCharacter);
+                splitter.ParseWordContent(text_content, spec, itemBulletBox.IsBlock, out runlist, out  hasSomeCharacter);
 
                 RunListHelper.AddRunList(itemBulletBox, spec, runlist, text_content, false);
 
