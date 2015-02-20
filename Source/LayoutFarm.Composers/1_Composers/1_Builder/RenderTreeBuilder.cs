@@ -58,6 +58,13 @@ namespace LayoutFarm.Composers
         {
 
             //recursive 
+            var principalCssBox = parentElement.GetPrincipalBox();
+            bool isblockContext = true;//default
+            if (principalCssBox != null)
+            {
+                isblockContext = principalCssBox.IsBlock;
+            }
+
             foreach (WebDom.DomNode node in parentElement.GetChildNodeIterForward())
             {
                 activeCssTemplate.EnterLevel();
@@ -135,7 +142,7 @@ namespace LayoutFarm.Composers
 
                             List<CssRun> runlist;
                             bool hasSomeCharacter;
-                            contentTextSplitter.ParseWordContent(originalBuffer, parentSpec, out runlist, out hasSomeCharacter);
+                            contentTextSplitter.ParseWordContent(originalBuffer, parentSpec, isblockContext, out runlist, out hasSomeCharacter);
                             textnode.SetSplitParts(runlist, hasSomeCharacter);
 
                         } break;
