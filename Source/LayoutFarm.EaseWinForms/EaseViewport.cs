@@ -33,7 +33,10 @@ namespace LayoutFarm.Ease
         public WebDocument GetHtmlDom()
         {
             return userWorkspace.GetHtmlDom();
-
+        }
+        public void Print(EaseCanvas easeCanvas)
+        {
+            viewportControl.PrintMe(easeCanvas.Canvas);
         }
     }
 

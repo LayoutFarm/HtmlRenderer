@@ -23,4 +23,16 @@ namespace LayoutFarm.Ease
             this.easeScriptElement.ChangeBackgroundColor(new Color(c.A, c.R, c.G, c.B));
         }
     }
+    public struct EaseCanvas
+    {
+        Canvas canvas;
+        internal EaseCanvas(Canvas canvas)
+        {
+            this.canvas = canvas;
+        }
+        internal Canvas Canvas
+        {
+            get { return this.canvas; }
+        }
+    }
 }

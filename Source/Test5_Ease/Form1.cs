@@ -22,6 +22,8 @@ namespace Test5_Ease
             easeViewport = EaseHost.CreateViewportControl(this, 800, 600);
             //2. add
             this.panel1.Controls.Add(easeViewport.ViewportControl);
+
+
             //this.Controls.Add(easeViewport.ViewportControl);
             this.Load += new EventHandler(Form1_Load);
         }
@@ -81,8 +83,7 @@ namespace Test5_Ease
             WebDocument webdoc = easeViewport.GetHtmlDom();
             //3. get element by id 
             var domNodeA = webdoc.GetElementById("a");
-            var domNodeB = webdoc.GetElementById("b");
-
+            var domNodeB = webdoc.GetElementById("b"); 
 
 
             domNodeA.AddTextContent("Hello from A");
@@ -106,6 +107,19 @@ namespace Test5_Ease
                 ev.StopPropagation();
                 //domNodeB.SetAttribute("style", "background-color:red");
             });
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            System.Drawing.Printing.PrintDocument printdoc = new System.Drawing.Printing.PrintDocument();
+
+            printdoc.PrintPage += (e2, s2) =>
+            {
+                var g = s2.Graphics;
+                var easeCanvas = EaseHost.CreatePrintCanvas(g, 800, 600);
+                this.easeViewport.Print(easeCanvas);
+            };
+            printdoc.Print();
         }
 
     }

@@ -132,5 +132,10 @@ namespace LayoutFarm.Ease
             }
             return Screen.PrimaryScreen;
         }
+
+        public static EaseCanvas CreatePrintCanvas(System.Drawing.Graphics g, int w, int h)
+        {
+            return new EaseCanvas(gdiPlatform.CreateCanvas(g, 0, 0, w, h));
+        }
     }
 }
