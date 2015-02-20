@@ -23,6 +23,7 @@ namespace TestGraphicPackage2
 
             formDemoList = new LayoutFarm.Dev.FormDemoList();
             formDemoList.LoadDemoList(typeof(Program));
+
             LoadHtmlSamples(formDemoList.SamplesTreeView);
 
             Application.Run(formDemoList);

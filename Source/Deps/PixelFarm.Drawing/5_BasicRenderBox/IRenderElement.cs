@@ -1,9 +1,9 @@
 ﻿// 2015,2014 ,MIT, WinterDev
-using System; 
+using System;
 
 namespace PixelFarm.Drawing
 {
-    
+
     public interface IRenderElement
     {
         void DrawToThisCanvas(Canvas canvas, Rectangle updateArea);
@@ -14,7 +14,7 @@ namespace PixelFarm.Drawing
 
     public interface IRootGraphics
     {
-
+         
     }
-    
+
 }

@@ -13,8 +13,8 @@ namespace LayoutFarm.HtmlBoxes
 
         public void Paint(PaintVisitor p)
         {
-            
-           
+
+
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
 #endif
@@ -390,7 +390,6 @@ namespace LayoutFarm.HtmlBoxes
             g.StrokeColor = prevColor;
         }
 
-
-
+         
     }
 }

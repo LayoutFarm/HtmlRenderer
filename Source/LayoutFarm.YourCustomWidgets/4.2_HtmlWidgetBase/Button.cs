@@ -54,10 +54,8 @@ namespace LayoutFarm.HtmlWidgets
                     // div2.SetAttribute("style", "padding:5px;background-color:#aaaaaa;");
                     EaseScriptElement ee = new EaseScriptElement(div2);
                     ee.ChangeBackgroundColor(Color.FromArgb(0xaa, 0xaa, 0xaa));
-
+                    //div2.SetAttribute("style", "padding:5px;background-color:#aaaaaa;");
                     e.StopPropagation();
-
-                    this.InvalidateGraphics();
 
                 });
                 div2.AttachMouseUpEvent(e =>
@@ -66,12 +64,10 @@ namespace LayoutFarm.HtmlWidgets
                     div2.dbugMark = 2;
 #endif
                     //div2.SetAttribute("style", "padding:5px;background-color:#dddddd;");
-                    //this.InvalidateGraphics();
+
                     EaseScriptElement ee = new EaseScriptElement(div2);
                     ee.ChangeBackgroundColor(Color.FromArgb(0xdd, 0xdd, 0xdd));
                     e.StopPropagation();
-
-                    this.InvalidateGraphics();
                 });
 
             });

@@ -61,12 +61,19 @@ namespace LayoutFarm.Composers
                 runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
             }
         }
-        public void ParseWordContent(char[] textBuffer, BoxSpec spec,
-            out List<CssRun> runlistOutput, out bool hasSomeCharacter)
+
+        public void ParseWordContent(
+            char[] textBuffer,
+            BoxSpec spec,
+            bool isBlock,
+            out List<CssRun> runlistOutput,
+            out bool hasSomeCharacter)
         {
 
             bool preserverLine = false;
             bool preserveWhiteSpace = false;
+            var isblock = spec.CssDisplay == CssDisplay.Block;
+
             switch (spec.WhiteSpace)
             {
                 case CssWhiteSpace.Pre:
@@ -94,55 +101,14 @@ namespace LayoutFarm.Composers
             WordParsingState parsingState = WordParsingState.Init;
             int appendLength = 0;
             //--------------------------------------  
-            int newRun = 0;
+
             bool needICUSplitter = false;
 
             for (int i = 0; i < buffLength; ++i)
             {
                 char c0 = textBuffer[i];
-                if (c0 == '\n')
+                if (c0 == '\r')
                 {
-                    //flush exising 
-                    if (appendLength > 0)
-                    {
-                        if (parsingState == WordParsingState.CharacterCollecting)
-                        {
-                            if (needICUSplitter)
-                            {
-                                AddToRunList(textBuffer, runlist, startIndex, appendLength, ref needICUSplitter);
-                            }
-                            else
-                            {
-                                runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
-                            }
-
-                            newRun++;
-                            hasSomeCharacter = true;
-                        }
-                        else
-                        {
-                            if (newRun > 0 || preserveWhiteSpace)
-                            {
-                                runlist.Add(CssTextRun.CreateWhitespace(preserveWhiteSpace ? appendLength : 1));
-                                newRun++;
-                            }
-                        }
-                        appendLength = 0; //clear append length 
-                    }
-                    //append with new line                    
-                    if (preserverLine)
-                    {
-                        runlist.Add(CssTextRun.CreateLineBreak());
-                        newRun++;
-                    }
-
-                    startIndex = i;
-                    parsingState = WordParsingState.Init;
-                    continue;
-                }
-                else if (c0 == '\r')
-                {
-                    //skip 
                     continue;
                 }
                 //----------------------------------------
@@ -153,8 +119,17 @@ namespace LayoutFarm.Composers
                         {
                             if (char.IsWhiteSpace(c0))
                             {
-
+                                if (c0 == '\n')
+                                {
+                                    if (preserverLine)
+                                    {
+                                        runlist.Add(CssTextRun.CreateLineBreak());
+                                        appendLength = 0; //clear append length 
+                                        continue;
+                                    }
+                                }
                                 parsingState = WordParsingState.Whitespace;
+                                //start collect whitespace
                                 startIndex = i;
                                 appendLength = 1;//start collect whitespace
                             }
@@ -165,7 +140,6 @@ namespace LayoutFarm.Composers
                                 appendLength = 1;
                                 //add single token
                                 runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
-                                newRun++;
                             }
                             else
                             {
@@ -182,21 +156,26 @@ namespace LayoutFarm.Composers
                         {
                             if (char.IsWhiteSpace(c0))
                             {
+                                if (c0 == '\n')
+                                {
+                                    if (preserverLine)
+                                    {
+                                        runlist.Add(CssTextRun.CreateLineBreak());
+                                        appendLength = 0; //clear append length 
+                                        continue;
+                                    }
+                                }
                                 if (appendLength == 0)
                                 {
                                     startIndex = i;
                                 }
+
                                 appendLength++;
                             }
                             else
                             {
 
-                                if (newRun > 0 || preserveWhiteSpace)
-                                {
-                                    runlist.Add(CssTextRun.CreateWhitespace(preserveWhiteSpace ? appendLength : 1));
-                                    newRun++;
-                                }
-                                //-----------------------------------------------------
+                                runlist.Add(CssTextRun.CreateWhitespace(preserveWhiteSpace ? appendLength : 1));
 
                                 if (char.IsPunctuation(c0))
                                 {
@@ -205,7 +184,6 @@ namespace LayoutFarm.Composers
                                     appendLength = 1;
                                     //add single token
                                     runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
-                                    newRun++;
                                 }
                                 else
                                 {
@@ -232,20 +210,27 @@ namespace LayoutFarm.Composers
                                     runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
                                 }
 
-                                newRun++;
                                 hasSomeCharacter = true;
                                 startIndex = i;//start collect
                                 appendLength = 1; //collect whitespace
 
                                 if (isWhiteSpace)
                                 {
+                                    if (c0 == '\n')
+                                    {
+                                        if (preserverLine)
+                                        {
+                                            runlist.Add(CssTextRun.CreateLineBreak());
+                                            appendLength = 0; //clear append length 
+                                            continue;
+                                        }
+                                    }
                                     parsingState = WordParsingState.Whitespace;
                                 }
                                 else
                                 {
                                     parsingState = WordParsingState.Init;
                                     runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
-                                    newRun++;
                                 }
                                 //---------------------------------------- 
                             }
@@ -265,18 +250,26 @@ namespace LayoutFarm.Composers
                 }
             }
             //--------------------
+            int runcount = runlist.Count;
             if (appendLength > 0)
             {
                 switch (parsingState)
                 {
                     case WordParsingState.Whitespace:
                         {
-                            if (newRun > 0 || preserveWhiteSpace)
+                            //last with whitespace
+                            if (preserveWhiteSpace)
                             {
-                                runlist.Add(CssTextRun.CreateWhitespace(preserveWhiteSpace ? appendLength : 1));
-                                newRun++;
+                                runlist.Add(CssTextRun.CreateWhitespace(appendLength));
                             }
-
+                            else
+                            {
+                                if (!isblock || (runcount > 0))
+                                {
+                                    runlist.Add(CssTextRun.CreateWhitespace(1));
+                                    runcount++;
+                                }
+                            }
                         } break;
                     case WordParsingState.CharacterCollecting:
                         {
@@ -290,16 +283,13 @@ namespace LayoutFarm.Composers
                             }
 
                             hasSomeCharacter = true;
-                            newRun++;
                         } break;
                 }
             }
 
-            if (newRun > 0)
+            if (runcount > 0)
             {
                 runlistOutput = runlist;
-                //send runlist 
-                //not store to pool
             }
             else
             {

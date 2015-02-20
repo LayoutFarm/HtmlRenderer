@@ -24,9 +24,7 @@ namespace LayoutFarm.WebDom
 
         public DomElement(WebDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
-        {
-
-
+        {   
             this.nodePrefixNameIndex = nodePrefixNameIndex;
             this.nodeLocalNameIndex = nodeLocalNameIndex;
             SetNodeType(HtmlNodeType.OpenElement);
@@ -84,7 +82,7 @@ namespace LayoutFarm.WebDom
         {
             return this.myChildrenNodes[index];
         }
-        public void SetAttribute(DomAttribute attr)
+        public virtual void SetAttribute(DomAttribute attr)
         {
             if (myAttributes == null)
             {
@@ -92,14 +90,14 @@ namespace LayoutFarm.WebDom
             }
             //-----------
             //some wellknownattr 
-            switch (attr.LocalNameIndex)
+            switch ((WellknownName)attr.LocalNameIndex)
             {
-                case (int)WellknownName.Id:
+                case WellknownName.Id:
                     {
                         this.attrElemId = attr;
                         this.OwnerDocument.RegisterElementById(this);
                     } break;
-                case (int)WellknownName.Class:
+                case WellknownName.Class:
                     {
                         this.attrClass = attr;
                     } break;
@@ -109,13 +107,15 @@ namespace LayoutFarm.WebDom
             myAttributes[attrNameIndex] = attr;//update or replace 
             attr.SetParent(this);
             NotifyChange(ElementChangeKind.AddAttribute);
+            //---------------------
+
+
         }
         public void SetAttribute(string attrName, string value)
         {
             DomAttribute domAttr = this.OwnerDocument.CreateAttribute(null, attrName);
             domAttr.Value = value;
             SetAttribute(domAttr);
-
         }
 
         public void AddAttribute(DomAttribute attr)
@@ -317,7 +317,6 @@ namespace LayoutFarm.WebDom
         {
             get { return this.LocalName; }
         }
-
 
     }
 

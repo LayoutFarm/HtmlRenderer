@@ -37,8 +37,8 @@ namespace LayoutFarm.UI
             this.topWindowBox = rootgfx.TopWindowRenderBox;
 
             this.viewportWidth = viewportSize.Width;
-            this.viewportHeight = viewportSize.Height; 
-           
+            this.viewportHeight = viewportSize.Height;
+
             canvasSizeChangedHandler = Canvas_SizeChanged;
 
             viewportX = 0;

@@ -67,9 +67,6 @@ namespace LayoutFarm.Composers
                 return;
             }
 
-            //HtmlElement.InvokeNotifyChangeOnIdleState(
-            //    elem,
-            //    ElementChangeKind.Spec);
 
             var existingRuleSet = elem.ElementRuleSet;
             if (existingRuleSet == null)
@@ -85,7 +82,6 @@ namespace LayoutFarm.Composers
                new CssPropertyDeclaration(
                    WellknownCssPropertyName.BackgroundColor,
                    new CssCodeColor(CssColorConv.ConvertToCssColor(backgroundColor))));
-            // HtmlElement.InvokeNotifyChangeOnIdleState(elem, ElementChangeKind.Spec);
 
             elem.SkipPrincipalBoxEvalulation = false;
 
@@ -100,13 +96,28 @@ namespace LayoutFarm.Composers
 
                 CssBox.InvalidateComputeValue(cssbox);
             }
-            //elem.OwnerDocument.DomUpdateVersion++;
+
             HtmlElement.InvokeNotifyChangeOnIdleState(
                elem,
                ElementChangeKind.Spec);
 
-        }
+            InvalidateCssBox(cssbox);
 
+        }
+        static void InvalidateCssBox(CssBox cssbox)
+        {
+            var rootGfx = (RootGraphic)cssbox.RootGfx;
+            var rootCssBox = cssbox.GetTopRootCssBox() as CssRenderRoot;
+            if (rootCssBox != null)
+            {
+                //----------------------------------------
+                //TODO: fix here
+                //we not need to update entire HtmlBox
+                //we should update only invalidate area
+                //----------------------------------------
+                rootCssBox.ContainerElement.InvalidateGraphics();
+            }
+        }
 
     }
 }
