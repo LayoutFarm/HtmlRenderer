@@ -18,14 +18,24 @@ namespace LayoutFarm.Ease
         static UIPlatform uiPlatformWinForm;
 
         static bool useOpenGL = false;
-        public static void StartHost()
+        static bool isStarted = false;
+        static object startLock = new object();
+        public static void StartGraphicsHost()
         {
-            var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
-            LayoutFarm.Text.TextEditRenderBox.DefaultFontInfo = platform.GetFont("tahoma", 10, PixelFarm.Drawing.FontStyle.Regular);
+            lock (startLock)
+            {
+                if (isStarted) return;
+
+                var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
+                LayoutFarm.Text.TextEditRenderBox.DefaultFontInfo = platform.GetFont("tahoma", 10, PixelFarm.Drawing.FontStyle.Regular);
+                uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
+                //--------------------
 
 
-            uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
-
+                //--------------------
+                isStarted = true;
+                //--------------------
+            }
         }
 
         public static EaseViewport CreateViewportControl(Form hostForm, int w, int h)
@@ -133,9 +143,9 @@ namespace LayoutFarm.Ease
             return Screen.PrimaryScreen;
         }
 
-        public static EaseCanvas CreatePrintCanvas(System.Drawing.Graphics g, int w, int h)
+        public static Canvas CreatePrintCanvas(System.Drawing.Graphics g, int w, int h)
         {
-            return new EaseCanvas(gdiPlatform.CreateCanvas(g, 0, 0, w, h));
+            return gdiPlatform.CreateCanvas(g, 0, 0, w, h);
         }
     }
 }

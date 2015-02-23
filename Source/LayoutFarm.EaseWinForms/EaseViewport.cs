@@ -34,9 +34,9 @@ namespace LayoutFarm.Ease
         {
             return userWorkspace.GetHtmlDom();
         }
-        public void Print(EaseCanvas easeCanvas)
+        public void Print(PixelFarm.Drawing.Canvas canvas)
         {
-            viewportControl.PrintMe(easeCanvas.Canvas);
+            viewportControl.PrintMe(canvas);
         }
     }
 

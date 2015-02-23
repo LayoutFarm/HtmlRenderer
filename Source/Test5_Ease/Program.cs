@@ -15,7 +15,7 @@ namespace Test5_Ease
         {
 
 
-            EaseHost.StartHost();
+            EaseHost.StartGraphicsHost();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
