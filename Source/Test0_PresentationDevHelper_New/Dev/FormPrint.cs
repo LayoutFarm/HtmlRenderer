@@ -41,10 +41,8 @@ namespace LayoutFarm.Dev
             {
                 var g = s2.Graphics;
                 var canvas = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.P.CreateCanvas(g, 0, 0, 800, 600);
-                vwport.PrintMe(canvas);
-
-            };
-
+                vwport.PrintMe(canvas); 
+            }; 
             printdoc.Print();
         }
     }

@@ -121,9 +121,7 @@ namespace LayoutFarm.Dev
 
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
                 this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
-                out viewport);
-
-
+                out viewport); 
 
             formCanvas.Text = "FormCanvas 1";
 

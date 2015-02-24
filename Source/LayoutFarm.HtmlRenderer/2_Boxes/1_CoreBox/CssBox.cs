@@ -52,10 +52,8 @@ namespace LayoutFarm.HtmlBoxes
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
             this._controller = controller;
-
-
 #if DEBUG
-            
+
             if (!spec.IsFreezed)
             {
                 //must be freezed
@@ -75,8 +73,8 @@ namespace LayoutFarm.HtmlBoxes
             this._aa_boxes = new CssBoxCollection();
             this._controller = controller;
 
-#if DEBUG 
-            
+#if DEBUG
+
             if (!spec.IsFreezed)
             {
                 //must be freezed 
@@ -110,12 +108,19 @@ namespace LayoutFarm.HtmlBoxes
 
         public CssBox GetTopRootCssBox()
         {
-            //recursive
-            if (this._parentBox != null)
+            var topmost = this;
+            var cur_box = this;
+            while (cur_box._parentBox != null)
             {
-                return this._parentBox.GetTopRootCssBox();
+                topmost = cur_box._parentBox;
+                cur_box = topmost;
             }
-            return this;
+            return topmost;
+            //if (this._parentBox != null)
+            //{
+            //    return this._parentBox.GetTopRootCssBox();
+            //}
+            //return this;
         }
         ///// <summary>
         ///// 1. remove this box from its parent and 2. add to new parent box

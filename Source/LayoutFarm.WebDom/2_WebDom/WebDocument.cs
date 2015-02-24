@@ -1,5 +1,5 @@
 ﻿//BSD  2014 ,WinterDev  
-using LayoutFarm.HtmlBoxes;
+//using LayoutFarm.HtmlBoxes;
 using System.Collections.Generic;
 
 namespace LayoutFarm.WebDom
@@ -69,6 +69,13 @@ namespace LayoutFarm.WebDom
 
             //replace exisitng if exists *** 
             registerElementsById[element.AttrElementId] = element;
+        }
+        public DomElement GetElementById(string elementId)
+        {
+            if (registerElementsById == null) return null;
+            DomElement found;
+            registerElementsById.TryGetValue(elementId, out found);
+            return found;
         }
         //-------------------------------------------------------
         public DocumentState DocumentState

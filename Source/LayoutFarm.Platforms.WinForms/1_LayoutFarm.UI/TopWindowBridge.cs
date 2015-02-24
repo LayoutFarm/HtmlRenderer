@@ -16,8 +16,7 @@ namespace LayoutFarm.UI
         IUserEventPortal userEventPortal;
         protected TopWindowRenderBox topwin;
         CanvasViewport canvasViewport;
-
-
+         
 
         bool isMouseDown;
         bool isDragging;
@@ -55,7 +54,15 @@ namespace LayoutFarm.UI
         internal virtual void OnHostControlLoaded()
         {
         }
-
+        public void PaintToOutputWindowFullMode()
+        {
+            
+            Rectangle rect = new Rectangle(0, 0, rootGraphic.RootWidth, rootGraphic.RootHeight);
+            rootGraphic.InvalidateGraphicArea(
+                rootGraphic.TopWindowRenderBox,
+                ref rect); 
+            this.PaintToOutputWindow(); 
+        }
         public abstract void PaintToOutputWindow();
         public abstract void PaintToCanvas(Canvas canvas);
 
@@ -316,7 +323,7 @@ namespace LayoutFarm.UI
 
         }
         protected abstract void ChangeCursorStyle(UIMouseEventArgs mouseEventArg);
-        
+
         public void HandleKeyDown(KeyEventArgs e)
         {
 

@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DD227C1C-04B9-487C-8762-DA69168D1C89}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LayoutFarm.Ease</RootNamespace>
+    <AssemblyName>LayoutFarm.Ease</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EaseDomElement.cs" />
+    <Compile Include="EaseViewport.cs" />
+    <Compile Include="EaseHost.cs" />
+    <Compile Include="HtmlDomExtension.cs" />
+    <Compile Include="UserHtmlWorkspace.cs" />
+    <Compile Include="HtmlHostCreatorHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SampleViewportExtension.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Deps\MiniAgg.Complements\MiniAgg.Complements.csproj">
+      <Project>{AE0DF71E-9B14-4197-B55A-E1E0CE0683C7}</Project>
+      <Name>MiniAgg.Complements</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\MiniAgg\MiniAgg.csproj">
+      <Project>{4D5CE655-58FA-4523-8E46-738B941E9E47}</Project>
+      <Name>MiniAgg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.Drawing.Platforms\PixelFarm.Drawing.Platforms.csproj">
+      <Project>{1AA171E3-523C-4DD5-A169-DE6322991FF5}</Project>
+      <Name>PixelFarm.Drawing.Platforms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
+      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
+      <Name>PixelFarm.Drawing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
+      <Project>{20048075-A2F3-4B97-B3C6-BEA794429741}</Project>
+      <Name>LayoutFarm.BaseRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
+      <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
+      <Name>LayoutFarm.ClientPlatforms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
+      <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
+      <Name>LayoutFarm.Composers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
+      <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
+      <Name>LayoutFarm.HtmlRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.Platforms.WinForms\LayoutFarm.Platforms.WinForms.csproj">
+      <Project>{4602B28B-EEEC-4A69-854C-B00B8B616837}</Project>
+      <Name>LayoutFarm.Platforms.WinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj">
+      <Project>{CFB41C52-614E-476C-8BBE-D07C26FB582D}</Project>
+      <Name>LayoutFarm.TextEdit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj">
+      <Project>{A7E65FD9-329D-4902-BCDA-51EE4F992FD5}</Project>
+      <Name>LayoutFarm.WebDom</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.YourCustomWidgets\LayoutFarm.YourCustomWidgets.csproj">
+      <Project>{1D8E9129-B883-4AEE-93A3-8056469F5E6E}</Project>
+      <Name>LayoutFarm.YourCustomWidgets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Test0_PresentationDevHelper_New\Test0_PresentationDevHelper_New.csproj">
+      <Project>{05C84CAB-2F5D-4D74-9A62-EADDF5B4CC0B}</Project>
+      <Name>Test0_PresentationDevHelper_New</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="HtmlDomInterfaces\" />
+    <Folder Include="icu\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

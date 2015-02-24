@@ -34,6 +34,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ExtensionAttribute.cs" />
     <Compile Include="Common\UIPlatform.cs" />
     <Compile Include="Common\UITimer.cs" />
     <Compile Include="Common\UITimerTask.cs" />
@@ -46,6 +47,12 @@
     <Compile Include="Events\UIEventNames.cs" />
     <Compile Include="Common\Keys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
+      <Project>{5164EC24-95C4-4333-BD4E-70EE625CCEB4}</Project>
+      <Name>LayoutFarm.CssBase</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

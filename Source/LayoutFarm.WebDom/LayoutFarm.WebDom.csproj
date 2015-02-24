@@ -36,17 +36,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="0_Start\ExtensionAttribute.cs" />
     <Compile Include="1_Css\UserMapUtil.cs" />
     <Compile Include="1_Css\ValueMaps.cs" />
-    <Compile Include="2_WebDom\DomElement.cs" />
-    <Compile Include="2_WebDom\DomElement_EventListener.cs" />
-    <Compile Include="2_WebDom\DomElement_OnEvents.cs" />
-    <Compile Include="2_WebDom\DomNodes.cs" />
-    <Compile Include="2_WebDom\ElementChangeKind.cs" />
-    <Compile Include="2_WebDom\StringTable.cs" />
-    <Compile Include="2_WebDom\WebDocument.cs" />
-    <Compile Include="2_WebDom\WellknownElementName.cs" />
     <Compile Include="1_Css\CssActiveSheet.cs" />
     <Compile Include="1_Css\CssAttributeSelector.cs" />
     <Compile Include="1_Css\CssDocMembers.cs" />
@@ -56,15 +47,24 @@
     <Compile Include="1_Css\WellknownCssPropertyName.cs" />
     <Compile Include="3_WebDom.Parser\CssParser.cs" />
     <Compile Include="3_WebDom.Parser\CssParserHelper.cs" />
+    <Compile Include="3_WebDom.Parser\CssValueParser.cs" />
     <Compile Include="3_WebDom.Parser\dbugLexerReport.cs" />
     <Compile Include="3_WebDom.Parser\HtmlLexer.cs" />
     <Compile Include="3_WebDom.Parser\HtmlParser.cs" />
     <Compile Include="3_WebDom.Parser\HtmlUtils.cs" />
     <Compile Include="3_WebDom.Parser\TextSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="2_WebDom\DomElement.cs" />
+    <Compile Include="2_WebDom\DomElement_EventListener.cs" />
+    <Compile Include="2_WebDom\DomElement_OnEvents.cs" />
+    <Compile Include="2_WebDom\DomNodes.cs" />
+    <Compile Include="2_WebDom\ElementChangeKind.cs" />
+    <Compile Include="2_WebDom\StringTable.cs" />
+    <Compile Include="2_WebDom\WebDocument.cs" />
+    <Compile Include="2_WebDom\WellknownElementName.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="4_WordSplitters\" />
+    <Folder Include="0_Start\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
