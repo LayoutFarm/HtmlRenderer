@@ -1,4 +1,5 @@
-﻿namespace AngleSharp.Attributes
+﻿//BSD, 2013-2015, Florian Rappl and collab
+namespace AngleSharp.Attributes
 {
     using System;
 

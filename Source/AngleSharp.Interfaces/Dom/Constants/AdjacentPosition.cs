@@ -1,4 +1,5 @@
-﻿namespace AngleSharp.Dom
+﻿//BSD, 2013-2015, Florian Rappl and collab
+namespace AngleSharp.Dom
 {
     /// <summary>
     /// Enumeration with possible values for the adjacent position insertation.

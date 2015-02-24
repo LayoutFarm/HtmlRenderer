@@ -1,4 +1,5 @@
-﻿namespace AngleSharp.Dom.Xml
+﻿//BSD, 2013-2015, Florian Rappl and collab
+namespace AngleSharp.Dom.Xml
 {
     using AngleSharp.Attributes;
     using System;

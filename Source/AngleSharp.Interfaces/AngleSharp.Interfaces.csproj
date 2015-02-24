@@ -32,8 +32,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="0_General\ErrorCode.cs" />
@@ -102,15 +100,7 @@
     <Compile Include="Dom\NodeFilter.cs" />
     <Compile Include="Dom\ScriptOptions.cs" />
     <Compile Include="Dom\StyleOptions.cs" />
-    <Compile Include="Html\AttributeNames.cs" />
-    <Compile Include="Html\Entities.cs" />
     <Compile Include="Html\EventFlags.cs" />
-    <Compile Include="Html\EventNames.cs" />
-    <Compile Include="Html\FormControlState.cs" />
-    <Compile Include="Html\InputTypeNames.cs" />
-    <Compile Include="Html\Namespaces.cs" />
-    <Compile Include="Html\NodeFlags.cs" />
-    <Compile Include="Html\Tags.cs" />
     <Compile Include="Interfaces\Events\IGlobalEventHandlers.cs" />
     <Compile Include="Interfaces\Events\IMessagePort.cs" />
     <Compile Include="Interfaces\Events\ITouchList.cs" />
@@ -219,13 +209,10 @@
     <Compile Include="Interfaces\Io\IFileList.cs" />
     <Compile Include="Interfaces\IParentNode.cs" />
     <Compile Include="Interfaces\IProcessingInstruction.cs" />
-    <Compile Include="Interfaces\IPseudoElement.cs" />
     <Compile Include="Interfaces\IRange.cs" />
-    <Compile Include="Interfaces\IScriptEngine.cs" />
     <Compile Include="Interfaces\ISettableTokenList.cs" />
     <Compile Include="Interfaces\IStringList.cs" />
     <Compile Include="Interfaces\IStringMap.cs" />
-    <Compile Include="Interfaces\IStyleEngine.cs" />
     <Compile Include="Interfaces\IStyleSheet.cs" />
     <Compile Include="Interfaces\IStyleSheetList.cs" />
     <Compile Include="Interfaces\IText.cs" />

@@ -1,6 +1,7 @@
-﻿namespace AngleSharp
+﻿//BSD, 2013-2015, Florian Rappl and collab
+namespace AngleSharp
 {
-    using AngleSharp.Extensions;
+    
     using System;
     using System.Collections.Generic;
     using System.Text;

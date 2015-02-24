@@ -1,4 +1,5 @@
-﻿namespace AngleSharp.Dom
+﻿//BSD, 2013-2015, Florian Rappl and collab
+namespace AngleSharp.Dom
 {
     /// <summary>
     /// An enumeration with the various visibility states.

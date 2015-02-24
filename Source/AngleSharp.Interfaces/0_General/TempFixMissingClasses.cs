@@ -1,4 +1,5 @@
-﻿namespace AngleSharp
+﻿//BSD, 2013-2015, Florian Rappl and collab
+namespace AngleSharp
 {
     public class DomException : System.Exception
     {

@@ -1,4 +1,5 @@
-﻿namespace AngleSharp.Dom.Svg
+﻿//BSD, 2013-2015, Florian Rappl and collab
+namespace AngleSharp.Dom.Svg
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom.Css;

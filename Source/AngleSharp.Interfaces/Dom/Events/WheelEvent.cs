@@ -1,7 +1,7 @@
-﻿namespace AngleSharp.Dom.Events
+﻿//BSD, 2013-2015, Florian Rappl and collab
+namespace AngleSharp.Dom.Events
 {
-    using AngleSharp.Attributes;
-    using AngleSharp.Extensions;
+    using AngleSharp.Attributes; 
     using System;
     using System.Collections.Generic;
 
@@ -144,7 +144,4 @@
     }
 }
 
-namespace AngleSharp.Extensions
-{
-    class dummy { }
-}
+ 

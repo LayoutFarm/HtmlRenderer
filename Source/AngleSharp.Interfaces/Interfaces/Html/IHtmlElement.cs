@@ -1,4 +1,5 @@
-﻿namespace AngleSharp.Dom.Html
+﻿//BSD, 2013-2015, Florian Rappl and collab
+namespace AngleSharp.Dom.Html
 {
     using AngleSharp.Attributes;
     using AngleSharp.Dom.Css;

@@ -1,4 +1,5 @@
-﻿namespace AngleSharp.Html
+﻿//BSD, 2013-2015, Florian Rappl and collab
+namespace AngleSharp.Html
 {
     using System;
 
