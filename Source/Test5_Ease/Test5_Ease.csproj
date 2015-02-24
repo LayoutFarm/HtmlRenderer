@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -45,10 +46,19 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormTestV8.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTestV8.Designer.cs">
+      <DependentUpon>FormTestV8.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTestV8.resx">
+      <DependentUpon>FormTestV8.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -81,6 +91,10 @@
     <ProjectReference Include="..\LayoutFarm.EaseWinForms\LayoutFarm.EaseWinForms.csproj">
       <Project>{DD227C1C-04B9-487C-8762-DA69168D1C89}</Project>
       <Name>LayoutFarm.EaseWinForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.V8Engine\LayoutFarm.V8Engine.csproj">
+      <Project>{D07532CB-04C4-4EBC-8D24-127AA685F145}</Project>
+      <Name>LayoutFarm.V8Engine</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj">
       <Project>{A7E65FD9-329D-4902-BCDA-51EE4F992FD5}</Project>

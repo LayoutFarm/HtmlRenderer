@@ -122,5 +122,12 @@ namespace Test5_Ease
             printdoc.Print();
         }
 
+        private void cmdTestV8Js1_Click(object sender, EventArgs e)
+        {
+            FormTestV8 formTestV8 = new FormTestV8();
+            formTestV8.Show();
+
+        }
+
     }
 }
