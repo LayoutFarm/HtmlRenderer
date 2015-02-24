@@ -769,6 +769,10 @@ namespace LayoutFarm.HtmlWidgets
                 scrollBoxLength = 1;
                 //1. 
                 int contentLength = scrollableSurface.DesiredHeight;
+                if (contentLength == 0)
+                {
+                    contentLength = 1;
+                }
                 scrollBoxLength = (int)((physicalScrollLength * scrollableSurface.ViewportHeight) / contentLength);
                 if (scrollBoxLength < sc.ScrollBoxSizeLimit)
                 {

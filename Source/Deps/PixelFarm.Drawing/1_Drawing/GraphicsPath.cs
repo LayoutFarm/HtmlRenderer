@@ -1,6 +1,4 @@
-﻿
-
-namespace PixelFarm.Drawing
+﻿namespace PixelFarm.Drawing
 {
 
     public abstract class GraphicsPath : System.IDisposable
