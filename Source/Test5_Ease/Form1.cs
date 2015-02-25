@@ -41,7 +41,7 @@ namespace Test5_Ease
             //test load html text 
             string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
             //read html text file
-            var fileContent = "<html><body><div>Hello !</div><body><html>";
+            var fileContent = "<html><body><div>Hello !</div></body></html>";
             easeViewport.LoadHtml(filename, fileContent);
         }
 
@@ -50,26 +50,28 @@ namespace Test5_Ease
             string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
 
             //1. blank html
-            var fileContent = "<html><body><body><html>";
+            var fileContent = "<html><body><div>AAA</div></body></html>";
+            //var fileContent = "<html><body><div>AAA</div></body></html>";
             easeViewport.LoadHtml(filename, fileContent);
             //2. access dom 
 
-            WebDocument webdoc = easeViewport.GetHtmlDom();
-            webdoc.RootNode.AddChild("div", div =>
-            {
-                div.AddChild("div", div_1 =>
-                {
-                    div_1.SetAttribute("style", "font:10pt tahoma");
-                    div_1.AddChild("span", span =>
-                    {
-                        span.AddTextContent("test1");
-                    });
-                    div_1.AddChild("span", span =>
-                    {
-                        span.AddTextContent("test2");
-                    });
-                });
-            });
+            //WebDocument webdoc = easeViewport.GetHtmlDom();
+            //var div_a = webdoc.GetElementById("a");
+            //div_a.AddChild("div", div =>
+            //    {
+            //        div.AddChild("div", div_1 =>
+            //        {
+            //            div_1.SetAttribute("style", "font:10pt tahoma");
+            //            div_1.AddChild("span", span =>
+            //            {
+            //                span.AddTextContent("test1");
+            //            });
+            //            div_1.AddChild("span", span =>
+            //            {
+            //                span.AddTextContent("test2");
+            //            });
+            //        });
+            //    });
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -77,13 +79,15 @@ namespace Test5_Ease
             string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
 
             //1. blank html
-            var fileContent = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div><body><html>";
+            var fileContent = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div></body></html>";
             easeViewport.LoadHtml(filename, fileContent);
+            return;
+
             //2. access dom  
             WebDocument webdoc = easeViewport.GetHtmlDom();
             //3. get element by id 
             var domNodeA = webdoc.GetElementById("a");
-            var domNodeB = webdoc.GetElementById("b"); 
+            var domNodeB = webdoc.GetElementById("b");
 
 
             domNodeA.AddTextContent("Hello from A");
@@ -125,8 +129,11 @@ namespace Test5_Ease
         private void cmdTestV8Js1_Click(object sender, EventArgs e)
         {
             FormTestV8 formTestV8 = new FormTestV8();
-            formTestV8.Show();
-
+            formTestV8.Show(); 
+        } 
+        private void button5_Click(object sender, EventArgs e)
+        {
+             
         }
 
     }

@@ -32,8 +32,7 @@ namespace Test5_Ease
             //===============================================================
 
 
-            JsContext context = NativeV8JsInterOp.CreateNewJsContext();
-
+            JsContext context = NativeV8JsInterOp.CreateNewJsContext(); 
             AboutMe ab = new AboutMe();//pure managed 
             context.EnterContext();
             context.RegisterTypeDefinition(jstypedef);
@@ -111,6 +110,8 @@ namespace Test5_Ease
         {
 
         }
+ 
+         
 
     }
 }
