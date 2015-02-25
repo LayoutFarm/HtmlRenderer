@@ -50,28 +50,27 @@ namespace Test5_Ease
             string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
 
             //1. blank html
-            var fileContent = "<html><body><div>AAA</div></body></html>";
-            //var fileContent = "<html><body><div>AAA</div></body></html>";
+            var fileContent = "<html><body><div id=\"a\">AAA</div></body></html>";
             easeViewport.LoadHtml(filename, fileContent);
             //2. access dom 
 
-            //WebDocument webdoc = easeViewport.GetHtmlDom();
-            //var div_a = webdoc.GetElementById("a");
-            //div_a.AddChild("div", div =>
-            //    {
-            //        div.AddChild("div", div_1 =>
-            //        {
-            //            div_1.SetAttribute("style", "font:10pt tahoma");
-            //            div_1.AddChild("span", span =>
-            //            {
-            //                span.AddTextContent("test1");
-            //            });
-            //            div_1.AddChild("span", span =>
-            //            {
-            //                span.AddTextContent("test2");
-            //            });
-            //        });
-            //    });
+            WebDocument webdoc = easeViewport.GetHtmlDom();
+            var div_a = webdoc.GetElementById("a");
+            div_a.AddChild("div", div =>
+                {
+                    div.AddChild("div", div_1 =>
+                    {
+                        div_1.SetAttribute("style", "font:10pt tahoma");
+                        div_1.AddChild("span", span =>
+                        {
+                            span.AddTextContent("test1");
+                        });
+                        div_1.AddChild("span", span =>
+                        {
+                            span.AddTextContent("test2");
+                        });
+                    });
+                });
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -81,7 +80,7 @@ namespace Test5_Ease
             //1. blank html
             var fileContent = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div></body></html>";
             easeViewport.LoadHtml(filename, fileContent);
-            return;
+            
 
             //2. access dom  
             WebDocument webdoc = easeViewport.GetHtmlDom();
