@@ -64,8 +64,7 @@ namespace NativeV8
 
     //==================================================
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    [return: MarshalAs(UnmanagedType.LPWStr)]
-    public delegate string ArgGetStringDel(IntPtr unmanaedArgPtr, int argIndex);
+    public unsafe delegate int ArgGetStringDel(IntPtr unmanaedArgPtr, int argIndex, int outputLen, char* outputBuffer);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate int ArgGetInt32Del(IntPtr unmanaedArgPtr, int argIndex);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -81,6 +80,8 @@ namespace NativeV8
     public delegate void ArgSetDoubleDel(IntPtr unmageReturnResult, double value);
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void ArgSetFloatDel(IntPtr unmageReturnResult, float value);
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void ArgSetNativeObjectDel(IntPtr unmageReturnResult, int value);
     //==================================================
 
 
@@ -244,7 +245,12 @@ namespace NativeV8
         }
         public string GetArgAsString(int index)
         {
-            return NativeV8JsInterOp.ArgGetString(this.nativeArgPtr, index);
+            unsafe
+            {
+                char* outputbuffer = stackalloc char[255];
+                int actualStrLen = NativeV8JsInterOp.ArgGetString(this.nativeArgPtr, index, 255, outputbuffer);
+                return new string(outputbuffer, 0, actualStrLen);
+            }
         }
         public int GetArgAsInt32(int index)
         {
@@ -270,6 +276,10 @@ namespace NativeV8
         public void SetResult(float value)
         {
             NativeV8JsInterOp.ArgSetFloat(nativeResultPtr, value);
+        }
+        public void SetResultAsNativeObject(NativeJsInstanceProxy instanceProxy)
+        {
+            NativeV8JsInterOp.ArgSetNativeObject(nativeResultPtr, instanceProxy.ManagedIndex);
         }
         //------------------------
     }
@@ -450,11 +460,7 @@ namespace NativeV8
 
         public NativeJsInstanceProxy CreateWrapper(object o, JsTypeDefinition jsTypeDefinition)
         {
-
-
             return proxyStore.CreateProxyForObject(o, jsTypeDefinition);
-
-
         }
         public void RegisterTypeDefinition(JsTypeDefinition jsTypeDefinition)
         {
@@ -532,10 +538,12 @@ namespace NativeV8
         public static ArgSetInt32Del ArgSetInt32;
         public static ArgSetDoubleDel ArgSetDouble;
         public static ArgSetFloatDel ArgSetFloat;
+        public static ArgSetNativeObjectDel ArgSetNativeObject;
         //----------------------------------------------------------------------------
         //MY_DLL_EXPORT int ArgGetInt32(const v8::Arguments* args,int index);
         //MY_DLL_EXPORT wchar_t* ArgGetString(const v8::Arguments* args,int index);
         //MY_DLL_EXPORT int ArgGetAttachDataAsInt32(const v8::Arguments* args,int index);
+
         static List<JsMethodDefinition> registerMethods = new List<JsMethodDefinition>();
         static NativeV8JsInterOp()
         {
@@ -612,7 +620,7 @@ namespace NativeV8
         }
         public static void LoadV8(string v8bridgeDll)
         {
-             
+
             IntPtr v8mod = UnsafeMethods.LoadLibrary(v8bridgeDll);
             hModuleV8 = v8mod;
 
@@ -657,6 +665,7 @@ namespace NativeV8
                 new NativeActionMap<ArgSetDoubleDel>("ArgSetDouble"),
                 new NativeActionMap<ArgSetStringDel>("ArgSetString"),
                 new NativeActionMap<ArgSetBoolDel>("ArgSetBool"),
+                new NativeActionMap<ArgSetNativeObjectDel>("ArgSetNativeObject"),
             };
             //----------------------------------------------------------
             importFuncs = new Dictionary<string, NativeMethodMap>();
@@ -702,7 +711,7 @@ namespace NativeV8
             ArgSetString = (ArgSetStringDel)importFuncs["ArgSetString"].GetDelegate();
             ArgSetInt32 = (ArgSetInt32Del)importFuncs["ArgSetInt32"].GetDelegate();
             ArgSetBool = (ArgSetBoolDel)importFuncs["ArgSetBool"].GetDelegate();
-
+            ArgSetNativeObject = (ArgSetNativeObjectDel)importFuncs["ArgSetNativeObject"].GetDelegate();
             //------------------
             //built in listener
             //------------------

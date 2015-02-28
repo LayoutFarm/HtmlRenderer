@@ -37,8 +37,7 @@ namespace LayoutFarm.UI
         }
         System.Drawing.Graphics dbugCreateGraphics()
         {
-            throw new NotSupportedException();
-            //return this.windowControl.CreateGraphics();
+            return this.dbugWinControl.CreateGraphics();             
         }
         public void dbug_HighlightMeNow(Rectangle rect)
         {

@@ -24,6 +24,9 @@ namespace LayoutFarm
 #if DEBUG
             dbug_totalObjectId++;
             dbug_obj_id = dbug_totalObjectId;
+            //if(this.dbug_obj_id ==6)
+            //{
+            //}
             //this.dbug_SetFixedElementCode(this.GetType().Name);
 #endif
         }

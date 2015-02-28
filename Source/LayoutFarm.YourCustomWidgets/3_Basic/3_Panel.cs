@@ -24,9 +24,6 @@ namespace LayoutFarm.CustomWidgets
     }
     public class Panel : UIBox
     {
-
-
-
         PanelLayoutKind panelLayoutKind;
         PanelStretch panelChildStretch;
 
@@ -38,6 +35,9 @@ namespace LayoutFarm.CustomWidgets
         List<UICollection> layers = new List<UICollection>(1);
         bool needContentLayout;
 
+#if DEBUG
+        public bool dbugBreakWhenFirstCreatePrimaryRenderElement;
+#endif
         public Panel(int width, int height)
             : base(width, height)
         {
@@ -72,9 +72,17 @@ namespace LayoutFarm.CustomWidgets
         {
             if (primElement == null)
             {
+
+
+
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
                 renderE.SetController(this);
-
+#if DEBUG
+                if (dbugBreakWhenFirstCreatePrimaryRenderElement)
+                {
+                    renderE.dbugBreak = true;
+                }
+#endif
                 renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.HasSpecificSize = true;
