@@ -8,20 +8,22 @@ using LayoutFarm.UI;
 using LayoutFarm.CustomWidgets;
 using LayoutFarm.RenderBoxes;
 
+
 namespace LayoutFarm
 {
-    [DemoNote("3.8 Demo_CompartmentWithSpliter2")]
-    class Demo_CompartmentWithSpliter2 : DemoBase
+    [DemoNote("3.9 Demo_CompartmentWithSpliter3")]
+    class Demo_CompartmentWithSpliter3 : DemoBase
     {
 
         NinespaceBox ninespaceBox;
         protected override void OnStartDemo(SampleViewport viewport)
         {
 
+
             //--------------------------------
             {
                 //background element
-                var bgbox = new LayoutFarm.CustomWidgets.EaseBox(800, 600);
+                var bgbox = new LayoutFarm.CustomWidgets.EaseBox(viewport.PrimaryScreenWidth, viewport.PrimaryScreenHeight);
                 bgbox.BackColor = Color.White;
                 bgbox.SetLocation(0, 0);
                 SetupBackgroundProperties(bgbox);
@@ -29,25 +31,31 @@ namespace LayoutFarm
             }
             //--------------------------------
             //ninespace compartment
-            ninespaceBox = new NinespaceBox(800, 600);
+            ninespaceBox = new NinespaceBox(viewport.PrimaryScreenWidth, viewport.PrimaryScreenHeight-15);
             ninespaceBox.ShowGrippers = true;
-            viewport.AddContent(ninespaceBox);
-            ninespaceBox.SetSize(800, 600);
-            //--------------------------------
-                  
 
-            //--------------------------------
-            //test add some content to the ninespace box
-            var sampleListView = CreateSampleListView();
-            ninespaceBox.LeftSpace.PanelLayoutKind = PanelLayoutKind.VerticalStack;
-            ninespaceBox.LeftSpace.AddChildBox(sampleListView);
+
+            var ninespace2 = new NinespaceBox(400, 600);
+
+            ninespace2.SetLeftSpaceWidth(150);
+            ninespace2.ShowGrippers = true;
+            ninespaceBox.RightSpace.AddChildBox(ninespace2);
+
+
+            viewport.AddContent(ninespaceBox);
+           // ninespaceBox.SetSize(800, 600);
+
+            ////test add some content to the ninespace box
+            //var sampleListView = CreateSampleListView();
+            //ninespaceBox.LeftSpace.PanelLayoutKind = PanelLayoutKind.VerticalStack;
+            //ninespaceBox.LeftSpace.AddChildBox(sampleListView);
 
         }
         void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)
         {
 
         }
-        
+
         static LayoutFarm.CustomWidgets.ListView CreateSampleListView()
         {
             var listview = new LayoutFarm.CustomWidgets.ListView(300, 400);
@@ -70,7 +78,6 @@ namespace LayoutFarm
             return listview;
         }
 
-      
 
     }
 }

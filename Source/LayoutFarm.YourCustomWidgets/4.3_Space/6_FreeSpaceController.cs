@@ -22,34 +22,18 @@ namespace LayoutFarm.UI
             spaces[LB] = InitSpace(SpaceName.LeftBottom);
         }
 
-        protected override void ArrangeAllSpaces()
+        public override void ArrangeAllSpaces()
         {
-
-            //#if DEBUG
-            //            vinv.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.DockSpaceLayer_ArrAllFreeSpaces);
-            //#endif
-            //ArrangeAllFreeSpaces(vinv);
-
-            //#if DEBUG
-            //            vinv.dbug_EndLayoutTrace();
-            //#endif
-
-            ArrangeAllFreeSpaces();
-
-        }
-        void ArrangeAllFreeSpaces()
-        {
-
-
+            
 #if DEBUG
             // vinv.dbug_EnterLayerReArrangeContent(this);
 #endif
-            this.ValidateArrangement();
+
             //vinv.ForceReArrange = true; 
             var centerspace = spaces[C];
             bool suddenArr = false;
-            int ownerWidth = this.ownerVisualElement.Width;
-            int ownerHeight = this.ownerVisualElement.Height;
+            int ownerWidth = this.OwnerVisualElement.Width;
+            int ownerHeight = this.OwnerVisualElement.Height;
 
 
             if (centerspace != null)
@@ -95,6 +79,7 @@ namespace LayoutFarm.UI
 
             int offsetx = FindMaxWidthBar(spaces[LT], spaces[L], spaces[LB]);
             int offsety = FindMaxHeightBar(spaces[LT], spaces[T], spaces[RT]);
+
             if (offsetx != 0 || offsety != 0)
             {
                 for (int i = spaces.Length - 1; i > -1; --i)
@@ -114,13 +99,6 @@ namespace LayoutFarm.UI
             //vinv.dbug_ExitLayerReArrangeContent();
 #endif
         }
-        public override void TopDownReArrangeContent()
-        {
-
-            ArrangeAllFreeSpaces();
-        }
-
-
         void SetBoundOfFreeSpace(SpacePart space,
             SpacePart centerspace,
             bool suddenArr)
@@ -136,8 +114,8 @@ namespace LayoutFarm.UI
             int x_pos = centerspace.X;
             int y_pos = centerspace.Y;
 
-            int dw = ownerVisualElement.Width;
-            int dh = ownerVisualElement.Height;
+            int dw = OwnerVisualElement.Width;
+            int dh = OwnerVisualElement.Height;
 
 
             if (space.DesiredWidth < dw)

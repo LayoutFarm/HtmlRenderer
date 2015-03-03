@@ -21,13 +21,14 @@ namespace LayoutFarm.CustomWidgets
 
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
+        
 
         public EaseBox(int width, int height)
             : base(width, height)
         {
 
         }
-
+        
         protected override bool HasReadyRenderElement
         {
             get { return this.primElement != null; }
@@ -104,7 +105,7 @@ namespace LayoutFarm.CustomWidgets
             }
         }
 
-     
+
     }
 
 

@@ -24,7 +24,10 @@ namespace LayoutFarm.CustomWidgets
             this._multiline = multiline;
 
         }
-
+        public void ClearText()
+        {
+            this.visualTextEdit.ClearAllChildren();
+        }
         public override bool AcceptKeyboardFocus
         {
             get

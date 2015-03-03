@@ -19,7 +19,7 @@ namespace LayoutFarm
             {
                 e.SetResultImage(LoadBitmap(e.ImagSource));
             };
-             AddScrollView1(viewport, 0, 0);
+            AddScrollView1(viewport, 0, 0);
             AddScrollView2(viewport, 250, 0);
         }
         void LazyImageLoad(ImageBinder binder)

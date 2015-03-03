@@ -152,6 +152,12 @@ namespace LayoutFarm.UI
         }
         public void ArrangeContent()
         {
+            var uiContent = this.Content;
+            if (uiContent != null)
+            {
+                 
+                uiContent.PerformContentLayout();
+            }
         }
         public void CalculateContentSize()
         {
@@ -161,9 +167,9 @@ namespace LayoutFarm.UI
         {
             get { return this.hasCalculatedSize; }
         }
-        public void InvalidateArrangeStatus()
-        {
-        }
+        //public void InvalidateArrangeStatus()
+        //{
+        //}
 
 #if DEBUG
         public override string ToString()

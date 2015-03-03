@@ -92,8 +92,8 @@ namespace LayoutFarm.UI
             this.sizeW = w;
             this.sizeH = h;
             //-------------
-            //arrange all space posiion 
-            this.ArrangeAllDockSpaces();
+            //arrange all space position 
+            this.ArrangeAllSpaces();
         }
         public VerticalBoxExpansion LeftSpaceVerticalExpansion
         {
@@ -166,17 +166,8 @@ namespace LayoutFarm.UI
             }
         }
 
-        void CheckCalculateSizeOfAllSpaces()
-        {
 
-            for (int i = spaces.Length - 1; i >= 0; --i)
-            {
-                spaces[i].CalculateContentSize();
-
-            }
-
-        }
-        protected override void ArrangeAllSpaces()
+        public override void ArrangeAllSpaces()
         {
 
 
@@ -186,28 +177,15 @@ namespace LayoutFarm.UI
             //vinv.dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.DockSpaceLayer_ArrAllDockSpaces);
 
 #endif
-            CheckCalculateSizeOfAllSpaces();
-            ArrangeAllDockSpaces();
-
-#if DEBUG
-
-            //vinv.dbug_EndLayoutTrace();
-
-#endif
-        }
-
-
-        void ArrangeAllDockSpaces()
-        {
-
+            for (int i = spaces.Length - 1; i >= 0; --i)
+            {
+                spaces[i].CalculateContentSize();
+            }
 #if DEBUG
             //vinv.dbug_EnterLayerReArrangeContent(this);
 #endif
 
-            this.ValidateArrangement();
-            //-------------------------------------------
-            //bool suddenArr = !ownerVisualElement.IsLayoutSuspending;
-            bool suddenArr = false;
+
             //-------------------------------------------------
             // this.BeginLayerGraphicUpdate(vinv);
             //------------------------------------------------- 
@@ -245,7 +223,7 @@ namespace LayoutFarm.UI
                     0,
                     topSpaceHeight,
                     leftSpaceWidth,
-                    ownerVisualElement.Height - (topSpaceHeight));
+                    OwnerVisualElement.Height - (topSpaceHeight));
                 //------------------------------------------------------ 
                 SetDockBound(spaces[FOURSPACE_RT],
                     leftSpaceWidth,
@@ -340,7 +318,7 @@ namespace LayoutFarm.UI
                     int right_h = h - topSpaceHeight - bottomSpaceHeight;
                     if (HasSpecificCenterSpaceWidth)
                     {
-                        rightSpaceWidth = ownerVisualElement.Width - (leftSpaceWidth + centerSpaceWidth);
+                        rightSpaceWidth = OwnerVisualElement.Width - (leftSpaceWidth + centerSpaceWidth);
                     }
 
                     if ((rightBoxVerticalExpansionFlags & VerticalBoxExpansion.Top) == VerticalBoxExpansion.Top)
@@ -357,9 +335,7 @@ namespace LayoutFarm.UI
                       right_y,
                       rightSpaceWidth,
                       right_h);
-
-                    spaces[R].InvalidateArrangeStatus();
-                    //spaces[R].Content.InvalidateContentArrangementFromContainerSizeChanged();
+                    //spaces[R].InvalidateArrangeStatus(); 
                 }
                 //-------------------------------------------------
                 if (t_space != null)
@@ -426,8 +402,6 @@ namespace LayoutFarm.UI
                     h - bottomSpaceHeight,
                     bottom_w,
                     bottomSpaceHeight);
-
-
                 }
 
 
@@ -435,10 +409,8 @@ namespace LayoutFarm.UI
                 if (spaces[C] != null)
                 {
 
-
-
-                    w = ownerVisualElement.Width - (rightSpaceWidth + leftSpaceWidth) - (leftSplitterWidth + rightSplitterWidth);
-                    h = ownerVisualElement.Height - (topSpaceHeight + bottomSpaceHeight);
+                    w = OwnerVisualElement.Width - (rightSpaceWidth + leftSpaceWidth) - (leftSplitterWidth + rightSplitterWidth);
+                    h = OwnerVisualElement.Height - (topSpaceHeight + bottomSpaceHeight);
 
 
                     if (w < 1)
@@ -460,8 +432,8 @@ namespace LayoutFarm.UI
                 }
                 if (dockSpaceConcept == SpaceConcept.NineSpace)
                 {
-                    h = ownerVisualElement.Height;
-                    w = ownerVisualElement.Width;
+                    h = OwnerVisualElement.Height;
+                    w = OwnerVisualElement.Width;
 
                     SetDockBound(spaces[LT], 0, 0, leftSpaceWidth, topSpaceHeight);
                     SetDockBound(spaces[LB], 0, h - bottomSpaceHeight, leftSpaceWidth, bottomSpaceHeight);
@@ -474,6 +446,10 @@ namespace LayoutFarm.UI
             for (int i = spaces.Length - 1; i >= 0; i--)
             {
                 SpacePart dockSpace = spaces[i];
+                if (dockSpace.SpaceName == SpaceName.Left ||
+                    dockSpace.SpaceName == SpaceName.Right)
+                {
+                }
                 if (dockSpace != null)
                 {
                     dockSpace.ArrangeContent();
@@ -487,18 +463,20 @@ namespace LayoutFarm.UI
                 FinishNineSpaceArrangement(this, EventArgs.Empty);
             }
 
-            //-------------------------------------------------
-            //this.EndLayerGraphicUpdate(vinv);
-            //-------------------------------------------------
-            //#if DEBUG
-            //            vinv.dbug_ExitLayerReArrangeContent();
-            //#endif
+#if DEBUG
+
+            //vinv.dbug_EndLayoutTrace();
+
+#endif
         }
 
-        public override void TopDownReArrangeContent()
-        {
-            ArrangeAllDockSpaces();
-        }
+
+
+
+        //public override void TopDownReArrangeContent()
+        //{
+        //    ArrangeAllDockSpaces();
+        //}
 
     }
 }
