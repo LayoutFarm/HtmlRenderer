@@ -35,9 +35,7 @@ namespace LayoutFarm.CustomWidgets
         List<UICollection> layers = new List<UICollection>(1);
         bool needContentLayout;
 
-#if DEBUG
-        public bool dbugBreakWhenFirstCreatePrimaryRenderElement;
-#endif
+
         public Panel(int width, int height)
             : base(width, height)
         {
@@ -73,15 +71,15 @@ namespace LayoutFarm.CustomWidgets
             if (primElement == null)
             {
 
-
-
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
+                renderE.HasSpecificHeight = this.HasSpecificHeight;
+                renderE.HasSpecificWidth = this.HasSpecificWidth;
                 renderE.SetController(this);
 #if DEBUG
-                if (dbugBreakWhenFirstCreatePrimaryRenderElement)
-                {
-                    renderE.dbugBreak = true;
-                }
+                //if (dbugBreakMe)
+                //{
+                //    renderE.dbugBreak = true;
+                //}
 #endif
                 renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
@@ -235,6 +233,10 @@ namespace LayoutFarm.CustomWidgets
         public override void PerformContentLayout()
         {
 
+            //if (this.dbugBreakMe)
+            //{
+            //}
+
             this.InvalidateGraphics();
             //temp : arrange as vertical stack***
             switch (this.PanelLayoutKind)
@@ -264,21 +266,32 @@ namespace LayoutFarm.CustomWidgets
                             var element = layer0.GetElement(i) as UIBox;
                             if (element != null)
                             {
+                                //if (element.dbugBreakMe)
+                                //{
+
+                                //}
                                 element.PerformContentLayout();
-                                element.SetBounds(0, ypos, element.Width, element.DesiredHeight);
-                                ypos += element.DesiredHeight;
+
+                                int elemH = element.HasSpecificHeight ?
+                                    element.Height :
+                                    element.DesiredHeight;
+                                int elemW = element.HasSpecificWidth ?
+                                    element.Width :
+                                    element.DesiredWidth;
+                                element.SetBounds(0, ypos, element.Width, elemH);
+                                ypos += element.Height;
+
+                                
 
                                 int tmp_right = element.DesiredWidth + element.Left;
                                 if (tmp_right > maxRight)
                                 {
                                     maxRight = tmp_right;
                                 }
-
                             }
                         }
-                        this.desiredHeight = ypos;
                         this.desiredWidth = maxRight;
-
+                        this.desiredHeight = ypos;
                     } break;
                 case CustomWidgets.PanelLayoutKind.HorizontalStack:
                     {
@@ -335,9 +348,14 @@ namespace LayoutFarm.CustomWidgets
                             }
                         }
 
-                        this.desiredWidth = maxRight;
-                        this.desiredHeight = maxBottom;
-
+                        if (!this.HasSpecificWidth)
+                        {
+                            this.desiredWidth = maxRight;
+                        }
+                        if (!this.HasSpecificHeight)
+                        {
+                            this.desiredHeight = maxBottom;
+                        }
                     } break;
             }
             //------------------------------------------------

@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 using LayoutFarm.UI;
 
 namespace LayoutFarm
@@ -12,13 +12,27 @@ namespace LayoutFarm
     public class SampleViewport
     {
         LayoutFarm.UI.UISurfaceViewportControl vw;
+        int primaryScreenWorkingAreaW;
+        int primaryScreenWorkingAreaH;
         public SampleViewport(LayoutFarm.UI.UISurfaceViewportControl vw)
         {
             this.vw = vw;
+            var workingArea = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea;
+            this.primaryScreenWorkingAreaW = workingArea.Width;
+            this.primaryScreenWorkingAreaH = workingArea.Height;
+
+        }
+        public int PrimaryScreenWidth
+        {
+            get { return this.primaryScreenWorkingAreaW; }
+        }
+        public int PrimaryScreenHeight
+        {
+            get { return this.primaryScreenWorkingAreaH; }
         }
         public void AddContent(RenderElement renderElement)
         {
-            this.vw.AddContent(renderElement); 
+            this.vw.AddContent(renderElement);
         }
         public GraphicsPlatform P
         {

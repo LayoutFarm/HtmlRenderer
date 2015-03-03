@@ -59,7 +59,6 @@ namespace LayoutFarm.UI
             }
             this.sizeH = owner.Height;
             this.sizeW = owner.Width;
-
         }
 
         protected SpacePart InitSpace(SpaceName name)
@@ -75,10 +74,7 @@ namespace LayoutFarm.UI
                 return this.myOwner;
             }
         }
-        protected virtual void ValidateArrangement()
-        {
-
-        }
+        
         public bool ControlChildPosition
         {
             get
@@ -342,7 +338,7 @@ namespace LayoutFarm.UI
                 return topSpaceHeight;
             }
         }
-        protected UIBox ownerVisualElement
+        protected UIBox OwnerVisualElement
         {
             get
             {
@@ -354,34 +350,34 @@ namespace LayoutFarm.UI
 
             if (dockSpaceConcept != SpaceConcept.FourSpace)
             {
-                if (value > ownerVisualElement.Height - 2)
+                if (value > OwnerVisualElement.Height - 2)
                 {
-                    value = ownerVisualElement.Height - 2;
+                    value = OwnerVisualElement.Height - 2;
                 }
                 topSpaceHeight = value;
 
                 if (spaces[C] == null)
                 {
 
-                    bottomSpaceHeight = ownerVisualElement.Height - topSpaceHeight;
+                    bottomSpaceHeight = OwnerVisualElement.Height - topSpaceHeight;
                 }
                 else
                 {
-                    if (topSpaceHeight >= ownerVisualElement.Height - bottomSpaceHeight - 1)
+                    if (topSpaceHeight >= OwnerVisualElement.Height - bottomSpaceHeight - 1)
                     {
-                        bottomSpaceHeight = ownerVisualElement.Height - topSpaceHeight - 1;
+                        bottomSpaceHeight = OwnerVisualElement.Height - topSpaceHeight - 1;
                     }
                 }
             }
             else
             {
 
-                if (value > ownerVisualElement.Height - 1)
+                if (value > OwnerVisualElement.Height - 1)
                 {
-                    value = ownerVisualElement.Height - 1;
+                    value = OwnerVisualElement.Height - 1;
                 }
                 topSpaceHeight = value;
-                bottomSpaceHeight = ownerVisualElement.Height - topSpaceHeight;
+                bottomSpaceHeight = OwnerVisualElement.Height - topSpaceHeight;
             }
             this.HasSpecificTopSpaceHeight = true;
             this.InvalidateArrangementInAllDockSpaces();
@@ -402,34 +398,34 @@ namespace LayoutFarm.UI
             if (dockSpaceConcept != SpaceConcept.FourSpace)
             {
 
-                if (value > ownerVisualElement.Height - 2)
+                if (value > OwnerVisualElement.Height - 2)
                 {
-                    value = ownerVisualElement.Height - 2;
+                    value = OwnerVisualElement.Height - 2;
                 }
                 bottomSpaceHeight = value;
                 if (spaces[C] == null)
                 {
 
-                    topSpaceHeight = ownerVisualElement.Height - bottomSpaceHeight;
+                    topSpaceHeight = OwnerVisualElement.Height - bottomSpaceHeight;
                 }
                 else
                 {
-                    if (topSpaceHeight >= ownerVisualElement.Height - bottomSpaceHeight - 1)
+                    if (topSpaceHeight >= OwnerVisualElement.Height - bottomSpaceHeight - 1)
                     {
 
-                        topSpaceHeight = ownerVisualElement.Height - bottomSpaceHeight - 1;
+                        topSpaceHeight = OwnerVisualElement.Height - bottomSpaceHeight - 1;
                     }
                 }
             }
             else
             {
 
-                if (value > ownerVisualElement.Height - 1)
+                if (value > OwnerVisualElement.Height - 1)
                 {
-                    value = ownerVisualElement.Height - 1;
+                    value = OwnerVisualElement.Height - 1;
                 }
                 bottomSpaceHeight = value;
-                topSpaceHeight = ownerVisualElement.Height - bottomSpaceHeight;
+                topSpaceHeight = OwnerVisualElement.Height - bottomSpaceHeight;
             }
             this.HasSpecificBottomSpaceHeight = true;
             this.InvalidateArrangementInAllDockSpaces();
@@ -474,33 +470,33 @@ namespace LayoutFarm.UI
             if (dockSpaceConcept != SpaceConcept.FourSpace)
             {
 
-                if (value > ownerVisualElement.Width - 2)
+                if (value > OwnerVisualElement.Width - 2)
                 {
-                    value = ownerVisualElement.Width - 2;
+                    value = OwnerVisualElement.Width - 2;
                 }
                 leftSpaceWidth = value;
                 if (spaces[C] == null)
                 {
 
-                    rightSpaceWidth = ownerVisualElement.Width - leftSpaceWidth;
+                    rightSpaceWidth = OwnerVisualElement.Width - leftSpaceWidth;
                 }
                 else
                 {
-                    if (leftSpaceWidth >= ownerVisualElement.Width - rightSpaceWidth - 1)
+                    if (leftSpaceWidth >= OwnerVisualElement.Width - rightSpaceWidth - 1)
                     {
-                        rightSpaceWidth = ownerVisualElement.Width - leftSpaceWidth - 1;
+                        rightSpaceWidth = OwnerVisualElement.Width - leftSpaceWidth - 1;
                     }
                 }
             }
             else
             {
 
-                if (value > ownerVisualElement.Width - 1)
+                if (value > OwnerVisualElement.Width - 1)
                 {
-                    value = ownerVisualElement.Width - 1;
+                    value = OwnerVisualElement.Width - 1;
                 }
                 leftSpaceWidth = value;
-                rightSpaceWidth = ownerVisualElement.Width - leftSpaceWidth;
+                rightSpaceWidth = OwnerVisualElement.Width - leftSpaceWidth;
             }
 
 #if DEBUG
@@ -508,7 +504,7 @@ namespace LayoutFarm.UI
             //this.dbugVRoot.dbug_PushLayoutTraceMessage("^Set LeftSpaceWidth=" + value);
 #endif
             this.HasSpecificLeftSpaceWidth = true;
-            this.InvalidateArrangementInAllDockSpaces(); 
+            this.InvalidateArrangementInAllDockSpaces();
             this.ArrangeAllSpaces();
         }
 
@@ -524,36 +520,36 @@ namespace LayoutFarm.UI
         {
             if (dockSpaceConcept != SpaceConcept.FourSpace)
             {
-                if (value >= ownerVisualElement.Width - 2)
+                if (value >= OwnerVisualElement.Width - 2)
                 {
-                    value = ownerVisualElement.Width - 2;
+                    value = OwnerVisualElement.Width - 2;
                 }
                 rightSpaceWidth = value;
                 if (spaces[C] == null)
                 {
                     //if no centerspace ,then use right space width
-                    leftSpaceWidth = ownerVisualElement.Width - rightSpaceWidth;
+                    leftSpaceWidth = OwnerVisualElement.Width - rightSpaceWidth;
                 }
                 else
                 {
-                    if (this.leftSpaceWidth > ownerVisualElement.Width - rightSpaceWidth - 1)
+                    if (this.leftSpaceWidth > OwnerVisualElement.Width - rightSpaceWidth - 1)
                     {
-                        leftSpaceWidth = ownerVisualElement.Width - rightSpaceWidth - 1;
+                        leftSpaceWidth = OwnerVisualElement.Width - rightSpaceWidth - 1;
                     }
                 }
             }
             else
             {
-                if (value >= ownerVisualElement.Width - 1)
+                if (value >= OwnerVisualElement.Width - 1)
                 {
-                    value = ownerVisualElement.Width - 1;
+                    value = OwnerVisualElement.Width - 1;
                 }
 
                 rightSpaceWidth = value;
-                leftSpaceWidth = ownerVisualElement.Width - rightSpaceWidth;
+                leftSpaceWidth = OwnerVisualElement.Width - rightSpaceWidth;
             }
 
-            this.HasSpecificRightSpaceWidth = true;
+            this.HasSpecificRightSpaceWidth = true; 
             this.InvalidateArrangementInAllDockSpaces();
             ArrangeAllSpaces();
 
@@ -577,8 +573,7 @@ namespace LayoutFarm.UI
                 ArrangeAllSpaces();
             }
         }
-
-
+         
         public virtual void TopDownReCalculateContentSize()
         {
 
@@ -874,14 +869,14 @@ namespace LayoutFarm.UI
 
         protected void InvalidateArrangementInAllDockSpaces()
         {
-            int j = this.spaces.Length;
-            for (int i = this.spaces.Length - 1; i >= 0; --i)
-            {
-                spaces[i].InvalidateArrangeStatus();
-            }
+            //int j = this.spaces.Length;
+            //for (int i = this.spaces.Length - 1; i >= 0; --i)
+            //{
+            //    spaces[i].InvalidateArrangeStatus();
+            //}
         }
 
-        protected abstract void ArrangeAllSpaces();
+        public abstract void ArrangeAllSpaces();
 
 
 #if DEBUG
@@ -907,9 +902,9 @@ namespace LayoutFarm.UI
             dock.SetBound(x, y, newWidth, newHeight);
         }
 
-        public virtual void TopDownReArrangeContent()
-        {
-        }
+        //public virtual void TopDownReArrangeContent()
+        //{
+        //}
     }
 
 

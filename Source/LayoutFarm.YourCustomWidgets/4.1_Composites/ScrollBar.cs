@@ -7,8 +7,7 @@ using PixelFarm.Drawing;
 
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
-
-using LayoutFarm.CustomWidgets;
+ 
 namespace LayoutFarm.CustomWidgets
 {
     public delegate void ScrollBarEvaluator(ScrollBar scBar, out double onePixelFore, out int scrollBoxHeight);
@@ -804,6 +803,7 @@ namespace LayoutFarm.CustomWidgets
                 scrollBoxLength = 1;
                 //1. 
                 int contentLength = scrollableSurface.DesiredWidth;
+                if (contentLength == 0) return;
                 scrollBoxLength = (int)((physicalScrollLength * scrollableSurface.ViewportWidth) / contentLength);
                 if (scrollBoxLength < sc.ScrollBoxSizeLimit)
                 {
