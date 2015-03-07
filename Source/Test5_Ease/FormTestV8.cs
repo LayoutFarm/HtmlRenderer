@@ -8,15 +8,18 @@ using System.Text;
 using System.Windows.Forms;
 using VroomJs;
 using NativeV8;
+using LayoutFarm.WebDom.Wrap;
+
 namespace Test5_Ease
 {
     public partial class FormTestV8 : Form
     {
         public FormTestV8()
         {
-            InitializeComponent();
-             
+            InitializeComponent(); 
         }
+
+      
 
         class TestMe1
         {
@@ -40,6 +43,11 @@ namespace Test5_Ease
                 return 123;
             }
 
+            [JsMethod]
+            public string Test2(string text)
+            {
+                return "hello " + text;
+            }
             [JsProperty]
             public bool IsOK
             {
@@ -49,9 +57,9 @@ namespace Test5_Ease
                 }
             }
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
+
 
             NativeV8JsInterOp.RegisterCallBacks();
             NativeV8JsInterOp.TestCallBack();
@@ -94,8 +102,10 @@ namespace Test5_Ease
             }
 
         }
+
         private void button2_Click(object sender, EventArgs e)
         {
+
             NativeV8JsInterOp.RegisterCallBacks();
             NativeV8JsInterOp.TestCallBack();
             //create js engine and context
@@ -119,6 +129,7 @@ namespace Test5_Ease
                 //Assert.That(result, Is.EqualTo(100)); 
             }
         }
+
         private void button3_Click(object sender, EventArgs e)
         {
 
@@ -183,8 +194,10 @@ namespace Test5_Ease
                 //Assert.That(result, Is.EqualTo(100));
             }
         }
+
         private void button4_Click(object sender, EventArgs e)
         {
+
             NativeV8JsInterOp.RegisterCallBacks();
             NativeV8JsInterOp.TestCallBack();
 
@@ -254,6 +267,7 @@ namespace Test5_Ease
 
             }
         }
+
         private void button5_Click(object sender, EventArgs e)
         {
             NativeV8JsInterOp.RegisterCallBacks();
@@ -296,8 +310,11 @@ namespace Test5_Ease
 
             //===============================================================
             //create js engine and context
+
+            MyJsTypeDefinitionBuilder customBuilder = new MyJsTypeDefinitionBuilder();
+
             using (JsEngine engine = new JsEngine())
-            using (JsContext ctx = engine.CreateContext())
+            using (JsContext ctx = engine.CreateContext(customBuilder))
             {
 
                 ctx.RegisterTypeDefinition(jstypedef);
@@ -327,7 +344,35 @@ namespace Test5_Ease
             }
         }
 
-     
+        private void button6_Click(object sender, EventArgs e)
+        {
+            NativeV8JsInterOp.RegisterCallBacks();
+            NativeV8JsInterOp.TestCallBack();
+
+
+            using (JsEngine engine = new JsEngine())
+            using (JsContext ctx = engine.CreateContext(new MyJsTypeDefinitionBuilder()))
+            {
+
+                GC.Collect();
+                System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
+                stwatch.Reset();
+                stwatch.Start();
+
+                var ab = new AboutMe();
+                ctx.SetVariableAutoWrap("x", ab);
+
+
+                //string testsrc = "x.IsOK;";
+                string testsrc = "x.Test2('AAA');";
+                object result = ctx.Execute(testsrc);
+                stwatch.Stop();
+
+                Console.WriteLine("met1 template:" + stwatch.ElapsedMilliseconds.ToString());
+
+            }
+        }
+        
 
        
 

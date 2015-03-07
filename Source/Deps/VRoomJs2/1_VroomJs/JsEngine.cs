@@ -76,8 +76,9 @@ namespace VroomJs
         }
 
         readonly HandleRef _engine;
+        NativeV8.JsTypeDefinitionBuilderBase defaultTypeBuilder;
 
-        public JsEngine(int maxYoungSpace = -1, int maxOldSpace = -1)
+        public JsEngine(NativeV8.JsTypeDefinitionBuilderBase defaultTypeBuilder, int maxYoungSpace, int maxOldSpace)
         {
             _keepalive_remove = new KeepaliveRemoveDelegate(KeepAliveRemove);
             _keepalive_get_property_value = new KeepAliveGetPropertyValueDelegate(KeepAliveGetPropertyValue);
@@ -97,7 +98,19 @@ namespace VroomJs
                 _keepalive_enumerate_properties,
                 maxYoungSpace,
                 maxOldSpace));
+            this.defaultTypeBuilder = defaultTypeBuilder;
         }
+        public JsEngine(int maxYoungSpace, int maxOldSpace)
+            : this(new NativeV8.DefaultJsTypeDefinitionBuilder(), maxYoungSpace, maxOldSpace)
+        {
+
+        }
+        public JsEngine()
+            : this(new NativeV8.DefaultJsTypeDefinitionBuilder(), -1, -1)
+        {
+
+        }
+
         //public object Execute(string code)
         //{
         //    if (code == null)
@@ -232,12 +245,21 @@ namespace VroomJs
             CheckDisposed();
             int id = Interlocked.Increment(ref _currentContextId);
 
-            JsContext ctx = new JsContext(id, this, _engine, ContextDisposed);  
+            JsContext ctx = new JsContext(id, this, _engine, ContextDisposed, this.defaultTypeBuilder);
 
             _aliveContexts.Add(id, ctx);
             return ctx;
         }
+        public JsContext CreateContext(NativeV8.JsTypeDefinitionBuilderBase customTypeDefBuilder)
+        {
+            CheckDisposed();
+            int id = Interlocked.Increment(ref _currentContextId);
 
+            JsContext ctx = new JsContext(id, this, _engine, ContextDisposed, customTypeDefBuilder);
+
+            _aliveContexts.Add(id, ctx);
+            return ctx;
+        }
         public JsScript CompileScript(string code, string name = "<Unamed Script>")
         {
             CheckDisposed();

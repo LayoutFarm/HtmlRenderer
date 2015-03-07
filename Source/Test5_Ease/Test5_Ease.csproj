@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EaseComponents\HtmlJsBinders.cs" />
+    <Compile Include="EaseComponents\MyJsTypeDefBuilder.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

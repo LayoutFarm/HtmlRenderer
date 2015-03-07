@@ -6,9 +6,11 @@ using System.Runtime.InteropServices;
 using System.IO;
 
 using VroomJs;
+using NativeV8;
 
-namespace NativeV8
+namespace LayoutFarm.WebDom.Wrap
 {
+
     [AttributeUsage(AttributeTargets.Class)]
     public class JsTypeAttribute : Attribute
     {
@@ -40,17 +42,21 @@ namespace NativeV8
         }
         public string Name { get; private set; }
     }
-
-    static class JsTypeDefinitionBuilder
-    {
-        static Type typeOfJsTypeAttr = typeof(JsTypeAttribute);
-        static Type typeOfJsMethodAttr = typeof(JsMethodAttribute);
-        static Type typeOfJsPropertyAttr = typeof(JsPropertyAttribute);
+    class MyJsTypeDefinitionBuilder : JsTypeDefinitionBuilderBase
+    {   
+        //we can customize how to build jstype on specific type
 
 
-        public static JsTypeDefinition BuildTypeDefinition(Type t)
+        Type typeOfJsTypeAttr = typeof(JsTypeAttribute);
+        Type typeOfJsMethodAttr = typeof(JsMethodAttribute);
+        Type typeOfJsPropertyAttr = typeof(JsPropertyAttribute);
+
+        public MyJsTypeDefinitionBuilder()
         {
-            //
+            //use built in attr
+        }
+        protected override JsTypeDefinition OnBuildRequest(Type t)
+        {
 
             //find member that has JsPropertyAttribute or JsMethodAttribute
             JsTypeDefinition typedefinition = new JsTypeDefinition(t.Name);
@@ -80,6 +86,7 @@ namespace NativeV8
 
             return typedefinition;
         }
+
     }
 
 }

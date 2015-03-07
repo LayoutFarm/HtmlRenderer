@@ -156,14 +156,14 @@ namespace Test5_Ease
             var htmldoc = new LayoutFarm.WebDom.Wrap.HtmlDocument(webdoc);
 
             //create js engine and context
+            var jstypeBuilder = new LayoutFarm.WebDom.Wrap.MyJsTypeDefinitionBuilder();
             using (JsEngine engine = new JsEngine())
-            using (JsContext ctx = engine.CreateContext())
+            using (JsContext ctx = engine.CreateContext(jstypeBuilder))
             {
                 GC.Collect();
                 System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
                 stwatch.Reset();
-                stwatch.Start();
-
+                stwatch.Start(); 
 
                 ctx.SetVariableAutoWrap("document", htmldoc);
 
