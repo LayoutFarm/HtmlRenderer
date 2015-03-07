@@ -54,6 +54,7 @@ namespace LayoutFarm.UI.GdiPlus
             quadPages.CalculateCanvasPages(this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
             this.FullMode = true;
         }
+ 
 
         public void PaintMe(IntPtr hdc)
         {
@@ -120,7 +121,7 @@ namespace LayoutFarm.UI.GdiPlus
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
             Rectangle rect = mycanvas.Rect;
-            this.rootGraphics.TopWindowRenderBox.DrawToThisCanvas(mycanvas, rect); 
+            this.rootGraphics.TopWindowRenderBox.DrawToThisCanvas(mycanvas, rect);
 #if DEBUG
             this.rootGraphics.TopWindowRenderBox.dbugShowRenderPart(mycanvas, rect);
 #endif

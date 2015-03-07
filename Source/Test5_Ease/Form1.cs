@@ -9,6 +9,9 @@ using LayoutFarm.Ease;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 
+using NativeV8;
+using VroomJs;
+
 namespace Test5_Ease
 {
     public partial class Form1 : Form
@@ -41,7 +44,7 @@ namespace Test5_Ease
             //test load html text 
             string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
             //read html text file
-            var fileContent = "<html><body><div>Hello !</div><body><html>";
+            var fileContent = "<html><body><div>Hello !</div></body></html>";
             easeViewport.LoadHtml(filename, fileContent);
         }
 
@@ -50,26 +53,27 @@ namespace Test5_Ease
             string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
 
             //1. blank html
-            var fileContent = "<html><body><body><html>";
+            var fileContent = "<html><body><div id=\"a\">AAA</div></body></html>";
             easeViewport.LoadHtml(filename, fileContent);
             //2. access dom 
 
             WebDocument webdoc = easeViewport.GetHtmlDom();
-            webdoc.RootNode.AddChild("div", div =>
-            {
-                div.AddChild("div", div_1 =>
+            var div_a = webdoc.GetElementById("a");
+            div_a.AddChild("div", div =>
                 {
-                    div_1.SetAttribute("style", "font:10pt tahoma");
-                    div_1.AddChild("span", span =>
+                    div.AddChild("div", div_1 =>
                     {
-                        span.AddTextContent("test1");
-                    });
-                    div_1.AddChild("span", span =>
-                    {
-                        span.AddTextContent("test2");
+                        div_1.SetAttribute("style", "font:10pt tahoma");
+                        div_1.AddChild("span", span =>
+                        {
+                            span.AddTextContent("test1");
+                        });
+                        div_1.AddChild("span", span =>
+                        {
+                            span.AddTextContent("test2");
+                        });
                     });
                 });
-            });
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -77,13 +81,15 @@ namespace Test5_Ease
             string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
 
             //1. blank html
-            var fileContent = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div><body><html>";
+            var fileContent = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div></body></html>";
             easeViewport.LoadHtml(filename, fileContent);
+
+
             //2. access dom  
             WebDocument webdoc = easeViewport.GetHtmlDom();
             //3. get element by id 
             var domNodeA = webdoc.GetElementById("a");
-            var domNodeB = webdoc.GetElementById("b"); 
+            var domNodeB = webdoc.GetElementById("b");
 
 
             domNodeA.AddTextContent("Hello from A");
@@ -120,6 +126,84 @@ namespace Test5_Ease
                 this.easeViewport.Print(easeCanvas);
             };
             printdoc.Print();
+        }
+
+        private void cmdTestV8Js1_Click(object sender, EventArgs e)
+        {
+            NativeV8.NativeV8JsInterOp.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+            FormTestV8 formTestV8 = new FormTestV8();
+            formTestV8.Show();
+        }
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+            string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
+
+            //1. blank html
+            var fileContent = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div></body></html>";
+            easeViewport.LoadHtml(filename, fileContent);
+            //----------------------------------------------------------------
+            //after load html page 
+
+            //test javascript ...
+            NativeV8.NativeV8JsInterOp.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+            NativeV8JsInterOp.RegisterCallBacks();
+            NativeV8JsInterOp.TestCallBack();
+            //===============================================================
+
+            //2. access dom  
+            WebDocument webdoc = easeViewport.GetHtmlDom();
+            var htmldoc = new LayoutFarm.WebDom.Wrap.HtmlDocument(webdoc);
+
+            //create js engine and context
+            using (JsEngine engine = new JsEngine())
+            using (JsContext ctx = engine.CreateContext())
+            {
+                GC.Collect();
+                System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
+                stwatch.Reset();
+                stwatch.Start();
+
+
+                ctx.SetVariableAutoWrap("document", htmldoc);
+
+                string testsrc1 = "document.getElementById('a');";
+                object domNodeA = ctx.Execute(testsrc1);
+
+                string testsrc2 = "document.getElementById('b');";
+                object domNodeB = ctx.Execute(testsrc2);
+
+                stwatch.Stop();
+
+                Console.WriteLine("met1 template:" + stwatch.ElapsedMilliseconds.ToString());
+
+            }
+
+            ////3. get element by id 
+            //var domNodeA = webdoc.GetElementById("a");
+            //var domNodeB = webdoc.GetElementById("b");
+
+            //domNodeA.AddTextContent("Hello from A");
+            //domNodeB.AddChild("div", div =>
+            //{
+            //    div.SetAttribute("style", "background-color:yellow");
+            //    div.AddTextContent("Hello from B");
+            //});
+
+            //domNodeB.AttachMouseDownEvent(ev =>
+            //{
+            //    var domB = new EaseDomElement(domNodeB);
+            //    domB.SetBackgroundColor(Color.Red);
+            //    ev.StopPropagation();
+            //    //domNodeB.SetAttribute("style", "background-color:red");
+            //});
+            //domNodeB.AttachMouseUpEvent(ev =>
+            //{
+            //    var domB = new EaseDomElement(domNodeB);
+            //    domB.SetBackgroundColor(Color.Yellow);
+            //    ev.StopPropagation();
+            //    //domNodeB.SetAttribute("style", "background-color:red");
+            //}); 
         }
 
     }

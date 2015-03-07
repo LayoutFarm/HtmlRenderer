@@ -251,10 +251,8 @@ namespace LayoutFarm.Dev
                 StreamWriter strmWriter = new StreamWriter(fs);
                 for (int i = 0; i < j; ++i)
                 {
-                    strmWriter.WriteLine(lastestMessages[i].ToString());
-
-                }
-
+                    strmWriter.WriteLine(lastestMessages[i].ToString()); 
+                } 
                 strmWriter.Close();
                 fs.Close();
                 fs.Dispose();
@@ -268,6 +266,15 @@ namespace LayoutFarm.Dev
 #if DEBUG
             vwport.IdebugOutputWin.dbug_ReArrangeWithBreakOnSelectedNode();
 #endif
+
+        }
+
+        private void toolStripButton1_Click_1(object sender, EventArgs e)
+        {
+#if DEBUG
+           vwport.PaintMeFullMode();
+#endif
+
 
         }
 

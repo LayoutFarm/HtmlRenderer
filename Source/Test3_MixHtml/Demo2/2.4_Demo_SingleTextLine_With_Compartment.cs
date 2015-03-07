@@ -524,7 +524,7 @@ Zimbabwe");
 
                 return gripperBox;
             }
-            static CustomWidgets.Panel CreateSpaceBox(SpaceName name, PixelFarm.Drawing.Color bgcolor)
+            static CustomWidgets.Panel CreateSpaceBox(SpaceName name, Color bgcolor)
             {
                 int controllerBoxWH = 10;
                 CustomWidgets.Panel spaceBox = new CustomWidgets.Panel(controllerBoxWH, controllerBoxWH);

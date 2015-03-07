@@ -16,7 +16,7 @@ namespace LayoutFarm.UI
         IUserEventPortal userEventPortal;
         protected TopWindowRenderBox topwin;
         CanvasViewport canvasViewport;
-         
+
 
         bool isMouseDown;
         bool isDragging;
@@ -41,8 +41,10 @@ namespace LayoutFarm.UI
             this.userEventPortal = winEventBridge;
             this.rootGraphic = rootGraphic;
             this.topwin = rootGraphic.TopWindowRenderBox;
-
         }
+#if DEBUG
+        internal Control dbugWinControl;
+#endif
         public RootGraphic RootGfx
         {
             get { return this.rootGraphic; }
@@ -56,12 +58,12 @@ namespace LayoutFarm.UI
         }
         public void PaintToOutputWindowFullMode()
         {
-            
+
             Rectangle rect = new Rectangle(0, 0, rootGraphic.RootWidth, rootGraphic.RootHeight);
             rootGraphic.InvalidateGraphicArea(
                 rootGraphic.TopWindowRenderBox,
-                ref rect); 
-            this.PaintToOutputWindow(); 
+                ref rect);
+            this.PaintToOutputWindow();
         }
         public abstract void PaintToOutputWindow();
         public abstract void PaintToCanvas(Canvas canvas);

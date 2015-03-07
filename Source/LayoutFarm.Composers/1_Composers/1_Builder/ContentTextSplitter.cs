@@ -250,7 +250,7 @@ namespace LayoutFarm.Composers
                 }
             }
             //--------------------
-            int runcount = runlist.Count;
+
             if (appendLength > 0)
             {
                 switch (parsingState)
@@ -261,13 +261,13 @@ namespace LayoutFarm.Composers
                             if (preserveWhiteSpace)
                             {
                                 runlist.Add(CssTextRun.CreateWhitespace(appendLength));
+
                             }
                             else
                             {
-                                if (!isblock || (runcount > 0))
+                                if (!isblock || (runlist.Count > 0))
                                 {
-                                    runlist.Add(CssTextRun.CreateWhitespace(1));
-                                    runcount++;
+                                    runlist.Add(CssTextRun.CreateWhitespace(1)); 
                                 }
                             }
                         } break;
@@ -276,10 +276,12 @@ namespace LayoutFarm.Composers
                             if (needICUSplitter)
                             {
                                 AddToRunList(textBuffer, runlist, startIndex, appendLength, ref needICUSplitter);
+
                             }
                             else
                             {
                                 runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
+
                             }
 
                             hasSomeCharacter = true;
@@ -287,7 +289,7 @@ namespace LayoutFarm.Composers
                 }
             }
 
-            if (runcount > 0)
+            if (runlist.Count > 0)
             {
                 runlistOutput = runlist;
             }
