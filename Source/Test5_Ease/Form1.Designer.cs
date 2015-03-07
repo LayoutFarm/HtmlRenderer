@@ -86,11 +86,11 @@
             // 
             // cmdTestV8Js1
             // 
-            this.cmdTestV8Js1.Location = new System.Drawing.Point(13, 315);
+            this.cmdTestV8Js1.Location = new System.Drawing.Point(13, 12);
             this.cmdTestV8Js1.Name = "cmdTestV8Js1";
             this.cmdTestV8Js1.Size = new System.Drawing.Size(112, 35);
             this.cmdTestV8Js1.TabIndex = 5;
-            this.cmdTestV8Js1.Text = "TestV8Js_1";
+            this.cmdTestV8Js1.Text = "Show JsTestForm";
             this.cmdTestV8Js1.UseVisualStyleBackColor = true;
             this.cmdTestV8Js1.Click += new System.EventHandler(this.cmdTestV8Js1_Click);
             // 

@@ -421,7 +421,10 @@ namespace NativeV8
                 var thisArg = args.GetThisArg() as NativeJsInstanceProxy;
                 int argCount = args.ArgCount;
                 object[] parameters = new object[argCount];
-
+                for (int i = 0; i < argCount; ++i)
+                {
+                    parameters[i] = args.GetArgAsObject(i);
+                }
                 object result = this.method.Invoke(thisArg.WrapObject, parameters);
                 args.SetResultObj(result);
             }

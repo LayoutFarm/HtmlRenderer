@@ -908,6 +908,7 @@ namespace VroomJs
         {
             proxyStore.CreateProxyForTypeDefinition(jsTypeDefinition);
         }
+       
         public void SetVariableFromAny(string name, object value)
         {
             if (name == null)
@@ -1032,6 +1033,14 @@ namespace VroomJs
             jsvalue_dispose(b);
         }
 
+        public void SetVariableAutoWrap<T>(string name, T result)
+         where T : class,new()
+        {
+
+            var jsTypeDef = this.GetJsTypeDefinition<T>(result);
+            var proxy = this.CreateWrapper(result, jsTypeDef);
+            this.SetVariable(name, proxy);
+        }
 
         //------------------------------------------------------------------
 
@@ -1046,7 +1055,7 @@ namespace VroomJs
             //if not found
             //just create it
             found = JsTypeDefinitionBuilder.BuildTypeDefinition(type);
-            this.mappingJsTypeDefinition.Add(type, found); 
+            this.mappingJsTypeDefinition.Add(type, found);
             this.RegisterTypeDefinition(found);
 
             return found;
