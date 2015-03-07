@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
+
 using System.Drawing;
+
 using System.Text;
 using System.Windows.Forms;
+using VroomJs;
 using NativeV8;
-
 namespace Test5_Ease
 {
     public partial class FormTestV8 : Form
@@ -14,104 +15,328 @@ namespace Test5_Ease
         public FormTestV8()
         {
             InitializeComponent();
+             
+        }
+
+        class TestMe1
+        {
+            public int B()
+            {
+                return 100;
+            }
+            public bool C()
+            {
+                return true;
+            }
+        }
+
+
+        [JsType]
+        class AboutMe
+        {
+            [JsMethod]
+            public int Test1()
+            {
+                return 123;
+            }
+
+            [JsProperty]
+            public bool IsOK
+            {
+                get
+                {
+                    return true;
+                }
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //where is my dll...
-            NativeV8JsInterOp.LoadV8("..\\..\\dll\\MiniJsBridge.dll");
+
+            NativeV8JsInterOp.RegisterCallBacks();
+            NativeV8JsInterOp.TestCallBack();
+
             JsTypeDefinition jstypedef = new JsTypeDefinition("AA");
             jstypedef.AddMember(new JsMethodDefinition("B", args =>
             {
-                Console.WriteLine("test-b");
+                args.SetResult(100);
             }));
             jstypedef.AddMember(new JsMethodDefinition("C", args =>
             {
                 args.SetResult(true);
             }));
             //===============================================================
-
-
-            JsContext context = NativeV8JsInterOp.CreateNewJsContext(); 
-            AboutMe ab = new AboutMe();//pure managed 
-            context.EnterContext();
-            context.RegisterTypeDefinition(jstypedef);
-            //-------------------------------------------------------------
-            context.SetParameter("a", 10);
-            context.SetParameter("b", 20);
-            //------------------------------------------------------------- 
-            NativeJsInstanceProxy prox_ab = context.CreateWrapper(ab, jstypedef);
-
-            context.SetParameter("x", prox_ab);
-            //  run code 
-            //context.Run("a+b");
-            //context.Run("(function(){return a+b;})()");
-            context.Run("if(x.C()){x.B();}");
-            context.ExitContext();
-            context.Close();
-            context = null;
-            //----------------------------------------------------------------
-
-            //NativeV8JsInterOp.RegisterTypeDef();
-
-
-            //AboutMe ab = new AboutMe();
-            //NativeObjectProxy wrapObject = proxyStore.CreateProxyForObject(ab); 
-
-            //NativeV8JsInterOp.RegisterNativePart(wrapObject); 
-            ////int result = NativeV8JsInterOp.GetManagedIndexFromNativePart(wrapObject); 
-            //NativeV8JsInterOp.TestCallFromNative(wrapObject);
-
-            //NativeV8JsInterOp.UnRegisterNativePart(wrapObject);
-            //-------------------------------------------------------------------
-
-        }
-        class AboutMe
-        {
-            public AboutMe()
+            //create js engine and context
+            using (JsEngine engine = new JsEngine())
+            using (JsContext ctx = engine.CreateContext())
             {
 
-            }
-            public void SayHello()
-            {
-
-            }
-        }
-        public class MyConsole
-        {
-            string myname;
-            public MyConsole(string myname)
-            {
-                this.myname = myname;
-            }
-            public string MyName
-            {
-                get
+                if (!jstypedef.IsRegisterd)
                 {
-                    return this.myname;
+                    ctx.RegisterTypeDefinition(jstypedef);
                 }
-                set
+                GC.Collect();
+                System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
+                stwatch.Start();
+
+                TestMe1 t1 = new TestMe1();
+                var proxy = ctx.CreateWrapper(t1, jstypedef);
+
+                for (int i = 2000; i >= 0; --i)
                 {
-                    this.myname = value;
+                    ctx.SetVariableFromAny("x", proxy);
+                    object result = ctx.Execute("(function(){if(x.C()){return  x.B();}else{return 0;}})()");
                 }
+                stwatch.Stop();
+
+                Console.WriteLine("met1 template:" + stwatch.ElapsedMilliseconds.ToString());
+                //Assert.That(result, Is.EqualTo(100));
             }
-            /// <summary>
-            /// expose to javascript
-            /// </summary>
-            /// <param name="str"></param>
-            public void Log(string str)
+
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            NativeV8JsInterOp.RegisterCallBacks();
+            NativeV8JsInterOp.TestCallBack();
+            //create js engine and context
+
+            using (JsEngine engine = new JsEngine())
+            using (JsContext ctx = engine.CreateContext())
             {
-                Console.WriteLine(str);
+                GC.Collect();
+                System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
+                stwatch.Start();
+
+                TestMe1 t1 = new TestMe1();
+
+                for (int i = 2000; i >= 0; --i)
+                {
+                    ctx.SetVariableFromAny("x", t1);
+                    object result = ctx.Execute("(function(){if(x.C()){return  x.B();}else{return 0;}})()");
+                }
+                stwatch.Stop();
+                Console.WriteLine("met2 managed reflection:" + stwatch.ElapsedMilliseconds.ToString());
+                //Assert.That(result, Is.EqualTo(100)); 
             }
         }
-        delegate void TestMeDel();
+        private void button3_Click(object sender, EventArgs e)
+        {
 
-        void TestMe001()
+            NativeV8JsInterOp.RegisterCallBacks();
+            NativeV8JsInterOp.TestCallBack();
+
+            JsTypeDefinition jstypedef = new JsTypeDefinition("AA");
+            jstypedef.AddMember(new JsMethodDefinition("B", args =>
+            {
+                args.SetResult(100);
+            }));
+            jstypedef.AddMember(new JsMethodDefinition("C", args =>
+            {
+                args.SetResult(true);
+            }));
+
+            jstypedef.AddMember(new JsPropertyDefinition("D",
+                args =>
+                {   //getter
+                    args.SetResult(true);
+                },
+                args =>
+                {
+                    //setter 
+                }));
+            jstypedef.AddMember(new JsPropertyDefinition("E",
+                args =>
+                {   //getter
+                    args.SetResult(250);
+                },
+                args =>
+                {
+                    //setter 
+                }));
+
+            //===============================================================
+            //create js engine and context
+            using (JsEngine engine = new JsEngine())
+            using (JsContext ctx = engine.CreateContext())
+            {
+
+                ctx.RegisterTypeDefinition(jstypedef);
+
+                GC.Collect();
+                System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
+                stwatch.Reset();
+                stwatch.Start();
+
+                TestMe1 t1 = new TestMe1();
+                var proxy = ctx.CreateWrapper(t1, jstypedef);
+
+                //for (int i = 2000; i >= 0; --i)
+                //{
+                ctx.SetVariableFromAny("x", proxy);
+                //object result = ctx.Execute("(function(){if(x.C()){return  x.B();}else{return 0;}})()");
+                object result = ctx.Execute("(function(){if(x.D){ x.E=300; return  x.B();}else{return 0;}})()");
+
+                //}
+                stwatch.Stop();
+
+                Console.WriteLine("met1 template:" + stwatch.ElapsedMilliseconds.ToString());
+                //Assert.That(result, Is.EqualTo(100));
+            }
+        }
+        private void button4_Click(object sender, EventArgs e)
+        {
+            NativeV8JsInterOp.RegisterCallBacks();
+            NativeV8JsInterOp.TestCallBack();
+
+            JsTypeDefinition jstypedef = new JsTypeDefinition("AA");
+            jstypedef.AddMember(new JsMethodDefinition("B", args =>
+            {
+                var argCount = args.ArgCount;
+                var thisArg = args.GetThisArg();
+                var arg0 = args.GetArgAsObject(0);
+
+                args.SetResult(100);
+            }));
+            jstypedef.AddMember(new JsMethodDefinition("C", args =>
+            {
+                args.SetResult(true);
+            }));
+
+            //----------------------------------------------------- 
+            jstypedef.AddMember(new JsPropertyDefinition("D",
+                args =>
+                {
+                    //getter
+                    TestMe1 t2 = new TestMe1();
+                    args.SetResultObj(t2, jstypedef);
+
+                },
+                args =>
+                {
+                    //setter 
+                }));
+            jstypedef.AddMember(new JsPropertyDefinition("E",
+                args =>
+                {   //getter
+                    args.SetResult(250);
+                },
+                args =>
+                {
+                    //setter 
+                }));
+
+            //===============================================================
+            //create js engine and context
+            using (JsEngine engine = new JsEngine())
+            using (JsContext ctx = engine.CreateContext())
+            {
+
+                ctx.RegisterTypeDefinition(jstypedef);
+
+                GC.Collect();
+                System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
+                stwatch.Reset();
+                stwatch.Start();
+
+                TestMe1 t1 = new TestMe1();
+                NativeJsInstanceProxy proxy = ctx.CreateWrapper(t1, jstypedef);
+
+                ctx.SetVariable("x", proxy);
+
+                //string testsrc = "(function(){if(x.C()){return  x.B();}else{return 0;}})()";
+                //string testsrc = "(function(){if(x.D != null){ x.E=300; return  x.B();}else{return 0;}})()";
+                string testsrc = "x.B(x.D,15);";
+
+                object result = ctx.Execute(testsrc);
+                stwatch.Stop();
+
+                Console.WriteLine("met1 template:" + stwatch.ElapsedMilliseconds.ToString());
+
+            }
+        }
+        private void button5_Click(object sender, EventArgs e)
+        {
+            NativeV8JsInterOp.RegisterCallBacks();
+            NativeV8JsInterOp.TestCallBack();
+
+            JsTypeDefinition jstypedef = new JsTypeDefinition("AA");
+            jstypedef.AddMember(new JsMethodDefinition("B", args =>
+            {
+                var argCount = args.ArgCount;
+                var thisArg = args.GetThisArg();
+                var arg0 = args.GetArgAsObject(0);
+                args.SetResult((bool)arg0);
+
+            }));
+            jstypedef.AddMember(new JsMethodDefinition("C", args =>
+            {
+                args.SetResult(true);
+            }));
+
+            //----------------------------------------------------- 
+            jstypedef.AddMember(new JsPropertyDefinition("D",
+                args =>
+                {
+                    var ab = new AboutMe();
+                    args.SetResultAutoWrap(ab);
+                },
+                args =>
+                {
+                    //setter 
+                }));
+            jstypedef.AddMember(new JsPropertyDefinition("E",
+                args =>
+                {   //getter
+                    args.SetResult(250);
+                },
+                args =>
+                {
+                    //setter 
+                }));
+
+            //===============================================================
+            //create js engine and context
+            using (JsEngine engine = new JsEngine())
+            using (JsContext ctx = engine.CreateContext())
+            {
+
+                ctx.RegisterTypeDefinition(jstypedef);
+
+                GC.Collect();
+                System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
+                stwatch.Reset();
+                stwatch.Start();
+
+                //AboutMe ab = new AboutMe();
+                //ctx.SetVariableFromAny("x", ab);
+                //ctx.SetVariable(
+
+                TestMe1 t1 = new TestMe1();
+                NativeJsInstanceProxy proxy = ctx.CreateWrapper(t1, jstypedef);
+                ctx.SetVariable("x", proxy);
+
+                //string testsrc = "(function(){if(x.C()){return  x.B();}else{return 0;}})()";
+                //string testsrc = "(function(){if(x.D != null){ x.E=300; return  x.B();}else{return 0;}})()";
+                //string testsrc = "x.B(x.D.IsOk,x.D.Test1());";
+                string testsrc = "x.B(x.D.IsOK);";
+                object result = ctx.Execute(testsrc);
+                stwatch.Stop();
+
+                Console.WriteLine("met1 template:" + stwatch.ElapsedMilliseconds.ToString());
+
+            }
+        }
+
+     
+
+       
+
+      
+        private void FormTestV8_Load(object sender, EventArgs e)
         {
 
         }
- 
-         
 
+    
     }
 }
