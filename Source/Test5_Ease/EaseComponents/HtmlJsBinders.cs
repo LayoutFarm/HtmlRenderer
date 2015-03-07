@@ -28,8 +28,8 @@ namespace LayoutFarm.WebDom.Wrap
                 return new HtmlElement(found);
             }
         }
-
     }
+
     [JsType]
     public class HtmlElement
     {

@@ -92,8 +92,15 @@ namespace VroomJs
 
         NativeObjectProxyStore proxyStore;
 
-        internal JsContext(int id, JsEngine engine, HandleRef engineHandle, Action<int> notifyDispose)
+        JsTypeDefinitionBuilderBase jsTypeDefBuilder;
+
+        internal JsContext(int id,
+            JsEngine engine,
+            HandleRef engineHandle,
+            Action<int> notifyDispose,
+            JsTypeDefinitionBuilderBase jsTypeDefBuilder)
         {
+
             _id = id;
             _engine = engine;
             _notifyDispose = notifyDispose;
@@ -101,6 +108,8 @@ namespace VroomJs
             _keepalives = new KeepAliveDictionaryStore();
             _context = new HandleRef(this, jscontext_new(id, engineHandle));
             _convert = new JsConvert(this);
+
+            this.jsTypeDefBuilder = jsTypeDefBuilder;
 
             engineMethodCallbackDel = new NativeV8.ManagedMethodCallDel(EngineListener_MethodCall);
             NativeV8.NativeV8JsInterOp.CtxRegisterManagedMethodCall(this, engineMethodCallbackDel);
@@ -111,8 +120,6 @@ namespace VroomJs
             proxyStore = new NativeObjectProxyStore(this);
 
         }
-
-
 
         internal NativeObjectProxy GetObjectProxy(int index)
         {
@@ -908,7 +915,7 @@ namespace VroomJs
         {
             proxyStore.CreateProxyForTypeDefinition(jsTypeDefinition);
         }
-       
+
         public void SetVariableFromAny(string name, object value)
         {
             if (name == null)
@@ -1054,7 +1061,7 @@ namespace VroomJs
 
             //if not found
             //just create it
-            found = JsTypeDefinitionBuilder.BuildTypeDefinition(type);
+            found = this.jsTypeDefBuilder.BuildTypeDefinition(type);
             this.mappingJsTypeDefinition.Add(type, found);
             this.RegisterTypeDefinition(found);
 
