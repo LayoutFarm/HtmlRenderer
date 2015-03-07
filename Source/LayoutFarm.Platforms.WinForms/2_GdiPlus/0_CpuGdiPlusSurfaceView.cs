@@ -85,6 +85,8 @@ namespace LayoutFarm.UI.GdiPlus
         }
         protected override void OnPaint(PaintEventArgs e)
         {
+            this.winBridge.InvalidateRootArea(
+                e.ClipRectangle.ToRect());
             this.winBridge.PaintToOutputWindow();
             base.OnPaint(e);
         }

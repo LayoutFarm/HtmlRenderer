@@ -73,6 +73,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test5_Ease", "Test5_Ease\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AngleSharp.Interfaces", "AngleSharp.Interfaces\AngleSharp.Interfaces.csproj", "{DBA8D637-064B-43D7-955C-6FF674B95EA7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7_JsEngine", "7_JsEngine", "{AB4D262A-8401-4642-9784-C079D7B56FE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRoomJs2", "Deps\VRoomJs2\VRoomJs2.csproj", "{CECA196E-EB06-403E-8044-F760EB65C8E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -478,6 +482,21 @@ Global
 		{DBA8D637-064B-43D7-955C-6FF674B95EA7}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{DBA8D637-064B-43D7-955C-6FF674B95EA7}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{DBA8D637-064B-43D7-955C-6FF674B95EA7}.Release64|x86.ActiveCfg = Release|Any CPU
+		{CECA196E-EB06-403E-8044-F760EB65C8E5}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{CECA196E-EB06-403E-8044-F760EB65C8E5}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{CECA196E-EB06-403E-8044-F760EB65C8E5}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{CECA196E-EB06-403E-8044-F760EB65C8E5}.Debug|x86.ActiveCfg = Debug|x86
+		{CECA196E-EB06-403E-8044-F760EB65C8E5}.Debug|x86.Build.0 = Debug|x86
+		{CECA196E-EB06-403E-8044-F760EB65C8E5}.Release|Any CPU.ActiveCfg = Release|x86
+		{CECA196E-EB06-403E-8044-F760EB65C8E5}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{CECA196E-EB06-403E-8044-F760EB65C8E5}.Release|Mixed Platforms.Build.0 = Release|x86
+		{CECA196E-EB06-403E-8044-F760EB65C8E5}.Release|x86.ActiveCfg = Release|x86
+		{CECA196E-EB06-403E-8044-F760EB65C8E5}.Release|x86.Build.0 = Release|x86
+		{CECA196E-EB06-403E-8044-F760EB65C8E5}.Release64|Any CPU.ActiveCfg = Release|x86
+		{CECA196E-EB06-403E-8044-F760EB65C8E5}.Release64|Mixed Platforms.ActiveCfg = Release|x86
+		{CECA196E-EB06-403E-8044-F760EB65C8E5}.Release64|Mixed Platforms.Build.0 = Release|x86
+		{CECA196E-EB06-403E-8044-F760EB65C8E5}.Release64|x86.ActiveCfg = Release|x86
+		{CECA196E-EB06-403E-8044-F760EB65C8E5}.Release64|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -513,5 +532,6 @@ Global
 		{2B1F2C53-2F8D-4E0E-94EB-79171C91337B} = {D16DFDBA-6F59-49C6-904B-DD15E313749F}
 		{51D63482-5697-4B16-8401-506965624657} = {16FDBDC4-FCEB-4093-A2EC-C6D0DEC4C9BD}
 		{1AA171E3-523C-4DD5-A169-DE6322991FF5} = {7B0136CA-FE1A-4840-9AE8-3835A16C2241}
+		{CECA196E-EB06-403E-8044-F760EB65C8E5} = {AB4D262A-8401-4642-9784-C079D7B56FE9}
 	EndGlobalSection
 EndGlobal

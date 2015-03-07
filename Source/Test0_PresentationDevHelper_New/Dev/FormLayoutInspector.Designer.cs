@@ -17,7 +17,6 @@
 
                                         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLayoutInspector));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -30,6 +29,7 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.listBox3 = new System.Windows.Forms.ListBox();
+            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -38,23 +38,39 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
-                                                this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-                                                this.splitContainer1.Panel1.Controls.Add(this.listBox1);
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.listBox1);
             this.splitContainer1.Panel1.Controls.Add(this.toolStrip1);
-                                                this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Size = new System.Drawing.Size(888, 447);
             this.splitContainer1.SplitterDistance = 95;
             this.splitContainer1.TabIndex = 47;
-                                                this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            // 
+            // listBox1
+            // 
+            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(0, 25);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(888, 70);
             this.listBox1.TabIndex = 46;
-                                                this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton2,
             this.toolStripButton1,
             this.toolStripTextBox1,
             this.toolStripSeparator1,
@@ -66,59 +82,100 @@
             this.toolStrip1.Size = new System.Drawing.Size(888, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
-                                                this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-          //  this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(98, 22);
-            this.toolStripButton1.Text = "CopyDrawResult";
-                                                this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripButton1.Size = new System.Drawing.Size(50, 22);
+            this.toolStripButton1.Text = "Refresh";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click_1);
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 25);
             this.toolStripTextBox1.Text = "800";
-                                                this.toolStripSeparator1.Name = "toolStripSeparator1";
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-                                                this.tlstrpDumpSelectedVisualProps.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            //this.tlstrpDumpSelectedVisualProps.Image = ((System.Drawing.Image)(resources.GetObject("tlstrpDumpSelectedVisualProps.Image")));
+            // 
+            // tlstrpDumpSelectedVisualProps
+            // 
+            this.tlstrpDumpSelectedVisualProps.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tlstrpDumpSelectedVisualProps.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlstrpDumpSelectedVisualProps.Name = "tlstrpDumpSelectedVisualProps";
             this.tlstrpDumpSelectedVisualProps.Size = new System.Drawing.Size(105, 22);
             this.tlstrpDumpSelectedVisualProps.Text = "DumpVisualProps";
             this.tlstrpDumpSelectedVisualProps.Click += new System.EventHandler(this.tlstrpDumpSelectedVisualProps_Click);
-                                                this.tlstrpSaveSelectedVisualProps.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            //this.tlstrpSaveSelectedVisualProps.Image = ((System.Drawing.Image)(resources.GetObject("tlstrpSaveSelectedVisualProps.Image")));
+            // 
+            // tlstrpSaveSelectedVisualProps
+            // 
+            this.tlstrpSaveSelectedVisualProps.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tlstrpSaveSelectedVisualProps.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlstrpSaveSelectedVisualProps.Name = "tlstrpSaveSelectedVisualProps";
             this.tlstrpSaveSelectedVisualProps.Size = new System.Drawing.Size(35, 22);
             this.tlstrpSaveSelectedVisualProps.Text = "Save";
             this.tlstrpSaveSelectedVisualProps.Click += new System.EventHandler(this.tlstrpSaveSelectedVisualProps_Click);
-                                                this.tlstrpReArrange.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            //this.tlstrpReArrange.Image = ((System.Drawing.Image)(resources.GetObject("tlstrpReArrange.Image")));
+            // 
+            // tlstrpReArrange
+            // 
+            this.tlstrpReArrange.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.tlstrpReArrange.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tlstrpReArrange.Name = "tlstrpReArrange";
             this.tlstrpReArrange.Size = new System.Drawing.Size(66, 22);
             this.tlstrpReArrange.Text = "ReArrange";
             this.tlstrpReArrange.Click += new System.EventHandler(this.tlstrpReArrange_Click);
-                                                this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
             this.splitContainer2.Name = "splitContainer2";
-                                                this.splitContainer2.Panel1.Controls.Add(this.listBox2);
-                                                this.splitContainer2.Panel2.Controls.Add(this.listBox3);
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.listBox2);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.listBox3);
             this.splitContainer2.Size = new System.Drawing.Size(888, 348);
             this.splitContainer2.SplitterDistance = 233;
             this.splitContainer2.TabIndex = 0;
-                                                this.listBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            // 
+            // listBox2
+            // 
+            this.listBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBox2.FormattingEnabled = true;
             this.listBox2.Location = new System.Drawing.Point(0, 0);
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(233, 348);
             this.listBox2.TabIndex = 0;
-                                                this.listBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            // 
+            // listBox3
+            // 
+            this.listBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBox3.FormattingEnabled = true;
             this.listBox3.Location = new System.Drawing.Point(0, 0);
             this.listBox3.Name = "listBox3";
             this.listBox3.Size = new System.Drawing.Size(651, 348);
             this.listBox3.TabIndex = 1;
-                                                this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            // 
+            // toolStripButton2
+            // 
+            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton2.Name = "toolStripButton2";
+            this.toolStripButton2.Size = new System.Drawing.Size(98, 22);
+            this.toolStripButton2.Text = "CopyDrawResult";
+            // 
+            // FormLayoutInspector
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(888, 447);
             this.Controls.Add(this.splitContainer1);
@@ -152,5 +209,6 @@
         private System.Windows.Forms.ToolStripButton tlstrpSaveSelectedVisualProps;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
         private System.Windows.Forms.ToolStripButton tlstrpReArrange;
+        private System.Windows.Forms.ToolStripButton toolStripButton2;
     }
 }

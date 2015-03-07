@@ -109,9 +109,9 @@ namespace LayoutFarm.Dev
             out LayoutFarm.UI.UISurfaceViewportControl viewport,
             out Form formCanvas)
         {
-
-            int w = 800;
-            int h = 600;
+            var workingArea = Screen.PrimaryScreen.WorkingArea;
+            int w = workingArea.Width;
+            int h = workingArea.Height;
 
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
                 this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
@@ -121,7 +121,7 @@ namespace LayoutFarm.Dev
 
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
                 this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
-                out viewport); 
+                out viewport);
 
             formCanvas.Text = "FormCanvas 1";
 

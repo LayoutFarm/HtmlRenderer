@@ -8,9 +8,10 @@ namespace LayoutFarm.UI
     public abstract partial class UIElement : IEventListener
     {
         int oneBitNativeEventFlags;
-        UIElement parentElement;
-        UIContext uiContext;
-
+        UIElement parentElement; 
+#if DEBUG
+        public bool dbugBreakMe;
+#endif
         public UIElement()
         {
         }

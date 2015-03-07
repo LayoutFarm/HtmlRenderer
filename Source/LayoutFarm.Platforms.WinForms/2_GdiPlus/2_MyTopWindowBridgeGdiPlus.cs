@@ -27,8 +27,9 @@ namespace LayoutFarm.UI.GdiPlus
             this.RootGfx.SetPaintDelegates(
                     this.gdiPlusViewport.CanvasInvlidateArea,
                     this.PaintToOutputWindow);
-
+            
 #if DEBUG
+            this.dbugWinControl = windowControl;
             this.gdiPlusViewport.dbugOutputWindow = this;
 #endif
             this.EvaluateScrollbar();
@@ -36,6 +37,13 @@ namespace LayoutFarm.UI.GdiPlus
         System.Drawing.Size Size
         {
             get { return this.windowControl.Size; }
+        }
+        public void InvalidateRootArea(Rectangle r)
+        {
+            Rectangle rect = r;
+            this.RootGfx.InvalidateGraphicArea(
+                RootGfx.TopWindowRenderBox,
+                ref rect); 
         }
         public override void PaintToOutputWindow()
         {

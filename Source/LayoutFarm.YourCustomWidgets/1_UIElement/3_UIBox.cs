@@ -16,10 +16,13 @@ namespace LayoutFarm.UI
         int _width;
         int _height;
         bool _hide;
+        bool specificWidth;
+        bool specificHeight;
         public event EventHandler LayoutFinished;
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
+
 #endif
         public UIBox(int width, int height)
         {
@@ -27,7 +30,31 @@ namespace LayoutFarm.UI
             this._height = height;
         }
 
+        public bool HasSpecificWidth
+        {
+            get { return this.specificWidth; }
+            set
+            {
+                this.specificWidth = value;
+                if (this.CurrentPrimaryRenderElement != null)
+                {
+                    CurrentPrimaryRenderElement.HasSpecificWidth = value;
+                }
 
+            }
+        }
+        public bool HasSpecificHeight
+        {
+            get { return this.specificHeight; }
+            set
+            {
+                this.specificHeight = value;
+                if (this.CurrentPrimaryRenderElement != null)
+                {
+                    CurrentPrimaryRenderElement.HasSpecificHeight = value;
+                }
+            }
+        }
         protected void RaiseLayoutFinished()
         {
             if (this.LayoutFinished != null)
