@@ -129,91 +129,12 @@ namespace Test5_Ease
 
         private void cmdTestV8Js1_Click(object sender, EventArgs e)
         {
+            NativeV8.NativeV8JsInterOp.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
             FormTestV8 formTestV8 = new FormTestV8();
             formTestV8.Show();
         }
         private void button5_Click(object sender, EventArgs e)
         {
-            string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
-
-            //1. blank html
-            var fileContent = "<html><body><div id=\"a\">AAA</div></body></html>";
-            easeViewport.LoadHtml(filename, fileContent);
-
-            WebDocument webdoc = easeViewport.GetHtmlDom();
-
-
-            //NativeV8JsInterOp.LoadV8("..\\..\\dll\\MiniJsBridge.dll");
-            NativeV8JsInterOp.LoadV8(@"D:\projects\V8Engine\MiniJsBridge\VS2010\Debug\VS2010\MiniJsBridge.dll");
-             
-            //===============================================================  
-            JsContext context = NativeV8JsInterOp.CreateNewJsContext();
-            HtmlDocumentWrapper htmldocWrapper = new HtmlDocumentWrapper(webdoc);//pure managed 
-            context.EnterContext();
-
-            //prepare wrapper 
-            //style1: ...
-            JsTypeDefinition jstypedef = new JsTypeDefinition("HtmlDocument");
-            JsTypeDefinition htmlElementTypeDef = new JsTypeDefinition("HtmlElement");
-
-            jstypedef.AddMember(new JsMethodDefinition("getElementById", args =>
-            {
-                //implement with lambda 
-                //plan: move inside wrapper object
-                var found = webdoc.GetElementById(args.GetArgAsString(0));
-                if (found != null)
-                {
-                    //found  
-                    //DomElementWrapper foundWrapper = new DomElementWrapper(found);
-                    //NativeJsInstanceProxy elem_prox = context.CreateWrapper(foundWrapper, jstypedef);
-                    //args.SetResultAsNativeObject(elem_prox);
-                    args.SetResult(0);
-
-                }
-                else
-                {
-
-                }
-            }));
-
-            //--------------------------------------------------------------------------------------
-            context.RegisterTypeDefinition(jstypedef);
-            context.RegisterTypeDefinition(htmlElementTypeDef);
-            //-------------------------------------------------------------
-            //context.SetParameter("a", 10);
-            //context.SetParameter("b", 20);
-            //------------------------------------------------------------- 
-            NativeJsInstanceProxy prox_doc = context.CreateWrapper(htmldocWrapper, jstypedef);
-            context.SetParameter("document", prox_doc);
-            //  run code 
-            //context.Run("a+b");
-            //context.Run("(function(){return a+b;})()");
-            context.Run("if(document.getElementById(\"a\")!= null)return 1; else return 0;");
-            context.ExitContext();
-            context.Close();
-            context = null;
         }
-
-        struct HtmlDocumentWrapper
-        {
-            WebDocument webdoc;
-            public HtmlDocumentWrapper(WebDocument webdoc)
-            {
-                this.webdoc = webdoc;
-            }
-            public void GetElementById(string id)
-            {
-
-            }
-        }
-        struct DomElementWrapper
-        {
-            public DomElement domElement;
-            public DomElementWrapper(DomElement domElement)
-            {
-                this.domElement = domElement;
-            }
-        }
-
     }
 }
