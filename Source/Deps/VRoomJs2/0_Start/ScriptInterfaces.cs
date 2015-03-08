@@ -291,7 +291,7 @@ namespace VroomJs
         {
         }
     }
-     
+
     public class JsMethodDefinition : JsTypeMemberDefinition
     {
 
@@ -316,14 +316,15 @@ namespace VroomJs
             if (method != null)
             {
                 //invoke method
-                var thisArg = args.GetThisArg() as NativeJsInstanceProxy;
+                var thisArg = args.GetThisArg();
                 int argCount = args.ArgCount;
                 object[] parameters = new object[argCount];
                 for (int i = 0; i < argCount; ++i)
                 {
                     parameters[i] = args.GetArgAsObject(i);
                 }
-                object result = this.method.Invoke(thisArg.WrapObject, parameters);
+                object result = this.method.Invoke(thisArg, parameters);
+
                 args.SetResultObj(result);
             }
             else
@@ -350,7 +351,7 @@ namespace VroomJs
             {
                 return NativeV8JsInterOp.ArgCount(this.metArgsPtr);
             }
-        } 
+        }
         public object GetThisArg()
         {
             var value = NativeV8JsInterOp.ArgGetThis(this.metArgsPtr);
@@ -416,5 +417,7 @@ namespace VroomJs
             NativeV8JsInterOp.ResultSetJsValue(metArgsPtr,
                this.context.Converter.ToJsValue(proxy));
         }
+
+
     }
 }

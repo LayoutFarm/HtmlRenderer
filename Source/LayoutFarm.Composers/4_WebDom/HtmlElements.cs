@@ -13,7 +13,7 @@ using LayoutFarm.Composers;
 namespace LayoutFarm.WebDom
 {
 
-    public class HtmlElement : DomElement
+    public partial class HtmlElement : DomElement
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;
