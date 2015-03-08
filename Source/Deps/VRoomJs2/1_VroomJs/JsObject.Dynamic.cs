@@ -55,27 +55,12 @@ namespace VroomJs
                 //this.members[name] = value;
             }
         }
-
-        public virtual bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
-        {
-            result = null;
-            return false;
-        }
-
-        public virtual bool TryGetMember(GetMemberBinder binder, out object result)
-        {
-            result = null;
-            return false;
-        }
+ 
         public virtual bool TryGetMember(string mbname, out object result)
         {
             result = null;
             return false;
-        }
-        public virtual bool TrySetMember(SetMemberBinder binder, object value)
-        {
-            return false;
-        }
+        } 
         public virtual bool TrySetMember(string mbname, object value)
         {
             return false;
@@ -85,23 +70,7 @@ namespace VroomJs
             return null;
         }
     }
-    public class MemberBinder
-    {
-        public string Name { get; set; }
-    }
-    public class InvokeMemberBinder : MemberBinder
-    {
-
-    }
-    public class GetMemberBinder : MemberBinder
-    {
-
-    }
-    public class SetMemberBinder : MemberBinder
-    {
-
-    }
-
+     
 
     public class JsObject : DynamicObject, IDisposable
     {
@@ -126,32 +95,19 @@ namespace VroomJs
             result = _context.InvokeProperty(this, name, args);
             return true;
         }
-        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
-        {
-            result = _context.InvokeProperty(this, binder.Name, args);
-            return true;
-        }
+       
         public override bool TryGetMember(string mbname, out object result)
         {
             return (result = _context.GetPropertyValue(this, mbname)) != null;
 
         }
-        public override bool TryGetMember(GetMemberBinder binder, out object result)
-        {
-            return (result = _context.GetPropertyValue(this, binder.Name)) != null;
-
-        }
+        
         public override bool TrySetMember(string mbname, object value)
         {
             _context.SetPropertyValue(this, mbname, value);
             return true;
         }
-        public override bool TrySetMember(SetMemberBinder binder, object value)
-        {
-            _context.SetPropertyValue(this, binder.Name, value);
-            return true;
-        }
-
+        
         public override IEnumerable<string> GetDynamicMemberNames()
         {
             return _context.GetMemberNames(this);
@@ -186,17 +142,6 @@ namespace VroomJs
         #endregion
     }
 
-
-    //---------------------------------------------------------------------------------------------
-    public class JsWrapObject : JsObject
-    {
-        NativeV8.JsTypeDefinition jsTypeDef;
-        public JsWrapObject(JsContext context, IntPtr ptr, NativeV8.JsTypeDefinition jsTypeDef)
-            : base(context, ptr)
-        {
-            this.jsTypeDef = jsTypeDef;
-        }
-    }
 }
 
 

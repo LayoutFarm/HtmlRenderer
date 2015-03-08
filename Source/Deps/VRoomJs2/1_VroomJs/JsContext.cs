@@ -1,4 +1,6 @@
-﻿// This file is part of the VroomJs library.
+﻿//2015 MIT, WinterDev
+
+// This file is part of the VroomJs library.
 //
 // Author:
 //     Federico Di Gregorio <fog@initd.org>
@@ -30,7 +32,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Timers;
-using NativeV8;
+using VroomJs;
 
 namespace VroomJs
 {
@@ -39,51 +41,10 @@ namespace VroomJs
     {
 
 
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern int getVersion();
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern IntPtr jscontext_new(int id, HandleRef engine);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void jscontext_dispose(HandleRef engine);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern void jscontext_force_gc();
-
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern JsValue jscontext_execute(HandleRef context,
-            [MarshalAs(UnmanagedType.LPWStr)] string str,
-            [MarshalAs(UnmanagedType.LPWStr)] string name);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        static extern JsValue jscontext_execute_script(HandleRef context, HandleRef script);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern JsValue jscontext_get_global(HandleRef engine);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern JsValue jscontext_get_variable(HandleRef engine, [MarshalAs(UnmanagedType.LPWStr)] string name);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern JsValue jscontext_set_variable(HandleRef engine, [MarshalAs(UnmanagedType.LPWStr)] string name, JsValue value);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static internal extern JsValue jsvalue_alloc_string([MarshalAs(UnmanagedType.LPWStr)] string str);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static internal extern JsValue jsvalue_alloc_array(int length);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static internal extern void jsvalue_dispose(JsValue value);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static internal extern JsValue jscontext_invoke(HandleRef engine, IntPtr funcPtr, IntPtr thisPtr, JsValue args);
-
+        
         readonly int _id;
         readonly JsEngine _engine;
-        readonly NativeV8.ManagedMethodCallDel engineMethodCallbackDel;
+        readonly ManagedMethodCallDel engineMethodCallbackDel;
 
         List<JsMethodDefinition> registerMethods = new List<JsMethodDefinition>();
         List<JsPropertyDefinition> registerProperties = new List<JsPropertyDefinition>();
@@ -92,13 +53,13 @@ namespace VroomJs
 
         NativeObjectProxyStore proxyStore;
 
-        JsTypeDefinitionBuilderBase jsTypeDefBuilder;
+        JsTypeDefinitionBuilder jsTypeDefBuilder;
 
         internal JsContext(int id,
             JsEngine engine,
             HandleRef engineHandle,
             Action<int> notifyDispose,
-            JsTypeDefinitionBuilderBase jsTypeDefBuilder)
+            JsTypeDefinitionBuilder jsTypeDefBuilder)
         {
 
             _id = id;
@@ -111,8 +72,8 @@ namespace VroomJs
 
             this.jsTypeDefBuilder = jsTypeDefBuilder;
 
-            engineMethodCallbackDel = new NativeV8.ManagedMethodCallDel(EngineListener_MethodCall);
-            NativeV8.NativeV8JsInterOp.CtxRegisterManagedMethodCall(this, engineMethodCallbackDel);
+            engineMethodCallbackDel = new ManagedMethodCallDel(EngineListener_MethodCall);
+            NativeV8JsInterOp.CtxRegisterManagedMethodCall(this, engineMethodCallbackDel);
             registerMethods.Add(null);//first is null
             registerProperties.Add(null); //first is null
 
@@ -121,7 +82,7 @@ namespace VroomJs
 
         }
 
-        internal NativeObjectProxy GetObjectProxy(int index)
+        internal INativeRef GetObjectProxy(int index)
         {
             return this.proxyStore.GetProxyObject(index);
         }
@@ -793,18 +754,15 @@ namespace VroomJs
             MethodInfo mi = type.GetMethod(methodName, flags);
             ParameterInfo[] paramTypes = mi.GetParameters();
 
-            for (int i = 0; i < args.Length; i++)
+            for (int i = Math.Min(paramTypes.Length, args.Length) - 1; i >= 0; --i)
             {
-                if (i >= paramTypes.Length)
-                {
-                    continue;
-                }
                 if (args[i] != null && args[i].GetType() == typeof(JsFunction))
                 {
                     JsFunction function = (JsFunction)args[i];
                     args[i] = function.MakeDelegate(paramTypes[i].ParameterType, args);
                 }
             }
+
         }
 
         internal JsValue KeepAliveDeleteProperty(int slot, string name)
@@ -907,7 +865,7 @@ namespace VroomJs
             return res;
         }
 
-        public NativeJsInstanceProxy CreateWrapper(object o, JsTypeDefinition jsTypeDefinition)
+        public INativeScriptable CreateWrapper(object o, JsTypeDefinition jsTypeDefinition)
         {
             return proxyStore.CreateProxyForObject(o, jsTypeDefinition);
         }
@@ -1008,7 +966,7 @@ namespace VroomJs
             jsvalue_dispose(a);
             jsvalue_dispose(b);
         }
-        public void SetVariable(string name, NativeJsInstanceProxy proxy)
+        public void SetVariable(string name, INativeScriptable proxy)
         {
             if (name == null)
                 throw new ArgumentNullException("name");
@@ -1041,18 +999,16 @@ namespace VroomJs
         }
 
         public void SetVariableAutoWrap<T>(string name, T result)
-         where T : class,new()
+             where T : class
         {
-
             var jsTypeDef = this.GetJsTypeDefinition<T>(result);
             var proxy = this.CreateWrapper(result, jsTypeDef);
             this.SetVariable(name, proxy);
-        }
-
+        } 
         //------------------------------------------------------------------
 
         public JsTypeDefinition GetJsTypeDefinition<T>(T t)
-            where T : class,new()
+            where T : class
         {
             Type type = typeof(T);
             JsTypeDefinition found;

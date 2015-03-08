@@ -27,52 +27,61 @@ using System;
 using System.Runtime.Serialization;
 
 namespace VroomJs
-{ 
+{
     [Serializable]
-    public class JsException : Exception {
-    	
-		internal static JsException Create(JsConvert convert, JsError error) {
-			string type = (string)convert.FromJsValue(error.Type);
-			string resource = (string)convert.FromJsValue(error.Resource);
-			string message = (string)convert.FromJsValue(error.Message);
-			int line = error.Line;
-			int column = error.Column + 1; // because zero based.
-			JsObject nativeException = (JsObject)convert.FromJsValue(error.Exception);
+    public class JsException : Exception
+    {
 
-			JsException exception;
-			if (type == "SyntaxError") {
-				exception = new JsSyntaxError(type, resource, message, line, column);
-			} else {
-				exception = new JsException(type, resource, message, line, column, nativeException);
-			}
-			return exception;
-		}
+        internal static JsException Create(JsConvert convert, JsError error)
+        {
+            string type = (string)convert.FromJsValue(error.Type);
+            string resource = (string)convert.FromJsValue(error.Resource);
+            string message = (string)convert.FromJsValue(error.Message);
+            int line = error.Line;
+            int column = error.Column + 1; // because zero based.
+            JsObject nativeException = (JsObject)convert.FromJsValue(error.Exception);
 
-		public JsException()
+            JsException exception;
+            if (type == "SyntaxError")
+            {
+                exception = new JsSyntaxError(type, resource, message, line, column);
+            }
+            else
+            {
+                exception = new JsException(type, resource, message, line, column, nativeException);
+            }
+            return exception;
+        }
+
+        public JsException()
         {
         }
 
-        public JsException(string message) : base(message)
+        public JsException(string message)
+            : base(message)
         {
         }
 
-        public JsException(string message, Exception inner) : base(message, inner)
-	    {
-		
-		}
+        public JsException(string message, Exception inner)
+            : base(message, inner)
+        {
 
-		protected JsException(SerializationInfo info, StreamingContext context) : base(info, context)
+        }
+
+        protected JsException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
 
-		internal JsException(string type, string resource, string message, int line, int col, JsObject error)
-			: base(string.Format("{0}: {1} at line: {2} column: {3}.", resource, message, line, col)) {
-			_type = type;
-			_resource = resource;
-			_line = line;
-			_column = col;
-			_nativeException = error;
-		}
+        internal JsException(string type, string resource, string message, int line, int col, JsObject error)
+            : base(string.Format("{0}: {1} at line: {2} column: {3}.", resource, message, line, col))
+        {
+            _type = type;
+            _resource = resource;
+            _line = line;
+            _column = col;
+            _nativeException = error;
+        }
 
         // Native V8 exception objects are wrapped by special instances of JsException.
 
@@ -83,27 +92,30 @@ namespace VroomJs
 
         readonly JsObject _nativeException;
 
-    	public JsObject NativeException {
+        public JsObject NativeException
+        {
             get { return _nativeException; }
         }
 
 
-    	protected string _type;
-		public string Type { get { return _type; } }
-		
-		protected string _resource;
-		public string Resource { get { return _resource; } }
+        protected string _type;
+        public string Type { get { return _type; } }
 
-    	protected int _line;
-    	public int Line { get { return _line; } }
+        protected string _resource;
+        public string Resource { get { return _resource; } }
 
-    	protected int _column;
-    	public int Column { get { return _column; } }
-	}
+        protected int _line;
+        public int Line { get { return _line; } }
 
-	public class JsSyntaxError : JsException {
-		internal JsSyntaxError(string type, string resource, string message, int line, int col) 
-			: base(type, resource, message, line, col, null) {
-		}
-	}
+        protected int _column;
+        public int Column { get { return _column; } }
+    }
+
+    public class JsSyntaxError : JsException
+    {
+        internal JsSyntaxError(string type, string resource, string message, int line, int col)
+            : base(type, resource, message, line, col, null)
+        {
+        }
+    }
 }

@@ -4,23 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.IO;
-
-using VroomJs;
-
-namespace NativeV8
+ 
+namespace VroomJs
 {
-
-
-    public abstract class JsTypeDefinitionBuilderBase
+     
+    public abstract class JsTypeDefinitionBuilder
     {
         internal JsTypeDefinition BuildTypeDefinition(Type t)
         {
             return this.OnBuildRequest(t);
         }
         protected abstract JsTypeDefinition OnBuildRequest(Type t);
-    }
-
-    class DefaultJsTypeDefinitionBuilder : JsTypeDefinitionBuilderBase
+    } 
+    
+    class DefaultJsTypeDefinitionBuilder : JsTypeDefinitionBuilder
     {
         protected override JsTypeDefinition OnBuildRequest(Type t)
         {

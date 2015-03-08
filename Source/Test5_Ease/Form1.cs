@@ -9,7 +9,7 @@ using LayoutFarm.Ease;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 
-using NativeV8;
+
 using VroomJs;
 
 namespace Test5_Ease
@@ -130,7 +130,7 @@ namespace Test5_Ease
 
         private void cmdTestV8Js1_Click(object sender, EventArgs e)
         {
-            NativeV8.NativeV8JsInterOp.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+            JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
             FormTestV8 formTestV8 = new FormTestV8();
             formTestV8.Show();
         }
@@ -146,26 +146,27 @@ namespace Test5_Ease
             //after load html page 
 
             //test javascript ...
-            NativeV8.NativeV8JsInterOp.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
-            NativeV8JsInterOp.RegisterCallBacks();
-            NativeV8JsInterOp.TestCallBack();
+            JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+#if DEBUG
+            JsBridge.dbugTestCallbacks();
+#endif
             //===============================================================
 
             //2. access dom  
-            WebDocument webdoc = easeViewport.GetHtmlDom();
-            var htmldoc = new LayoutFarm.WebDom.Wrap.HtmlDocument(webdoc);
+
+            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.HtmlDocument;
 
             //create js engine and context
-            var jstypeBuilder = new LayoutFarm.WebDom.Wrap.MyJsTypeDefinitionBuilder();
+            var jstypeBuilder = new LayoutFarm.Scripting.MyJsTypeDefinitionBuilder();
             using (JsEngine engine = new JsEngine())
             using (JsContext ctx = engine.CreateContext(jstypeBuilder))
             {
-                GC.Collect();
+
                 System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
                 stwatch.Reset();
-                stwatch.Start(); 
+                stwatch.Start();
 
-                ctx.SetVariableAutoWrap("document", htmldoc);
+                ctx.SetVariableAutoWrap("document", webdoc);
 
                 string testsrc1 = "document.getElementById('a');";
                 object domNodeA = ctx.Execute(testsrc1);

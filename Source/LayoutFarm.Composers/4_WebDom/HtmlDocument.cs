@@ -4,20 +4,18 @@
 using System;
 using System.Collections.Generic;
 
-using PixelFarm.Drawing; 
-using LayoutFarm.HtmlBoxes; 
+using PixelFarm.Drawing;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Composers;
 
 namespace LayoutFarm.WebDom
 {
 
-    public class HtmlDocument : WebDocument
+    public partial class HtmlDocument : WebDocument
     {
         DomElement rootNode;
         int domUpdateVersion;
         EventHandler domUpdatedHandler;
-
-
         public HtmlDocument()
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
@@ -93,15 +91,13 @@ namespace LayoutFarm.WebDom
     }
 
 
-    public class FragmentHtmlDocument : HtmlDocument
+    public partial class FragmentHtmlDocument : HtmlDocument
     {
         HtmlDocument primaryHtmlDoc;
         internal FragmentHtmlDocument(HtmlDocument primaryHtmlDoc)
             : base(primaryHtmlDoc.UniqueStringTable)
         {
             this.primaryHtmlDoc = primaryHtmlDoc;
-
         }
-
     }
 }
