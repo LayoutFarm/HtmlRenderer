@@ -153,20 +153,20 @@ namespace Test5_Ease
             //===============================================================
 
             //2. access dom  
-            WebDocument webdoc = easeViewport.GetHtmlDom();
-            var htmldoc = new LayoutFarm.WebDom.Wrap.HtmlDocument(webdoc);
+
+            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.HtmlDocument;
 
             //create js engine and context
-            var jstypeBuilder = new LayoutFarm.WebDom.Wrap.MyJsTypeDefinitionBuilder();
+            var jstypeBuilder = new LayoutFarm.Scripting.MyJsTypeDefinitionBuilder();
             using (JsEngine engine = new JsEngine())
             using (JsContext ctx = engine.CreateContext(jstypeBuilder))
             {
-                GC.Collect();
+
                 System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
                 stwatch.Reset();
                 stwatch.Start();
 
-                ctx.SetVariableAutoWrap("document", htmldoc);
+                ctx.SetVariableAutoWrap("document", webdoc);
 
                 string testsrc1 = "document.getElementById('a');";
                 object domNodeA = ctx.Execute(testsrc1);

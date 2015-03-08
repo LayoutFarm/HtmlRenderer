@@ -7,7 +7,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using VroomJs;
-using LayoutFarm.WebDom.Wrap;
+
+using LayoutFarm.Scripting;
 
 namespace Test5_Ease
 {

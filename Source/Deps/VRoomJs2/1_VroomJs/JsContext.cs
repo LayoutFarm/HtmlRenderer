@@ -1038,18 +1038,16 @@ namespace VroomJs
         }
 
         public void SetVariableAutoWrap<T>(string name, T result)
-         where T : class,new()
+             where T : class
         {
-
             var jsTypeDef = this.GetJsTypeDefinition<T>(result);
             var proxy = this.CreateWrapper(result, jsTypeDef);
             this.SetVariable(name, proxy);
-        }
-
+        } 
         //------------------------------------------------------------------
 
         public JsTypeDefinition GetJsTypeDefinition<T>(T t)
-            where T : class,new()
+            where T : class
         {
             Type type = typeof(T);
             JsTypeDefinition found;
