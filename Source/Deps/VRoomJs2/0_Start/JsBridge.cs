@@ -1,4 +1,5 @@
-﻿using System;
+﻿//2015 MIT, WinterDev
+using System;
 namespace VroomJs
 {
     public static class JsBridge

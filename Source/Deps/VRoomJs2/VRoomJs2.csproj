@@ -42,6 +42,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="1_VroomJs\JsContext.NativeMethods.cs" />
+    <Compile Include="1_VroomJs\JsEngine.NativeMethods.cs" />
     <Compile Include="3_MiniBridge\JsTypeDefinitionBuilder.cs" />
     <Compile Include="0_Start\ScriptInterfaces.cs" />
     <Compile Include="3_MiniBridge\NativeV8JsInterOp.cs" />

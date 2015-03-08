@@ -63,8 +63,8 @@ namespace LayoutFarm.Scripting
             int dotpos = mbInfo.Name.LastIndexOf('.');
             if (dotpos > 0)
             {
-                string ff = mbInfo.Name.Substring(dotpos);
-                return mbInfo.Name.Substring(dotpos);
+                
+                return mbInfo.Name.Substring(dotpos + 1);
             }
             else
             {

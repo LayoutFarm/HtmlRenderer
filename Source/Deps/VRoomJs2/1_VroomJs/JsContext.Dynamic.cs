@@ -1,24 +1,13 @@
-﻿using System;
+﻿//2013 MIT, Federico Di Gregorio <fog@initd.org>
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace VroomJs
 {
-    public partial class JsContext
+    partial class JsContext
     {
 
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern JsValue jscontext_get_property_names(HandleRef engine, IntPtr ptr);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern JsValue jscontext_get_property_value(HandleRef engine, IntPtr ptr, [MarshalAs(UnmanagedType.LPWStr)] string name);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern JsValue jscontext_set_property_value(HandleRef engine, IntPtr ptr, [MarshalAs(UnmanagedType.LPWStr)] string name, JsValue value);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern JsValue jscontext_invoke_property(HandleRef engine, IntPtr ptr, [MarshalAs(UnmanagedType.LPWStr)] string name, JsValue args);
 
         public IEnumerable<string> GetMemberNames(JsObject obj)
         {

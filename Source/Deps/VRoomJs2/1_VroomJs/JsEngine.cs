@@ -1,52 +1,24 @@
-﻿using System;
+﻿//2013 MIT, Federico Di Gregorio <fog@initd.org>
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace VroomJs
 {
-    public class JsEngine : IDisposable
+    public partial class JsEngine : IDisposable
     {
 
-        delegate void KeepaliveRemoveDelegate(int context, int slot);
-        delegate JsValue KeepAliveGetPropertyValueDelegate(int context, int slot, [MarshalAs(UnmanagedType.LPWStr)] string name);
-        delegate JsValue KeepAliveSetPropertyValueDelegate(int context, int slot, [MarshalAs(UnmanagedType.LPWStr)] string name, JsValue value);
-        delegate JsValue KeepAliveValueOfDelegate(int context, int slot);
-        delegate JsValue KeepAliveInvokeDelegate(int context, int slot, JsValue args);
-        delegate JsValue KeepAliveDeletePropertyDelegate(int context, int slot, [MarshalAs(UnmanagedType.LPWStr)] string name);
-        delegate JsValue KeepAliveEnumeratePropertiesDelegate(int context, int slot);
+        //readonly GCHandle keepalive_remove_hdl;
+        //readonly GCHandle keepalive_get_property_value_hdl;
+        //readonly GCHandle keepalive_set_property_value_hdl;
+        //readonly GCHandle keepalive_valueof_hdl;
+        //readonly GCHandle keepalive_invoke_hdl;
 
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern void js_set_object_marshal_type(JsObjectMarshalType objectMarshalType);
+        //readonly GCHandle keepalive_delete_property_hdl;
+        //readonly GCHandle keepalive_enumerate_properties_hdl;
 
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern void js_dump_allocated_items();
 
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern IntPtr jsengine_new(
-            KeepaliveRemoveDelegate keepaliveRemove,
-            KeepAliveGetPropertyValueDelegate keepaliveGetPropertyValue,
-            KeepAliveSetPropertyValueDelegate keepaliveSetPropertyValue,
-            KeepAliveValueOfDelegate keepaliveValueOf,
-            KeepAliveInvokeDelegate keepaliveInvoke,
-            KeepAliveDeletePropertyDelegate keepaliveDeleteProperty,
-            KeepAliveEnumeratePropertiesDelegate keepaliveEnumerateProperties,
-            int maxYoungSpace, int maxOldSpace
-        );
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern void jsengine_terminate_execution(HandleRef engine);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern void jsengine_dump_heap_stats(HandleRef engine);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern void jsengine_dispose(HandleRef engine);
-
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
-        static extern void jsengine_dispose_object(HandleRef engine, IntPtr obj);
-
-        // Make sure the delegates we pass to the C++ engine won't fly away during a GC.
         readonly KeepaliveRemoveDelegate _keepalive_remove;
         readonly KeepAliveGetPropertyValueDelegate _keepalive_get_property_value;
         readonly KeepAliveSetPropertyValueDelegate _keepalive_set_property_value;
@@ -62,7 +34,8 @@ namespace VroomJs
         int _currentScriptId = 0;
         readonly HandleRef _engine;
         JsTypeDefinitionBuilder defaultTypeBuilder;
-      
+
+
         static JsEngine()
         {
             JsObjectMarshalType objectMarshalType = JsObjectMarshalType.Dictionary;
@@ -71,11 +44,9 @@ namespace VroomJs
 #endif
             js_set_object_marshal_type(objectMarshalType);
         }
-
-        
-
         public JsEngine(JsTypeDefinitionBuilder defaultTypeBuilder, int maxYoungSpace, int maxOldSpace)
         {
+
             _keepalive_remove = new KeepaliveRemoveDelegate(KeepAliveRemove);
             _keepalive_get_property_value = new KeepAliveGetPropertyValueDelegate(KeepAliveGetPropertyValue);
             _keepalive_set_property_value = new KeepAliveSetPropertyValueDelegate(KeepAliveSetPropertyValue);
@@ -93,7 +64,7 @@ namespace VroomJs
                 _keepalive_delete_property,
                 _keepalive_enumerate_properties,
                 maxYoungSpace,
-                maxOldSpace));
+                maxOldSpace)); 
             this.defaultTypeBuilder = defaultTypeBuilder;
         }
         public JsEngine(int maxYoungSpace, int maxOldSpace)
@@ -105,7 +76,8 @@ namespace VroomJs
             : this(new DefaultJsTypeDefinitionBuilder(), -1, -1)
         {
 
-        } 
+        }
+         
         public void TerminateExecution()
         {
             jsengine_terminate_execution(_engine);
@@ -276,8 +248,7 @@ namespace VroomJs
         protected virtual void Dispose(bool disposing)
         {
             CheckDisposed();
-
-            _disposed = true;
+            _disposed = true; //? here?
 
             if (disposing)
             {
@@ -290,10 +261,13 @@ namespace VroomJs
                 {
                     JsScript.jsscript_dispose(aliveScript.Value.Handle);
                 }
+
             }
 #if DEBUG_TRACE_API
 				Console.WriteLine("Calling jsEngine dispose: " + _engine.Handle.ToInt64());
 #endif
+
+          
 
             jsengine_dispose(_engine);
         }
@@ -304,7 +278,7 @@ namespace VroomJs
                 throw new ObjectDisposedException("JsEngine:" + _engine.Handle);
         }
 
-       
+
         public static void DumpAllocatedItems()
         {
             js_dump_allocated_items();
