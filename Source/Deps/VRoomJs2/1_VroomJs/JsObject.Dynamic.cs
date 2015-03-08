@@ -190,8 +190,8 @@ namespace VroomJs
     //---------------------------------------------------------------------------------------------
     public class JsWrapObject : JsObject
     {
-        NativeV8.JsTypeDefinition jsTypeDef;
-        public JsWrapObject(JsContext context, IntPtr ptr, NativeV8.JsTypeDefinition jsTypeDef)
+        JsTypeDefinition jsTypeDef;
+        public JsWrapObject(JsContext context, IntPtr ptr, JsTypeDefinition jsTypeDef)
             : base(context, ptr)
         {
             this.jsTypeDef = jsTypeDef;

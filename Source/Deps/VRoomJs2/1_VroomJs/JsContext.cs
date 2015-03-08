@@ -30,7 +30,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Timers;
-using NativeV8;
+using VroomJs;
 
 namespace VroomJs
 {
@@ -83,7 +83,7 @@ namespace VroomJs
 
         readonly int _id;
         readonly JsEngine _engine;
-        readonly NativeV8.ManagedMethodCallDel engineMethodCallbackDel;
+        readonly ManagedMethodCallDel engineMethodCallbackDel;
 
         List<JsMethodDefinition> registerMethods = new List<JsMethodDefinition>();
         List<JsPropertyDefinition> registerProperties = new List<JsPropertyDefinition>();
@@ -111,8 +111,8 @@ namespace VroomJs
 
             this.jsTypeDefBuilder = jsTypeDefBuilder;
 
-            engineMethodCallbackDel = new NativeV8.ManagedMethodCallDel(EngineListener_MethodCall);
-            NativeV8.NativeV8JsInterOp.CtxRegisterManagedMethodCall(this, engineMethodCallbackDel);
+            engineMethodCallbackDel = new ManagedMethodCallDel(EngineListener_MethodCall);
+            NativeV8JsInterOp.CtxRegisterManagedMethodCall(this, engineMethodCallbackDel);
             registerMethods.Add(null);//first is null
             registerProperties.Add(null); //first is null
 

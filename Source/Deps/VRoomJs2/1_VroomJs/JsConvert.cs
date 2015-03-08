@@ -210,7 +210,7 @@ namespace VroomJs
             };
         }
 
-        public JsValue ToJsValue(NativeV8.NativeJsInstanceProxy jsInstance)
+        public JsValue ToJsValue(NativeJsInstanceProxy jsInstance)
         {
 
             //extension 
@@ -244,10 +244,10 @@ namespace VroomJs
             if (obj == null)
                 return new JsValue { Type = JsValueType.Null };
 
-            if (obj is NativeV8.NativeJsInstanceProxy)
+            if (obj is NativeJsInstanceProxy)
             {
                 //extension
-                NativeV8.NativeJsInstanceProxy prox = (NativeV8.NativeJsInstanceProxy)obj;
+                NativeJsInstanceProxy prox = (NativeJsInstanceProxy)obj;
                 int keepAliveId = _context.KeepAliveAdd(obj);
                 return new JsValue { Type = JsValueType.JsTypeWrap, Ptr = prox.UnmanagedPtr, Index = keepAliveId };
             }

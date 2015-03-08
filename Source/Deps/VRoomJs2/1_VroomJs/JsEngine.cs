@@ -76,9 +76,9 @@ namespace VroomJs
         }
 
         readonly HandleRef _engine;
-        NativeV8.JsTypeDefinitionBuilderBase defaultTypeBuilder;
+        JsTypeDefinitionBuilderBase defaultTypeBuilder;
 
-        public JsEngine(NativeV8.JsTypeDefinitionBuilderBase defaultTypeBuilder, int maxYoungSpace, int maxOldSpace)
+        public JsEngine(JsTypeDefinitionBuilderBase defaultTypeBuilder, int maxYoungSpace, int maxOldSpace)
         {
             _keepalive_remove = new KeepaliveRemoveDelegate(KeepAliveRemove);
             _keepalive_get_property_value = new KeepAliveGetPropertyValueDelegate(KeepAliveGetPropertyValue);
@@ -101,12 +101,12 @@ namespace VroomJs
             this.defaultTypeBuilder = defaultTypeBuilder;
         }
         public JsEngine(int maxYoungSpace, int maxOldSpace)
-            : this(new NativeV8.DefaultJsTypeDefinitionBuilder(), maxYoungSpace, maxOldSpace)
+            : this(new DefaultJsTypeDefinitionBuilder(), maxYoungSpace, maxOldSpace)
         {
 
         }
         public JsEngine()
-            : this(new NativeV8.DefaultJsTypeDefinitionBuilder(), -1, -1)
+            : this(new DefaultJsTypeDefinitionBuilder(), -1, -1)
         {
 
         }
@@ -250,7 +250,7 @@ namespace VroomJs
             _aliveContexts.Add(id, ctx);
             return ctx;
         }
-        public JsContext CreateContext(NativeV8.JsTypeDefinitionBuilderBase customTypeDefBuilder)
+        public JsContext CreateContext(JsTypeDefinitionBuilderBase customTypeDefBuilder)
         {
             CheckDisposed();
             int id = Interlocked.Increment(ref _currentContextId);
