@@ -40,9 +40,9 @@
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(218, 0);
+            this.panel1.Location = new System.Drawing.Point(270, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(738, 531);
+            this.panel1.Size = new System.Drawing.Size(686, 528);
             this.panel1.TabIndex = 0;
             // 
             // button1
@@ -97,7 +97,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(12, 326);
+            this.button5.Location = new System.Drawing.Point(12, 298);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(112, 35);
             this.button5.TabIndex = 6;
@@ -107,7 +107,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(13, 367);
+            this.button6.Location = new System.Drawing.Point(13, 339);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(112, 35);
             this.button6.TabIndex = 7;
@@ -119,7 +119,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(960, 532);
+            this.ClientSize = new System.Drawing.Size(960, 561);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.cmdTestV8Js1);

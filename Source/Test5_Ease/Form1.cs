@@ -246,6 +246,14 @@ namespace Test5_Ease
                         var domNodeB = document.getElementById('b');
                         var newText1 = document.createTextNode('... says hello world!');
                         domNodeA.appendChild(newText1);
+                        for(var i=0;i<10;++i){
+                            var newText2= document.createTextNode(''+i);
+                            domNodeA.appendChild(newText2);       
+                        } 
+
+                        var newDivNode= document.createElement('div');
+                        newDivNode.appendChild(document.createTextNode('new div'));
+                        domNodeB.appendChild(newDivNode);                    
                     })();
                 ";
 
