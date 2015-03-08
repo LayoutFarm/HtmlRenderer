@@ -60,9 +60,8 @@ namespace LayoutFarm.WebDom
         }
         public DomAttribute CreateAttribute(WellknownName attrName)
         {
-            return new DomAttribute(this,
-                0,
-                (int)attrName);
+            
+            return new DomAttribute(this, 0, (int)attrName);
         }
         public override DomTextNode CreateTextNode(char[] strBufferForElement)
         {

@@ -57,6 +57,7 @@
     <Compile Include="3_HtmlBoxes\RenderElementWrapperCssBox.cs" />
     <Compile Include="1_Composers\2_Css\CssDefaults.cs" />
     <Compile Include="4_WebDom\HtmlDocument.Scripting.cs" />
+    <Compile Include="4_WebDom\HtmlElements.Scripting.cs" />
     <Compile Include="4_WebDom\RunListHelper.cs" />
     <Compile Include="4_WebDom\HtmlElements.cs" />
     <Compile Include="6_Svg\SvgCreator.cs" />

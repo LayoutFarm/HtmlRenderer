@@ -33,6 +33,7 @@ namespace LayoutFarm.Scripting
                 System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
             foreach (var met in methods)
             {
+
                 if (met.IsSpecialName)
                 {
                     continue;
@@ -41,8 +42,11 @@ namespace LayoutFarm.Scripting
                 if (customAttrs != null && customAttrs.Length > 0)
                 {
                     var attr = customAttrs[0] as JsMethodAttribute;
-
                     typedefinition.AddMember(new JsMethodDefinition(attr.Name ?? GetProperMemberName(met), met));
+                }
+                else
+                {
+                    //extract explicit interface
                 }
             }
             var properties = t.GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
@@ -62,8 +66,7 @@ namespace LayoutFarm.Scripting
         {
             int dotpos = mbInfo.Name.LastIndexOf('.');
             if (dotpos > 0)
-            {
-                
+            {   
                 return mbInfo.Name.Substring(dotpos + 1);
             }
             else

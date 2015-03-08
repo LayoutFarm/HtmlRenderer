@@ -108,8 +108,8 @@ namespace VroomJs
                 case JsValueType.Managed:
                     return _context.KeepAliveGet(v.Index);
                 case JsValueType.JsTypeWrap:
-                    return this._context.GetObjectProxy(v.Index);
-
+                    //auto unwrap
+                    return this._context.GetObjectProxy(v.Index).WrapObject;
                 case JsValueType.ManagedError:
                     Exception inner = _context.KeepAliveGet(v.Index) as Exception;
                     string msg = null;
@@ -244,10 +244,10 @@ namespace VroomJs
             if (obj == null)
                 return new JsValue { Type = JsValueType.Null };
 
-            if (obj is NativeJsInstanceProxy)
+            if (obj is INativeRef)
             {
                 //extension
-                NativeJsInstanceProxy prox = (NativeJsInstanceProxy)obj;
+                INativeRef prox = (INativeRef)obj;
                 int keepAliveId = _context.KeepAliveAdd(obj);
                 return new JsValue { Type = JsValueType.JsTypeWrap, Ptr = prox.UnmanagedPtr, Index = keepAliveId };
             }
@@ -315,9 +315,16 @@ namespace VroomJs
             // _keepalives list, to make sure the GC won't collect it while still in
             // use by the unmanaged Javascript engine. We don't try to track duplicates
             // because adding the same object more than one time acts more or less as
-            // reference counting. 
+            // reference counting.  
+            //check 
 
-            return new JsValue { Type = JsValueType.Managed, Index = _context.KeepAliveAdd(obj) };
+            var jsTypeDefinition = _context.GetJsTypeDefinition2(type);
+            INativeRef prox2 = _context.CreateWrapper(obj, jsTypeDefinition);
+            int keepAliveId2 = _context.KeepAliveAdd(prox2);
+            return new JsValue { Type = JsValueType.JsTypeWrap, Ptr = prox2.UnmanagedPtr, Index = keepAliveId2 };
+
+            //return new JsValue { Type = JsValueType.Managed, Index = _context.KeepAliveAdd(obj) };
         }
+
     }
 }
