@@ -27,23 +27,26 @@ using System;
 using System.Runtime.Serialization;
 
 namespace VroomJs
-{ 
+{
     [Serializable]
-    public class JsInteropException :JsException
-	{
+    public class JsInteropException : JsException
+    {
         public JsInteropException()
         {
         }
 
-        public JsInteropException(string message) : base(message)
+        public JsInteropException(string message)
+            : base(message)
         {
         }
 
-        public JsInteropException(string message, Exception inner) : base(message, inner)
+        public JsInteropException(string message, Exception inner)
+            : base(message, inner)
         {
         }
 
-        protected JsInteropException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected JsInteropException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
     }

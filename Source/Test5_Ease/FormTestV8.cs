@@ -7,8 +7,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using VroomJs;
-using NativeV8;
-using LayoutFarm.WebDom.Wrap;
+
+using LayoutFarm.Scripting;
 
 namespace Test5_Ease
 {
@@ -16,10 +16,10 @@ namespace Test5_Ease
     {
         public FormTestV8()
         {
-            InitializeComponent(); 
+            InitializeComponent();
         }
 
-      
+
 
         class TestMe1
         {
@@ -61,8 +61,9 @@ namespace Test5_Ease
         {
 
 
-            NativeV8JsInterOp.RegisterCallBacks();
-            NativeV8JsInterOp.TestCallBack();
+#if DEBUG
+            JsBridge.dbugTestCallbacks();
+#endif
 
             JsTypeDefinition jstypedef = new JsTypeDefinition("AA");
             jstypedef.AddMember(new JsMethodDefinition("B", args =>
@@ -106,8 +107,9 @@ namespace Test5_Ease
         private void button2_Click(object sender, EventArgs e)
         {
 
-            NativeV8JsInterOp.RegisterCallBacks();
-            NativeV8JsInterOp.TestCallBack();
+#if DEBUG
+            JsBridge.dbugTestCallbacks();
+#endif
             //create js engine and context
 
             using (JsEngine engine = new JsEngine())
@@ -132,10 +134,9 @@ namespace Test5_Ease
 
         private void button3_Click(object sender, EventArgs e)
         {
-
-            NativeV8JsInterOp.RegisterCallBacks();
-            NativeV8JsInterOp.TestCallBack();
-
+#if DEBUG
+            JsBridge.dbugTestCallbacks();
+#endif
             JsTypeDefinition jstypedef = new JsTypeDefinition("AA");
             jstypedef.AddMember(new JsMethodDefinition("B", args =>
             {
@@ -197,9 +198,9 @@ namespace Test5_Ease
 
         private void button4_Click(object sender, EventArgs e)
         {
-
-            NativeV8JsInterOp.RegisterCallBacks();
-            NativeV8JsInterOp.TestCallBack();
+#if DEBUG
+            JsBridge.dbugTestCallbacks();
+#endif
 
             JsTypeDefinition jstypedef = new JsTypeDefinition("AA");
             jstypedef.AddMember(new JsMethodDefinition("B", args =>
@@ -252,8 +253,7 @@ namespace Test5_Ease
                 stwatch.Start();
 
                 TestMe1 t1 = new TestMe1();
-                NativeJsInstanceProxy proxy = ctx.CreateWrapper(t1, jstypedef);
-
+                var proxy = ctx.CreateWrapper(t1, jstypedef);
                 ctx.SetVariable("x", proxy);
 
                 //string testsrc = "(function(){if(x.C()){return  x.B();}else{return 0;}})()";
@@ -270,9 +270,10 @@ namespace Test5_Ease
 
         private void button5_Click(object sender, EventArgs e)
         {
-            NativeV8JsInterOp.RegisterCallBacks();
-            NativeV8JsInterOp.TestCallBack();
 
+#if DEBUG
+            JsBridge.dbugTestCallbacks();
+#endif
             JsTypeDefinition jstypedef = new JsTypeDefinition("AA");
             jstypedef.AddMember(new JsMethodDefinition("B", args =>
             {
@@ -329,7 +330,7 @@ namespace Test5_Ease
                 //ctx.SetVariable(
 
                 TestMe1 t1 = new TestMe1();
-                NativeJsInstanceProxy proxy = ctx.CreateWrapper(t1, jstypedef);
+                var proxy = ctx.CreateWrapper(t1, jstypedef);
                 ctx.SetVariable("x", proxy);
 
                 //string testsrc = "(function(){if(x.C()){return  x.B();}else{return 0;}})()";
@@ -346,9 +347,9 @@ namespace Test5_Ease
 
         private void button6_Click(object sender, EventArgs e)
         {
-            NativeV8JsInterOp.RegisterCallBacks();
-            NativeV8JsInterOp.TestCallBack();
-
+#if DEBUG
+            JsBridge.dbugTestCallbacks();
+#endif
 
             using (JsEngine engine = new JsEngine())
             using (JsContext ctx = engine.CreateContext(new MyJsTypeDefinitionBuilder()))
@@ -372,16 +373,16 @@ namespace Test5_Ease
 
             }
         }
-        
 
-       
 
-      
+
+
+
         private void FormTestV8_Load(object sender, EventArgs e)
         {
 
         }
 
-    
+
     }
 }

@@ -9,7 +9,7 @@ using LayoutFarm.Ease;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 
-using NativeV8;
+
 using VroomJs;
 
 namespace Test5_Ease
@@ -130,7 +130,7 @@ namespace Test5_Ease
 
         private void cmdTestV8Js1_Click(object sender, EventArgs e)
         {
-            NativeV8.NativeV8JsInterOp.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+            JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
             FormTestV8 formTestV8 = new FormTestV8();
             formTestV8.Show();
         }
@@ -146,26 +146,27 @@ namespace Test5_Ease
             //after load html page 
 
             //test javascript ...
-            NativeV8.NativeV8JsInterOp.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
-            NativeV8JsInterOp.RegisterCallBacks();
-            NativeV8JsInterOp.TestCallBack();
+            JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+#if DEBUG
+            JsBridge.dbugTestCallbacks();
+#endif
             //===============================================================
 
             //2. access dom  
-            WebDocument webdoc = easeViewport.GetHtmlDom();
-            var htmldoc = new LayoutFarm.WebDom.Wrap.HtmlDocument(webdoc);
+
+            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.HtmlDocument;
 
             //create js engine and context
-            var jstypeBuilder = new LayoutFarm.WebDom.Wrap.MyJsTypeDefinitionBuilder();
+            var jstypeBuilder = new LayoutFarm.Scripting.MyJsTypeDefinitionBuilder();
             using (JsEngine engine = new JsEngine())
             using (JsContext ctx = engine.CreateContext(jstypeBuilder))
             {
-                GC.Collect();
+
                 System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
                 stwatch.Reset();
-                stwatch.Start(); 
+                stwatch.Start();
 
-                ctx.SetVariableAutoWrap("document", htmldoc);
+                ctx.SetVariableAutoWrap("document", webdoc);
 
                 string testsrc1 = "document.getElementById('a');";
                 object domNodeA = ctx.Execute(testsrc1);
@@ -173,6 +174,82 @@ namespace Test5_Ease
                 string testsrc2 = "document.getElementById('b');";
                 object domNodeB = ctx.Execute(testsrc2);
 
+                stwatch.Stop();
+
+                Console.WriteLine("met1 template:" + stwatch.ElapsedMilliseconds.ToString());
+
+            }
+
+            ////3. get element by id 
+            //var domNodeA = webdoc.GetElementById("a");
+            //var domNodeB = webdoc.GetElementById("b");
+
+            //domNodeA.AddTextContent("Hello from A");
+            //domNodeB.AddChild("div", div =>
+            //{
+            //    div.SetAttribute("style", "background-color:yellow");
+            //    div.AddTextContent("Hello from B");
+            //});
+
+            //domNodeB.AttachMouseDownEvent(ev =>
+            //{
+            //    var domB = new EaseDomElement(domNodeB);
+            //    domB.SetBackgroundColor(Color.Red);
+            //    ev.StopPropagation();
+            //    //domNodeB.SetAttribute("style", "background-color:red");
+            //});
+            //domNodeB.AttachMouseUpEvent(ev =>
+            //{
+            //    var domB = new EaseDomElement(domNodeB);
+            //    domB.SetBackgroundColor(Color.Yellow);
+            //    ev.StopPropagation();
+            //    //domNodeB.SetAttribute("style", "background-color:red");
+            //}); 
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+
+            string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
+
+            //1. blank html
+            var fileContent = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div></body></html>";
+            easeViewport.LoadHtml(filename, fileContent);
+            //----------------------------------------------------------------
+            //after load html page 
+
+            //test javascript ...
+            JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+#if DEBUG
+            JsBridge.dbugTestCallbacks();
+#endif
+            //===============================================================
+
+            //2. access dom  
+
+            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.HtmlDocument;
+
+            //create js engine and context
+            var jstypeBuilder = new LayoutFarm.Scripting.MyJsTypeDefinitionBuilder();
+            using (JsEngine engine = new JsEngine())
+            using (JsContext ctx = engine.CreateContext(jstypeBuilder))
+            {
+
+                System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
+                stwatch.Reset();
+                stwatch.Start();
+
+                ctx.SetVariableAutoWrap("document", webdoc);
+                string simplejs = @"
+                    (function(){
+                        var domNodeA = document.getElementById('a');
+                        var domNodeB = document.getElementById('b');
+                        var newText1 = document.createTextNode('... says hello world!');
+                        domNodeA.appendChild(newText1);
+                    })();
+                ";
+
+                object testResult = ctx.Execute(simplejs); 
                 stwatch.Stop();
 
                 Console.WriteLine("met1 template:" + stwatch.ElapsedMilliseconds.ToString());

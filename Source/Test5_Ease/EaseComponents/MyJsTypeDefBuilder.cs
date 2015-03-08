@@ -6,44 +6,11 @@ using System.Runtime.InteropServices;
 using System.IO;
 
 using VroomJs;
-using NativeV8;
 
-namespace LayoutFarm.WebDom.Wrap
+namespace LayoutFarm.Scripting
 {
-
-    [AttributeUsage(AttributeTargets.Class)]
-    public class JsTypeAttribute : Attribute
+    class MyJsTypeDefinitionBuilder : JsTypeDefinitionBuilder
     {
-        public JsTypeAttribute() { }
-        public JsTypeAttribute(string name)
-        {
-            this.Name = name;
-        }
-        public string Name { get; private set; }
-    }
-    [AttributeUsage(AttributeTargets.Method)]
-    public class JsMethodAttribute : Attribute
-    {
-        public JsMethodAttribute() { }
-        public JsMethodAttribute(string name)
-        {
-            this.Name = name;
-        }
-        public string Name { get; private set; }
-    }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class JsPropertyAttribute : Attribute
-    {
-        public JsPropertyAttribute() { }
-        public JsPropertyAttribute(string name)
-        {
-            this.Name = name;
-        }
-        public string Name { get; private set; }
-    }
-    class MyJsTypeDefinitionBuilder : JsTypeDefinitionBuilderBase
-    {   
         //we can customize how to build jstype on specific type
 
 
@@ -62,17 +29,26 @@ namespace LayoutFarm.WebDom.Wrap
             JsTypeDefinition typedefinition = new JsTypeDefinition(t.Name);
 
             //only instance /public method /prop***
-            var methods = t.GetMethods(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var methods = t.GetMethods(System.Reflection.BindingFlags.Instance |
+                System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
             foreach (var met in methods)
             {
+
+                if (met.IsSpecialName)
+                {
+                    continue;
+                }
                 var customAttrs = met.GetCustomAttributes(typeOfJsMethodAttr, false);
                 if (customAttrs != null && customAttrs.Length > 0)
                 {
                     var attr = customAttrs[0] as JsMethodAttribute;
-                    typedefinition.AddMember(new JsMethodDefinition(attr.Name ?? met.Name, met));
+                    typedefinition.AddMember(new JsMethodDefinition(attr.Name ?? GetProperMemberName(met), met));
+                }
+                else
+                {
+                    //extract explicit interface
                 }
             }
-
             var properties = t.GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
             foreach (var property in properties)
             {
@@ -80,13 +56,25 @@ namespace LayoutFarm.WebDom.Wrap
                 if (customAttrs != null && customAttrs.Length > 0)
                 {
                     var attr = customAttrs[0] as JsPropertyAttribute;
-                    typedefinition.AddMember(new JsPropertyDefinition(attr.Name ?? property.Name, property));
+                    typedefinition.AddMember(new JsPropertyDefinition(attr.Name ?? GetProperMemberName(property), property));
                 }
-            }
 
+            }
             return typedefinition;
         }
+        static string GetProperMemberName(System.Reflection.MemberInfo mbInfo)
+        {
+            int dotpos = mbInfo.Name.LastIndexOf('.');
+            if (dotpos > 0)
+            {   
+                return mbInfo.Name.Substring(dotpos + 1);
+            }
+            else
+            {
+                return mbInfo.Name;
+            }
 
+        }
     }
 
 }

@@ -46,6 +46,7 @@
     <Compile Include="Events\UIEventIdentifier.cs" />
     <Compile Include="Events\UIEventNames.cs" />
     <Compile Include="Common\Keys.cs" />
+    <Compile Include="IScriptable\JsScriptAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +55,7 @@
       <Name>LayoutFarm.CssBase</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

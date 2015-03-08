@@ -1,10 +1,11 @@
-﻿using System;
+﻿//2013 MIT, Federico Di Gregorio <fog@initd.org>
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace VroomJs
 {
-    public enum JsObjectMarshalType
+    enum JsObjectMarshalType
     {
         Dynamic = 1,
         Dictionary = 2
