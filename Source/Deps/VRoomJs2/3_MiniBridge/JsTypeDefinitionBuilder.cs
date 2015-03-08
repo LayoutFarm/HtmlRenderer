@@ -8,7 +8,7 @@ using System.IO;
 namespace VroomJs
 {
      
-    public abstract class JsTypeDefinitionBuilderBase
+    public abstract class JsTypeDefinitionBuilder
     {
         internal JsTypeDefinition BuildTypeDefinition(Type t)
         {
@@ -16,7 +16,8 @@ namespace VroomJs
         }
         protected abstract JsTypeDefinition OnBuildRequest(Type t);
     } 
-    class DefaultJsTypeDefinitionBuilder : JsTypeDefinitionBuilderBase
+    
+    class DefaultJsTypeDefinitionBuilder : JsTypeDefinitionBuilder
     {
         protected override JsTypeDefinition OnBuildRequest(Type t)
         {

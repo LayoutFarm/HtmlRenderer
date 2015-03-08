@@ -22,12 +22,12 @@ namespace VroomJs
             _thisPtr = thisPtr;
         }
 
-        public object Invoke(object[] args)
+        public object Invoke(params object[] args)
         {
             object result = _context.Invoke(_funcPtr, _thisPtr, args);
             return result;
         }
-        public object InvokeInstance(IntPtr anotherInst, object[] args)
+        public object InvokeInstance(IntPtr anotherInst, params object[] args)
         {
             object result = _context.Invoke(_funcPtr, anotherInst, args);
             return result;

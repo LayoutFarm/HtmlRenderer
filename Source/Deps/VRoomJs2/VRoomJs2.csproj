@@ -43,9 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="3_MiniBridge\JsTypeDefinitionBuilder.cs" />
-    <Compile Include="3_MiniBridge\V8EngineBinder.cs" />
+    <Compile Include="0_Start\ScriptInterfaces.cs" />
+    <Compile Include="3_MiniBridge\NativeV8JsInterOp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="0_Start\JsBridgeName.cs" />
+    <Compile Include="0_Start\JsBridge.cs" />
     <Compile Include="1_VroomJs\BoundWeakDelegate.cs" />
     <Compile Include="1_VroomJs\IKeepAliveStore.cs" />
     <Compile Include="1_VroomJs\JsContext.cs" />

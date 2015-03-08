@@ -7,7 +7,7 @@ namespace VroomJs
     public partial class JsContext
     {
 
-        
+
         [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
         static extern JsValue jscontext_get_property_names(HandleRef engine, IntPtr ptr);
 

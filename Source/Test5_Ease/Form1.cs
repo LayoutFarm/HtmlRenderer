@@ -9,7 +9,7 @@ using LayoutFarm.Ease;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 
- 
+
 using VroomJs;
 
 namespace Test5_Ease
@@ -130,7 +130,7 @@ namespace Test5_Ease
 
         private void cmdTestV8Js1_Click(object sender, EventArgs e)
         {
-            NativeV8JsInterOp.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+            JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
             FormTestV8 formTestV8 = new FormTestV8();
             formTestV8.Show();
         }
@@ -146,9 +146,10 @@ namespace Test5_Ease
             //after load html page 
 
             //test javascript ...
-            NativeV8JsInterOp.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
-            NativeV8JsInterOp.RegisterCallBacks();
-            NativeV8JsInterOp.TestCallBack();
+            JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+#if DEBUG
+            JsBridge.dbugTestCallbacks();
+#endif
             //===============================================================
 
             //2. access dom  
@@ -163,7 +164,7 @@ namespace Test5_Ease
                 GC.Collect();
                 System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
                 stwatch.Reset();
-                stwatch.Start(); 
+                stwatch.Start();
 
                 ctx.SetVariableAutoWrap("document", htmldoc);
 

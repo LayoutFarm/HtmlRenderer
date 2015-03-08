@@ -28,20 +28,23 @@ using System.Collections.Generic;
 
 namespace VroomJs
 {
-    public class KeepAliveDictionaryStore : IKeepAliveStore
+    class KeepAliveDictionaryStore : IKeepAliveStore
     {
-        Dictionary<int,object> _store = new Dictionary<int,object>();
+        Dictionary<int, object> _store = new Dictionary<int, object>();
         int _store_index = 1;
 
-        public int MaxSlots {
+        public int MaxSlots
+        {
             get { return Int32.MaxValue; }
         }
 
-        public int AllocatedSlots {
+        public int AllocatedSlots
+        {
             get { return _store.Count; }
         }
 
-        public int UsedSlots {
+        public int UsedSlots
+        {
             get { return _store.Count; }
         }
 
@@ -62,7 +65,8 @@ namespace VroomJs
         public void Remove(int slot)
         {
             var obj = Get(slot);
-            if (obj != null) {
+            if (obj != null)
+            {
                 var disposable = obj as IDisposable;
                 if (disposable != null)
                     disposable.Dispose();

@@ -41,7 +41,7 @@ namespace LayoutFarm.WebDom.Wrap
         }
         public string Name { get; private set; }
     }
-    class MyJsTypeDefinitionBuilder : JsTypeDefinitionBuilderBase
+    class MyJsTypeDefinitionBuilder : JsTypeDefinitionBuilder
     {   
         //we can customize how to build jstype on specific type
 

@@ -210,7 +210,7 @@ namespace VroomJs
             };
         }
 
-        public JsValue ToJsValue(NativeJsInstanceProxy jsInstance)
+        public JsValue ToJsValue(INativeScriptable jsInstance)
         {
 
             //extension 
