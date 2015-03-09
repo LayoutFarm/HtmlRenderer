@@ -33,16 +33,15 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.cmdTestV8Js1 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(218, 0);
+            this.panel1.Location = new System.Drawing.Point(270, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(738, 531);
+            this.panel1.Size = new System.Drawing.Size(686, 528);
             this.panel1.TabIndex = 0;
             // 
             // button1
@@ -85,19 +84,9 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // cmdTestV8Js1
-            // 
-            this.cmdTestV8Js1.Location = new System.Drawing.Point(13, 12);
-            this.cmdTestV8Js1.Name = "cmdTestV8Js1";
-            this.cmdTestV8Js1.Size = new System.Drawing.Size(112, 35);
-            this.cmdTestV8Js1.TabIndex = 5;
-            this.cmdTestV8Js1.Text = "Show JsTestForm";
-            this.cmdTestV8Js1.UseVisualStyleBackColor = true;
-            this.cmdTestV8Js1.Click += new System.EventHandler(this.cmdTestV8Js1_Click);
-            // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(12, 326);
+            this.button5.Location = new System.Drawing.Point(12, 298);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(112, 35);
             this.button5.TabIndex = 6;
@@ -107,7 +96,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(13, 367);
+            this.button6.Location = new System.Drawing.Point(13, 339);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(112, 35);
             this.button6.TabIndex = 7;
@@ -119,10 +108,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(960, 532);
+            this.ClientSize = new System.Drawing.Size(960, 561);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.cmdTestV8Js1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -141,7 +129,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button cmdTestV8Js1;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
     }

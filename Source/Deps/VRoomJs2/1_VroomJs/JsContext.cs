@@ -50,9 +50,9 @@ namespace VroomJs
         List<JsPropertyDefinition> registerProperties = new List<JsPropertyDefinition>();
 
         Dictionary<Type, JsTypeDefinition> mappingJsTypeDefinition = new Dictionary<Type, JsTypeDefinition>();
+        Dictionary<Type, DelegateTemplate> cachedDelSamples = new Dictionary<Type, DelegateTemplate>();
 
         NativeObjectProxyStore proxyStore;
-
         JsTypeDefinitionBuilder jsTypeDefBuilder;
 
         internal JsContext(int id,
@@ -759,7 +759,7 @@ namespace VroomJs
                 if (args[i] != null && args[i].GetType() == typeof(JsFunction))
                 {
                     JsFunction function = (JsFunction)args[i];
-                    args[i] = function.MakeDelegate(paramTypes[i].ParameterType, args);
+                    args[i] = function.MakeDelegate(paramTypes[i].ParameterType);
                 }
             }
 
@@ -1039,6 +1039,19 @@ namespace VroomJs
             this.RegisterTypeDefinition(found);
 
             return found;
+        }
+
+
+        //----------------------------------------------------------------------------------------
+
+
+        internal bool GetCacheDelegateForType(Type anotherDelegateType, out DelegateTemplate delSample)
+        {
+            return this.cachedDelSamples.TryGetValue(anotherDelegateType, out delSample);
+        }
+        internal void CacheDelegateForType(Type anotherDelegateType, DelegateTemplate delegateType)
+        {
+            this.cachedDelSamples[anotherDelegateType] = delegateType;
         }
     }
 }

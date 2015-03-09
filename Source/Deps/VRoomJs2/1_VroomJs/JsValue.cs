@@ -27,42 +27,58 @@ using System;
 using System.Runtime.InteropServices;
 
 namespace VroomJs
-{ 
+{
     [StructLayout(LayoutKind.Explicit)]
-	struct JsValue
-	{
-        [FieldOffset(0)] public int    I32;
-        [FieldOffset(0)] public long   I64;
-        [FieldOffset(0)] public double Num;
-        [FieldOffset(0)] public IntPtr Ptr;
-
-        // See JsValueType, marshaled as integer.
-        [FieldOffset(8)] public JsValueType Type;
-
-        
+    struct JsValue
+    {
+        [FieldOffset(0)]
+        public int I32;
+        [FieldOffset(0)]
+        public long I64;
+        [FieldOffset(0)]
+        public double Num;
         /// <summary>
-        ///  Length of array or string or managed object keepalive index. 
+        /// ptr from native side
         /// </summary>
-        [FieldOffset(12)] public int Length;
-        /// <summary>
-        /// Length of array or string or managed object keepalive index. 
-        /// </summary>
-        [FieldOffset(12)] public int Index;
+        [FieldOffset(0)]
+        public IntPtr Ptr;
 
-        public static JsValue Null {
-			get { return new JsValue() { Type = JsValueType.Null }; }
+        /// <summary>
+        /// offset(8)See JsValueType, marshaled as integer. 
+        /// </summary>
+        [FieldOffset(8)]
+        public JsValueType Type;
+
+        /// <summary>
+        /// offset(12) Length of array or string 
+        /// </summary>
+        [FieldOffset(12)]
+        public int Length;
+        /// <summary>
+        /// offset(12) managed object keepalive index. 
+        /// </summary>
+        [FieldOffset(12)]
+        public int Index;
+
+
+
+
+        public static JsValue Null
+        {
+            get { return new JsValue() { Type = JsValueType.Null }; }
         }
 
-    	public static JsValue Empty {
-    		get { return new JsValue() { Type = JsValueType.Empty }; }
-    	}
+        public static JsValue Empty
+        {
+            get { return new JsValue() { Type = JsValueType.Empty }; }
+        }
 
         public static JsValue Error(int slot)
         {
             return new JsValue { Type = JsValueType.ManagedError, Index = slot };
         }
 
-        public override string ToString ()
+        public override string ToString()
         {
             return string.Format("[JsValue({0})]", Type);
         }
