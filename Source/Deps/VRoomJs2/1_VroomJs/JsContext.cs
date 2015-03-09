@@ -759,7 +759,7 @@ namespace VroomJs
                 if (args[i] != null && args[i].GetType() == typeof(JsFunction))
                 {
                     JsFunction function = (JsFunction)args[i];
-                    args[i] = function.MakeDelegate(paramTypes[i].ParameterType, args);
+                    args[i] = function.MakeDelegate(paramTypes[i].ParameterType);
                 }
             }
 

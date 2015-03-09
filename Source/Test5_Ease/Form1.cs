@@ -128,12 +128,7 @@ namespace Test5_Ease
             printdoc.Print();
         }
 
-        private void cmdTestV8Js1_Click(object sender, EventArgs e)
-        {
-            JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
-            FormTestV8 formTestV8 = new FormTestV8();
-            formTestV8.Show();
-        }
+        
         private void button5_Click(object sender, EventArgs e)
         {
 
@@ -253,6 +248,7 @@ namespace Test5_Ease
 
                         var newDivNode= document.createElement('div');
                         newDivNode.appendChild(document.createTextNode('new div'));
+                        newDivNode.attachEventListener('mousedown',function(){return 2;});
                         domNodeB.appendChild(newDivNode);                    
                     })();
                 ";
