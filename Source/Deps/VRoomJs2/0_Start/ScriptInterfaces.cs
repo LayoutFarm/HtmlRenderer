@@ -284,9 +284,7 @@ namespace VroomJs
             : base(name, setterMethod)
         {
         }
-    }
-
-    public delegate void SimpleFunc(object args);
+    } 
 
     public class JsMethodDefinition : JsTypeMemberDefinition
     {

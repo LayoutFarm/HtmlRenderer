@@ -1,12 +1,11 @@
-﻿//2013 MIT, Federico Di Gregorio <fog@initd.org>
+﻿//2015 MIT, WinterDev
+//2013 MIT, Federico Di Gregorio <fog@initd.org>
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-
 namespace VroomJs
 {
-  
-
     public class JsFunction : IDisposable
     {
         readonly JsContext _context;
@@ -29,63 +28,120 @@ namespace VroomJs
 
             _context = context;
             _funcPtr = funcPtr;
-            _thisPtr = thisPtr; 
-        } 
+            _thisPtr = thisPtr;
+        }
         public object Invoke(params object[] args)
         {
             object result = _context.Invoke(_funcPtr, _thisPtr, args);
             return result;
-        } 
-        public object MakeDelegate(Type targetDelegateType)
-        {   
+        }
+        public Delegate MakeDelegate(Type targetDelegateType)
+        {
+            //check if we already has cache delegate for handle the targetDelegateType
+            //if not found then create a new one  
+
+            DelegateTemplate foundTemplate;
+            if (this._context.GetCacheDelegateForType(targetDelegateType, out foundTemplate))
+            {
+                //found sample
+                //the create new holder from sample template
+                return foundTemplate.CreateNewDelegate(targetDelegateType, this);
+            }
+            //----------------------------------------------------------------------------------
+
             if (targetDelegateType.BaseType != typeof(MulticastDelegate))
             {
                 throw new ApplicationException("Not a delegate.");
             }
-            return Delegate.CreateDelegate(targetDelegateType, this, myInvokeMethodInfo); 
+
+            MethodInfo invoke = targetDelegateType.GetMethod("Invoke");
+            if (invoke == null)
+            {
+                throw new ApplicationException("Not a delegate.");
+            }
+
+            ParameterInfo[] invokeParams = invoke.GetParameters();
+            int argCount = invokeParams.Length;
+            Type returnType = invoke.ReturnType;
+            bool returnVoid = returnType == typeof(void);
+            Type[] typelist = null;
+            if (returnVoid)
+            {
+                typelist = new Type[argCount];
+                for (int i = 0; i < argCount; ++i)
+                {
+                    typelist[i] = invokeParams[i].ParameterType;
+                } 
+            }
+            else
+            {
+                typelist = new Type[argCount + 1]; //+1 for return type
+                for (int i = 0; i < argCount; ++i)
+                {
+                    typelist[i] = invokeParams[i].ParameterType;
+                }
+                typelist[argCount] = returnType;
+            } 
+            //----------------------------------
+            //create delegate holder
+            //you can add more than 1  
+            Type delHolderType = null;
+            switch (argCount)
+            {
+                case 0:
+                    {
+                        //0 input
+                        delHolderType = returnVoid ?
+                            typeof(ActionDelegateHolder) :
+                            typeof(FuncDelegateHolder<>).MakeGenericType(typelist);
+
+                    } break;
+                case 1:
+                    {
+                        //1 input 
+                        delHolderType = returnVoid ?
+                            typeof(ActionDelegateHolder<>).MakeGenericType(typelist) :
+                            typeof(FuncDelegateHolder<,>).MakeGenericType(typelist);
+
+                    } break;
+                case 2:
+                    {
+                        delHolderType = returnVoid ?
+                            typeof(ActionDelegateHolder<,>).MakeGenericType(typelist) :
+                            typeof(FuncDelegateHolder<,,>).MakeGenericType(typelist);
+                    } break;
+                case 3:
+                    {
+                        delHolderType = returnVoid ?
+                            typeof(ActionDelegateHolder<,,>).MakeGenericType(typelist) :
+                            typeof(FuncDelegateHolder<,,,>).MakeGenericType(typelist);
+
+                    } break;
+                case 4:
+                    {
+                        delHolderType = returnVoid ?
+                            typeof(ActionDelegateHolder<,,,>).MakeGenericType(typelist) :
+                            typeof(FuncDelegateHolder<,,,,>).MakeGenericType(typelist);
+                    } break;
+                default:
+                    {
+                        //create more if you want
+                        throw new NotSupportedException();
+                    }
+            }
+            //----------------------------------
+            //create sample 
+            DelegateTemplate newTemplate = new DelegateTemplate(
+                delHolderType,
+                Activator.CreateInstance(delHolderType) as DelegateHolder);
+            //cache 
+            this._context.CacheDelegateForType(targetDelegateType, newTemplate);
+
+            //new delegate created from sample
+            return newTemplate.CreateNewDelegate(targetDelegateType, this);
+
         }
-        //public object MakeDelegate(Type type, object[] args)
-        //{ 
-        //    return new SimpleDelegate(this.Invoke);
-        //    // return null;
 
-        //    //if (type.BaseType != typeof(MulticastDelegate))
-        //    //{
-        //    //    throw new ApplicationException("Not a delegate.");
-        //    //}
-
-        //    //MethodInfo invoke = type.GetMethod("Invoke");
-        //    //if (invoke == null)
-        //    //{
-        //    //    throw new ApplicationException("Not a delegate.");
-        //    //}
-
-        //    //ParameterInfo[] invokeParams = invoke.GetParameters();
-        //    //Type returnType = invoke.ReturnType;
-
-        //    //List<ParameterExpression> parameters = new List<ParameterExpression>();
-        //    //List<Expression> arrayInitExpressions = new List<Expression>();
-
-        //    //for (int i = 0; i < invokeParams.Length; i++)
-        //    //{
-        //    //    ParameterExpression param = Expression.Parameter(invokeParams[i].ParameterType, invokeParams[i].Name);
-        //    //    parameters.Add(param);
-        //    //    arrayInitExpressions.Add(Expression.Convert(param, typeof(object)));
-        //    //}
-
-        //    //Expression array = Expression.NewArrayInit(typeof(object), arrayInitExpressions);
-
-        //    //Expression me = Expression.Constant(this);
-        //    //MethodInfo myInvoke = GetType().GetMethod("Invoke");
-        //    //Expression callExpression = Expression.Call(me, myInvoke, array);
-
-        //    //if (returnType != typeof(void))
-        //    //{
-        //    //    callExpression = Expression.Convert(callExpression, returnType);
-        //    //}
-
-        //    //return Expression.Lambda(type, callExpression, parameters).Compile();
-        //}
 
         #region IDisposable implementation
 
