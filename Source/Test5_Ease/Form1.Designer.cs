@@ -33,21 +33,21 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.cmdTestV8Js1 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(218, 0);
+            this.panel1.Location = new System.Drawing.Point(270, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(738, 531);
+            this.panel1.Size = new System.Drawing.Size(686, 528);
             this.panel1.TabIndex = 0;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(13, 94);
+            this.button1.Location = new System.Drawing.Point(12, 9);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(112, 35);
             this.button1.TabIndex = 1;
@@ -57,7 +57,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(13, 135);
+            this.button2.Location = new System.Drawing.Point(12, 50);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 35);
             this.button2.TabIndex = 2;
@@ -67,7 +67,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(13, 176);
+            this.button3.Location = new System.Drawing.Point(12, 91);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(112, 35);
             this.button3.TabIndex = 3;
@@ -77,7 +77,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(12, 235);
+            this.button4.Location = new System.Drawing.Point(11, 150);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(112, 35);
             this.button4.TabIndex = 4;
@@ -85,19 +85,9 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // cmdTestV8Js1
-            // 
-            this.cmdTestV8Js1.Location = new System.Drawing.Point(13, 12);
-            this.cmdTestV8Js1.Name = "cmdTestV8Js1";
-            this.cmdTestV8Js1.Size = new System.Drawing.Size(112, 35);
-            this.cmdTestV8Js1.TabIndex = 5;
-            this.cmdTestV8Js1.Text = "Show JsTestForm";
-            this.cmdTestV8Js1.UseVisualStyleBackColor = true;
-            this.cmdTestV8Js1.Click += new System.EventHandler(this.cmdTestV8Js1_Click);
-            // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(12, 326);
+            this.button5.Location = new System.Drawing.Point(11, 213);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(112, 35);
             this.button5.TabIndex = 6;
@@ -107,7 +97,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(13, 367);
+            this.button6.Location = new System.Drawing.Point(12, 254);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(112, 35);
             this.button6.TabIndex = 7;
@@ -115,14 +105,22 @@
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(12, 335);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(243, 214);
+            this.textBox1.TabIndex = 8;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(960, 532);
+            this.ClientSize = new System.Drawing.Size(960, 561);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.cmdTestV8Js1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -131,6 +129,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -141,9 +140,9 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button cmdTestV8Js1;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

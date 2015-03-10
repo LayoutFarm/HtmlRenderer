@@ -7,18 +7,6 @@ using System.IO;
 
 namespace VroomJs
 {
-    public interface INativeRef
-    {
-        int ManagedIndex { get; }
-        object WrapObject { get; }
-        bool HasNativeSide { get; }
-        void SetUnmanagedPtr(IntPtr unmanagedObjectPtr);
-        IntPtr UnmanagedPtr { get; }
-    }
-    public interface INativeScriptable : INativeRef
-    {
-        IntPtr UnmanagedTypeDefinitionPtr { get; }
-    }
 
     public abstract class JsTypeMemberDefinition
     {
@@ -236,12 +224,12 @@ namespace VroomJs
         {
 
             this.propInfo = propInfo;
-            var getter = propInfo.GetGetMethod();
+            var getter = propInfo.GetGetMethod(true);
             if (getter != null)
             {
                 this.GetterMethod = new JsPropertyGetDefinition(name, getter);
             }
-            var setter = propInfo.GetSetMethod();
+            var setter = propInfo.GetSetMethod(true);
             if (setter != null)
             {
                 this.SetterMethod = new JsPropertySetDefinition(name, setter);
@@ -262,10 +250,7 @@ namespace VroomJs
 
     public class JsPropertyGetDefinition : JsMethodDefinition
     {
-        public JsPropertyGetDefinition(string name)
-            : base(name)
-        {
-        }
+
         public JsPropertyGetDefinition(string name, JsMethodCallDel getter)
             : base(name, getter)
         {
@@ -278,10 +263,7 @@ namespace VroomJs
 
     public class JsPropertySetDefinition : JsMethodDefinition
     {
-        public JsPropertySetDefinition(string name)
-            : base(name)
-        {
-        }
+
         public JsPropertySetDefinition(string name, JsMethodCallDel setter)
             : base(name, setter)
         {
@@ -297,10 +279,10 @@ namespace VroomJs
 
         JsMethodCallDel methodCallDel;
         System.Reflection.MethodInfo method;
-        public JsMethodDefinition(string methodName)
-            : base(methodName, JsMemberKind.Method)
-        {
-        }
+        System.Reflection.ParameterInfo[] parameterInfoList;
+        System.Type methodReturnType;
+        bool isReturnTypeVoid;
+
         public JsMethodDefinition(string methodName, JsMethodCallDel methodCallDel)
             : base(methodName, JsMemberKind.Method)
         {
@@ -310,6 +292,11 @@ namespace VroomJs
             : base(methodName, JsMemberKind.Method)
         {
             this.method = method;
+            //analyze expected arg type
+            //and conversion plan
+            this.parameterInfoList = method.GetParameters();
+            this.methodReturnType = method.ReturnType;
+            this.isReturnTypeVoid = this.methodReturnType == typeof(void);
         }
         public void InvokeMethod(ManagedMethodArgs args)
         {
@@ -317,15 +304,44 @@ namespace VroomJs
             {
                 //invoke method
                 var thisArg = args.GetThisArg();
-                int argCount = args.ArgCount;
-                object[] parameters = new object[argCount];
-                for (int i = 0; i < argCount; ++i)
+                //actual input arg count
+                int actualArgCount = args.ArgCount;
+                //prepare parameters
+                int expectedParameterCount = parameterInfoList.Length;
+                object[] parameters = new object[expectedParameterCount];
+                int lim = Math.Min(actualArgCount, expectedParameterCount);
+                //fill from the begin
+
+                for (int i = 0; i < lim; ++i)
                 {
-                    parameters[i] = args.GetArgAsObject(i);
+                    object arg = args.GetArgAsObject(i);
+                    //if type not match then covert it
+                    if (arg is JsFunction)
+                    {
+                        //convert to deledate
+                        //check if the target need delegate
+                        var func = (JsFunction)arg;
+                        //create delegate for a specific target type***
+                        parameters[i] = func.MakeDelegate(parameterInfoList[i].ParameterType);
+                    }
+                    else
+                    {
+                        parameters[i] = arg;
+                    }
                 }
+
+                //send to .net 
                 object result = this.method.Invoke(thisArg, parameters);
 
-                args.SetResultObj(result);
+                if (isReturnTypeVoid)
+                {
+                    //set to undefine because of void
+                    args.SetResultUndefined();
+                }
+                else
+                {
+                    args.SetResultObj(result);
+                }
             }
             else
             {
@@ -386,8 +402,11 @@ namespace VroomJs
         }
         public void SetResultNull()
         {
-            NativeV8JsInterOp.ResultSetJsValue(metArgsPtr,
-                this.context.Converter.ToJsValueNull());
+            NativeV8JsInterOp.ResultSetJsValue(metArgsPtr, JsValue.Null);
+        }
+        public void SetResultUndefined()
+        {
+            NativeV8JsInterOp.ResultSetJsValue(metArgsPtr, JsValue.Empty);
         }
         public void SetResultObj(object result)
         {

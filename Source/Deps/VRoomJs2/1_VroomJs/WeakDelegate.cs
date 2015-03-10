@@ -26,22 +26,22 @@
 using System;
 
 namespace VroomJs
-{ 
-	class WeakDelegate
-	{
+{
+    class WeakDelegate
+    {
         public WeakDelegate(object target, string name)
         {
             Target = target;
             MethodName = name;
+        } 
+        public WeakDelegate(Type type, string name)
+        {
+            Type = type;
+            MethodName = name;
         }
 
-		public WeakDelegate(Type type, string name) {
-			Type = type;
-			MethodName = name;
-		}
-
-		public Type Type;
-		public object Target;
+        public Type Type;
+        public object Target;
         public string MethodName;
     }
 }

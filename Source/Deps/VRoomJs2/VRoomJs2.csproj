@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="1_VroomJs\JsContext.NativeMethods.cs" />
     <Compile Include="1_VroomJs\JsEngine.NativeMethods.cs" />
+    <Compile Include="3_MiniBridge\DelegateHolders.cs" />
     <Compile Include="3_MiniBridge\JsTypeDefinitionBuilder.cs" />
     <Compile Include="0_Start\ScriptInterfaces.cs" />
     <Compile Include="3_MiniBridge\NativeV8JsInterOp.cs" />
@@ -69,7 +70,12 @@
     <Compile Include="1_VroomJs\KeepAliveDictionaryStore.cs" />
     <Compile Include="1_VroomJs\WeakDelegate.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\VRoomJs.Core\VRoomJs.Core.csproj">
+      <Project>{18CE5F1B-9745-45A8-B2BF-E69F0F380E7A}</Project>
+      <Name>VRoomJs.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

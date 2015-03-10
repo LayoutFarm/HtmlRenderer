@@ -96,18 +96,30 @@ namespace VroomJs
     {
         List<INativeRef> nativeRefList = new List<INativeRef>();
         JsContext ownerContext;
+
+        Dictionary<object, NativeJsInstanceProxy> createdWrappers = new Dictionary<object, NativeJsInstanceProxy>();
+
         public NativeObjectProxyStore(JsContext ownerContext)
         {
             this.ownerContext = ownerContext;
         }
+
+
         public NativeJsInstanceProxy CreateProxyForObject(object o, JsTypeDefinition jsTypeDefinition)
         {
+            NativeJsInstanceProxy found;
+            if (this.createdWrappers.TryGetValue(o, out found))
+            {
+                return found;
+            }
+
             var proxyObject = new NativeJsInstanceProxy(
                 nativeRefList.Count,
                 o,
                 jsTypeDefinition);
 
             nativeRefList.Add(proxyObject);
+            this.createdWrappers.Add(o, proxyObject);
 
             //register
             NativeV8JsInterOp.CreateNativePart(ownerContext, proxyObject);
@@ -311,10 +323,10 @@ namespace VroomJs
                 proxyObj.SetUnmanagedPtr(IntPtr.Zero);
             }
         }
-        public static int GetManagedIndexFromNativePart(INativeRef proxyObj)
-        {
-            return GetManagedIndex(proxyObj.UnmanagedPtr);
-        }
+        //public static int GetManagedIndexFromNativePart(INativeRef proxyObj)
+        //{
+        //    return GetManagedIndex(proxyObj.UnmanagedPtr);
+        //}
     }
 
 

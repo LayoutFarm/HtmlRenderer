@@ -212,10 +212,15 @@ namespace VroomJs
 
         public JsValue ToJsValue(INativeScriptable jsInstance)
         {
-
             //extension 
-            int keepAliveId = _context.KeepAliveAdd(jsInstance);
-            return new JsValue { Type = JsValueType.JsTypeWrap, Ptr = jsInstance.UnmanagedPtr, Index = keepAliveId };
+            //int keepAliveId = _context.KeepAliveAdd(jsInstance);
+            return new JsValue
+            {
+                Type = JsValueType.JsTypeWrap,
+                Ptr = jsInstance.UnmanagedPtr,
+                Index = jsInstance.ManagedIndex
+                //Index = keepAliveId jsInstance.ManagedIndex
+            };
 
         }
         public JsValue ToJsValue(object[] arr)
@@ -320,8 +325,9 @@ namespace VroomJs
 
             var jsTypeDefinition = _context.GetJsTypeDefinition2(type);
             INativeRef prox2 = _context.CreateWrapper(obj, jsTypeDefinition);
-            int keepAliveId2 = _context.KeepAliveAdd(prox2);
-            return new JsValue { Type = JsValueType.JsTypeWrap, Ptr = prox2.UnmanagedPtr, Index = keepAliveId2 };
+            //int keepAliveId2 = _context.KeepAliveAdd(prox2);
+            return new JsValue { Type = JsValueType.JsTypeWrap, Ptr = prox2.UnmanagedPtr, Index = prox2.ManagedIndex };
+            //return new JsValue { Type = JsValueType.JsTypeWrap, Ptr = prox2.UnmanagedPtr, Index = keepAliveId2 };
 
             //return new JsValue { Type = JsValueType.Managed, Index = _context.KeepAliveAdd(obj) };
         }

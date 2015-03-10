@@ -25,7 +25,10 @@ namespace VroomJs
                 hModuleV8 = IntPtr.Zero;
             }
         }
-
+        public static int LibVersion
+        {
+            get { return JsContext.getVersion(); }
+        }
         //---------------------------------------------
 #if DEBUG
         public static void dbugTestCallbacks()
