@@ -71,7 +71,7 @@ namespace VroomJs
                 for (int i = 0; i < argCount; ++i)
                 {
                     typelist[i] = invokeParams[i].ParameterType;
-                } 
+                }
             }
             else
             {
@@ -81,7 +81,7 @@ namespace VroomJs
                     typelist[i] = invokeParams[i].ParameterType;
                 }
                 typelist[argCount] = returnType;
-            } 
+            }
             //----------------------------------
             //create delegate holder
             //you can add more than 1  
