@@ -58,6 +58,7 @@
     <Compile Include="1_Composers\2_Css\CssDefaults.cs" />
     <Compile Include="4_WebDom\HtmlDocument.Scripting.cs" />
     <Compile Include="4_WebDom\HtmlElements.Scripting.cs" />
+    <Compile Include="4_WebDom\DomTextWriter.cs" />
     <Compile Include="4_WebDom\HtmlTextNode.cs" />
     <Compile Include="4_WebDom\RunListHelper.cs" />
     <Compile Include="4_WebDom\HtmlElements.cs" />

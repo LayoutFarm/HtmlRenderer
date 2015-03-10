@@ -40,8 +40,8 @@ namespace Test5_Ease
 
             //------
             //js engine
-         
-            
+
+
 
         }
         void Form1_Load(object sender, EventArgs e)
@@ -95,7 +95,7 @@ namespace Test5_Ease
             string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
 
             //1. blank html
-            var fileContent = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div></body></html>";
+            var fileContent = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B<span id=\"s1\">span content</span></div></body></html>";
             easeViewport.LoadHtml(filename, fileContent);
 
 
@@ -112,6 +112,10 @@ namespace Test5_Ease
                 div.SetAttribute("style", "background-color:yellow");
                 div.AddTextContent("Hello from B");
             });
+
+            var htmlElementB = domNodeB as LayoutFarm.WebDom.HtmlElement;
+            string innerHtmlContent = htmlElementB.GetInnerHtml();
+
 
             domNodeB.AttachMouseDownEvent(ev =>
             {
@@ -227,7 +231,7 @@ namespace Test5_Ease
             string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
 
             //1. blank html
-            var fileContent = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div></body></html>";
+            var fileContent = "<html><body><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div><div id=\"c\">c_node</div></body></html>";
             easeViewport.LoadHtml(filename, fileContent);
             //----------------------------------------------------------------
             //after load html page 
@@ -241,7 +245,7 @@ namespace Test5_Ease
 
             //2. access dom  
 
-            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.HtmlDocument; 
+            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.HtmlDocument;
             //create js engine and context
             if (myengine == null)
             {
@@ -262,6 +266,8 @@ namespace Test5_Ease
                         console.log('hello world!');
                         var domNodeA = document.getElementById('a');
                         var domNodeB = document.getElementById('b');
+                        var domNodeC = document.getElementById('c');
+
                         var newText1 = document.createTextNode('... says hello world!');
                         domNodeA.appendChild(newText1);
                         for(var i=0;i<10;++i){
@@ -272,7 +278,10 @@ namespace Test5_Ease
                         var newDivNode= document.createElement('div');
                         newDivNode.appendChild(document.createTextNode('new div'));
                         newDivNode.attachEventListener('mousedown',function(){console.log('new div');});
-                        domNodeB.appendChild(newDivNode);                    
+                        domNodeB.appendChild(newDivNode);    
+                        
+                        domNodeC.innerHTML='<div> from inner html <span> from span</span> </div>';
+                        console.log(domNodeC.innerHTML);
                     })();
                 ";
 

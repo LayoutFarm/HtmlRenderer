@@ -46,10 +46,12 @@ namespace LayoutFarm.Scripting
                 }
                 else
                 {
-                    //extract explicit interface
+
                 }
             }
-            var properties = t.GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+            var properties = t.GetProperties(System.Reflection.BindingFlags.Instance
+                | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+
             foreach (var property in properties)
             {
                 var customAttrs = property.GetCustomAttributes(typeOfJsPropertyAttr, false);
@@ -66,7 +68,7 @@ namespace LayoutFarm.Scripting
         {
             int dotpos = mbInfo.Name.LastIndexOf('.');
             if (dotpos > 0)
-            {   
+            {
                 return mbInfo.Name.Substring(dotpos + 1);
             }
             else

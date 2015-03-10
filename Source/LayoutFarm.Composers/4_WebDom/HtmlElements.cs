@@ -3,7 +3,8 @@
 
 using System;
 using System.Collections.Generic;
-//
+using System.Text;
+
 using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.HtmlBoxes;
@@ -149,13 +150,68 @@ namespace LayoutFarm.WebDom
         //------------------------------------
         public string GetInnerHtml()
         {
-            return "";
+            //get inner html*** 
+            StringBuilder stbuilder = new StringBuilder();
+            DomTextWriter textWriter = new DomTextWriter(stbuilder);
+            foreach (var childnode in this.GetChildNodeIterForward())
+            {
+                HtmlElement childHtmlNode = childnode as HtmlElement;
+                if (childHtmlNode != null)
+                {
+                    childHtmlNode.WriteNode(textWriter);
+                }
+                HtmlTextNode htmlTextNode = childnode as HtmlTextNode;
+                if (htmlTextNode != null)
+                {
+                    htmlTextNode.WriteTextNode(textWriter);
+                }
+            }
+            return stbuilder.ToString();
         }
         public void SetInnerHtml(string innerHtml)
         {
             //parse html and create dom node
-            
+            //clear content of this node
+            this.ClearAllElements();
+            //then apply new content 
+            WebDocumentParser.ParseHtmlDom(
+                new LayoutFarm.WebDom.Parser.TextSnapshot(innerHtml.ToCharArray()),
+                (HtmlDocument)this.OwnerDocument,
+                this);
+        }
+        public virtual void WriteNode(DomTextWriter writer)
+        {
+            //write node
+            writer.Write("<", this.Name);
+            //count attribute 
+            foreach (var attr in this.GetAttributeIterForward())
+            {
+                //name=value
+                writer.Write(' ');
+                writer.Write(attr.Name);
+                writer.Write("=\"");
+                writer.Write(attr.Value);
+                writer.Write("\"");
+            }
+            writer.Write('>');
 
+
+            //content
+            foreach (var childnode in this.GetChildNodeIterForward())
+            {
+                HtmlElement childHtmlNode = childnode as HtmlElement;
+                if (childHtmlNode != null)
+                {
+                    childHtmlNode.WriteNode(writer);
+                }
+                HtmlTextNode htmlTextNode = childnode as HtmlTextNode;
+                if (htmlTextNode != null)
+                {
+                    htmlTextNode.WriteTextNode(writer);
+                }
+            }
+            //close tag
+            writer.Write("</", this.Name, ">");
         }
     }
 

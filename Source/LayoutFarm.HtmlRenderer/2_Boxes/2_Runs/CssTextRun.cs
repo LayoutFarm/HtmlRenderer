@@ -23,7 +23,7 @@ namespace LayoutFarm.HtmlBoxes
     {
         int _textStartIndex;
         int _textLength;
-       
+
         /// <summary>
         /// Init.
         /// </summary>
@@ -128,10 +128,27 @@ namespace LayoutFarm.HtmlBoxes
                             return "";
                         }
                 }
-
             }
         }
-
+        public void WriteContent(System.Text.StringBuilder stbuilder)
+        {
+            switch (this.Kind)
+            {
+                case CssRunKind.Space:
+                    {
+                        stbuilder.Append(new string(' ', this._textLength));
+                    } break;
+                case CssRunKind.Text:
+                    {
+                        char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
+                        stbuilder.Append(ownerTextBuff, this._textStartIndex, this._textLength);
+                    } break;
+                case CssRunKind.SingleSpace:
+                    {
+                        stbuilder.Append(' ');
+                    } break;
+            }
+        }
         /// <summary>
         /// Represents this word for debugging purposes
         /// </summary>
@@ -142,5 +159,7 @@ namespace LayoutFarm.HtmlBoxes
 
             return string.Format("{0} ({1} char{2})", txt.Replace(' ', '-').Replace("\n", "\\n"), txt.Length, txt.Length != 1 ? "s" : string.Empty);
         }
+
+
     }
 }

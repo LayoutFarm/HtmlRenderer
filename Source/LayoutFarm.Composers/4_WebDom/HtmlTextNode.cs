@@ -49,6 +49,12 @@ namespace LayoutFarm.WebDom
             this.freeze = true;
             return this.runs;
         }
+        public void WriteTextNode(DomTextWriter writer)
+        {
+            //write inner run
+            writer.InnerStringBuilder.Append(this.GetOriginalBuffer());
+
+        }
 
     }
     public enum TextSplitPartKind : byte
