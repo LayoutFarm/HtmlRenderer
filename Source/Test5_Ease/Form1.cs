@@ -19,6 +19,9 @@ namespace Test5_Ease
         EaseViewport easeViewport;
         MyWebConsole myWbConsole;
 
+        JsEngine myengine;
+        JsContext myCtx;
+
         public Form1()
         {
             InitializeComponent();
@@ -29,9 +32,16 @@ namespace Test5_Ease
             this.panel1.Controls.Add(easeViewport.ViewportControl);
 
 
+
             //this.Controls.Add(easeViewport.ViewportControl);
             this.Load += new EventHandler(Form1_Load);
             this.myWbConsole = new MyWebConsole(this.textBox1);
+
+
+            //------
+            //js engine
+         
+            
 
         }
         void Form1_Load(object sender, EventArgs e)
@@ -166,7 +176,7 @@ namespace Test5_Ease
                 stwatch.Start();
 
                 ctx.SetVariableAutoWrap("document", webdoc);
-               
+
 
                 string testsrc1 = "document.getElementById('a');";
                 object domNodeA = ctx.Execute(testsrc1);
@@ -207,6 +217,10 @@ namespace Test5_Ease
             //}); 
         }
 
+
+
+
+
         private void button6_Click(object sender, EventArgs e)
         {
 
@@ -218,7 +232,7 @@ namespace Test5_Ease
             //----------------------------------------------------------------
             //after load html page 
 
-            //test javascript ...
+            //load v8 if ready
             JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
 #if DEBUG
             JsBridge.dbugTestCallbacks();
@@ -230,19 +244,21 @@ namespace Test5_Ease
             var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.HtmlDocument;
 
             //create js engine and context
-            var jstypeBuilder = new LayoutFarm.Scripting.MyJsTypeDefinitionBuilder();
-            using (JsEngine engine = new JsEngine())
-            using (JsContext ctx = engine.CreateContext(jstypeBuilder))
+            if (myengine == null)
             {
+                var jstypeBuilder = new LayoutFarm.Scripting.MyJsTypeDefinitionBuilder();
+                myengine = new JsEngine();
+                myCtx = myengine.CreateContext(jstypeBuilder);
+            }
 
-                System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
-                stwatch.Reset();
-                stwatch.Start();
+            System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
+            stwatch.Reset();
+            stwatch.Start();
 
 
-                ctx.SetVariableAutoWrap("document", webdoc);
-                ctx.SetVariableAutoWrap("console", myWbConsole);
-                string simplejs = @"
+            myCtx.SetVariableAutoWrap("document", webdoc);
+            myCtx.SetVariableAutoWrap("console", myWbConsole);
+            string simplejs = @"
                     (function(){
                         console.log('hello world!');
                         var domNodeA = document.getElementById('a');
@@ -250,23 +266,23 @@ namespace Test5_Ease
                         var newText1 = document.createTextNode('... says hello world!');
                         domNodeA.appendChild(newText1);
                         for(var i=0;i<10;++i){
-                            var newText2= document.createTextNode(''+i);
+                            var newText2= document.createTextNode(i);
                             domNodeA.appendChild(newText2);       
                         } 
 
                         var newDivNode= document.createElement('div');
                         newDivNode.appendChild(document.createTextNode('new div'));
-                        newDivNode.attachEventListener('mousedown',function(){return 2;});
+                        newDivNode.attachEventListener('mousedown',function(){console.log('new div');});
                         domNodeB.appendChild(newDivNode);                    
                     })();
                 ";
 
-                object testResult = ctx.Execute(simplejs);
-                stwatch.Stop();
+            object testResult = myCtx.Execute(simplejs);
+            stwatch.Stop();
 
-                Console.WriteLine("met1 template:" + stwatch.ElapsedMilliseconds.ToString());
+            Console.WriteLine("met1 template:" + stwatch.ElapsedMilliseconds.ToString());
 
-            }
+
 
             ////3. get element by id 
             //var domNodeA = webdoc.GetElementById("a");
