@@ -294,8 +294,8 @@ namespace LayoutFarm.HtmlWidgets
                     this.GetPrimaryUIElement(host);
                 }
                 HtmlElement relativeMenuItemElement = relativeToMenuItem.CurrentDomElement as HtmlElement;
-                var nodePrincipalBox = relativeMenuItemElement.GetPrincipalBox();
-                Point p = nodePrincipalBox.GetElementGlobalLocation();
+
+                Point p = relativeMenuItemElement.GetActualElementGlobalLocation();
                 this.SetLocation(p.X + relativeToMenuItem.OwnerMenuBox.Width, p.Y);
 
                 this.AddSelfToTopWindow();

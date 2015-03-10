@@ -11,8 +11,7 @@ using LayoutFarm.Scripting;
 namespace LayoutFarm.WebDom
 {
     public interface IHtmlElement
-    {
-        //string innerHtml { get; set; } 
+    {   
         void setAttribute(string attrName, string value);
         void appendChild(DomNode childNode);
         void attachEventListener(string eventName, HtmlEventHandler handler);

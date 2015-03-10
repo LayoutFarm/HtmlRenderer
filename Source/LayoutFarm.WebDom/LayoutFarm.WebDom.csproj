@@ -45,14 +45,14 @@
     <Compile Include="1_Css\CssElementSelectors.cs" />
     <Compile Include="1_Css\CssPropertyDeclaration.cs" />
     <Compile Include="1_Css\WellknownCssPropertyName.cs" />
-    <Compile Include="3_WebDom.Parser\CssParser.cs" />
-    <Compile Include="3_WebDom.Parser\CssParserHelper.cs" />
-    <Compile Include="3_WebDom.Parser\CssValueParser.cs" />
-    <Compile Include="3_WebDom.Parser\dbugLexerReport.cs" />
-    <Compile Include="3_WebDom.Parser\HtmlLexer.cs" />
-    <Compile Include="3_WebDom.Parser\HtmlParser.cs" />
-    <Compile Include="3_WebDom.Parser\HtmlUtils.cs" />
-    <Compile Include="3_WebDom.Parser\TextSnapshot.cs" />
+    <Compile Include="0_WebDom.Parser\CssParser.cs" />
+    <Compile Include="0_WebDom.Parser\CssParserHelper.cs" />
+    <Compile Include="0_WebDom.Parser\CssValueParser.cs" />
+    <Compile Include="0_WebDom.Parser\dbugLexerReport.cs" />
+    <Compile Include="0_WebDom.Parser\HtmlLexer.cs" />
+    <Compile Include="0_WebDom.Parser\HtmlParser.cs" />
+    <Compile Include="0_WebDom.Parser\HtmlUtils.cs" />
+    <Compile Include="0_WebDom.Parser\TextSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="2_WebDom\DomElement.cs" />
     <Compile Include="2_WebDom\DomElement_EventListener.cs" />
@@ -63,9 +63,7 @@
     <Compile Include="2_WebDom\WebDocument.cs" />
     <Compile Include="2_WebDom\WellknownElementName.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="0_Start\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
       <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>

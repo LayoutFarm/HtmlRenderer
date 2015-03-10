@@ -13,8 +13,8 @@ using LayoutFarm.Composers;
 
 namespace LayoutFarm.WebDom
 {
-
-    public partial class HtmlElement : DomElement
+    
+    public   partial class HtmlElement : DomElement
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;
@@ -25,10 +25,8 @@ namespace LayoutFarm.WebDom
         {
             this.boxSpec = new Css.BoxSpec();
         }
-        public Css.BoxSpec Spec
-        {
-            get { return this.boxSpec; }
-        }
+
+
         public WellKnownDomNodeName WellknownElementName { get; set; }
         public bool TryGetAttribute(WellknownName wellknownHtmlName, out DomAttribute result)
         {
@@ -63,22 +61,21 @@ namespace LayoutFarm.WebDom
         public override void SetAttribute(DomAttribute attr)
         {
             base.SetAttribute(attr);
-
             switch ((WellknownName)attr.LocalNameIndex)
             {
                 case WellknownName.Style:
                     {
-                        //parse and evaluate style here
-
-
+                        //parse and evaluate style here 
+                        //****
                     } break;
             }
         }
         //------------------------------------
-        public CssBox GetPrincipalBox()
+        public Point GetActualElementGlobalLocation()
         {
-            return this.principalBox;
+            return this.principalBox.GetElementGlobalLocation();
         }
+        
         public void SetPrincipalBox(CssBox box)
         {
             this.principalBox = box;
@@ -94,22 +91,13 @@ namespace LayoutFarm.WebDom
             base.ClearAllElements();
 
         }
-        internal bool SkipPrincipalBoxEvalulation
-        {
-            get;
-            set;
 
-        }
-        internal static CssBox InternalGetPrincipalBox(HtmlElement element)
-        {
-            return element.principalBox;
-        }
         protected override void OnContentUpdate()
         {
             base.OnContentUpdate();
             OnChangeInIdleState(ElementChangeKind.ContentUpdate);
         }
-        //------------------------------------
+        
         protected override void OnChangeInIdleState(ElementChangeKind changeKind)
         {
             //1. 
@@ -123,12 +111,14 @@ namespace LayoutFarm.WebDom
                 cnode = cnode.ParentNode;
             }
         }
+         
 
+
+        //------------------------------------
         internal static void InvokeNotifyChangeOnIdleState(HtmlElement elem, ElementChangeKind changeKind)
         {
             elem.OnChangeInIdleState(changeKind);
-        }
-
+        } 
         internal CssRuleSet ElementRuleSet
         {
             get
@@ -145,8 +135,25 @@ namespace LayoutFarm.WebDom
             get;
             set;
         }
+        internal bool SkipPrincipalBoxEvalulation
+        {
+            get;
+            set;
 
-
+        }
+        internal static CssBox InternalGetPrincipalBox(HtmlElement element)
+        {
+            return element.principalBox;
+        }
+        internal Css.BoxSpec Spec
+        {
+            get { return this.boxSpec; }
+        }
+        internal CssBox GetPrincipalBox()
+        {
+            return this.principalBox;
+        }
+         
         //------------------------------------
         public string GetInnerHtml()
         {

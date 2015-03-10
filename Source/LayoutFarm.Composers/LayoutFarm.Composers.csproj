@@ -47,33 +47,33 @@
     <Compile Include="1_Composers\4_Diagnostic\ArgCheckNotNullAttribute.cs" />
     <Compile Include="1_Composers\4_Diagnostic\HtmlGenerationStyle.cs" />
     <Compile Include="1_Composers\4_Diagnostic\HtmlRenderErrorType.cs" />
-    <Compile Include="4_WebDom\BulletNumberFormatter.cs" />
+    <Compile Include="1_Composers\1_Builder\BulletNumberFormatter.cs" />
     <Compile Include="1_Composers\1_Builder\ContentTextSplitter.cs" />
     <Compile Include="1_Composers\2_Css\SpecSetter.cs" />
     <Compile Include="1_Composers\1_Builder\BoxCreator.cs" />
     <Compile Include="4_WebDom\HtmlDocument.cs" />
-    <Compile Include="3_HtmlBoxes\HtmlRenderBox.cs" />
-    <Compile Include="3_HtmlBoxes\HtmlInputEventAdapter.cs" />
-    <Compile Include="3_HtmlBoxes\RenderElementWrapperCssBox.cs" />
+    <Compile Include="1_Composers\5_RenderBoxes\HtmlRenderBox.cs" />
+    <Compile Include="7_Events\HtmlInputEventAdapter.cs" />
+    <Compile Include="1_Composers\5_RenderBoxes\RenderElementWrapperCssBox.cs" />
     <Compile Include="1_Composers\2_Css\CssDefaults.cs" />
     <Compile Include="4_WebDom\HtmlDocument.Scripting.cs" />
     <Compile Include="4_WebDom\HtmlElements.Scripting.cs" />
     <Compile Include="4_WebDom\DomTextWriter.cs" />
     <Compile Include="4_WebDom\HtmlTextNode.cs" />
-    <Compile Include="4_WebDom\RunListHelper.cs" />
+    <Compile Include="1_Composers\1_Builder\RunListHelper.cs" />
     <Compile Include="4_WebDom\HtmlElements.cs" />
     <Compile Include="4_WebDom\SpecialHtmlElements.cs" />
     <Compile Include="6_Svg\SvgCreator.cs" />
-    <Compile Include="3_HtmlBoxes\HtmlHostAndHtmlContainer.cs" />
+    <Compile Include="1_Composers\5_RenderBoxes\HtmlHostAndHtmlContainer.cs" />
     <Compile Include="6_Svg\SvgRootEventPortal_IUserEventPortal.cs" />
     <Compile Include="6_Svg\SvgRootEventPortal.cs" />
-    <Compile Include="7_TopWin\MyIntervalTaskEventArgs.cs" />
-    <Compile Include="7_TopWin\0_MyRootGraphic.cs" />
-    <Compile Include="7_TopWin\GraphicsTimerTasksManager.cs" />
-    <Compile Include="7_TopWin\ToNotifySizeChangedEvent.cs" />
-    <Compile Include="7_TopWin\UIHoverMonitor.cs" />
-    <Compile Include="7_TopWin\UserInputEventAdapter.cs" />
-    <Compile Include="7_TopWin\UserInputEventAdapter_IEventPortal.cs" />
+    <Compile Include="7_Events\MyIntervalTaskEventArgs.cs" />
+    <Compile Include="1_Composers\5_RenderBoxes\0_MyRootGraphic.cs" />
+    <Compile Include="7_Events\GraphicsTimerTasksManager.cs" />
+    <Compile Include="7_Events\ToNotifySizeChangedEvent.cs" />
+    <Compile Include="7_Events\UIHoverMonitor.cs" />
+    <Compile Include="7_Events\UserInputEventAdapter.cs" />
+    <Compile Include="7_Events\UserInputEventAdapter_IEventPortal.cs" />
     <Compile Include="8_ContentManagers\ImageContentManager.cs" />
     <Compile Include="8_ContentManagers\ImageCacheSystem.cs" />
     <Compile Include="8_ContentManagers\TextContentManager.cs" />
@@ -108,9 +108,6 @@
       <Project>{A7E65FD9-329D-4902-BCDA-51EE4F992FD5}</Project>
       <Name>LayoutFarm.WebDom</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="6_Svg\0_License.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="0_Start\" />

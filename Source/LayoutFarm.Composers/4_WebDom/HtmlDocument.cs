@@ -16,6 +16,7 @@ namespace LayoutFarm.WebDom
         DomElement rootNode;
         int domUpdateVersion;
         EventHandler domUpdatedHandler;
+
         public HtmlDocument()
             : base(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
@@ -34,10 +35,6 @@ namespace LayoutFarm.WebDom
             {
                 return rootNode;
             }
-            set
-            {
-                this.rootNode = value;
-            }
         }
         public override int DomUpdateVersion
         {
@@ -54,13 +51,14 @@ namespace LayoutFarm.WebDom
 
         public override DomElement CreateElement(string prefix, string localName)
         {
+            //actual implementation
             return new HtmlElement(this,
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName));
         }
         public DomAttribute CreateAttribute(WellknownName attrName)
         {
-            
+
             return new DomAttribute(this, 0, (int)attrName);
         }
         public override DomTextNode CreateTextNode(char[] strBufferForElement)
@@ -86,8 +84,8 @@ namespace LayoutFarm.WebDom
             get;
             set;
         }
-
     }
+
 
 
     public partial class FragmentHtmlDocument : HtmlDocument

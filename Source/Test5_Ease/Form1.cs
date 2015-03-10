@@ -29,19 +29,12 @@ namespace Test5_Ease
             //1. create viewport
             easeViewport = EaseHost.CreateViewportControl(this, 800, 600);
             //2. add
-            this.panel1.Controls.Add(easeViewport.ViewportControl);
-
-
+            this.panel1.Controls.Add(easeViewport.ViewportControl); 
 
             //this.Controls.Add(easeViewport.ViewportControl);
             this.Load += new EventHandler(Form1_Load);
-            this.myWbConsole = new MyWebConsole(this.textBox1);
-
-
-            //------
-            //js engine
-
-
+            this.myWbConsole = new MyWebConsole(this.textBox1); 
+           
 
         }
         void Form1_Load(object sender, EventArgs e)
@@ -319,6 +312,7 @@ namespace Test5_Ease
             //}); 
         }
 
+      
 
 
     }
