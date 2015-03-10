@@ -3,7 +3,8 @@
 
 using System;
 using System.Collections.Generic;
-//
+using System.Text;
+
 using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.HtmlBoxes;
@@ -145,111 +146,75 @@ namespace LayoutFarm.WebDom
             set;
         }
 
-    }
 
-    sealed class HtmlRootElement : HtmlElement
-    {
-        public HtmlRootElement(HtmlDocument ownerDoc)
-            : base(ownerDoc, 0, 0)
+        //------------------------------------
+        public string GetInnerHtml()
         {
-        }
-    }
-
-    sealed class ExternalHtmlElement : HtmlElement
-    {
-        LazyCssBoxCreator lazyCreator;
-        RenderElementWrapperCssBox wrapper;
-        public ExternalHtmlElement(HtmlDocument owner, int prefix, int localNameIndex, LazyCssBoxCreator lazyCreator)
-            : base(owner, prefix, localNameIndex)
-        {
-            this.lazyCreator = lazyCreator;
-        }
-        public CssBox GetCssBox(RootGraphic rootgfx)
-        {
-            if (wrapper != null) return wrapper;
-            RenderElement re;
-            object controller;
-            lazyCreator(rootgfx, out re, out controller);
-            return wrapper = new RenderElementWrapperCssBox(controller, this.Spec, re);
-        }
-
-    }
-    public delegate void LazyCssBoxCreator(RootGraphic rootgfx, out RenderElement re, out object controller);
-    public class HtmlTextNode : DomTextNode
-    {
-        //---------------------------------
-        //this node may be simple text node  
-        bool freeze;
-        bool hasSomeChar;
-        List<CssRun> runs;
-
-        public HtmlTextNode(WebDocument ownerDoc, char[] buffer)
-            : base(ownerDoc, buffer)
-        {
-        }
-        public bool IsWhiteSpace
-        {
-            get
+            //get inner html*** 
+            StringBuilder stbuilder = new StringBuilder();
+            DomTextWriter textWriter = new DomTextWriter(stbuilder);
+            foreach (var childnode in this.GetChildNodeIterForward())
             {
-                return !this.hasSomeChar;
+                HtmlElement childHtmlNode = childnode as HtmlElement;
+                if (childHtmlNode != null)
+                {
+                    childHtmlNode.WriteNode(textWriter);
+                }
+                HtmlTextNode htmlTextNode = childnode as HtmlTextNode;
+                if (htmlTextNode != null)
+                {
+                    htmlTextNode.WriteTextNode(textWriter);
+                }
             }
+            return stbuilder.ToString();
         }
-        internal void SetSplitParts(List<CssRun> runs, bool hasSomeChar)
+        public void SetInnerHtml(string innerHtml)
         {
-
-            this.freeze = false;
-            this.runs = runs;
-            this.hasSomeChar = hasSomeChar;
+            //parse html and create dom node
+            //clear content of this node
+            this.ClearAllElements();
+            //then apply new content 
+            WebDocumentParser.ParseHtmlDom(
+                new LayoutFarm.WebDom.Parser.TextSnapshot(innerHtml.ToCharArray()),
+                (HtmlDocument)this.OwnerDocument,
+                this);
         }
-        public bool IsFreeze
+        public virtual void WriteNode(DomTextWriter writer)
         {
-            get { return this.freeze; }
-        }
-#if DEBUG
-        public override string ToString()
-        {
-            return new string(base.GetOriginalBuffer());
-        }
-#endif
-
-        internal List<CssRun> InternalGetRuns()
-        {
-            this.freeze = true;
-            return this.runs;
-        }
-
-    }
-
-    public enum TextSplitPartKind : byte
-    {
-        Text = 1,
-        Whitespace,
-        SingleWhitespace,
-        LineBreak,
-    }
-
-
-    static class HtmlPredefineNames
-    {
-
-        static readonly ValueMap<WellknownName> _wellKnownHtmlNameMap =
-            new ValueMap<WellknownName>();
-
-        static UniqueStringTable htmlUniqueStringTableTemplate = new UniqueStringTable();
-
-        static HtmlPredefineNames()
-        {
-            int j = _wellKnownHtmlNameMap.Count;
-            for (int i = 0; i < j; ++i)
+            //write node
+            writer.Write("<", this.Name);
+            //count attribute 
+            foreach (var attr in this.GetAttributeIterForward())
             {
-                htmlUniqueStringTableTemplate.AddStringIfNotExist(_wellKnownHtmlNameMap.GetStringFromValue((WellknownName)(i + 1)));
+                //name=value
+                writer.Write(' ');
+                writer.Write(attr.Name);
+                writer.Write("=\"");
+                writer.Write(attr.Value);
+                writer.Write("\"");
             }
-        }
-        public static UniqueStringTable CreateUniqueStringTableClone()
-        {
-            return htmlUniqueStringTableTemplate.Clone();
-        }
+            writer.Write('>');
 
+
+            //content
+            foreach (var childnode in this.GetChildNodeIterForward())
+            {
+                HtmlElement childHtmlNode = childnode as HtmlElement;
+                if (childHtmlNode != null)
+                {
+                    childHtmlNode.WriteNode(writer);
+                }
+                HtmlTextNode htmlTextNode = childnode as HtmlTextNode;
+                if (htmlTextNode != null)
+                {
+                    htmlTextNode.WriteTextNode(writer);
+                }
+            }
+            //close tag
+            writer.Write("</", this.Name, ">");
+        }
     }
+
+
 
 }

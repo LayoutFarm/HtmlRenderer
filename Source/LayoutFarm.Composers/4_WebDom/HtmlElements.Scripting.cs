@@ -1,5 +1,4 @@
-﻿// 2015,2014 ,BSD, WinterDev 
-//ArthurHub
+﻿//2015 MIT, WinterDev 
 
 using System;
 using System.Collections.Generic;
@@ -18,6 +17,7 @@ namespace LayoutFarm.WebDom
         void appendChild(DomNode childNode);
         void attachEventListener(string eventName, HtmlEventHandler handler);
         void detachEventListener(string eventName, HtmlEventHandler handler);
+        string innerHTML { get; set; }
     }
 
     partial class HtmlElement : IHtmlElement
@@ -59,6 +59,20 @@ namespace LayoutFarm.WebDom
         void IHtmlElement.detachEventListener(string eventName, HtmlEventHandler handler)
         {
         }
+
+        [JsProperty]
+        string IHtmlElement.innerHTML
+        {
+            get
+            {
+                return this.GetInnerHtml();
+            }
+            set
+            {
+                this.SetInnerHtml(value);
+            }
+        }
+
     }
 
 }

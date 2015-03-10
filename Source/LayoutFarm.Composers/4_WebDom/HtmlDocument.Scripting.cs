@@ -1,5 +1,5 @@
-﻿// 2015,2014 ,BSD, WinterDev 
-//ArthurHub
+﻿//2015 MIT, WinterDev 
+
 
 using System;
 using System.Collections.Generic;
@@ -11,12 +11,12 @@ using LayoutFarm.Composers;
 using LayoutFarm.Scripting;
 namespace LayoutFarm.WebDom
 {
-    //only for scripting
+
     public interface IHtmlDocument
     {
         HtmlElement getElementById(string id);
-        HtmlTextNode createTextNode(string textContent);
-        HtmlElement createElement(string nodeName); 
+        HtmlTextNode createTextNode(object nodeContent);
+        HtmlElement createElement(string nodeName);
     }
 
     partial class HtmlDocument : IHtmlDocument
@@ -27,15 +27,15 @@ namespace LayoutFarm.WebDom
             return this.GetElementById(id) as HtmlElement;
         }
         [JsMethod]
-        HtmlTextNode IHtmlDocument.createTextNode(string content)
+        HtmlTextNode IHtmlDocument.createTextNode(object nodeContent)
         {
-            return (HtmlTextNode)this.CreateTextNode(content.ToCharArray());
+            return (HtmlTextNode)this.CreateTextNode(nodeContent.ToString().ToCharArray());
         }
         [JsMethod]
         HtmlElement IHtmlDocument.createElement(string nodeName)
         {
             return (HtmlElement)this.CreateElement(nodeName);
-        } 
-    } 
+        }
+    }
 
 }
