@@ -1,6 +1,0 @@
-﻿//WinterDev 2014
-//some parts derived from github.com/vvvv/svg
-
-//license : Microsoft Public License (MS-PL) 
-
-

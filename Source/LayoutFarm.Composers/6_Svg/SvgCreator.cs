@@ -1,5 +1,5 @@
-﻿//MS-PL, Apache2 
-//2014,2015, WinterDev
+﻿//2014,2015, WinterDev
+//MS-PL, Apache2 some parts derived from github.com/vvvv/svg 
 
 using System;
 using System.Collections.Generic;

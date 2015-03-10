@@ -17,8 +17,7 @@ namespace LayoutFarm.WebDom
         }
         public abstract DomElement RootNode
         {
-            get;
-            set;
+            get; 
         }
         public abstract int DomUpdateVersion { get; set; }
         public int AddStringIfNotExists(string uniqueString)

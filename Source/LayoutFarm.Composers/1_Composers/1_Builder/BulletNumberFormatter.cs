@@ -20,7 +20,7 @@ using System.Globalization;
 using System.Text;
 
 
-namespace LayoutFarm.WebDom
+namespace LayoutFarm.Composers
 {
 
     static class BulletNumberFormatter
