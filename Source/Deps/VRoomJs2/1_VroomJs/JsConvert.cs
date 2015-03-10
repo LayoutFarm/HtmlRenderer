@@ -213,12 +213,13 @@ namespace VroomJs
         public JsValue ToJsValue(INativeScriptable jsInstance)
         {
             //extension 
-            int keepAliveId = _context.KeepAliveAdd(jsInstance);
+            //int keepAliveId = _context.KeepAliveAdd(jsInstance);
             return new JsValue
             {
                 Type = JsValueType.JsTypeWrap,
                 Ptr = jsInstance.UnmanagedPtr,
-                Index = keepAliveId
+                Index = jsInstance.ManagedIndex
+                //Index = keepAliveId jsInstance.ManagedIndex
             };
 
         }

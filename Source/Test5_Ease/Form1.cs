@@ -17,6 +17,8 @@ namespace Test5_Ease
     public partial class Form1 : Form
     {
         EaseViewport easeViewport;
+        MyWebConsole myWbConsole;
+
         public Form1()
         {
             InitializeComponent();
@@ -29,6 +31,8 @@ namespace Test5_Ease
 
             //this.Controls.Add(easeViewport.ViewportControl);
             this.Load += new EventHandler(Form1_Load);
+            this.myWbConsole = new MyWebConsole(this.textBox1);
+
         }
         void Form1_Load(object sender, EventArgs e)
         {
@@ -128,7 +132,7 @@ namespace Test5_Ease
             printdoc.Print();
         }
 
-        
+
         private void button5_Click(object sender, EventArgs e)
         {
 
@@ -162,6 +166,7 @@ namespace Test5_Ease
                 stwatch.Start();
 
                 ctx.SetVariableAutoWrap("document", webdoc);
+               
 
                 string testsrc1 = "document.getElementById('a');";
                 object domNodeA = ctx.Execute(testsrc1);
@@ -234,9 +239,12 @@ namespace Test5_Ease
                 stwatch.Reset();
                 stwatch.Start();
 
+
                 ctx.SetVariableAutoWrap("document", webdoc);
+                ctx.SetVariableAutoWrap("console", myWbConsole);
                 string simplejs = @"
                     (function(){
+                        console.log('hello world!');
                         var domNodeA = document.getElementById('a');
                         var domNodeB = document.getElementById('b');
                         var newText1 = document.createTextNode('... says hello world!');
@@ -253,7 +261,7 @@ namespace Test5_Ease
                     })();
                 ";
 
-                object testResult = ctx.Execute(simplejs); 
+                object testResult = ctx.Execute(simplejs);
                 stwatch.Stop();
 
                 Console.WriteLine("met1 template:" + stwatch.ElapsedMilliseconds.ToString());
@@ -286,6 +294,8 @@ namespace Test5_Ease
             //    //domNodeB.SetAttribute("style", "background-color:red");
             //}); 
         }
+
+
 
     }
 }
