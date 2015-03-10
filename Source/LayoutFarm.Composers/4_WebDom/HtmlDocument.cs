@@ -99,4 +99,7 @@ namespace LayoutFarm.WebDom
             this.primaryHtmlDoc = primaryHtmlDoc;
         }
     }
+
+
+    public delegate void LazyCssBoxCreator(RootGraphic rootgfx, out RenderElement re, out object controller);
 }

@@ -1,5 +1,5 @@
-﻿// 2015,2014 ,BSD, WinterDev 
-//ArthurHub
+﻿//2015 MIT, WinterDev 
+
 
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using LayoutFarm.Composers;
 using LayoutFarm.Scripting;
 namespace LayoutFarm.WebDom
 {
-    //only for scripting
+
     public interface IHtmlDocument
     {
         HtmlElement getElementById(string id);

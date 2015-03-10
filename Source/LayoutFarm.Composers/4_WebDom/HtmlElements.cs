@@ -145,111 +145,20 @@ namespace LayoutFarm.WebDom
             set;
         }
 
-    }
 
-    sealed class HtmlRootElement : HtmlElement
-    {
-        public HtmlRootElement(HtmlDocument ownerDoc)
-            : base(ownerDoc, 0, 0)
+        //------------------------------------
+        public string GetInnerHtml()
         {
+            return "";
+        }
+        public void SetInnerHtml(string innerHtml)
+        {
+            //parse html and create dom node
+            
+
         }
     }
 
-    sealed class ExternalHtmlElement : HtmlElement
-    {
-        LazyCssBoxCreator lazyCreator;
-        RenderElementWrapperCssBox wrapper;
-        public ExternalHtmlElement(HtmlDocument owner, int prefix, int localNameIndex, LazyCssBoxCreator lazyCreator)
-            : base(owner, prefix, localNameIndex)
-        {
-            this.lazyCreator = lazyCreator;
-        }
-        public CssBox GetCssBox(RootGraphic rootgfx)
-        {
-            if (wrapper != null) return wrapper;
-            RenderElement re;
-            object controller;
-            lazyCreator(rootgfx, out re, out controller);
-            return wrapper = new RenderElementWrapperCssBox(controller, this.Spec, re);
-        }
 
-    }
-    public delegate void LazyCssBoxCreator(RootGraphic rootgfx, out RenderElement re, out object controller);
-    public class HtmlTextNode : DomTextNode
-    {
-        //---------------------------------
-        //this node may be simple text node  
-        bool freeze;
-        bool hasSomeChar;
-        List<CssRun> runs;
-
-        public HtmlTextNode(WebDocument ownerDoc, char[] buffer)
-            : base(ownerDoc, buffer)
-        {
-        }
-        public bool IsWhiteSpace
-        {
-            get
-            {
-                return !this.hasSomeChar;
-            }
-        }
-        internal void SetSplitParts(List<CssRun> runs, bool hasSomeChar)
-        {
-
-            this.freeze = false;
-            this.runs = runs;
-            this.hasSomeChar = hasSomeChar;
-        }
-        public bool IsFreeze
-        {
-            get { return this.freeze; }
-        }
-#if DEBUG
-        public override string ToString()
-        {
-            return new string(base.GetOriginalBuffer());
-        }
-#endif
-
-        internal List<CssRun> InternalGetRuns()
-        {
-            this.freeze = true;
-            return this.runs;
-        }
-
-    }
-
-    public enum TextSplitPartKind : byte
-    {
-        Text = 1,
-        Whitespace,
-        SingleWhitespace,
-        LineBreak,
-    }
-
-
-    static class HtmlPredefineNames
-    {
-
-        static readonly ValueMap<WellknownName> _wellKnownHtmlNameMap =
-            new ValueMap<WellknownName>();
-
-        static UniqueStringTable htmlUniqueStringTableTemplate = new UniqueStringTable();
-
-        static HtmlPredefineNames()
-        {
-            int j = _wellKnownHtmlNameMap.Count;
-            for (int i = 0; i < j; ++i)
-            {
-                htmlUniqueStringTableTemplate.AddStringIfNotExist(_wellKnownHtmlNameMap.GetStringFromValue((WellknownName)(i + 1)));
-            }
-        }
-        public static UniqueStringTable CreateUniqueStringTableClone()
-        {
-            return htmlUniqueStringTableTemplate.Clone();
-        }
-
-    }
 
 }

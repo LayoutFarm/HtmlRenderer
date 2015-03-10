@@ -241,8 +241,7 @@ namespace Test5_Ease
 
             //2. access dom  
 
-            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.HtmlDocument;
-
+            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.HtmlDocument; 
             //create js engine and context
             if (myengine == null)
             {
