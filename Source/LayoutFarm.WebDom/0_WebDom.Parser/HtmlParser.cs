@@ -133,11 +133,8 @@ namespace LayoutFarm.WebDom.Parser
                                         else
                                         {
                                             throw new NotSupportedException();
-                                        }
-
-
-                                    }
-
+                                        } 
+                                    } 
                                 } break;
                             case 4:
                                 {

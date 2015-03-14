@@ -38,13 +38,15 @@ namespace LayoutFarm.HtmlBoxes
 
         const int MAX_COL_AT_THIS_VERSION = 20;
 
+        float hostAvaliableWidth;
         /// <summary>
         /// Init.
         /// </summary>
         /// <param name="tableBox"></param>
-        private CssTableLayoutEngine(CssBox tableBox)
+        private CssTableLayoutEngine(CssBox tableBox, float hostAvaliableWidth)
         {
             _tableBox = tableBox;
+            this.hostAvaliableWidth = hostAvaliableWidth;
         }
 
 
@@ -53,9 +55,9 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="g"></param>
         /// <param name="tableBox"> </param>
-        public static void PerformLayout(CssBox tableBox, LayoutVisitor lay)
+        public static void PerformLayout(CssBox tableBox, float hostAvailableWidth, LayoutVisitor lay)
         {
-            var table = new CssTableLayoutEngine(tableBox);
+            var table = new CssTableLayoutEngine(tableBox, hostAvailableWidth);
             table._tmpIFonts = lay.SampleIFonts;
             table.Layout(lay);
             table._tmpIFonts = null;
@@ -107,7 +109,7 @@ namespace LayoutFarm.HtmlBoxes
             //recursive
             if (box != null)
             {
-                var latestCB = lay.LatestContainingBlock;
+
                 float box_fontsize = box.ActualFont.Size;
                 var ifonts = lay.SampleIFonts;
                 foreach (var childBox in box.GetChildBoxIter())
@@ -446,7 +448,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 //----------
                 //if remaining width
-                
+
             }
             if ((availableWidthForAllCells - occupiedSpace) > 0)
             {
@@ -463,7 +465,7 @@ namespace LayoutFarm.HtmlBoxes
                             if (remainingWidth > 0)
                             {
                                 if (!col.HasSpecificWidth)// && !col.TouchUpperLimit)
-                                { 
+                                {
                                     float newW = c_width + (remainingWidth) / ((float)(colWidthCount - i));
                                     col.SetWidth(newW, ColumnSpecificWidthLevel.Adjust);
                                     occupiedSpace += (newW - c_width);
@@ -477,8 +479,8 @@ namespace LayoutFarm.HtmlBoxes
                     }
                 }
             }
-             
-            
+
+
             //------------------------------------------------------------------------------------------------
             //below here is old version
 
@@ -659,6 +661,8 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             var widthSum = CalculateWidthSum();
+
+            var availableW = this.GetAvailableTableWidth();
 
             if (widthSum > this.GetAvailableTableWidth())
             {
@@ -1100,17 +1104,19 @@ namespace LayoutFarm.HtmlBoxes
         /// size that individual boxes.
         /// </remarks>
         /// 
-        private float GetAvailableTableWidth()
+        float GetAvailableTableWidth()
         {
             CssLength tblen = _tableBox.Width;
             if (tblen.Number > 0)
             {
                 //has specific number
-                return CssValueParser.ConvertToPx(_tableBox.Width, _tableBox.ParentBox.GetClientWidth(), _tableBox);
+                return CssValueParser.ConvertToPx(_tableBox.Width, this.hostAvaliableWidth, _tableBox);
             }
             else
             {
-                return _tableBox.ParentBox.GetClientWidth();
+                return this.hostAvaliableWidth;
+                //return 700;
+                //return _tableBox.ParentBox.GetClientWidth();
             }
         }
 

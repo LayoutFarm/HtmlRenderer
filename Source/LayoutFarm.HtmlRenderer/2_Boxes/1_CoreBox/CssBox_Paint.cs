@@ -179,10 +179,8 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
             else
-            {
-
-
-                if (this.HasContainingBlockProperty)
+            {  
+                if (this.CssDisplay == Css.CssDisplay.InlineBlock || this.HasContainingBlockProperty)
                 {
                     p.PushContaingBlock(this);
 
