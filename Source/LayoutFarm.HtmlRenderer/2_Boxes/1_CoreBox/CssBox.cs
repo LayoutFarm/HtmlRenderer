@@ -88,7 +88,8 @@ namespace LayoutFarm.HtmlBoxes
             //----------------------------
             this._myspec = spec;
             EvaluateSpec(spec);
-            ChangeDisplayType(this, _myspec.CssDisplay);
+            ChangeDisplayType(this, _myspec.CssDisplay); 
+            //this._cssDisplay = fixDisplayType;
 
         }
         public IRootGraphics RootGfx
@@ -433,8 +434,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="g">Device context to use</param>
         protected virtual void PerformContentLayout(LayoutVisitor lay)
-        {
-            //int dbugStep = dbugCC++;
+        {  
             //----------------------------------------------------------- 
             switch (this.CssDisplay)
             {
@@ -448,8 +448,7 @@ namespace LayoutFarm.HtmlBoxes
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
 
-                    } break;
-                //case Css.CssDisplay.BlockInsideInlineAfterCorrection:
+                    } break; 
                 case Css.CssDisplay.Block:
                 case Css.CssDisplay.ListItem:
                 case Css.CssDisplay.Table:
@@ -457,7 +456,7 @@ namespace LayoutFarm.HtmlBoxes
                 case Css.CssDisplay.TableCell:
                     {
                         //this box has its own  container property
-                        //this box may use...
+                        //this box may be used for ...
                         // 1) line formatting context  , or
                         // 2) block formatting context  
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock); }

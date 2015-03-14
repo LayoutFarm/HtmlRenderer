@@ -168,6 +168,8 @@ namespace LayoutFarm.HtmlBoxes
                 float localTop = 0;
                 var prevSibling = lay.LatestSiblingBox;
 
+                
+
                 if (prevSibling == null)
                 {
                     //this is first child of parent
@@ -199,7 +201,7 @@ namespace LayoutFarm.HtmlBoxes
                         var currentLevelLatestSibling = lay.LatestSiblingBox;
                         lay.LatestSiblingBox = null;//reset
 
-                        CssTableLayoutEngine.PerformLayout(box, lay);
+                        CssTableLayoutEngine.PerformLayout(box, myContainingBlock.GetClientWidth(), lay);
 
                         lay.LatestSiblingBox = currentLevelLatestSibling;
                         lay.PopContainingBlock();
@@ -211,27 +213,25 @@ namespace LayoutFarm.HtmlBoxes
                         //1. line formatting context
                         //2. block formatting context
 
+
                         if (box.IsCustomCssBox)
                         {
                             //has custom layout method
                             box.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock);
                             ((CustomCssBox)box).CustomRecomputedValue(lay.LatestContainingBlock, lay.GraphicsPlatform);
-
                         }
                         else
                         {
-
                             if (ContainsInlinesOnly(box))
                             {
                                 //This will automatically set the bottom of this block
-
                                 PerformLayoutLinesContext(box, lay);
-
                             }
                             else if (box.ChildCount > 0)
                             {
                                 PerformLayoutBlocksContext(box, lay);
                             }
+
                         }
                     } break;
             }
@@ -478,10 +478,9 @@ namespace LayoutFarm.HtmlBoxes
           ref CssLineBox hostLine,
           ref float cx)
         {
-            //recursive ***
-
+            //recursive *** 
+            //--------------------------------------------------------------------
             var oX = cx;
-
             if (splitableBox.HasRuns)
             {
                 //condition 3 
@@ -495,9 +494,7 @@ namespace LayoutFarm.HtmlBoxes
             {
 
                 int childNumber = 0;
-                bool splitableParentIsBlock = splitableBox.ParentBox.IsBlock;
                 var ifonts = lay.SampleIFonts;
-
                 foreach (CssBox b in splitableBox.GetChildBoxIter())
                 {
                     float leftMostSpace = 0, rightMostSpace = 0;
@@ -512,10 +509,10 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         b.ReEvaluateComputedValues(ifonts, hostBox);
                     }
-
                     b.MeasureRunsSize(lay);
-
                     cx += leftMostSpace;
+
+
 
                     if (b.HasRuns)
                     {
@@ -528,9 +525,32 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         //go deeper  
                         //recursive ***
-                        FlowBoxContentIntoHost(lay, hostBox, b,
-                            limitLocalRight, firstRunStartX,
-                            ref hostLine, ref cx);
+                        if (splitableBox.CssDisplay == CssDisplay.InlineBlock)
+                        {
+                            //create 'block-run'  
+                            PerformContentLayout(b, lay);
+                            if (b.JustBlockRun == null)
+                            {
+                                CssBlockRun blockRun = new CssBlockRun(b);
+                                blockRun.SetOwner(splitableBox);
+                                b.JustBlockRun = blockRun;
+                            }
+                            b.JustBlockRun.SetSize(b.SizeWidth, b.SizeHeight);
+                            b.SetLocation(b.LocalX, 0); //because of inline***
+
+                            FlowRunsIntoHost(lay, hostBox, splitableBox, b, childNumber,
+                                limitLocalRight, firstRunStartX,
+                                leftMostSpace, rightMostSpace,
+                                ref hostLine, ref cx);
+
+
+                        }
+                        else
+                        {
+                            FlowBoxContentIntoHost(lay, hostBox, b,
+                                limitLocalRight, firstRunStartX,
+                                ref hostLine, ref cx);
+                        }
                     }
 
                     cx += rightMostSpace;

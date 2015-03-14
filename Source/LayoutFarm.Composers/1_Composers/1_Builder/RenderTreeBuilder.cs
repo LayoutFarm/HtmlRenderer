@@ -335,7 +335,7 @@ namespace LayoutFarm.Composers
 
             //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
             //------------------------------------------------------------------- 
-            //4. a style attribute value 
+            //4. style attribute value 
             //'style' object of this element
             if (!element.IsStyleEvaluated)
             {

@@ -349,43 +349,7 @@ namespace LayoutFarm.HtmlWidgets
             }
             //this.TreeView.PerformContentLayout();
         }
-        //public override void PerformContentLayout()
-        //{
-        //    //this.InvalidateGraphics();
-        //    ////if this has child
-        //    ////reset
-        //    //this.desiredHeight = NODE_DEFAULT_HEIGHT;
-        //    //this.newChildNodeY = NODE_DEFAULT_HEIGHT;
-
-        //    //if (this.isOpen)
-        //    //{
-        //    //    if (childNodes != null)
-        //    //    {
-        //    //        int j = childNodes.Count;
-        //    //        for (int i = 0; i < j; ++i)
-        //    //        {
-        //    //            var childNode = childNodes[i];
-        //    //            childNode.PerformContentLayout();//manaul?
-        //    //            //set new size 
-        //    //            childNode.SetBounds(indentWidth,
-        //    //                newChildNodeY,
-        //    //                childNode.Width,
-        //    //                childNode.DesiredHeight);
-
-        //    //            newChildNodeY += childNode.DesiredHeight;
-        //    //        }
-        //    //    }
-        //    //}
-        //    //this.desiredHeight = newChildNodeY;
-        //}
-        //public override int DesiredHeight
-        //{
-        //    get
-        //    {
-        //        return this.desiredHeight;
-        //    }
-        //}
-        //------------------------------------------------
+         
         void SetupNodeIconBehaviour(ImageBox uiNodeIcon)
         {
 

@@ -13,8 +13,8 @@ using LayoutFarm.Composers;
 
 namespace LayoutFarm.WebDom
 {
-    
-    public   partial class HtmlElement : DomElement
+
+    public partial class HtmlElement : DomElement
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;
@@ -75,7 +75,7 @@ namespace LayoutFarm.WebDom
         {
             return this.principalBox.GetElementGlobalLocation();
         }
-        
+
         public void SetPrincipalBox(CssBox box)
         {
             this.principalBox = box;
@@ -97,7 +97,7 @@ namespace LayoutFarm.WebDom
             base.OnContentUpdate();
             OnChangeInIdleState(ElementChangeKind.ContentUpdate);
         }
-        
+
         protected override void OnChangeInIdleState(ElementChangeKind changeKind)
         {
             //1. 
@@ -111,14 +111,14 @@ namespace LayoutFarm.WebDom
                 cnode = cnode.ParentNode;
             }
         }
-         
+
 
 
         //------------------------------------
         internal static void InvokeNotifyChangeOnIdleState(HtmlElement elem, ElementChangeKind changeKind)
         {
             elem.OnChangeInIdleState(changeKind);
-        } 
+        }
         internal CssRuleSet ElementRuleSet
         {
             get
@@ -153,7 +153,7 @@ namespace LayoutFarm.WebDom
         {
             return this.principalBox;
         }
-         
+
         //------------------------------------
         public string GetInnerHtml()
         {

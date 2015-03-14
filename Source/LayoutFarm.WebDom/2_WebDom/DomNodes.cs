@@ -24,8 +24,7 @@ namespace LayoutFarm.WebDom
     {
 
         WebDocument ownerDoc;
-        DomNode parentNode;
-
+        DomNode parentNode; 
         HtmlNodeType nodeType;
 
 #if DEBUG

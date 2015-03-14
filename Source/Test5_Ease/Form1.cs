@@ -29,13 +29,11 @@ namespace Test5_Ease
             //1. create viewport
             easeViewport = EaseHost.CreateViewportControl(this, 800, 600);
             //2. add
-            this.panel1.Controls.Add(easeViewport.ViewportControl); 
+            this.panel1.Controls.Add(easeViewport.ViewportControl);
 
             //this.Controls.Add(easeViewport.ViewportControl);
             this.Load += new EventHandler(Form1_Load);
-            this.myWbConsole = new MyWebConsole(this.textBox1); 
-           
-
+            this.myWbConsole = new MyWebConsole(this.textBox1);
         }
         void Form1_Load(object sender, EventArgs e)
         {
@@ -43,8 +41,12 @@ namespace Test5_Ease
             easeViewport.Ready();
             string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
             //read text file
-            var fileContent = System.IO.File.ReadAllText(filename);
-            easeViewport.LoadHtml(filename, fileContent);
+            //var fileContent = System.IO.File.ReadAllText(filename);
+            //start with about blank
+            //easeViewport.LoadHtml(filename, fileContent);
+
+            easeViewport.LoadHtml(filename, "<html><body></body></html");
+            
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -312,7 +314,71 @@ namespace Test5_Ease
             //}); 
         }
 
-      
+        private void button7_Click(object sender, EventArgs e)
+        {
+            string filename = @"..\..\..\HtmlRenderer.Demo\Samples\ClassicSamples\00.Intro.htm";
+
+            //1. blank html
+            var fileContent = "<html><script>function doc_ready(){console.log('doc_ready');}</script><body onload=\"doc_ready()\"><div id=\"a\">A</div><div id=\"b\" style=\"background-color:blue\">B</div><div id=\"c\">c_node</div></body></html>";
+            easeViewport.LoadHtml(filename, fileContent);
+            //----------------------------------------------------------------
+            //after load html page 
+
+            //load v8 if ready
+            JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+#if DEBUG
+            JsBridge.dbugTestCallbacks();
+#endif
+            //===============================================================
+
+            //2. access dom  
+
+            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.HtmlDocument;
+            //create js engine and context
+            if (myengine == null)
+            {
+                var jstypeBuilder = new LayoutFarm.Scripting.MyJsTypeDefinitionBuilder();
+                myengine = new JsEngine();
+                myCtx = myengine.CreateContext(jstypeBuilder);
+            }
+
+            System.Diagnostics.Stopwatch stwatch = new System.Diagnostics.Stopwatch();
+            stwatch.Reset();
+            stwatch.Start();
+
+
+            myCtx.SetVariableAutoWrap("document", webdoc);
+            myCtx.SetVariableAutoWrap("console", myWbConsole);
+            string simplejs = @"
+                    (function(){
+                        console.log('hello world!');
+                        var domNodeA = document.getElementById('a');
+                        var domNodeB = document.getElementById('b');
+                        var domNodeC = document.getElementById('c');
+
+                        var newText1 = document.createTextNode('... says hello world!');
+                        domNodeA.appendChild(newText1);
+                        for(var i=0;i<10;++i){
+                            var newText2= document.createTextNode(i);
+                            domNodeA.appendChild(newText2);       
+                        } 
+
+                        var newDivNode= document.createElement('div');
+                        newDivNode.appendChild(document.createTextNode('new div'));
+                        newDivNode.attachEventListener('mousedown',function(){console.log('new div');});
+                        domNodeB.appendChild(newDivNode);    
+                        
+                        domNodeC.innerHTML='<div> from inner html <span> from span</span> </div>';
+                        console.log(domNodeC.innerHTML);
+                    })();
+                ";
+
+            object testResult = myCtx.Execute(simplejs);
+            stwatch.Stop();
+            Console.WriteLine("met1 template:" + stwatch.ElapsedMilliseconds.ToString());
+        }
+
+
 
 
     }

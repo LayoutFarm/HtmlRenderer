@@ -60,6 +60,8 @@ namespace LayoutFarm.HtmlBoxes
         //condition 3: valid  
         LinkedList<CssLineBox> _clientLineBoxes;
 
+        CssBlockRun justBlockRun;
+
         //----------------------------------------------------   
         //only in condition 3
         char[] _buffer;
@@ -71,6 +73,19 @@ namespace LayoutFarm.HtmlBoxes
             get
             {
                 return this._aa_contentRuns != null ? this._aa_contentRuns.Count : 0;
+            }
+        }
+        internal CssBlockRun JustBlockRun
+        {
+            get { return this.justBlockRun; }
+            set
+            {
+                this.justBlockRun = value;
+                if (_aa_contentRuns == null)
+                {
+                    this._aa_contentRuns = new List<CssRun>();
+                    this._aa_contentRuns.Add(value);
+                }
             }
         }
         public IEnumerable<CssBox> GetChildBoxIter()
