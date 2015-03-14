@@ -139,6 +139,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         public static void PerformContentLayout(CssBox box, LayoutVisitor lay)
         {
+            if (box.CssDisplay == CssDisplay.InlineBlock)
+            {
+            }
 
             //this box has its own  container property
             //this box may use...
@@ -168,7 +171,7 @@ namespace LayoutFarm.HtmlBoxes
                 float localTop = 0;
                 var prevSibling = lay.LatestSiblingBox;
 
-                
+
 
                 if (prevSibling == null)
                 {
@@ -243,7 +246,10 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="lay"></param>
         static void PerformLayoutLinesContext(CssBox hostBlock, LayoutVisitor lay)
         {
+            if (hostBlock.__aa_dbugId == 3)
+            {
 
+            }
             //this in line formatting context
             //*** hostBlock must confirm that it has all inline children             
             hostBlock.SetHeightToZero();
@@ -325,6 +331,9 @@ namespace LayoutFarm.HtmlBoxes
 
         static void PerformLayoutBlocksContext(CssBox box, LayoutVisitor lay)
         {
+            if (box.CssDisplay == CssDisplay.InlineBlock)
+            {
+            }
             //block formatting context.... 
             lay.PushContaingBlock(box);
             var currentLevelLatestSibling = lay.LatestSiblingBox;
@@ -512,7 +521,27 @@ namespace LayoutFarm.HtmlBoxes
                     b.MeasureRunsSize(lay);
                     cx += leftMostSpace;
 
+                    //if (b.CssDisplay == CssDisplay.InlineBlock)
+                    //{
+                    //    //create 'block-run'  
+                    //    PerformContentLayout(b, lay);
+                    //    if (b.JustBlockRun == null)
+                    //    {
+                    //        CssBlockRun blockRun = new CssBlockRun(b);
+                    //        blockRun.SetOwner(splitableBox);
+                    //        b.JustBlockRun = blockRun;
+                    //    }
+                    //    b.JustBlockRun.SetSize(b.SizeWidth, b.SizeHeight);
+                    //    b.SetLocation(b.LocalX, 0); //because of inline***
+                    //    hostLine.AddRun(b.JustBlockRun);
+                    //    cx += b.SizeWidth;
 
+                    //    //FlowRunsIntoHost(lay, hostBox, splitableBox, b, childNumber,
+                    //    //    limitLocalRight, firstRunStartX,
+                    //    //    leftMostSpace, rightMostSpace,
+                    //    //    ref hostLine, ref cx);
+                    //    continue;
+                    //}
 
                     if (b.HasRuns)
                     {

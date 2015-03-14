@@ -68,6 +68,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return;
             }
+         
             //----------------------------------------------- 
             bool hasPrevClip = false;
             RectangleF prevClip = RectangleF.Empty;

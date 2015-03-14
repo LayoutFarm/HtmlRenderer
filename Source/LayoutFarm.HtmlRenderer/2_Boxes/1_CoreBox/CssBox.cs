@@ -419,7 +419,10 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
         {
+            if (this.CssDisplay == Css.CssDisplay.InlineBlock)
+            {
 
+            }
             //derived class can perform its own layout algo            
             //by override performContentLayout 
             PerformContentLayout(lay);
@@ -434,7 +437,10 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="g">Device context to use</param>
         protected virtual void PerformContentLayout(LayoutVisitor lay)
-        {  
+        {
+            if (this.CssDisplay == CssDisplay.InlineBlock)
+            {
+            }
             //----------------------------------------------------------- 
             switch (this.CssDisplay)
             {

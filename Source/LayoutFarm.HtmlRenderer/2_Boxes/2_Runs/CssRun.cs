@@ -14,7 +14,7 @@
 // "The Art of War"
 
 using System;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -43,7 +43,7 @@ namespace LayoutFarm.HtmlBoxes
     /// </remarks>
     public abstract class CssRun
     {
-         
+
         /// <summary>
         /// the CSS box owner of the word
         /// </summary>
@@ -176,7 +176,7 @@ namespace LayoutFarm.HtmlBoxes
             get { return this._width; }
             set
             {
-              
+
                 this._width = value;
             }
         }
@@ -269,7 +269,7 @@ namespace LayoutFarm.HtmlBoxes
                 txt.Replace(' ', '-').Replace("\n", "\\n"), txt.Length, txt.Length != 1 ? "s" : string.Empty);
         }
 
-        public void FindSelectionPoint(IFonts g,
+        internal void FindSelectionPoint(IFonts g,
             int offset, out int selectionIndex,
             out int selectionOffset)
         {
@@ -299,7 +299,7 @@ namespace LayoutFarm.HtmlBoxes
                 case CssRunKind.Space:
                     {
                         throw new NotSupportedException();
-                    } break;
+                    }
                 case CssRunKind.SingleSpace:
                     {
 
