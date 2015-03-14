@@ -88,7 +88,7 @@ namespace LayoutFarm.HtmlBoxes
             //----------------------------
             this._myspec = spec;
             EvaluateSpec(spec);
-            ChangeDisplayType(this, _myspec.CssDisplay); 
+            ChangeDisplayType(this, _myspec.CssDisplay);
             //this._cssDisplay = fixDisplayType;
 
         }
@@ -117,27 +117,8 @@ namespace LayoutFarm.HtmlBoxes
                 cur_box = topmost;
             }
             return topmost;
-            //if (this._parentBox != null)
-            //{
-            //    return this._parentBox.GetTopRootCssBox();
-            //}
-            //return this;
         }
-        ///// <summary>
-        ///// 1. remove this box from its parent and 2. add to new parent box
-        ///// </summary>
-        ///// <param name="parentBox"></param>
-        //internal void SetNewParentBox(CssBox parentBox)
-        //{
-        //    if (this._parentBox != null)
-        //    {
-        //        this._parentBox._aa_boxes.Remove(this);
-        //    }
-        //    if (parentBox != null)
-        //    {
-        //        parentBox._aa_boxes.AddChild(parentBox, this);
-        //    }
-        //}
+
 
         /// <summary>
         /// Is the box is of "br" element.
@@ -454,7 +435,7 @@ namespace LayoutFarm.HtmlBoxes
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
 
-                    } break; 
+                    } break;
                 case Css.CssDisplay.Block:
                 case Css.CssDisplay.ListItem:
                 case Css.CssDisplay.Table:
@@ -558,7 +539,10 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-
+        internal float LatestCacheMinimumWidth
+        {
+            get { return this._cachedMinimumWidth; }
+        }
         /// <summary>
         /// Gets the minimum width that the box can be.
         /// *** The box can be as thin as the longest word plus padding
@@ -569,8 +553,7 @@ namespace LayoutFarm.HtmlBoxes
 
             float maxWidth = 0;
             float padding = 0f;
-
-            if (_lastCalculationEpisodeNum == calculationEpisode)
+            if (this._lastCalculationEpisodeNum == calculationEpisode)
             {
                 return _cachedMinimumWidth;
             }
@@ -606,6 +589,8 @@ namespace LayoutFarm.HtmlBoxes
             return _cachedMinimumWidth = maxWidth + padding;
 
         }
+
+
         static void CalculateMinimumWidthAndWidestRun(CssBox box, out float maxWidth, out CssRun maxWidthRun)
         {
             //use line-base style ***
@@ -636,6 +621,63 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="calculationEpisode"></param>
+        /// <returns></returns>
+        internal static float ReCalculateMinimumWidth(CssBox targetBox)
+        { 
+            //---------------------------------------------------
+            if (targetBox.LineBoxCount > 0)
+            {
+                float maxWidth = 0;
+                float padding = 0f;
+                //use line box technique *** 
+                CssRun maxWidthRun = null;
+                CalculateMinimumWidthAndWidestRun(targetBox, out maxWidth, out maxWidthRun);
+                //--------------------------------  
+                if (maxWidthRun != null)
+                {
+                    //bubble up***
+                    var box = maxWidthRun.OwnerBox;
+                    while (box != null)
+                    {
+                        padding += (box.ActualBorderRightWidth + box.ActualPaddingRight) +
+                            (box.ActualBorderLeftWidth + box.ActualPaddingLeft);
+
+                        if (box == targetBox)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            //bubble up***
+                            box = box.ParentBox;
+                        }
+                    }
+                }
+
+                return maxWidth + padding;
+            }
+            else
+            {
+                float minWidth = 0;
+                if (targetBox._aa_boxes != null)
+                {
+
+                    foreach (var box in targetBox._aa_boxes)
+                    {
+                        float w = ReCalculateMinimumWidth(box);
+                        if (w > minWidth)
+                        {
+                            minWidth = w;
+                        }
+                    }
+                }
+                return minWidth;
+            }
+        }
         bool IsLastChild
         {
             get
@@ -694,40 +736,53 @@ namespace LayoutFarm.HtmlBoxes
         {
             this._localY += dy;
         }
-
-
-
-        //public bool AcceptKeyboardFocus
-        //{
-        //    get;
-        //    set;
-        //}
-
-        ///// <summary>
-        ///// Get brush for selection background depending if it has external and if alpha is required for images.
-        ///// </summary>
-        ///// <param name="forceAlpha">used for images so they will have alpha effect</param>
-        //protected Brush GetSelectionBackBrush(bool forceAlpha)
-        //{
-        //    var backColor = HtmlContainer.SelectionBackColor;
-        //    if (backColor != System.Drawing.Color.Empty)
-        //    {
-        //        if (forceAlpha && backColor.A > 180)
-        //            return RenderUtils.GetSolidBrush(System.Drawing.Color.FromArgb(180, backColor.R, backColor.G, backColor.B));
-        //        else
-        //            return RenderUtils.GetSolidBrush(backColor);
-        //    }
-        //    else
-        //    {
-        //        return CssUtils.DefaultSelectionBackcolor;
-        //    }
-        //}
-
-
-        internal bool CanBeRefererenceSibling
+        internal bool CanBeReferenceSibling
         {
             get { return this.CssDisplay != Css.CssDisplay.None && this.Position != Css.CssPosition.Absolute; }
         }
+        //internal float CollectCachedMinimumWidth()
+        //{
+        //    //recursive
+
+        //    if (this._cachedMinimumWidth > 0)
+        //    {
+        //        return this._cachedMinimumWidth;
+        //    }
+        //    else
+        //    {
+        //        if (_clientLineBoxes != null)
+        //        {
+        //            //line model
+        //            //collect per line
+
+        //            foreach (var linebox in _clientLineBoxes)
+        //            {
+        //            }
+        //        }
+        //        else if (_aa_boxes != null)
+        //        {
+        //            //block model
+        //        }
+        //        else if (_aa_contentRuns != null)
+        //        {
+        //        }
+        //        //CssBoxCollection _aa_boxes;
+
+        //        ////condition 1: invalid *
+        //        ////condition 2: invalid *
+        //        ////condition 3: valid 
+        //        //List<CssRun> _aa_contentRuns;
+
+
+        //        ////condition 1: invalid *
+        //        ////condition 2: valid  
+        //        ////condition 3: valid  
+        //        //LinkedList<CssLineBox> _clientLineBoxes;
+
+
+        //    }
+        //    return 0;
+        //}
 #if DEBUG
         ///// <summary>
         ///// ToString override.
