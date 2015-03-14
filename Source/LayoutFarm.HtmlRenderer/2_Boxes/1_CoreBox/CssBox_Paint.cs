@@ -179,8 +179,10 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
             else
-            {  
-                if (this.CssDisplay == Css.CssDisplay.InlineBlock || this.HasContainingBlockProperty)
+            {
+                //this.CssDisplay == Css.CssDisplay.InlineBlock ||
+
+                if (this.HasContainingBlockProperty)
                 {
                     p.PushContaingBlock(this);
 
@@ -388,6 +390,6 @@ namespace LayoutFarm.HtmlBoxes
             g.StrokeColor = prevColor;
         }
 
-         
+
     }
 }

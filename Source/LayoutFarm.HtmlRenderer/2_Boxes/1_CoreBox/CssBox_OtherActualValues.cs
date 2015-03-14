@@ -133,11 +133,14 @@ namespace LayoutFarm.HtmlBoxes
             //-------------------------
             switch (newdisplay)
             {
-                //case CssDisplay.BlockInsideInlineAfterCorrection:
+                
                 case CssDisplay.Block:
                 case CssDisplay.ListItem:
                 case CssDisplay.Table:
                 case CssDisplay.TableCell:
+                case CssDisplay.InlineBlock:
+                case CssDisplay.InlineTable:
+
                     box._boxCompactFlags |= BoxFlags.HAS_CONTAINER_PROP;
                     break;
                 default:
