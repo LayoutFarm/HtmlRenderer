@@ -455,9 +455,9 @@ namespace LayoutFarm.HtmlBoxes
                         } break;
                     case CssRunKind.BlockRun:
                         {
-                            //Console.WriteLine("blockrun");
+                            //Console.WriteLine("blockrun"); 
+                            CssBlockRun blockRun = (CssBlockRun)w; 
 
-                            CssBlockRun blockRun = (CssBlockRun)w;
                             int ox = p.CanvasOriginX;
                             int oy = p.CanvasOriginY;
 

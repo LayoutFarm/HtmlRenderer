@@ -87,7 +87,6 @@ namespace LayoutFarm.Css
         //------------------
         public BoxSpec()
         {
-            
         }
         public void Freeze()
         {
@@ -142,7 +141,7 @@ namespace LayoutFarm.Css
             get { return this._cssDisplay; }
             set
             {
-                if (Assignable()) this._cssDisplay = value;
+                if (Assignable()) { this._cssDisplay = value; }
             }
         }
         public CssDirection CssDirection
