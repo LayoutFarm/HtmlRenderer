@@ -80,12 +80,7 @@ namespace LayoutFarm.HtmlBoxes
             get { return this.justBlockRun; }
             set
             {
-                this.justBlockRun = value;
-                if (_aa_contentRuns == null)
-                {
-                    this._aa_contentRuns = new List<CssRun>();
-                    this._aa_contentRuns.Add(value);
-                }
+                this.justBlockRun = value; 
             }
         }
         public IEnumerable<CssBox> GetChildBoxIter()

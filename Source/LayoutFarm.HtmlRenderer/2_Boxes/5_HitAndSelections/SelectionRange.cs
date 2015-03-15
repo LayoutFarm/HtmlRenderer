@@ -339,11 +339,10 @@ namespace LayoutFarm.HtmlBoxes
                 default:
                     {
                         throw new NotSupportedException();
-                    } break;
+                    }  
                 case HitObjectKind.Run:
                     {
-                        CssRun run = (CssRun)endHit.hitObject;
-
+                        CssRun run = (CssRun)endHit.hitObject; 
                         //if (run is CssTextRun)
                         //{
                         //    CssTextRun tt = (CssTextRun)run;
@@ -353,15 +352,19 @@ namespace LayoutFarm.HtmlBoxes
                         //{
                         //    Console.WriteLine(dbugCounter + "r:" + run.dbugId + "(line:" + run.HostLine.dbugId + ",top=" + run.HostLine.CachedLineTop + ")");
                         //}
+                        if (run.Kind == CssRunKind.BlockRun)
+                        {
 
+
+                        }
+                        //---------------------------------
                         int sel_index;
                         int sel_offset;
                         run.FindSelectionPoint(ifonts,
                              endHit.localX,
                              out sel_index,
                              out sel_offset);
-                        this.endHitRunCharIndex = sel_index;
-
+                        this.endHitRunCharIndex = sel_index; 
 
                         CssLineBox endline = run.HostLine;
                         int xposOnEndLine = (int)(run.Left + sel_offset);

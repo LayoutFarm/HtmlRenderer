@@ -427,9 +427,7 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void PaintRuns(PaintVisitor p)
         {
-            //iterate from each words
-
-
+            //iterate from each words 
             CssBox latestOwner = null;
             Font font = null;
             Color color = Color.Empty;

@@ -5,16 +5,17 @@ namespace LayoutFarm.HtmlBoxes
 {
     class CssBlockRun : CssRun
     {
-
-        public CssBlockRun(CssBox blockBox)
+        CssBox contentBlockBox;
+        public CssBlockRun(CssBox contentBlockBox)
             : base(CssRunKind.BlockRun)
         {
-            this.SetOwner(blockBox);
+            this.contentBlockBox = contentBlockBox;
         }
         public CssBox BlockBox
         {
-            get { return this.OwnerBox; }
+            get { return this.contentBlockBox; }
         }
+        
 
     }
 }
