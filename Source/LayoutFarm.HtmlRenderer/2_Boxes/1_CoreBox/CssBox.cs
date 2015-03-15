@@ -626,54 +626,63 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="calculationEpisode"></param>
         /// <returns></returns>
-        internal static float ReCalculateMinimumWidth(CssBox targetBox)
-        { 
+        internal static float GetLatestCachedMinWidth(CssBox targetBox)
+        {
             //---------------------------------------------------
             if (targetBox.LineBoxCount > 0)
             {
                 float maxWidth = 0;
-                float padding = 0f;
-                //use line box technique *** 
-                CssRun maxWidthRun = null;
-                CalculateMinimumWidthAndWidestRun(targetBox, out maxWidth, out maxWidthRun);
-                //--------------------------------  
-                if (maxWidthRun != null)
+                foreach (var line in targetBox._clientLineBoxes)
                 {
-                    //bubble up***
-                    var box = maxWidthRun.OwnerBox;
-                    while (box != null)
+                    var lineContentW = line.CachedLineContentWidth;
+                    if (maxWidth < lineContentW)
                     {
-                        padding += (box.ActualBorderRightWidth + box.ActualPaddingRight) +
-                            (box.ActualBorderLeftWidth + box.ActualPaddingLeft);
-
-                        if (box == targetBox)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            //bubble up***
-                            box = box.ParentBox;
-                        }
+                        maxWidth = lineContentW;
                     }
                 }
-
-                return maxWidth + padding;
+                return maxWidth;
             }
             else
             {
                 float minWidth = 0;
-                if (targetBox._aa_boxes != null)
+                if (targetBox._cssDisplay == CssDisplay.Table)
                 {
-
-                    foreach (var box in targetBox._aa_boxes)
+                    //special for table element
+                    if (targetBox._aa_boxes != null)
                     {
-                        float w = ReCalculateMinimumWidth(box);
-                        if (w > minWidth)
+
+                        foreach (var tr in targetBox._aa_boxes)
                         {
-                            minWidth = w;
+                            //td
+                            float trW = 0;
+                            int j = tr._aa_boxes.Count;
+                            if (j > 0)
+                            {
+                                var lastTd = tr._aa_boxes.GetLastChild();
+                                //TODO: review here again-> how to get rightmost position
+                                trW = (lastTd.LocalX + lastTd.SizeWidth + lastTd._actualPaddingRight);
+                            } 
+                            if (trW > minWidth)
+                            {
+                                minWidth = trW;
+                            }
+                        } 
+                    }
+                }
+                else
+                {
+                    if (targetBox._aa_boxes != null)
+                    {
+                        foreach (var box in targetBox._aa_boxes)
+                        {
+                            float w = GetLatestCachedMinWidth(box);
+                            if (w > minWidth)
+                            {
+                                minWidth = w;
+                            }
                         }
                     }
+
                 }
                 return minWidth;
             }

@@ -139,9 +139,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         public static void PerformContentLayout(CssBox box, LayoutVisitor lay)
         {
-            if (box.CssDisplay == CssDisplay.InlineBlock)
-            {
-            }
+            //if (box.CssDisplay == CssDisplay.InlineBlock)
+            //{
+            //}
 
             //this box has its own  container property
             //this box may use...
@@ -246,10 +246,10 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="lay"></param>
         static void PerformLayoutLinesContext(CssBox hostBlock, LayoutVisitor lay)
         {
-            if (hostBlock.__aa_dbugId == 3)
-            {
+            //if (hostBlock.__aa_dbugId == 3)
+            //{
 
-            }
+            //}
             //this in line formatting context
             //*** hostBlock must confirm that it has all inline children             
             hostBlock.SetHeightToZero();
@@ -331,9 +331,9 @@ namespace LayoutFarm.HtmlBoxes
 
         static void PerformLayoutBlocksContext(CssBox box, LayoutVisitor lay)
         {
-            if (box.CssDisplay == CssDisplay.InlineBlock)
-            {
-            }
+            //if (box.CssDisplay == CssDisplay.InlineBlock)
+            //{
+            //}
             //block formatting context.... 
             lay.PushContaingBlock(box);
             var currentLevelLatestSibling = lay.LatestSiblingBox;
@@ -531,8 +531,8 @@ namespace LayoutFarm.HtmlBoxes
                             blockRun = new CssBlockRun(b);
                             blockRun.SetOwner(srcBox);
                             b.JustBlockRun = blockRun;
-                        } 
-                        blockRun.SetSize(CssBox.ReCalculateMinimumWidth(b), b.SizeHeight);
+                        }
+                        blockRun.SetSize(CssBox.GetLatestCachedMinWidth(b), b.SizeHeight);
                         b.SetLocation(b.LocalX, 0); //because of inline***
 
                         FlowRunsIntoHost(lay, hostBox, srcBox, b, childNumber,
@@ -552,35 +552,18 @@ namespace LayoutFarm.HtmlBoxes
                     }
                     else
                     {
-
-                        //go deeper  
-                        //recursive ***
+#if DEBUG
                         if (srcBox.CssDisplay == CssDisplay.InlineBlock)
                         {
-                            //create 'block-run'  
-                            PerformContentLayout(b, lay);
-                            if (b.JustBlockRun == null)
-                            {
-                                CssBlockRun blockRun = new CssBlockRun(b);
-                                blockRun.SetOwner(srcBox);
-                                b.JustBlockRun = blockRun;
-                            }
-                            b.JustBlockRun.SetSize(b.SizeWidth, b.SizeHeight);
-                            b.SetLocation(b.LocalX, 0); //because of inline***
-
-                            FlowRunsIntoHost(lay, hostBox, srcBox, b, childNumber,
-                                limitLocalRight, firstRunStartX,
-                                leftMostSpace, rightMostSpace,
-                                new List<CssRun>() { b.JustBlockRun },
-                                ref hostLine, ref cx);
-                        }
-                        else
-                        {
-                            FlowBoxContentIntoHost(lay, hostBox, b,
-                                      limitLocalRight, firstRunStartX,
-                                      ref hostLine, ref cx);
-
-                        }
+                            //should not found here!
+                            throw new NotSupportedException();
+                        } 
+#endif
+                        //go deeper  
+                        //recursive ***
+                        FlowBoxContentIntoHost(lay, hostBox, b,
+                                   limitLocalRight, firstRunStartX,
+                                   ref hostLine, ref cx);
                     }
 
                     cx += rightMostSpace;
