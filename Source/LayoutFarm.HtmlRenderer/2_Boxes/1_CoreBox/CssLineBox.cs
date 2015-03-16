@@ -454,7 +454,7 @@ namespace LayoutFarm.HtmlBoxes
                     case CssRunKind.BlockRun:
                         {
                             //Console.WriteLine("blockrun"); 
-                            CssBlockRun blockRun = (CssBlockRun)w; 
+                            CssBlockRun blockRun = (CssBlockRun)w;
 
                             int ox = p.CanvasOriginX;
                             int oy = p.CanvasOriginY;
@@ -473,9 +473,9 @@ namespace LayoutFarm.HtmlBoxes
                                 latestOwner = w.OwnerBox;
                                 font = latestOwner.ActualFont;
                                 color = latestOwner.ActualColor;
-                            } 
-                            CssTextRun textRun = (CssTextRun)w; 
-                            var wordPoint = new PointF(w.Left, w.Top); 
+                            }
+                            CssTextRun textRun = (CssTextRun)w;
+                            var wordPoint = new PointF(w.Left, w.Top);
                             p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
                                textRun.TextStartIndex,
                                textRun.TextLength, font,
@@ -523,6 +523,7 @@ namespace LayoutFarm.HtmlBoxes
             foreach (CssRun w in this._runs)
             {
                 p.DrawRectangle(Color.DeepPink, w.Left, w.Top, w.Width, w.Height);
+                //p.dbugDrawDiagonalBox(Color.DeepPink, w.Left, w.Top, w.Width, w.Height);
             }
 
             p.FillRectangle(Color.Red, 0, 0, 5, 5);
@@ -537,7 +538,7 @@ namespace LayoutFarm.HtmlBoxes
             set;
         }
 
-        
+
         internal int LineSelectionWidth
         {
             get;
@@ -547,9 +548,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             //config paint selection color
             p.FillRectangle(Color.LightGray,
-                this.LineSelectionStart, 0, 
-                this.LineSelectionWidth, 
-                this.CacheLineHeight); 
+                this.LineSelectionStart, 0,
+                this.LineSelectionWidth,
+                this.CacheLineHeight);
 
         }
 

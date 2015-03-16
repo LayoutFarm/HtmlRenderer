@@ -76,12 +76,12 @@ namespace PixelFarm.Drawing.WinGdi
 
             this.currentTextFont = font;
             var tempDc = gx.GetHdc();
-            var size = new System.Drawing.Size();
+            var size = new PixelFarm.Drawing.Size();
             unsafe
             {
                 fixed (char* startAddr = &buff[0])
-                {
-                    Win32.Win32Utils.UnsafeGetTextExtentExPoint(
+                {   
+                    NativeTextWin32.UnsafeGetTextExtentExPoint(
                         tempDc, startAddr + startAt, len,
                         (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
                 }
@@ -90,7 +90,8 @@ namespace PixelFarm.Drawing.WinGdi
 
             charFit = _charFit[0];
             charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
-            return size.ToSize();
+            return size;
+            //return size.ToSize();
 
         }
         //============================================== 

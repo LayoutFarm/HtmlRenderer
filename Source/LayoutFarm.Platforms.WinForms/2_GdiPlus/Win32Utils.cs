@@ -109,16 +109,7 @@ namespace Win32
         public static unsafe extern bool UnsafeGetTextExtentExPoint(
             IntPtr hDc, char* str, int len, int nMaxExtent, int[] lpnFit, int[] alpDx, ref System.Drawing.Size size);
 
-
-
-        [DllImport("gdi32.dll", EntryPoint = "TextOutW")]
-        public static extern bool TextOut(IntPtr hdc, int x, int y, [MarshalAs(UnmanagedType.LPWStr)] string str, int len);
-
-
-        [DllImport("gdi32.dll", EntryPoint = "TextOutW")]
-        public static unsafe extern bool TextOut2(IntPtr hdc, int x, int y, char* s, int len);
-
-
+ 
         [DllImport("gdi32.dll")]
         public static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
 

@@ -245,28 +245,7 @@ namespace PixelFarm.Drawing.DrawingGL
         static void DrawTransparentText(IntPtr hdc, string str, Font font, Point point, Size size, Color color)
         {
             throw new NotImplementedException();
-            //IntPtr dib;
-            //var memoryHdc = Win32Utils.CreateMemoryHdc(hdc, size.Width, size.Height, out dib);
-
-            //try
-            //{
-            //    // copy target background to memory HDC so when copied back it will have the proper background
-            //    Win32Utils.BitBlt(memoryHdc, 0, 0, size.Width, size.Height, hdc, point.X, point.Y, Win32Utils.BitBltCopy);
-
-            //    // Create and select font
-            //    Win32Utils.SelectObject(memoryHdc, FontsUtils.GetCachedHFont(font.InnerFont as System.Drawing.Font));
-            //    Win32Utils.SetTextColor(memoryHdc, (color.B & 0xFF) << 16 | (color.G & 0xFF) << 8 | color.R);
-
-            //    // Draw text to memory HDC
-            //    Win32Utils.TextOut(memoryHdc, 0, 0, str, str.Length);
-
-            //    // copy from memory HDC to normal HDC with alpha blend so achieve the transparent text
-            //    Win32Utils.AlphaBlend(hdc, point.X, point.Y, size.Width, size.Height, memoryHdc, 0, 0, size.Width, size.Height, new BlendFunction(color.A));
-            //}
-            //finally
-            //{
-            //    Win32Utils.ReleaseMemoryHdc(memoryHdc, dib);
-            //}
+             
         }
 
 

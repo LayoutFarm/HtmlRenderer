@@ -57,15 +57,15 @@ namespace PixelFarm.Drawing.WinGdi
             //else
             //{
             SetFont(font);
-            var size = new System.Drawing.Size();
+            PixelFarm.Drawing.Size size = new Size();
             unsafe
             {
                 fixed (char* startAddr = &buff[0])
-                {
-                    Win32.Win32Utils.UnsafeGetTextExtentPoint32(tempDc, startAddr + startAt, len, ref size);
+                { 
+                    NativeTextWin32.UnsafeGetTextExtentPoint32(tempDc, startAddr + startAt, len, ref size);
                 }
             }
-            return size.ToSize();
+            return size;
             //}
         }
         /// <summary>
@@ -91,12 +91,13 @@ namespace PixelFarm.Drawing.WinGdi
             //{
             SetFont(font);
 
-            var size = new System.Drawing.Size();
+            var size = new PixelFarm.Drawing.Size();
             unsafe
             {
                 fixed (char* startAddr = &buff[0])
                 {
-                    Win32.Win32Utils.UnsafeGetTextExtentExPoint(
+
+                    NativeTextWin32.UnsafeGetTextExtentExPoint(
                         tempDc, startAddr + startAt, len,
                         (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
                 }
@@ -104,7 +105,7 @@ namespace PixelFarm.Drawing.WinGdi
             }
             charFit = _charFit[0];
             charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
-            return size.ToSize();
+            return size;
             //}
         }
         //==============================================
@@ -142,6 +143,7 @@ namespace PixelFarm.Drawing.WinGdi
             MyWin32.SetRectRgn(hRgn, clipRect.X, clipRect.Y, clipRect.Right, clipRect.Bottom);
             MyWin32.SelectClipRgn(gxdc, hRgn);
             NativeTextWin32.TextOut(gxdc, logicalTextBox.X, logicalTextBox.Y, buffer, buffer.Length);
+             
             MyWin32.SelectClipRgn(gxdc, IntPtr.Zero);
 
             MyWin32.SetViewportOrgEx(gxdc, -CanvasOrgX, -CanvasOrgY, IntPtr.Zero);
@@ -201,16 +203,17 @@ namespace PixelFarm.Drawing.WinGdi
                             currentClipRect.Width,
                             currentClipRect.Height));
                     intersectRect.Offset(canvasOriginX, canvasOriginY);
-                    MyWin32.SetRectRgn(hRgn,
-                     intersectRect.Left,
-                     intersectRect.Top,
-                     intersectRect.Right,
-                     intersectRect.Bottom);
-                    MyWin32.SelectClipRgn(tempDc, hRgn);
+                    //MyWin32.SetRectRgn(hRgn,
+                    // intersectRect.Left,
+                    // intersectRect.Top,
+                    // intersectRect.Right,
+                    // intersectRect.Bottom);
+                    //MyWin32.SelectClipRgn(tempDc, hRgn);
 
                     fixed (char* startAddr = &str[0])
                     {
-                        Win32.Win32Utils.TextOut2(tempDc,
+
+                        NativeTextWin32.TextOutUnsafe(tempDc,
                             (int)logicalTextBox.X + canvasOriginX,
                             (int)logicalTextBox.Y + canvasOriginY,
                             (startAddr + startAt), len);
@@ -234,15 +237,13 @@ namespace PixelFarm.Drawing.WinGdi
                  intersectRect.Top,
                  intersectRect.Right,
                  intersectRect.Bottom);
-                MyWin32.SelectClipRgn(tempDc, hRgn);
-
-
+                MyWin32.SelectClipRgn(tempDc, hRgn); 
 
                 unsafe
                 {
                     fixed (char* startAddr = &str[0])
                     {
-                        Win32.Win32Utils.TextOut2(tempDc,
+                        NativeTextWin32.TextOutUnsafe(tempDc,
                              logicalTextBox.X + canvasOriginX,
                              logicalTextBox.Y + canvasOriginY,
                             (startAddr + startAt), len);
