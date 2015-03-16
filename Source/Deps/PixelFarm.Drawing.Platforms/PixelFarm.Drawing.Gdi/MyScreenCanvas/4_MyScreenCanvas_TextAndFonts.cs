@@ -123,10 +123,10 @@ namespace PixelFarm.Drawing.WinGdi
              clipRect.Top,
              clipRect.Right,
              clipRect.Bottom);
-            MyWin32.SelectClipRgn(tempDc, hRgn); 
-            NativeTextWin32.TextOut(gxdc, CanvasOrgX + x, CanvasOrgY + y, buffer, buffer.Length); 
+            MyWin32.SelectClipRgn(tempDc, hRgn);
+            NativeTextWin32.TextOut(gxdc, CanvasOrgX + x, CanvasOrgY + y, buffer, buffer.Length);
             MyWin32.SelectClipRgn(tempDc, IntPtr.Zero);
-            gx.ReleaseHdc(); 
+            gx.ReleaseHdc();
 
         }
         public override void DrawText(char[] buffer, Rectangle logicalTextBox, int textAlignment)
@@ -144,9 +144,9 @@ namespace PixelFarm.Drawing.WinGdi
             MyWin32.SelectClipRgn(tempDc, hRgn);
 
             NativeTextWin32.TextOut(gxdc, CanvasOrgX + logicalTextBox.X, CanvasOrgY + logicalTextBox.Y, buffer, buffer.Length);
-            
+
             MyWin32.SelectClipRgn(tempDc, IntPtr.Zero);
-            gx.ReleaseHdc(); 
+            gx.ReleaseHdc();
 
             //ReleaseHdc();
             //IntPtr gxdc = gx.GetHdc();
@@ -171,22 +171,23 @@ namespace PixelFarm.Drawing.WinGdi
             var color = this.CurrentTextColor;
             if (color.A == 255)
             {
+
+
+                var clipRect = Rectangle.Intersect(logicalTextBox,
+                    new Rectangle(currentClipRect.Left,
+                        currentClipRect.Top,
+                        currentClipRect.Width,
+                        currentClipRect.Height));
+                clipRect.Offset(canvasOriginX, canvasOriginY);
+                MyWin32.SetRectRgn(hRgn,
+                 clipRect.Left,
+                 clipRect.Top,
+                 clipRect.Right,
+                 clipRect.Bottom);
+                MyWin32.SelectClipRgn(tempDc, hRgn);
+
                 unsafe
                 {
-
-                    var clipRect = Rectangle.Intersect(logicalTextBox,
-                        new Rectangle(currentClipRect.Left,
-                            currentClipRect.Top,
-                            currentClipRect.Width,
-                            currentClipRect.Height));
-                    clipRect.Offset(canvasOriginX, canvasOriginY);
-                    MyWin32.SetRectRgn(hRgn,
-                     clipRect.Left,
-                     clipRect.Top,
-                     clipRect.Right,
-                     clipRect.Bottom);
-                    MyWin32.SelectClipRgn(tempDc, hRgn);
-
                     fixed (char* startAddr = &str[0])
                     {
 
@@ -195,15 +196,15 @@ namespace PixelFarm.Drawing.WinGdi
                             (int)logicalTextBox.Y + canvasOriginY,
                             (startAddr + startAt), len);
                     }
-                     
-                    MyWin32.SelectClipRgn(tempDc, IntPtr.Zero);
+                }
+                MyWin32.SelectClipRgn(tempDc, IntPtr.Zero);
 
 #if DEBUG
-                    //NativeTextWin32.dbugDrawTextOrigin(tempDc,
-                    //        logicalTextBox.X + canvasOriginX,
-                    //        logicalTextBox.Y + canvasOriginY);
+                //NativeTextWin32.dbugDrawTextOrigin(tempDc,
+                //        logicalTextBox.X + canvasOriginX,
+                //        logicalTextBox.Y + canvasOriginY);
 #endif
-                }
+
             }
             else
             {
