@@ -1,5 +1,5 @@
 ﻿// 2015,2014 ,BSD, WinterDev
-//ArthurHub 
+//ArthurHub  , Jose Manuel Menendez Poo
 
 
 namespace LayoutFarm.HtmlBoxes

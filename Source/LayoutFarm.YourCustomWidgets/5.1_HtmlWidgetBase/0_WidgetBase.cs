@@ -123,8 +123,7 @@ namespace LayoutFarm.HtmlWidgets
         public LightHtmlWidgetBase(int w, int h)
             : base(w, h)
         {
-        }
-
+        } 
         public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
         {
             this.htmlhost = htmlhost;
