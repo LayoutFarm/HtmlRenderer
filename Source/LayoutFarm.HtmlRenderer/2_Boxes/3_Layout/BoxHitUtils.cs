@@ -26,7 +26,7 @@ namespace LayoutFarm.HtmlBoxes
 
     public sealed class BoxHitUtils
     {
-        
+
 
         public static bool HitTest(CssBox box, float x, float y, CssBoxHitChain hitChain)
         {
@@ -52,7 +52,7 @@ namespace LayoutFarm.HtmlBoxes
                         hitChain.PopContextBox(box);
                         return true;
                     }
-                    
+
                 }
 
                 if (box.LineBoxCount > 0)
@@ -75,6 +75,11 @@ namespace LayoutFarm.HtmlBoxes
                             {
                                 //3.
                                 hitChain.AddHit(foundRun, (int)(boxHitLocalX - foundRun.Left), (int)lineBoxLocalY);
+                                //4. go deeper for block run
+                                if (foundRun.Kind == CssRunKind.BlockRun)
+                                {   
+                                    HitTest(((CssBlockRun)foundRun).BlockBox, boxHitLocalX, boxHitLocalY, hitChain);
+                                }
                             }
                             //found line box
                             hitChain.PopContextBox(box);

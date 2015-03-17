@@ -1,5 +1,5 @@
 ﻿// 2015 MIT,WinterDev
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 using System;
 using System.Collections.Generic;

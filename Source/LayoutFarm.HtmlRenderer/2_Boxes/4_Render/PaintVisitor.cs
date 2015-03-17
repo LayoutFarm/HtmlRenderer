@@ -302,32 +302,17 @@ namespace LayoutFarm.HtmlBoxes
                 g.DrawText(str, startAt, len, new Rectangle(
                     (int)point.X, (int)point.Y,
                     (int)size.Width, (int)size.Height), 0
-                    );
-
-
+                    ); 
             }
             else
             {
+                //todo: reimplement semi-transparent text
                 g.CurrentFont = font;
                 g.CurrentTextColor = color;
                 g.DrawText(str, startAt, len, new Rectangle(
                     (int)point.X, (int)point.Y,
                     (int)size.Width, (int)size.Height), 0
-                    );
-
-                ////translucent / transparent text
-                //g.CurrentFont = font;
-                //g.CurrentTextColor = color;
-                //unsafe
-                //{
-                //    fixed (char* startAddr = &str[0])
-                //    {
-                //        Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X + canvasOriginX),
-                //            (int)Math.Round(point.Y + canvasOriginY), (startAddr + startAt), len);
-                //    }
-                //}
-
-                //DrawTransparentText(_hdc, str, font, new Point((int)Math.Round(point.X), (int)Math.Round(point.Y)), Size.Round(size), color);
+                    ); 
             }
         }
 

@@ -1,5 +1,5 @@
 ﻿//2014,2015 BSD, WinterDev
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -342,7 +342,7 @@ namespace PixelFarm.Drawing.WinGdi
                 Win32Utils.SetTextColor(memoryHdc, (color.B & 0xFF) << 16 | (color.G & 0xFF) << 8 | color.R);
 
                 // Draw text to memory HDC
-                Win32Utils.TextOut(memoryHdc, 0, 0, str, str.Length);
+                NativeTextWin32.TextOut(memoryHdc, 0, 0, str, str.Length);
 
                 // copy from memory HDC to normal HDC with alpha blend so achieve the transparent text
                 Win32Utils.AlphaBlend(hdc, point.X, point.Y, size.Width, size.Height, memoryHdc, 0, 0, size.Width, size.Height, new BlendFunction(color.A));

@@ -1,5 +1,5 @@
 ﻿//BSD 2014-2015,WinterDev
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 using System;
 using System.Collections.Generic;
@@ -157,7 +157,8 @@ namespace LayoutFarm.HtmlBoxes
                     });
                     //---------------------------------------------------------   
                     if (!e.CancelBubbling)
-                    {
+                    {  
+
                         ClearPreviousSelection();
                         if (_latestMouseDownChain.Count > 0 && hitChain.Count > 0)
                         {

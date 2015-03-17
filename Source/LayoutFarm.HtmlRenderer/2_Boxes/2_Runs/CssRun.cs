@@ -1,5 +1,5 @@
 //BSD 2014-2015,WinterDev
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -269,7 +269,7 @@ namespace LayoutFarm.HtmlBoxes
                 txt.Replace(' ', '-').Replace("\n", "\\n"), txt.Length, txt.Length != 1 ? "s" : string.Empty);
         }
 
-        internal void FindSelectionPoint(IFonts g,
+        internal void FindSelectionPoint(IFonts ifonts,
             int offset, out int selectionIndex,
             out int selectionOffset)
         {
@@ -290,7 +290,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
                         CssTextRun textRun = (CssTextRun)this;
-                        g.MeasureString(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
+                        ifonts.MeasureString(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
                             this.OwnerBox.ActualFont, maxWidth, out charFit, out charFitWidth);
 
                         selectionIndex = charFit;

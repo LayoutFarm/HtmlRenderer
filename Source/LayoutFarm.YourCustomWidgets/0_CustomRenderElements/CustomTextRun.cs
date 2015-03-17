@@ -35,7 +35,7 @@ namespace LayoutFarm.CustomWidgets
                 }
                 else
                 {
-                    this.textBuffer = value.ToCharArray(); 
+                    this.textBuffer = value.ToCharArray();
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace LayoutFarm.CustomWidgets
                 canvas.CurrentTextColor = prevColor;
             }
         }
-       
+
 
     }
 

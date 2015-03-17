@@ -1,5 +1,5 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -400,10 +400,10 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
         {
-            if (this.CssDisplay == Css.CssDisplay.InlineBlock)
-            {
+            //if (this.CssDisplay == Css.CssDisplay.InlineBlock)
+            //{
 
-            }
+            //}
             //derived class can perform its own layout algo            
             //by override performContentLayout 
             PerformContentLayout(lay);
@@ -419,9 +419,9 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">Device context to use</param>
         protected virtual void PerformContentLayout(LayoutVisitor lay)
         {
-            if (this.CssDisplay == CssDisplay.InlineBlock)
-            {
-            }
+            //if (this.CssDisplay == CssDisplay.InlineBlock)
+            //{
+            //}
             //----------------------------------------------------------- 
             switch (this.CssDisplay)
             {

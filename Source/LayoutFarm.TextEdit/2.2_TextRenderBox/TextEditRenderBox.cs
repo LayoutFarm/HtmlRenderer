@@ -12,6 +12,7 @@ namespace LayoutFarm.Text
 
     partial class TextEditRenderBox
     {
+        PixelFarm.Drawing.Color bgColor = PixelFarm.Drawing.Color.Transparent;
         public static FontInfo DefaultFontInfo
         {
             get;
@@ -33,15 +34,16 @@ namespace LayoutFarm.Text
         }
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
-
-
             if (vscrollableSurface != null)
             {
                 vscrollableSurface.DrawToThisPage(canvas, updateArea);
             }
-            //1. bg
+            //1. bg 
+            if (bgColor.A > 0)
+            {
+                canvas.FillRectangle(bgColor, 0, 0, updateArea.Width, updateArea.Height);
+            }
 
-            canvas.FillRectangle(Color.White, 0, 0, updateArea.Width, updateArea.Height);
 
             //2. sub ground 
             if (internalTextLayerController.SelectionRange != null)

@@ -1,5 +1,5 @@
 //BSD 2014-2015,WinterDev
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 namespace LayoutFarm.Css
 {
