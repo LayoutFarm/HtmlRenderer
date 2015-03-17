@@ -9,6 +9,15 @@ namespace LayoutFarm.CustomWidgets
 
     public class MyCustomCssBoxGenerator : CustomCssBoxGenerator
     {
+        HtmlBoxes.HtmlHost myHost;
+        public MyCustomCssBoxGenerator(HtmlBoxes.HtmlHost myHost)
+        {
+            this.myHost = myHost;
+        }
+        protected override HtmlBoxes.HtmlHost MyHost
+        {
+            get { return this.myHost; }
+        }
         public override LayoutFarm.HtmlBoxes.CssBox CreateCssBox(object tag,
             LayoutFarm.HtmlBoxes.CssBox parentBox,
             BoxSpec spec,
@@ -36,11 +45,38 @@ namespace LayoutFarm.CustomWidgets
 
                             //leanTextBox.AcceptKeyboardFocus = true;
                             parentBox.AppendChild(wrapperBox);
-
                             return wrapperBox;
-                        } 
+                        }
+                    case "button":
+                        {
+
+                            //use subdom? technique
+                            //todo: review the technique here
+                            var button = new HtmlWidgets.Button(60, 30);
+                            //use content of button
+                            var ihtmlElement = tag as LayoutFarm.WebDom.IHtmlElement;
+                            if (ihtmlElement != null)
+                            {
+                                button.Text = ihtmlElement.innerHTML;
+                            }
+                            else
+                            {
+                                button.Text = "";
+                            }
+
+                            var ui = button.GetPrimaryUIElement(this.myHost);
+                            var wrapperBox = this.CreateWrapper(
+                                button,
+                                ui.GetPrimaryRenderElement(rootgfx),
+                                spec);
+
+                            //leanTextBox.AcceptKeyboardFocus = true;
+                            parentBox.AppendChild(wrapperBox);
+                            return wrapperBox;
+
+                        }
                     case "textbox":
-                        {   
+                        {
                             //user can specific width of textbox
                             var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
                             //create wrapper CssBox 

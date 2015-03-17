@@ -16,7 +16,7 @@ namespace LayoutFarm
         {
             HtmlBoxes.HtmlHost htmlhost = new HtmlBoxes.HtmlHost(sampleViewport.P);
             htmlhost.SetRootGraphics(sampleViewport.Root);
-            htmlhost.RegisterCssBoxGenerator(new LayoutFarm.CustomWidgets.MyCustomCssBoxGenerator());
+            htmlhost.RegisterCssBoxGenerator(new LayoutFarm.CustomWidgets.MyCustomCssBoxGenerator(htmlhost));
 
             htmlhost.AttachEssentailHandlers(imageReqHandler, textReq);
             htmlhost.SetHtmlContainerUpdateHandler((htmlCont) =>
