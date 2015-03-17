@@ -17,7 +17,16 @@ namespace LayoutFarm.Composers
         {
             return new RenderElementWrapperCssBox(owner, spec, renderElement);
         }
+        public CssBox CreateWrapper(IBoxElement owner, RenderElement renderElement, BoxSpec spec)
+        {
+            return new RenderElementWrapperCssBox(owner, spec, renderElement);
+        }
     }
 
+    public interface IBoxElement
+    {
+        void ChangeElementSize(int w, int h);
+        int MinHeight { get; }
+    }
 
 }

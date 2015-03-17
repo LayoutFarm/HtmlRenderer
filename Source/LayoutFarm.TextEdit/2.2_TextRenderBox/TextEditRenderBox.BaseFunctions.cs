@@ -36,8 +36,6 @@ namespace LayoutFarm.Text
 
             this.MyLayers = new VisualLayerCollection();
             this.MyLayers.AddLayer(textLayer);
-
-
             internalTextLayerController = new InternalTextLayerController(this, textLayer);
 
             this.isMultiLine = isMultiLine;

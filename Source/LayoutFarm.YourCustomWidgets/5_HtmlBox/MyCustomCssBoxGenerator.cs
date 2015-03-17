@@ -24,11 +24,26 @@ namespace LayoutFarm.CustomWidgets
             {
                 switch (typeAttr.Value)
                 {
-                    case "textbox":
+                    case "text":
                         {
-                            var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 20, false);
+                            //user can specific width of textbox
+                            var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
                             //create wrapper CssBox 
+                            var wrapperBox = this.CreateWrapper(
+                                 textbox,
+                                 textbox.GetPrimaryRenderElement(rootgfx),
+                                 spec);
 
+                            //leanTextBox.AcceptKeyboardFocus = true;
+                            parentBox.AppendChild(wrapperBox);
+
+                            return wrapperBox;
+                        } 
+                    case "textbox":
+                        {   
+                            //user can specific width of textbox
+                            var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
+                            //create wrapper CssBox 
                             var wrapperBox = this.CreateWrapper(
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),

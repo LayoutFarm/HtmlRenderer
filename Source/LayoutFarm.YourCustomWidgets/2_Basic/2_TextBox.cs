@@ -8,10 +8,11 @@ using PixelFarm.Drawing;
 using LayoutFarm;
 using LayoutFarm.UI;
 using LayoutFarm.Text;
+using LayoutFarm.Composers;
 namespace LayoutFarm.CustomWidgets
 {
 
-    public class TextBox : UIBox, IUserEventPortal
+    public class TextBox : UIBox, IBoxElement, IUserEventPortal
     {
         TextSurfaceEventListener textSurfaceListener;
         TextEditRenderBox visualTextEdit;
@@ -28,6 +29,8 @@ namespace LayoutFarm.CustomWidgets
         {
             this.visualTextEdit.ClearAllChildren();
         }
+
+
         public override bool AcceptKeyboardFocus
         {
             get
@@ -40,7 +43,7 @@ namespace LayoutFarm.CustomWidgets
             //request keyboard focus
             visualTextEdit.Focus();
         }
-        
+
         protected override bool HasReadyRenderElement
         {
             get { return this.visualTextEdit != null; }
@@ -98,7 +101,7 @@ namespace LayoutFarm.CustomWidgets
         {
             if (visualTextEdit != null)
             {
-                
+
                 visualTextEdit.ReplaceCurrentTextRunContent(nBackspaces, newstr);
             }
         }
@@ -118,7 +121,7 @@ namespace LayoutFarm.CustomWidgets
         protected override void OnMouseLeave(UIMouseEventArgs e)
         {
             e.MouseCursorStyle = MouseCursorStyle.Arrow;
-            
+
         }
         protected override void OnDoubleClick(UIMouseEventArgs e)
         {
@@ -259,6 +262,19 @@ namespace LayoutFarm.CustomWidgets
         void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
 
+        }
+
+        void IBoxElement.ChangeElementSize(int w, int h)
+        {
+            this.SetSize(w, h);
+        }
+        int IBoxElement.MinHeight
+        {
+            get
+            {
+                //todo: use mimimum current font height
+                return 17;
+            }
         }
     }
 }

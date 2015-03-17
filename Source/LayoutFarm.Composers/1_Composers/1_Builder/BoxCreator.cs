@@ -22,7 +22,7 @@ namespace LayoutFarm.Composers
             this.htmlHost = htmlHost;
 
         }
-
+         
         static CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
         {
             string imgsrc;
@@ -241,6 +241,8 @@ namespace LayoutFarm.Composers
             //----------------------------------
         }
 
+
+
         internal CssBox CreateBox(CssBox parentBox, HtmlElement childElement, out bool alreadyHandleChildrenNodes)
         {
 
@@ -260,8 +262,17 @@ namespace LayoutFarm.Composers
                     CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
                     return newBox;
-                case WellKnownDomNodeName.img:
+                case WellKnownDomNodeName.input:
 
+                    //----------------------------------------------- 
+                    newBox = this.htmlHost.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx);
+                    if (newBox != null)
+                    {
+                        return newBox;
+                    }
+                    
+                    goto default;
+                case WellKnownDomNodeName.img:
                     return CreateImageBox(parentBox, childElement);
                 case WellKnownDomNodeName.hr:
 

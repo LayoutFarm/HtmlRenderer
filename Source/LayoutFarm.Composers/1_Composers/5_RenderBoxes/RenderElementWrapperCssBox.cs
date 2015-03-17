@@ -31,6 +31,12 @@ namespace LayoutFarm.HtmlBoxes
             int mmw = renderElement.Width;
             int mmh = renderElement.Height;
 
+            //IBoxElement boxElement = controller as IBoxElement;
+            //if (boxElement != null)
+            //{
+            //    boxElement.ChangeElementSize(mmw, mmh);
+            //}
+
             this.wrapper = new CssBoxWrapperRenderElement(renderElement.Root, mmw, mmh, renderElement);
 
             ChangeDisplayType(this, CssDisplay.Block);
@@ -58,8 +64,24 @@ namespace LayoutFarm.HtmlBoxes
             return false;
         }
         public override void CustomRecomputedValue(CssBox containingBlock, GraphicsPlatform gfxPlatform)
-        {
-            this.SetSize(100, 20);
+        {   
+            var ibox = CssBox.UnsafeGetController(this) as IBoxElement;
+            if (ibox != null)
+            {
+                //todo: user minimum font height of the IBoxElement
+                int w = (int)this.SizeWidth;
+                int h = Math.Max((int)this.SizeHeight, ibox.MinHeight);
+
+                ibox.ChangeElementSize(w, h);
+                this.SetSize(w, h);
+            }
+            else
+            {
+                this.SetSize(100, 20);
+            }
+
+
+
 
             //var svgElement = this.SvgSpec;
             ////recompute value if need 
