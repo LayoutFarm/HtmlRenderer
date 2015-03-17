@@ -159,8 +159,6 @@ namespace LayoutFarm.HtmlBoxes
                 case HitObjectKind.Run:
                     {
 
-
-
                         //if (run is CssTextRun)
                         //{
                         //    CssTextRun tt = (CssTextRun)run;
@@ -180,12 +178,11 @@ namespace LayoutFarm.HtmlBoxes
                              out sel_index,
                              out sel_offset);
                         this.endHitRunCharIndex = sel_index;
-
-                        CssLineBox endline = run.HostLine;
                         int xposOnEndLine = (int)(run.Left + sel_offset);
 
-                        //find selection direction
+                        CssLineBox endline = run.HostLine;
 
+                        //find selection direction 
                         if (startHitHostLine == endline)
                         {
                             endline.LineSelectionWidth = xposOnEndLine - startHitHostLine.LineSelectionStart;
@@ -198,15 +195,31 @@ namespace LayoutFarm.HtmlBoxes
                             this.selectedLines = new List<CssLineBox>();
                             if (commonGroundInfo.isDeepDown)
                             {
-                                //eg found block run 
-                                //start select at start point of 
-                                
-                                //todo: implement selection here
-                                
-                               
+                                //eg. found block run  
+                                CssLineBox startLineBox = this.startHitHostLine;
+                                startLineBox.LineSelectionWidth = xposOnEndLine - startHitHostLine.LineSelectionStart;
+
+                                selectedLines.Add(startLineBox);
+                                //todo: review here 
+                                var blockRun = endChain.GetHitInfo(commonGroundInfo.breakAtLevel).hitObject as CssBlockRun;
+                                foreach (var linebox in GetLineWalkIter(blockRun))
+                                {
+                                    if (linebox == endline)
+                                    {
+                                        //found end line 
+                                        linebox.SelectPartialEnd((int)blockRun.Left - xposOnEndLine);
+                                        selectedLines.Add(linebox);
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        linebox.SelectFull();
+                                        selectedLines.Add(linebox);
+                                    }
+                                }
                             }
                             else
-                            {   
+                            {
                                 //1. select all in start line      
                                 CssLineBox startLineBox = this.startHitHostLine;
                                 foreach (CssLineBox line in GetLineWalkIter(startLineBox, endline))
@@ -480,6 +493,7 @@ namespace LayoutFarm.HtmlBoxes
             yield return new LineOrBoxVisit(box);
             if (box.LineBoxCount > 0)
             {
+                //line model
                 foreach (CssLineBox linebox in box.GetLineBoxIter())
                 {
                     yield return new LineOrBoxVisit(linebox);
@@ -552,8 +566,31 @@ namespace LayoutFarm.HtmlBoxes
             }
             return new PointF(localX, localY);
         }
+        //--------------------------------------------------------------------------------------------------
+        static IEnumerable<CssLineBox> GetLineWalkIter(CssBlockRun blockRun)
+        {
+            CssBox box = blockRun.BlockBox;
+            //select down
+            foreach (var lineOrBox in GetDeepBoxOrLineIter(box))
+            {
+                if (lineOrBox.isLine)
+                {
+                    yield return lineOrBox.lineBox;
+                }
+                else
+                {
+                    //found box
+                    foreach (var visit2 in GetDeepBoxOrLineIter(lineOrBox.box))
+                    {
+                        if (visit2.isLine)
+                        {
+                            yield return visit2.lineBox;
+                        }
+                    }
+                }
+            }
 
-
+        }
 
     }
 

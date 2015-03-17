@@ -157,7 +157,8 @@ namespace LayoutFarm.HtmlBoxes
                     });
                     //---------------------------------------------------------   
                     if (!e.CancelBubbling)
-                    {
+                    {  
+
                         ClearPreviousSelection();
                         if (_latestMouseDownChain.Count > 0 && hitChain.Count > 0)
                         {

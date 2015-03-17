@@ -289,9 +289,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void SetSelection(SelectionRange selRange)
         {
-            if (selRange == null)
-            {
-            }
+            //if (selRange == null)
+            //{
+            //}
             this._currentSelectionRange = selRange;
         }
 

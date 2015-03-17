@@ -123,9 +123,9 @@ namespace PixelFarm.Drawing.WinGdi
              clipRect.Top,
              clipRect.Right,
              clipRect.Bottom);
-            MyWin32.SelectClipRgn(tempDc, hRgn);
+            MyWin32.SelectClipRgn(gxdc, hRgn);
             NativeTextWin32.TextOut(gxdc, CanvasOrgX + x, CanvasOrgY + y, buffer, buffer.Length);
-            MyWin32.SelectClipRgn(tempDc, IntPtr.Zero);
+            MyWin32.SelectClipRgn(gxdc, IntPtr.Zero);
             gx.ReleaseHdc();
 
         }
@@ -141,11 +141,11 @@ namespace PixelFarm.Drawing.WinGdi
              clipRect.Top,
              clipRect.Right,
              clipRect.Bottom);
-            MyWin32.SelectClipRgn(tempDc, hRgn);
+            MyWin32.SelectClipRgn(gxdc, hRgn);
 
             NativeTextWin32.TextOut(gxdc, CanvasOrgX + logicalTextBox.X, CanvasOrgY + logicalTextBox.Y, buffer, buffer.Length);
 
-            MyWin32.SelectClipRgn(tempDc, IntPtr.Zero);
+            MyWin32.SelectClipRgn(gxdc, IntPtr.Zero);
             gx.ReleaseHdc();
 
             //ReleaseHdc();
