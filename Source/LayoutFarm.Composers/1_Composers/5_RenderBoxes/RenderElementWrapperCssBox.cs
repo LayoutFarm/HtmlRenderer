@@ -141,18 +141,16 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void Paint2(PaintVisitor p, RectangleF r)
         {
-            Rectangle updateArea = new Rectangle((int)r.Left, (int)r.Top, (int)r.Width, (int)r.Height);
-
+            var updateArea = new Rectangle((int)r.Left, (int)r.Top, (int)r.Width, (int)r.Height);
             int x = (int)updateArea.Left;
             int y = (int)updateArea.Top;
             var canvasPage = p.InnerCanvas;
             canvasPage.OffsetCanvasOrigin(x, y);
-            r.Offset(-x, -y);
-
+            updateArea.Offset(-x, -y);
             _imgRun.RenderElement.DrawToThisCanvas(canvasPage, updateArea);
 
             canvasPage.OffsetCanvasOrigin(-x, -y);
-            r.Offset(x, y); 
+
 
         }
         public RenderElement RenderElement
