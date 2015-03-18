@@ -36,8 +36,6 @@ namespace LayoutFarm.Text
 
             this.MyLayers = new VisualLayerCollection();
             this.MyLayers.AddLayer(textLayer);
-
-
             internalTextLayerController = new InternalTextLayerController(this, textLayer);
 
             this.isMultiLine = isMultiLine;
@@ -875,11 +873,7 @@ namespace LayoutFarm.Text
                             {
                                 internalTextLayerController.EndSelectIfNoSelection();
                             }
-
-                            //----------------------------
-
-
-
+                             
                             Rectangle lineArea = internalTextLayerController.CurrentLineArea;
 
                             if (lineArea.Top < ViewportY)
@@ -890,9 +884,7 @@ namespace LayoutFarm.Text
                             {
                                 EnsureCaretVisible();
                                 InvalidateGraphicOfCurrentLineArea();
-                            }
-
-
+                            } 
                         }
                         else
                         {
@@ -904,14 +896,12 @@ namespace LayoutFarm.Text
                         return true;
                     }
                 case UIKeys.Tab:
-                    {
-
+                    { 
                         DoTab();
                         return true;
                     } 
                 default:
-                    {
-
+                    {   
                         return false;
                     }
             }

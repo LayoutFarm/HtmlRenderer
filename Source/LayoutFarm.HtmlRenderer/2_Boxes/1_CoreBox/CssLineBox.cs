@@ -429,8 +429,11 @@ namespace LayoutFarm.HtmlBoxes
         {
             //iterate from each words 
             CssBox latestOwner = null;
-            Font font = null;
-            Color color = Color.Empty;
+            var innerCanvas = p.InnerCanvas;
+
+            var enterFont = innerCanvas.CurrentFont;
+            var enterColor = innerCanvas.CurrentTextColor;
+
             var tmpRuns = this._runs;
             int j = tmpRuns.Count;
 
@@ -445,11 +448,9 @@ namespace LayoutFarm.HtmlBoxes
                 CssRun w = tmpRuns[i];
                 switch (w.Kind)
                 {
-                    case CssRunKind.Image:
+                    case CssRunKind.SolidContent:
                         {
-                            CssBoxImage owner = (CssBoxImage)w.OwnerBox;
-                            owner.PaintImage(p, new RectangleF(w.Left, w.Top, w.Width, w.Height));
-
+                            w.OwnerBox.Paint(p, new RectangleF(w.Left, w.Top, w.Width, w.Height));
                         } break;
                     case CssRunKind.BlockRun:
                         {
@@ -470,16 +471,17 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             if (latestOwner != w.OwnerBox)
                             {
+                                //change
                                 latestOwner = w.OwnerBox;
-                                font = latestOwner.ActualFont;
-                                color = latestOwner.ActualColor;
+                                //change font when change owner 
+                                p.InnerCanvas.CurrentFont = latestOwner.ActualFont;
+                                p.InnerCanvas.CurrentTextColor = latestOwner.ActualColor;
                             }
                             CssTextRun textRun = (CssTextRun)w;
                             var wordPoint = new PointF(w.Left, w.Top);
                             p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
                                textRun.TextStartIndex,
-                               textRun.TextLength, font,
-                               color, wordPoint,
+                               textRun.TextLength, wordPoint,
                                new SizeF(w.Width, w.Height));
 
                         } break;
@@ -491,6 +493,15 @@ namespace LayoutFarm.HtmlBoxes
                         } break;
                 }
             }
+
+            //---
+            //exit
+            if (j > 0)
+            {
+                innerCanvas.CurrentFont = enterFont;
+                innerCanvas.CurrentTextColor = enterColor;
+            }
+
         }
 
 #if DEBUG
@@ -607,7 +618,7 @@ namespace LayoutFarm.HtmlBoxes
             float newtop = baseline;
             foreach (var word in this.GetRunIter(stripOwnerBox))
             {
-                if (!word.IsImage)
+                if (!word.IsSolidContent)
                 {
                     word.Top = newtop;
                 }

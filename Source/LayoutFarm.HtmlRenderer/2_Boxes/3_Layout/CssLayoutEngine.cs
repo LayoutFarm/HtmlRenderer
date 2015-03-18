@@ -221,7 +221,7 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             //has custom layout method
                             box.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock);
-                            ((CustomCssBox)box).CustomRecomputedValue(lay.LatestContainingBlock, lay.GraphicsPlatform);
+                            box.CustomRecomputedValue(lay.LatestContainingBlock, lay.GraphicsPlatform);
                         }
                         else
                         {
@@ -557,7 +557,7 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             //should not found here!
                             throw new NotSupportedException();
-                        } 
+                        }
 #endif
                         //go deeper  
                         //recursive ***
@@ -652,7 +652,7 @@ namespace LayoutFarm.HtmlBoxes
                         cx += splitableBox.ActualMarginLeft + splitableBox.ActualBorderLeftWidth + splitableBox.ActualPaddingLeft;
                     }
 
-                    if (run.IsImage || i == 0)
+                    if (run.IsSolidContent || i == 0)
                     {
                         cx += leftMostSpace;
                     }

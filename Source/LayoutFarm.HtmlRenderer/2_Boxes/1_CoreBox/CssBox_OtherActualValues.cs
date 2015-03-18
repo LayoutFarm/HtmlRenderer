@@ -146,7 +146,7 @@ namespace LayoutFarm.HtmlBoxes
                     box._boxCompactFlags |= BoxFlags.HAS_CONTAINER_PROP;
                     break;
                 default:
-                    //not container properties 
+                    //no container properties 
                     box._boxCompactFlags &= ~BoxFlags.HAS_CONTAINER_PROP;
                     break;
             }
@@ -156,7 +156,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             box._boxCompactFlags |= BoxFlags.IS_BR_ELEM;
         }
-        internal static void SetAsCustomCssBox(CssBox box)
+        protected static void SetAsCustomCssBox(CssBox box)
         {
             box._boxCompactFlags |= BoxFlags.IS_CUSTOM_CSSBOX;
         }

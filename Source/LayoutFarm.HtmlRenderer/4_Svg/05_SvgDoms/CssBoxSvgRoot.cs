@@ -8,11 +8,12 @@ using LayoutFarm.Svg;
 namespace LayoutFarm.HtmlBoxes
 {
 
-    public sealed class CssBoxSvgRoot : CustomCssBox
+    public sealed class CssBoxSvgRoot : CssBox
     {
         public CssBoxSvgRoot(object controller, Css.BoxSpec spec, IRootGraphics rootgfx, SvgElement svgElem)
             : base(controller, spec, rootgfx, Css.CssDisplay.Block)
         {
+            SetAsCustomCssBox(this);
             //create svg node 
             this.SvgSpec = svgElem;
             ChangeDisplayType(this, Css.CssDisplay.Block);

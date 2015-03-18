@@ -135,6 +135,9 @@ namespace LayoutFarm.WebDom
 
         [Map("start")]
         Start,
+        [Map("type")]
+        Type,
+
         [Map("reversed")]
         Reversed,
         //-------------------
@@ -184,6 +187,6 @@ namespace LayoutFarm.WebDom
         Svg_StopColor,
 
         [Map("offset")]
-        Svg_Offset         
+        Svg_Offset
     }
 }

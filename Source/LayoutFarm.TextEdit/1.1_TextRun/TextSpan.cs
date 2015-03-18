@@ -15,8 +15,6 @@ namespace LayoutFarm.Text
 
         protected char[] mybuffer;
         TextSpanSytle spanStyle;
-
-
         public TextSpan(RootGraphic gfx, string s)
             : base(gfx, 10, 10)
         {

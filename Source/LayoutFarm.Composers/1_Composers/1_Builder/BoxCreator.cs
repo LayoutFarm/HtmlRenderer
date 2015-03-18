@@ -241,6 +241,8 @@ namespace LayoutFarm.Composers
             //----------------------------------
         }
 
+
+
         internal CssBox CreateBox(CssBox parentBox, HtmlElement childElement, out bool alreadyHandleChildrenNodes)
         {
 
@@ -260,8 +262,18 @@ namespace LayoutFarm.Composers
                     CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
                     return newBox;
-                case WellKnownDomNodeName.img:
+                case WellKnownDomNodeName.input:
 
+                    //----------------------------------------------- 
+                    newBox = this.htmlHost.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx);
+                    if (newBox != null)
+                    {
+                        alreadyHandleChildrenNodes = true;
+                        return newBox;
+                    }
+
+                    goto default;
+                case WellKnownDomNodeName.img:
                     return CreateImageBox(parentBox, childElement);
                 case WellKnownDomNodeName.hr:
 
@@ -383,9 +395,12 @@ namespace LayoutFarm.Composers
         {
             get { return this.containerElement; }
         }
-        protected override Point GetElementGlobalLocationImpl()
+        protected override CssBox GetElementGlobalLocationImpl(out float globalX, out float globalY)
         {
-            return containerElement.GetGlobalLocation();
+            Point p = containerElement.GetGlobalLocation();
+            globalX = p.X;
+            globalY = p.Y;
+            return this; 
         }
     }
     class CssIsolateBox : CssBox

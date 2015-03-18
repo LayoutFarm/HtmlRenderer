@@ -73,7 +73,11 @@ namespace LayoutFarm.WebDom
         //------------------------------------
         public Point GetActualElementGlobalLocation()
         {
-            return this.principalBox.GetElementGlobalLocation();
+            float globalX, globalY;
+
+            this.principalBox.GetElementGlobalLocation(out globalX, out globalY);
+            return new Point((int)globalX, (int)globalY);
+
         }
 
         public void SetPrincipalBox(CssBox box)

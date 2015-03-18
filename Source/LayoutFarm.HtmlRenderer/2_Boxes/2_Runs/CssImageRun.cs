@@ -31,7 +31,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="owner">the CSS box owner of the word</param>
         public CssImageRun()
-            : base(CssRunKind.Image)
+            : base(CssRunKind.SolidContent)
         {
         }
         /// <summary>

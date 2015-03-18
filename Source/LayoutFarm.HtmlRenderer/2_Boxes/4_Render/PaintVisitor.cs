@@ -288,32 +288,18 @@ namespace LayoutFarm.HtmlBoxes
             this.canvas.DrawImage(img, r);
         }
         //---------
-        public void DrawText(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)
+        public void DrawText(char[] str, int startAt, int len, PointF point, SizeF size)
         {
 
 #if DEBUG
             dbugCounter.dbugDrawStringCount++;
 #endif
             var g = this.canvas;
-            if (color.A == 255)
-            {
-                g.CurrentFont = font;
-                g.CurrentTextColor = color;
-                g.DrawText(str, startAt, len, new Rectangle(
-                    (int)point.X, (int)point.Y,
-                    (int)size.Width, (int)size.Height), 0
-                    ); 
-            }
-            else
-            {
-                //todo: reimplement semi-transparent text
-                g.CurrentFont = font;
-                g.CurrentTextColor = color;
-                g.DrawText(str, startAt, len, new Rectangle(
-                    (int)point.X, (int)point.Y,
-                    (int)size.Width, (int)size.Height), 0
-                    ); 
-            }
+            g.DrawText(str, startAt, len, new Rectangle(
+                  (int)point.X, (int)point.Y,
+                  (int)size.Width, (int)size.Height), 0
+                  );
+            
         }
 
 
