@@ -17,12 +17,12 @@ namespace LayoutFarm.Composers
         public CssBox CreateWrapper(object owner, RenderElement renderElement, BoxSpec spec, bool isInline)
         {
             if (isInline)
-            { 
-                return new WrapperInlineCssBox(owner, spec, renderElement.Root, renderElement); 
+            {
+                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperInlineCssBox(owner, spec, renderElement.Root, renderElement); 
             }
             else
             {
-                return new WrapperBlockCssBox(owner, spec, renderElement);
+                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperBlockCssBox(owner, spec, renderElement);
             }
         }
     }
