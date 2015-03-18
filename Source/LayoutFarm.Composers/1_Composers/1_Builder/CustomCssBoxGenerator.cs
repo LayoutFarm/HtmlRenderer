@@ -14,13 +14,19 @@ namespace LayoutFarm.Composers
         protected abstract HtmlHost MyHost { get; }
         public abstract CssBox CreateCssBox(object tag, CssBox parentBox, BoxSpec spec, LayoutFarm.RootGraphic rootgfx);
 
-        public CssBox CreateWrapper(object owner, RenderElement renderElement, BoxSpec spec)
+        public CssBox CreateWrapper(object owner, RenderElement renderElement, BoxSpec spec, bool isInline)
         {
-            return new RenderElementWrapperCssBox(owner, spec, renderElement);
-        }
-        public CssBox CreateWrapper(IBoxElement owner, RenderElement renderElement, BoxSpec spec)
-        {
-            return new RenderElementWrapperCssBox(owner, spec, renderElement);
+            if (isInline)
+            {
+
+                var wrapper = new CssBoxInlineExternal(owner, spec, renderElement.Root, renderElement);
+                return wrapper;
+                //return new RenderElementWrapperCssBox(owner, spec, renderElement);
+            }
+            else
+            {
+                return new RenderElementWrapperCssBox(owner, spec, renderElement);
+            }
         }
     }
 

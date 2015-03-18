@@ -476,7 +476,7 @@ namespace LayoutFarm.HtmlBoxes
         /// Assigns words its width and height
         /// </summary>
         /// <param name="g"></param>
-        internal virtual void MeasureRunsSize(LayoutVisitor lay)
+        public virtual void MeasureRunsSize(LayoutVisitor lay)
         {
             //measure once !
             if ((this._boxCompactFlags & BoxFlags.LAY_RUNSIZE_MEASURE) != 0)

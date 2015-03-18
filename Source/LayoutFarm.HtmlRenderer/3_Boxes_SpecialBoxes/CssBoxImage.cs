@@ -22,7 +22,7 @@ namespace LayoutFarm.HtmlBoxes
     /// <summary>
     /// CSS box for image element.
     /// </summary>
-    public sealed class CssBoxImage : CssBox
+    public class CssBoxImage : CssBox
     {
 
         /// <summary>
@@ -68,9 +68,8 @@ namespace LayoutFarm.HtmlBoxes
 
             }
         }
-        internal void PaintImage(PaintVisitor p, RectangleF rect)
+        public override void Paint2(PaintVisitor p, RectangleF rect)
         {
-
             PaintBackground(p, rect, true, true);
 
             if (this.HasSomeVisibleBorder)
@@ -145,10 +144,8 @@ namespace LayoutFarm.HtmlBoxes
                         RenderUtils.DrawImageErrorIcon(p.InnerCanvas, r);
                     } break;
             }
-
-            //p.PopLocalClipArea();
-
         }
+       
         /// <summary>
         /// Paints the fragment
         /// </summary>
@@ -157,14 +154,14 @@ namespace LayoutFarm.HtmlBoxes
         {
             // load image iff it is in visible rectangle  
             //1. single image can't be splited  
-            PaintImage(p, new RectangleF(0, 0, this.SizeWidth, this.SizeHeight));
+            Paint2(p, new RectangleF(0, 0, this.SizeWidth, this.SizeHeight));
         }
 
         /// <summary>
         /// Assigns words its width and height
         /// </summary>
         /// <param name="g">the device to use</param>
-        internal override void MeasureRunsSize(LayoutVisitor lay)
+        public override void MeasureRunsSize(LayoutVisitor lay)
         {
             if (this.RunSizeMeasurePass)
             {
@@ -175,11 +172,8 @@ namespace LayoutFarm.HtmlBoxes
 
             CssLayoutEngine.MeasureImageSize(_imgRun, lay);
         }
-        #region Private methods
-
-
-
-
-        #endregion
     }
+
+
+    
 }

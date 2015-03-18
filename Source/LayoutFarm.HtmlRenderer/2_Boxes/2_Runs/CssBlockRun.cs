@@ -3,7 +3,7 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.HtmlBoxes
 {
-    class CssBlockRun : CssRun
+    public class CssBlockRun : CssRun
     {
         CssBox contentBlockBox;
         public CssBlockRun(CssBox contentBlockBox)
@@ -14,8 +14,6 @@ namespace LayoutFarm.HtmlBoxes
         public CssBox BlockBox
         {
             get { return this.contentBlockBox; }
-        }
-        
-
+        } 
     }
 }

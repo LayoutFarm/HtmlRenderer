@@ -268,6 +268,7 @@ namespace LayoutFarm.Composers
                     newBox = this.htmlHost.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx);
                     if (newBox != null)
                     {
+                        alreadyHandleChildrenNodes = true;
                         return newBox;
                     }
                     

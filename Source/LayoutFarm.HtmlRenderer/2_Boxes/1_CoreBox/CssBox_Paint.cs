@@ -68,7 +68,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return;
             }
-         
+
             //----------------------------------------------- 
             bool hasPrevClip = false;
             RectangleF prevClip = RectangleF.Empty;
@@ -391,6 +391,9 @@ namespace LayoutFarm.HtmlBoxes
             g.StrokeColor = prevColor;
         }
 
+        public virtual void Paint2(PaintVisitor p, RectangleF r)
+        {
 
+        }
     }
 }

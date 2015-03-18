@@ -98,7 +98,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="localY"></param>
         public void SetLocation(float localX, float localY)
         {
-          
+
             this._localX = localX;
             this._localY = localY;
             this._boxCompactFlags |= BoxFlags.HAS_ASSIGNED_LOCATION;
@@ -794,5 +794,18 @@ namespace LayoutFarm.HtmlBoxes
         {
             return this.GetElementGlobalLocationImpl();
         }
+
+        //-----------
+        //if this is custom box then must implement these methods
+        public virtual void CustomRecomputedValue(CssBox containingBlock, GraphicsPlatform gfxPlatform)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual bool CustomContentHitTest(float x, float y, CssBoxHitChain hitChain)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

@@ -47,7 +47,7 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     //custom css box
                     //return true= stop here
-                    if (((CustomCssBox)box).CustomContentHitTest(x, y, hitChain))
+                    if (box.CustomContentHitTest(x, y, hitChain))
                     {
                         hitChain.PopContextBox(box);
                         return true;

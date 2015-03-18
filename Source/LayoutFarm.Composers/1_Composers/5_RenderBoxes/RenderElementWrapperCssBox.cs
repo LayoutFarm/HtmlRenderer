@@ -16,29 +16,200 @@ using LayoutFarm.Composers;
 namespace LayoutFarm.HtmlBoxes
 {
 
+    /// <summary>
+    /// Represents a word inside an inline box
+    /// </summary>
+    sealed class CssExternalRun : CssRun
+    {
 
-    public sealed class RenderElementWrapperCssBox : CustomCssBox
+        RenderElement externalRenderE;
+        /// <summary>
+        /// the image rectange restriction as returned from image load event
+        /// </summary>
+        Rectangle _imageRectangle;
+        /// <summary>
+        /// Creates a new BoxWord which represents an image
+        /// </summary>
+        /// <param name="owner">the CSS box owner of the word</param>
+        public CssExternalRun(RenderElement externalRenderE)
+            : base(CssRunKind.Image)
+        {
+            this.externalRenderE = externalRenderE;
+        }
+        /// <summary>
+        /// Gets the image this words represents (if one exists)
+        /// </summary>
+        RenderElement ExternalRenderE
+        {
+            get
+            {
+                return this.externalRenderE;
+            }
+        }
+        public int OriginalImageWidth
+        {
+            get
+            {
+                return this.externalRenderE.Width;
+                //var img = this.Image;
+                //if (img != null)
+                //{
+                //    return img.Width;
+                //}
+                //return 1; //default image width
+            }
+        }
+        public int OriginalImageHeight
+        {
+            get
+            {
+                return this.externalRenderE.Height;
+            }
+        }
+        public bool HasUserImageContent
+        {
+            get
+            {
+                return this.externalRenderE != null;
+            }
+        }
+
+        public RenderElement RenderElement
+        {
+            get { return this.externalRenderE; }
+            set
+            {
+
+                this.externalRenderE = value;
+            }
+        }
+        /// <summary>
+        /// the image rectange restriction as returned from image load event
+        /// </summary>
+        public Rectangle ImageRectangle
+        {
+            get { return _imageRectangle; }
+            set { _imageRectangle = value; }
+        }
+
+
+#if DEBUG
+        /// <summary>
+        /// Represents this word for debugging purposes
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return "Image";
+        }
+#endif
+    }
+
+    /// <summary>
+    /// replace element for extrernal
+    /// </summary>
+    class CssBoxInlineExternal : CssBox
+    {
+        CssExternalRun _imgRun;
+        /// <summary>
+        /// Init.
+        /// </summary>
+        /// <param name="parent">the parent box of this box</param>
+        /// <param name="controller">the html tag data of this box</param>
+        public CssBoxInlineExternal(object controller, Css.BoxSpec boxSpec,
+            IRootGraphics rootgfx, RenderElement re)
+            : base(controller, boxSpec, rootgfx)
+        {
+
+            this._imgRun = new CssExternalRun(re);
+            this._imgRun.SetOwner(this);
+
+            var runlist = new List<CssRun>(1);
+            runlist.Add(_imgRun);
+            CssBox.UnsafeSetContentRuns(this, runlist, false);
+            ChangeDisplayType(this, Css.CssDisplay.Inline);
+
+        }
+        public override void Clear()
+        {
+            base.Clear();
+
+            var runlist = new List<CssRun>(1);
+            runlist.Add(_imgRun);
+            CssBox.UnsafeSetContentRuns(this, runlist, false);
+
+        }
+        public override void Paint2(PaintVisitor p, RectangleF r)
+        {
+            Rectangle updateArea = new Rectangle((int)r.Left, (int)r.Top, (int)r.Width, (int)r.Height);
+
+            int x = (int)updateArea.Left;
+            int y = (int)updateArea.Top;
+            var canvasPage = p.InnerCanvas;
+            canvasPage.OffsetCanvasOrigin(x, y);
+            r.Offset(-x, -y);
+
+            _imgRun.RenderElement.DrawToThisCanvas(canvasPage, updateArea);
+
+            canvasPage.OffsetCanvasOrigin(-x, -y);
+            r.Offset(x, y); 
+
+        }
+        public RenderElement RenderElement
+        {
+            get
+            {
+                return _imgRun.RenderElement;
+            }
+            set
+            {
+                this._imgRun.RenderElement = value;
+            }
+        }
+        /// <summary>
+        /// Paints the fragment
+        /// </summary>
+        /// <param name="g">the device to draw to</param>
+        protected override void PaintImp(PaintVisitor p)
+        {
+            // load image iff it is in visible rectangle  
+            //1. single image can't be splited  
+
+            Paint2(p, new RectangleF(0, 0, this.SizeWidth, this.SizeHeight));
+        }
+
+        /// <summary>
+        /// Assigns words its width and height
+        /// </summary>
+        /// <param name="g">the device to use</param>
+        public override void MeasureRunsSize(LayoutVisitor lay)
+        {
+            if (this.RunSizeMeasurePass)
+            {
+                return;
+            }
+            this.RunSizeMeasurePass = true;
+            this._imgRun.Width = this._imgRun.RenderElement.Width;
+            this._imgRun.Height = this._imgRun.RenderElement.Height;
+
+        }
+    }
+
+    sealed class RenderElementWrapperCssBox : CssBox
     {
         CssBoxWrapperRenderElement wrapper;
         int globalXForRenderElement;
         int globalYForRenderElement;
-
         public RenderElementWrapperCssBox(object controller,
              BoxSpec spec,
              RenderElement renderElement)
             : base(controller, spec, renderElement.Root, CssDisplay.Block)
         {
+            SetAsCustomCssBox(this);
             int mmw = renderElement.Width;
             int mmh = renderElement.Height;
 
-            //IBoxElement boxElement = controller as IBoxElement;
-            //if (boxElement != null)
-            //{
-            //    boxElement.ChangeElementSize(mmw, mmh);
-            //}
-
             this.wrapper = new CssBoxWrapperRenderElement(renderElement.Root, mmw, mmh, renderElement);
-
             ChangeDisplayType(this, CssDisplay.Block);
 
             this.SetSize(mmw, mmh);
@@ -50,11 +221,23 @@ namespace LayoutFarm.HtmlBoxes
             LayoutFarm.RenderElement.SetParentLink(
                 renderElement,
                 new RenderBoxWrapperLink2(wrapper));
-
-
         }
 
+        //public override void MeasureRunsSize(LayoutVisitor lay)
+        //{
 
+        //    if (this.RunSizeMeasurePass)
+        //    {
+        //        return;
+        //    } 
+        //    this.RunSizeMeasurePass = true;
+        //    if (_blockRun != null)
+        //    {
+        //        _blockRun.Height = 20;
+        //        _blockRun.Width = 200;
+        //    }
+
+        //}
         protected override Point GetElementGlobalLocationImpl()
         {
             return new Point(globalXForRenderElement, globalYForRenderElement);
@@ -64,7 +247,7 @@ namespace LayoutFarm.HtmlBoxes
             return false;
         }
         public override void CustomRecomputedValue(CssBox containingBlock, GraphicsPlatform gfxPlatform)
-        {   
+        {
             var ibox = CssBox.UnsafeGetController(this) as IBoxElement;
             if (ibox != null)
             {
@@ -80,20 +263,6 @@ namespace LayoutFarm.HtmlBoxes
                 this.SetSize(100, 20);
             }
 
-
-
-
-            //var svgElement = this.SvgSpec;
-            ////recompute value if need 
-            //var cnode = svgElement.GetFirstNode();
-            //float containerW = containingBlock.SizeWidth;
-            //float emH = containingBlock.GetEmHeight();
-            //while (cnode != null)
-            //{
-            //    cnode.Value.ReEvaluateComputeValue(containerW, 100, emH);
-            //    cnode = cnode.Next;
-            //} 
-            //this.SetSize(500, 500);
         }
         protected override void PaintImp(PaintVisitor p)
         {
@@ -104,7 +273,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 Rectangle rect = new Rectangle(0, 0, wrapper.Width, wrapper.Height);
                 this.wrapper.DrawToThisCanvas(p.InnerCanvas, rect);
-
+                p.FillRectangle(Color.Red, 0, 0, 10, 10);
             }
             else
             {
@@ -112,6 +281,7 @@ namespace LayoutFarm.HtmlBoxes
                 p.FillRectangle(Color.Red, 0, 0, 100, 100);
             }
         }
+
 
         RenderElement GetParentRenderElement(out int globalX, out int globalY)
         {
