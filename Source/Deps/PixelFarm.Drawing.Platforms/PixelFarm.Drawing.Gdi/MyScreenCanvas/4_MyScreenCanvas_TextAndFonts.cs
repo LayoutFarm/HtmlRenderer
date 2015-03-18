@@ -252,9 +252,8 @@ namespace PixelFarm.Drawing.WinGdi
             }
             set
             {
-                ReleaseHdc();
+                ReleaseHdc(); 
                 this.currentTextFont = value;
-
                 MyFont myFont = value as MyFont;
                 IntPtr hdc = gx.GetHdc();
                 MyWin32.SelectObject(hdc, myFont.ToHfont());

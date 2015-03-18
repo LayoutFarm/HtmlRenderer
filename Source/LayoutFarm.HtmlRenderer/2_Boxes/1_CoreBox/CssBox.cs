@@ -187,7 +187,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this.RunCount == 1 && this.FirstRun.IsImage;
+                return this.RunCount == 1 && this.FirstRun.IsSolidContent;
             }
         }
 

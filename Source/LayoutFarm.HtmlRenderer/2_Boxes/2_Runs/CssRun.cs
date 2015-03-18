@@ -22,7 +22,10 @@ namespace LayoutFarm.HtmlBoxes
     {
         Unknown,
         Text,
-        Image,
+        /// <summary>
+        /// unsplitable content like image,input control etc.
+        /// </summary>
+        SolidContent,
         BlockRun,
         LineBreak,
         //------------
@@ -207,21 +210,14 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this._y + this._height; }
         }
-        ///// <summary>
-        ///// Gets the image this words represents (if one exists)
-        ///// </summary>
-        //public virtual Image Image
-        //{
-        //    get { return null; }
-        //    set { }
-        //}
+        
 
         /// <summary>
-        /// Gets if the word represents an image.
+        /// Gets if the word represents solid content like  image, input control
         /// </summary>
-        public bool IsImage
+        public bool IsSolidContent
         {
-            get { return this._runKind == CssRunKind.Image; }
+            get { return this._runKind == CssRunKind.SolidContent; }
         }
 
         /// <summary>
@@ -280,7 +276,7 @@ namespace LayoutFarm.HtmlBoxes
 
             switch (this.Kind)
             {
-                case CssRunKind.Image:
+                case CssRunKind.SolidContent:
                     {
                         // not a text word - set full selection
                         selectionIndex = -1;

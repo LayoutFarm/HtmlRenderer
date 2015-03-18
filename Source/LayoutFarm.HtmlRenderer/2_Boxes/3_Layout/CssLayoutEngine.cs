@@ -652,7 +652,7 @@ namespace LayoutFarm.HtmlBoxes
                         cx += splitableBox.ActualMarginLeft + splitableBox.ActualBorderLeftWidth + splitableBox.ActualPaddingLeft;
                     }
 
-                    if (run.IsImage || i == 0)
+                    if (run.IsSolidContent || i == 0)
                     {
                         cx += leftMostSpace;
                     }
