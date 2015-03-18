@@ -1,5 +1,5 @@
 //BSD 2014-2015,WinterDev
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -14,7 +14,7 @@
 // "The Art of War"
 
 using System;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -22,7 +22,10 @@ namespace LayoutFarm.HtmlBoxes
     {
         Unknown,
         Text,
-        Image,
+        /// <summary>
+        /// unsplitable content like image,input control etc.
+        /// </summary>
+        SolidContent,
         BlockRun,
         LineBreak,
         //------------
@@ -43,7 +46,7 @@ namespace LayoutFarm.HtmlBoxes
     /// </remarks>
     public abstract class CssRun
     {
-         
+
         /// <summary>
         /// the CSS box owner of the word
         /// </summary>
@@ -176,7 +179,7 @@ namespace LayoutFarm.HtmlBoxes
             get { return this._width; }
             set
             {
-              
+
                 this._width = value;
             }
         }
@@ -207,21 +210,14 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this._y + this._height; }
         }
-        ///// <summary>
-        ///// Gets the image this words represents (if one exists)
-        ///// </summary>
-        //public virtual Image Image
-        //{
-        //    get { return null; }
-        //    set { }
-        //}
+        
 
         /// <summary>
-        /// Gets if the word represents an image.
+        /// Gets if the word represents solid content like  image, input control
         /// </summary>
-        public bool IsImage
+        public bool IsSolidContent
         {
-            get { return this._runKind == CssRunKind.Image; }
+            get { return this._runKind == CssRunKind.SolidContent; }
         }
 
         /// <summary>
@@ -269,7 +265,7 @@ namespace LayoutFarm.HtmlBoxes
                 txt.Replace(' ', '-').Replace("\n", "\\n"), txt.Length, txt.Length != 1 ? "s" : string.Empty);
         }
 
-        public void FindSelectionPoint(IFonts g,
+        internal void FindSelectionPoint(IFonts ifonts,
             int offset, out int selectionIndex,
             out int selectionOffset)
         {
@@ -280,7 +276,7 @@ namespace LayoutFarm.HtmlBoxes
 
             switch (this.Kind)
             {
-                case CssRunKind.Image:
+                case CssRunKind.SolidContent:
                     {
                         // not a text word - set full selection
                         selectionIndex = -1;
@@ -290,7 +286,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
                         CssTextRun textRun = (CssTextRun)this;
-                        g.MeasureString(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
+                        ifonts.MeasureString(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
                             this.OwnerBox.ActualFont, maxWidth, out charFit, out charFitWidth);
 
                         selectionIndex = charFit;
@@ -299,7 +295,7 @@ namespace LayoutFarm.HtmlBoxes
                 case CssRunKind.Space:
                     {
                         throw new NotSupportedException();
-                    } break;
+                    }
                 case CssRunKind.SingleSpace:
                     {
 
@@ -321,5 +317,18 @@ namespace LayoutFarm.HtmlBoxes
             }
 
         }
+
+
+        public CssBox GetGlobalLocation(out float globalX, out float globalY)
+        {
+            //get global location              
+            float x2, y2;
+            var root = this._hostline.OwnerBox.GetElementGlobalLocation(out x2, out y2);             
+            globalX = x2 + this._x;
+            globalY = y2 + this._y;
+            return root;
+        }
+
+
     }
 }

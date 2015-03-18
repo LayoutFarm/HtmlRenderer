@@ -1,5 +1,5 @@
 ﻿// 2015,2014 ,BSD, WinterDev
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 using System;
 using System.Collections.Generic;
@@ -115,7 +115,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         public static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
-
+            //if (box.__aa_dbugId == 7)
+            //{
+            //}
             if ((box._boxCompactFlags & BoxFlags.FIXED_DISPLAY_TYPE) == 0)
             {
                 box._cssDisplay = newdisplay;
@@ -133,15 +135,18 @@ namespace LayoutFarm.HtmlBoxes
             //-------------------------
             switch (newdisplay)
             {
-                //case CssDisplay.BlockInsideInlineAfterCorrection:
+                
                 case CssDisplay.Block:
                 case CssDisplay.ListItem:
                 case CssDisplay.Table:
                 case CssDisplay.TableCell:
+                case CssDisplay.InlineBlock:
+                case CssDisplay.InlineTable:
+
                     box._boxCompactFlags |= BoxFlags.HAS_CONTAINER_PROP;
                     break;
                 default:
-                    //not container properties 
+                    //no container properties 
                     box._boxCompactFlags &= ~BoxFlags.HAS_CONTAINER_PROP;
                     break;
             }
@@ -151,7 +156,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             box._boxCompactFlags |= BoxFlags.IS_BR_ELEM;
         }
-        internal static void SetAsCustomCssBox(CssBox box)
+        protected static void SetAsCustomCssBox(CssBox box)
         {
             box._boxCompactFlags |= BoxFlags.IS_CUSTOM_CSSBOX;
         }

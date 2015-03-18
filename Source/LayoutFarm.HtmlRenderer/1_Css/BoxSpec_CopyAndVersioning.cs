@@ -1,5 +1,5 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
-//ArthurHub 
+//ArthurHub  , Jose Manuel Menendez Poo
 
 
 namespace LayoutFarm.Css
@@ -76,6 +76,9 @@ namespace LayoutFarm.Css
             target._marginFeats = source._marginFeats;
             target._paddingFeats = source._paddingFeats;
             //---------------------------------------
+            //if (target.__aa_dbugId == 8)
+            //{
+            //}
             target._cssDisplay = source._cssDisplay;
             target._left = source._left;
             target._top = source._top;

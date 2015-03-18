@@ -129,31 +129,7 @@ namespace Win32
         [DllImport("gdi32.dll")]
         public static extern int SetTextColor(IntPtr hdc, int color);
 
-        [DllImport("gdi32.dll", EntryPoint = "GetTextExtentPoint32W")]
-        public static extern int GetTextExtentPoint32(IntPtr hdc, [MarshalAs(UnmanagedType.LPWStr)] string str, int len, ref Size size);
-
-        [DllImport("gdi32.dll", EntryPoint = "GetTextExtentPoint32W")]
-        public static unsafe extern int UnsafeGetTextExtentPoint32(
-            IntPtr hdc, char* str, int len, ref Size size);
-
-
-        [DllImport("gdi32.dll", EntryPoint = "GetTextExtentExPointW")]
-        public static extern bool GetTextExtentExPoint(IntPtr hDc, [MarshalAs(UnmanagedType.LPWStr)]string str, int nLength, int nMaxExtent, int[] lpnFit, int[] alpDx, ref Size size);
-
-        [DllImport("gdi32.dll", EntryPoint = "GetTextExtentExPointW")]
-        public static unsafe extern bool UnsafeGetTextExtentExPoint(
-            IntPtr hDc, char* str, int len, int nMaxExtent, int[] lpnFit, int[] alpDx, ref System.Drawing.Size size);
-
-
-
-        [DllImport("gdi32.dll", EntryPoint = "TextOutW")]
-        public static extern bool TextOut(IntPtr hdc, int x, int y, [MarshalAs(UnmanagedType.LPWStr)] string str, int len);
-
-
-        [DllImport("gdi32.dll", EntryPoint = "TextOutW")]
-        public static unsafe extern bool TextOut2(IntPtr hdc, int x, int y, char* s, int len);
-
-
+         
         [DllImport("gdi32.dll")]
         public static extern IntPtr CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
 

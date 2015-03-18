@@ -151,12 +151,12 @@ namespace LayoutFarm.Composers
             return null;
         }
 
-        internal BoxSpec GetActiveTemplate(string elemName,
-            string class_value,
-            BoxSpec currentBoxSpec,
-            BoxSpec parentSpec,
-            out CssTemplateKey templateKey,
-            out bool newlyCreated)
+        internal void ApplyCacheTemplate(string elemName,
+             string class_value,
+             BoxSpec currentBoxSpec,
+             BoxSpec parentSpec,
+             out CssTemplateKey templateKey,
+             out bool newlyCreated)
         {
 
             //1. tag name key
@@ -172,9 +172,8 @@ namespace LayoutFarm.Composers
             if (boxTemplate != null)
             {
                 newlyCreated = false;
-                return boxTemplate;
-                //BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
-
+                BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
+                //return boxTemplate;
             }
             else
             {
@@ -235,8 +234,13 @@ namespace LayoutFarm.Composers
                 //    CacheBoxSpec(templateKey, boxTemplate);
                 //}
                 boxTemplate.Freeze();
-                return boxTemplate;
-                //BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
+                this.CacheBoxSpec(templateKey, boxTemplate);
+
+                boxTemplate.IsTemplate = true;
+
+                  //return boxTemplate;
+                BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
+
             }
         }
 

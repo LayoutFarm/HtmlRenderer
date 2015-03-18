@@ -1,5 +1,5 @@
 ﻿//BSD 2014-2015 ,WinterDev
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 using System;
 using System.Collections.Generic;
@@ -289,9 +289,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void SetSelection(SelectionRange selRange)
         {
-            if (selRange == null)
-            {
-            }
+            //if (selRange == null)
+            //{
+            //}
             this._currentSelectionRange = selRange;
         }
 

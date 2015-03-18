@@ -1,5 +1,5 @@
 ﻿//2014,2015 BSD, WinterDev
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -76,12 +76,12 @@ namespace PixelFarm.Drawing.WinGdi
 
             this.currentTextFont = font;
             var tempDc = gx.GetHdc();
-            var size = new System.Drawing.Size();
+            var size = new PixelFarm.Drawing.Size();
             unsafe
             {
                 fixed (char* startAddr = &buff[0])
                 {
-                    Win32.Win32Utils.UnsafeGetTextExtentExPoint(
+                    NativeTextWin32.UnsafeGetTextExtentExPoint(
                         tempDc, startAddr + startAt, len,
                         (int)Math.Round(maxWidth), _charFit, _charFitWidth, ref size);
                 }
@@ -90,7 +90,8 @@ namespace PixelFarm.Drawing.WinGdi
 
             charFit = _charFit[0];
             charFitWidth = charFit > 0 ? _charFitWidth[charFit - 1] : 0;
-            return size.ToSize();
+            return size;
+            //return size.ToSize();
 
         }
         //============================================== 
@@ -115,7 +116,7 @@ namespace PixelFarm.Drawing.WinGdi
             }
             set
             {
-                this.currentTextColor = 
+                this.currentTextColor =
                     ConvColor(this.mycurrentTextColor = value);
             }
         }
@@ -144,53 +145,49 @@ namespace PixelFarm.Drawing.WinGdi
             internalSolidBrush.Color = tmpColor;
 
         }
-
-
-
         public override void DrawText(char[] str, int startAt, int len, Rectangle logicalTextBox, int textAlignment)
         {
-            unsafe
-            {
-                //var intersectRect = Rectangle.Intersect(logicalTextBox,
-                //    new Rectangle(currentClipRect.Left,
-                //        currentClipRect.Top,
-                //        currentClipRect.Width,
-                //        currentClipRect.Height));
-                //intersectRect.Offset(canvasOriginX, canvasOriginY);
-                //MyWin32.SetRectRgn(hRgn,
-                // intersectRect.Left,
-                // intersectRect.Top,
-                // intersectRect.Right,
-                // intersectRect.Bottom);
-                //MyWin32.SelectClipRgn(tempDc, hRgn);
+
+            //var intersectRect = Rectangle.Intersect(logicalTextBox,
+            //    new Rectangle(currentClipRect.Left,
+            //        currentClipRect.Top,
+            //        currentClipRect.Width,
+            //        currentClipRect.Height));
+            //intersectRect.Offset(canvasOriginX, canvasOriginY);
+            //MyWin32.SetRectRgn(hRgn,
+            // intersectRect.Left,
+            // intersectRect.Top,
+            // intersectRect.Right,
+            // intersectRect.Bottom);
+            //MyWin32.SelectClipRgn(tempDc, hRgn);
 
 
 
-                var tmpColor = this.internalSolidBrush.Color;
-                internalSolidBrush.Color = this.currentTextColor;
-                gx.DrawString(new string(str, startAt, len),
-                    (System.Drawing.Font)this.currentTextFont.InnerFont,
-                    internalSolidBrush,
-                    logicalTextBox.X,
-                    logicalTextBox.Y);
+            var tmpColor = this.internalSolidBrush.Color;
+            internalSolidBrush.Color = this.currentTextColor;
+            gx.DrawString(new string(str, startAt, len),
+                (System.Drawing.Font)this.currentTextFont.InnerFont,
+                internalSolidBrush,
+                logicalTextBox.X,
+                logicalTextBox.Y);
 
-                //new System.Drawing.RectangleF(
-                //    logicalTextBox.X,
-                //    logicalTextBox.Y,
-                //    logicalTextBox.Width,
-                //    logicalTextBox.Height));
-                internalSolidBrush.Color = tmpColor;
+            //new System.Drawing.RectangleF(
+            //    logicalTextBox.X,
+            //    logicalTextBox.Y,
+            //    logicalTextBox.Width,
+            //    logicalTextBox.Height));
+            internalSolidBrush.Color = tmpColor;
 
-                //var str= new string(
-                //fixed (char* startAddr = &str[0])
-                //{
-                //    Win32.Win32Utils.TextOut2(tempDc,
-                //        (int)logicalTextBox.X + canvasOriginX,
-                //        (int)logicalTextBox.Y + canvasOriginY,
-                //        (startAddr + startAt), len);
-                //}
+            //var str= new string(
+            //fixed (char* startAddr = &str[0])
+            //{
+            //    Win32.Win32Utils.TextOut2(tempDc,
+            //        (int)logicalTextBox.X + canvasOriginX,
+            //        (int)logicalTextBox.Y + canvasOriginY,
+            //        (startAddr + startAt), len);
+            //}
 
-            }
+
         }
     }
 }

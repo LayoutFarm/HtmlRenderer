@@ -1,5 +1,5 @@
 // 2015,2014 ,BSD, WinterDev
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -427,12 +427,13 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void PaintRuns(PaintVisitor p)
         {
-            //iterate from each words
-
-
+            //iterate from each words 
             CssBox latestOwner = null;
-            Font font = null;
-            Color color = Color.Empty;
+            var innerCanvas = p.InnerCanvas;
+
+            var enterFont = innerCanvas.CurrentFont;
+            var enterColor = innerCanvas.CurrentTextColor;
+
             var tmpRuns = this._runs;
             int j = tmpRuns.Count;
 
@@ -447,16 +448,14 @@ namespace LayoutFarm.HtmlBoxes
                 CssRun w = tmpRuns[i];
                 switch (w.Kind)
                 {
-                    case CssRunKind.Image:
+                    case CssRunKind.SolidContent:
                         {
-                            CssBoxImage owner = (CssBoxImage)w.OwnerBox;
-                            owner.PaintImage(p, new RectangleF(w.Left, w.Top, w.Width, w.Height));
-
+                            w.OwnerBox.Paint(p, new RectangleF(w.Left, w.Top, w.Width, w.Height));
                         } break;
                     case CssRunKind.BlockRun:
                         {
                             //Console.WriteLine("blockrun"); 
-                            CssBlockRun blockRun = (CssBlockRun)w; 
+                            CssBlockRun blockRun = (CssBlockRun)w;
 
                             int ox = p.CanvasOriginX;
                             int oy = p.CanvasOriginY;
@@ -472,16 +471,17 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             if (latestOwner != w.OwnerBox)
                             {
+                                //change
                                 latestOwner = w.OwnerBox;
-                                font = latestOwner.ActualFont;
-                                color = latestOwner.ActualColor;
-                            } 
-                            CssTextRun textRun = (CssTextRun)w; 
-                            var wordPoint = new PointF(w.Left, w.Top); 
+                                //change font when change owner 
+                                p.InnerCanvas.CurrentFont = latestOwner.ActualFont;
+                                p.InnerCanvas.CurrentTextColor = latestOwner.ActualColor;
+                            }
+                            CssTextRun textRun = (CssTextRun)w;
+                            var wordPoint = new PointF(w.Left, w.Top);
                             p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
                                textRun.TextStartIndex,
-                               textRun.TextLength, font,
-                               color, wordPoint,
+                               textRun.TextLength, wordPoint,
                                new SizeF(w.Width, w.Height));
 
                         } break;
@@ -493,6 +493,15 @@ namespace LayoutFarm.HtmlBoxes
                         } break;
                 }
             }
+
+            //---
+            //exit
+            if (j > 0)
+            {
+                innerCanvas.CurrentFont = enterFont;
+                innerCanvas.CurrentTextColor = enterColor;
+            }
+
         }
 
 #if DEBUG
@@ -525,6 +534,7 @@ namespace LayoutFarm.HtmlBoxes
             foreach (CssRun w in this._runs)
             {
                 p.DrawRectangle(Color.DeepPink, w.Left, w.Top, w.Width, w.Height);
+                //p.dbugDrawDiagonalBox(Color.DeepPink, w.Left, w.Top, w.Width, w.Height);
             }
 
             p.FillRectangle(Color.Red, 0, 0, 5, 5);
@@ -539,7 +549,7 @@ namespace LayoutFarm.HtmlBoxes
             set;
         }
 
-        
+
         internal int LineSelectionWidth
         {
             get;
@@ -549,9 +559,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             //config paint selection color
             p.FillRectangle(Color.LightGray,
-                this.LineSelectionStart, 0, 
-                this.LineSelectionWidth, 
-                this.CacheLineHeight); 
+                this.LineSelectionStart, 0,
+                this.LineSelectionWidth,
+                this.CacheLineHeight);
 
         }
 
@@ -608,7 +618,7 @@ namespace LayoutFarm.HtmlBoxes
             float newtop = baseline;
             foreach (var word in this.GetRunIter(stripOwnerBox))
             {
-                if (!word.IsImage)
+                if (!word.IsSolidContent)
                 {
                     word.Top = newtop;
                 }

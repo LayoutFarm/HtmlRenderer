@@ -1,5 +1,5 @@
 ﻿// 2015,2014 ,BSD, WinterDev
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 using System;
 using System.Collections.Generic;
@@ -98,7 +98,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="localY"></param>
         public void SetLocation(float localX, float localY)
         {
-          
+
             this._localX = localX;
             this._localY = localY;
             this._boxCompactFlags |= BoxFlags.HAS_ASSIGNED_LOCATION;
@@ -776,23 +776,36 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        protected virtual Point GetElementGlobalLocationImpl()
+        protected virtual CssBox GetElementGlobalLocationImpl(out float globalX, out float globalY)
         {
-            int pos_left = (int)this._localX;
-            int pos_top = (int)this._localY;
-
+            globalX = this._localX;
+            globalY = this._localY;
+            CssBox foundRoot = null; 
             if (this.ParentBox != null)
             {
-                Point pp = this.ParentBox.GetElementGlobalLocation();
-                pos_left += pp.X;
-                pos_top += pp.Y;
+                float p_left, p_top;
+                foundRoot = this.ParentBox.GetElementGlobalLocation(out p_left, out p_top);
+                globalX += p_left;
+                globalY += p_top;                 
             }
-
-            return new Point(pos_left, pos_top);
+            return foundRoot;             
         }
-        public Point GetElementGlobalLocation()
+        public CssBox GetElementGlobalLocation(out float globalX, out float globalY)
         {
-            return this.GetElementGlobalLocationImpl();
+            return this.GetElementGlobalLocationImpl(out globalX, out globalY);
         }
+
+        //-----------
+        //if this is custom box then must implement these methods
+        public virtual void CustomRecomputedValue(CssBox containingBlock, GraphicsPlatform gfxPlatform)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual bool CustomContentHitTest(float x, float y, CssBoxHitChain hitChain)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

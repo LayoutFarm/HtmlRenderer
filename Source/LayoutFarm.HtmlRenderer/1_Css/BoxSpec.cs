@@ -1,5 +1,5 @@
 ﻿// 2015,2014 ,BSD, WinterDev
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -87,7 +87,11 @@ namespace LayoutFarm.Css
         //------------------
         public BoxSpec()
         {
+            //if (this.__aa_dbugId == 8)
+            //{
+            //}
         }
+        public bool IsTemplate { get; set; }
         public void Freeze()
         {
             this._freezed = true;
@@ -141,6 +145,12 @@ namespace LayoutFarm.Css
             get { return this._cssDisplay; }
             set
             {
+                //if (value == Css.CssDisplay.InlineBlock)
+                //{
+                //}
+                //if (this.__aa_dbugId == 8)
+                //{
+                //}
                 if (Assignable()) { this._cssDisplay = value; }
             }
         }

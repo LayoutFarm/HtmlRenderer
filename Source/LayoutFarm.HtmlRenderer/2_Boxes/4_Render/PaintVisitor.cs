@@ -288,47 +288,18 @@ namespace LayoutFarm.HtmlBoxes
             this.canvas.DrawImage(img, r);
         }
         //---------
-        public void DrawText(char[] str, int startAt, int len, Font font, Color color, PointF point, SizeF size)
+        public void DrawText(char[] str, int startAt, int len, PointF point, SizeF size)
         {
 
 #if DEBUG
             dbugCounter.dbugDrawStringCount++;
 #endif
             var g = this.canvas;
-            if (color.A == 255)
-            {
-                g.CurrentFont = font;
-                g.CurrentTextColor = color;
-                g.DrawText(str, startAt, len, new Rectangle(
-                    (int)point.X, (int)point.Y,
-                    (int)size.Width, (int)size.Height), 0
-                    );
-
-
-            }
-            else
-            {
-                g.CurrentFont = font;
-                g.CurrentTextColor = color;
-                g.DrawText(str, startAt, len, new Rectangle(
-                    (int)point.X, (int)point.Y,
-                    (int)size.Width, (int)size.Height), 0
-                    );
-
-                ////translucent / transparent text
-                //g.CurrentFont = font;
-                //g.CurrentTextColor = color;
-                //unsafe
-                //{
-                //    fixed (char* startAddr = &str[0])
-                //    {
-                //        Win32Utils.TextOut2(_hdc, (int)Math.Round(point.X + canvasOriginX),
-                //            (int)Math.Round(point.Y + canvasOriginY), (startAddr + startAt), len);
-                //    }
-                //}
-
-                //DrawTransparentText(_hdc, str, font, new Point((int)Math.Round(point.X), (int)Math.Round(point.Y)), Size.Round(size), color);
-            }
+            g.DrawText(str, startAt, len, new Rectangle(
+                  (int)point.X, (int)point.Y,
+                  (int)size.Width, (int)size.Height), 0
+                  );
+            
         }
 
 

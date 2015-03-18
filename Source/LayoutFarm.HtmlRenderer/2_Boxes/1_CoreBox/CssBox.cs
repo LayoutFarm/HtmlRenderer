@@ -1,5 +1,5 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -88,7 +88,7 @@ namespace LayoutFarm.HtmlBoxes
             //----------------------------
             this._myspec = spec;
             EvaluateSpec(spec);
-            ChangeDisplayType(this, _myspec.CssDisplay); 
+            ChangeDisplayType(this, _myspec.CssDisplay);
             //this._cssDisplay = fixDisplayType;
 
         }
@@ -117,27 +117,8 @@ namespace LayoutFarm.HtmlBoxes
                 cur_box = topmost;
             }
             return topmost;
-            //if (this._parentBox != null)
-            //{
-            //    return this._parentBox.GetTopRootCssBox();
-            //}
-            //return this;
         }
-        ///// <summary>
-        ///// 1. remove this box from its parent and 2. add to new parent box
-        ///// </summary>
-        ///// <param name="parentBox"></param>
-        //internal void SetNewParentBox(CssBox parentBox)
-        //{
-        //    if (this._parentBox != null)
-        //    {
-        //        this._parentBox._aa_boxes.Remove(this);
-        //    }
-        //    if (parentBox != null)
-        //    {
-        //        parentBox._aa_boxes.AddChild(parentBox, this);
-        //    }
-        //}
+
 
         /// <summary>
         /// Is the box is of "br" element.
@@ -206,7 +187,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this.RunCount == 1 && this.FirstRun.IsImage;
+                return this.RunCount == 1 && this.FirstRun.IsSolidContent;
             }
         }
 
@@ -419,7 +400,10 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
         {
+            //if (this.CssDisplay == Css.CssDisplay.InlineBlock)
+            //{
 
+            //}
             //derived class can perform its own layout algo            
             //by override performContentLayout 
             PerformContentLayout(lay);
@@ -434,7 +418,10 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="g">Device context to use</param>
         protected virtual void PerformContentLayout(LayoutVisitor lay)
-        {  
+        {
+            //if (this.CssDisplay == CssDisplay.InlineBlock)
+            //{
+            //}
             //----------------------------------------------------------- 
             switch (this.CssDisplay)
             {
@@ -448,7 +435,7 @@ namespace LayoutFarm.HtmlBoxes
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
 
-                    } break; 
+                    } break;
                 case Css.CssDisplay.Block:
                 case Css.CssDisplay.ListItem:
                 case Css.CssDisplay.Table:
@@ -489,7 +476,7 @@ namespace LayoutFarm.HtmlBoxes
         /// Assigns words its width and height
         /// </summary>
         /// <param name="g"></param>
-        internal virtual void MeasureRunsSize(LayoutVisitor lay)
+        public virtual void MeasureRunsSize(LayoutVisitor lay)
         {
             //measure once !
             if ((this._boxCompactFlags & BoxFlags.LAY_RUNSIZE_MEASURE) != 0)
@@ -552,7 +539,10 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-
+        internal float LatestCacheMinimumWidth
+        {
+            get { return this._cachedMinimumWidth; }
+        }
         /// <summary>
         /// Gets the minimum width that the box can be.
         /// *** The box can be as thin as the longest word plus padding
@@ -563,8 +553,7 @@ namespace LayoutFarm.HtmlBoxes
 
             float maxWidth = 0;
             float padding = 0f;
-
-            if (_lastCalculationEpisodeNum == calculationEpisode)
+            if (this._lastCalculationEpisodeNum == calculationEpisode)
             {
                 return _cachedMinimumWidth;
             }
@@ -600,6 +589,8 @@ namespace LayoutFarm.HtmlBoxes
             return _cachedMinimumWidth = maxWidth + padding;
 
         }
+
+
         static void CalculateMinimumWidthAndWidestRun(CssBox box, out float maxWidth, out CssRun maxWidthRun)
         {
             //use line-base style ***
@@ -630,6 +621,72 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="calculationEpisode"></param>
+        /// <returns></returns>
+        internal static float GetLatestCachedMinWidth(CssBox targetBox)
+        {
+            //---------------------------------------------------
+            if (targetBox.LineBoxCount > 0)
+            {
+                float maxWidth = 0;
+                foreach (var line in targetBox._clientLineBoxes)
+                {
+                    var lineContentW = line.CachedLineContentWidth;
+                    if (maxWidth < lineContentW)
+                    {
+                        maxWidth = lineContentW;
+                    }
+                }
+                return maxWidth;
+            }
+            else
+            {
+                float minWidth = 0;
+                if (targetBox._cssDisplay == CssDisplay.Table)
+                {
+                    //special for table element
+                    if (targetBox._aa_boxes != null)
+                    {
+
+                        foreach (var tr in targetBox._aa_boxes)
+                        {
+                            //td
+                            float trW = 0;
+                            int j = tr._aa_boxes.Count;
+                            if (j > 0)
+                            {
+                                var lastTd = tr._aa_boxes.GetLastChild();
+                                //TODO: review here again-> how to get rightmost position
+                                trW = (lastTd.LocalX + lastTd.SizeWidth + lastTd._actualPaddingRight);
+                            } 
+                            if (trW > minWidth)
+                            {
+                                minWidth = trW;
+                            }
+                        } 
+                    }
+                }
+                else
+                {
+                    if (targetBox._aa_boxes != null)
+                    {
+                        foreach (var box in targetBox._aa_boxes)
+                        {
+                            float w = GetLatestCachedMinWidth(box);
+                            if (w > minWidth)
+                            {
+                                minWidth = w;
+                            }
+                        }
+                    }
+
+                }
+                return minWidth;
+            }
+        }
         bool IsLastChild
         {
             get
@@ -688,40 +745,53 @@ namespace LayoutFarm.HtmlBoxes
         {
             this._localY += dy;
         }
-
-
-
-        //public bool AcceptKeyboardFocus
-        //{
-        //    get;
-        //    set;
-        //}
-
-        ///// <summary>
-        ///// Get brush for selection background depending if it has external and if alpha is required for images.
-        ///// </summary>
-        ///// <param name="forceAlpha">used for images so they will have alpha effect</param>
-        //protected Brush GetSelectionBackBrush(bool forceAlpha)
-        //{
-        //    var backColor = HtmlContainer.SelectionBackColor;
-        //    if (backColor != System.Drawing.Color.Empty)
-        //    {
-        //        if (forceAlpha && backColor.A > 180)
-        //            return RenderUtils.GetSolidBrush(System.Drawing.Color.FromArgb(180, backColor.R, backColor.G, backColor.B));
-        //        else
-        //            return RenderUtils.GetSolidBrush(backColor);
-        //    }
-        //    else
-        //    {
-        //        return CssUtils.DefaultSelectionBackcolor;
-        //    }
-        //}
-
-
-        internal bool CanBeRefererenceSibling
+        internal bool CanBeReferenceSibling
         {
             get { return this.CssDisplay != Css.CssDisplay.None && this.Position != Css.CssPosition.Absolute; }
         }
+        //internal float CollectCachedMinimumWidth()
+        //{
+        //    //recursive
+
+        //    if (this._cachedMinimumWidth > 0)
+        //    {
+        //        return this._cachedMinimumWidth;
+        //    }
+        //    else
+        //    {
+        //        if (_clientLineBoxes != null)
+        //        {
+        //            //line model
+        //            //collect per line
+
+        //            foreach (var linebox in _clientLineBoxes)
+        //            {
+        //            }
+        //        }
+        //        else if (_aa_boxes != null)
+        //        {
+        //            //block model
+        //        }
+        //        else if (_aa_contentRuns != null)
+        //        {
+        //        }
+        //        //CssBoxCollection _aa_boxes;
+
+        //        ////condition 1: invalid *
+        //        ////condition 2: invalid *
+        //        ////condition 3: valid 
+        //        //List<CssRun> _aa_contentRuns;
+
+
+        //        ////condition 1: invalid *
+        //        ////condition 2: valid  
+        //        ////condition 3: valid  
+        //        //LinkedList<CssLineBox> _clientLineBoxes;
+
+
+        //    }
+        //    return 0;
+        //}
 #if DEBUG
         ///// <summary>
         ///// ToString override.

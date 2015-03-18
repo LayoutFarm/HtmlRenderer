@@ -1,4 +1,4 @@
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
@@ -31,7 +31,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="owner">the CSS box owner of the word</param>
         public CssImageRun()
-            : base(CssRunKind.Image)
+            : base(CssRunKind.SolidContent)
         {
         }
         /// <summary>

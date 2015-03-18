@@ -1,5 +1,5 @@
 ﻿// 2015,2014 ,BSD, WinterDev
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 using System;
 using System.Collections.Generic;
@@ -68,6 +68,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return;
             }
+
             //----------------------------------------------- 
             bool hasPrevClip = false;
             RectangleF prevClip = RectangleF.Empty;
@@ -179,8 +180,10 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
             else
-            {  
-                if (this.CssDisplay == Css.CssDisplay.InlineBlock || this.HasContainingBlockProperty)
+            {
+                //this.CssDisplay == Css.CssDisplay.InlineBlock ||
+
+                if (this.HasContainingBlockProperty)
                 {
                     p.PushContaingBlock(this);
 
@@ -388,6 +391,9 @@ namespace LayoutFarm.HtmlBoxes
             g.StrokeColor = prevColor;
         }
 
-         
+        public virtual void Paint(PaintVisitor p, RectangleF r)
+        {
+
+        }
     }
 }

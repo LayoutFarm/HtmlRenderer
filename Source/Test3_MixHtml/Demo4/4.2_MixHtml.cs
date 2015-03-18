@@ -20,6 +20,7 @@ namespace LayoutFarm
             ////==================================================
             //html box
             var htmlBox = new HtmlBox(htmlhost, 800, 400);
+            htmlBox.SetLocation(30, 30);
             viewport.AddContent(htmlBox);
             string html = @"<html><head></head><body><div>OK1</div><div>OK2</div></body></html>";
             htmlBox.LoadHtmlString(html);

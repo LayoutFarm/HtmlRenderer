@@ -11,13 +11,26 @@ namespace LayoutFarm.Composers
 
     public abstract class CustomCssBoxGenerator
     {
+        protected abstract HtmlHost MyHost { get; }
         public abstract CssBox CreateCssBox(object tag, CssBox parentBox, BoxSpec spec, LayoutFarm.RootGraphic rootgfx);
 
-        public CssBox CreateWrapper(object owner, RenderElement renderElement, BoxSpec spec)
+        public CssBox CreateWrapper(object owner, RenderElement renderElement, BoxSpec spec, bool isInline)
         {
-            return new RenderElementWrapperCssBox(owner, spec, renderElement);
+            if (isInline)
+            {
+                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperInlineCssBox(owner, spec, renderElement.Root, renderElement); 
+            }
+            else
+            {
+                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperBlockCssBox(owner, spec, renderElement);
+            }
         }
     }
 
+    public interface IBoxElement
+    {
+        void ChangeElementSize(int w, int h);
+        int MinHeight { get; }
+    }
 
 }

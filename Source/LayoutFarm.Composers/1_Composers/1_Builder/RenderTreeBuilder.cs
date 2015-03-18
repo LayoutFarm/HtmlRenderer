@@ -1,5 +1,5 @@
 // 2015,2014 ,BSD, WinterDev
-//ArthurHub
+//ArthurHub  , Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
@@ -287,6 +287,9 @@ namespace LayoutFarm.Composers
         {
 
             BoxSpec curSpec = element.Spec;
+            //if (curSpec.__aa_dbugId == 8)
+            //{
+            //}
             BoxSpec.InheritStyles(curSpec, parentSpec);
             //--------------------------------
             string classValue = null;
@@ -295,17 +298,18 @@ namespace LayoutFarm.Composers
                 classValue = element.AttrClassValue;
             }
             //--------------------------------
+            
             //1. apply style  
             bool isNewlyCreated;
             CssTemplateKey boxSpecKey;
-            var boxSpec = activeCssTemplate.GetActiveTemplate(element.LocalName,
+            activeCssTemplate.ApplyCacheTemplate(element.LocalName,
                  classValue,//class
                  curSpec,
                  parentSpec,
                  out boxSpecKey,
                  out isNewlyCreated);
             //-------------------------------------------------------------------  
-            BoxSpec.CloneAllStyles(curSpec, boxSpec);
+            
             //-------------------------------------------------------------------  
             //2. specific id 
             if (element.HasAttributeElementId)
@@ -322,18 +326,8 @@ namespace LayoutFarm.Composers
             }
             else
             {
-                AssignSvgAttributes(element);
-
-            }
-
-            //if (element.dbugMark == 1)
-            //{
-            //}
-            //else if (element.dbugMark == 2)
-            //{
-            //}
-
-            //AssignStylesFromTranslatedAttributes_Old(box, activeCssTemplate);
+                AssignSvgAttributes(element); 
+            }  
             //------------------------------------------------------------------- 
             //4. style attribute value 
             //'style' object of this element
@@ -361,7 +355,7 @@ namespace LayoutFarm.Composers
                 //----------------------------------------------------------------
                 element.IsStyleEvaluated = true;
                 element.ElementRuleSet = parsedRuleSet;
-                activeCssTemplate.CacheBoxSpec(boxSpecKey, curSpec);
+               
             }
             else
             {
