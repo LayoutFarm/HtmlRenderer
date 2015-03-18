@@ -20,7 +20,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         RenderElement externalRenderE;
         Rectangle renderElementRect;
         public CssExternalRun(RenderElement externalRenderE)
-            : base(CssRunKind.Image) //act as image run****
+            : base(CssRunKind.SolidContent) //act as image run****
         {
             //in this version we make it as as image run
             this.externalRenderE = externalRenderE;
