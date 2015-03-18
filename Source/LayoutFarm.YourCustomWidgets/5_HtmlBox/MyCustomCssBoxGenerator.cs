@@ -35,32 +35,14 @@ namespace LayoutFarm.CustomWidgets
                 {
                     case "text":
                         {
-                           // user can specific width of textbox
-
+                            // user can specific width of textbox 
                             var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
-                            //create wrapper CssBox 
                             var wrapperBox = this.CreateWrapper(
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
                                  spec, true);
-
-                            //LayoutFarm.HtmlBoxes.CssBox.ChangeDisplayType(wrapperBox, CssDisplay.InlineBlock);
-                            //leanTextBox.AcceptKeyboardFocus = true;
                             parentBox.AppendChild(wrapperBox);
                             return wrapperBox;
-
-                            //var simpleBox2 = new LayoutFarm.CustomWidgets.EaseBox(100, 20);
-                            //simpleBox2.BackColor = PixelFarm.Drawing.Color.LightGray;
-
-                            //var wrapperBox = this.CreateWrapper(
-                            //                   simpleBox2,
-                            //                   simpleBox2.GetPrimaryRenderElement(rootgfx),
-                            //                   spec, true);
-
-                             
-                            //parentBox.AppendChild(wrapperBox);
-                            //return wrapperBox;
-
                         }
                     case "button":
                         {
@@ -68,7 +50,6 @@ namespace LayoutFarm.CustomWidgets
                             //use subdom? technique
                             //todo: review the technique here
                             var button = new HtmlWidgets.Button(60, 30);
-                            //use content of button
                             var ihtmlElement = tag as LayoutFarm.WebDom.IHtmlElement;
                             if (ihtmlElement != null)
                             {
@@ -83,34 +64,25 @@ namespace LayoutFarm.CustomWidgets
                             var wrapperBox = this.CreateWrapper(
                                 button,
                                 ui.GetPrimaryRenderElement(rootgfx),
-                                spec, false);
-
-                            //LayoutFarm.HtmlBoxes.CssBox.ChangeDisplayType(wrapperBox, CssDisplay.InlineBlock);
-                            //leanTextBox.AcceptKeyboardFocus = true;
+                                spec, true);
                             parentBox.AppendChild(wrapperBox);
                             return wrapperBox;
 
                         }
                     case "textbox":
                         {
-                            //user can specific width of textbox
                             var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
-                            //create wrapper CssBox 
                             var wrapperBox = this.CreateWrapper(
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
-                                 spec, false);
-
-                            //leanTextBox.AcceptKeyboardFocus = true;
+                                 spec, true);
                             parentBox.AppendChild(wrapperBox);
-
                             return wrapperBox;
                         }
                 }
             }
             var simpleBox = new LayoutFarm.CustomWidgets.EaseBox(100, 20);
             simpleBox.BackColor = PixelFarm.Drawing.Color.LightGray;
-
             var wrapperBox2 = this.CreateWrapper(
                                simpleBox,
                                simpleBox.GetPrimaryRenderElement(rootgfx),
