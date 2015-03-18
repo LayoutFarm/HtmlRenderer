@@ -35,17 +35,32 @@ namespace LayoutFarm.CustomWidgets
                 {
                     case "text":
                         {
-                            //user can specific width of textbox
+                           // user can specific width of textbox
+
                             var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
                             //create wrapper CssBox 
                             var wrapperBox = this.CreateWrapper(
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
-                                 spec);
+                                 spec, true);
 
+                            //LayoutFarm.HtmlBoxes.CssBox.ChangeDisplayType(wrapperBox, CssDisplay.InlineBlock);
                             //leanTextBox.AcceptKeyboardFocus = true;
                             parentBox.AppendChild(wrapperBox);
                             return wrapperBox;
+
+                            //var simpleBox2 = new LayoutFarm.CustomWidgets.EaseBox(100, 20);
+                            //simpleBox2.BackColor = PixelFarm.Drawing.Color.LightGray;
+
+                            //var wrapperBox = this.CreateWrapper(
+                            //                   simpleBox2,
+                            //                   simpleBox2.GetPrimaryRenderElement(rootgfx),
+                            //                   spec, true);
+
+                             
+                            //parentBox.AppendChild(wrapperBox);
+                            //return wrapperBox;
+
                         }
                     case "button":
                         {
@@ -68,8 +83,9 @@ namespace LayoutFarm.CustomWidgets
                             var wrapperBox = this.CreateWrapper(
                                 button,
                                 ui.GetPrimaryRenderElement(rootgfx),
-                                spec);
+                                spec, false);
 
+                            //LayoutFarm.HtmlBoxes.CssBox.ChangeDisplayType(wrapperBox, CssDisplay.InlineBlock);
                             //leanTextBox.AcceptKeyboardFocus = true;
                             parentBox.AppendChild(wrapperBox);
                             return wrapperBox;
@@ -83,7 +99,7 @@ namespace LayoutFarm.CustomWidgets
                             var wrapperBox = this.CreateWrapper(
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
-                                 spec);
+                                 spec, false);
 
                             //leanTextBox.AcceptKeyboardFocus = true;
                             parentBox.AppendChild(wrapperBox);
@@ -98,7 +114,8 @@ namespace LayoutFarm.CustomWidgets
             var wrapperBox2 = this.CreateWrapper(
                                simpleBox,
                                simpleBox.GetPrimaryRenderElement(rootgfx),
-                               spec);
+                               spec, false);
+
             parentBox.AppendChild(wrapperBox2);
             return wrapperBox2;
             //return leanBox;

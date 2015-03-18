@@ -873,11 +873,7 @@ namespace LayoutFarm.Text
                             {
                                 internalTextLayerController.EndSelectIfNoSelection();
                             }
-
-                            //----------------------------
-
-
-
+                             
                             Rectangle lineArea = internalTextLayerController.CurrentLineArea;
 
                             if (lineArea.Top < ViewportY)
@@ -888,9 +884,7 @@ namespace LayoutFarm.Text
                             {
                                 EnsureCaretVisible();
                                 InvalidateGraphicOfCurrentLineArea();
-                            }
-
-
+                            } 
                         }
                         else
                         {
@@ -902,14 +896,12 @@ namespace LayoutFarm.Text
                         return true;
                     }
                 case UIKeys.Tab:
-                    {
-
+                    { 
                         DoTab();
                         return true;
                     } 
                 default:
-                    {
-
+                    {   
                         return false;
                     }
             }

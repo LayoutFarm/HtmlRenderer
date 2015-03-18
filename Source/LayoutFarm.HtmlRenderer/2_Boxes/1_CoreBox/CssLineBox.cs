@@ -446,10 +446,8 @@ namespace LayoutFarm.HtmlBoxes
                 switch (w.Kind)
                 {
                     case CssRunKind.Image:
-                        {
-                            CssBoxImage owner = (CssBoxImage)w.OwnerBox;
-                            owner.PaintImage(p, new RectangleF(w.Left, w.Top, w.Width, w.Height));
-
+                        {   
+                            w.OwnerBox.Paint(p, new RectangleF(w.Left, w.Top, w.Width, w.Height));
                         } break;
                     case CssRunKind.BlockRun:
                         {

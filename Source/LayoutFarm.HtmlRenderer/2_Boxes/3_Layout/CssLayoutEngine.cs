@@ -221,7 +221,7 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             //has custom layout method
                             box.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock);
-                            ((CustomCssBox)box).CustomRecomputedValue(lay.LatestContainingBlock, lay.GraphicsPlatform);
+                            box.CustomRecomputedValue(lay.LatestContainingBlock, lay.GraphicsPlatform);
                         }
                         else
                         {
@@ -557,7 +557,7 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             //should not found here!
                             throw new NotSupportedException();
-                        } 
+                        }
 #endif
                         //go deeper  
                         //recursive ***

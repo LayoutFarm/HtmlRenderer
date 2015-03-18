@@ -104,6 +104,10 @@
       <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
       <Name>LayoutFarm.Composers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
+      <Project>{5164EC24-95C4-4333-BD4E-70EE625CCEB4}</Project>
+      <Name>LayoutFarm.CssBase</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj">
       <Project>{9D2A40BC-FA95-454D-AEF5-4DD9344BFDC3}</Project>
       <Name>LayoutFarm.HtmlRenderer</Name>

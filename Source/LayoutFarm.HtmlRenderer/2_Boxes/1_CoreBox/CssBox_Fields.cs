@@ -75,12 +75,12 @@ namespace LayoutFarm.HtmlBoxes
                 return this._aa_contentRuns != null ? this._aa_contentRuns.Count : 0;
             }
         }
-        internal CssBlockRun JustBlockRun
+        public CssBlockRun JustBlockRun
         {
             get { return this.justBlockRun; }
             set
             {
-                this.justBlockRun = value; 
+                this.justBlockRun = value;
             }
         }
         public IEnumerable<CssBox> GetChildBoxIter()
