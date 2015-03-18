@@ -62,28 +62,8 @@ namespace LayoutFarm.HtmlBoxes
             : base(controller, spec, root, display)
         {
         }
-        internal RenderElement GetParentRenderElement(out int globalX, out int globalY)
-        {
-            CssBox cbox = this;
-            globalX = 0;
-            globalY = 0;//reset
+        internal abstract RenderElement GetParentRenderElement(out int globalX, out int globalY);
 
-            while (cbox != null)
-            {
-                globalX += (int)cbox.LocalX;
-                globalY += (int)cbox.LocalY;
-                var renderRoot = cbox as LayoutFarm.Composers.CssRenderRoot;
-
-                if (renderRoot != null)
-                {
-                    this.wrapper.AdjustX = globalX;
-                    this.wrapper.AdjustY = globalY;
-                    return renderRoot.ContainerElement;
-                }
-                cbox = cbox.ParentBox;
-            }
-            return null;
-        }
     }
 
     sealed class WrapperInlineCssBox : WrapperCssBoxBase
@@ -164,6 +144,34 @@ namespace LayoutFarm.HtmlBoxes
             this.externalRun.Width = this.externalRun.RenderElement.Width;
             this.externalRun.Height = this.externalRun.RenderElement.Height;
         }
+
+
+
+        //---------------------------------------------------------------------------------------
+        internal override RenderElement GetParentRenderElement(out int globalX, out int globalY)
+        {
+            CssBox cbox = this;
+            //start 
+            globalX = (int)this.externalRun.Left;
+            globalY = (int)this.externalRun.Top;
+
+            while (cbox != null)
+            {
+                globalX += (int)cbox.LocalX;
+                globalY += (int)cbox.LocalY;
+                var renderRoot = cbox as LayoutFarm.Composers.CssRenderRoot;
+
+                if (renderRoot != null)
+                {
+                    //found root then stop
+                    this.wrapper.AdjustX = globalX;
+                    this.wrapper.AdjustY = globalY;
+                    return renderRoot.ContainerElement;
+                }
+                cbox = cbox.ParentBox;
+            }
+            return null;
+        }
     }
 
 
@@ -192,9 +200,11 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        protected override Point GetElementGlobalLocationImpl()
+        protected override CssBox GetElementGlobalLocationImpl(out float globalX, out  float globalY)
         {
-            return new Point(globalXForRenderElement, globalYForRenderElement);
+            globalX = globalXForRenderElement;
+            globalY = globalYForRenderElement;
+            return null;//             
         }
         public override bool CustomContentHitTest(float x, float y, CssBoxHitChain hitChain)
         {
@@ -237,6 +247,29 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
+        internal override RenderElement GetParentRenderElement(out int globalX, out int globalY)
+        {
+            CssBox cbox = this;
+            //start 
+            globalX = 0;
+            globalY = 0;
+
+            while (cbox != null)
+            {
+                globalX += (int)cbox.LocalX;
+                globalY += (int)cbox.LocalY;
+                var renderRoot = cbox as LayoutFarm.Composers.CssRenderRoot;
+
+                if (renderRoot != null)
+                {
+                    this.wrapper.AdjustX = globalX;
+                    this.wrapper.AdjustY = globalY;
+                    return renderRoot.ContainerElement;
+                }
+                cbox = cbox.ParentBox;
+            }
+            return null;
+        }
     }
 
 

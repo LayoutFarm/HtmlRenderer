@@ -776,23 +776,23 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        protected virtual Point GetElementGlobalLocationImpl()
+        protected virtual CssBox GetElementGlobalLocationImpl(out float globalX, out float globalY)
         {
-            int pos_left = (int)this._localX;
-            int pos_top = (int)this._localY;
-
+            globalX = this._localX;
+            globalY = this._localY;
+            CssBox foundRoot = null; 
             if (this.ParentBox != null)
             {
-                Point pp = this.ParentBox.GetElementGlobalLocation();
-                pos_left += pp.X;
-                pos_top += pp.Y;
+                float p_left, p_top;
+                foundRoot = this.ParentBox.GetElementGlobalLocation(out p_left, out p_top);
+                globalX += p_left;
+                globalY += p_top;                 
             }
-
-            return new Point(pos_left, pos_top);
+            return foundRoot;             
         }
-        public Point GetElementGlobalLocation()
+        public CssBox GetElementGlobalLocation(out float globalX, out float globalY)
         {
-            return this.GetElementGlobalLocationImpl();
+            return this.GetElementGlobalLocationImpl(out globalX, out globalY);
         }
 
         //-----------

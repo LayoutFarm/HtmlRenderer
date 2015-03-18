@@ -22,7 +22,7 @@ namespace LayoutFarm.Composers
             this.htmlHost = htmlHost;
 
         }
-         
+
         static CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
         {
             string imgsrc;
@@ -271,7 +271,7 @@ namespace LayoutFarm.Composers
                         alreadyHandleChildrenNodes = true;
                         return newBox;
                     }
-                    
+
                     goto default;
                 case WellKnownDomNodeName.img:
                     return CreateImageBox(parentBox, childElement);
@@ -395,9 +395,12 @@ namespace LayoutFarm.Composers
         {
             get { return this.containerElement; }
         }
-        protected override Point GetElementGlobalLocationImpl()
+        protected override CssBox GetElementGlobalLocationImpl(out float globalX, out float globalY)
         {
-            return containerElement.GetGlobalLocation();
+            Point p = containerElement.GetGlobalLocation();
+            globalX = p.X;
+            globalY = p.Y;
+            return this; 
         }
     }
     class CssIsolateBox : CssBox
