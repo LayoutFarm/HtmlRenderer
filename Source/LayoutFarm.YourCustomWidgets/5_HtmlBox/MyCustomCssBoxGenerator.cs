@@ -35,30 +35,31 @@ namespace LayoutFarm.CustomWidgets
                 {
                     case "text":
                         {
-                            //user can specific width of textbox
-                            //var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
-                            ////create wrapper CssBox 
-                            //var wrapperBox = this.CreateWrapper(
-                            //     textbox,
-                            //     textbox.GetPrimaryRenderElement(rootgfx),
-                            //     spec, true);
+                           // user can specific width of textbox
 
-                            ////LayoutFarm.HtmlBoxes.CssBox.ChangeDisplayType(wrapperBox, CssDisplay.InlineBlock);
-                            ////leanTextBox.AcceptKeyboardFocus = true;
-                            //parentBox.AppendChild(wrapperBox);
-                            //return wrapperBox;
-
-                            var simpleBox2 = new LayoutFarm.CustomWidgets.EaseBox(100, 20);
-                            simpleBox2.BackColor = PixelFarm.Drawing.Color.LightGray;
-
+                            var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
+                            //create wrapper CssBox 
                             var wrapperBox = this.CreateWrapper(
-                                               simpleBox2,
-                                               simpleBox2.GetPrimaryRenderElement(rootgfx),
-                                               spec, true);
+                                 textbox,
+                                 textbox.GetPrimaryRenderElement(rootgfx),
+                                 spec, true);
 
-                             
+                            //LayoutFarm.HtmlBoxes.CssBox.ChangeDisplayType(wrapperBox, CssDisplay.InlineBlock);
+                            //leanTextBox.AcceptKeyboardFocus = true;
                             parentBox.AppendChild(wrapperBox);
                             return wrapperBox;
+
+                            //var simpleBox2 = new LayoutFarm.CustomWidgets.EaseBox(100, 20);
+                            //simpleBox2.BackColor = PixelFarm.Drawing.Color.LightGray;
+
+                            //var wrapperBox = this.CreateWrapper(
+                            //                   simpleBox2,
+                            //                   simpleBox2.GetPrimaryRenderElement(rootgfx),
+                            //                   spec, true);
+
+                             
+                            //parentBox.AppendChild(wrapperBox);
+                            //return wrapperBox;
 
                         }
                     case "button":

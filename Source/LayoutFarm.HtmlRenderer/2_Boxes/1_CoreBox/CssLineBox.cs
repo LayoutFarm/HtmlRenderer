@@ -447,7 +447,7 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     case CssRunKind.Image:
                         {   
-                            w.OwnerBox.Paint2(p, new RectangleF(w.Left, w.Top, w.Width, w.Height));
+                            w.OwnerBox.Paint(p, new RectangleF(w.Left, w.Top, w.Width, w.Height));
                         } break;
                     case CssRunKind.BlockRun:
                         {

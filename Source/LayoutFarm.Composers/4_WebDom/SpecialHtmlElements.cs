@@ -26,7 +26,7 @@ namespace LayoutFarm.WebDom
     sealed class ExternalHtmlElement : HtmlElement
     {
         LazyCssBoxCreator lazyCreator;
-        RenderElementWrapperCssBox wrapper;
+        WrapperBlockCssBox wrapper;
         public ExternalHtmlElement(HtmlDocument owner, int prefix, int localNameIndex, LazyCssBoxCreator lazyCreator)
             : base(owner, prefix, localNameIndex)
         {
@@ -38,7 +38,7 @@ namespace LayoutFarm.WebDom
             RenderElement re;
             object controller;
             lazyCreator(rootgfx, out re, out controller);
-            return wrapper = new RenderElementWrapperCssBox(controller, this.Spec, re);
+            return wrapper = new WrapperBlockCssBox(controller, this.Spec, re);
         }
 
     }

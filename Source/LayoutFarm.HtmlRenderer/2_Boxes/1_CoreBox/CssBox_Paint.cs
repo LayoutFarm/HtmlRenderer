@@ -391,7 +391,7 @@ namespace LayoutFarm.HtmlBoxes
             g.StrokeColor = prevColor;
         }
 
-        public virtual void Paint2(PaintVisitor p, RectangleF r)
+        public virtual void Paint(PaintVisitor p, RectangleF r)
         {
 
         }

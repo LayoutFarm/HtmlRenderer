@@ -11,87 +11,34 @@ using LayoutFarm;
 using LayoutFarm.Css;
 using LayoutFarm.ContentManagers;
 using LayoutFarm.Composers;
-
-
 namespace LayoutFarm.HtmlBoxes
 {
+    using SpecialInternalWrappers;
 
-    /// <summary>
-    /// Represents a word inside an inline box
-    /// </summary>
+
     sealed class CssExternalRun : CssRun
     {
 
         RenderElement externalRenderE;
-        /// <summary>
-        /// the image rectange restriction as returned from image load event
-        /// </summary>
-        Rectangle _imageRectangle;
-        /// <summary>
-        /// Creates a new BoxWord which represents an image
-        /// </summary>
-        /// <param name="owner">the CSS box owner of the word</param>
+        Rectangle renderElementRect;
         public CssExternalRun(RenderElement externalRenderE)
-            : base(CssRunKind.Image)
+            : base(CssRunKind.Image) //act as image run****
         {
+            //in this version we make it as as image run
             this.externalRenderE = externalRenderE;
         }
-        /// <summary>
-        /// Gets the image this words represents (if one exists)
-        /// </summary>
-        RenderElement ExternalRenderE
-        {
-            get
-            {
-                return this.externalRenderE;
-            }
-        }
-        public int OriginalImageWidth
-        {
-            get
-            {
-                return this.externalRenderE.Width;
-                //var img = this.Image;
-                //if (img != null)
-                //{
-                //    return img.Width;
-                //}
-                //return 1; //default image width
-            }
-        }
-        public int OriginalImageHeight
-        {
-            get
-            {
-                return this.externalRenderE.Height;
-            }
-        }
-        public bool HasUserImageContent
-        {
-            get
-            {
-                return this.externalRenderE != null;
-            }
-        }
-
         public RenderElement RenderElement
         {
             get { return this.externalRenderE; }
-            set
-            {
-
-                this.externalRenderE = value;
-            }
         }
         /// <summary>
         /// the image rectange restriction as returned from image load event
         /// </summary>
-        public Rectangle ImageRectangle
+        public Rectangle ExternalRunRect
         {
-            get { return _imageRectangle; }
-            set { _imageRectangle = value; }
+            get { return renderElementRect; }
+            set { renderElementRect = value; }
         }
-
 
 #if DEBUG
         /// <summary>
@@ -100,46 +47,86 @@ namespace LayoutFarm.HtmlBoxes
         /// <returns></returns>
         public override string ToString()
         {
-            return "Image";
+            return "extRun";
         }
 #endif
     }
-
-    /// <summary>
-    /// replace element for extrernal
-    /// </summary>
-    class CssBoxInlineExternal : CssBox
+    abstract class WrapperCssBoxBase : CssBox
     {
-        CssExternalRun _imgRun;
-        /// <summary>
-        /// Init.
-        /// </summary>
-        /// <param name="parent">the parent box of this box</param>
-        /// <param name="controller">the html tag data of this box</param>
-        public CssBoxInlineExternal(object controller, Css.BoxSpec boxSpec,
-            IRootGraphics rootgfx, RenderElement re)
-            : base(controller, boxSpec, rootgfx)
+        protected int globalXForRenderElement;
+        protected int globalYForRenderElement;
+        protected CssBoxWrapperRenderElement wrapper;
+        public WrapperCssBoxBase(object controller,
+             BoxSpec spec,
+             RootGraphic root, CssDisplay display)
+            : base(controller, spec, root, display)
         {
+        }
+        internal RenderElement GetParentRenderElement(out int globalX, out int globalY)
+        {
+            CssBox cbox = this;
+            globalX = 0;
+            globalY = 0;//reset
 
-            this._imgRun = new CssExternalRun(re);
-            this._imgRun.SetOwner(this);
+            while (cbox != null)
+            {
+                globalX += (int)cbox.LocalX;
+                globalY += (int)cbox.LocalY;
+                var renderRoot = cbox as LayoutFarm.Composers.CssRenderRoot;
+
+                if (renderRoot != null)
+                {
+                    this.wrapper.AdjustX = globalX;
+                    this.wrapper.AdjustY = globalY;
+                    return renderRoot.ContainerElement;
+                }
+                cbox = cbox.ParentBox;
+            }
+            return null;
+        }
+    }
+
+    sealed class WrapperInlineCssBox : WrapperCssBoxBase
+    {
+
+
+        CssExternalRun externalRun;
+        public WrapperInlineCssBox(object controller, Css.BoxSpec boxSpec,
+            IRootGraphics rootgfx, RenderElement re)
+            : base(controller, boxSpec, re.Root, CssDisplay.Inline)
+        {
+            int w = re.Width;
+            int h = re.Height;
+            wrapper = new CssBoxWrapperRenderElement(re.Root, w, h, re);
+            ChangeDisplayType(this, CssDisplay.Inline);
+
+            this.externalRun = new CssExternalRun(wrapper);
+            this.externalRun.SetOwner(this);
 
             var runlist = new List<CssRun>(1);
-            runlist.Add(_imgRun);
+            runlist.Add(externalRun);
             CssBox.UnsafeSetContentRuns(this, runlist, false);
             ChangeDisplayType(this, Css.CssDisplay.Inline);
+            //--------------------------------------------------- 
 
+            LayoutFarm.RenderElement.SetParentLink(
+            wrapper,
+             new RenderBoxWrapperLink(this));
+
+            LayoutFarm.RenderElement.SetParentLink(
+                re,
+                new RenderBoxWrapperLink2(wrapper));
         }
         public override void Clear()
         {
             base.Clear();
 
             var runlist = new List<CssRun>(1);
-            runlist.Add(_imgRun);
+            runlist.Add(externalRun);
             CssBox.UnsafeSetContentRuns(this, runlist, false);
 
         }
-        public override void Paint2(PaintVisitor p, RectangleF r)
+        public override void Paint(PaintVisitor p, RectangleF r)
         {
             var updateArea = new Rectangle((int)r.Left, (int)r.Top, (int)r.Width, (int)r.Height);
             int x = (int)updateArea.Left;
@@ -147,7 +134,7 @@ namespace LayoutFarm.HtmlBoxes
             var canvasPage = p.InnerCanvas;
             canvasPage.OffsetCanvasOrigin(x, y);
             updateArea.Offset(-x, -y);
-            _imgRun.RenderElement.DrawToThisCanvas(canvasPage, updateArea);
+            externalRun.RenderElement.DrawToThisCanvas(canvasPage, updateArea);
 
             canvasPage.OffsetCanvasOrigin(-x, -y);
 
@@ -157,29 +144,16 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return _imgRun.RenderElement;
-            }
-            set
-            {
-                this._imgRun.RenderElement = value;
+                return externalRun.RenderElement;
             }
         }
-        /// <summary>
-        /// Paints the fragment
-        /// </summary>
-        /// <param name="g">the device to draw to</param>
+
         protected override void PaintImp(PaintVisitor p)
         {
-            // load image iff it is in visible rectangle  
-            //1. single image can't be splited  
-
-            Paint2(p, new RectangleF(0, 0, this.SizeWidth, this.SizeHeight));
+            Paint(p, new RectangleF(0, 0, this.SizeWidth, this.SizeHeight));
         }
 
-        /// <summary>
-        /// Assigns words its width and height
-        /// </summary>
-        /// <param name="g">the device to use</param>
+
         public override void MeasureRunsSize(LayoutVisitor lay)
         {
             if (this.RunSizeMeasurePass)
@@ -187,55 +161,37 @@ namespace LayoutFarm.HtmlBoxes
                 return;
             }
             this.RunSizeMeasurePass = true;
-            this._imgRun.Width = this._imgRun.RenderElement.Width;
-            this._imgRun.Height = this._imgRun.RenderElement.Height;
-
+            this.externalRun.Width = this.externalRun.RenderElement.Width;
+            this.externalRun.Height = this.externalRun.RenderElement.Height;
         }
     }
 
-    sealed class RenderElementWrapperCssBox : CssBox
+
+    sealed class WrapperBlockCssBox : WrapperCssBoxBase
     {
-        CssBoxWrapperRenderElement wrapper;
-        int globalXForRenderElement;
-        int globalYForRenderElement;
-        public RenderElementWrapperCssBox(object controller,
+
+        public WrapperBlockCssBox(object controller,
              BoxSpec spec,
              RenderElement renderElement)
             : base(controller, spec, renderElement.Root, CssDisplay.Block)
         {
             SetAsCustomCssBox(this);
-            int mmw = renderElement.Width;
-            int mmh = renderElement.Height;
-
-            this.wrapper = new CssBoxWrapperRenderElement(renderElement.Root, mmw, mmh, renderElement);
+            int w = renderElement.Width;
+            int h = renderElement.Height;
+            this.wrapper = new CssBoxWrapperRenderElement(renderElement.Root, w, h, renderElement);
             ChangeDisplayType(this, CssDisplay.Block);
 
-            this.SetSize(mmw, mmh);
-
+            this.SetSize(w, h);
             LayoutFarm.RenderElement.SetParentLink(
              wrapper,
              new RenderBoxWrapperLink(this));
-
             LayoutFarm.RenderElement.SetParentLink(
                 renderElement,
                 new RenderBoxWrapperLink2(wrapper));
+
         }
 
-        //public override void MeasureRunsSize(LayoutVisitor lay)
-        //{
 
-        //    if (this.RunSizeMeasurePass)
-        //    {
-        //        return;
-        //    } 
-        //    this.RunSizeMeasurePass = true;
-        //    if (_blockRun != null)
-        //    {
-        //        _blockRun.Height = 20;
-        //        _blockRun.Width = 200;
-        //    }
-
-        //}
         protected override Point GetElementGlobalLocationImpl()
         {
             return new Point(globalXForRenderElement, globalYForRenderElement);
@@ -262,16 +218,17 @@ namespace LayoutFarm.HtmlBoxes
             }
 
         }
+
         protected override void PaintImp(PaintVisitor p)
         {
             if (wrapper != null)
             {
 
                 GetParentRenderElement(out this.globalXForRenderElement, out this.globalYForRenderElement);
-
                 Rectangle rect = new Rectangle(0, 0, wrapper.Width, wrapper.Height);
                 this.wrapper.DrawToThisCanvas(p.InnerCanvas, rect);
                 p.FillRectangle(Color.Red, 0, 0, 10, 10);
+
             }
             else
             {
@@ -280,32 +237,17 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-
-        RenderElement GetParentRenderElement(out int globalX, out int globalY)
-        {
-            CssBox cbox = this;
-            globalX = 0;
-            globalY = 0;//reset
-
-            while (cbox != null)
-            {
-                globalX += (int)cbox.LocalX;
-                globalY += (int)cbox.LocalY;
-                var renderRoot = cbox as LayoutFarm.Composers.CssRenderRoot;
-
-                if (renderRoot != null)
-                {
-                    this.wrapper.AdjustX = globalX;
-                    this.wrapper.AdjustY = globalY;
-                    return renderRoot.ContainerElement;
-                }
-                cbox = cbox.ParentBox;
-            }
-            return null;
-        }
+    }
 
 
+    //-----------------------------------------
 
+    namespace SpecialInternalWrappers
+    {
+
+        /// <summary>
+        /// special render element that bind RenderElement and CssBox
+        /// </summary>
         class CssBoxWrapperRenderElement : RenderElement
         {
             RenderElement renderElement;
@@ -355,16 +297,13 @@ namespace LayoutFarm.HtmlBoxes
 
             public override void CustomDrawToThisCanvas(Canvas canvasPage, Rectangle updateArea)
             {
-                //int x = this.adjustX;
-                //int y = this.adjustY;
                 renderElement.CustomDrawToThisCanvas(canvasPage, updateArea);
-
             }
         }
         class RenderBoxWrapperLink : LayoutFarm.RenderBoxes.IParentLink
         {
-            RenderElementWrapperCssBox box;
-            public RenderBoxWrapperLink(RenderElementWrapperCssBox box)
+            WrapperCssBoxBase box;
+            public RenderBoxWrapperLink(WrapperCssBoxBase box)
             {
                 this.box = box;
             }

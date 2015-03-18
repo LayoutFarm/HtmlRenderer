@@ -68,7 +68,7 @@ namespace LayoutFarm.HtmlBoxes
 
             }
         }
-        public override void Paint2(PaintVisitor p, RectangleF rect)
+        public override void Paint(PaintVisitor p, RectangleF rect)
         {
             PaintBackground(p, rect, true, true);
 
@@ -154,7 +154,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             // load image iff it is in visible rectangle  
             //1. single image can't be splited  
-            Paint2(p, new RectangleF(0, 0, this.SizeWidth, this.SizeHeight));
+            Paint(p, new RectangleF(0, 0, this.SizeWidth, this.SizeHeight));
         }
 
         /// <summary>
