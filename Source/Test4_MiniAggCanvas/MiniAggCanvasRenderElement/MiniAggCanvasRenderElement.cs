@@ -14,14 +14,15 @@ using PixelFarm.Agg;
 namespace LayoutFarm.CustomWidgets
 {
 
-    //expose MiniAggCanvas
+   
     public class MiniAggCanvasRenderElement : RenderBoxBase, IDisposable
     {
 
 
-        Graphics2D gfx2d;
-        PixelFarm.Agg.LionFillSprite lionFill;
-        bool needUpdate;
+        Graphics2D gfx2d; 
+        bool needUpdate; 
+        List<BasicSprite> sprites = new List<BasicSprite>();
+
         ActualImage actualImage;
         Bitmap bmp;
         System.Drawing.Bitmap currentGdiPlusBmp;
@@ -31,7 +32,6 @@ namespace LayoutFarm.CustomWidgets
         {
             this.actualImage = new ActualImage(width, height, PixelFarm.Agg.Image.PixelFormat.Rgba32);
             this.gfx2d = Graphics2D.CreateFromImage(actualImage);
-            lionFill = new LionFillSprite();
             needUpdate = true;
 
         }
@@ -43,6 +43,13 @@ namespace LayoutFarm.CustomWidgets
         {
             get;
             set;
+        }
+
+        public void AddSprite(BasicSprite sprite)
+        {
+            this.sprites.Add(sprite);
+            needUpdate = true;
+
         }
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
@@ -62,8 +69,14 @@ namespace LayoutFarm.CustomWidgets
                 //default bg => transparent !,
 
                 //gfx2d.Clear(ColorRGBA.White);//if want opaque bg
+                ReleaseUnmanagedResources();
 
-                lionFill.OnDraw(gfx2d);
+                int j = sprites.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    sprites[i].OnDraw(gfx2d);
+                }
+                 
                 //---------------------------------
                 var buffer = actualImage.GetBuffer();
                 if (currentGdiPlusBmp != null)
@@ -89,7 +102,7 @@ namespace LayoutFarm.CustomWidgets
 #endif
         }
 
-        void IDisposable.Dispose()
+        void ReleaseUnmanagedResources()
         {
             //-------------------------
             //TODO: review this again 
@@ -106,6 +119,10 @@ namespace LayoutFarm.CustomWidgets
                 currentGdiPlusBmp = null;
             }
         }
+        void IDisposable.Dispose()
+        {
+            ReleaseUnmanagedResources();
+        }
 
         static void CopyFromAggActualImageToGdiPlusBitmap(ActualImage aggActualImage, System.Drawing.Bitmap bitmap)
         {
@@ -120,6 +137,9 @@ namespace LayoutFarm.CustomWidgets
 
             bitmap.UnlockBits(bmpdata);
         }
+
+
+        
     }
 
 
