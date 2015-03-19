@@ -19,6 +19,7 @@ namespace LayoutFarm.CustomWidgets
     {
 
 
+<<<<<<< HEAD
  
         Graphics2D gfx2d;
 
@@ -28,6 +29,10 @@ namespace LayoutFarm.CustomWidgets
         Graphics2D gfx2d; 
         bool needUpdate; 
  
+=======
+        Graphics2D gfx2d; 
+        bool needUpdate; 
+>>>>>>> v_dev
         List<BasicSprite> sprites = new List<BasicSprite>();
 
         ActualImage actualImage;
