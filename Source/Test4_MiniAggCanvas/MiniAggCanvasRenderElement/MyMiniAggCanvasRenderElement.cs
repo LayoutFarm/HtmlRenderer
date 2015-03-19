@@ -14,20 +14,18 @@ using PixelFarm.Agg;
 namespace LayoutFarm.CustomWidgets
 {
 
-   
-    public class MiniAggCanvasRenderElement : RenderBoxBase, IDisposable
+
+    public class MyMiniAggCanvasRenderElement : RenderBoxBase, IDisposable
     {
 
 
-        Graphics2D gfx2d; 
-        bool needUpdate; 
+        Graphics2D gfx2d;
+        bool needUpdate;
         List<BasicSprite> sprites = new List<BasicSprite>();
 
         ActualImage actualImage;
         Bitmap bmp;
-        System.Drawing.Bitmap currentGdiPlusBmp;
-
-        public MiniAggCanvasRenderElement(RootGraphic rootgfx, int width, int height)
+        public MyMiniAggCanvasRenderElement(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
             this.actualImage = new ActualImage(width, height, PixelFarm.Agg.Image.PixelFormat.Rgba32);
@@ -76,18 +74,10 @@ namespace LayoutFarm.CustomWidgets
                 {
                     sprites[i].OnDraw(gfx2d);
                 }
-                 
+
                 //---------------------------------
                 var buffer = actualImage.GetBuffer();
-                if (currentGdiPlusBmp != null)
-                {
-                    this.currentGdiPlusBmp.Dispose();
-                }
-
-                this.currentGdiPlusBmp = new System.Drawing.Bitmap(this.Width, this.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                CopyFromAggActualImageToGdiPlusBitmap(this.actualImage, this.currentGdiPlusBmp);
-                this.currentGdiPlusBmp.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipY);
-                this.bmp = new Bitmap(this.Width, this.Height, currentGdiPlusBmp);
+                this.bmp = canvas.Platform.CreatePlatformBitmap(this.Width, this.Height, this.actualImage.GetBuffer(), true);
 
                 needUpdate = false;
             }
@@ -113,33 +103,33 @@ namespace LayoutFarm.CustomWidgets
                 bmp.Dispose();
                 bmp = null;
             }
-            if (currentGdiPlusBmp != null)
-            {
-                currentGdiPlusBmp.Dispose();
-                currentGdiPlusBmp = null;
-            }
+            //if (currentGdiPlusBmp != null)
+            //{
+            //    currentGdiPlusBmp.Dispose();
+            //    currentGdiPlusBmp = null;
+            //}
         }
         void IDisposable.Dispose()
         {
             ReleaseUnmanagedResources();
         }
 
-        static void CopyFromAggActualImageToGdiPlusBitmap(ActualImage aggActualImage, System.Drawing.Bitmap bitmap)
-        {
-            //platform specific
-            var bmpdata = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
-                 System.Drawing.Imaging.ImageLockMode.ReadOnly,
-                 System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+        //static void CopyFromAggActualImageToGdiPlusBitmap(ActualImage aggActualImage, System.Drawing.Bitmap bitmap)
+        //{
+        //    //platform specific
+        //    var bmpdata = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
+        //         System.Drawing.Imaging.ImageLockMode.ReadOnly,
+        //         System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-            var aggBuffer = aggActualImage.GetBuffer();
-            System.Runtime.InteropServices.Marshal.Copy(aggBuffer, 0,
-                bmpdata.Scan0, aggBuffer.Length);
+        //    var aggBuffer = aggActualImage.GetBuffer();
+        //    System.Runtime.InteropServices.Marshal.Copy(aggBuffer, 0,
+        //        bmpdata.Scan0, aggBuffer.Length);
 
-            bitmap.UnlockBits(bmpdata);
-        }
+        //    bitmap.UnlockBits(bmpdata);
+        //}
 
 
-        
+
     }
 
 
