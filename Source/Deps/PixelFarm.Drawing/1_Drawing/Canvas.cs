@@ -123,6 +123,10 @@ namespace PixelFarm.Drawing
             this.OffsetCanvasOrigin(0, dy);
         }
         //-------------------------------------------------------  
+        public void Dispose()
+        {
+
+        }
         //for debug
         public int Note1
         {
