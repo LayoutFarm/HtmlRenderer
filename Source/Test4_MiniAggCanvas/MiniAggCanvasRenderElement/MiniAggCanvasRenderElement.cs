@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,Apache2, WinterDev
+// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,15 +14,20 @@ using PixelFarm.Agg;
 namespace LayoutFarm.CustomWidgets
 {
 
-    //expose MiniAggCanvas
+   
     public class MiniAggCanvasRenderElement : RenderBoxBase, IDisposable
     {
 
 
+ 
         Graphics2D gfx2d;
 
         bool needUpdate;
 
+ 
+        Graphics2D gfx2d; 
+        bool needUpdate; 
+ 
         List<BasicSprite> sprites = new List<BasicSprite>();
 
         ActualImage actualImage;
@@ -139,6 +144,9 @@ namespace LayoutFarm.CustomWidgets
 
             bitmap.UnlockBits(bmpdata);
         }
+
+
+        
     }
 
 

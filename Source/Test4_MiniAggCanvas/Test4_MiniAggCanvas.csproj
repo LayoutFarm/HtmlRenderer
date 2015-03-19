@@ -14,7 +14,6 @@
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-     
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -43,6 +41,7 @@
     <Compile Include="AggSprite\LionSprite.cs" />
     <Compile Include="AggSprite\SpriteShape.cs" />
     <Compile Include="Demo\1.1_DemoAggCanvas_Lion.cs" />
+    <Compile Include="MiniAggCanvasRenderElement\MiniAggCanvasUIElement.cs" />
     <Compile Include="MiniAggCanvasRenderElement\MiniAggCanvasRenderElement.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
