@@ -15,7 +15,7 @@ namespace LayoutFarm.WebWidgets
 
         protected override void OnHtmlHostCreated()
         {
-
+        
             int boxHeight = 35;
             //-------------------------------------------------------------------
             int boxX = 0;

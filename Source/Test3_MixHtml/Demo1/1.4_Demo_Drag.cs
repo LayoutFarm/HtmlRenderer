@@ -9,7 +9,7 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
-    [DemoNote("1.5 DemoDrag")]
+    [DemoNote("1.4 DemoDrag")]
     class Demo_Drag : DemoBase
     {
         protected override void OnStartDemo(SampleViewport viewport)
