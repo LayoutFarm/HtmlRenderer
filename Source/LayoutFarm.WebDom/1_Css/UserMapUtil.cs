@@ -30,7 +30,8 @@ namespace LayoutFarm.WebDom
         img,
         [Map("input")]
         input,
-
+        [Map("canvas")]
+        canvas,
         [Map("div")]
         div,
         [Map("span")]

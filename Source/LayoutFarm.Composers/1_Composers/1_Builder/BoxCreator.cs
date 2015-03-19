@@ -262,6 +262,7 @@ namespace LayoutFarm.Composers
                     CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
                     return newBox;
+                case WellKnownDomNodeName.canvas:
                 case WellKnownDomNodeName.input:
 
                     //----------------------------------------------- 

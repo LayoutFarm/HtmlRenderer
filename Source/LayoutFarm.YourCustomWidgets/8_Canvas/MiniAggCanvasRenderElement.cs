@@ -57,8 +57,7 @@ namespace LayoutFarm.CustomWidgets
 
                 this.bmp = canvas.Platform.CreatePlatformBitmap(this.Width, this.Height, this.actualImage.GetBuffer(), false);
                 needUpdate = false;
-            }
-             
+            }             
             //canvas.FillRectangle(this.BackColor, 0, 0, this.Width, this.Height);
 
             if (bmp != null)

@@ -13,7 +13,8 @@ namespace LayoutFarm.CustomWidgets
     {
         int lastX, lastY;
         MiniAggCanvasRenderElement canvasRenderElement;
-        List<Point> pointList = new List<Point>();
+        List<Point> pointList = new List<Point>(); 
+
         public MiniAggCanvasBox(int w, int h)
             : base(w, h)
         {
@@ -45,11 +46,10 @@ namespace LayoutFarm.CustomWidgets
             }
             return canvasRenderElement;
         }
+
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
-            //test
-            //let down on this canva
-
+            //test only!!!         
             this.lastX = e.X;
             this.lastY = e.Y;
             canvasRenderElement.Painter.StrokeWidth = 1;
