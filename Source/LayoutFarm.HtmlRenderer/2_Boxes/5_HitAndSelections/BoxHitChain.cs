@@ -1,6 +1,6 @@
 ﻿//BSD 2014 ,WinterDev 
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -94,6 +94,7 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void PushContextBox(CssBox box)
         {
+            //TODO: review here 
             globalOffsetX += box.LocalX;
             globalOffsetY += box.LocalY;
         }
@@ -102,11 +103,12 @@ namespace LayoutFarm.HtmlBoxes
             globalOffsetX -= box.LocalX;
             globalOffsetY -= box.LocalY;
         }
-        public void AddHit(CssBox box, int x, int y)
+        internal void AddHit(CssBox box, int x, int y)
         {
             //position x,y relate with (0,0) of its box
             hitInfoList.Add(new HitInfo(box, x, y));
         }
+        
         internal void AddHit(CssLineBox lineBox, int x, int y)
         {
             //position x,y relate with (0,0) of its linebox
@@ -117,7 +119,7 @@ namespace LayoutFarm.HtmlBoxes
             //position x,y relate with (0,0) of its run
             hitInfoList.Add(new HitInfo(run, x, y));
         }
-       
+
         public HitInfo GetHitInfo(int index)
         {
             return this.hitInfoList[index];
@@ -134,7 +136,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return hitInfoList[j - 1];
             }
-        } 
+        }
         internal float GlobalOffsetX
         {
             get { return this.globalOffsetX; }
@@ -142,7 +144,7 @@ namespace LayoutFarm.HtmlBoxes
         internal float GlobalOffsetY
         {
             get { return this.globalOffsetY; }
-        } 
+        }
     }
 
     public enum HitObjectKind : byte

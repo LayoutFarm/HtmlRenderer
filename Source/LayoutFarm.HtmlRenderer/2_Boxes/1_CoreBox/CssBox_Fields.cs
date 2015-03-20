@@ -95,6 +95,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             return this._absPosLayer.GetChildBoxIter();
         }
+        public IEnumerable<CssBox> GetAbsoluteChildBoxBackwardIter()
+        {
+            return this._absPosLayer.GetChildBoxBackwardIter();
+        }
         internal CssBox GetNextNode()
         {
             if (_linkedNode != null && _linkedNode.Next != null)
@@ -173,15 +177,14 @@ namespace LayoutFarm.HtmlBoxes
             this._clientLineBoxes = null;
             this._aa_contentRuns = null;
             this._aa_boxes.Clear();
-        }
-
+        } 
         CssBox FindAncestorForAbsoluteBox()
-        {
-
+        {   
             var node = this;
             while (node.Position == Css.CssPosition.Static)
             {
-                if (node.IsBodyElement || node.ParentBox == null)
+
+                if (node.ParentBox == null)
                 {
                     return node;
                 }
@@ -196,12 +199,13 @@ namespace LayoutFarm.HtmlBoxes
         internal void AppendToAbsoluteLayer(CssBox box)
         {
             //find proper ancestor node for absolute position 
-
             if (this._absPosLayer == null)
             {
                 this._absPosLayer = new CssBoxCollection();
             }
             this._absPosLayer.AddChild(this, box);
+
+
         }
         //-------------------------------------
         internal void ResetLineBoxes()

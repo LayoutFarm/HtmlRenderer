@@ -76,12 +76,15 @@ namespace LayoutFarm.HtmlBoxes
         internal void UpdateRootSize(CssBox box)
         {
 
-            float candidateRootWidth = Math.Max(box.CalculateMinimumWidth(this.episodeId) + CalculateWidthMarginTotalUp(box),
-                         (box.SizeWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.SizeWidth : 0);
+            float candidateRootWidth = Math.Max(
+                box.CalculateMinimumWidth(this.episodeId) + CalculateWidthMarginTotalUp(box),
+                (box.SizeWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.SizeWidth : 0);
+            
 
             this.htmlContainer.UpdateSizeIfWiderOrHigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
-                this.ContainerBlockGlobalY + box.SizeHeight);
+                this.ContainerBlockGlobalY + box.SizeHeight); 
+            
         }
         /// <summary>
         /// Get the total margin value (left and right) from the given box to the given end box.<br/>

@@ -32,91 +32,39 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             //--------------------------------------
-            if (box.IsPointInArea(x, y))
+            float boxHitLocalX = x - box.LocalX;
+            float boxHitLocalY = y - box.LocalY;
+
+
+            bool isPointInArea = box.IsPointInArea(x, y);
+            //----------------------------------------------------------------------
+            if (isPointInArea)
             {
-                float boxHitLocalX = x - box.LocalX;
-                float boxHitLocalY = y - box.LocalY;
-
-                //int boxHitGlobalX = (int)(boxHitLocalX + hitChain.GlobalOffsetX);
-                //int boxHitGlobalY = (int)(boxHitLocalY + hitChain.GlobalOffsetY);
-
                 hitChain.AddHit(box, (int)boxHitLocalX, (int)boxHitLocalY);
-                hitChain.PushContextBox(box);
+            }
 
-                if (box.IsCustomCssBox)
+            //check absolute layer first ***
+            if (box.HasAbsoluteLayer)
+            {
+                hitChain.PushContextBox(box);
+                foreach (var absBox in box.GetAbsoluteChildBoxBackwardIter())
                 {
-                    //custom css box
-                    //return true= stop here
-                    if (box.CustomContentHitTest(x, y, hitChain))
+                    if (HitTest(absBox, boxHitLocalX, boxHitLocalY, hitChain))
                     {
+                        //found hit 
                         hitChain.PopContextBox(box);
                         return true;
                     }
-
                 }
-
-                if (box.LineBoxCount > 0)
-                {
-
-                    bool foundSomeLine = false;
-                    foreach (var lineBox in box.GetLineBoxIter())
-                    {
-                        //line box not overlap
-                        if (lineBox.HitTest(boxHitLocalX, boxHitLocalY))
-                        {
-                            foundSomeLine = true;
-                            float lineBoxLocalY = boxHitLocalY - lineBox.CachedLineTop;
-                            //2.
-                            hitChain.AddHit(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
-
-                            var foundRun = BoxHitUtils.GetCssRunOnLocation(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
-
-                            if (foundRun != null)
-                            {
-                                //3.
-                                hitChain.AddHit(foundRun, (int)(boxHitLocalX - foundRun.Left), (int)lineBoxLocalY);
-                                //4. go deeper for block run
-                                if (foundRun.Kind == CssRunKind.BlockRun)
-                                {   
-                                    HitTest(((CssBlockRun)foundRun).BlockBox, boxHitLocalX, boxHitLocalY, hitChain);
-                                }
-                            }
-                            //found line box
-                            hitChain.PopContextBox(box);
-                            return true;
-                        }
-                        else if (foundSomeLine)
-                        {
-                            return false;
-                        }
-                    }
-                }
-                else
-                {
-                    //iterate in child 
-                    foreach (var childBox in box.GetChildBoxIter())
-                    {
-                        if (HitTest(childBox, boxHitLocalX, boxHitLocalY, hitChain))
-                        {
-                            //recursive
-                            hitChain.PopContextBox(box);
-                            return true;
-                        }
-                    }
-                }
-
                 hitChain.PopContextBox(box);
-                return true;
             }
-            else
+            //----------------------------------------------------------------------
+            if (!isPointInArea)
             {
-
                 switch (box.CssDisplay)
                 {
-
                     case Css.CssDisplay.TableRow:
                         {
-
                             foreach (var childBox in box.GetChildBoxIter())
                             {
                                 if (HitTest(childBox, x, y, hitChain))
@@ -125,48 +73,77 @@ namespace LayoutFarm.HtmlBoxes
                                 }
                             }
                         } break;
-                    default:
-                        {
-                        } break;
                 }
-
+                //exit 
+                return false;
             }
-            return false;
-        }
+            //----------------------------------------------------------------------
+            //at here point is in the area*** 
 
-        //public static bool HitTestWithPreviousChainHint(CssBox box, float x, float y, CssBoxHitChain hitChain, CssBoxHitChain previousChain)
-        //{
-        //    if (previousChain != null)
-        //    {
-        //        int j = previousChain.Count;
-        //        for (int i = 0; i < j; ++i)
-        //        {
-        //            HitInfo hitInfo = previousChain.GetHitInfo(i);
-        //            switch (hitInfo.hitObjectKind)
-        //            {
-        //                case HitObjectKind.CssBox:
-        //                    {
+            hitChain.PushContextBox(box);
+            if (box.IsCustomCssBox)
+            {
+                //custom css box
+                //return true= stop here
+                if (box.CustomContentHitTest(x, y, hitChain))
+                {
+                    hitChain.PopContextBox(box);
+                    return true;
+                }
+            }
 
+            if (box.LineBoxCount > 0)
+            {
 
-        //                    } break;
-        //                case HitObjectKind.LineBox:
-        //                    {
-        //                    } break;
-        //                case HitObjectKind.Run:
-        //                    {
-        //                    } break;
-        //                default:
-        //                    {
-        //                        throw new NotSupportedException();
-        //                    }
-        //            }
+                bool foundSomeLine = false;
+                foreach (var lineBox in box.GetLineBoxIter())
+                {
+                    //line box not overlap
+                    if (lineBox.HitTest(boxHitLocalX, boxHitLocalY))
+                    {
+                        foundSomeLine = true;
+                        float lineBoxLocalY = boxHitLocalY - lineBox.CachedLineTop;
+                        //2.
+                        hitChain.AddHit(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
 
+                        var foundRun = BoxHitUtils.GetCssRunOnLocation(lineBox, (int)boxHitLocalX, (int)lineBoxLocalY);
 
-        //        }
-        //    }
-        //    return true;//
-        //}
-
+                        if (foundRun != null)
+                        {
+                            //3.
+                            hitChain.AddHit(foundRun, (int)(boxHitLocalX - foundRun.Left), (int)lineBoxLocalY);
+                            //4. go deeper for block run
+                            if (foundRun.Kind == CssRunKind.BlockRun)
+                            {
+                                HitTest(((CssBlockRun)foundRun).BlockBox, boxHitLocalX, boxHitLocalY, hitChain);
+                            }
+                        }
+                        //found line box
+                        hitChain.PopContextBox(box);
+                        return true;
+                    }
+                    else if (foundSomeLine)
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                //iterate in child 
+                foreach (var childBox in box.GetChildBoxIter())
+                {
+                    if (HitTest(childBox, boxHitLocalX, boxHitLocalY, hitChain))
+                    {
+                        //recursive
+                        hitChain.PopContextBox(box);
+                        return true;
+                    }
+                }
+            } 
+            hitChain.PopContextBox(box);
+            return true; 
+        } 
         internal static CssBox GetNextSibling(CssBox a)
         {
             return a.GetNextNode();
