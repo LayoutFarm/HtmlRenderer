@@ -1,4 +1,4 @@
-// 2015,2014 ,Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,30 +19,8 @@ namespace LayoutFarm.CustomWidgets
     {
 
 
-<<<<<<< HEAD:Source/Test4_MiniAggCanvas/MiniAggCanvasRenderElement/MyMiniAggCanvasRenderElement.cs
-<<<<<<< HEAD:Source/Test4_MiniAggCanvas/MiniAggCanvasRenderElement/MiniAggCanvasRenderElement.cs
-<<<<<<< HEAD
- 
-        Graphics2D gfx2d;
-
-        bool needUpdate;
-
- 
-        Graphics2D gfx2d; 
-        bool needUpdate; 
- 
-=======
-        Graphics2D gfx2d; 
-        bool needUpdate; 
->>>>>>> v_dev
-=======
         Graphics2D gfx2d;
         bool needUpdate;
->>>>>>> v_dev:Source/Test4_MiniAggCanvas/MiniAggCanvasRenderElement/MyMiniAggCanvasRenderElement.cs
-=======
-        Graphics2D gfx2d;
-        bool needUpdate;
->>>>>>> v_dev:Source/Test4_MiniAggCanvas/MiniAggCanvasRenderElement/MyMiniAggCanvasRenderElement.cs
         List<BasicSprite> sprites = new List<BasicSprite>();
 
         ActualImage actualImage;
