@@ -29,6 +29,10 @@ namespace LayoutFarm.HtmlBoxes
         float _sizeHeight;
         float _sizeWidth;
         //----------------------------------
+        //absolute layer width,height
+        float _absLayerWidth;
+        float _absLayerHeight;
+        //----------------------------------
 
         /// <summary>
         /// user's expected height
@@ -424,7 +428,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// Gets the actual height
         /// </summary>
-        public float ExpectedHeight
+        internal float ExpectedHeight
         {
             get
             {
@@ -440,9 +444,9 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         /// <summary>
-        /// Gets the actual height
+        /// Gets the actual width 
         /// </summary>
-        public float ExpectedWidth
+        internal float ExpectedWidth
         {
             get
             {
@@ -744,8 +748,6 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-
-
         public bool IsPointInArea(float x, float y)
         {
             //from parent view
@@ -780,19 +782,36 @@ namespace LayoutFarm.HtmlBoxes
         {
             globalX = this._localX;
             globalY = this._localY;
-            CssBox foundRoot = null; 
+            CssBox foundRoot = null;
             if (this.ParentBox != null)
             {
                 float p_left, p_top;
                 foundRoot = this.ParentBox.GetElementGlobalLocation(out p_left, out p_top);
                 globalX += p_left;
-                globalY += p_top;                 
+                globalY += p_top;
             }
-            return foundRoot;             
+            return foundRoot;
         }
         public CssBox GetElementGlobalLocation(out float globalX, out float globalY)
         {
             return this.GetElementGlobalLocationImpl(out globalX, out globalY);
+        }
+
+        /// <summary>
+        /// absolute layer width
+        /// </summary>
+        internal float AbsLayerWidth
+        {
+            get { return this._absLayerWidth; }
+            set { this._absLayerWidth = value; }
+        }
+        /// <summary>
+        /// absolute layer height
+        /// </summary>
+        internal float AbsLayerHeight
+        {
+            get { return this._absLayerHeight; }
+            set { this._absLayerHeight = value; }
         }
 
         //-----------

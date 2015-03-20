@@ -254,12 +254,7 @@ namespace LayoutFarm.Composers
             //some box has predefined behaviour
             switch (childElement.WellknownElementName)
             {
-                case WellKnownDomNodeName.body:
-                    newBox = new CssBox(childElement, childElement.Spec, parentBox.RootGfx);
-                    parentBox.AppendChild(newBox);
-                    CssBox.SetAsBodyBox(newBox);
-                    CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
-                    return newBox; 
+                
                 case WellKnownDomNodeName.br:
                     //special treatment for br
                     newBox = new CssBox(childElement, childElement.Spec, parentBox.RootGfx);

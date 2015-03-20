@@ -1,5 +1,6 @@
 // 2015,2014 ,BSD, WinterDev
 //ArthurHub  , Jose Manuel Menendez Poo
+
 // "Therefore those skilled at the unorthodox
 // are infinite as heaven and earth,
 // inexhaustible as the great rivers.
@@ -208,14 +209,14 @@ namespace LayoutFarm.HtmlBoxes
                         lay.LatestSiblingBox = currentLevelLatestSibling;
                         lay.PopContainingBlock();
 
+                        //TODO: check if this can have absolute layer?
+
                     } break;
                 default:
                     {
                         //formatting context for...
                         //1. line formatting context
-                        //2. block formatting context
-
-
+                        //2. block formatting context 
                         if (box.IsCustomCssBox)
                         {
                             //has custom layout method
@@ -237,7 +238,6 @@ namespace LayoutFarm.HtmlBoxes
                             if (box.HasAbsoluteLayer)
                             {
                                 LayoutContentInAbsoluteLayer(lay, box);
-
                             }
                         }
                     } break;
@@ -327,9 +327,6 @@ namespace LayoutFarm.HtmlBoxes
             {
                 hostBlock.SetHeight(hostBlock.ExpectedHeight);
             }
-
-
-
         }
         static void PerformLayoutBlocksContext(CssBox box, LayoutVisitor lay)
         {
@@ -436,8 +433,8 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
             box.SetHeight(box.GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock));
-        }
 
+        }
         static float CalculateActualWidth(CssBox box)
         {
             float maxRight = 0;
@@ -589,13 +586,16 @@ namespace LayoutFarm.HtmlBoxes
         static void LayoutContentInAbsoluteLayer(LayoutVisitor lay, CssBox srcBox)
         {
 
-            int childNumber = 0;
+
             var ifonts = lay.SampleIFonts;
 
             //css3 jan2015: absolute position
             //use offset relative to its normal the box's containing box***
 
             float containerW = lay.LatestContainingBlock.SizeWidth;
+
+            float maxRight = 0;
+            float maxBottom = 0;
 
             foreach (var b in srcBox.GetAbsoluteChildBoxIter())
             {
@@ -604,16 +604,28 @@ namespace LayoutFarm.HtmlBoxes
                     b.ReEvaluateComputedValues(ifonts, lay.LatestContainingBlock);
                 }
 
-
                 b.MeasureRunsSize(lay);
                 PerformContentLayout(b, lay);
-                childNumber++;
 
                 b.SetLocation(
                      CssValueParser.ConvertToPx(b.Left, containerW, b),
                      CssValueParser.ConvertToPx(b.Top, containerW, b));
+
+                var localRight = b.LocalRight;
+                var localBottom = b.LocalBottom;
+
+                if (maxRight < localRight)
+                {
+                    maxRight = localRight;
+                }
+                if (maxBottom < localBottom)
+                {
+                    maxBottom = localBottom;
+                }
             }
 
+            srcBox.AbsLayerWidth = maxRight;
+            srcBox.AbsLayerHeight = maxBottom;
         }
 
         static void FlowRunsIntoHost(LayoutVisitor lay,

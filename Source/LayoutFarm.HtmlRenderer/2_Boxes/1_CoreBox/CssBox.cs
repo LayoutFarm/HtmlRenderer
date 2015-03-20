@@ -135,13 +135,7 @@ namespace LayoutFarm.HtmlBoxes
                 return (this._boxCompactFlags & BoxFlags.IS_CUSTOM_CSSBOX) != 0;
             }
         }
-        public bool IsBodyElement
-        {
-            get
-            {
-                return (this._boxCompactFlags & BoxFlags.IS_BODY_BOX) != 0;
-            }
-        }
+        
         /// <summary>
         /// is the box "Display" is "Inline", is this is an inline box and not block.
         /// </summary>
@@ -449,10 +443,11 @@ namespace LayoutFarm.HtmlBoxes
 
                     } break;
             }
-            
+
             //set height  
             UpdateIfHigher(this, ExpectedHeight);
             //update back 
+
             lay.UpdateRootSize(this);
         }
 
