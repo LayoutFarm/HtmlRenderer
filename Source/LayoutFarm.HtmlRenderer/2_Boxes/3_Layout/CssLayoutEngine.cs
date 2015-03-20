@@ -237,7 +237,7 @@ namespace LayoutFarm.HtmlBoxes
                             if (box.HasAbsoluteLayer)
                             {
                                 LayoutContentInAbsoluteLayer(lay, box);
-                                 
+
                             }
                         }
                     } break;
@@ -573,16 +573,16 @@ namespace LayoutFarm.HtmlBoxes
 
                     cx += rightMostSpace;
                     childNumber++;
-                } 
-            } 
+                }
+            }
 
 
             if (srcBox.Position == CssPosition.Relative)
             {
                 //offset content relative to it 'flow' position'
                 var left = CssValueParser.ConvertToPx(srcBox.Left, hostBox.SizeWidth, srcBox);
-                var top = CssValueParser.ConvertToPx(srcBox.Left, hostBox.SizeWidth, srcBox); 
-                
+                var top = CssValueParser.ConvertToPx(srcBox.Top, hostBox.SizeWidth, srcBox);
+                srcBox.SetLocation(srcBox.LocalX + left, srcBox.LocalY + top);
             }
 
         }
