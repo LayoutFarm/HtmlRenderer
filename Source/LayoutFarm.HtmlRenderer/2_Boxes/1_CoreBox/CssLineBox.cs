@@ -477,6 +477,7 @@ namespace LayoutFarm.HtmlBoxes
                                 p.InnerCanvas.CurrentFont = latestOwner.ActualFont;
                                 p.InnerCanvas.CurrentTextColor = latestOwner.ActualColor;
                             }
+
                             CssTextRun textRun = (CssTextRun)w;
                             var wordPoint = new PointF(w.Left, w.Top);
                             p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),

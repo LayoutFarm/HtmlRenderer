@@ -168,11 +168,15 @@ namespace LayoutFarm.Composers
 
             //----------------------------------------------------------------  
             RootGraphic rootgfx = (containerElement != null) ? containerElement.Root : null;
+            
+            //TODO: review here, we should create cssbox at  document.body?
+
 
             CssBox rootBox = BoxCreator.CreateCssRenderRoot(this.htmlHost.GfxPlatform.SampleIFonts, containerElement, rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
 
             BoxCreator boxCreator = new BoxCreator((RootGraphic)rootBox.RootGfx, this.htmlHost);
+
             boxCreator.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
