@@ -3,7 +3,7 @@ using System.Text;
 using System;
 namespace PixelFarm.DrawingGL
 {
-    public class GLBitmapReference
+    public class GLBitmapReference : IDisposable
     {
         GLBitmap ownerBmp;
         public GLBitmapReference(GLBitmap ownerBmp, int x, int y, int w, int h)
@@ -13,6 +13,9 @@ namespace PixelFarm.DrawingGL
             this.Width = w;
             this.Height = h;
             this.ownerBmp = ownerBmp;
+        }
+        void IDisposable.Dispose()
+        {
 
         }
         public int Left { get; set; }

@@ -90,5 +90,9 @@ namespace PixelFarm.Drawing.DrawingGL
                 return this.sampleIFonts;
             }
         }
+        public override Bitmap CreatePlatformBitmap(int w, int h, byte[] rawBuffer, bool isBottomUp)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

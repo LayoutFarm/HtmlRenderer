@@ -22,6 +22,8 @@ namespace LayoutFarm.WebDom
         hr,
         [Map("br")]
         br,
+        [Map("body")]
+        body,
         [Map("style")]
         style,
         [Map("script")]
@@ -30,7 +32,8 @@ namespace LayoutFarm.WebDom
         img,
         [Map("input")]
         input,
-
+        [Map("canvas")]
+        canvas,
         [Map("div")]
         div,
         [Map("span")]

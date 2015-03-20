@@ -66,6 +66,14 @@ namespace LayoutFarm
                     }
                 };
             }
+            //-------------------------------------------------------------------
+            //test canvas
+            var canvasBox = new LayoutFarm.CustomWidgets.MiniAggCanvasBox(300, 300);
+            
+            canvasBox.SetLocation(400, 150);
+            viewport.AddContent(canvasBox);
+            //-------------------------------------------------------------------
+        
         }
         static void SetupImageList()
         {

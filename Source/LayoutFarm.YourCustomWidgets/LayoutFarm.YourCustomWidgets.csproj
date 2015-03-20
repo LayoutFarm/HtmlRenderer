@@ -83,11 +83,21 @@
     <Compile Include="5_HtmlBox\HtmlContainerHelper.cs" />
     <Compile Include="5_HtmlBox\HtmlBox.cs" />
     <Compile Include="6_InternalResourceMx\ResImageList.cs" />
+    <Compile Include="8_Canvas\MiniAggCanvasBox.cs" />
+    <Compile Include="8_Canvas\MiniAggCanvasRenderElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="5_HtmlBox\MyCustomCssBoxGenerator.cs" />
     <Compile Include="5_HtmlBox\HtmlHostContentManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deps\MiniAgg.Complements\MiniAgg.Complements.csproj">
+      <Project>{AE0DF71E-9B14-4197-B55A-E1E0CE0683C7}</Project>
+      <Name>MiniAgg.Complements</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\MiniAgg\MiniAgg.csproj">
+      <Project>{4D5CE655-58FA-4523-8E46-738B941E9E47}</Project>
+      <Name>MiniAgg</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing</Name>

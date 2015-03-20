@@ -254,24 +254,23 @@ namespace LayoutFarm.Composers
             //some box has predefined behaviour
             switch (childElement.WellknownElementName)
             {
+                
                 case WellKnownDomNodeName.br:
                     //special treatment for br
                     newBox = new CssBox(childElement, childElement.Spec, parentBox.RootGfx);
                     parentBox.AppendChild(newBox);
-
                     CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
                     return newBox;
+                case WellKnownDomNodeName.canvas:
                 case WellKnownDomNodeName.input:
-
                     //----------------------------------------------- 
                     newBox = this.htmlHost.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx);
                     if (newBox != null)
                     {
                         alreadyHandleChildrenNodes = true;
                         return newBox;
-                    }
-
+                    } 
                     goto default;
                 case WellKnownDomNodeName.img:
                     return CreateImageBox(parentBox, childElement);
@@ -318,7 +317,6 @@ namespace LayoutFarm.Composers
                                 parentBox.AppendChild(newBox);
                                 return newBox;
                             }
-
                         }
                         //----------------------------------------------- 
                         newBox = this.htmlHost.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx);
@@ -400,7 +398,7 @@ namespace LayoutFarm.Composers
             Point p = containerElement.GetGlobalLocation();
             globalX = p.X;
             globalY = p.Y;
-            return this; 
+            return this;
         }
     }
     class CssIsolateBox : CssBox

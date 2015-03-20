@@ -45,7 +45,7 @@ namespace PixelFarm.Drawing.WinGdi
             return new MyGdiPlusCanvas(this,
                 platformCanvas as System.Drawing.Graphics,
                 left,
-                top, 
+                top,
                 width,
                 height);
         }
@@ -65,6 +65,29 @@ namespace PixelFarm.Drawing.WinGdi
                 }
                 return this.sampleIFonts;
             }
+        }
+        public override Bitmap CreatePlatformBitmap(int w, int h, byte[] rawBuffer, bool isBottomUp)
+        {
+            //create platform bitmap
+            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(w, h,
+                System.Drawing.Imaging.PixelFormat.Format32bppArgb); 
+            CopyFromAggActualImageToGdiPlusBitmap(rawBuffer, bmp);
+            if (isBottomUp)
+            {
+                bmp.RotateFlip(System.Drawing.RotateFlipType.RotateNoneFlipY);
+            }
+            return new Bitmap(w, h, bmp);
+        }
+        static void CopyFromAggActualImageToGdiPlusBitmap(byte[] rawBuffer, System.Drawing.Bitmap bitmap)
+        {
+            //platform specific
+            var bmpdata = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                 System.Drawing.Imaging.ImageLockMode.ReadOnly,
+                 System.Drawing.Imaging.PixelFormat.Format32bppArgb); 
+            System.Runtime.InteropServices.Marshal.Copy(rawBuffer, 0,
+                bmpdata.Scan0, rawBuffer.Length);
+
+            bitmap.UnlockBits(bmpdata);
         }
     }
 }

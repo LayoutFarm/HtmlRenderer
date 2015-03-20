@@ -12,7 +12,7 @@ namespace LayoutFarm.Composers
     public abstract class CustomCssBoxGenerator
     {
         protected abstract HtmlHost MyHost { get; }
-        public abstract CssBox CreateCssBox(object tag, CssBox parentBox, BoxSpec spec, LayoutFarm.RootGraphic rootgfx);
+        public abstract CssBox CreateCssBox(LayoutFarm.WebDom.DomElement tag, CssBox parentBox, BoxSpec spec, LayoutFarm.RootGraphic rootgfx);
 
         public CssBox CreateWrapper(object owner, RenderElement renderElement, BoxSpec spec, bool isInline)
         {

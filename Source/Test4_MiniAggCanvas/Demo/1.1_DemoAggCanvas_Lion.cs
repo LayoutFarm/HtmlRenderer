@@ -19,7 +19,7 @@ namespace LayoutFarm
             bgRenderBox.BackColor = Color.LightGray;
             viewport.AddContent(bgRenderBox);
             //---------------------------------------------------------------------
-            var miniAggg = new MiniAggCanvasRenderElement(viewport.Root, 400, 600);
+            var miniAggg = new MyMiniAggCanvasRenderElement(viewport.Root, 400, 600);
 
             var lionFill = new PixelFarm.Agg.LionFillSprite();
             miniAggg.AddSprite(lionFill);
