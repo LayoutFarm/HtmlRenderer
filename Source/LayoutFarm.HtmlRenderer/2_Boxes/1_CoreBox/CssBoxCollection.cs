@@ -9,7 +9,6 @@ namespace LayoutFarm.HtmlBoxes
 
     class CssBoxCollection
     {
-
         LinkedList<CssBox> _boxes = new LinkedList<CssBox>();
         public CssBoxCollection()
         {
@@ -142,9 +141,7 @@ namespace LayoutFarm.HtmlBoxes
                         return null;//not found                         
                     }
             }
-        }
-
-
+        } 
 
         public void dbugChangeSiblingIndex(CssBox owner, CssBox box, int newIndex)
         {
@@ -159,5 +156,21 @@ namespace LayoutFarm.HtmlBoxes
 #endif
     }
 
-
+    //class AbsolutePositionLayer
+    //{
+    //    LinkedList<CssBox> _boxes = new LinkedList<CssBox>();
+    //    public void AddBox(CssBox box)
+    //    {
+    //        this._boxes.AddLast(box);
+    //    }
+    //    public IEnumerable<CssBox> GetChildBoxIter()
+    //    {
+    //        var cNode = _boxes.First;
+    //        while (cNode != null)
+    //        {
+    //            yield return cNode.Value;
+    //            cNode = cNode.Next;
+    //        }
+    //    }
+    //}
 }

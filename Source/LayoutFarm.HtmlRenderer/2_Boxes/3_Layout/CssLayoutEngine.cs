@@ -129,6 +129,7 @@ namespace LayoutFarm.HtmlBoxes
             var linkedNode = children.GetFirstLinkedNode();
             while (linkedNode != null)
             {
+
                 if (!linkedNode.Value.IsInline)
                 {
                     return false;
@@ -478,7 +479,6 @@ namespace LayoutFarm.HtmlBoxes
           LayoutVisitor lay,
           CssBox hostBox, //target 
           CssBox srcBox, //src that has  runs /splitable content) to flow into hostBox line model
-
           float limitLocalRight,
           float firstRunStartX,
           ref CssLineBox hostLine,
@@ -490,6 +490,7 @@ namespace LayoutFarm.HtmlBoxes
             if (srcBox.HasRuns)
             {
                 //condition 3 
+
                 FlowRunsIntoHost(lay, hostBox, srcBox, srcBox, 0,
                      limitLocalRight, firstRunStartX,
                      0, 0,
@@ -505,20 +506,32 @@ namespace LayoutFarm.HtmlBoxes
                 foreach (CssBox b in srcBox.GetChildBoxIter())
                 {
                     float leftMostSpace = 0, rightMostSpace = 0;
-
-                    if (b.Position == CssPosition.Absolute)
-                    {
-                        leftMostSpace = b.ActualMarginLeft + b.ActualBorderLeftWidth + b.ActualPaddingLeft;
-                        rightMostSpace = b.ActualMarginRight + b.ActualBorderRightWidth + b.ActualPaddingRight;
-                    }
-
+                    //if b has absolute pos then it is removed from the flow 
                     if (b.NeedComputedValueEvaluation)
                     {
                         b.ReEvaluateComputedValues(ifonts, hostBox);
                     }
                     b.MeasureRunsSize(lay);
+#if DEBUG
+                    if (b.Position == CssPosition.Absolute)
+                    {
+                        //should not found here!
+                        throw new NotSupportedException();
+                    }
+#endif
+                    //if (b.Position == CssPosition.Absolute)
+                    //{ 
+                    //    leftMostSpace = b.ActualMarginLeft + b.ActualBorderLeftWidth + b.ActualPaddingLeft;
+                    //    rightMostSpace = b.ActualMarginRight + b.ActualBorderRightWidth + b.ActualPaddingRight; 
+                    //     
+                    //}
+                    //else
+                    //{
+                    //    //??? 
+                    //    cx += leftMostSpace;
+                    //}
                     cx += leftMostSpace;
-
+                    //------------------------------------------------ 
 
                     if (b.CssDisplay == CssDisplay.InlineBlock)
                     {
@@ -569,23 +582,46 @@ namespace LayoutFarm.HtmlBoxes
                     cx += rightMostSpace;
                     childNumber++;
                 }
+                //--------------------------  
+                if (srcBox.HasAbsoluteLayer)
+                {
+                    LayoutContentInAbsoluteLayer(lay, srcBox);
+
+                }
             }
-            //------------
+        }
+        static void LayoutContentInAbsoluteLayer(LayoutVisitor lay, CssBox srcBox)
+        {
 
-            //------------ 
-            // handle width setting
-            //if (splitableBox.IsInline &&
-            //    0 <= current_line_x - oX && current_line_x - oX < splitableBox.ExpectedWidth)
-            //{
-            //    throw new NotSupportedException();
-            //}
+            int childNumber = 0;
+            var ifonts = lay.SampleIFonts;
 
-            // hack to support specific absolute position elements 
-            if (srcBox.Position == CssPosition.Absolute)
+            //css3 jan2015: absolute position
+            //use offset relative to its normal the box's containing box***
+            float containerW = lay.LatestContainingBlock.SizeWidth;
+
+            foreach (var b in srcBox.GetAbsoluteChildBoxIter())
             {
-                cx = oX;
-                AdjustAbsolutePosition(srcBox, 0, 0);
+                if (b.NeedComputedValueEvaluation)
+                {
+                    b.ReEvaluateComputedValues(ifonts, lay.LatestContainingBlock);
+                } 
+                //if (!b.Left.IsEmptyOrAuto)
+                //{
+
+                //}
+                //availableWidth = CssValueParser.ConvertToPx(box.Width, availableWidth, box);
+                b.MeasureRunsSize(lay);
+                PerformContentLayout(b, lay);
+                childNumber++;
+
+                float actualLeft = CssValueParser.ConvertToPx(b.Left, containerW, b);
+                float actualTop = CssValueParser.ConvertToPx(b.Top, containerW, b);
+                b.SetLocation(actualLeft, actualTop);
+
+
             }
+
         }
 
         static void FlowRunsIntoHost(LayoutVisitor lay,
@@ -674,37 +710,43 @@ namespace LayoutFarm.HtmlBoxes
                 cx = run.Right;
 
 
-                if (b.Position == CssPosition.Absolute)
-                {
-                    //var bParent = b.ParentBox;
-                    run.Left += splitableBox.ActualMarginLeft;
-                    run.Top += splitableBox.ActualMarginTop;
-                }
+                //if (b.Position == CssPosition.Absolute)
+                //{
+                //    //var bParent = b.ParentBox;
+                //    run.Left += splitableBox.ActualMarginLeft;
+                //    run.Top += splitableBox.ActualMarginTop;
+                //}
             }
         }
-        /// <summary>
-        /// Adjust the position of absolute elements by letf and top margins.
-        /// </summary>
-        static void AdjustAbsolutePosition(CssBox box, float left, float top)
-        {
-            left += box.ActualMarginLeft;
-            top += box.ActualMarginTop;
-            if (box.HasRuns)
-            {
-                foreach (var word in box.GetRunIter())
-                {
-                    word.Left += left;
-                    word.Top += top;
-                }
-            }
-            else
-            {
-                foreach (var b in box.GetChildBoxIter())
-                {
-                    AdjustAbsolutePosition(b, left, top);
-                }
-            }
-        }
+        ///// <summary>
+        ///// Adjust the position of absolute elements by left and top margins.
+        ///// </summary>
+        //static void AdjustAbsolutePosition(CssBox box, float left, float top)
+        //{
+        //    //recursive 
+        //    left += box.ActualMarginLeft;
+        //    top += box.ActualMarginTop;
+        //    if (box.HasRuns)
+        //    {
+        //        foreach (var word in box.GetRunIter())
+        //        {
+        //            word.Left += left;
+        //            word.Top += top;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        foreach (var b in box.GetChildBoxIter())
+        //        {
+        //            //recursive 
+        //            AdjustAbsolutePosition(b, left, top);
+        //        }
+        //    }
+        //}
+
+
+
+
         /// <summary>
         /// Applies vertical and horizontal alignment to words in lineboxes
         /// </summary>

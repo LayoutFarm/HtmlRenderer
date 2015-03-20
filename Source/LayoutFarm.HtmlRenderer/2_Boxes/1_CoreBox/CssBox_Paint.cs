@@ -199,7 +199,6 @@ namespace LayoutFarm.HtmlBoxes
                             node = node.Next;
                             continue;
                         }
-
                         p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
                         b.Paint(p);
                         node = node.Next;
@@ -242,7 +241,29 @@ namespace LayoutFarm.HtmlBoxes
             {
                 p.PopLocalClipArea();
             }
+            //---------------- 
+            if (this.HasAbsoluteLayer)
+            {
+                p.PushContaingBlock(this);
 
+                int ox = p.CanvasOriginX;
+                int oy = p.CanvasOriginY;
+                var node = this._absPosLayer.GetFirstLinkedNode();
+                while (node != null)
+                {
+                    CssBox b = node.Value;
+                    if (b.CssDisplay == Css.CssDisplay.None)
+                    {
+                        node = node.Next;
+                        continue;
+                    }
+                    p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
+                    b.Paint(p);
+                    node = node.Next;
+                }
+                p.SetCanvasOrigin(ox, oy);
+                p.PopContainingBlock();
+            }
 
         }
 

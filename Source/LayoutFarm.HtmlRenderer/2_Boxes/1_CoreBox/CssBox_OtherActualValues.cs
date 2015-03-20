@@ -115,9 +115,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
-            //if (box.__aa_dbugId == 7)
-            //{
-            //}
+            
             if ((box._boxCompactFlags & BoxFlags.FIXED_DISPLAY_TYPE) == 0)
             {
                 box._cssDisplay = newdisplay;

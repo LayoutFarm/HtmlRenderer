@@ -88,8 +88,7 @@ namespace LayoutFarm.HtmlBoxes
             //----------------------------
             this._myspec = spec;
             EvaluateSpec(spec);
-            ChangeDisplayType(this, _myspec.CssDisplay);
-            //this._cssDisplay = fixDisplayType;
+            ChangeDisplayType(this, _myspec.CssDisplay); 
 
         }
         public IRootGraphics RootGfx
@@ -483,16 +482,18 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return;
             }
+
             //-------------------------------- 
             if (this.BackgroundImageBinder != null)
             {
                 //this has background
                 if (this.BackgroundImageBinder.State == ImageBinderState.Unload)
                 {
-
                     lay.RequestImage(this.BackgroundImageBinder, this);
                 }
             }
+
+            //-------------------------------- 
             if (this.RunCount > 0)
             {
                 //find word spacing  
@@ -749,49 +750,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.CssDisplay != Css.CssDisplay.None && this.Position != Css.CssPosition.Absolute; }
         }
-        //internal float CollectCachedMinimumWidth()
-        //{
-        //    //recursive
-
-        //    if (this._cachedMinimumWidth > 0)
-        //    {
-        //        return this._cachedMinimumWidth;
-        //    }
-        //    else
-        //    {
-        //        if (_clientLineBoxes != null)
-        //        {
-        //            //line model
-        //            //collect per line
-
-        //            foreach (var linebox in _clientLineBoxes)
-        //            {
-        //            }
-        //        }
-        //        else if (_aa_boxes != null)
-        //        {
-        //            //block model
-        //        }
-        //        else if (_aa_contentRuns != null)
-        //        {
-        //        }
-        //        //CssBoxCollection _aa_boxes;
-
-        //        ////condition 1: invalid *
-        //        ////condition 2: invalid *
-        //        ////condition 3: valid 
-        //        //List<CssRun> _aa_contentRuns;
-
-
-        //        ////condition 1: invalid *
-        //        ////condition 2: valid  
-        //        ////condition 3: valid  
-        //        //LinkedList<CssLineBox> _clientLineBoxes;
-
-
-        //    }
-        //    return 0;
-        //}
+         
 #if DEBUG
         ///// <summary>
         ///// ToString override.

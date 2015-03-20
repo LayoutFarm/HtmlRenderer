@@ -318,8 +318,7 @@ namespace LayoutFarm.Composers
                             {
                                 parentBox.AppendChild(newBox);
                                 return newBox;
-                            }
-
+                            } 
                         }
                         //----------------------------------------------- 
                         newBox = this.htmlHost.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx);
