@@ -586,6 +586,7 @@ namespace LayoutFarm.HtmlBoxes
 
             //css3 jan2015: absolute position
             //use offset relative to its normal the box's containing box***
+
             float containerW = lay.LatestContainingBlock.SizeWidth;
 
             foreach (var b in srcBox.GetAbsoluteChildBoxIter())

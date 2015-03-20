@@ -74,7 +74,6 @@ namespace LayoutFarm.HtmlBoxes
             this._controller = controller;
 
 #if DEBUG
-
             if (!spec.IsFreezed)
             {
                 //must be freezed 
@@ -88,7 +87,7 @@ namespace LayoutFarm.HtmlBoxes
             //----------------------------
             this._myspec = spec;
             EvaluateSpec(spec);
-            ChangeDisplayType(this, _myspec.CssDisplay); 
+            ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
         public IRootGraphics RootGfx
@@ -134,6 +133,13 @@ namespace LayoutFarm.HtmlBoxes
             get
             {
                 return (this._boxCompactFlags & BoxFlags.IS_CUSTOM_CSSBOX) != 0;
+            }
+        }
+        public bool IsBodyElement
+        {
+            get
+            {
+                return (this._boxCompactFlags & BoxFlags.IS_BODY_BOX) != 0;
             }
         }
         /// <summary>
@@ -662,12 +668,12 @@ namespace LayoutFarm.HtmlBoxes
                                 var lastTd = tr._aa_boxes.GetLastChild();
                                 //TODO: review here again-> how to get rightmost position
                                 trW = (lastTd.LocalX + lastTd.SizeWidth + lastTd._actualPaddingRight);
-                            } 
+                            }
                             if (trW > minWidth)
                             {
                                 minWidth = trW;
                             }
-                        } 
+                        }
                     }
                 }
                 else
@@ -750,7 +756,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.CssDisplay != Css.CssDisplay.None && this.Position != Css.CssPosition.Absolute; }
         }
-         
+
 #if DEBUG
         ///// <summary>
         ///// ToString override.

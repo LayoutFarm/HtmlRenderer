@@ -158,5 +158,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             box._boxCompactFlags |= BoxFlags.IS_CUSTOM_CSSBOX;
         }
+        public static void SetAsBodyBox(CssBox box)
+        {
+            box._boxCompactFlags |= BoxFlags.IS_BODY_BOX;
+        }
     }
 }

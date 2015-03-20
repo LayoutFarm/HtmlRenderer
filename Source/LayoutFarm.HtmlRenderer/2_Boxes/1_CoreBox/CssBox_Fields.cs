@@ -137,7 +137,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             return this._aa_boxes.GetFirstChild();
         }
-         
+
         public void AppendChild(CssBox box)
         {
             if (box.Position == Css.CssPosition.Absolute)
@@ -146,7 +146,7 @@ namespace LayoutFarm.HtmlBoxes
                 //'take off normal flow'
                 //css3 jan2015: absolute position
                 //use offset relative to its normal the box's containing box*** 
-                this.AppendToAbsoluteLayer(box);
+                FindAncestorForAbsoluteBox().AppendToAbsoluteLayer(box);                 
             }
             else
             {
@@ -171,15 +171,36 @@ namespace LayoutFarm.HtmlBoxes
             this._clientLineBoxes = null;
             this._aa_contentRuns = null;
             this._aa_boxes.Clear();
-        } 
-        public void AppendToAbsoluteLayer(CssBox box)
+        }
+
+        CssBox FindAncestorForAbsoluteBox()
         {
+            
+            var node = this;
+            while (node.Position == Css.CssPosition.Static)
+            {
+                if (node.IsBodyElement || node.ParentBox == null)
+                {
+                    return node;
+                }
+                else
+                {
+                    node = node.ParentBox;
+                }
+            }
+            return node;
+        }
+
+        internal void AppendToAbsoluteLayer(CssBox box)
+        {
+            //find proper ancestor node for absolute position 
+
             if (this._absPosLayer == null)
             {
                 this._absPosLayer = new CssBoxCollection();
             }
-            this._absPosLayer.AddChild(this, box); 
-        } 
+            this._absPosLayer.AddChild(this, box);
+        }
         //-------------------------------------
         internal void ResetLineBoxes()
         {

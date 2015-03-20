@@ -22,6 +22,8 @@ namespace LayoutFarm.WebDom
         hr,
         [Map("br")]
         br,
+        [Map("body")]
+        body,
         [Map("style")]
         style,
         [Map("script")]
