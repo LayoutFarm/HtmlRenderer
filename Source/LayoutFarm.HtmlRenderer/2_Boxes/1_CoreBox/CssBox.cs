@@ -404,19 +404,11 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
-        {
-            //if (this.CssDisplay == Css.CssDisplay.InlineBlock)
-            //{
-
-            //}
+        {   
             //derived class can perform its own layout algo            
             //by override performContentLayout 
             PerformContentLayout(lay);
-        }
-
-
-        //static int dbugCC = 0;
-
+        } 
         /// <summary>
         /// Measures the bounds of box and children, recursively.<br/>
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.<br/>
@@ -424,10 +416,8 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">Device context to use</param>
         protected virtual void PerformContentLayout(LayoutVisitor lay)
         {
-            //if (this.CssDisplay == CssDisplay.InlineBlock)
-            //{
-            //}
-            //----------------------------------------------------------- 
+             
+            
             switch (this.CssDisplay)
             {
                 case Css.CssDisplay.None:
@@ -453,13 +443,13 @@ namespace LayoutFarm.HtmlBoxes
                         // 2) block formatting context  
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
-                        //---------------------------------------------------------
+                        
                         //for general block layout 
                         CssLayoutEngine.PerformContentLayout(this, lay);
 
                     } break;
             }
-            //----------------------------------------------------------------------------- 
+            
             //set height  
             UpdateIfHigher(this, ExpectedHeight);
             //update back 

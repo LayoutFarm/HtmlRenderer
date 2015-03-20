@@ -18,7 +18,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.Css;
 using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
-{   
+{
     /// <summary>
     /// Helps on CSS Layout.
     /// </summary>
@@ -234,6 +234,11 @@ namespace LayoutFarm.HtmlBoxes
                                 PerformLayoutBlocksContext(box, lay);
                             }
 
+                            if (box.HasAbsoluteLayer)
+                            {
+                                LayoutContentInAbsoluteLayer(lay, box);
+                                 
+                            }
                         }
                     } break;
             }
@@ -284,23 +289,18 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 hostBlock.SetWidth(newWidth);
             }
-            //---------------------
-
+            //--------------------- 
             if (hostBlock.CssDirection == CssDirection.Rtl)
             {
-
                 CssTextAlign textAlign = hostBlock.CssTextAlign;
                 foreach (CssLineBox linebox in hostBlock.GetLineBoxIter())
                 {
-
                     ApplyAlignment(linebox, textAlign, lay);
-                    ApplyRightToLeft(linebox); //***
-
+                    ApplyRightToLeft(linebox); //*** 
                     linebox.CloseLine(lay); //*** 
                     linebox.CachedLineTop = localY;
                     localY += linebox.CacheLineHeight + interlineSpace; // + interline space?
                 }
-
             }
             else
             {
@@ -315,19 +315,22 @@ namespace LayoutFarm.HtmlBoxes
                     linebox.CachedLineTop = localY;
                     localY += linebox.CacheLineHeight + interlineSpace;
                 }
-
             }
 
 
+            //---------------------
             hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
+
             if (hostBlock.Overflow == CssOverflow.Hidden &&
                 !hostBlock.Height.IsEmptyOrAuto &&
                 hostBlock.SizeHeight > hostBlock.ExpectedHeight)
             {
                 hostBlock.SetHeight(hostBlock.ExpectedHeight);
             }
-        }
 
+
+
+        }
         static void PerformLayoutBlocksContext(CssBox box, LayoutVisitor lay)
         {
             //if (box.CssDisplay == CssDisplay.InlineBlock)
@@ -482,6 +485,7 @@ namespace LayoutFarm.HtmlBoxes
           ref CssLineBox hostLine,
           ref float cx)
         {
+
             //recursive *** 
             //--------------------------------------------------------------------
             var oX = cx;
@@ -517,7 +521,7 @@ namespace LayoutFarm.HtmlBoxes
                         throw new NotSupportedException();
                     }
 #endif
-                   
+
                     cx += leftMostSpace;
                     //------------------------------------------------ 
 
@@ -569,14 +573,18 @@ namespace LayoutFarm.HtmlBoxes
 
                     cx += rightMostSpace;
                     childNumber++;
-                }
-                //--------------------------  
-                if (srcBox.HasAbsoluteLayer)
-                {
-                    LayoutContentInAbsoluteLayer(lay, srcBox);
+                } 
+            } 
 
-                }
+
+            if (srcBox.Position == CssPosition.Relative)
+            {
+                //offset content relative to it 'flow' position'
+                var left = CssValueParser.ConvertToPx(srcBox.Left, hostBox.SizeWidth, srcBox);
+                var top = CssValueParser.ConvertToPx(srcBox.Left, hostBox.SizeWidth, srcBox); 
+                
             }
+
         }
         static void LayoutContentInAbsoluteLayer(LayoutVisitor lay, CssBox srcBox)
         {
@@ -594,13 +602,13 @@ namespace LayoutFarm.HtmlBoxes
                 if (b.NeedComputedValueEvaluation)
                 {
                     b.ReEvaluateComputedValues(ifonts, lay.LatestContainingBlock);
-                } 
-                
-                 
+                }
+
+
                 b.MeasureRunsSize(lay);
                 PerformContentLayout(b, lay);
                 childNumber++;
-                                 
+
                 b.SetLocation(
                      CssValueParser.ConvertToPx(b.Left, containerW, b),
                      CssValueParser.ConvertToPx(b.Top, containerW, b));
@@ -639,7 +647,7 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             //----------------------------------------------------- 
-            int j = runs.Count; 
+            int j = runs.Count;
             for (int i = 0; i < j; ++i)
             {
                 var run = runs[i];
@@ -690,9 +698,9 @@ namespace LayoutFarm.HtmlBoxes
 
                 run.SetLocation(cx, 0);
                 //move current_line_x to right of run
-                cx = run.Right; 
+                cx = run.Right;
             }
-        }  
+        }
         /// <summary>
         /// Applies vertical and horizontal alignment to words in lineboxes
         /// </summary>
@@ -700,7 +708,6 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="lineBox"></param> 
         static void ApplyAlignment(CssLineBox lineBox, CssTextAlign textAlign, LayoutVisitor lay)
         {
-
             switch (textAlign)
             {
                 case CssTextAlign.Right:
@@ -718,6 +725,7 @@ namespace LayoutFarm.HtmlBoxes
             //--------------------------------------------- 
             // Applies vertical alignment to the linebox 
             return;
+
             lineBox.ApplyBaseline(lineBox.CalculateTotalBoxBaseLine(lay));
             //---------------------------------------------  
         }
@@ -741,7 +749,7 @@ namespace LayoutFarm.HtmlBoxes
                     run.Left = w_right - run.Width;
                 }
             }
-        } 
+        }
         static void ApplyJustifyAlignment(CssLineBox lineBox)
         {
 
@@ -822,30 +830,6 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        /// <summary>
-        /// Simplest alignment, just arrange words.
-        /// </summary>
-        /// <param name="g"></param>
-        /// <param name="line"></param>
-        private static void ApplyLeftAlignment(Canvas g, CssLineBox line)
-        {
-            //No alignment needed.
-
-            //foreach (LineBoxRectangle r in line.Rectangles)
-            //{
-            //    float curx = r.Left + (r.Index == 0 ? r.OwnerBox.ActualPaddingLeft + r.OwnerBox.ActualBorderLeftWidth / 2 : 0);
-
-            //    if (r.SpaceBefore) curx += r.OwnerBox.ActualWordSpacing;
-
-            //    foreach (BoxWord word in r.Words)
-            //    {
-            //        word.Left = curx;
-            //        word.Top = r.Top;// +r.OwnerBox.ActualPaddingTop + r.OwnerBox.ActualBorderTopWidth / 2;
-
-            //        curx = word.Right + r.OwnerBox.ActualWordSpacing;
-            //    }
-            //}
-        }
 
 
     }

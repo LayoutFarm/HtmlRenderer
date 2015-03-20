@@ -20,9 +20,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
             if (this._isVisible)
             {
-
                 PaintImp(p);
-
             }
         }
 #if DEBUG
@@ -58,6 +56,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         protected virtual void PaintImp(PaintVisitor p)
         {
+           
 
             Css.CssDisplay display = this.CssDisplay;
 
@@ -235,15 +234,11 @@ namespace LayoutFarm.HtmlBoxes
             //var clientLeft = this.ClientLeft;
             //g.DrawRectangle(Pens.GreenYellow, 0, 0, 5, 10);
             //g.DrawRectangle(Pens.HotPink, this.ClientRight - 5, 0, 5, 10);
-            //------------------------------------------  
-            //must! , 
-            if (hasPrevClip)
-            {
-                p.PopLocalClipArea();
-            }
-            //---------------- 
+            //------------------------------------------   
+
             if (this.HasAbsoluteLayer)
             {
+                
                 p.PushContaingBlock(this);
 
                 int ox = p.CanvasOriginX;
@@ -264,7 +259,12 @@ namespace LayoutFarm.HtmlBoxes
                 p.SetCanvasOrigin(ox, oy);
                 p.PopContainingBlock();
             }
-
+            //must! , 
+            if (hasPrevClip)
+            {
+                p.PopLocalClipArea();
+            }
+            //---------------- 
         }
 
         /// <summary>

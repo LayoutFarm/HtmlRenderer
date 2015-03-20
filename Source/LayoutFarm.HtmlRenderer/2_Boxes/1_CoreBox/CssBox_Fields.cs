@@ -146,7 +146,9 @@ namespace LayoutFarm.HtmlBoxes
                 //'take off normal flow'
                 //css3 jan2015: absolute position
                 //use offset relative to its normal the box's containing box*** 
-                FindAncestorForAbsoluteBox().AppendToAbsoluteLayer(box);                 
+                var ancester = FindAncestorForAbsoluteBox();
+                ancester.AppendToAbsoluteLayer(box);
+                //this.AppendToAbsoluteLayer(box);
             }
             else
             {
@@ -175,7 +177,7 @@ namespace LayoutFarm.HtmlBoxes
 
         CssBox FindAncestorForAbsoluteBox()
         {
-            
+
             var node = this;
             while (node.Position == Css.CssPosition.Static)
             {
