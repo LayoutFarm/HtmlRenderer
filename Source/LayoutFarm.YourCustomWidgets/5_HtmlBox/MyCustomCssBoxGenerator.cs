@@ -18,15 +18,57 @@ namespace LayoutFarm.CustomWidgets
         {
             get { return this.myHost; }
         }
-        public override LayoutFarm.HtmlBoxes.CssBox CreateCssBox(object tag,
+        public override LayoutFarm.HtmlBoxes.CssBox CreateCssBox(
+            DomElement domE,
             LayoutFarm.HtmlBoxes.CssBox parentBox,
             BoxSpec spec,
             LayoutFarm.RootGraphic rootgfx)
         {
-            //check if this is a proper tag 
-            DomElement domE = tag as DomElement;
-            if (domE == null) return null;
+            //check if this is a proper tag  
+
+            switch (domE.Name)
+            {
+                case "input":
+                    {
+                        var inputBox = CreateInputBox(domE, parentBox, spec, rootgfx);
+                        if (inputBox != null)
+                        {
+                            return inputBox;
+                        }
+                    } break;
+                case "canvas":
+                    {
+                        //test only
+                        var canvas = new LayoutFarm.CustomWidgets.MiniAggCanvasBox(400, 400);
+                        var wrapperBox = this.CreateWrapper(
+                             canvas,
+                             canvas.GetPrimaryRenderElement(rootgfx),
+                             spec, true);
+                        parentBox.AppendChild(wrapperBox);
+                        return wrapperBox;
+                    }
+
+            }
             //------
+            //else ...
+
+            var simpleBox = new LayoutFarm.CustomWidgets.EaseBox(100, 20);
+            simpleBox.BackColor = PixelFarm.Drawing.Color.LightGray;
+            var wrapperBox2 = this.CreateWrapper(
+                               simpleBox,
+                               simpleBox.GetPrimaryRenderElement(rootgfx),
+                               spec, false);
+
+            parentBox.AppendChild(wrapperBox2);
+            return wrapperBox2;
+            //return leanBox;
+        }
+
+        LayoutFarm.HtmlBoxes.CssBox CreateInputBox(DomElement domE,
+            LayoutFarm.HtmlBoxes.CssBox parentBox,
+            BoxSpec spec,
+            LayoutFarm.RootGraphic rootgfx)
+        {
             var typeAttr = domE.FindAttribute("type");
 
             if (typeAttr != null)
@@ -50,7 +92,7 @@ namespace LayoutFarm.CustomWidgets
                             //use subdom? technique
                             //todo: review the technique here
                             var button = new HtmlWidgets.Button(60, 30);
-                            var ihtmlElement = tag as LayoutFarm.WebDom.IHtmlElement;
+                            var ihtmlElement = domE as LayoutFarm.WebDom.IHtmlElement;
                             if (ihtmlElement != null)
                             {
                                 button.Text = ihtmlElement.innerHTML;
@@ -81,18 +123,9 @@ namespace LayoutFarm.CustomWidgets
                         }
                 }
             }
-            var simpleBox = new LayoutFarm.CustomWidgets.EaseBox(100, 20);
-            simpleBox.BackColor = PixelFarm.Drawing.Color.LightGray;
-            var wrapperBox2 = this.CreateWrapper(
-                               simpleBox,
-                               simpleBox.GetPrimaryRenderElement(rootgfx),
-                               spec, false);
-
-            parentBox.AppendChild(wrapperBox2);
-            return wrapperBox2;
-            //return leanBox;
+            return null;
         }
-
+ 
     }
 
 }

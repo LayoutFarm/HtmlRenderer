@@ -67,14 +67,13 @@ namespace LayoutFarm.HtmlBoxes
             ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
-        public CssBox(object controller, BoxSpec spec, IRootGraphics rootgfx, CssDisplay fixDisplayType)
+        public CssBox(object controller, BoxSpec spec, IRootGraphics rootgfx, CssDisplay displayType)
         {
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
             this._controller = controller;
 
 #if DEBUG
-
             if (!spec.IsFreezed)
             {
                 //must be freezed 
@@ -83,13 +82,12 @@ namespace LayoutFarm.HtmlBoxes
 #endif
 
             //assign spec             
-            this._boxCompactFlags |= BoxFlags.FIXED_DISPLAY_TYPE;
-            this._cssDisplay = fixDisplayType;
+            this._boxCompactFlags |= BoxFlags.DONT_CHANGE_DISPLAY_TYPE;
+            this._cssDisplay = displayType;
             //----------------------------
             this._myspec = spec;
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
-            //this._cssDisplay = fixDisplayType;
 
         }
         public IRootGraphics RootGfx
@@ -137,6 +135,7 @@ namespace LayoutFarm.HtmlBoxes
                 return (this._boxCompactFlags & BoxFlags.IS_CUSTOM_CSSBOX) != 0;
             }
         }
+        
         /// <summary>
         /// is the box "Display" is "Inline", is this is an inline box and not block.
         /// </summary>
@@ -399,19 +398,11 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
-        {
-            //if (this.CssDisplay == Css.CssDisplay.InlineBlock)
-            //{
-
-            //}
+        {   
             //derived class can perform its own layout algo            
             //by override performContentLayout 
             PerformContentLayout(lay);
-        }
-
-
-        //static int dbugCC = 0;
-
+        } 
         /// <summary>
         /// Measures the bounds of box and children, recursively.<br/>
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.<br/>
@@ -419,10 +410,8 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">Device context to use</param>
         protected virtual void PerformContentLayout(LayoutVisitor lay)
         {
-            //if (this.CssDisplay == CssDisplay.InlineBlock)
-            //{
-            //}
-            //----------------------------------------------------------- 
+             
+            
             switch (this.CssDisplay)
             {
                 case Css.CssDisplay.None:
@@ -448,16 +437,17 @@ namespace LayoutFarm.HtmlBoxes
                         // 2) block formatting context  
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
-                        //---------------------------------------------------------
+                        
                         //for general block layout 
                         CssLayoutEngine.PerformContentLayout(this, lay);
 
                     } break;
             }
-            //----------------------------------------------------------------------------- 
+
             //set height  
             UpdateIfHigher(this, ExpectedHeight);
             //update back 
+
             lay.UpdateRootSize(this);
         }
 
@@ -483,16 +473,18 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return;
             }
+
             //-------------------------------- 
             if (this.BackgroundImageBinder != null)
             {
                 //this has background
                 if (this.BackgroundImageBinder.State == ImageBinderState.Unload)
                 {
-
                     lay.RequestImage(this.BackgroundImageBinder, this);
                 }
             }
+
+            //-------------------------------- 
             if (this.RunCount > 0)
             {
                 //find word spacing  
@@ -661,12 +653,12 @@ namespace LayoutFarm.HtmlBoxes
                                 var lastTd = tr._aa_boxes.GetLastChild();
                                 //TODO: review here again-> how to get rightmost position
                                 trW = (lastTd.LocalX + lastTd.SizeWidth + lastTd._actualPaddingRight);
-                            } 
+                            }
                             if (trW > minWidth)
                             {
                                 minWidth = trW;
                             }
-                        } 
+                        }
                     }
                 }
                 else
@@ -749,49 +741,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.CssDisplay != Css.CssDisplay.None && this.Position != Css.CssPosition.Absolute; }
         }
-        //internal float CollectCachedMinimumWidth()
-        //{
-        //    //recursive
 
-        //    if (this._cachedMinimumWidth > 0)
-        //    {
-        //        return this._cachedMinimumWidth;
-        //    }
-        //    else
-        //    {
-        //        if (_clientLineBoxes != null)
-        //        {
-        //            //line model
-        //            //collect per line
-
-        //            foreach (var linebox in _clientLineBoxes)
-        //            {
-        //            }
-        //        }
-        //        else if (_aa_boxes != null)
-        //        {
-        //            //block model
-        //        }
-        //        else if (_aa_contentRuns != null)
-        //        {
-        //        }
-        //        //CssBoxCollection _aa_boxes;
-
-        //        ////condition 1: invalid *
-        //        ////condition 2: invalid *
-        //        ////condition 3: valid 
-        //        //List<CssRun> _aa_contentRuns;
-
-
-        //        ////condition 1: invalid *
-        //        ////condition 2: valid  
-        //        ////condition 3: valid  
-        //        //LinkedList<CssLineBox> _clientLineBoxes;
-
-
-        //    }
-        //    return 0;
-        //}
 #if DEBUG
         ///// <summary>
         ///// ToString override.
