@@ -18,9 +18,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.Css;
 using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
-{
-
-
+{   
     /// <summary>
     /// Helps on CSS Layout.
     /// </summary>
@@ -519,17 +517,7 @@ namespace LayoutFarm.HtmlBoxes
                         throw new NotSupportedException();
                     }
 #endif
-                    //if (b.Position == CssPosition.Absolute)
-                    //{ 
-                    //    leftMostSpace = b.ActualMarginLeft + b.ActualBorderLeftWidth + b.ActualPaddingLeft;
-                    //    rightMostSpace = b.ActualMarginRight + b.ActualBorderRightWidth + b.ActualPaddingRight; 
-                    //     
-                    //}
-                    //else
-                    //{
-                    //    //??? 
-                    //    cx += leftMostSpace;
-                    //}
+                   
                     cx += leftMostSpace;
                     //------------------------------------------------ 
 
@@ -606,20 +594,15 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     b.ReEvaluateComputedValues(ifonts, lay.LatestContainingBlock);
                 } 
-                //if (!b.Left.IsEmptyOrAuto)
-                //{
-
-                //}
-                //availableWidth = CssValueParser.ConvertToPx(box.Width, availableWidth, box);
+                
+                 
                 b.MeasureRunsSize(lay);
                 PerformContentLayout(b, lay);
                 childNumber++;
-
-                float actualLeft = CssValueParser.ConvertToPx(b.Left, containerW, b);
-                float actualTop = CssValueParser.ConvertToPx(b.Top, containerW, b);
-                b.SetLocation(actualLeft, actualTop);
-
-
+                                 
+                b.SetLocation(
+                     CssValueParser.ConvertToPx(b.Left, containerW, b),
+                     CssValueParser.ConvertToPx(b.Top, containerW, b));
             }
 
         }
@@ -655,8 +638,7 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             //----------------------------------------------------- 
-            int j = runs.Count;
-            //bool splitableParentIsBlock = splitableBox.ParentBox.IsBlock;
+            int j = runs.Count; 
             for (int i = 0; i < j; ++i)
             {
                 var run = runs[i];
@@ -707,46 +689,9 @@ namespace LayoutFarm.HtmlBoxes
 
                 run.SetLocation(cx, 0);
                 //move current_line_x to right of run
-                cx = run.Right;
-
-
-                //if (b.Position == CssPosition.Absolute)
-                //{
-                //    //var bParent = b.ParentBox;
-                //    run.Left += splitableBox.ActualMarginLeft;
-                //    run.Top += splitableBox.ActualMarginTop;
-                //}
+                cx = run.Right; 
             }
-        }
-        ///// <summary>
-        ///// Adjust the position of absolute elements by left and top margins.
-        ///// </summary>
-        //static void AdjustAbsolutePosition(CssBox box, float left, float top)
-        //{
-        //    //recursive 
-        //    left += box.ActualMarginLeft;
-        //    top += box.ActualMarginTop;
-        //    if (box.HasRuns)
-        //    {
-        //        foreach (var word in box.GetRunIter())
-        //        {
-        //            word.Left += left;
-        //            word.Top += top;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        foreach (var b in box.GetChildBoxIter())
-        //        {
-        //            //recursive 
-        //            AdjustAbsolutePosition(b, left, top);
-        //        }
-        //    }
-        //}
-
-
-
-
+        }  
         /// <summary>
         /// Applies vertical and horizontal alignment to words in lineboxes
         /// </summary>
@@ -795,57 +740,7 @@ namespace LayoutFarm.HtmlBoxes
                     run.Left = w_right - run.Width;
                 }
             }
-        }
-
-        ///// <summary>
-        ///// Applies RTL direction to specific box words on the line.
-        ///// </summary>
-        ///// <param name="lineBox"></param>
-        ///// <param name="box"></param>
-        //private static void ApplyRightToLeftOnSingleBox(CssLineBox lineBox, CssBox box)
-        //{
-        //    int leftWordIdx = -1;
-        //    int rightWordIdx = -1;
-
-        //    if (lineBox.WordCount > 0)
-        //    {
-        //        int i = 0;
-        //        foreach (var run in lineBox.GetRunIter())
-        //        {
-        //            if (run.OwnerBox == box)
-        //            {
-        //                if (leftWordIdx < 0)
-        //                {
-        //                    leftWordIdx = i;
-        //                }
-        //                rightWordIdx = i;
-        //            }
-        //            i++;
-        //        }
-
-        //    }
-
-        //    if (leftWordIdx > -1 && rightWordIdx > leftWordIdx)
-        //    {
-        //        //line word of the same owner box 
-        //        //alway stay sequentialy in the same linebox
-
-        //        float left = lineBox.GetRun(leftWordIdx).Left; //lineWords[leftWordIdx].Left;
-        //        float right = lineBox.GetRun(rightWordIdx).Right; //lineWords[rightWordIdx].Right;
-
-        //        for (int i = leftWordIdx; i <= rightWordIdx; i++)
-        //        {
-        //            var moveWord = lineBox.GetRun(i);
-
-        //            float diff = moveWord.Left - left;
-        //            float new_right = right - diff;
-        //            moveWord.Left = new_right - moveWord.Width;
-        //        }
-        //    }
-        //}
-
-
-
+        } 
         static void ApplyJustifyAlignment(CssLineBox lineBox)
         {
 

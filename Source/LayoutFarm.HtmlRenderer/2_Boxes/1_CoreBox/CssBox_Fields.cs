@@ -137,23 +137,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             return this._aa_boxes.GetFirstChild();
         }
-
-        //static IEnumerable<CssBox> GetChildOrSelfOrAncestorIter(CssBox box)
-        //{
-        //    foreach (var ancestor in box._aa_boxes.GetChildBoxBackwardIter())
-        //    {
-        //        yield return ancestor;
-        //    }
-        //    yield return box;
-
-        //    CssBox cnode = box.ParentBox;
-        //    while (cnode != null)
-        //    {
-        //        yield return cnode;
-        //        cnode = cnode.ParentBox;
-        //    }
-
-        //}
+         
         public void AppendChild(CssBox box)
         {
             if (box.Position == Css.CssPosition.Absolute)

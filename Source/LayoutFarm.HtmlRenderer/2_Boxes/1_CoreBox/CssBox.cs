@@ -67,7 +67,7 @@ namespace LayoutFarm.HtmlBoxes
             ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
-        public CssBox(object controller, BoxSpec spec, IRootGraphics rootgfx, CssDisplay fixDisplayType)
+        public CssBox(object controller, BoxSpec spec, IRootGraphics rootgfx, CssDisplay displayType)
         {
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
@@ -83,8 +83,8 @@ namespace LayoutFarm.HtmlBoxes
 #endif
 
             //assign spec             
-            this._boxCompactFlags |= BoxFlags.FIXED_DISPLAY_TYPE;
-            this._cssDisplay = fixDisplayType;
+            this._boxCompactFlags |= BoxFlags.DONT_CHANGE_DISPLAY_TYPE;
+            this._cssDisplay = displayType;
             //----------------------------
             this._myspec = spec;
             EvaluateSpec(spec);

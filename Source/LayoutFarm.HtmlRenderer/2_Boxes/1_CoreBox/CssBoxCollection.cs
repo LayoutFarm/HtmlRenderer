@@ -154,23 +154,5 @@ namespace LayoutFarm.HtmlBoxes
             CssBox.UnsafeSetNodes(box, owner, this._boxes.AddBefore(foundNode, box));
         }
 #endif
-    }
-
-    //class AbsolutePositionLayer
-    //{
-    //    LinkedList<CssBox> _boxes = new LinkedList<CssBox>();
-    //    public void AddBox(CssBox box)
-    //    {
-    //        this._boxes.AddLast(box);
-    //    }
-    //    public IEnumerable<CssBox> GetChildBoxIter()
-    //    {
-    //        var cNode = _boxes.First;
-    //        while (cNode != null)
-    //        {
-    //            yield return cNode.Value;
-    //            cNode = cNode.Next;
-    //        }
-    //    }
-    //}
+    } 
 }

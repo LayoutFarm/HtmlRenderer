@@ -13,7 +13,7 @@ namespace LayoutFarm.HtmlBoxes
             public const int TEXT_IS_ALL_WHITESPACE = 1 << (5 - 1);
             public const int TEXT_IS_EMPTY = 1 << (6 - 1);
             //----------------------------------------------- 
-            public const int FIXED_DISPLAY_TYPE = 1 << (7 - 1);
+            public const int DONT_CHANGE_DISPLAY_TYPE = 1 << (7 - 1);
             
             public const int LAY_RUNSIZE_MEASURE = 1 << (8 - 1);
             public const int LAY_EVAL_COMPUTE_VALUES = 1 << (9 - 1);
