@@ -20,7 +20,6 @@ namespace LayoutFarm.Text
         bool isInVerticalPhase = false;
         bool isFocus = false;
         bool stateShowCaret = false;
-        Font defaultFont;
 
         public TextEditRenderBox(RootGraphic rootgfx,
             int width, int height,
@@ -28,11 +27,15 @@ namespace LayoutFarm.Text
             : base(rootgfx, width, height)
         {
 
+
             GlobalCaretController.RegisterCaretBlink(rootgfx);
             myCaret = new CaretRenderElement(rootgfx, 2, 17);
             myCaret.TransparentForAllEvents = true;
             this.MayHasViewport = true;
 
+
+            this.CurrentTextSpanStyle = new TextSpanSytle();
+            this.CurrentTextSpanStyle.FontInfo = rootgfx.DefaultTextEditFontInfo;
             textLayer = new EditableTextFlowLayer(this);
 
             this.MyLayers = new VisualLayerCollection();
@@ -52,7 +55,11 @@ namespace LayoutFarm.Text
             this.IsBlockElement = false;
         }
 
-         
+        internal TextSpanSytle CurrentTextSpanStyle
+        {
+            get;
+            set;
+        }
         public TextMan TextMan
         {
             get
@@ -466,7 +473,7 @@ namespace LayoutFarm.Text
                                 internalTextLayerController.AddTextRunsToCurrentLine(
                                     new EditableTextSpan[]{ 
                                         new EditableTextSpan(this.Root,  
-                                            Clipboard.GetUnicodeText())
+                                            Clipboard.GetUnicodeText(), this.CurrentTextSpanStyle)
                                            });
                                 EnsureCaretVisible();
 

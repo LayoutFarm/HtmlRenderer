@@ -4,9 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
-
-
 namespace LayoutFarm.Text
 {
 
@@ -15,9 +12,11 @@ namespace LayoutFarm.Text
 
         protected char[] mybuffer;
         TextSpanSytle spanStyle;
-        public TextSpan(RootGraphic gfx, string s)
+
+        public TextSpan(RootGraphic gfx, string s, TextSpanSytle style)
             : base(gfx, 10, 10)
         {
+            this.spanStyle = style;
             if (s != null && s.Length > 0)
             {
                 mybuffer = s.ToCharArray();
@@ -35,10 +34,10 @@ namespace LayoutFarm.Text
             this.TransparentForAllEvents = true;
         }
 
-        public TextSpan(RootGraphic gfx, char c)
+        public TextSpan(RootGraphic gfx, char c, TextSpanSytle style)
             : base(gfx, 10, 10)
         {
-
+            this.spanStyle = style;
             mybuffer = new char[] { c };
             if (c == '\n')
             {
@@ -48,9 +47,10 @@ namespace LayoutFarm.Text
             this.TransparentForAllEvents = true;
             UpdateRunWidth();
         }
-        public TextSpan(RootGraphic gfx, char[] copyBuffer)
+        public TextSpan(RootGraphic gfx, char[] copyBuffer, TextSpanSytle style)
             : base(gfx, 10, 10)
         {
+            this.spanStyle = style;
             //check line break?
             this.mybuffer = copyBuffer;
             this.TransparentForAllEvents = true;
@@ -268,15 +268,13 @@ namespace LayoutFarm.Text
                 fontInfo.FontHeight
                 );
         }
-
         protected FontInfo GetFontInfo()
         {
-
             if (!HasStyle)
             {
 
                 return this.Root.DefaultTextEditFontInfo;
-            }   
+            }
             else
             {
                 TextSpanSytle spanStyle = this.SpanStyle;
@@ -286,7 +284,7 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-                    return this.Root.DefaultTextEditFontInfo;                     
+                    return this.Root.DefaultTextEditFontInfo;
                 }
             }
         }

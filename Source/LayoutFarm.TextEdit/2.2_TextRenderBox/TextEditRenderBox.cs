@@ -13,10 +13,11 @@ namespace LayoutFarm.Text
     partial class TextEditRenderBox
     {
         PixelFarm.Drawing.Color bgColor = PixelFarm.Drawing.Color.Transparent;
-        
+
 
         RenderSurfaceScrollRelation scrollRelation;
         CustomRenderSurface vscrollableSurface;//built in 
+
 
         public CustomRenderSurface ScrollableSurface
         {
@@ -31,8 +32,8 @@ namespace LayoutFarm.Text
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             var enterFont = canvas.CurrentFont;
-            canvas.CurrentFont = this.Root.DefaultTextEditFontInfo.ResolvedFont;
-           
+            canvas.CurrentFont = this.CurrentTextSpanStyle.FontInfo.ResolvedFont;
+
             if (vscrollableSurface != null)
             {
                 vscrollableSurface.DrawToThisPage(canvas, updateArea);

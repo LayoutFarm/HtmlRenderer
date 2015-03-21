@@ -108,7 +108,7 @@ namespace LayoutFarm.Text
                         {
                             foreach (EditableTextSpan t in editableFlowLayer.TextRunForward(startPoint.TextRun.NextTextRun, endPoint.TextRun.PrevTextRun))
                             {
-                                output.AddLast(new EditableTextSpan(this.Root, t.Text));
+                                output.AddLast(new EditableTextSpan(this.Root, t.Text, t.SpanStyle));
                             }
                         }
 
@@ -126,13 +126,13 @@ namespace LayoutFarm.Text
                         startLine.RightCopy(startPoint, output);
                         for (int i = startLineId + 1; i < stopLineId; i++)
                         {
-                            output.AddLast(new EditableTextSpan(this.Root, '\n'));
+                            output.AddLast(new EditableTextSpan(this.Root, '\n', this.CurrentTextSpanStyle));
                             EditableTextLine line = editableFlowLayer.GetTextLine(i);
                             line.Copy(output);
                         }
                         if (endPoint.LineCharIndex > -1)
                         {
-                            output.AddLast(new EditableTextSpan(this.Root, '\n'));
+                            output.AddLast(new EditableTextSpan(this.Root, '\n', this.CurrentTextSpanStyle));
                             stopLine.LeftCopy(endPoint, output);
                         }
 
@@ -209,7 +209,7 @@ namespace LayoutFarm.Text
                     startLine.RightCopy(startPoint, output);
                     for (int i = startLineId + 1; i < stopLineId; i++)
                     {
-                        output.AddLast(new EditableTextSpan(this.Root, '\n'));
+                        output.AddLast(new EditableTextSpan(this.Root, '\n', this.CurrentTextSpanStyle));
                         EditableTextLine line = editableFlowLayer.GetTextLine(i);
                         line.Copy(output);
                     }
@@ -217,7 +217,10 @@ namespace LayoutFarm.Text
                 }
             }
         }
-
+        internal TextSpanSytle CurrentTextSpanStyle
+        {
+            get { return this.OwnerFlowLayer.CurrentTextSpanStyle; }
+        }
         internal void Remove(VisualSelectionRange selectionRange)
         {
             EditableVisualPointInfo startPoint = selectionRange.StartPoint;

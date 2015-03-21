@@ -16,14 +16,19 @@ namespace LayoutFarm.Text
 
         public event EventHandler Reflow;
 
-        public EditableTextFlowLayer(RenderBoxBase owner)
+        TextEditRenderBox owner;
+        public EditableTextFlowLayer(TextEditRenderBox owner)
             : base(owner)
         {
+            this.owner = owner;
             //start with single line per layer
             //and can change to multiline
             lineCollection = new EditableTextLine(this);
         }
-
+        public TextSpanSytle CurrentTextSpanStyle
+        {
+            get { return this.owner.CurrentTextSpanStyle; }
+        }
         public void SetUseDoubleCanvas(bool useWithWidth, bool useWithHeight)
         {
             this.SetDoubleCanvas(useWithWidth, useWithHeight);
@@ -47,7 +52,7 @@ namespace LayoutFarm.Text
                     layerFlags &= ~FLOWLAYER_HAS_MULTILINE;
                 }
             }
-        } 
+        }
 
         internal IEnumerable<EditableTextSpan> GetDrawingIter(EditableTextSpan start, EditableTextSpan stop)
         {
@@ -77,7 +82,7 @@ namespace LayoutFarm.Text
                 }
             }
         }
-         
+
         public int LineCount
         {
             get
@@ -92,7 +97,7 @@ namespace LayoutFarm.Text
                 }
 
             }
-        } 
+        }
 
         public override void DrawChildContent(Canvas canvas, Rectangle updateArea)
         {
@@ -211,7 +216,7 @@ namespace LayoutFarm.Text
             this.FinishDrawingChildContent();
 
         }
-         
+
         public override bool HitTestCore(HitChain hitChain)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) == 0)

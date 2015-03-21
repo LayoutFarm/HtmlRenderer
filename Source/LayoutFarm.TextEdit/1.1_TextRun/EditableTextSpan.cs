@@ -9,17 +9,17 @@ namespace LayoutFarm.Text
 
     public partial class EditableTextSpan : TextSpan
     {
-        private EditableTextSpan(RootGraphic gfx, char[] myBuffer)
-            : base(gfx, myBuffer)
+        private EditableTextSpan(RootGraphic gfx, char[] myBuffer, TextSpanSytle style)
+            : base(gfx, myBuffer, style)
         {
         }
-        public EditableTextSpan(RootGraphic gfx, char c)
-            : base(gfx, c)
+        public EditableTextSpan(RootGraphic gfx, char c, TextSpanSytle style)
+            : base(gfx, c, style)
         {
 
         }
-        public EditableTextSpan(RootGraphic gfx, string str)
-            : base(gfx, str)
+        public EditableTextSpan(RootGraphic gfx, string str, TextSpanSytle style)
+            : base(gfx, str, style)
         {
 
         }
@@ -31,7 +31,7 @@ namespace LayoutFarm.Text
         }
         internal EditableTextSpan Clone()
         {
-            return new EditableTextSpan(this.Root, this.Text);
+            return new EditableTextSpan(this.Root, this.Text, this.SpanStyle);
         }
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
@@ -109,7 +109,7 @@ namespace LayoutFarm.Text
             {
                 char[] newContent = new char[length];
                 Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
-                EditableTextSpan newTextRun = new EditableTextSpan(this.Root, newContent);
+                EditableTextSpan newTextRun = new EditableTextSpan(this.Root, newContent, this.SpanStyle);
 
                 if (this.SpanStyle != null)
                 {
