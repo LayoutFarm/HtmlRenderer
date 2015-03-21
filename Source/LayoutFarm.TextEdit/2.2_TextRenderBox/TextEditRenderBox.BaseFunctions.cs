@@ -20,6 +20,7 @@ namespace LayoutFarm.Text
         bool isInVerticalPhase = false;
         bool isFocus = false;
         bool stateShowCaret = false;
+        TextSpanStyle currentSpanStyle;
 
         public TextEditRenderBox(RootGraphic rootgfx,
             int width, int height,
@@ -27,10 +28,15 @@ namespace LayoutFarm.Text
             : base(rootgfx, width, height)
         {
 
+
             GlobalCaretController.RegisterCaretBlink(rootgfx);
             myCaret = new CaretRenderElement(rootgfx, 2, 17);
             myCaret.TransparentForAllEvents = true;
-            this.MayHasViewport = true; 
+            this.MayHasViewport = true;
+
+
+            this.currentSpanStyle = new TextSpanStyle();
+            this.currentSpanStyle.FontInfo = rootgfx.DefaultTextEditFontInfo;
 
             textLayer = new EditableTextFlowLayer(this);
 
@@ -49,8 +55,12 @@ namespace LayoutFarm.Text
                 textLayer.SetUseDoubleCanvas(true, false);
             }
             this.IsBlockElement = false;
+        } 
+        public TextSpanStyle CurrentTextSpanStyle
+        {
+            get { return this.currentSpanStyle; }
+            set { this.currentSpanStyle = value; }
         }
-
         public TextMan TextMan
         {
             get
@@ -179,7 +189,7 @@ namespace LayoutFarm.Text
             this.SetCaretState(true);
             this.isFocus = true;
         }
-        
+
         public bool IsFocused
         {
             get
@@ -464,7 +474,7 @@ namespace LayoutFarm.Text
                                 internalTextLayerController.AddTextRunsToCurrentLine(
                                     new EditableTextSpan[]{ 
                                         new EditableTextSpan(this.Root,  
-                                            Clipboard.GetUnicodeText())
+                                            Clipboard.GetUnicodeText(), this.CurrentTextSpanStyle)
                                            });
                                 EnsureCaretVisible();
 
@@ -518,42 +528,39 @@ namespace LayoutFarm.Text
                         } break;
                     case UIKeys.B:
                         {
-                            TextSpanSytle defaultBeh1 = internalTextLayerController.GetFirstTextStyleInSelectedRange();
+                            //TextSpanStyle style = internalTextLayerController.GetFirstTextStyleInSelectedRange(); 
+                            //TextSpanStyle textStyle = null;
 
-                            TextSpanSytle textStyle = null;
-                            //test only 
-                            //TODO: make this more configurable
-                            if (defaultBeh1 != null)
-                            {
-                                TextSpanSytle defaultBeh = ((TextSpanSytle)defaultBeh1);
-                                if (defaultBeh.FontBold)
-                                {
-                                    textStyle = StyleHelper.CreateNewStyle(Color.Black);
-                                }
-                                else
-                                {
-                                    textStyle = StyleHelper.CreateNewStyle(Color.Blue);
-                                }
-                            }
-                            else
-                            {
-                                textStyle = StyleHelper.CreateNewStyle(Color.Blue);
+                            ////test only ***
+                            ////TODO: make this more configurable
+                            //if (style != null)
+                            //{
+                            //    TextSpanStyle defaultBeh = ((TextSpanStyle)style);
+                            //    if (defaultBeh.FontBold)
+                            //    {
+                            //        textStyle = StyleHelper.CreateNewStyle(Color.Black);
+                            //    }
+                            //    else
+                            //    {
+                            //        textStyle = StyleHelper.CreateNewStyle(Color.Blue);
+                            //    }
+                            //}
+                            //else
+                            //{
+                            //    textStyle = StyleHelper.CreateNewStyle(Color.Blue); 
+                            //} 
 
-                            }
+                            //internalTextLayerController.DoFormatSelection(textStyle);
 
+                            //if (internalTextLayerController.updateJustCurrentLine)
+                            //{
 
-                            internalTextLayerController.DoFormatSelection(textStyle);
-
-                            if (internalTextLayerController.updateJustCurrentLine)
-                            {
-
-                                InvalidateGraphicOfCurrentLineArea();
-                            }
-                            else
-                            {
-                                InvalidateGraphics();
-
-                            }
+                            //    InvalidateGraphicOfCurrentLineArea();
+                            //}
+                            //else
+                            //{
+                            //    InvalidateGraphics(); 
+                            //}
 
                         } break;
 
@@ -639,7 +646,7 @@ namespace LayoutFarm.Text
                         else
                         {
                             internalTextLayerController.StartSelectIfNoSelection();
-                             
+
                         }
 
                         Point currentCaretPos = Point.Empty;
@@ -655,7 +662,7 @@ namespace LayoutFarm.Text
                                 {
                                     break;
                                 }
-                            } 
+                            }
                         }
                         else
                         {
@@ -678,7 +685,7 @@ namespace LayoutFarm.Text
                                         break;
                                     }
                                 }
-                            } 
+                            }
                         }
                         //-------------------
                         if (e.Shift)
@@ -710,7 +717,7 @@ namespace LayoutFarm.Text
                             internalTextLayerController.CancelSelect();
                         }
                         else
-                        {   
+                        {
                             internalTextLayerController.StartSelectIfNoSelection();
                         }
 
@@ -779,10 +786,10 @@ namespace LayoutFarm.Text
                             if (!isInVerticalPhase)
                             {
 
-                                isInVerticalPhase = true; 
+                                isInVerticalPhase = true;
                                 verticalExpectedCharIndex = internalTextLayerController.CharIndex;
                             }
-                           
+
                             //----------------------------                          
                             if (!e.Shift)
                             {
@@ -822,7 +829,7 @@ namespace LayoutFarm.Text
                             }
 
                         }
-                        
+
                         if (textSurfaceEventListener != null)
                         {
                             TextSurfaceEventListener.NotifyArrowKeyCaretPosChanged(textSurfaceEventListener, keyData);
@@ -866,14 +873,14 @@ namespace LayoutFarm.Text
                             else
                             {
                                 internalTextLayerController.CharIndex = verticalExpectedCharIndex;
-                            } 
+                            }
 
                             //----------------------------
                             if (e.Shift)
                             {
                                 internalTextLayerController.EndSelectIfNoSelection();
                             }
-                             
+
                             Rectangle lineArea = internalTextLayerController.CurrentLineArea;
 
                             if (lineArea.Top < ViewportY)
@@ -884,7 +891,7 @@ namespace LayoutFarm.Text
                             {
                                 EnsureCaretVisible();
                                 InvalidateGraphicOfCurrentLineArea();
-                            } 
+                            }
                         }
                         else
                         {
@@ -896,12 +903,12 @@ namespace LayoutFarm.Text
                         return true;
                     }
                 case UIKeys.Tab:
-                    { 
+                    {
                         DoTab();
                         return true;
-                    } 
+                    }
                 default:
-                    {   
+                    {
                         return false;
                     }
             }

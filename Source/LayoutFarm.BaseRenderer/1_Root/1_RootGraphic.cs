@@ -25,8 +25,13 @@ namespace LayoutFarm
             this.Height = heigth;
         }
         public abstract GraphicsPlatform P { get; }
-        public IFonts SampleIFonts { get { return this.P.SampleIFonts; } }
 
+        public IFonts SampleIFonts { get { return this.P.SampleIFonts; } } 
+
+        public abstract FontInfo DefaultTextEditFontInfo
+        {
+            get; 
+        }
         public abstract TopWindowRenderBox TopWindowRenderBox
         {
             get;
@@ -59,7 +64,7 @@ namespace LayoutFarm
 
         //TODO: review this !
         public abstract void AddToUpdateQueue(object toupdateObj);
-        
+
         public bool LayoutQueueClearing
         {
             get;

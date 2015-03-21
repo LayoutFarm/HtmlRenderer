@@ -26,10 +26,8 @@ namespace LayoutFarm.Ease
             {
                 if (isStarted) return;
 
-                var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
-                LayoutFarm.Text.TextEditRenderBox.DefaultFontInfo = platform.GetFont("tahoma", 10, PixelFarm.Drawing.FontStyle.Regular);
-                uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
-                //--------------------
+                var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(); 
+                uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();               
 
 
                 //--------------------
