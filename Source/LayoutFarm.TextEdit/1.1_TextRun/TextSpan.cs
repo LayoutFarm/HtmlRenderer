@@ -212,17 +212,20 @@ namespace LayoutFarm.Text
             }
             else
             {
-                TextSpanSytle beh = this.SpanStyle;
-                switch (EvaluateFontAndTextColor(canvas, beh.FontInfo.ResolvedFont, beh.FontColor))
+                TextSpanSytle style = this.SpanStyle;
+
+
+
+                switch (EvaluateFontAndTextColor(canvas, style.FontInfo.ResolvedFont, style.FontColor))
                 {
                     case DIFF_FONT_SAME_TEXT_COLOR:
                         {
 
                             var prevFont = canvas.CurrentFont;
-                            canvas.CurrentFont = beh.FontInfo.ResolvedFont;
+                            canvas.CurrentFont = style.FontInfo.ResolvedFont;
                             canvas.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),
-                               beh.ContentHAlign);
+                               style.ContentHAlign);
 
                             canvas.CurrentFont = prevFont;
                         } break;
@@ -231,11 +234,11 @@ namespace LayoutFarm.Text
                             var prevFont = canvas.CurrentFont;
                             var prevColor = canvas.CurrentTextColor;
 
-                            canvas.CurrentFont = beh.FontInfo.ResolvedFont;
-                            canvas.CurrentTextColor = beh.FontColor;
+                            canvas.CurrentFont = style.FontInfo.ResolvedFont;
+                            canvas.CurrentTextColor = style.FontColor;
                             canvas.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),
-                               beh.ContentHAlign);
+                               style.ContentHAlign);
 
                             canvas.CurrentFont = prevFont;
                             canvas.CurrentTextColor = prevColor;
@@ -246,15 +249,14 @@ namespace LayoutFarm.Text
                             var prevColor = canvas.CurrentTextColor;
                             canvas.DrawText(textArray,
                             new Rectangle(0, 0, bWidth, bHeight),
-                            beh.ContentHAlign);
-                            canvas.CurrentTextColor = prevColor;
-
+                            style.ContentHAlign);
+                            canvas.CurrentTextColor = prevColor; 
                         } break;
                     default:
                         {
                             canvas.DrawText(textArray,
                                new Rectangle(0, 0, bWidth, bHeight),
-                               beh.ContentHAlign);
+                               style.ContentHAlign);
                         } break;
                 }
             }

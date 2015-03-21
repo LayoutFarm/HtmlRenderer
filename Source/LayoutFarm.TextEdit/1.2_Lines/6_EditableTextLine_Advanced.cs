@@ -219,7 +219,10 @@ namespace LayoutFarm.Text
         }
         internal TextSpanSytle CurrentTextSpanStyle
         {
-            get { return this.OwnerFlowLayer.CurrentTextSpanStyle; }
+            get
+            {
+                return this.OwnerFlowLayer.CurrentTextSpanStyle;
+            }
         }
         internal void Remove(VisualSelectionRange selectionRange)
         {

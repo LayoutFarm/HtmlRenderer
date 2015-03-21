@@ -17,7 +17,7 @@ namespace LayoutFarm.CustomWidgets
         TextSurfaceEventListener textSurfaceListener;
         TextEditRenderBox visualTextEdit;
         bool _multiline;
-
+        TextSpanSytle defaultSpanStyle;
 
         public TextBox(int width, int height, bool multiline)
             : base(width, height)
@@ -27,10 +27,23 @@ namespace LayoutFarm.CustomWidgets
         }
         public void ClearText()
         {
-            this.visualTextEdit.ClearAllChildren();
+            if (visualTextEdit != null)
+            {
+                this.visualTextEdit.ClearAllChildren();
+            }
         }
-
-
+        public TextSpanSytle DefaultSpanStyle
+        {
+            get { return this.defaultSpanStyle; }
+            set
+            {
+                this.defaultSpanStyle = value;
+                if (visualTextEdit != null)
+                {
+                    visualTextEdit.CurrentTextSpanStyle = value;
+                }
+            }
+        }
         public override bool AcceptKeyboardFocus
         {
             get
@@ -59,7 +72,17 @@ namespace LayoutFarm.CustomWidgets
                 var tbox = new TextEditRenderBox(rootgfx, this.Width, this.Height, _multiline);
                 tbox.SetLocation(this.Left, this.Top);
                 tbox.HasSpecificSize = true;
-
+                if (this.defaultSpanStyle == null)
+                {
+                    this.defaultSpanStyle = new TextSpanSytle();
+                    this.defaultSpanStyle.FontInfo = rootgfx.DefaultTextEditFontInfo;
+                    
+                    tbox.CurrentTextSpanStyle = this.defaultSpanStyle;
+                }
+                else
+                {
+                    tbox.CurrentTextSpanStyle = this.defaultSpanStyle;
+                }
                 tbox.SetController(this);
                 RegisterNativeEvent(
                   1 << UIEventIdentifier.NE_MOUSE_DOWN
@@ -262,7 +285,7 @@ namespace LayoutFarm.CustomWidgets
         void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
 
-        } 
+        }
         void IBoxElement.ChangeElementSize(int w, int h)
         {
             this.SetSize(w, h);

@@ -55,7 +55,7 @@ namespace LayoutFarm.Text
             this.IsBlockElement = false;
         }
 
-        internal TextSpanSytle CurrentTextSpanStyle
+        public TextSpanSytle CurrentTextSpanStyle
         {
             get;
             set;
