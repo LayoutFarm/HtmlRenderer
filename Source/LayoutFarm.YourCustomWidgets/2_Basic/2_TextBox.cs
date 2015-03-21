@@ -44,6 +44,17 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
+        public string Text
+        {
+            get
+            {
+                return this.visualTextEdit.GetTextContent();
+            }
+            set
+            {
+                this.visualTextEdit.SetTextContent(value);
+            }
+        }
         public override bool AcceptKeyboardFocus
         {
             get
