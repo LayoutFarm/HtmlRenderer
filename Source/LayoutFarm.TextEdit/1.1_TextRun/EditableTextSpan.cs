@@ -9,17 +9,17 @@ namespace LayoutFarm.Text
 
     public partial class EditableTextSpan : TextSpan
     {
-        private EditableTextSpan(RootGraphic gfx, char[] myBuffer)
-            : base(gfx, myBuffer)
+        private EditableTextSpan(RootGraphic gfx, char[] myBuffer, TextSpanStyle style)
+            : base(gfx, myBuffer, style)
         {
         }
-        public EditableTextSpan(RootGraphic gfx, char c)
-            : base(gfx, c)
+        public EditableTextSpan(RootGraphic gfx, char c, TextSpanStyle style)
+            : base(gfx, c, style)
         {
 
         }
-        public EditableTextSpan(RootGraphic gfx, string str)
-            : base(gfx, str)
+        public EditableTextSpan(RootGraphic gfx, string str, TextSpanStyle style)
+            : base(gfx, str, style)
         {
 
         }
@@ -31,7 +31,7 @@ namespace LayoutFarm.Text
         }
         internal EditableTextSpan Clone()
         {
-            return new EditableTextSpan(this.Root, this.Text);
+            return new EditableTextSpan(this.Root, this.Text, this.SpanStyle);
         }
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
@@ -109,12 +109,9 @@ namespace LayoutFarm.Text
             {
                 char[] newContent = new char[length];
                 Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
-                EditableTextSpan newTextRun = new EditableTextSpan(this.Root, newContent);
-                TextSpanSytle bah = this.SpanStyle;
-                if (bah != null)
-                {
-                    newTextRun.SetStyle(bah);
-                }
+                EditableTextSpan newTextRun = new EditableTextSpan(this.Root, newContent, this.SpanStyle);
+
+                 
 
                 newTextRun.IsLineBreak = this.IsLineBreak;
                 newTextRun.UpdateRunWidth();

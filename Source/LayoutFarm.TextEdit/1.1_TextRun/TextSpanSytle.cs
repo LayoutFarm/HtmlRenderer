@@ -13,38 +13,21 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.Text
 {
 
-    public class TextSpanSytle
+    public struct TextSpanStyle
     {
-        public TextSpanSytle()
-        {
-            //this.SharedBgColorBrush = new ArtSolidBrush(Color.White);
-        }
-        public bool FontBold
-        {
-            get;
-            set;
-        }
-        //ArtColorBrush sharedBgColorBrush = null;
-        //public ArtColorBrush SharedBgColorBrush
-        //{
-        //    get
-        //    {
-        //        return sharedBgColorBrush;
-        //    }
-        //    set
-        //    {
-        //        this.sharedBgColorBrush = value;
-        //    }
-        //}
+        
         public Color FontColor
         {
             get;
             set;
         }
         public FontInfo FontInfo;
+        public byte ContentHAlign;
 
-        public int ContentHAlign;
-        public int positionWidth = -1;
-        public int positionHeight = -1;
+        public static readonly TextSpanStyle Empty = new TextSpanStyle();
+        public bool IsEmpty()
+        {
+            return this.FontInfo == null;
+        }
     }
 }

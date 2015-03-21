@@ -10,10 +10,19 @@ namespace LayoutFarm.Text
     class TextLineWriter : TextLineReader
     {
         BackGroundTextLineWriter backgroundWriter;
+
+
         public TextLineWriter(EditableTextFlowLayer textLayer)
             : base(textLayer)
         {
 
+        }
+        public TextSpanStyle CurrentSpanStyle
+        {
+            get
+            {
+                return this.TextLayer.CurrentTextSpanStyle;
+            }
         }
         internal BackGroundTextLineWriter GetBackgroundWriter()
         {
@@ -102,7 +111,7 @@ namespace LayoutFarm.Text
                     CurrentLine.Remove(removingTextRun);
                     EnsureCurrentTextRun();
                 }
-                 
+
 
                 return toBeRemovedChar;
             }
@@ -125,7 +134,9 @@ namespace LayoutFarm.Text
             if (CurrentLine.IsBlankLine)
             {
                 //1. new 
-                EditableTextSpan t = new EditableTextSpan(this.Root, c);
+                EditableTextSpan t = new EditableTextSpan(this.Root,
+                    c,
+                    this.CurrentSpanStyle);
 
                 var owner = this.FlowLayer.OwnerRenderElement;
 
@@ -146,7 +157,7 @@ namespace LayoutFarm.Text
                     }
                     else
                     {
-                        Add(new EditableTextSpan(this.Root, c));
+                        Add(new EditableTextSpan(this.Root, c, this.CurrentSpanStyle));
                         return;
                     }
                 }
@@ -227,7 +238,7 @@ namespace LayoutFarm.Text
         public void SplitToNewLine()
         {
 
-            EditableTextSpan lineBreakRun = new EditableTextSpan(this.Root, '\n');
+            EditableTextSpan lineBreakRun = new EditableTextSpan(this.Root, '\n', this.CurrentSpanStyle);
             EditableTextSpan currentRun = CurrentTextRun;
             if (CurrentLine.IsBlankLine)
             {
@@ -808,7 +819,7 @@ namespace LayoutFarm.Text
             currentLine.Copy(selectionRange, output);
             return output;
         }
-        
+
         public int LineNumber
         {
             get
