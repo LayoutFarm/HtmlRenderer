@@ -10,8 +10,10 @@ namespace LayoutFarm.UI.GdiPlus
     {
         public static GraphicsPlatform Start()
         {
-            PixelFarm.Drawing.WinGdi.WinGdiPortal.Start();
-            return PixelFarm.Drawing.WinGdi.WinGdiPortal.P;
+            PixelFarm.Drawing.WinGdi.WinGdiPortal.Start(); 
+            var platform = PixelFarm.Drawing.WinGdi.WinGdiPortal.P;
+            platform.TextEditFontInfo = platform.GetFont("tahoma", 14, PixelFarm.Drawing.FontStyle.Regular);             
+            return platform;
         }
         public static void End()
         {

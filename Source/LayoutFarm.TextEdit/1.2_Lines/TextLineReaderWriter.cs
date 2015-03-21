@@ -10,6 +10,8 @@ namespace LayoutFarm.Text
     class TextLineWriter : TextLineReader
     {
         BackGroundTextLineWriter backgroundWriter;
+        TextSpanSytle defaultTextStyle;
+
         public TextLineWriter(EditableTextFlowLayer textLayer)
             : base(textLayer)
         {
@@ -102,7 +104,7 @@ namespace LayoutFarm.Text
                     CurrentLine.Remove(removingTextRun);
                     EnsureCurrentTextRun();
                 }
-                 
+
 
                 return toBeRemovedChar;
             }
@@ -808,7 +810,7 @@ namespace LayoutFarm.Text
             currentLine.Copy(selectionRange, output);
             return output;
         }
-        
+
         public int LineNumber
         {
             get

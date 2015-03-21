@@ -96,7 +96,14 @@ namespace LayoutFarm.UI
         {
             get { return graphicsPlatform; }
         }
-
+        public override FontInfo DefaultTextEditFontInfo
+        {
+            get
+            {
+                return graphicsPlatform.TextEditFontInfo;                 
+            }
+             
+        }
         public override void ClearRenderRequests()
         {
             if (this.VisualRequestCount > 0)

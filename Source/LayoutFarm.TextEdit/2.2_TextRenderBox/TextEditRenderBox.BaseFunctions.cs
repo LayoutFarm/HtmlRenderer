@@ -20,6 +20,7 @@ namespace LayoutFarm.Text
         bool isInVerticalPhase = false;
         bool isFocus = false;
         bool stateShowCaret = false;
+        Font defaultFont;
 
         public TextEditRenderBox(RootGraphic rootgfx,
             int width, int height,
@@ -30,7 +31,7 @@ namespace LayoutFarm.Text
             GlobalCaretController.RegisterCaretBlink(rootgfx);
             myCaret = new CaretRenderElement(rootgfx, 2, 17);
             myCaret.TransparentForAllEvents = true;
-            this.MayHasViewport = true; 
+            this.MayHasViewport = true;
 
             textLayer = new EditableTextFlowLayer(this);
 
@@ -51,6 +52,7 @@ namespace LayoutFarm.Text
             this.IsBlockElement = false;
         }
 
+         
         public TextMan TextMan
         {
             get
@@ -179,7 +181,7 @@ namespace LayoutFarm.Text
             this.SetCaretState(true);
             this.isFocus = true;
         }
-        
+
         public bool IsFocused
         {
             get
@@ -639,7 +641,7 @@ namespace LayoutFarm.Text
                         else
                         {
                             internalTextLayerController.StartSelectIfNoSelection();
-                             
+
                         }
 
                         Point currentCaretPos = Point.Empty;
@@ -655,7 +657,7 @@ namespace LayoutFarm.Text
                                 {
                                     break;
                                 }
-                            } 
+                            }
                         }
                         else
                         {
@@ -678,7 +680,7 @@ namespace LayoutFarm.Text
                                         break;
                                     }
                                 }
-                            } 
+                            }
                         }
                         //-------------------
                         if (e.Shift)
@@ -710,7 +712,7 @@ namespace LayoutFarm.Text
                             internalTextLayerController.CancelSelect();
                         }
                         else
-                        {   
+                        {
                             internalTextLayerController.StartSelectIfNoSelection();
                         }
 
@@ -779,10 +781,10 @@ namespace LayoutFarm.Text
                             if (!isInVerticalPhase)
                             {
 
-                                isInVerticalPhase = true; 
+                                isInVerticalPhase = true;
                                 verticalExpectedCharIndex = internalTextLayerController.CharIndex;
                             }
-                           
+
                             //----------------------------                          
                             if (!e.Shift)
                             {
@@ -822,7 +824,7 @@ namespace LayoutFarm.Text
                             }
 
                         }
-                        
+
                         if (textSurfaceEventListener != null)
                         {
                             TextSurfaceEventListener.NotifyArrowKeyCaretPosChanged(textSurfaceEventListener, keyData);
@@ -866,14 +868,14 @@ namespace LayoutFarm.Text
                             else
                             {
                                 internalTextLayerController.CharIndex = verticalExpectedCharIndex;
-                            } 
+                            }
 
                             //----------------------------
                             if (e.Shift)
                             {
                                 internalTextLayerController.EndSelectIfNoSelection();
                             }
-                             
+
                             Rectangle lineArea = internalTextLayerController.CurrentLineArea;
 
                             if (lineArea.Top < ViewportY)
@@ -884,7 +886,7 @@ namespace LayoutFarm.Text
                             {
                                 EnsureCaretVisible();
                                 InvalidateGraphicOfCurrentLineArea();
-                            } 
+                            }
                         }
                         else
                         {
@@ -896,12 +898,12 @@ namespace LayoutFarm.Text
                         return true;
                     }
                 case UIKeys.Tab:
-                    { 
+                    {
                         DoTab();
                         return true;
-                    } 
+                    }
                 default:
-                    {   
+                    {
                         return false;
                     }
             }

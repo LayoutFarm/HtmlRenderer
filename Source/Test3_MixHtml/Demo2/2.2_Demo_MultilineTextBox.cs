@@ -20,6 +20,7 @@ namespace LayoutFarm
 
             {
                 var textbox = new LayoutFarm.CustomWidgets.TextBox(400, 500, true);
+                
                 textbox.SetLocation(0, 120);
                 viewport.AddContent(textbox);
             }

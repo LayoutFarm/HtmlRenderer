@@ -262,8 +262,7 @@ namespace LayoutFarm.CustomWidgets
         void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
 
-        }
-
+        } 
         void IBoxElement.ChangeElementSize(int w, int h)
         {
             this.SetSize(w, h);

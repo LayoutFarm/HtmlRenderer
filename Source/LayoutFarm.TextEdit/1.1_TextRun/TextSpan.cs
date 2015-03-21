@@ -274,7 +274,8 @@ namespace LayoutFarm.Text
 
             if (!HasStyle)
             {
-                return LayoutFarm.Text.TextEditRenderBox.DefaultFontInfo;
+
+                return this.Root.DefaultTextEditFontInfo;
             }   
             else
             {
@@ -285,7 +286,7 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-                    return LayoutFarm.Text.TextEditRenderBox.DefaultFontInfo;
+                    return this.Root.DefaultTextEditFontInfo;                     
                 }
             }
         }

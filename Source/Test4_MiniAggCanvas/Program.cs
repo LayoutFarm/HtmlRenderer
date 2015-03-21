@@ -19,8 +19,7 @@ namespace Test4_AggCanvasBox
 
             //temp
             //TODO: fix this , 
-            var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
-            LayoutFarm.Text.TextEditRenderBox.DefaultFontInfo = platform.GetFont("tahoma", 10, PixelFarm.Drawing.FontStyle.Regular);
+            var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();           
 
             formDemoList = new LayoutFarm.Dev.FormDemoList();
             formDemoList.LoadDemoList(typeof(Program)); 
