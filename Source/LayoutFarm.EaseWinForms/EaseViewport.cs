@@ -38,6 +38,11 @@ namespace LayoutFarm.Ease
         {
             viewportControl.PrintMe(canvas);
         }
+        public LayoutFarm.UI.UISurfaceViewportControl UISurfaceViewport
+        {
+            get { return this.viewportControl; }
+        }
+
     }
 
 }

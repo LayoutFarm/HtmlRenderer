@@ -19,10 +19,9 @@ namespace LayoutFarm
             style1.FontInfo = viewport.P.GetFont("tahoma", 10, PixelFarm.Drawing.FontStyle.Regular);
             textbox1.DefaultSpanStyle = style1;
             viewport.AddContent(textbox1);
-
-
-            var textbox2 = new LayoutFarm.CustomWidgets.TextBox(400, 500, true);
-            textbox2.SetLocation(0, 120);
+             
+            var textbox2 = new LayoutFarm.CustomWidgets.TextBox(400, 100, true);
+            textbox2.SetLocation(20, 120);
             viewport.AddContent(textbox2);
             textbox2.Text = "Hello World!";
 
