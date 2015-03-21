@@ -17,7 +17,7 @@ namespace LayoutFarm.CustomWidgets
         TextSurfaceEventListener textSurfaceListener;
         TextEditRenderBox visualTextEdit;
         bool _multiline;
-        TextSpanSytle defaultSpanStyle;
+        TextSpanStyle defaultSpanStyle;
 
         public TextBox(int width, int height, bool multiline)
             : base(width, height)
@@ -32,7 +32,7 @@ namespace LayoutFarm.CustomWidgets
                 this.visualTextEdit.ClearAllChildren();
             }
         }
-        public TextSpanSytle DefaultSpanStyle
+        public TextSpanStyle DefaultSpanStyle
         {
             get { return this.defaultSpanStyle; }
             set
@@ -72,11 +72,10 @@ namespace LayoutFarm.CustomWidgets
                 var tbox = new TextEditRenderBox(rootgfx, this.Width, this.Height, _multiline);
                 tbox.SetLocation(this.Left, this.Top);
                 tbox.HasSpecificSize = true;
-                if (this.defaultSpanStyle == null)
+                if (this.defaultSpanStyle.IsEmpty())
                 {
-                    this.defaultSpanStyle = new TextSpanSytle();
+                    this.defaultSpanStyle = new TextSpanStyle();
                     this.defaultSpanStyle.FontInfo = rootgfx.DefaultTextEditFontInfo;
-                    
                     tbox.CurrentTextSpanStyle = this.defaultSpanStyle;
                 }
                 else

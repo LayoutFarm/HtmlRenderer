@@ -15,7 +15,7 @@ namespace LayoutFarm
         {
             {
                 var textbox = new LayoutFarm.CustomWidgets.TextBox(400, 500, true); 
-                var style = new Text.TextSpanSytle(); 
+                var style = new Text.TextSpanStyle(); 
                 style.FontInfo = viewport.P.GetFont("tahoma", 10, PixelFarm.Drawing.FontStyle.Regular);
                 textbox.DefaultSpanStyle = style;
 

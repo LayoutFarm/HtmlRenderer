@@ -11,19 +11,19 @@ namespace LayoutFarm.Text
     static class StyleHelper
     {
 
-        public static TextSpanSytle CreateNewStyle(Color color)
+        public static TextSpanStyle CreateNewStyle(Color color)
         {
 
             if (color != Color.Empty)
             {
 
-                TextSpanSytle simpleBeh = new TextSpanSytle();
+                TextSpanStyle simpleBeh = new TextSpanStyle();
                // simpleBeh.SharedBgColorBrush = new ArtSolidBrush(color);
                 return simpleBeh;
             }
             else
             {
-                TextSpanSytle simpleBeh = new TextSpanSytle();
+                TextSpanStyle simpleBeh = new TextSpanStyle();
                 //simpleBeh.SharedBgColorBrush = new ArtSolidBrush(color);
                 return simpleBeh;
 

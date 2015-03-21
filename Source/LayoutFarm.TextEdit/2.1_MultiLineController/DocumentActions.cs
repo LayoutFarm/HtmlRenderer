@@ -168,8 +168,8 @@ namespace LayoutFarm.Text
     {
         int endLineNumber;
         int endCharIndex;
-        TextSpanSytle textStyle;
-        public DocActionFormatting(TextSpanSytle textStyle, int startLineNumber, int startCharIndex, int endLineNumber, int endCharIndex)
+        TextSpanStyle textStyle;
+        public DocActionFormatting(TextSpanStyle textStyle, int startLineNumber, int startCharIndex, int endLineNumber, int endCharIndex)
             : base(startLineNumber, startCharIndex)
         {
             this.textStyle = textStyle;

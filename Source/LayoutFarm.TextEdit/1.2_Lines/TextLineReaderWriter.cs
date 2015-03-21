@@ -17,7 +17,7 @@ namespace LayoutFarm.Text
         {
 
         }
-        public TextSpanSytle CurrentSpanStyle
+        public TextSpanStyle CurrentSpanStyle
         {
             get
             {

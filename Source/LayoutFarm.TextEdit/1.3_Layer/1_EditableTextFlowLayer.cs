@@ -25,7 +25,7 @@ namespace LayoutFarm.Text
             //and can change to multiline
             lineCollection = new EditableTextLine(this);
         }
-        public TextSpanSytle CurrentTextSpanStyle
+        public TextSpanStyle CurrentTextSpanStyle
         {
             get { return this.owner.CurrentTextSpanStyle; }
         }

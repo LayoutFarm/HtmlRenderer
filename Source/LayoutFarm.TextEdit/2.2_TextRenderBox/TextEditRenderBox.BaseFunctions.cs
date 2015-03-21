@@ -20,6 +20,7 @@ namespace LayoutFarm.Text
         bool isInVerticalPhase = false;
         bool isFocus = false;
         bool stateShowCaret = false;
+        TextSpanStyle currentSpanStyle;
 
         public TextEditRenderBox(RootGraphic rootgfx,
             int width, int height,
@@ -34,8 +35,9 @@ namespace LayoutFarm.Text
             this.MayHasViewport = true;
 
 
-            this.CurrentTextSpanStyle = new TextSpanSytle();
-            this.CurrentTextSpanStyle.FontInfo = rootgfx.DefaultTextEditFontInfo;
+            this.currentSpanStyle = new TextSpanStyle();
+            this.currentSpanStyle.FontInfo = rootgfx.DefaultTextEditFontInfo;
+
             textLayer = new EditableTextFlowLayer(this);
 
             this.MyLayers = new VisualLayerCollection();
@@ -53,12 +55,11 @@ namespace LayoutFarm.Text
                 textLayer.SetUseDoubleCanvas(true, false);
             }
             this.IsBlockElement = false;
-        }
-
-        public TextSpanSytle CurrentTextSpanStyle
+        } 
+        public TextSpanStyle CurrentTextSpanStyle
         {
-            get;
-            set;
+            get { return this.currentSpanStyle; }
+            set { this.currentSpanStyle = value; }
         }
         public TextMan TextMan
         {
@@ -527,42 +528,39 @@ namespace LayoutFarm.Text
                         } break;
                     case UIKeys.B:
                         {
-                            TextSpanSytle defaultBeh1 = internalTextLayerController.GetFirstTextStyleInSelectedRange();
+                            //TextSpanStyle style = internalTextLayerController.GetFirstTextStyleInSelectedRange(); 
+                            //TextSpanStyle textStyle = null;
 
-                            TextSpanSytle textStyle = null;
-                            //test only 
-                            //TODO: make this more configurable
-                            if (defaultBeh1 != null)
-                            {
-                                TextSpanSytle defaultBeh = ((TextSpanSytle)defaultBeh1);
-                                if (defaultBeh.FontBold)
-                                {
-                                    textStyle = StyleHelper.CreateNewStyle(Color.Black);
-                                }
-                                else
-                                {
-                                    textStyle = StyleHelper.CreateNewStyle(Color.Blue);
-                                }
-                            }
-                            else
-                            {
-                                textStyle = StyleHelper.CreateNewStyle(Color.Blue);
+                            ////test only ***
+                            ////TODO: make this more configurable
+                            //if (style != null)
+                            //{
+                            //    TextSpanStyle defaultBeh = ((TextSpanStyle)style);
+                            //    if (defaultBeh.FontBold)
+                            //    {
+                            //        textStyle = StyleHelper.CreateNewStyle(Color.Black);
+                            //    }
+                            //    else
+                            //    {
+                            //        textStyle = StyleHelper.CreateNewStyle(Color.Blue);
+                            //    }
+                            //}
+                            //else
+                            //{
+                            //    textStyle = StyleHelper.CreateNewStyle(Color.Blue); 
+                            //} 
 
-                            }
+                            //internalTextLayerController.DoFormatSelection(textStyle);
 
+                            //if (internalTextLayerController.updateJustCurrentLine)
+                            //{
 
-                            internalTextLayerController.DoFormatSelection(textStyle);
-
-                            if (internalTextLayerController.updateJustCurrentLine)
-                            {
-
-                                InvalidateGraphicOfCurrentLineArea();
-                            }
-                            else
-                            {
-                                InvalidateGraphics();
-
-                            }
+                            //    InvalidateGraphicOfCurrentLineArea();
+                            //}
+                            //else
+                            //{
+                            //    InvalidateGraphics(); 
+                            //}
 
                         } break;
 

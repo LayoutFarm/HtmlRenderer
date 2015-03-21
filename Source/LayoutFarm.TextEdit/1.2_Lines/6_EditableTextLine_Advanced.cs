@@ -108,7 +108,7 @@ namespace LayoutFarm.Text
                         {
                             foreach (EditableTextSpan t in editableFlowLayer.TextRunForward(startPoint.TextRun.NextTextRun, endPoint.TextRun.PrevTextRun))
                             {
-                                output.AddLast(new EditableTextSpan(this.Root, t.Text, t.SpanStyle));
+                                output.AddLast(t.Clone());
                             }
                         }
 
@@ -217,7 +217,7 @@ namespace LayoutFarm.Text
                 }
             }
         }
-        internal TextSpanSytle CurrentTextSpanStyle
+        internal TextSpanStyle CurrentTextSpanStyle
         {
             get
             {

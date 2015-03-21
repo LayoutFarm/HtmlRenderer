@@ -11,9 +11,9 @@ namespace LayoutFarm.Text
     {
 
         protected char[] mybuffer;
-        TextSpanSytle spanStyle;
+        TextSpanStyle spanStyle;
 
-        public TextSpan(RootGraphic gfx, string s, TextSpanSytle style)
+        public TextSpan(RootGraphic gfx, string s, TextSpanStyle style)
             : base(gfx, 10, 10)
         {
             this.spanStyle = style;
@@ -34,7 +34,7 @@ namespace LayoutFarm.Text
             this.TransparentForAllEvents = true;
         }
 
-        public TextSpan(RootGraphic gfx, char c, TextSpanSytle style)
+        public TextSpan(RootGraphic gfx, char c, TextSpanStyle style)
             : base(gfx, 10, 10)
         {
             this.spanStyle = style;
@@ -47,7 +47,7 @@ namespace LayoutFarm.Text
             this.TransparentForAllEvents = true;
             UpdateRunWidth();
         }
-        public TextSpan(RootGraphic gfx, char[] copyBuffer, TextSpanSytle style)
+        public TextSpan(RootGraphic gfx, char[] copyBuffer, TextSpanStyle style)
             : base(gfx, 10, 10)
         {
             this.spanStyle = style;
@@ -55,7 +55,7 @@ namespace LayoutFarm.Text
             this.mybuffer = copyBuffer;
             this.TransparentForAllEvents = true;
         }
-        public TextSpanSytle SpanStyle
+        public TextSpanStyle SpanStyle
         {
             get
             {
@@ -63,32 +63,13 @@ namespace LayoutFarm.Text
             }
         }
 
-        public void SetStyle(TextSpanSytle spanStyle)
-        {
-
-
-            if (spanStyle == null)
-            {
-                return;
-            }
-            //------------------------------------------
-
-
+        public void SetStyle(TextSpanStyle spanStyle)
+        { 
+           
             this.InvalidateGraphics();
-            this.spanStyle = spanStyle;
-            if (spanStyle.positionWidth > -1)
-            {
-                this.SetWidth(spanStyle.positionWidth);
-            }
-            if (spanStyle.positionHeight > -1)
-            {
-                this.SetHeight(spanStyle.positionHeight);
-            }
-
+            this.spanStyle = spanStyle; 
             this.InvalidateGraphics();
-
-
-
+             
             UpdateRunWidth();
         }
         protected void UpdateRunWidth()
@@ -163,7 +144,7 @@ namespace LayoutFarm.Text
         {
             get
             {
-                return this.SpanStyle != null;
+                return !this.SpanStyle.IsEmpty();
             }
         }
 
@@ -172,8 +153,10 @@ namespace LayoutFarm.Text
         const int DIFF_FONT_SAME_TEXT_COLOR = 2;
         const int DIFF_FONT_DIFF_TEXT_COLOR = 3;
 
-        static int EvaluateFontAndTextColor(Canvas canvas, Font font, Color color)
+        static int EvaluateFontAndTextColor(Canvas canvas, TextSpanStyle spanStyle)
         {
+            var font = spanStyle.FontInfo.ResolvedFont;
+            var color = spanStyle.FontColor;
             var currentTextFont = canvas.CurrentFont;
             var currentTextColor = canvas.CurrentTextColor;
 
@@ -212,11 +195,8 @@ namespace LayoutFarm.Text
             }
             else
             {
-                TextSpanSytle style = this.SpanStyle;
-
-
-
-                switch (EvaluateFontAndTextColor(canvas, style.FontInfo.ResolvedFont, style.FontColor))
+                TextSpanStyle style = this.SpanStyle;
+                switch (EvaluateFontAndTextColor(canvas, style))
                 {
                     case DIFF_FONT_SAME_TEXT_COLOR:
                         {
@@ -250,7 +230,7 @@ namespace LayoutFarm.Text
                             canvas.DrawText(textArray,
                             new Rectangle(0, 0, bWidth, bHeight),
                             style.ContentHAlign);
-                            canvas.CurrentTextColor = prevColor; 
+                            canvas.CurrentTextColor = prevColor;
                         } break;
                     default:
                         {
@@ -274,13 +254,12 @@ namespace LayoutFarm.Text
         {
             if (!HasStyle)
             {
-
                 return this.Root.DefaultTextEditFontInfo;
             }
             else
             {
-                TextSpanSytle spanStyle = this.SpanStyle;
-                if (spanStyle != null && spanStyle.FontInfo != null)
+                TextSpanStyle spanStyle = this.SpanStyle;
+                if ( spanStyle.FontInfo != null)
                 {
                     return spanStyle.FontInfo;
                 }

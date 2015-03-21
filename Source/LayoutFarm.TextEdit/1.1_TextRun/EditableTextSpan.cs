@@ -9,16 +9,16 @@ namespace LayoutFarm.Text
 
     public partial class EditableTextSpan : TextSpan
     {
-        private EditableTextSpan(RootGraphic gfx, char[] myBuffer, TextSpanSytle style)
+        private EditableTextSpan(RootGraphic gfx, char[] myBuffer, TextSpanStyle style)
             : base(gfx, myBuffer, style)
         {
         }
-        public EditableTextSpan(RootGraphic gfx, char c, TextSpanSytle style)
+        public EditableTextSpan(RootGraphic gfx, char c, TextSpanStyle style)
             : base(gfx, c, style)
         {
 
         }
-        public EditableTextSpan(RootGraphic gfx, string str, TextSpanSytle style)
+        public EditableTextSpan(RootGraphic gfx, string str, TextSpanStyle style)
             : base(gfx, str, style)
         {
 
@@ -111,10 +111,7 @@ namespace LayoutFarm.Text
                 Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
                 EditableTextSpan newTextRun = new EditableTextSpan(this.Root, newContent, this.SpanStyle);
 
-                if (this.SpanStyle != null)
-                {
-                    newTextRun.SetStyle(this.SpanStyle);
-                }
+                 
 
                 newTextRun.IsLineBreak = this.IsLineBreak;
                 newTextRun.UpdateRunWidth();

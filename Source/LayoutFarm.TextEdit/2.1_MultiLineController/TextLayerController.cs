@@ -299,9 +299,7 @@ namespace LayoutFarm.Text
 
             TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
         }
-
-
-        public TextSpanSytle GetFirstTextStyleInSelectedRange()
+        public TextSpanStyle GetFirstTextStyleInSelectedRange()
         {
             VisualSelectionRange selRange = SelectionRange;
             if (selRange != null)
@@ -312,16 +310,15 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-                    return null;
+                    return TextSpanStyle.Empty;
                 }
-
             }
             else
             {
-                return null;
+                return TextSpanStyle.Empty;
             }
         }
-        public void DoFormatSelection(TextSpanSytle textStyle)
+        public void DoFormatSelection(TextSpanStyle textStyle)
         {
             int startLineNum = textLineWriter.LineNumber;
             int startCharIndex = textLineWriter.CharIndex;
