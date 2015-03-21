@@ -13,21 +13,19 @@ namespace LayoutFarm
     {
         protected override void OnStartDemo(SampleViewport viewport)
         {
-            {
-                var textbox = new LayoutFarm.CustomWidgets.TextBox(400, 500, true); 
-                var style = new Text.TextSpanStyle(); 
-                style.FontInfo = viewport.P.GetFont("tahoma", 10, PixelFarm.Drawing.FontStyle.Regular);
-                textbox.DefaultSpanStyle = style;
 
-                viewport.AddContent(textbox);
-            }
+            var textbox1 = new LayoutFarm.CustomWidgets.TextBox(400, 500, true);
+            var style1 = new Text.TextSpanStyle();
+            style1.FontInfo = viewport.P.GetFont("tahoma", 10, PixelFarm.Drawing.FontStyle.Regular);
+            textbox1.DefaultSpanStyle = style1;
+            viewport.AddContent(textbox1);
 
-            {
-                var textbox = new LayoutFarm.CustomWidgets.TextBox(400, 500, true);
 
-                textbox.SetLocation(0, 120);
-                viewport.AddContent(textbox);
-            }
+            var textbox2 = new LayoutFarm.CustomWidgets.TextBox(400, 500, true);
+            textbox2.SetLocation(0, 120);
+            viewport.AddContent(textbox2);
+            textbox2.Text = "Hello World!";
+
         }
     }
 }

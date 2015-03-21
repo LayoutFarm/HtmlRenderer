@@ -110,7 +110,35 @@ namespace LayoutFarm.Text
             TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
 
         }
+        public void AddTextRunToCurrentLine(EditableTextSpan t)
+        {
+            RemoveSelectedText();
+            int startLineNum = textLineWriter.LineNumber;
+            int startCharIndex = textLineWriter.CharIndex;
 
+            bool isRecordingHx = EnableUndoHistoryRecording;
+
+            EnableUndoHistoryRecording = false;
+
+            if (t.IsLineBreak)
+            {
+                textLineWriter.SplitToNewLine();
+                CurrentLineNumber++;
+            }
+            else
+            {
+                textLineWriter.Add(t);
+            }
+
+            EnableUndoHistoryRecording = isRecordingHx;
+            undoActionCollection.AddDocAction(
+                new DocActionInsertRuns(t, startLineNum, startCharIndex,
+                    textLineWriter.LineNumber, textLineWriter.CharIndex));
+
+            updateJustCurrentLine = false;
+            TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
+
+        }
         public void CopyAllToPlainText(StringBuilder output)
         {
             textLineWriter.CopyContentToStrignBuilder(output);
