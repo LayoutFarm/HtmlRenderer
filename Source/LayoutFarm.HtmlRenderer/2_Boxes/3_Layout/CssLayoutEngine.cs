@@ -687,8 +687,11 @@ namespace LayoutFarm.HtmlBoxes
                         !run.IsLineBreak &&
                         (i == 0 || splitableBox.ParentBox.IsBlock))//this run is first run of 'b' (run == b.FirstRun)
                     {
-                        // var bParent = b.ParentBox;
-                        cx += splitableBox.ActualMarginLeft + splitableBox.ActualBorderLeftWidth + splitableBox.ActualPaddingLeft;
+
+
+                        cx += splitableBox.ActualMarginLeft +
+                            splitableBox.ActualBorderLeftWidth +
+                            splitableBox.ActualPaddingLeft;
                     }
 
                     if (run.IsSolidContent || i == 0)
@@ -703,14 +706,14 @@ namespace LayoutFarm.HtmlBoxes
                     //not add 
                     continue;
                 }
-                else
-                {
-                    hostLine.AddRun(run); //***
-                }
-
-                run.SetLocation(cx, 0);
+                //---------------------------------------------------
+                hostLine.AddRun(run); //***
+                cx += b.ActualPaddingLeft;
+                run.SetLocation(cx, 0); 
+                cx += run.Width + b.ActualPaddingRight;
+                //---------------------------------------------------
                 //move current_line_x to right of run
-                cx = run.Right;
+                //cx = run.Right;
             }
         }
         /// <summary>
@@ -737,7 +740,7 @@ namespace LayoutFarm.HtmlBoxes
             //--------------------------------------------- 
             // Applies vertical alignment to the linebox 
             return;
-
+            //TODO: review here
             lineBox.ApplyBaseline(lineBox.CalculateTotalBoxBaseLine(lay));
             //---------------------------------------------  
         }

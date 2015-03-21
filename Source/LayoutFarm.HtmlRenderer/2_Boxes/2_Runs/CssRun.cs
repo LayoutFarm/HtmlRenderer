@@ -179,12 +179,9 @@ namespace LayoutFarm.HtmlBoxes
             get { return this._width; }
             set
             {
-
                 this._width = value;
             }
         }
-
-
 
         /// <summary>
         /// Height of the rectangle
