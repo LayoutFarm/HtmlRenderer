@@ -110,10 +110,10 @@ namespace LayoutFarm.Text
                 char[] newContent = new char[length];
                 Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
                 EditableTextSpan newTextRun = new EditableTextSpan(this.Root, newContent);
-                TextSpanSytle bah = this.SpanStyle;
-                if (bah != null)
+
+                if (this.SpanStyle != null)
                 {
-                    newTextRun.SetStyle(bah);
+                    newTextRun.SetStyle(this.SpanStyle);
                 }
 
                 newTextRun.IsLineBreak = this.IsLineBreak;

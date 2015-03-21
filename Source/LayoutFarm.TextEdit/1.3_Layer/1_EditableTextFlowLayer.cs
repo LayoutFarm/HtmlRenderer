@@ -47,38 +47,7 @@ namespace LayoutFarm.Text
                     layerFlags &= ~FLOWLAYER_HAS_MULTILINE;
                 }
             }
-        }
-
-#if DEBUG
-        public IEnumerable<EditableTextSpan> dbugGetDrawingIter2()
-        {
-
-            if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
-            {
-                List<EditableTextLine> lines = (List<EditableTextLine>)lineCollection;
-                int j = lines.Count;
-                for (int i = 0; i < j; ++i)
-                {
-                    LinkedListNode<EditableTextSpan> curNode = lines[i].First;
-                    while (curNode != null)
-                    {
-                        yield return curNode.Value;
-                        curNode = curNode.Next;
-                    }
-                }
-            }
-            else
-            {
-                EditableTextLine onlyLine = (EditableTextLine)lineCollection;
-                LinkedListNode<EditableTextSpan> curNode = onlyLine.First;
-                while (curNode != null)
-                {
-                    yield return curNode.Value;
-                    curNode = curNode.Next;
-                }
-            }
-        }
-#endif
+        } 
 
         internal IEnumerable<EditableTextSpan> GetDrawingIter(EditableTextSpan start, EditableTextSpan stop)
         {
@@ -108,8 +77,7 @@ namespace LayoutFarm.Text
                 }
             }
         }
-
-
+         
         public int LineCount
         {
             get
@@ -124,34 +92,8 @@ namespace LayoutFarm.Text
                 }
 
             }
-        }
+        } 
 
-
-
-#if DEBUG
-        void debug_RecordLineInfo(RenderBoxBase owner, EditableTextLine line)
-        {
-            RootGraphic visualroot = this.dbugVRoot;
-            if (visualroot.dbug_RecordDrawingChain)
-            {
-            }
-        }
-
-        public override void dbug_DumpElementProps(dbugLayoutMsgWriter writer)
-        {
-
-            writer.Add(new dbugLayoutMsg(
-                this, this.ToString()));
-            writer.EnterNewLevel();
-
-            foreach (EditableTextSpan child in this.dbugGetDrawingIter2())
-            {
-                child.dbug_DumpVisualProps(writer);
-            }
-            writer.LeaveCurrentLevel();
-
-        }
-#endif
         public override void DrawChildContent(Canvas canvas, Rectangle updateArea)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) != 0)
@@ -202,7 +144,7 @@ namespace LayoutFarm.Text
                         {
                             break;
                         }
-                    } 
+                    }
 
                     updateArea.OffsetY(-y);
                     canvas.OffsetCanvasOriginY(y);
@@ -214,7 +156,7 @@ namespace LayoutFarm.Text
                         {
                             int x = child.X;
                             canvas.OffsetCanvasOriginX(x);
-                            updateArea.OffsetX(-x); 
+                            updateArea.OffsetX(-x);
 
                             child.DrawToThisCanvas(canvas, updateArea);
 
@@ -269,8 +211,7 @@ namespace LayoutFarm.Text
             this.FinishDrawingChildContent();
 
         }
-
-
+         
         public override bool HitTestCore(HitChain hitChain)
         {
             if ((layerFlags & IS_LAYER_HIDDEN) == 0)
@@ -961,13 +902,6 @@ namespace LayoutFarm.Text
         }
 
 
-#if DEBUG
-        public override string ToString()
-        {
-            return "editable flow layer " + "(L" + dbug_layer_id + this.dbugLayerState + ") postcal:" +
-                this.PostCalculateContentSize.ToString() + " of " + this.OwnerRenderElement.dbug_FullElementDescription();
-        }
-#endif
 
         public void CopyContentToStringBuilder(StringBuilder stBuilder)
         {
@@ -1052,6 +986,64 @@ namespace LayoutFarm.Text
 
         }
 
+#if DEBUG
+        void debug_RecordLineInfo(RenderBoxBase owner, EditableTextLine line)
+        {
+            RootGraphic visualroot = this.dbugVRoot;
+            if (visualroot.dbug_RecordDrawingChain)
+            {
+            }
+        }
 
+        public override void dbug_DumpElementProps(dbugLayoutMsgWriter writer)
+        {
+
+            writer.Add(new dbugLayoutMsg(
+                this, this.ToString()));
+            writer.EnterNewLevel();
+
+            foreach (EditableTextSpan child in this.dbugGetDrawingIter2())
+            {
+                child.dbug_DumpVisualProps(writer);
+            }
+            writer.LeaveCurrentLevel();
+
+        }
+        public override string ToString()
+        {
+            return "editable flow layer " + "(L" + dbug_layer_id + this.dbugLayerState + ") postcal:" +
+                this.PostCalculateContentSize.ToString() + " of " + this.OwnerRenderElement.dbug_FullElementDescription();
+        }
+        public IEnumerable<EditableTextSpan> dbugGetDrawingIter2()
+        {
+
+            if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
+            {
+                List<EditableTextLine> lines = (List<EditableTextLine>)lineCollection;
+                int j = lines.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    LinkedListNode<EditableTextSpan> curNode = lines[i].First;
+                    while (curNode != null)
+                    {
+                        yield return curNode.Value;
+                        curNode = curNode.Next;
+                    }
+                }
+            }
+            else
+            {
+                EditableTextLine onlyLine = (EditableTextLine)lineCollection;
+                LinkedListNode<EditableTextSpan> curNode = onlyLine.First;
+                while (curNode != null)
+                {
+                    yield return curNode.Value;
+                    curNode = curNode.Next;
+                }
+            }
+        }
+
+
+#endif
     }
 }
