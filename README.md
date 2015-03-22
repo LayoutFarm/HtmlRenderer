@@ -1,7 +1,4 @@
-LayoutFarm - HTML Renderer project 
-
-[github page] (http://prepare.github.io/HTML-Renderer/)
-
+# LayoutFarm - HTML Renderer project 
 
 Hello !
 
@@ -44,3 +41,4 @@ feel free to comment/ suggest
 
 Nice to meet you!
 WinterDev :)
+[github page] (http://prepare.github.io/HTML-Renderer/)
