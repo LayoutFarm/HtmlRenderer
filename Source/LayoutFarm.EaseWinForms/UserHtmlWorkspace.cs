@@ -9,6 +9,9 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
+
+
+
     class UserHtmlWorkspace
     {
         HtmlBox htmlBox;
@@ -32,7 +35,7 @@ namespace LayoutFarm
             htmlBox = new HtmlBox(host, viewportW, viewportH);
             viewport.AddContent(htmlBox);
 
-            //2. add scroll bar to viewport
+           
 
             if (htmltext == null)
             {

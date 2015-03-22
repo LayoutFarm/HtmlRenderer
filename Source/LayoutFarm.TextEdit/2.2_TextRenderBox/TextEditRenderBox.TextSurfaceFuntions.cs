@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.Text
@@ -80,51 +80,38 @@ namespace LayoutFarm.Text
         {
             stBuilder.Length = 0; stringBuilderPool.Push(stBuilder);
         }
-        public string Text
-        {
-            get
-            {
-                StringBuilder stBuilder = GetFreeStringBuilder();
-                CopyContentToStringBuilder(stBuilder);
-                string output = stBuilder.ToString();
-                ReleaseStringBuilder(stBuilder);
-                return output;
-            }
+        public string GetTextContent()
+        {    
+            StringBuilder stBuilder = GetFreeStringBuilder();
+            CopyContentToStringBuilder(stBuilder);
+            string output = stBuilder.ToString();
+            ReleaseStringBuilder(stBuilder);
+            return output; 
         }
+        public void SetTextContent(string textContent)
+        {
+            //clear existing content
+            this.ClearAllChildren();
+            if (textContent == null)
+            {
+                return;
+            }
 
-
-
-        //public void SetTextContent(string value, VisualElementArgs vinv)
-        //{
-
-        //    internalTextLayerController.Clear();
-        //    if (!string.IsNullOrEmpty(value))
-        //    {
-        //        StringReader reader = new StringReader(value);
-        //        string line = reader.ReadLine();
-        //        int lineCount = 0;
-        //        while (line != null)
-        //        {
-        //            if (lineCount > 0)
-        //            {
-        //                internalTextLayerController.SplitCurrentLineIntoNewLine();
-        //            }
-        //            lineCount++;
-        //            internalTextLayerController.AddTextRunsToCurrentLine(
-        //                new ArtEditableVisualTextRun[] { 
-        //                    new ArtEditableVisualTextRun(line) });
-        //            line = reader.ReadLine();
-        //        }
-        //        internalTextLayerController.DoEnd();
-        //    }
-
-        //    EnsureCaretVisible();
-
-        //    if (textSurfaceEventListener != null)
-        //    {
-        //        TextSurfaceEventListener.NotifyReplaceAll(textSurfaceEventListener, new TextDomEventArgs(false));
-        //    }
-        //}
+            System.IO.StringReader reader = new System.IO.StringReader(textContent);
+            string line = reader.ReadLine();
+            int lineCount = 0;
+            while (line != null)
+            {
+                if (lineCount > 0)
+                {
+                    internalTextLayerController.SplitCurrentLineIntoNewLine();
+                }
+                lineCount++;
+                internalTextLayerController.AddTextRunToCurrentLine(
+                   new EditableTextSpan(Root, line, this.currentSpanStyle));
+                line = reader.ReadLine();
+            } 
+        } 
         public int LineCount
         {
             get
@@ -134,11 +121,7 @@ namespace LayoutFarm.Text
         }
         public void ReplaceCurrentTextRunContent(int nBackspace, string t)
         {
-            
-
             internalTextLayerController.ReplaceCurrentTextRunContent(nBackspace, t);
-
-         
         }
         public void LoadTextRun(IEnumerable<EditableTextSpan> textRuns)
         {
@@ -162,7 +145,6 @@ namespace LayoutFarm.Text
         }
         public void CopyContentToStringBuilder(StringBuilder stBuilder)
         {
-
             internalTextLayerController.CopyAllToPlainText(stBuilder);
         }
 

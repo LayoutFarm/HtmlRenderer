@@ -659,8 +659,9 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             //----------------------------------------------------- 
-            int j = runs.Count;
-            for (int i = 0; i < j; ++i)
+
+            int lim = runs.Count - 1;
+            for (int i = 0; i <= lim; ++i)
             {
                 var run = runs[i];
                 //---------------------------------------------------
@@ -687,8 +688,11 @@ namespace LayoutFarm.HtmlBoxes
                         !run.IsLineBreak &&
                         (i == 0 || splitableBox.ParentBox.IsBlock))//this run is first run of 'b' (run == b.FirstRun)
                     {
-                        // var bParent = b.ParentBox;
-                        cx += splitableBox.ActualMarginLeft + splitableBox.ActualBorderLeftWidth + splitableBox.ActualPaddingLeft;
+
+
+                        cx += splitableBox.ActualMarginLeft +
+                            splitableBox.ActualBorderLeftWidth +
+                            splitableBox.ActualPaddingLeft;
                     }
 
                     if (run.IsSolidContent || i == 0)
@@ -703,14 +707,39 @@ namespace LayoutFarm.HtmlBoxes
                     //not add 
                     continue;
                 }
+                //---------------------------------------------------
+
+                hostLine.AddRun(run); //***
+                if (lim == 0)
+                {
+                    //single one
+                    cx += b.ActualPaddingLeft;
+                    run.SetLocation(cx, 0);
+                    cx += run.Width + b.ActualPaddingRight;
+                }
                 else
                 {
-                    hostLine.AddRun(run); //***
+                    if (i == 0)
+                    {
+                        //first
+                        cx += b.ActualPaddingLeft;
+                        run.SetLocation(cx, 0);
+                        cx = run.Right; 
+                    }
+                    else if (i == lim)
+                    {
+                        run.SetLocation(cx, 0);
+                        cx += run.Width + b.ActualPaddingRight;
+                    }
+                    else
+                    {
+                        run.SetLocation(cx, 0);
+                        cx = run.Right; 
+                    }
                 }
-
-                run.SetLocation(cx, 0);
+                //---------------------------------------------------
                 //move current_line_x to right of run
-                cx = run.Right;
+                //cx = run.Right;
             }
         }
         /// <summary>
@@ -737,7 +766,7 @@ namespace LayoutFarm.HtmlBoxes
             //--------------------------------------------- 
             // Applies vertical alignment to the linebox 
             return;
-
+            //TODO: review here
             lineBox.ApplyBaseline(lineBox.CalculateTotalBoxBaseLine(lay));
             //---------------------------------------------  
         }

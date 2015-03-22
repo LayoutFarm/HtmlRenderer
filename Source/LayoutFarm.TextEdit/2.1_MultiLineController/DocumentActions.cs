@@ -1,6 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 namespace LayoutFarm.Text
 {
     abstract class DocumentAction
@@ -135,6 +135,7 @@ namespace LayoutFarm.Text
 
     class DocActionInsertRuns : DocumentAction
     {
+        EditableTextSpan singleInsertTextRun;
         IEnumerable<EditableTextSpan> insertingTextRuns;
         int endLineNumber;
         int endCharIndex;
@@ -146,11 +147,19 @@ namespace LayoutFarm.Text
             this.endLineNumber = endLineNumber;
             this.endCharIndex = endCharIndex;
         }
+        public DocActionInsertRuns(EditableTextSpan insertingTextRun,
+           int startLineNumber, int startCharIndex, int endLineNumber, int endCharIndex)
+            : base(startLineNumber, startCharIndex)
+        {
+            this.singleInsertTextRun = insertingTextRun;
+            this.endLineNumber = endLineNumber;
+            this.endCharIndex = endCharIndex;
+        }
         public override void InvokeUndo(InternalTextLayerController textdom)
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
-            textdom.StartSelect(); 
+            textdom.StartSelect();
             textdom.CurrentLineNumber = endLineNumber;
             textdom.CharIndex = endCharIndex;
             textdom.EndSelect();
@@ -161,7 +170,14 @@ namespace LayoutFarm.Text
         {
             textdom.CurrentLineNumber = startLineNumber;
             textdom.CharIndex = startCharIndex;
-            textdom.AddTextRunsToCurrentLine(insertingTextRuns);
+            if (singleInsertTextRun != null)
+            {
+                textdom.AddTextRunToCurrentLine(singleInsertTextRun);
+            }
+            else
+            {
+                textdom.AddTextRunsToCurrentLine(insertingTextRuns);
+            }
         }
     }
     class DocActionFormatting : DocumentAction

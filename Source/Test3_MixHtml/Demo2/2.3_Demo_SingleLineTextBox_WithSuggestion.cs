@@ -18,6 +18,8 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
             textbox = new LayoutFarm.CustomWidgets.TextBox(400, 30, false);
+            textbox.SetLocation(20, 20);
+
             listView = new CustomWidgets.ListView(300, 200);
             listView.SetLocation(0, 40);
             listView.Visible = false;

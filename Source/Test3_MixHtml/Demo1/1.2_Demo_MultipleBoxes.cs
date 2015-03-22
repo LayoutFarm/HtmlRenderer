@@ -68,13 +68,64 @@ namespace LayoutFarm
             }
             //-------------------------------------------------------------------
             //test canvas
-            var canvasBox = new LayoutFarm.CustomWidgets.MiniAggCanvasBox(300, 300);
-            
+            var canvasBox = new MyDrawingCanvas(300, 300);
             canvasBox.SetLocation(400, 150);
             viewport.AddContent(canvasBox);
             //-------------------------------------------------------------------
-        
+
         }
+
+
+        class MyDrawingCanvas : LayoutFarm.CustomWidgets.MiniAggCanvasBox
+        {
+            int lastX, lastY;
+            List<Point> pointList = new List<Point>();
+            public MyDrawingCanvas(int w, int h)
+                : base(w, h)
+            {
+            }
+            protected override void OnMouseDown(UIMouseEventArgs e)
+            {
+                ////test only!!!         
+                this.lastX = e.X;
+                this.lastY = e.Y;
+                pointList.Add(new Point(lastX, lastY));
+            }
+            protected override void OnMouseMove(UIMouseEventArgs e)
+            {
+                //test
+                //draw on this canvas
+                if (!e.IsDragging)
+                {
+                    return;
+                }
+                this.lastX = e.X;
+                this.lastY = e.Y;
+
+                //temp fix here -> need converter
+                var p = this.Painter;
+                p.Clear(PixelFarm.Agg.ColorRGBA.White);
+                pointList.Add(new Point(lastX, lastY));
+                //clear and render again
+                int j = pointList.Count;
+                for (int i = 1; i < j; ++i)
+                {
+                    var p0 = pointList[i - 1];
+                    var p1 = pointList[i];
+                    p.Line(
+                        p0.X, p0.Y,
+                        p1.X, p1.Y);
+                }
+
+                this.InvalidateCanvasContent();
+            }
+            protected override void OnMouseUp(UIMouseEventArgs e)
+            {
+
+            }
+
+        }
+
         static void SetupImageList()
         {
             if (!LayoutFarm.CustomWidgets.ResImageList.HasImages)
