@@ -43,9 +43,6 @@ it is a C# project with permissive license( MIT,BSD, Apache2)
    so users can build a final native code web browser
 
 
-
-
-
 Nice to meet you!
 
 WinterDev :)
