@@ -19,6 +19,8 @@ such as
 
 7) more layout support eg. inline-block,relative, absolte etc
 
+#license
+it is a C# project with permissive license( MIT,BSD, Apache2)
 
 #plan:
 
@@ -33,7 +35,6 @@ such as
 
 
 
-it is a C# project with permissive license( MIT,BSD, Apache2)
 feel free to comment/ suggest
 
 Nice to meet you!
