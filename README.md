@@ -27,9 +27,13 @@ such as
 7) more layout support eg. inline-block,relative, absolte etc
 
 plan:
+
 1) always permissive licencse (MIT,BSD, Apache2)
+
 2) bind some features from Blink engine
-3) add html5/css3/js 
+
+3) add more html5/css3/js support
+
 4) convert to C++ code with some transpiler tools 
    so users can build a final native code web browser
 
