@@ -46,13 +46,10 @@ namespace LayoutFarm.Ease
             LayoutFarm.UI.UISurfaceViewportControl viewport;
             CreateNewFormCanvas(hostForm, rootgfx,
                  useOpenGL ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
-                 out viewport);
+                 out viewport); 
 
-
-            viewport.PaintMe();
-
-            EaseViewport easeViewport = new EaseViewport(viewport);
-
+            viewport.PaintMe(); 
+            EaseViewport easeViewport = new EaseViewport(viewport); 
             return easeViewport;
         }
 

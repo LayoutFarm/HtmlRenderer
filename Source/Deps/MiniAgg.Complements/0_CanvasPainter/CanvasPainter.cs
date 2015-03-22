@@ -54,7 +54,7 @@ namespace PixelFarm.Agg
         Ellipse ellipse = new Ellipse();
         PathWriter lines = new PathWriter();
         RoundedRect roundRect = null;
-       
+
         MyImageReaderWriter sharedImageWriterReader = new MyImageReaderWriter();
         CurveFlattener curveFlattener = new CurveFlattener();
 
@@ -76,6 +76,7 @@ namespace PixelFarm.Agg
         {
             gx.Clear(color);
         }
+         
         public RectInt ClipBox
         {
             get { return this.gx.GetClippingRect(); }
@@ -255,7 +256,7 @@ namespace PixelFarm.Agg
            double x,
            double y)
         {
-            textPrinter.Print(this,text.ToString(), x, y); 
+            textPrinter.Print(this, text.ToString(), x, y);
         }
         //-------------------------------------------------------
 

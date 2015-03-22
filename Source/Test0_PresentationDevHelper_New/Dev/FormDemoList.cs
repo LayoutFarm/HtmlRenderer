@@ -62,6 +62,7 @@ namespace LayoutFarm.Dev
 
             Form formCanvas;
             CreateReadyForm(out viewport, out formCanvas);
+
             selectedDemo.StartDemo(new SampleViewport(viewport));
             viewport.TopDownRecalculateContent();
             //==================================================  

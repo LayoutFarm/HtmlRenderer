@@ -175,7 +175,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         internal void ReEvaluateComputedValues(IFonts iFonts, CssBox containingBlock)
         {
-            //see www.w3.org/TR/CSS2/box.html#padding-properties 
+            
             //depend on parent
             //1. fonts 
             if (this.ParentBox != null)
