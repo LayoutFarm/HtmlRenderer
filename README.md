@@ -1,6 +1,4 @@
-# LayoutFarm - HTML Renderer project 
-
-Hello !
+#Hello !
 
 First Big thank goes to  [ArthurHub/HTML-Renderer](https://github.com/ArthurHub/HTML-Renderer)
  
