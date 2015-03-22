@@ -1,6 +1,6 @@
 #Hello !
 
-I fork this project from https://github.com/ArthurHub/HTML-Renderer (thank you so much)
+I forked this project from https://github.com/ArthurHub/HTML-Renderer (thank you so much)
 
 I added some features
 
@@ -18,10 +18,15 @@ such as
 
 6) Javascript (v8) binding 
 
-7) more layout support eg. inline-block,relative, absolte etc
+7) debug view
 
+8) more layout support eg. inline-block,relative, absolte etc 
 
 .. BUT not complete :( 
+
+feel free to fork/ comment/ suggest /pull request 
+
+
 
 #license
 it is a C# project with permissive license( MIT,BSD, Apache2)
@@ -39,7 +44,7 @@ it is a C# project with permissive license( MIT,BSD, Apache2)
 
 
 
-feel free to comment/ suggest
+
 
 Nice to meet you!
 
