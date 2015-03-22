@@ -49,13 +49,20 @@ namespace LayoutFarm
             //--------------------------------
             {
                 var box2 = new LayoutFarm.CustomWidgets.EaseBox(60, 60);
-                box2.SetLocation(50, 50); 
+                box2.SetLocation(50, 50);
                 //box2.dbugTag = 2;
                 SetupActiveBoxProperties(box2);
                 viewport.AddContent(box2);
                 userBoxes.Add(box2);
             }
-
+            {
+                var box3 = new LayoutFarm.CustomWidgets.EaseBox(60, 60);
+                box3.SetLocation(80, 80);
+                //box2.dbugTag = 2;
+                SetupActiveBoxProperties(box3);
+                viewport.AddContent(box3);
+                userBoxes.Add(box3);
+            }
 
             //--------------------------------
             {
@@ -71,7 +78,11 @@ namespace LayoutFarm
         {
             if (userControllerPool.Count > 0)
             {
-                return userControllerPool.Dequeue();
+                var controlBox = userControllerPool.Dequeue();
+                //-------------------------------------------
+                //register to working box list
+                workingControllerBoxes.Add(controlBox);
+                return controlBox;
             }
             else
             {
@@ -87,6 +98,7 @@ namespace LayoutFarm
                 SetupControllerBoxProperties(controllerBox1);
                 viewport.AddContent(controllerBox1);
                 //-------------------------------------------
+                //register to working box list
                 workingControllerBoxes.Add(controllerBox1);
 
                 return controllerBox1;

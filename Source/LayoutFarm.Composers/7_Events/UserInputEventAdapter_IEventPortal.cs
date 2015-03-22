@@ -49,6 +49,11 @@ namespace LayoutFarm.UI
                 e.Y - prevLogicalMouseY,
                 e.X - this.latestLogicalMouseDownX,
                 e.Y - this.latestLogicalMouseDownY);
+            
+            if (e.XDiff == 0 && e.YDiff == 0)
+            {
+                return;
+            }
 
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y; 

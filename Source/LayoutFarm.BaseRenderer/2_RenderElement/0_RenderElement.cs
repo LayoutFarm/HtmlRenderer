@@ -313,10 +313,8 @@ namespace LayoutFarm
                     dbugVRoot.dbug_AddDrawElement(this, canvas);
                 }
 #endif
-                //------------------------------------------
-
-                this.CustomDrawToThisCanvas(canvas, updateArea);
-
+                //------------------------------------------ 
+                this.CustomDrawToThisCanvas(canvas, updateArea); 
                 //------------------------------------------
                 propFlags |= RenderElementConst.IS_GRAPHIC_VALID;
 #if DEBUG
@@ -328,6 +326,8 @@ namespace LayoutFarm
 
             }
             canvas.PopClipAreaRect();
+
+
 #if DEBUG
             dbugVRoot.dbug_drawLevel--;
 #endif

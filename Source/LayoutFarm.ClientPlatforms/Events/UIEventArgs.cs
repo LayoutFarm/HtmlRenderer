@@ -109,7 +109,7 @@ namespace LayoutFarm.UI
         }
 
 
-        
+
         public void SetLocation(int x, int y)
         {
             this.x = x;
@@ -224,11 +224,6 @@ namespace LayoutFarm.UI
     public class UIMouseEventArgs : UIEventArgs
     {
 
-        public UIMouseButtons Button;
-        public int Delta;
-        public int Clicks;
-        public int XDiff;
-        public int YDiff;
 
 
         int xdiffFromMouseDown;
@@ -237,9 +232,20 @@ namespace LayoutFarm.UI
 
         public UIMouseEventArgs()
         {
+
         }
+        public UIMouseButtons Button { get; private set; }
+        public int Delta { get; private set; }
+        public int Clicks { get; private set; }
+        public int XDiff { get; private set; }
+        public int YDiff { get; private set; }
+
         public void SetDiff(int xdiff, int ydiff, int xdiffFromMouseDown, int ydiffFromMouseDown)
         {
+            if (xdiff == 0 && ydiff == 0)
+            {
+
+            }
             this.XDiff = xdiff;
             this.YDiff = ydiff;
             this.xdiffFromMouseDown = xdiffFromMouseDown;
@@ -248,7 +254,7 @@ namespace LayoutFarm.UI
 
         public void SetEventInfo(int x, int y, UIMouseButtons button, int clicks, int delta, bool isDragging)
         {
-            
+
             this.SetLocation(x, y);
             Button = button;
             Clicks = clicks;
