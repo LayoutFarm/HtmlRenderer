@@ -49,14 +49,10 @@ namespace LayoutFarm
             //--------------------------------
             {
                 var box2 = new LayoutFarm.CustomWidgets.EaseBox(60, 60);
-                box2.SetLocation(50, 50);
-                
-
-
+                box2.SetLocation(50, 50); 
                 //box2.dbugTag = 2;
                 SetupActiveBoxProperties(box2);
                 viewport.AddContent(box2);
-
                 userBoxes.Add(box2);
             }
 

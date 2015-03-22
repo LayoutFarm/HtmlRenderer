@@ -659,8 +659,9 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             //----------------------------------------------------- 
-            int j = runs.Count;
-            for (int i = 0; i < j; ++i)
+
+            int lim = runs.Count - 1;
+            for (int i = 0; i <= lim; ++i)
             {
                 var run = runs[i];
                 //---------------------------------------------------
@@ -707,10 +708,35 @@ namespace LayoutFarm.HtmlBoxes
                     continue;
                 }
                 //---------------------------------------------------
+
                 hostLine.AddRun(run); //***
-                cx += b.ActualPaddingLeft;
-                run.SetLocation(cx, 0); 
-                cx += run.Width + b.ActualPaddingRight;
+                if (lim == 0)
+                {
+                    //single one
+                    cx += b.ActualPaddingLeft;
+                    run.SetLocation(cx, 0);
+                    cx += run.Width + b.ActualPaddingRight;
+                }
+                else
+                {
+                    if (i == 0)
+                    {
+                        //first
+                        cx += b.ActualPaddingLeft;
+                        run.SetLocation(cx, 0);
+                        cx = run.Right; 
+                    }
+                    else if (i == lim)
+                    {
+                        run.SetLocation(cx, 0);
+                        cx += run.Width + b.ActualPaddingRight;
+                    }
+                    else
+                    {
+                        run.SetLocation(cx, 0);
+                        cx = run.Right; 
+                    }
+                }
                 //---------------------------------------------------
                 //move current_line_x to right of run
                 //cx = run.Right;
