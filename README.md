@@ -1,7 +1,5 @@
 #Hello !
 
-First Big thank goes to  [ArthurHub/HTML-Renderer](https://github.com/ArthurHub/HTML-Renderer)
- 
 I fork this project from https://github.com/ArthurHub/HTML-Renderer
 I added some features.. BUT not complete :( 
 
@@ -21,7 +19,8 @@ such as
 
 7) more layout support eg. inline-block,relative, absolte etc
 
-plan:
+
+#plan:
 
 1) always permissive licencse (MIT,BSD, Apache2)
 
@@ -38,5 +37,5 @@ it is a C# project with permissive license( MIT,BSD, Apache2)
 feel free to comment/ suggest
 
 Nice to meet you!
+
 WinterDev :)
-[github page] (http://prepare.github.io/HTML-Renderer/)
