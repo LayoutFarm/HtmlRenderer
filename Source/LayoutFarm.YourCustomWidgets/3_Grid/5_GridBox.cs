@@ -11,7 +11,7 @@ using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {
-    public class GridBox : UIBox
+    public class GridBox : EaseBox
     {
         CustomRenderBox gridBox;
         GridTable gridTable = new GridTable();
@@ -126,6 +126,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 var myGridBox = new CustomRenderBox(rootgfx, this.Width, this.Height);                 
                 myGridBox.SetLocation(this.Left, this.Top);
+                this.SetPrimaryRenderElement(myGridBox);
 
                 this.gridBox = myGridBox;
 
@@ -150,7 +151,7 @@ namespace LayoutFarm.CustomWidgets
                         }
                     }
                 }
-
+                
                 layers.AddLayer(gridLayer);
             }
             return gridBox;
