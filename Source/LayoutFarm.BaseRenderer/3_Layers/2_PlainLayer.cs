@@ -47,11 +47,11 @@ namespace LayoutFarm.RenderBoxes
 
             LinkedListNode<RenderElement> linkNode = myElements.AddLast(re);
             RenderElement.SetParentLink(re, new PlainLayerParentLink(this, linkNode));
-            //position of new visual element 
             re.InvalidateGraphics();
         }
         public void RemoveChild(RenderElement re)
         {
+            //TODO:make this, remove from internal linked node 
             myElements.Remove(re);
 
             var bounds = re.RectBounds;

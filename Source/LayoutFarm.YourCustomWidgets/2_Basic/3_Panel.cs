@@ -22,7 +22,8 @@ namespace LayoutFarm.CustomWidgets
         Vertical,
         Both,
     }
-    public class Panel : UIBox
+
+    public class Panel : EaseBox
     {
         PanelLayoutKind panelLayoutKind;
         PanelStretch panelChildStretch;
@@ -102,7 +103,7 @@ namespace LayoutFarm.CustomWidgets
                         groundLayer.AddUI(plain.GetElement(i));
                     }
                 }
-
+                SetPrimaryRenderElement(renderE);
                 //---------------------------------
                 primElement = renderE;
             }
@@ -281,7 +282,7 @@ namespace LayoutFarm.CustomWidgets
                                 element.SetBounds(0, ypos, element.Width, elemH);
                                 ypos += element.Height;
 
-                                
+
 
                                 int tmp_right = element.DesiredWidth + element.Left;
                                 if (tmp_right > maxRight)

@@ -83,7 +83,7 @@ namespace LayoutFarm
                 this.b_height = height;
                 this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));
             }
-        }
-         
+        } 
+        
     }
 }
