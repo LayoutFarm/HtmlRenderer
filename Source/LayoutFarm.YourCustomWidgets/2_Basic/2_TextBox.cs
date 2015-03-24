@@ -61,11 +61,36 @@ namespace LayoutFarm.CustomWidgets
         {
             get
             {
-                return this.textEditRenderElement.GetTextContent();
+                StringBuilder stBuilder = new StringBuilder();
+                textEditRenderElement.CopyContentToStringBuilder(stBuilder);
+                return stBuilder.ToString();
             }
             set
             {
-                this.textEditRenderElement.SetTextContent(value);
+                this.textEditRenderElement.ClearAllChildren();
+                //convert to runs
+                if (value == null)
+                {
+                    return;
+                }
+                //---------------                 
+                var reader = new System.IO.StringReader(value);
+                string line = reader.ReadLine();
+                int lineCount = 0;
+                while (line != null)
+                {
+
+                    if (lineCount > 0)
+                    {
+                        textEditRenderElement.SplitCurrentLineToNewLine();
+                    }
+                    //create textspan
+                    var textspan = textEditRenderElement.CreateNewTextSpan(line);
+                    textEditRenderElement.AddTextRun(textspan);
+
+                    lineCount++;
+                    line = reader.ReadLine();
+                }
             }
         }
         public override bool AcceptKeyboardFocus
@@ -75,7 +100,7 @@ namespace LayoutFarm.CustomWidgets
                 return true;
             }
         }
-        public void Focus()
+        public override void Focus()
         {
             //request keyboard focus
             textEditRenderElement.Focus();
@@ -128,27 +153,24 @@ namespace LayoutFarm.CustomWidgets
             set
             {
                 this.textSurfaceListener = value;
-
                 if (this.textEditRenderElement != null)
                 {
                     this.textEditRenderElement.TextSurfaceListener = value;
                 }
-
             }
         }
         public EditableTextSpan CurrentTextSpan
         {
             get
             {
-
                 return this.textEditRenderElement.CurrentTextRun;
             }
         }
+
         public void ReplaceCurrentTextRunContent(int nBackspaces, string newstr)
         {
             if (textEditRenderElement != null)
             {
-
                 textEditRenderElement.ReplaceCurrentTextRunContent(nBackspaces, newstr);
             }
         }

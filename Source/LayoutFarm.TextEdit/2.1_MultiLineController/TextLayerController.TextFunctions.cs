@@ -36,7 +36,17 @@ namespace LayoutFarm.Text
             updateJustCurrentLine = false;
             textLineWriter.MoveToLine(0);
         }
-
+        public void AddRun(EditableTextSpan textSpan)
+        {
+            textLineWriter.Add(textSpan);
+        }
+        public void AddRuns(IEnumerable<EditableTextSpan> textSpans)
+        {
+            foreach (var span in textSpans)
+            {
+                textLineWriter.Add(span);
+            }
+        }
         public void ReplaceCurrentTextRunContent(int nBackSpace, EditableTextSpan newTextRun)
         {
             if (newTextRun != null)

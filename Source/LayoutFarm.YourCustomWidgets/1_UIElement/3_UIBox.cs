@@ -28,12 +28,12 @@ namespace LayoutFarm.UI
         {
             this._width = width;
             this._height = height;
-            
+
             //default for box
             this.AutoStopMouseEventPropagation = true;
-            
+
         }
-        public void Focus()
+        public virtual void Focus()
         {
             //make this keyboard focus able
         }
@@ -78,6 +78,14 @@ namespace LayoutFarm.UI
             {
                 this.CurrentPrimaryRenderElement.SetLocation(left, top);
             }
+        }
+        public Point GetGlobalLocation()
+        {
+            if (this.CurrentPrimaryRenderElement != null)
+            {
+                return this.CurrentPrimaryRenderElement.GetGlobalLocation();
+            }
+            return new Point(this.Left, this.Top);
         }
         public virtual void SetSize(int width, int height)
         {

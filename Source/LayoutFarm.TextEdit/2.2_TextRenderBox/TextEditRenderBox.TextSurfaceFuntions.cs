@@ -80,38 +80,8 @@ namespace LayoutFarm.Text
         {
             stBuilder.Length = 0; stringBuilderPool.Push(stBuilder);
         }
-        public string GetTextContent()
-        {    
-            StringBuilder stBuilder = GetFreeStringBuilder();
-            CopyContentToStringBuilder(stBuilder);
-            string output = stBuilder.ToString();
-            ReleaseStringBuilder(stBuilder);
-            return output; 
-        }
-        public void SetTextContent(string textContent)
-        {
-            //clear existing content
-            this.ClearAllChildren();
-            if (textContent == null)
-            {
-                return;
-            }
 
-            System.IO.StringReader reader = new System.IO.StringReader(textContent);
-            string line = reader.ReadLine();
-            int lineCount = 0;
-            while (line != null)
-            {
-                if (lineCount > 0)
-                {
-                    internalTextLayerController.SplitCurrentLineIntoNewLine();
-                }
-                lineCount++;
-                internalTextLayerController.AddTextRunToCurrentLine(
-                   new EditableTextSpan(Root, line, this.currentSpanStyle));
-                line = reader.ReadLine();
-            } 
-        } 
+
         public int LineCount
         {
             get
@@ -148,6 +118,18 @@ namespace LayoutFarm.Text
             internalTextLayerController.CopyAllToPlainText(stBuilder);
         }
 
+        public void SplitCurrentLineToNewLine()
+        {
+            this.internalTextLayerController.SplitCurrentLineIntoNewLine();
+        }
+        public void AddTextRun(EditableTextSpan textspan)
+        {
+            internalTextLayerController.AddRun(textspan);
+        }
+        public EditableTextSpan CreateNewTextSpan(string str)
+        {
+            return new EditableTextSpan(this.Root, str, this.currentSpanStyle);
+        }
         public EditableTextSpan CurrentTextRun
         {
             get

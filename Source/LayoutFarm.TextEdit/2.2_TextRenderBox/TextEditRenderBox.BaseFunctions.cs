@@ -15,6 +15,7 @@ namespace LayoutFarm.Text
         CaretRenderElement myCaret;
         EditableTextFlowLayer textLayer;
         InternalTextLayerController internalTextLayerController;
+
         int verticalExpectedCharIndex;
         bool isMultiLine = false;
         bool isInVerticalPhase = false;
@@ -72,6 +73,9 @@ namespace LayoutFarm.Text
         {
             ts.BoxEvaluateScrollBar();
         }
+        
+
+
 
         public Rectangle GetRectAreaOf(int beginlineNum, int beginColumnNum, int endLineNum, int endColumnNum)
         {
