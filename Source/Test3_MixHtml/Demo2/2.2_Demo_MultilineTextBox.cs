@@ -24,7 +24,7 @@ namespace LayoutFarm
             textbox2.SetLocation(20, 120);
             viewport.AddContent(textbox2);
 
-            LayoutFarm.Composers.ContentTextSplitter textSplitter = new Composers.ContentTextSplitter();
+            var textSplitter = new Composers.ContentTextSplitter();
             textbox2.TextSplitter = textSplitter;
             textbox2.Text = "Hello World!";
 

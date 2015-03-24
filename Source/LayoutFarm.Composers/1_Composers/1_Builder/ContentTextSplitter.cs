@@ -6,6 +6,17 @@ using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm.Composers
 {
 
+    public struct TextSplitBound
+    {
+        public readonly int startIndex;
+        public readonly int length;
+        public TextSplitBound(int startIndex, int length)
+        {
+            this.startIndex = startIndex;
+            this.length = length;
+        }
+    }
+
     public class ContentTextSplitter
     {
         //configure icu's locale here 
@@ -62,7 +73,7 @@ namespace LayoutFarm.Composers
                 runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
             }
         }
-        public IEnumerable<Icu.SplitBound> ParseWordContent(char[] textBuffer, int startIndex, int appendLength)
+        public IEnumerable<TextSplitBound> ParseWordContent(char[] textBuffer, int startIndex, int appendLength)
         {
             int s_index = startIndex;
             foreach (var splitBound in Icu.BreakIterator.GetSplitBoundIter(Icu.BreakIterator.UBreakIteratorType.WORD,
@@ -71,16 +82,16 @@ namespace LayoutFarm.Composers
                 //need consecutive bound
                 if (splitBound.startIndex != s_index)
                 {
-                    yield return new Icu.SplitBound(s_index, splitBound.startIndex - s_index);
+                    yield return new TextSplitBound(s_index, splitBound.startIndex - s_index);
                     s_index = splitBound.startIndex;
 
                 }
                 s_index += splitBound.length;
-                yield return splitBound;
+                yield return new TextSplitBound(splitBound.startIndex, splitBound.length);
             }
             if (s_index < textBuffer.Length)
             {
-                yield return new Icu.SplitBound(s_index, textBuffer.Length - s_index);
+                yield return new TextSplitBound(s_index, textBuffer.Length - s_index);
             }
         }
         internal void ParseWordContent(

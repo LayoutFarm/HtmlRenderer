@@ -11,13 +11,7 @@ namespace LayoutFarm.Text
     partial class TextEditRenderBox
     {
 
-        bool IsMultiLine
-        {
-            get
-            {
-                return isMultiLine;
-            }
-        }
+       
         TextSurfaceEventListener textSurfaceEventListener;
         public TextSurfaceEventListener TextSurfaceListener
         {
@@ -34,7 +28,13 @@ namespace LayoutFarm.Text
                 }
             }
         }
-
+        bool IsMultiLine
+        {
+            get
+            {
+                return isMultiLine;
+            }
+        }
 
         public override void ClearAllChildren()
         {
@@ -78,7 +78,8 @@ namespace LayoutFarm.Text
         }
         static void ReleaseStringBuilder(StringBuilder stBuilder)
         {
-            stBuilder.Length = 0; stringBuilderPool.Push(stBuilder);
+            stBuilder.Length = 0;
+            stringBuilderPool.Push(stBuilder);
         }
 
 
@@ -91,7 +92,7 @@ namespace LayoutFarm.Text
         }
         public void ReplaceCurrentTextRunContent(int nBackspace, string t)
         {
-            internalTextLayerController.ReplaceCurrentTextRunContent(nBackspace, t);
+            internalTextLayerController.ReplaceLocalContent(nBackspace, t);
         }
         public void LoadTextRun(IEnumerable<EditableTextSpan> textRuns)
         {
@@ -101,6 +102,11 @@ namespace LayoutFarm.Text
         {
             internalTextLayerController.ReplaceCurrentLineTextRun(textRuns);
         }
+        /// <summary>
+        /// replace specific line number with textruns
+        /// </summary>
+        /// <param name="lineNum"></param>
+        /// <param name="textRuns"></param>
         public void ReplaceLine(int lineNum, IEnumerable<EditableTextSpan> textRuns)
         {
             internalTextLayerController.ReplaceLine(lineNum, textRuns);

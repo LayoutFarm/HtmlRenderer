@@ -56,7 +56,7 @@ namespace LayoutFarm.Text
                 textLayer.SetUseDoubleCanvas(true, false);
             }
             this.IsBlockElement = false;
-        } 
+        }
         public TextSpanStyle CurrentTextSpanStyle
         {
             get { return this.currentSpanStyle; }
@@ -73,7 +73,7 @@ namespace LayoutFarm.Text
         {
             ts.BoxEvaluateScrollBar();
         }
-        
+
 
 
 
@@ -123,7 +123,8 @@ namespace LayoutFarm.Text
                 InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
             }
 
-            if (textSurfaceEventListener != null && !TextSurfaceEventListener.NotifyPreviewKeydown(textSurfaceEventListener, c))
+            if (textSurfaceEventListener != null &&
+                !TextSurfaceEventListener.NotifyPreviewKeydown(textSurfaceEventListener, c))
             {
                 internalTextLayerController.UpdateSelectionRange();
 
@@ -349,9 +350,8 @@ namespace LayoutFarm.Text
                             if (!TextSurfaceEventListener.NotifyPreviewBackSpace(textSurfaceEventListener) &&
                                 internalTextLayerController.DoBackspace())
                             {
-
-                                TextDomEventArgs textdomE = new TextDomEventArgs(internalTextLayerController.updateJustCurrentLine);
-                                TextSurfaceEventListener.NotifyCharactersRemoved(textSurfaceEventListener, textdomE);
+                                TextSurfaceEventListener.NotifyCharactersRemoved(textSurfaceEventListener,
+                                    new TextDomEventArgs(internalTextLayerController.updateJustCurrentLine));
                             }
                         }
 
@@ -383,12 +383,9 @@ namespace LayoutFarm.Text
                         {
                             internalTextLayerController.DoEnd();
                             internalTextLayerController.CancelSelect();
-
                         }
                         else
                         {
-
-
                             internalTextLayerController.StartSelectIfNoSelection();
                             internalTextLayerController.DoEnd();
                             internalTextLayerController.EndSelect();

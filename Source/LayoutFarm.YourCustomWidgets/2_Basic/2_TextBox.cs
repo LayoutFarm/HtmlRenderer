@@ -73,6 +73,7 @@ namespace LayoutFarm.CustomWidgets
             set
             {
                 this.textEditRenderElement.ClearAllChildren();
+
                 //convert to runs
                 if (value == null)
                 {
@@ -107,7 +108,7 @@ namespace LayoutFarm.CustomWidgets
                             var textspan = textEditRenderElement.CreateNewTextSpan(splitBuffer);
                             textEditRenderElement.AddTextRun(textspan);
                         }
-                        textEditRenderElement.MarkValidContentArrangement();
+                        
                         
                     }
                     else
@@ -118,6 +119,7 @@ namespace LayoutFarm.CustomWidgets
                     lineCount++;
                     line = reader.ReadLine();
                 }
+                this.InvalidateGraphics();
             }
         }
         public override bool AcceptKeyboardFocus
@@ -255,6 +257,7 @@ namespace LayoutFarm.CustomWidgets
             e.MouseCursorStyle = MouseCursorStyle.IBeam;
             e.CancelBubbling = true;
             e.CurrentContextElement = this;
+
             textEditRenderElement.OnMouseDown(e);
         }
         protected override void OnMouseMove(UIMouseEventArgs e)
