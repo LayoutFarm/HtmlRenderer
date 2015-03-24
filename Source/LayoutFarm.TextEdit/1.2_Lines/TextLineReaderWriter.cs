@@ -180,6 +180,7 @@ namespace LayoutFarm.Text
                 CurrentLine.AddLast(textRun);
                 SetCurrentTextRun(textRun);
                 CurrentLine.TextLineReCalculateActualLineSize();
+                CurrentLine.RefreshInlineArrange();
                 CharIndex += textRun.CharacterCount;
 
             }
@@ -197,6 +198,7 @@ namespace LayoutFarm.Text
                         CurrentLine.AddAfter((EditableTextSpan)newPointInfo.TextRun, textRun);
                     }
                     CurrentLine.TextLineReCalculateActualLineSize();
+                    CurrentLine.RefreshInlineArrange();
                     EnsureCurrentTextRun(CharIndex + textRun.CharacterCount);
                 }
                 else

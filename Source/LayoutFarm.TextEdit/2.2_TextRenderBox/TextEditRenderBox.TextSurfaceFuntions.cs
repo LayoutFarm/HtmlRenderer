@@ -124,11 +124,15 @@ namespace LayoutFarm.Text
         }
         public void AddTextRun(EditableTextSpan textspan)
         {
-            internalTextLayerController.AddRun(textspan);
+            internalTextLayerController.AddTextRunToCurrentLine(textspan);
         }
         public EditableTextSpan CreateNewTextSpan(string str)
         {
             return new EditableTextSpan(this.Root, str, this.currentSpanStyle);
+        }
+        public EditableTextSpan CreateNewTextSpan(char[] charBuffer)
+        {
+            return new EditableTextSpan(this.Root, charBuffer, this.currentSpanStyle);
         }
         public EditableTextSpan CurrentTextRun
         {
