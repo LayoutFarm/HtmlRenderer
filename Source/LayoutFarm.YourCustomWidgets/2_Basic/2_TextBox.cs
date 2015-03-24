@@ -57,6 +57,11 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
+        public ContentTextSplitter TextSplitter
+        {
+            get;
+            set;
+        }
         public string Text
         {
             get
@@ -68,6 +73,7 @@ namespace LayoutFarm.CustomWidgets
             set
             {
                 this.textEditRenderElement.ClearAllChildren();
+
                 //convert to runs
                 if (value == null)
                 {
@@ -84,13 +90,36 @@ namespace LayoutFarm.CustomWidgets
                     {
                         textEditRenderElement.SplitCurrentLineToNewLine();
                     }
-                    //create textspan
-                    var textspan = textEditRenderElement.CreateNewTextSpan(line);
-                    textEditRenderElement.AddTextRun(textspan);
 
+                    //create textspan
+                    //user can parse text line to smaller span
+
+                    //eg. split by whitespace
+                    if (this.TextSplitter != null)
+                    {
+                        //parse with textsplitter 
+                        var buffer = value.ToCharArray();
+                        foreach (var splitBound in TextSplitter.ParseWordContent(buffer, 0, buffer.Length))
+                        {
+                            var startIndex = splitBound.startIndex;
+                            var length = splitBound.length;
+                            var splitBuffer = new char[length];
+                            Array.Copy(buffer, startIndex, splitBuffer, 0, length);
+                            var textspan = textEditRenderElement.CreateNewTextSpan(splitBuffer);
+                            textEditRenderElement.AddTextRun(textspan);
+                        }
+                        
+                        
+                    }
+                    else
+                    {
+                        var textspan = textEditRenderElement.CreateNewTextSpan(line);
+                        textEditRenderElement.AddTextRun(textspan);
+                    }
                     lineCount++;
                     line = reader.ReadLine();
                 }
+                this.InvalidateGraphics();
             }
         }
         public override bool AcceptKeyboardFocus
@@ -228,6 +257,7 @@ namespace LayoutFarm.CustomWidgets
             e.MouseCursorStyle = MouseCursorStyle.IBeam;
             e.CancelBubbling = true;
             e.CurrentContextElement = this;
+
             textEditRenderElement.OnMouseDown(e);
         }
         protected override void OnMouseMove(UIMouseEventArgs e)

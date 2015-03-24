@@ -36,15 +36,12 @@ namespace LayoutFarm.Text
             updateJustCurrentLine = false;
             textLineWriter.MoveToLine(0);
         }
-        public void AddRun(EditableTextSpan textSpan)
-        {
-            textLineWriter.Add(textSpan);
-        }
+       
         public void AddRuns(IEnumerable<EditableTextSpan> textSpans)
         {
             foreach (var span in textSpans)
             {
-                textLineWriter.Add(span);
+                textLineWriter.AddTextSpan(span);
             }
         }
         public void ReplaceCurrentTextRunContent(int nBackSpace, EditableTextSpan newTextRun)
@@ -60,7 +57,7 @@ namespace LayoutFarm.Text
                 int startCharIndex = textLineWriter.CharIndex;
 
 
-                textLineWriter.Add(newTextRun);
+                textLineWriter.AddTextSpan(newTextRun);
                 textLineWriter.EnsureCurrentTextRun();
 
                 undoActionCollection.AddDocAction(
@@ -71,7 +68,7 @@ namespace LayoutFarm.Text
 
         }
 
-        public void ReplaceCurrentTextRunContent(int nBackSpace, string content)
+        public void ReplaceLocalContent(int nBackSpace, string content)
         {
             if (content != null)
             {
@@ -79,12 +76,13 @@ namespace LayoutFarm.Text
                 {
                     DoBackspace();
                 }
+                //------------------
                 int j = content.Length;
                 if (j > 0)
                 {
                     for (int i = 0; i < j; i++)
                     {
-                        textLineWriter.Add(content[i]);
+                        textLineWriter.AddCharacter(content[i]);
                     }
                 }
             }
@@ -108,7 +106,7 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-                    textLineWriter.Add(t);
+                    textLineWriter.AddTextSpan(t);
                 }
             }
             EnableUndoHistoryRecording = isRecordingHx;
@@ -137,7 +135,7 @@ namespace LayoutFarm.Text
             }
             else
             {
-                textLineWriter.Add(t);
+                textLineWriter.AddTextSpan(t);
             }
 
             EnableUndoHistoryRecording = isRecordingHx;

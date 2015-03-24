@@ -19,6 +19,9 @@ namespace LayoutFarm
         {
             textbox = new LayoutFarm.CustomWidgets.TextBox(400, 30, false);
             textbox.SetLocation(20, 20);
+            var textSplitter = new Composers.ContentTextSplitter();
+            textbox.TextSplitter = textSplitter;
+
 
             listView = new CustomWidgets.ListView(300, 200);
             listView.SetLocation(0, 40);
@@ -66,27 +69,35 @@ namespace LayoutFarm
         void textSurfaceListener_PreviewEnterKeyDown(object sender, Text.TextDomEventArgs e)
         {
             //accept selected text
+
             if (textbox.CurrentTextSpan != null)
             {
-                if (textbox.CurrentTextSpan != null)
-                {
-                    textbox.ReplaceCurrentTextRunContent(textbox.CurrentTextSpan.CharacterCount,
-                        (string)listView.GetItem(listView.SelectedIndex).Tag);
-                    
-                    //------------------------------------- 
-                    //then hide suggestion list
-                    listView.ClearItems();
-                    listView.Visible = false;
-                    //--------------------------------------
+                textbox.ReplaceCurrentTextRunContent(currentLocalText.Length,
+                    (string)listView.GetItem(listView.SelectedIndex).Tag);
 
-                }
-
-                e.Canceled = true;
+                //------------------------------------- 
+                //then hide suggestion list
+                listView.ClearItems();
+                listView.Visible = false;
+                //-------------------------------------- 
             }
+
+            e.Canceled = true;
+
         }
+
+
+        string GetString(char[] buffer, LayoutFarm.Composers.TextSplitBound bound)
+        {
+            char[] substr = new char[bound.length];
+            Array.Copy(buffer, bound.startIndex, substr, 0, bound.length);
+            return new string(substr);
+        }
+        string currentLocalText = null;
         void UpdateSuggestionList()
         {
             //find suggestion words 
+            this.currentLocalText = null;
             listView.ClearItems();
             if (textbox.CurrentTextSpan == null)
             {
@@ -94,9 +105,25 @@ namespace LayoutFarm
                 return;
             }
             //-------------------------------------------------------------------------
+            //sample parse ...
             //In this example  all country name start with Captial letter so ...
             string currentTextSpanText = textbox.CurrentTextSpan.Text.ToUpper();
-            char firstChar = currentTextSpanText[0];
+
+            //analyze content
+            var textBuffer = currentTextSpanText.ToCharArray();
+            var results = new List<LayoutFarm.Composers.TextSplitBound>();
+            results.AddRange(textbox.TextSplitter.ParseWordContent(textBuffer, 0, textBuffer.Length));
+            //get last part of splited text
+            int m = results.Count;
+            if (m < 1)
+            {
+                return;
+            }
+            Composers.TextSplitBound lastSplitPart = results[m - 1];
+            this.currentLocalText = GetString(textBuffer, lastSplitPart);
+
+            //char firstChar = currentTextSpanText[0];
+            char firstChar = currentLocalText[0];
 
             List<string> keywords;
             if (words.TryGetValue(firstChar, out keywords))
@@ -106,7 +133,7 @@ namespace LayoutFarm
                 for (int i = 0; i < j; ++i)
                 {
                     string choice = keywords[i].ToUpper();
-                    if (choice.StartsWith(currentTextSpanText))
+                    if (choice.StartsWith(currentLocalText))
                     {
                         CustomWidgets.ListItem item = new CustomWidgets.ListItem(listViewWidth, 17);
                         item.BackColor = Color.LightGray;
@@ -116,7 +143,15 @@ namespace LayoutFarm
                     }
                 }
             }
-            listView.Visible = true;
+            if (listView.ItemCount > 0)
+            {
+                listView.Visible = true;
+            }
+            else
+            {
+                listView.Visible = false;
+            }
+
             //-------------------------------------------------------------------------
         }
 

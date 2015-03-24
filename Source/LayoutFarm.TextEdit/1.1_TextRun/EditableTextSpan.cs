@@ -9,7 +9,7 @@ namespace LayoutFarm.Text
 
     public partial class EditableTextSpan : TextSpan
     {
-        private EditableTextSpan(RootGraphic gfx, char[] myBuffer, TextSpanStyle style)
+        public EditableTextSpan(RootGraphic gfx, char[] myBuffer, TextSpanStyle style)
             : base(gfx, myBuffer, style)
         {
         }

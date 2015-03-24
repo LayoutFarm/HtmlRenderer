@@ -125,7 +125,8 @@ namespace Icu
         }
         //-------------------------------------------------------------------------------------------------
         //WinterDev
-        public static IEnumerable<SplitBound> GetSplitBoundIter(UBreakIteratorType type, string locale,
+        public static IEnumerable<SplitBound> GetSplitBoundIter(UBreakIteratorType type,
+            string locale,
             char[] charBuffer,
             int start,
             int len)

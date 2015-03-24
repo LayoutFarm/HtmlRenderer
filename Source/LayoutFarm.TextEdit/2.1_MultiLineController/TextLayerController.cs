@@ -148,7 +148,7 @@ namespace LayoutFarm.Text
                   new DocActionCharTyping(c, textLineWriter.LineNumber, textLineWriter.CharIndex));
             }
 
-            textLineWriter.Add(c);
+            textLineWriter.AddCharacter(c);
 
 
 #if DEBUG
