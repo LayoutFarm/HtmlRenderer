@@ -57,10 +57,7 @@ namespace LayoutFarm.Text
             if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
             {
                 return;
-            }
-
-
-
+            } 
         }
         public new void Clear()
         {

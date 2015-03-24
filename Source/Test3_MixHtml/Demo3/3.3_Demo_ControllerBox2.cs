@@ -145,14 +145,10 @@ namespace LayoutFarm
         //-----------------------------------------------------------------
         class UIControllerBox : LayoutFarm.CustomWidgets.EaseBox
         {
-            LayoutFarm.CustomWidgets.GridBox gridBox;
-
-
+            LayoutFarm.CustomWidgets.GridBox gridBox; 
             public UIControllerBox(int w, int h)
                 : base(w, h)
-            {
-
-
+            { 
             }
             public LayoutFarm.UI.UIBox TargetBox
             {

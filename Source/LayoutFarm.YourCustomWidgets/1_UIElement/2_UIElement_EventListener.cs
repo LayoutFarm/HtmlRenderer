@@ -26,7 +26,7 @@ namespace LayoutFarm.UI
         void IEventListener.ListenMouseDown(UIMouseEventArgs e)
         {
             OnMouseDown(e);
-        
+
         }
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
@@ -73,6 +73,23 @@ namespace LayoutFarm.UI
             OnContentUpdate();
         }
 
-
+        bool IEventListener.BypassAllMouseEvents
+        {
+            get
+            {
+                return this.TransparentAllMouseEvents;
+            }
+        }
+        bool IEventListener.AutoStopMouseEventPropagation
+        {
+            get
+            {
+                return this.AutoStopMouseEventPropagation;
+            }
+        }
+        void IEventListener.ListenInterComponentMsg(object sender, int msgcode, string msg)
+        {
+            this.OnInterComponentMsg(sender, msgcode, msg);
+        }
     }
 }

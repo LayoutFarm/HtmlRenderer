@@ -15,9 +15,10 @@ namespace LayoutFarm.CustomWidgets
     public class TextBox : UIBox, IBoxElement, IUserEventPortal
     {
         TextSurfaceEventListener textSurfaceListener;
-        TextEditRenderBox visualTextEdit;
+        TextEditRenderBox textEditRenderElement;
         bool _multiline;
         TextSpanStyle defaultSpanStyle;
+        Color backgroundColor;
 
         public TextBox(int width, int height, bool multiline)
             : base(width, height)
@@ -27,9 +28,21 @@ namespace LayoutFarm.CustomWidgets
         }
         public void ClearText()
         {
-            if (visualTextEdit != null)
+            if (textEditRenderElement != null)
             {
-                this.visualTextEdit.ClearAllChildren();
+                this.textEditRenderElement.ClearAllChildren();
+            }
+        }
+        public Color BackgroundColor
+        {
+            get { return this.backgroundColor; }
+            set
+            {
+                this.backgroundColor = value;
+                if (textEditRenderElement != null)
+                {
+                    textEditRenderElement.BackgroundColor = value;
+                }
             }
         }
         public TextSpanStyle DefaultSpanStyle
@@ -38,9 +51,9 @@ namespace LayoutFarm.CustomWidgets
             set
             {
                 this.defaultSpanStyle = value;
-                if (visualTextEdit != null)
+                if (textEditRenderElement != null)
                 {
-                    visualTextEdit.CurrentTextSpanStyle = value;
+                    textEditRenderElement.CurrentTextSpanStyle = value;
                 }
             }
         }
@@ -48,11 +61,11 @@ namespace LayoutFarm.CustomWidgets
         {
             get
             {
-                return this.visualTextEdit.GetTextContent();
+                return this.textEditRenderElement.GetTextContent();
             }
             set
             {
-                this.visualTextEdit.SetTextContent(value);
+                this.textEditRenderElement.SetTextContent(value);
             }
         }
         public override bool AcceptKeyboardFocus
@@ -65,20 +78,20 @@ namespace LayoutFarm.CustomWidgets
         public void Focus()
         {
             //request keyboard focus
-            visualTextEdit.Focus();
+            textEditRenderElement.Focus();
         }
 
         protected override bool HasReadyRenderElement
         {
-            get { return this.visualTextEdit != null; }
+            get { return this.textEditRenderElement != null; }
         }
         public override RenderElement CurrentPrimaryRenderElement
         {
-            get { return this.visualTextEdit; }
+            get { return this.textEditRenderElement; }
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-            if (visualTextEdit == null)
+            if (textEditRenderElement == null)
             {
                 var tbox = new TextEditRenderBox(rootgfx, this.Width, this.Height, _multiline);
                 tbox.SetLocation(this.Left, this.Top);
@@ -93,6 +106,7 @@ namespace LayoutFarm.CustomWidgets
                 {
                     tbox.CurrentTextSpanStyle = this.defaultSpanStyle;
                 }
+                tbox.BackgroundColor = this.backgroundColor;
                 tbox.SetController(this);
                 RegisterNativeEvent(
                   1 << UIEventIdentifier.NE_MOUSE_DOWN
@@ -103,9 +117,9 @@ namespace LayoutFarm.CustomWidgets
                 {
                     tbox.TextSurfaceListener = textSurfaceListener;
                 }
-                this.visualTextEdit = tbox;
+                this.textEditRenderElement = tbox;
             }
-            return visualTextEdit;
+            return textEditRenderElement;
         }
         //----------------------------------------------------------------
         public TextSurfaceEventListener TextEventListener
@@ -115,9 +129,9 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.textSurfaceListener = value;
 
-                if (this.visualTextEdit != null)
+                if (this.textEditRenderElement != null)
                 {
-                    this.visualTextEdit.TextSurfaceListener = value;
+                    this.textEditRenderElement.TextSurfaceListener = value;
                 }
 
             }
@@ -127,27 +141,27 @@ namespace LayoutFarm.CustomWidgets
             get
             {
 
-                return this.visualTextEdit.CurrentTextRun;
+                return this.textEditRenderElement.CurrentTextRun;
             }
         }
         public void ReplaceCurrentTextRunContent(int nBackspaces, string newstr)
         {
-            if (visualTextEdit != null)
+            if (textEditRenderElement != null)
             {
 
-                visualTextEdit.ReplaceCurrentTextRunContent(nBackspaces, newstr);
+                textEditRenderElement.ReplaceCurrentTextRunContent(nBackspaces, newstr);
             }
         }
         public void ReplaceCurrentLineTextRuns(IEnumerable<EditableTextSpan> textRuns)
         {
-            if (visualTextEdit != null)
+            if (textEditRenderElement != null)
             {
-                visualTextEdit.ReplaceCurrentLineTextRuns(textRuns);
+                textEditRenderElement.ReplaceCurrentLineTextRuns(textRuns);
             }
         }
         public void CopyCurrentLine(StringBuilder stbuilder)
         {
-            visualTextEdit.CopyCurrentLine(stbuilder);
+            textEditRenderElement.CopyCurrentLine(stbuilder);
         }
         //----------------------------------------------------------------
 
@@ -158,27 +172,27 @@ namespace LayoutFarm.CustomWidgets
         }
         protected override void OnDoubleClick(UIMouseEventArgs e)
         {
-            visualTextEdit.OnDoubleClick(e);
+            textEditRenderElement.OnDoubleClick(e);
             e.CancelBubbling = true;
         }
         protected override void OnKeyPress(UIKeyEventArgs e)
         {
-            visualTextEdit.OnKeyPress(e);
+            textEditRenderElement.OnKeyPress(e);
             e.CancelBubbling = true;
         }
         protected override void OnKeyDown(UIKeyEventArgs e)
         {
-            visualTextEdit.OnKeyDown(e);
+            textEditRenderElement.OnKeyDown(e);
             e.CancelBubbling = true;
         }
         protected override void OnKeyUp(UIKeyEventArgs e)
         {
-            visualTextEdit.OnKeyUp(e);
+            textEditRenderElement.OnKeyUp(e);
             e.CancelBubbling = true;
         }
         protected override bool OnProcessDialogKey(UIKeyEventArgs e)
         {
-            if (visualTextEdit.OnProcessDialogKey(e))
+            if (textEditRenderElement.OnProcessDialogKey(e))
             {
                 e.CancelBubbling = true;
                 return true;
@@ -192,13 +206,13 @@ namespace LayoutFarm.CustomWidgets
             e.MouseCursorStyle = MouseCursorStyle.IBeam;
             e.CancelBubbling = true;
             e.CurrentContextElement = this;
-            visualTextEdit.OnMouseDown(e);
+            textEditRenderElement.OnMouseDown(e);
         }
         protected override void OnMouseMove(UIMouseEventArgs e)
         {
             if (e.IsDragging)
             {
-                visualTextEdit.OnDrag(e);
+                textEditRenderElement.OnDrag(e);
                 e.CancelBubbling = true;
                 e.MouseCursorStyle = MouseCursorStyle.IBeam;
             }
@@ -209,11 +223,11 @@ namespace LayoutFarm.CustomWidgets
         {
             if (e.IsDragging)
             {
-                visualTextEdit.OnDragEnd(e);
+                textEditRenderElement.OnDragEnd(e);
             }
             else
             {
-                visualTextEdit.OnMouseUp(e);
+                textEditRenderElement.OnMouseUp(e);
             }
             e.MouseCursorStyle = MouseCursorStyle.Default;
             e.CancelBubbling = true;

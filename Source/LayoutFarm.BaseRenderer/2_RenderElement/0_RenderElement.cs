@@ -157,6 +157,7 @@ namespace LayoutFarm
                 }
             }
         }
+       
         public bool IsBlockElement
         {
             get
@@ -314,7 +315,7 @@ namespace LayoutFarm
                 }
 #endif
                 //------------------------------------------ 
-                this.CustomDrawToThisCanvas(canvas, updateArea); 
+                this.CustomDrawToThisCanvas(canvas, updateArea);
                 //------------------------------------------
                 propFlags |= RenderElementConst.IS_GRAPHIC_VALID;
 #if DEBUG

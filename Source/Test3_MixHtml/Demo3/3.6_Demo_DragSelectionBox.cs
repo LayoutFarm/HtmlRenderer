@@ -411,11 +411,12 @@ namespace LayoutFarm
                 {
                     //adjust grid size
                     gridBox.SetSize(width - 10, height - 10);
-                    this.dockspaceController.SetSize(width, height);
+
                 }
                 //---------------------------------
+                this.dockspaceController.SetSize(width, height);
             }
-            //-----
+             
             void SetupDockSpaces()
             {
                 //1. controller

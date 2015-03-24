@@ -123,9 +123,7 @@ namespace LayoutFarm
         {
             public UIControllerBox(int w, int h)
                 : base(w, h)
-            {
-                // 
-
+            { 
             }
             public LayoutFarm.UI.UIBox TargetBox
             {

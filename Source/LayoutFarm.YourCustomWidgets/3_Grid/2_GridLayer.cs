@@ -223,7 +223,7 @@ namespace LayoutFarm.UI
                 currentColumn = currentColumn.NextColumn;
             }
 
-             
+
         }
         public int UniformCellWidth
         {
@@ -264,11 +264,14 @@ namespace LayoutFarm.UI
             {
                 case CellSizeStyle.UniformWidth:
                     {
+                        var cell0 = this.GetCell(0, 0);
+                        var cellWidth = cell0.Width;
+
                         GridRow row = gridRows.GetRowAtPos(y);
                         if (row != null)
                         {
 
-                            int columnNumber = x / uniformCellWidth;
+                            int columnNumber = x / cellWidth;
                             if (columnNumber >= gridCols.Count)
                             {
                                 columnNumber = gridCols.Count - 1;
@@ -287,8 +290,10 @@ namespace LayoutFarm.UI
                     } break;
                 case CellSizeStyle.UniformHeight:
                     {
+                        var cell0 = this.GetCell(0, 0); 
+                        var cellHeight = cell0.Height;
 
-                        int rowNumber = y / uniformCellHeight;
+                        int rowNumber = y / cellHeight;
                         if (rowNumber >= gridRows.Count)
                         {
                             rowNumber = gridRows.Count - 1;
@@ -309,18 +314,24 @@ namespace LayoutFarm.UI
                     } break;
                 case CellSizeStyle.UniformCell:
                     {
+                        //find cell height
+                        var cell0 = this.GetCell(0,0);
+                        var cellWidth = cell0.Width;
+                        var cellHeight = cell0.Height;
 
-                        int rowNumber = y / uniformCellHeight;
+
+                        int rowNumber = y / cellHeight;
                         if (rowNumber >= gridRows.Count)
                         {
                             rowNumber = gridRows.Count - 1;
                         }
+
                         GridRow row = gridRows[rowNumber];
 
                         if (row != null)
                         {
 
-                            int columnNumber = x / uniformCellWidth;
+                            int columnNumber = x / cellWidth;
 
                             if (columnNumber >= gridCols.Count)
                             {
@@ -633,6 +644,7 @@ namespace LayoutFarm.UI
 
         public override void DrawChildContent(Canvas canvas, Rectangle updateArea)
         {
+
             GridCell leftTopGridItem = GetGridItemByPosition(updateArea.Left, updateArea.Top);
             if (leftTopGridItem == null)
             {
@@ -645,7 +657,7 @@ namespace LayoutFarm.UI
                 return;
             }
 
-
+            
             this.BeginDrawingChildContent();
 
             GridColumn startColumn = leftTopGridItem.column;
@@ -675,21 +687,17 @@ namespace LayoutFarm.UI
                 GridCell startGridItemInColumn = currentColumn.GetCell(startRowId);
                 GridCell stopGridItemInColumn = currentColumn.GetCell(stopRowId - 1);
 
-
+                //draw vertical line
                 canvas.DrawLine(
                     startGridItemInColumn.Right,
                     startGridItemInColumn.Y,
                     stopGridItemInColumn.Right,
                     stopGridItemInColumn.Bottom);
 
-                //startGridItemInColumn.RightTopCorner,
-                //stopGridItemInColumn.RightBottomCorner);
-
                 if (n == 0)
                 {
-
+                    //draw horizontal line
                     int horizontalLineWidth = rightBottomGridItem.Right - startGridItemInColumn.X;
-
                     for (int i = startRowId; i < stopRowId; i++)
                     {
 
@@ -730,7 +738,7 @@ namespace LayoutFarm.UI
                         if (renderContent != null)
                         {
 
-                            if (canvas.PushClipAreaRect(gridItem.Width, gridItem.Height,ref updateArea))
+                            if (canvas.PushClipAreaRect(gridItem.Width, gridItem.Height, ref updateArea))
                             {
                                 renderContent.DrawToThisCanvas(canvas, updateArea);
                             }

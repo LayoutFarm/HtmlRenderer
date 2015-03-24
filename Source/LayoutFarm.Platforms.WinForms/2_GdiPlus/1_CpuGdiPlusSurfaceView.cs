@@ -98,6 +98,7 @@ namespace LayoutFarm.UI.GdiPlus
         }
         protected override void OnKeyDown(KeyEventArgs e)
         {
+            
             this.winBridge.HandleKeyDown(e);
             base.OnKeyDown(e);
         }
@@ -108,12 +109,13 @@ namespace LayoutFarm.UI.GdiPlus
         }
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
+            
             this.winBridge.HandleKeyPress(e);
-            return;
+             
         }
         protected override bool ProcessDialogKey(Keys keyData)
         {
-
+            
 
             if (this.winBridge.HandleProcessDialogKey(keyData))
             {
