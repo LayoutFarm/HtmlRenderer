@@ -28,8 +28,15 @@ namespace LayoutFarm.UI
         {
             this._width = width;
             this._height = height;
+            
+            //default for box
+            this.AutoStopMouseEventPropagation = true;
+            
         }
-
+        public void Focus()
+        {
+            //make this keyboard focus able
+        }
         public bool HasSpecificWidth
         {
             get { return this.specificWidth; }

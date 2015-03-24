@@ -78,5 +78,17 @@ namespace LayoutFarm.WebDom
         {
             OnContentUpdate();
         }
+        bool IEventListener.BypassAllMouseEvents
+        {
+            get { return false; }
+        }
+        bool IEventListener.AutoStopMouseEventPropagation
+        {
+            get { return false; }
+        }
+        void IEventListener.ListenInterComponentMsg(object sender, int msgcode, string msg)
+        {
+            this.OnInterComponentMsg(sender, msgcode, msg);
+        }
     }
 }

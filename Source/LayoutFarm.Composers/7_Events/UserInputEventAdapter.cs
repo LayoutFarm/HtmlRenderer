@@ -244,7 +244,7 @@ namespace LayoutFarm.UI
 
             RenderElement hitElement = hitPointChain.TopMostElement;
             if (hitCount > 0)
-            {   
+            {
                 //------------------------------
                 //1. origin object 
                 SetEventOrigin(e, hitPointChain);
@@ -275,6 +275,7 @@ namespace LayoutFarm.UI
                     ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                     {
                         this.currentMouseDown = e.CurrentContextElement;
+
                         listener.ListenMouseDown(e);
 
                         if (e.CurrentContextElement.AcceptKeyboardFocus)
@@ -286,14 +287,22 @@ namespace LayoutFarm.UI
                             this.CurrentKeyboardFocusedElement = null;
                         }
                         //------------------------------------------------------- 
-
+                        bool cancelMouseBubbling = e.CancelBubbling;
                         if (prevMouseDownElement != null &&
                             prevMouseDownElement != listener)
                         {
                             prevMouseDownElement.ListenLostMouseFocus(e);
                             prevMouseDownElement = null;//clear
                         }
-                        return true;
+                        //------------------------------------------------------- 
+                        if (!cancelMouseBubbling && currentMouseDown.BypassAllMouseEvents)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
                     });
                 }
 
