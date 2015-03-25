@@ -41,11 +41,7 @@ namespace LayoutFarm.CustomWidgets
             }
 
         }
-        //public VisualLayerCollection Layers
-        //{
-        //    get { return this.MyLayers; }
-        //    set { this.MyLayers = value; }
-        //}
+       
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
 

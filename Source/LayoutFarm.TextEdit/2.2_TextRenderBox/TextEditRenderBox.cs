@@ -59,11 +59,7 @@ namespace LayoutFarm.Text
                 if (this.Layer != null)
                 {
                     this.Layer.DrawChildContent(canvas, updateArea);
-                }
-                //if (this.MyLayers != null)
-                //{
-                //    this.MyLayers.LayersDrawContent(canvas, updateArea);
-                //}
+                } 
             }
 
 #if DEBUG

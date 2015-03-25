@@ -39,8 +39,7 @@ namespace LayoutFarm.Text
         public override void ClearAllChildren()
         {
             internalTextLayerController.Clear();
-            this.Layer.Clear();
-            //this.MyLayers.ClearAllContentInEachLayer();
+            this.Layer.Clear(); 
         }
 
         public int Column

@@ -52,18 +52,7 @@ namespace LayoutFarm.CustomWidgets
         {
             get { return this.primElement; }
         }
-        //public Color BackColor
-        //{
-        //    get { return this.backColor; }
-        //    set
-        //    {
-        //        this.backColor = value;
-        //        if (HasReadyRenderElement)
-        //        {
-        //            this.primElement.BackColor = value;
-        //        }
-        //    }
-        //}
+       
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (primElement == null)
@@ -92,22 +81,7 @@ namespace LayoutFarm.CustomWidgets
                     plan0.AddChild(uiList.GetElement(m).GetPrimaryRenderElement(rootgfx));
                 }
                 renderE.Layer = plan0;
-
-                //renderE.Layers = new VisualLayerCollection();
-                //int layerCount = this.layers.Count;
-                //for (int m = 0; m < layerCount; ++m)
-                //{
-                //    UICollection plain = (UICollection)this.layers[m];
-                //    var groundLayer = new PlainLayer(renderE);
-                //    renderE.Layers.AddLayer(groundLayer);
-                //    //---------------------------------
-                //    int j = plain.Count;
-                //    for (int i = 0; i < j; ++i)
-                //    {
-                //        groundLayer.AddUI(plain.GetElement(i));
-                //    }
-                //}
-
+                 
 
                 SetPrimaryRenderElement(renderE);
                 //---------------------------------
@@ -136,8 +110,7 @@ namespace LayoutFarm.CustomWidgets
             this.uiList.AddUI(ui);
 
 
-            //UICollection layer0 = (UICollection)this.layers[0];
-            //layer0.AddUI(ui);
+             
             if (this.HasReadyRenderElement)
             {
                 PlainLayer plain1 = this.primElement.Layer as PlainLayer;
@@ -172,8 +145,7 @@ namespace LayoutFarm.CustomWidgets
         public void ClearItems()
         {
             needContentLayout = true;
-            //UICollection layer0 = (UICollection)this.layers[0];
-            //layer0.Clear();
+          
             this.uiList.Clear();
             if (this.HasReadyRenderElement)
             {

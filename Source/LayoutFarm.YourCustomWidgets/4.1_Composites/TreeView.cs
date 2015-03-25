@@ -67,23 +67,11 @@ namespace LayoutFarm.CustomWidgets
                 var plain = new PlainLayer(renderE);
                 renderE.Layer = plain;
 
-                //renderE.Layer = new PlainLayer();
-                //renderE.Layers = new VisualLayerCollection();
+             
                 int n = this.uiList.Count;
                 for (int m = 0; m < n; ++m)
                 {
-                    plain.AddUI(uiList.GetElement(m));
-
-                    //UICollection plain = (UICollection)this.layers[m];
-                    //var groundLayer = new PlainLayer(renderE);
-                    //renderE.Layers.AddLayer(groundLayer);
-                    //renderE.SetViewport(this.viewportX, this.viewportY);
-                    ////---------------------------------
-                    //int j = plain.Count;
-                    //for (int i = 0; i < j; ++i)
-                    //{
-                    //    groundLayer.AddUI(plain.GetElement(i));
-                    //}
+                    plain.AddUI(uiList.GetElement(m)); 
                 }
 
                 //---------------------------------
@@ -315,18 +303,7 @@ namespace LayoutFarm.CustomWidgets
                     {
                         plain0 = primElement.Layer as PlainLayer;
                     }
-                    //PlainLayer plainLayer = this.p
-                    //if (primElement.Layers == null)
-                    //{
-                    //    primElement.Layers = new VisualLayerCollection();
-                    //    plainLayer = new PlainLayer(primElement);
-                    //    primElement.Layers.AddLayer(plainLayer);
-                    //}
-                    //else
-                    //{
-                    //    plainLayer = (PlainLayer)primElement.Layers.GetLayer(0);
-                    //}
-                    //-----------------
+                    
                     //add to layer
                     var tnRenderElement = treeNode.GetPrimaryRenderElement(primElement.Root);
                     tnRenderElement.SetLocation(indentWidth, newChildNodeY);
