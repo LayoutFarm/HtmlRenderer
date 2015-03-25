@@ -15,8 +15,9 @@ namespace LayoutFarm
             : base(rootGfx, width, height)
         {
             groundLayer = new PlainLayer(this);
-            this.MyLayers = new VisualLayerCollection();
-            this.MyLayers.AddLayer(groundLayer);
+            this.Layer = groundLayer; 
+            //this.MyLayers = new VisualLayerCollection();
+            //this.MyLayers.AddLayer(groundLayer);
 
             this.IsTopWindow = true;
             this.HasSpecificSize = true;

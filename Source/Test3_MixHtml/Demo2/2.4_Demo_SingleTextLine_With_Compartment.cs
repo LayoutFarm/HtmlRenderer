@@ -542,11 +542,12 @@ Zimbabwe");
                     PlainLayer plain0 = null;
                     if (myRenderElement != null)
                     {
-                        VisualLayerCollection layers = new VisualLayerCollection();
-                        myRenderElement.Layers = layers;
-                        plain0 = new PlainLayer(myRenderElement);
-                        layers.AddLayer(plain0);
-
+                        myRenderElement.Layer = new PlainLayer(myRenderElement); 
+                        //VisualLayerCollection layers = new VisualLayerCollection();
+                        //myRenderElement.Layers = layers;
+                        //plain0 = new PlainLayer(myRenderElement); 
+                        //myRenderElement.Layer = new PlainLayer(myRenderElement); 
+                        //layers.AddLayer(plain0); 
                     }
                     //------------------------------------------------------
                     plain0.AddChild(boxLeftTop.GetPrimaryRenderElement(rootgfx));

@@ -41,11 +41,11 @@ namespace LayoutFarm.CustomWidgets
             }
 
         }
-        public VisualLayerCollection Layers
-        {
-            get { return this.MyLayers; }
-            set { this.MyLayers = value; }
-        }
+        //public VisualLayerCollection Layers
+        //{
+        //    get { return this.MyLayers; }
+        //    set { this.MyLayers = value; }
+        //}
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
 
@@ -54,14 +54,19 @@ namespace LayoutFarm.CustomWidgets
             {
 
             }
-#endif             
+#endif
             //sample bg   
             //canvas.FillRectangle(BackColor, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
             canvas.FillRectangle(BackColor, 0, 0, this.Width, this.Height);
-            if (this.Layers != null)
+            if (this.Layer != null)
             {
-                this.Layers.LayersDrawContent(canvas, updateArea);
+                this.Layer.DrawChildContent(canvas, updateArea);
             }
+
+            //if (this.Layers != null)
+            //{
+            //    this.Layers.LayersDrawContent(canvas, updateArea);
+            //}
 #if DEBUG
             //canvas.dbug_DrawCrossRect(PixelFarm.Drawing.Color.Black,
             //    new Rectangle(0, 0, this.Width, this.Height));

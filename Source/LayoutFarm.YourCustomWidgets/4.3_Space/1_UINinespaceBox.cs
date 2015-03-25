@@ -178,10 +178,11 @@ namespace LayoutFarm.CustomWidgets
                 PlainLayer plain0 = null;
                 if (myRenderElement != null)
                 {
-                    VisualLayerCollection layers = new VisualLayerCollection();
-                    myRenderElement.Layers = layers;
+                    //VisualLayerCollection layers = new VisualLayerCollection();
+                    //myRenderElement.Layers = layers;
                     plain0 = new PlainLayer(myRenderElement);
-                    layers.AddLayer(plain0);
+                    myRenderElement.Layer = plain0;
+                    //layers.AddLayer(plain0);
                 }
                 //------------------------------------------------------
 

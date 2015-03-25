@@ -28,22 +28,38 @@ namespace LayoutFarm.CustomWidgets
         }
         public void AddChildBox(RenderElement renderE)
         {
-            VisualLayerCollection layers = this.Layers;
-            PlainLayer layer0 = null;
-            if (layers == null)
+
+            if (this.Layer == null)
             {
-                layers = new VisualLayerCollection();
-                layer0 = new PlainLayer(this);
-                layers.AddLayer(layer0);
+                PlainLayer plain0 = new PlainLayer(this);
+                plain0.AddChild(renderE);
+                this.Layer = plain0;
             }
             else
             {
-                layer0 = (PlainLayer)layers.GetLayer(0);
+                var plainLayer = this.Layer as PlainLayer;
+                if (plainLayer != null)
+                {
+                    plainLayer.AddChild(renderE);
+                }
             }
-            this.Layers = layers;
-            layer0.AddChild(renderE);
+            //VisualLayerCollection layers = this.Layers;
+            //PlainLayer layer0 = null;
+            //if (layers == null)
+            //{
+            //    layers = new VisualLayerCollection();
+            //    layer0 = new PlainLayer(this);
+            //    layers.AddLayer(layer0);
+            //}
+            //else
+            //{
+            //    layer0 = (PlainLayer)layers.GetLayer(0);
+            //}
+            //this.Layers = layers;
+
+            //layer0.AddChild(renderE);
         }
-       
+
 
     }
 

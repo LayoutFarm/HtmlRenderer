@@ -11,7 +11,7 @@ namespace LayoutFarm.Text
     partial class TextEditRenderBox
     {
 
-       
+
         TextSurfaceEventListener textSurfaceEventListener;
         public TextSurfaceEventListener TextSurfaceListener
         {
@@ -39,7 +39,8 @@ namespace LayoutFarm.Text
         public override void ClearAllChildren()
         {
             internalTextLayerController.Clear();
-            this.MyLayers.ClearAllContentInEachLayer();
+            this.Layer.Clear();
+            //this.MyLayers.ClearAllContentInEachLayer();
         }
 
         public int Column

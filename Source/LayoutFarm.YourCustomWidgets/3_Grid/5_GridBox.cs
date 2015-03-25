@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using PixelFarm.Drawing;
- 
+
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 
@@ -45,7 +45,7 @@ namespace LayoutFarm.CustomWidgets
         public override void SetSize(int width, int height)
         {
             //readjust cellsize
-            base.SetSize(width, height); 
+            base.SetSize(width, height);
 
             //----------------------------------
             var cols = gridTable.Columns;
@@ -76,7 +76,7 @@ namespace LayoutFarm.CustomWidgets
             }
             //----------------------------------
             if (this.gridBox == null) { return; }
-            var gridLayer = gridBox.Layers.GetLayer(0) as GridLayer;
+            var gridLayer = gridBox.Layer as GridLayer;
             colLeft = 0;
             for (int n = 0; n < ncols; ++n)
             {
@@ -93,7 +93,7 @@ namespace LayoutFarm.CustomWidgets
                 row.Top = rowTop; ;
                 rowTop += eachRowHeight;
             }
-             
+
 
         }
         public void AddUI(UIElement ui, int rowIndex, int colIndex)
@@ -124,14 +124,14 @@ namespace LayoutFarm.CustomWidgets
         {
             if (gridBox == null)
             {
-                var myGridBox = new CustomRenderBox(rootgfx, this.Width, this.Height);                 
+                var myGridBox = new CustomRenderBox(rootgfx, this.Width, this.Height);
                 myGridBox.SetLocation(this.Left, this.Top);
                 this.SetPrimaryRenderElement(myGridBox);
 
                 this.gridBox = myGridBox;
 
-                var layers = new VisualLayerCollection();
-                gridBox.Layers = layers;
+
+
                 //create layers
                 int nrows = this.gridTable.RowCount;
                 int ncols = this.gridTable.ColumnCount;
@@ -151,8 +151,7 @@ namespace LayoutFarm.CustomWidgets
                         }
                     }
                 }
-                
-                layers.AddLayer(gridLayer);
+                gridBox.Layer = gridLayer;                 
             }
             return gridBox;
         }

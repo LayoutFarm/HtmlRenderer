@@ -7,7 +7,7 @@ using PixelFarm.Drawing;
 
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
- 
+
 namespace LayoutFarm.CustomWidgets
 {
     public delegate void ScrollBarEvaluator(ScrollBar scBar, out double onePixelFore, out int scrollBoxHeight);
@@ -161,11 +161,12 @@ namespace LayoutFarm.CustomWidgets
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
 
-            VisualLayerCollection layers = new VisualLayerCollection();
-            bgBox.Layers = layers;
+            //VisualLayerCollection layers = new VisualLayerCollection();
+            //bgBox.Layers = layers;
 
             PlainLayer plain = new PlainLayer(bgBox);
-            layers.AddLayer(plain);
+            //layers.AddLayer(plain);
+            bgBox.Layer = plain;
             //-----------------------------------------------------
 
 
@@ -186,11 +187,12 @@ namespace LayoutFarm.CustomWidgets
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
 
-            VisualLayerCollection layers = new VisualLayerCollection();
-            bgBox.Layers = layers;
+            //VisualLayerCollection layers = new VisualLayerCollection();
+            //bgBox.Layers = layers;
 
             PlainLayer plain = new PlainLayer(bgBox);
-            layers.AddLayer(plain);
+            bgBox.Layer = plain;
+            //layers.AddLayer(plain);
             //-----------------------------------------------------
 
 

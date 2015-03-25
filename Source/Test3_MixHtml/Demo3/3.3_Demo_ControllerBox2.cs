@@ -71,13 +71,13 @@ namespace LayoutFarm
             box.MouseDown += (s, e) =>
             {
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
-                e.MouseCursorStyle = MouseCursorStyle.Pointer; 
+                e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 //--------------------------------------------
                 //move controller here
                 controllerBox1.TargetBox = box;
                 controllerBox1.SetLocation(box.Left - 5, box.Top - 5);
                 controllerBox1.SetSize(box.Width + 10, box.Height + 10);
-                controllerBox1.Visible = true; 
+                controllerBox1.Visible = true;
                 //--------------------------------------------
                 e.CancelBubbling = true;
             };
@@ -91,7 +91,7 @@ namespace LayoutFarm
                 controllerBox1.TargetBox = null;
                 e.CancelBubbling = true;
             };
-             
+
         }
 
         static void MoveWithSnapToGrid(UIControllerBox controllerBox, UIMouseEventArgs e)
@@ -145,10 +145,10 @@ namespace LayoutFarm
         //-----------------------------------------------------------------
         class UIControllerBox : LayoutFarm.CustomWidgets.EaseBox
         {
-            LayoutFarm.CustomWidgets.GridBox gridBox; 
+            LayoutFarm.CustomWidgets.GridBox gridBox;
             public UIControllerBox(int w, int h)
                 : base(w, h)
-            { 
+            {
             }
             public LayoutFarm.UI.UIBox TargetBox
             {
@@ -167,10 +167,11 @@ namespace LayoutFarm
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
                     if (myRenderElement != null)
                     {
-                        VisualLayerCollection layers = new VisualLayerCollection();
-                        myRenderElement.Layers = layers;
+                        //VisualLayerCollection layers = new VisualLayerCollection();
+                        //myRenderElement.Layers = layers;
                         var plain0 = new PlainLayer(myRenderElement);
-                        layers.AddLayer(plain0);
+                        //layers.AddLayer(plain0);
+                        myRenderElement.Layer = plain0;
                         plain0.AddChild(gridBox.GetPrimaryRenderElement(rootgfx));
                     }
                 }

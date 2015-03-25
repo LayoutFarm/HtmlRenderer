@@ -56,17 +56,17 @@ namespace LayoutFarm.CustomWidgets
             if (primElement == null)
             {
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                 
+
                 renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
                 renderE.HasSpecificSize = true;
                 //------------------------------------------------
                 //create visual layer
-                var layers = new VisualLayerCollection();
+                //var layers = new VisualLayerCollection();
                 var layer0 = new PlainLayer(renderE);
-                layers.AddLayer(layer0);
-                renderE.Layers = layers;
+                //layers.AddLayer(layer0);
+                renderE.Layer = layer0;
 
                 if (this.landPart != null)
                 {
@@ -89,7 +89,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.MouseDown(this, e);
             }
-        } 
+        }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -98,11 +98,11 @@ namespace LayoutFarm.CustomWidgets
             }
             base.OnMouseUp(e);
         }
-        
+
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
 
-         
+
         //----------------------------------------------------  
         public UIBox LandPart
         {
@@ -123,7 +123,7 @@ namespace LayoutFarm.CustomWidgets
                     if (primElement != null)
                     {
                         //add 
-                        var visualPlainLayer = primElement.Layers.GetLayer(0) as PlainLayer;
+                        var visualPlainLayer = primElement.Layer as PlainLayer;
                         if (visualPlainLayer != null)
                         {
                             visualPlainLayer.AddChild(value.GetPrimaryRenderElement(primElement.Root));
@@ -224,7 +224,7 @@ namespace LayoutFarm.CustomWidgets
                         TopWindowRenderBox topRenderBox = primElement.GetTopWindowRenderBox();
                         if (topRenderBox != null)
                         {
-                            topRenderBox.Layer0.RemoveChild(floatPartRenderElement);                             
+                            topRenderBox.Layer0.RemoveChild(floatPartRenderElement);
                         }
                     } break;
                 case HingeFloatPartStyle.Embeded:

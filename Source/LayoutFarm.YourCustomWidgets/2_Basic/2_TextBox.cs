@@ -121,15 +121,13 @@ namespace LayoutFarm.CustomWidgets
                 }
                 this.InvalidateGraphics();
             }
-        }
-       
+        } 
         public override void Focus()
         {
             //request keyboard focus
             base.Focus();
             textEditRenderElement.Focus();
-        }
-
+        } 
         protected override bool HasReadyRenderElement
         {
             get { return this.textEditRenderElement != null; }

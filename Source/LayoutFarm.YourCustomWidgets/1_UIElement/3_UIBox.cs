@@ -39,7 +39,7 @@ namespace LayoutFarm.UI
             if (this.HasReadyRenderElement)
             {
                 //focus
-                this.CurrentPrimaryRenderElement.Root.TakeKeyboardFocus(this.CurrentPrimaryRenderElement);
+                this.CurrentPrimaryRenderElement.Root.SetCurrentKeyboardFocus(this.CurrentPrimaryRenderElement);
             }
         }
         public bool HasSpecificWidth

@@ -167,11 +167,13 @@ namespace LayoutFarm.HtmlWidgets
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
 
-            VisualLayerCollection layers = new VisualLayerCollection();
-            bgBox.Layers = layers;
+            //VisualLayerCollection layers = new VisualLayerCollection();
+            //bgBox.Layers = layers;
 
             PlainLayer plain = new PlainLayer(bgBox);
-            layers.AddLayer(plain);
+            bgBox.Layer = plain;
+
+            //layers.AddLayer(plain);
             //-----------------------------------------------------
 
 
@@ -192,11 +194,12 @@ namespace LayoutFarm.HtmlWidgets
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
 
-            VisualLayerCollection layers = new VisualLayerCollection();
-            bgBox.Layers = layers;
+            //VisualLayerCollection layers = new VisualLayerCollection();
+            //bgBox.Layers = layers;
 
             PlainLayer plain = new PlainLayer(bgBox);
-            layers.AddLayer(plain);
+            bgBox.Layer = plain;
+            //layers.AddLayer(plain);
             //-----------------------------------------------------
 
 
