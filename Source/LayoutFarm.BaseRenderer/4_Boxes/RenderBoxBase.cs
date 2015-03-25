@@ -162,7 +162,10 @@ namespace LayoutFarm.RenderBoxes
             }
             return this.defaultLayer;
         }
-        public virtual void AddChild(RenderElement renderE)
+
+
+        //-------------------------------------------------------------------------- 
+        public override void AddChild(RenderElement renderE)
         {
             if (this.defaultLayer == null)
             {
@@ -170,14 +173,13 @@ namespace LayoutFarm.RenderBoxes
             }
             this.defaultLayer.AddChild(renderE);
         }
-        public virtual void RemoveChild(RenderElement renderE)
+        public override void RemoveChild(RenderElement renderE)
         {
             if (this.defaultLayer != null)
             {
                 this.defaultLayer.RemoveChild(renderE);
             }
-        }
-        //-------------------------------------------------------------------------- 
+        } 
         public override void ClearAllChildren()
         {
             if (this.defaultLayer != null)
