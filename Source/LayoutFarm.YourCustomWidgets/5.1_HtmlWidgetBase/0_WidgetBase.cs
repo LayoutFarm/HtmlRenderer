@@ -166,7 +166,7 @@ namespace LayoutFarm.HtmlWidgets
                         htmldoc.RootNode.AddChild(myPresentationDom);
                     }
                 }
-                topWindow.AddChild(primUI.GetPrimaryRenderElement(htmlhost.RootGfx));
+                topWindow.AddChild(primUI);
             }
         }
         protected void RemoveSelfFromTopWindow()

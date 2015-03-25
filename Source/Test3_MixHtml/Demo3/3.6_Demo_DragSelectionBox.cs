@@ -384,7 +384,7 @@ namespace LayoutFarm
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
 
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-                    PlainLayer plain0 = myRenderElement.GetExitingLayerOrCreateNew();
+                    PlainLayer plain0 = myRenderElement.GetDefaultLayer();
 
                     plain0.AddChild(gridBox.GetPrimaryRenderElement(rootgfx));
                     //------------------------------------------------------

@@ -63,9 +63,7 @@ namespace LayoutFarm.CustomWidgets
                 renderE.HasSpecificSize = true;
                 //------------------------------------------------
                 //create visual layer
-
-                var layer0 = renderE.GetExitingLayerOrCreateNew();
-
+                var layer0 = renderE.GetDefaultLayer();
                 if (this.landPart != null)
                 {
                     layer0.AddChild(this.landPart.GetPrimaryRenderElement(rootgfx));
@@ -73,8 +71,7 @@ namespace LayoutFarm.CustomWidgets
                 if (this.floatPart != null)
                 {
 
-                }
-
+                } 
                 //---------------------------------
                 primElement = renderE;
             }
@@ -121,12 +118,7 @@ namespace LayoutFarm.CustomWidgets
                     if (primElement != null)
                     {
                         //add 
-                        var visualPlainLayer = primElement.Layer as PlainLayer;
-                        if (visualPlainLayer != null)
-                        {
-                            visualPlainLayer.AddChild(value.GetPrimaryRenderElement(primElement.Root));
-                        }
-
+                        primElement.AddChild(value); 
                     }
 
                 }
@@ -208,21 +200,12 @@ namespace LayoutFarm.CustomWidgets
                     } break;
                 case HingeFloatPartStyle.Popup:
                     {
-                        //if (floatPartRenderElement != null)
-                        //{
-                        //    //temp
-                        //    var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
-                        //    if (parentContainer.Layers != null)
-                        //    {
-                        //        PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
-                        //        plainLayer.RemoveChild(floatPartRenderElement);
 
-                        //    }
-                        //}
                         TopWindowRenderBox topRenderBox = primElement.GetTopWindowRenderBox();
                         if (topRenderBox != null)
                         {
-                            topRenderBox.Layer0.RemoveChild(floatPartRenderElement);
+                            topRenderBox.RemoveChild(floatPartRenderElement);
+
                         }
                     } break;
                 case HingeFloatPartStyle.Embeded:

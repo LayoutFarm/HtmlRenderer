@@ -13,18 +13,21 @@ namespace LayoutFarm.RenderBoxes
 #endif
     public abstract class RenderBoxBase : RenderElement
     {
-        
+
         int myviewportX;
         int myviewportY;
 
-        RenderElementLayer layer0;//default layers
-
+        PlainLayer defaultLayer;
         public RenderBoxBase(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
             this.MayHasViewport = true;
             this.MayHasChild = true;
-        } 
+        }
+        protected abstract void DrawContent(Canvas canvas, Rectangle updateArea);
+
+
+
         public void SetViewport(int viewportX, int viewportY)
         {
             this.myviewportX = viewportX;
@@ -59,32 +62,15 @@ namespace LayoutFarm.RenderBoxes
             updateArea.Offset(-myviewportX, -myviewportY);
         }
 
-        protected virtual void DrawContent(Canvas canvas, Rectangle updateArea)
-        {
-            //sample ***
-            //1. draw background
-            //canvas.FillRectangle(Color.White, 0, 0, updateArea.Width, updateArea.Height);
-            canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
-
-            //2. draw content
-            if (this.layer0 != null)
-            {
-                layer0.DrawChildContent(canvas, updateArea);
-#if DEBUG
-                debug_RecordLayerInfo(layer0);
-#endif
-            } 
-        }
-
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
-            if (this.layer0 != null)
+            if (this.defaultLayer != null)
             {
-                layer0.HitTestCore(hitChain);
+                defaultLayer.HitTestCore(hitChain);
 #if DEBUG
-                debug_RecordLayerInfo(layer0);
+                debug_RecordLayerInfo(defaultLayer);
 #endif
-            } 
+            }
         }
 
         public void InvalidateContentArrangementFromContainerSizeChanged()
@@ -116,12 +102,12 @@ namespace LayoutFarm.RenderBoxes
             int cHeight = this.Height;
             int cWidth = this.Width;
             Size ground_contentSize = Size.Empty;
-            if (layer0 != null)
+            if (defaultLayer != null)
             {
-                layer0.TopDownReCalculateContentSize();
-                ground_contentSize = layer0.PostCalculateContentSize;
+                defaultLayer.TopDownReCalculateContentSize();
+                ground_contentSize = defaultLayer.PostCalculateContentSize;
 
-            } 
+            }
             int finalWidth = ground_contentSize.Width;
             if (finalWidth == 0)
             {
@@ -157,12 +143,48 @@ namespace LayoutFarm.RenderBoxes
 
         }
 
-        public RenderElementLayer Layer
+        protected bool HasDefaultLayer
         {
-            get { return this.layer0; }
-            set { this.layer0 = value; }
+            get { return this.defaultLayer != null; }
         }
-
+        protected void DrawDefaultLayer(Canvas canvas, ref Rectangle updateArea)
+        {
+            if (this.defaultLayer != null)
+            {
+                defaultLayer.DrawChildContent(canvas, updateArea);
+            }
+        }
+        public PlainLayer GetDefaultLayer()
+        {
+            if (this.defaultLayer == null)
+            {
+                return this.defaultLayer = new PlainLayer(this);
+            }
+            return this.defaultLayer;
+        }
+        public virtual void AddChild(RenderElement renderE)
+        {
+            if (this.defaultLayer == null)
+            {
+                this.defaultLayer = new PlainLayer(this);
+            }
+            this.defaultLayer.AddChild(renderE);
+        }
+        public virtual void RemoveChild(RenderElement renderE)
+        {
+            if (this.defaultLayer != null)
+            {
+                this.defaultLayer.RemoveChild(renderE);
+            }
+        }
+        //-------------------------------------------------------------------------- 
+        public override void ClearAllChildren()
+        {
+            if (this.defaultLayer != null)
+            {
+                this.defaultLayer.Clear();
+            }
+        }
         //-----------------------------------------------------------------
         public void ForceTopDownReArrangeContent()
         {
@@ -178,11 +200,11 @@ namespace LayoutFarm.RenderBoxes
 
             IsInTopDownReArrangePhase = true;
 
-            if (this.layer0 != null)
+            if (this.defaultLayer != null)
             {
-                this.layer0.TopDownReArrangeContent();
+                this.defaultLayer.TopDownReArrangeContent();
             }
-             
+
             // BoxEvaluateScrollBar();
 
 #if DEBUG
@@ -231,12 +253,6 @@ namespace LayoutFarm.RenderBoxes
 #endif
         }
 
-        //-------------------------------------------------------------------------------
-        public abstract override void ClearAllChildren();
-
-
-
-
         public override RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
 #if DEBUG
@@ -255,9 +271,9 @@ namespace LayoutFarm.RenderBoxes
         {
             get
             {
-                if (this.layer0 != null)
+                if (this.defaultLayer != null)
                 {
-                    Size s1 = layer0.PostCalculateContentSize; 
+                    Size s1 = defaultLayer.PostCalculateContentSize;
                     if (s1.Width < this.Width)
                     {
                         s1.Width = this.Width;
@@ -266,30 +282,16 @@ namespace LayoutFarm.RenderBoxes
                     {
                         s1.Height = this.Height;
                     }
-                    return s1; 
+                    return s1;
                 }
                 else
                 {
                     return this.Size;
                 }
-                 
+
             }
         }
 
-        public int ClientTop
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public int ClientLeft
-        {
-            get
-            {
-                return 0;
-            }
-        }
 
         //--------------------------------------------
 #if DEBUG

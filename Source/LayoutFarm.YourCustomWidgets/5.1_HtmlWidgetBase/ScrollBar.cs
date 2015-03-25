@@ -166,7 +166,7 @@ namespace LayoutFarm.HtmlWidgets
             bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);
 
-            PlainLayer plain = bgBox.GetExitingLayerOrCreateNew();             
+            PlainLayer plain = bgBox.GetDefaultLayer();
 
             //MinButton
             SetupMinButtonProperties(plain);
@@ -185,7 +185,7 @@ namespace LayoutFarm.HtmlWidgets
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
 
-            PlainLayer plain = bgBox.GetExitingLayerOrCreateNew();
+            PlainLayer plain = bgBox.GetDefaultLayer();
 
             //MinButton
             SetupMinButtonProperties(plain);

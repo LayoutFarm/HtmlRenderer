@@ -64,13 +64,11 @@ namespace LayoutFarm.CustomWidgets
                 renderE.HasSpecificSize = true;
                 //------------------------------------------------
                 //create visual layer
-                var plain = renderE.GetExitingLayerOrCreateNew();                
-
-             
+                var plain = renderE.GetDefaultLayer();
                 int n = this.uiList.Count;
                 for (int m = 0; m < n; ++m)
                 {
-                    plain.AddUI(uiList.GetElement(m)); 
+                    plain.AddUI(uiList.GetElement(m));
                 }
 
                 //---------------------------------
@@ -193,8 +191,8 @@ namespace LayoutFarm.CustomWidgets
                 element.HasSpecificSize = true;
                 //-----------------------------
                 // create default layer for node content
-                PlainLayer plainLayer = element.GetExitingLayerOrCreateNew();
-                 
+                PlainLayer plainLayer = element.GetDefaultLayer();
+
                 //-----------------------------
                 uiNodeIcon = new ImageBox(16, 16);//create with default size 
                 SetupNodeIconBehaviour(uiNodeIcon);
@@ -283,13 +281,14 @@ namespace LayoutFarm.CustomWidgets
                 {
                     //add child presentation 
                     //below here
-                    //create layers
-                    PlainLayer plain0 = primElement.GetExitingLayerOrCreateNew();
-                    
+                    //create layers                    
+
                     //add to layer
+
                     var tnRenderElement = treeNode.GetPrimaryRenderElement(primElement.Root);
                     tnRenderElement.SetLocation(indentWidth, newChildNodeY);
-                    plain0.AddChild(tnRenderElement);
+                    primElement.AddChild(tnRenderElement);
+                     
                     newChildNodeY += tnRenderElement.Height;
                     //-----------------
                 }

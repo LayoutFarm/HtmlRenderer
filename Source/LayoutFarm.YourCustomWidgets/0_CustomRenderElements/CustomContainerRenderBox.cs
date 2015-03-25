@@ -26,25 +26,7 @@ namespace LayoutFarm.CustomWidgets
         public override void ClearAllChildren()
         {
         }
-        public void AddChildBox(RenderElement renderE)
-        {
-
-            if (this.Layer == null)
-            {
-                PlainLayer plain0 = new PlainLayer(this);
-                plain0.AddChild(renderE);
-                this.Layer = plain0;
-            }
-            else
-            {
-                var plainLayer = this.Layer as PlainLayer;
-                if (plainLayer != null)
-                {
-                    plainLayer.AddChild(renderE);
-                }
-            }
-           
-        }
+        
 
 
     }

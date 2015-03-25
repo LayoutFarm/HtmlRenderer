@@ -36,11 +36,11 @@
   <ItemGroup>
     <Compile Include="0_CustomRenderElements\CustomContainerRenderBox.cs" />
     <Compile Include="0_CustomRenderElements\CustomTextRun.cs" />
+    <Compile Include="0_CustomRenderElements\RenderElementExtension.cs" />
     <Compile Include="1_UIElement\1_UIElement.cs" />
     <Compile Include="1_UIElement\2_UIElement_EventListener.cs" />
     <Compile Include="1_UIElement\3_UIBox.cs" />
     <Compile Include="1_UIElement\4_UICollection.cs" />
-    <Compile Include="1_UIElement\0_UIContext.cs" />
     <Compile Include="1_UIElement\5_IScrollable.cs" />
     <Compile Include="2_Basic\2_TextBox.cs" />
     <Compile Include="3_Grid\2_GridLayer.cs" />

@@ -56,10 +56,11 @@ namespace LayoutFarm.Text
             }
             else
             {
-                if (this.Layer != null)
+                this.textLayer.DrawChildContent(canvas, updateArea);
+                if (this.HasDefaultLayer)
                 {
-                    this.Layer.DrawChildContent(canvas, updateArea);
-                } 
+                    this.DrawDefaultLayer(canvas, ref updateArea);
+                }                 
             }
 
 #if DEBUG

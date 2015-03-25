@@ -39,9 +39,7 @@ namespace LayoutFarm.Text
             this.currentSpanStyle = new TextSpanStyle();
             this.currentSpanStyle.FontInfo = rootgfx.DefaultTextEditFontInfo;
 
-            textLayer = new EditableTextFlowLayer(this);
-            this.Layer = textLayer;
-             
+            textLayer = new EditableTextFlowLayer(this); 
 
             internalTextLayerController = new InternalTextLayerController(this, textLayer);
 
@@ -57,6 +55,7 @@ namespace LayoutFarm.Text
             }
             this.IsBlockElement = false;
         }
+
         public TextSpanStyle CurrentTextSpanStyle
         {
             get { return this.currentSpanStyle; }
