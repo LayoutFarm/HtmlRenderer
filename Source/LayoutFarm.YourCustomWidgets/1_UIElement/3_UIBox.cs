@@ -19,6 +19,7 @@ namespace LayoutFarm.UI
         bool specificWidth;
         bool specificHeight;
         public event EventHandler LayoutFinished;
+
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
@@ -28,7 +29,6 @@ namespace LayoutFarm.UI
         {
             this._width = width;
             this._height = height;
-
             //default for box
             this.AutoStopMouseEventPropagation = true;
 
@@ -36,6 +36,11 @@ namespace LayoutFarm.UI
         public virtual void Focus()
         {
             //make this keyboard focus able
+            if (this.HasReadyRenderElement)
+            {
+                //focus
+                this.CurrentPrimaryRenderElement.Root.TakeKeyboardFocus(this.CurrentPrimaryRenderElement);
+            }
         }
         public bool HasSpecificWidth
         {

@@ -21,10 +21,7 @@ namespace LayoutFarm.UI
         {
             this.oneBitNativeEventFlags |= eventFlags;
         }
-        public virtual bool AcceptKeyboardFocus
-        {
-            get { return false; }
-        }
+        
         public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
 
         public bool TransparentAllMouseEvents

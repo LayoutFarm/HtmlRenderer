@@ -122,16 +122,11 @@ namespace LayoutFarm.CustomWidgets
                 this.InvalidateGraphics();
             }
         }
-        public override bool AcceptKeyboardFocus
-        {
-            get
-            {
-                return true;
-            }
-        }
+       
         public override void Focus()
         {
             //request keyboard focus
+            base.Focus();
             textEditRenderElement.Focus();
         }
 

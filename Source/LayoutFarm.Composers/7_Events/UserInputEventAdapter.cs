@@ -29,6 +29,7 @@ namespace LayoutFarm.UI
 
         internal UserInputEventAdapter(MyRootGraphic rootgfx)
         {
+            
             this.rootgfx = rootgfx;
             this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
 #if DEBUG
@@ -258,11 +259,7 @@ namespace LayoutFarm.UI
                     //*****
                     this.currentMouseDown = e.CurrentContextElement;
 
-
-                    if (e.CurrentContextElement != null && e.CurrentContextElement.AcceptKeyboardFocus)
-                    {
-                        this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
-                    }
+                    
                     return true;
                 });
 
@@ -278,14 +275,7 @@ namespace LayoutFarm.UI
 
                         listener.ListenMouseDown(e);
 
-                        if (e.CurrentContextElement.AcceptKeyboardFocus)
-                        {
-                            this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
-                        }
-                        else
-                        {
-                            this.CurrentKeyboardFocusedElement = null;
-                        }
+                        
                         //------------------------------------------------------- 
                         bool cancelMouseBubbling = e.CancelBubbling;
                         if (prevMouseDownElement != null &&

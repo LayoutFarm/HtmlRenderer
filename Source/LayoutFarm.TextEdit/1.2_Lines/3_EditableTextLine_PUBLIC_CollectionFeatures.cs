@@ -141,17 +141,12 @@ namespace LayoutFarm.Text
 
 
     partial class EditableTextLine
-    {
-
-
+    {   
         public new void AddLast(EditableTextSpan v)
         {
             if (!v.IsLineBreak)
             {
-
-
                 AddNormalRunToLast(v);
-
             }
             else
             {

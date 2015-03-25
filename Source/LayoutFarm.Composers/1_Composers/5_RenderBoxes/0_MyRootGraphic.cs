@@ -100,9 +100,9 @@ namespace LayoutFarm.UI
         {
             get
             {
-                return graphicsPlatform.TextEditFontInfo;                 
+                return graphicsPlatform.TextEditFontInfo;
             }
-             
+
         }
         public override void ClearRenderRequests()
         {
@@ -195,7 +195,15 @@ namespace LayoutFarm.UI
             renderRequestList.Clear();
         }
 
+        public override void TakeKeyboardFocus(RenderElement renderElement)
+        {
+            var owner = renderElement.GetController() as IEventListener;
+            if (owner != null)
+            {
+                this.userInputEventAdapter.CurrentKeyboardFocusedElement = owner;
+            }
 
+        }
         public override void AddToLayoutQueue(RenderElement renderElement)
         {
 
@@ -223,7 +231,7 @@ namespace LayoutFarm.UI
                 htmlContainerUpdateQueue.Add(htmlCont);
             }
         }
-        
+
         void ClearLayoutQueue()
         {
 
