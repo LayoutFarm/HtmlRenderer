@@ -175,13 +175,8 @@ namespace LayoutFarm.CustomWidgets
             {
 
                 var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-                PlainLayer plain0 = null;
-                if (myRenderElement != null)
-                {
-                 
-                    plain0 = new PlainLayer(myRenderElement);
-                    myRenderElement.Layer = plain0; 
-                }
+                PlainLayer plain0 = myRenderElement.GetExitingLayerOrCreateNew();
+              
                 //------------------------------------------------------
 
                 plain0.AddChild(boxCentral.GetPrimaryRenderElement(rootgfx));

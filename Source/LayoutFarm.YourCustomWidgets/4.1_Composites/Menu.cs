@@ -65,10 +65,8 @@ namespace LayoutFarm.CustomWidgets
 
                 renderE.SetController(this);
                 //------------------------------------------------
-                //create visual layer
-                //var layers = new VisualLayerCollection();
-                var layer0 = new PlainLayer(renderE);
-                renderE.Layer = layer0;
+                //create visual layer 
+                var layer0 = renderE.GetExitingLayerOrCreateNew();
 
                 if (this.landPart != null)
                 {

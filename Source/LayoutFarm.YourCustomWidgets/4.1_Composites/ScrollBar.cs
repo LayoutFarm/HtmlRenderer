@@ -161,12 +161,7 @@ namespace LayoutFarm.CustomWidgets
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
 
-            //VisualLayerCollection layers = new VisualLayerCollection();
-            //bgBox.Layers = layers;
-
-            PlainLayer plain = new PlainLayer(bgBox);
-            //layers.AddLayer(plain);
-            bgBox.Layer = plain;
+            PlainLayer plain = bgBox.GetExitingLayerOrCreateNew();
             //-----------------------------------------------------
 
 
@@ -187,14 +182,8 @@ namespace LayoutFarm.CustomWidgets
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
 
-            //VisualLayerCollection layers = new VisualLayerCollection();
-            //bgBox.Layers = layers;
-
-            PlainLayer plain = new PlainLayer(bgBox);
-            bgBox.Layer = plain;
-            //layers.AddLayer(plain);
-            //-----------------------------------------------------
-
+            PlainLayer plain = bgBox.GetExitingLayerOrCreateNew();            
+            
 
             //MinButton
             SetupMinButtonProperties(plain);

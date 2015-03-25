@@ -384,16 +384,9 @@ namespace LayoutFarm
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
 
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-                    PlainLayer plain0 = null;
-                    if (myRenderElement != null)
-                    {
-                        //VisualLayerCollection layers = new VisualLayerCollection();
-                        //myRenderElement.Layers = layers;
-                        plain0 = new PlainLayer(myRenderElement);
-                        //layers.AddLayer(plain0);
-                        plain0.AddChild(gridBox.GetPrimaryRenderElement(rootgfx));
-                        myRenderElement.Layer = plain0;
-                    }
+                    PlainLayer plain0 = myRenderElement.GetExitingLayerOrCreateNew();
+
+                    plain0.AddChild(gridBox.GetPrimaryRenderElement(rootgfx));
                     //------------------------------------------------------
                     plain0.AddChild(boxLeftTop.GetPrimaryRenderElement(rootgfx));
                     plain0.AddChild(boxRightTop.GetPrimaryRenderElement(rootgfx));
@@ -417,7 +410,7 @@ namespace LayoutFarm
                 //---------------------------------
                 this.dockspaceController.SetSize(width, height);
             }
-             
+
             void SetupDockSpaces()
             {
                 //1. controller
@@ -610,26 +603,8 @@ namespace LayoutFarm
             {
                 if (!this.HasReadyRenderElement)
                 {
-                    //gridBox = new LayoutFarm.CustomWidgets.GridBox(30, 30);
-                    //gridBox.SetLocation(5, 5);
-                    //gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
-
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-                    //PlainLayer plain0 = null;
-                    //if (myRenderElement != null)
-                    //{
-                    //    VisualLayerCollection layers = new VisualLayerCollection();
-                    //    myRenderElement.Layers = layers;
-                    //    plain0 = new PlainLayer(myRenderElement);
-                    //    layers.AddLayer(plain0);
-                    //    plain0.AddChild(gridBox.GetPrimaryRenderElement(rootgfx));
-                    //}
-                    ////------------------------------------------------------
-                    //plain0.AddChild(boxLeftTop.GetPrimaryRenderElement(rootgfx));
-                    //plain0.AddChild(boxRightTop.GetPrimaryRenderElement(rootgfx));
-                    //plain0.AddChild(boxLeftBottom.GetPrimaryRenderElement(rootgfx));
-                    //plain0.AddChild(boxRightBottom.GetPrimaryRenderElement(rootgfx));
-                    ////------------------------------------------------------
+
                 }
                 return base.GetPrimaryRenderElement(rootgfx);
             }

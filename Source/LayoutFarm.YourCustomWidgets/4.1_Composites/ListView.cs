@@ -64,8 +64,7 @@ namespace LayoutFarm.CustomWidgets
                 //create visual layer
 
                 int uiCount = this.uiList.Count;
-                PlainLayer plainLayer = new PlainLayer(renderE);
-                renderE.Layer = plainLayer;
+                PlainLayer plainLayer = renderE.GetExitingLayerOrCreateNew();
 
                 for (int m = 0; m < uiCount; ++m)
                 { 

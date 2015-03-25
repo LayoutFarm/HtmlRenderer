@@ -60,11 +60,8 @@ namespace LayoutFarm.CustomWidgets
                 renderE.SetController(this);
                 renderE.HasSpecificSize = true;
                 //------------------------------------------------
-                //create visual layer
-                //var layers = new VisualLayerCollection();
-                var layer0 = new PlainLayer(renderE);
-                //layers.AddLayer(layer0);
-                renderE.Layer = layer0;
+                //create visual layer 
+                var layer0 = renderE.GetExitingLayerOrCreateNew();
 
                 if (this.landPart != null)
                 {

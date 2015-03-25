@@ -165,9 +165,8 @@ namespace LayoutFarm.HtmlWidgets
             bgBox.HasSpecificSize = true;
             bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);
-       
-            PlainLayer plain = new PlainLayer(bgBox);
-            bgBox.Layer = plain; 
+
+            PlainLayer plain = bgBox.GetExitingLayerOrCreateNew();             
 
             //MinButton
             SetupMinButtonProperties(plain);
@@ -185,10 +184,8 @@ namespace LayoutFarm.HtmlWidgets
             bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
- 
-            PlainLayer plain = new PlainLayer(bgBox);
-            bgBox.Layer = plain;
-            
+
+            PlainLayer plain = bgBox.GetExitingLayerOrCreateNew();
 
             //MinButton
             SetupMinButtonProperties(plain);

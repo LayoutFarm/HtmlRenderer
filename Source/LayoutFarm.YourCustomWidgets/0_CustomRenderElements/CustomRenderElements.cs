@@ -41,7 +41,6 @@ namespace LayoutFarm.CustomWidgets
             }
 
         }
-       
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
 
@@ -70,6 +69,16 @@ namespace LayoutFarm.CustomWidgets
             //canvas.dbug_DrawCrossRect(PixelFarm.Drawing.Color.Black,
             //   new Rectangle(updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height));
 #endif
+        }
+        public PlainLayer GetExitingLayerOrCreateNew()
+        {
+            if (this.Layer == null)
+            {
+                var layer = new PlainLayer(this);
+                this.Layer = layer;
+                return layer;                 
+            }
+            return this.Layer as PlainLayer;
         }
     }
 

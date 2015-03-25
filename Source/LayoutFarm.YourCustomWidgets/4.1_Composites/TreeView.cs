@@ -64,8 +64,7 @@ namespace LayoutFarm.CustomWidgets
                 renderE.HasSpecificSize = true;
                 //------------------------------------------------
                 //create visual layer
-                var plain = new PlainLayer(renderE);
-                renderE.Layer = plain;
+                var plain = renderE.GetExitingLayerOrCreateNew();                
 
              
                 int n = this.uiList.Count;
@@ -194,16 +193,8 @@ namespace LayoutFarm.CustomWidgets
                 element.HasSpecificSize = true;
                 //-----------------------------
                 // create default layer for node content
-                PlainLayer plainLayer = null;
-                if (element.Layer == null)
-                {
-                    plainLayer = new PlainLayer(element);
-                    element.Layer = plainLayer;
-                }
-                else
-                {
-                    plainLayer = element.Layer as PlainLayer;
-                }
+                PlainLayer plainLayer = element.GetExitingLayerOrCreateNew();
+                 
                 //-----------------------------
                 uiNodeIcon = new ImageBox(16, 16);//create with default size 
                 SetupNodeIconBehaviour(uiNodeIcon);
@@ -293,16 +284,7 @@ namespace LayoutFarm.CustomWidgets
                     //add child presentation 
                     //below here
                     //create layers
-                    PlainLayer plain0 = null;
-                    if (primElement.Layer == null)
-                    {
-                        plain0 = new PlainLayer(primElement);
-                        primElement.Layer = plain0;
-                    }
-                    else
-                    {
-                        plain0 = primElement.Layer as PlainLayer;
-                    }
+                    PlainLayer plain0 = primElement.GetExitingLayerOrCreateNew();
                     
                     //add to layer
                     var tnRenderElement = treeNode.GetPrimaryRenderElement(primElement.Root);
