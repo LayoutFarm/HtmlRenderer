@@ -21,7 +21,6 @@ namespace LayoutFarm.HtmlBoxes
 
         MyHtmlContainer myHtmlCont;
         CssBox cssBox;
-
         public HtmlRenderBox(RootGraphic rootgfx,
             int width, int height)
             : base(rootgfx, width, height)

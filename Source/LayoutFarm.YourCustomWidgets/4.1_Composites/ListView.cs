@@ -64,10 +64,10 @@ namespace LayoutFarm.CustomWidgets
                 //create visual layer
 
                 int uiCount = this.uiList.Count;
-                PlainLayer plainLayer = renderE.GetExitingLayerOrCreateNew();
+                PlainLayer plainLayer = renderE.GetDefaultLayer();
 
                 for (int m = 0; m < uiCount; ++m)
-                { 
+                {
                     plainLayer.AddUI(uiList.GetElement(m));
 
                 }
@@ -243,7 +243,7 @@ namespace LayoutFarm.CustomWidgets
 
 
                 listItemText = new CustomTextRun(rootgfx, 200, this.Height);
-                element.AddChildBox(listItemText);
+                element.AddChild(listItemText);
 
                 if (this.itemText != null)
                 {
@@ -281,7 +281,7 @@ namespace LayoutFarm.CustomWidgets
         //----------------- 
         public void AddChild(RenderElement renderE)
         {
-            primElement.AddChildBox(renderE);
+            primElement.AddChild(renderE);
         }
     }
 

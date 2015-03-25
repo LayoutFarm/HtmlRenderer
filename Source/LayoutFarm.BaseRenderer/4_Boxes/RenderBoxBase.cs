@@ -13,18 +13,21 @@ namespace LayoutFarm.RenderBoxes
 #endif
     public abstract class RenderBoxBase : RenderElement
     {
-        
+
         int myviewportX;
         int myviewportY;
 
-        RenderElementLayer layer0;//default layers
-
+        PlainLayer layer0;
         public RenderBoxBase(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
             this.MayHasViewport = true;
             this.MayHasChild = true;
-        } 
+        }
+        protected abstract void DrawContent(Canvas canvas, Rectangle updateArea);
+
+
+
         public void SetViewport(int viewportX, int viewportY)
         {
             this.myviewportX = viewportX;
@@ -59,23 +62,6 @@ namespace LayoutFarm.RenderBoxes
             updateArea.Offset(-myviewportX, -myviewportY);
         }
 
-        protected virtual void DrawContent(Canvas canvas, Rectangle updateArea)
-        {
-            //sample ***
-            //1. draw background
-            //canvas.FillRectangle(Color.White, 0, 0, updateArea.Width, updateArea.Height);
-            canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
-
-            //2. draw content
-            if (this.layer0 != null)
-            {
-                layer0.DrawChildContent(canvas, updateArea);
-#if DEBUG
-                debug_RecordLayerInfo(layer0);
-#endif
-            } 
-        }
-
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
             if (this.layer0 != null)
@@ -84,7 +70,7 @@ namespace LayoutFarm.RenderBoxes
 #if DEBUG
                 debug_RecordLayerInfo(layer0);
 #endif
-            } 
+            }
         }
 
         public void InvalidateContentArrangementFromContainerSizeChanged()
@@ -121,7 +107,7 @@ namespace LayoutFarm.RenderBoxes
                 layer0.TopDownReCalculateContentSize();
                 ground_contentSize = layer0.PostCalculateContentSize;
 
-            } 
+            }
             int finalWidth = ground_contentSize.Width;
             if (finalWidth == 0)
             {
@@ -157,12 +143,48 @@ namespace LayoutFarm.RenderBoxes
 
         }
 
-        public RenderElementLayer Layer
+        protected bool HasDefaultLayer
         {
-            get { return this.layer0; }
-            set { this.layer0 = value; }
+            get { return this.layer0 != null; }
         }
-
+        protected void DrawDefaultLayer(Canvas canvas, ref Rectangle updateArea)
+        {
+            if (this.layer0 != null)
+            {
+                layer0.DrawChildContent(canvas, updateArea);
+            }
+        }
+        public PlainLayer GetDefaultLayer()
+        {
+            if (this.layer0 == null)
+            {
+                return this.layer0 = new PlainLayer(this);
+            }
+            return this.layer0;
+        }
+        public virtual void AddChild(RenderElement renderE)
+        {
+            if (this.layer0 == null)
+            {
+                this.layer0 = new PlainLayer(this);
+            }
+            this.layer0.AddChild(renderE);
+        }
+        public virtual void RemoveChild(RenderElement renderE)
+        {
+            if (this.layer0 != null)
+            {
+                this.layer0.RemoveChild(renderE);
+            }
+        }
+        //-------------------------------------------------------------------------- 
+        public override void ClearAllChildren()
+        {
+            if (this.layer0 != null)
+            {
+                this.layer0.Clear();
+            }
+        }
         //-----------------------------------------------------------------
         public void ForceTopDownReArrangeContent()
         {
@@ -182,7 +204,7 @@ namespace LayoutFarm.RenderBoxes
             {
                 this.layer0.TopDownReArrangeContent();
             }
-             
+
             // BoxEvaluateScrollBar();
 
 #if DEBUG
@@ -231,12 +253,6 @@ namespace LayoutFarm.RenderBoxes
 #endif
         }
 
-        //-------------------------------------------------------------------------------
-        public abstract override void ClearAllChildren();
-
-
-
-
         public override RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
 #if DEBUG
@@ -257,7 +273,7 @@ namespace LayoutFarm.RenderBoxes
             {
                 if (this.layer0 != null)
                 {
-                    Size s1 = layer0.PostCalculateContentSize; 
+                    Size s1 = layer0.PostCalculateContentSize;
                     if (s1.Width < this.Width)
                     {
                         s1.Width = this.Width;
@@ -266,30 +282,16 @@ namespace LayoutFarm.RenderBoxes
                     {
                         s1.Height = this.Height;
                     }
-                    return s1; 
+                    return s1;
                 }
                 else
                 {
                     return this.Size;
                 }
-                 
+
             }
         }
 
-        public int ClientTop
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public int ClientLeft
-        {
-            get
-            {
-                return 0;
-            }
-        }
 
         //--------------------------------------------
 #if DEBUG

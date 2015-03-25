@@ -6,8 +6,8 @@ using System.Text;
 
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
-using LayoutFarm.UI;
-
+using LayoutFarm.UI; 
+using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
     [DemoNote("3.3 Demo_ControllerBoxs2")]
@@ -165,9 +165,7 @@ namespace LayoutFarm
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
 
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-                    var plain0 = myRenderElement.GetExitingLayerOrCreateNew(); 
-
-                    plain0.AddChild(gridBox.GetPrimaryRenderElement(rootgfx));
+                    myRenderElement.AddChild(gridBox);                    
 
                 }
                 return base.GetPrimaryRenderElement(rootgfx);

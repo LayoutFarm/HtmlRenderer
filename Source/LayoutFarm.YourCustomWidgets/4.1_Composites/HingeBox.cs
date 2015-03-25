@@ -60,12 +60,12 @@ namespace LayoutFarm.CustomWidgets
                 renderE.SetController(this);
                 renderE.HasSpecificSize = true;
                 //------------------------------------------------
-                //create visual layer 
-                var layer0 = renderE.GetExitingLayerOrCreateNew();
+                //create visual layer                 
 
                 if (this.landPart != null)
                 {
-                    layer0.AddChild(this.landPart.GetPrimaryRenderElement(rootgfx));
+                    renderE.AddChild(this.landPart);
+                     
                 }
                 if (this.floatPart != null)
                 {
@@ -120,11 +120,7 @@ namespace LayoutFarm.CustomWidgets
                     if (primElement != null)
                     {
                         //add 
-                        var visualPlainLayer = primElement.Layer as PlainLayer;
-                        if (visualPlainLayer != null)
-                        {
-                            visualPlainLayer.AddChild(value.GetPrimaryRenderElement(primElement.Root));
-                        }
+                        primElement.AddChild(value);                        
 
                     }
 
@@ -211,12 +207,7 @@ namespace LayoutFarm.CustomWidgets
                         {
                             //temp
                             var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
-                            if (parentContainer.Layer != null)
-                            {
-                                PlainLayer plainLayer = (PlainLayer)parentContainer.Layer;
-                                plainLayer.RemoveChild(floatPartRenderElement);
-
-                            }
+                            parentContainer.RemoveChild(floatPartRenderElement);                             
                         }
 
                     } break;

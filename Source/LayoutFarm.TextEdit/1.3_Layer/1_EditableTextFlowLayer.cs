@@ -12,11 +12,10 @@ namespace LayoutFarm.Text
     partial class EditableTextFlowLayer : RenderElementLayer
     {
 
-        object lineCollection;
-
-        public event EventHandler Reflow;
-
+        object lineCollection; 
+        public event EventHandler Reflow; 
         TextEditRenderBox owner;
+
         public EditableTextFlowLayer(TextEditRenderBox owner)
             : base(owner)
         {
@@ -33,8 +32,7 @@ namespace LayoutFarm.Text
         {
             this.SetDoubleCanvas(useWithWidth, useWithHeight);
         }
-
-
+         
         public bool FlowLayerHasMultiLines
         {
             get
@@ -409,7 +407,7 @@ namespace LayoutFarm.Text
             RenderBoxBase container = this.OwnerRenderElement as RenderBoxBase;
             if (container != null)
             {
-                PerformHorizontalFlowArrange(container.ClientLeft, container.Width, container.ClientTop);
+                PerformHorizontalFlowArrange(0, container.Width, 0);
             }
 
             if (Reflow != null)

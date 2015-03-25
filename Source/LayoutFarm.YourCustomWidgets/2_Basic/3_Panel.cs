@@ -52,7 +52,7 @@ namespace LayoutFarm.CustomWidgets
         {
             get { return this.primElement; }
         }
-       
+
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (primElement == null)
@@ -74,14 +74,14 @@ namespace LayoutFarm.CustomWidgets
                 renderE.SetViewport(this.viewportX, this.viewportY);
                 //------------------------------------------------
                 //create visual layer
-                PlainLayer plan0 = renderE.GetExitingLayerOrCreateNew();
+                PlainLayer plan0 = renderE.GetDefaultLayer();
                 int childCount = this.uiList.Count;
                 for (int m = 0; m < childCount; ++m)
                 {
                     plan0.AddChild(uiList.GetElement(m).GetPrimaryRenderElement(rootgfx));
                 }
-                    
-                 
+
+
 
                 SetPrimaryRenderElement(renderE);
                 //---------------------------------
@@ -110,11 +110,11 @@ namespace LayoutFarm.CustomWidgets
             this.uiList.AddUI(ui);
 
 
-             
+
             if (this.HasReadyRenderElement)
             {
-                PlainLayer plain1 = this.primElement.Layer as PlainLayer;
-                plain1.AddUI(ui);
+
+                primElement.AddChild(ui);
                 if (this.panelLayoutKind != PanelLayoutKind.Absolute)
                 {
                     this.InvalidateLayout();
@@ -133,24 +133,23 @@ namespace LayoutFarm.CustomWidgets
             this.uiList.RemoveUI(ui);
             if (this.HasReadyRenderElement)
             {
-                PlainLayer plain1 = this.primElement.Layer as PlainLayer;
+
                 if (this.panelLayoutKind != PanelLayoutKind.Absolute)
                 {
                     this.InvalidateLayout();
                 }
-
-                plain1.RemoveUI(ui);
+                this.primElement.RemoveChild(ui.CurrentPrimaryRenderElement);
             }
         }
         public void ClearItems()
         {
             needContentLayout = true;
-          
+
             this.uiList.Clear();
             if (this.HasReadyRenderElement)
             {
-                PlainLayer plain1 = this.primElement.Layer as PlainLayer;
-                plain1.Clear();
+
+                primElement.ClearAllChildren();
                 if (this.panelLayoutKind != PanelLayoutKind.Absolute)
                 {
                     this.InvalidateLayout();
