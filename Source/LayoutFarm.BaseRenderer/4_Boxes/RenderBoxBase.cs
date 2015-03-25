@@ -13,7 +13,7 @@ namespace LayoutFarm.RenderBoxes
 #endif
     public abstract class RenderBoxBase : RenderElement
     {
-        //VisualLayerCollection layers;
+        
         int myviewportX;
         int myviewportY;
 
@@ -24,14 +24,7 @@ namespace LayoutFarm.RenderBoxes
         {
             this.MayHasViewport = true;
             this.MayHasChild = true;
-        }
-
-        //protected VisualLayerCollection MyLayers
-        //{
-        //    get { return this.layers; }
-        //    set { this.layers = value; }
-        //}
-
+        } 
         public void SetViewport(int viewportX, int viewportY)
         {
             this.myviewportX = viewportX;
@@ -80,48 +73,7 @@ namespace LayoutFarm.RenderBoxes
 #if DEBUG
                 debug_RecordLayerInfo(layer0);
 #endif
-            }
-
-            //            if (this.layers != null)
-            //            {
-            //                int j = this.layers.LayerCount;
-            //                switch (j)
-            //                {
-            //                    case 0:
-            //                        {
-
-            //                        } break;
-            //                    case 1:
-            //                        {
-            //                            layers.Layer0.DrawChildContent(canvas, updateArea);
-            //#if DEBUG
-            //                            debug_RecordLayerInfo(layers.Layer0);
-            //#endif
-            //                        } break;
-            //                    case 2:
-            //                        {
-            //                            layers.Layer0.DrawChildContent(canvas, updateArea);
-            //#if DEBUG
-            //                            debug_RecordLayerInfo(layers.Layer0);
-            //#endif
-            //                            layers.Layer1.DrawChildContent(canvas, updateArea);
-            //#if DEBUG
-            //                            debug_RecordLayerInfo(layers.Layer1);
-            //#endif
-            //                        } break;
-            //                    default:
-            //                        {
-            //                            for (int i = 0; i < j; ++i)
-            //                            {
-            //                                var layer = this.layers.GetLayer(i);
-            //                                layer.DrawChildContent(canvas, updateArea);
-            //#if DEBUG
-            //                                debug_RecordLayerInfo(layer);
-            //#endif
-            //                            }
-            //                        } break;
-            //                }
-            //            }
+            } 
         }
 
         public override void ChildrenHitTestCore(HitChain hitChain)
@@ -132,11 +84,7 @@ namespace LayoutFarm.RenderBoxes
 #if DEBUG
                 debug_RecordLayerInfo(layer0);
 #endif
-            }
-            //if (this.layers != null)
-            //{
-            //    layers.ChildrenHitTestCore(hitChain);
-            //}
+            } 
         }
 
         public void InvalidateContentArrangementFromContainerSizeChanged()
@@ -173,11 +121,7 @@ namespace LayoutFarm.RenderBoxes
                 layer0.TopDownReCalculateContentSize();
                 ground_contentSize = layer0.PostCalculateContentSize;
 
-            }
-            //if (layers != null)
-            //{
-            //    ground_contentSize = layers.TopDownReCalculateContentSize();
-            //}
+            } 
             int finalWidth = ground_contentSize.Width;
             if (finalWidth == 0)
             {
@@ -238,7 +182,7 @@ namespace LayoutFarm.RenderBoxes
             {
                 this.layer0.TopDownReArrangeContent();
             }
-            //this.layers.ForceTopDownReArrangeContent();
+             
             // BoxEvaluateScrollBar();
 
 #if DEBUG
@@ -328,26 +272,7 @@ namespace LayoutFarm.RenderBoxes
                 {
                     return this.Size;
                 }
-
-                //if (this.layers != null && layers.LayerCount > 0)
-                //{
-                //    var layer0 = this.layers.Layer0;
-                //    Size s1 = layer0.PostCalculateContentSize;
-
-                //    if (s1.Width < this.Width)
-                //    {
-                //        s1.Width = this.Width;
-                //    }
-                //    if (s1.Height < this.Height)
-                //    {
-                //        s1.Height = this.Height;
-                //    }
-                //    return s1;
-                //}
-                //else
-                //{
-                //    return this.Size;
-                //}
+                 
             }
         }
 
