@@ -40,9 +40,9 @@ namespace LayoutFarm.Text
             this.currentSpanStyle.FontInfo = rootgfx.DefaultTextEditFontInfo;
 
             textLayer = new EditableTextFlowLayer(this);
+            this.Layer = textLayer;
+             
 
-            this.MyLayers = new VisualLayerCollection();
-            this.MyLayers.AddLayer(textLayer);
             internalTextLayerController = new InternalTextLayerController(this, textLayer);
 
             this.isMultiLine = isMultiLine;
@@ -194,7 +194,6 @@ namespace LayoutFarm.Text
             this.SetCaretState(true);
             this.isFocus = true;
         }
-
         public bool IsFocused
         {
             get

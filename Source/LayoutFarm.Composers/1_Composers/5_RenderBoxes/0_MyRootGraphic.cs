@@ -195,7 +195,7 @@ namespace LayoutFarm.UI
             renderRequestList.Clear();
         }
 
-        public override void TakeKeyboardFocus(RenderElement renderElement)
+        public override void SetCurrentKeyboardFocus(RenderElement renderElement)
         {
             var owner = renderElement.GetController() as IEventListener;
             if (owner != null)

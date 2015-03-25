@@ -33,20 +33,17 @@ namespace LayoutFarm.CustomWidgets
         int viewportX;
         int viewportY;
 
-        List<UICollection> layers = new List<UICollection>(1);
+        UICollection uiList;
         bool needContentLayout;
-
 
         public Panel(int width, int height)
             : base(width, height)
         {
-            UICollection plainLayer = new UICollection(this);
-            this.layers.Add(plainLayer);
+            uiList = new UICollection(this);
+
             this.desiredHeight = height;
             this.desiredWidth = width;
         }
-
-
         protected override bool HasReadyRenderElement
         {
             get { return this.primElement != null; }
@@ -55,18 +52,7 @@ namespace LayoutFarm.CustomWidgets
         {
             get { return this.primElement; }
         }
-        public Color BackColor
-        {
-            get { return this.backColor; }
-            set
-            {
-                this.backColor = value;
-                if (HasReadyRenderElement)
-                {
-                    this.primElement.BackColor = value;
-                }
-            }
-        }
+       
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (primElement == null)
@@ -88,21 +74,15 @@ namespace LayoutFarm.CustomWidgets
                 renderE.SetViewport(this.viewportX, this.viewportY);
                 //------------------------------------------------
                 //create visual layer
-                renderE.Layers = new VisualLayerCollection();
-                int layerCount = this.layers.Count;
-                for (int m = 0; m < layerCount; ++m)
+                PlainLayer plan0 = renderE.GetExitingLayerOrCreateNew();
+                int childCount = this.uiList.Count;
+                for (int m = 0; m < childCount; ++m)
                 {
-                    UICollection plain = (UICollection)this.layers[m];
-                    var groundLayer = new PlainLayer(renderE);
-                    renderE.Layers.AddLayer(groundLayer);
-
-                    //---------------------------------
-                    int j = plain.Count;
-                    for (int i = 0; i < j; ++i)
-                    {
-                        groundLayer.AddUI(plain.GetElement(i));
-                    }
+                    plan0.AddChild(uiList.GetElement(m).GetPrimaryRenderElement(rootgfx));
                 }
+                    
+                 
+
                 SetPrimaryRenderElement(renderE);
                 //---------------------------------
                 primElement = renderE;
@@ -127,11 +107,13 @@ namespace LayoutFarm.CustomWidgets
         public void AddChildBox(UIElement ui)
         {
             needContentLayout = true;
-            UICollection layer0 = (UICollection)this.layers[0];
-            layer0.AddUI(ui);
+            this.uiList.AddUI(ui);
+
+
+             
             if (this.HasReadyRenderElement)
             {
-                PlainLayer plain1 = this.primElement.Layers.Layer0 as PlainLayer;
+                PlainLayer plain1 = this.primElement.Layer as PlainLayer;
                 plain1.AddUI(ui);
                 if (this.panelLayoutKind != PanelLayoutKind.Absolute)
                 {
@@ -148,11 +130,10 @@ namespace LayoutFarm.CustomWidgets
         public void RemoveChildBox(UIElement ui)
         {
             needContentLayout = true;
-            UICollection layer0 = (UICollection)this.layers[0];
-            layer0.RemoveUI(ui);
+            this.uiList.RemoveUI(ui);
             if (this.HasReadyRenderElement)
             {
-                PlainLayer plain1 = this.primElement.Layers.Layer0 as PlainLayer;
+                PlainLayer plain1 = this.primElement.Layer as PlainLayer;
                 if (this.panelLayoutKind != PanelLayoutKind.Absolute)
                 {
                     this.InvalidateLayout();
@@ -164,11 +145,11 @@ namespace LayoutFarm.CustomWidgets
         public void ClearItems()
         {
             needContentLayout = true;
-            UICollection layer0 = (UICollection)this.layers[0];
-            layer0.Clear();
+          
+            this.uiList.Clear();
             if (this.HasReadyRenderElement)
             {
-                PlainLayer plain1 = this.primElement.Layers.Layer0 as PlainLayer;
+                PlainLayer plain1 = this.primElement.Layer as PlainLayer;
                 plain1.Clear();
                 if (this.panelLayoutKind != PanelLayoutKind.Absolute)
                 {
@@ -244,8 +225,8 @@ namespace LayoutFarm.CustomWidgets
             {
                 case CustomWidgets.PanelLayoutKind.VerticalStack:
                     {
-                        UICollection layer0 = (UICollection)this.layers[0];
-                        int count = layer0.Count;
+
+                        int count = this.uiList.Count;
                         int ypos = 0;
 
                         //todo: implement stretching ...
@@ -264,7 +245,7 @@ namespace LayoutFarm.CustomWidgets
                         int maxRight = 0;
                         for (int i = 0; i < count; ++i)
                         {
-                            var element = layer0.GetElement(i) as UIBox;
+                            var element = this.uiList.GetElement(i) as UIBox;
                             if (element != null)
                             {
                                 //if (element.dbugBreakMe)
@@ -296,15 +277,15 @@ namespace LayoutFarm.CustomWidgets
                     } break;
                 case CustomWidgets.PanelLayoutKind.HorizontalStack:
                     {
-                        UICollection layer0 = (UICollection)this.layers[0];
-                        int count = layer0.Count;
+
+                        int count = this.uiList.Count;
                         int xpos = 0;
 
                         int maxBottom = 0;
 
                         for (int i = 0; i < count; ++i)
                         {
-                            var element = layer0.GetElement(i) as UIBox;
+                            var element = this.uiList.GetElement(i) as UIBox;
                             if (element != null)
                             {
                                 element.PerformContentLayout();
@@ -325,14 +306,14 @@ namespace LayoutFarm.CustomWidgets
                     } break;
                 default:
                     {
-                        UICollection layer0 = (UICollection)this.layers[0];
-                        int count = layer0.Count;
+
+                        int count = this.uiList.Count;
                         int maxRight = 0;
                         int maxBottom = 0;
 
                         for (int i = 0; i < count; ++i)
                         {
-                            var element = layer0.GetElement(i) as UIBox;
+                            var element = this.uiList.GetElement(i) as UIBox;
                             if (element != null)
                             {
                                 element.PerformContentLayout();

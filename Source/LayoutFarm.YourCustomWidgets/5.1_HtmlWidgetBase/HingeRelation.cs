@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 
@@ -123,9 +123,9 @@ namespace LayoutFarm.HtmlWidgets
                         {
                             //temp
                             var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
-                            if (parentContainer.Layers != null)
+                            if (parentContainer.Layer != null)
                             {
-                                PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
+                                PlainLayer plainLayer = (PlainLayer)parentContainer.Layer;
                                 plainLayer.RemoveChild(floatPartRenderElement);
                             }
                         }

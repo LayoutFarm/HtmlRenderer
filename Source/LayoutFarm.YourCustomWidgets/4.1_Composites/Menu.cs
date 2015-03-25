@@ -65,11 +65,8 @@ namespace LayoutFarm.CustomWidgets
 
                 renderE.SetController(this);
                 //------------------------------------------------
-                //create visual layer
-                var layers = new VisualLayerCollection();
-                var layer0 = new PlainLayer(renderE);
-                layers.AddLayer(layer0);
-                renderE.Layers = layers;
+                //create visual layer 
+                var layer0 = renderE.GetExitingLayerOrCreateNew();
 
                 if (this.landPart != null)
                 {
@@ -121,18 +118,16 @@ namespace LayoutFarm.CustomWidgets
                     if (this.landPart != null)
                     {
                         //remove existing landpart
-
                     }
 
                     if (primElement != null)
                     {
                         //add 
-                        var visualPlainLayer = primElement.Layers.GetLayer(0) as PlainLayer;
+                        var visualPlainLayer = primElement.Layer as PlainLayer;
                         if (visualPlainLayer != null)
                         {
                             visualPlainLayer.AddChild(value.GetPrimaryRenderElement(primElement.Root));
                         }
-
                     }
 
                 }

@@ -15,8 +15,8 @@ namespace LayoutFarm.Text
 
 
         RenderSurfaceScrollRelation scrollRelation;
-        CustomRenderSurface vscrollableSurface; 
-        public Color BackgroundColor { get; set; }  
+        CustomRenderSurface vscrollableSurface;
+        public Color BackgroundColor { get; set; }
         public CustomRenderSurface ScrollableSurface
         {
             get { return this.vscrollableSurface; }
@@ -56,10 +56,10 @@ namespace LayoutFarm.Text
             }
             else
             {
-                if (this.MyLayers != null)
+                if (this.Layer != null)
                 {
-                    this.MyLayers.LayersDrawContent(canvas, updateArea);
-                }
+                    this.Layer.DrawChildContent(canvas, updateArea);
+                } 
             }
 
 #if DEBUG

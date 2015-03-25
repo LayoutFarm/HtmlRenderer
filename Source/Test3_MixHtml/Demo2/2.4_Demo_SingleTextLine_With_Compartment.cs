@@ -539,15 +539,8 @@ Zimbabwe");
                 {
 
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-                    PlainLayer plain0 = null;
-                    if (myRenderElement != null)
-                    {
-                        VisualLayerCollection layers = new VisualLayerCollection();
-                        myRenderElement.Layers = layers;
-                        plain0 = new PlainLayer(myRenderElement);
-                        layers.AddLayer(plain0);
-
-                    }
+                    PlainLayer plain0 = myRenderElement.GetExitingLayerOrCreateNew();
+                     
                     //------------------------------------------------------
                     plain0.AddChild(boxLeftTop.GetPrimaryRenderElement(rootgfx));
                     plain0.AddChild(boxRightTop.GetPrimaryRenderElement(rootgfx));
