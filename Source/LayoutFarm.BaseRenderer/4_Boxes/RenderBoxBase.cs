@@ -17,7 +17,7 @@ namespace LayoutFarm.RenderBoxes
         int myviewportX;
         int myviewportY;
 
-        PlainLayer layer0;
+        PlainLayer defaultLayer;
         public RenderBoxBase(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
@@ -64,11 +64,11 @@ namespace LayoutFarm.RenderBoxes
 
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
-            if (this.layer0 != null)
+            if (this.defaultLayer != null)
             {
-                layer0.HitTestCore(hitChain);
+                defaultLayer.HitTestCore(hitChain);
 #if DEBUG
-                debug_RecordLayerInfo(layer0);
+                debug_RecordLayerInfo(defaultLayer);
 #endif
             }
         }
@@ -102,10 +102,10 @@ namespace LayoutFarm.RenderBoxes
             int cHeight = this.Height;
             int cWidth = this.Width;
             Size ground_contentSize = Size.Empty;
-            if (layer0 != null)
+            if (defaultLayer != null)
             {
-                layer0.TopDownReCalculateContentSize();
-                ground_contentSize = layer0.PostCalculateContentSize;
+                defaultLayer.TopDownReCalculateContentSize();
+                ground_contentSize = defaultLayer.PostCalculateContentSize;
 
             }
             int finalWidth = ground_contentSize.Width;
@@ -145,44 +145,44 @@ namespace LayoutFarm.RenderBoxes
 
         protected bool HasDefaultLayer
         {
-            get { return this.layer0 != null; }
+            get { return this.defaultLayer != null; }
         }
         protected void DrawDefaultLayer(Canvas canvas, ref Rectangle updateArea)
         {
-            if (this.layer0 != null)
+            if (this.defaultLayer != null)
             {
-                layer0.DrawChildContent(canvas, updateArea);
+                defaultLayer.DrawChildContent(canvas, updateArea);
             }
         }
         public PlainLayer GetDefaultLayer()
         {
-            if (this.layer0 == null)
+            if (this.defaultLayer == null)
             {
-                return this.layer0 = new PlainLayer(this);
+                return this.defaultLayer = new PlainLayer(this);
             }
-            return this.layer0;
+            return this.defaultLayer;
         }
         public virtual void AddChild(RenderElement renderE)
         {
-            if (this.layer0 == null)
+            if (this.defaultLayer == null)
             {
-                this.layer0 = new PlainLayer(this);
+                this.defaultLayer = new PlainLayer(this);
             }
-            this.layer0.AddChild(renderE);
+            this.defaultLayer.AddChild(renderE);
         }
         public virtual void RemoveChild(RenderElement renderE)
         {
-            if (this.layer0 != null)
+            if (this.defaultLayer != null)
             {
-                this.layer0.RemoveChild(renderE);
+                this.defaultLayer.RemoveChild(renderE);
             }
         }
         //-------------------------------------------------------------------------- 
         public override void ClearAllChildren()
         {
-            if (this.layer0 != null)
+            if (this.defaultLayer != null)
             {
-                this.layer0.Clear();
+                this.defaultLayer.Clear();
             }
         }
         //-----------------------------------------------------------------
@@ -200,9 +200,9 @@ namespace LayoutFarm.RenderBoxes
 
             IsInTopDownReArrangePhase = true;
 
-            if (this.layer0 != null)
+            if (this.defaultLayer != null)
             {
-                this.layer0.TopDownReArrangeContent();
+                this.defaultLayer.TopDownReArrangeContent();
             }
 
             // BoxEvaluateScrollBar();
@@ -271,9 +271,9 @@ namespace LayoutFarm.RenderBoxes
         {
             get
             {
-                if (this.layer0 != null)
+                if (this.defaultLayer != null)
                 {
-                    Size s1 = layer0.PostCalculateContentSize;
+                    Size s1 = defaultLayer.PostCalculateContentSize;
                     if (s1.Width < this.Width)
                     {
                         s1.Width = this.Width;
