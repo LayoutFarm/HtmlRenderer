@@ -65,15 +65,12 @@ namespace LayoutFarm.CustomWidgets
 
                 renderE.SetController(this);
                 //------------------------------------------------
-                //create visual layer
-                var layers = new VisualLayerCollection();
-                var layer0 = new PlainLayer(renderE);
-                layers.AddLayer(layer0);
-                renderE.Layers = layers;
+                //create visual layer                 
 
                 if (this.landPart != null)
                 {
-                    layer0.AddChild(this.landPart.GetPrimaryRenderElement(rootgfx));
+                    renderE.AddChild(this.landPart);
+                     
                 }
                 if (this.floatPart != null)
                 {
@@ -121,18 +118,12 @@ namespace LayoutFarm.CustomWidgets
                     if (this.landPart != null)
                     {
                         //remove existing landpart
-
                     }
 
                     if (primElement != null)
                     {
                         //add 
-                        var visualPlainLayer = primElement.Layers.GetLayer(0) as PlainLayer;
-                        if (visualPlainLayer != null)
-                        {
-                            visualPlainLayer.AddChild(value.GetPrimaryRenderElement(primElement.Root));
-                        }
-
+                        primElement.AddChild(value);                         
                     }
 
                 }
@@ -217,7 +208,8 @@ namespace LayoutFarm.CustomWidgets
                         {
                             if (this.floatPartRenderElement != null)
                             {
-                                topRenderBox.Layer0.RemoveChild(floatPartRenderElement);
+
+                                topRenderBox.RemoveChild(floatPartRenderElement);
                             }
                         }
                     } break;
@@ -313,8 +305,7 @@ namespace LayoutFarm.CustomWidgets
                 showing = false;
                 if (this.topWindow != null && this.myRenderE != null)
                 {
-                    var plainLayer = topWindow.Layer0;
-                    plainLayer.RemoveChild(this.myRenderE);
+                    topWindow.RemoveChild(this.myRenderE);
                 }
             }
         }

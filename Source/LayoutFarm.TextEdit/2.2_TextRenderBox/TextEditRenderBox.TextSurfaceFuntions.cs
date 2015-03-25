@@ -11,13 +11,7 @@ namespace LayoutFarm.Text
     partial class TextEditRenderBox
     {
 
-        bool IsMultiLine
-        {
-            get
-            {
-                return isMultiLine;
-            }
-        }
+
         TextSurfaceEventListener textSurfaceEventListener;
         public TextSurfaceEventListener TextSurfaceListener
         {
@@ -34,12 +28,19 @@ namespace LayoutFarm.Text
                 }
             }
         }
-
+        bool IsMultiLine
+        {
+            get
+            {
+                return isMultiLine;
+            }
+        }
 
         public override void ClearAllChildren()
         {
             internalTextLayerController.Clear();
-            this.MyLayers.ClearAllContentInEachLayer();
+            this.textLayer.Clear();
+            base.ClearAllChildren();             
         }
 
         public int Column
@@ -78,40 +79,11 @@ namespace LayoutFarm.Text
         }
         static void ReleaseStringBuilder(StringBuilder stBuilder)
         {
-            stBuilder.Length = 0; stringBuilderPool.Push(stBuilder);
+            stBuilder.Length = 0;
+            stringBuilderPool.Push(stBuilder);
         }
-        public string GetTextContent()
-        {    
-            StringBuilder stBuilder = GetFreeStringBuilder();
-            CopyContentToStringBuilder(stBuilder);
-            string output = stBuilder.ToString();
-            ReleaseStringBuilder(stBuilder);
-            return output; 
-        }
-        public void SetTextContent(string textContent)
-        {
-            //clear existing content
-            this.ClearAllChildren();
-            if (textContent == null)
-            {
-                return;
-            }
 
-            System.IO.StringReader reader = new System.IO.StringReader(textContent);
-            string line = reader.ReadLine();
-            int lineCount = 0;
-            while (line != null)
-            {
-                if (lineCount > 0)
-                {
-                    internalTextLayerController.SplitCurrentLineIntoNewLine();
-                }
-                lineCount++;
-                internalTextLayerController.AddTextRunToCurrentLine(
-                   new EditableTextSpan(Root, line, this.currentSpanStyle));
-                line = reader.ReadLine();
-            } 
-        } 
+
         public int LineCount
         {
             get
@@ -121,7 +93,7 @@ namespace LayoutFarm.Text
         }
         public void ReplaceCurrentTextRunContent(int nBackspace, string t)
         {
-            internalTextLayerController.ReplaceCurrentTextRunContent(nBackspace, t);
+            internalTextLayerController.ReplaceLocalContent(nBackspace, t);
         }
         public void LoadTextRun(IEnumerable<EditableTextSpan> textRuns)
         {
@@ -131,6 +103,11 @@ namespace LayoutFarm.Text
         {
             internalTextLayerController.ReplaceCurrentLineTextRun(textRuns);
         }
+        /// <summary>
+        /// replace specific line number with textruns
+        /// </summary>
+        /// <param name="lineNum"></param>
+        /// <param name="textRuns"></param>
         public void ReplaceLine(int lineNum, IEnumerable<EditableTextSpan> textRuns)
         {
             internalTextLayerController.ReplaceLine(lineNum, textRuns);
@@ -148,6 +125,22 @@ namespace LayoutFarm.Text
             internalTextLayerController.CopyAllToPlainText(stBuilder);
         }
 
+        public void SplitCurrentLineToNewLine()
+        {
+            this.internalTextLayerController.SplitCurrentLineIntoNewLine();
+        }
+        public void AddTextRun(EditableTextSpan textspan)
+        {
+            internalTextLayerController.AddTextRunToCurrentLine(textspan);
+        }
+        public EditableTextSpan CreateNewTextSpan(string str)
+        {
+            return new EditableTextSpan(this.Root, str, this.currentSpanStyle);
+        }
+        public EditableTextSpan CreateNewTextSpan(char[] charBuffer)
+        {
+            return new EditableTextSpan(this.Root, charBuffer, this.currentSpanStyle);
+        }
         public EditableTextSpan CurrentTextRun
         {
             get

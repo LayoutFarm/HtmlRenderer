@@ -15,6 +15,7 @@ namespace LayoutFarm.Text
         CaretRenderElement myCaret;
         EditableTextFlowLayer textLayer;
         InternalTextLayerController internalTextLayerController;
+
         int verticalExpectedCharIndex;
         bool isMultiLine = false;
         bool isInVerticalPhase = false;
@@ -38,10 +39,8 @@ namespace LayoutFarm.Text
             this.currentSpanStyle = new TextSpanStyle();
             this.currentSpanStyle.FontInfo = rootgfx.DefaultTextEditFontInfo;
 
-            textLayer = new EditableTextFlowLayer(this);
+            textLayer = new EditableTextFlowLayer(this); 
 
-            this.MyLayers = new VisualLayerCollection();
-            this.MyLayers.AddLayer(textLayer);
             internalTextLayerController = new InternalTextLayerController(this, textLayer);
 
             this.isMultiLine = isMultiLine;
@@ -55,7 +54,8 @@ namespace LayoutFarm.Text
                 textLayer.SetUseDoubleCanvas(true, false);
             }
             this.IsBlockElement = false;
-        } 
+        }
+
         public TextSpanStyle CurrentTextSpanStyle
         {
             get { return this.currentSpanStyle; }
@@ -72,6 +72,9 @@ namespace LayoutFarm.Text
         {
             ts.BoxEvaluateScrollBar();
         }
+
+
+
 
         public Rectangle GetRectAreaOf(int beginlineNum, int beginColumnNum, int endLineNum, int endColumnNum)
         {
@@ -119,7 +122,8 @@ namespace LayoutFarm.Text
                 InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
             }
 
-            if (textSurfaceEventListener != null && !TextSurfaceEventListener.NotifyPreviewKeydown(textSurfaceEventListener, c))
+            if (textSurfaceEventListener != null &&
+                !TextSurfaceEventListener.NotifyPreviewKeydown(textSurfaceEventListener, c))
             {
                 internalTextLayerController.UpdateSelectionRange();
 
@@ -189,7 +193,6 @@ namespace LayoutFarm.Text
             this.SetCaretState(true);
             this.isFocus = true;
         }
-
         public bool IsFocused
         {
             get
@@ -345,9 +348,8 @@ namespace LayoutFarm.Text
                             if (!TextSurfaceEventListener.NotifyPreviewBackSpace(textSurfaceEventListener) &&
                                 internalTextLayerController.DoBackspace())
                             {
-
-                                TextDomEventArgs textdomE = new TextDomEventArgs(internalTextLayerController.updateJustCurrentLine);
-                                TextSurfaceEventListener.NotifyCharactersRemoved(textSurfaceEventListener, textdomE);
+                                TextSurfaceEventListener.NotifyCharactersRemoved(textSurfaceEventListener,
+                                    new TextDomEventArgs(internalTextLayerController.updateJustCurrentLine));
                             }
                         }
 
@@ -379,12 +381,9 @@ namespace LayoutFarm.Text
                         {
                             internalTextLayerController.DoEnd();
                             internalTextLayerController.CancelSelect();
-
                         }
                         else
                         {
-
-
                             internalTextLayerController.StartSelectIfNoSelection();
                             internalTextLayerController.DoEnd();
                             internalTextLayerController.EndSelect();

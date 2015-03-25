@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
+
 namespace LayoutFarm.Text
 {
 
@@ -64,12 +65,12 @@ namespace LayoutFarm.Text
         }
 
         public void SetStyle(TextSpanStyle spanStyle)
-        { 
-           
+        {
+
             this.InvalidateGraphics();
-            this.spanStyle = spanStyle; 
+            this.spanStyle = spanStyle;
             this.InvalidateGraphics();
-             
+
             UpdateRunWidth();
         }
         protected void UpdateRunWidth()
@@ -113,22 +114,6 @@ namespace LayoutFarm.Text
             }
         }
 
-#if DEBUG
-        public override string dbug_FullElementDescription()
-        {
-            string user_elem_id = null;
-            if (user_elem_id != null)
-            {
-                return dbug_FixedElementCode + dbug_GetBoundInfo() + " "
-                    + " i" + dbug_obj_id + "a " + ((TextSpan)this).Text + ",(ID " + user_elem_id + ") " + dbug_GetLayoutInfo();
-            }
-            else
-            {
-                return dbug_FixedElementCode + dbug_GetBoundInfo() + " "
-                 + " i" + dbug_obj_id + "a " + ((TextSpan)this).Text + " " + dbug_GetLayoutInfo();
-            }
-        }
-#endif
 
 
         internal static void DrawTextRun(TextSpan textspan, Canvas canvasPage, Rectangle updateArea)
@@ -259,7 +244,7 @@ namespace LayoutFarm.Text
             else
             {
                 TextSpanStyle spanStyle = this.SpanStyle;
-                if ( spanStyle.FontInfo != null)
+                if (spanStyle.FontInfo != null)
                 {
                     return spanStyle.FontInfo;
                 }
@@ -299,8 +284,24 @@ namespace LayoutFarm.Text
             set;
         }
 
-
-        //------------------------------------------------
         static readonly char[] emptyline = new char[] { 'I' };
+
+#if DEBUG
+        public override string dbug_FullElementDescription()
+        {
+            string user_elem_id = null;
+            if (user_elem_id != null)
+            {
+                return dbug_FixedElementCode + dbug_GetBoundInfo() + " "
+                    + " i" + dbug_obj_id + "a " + ((TextSpan)this).Text + ",(ID " + user_elem_id + ") " + dbug_GetLayoutInfo();
+            }
+            else
+            {
+                return dbug_FixedElementCode + dbug_GetBoundInfo() + " "
+                 + " i" + dbug_obj_id + "a " + ((TextSpan)this).Text + " " + dbug_GetLayoutInfo();
+            }
+        }
+#endif
+
     }
 }

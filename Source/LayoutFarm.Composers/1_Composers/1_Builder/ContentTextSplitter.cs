@@ -5,7 +5,19 @@ using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm.Composers
 {
-    class ContentTextSplitter
+
+    public struct TextSplitBound
+    {
+        public readonly int startIndex;
+        public readonly int length;
+        public TextSplitBound(int startIndex, int length)
+        {
+            this.startIndex = startIndex;
+            this.length = length;
+        }
+    }
+
+    public class ContentTextSplitter
     {
         //configure icu's locale here 
         string icuLocal = "th-TH";
@@ -61,8 +73,28 @@ namespace LayoutFarm.Composers
                 runlist.Add(CssTextRun.CreateTextRun(startIndex, appendLength));
             }
         }
+        public IEnumerable<TextSplitBound> ParseWordContent(char[] textBuffer, int startIndex, int appendLength)
+        {
+            int s_index = startIndex;
+            foreach (var splitBound in Icu.BreakIterator.GetSplitBoundIter(Icu.BreakIterator.UBreakIteratorType.WORD,
+                   icuLocal, textBuffer, startIndex, appendLength))
+            {
+                //need consecutive bound
+                if (splitBound.startIndex != s_index)
+                {
+                    yield return new TextSplitBound(s_index, splitBound.startIndex - s_index);
+                    s_index = splitBound.startIndex;
 
-        public void ParseWordContent(
+                }
+                s_index += splitBound.length;
+                yield return new TextSplitBound(splitBound.startIndex, splitBound.length);
+            }
+            if (s_index < textBuffer.Length)
+            {
+                yield return new TextSplitBound(s_index, textBuffer.Length - s_index);
+            }
+        }
+        internal void ParseWordContent(
             char[] textBuffer,
             BoxSpec spec,
             bool isBlock,
@@ -267,7 +299,7 @@ namespace LayoutFarm.Composers
                             {
                                 if (!isblock || (runlist.Count > 0))
                                 {
-                                    runlist.Add(CssTextRun.CreateWhitespace(1)); 
+                                    runlist.Add(CssTextRun.CreateWhitespace(1));
                                 }
                             }
                         } break;

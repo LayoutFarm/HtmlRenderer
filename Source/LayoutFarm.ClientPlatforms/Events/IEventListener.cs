@@ -32,9 +32,7 @@ namespace LayoutFarm.UI
         void HandleContentLayout();
         void HandleContentUpdate();
 
-        //--------------------------------------------------------------------------
-        bool AcceptKeyboardFocus { get; }
-
+        
         //--------------------------------------------------------------------------
         bool BypassAllMouseEvents { get; }
         bool AutoStopMouseEventPropagation { get; }

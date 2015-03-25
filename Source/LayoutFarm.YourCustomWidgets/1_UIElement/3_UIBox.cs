@@ -19,6 +19,7 @@ namespace LayoutFarm.UI
         bool specificWidth;
         bool specificHeight;
         public event EventHandler LayoutFinished;
+
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
@@ -28,14 +29,18 @@ namespace LayoutFarm.UI
         {
             this._width = width;
             this._height = height;
-            
             //default for box
             this.AutoStopMouseEventPropagation = true;
-            
+
         }
-        public void Focus()
+        public virtual void Focus()
         {
             //make this keyboard focus able
+            if (this.HasReadyRenderElement)
+            {
+                //focus
+                this.CurrentPrimaryRenderElement.Root.SetCurrentKeyboardFocus(this.CurrentPrimaryRenderElement);
+            }
         }
         public bool HasSpecificWidth
         {
@@ -78,6 +83,14 @@ namespace LayoutFarm.UI
             {
                 this.CurrentPrimaryRenderElement.SetLocation(left, top);
             }
+        }
+        public Point GetGlobalLocation()
+        {
+            if (this.CurrentPrimaryRenderElement != null)
+            {
+                return this.CurrentPrimaryRenderElement.GetGlobalLocation();
+            }
+            return new Point(this.Left, this.Top);
         }
         public virtual void SetSize(int width, int height)
         {

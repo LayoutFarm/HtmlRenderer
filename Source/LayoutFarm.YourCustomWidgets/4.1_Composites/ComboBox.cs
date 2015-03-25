@@ -56,18 +56,14 @@ namespace LayoutFarm.CustomWidgets
             if (primElement == null)
             {
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                 
+
                 renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.SetController(this);
                 renderE.HasSpecificSize = true;
                 //------------------------------------------------
                 //create visual layer
-                var layers = new VisualLayerCollection();
-                var layer0 = new PlainLayer(renderE);
-                layers.AddLayer(layer0);
-                renderE.Layers = layers;
-
+                var layer0 = renderE.GetDefaultLayer();
                 if (this.landPart != null)
                 {
                     layer0.AddChild(this.landPart.GetPrimaryRenderElement(rootgfx));
@@ -75,8 +71,7 @@ namespace LayoutFarm.CustomWidgets
                 if (this.floatPart != null)
                 {
 
-                }
-
+                } 
                 //---------------------------------
                 primElement = renderE;
             }
@@ -89,7 +84,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.MouseDown(this, e);
             }
-        } 
+        }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -98,11 +93,11 @@ namespace LayoutFarm.CustomWidgets
             }
             base.OnMouseUp(e);
         }
-        
+
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
 
-         
+
         //----------------------------------------------------  
         public UIBox LandPart
         {
@@ -123,12 +118,7 @@ namespace LayoutFarm.CustomWidgets
                     if (primElement != null)
                     {
                         //add 
-                        var visualPlainLayer = primElement.Layers.GetLayer(0) as PlainLayer;
-                        if (visualPlainLayer != null)
-                        {
-                            visualPlainLayer.AddChild(value.GetPrimaryRenderElement(primElement.Root));
-                        }
-
+                        primElement.AddChild(value); 
                     }
 
                 }
@@ -210,21 +200,12 @@ namespace LayoutFarm.CustomWidgets
                     } break;
                 case HingeFloatPartStyle.Popup:
                     {
-                        //if (floatPartRenderElement != null)
-                        //{
-                        //    //temp
-                        //    var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
-                        //    if (parentContainer.Layers != null)
-                        //    {
-                        //        PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
-                        //        plainLayer.RemoveChild(floatPartRenderElement);
 
-                        //    }
-                        //}
                         TopWindowRenderBox topRenderBox = primElement.GetTopWindowRenderBox();
                         if (topRenderBox != null)
                         {
-                            topRenderBox.Layer0.RemoveChild(floatPartRenderElement);                             
+                            topRenderBox.RemoveChild(floatPartRenderElement);
+
                         }
                     } break;
                 case HingeFloatPartStyle.Embeded:

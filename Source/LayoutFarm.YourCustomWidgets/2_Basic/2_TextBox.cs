@@ -57,30 +57,77 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
+        public ContentTextSplitter TextSplitter
+        {
+            get;
+            set;
+        }
         public string Text
         {
             get
             {
-                return this.textEditRenderElement.GetTextContent();
+                StringBuilder stBuilder = new StringBuilder();
+                textEditRenderElement.CopyContentToStringBuilder(stBuilder);
+                return stBuilder.ToString();
             }
             set
             {
-                this.textEditRenderElement.SetTextContent(value);
+                this.textEditRenderElement.ClearAllChildren();
+
+                //convert to runs
+                if (value == null)
+                {
+                    return;
+                }
+                //---------------                 
+                var reader = new System.IO.StringReader(value);
+                string line = reader.ReadLine();
+                int lineCount = 0;
+                while (line != null)
+                {
+
+                    if (lineCount > 0)
+                    {
+                        textEditRenderElement.SplitCurrentLineToNewLine();
+                    }
+
+                    //create textspan
+                    //user can parse text line to smaller span
+
+                    //eg. split by whitespace
+                    if (this.TextSplitter != null)
+                    {
+                        //parse with textsplitter 
+                        var buffer = value.ToCharArray();
+                        foreach (var splitBound in TextSplitter.ParseWordContent(buffer, 0, buffer.Length))
+                        {
+                            var startIndex = splitBound.startIndex;
+                            var length = splitBound.length;
+                            var splitBuffer = new char[length];
+                            Array.Copy(buffer, startIndex, splitBuffer, 0, length);
+                            var textspan = textEditRenderElement.CreateNewTextSpan(splitBuffer);
+                            textEditRenderElement.AddTextRun(textspan);
+                        }
+                        
+                        
+                    }
+                    else
+                    {
+                        var textspan = textEditRenderElement.CreateNewTextSpan(line);
+                        textEditRenderElement.AddTextRun(textspan);
+                    }
+                    lineCount++;
+                    line = reader.ReadLine();
+                }
+                this.InvalidateGraphics();
             }
-        }
-        public override bool AcceptKeyboardFocus
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public void Focus()
+        } 
+        public override void Focus()
         {
             //request keyboard focus
+            base.Focus();
             textEditRenderElement.Focus();
-        }
-
+        } 
         protected override bool HasReadyRenderElement
         {
             get { return this.textEditRenderElement != null; }
@@ -128,27 +175,24 @@ namespace LayoutFarm.CustomWidgets
             set
             {
                 this.textSurfaceListener = value;
-
                 if (this.textEditRenderElement != null)
                 {
                     this.textEditRenderElement.TextSurfaceListener = value;
                 }
-
             }
         }
         public EditableTextSpan CurrentTextSpan
         {
             get
             {
-
                 return this.textEditRenderElement.CurrentTextRun;
             }
         }
+
         public void ReplaceCurrentTextRunContent(int nBackspaces, string newstr)
         {
             if (textEditRenderElement != null)
             {
-
                 textEditRenderElement.ReplaceCurrentTextRunContent(nBackspaces, newstr);
             }
         }
@@ -206,6 +250,7 @@ namespace LayoutFarm.CustomWidgets
             e.MouseCursorStyle = MouseCursorStyle.IBeam;
             e.CancelBubbling = true;
             e.CurrentContextElement = this;
+
             textEditRenderElement.OnMouseDown(e);
         }
         protected override void OnMouseMove(UIMouseEventArgs e)

@@ -15,20 +15,19 @@ namespace LayoutFarm.CustomWidgets
         CustomRenderBox primElement;//background
         Color backColor = Color.LightGray;
         int viewportX, viewportY;
-        List<UICollection> layers = new List<UICollection>(1);
+        UICollection uiList;
         List<ListItem> items = new List<ListItem>();
         int selectedIndex = -1;//default = no selection
         Panel panel;
         public ListView(int width, int height)
             : base(width, height)
         {
-            UICollection plainLayer = new UICollection(this);
+            uiList = new UICollection(this);
             //panel for listview items
             this.panel = new Panel(width, height);
             this.panel.PanelLayoutKind = PanelLayoutKind.VerticalStack;
             panel.BackColor = Color.LightGray;
-            plainLayer.AddUI(panel);
-            this.layers.Add(plainLayer);
+            uiList.AddUI(panel);
         }
         protected override bool HasReadyRenderElement
         {
@@ -63,20 +62,14 @@ namespace LayoutFarm.CustomWidgets
 
                 //------------------------------------------------
                 //create visual layer
-                renderE.Layers = new VisualLayerCollection();
-                int layerCount = this.layers.Count;
-                for (int m = 0; m < layerCount; ++m)
+
+                int uiCount = this.uiList.Count;
+                PlainLayer plainLayer = renderE.GetDefaultLayer();
+
+                for (int m = 0; m < uiCount; ++m)
                 {
-                    UICollection plain = (UICollection)this.layers[m];
-                    var groundLayer = new PlainLayer(renderE);
-                    renderE.Layers.AddLayer(groundLayer);
-                    renderE.SetViewport(this.viewportX, this.viewportY);
-                    //---------------------------------
-                    int j = plain.Count;
-                    for (int i = 0; i < j; ++i)
-                    {
-                        groundLayer.AddUI(plain.GetElement(i));
-                    }
+                    plainLayer.AddUI(uiList.GetElement(m));
+
                 }
 
                 //---------------------------------
@@ -250,7 +243,7 @@ namespace LayoutFarm.CustomWidgets
 
 
                 listItemText = new CustomTextRun(rootgfx, 200, this.Height);
-                element.AddChildBox(listItemText);
+                element.AddChild(listItemText);
 
                 if (this.itemText != null)
                 {
@@ -288,7 +281,7 @@ namespace LayoutFarm.CustomWidgets
         //----------------- 
         public void AddChild(RenderElement renderE)
         {
-            primElement.AddChildBox(renderE);
+            primElement.AddChild(renderE);
         }
     }
 

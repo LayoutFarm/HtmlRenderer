@@ -80,16 +80,14 @@ namespace LayoutFarm.Text
             int currentCharIndex = CharIndex;
             CurrentLine.ReplaceAll(textRuns);
             EnsureCurrentTextRun(currentCharIndex);
-        }
-
+        } 
         public void JoinWithNextLine()
         {
             EditableTextLine.InnerDoJoinWithNextLine(this.CurrentLine);
             EnsureCurrentTextRun();
         }
         char Delete()
-        {
-
+        {   
             if (CurrentTextRun == null)
             {
                 return '\0';
@@ -129,7 +127,7 @@ namespace LayoutFarm.Text
             }
         }
 
-        public void Add(char c)
+        public void AddCharacter(char c)
         {
             if (CurrentLine.IsBlankLine)
             {
@@ -157,7 +155,7 @@ namespace LayoutFarm.Text
                     }
                     else
                     {
-                        Add(new EditableTextSpan(this.Root, c, this.CurrentSpanStyle));
+                        AddTextSpan(new EditableTextSpan(this.Root, c, this.CurrentSpanStyle));
                         return;
                     }
                 }
@@ -172,7 +170,7 @@ namespace LayoutFarm.Text
 
             CharIndex++;
         }
-        public void Add(EditableTextSpan textRun)
+        public void AddTextSpan(EditableTextSpan textRun)
         {
             if (CurrentLine.IsBlankLine)
             {
@@ -180,6 +178,7 @@ namespace LayoutFarm.Text
                 CurrentLine.AddLast(textRun);
                 SetCurrentTextRun(textRun);
                 CurrentLine.TextLineReCalculateActualLineSize();
+                CurrentLine.RefreshInlineArrange();
                 CharIndex += textRun.CharacterCount;
 
             }
@@ -197,6 +196,7 @@ namespace LayoutFarm.Text
                         CurrentLine.AddAfter((EditableTextSpan)newPointInfo.TextRun, textRun);
                     }
                     CurrentLine.TextLineReCalculateActualLineSize();
+                    CurrentLine.RefreshInlineArrange();
                     EnsureCurrentTextRun(CharIndex + textRun.CharacterCount);
                 }
                 else

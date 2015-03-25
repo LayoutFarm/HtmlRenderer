@@ -15,20 +15,22 @@ namespace LayoutFarm.CustomWidgets
         CustomRenderBox primElement;//background
         Color backColor = Color.LightGray;
         int viewportX, viewportY;
-        List<UICollection> layers = new List<UICollection>(1);
+        UICollection uiList;
         int latestItemY;
 
         Panel panel; //panel 
         public TreeView(int width, int height)
             : base(width, height)
         {
-            UICollection plainLayer = new UICollection(this);
+
             //panel for listview items
             this.panel = new Panel(width, height);
+
             panel.PanelLayoutKind = PanelLayoutKind.VerticalStack;
             panel.BackColor = Color.LightGray;
-            plainLayer.AddUI(panel);
-            this.layers.Add(plainLayer);
+            uiList = new UICollection(this);
+            uiList.AddUI(panel);
+
         }
 
         protected override bool HasReadyRenderElement
@@ -62,20 +64,11 @@ namespace LayoutFarm.CustomWidgets
                 renderE.HasSpecificSize = true;
                 //------------------------------------------------
                 //create visual layer
-                renderE.Layers = new VisualLayerCollection();
-                int layerCount = this.layers.Count;
-                for (int m = 0; m < layerCount; ++m)
+                var plain = renderE.GetDefaultLayer();
+                int n = this.uiList.Count;
+                for (int m = 0; m < n; ++m)
                 {
-                    UICollection plain = (UICollection)this.layers[m];
-                    var groundLayer = new PlainLayer(renderE);
-                    renderE.Layers.AddLayer(groundLayer);
-                    renderE.SetViewport(this.viewportX, this.viewportY);
-                    //---------------------------------
-                    int j = plain.Count;
-                    for (int i = 0; i < j; ++i)
-                    {
-                        groundLayer.AddUI(plain.GetElement(i));
-                    }
+                    plain.AddUI(uiList.GetElement(m));
                 }
 
                 //---------------------------------
@@ -198,17 +191,8 @@ namespace LayoutFarm.CustomWidgets
                 element.HasSpecificSize = true;
                 //-----------------------------
                 // create default layer for node content
-                PlainLayer plainLayer = null;
-                if (element.Layers == null)
-                {
-                    element.Layers = new VisualLayerCollection();
-                    plainLayer = new PlainLayer(element);
-                    element.Layers.AddLayer(plainLayer);
-                }
-                else
-                {
-                    plainLayer = (PlainLayer)element.Layers.GetLayer(0);
-                }
+                PlainLayer plainLayer = element.GetDefaultLayer();
+
                 //-----------------------------
                 uiNodeIcon = new ImageBox(16, 16);//create with default size 
                 SetupNodeIconBehaviour(uiNodeIcon);
@@ -297,23 +281,14 @@ namespace LayoutFarm.CustomWidgets
                 {
                     //add child presentation 
                     //below here
-                    //create layers
-                    PlainLayer plainLayer = null;
-                    if (primElement.Layers == null)
-                    {
-                        primElement.Layers = new VisualLayerCollection();
-                        plainLayer = new PlainLayer(primElement);
-                        primElement.Layers.AddLayer(plainLayer);
-                    }
-                    else
-                    {
-                        plainLayer = (PlainLayer)primElement.Layers.GetLayer(0);
-                    }
-                    //-----------------
+                    //create layers                    
+
                     //add to layer
+
                     var tnRenderElement = treeNode.GetPrimaryRenderElement(primElement.Root);
                     tnRenderElement.SetLocation(indentWidth, newChildNodeY);
-                    plainLayer.AddChild(tnRenderElement);
+                    primElement.AddChild(tnRenderElement);
+                     
                     newChildNodeY += tnRenderElement.Height;
                     //-----------------
                 }

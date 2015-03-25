@@ -69,7 +69,7 @@ namespace LayoutFarm.WebDom
             OnLostFocus(e);
         }
 
-        bool IEventListener.AcceptKeyboardFocus { get { return false; } }
+      
         void IEventListener.HandleContentLayout()
         {
             OnContentLayout();
