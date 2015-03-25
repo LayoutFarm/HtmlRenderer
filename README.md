@@ -22,6 +22,8 @@ such as
 
 8) more layout support eg. inline-block,relative, absolte etc 
 
+9) added custom controls eg. text editer control, scrollbar, gridbox etc.
+
 .. BUT not complete :( 
 
 feel free to fork/ comment/ suggest /pull request 
