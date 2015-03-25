@@ -80,6 +80,7 @@ namespace LayoutFarm
         {
 
         }
+        
         public IParentLink ParentLink
         {
             get
@@ -157,6 +158,7 @@ namespace LayoutFarm
                 }
             }
         }
+       
         public bool IsBlockElement
         {
             get
@@ -313,10 +315,8 @@ namespace LayoutFarm
                     dbugVRoot.dbug_AddDrawElement(this, canvas);
                 }
 #endif
-                //------------------------------------------
-
+                //------------------------------------------ 
                 this.CustomDrawToThisCanvas(canvas, updateArea);
-
                 //------------------------------------------
                 propFlags |= RenderElementConst.IS_GRAPHIC_VALID;
 #if DEBUG
@@ -328,6 +328,8 @@ namespace LayoutFarm
 
             }
             canvas.PopClipAreaRect();
+
+
 #if DEBUG
             dbugVRoot.dbug_drawLevel--;
 #endif

@@ -5,22 +5,77 @@ using System.Collections.Generic;
 using System.Text;
 
 using PixelFarm.Drawing;
- 
+
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {
-    public class GridBox : UIBox
+
+    class GridBoxRenderElement : CustomRenderBox
     {
-        CustomRenderBox gridBox;
+        GridLayer gridLayer;
+        public GridBoxRenderElement(RootGraphic rootgfx, int w, int h)
+            : base(rootgfx, w, h)
+        {
+
+        }
+        public void BuildGrid(int nCols, int nRows, CellSizeStyle cellSizeStyle)
+        {
+            this.gridLayer = new GridLayer(this, nCols, nRows, cellSizeStyle);
+        }
+        public GridLayer GridLayer
+        {
+            get { return this.gridLayer; }
+        }
+        public void SetContent(int r, int c, RenderElement re)
+        {
+            gridLayer.GetCell(r, c).ContentElement = re;
+        }
+        public void SetContent(int r, int c, UIElement ui)
+        {
+            gridLayer.GetCell(r, c).ContentElement = ui.GetPrimaryRenderElement(this.Root);
+        }
+        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
+        {
+
+#if DEBUG
+            if (this.dbugBreak)
+            {
+
+            }
+#endif
+            //sample bg   
+            //canvas.FillRectangle(BackColor, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
+            canvas.FillRectangle(BackColor, 0, 0, this.Width, this.Height);
+
+            gridLayer.DrawChildContent(canvas, updateArea);
+
+            if (this.HasDefaultLayer)
+            {
+                this.DrawDefaultLayer(canvas, ref updateArea);                 
+            }
+#if DEBUG
+            //canvas.dbug_DrawCrossRect(PixelFarm.Drawing.Color.Black,
+            //    new Rectangle(0, 0, this.Width, this.Height));
+
+            //canvas.dbug_DrawCrossRect(PixelFarm.Drawing.Color.Black,
+            //   new Rectangle(updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height));
+#endif
+        }
+    }
+
+    public class GridBox : EaseBox
+    {
+
+        GridBoxRenderElement gridBox;
         GridTable gridTable = new GridTable();
         CellSizeStyle cellSizeStyle;
-        GridLayer gridLayer;
 
         public GridBox(int width, int height)
             : base(width, height)
         {
+            //has special grid layer
 
         }
         public void BuildGrid(int ncols, int nrows, CellSizeStyle cellSizeStyle)
@@ -38,14 +93,14 @@ namespace LayoutFarm.CustomWidgets
             var rows = gridTable.Rows;
             for (int n = 0; n < nrows; ++n)
             {
-                GridRow row = new GridRow(1);//create with default height
-                rows.Add(row);
+
+                rows.Add(new GridRow(1));
             }
         }
         public override void SetSize(int width, int height)
         {
             //readjust cellsize
-            base.SetSize(width, height); 
+            base.SetSize(width, height);
 
             //----------------------------------
             var cols = gridTable.Columns;
@@ -76,7 +131,9 @@ namespace LayoutFarm.CustomWidgets
             }
             //----------------------------------
             if (this.gridBox == null) { return; }
-            var gridLayer = gridBox.Layers.GetLayer(0) as GridLayer;
+
+
+            var gridLayer = gridBox.GridLayer;
             colLeft = 0;
             for (int n = 0; n < ncols; ++n)
             {
@@ -93,7 +150,7 @@ namespace LayoutFarm.CustomWidgets
                 row.Top = rowTop; ;
                 rowTop += eachRowHeight;
             }
-             
+
 
         }
         public void AddUI(UIElement ui, int rowIndex, int colIndex)
@@ -101,9 +158,9 @@ namespace LayoutFarm.CustomWidgets
             if (rowIndex < gridTable.RowCount && colIndex < gridTable.ColumnCount)
             {
                 gridTable.GetCell(rowIndex, colIndex).ContentElement = ui;
-                if (this.HasReadyRenderElement)
+                if (this.gridBox != null)
                 {
-                    gridLayer.GetCell(rowIndex, colIndex).ContentElement = ui.GetPrimaryRenderElement(gridLayer.Root);
+                    gridBox.SetContent(rowIndex, colIndex, ui.GetPrimaryRenderElement(gridBox.Root));
                 }
             }
         }
@@ -124,18 +181,16 @@ namespace LayoutFarm.CustomWidgets
         {
             if (gridBox == null)
             {
-                var myGridBox = new CustomRenderBox(rootgfx, this.Width, this.Height);                 
+                var myGridBox = new GridBoxRenderElement(rootgfx, this.Width, this.Height);
                 myGridBox.SetLocation(this.Left, this.Top);
-
+                this.SetPrimaryRenderElement(myGridBox);
                 this.gridBox = myGridBox;
-
-                var layers = new VisualLayerCollection();
-                gridBox.Layers = layers;
                 //create layers
                 int nrows = this.gridTable.RowCount;
                 int ncols = this.gridTable.ColumnCount;
                 //----------------------------------------        
-                gridLayer = new GridLayer(gridBox, ncols, nrows, this.cellSizeStyle);
+
+                myGridBox.BuildGrid(ncols, nrows, this.CellSizeStyle);
                 //add grid content
                 for (int c = 0; c < ncols; ++c)
                 {
@@ -145,13 +200,10 @@ namespace LayoutFarm.CustomWidgets
                         var content = gridCell.ContentElement as UIElement;
                         if (content != null)
                         {
-                            RenderElement re = content.GetPrimaryRenderElement(rootgfx);
-                            gridLayer.GetCell(r, c).ContentElement = re;
+                            myGridBox.SetContent(r, c, content);
                         }
                     }
                 }
-
-                layers.AddLayer(gridLayer);
             }
             return gridBox;
         }

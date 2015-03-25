@@ -29,6 +29,7 @@ namespace LayoutFarm.UI
 
         internal UserInputEventAdapter(MyRootGraphic rootgfx)
         {
+            
             this.rootgfx = rootgfx;
             this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
 #if DEBUG
@@ -244,7 +245,7 @@ namespace LayoutFarm.UI
 
             RenderElement hitElement = hitPointChain.TopMostElement;
             if (hitCount > 0)
-            {   
+            {
                 //------------------------------
                 //1. origin object 
                 SetEventOrigin(e, hitPointChain);
@@ -258,11 +259,7 @@ namespace LayoutFarm.UI
                     //*****
                     this.currentMouseDown = e.CurrentContextElement;
 
-
-                    if (e.CurrentContextElement != null && e.CurrentContextElement.AcceptKeyboardFocus)
-                    {
-                        this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
-                    }
+                    
                     return true;
                 });
 
@@ -275,25 +272,27 @@ namespace LayoutFarm.UI
                     ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                     {
                         this.currentMouseDown = e.CurrentContextElement;
+
                         listener.ListenMouseDown(e);
 
-                        if (e.CurrentContextElement.AcceptKeyboardFocus)
-                        {
-                            this.CurrentKeyboardFocusedElement = e.CurrentContextElement;
-                        }
-                        else
-                        {
-                            this.CurrentKeyboardFocusedElement = null;
-                        }
+                        
                         //------------------------------------------------------- 
-
+                        bool cancelMouseBubbling = e.CancelBubbling;
                         if (prevMouseDownElement != null &&
                             prevMouseDownElement != listener)
                         {
                             prevMouseDownElement.ListenLostMouseFocus(e);
                             prevMouseDownElement = null;//clear
                         }
-                        return true;
+                        //------------------------------------------------------- 
+                        if (!cancelMouseBubbling && currentMouseDown.BypassAllMouseEvents)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return true;
+                        }
                     });
                 }
 

@@ -13,24 +13,21 @@ namespace LayoutFarm.Text
 
         void AddNormalRunToLast(EditableTextSpan v)
         {
-            EditableTextSpan.SetParentLink(v, new VisualEditableLineParentLink(this, base.AddLast(v)));
-
-            if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
-            {
-                return;
-            }
+            EditableTextSpan.SetParentLink(v, new VisualEditableLineParentLink(this, base.AddLast(v))); 
+            //if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
+            //{
+            //    return;
+            //}
 
 
         }
         void AddNormalRunToFirst(EditableTextSpan v)
         {
             EditableTextSpan.SetParentLink(v, new VisualEditableLineParentLink(this, base.AddFirst(v)));
-            if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
-            {
-                return;
-            }
-
-
+            //if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
+            //{
+            //    return;
+            //} 
         }
 
         static LinkedListNode<EditableTextSpan> GetLineLinkedNode(EditableTextSpan ve)
@@ -40,11 +37,12 @@ namespace LayoutFarm.Text
         void AddNormalRunBefore(EditableTextSpan beforeVisualElement, EditableTextSpan v)
         {
             EditableTextSpan.SetParentLink(v,
-               new VisualEditableLineParentLink(this, base.AddBefore(GetLineLinkedNode(beforeVisualElement), v)));
-            if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
-            {
-                return;
-            }
+               new VisualEditableLineParentLink(this, 
+                   base.AddBefore(GetLineLinkedNode(beforeVisualElement), v)));
+            //if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
+            //{
+            //    return;
+            //}
 
 
         }
@@ -54,13 +52,10 @@ namespace LayoutFarm.Text
              new VisualEditableLineParentLink(this,
                  base.AddAfter(GetLineLinkedNode(afterVisualElement), v)));
 
-            if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
-            {
-                return;
-            }
-
-
-
+            //if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
+            //{
+            //    return;
+            //}
         }
         public new void Clear()
         {

@@ -21,7 +21,6 @@ namespace LayoutFarm.CustomWidgets
             : base(rootgfx, width, height)
         {
             this.BackColor = Color.LightGray;
-
         }
 
         public override void ClearAllChildren()
@@ -41,11 +40,6 @@ namespace LayoutFarm.CustomWidgets
             }
 
         }
-        public VisualLayerCollection Layers
-        {
-            get { return this.MyLayers; }
-            set { this.MyLayers = value; }
-        }
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
 
@@ -54,14 +48,13 @@ namespace LayoutFarm.CustomWidgets
             {
 
             }
-#endif             
+#endif
             //sample bg   
             //canvas.FillRectangle(BackColor, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
             canvas.FillRectangle(BackColor, 0, 0, this.Width, this.Height);
-            if (this.Layers != null)
-            {
-                this.Layers.LayersDrawContent(canvas, updateArea);
-            }
+            this.DrawDefaultLayer(canvas, ref updateArea);
+             
+
 #if DEBUG
             //canvas.dbug_DrawCrossRect(PixelFarm.Drawing.Color.Black,
             //    new Rectangle(0, 0, this.Width, this.Height));
@@ -70,6 +63,7 @@ namespace LayoutFarm.CustomWidgets
             //   new Rectangle(updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height));
 #endif
         }
+
     }
 
 

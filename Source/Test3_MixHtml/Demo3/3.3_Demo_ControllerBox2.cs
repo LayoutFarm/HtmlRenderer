@@ -6,8 +6,8 @@ using System.Text;
 
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
-using LayoutFarm.UI;
-
+using LayoutFarm.UI; 
+using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
     [DemoNote("3.3 Demo_ControllerBoxs2")]
@@ -71,13 +71,13 @@ namespace LayoutFarm
             box.MouseDown += (s, e) =>
             {
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
-                e.MouseCursorStyle = MouseCursorStyle.Pointer; 
+                e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 //--------------------------------------------
                 //move controller here
                 controllerBox1.TargetBox = box;
                 controllerBox1.SetLocation(box.Left - 5, box.Top - 5);
                 controllerBox1.SetSize(box.Width + 10, box.Height + 10);
-                controllerBox1.Visible = true; 
+                controllerBox1.Visible = true;
                 //--------------------------------------------
                 e.CancelBubbling = true;
             };
@@ -91,7 +91,7 @@ namespace LayoutFarm
                 controllerBox1.TargetBox = null;
                 e.CancelBubbling = true;
             };
-             
+
         }
 
         static void MoveWithSnapToGrid(UIControllerBox controllerBox, UIMouseEventArgs e)
@@ -146,13 +146,9 @@ namespace LayoutFarm
         class UIControllerBox : LayoutFarm.CustomWidgets.EaseBox
         {
             LayoutFarm.CustomWidgets.GridBox gridBox;
-
-
             public UIControllerBox(int w, int h)
                 : base(w, h)
             {
-
-
             }
             public LayoutFarm.UI.UIBox TargetBox
             {
@@ -169,14 +165,8 @@ namespace LayoutFarm
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
 
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-                    if (myRenderElement != null)
-                    {
-                        VisualLayerCollection layers = new VisualLayerCollection();
-                        myRenderElement.Layers = layers;
-                        var plain0 = new PlainLayer(myRenderElement);
-                        layers.AddLayer(plain0);
-                        plain0.AddChild(gridBox.GetPrimaryRenderElement(rootgfx));
-                    }
+                    myRenderElement.AddChild(gridBox);                    
+
                 }
                 return base.GetPrimaryRenderElement(rootgfx);
             }
@@ -184,14 +174,11 @@ namespace LayoutFarm
             public override void SetSize(int width, int height)
             {
                 base.SetSize(width, height);
-                //---------------------------------
                 if (gridBox != null)
                 {
                     //adjust grid size
                     gridBox.SetSize(width - 10, height - 10);
-
                 }
-                //---------------------------------
             }
         }
 

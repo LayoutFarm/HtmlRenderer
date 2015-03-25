@@ -13,21 +13,20 @@ namespace LayoutFarm.RenderBoxes
 #endif
     public abstract class RenderBoxBase : RenderElement
     {
-        VisualLayerCollection layers;
+
         int myviewportX;
         int myviewportY;
 
+        PlainLayer defaultLayer;
         public RenderBoxBase(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
             this.MayHasViewport = true;
             this.MayHasChild = true;
         }
-        protected VisualLayerCollection MyLayers
-        {
-            get { return this.layers; }
-            set { this.layers = value; }
-        }
+        protected abstract void DrawContent(Canvas canvas, Rectangle updateArea);
+
+
 
         public void SetViewport(int viewportX, int viewportY)
         {
@@ -56,74 +55,21 @@ namespace LayoutFarm.RenderBoxes
         {
             canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
             updateArea.Offset(myviewportX, myviewportY);
-            //var currentClipRect = canvas.CurrentClipRect;
-
-            
 
             this.DrawContent(canvas, updateArea);
-
-             
 
             canvas.OffsetCanvasOrigin(myviewportX, myviewportY);
             updateArea.Offset(-myviewportX, -myviewportY);
         }
 
-        protected virtual void DrawContent(Canvas canvas, Rectangle updateArea)
-        {
-            //sample ***
-            //1. draw background
-            //canvas.FillRectangle(Color.White, 0, 0, updateArea.Width, updateArea.Height);
-            canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
-
-            //2. draw each layer
-
-            if (this.layers != null)
-            {
-                int j = this.layers.LayerCount;
-                switch (j)
-                {
-                    case 0:
-                        {
-
-                        } break;
-                    case 1:
-                        {
-                            layers.Layer0.DrawChildContent(canvas, updateArea);
-#if DEBUG
-                            debug_RecordLayerInfo(layers.Layer0);
-#endif
-                        } break;
-                    case 2:
-                        {
-                            layers.Layer0.DrawChildContent(canvas, updateArea);
-#if DEBUG
-                            debug_RecordLayerInfo(layers.Layer0);
-#endif
-                            layers.Layer1.DrawChildContent(canvas, updateArea);
-#if DEBUG
-                            debug_RecordLayerInfo(layers.Layer1);
-#endif
-                        } break;
-                    default:
-                        {
-                            for (int i = 0; i < j; ++i)
-                            {
-                                var layer = this.layers.GetLayer(i);
-                                layer.DrawChildContent(canvas, updateArea);
-#if DEBUG
-                                debug_RecordLayerInfo(layer);
-#endif
-                            }
-                        } break;
-                }
-            }
-        }
-
         public override void ChildrenHitTestCore(HitChain hitChain)
         {
-            if (this.layers != null)
+            if (this.defaultLayer != null)
             {
-                layers.ChildrenHitTestCore(hitChain);
+                defaultLayer.HitTestCore(hitChain);
+#if DEBUG
+                debug_RecordLayerInfo(defaultLayer);
+#endif
             }
         }
 
@@ -156,9 +102,11 @@ namespace LayoutFarm.RenderBoxes
             int cHeight = this.Height;
             int cWidth = this.Width;
             Size ground_contentSize = Size.Empty;
-            if (layers != null)
+            if (defaultLayer != null)
             {
-                ground_contentSize = layers.TopDownReCalculateContentSize();
+                defaultLayer.TopDownReCalculateContentSize();
+                ground_contentSize = defaultLayer.PostCalculateContentSize;
+
             }
             int finalWidth = ground_contentSize.Width;
             if (finalWidth == 0)
@@ -195,7 +143,48 @@ namespace LayoutFarm.RenderBoxes
 
         }
 
-
+        protected bool HasDefaultLayer
+        {
+            get { return this.defaultLayer != null; }
+        }
+        protected void DrawDefaultLayer(Canvas canvas, ref Rectangle updateArea)
+        {
+            if (this.defaultLayer != null)
+            {
+                defaultLayer.DrawChildContent(canvas, updateArea);
+            }
+        }
+        public PlainLayer GetDefaultLayer()
+        {
+            if (this.defaultLayer == null)
+            {
+                return this.defaultLayer = new PlainLayer(this);
+            }
+            return this.defaultLayer;
+        }
+        public virtual void AddChild(RenderElement renderE)
+        {
+            if (this.defaultLayer == null)
+            {
+                this.defaultLayer = new PlainLayer(this);
+            }
+            this.defaultLayer.AddChild(renderE);
+        }
+        public virtual void RemoveChild(RenderElement renderE)
+        {
+            if (this.defaultLayer != null)
+            {
+                this.defaultLayer.RemoveChild(renderE);
+            }
+        }
+        //-------------------------------------------------------------------------- 
+        public override void ClearAllChildren()
+        {
+            if (this.defaultLayer != null)
+            {
+                this.defaultLayer.Clear();
+            }
+        }
         //-----------------------------------------------------------------
         public void ForceTopDownReArrangeContent()
         {
@@ -211,7 +200,11 @@ namespace LayoutFarm.RenderBoxes
 
             IsInTopDownReArrangePhase = true;
 
-            this.layers.ForceTopDownReArrangeContent();
+            if (this.defaultLayer != null)
+            {
+                this.defaultLayer.TopDownReArrangeContent();
+            }
+
             // BoxEvaluateScrollBar();
 
 #if DEBUG
@@ -220,7 +213,6 @@ namespace LayoutFarm.RenderBoxes
             dbug_ExitReArrangeContent();
 #endif
         }
-
         public void TopDownReArrangeContentIfNeed()
         {
 #if DEBUG
@@ -261,9 +253,6 @@ namespace LayoutFarm.RenderBoxes
 #endif
         }
 
-        //-------------------------------------------------------------------------------
-        public abstract override void ClearAllChildren();
-
         public override RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
 #if DEBUG
@@ -282,11 +271,9 @@ namespace LayoutFarm.RenderBoxes
         {
             get
             {
-                if (this.layers != null && layers.LayerCount > 0)
+                if (this.defaultLayer != null)
                 {
-                    var layer0 = this.layers.Layer0;
-                    Size s1 = layer0.PostCalculateContentSize;
-
+                    Size s1 = defaultLayer.PostCalculateContentSize;
                     if (s1.Width < this.Width)
                     {
                         s1.Width = this.Width;
@@ -305,20 +292,6 @@ namespace LayoutFarm.RenderBoxes
             }
         }
 
-        public int ClientTop
-        {
-            get
-            {
-                return 0;
-            }
-        }
-        public int ClientLeft
-        {
-            get
-            {
-                return 0;
-            }
-        }
 
         //--------------------------------------------
 #if DEBUG

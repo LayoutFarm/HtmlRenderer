@@ -12,13 +12,11 @@ namespace LayoutFarm.Text
 
     partial class TextEditRenderBox
     {
-        PixelFarm.Drawing.Color bgColor = PixelFarm.Drawing.Color.Transparent;
 
 
         RenderSurfaceScrollRelation scrollRelation;
-        CustomRenderSurface vscrollableSurface;//built in 
-
-
+        CustomRenderSurface vscrollableSurface;
+        public Color BackgroundColor { get; set; }
         public CustomRenderSurface ScrollableSurface
         {
             get { return this.vscrollableSurface; }
@@ -39,9 +37,9 @@ namespace LayoutFarm.Text
                 vscrollableSurface.DrawToThisPage(canvas, updateArea);
             }
             //1. bg 
-            if (bgColor.A > 0)
+            if (BackgroundColor.A > 0)
             {
-                canvas.FillRectangle(bgColor, 0, 0, updateArea.Width, updateArea.Height);
+                canvas.FillRectangle(BackgroundColor, 0, 0, updateArea.Width, updateArea.Height);
             }
 
 
@@ -58,10 +56,11 @@ namespace LayoutFarm.Text
             }
             else
             {
-                if (this.MyLayers != null)
+                this.textLayer.DrawChildContent(canvas, updateArea);
+                if (this.HasDefaultLayer)
                 {
-                    this.MyLayers.LayersDrawContent(canvas, updateArea);
-                }
+                    this.DrawDefaultLayer(canvas, ref updateArea);
+                }                 
             }
 
 #if DEBUG

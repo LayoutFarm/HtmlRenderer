@@ -157,7 +157,7 @@ namespace LayoutFarm
             //-------------------------------------------
 
             DockSpacesController dockspaceController;
-             
+
             public UIControllerBox(int w, int h)
                 : base(w, h)
             {
@@ -179,15 +179,10 @@ namespace LayoutFarm
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
 
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-                    PlainLayer plain0 = null;
-                    if (myRenderElement != null)
-                    {
-                        VisualLayerCollection layers = new VisualLayerCollection();
-                        myRenderElement.Layers = layers;
-                        plain0 = new PlainLayer(myRenderElement);
-                        layers.AddLayer(plain0);
-                        plain0.AddChild(gridBox.GetPrimaryRenderElement(rootgfx));
-                    }
+                    PlainLayer plain0 = myRenderElement.GetDefaultLayer();
+
+                    plain0.AddChild(gridBox.GetPrimaryRenderElement(rootgfx));
+
                     //------------------------------------------------------
                     plain0.AddChild(boxLeftTop.GetPrimaryRenderElement(rootgfx));
                     plain0.AddChild(boxRightTop.GetPrimaryRenderElement(rootgfx));
@@ -221,7 +216,7 @@ namespace LayoutFarm
                 this.dockspaceController.LeftBottomSpace.Content = boxLeftBottom = CreateTinyControlBox(SpaceName.LeftBottom);
                 this.dockspaceController.RightBottomSpace.Content = boxRightBottom = CreateTinyControlBox(SpaceName.RightBottom);
 
-             
+
             }
 
             CustomWidgets.EaseBox CreateTinyControlBox(SpaceName name)

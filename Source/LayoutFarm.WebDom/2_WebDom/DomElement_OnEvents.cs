@@ -53,7 +53,7 @@ namespace LayoutFarm.WebDom
         protected virtual void OnLostFocus(UIFocusEventArgs e)
         {
         }
-        
+
         protected virtual void OnGotFocus(UIFocusEventArgs e)
         {
         }
@@ -143,6 +143,10 @@ namespace LayoutFarm.WebDom
         protected virtual void OnContentUpdate()
         {
             this.OwnerDocument.DomUpdateVersion++;
+        }
+        protected virtual void OnInterComponentMsg(object sender, int msgcode, string msg)
+        {
+
         }
     }
 }

@@ -8,25 +8,34 @@ namespace LayoutFarm.UI
     public abstract partial class UIElement : IEventListener
     {
         int oneBitNativeEventFlags;
-        UIElement parentElement; 
+        UIElement parentElement;
 #if DEBUG
         public bool dbugBreakMe;
 #endif
         public UIElement()
         {
+
         }
 
         protected void RegisterNativeEvent(int eventFlags)
         {
             this.oneBitNativeEventFlags |= eventFlags;
         }
-        public virtual bool AcceptKeyboardFocus
-        {
-            get { return false; }
-        }
+        
         public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
 
-        
+        public bool TransparentAllMouseEvents
+        {
+            get;
+            set;
+        }
+        public bool AutoStopMouseEventPropagation
+        {
+            get;
+            set;
+        }
+
+
 
         public abstract RenderElement CurrentPrimaryRenderElement
         {
@@ -110,7 +119,6 @@ namespace LayoutFarm.UI
         {
             return false;
         }
-
         //------------------------------------------------------------
         public void InvalidateLayout()
         {
@@ -127,6 +135,10 @@ namespace LayoutFarm.UI
         {
         }
 
+        protected virtual void OnInterComponentMsg(object sender, int msgcode, string msg)
+        {
+
+        }
 #if DEBUG
         object dbugTagObject;
         public object dbugTag

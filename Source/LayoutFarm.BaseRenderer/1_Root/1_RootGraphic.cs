@@ -26,11 +26,11 @@ namespace LayoutFarm
         }
         public abstract GraphicsPlatform P { get; }
 
-        public IFonts SampleIFonts { get { return this.P.SampleIFonts; } } 
+        public IFonts SampleIFonts { get { return this.P.SampleIFonts; } }
 
         public abstract FontInfo DefaultTextEditFontInfo
         {
-            get; 
+            get;
         }
         public abstract TopWindowRenderBox TopWindowRenderBox
         {
@@ -61,6 +61,7 @@ namespace LayoutFarm
 
         public abstract void ClearRenderRequests();
         public abstract void AddToLayoutQueue(RenderElement renderElement);
+        public abstract void SetCurrentKeyboardFocus(RenderElement renderElement);
 
         //TODO: review this !
         public abstract void AddToUpdateQueue(object toupdateObj);

@@ -4,14 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
-
 namespace LayoutFarm.UI
 {
 
     public class UICollection
     {
-
         List<UIElement> uiList = new List<UIElement>();
         UIElement owner;
         public UICollection(UIElement owner)
@@ -48,9 +45,5 @@ namespace LayoutFarm.UI
         {
             return this.uiList[index];
         }
-
-
     }
-
-
 }

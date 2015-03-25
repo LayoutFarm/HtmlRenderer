@@ -21,7 +21,7 @@ namespace LayoutFarm.UI
         void ListenMouseWheel(UIMouseEventArgs e);
         void ListenLostMouseFocus(UIMouseEventArgs e);
         //--------------------------------------------------------------------------
- 
+
         void ListenMouseClick(UIMouseEventArgs e);
         void ListenMouseDoubleClick(UIMouseEventArgs e);
         //--------------------------------------------------------------------------
@@ -32,7 +32,12 @@ namespace LayoutFarm.UI
         void HandleContentLayout();
         void HandleContentUpdate();
 
+        
         //--------------------------------------------------------------------------
-        bool AcceptKeyboardFocus { get; }
+        bool BypassAllMouseEvents { get; }
+        bool AutoStopMouseEventPropagation { get; }
+
+        void ListenInterComponentMsg(object sender, int msgcode, string msg);
+        
     }
 }

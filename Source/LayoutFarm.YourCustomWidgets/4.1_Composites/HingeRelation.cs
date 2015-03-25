@@ -124,11 +124,7 @@ namespace LayoutFarm.CustomWidgets
                         {
                             //temp
                             var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
-                            if (parentContainer.Layers != null)
-                            {
-                                PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
-                                plainLayer.RemoveChild(floatPartRenderElement);
-                            }
+                            parentContainer.RemoveChild(floatPartRenderElement);                             
                         }
 
                     } break;
