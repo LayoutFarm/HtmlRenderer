@@ -134,7 +134,7 @@ namespace LayoutFarm.HtmlBoxes
             int x = e.X;
             int y = e.Y;
 
-            if (e.IsDragging)
+            if (e.IsDragging && _latestMouseDownChain != null)
             {
                 //dragging *** , if changed
                 if (this._mousedownX != x || this._mousedownY != y)
@@ -248,12 +248,9 @@ namespace LayoutFarm.HtmlBoxes
             TimeSpan timediff = snapMouseUpTime - lastimeMouseUp;
             bool isAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;
             this.lastimeMouseUp = snapMouseUpTime;
-            //--------------------------------------------
 
-            
             //----------------------------------------- 
             CssBoxHitChain hitChain = GetFreeHitChain();
-
             hitChain.SetRootGlobalPosition(e.X, e.Y);
             //1. prob hit chain only 
             BoxHitUtils.HitTest(startAt, e.X, e.Y, hitChain);

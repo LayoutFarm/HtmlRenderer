@@ -141,6 +141,10 @@ namespace LayoutFarm.CustomWidgets
             base.Focus();
             textEditRenderElement.Focus();
         }
+        public override void Blur()
+        {
+            base.Blur();
+        }
         protected override bool HasReadyRenderElement
         {
             get { return this.textEditRenderElement != null; }
@@ -167,7 +171,7 @@ namespace LayoutFarm.CustomWidgets
                     tbox.CurrentTextSpanStyle = this.defaultSpanStyle;
                 }
                 tbox.BackgroundColor = this.backgroundColor;
-                
+
 
                 tbox.SetController(this);
                 RegisterNativeEvent(
@@ -270,9 +274,13 @@ namespace LayoutFarm.CustomWidgets
 
             e.MouseCursorStyle = MouseCursorStyle.IBeam;
             e.CancelBubbling = true;
-            e.CurrentContextElement = this;
-
+            e.CurrentContextElement = this; 
             textEditRenderElement.OnMouseDown(e);
+        }
+        protected override void OnLostKeyboardFocus(UIFocusEventArgs e)
+        { 
+            base.OnLostKeyboardFocus(e);
+            textEditRenderElement.Blur();
         }
         protected override void OnMouseMove(UIMouseEventArgs e)
         {

@@ -68,13 +68,13 @@ namespace LayoutFarm.UI
         protected virtual void OnHide()
         {
         }
-        protected virtual void OnLostFocus(UIFocusEventArgs e)
+        protected virtual void OnLostKeyboardFocus(UIFocusEventArgs e)
         {
         }
         protected virtual void OnLostSelectedFocus(UIMouseEventArgs e)
         {
         }
-        protected virtual void OnGotFocus(UIFocusEventArgs e)
+        protected virtual void OnGotKeyboardFocus(UIFocusEventArgs e)
         {
         }
         protected virtual void OnDoubleClick(UIMouseEventArgs e)
