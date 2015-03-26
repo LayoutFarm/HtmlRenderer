@@ -40,7 +40,7 @@ namespace LayoutFarm
             //test add some content to the ninespace box
             var sampleListView = CreateSampleListView();
             ninespaceBox.LeftSpace.PanelLayoutKind = PanelLayoutKind.VerticalStack;
-            ninespaceBox.LeftSpace.AddChildBox(sampleListView);
+            ninespaceBox.LeftSpace.AddChild(sampleListView);
 
         }
         void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)

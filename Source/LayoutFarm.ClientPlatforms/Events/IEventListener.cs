@@ -32,12 +32,12 @@ namespace LayoutFarm.UI
         void HandleContentLayout();
         void HandleContentUpdate();
 
-        
+
         //--------------------------------------------------------------------------
         bool BypassAllMouseEvents { get; }
         bool AutoStopMouseEventPropagation { get; }
 
         void ListenInterComponentMsg(object sender, int msgcode, string msg);
-        
+
     }
 }

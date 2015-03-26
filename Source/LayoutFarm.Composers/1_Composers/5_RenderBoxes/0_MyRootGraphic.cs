@@ -197,6 +197,12 @@ namespace LayoutFarm.UI
 
         public override void SetCurrentKeyboardFocus(RenderElement renderElement)
         {
+            if (renderElement == null)
+            {
+                this.userInputEventAdapter.CurrentKeyboardFocusedElement = null;
+                return;
+            }
+
             var owner = renderElement.GetController() as IEventListener;
             if (owner != null)
             {

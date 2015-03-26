@@ -39,7 +39,7 @@ namespace LayoutFarm.Text
             this.currentSpanStyle = new TextSpanStyle();
             this.currentSpanStyle.FontInfo = rootgfx.DefaultTextEditFontInfo;
 
-            textLayer = new EditableTextFlowLayer(this); 
+            textLayer = new EditableTextFlowLayer(this);
 
             internalTextLayerController = new InternalTextLayerController(this, textLayer);
 
@@ -192,6 +192,12 @@ namespace LayoutFarm.Text
             GlobalCaretController.CurrentTextEditBox = this;
             this.SetCaretState(true);
             this.isFocus = true;
+        }
+        public void Blur()
+        {
+            GlobalCaretController.CurrentTextEditBox = null;
+            this.SetCaretState(false);
+            this.isFocus = false;
         }
         public bool IsFocused
         {

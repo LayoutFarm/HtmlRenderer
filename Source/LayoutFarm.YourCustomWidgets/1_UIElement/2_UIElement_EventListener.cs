@@ -57,11 +57,11 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenGotKeyboardFocus(UIFocusEventArgs e)
         {
-            OnGotFocus(e);
+            OnGotKeyboardFocus(e);
         }
         void IEventListener.ListenLostKeyboardFocus(UIFocusEventArgs e)
         {
-            OnLostFocus(e);
+            OnLostKeyboardFocus(e);
         }
 
         void IEventListener.HandleContentLayout()

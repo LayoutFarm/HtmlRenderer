@@ -29,7 +29,7 @@ namespace LayoutFarm.UI
 
         internal UserInputEventAdapter(MyRootGraphic rootgfx)
         {
-            
+
             this.rootgfx = rootgfx;
             this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
 #if DEBUG
@@ -100,44 +100,10 @@ namespace LayoutFarm.UI
                 //1. lost keyboard focus
                 if (this.currentKbFocusElem != null && this.currentKbFocusElem != value)
                 {
-
+                    currentKbFocusElem.ListenLostKeyboardFocus(null);
                 }
                 //2. keyboard focus
                 currentKbFocusElem = value;
-
-                //1. send lost focus to existing ui
-
-                //if (currentKeyboardFocusedElement != null)
-                //{
-                //    if (currentKeyboardFocusedElement == value)
-                //    {
-                //        return;
-                //    }
-
-                //    UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
-                //    focusEventArg.SetWinRoot(topwin);
-                //    eventStock.ReleaseEventArgs(focusEventArg);
-                //}
-                //currentKeyboardFocusedElement = value;
-                //if (currentKeyboardFocusedElement != null)
-                //{
-                //    UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(value, currentKeyboardFocusedElement);
-                //    focusEventArg.SetWinRoot(topwin);
-                //    Point globalLocation = value.GetGlobalLocation();
-                //    kbFocusGlobalX = globalLocation.X;
-                //    kbFocusGlobalY = globalLocation.Y;
-                //    focusEventArg.SetWinRoot(topwin);
-                //    eventStock.ReleaseEventArgs(focusEventArg);
-                //    if (CurrentFocusElementChanged != null)
-                //    {
-                //        CurrentFocusElementChanged.Invoke(this, EventArgs.Empty);
-                //    }
-                //}
-                //else
-                //{
-                //    kbFocusGlobalX = 0;
-                //    kbFocusGlobalY = 0;
-                //}
             }
         }
         static void SetEventOrigin(UIEventArgs e, HitChain hitChain)
@@ -259,7 +225,7 @@ namespace LayoutFarm.UI
                     //*****
                     this.currentMouseDown = e.CurrentContextElement;
 
-                    
+
                     return true;
                 });
 
@@ -275,7 +241,7 @@ namespace LayoutFarm.UI
 
                         listener.ListenMouseDown(e);
 
-                        
+
                         //------------------------------------------------------- 
                         bool cancelMouseBubbling = e.CancelBubbling;
                         if (prevMouseDownElement != null &&

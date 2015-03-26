@@ -42,6 +42,15 @@ namespace LayoutFarm.UI
                 this.CurrentPrimaryRenderElement.Root.SetCurrentKeyboardFocus(this.CurrentPrimaryRenderElement);
             }
         }
+        public virtual void Blur()
+        {
+            if (this.HasReadyRenderElement)
+            {
+                //focus
+                this.CurrentPrimaryRenderElement.Root.SetCurrentKeyboardFocus(null);
+            }
+        }
+
         public bool HasSpecificWidth
         {
             get { return this.specificWidth; }

@@ -19,7 +19,7 @@ namespace LayoutFarm.CustomWidgets
         bool _multiline;
         TextSpanStyle defaultSpanStyle;
         Color backgroundColor;
-
+        string userTextContent;
         public TextBox(int width, int height, bool multiline)
             : base(width, height)
         {
@@ -66,14 +66,27 @@ namespace LayoutFarm.CustomWidgets
         {
             get
             {
-                StringBuilder stBuilder = new StringBuilder();
-                textEditRenderElement.CopyContentToStringBuilder(stBuilder);
-                return stBuilder.ToString();
+                if (textEditRenderElement != null)
+                {
+                    StringBuilder stBuilder = new StringBuilder();
+                    textEditRenderElement.CopyContentToStringBuilder(stBuilder);
+                    return stBuilder.ToString();
+                }
+                else
+                {
+                    return userTextContent;
+                }
             }
             set
             {
-                this.textEditRenderElement.ClearAllChildren();
+                if (textEditRenderElement == null)
+                {
+                    this.userTextContent = value;
+                    return;
+                }
+                //---------------                 
 
+                this.textEditRenderElement.ClearAllChildren();
                 //convert to runs
                 if (value == null)
                 {
@@ -108,8 +121,8 @@ namespace LayoutFarm.CustomWidgets
                             var textspan = textEditRenderElement.CreateNewTextSpan(splitBuffer);
                             textEditRenderElement.AddTextRun(textspan);
                         }
-                        
-                        
+
+
                     }
                     else
                     {
@@ -121,13 +134,17 @@ namespace LayoutFarm.CustomWidgets
                 }
                 this.InvalidateGraphics();
             }
-        } 
+        }
         public override void Focus()
         {
             //request keyboard focus
             base.Focus();
             textEditRenderElement.Focus();
-        } 
+        }
+        public override void Blur()
+        {
+            base.Blur();
+        }
         protected override bool HasReadyRenderElement
         {
             get { return this.textEditRenderElement != null; }
@@ -154,17 +171,25 @@ namespace LayoutFarm.CustomWidgets
                     tbox.CurrentTextSpanStyle = this.defaultSpanStyle;
                 }
                 tbox.BackgroundColor = this.backgroundColor;
+
+
                 tbox.SetController(this);
                 RegisterNativeEvent(
                   1 << UIEventIdentifier.NE_MOUSE_DOWN
                   | 1 << UIEventIdentifier.NE_LOST_FOCUS
                   | 1 << UIEventIdentifier.NE_SIZE_CHANGED
                   );
+
                 if (this.textSurfaceListener != null)
                 {
                     tbox.TextSurfaceListener = textSurfaceListener;
                 }
                 this.textEditRenderElement = tbox;
+                if (userTextContent != null)
+                {
+                    this.Text = userTextContent;
+                    userTextContent = null;//clear
+                }
             }
             return textEditRenderElement;
         }
@@ -249,9 +274,13 @@ namespace LayoutFarm.CustomWidgets
 
             e.MouseCursorStyle = MouseCursorStyle.IBeam;
             e.CancelBubbling = true;
-            e.CurrentContextElement = this;
-
+            e.CurrentContextElement = this; 
             textEditRenderElement.OnMouseDown(e);
+        }
+        protected override void OnLostKeyboardFocus(UIFocusEventArgs e)
+        { 
+            base.OnLostKeyboardFocus(e);
+            textEditRenderElement.Blur();
         }
         protected override void OnMouseMove(UIMouseEventArgs e)
         {
