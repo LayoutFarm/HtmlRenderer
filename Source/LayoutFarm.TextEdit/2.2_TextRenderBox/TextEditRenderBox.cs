@@ -39,7 +39,8 @@ namespace LayoutFarm.Text
             //1. bg 
             if (BackgroundColor.A > 0)
             {
-                canvas.FillRectangle(BackgroundColor, 0, 0, updateArea.Width, updateArea.Height);
+                //canvas.FillRectangle(BackgroundColor, 0, 0, updateArea.Width, updateArea.Height);
+                canvas.FillRectangle(BackgroundColor, 0, 0, this.Width, this.Height);
             }
 
 
@@ -60,7 +61,7 @@ namespace LayoutFarm.Text
                 if (this.HasDefaultLayer)
                 {
                     this.DrawDefaultLayer(canvas, ref updateArea);
-                }                 
+                }
             }
 
 #if DEBUG
