@@ -80,7 +80,14 @@ namespace LayoutFarm
         {
 
         }
-        
+        public virtual void AddChild(RenderElement renderE)
+        {
+
+        }
+        public virtual void RemoveChild(RenderElement renderE)
+        {
+
+        }
         public IParentLink ParentLink
         {
             get
@@ -158,7 +165,7 @@ namespace LayoutFarm
                 }
             }
         }
-       
+
         public bool IsBlockElement
         {
             get

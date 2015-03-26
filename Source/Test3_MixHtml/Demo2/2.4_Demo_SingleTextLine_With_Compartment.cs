@@ -55,8 +55,8 @@ namespace LayoutFarm
 
             //------------------------------------ 
             BuildSampleCountryList();
-            ninespaceBox.LeftSpace.AddChildBox(textbox);
-            ninespaceBox.RightSpace.AddChildBox(listView);
+            ninespaceBox.LeftSpace.AddChild(textbox);
+            ninespaceBox.RightSpace.AddChild(listView);
 
         }
         void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)

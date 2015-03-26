@@ -81,7 +81,7 @@ namespace LayoutFarm.CustomWidgets
             treeNode.SetLocation(0, latestItemY);
             latestItemY += treeNode.Height;
             treeNode.SetOwnerTreeView(this);
-            panel.AddChildBox(treeNode);
+            panel.AddChild(treeNode);
 
         }
         //----------------------------------------------------

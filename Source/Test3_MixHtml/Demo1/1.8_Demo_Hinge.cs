@@ -79,7 +79,7 @@ namespace LayoutFarm
                 }
             };
 
-            landPart.AddChildBox(imgBox);
+            landPart.AddChild(imgBox);
             return comboBox;
         }
         LayoutFarm.CustomWidgets.MenuItem CreateMenuItem(int x, int y)
@@ -101,7 +101,7 @@ namespace LayoutFarm
             }
             LayoutFarm.CustomWidgets.ImageBox imgBox = new CustomWidgets.ImageBox(arrowBmp.ImageWidth, arrowBmp.ImageHeight);
             imgBox.ImageBinder = arrowBmp;
-            landPart.AddChildBox(imgBox);
+            landPart.AddChild(imgBox);
 
             //--------------------------------------
             //if click on this image then

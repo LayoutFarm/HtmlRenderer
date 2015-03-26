@@ -39,7 +39,7 @@ namespace LayoutFarm
 
             ninespace2.SetLeftSpaceWidth(150);
             ninespace2.ShowGrippers = true;
-            ninespaceBox.RightSpace.AddChildBox(ninespace2);
+            ninespaceBox.RightSpace.AddChild(ninespace2);
 
 
             viewport.AddContent(ninespaceBox);

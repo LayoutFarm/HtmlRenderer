@@ -94,7 +94,7 @@ namespace LayoutFarm.CustomWidgets
         public void AddItem(ListItem ui)
         {
             items.Add(ui);
-            panel.AddChildBox(ui);
+            panel.AddChild(ui);
         }
         public int ItemCount
         {

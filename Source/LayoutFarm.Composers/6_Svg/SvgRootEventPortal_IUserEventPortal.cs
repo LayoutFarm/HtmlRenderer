@@ -27,7 +27,7 @@ namespace LayoutFarm.Svg
             this.latestLogicalMouseDownY = e.Y;
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
-            this._isMouseDown = true;
+            
             //find hit svg graphics....
             SvgHitChain hitChain = GetFreeHitChain();
             hitChain.SetRootGlobalPosition(e.X, e.Y);
@@ -78,8 +78,7 @@ namespace LayoutFarm.Svg
         {
 
             this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y;
-            this._isMouseDown = false;
+            this.prevLogicalMouseY = e.Y; 
 
             //find hit svg graphics....
             SvgHitChain hitChain = GetFreeHitChain();
@@ -125,7 +124,7 @@ namespace LayoutFarm.Svg
             int x = e.X;
             int y = e.Y;
 
-            if (this._isMouseDown)
+            if (e.IsDragging)
             {
                 //dragging *** , if changed
                 if (this.prevLogicalMouseX != x || this.prevLogicalMouseY != y)

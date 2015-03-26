@@ -34,7 +34,7 @@ namespace LayoutFarm.Svg
         int latestLogicalMouseDownY;
         int prevLogicalMouseX;
         int prevLogicalMouseY;
-        bool _isMouseDown;
+        
 
         //==================================================
         SvgHitChain GetFreeHitChain()

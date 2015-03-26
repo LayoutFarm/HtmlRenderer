@@ -67,7 +67,7 @@ namespace LayoutFarm
                 box1.BackColor = Color.OrangeRed;
                 box1.SetLocation(i * 20, i * 40);
 
-                panel.AddChildBox(box1);
+                panel.AddChild(box1);
             }
             //--------------------------   
             panel.PerformContentLayout();
@@ -111,7 +111,7 @@ namespace LayoutFarm
 
 
                 lastY += imgbox.Height + 5;
-                panel.AddChildBox(imgbox);
+                panel.AddChild(imgbox);
 
             }
             //--------------------------
