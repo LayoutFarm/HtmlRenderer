@@ -270,7 +270,7 @@ namespace LayoutFarm.CustomWidgets
                 childItems = new List<MenuItem>();
             }
             this.childItems.Add(childItem);
-            floatPart.AddChildBox(childItem);
+            floatPart.AddChild(childItem);
             childItem.ParentMenuItem = this;
         }
     }

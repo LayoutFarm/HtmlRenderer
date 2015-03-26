@@ -22,10 +22,9 @@ namespace LayoutFarm.HtmlBoxes
         CssBoxHitChain _latestMouseDownChain = null;
         //-----------------------------------------------
         DateTime lastimeMouseUp;
-        IEventListener currentMouseDown;   
+        IEventListener currentMouseDown;
         int _mousedownX;
         int _mousedownY;
-        bool _isMouseDown;
         CssBox _mouseDownStartAt;
         //-----------------------------------------------
 
@@ -62,7 +61,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         //---------------------------------------------- 
 
-       
+
         public void MouseDown(UIMouseEventArgs e, CssBox startAt)
         {
             if (!_isBinded) return;
@@ -84,7 +83,6 @@ namespace LayoutFarm.HtmlBoxes
             this._mouseDownStartAt = startAt;
             this._mousedownX = x;
             this._mousedownY = y;
-            this._isMouseDown = true;
 
             CssBoxHitChain hitChain = GetFreeHitChain();
             hitChain.SetRootGlobalPosition(x, y);
@@ -103,13 +101,13 @@ namespace LayoutFarm.HtmlBoxes
             {
                 var prevMouseDownElement = this.currentMouseDown;
                 e.CurrentContextElement = this.currentMouseDown = null; //clear
-                
+
                 ForEachEventListenerBubbleUp(e, hitChain, () =>
                 {
                     //TODO: check accept keyboard
                     this.currentMouseDown = e.CurrentContextElement;
                     e.CurrentContextElement.ListenMouseDown(e);
-                    
+
                     if (prevMouseDownElement != null &&
                         prevMouseDownElement != currentMouseDown)
                     {
@@ -122,7 +120,7 @@ namespace LayoutFarm.HtmlBoxes
             //----------------------------------
             //save mousedown hitchain
             this._latestMouseDownChain = hitChain;
-             
+
         }
         public void MouseDown(UIMouseEventArgs e)
         {
@@ -136,7 +134,7 @@ namespace LayoutFarm.HtmlBoxes
             int x = e.X;
             int y = e.Y;
 
-            if (this._isMouseDown)
+            if (e.IsDragging)
             {
                 //dragging *** , if changed
                 if (this._mousedownX != x || this._mousedownY != y)
@@ -146,7 +144,7 @@ namespace LayoutFarm.HtmlBoxes
                     hitChain.SetRootGlobalPosition(x, y);
 
                     BoxHitUtils.HitTest(startAt, x, y, hitChain);
-                    
+
                     SetEventOrigin(e, hitChain);
                     //---------------------------------------------------------
                     //propagate mouse drag 
@@ -157,7 +155,7 @@ namespace LayoutFarm.HtmlBoxes
                     });
                     //---------------------------------------------------------   
                     if (!e.CancelBubbling)
-                    {  
+                    {
 
                         ClearPreviousSelection();
                         if (_latestMouseDownChain.Count > 0 && hitChain.Count > 0)
@@ -192,7 +190,7 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             this._htmlContainer.SetSelection(null);
                         }
-                     
+
                         ForEachEventListenerBubbleUp(e, hitChain, () =>
                         {
                             e.CurrentContextElement.ListenMouseMove(e);
@@ -252,7 +250,7 @@ namespace LayoutFarm.HtmlBoxes
             this.lastimeMouseUp = snapMouseUpTime;
             //--------------------------------------------
 
-            this._isMouseDown = false;
+            
             //----------------------------------------- 
             CssBoxHitChain hitChain = GetFreeHitChain();
 

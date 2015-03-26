@@ -104,12 +104,10 @@ namespace LayoutFarm.CustomWidgets
                 this.panelLayoutKind = value;
             }
         }
-        public void AddChildBox(UIElement ui)
+        public void AddChild(UIElement ui)
         {
             needContentLayout = true;
-            this.uiList.AddUI(ui);
-
-
+            this.uiList.AddUI(ui); 
 
             if (this.HasReadyRenderElement)
             {
