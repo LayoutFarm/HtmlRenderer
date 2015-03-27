@@ -223,12 +223,8 @@ namespace LayoutFarm.UI
 
     public class UIMouseEventArgs : UIEventArgs
     {
-
-
-
         int xdiffFromMouseDown;
         int ydiffFromMouseDown;
-
 
         public UIMouseEventArgs()
         {
@@ -269,7 +265,7 @@ namespace LayoutFarm.UI
             this.YDiff = 0;
             this.MouseCursorStyle = UI.MouseCursorStyle.Default;
             this.IsDragging = false;
-
+            this.DraggingElement = null;
             base.Clear();
 
         }
@@ -298,6 +294,12 @@ namespace LayoutFarm.UI
             get;
             set;
         }
+        public IEventListener DraggingElement
+        {
+            get;
+            set;
+        }
+
     }
 
     public enum MouseCursorStyle
