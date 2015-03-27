@@ -270,8 +270,7 @@ namespace LayoutFarm.CustomWidgets
         }
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
-            this.Focus();
-
+            this.Focus(); 
             e.MouseCursorStyle = MouseCursorStyle.IBeam;
             e.CancelBubbling = true;
             e.CurrentContextElement = this; 
@@ -392,7 +391,7 @@ namespace LayoutFarm.CustomWidgets
         {
             get
             {
-                //todo: use mimimum current font height
+                //TODO: use mimimum current font height
                 return 17;
             }
         }

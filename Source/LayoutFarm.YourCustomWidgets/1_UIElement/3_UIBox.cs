@@ -18,6 +18,9 @@ namespace LayoutFarm.UI
         bool _hide;
         bool specificWidth;
         bool specificHeight;
+        bool draggable;
+        bool dropable;
+
         public event EventHandler LayoutFinished;
 
 #if DEBUG
@@ -50,7 +53,23 @@ namespace LayoutFarm.UI
                 this.CurrentPrimaryRenderElement.Root.SetCurrentKeyboardFocus(null);
             }
         }
+        public virtual bool Draggable
+        {
+            get { return this.draggable; }
+            set
+            {
 
+                this.draggable = value;
+            }
+        }
+        public virtual bool Dropable
+        {
+            get { return this.dropable; }
+            set
+            {   
+                this.dropable = value;
+            }
+        }
         public bool HasSpecificWidth
         {
             get { return this.specificWidth; }

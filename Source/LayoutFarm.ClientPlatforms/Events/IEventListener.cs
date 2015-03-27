@@ -38,6 +38,8 @@ namespace LayoutFarm.UI
         bool AutoStopMouseEventPropagation { get; }
 
         void ListenInterComponentMsg(object sender, int msgcode, string msg);
+        //--------------------------------------------------------------------------
+        void ListenOnDrop(UIMouseEventArgs e);
 
     }
 }

@@ -68,8 +68,10 @@ namespace LayoutFarm.WebDom
         {
             OnLostFocus(e);
         }
-
-      
+        void IEventListener.ListenOnDrop(UIMouseEventArgs e)
+        {
+            OnDrop(e);
+        }
         void IEventListener.HandleContentLayout()
         {
             OnContentLayout();

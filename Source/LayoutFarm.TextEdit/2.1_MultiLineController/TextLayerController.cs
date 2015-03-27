@@ -57,7 +57,7 @@ namespace LayoutFarm.Text
 
         bool enableUndoHistoryRecording = true;
 
-        DocumentCommandCollection undoActionCollection;
+        DocumentCommandCollection commandHistory;
 
 
         BackGroundTextLineWriter backGroundTextLineWriter;
@@ -80,7 +80,7 @@ namespace LayoutFarm.Text
             this.visualTextSurface = visualTextSurface;
             textLineWriter = new TextLineWriter(textLayer);
             backGroundTextLineWriter = textLineWriter.GetBackgroundWriter();
-            undoActionCollection = new DocumentCommandCollection(this);
+            commandHistory = new DocumentCommandCollection(this);
 
             this.textMan = new TextMan(this, visualTextSurface);
 
@@ -144,7 +144,7 @@ namespace LayoutFarm.Text
             }
             else
             {
-                undoActionCollection.AddDocAction(
+                commandHistory.AddDocAction(
                   new DocActionCharTyping(c, textLineWriter.LineNumber, textLineWriter.CharIndex));
             }
 
@@ -221,7 +221,7 @@ namespace LayoutFarm.Text
                 if (tobeDeleteTextRun != null)
                 {
 
-                    undoActionCollection.AddDocAction(
+                    commandHistory.AddDocAction(
                     new DocActionDeleteRange(tobeDeleteTextRun,
                         selSnapshot.startLineNum,
                         selSnapshot.startColumnNum,
@@ -240,7 +240,7 @@ namespace LayoutFarm.Text
                 LinkedList<EditableTextSpan> tobeDeleteTextRun = textLineWriter.CopySelectedTextRuns(selectionRange);
                 if (tobeDeleteTextRun != null)
                 {
-                    undoActionCollection.AddDocAction(
+                    commandHistory.AddDocAction(
                     new DocActionDeleteRange(tobeDeleteTextRun,
                         selSnapshot.startLineNum,
                         selSnapshot.startColumnNum,
@@ -288,7 +288,7 @@ namespace LayoutFarm.Text
         {
             RemoveSelectedText();
 
-            undoActionCollection.AddDocAction(
+            commandHistory.AddDocAction(
                  new DocActionSplitToNewLine(textLineWriter.LineNumber, textLineWriter.CharIndex));
 
             textLineWriter.SplitToNewLine();
@@ -566,11 +566,11 @@ namespace LayoutFarm.Text
         }
         public void UndoLastAction()
         {
-            undoActionCollection.UndoLastAction();
+            commandHistory.UndoLastAction();
         }
         public void ReverseLastUndoAction()
         {
-            undoActionCollection.ReverseLastUndoAction();
+            commandHistory.ReverseLastUndoAction();
         }
 
     }

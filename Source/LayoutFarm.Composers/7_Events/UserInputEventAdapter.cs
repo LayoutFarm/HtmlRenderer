@@ -346,7 +346,6 @@ namespace LayoutFarm.UI
                     {
                         currentMouseActiveElement = listener;
                         currentMouseActiveElement.ListenMouseMove(e);
-
                     }
                     return true;//stop
                 });
