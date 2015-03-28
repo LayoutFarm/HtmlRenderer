@@ -12,6 +12,7 @@ namespace LayoutFarm.Text
         public EditableTextSpan(RootGraphic gfx, char[] myBuffer, TextSpanStyle style)
             : base(gfx, myBuffer, style)
         {
+
         }
         public EditableTextSpan(RootGraphic gfx, char c, TextSpanStyle style)
             : base(gfx, c, style)

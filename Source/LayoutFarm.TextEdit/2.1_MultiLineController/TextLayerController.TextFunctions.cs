@@ -120,6 +120,8 @@ namespace LayoutFarm.Text
         }
         public void AddTextRunToCurrentLine(EditableTextSpan t)
         {
+            updateJustCurrentLine = true;
+            
             RemoveSelectedText();
             int startLineNum = textLineWriter.LineNumber;
             int startCharIndex = textLineWriter.CharIndex;

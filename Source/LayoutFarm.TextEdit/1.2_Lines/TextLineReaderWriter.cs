@@ -70,7 +70,8 @@ namespace LayoutFarm.Text
         }
         public void RemoveSelectedTextRuns(VisualSelectionRange selectionRange)
         {
-            int precutIndex = selectionRange.StartPoint.LineCharIndex; CurrentLine.Remove(selectionRange);
+            int precutIndex = selectionRange.StartPoint.LineCharIndex; 
+            CurrentLine.Remove(selectionRange);
             EnsureCurrentTextRun(precutIndex);
 
         }
@@ -198,6 +199,7 @@ namespace LayoutFarm.Text
                     CurrentLine.TextLineReCalculateActualLineSize();
                     CurrentLine.RefreshInlineArrange();
                     EnsureCurrentTextRun(CharIndex + textRun.CharacterCount);
+                    
                 }
                 else
                 {

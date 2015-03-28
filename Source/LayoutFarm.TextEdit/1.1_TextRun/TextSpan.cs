@@ -73,7 +73,7 @@ namespace LayoutFarm.Text
 
             UpdateRunWidth();
         }
-        protected void UpdateRunWidth()
+        public void UpdateRunWidth()
         {
             Size size;
             if (IsLineBreak)

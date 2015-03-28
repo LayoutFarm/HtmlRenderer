@@ -136,7 +136,8 @@ namespace LayoutFarm.Text
                     dbugTextManRecorder.WriteInfo(SelectionRange);
                 }
 #endif
-                RemoveSelectedText(); passRemoveSelectedText = true;
+                RemoveSelectedText(); 
+                passRemoveSelectedText = true;
             }
             if (passRemoveSelectedText && c == ' ')
             {
@@ -253,7 +254,8 @@ namespace LayoutFarm.Text
                     textLineWriter.CharIndex = startPointCharIndex;
                 }
             }
-            CancelSelect(); TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
+            CancelSelect();
+            TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
 
 #if DEBUG
             if (dbugEnableTextManRecorder)
