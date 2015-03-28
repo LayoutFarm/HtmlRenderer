@@ -16,19 +16,20 @@ namespace LayoutFarm.CustomWidgets
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseMove;
         public event EventHandler<UIMouseEventArgs> MouseUp;
+        public event EventHandler<UIMouseEventArgs> DragRelease;
         public event EventHandler<UIMouseEventArgs> MouseLeave;
         public event EventHandler<UIMouseEventArgs> LostSelectedFocus;
 
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
-        
+
 
         public EaseBox(int width, int height)
             : base(width, height)
         {
 
         }
-        
+
         protected override bool HasReadyRenderElement
         {
             get { return this.primElement != null; }
@@ -88,6 +89,13 @@ namespace LayoutFarm.CustomWidgets
             if (this.MouseLeave != null)
             {
                 this.MouseLeave(this, e);
+            }
+        }
+        protected override void OnDragRelease(UIMouseEventArgs e)
+        {
+            if (DragRelease != null)
+            {
+                DragRelease(this, e);
             }
         }
         protected override void OnMouseUp(UIMouseEventArgs e)

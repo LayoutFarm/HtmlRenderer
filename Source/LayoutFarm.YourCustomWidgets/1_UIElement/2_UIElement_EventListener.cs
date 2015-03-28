@@ -67,6 +67,11 @@ namespace LayoutFarm.UI
         {
             OnDrop(e);
         }
+        void IEventListener.ListenDragRelease(UIMouseEventArgs e)
+        {
+            OnDragRelease(e);
+        }
+
         void IEventListener.HandleContentLayout()
         {
             OnContentLayout();

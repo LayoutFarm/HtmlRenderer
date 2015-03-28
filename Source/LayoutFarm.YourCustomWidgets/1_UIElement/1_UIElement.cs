@@ -142,6 +142,10 @@ namespace LayoutFarm.UI
         {
 
         }
+        protected virtual void OnDragRelease(UIMouseEventArgs e)
+        {
+
+        }
 #if DEBUG
         object dbugTagObject;
         public object dbugTag

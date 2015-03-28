@@ -72,6 +72,10 @@ namespace LayoutFarm.WebDom
         {
             OnDrop(e);
         }
+        void IEventListener.ListenDragRelease(UIMouseEventArgs e)
+        {
+            OnDragRelease(e);
+        }
         void IEventListener.HandleContentLayout()
         {
             OnContentLayout();
@@ -92,5 +96,6 @@ namespace LayoutFarm.WebDom
         {
             this.OnInterComponentMsg(sender, msgcode, msg);
         }
+
     }
 }
