@@ -332,7 +332,7 @@ namespace LayoutFarm
                 {
                     MoveWithSnapToGrid(controllerBox, e);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
+                    e.StopPropagation();
                 }
             };
             controllerBox.MouseMove += (s, e) =>
@@ -428,7 +428,6 @@ namespace LayoutFarm
                 tinyBox.BackColor = PixelFarm.Drawing.Color.Red;
                 tinyBox.Tag = name;
                 //add handler for each tiny box
-
                 //---------------------------------------------------------------------
 
                 tinyBox.MouseMove += (s, e) =>
@@ -446,7 +445,7 @@ namespace LayoutFarm
                     {
                         ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
                         e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                        e.CancelBubbling = true;
+                        e.StopPropagation();
                     }
                 };
                 tinyBox.MouseUp += (s, e) =>
@@ -550,11 +549,7 @@ namespace LayoutFarm
                                 }
                             }
                         } break;
-
                 }
-
-
-
             }
             static void ResizeTargetWithSnapToGrid2(UIControllerBox controllerBox, UIMouseEventArgs e)
             {

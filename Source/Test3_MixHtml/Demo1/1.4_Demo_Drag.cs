@@ -51,7 +51,7 @@ namespace LayoutFarm
                 if (e.IsDragging)
                 {
                     box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
-                    Point pos = box.Position; 
+                    Point pos = box.Position;
                     box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.CancelBubbling = true;
@@ -66,10 +66,10 @@ namespace LayoutFarm
                     //continue dragging on the same element 
                     box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
+                    e.StopPropagation();
                 }
             };
-             
+
         }
 
     }

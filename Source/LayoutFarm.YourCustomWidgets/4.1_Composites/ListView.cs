@@ -173,6 +173,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.MouseDown(this, e);
             }
+            base.OnMouseDown(e);
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {

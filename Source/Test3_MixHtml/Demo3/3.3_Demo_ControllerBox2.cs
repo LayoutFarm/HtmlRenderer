@@ -6,7 +6,7 @@ using System.Text;
 
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
-using LayoutFarm.UI; 
+using LayoutFarm.UI;
 using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
@@ -94,12 +94,12 @@ namespace LayoutFarm
 
         }
 
-        static void MoveWithSnapToGrid(UIControllerBox controllerBox, UIMouseEventArgs e)
+        static void MoveWithSnapToGrid(UIControllerBox controllerBox, UIMouseEventArgs e, int dx, int dy)
         {
             //sample move with snap to grid
             Point pos = controllerBox.Position;
-            int newX = pos.X + e.XDiff;
-            int newY = pos.Y + e.YDiff;
+            int newX = pos.X + dx;
+            int newY = pos.Y + dy;
             //snap to gridsize =5;
             //find nearest snap x 
             int gridSize = 5;
@@ -113,29 +113,51 @@ namespace LayoutFarm
             if (targetBox != null)
             {
                 //move target box too
-
                 targetBox.SetLocation(nearestX + gridSize, nearestY + gridSize);
             }
         }
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
             //for controller box
+            int mousedownX = 0;
+            int mousedownY = 0;
+            bool isMouseDown = false;
+            controllerBox.MouseDown += (s, e) =>
+            {
+                isMouseDown = true;
+                mousedownX = e.X;
+                mousedownY = e.Y;
+                e.StopPropagation();
+            };
             controllerBox.MouseMove += (s, e) =>
             {
                 if (e.IsDragging)
                 {
-                    MoveWithSnapToGrid(controllerBox, e);
+                    if (!isMouseDown)
+                    {
+                        mousedownX = e.X;
+                        mousedownY = e.Y;
+                        isMouseDown = true;
+                    }
+                    MoveWithSnapToGrid(controllerBox, e, e.X - mousedownX, e.Y - mousedownY);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.CancelBubbling = true;
                 }
+            };
+            controllerBox.MouseUp += (s, e) =>
+            {
+                isMouseDown = false;
             };
             controllerBox.MouseLeave += (s, e) =>
             {
                 if (e.IsDragging)
                 {
-                    MoveWithSnapToGrid(controllerBox, e);
+                    var globalLocation = controllerBox.GetGlobalLocation();
+                    globalLocation.Offset(mousedownX, mousedownY);
+
+                    MoveWithSnapToGrid(controllerBox, e, e.GlobalX - globalLocation.X, e.Y - globalLocation.Y);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
+                    e.StopPropagation();
                 }
             };
 
@@ -165,7 +187,7 @@ namespace LayoutFarm
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
 
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-                    myRenderElement.AddChild(gridBox);                    
+                    myRenderElement.AddChild(gridBox);
 
                 }
                 return base.GetPrimaryRenderElement(rootgfx);

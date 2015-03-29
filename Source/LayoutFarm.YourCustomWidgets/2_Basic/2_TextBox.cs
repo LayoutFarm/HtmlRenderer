@@ -231,12 +231,10 @@ namespace LayoutFarm.CustomWidgets
         {
             textEditRenderElement.CopyCurrentLine(stbuilder);
         }
-        //----------------------------------------------------------------
-
+        //---------------------------------------------------------------- 
         protected override void OnMouseLeave(UIMouseEventArgs e)
         {
-            e.MouseCursorStyle = MouseCursorStyle.Arrow;
-
+            e.MouseCursorStyle = MouseCursorStyle.Arrow; 
         }
         protected override void OnDoubleClick(UIMouseEventArgs e)
         {
@@ -288,8 +286,7 @@ namespace LayoutFarm.CustomWidgets
                 e.CancelBubbling = true;
                 e.MouseCursorStyle = MouseCursorStyle.IBeam;
             }
-
-            //base.OnMouseMove(e);
+             
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {

@@ -238,10 +238,7 @@ namespace LayoutFarm.UI
                     ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                     {
                         this.currentMouseDown = e.CurrentContextElement;
-
                         listener.ListenMouseDown(e);
-
-
                         //------------------------------------------------------- 
                         bool cancelMouseBubbling = e.CancelBubbling;
                         if (prevMouseDownElement != null &&
@@ -337,15 +334,19 @@ namespace LayoutFarm.UI
                 ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                 {
                     foundSomeHit = true;
+                    bool isFirstMouseEnter = false;
                     if (currentMouseActiveElement != null &&
                         currentMouseActiveElement != listener)
                     {
                         currentMouseActiveElement.ListenMouseLeave(e);
+                        isFirstMouseEnter = true;
                     }
-                    if (!e.CancelBubbling)
+                    if (!e.IsCanceled)
                     {
                         currentMouseActiveElement = listener;
+                        e.IsFirstMouseEnter = isFirstMouseEnter;
                         currentMouseActiveElement.ListenMouseMove(e);
+                        e.IsFirstMouseEnter = false;
                     }
                     return true;//stop
                 });

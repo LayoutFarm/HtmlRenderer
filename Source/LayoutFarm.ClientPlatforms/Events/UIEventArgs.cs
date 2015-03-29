@@ -77,6 +77,7 @@ namespace LayoutFarm.UI
             x = y = 0;
             this.SourceHitElement = this.CurrentContextElement = null;
             this.Shift = this.Alt = this.Ctrl = this.CancelBubbling = false;
+
         }
 
         public object SourceHitElement
@@ -151,6 +152,7 @@ namespace LayoutFarm.UI
             get { return this.IsCanceled; }
             set { this.IsCanceled = value; }
         }
+
     }
 
 
@@ -225,7 +227,7 @@ namespace LayoutFarm.UI
     {
 
 
-        
+
 
         public UIMouseEventArgs()
         {
@@ -233,16 +235,17 @@ namespace LayoutFarm.UI
         }
         public UIMouseButtons Button { get; private set; }
         public int Delta { get; private set; }
-        public int Clicks { get; private set; } 
+        public int Clicks { get; private set; }
         public int GlobalX { get; private set; }
         public int GlobalY { get; private set; }
         public int XDiff { get; private set; }
         public int YDiff { get; private set; }
+
         public void SetDiff(int xdiff, int ydiff)
         {
             this.XDiff = xdiff;
             this.YDiff = ydiff;
-        } 
+        }
         public void SetEventInfo(int x, int y, UIMouseButtons button, int clicks, int delta, bool isDragging)
         {
             this.GlobalX = x;
@@ -254,6 +257,12 @@ namespace LayoutFarm.UI
             this.IsDragging = isDragging;
         }
 
+        public bool IsFirstMouseEnter
+        {
+            get;
+            set;
+        }
+
         public override void Clear()
         {
             this.Button = 0;
@@ -263,6 +272,7 @@ namespace LayoutFarm.UI
             this.MouseCursorStyle = UI.MouseCursorStyle.Default;
             this.IsDragging = false;
             this.DraggingElement = null;
+            this.IsFirstMouseEnter = false;
             base.Clear();
 
         }

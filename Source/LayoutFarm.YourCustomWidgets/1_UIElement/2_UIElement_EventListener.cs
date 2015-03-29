@@ -26,7 +26,6 @@ namespace LayoutFarm.UI
         void IEventListener.ListenMouseDown(UIMouseEventArgs e)
         {
             OnMouseDown(e);
-
         }
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
