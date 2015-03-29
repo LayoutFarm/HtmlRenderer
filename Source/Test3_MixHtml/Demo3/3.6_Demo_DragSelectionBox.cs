@@ -319,7 +319,6 @@ namespace LayoutFarm
             if (targetBox != null)
             {
                 //move target box too
-
                 targetBox.SetLocation(nearestX + gridSize, nearestY + gridSize);
             }
         }

@@ -223,8 +223,9 @@ namespace LayoutFarm.UI
 
     public class UIMouseEventArgs : UIEventArgs
     {
-        int xdiffFromMouseDown;
-        int ydiffFromMouseDown;
+
+
+        
 
         public UIMouseEventArgs()
         {
@@ -232,31 +233,27 @@ namespace LayoutFarm.UI
         }
         public UIMouseButtons Button { get; private set; }
         public int Delta { get; private set; }
-        public int Clicks { get; private set; }
+        public int Clicks { get; private set; } 
+        public int GlobalX { get; private set; }
+        public int GlobalY { get; private set; }
         public int XDiff { get; private set; }
         public int YDiff { get; private set; }
-
-        public void SetDiff(int xdiff, int ydiff, int xdiffFromMouseDown, int ydiffFromMouseDown)
+        public void SetDiff(int xdiff, int ydiff)
         {
-            if (xdiff == 0 && ydiff == 0)
-            {
-
-            }
             this.XDiff = xdiff;
             this.YDiff = ydiff;
-            this.xdiffFromMouseDown = xdiffFromMouseDown;
-            this.ydiffFromMouseDown = ydiffFromMouseDown;
-        }
-
+        } 
         public void SetEventInfo(int x, int y, UIMouseButtons button, int clicks, int delta, bool isDragging)
         {
-
+            this.GlobalX = x;
+            this.GlobalY = y;
             this.SetLocation(x, y);
             Button = button;
             Clicks = clicks;
             Delta = delta;
             this.IsDragging = isDragging;
         }
+
         public override void Clear()
         {
             this.Button = 0;
@@ -269,20 +266,7 @@ namespace LayoutFarm.UI
             base.Clear();
 
         }
-        public int XDiffFromMouseDownPos
-        {
-            get
-            {
-                return this.xdiffFromMouseDown;
-            }
-        }
-        public int YDiffFromMouseDownPos
-        {
-            get
-            {
-                return this.ydiffFromMouseDown;
-            }
-        }
+
         public MouseCursorStyle MouseCursorStyle
         {
             get;

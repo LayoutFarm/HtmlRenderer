@@ -48,6 +48,17 @@ namespace LayoutFarm.CustomWidgets
         {
             get { return this.primElement != null; }
         }
+        public IEnumerable<UIElement> GetChildIter()
+        {
+            if (uiList != null)
+            {
+                int j = uiList.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    yield return uiList.GetElement(i);
+                }
+            }
+        }
         public override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.primElement; }
@@ -107,11 +118,9 @@ namespace LayoutFarm.CustomWidgets
         public void AddChild(UIElement ui)
         {
             needContentLayout = true;
-            this.uiList.AddUI(ui); 
-
+            this.uiList.AddUI(ui);
             if (this.HasReadyRenderElement)
             {
-
                 primElement.AddChild(ui);
                 if (this.panelLayoutKind != PanelLayoutKind.Absolute)
                 {
@@ -123,7 +132,6 @@ namespace LayoutFarm.CustomWidgets
             {
                 ui.InvalidateLayout();
             }
-
         }
         public void RemoveChildBox(UIElement ui)
         {

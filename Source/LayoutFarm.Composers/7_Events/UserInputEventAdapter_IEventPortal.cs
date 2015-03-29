@@ -49,12 +49,9 @@ namespace LayoutFarm.UI
         {
 
             //find diff    
-
             e.SetDiff(
                 e.X - prevLogicalMouseX,
-                e.Y - prevLogicalMouseY,
-                e.X - this.latestLogicalMouseDownX,
-                e.Y - this.latestLogicalMouseDownY);
+                e.Y - prevLogicalMouseY);
 
             if (e.XDiff == 0 && e.YDiff == 0)
             {
