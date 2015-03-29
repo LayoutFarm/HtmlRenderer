@@ -119,41 +119,29 @@ namespace LayoutFarm
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
             //for controller box
-            int mousedownX = 0;
-            int mousedownY = 0;
-            bool isMouseDown = false;
-            controllerBox.MouseDown += (s, e) =>
-            {
-                isMouseDown = true;
-                mousedownX = e.X;
-                mousedownY = e.Y;
-                e.StopPropagation();
-            };
+
             controllerBox.MouseMove += (s, e) =>
             {
                 if (e.IsDragging)
                 {
-                    if (!isMouseDown)
+                    if (e.IsFirstMouseEnter)
                     {
-                        mousedownX = e.X;
-                        mousedownY = e.Y;
-                        isMouseDown = true;
+                        controllerBox.MouseCaptureX = e.X;
+                        controllerBox.MouseCaptureY = e.Y;
                     }
-                    MoveWithSnapToGrid(controllerBox, e, e.X - mousedownX, e.Y - mousedownY);
+
+                    MoveWithSnapToGrid(controllerBox, e, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.CancelBubbling = true;
                 }
             };
-            controllerBox.MouseUp += (s, e) =>
-            {
-                isMouseDown = false;
-            };
+
             controllerBox.MouseLeave += (s, e) =>
             {
                 if (e.IsDragging)
                 {
                     var globalLocation = controllerBox.GetGlobalLocation();
-                    globalLocation.Offset(mousedownX, mousedownY);
+                    globalLocation.Offset(controllerBox.MouseCaptureX, controllerBox.MouseCaptureY);
 
                     MoveWithSnapToGrid(controllerBox, e, e.GlobalX - globalLocation.X, e.Y - globalLocation.Y);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
