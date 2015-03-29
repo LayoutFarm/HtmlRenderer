@@ -449,11 +449,7 @@ namespace LayoutFarm
                     }
                 };
                 tinyBox.MouseUp += (s, e) =>
-                {
-                    if (e.IsDragging)
-                    {
-                        ResizeTargetWithSnapToGrid2(this, e);
-                    }
+                {   
                     e.MouseCursorStyle = MouseCursorStyle.Default;
                     e.CancelBubbling = true;
                 };
@@ -551,35 +547,7 @@ namespace LayoutFarm
                         } break;
                 }
             }
-            static void ResizeTargetWithSnapToGrid2(UIControllerBox controllerBox, UIMouseEventArgs e)
-            {
-                //sample move with snap to grid
-                Point pos = controllerBox.Position;
-                int newX = pos.X + e.XDiff;
-                int newY = pos.Y + e.YDiff;
-                //snap to gridsize =5;
-                //find nearest snap x 
-                int gridSize = 5;
-                float halfGrid = (float)gridSize / 2f;
-                int nearestX = (int)((newX + halfGrid) / gridSize) * gridSize;
-                int nearestY = (int)((newY + halfGrid) / gridSize) * gridSize;
-
-                int xdiff = nearestX - pos.X;
-                if (xdiff != 0)
-                {
-                    controllerBox.SetSize(controllerBox.Width + xdiff, controllerBox.Height);
-                }
-
-                var targetBox = controllerBox.TargetBox;
-                if (targetBox != null)
-                {
-                    //move target box too 
-                    targetBox.SetBounds(controllerBox.Left + 5,
-                        controllerBox.Top + 5,
-                        controllerBox.Width - 10,
-                        controllerBox.Height - 10);
-                }
-            }
+            
         }
 
         class UISelectionBox : LayoutFarm.CustomWidgets.EaseBox

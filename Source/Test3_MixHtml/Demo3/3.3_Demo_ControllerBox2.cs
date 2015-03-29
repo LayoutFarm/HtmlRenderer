@@ -94,14 +94,13 @@ namespace LayoutFarm
 
         }
 
-        static void MoveWithSnapToGrid(UIControllerBox controllerBox, UIMouseEventArgs e, int dx, int dy)
+        static void MoveWithSnapToGrid(UIControllerBox controllerBox, int dx, int dy)
         {
             //sample move with snap to grid
             Point pos = controllerBox.Position;
             int newX = pos.X + dx;
             int newY = pos.Y + dy;
-            //snap to gridsize =5;
-            //find nearest snap x 
+
             int gridSize = 5;
             float halfGrid = (float)gridSize / 2f;
 
@@ -130,7 +129,7 @@ namespace LayoutFarm
                         controllerBox.MouseCaptureY = e.Y;
                     }
 
-                    MoveWithSnapToGrid(controllerBox, e, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
+                    MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.CancelBubbling = true;
                 }
@@ -143,7 +142,7 @@ namespace LayoutFarm
                     var globalLocation = controllerBox.GetGlobalLocation();
                     globalLocation.Offset(controllerBox.MouseCaptureX, controllerBox.MouseCaptureY);
 
-                    MoveWithSnapToGrid(controllerBox, e, e.GlobalX - globalLocation.X, e.Y - globalLocation.Y);
+                    MoveWithSnapToGrid(controllerBox, e.GlobalX - globalLocation.X, e.Y - globalLocation.Y);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.StopPropagation();
                 }
