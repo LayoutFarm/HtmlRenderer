@@ -15,7 +15,7 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
             {
-                var box1 = new LayoutFarm.CustomWidgets.EaseBox(50, 50);
+                var box1 = new LayoutFarm.CustomWidgets.SimpleBox(50, 50);
                 box1.BackColor = Color.Red;
                 box1.SetLocation(10, 10);
                 //box1.dbugTag = 1;
@@ -24,7 +24,7 @@ namespace LayoutFarm
             }
             //--------------------------------
             {
-                var box2 = new LayoutFarm.CustomWidgets.EaseBox(30, 30);
+                var box2 = new LayoutFarm.CustomWidgets.SimpleBox(30, 30);
                 box2.SetLocation(50, 50);
                 //box2.dbugTag = 2;
                 SetupActiveBoxProperties(box2);

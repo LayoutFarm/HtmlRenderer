@@ -20,7 +20,7 @@ namespace LayoutFarm
 
             //--------------------------------
             {
-                var bgbox = new LayoutFarm.CustomWidgets.EaseBox(800, 600);
+                var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
                 bgbox.BackColor = Color.White;
                 bgbox.SetLocation(0, 0);
                 SetupBackgroundProperties(bgbox);
@@ -28,7 +28,7 @@ namespace LayoutFarm
             }
             //--------------------------------
             {
-                var box1 = new LayoutFarm.CustomWidgets.EaseBox(150, 150);
+                var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
                 box1.BackColor = Color.Red;
                 box1.SetLocation(10, 10);
                 //box1.dbugTag = 1;
@@ -37,7 +37,7 @@ namespace LayoutFarm
             }
             //--------------------------------
             {
-                var box2 = new LayoutFarm.CustomWidgets.EaseBox(60, 60);
+                var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
                 box2.SetLocation(50, 50);
                 //box2.dbugTag = 2;
                 SetupActiveBoxProperties(box2);
@@ -222,7 +222,7 @@ namespace LayoutFarm
             CustomWidgets.EaseBox CreateTinyControlBox(SpaceName name)
             {
                 int controllerBoxWH = 10;
-                CustomWidgets.EaseBox tinyBox = new CustomWidgets.EaseBox(controllerBoxWH, controllerBoxWH);
+                var tinyBox = new CustomWidgets.SimpleBox(controllerBoxWH, controllerBoxWH);
                 tinyBox.BackColor = PixelFarm.Drawing.Color.Red;
                 tinyBox.Tag = name;
                 //add handler for each tiny box

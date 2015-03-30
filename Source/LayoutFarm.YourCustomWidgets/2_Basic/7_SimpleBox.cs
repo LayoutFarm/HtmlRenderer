@@ -9,9 +9,12 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.CustomWidgets
 {
-
-    public class EaseBoxDragHandler
+    public sealed class SimpleBox : EaseBox
     {
-        
+        public SimpleBox(int w, int h)
+            : base(w, h)
+        {
+        }
+
     }
 }

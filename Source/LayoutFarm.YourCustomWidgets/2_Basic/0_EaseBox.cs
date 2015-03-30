@@ -10,8 +10,8 @@ using LayoutFarm.UI;
 namespace LayoutFarm.CustomWidgets
 {
 
-    public class EaseBox : UIBox
-    {
+    public abstract class EaseBox : UIBox
+    {   
         bool draggable;
         bool dropable;
         CustomRenderBox primElement;
@@ -243,7 +243,7 @@ namespace LayoutFarm.CustomWidgets
         {
             visitor.BeginElement(this, "easebox");
             this.DescribeDimension(visitor);
-            visitor.EndElement();             
+            visitor.EndElement();
         }
     }
 

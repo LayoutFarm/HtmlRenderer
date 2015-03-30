@@ -28,7 +28,7 @@ namespace LayoutFarm
             this.rootgfx = viewport.ViewportControl.RootGfx;
             //--------------------------------
             {
-                var bgbox = new LayoutFarm.CustomWidgets.EaseBox(800, 600);
+                var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
                 bgbox.BackColor = Color.White;
                 bgbox.SetLocation(0, 0);
                 SetupBackgroundProperties(bgbox);
@@ -37,7 +37,7 @@ namespace LayoutFarm
             //--------------------------------
             {
                 //user box1
-                var box1 = new LayoutFarm.CustomWidgets.EaseBox(150, 150);
+                var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
                 box1.BackColor = Color.Red;
                 box1.SetLocation(10, 10);
                 //box1.dbugTag = 1;
@@ -48,7 +48,7 @@ namespace LayoutFarm
             }
             //--------------------------------
             {
-                var box2 = new LayoutFarm.CustomWidgets.EaseBox(60, 60);
+                var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
                 box2.SetLocation(50, 50);
                 //box2.dbugTag = 2;
                 SetupActiveBoxProperties(box2);
@@ -56,7 +56,7 @@ namespace LayoutFarm
                 userBoxes.Add(box2);
             }
             {
-                var box3 = new LayoutFarm.CustomWidgets.EaseBox(60, 60);
+                var box3 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
                 box3.SetLocation(80, 80);
                 //box2.dbugTag = 2;
                 SetupActiveBoxProperties(box3);
@@ -211,15 +211,15 @@ namespace LayoutFarm
                     selectedList.Add(userBoxes[i]);
                     //------
                     //create user controller box for the selected box 
-                    var userControllerBox = GetFreeUserControllerBox(); 
+                    var userControllerBox = GetFreeUserControllerBox();
                     userControllerBox.TargetBox = box;
                     userControllerBox.SetLocation(box.Left - 5, box.Top - 5);
                     userControllerBox.SetSize(box.Width + 10, box.Height + 10);
                     userControllerBox.Visible = true;
                     viewport.AddContent(userControllerBox);
                 }
-            } 
-        } 
+            }
+        }
         void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.EaseBox box)
         {
             //1. mouse down         
@@ -431,11 +431,11 @@ namespace LayoutFarm
                     {
                         gridW = 3;
                     }
-                    if(gridH<3)
+                    if (gridH < 3)
                     {
                         gridH = 3;
                     }
-                        
+
                     gridBox = new LayoutFarm.CustomWidgets.GridBox(gridW, gridH);
                     gridBox.SetLocation(5, 5);
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
@@ -482,7 +482,7 @@ namespace LayoutFarm
             CustomWidgets.EaseBox CreateTinyControlBox(SpaceName name)
             {
                 int controllerBoxWH = 10;
-                CustomWidgets.EaseBox tinyBox = new CustomWidgets.EaseBox(controllerBoxWH, controllerBoxWH);
+                var tinyBox = new CustomWidgets.SimpleBox(controllerBoxWH, controllerBoxWH);
                 tinyBox.BackColor = PixelFarm.Drawing.Color.Red;
                 tinyBox.Tag = name;
                 //add handler for each tiny box

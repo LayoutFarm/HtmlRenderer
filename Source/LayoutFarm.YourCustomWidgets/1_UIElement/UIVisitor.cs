@@ -6,22 +6,17 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.UI
 {
 
-    public class UIVisitor
+    public abstract class UIVisitor
     {
-        public void BeginElement(UIElement ui, string uiname)
-        {
-        }
-        public void AddAttribute(string name, string value)
-        {
-        }
-        public void AddAttribute(string name, int value)
-        {
-        }
-        public void AddAttribute(string name, double value)
-        {
-        }
-        public void EndElement()
-        {
-        }
+
+        public abstract void BeginElement(UIElement ui, string uiname);
+        
+        public abstract void Attribute(string name, string value); 
+        public abstract void Attribute(string name, int value);
+        public abstract void Attribute(string name, double value);
+
+        public abstract void TextNode(string content);
+        public abstract void Comment(string content);
+        public abstract void EndElement();
     }
 }

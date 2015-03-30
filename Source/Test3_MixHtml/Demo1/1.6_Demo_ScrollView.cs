@@ -63,7 +63,7 @@ namespace LayoutFarm
             //add content to panel
             for (int i = 0; i < 10; ++i)
             {
-                var box1 = new LayoutFarm.CustomWidgets.EaseBox(400, 30);
+                var box1 = new LayoutFarm.CustomWidgets.SimpleBox(400, 30);
                 box1.BackColor = Color.OrangeRed;
                 box1.SetLocation(i * 20, i * 40);
 

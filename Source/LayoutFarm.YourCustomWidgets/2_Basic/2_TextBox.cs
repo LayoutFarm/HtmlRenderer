@@ -395,7 +395,7 @@ namespace LayoutFarm.CustomWidgets
         {
             visitor.BeginElement(this, "textbox");
             this.DescribeDimension(visitor);
-            visitor.AddAttribute("content", this.Text);
+            visitor.TextNode(this.Text);
             visitor.EndElement();
         }
 

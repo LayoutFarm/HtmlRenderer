@@ -120,7 +120,7 @@ namespace LayoutFarm.CustomWidgets
         EaseBox CreateGripper(PixelFarm.Drawing.Color bgcolor, bool isVertical)
         {
             int controllerBoxWH = 10;
-            EaseBox gripperBox = new EaseBox(controllerBoxWH, controllerBoxWH);
+            var gripperBox = new SimpleBox(controllerBoxWH, controllerBoxWH);
             gripperBox.BackColor = bgcolor;
             ////---------------------------------------------------------------------
             gripperBox.MouseLeave += (s, e) =>

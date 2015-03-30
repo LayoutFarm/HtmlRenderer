@@ -20,7 +20,7 @@ namespace LayoutFarm
             //--------------------------------
             {
                 //background element
-                var bgbox = new LayoutFarm.CustomWidgets.EaseBox(800, 600);
+                var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
                 bgbox.BackColor = Color.White;
                 bgbox.SetLocation(0, 0);
                 SetupBackgroundProperties(bgbox);
@@ -105,7 +105,7 @@ namespace LayoutFarm
             static CustomWidgets.EaseBox CreateSpaceBox(SpaceName name, PixelFarm.Drawing.Color bgcolor)
             {
                 int controllerBoxWH = 10;
-                CustomWidgets.EaseBox tinyBox = new CustomWidgets.EaseBox(controllerBoxWH, controllerBoxWH);
+                var tinyBox = new CustomWidgets.SimpleBox(controllerBoxWH, controllerBoxWH);
                 tinyBox.BackColor = bgcolor;
                 tinyBox.Tag = name;
                 return tinyBox;

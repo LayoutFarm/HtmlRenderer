@@ -44,7 +44,7 @@
     <Compile Include="1_UIElement\5_IScrollable.cs" />
     <Compile Include="1_UIElement\UIVisitor.cs" />
     <Compile Include="2_Basic\2_TextBox.cs" />
-    <Compile Include="2_Basic\7_EaseBoxDragHandler.cs" />
+    <Compile Include="2_Basic\7_SimpleBox.cs" />
     <Compile Include="3_Grid\2_GridLayer.cs" />
     <Compile Include="3_Grid\3_GridTable.cs" />
     <Compile Include="4.3_Space\4_NineSpaceController.cs" />

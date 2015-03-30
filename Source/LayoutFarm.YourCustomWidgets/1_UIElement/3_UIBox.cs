@@ -259,10 +259,10 @@ namespace LayoutFarm.UI
 
         protected void DescribeDimension(UIVisitor visitor)
         {
-            visitor.AddAttribute("left", this.Left);
-            visitor.AddAttribute("top", this.Top);
-            visitor.AddAttribute("width", this.Width);
-            visitor.AddAttribute("height", this.Height);
+            visitor.Attribute("left", this.Left);
+            visitor.Attribute("top", this.Top);
+            visitor.Attribute("width", this.Width);
+            visitor.Attribute("height", this.Height);
         }
 
     }
