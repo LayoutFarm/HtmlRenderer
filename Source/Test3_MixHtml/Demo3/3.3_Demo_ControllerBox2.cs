@@ -146,9 +146,7 @@ namespace LayoutFarm
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.StopPropagation();
                 }
-            };
-
-
+            }; 
         }
 
         //-----------------------------------------------------------------

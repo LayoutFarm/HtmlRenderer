@@ -290,7 +290,7 @@ namespace LayoutFarm.UI
                     } break;
                 case CellSizeStyle.UniformHeight:
                     {
-                        var cell0 = this.GetCell(0, 0); 
+                        var cell0 = this.GetCell(0, 0);
                         var cellHeight = cell0.Height;
 
                         int rowNumber = y / cellHeight;
@@ -315,7 +315,7 @@ namespace LayoutFarm.UI
                 case CellSizeStyle.UniformCell:
                     {
                         //find cell height
-                        var cell0 = this.GetCell(0,0);
+                        var cell0 = this.GetCell(0, 0);
                         var cellWidth = cell0.Width;
                         var cellHeight = cell0.Height;
 
@@ -645,19 +645,31 @@ namespace LayoutFarm.UI
         public override void DrawChildContent(Canvas canvas, Rectangle updateArea)
         {
 
-            GridCell leftTopGridItem = GetGridItemByPosition(updateArea.Left, updateArea.Top);
+            //GridCell leftTopGridItem = GetGridItemByPosition(updateArea.Left, updateArea.Top);
+            //if (leftTopGridItem == null)
+            //{
+            //    return;
+
+            //}
+            //GridCell rightBottomGridItem = GetGridItemByPosition(updateArea.Right, updateArea.Bottom);
+            //if (rightBottomGridItem == null)
+            //{
+            //    return;
+            //}
+            
+
+            //TODO: temp fixed, review here again,
+            GridCell leftTopGridItem = this.GetCell(0, 0);
             if (leftTopGridItem == null)
             {
                 return;
 
             }
-            GridCell rightBottomGridItem = GetGridItemByPosition(updateArea.Right, updateArea.Bottom);
+            GridCell rightBottomGridItem = this.GetCell(this.RowCount - 1, this.ColumnCount - 1);
             if (rightBottomGridItem == null)
             {
                 return;
             }
-
-            
             this.BeginDrawingChildContent();
 
             GridColumn startColumn = leftTopGridItem.column;
@@ -676,11 +688,20 @@ namespace LayoutFarm.UI
             {
                 stopRowId = stopRow.RowIndex;
             }
-
-
             int n = 0;
             var prevColor = canvas.StrokeColor;
             canvas.StrokeColor = Color.Gray;
+
+            //canvas.DrawLine(0, 0, 100, 100);
+            //canvas.DrawLine(0, 100, 100, 0);
+
+            //if (startRowId > 0)
+            //{
+            //    Console.WriteLine(startRowId);
+            //}
+
+            //canvas.DrawRectangle(Color.Red, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
+
             do
             {
 
@@ -704,8 +725,6 @@ namespace LayoutFarm.UI
                         GridCell gridItem = currentColumn.GetCell(i);
                         int x = gridItem.X;
                         int gBottom = gridItem.Bottom;
-
-
                         canvas.DrawLine(
                             x, gBottom,
                             x + horizontalLineWidth, gBottom);
@@ -721,7 +740,6 @@ namespace LayoutFarm.UI
             //----------------------------------------------------------------------------
             do
             {
-
 
                 for (int i = startRowId; i < stopRowId; i++)
                 {

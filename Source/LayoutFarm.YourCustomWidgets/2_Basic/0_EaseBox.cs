@@ -158,7 +158,15 @@ namespace LayoutFarm.CustomWidgets
             get;
             set;
         }
-
+        public void RemoveSelf()
+        {    
+            var parentBox = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;
+            if (parentBox != null)
+            {
+                parentBox.RemoveChild(this.CurrentPrimaryRenderElement);
+            } 
+            this.InvalidateOuterGraphics(); 
+        }
     }
 
 
