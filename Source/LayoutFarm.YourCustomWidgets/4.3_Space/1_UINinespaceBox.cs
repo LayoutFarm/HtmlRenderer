@@ -138,7 +138,7 @@ namespace LayoutFarm.CustomWidgets
                     }
                     this.ninespaceGrippers.UpdateNinespaces();
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
+                    e.StopPropagation();
                 }
             };
             gripperBox.MouseMove += (s, e) =>

@@ -11,6 +11,8 @@ namespace LayoutFarm.UI
 
     public abstract class UIBox : UIElement, IScrollable
     {
+
+
         int _left;
         int _top;
         int _width;
@@ -18,6 +20,8 @@ namespace LayoutFarm.UI
         bool _hide;
         bool specificWidth;
         bool specificHeight;
+     
+
         public event EventHandler LayoutFinished;
 
 #if DEBUG
@@ -248,9 +252,11 @@ namespace LayoutFarm.UI
             get { return this.Width; }
         }
 
-        //-----------------------------------
-
+        //----------------------------------- 
         public object Tag { get; set; }
+
+        public bool IsMouseDown { get; set; }
+
     }
 
 }

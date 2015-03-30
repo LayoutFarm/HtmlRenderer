@@ -12,23 +12,28 @@ namespace LayoutFarm.CustomWidgets
 
     public class EaseBox : UIBox
     {
+        bool draggable;
+        bool dropable;
+        CustomRenderBox primElement;
+        Color backColor = Color.LightGray;
+
 
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseMove;
         public event EventHandler<UIMouseEventArgs> MouseUp;
+
+        public event EventHandler<UIMouseEventArgs> DragRelease;
         public event EventHandler<UIMouseEventArgs> MouseLeave;
         public event EventHandler<UIMouseEventArgs> LostSelectedFocus;
 
-        CustomRenderBox primElement;
-        Color backColor = Color.LightGray;
-        
 
         public EaseBox(int width, int height)
             : base(width, height)
         {
 
         }
-        
+
+
         protected override bool HasReadyRenderElement
         {
             get { return this.primElement != null; }
@@ -69,11 +74,26 @@ namespace LayoutFarm.CustomWidgets
             return primElement;
         }
         //----------------------------------------------------
+
+        public bool AcceptKeyboardFocus
+        {
+            get;
+            set;
+        }
+
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
+            this.MouseCaptureX = e.X;
+            this.MouseCaptureY = e.Y;
+
             if (this.MouseDown != null)
             {
                 this.MouseDown(this, e);
+            }
+
+            if (this.AcceptKeyboardFocus)
+            {
+                this.Focus();
             }
         }
         protected override void OnMouseMove(UIMouseEventArgs e)
@@ -88,6 +108,13 @@ namespace LayoutFarm.CustomWidgets
             if (this.MouseLeave != null)
             {
                 this.MouseLeave(this, e);
+            }
+        }
+        protected override void OnDragRelease(UIMouseEventArgs e)
+        {
+            if (DragRelease != null)
+            {
+                DragRelease(this, e);
             }
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
@@ -105,7 +132,41 @@ namespace LayoutFarm.CustomWidgets
             }
         }
 
-
+        public bool Draggable
+        {
+            get { return this.draggable; }
+            set
+            {
+                this.draggable = value;
+            }
+        }
+        public bool Droppable
+        {
+            get { return this.dropable; }
+            set
+            {
+                this.dropable = value;
+            }
+        }
+        public int MouseCaptureX
+        {
+            get;
+            set;
+        }
+        public int MouseCaptureY
+        {
+            get;
+            set;
+        }
+        public void RemoveSelf()
+        {    
+            var parentBox = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;
+            if (parentBox != null)
+            {
+                parentBox.RemoveChild(this.CurrentPrimaryRenderElement);
+            } 
+            this.InvalidateOuterGraphics(); 
+        }
     }
 
 

@@ -23,8 +23,7 @@ namespace LayoutFarm.Svg
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
 
-            this.latestLogicalMouseDownX = e.X;
-            this.latestLogicalMouseDownY = e.Y;
+             
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
             
@@ -114,9 +113,7 @@ namespace LayoutFarm.Svg
 
             e.SetDiff(
                 e.X - prevLogicalMouseX,
-                e.Y - prevLogicalMouseY,
-                e.X - this.latestLogicalMouseDownX,
-                e.Y - this.latestLogicalMouseDownY);
+                e.Y - prevLogicalMouseY);
 
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;

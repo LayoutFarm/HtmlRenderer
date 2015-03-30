@@ -494,7 +494,7 @@ Zimbabwe");
                         }
                         this.ninespaceGrippers.UpdateNinespaces();
                         e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                        e.CancelBubbling = true;
+                        e.StopPropagation();
                     }
                 };
                 gripperBox.MouseMove += (s, e) =>
@@ -540,7 +540,7 @@ Zimbabwe");
 
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
                     PlainLayer plain0 = myRenderElement.GetDefaultLayer();
-                     
+
                     //------------------------------------------------------
                     plain0.AddChild(boxLeftTop.GetPrimaryRenderElement(rootgfx));
                     plain0.AddChild(boxRightTop.GetPrimaryRenderElement(rootgfx));

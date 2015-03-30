@@ -30,12 +30,9 @@ namespace LayoutFarm.Svg
             get;
             set;
         }
-        int latestLogicalMouseDownX;
-        int latestLogicalMouseDownY;
+         
         int prevLogicalMouseX;
         int prevLogicalMouseY;
-        
-
         //==================================================
         SvgHitChain GetFreeHitChain()
         {

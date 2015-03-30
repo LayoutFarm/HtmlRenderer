@@ -355,7 +355,7 @@ namespace LayoutFarm.HtmlWidgets
 
                 //dragging ...
                 //find y-diff 
-                int ydiff = e.Y - scroll_button.LatestMouseDownY;
+                int ydiff = e.Y - scroll_button.MouseCaptureY;
 
                 Point pos = scroll_button.Position;
 
@@ -513,7 +513,7 @@ namespace LayoutFarm.HtmlWidgets
 
                 //dragging ...
                 //find x-diff 
-                int xdiff = e.X - scroll_button.LatestMouseDownX;
+                int xdiff = e.X - scroll_button.MouseCaptureX;
 
                 Point pos = scroll_button.Position;
 
@@ -576,7 +576,6 @@ namespace LayoutFarm.HtmlWidgets
                     {
                         this.UserScroll(this, EventArgs.Empty);
                     }
-
                     e.StopPropagation();
                 }
             };
@@ -703,22 +702,8 @@ namespace LayoutFarm.HtmlWidgets
         {
             this.OwnerScrollBar.ChildNotifyMouseWheel(e);
         }
-        public int LatestMouseDownX
-        {
-            get;
-            set;
-        }
-        public int LatestMouseDownY
-        {
-            get;
-            set;
-        }
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            this.LatestMouseDownX = e.X;
-            this.LatestMouseDownY = e.Y;
-            base.OnMouseDown(e);
-        }
+
+
     }
 
 

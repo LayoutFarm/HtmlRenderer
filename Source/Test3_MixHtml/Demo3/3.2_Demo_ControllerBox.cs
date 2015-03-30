@@ -85,8 +85,6 @@ namespace LayoutFarm
                     Point pos = controllerBox.Position;
                     int newX = pos.X + e.XDiff;
                     int newY = pos.Y + e.YDiff;
-
-
                     controllerBox.SetLocation(newX, newY);
                     var targetBox = controllerBox.TargetBox;
                     if (targetBox != null)
@@ -94,6 +92,7 @@ namespace LayoutFarm
                         //move target box too
                         targetBox.SetLocation(newX + 5, newY + 5);
                     }
+                    e.CancelBubbling = true;
                 }
 
             };
@@ -112,7 +111,7 @@ namespace LayoutFarm
                         targetBox.SetLocation(newX + 5, newY + 5);
                     }
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
+                    e.StopPropagation();
                 }
             };
 
@@ -123,7 +122,7 @@ namespace LayoutFarm
         {
             public UIControllerBox(int w, int h)
                 : base(w, h)
-            { 
+            {
             }
             public LayoutFarm.UI.UIBox TargetBox
             {

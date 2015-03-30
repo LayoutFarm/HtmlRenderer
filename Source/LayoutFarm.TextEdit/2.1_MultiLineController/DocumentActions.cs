@@ -5,7 +5,8 @@ namespace LayoutFarm.Text
 {
     abstract class DocumentAction
     {
-        protected int startLineNumber; protected int startCharIndex;
+        protected int startLineNumber;
+        protected int startCharIndex;
         public DocumentAction(int lineNumber, int charIndex)
         {
             this.startLineNumber = lineNumber;

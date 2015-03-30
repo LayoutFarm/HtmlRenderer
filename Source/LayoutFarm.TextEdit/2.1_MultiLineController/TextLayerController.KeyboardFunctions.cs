@@ -24,7 +24,7 @@ namespace LayoutFarm.Text
                 char deletedChar = textLineWriter.DoDelete();
                 if (deletedChar == '\0')
                 {
-                    undoActionCollection.AddDocAction(
+                    commandHistory.AddDocAction(
                         new DocActionJoinWithNextLine(
                             textLineWriter.LineNumber, textLineWriter.CharIndex));
 
@@ -33,7 +33,7 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-                    undoActionCollection.AddDocAction(
+                    commandHistory.AddDocAction(
                         new DocActionDeleteChar(
                             deletedChar, textLineWriter.LineNumber, textLineWriter.CharIndex));
 
@@ -90,7 +90,7 @@ namespace LayoutFarm.Text
                     {
                         CurrentLineNumber--;
                         DoEnd();
-                        undoActionCollection.AddDocAction(
+                        commandHistory.AddDocAction(
                             new DocActionJoinWithNextLine(
                                 textLineWriter.LineNumber, textLineWriter.CharIndex));
 
@@ -103,7 +103,7 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-                    undoActionCollection.AddDocAction(
+                    commandHistory.AddDocAction(
                             new DocActionDeleteChar(
                                 deletedChar, textLineWriter.LineNumber, textLineWriter.CharIndex));
 #if DEBUG

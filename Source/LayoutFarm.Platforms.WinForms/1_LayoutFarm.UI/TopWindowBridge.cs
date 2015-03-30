@@ -255,7 +255,7 @@ namespace LayoutFarm.UI
             //---------------------
 
             canvasViewport.FullMode = false;
-            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e); 
+            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
             this.userEventPortal.PortalMouseDown(mouseEventArg);
             if (currentCursorStyle != mouseEventArg.MouseCursorStyle)
             {
@@ -281,11 +281,11 @@ namespace LayoutFarm.UI
 
             Point viewLocation = canvasViewport.LogicalViewportLocation;
 
-            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);   
-            mouseEventArg.IsDragging = this.isDragging = this.isMouseDown;//before GetReadyMouseEventArgs ***
-                              
-
+            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
+            mouseEventArg.IsDragging = this.isDragging = this.isMouseDown;
             this.userEventPortal.PortalMouseMove(mouseEventArg);
+            
+         
             if (currentCursorStyle != mouseEventArg.MouseCursorStyle)
             {
                 //change cursor if need

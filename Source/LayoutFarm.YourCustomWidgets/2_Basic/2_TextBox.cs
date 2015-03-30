@@ -118,20 +118,19 @@ namespace LayoutFarm.CustomWidgets
                             var length = splitBound.length;
                             var splitBuffer = new char[length];
                             Array.Copy(buffer, startIndex, splitBuffer, 0, length);
-                            var textspan = textEditRenderElement.CreateNewTextSpan(splitBuffer);
+                            var textspan = textEditRenderElement.CreateNewTextSpan(splitBuffer); 
                             textEditRenderElement.AddTextRun(textspan);
                         }
-
-
                     }
                     else
                     {
-                        var textspan = textEditRenderElement.CreateNewTextSpan(line);
+                        var textspan = textEditRenderElement.CreateNewTextSpan(line); 
                         textEditRenderElement.AddTextRun(textspan);
                     }
                     lineCount++;
                     line = reader.ReadLine();
                 }
+               
                 this.InvalidateGraphics();
             }
         }
@@ -232,12 +231,10 @@ namespace LayoutFarm.CustomWidgets
         {
             textEditRenderElement.CopyCurrentLine(stbuilder);
         }
-        //----------------------------------------------------------------
-
+        //---------------------------------------------------------------- 
         protected override void OnMouseLeave(UIMouseEventArgs e)
         {
-            e.MouseCursorStyle = MouseCursorStyle.Arrow;
-
+            e.MouseCursorStyle = MouseCursorStyle.Arrow; 
         }
         protected override void OnDoubleClick(UIMouseEventArgs e)
         {
@@ -270,8 +267,7 @@ namespace LayoutFarm.CustomWidgets
         }
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
-            this.Focus();
-
+            this.Focus(); 
             e.MouseCursorStyle = MouseCursorStyle.IBeam;
             e.CancelBubbling = true;
             e.CurrentContextElement = this; 
@@ -290,8 +286,7 @@ namespace LayoutFarm.CustomWidgets
                 e.CancelBubbling = true;
                 e.MouseCursorStyle = MouseCursorStyle.IBeam;
             }
-
-            //base.OnMouseMove(e);
+             
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
@@ -392,7 +387,7 @@ namespace LayoutFarm.CustomWidgets
         {
             get
             {
-                //todo: use mimimum current font height
+                //TODO: use mimimum current font height
                 return 17;
             }
         }
