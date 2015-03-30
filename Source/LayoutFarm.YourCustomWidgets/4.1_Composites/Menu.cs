@@ -70,7 +70,7 @@ namespace LayoutFarm.CustomWidgets
                 if (this.landPart != null)
                 {
                     renderE.AddChild(this.landPart);
-                     
+
                 }
                 if (this.floatPart != null)
                 {
@@ -124,7 +124,7 @@ namespace LayoutFarm.CustomWidgets
                     if (primElement != null)
                     {
                         //add 
-                        primElement.AddChild(value);                         
+                        primElement.AddChild(value);
                     }
 
                 }
@@ -274,7 +274,15 @@ namespace LayoutFarm.CustomWidgets
             floatPart.AddChild(childItem);
             childItem.ParentMenuItem = this;
         }
+
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "menuitem");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
     }
+
 
     public class MenuBox : Panel
     {
@@ -311,5 +319,11 @@ namespace LayoutFarm.CustomWidgets
             }
         }
 
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "menubox");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
     }
 }

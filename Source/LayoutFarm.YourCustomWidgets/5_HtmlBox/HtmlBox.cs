@@ -283,7 +283,12 @@ namespace LayoutFarm.CustomWidgets
             }
         }
 
-
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "htmlbox");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
     }
 }
 

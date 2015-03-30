@@ -103,7 +103,7 @@ namespace LayoutFarm.CustomWidgets
         public void RemoveAt(int index)
         {
             var item = items[index];
-            panel.RemoveChildBox(item);
+            panel.RemoveChild(item);
             items.RemoveAt(index);
 
         }
@@ -121,13 +121,13 @@ namespace LayoutFarm.CustomWidgets
         public void Remove(ListItem item)
         {
             items.Remove(item);
-            panel.RemoveChildBox(item);
+            panel.RemoveChild(item);
         }
         public void ClearItems()
         {
             this.selectedIndex = -1;
             this.items.Clear();
-            this.panel.ClearItems();
+            this.panel.ClearChildren();
         }
         //----------------------------------------------------
 
@@ -209,7 +209,12 @@ namespace LayoutFarm.CustomWidgets
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
 
-
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "listview");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
     }
 
 
@@ -283,6 +288,14 @@ namespace LayoutFarm.CustomWidgets
         public void AddChild(RenderElement renderE)
         {
             primElement.AddChild(renderE);
+        }
+
+
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "listitem");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
         }
     }
 

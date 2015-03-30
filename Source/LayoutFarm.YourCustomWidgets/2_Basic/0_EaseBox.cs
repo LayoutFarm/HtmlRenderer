@@ -16,6 +16,11 @@ namespace LayoutFarm.CustomWidgets
         bool dropable;
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
+        int viewportX;
+        int viewportY;
+
+        int desiredHeight;
+        int desiredWidth;
 
 
         public event EventHandler<UIMouseEventArgs> MouseDown;
@@ -30,9 +35,9 @@ namespace LayoutFarm.CustomWidgets
         public EaseBox(int width, int height)
             : base(width, height)
         {
-
+            this.desiredHeight = height;
+            this.desiredWidth = width;
         }
-
 
         protected override bool HasReadyRenderElement
         {
@@ -159,13 +164,86 @@ namespace LayoutFarm.CustomWidgets
             set;
         }
         public void RemoveSelf()
-        {    
+        {
             var parentBox = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;
             if (parentBox != null)
             {
                 parentBox.RemoveChild(this.CurrentPrimaryRenderElement);
-            } 
-            this.InvalidateOuterGraphics(); 
+            }
+            this.InvalidateOuterGraphics();
+        }
+        //----------------------------------------------------
+        public override int ViewportX
+        {
+            get { return this.viewportX; }
+
+        }
+        public override int ViewportY
+        {
+            get { return this.viewportY; }
+
+        }
+        public override void SetViewport(int x, int y)
+        {
+            this.viewportX = x;
+            this.viewportY = y;
+            if (this.HasReadyRenderElement)
+            {
+                primElement.SetViewport(viewportX, viewportY);
+            }
+        }
+        protected override void OnMouseWheel(UIMouseEventArgs e)
+        {
+            //vertical scroll
+            if (this.desiredHeight > this.Height)
+            {
+                if (e.Delta < 0)
+                {
+                    //down
+                    this.viewportY += 20;
+                    if (viewportY > desiredHeight - this.Height)
+                    {
+                        this.viewportY = desiredHeight - this.Height;
+                    }
+                }
+                else
+                {
+                    //up
+                    this.viewportY -= 20;
+                    if (viewportY < 0)
+                    {
+                        viewportY = 0;
+                    }
+                }
+                this.primElement.SetViewport(viewportX, viewportY);
+                this.InvalidateGraphics();
+            }
+        }
+
+        public override int DesiredWidth
+        {
+            get
+            {
+                return this.desiredWidth;
+            }
+        }
+        public override int DesiredHeight
+        {
+            get
+            {
+                return this.desiredHeight;
+            }
+        }
+        protected void SetDesiredSize(int w, int h)
+        {
+            this.desiredWidth = w;
+            this.desiredHeight = h;
+        }
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "easebox");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();             
         }
     }
 

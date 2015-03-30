@@ -136,6 +136,12 @@ namespace LayoutFarm.CustomWidgets
             this.panel.PerformContentLayout();
         }
         //----------------------------------------------------   
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "treeview");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
     }
 
     public class TreeNode : UIBox
@@ -288,7 +294,7 @@ namespace LayoutFarm.CustomWidgets
                     var tnRenderElement = treeNode.GetPrimaryRenderElement(primElement.Root);
                     tnRenderElement.SetLocation(indentWidth, newChildNodeY);
                     primElement.AddChild(tnRenderElement);
-                     
+
                     newChildNodeY += tnRenderElement.Height;
                     //-----------------
                 }
@@ -361,6 +367,13 @@ namespace LayoutFarm.CustomWidgets
                 }
             };
 
+        }
+        public override void Walk(UIVisitor visitor)
+        {
+
+            visitor.BeginElement(this, "treenode");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
         }
 
     }

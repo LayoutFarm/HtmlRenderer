@@ -104,7 +104,7 @@ namespace LayoutFarm
                     if (e.Button == UIMouseButtons.Right)
                     {
                         //test remove this imgbox on right mouse click
-                        panel.RemoveChildBox(imgbox);
+                        panel.RemoveChild(imgbox);
                     }
 
                 };

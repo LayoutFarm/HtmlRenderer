@@ -27,38 +27,22 @@ namespace LayoutFarm.CustomWidgets
     {
         PanelLayoutKind panelLayoutKind;
         PanelStretch panelChildStretch;
-
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
-        int viewportX;
-        int viewportY;
-
         UICollection uiList;
         bool needContentLayout;
 
         public Panel(int width, int height)
             : base(width, height)
         {
-            uiList = new UICollection(this);
+            uiList = new UICollection(this); 
 
-            this.desiredHeight = height;
-            this.desiredWidth = width;
         }
         protected override bool HasReadyRenderElement
         {
             get { return this.primElement != null; }
         }
-        public IEnumerable<UIElement> GetChildIter()
-        {
-            if (uiList != null)
-            {
-                int j = uiList.Count;
-                for (int i = 0; i < j; ++i)
-                {
-                    yield return uiList.GetElement(i);
-                }
-            }
-        }
+
         public override RenderElement CurrentPrimaryRenderElement
         {
             get { return this.primElement; }
@@ -82,7 +66,7 @@ namespace LayoutFarm.CustomWidgets
                 renderE.SetLocation(this.Left, this.Top);
                 renderE.BackColor = backColor;
                 renderE.HasSpecificSize = true;
-                renderE.SetViewport(this.viewportX, this.viewportY);
+                renderE.SetViewport(this.ViewportX, this.ViewportY);
                 //------------------------------------------------
                 //create visual layer
                 PlainLayer plan0 = renderE.GetDefaultLayer();
@@ -115,6 +99,19 @@ namespace LayoutFarm.CustomWidgets
                 this.panelLayoutKind = value;
             }
         }
+
+
+        public IEnumerable<UIElement> GetChildIter()
+        {
+            if (uiList != null)
+            {
+                int j = uiList.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    yield return uiList.GetElement(i);
+                }
+            }
+        }
         public void AddChild(UIElement ui)
         {
             needContentLayout = true;
@@ -133,7 +130,7 @@ namespace LayoutFarm.CustomWidgets
                 ui.InvalidateLayout();
             }
         }
-        public void RemoveChildBox(UIElement ui)
+        public void RemoveChild(UIElement ui)
         {
             needContentLayout = true;
             this.uiList.RemoveUI(ui);
@@ -147,10 +144,9 @@ namespace LayoutFarm.CustomWidgets
                 this.primElement.RemoveChild(ui.CurrentPrimaryRenderElement);
             }
         }
-        public void ClearItems()
+        public void ClearChildren()
         {
             needContentLayout = true;
-
             this.uiList.Clear();
             if (this.HasReadyRenderElement)
             {
@@ -161,68 +157,36 @@ namespace LayoutFarm.CustomWidgets
                     this.InvalidateLayout();
                 }
             }
-
         }
 
-        public override int ViewportX
+        public int ChildCount
         {
-            get { return this.viewportX; }
-
-        }
-        public override int ViewportY
-        {
-            get { return this.viewportY; }
-
-        }
-        public override void SetViewport(int x, int y)
-        {
-            this.viewportX = x;
-            this.viewportY = y;
-            if (this.HasReadyRenderElement)
+            get
             {
-                primElement.SetViewport(viewportX, viewportY);
-
+                if (this.uiList != null)
+                {
+                    return this.uiList.Count;
+                }
+                return 0;
             }
         }
+        public UIElement GetChild(int index)
+        {
+            if (uiList != null)
+            {
+                return uiList.GetElement(index);
+            }
+            return null;
+        }
+
+
         protected override void OnContentLayout()
         {
             this.PerformContentLayout();
         }
-        protected override void OnMouseWheel(UIMouseEventArgs e)
-        {
-            //vertical scroll
-            if (this.desiredHeight > this.Height)
-            {
-                if (e.Delta < 0)
-                {
-                    //down
-                    this.viewportY += 20;
-                    if (viewportY > desiredHeight - this.Height)
-                    {
-                        this.viewportY = desiredHeight - this.Height;
-                    }
-                }
-                else
-                {
-                    //up
-                    this.viewportY -= 20;
-                    if (viewportY < 0)
-                    {
-                        viewportY = 0;
-                    }
-                }
-                this.primElement.SetViewport(viewportX, viewportY);
-                this.InvalidateGraphics();
 
-            }
-
-        }
         public override void PerformContentLayout()
         {
-
-            //if (this.dbugBreakMe)
-            //{
-            //}
 
             this.InvalidateGraphics();
             //temp : arrange as vertical stack***
@@ -277,8 +241,9 @@ namespace LayoutFarm.CustomWidgets
                                 }
                             }
                         }
-                        this.desiredWidth = maxRight;
-                        this.desiredHeight = ypos;
+
+                        this.SetDesiredSize(maxRight, ypos);
+
                     } break;
                 case CustomWidgets.PanelLayoutKind.HorizontalStack:
                     {
@@ -306,8 +271,8 @@ namespace LayoutFarm.CustomWidgets
                             }
                         }
 
-                        this.desiredWidth = xpos;
-                        this.desiredHeight = maxBottom;
+                        this.SetDesiredSize(xpos, maxBottom);
+
                     } break;
                 default:
                     {
@@ -337,34 +302,18 @@ namespace LayoutFarm.CustomWidgets
 
                         if (!this.HasSpecificWidth)
                         {
-                            this.desiredWidth = maxRight;
+                            this.SetDesiredSize(maxRight, this.DesiredHeight);                              
                         }
                         if (!this.HasSpecificHeight)
                         {
-                            this.desiredHeight = maxBottom;
+                            this.SetDesiredSize(this.DesiredWidth, maxBottom);                             
                         }
                     } break;
             }
             //------------------------------------------------
             base.RaiseLayoutFinished();
         }
-        public override int DesiredHeight
-        {
-            get
-            {
-                return this.desiredHeight;
-            }
-        }
-        public override int DesiredWidth
-        {
-            get
-            {
-                return this.desiredWidth;
-            }
-        }
-        //temp***
-        int desiredHeight;
-        int desiredWidth;
+
     }
 
 

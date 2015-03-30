@@ -71,7 +71,7 @@ namespace LayoutFarm.CustomWidgets
                 if (this.floatPart != null)
                 {
 
-                } 
+                }
                 //---------------------------------
                 primElement = renderE;
             }
@@ -119,7 +119,7 @@ namespace LayoutFarm.CustomWidgets
                     if (primElement != null)
                     {
                         //add 
-                        primElement.AddChild(value); 
+                        primElement.AddChild(value);
                     }
 
                 }
@@ -223,6 +223,12 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.floatPartStyle = value;
             }
+        }
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "combobox");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
         }
     }
 }

@@ -660,6 +660,12 @@ namespace LayoutFarm.CustomWidgets
                 this.StepSmallToMin();
             }
         }
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "scrollbar");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
     }
 
     public class ScrollBarCreationParameters

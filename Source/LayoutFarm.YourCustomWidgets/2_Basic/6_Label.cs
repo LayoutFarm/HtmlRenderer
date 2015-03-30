@@ -79,6 +79,12 @@ namespace LayoutFarm.CustomWidgets
                 return this.Width;
             }
         }
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "label");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
     }
 
 }

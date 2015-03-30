@@ -21,13 +21,11 @@ namespace LayoutFarm.HtmlWidgets
     public class ScrollBar : UIBox
     {
         CustomRenderBox mainBox;
+
         ScrollBarButton minButton;
         ScrollBarButton maxButton;
         ScrollBarButton scrollButton;
-
         ScrollBarEvaluator customeScrollBarEvaluator;
-
-
 
         float maxValue;
 
@@ -81,7 +79,6 @@ namespace LayoutFarm.HtmlWidgets
 
         public int MinMaxButtonHeight { get { return minmax_boxHeight; } }
         public int ScrollBoxSizeLimit { get { return SCROLL_BOX_SIZE_LIMIT; } }
-
         public int PhysicalScrollLength
         {
             get
@@ -96,9 +93,6 @@ namespace LayoutFarm.HtmlWidgets
                 }
             }
         }
-
-
-
         public void StepSmallToMax()
         {
 
@@ -243,7 +237,7 @@ namespace LayoutFarm.HtmlWidgets
         //---------------------------------------------------------------------------
         //vertical scrollbar
 
-        public void ReEvaluateScrollBar()
+        internal void ReEvaluateScrollBar()
         {
             if (this.scrollButton == null)
             {
@@ -662,6 +656,15 @@ namespace LayoutFarm.HtmlWidgets
                 this.StepSmallToMin();
             }
         }
+
+        public override void Walk(UIVisitor visitor)
+        {
+            //walk to control
+            visitor.BeginElement(this, "scrollbar");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();             
+        }
+
     }
 
     public class ScrollBarCreationParameters
@@ -813,7 +816,8 @@ namespace LayoutFarm.HtmlWidgets
             {
                 scrollableSurface.SetViewport((int)scBar.ScrollValue, scrollableSurface.ViewportY);
             };
-
         }
+
+        
     }
 }
