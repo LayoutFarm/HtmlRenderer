@@ -472,7 +472,12 @@ Zimbabwe");
                 this.ninespaceGrippers.UpdateGripperPositions();
                 //------------------------------------------------------------------------------------
             }
-
+            public override void Walk(UIVisitor visitor)
+            {
+                visitor.BeginElement(this, "ninebox");
+                this.DescribeDimension(visitor);
+                visitor.EndElement();
+            }
             CustomWidgets.EaseBox CreateGripper(PixelFarm.Drawing.Color bgcolor, bool isVertical)
             {
                 int controllerBoxWH = 10;

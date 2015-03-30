@@ -284,7 +284,7 @@ namespace LayoutFarm.CustomWidgets
     }
 
 
-    public class MenuBox : Panel
+    public class MenuBox : EaseBox
     {
         bool showing;
         TopWindowRenderBox topWindow;

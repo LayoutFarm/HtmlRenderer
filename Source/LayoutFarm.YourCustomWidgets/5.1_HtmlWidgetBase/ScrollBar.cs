@@ -662,7 +662,7 @@ namespace LayoutFarm.HtmlWidgets
             //walk to control
             visitor.BeginElement(this, "scrollbar");
             this.DescribeDimension(visitor);
-            visitor.EndElement();             
+            visitor.EndElement();
         }
 
     }
@@ -706,6 +706,12 @@ namespace LayoutFarm.HtmlWidgets
             this.OwnerScrollBar.ChildNotifyMouseWheel(e);
         }
 
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "scrollbutton");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
 
     }
 
@@ -818,6 +824,6 @@ namespace LayoutFarm.HtmlWidgets
             };
         }
 
-        
+
     }
 }

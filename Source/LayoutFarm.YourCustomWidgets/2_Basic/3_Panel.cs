@@ -23,19 +23,19 @@ namespace LayoutFarm.CustomWidgets
         Both,
     }
 
-    public class Panel : EaseBox
+    public sealed class Panel : EaseBox
     {
-        PanelLayoutKind panelLayoutKind;
+       
         PanelStretch panelChildStretch;
         CustomRenderBox primElement;
         Color backColor = Color.LightGray;
-        UICollection uiList;
-        bool needContentLayout;
+       
+      
 
         public Panel(int width, int height)
             : base(width, height)
         {
-            uiList = new UICollection(this); 
+            uiList = new UICollection(this);
 
         }
         protected override bool HasReadyRenderElement
@@ -84,100 +84,8 @@ namespace LayoutFarm.CustomWidgets
             }
             return primElement;
         }
-        public override bool NeedContentLayout
-        {
-            get
-            {
-                return this.needContentLayout;
-            }
-        }
-        public PanelLayoutKind PanelLayoutKind
-        {
-            get { return this.panelLayoutKind; }
-            set
-            {
-                this.panelLayoutKind = value;
-            }
-        }
-
-
-        public IEnumerable<UIElement> GetChildIter()
-        {
-            if (uiList != null)
-            {
-                int j = uiList.Count;
-                for (int i = 0; i < j; ++i)
-                {
-                    yield return uiList.GetElement(i);
-                }
-            }
-        }
-        public void AddChild(UIElement ui)
-        {
-            needContentLayout = true;
-            this.uiList.AddUI(ui);
-            if (this.HasReadyRenderElement)
-            {
-                primElement.AddChild(ui);
-                if (this.panelLayoutKind != PanelLayoutKind.Absolute)
-                {
-                    this.InvalidateLayout();
-                }
-            }
-
-            if (ui.NeedContentLayout)
-            {
-                ui.InvalidateLayout();
-            }
-        }
-        public void RemoveChild(UIElement ui)
-        {
-            needContentLayout = true;
-            this.uiList.RemoveUI(ui);
-            if (this.HasReadyRenderElement)
-            {
-
-                if (this.panelLayoutKind != PanelLayoutKind.Absolute)
-                {
-                    this.InvalidateLayout();
-                }
-                this.primElement.RemoveChild(ui.CurrentPrimaryRenderElement);
-            }
-        }
-        public void ClearChildren()
-        {
-            needContentLayout = true;
-            this.uiList.Clear();
-            if (this.HasReadyRenderElement)
-            {
-
-                primElement.ClearAllChildren();
-                if (this.panelLayoutKind != PanelLayoutKind.Absolute)
-                {
-                    this.InvalidateLayout();
-                }
-            }
-        }
-
-        public int ChildCount
-        {
-            get
-            {
-                if (this.uiList != null)
-                {
-                    return this.uiList.Count;
-                }
-                return 0;
-            }
-        }
-        public UIElement GetChild(int index)
-        {
-            if (uiList != null)
-            {
-                return uiList.GetElement(index);
-            }
-            return null;
-        }
+      
+       
 
 
         protected override void OnContentLayout()
@@ -302,11 +210,11 @@ namespace LayoutFarm.CustomWidgets
 
                         if (!this.HasSpecificWidth)
                         {
-                            this.SetDesiredSize(maxRight, this.DesiredHeight);                              
+                            this.SetDesiredSize(maxRight, this.DesiredHeight);
                         }
                         if (!this.HasSpecificHeight)
                         {
-                            this.SetDesiredSize(this.DesiredWidth, maxBottom);                             
+                            this.SetDesiredSize(this.DesiredWidth, maxBottom);
                         }
                     } break;
             }
@@ -314,6 +222,12 @@ namespace LayoutFarm.CustomWidgets
             base.RaiseLayoutFinished();
         }
 
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "panel");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
     }
 
 

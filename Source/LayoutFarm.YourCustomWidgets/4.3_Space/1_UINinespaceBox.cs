@@ -56,17 +56,6 @@ namespace LayoutFarm.CustomWidgets
             spaceBox.Tag = name;
             return spaceBox;
         }
-
-        //static Color leftTopColor = Color.Red;
-        //static Color rightTopColor = Color.Red;
-        //static Color leftBottomColor = Color.Red;
-        //static Color rightBottomColor = Color.Red;
-
-        //static Color leftColor = Color.Blue;
-        //static Color topColor = Color.Yellow;
-        //static Color rightColor = Color.Green;
-        //static Color bottomColor = Color.OrangeRed;
-        //static Color centerColor = Color.White;
         static Color leftTopColor = Color.White;
         static Color rightTopColor = Color.White;
         static Color leftBottomColor = Color.White;
@@ -234,6 +223,12 @@ namespace LayoutFarm.CustomWidgets
             this.ninespaceGrippers.UpdateGripperPositions();
         }
 
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "ninebox");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
 
     }
 

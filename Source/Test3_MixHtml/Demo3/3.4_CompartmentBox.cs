@@ -259,6 +259,13 @@ namespace LayoutFarm
                 return tinyBox;
             }
 
+            public override void Walk(UIVisitor visitor)
+            {
+                visitor.BeginElement(this, "ctrlbox");
+                this.DescribeDimension(visitor);
+                visitor.EndElement();
+            }
+
             static void ResizeTargetWithSnapToGrid(SpaceName tinyBoxSpaceName, UIControllerBox controllerBox, UIMouseEventArgs e)
             {
                 //sample move with snap to grid

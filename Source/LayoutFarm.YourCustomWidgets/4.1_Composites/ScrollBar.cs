@@ -707,6 +707,12 @@ namespace LayoutFarm.CustomWidgets
             this.OwnerScrollBar.ChildNotifyMouseWheel(e);
         }
 
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "scrollbutton");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
 
     }
 

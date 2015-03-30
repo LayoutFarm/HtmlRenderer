@@ -15,6 +15,11 @@ namespace LayoutFarm.CustomWidgets
             : base(w, h)
         {
         }
-
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "simplebox");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
     }
 }

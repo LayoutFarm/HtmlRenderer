@@ -67,7 +67,7 @@ namespace LayoutFarm
             EaseBox centerBox;
 
             DockSpacesController dockspaceController;
-           
+
 
             public UINinespaceBox(int w, int h)
                 : base(w, h)
@@ -98,10 +98,10 @@ namespace LayoutFarm
                 dockspaceController.SetRightSpaceWidth(200);
                 dockspaceController.SetLeftSpaceWidth(200);
 
-            
+
             }
 
-       
+
             static CustomWidgets.EaseBox CreateSpaceBox(SpaceName name, PixelFarm.Drawing.Color bgcolor)
             {
                 int controllerBoxWH = 10;
@@ -118,7 +118,7 @@ namespace LayoutFarm
 
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
                     PlainLayer plain0 = myRenderElement.GetDefaultLayer();
-                        
+
                     //------------------------------------------------------
                     plain0.AddChild(boxLeftTop.GetPrimaryRenderElement(rootgfx));
                     plain0.AddChild(boxRightTop.GetPrimaryRenderElement(rootgfx));
@@ -130,7 +130,7 @@ namespace LayoutFarm
                     plain0.AddChild(boxTop.GetPrimaryRenderElement(rootgfx));
                     plain0.AddChild(boxBottom.GetPrimaryRenderElement(rootgfx));
                     //------------------------------------------------------
-                   
+
 
                 }
                 return base.GetPrimaryRenderElement(rootgfx);
@@ -141,6 +141,12 @@ namespace LayoutFarm
                 base.SetSize(width, height);
                 dockspaceController.SetSize(width, height);
 
+            }
+            public override void Walk(UIVisitor visitor)
+            {
+                visitor.BeginElement(this, "ninebox");
+                this.DescribeDimension(visitor);
+                visitor.EndElement();
             }
         }
 

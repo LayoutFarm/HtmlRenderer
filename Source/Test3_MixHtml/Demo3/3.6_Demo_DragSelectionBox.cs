@@ -419,7 +419,12 @@ namespace LayoutFarm
                 get;
                 set;
             }
-
+            public override void Walk(UIVisitor visitor)
+            {
+                visitor.BeginElement(this, "ctrlbox");
+                this.DescribeDimension(visitor);
+                visitor.EndElement();
+            }
             //get primary render element
             public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
             {
@@ -632,6 +637,12 @@ namespace LayoutFarm
 
                 }
                 return base.GetPrimaryRenderElement(rootgfx);
+            }
+            public override void Walk(UIVisitor visitor)
+            {
+                visitor.BeginElement(this, "selectbox");
+                this.DescribeDimension(visitor);
+                visitor.EndElement();
             }
         }
 

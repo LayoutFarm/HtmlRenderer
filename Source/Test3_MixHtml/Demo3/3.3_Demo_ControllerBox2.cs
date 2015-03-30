@@ -187,6 +187,12 @@ namespace LayoutFarm
                     gridBox.SetSize(width - 10, height - 10);
                 }
             }
+            public override void Walk(UIVisitor visitor)
+            {
+                visitor.BeginElement(this, "ctrlbox");
+                this.DescribeDimension(visitor);
+                visitor.EndElement();
+            }
         }
 
 

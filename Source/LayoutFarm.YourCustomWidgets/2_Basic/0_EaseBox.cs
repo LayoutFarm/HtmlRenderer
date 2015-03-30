@@ -11,7 +11,9 @@ namespace LayoutFarm.CustomWidgets
 {
 
     public abstract class EaseBox : UIBox
-    {   
+    {
+        PanelLayoutKind panelLayoutKind;
+        bool needContentLayout;
         bool draggable;
         bool dropable;
         CustomRenderBox primElement;
@@ -22,6 +24,7 @@ namespace LayoutFarm.CustomWidgets
         int desiredHeight;
         int desiredWidth;
 
+        protected UICollection uiList;
 
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseMove;
@@ -239,11 +242,98 @@ namespace LayoutFarm.CustomWidgets
             this.desiredWidth = w;
             this.desiredHeight = h;
         }
-        public override void Walk(UIVisitor visitor)
+
+        //----------------------------------------------------
+        public IEnumerable<UIElement> GetChildIter()
         {
-            visitor.BeginElement(this, "easebox");
-            this.DescribeDimension(visitor);
-            visitor.EndElement();
+            if (uiList != null)
+            {
+                int j = uiList.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    yield return uiList.GetElement(i);
+                }
+            }
+        }
+        public void AddChild(UIElement ui)
+        {
+            needContentLayout = true;
+            this.uiList.AddUI(ui);
+            if (this.HasReadyRenderElement)
+            {
+                primElement.AddChild(ui);
+                if (this.panelLayoutKind != PanelLayoutKind.Absolute)
+                {
+                    this.InvalidateLayout();
+                }
+            }
+
+            if (ui.NeedContentLayout)
+            {
+                ui.InvalidateLayout();
+            }
+        }
+        public void RemoveChild(UIElement ui)
+        {
+            needContentLayout = true;
+            this.uiList.RemoveUI(ui);
+            if (this.HasReadyRenderElement)
+            {   
+                if (this.PanelLayoutKind != PanelLayoutKind.Absolute)
+                {
+                    this.InvalidateLayout();
+                }
+                this.primElement.RemoveChild(ui.CurrentPrimaryRenderElement);
+            }
+        }
+        public void ClearChildren()
+        {
+            needContentLayout = true;
+            this.uiList.Clear();
+            if (this.HasReadyRenderElement)
+            {
+
+                primElement.ClearAllChildren();
+                if (this.panelLayoutKind != PanelLayoutKind.Absolute)
+                {
+                    this.InvalidateLayout();
+                }
+            }
+        }
+
+        public int ChildCount
+        {
+            get
+            {
+                if (this.uiList != null)
+                {
+                    return this.uiList.Count;
+                }
+                return 0;
+            }
+        }
+        public UIElement GetChild(int index)
+        {
+            if (uiList != null)
+            {
+                return uiList.GetElement(index);
+            }
+            return null;
+        }
+        public override bool NeedContentLayout
+        {
+            get
+            {
+                return this.needContentLayout;
+            }
+        }
+        public PanelLayoutKind PanelLayoutKind
+        {
+            get { return this.panelLayoutKind; }
+            set
+            {
+                this.panelLayoutKind = value;
+            }
         }
     }
 
