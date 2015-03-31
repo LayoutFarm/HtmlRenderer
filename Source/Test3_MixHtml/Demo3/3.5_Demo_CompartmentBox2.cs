@@ -20,7 +20,7 @@ namespace LayoutFarm
             //--------------------------------
             {
                 //background element
-                var bgbox = new LayoutFarm.CustomWidgets.EaseBox(800, 600);
+                var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
                 bgbox.BackColor = Color.White;
                 bgbox.SetLocation(0, 0);
                 SetupBackgroundProperties(bgbox);
@@ -67,7 +67,7 @@ namespace LayoutFarm
             EaseBox centerBox;
 
             DockSpacesController dockspaceController;
-           
+
 
             public UINinespaceBox(int w, int h)
                 : base(w, h)
@@ -98,14 +98,14 @@ namespace LayoutFarm
                 dockspaceController.SetRightSpaceWidth(200);
                 dockspaceController.SetLeftSpaceWidth(200);
 
-            
+
             }
 
-       
+
             static CustomWidgets.EaseBox CreateSpaceBox(SpaceName name, PixelFarm.Drawing.Color bgcolor)
             {
                 int controllerBoxWH = 10;
-                CustomWidgets.EaseBox tinyBox = new CustomWidgets.EaseBox(controllerBoxWH, controllerBoxWH);
+                var tinyBox = new CustomWidgets.SimpleBox(controllerBoxWH, controllerBoxWH);
                 tinyBox.BackColor = bgcolor;
                 tinyBox.Tag = name;
                 return tinyBox;
@@ -118,7 +118,7 @@ namespace LayoutFarm
 
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
                     PlainLayer plain0 = myRenderElement.GetDefaultLayer();
-                        
+
                     //------------------------------------------------------
                     plain0.AddChild(boxLeftTop.GetPrimaryRenderElement(rootgfx));
                     plain0.AddChild(boxRightTop.GetPrimaryRenderElement(rootgfx));
@@ -130,7 +130,7 @@ namespace LayoutFarm
                     plain0.AddChild(boxTop.GetPrimaryRenderElement(rootgfx));
                     plain0.AddChild(boxBottom.GetPrimaryRenderElement(rootgfx));
                     //------------------------------------------------------
-                   
+
 
                 }
                 return base.GetPrimaryRenderElement(rootgfx);
@@ -141,6 +141,12 @@ namespace LayoutFarm
                 base.SetSize(width, height);
                 dockspaceController.SetSize(width, height);
 
+            }
+            public override void Walk(UIVisitor visitor)
+            {
+                visitor.BeginElement(this, "ninebox");
+                this.Describe(visitor);
+                visitor.EndElement();
             }
         }
 

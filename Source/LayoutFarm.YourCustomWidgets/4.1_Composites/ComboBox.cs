@@ -71,7 +71,7 @@ namespace LayoutFarm.CustomWidgets
                 if (this.floatPart != null)
                 {
 
-                } 
+                }
                 //---------------------------------
                 primElement = renderE;
             }
@@ -84,6 +84,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.MouseDown(this, e);
             }
+            base.OnMouseDown(e);
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
@@ -118,7 +119,7 @@ namespace LayoutFarm.CustomWidgets
                     if (primElement != null)
                     {
                         //add 
-                        primElement.AddChild(value); 
+                        primElement.AddChild(value);
                     }
 
                 }
@@ -222,6 +223,12 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.floatPartStyle = value;
             }
+        }
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "combobox");
+            this.Describe(visitor);
+            visitor.EndElement();
         }
     }
 }

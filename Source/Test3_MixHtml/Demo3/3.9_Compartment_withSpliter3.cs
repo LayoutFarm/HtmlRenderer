@@ -23,7 +23,7 @@ namespace LayoutFarm
             //--------------------------------
             {
                 //background element
-                var bgbox = new LayoutFarm.CustomWidgets.EaseBox(viewport.PrimaryScreenWidth, viewport.PrimaryScreenHeight);
+                var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(viewport.PrimaryScreenWidth, viewport.PrimaryScreenHeight);
                 bgbox.BackColor = Color.White;
                 bgbox.SetLocation(0, 0);
                 SetupBackgroundProperties(bgbox);

@@ -18,14 +18,14 @@ namespace LayoutFarm.CustomWidgets
         UICollection uiList;
         List<ListItem> items = new List<ListItem>();
         int selectedIndex = -1;//default = no selection
-        Panel panel;
+        SimpleBox panel;
         public ListView(int width, int height)
             : base(width, height)
         {
             uiList = new UICollection(this);
             //panel for listview items
-            this.panel = new Panel(width, height);
-            this.panel.PanelLayoutKind = PanelLayoutKind.VerticalStack;
+            this.panel = new SimpleBox(width, height);
+            this.panel.PanelLayoutKind = BoxContentLayoutKind.VerticalStack;
             panel.BackColor = Color.LightGray;
             uiList.AddUI(panel);
         }
@@ -103,7 +103,7 @@ namespace LayoutFarm.CustomWidgets
         public void RemoveAt(int index)
         {
             var item = items[index];
-            panel.RemoveChildBox(item);
+            panel.RemoveChild(item);
             items.RemoveAt(index);
 
         }
@@ -121,13 +121,13 @@ namespace LayoutFarm.CustomWidgets
         public void Remove(ListItem item)
         {
             items.Remove(item);
-            panel.RemoveChildBox(item);
+            panel.RemoveChild(item);
         }
         public void ClearItems()
         {
             this.selectedIndex = -1;
             this.items.Clear();
-            this.panel.ClearItems();
+            this.panel.ClearChildren();
         }
         //----------------------------------------------------
 
@@ -173,6 +173,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.MouseDown(this, e);
             }
+            base.OnMouseDown(e);
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
@@ -208,7 +209,12 @@ namespace LayoutFarm.CustomWidgets
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseUp;
 
-
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "listview");
+            this.Describe(visitor);
+            visitor.EndElement();
+        }
     }
 
 
@@ -282,6 +288,14 @@ namespace LayoutFarm.CustomWidgets
         public void AddChild(RenderElement renderE)
         {
             primElement.AddChild(renderE);
+        }
+
+
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "listitem");
+            this.Describe(visitor);
+            visitor.EndElement();
         }
     }
 

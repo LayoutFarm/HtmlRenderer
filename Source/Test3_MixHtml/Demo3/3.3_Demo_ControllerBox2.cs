@@ -6,7 +6,7 @@ using System.Text;
 
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
-using LayoutFarm.UI; 
+using LayoutFarm.UI;
 using LayoutFarm.CustomWidgets;
 namespace LayoutFarm
 {
@@ -20,7 +20,7 @@ namespace LayoutFarm
 
             //--------------------------------
             {
-                var bgbox = new LayoutFarm.CustomWidgets.EaseBox(800, 600);
+                var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
                 bgbox.BackColor = Color.White;
                 bgbox.SetLocation(0, 0);
                 SetupBackgroundProperties(bgbox);
@@ -28,7 +28,7 @@ namespace LayoutFarm
             }
             //--------------------------------
             {
-                var box1 = new LayoutFarm.CustomWidgets.EaseBox(150, 150);
+                var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
                 box1.BackColor = Color.Red;
                 box1.SetLocation(10, 10);
                 //box1.dbugTag = 1;
@@ -37,7 +37,7 @@ namespace LayoutFarm
             }
             //--------------------------------
             {
-                var box2 = new LayoutFarm.CustomWidgets.EaseBox(60, 60);
+                var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
                 box2.SetLocation(50, 50);
                 //box2.dbugTag = 2;
                 SetupActiveBoxProperties(box2);
@@ -94,14 +94,13 @@ namespace LayoutFarm
 
         }
 
-        static void MoveWithSnapToGrid(UIControllerBox controllerBox, UIMouseEventArgs e)
+        static void MoveWithSnapToGrid(UIControllerBox controllerBox, int dx, int dy)
         {
             //sample move with snap to grid
             Point pos = controllerBox.Position;
-            int newX = pos.X + e.XDiff;
-            int newY = pos.Y + e.YDiff;
-            //snap to gridsize =5;
-            //find nearest snap x 
+            int newX = pos.X + dx;
+            int newY = pos.Y + dy;
+
             int gridSize = 5;
             float halfGrid = (float)gridSize / 2f;
 
@@ -113,33 +112,41 @@ namespace LayoutFarm
             if (targetBox != null)
             {
                 //move target box too
-
                 targetBox.SetLocation(nearestX + gridSize, nearestY + gridSize);
             }
         }
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
             //for controller box
+
             controllerBox.MouseMove += (s, e) =>
             {
                 if (e.IsDragging)
                 {
-                    MoveWithSnapToGrid(controllerBox, e);
+                    if (e.IsFirstMouseEnter)
+                    {
+                        controllerBox.MouseCaptureX = e.X;
+                        controllerBox.MouseCaptureY = e.Y;
+                    }
+
+                    MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.CancelBubbling = true;
                 }
             };
+
             controllerBox.MouseLeave += (s, e) =>
             {
                 if (e.IsDragging)
                 {
-                    MoveWithSnapToGrid(controllerBox, e);
+                    var globalLocation = controllerBox.GetGlobalLocation();
+                    globalLocation.Offset(controllerBox.MouseCaptureX, controllerBox.MouseCaptureY);
+
+                    MoveWithSnapToGrid(controllerBox, e.GlobalX - globalLocation.X, e.Y - globalLocation.Y);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
+                    e.StopPropagation();
                 }
-            };
-
-
+            }; 
         }
 
         //-----------------------------------------------------------------
@@ -165,7 +172,7 @@ namespace LayoutFarm
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
 
                     var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-                    myRenderElement.AddChild(gridBox);                    
+                    myRenderElement.AddChild(gridBox);
 
                 }
                 return base.GetPrimaryRenderElement(rootgfx);
@@ -179,6 +186,12 @@ namespace LayoutFarm
                     //adjust grid size
                     gridBox.SetSize(width - 10, height - 10);
                 }
+            }
+            public override void Walk(UIVisitor visitor)
+            {
+                visitor.BeginElement(this, "ctrlbox");
+                this.Describe(visitor);
+                visitor.EndElement();
             }
         }
 

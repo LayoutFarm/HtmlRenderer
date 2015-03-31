@@ -40,7 +40,7 @@ namespace LayoutFarm.Text
         {
             internalTextLayerController.Clear();
             this.textLayer.Clear();
-            base.ClearAllChildren();             
+            base.ClearAllChildren();
         }
 
         public int Column
@@ -135,11 +135,15 @@ namespace LayoutFarm.Text
         }
         public EditableTextSpan CreateNewTextSpan(string str)
         {
-            return new EditableTextSpan(this.Root, str, this.currentSpanStyle);
+            var span = new EditableTextSpan(this.Root, str, this.currentSpanStyle);
+            span.UpdateRunWidth();
+            return span;
         }
         public EditableTextSpan CreateNewTextSpan(char[] charBuffer)
         {
-            return new EditableTextSpan(this.Root, charBuffer, this.currentSpanStyle);
+            var span = new EditableTextSpan(this.Root, charBuffer, this.currentSpanStyle);
+            span.UpdateRunWidth();
+            return span;
         }
         public EditableTextSpan CurrentTextRun
         {

@@ -52,7 +52,7 @@ namespace LayoutFarm.CustomWidgets
             //------
             //else ...
 
-            var simpleBox = new LayoutFarm.CustomWidgets.EaseBox(100, 20);
+            var simpleBox = new LayoutFarm.CustomWidgets.SimpleBox(100, 20);
             simpleBox.BackColor = PixelFarm.Drawing.Color.LightGray;
             var wrapperBox2 = this.CreateWrapper(
                                simpleBox,

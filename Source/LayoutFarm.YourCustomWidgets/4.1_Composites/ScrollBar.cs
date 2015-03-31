@@ -182,7 +182,7 @@ namespace LayoutFarm.CustomWidgets
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
 
-            PlainLayer plain = bgBox.GetDefaultLayer();           
+            PlainLayer plain = bgBox.GetDefaultLayer();
 
             //MinButton
             SetupMinButtonProperties(plain);
@@ -352,7 +352,7 @@ namespace LayoutFarm.CustomWidgets
 
                 //dragging ...
                 //find y-diff 
-                int ydiff = e.Y - scroll_button.LatestMouseDownY;
+                int ydiff = e.Y - scroll_button.MouseCaptureY;
 
                 Point pos = scroll_button.Position;
 
@@ -510,7 +510,7 @@ namespace LayoutFarm.CustomWidgets
 
                 //dragging ...
                 //find x-diff 
-                int xdiff = e.X - scroll_button.LatestMouseDownX;
+                int xdiff = e.X - scroll_button.MouseCaptureX;
 
                 Point pos = scroll_button.Position;
 
@@ -660,6 +660,12 @@ namespace LayoutFarm.CustomWidgets
                 this.StepSmallToMin();
             }
         }
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "scrollbar");
+            this.Describe(visitor);
+            visitor.EndElement();
+        }
     }
 
     public class ScrollBarCreationParameters
@@ -700,22 +706,14 @@ namespace LayoutFarm.CustomWidgets
         {
             this.OwnerScrollBar.ChildNotifyMouseWheel(e);
         }
-        public int LatestMouseDownX
+
+        public override void Walk(UIVisitor visitor)
         {
-            get;
-            set;
+            visitor.BeginElement(this, "scrollbutton");
+            this.Describe(visitor);
+            visitor.EndElement();
         }
-        public int LatestMouseDownY
-        {
-            get;
-            set;
-        }
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            this.LatestMouseDownX = e.X;
-            this.LatestMouseDownY = e.Y;
-            base.OnMouseDown(e);
-        }
+
     }
 
 

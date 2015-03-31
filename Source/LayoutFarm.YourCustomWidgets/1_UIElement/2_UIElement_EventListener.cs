@@ -26,7 +26,6 @@ namespace LayoutFarm.UI
         void IEventListener.ListenMouseDown(UIMouseEventArgs e)
         {
             OnMouseDown(e);
-
         }
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
@@ -62,6 +61,14 @@ namespace LayoutFarm.UI
         void IEventListener.ListenLostKeyboardFocus(UIFocusEventArgs e)
         {
             OnLostKeyboardFocus(e);
+        }
+        void IEventListener.ListenOnDrop(UIMouseEventArgs e)
+        {
+            OnDrop(e);
+        }
+        void IEventListener.ListenDragRelease(UIMouseEventArgs e)
+        {
+            OnDragRelease(e);
         }
 
         void IEventListener.HandleContentLayout()

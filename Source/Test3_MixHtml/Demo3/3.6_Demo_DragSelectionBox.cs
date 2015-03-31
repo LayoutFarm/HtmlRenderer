@@ -28,16 +28,16 @@ namespace LayoutFarm
             this.rootgfx = viewport.ViewportControl.RootGfx;
             //--------------------------------
             {
-                var bgbox = new LayoutFarm.CustomWidgets.EaseBox(800, 600);
-                bgbox.BackColor = Color.White;
-                bgbox.SetLocation(0, 0);
-                SetupBackgroundProperties(bgbox);
-                viewport.AddContent(bgbox);
+                //var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
+                //bgbox.BackColor = Color.White;
+                //bgbox.SetLocation(0, 0);
+                //SetupBackgroundProperties(bgbox);
+                //viewport.AddContent(bgbox);
             }
             //--------------------------------
             {
                 //user box1
-                var box1 = new LayoutFarm.CustomWidgets.EaseBox(150, 150);
+                var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
                 box1.BackColor = Color.Red;
                 box1.SetLocation(10, 10);
                 //box1.dbugTag = 1;
@@ -48,7 +48,7 @@ namespace LayoutFarm
             }
             //--------------------------------
             {
-                var box2 = new LayoutFarm.CustomWidgets.EaseBox(60, 60);
+                var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
                 box2.SetLocation(50, 50);
                 //box2.dbugTag = 2;
                 SetupActiveBoxProperties(box2);
@@ -56,8 +56,8 @@ namespace LayoutFarm
                 userBoxes.Add(box2);
             }
             {
-                var box3 = new LayoutFarm.CustomWidgets.EaseBox(60, 60);
-                box3.SetLocation(80, 80);
+                var box3 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
+                box3.SetLocation(200, 80);
                 //box2.dbugTag = 2;
                 SetupActiveBoxProperties(box3);
                 viewport.AddContent(box3);
@@ -96,7 +96,6 @@ namespace LayoutFarm
                 //controllerBox1.dbugTag = 3;
                 controllerBox1.Visible = false;
                 SetupControllerBoxProperties(controllerBox1);
-                viewport.AddContent(controllerBox1);
                 //-------------------------------------------
                 //register to working box list
                 workingControllerBoxes.Add(controllerBox1);
@@ -114,13 +113,13 @@ namespace LayoutFarm
             int j = this.workingControllerBoxes.Count;
             for (int i = j - 1; i >= 0; --i)
             {
-                var userControolerBox = this.workingControllerBoxes[i];
-                userControolerBox.Visible = false;
-                userControolerBox.TargetBox = null;
-
-                userControllerPool.Enqueue(userControolerBox);
+                var userControllerBox = this.workingControllerBoxes[i];
+                userControllerBox.Visible = false;
+                userControllerBox.TargetBox = null;
+                userControllerBox.RemoveSelf();
+                userControllerPool.Enqueue(userControllerBox);
             }
-
+            this.workingControllerBoxes.Clear();
         }
         void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)
         {
@@ -211,21 +210,16 @@ namespace LayoutFarm
                     //selected= true;
                     selectedList.Add(userBoxes[i]);
                     //------
-                    //create user controller box for the selected box
-
+                    //create user controller box for the selected box 
                     var userControllerBox = GetFreeUserControllerBox();
-
                     userControllerBox.TargetBox = box;
                     userControllerBox.SetLocation(box.Left - 5, box.Top - 5);
                     userControllerBox.SetSize(box.Width + 10, box.Height + 10);
                     userControllerBox.Visible = true;
-
+                    viewport.AddContent(userControllerBox);
                 }
             }
-
         }
-
-
         void SetupActiveBoxProperties(LayoutFarm.CustomWidgets.EaseBox box)
         {
             //1. mouse down         
@@ -237,12 +231,13 @@ namespace LayoutFarm
                 //--------------------------------------------
                 //request user controller for this box
                 var userControllerBox = GetFreeUserControllerBox();
-
                 userControllerBox.TargetBox = box;
+
+                viewport.AddContent(userControllerBox);
+
                 userControllerBox.SetLocation(box.Left - 5, box.Top - 5);
                 userControllerBox.SetSize(box.Width + 10, box.Height + 10);
                 userControllerBox.Visible = true;
-
                 //--------------------------------------------
             };
 
@@ -269,6 +264,45 @@ namespace LayoutFarm
                     selectionBoxIsShown = false;
                 }
             };
+            selectionBox.MouseLeave += (s, e) =>
+            {
+                if (selectionBoxIsShown && e.IsDragging)
+                {
+                    //temp fix here 
+                    //TODO: get global position of selected box
+                    var globalLocation = selectionBox.GetGlobalLocation();
+                    globalLocation.Offset(selectionBox.MouseCaptureX, selectionBox.MouseCaptureY);
+                    e.DraggingElement = selectionBox;
+
+                    Point pos = selectionBox.LandingPoint;
+
+                    int x = pos.X;
+                    int y = pos.Y;
+
+                    int w = e.GlobalX - selectionBox.Left;
+                    int h = e.GlobalY - selectionBox.Top;
+
+                    //int w = (selectionBox.Left + e.X) - pos.X;
+                    //int h = (selectionBox.Top + e.Y) - pos.Y;
+
+                    if (w < 0)
+                    {
+                        w = -w;
+                        x -= w;
+                    }
+                    if (h < 0)
+                    {
+                        h = -h;
+                        y -= h;
+
+                    }
+                    //set width and height
+                    selectionBox.SetBounds(x, y, w, h);
+
+                    e.StopPropagation();
+                }
+            };
+
             selectionBox.MouseMove += (s, e) =>
             {
                 if (selectionBoxIsShown && e.IsDragging)
@@ -297,17 +331,18 @@ namespace LayoutFarm
                     }
                     //set width and height
                     selectionBox.SetBounds(x, y, w, h);
+
+                    e.StopPropagation();
                 }
             };
         }
-        static void MoveWithSnapToGrid(UIControllerBox controllerBox, UIMouseEventArgs e)
+        static void MoveWithSnapToGrid(UIControllerBox controllerBox, int dx, int dy)
         {
             //sample move with snap to grid
             Point pos = controllerBox.Position;
-            int newX = pos.X + e.XDiff;
-            int newY = pos.Y + e.YDiff;
-            //snap to gridsize =5;
-            //find nearest snap x 
+            int newX = pos.X + dx;
+            int newY = pos.Y + dy;
+
             int gridSize = 5;
             float halfGrid = (float)gridSize / 2f;
 
@@ -319,33 +354,58 @@ namespace LayoutFarm
             if (targetBox != null)
             {
                 //move target box too
-
                 targetBox.SetLocation(nearestX + gridSize, nearestY + gridSize);
             }
         }
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
             //for controller box
-
-            controllerBox.MouseLeave += (s, e) =>
-            {
-                if (e.IsDragging)
-                {
-                    MoveWithSnapToGrid(controllerBox, e);
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
-                }
-            };
             controllerBox.MouseMove += (s, e) =>
             {
                 if (e.IsDragging)
                 {
-                    MoveWithSnapToGrid(controllerBox, e);
+                    if (e.IsFirstMouseEnter)
+                    {
+                        controllerBox.MouseCaptureX = e.X;
+                        controllerBox.MouseCaptureY = e.Y;
+                    }
+
+                    MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
+
+                    //test here 
+                    //find dragover element
+                    List<UIElement> dragOverElements = new List<UIElement>();
+                    controllerBox.FindDragOverElements(dragOverElements);
+                    if (dragOverElements.Count > 0)
+                    {
+                        var easeBox = dragOverElements[0] as LayoutFarm.CustomWidgets.EaseBox;
+                        if (easeBox != null)
+                        {
+                            easeBox.BackColor = Color.Green;
+                        }
+                    }
+
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.CancelBubbling = true;
                 }
 
             };
+            controllerBox.MouseLeave += (s, e) =>
+            {
+                if (e.IsDragging)
+                {
+
+                    var globalLocation = controllerBox.GetGlobalLocation();
+                    globalLocation.Offset(controllerBox.MouseCaptureX, controllerBox.MouseCaptureY);
+
+                    MoveWithSnapToGrid(controllerBox, e.GlobalX - globalLocation.X, e.GlobalY - globalLocation.Y);
+
+
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.StopPropagation();
+                }
+            };
+
         }
 
         //-----------------------------------------------------------------
@@ -373,13 +433,29 @@ namespace LayoutFarm
                 get;
                 set;
             }
-
+            public override void Walk(UIVisitor visitor)
+            {
+                visitor.BeginElement(this, "ctrlbox");
+                this.Describe(visitor);
+                visitor.EndElement();
+            }
             //get primary render element
             public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
             {
                 if (!this.HasReadyRenderElement)
                 {
-                    gridBox = new LayoutFarm.CustomWidgets.GridBox(30, 30);
+                    int gridW = this.Width - 10;
+                    int gridH = this.Height - 10;
+                    if (gridW < 3)
+                    {
+                        gridW = 3;
+                    }
+                    if (gridH < 3)
+                    {
+                        gridH = 3;
+                    }
+
+                    gridBox = new LayoutFarm.CustomWidgets.GridBox(gridW, gridH);
                     gridBox.SetLocation(5, 5);
                     gridBox.BuildGrid(3, 3, CellSizeStyle.UniformCell);
 
@@ -425,18 +501,18 @@ namespace LayoutFarm
             CustomWidgets.EaseBox CreateTinyControlBox(SpaceName name)
             {
                 int controllerBoxWH = 10;
-                CustomWidgets.EaseBox tinyBox = new CustomWidgets.EaseBox(controllerBoxWH, controllerBoxWH);
+                var tinyBox = new CustomWidgets.SimpleBox(controllerBoxWH, controllerBoxWH);
                 tinyBox.BackColor = PixelFarm.Drawing.Color.Red;
                 tinyBox.Tag = name;
                 //add handler for each tiny box
-
                 //---------------------------------------------------------------------
 
                 tinyBox.MouseMove += (s, e) =>
                 {
                     if (e.IsDragging)
                     {
-                        ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
+
+                        ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.X - tinyBox.MouseCaptureX, e.Y - tinyBox.MouseCaptureY);
                         e.MouseCursorStyle = MouseCursorStyle.Pointer;
                         e.CancelBubbling = true;
                     }
@@ -445,29 +521,29 @@ namespace LayoutFarm
                 {
                     if (e.IsDragging)
                     {
-                        ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
+                        var globalLocation = tinyBox.GetGlobalLocation();
+                        globalLocation.Offset(tinyBox.MouseCaptureX, tinyBox.MouseCaptureY);
+
+
+                        ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.GlobalX - globalLocation.X, e.GlobalY - globalLocation.Y);
                         e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                        e.CancelBubbling = true;
+                        e.StopPropagation();
                     }
                 };
                 tinyBox.MouseUp += (s, e) =>
                 {
-                    if (e.IsDragging)
-                    {
-                        ResizeTargetWithSnapToGrid2(this, e);
-                    }
                     e.MouseCursorStyle = MouseCursorStyle.Default;
                     e.CancelBubbling = true;
                 };
                 return tinyBox;
             }
 
-            static void ResizeTargetWithSnapToGrid(SpaceName tinyBoxSpaceName, UIControllerBox controllerBox, UIMouseEventArgs e)
+            static void ResizeTargetWithSnapToGrid(SpaceName tinyBoxSpaceName, UIControllerBox controllerBox, int dx, int dy)
             {
                 //sample move with snap to grid
                 Point pos = controllerBox.Position;
-                int newX = pos.X + e.XDiff;
-                int newY = pos.Y + e.YDiff;
+                int newX = pos.X + dx;
+                int newY = pos.Y + dy;
                 //snap to gridsize =5;
                 //find nearest snap x 
                 int gridSize = 5;
@@ -551,41 +627,9 @@ namespace LayoutFarm
                                 }
                             }
                         } break;
-
-                }
-
-
-
-            }
-            static void ResizeTargetWithSnapToGrid2(UIControllerBox controllerBox, UIMouseEventArgs e)
-            {
-                //sample move with snap to grid
-                Point pos = controllerBox.Position;
-                int newX = pos.X + e.XDiff;
-                int newY = pos.Y + e.YDiff;
-                //snap to gridsize =5;
-                //find nearest snap x 
-                int gridSize = 5;
-                float halfGrid = (float)gridSize / 2f;
-                int nearestX = (int)((newX + halfGrid) / gridSize) * gridSize;
-                int nearestY = (int)((newY + halfGrid) / gridSize) * gridSize;
-
-                int xdiff = nearestX - pos.X;
-                if (xdiff != 0)
-                {
-                    controllerBox.SetSize(controllerBox.Width + xdiff, controllerBox.Height);
-                }
-
-                var targetBox = controllerBox.TargetBox;
-                if (targetBox != null)
-                {
-                    //move target box too 
-                    targetBox.SetBounds(controllerBox.Left + 5,
-                        controllerBox.Top + 5,
-                        controllerBox.Width - 10,
-                        controllerBox.Height - 10);
                 }
             }
+
         }
 
         class UISelectionBox : LayoutFarm.CustomWidgets.EaseBox
@@ -607,6 +651,12 @@ namespace LayoutFarm
 
                 }
                 return base.GetPrimaryRenderElement(rootgfx);
+            }
+            public override void Walk(UIVisitor visitor)
+            {
+                visitor.BeginElement(this, "selectbox");
+                this.Describe(visitor);
+                visitor.EndElement();
             }
         }
 

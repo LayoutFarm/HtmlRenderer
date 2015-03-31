@@ -21,13 +21,11 @@ namespace LayoutFarm.HtmlWidgets
     public class ScrollBar : UIBox
     {
         CustomRenderBox mainBox;
+
         ScrollBarButton minButton;
         ScrollBarButton maxButton;
         ScrollBarButton scrollButton;
-
         ScrollBarEvaluator customeScrollBarEvaluator;
-
-
 
         float maxValue;
 
@@ -81,7 +79,6 @@ namespace LayoutFarm.HtmlWidgets
 
         public int MinMaxButtonHeight { get { return minmax_boxHeight; } }
         public int ScrollBoxSizeLimit { get { return SCROLL_BOX_SIZE_LIMIT; } }
-
         public int PhysicalScrollLength
         {
             get
@@ -96,9 +93,6 @@ namespace LayoutFarm.HtmlWidgets
                 }
             }
         }
-
-
-
         public void StepSmallToMax()
         {
 
@@ -243,7 +237,7 @@ namespace LayoutFarm.HtmlWidgets
         //---------------------------------------------------------------------------
         //vertical scrollbar
 
-        public void ReEvaluateScrollBar()
+        internal void ReEvaluateScrollBar()
         {
             if (this.scrollButton == null)
             {
@@ -355,7 +349,7 @@ namespace LayoutFarm.HtmlWidgets
 
                 //dragging ...
                 //find y-diff 
-                int ydiff = e.Y - scroll_button.LatestMouseDownY;
+                int ydiff = e.Y - scroll_button.MouseCaptureY;
 
                 Point pos = scroll_button.Position;
 
@@ -513,7 +507,7 @@ namespace LayoutFarm.HtmlWidgets
 
                 //dragging ...
                 //find x-diff 
-                int xdiff = e.X - scroll_button.LatestMouseDownX;
+                int xdiff = e.X - scroll_button.MouseCaptureX;
 
                 Point pos = scroll_button.Position;
 
@@ -576,7 +570,6 @@ namespace LayoutFarm.HtmlWidgets
                     {
                         this.UserScroll(this, EventArgs.Empty);
                     }
-
                     e.StopPropagation();
                 }
             };
@@ -663,6 +656,15 @@ namespace LayoutFarm.HtmlWidgets
                 this.StepSmallToMin();
             }
         }
+
+        public override void Walk(UIVisitor visitor)
+        {
+            //walk to control
+            visitor.BeginElement(this, "scrollbar");
+            this.Describe(visitor);
+            visitor.EndElement();
+        }
+
     }
 
     public class ScrollBarCreationParameters
@@ -703,22 +705,14 @@ namespace LayoutFarm.HtmlWidgets
         {
             this.OwnerScrollBar.ChildNotifyMouseWheel(e);
         }
-        public int LatestMouseDownX
+
+        public override void Walk(UIVisitor visitor)
         {
-            get;
-            set;
+            visitor.BeginElement(this, "scrollbutton");
+            this.Describe(visitor);
+            visitor.EndElement();
         }
-        public int LatestMouseDownY
-        {
-            get;
-            set;
-        }
-        protected override void OnMouseDown(UIMouseEventArgs e)
-        {
-            this.LatestMouseDownX = e.X;
-            this.LatestMouseDownY = e.Y;
-            base.OnMouseDown(e);
-        }
+
     }
 
 
@@ -828,7 +822,8 @@ namespace LayoutFarm.HtmlWidgets
             {
                 scrollableSurface.SetViewport((int)scBar.ScrollValue, scrollableSurface.ViewportY);
             };
-
         }
+
+
     }
 }

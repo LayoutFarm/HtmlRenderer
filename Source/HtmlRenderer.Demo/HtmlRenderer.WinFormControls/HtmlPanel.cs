@@ -512,12 +512,10 @@ namespace LayoutFarm.Demo
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            this.isDragging = this.isMouseDown;
-
-            var mouseE = CreateMouseEventArg(e);
-
-
+            this.isDragging = this.isMouseDown; 
+            var mouseE = CreateMouseEventArg(e); 
             _htmlInputEventAdapter.MouseMove(mouseE);
+
 
             PaintMe(null);
         }

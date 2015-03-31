@@ -240,7 +240,7 @@ namespace LayoutFarm.RenderBoxes
             {
                 var element = curnode.Value;
                 if (element.Contains(point))
-                {
+                {    
                     return element;
                 }
                 curnode = curnode.Previous;

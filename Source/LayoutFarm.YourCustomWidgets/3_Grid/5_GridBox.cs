@@ -53,7 +53,7 @@ namespace LayoutFarm.CustomWidgets
 
             if (this.HasDefaultLayer)
             {
-                this.DrawDefaultLayer(canvas, ref updateArea);                 
+                this.DrawDefaultLayer(canvas, ref updateArea);
             }
 #if DEBUG
             //canvas.dbug_DrawCrossRect(PixelFarm.Drawing.Color.Black,
@@ -206,6 +206,13 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
             return gridBox;
+        }
+
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "gridbox");
+            this.Describe(visitor);
+            visitor.EndElement();
         }
     }
 

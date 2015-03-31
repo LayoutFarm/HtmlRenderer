@@ -60,7 +60,7 @@ namespace LayoutFarm.Text
                 textLineWriter.AddTextSpan(newTextRun);
                 textLineWriter.EnsureCurrentTextRun();
 
-                undoActionCollection.AddDocAction(
+                commandHistory.AddDocAction(
                     new DocActionInsertRuns(
                         new EditableTextSpan[] { newTextRun }, startLineNum, startCharIndex,
                         textLineWriter.LineNumber, textLineWriter.CharIndex));
@@ -110,7 +110,7 @@ namespace LayoutFarm.Text
                 }
             }
             EnableUndoHistoryRecording = isRecordingHx;
-            undoActionCollection.AddDocAction(
+            commandHistory.AddDocAction(
                 new DocActionInsertRuns(textRuns, startLineNum, startCharIndex,
                     textLineWriter.LineNumber, textLineWriter.CharIndex));
 
@@ -120,6 +120,8 @@ namespace LayoutFarm.Text
         }
         public void AddTextRunToCurrentLine(EditableTextSpan t)
         {
+            updateJustCurrentLine = true;
+            
             RemoveSelectedText();
             int startLineNum = textLineWriter.LineNumber;
             int startCharIndex = textLineWriter.CharIndex;
@@ -139,7 +141,7 @@ namespace LayoutFarm.Text
             }
 
             EnableUndoHistoryRecording = isRecordingHx;
-            undoActionCollection.AddDocAction(
+            commandHistory.AddDocAction(
                 new DocActionInsertRuns(t, startLineNum, startCharIndex,
                     textLineWriter.LineNumber, textLineWriter.CharIndex));
 

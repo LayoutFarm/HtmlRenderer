@@ -3,19 +3,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing;
-
+using PixelFarm.Drawing; 
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
 {
 
-    public class SmallLabel : UIBox
+    public class Label : UIBox
     {
         string text;
         Color textColor;
         CustomTextRun myTextRun;
-        public SmallLabel(int w, int h)
+        public Label(int w, int h)
             : base(w, h)
         {
 
@@ -78,6 +77,12 @@ namespace LayoutFarm.CustomWidgets
             {
                 return this.Width;
             }
+        }
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "label");
+            this.Describe(visitor);
+            visitor.EndElement();
         }
     }
 

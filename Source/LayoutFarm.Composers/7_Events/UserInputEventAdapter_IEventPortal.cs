@@ -13,6 +13,7 @@ namespace LayoutFarm.UI
         int latestLogicalMouseDownY;
         int prevLogicalMouseX;
         int prevLogicalMouseY;
+        IEventListener draggingElement;
 
         //------------------------------------------------------------
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
@@ -22,46 +23,52 @@ namespace LayoutFarm.UI
             this.latestLogicalMouseDownY = e.Y;
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
-         
-            //auto pause?
-           
-            this.OnMouseDown(e);
-          
 
-        }        
+            //auto pause?
+
+            this.OnMouseDown(e);
+
+
+        }
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
 
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
 
-            
+            if (draggingElement != null)
+            {
+                //notify release drag?
+                draggingElement.ListenDragRelease(e);
+            }
+
             this.OnMouseUp(e);
-             
+
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
 
             //find diff    
-          
             e.SetDiff(
                 e.X - prevLogicalMouseX,
-                e.Y - prevLogicalMouseY,
-                e.X - this.latestLogicalMouseDownX,
-                e.Y - this.latestLogicalMouseDownY);
-            
+                e.Y - prevLogicalMouseY);
+
             if (e.XDiff == 0 && e.YDiff == 0)
             {
                 return;
             }
 
             this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y; 
-             
-            this.OnMouseMove(e); 
+            this.prevLogicalMouseY = e.Y;
+
+            this.OnMouseMove(e);
+
+            //registered dragging element
+            draggingElement = e.DraggingElement;
+
         }
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
-        {   
+        {
             this.OnMouseWheel(e);
         }
         //------------------------------------------------------------
@@ -84,15 +91,15 @@ namespace LayoutFarm.UI
         //------------------------------------------------------------
         void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
-           
+
             this.OnGotFocus(e);
-             
+
         }
         void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
-            
+
             this.OnLostFocus(e);
-            
+
         }
 
     }

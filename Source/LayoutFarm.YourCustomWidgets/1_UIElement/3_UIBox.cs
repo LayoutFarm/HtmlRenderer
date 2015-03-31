@@ -11,6 +11,8 @@ namespace LayoutFarm.UI
 
     public abstract class UIBox : UIElement, IScrollable
     {
+
+
         int _left;
         int _top;
         int _width;
@@ -18,6 +20,8 @@ namespace LayoutFarm.UI
         bool _hide;
         bool specificWidth;
         bool specificHeight;
+
+
         public event EventHandler LayoutFinished;
 
 #if DEBUG
@@ -248,9 +252,40 @@ namespace LayoutFarm.UI
             get { return this.Width; }
         }
 
-        //-----------------------------------
-
+        //----------------------------------- 
         public object Tag { get; set; }
+        //----------------------------------- 
+
+
+        protected virtual void Describe(UIVisitor visitor)
+        {
+            visitor.Attribute("left", this.Left);
+            visitor.Attribute("top", this.Top);
+            visitor.Attribute("width", this.Width);
+            visitor.Attribute("height", this.Height);
+        }
+
+        public void FindDragOverElements(List<UIElement> uilist)
+        {
+            var renderE = this.CurrentPrimaryRenderElement;
+            var underElement = renderE.FindOverlapedChildElementAtPoint(renderE, new Point(this.Left, this.Top));
+
+            var hitArea = new Rectangle(this.Left, this.Top, this.Width, this.Height);
+            renderE.FindUnderlyingChildElement(
+                ref hitArea,
+                found =>
+                {
+                    //stop
+                    var owner = found.GetController() as UIElement;
+                    if (owner != null)
+                    {
+                        uilist.Add(owner);
+                        return true;
+                    }
+                    return false;
+                });
+            
+        }
     }
 
 }

@@ -70,7 +70,7 @@ namespace LayoutFarm.CustomWidgets
                 if (this.landPart != null)
                 {
                     renderE.AddChild(this.landPart);
-                     
+
                 }
                 if (this.floatPart != null)
                 {
@@ -89,6 +89,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.MouseDown(this, e);
             }
+            base.OnMouseDown(e);
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
@@ -123,7 +124,7 @@ namespace LayoutFarm.CustomWidgets
                     if (primElement != null)
                     {
                         //add 
-                        primElement.AddChild(value);                         
+                        primElement.AddChild(value);
                     }
 
                 }
@@ -273,9 +274,17 @@ namespace LayoutFarm.CustomWidgets
             floatPart.AddChild(childItem);
             childItem.ParentMenuItem = this;
         }
+
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "menuitem");
+            this.Describe(visitor);
+            visitor.EndElement();
+        }
     }
 
-    public class MenuBox : Panel
+
+    public class MenuBox : EaseBox
     {
         bool showing;
         TopWindowRenderBox topWindow;
@@ -310,5 +319,11 @@ namespace LayoutFarm.CustomWidgets
             }
         }
 
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "menubox");
+            this.Describe(visitor);
+            visitor.EndElement();
+        }
     }
 }

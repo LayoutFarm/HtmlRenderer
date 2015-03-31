@@ -121,8 +121,6 @@ namespace LayoutFarm.CustomWidgets
                             var textspan = textEditRenderElement.CreateNewTextSpan(splitBuffer);
                             textEditRenderElement.AddTextRun(textspan);
                         }
-
-
                     }
                     else
                     {
@@ -132,6 +130,7 @@ namespace LayoutFarm.CustomWidgets
                     lineCount++;
                     line = reader.ReadLine();
                 }
+
                 this.InvalidateGraphics();
             }
         }
@@ -232,12 +231,10 @@ namespace LayoutFarm.CustomWidgets
         {
             textEditRenderElement.CopyCurrentLine(stbuilder);
         }
-        //----------------------------------------------------------------
-
+        //---------------------------------------------------------------- 
         protected override void OnMouseLeave(UIMouseEventArgs e)
         {
             e.MouseCursorStyle = MouseCursorStyle.Arrow;
-
         }
         protected override void OnDoubleClick(UIMouseEventArgs e)
         {
@@ -271,14 +268,13 @@ namespace LayoutFarm.CustomWidgets
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
             this.Focus();
-
             e.MouseCursorStyle = MouseCursorStyle.IBeam;
             e.CancelBubbling = true;
-            e.CurrentContextElement = this; 
+            e.CurrentContextElement = this;
             textEditRenderElement.OnMouseDown(e);
         }
         protected override void OnLostKeyboardFocus(UIFocusEventArgs e)
-        { 
+        {
             base.OnLostKeyboardFocus(e);
             textEditRenderElement.Blur();
         }
@@ -291,7 +287,6 @@ namespace LayoutFarm.CustomWidgets
                 e.MouseCursorStyle = MouseCursorStyle.IBeam;
             }
 
-            //base.OnMouseMove(e);
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
@@ -392,9 +387,17 @@ namespace LayoutFarm.CustomWidgets
         {
             get
             {
-                //todo: use mimimum current font height
+                //TODO: use mimimum current font height
                 return 17;
             }
         }
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "textbox");
+            this.Describe(visitor);
+            visitor.TextNode(this.Text);
+            visitor.EndElement();
+        }
+
     }
 }

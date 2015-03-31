@@ -14,17 +14,17 @@ namespace LayoutFarm.CustomWidgets
 {
     public class NinespaceBox : EaseBox
     {
-        Panel boxLeftTop;
-        Panel boxRightTop;
-        Panel boxLeftBottom;
-        Panel boxRightBottom;
+        SimpleBox boxLeftTop;
+        SimpleBox boxRightTop;
+        SimpleBox boxLeftBottom;
+        SimpleBox boxRightBottom;
         //-------------------------------------
-        Panel boxLeft;
-        Panel boxTop;
-        Panel boxRight;
-        Panel boxBottom;
+        SimpleBox boxLeft;
+        SimpleBox boxTop;
+        SimpleBox boxRight;
+        SimpleBox boxBottom;
         //-------------------------------------
-        Panel boxCentral;
+        SimpleBox boxCentral;
         EaseBox gripperLeft;
         EaseBox gripperRight;
         EaseBox gripperTop;
@@ -48,25 +48,14 @@ namespace LayoutFarm.CustomWidgets
             get;
             set;
         }
-        static Panel CreateSpaceBox(SpaceName name, Color bgcolor)
+        static SimpleBox CreateSpaceBox(SpaceName name, Color bgcolor)
         {
             int controllerBoxWH = 10;
-            Panel spaceBox = new Panel(controllerBoxWH, controllerBoxWH);
+            SimpleBox spaceBox = new SimpleBox(controllerBoxWH, controllerBoxWH);
             spaceBox.BackColor = bgcolor;
             spaceBox.Tag = name;
             return spaceBox;
         }
-
-        //static Color leftTopColor = Color.Red;
-        //static Color rightTopColor = Color.Red;
-        //static Color leftBottomColor = Color.Red;
-        //static Color rightBottomColor = Color.Red;
-
-        //static Color leftColor = Color.Blue;
-        //static Color topColor = Color.Yellow;
-        //static Color rightColor = Color.Green;
-        //static Color bottomColor = Color.OrangeRed;
-        //static Color centerColor = Color.White;
         static Color leftTopColor = Color.White;
         static Color rightTopColor = Color.White;
         static Color leftBottomColor = Color.White;
@@ -120,7 +109,7 @@ namespace LayoutFarm.CustomWidgets
         EaseBox CreateGripper(PixelFarm.Drawing.Color bgcolor, bool isVertical)
         {
             int controllerBoxWH = 10;
-            EaseBox gripperBox = new EaseBox(controllerBoxWH, controllerBoxWH);
+            var gripperBox = new SimpleBox(controllerBoxWH, controllerBoxWH);
             gripperBox.BackColor = bgcolor;
             ////---------------------------------------------------------------------
             gripperBox.MouseLeave += (s, e) =>
@@ -138,7 +127,7 @@ namespace LayoutFarm.CustomWidgets
                     }
                     this.ninespaceGrippers.UpdateNinespaces();
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
+                    e.StopPropagation();
                 }
             };
             gripperBox.MouseMove += (s, e) =>
@@ -215,11 +204,11 @@ namespace LayoutFarm.CustomWidgets
             dockspaceController.ArrangeAllSpaces();
         }
 
-        public Panel LeftSpace { get { return this.boxLeft; } }
-        public Panel RightSpace { get { return this.boxRight; } }
-        public Panel TopSpace { get { return this.boxTop; } }
-        public Panel BottomSpace { get { return this.boxBottom; } }
-        public Panel CentralSpace { get { return this.boxCentral; } }
+        public SimpleBox LeftSpace { get { return this.boxLeft; } }
+        public SimpleBox RightSpace { get { return this.boxRight; } }
+        public SimpleBox TopSpace { get { return this.boxTop; } }
+        public SimpleBox BottomSpace { get { return this.boxBottom; } }
+        public SimpleBox CentralSpace { get { return this.boxCentral; } }
 
         public void SetLeftSpaceWidth(int w)
         {
@@ -234,6 +223,12 @@ namespace LayoutFarm.CustomWidgets
             this.ninespaceGrippers.UpdateGripperPositions();
         }
 
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "ninebox");
+            this.Describe(visitor);
+            visitor.EndElement();
+        }
 
     }
 

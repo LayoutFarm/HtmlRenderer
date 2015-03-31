@@ -42,6 +42,7 @@
     <Compile Include="1_UIElement\3_UIBox.cs" />
     <Compile Include="1_UIElement\4_UICollection.cs" />
     <Compile Include="1_UIElement\5_IScrollable.cs" />
+    <Compile Include="1_UIElement\UIVisitor.cs" />
     <Compile Include="2_Basic\2_TextBox.cs" />
     <Compile Include="3_Grid\2_GridLayer.cs" />
     <Compile Include="3_Grid\3_GridTable.cs" />
@@ -57,11 +58,11 @@
     <Compile Include="1_UIElement\LayerHelper.cs" />
     <Compile Include="3_Grid\5_GridBox.cs" />
     <Compile Include="2_Basic\1_ImageBox.cs" />
-    <Compile Include="2_Basic\3_Panel.cs" />
+    <Compile Include="2_Basic\3_SimpleBox.cs" />
     <Compile Include="4.3_Space\1_UINinespaceBox.cs" />
     <Compile Include="5.1_HtmlWidgetBase\0_WidgetBase.cs" />
     <Compile Include="4.1_Composites\ScrollBar.cs" />
-    <Compile Include="2_Basic\6_Label.cs" />
+    <Compile Include="2_Basic\4_Label.cs" />
     <Compile Include="4.1_Composites\HingeRelation.cs" />
     <Compile Include="4.1_Composites\CheckBox.cs" />
     <Compile Include="4.1_Composites\ComboBox.cs" />

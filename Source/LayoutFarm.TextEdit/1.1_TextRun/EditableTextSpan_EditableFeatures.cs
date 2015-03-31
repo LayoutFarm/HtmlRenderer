@@ -17,7 +17,9 @@ namespace LayoutFarm.Text
             if (startIndex > -1 && length > 0)
             {
 
-                int oldLexLength = mybuffer.Length; char[] newBuff = new char[oldLexLength - length];
+                int oldLexLength = mybuffer.Length;                 
+                char[] newBuff = new char[oldLexLength - length];
+
                 if (withFreeRun)
                 {
                     freeRun = MakeTextRun(startIndex, length);
@@ -114,10 +116,12 @@ namespace LayoutFarm.Text
         }
         public void InsertAfter(int index, char c)
         {
-            int oldLexLength = mybuffer.Length; char[] newBuff = new char[oldLexLength + 1];
+            int oldLexLength = mybuffer.Length;
+            char[] newBuff = new char[oldLexLength + 1];
             if (index > -1 && index < mybuffer.Length - 1)
             {
-                Array.Copy(mybuffer, newBuff, index + 1); newBuff[index + 1] = c;
+                Array.Copy(mybuffer, newBuff, index + 1);
+                newBuff[index + 1] = c;
                 Array.Copy(mybuffer, index + 1, newBuff, index + 2, oldLexLength - index - 1);
             }
             else if (index == -1)
