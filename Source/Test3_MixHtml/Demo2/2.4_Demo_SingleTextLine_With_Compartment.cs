@@ -412,17 +412,17 @@ Zimbabwe");
 
         class UINinespaceBox : LayoutFarm.CustomWidgets.EaseBox
         {
-            Panel boxLeftTop;
-            Panel boxRightTop;
-            Panel boxLeftBottom;
-            Panel boxRightBottom;
+            SimpleBox boxLeftTop;
+            SimpleBox boxRightTop;
+            SimpleBox boxLeftBottom;
+            SimpleBox boxRightBottom;
             //-------------------------------------
-            Panel boxLeft;
-            Panel boxTop;
-            Panel boxRight;
-            Panel boxBottom;
+            SimpleBox boxLeft;
+            SimpleBox boxTop;
+            SimpleBox boxRight;
+            SimpleBox boxBottom;
             //-------------------------------------
-            Panel centerBox;
+            SimpleBox centerBox;
 
 
 
@@ -529,10 +529,10 @@ Zimbabwe");
 
                 return gripperBox;
             }
-            static CustomWidgets.Panel CreateSpaceBox(SpaceName name, Color bgcolor)
+            static CustomWidgets.SimpleBox CreateSpaceBox(SpaceName name, Color bgcolor)
             {
                 int controllerBoxWH = 10;
-                CustomWidgets.Panel spaceBox = new CustomWidgets.Panel(controllerBoxWH, controllerBoxWH);
+                CustomWidgets.SimpleBox spaceBox = new CustomWidgets.SimpleBox(controllerBoxWH, controllerBoxWH);
                 spaceBox.BackColor = bgcolor;
                 spaceBox.Tag = name;
                 return spaceBox;
@@ -575,10 +575,10 @@ Zimbabwe");
 
             }
 
-            public Panel LeftSpace { get { return this.boxLeft; } }
-            public Panel RightSpace { get { return this.boxRight; } }
-            public Panel TopSpace { get { return this.boxTop; } }
-            public Panel BottomSpace { get { return this.boxBottom; } }
+            public SimpleBox LeftSpace { get { return this.boxLeft; } }
+            public SimpleBox RightSpace { get { return this.boxRight; } }
+            public SimpleBox TopSpace { get { return this.boxTop; } }
+            public SimpleBox BottomSpace { get { return this.boxBottom; } }
 
 
 

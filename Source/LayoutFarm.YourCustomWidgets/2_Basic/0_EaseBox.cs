@@ -12,7 +12,7 @@ namespace LayoutFarm.CustomWidgets
 
     public abstract class EaseBox : UIBox
     {
-        PanelLayoutKind panelLayoutKind;
+        BoxContentLayoutKind panelLayoutKind;
         bool needContentLayout;
         bool draggable;
         bool dropable;
@@ -285,7 +285,7 @@ namespace LayoutFarm.CustomWidgets
             if (this.HasReadyRenderElement)
             {
                 primElement.AddChild(ui);
-                if (this.panelLayoutKind != PanelLayoutKind.Absolute)
+                if (this.panelLayoutKind != BoxContentLayoutKind.Absolute)
                 {
                     this.InvalidateLayout();
                 }
@@ -303,7 +303,7 @@ namespace LayoutFarm.CustomWidgets
             this.uiList.RemoveUI(ui);
             if (this.HasReadyRenderElement)
             {
-                if (this.PanelLayoutKind != PanelLayoutKind.Absolute)
+                if (this.PanelLayoutKind != BoxContentLayoutKind.Absolute)
                 {
                     this.InvalidateLayout();
                 }
@@ -321,7 +321,7 @@ namespace LayoutFarm.CustomWidgets
             {
 
                 primElement.ClearAllChildren();
-                if (this.panelLayoutKind != PanelLayoutKind.Absolute)
+                if (this.panelLayoutKind != BoxContentLayoutKind.Absolute)
                 {
                     this.InvalidateLayout();
                 }
@@ -350,7 +350,7 @@ namespace LayoutFarm.CustomWidgets
                 return this.needContentLayout;
             }
         }
-        public PanelLayoutKind PanelLayoutKind
+        public BoxContentLayoutKind PanelLayoutKind
         {
             get { return this.panelLayoutKind; }
             set
@@ -369,7 +369,7 @@ namespace LayoutFarm.CustomWidgets
             //temp : arrange as vertical stack***
             switch (this.PanelLayoutKind)
             {
-                case CustomWidgets.PanelLayoutKind.VerticalStack:
+                case CustomWidgets.BoxContentLayoutKind.VerticalStack:
                     {
 
                         int count = this.ChildCount;
@@ -408,7 +408,7 @@ namespace LayoutFarm.CustomWidgets
                         this.SetDesiredSize(maxRight, ypos);
 
                     } break;
-                case CustomWidgets.PanelLayoutKind.HorizontalStack:
+                case CustomWidgets.BoxContentLayoutKind.HorizontalStack:
                     {
 
                         int count = this.ChildCount;

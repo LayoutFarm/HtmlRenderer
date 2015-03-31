@@ -14,17 +14,17 @@ namespace LayoutFarm.CustomWidgets
 {
     public class NinespaceBox : EaseBox
     {
-        Panel boxLeftTop;
-        Panel boxRightTop;
-        Panel boxLeftBottom;
-        Panel boxRightBottom;
+        SimpleBox boxLeftTop;
+        SimpleBox boxRightTop;
+        SimpleBox boxLeftBottom;
+        SimpleBox boxRightBottom;
         //-------------------------------------
-        Panel boxLeft;
-        Panel boxTop;
-        Panel boxRight;
-        Panel boxBottom;
+        SimpleBox boxLeft;
+        SimpleBox boxTop;
+        SimpleBox boxRight;
+        SimpleBox boxBottom;
         //-------------------------------------
-        Panel boxCentral;
+        SimpleBox boxCentral;
         EaseBox gripperLeft;
         EaseBox gripperRight;
         EaseBox gripperTop;
@@ -48,10 +48,10 @@ namespace LayoutFarm.CustomWidgets
             get;
             set;
         }
-        static Panel CreateSpaceBox(SpaceName name, Color bgcolor)
+        static SimpleBox CreateSpaceBox(SpaceName name, Color bgcolor)
         {
             int controllerBoxWH = 10;
-            Panel spaceBox = new Panel(controllerBoxWH, controllerBoxWH);
+            SimpleBox spaceBox = new SimpleBox(controllerBoxWH, controllerBoxWH);
             spaceBox.BackColor = bgcolor;
             spaceBox.Tag = name;
             return spaceBox;
@@ -204,11 +204,11 @@ namespace LayoutFarm.CustomWidgets
             dockspaceController.ArrangeAllSpaces();
         }
 
-        public Panel LeftSpace { get { return this.boxLeft; } }
-        public Panel RightSpace { get { return this.boxRight; } }
-        public Panel TopSpace { get { return this.boxTop; } }
-        public Panel BottomSpace { get { return this.boxBottom; } }
-        public Panel CentralSpace { get { return this.boxCentral; } }
+        public SimpleBox LeftSpace { get { return this.boxLeft; } }
+        public SimpleBox RightSpace { get { return this.boxRight; } }
+        public SimpleBox TopSpace { get { return this.boxTop; } }
+        public SimpleBox BottomSpace { get { return this.boxBottom; } }
+        public SimpleBox CentralSpace { get { return this.boxCentral; } }
 
         public void SetLeftSpaceWidth(int w)
         {

@@ -18,15 +18,15 @@ namespace LayoutFarm.CustomWidgets
         UICollection uiList;
         int latestItemY;
 
-        Panel panel; //panel 
+        SimpleBox panel; //panel 
         public TreeView(int width, int height)
             : base(width, height)
         {
 
             //panel for listview items
-            this.panel = new Panel(width, height);
+            this.panel = new SimpleBox(width, height);
 
-            panel.PanelLayoutKind = PanelLayoutKind.VerticalStack;
+            panel.PanelLayoutKind = BoxContentLayoutKind.VerticalStack;
             panel.BackColor = Color.LightGray;
             uiList = new UICollection(this);
             uiList.AddUI(panel);

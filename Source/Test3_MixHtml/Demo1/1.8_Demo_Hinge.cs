@@ -38,7 +38,7 @@ namespace LayoutFarm
             comboBox.SetLocation(x, y);
             //--------------------
             //1. create landing part
-            var landPart = new LayoutFarm.CustomWidgets.Panel(400, 20);
+            var landPart = new LayoutFarm.CustomWidgets.SimpleBox(400, 20);
             landPart.BackColor = Color.Green;
             comboBox.LandPart = landPart;
             //--------------------------------------
@@ -53,7 +53,7 @@ namespace LayoutFarm
             imgBox.ImageBinder = arrowBmp;
             //--------------------------------------
             //2. float part
-            var floatPart = new LayoutFarm.CustomWidgets.Panel(400, 100);
+            var floatPart = new LayoutFarm.CustomWidgets.SimpleBox(400, 100);
             floatPart.BackColor = Color.Blue;
             comboBox.FloatPart = floatPart;
 
@@ -88,7 +88,7 @@ namespace LayoutFarm
             mnuItem.SetLocation(x, y);
             //--------------------
             //1. create landing part
-            var landPart = new LayoutFarm.CustomWidgets.Panel(150, 20);
+            var landPart = new LayoutFarm.CustomWidgets.SimpleBox(150, 20);
             landPart.BackColor = Color.OrangeRed;
             mnuItem.LandPart = landPart;
             //--------------------------------------

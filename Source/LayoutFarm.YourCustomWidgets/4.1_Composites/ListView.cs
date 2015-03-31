@@ -18,14 +18,14 @@ namespace LayoutFarm.CustomWidgets
         UICollection uiList;
         List<ListItem> items = new List<ListItem>();
         int selectedIndex = -1;//default = no selection
-        Panel panel;
+        SimpleBox panel;
         public ListView(int width, int height)
             : base(width, height)
         {
             uiList = new UICollection(this);
             //panel for listview items
-            this.panel = new Panel(width, height);
-            this.panel.PanelLayoutKind = PanelLayoutKind.VerticalStack;
+            this.panel = new SimpleBox(width, height);
+            this.panel.PanelLayoutKind = BoxContentLayoutKind.VerticalStack;
             panel.BackColor = Color.LightGray;
             uiList.AddUI(panel);
         }
