@@ -63,12 +63,11 @@ namespace LayoutFarm.CustomWidgets
                 renderE.SetController(this);
                 renderE.HasSpecificSize = true;
                 //------------------------------------------------
-                //create visual layer
-                var plain = renderE.GetDefaultLayer();
+                //create visual layer 
                 int n = this.uiList.Count;
                 for (int m = 0; m < n; ++m)
                 {
-                    plain.AddUI(uiList.GetElement(m));
+                    renderE.AddChild(uiList.GetElement(m));
                 }
 
                 //---------------------------------
@@ -197,17 +196,17 @@ namespace LayoutFarm.CustomWidgets
                 element.HasSpecificSize = true;
                 //-----------------------------
                 // create default layer for node content
-                PlainLayer plainLayer = element.GetDefaultLayer();
+
 
                 //-----------------------------
                 uiNodeIcon = new ImageBox(16, 16);//create with default size 
                 SetupNodeIconBehaviour(uiNodeIcon);
-                plainLayer.AddChild(uiNodeIcon.GetPrimaryRenderElement(rootgfx));
+                element.AddChild(uiNodeIcon);
                 //-----------------------------
                 myTextRun = new CustomTextRun(rootgfx, 10, 17);
                 myTextRun.SetLocation(16, 0);
                 myTextRun.Text = "Test01";
-                plainLayer.AddChild(myTextRun);
+                element.AddChild(myTextRun);
                 //-----------------------------
                 this.primElement = element;
             }

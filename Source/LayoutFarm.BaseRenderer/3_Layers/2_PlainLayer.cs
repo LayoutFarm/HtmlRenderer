@@ -7,7 +7,7 @@ using System.Text;
 namespace LayoutFarm.RenderBoxes
 {
 
-    public class PlainLayer : RenderElementLayer
+    class PlainLayer : RenderElementLayer
     {
         LinkedList<RenderElement> myElements = new LinkedList<RenderElement>();
         public PlainLayer(RenderElement owner)
@@ -262,8 +262,8 @@ namespace LayoutFarm.RenderBoxes
             {
                 return this.ownerLayer.OwnerRenderElement;
             }
-        } 
-        public void AdjustLocation(ref  Point p)
+        }
+        public void AdjustLocation(ref Point p)
         {
 
         }

@@ -381,24 +381,6 @@ namespace LayoutFarm.UI
             return gridCols[columnIndex].GetCell(rowIndex);
         }
 
-        //public void AdjustGridWidth(int nWidthDiff)
-        //{   
-        //    int j = gridCols.Count;
-        //    if (j > 0)
-        //    {
-        //        //just average
-        //        int avgWidth = nWidthDiff / j;
-        //        if (avgWidth > 0)
-        //        {
-        //            for (int i = j - 1; i > -1; i--)
-        //            {
-
-        //                gridCols[i].Width += avgWidth;
-
-        //            }
-        //        }
-        //    }
-        //}
 
 
         public void SetUniformGridItemSize(int cellItemWidth, int cellItemHeight)
@@ -656,7 +638,7 @@ namespace LayoutFarm.UI
             //{
             //    return;
             //}
-            
+
 
             //TODO: temp fixed, review here again,
             GridCell leftTopGridItem = this.GetCell(0, 0);
