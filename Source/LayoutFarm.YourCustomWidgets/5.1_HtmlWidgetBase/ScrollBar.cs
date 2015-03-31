@@ -661,7 +661,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             //walk to control
             visitor.BeginElement(this, "scrollbar");
-            this.DescribeDimension(visitor);
+            this.Describe(visitor);
             visitor.EndElement();
         }
 
@@ -709,7 +709,7 @@ namespace LayoutFarm.HtmlWidgets
         public override void Walk(UIVisitor visitor)
         {
             visitor.BeginElement(this, "scrollbutton");
-            this.DescribeDimension(visitor);
+            this.Describe(visitor);
             visitor.EndElement();
         }
 

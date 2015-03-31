@@ -226,7 +226,7 @@ namespace LayoutFarm.CustomWidgets
         public override void Walk(UIVisitor visitor)
         {
             visitor.BeginElement(this, "ninebox");
-            this.DescribeDimension(visitor);
+            this.Describe(visitor);
             visitor.EndElement();
         }
 

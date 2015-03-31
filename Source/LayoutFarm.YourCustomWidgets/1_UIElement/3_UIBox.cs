@@ -257,7 +257,7 @@ namespace LayoutFarm.UI
         //----------------------------------- 
 
 
-        protected void DescribeDimension(UIVisitor visitor)
+        protected virtual void Describe(UIVisitor visitor)
         {
             visitor.Attribute("left", this.Left);
             visitor.Attribute("top", this.Top);
