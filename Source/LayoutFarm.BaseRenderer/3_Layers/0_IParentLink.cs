@@ -15,6 +15,7 @@ namespace LayoutFarm.RenderBoxes
         void AdjustLocation(ref Point p);
 
         RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point);
+        
         RenderElement NotifyParentToInvalidate(out bool goToFinalExit
 
 #if DEBUG

@@ -265,6 +265,27 @@ namespace LayoutFarm.UI
             visitor.Attribute("height", this.Height);
         }
 
+        public void FindDragOverElements(List<UIElement> uilist)
+        {
+            var renderE = this.CurrentPrimaryRenderElement;
+            var underElement = renderE.FindOverlapedChildElementAtPoint(renderE, new Point(this.Left, this.Top));
+
+            var hitArea = new Rectangle(this.Left, this.Top, this.Width, this.Height);
+            renderE.FindUnderlyingChildElement(
+                ref hitArea,
+                found =>
+                {
+                    //stop
+                    var owner = found.GetController() as UIElement;
+                    if (owner != null)
+                    {
+                        uilist.Add(owner);
+                        return true;
+                    }
+                    return false;
+                });
+            
+        }
     }
 
 }

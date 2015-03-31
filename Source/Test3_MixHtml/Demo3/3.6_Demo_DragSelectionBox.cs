@@ -28,11 +28,11 @@ namespace LayoutFarm
             this.rootgfx = viewport.ViewportControl.RootGfx;
             //--------------------------------
             {
-                var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
-                bgbox.BackColor = Color.White;
-                bgbox.SetLocation(0, 0);
-                SetupBackgroundProperties(bgbox);
-                viewport.AddContent(bgbox);
+                //var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
+                //bgbox.BackColor = Color.White;
+                //bgbox.SetLocation(0, 0);
+                //SetupBackgroundProperties(bgbox);
+                //viewport.AddContent(bgbox);
             }
             //--------------------------------
             {
@@ -57,7 +57,7 @@ namespace LayoutFarm
             }
             {
                 var box3 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
-                box3.SetLocation(80, 80);
+                box3.SetLocation(200, 80);
                 //box2.dbugTag = 2;
                 SetupActiveBoxProperties(box3);
                 viewport.AddContent(box3);
@@ -371,6 +371,20 @@ namespace LayoutFarm
                     }
 
                     MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
+
+                    //test here 
+                    //find dragover element
+                    List<UIElement> dragOverElements = new List<UIElement>();
+                    controllerBox.FindDragOverElements(dragOverElements);
+                    if (dragOverElements.Count > 0)
+                    {
+                        var easeBox = dragOverElements[0] as LayoutFarm.CustomWidgets.EaseBox;
+                        if (easeBox != null)
+                        {
+                            easeBox.BackColor = Color.Green;
+                        }
+                    }
+
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.CancelBubbling = true;
                 }
