@@ -262,7 +262,7 @@ namespace LayoutFarm
             public override void Walk(UIVisitor visitor)
             {
                 visitor.BeginElement(this, "ctrlbox");
-                this.DescribeDimension(visitor);
+                this.Describe(visitor);
                 visitor.EndElement();
             }
 

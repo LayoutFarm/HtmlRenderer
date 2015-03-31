@@ -33,7 +33,9 @@ namespace LayoutFarm.CustomWidgets
         public override void Walk(UIVisitor visitor)
         {
             visitor.BeginElement(this, "simplebox");
-            this.DescribeDimension(visitor);
+            this.Describe(visitor);
+            //descrube child
+
             visitor.EndElement();
         }
     }

@@ -92,7 +92,7 @@ namespace LayoutFarm.CustomWidgets
                 for (int m = 0; m < childCount; ++m)
                 {
                     plan0.AddChild(this.GetChild(m).GetPrimaryRenderElement(rootgfx));
-                } 
+                }
                 //set primary render element
                 //---------------------------------
                 this.primElement = renderE;
@@ -475,6 +475,21 @@ namespace LayoutFarm.CustomWidgets
             }
             //------------------------------------------------
             base.RaiseLayoutFinished();
+        }
+        protected override void Describe(UIVisitor visitor)
+        {
+            //describe base properties
+            base.Describe(visitor);
+
+            //describe child content
+            if (uiList != null)
+            {
+                int j = this.uiList.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    uiList.GetElement(i).Walk(visitor);
+                }
+            }
         }
     }
 

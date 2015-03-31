@@ -663,7 +663,7 @@ namespace LayoutFarm.CustomWidgets
         public override void Walk(UIVisitor visitor)
         {
             visitor.BeginElement(this, "scrollbar");
-            this.DescribeDimension(visitor);
+            this.Describe(visitor);
             visitor.EndElement();
         }
     }
@@ -710,7 +710,7 @@ namespace LayoutFarm.CustomWidgets
         public override void Walk(UIVisitor visitor)
         {
             visitor.BeginElement(this, "scrollbutton");
-            this.DescribeDimension(visitor);
+            this.Describe(visitor);
             visitor.EndElement();
         }
 
