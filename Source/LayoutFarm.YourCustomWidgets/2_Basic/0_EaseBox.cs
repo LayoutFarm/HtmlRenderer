@@ -24,7 +24,7 @@ namespace LayoutFarm.CustomWidgets
         int desiredHeight;
         int desiredWidth;
 
-        protected UICollection uiList;
+        UICollection uiList;
 
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseMove;
@@ -70,14 +70,32 @@ namespace LayoutFarm.CustomWidgets
         {
             if (primElement == null)
             {
+
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
+                renderE.HasSpecificHeight = this.HasSpecificHeight;
+                renderE.HasSpecificWidth = this.HasSpecificWidth;
                 renderE.SetController(this);
-
-                renderE.BackColor = backColor;
+#if DEBUG
+                //if (dbugBreakMe)
+                //{
+                //    renderE.dbugBreak = true;
+                //}
+#endif
                 renderE.SetLocation(this.Left, this.Top);
-                renderE.SetVisible(this.Visible);
-
-                primElement = renderE;
+                renderE.BackColor = backColor;
+                renderE.HasSpecificSize = true;
+                renderE.SetViewport(this.ViewportX, this.ViewportY);
+                //------------------------------------------------
+                //create visual layer
+                var plan0 = renderE.GetDefaultLayer();
+                int childCount = this.ChildCount;
+                for (int m = 0; m < childCount; ++m)
+                {
+                    plan0.AddChild(this.GetChild(m).GetPrimaryRenderElement(rootgfx));
+                } 
+                //set primary render element
+                //---------------------------------
+                this.primElement = renderE;
             }
             return primElement;
         }
@@ -257,6 +275,11 @@ namespace LayoutFarm.CustomWidgets
         }
         public void AddChild(UIElement ui)
         {
+            if (this.uiList == null)
+            {
+                this.uiList = new UICollection(this);
+            }
+
             needContentLayout = true;
             this.uiList.AddUI(ui);
             if (this.HasReadyRenderElement)
@@ -275,10 +298,11 @@ namespace LayoutFarm.CustomWidgets
         }
         public void RemoveChild(UIElement ui)
         {
+
             needContentLayout = true;
             this.uiList.RemoveUI(ui);
             if (this.HasReadyRenderElement)
-            {   
+            {
                 if (this.PanelLayoutKind != PanelLayoutKind.Absolute)
                 {
                     this.InvalidateLayout();
@@ -289,7 +313,10 @@ namespace LayoutFarm.CustomWidgets
         public void ClearChildren()
         {
             needContentLayout = true;
-            this.uiList.Clear();
+            if (this.uiList != null)
+            {
+                this.uiList.Clear();
+            }
             if (this.HasReadyRenderElement)
             {
 
@@ -314,11 +341,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public UIElement GetChild(int index)
         {
-            if (uiList != null)
-            {
-                return uiList.GetElement(index);
-            }
-            return null;
+            return uiList.GetElement(index);
         }
         public override bool NeedContentLayout
         {
@@ -334,6 +357,124 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.panelLayoutKind = value;
             }
+        }
+        protected override void OnContentLayout()
+        {
+            this.PerformContentLayout();
+        }
+        public override void PerformContentLayout()
+        {
+
+            this.InvalidateGraphics();
+            //temp : arrange as vertical stack***
+            switch (this.PanelLayoutKind)
+            {
+                case CustomWidgets.PanelLayoutKind.VerticalStack:
+                    {
+
+                        int count = this.ChildCount;
+                        int ypos = 0;
+                        int maxRight = 0;
+                        for (int i = 0; i < count; ++i)
+                        {
+                            var element = this.GetChild(i) as UIBox;
+                            if (element != null)
+                            {
+                                //if (element.dbugBreakMe)
+                                //{
+
+                                //}
+                                element.PerformContentLayout();
+
+                                int elemH = element.HasSpecificHeight ?
+                                    element.Height :
+                                    element.DesiredHeight;
+                                int elemW = element.HasSpecificWidth ?
+                                    element.Width :
+                                    element.DesiredWidth;
+                                element.SetBounds(0, ypos, element.Width, elemH);
+                                ypos += element.Height;
+
+
+
+                                int tmp_right = element.DesiredWidth + element.Left;
+                                if (tmp_right > maxRight)
+                                {
+                                    maxRight = tmp_right;
+                                }
+                            }
+                        }
+
+                        this.SetDesiredSize(maxRight, ypos);
+
+                    } break;
+                case CustomWidgets.PanelLayoutKind.HorizontalStack:
+                    {
+
+                        int count = this.ChildCount;
+                        int xpos = 0;
+
+                        int maxBottom = 0;
+
+                        for (int i = 0; i < count; ++i)
+                        {
+                            var element = this.GetChild(i) as UIBox;
+                            if (element != null)
+                            {
+                                element.PerformContentLayout();
+                                element.SetBounds(xpos, 0, element.DesiredWidth, element.DesiredHeight);
+                                xpos += element.DesiredWidth;
+
+                                int tmp_bottom = element.DesiredHeight + element.Top;
+                                if (tmp_bottom > maxBottom)
+                                {
+                                    maxBottom = tmp_bottom;
+                                }
+
+                            }
+                        }
+
+                        this.SetDesiredSize(xpos, maxBottom);
+
+                    } break;
+                default:
+                    {
+
+                        int count = this.ChildCount;
+                        int maxRight = 0;
+                        int maxBottom = 0;
+
+                        for (int i = 0; i < count; ++i)
+                        {
+                            var element = this.GetChild(i) as UIBox;
+                            if (element != null)
+                            {
+                                element.PerformContentLayout();
+                                int tmp_right = element.DesiredWidth + element.Left;
+                                if (tmp_right > maxRight)
+                                {
+                                    maxRight = tmp_right;
+                                }
+                                int tmp_bottom = element.DesiredHeight + element.Top;
+                                if (tmp_bottom > maxBottom)
+                                {
+                                    maxBottom = tmp_bottom;
+                                }
+                            }
+                        }
+
+                        if (!this.HasSpecificWidth)
+                        {
+                            this.SetDesiredSize(maxRight, this.DesiredHeight);
+                        }
+                        if (!this.HasSpecificHeight)
+                        {
+                            this.SetDesiredSize(this.DesiredWidth, maxBottom);
+                        }
+                    } break;
+            }
+            //------------------------------------------------
+            base.RaiseLayoutFinished();
         }
     }
 
