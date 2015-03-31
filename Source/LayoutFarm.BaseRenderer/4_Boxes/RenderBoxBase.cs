@@ -179,7 +179,7 @@ namespace LayoutFarm.RenderBoxes
             {
                 this.defaultLayer.RemoveChild(renderE);
             }
-        } 
+        }
         public override void ClearAllChildren()
         {
             if (this.defaultLayer != null)
@@ -255,10 +255,11 @@ namespace LayoutFarm.RenderBoxes
 #endif
         }
 
+
         public override RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
 #if DEBUG
-            if (afterThisChild.dbugParentVisualElement != this)
+            if (afterThisChild.dbugParentVisualElement != this.dbugParentVisualElement)
             {
                 throw new Exception("not a parent-child relation");
             }
@@ -268,6 +269,22 @@ namespace LayoutFarm.RenderBoxes
                 return afterThisChild.ParentLink.FindOverlapedChildElementAtPoint(afterThisChild, point);
             }
             return null;
+        }
+
+
+        public override void FindUnderlyingChildElement(ref Rectangle rect, RenderElementFoundDelegate renderElementFoundDel)
+        {
+            if (this.ParentLink.MayHasOverlapChild)
+            {
+                var found = this.ParentLink.FindOverlapedChildElementAtPoint(this, rect.Location);
+                if (found != null)
+                {
+                    if (renderElementFoundDel(found))
+                    {
+                        return;
+                    } 
+                }
+            }
         }
         public Size InnerContentSize
         {

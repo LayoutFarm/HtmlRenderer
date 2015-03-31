@@ -138,6 +138,11 @@ namespace LayoutFarm
         {
             return null;
         }
+
+        public virtual void FindUnderlyingChildElement(ref Rectangle rect, RenderElementFoundDelegate renderElementFoundDel)
+        {
+            //do nothing
+        } 
         public virtual void ChildrenHitTestCore(HitChain hitChain)
         {
 
@@ -288,15 +293,8 @@ namespace LayoutFarm
             }
             else
             {
-
                 return false;
             }
-        }
-
-        public bool FindUnderlingSibling(LinkedList<RenderElement> foundElements)
-        {
-            //TODO: need?
-            throw new NotSupportedException();
         }
 
         //==============================================================
