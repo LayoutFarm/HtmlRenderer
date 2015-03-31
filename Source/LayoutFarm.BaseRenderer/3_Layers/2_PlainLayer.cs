@@ -240,7 +240,7 @@ namespace LayoutFarm.RenderBoxes
             {
                 var element = curnode.Value;
                 if (element.Contains(point))
-                {    
+                {
                     return element;
                 }
                 curnode = curnode.Previous;
@@ -262,18 +262,7 @@ namespace LayoutFarm.RenderBoxes
             {
                 return this.ownerLayer.OwnerRenderElement;
             }
-        }
-
-        public RenderElement NotifyParentToInvalidate(out bool goToFinalExit
-
-#if DEBUG
-, RenderElement ve
-#endif
-)
-        {
-            goToFinalExit = false;
-            return ownerLayer.InvalidateArrangement();
-        }
+        } 
         public void AdjustLocation(ref  Point p)
         {
 

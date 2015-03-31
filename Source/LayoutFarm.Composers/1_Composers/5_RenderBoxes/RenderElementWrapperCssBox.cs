@@ -349,26 +349,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
             return null;
-        }
-        public RenderElement NotifyParentToInvalidate(out bool goToFinalExit
-
-#if DEBUG
-, RenderElement ve
-#endif
-)
-        {
-            goToFinalExit = false;
-            int globalX;
-            int globalY;
-            var parent = box.GetParentRenderElement(out globalX, out globalY);
-
-            if (parent != null)
-            {
-                parent.InvalidateGraphics();
-            }
-            return parent;
-        }
-
+        } 
 #if DEBUG
         public string dbugGetLinkInfo() { return ""; }
 #endif
@@ -393,25 +374,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
             return null;
-        }
-        public RenderElement NotifyParentToInvalidate(out bool goToFinalExit
-
-#if DEBUG
-, RenderElement ve
-#endif
-)
-        {
-            goToFinalExit = false;
-            //int globalX;
-            //int globalY;
-            var parent = box.ParentRenderElement;
-
-            if (parent != null)
-            {
-                parent.InvalidateGraphics();
-            }
-            return parent;
-        }
+        } 
 
 #if DEBUG
         public string dbugGetLinkInfo() { return ""; }

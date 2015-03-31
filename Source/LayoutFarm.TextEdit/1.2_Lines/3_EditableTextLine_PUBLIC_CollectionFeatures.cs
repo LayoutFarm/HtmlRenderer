@@ -41,38 +41,7 @@ namespace LayoutFarm.Text
             }
         }
 #endif
-        public RenderElement NotifyParentToInvalidate(out bool goToFinalExit
-#if DEBUG
-, RenderElement ve
-#endif
-)
-        {
-            RenderElement parentVisualElem = null;
-            goToFinalExit = false;
-
-            EditableTextLine line = this.OwnerLine;
-#if DEBUG
-            dbugVRoot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_VisualElementLine_INVALIDATE_enter, ve);
-#endif
-            line.InvalidateLineLayout();
-#if DEBUG
-            dbugVRoot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_VisualElementLine_INVALIDATE_exit, ve);
-#endif
-
-            if (!line.IsLocalSuspendLineRearrange)
-            {
-                parentVisualElem = line.editableFlowLayer.InvalidateArrangement();
-            }
-            else
-            {
-#if DEBUG
-                dbugVRoot.dbug_PushLayoutTraceMessage(RootGraphic.dbugMsg_VisualElementLine_OwnerFlowElementIsIn_SUSPEND_MODE_enter, ve);
-#endif
-                goToFinalExit = true;
-            }
-            return parentVisualElem;
-        }
-
+         
         internal EditableTextFlowLayer OwnerFlowLayer
         {
             get
