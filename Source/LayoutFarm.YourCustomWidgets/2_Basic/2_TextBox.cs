@@ -118,19 +118,19 @@ namespace LayoutFarm.CustomWidgets
                             var length = splitBound.length;
                             var splitBuffer = new char[length];
                             Array.Copy(buffer, startIndex, splitBuffer, 0, length);
-                            var textspan = textEditRenderElement.CreateNewTextSpan(splitBuffer); 
+                            var textspan = textEditRenderElement.CreateNewTextSpan(splitBuffer);
                             textEditRenderElement.AddTextRun(textspan);
                         }
                     }
                     else
                     {
-                        var textspan = textEditRenderElement.CreateNewTextSpan(line); 
+                        var textspan = textEditRenderElement.CreateNewTextSpan(line);
                         textEditRenderElement.AddTextRun(textspan);
                     }
                     lineCount++;
                     line = reader.ReadLine();
                 }
-               
+
                 this.InvalidateGraphics();
             }
         }
@@ -234,7 +234,7 @@ namespace LayoutFarm.CustomWidgets
         //---------------------------------------------------------------- 
         protected override void OnMouseLeave(UIMouseEventArgs e)
         {
-            e.MouseCursorStyle = MouseCursorStyle.Arrow; 
+            e.MouseCursorStyle = MouseCursorStyle.Arrow;
         }
         protected override void OnDoubleClick(UIMouseEventArgs e)
         {
@@ -267,14 +267,14 @@ namespace LayoutFarm.CustomWidgets
         }
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
-            this.Focus(); 
+            this.Focus();
             e.MouseCursorStyle = MouseCursorStyle.IBeam;
             e.CancelBubbling = true;
-            e.CurrentContextElement = this; 
+            e.CurrentContextElement = this;
             textEditRenderElement.OnMouseDown(e);
         }
         protected override void OnLostKeyboardFocus(UIFocusEventArgs e)
-        { 
+        {
             base.OnLostKeyboardFocus(e);
             textEditRenderElement.Blur();
         }
@@ -286,7 +286,7 @@ namespace LayoutFarm.CustomWidgets
                 e.CancelBubbling = true;
                 e.MouseCursorStyle = MouseCursorStyle.IBeam;
             }
-             
+
         }
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
@@ -391,5 +391,13 @@ namespace LayoutFarm.CustomWidgets
                 return 17;
             }
         }
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "textbox");
+            this.DescribeDimension(visitor);
+            visitor.TextNode(this.Text);
+            visitor.EndElement();
+        }
+
     }
 }

@@ -5,6 +5,7 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
+
     public abstract partial class UIElement : IEventListener
     {
         int oneBitNativeEventFlags;
@@ -17,12 +18,14 @@ namespace LayoutFarm.UI
 
         }
 
+        public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
+
+
         protected void RegisterNativeEvent(int eventFlags)
         {
             this.oneBitNativeEventFlags |= eventFlags;
         }
-        
-        public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
+
 
         public bool TransparentAllMouseEvents
         {
@@ -34,8 +37,6 @@ namespace LayoutFarm.UI
             get;
             set;
         }
-
-
 
         public abstract RenderElement CurrentPrimaryRenderElement
         {
@@ -133,7 +134,7 @@ namespace LayoutFarm.UI
         }
         protected virtual void OnContentUpdate()
         {
-        } 
+        }
         protected virtual void OnInterComponentMsg(object sender, int msgcode, string msg)
         {
 
@@ -146,7 +147,8 @@ namespace LayoutFarm.UI
         {
 
         }
-       
+
+        public abstract void Walk(UIVisitor visitor);
 
 #if DEBUG
         object dbugTagObject;

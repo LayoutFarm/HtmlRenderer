@@ -217,8 +217,7 @@ namespace LayoutFarm.CustomWidgets
                     } break;
 
             }
-        }
-
+        } 
         public HingeFloatPartStyle FloatPartStyle
         {
             get { return this.floatPartStyle; }
@@ -226,6 +225,11 @@ namespace LayoutFarm.CustomWidgets
             {
                 this.floatPartStyle = value;
             }
+        }
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "hingbox");
+            visitor.EndElement();
         }
     }
     public enum HingeFloatPartStyle

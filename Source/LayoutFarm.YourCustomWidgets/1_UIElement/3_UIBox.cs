@@ -20,7 +20,7 @@ namespace LayoutFarm.UI
         bool _hide;
         bool specificWidth;
         bool specificHeight;
-     
+
 
         public event EventHandler LayoutFinished;
 
@@ -254,8 +254,16 @@ namespace LayoutFarm.UI
 
         //----------------------------------- 
         public object Tag { get; set; }
+        //----------------------------------- 
 
-        public bool IsMouseDown { get; set; }
+
+        protected void DescribeDimension(UIVisitor visitor)
+        {
+            visitor.Attribute("left", this.Left);
+            visitor.Attribute("top", this.Top);
+            visitor.Attribute("width", this.Width);
+            visitor.Attribute("height", this.Height);
+        }
 
     }
 

@@ -12,7 +12,7 @@ namespace LayoutFarm.CustomWidgets
 {
 
 
-    public class CheckBox : Panel
+    public class CheckBox : EaseBox
     {
         //check icon
         ImageBox imageBox;
@@ -84,6 +84,12 @@ namespace LayoutFarm.CustomWidgets
         }
         public event EventHandler WhenChecked;
 
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "checkbox");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
     }
 
 

@@ -660,6 +660,12 @@ namespace LayoutFarm.CustomWidgets
                 this.StepSmallToMin();
             }
         }
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "scrollbar");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
     }
 
     public class ScrollBarCreationParameters
@@ -701,6 +707,12 @@ namespace LayoutFarm.CustomWidgets
             this.OwnerScrollBar.ChildNotifyMouseWheel(e);
         }
 
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "scrollbutton");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
 
     }
 

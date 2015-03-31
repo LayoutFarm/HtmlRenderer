@@ -29,7 +29,7 @@ namespace LayoutFarm
                  
                 viewport.AddContent(gridBox);
 
-                var simpleButton = new LayoutFarm.CustomWidgets.EaseBox(20, 20);
+                var simpleButton = new LayoutFarm.CustomWidgets.SimpleBox(20, 20);
                 simpleButton.BackColor = KnownColors.FromKnownColor(KnownColor.OliveDrab);
                 gridBox.AddUI(simpleButton, 1, 1); 
             }

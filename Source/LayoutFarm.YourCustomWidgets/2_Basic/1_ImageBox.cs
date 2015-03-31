@@ -62,5 +62,11 @@ namespace LayoutFarm.CustomWidgets
                 this.ParentUI.InvalidateLayout();
             }
         }
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "imgbox");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
     }
 }

@@ -59,5 +59,11 @@ namespace LayoutFarm.CustomWidgets
         {
             this.canvasRenderElement.InvalidateCanvasContent();
         }
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "canvas");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
     }
 }

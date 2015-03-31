@@ -18,15 +18,15 @@ namespace LayoutFarm.CustomWidgets
         UICollection uiList;
         int latestItemY;
 
-        Panel panel; //panel 
+        SimpleBox panel; //panel 
         public TreeView(int width, int height)
             : base(width, height)
         {
 
             //panel for listview items
-            this.panel = new Panel(width, height);
+            this.panel = new SimpleBox(width, height);
 
-            panel.PanelLayoutKind = PanelLayoutKind.VerticalStack;
+            panel.PanelLayoutKind = BoxContentLayoutKind.VerticalStack;
             panel.BackColor = Color.LightGray;
             uiList = new UICollection(this);
             uiList.AddUI(panel);
@@ -136,6 +136,12 @@ namespace LayoutFarm.CustomWidgets
             this.panel.PerformContentLayout();
         }
         //----------------------------------------------------   
+        public override void Walk(UIVisitor visitor)
+        {
+            visitor.BeginElement(this, "treeview");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
+        }
     }
 
     public class TreeNode : UIBox
@@ -288,7 +294,7 @@ namespace LayoutFarm.CustomWidgets
                     var tnRenderElement = treeNode.GetPrimaryRenderElement(primElement.Root);
                     tnRenderElement.SetLocation(indentWidth, newChildNodeY);
                     primElement.AddChild(tnRenderElement);
-                     
+
                     newChildNodeY += tnRenderElement.Height;
                     //-----------------
                 }
@@ -361,6 +367,13 @@ namespace LayoutFarm.CustomWidgets
                 }
             };
 
+        }
+        public override void Walk(UIVisitor visitor)
+        {
+
+            visitor.BeginElement(this, "treenode");
+            this.DescribeDimension(visitor);
+            visitor.EndElement();
         }
 
     }

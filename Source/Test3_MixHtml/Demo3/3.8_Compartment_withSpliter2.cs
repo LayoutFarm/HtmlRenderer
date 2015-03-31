@@ -21,7 +21,7 @@ namespace LayoutFarm
             //--------------------------------
             {
                 //background element
-                var bgbox = new LayoutFarm.CustomWidgets.EaseBox(800, 600);
+                var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
                 bgbox.BackColor = Color.White;
                 bgbox.SetLocation(0, 0);
                 SetupBackgroundProperties(bgbox);
@@ -39,7 +39,7 @@ namespace LayoutFarm
             //--------------------------------
             //test add some content to the ninespace box
             var sampleListView = CreateSampleListView();
-            ninespaceBox.LeftSpace.PanelLayoutKind = PanelLayoutKind.VerticalStack;
+            ninespaceBox.LeftSpace.PanelLayoutKind = BoxContentLayoutKind.VerticalStack;
             ninespaceBox.LeftSpace.AddChild(sampleListView);
 
         }
