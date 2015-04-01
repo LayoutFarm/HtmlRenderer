@@ -13,9 +13,7 @@ namespace LayoutFarm.RenderBoxes
         bool MayHasOverlapChild { get; }
         RenderElement ParentRenderElement { get; } 
         void AdjustLocation(ref Point p);
-
-        RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point);
-         
+        RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point);         
 
 #if DEBUG
         string dbugGetLinkInfo();
@@ -23,6 +21,7 @@ namespace LayoutFarm.RenderBoxes
 
     }
 
+    
 
   
 }

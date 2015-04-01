@@ -180,7 +180,7 @@ namespace LayoutFarm.RenderBoxes
 
         public override void TopDownReArrangeContent()
         {
-            vinv_IsInTopDownReArrangePhase = true;
+            //vinv_IsInTopDownReArrangePhase = true;
 #if DEBUG
             vinv_dbug_EnterLayerReArrangeContent(this);
 #endif

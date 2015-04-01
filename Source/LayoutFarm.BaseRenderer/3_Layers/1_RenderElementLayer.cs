@@ -49,18 +49,7 @@ namespace LayoutFarm.RenderBoxes
             get { return this.owner.Root; }
         }
         public abstract void Clear();
-
-
-
-        public RenderElement InvalidateArrangement()
-        {
-#if DEBUG
-            this.dbug_InvalidateCount++;
-#endif
-            layerFlags &= ~ARRANGEMENT_VALID;
-            return this.owner;
-        }
-
+         
         public bool Visible
         {
             get
@@ -172,23 +161,12 @@ namespace LayoutFarm.RenderBoxes
 
                 return (layerFlags & ARRANGEMENT_VALID) == 0;
             }
-        }
-        bool HasCalculateContentSize
-        {
-            get
-            {
-                return (layerFlags & HAS_CALCULATE_SIZE) != 0;
-            }
-        }
+        } 
         void ValidateCalculateContentSize()
         {
             this.layerFlags |= HAS_CALCULATE_SIZE;
         }
-        void InvalidateCalculateContentSize()
-        {
-            this.layerFlags &= ~HAS_CALCULATE_SIZE;
-        }
-
+       
 #if DEBUG
         public RootGraphic dbugVRoot
         {
@@ -286,19 +264,12 @@ namespace LayoutFarm.RenderBoxes
             if (debugVisualLay == null) return;
 
             debugVisualLay.WriteInfo(msg.text);
-        }
-
+        } 
 #endif
         public RenderElement OwnerRenderElement
         {
-            get { return this.owner; }
-
-        }
-        protected static bool vinv_IsInTopDownReArrangePhase
-        {
-            get;
-            set;
-        }
+            get { return this.owner; } 
+        } 
     }
 
 

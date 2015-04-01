@@ -88,6 +88,8 @@ namespace LayoutFarm
         {
 
         }
+        
+        
         public IParentLink ParentLink
         {
             get
@@ -95,6 +97,8 @@ namespace LayoutFarm
                 return parentLink;
             }
         }
+       
+        
         public virtual RenderElement ParentRenderElement
         {
             get
@@ -114,6 +118,8 @@ namespace LayoutFarm
         {
             childElement.parentLink = parentLink;
         }
+
+
         public bool MayHasChild
         {
             get { return (propFlags & RenderElementConst.MAY_HAS_CHILD) != 0; }
