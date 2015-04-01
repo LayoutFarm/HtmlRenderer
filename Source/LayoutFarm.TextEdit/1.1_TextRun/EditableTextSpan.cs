@@ -9,6 +9,10 @@ namespace LayoutFarm.Text
 
     public partial class EditableTextSpan : TextSpan
     {
+
+        EditableTextLine ownerTextLine;
+        LinkedListNode<EditableTextSpan> _internalLinkedNode;
+
         public EditableTextSpan(RootGraphic gfx, char[] myBuffer, TextSpanStyle style)
             : base(gfx, myBuffer, style)
         {
@@ -34,6 +38,19 @@ namespace LayoutFarm.Text
         {
             return new EditableTextSpan(this.Root, this.Text, this.SpanStyle);
         }
+        internal LinkedListNode<EditableTextSpan> internalLinkedNode
+        {
+            get { return this._internalLinkedNode; }
+
+        }
+        internal void SetInternalLinkedNode(LinkedListNode<EditableTextSpan> linkedNode, EditableTextLine ownerTextLine)
+        {
+            this.ownerTextLine = ownerTextLine;
+            this._internalLinkedNode = linkedNode;
+            EditableTextSpan.SetParentLink(this, ownerTextLine);
+        }
+
+
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
             FontInfo FontInfo = GetFontInfo();
@@ -113,7 +130,6 @@ namespace LayoutFarm.Text
                 EditableTextSpan newTextRun = new EditableTextSpan(this.Root, newContent, this.SpanStyle);
 
                  
-
                 newTextRun.IsLineBreak = this.IsLineBreak;
                 newTextRun.UpdateRunWidth();
                 return newTextRun;
@@ -143,28 +159,36 @@ namespace LayoutFarm.Text
         {
             get
             {
-                var parentLink = this.ParentLink as VisualEditableLineParentLink;
-                if (parentLink != null)
-                {
-                    return (EditableTextLine)(parentLink.internalLinkedNode.List);
-                }
-                return null;
+                return this.ownerTextLine; 
             }
         }
         public EditableTextSpan NextTextRun
         {
             get
             {
-                VisualEditableLineParentLink parent = (VisualEditableLineParentLink)this.ParentLink;
-                return parent.Next as EditableTextSpan;
+                if (this.internalLinkedNode != null)
+                {
+                    if (internalLinkedNode.Next != null)
+                    {
+                        return internalLinkedNode.Next.Value;
+                    }
+                }
+                return null; 
             }
         }
         public EditableTextSpan PrevTextRun
         {
             get
             {
-                VisualEditableLineParentLink parent = (VisualEditableLineParentLink)this.ParentLink;
-                return parent.Prev as EditableTextSpan;
+
+                if (this.internalLinkedNode != null)
+                {
+                    if (internalLinkedNode.Previous != null)
+                    {
+                        return internalLinkedNode.Previous.Value;
+                    }
+                }
+                return null; 
             }
         }
 
