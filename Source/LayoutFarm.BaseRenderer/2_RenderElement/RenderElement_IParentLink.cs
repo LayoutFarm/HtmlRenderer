@@ -23,7 +23,7 @@ namespace LayoutFarm
 
         RenderElement IParentLink.ParentRenderElement
         {
-            get { return this; } 
+            get { return this; }
         }
 
         void IParentLink.AdjustLocation(ref Point p)
@@ -33,11 +33,12 @@ namespace LayoutFarm
 
         RenderElement IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
-            if (this.internalLinkedNode == null)
+            var child_internalLinkedNode = afterThisChild.internalLinkedNode;
+            if (child_internalLinkedNode == null)
             {
                 return null;
             }
-            var curnode = internalLinkedNode.Previous;
+            var curnode = child_internalLinkedNode.Previous;
             while (curnode != null)
             {
                 var element = curnode.Value;
