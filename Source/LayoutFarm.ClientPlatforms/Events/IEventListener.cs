@@ -18,7 +18,7 @@ namespace LayoutFarm.UI
         void ListenMouseMove(UIMouseEventArgs e);
         void ListenMouseUp(UIMouseEventArgs e);
         void ListenMouseLeave(UIMouseEventArgs e);
-        
+
 
         void ListenMouseWheel(UIMouseEventArgs e);
         void ListenLostMouseFocus(UIMouseEventArgs e);
@@ -44,6 +44,10 @@ namespace LayoutFarm.UI
         void ListenInterComponentMsg(object sender, int msgcode, string msg);
         //--------------------------------------------------------------------------
         void ListenOnDrop(UIMouseEventArgs e);
+        
+        void ListenDragOver(UIDragOverEventArgs e);
+        //--------------------------------------------------------------------------
+
 
     }
 }

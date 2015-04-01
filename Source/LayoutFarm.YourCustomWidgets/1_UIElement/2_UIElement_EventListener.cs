@@ -98,5 +98,10 @@ namespace LayoutFarm.UI
         {
             this.OnInterComponentMsg(sender, msgcode, msg);
         }
+
+        void IEventListener.ListenDragOver(UIDragOverEventArgs e)
+        {
+            this.OnDragOver(e);
+        }
     }
 }

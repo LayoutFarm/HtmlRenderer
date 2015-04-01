@@ -40,7 +40,6 @@ namespace LayoutFarm
                 var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
                 box1.BackColor = Color.Red;
                 box1.SetLocation(10, 10);
-                //box1.dbugTag = 1;
                 SetupActiveBoxProperties(box1);
                 viewport.AddContent(box1);
 
@@ -50,7 +49,6 @@ namespace LayoutFarm
             {
                 var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
                 box2.SetLocation(50, 50);
-                //box2.dbugTag = 2;
                 SetupActiveBoxProperties(box2);
                 viewport.AddContent(box2);
                 userBoxes.Add(box2);
@@ -58,7 +56,6 @@ namespace LayoutFarm
             {
                 var box3 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
                 box3.SetLocation(200, 80);
-                //box2.dbugTag = 2;
                 SetupActiveBoxProperties(box3);
                 viewport.AddContent(box3);
                 userBoxes.Add(box3);
@@ -378,10 +375,12 @@ namespace LayoutFarm
                     controllerBox.FindDragOverElements(dragOverElements);
                     if (dragOverElements.Count > 0)
                     {
-                        var easeBox = dragOverElements[0] as LayoutFarm.CustomWidgets.EaseBox;
+                        //send notification to another box
+                        var easeBox = dragOverElements[0] as IEventListener;
                         if (easeBox != null)
                         {
-                            easeBox.BackColor = Color.Green;
+                            //create drag over event args
+                            easeBox.ListenDragOver(new UIDragOverEventArgs());
                         }
                     }
 
@@ -407,6 +406,7 @@ namespace LayoutFarm
             };
 
         }
+
 
         //-----------------------------------------------------------------
         class UIControllerBox : LayoutFarm.CustomWidgets.EaseBox
@@ -629,6 +629,12 @@ namespace LayoutFarm
                 }
             }
 
+            protected override void OnDragOver(UIDragOverEventArgs e)
+            {
+                //test ***
+                this.BackColor = Color.Green;
+                base.OnDragOver(e);
+            }
         }
 
         class UISelectionBox : LayoutFarm.CustomWidgets.EaseBox
@@ -641,15 +647,6 @@ namespace LayoutFarm
             {
                 get;
                 set;
-            }
-            public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-            {
-                if (!this.HasReadyRenderElement)
-                {
-                    var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-
-                }
-                return base.GetPrimaryRenderElement(rootgfx);
             }
             public override void Walk(UIVisitor visitor)
             {

@@ -150,6 +150,9 @@ namespace LayoutFarm.UI
 
         public abstract void Walk(UIVisitor visitor);
 
+        protected virtual void OnDragOver(UIDragOverEventArgs e)
+        {
+        }
 #if DEBUG
         object dbugTagObject;
         public object dbugTag
