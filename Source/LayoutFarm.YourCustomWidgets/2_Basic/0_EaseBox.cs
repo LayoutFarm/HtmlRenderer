@@ -87,11 +87,11 @@ namespace LayoutFarm.CustomWidgets
                 renderE.SetViewport(this.ViewportX, this.ViewportY);
                 //------------------------------------------------
                 //create visual layer
-                var plan0 = renderE.GetDefaultLayer();
+                
                 int childCount = this.ChildCount;
                 for (int m = 0; m < childCount; ++m)
                 {
-                    plan0.AddChild(this.GetChild(m).GetPrimaryRenderElement(rootgfx));
+                    renderE.AddChild(this.GetChild(m));
                 }
                 //set primary render element
                 //---------------------------------

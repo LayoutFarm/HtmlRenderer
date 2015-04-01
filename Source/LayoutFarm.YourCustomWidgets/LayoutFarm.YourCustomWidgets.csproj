@@ -55,7 +55,6 @@
     <Compile Include="2_Basic\0_EaseBox.cs" />
     <Compile Include="0_CustomRenderElements\CustomImageRenderBox.cs" />
     <Compile Include="0_CustomRenderElements\CustomRenderElements.cs" />
-    <Compile Include="1_UIElement\LayerHelper.cs" />
     <Compile Include="3_Grid\5_GridBox.cs" />
     <Compile Include="2_Basic\1_ImageBox.cs" />
     <Compile Include="2_Basic\3_SimpleBox.cs" />

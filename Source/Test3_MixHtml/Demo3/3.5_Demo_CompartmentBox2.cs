@@ -116,19 +116,17 @@ namespace LayoutFarm
                 if (!this.HasReadyRenderElement)
                 {
 
-                    var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-                    PlainLayer plain0 = myRenderElement.GetDefaultLayer();
-
+                    var myRenderElement = base.GetPrimaryRenderElement(rootgfx); 
                     //------------------------------------------------------
-                    plain0.AddChild(boxLeftTop.GetPrimaryRenderElement(rootgfx));
-                    plain0.AddChild(boxRightTop.GetPrimaryRenderElement(rootgfx));
-                    plain0.AddChild(boxLeftBottom.GetPrimaryRenderElement(rootgfx));
-                    plain0.AddChild(boxRightBottom.GetPrimaryRenderElement(rootgfx));
+                    myRenderElement.AddChild(boxLeftTop);
+                    myRenderElement.AddChild(boxRightTop);
+                    myRenderElement.AddChild(boxLeftBottom);
+                    myRenderElement.AddChild(boxRightBottom);
                     //------------------------------------------------------
-                    plain0.AddChild(boxLeft.GetPrimaryRenderElement(rootgfx));
-                    plain0.AddChild(boxRight.GetPrimaryRenderElement(rootgfx));
-                    plain0.AddChild(boxTop.GetPrimaryRenderElement(rootgfx));
-                    plain0.AddChild(boxBottom.GetPrimaryRenderElement(rootgfx));
+                    myRenderElement.AddChild(boxLeft);
+                    myRenderElement.AddChild(boxRight);
+                    myRenderElement.AddChild(boxTop);
+                    myRenderElement.AddChild(boxBottom);
                     //------------------------------------------------------
 
 

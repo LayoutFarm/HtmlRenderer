@@ -154,16 +154,7 @@ namespace LayoutFarm.RenderBoxes
                 defaultLayer.DrawChildContent(canvas, updateArea);
             }
         }
-        public PlainLayer GetDefaultLayer()
-        {
-            if (this.defaultLayer == null)
-            {
-                return this.defaultLayer = new PlainLayer(this);
-            }
-            return this.defaultLayer;
-        }
-
-
+        
         //-------------------------------------------------------------------------- 
         public override void AddChild(RenderElement renderE)
         {
