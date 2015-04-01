@@ -45,6 +45,7 @@
     <Compile Include="1_Root\1_RootGraphic_p1_dbug.cs" />
     <Compile Include="1_Root\1_RootGraphic_p2_dbug.cs" />
     <Compile Include="0_Start\dbugCoreConst.cs" />
+    <Compile Include="4_Boxes\IBoxElement.cs" />
     <Compile Include="4_Boxes\TopWindowRenderBox.cs" />
     <Compile Include="1_Root\3_GraphicsTimerTask.cs" />
     <Compile Include="6_debug\dbugVisualEvalScrollBarTrace.cs" />

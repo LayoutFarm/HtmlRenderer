@@ -6,8 +6,7 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.RenderBoxes
 {
-
-
+   
 #if DEBUG
     [System.Diagnostics.DebuggerDisplay("RenderBoxBase {dbugGetCssBoxInfo}")]
 #endif
