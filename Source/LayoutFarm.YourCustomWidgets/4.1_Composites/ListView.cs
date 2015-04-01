@@ -64,12 +64,9 @@ namespace LayoutFarm.CustomWidgets
                 //create visual layer
 
                 int uiCount = this.uiList.Count;
-                PlainLayer plainLayer = renderE.GetDefaultLayer();
-
                 for (int m = 0; m < uiCount; ++m)
                 {
-                    plainLayer.AddUI(uiList.GetElement(m));
-
+                    renderE.AddChild(uiList.GetElement(m));
                 }
 
                 //---------------------------------
@@ -285,10 +282,7 @@ namespace LayoutFarm.CustomWidgets
             }
         }
         //----------------- 
-        public void AddChild(RenderElement renderE)
-        {
-            primElement.AddChild(renderE);
-        }
+         
 
 
         public override void Walk(UIVisitor visitor)

@@ -160,14 +160,12 @@ namespace LayoutFarm.HtmlWidgets
             bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);
 
-            PlainLayer plain = bgBox.GetDefaultLayer();
-
             //MinButton
-            SetupMinButtonProperties(plain);
+            SetupMinButtonProperties(bgBox);
             //MaxButton
-            SetupMaxButtonProperties(plain);
+            SetupMaxButtonProperties(bgBox);
             //ScrollButton
-            SetupVerticalScrollButtonProperties(plain);
+            SetupVerticalScrollButtonProperties(bgBox);
             //--------------
             this.mainBox = bgBox;
         }
@@ -179,14 +177,13 @@ namespace LayoutFarm.HtmlWidgets
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
 
-            PlainLayer plain = bgBox.GetDefaultLayer();
 
             //MinButton
-            SetupMinButtonProperties(plain);
+            SetupMinButtonProperties(bgBox);
             //MaxButton
-            SetupMaxButtonProperties(plain);
+            SetupMaxButtonProperties(bgBox);
             //ScrollButton
-            SetupHorizontalScrollButtonProperties(plain);
+            SetupHorizontalScrollButtonProperties(bgBox);
             //--------------
             this.mainBox = bgBox;
         }
@@ -197,7 +194,7 @@ namespace LayoutFarm.HtmlWidgets
             return (int)(this.scrollValue / this.onePixelFor);
         }
 
-        void SetupMinButtonProperties(PlainLayer plain)
+        void SetupMinButtonProperties(RenderElement container)
         {
             ScrollBarButton min_button;
             if (this.ScrollBarType == ScrollBarType.Horizontal)
@@ -210,10 +207,10 @@ namespace LayoutFarm.HtmlWidgets
             }
             min_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
             min_button.MouseUp += (s, e) => this.StepSmallToMin();
-            plain.AddUI(min_button);
+            container.AddChild(min_button);
             this.minButton = min_button;
         }
-        void SetupMaxButtonProperties(PlainLayer plain)
+        void SetupMaxButtonProperties(RenderElement container)
         {
             ScrollBarButton max_button;
             if (this.ScrollBarType == ScrollBarType.Horizontal)
@@ -230,7 +227,7 @@ namespace LayoutFarm.HtmlWidgets
 
             max_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
             max_button.MouseUp += (s, e) => this.StepSmallToMax();
-            plain.AddUI(max_button);
+            container.AddChild(max_button);
             this.maxButton = max_button;
         }
 
@@ -327,13 +324,13 @@ namespace LayoutFarm.HtmlWidgets
 
             }
         }
-        void SetupVerticalScrollButtonProperties(PlainLayer plain)
+        void SetupVerticalScrollButtonProperties(RenderElement container)
         {
             var scroll_button = new ScrollBarButton(this.Width, 10, this); //create with default value
             scroll_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkBlue);
             int thumbPosY = CalculateThumbPosition() + minmax_boxHeight;
             scroll_button.SetLocation(0, thumbPosY);
-            plain.AddUI(scroll_button);
+            container.AddChild(scroll_button);
             this.scrollButton = scroll_button;
             //----------------------------
             EvaluateVerticalScrollBarProperties();
@@ -482,13 +479,13 @@ namespace LayoutFarm.HtmlWidgets
                 throw new NotSupportedException();
             }
         }
-        void SetupHorizontalScrollButtonProperties(PlainLayer plain)
+        void SetupHorizontalScrollButtonProperties(RenderElement container)
         {
             var scroll_button = new ScrollBarButton(10, this.Height, this); //create with default value
             scroll_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkBlue);
             int thumbPosX = CalculateThumbPosition() + minmax_boxHeight;
             scroll_button.SetLocation(thumbPosX, 0);
-            plain.AddUI(scroll_button);
+            container.AddChild(scroll_button);
             this.scrollButton = scroll_button;
             //----------------------------
 

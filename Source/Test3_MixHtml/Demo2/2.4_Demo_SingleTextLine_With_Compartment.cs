@@ -543,25 +543,23 @@ Zimbabwe");
                 if (!this.HasReadyRenderElement)
                 {
 
-                    var myRenderElement = base.GetPrimaryRenderElement(rootgfx) as LayoutFarm.CustomWidgets.CustomRenderBox;
-                    PlainLayer plain0 = myRenderElement.GetDefaultLayer();
-
+                    var renderE = base.GetPrimaryRenderElement(rootgfx);
                     //------------------------------------------------------
-                    plain0.AddChild(boxLeftTop.GetPrimaryRenderElement(rootgfx));
-                    plain0.AddChild(boxRightTop.GetPrimaryRenderElement(rootgfx));
-                    plain0.AddChild(boxLeftBottom.GetPrimaryRenderElement(rootgfx));
-                    plain0.AddChild(boxRightBottom.GetPrimaryRenderElement(rootgfx));
+                    renderE.AddChild(boxLeftTop);
+                    renderE.AddChild(boxRightTop);
+                    renderE.AddChild(boxLeftBottom);
+                    renderE.AddChild(boxRightBottom);
                     //------------------------------------------------------
-                    plain0.AddChild(boxLeft.GetPrimaryRenderElement(rootgfx));
-                    plain0.AddChild(boxRight.GetPrimaryRenderElement(rootgfx));
-                    plain0.AddChild(boxTop.GetPrimaryRenderElement(rootgfx));
-                    plain0.AddChild(boxBottom.GetPrimaryRenderElement(rootgfx));
+                    renderE.AddChild(boxLeft);
+                    renderE.AddChild(boxRight);
+                    renderE.AddChild(boxTop);
+                    renderE.AddChild(boxBottom);
 
                     //grippers
-                    plain0.AddChild(gripperLeft.GetPrimaryRenderElement(rootgfx));
-                    plain0.AddChild(gripperRight.GetPrimaryRenderElement(rootgfx));
-                    plain0.AddChild(gripperTop.GetPrimaryRenderElement(rootgfx));
-                    plain0.AddChild(gripperBottom.GetPrimaryRenderElement(rootgfx));
+                    renderE.AddChild(gripperLeft);
+                    renderE.AddChild(gripperRight);
+                    renderE.AddChild(gripperTop);
+                    renderE.AddChild(gripperBottom);
 
                     //------------------------------------------------------
                 }
