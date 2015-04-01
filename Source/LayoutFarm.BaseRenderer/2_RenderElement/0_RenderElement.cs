@@ -117,9 +117,7 @@ namespace LayoutFarm
         public static void SetParentLink(RenderElement childElement, IParentLink parentLink)
         {
             childElement.parentLink = parentLink;
-        }
-
-
+        } 
         public bool MayHasChild
         {
             get { return (propFlags & RenderElementConst.MAY_HAS_CHILD) != 0; }

@@ -30,7 +30,7 @@ namespace LayoutFarm.RenderBoxes
 
         protected const int FLOWLAYER_HAS_MULTILINE = 1 << (25 - 1);
 
-        RenderElement owner;
+        protected RenderElement owner;
 
         int postCalculateContentWidth;
         int postCalculateContentHeight;
@@ -49,7 +49,7 @@ namespace LayoutFarm.RenderBoxes
             get { return this.owner.Root; }
         }
         public abstract void Clear();
-         
+
         public bool Visible
         {
             get
@@ -71,7 +71,7 @@ namespace LayoutFarm.RenderBoxes
             {
                 return new Size(postCalculateContentWidth, postCalculateContentHeight);
             }
-        } 
+        }
         protected void OwnerInvalidateGraphic()
         {
             if (this.owner != null)
@@ -161,12 +161,12 @@ namespace LayoutFarm.RenderBoxes
 
                 return (layerFlags & ARRANGEMENT_VALID) == 0;
             }
-        } 
+        }
         void ValidateCalculateContentSize()
         {
             this.layerFlags |= HAS_CALCULATE_SIZE;
         }
-       
+
 #if DEBUG
         public RootGraphic dbugVRoot
         {
@@ -264,12 +264,12 @@ namespace LayoutFarm.RenderBoxes
             if (debugVisualLay == null) return;
 
             debugVisualLay.WriteInfo(msg.text);
-        } 
+        }
 #endif
         public RenderElement OwnerRenderElement
         {
-            get { return this.owner; } 
-        } 
+            get { return this.owner; }
+        }
     }
 
 
