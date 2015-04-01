@@ -30,7 +30,7 @@ namespace LayoutFarm.RenderBoxes
 
         protected const int FLOWLAYER_HAS_MULTILINE = 1 << (25 - 1);
 
-        RenderElement owner;
+        protected RenderElement owner;
 
         int postCalculateContentWidth;
         int postCalculateContentHeight;
@@ -49,17 +49,6 @@ namespace LayoutFarm.RenderBoxes
             get { return this.owner.Root; }
         }
         public abstract void Clear();
-
-
-
-        public RenderElement InvalidateArrangement()
-        {
-#if DEBUG
-            this.dbug_InvalidateCount++;
-#endif
-            layerFlags &= ~ARRANGEMENT_VALID;
-            return this.owner;
-        }
 
         public bool Visible
         {
@@ -82,7 +71,7 @@ namespace LayoutFarm.RenderBoxes
             {
                 return new Size(postCalculateContentWidth, postCalculateContentHeight);
             }
-        } 
+        }
         protected void OwnerInvalidateGraphic()
         {
             if (this.owner != null)
@@ -173,20 +162,9 @@ namespace LayoutFarm.RenderBoxes
                 return (layerFlags & ARRANGEMENT_VALID) == 0;
             }
         }
-        bool HasCalculateContentSize
-        {
-            get
-            {
-                return (layerFlags & HAS_CALCULATE_SIZE) != 0;
-            }
-        }
         void ValidateCalculateContentSize()
         {
             this.layerFlags |= HAS_CALCULATE_SIZE;
-        }
-        void InvalidateCalculateContentSize()
-        {
-            this.layerFlags &= ~HAS_CALCULATE_SIZE;
         }
 
 #if DEBUG
@@ -287,17 +265,10 @@ namespace LayoutFarm.RenderBoxes
 
             debugVisualLay.WriteInfo(msg.text);
         }
-
 #endif
         public RenderElement OwnerRenderElement
         {
             get { return this.owner; }
-
-        }
-        protected static bool vinv_IsInTopDownReArrangePhase
-        {
-            get;
-            set;
         }
     }
 

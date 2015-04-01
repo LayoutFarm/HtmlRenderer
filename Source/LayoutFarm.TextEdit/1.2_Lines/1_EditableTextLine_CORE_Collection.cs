@@ -13,37 +13,26 @@ namespace LayoutFarm.Text
 
         void AddNormalRunToLast(EditableTextSpan v)
         {
-            EditableTextSpan.SetParentLink(v, new VisualEditableLineParentLink(this, base.AddLast(v))); 
-            //if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)
-            //{
-            //    return;
-            //}
 
+            v.SetInternalLinkedNode(base.AddLast(v), this);
 
         }
         void AddNormalRunToFirst(EditableTextSpan v)
         {
-            EditableTextSpan.SetParentLink(v, new VisualEditableLineParentLink(this, base.AddFirst(v)));
-            
+            v.SetInternalLinkedNode(base.AddFirst(v), this);
         }
 
         static LinkedListNode<EditableTextSpan> GetLineLinkedNode(EditableTextSpan ve)
         {
-            return ((VisualEditableLineParentLink)ve.ParentLink).internalLinkedNode;
+            return ve.internalLinkedNode;
         }
         void AddNormalRunBefore(EditableTextSpan beforeVisualElement, EditableTextSpan v)
         {
-            EditableTextSpan.SetParentLink(v,
-               new VisualEditableLineParentLink(this, 
-                   base.AddBefore(GetLineLinkedNode(beforeVisualElement), v)));
-            
-
+            v.SetInternalLinkedNode(base.AddBefore(GetLineLinkedNode(beforeVisualElement), v), this);
         }
         void AddNormalRunAfter(EditableTextSpan afterVisualElement, EditableTextSpan v)
         {
-            EditableTextSpan.SetParentLink(v,
-             new VisualEditableLineParentLink(this,
-                 base.AddAfter(GetLineLinkedNode(afterVisualElement), v))); 
+            v.SetInternalLinkedNode(base.AddAfter(GetLineLinkedNode(afterVisualElement), v), this);
         }
         public new void Clear()
         {

@@ -4,113 +4,10 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 namespace LayoutFarm.Text
-{
+{   
 
-    class VisualEditableLineParentLink : LayoutFarm.RenderBoxes.IParentLink
+    partial class EditableTextLine : LayoutFarm.RenderBoxes.IParentLink
     {
-        internal readonly LinkedListNode<EditableTextSpan> internalLinkedNode;
-        EditableTextLine ownerLine;
-        internal VisualEditableLineParentLink(EditableTextLine ownerLine, LinkedListNode<EditableTextSpan> linkNode)
-        {
-            this.internalLinkedNode = linkNode;
-            this.ownerLine = ownerLine;
-        }
-        public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
-        {
-            return null;
-        }
-
-
-        public bool MayHasOverlapChild
-        {
-            get
-            {
-                return false;
-            }
-        }
-#if DEBUG
-        public string dbugGetLinkInfo()
-        {
-            return "editable-link";
-        }
-        RootGraphic dbugVRoot
-        {
-            get
-            {
-                return RootGraphic.dbugCurrentGlobalVRoot;
-            }
-        }
-#endif
-         
-        internal EditableTextFlowLayer OwnerFlowLayer
-        {
-            get
-            {
-                return this.ownerLine.editableFlowLayer;
-            }
-        }
-        public EditableTextLine OwnerLine
-        {
-            get
-            {
-                return (EditableTextLine)(internalLinkedNode.List);
-            }
-        }
-        public RenderElement Next
-        {
-            get
-            {
-                LinkedListNode<EditableTextSpan> next = this.internalLinkedNode.Next;
-                if (next != null)
-                {
-                    return next.Value;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-        public RenderElement Prev
-        {
-            get
-            {
-                LinkedListNode<EditableTextSpan> prv = this.internalLinkedNode.Previous;
-                if (prv != null)
-                {
-                    return prv.Value;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-        public RenderElement ParentRenderElement
-        {
-            get
-            {
-                EditableTextFlowLayer ownerFlow = this.OwnerFlowLayer;
-                if (ownerFlow != null)
-                {
-                    return ownerFlow.OwnerRenderElement;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        public void AdjustLocation(ref Point p)
-        {
-            p.Y += this.OwnerLine.LineTop;
-        }
-    }
-
-
-    partial class EditableTextLine
-    {   
         public new void AddLast(EditableTextSpan v)
         {
             if (!v.IsLineBreak)
@@ -160,23 +57,46 @@ namespace LayoutFarm.Text
 
         internal void UnsafeAddLast(EditableTextSpan run)
         {
-            EditableTextSpan.SetParentLink(run, new VisualEditableLineParentLink(this, base.AddLast(run)));
+            run.SetInternalLinkedNode(base.AddLast(run), this); 
         }
         internal void UnsafeAddFirst(EditableTextSpan run)
         {
-            EditableTextSpan.SetParentLink(run, new VisualEditableLineParentLink(this, base.AddFirst(run)));
+            run.SetInternalLinkedNode(base.AddFirst(run), this); 
         }
         internal void UnsafeAddAfter(EditableTextSpan after, EditableTextSpan run)
         {
-            EditableTextSpan.SetParentLink(run,
-            new VisualEditableLineParentLink(this,
-                base.AddAfter(GetLineLinkedNode(after), run)));
+            run.SetInternalLinkedNode(base.AddAfter(GetLineLinkedNode(after), run), this); 
         }
         internal void UnsafeRemoveVisualElement(EditableTextSpan v)
         {
             base.Remove(GetLineLinkedNode(v));
         }
 
+        //--------------------------------------------------------------------------
+        bool RenderBoxes.IParentLink.MayHasOverlapChild
+        {
+            get { return false; }
+        }
+
+        RenderElement RenderBoxes.IParentLink.ParentRenderElement
+        {
+            get { return this.OwnerFlowLayer.OwnerRenderElement; }
+        }
+
+        void RenderBoxes.IParentLink.AdjustLocation(ref Point p)
+        {
+            p.Y += this.LineTop;
+        }
+
+        RenderElement RenderBoxes.IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
+        {
+            return null;
+        }
+
+        string RenderBoxes.IParentLink.dbugGetLinkInfo()
+        {
+            return "editable-link";
+        }
     }
 
 }

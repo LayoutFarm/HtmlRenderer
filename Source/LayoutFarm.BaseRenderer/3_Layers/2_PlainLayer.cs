@@ -45,8 +45,9 @@ namespace LayoutFarm.RenderBoxes
             }
 #endif
 
-            LinkedListNode<RenderElement> linkNode = myElements.AddLast(re);
-            RenderElement.SetParentLink(re, new PlainLayerParentLink(this, linkNode));
+            re.internalLinkedNode = myElements.AddLast(re);
+            re.myParentRenderElement = this.owner;
+            RenderElement.SetParentLink(re, this.owner);
             re.InvalidateGraphics();
         }
         public void RemoveChild(RenderElement re)
@@ -180,7 +181,7 @@ namespace LayoutFarm.RenderBoxes
 
         public override void TopDownReArrangeContent()
         {
-            vinv_IsInTopDownReArrangePhase = true;
+            //vinv_IsInTopDownReArrangePhase = true;
 #if DEBUG
             vinv_dbug_EnterLayerReArrangeContent(this);
 #endif
@@ -214,65 +215,6 @@ namespace LayoutFarm.RenderBoxes
 
             return "plain layer " + "(L" + dbug_layer_id + this.dbugLayerState + ") postcal:" +
                 this.PostCalculateContentSize.ToString() + " of " + this.OwnerRenderElement.dbug_FullElementDescription();
-        }
-#endif
-    }
-
-
-    //==========================================================================
-
-    class PlainLayerParentLink : IParentLink
-    {
-        public readonly LinkedListNode<RenderElement> internalLinkedNode;
-        PlainLayer ownerLayer;
-
-        public PlainLayerParentLink(PlainLayer ownerLayer,
-            LinkedListNode<RenderElement> internalLinkedNode)
-        {
-            this.ownerLayer = ownerLayer;
-            this.internalLinkedNode = internalLinkedNode;
-        }
-
-        public RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
-        {
-            var curnode = internalLinkedNode.Previous;
-            while (curnode != null)
-            {
-                var element = curnode.Value;
-                if (element.Contains(point))
-                {
-                    return element;
-                }
-                curnode = curnode.Previous;
-            }
-            return null;
-        }
-
-        public bool MayHasOverlapChild
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public RenderElement ParentRenderElement
-        {
-            get
-            {
-                return this.ownerLayer.OwnerRenderElement;
-            }
-        }
-        public void AdjustLocation(ref Point p)
-        {
-
-        }
-
-
-#if DEBUG
-        public string dbugGetLinkInfo()
-        {
-            return ownerLayer.ToString();
         }
 #endif
     }
