@@ -268,10 +268,9 @@ namespace LayoutFarm.UI
         public void FindDragOverElements(List<UIElement> uilist)
         {
             var renderE = this.CurrentPrimaryRenderElement;
-            var underElement = renderE.FindOverlapedChildElementAtPoint(renderE, new Point(this.Left, this.Top));
-
             var hitArea = new Rectangle(this.Left, this.Top, this.Width, this.Height);
-            renderE.FindUnderlyingChildElement(
+
+            renderE.FindUnderlyingSibling(
                 ref hitArea,
                 found =>
                 {
@@ -284,8 +283,8 @@ namespace LayoutFarm.UI
                     }
                     return false;
                 });
-            
         }
+
     }
 
 }

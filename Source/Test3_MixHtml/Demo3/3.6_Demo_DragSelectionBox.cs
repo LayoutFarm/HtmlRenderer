@@ -246,6 +246,10 @@ namespace LayoutFarm
 
                 RemoveAllUserControllerBoxes();
             };
+            box.DragOver += (s, e) =>
+            {
+                box.BackColor = Color.Green;
+            };
 
         }
 
@@ -371,6 +375,7 @@ namespace LayoutFarm
 
                     //test here 
                     //find dragover element
+
                     List<UIElement> dragOverElements = new List<UIElement>();
                     controllerBox.FindDragOverElements(dragOverElements);
                     if (dragOverElements.Count > 0)
@@ -380,6 +385,7 @@ namespace LayoutFarm
                         if (easeBox != null)
                         {
                             //create drag over event args
+                            //TODO: add dragover detail
                             easeBox.ListenDragOver(new UIDragOverEventArgs());
                         }
                     }

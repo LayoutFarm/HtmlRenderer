@@ -11,7 +11,6 @@ namespace LayoutFarm
     partial class RenderElement : IParentLink
     {
         internal LinkedListNode<RenderElement> internalLinkedNode;
-        internal RenderElement myParentRenderElement;
         protected virtual bool _MayHasOverlapChild()
         {
             return true;
@@ -20,9 +19,16 @@ namespace LayoutFarm
         {
             get { return _MayHasOverlapChild(); }
         }
+        protected IParentLink MyParentLink
+        {
+            get { return this.parentLink; }
+        }
+
 
         RenderElement IParentLink.ParentRenderElement
         {
+            //yes, because when this renderElement act as parentlink
+            //it return itself as parent
             get { return this; }
         }
 
@@ -33,6 +39,7 @@ namespace LayoutFarm
 
         RenderElement IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
+            //called from child node
             var child_internalLinkedNode = afterThisChild.internalLinkedNode;
             if (child_internalLinkedNode == null)
             {
