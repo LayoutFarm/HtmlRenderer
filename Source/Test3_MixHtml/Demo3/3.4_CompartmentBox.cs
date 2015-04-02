@@ -213,8 +213,6 @@ namespace LayoutFarm
                 this.dockspaceController.RightTopSpace.Content = boxRightTop = CreateTinyControlBox(SpaceName.RightTop);
                 this.dockspaceController.LeftBottomSpace.Content = boxLeftBottom = CreateTinyControlBox(SpaceName.LeftBottom);
                 this.dockspaceController.RightBottomSpace.Content = boxRightBottom = CreateTinyControlBox(SpaceName.RightBottom);
-
-
             }
 
             CustomWidgets.EaseBox CreateTinyControlBox(SpaceName name)

@@ -33,7 +33,7 @@ namespace LayoutFarm.CustomWidgets
         public event EventHandler<UIMouseEventArgs> DragRelease;
         public event EventHandler<UIMouseEventArgs> MouseLeave;
         public event EventHandler<UIMouseEventArgs> LostSelectedFocus;
-
+        public event EventHandler<UIDragOverEventArgs> DragOver;
 
         public EaseBox(int width, int height)
             : base(width, height)
@@ -87,7 +87,7 @@ namespace LayoutFarm.CustomWidgets
                 renderE.SetViewport(this.ViewportX, this.ViewportY);
                 //------------------------------------------------
                 //create visual layer
-                
+
                 int childCount = this.ChildCount;
                 for (int m = 0; m < childCount; ++m)
                 {
@@ -491,8 +491,15 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
-         
-       
+
+        protected override void OnDragOver(UIDragOverEventArgs e)
+        {
+            if (this.DragOver != null)
+            {
+                this.DragOver(this, e);
+            }
+            base.OnDragOver(e);
+        }
     }
 
 

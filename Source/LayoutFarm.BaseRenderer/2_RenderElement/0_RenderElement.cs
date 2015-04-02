@@ -88,17 +88,11 @@ namespace LayoutFarm
         {
 
         }
-        
-        
-        public IParentLink ParentLink
+
+        protected bool HasParentLink
         {
-            get
-            {
-                return parentLink;
-            }
+            get { return this.parentLink != null; }
         }
-       
-        
         public virtual RenderElement ParentRenderElement
         {
             get
@@ -116,8 +110,9 @@ namespace LayoutFarm
         }
         public static void SetParentLink(RenderElement childElement, IParentLink parentLink)
         {
+
             childElement.parentLink = parentLink;
-        } 
+        }
         public bool MayHasChild
         {
             get { return (propFlags & RenderElementConst.MAY_HAS_CHILD) != 0; }
@@ -138,15 +133,15 @@ namespace LayoutFarm
                       propFlags & ~RenderElementConst.MAY_HAS_VIEWPORT;
             }
         }
-        public virtual RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
+        public virtual RenderElement FindUnderlyingSiblingAtPoint(Point point)
         {
             return null;
         }
 
-        public virtual void FindUnderlyingChildElement(ref Rectangle rect, RenderElementFoundDelegate renderElementFoundDel)
+        public virtual void FindUnderlyingSibling(ref Rectangle rect, RenderElementFoundDelegate renderElementFoundDel)
         {
             //do nothing
-        } 
+        }
         public virtual void ChildrenHitTestCore(HitChain hitChain)
         {
 

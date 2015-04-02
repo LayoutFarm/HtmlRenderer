@@ -33,7 +33,7 @@ namespace LayoutFarm.CustomWidgets
             set
             {
                 this.backColor = value;
-                if (this.ParentLink != null)
+                if (this.HasParentLink)
                 {
                     this.InvalidateGraphics();
                 }
@@ -53,7 +53,7 @@ namespace LayoutFarm.CustomWidgets
             //canvas.FillRectangle(BackColor, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
             canvas.FillRectangle(BackColor, 0, 0, this.Width, this.Height);
             this.DrawDefaultLayer(canvas, ref updateArea);
-             
+
 
 #if DEBUG
             //canvas.dbug_DrawCrossRect(PixelFarm.Drawing.Color.Black,

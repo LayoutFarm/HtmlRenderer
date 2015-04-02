@@ -222,13 +222,8 @@ namespace LayoutFarm.UI
 
     }
 
-
     public class UIMouseEventArgs : UIEventArgs
     {
-
-
-
-
         public UIMouseEventArgs()
         {
 
@@ -397,4 +392,10 @@ namespace LayoutFarm.UI
         }
     }
 
+
+
+    public class UIDragOverEventArgs : UIEventArgs
+    {
+
+    }
 }

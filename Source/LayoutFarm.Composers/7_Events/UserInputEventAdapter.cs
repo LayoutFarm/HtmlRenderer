@@ -137,8 +137,8 @@ namespace LayoutFarm.UI
                     {
                         if (elem.Contains(hitInfo.point))
                         {
-                            RenderElement foundOverlapChild = elem.FindOverlapedChildElementAtPoint(elem, hitInfo.point);
-                            if (foundOverlapChild == null)
+                            RenderElement found = elem.FindUnderlyingSiblingAtPoint(hitInfo.point);
+                            if (found == null)
                             {
                                 Point leftTop = elem.Location;
                                 hitPointChain.OffsetTestPoint(leftTop.X, leftTop.Y);

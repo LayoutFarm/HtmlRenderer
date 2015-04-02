@@ -38,25 +38,19 @@ namespace LayoutFarm.RenderBoxes
         public void AddChild(RenderElement re)
         {
 
-#if DEBUG
-            if (re.ParentLink != null)
-            {
-
-            }
-#endif
-
             re.internalLinkedNode = myElements.AddLast(re);
-            re.myParentRenderElement = this.owner;
             RenderElement.SetParentLink(re, this.owner);
+
             re.InvalidateGraphics();
         }
         public void RemoveChild(RenderElement re)
         {
-            //TODO:make this, remove from internal linked node 
-            myElements.Remove(re);
 
+            myElements.Remove(re.internalLinkedNode);
+            re.internalLinkedNode = null;
             var bounds = re.RectBounds;
             RenderElement.SetParentLink(re, null);
+
             RenderElement.InvalidateGraphicLocalArea(this.OwnerRenderElement, bounds);
         }
         public override void Clear()
