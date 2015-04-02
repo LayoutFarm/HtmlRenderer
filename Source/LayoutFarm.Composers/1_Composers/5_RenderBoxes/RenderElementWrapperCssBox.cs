@@ -61,6 +61,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             : base(controller, spec, root, display)
         {
         }
+
         internal abstract RenderElement GetParentRenderElement(out int globalX, out int globalY);
 
         bool LayoutFarm.RenderBoxes.IParentLink.MayHasOverlapChild
@@ -196,6 +197,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 
     sealed class WrapperBlockCssBox : WrapperCssBoxBase
     {
+        //this is a cssbox that wrap renderElement inside
 
         public WrapperBlockCssBox(object controller,
              BoxSpec spec,
@@ -205,14 +207,14 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             SetAsCustomCssBox(this);
             int w = renderElement.Width;
             int h = renderElement.Height;
+
             this.wrapper = new CssBoxWrapperRenderElement(renderElement.Root, w, h, renderElement);
             ChangeDisplayType(this, CssDisplay.Block);
+
 
             this.SetSize(w, h);
             LayoutFarm.RenderElement.SetParentLink(wrapper, this);
             LayoutFarm.RenderElement.SetParentLink(renderElement, wrapper);
-
-
         }
 
 
@@ -242,9 +244,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             {
                 this.SetSize(100, 20);
             }
-
         }
-
         protected override void PaintImp(PaintVisitor p)
         {
             if (wrapper != null)

@@ -97,5 +97,8 @@ namespace LayoutFarm.WebDom
             this.OnInterComponentMsg(sender, msgcode, msg);
         }
 
+        void IEventListener.ListenDragOver(UIDragOverEventArgs e)
+        {
+        }
     }
 }

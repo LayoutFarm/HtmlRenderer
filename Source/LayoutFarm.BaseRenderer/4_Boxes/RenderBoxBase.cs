@@ -7,7 +7,6 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.RenderBoxes
 {
 
-
 #if DEBUG
     [System.Diagnostics.DebuggerDisplay("RenderBoxBase {dbugGetCssBoxInfo}")]
 #endif
@@ -154,7 +153,7 @@ namespace LayoutFarm.RenderBoxes
                 defaultLayer.DrawChildContent(canvas, updateArea);
             }
         }
-        
+
         //-------------------------------------------------------------------------- 
         public override void AddChild(RenderElement renderE)
         {
@@ -247,33 +246,29 @@ namespace LayoutFarm.RenderBoxes
         }
 
 
-        public override RenderElement FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
+        public override RenderElement FindUnderlyingSiblingAtPoint(Point point)
         {
-#if DEBUG
-            if (afterThisChild.dbugParentVisualElement != this.dbugParentVisualElement)
+
+            if (this.MyParentLink != null)
             {
-                throw new Exception("not a parent-child relation");
+                return this.MyParentLink.FindOverlapedChildElementAtPoint(this, point);
             }
-#endif
-            if (afterThisChild.ParentLink.MayHasOverlapChild)
-            {
-                return afterThisChild.ParentLink.FindOverlapedChildElementAtPoint(afterThisChild, point);
-            }
+             
             return null;
         }
-
-
-        public override void FindUnderlyingChildElement(ref Rectangle rect, RenderElementFoundDelegate renderElementFoundDel)
+        public override void FindUnderlyingSibling(ref Rectangle rect, RenderElementFoundDelegate renderElementFoundDel)
         {
-            if (this.ParentLink.MayHasOverlapChild)
+            //check 
+            if (this.MyParentLink.MayHasOverlapChild)
             {
-                var found = this.ParentLink.FindOverlapedChildElementAtPoint(this, rect.Location);
+                var found = this.MyParentLink.FindOverlapedChildElementAtPoint(this, rect.Location);
+
                 if (found != null)
                 {
                     if (renderElementFoundDel(found))
                     {
                         return;
-                    } 
+                    }
                 }
             }
         }
