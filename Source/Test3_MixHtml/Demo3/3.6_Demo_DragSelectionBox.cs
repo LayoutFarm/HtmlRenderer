@@ -369,18 +369,22 @@ namespace LayoutFarm
                     {
                         controllerBox.MouseCaptureX = e.X;
                         controllerBox.MouseCaptureY = e.Y;
-                    }
+                    } 
 
-                    MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
+                    MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);                     
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true; 
 
-                    //test here 
+
+
+                    //test here -----------------------------------------------------
                     //find dragover element
 
-                    List<UIElement> dragOverElements = new List<UIElement>();
+                    List<UIElement> dragOverElements = new List<UIElement>();                    
                     controllerBox.FindDragOverElements(dragOverElements);
                     if (dragOverElements.Count > 0)
-                    {
-                        //send notification to another box
+                    {  
+                        //send notification to another box 
                         var easeBox = dragOverElements[0] as IEventListener;
                         if (easeBox != null)
                         {
@@ -390,8 +394,7 @@ namespace LayoutFarm
                         }
                     }
 
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
+                   
                 }
 
             };

@@ -783,7 +783,6 @@ namespace LayoutFarm.Text
                         if (textSurfaceEventListener != null &&
                             TextSurfaceEventListener.NotifyPreviewArrow(textSurfaceEventListener, keyData))
                         {
-
                             return true;
                         }
                         if (isMultiLine)

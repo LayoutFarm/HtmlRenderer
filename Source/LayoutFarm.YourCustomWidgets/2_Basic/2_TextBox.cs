@@ -193,6 +193,10 @@ namespace LayoutFarm.CustomWidgets
             return textEditRenderElement;
         }
         //----------------------------------------------------------------
+        public bool IsMultilineTextBox
+        {
+            get { return this._multiline; }
+        }
         public TextSurfaceEventListener TextEventListener
         {
             get { return this.textSurfaceListener; }

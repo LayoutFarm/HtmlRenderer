@@ -110,7 +110,8 @@ namespace LayoutFarm.Text
                     CurrentLine.Remove(removingTextRun);
                     EnsureCurrentTextRun();
                 }
-
+                CurrentLine.TextLineReCalculateActualLineSize();
+                CurrentLine.RefreshInlineArrange();
 
                 return toBeRemovedChar;
             }
