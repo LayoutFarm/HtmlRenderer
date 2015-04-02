@@ -224,6 +224,8 @@ namespace LayoutFarm.UI
 
     public class UIMouseEventArgs : UIEventArgs
     {
+        List<IEventListener> dragOverElements;
+
         public UIMouseEventArgs()
         {
 
@@ -260,6 +262,9 @@ namespace LayoutFarm.UI
 
         public override void Clear()
         {
+
+            base.Clear();
+
             this.Button = 0;
             this.Clicks = 0;
             this.XDiff = 0;
@@ -268,7 +273,11 @@ namespace LayoutFarm.UI
             this.IsDragging = false;
             this.DraggingElement = null;
             this.IsFirstMouseEnter = false;
-            base.Clear();
+
+            if (this.dragOverElements != null)
+            {
+                dragOverElements.Clear();
+            }
 
         }
 
@@ -283,12 +292,29 @@ namespace LayoutFarm.UI
             get;
             set;
         }
+
+        //-------------------------------------------------------------------
         public IEventListener DraggingElement
         {
             get;
             set;
         }
-
+        public void AddDragOverElement(IEventListener dragOverElement)
+        {
+            if (dragOverElements == null)
+            {
+                this.dragOverElements = new List<IEventListener>();
+            }
+            this.dragOverElements.Add(dragOverElement);
+        }
+        public IEventListener GetDragOverElement(int index)
+        {
+            return this.dragOverElements[index];
+        }
+        public int DragOverElementCount
+        {
+            get { return this.dragOverElements.Count; }
+        }
     }
 
     public enum MouseCursorStyle
