@@ -202,6 +202,7 @@ namespace LayoutFarm.HtmlBoxes
                                 selectedLines.Add(startLineBox);
                                 //todo: review here 
                                 var blockRun = endChain.GetHitInfo(commonGroundInfo.breakAtLevel).hitObject as CssBlockRun;
+                                 
                                 foreach (var linebox in GetLineWalkIter(blockRun))
                                 {
                                     if (linebox == endline)
@@ -365,6 +366,7 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     //found diff here
                     breakAtLevel = i;
+                    break;
                 }
             }
             //----------------------------
