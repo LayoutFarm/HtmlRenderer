@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 
 namespace LayoutFarm.HtmlBoxes
-{
-
+{ 
 
     public class SelectionRange
     {
@@ -19,6 +18,9 @@ namespace LayoutFarm.HtmlBoxes
         List<CssLineBox> selectedLines;
         bool isValid = true;
         CssBoxHitChain tmpStartChain = null;
+
+        int startLineBeginSelectionAtPixel;
+
         public SelectionRange(CssBoxHitChain startChain,
             CssBoxHitChain endChain,
             IFonts ifonts)
@@ -73,7 +75,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 for (int i = selectedLines.Count - 1; i >= 0; --i)
                 {
-                    this.selectedLines[i].LineSelectionWidth = 0;
+                    this.selectedLines[i].LineSelectionSegment = null;
                 }
                 this.selectedLines.Clear();
             }
@@ -81,7 +83,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 if (this.startHitHostLine != null)
                 {
-                    this.startHitHostLine.LineSelectionWidth = 0;
+                    this.startHitHostLine.LineSelectionSegment = null;
                 }
 
             }
@@ -110,28 +112,27 @@ namespace LayoutFarm.HtmlBoxes
 
 
                         //modify hitpoint
-                        CssLineBox hostLine = (CssLineBox)startChain.GetHitInfo(startChain.Count - 2).hitObject;
-                        hostLine.LineSelectionStart = (int)(run.Left + sel_offset);
-                        this.startHitHostLine = hostLine;
+                        this.startHitHostLine = (CssLineBox)startChain.GetHitInfo(startChain.Count - 2).hitObject;
+                        this.startLineBeginSelectionAtPixel = (int)(run.Left + sel_offset);
 
                     } break;
                 case HitObjectKind.LineBox:
                     {
 
                         this.startHitHostLine = (CssLineBox)startHit.hitObject;
-                        //make global                         
-                        startHitHostLine.LineSelectionStart = startHit.localX;
-
+                        this.startLineBeginSelectionAtPixel = startHit.localX;
+                        //make global            
                     } break;
                 case HitObjectKind.CssBox:
                     {
                         CssBox box = (CssBox)startHit.hitObject;
                         //find first nearest line at point   
                         CssLineBox startHitLine = FindNearestLine(box, startChain.RootGlobalY, 5);
+
+                        this.startLineBeginSelectionAtPixel = 0;
                         if (startHitLine != null)
                         {
                             this.startHitHostLine = startHitLine;
-                            startHitLine.LineSelectionStart = 0;
                         }
                         else
                         {
@@ -185,7 +186,8 @@ namespace LayoutFarm.HtmlBoxes
                         //find selection direction 
                         if (startHitHostLine == endline)
                         {
-                            endline.LineSelectionWidth = xposOnEndLine - startHitHostLine.LineSelectionStart;
+                            endline.LineSelectionSegment = new SelectionSegment(startLineBeginSelectionAtPixel, xposOnEndLine - startLineBeginSelectionAtPixel);
+
                         }
                         else
                         {
@@ -197,12 +199,12 @@ namespace LayoutFarm.HtmlBoxes
                             {
                                 //eg. found block run  
                                 CssLineBox startLineBox = this.startHitHostLine;
-                                startLineBox.LineSelectionWidth = xposOnEndLine - startHitHostLine.LineSelectionStart;
 
+                                startLineBox.LineSelectionSegment = new SelectionSegment(startLineBeginSelectionAtPixel, xposOnEndLine - startLineBeginSelectionAtPixel);
                                 selectedLines.Add(startLineBox);
                                 //todo: review here 
                                 var blockRun = endChain.GetHitInfo(commonGroundInfo.breakAtLevel).hitObject as CssBlockRun;
-                                 
+
                                 foreach (var linebox in GetLineWalkIter(blockRun))
                                 {
                                     if (linebox == endline)
@@ -227,7 +229,7 @@ namespace LayoutFarm.HtmlBoxes
                                 {
                                     if (line == startLineBox)
                                     {
-                                        line.SelectPartialStart(line.LineSelectionStart);
+                                        line.SelectPartialStart(startLineBeginSelectionAtPixel);
                                         selectedLines.Add(line);
                                     }
                                     else if (line == endline)
@@ -249,13 +251,11 @@ namespace LayoutFarm.HtmlBoxes
                     } break;
                 case HitObjectKind.LineBox:
                     {
-
-
                         CssLineBox endline = (CssLineBox)endHit.hitObject;
                         //find selection direction 
                         if (this.startHitHostLine == endline)
                         {
-                            endline.LineSelectionWidth = endHit.localX - startHitHostLine.LineSelectionStart;
+                            endline.LineSelectionSegment = new SelectionSegment(startLineBeginSelectionAtPixel, endHit.localX - startLineBeginSelectionAtPixel);
                         }
                         else
                         {
@@ -263,7 +263,6 @@ namespace LayoutFarm.HtmlBoxes
                             //select on different line 
                             //-------
                             this.selectedLines = new List<CssLineBox>();
-
                             //1. select all in start line      
                             //1. select all in start line      
                             CssLineBox startLineBox = this.startHitHostLine;
@@ -271,7 +270,7 @@ namespace LayoutFarm.HtmlBoxes
                             {
                                 if (line == startLineBox)
                                 {
-                                    line.SelectPartialStart(startLineBox.LineSelectionStart);
+                                    line.SelectPartialStart(this.startLineBeginSelectionAtPixel);
                                     selectedLines.Add(line);
                                 }
                                 else if (line == endline)
@@ -305,7 +304,7 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             if (line == startHitHostLine)
                             {
-                                line.SelectPartialStart(startHitHostLine.LineSelectionStart);
+                                line.SelectPartialStart(this.startLineBeginSelectionAtPixel);
                                 selectedLines.Add(line);
                                 latestLine = line;
                             }
@@ -600,21 +599,20 @@ namespace LayoutFarm.HtmlBoxes
     {
         public static void SelectFull(this CssLineBox lineBox)
         {
-            //full line selection
-            lineBox.LineSelectionStart = 0;
-            lineBox.LineSelectionWidth = (int)lineBox.CachedLineContentWidth;
+            //full line selection 
+            lineBox.LineSelectionSegment = new SelectionSegment(0, (int)lineBox.CachedLineContentWidth);
         }
         public static void SelectPartialStart(this CssLineBox lineBox, int startAt)
         {
             //from startAt to end of line
-            lineBox.LineSelectionStart = startAt;
-            lineBox.LineSelectionWidth = (int)lineBox.CachedLineContentWidth - startAt;
+
+            lineBox.LineSelectionSegment = new SelectionSegment(startAt, (int)lineBox.CachedLineContentWidth - startAt);
         }
         public static void SelectPartialEnd(this CssLineBox lineBox, int endAt)
         {
             //from start of line to endAt
-            lineBox.LineSelectionStart = 0;
-            lineBox.LineSelectionWidth = endAt;
+
+            lineBox.LineSelectionSegment = new SelectionSegment(0, endAt);
         }
     }
 

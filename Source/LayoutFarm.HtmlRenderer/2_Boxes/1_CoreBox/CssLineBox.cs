@@ -127,8 +127,10 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         PartialBoxStrip[] _bottomUpBoxStrips;
         internal LinkedListNode<CssLineBox> linkedNode;
-
         float _cacheContentWidth;
+
+        SelectionSegment selectionSegment;
+
 #if DEBUG
         bool dbugIsClosed;
         static int dbugTotalId;
@@ -168,7 +170,6 @@ namespace LayoutFarm.HtmlBoxes
             get;
             private set;
         }
-
         internal float CachedLineTop
         {
             //relative top compare to its parent
@@ -544,27 +545,28 @@ namespace LayoutFarm.HtmlBoxes
 
 #endif
 
-        internal int LineSelectionStart
+        internal SelectionSegment LineSelectionSegment
         {
-            get;
-            set;
+            get { return this.selectionSegment; }
+            set { this.selectionSegment = value; }
         }
 
+        //internal int LineSelectionStart
+        //{
+        //    get;
+        //    set;
+        //}
+        //internal int LineSelectionWidth
+        //{
+        //    get;
+        //    set;
+        //}
+        //internal void PaintSelection(PaintVisitor p)
+        //{
+        //    //config paint selection color
+           
 
-        internal int LineSelectionWidth
-        {
-            get;
-            set;
-        }
-        internal void PaintSelection(PaintVisitor p)
-        {
-            //config paint selection color
-            p.FillRectangle(Color.LightGray,
-                this.LineSelectionStart, 0,
-                this.LineSelectionWidth,
-                this.CacheLineHeight);
-
-        }
+        //}
 
 
         internal void PaintBackgroundAndBorder(PaintVisitor p)

@@ -66,6 +66,7 @@
     <Compile Include="1_Css\BoxSpec.cs" />
     <Compile Include="1_Css\BoxSpec_CopyAndVersioning.cs" />
     <Compile Include="1_Css\CssFeatures.cs" />
+    <Compile Include="2_Boxes\5_HitAndSelections\SelectionSegment.cs" />
     <Compile Include="4_Svg\05_SvgDoms\CssBoxSvgRoot.cs" />
     <Compile Include="4_Svg\05_SvgDoms\SvgElements.cs" />
     <Compile Include="4_Svg\07_Coords_Transforms\SvgMatrix.cs" />

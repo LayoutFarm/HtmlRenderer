@@ -520,13 +520,13 @@ namespace LayoutFarm.HtmlBoxes
 #endif
 
                     cx += leftMostSpace;
-                    //------------------------------------------------ 
-
+                    //------------------------------------------------  
                     if (b.CssDisplay == CssDisplay.InlineBlock)
                     {
                         //can't split 
                         //create 'block-run'  
                         PerformContentLayout(b, lay);
+
                         CssBlockRun blockRun = b.JustBlockRun;
                         if (blockRun == null)
                         {
