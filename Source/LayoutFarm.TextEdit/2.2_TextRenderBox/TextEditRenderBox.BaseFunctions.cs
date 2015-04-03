@@ -33,8 +33,9 @@ namespace LayoutFarm.Text
             GlobalCaretController.RegisterCaretBlink(rootgfx);
             myCaret = new CaretRenderElement(rootgfx, 2, 17);
             myCaret.TransparentForAllEvents = true;
+            
             this.MayHasViewport = true;
-            this.BackgroundColor = Color.Transparent;
+            this.BackgroundColor = Color.White;// Color.Transparent;
 
             this.currentSpanStyle = new TextSpanStyle();
             this.currentSpanStyle.FontInfo = rootgfx.DefaultTextEditFontInfo;

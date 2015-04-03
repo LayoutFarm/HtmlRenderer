@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 namespace LayoutFarm.Text
-{   
+{
 
     partial class EditableTextLine : LayoutFarm.RenderBoxes.IParentLink
     {
@@ -57,26 +57,22 @@ namespace LayoutFarm.Text
 
         internal void UnsafeAddLast(EditableTextSpan run)
         {
-            run.SetInternalLinkedNode(base.AddLast(run), this); 
+            run.SetInternalLinkedNode(base.AddLast(run), this);
         }
         internal void UnsafeAddFirst(EditableTextSpan run)
         {
-            run.SetInternalLinkedNode(base.AddFirst(run), this); 
+            run.SetInternalLinkedNode(base.AddFirst(run), this);
         }
         internal void UnsafeAddAfter(EditableTextSpan after, EditableTextSpan run)
         {
-            run.SetInternalLinkedNode(base.AddAfter(GetLineLinkedNode(after), run), this); 
+            run.SetInternalLinkedNode(base.AddAfter(GetLineLinkedNode(after), run), this);
         }
         internal void UnsafeRemoveVisualElement(EditableTextSpan v)
         {
             base.Remove(GetLineLinkedNode(v));
         }
 
-        //--------------------------------------------------------------------------
-        bool RenderBoxes.IParentLink.MayHasOverlapChild
-        {
-            get { return false; }
-        }
+       
 
         RenderElement RenderBoxes.IParentLink.ParentRenderElement
         {
@@ -92,11 +88,12 @@ namespace LayoutFarm.Text
         {
             return null;
         }
-
+#if DEBUG
         string RenderBoxes.IParentLink.dbugGetLinkInfo()
         {
             return "editable-link";
         }
+#endif
     }
 
 }

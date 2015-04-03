@@ -72,6 +72,10 @@ namespace LayoutFarm.Text
         {
             int precutIndex = selectionRange.StartPoint.LineCharIndex; 
             CurrentLine.Remove(selectionRange);
+
+            CurrentLine.TextLineReCalculateActualLineSize();
+            CurrentLine.RefreshInlineArrange();
+
             EnsureCurrentTextRun(precutIndex);
 
         }
@@ -79,7 +83,12 @@ namespace LayoutFarm.Text
         public void ReplaceCurrentLine(IEnumerable<EditableTextSpan> textRuns)
         {
             int currentCharIndex = CharIndex;
+
             CurrentLine.ReplaceAll(textRuns);
+
+            CurrentLine.TextLineReCalculateActualLineSize();
+            CurrentLine.RefreshInlineArrange();
+            
             EnsureCurrentTextRun(currentCharIndex);
         } 
         public void JoinWithNextLine()

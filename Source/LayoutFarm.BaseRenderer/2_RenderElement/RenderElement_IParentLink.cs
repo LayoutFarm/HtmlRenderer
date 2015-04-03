@@ -15,10 +15,7 @@ namespace LayoutFarm
         {
             return true;
         }
-        bool IParentLink.MayHasOverlapChild
-        {
-            get { return _MayHasOverlapChild(); }
-        }
+       
         protected IParentLink MyParentLink
         {
             get { return this.parentLink; }
@@ -30,37 +27,40 @@ namespace LayoutFarm
             //yes, because when this renderElement act as parentlink
             //it return itself as parent
             get { return this; }
-        }
-
+        } 
         void IParentLink.AdjustLocation(ref Point p)
         {
             //nothing
-        }
-
+        } 
         RenderElement IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
             //called from child node
-            var child_internalLinkedNode = afterThisChild.internalLinkedNode;
-            if (child_internalLinkedNode == null)
+            if (this._MayHasOverlapChild())
             {
-                return null;
-            }
-            var curnode = child_internalLinkedNode.Previous;
-            while (curnode != null)
-            {
-                var element = curnode.Value;
-                if (element.Contains(point))
+                var child_internalLinkedNode = afterThisChild.internalLinkedNode;
+                if (child_internalLinkedNode == null)
                 {
-                    return element;
+                    return null;
                 }
-                curnode = curnode.Previous;
+                var curnode = child_internalLinkedNode.Previous;
+                while (curnode != null)
+                {
+                    var element = curnode.Value;
+                    if (element.Contains(point))
+                    {
+                        return element;
+                    }
+                    curnode = curnode.Previous;
+                }
             }
             return null;
         }
 
+#if DEBUG
         string IParentLink.dbugGetLinkInfo()
         {
             return "";
         }
+#endif
     }
 }

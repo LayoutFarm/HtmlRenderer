@@ -63,11 +63,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
 
         internal abstract RenderElement GetParentRenderElement(out int globalX, out int globalY);
-
-        bool LayoutFarm.RenderBoxes.IParentLink.MayHasOverlapChild
-        {
-            get { return false; }
-        }
+ 
         RenderElement RenderBoxes.IParentLink.ParentRenderElement
         {
             get
@@ -86,10 +82,12 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             return null;
         }
 
-        string RenderBoxes.IParentLink.dbugGetLinkInfo()
+#if DEBUG
+        string LayoutFarm.RenderBoxes.IParentLink.dbugGetLinkInfo()
         {
             return "";
         }
+#endif
     }
 
     sealed class WrapperInlineCssBox : WrapperCssBoxBase
@@ -349,31 +347,26 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             renderElement.CustomDrawToThisCanvas(canvasPage, updateArea);
         }
 
-        bool RenderBoxes.IParentLink.MayHasOverlapChild
-        {
-            get { return false; }
-        }
-
+       
         RenderElement RenderBoxes.IParentLink.ParentRenderElement
         {
             get { return this.renderElement; }
-        }
-
+        } 
         void RenderBoxes.IParentLink.AdjustLocation(ref Point p)
         {
             //do nothing
             //throw new NotImplementedException();
-        }
-
+        } 
         RenderElement RenderBoxes.IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
             return null;
         }
-
-        string RenderBoxes.IParentLink.dbugGetLinkInfo()
+#if DEBUG
+        string LayoutFarm.RenderBoxes.IParentLink.dbugGetLinkInfo()
         {
             return "";
         }
+#endif
     }
 
 

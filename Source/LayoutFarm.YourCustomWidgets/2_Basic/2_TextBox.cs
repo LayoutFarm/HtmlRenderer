@@ -18,7 +18,7 @@ namespace LayoutFarm.CustomWidgets
         TextEditRenderBox textEditRenderElement;
         bool _multiline;
         TextSpanStyle defaultSpanStyle;
-        Color backgroundColor;
+        Color backgroundColor = Color.White;
         string userTextContent;
         public TextBox(int width, int height, bool multiline)
             : base(width, height)

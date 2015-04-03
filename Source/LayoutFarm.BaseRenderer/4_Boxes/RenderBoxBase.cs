@@ -253,22 +253,18 @@ namespace LayoutFarm.RenderBoxes
             {
                 return this.MyParentLink.FindOverlapedChildElementAtPoint(this, point);
             }
-             
+
             return null;
         }
         public override void FindUnderlyingSibling(ref Rectangle rect, RenderElementFoundDelegate renderElementFoundDel)
         {
-            //check 
-            if (this.MyParentLink.MayHasOverlapChild)
+            //check  
+            var found = this.MyParentLink.FindOverlapedChildElementAtPoint(this, rect.Location);
+            if (found != null)
             {
-                var found = this.MyParentLink.FindOverlapedChildElementAtPoint(this, rect.Location);
-
-                if (found != null)
+                if (renderElementFoundDel(found))
                 {
-                    if (renderElementFoundDel(found))
-                    {
-                        return;
-                    }
+                    return;
                 }
             }
         }
