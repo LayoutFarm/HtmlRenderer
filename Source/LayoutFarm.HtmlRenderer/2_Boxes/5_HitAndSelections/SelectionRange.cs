@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 
 namespace LayoutFarm.HtmlBoxes
-{ 
+{
 
     public class SelectionRange
     {
@@ -147,6 +147,8 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
+        static int dbugCount01 = 0;
+
         void SetupEndHitPoint(CssBoxHitChain endChain, IFonts ifonts)
         {
 
@@ -171,6 +173,10 @@ namespace LayoutFarm.HtmlBoxes
                         //}
 
                         CssRun run = (CssRun)endHit.hitObject;
+                        if (run.Text.Contains("333"))
+                        {
+
+                        }
                         //---------------------------------
                         int sel_index;
                         int sel_offset;
@@ -179,15 +185,17 @@ namespace LayoutFarm.HtmlBoxes
                              out sel_index,
                              out sel_offset);
                         this.endHitRunCharIndex = sel_index;
-                        int xposOnEndLine = (int)(run.Left + sel_offset);
+
 
                         CssLineBox endline = run.HostLine;
 
                         //find selection direction 
                         if (startHitHostLine == endline)
                         {
+                            int xposOnEndLine = (int)(run.Left + sel_offset);
                             endline.LineSelectionSegment = new SelectionSegment(startLineBeginSelectionAtPixel, xposOnEndLine - startLineBeginSelectionAtPixel);
-
+                            //Console.WriteLine("d3." + (dbugCount01++).ToString() +
+                            //     " s" + startLineBeginSelectionAtPixel);
                         }
                         else
                         {
@@ -197,54 +205,100 @@ namespace LayoutFarm.HtmlBoxes
                             this.selectedLines = new List<CssLineBox>();
                             if (commonGroundInfo.isDeepDown)
                             {
-                                //eg. found block run  
-                                CssLineBox startLineBox = this.startHitHostLine;
 
-                                startLineBox.LineSelectionSegment = new SelectionSegment(startLineBeginSelectionAtPixel, xposOnEndLine - startLineBeginSelectionAtPixel);
-                                selectedLines.Add(startLineBox);
-                                //todo: review here 
-                                var blockRun = endChain.GetHitInfo(commonGroundInfo.breakAtLevel).hitObject as CssBlockRun;
-
-                                foreach (var linebox in GetLineWalkIter(blockRun))
+                                //TODO:  review this
+                                HitInfo hitOnEndLine = endChain.GetHitInfo(commonGroundInfo.breakAtLevel);
+                                //mean it found block run
+                                var hitBlockRun = hitOnEndLine.hitObject as CssBlockRun;
+                                if (hitBlockRun != null)
                                 {
-                                    if (linebox == endline)
+
+                                    CssLineBox startLineBox = this.startHitHostLine;
+                                    //multiple select
+                                    var multiSelectionSegment = new MultiSegmentPerLine();
+                                    startLineBox.LineSelectionSegment = multiSelectionSegment;
+
+                                    //1. first part
+                                    var firstSegment = new SelectionSegment(startLineBeginSelectionAtPixel, (int)hitBlockRun.Left - startLineBeginSelectionAtPixel);
+                                    multiSelectionSegment.AddSubSegment(firstSegment);
+                                    selectedLines.Add(startLineBox);
+
+                                    foreach (var linebox in GetLineWalkIter(hitBlockRun))
                                     {
-                                        //found end line 
-                                        linebox.SelectPartialEnd((int)blockRun.Left - xposOnEndLine);
-                                        selectedLines.Add(linebox);
-                                        break;
+                                        if (linebox == endline)
+                                        {
+                                            //found end line  
+                                            linebox.SelectPartialEnd((int)(run.Left + sel_offset));
+                                            selectedLines.Add(linebox);
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            linebox.SelectFull();
+                                            selectedLines.Add(linebox);
+                                        }
                                     }
-                                    else
-                                    {
-                                        linebox.SelectFull();
-                                        selectedLines.Add(linebox);
-                                    }
+                                }
+                                else
+                                {
+                                    //Console.WriteLine("d2." + dbugCount01++);
                                 }
                             }
                             else
                             {
+                                int xposOnEndLine = (int)(run.Left + sel_offset);
                                 //1. select all in start line      
                                 CssLineBox startLineBox = this.startHitHostLine;
-                                foreach (CssLineBox line in GetLineWalkIter(startLineBox, endline))
+
+                                CssBlockRun foundBlockRun = null;
+                                foreach (var visit in GetWalkIter(startLineBox))
                                 {
-                                    if (line == startLineBox)
+                                    //only linebox?
+                                    switch (visit.Kind)
                                     {
-                                        line.SelectPartialStart(startLineBeginSelectionAtPixel);
-                                        selectedLines.Add(line);
+                                        case VisitMarkerKind.Line:
+                                            {
+                                                var linebox = visit.visitObject as CssLineBox;
+                                                if (linebox == startLineBox)
+                                                {
+                                                    linebox.SelectPartialStart(startLineBeginSelectionAtPixel);
+                                                    selectedLines.Add(linebox);
+                                                }
+                                                else if (linebox == endline)
+                                                {
+                                                    //TODO: review this, temp fix here 
+                                                    if (foundBlockRun != null)
+                                                    {
+                                                        //pass block run 
+
+                                                        linebox.LineSelectionSegment = new SelectionSegment(
+                                                            (int)run.Left, xposOnEndLine - (int)run.Left);
+                                                        selectedLines.Add(linebox);
+                                                    }
+                                                    else
+                                                    {
+                                                        //found
+                                                        //-------
+                                                        //2. end line 
+                                                        linebox.SelectPartialEnd(xposOnEndLine);
+                                                        selectedLines.Add(linebox);
+                                                    }
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    //inbetween
+                                                    linebox.SelectFull();
+                                                    selectedLines.Add(linebox);
+                                                }
+                                            } break;
+                                        case VisitMarkerKind.NotifyInlineBlockBox:
+                                            {
+                                                //pass block run
+                                                foundBlockRun = visit.visitObject as CssBlockRun;
+                                            } break;
                                     }
-                                    else if (line == endline)
-                                    {
-                                        //-------
-                                        //2. end line 
-                                        line.SelectPartialEnd(xposOnEndLine);
-                                        selectedLines.Add(line);
-                                    }
-                                    else
-                                    {
-                                        //inbetween
-                                        line.SelectFull();
-                                        selectedLines.Add(line);
-                                    }
+
                                 }
                             }
                         }
@@ -259,31 +313,102 @@ namespace LayoutFarm.HtmlBoxes
                         }
                         else
                         {
-                            //between line
-                            //select on different line 
-                            //-------
+
+                            CommonGroundInfo commonGroundInfo = FindCommonGround(this.tmpStartChain, endChain);
                             this.selectedLines = new List<CssLineBox>();
-                            //1. select all in start line      
-                            //1. select all in start line      
-                            CssLineBox startLineBox = this.startHitHostLine;
-                            foreach (CssLineBox line in GetLineWalkIter(startLineBox, endline))
+                            if (commonGroundInfo.isDeepDown)
                             {
-                                if (line == startLineBox)
+
+                                //TODO:  review this
+                                HitInfo hitOnEndLine = endChain.GetHitInfo(commonGroundInfo.breakAtLevel);
+                                //mean it found block run
+                                var hitBlockRun = hitOnEndLine.hitObject as CssBlockRun;
+                                if (hitBlockRun != null)
                                 {
-                                    line.SelectPartialStart(this.startLineBeginSelectionAtPixel);
-                                    selectedLines.Add(line);
-                                }
-                                else if (line == endline)
-                                {
-                                    endline.SelectPartialEnd(endHit.localX);
-                                    selectedLines.Add(line);
+                                    //Console.WriteLine("d1." + dbugCount01++);
+                                    CssLineBox startLineBox = this.startHitHostLine;
+                                    //multiple select
+                                    var multiSelectionSegment = new MultiSegmentPerLine();
+                                    startLineBox.LineSelectionSegment = multiSelectionSegment;
+
+                                    //1. first part
+                                    var firstSegment = new SelectionSegment(startLineBeginSelectionAtPixel, (int)hitBlockRun.Left - startLineBeginSelectionAtPixel);
+                                    multiSelectionSegment.AddSubSegment(firstSegment);
+                                    selectedLines.Add(startLineBox);
+
+                                    foreach (var linebox in GetLineWalkIter(hitBlockRun))
+                                    {
+                                        if (linebox == endline)
+                                        {
+                                            //found end line  
+                                            //linebox.SelectPartialEnd((int)(run.Left + sel_offset));
+                                            linebox.SelectPartialEnd(endHit.localX - startLineBeginSelectionAtPixel);
+                                            selectedLines.Add(linebox);
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            linebox.SelectFull();
+                                            selectedLines.Add(linebox);
+                                        }
+                                    } 
                                 }
                                 else
                                 {
-                                    //between
-                                    line.SelectFull();
-                                    selectedLines.Add(line);
+                                    //Console.WriteLine("d2." + dbugCount01++);
                                 }
+                            }
+                            else
+                            {
+                                //between line
+                                //select on different line 
+                                //------- 
+                                //1. select all in start line      
+                                CssLineBox startLineBox = this.startHitHostLine;
+                                CssBlockRun foundBlockRun = null;
+                                foreach (var visit in GetWalkIter(startLineBox))
+                                {
+                                    //only linebox?
+                                    switch (visit.Kind)
+                                    {
+                                        case VisitMarkerKind.NotifyInlineBlockBox:
+                                            {
+                                                foundBlockRun = visit.visitObject as CssBlockRun;
+                                            } break;
+                                        case VisitMarkerKind.Line:
+                                            {
+                                                var line = visit.visitObject as CssLineBox;
+                                                if (line == startLineBox)
+                                                {
+                                                    line.SelectPartialStart(this.startLineBeginSelectionAtPixel);
+                                                    selectedLines.Add(line);
+                                                }
+                                                else if (line == endline)
+                                                {
+                                                    if (foundBlockRun != null)
+                                                    {
+                                                        endline.LineSelectionSegment = new SelectionSegment(
+                                                           (int)foundBlockRun.Right, endHit.localX - (int)foundBlockRun.Right);
+
+                                                        selectedLines.Add(line);
+                                                    }
+                                                    else
+                                                    {
+                                                        endline.SelectPartialEnd(endHit.localX);
+                                                        selectedLines.Add(line);
+                                                    }
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    //between
+                                                    line.SelectFull();
+                                                    selectedLines.Add(line);
+                                                }
+                                            } break;
+                                    }
+                                }
+
                             }
                         }
 
@@ -445,59 +570,89 @@ namespace LayoutFarm.HtmlBoxes
 
         }
 
-        static IEnumerable<CssLineBox> GetLineWalkIter(CssLineBox startLine, CssLineBox endLine)
-        {
+        //static IEnumerable<CssLineBox> GetLineWalkIter(CssLineBox startLine, CssLineBox endLine)
+        //{
 
-            foreach (var lineOrBox in GetLineOrBoxIterWalk(startLine))
-            {
-                if (lineOrBox.isLine)
-                {
-                    yield return lineOrBox.lineBox;
-                    if (lineOrBox.lineBox == endLine)
-                    {
-                        break;
-                    }
-                }
-            }
-        }
+        //    foreach (var lineOrBox in GetLineOrBoxIter(startLine))
+        //    {
+        //        //only linebox?
+        //        if (lineOrBox.isLine)
+        //        {
+        //            yield return lineOrBox.lineBox;
+        //            if (lineOrBox.lineBox == endLine)
+        //            {
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
         static IEnumerable<CssLineBox> GetLineWalkIter(CssLineBox startLine, CssBox endBox)
         {
             bool foundEndBox = false;
-            foreach (var visit in GetLineOrBoxIterWalk(startLine))
+            foreach (var visit in GetWalkIter(startLine))
             {
-                if (visit.isLine)
+                switch (visit.Kind)
                 {
-                    yield return visit.lineBox;
-                }
-                else if (visit.box == endBox)
-                {
-                    foundEndBox = true;
-                    foreach (var visit2 in GetDeepBoxOrLineIter(endBox))
-                    {
-                        if (visit2.isLine)
+                    case VisitMarkerKind.Line:
                         {
-                            yield return visit2.lineBox;
-                        }
-                    }
+                            yield return visit.visitObject as CssLineBox;
+                        } break;
+                    case VisitMarkerKind.Box:
+                        {
+                            var box = visit.visitObject as CssBox;
+                            if (box == endBox)
+                            {
+                                foundEndBox = true;
+                                foreach (var visit2 in GetDeepBoxOrLineIter(endBox))
+                                {
+                                    if (visit2.Kind == VisitMarkerKind.Line)
+                                    {
+                                        yield return visit2.visitObject as CssLineBox;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (foundEndBox)
+                                {
+                                    break;
+                                }
+                            }
+                        } break;
                 }
-                else
-                {
-                    if (foundEndBox)
-                    {
-                        break;
-                    }
-                }
+                //if (visit.isLine)
+                //{
+                //    yield return visit.lineBox;
+                //}
+                //else if (visit.box == endBox)
+                //{
+                //    foundEndBox = true;
+                //    foreach (var visit2 in GetDeepBoxOrLineIter(endBox))
+                //    {
+                //        if (visit2.isLine)
+                //        {
+                //            yield return visit2.lineBox;
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    if (foundEndBox)
+                //    {
+                //        break;
+                //    }
+                //}
             }
         }
-        static IEnumerable<LineOrBoxVisit> GetDeepBoxOrLineIter(CssBox box)
+        static IEnumerable<VisitMarker> GetDeepBoxOrLineIter(CssBox box)
         {
-            yield return new LineOrBoxVisit(box);
+            yield return new VisitMarker(box);
             if (box.LineBoxCount > 0)
             {
                 //line model
                 foreach (CssLineBox linebox in box.GetLineBoxIter())
                 {
-                    yield return new LineOrBoxVisit(linebox);
+                    yield return new VisitMarker(linebox);
                 }
             }
             else
@@ -514,18 +669,18 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-        static IEnumerable<LineOrBoxVisit> GetLineOrBoxIterWalk(CssLineBox startLine)
+        static IEnumerable<VisitMarker> GetWalkIter(CssLineBox startLine)
         {
             //start at line
             //1. start line
-            yield return new LineOrBoxVisit(startLine);
+            yield return new VisitMarker(startLine);
             CssLineBox curLine = startLine;
 
             //walk up and down the tree
             CssLineBox nextline = startLine.NextLine;
             while (nextline != null)
             {
-                yield return new LineOrBoxVisit(nextline);
+                yield return new VisitMarker(nextline);
                 nextline = nextline.NextLine;
             }
             //--------------------
@@ -534,6 +689,19 @@ namespace LayoutFarm.HtmlBoxes
             CssBox curBox = startLine.OwnerBox;
         RETRY:
             //ask for sibling
+            if (curBox.JustBlockRun != null)
+            {
+                var runOwnerBox = curBox.JustBlockRun.OwnerBox;
+                //TODO: review here
+                VisitMarker notify = new VisitMarker(curBox.JustBlockRun);
+                yield return notify;
+                foreach (var visit in GetDeepBoxOrLineIter(runOwnerBox))
+                {
+
+                    yield return visit;
+                }
+
+            }
             CssBox level1Sibling = BoxHitUtils.GetNextSibling(curBox);
             while (level1Sibling != null)
             {
@@ -574,21 +742,24 @@ namespace LayoutFarm.HtmlBoxes
             //select down
             foreach (var lineOrBox in GetDeepBoxOrLineIter(box))
             {
-                if (lineOrBox.isLine)
+                switch (lineOrBox.Kind)
                 {
-                    yield return lineOrBox.lineBox;
-                }
-                else
-                {
-                    //found box
-                    foreach (var visit2 in GetDeepBoxOrLineIter(lineOrBox.box))
-                    {
-                        if (visit2.isLine)
+                    case VisitMarkerKind.Line:
                         {
-                            yield return visit2.lineBox;
-                        }
-                    }
+                            yield return lineOrBox.visitObject as CssLineBox;
+                        } break;
+                    case VisitMarkerKind.Box:
+                        {
+                            foreach (var visit2 in GetDeepBoxOrLineIter(lineOrBox.visitObject as CssBox))
+                            {
+                                if (visit2.Kind == VisitMarkerKind.Line)
+                                {
+                                    yield return visit2.visitObject as CssLineBox;
+                                }
+                            }
+                        } break;
                 }
+
             }
 
         }
@@ -616,23 +787,34 @@ namespace LayoutFarm.HtmlBoxes
         }
     }
 
-    struct LineOrBoxVisit
+    enum VisitMarkerKind : byte
     {
-        internal readonly CssLineBox lineBox;
-        internal readonly CssBox box;
-        internal readonly bool isLine;
-        public LineOrBoxVisit(CssLineBox lineBox)
-        {
-            this.isLine = true;
-            this.lineBox = lineBox;
-            this.box = null;
-        }
-        public LineOrBoxVisit(CssBox box)
-        {
-            this.isLine = false;
-            this.lineBox = null;
-            this.box = box;
-        }
+        Unknown,
+        Line,
+        Box,
+        NotifyInlineBlockBox
+    }
 
+
+    struct VisitMarker
+    {
+        internal readonly object visitObject;
+        internal readonly VisitMarkerKind Kind;
+
+        public VisitMarker(CssLineBox lineBox)
+        {
+            this.visitObject = lineBox;
+            this.Kind = VisitMarkerKind.Line;
+        }
+        public VisitMarker(CssBox box)
+        {
+            this.visitObject = box;
+            this.Kind = VisitMarkerKind.Box;
+        }
+        public VisitMarker(CssBlockRun blockRun)
+        {
+            this.visitObject = blockRun;
+            this.Kind = VisitMarkerKind.NotifyInlineBlockBox;
+        }
     }
 }

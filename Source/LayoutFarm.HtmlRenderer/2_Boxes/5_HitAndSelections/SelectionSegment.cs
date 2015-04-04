@@ -47,10 +47,6 @@ namespace LayoutFarm.HtmlBoxes
                this.BeginAtPixel, 0,
                this.EndAtPixel - this.BeginAtPixel,
                lineHeight);
-            //p.FillRectangle(Color.LightGray,
-            //    this.LineSelectionStart, 0,
-            //    this.LineSelectionWidth,
-            //    this.CacheLineHeight);
         }
     }
 
@@ -68,6 +64,15 @@ namespace LayoutFarm.HtmlBoxes
         public override void Clear()
         {
             this.segmentList.Clear();
+        }
+        public override void PaintSelection(PaintVisitor p, int lineHeight)
+        {
+            //paint each segment
+            int j = segmentList.Count;
+            for (int i = 0; i < j; ++i)
+            {
+                segmentList[i].PaintSelection(p, lineHeight);
+            }
         }
 
     }

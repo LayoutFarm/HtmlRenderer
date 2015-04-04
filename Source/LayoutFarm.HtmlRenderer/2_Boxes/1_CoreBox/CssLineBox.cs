@@ -549,26 +549,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.selectionSegment; }
             set { this.selectionSegment = value; }
-        }
-
-        //internal int LineSelectionStart
-        //{
-        //    get;
-        //    set;
-        //}
-        //internal int LineSelectionWidth
-        //{
-        //    get;
-        //    set;
-        //}
-        //internal void PaintSelection(PaintVisitor p)
-        //{
-        //    //config paint selection color
-           
-
-        //}
-
-
+        } 
         internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip

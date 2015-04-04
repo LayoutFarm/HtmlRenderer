@@ -70,15 +70,11 @@ namespace LayoutFarm.Text
         internal void UnsafeRemoveVisualElement(EditableTextSpan v)
         {
             base.Remove(GetLineLinkedNode(v));
-        }
-
-       
-
+        } 
         RenderElement RenderBoxes.IParentLink.ParentRenderElement
         {
             get { return this.OwnerFlowLayer.OwnerRenderElement; }
-        }
-
+        } 
         void RenderBoxes.IParentLink.AdjustLocation(ref Point p)
         {
             p.Y += this.LineTop;
