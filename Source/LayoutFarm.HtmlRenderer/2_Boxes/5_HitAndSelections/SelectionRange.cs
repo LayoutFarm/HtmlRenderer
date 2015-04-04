@@ -170,13 +170,9 @@ namespace LayoutFarm.HtmlBoxes
                         //else
                         //{
                         //    Console.WriteLine(dbugCounter + "r:" + run.dbugId + "(line:" + run.HostLine.dbugId + ",top=" + run.HostLine.CachedLineTop + ")");
-                        //}
+                        //} 
 
                         CssRun run = (CssRun)endHit.hitObject;
-                        if (run.Text.Contains("333"))
-                        {
-
-                        }
                         //---------------------------------
                         int sel_index;
                         int sel_offset;

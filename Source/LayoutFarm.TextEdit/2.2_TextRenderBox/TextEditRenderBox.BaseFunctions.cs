@@ -33,7 +33,7 @@ namespace LayoutFarm.Text
             GlobalCaretController.RegisterCaretBlink(rootgfx);
             myCaret = new CaretRenderElement(rootgfx, 2, 17);
             myCaret.TransparentForAllEvents = true;
-            
+
             this.MayHasViewport = true;
             this.BackgroundColor = Color.White;// Color.Transparent;
 
@@ -74,7 +74,40 @@ namespace LayoutFarm.Text
             ts.BoxEvaluateScrollBar();
         }
 
+        public void DoHome(bool pressShitKey)
+        {
+            if (!pressShitKey)
+            {
+                internalTextLayerController.DoHome();
+                internalTextLayerController.CancelSelect();
+            }
+            else
+            {
 
+                internalTextLayerController.StartSelectIfNoSelection();
+                internalTextLayerController.DoHome();
+                internalTextLayerController.EndSelect();
+            }
+
+            EnsureCaretVisible();
+        }
+        public void DoEnd(bool pressShitKey)
+        {
+            if (!pressShitKey)
+            {
+                internalTextLayerController.DoEnd();
+                internalTextLayerController.CancelSelect();
+            }
+            else
+            {
+                internalTextLayerController.StartSelectIfNoSelection();
+                internalTextLayerController.DoEnd();
+                internalTextLayerController.EndSelect();
+
+            }
+
+            EnsureCaretVisible();
+        }
 
 
         public Rectangle GetRectAreaOf(int beginlineNum, int beginColumnNum, int endLineNum, int endColumnNum)
@@ -366,38 +399,27 @@ namespace LayoutFarm.Text
                 case UIKeys.Home:
                     {
 
-                        if (!e.Shift)
-                        {
-                            internalTextLayerController.DoHome();
-                            internalTextLayerController.CancelSelect();
-                        }
-                        else
-                        {
+                        //if (!e.Shift)
+                        //{
+                        //    internalTextLayerController.DoHome();
+                        //    internalTextLayerController.CancelSelect();
+                        //}
+                        //else
+                        //{
 
-                            internalTextLayerController.StartSelectIfNoSelection();
-                            internalTextLayerController.DoHome();
-                            internalTextLayerController.EndSelect();
-                        }
+                        //    internalTextLayerController.StartSelectIfNoSelection();
+                        //    internalTextLayerController.DoHome();
+                        //    internalTextLayerController.EndSelect();
+                        //} 
+                        //EnsureCaretVisible();
 
-                        EnsureCaretVisible();
+                        this.DoHome(e.Shift);
 
                     } break;
                 case UIKeys.End:
                     {
-                        if (!e.Shift)
-                        {
-                            internalTextLayerController.DoEnd();
-                            internalTextLayerController.CancelSelect();
-                        }
-                        else
-                        {
-                            internalTextLayerController.StartSelectIfNoSelection();
-                            internalTextLayerController.DoEnd();
-                            internalTextLayerController.EndSelect();
-
-                        }
-
-                        EnsureCaretVisible();
+                        
+                        this.DoEnd(e.Shift);
 
                     } break;
                 case UIKeys.Delete:
