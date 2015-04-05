@@ -367,7 +367,14 @@ namespace LayoutFarm.Text
             UIKeys keycode = (UIKeys)e.KeyData & UIKeys.KeyCode;
             switch (keycode)
             {
-
+                case UIKeys.Home:
+                    {
+                        this.DoHome(e.Shift);
+                    } break;
+                case UIKeys.End:
+                    {
+                        this.DoEnd(e.Shift);
+                    } break;
                 case UIKeys.Back:
                     {
                         if (internalTextLayerController.SelectionRange != null)
@@ -395,33 +402,7 @@ namespace LayoutFarm.Text
 
                         EnsureCaretVisible();
 
-                    } break;
-                case UIKeys.Home:
-                    {
-
-                        //if (!e.Shift)
-                        //{
-                        //    internalTextLayerController.DoHome();
-                        //    internalTextLayerController.CancelSelect();
-                        //}
-                        //else
-                        //{
-
-                        //    internalTextLayerController.StartSelectIfNoSelection();
-                        //    internalTextLayerController.DoHome();
-                        //    internalTextLayerController.EndSelect();
-                        //} 
-                        //EnsureCaretVisible();
-
-                        this.DoHome(e.Shift);
-
-                    } break;
-                case UIKeys.End:
-                    {
-                        
-                        this.DoEnd(e.Shift);
-
-                    } break;
+                    } break; 
                 case UIKeys.Delete:
                     {
 
@@ -591,10 +572,8 @@ namespace LayoutFarm.Text
                             //}
 
                         } break;
-
                 }
             }
-
         }
 
         public bool OnProcessDialogKey(UIKeyEventArgs e)

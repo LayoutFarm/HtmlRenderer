@@ -9,10 +9,11 @@ namespace LayoutFarm.Text
 
     public partial class EditableTextSpan : TextSpan
     {
-
+       
         EditableTextLine ownerTextLine;
         LinkedListNode<EditableTextSpan> _internalLinkedNode;
-
+        bool isInsertable = true;
+      
         public EditableTextSpan(RootGraphic gfx, char[] myBuffer, TextSpanStyle style)
             : base(gfx, myBuffer, style)
         {
@@ -29,10 +30,10 @@ namespace LayoutFarm.Text
 
         }
 
-        public int GetRunWidth(int charCount)
-        {
 
-            return CalculateDrawingStringSize(mybuffer, charCount).Width;
+        public int GetRunWidth(int charOffset)
+        {
+            return CalculateDrawingStringSize(mybuffer, charOffset).Width;
         }
         internal EditableTextSpan Clone()
         {
@@ -49,8 +50,6 @@ namespace LayoutFarm.Text
             this._internalLinkedNode = linkedNode;
             EditableTextSpan.SetParentLink(this, ownerTextLine);
         }
-
-
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
             FontInfo FontInfo = GetFontInfo();
@@ -62,12 +61,41 @@ namespace LayoutFarm.Text
         {
             get
             {
-                return true;
+                return isInsertable;
             }
         }
 
+      
+        public override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
+        {
+            
+                this.DrawCharacters(canvas, updateArea, this.mybuffer);
+             
+        }
+        //public override void UpdateRunWidth()
+        //{
+        //    if (this.isFreezed)
+        //    {
+        //        Size size;
+        //        if (IsLineBreak)
+        //        {
+        //            size = CalculateDrawingStringSize(emptyline);
+        //        }
+        //        else
+        //        {
+        //            size = CalculateDrawingStringSize(this.freezeTextBuffer);
+        //        }
+        //        this.SetSize(size.Width, size.Height);
+        //        MarkHasValidCalculateSize();
+        //    }
+        //    else
+        //    {
+        //        base.UpdateRunWidth();
+        //    }
+        //}
         public void CopyContentToStringBuilder(StringBuilder stBuilder)
         {
+
             if (IsLineBreak)
             {
                 stBuilder.Append("\r\n");
@@ -81,10 +109,10 @@ namespace LayoutFarm.Text
         {
             get
             {
+
                 return mybuffer[index];
             }
         }
-
         public int CharacterCount
         {
             get
@@ -104,17 +132,17 @@ namespace LayoutFarm.Text
             {
                 return null;
             }
-        } 
+        }
         EditableTextSpan MakeTextRun(int sourceIndex, int length)
         {
 
             if (length > 0)
             {
+
+                EditableTextSpan newTextRun = null;
                 char[] newContent = new char[length];
                 Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
-                EditableTextSpan newTextRun = new EditableTextSpan(this.Root, newContent, this.SpanStyle);
-
-
+                newTextRun = new EditableTextSpan(this.Root, newContent, this.SpanStyle);
                 newTextRun.IsLineBreak = this.IsLineBreak;
                 newTextRun.UpdateRunWidth();
                 return newTextRun;

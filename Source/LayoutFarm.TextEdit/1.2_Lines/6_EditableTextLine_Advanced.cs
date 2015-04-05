@@ -628,12 +628,12 @@ namespace LayoutFarm.Text
             if (tobeCutRun == null)
             {
                 return CreateTextPointInfo(
-   pointInfo.LineId,
-   pointInfo.LineCharIndex,
-   pointInfo.X,
-   null,
-   pointInfo.TextRunCharOffset,
-   pointInfo.TextRunPixelOffset);
+                       pointInfo.LineId,
+                       pointInfo.LineCharIndex,
+                       pointInfo.X,
+                       null,
+                       pointInfo.TextRunCharOffset,
+                       pointInfo.TextRunPixelOffset);
 
             }
 

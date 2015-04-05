@@ -144,7 +144,9 @@ namespace LayoutFarm.Text
             var span = new EditableTextSpan(this.Root, charBuffer, this.currentSpanStyle);
             span.UpdateRunWidth();
             return span;
-        }
+        } 
+        
+
         public EditableTextSpan CurrentTextRun
         {
             get

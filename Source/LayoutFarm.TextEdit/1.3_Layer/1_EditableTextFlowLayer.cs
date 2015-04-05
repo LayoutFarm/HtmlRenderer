@@ -12,8 +12,8 @@ namespace LayoutFarm.Text
     partial class EditableTextFlowLayer : RenderElementLayer
     {
 
-        object lineCollection; 
-        public event EventHandler Reflow; 
+        object lineCollection;
+        public event EventHandler Reflow;
         TextEditRenderBox owner;
 
         public EditableTextFlowLayer(TextEditRenderBox owner)
@@ -32,7 +32,7 @@ namespace LayoutFarm.Text
         {
             this.SetDoubleCanvas(useWithWidth, useWithHeight);
         }
-         
+
         public bool FlowLayerHasMultiLines
         {
             get
@@ -318,12 +318,12 @@ namespace LayoutFarm.Text
                             vinv_dbug_WriteInfo(dbugVisitorMessage.SKIP, currentRun);
                         }
 #endif
-                        int v_ds_height = currentRun.RunDesiredHeight;
+                        int v_ds_height = currentRun.ElementDesiredHeight;
                         if (v_ds_height > maxHeightInRow)
                         {
                             maxHeightInRow = v_ds_height;
                         }
-                        curX += currentRun.RunDesiredWidth;
+                        curX += currentRun.ElementDesiredWidth;
                         if (curX > maxWidth)
                         {
                             maxWidth = curX;
@@ -346,12 +346,12 @@ namespace LayoutFarm.Text
                             vinv_dbug_WriteInfo(dbugVisitorMessage.SKIP, currentRun);
                         }
 #endif
-                        int v_ds_height = currentRun.RunDesiredHeight;
+                        int v_ds_height = currentRun.ElementDesiredHeight;
                         if (v_ds_height > maxHeightInRow)
                         {
                             maxHeightInRow = v_ds_height;
                         }
-                        curX += currentRun.RunDesiredWidth;
+                        curX += currentRun.ElementDesiredWidth;
                         if (curX > maxWidth)
                         {
                             maxWidth = curX;
@@ -570,8 +570,8 @@ namespace LayoutFarm.Text
 #if DEBUG
                         vinv_dbug_BeginSetElementBound(currentRun);
 #endif
-                        int v_desired_width = currentRun.RunDesiredWidth;
-                        int v_desired_height = currentRun.RunDesiredHeight;
+                        int v_desired_width = currentRun.ElementDesiredWidth;
+                        int v_desired_height = currentRun.ElementDesiredHeight;
                         if (isFirstRunInThisLine)
                         {
 
@@ -716,8 +716,8 @@ namespace LayoutFarm.Text
                     vinv_dbug_BeginSetElementBound(currentRun);
 #endif
 
-                    int v_desired_width = currentRun.RunDesiredWidth;
-                    int v_desired_height = currentRun.RunDesiredHeight;
+                    int v_desired_width = currentRun.ElementDesiredWidth;
+                    int v_desired_height = currentRun.ElementDesiredHeight;
 
                     if (lastestIsBlock || currentRun.IsBlockElement ||
                        (curX + v_desired_width > ownerClientRight))

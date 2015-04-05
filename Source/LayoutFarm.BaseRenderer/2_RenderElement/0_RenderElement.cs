@@ -24,6 +24,10 @@ namespace LayoutFarm
 #if DEBUG
             dbug_totalObjectId++;
             dbug_obj_id = dbug_totalObjectId;
+            //if (dbug_obj_id == 36)
+            //{
+
+            //}
             //if(this.dbug_obj_id ==6)
             //{
             //}

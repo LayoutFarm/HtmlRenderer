@@ -242,9 +242,7 @@ namespace LayoutFarm
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
-
-
-
+             
             debugVisualLay.PushVisualElement(v);
             debugVisualLay.WriteInfo(v, ">>TOPDOWN_RECAL_CONTENT ", "-", "&");
 

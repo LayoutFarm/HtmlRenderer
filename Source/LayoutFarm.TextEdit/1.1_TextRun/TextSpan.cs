@@ -73,22 +73,24 @@ namespace LayoutFarm.Text
 
             UpdateRunWidth();
         }
-        public void UpdateRunWidth()
+        public bool IsLineBreak
+        {
+            get;
+            set;
+        }
+
+        public virtual void UpdateRunWidth()
         {
             Size size;
             if (IsLineBreak)
             {
-
                 size = CalculateDrawingStringSize(emptyline);
             }
             else
             {
                 size = CalculateDrawingStringSize(mybuffer);
             }
-
             this.SetSize(size.Width, size.Height);
-
-
             MarkHasValidCalculateSize();
         }
         public string Text
@@ -99,30 +101,10 @@ namespace LayoutFarm.Text
             }
         }
 
-        public int RunDesiredHeight
-        {
-            get
-            {
-                return this.ElementDesiredHeight;
-            }
-        }
-        public int RunDesiredWidth
-        {
-            get
-            {
-                return this.ElementDesiredWidth;
-            }
-        }
 
-
-
-        internal static void DrawTextRun(TextSpan textspan, Canvas canvasPage, Rectangle updateArea)
-        {
-            textspan.DrawCharacters(canvasPage, updateArea, textspan.mybuffer);
-        }
         public override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
-            DrawTextRun(this, canvas, updateArea);
+            this.DrawCharacters(canvas, updateArea, this.mybuffer);
         }
 
         protected bool HasStyle
@@ -168,7 +150,7 @@ namespace LayoutFarm.Text
                 }
             }
         }
-        void DrawCharacters(Canvas canvas, Rectangle updateArea, char[] textArray)
+        protected void DrawCharacters(Canvas canvas, Rectangle updateArea, char[] textArray)
         {
 
             int bWidth = this.Width;
@@ -227,7 +209,7 @@ namespace LayoutFarm.Text
             }
         }
 
-        Size CalculateDrawingStringSize(char[] buffer)
+        protected Size CalculateDrawingStringSize(char[] buffer)
         {
             FontInfo fontInfo = GetFontInfo();
             return new Size(
@@ -278,13 +260,8 @@ namespace LayoutFarm.Text
         {
             InnerTextRunTopDownReCalculateContentSize(this);
         }
-        public bool IsLineBreak
-        {
-            get;
-            set;
-        }
 
-        static readonly char[] emptyline = new char[] { 'I' };
+        internal static readonly char[] emptyline = new char[] { 'I' };
 
 #if DEBUG
         public override string dbug_FullElementDescription()

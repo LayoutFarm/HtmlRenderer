@@ -157,15 +157,13 @@ namespace LayoutFarm.Text
             {
                 EditableTextSpan cRun = CurrentTextRun;
                 if (cRun != null)
-                {
-
+                {   
                     if (cRun.IsInsertable)
                     {
                         cRun.InsertAfter(CurrentTextRunCharIndex, c);
-
                     }
                     else
-                    {
+                    { 
                         AddTextSpan(new EditableTextSpan(this.Root, c, this.CurrentSpanStyle));
                         return;
                     }
@@ -303,7 +301,6 @@ namespace LayoutFarm.Text
 #if DEBUG
         static int dbugTotalId;
         int dbug_MyId;
-
         public dbugMultiTextManRecorder dbugTextManRecorder;
 #endif
 
@@ -313,7 +310,9 @@ namespace LayoutFarm.Text
         int currentLineY = 0;
         EditableTextSpan currentTextRun;
         int charIndex = -1;
-        int caretXPos = 0; int rCharOffset = 0; int rPixelOffset = 0;
+        int caretXPos = 0; 
+        int rCharOffset = 0; 
+        int rPixelOffset = 0;
         public TextLineReader(EditableTextFlowLayer flowlayer)
         {
 
@@ -718,7 +717,8 @@ namespace LayoutFarm.Text
                                     {
                                         if (rCharOffset + currentTextRun.CharacterCount > value)
                                         {
-                                            charIndex = value; caretXPos = rPixelOffset + currentTextRun.GetRunWidth(charIndex - rCharOffset + 1);
+                                            charIndex = value;
+                                            caretXPos = rPixelOffset + currentTextRun.GetRunWidth(charIndex - rCharOffset + 1);
 
 #if DEBUG
                                             if (dbugTextManRecorder != null)

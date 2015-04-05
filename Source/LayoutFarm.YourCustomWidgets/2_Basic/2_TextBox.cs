@@ -119,7 +119,9 @@ namespace LayoutFarm.CustomWidgets
                             var splitBuffer = new char[length];
                             Array.Copy(buffer, startIndex, splitBuffer, 0, length);
                             var textspan = textEditRenderElement.CreateNewTextSpan(splitBuffer);
+                            
                             textEditRenderElement.AddTextRun(textspan);
+                            //test 
                         }
                     }
                     else
