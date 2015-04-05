@@ -309,7 +309,7 @@ namespace LayoutFarm.Text
                         }
                         if (!currentRun.HasCalculatedSize)
                         {
-                            TextSpan.InnerTextRunTopDownReCalculateContentSize(currentRun);
+                            EditableRun.InnerTextRunTopDownReCalculateContentSize(currentRun);
 
                         }
 #if DEBUG
@@ -337,7 +337,7 @@ namespace LayoutFarm.Text
 
                         if (!currentRun.HasCalculatedSize)
                         {
-                            TextSpan.InnerTextRunTopDownReCalculateContentSize(currentRun);
+                            EditableRun.InnerTextRunTopDownReCalculateContentSize(currentRun);
 
                         }
 #if DEBUG
