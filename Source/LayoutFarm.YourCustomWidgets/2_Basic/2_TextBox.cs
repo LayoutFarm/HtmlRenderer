@@ -118,15 +118,15 @@ namespace LayoutFarm.CustomWidgets
                             var length = splitBound.length;
                             var splitBuffer = new char[length];
                             Array.Copy(buffer, startIndex, splitBuffer, 0, length);
-                            var textspan = textEditRenderElement.CreateNewTextSpan(splitBuffer);
-                            
+                            //var textspan = textEditRenderElement.CreateEditableTextRun(splitBuffer);
+                            var textspan = textEditRenderElement.CreateFreezeTextRun(splitBuffer);
                             textEditRenderElement.AddTextRun(textspan);
                             //test 
                         }
                     }
                     else
                     {
-                        var textspan = textEditRenderElement.CreateNewTextSpan(line);
+                        var textspan = textEditRenderElement.CreateEditableTextRun(line);
                         textEditRenderElement.AddTextRun(textspan);
                     }
                     lineCount++;
