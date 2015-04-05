@@ -21,7 +21,7 @@ namespace LayoutFarm.Text
                     for (int i = lines.Count; i > -1; --i)
                     {
                         EditableTextLine ln = lines[i];
-                        LinkedListNode<EditableTextSpan> veNode = ln.Last;
+                        LinkedListNode<EditableRun> veNode = ln.Last;
                         while (veNode != null)
                         {
                             yield return veNode.Value;
@@ -34,7 +34,7 @@ namespace LayoutFarm.Text
                 {
 
                     EditableTextLine ln = (EditableTextLine)lineCollection;
-                    LinkedListNode<EditableTextSpan> veNode = ln.Last;
+                    LinkedListNode<EditableRun> veNode = ln.Last;
                     while (veNode != null)
                     {
                         yield return veNode.Value;
@@ -54,7 +54,7 @@ namespace LayoutFarm.Text
                     for (int i = 0; i < j; ++i)
                     {
                         EditableTextLine ln = lines[i];
-                        LinkedListNode<EditableTextSpan> veNode = ln.First;
+                        LinkedListNode<EditableRun> veNode = ln.First;
 
                         while (veNode != null)
                         {
@@ -67,7 +67,7 @@ namespace LayoutFarm.Text
                 else
                 {
                     EditableTextLine ln = (EditableTextLine)lineCollection;
-                    LinkedListNode<EditableTextSpan> veNode = ln.First;
+                    LinkedListNode<EditableRun> veNode = ln.First;
 
                     while (veNode != null)
                     {
@@ -77,7 +77,7 @@ namespace LayoutFarm.Text
                 }
             }
         }
-        public void AddTop(EditableTextSpan visualElement)
+        public void AddTop(EditableRun visualElement)
         {
  
 
@@ -94,7 +94,7 @@ namespace LayoutFarm.Text
 
 
         }
-        public void AddBefore(EditableTextSpan beforeVisualElement, EditableTextSpan visualElement)
+        public void AddBefore(EditableRun beforeVisualElement, EditableRun visualElement)
         {
             EditableTextLine targetLine = beforeVisualElement.OwnerEditableLine;
             if (targetLine != null)
@@ -109,7 +109,7 @@ namespace LayoutFarm.Text
 
         }
 
-        public void AddAfter(EditableTextSpan afterVisualElement, EditableTextSpan visualElement)
+        public void AddAfter(EditableRun afterVisualElement, EditableRun visualElement)
         {
 
 

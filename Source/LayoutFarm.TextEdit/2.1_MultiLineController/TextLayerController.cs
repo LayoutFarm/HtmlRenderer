@@ -20,7 +20,7 @@ namespace LayoutFarm.Text
         {
             this.visualTextSurface.TextSurfaceListener = listener;
         }
-        public void AddTextRunsToCurrentLine(IEnumerable<EditableTextSpan> textRuns)
+        public void AddTextRunsToCurrentLine(IEnumerable<EditableRun> textRuns)
         {
             this.innerTextMan.AddTextRunsToCurrentLine(textRuns);
         }
@@ -30,7 +30,7 @@ namespace LayoutFarm.Text
         }
 
 
-        public EditableTextSpan CurrentTextRun
+        public EditableRun CurrentTextRun
         {
             get
             {
@@ -160,7 +160,7 @@ namespace LayoutFarm.Text
             }
 #endif
         }
-        public EditableTextSpan CurrentTextRun
+        public EditableRun CurrentTextRun
         {
             get
             {
@@ -218,7 +218,7 @@ namespace LayoutFarm.Text
             textLineWriter.CharIndex = startPoint.LineCharIndex;
             if (selectionRange.IsOnTheSameLine)
             {
-                LinkedList<EditableTextSpan> tobeDeleteTextRun = textLineWriter.CopySelectedTextRuns(selectionRange);
+                LinkedList<EditableRun> tobeDeleteTextRun = textLineWriter.CopySelectedTextRuns(selectionRange);
                 if (tobeDeleteTextRun != null)
                 {
 
@@ -238,7 +238,7 @@ namespace LayoutFarm.Text
                 int startPointLindId = startPoint.LineId;
                 int startPointCharIndex = startPoint.LineCharIndex;
 
-                LinkedList<EditableTextSpan> tobeDeleteTextRun = textLineWriter.CopySelectedTextRuns(selectionRange);
+                LinkedList<EditableRun> tobeDeleteTextRun = textLineWriter.CopySelectedTextRuns(selectionRange);
                 if (tobeDeleteTextRun != null)
                 {
                     commandHistory.AddDocAction(
@@ -331,7 +331,7 @@ namespace LayoutFarm.Text
             if (selRange != null)
             {
 
-                foreach (EditableTextSpan r in selRange.GetPrintableTextRunIter())
+                foreach (EditableRun r in selRange.GetPrintableTextRunIter())
                 {
                     r.SetStyle(textStyle);
                 }

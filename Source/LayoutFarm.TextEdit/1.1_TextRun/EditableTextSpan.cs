@@ -6,23 +6,22 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.Text
 {
-
-    public partial class EditableTextSpan : EditableRun
+    class EditableTextRun : EditableRun
     {
+        TextSpanStyle spanStyle;
         char[] mybuffer;
-        EditableTextLine ownerTextLine;
-        LinkedListNode<EditableTextSpan> _internalLinkedNode;
         bool isInsertable = true;
-        public EditableTextSpan(RootGraphic gfx, char[] copyBuffer, TextSpanStyle style)
-            : base(gfx, style)
-        {   //check line break?
+
+        public EditableTextRun(RootGraphic gfx, char[] copyBuffer, TextSpanStyle style)
+            : base(gfx)
+        {   //check line break? 
+            this.spanStyle = style;
             this.mybuffer = copyBuffer;
             UpdateRunWidth();
         }
-        public EditableTextSpan(RootGraphic gfx, char c, TextSpanStyle style)
-            : base(gfx, style)
+        public EditableTextRun(RootGraphic gfx, char c, TextSpanStyle style)
+            : base(gfx)
         {
-
             mybuffer = new char[] { c };
             if (c == '\n')
             {
@@ -31,10 +30,9 @@ namespace LayoutFarm.Text
             //check line break?
             UpdateRunWidth();
         }
-        public EditableTextSpan(RootGraphic gfx, string str, TextSpanStyle style)
-            : base(gfx, style)
+        public EditableTextRun(RootGraphic gfx, string str, TextSpanStyle style)
+            : base(gfx)
         {
-
             if (str != null && str.Length > 0)
             {
                 mybuffer = str.ToCharArray();
@@ -50,26 +48,115 @@ namespace LayoutFarm.Text
 
             }
         }
+        public override EditableRun Clone()
+        {
+            return new EditableTextRun(this.Root, this.Text, this.SpanStyle);
+        }
+        public override EditableRun Copy(int startIndex)
+        {
+            int length = mybuffer.Length - startIndex;
+            if (startIndex > -1 && length > 0)
+            {
+                return MakeTextRun(startIndex, length);
+            }
+            else
+            {
+                return null;
+            }
+        }
+        EditableRun MakeTextRun(int sourceIndex, int length)
+        {
 
+            if (length > 0)
+            {
+
+                EditableRun newTextRun = null;
+                char[] newContent = new char[length];
+                Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
+                newTextRun = new EditableTextRun(this.Root, newContent, this.SpanStyle);
+                newTextRun.IsLineBreak = this.IsLineBreak;
+                newTextRun.UpdateRunWidth();
+                return newTextRun;
+            }
+            else
+            {
+                throw new Exception("string must be null or zero length");
+            }
+        }
+        public override int GetCharWidth(int index)
+        {
+            return GetCharacterWidth(mybuffer[index]);
+        }
+        int GetCharacterWidth(char c)
+        {
+            return GetFontInfo().GetCharWidth(c);
+        }
+        //------------------
         public override int GetRunWidth(int charOffset)
         {
             return CalculateDrawingStringSize(mybuffer, charOffset).Width;
         }
-
-        internal EditableTextSpan Clone()
+        public override string Text
         {
-            return new EditableTextSpan(this.Root, this.Text, this.SpanStyle);
+            get { return new string(mybuffer); }
         }
-        internal LinkedListNode<EditableTextSpan> internalLinkedNode
+
+        internal static readonly char[] emptyline = new char[] { 'I' };
+
+
+        public override void UpdateRunWidth()
         {
-            get { return this._internalLinkedNode; }
+            Size size;
+            if (IsLineBreak)
+            {
+                size = CalculateDrawingStringSize(emptyline, 1);
+            }
+            else
+            {
+                size = CalculateDrawingStringSize(this.mybuffer, mybuffer.Length);
+            }
+            this.SetSize(size.Width, size.Height);
+            MarkHasValidCalculateSize();
 
         }
-        internal void SetInternalLinkedNode(LinkedListNode<EditableTextSpan> linkedNode, EditableTextLine ownerTextLine)
+        public override char GetChar(int index)
         {
-            this.ownerTextLine = ownerTextLine;
-            this._internalLinkedNode = linkedNode;
-            EditableTextSpan.SetParentLink(this, ownerTextLine);
+            return mybuffer[index];
+        }
+
+
+        public override void CopyContentToStringBuilder(StringBuilder stBuilder)
+        {
+
+            if (IsLineBreak)
+            {
+                stBuilder.Append("\r\n");
+            }
+            else
+            {
+                stBuilder.Append(mybuffer);
+            }
+        }
+        public override int CharacterCount
+        {
+            get
+            {
+                return mybuffer.Length;
+            }
+        }
+        public override TextSpanStyle SpanStyle
+        {
+            get
+            {
+                return this.spanStyle;
+            }
+        }
+        public override void SetStyle(TextSpanStyle spanStyle)
+        {
+            this.InvalidateGraphics();
+            this.spanStyle = spanStyle;
+            this.InvalidateGraphics();
+            UpdateRunWidth();
         }
         Size CalculateDrawingStringSize(char[] buffer, int length)
         {
@@ -78,7 +165,7 @@ namespace LayoutFarm.Text
                  FontInfo.GetStringWidth(buffer, length),
                  FontInfo.FontHeight);
         }
-        FontInfo GetFontInfo()
+        protected FontInfo GetFontInfo()
         {
             if (!HasStyle)
             {
@@ -97,14 +184,19 @@ namespace LayoutFarm.Text
                 }
             }
         }
-        public bool IsInsertable
+
+        public override EditableRun Copy(int startIndex, int length)
         {
-            get
+
+            if (startIndex > -1 && length > 0)
             {
-                return isInsertable;
+                return MakeTextRun(startIndex, length);
+            }
+            else
+            {
+                return null;
             }
         }
-
         const int SAME_FONT_SAME_TEXT_COLOR = 0;
         const int SAME_FONT_DIFF_TEXT_COLOR = 1;
         const int DIFF_FONT_SAME_TEXT_COLOR = 2;
@@ -147,8 +239,6 @@ namespace LayoutFarm.Text
                 return !this.SpanStyle.IsEmpty();
             }
         }
-
-
         public override void CustomDrawToThisCanvas(Canvas canvas, Rectangle updateArea)
         {
             int bWidth = this.Width;
@@ -205,147 +295,128 @@ namespace LayoutFarm.Text
                         } break;
                 }
             }
-
-
-        }
-        public override void UpdateRunWidth()
-        {
-            Size size;
-            if (IsLineBreak)
-            {
-                size = CalculateDrawingStringSize(emptyline);
-            }
-            else
-            {
-                size = CalculateDrawingStringSize(this.mybuffer);
-            }
-            this.SetSize(size.Width, size.Height);
-            MarkHasValidCalculateSize();
-
-        }
-        Size CalculateDrawingStringSize(char[] buffer)
-        {
-            FontInfo fontInfo = GetFontInfo();
-            return new Size(
-                fontInfo.GetStringWidth(buffer),
-                fontInfo.FontHeight
-                );
-        }
-        public override string Text
-        {
-            get { return new string(mybuffer); }
-        }
-        public void CopyContentToStringBuilder(StringBuilder stBuilder)
-        {
-
-            if (IsLineBreak)
-            {
-                stBuilder.Append("\r\n");
-            }
-            else
-            {
-                stBuilder.Append(mybuffer);
-            }
-        }
-        public char this[int index]
-        {
-            get
-            {
-
-                return mybuffer[index];
-            }
-        }
-        public int CharacterCount
-        {
-            get
-            {
-                return mybuffer.Length;
-            }
-        }
-
-        public EditableTextSpan Copy(int startIndex, int length)
-        {
-
-            if (startIndex > -1 && length > 0)
-            {
-                return MakeTextRun(startIndex, length);
-            }
-            else
-            {
-                return null;
-            }
-        }
-        EditableTextSpan MakeTextRun(int sourceIndex, int length)
-        {
-
-            if (length > 0)
-            {
-
-                EditableTextSpan newTextRun = null;
-                char[] newContent = new char[length];
-                Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
-                newTextRun = new EditableTextSpan(this.Root, newContent, this.SpanStyle);
-                newTextRun.IsLineBreak = this.IsLineBreak;
-                newTextRun.UpdateRunWidth();
-                return newTextRun;
-            }
-            else
-            {
-                throw new Exception("string must be null or zero length");
-            }
-
-        }
-        public EditableTextSpan Copy(int startIndex)
-        {
-
-            int length = mybuffer.Length - startIndex;
-            if (startIndex > -1 && length > 0)
-            {
-                return MakeTextRun(startIndex, length);
-            }
-            else
-            {
-                return null;
-            }
         }
 
 
-        internal EditableTextLine OwnerEditableLine
+        public override VisualLocationInfo GetCharacterFromPixelOffset(int pixelOffset)
         {
-            get
+            if (pixelOffset < Width)
             {
-                return this.ownerTextLine;
-            }
-        }
-        public EditableTextSpan NextTextRun
-        {
-            get
-            {
-                if (this.internalLinkedNode != null)
+                char[] myBuffer = this.mybuffer;
+                int j = myBuffer.Length;
+                int accWidth = 0; for (int i = 0; i < j; i++)
                 {
-                    if (internalLinkedNode.Next != null)
+                    char c = myBuffer[i];
+
+                    int charW = GetCharacterWidth(c);
+                    if (accWidth + charW > pixelOffset)
                     {
-                        return internalLinkedNode.Next.Value;
+                        if (pixelOffset - accWidth > 3)
+                        {
+                            return new VisualLocationInfo(accWidth + charW, i);
+                        }
+                        else
+                        {
+                            return new VisualLocationInfo(accWidth, i - 1);
+                        }
+                    }
+                    else
+                    {
+                        accWidth += charW;
                     }
                 }
-                return null;
+                return new VisualLocationInfo(accWidth, j - 1);
             }
+            else
+            {
+                return new VisualLocationInfo(0, -1);
+            }
+
         }
-        public EditableTextSpan PrevTextRun
+        //-------------------------------------------
+        public override bool IsInsertable
         {
             get
             {
+                return isInsertable;
+            }
+        }
+        public override EditableRun LeftCopy(int index)
+        {
 
-                if (this.internalLinkedNode != null)
-                {
-                    if (internalLinkedNode.Previous != null)
-                    {
-                        return internalLinkedNode.Previous.Value;
-                    }
-                }
+            if (index > -1)
+            {
+                return MakeTextRun(0, index + 1);
+            }
+            else
+            {
                 return null;
             }
         }
-        internal static readonly char[] emptyline = new char[] { 'I' };
+        public override void InsertAfter(int index, char c)
+        {
+            int oldLexLength = mybuffer.Length;
+            char[] newBuff = new char[oldLexLength + 1];
+            if (index > -1 && index < mybuffer.Length - 1)
+            {
+                Array.Copy(mybuffer, newBuff, index + 1);
+                newBuff[index + 1] = c;
+                Array.Copy(mybuffer, index + 1, newBuff, index + 2, oldLexLength - index - 1);
+            }
+            else if (index == -1)
+            {
+                newBuff[0] = c;
+                Array.Copy(mybuffer, 0, newBuff, 1, mybuffer.Length);
+
+            }
+            else if (index == oldLexLength - 1)
+            {
+                Array.Copy(mybuffer, newBuff, oldLexLength);
+                newBuff[oldLexLength] = c;
+
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+            this.mybuffer = newBuff;
+            UpdateRunWidth();
+
+        }
+        internal override EditableRun Remove(int startIndex, int length, bool withFreeRun)
+        {
+            EditableRun freeRun = null;
+            if (startIndex > -1 && length > 0)
+            {
+
+                int oldLexLength = mybuffer.Length;
+                char[] newBuff = new char[oldLexLength - length];
+
+                if (withFreeRun)
+                {
+                    freeRun = MakeTextRun(startIndex, length);
+                }
+                if (startIndex > 0)
+                {
+                    Array.Copy(mybuffer, 0, newBuff, 0, startIndex);
+                }
+
+                Array.Copy(mybuffer, startIndex + length, newBuff, startIndex, oldLexLength - startIndex - length);
+
+                this.mybuffer = newBuff;
+                UpdateRunWidth();
+            }
+
+            if (withFreeRun)
+            {
+                return freeRun;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
+
 }

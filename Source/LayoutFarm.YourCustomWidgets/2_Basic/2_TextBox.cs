@@ -219,7 +219,7 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
-        public EditableTextSpan CurrentTextSpan
+        public EditableRun CurrentTextSpan
         {
             get
             {
@@ -234,7 +234,7 @@ namespace LayoutFarm.CustomWidgets
                 textEditRenderElement.ReplaceCurrentTextRunContent(nBackspaces, newstr);
             }
         }
-        public void ReplaceCurrentLineTextRuns(IEnumerable<EditableTextSpan> textRuns)
+        public void ReplaceCurrentLineTextRuns(IEnumerable<EditableRun> textRuns)
         {
             if (textEditRenderElement != null)
             {

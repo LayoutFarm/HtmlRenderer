@@ -263,7 +263,7 @@ namespace LayoutFarm.Text
         {
 
             internalTextLayerController.CancelSelect();
-            EditableTextSpan textRun = this.CurrentTextRun;
+            EditableRun textRun = this.CurrentTextRun;
             if (textRun != null)
             {
                 VisualPointInfo pointInfo = internalTextLayerController.GetCurrentPointInfo();
@@ -481,8 +481,8 @@ namespace LayoutFarm.Text
                             {
 
                                 internalTextLayerController.AddTextRunsToCurrentLine(
-                                    new EditableTextSpan[]{ 
-                                        new EditableTextSpan(this.Root,  
+                                    new EditableRun[]{ 
+                                        new EditableTextRun(this.Root,  
                                             Clipboard.GetUnicodeText(), this.CurrentTextSpanStyle)
                                            });
                                 EnsureCaretVisible();
