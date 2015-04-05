@@ -231,11 +231,11 @@ namespace LayoutFarm.Text
 
         }
 
-        public IEnumerable<EditableTextSpan> GetPrintableTextRunIter()
+        public IEnumerable<EditableRun> GetPrintableTextRunIter()
         {
 
 
-            EditableTextSpan startRun = null;
+            EditableRun startRun = null;
             if (startPoint.TextRun == null)
             {
                 EditableTextLine line = startPoint.EditableLine;
@@ -247,7 +247,7 @@ namespace LayoutFarm.Text
             }
 
             EditableTextFlowLayer layer = startRun.OwnerEditableLine.editableFlowLayer;
-            foreach (EditableTextSpan t in layer.GetDrawingIter(startRun, endPoint.TextRun))
+            foreach (EditableRun t in layer.GetDrawingIter(startRun, endPoint.TextRun))
             {
                 if (!t.IsLineBreak)
                 {

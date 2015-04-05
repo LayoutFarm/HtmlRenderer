@@ -134,7 +134,7 @@ namespace LayoutFarm
             return GetGlobalLocationStatic(this);
         }
         static Point GetGlobalLocationStatic(RenderElement re)
-        {   
+        {
             RenderElement parentVisualElement = re.ParentRenderElement;
             if (parentVisualElement != null)
             {
@@ -142,7 +142,7 @@ namespace LayoutFarm
                 re.parentLink.AdjustLocation(ref parentGlobalLocation);
 
                 if (parentVisualElement.MayHasViewport)
-                { 
+                {
                     return new Point(
                         re.b_left + parentGlobalLocation.X - parentVisualElement.ViewportX,
                         re.b_top + parentGlobalLocation.Y - parentVisualElement.ViewportY);
@@ -156,7 +156,10 @@ namespace LayoutFarm
             {
                 return re.Location;
             }
-        } 
+        }
+        //-----------------------------------------
+        //TODO: review here ...
+        //need to delete?
         public int ElementDesiredWidth
         {
             get
@@ -185,9 +188,7 @@ namespace LayoutFarm
                 return b_height;
             }
         }
-
-        //-----------------------------------------------
-
+        //----------------------------------------------- 
         public bool HasSpecificWidth
         {
             get

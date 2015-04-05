@@ -119,7 +119,9 @@ namespace LayoutFarm.CustomWidgets
                             var splitBuffer = new char[length];
                             Array.Copy(buffer, startIndex, splitBuffer, 0, length);
                             var textspan = textEditRenderElement.CreateNewTextSpan(splitBuffer);
+                            
                             textEditRenderElement.AddTextRun(textspan);
+                            //test 
                         }
                     }
                     else
@@ -217,7 +219,7 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
-        public EditableTextSpan CurrentTextSpan
+        public EditableRun CurrentTextSpan
         {
             get
             {
@@ -232,7 +234,7 @@ namespace LayoutFarm.CustomWidgets
                 textEditRenderElement.ReplaceCurrentTextRunContent(nBackspaces, newstr);
             }
         }
-        public void ReplaceCurrentLineTextRuns(IEnumerable<EditableTextSpan> textRuns)
+        public void ReplaceCurrentLineTextRuns(IEnumerable<EditableRun> textRuns)
         {
             if (textEditRenderElement != null)
             {

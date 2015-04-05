@@ -58,8 +58,7 @@
     <Compile Include="2.2_TextRenderBox\CaretRenderElement.cs" />
     <Compile Include="1.1_TextRun\dbugMultiTextManRecorder.cs" />
     <Compile Include="1.1_TextRun\EditableTextSpan.cs" />
-    <Compile Include="1.1_TextRun\EditableTextSpan_EditableFeatures.cs" />
-    <Compile Include="1.1_TextRun\TextSpan.cs" />
+    <Compile Include="1.1_TextRun\EditableRun.cs" />
     <Compile Include="1.1_TextRun\TextSpanSytle.cs" />
     <Compile Include="1.1_TextRun\VisualLocationInfo.cs" />
     <Compile Include="1.1_TextRun\VisualPointInfo.cs" />

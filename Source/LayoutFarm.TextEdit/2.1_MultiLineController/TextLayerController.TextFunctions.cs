@@ -10,11 +10,11 @@ namespace LayoutFarm.Text
     partial class InternalTextLayerController
     {
 
-        public void ReplaceCurrentLineTextRun(IEnumerable<EditableTextSpan> textruns)
+        public void ReplaceCurrentLineTextRun(IEnumerable<EditableRun> textruns)
         {
             textLineWriter.ReplaceCurrentLine(textruns);
         }
-        public void ReplaceLine(int lineNum, IEnumerable<EditableTextSpan> textruns)
+        public void ReplaceLine(int lineNum, IEnumerable<EditableRun> textruns)
         {
 
             if (textLineWriter.LineNumber == backGroundTextLineWriter.LineNumber)
@@ -28,7 +28,7 @@ namespace LayoutFarm.Text
                 backGroundTextLineWriter.ReplaceCurrentLine(textruns);
             }
         }
-        public void LoadTextRun(IEnumerable<EditableTextSpan> runs)
+        public void LoadTextRun(IEnumerable<EditableRun> runs)
         {
             this.CancelSelect();
             textLineWriter.Clear();
@@ -37,14 +37,14 @@ namespace LayoutFarm.Text
             textLineWriter.MoveToLine(0);
         }
        
-        public void AddRuns(IEnumerable<EditableTextSpan> textSpans)
+        public void AddRuns(IEnumerable<EditableRun> textSpans)
         {
             foreach (var span in textSpans)
             {
                 textLineWriter.AddTextSpan(span);
             }
         }
-        public void ReplaceCurrentTextRunContent(int nBackSpace, EditableTextSpan newTextRun)
+        public void ReplaceCurrentTextRunContent(int nBackSpace, EditableRun newTextRun)
         {
             if (newTextRun != null)
             {
@@ -62,7 +62,7 @@ namespace LayoutFarm.Text
 
                 commandHistory.AddDocAction(
                     new DocActionInsertRuns(
-                        new EditableTextSpan[] { newTextRun }, startLineNum, startCharIndex,
+                        new EditableRun[] { newTextRun }, startLineNum, startCharIndex,
                         textLineWriter.LineNumber, textLineWriter.CharIndex));
             }
 
@@ -88,7 +88,7 @@ namespace LayoutFarm.Text
             }
         }
 
-        public void AddTextRunsToCurrentLine(IEnumerable<EditableTextSpan> textRuns)
+        public void AddTextRunsToCurrentLine(IEnumerable<EditableRun> textRuns)
         {
             RemoveSelectedText();
             int startLineNum = textLineWriter.LineNumber;
@@ -97,7 +97,7 @@ namespace LayoutFarm.Text
             bool isRecordingHx = EnableUndoHistoryRecording;
 
             EnableUndoHistoryRecording = false;
-            foreach (EditableTextSpan t in textRuns)
+            foreach (EditableRun t in textRuns)
             {
                 if (t.IsLineBreak)
                 {
@@ -118,7 +118,7 @@ namespace LayoutFarm.Text
             TextEditRenderBox.NotifyTextContentSizeChanged(visualTextSurface);
 
         }
-        public void AddTextRunToCurrentLine(EditableTextSpan t)
+        public void AddTextRunToCurrentLine(EditableRun t)
         {
             updateJustCurrentLine = true;
             
@@ -174,8 +174,8 @@ namespace LayoutFarm.Text
                 selectionRange.SwapIfUnOrder();
                 if (selectionRange.IsOnTheSameLine)
                 {
-                    LinkedList<EditableTextSpan> runs = textLineWriter.CopySelectedTextRuns(selectionRange);
-                    foreach (EditableTextSpan t in runs)
+                    LinkedList<EditableRun> runs = textLineWriter.CopySelectedTextRuns(selectionRange);
+                    foreach (EditableRun t in runs)
                     {
                         t.CopyContentToStringBuilder(stBuilder);
                     }
@@ -186,8 +186,8 @@ namespace LayoutFarm.Text
                     CurrentLineNumber = startPoint.LineId;
                     textLineWriter.CharIndex = startPoint.LineCharIndex;
 
-                    LinkedList<EditableTextSpan> runs = textLineWriter.CopySelectedTextRuns(selectionRange);
-                    foreach (EditableTextSpan t in runs)
+                    LinkedList<EditableRun> runs = textLineWriter.CopySelectedTextRuns(selectionRange);
+                    foreach (EditableRun t in runs)
                     {
                         t.CopyContentToStringBuilder(stBuilder);
                     }
