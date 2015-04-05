@@ -63,7 +63,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
 
         internal abstract RenderElement GetParentRenderElement(out int globalX, out int globalY);
- 
+
         RenderElement RenderBoxes.IParentLink.ParentRenderElement
         {
             get
@@ -92,8 +92,6 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 
     sealed class WrapperInlineCssBox : WrapperCssBoxBase
     {
-
-
         CssExternalRun externalRun;
         public WrapperInlineCssBox(object controller, Css.BoxSpec boxSpec,
             IRootGraphics rootgfx, RenderElement re)
@@ -111,9 +109,11 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             runlist.Add(externalRun);
             CssBox.UnsafeSetContentRuns(this, runlist, false);
             ChangeDisplayType(this, Css.CssDisplay.Inline);
+
             //---------------------------------------------------  
-            LayoutFarm.RenderElement.SetParentLink(wrapper, this);
             LayoutFarm.RenderElement.SetParentLink(re, wrapper);
+            LayoutFarm.RenderElement.SetParentLink(wrapper, this);
+
         }
         public override void Clear()
         {
@@ -346,17 +346,16 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         {
             renderElement.CustomDrawToThisCanvas(canvasPage, updateArea);
         }
-
-       
         RenderElement RenderBoxes.IParentLink.ParentRenderElement
         {
-            get { return this.renderElement; }
-        } 
+            //yes return this 
+            get { return this; }
+        }
         void RenderBoxes.IParentLink.AdjustLocation(ref Point p)
         {
             //do nothing
             //throw new NotImplementedException();
-        } 
+        }
         RenderElement RenderBoxes.IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
             return null;

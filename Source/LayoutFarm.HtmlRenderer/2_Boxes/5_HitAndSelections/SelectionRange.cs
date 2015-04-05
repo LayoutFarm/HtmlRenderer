@@ -98,9 +98,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 case HitObjectKind.Run:
                     {
-                        CssRun run = (CssRun)startHit.hitObject;
-
-
+                        CssRun run = (CssRun)startHit.hitObject; 
                         //-------------------------------------------------------
                         int sel_index;
                         int sel_offset;

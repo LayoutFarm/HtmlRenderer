@@ -21,8 +21,7 @@ namespace LayoutFarm.CustomWidgets
 #endif
         public CustomTextRun(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
-        {
-
+        { 
         }
         public string Text
         {
@@ -53,11 +52,6 @@ namespace LayoutFarm.CustomWidgets
                 canvas.DrawText(this.textBuffer, this.X, this.Y);
                 canvas.CurrentTextColor = prevColor;
             }
-        }
-
-
-    }
-
-
-
+        } 
+    } 
 }

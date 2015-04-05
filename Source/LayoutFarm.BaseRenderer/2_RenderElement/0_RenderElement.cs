@@ -93,7 +93,7 @@ namespace LayoutFarm
         {
             get { return this.parentLink != null; }
         }
-        public virtual RenderElement ParentRenderElement
+        public RenderElement ParentRenderElement
         {
             get
             {
@@ -110,8 +110,14 @@ namespace LayoutFarm
         }
         public static void SetParentLink(RenderElement childElement, IParentLink parentLink)
         {
-
             childElement.parentLink = parentLink;
+#if DEBUG
+            if (childElement.ParentRenderElement == childElement)
+            {
+                //error!
+                throw new NotSupportedException();
+            }
+#endif
         }
         public bool MayHasChild
         {

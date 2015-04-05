@@ -24,11 +24,10 @@ namespace LayoutFarm.CustomWidgets
             {
                 var trun = new CustomTextRun(rootgfx, this.Width, this.Height);
                 trun.SetLocation(this.Left, this.Top);
-                trun.TextColor = Color.Black;
-                trun.Text = this.Text;
-
+                trun.TextColor = this.textColor;
+                trun.Text = this.Text; 
                 this.myTextRun = trun;
-                 
+
             }
             //-----------
             return myTextRun;

@@ -104,22 +104,7 @@ namespace LayoutFarm.Text
             {
                 return null;
             }
-        }
-        public override RenderElement ParentRenderElement
-        {
-            get
-            {
-                EditableTextLine ownerline = this.OwnerEditableLine;
-                if (ownerline != null)
-                {
-                    return ownerline.OwnerElement;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
+        } 
         EditableTextSpan MakeTextRun(int sourceIndex, int length)
         {
 
@@ -129,7 +114,7 @@ namespace LayoutFarm.Text
                 Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
                 EditableTextSpan newTextRun = new EditableTextSpan(this.Root, newContent, this.SpanStyle);
 
-                 
+
                 newTextRun.IsLineBreak = this.IsLineBreak;
                 newTextRun.UpdateRunWidth();
                 return newTextRun;
@@ -159,7 +144,7 @@ namespace LayoutFarm.Text
         {
             get
             {
-                return this.ownerTextLine; 
+                return this.ownerTextLine;
             }
         }
         public EditableTextSpan NextTextRun
@@ -173,7 +158,7 @@ namespace LayoutFarm.Text
                         return internalLinkedNode.Next.Value;
                     }
                 }
-                return null; 
+                return null;
             }
         }
         public EditableTextSpan PrevTextRun
@@ -188,7 +173,7 @@ namespace LayoutFarm.Text
                         return internalLinkedNode.Previous.Value;
                     }
                 }
-                return null; 
+                return null;
             }
         }
 
