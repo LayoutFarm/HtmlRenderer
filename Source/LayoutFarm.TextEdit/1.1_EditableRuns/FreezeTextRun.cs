@@ -54,6 +54,10 @@ namespace LayoutFarm.Text
         }
         public override EditableRun Copy(int startIndex)
         {
+            if (startIndex == mybuffer.Length )
+            {
+                return null;
+            }
             startIndex = 0;
             int length = mybuffer.Length - startIndex;
             if (startIndex > -1 && length > 0)
@@ -127,9 +131,7 @@ namespace LayoutFarm.Text
         public override char GetChar(int index)
         {
             return mybuffer[index];
-        }
-
-
+        } 
         public override void CopyContentToStringBuilder(StringBuilder stBuilder)
         {
 
@@ -150,7 +152,7 @@ namespace LayoutFarm.Text
                 {
                     case 0: return 0;
                     default: return 1;
-                }                 
+                }
             }
         }
         public override TextSpanStyle SpanStyle
