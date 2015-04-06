@@ -11,8 +11,7 @@ namespace LayoutFarm.Text
     {
 
         EditableTextLine ownerTextLine;
-        LinkedListNode<EditableRun> _internalLinkedNode;
-        
+        LinkedListNode<EditableRun> _internalLinkedNode; 
 
         public EditableRun(RootGraphic gfx)
             : base(gfx, 10, 10)
@@ -32,10 +31,7 @@ namespace LayoutFarm.Text
             EditableRun.SetParentLink(this, ownerTextLine);
         }
 
-        public abstract bool IsInsertable { get; }
-       
-
-
+        public abstract bool IsInsertable { get; } 
         public abstract TextSpanStyle SpanStyle { get; }
         public abstract void SetStyle(TextSpanStyle spanStyle);
 

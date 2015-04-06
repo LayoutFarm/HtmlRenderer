@@ -6,19 +6,20 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.Text
 {
-    class EditableTextRun : EditableRun
+    class FreezeTextRun : EditableRun
     {
         TextSpanStyle spanStyle;
         char[] mybuffer;
 
-        public EditableTextRun(RootGraphic gfx, char[] copyBuffer, TextSpanStyle style)
+        public FreezeTextRun(RootGraphic gfx, char[] copyBuffer, TextSpanStyle style)
             : base(gfx)
         {   //check line break? 
             this.spanStyle = style;
             this.mybuffer = copyBuffer;
+
             UpdateRunWidth();
         }
-        public EditableTextRun(RootGraphic gfx, char c, TextSpanStyle style)
+        public FreezeTextRun(RootGraphic gfx, char c, TextSpanStyle style)
             : base(gfx)
         {
             mybuffer = new char[] { c };
@@ -29,7 +30,7 @@ namespace LayoutFarm.Text
             //check line break?
             UpdateRunWidth();
         }
-        public EditableTextRun(RootGraphic gfx, string str, TextSpanStyle style)
+        public FreezeTextRun(RootGraphic gfx, string str, TextSpanStyle style)
             : base(gfx)
         {
             if (str != null && str.Length > 0)
@@ -49,10 +50,11 @@ namespace LayoutFarm.Text
         }
         public override EditableRun Clone()
         {
-            return new EditableTextRun(this.Root, this.Text, this.SpanStyle);
+            return new FreezeTextRun(this.Root, this.Text, this.SpanStyle);
         }
         public override EditableRun Copy(int startIndex)
         {
+            startIndex = 0;
             int length = mybuffer.Length - startIndex;
             if (startIndex > -1 && length > 0)
             {
@@ -68,11 +70,13 @@ namespace LayoutFarm.Text
 
             if (length > 0)
             {
+                sourceIndex = 0;
+                length = mybuffer.Length;
 
                 EditableRun newTextRun = null;
                 char[] newContent = new char[length];
                 Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
-                newTextRun = new EditableTextRun(this.Root, newContent, this.SpanStyle);
+                newTextRun = new FreezeTextRun(this.Root, newContent, this.SpanStyle);
                 newTextRun.IsLineBreak = this.IsLineBreak;
                 newTextRun.UpdateRunWidth();
                 return newTextRun;
@@ -84,7 +88,8 @@ namespace LayoutFarm.Text
         }
         public override int GetCharWidth(int index)
         {
-            return GetCharacterWidth(mybuffer[index]);
+            return this.Width;
+            //return GetCharacterWidth(mybuffer[index]);
         }
         int GetCharacterWidth(char c)
         {
@@ -93,7 +98,8 @@ namespace LayoutFarm.Text
         //------------------
         public override int GetRunWidth(int charOffset)
         {
-            return CalculateDrawingStringSize(mybuffer, charOffset).Width;
+            return this.Width;
+            //return CalculateDrawingStringSize(mybuffer, charOffset).Width;
         }
         public override string Text
         {
@@ -140,7 +146,11 @@ namespace LayoutFarm.Text
         {
             get
             {
-                return mybuffer.Length;
+                switch (mybuffer.Length)
+                {
+                    case 0: return 0;
+                    default: return 1;
+                }                 
             }
         }
         public override TextSpanStyle SpanStyle
@@ -301,30 +311,31 @@ namespace LayoutFarm.Text
         {
             if (pixelOffset < Width)
             {
-                char[] myBuffer = this.mybuffer;
-                int j = myBuffer.Length;
-                int accWidth = 0; for (int i = 0; i < j; i++)
-                {
-                    char c = myBuffer[i];
+                return new VisualLocationInfo(0, -1);
+                //char[] myBuffer = this.mybuffer;
+                //int j = myBuffer.Length;
+                //int accWidth = 0; for (int i = 0; i < j; i++)
+                //{
+                //    char c = myBuffer[i];
 
-                    int charW = GetCharacterWidth(c);
-                    if (accWidth + charW > pixelOffset)
-                    {
-                        if (pixelOffset - accWidth > 3)
-                        {
-                            return new VisualLocationInfo(accWidth + charW, i);
-                        }
-                        else
-                        {
-                            return new VisualLocationInfo(accWidth, i - 1);
-                        }
-                    }
-                    else
-                    {
-                        accWidth += charW;
-                    }
-                }
-                return new VisualLocationInfo(accWidth, j - 1);
+                //    int charW = GetCharacterWidth(c);
+                //    if (accWidth + charW > pixelOffset)
+                //    {
+                //        if (pixelOffset - accWidth > 3)
+                //        {
+                //            return new VisualLocationInfo(accWidth + charW, i);
+                //        }
+                //        else
+                //        {
+                //            return new VisualLocationInfo(accWidth, i - 1);
+                //        }
+                //    }
+                //    else
+                //    {
+                //        accWidth += charW;
+                //    }
+                //}
+                //return new VisualLocationInfo(accWidth, j - 1);
             }
             else
             {
@@ -337,7 +348,7 @@ namespace LayoutFarm.Text
         {
             get
             {
-                return true;
+                return false;
             }
         }
         public override EditableRun LeftCopy(int index)
@@ -345,7 +356,7 @@ namespace LayoutFarm.Text
 
             if (index > -1)
             {
-                return MakeTextRun(0, index + 1);
+                return MakeTextRun(0, this.mybuffer.Length);
             }
             else
             {
@@ -384,6 +395,9 @@ namespace LayoutFarm.Text
         }
         internal override EditableRun Remove(int startIndex, int length, bool withFreeRun)
         {
+            startIndex = 0;
+            length = this.mybuffer.Length;
+
             EditableRun freeRun = null;
             if (startIndex > -1 && length > 0)
             {

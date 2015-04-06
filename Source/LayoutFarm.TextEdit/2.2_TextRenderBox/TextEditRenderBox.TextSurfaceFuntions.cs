@@ -133,19 +133,26 @@ namespace LayoutFarm.Text
         {
             internalTextLayerController.AddTextRunToCurrentLine(textspan);
         }
-        public EditableRun CreateNewTextSpan(string str)
+
+        public EditableRun CreateEditableTextRun(string str)
         {
+
             var span = new EditableTextRun(this.Root, str, this.currentSpanStyle);
             span.UpdateRunWidth();
             return span;
         }
-        public EditableRun CreateNewTextSpan(char[] charBuffer)
+        public EditableRun CreateEditableTextRun(char[] charBuffer)
         {
             var span = new EditableTextRun(this.Root, charBuffer, this.currentSpanStyle);
             span.UpdateRunWidth();
             return span;
-        } 
-        
+        }
+        public EditableRun CreateFreezeTextRun(char[] charBuffer)
+        {
+            var span = new FreezeTextRun(this.Root, charBuffer, this.currentSpanStyle);
+            span.UpdateRunWidth();
+            return span;
+        }
 
         public EditableRun CurrentTextRun
         {
