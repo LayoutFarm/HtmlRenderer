@@ -55,7 +55,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="1.1_EditableRuns\FreezeTextRun.cs" />
+    <Compile Include="1.1_EditableRuns\SolidTextRun.cs" />
     <Compile Include="2.2_TextRenderBox\CaretRenderElement.cs" />
     <Compile Include="1.1_EditableRuns\dbugMultiTextManRecorder.cs" />
     <Compile Include="1.1_EditableRuns\EditableTextSpan.cs" />

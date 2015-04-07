@@ -149,7 +149,7 @@ namespace LayoutFarm.Text
         }
         public EditableRun CreateFreezeTextRun(char[] charBuffer)
         {
-            var span = new FreezeTextRun(this.Root, charBuffer, this.currentSpanStyle);
+            var span = new SolidTextRun(this.Root, charBuffer, this.currentSpanStyle);
             span.UpdateRunWidth();
             return span;
         }

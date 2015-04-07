@@ -6,12 +6,12 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.Text
 {
-    class FreezeTextRun : EditableRun
+    class SolidTextRun : EditableRun
     {
         TextSpanStyle spanStyle;
         char[] mybuffer;
 
-        public FreezeTextRun(RootGraphic gfx, char[] copyBuffer, TextSpanStyle style)
+        public SolidTextRun(RootGraphic gfx, char[] copyBuffer, TextSpanStyle style)
             : base(gfx)
         {   //check line break? 
             this.spanStyle = style;
@@ -19,7 +19,7 @@ namespace LayoutFarm.Text
 
             UpdateRunWidth();
         }
-        public FreezeTextRun(RootGraphic gfx, char c, TextSpanStyle style)
+        public SolidTextRun(RootGraphic gfx, char c, TextSpanStyle style)
             : base(gfx)
         {
             mybuffer = new char[] { c };
@@ -30,7 +30,7 @@ namespace LayoutFarm.Text
             //check line break?
             UpdateRunWidth();
         }
-        public FreezeTextRun(RootGraphic gfx, string str, TextSpanStyle style)
+        public SolidTextRun(RootGraphic gfx, string str, TextSpanStyle style)
             : base(gfx)
         {
             if (str != null && str.Length > 0)
@@ -50,7 +50,7 @@ namespace LayoutFarm.Text
         }
         public override EditableRun Clone()
         {
-            return new FreezeTextRun(this.Root, this.Text, this.SpanStyle);
+            return new SolidTextRun(this.Root, this.Text, this.SpanStyle);
         }
         public override EditableRun Copy(int startIndex)
         {
@@ -83,7 +83,7 @@ namespace LayoutFarm.Text
                 EditableRun newTextRun = null;
                 char[] newContent = new char[length];
                 Array.Copy(this.mybuffer, sourceIndex, newContent, 0, length);
-                newTextRun = new FreezeTextRun(this.Root, newContent, this.SpanStyle);
+                newTextRun = new SolidTextRun(this.Root, newContent, this.SpanStyle);
                 newTextRun.IsLineBreak = this.IsLineBreak;
                 newTextRun.UpdateRunWidth();
                 return newTextRun;
