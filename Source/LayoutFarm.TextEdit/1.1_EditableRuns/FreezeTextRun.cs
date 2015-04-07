@@ -54,15 +54,18 @@ namespace LayoutFarm.Text
         }
         public override EditableRun Copy(int startIndex)
         {
-            if (startIndex == mybuffer.Length )
+            if (startIndex == 0)
             {
-                return null;
-            }
-            startIndex = 0;
-            int length = mybuffer.Length - startIndex;
-            if (startIndex > -1 && length > 0)
-            {
-                return MakeTextRun(startIndex, length);
+
+                int length = mybuffer.Length - startIndex;
+                if (startIndex > -1 && length > 0)
+                {
+                    return MakeTextRun(startIndex, length);
+                }
+                else
+                {
+                    return null;
+                }
             }
             else
             {
@@ -131,7 +134,7 @@ namespace LayoutFarm.Text
         public override char GetChar(int index)
         {
             return mybuffer[index];
-        } 
+        }
         public override void CopyContentToStringBuilder(StringBuilder stBuilder)
         {
 
@@ -254,7 +257,7 @@ namespace LayoutFarm.Text
         {
             int bWidth = this.Width;
             int bHeight = this.Height;
-
+            canvas.FillRectangle(Color.LightGray, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
             if (!this.HasStyle)
             {
                 canvas.DrawText(this.mybuffer, new Rectangle(0, 0, bWidth, bHeight), 0);
