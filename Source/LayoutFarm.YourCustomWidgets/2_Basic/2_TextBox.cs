@@ -106,8 +106,8 @@ namespace LayoutFarm.CustomWidgets
 
                     //create textspan
                     //user can parse text line to smaller span
-
                     //eg. split by whitespace
+
                     if (this.TextSplitter != null)
                     {
                         //parse with textsplitter 
@@ -117,8 +117,7 @@ namespace LayoutFarm.CustomWidgets
                             var startIndex = splitBound.startIndex;
                             var length = splitBound.length;
                             var splitBuffer = new char[length];
-                            Array.Copy(buffer, startIndex, splitBuffer, 0, length);
-                            //var textspan = textEditRenderElement.CreateEditableTextRun(splitBuffer);
+                            Array.Copy(buffer, startIndex, splitBuffer, 0, length); 
                             var textspan = textEditRenderElement.CreateFreezeTextRun(splitBuffer);
                             textEditRenderElement.AddTextRun(textspan);
                         }

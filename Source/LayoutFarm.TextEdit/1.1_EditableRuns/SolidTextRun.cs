@@ -6,6 +6,10 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.Text
 {
+
+
+
+
     class SolidTextRun : EditableRun
     {
         TextSpanStyle spanStyle;
@@ -257,7 +261,7 @@ namespace LayoutFarm.Text
         {
             int bWidth = this.Width;
             int bHeight = this.Height;
-            canvas.FillRectangle(Color.LightGray, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
+            canvas.FillRectangle(Color.Yellow, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
             if (!this.HasStyle)
             {
                 canvas.DrawText(this.mybuffer, new Rectangle(0, 0, bWidth, bHeight), 0);
