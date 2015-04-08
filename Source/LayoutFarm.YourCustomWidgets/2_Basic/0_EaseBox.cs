@@ -365,6 +365,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public override void PerformContentLayout()
         {
+            
 
             this.InvalidateGraphics();
             //temp : arrange as vertical stack***
@@ -387,17 +388,16 @@ namespace LayoutFarm.CustomWidgets
                                 //}
                                 element.PerformContentLayout();
 
-                                int elemH = element.HasSpecificHeight ?
-                                    element.Height :
-                                    element.DesiredHeight;
-                                int elemW = element.HasSpecificWidth ?
-                                    element.Width :
-                                    element.DesiredWidth;
-                                element.SetBounds(0, ypos, element.Width, elemH);
+                                //int elemH = element.HasSpecificHeight ?
+                                //    element.Height :
+                                //    element.DesiredHeight;
+                                //int elemW = element.HasSpecificWidth ?
+                                //    element.Width :
+                                //    element.DesiredWidth;
+                                //element.SetBounds(0, ypos, element.Width, elemH);
+                                element.SetBounds(0, ypos, element.Width, element.Height);
                                 ypos += element.Height;
-
-
-
+                                 
                                 int tmp_right = element.DesiredWidth + element.Left;
                                 if (tmp_right > maxRight)
                                 {
