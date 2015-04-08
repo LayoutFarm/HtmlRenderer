@@ -205,7 +205,6 @@ namespace LayoutFarm.Text
 
         public override EditableRun Copy(int startIndex, int length)
         {
-
             if (startIndex > -1 && length > 0)
             {
                 return MakeTextRun(startIndex, length);

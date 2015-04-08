@@ -75,6 +75,7 @@ namespace LayoutFarm.CustomWidgets
                 renderE.HasSpecificHeight = this.HasSpecificHeight;
                 renderE.HasSpecificWidth = this.HasSpecificWidth;
                 renderE.SetController(this);
+                renderE.SetVisible(this.Visible);
 #if DEBUG
                 //if (dbugBreakMe)
                 //{
@@ -303,7 +304,7 @@ namespace LayoutFarm.CustomWidgets
             this.uiList.RemoveUI(ui);
             if (this.HasReadyRenderElement)
             {
-                if (this.PanelLayoutKind != BoxContentLayoutKind.Absolute)
+                if (this.ContentLayoutKind != BoxContentLayoutKind.Absolute)
                 {
                     this.InvalidateLayout();
                 }
@@ -350,7 +351,7 @@ namespace LayoutFarm.CustomWidgets
                 return this.needContentLayout;
             }
         }
-        public BoxContentLayoutKind PanelLayoutKind
+        public BoxContentLayoutKind ContentLayoutKind
         {
             get { return this.panelLayoutKind; }
             set
@@ -367,7 +368,7 @@ namespace LayoutFarm.CustomWidgets
 
             this.InvalidateGraphics();
             //temp : arrange as vertical stack***
-            switch (this.PanelLayoutKind)
+            switch (this.ContentLayoutKind)
             {
                 case CustomWidgets.BoxContentLayoutKind.VerticalStack:
                     {

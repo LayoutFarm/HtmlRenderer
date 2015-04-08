@@ -78,7 +78,7 @@ namespace LayoutFarm
             var panel = new LayoutFarm.CustomWidgets.SimpleBox(400, 300);
             panel.SetLocation(x + 30, y + 30);
             panel.BackColor = Color.LightGray;
-            panel.PanelLayoutKind = CustomWidgets.BoxContentLayoutKind.VerticalStack;
+            panel.ContentLayoutKind = CustomWidgets.BoxContentLayoutKind.VerticalStack;
             viewport.AddContent(panel);
 
             //-------------------------  
