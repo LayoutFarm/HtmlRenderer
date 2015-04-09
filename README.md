@@ -24,6 +24,8 @@ such as
 
 9) added custom controls eg. text editer control, scrollbar, gridbox etc.
 
+10) some events (eg. mouse /keyboard events)
+
 .. BUT not complete :( 
 
 feel free to fork/ comment/ suggest /pull request 
