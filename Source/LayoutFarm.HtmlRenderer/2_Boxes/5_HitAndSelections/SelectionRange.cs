@@ -158,9 +158,9 @@ namespace LayoutFarm.HtmlBoxes
                     {
 
                         CssRun endRun = (CssRun)endHit.hitObject;
-                        if (endRun.Text.Contains("555"))
-                        {
-                        }
+                        //if (endRun.Text.Contains("555"))
+                        //{
+                        //}
                         //---------------------------------
                         int sel_index;
                         int sel_offset;
@@ -300,7 +300,7 @@ namespace LayoutFarm.HtmlBoxes
 
                                 CssBlockRun foundBlockRun = null;
                                 bool isOK = false;
-                                foreach (var visit in GetWalkIter(startLineBox))
+                                foreach (var visit in Walk(startLineBox))
                                 {
                                     if (isOK)
                                     {
@@ -465,24 +465,11 @@ namespace LayoutFarm.HtmlBoxes
                                             }
 
                                         }
-                                        //if (linebox == endline)
-                                        //{
-                                        //    //found end line  
-                                        //    //linebox.SelectPartialEnd((int)(run.Left + sel_offset));
-                                        //    linebox.SelectPartialEnd(endHit.localX - startLineBeginSelectionAtPixel);
-                                        //    selectedLines.Add(linebox);
-                                        //    break;
-                                        //}
-                                        //else
-                                        //{
-                                        //    linebox.SelectFull();
-                                        //    selectedLines.Add(linebox);
-                                        //}
                                     }
                                 }
                                 else
                                 {
-                                    //Console.WriteLine("d2." + dbugCount01++);
+
                                 }
                             }
                             else
@@ -493,11 +480,17 @@ namespace LayoutFarm.HtmlBoxes
                                 //1. select all in start line      
                                 CssLineBox startLineBox = this.startHitHostLine;
                                 CssBlockRun foundBlockRun = null;
-                                foreach (var visit in GetWalkIter(startLineBox))
+                                bool isOK = false;
+                                foreach (var visit in Walk(startLineBox))
                                 {
+                                    if (isOK)
+                                    {
+                                        break;
+                                    }
                                     //only linebox?
                                     switch (visit.Kind)
                                     {
+
                                         case VisitMarkerKind.NotifyInlineBlockBox:
                                             {
                                                 foundBlockRun = visit.visitObject as CssBlockRun;
@@ -524,7 +517,7 @@ namespace LayoutFarm.HtmlBoxes
                                                         endline.SelectPartialEnd(endHit.localX);
                                                         selectedLines.Add(line);
                                                     }
-                                                    break;
+                                                    isOK = true;
                                                 }
                                                 else
                                                 {
@@ -547,6 +540,7 @@ namespace LayoutFarm.HtmlBoxes
                         //Console.WriteLine(dbugCounter + "B:" + hitBox.dbugId); 
                         CssLineBox latestLine = null;
                         this.selectedLines = new List<CssLineBox>();
+
                         //convert to global position
                         float globalHitY = endChain.RootGlobalY;
                         //check if should use first line of this box                         
@@ -697,26 +691,10 @@ namespace LayoutFarm.HtmlBoxes
 
         }
 
-        //static IEnumerable<CssLineBox> GetLineWalkIter(CssLineBox startLine, CssLineBox endLine)
-        //{
-
-        //    foreach (var lineOrBox in GetLineOrBoxIter(startLine))
-        //    {
-        //        //only linebox?
-        //        if (lineOrBox.isLine)
-        //        {
-        //            yield return lineOrBox.lineBox;
-        //            if (lineOrBox.lineBox == endLine)
-        //            {
-        //                break;
-        //            }
-        //        }
-        //    }
-        //}
         static IEnumerable<CssLineBox> GetLineWalkIter(CssLineBox startLine, CssBox endBox)
         {
             bool foundEndBox = false;
-            foreach (var visit in GetWalkIter(startLine))
+            foreach (var visit in Walk(startLine))
             {
                 switch (visit.Kind)
                 {
@@ -747,39 +725,20 @@ namespace LayoutFarm.HtmlBoxes
                             }
                         } break;
                 }
-                //if (visit.isLine)
-                //{
-                //    yield return visit.lineBox;
-                //}
-                //else if (visit.box == endBox)
-                //{
-                //    foundEndBox = true;
-                //    foreach (var visit2 in GetDeepBoxOrLineIter(endBox))
-                //    {
-                //        if (visit2.isLine)
-                //        {
-                //            yield return visit2.lineBox;
-                //        }
-                //    }
-                //}
-                //else
-                //{
-                //    if (foundEndBox)
-                //    {
-                //        break;
-                //    }
-                //}
+
             }
         }
         static IEnumerable<VisitMarker> GetWalkdownIter(CssBox box)
         {
-
+            //recursive
             if (box.LineBoxCount > 0)
             {
-                //line model
-                foreach (CssLineBox linebox in box.GetLineBoxIter())
+                //line model 
+                var linebox = box.GetFirstLineBox();
+                while (linebox != null)
                 {
                     yield return new VisitMarker(linebox);
+                    linebox = linebox.NextLine;
                 }
             }
             else
@@ -789,28 +748,36 @@ namespace LayoutFarm.HtmlBoxes
                     foreach (CssBox child in box.GetChildBoxIter())
                     {
                         yield return new VisitMarker(child);
-                        //foreach (var visit in GetDeepBoxOrLineIter(child))
-                        //{
-                        //    yield return visit;
-                        //}
+
+                        foreach (var child2 in GetWalkdownIter(child))
+                        {
+                            yield return child2;
+                        }
                     }
                 }
             }
         }
-        static IEnumerable<VisitMarker> GetWalkIter(CssLineBox startLine)
+
+        /// <summary>
+        /// walk up and down
+        /// </summary>
+        /// <param name="startLine"></param>
+        /// <returns></returns>
+        static IEnumerable<VisitMarker> Walk(CssLineBox startLine)
         {
             //start at line
-            //1. start line
+            //1. start line***            
             yield return new VisitMarker(startLine);
             CssLineBox curLine = startLine;
-
             //walk up and down the tree
-            CssLineBox nextline = startLine.NextLine;
+            CssLineBox nextline = curLine.NextLine;
             while (nextline != null)
             {
                 yield return new VisitMarker(nextline);
                 nextline = nextline.NextLine;
             }
+
+
             //--------------------
             //no next line 
             //then step up  
@@ -825,7 +792,6 @@ namespace LayoutFarm.HtmlBoxes
                 yield return notify;
                 foreach (var visit in GetWalkdownIter(runOwnerBox))
                 {
-
                     yield return visit;
                 }
 
