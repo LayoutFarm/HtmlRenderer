@@ -264,7 +264,7 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void FindSelectionPoint(IFonts ifonts,
             int offset, out int selectionIndex,
-            out int selectionOffset)
+            out int runSelectionOffset)
         {
 
             int charFit;
@@ -277,7 +277,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         // not a text word - set full selection
                         selectionIndex = -1;
-                        selectionOffset = -1;
+                        runSelectionOffset = -1;
                     } break;
                 case CssRunKind.Text:
                     {
@@ -287,7 +287,7 @@ namespace LayoutFarm.HtmlBoxes
                             this.OwnerBox.ActualFont, maxWidth, out charFit, out charFitWidth);
 
                         selectionIndex = charFit;
-                        selectionOffset = charFitWidth;
+                        runSelectionOffset = charFitWidth;
                     } break;
                 case CssRunKind.Space:
                     {
@@ -299,12 +299,12 @@ namespace LayoutFarm.HtmlBoxes
                         if (offset > this.Width / 2)
                         {
                             selectionIndex = -1;
-                            selectionOffset = 0;
+                            runSelectionOffset = 0;
                         }
                         else
                         {
                             selectionIndex = 0;
-                            selectionOffset = (int)this.Width;
+                            runSelectionOffset = (int)this.Width;
                         }
                     } break;
                 default:
