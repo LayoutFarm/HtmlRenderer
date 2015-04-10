@@ -350,7 +350,7 @@ namespace LayoutFarm.HtmlBoxes
                 yield return _bottomUpBoxStrips[i].Top;
             }
         }
-        internal int WordCount
+        internal int RunCount
         {
             get
             {
@@ -463,7 +463,7 @@ namespace LayoutFarm.HtmlBoxes
 
                             p.SetCanvasOrigin(ox + (int)blockRun.Left, oy + (int)blockRun.Top);
 
-                            blockRun.BlockBox.Paint(p);
+                            blockRun.ContentBox.Paint(p);
 
                             p.SetCanvasOrigin(ox, oy);
 

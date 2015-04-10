@@ -11,6 +11,10 @@ namespace LayoutFarm.HtmlBoxes
         //start line
 
         CssLineBox startHitHostLine;
+        //--------------------- 
+        //on end line  
+        int endHitRunCharIndex;
+        //---------------------      
         List<CssLineBox> selectedLines;
         bool isValid = true;
         CssBoxHitChain tmpStartChain = null;
@@ -88,7 +92,6 @@ namespace LayoutFarm.HtmlBoxes
         void SetupStartHitPoint(CssBoxHitChain startChain, IFonts ifonts)
         {
 
-            //find global location of start point
             HitInfo startHit = startChain.GetLastHit();
             //-----------------------------
             switch (startHit.hitObjectKind)
@@ -142,11 +145,11 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
+        static int dbugCount01 = 0;
 
         void SetupEndHitPoint(CssBoxHitChain endChain, IFonts ifonts)
         {
 
-            //find global location of end point 
             HitInfo endHit = endChain.GetLastHit();
             switch (endHit.hitObjectKind)
             {
@@ -157,32 +160,41 @@ namespace LayoutFarm.HtmlBoxes
                 case HitObjectKind.Run:
                     {
 
-                        CssRun endRun = (CssRun)endHit.hitObject;
-                        if (endRun.Text.Contains("555"))
+                        //if (run is CssTextRun)
+                        //{
+                        //    CssTextRun tt = (CssTextRun)run;
+                        //    Console.WriteLine(dbugCounter + "r:" + run.dbugId + tt.Text + " (line:" + run.HostLine.dbugId + ",top=" + run.HostLine.CachedLineTop + ")");
+                        //}
+                        //else
+                        //{
+                        //    Console.WriteLine(dbugCounter + "r:" + run.dbugId + "(line:" + run.HostLine.dbugId + ",top=" + run.HostLine.CachedLineTop + ")");
+                        //} 
+
+                        CssRun run = (CssRun)endHit.hitObject;
+                        if (run.Text.Contains("555"))
                         {
+
                         }
+
                         //---------------------------------
                         int sel_index;
                         int sel_offset;
-                        endRun.FindSelectionPoint(ifonts,
+                        run.FindSelectionPoint(ifonts,
                              endHit.localX,
                              out sel_index,
                              out sel_offset);
+                        this.endHitRunCharIndex = sel_index;
 
-                        //find endline 
-                        CssLineBox endline = endRun.HostLine;
 
+                        CssLineBox endline = run.HostLine;
 
                         //find selection direction 
                         if (startHitHostLine == endline)
                         {
-                            //on the sameline
-                            this.selectedLines = new List<CssLineBox>();
-                            this.selectedLines.Add(endline);
-
-                            int xposOnEndLine = (int)(endRun.Left + sel_offset);
+                            int xposOnEndLine = (int)(run.Left + sel_offset);
                             endline.LineSelectionSegment = new SelectionSegment(startLineBeginSelectionAtPixel, xposOnEndLine - startLineBeginSelectionAtPixel);
-
+                            //Console.WriteLine("d3." + (dbugCount01++).ToString() +
+                            //     " s" + startLineBeginSelectionAtPixel);
                         }
                         else
                         {
@@ -209,80 +221,39 @@ namespace LayoutFarm.HtmlBoxes
                                     var firstSegment = new SelectionSegment(startLineBeginSelectionAtPixel, (int)hitBlockRun.Left - startLineBeginSelectionAtPixel);
                                     multiSelectionSegment.AddSubSegment(firstSegment);
                                     selectedLines.Add(startLineBox);
+                                    //---------
+                                    //find until fond hitOnEndLine
 
-
-                                    float endElemX = 0, endElemY = 0;
-                                    hitBlockRun.ContentBox.GetElementGlobalLocation(out endElemX, out endElemY);
-                                    float lineX = endElemX;
-                                    float lineY = endElemY + endline.CachedLineTop;
-
-                                    var lineWalkVisitor = new LineWalkVisitor();
-                                    lineWalkVisitor.globalX = lineX;
-                                    lineWalkVisitor.globalY = lineY;
+                                    //foreach (var linebox in GetLineWalkIter(hitBlockRun.ContentBox))
+                                    //{
+                                    //    if (linebox == hitBlockRun.HostLine)
+                                    //    {
+                                    //        //found end line  
+                                    //        linebox.SelectPartialEnd((int)(run.Left + sel_offset));
+                                    //        selectedLines.Add(linebox);
+                                    //        break;
+                                    //    }
+                                    //    else
+                                    //    {
+                                    //        linebox.SelectFull();
+                                    //        selectedLines.Add(linebox);
+                                    //    }
+                                    //}
 
                                     //----------------------------------------------------------------
-                                    foreach (var linebox in GetLineWalkIter(lineWalkVisitor, hitBlockRun.ContentBox))
+                                    foreach (var linebox in GetLineWalkIter(hitBlockRun.ContentBox))
                                     {
                                         if (linebox == endline)
                                         {
                                             //found end line  
-                                            linebox.SelectPartialEnd((int)(endRun.Left + sel_offset));
+                                            linebox.SelectPartialEnd((int)(run.Left + sel_offset));
                                             selectedLines.Add(linebox);
                                             break;
                                         }
                                         else
                                         {
-                                            if (endChain.RootGlobalX >= lineWalkVisitor.globalX &&
-                                                endChain.RootGlobalY >= lineWalkVisitor.globalY &&
-                                                endChain.RootGlobalX < lineWalkVisitor.globalX + linebox.CachedLineContentWidth &&
-                                                endChain.RootGlobalY < lineWalkVisitor.globalY + linebox.CacheLineHeight)
-                                            {
-
-                                                //explore all run in this line 
-
-                                                int j = linebox.RunCount;
-                                                bool isOK = false;
-                                                for (int i = 0; i < j && !isOK; ++i)
-                                                {
-                                                    var run2 = linebox.GetRun(i);
-                                                    var run3 = run2 as CssBlockRun;
-
-                                                    if (run3 != null)
-                                                    {
-                                                        //recursive here
-
-                                                        foreach (var line2 in GetLineWalkIter(lineWalkVisitor, run3.ContentBox))
-                                                        {
-                                                            if (line2 == endline)
-                                                            {
-                                                                //found here!
-                                                                //add line outter lnie 
-                                                                if (i > 0)
-                                                                {
-                                                                    linebox.SelectPartialEnd((int)linebox.GetRun(i - 1).Right);
-                                                                    selectedLines.Add(linebox);
-                                                                }
-                                                                line2.SelectPartialEnd(sel_offset);
-                                                                selectedLines.Add(line2);
-                                                                //linebox.SelectPartialEnd((int)run2.Left + sel_offset);
-                                                                isOK = true;
-                                                                break;
-                                                            }
-                                                            else
-                                                            {
-                                                                line2.SelectFull();
-                                                                selectedLines.Add(line2);
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {   //check if hitpoint is in the line area
-                                                linebox.SelectFull();
-                                                selectedLines.Add(linebox);
-                                            }
-
+                                            linebox.SelectFull();
+                                            selectedLines.Add(linebox);
                                         }
                                     }
                                     //----------------------------------------------------------------
@@ -294,19 +265,14 @@ namespace LayoutFarm.HtmlBoxes
                             }
                             else
                             {
-                                int xposOnEndLine = (int)(endRun.Left + sel_offset);
+                                int xposOnEndLine = (int)(run.Left + sel_offset);
                                 //1. select all in start line      
                                 CssLineBox startLineBox = this.startHitHostLine;
 
                                 CssBlockRun foundBlockRun = null;
-                                bool isOK = false;
                                 foreach (var visit in GetWalkIter(startLineBox))
                                 {
-                                    if (isOK)
-                                    {
-                                        break;
-                                    }
-                                    //only linebox?0
+                                    //only linebox?
                                     switch (visit.Kind)
                                     {
                                         case VisitMarkerKind.Line:
@@ -325,7 +291,7 @@ namespace LayoutFarm.HtmlBoxes
                                                         //pass block run 
 
                                                         linebox.LineSelectionSegment = new SelectionSegment(
-                                                            (int)endRun.Left, xposOnEndLine - (int)endRun.Left);
+                                                            (int)run.Left, xposOnEndLine - (int)run.Left);
                                                         selectedLines.Add(linebox);
                                                     }
                                                     else
@@ -336,8 +302,7 @@ namespace LayoutFarm.HtmlBoxes
                                                         linebox.SelectPartialEnd(xposOnEndLine);
                                                         selectedLines.Add(linebox);
                                                     }
-                                                    isOK = true;
-
+                                                    break;
                                                 }
                                                 else
                                                 {
@@ -363,12 +328,11 @@ namespace LayoutFarm.HtmlBoxes
                         //find selection direction 
                         if (this.startHitHostLine == endline)
                         {
-                            //sameline
                             endline.LineSelectionSegment = new SelectionSegment(startLineBeginSelectionAtPixel, endHit.localX - startLineBeginSelectionAtPixel);
                         }
                         else
                         {
-                            //different line
+
                             CommonGroundInfo commonGroundInfo = FindCommonGround(this.tmpStartChain, endChain);
                             this.selectedLines = new List<CssLineBox>();
                             if (commonGroundInfo.isDeepDown)
@@ -391,93 +355,21 @@ namespace LayoutFarm.HtmlBoxes
                                     multiSelectionSegment.AddSubSegment(firstSegment);
                                     selectedLines.Add(startLineBox);
 
-                                    float endElemX = 0, endElemY = 0;
-                                    hitBlockRun.ContentBox.GetElementGlobalLocation(out endElemX, out endElemY);
-                                    float lineX = endElemX;
-                                    float lineY = endElemY + endline.CachedLineTop;
-
-                                    var lineWalkVisitor = new LineWalkVisitor();
-                                    lineWalkVisitor.globalX = lineX;
-                                    lineWalkVisitor.globalY = lineY;
-
-                                    foreach (var linebox in GetLineWalkIter(lineWalkVisitor, hitBlockRun.ContentBox))
+                                    foreach (var linebox in GetLineWalkIter(hitBlockRun.ContentBox))
                                     {
-
-
                                         if (linebox == endline)
                                         {
                                             //found end line  
+                                            //linebox.SelectPartialEnd((int)(run.Left + sel_offset));
                                             linebox.SelectPartialEnd(endHit.localX - startLineBeginSelectionAtPixel);
                                             selectedLines.Add(linebox);
                                             break;
                                         }
                                         else
                                         {
-                                            if (endChain.RootGlobalX >= lineWalkVisitor.globalX &&
-                                                endChain.RootGlobalY >= lineWalkVisitor.globalY &&
-                                                endChain.RootGlobalX < lineWalkVisitor.globalX + linebox.CachedLineContentWidth &&
-                                                endChain.RootGlobalY < lineWalkVisitor.globalY + linebox.CacheLineHeight)
-                                            {
-
-                                                //explore all run in this line 
-
-                                                int j = linebox.RunCount;
-                                                bool isOK = false;
-                                                for (int i = 0; i < j && !isOK; ++i)
-                                                {
-                                                    var run2 = linebox.GetRun(i);
-                                                    var run3 = run2 as CssBlockRun;
-
-                                                    if (run3 != null)
-                                                    {
-                                                        //recursive here
-
-                                                        foreach (var line2 in GetLineWalkIter(lineWalkVisitor, run3.ContentBox))
-                                                        {
-                                                            if (line2 == endline)
-                                                            {
-                                                                //found here!
-                                                                //add line outter lnie 
-                                                                if (i > 0)
-                                                                {
-                                                                    linebox.SelectPartialEnd((int)linebox.GetRun(i - 1).Right);
-                                                                    selectedLines.Add(linebox);
-                                                                }
-                                                                line2.SelectPartialEnd(endHit.localX - startLineBeginSelectionAtPixel);
-                                                                selectedLines.Add(line2);
-                                                                //linebox.SelectPartialEnd((int)run2.Left + sel_offset);
-                                                                isOK = true;
-                                                                break;
-                                                            }
-                                                            else
-                                                            {
-                                                                line2.SelectFull();
-                                                                selectedLines.Add(line2);
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {   //check if hitpoint is in the line area
-                                                linebox.SelectFull();
-                                                selectedLines.Add(linebox);
-                                            }
-
+                                            linebox.SelectFull();
+                                            selectedLines.Add(linebox);
                                         }
-                                        //if (linebox == endline)
-                                        //{
-                                        //    //found end line  
-                                        //    //linebox.SelectPartialEnd((int)(run.Left + sel_offset));
-                                        //    linebox.SelectPartialEnd(endHit.localX - startLineBeginSelectionAtPixel);
-                                        //    selectedLines.Add(linebox);
-                                        //    break;
-                                        //}
-                                        //else
-                                        //{
-                                        //    linebox.SelectFull();
-                                        //    selectedLines.Add(linebox);
-                                        //}
                                     }
                                 }
                                 else
@@ -864,34 +756,21 @@ namespace LayoutFarm.HtmlBoxes
             return new PointF(localX, localY);
         }
         //--------------------------------------------------------------------------------------------------
-        class LineWalkVisitor
-        {
-            public float globalX;
-            public float globalY;
-
-        }
-        static IEnumerable<CssLineBox> GetLineWalkIter(LineWalkVisitor visitor, CssBox box)
+        static IEnumerable<CssLineBox> GetLineWalkIter(CssBox box)
         {
             //recursive
-            float y = visitor.globalY;
-
             foreach (var visit in GetWalkdownIter(box))
             {
                 switch (visit.Kind)
                 {
                     case VisitMarkerKind.Line:
                         {
-                            var linebox = visit.visitObject as CssLineBox;
-                            visitor.globalY = y + linebox.CachedLineTop;
-                            yield return linebox;
-
+                            yield return visit.visitObject as CssLineBox;
                         } break;
                     case VisitMarkerKind.Box:
                         {
                             //recursive
-                            var childBox = visit.visitObject as CssBox;
-                            visitor.globalY = y + childBox.LocalY;
-                            foreach (var line in GetLineWalkIter(visitor, visit.visitObject as CssBox))
+                            foreach (var line in GetLineWalkIter(visit.visitObject as CssBox))
                             {
                                 yield return line;
                             }
@@ -902,7 +781,6 @@ namespace LayoutFarm.HtmlBoxes
                         } break;
                 }
             }
-            visitor.globalY = y;
         }
     }
 
