@@ -129,7 +129,7 @@ namespace LayoutFarm.HtmlBoxes
         internal LinkedListNode<CssLineBox> linkedNode;
         float _cacheContentWidth;
 
-        SelectionSegment selectionSegment;
+          
 
 #if DEBUG
         bool dbugIsClosed;
@@ -529,10 +529,8 @@ namespace LayoutFarm.HtmlBoxes
             //    var bound = strip.Bound;
             //    bound.Offset(offset);
             //    dbugDrawDiagnalBox(g, Pens.Green, bound.X, bound.Y, bound.Right, bound.Bottom);
-            //}
-
-            //return;
-
+            //} 
+            //return; 
             foreach (CssRun w in this._runs)
             {
                 p.DrawRectangle(Color.DeepPink, w.Left, w.Top, w.Width, w.Height);
@@ -545,11 +543,17 @@ namespace LayoutFarm.HtmlBoxes
 
 #endif
 
-        internal SelectionSegment LineSelectionSegment
+        internal int LineSelectionStart
         {
-            get { return this.selectionSegment; }
-            set { this.selectionSegment = value; }
-        } 
+            get;
+            set;
+        }
+        internal int LineSelectionWidth
+        {
+            get;
+            set;
+        }
+         
         internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip

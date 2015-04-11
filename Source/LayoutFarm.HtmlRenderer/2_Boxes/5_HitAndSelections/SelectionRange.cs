@@ -69,7 +69,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 for (int i = selectedLines.Count - 1; i >= 0; --i)
                 {
-                    this.selectedLines[i].LineSelectionSegment = null;
+                    this.selectedLines[i].LineSelectionWidth = 0;
                 }
                 this.selectedLines.Clear();
             }
@@ -77,7 +77,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 if (this.startHitHostLine != null)
                 {
-                    this.startHitHostLine.LineSelectionSegment = null;
+                    this.startHitHostLine.LineSelectionWidth = 0;
                 }
 
             }
@@ -162,12 +162,11 @@ namespace LayoutFarm.HtmlBoxes
 
                         CssRun endRun = (CssRun)endHit.hitObject;
 
-                        //if (endRun.Text != null && endRun.Text.Contains("2222b"))
+                        //if (endRun.Text != null && endRun.Text.Contains("222"))
                         //{
                         //}
-                        //---------------------------------
+                         
                         int run_sel_index;
-
                         endRun.FindSelectionPoint(ifonts,
                              endHit.localX,
                              out run_sel_index,
@@ -199,25 +198,23 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //on the sameline ok
                 this.selectedLines.Add(endline);
-                endline.LineSelectionSegment = new SelectionSegment(startLineBeginSelectionAtPixel, xposOnEndLine - startLineBeginSelectionAtPixel);
+                startHitHostLine.Select(startLineBeginSelectionAtPixel, xposOnEndLine - startLineBeginSelectionAtPixel);
                 return; //early exit here
             }
             //---------------------------------- 
             //select on different line 
             LineWalkVisitor lineWalkVisitor = null;
             int breakAtLevel;
+
+
             if (FindCommonGround(this.tmpStartChain, endChain, out breakAtLevel))
             {
 
                 CssBlockRun hitBlockRun = endChain.GetHitInfo(breakAtLevel).hitObject as CssBlockRun;
 
-                //multiple select
-                var multiSelectionSegment = new MultiSegmentPerLine();
-                this.startHitHostLine.LineSelectionSegment = multiSelectionSegment;
-
-                //1. first part
-                var firstSegment = new SelectionSegment(startLineBeginSelectionAtPixel, (int)hitBlockRun.Left - startLineBeginSelectionAtPixel);
-                multiSelectionSegment.AddSubSegment(firstSegment);
+                //multiple select 
+                //1. first part        
+                startHitHostLine.Select(startLineBeginSelectionAtPixel, (int)hitBlockRun.Left );
                 selectedLines.Add(this.startHitHostLine);
 
                 lineWalkVisitor = new LineWalkVisitor(hitBlockRun.ContentBox);
@@ -261,9 +258,8 @@ namespace LayoutFarm.HtmlBoxes
                                         }
                                         line2.SelectPartialEnd(run_sel_offset);
                                         selectedLines.Add(line2);
-                                        //linebox.SelectPartialEnd((int)run2.Left + sel_offset);
                                         isOK = true;
-                                        break;
+                                        break; //break foreach
                                     }
                                     else
                                     {
@@ -275,7 +271,8 @@ namespace LayoutFarm.HtmlBoxes
                             }
                         }
                         else
-                        {   //check if hitpoint is in the line area
+                        {
+                            //check if hitpoint is in the line area
                             linebox.SelectFull();
                             selectedLines.Add(linebox);
                         }
@@ -285,9 +282,9 @@ namespace LayoutFarm.HtmlBoxes
                 //---------------------------------------------------------------- 
             }
             else
-            { 
+            {
 
-                lineWalkVisitor = new LineWalkVisitor(startHitHostLine.OwnerBox); 
+                lineWalkVisitor = new LineWalkVisitor(startHitHostLine.OwnerBox);
                 foreach (var linebox in WalkLineDownAndUp(lineWalkVisitor, startHitHostLine))
                 {
 
@@ -331,7 +328,7 @@ namespace LayoutFarm.HtmlBoxes
                                         line2.SelectPartialEnd(run_sel_offset);
                                         selectedLines.Add(line2);
                                         isOK = true;
-                                        break;
+                                        break;//break foreach
                                     }
                                     else
                                     {
@@ -353,12 +350,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 }
             }
-
-
         }
-
-
-
 
         static bool FindCommonGround(CssBoxHitChain startChain, CssBoxHitChain endChain, out int breakAtLevel)
         {
@@ -433,8 +425,11 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     //find global position of box
                     latestLineBoxOwner = lineBox.OwnerBox;
-                    PointF boxGlobalPoint = GetGlobalLocation(latestLineBoxOwner);
-                    latestLineBoxGlobalYPos = boxGlobalPoint.Y;
+
+                    //TODO: review here , duplicate GetGlobalLocation 
+                    float gx, gy;
+                    latestLineBoxOwner.GetElementGlobalLocation(out gx, out gy); 
+                    latestLineBoxGlobalYPos = gy;
                 }
 
                 float lineGlobalBottom = lineBox.CachedLineBottom + latestLineBoxGlobalYPos;
@@ -448,15 +443,9 @@ namespace LayoutFarm.HtmlBoxes
                     latestLine = lineBox;
                     break;
                 }
-            }
-
-            return latestLine;
-
-        }
-
-
-
-
+            } 
+            return latestLine; 
+        } 
         /// <summary>
         /// walk down and up
         /// </summary>
@@ -512,22 +501,8 @@ namespace LayoutFarm.HtmlBoxes
                 curBox = curBox.ParentBox;
                 goto RETRY;
             }
-        }
+        } 
 
-        static PointF GetGlobalLocation(CssBox box)
-        {
-            float localX = box.LocalX;
-            float localY = box.LocalY;
-            CssBox parentBox = box.ParentBox;
-            while (parentBox != null)
-            {
-                localX += parentBox.LocalX;
-                localY += parentBox.LocalY;
-                parentBox = parentBox.ParentBox;
-            }
-            return new PointF(localX, localY);
-        }
-        //--------------------------------------------------------------------------------------------------
         class LineWalkVisitor
         {
             public float globalX;
@@ -578,19 +553,26 @@ namespace LayoutFarm.HtmlBoxes
         public static void SelectFull(this CssLineBox lineBox)
         {
             //full line selection 
-            lineBox.LineSelectionSegment = new SelectionSegment(0, (int)lineBox.CachedLineContentWidth);
+            lineBox.LineSelectionStart = 0;
+            lineBox.LineSelectionWidth = (int)lineBox.CachedLineContentWidth;
         }
         public static void SelectPartialStart(this CssLineBox lineBox, int startAt)
         {
             //from startAt to end of line
-
-            lineBox.LineSelectionSegment = new SelectionSegment(startAt, (int)lineBox.CachedLineContentWidth - startAt);
+            lineBox.LineSelectionStart = startAt;
+            lineBox.LineSelectionWidth = (int)lineBox.CachedLineContentWidth - startAt;
         }
         public static void SelectPartialEnd(this CssLineBox lineBox, int endAt)
         {
+            //from start of line to endAt              
+            lineBox.LineSelectionStart = 0;
+            lineBox.LineSelectionWidth = endAt;
+        }
+        public static void Select(this CssLineBox lineBox, int startAt, int endAt)
+        {
             //from start of line to endAt
-
-            lineBox.LineSelectionSegment = new SelectionSegment(0, endAt);
+            lineBox.LineSelectionStart = startAt;
+            lineBox.LineSelectionWidth = endAt - startAt;
         }
     }
 
