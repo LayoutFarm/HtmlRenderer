@@ -33,11 +33,10 @@ namespace LayoutFarm.HtmlBoxes
         }
         public int BeginAtPx { get; private set; }
         public int WidthPx { get; private set; }
-
-        public int BeginAtCharIndex { get; set; }
-
-        public int EndAtCharIndex { get; set; }
-
+        public CssRun StartHitRun { get; set; }
+        public int StartHitCharIndex { get; set; }
+        public CssRun EndHitRun { get; set; }
+        public int EndHitCharIndex { get; set; }
 
         public void PaintSelection(PaintVisitor p, CssLineBox line)
         {

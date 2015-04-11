@@ -15,8 +15,13 @@ namespace LayoutFarm.HtmlBoxes
         List<CssLineBox> selectedLines;
         bool isValid = true;
 
-
+        CssRun startHitRun;
+        int startHitRunCharIndex;
         int startLineBeginSelectionAtPixel;
+
+        CssRun endHitRun;
+        int endHitRunCharIndex;
+
 
         public SelectionRange(CssBoxHitChain startChain,
             CssBoxHitChain endChain,
@@ -65,8 +70,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         public void ClearSelection()
-        {
-
+        {   
             if (this.selectedLines != null)
             {
                 for (int i = selectedLines.Count - 1; i >= 0; --i)
@@ -81,8 +85,10 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     this.startHitHostLine.SelectionSegment = null;
                 }
-
             }
+            this.startHitRun = this.endHitRun = null;
+            this.startHitRunCharIndex = this.endHitRunCharIndex = 0;
+
         }
 
         public void CopyText(StringBuilder stbuilder)
@@ -104,6 +110,9 @@ namespace LayoutFarm.HtmlBoxes
             //find global location of start point
             HitInfo startHit = startChain.GetLastHit();
             //-----------------------------
+            this.startHitRun = null;
+            this.startHitRunCharIndex = 0;
+
             switch (startHit.hitObjectKind)
             {
                 case HitObjectKind.Run:
@@ -118,10 +127,13 @@ namespace LayoutFarm.HtmlBoxes
                              out sel_index,
                              out sel_offset);
 
+                        this.startHitRunCharIndex = sel_index;
 
                         //modify hitpoint
                         this.startHitHostLine = (CssLineBox)startChain.GetHitInfo(startChain.Count - 2).hitObject;
                         this.startLineBeginSelectionAtPixel = (int)(run.Left + sel_offset);
+
+                        this.startHitRun = run;
 
                     } break;
                 case HitObjectKind.LineBox:
@@ -165,6 +177,9 @@ namespace LayoutFarm.HtmlBoxes
             CssLineBox endline = null;
             int run_sel_offset = 0;
 
+            //find endline first
+            this.endHitRunCharIndex = 0;
+            this.endHitRun = null;
 
             switch (endHit.hitObjectKind)
             {
@@ -186,14 +201,15 @@ namespace LayoutFarm.HtmlBoxes
                              out run_sel_index,
                              out run_sel_offset);
 
-                        //1 . find endline 
                         endline = endRun.HostLine;
                         xposOnEndLine = (int)(endRun.Left + run_sel_offset);
 
+                        this.endHitRunCharIndex = run_sel_index;
+                        this.endHitRun = endRun;
                     } break;
                 case HitObjectKind.LineBox:
                     {
-                        //1. find endline
+
                         endline = (CssLineBox)endHit.hitObject;
                         xposOnEndLine = endHit.localX;
                     } break;
@@ -210,7 +226,9 @@ namespace LayoutFarm.HtmlBoxes
             if (startHitHostLine == endline)
             {
                 this.selectedLines.Add(endline);
-                startHitHostLine.Select(startLineBeginSelectionAtPixel, xposOnEndLine - startLineBeginSelectionAtPixel);
+                startHitHostLine.Select(startLineBeginSelectionAtPixel, xposOnEndLine - startLineBeginSelectionAtPixel,
+                        this.startHitRun, this.startHitRunCharIndex,
+                        this.endHitRun, this.endHitRunCharIndex);
                 return; //early exit here ***
             }
             //---------------------------------- 
@@ -222,13 +240,16 @@ namespace LayoutFarm.HtmlBoxes
                 var hitBlockRun = endChain.GetHitInfo(breakAtLevel).hitObject as CssBlockRun;
                 //multiple select 
                 //1. first part        
-                startHitHostLine.Select(startLineBeginSelectionAtPixel, (int)hitBlockRun.Left);
+                startHitHostLine.Select(startLineBeginSelectionAtPixel, (int)hitBlockRun.Left,
+                     this.startHitRun, this.startHitRunCharIndex,
+                     this.endHitRun, this.endHitRunCharIndex);
+
                 selectedLines.Add(this.startHitHostLine);
                 lineWalkVisitor = new LineWalkVisitor(hitBlockRun);
             }
             else
             {
-                startHitHostLine.SelectPartialToEnd(startLineBeginSelectionAtPixel);
+                startHitHostLine.SelectPartialToEnd(startLineBeginSelectionAtPixel, this.startHitRun, this.startHitRunCharIndex);
                 selectedLines.Add(this.startHitHostLine);
                 lineWalkVisitor = new LineWalkVisitor(startHitHostLine);
             }
@@ -241,13 +262,13 @@ namespace LayoutFarm.HtmlBoxes
                     case LineCoverage.EndLine:
                         {
                             //found end line  
-                            linebox.SelectPartialFromStart(xposOnEndLine);
+                            linebox.SelectPartialFromStart(xposOnEndLine, this.endHitRun, this.endHitRunCharIndex);
                             selectedLines.Add(linebox);
                         } break;
                     case LineCoverage.PartialLine:
                         {
                             //explore all run in this line  
-                            linebox.SelectPartialFromStart((int)partialLineRun.Right);
+                            linebox.SelectPartialFromStart((int)partialLineRun.Right, this.endHitRun, this.endHitRunCharIndex);
                             selectedLines.Add(linebox);
                         } break;
                     case LineCoverage.FullLine:
@@ -560,29 +581,52 @@ namespace LayoutFarm.HtmlBoxes
             //lineBox.SelectionWidth = (int)lineBox.CachedLineContentWidth;
             lineBox.SelectionSegment = SelectionSegment.FullLine;
         }
-        public static void SelectPartialToEnd(this CssLineBox lineBox, int startAtPx)
+
+        public static void SelectPartialToEnd(this CssLineBox lineBox, int startAtPx, CssRun startRun, int startRunIndex)
         {
             //from startAt to end of line
-            lineBox.SelectionSegment = new SelectionSegment(startAtPx, (int)lineBox.CachedLineContentWidth - startAtPx);
+
             //lineBox.SelectionStartAt = startAtPx;
             //lineBox.SelectionWidth = (int)lineBox.CachedLineContentWidth - startAtPx;
+
+            lineBox.SelectionSegment = new SelectionSegment(startAtPx, (int)lineBox.CachedLineContentWidth - startAtPx)
+            {
+                StartHitRun = startRun,
+                StartHitCharIndex = startRunIndex
+            };
+
         }
-        public static void SelectPartialFromStart(this CssLineBox lineBox, int endAtPx)
+        public static void SelectPartialFromStart(this CssLineBox lineBox, int endAtPx, CssRun endRun, int endRunIndex)
         {
             //from start of line to endAt              
+
             //lineBox.SelectionStartAt = 0;
             //lineBox.SelectionWidth = endAtPx;
 
-            lineBox.SelectionSegment = new SelectionSegment(0, endAtPx);
+            lineBox.SelectionSegment = new SelectionSegment(0, endAtPx)
+            {
+                EndHitRun = endRun,
+                EndHitCharIndex = endRunIndex
+            };
 
         }
-        public static void Select(this CssLineBox lineBox, int startAtPx, int endAt)
+        public static void Select(this CssLineBox lineBox, int startAtPx, int endAt,
+            CssRun startRun, int startRunIndex,
+            CssRun endRun, int endRunIndex)
         {
-            //from start of line to endAt
-            //lineBox.SelectionStartAt = startAtPx;
-            //lineBox.SelectionWidth = endAt - startAtPx;
+            //from startAtPx of line to endAt
 
-            lineBox.SelectionSegment = new SelectionSegment(startAtPx, endAt - startAtPx);
+            //lineBox.SelectionStartAt = startAtPx;
+            //lineBox.SelectionWidth = endAt - startAtPx; 
+
+            lineBox.SelectionSegment = new SelectionSegment(startAtPx, endAt - startAtPx)
+            {
+                StartHitRun = startRun,
+                StartHitCharIndex = startRunIndex,
+                EndHitRun = endRun,
+                EndHitCharIndex = endRunIndex
+            };
+
         }
     }
 
