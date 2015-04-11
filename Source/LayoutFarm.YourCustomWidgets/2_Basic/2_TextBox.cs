@@ -106,8 +106,8 @@ namespace LayoutFarm.CustomWidgets
 
                     //create textspan
                     //user can parse text line to smaller span
-
                     //eg. split by whitespace
+
                     if (this.TextSplitter != null)
                     {
                         //parse with textsplitter 
@@ -117,14 +117,14 @@ namespace LayoutFarm.CustomWidgets
                             var startIndex = splitBound.startIndex;
                             var length = splitBound.length;
                             var splitBuffer = new char[length];
-                            Array.Copy(buffer, startIndex, splitBuffer, 0, length);
-                            var textspan = textEditRenderElement.CreateNewTextSpan(splitBuffer);
+                            Array.Copy(buffer, startIndex, splitBuffer, 0, length); 
+                            var textspan = textEditRenderElement.CreateFreezeTextRun(splitBuffer);
                             textEditRenderElement.AddTextRun(textspan);
                         }
                     }
                     else
                     {
-                        var textspan = textEditRenderElement.CreateNewTextSpan(line);
+                        var textspan = textEditRenderElement.CreateEditableTextRun(line);
                         textEditRenderElement.AddTextRun(textspan);
                     }
                     lineCount++;
@@ -143,6 +143,14 @@ namespace LayoutFarm.CustomWidgets
         public override void Blur()
         {
             base.Blur();
+        }
+        public void DoHome()
+        {
+            this.textEditRenderElement.DoHome(false);
+        }
+        public void DoEnd()
+        {
+            this.textEditRenderElement.DoEnd(false);
         }
         protected override bool HasReadyRenderElement
         {
@@ -209,7 +217,7 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
-        public EditableTextSpan CurrentTextSpan
+        public EditableRun CurrentTextSpan
         {
             get
             {
@@ -224,7 +232,7 @@ namespace LayoutFarm.CustomWidgets
                 textEditRenderElement.ReplaceCurrentTextRunContent(nBackspaces, newstr);
             }
         }
-        public void ReplaceCurrentLineTextRuns(IEnumerable<EditableTextSpan> textRuns)
+        public void ReplaceCurrentLineTextRuns(IEnumerable<EditableRun> textRuns)
         {
             if (textEditRenderElement != null)
             {

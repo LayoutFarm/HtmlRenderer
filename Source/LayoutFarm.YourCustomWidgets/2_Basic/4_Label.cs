@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
@@ -17,19 +17,20 @@ namespace LayoutFarm.CustomWidgets
         public Label(int w, int h)
             : base(w, h)
         {
-
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-            if (myTextRun == null)
+            if (this.myTextRun == null)
             {
-                myTextRun = new CustomTextRun(rootgfx, this.Width, this.Height);
-                myTextRun.Text = this.text;
-                myTextRun.TextColor = this.textColor;
+                var trun = new CustomTextRun(rootgfx, this.Width, this.Height);
+                trun.SetLocation(this.Left, this.Top);
+                trun.TextColor = this.textColor;
+                trun.Text = this.Text; 
+                this.myTextRun = trun;
+
             }
             //-----------
             return myTextRun;
-
         }
         public override RenderElement CurrentPrimaryRenderElement
         {

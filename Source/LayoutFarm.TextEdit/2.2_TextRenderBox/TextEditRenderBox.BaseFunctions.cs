@@ -33,7 +33,7 @@ namespace LayoutFarm.Text
             GlobalCaretController.RegisterCaretBlink(rootgfx);
             myCaret = new CaretRenderElement(rootgfx, 2, 17);
             myCaret.TransparentForAllEvents = true;
-            
+
             this.MayHasViewport = true;
             this.BackgroundColor = Color.White;// Color.Transparent;
 
@@ -74,7 +74,40 @@ namespace LayoutFarm.Text
             ts.BoxEvaluateScrollBar();
         }
 
+        public void DoHome(bool pressShitKey)
+        {
+            if (!pressShitKey)
+            {
+                internalTextLayerController.DoHome();
+                internalTextLayerController.CancelSelect();
+            }
+            else
+            {
 
+                internalTextLayerController.StartSelectIfNoSelection();
+                internalTextLayerController.DoHome();
+                internalTextLayerController.EndSelect();
+            }
+
+            EnsureCaretVisible();
+        }
+        public void DoEnd(bool pressShitKey)
+        {
+            if (!pressShitKey)
+            {
+                internalTextLayerController.DoEnd();
+                internalTextLayerController.CancelSelect();
+            }
+            else
+            {
+                internalTextLayerController.StartSelectIfNoSelection();
+                internalTextLayerController.DoEnd();
+                internalTextLayerController.EndSelect();
+
+            }
+
+            EnsureCaretVisible();
+        }
 
 
         public Rectangle GetRectAreaOf(int beginlineNum, int beginColumnNum, int endLineNum, int endColumnNum)
@@ -230,7 +263,7 @@ namespace LayoutFarm.Text
         {
 
             internalTextLayerController.CancelSelect();
-            EditableTextSpan textRun = this.CurrentTextRun;
+            EditableRun textRun = this.CurrentTextRun;
             if (textRun != null)
             {
                 VisualPointInfo pointInfo = internalTextLayerController.GetCurrentPointInfo();
@@ -334,7 +367,14 @@ namespace LayoutFarm.Text
             UIKeys keycode = (UIKeys)e.KeyData & UIKeys.KeyCode;
             switch (keycode)
             {
-
+                case UIKeys.Home:
+                    {
+                        this.DoHome(e.Shift);
+                    } break;
+                case UIKeys.End:
+                    {
+                        this.DoEnd(e.Shift);
+                    } break;
                 case UIKeys.Back:
                     {
                         if (internalTextLayerController.SelectionRange != null)
@@ -362,44 +402,7 @@ namespace LayoutFarm.Text
 
                         EnsureCaretVisible();
 
-                    } break;
-                case UIKeys.Home:
-                    {
-
-                        if (!e.Shift)
-                        {
-                            internalTextLayerController.DoHome();
-                            internalTextLayerController.CancelSelect();
-                        }
-                        else
-                        {
-
-                            internalTextLayerController.StartSelectIfNoSelection();
-                            internalTextLayerController.DoHome();
-                            internalTextLayerController.EndSelect();
-                        }
-
-                        EnsureCaretVisible();
-
-                    } break;
-                case UIKeys.End:
-                    {
-                        if (!e.Shift)
-                        {
-                            internalTextLayerController.DoEnd();
-                            internalTextLayerController.CancelSelect();
-                        }
-                        else
-                        {
-                            internalTextLayerController.StartSelectIfNoSelection();
-                            internalTextLayerController.DoEnd();
-                            internalTextLayerController.EndSelect();
-
-                        }
-
-                        EnsureCaretVisible();
-
-                    } break;
+                    } break; 
                 case UIKeys.Delete:
                     {
 
@@ -478,8 +481,8 @@ namespace LayoutFarm.Text
                             {
 
                                 internalTextLayerController.AddTextRunsToCurrentLine(
-                                    new EditableTextSpan[]{ 
-                                        new EditableTextSpan(this.Root,  
+                                    new EditableRun[]{ 
+                                        new EditableTextRun(this.Root,  
                                             Clipboard.GetUnicodeText(), this.CurrentTextSpanStyle)
                                            });
                                 EnsureCaretVisible();
@@ -569,10 +572,8 @@ namespace LayoutFarm.Text
                             //}
 
                         } break;
-
                 }
             }
-
         }
 
         public bool OnProcessDialogKey(UIKeyEventArgs e)

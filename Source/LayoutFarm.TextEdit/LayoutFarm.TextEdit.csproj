@@ -55,15 +55,15 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="1.1_EditableRuns\SolidTextRun.cs" />
     <Compile Include="2.2_TextRenderBox\CaretRenderElement.cs" />
-    <Compile Include="1.1_TextRun\dbugMultiTextManRecorder.cs" />
-    <Compile Include="1.1_TextRun\EditableTextSpan.cs" />
-    <Compile Include="1.1_TextRun\EditableTextSpan_EditableFeatures.cs" />
-    <Compile Include="1.1_TextRun\TextSpan.cs" />
-    <Compile Include="1.1_TextRun\TextSpanSytle.cs" />
-    <Compile Include="1.1_TextRun\VisualLocationInfo.cs" />
-    <Compile Include="1.1_TextRun\VisualPointInfo.cs" />
-    <Compile Include="1.1_TextRun\VisualSelectionRange.cs" />
+    <Compile Include="1.1_EditableRuns\dbugMultiTextManRecorder.cs" />
+    <Compile Include="1.1_EditableRuns\EditableTextSpan.cs" />
+    <Compile Include="1.1_EditableRuns\EditableRun.cs" />
+    <Compile Include="1.1_EditableRuns\TextSpanSytle.cs" />
+    <Compile Include="1.1_EditableRuns\VisualLocationInfo.cs" />
+    <Compile Include="1.1_EditableRuns\VisualPointInfo.cs" />
+    <Compile Include="1.1_EditableRuns\VisualSelectionRange.cs" />
     <Compile Include="1.2_Lines\0_EditableTextLine.cs" />
     <Compile Include="1.2_Lines\1_EditableTextLine_CORE_Collection.cs" />
     <Compile Include="1.2_Lines\2_EditableTextLine_PRIVATE_CollectionFeatures2.cs" />

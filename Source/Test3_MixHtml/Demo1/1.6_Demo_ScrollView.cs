@@ -26,7 +26,6 @@ namespace LayoutFarm
         {
             //load here as need
             imageContentMan.AddRequestImage(binder);
-
         }
         void AddScrollView1(SampleViewport viewport, int x, int y)
         {
@@ -66,7 +65,6 @@ namespace LayoutFarm
                 var box1 = new LayoutFarm.CustomWidgets.SimpleBox(400, 30);
                 box1.BackColor = Color.OrangeRed;
                 box1.SetLocation(i * 20, i * 40);
-
                 panel.AddChild(box1);
             }
             //--------------------------   
@@ -78,7 +76,7 @@ namespace LayoutFarm
             var panel = new LayoutFarm.CustomWidgets.SimpleBox(400, 300);
             panel.SetLocation(x + 30, y + 30);
             panel.BackColor = Color.LightGray;
-            panel.PanelLayoutKind = CustomWidgets.BoxContentLayoutKind.VerticalStack;
+            panel.ContentLayoutKind = CustomWidgets.BoxContentLayoutKind.VerticalStack;
             viewport.AddContent(panel);
 
             //-------------------------  
@@ -88,12 +86,15 @@ namespace LayoutFarm
             for (int i = 0; i < 5; ++i)
             {
                 var imgbox = new LayoutFarm.CustomWidgets.ImageBox(36, 400);
+                //if (!System.IO.File.Exists("../../images/0" + (i + 1) + ".jpg"))
+                //{
+                //}
                 ClientImageBinder binder = new ClientImageBinder("../../images/0" + (i + 1) + ".jpg");
                 binder.SetOwner(imgbox);
                 binder.SetLazyFunc(LazyImageLoad);
 
                 //if use lazy img load func
-                //imageContentMan.AddRequestImage(new ImageContentRequest(binder, imgbox, imgbox));
+                imageContentMan.AddRequestImage(binder);
 
                 imgbox.ImageBinder = binder;
                 imgbox.BackColor = Color.OrangeRed;
@@ -108,8 +109,6 @@ namespace LayoutFarm
                     }
 
                 };
-
-
                 lastY += imgbox.Height + 5;
                 panel.AddChild(imgbox);
 

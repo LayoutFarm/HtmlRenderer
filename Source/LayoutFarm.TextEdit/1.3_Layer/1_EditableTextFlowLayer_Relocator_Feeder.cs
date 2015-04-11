@@ -79,7 +79,7 @@ namespace LayoutFarm.Text
             }
             public void Accept()
             {
-                EditableTextSpan v = null;
+                EditableRun v = null;
                 int sourceLineId = feeder.CurrentLineId;
 
                 if (this.currentRelocatorLineId == sourceLineId)
@@ -118,7 +118,7 @@ namespace LayoutFarm.Text
                 }
             }
 
-            public EditableTextSpan CurrentRun
+            public EditableRun CurrentRun
             {
                 get
                 {
@@ -156,7 +156,7 @@ namespace LayoutFarm.Text
             public void SplitIntoNewLine()
             {
 
-                EditableTextSpan currentRun = feeder.CurrentRun;
+                EditableRun currentRun = feeder.CurrentRun;
                 EditableTextLine line = currentRun.OwnerEditableLine;
                 line.SplitToNewLine(currentRun);
 
@@ -278,7 +278,7 @@ namespace LayoutFarm.Text
             int currentFeederLineId = 0;
             EditableTextLine currentLine;
 
-            LinkedListNode<EditableTextSpan> curNode;
+            LinkedListNode<EditableRun> curNode;
 
             int readState = 0;
             EditableTextFlowLayer flowLayer;
@@ -378,10 +378,10 @@ namespace LayoutFarm.Text
                     return currentLine != null && currentLine.Count == 0 && !currentLine.EndWithLineBreak;
                 }
             }
-            public EditableTextSpan UnsafeRemoveCurrent()
+            public EditableRun UnsafeRemoveCurrent()
             {
-                LinkedListNode<EditableTextSpan> tobeRemoveNode = curNode;
-                EditableTextSpan v = tobeRemoveNode.Value;
+                LinkedListNode<EditableRun> tobeRemoveNode = curNode;
+                EditableRun v = tobeRemoveNode.Value;
                 EditableTextLine line = v.OwnerEditableLine;
 
                 if (tobeRemoveNode == line.First)
@@ -643,7 +643,7 @@ namespace LayoutFarm.Text
                 }
                 return false;
             }
-            public EditableTextSpan CurrentRun
+            public EditableRun CurrentRun
             {
                 get
                 {

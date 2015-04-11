@@ -11,42 +11,42 @@ namespace LayoutFarm.Text
     partial class EditableTextLine
     {
 
-        void AddNormalRunToLast(EditableTextSpan v)
+        void AddNormalRunToLast(EditableRun v)
         {
 
             v.SetInternalLinkedNode(base.AddLast(v), this);
 
         }
-        void AddNormalRunToFirst(EditableTextSpan v)
+        void AddNormalRunToFirst(EditableRun v)
         {
             v.SetInternalLinkedNode(base.AddFirst(v), this);
         }
 
-        static LinkedListNode<EditableTextSpan> GetLineLinkedNode(EditableTextSpan ve)
+        static LinkedListNode<EditableRun> GetLineLinkedNode(EditableRun ve)
         {
             return ve.internalLinkedNode;
         }
-        void AddNormalRunBefore(EditableTextSpan beforeVisualElement, EditableTextSpan v)
+        void AddNormalRunBefore(EditableRun beforeVisualElement, EditableRun v)
         {
             v.SetInternalLinkedNode(base.AddBefore(GetLineLinkedNode(beforeVisualElement), v), this);
         }
-        void AddNormalRunAfter(EditableTextSpan afterVisualElement, EditableTextSpan v)
+        void AddNormalRunAfter(EditableRun afterVisualElement, EditableRun v)
         {
             v.SetInternalLinkedNode(base.AddAfter(GetLineLinkedNode(afterVisualElement), v), this);
         }
         public new void Clear()
         {
-            LinkedListNode<EditableTextSpan> curNode = this.First;
+            LinkedListNode<EditableRun> curNode = this.First;
             while (curNode != null)
             {
-                EditableTextSpan.RemoveParentLink(curNode.Value);
+                EditableRun.RemoveParentLink(curNode.Value);
                 curNode = curNode.Next;
             }
 
             base.Clear();
         }
 
-        public new void Remove(EditableTextSpan v)
+        public new void Remove(EditableRun v)
         {
 #if DEBUG
             if (v.IsLineBreak)
@@ -58,7 +58,7 @@ namespace LayoutFarm.Text
 
             base.Remove(GetLineLinkedNode(v));
 
-            EditableTextSpan.RemoveParentLink(v);
+            EditableRun.RemoveParentLink(v);
 
 
             if ((this.lineFlags & LOCAL_SUSPEND_LINE_REARRANGE) != 0)

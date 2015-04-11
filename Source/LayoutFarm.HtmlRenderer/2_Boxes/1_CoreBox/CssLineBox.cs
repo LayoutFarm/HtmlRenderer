@@ -127,8 +127,10 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         PartialBoxStrip[] _bottomUpBoxStrips;
         internal LinkedListNode<CssLineBox> linkedNode;
-
         float _cacheContentWidth;
+
+          
+
 #if DEBUG
         bool dbugIsClosed;
         static int dbugTotalId;
@@ -168,7 +170,6 @@ namespace LayoutFarm.HtmlBoxes
             get;
             private set;
         }
-
         internal float CachedLineTop
         {
             //relative top compare to its parent
@@ -349,7 +350,7 @@ namespace LayoutFarm.HtmlBoxes
                 yield return _bottomUpBoxStrips[i].Top;
             }
         }
-        internal int WordCount
+        internal int RunCount
         {
             get
             {
@@ -462,7 +463,7 @@ namespace LayoutFarm.HtmlBoxes
 
                             p.SetCanvasOrigin(ox + (int)blockRun.Left, oy + (int)blockRun.Top);
 
-                            blockRun.BlockBox.Paint(p);
+                            blockRun.ContentBox.Paint(p);
 
                             p.SetCanvasOrigin(ox, oy);
 
@@ -528,10 +529,8 @@ namespace LayoutFarm.HtmlBoxes
             //    var bound = strip.Bound;
             //    bound.Offset(offset);
             //    dbugDrawDiagnalBox(g, Pens.Green, bound.X, bound.Y, bound.Right, bound.Bottom);
-            //}
-
-            //return;
-
+            //} 
+            //return; 
             foreach (CssRun w in this._runs)
             {
                 p.DrawRectangle(Color.DeepPink, w.Left, w.Top, w.Width, w.Height);
@@ -549,24 +548,12 @@ namespace LayoutFarm.HtmlBoxes
             get;
             set;
         }
-
-
         internal int LineSelectionWidth
         {
             get;
             set;
         }
-        internal void PaintSelection(PaintVisitor p)
-        {
-            //config paint selection color
-            p.FillRectangle(Color.LightGray,
-                this.LineSelectionStart, 0,
-                this.LineSelectionWidth,
-                this.CacheLineHeight);
-
-        }
-
-
+         
         internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip

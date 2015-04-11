@@ -75,6 +75,7 @@ namespace LayoutFarm.CustomWidgets
                 renderE.HasSpecificHeight = this.HasSpecificHeight;
                 renderE.HasSpecificWidth = this.HasSpecificWidth;
                 renderE.SetController(this);
+                renderE.SetVisible(this.Visible);
 #if DEBUG
                 //if (dbugBreakMe)
                 //{
@@ -282,6 +283,7 @@ namespace LayoutFarm.CustomWidgets
 
             needContentLayout = true;
             this.uiList.AddUI(ui);
+
             if (this.HasReadyRenderElement)
             {
                 primElement.AddChild(ui);
@@ -303,7 +305,7 @@ namespace LayoutFarm.CustomWidgets
             this.uiList.RemoveUI(ui);
             if (this.HasReadyRenderElement)
             {
-                if (this.PanelLayoutKind != BoxContentLayoutKind.Absolute)
+                if (this.ContentLayoutKind != BoxContentLayoutKind.Absolute)
                 {
                     this.InvalidateLayout();
                 }
@@ -350,7 +352,7 @@ namespace LayoutFarm.CustomWidgets
                 return this.needContentLayout;
             }
         }
-        public BoxContentLayoutKind PanelLayoutKind
+        public BoxContentLayoutKind ContentLayoutKind
         {
             get { return this.panelLayoutKind; }
             set
@@ -365,9 +367,10 @@ namespace LayoutFarm.CustomWidgets
         public override void PerformContentLayout()
         {
 
+
             this.InvalidateGraphics();
             //temp : arrange as vertical stack***
-            switch (this.PanelLayoutKind)
+            switch (this.ContentLayoutKind)
             {
                 case CustomWidgets.BoxContentLayoutKind.VerticalStack:
                     {
@@ -386,16 +389,15 @@ namespace LayoutFarm.CustomWidgets
                                 //}
                                 element.PerformContentLayout();
 
-                                int elemH = element.HasSpecificHeight ?
-                                    element.Height :
-                                    element.DesiredHeight;
-                                int elemW = element.HasSpecificWidth ?
-                                    element.Width :
-                                    element.DesiredWidth;
-                                element.SetBounds(0, ypos, element.Width, elemH);
+                                //int elemH = element.HasSpecificHeight ?
+                                //    element.Height :
+                                //    element.DesiredHeight;
+                                //int elemW = element.HasSpecificWidth ?
+                                //    element.Width :
+                                //    element.DesiredWidth;
+                                //element.SetBounds(0, ypos, element.Width, elemH);
+                                element.SetBounds(0, ypos, element.Width, element.Height);
                                 ypos += element.Height;
-
-
 
                                 int tmp_right = element.DesiredWidth + element.Left;
                                 if (tmp_right > maxRight)

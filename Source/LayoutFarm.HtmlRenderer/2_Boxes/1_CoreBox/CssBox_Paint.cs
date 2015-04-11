@@ -56,7 +56,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         protected virtual void PaintImp(PaintVisitor p)
         {
-           
+
 
             Css.CssDisplay display = this.CssDisplay;
 
@@ -150,10 +150,13 @@ namespace LayoutFarm.HtmlBoxes
                         //1.                                 
                         line.PaintBackgroundAndBorder(p);
 
-
                         if (line.LineSelectionWidth > 0)
                         {
-                            line.PaintSelection(p);
+                            p.FillRectangle(Color.LightGray,
+                                line.LineSelectionStart,
+                                0,
+                                line.LineSelectionWidth,
+                                line.CacheLineHeight);
                         }
 
                         //2.                                
@@ -238,7 +241,7 @@ namespace LayoutFarm.HtmlBoxes
 
             if (this.HasAbsoluteLayer)
             {
-                
+
                 p.PushContaingBlock(this);
 
                 int ox = p.CanvasOriginX;
