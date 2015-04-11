@@ -149,7 +149,7 @@ namespace LayoutFarm.HtmlBoxes
             int xposOnEndLine = 0;
             CssLineBox endline = null;
             int run_sel_offset = 0;
-            this.selectedLines = new List<CssLineBox>();
+          
 
             switch (endHit.hitObjectKind)
             {
@@ -194,12 +194,12 @@ namespace LayoutFarm.HtmlBoxes
             }
             //----------------------------------
 
-
+            this.selectedLines = new List<CssLineBox>();
 
             //find selection direction 
             if (startHitHostLine == endline)
             {
-                //on the sameline 
+                //on the sameline ok
                 this.selectedLines.Add(endline);
                 endline.LineSelectionSegment = new SelectionSegment(startLineBeginSelectionAtPixel, xposOnEndLine - startLineBeginSelectionAtPixel);
 
@@ -209,37 +209,23 @@ namespace LayoutFarm.HtmlBoxes
 
                 //select on different line 
                 CommonGroundInfo commonGroundInfo = FindCommonGround(this.tmpStartChain, endChain);
-                this.selectedLines = new List<CssLineBox>();
                 if (commonGroundInfo.isDeepDown)
                 {
 
-                    //TODO:  review this
-                    HitInfo hitOnEndLine = endChain.GetHitInfo(commonGroundInfo.breakAtLevel);
-                    //mean it found block run
-                    var hitBlockRun = hitOnEndLine.hitObject as CssBlockRun;
+                    CssBlockRun hitBlockRun = endChain.GetHitInfo(commonGroundInfo.breakAtLevel).hitObject as CssBlockRun; 
                     if (hitBlockRun != null)
-                    {
-
-                        CssLineBox startLineBox = this.startHitHostLine;
+                    { 
                         //multiple select
                         var multiSelectionSegment = new MultiSegmentPerLine();
-                        startLineBox.LineSelectionSegment = multiSelectionSegment;
+                        this.startHitHostLine.LineSelectionSegment = multiSelectionSegment;
 
                         //1. first part
                         var firstSegment = new SelectionSegment(startLineBeginSelectionAtPixel, (int)hitBlockRun.Left - startLineBeginSelectionAtPixel);
                         multiSelectionSegment.AddSubSegment(firstSegment);
-                        selectedLines.Add(startLineBox);
+                        selectedLines.Add(this.startHitHostLine);                         
+                        
+                        var lineWalkVisitor = new LineWalkVisitor(hitBlockRun.ContentBox);   
 
-
-                        float endElemX = 0, endElemY = 0;
-                        hitBlockRun.ContentBox.GetElementGlobalLocation(out endElemX, out endElemY);
-                        float lineX = endElemX;
-                        float lineY = endElemY + endline.CachedLineTop;
-                        var lineWalkVisitor = new LineWalkVisitor();
-                        lineWalkVisitor.globalX = lineX;
-                        lineWalkVisitor.globalY = lineY;
-
-                        //----------------------------------------------------------------
                         foreach (var linebox in GetLineWalkDownIter(lineWalkVisitor, hitBlockRun.ContentBox))
                         {
                             if (linebox == endline)
@@ -258,14 +244,12 @@ namespace LayoutFarm.HtmlBoxes
                                 {
 
                                     //explore all run in this line 
-
                                     int j = linebox.RunCount;
                                     bool isOK = false;
                                     for (int i = 0; i < j && !isOK; ++i)
                                     {
                                         var run3 = linebox.GetRun(i) as CssBlockRun;
-                                        if (run3 == null) continue;
-
+                                        if (run3 == null) continue; 
                                         //recursive here
 
                                         foreach (var line2 in GetLineWalkDownIter(lineWalkVisitor, run3.ContentBox))
@@ -306,39 +290,27 @@ namespace LayoutFarm.HtmlBoxes
                     }
                     else
                     {
+                        throw new NotSupportedException();
                         //Console.WriteLine("d2." + dbugCount01++);
                     }
                 }
                 else
                 {
 
+ 
+                    var lineWalkVisitor = new LineWalkVisitor(startHitHostLine.OwnerBox); 
 
-                    CssLineBox startLineBox = this.startHitHostLine;
-
-                    float sX, sY;
-                    startLineBox.OwnerBox.GetElementGlobalLocation(out sX, out sY);
-
-                    float endElemX = 0, endElemY = 0;
-                    float lineX = endElemX;
-                    float lineY = endElemY + endline.CachedLineTop;
-
-                    var lineWalkVisitor = new LineWalkVisitor();
-                    //begin at startlinebox
-
-                    lineWalkVisitor.globalX = sX;
-                    lineWalkVisitor.globalY = sY;
-
-                    foreach (var linebox in WalkLineDownAndUp(lineWalkVisitor, startLineBox))
+                    foreach (var linebox in WalkLineDownAndUp(lineWalkVisitor, startHitHostLine))
                     {
 
-                        if (linebox == startLineBox)
+                        if (linebox == startHitHostLine)
                         {
                             linebox.SelectPartialStart(startLineBeginSelectionAtPixel);
                             selectedLines.Add(linebox);
                         }
                         else if (linebox == endline)
                         {
-                            //TODO: review this, temp fix here 
+                            
                             linebox.SelectPartialEnd(xposOnEndLine);
                             selectedLines.Add(linebox);
                             break;
@@ -369,8 +341,7 @@ namespace LayoutFarm.HtmlBoxes
                                                 selectedLines.Add(linebox);
                                             }
                                             line2.SelectPartialEnd(run_sel_offset);
-                                            selectedLines.Add(line2);
-                                            //linebox.SelectPartialEnd((int)run2.Left + sel_offset);
+                                            selectedLines.Add(line2); 
                                             isOK = true;
                                             break;
                                         }
@@ -514,6 +485,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             float y = visitor.globalY;
             visitor.globalY = y + startLine.CachedLineTop;
+
             //start at line
             //1. start line***            
             yield return startLine;
@@ -579,7 +551,13 @@ namespace LayoutFarm.HtmlBoxes
         {
             public float globalX;
             public float globalY;
-
+            public LineWalkVisitor(CssBox box)
+            {
+                float endElemX = 0, endElemY = 0;
+                box.GetElementGlobalLocation(out endElemX, out endElemY); 
+                this.globalX = endElemX;
+                this.globalY = endElemY;
+            }
         }
         static IEnumerable<CssLineBox> GetLineWalkDownIter(LineWalkVisitor visitor, CssBox box)
         {
@@ -607,6 +585,7 @@ namespace LayoutFarm.HtmlBoxes
                     }
                 }
             }
+            
             visitor.globalY = y;
         }
 
