@@ -1,6 +1,7 @@
 ﻿//BSD 2014 ,WinterDev 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using PixelFarm.Drawing;
 
 namespace LayoutFarm.HtmlBoxes
@@ -13,7 +14,7 @@ namespace LayoutFarm.HtmlBoxes
         CssLineBox startHitHostLine;
         List<CssLineBox> selectedLines;
         bool isValid = true;
-        CssBoxHitChain tmpStartChain = null;
+
 
         int startLineBeginSelectionAtPixel;
 
@@ -53,16 +54,17 @@ namespace LayoutFarm.HtmlBoxes
                 return;
             }
 
-            this.tmpStartChain = startChain;
-            this.SetupEndHitPoint(endChain, ifonts);
+
+            this.SetupEndHitPoint(startChain, endChain, ifonts);
         }
+
 
         public bool IsValid
         {
             get { return this.isValid; }
         }
 
-        public void ClearSelectionStatus()
+        public void ClearSelection()
         {
 
             if (this.selectedLines != null)
@@ -82,6 +84,8 @@ namespace LayoutFarm.HtmlBoxes
 
             }
         }
+
+
 
         void SetupStartHitPoint(CssBoxHitChain startChain, IFonts ifonts)
         {
@@ -141,7 +145,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        void SetupEndHitPoint(CssBoxHitChain endChain, IFonts ifonts)
+        void SetupEndHitPoint(CssBoxHitChain startChain, CssBoxHitChain endChain, IFonts ifonts)
         {
 
             //find global location of end point 
@@ -202,7 +206,7 @@ namespace LayoutFarm.HtmlBoxes
             //select on different line 
             LineWalkVisitor lineWalkVisitor = null;
             int breakAtLevel;
-            if (FindCommonGround(this.tmpStartChain, endChain, out breakAtLevel))
+            if (FindCommonGround(startChain, endChain, out breakAtLevel))
             {
                 var hitBlockRun = endChain.GetHitInfo(breakAtLevel).hitObject as CssBlockRun;
                 //multiple select 
@@ -338,6 +342,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             return latestLine;
         }
+
 
 
         //======================================================================================
@@ -530,7 +535,7 @@ namespace LayoutFarm.HtmlBoxes
             EndLine,
             FullLine,
             PartialLine
-        } 
+        }
     }
 
     static class CssLineBoxExtension
