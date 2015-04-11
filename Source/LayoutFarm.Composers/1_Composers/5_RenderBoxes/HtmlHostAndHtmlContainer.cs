@@ -283,18 +283,21 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (this._currentSelectionRange != null)
             {
-                _currentSelectionRange.ClearSelectionStatus();
+                _currentSelectionRange.ClearSelection();
                 _currentSelectionRange = null;
             }
         }
         public override void SetSelection(SelectionRange selRange)
-        {
-            //if (selRange == null)
-            //{
-            //}
+        {   
             this._currentSelectionRange = selRange;
         }
-
+        public override void CopySelection(StringBuilder stbuilder)
+        {
+            if (this._currentSelectionRange != null)
+            {
+                this._currentSelectionRange.CopyText(stbuilder);
+            }
+        }
         public bool NeedLayout
         {
             get;

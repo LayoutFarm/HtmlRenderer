@@ -129,7 +129,7 @@ namespace LayoutFarm.HtmlBoxes
         internal LinkedListNode<CssLineBox> linkedNode;
         float _cacheContentWidth;
 
-          
+
 
 #if DEBUG
         bool dbugIsClosed;
@@ -422,10 +422,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 yield return tmpRuns[i];
             }
-        }
-
-
-
+        } 
         internal void PaintRuns(PaintVisitor p)
         {
             //iterate from each words 
@@ -543,17 +540,30 @@ namespace LayoutFarm.HtmlBoxes
 
 #endif
 
-        internal int LineSelectionStart
+        ///// <summary>
+        ///// pixel unit
+        ///// </summary>
+        //internal int SelectionStartAt
+        //{
+        //    get;
+        //    set;
+        //}
+        ///// <summary>
+        ///// pixel unit
+        ///// </summary>
+        //internal int SelectionWidth
+        //{
+        //    get;
+        //    set;
+        //}
+
+        internal SelectionSegment SelectionSegment
         {
             get;
             set;
         }
-        internal int LineSelectionWidth
-        {
-            get;
-            set;
-        }
-         
+
+
         internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip

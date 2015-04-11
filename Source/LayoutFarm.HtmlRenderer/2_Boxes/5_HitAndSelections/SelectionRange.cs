@@ -1,4 +1,4 @@
-﻿//BSD 2014 ,WinterDev 
+﻿//MIT 2014-2015 ,WinterDev
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -71,7 +71,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 for (int i = selectedLines.Count - 1; i >= 0; --i)
                 {
-                    this.selectedLines[i].LineSelectionWidth = 0;
+                    this.selectedLines[i].SelectionSegment = null;
                 }
                 this.selectedLines.Clear();
             }
@@ -79,13 +79,24 @@ namespace LayoutFarm.HtmlBoxes
             {
                 if (this.startHitHostLine != null)
                 {
-                    this.startHitHostLine.LineSelectionWidth = 0;
+                    this.startHitHostLine.SelectionSegment = null;
                 }
 
             }
         }
 
+        public void CopyText(StringBuilder stbuilder)
+        {
+            //copy selected text to stbuilder
 
+            //this version just copy a plain text
+            int j = selectedLines.Count;
+            for (int i = 0; i < j; ++i)
+            {
+                stbuilder.AppendLine(selectedLines[i].ToString());
+            }
+
+        }
 
         void SetupStartHitPoint(CssBoxHitChain startChain, IFonts ifonts)
         {
@@ -217,7 +228,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                startHitHostLine.SelectPartialStart(startLineBeginSelectionAtPixel);
+                startHitHostLine.SelectPartialToEnd(startLineBeginSelectionAtPixel);
                 selectedLines.Add(this.startHitHostLine);
                 lineWalkVisitor = new LineWalkVisitor(startHitHostLine);
             }
@@ -230,13 +241,13 @@ namespace LayoutFarm.HtmlBoxes
                     case LineCoverage.EndLine:
                         {
                             //found end line  
-                            linebox.SelectPartialEnd(xposOnEndLine);
+                            linebox.SelectPartialFromStart(xposOnEndLine);
                             selectedLines.Add(linebox);
                         } break;
                     case LineCoverage.PartialLine:
                         {
                             //explore all run in this line  
-                            linebox.SelectPartialEnd((int)partialLineRun.Right);
+                            linebox.SelectPartialFromStart((int)partialLineRun.Right);
                             selectedLines.Add(linebox);
                         } break;
                     case LineCoverage.FullLine:
@@ -532,37 +543,46 @@ namespace LayoutFarm.HtmlBoxes
 
         enum LineCoverage
         {
-            EndLine,
             FullLine,
+            EndLine,
             PartialLine
         }
     }
+
+
 
     static class CssLineBoxExtension
     {
         public static void SelectFull(this CssLineBox lineBox)
         {
             //full line selection 
-            lineBox.LineSelectionStart = 0;
-            lineBox.LineSelectionWidth = (int)lineBox.CachedLineContentWidth;
+            //lineBox.SelectionStartAt = 0;
+            //lineBox.SelectionWidth = (int)lineBox.CachedLineContentWidth;
+            lineBox.SelectionSegment = SelectionSegment.AllLineSelection;
         }
-        public static void SelectPartialStart(this CssLineBox lineBox, int startAt)
+        public static void SelectPartialToEnd(this CssLineBox lineBox, int startAtPx)
         {
             //from startAt to end of line
-            lineBox.LineSelectionStart = startAt;
-            lineBox.LineSelectionWidth = (int)lineBox.CachedLineContentWidth - startAt;
+            lineBox.SelectionSegment = new SelectionSegment(startAtPx, (int)lineBox.CachedLineContentWidth - startAtPx);
+            //lineBox.SelectionStartAt = startAtPx;
+            //lineBox.SelectionWidth = (int)lineBox.CachedLineContentWidth - startAtPx;
         }
-        public static void SelectPartialEnd(this CssLineBox lineBox, int endAt)
+        public static void SelectPartialFromStart(this CssLineBox lineBox, int endAtPx)
         {
             //from start of line to endAt              
-            lineBox.LineSelectionStart = 0;
-            lineBox.LineSelectionWidth = endAt;
+            //lineBox.SelectionStartAt = 0;
+            //lineBox.SelectionWidth = endAtPx;
+
+            lineBox.SelectionSegment = new SelectionSegment(0, endAtPx);
+
         }
-        public static void Select(this CssLineBox lineBox, int startAt, int endAt)
+        public static void Select(this CssLineBox lineBox, int startAtPx, int endAt)
         {
             //from start of line to endAt
-            lineBox.LineSelectionStart = startAt;
-            lineBox.LineSelectionWidth = endAt - startAt;
+            //lineBox.SelectionStartAt = startAtPx;
+            //lineBox.SelectionWidth = endAt - startAtPx;
+
+            lineBox.SelectionSegment = new SelectionSegment(startAtPx, endAt - startAtPx);
         }
     }
 

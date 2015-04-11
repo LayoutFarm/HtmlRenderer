@@ -1,4 +1,4 @@
-﻿//BSD 2014 ,WinterDev 
+﻿//MIT 2014-2015 ,WinterDev
 using System;
 using System.Collections.Generic;
 
