@@ -130,8 +130,16 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-        public void WriteContent(System.Text.StringBuilder stbuilder)
+        public override void WriteContent(System.Text.StringBuilder stbuilder, int start, int length)
         {
+
+#if DEBUG
+            if (start < -1)
+            {
+                throw new System.NotSupportedException();
+            }
+#endif
+
             switch (this.Kind)
             {
                 case CssRunKind.Space:
@@ -149,12 +157,16 @@ namespace LayoutFarm.HtmlBoxes
                     } break;
             }
         }
+
+
         /// <summary>
         /// Represents this word for debugging purposes
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
+
+
             string txt = this.Text;
 
             return string.Format("{0} ({1} char{2})", txt.Replace(' ', '-').Replace("\n", "\\n"), txt.Length, txt.Length != 1 ? "s" : string.Empty);

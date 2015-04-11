@@ -70,7 +70,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         public void ClearSelection()
-        {   
+        {
             if (this.selectedLines != null)
             {
                 for (int i = selectedLines.Count - 1; i >= 0; --i)
@@ -93,13 +93,123 @@ namespace LayoutFarm.HtmlBoxes
 
         public void CopyText(StringBuilder stbuilder)
         {
-            //copy selected text to stbuilder
-
+            //copy selected text to stbuilder 
             //this version just copy a plain text
             int j = selectedLines.Count;
             for (int i = 0; i < j; ++i)
             {
-                stbuilder.AppendLine(selectedLines[i].ToString());
+                var selLine = selectedLines[i];
+                var selSeg = selLine.SelectionSegment;
+                switch (selSeg.Kind)
+                {
+                    case SelectionSegmentKind.Partial:
+                        {
+                            var startRun = selSeg.StartHitRun;
+                            var endHitRun = selSeg.EndHitRun;
+                            bool autoFirstRun = false;
+                            bool autoLastRun = false;
+
+                            if (startRun == null)
+                            {
+                                startRun = selLine.GetFirstRun();
+                                autoFirstRun = true;
+                            }
+                            if (endHitRun == null)
+                            {
+                                endHitRun = selLine.GetLastRun();
+                                autoLastRun = true;
+                            }
+
+                            if (startRun == endHitRun)
+                            {
+
+                                var rr = startRun as CssTextRun;
+                                if (this.startHitRunCharIndex >= 0)
+                                {
+                                    var alltext = rr.Text;
+                                    var sub1 = alltext.Substring(this.startHitRunCharIndex, this.endHitRunCharIndex - this.startHitRunCharIndex);
+                                    stbuilder.Append(sub1);
+                                }
+                            }
+                            else
+                            {
+                                int runCount = selLine.RunCount;
+                                for (int n = 0; n < runCount; ++n)
+                                {
+                                    //temp fix here!
+                                    //TODO: review this for other cssrun type
+                                    var rr = selLine.GetRun(n) as CssTextRun;
+                                    if (rr == null)
+                                    {
+                                        continue;
+                                    }
+                                    if (rr == startRun)
+                                    {
+                                        var alltext = rr.Text;
+
+                                        if (autoFirstRun)
+                                        {
+
+                                            stbuilder.Append(alltext);
+                                        }
+                                        else
+                                        {
+                                            if (this.startHitRunCharIndex >= 0)
+                                            {
+                                                var sub1 = alltext.Substring(this.startHitRunCharIndex);
+                                                stbuilder.Append(sub1);
+                                            }
+                                        }
+
+                                    }
+                                    else if (rr == endHitRun)
+                                    {
+                                        var alltext = rr.Text;
+                                        if (autoLastRun)
+                                        {
+                                            stbuilder.Append(alltext);
+                                        }
+                                        else
+                                        {
+                                            if (this.endHitRunCharIndex >= 0)
+                                            {
+                                                var sub1 = alltext.Substring(0, this.endHitRunCharIndex);
+                                                stbuilder.Append(sub1);
+                                            }
+                                        }
+                                        //stop
+                                        break;
+                                    }
+                                    else
+                                    {
+
+                                        stbuilder.Append(rr.Text);
+                                    }
+                                }
+                            }
+
+                        } break;
+                    default:
+                        {
+                            int runCount = selLine.RunCount;
+
+                            for (int n = 0; n < runCount; ++n)
+                            {
+                                var r = selLine.GetRun(n) as CssTextRun;
+                                if (r != null)
+                                {
+                                    stbuilder.Append(r.Text);
+                                }
+                            }
+
+                        } break;
+                }
+
+                if (i < j - 1)
+                {
+                    //if not lastline
+                    stbuilder.AppendLine();
+                }
             }
 
         }
@@ -191,9 +301,9 @@ namespace LayoutFarm.HtmlBoxes
                     {
 
                         CssRun endRun = (CssRun)endHit.hitObject;
-                        //if (endRun.Text != null && endRun.Text.Contains("222b"))
-                        //{
-                        //}
+                        if (endRun.Text != null && endRun.Text.Contains("Jose"))
+                        {
+                        }
 
                         int run_sel_index;
                         endRun.FindSelectionPoint(ifonts,
@@ -267,7 +377,7 @@ namespace LayoutFarm.HtmlBoxes
                         } break;
                     case LineCoverage.PartialLine:
                         {
-                            //explore all run in this line  
+
                             linebox.SelectPartialFromStart((int)partialLineRun.Right, this.endHitRun, this.endHitRunCharIndex);
                             selectedLines.Add(linebox);
                         } break;

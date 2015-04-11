@@ -539,24 +539,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 #endif
-
-        ///// <summary>
-        ///// pixel unit
-        ///// </summary>
-        //internal int SelectionStartAt
-        //{
-        //    get;
-        //    set;
-        //}
-        ///// <summary>
-        ///// pixel unit
-        ///// </summary>
-        //internal int SelectionWidth
-        //{
-        //    get;
-        //    set;
-        //}
-
+         
         internal SelectionSegment SelectionSegment
         {
             get;
