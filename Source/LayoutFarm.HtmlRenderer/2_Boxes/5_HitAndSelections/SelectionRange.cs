@@ -198,7 +198,6 @@ namespace LayoutFarm.HtmlBoxes
                 startHitHostLine.Select(startLineBeginSelectionAtPixel, xposOnEndLine - startLineBeginSelectionAtPixel);
                 return; //early exit here ***
             }
-
             //---------------------------------- 
             //select on different line 
             LineWalkVisitor lineWalkVisitor = null;
@@ -220,53 +219,21 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             lineWalkVisitor.SetWalkTargetPosition(endChain.RootGlobalX, endChain.RootGlobalY);
-            //----------------------------------  
-            lineWalkVisitor.Walk(endline, (lineCoverage, linebox) =>
+            lineWalkVisitor.Walk(endline, (lineCoverage, linebox, partialLineRun) =>
             {
                 switch (lineCoverage)
                 {
                     case LineCoverage.EndLine:
-                        {   //found end line  
+                        {
+                            //found end line  
                             linebox.SelectPartialEnd(xposOnEndLine);
                             selectedLines.Add(linebox);
                         } break;
                     case LineCoverage.PartialLine:
                         {
-                            //explore all run in this line 
-                            int j = linebox.RunCount;
-                            bool isOK = false;
-                            for (int i = 0; i < j && !isOK; ++i)
-                            {
-                                var run3 = linebox.GetRun(i) as CssBlockRun;
-                                if (run3 == null) continue;
-                                //recursive here 
-
-                                foreach (var line2 in GetLineWalkDownIter(lineWalkVisitor, run3.ContentBox))
-                                {
-                                    if (line2 == endline)
-                                    {
-                                        //found here!
-                                        //add line outter lnie 
-                                        if (i > 0)
-                                        {
-                                            linebox.SelectPartialEnd((int)linebox.GetRun(i - 1).Right);
-                                            selectedLines.Add(linebox);
-                                        }
-                                        line2.SelectPartialEnd(run_sel_offset);
-                                        selectedLines.Add(line2);
-                                        isOK = true;
-                                        break; //break foreach
-                                    }
-                                    else
-                                    {
-                                        line2.SelectFull();
-                                        selectedLines.Add(line2);
-                                    }
-                                }
-                            }
-
-
-
+                            //explore all run in this line  
+                            linebox.SelectPartialEnd((int)partialLineRun.Right);
+                            selectedLines.Add(linebox);
                         } break;
                     case LineCoverage.FullLine:
                         {
@@ -412,32 +379,59 @@ namespace LayoutFarm.HtmlBoxes
             }
             public void Walk(CssLineBox endLineBox, VisitLineDelegate del)
             {
-                //2 cases , 
+                //2 cases :
+                //1. start with BlockRun 
+                //2. start with LineBox 
+                InnerWalk(endLineBox,
+                          del,
+                          (startBlockRun != null) ?
+                                    GetLineWalkDownIter(this, startBlockRun.ContentBox) :
+                                    GetLineWalkDownAndUpIter(this, startLineBox));
+            }
+            void InnerWalk(CssLineBox endLineBox, VisitLineDelegate del, IEnumerable<CssLineBox> lineIter)
+            {
+                //recursive
 
-                IEnumerable<CssLineBox> lineIter =
-                    (startBlockRun != null) ?
-                        GetLineWalkDownIter(this, startBlockRun.ContentBox) :
-                        GetLineWalkDownAndUpIter(this, startLineBox);
 
                 foreach (var ln in lineIter)
                 {
                     this.currentVisitLineBox = ln;
                     if (ln == endLineBox)
                     {
-                        del(LineCoverage.EndLine, ln);
+                        del(LineCoverage.EndLine, ln, null);
                         //found endline 
                         return;
                     }
                     else if (this.IsWalkTargetInCurrentLineArea())
                     {
-                        del(LineCoverage.PartialLine, ln);
+                        int j = ln.RunCount;
+                        bool isOK = false;
+                        for (int i = 0; i < j && !isOK; ++i)
+                        {
+                            var run3 = ln.GetRun(i) as CssBlockRun;
+                            if (run3 == null) continue;
+
+                            //recursive here 
+                            InnerWalk(endLineBox, del, GetLineWalkDownIter(this, run3.ContentBox));
+
+                            if (i > 0)
+                            {
+                                del(LineCoverage.PartialLine, ln, ln.GetRun(i - 1));
+                            }
+                            isOK = true;
+                            break;
+                        }
                     }
                     else
                     {
-                        del(LineCoverage.FullLine, ln);
+                        del(LineCoverage.FullLine, ln, null);
                     }
                 }
+
+
+
             }
+
             public bool IsWalkTargetInCurrentLineArea()
             {
                 return targetY >= this.globalY &&
@@ -496,48 +490,47 @@ namespace LayoutFarm.HtmlBoxes
                     goto RETRY;
                 }
             }
+
+            static IEnumerable<CssLineBox> GetLineWalkDownIter(LineWalkVisitor visitor, CssBox box)
+            {
+                //recursive
+                float y = visitor.globalY;
+
+                if (box.LineBoxCount > 0)
+                {
+                    foreach (var linebox in box.GetLineBoxIter())
+                    {
+                        visitor.globalY = y + linebox.CachedLineTop;
+                        yield return linebox;
+                    }
+                }
+                else
+                {
+                    //element based
+                    foreach (var childbox in box.GetChildBoxIter())
+                    {
+                        visitor.globalY = y + childbox.LocalY;
+
+                        //recursive
+                        foreach (var linebox in GetLineWalkDownIter(visitor, childbox))
+                        {
+                            yield return linebox;
+                        }
+                    }
+                }
+
+                visitor.globalY = y;
+            }
         }
 
-        delegate void VisitLineDelegate(LineCoverage lineCoverage, CssLineBox linebox);
+        delegate void VisitLineDelegate(LineCoverage lineCoverage, CssLineBox linebox, CssRun partialRun);
 
         enum LineCoverage
         {
             EndLine,
             FullLine,
             PartialLine
-        }
-
-        static IEnumerable<CssLineBox> GetLineWalkDownIter(LineWalkVisitor visitor, CssBox box)
-        {
-            //recursive
-            float y = visitor.globalY;
-
-            if (box.LineBoxCount > 0)
-            {
-                foreach (var linebox in box.GetLineBoxIter())
-                {
-                    visitor.globalY = y + linebox.CachedLineTop;
-                    yield return linebox;
-                }
-            }
-            else
-            {
-                //element based
-                foreach (var childbox in box.GetChildBoxIter())
-                {
-                    visitor.globalY = y + childbox.LocalY;
-
-                    //recursive
-                    foreach (var linebox in GetLineWalkDownIter(visitor, childbox))
-                    {
-                        yield return linebox;
-                    }
-                }
-            }
-
-            visitor.globalY = y;
-        }
-
+        } 
     }
 
     static class CssLineBoxExtension
