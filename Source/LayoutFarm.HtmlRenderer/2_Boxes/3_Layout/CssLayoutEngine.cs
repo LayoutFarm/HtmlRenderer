@@ -702,7 +702,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 //---------------------------------------------------
 
-                if (run.IsSpaces && hostLine.WordCount == 0)
+                if (run.IsSpaces && hostLine.RunCount == 0)
                 {
                     //not add 
                     continue;
@@ -778,7 +778,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="lineBox"></param>
         static void ApplyRightToLeft(CssLineBox lineBox)
         {
-            if (lineBox.WordCount > 0)
+            if (lineBox.RunCount > 0)
             {
 
                 float left = lineBox.GetFirstRun().Left;
@@ -836,7 +836,7 @@ namespace LayoutFarm.HtmlBoxes
         private static void ApplyCenterAlignment(CssLineBox line)
         {
 
-            if (line.WordCount == 0) return;
+            if (line.RunCount == 0) return;
             CssRun lastRun = line.GetLastRun();
             float diff = (line.OwnerBox.GetClientWidth() - lastRun.Right) / 2;
             if (diff > CSS_OFFSET_THRESHOLD)
@@ -856,7 +856,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="line"></param>
         private static void ApplyRightAlignment(CssLineBox line)
         {
-            if (line.WordCount == 0)
+            if (line.RunCount == 0)
             {
                 return;
             }

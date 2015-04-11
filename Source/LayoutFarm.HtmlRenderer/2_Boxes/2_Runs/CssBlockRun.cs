@@ -11,7 +11,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.contentBlockBox = contentBlockBox;
         }
-        public CssBox BlockBox
+        public CssBox ContentBox
         {
             get { return this.contentBlockBox; }
         } 

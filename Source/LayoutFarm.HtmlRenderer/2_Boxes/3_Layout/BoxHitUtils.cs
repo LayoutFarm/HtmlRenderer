@@ -116,7 +116,7 @@ namespace LayoutFarm.HtmlBoxes
                             if (foundRun.Kind == CssRunKind.BlockRun)
                             {
 
-                                HitTest(((CssBlockRun)foundRun).BlockBox, (int)(boxHitLocalX - foundRun.Left), boxHitLocalY, hitChain);
+                                HitTest(((CssBlockRun)foundRun).ContentBox, (int)(boxHitLocalX - foundRun.Left), boxHitLocalY, hitChain);
                             }
                         }
                         //found line box
