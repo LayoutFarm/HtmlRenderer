@@ -38,6 +38,10 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             set { renderElementRect = value; }
         }
 
+        public override void WriteContent(StringBuilder stbuilder, int start, int length)
+        {
+            throw new NotImplementedException();
+        }
 #if DEBUG
         /// <summary>
         /// Represents this word for debugging purposes

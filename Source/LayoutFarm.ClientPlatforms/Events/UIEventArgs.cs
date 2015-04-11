@@ -56,11 +56,18 @@ namespace LayoutFarm.UI
                 return c;
             }
         }
-        public bool IsControlKey
+        public bool IsControlCharacter
         {
             get
             {
                 return Char.IsControl(c);
+            }
+        }
+        public UIKeys KeyCode
+        {
+            get
+            {
+                return (UIKeys)this.KeyData & UIKeys.KeyCode;
             }
         }
     }

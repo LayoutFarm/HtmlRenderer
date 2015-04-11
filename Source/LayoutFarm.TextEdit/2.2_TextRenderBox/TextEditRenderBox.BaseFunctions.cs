@@ -141,7 +141,7 @@ namespace LayoutFarm.Text
         {
             this.SetCaretState(true);
             //------------------------
-            if (e.IsControlKey)
+            if (e.IsControlCharacter)
             {
                 OnKeyDown(e);
 
@@ -363,9 +363,7 @@ namespace LayoutFarm.Text
                 return;
             }
 
-            //mask 
-            UIKeys keycode = (UIKeys)e.KeyData & UIKeys.KeyCode;
-            switch (keycode)
+            switch (e.KeyCode)
             {
                 case UIKeys.Home:
                     {
@@ -402,7 +400,7 @@ namespace LayoutFarm.Text
 
                         EnsureCaretVisible();
 
-                    } break; 
+                    } break;
                 case UIKeys.Delete:
                     {
 
@@ -437,7 +435,7 @@ namespace LayoutFarm.Text
                     {
                         if (textSurfaceEventListener != null)
                         {
-
+                            UIKeys keycode = e.KeyCode;
                             if (keycode >= UIKeys.F1 && keycode <= UIKeys.F12)
                             {
 
@@ -454,7 +452,7 @@ namespace LayoutFarm.Text
             if (e.HasKeyData && e.Ctrl)
             {
 
-                switch (keycode)
+                switch (e.KeyCode)
                 {
                     case UIKeys.C:
                         {
@@ -587,7 +585,7 @@ namespace LayoutFarm.Text
                 isInVerticalPhase = false;
             }
 
-            switch (UIKeys.KeyCode & keyData)
+            switch (e.KeyCode)
             {
                 case UIKeys.Home:
                     {

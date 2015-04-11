@@ -85,7 +85,7 @@ namespace LayoutFarm.CustomWidgets
         }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
-
+            this.Focus();
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseDown(e, htmlRenderBox.CssBox);
         }
@@ -127,16 +127,29 @@ namespace LayoutFarm.CustomWidgets
         }
         void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
-
             e.CurrentContextElement = this;
         }
         void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
-
             e.CurrentContextElement = this;
         }
         protected override void OnKeyUp(UIKeyEventArgs e)
         {
+            if (e.Ctrl)
+            {
+                switch (e.KeyCode)
+                {
+                    case UIKeys.C:
+                        {
+                            //ctrl+ c => copy to clipboard
+                            StringBuilder stbuilder = new StringBuilder();
+                            this.myHtmlCont.CopySelection(stbuilder);
+
+                            LayoutFarm.UI.Clipboard.SetText(stbuilder.ToString());
+
+                        } break;
+                }
+            }
 
             e.CurrentContextElement = this;
         }

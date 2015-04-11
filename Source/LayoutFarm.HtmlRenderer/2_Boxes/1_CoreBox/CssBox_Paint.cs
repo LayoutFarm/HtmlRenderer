@@ -149,16 +149,11 @@ namespace LayoutFarm.HtmlBoxes
 
                         //1.                                 
                         line.PaintBackgroundAndBorder(p);
-
-                        if (line.LineSelectionWidth > 0)
+                         
+                        if (line.SelectionSegment != null)
                         {
-                            p.FillRectangle(Color.LightGray,
-                                line.LineSelectionStart,
-                                0,
-                                line.LineSelectionWidth,
-                                line.CacheLineHeight);
+                            line.SelectionSegment.PaintSelection(p, line); 
                         }
-
                         //2.                                
                         line.PaintRuns(p);
                         //3. 

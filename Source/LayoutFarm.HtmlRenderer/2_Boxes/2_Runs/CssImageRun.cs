@@ -98,6 +98,10 @@ namespace LayoutFarm.HtmlBoxes
             set { _imageRectangle = value; }
         }
 
+        public override void WriteContent(System.Text.StringBuilder stbuilder, int start, int length)
+        {
+             
+        }
 
 #if DEBUG
         /// <summary>

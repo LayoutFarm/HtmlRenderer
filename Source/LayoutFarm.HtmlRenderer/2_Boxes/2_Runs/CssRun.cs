@@ -207,7 +207,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this._y + this._height; }
         }
-        
+
 
         /// <summary>
         /// Gets if the word represents solid content like  image, input control
@@ -248,6 +248,7 @@ namespace LayoutFarm.HtmlBoxes
             get { return null; }
         }
 
+        public abstract void WriteContent(System.Text.StringBuilder stbuilder, int start, int length);
 
 
 
@@ -320,7 +321,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             //get global location              
             float x2, y2;
-            var root = this._hostline.OwnerBox.GetElementGlobalLocation(out x2, out y2);             
+            var root = this._hostline.OwnerBox.GetElementGlobalLocation(out x2, out y2);
             globalX = x2 + this._x;
             globalY = y2 + this._y;
             return root;
