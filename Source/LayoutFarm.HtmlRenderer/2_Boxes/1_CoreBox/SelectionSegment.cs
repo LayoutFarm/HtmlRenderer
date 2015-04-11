@@ -13,7 +13,7 @@ namespace LayoutFarm.HtmlBoxes
 
     class SelectionSegment
     {
-        public static readonly SelectionSegment AllLineSelection = new SelectionSegment();
+        public static readonly SelectionSegment FullLine = new SelectionSegment();
 
         private SelectionSegment()
         {
@@ -22,7 +22,7 @@ namespace LayoutFarm.HtmlBoxes
         public SelectionSegment(int beginAtPixel, int width)
         {
             this.Kind = SelectionSegmentKind.Partial;
-            this.BeginAtPixel = beginAtPixel;
+            this.BeginAtPx = beginAtPixel;
             this.WidthPx = width;
         }
 
@@ -31,7 +31,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
         }
-        public int BeginAtPixel { get; private set; }
+        public int BeginAtPx { get; private set; }
         public int WidthPx { get; private set; }
 
         public int BeginAtCharIndex { get; set; }
@@ -53,7 +53,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 p.FillRectangle(
                  Color.LightGray,
-                 this.BeginAtPixel, 0,
+                 this.BeginAtPx, 0,
                  this.WidthPx,
                 (int)line.CacheLineHeight);
             }

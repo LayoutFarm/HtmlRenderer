@@ -558,7 +558,7 @@ namespace LayoutFarm.HtmlBoxes
             //full line selection 
             //lineBox.SelectionStartAt = 0;
             //lineBox.SelectionWidth = (int)lineBox.CachedLineContentWidth;
-            lineBox.SelectionSegment = SelectionSegment.AllLineSelection;
+            lineBox.SelectionSegment = SelectionSegment.FullLine;
         }
         public static void SelectPartialToEnd(this CssLineBox lineBox, int startAtPx)
         {
