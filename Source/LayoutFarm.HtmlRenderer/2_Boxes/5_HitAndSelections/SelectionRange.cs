@@ -88,7 +88,6 @@ namespace LayoutFarm.HtmlBoxes
             }
             this.startHitRun = this.endHitRun = null;
             this.startHitRunCharIndex = this.endHitRunCharIndex = 0;
-
         }
 
         public void CopyText(StringBuilder stbuilder)
@@ -336,7 +335,7 @@ namespace LayoutFarm.HtmlBoxes
             if (startHitHostLine == endline)
             {
                 this.selectedLines.Add(endline);
-                startHitHostLine.Select(startLineBeginSelectionAtPixel, xposOnEndLine - startLineBeginSelectionAtPixel,
+                startHitHostLine.Select(startLineBeginSelectionAtPixel, xposOnEndLine ,
                         this.startHitRun, this.startHitRunCharIndex,
                         this.endHitRun, this.endHitRunCharIndex);
                 return; //early exit here ***

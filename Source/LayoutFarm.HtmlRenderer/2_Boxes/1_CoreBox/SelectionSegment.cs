@@ -24,6 +24,7 @@ namespace LayoutFarm.HtmlBoxes
             this.Kind = SelectionSegmentKind.Partial;
             this.BeginAtPx = beginAtPixel;
             this.WidthPx = width;
+
         }
 
         public SelectionSegmentKind Kind { get; private set; }
