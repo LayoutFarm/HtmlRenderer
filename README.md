@@ -1,6 +1,6 @@
 #Hello !
 
-![debug view screen](https://github.com/prepare/HTML-Renderer/tree/v_boxmodel/readme_imgs/s01.png)
+![debug view screen](/readme_imgs/s01.png)
 
 I forked this project from https://github.com/ArthurHub/HTML-Renderer (thank you so much)
 
