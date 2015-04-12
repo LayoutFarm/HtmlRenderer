@@ -919,7 +919,8 @@ namespace LayoutFarm.Text
         {
             get
             {
-                return base.InnerContentSize;
+                return internalTextLayerController.CurrentLineArea.Size;
+               
             }
         }
         void EnsureCaretVisible()
@@ -934,9 +935,7 @@ namespace LayoutFarm.Text
                 if (!isMultiLine)
                 {
                     var r = internalTextLayerController.CurrentLineArea;
-                    if (r.Width > 201)
-                    {
-                    }
+                    
                     //Rectangle r = internalTextLayerController.CurrentParentLineArea;
                     if (r.Width >= this.Width)
                     {
