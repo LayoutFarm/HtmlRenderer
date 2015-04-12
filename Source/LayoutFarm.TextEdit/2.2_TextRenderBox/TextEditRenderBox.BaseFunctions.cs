@@ -915,6 +915,13 @@ namespace LayoutFarm.Text
                     }
             }
         }
+        public override Size InnerContentSize
+        {
+            get
+            {
+                return base.InnerContentSize;
+            }
+        }
         void EnsureCaretVisible()
         {
             //----------------------

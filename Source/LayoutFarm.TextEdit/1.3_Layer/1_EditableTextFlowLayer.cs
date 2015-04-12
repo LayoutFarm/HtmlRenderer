@@ -670,7 +670,7 @@ namespace LayoutFarm.Text
 
         }
 
-
+        
         void PerformHorizontalFlowArrange(
             int ownerClientLeft, int ownerClientWidth,
             int ownerClientTop)

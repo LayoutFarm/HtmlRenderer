@@ -134,7 +134,7 @@ namespace LayoutFarm.RenderBoxes
                     } break;
             }
 
-            
+
             SetCalculatedSize(this, finalWidth, finalHeight);
 #if DEBUG
             dbug_ExitTopDownReCalculateContent(this);
@@ -268,7 +268,7 @@ namespace LayoutFarm.RenderBoxes
                 }
             }
         }
-        public Size InnerContentSize
+        public virtual Size InnerContentSize
         {
             get
             {
