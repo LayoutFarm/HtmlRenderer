@@ -467,6 +467,7 @@ namespace LayoutFarm.HtmlBoxes
                         } break;
                     case CssRunKind.Text:
                         {
+
                             if (latestOwner != w.OwnerBox)
                             {
                                 //change
@@ -477,6 +478,7 @@ namespace LayoutFarm.HtmlBoxes
                             }
 
                             CssTextRun textRun = (CssTextRun)w;
+                             
                             var wordPoint = new PointF(w.Left, w.Top);
                             p.DrawText(CssBox.UnsafeGetTextBuffer(w.OwnerBox),
                                textRun.TextStartIndex,

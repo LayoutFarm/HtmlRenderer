@@ -30,7 +30,7 @@ namespace LayoutFarm.HtmlBoxes
             //-----------------------------------------------
             public const int IS_CUSTOM_CSSBOX = 1 << (18 - 1);
             //-----------------------------------------------
-            public const int OVERFLOW_HIDDEN = 1 << (19 - 1);
+            
 
             //-----------------------------------------------
             

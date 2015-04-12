@@ -75,6 +75,7 @@ namespace LayoutFarm.Css
         public const string Oblique = "oblique";
         public const string Outset = "outset";
         public const string Overline = "overline";
+        public const string Page = "page";
         public const string Pre = "pre";
         public const string PreWrap = "pre-wrap";
         public const string PreLine = "pre-line";
