@@ -681,7 +681,7 @@ namespace LayoutFarm.Text
                                 return;
                             }
                         case 1:
-                            {
+                            { 
                                 if (charIndex + 1 >= rCharOffset + currentTextRun.CharacterCount)
                                 {
                                     MoveToNextTextRun();

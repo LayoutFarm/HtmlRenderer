@@ -21,6 +21,7 @@ namespace LayoutFarm.Text
         public EditableTextRun(RootGraphic gfx, char c, TextSpanStyle style)
             : base(gfx)
         {
+            this.spanStyle = style;
             mybuffer = new char[] { c };
             if (c == '\n')
             {
@@ -32,6 +33,7 @@ namespace LayoutFarm.Text
         public EditableTextRun(RootGraphic gfx, string str, TextSpanStyle style)
             : base(gfx)
         {
+            this.spanStyle = style;
             if (str != null && str.Length > 0)
             {
                 mybuffer = str.ToCharArray();
