@@ -215,7 +215,6 @@ namespace LayoutFarm.Css
         Scroll,
         [Map(CssConstants.Auto)]
         Auto,
-
         [Map(CssConstants.Inherit)]
         Inherit
     }

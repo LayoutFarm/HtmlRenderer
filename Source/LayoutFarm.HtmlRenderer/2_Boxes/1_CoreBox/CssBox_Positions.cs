@@ -70,6 +70,7 @@ namespace LayoutFarm.HtmlBoxes
         int _lastCalculationEpisodeNum = 0;
         float _cachedMinimumWidth = 0;
         //------------------------------
+        CssOverflow _cssOverflow;
 
 
         public float LocalX
@@ -175,7 +176,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         internal void ReEvaluateComputedValues(IFonts iFonts, CssBox containingBlock)
         {
-            
+
             //depend on parent
             //1. fonts 
             if (this.ParentBox != null)
@@ -309,14 +310,9 @@ namespace LayoutFarm.HtmlBoxes
             {
                 tmpBoxCompactFlags &= ~BoxFlags.HAS_VISIBLE_BG;
             }
-            if (spec.Overflow == CssOverflow.Hidden)
-            {
-                tmpBoxCompactFlags |= BoxFlags.OVERFLOW_HIDDEN;
-            }
-            else
-            {
-                tmpBoxCompactFlags &= ~BoxFlags.OVERFLOW_HIDDEN;
-            }
+
+            this._cssOverflow = spec.Overflow;
+
             //-----------------------
 
 
@@ -333,6 +329,7 @@ namespace LayoutFarm.HtmlBoxes
 
 
             //---------------------------------------------- 
+            //assign back
             this._boxCompactFlags = tmpBoxCompactFlags;
             //---------------------------------------------- 
 
@@ -394,8 +391,7 @@ namespace LayoutFarm.HtmlBoxes
             this._sizeHeight = height;
         }
         public void SetHeight(float height)
-        {
-
+        { 
             this._sizeHeight = height;
         }
         public void SetWidth(float width)
@@ -424,10 +420,7 @@ namespace LayoutFarm.HtmlBoxes
                 return this._sizeHeight;
             }
         }
-        //-------------------------------------------------------
-        /// <summary>
-        /// Gets the actual height
-        /// </summary>
+
         internal float ExpectedHeight
         {
             get
@@ -442,10 +435,6 @@ namespace LayoutFarm.HtmlBoxes
                 return this._expectedHight;
             }
         }
-
-        /// <summary>
-        /// Gets the actual width 
-        /// </summary>
         internal float ExpectedWidth
         {
             get
@@ -460,6 +449,11 @@ namespace LayoutFarm.HtmlBoxes
 
                 return this._expectedWidth;
             }
+        }
+        internal void SetExpectedContentSize(float expectedW, float expectedH)
+        {
+            this._expectedWidth = expectedW;
+            this._expectedHight = expectedH;
         }
         //---------------------------------------------------------
         internal static void ValidateComputeValues(CssBox box)
