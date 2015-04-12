@@ -72,23 +72,6 @@ namespace LayoutFarm.HtmlBoxes
             bool hasPrevClip = false;
             RectangleF prevClip = RectangleF.Empty;
 
-            switch (this._cssOverflow)
-            {
-                case Css.CssOverflow.Hidden:
-                    {
-                        var expectedW = this.ExpectedWidth;
-                        var expectedH = this.ExpectedHeight;
-                        //clip width 
-                        if (expectedH > 0)
-                        {
-                            if (!(hasPrevClip = p.PushLocalClipArea(expectedW, expectedH)))
-                            {
-                                p.PopLocalClipArea();
-                                return;
-                            }
-                        }
-                    } break;
-            }
             
 
             //---------------------------------------------
@@ -180,8 +163,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                //this.CssDisplay == Css.CssDisplay.InlineBlock ||
-
+                
                 if (this.HasContainingBlockProperty)
                 {
                     p.PushContaingBlock(this);
@@ -199,7 +181,13 @@ namespace LayoutFarm.HtmlBoxes
                             continue;
                         }
                         p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
-                        b.Paint(p);
+
+                        if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
+                        {
+                            b.Paint(p);
+                            p.PopLocalClipArea();
+                        }
+
                         node = node.Next;
                     }
                     p.SetCanvasOrigin(ox, oy);
