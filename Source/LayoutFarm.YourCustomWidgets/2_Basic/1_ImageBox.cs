@@ -68,5 +68,12 @@ namespace LayoutFarm.CustomWidgets
             this.Describe(visitor);
             visitor.EndElement();
         }
+        public override void PerformContentLayout()
+        {
+            if (imageBinder.State == ImageBinderState.Loaded)
+            {
+                this.SetSize(this.imageBinder.ImageWidth, this.imageBinder.ImageHeight); 
+            }
+        }
     }
 }

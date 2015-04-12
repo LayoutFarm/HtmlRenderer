@@ -26,7 +26,7 @@ namespace LayoutFarm.CustomWidgets
             //panel for listview items
             this.panel = new SimpleBox(width, height);
 
-            panel.PanelLayoutKind = BoxContentLayoutKind.VerticalStack;
+            panel.ContentLayoutKind = BoxContentLayoutKind.VerticalStack;
             panel.BackColor = Color.LightGray;
             uiList = new UICollection(this);
             uiList.AddUI(panel);

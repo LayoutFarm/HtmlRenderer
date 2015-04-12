@@ -39,7 +39,7 @@ namespace LayoutFarm
             //--------------------------------
             //test add some content to the ninespace box
             var sampleListView = CreateSampleListView();
-            ninespaceBox.LeftSpace.PanelLayoutKind = BoxContentLayoutKind.VerticalStack;
+            ninespaceBox.LeftSpace.ContentLayoutKind = BoxContentLayoutKind.VerticalStack;
             ninespaceBox.LeftSpace.AddChild(sampleListView);
 
         }

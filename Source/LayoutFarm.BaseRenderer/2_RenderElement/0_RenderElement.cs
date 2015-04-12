@@ -24,6 +24,10 @@ namespace LayoutFarm
 #if DEBUG
             dbug_totalObjectId++;
             dbug_obj_id = dbug_totalObjectId;
+            //if (dbug_obj_id == 57)
+            //{
+
+            //}
             //if(this.dbug_obj_id ==6)
             //{
             //}
@@ -93,7 +97,7 @@ namespace LayoutFarm
         {
             get { return this.parentLink != null; }
         }
-        public virtual RenderElement ParentRenderElement
+        public RenderElement ParentRenderElement
         {
             get
             {
@@ -110,8 +114,14 @@ namespace LayoutFarm
         }
         public static void SetParentLink(RenderElement childElement, IParentLink parentLink)
         {
-
             childElement.parentLink = parentLink;
+#if DEBUG
+            if (childElement.ParentRenderElement == childElement)
+            {
+                //error!
+                throw new NotSupportedException();
+            }
+#endif
         }
         public bool MayHasChild
         {

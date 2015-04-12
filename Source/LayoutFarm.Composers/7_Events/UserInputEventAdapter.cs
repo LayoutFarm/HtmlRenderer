@@ -115,10 +115,7 @@ namespace LayoutFarm.UI
                 e.SourceHitElement = hitInfo.hitElement;
             }
         }
-        void ClearAllFocus()
-        {
-            CurrentKeyboardFocusedElement = null;
-        }
+       
 
         static RenderElement HitTestOnPreviousChain(HitChain hitPointChain, HitChain previousChain, int x, int y)
         {

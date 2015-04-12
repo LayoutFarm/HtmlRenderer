@@ -1,4 +1,4 @@
-﻿//BSD 2014 ,WinterDev 
+﻿//MIT 2014-2015 ,WinterDev
 using System;
 using System.Collections.Generic;
 
@@ -113,6 +113,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             //position x,y relate with (0,0) of its linebox
             hitInfoList.Add(new HitInfo(lineBox, x, y));
+            
         }
         internal void AddHit(CssRun run, int x, int y)
         {

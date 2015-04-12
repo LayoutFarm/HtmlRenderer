@@ -95,11 +95,11 @@ namespace LayoutFarm.Text
         {
             internalTextLayerController.ReplaceLocalContent(nBackspace, t);
         }
-        public void LoadTextRun(IEnumerable<EditableTextSpan> textRuns)
+        public void LoadTextRun(IEnumerable<EditableRun> textRuns)
         {
             internalTextLayerController.LoadTextRun(textRuns);
         }
-        public void ReplaceCurrentLineTextRuns(IEnumerable<EditableTextSpan> textRuns)
+        public void ReplaceCurrentLineTextRuns(IEnumerable<EditableRun> textRuns)
         {
             internalTextLayerController.ReplaceCurrentLineTextRun(textRuns);
         }
@@ -108,7 +108,7 @@ namespace LayoutFarm.Text
         /// </summary>
         /// <param name="lineNum"></param>
         /// <param name="textRuns"></param>
-        public void ReplaceLine(int lineNum, IEnumerable<EditableTextSpan> textRuns)
+        public void ReplaceLine(int lineNum, IEnumerable<EditableRun> textRuns)
         {
             internalTextLayerController.ReplaceLine(lineNum, textRuns);
         }
@@ -129,23 +129,32 @@ namespace LayoutFarm.Text
         {
             this.internalTextLayerController.SplitCurrentLineIntoNewLine();
         }
-        public void AddTextRun(EditableTextSpan textspan)
+        public void AddTextRun(EditableRun textspan)
         {
             internalTextLayerController.AddTextRunToCurrentLine(textspan);
         }
-        public EditableTextSpan CreateNewTextSpan(string str)
+
+        public EditableRun CreateEditableTextRun(string str)
         {
-            var span = new EditableTextSpan(this.Root, str, this.currentSpanStyle);
+
+            var span = new EditableTextRun(this.Root, str, this.currentSpanStyle);
             span.UpdateRunWidth();
             return span;
         }
-        public EditableTextSpan CreateNewTextSpan(char[] charBuffer)
+        public EditableRun CreateEditableTextRun(char[] charBuffer)
         {
-            var span = new EditableTextSpan(this.Root, charBuffer, this.currentSpanStyle);
+            var span = new EditableTextRun(this.Root, charBuffer, this.currentSpanStyle);
             span.UpdateRunWidth();
             return span;
         }
-        public EditableTextSpan CurrentTextRun
+        public EditableRun CreateFreezeTextRun(char[] charBuffer)
+        {
+            var span = new SolidTextRun(this.Root, charBuffer, this.currentSpanStyle);
+            span.UpdateRunWidth();
+            return span;
+        }
+
+        public EditableRun CurrentTextRun
         {
             get
             {

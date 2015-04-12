@@ -11,9 +11,13 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.contentBlockBox = contentBlockBox;
         }
-        public CssBox BlockBox
+        public CssBox ContentBox
         {
             get { return this.contentBlockBox; }
-        } 
+        }
+        public override void WriteContent(System.Text.StringBuilder stbuilder, int start, int length)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

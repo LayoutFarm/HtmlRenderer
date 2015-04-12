@@ -115,7 +115,8 @@ namespace LayoutFarm.HtmlBoxes
                             //4. go deeper for block run
                             if (foundRun.Kind == CssRunKind.BlockRun)
                             {
-                                HitTest(((CssBlockRun)foundRun).BlockBox, boxHitLocalX, boxHitLocalY, hitChain);
+
+                                HitTest(((CssBlockRun)foundRun).ContentBox, (int)(boxHitLocalX - foundRun.Left), boxHitLocalY, hitChain);
                             }
                         }
                         //found line box

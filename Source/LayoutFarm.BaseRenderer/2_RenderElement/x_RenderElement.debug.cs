@@ -147,8 +147,8 @@ namespace LayoutFarm
         {
             Rectangle r = this.RectBounds;
             string output = "{" + r.X + "," + r.Y + "," + r.Width + "," + r.Height +
-                ";dw=" + this.ElementDesiredWidth +
-                ";dh=" + this.ElementDesiredHeight;
+                ";dw=" + this.Width +
+                ";dh=" + this.Height;
             return output;
         }
         protected string dbug_GetLayoutInfo()
@@ -242,9 +242,7 @@ namespace LayoutFarm
         {
             var debugVisualLay = dbugGetLayoutTracer();
             if (debugVisualLay == null) return;
-
-
-
+             
             debugVisualLay.PushVisualElement(v);
             debugVisualLay.WriteInfo(v, ">>TOPDOWN_RECAL_CONTENT ", "-", "&");
 

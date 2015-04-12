@@ -38,6 +38,10 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             set { renderElementRect = value; }
         }
 
+        public override void WriteContent(StringBuilder stbuilder, int start, int length)
+        {
+            throw new NotImplementedException();
+        }
 #if DEBUG
         /// <summary>
         /// Represents this word for debugging purposes
@@ -64,10 +68,6 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 
         internal abstract RenderElement GetParentRenderElement(out int globalX, out int globalY);
 
-        bool LayoutFarm.RenderBoxes.IParentLink.MayHasOverlapChild
-        {
-            get { return false; }
-        }
         RenderElement RenderBoxes.IParentLink.ParentRenderElement
         {
             get
@@ -86,16 +86,16 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             return null;
         }
 
-        string RenderBoxes.IParentLink.dbugGetLinkInfo()
+#if DEBUG
+        string LayoutFarm.RenderBoxes.IParentLink.dbugGetLinkInfo()
         {
             return "";
         }
+#endif
     }
 
     sealed class WrapperInlineCssBox : WrapperCssBoxBase
     {
-
-
         CssExternalRun externalRun;
         public WrapperInlineCssBox(object controller, Css.BoxSpec boxSpec,
             IRootGraphics rootgfx, RenderElement re)
@@ -113,9 +113,11 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             runlist.Add(externalRun);
             CssBox.UnsafeSetContentRuns(this, runlist, false);
             ChangeDisplayType(this, Css.CssDisplay.Inline);
+
             //---------------------------------------------------  
-            LayoutFarm.RenderElement.SetParentLink(wrapper, this);
             LayoutFarm.RenderElement.SetParentLink(re, wrapper);
+            LayoutFarm.RenderElement.SetParentLink(wrapper, this);
+
         }
         public override void Clear()
         {
@@ -348,32 +350,26 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         {
             renderElement.CustomDrawToThisCanvas(canvasPage, updateArea);
         }
-
-        bool RenderBoxes.IParentLink.MayHasOverlapChild
-        {
-            get { return false; }
-        }
-
         RenderElement RenderBoxes.IParentLink.ParentRenderElement
         {
-            get { return this.renderElement; }
+            //yes return this 
+            get { return this; }
         }
-
         void RenderBoxes.IParentLink.AdjustLocation(ref Point p)
         {
             //do nothing
-            //throw new NotImplementedException();
+            
         }
-
         RenderElement RenderBoxes.IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
             return null;
         }
-
-        string RenderBoxes.IParentLink.dbugGetLinkInfo()
+#if DEBUG
+        string LayoutFarm.RenderBoxes.IParentLink.dbugGetLinkInfo()
         {
             return "";
         }
+#endif
     }
 
 

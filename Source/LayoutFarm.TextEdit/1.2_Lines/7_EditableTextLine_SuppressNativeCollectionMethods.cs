@@ -12,31 +12,31 @@ namespace LayoutFarm.Text
     partial class EditableTextLine
     {
         #region Hidden Original Method Do Not Use
-        public new void AddLast(LinkedListNode<EditableTextSpan> visualNode)
+        public new void AddLast(LinkedListNode<EditableRun> visualNode)
         {
             throw new NotSupportedException();
         }
-        public new void Remove(LinkedListNode<EditableTextSpan> visualNode)
+        public new void Remove(LinkedListNode<EditableRun> visualNode)
         {
             throw new NotSupportedException();
         }
-        public new void AddFirst(LinkedListNode<EditableTextSpan> visualNode)
+        public new void AddFirst(LinkedListNode<EditableRun> visualNode)
         {
             throw new NotSupportedException();
         }
-        public new void AddBefore(LinkedListNode<EditableTextSpan> beforequest, EditableTextSpan visualNode)
+        public new void AddBefore(LinkedListNode<EditableRun> beforequest, EditableRun visualNode)
         {
             throw new NotSupportedException();
         }
-        public new void AddBefore(LinkedListNode<EditableTextSpan> beforequest, LinkedListNode<EditableTextSpan> visualNode)
+        public new void AddBefore(LinkedListNode<EditableRun> beforequest, LinkedListNode<EditableRun> visualNode)
         {
             throw new NotSupportedException();
         }
-        public new void AddAfter(LinkedListNode<EditableTextSpan> afternode, EditableTextSpan visualNode)
+        public new void AddAfter(LinkedListNode<EditableRun> afternode, EditableRun visualNode)
         {
             throw new NotSupportedException();
         }
-        public new void AddAfter(LinkedListNode<EditableTextSpan> afternode, LinkedListNode<EditableTextSpan> visualNode)
+        public new void AddAfter(LinkedListNode<EditableRun> afternode, LinkedListNode<EditableRun> visualNode)
         {
             throw new NotSupportedException();
         }

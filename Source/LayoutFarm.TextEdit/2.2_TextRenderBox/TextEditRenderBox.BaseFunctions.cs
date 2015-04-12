@@ -33,8 +33,9 @@ namespace LayoutFarm.Text
             GlobalCaretController.RegisterCaretBlink(rootgfx);
             myCaret = new CaretRenderElement(rootgfx, 2, 17);
             myCaret.TransparentForAllEvents = true;
+
             this.MayHasViewport = true;
-            this.BackgroundColor = Color.Transparent;
+            this.BackgroundColor = Color.White;// Color.Transparent;
 
             this.currentSpanStyle = new TextSpanStyle();
             this.currentSpanStyle.FontInfo = rootgfx.DefaultTextEditFontInfo;
@@ -73,7 +74,38 @@ namespace LayoutFarm.Text
             ts.BoxEvaluateScrollBar();
         }
 
+        public void DoHome(bool pressShitKey)
+        {
+            if (!pressShitKey)
+            {
+                internalTextLayerController.DoHome();
+                internalTextLayerController.CancelSelect();
+            }
+            else
+            {
+                internalTextLayerController.StartSelectIfNoSelection();
+                internalTextLayerController.DoHome();
+                internalTextLayerController.EndSelect();
+            }
 
+            EnsureCaretVisible();
+        }
+        public void DoEnd(bool pressShitKey)
+        {
+            if (!pressShitKey)
+            {
+                internalTextLayerController.DoEnd();
+                internalTextLayerController.CancelSelect();
+            }
+            else
+            {
+                internalTextLayerController.StartSelectIfNoSelection();
+                internalTextLayerController.DoEnd();
+                internalTextLayerController.EndSelect();
+            }
+
+            EnsureCaretVisible();
+        }
 
 
         public Rectangle GetRectAreaOf(int beginlineNum, int beginColumnNum, int endLineNum, int endColumnNum)
@@ -107,7 +139,7 @@ namespace LayoutFarm.Text
         {
             this.SetCaretState(true);
             //------------------------
-            if (e.IsControlKey)
+            if (e.IsControlCharacter)
             {
                 OnKeyDown(e);
 
@@ -229,7 +261,7 @@ namespace LayoutFarm.Text
         {
 
             internalTextLayerController.CancelSelect();
-            EditableTextSpan textRun = this.CurrentTextRun;
+            EditableRun textRun = this.CurrentTextRun;
             if (textRun != null)
             {
                 VisualPointInfo pointInfo = internalTextLayerController.GetCurrentPointInfo();
@@ -329,11 +361,16 @@ namespace LayoutFarm.Text
                 return;
             }
 
-            //mask 
-            UIKeys keycode = (UIKeys)e.KeyData & UIKeys.KeyCode;
-            switch (keycode)
+            switch (e.KeyCode)
             {
-
+                case UIKeys.Home:
+                    {
+                        this.DoHome(e.Shift);
+                    } break;
+                case UIKeys.End:
+                    {
+                        this.DoEnd(e.Shift);
+                    } break;
                 case UIKeys.Back:
                     {
                         if (internalTextLayerController.SelectionRange != null)
@@ -357,43 +394,6 @@ namespace LayoutFarm.Text
                                 TextSurfaceEventListener.NotifyCharactersRemoved(textSurfaceEventListener,
                                     new TextDomEventArgs(internalTextLayerController.updateJustCurrentLine));
                             }
-                        }
-
-                        EnsureCaretVisible();
-
-                    } break;
-                case UIKeys.Home:
-                    {
-
-                        if (!e.Shift)
-                        {
-                            internalTextLayerController.DoHome();
-                            internalTextLayerController.CancelSelect();
-                        }
-                        else
-                        {
-
-                            internalTextLayerController.StartSelectIfNoSelection();
-                            internalTextLayerController.DoHome();
-                            internalTextLayerController.EndSelect();
-                        }
-
-                        EnsureCaretVisible();
-
-                    } break;
-                case UIKeys.End:
-                    {
-                        if (!e.Shift)
-                        {
-                            internalTextLayerController.DoEnd();
-                            internalTextLayerController.CancelSelect();
-                        }
-                        else
-                        {
-                            internalTextLayerController.StartSelectIfNoSelection();
-                            internalTextLayerController.DoEnd();
-                            internalTextLayerController.EndSelect();
-
                         }
 
                         EnsureCaretVisible();
@@ -433,7 +433,7 @@ namespace LayoutFarm.Text
                     {
                         if (textSurfaceEventListener != null)
                         {
-
+                            UIKeys keycode = e.KeyCode;
                             if (keycode >= UIKeys.F1 && keycode <= UIKeys.F12)
                             {
 
@@ -450,7 +450,7 @@ namespace LayoutFarm.Text
             if (e.HasKeyData && e.Ctrl)
             {
 
-                switch (keycode)
+                switch (e.KeyCode)
                 {
                     case UIKeys.C:
                         {
@@ -477,8 +477,8 @@ namespace LayoutFarm.Text
                             {
 
                                 internalTextLayerController.AddTextRunsToCurrentLine(
-                                    new EditableTextSpan[]{ 
-                                        new EditableTextSpan(this.Root,  
+                                    new EditableRun[]{ 
+                                        new EditableTextRun(this.Root,  
                                             Clipboard.GetUnicodeText(), this.CurrentTextSpanStyle)
                                            });
                                 EnsureCaretVisible();
@@ -568,10 +568,8 @@ namespace LayoutFarm.Text
                             //}
 
                         } break;
-
                 }
             }
-
         }
 
         public bool OnProcessDialogKey(UIKeyEventArgs e)
@@ -585,7 +583,7 @@ namespace LayoutFarm.Text
                 isInVerticalPhase = false;
             }
 
-            switch (UIKeys.KeyCode & keyData)
+            switch (e.KeyCode)
             {
                 case UIKeys.Home:
                     {
@@ -917,6 +915,14 @@ namespace LayoutFarm.Text
                     }
             }
         }
+        public override Size InnerContentSize
+        {
+            get
+            {
+                return internalTextLayerController.CurrentLineArea.Size;
+               
+            }
+        }
         void EnsureCaretVisible()
         {
             //----------------------
@@ -928,8 +934,9 @@ namespace LayoutFarm.Text
             {
                 if (!isMultiLine)
                 {
-
-                    Rectangle r = internalTextLayerController.CurrentParentLineArea;
+                    var r = internalTextLayerController.CurrentLineArea;
+                    
+                    //Rectangle r = internalTextLayerController.CurrentParentLineArea;
                     if (r.Width >= this.Width)
                     {
 #if DEBUG
@@ -937,21 +944,20 @@ namespace LayoutFarm.Text
                         dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.ArtVisualTextSurafce_EnsureCaretVisible);
 
 #endif
-
-                        InnerDoTopDownReCalculateContentSize(this);
+                        //SetCalculatedSize(this, r.Width, r.Height);
+                        //InnerDoTopDownReCalculateContentSize(this);
                         this.BoxEvaluateScrollBar();
                         RefreshSnapshotCanvas();
-
 #if DEBUG
                         dbug_EndLayoutTrace();
 #endif
-
                     }
                 }
                 else
                 {
 
                 }
+
                 ScrollBy(textManCaretPos.X - this.Width, 0);
             }
             else if (textManCaretPos.X < 0)

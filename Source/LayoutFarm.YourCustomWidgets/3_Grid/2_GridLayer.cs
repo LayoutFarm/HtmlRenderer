@@ -571,13 +571,13 @@ namespace LayoutFarm.UI
                     var content = cell.ContentElement as RenderElement;
                     if (content != null)
                     {
-                        if (content.ElementDesiredWidth > cellDesiredWidth)
+                        if (content.Width > cellDesiredWidth)
                         {
-                            cellDesiredWidth = content.ElementDesiredWidth;
+                            cellDesiredWidth = content.Width;
                         }
-                        if (content.ElementDesiredHeight > cellDesiredHeight)
+                        if (content.Height > cellDesiredHeight)
                         {
-                            cellDesiredHeight = content.ElementDesiredHeight;
+                            cellDesiredHeight = content.Height;
                         }
                     }
 

@@ -46,7 +46,7 @@ namespace LayoutFarm.HtmlBoxes
         public float MaxWidth { get { return this._maxHeight; } }
         public abstract void ClearPreviousSelection();
         public abstract void SetSelection(SelectionRange selRange);
-         
+        public abstract void CopySelection(System.Text.StringBuilder stbuilder);
 #if DEBUG
         public static int dbugCount02 = 0;
 #endif

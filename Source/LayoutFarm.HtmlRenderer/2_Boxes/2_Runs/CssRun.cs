@@ -207,7 +207,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this._y + this._height; }
         }
-        
+
 
         /// <summary>
         /// Gets if the word represents solid content like  image, input control
@@ -248,6 +248,7 @@ namespace LayoutFarm.HtmlBoxes
             get { return null; }
         }
 
+        public abstract void WriteContent(System.Text.StringBuilder stbuilder, int start, int length);
 
 
 
@@ -264,7 +265,7 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void FindSelectionPoint(IFonts ifonts,
             int offset, out int selectionIndex,
-            out int selectionOffset)
+            out int runSelectionOffset)
         {
 
             int charFit;
@@ -277,7 +278,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         // not a text word - set full selection
                         selectionIndex = -1;
-                        selectionOffset = -1;
+                        runSelectionOffset = -1;
                     } break;
                 case CssRunKind.Text:
                     {
@@ -287,7 +288,7 @@ namespace LayoutFarm.HtmlBoxes
                             this.OwnerBox.ActualFont, maxWidth, out charFit, out charFitWidth);
 
                         selectionIndex = charFit;
-                        selectionOffset = charFitWidth;
+                        runSelectionOffset = charFitWidth;
                     } break;
                 case CssRunKind.Space:
                     {
@@ -299,12 +300,12 @@ namespace LayoutFarm.HtmlBoxes
                         if (offset > this.Width / 2)
                         {
                             selectionIndex = -1;
-                            selectionOffset = 0;
+                            runSelectionOffset = 0;
                         }
                         else
                         {
                             selectionIndex = 0;
-                            selectionOffset = (int)this.Width;
+                            runSelectionOffset = (int)this.Width;
                         }
                     } break;
                 default:
@@ -320,7 +321,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             //get global location              
             float x2, y2;
-            var root = this._hostline.OwnerBox.GetElementGlobalLocation(out x2, out y2);             
+            var root = this._hostline.OwnerBox.GetElementGlobalLocation(out x2, out y2);
             globalX = x2 + this._x;
             globalY = y2 + this._y;
             return root;

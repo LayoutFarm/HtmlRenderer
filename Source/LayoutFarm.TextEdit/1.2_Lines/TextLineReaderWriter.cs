@@ -36,7 +36,7 @@ namespace LayoutFarm.Text
             }
             return backgroundWriter;
         }
-        public void Reload(IEnumerable<EditableTextSpan> runs)
+        public void Reload(IEnumerable<EditableRun> runs)
         {
             this.TextLayer.Reload(runs);
         }
@@ -70,25 +70,34 @@ namespace LayoutFarm.Text
         }
         public void RemoveSelectedTextRuns(VisualSelectionRange selectionRange)
         {
-            int precutIndex = selectionRange.StartPoint.LineCharIndex; 
+            int precutIndex = selectionRange.StartPoint.LineCharIndex;
             CurrentLine.Remove(selectionRange);
+
+            CurrentLine.TextLineReCalculateActualLineSize();
+            CurrentLine.RefreshInlineArrange();
+
             EnsureCurrentTextRun(precutIndex);
 
         }
 
-        public void ReplaceCurrentLine(IEnumerable<EditableTextSpan> textRuns)
+        public void ReplaceCurrentLine(IEnumerable<EditableRun> textRuns)
         {
             int currentCharIndex = CharIndex;
+
             CurrentLine.ReplaceAll(textRuns);
+
+            CurrentLine.TextLineReCalculateActualLineSize();
+            CurrentLine.RefreshInlineArrange();
+
             EnsureCurrentTextRun(currentCharIndex);
-        } 
+        }
         public void JoinWithNextLine()
         {
             EditableTextLine.InnerDoJoinWithNextLine(this.CurrentLine);
             EnsureCurrentTextRun();
         }
         char Delete()
-        {   
+        {
             if (CurrentTextRun == null)
             {
                 return '\0';
@@ -101,10 +110,10 @@ namespace LayoutFarm.Text
                 }
 
                 char toBeRemovedChar = CurrentChar;
-                EditableTextSpan removingTextRun = CurrentTextRun;
+                EditableRun removingTextRun = CurrentTextRun;
                 int removeIndex = CurrentTextRunCharIndex;
                 CharIndex--;
-                EditableTextSpan.InnerRemove(removingTextRun, removeIndex, 1, false);
+                EditableRun.InnerRemove(removingTextRun, removeIndex, 1, false);
                 if (removingTextRun.CharacterCount == 0)
                 {
                     CurrentLine.Remove(removingTextRun);
@@ -116,7 +125,7 @@ namespace LayoutFarm.Text
                 return toBeRemovedChar;
             }
         }
-        public EditableTextSpan GetCurrentTextRun()
+        public EditableRun GetCurrentTextRun()
         {
             if (CurrentLine.IsBlankLine)
             {
@@ -134,7 +143,7 @@ namespace LayoutFarm.Text
             if (CurrentLine.IsBlankLine)
             {
                 //1. new 
-                EditableTextSpan t = new EditableTextSpan(this.Root,
+                EditableRun t = new EditableTextRun(this.Root,
                     c,
                     this.CurrentSpanStyle);
 
@@ -146,18 +155,16 @@ namespace LayoutFarm.Text
             }
             else
             {
-                EditableTextSpan cRun = CurrentTextRun;
+                EditableRun cRun = CurrentTextRun;
                 if (cRun != null)
                 {
-
                     if (cRun.IsInsertable)
                     {
                         cRun.InsertAfter(CurrentTextRunCharIndex, c);
-
                     }
                     else
                     {
-                        AddTextSpan(new EditableTextSpan(this.Root, c, this.CurrentSpanStyle));
+                        AddTextSpan(new EditableTextRun(this.Root, c, this.CurrentSpanStyle));
                         return;
                     }
                 }
@@ -172,7 +179,7 @@ namespace LayoutFarm.Text
 
             CharIndex++;
         }
-        public void AddTextSpan(EditableTextSpan textRun)
+        public void AddTextSpan(EditableRun textRun)
         {
             if (CurrentLine.IsBlankLine)
             {
@@ -191,16 +198,16 @@ namespace LayoutFarm.Text
                     VisualPointInfo newPointInfo = CurrentLine.Split(GetCurrentPointInfo());
                     if (newPointInfo.IsOnTheBeginOfLine)
                     {
-                        CurrentLine.AddBefore((EditableTextSpan)newPointInfo.TextRun, textRun);
+                        CurrentLine.AddBefore((EditableRun)newPointInfo.TextRun, textRun);
                     }
                     else
                     {
-                        CurrentLine.AddAfter((EditableTextSpan)newPointInfo.TextRun, textRun);
+                        CurrentLine.AddAfter((EditableRun)newPointInfo.TextRun, textRun);
                     }
                     CurrentLine.TextLineReCalculateActualLineSize();
                     CurrentLine.RefreshInlineArrange();
                     EnsureCurrentTextRun(CharIndex + textRun.CharacterCount);
-                    
+
                 }
                 else
                 {
@@ -208,7 +215,7 @@ namespace LayoutFarm.Text
                 }
             }
         }
-        public void ReplaceAllLineContent(EditableTextSpan[] runs)
+        public void ReplaceAllLineContent(EditableRun[] runs)
         {
             int charIndex = CharIndex;
             CurrentLine.Clear();
@@ -241,8 +248,8 @@ namespace LayoutFarm.Text
         public void SplitToNewLine()
         {
 
-            EditableTextSpan lineBreakRun = new EditableTextSpan(this.Root, '\n', this.CurrentSpanStyle);
-            EditableTextSpan currentRun = CurrentTextRun;
+            EditableRun lineBreakRun = new EditableTextRun(this.Root, '\n', this.CurrentSpanStyle);
+            EditableRun currentRun = CurrentTextRun;
             if (CurrentLine.IsBlankLine)
             {
 
@@ -260,7 +267,7 @@ namespace LayoutFarm.Text
                 else
                 {
 
-                    EditableTextSpan rightSplitedPart = EditableTextSpan.InnerRemove(currentRun,
+                    EditableRun rightSplitedPart = EditableRun.InnerRemove(currentRun,
                         CurrentTextRunCharIndex + 1, true);
                     if (rightSplitedPart != null)
                     {
@@ -294,7 +301,6 @@ namespace LayoutFarm.Text
 #if DEBUG
         static int dbugTotalId;
         int dbug_MyId;
-
         public dbugMultiTextManRecorder dbugTextManRecorder;
 #endif
 
@@ -302,9 +308,11 @@ namespace LayoutFarm.Text
         EditableTextLine currentLine;
 
         int currentLineY = 0;
-        EditableTextSpan currentTextRun;
+        EditableRun currentTextRun;
         int charIndex = -1;
-        int caretXPos = 0; int rCharOffset = 0; int rPixelOffset = 0;
+        int caretXPos = 0;
+        int rCharOffset = 0;
+        int rPixelOffset = 0;
         public TextLineReader(EditableTextFlowLayer flowlayer)
         {
 
@@ -349,14 +357,14 @@ namespace LayoutFarm.Text
             }
         }
 
-        protected EditableTextSpan CurrentTextRun
+        protected EditableRun CurrentTextRun
         {
             get
             {
                 return currentTextRun;
             }
         }
-        protected void SetCurrentTextRun(EditableTextSpan r)
+        protected void SetCurrentTextRun(EditableRun r)
         {
             currentTextRun = r;
         }
@@ -391,7 +399,7 @@ namespace LayoutFarm.Text
 #endif
 
 
-            EditableTextSpan nextTextRun = currentTextRun.NextTextRun;
+            EditableRun nextTextRun = currentTextRun.NextTextRun;
             if (nextTextRun != null && !nextTextRun.IsLineBreak)
             {
                 rCharOffset += currentTextRun.CharacterCount;
@@ -411,7 +419,7 @@ namespace LayoutFarm.Text
 
             currentLineY = currentLine.Top;
 
-            currentTextRun = (EditableTextSpan)currentLine.FirstRun;
+            currentTextRun = (EditableRun)currentLine.FirstRun;
             rCharOffset = 0;
             rPixelOffset = 0;
             charIndex = -1;
@@ -437,7 +445,7 @@ namespace LayoutFarm.Text
                     {
                         if (currentTextRun.NextTextRun != null)
                         {
-                            return (currentTextRun.NextTextRun)[0];
+                            return (currentTextRun.NextTextRun).GetChar(0);
                         }
                         else
                         {
@@ -446,7 +454,7 @@ namespace LayoutFarm.Text
                     }
                     else
                     {
-                        return currentTextRun[charIndex - rCharOffset + 1];
+                        return currentTextRun.GetChar(charIndex - rCharOffset + 1);
                     }
                 }
                 else
@@ -468,7 +476,7 @@ namespace LayoutFarm.Text
                     }
                     if (charIndex == rCharOffset + currentTextRun.CharacterCount - 1)
                     {
-                        EditableTextSpan nextRun = currentTextRun.NextTextRun;
+                        EditableRun nextRun = currentTextRun.NextTextRun;
 
                         if (nextRun != null)
                         {
@@ -530,7 +538,7 @@ namespace LayoutFarm.Text
                 }
                 else
                 {
-                    return currentTextRun[charIndex - rCharOffset];
+                    return currentTextRun.GetChar(charIndex - rCharOffset);
                 }
             }
         }
@@ -581,7 +589,7 @@ namespace LayoutFarm.Text
                         int thisTextRunPixelLength = currentTextRun.Width;
                         if (rPixelOffset + thisTextRunPixelLength > value)
                         {
-                            VisualLocationInfo foundLocation = EditableTextSpan.InnerGetCharacterFromPixelOffset(currentTextRun, value - rPixelOffset);
+                            VisualLocationInfo foundLocation = EditableRun.InnerGetCharacterFromPixelOffset(currentTextRun, value - rPixelOffset);
                             if (foundLocation.charIndex == -1)
                             {
                                 if (!(MoveToPreviousTextRun()))
@@ -609,7 +617,7 @@ namespace LayoutFarm.Text
                         {
 
 
-                            VisualLocationInfo foundLocation = EditableTextSpan.InnerGetCharacterFromPixelOffset(currentTextRun, value - rPixelOffset);
+                            VisualLocationInfo foundLocation = EditableRun.InnerGetCharacterFromPixelOffset(currentTextRun, value - rPixelOffset);
                             if (foundLocation.charIndex == -1)
                             {
                                 if (!MoveToPreviousTextRun())
@@ -673,7 +681,7 @@ namespace LayoutFarm.Text
                                 return;
                             }
                         case 1:
-                            {
+                            { 
                                 if (charIndex + 1 >= rCharOffset + currentTextRun.CharacterCount)
                                 {
                                     MoveToNextTextRun();
@@ -709,7 +717,8 @@ namespace LayoutFarm.Text
                                     {
                                         if (rCharOffset + currentTextRun.CharacterCount > value)
                                         {
-                                            charIndex = value; caretXPos = rPixelOffset + currentTextRun.GetRunWidth(charIndex - rCharOffset + 1);
+                                            charIndex = value;
+                                            caretXPos = rPixelOffset + currentTextRun.GetRunWidth(charIndex - rCharOffset + 1);
 
 #if DEBUG
                                             if (dbugTextManRecorder != null)
@@ -816,9 +825,9 @@ namespace LayoutFarm.Text
         {
             currentLine.CopyLineContent(stBuilder);
         }
-        public LinkedList<EditableTextSpan> CopySelectedTextRuns(VisualSelectionRange selectionRange)
+        public LinkedList<EditableRun> CopySelectedTextRuns(VisualSelectionRange selectionRange)
         {
-            LinkedList<EditableTextSpan> output = new LinkedList<EditableTextSpan>();
+            LinkedList<EditableRun> output = new LinkedList<EditableRun>();
             currentLine.Copy(selectionRange, output);
             return output;
         }
