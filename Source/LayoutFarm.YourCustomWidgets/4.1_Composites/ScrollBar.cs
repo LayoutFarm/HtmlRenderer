@@ -178,7 +178,7 @@ namespace LayoutFarm.CustomWidgets
             bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
-             
+
             //MinButton
             SetupMinButtonProperties(bgBox);
             //MaxButton
@@ -580,8 +580,8 @@ namespace LayoutFarm.CustomWidgets
         //----------------------------------------------------------------------- 
         public void SetupScrollBar(ScrollBarCreationParameters creationParameters)
         {
-            this.maxValue = creationParameters.maximum;
-            this.minValue = creationParameters.minmum;
+            this.MaxValue = creationParameters.maximum;
+            this.MinValue = creationParameters.minmum;
 
         }
         public float MaxValue
@@ -761,7 +761,12 @@ namespace LayoutFarm.CustomWidgets
                 {
                     onePixelFor = (double)contentLength / (double)physicalScrollLength;
                 }
-                sc.MaxValue = contentLength - scrollableSurface.ViewportHeight;
+
+                //temp fix 
+                sc.MaxValue = (contentLength > scrollableSurface.ViewportHeight) ?
+                    contentLength - scrollableSurface.ViewportHeight :
+                    0;
+
             });
             //--------------------------------------------------------------------------------------
             //1st evaluate  

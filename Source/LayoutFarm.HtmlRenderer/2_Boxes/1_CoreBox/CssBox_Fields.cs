@@ -177,6 +177,7 @@ namespace LayoutFarm.HtmlBoxes
                         //css3:
                         //a box is explicitly centerer with respect to its containing box
                         //removed from the normal flow entirely***
+                        //TODO: err, revise here again
                         var ancester = FindContainerForCenteredBox();
                         ancester.AppendToAbsoluteLayer(box);
                         
