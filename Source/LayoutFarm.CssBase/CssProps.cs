@@ -13,7 +13,7 @@ namespace LayoutFarm.Css
 
         [Map(CssConstants.InlineBlock)]
         InlineBlock,
- 
+
         [Map(CssConstants.TableRow)]
         TableRow,
         [Map(CssConstants.InlineTable)]
@@ -157,7 +157,7 @@ namespace LayoutFarm.Css
         [Map(CssConstants.Hidden)]
         Hidden,
         [Map(CssConstants.Collapse)]
-        Collapse,  
+        Collapse,
         [Map(CssConstants.Inherit)]
         Inherit
     }
@@ -186,7 +186,9 @@ namespace LayoutFarm.Css
         [Map(CssConstants.Absolute)]
         Absolute,
         [Map(CssConstants.Fixed)]
-        Fixed
+        Fixed,
+        [Map(CssConstants.Center)]
+        Center
     }
 
     public enum CssTextDecoration : byte
