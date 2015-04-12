@@ -72,20 +72,24 @@ namespace LayoutFarm.HtmlBoxes
             bool hasPrevClip = false;
             RectangleF prevClip = RectangleF.Empty;
 
-            if ((this._boxCompactFlags & BoxFlags.OVERFLOW_HIDDEN) != 0)
+            switch (this._cssOverflow)
             {
-                var expectedW = this.ExpectedWidth;
-                var expectedH = this.ExpectedHeight;
-                //clip width 
-                if (expectedH > 0)
-                {
-                    if (!(hasPrevClip = p.PushLocalClipArea(expectedW, expectedH)))
+                case Css.CssOverflow.Hidden:
                     {
-                        p.PopLocalClipArea();
-                        return;
-                    }
-                }
+                        var expectedW = this.ExpectedWidth;
+                        var expectedH = this.ExpectedHeight;
+                        //clip width 
+                        if (expectedH > 0)
+                        {
+                            if (!(hasPrevClip = p.PushLocalClipArea(expectedW, expectedH)))
+                            {
+                                p.PopLocalClipArea();
+                                return;
+                            }
+                        }
+                    } break;
             }
+            
 
             //---------------------------------------------
             if (display != Css.CssDisplay.Inline)
@@ -106,9 +110,7 @@ namespace LayoutFarm.HtmlBoxes
                 //        p.FillRectangle(Color.Green, 0, 0, 10, 10);
                 //        //PaintBackground(p, bound, true, true);
                 //    }
-                //}
-
-
+                //} 
 
                 if (this.HasSomeVisibleBorder)
                 {
@@ -149,10 +151,10 @@ namespace LayoutFarm.HtmlBoxes
 
                         //1.                                 
                         line.PaintBackgroundAndBorder(p);
-                         
+
                         if (line.SelectionSegment != null)
                         {
-                            line.SelectionSegment.PaintSelection(p, line); 
+                            line.SelectionSegment.PaintSelection(p, line);
                         }
                         //2.                                
                         line.PaintRuns(p);

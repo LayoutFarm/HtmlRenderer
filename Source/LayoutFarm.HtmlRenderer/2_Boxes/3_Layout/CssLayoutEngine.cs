@@ -35,8 +35,8 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="imgRun">the image word to measure</param>
         public static void MeasureImageSize(CssImageRun imgRun, LayoutVisitor lay)
         {
-            var width = imgRun.OwnerBox.Width;
-            var height = imgRun.OwnerBox.Height;
+            CssLength width = imgRun.OwnerBox.Width;
+            CssLength height = imgRun.OwnerBox.Height;
 
             bool hasImageTagWidth = width.Number > 0 && width.UnitOrNames == CssUnitOrNames.Pixels;
             bool hasImageTagHeight = height.Number > 0 && height.UnitOrNames == CssUnitOrNames.Pixels;
@@ -269,14 +269,14 @@ namespace LayoutFarm.HtmlBoxes
             int interlineSpace = 0;
 
             //First line box
-            {
-                CssLineBox line = new CssLineBox(hostBlock);
-                hostBlock.AddLineBox(line);
-                //****
-                FlowBoxContentIntoHost(lay, hostBlock, hostBlock,
-                      limitLocalRight, localX,
-                      ref line, ref localX);
-            }
+
+            CssLineBox line = new CssLineBox(hostBlock);
+            hostBlock.AddLineBox(line);
+            //****
+            FlowBoxContentIntoHost(lay, hostBlock, hostBlock,
+                  limitLocalRight, localX,
+                  ref line, ref localX);
+
 
             //**** 
             // if width is not restricted we need to lower it to the actual width
@@ -316,16 +316,33 @@ namespace LayoutFarm.HtmlBoxes
                     localY += linebox.CacheLineHeight + interlineSpace;
                 }
             }
-
-
             //---------------------
+
+            if (!hostBlock.Height.IsAuto)
+            {
+                //assign expected height
+                //not auto then assign expected height
+                var h = CssValueParser.ConvertToPx(hostBlock.Height, lay.LatestContainingBlock.SizeWidth, hostBlock);
+                hostBlock.SetExpectedContentSize(hostBlock.ExpectedWidth, h);
+            }
+            if (!hostBlock.Width.IsAuto)
+            {
+                var w = CssValueParser.ConvertToPx(hostBlock.Width, lay.LatestContainingBlock.SizeWidth, hostBlock);
+                hostBlock.SetExpectedContentSize(w, hostBlock.ExpectedHeight);
+            }
+
             hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
 
-            if (hostBlock.Overflow == CssOverflow.Hidden &&
-                !hostBlock.Height.IsEmptyOrAuto &&
-                hostBlock.SizeHeight > hostBlock.ExpectedHeight)
+            switch (hostBlock.Overflow)
             {
-                hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                case CssOverflow.Hidden:
+                    {
+                        if (!hostBlock.Height.IsEmptyOrAuto &&
+                            hostBlock.SizeHeight > hostBlock.ExpectedHeight)
+                        {
+                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                        }
+                    } break;
             }
         }
         static void PerformLayoutBlocksContext(CssBox box, LayoutVisitor lay)
@@ -432,6 +449,13 @@ namespace LayoutFarm.HtmlBoxes
                     box.SetWidth(width);
                 }
             }
+
+
+            if (!box.Height.IsAuto)
+            {
+                //assign expected height
+            }
+
             box.SetHeight(box.GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock));
 
         }
@@ -724,7 +748,7 @@ namespace LayoutFarm.HtmlBoxes
                         //first
                         cx += b.ActualPaddingLeft;
                         run.SetLocation(cx, 0);
-                        cx = run.Right; 
+                        cx = run.Right;
                     }
                     else if (i == lim)
                     {
@@ -734,7 +758,7 @@ namespace LayoutFarm.HtmlBoxes
                     else
                     {
                         run.SetLocation(cx, 0);
-                        cx = run.Right; 
+                        cx = run.Right;
                     }
                 }
                 //---------------------------------------------------
