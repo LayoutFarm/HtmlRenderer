@@ -18,10 +18,10 @@ namespace LayoutFarm
         {
             MarkHasValidCalculateSize();
         }
-        internal static void SetCalculatedDesiredSize(RenderBoxBase v, int desiredWidth, int desiredHeight)
+        protected static void SetCalculatedSize(RenderBoxBase v, int w, int h)
         {
-            v.b_width = desiredWidth;
-            v.b_height = desiredHeight;
+            v.b_width = w;
+            v.b_height = h;
             v.MarkHasValidCalculateSize();
         }
 

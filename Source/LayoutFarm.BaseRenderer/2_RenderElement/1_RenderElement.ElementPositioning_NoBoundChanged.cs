@@ -156,38 +156,7 @@ namespace LayoutFarm
             {
                 return re.Location;
             }
-        }
-        //-----------------------------------------
-        //TODO: review here ...
-        //need to delete?
-        public int ElementDesiredWidth
-        {
-            get
-            {
-                return this.b_width;
-            }
-        }
-        public int ElementDesiredRight
-        {
-            get
-            {
-                return b_left + this.ElementDesiredWidth;
-            }
-        }
-        public int ElementDesiredBottom
-        {
-            get
-            {
-                return b_top + this.ElementDesiredHeight;
-            }
-        }
-        public int ElementDesiredHeight
-        {
-            get
-            {
-                return b_height;
-            }
-        }
+        } 
         //----------------------------------------------- 
         public bool HasSpecificWidth
         {

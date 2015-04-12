@@ -135,7 +135,7 @@ namespace LayoutFarm.RenderBoxes
             }
 
 
-            SetCalculatedDesiredSize(this, finalWidth, finalHeight);
+            SetCalculatedSize(this, finalWidth, finalHeight);
 #if DEBUG
             dbug_ExitTopDownReCalculateContent(this);
 #endif
@@ -268,7 +268,7 @@ namespace LayoutFarm.RenderBoxes
                 }
             }
         }
-        public Size InnerContentSize
+        public virtual Size InnerContentSize
         {
             get
             {

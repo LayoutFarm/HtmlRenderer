@@ -318,12 +318,12 @@ namespace LayoutFarm.Text
                             vinv_dbug_WriteInfo(dbugVisitorMessage.SKIP, currentRun);
                         }
 #endif
-                        int v_ds_height = currentRun.ElementDesiredHeight;
+                        int v_ds_height = currentRun.Height;
                         if (v_ds_height > maxHeightInRow)
                         {
                             maxHeightInRow = v_ds_height;
                         }
-                        curX += currentRun.ElementDesiredWidth;
+                        curX += currentRun.Width;
                         if (curX > maxWidth)
                         {
                             maxWidth = curX;
@@ -346,12 +346,12 @@ namespace LayoutFarm.Text
                             vinv_dbug_WriteInfo(dbugVisitorMessage.SKIP, currentRun);
                         }
 #endif
-                        int v_ds_height = currentRun.ElementDesiredHeight;
+                        int v_ds_height = currentRun.Height;
                         if (v_ds_height > maxHeightInRow)
                         {
                             maxHeightInRow = v_ds_height;
                         }
-                        curX += currentRun.ElementDesiredWidth;
+                        curX += currentRun.Width;
                         if (curX > maxWidth)
                         {
                             maxWidth = curX;
@@ -570,8 +570,8 @@ namespace LayoutFarm.Text
 #if DEBUG
                         vinv_dbug_BeginSetElementBound(currentRun);
 #endif
-                        int v_desired_width = currentRun.ElementDesiredWidth;
-                        int v_desired_height = currentRun.ElementDesiredHeight;
+                        int v_desired_width = currentRun.Width;
+                        int v_desired_height = currentRun.Height;
                         if (isFirstRunInThisLine)
                         {
 
@@ -670,7 +670,7 @@ namespace LayoutFarm.Text
 
         }
 
-
+        
         void PerformHorizontalFlowArrange(
             int ownerClientLeft, int ownerClientWidth,
             int ownerClientTop)
@@ -716,8 +716,8 @@ namespace LayoutFarm.Text
                     vinv_dbug_BeginSetElementBound(currentRun);
 #endif
 
-                    int v_desired_width = currentRun.ElementDesiredWidth;
-                    int v_desired_height = currentRun.ElementDesiredHeight;
+                    int v_desired_width = currentRun.Width;
+                    int v_desired_height = currentRun.Height;
 
                     if (lastestIsBlock || currentRun.IsBlockElement ||
                        (curX + v_desired_width > ownerClientRight))
