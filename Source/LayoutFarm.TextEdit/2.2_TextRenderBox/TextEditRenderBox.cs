@@ -247,7 +247,8 @@ namespace LayoutFarm.Text
             {
 
                 int old_x = this.ViewportX;
-                int viewportRight = ViewportX + Width; if (viewportRight + dx > innerContentSize.Width)
+                int viewportRight = ViewportX + Width; 
+                if (viewportRight + dx > innerContentSize.Width)
                 {
 
                     if (viewportRight < innerContentSize.Width)

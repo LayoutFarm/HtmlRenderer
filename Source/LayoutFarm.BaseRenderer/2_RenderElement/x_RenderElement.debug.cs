@@ -147,8 +147,8 @@ namespace LayoutFarm
         {
             Rectangle r = this.RectBounds;
             string output = "{" + r.X + "," + r.Y + "," + r.Width + "," + r.Height +
-                ";dw=" + this.ElementDesiredWidth +
-                ";dh=" + this.ElementDesiredHeight;
+                ";dw=" + this.Width +
+                ";dh=" + this.Height;
             return output;
         }
         protected string dbug_GetLayoutInfo()

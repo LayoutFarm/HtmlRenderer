@@ -83,7 +83,6 @@ namespace LayoutFarm.Text
             }
             else
             {
-
                 internalTextLayerController.StartSelectIfNoSelection();
                 internalTextLayerController.DoHome();
                 internalTextLayerController.EndSelect();
@@ -103,7 +102,6 @@ namespace LayoutFarm.Text
                 internalTextLayerController.StartSelectIfNoSelection();
                 internalTextLayerController.DoEnd();
                 internalTextLayerController.EndSelect();
-
             }
 
             EnsureCaretVisible();
@@ -928,8 +926,11 @@ namespace LayoutFarm.Text
             {
                 if (!isMultiLine)
                 {
-
-                    Rectangle r = internalTextLayerController.CurrentParentLineArea;
+                    var r = internalTextLayerController.CurrentLineArea;
+                    if (r.Width > 201)
+                    {
+                    }
+                    //Rectangle r = internalTextLayerController.CurrentParentLineArea;
                     if (r.Width >= this.Width)
                     {
 #if DEBUG
@@ -937,21 +938,20 @@ namespace LayoutFarm.Text
                         dbug_StartLayoutTrace(dbugVisualElementLayoutMsg.ArtVisualTextSurafce_EnsureCaretVisible);
 
 #endif
-
-                        InnerDoTopDownReCalculateContentSize(this);
+                        //SetCalculatedSize(this, r.Width, r.Height);
+                        //InnerDoTopDownReCalculateContentSize(this);
                         this.BoxEvaluateScrollBar();
                         RefreshSnapshotCanvas();
-
 #if DEBUG
                         dbug_EndLayoutTrace();
 #endif
-
                     }
                 }
                 else
                 {
 
                 }
+
                 ScrollBy(textManCaretPos.X - this.Width, 0);
             }
             else if (textManCaretPos.X < 0)

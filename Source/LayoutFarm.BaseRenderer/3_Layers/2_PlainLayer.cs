@@ -155,13 +155,13 @@ namespace LayoutFarm.RenderBoxes
                 {
                     visualElement.TopDownReCalculateContentSize();
                 }
-                int e_desiredRight = visualElement.ElementDesiredRight;
+                int e_desiredRight = visualElement.Right;
 
                 if (local_lineWidth < e_desiredRight)
                 {
                     local_lineWidth = e_desiredRight;
                 }
-                int e_desiredBottom = visualElement.ElementDesiredBottom;
+                int e_desiredBottom = visualElement.Bottom;
                 if (local_lineHeight < e_desiredBottom)
                 {
                     local_lineHeight = e_desiredBottom;
