@@ -337,8 +337,32 @@ namespace LayoutFarm.HtmlBoxes
             {
                 case CssOverflow.Hidden:
                     {
+                        //overflow is clipped
                         if (!hostBlock.Height.IsEmptyOrAuto &&
                             hostBlock.SizeHeight > hostBlock.ExpectedHeight)
+                        {
+                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                        }
+                    } break;
+                case CssOverflow.Scroll:
+                    {
+                        //w3school:
+                        //overflow is clipped
+                        //a scrollbar is added to see the rest of content
+                        if (!hostBlock.Height.IsEmptyOrAuto &&
+                           hostBlock.SizeHeight > hostBlock.ExpectedHeight)
+                        {
+                            
+                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                        }
+                    } break;
+                case CssOverflow.Auto:
+                    {
+                        //w3school:
+                        //overflow is clipped
+                        //a scrollbar 'should be' added to see the rest of content
+                        if (!hostBlock.Height.IsEmptyOrAuto &&
+                           hostBlock.SizeHeight > hostBlock.ExpectedHeight)
                         {
                             hostBlock.SetHeight(hostBlock.ExpectedHeight);
                         }
