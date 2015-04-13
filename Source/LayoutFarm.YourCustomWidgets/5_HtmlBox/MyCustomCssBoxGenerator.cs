@@ -13,7 +13,7 @@ namespace LayoutFarm.CustomWidgets
         public MyCustomCssBoxGenerator(HtmlBoxes.HtmlHost myHost)
         {
             this.myHost = myHost;
-        }
+        } 
         protected override HtmlBoxes.HtmlHost MyHost
         {
             get { return this.myHost; }
@@ -125,7 +125,8 @@ namespace LayoutFarm.CustomWidgets
             }
             return null;
         }
- 
+         
+        
     }
 
 }

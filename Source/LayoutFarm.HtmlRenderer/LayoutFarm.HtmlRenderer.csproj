@@ -62,10 +62,13 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="0_LayoutFarm\4_ImageBinder.cs" />
+    <Compile Include="0_LayoutFarm\1_ImageBinder.cs" />
     <Compile Include="1_Css\BoxSpec.cs" />
     <Compile Include="1_Css\BoxSpec_CopyAndVersioning.cs" />
     <Compile Include="1_Css\CssFeatures.cs" />
+    <Compile Include="2_Boxes\5_HitAndSelections\SelectionSegment.cs" />
+    <Compile Include="2_Boxes\6_BoxDecorators\CssBoxScrollDecorator.cs" />
+    <Compile Include="2_Boxes\1_CoreBox\CssBoxDecorator.cs" />
     <Compile Include="2_Boxes\1_CoreBox\SelectionSegment.cs" />
     <Compile Include="4_Svg\05_SvgDoms\CssBoxSvgRoot.cs" />
     <Compile Include="4_Svg\05_SvgDoms\SvgElements.cs" />

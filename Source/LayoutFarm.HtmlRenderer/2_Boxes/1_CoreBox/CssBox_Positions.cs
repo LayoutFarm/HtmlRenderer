@@ -33,6 +33,10 @@ namespace LayoutFarm.HtmlBoxes
         float _absLayerWidth;
         float _absLayerHeight;
         //----------------------------------
+        int _viewportX;
+        int _viewportY;
+
+
 
         /// <summary>
         /// user's expected height
@@ -399,11 +403,7 @@ namespace LayoutFarm.HtmlBoxes
             this._sizeHeight = height;
         }
         public void SetWidth(float width)
-        {
-#if DEBUG
-
-#endif
-
+        {  
             if (!this.FreezeWidth)
             {
                 this._sizeWidth = width;
@@ -440,8 +440,19 @@ namespace LayoutFarm.HtmlBoxes
                 return this._expectedWidth;
             }
         }
+<<<<<<< HEAD
         internal void SetExpectedContentSize(float expectedW, float expectedH)
         {
+=======
+        internal bool HasExpectedSize
+        {
+            get;
+            private set;
+        }
+        internal void SetExpectedContentSize(float expectedW, float expectedH)
+        {
+            this.HasExpectedSize = true;
+>>>>>>> v_err
             this._expectedWidth = expectedW;
             this._expectedHight = expectedH;
         }
@@ -809,6 +820,16 @@ namespace LayoutFarm.HtmlBoxes
         {
             throw new NotImplementedException();
         }
+
+
+        public int ViewportX { get { return this._viewportX; } }
+        public int ViewportY { get { return this._viewportY; } }
+        public void SetViewport(int viewportX, int viewportY)
+        {
+            this._viewportX = viewportX;
+            this._viewportY = viewportY;
+        }
+    
 
     }
 }

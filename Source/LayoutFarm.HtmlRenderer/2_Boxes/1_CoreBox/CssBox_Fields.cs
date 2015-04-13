@@ -70,8 +70,7 @@ namespace LayoutFarm.HtmlBoxes
         //only in condition 3
         char[] _buffer;
         //----------------------------------------------------    
-
-
+        CssBoxDecorator boxDecorator; 
         internal int RunCount
         {
             get
@@ -180,7 +179,7 @@ namespace LayoutFarm.HtmlBoxes
                         //TODO: err, revise here again
                         var ancester = FindContainerForCenteredBox();
                         ancester.AppendToAbsoluteLayer(box);
-                        
+
                     } break;
                 default:
                     {
@@ -321,7 +320,11 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-
+        public CssBoxDecorator BoxDecorator
+        {
+            get { return this.boxDecorator; }
+            set { this.boxDecorator = value; }
+        }
 
 
 #if DEBUG

@@ -187,16 +187,19 @@ namespace LayoutFarm.HtmlBoxes
                             node = node.Next;
                             continue;
                         }
-
-
+<<<<<<< HEAD
                         p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> v_merge_base_ui
                         if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
                         {
                             b.Paint(p);
                             p.PopLocalClipArea();
                         }
+<<<<<<< HEAD
 =======
                         //if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
                         //{
@@ -206,7 +209,24 @@ namespace LayoutFarm.HtmlBoxes
 
                         b.Paint(p);
 >>>>>>> v_err
+=======
+>>>>>>> v_merge_base_ui
 
+=======
+                        p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);  
+                        if (b.HasExpectedSize)
+                        {
+                            if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
+                            {
+                                b.Paint(p);
+                                p.PopLocalClipArea();
+                            }
+                        }
+                        else
+                        {
+                            b.Paint(p);
+                        }  
+>>>>>>> v_err
                         node = node.Next;
                     }
                     p.SetCanvasOrigin(ox, oy);

@@ -150,6 +150,7 @@ namespace LayoutFarm.HtmlBoxes
         //------------------------------------------------------------------
         protected abstract void OnRequestImage(ImageBinder binder,
             object reqFrom, bool _sync);
+        protected abstract void OnRequestScrollViewDecorator(CssBox reqFrom, bool _sync);
 
         internal void RaiseImageRequest(
             ImageBinder binder,
@@ -159,6 +160,12 @@ namespace LayoutFarm.HtmlBoxes
             //TODO: sync or async?
             OnRequestImage(binder, reqBy, false);
         }
+
+        internal void RaiseScrollViewDecoratorRequest(CssBox requestFrom)
+        { 
+            OnRequestScrollViewDecorator(requestFrom, false);
+        }
+
         public abstract void ContainerInvalidateGraphics();
         internal void UpdateSizeIfWiderOrHigher(float newWidth, float newHeight)
         {
