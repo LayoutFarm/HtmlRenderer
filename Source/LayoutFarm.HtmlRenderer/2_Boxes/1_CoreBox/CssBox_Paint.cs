@@ -72,20 +72,6 @@ namespace LayoutFarm.HtmlBoxes
             bool hasPrevClip = false;
             RectangleF prevClip = RectangleF.Empty;
 
-            if ((this._boxCompactFlags & BoxFlags.OVERFLOW_HIDDEN) != 0)
-            {
-                var expectedW = this.ExpectedWidth;
-                var expectedH = this.ExpectedHeight;
-                //clip width 
-                if (expectedH > 0)
-                {
-                    if (!(hasPrevClip = p.PushLocalClipArea(expectedW, expectedH)))
-                    {
-                        p.PopLocalClipArea();
-                        return;
-                    }
-                }
-            }
 
             //---------------------------------------------
             if (display != Css.CssDisplay.Inline)
@@ -149,10 +135,10 @@ namespace LayoutFarm.HtmlBoxes
 
                         //1.                                 
                         line.PaintBackgroundAndBorder(p);
-                         
+
                         if (line.SelectionSegment != null)
                         {
-                            line.SelectionSegment.PaintSelection(p, line); 
+                            line.SelectionSegment.PaintSelection(p, line);
                         }
                         //2.                                
                         line.PaintRuns(p);
@@ -178,7 +164,6 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                //this.CssDisplay == Css.CssDisplay.InlineBlock ||
 
                 if (this.HasContainingBlockProperty)
                 {
@@ -196,8 +181,18 @@ namespace LayoutFarm.HtmlBoxes
                             node = node.Next;
                             continue;
                         }
+
+
                         p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
+
+                        //if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
+                        //{
+                        //    b.Paint(p);
+                        //    p.PopLocalClipArea();
+                        //}
+
                         b.Paint(p);
+
                         node = node.Next;
                     }
                     p.SetCanvasOrigin(ox, oy);

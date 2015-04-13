@@ -175,7 +175,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         internal void ReEvaluateComputedValues(IFonts iFonts, CssBox containingBlock)
         {
-            
+
             //depend on parent
             //1. fonts 
             if (this.ParentBox != null)
@@ -309,15 +309,8 @@ namespace LayoutFarm.HtmlBoxes
             {
                 tmpBoxCompactFlags &= ~BoxFlags.HAS_VISIBLE_BG;
             }
-            if (spec.Overflow == CssOverflow.Hidden)
-            {
-                tmpBoxCompactFlags |= BoxFlags.OVERFLOW_HIDDEN;
-            }
-            else
-            {
-                tmpBoxCompactFlags &= ~BoxFlags.OVERFLOW_HIDDEN;
-            }
-            //-----------------------
+
+
 
 
             if (spec.WordSpacing.IsNormalWordSpacing)
@@ -432,13 +425,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-#if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
                 return this._expectedHight;
             }
         }
@@ -450,16 +436,14 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-#if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
 
                 return this._expectedWidth;
             }
+        }
+        internal void SetExpectedContentSize(float expectedW, float expectedH)
+        {
+            this._expectedWidth = expectedW;
+            this._expectedHight = expectedH;
         }
         //---------------------------------------------------------
         internal static void ValidateComputeValues(CssBox box)

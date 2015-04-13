@@ -269,14 +269,14 @@ namespace LayoutFarm.HtmlBoxes
             int interlineSpace = 0;
 
             //First line box
-            {
-                CssLineBox line = new CssLineBox(hostBlock);
-                hostBlock.AddLineBox(line);
-                //****
-                FlowBoxContentIntoHost(lay, hostBlock, hostBlock,
-                      limitLocalRight, localX,
-                      ref line, ref localX);
-            }
+
+            CssLineBox line = new CssLineBox(hostBlock);
+            hostBlock.AddLineBox(line);
+            //****
+            FlowBoxContentIntoHost(lay, hostBlock, hostBlock,
+                  limitLocalRight, localX,
+                  ref line, ref localX);
+
 
             //**** 
             // if width is not restricted we need to lower it to the actual width
@@ -321,12 +321,47 @@ namespace LayoutFarm.HtmlBoxes
             //---------------------
             hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
 
-            if (hostBlock.Overflow == CssOverflow.Hidden &&
-                !hostBlock.Height.IsEmptyOrAuto &&
-                hostBlock.SizeHeight > hostBlock.ExpectedHeight)
+
+
+
+            if (!hostBlock.Height.IsAuto)
             {
-                hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                var h = CssValueParser.ConvertToPx(hostBlock.Height, lay.LatestContainingBlock.SizeWidth, hostBlock);
+                hostBlock.SetExpectedContentSize(hostBlock.ExpectedWidth, h);
             }
+            if (!hostBlock.Width.IsAuto)
+            {
+                var w = CssValueParser.ConvertToPx(hostBlock.Width, lay.LatestContainingBlock.SizeWidth, hostBlock);
+                hostBlock.SetExpectedContentSize(w, hostBlock.ExpectedHeight);
+            }
+
+            switch (hostBlock.Overflow)
+            {
+                case CssOverflow.Hidden:
+                    {
+                        if (!hostBlock.Height.IsEmptyOrAuto &&
+                             hostBlock.SizeHeight > hostBlock.ExpectedHeight)
+                        {
+                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                        }
+                    } break;
+                case CssOverflow.Scroll:
+                    {
+                        if (!hostBlock.Height.IsEmptyOrAuto &&
+                               hostBlock.SizeHeight > hostBlock.ExpectedHeight)
+                        {
+                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                        }
+                    } break;
+                case CssOverflow.Auto:
+                    {
+                        if (!hostBlock.Height.IsEmptyOrAuto &&
+                               hostBlock.SizeHeight > hostBlock.ExpectedHeight)
+                        {
+                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                        }
+                    } break;
+            } 
         }
         static void PerformLayoutBlocksContext(CssBox box, LayoutVisitor lay)
         {
@@ -724,7 +759,7 @@ namespace LayoutFarm.HtmlBoxes
                         //first
                         cx += b.ActualPaddingLeft;
                         run.SetLocation(cx, 0);
-                        cx = run.Right; 
+                        cx = run.Right;
                     }
                     else if (i == lim)
                     {
@@ -734,7 +769,7 @@ namespace LayoutFarm.HtmlBoxes
                     else
                     {
                         run.SetLocation(cx, 0);
-                        cx = run.Right; 
+                        cx = run.Right;
                     }
                 }
                 //---------------------------------------------------
