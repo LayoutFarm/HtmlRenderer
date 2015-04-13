@@ -334,6 +334,7 @@ namespace LayoutFarm.HtmlBoxes
 
             hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
 
+<<<<<<< HEAD
             switch (hostBlock.Overflow)
             {
                 case CssOverflow.Hidden:
@@ -371,7 +372,49 @@ namespace LayoutFarm.HtmlBoxes
                             hostBlock.SetHeight(hostBlock.ExpectedHeight);
                         }
                     } break;
+=======
+
+
+
+            if (!hostBlock.Height.IsAuto)
+            {
+                var h = CssValueParser.ConvertToPx(hostBlock.Height, lay.LatestContainingBlock.SizeWidth, hostBlock);
+                hostBlock.SetExpectedContentSize(hostBlock.ExpectedWidth, h);
             }
+            if (!hostBlock.Width.IsAuto)
+            {
+                var w = CssValueParser.ConvertToPx(hostBlock.Width, lay.LatestContainingBlock.SizeWidth, hostBlock);
+                hostBlock.SetExpectedContentSize(w, hostBlock.ExpectedHeight);
+>>>>>>> v_err
+            }
+
+            switch (hostBlock.Overflow)
+            {
+                case CssOverflow.Hidden:
+                    {
+                        if (!hostBlock.Height.IsEmptyOrAuto &&
+                             hostBlock.SizeHeight > hostBlock.ExpectedHeight)
+                        {
+                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                        }
+                    } break;
+                case CssOverflow.Scroll:
+                    {
+                        if (!hostBlock.Height.IsEmptyOrAuto &&
+                               hostBlock.SizeHeight > hostBlock.ExpectedHeight)
+                        {
+                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                        }
+                    } break;
+                case CssOverflow.Auto:
+                    {
+                        if (!hostBlock.Height.IsEmptyOrAuto &&
+                               hostBlock.SizeHeight > hostBlock.ExpectedHeight)
+                        {
+                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                        }
+                    } break;
+            } 
         }
         static void PerformLayoutBlocksContext(CssBox box, LayoutVisitor lay)
         {

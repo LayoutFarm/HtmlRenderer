@@ -300,11 +300,16 @@ namespace LayoutFarm.HtmlBoxes
                     {
 
                         CssRun endRun = (CssRun)endHit.hitObject;
+<<<<<<< HEAD
 
                         //if (endRun.Text != null && 
                         //    endRun.Text.Contains("01234567890L"))
                         //{
 
+=======
+                        //if (endRun.Text != null && endRun.Text.Contains("Jose"))
+                        //{
+>>>>>>> v_err
                         //}
 
                         int run_sel_index;

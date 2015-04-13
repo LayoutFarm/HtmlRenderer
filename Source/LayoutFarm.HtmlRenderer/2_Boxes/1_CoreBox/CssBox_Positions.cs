@@ -33,6 +33,10 @@ namespace LayoutFarm.HtmlBoxes
         float _absLayerWidth;
         float _absLayerHeight;
         //----------------------------------
+        int _viewportX;
+        int _viewportY;
+
+
 
         /// <summary>
         /// user's expected height
@@ -311,9 +315,13 @@ namespace LayoutFarm.HtmlBoxes
                 tmpBoxCompactFlags &= ~BoxFlags.HAS_VISIBLE_BG;
             }
 
+<<<<<<< HEAD
             this._cssOverflow = spec.Overflow;
 
             //-----------------------
+=======
+
+>>>>>>> v_err
 
 
             if (spec.WordSpacing.IsNormalWordSpacing)
@@ -421,13 +429,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-#if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
                 return this._expectedHight;
             }
         }
@@ -435,19 +436,23 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-#if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
 
                 return this._expectedWidth;
             }
         }
+<<<<<<< HEAD
         internal void SetExpectedContentSize(float expectedW, float expectedH)
         {
+=======
+        internal bool HasExpectedSize
+        {
+            get;
+            private set;
+        }
+        internal void SetExpectedContentSize(float expectedW, float expectedH)
+        {
+            this.HasExpectedSize = true;
+>>>>>>> v_err
             this._expectedWidth = expectedW;
             this._expectedHight = expectedH;
         }
@@ -815,6 +820,16 @@ namespace LayoutFarm.HtmlBoxes
         {
             throw new NotImplementedException();
         }
+
+
+        public int ViewportX { get { return this._viewportX; } }
+        public int ViewportY { get { return this._viewportY; } }
+        public void SetViewport(int viewportX, int viewportY)
+        {
+            this._viewportX = viewportX;
+            this._viewportY = viewportY;
+        }
+    
 
     }
 }
