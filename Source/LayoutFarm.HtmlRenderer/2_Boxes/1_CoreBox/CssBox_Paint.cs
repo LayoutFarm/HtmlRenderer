@@ -181,17 +181,24 @@ namespace LayoutFarm.HtmlBoxes
                             node = node.Next;
                             continue;
                         }
-
-
                         p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
 
-                        //if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
-                        //{
-                        //    b.Paint(p);
-                        //    p.PopLocalClipArea();
-                        //}
 
-                        b.Paint(p);
+                        if (b.HasExpectedSize)
+                        {
+                            if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
+                            {
+                                b.Paint(p);
+                                p.PopLocalClipArea();
+                            }
+                        }
+                        else
+                        {
+                            b.Paint(p);
+                        }
+                       
+
+                        
 
                         node = node.Next;
                     }

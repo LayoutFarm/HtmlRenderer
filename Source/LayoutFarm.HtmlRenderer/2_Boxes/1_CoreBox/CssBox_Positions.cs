@@ -440,8 +440,14 @@ namespace LayoutFarm.HtmlBoxes
                 return this._expectedWidth;
             }
         }
+        internal bool HasExpectedSize
+        {
+            get;
+            private set;
+        }
         internal void SetExpectedContentSize(float expectedW, float expectedH)
         {
+            this.HasExpectedSize = true;
             this._expectedWidth = expectedW;
             this._expectedHight = expectedH;
         }
