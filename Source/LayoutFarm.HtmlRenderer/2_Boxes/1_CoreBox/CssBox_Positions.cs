@@ -33,6 +33,10 @@ namespace LayoutFarm.HtmlBoxes
         float _absLayerWidth;
         float _absLayerHeight;
         //----------------------------------
+        int _viewportX;
+        int _viewportY;
+
+
 
         /// <summary>
         /// user's expected height
@@ -815,6 +819,16 @@ namespace LayoutFarm.HtmlBoxes
         {
             throw new NotImplementedException();
         }
+
+
+        public int ViewportX { get { return this._viewportX; } }
+        public int ViewportY { get { return this._viewportY; } }
+        public void SetViewport(int viewportX, int viewportY)
+        {
+            this._viewportX = viewportX;
+            this._viewportY = viewportY;
+        }
+    
 
     }
 }

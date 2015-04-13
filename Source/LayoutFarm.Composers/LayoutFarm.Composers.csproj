@@ -51,6 +51,17 @@
     <Compile Include="1_Composers\1_Builder\ContentTextSplitter.cs" />
     <Compile Include="1_Composers\2_Css\SpecSetter.cs" />
     <Compile Include="1_Composers\1_Builder\BoxCreator.cs" />
+    <Compile Include="1_Composers\6_CssBoxDecorators\MyCssBoxDecorator.cs" />
+    <Compile Include="1_Composers\6_CssBoxDecorators\ScrollComponents.cs" />
+    <Compile Include="1_Composers\7_UIElements\1_UIElement.cs" />
+    <Compile Include="1_Composers\7_UIElements\2_UIElement_EventListener.cs" />
+    <Compile Include="1_Composers\7_UIElements\3_UIBox.cs" />
+    <Compile Include="1_Composers\7_UIElements\4_UICollection.cs" />
+    <Compile Include="1_Composers\7_UIElements\5_IScrollable.cs" />
+    <Compile Include="1_Composers\7_UIElements\7_EaseBox.cs" />
+    <Compile Include="1_Composers\7_UIElements\CustomRenderElements.cs" />
+    <Compile Include="1_Composers\7_UIElements\RenderElementExtension.cs" />
+    <Compile Include="1_Composers\7_UIElements\ScrollBar.cs" />
     <Compile Include="4_WebDom\HtmlDocument.cs" />
     <Compile Include="1_Composers\5_RenderBoxes\HtmlRenderBox.cs" />
     <Compile Include="7_Events\HtmlInputEventAdapter.cs" />

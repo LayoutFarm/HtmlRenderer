@@ -181,9 +181,7 @@ namespace LayoutFarm.HtmlBoxes
                             node = node.Next;
                             continue;
                         }
-                        p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
-
-
+                        p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);  
                         if (b.HasExpectedSize)
                         {
                             if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
@@ -195,11 +193,7 @@ namespace LayoutFarm.HtmlBoxes
                         else
                         {
                             b.Paint(p);
-                        }
-                       
-
-                        
-
+                        }  
                         node = node.Next;
                     }
                     p.SetCanvasOrigin(ox, oy);
