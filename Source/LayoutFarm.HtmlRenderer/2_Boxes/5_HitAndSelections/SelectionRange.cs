@@ -300,16 +300,8 @@ namespace LayoutFarm.HtmlBoxes
                     {
 
                         CssRun endRun = (CssRun)endHit.hitObject;
-<<<<<<< HEAD
-
-                        //if (endRun.Text != null && 
-                        //    endRun.Text.Contains("01234567890L"))
-                        //{
-
-=======
                         //if (endRun.Text != null && endRun.Text.Contains("Jose"))
                         //{
->>>>>>> v_err
                         //}
 
                         int run_sel_index;
@@ -343,7 +335,7 @@ namespace LayoutFarm.HtmlBoxes
             if (startHitHostLine == endline)
             {
                 this.selectedLines.Add(endline);
-                startHitHostLine.Select(startLineBeginSelectionAtPixel, xposOnEndLine,
+                startHitHostLine.Select(startLineBeginSelectionAtPixel, xposOnEndLine ,
                         this.startHitRun, this.startHitRunCharIndex,
                         this.endHitRun, this.endHitRunCharIndex);
                 return; //early exit here ***

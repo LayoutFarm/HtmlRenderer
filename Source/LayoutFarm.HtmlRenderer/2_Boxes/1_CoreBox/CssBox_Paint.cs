@@ -72,10 +72,6 @@ namespace LayoutFarm.HtmlBoxes
             bool hasPrevClip = false;
             RectangleF prevClip = RectangleF.Empty;
 
-<<<<<<< HEAD
-            
-=======
->>>>>>> v_err
 
             //---------------------------------------------
             if (display != Css.CssDisplay.Inline)
@@ -96,7 +92,9 @@ namespace LayoutFarm.HtmlBoxes
                 //        p.FillRectangle(Color.Green, 0, 0, 10, 10);
                 //        //PaintBackground(p, bound, true, true);
                 //    }
-                //} 
+                //}
+
+
 
                 if (this.HasSomeVisibleBorder)
                 {
@@ -166,11 +164,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-<<<<<<< HEAD
-                
-=======
 
->>>>>>> v_err
                 if (this.HasContainingBlockProperty)
                 {
                     p.PushContaingBlock(this);
@@ -187,32 +181,6 @@ namespace LayoutFarm.HtmlBoxes
                             node = node.Next;
                             continue;
                         }
-<<<<<<< HEAD
-                        p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> v_merge_base_ui
-                        if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
-                        {
-                            b.Paint(p);
-                            p.PopLocalClipArea();
-                        }
-<<<<<<< HEAD
-=======
-                        //if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
-                        //{
-                        //    b.Paint(p);
-                        //    p.PopLocalClipArea();
-                        //}
-
-                        b.Paint(p);
->>>>>>> v_err
-=======
->>>>>>> v_merge_base_ui
-
-=======
                         p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);  
                         if (b.HasExpectedSize)
                         {
@@ -226,7 +194,6 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             b.Paint(p);
                         }  
->>>>>>> v_err
                         node = node.Next;
                     }
                     p.SetCanvasOrigin(ox, oy);

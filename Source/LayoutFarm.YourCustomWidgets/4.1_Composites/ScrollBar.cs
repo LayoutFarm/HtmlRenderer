@@ -89,7 +89,9 @@ namespace LayoutFarm.CustomWidgets
                     return this.Width - (this.minmax_boxHeight + this.minmax_boxHeight);
                 }
             }
-        } 
+        }
+
+
 
         public void StepSmallToMax()
         {

@@ -35,8 +35,8 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="imgRun">the image word to measure</param>
         public static void MeasureImageSize(CssImageRun imgRun, LayoutVisitor lay)
         {
-            CssLength width = imgRun.OwnerBox.Width;
-            CssLength height = imgRun.OwnerBox.Height;
+            var width = imgRun.OwnerBox.Width;
+            var height = imgRun.OwnerBox.Height;
 
             bool hasImageTagWidth = width.Number > 0 && width.UnitOrNames == CssUnitOrNames.Pixels;
             bool hasImageTagHeight = height.Number > 0 && height.UnitOrNames == CssUnitOrNames.Pixels;
@@ -316,63 +316,11 @@ namespace LayoutFarm.HtmlBoxes
                     localY += linebox.CacheLineHeight + interlineSpace;
                 }
             }
+
+
             //---------------------
-
-            if (!hostBlock.Height.IsAuto)
-            {
-
-                //assign expected height
-                //not auto then assign expected height
-                var h = CssValueParser.ConvertToPx(hostBlock.Height, lay.LatestContainingBlock.SizeWidth, hostBlock);
-                hostBlock.SetExpectedContentSize(hostBlock.ExpectedWidth, h);
-            }
-            if (!hostBlock.Width.IsAuto)
-            {
-                var w = CssValueParser.ConvertToPx(hostBlock.Width, lay.LatestContainingBlock.SizeWidth, hostBlock);
-                hostBlock.SetExpectedContentSize(w, hostBlock.ExpectedHeight);
-            }
-
             hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
 
-<<<<<<< HEAD
-            switch (hostBlock.Overflow)
-            {
-                case CssOverflow.Hidden:
-                    {
-                        //overflow is clipped
-                        if (!hostBlock.Height.IsEmptyOrAuto &&
-                            hostBlock.SizeHeight > hostBlock.ExpectedHeight)
-                        {
-                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
-                        }
-                    } break;
-                case CssOverflow.Scroll:
-                    {
-                        //w3school:
-                        //overflow is clipped
-                        //a scrollbar is added to see the rest of content
-                        if (!hostBlock.Height.IsEmptyOrAuto &&
-                           hostBlock.SizeHeight > hostBlock.ExpectedHeight)
-                        {
-                            //request scrollbar decorator
-                            //adjust size for scrollview ***                            
-                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
-                            lay.RequestScrollViewDecorator(hostBlock);
-                        }
-                    } break;
-                case CssOverflow.Auto:
-                    {
-                        //w3school:
-                        //overflow is clipped
-                        //a scrollbar 'should be' added to see the rest of content
-                        if (!hostBlock.Height.IsEmptyOrAuto &&
-                           hostBlock.SizeHeight > hostBlock.ExpectedHeight)
-                        {
-                            //request scroll decorator
-                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
-                        }
-                    } break;
-=======
 
 
 
@@ -385,7 +333,6 @@ namespace LayoutFarm.HtmlBoxes
             {
                 var w = CssValueParser.ConvertToPx(hostBlock.Width, lay.LatestContainingBlock.SizeWidth, hostBlock);
                 hostBlock.SetExpectedContentSize(w, hostBlock.ExpectedHeight);
->>>>>>> v_err
             }
 
             switch (hostBlock.Overflow)
@@ -520,13 +467,6 @@ namespace LayoutFarm.HtmlBoxes
                     box.SetWidth(width);
                 }
             }
-
-
-            if (!box.Height.IsAuto)
-            {
-                //assign expected height
-            }
-
             box.SetHeight(box.GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock));
 
         }

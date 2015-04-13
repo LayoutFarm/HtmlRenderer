@@ -208,13 +208,14 @@ namespace LayoutFarm.Css
     public enum CssOverflow : byte
     {
         [Map(CssConstants.Visible)]
-        Visible, //default
+        Visible,
         [Map(CssConstants.Hidden)]
         Hidden,
         [Map(CssConstants.Scroll)]
         Scroll,
         [Map(CssConstants.Auto)]
         Auto,
+
         [Map(CssConstants.Inherit)]
         Inherit
     }

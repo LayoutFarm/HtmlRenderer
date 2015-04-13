@@ -135,7 +135,7 @@ namespace LayoutFarm.HtmlBoxes
                 return (this._boxCompactFlags & BoxFlags.IS_CUSTOM_CSSBOX) != 0;
             }
         }
-
+        
         /// <summary>
         /// is the box "Display" is "Inline", is this is an inline box and not block.
         /// </summary>
@@ -398,11 +398,11 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="g">Device context to use</param>
         public void PerformLayout(LayoutVisitor lay)
-        {
+        {   
             //derived class can perform its own layout algo            
             //by override performContentLayout 
             PerformContentLayout(lay);
-        }
+        } 
         /// <summary>
         /// Measures the bounds of box and children, recursively.<br/>
         /// Performs layout of the DOM structure creating lines by set bounds restrictions.<br/>
@@ -410,8 +410,8 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">Device context to use</param>
         protected virtual void PerformContentLayout(LayoutVisitor lay)
         {
-
-
+             
+            
             switch (this.CssDisplay)
             {
                 case Css.CssDisplay.None:
@@ -437,7 +437,7 @@ namespace LayoutFarm.HtmlBoxes
                         // 2) block formatting context  
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
-
+                        
                         //for general block layout 
                         CssLayoutEngine.PerformContentLayout(this, lay);
 
@@ -480,7 +480,7 @@ namespace LayoutFarm.HtmlBoxes
                 //this has background
                 if (this.BackgroundImageBinder.State == ImageBinderState.Unload)
                 {
-                    lay.RequestImage(this, this.BackgroundImageBinder);
+                    lay.RequestImage(this.BackgroundImageBinder, this);
                 }
             }
 
@@ -721,28 +721,13 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             float margin = 0;
-            if (ParentBox != null &&
-                this.IsLastChild &&
-                cbBox.ActualMarginBottom < 0.1)
+            if (ParentBox != null && this.IsLastChild && cbBox.ActualMarginBottom < 0.1)
             {
                 var lastChildBottomMargin = _aa_boxes.GetLastChild().ActualMarginBottom;
-<<<<<<< HEAD
-                margin = (Height.IsAuto) ? 
-<<<<<<< HEAD
-                    Math.Max(ActualMarginBottom, lastChildBottomMargin) : 
-=======
-<<<<<<< HEAD
-                margin = (Height.IsAuto) ?
-                    Math.Max(ActualMarginBottom, lastChildBottomMargin) :
->>>>>>> v_merge_base_ui
-                    lastChildBottomMargin;
-=======
                 margin = (Height.IsAuto) ? 
                     Math.Max(ActualMarginBottom, lastChildBottomMargin)
                     : lastChildBottomMargin;
->>>>>>> v_err
             }
-
             return _aa_boxes.GetLastChild().LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
 
             //must have at least 1 child 

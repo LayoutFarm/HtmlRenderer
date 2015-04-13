@@ -14,13 +14,6 @@ namespace LayoutFarm.HtmlBoxes
     class ScrollComponent
     {
         //create special scroll component
-<<<<<<< HEAD
-        CssBox scrollView;
-        MyCssBoxDescorator myCssBoxDecor;
-        public ScrollComponent(MyCssBoxDescorator myCssBoxDecor)
-        {
-            this.myCssBoxDecor = myCssBoxDecor;
-=======
         CssScrollWrapper scrollView;
         MyCssBoxDescorator myCssBoxDecor;
         ScrollBar scBar;
@@ -34,14 +27,11 @@ namespace LayoutFarm.HtmlBoxes
             scBar = new ScrollBar((int)cssbox.SizeWidth, (int)cssbox.SizeHeight);
 
 
->>>>>>> v_err
         }
         public void EvaluateScrollBar()
         {
 
         }
-<<<<<<< HEAD
-=======
 
         class CssScrollWrapper : IScrollable
         {
@@ -93,6 +83,5 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
->>>>>>> v_err
     }
 }

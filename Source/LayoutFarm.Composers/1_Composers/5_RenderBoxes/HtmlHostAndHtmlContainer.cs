@@ -170,7 +170,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             return null;
         }
-
+        //---------------------------------------------------
     }
 
     public delegate void HtmlContainerUpdateHandler(HtmlContainer htmlCont);
@@ -288,7 +288,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
         public override void SetSelection(SelectionRange selRange)
-        {
+        {   
             this._currentSelectionRange = selRange;
         }
         public override void CopySelection(StringBuilder stbuilder)
@@ -314,34 +314,6 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this.htmlhost.ChildRequestImage(binder, this, reqFrom, _sync);
             }
-        }
-        protected override void OnRequestScrollViewDecorator(CssBox reqFrom, bool _sync)
-        {
-            //TODO: review this again !
-            //create scrollview decorator             
-            MyCssBoxDescorator boxDecorator = null;
-            if (reqFrom.BoxDecorator == null)
-            {
-                reqFrom.BoxDecorator = boxDecorator = new MyCssBoxDescorator(reqFrom);
-            }
-            else
-            {
-                boxDecorator = (MyCssBoxDescorator)reqFrom.BoxDecorator;
-            }
-
-            ScrollComponent scrollComponent = null;
-            if (boxDecorator.ScrollComponent == null)
-            {
-                boxDecorator.ScrollComponent = scrollComponent = new ScrollComponent(boxDecorator);
-            }
-            else
-            {
-                scrollComponent = boxDecorator.ScrollComponent;
-            }
-
-
-
-
 
         }
         /// <summary>

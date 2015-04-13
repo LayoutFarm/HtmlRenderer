@@ -89,7 +89,7 @@ namespace LayoutFarm.HtmlBoxes
                 latestClip,
                 new Rectangle(0, 0, (int)w, (int)h));
             this.latestClip = intersectResult;
-            
+
             //ig.DrawRectangle(Pens.Red, intersectResult.X, intersectResult.Y, intersectResult.Width, intersectResult.Height);
             canvas.SetClipRect(intersectResult);
             return !intersectResult.IsEmpty;
@@ -138,7 +138,16 @@ namespace LayoutFarm.HtmlBoxes
                         img.Width, img.Height);
                 }
             }
-        } 
+        }
+        //internal void RequestImage(ImageBinder binder, CssBox requestFrom, ReadyStateChangedHandler handler)
+        //{
+        //    HtmlRenderer.HtmlContainer.RaiseRequestImage(
+        //           this.container,
+        //           binder,
+        //           requestFrom,
+        //           false);
+        //}
+        //=========================================================
 
         public int CanvasOriginX
         {

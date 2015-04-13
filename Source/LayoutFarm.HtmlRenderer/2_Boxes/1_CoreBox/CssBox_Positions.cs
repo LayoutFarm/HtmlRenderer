@@ -74,7 +74,6 @@ namespace LayoutFarm.HtmlBoxes
         int _lastCalculationEpisodeNum = 0;
         float _cachedMinimumWidth = 0;
         //------------------------------
-        CssOverflow _cssOverflow;
 
 
         public float LocalX
@@ -315,13 +314,7 @@ namespace LayoutFarm.HtmlBoxes
                 tmpBoxCompactFlags &= ~BoxFlags.HAS_VISIBLE_BG;
             }
 
-<<<<<<< HEAD
-            this._cssOverflow = spec.Overflow;
 
-            //-----------------------
-=======
-
->>>>>>> v_err
 
 
             if (spec.WordSpacing.IsNormalWordSpacing)
@@ -337,7 +330,6 @@ namespace LayoutFarm.HtmlBoxes
 
 
             //---------------------------------------------- 
-            //assign back
             this._boxCompactFlags = tmpBoxCompactFlags;
             //---------------------------------------------- 
 
@@ -399,11 +391,16 @@ namespace LayoutFarm.HtmlBoxes
             this._sizeHeight = height;
         }
         public void SetHeight(float height)
-        { 
+        {
+
             this._sizeHeight = height;
         }
         public void SetWidth(float width)
-        {  
+        {
+#if DEBUG
+
+#endif
+
             if (!this.FreezeWidth)
             {
                 this._sizeWidth = width;
@@ -424,7 +421,10 @@ namespace LayoutFarm.HtmlBoxes
                 return this._sizeHeight;
             }
         }
-
+        //-------------------------------------------------------
+        /// <summary>
+        /// Gets the actual height
+        /// </summary>
         internal float ExpectedHeight
         {
             get
@@ -432,6 +432,10 @@ namespace LayoutFarm.HtmlBoxes
                 return this._expectedHight;
             }
         }
+
+        /// <summary>
+        /// Gets the actual width 
+        /// </summary>
         internal float ExpectedWidth
         {
             get
@@ -440,10 +444,6 @@ namespace LayoutFarm.HtmlBoxes
                 return this._expectedWidth;
             }
         }
-<<<<<<< HEAD
-        internal void SetExpectedContentSize(float expectedW, float expectedH)
-        {
-=======
         internal bool HasExpectedSize
         {
             get;
@@ -452,7 +452,6 @@ namespace LayoutFarm.HtmlBoxes
         internal void SetExpectedContentSize(float expectedW, float expectedH)
         {
             this.HasExpectedSize = true;
->>>>>>> v_err
             this._expectedWidth = expectedW;
             this._expectedHight = expectedH;
         }

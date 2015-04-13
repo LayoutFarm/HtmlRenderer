@@ -1,4 +1,4 @@
-//BSD 2014,2015
+//BSD 2014,
 //ArthurHub  , Jose Manuel Menendez Poo
 
 // "Therefore those skilled at the unorthodox

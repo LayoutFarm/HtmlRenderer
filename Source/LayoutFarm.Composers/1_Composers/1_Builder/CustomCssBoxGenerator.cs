@@ -13,7 +13,7 @@ namespace LayoutFarm.Composers
     {
         protected abstract HtmlHost MyHost { get; }
         public abstract CssBox CreateCssBox(LayoutFarm.WebDom.DomElement tag, CssBox parentBox, BoxSpec spec, LayoutFarm.RootGraphic rootgfx);
-         
+
         public CssBox CreateWrapper(object owner, RenderElement renderElement, BoxSpec spec, bool isInline)
         {
             if (isInline)
@@ -25,7 +25,6 @@ namespace LayoutFarm.Composers
                 return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperBlockCssBox(owner, spec, renderElement);
             }
         }
-         
     }
 
    

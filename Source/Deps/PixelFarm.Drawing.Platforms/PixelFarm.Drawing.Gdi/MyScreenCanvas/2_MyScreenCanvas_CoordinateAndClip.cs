@@ -77,14 +77,10 @@ namespace PixelFarm.Drawing.WinGdi
         /// <param name="combineMode">Member of the <see cref="T:System.Drawing.Drawing2D.CombineMode"/> enumeration that specifies the combining operation to use. </param>
         public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
         {
-            ReleaseHdc(); 
+            ReleaseHdc();
 
             gx.SetClip(
-<<<<<<< HEAD
-                    this.currentClipRect = new System.Drawing.Rectangle(
-=======
                this.currentClipRect = new System.Drawing.Rectangle(
->>>>>>> v_err
                     rect.X, rect.Y,
                     rect.Width, rect.Height),
                     (System.Drawing.Drawing2D.CombineMode)combineMode);
