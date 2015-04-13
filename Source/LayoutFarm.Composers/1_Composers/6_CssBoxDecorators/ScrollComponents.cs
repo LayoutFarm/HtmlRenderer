@@ -16,23 +16,36 @@ namespace LayoutFarm.HtmlBoxes
         //create special scroll component
         CssScrollWrapper scrollView;
         MyCssBoxDescorator myCssBoxDecor;
-        ScrollBar scBar;
+        ScrollBar vscbar;
+        ScrollingRelation scRelation;
+        RenderElement vscBarPrimaryRenderE;
+
         public ScrollComponent(MyCssBoxDescorator myCssBoxDecor)
         {
             this.myCssBoxDecor = myCssBoxDecor;
             CssBox cssbox = myCssBoxDecor.TargetBox;
             this.scrollView = new CssScrollWrapper(cssbox);
-            //Create 
 
-            scBar = new ScrollBar((int)cssbox.SizeWidth, (int)cssbox.SizeHeight);
+            //vertical scrollbar
+            var vscbar = new ScrollBar(10, (int)cssbox.SizeHeight);
+            vscbar.SetLocation(0, 0);
+            vscbar.MinValue = 0;
+            vscbar.MaxValue = cssbox.SizeHeight;
+            vscbar.SmallChange = 20;
 
-
+            //add relation between viewpanel and scroll bar 
+            scRelation = new ScrollingRelation(vscbar, scrollView);
+            vscBarPrimaryRenderE = vscbar.GetPrimaryRenderElement((RootGraphic)myCssBoxDecor.TargetBox.RootGfx);
+        }
+        public void Draw(PaintVisitor p)
+        {
+            vscBarPrimaryRenderE.DrawToThisCanvas(p.InnerCanvas,
+                new Rectangle(0, 0, vscbar.Width, vscbar.Height));
         }
         public void EvaluateScrollBar()
         {
 
         }
-
         class CssScrollWrapper : IScrollable
         {
             CssBox cssbox;
@@ -67,19 +80,19 @@ namespace LayoutFarm.HtmlBoxes
             int IScrollable.DesiredHeight
             {
                 //content height of the cssbox
-                get { throw new NotImplementedException(); }
+                get { return cssbox.InnerContentHeight; }
             }
 
             int IScrollable.DesiredWidth
             {
                 //content width of the cssbox
-                get { throw new NotImplementedException(); }
+                get { return cssbox.InnerContentWidth; }
             }
 
             event EventHandler IScrollable.LayoutFinished
             {
-                add { throw new NotImplementedException(); }
-                remove { throw new NotImplementedException(); }
+                add { }
+                remove { }
             }
         }
 

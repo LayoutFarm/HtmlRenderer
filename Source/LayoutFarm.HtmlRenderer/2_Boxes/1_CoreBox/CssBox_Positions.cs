@@ -793,19 +793,19 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// inner content width
         /// </summary>
-        internal int InnerContentWidth
+        public int InnerContentWidth
         {
             get { return this._innerContentW; }
-            set { this._innerContentW = value; }
+            internal set { this._innerContentW = value; }
 
         }
         /// <summary>
         /// inner content height
         /// </summary>
-        internal int InnerContentHeight
+        public int InnerContentHeight
         {
             get { return this._innerContentH; }
-            set { this._innerContentH = value; }
+            internal set { this._innerContentH = value; }
         }
        
         //-----------

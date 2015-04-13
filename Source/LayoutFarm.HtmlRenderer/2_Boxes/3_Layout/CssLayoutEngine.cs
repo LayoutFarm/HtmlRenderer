@@ -351,7 +351,9 @@ namespace LayoutFarm.HtmlBoxes
                         if (!hostBlock.Height.IsEmptyOrAuto &&
                                hostBlock.SizeHeight > hostBlock.ExpectedHeight)
                         {
+                            //send request for scroll bar
                             hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                            lay.RequestScrollView(hostBlock);
                         }
                     } break;
                 case CssOverflow.Auto:
@@ -359,7 +361,9 @@ namespace LayoutFarm.HtmlBoxes
                         if (!hostBlock.Height.IsEmptyOrAuto &&
                                hostBlock.SizeHeight > hostBlock.ExpectedHeight)
                         {
+                            //send request for scroll bar
                             hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                            lay.RequestScrollView(hostBlock);
                         }
                     } break;
             }

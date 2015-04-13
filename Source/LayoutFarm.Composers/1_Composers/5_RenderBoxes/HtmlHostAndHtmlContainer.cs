@@ -288,7 +288,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
         public override void SetSelection(SelectionRange selRange)
-        {   
+        {
             this._currentSelectionRange = selRange;
         }
         public override void CopySelection(StringBuilder stbuilder)
@@ -314,6 +314,21 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this.htmlhost.ChildRequestImage(binder, this, reqFrom, _sync);
             }
+        }
+        protected override void OnRequestScrollView(CssBox box)
+        {
+            MyCssBoxDescorator myBoxDecorator = null;
+            if (box.Decorator == null)
+            {
+                box.Decorator = myBoxDecorator = new MyCssBoxDescorator(box);
+            }
+            else
+            {
+                myBoxDecorator = (MyCssBoxDescorator)box.Decorator;
+            }
+            //2. create scroll component
+            //TODO: review this again
+            myBoxDecorator.ScrollComponent = new ScrollComponent(myBoxDecorator);
 
         }
         /// <summary>

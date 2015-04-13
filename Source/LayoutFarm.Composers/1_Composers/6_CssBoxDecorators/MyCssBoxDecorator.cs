@@ -13,10 +13,24 @@ namespace LayoutFarm.HtmlBoxes
 {
     class MyCssBoxDescorator : CssBoxDecorator
     {
-        
+
         public MyCssBoxDescorator(CssBox targetBox)
         {
             this.TargetBox = targetBox;
+        }
+        public override bool HasTopDecoration
+        {
+            get
+            {
+                return true;
+            }
+        }
+        public override void DrawTopDecoration(PaintVisitor p)
+        {
+            if (this.ScrollComponent != null)
+            {
+
+            }
         }
         public ScrollComponent ScrollComponent
         {
