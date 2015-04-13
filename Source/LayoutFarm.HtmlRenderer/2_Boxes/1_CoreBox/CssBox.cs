@@ -787,16 +787,6 @@ namespace LayoutFarm.HtmlBoxes
             parent.AppendChild(newBox);
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
             return newBox;
-        }
-        public static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
-        {
-            //auto gen by layout engine ***
-            var newBox = new CssBox(null, CssBox.UnsafeGetBoxSpec(parent).GetAnonVersion(), parent.RootGfx);
-            CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Block);
-            parent.InsertChild(insertBefore, newBox);
-            return newBox;
-        }
-        //-----------------------------------------------------------------
-
+        } 
     }
 }
