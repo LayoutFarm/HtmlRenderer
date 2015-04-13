@@ -80,7 +80,7 @@ namespace PixelFarm.Drawing.WinGdi
             ReleaseHdc();
 
             gx.SetClip(
-                new System.Drawing.Rectangle(
+               this.currentClipRect = new System.Drawing.Rectangle(
                     rect.X, rect.Y,
                     rect.Width, rect.Height),
                     (System.Drawing.Drawing2D.CombineMode)combineMode);

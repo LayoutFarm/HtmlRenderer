@@ -300,9 +300,9 @@ namespace LayoutFarm.HtmlBoxes
                     {
 
                         CssRun endRun = (CssRun)endHit.hitObject;
-                        if (endRun.Text != null && endRun.Text.Contains("Jose"))
-                        {
-                        }
+                        //if (endRun.Text != null && endRun.Text.Contains("Jose"))
+                        //{
+                        //}
 
                         int run_sel_index;
                         endRun.FindSelectionPoint(ifonts,
