@@ -727,8 +727,13 @@ namespace LayoutFarm.HtmlBoxes
             {
                 var lastChildBottomMargin = _aa_boxes.GetLastChild().ActualMarginBottom;
                 margin = (Height.IsAuto) ? 
+<<<<<<< HEAD
                     Math.Max(ActualMarginBottom, lastChildBottomMargin) : 
                     lastChildBottomMargin;
+=======
+                    Math.Max(ActualMarginBottom, lastChildBottomMargin)
+                    : lastChildBottomMargin;
+>>>>>>> v_err
             }
 
             return _aa_boxes.GetLastChild().LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;

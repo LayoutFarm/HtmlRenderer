@@ -72,7 +72,10 @@ namespace LayoutFarm.HtmlBoxes
             bool hasPrevClip = false;
             RectangleF prevClip = RectangleF.Empty;
 
+<<<<<<< HEAD
             
+=======
+>>>>>>> v_err
 
             //---------------------------------------------
             if (display != Css.CssDisplay.Inline)
@@ -163,7 +166,11 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
+<<<<<<< HEAD
                 
+=======
+
+>>>>>>> v_err
                 if (this.HasContainingBlockProperty)
                 {
                     p.PushContaingBlock(this);
@@ -180,13 +187,25 @@ namespace LayoutFarm.HtmlBoxes
                             node = node.Next;
                             continue;
                         }
+
+
                         p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
 
+<<<<<<< HEAD
                         if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
                         {
                             b.Paint(p);
                             p.PopLocalClipArea();
                         }
+=======
+                        //if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
+                        //{
+                        //    b.Paint(p);
+                        //    p.PopLocalClipArea();
+                        //}
+
+                        b.Paint(p);
+>>>>>>> v_err
 
                         node = node.Next;
                     }

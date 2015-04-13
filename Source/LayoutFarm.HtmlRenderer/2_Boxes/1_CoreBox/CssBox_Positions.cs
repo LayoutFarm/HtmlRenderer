@@ -311,9 +311,13 @@ namespace LayoutFarm.HtmlBoxes
                 tmpBoxCompactFlags &= ~BoxFlags.HAS_VISIBLE_BG;
             }
 
+<<<<<<< HEAD
             this._cssOverflow = spec.Overflow;
 
             //-----------------------
+=======
+
+>>>>>>> v_err
 
 
             if (spec.WordSpacing.IsNormalWordSpacing)
@@ -425,13 +429,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-#if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
                 return this._expectedHight;
             }
         }
@@ -439,13 +436,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-#if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
 
                 return this._expectedWidth;
             }
