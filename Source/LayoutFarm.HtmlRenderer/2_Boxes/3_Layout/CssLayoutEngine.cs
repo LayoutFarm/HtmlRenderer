@@ -321,15 +321,16 @@ namespace LayoutFarm.HtmlBoxes
             //---------------------
             hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
 
+            //final
+            hostBlock.InnerContentWidth = (int)hostBlock.SizeWidth;
+            hostBlock.InnerContentHeight = (int)hostBlock.SizeHeight;
 
-
-
-            if (!hostBlock.Height.IsAuto)
+            if (!hostBlock.Height.IsEmptyOrAuto)
             {
                 var h = CssValueParser.ConvertToPx(hostBlock.Height, lay.LatestContainingBlock.SizeWidth, hostBlock);
                 hostBlock.SetExpectedContentSize(hostBlock.ExpectedWidth, h);
             }
-            if (!hostBlock.Width.IsAuto)
+            if (!hostBlock.Width.IsEmptyOrAuto)
             {
                 var w = CssValueParser.ConvertToPx(hostBlock.Width, lay.LatestContainingBlock.SizeWidth, hostBlock);
                 hostBlock.SetExpectedContentSize(w, hostBlock.ExpectedHeight);
@@ -361,7 +362,7 @@ namespace LayoutFarm.HtmlBoxes
                             hostBlock.SetHeight(hostBlock.ExpectedHeight);
                         }
                     } break;
-            } 
+            }
         }
         static void PerformLayoutBlocksContext(CssBox box, LayoutVisitor lay)
         {
@@ -659,8 +660,16 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
 
-            srcBox.AbsLayerWidth = maxRight;
-            srcBox.AbsLayerHeight = maxBottom;
+            int i_maxRight = (int)maxRight;
+            int i_maxBottom = (int)maxBottom;
+            if (i_maxRight > srcBox.InnerContentWidth)
+            {
+                srcBox.InnerContentWidth = i_maxRight;
+            }
+            if (i_maxBottom > srcBox.InnerContentHeight)
+            {
+                srcBox.InnerContentHeight = i_maxBottom;
+            }
         }
 
         static void FlowRunsIntoHost(LayoutVisitor lay,

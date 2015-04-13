@@ -30,8 +30,8 @@ namespace LayoutFarm.HtmlBoxes
         float _sizeWidth;
         //----------------------------------
         //absolute layer width,height
-        float _absLayerWidth;
-        float _absLayerHeight;
+        int _innerContentW;
+        int _innerContentH;
         //----------------------------------
         int _viewportX;
         int _viewportY;
@@ -432,7 +432,6 @@ namespace LayoutFarm.HtmlBoxes
                 return this._expectedHight;
             }
         }
-
         /// <summary>
         /// Gets the actual width 
         /// </summary>
@@ -440,21 +439,21 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-
                 return this._expectedWidth;
             }
         }
-        internal bool HasExpectedSize
+        internal bool HasClipArea
         {
             get;
             private set;
         }
         internal void SetExpectedContentSize(float expectedW, float expectedH)
         {
-            this.HasExpectedSize = true;
+            this.HasClipArea = true;
             this._expectedWidth = expectedW;
             this._expectedHight = expectedH;
         }
+
         //---------------------------------------------------------
         internal static void ValidateComputeValues(CssBox box)
         {
@@ -792,22 +791,23 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         /// <summary>
-        /// absolute layer width
+        /// inner content width
         /// </summary>
-        internal float AbsLayerWidth
+        internal int InnerContentWidth
         {
-            get { return this._absLayerWidth; }
-            set { this._absLayerWidth = value; }
+            get { return this._innerContentW; }
+            set { this._innerContentW = value; }
+
         }
         /// <summary>
-        /// absolute layer height
+        /// inner content height
         /// </summary>
-        internal float AbsLayerHeight
+        internal int InnerContentHeight
         {
-            get { return this._absLayerHeight; }
-            set { this._absLayerHeight = value; }
+            get { return this._innerContentH; }
+            set { this._innerContentH = value; }
         }
-
+       
         //-----------
         //if this is custom box then must implement these methods
         public virtual void CustomRecomputedValue(CssBox containingBlock, GraphicsPlatform gfxPlatform)
@@ -828,7 +828,7 @@ namespace LayoutFarm.HtmlBoxes
             this._viewportX = viewportX;
             this._viewportY = viewportY;
         }
-    
+
 
     }
 }

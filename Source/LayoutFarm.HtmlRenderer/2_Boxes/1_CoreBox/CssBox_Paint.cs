@@ -182,7 +182,7 @@ namespace LayoutFarm.HtmlBoxes
                             continue;
                         }
                         p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);  
-                        if (b.HasExpectedSize)
+                        if (b.HasClipArea)
                         {
                             if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
                             {
