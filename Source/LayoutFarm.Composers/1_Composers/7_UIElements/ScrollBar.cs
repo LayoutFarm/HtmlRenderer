@@ -8,20 +8,20 @@ using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 
-namespace LayoutFarm.CustomWidgets
+namespace LayoutFarm.HtmlBoxes
 {
-    public delegate void ScrollBarEvaluator(ScrollBar scBar, out double onePixelFore, out int scrollBoxHeight);
+    delegate void ScrollBarEvaluator(ScrollBar scBar, out double onePixelFore, out int scrollBoxHeight);
 
-    public class ScrollBar : UIBox
+
+
+    class ScrollBar : EaseBox
     {
         CustomRenderBox mainBox;
+
         ScrollBarButton minButton;
         ScrollBarButton maxButton;
         ScrollBarButton scrollButton;
-
         ScrollBarEvaluator customeScrollBarEvaluator;
-
-
 
         float maxValue;
 
@@ -75,7 +75,6 @@ namespace LayoutFarm.CustomWidgets
 
         public int MinMaxButtonHeight { get { return minmax_boxHeight; } }
         public int ScrollBoxSizeLimit { get { return SCROLL_BOX_SIZE_LIMIT; } }
-
         public int PhysicalScrollLength
         {
             get
@@ -89,8 +88,7 @@ namespace LayoutFarm.CustomWidgets
                     return this.Width - (this.minmax_boxHeight + this.minmax_boxHeight);
                 }
             }
-        } 
-
+        }
         public void StepSmallToMax()
         {
 
@@ -157,8 +155,6 @@ namespace LayoutFarm.CustomWidgets
             bgBox.HasSpecificSize = true;
             bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);
-            //---------------------------------------------------------
-
 
             //MinButton
             SetupMinButtonProperties(bgBox);
@@ -176,6 +172,7 @@ namespace LayoutFarm.CustomWidgets
             bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
+
 
             //MinButton
             SetupMinButtonProperties(bgBox);
@@ -206,7 +203,6 @@ namespace LayoutFarm.CustomWidgets
             }
             min_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
             min_button.MouseUp += (s, e) => this.StepSmallToMin();
-
             container.AddChild(min_button);
             this.minButton = min_button;
         }
@@ -234,7 +230,7 @@ namespace LayoutFarm.CustomWidgets
         //---------------------------------------------------------------------------
         //vertical scrollbar
 
-        public void ReEvaluateScrollBar()
+        internal void ReEvaluateScrollBar()
         {
             if (this.scrollButton == null)
             {
@@ -567,7 +563,6 @@ namespace LayoutFarm.CustomWidgets
                     {
                         this.UserScroll(this, EventArgs.Empty);
                     }
-
                     e.StopPropagation();
                 }
             };
@@ -578,8 +573,8 @@ namespace LayoutFarm.CustomWidgets
         //----------------------------------------------------------------------- 
         public void SetupScrollBar(ScrollBarCreationParameters creationParameters)
         {
-            this.MaxValue = creationParameters.maximum;
-            this.MinValue = creationParameters.minmum;
+            this.maxValue = creationParameters.maximum;
+            this.minValue = creationParameters.minmum;
 
         }
         public float MaxValue
@@ -654,15 +649,9 @@ namespace LayoutFarm.CustomWidgets
                 this.StepSmallToMin();
             }
         }
-        public override void Walk(UIVisitor visitor)
-        {
-            visitor.BeginElement(this, "scrollbar");
-            this.Describe(visitor);
-            visitor.EndElement();
-        }
     }
 
-    public class ScrollBarCreationParameters
+    class ScrollBarCreationParameters
     {
         public Rectangle elementBound;
         public Size arrowBoxSize;
@@ -675,7 +664,7 @@ namespace LayoutFarm.CustomWidgets
     }
 
 
-    public enum ScrollBarType
+    enum ScrollBarType
     {
         Vertical,
         Horizontal
@@ -701,18 +690,11 @@ namespace LayoutFarm.CustomWidgets
             this.OwnerScrollBar.ChildNotifyMouseWheel(e);
         }
 
-        public override void Walk(UIVisitor visitor)
-        {
-            visitor.BeginElement(this, "scrollbutton");
-            this.Describe(visitor);
-            visitor.EndElement();
-        }
-
     }
 
 
 
-    public class ScrollingRelation
+    class ScrollingRelation
     {
         ScrollBar scBar;
         IScrollable scrollableSurface;
@@ -747,7 +729,7 @@ namespace LayoutFarm.CustomWidgets
                 int contentLength = scrollableSurface.DesiredHeight;
                 if (contentLength == 0)
                 {
-                    return;
+                    contentLength = 1;
                 }
                 scrollBoxLength = (int)((physicalScrollLength * scrollableSurface.ViewportHeight) / contentLength);
                 if (scrollBoxLength < sc.ScrollBoxSizeLimit)
@@ -759,12 +741,7 @@ namespace LayoutFarm.CustomWidgets
                 {
                     onePixelFor = (double)contentLength / (double)physicalScrollLength;
                 }
-
-                //temp fix 
-                sc.MaxValue = (contentLength > scrollableSurface.ViewportHeight) ?
-                    contentLength - scrollableSurface.ViewportHeight :
-                    0;
-
+                sc.MaxValue = contentLength - scrollableSurface.ViewportHeight;
             });
             //--------------------------------------------------------------------------------------
             //1st evaluate  
@@ -794,7 +771,6 @@ namespace LayoutFarm.CustomWidgets
                 scrollBoxLength = 1;
                 //1. 
                 int contentLength = scrollableSurface.DesiredWidth;
-                if (contentLength == 0) return;
                 scrollBoxLength = (int)((physicalScrollLength * scrollableSurface.ViewportWidth) / contentLength);
                 if (scrollBoxLength < sc.ScrollBoxSizeLimit)
                 {
@@ -823,7 +799,6 @@ namespace LayoutFarm.CustomWidgets
             {
                 scrollableSurface.SetViewport((int)scBar.ScrollValue, scrollableSurface.ViewportY);
             };
-
         }
     }
 }

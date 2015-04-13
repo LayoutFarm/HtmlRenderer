@@ -395,11 +395,7 @@ namespace LayoutFarm.HtmlBoxes
             this._sizeHeight = height;
         }
         public void SetWidth(float width)
-        {
-#if DEBUG
-
-#endif
-
+        {  
             if (!this.FreezeWidth)
             {
                 this._sizeWidth = width;
