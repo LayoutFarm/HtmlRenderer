@@ -721,16 +721,13 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             float margin = 0;
-            if (ParentBox != null && 
-                this.IsLastChild && 
-                cbBox.ActualMarginBottom < 0.1)
+            if (ParentBox != null && this.IsLastChild && cbBox.ActualMarginBottom < 0.1)
             {
                 var lastChildBottomMargin = _aa_boxes.GetLastChild().ActualMarginBottom;
                 margin = (Height.IsAuto) ? 
-                    Math.Max(ActualMarginBottom, lastChildBottomMargin) : 
-                    lastChildBottomMargin;
+                    Math.Max(ActualMarginBottom, lastChildBottomMargin)
+                    : lastChildBottomMargin;
             }
-
             return _aa_boxes.GetLastChild().LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
 
             //must have at least 1 child 

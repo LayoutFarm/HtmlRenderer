@@ -78,7 +78,7 @@ namespace PixelFarm.Drawing.WinGdi
         public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
         {
             gx.SetClip(
-                new System.Drawing.Rectangle(
+               this.currentClipRect = new System.Drawing.Rectangle(
                     rect.X, rect.Y,
                     rect.Width, rect.Height),
                     (System.Drawing.Drawing2D.CombineMode)combineMode);

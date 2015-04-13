@@ -35,8 +35,8 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="imgRun">the image word to measure</param>
         public static void MeasureImageSize(CssImageRun imgRun, LayoutVisitor lay)
         {
-            CssLength width = imgRun.OwnerBox.Width;
-            CssLength height = imgRun.OwnerBox.Height;
+            var width = imgRun.OwnerBox.Width;
+            var height = imgRun.OwnerBox.Height;
 
             bool hasImageTagWidth = width.Number > 0 && width.UnitOrNames == CssUnitOrNames.Pixels;
             bool hasImageTagHeight = height.Number > 0 && height.UnitOrNames == CssUnitOrNames.Pixels;
@@ -316,12 +316,16 @@ namespace LayoutFarm.HtmlBoxes
                     localY += linebox.CacheLineHeight + interlineSpace;
                 }
             }
+
+
             //---------------------
+            hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
+
+
+
 
             if (!hostBlock.Height.IsAuto)
             {
-                //assign expected height
-                //not auto then assign expected height
                 var h = CssValueParser.ConvertToPx(hostBlock.Height, lay.LatestContainingBlock.SizeWidth, hostBlock);
                 hostBlock.SetExpectedContentSize(hostBlock.ExpectedWidth, h);
             }
@@ -331,19 +335,33 @@ namespace LayoutFarm.HtmlBoxes
                 hostBlock.SetExpectedContentSize(w, hostBlock.ExpectedHeight);
             }
 
-            hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
-
             switch (hostBlock.Overflow)
             {
                 case CssOverflow.Hidden:
                     {
                         if (!hostBlock.Height.IsEmptyOrAuto &&
-                            hostBlock.SizeHeight > hostBlock.ExpectedHeight)
+                             hostBlock.SizeHeight > hostBlock.ExpectedHeight)
                         {
                             hostBlock.SetHeight(hostBlock.ExpectedHeight);
                         }
                     } break;
-            }
+                case CssOverflow.Scroll:
+                    {
+                        if (!hostBlock.Height.IsEmptyOrAuto &&
+                               hostBlock.SizeHeight > hostBlock.ExpectedHeight)
+                        {
+                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                        }
+                    } break;
+                case CssOverflow.Auto:
+                    {
+                        if (!hostBlock.Height.IsEmptyOrAuto &&
+                               hostBlock.SizeHeight > hostBlock.ExpectedHeight)
+                        {
+                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                        }
+                    } break;
+            } 
         }
         static void PerformLayoutBlocksContext(CssBox box, LayoutVisitor lay)
         {
@@ -449,13 +467,6 @@ namespace LayoutFarm.HtmlBoxes
                     box.SetWidth(width);
                 }
             }
-
-
-            if (!box.Height.IsAuto)
-            {
-                //assign expected height
-            }
-
             box.SetHeight(box.GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock));
 
         }

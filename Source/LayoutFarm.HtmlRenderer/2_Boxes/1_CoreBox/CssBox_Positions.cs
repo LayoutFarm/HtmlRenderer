@@ -33,6 +33,10 @@ namespace LayoutFarm.HtmlBoxes
         float _absLayerWidth;
         float _absLayerHeight;
         //----------------------------------
+        int _viewportX;
+        int _viewportY;
+
+
 
         /// <summary>
         /// user's expected height
@@ -70,7 +74,6 @@ namespace LayoutFarm.HtmlBoxes
         int _lastCalculationEpisodeNum = 0;
         float _cachedMinimumWidth = 0;
         //------------------------------
-        CssOverflow _cssOverflow;
 
 
         public float LocalX
@@ -311,9 +314,7 @@ namespace LayoutFarm.HtmlBoxes
                 tmpBoxCompactFlags &= ~BoxFlags.HAS_VISIBLE_BG;
             }
 
-            this._cssOverflow = spec.Overflow;
 
-            //-----------------------
 
 
             if (spec.WordSpacing.IsNormalWordSpacing)
@@ -329,7 +330,6 @@ namespace LayoutFarm.HtmlBoxes
 
 
             //---------------------------------------------- 
-            //assign back
             this._boxCompactFlags = tmpBoxCompactFlags;
             //---------------------------------------------- 
 
@@ -391,7 +391,8 @@ namespace LayoutFarm.HtmlBoxes
             this._sizeHeight = height;
         }
         public void SetHeight(float height)
-        { 
+        {
+
             this._sizeHeight = height;
         }
         public void SetWidth(float width)
@@ -420,38 +421,37 @@ namespace LayoutFarm.HtmlBoxes
                 return this._sizeHeight;
             }
         }
-
+        //-------------------------------------------------------
+        /// <summary>
+        /// Gets the actual height
+        /// </summary>
         internal float ExpectedHeight
         {
             get
             {
-#if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
                 return this._expectedHight;
             }
         }
+
+        /// <summary>
+        /// Gets the actual width 
+        /// </summary>
         internal float ExpectedWidth
         {
             get
             {
-#if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
 
                 return this._expectedWidth;
             }
         }
+        internal bool HasExpectedSize
+        {
+            get;
+            private set;
+        }
         internal void SetExpectedContentSize(float expectedW, float expectedH)
         {
+            this.HasExpectedSize = true;
             this._expectedWidth = expectedW;
             this._expectedHight = expectedH;
         }
@@ -819,6 +819,16 @@ namespace LayoutFarm.HtmlBoxes
         {
             throw new NotImplementedException();
         }
+
+
+        public int ViewportX { get { return this._viewportX; } }
+        public int ViewportY { get { return this._viewportY; } }
+        public void SetViewport(int viewportX, int viewportY)
+        {
+            this._viewportX = viewportX;
+            this._viewportY = viewportY;
+        }
+    
 
     }
 }
