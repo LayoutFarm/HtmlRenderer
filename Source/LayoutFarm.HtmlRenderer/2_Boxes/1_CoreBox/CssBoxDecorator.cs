@@ -11,7 +11,7 @@ namespace LayoutFarm.HtmlBoxes
 {
     public abstract class CssBoxDecorator
     {
-        public virtual bool HasTopDecoration { get { return false; } }
+        
         public virtual void DrawTopDecoration(PaintVisitor p)
         {
         }

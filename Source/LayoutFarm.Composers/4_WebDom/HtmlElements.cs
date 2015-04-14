@@ -178,9 +178,6 @@ namespace LayoutFarm.WebDom
             {
                 myBoxDecor = (MyCssBoxDescorator)box.Decorator;
             }
-            //TODO: review this again
-            myBoxDecor.ScrollComponent = new ScrollComponent(myBoxDecor);
-
             var scrollView = new CssScrollView(this, boxSpec, box.RootGfx);
 
             scrollView.SetSize(box.SizeWidth, box.SizeHeight);
@@ -190,18 +187,8 @@ namespace LayoutFarm.WebDom
             box.ParentBox.RemoveChild(box);
 
             //scrollbar width= 10
-            box.SetLocation(10, 0);
-            box.SetSize(box.SizeWidth - 10, box.SizeHeight);
-            box.SetExpectedContentSize(box.SizeWidth - 10, box.SizeHeight);
+            scrollView.SetInnerBox(box);
 
-            scrollView.AppendToAbsoluteLayer(box);
-            scrollView.AppendToAbsoluteLayer(
-                LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
-                     myBoxDecor.ScrollComponent.VScrollBar,
-                     myBoxDecor.ScrollComponent.VScrollBar.GetPrimaryRenderElement(
-                        (RootGraphic)box.RootGfx), boxSpec, false));
-
-            scrollView.InnerBox = box;
             //change primary render element
             this.principalBox = scrollView;
             scrollView.InvalidateGraphics();

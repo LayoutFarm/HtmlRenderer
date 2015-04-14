@@ -261,17 +261,7 @@ namespace LayoutFarm.HtmlBoxes
                 p.SetCanvasOrigin(ox, oy);
                 p.PopContainingBlock();
             }
-
-            //---------------- 
-            if (this.decorator != null && decorator.HasTopDecoration)
-            {
-                decorator.DrawTopDecoration(p);
-
-            }
-
-
-
-            //---------------- 
+             
             //must! , 
             if (hasPrevClip)
             {

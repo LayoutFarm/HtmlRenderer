@@ -18,25 +18,12 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.TargetBox = targetBox;
         }
-        public override bool HasTopDecoration
-        {
-            get
-            {
-                return true;
-            }
-        }
+        
         public override void DrawTopDecoration(PaintVisitor p)
         {
-            //if (this.ScrollComponent != null)
-            //{
-            //    ScrollComponent.Draw(p);
-            //}
+            
         }
-        public ScrollComponent ScrollComponent
-        {
-            get;
-            set;
-        }
+      
         public CssBox TargetBox
         {
             get;

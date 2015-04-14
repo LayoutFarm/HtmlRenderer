@@ -290,6 +290,7 @@ namespace LayoutFarm.HtmlBoxes
                 hostBlock.SetWidth(newWidth);
             }
             //--------------------- 
+            float maxLineWidth = 0;
             if (hostBlock.CssDirection == CssDirection.Rtl)
             {
                 CssTextAlign textAlign = hostBlock.CssTextAlign;
@@ -300,6 +301,11 @@ namespace LayoutFarm.HtmlBoxes
                     linebox.CloseLine(lay); //*** 
                     linebox.CachedLineTop = localY;
                     localY += linebox.CacheLineHeight + interlineSpace; // + interline space?
+
+                    if (maxLineWidth < linebox.CachedExactContentWidth)
+                    {
+                        maxLineWidth = linebox.CachedExactContentWidth;
+                    }
                 }
             }
             else
@@ -314,6 +320,11 @@ namespace LayoutFarm.HtmlBoxes
 
                     linebox.CachedLineTop = localY;
                     localY += linebox.CacheLineHeight + interlineSpace;
+
+                    if (maxLineWidth < linebox.CachedExactContentWidth)
+                    {
+                        maxLineWidth = linebox.CachedExactContentWidth;
+                    }
                 }
             }
 
@@ -322,7 +333,7 @@ namespace LayoutFarm.HtmlBoxes
             hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
 
             //final
-            hostBlock.InnerContentWidth = (int)hostBlock.SizeWidth;
+            hostBlock.InnerContentWidth = (int)maxLineWidth;
             hostBlock.InnerContentHeight = (int)hostBlock.SizeHeight;
 
             if (!hostBlock.Height.IsEmptyOrAuto)
@@ -332,37 +343,69 @@ namespace LayoutFarm.HtmlBoxes
             }
             if (!hostBlock.Width.IsEmptyOrAuto)
             {
+                //find max line width  
                 var w = CssValueParser.ConvertToPx(hostBlock.Width, lay.LatestContainingBlock.SizeWidth, hostBlock);
                 hostBlock.SetExpectedContentSize(w, hostBlock.ExpectedHeight);
             }
 
+            bool needScrollView = false;
             switch (hostBlock.Overflow)
             {
                 case CssOverflow.Hidden:
                     {
+                        //height
                         if (!hostBlock.Height.IsEmptyOrAuto &&
                              hostBlock.SizeHeight > hostBlock.ExpectedHeight)
                         {
                             hostBlock.SetHeight(hostBlock.ExpectedHeight);
                         }
+                        if (!hostBlock.Width.IsEmptyOrAuto &&
+                            hostBlock.SizeWidth > hostBlock.ExpectedWidth)
+                        {
+                            hostBlock.SetWidth(hostBlock.ExpectedWidth);
+                        }
                     } break;
                 case CssOverflow.Scroll:
                     {
+
+                        if (!hostBlock.Width.IsEmptyOrAuto &&
+                               hostBlock.SizeWidth > hostBlock.ExpectedWidth)
+                        {
+                            hostBlock.SetWidth(hostBlock.ExpectedWidth);
+                            needScrollView = true;
+                        }
                         if (!hostBlock.Height.IsEmptyOrAuto &&
                                hostBlock.SizeHeight > hostBlock.ExpectedHeight)
                         {
                             //send request for scroll bar
                             hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                            needScrollView = true;
+                        }
+
+                        if (needScrollView)
+                        {
                             lay.RequestScrollView(hostBlock);
                         }
+
                     } break;
                 case CssOverflow.Auto:
                     {
+                        if (!hostBlock.Width.IsEmptyOrAuto &&
+                               hostBlock.SizeWidth > hostBlock.ExpectedWidth)
+                        {
+                            hostBlock.SetWidth(hostBlock.ExpectedWidth);
+                            needScrollView = true;
+                        }
+
                         if (!hostBlock.Height.IsEmptyOrAuto &&
                                hostBlock.SizeHeight > hostBlock.ExpectedHeight)
                         {
                             //send request for scroll bar
                             hostBlock.SetHeight(hostBlock.ExpectedHeight);
+                            needScrollView = true;
+                        }
+                        if (needScrollView)
+                        {
                             lay.RequestScrollView(hostBlock);
                         }
                     } break;

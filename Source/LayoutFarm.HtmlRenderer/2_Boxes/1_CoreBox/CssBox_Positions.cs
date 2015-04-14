@@ -429,7 +429,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// Gets the actual height
         /// </summary>
-        internal float ExpectedHeight
+        public float ExpectedHeight
         {
             get
             {
@@ -439,7 +439,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// Gets the actual width 
         /// </summary>
-        internal float ExpectedWidth
+        public float ExpectedWidth
         {
             get
             {
