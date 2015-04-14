@@ -79,7 +79,10 @@ namespace LayoutFarm.UI
         {
             OnContentUpdate();
         }
-
+        void IEventListener.HandleElementUpdate()
+        {
+            OnElementChanged();
+        }
         bool IEventListener.BypassAllMouseEvents
         {
             get

@@ -381,7 +381,9 @@ namespace LayoutFarm.HtmlBoxes
         public void SetSize(float width, float height)
         {
 #if DEBUG
-
+            //if (height == 20)
+            //{
+            //}
 #endif
             if (!this.FreezeWidth)
             {
@@ -392,7 +394,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void SetHeight(float height)
         {
-
+            //if (height == 20)
+            //{
+            //}
             this._sizeHeight = height;
         }
         public void SetWidth(float width)
@@ -447,7 +451,7 @@ namespace LayoutFarm.HtmlBoxes
             get;
             private set;
         }
-        internal void SetExpectedContentSize(float expectedW, float expectedH)
+        public void SetExpectedContentSize(float expectedW, float expectedH)
         {
             this.HasClipArea = true;
             this._expectedWidth = expectedW;
@@ -807,7 +811,7 @@ namespace LayoutFarm.HtmlBoxes
             get { return this._innerContentH; }
             internal set { this._innerContentH = value; }
         }
-       
+
         //-----------
         //if this is custom box then must implement these methods
         public virtual void CustomRecomputedValue(CssBox containingBlock, GraphicsPlatform gfxPlatform)
@@ -827,6 +831,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             this._viewportX = viewportX;
             this._viewportY = viewportY;
+            this.InvalidateGraphics();
         }
 
 

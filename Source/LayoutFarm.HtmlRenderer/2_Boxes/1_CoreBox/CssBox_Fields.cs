@@ -146,7 +146,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             return this._aa_boxes.GetFirstChild();
         }
-
+        public void RemoveChild(CssBox box)
+        {
+            this._aa_boxes.Remove(box);
+        }
         public void AppendChild(CssBox box)
         {
             switch (box.Position)
@@ -257,7 +260,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        internal void AppendToAbsoluteLayer(CssBox box)
+        public void AppendToAbsoluteLayer(CssBox box)
         {
             //find proper ancestor node for absolute position 
             if (this._absPosLayer == null)

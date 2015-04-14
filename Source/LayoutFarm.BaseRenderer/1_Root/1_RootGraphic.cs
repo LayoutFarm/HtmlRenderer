@@ -61,6 +61,7 @@ namespace LayoutFarm
 
         public abstract void ClearRenderRequests();
         public abstract void AddToLayoutQueue(RenderElement renderElement);
+        public abstract void AddToElementUpdateQueue(object requestBy);
         public abstract void SetCurrentKeyboardFocus(RenderElement renderElement);
 
         //TODO: review this !

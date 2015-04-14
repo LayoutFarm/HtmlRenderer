@@ -5,6 +5,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
+using LayoutFarm.UI;
 
 namespace LayoutFarm.Composers
 {
@@ -14,19 +15,21 @@ namespace LayoutFarm.Composers
         protected abstract HtmlHost MyHost { get; }
         public abstract CssBox CreateCssBox(LayoutFarm.WebDom.DomElement tag, CssBox parentBox, BoxSpec spec, LayoutFarm.RootGraphic rootgfx);
 
-        public CssBox CreateWrapper(object owner, RenderElement renderElement, BoxSpec spec, bool isInline)
+        public static CssBox CreateWrapper(object owner, RenderElement renderElement, BoxSpec spec, bool isInline)
         {
             if (isInline)
             {
-                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperInlineCssBox(owner, spec, renderElement.Root, renderElement); 
+                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperInlineCssBox(owner, spec, renderElement.Root, renderElement);
             }
             else
             {
                 return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperBlockCssBox(owner, spec, renderElement);
             }
         }
+         
+
     }
 
-   
+
 
 }

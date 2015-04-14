@@ -81,7 +81,8 @@ namespace LayoutFarm
         }
 
         public string dbug_FixedElementCode = null;
-        public int dbug_element_code_y = 0; public bool dbug_hide_objIden = false;
+        public int dbug_element_code_y = 0;
+        public bool dbug_hide_objIden = false;
         public readonly int dbug_obj_id = 0;
         static int dbug_totalObjectId = 0;
 

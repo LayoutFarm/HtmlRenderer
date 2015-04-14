@@ -65,6 +65,13 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             : base(controller, spec, root, display)
         {
         }
+        public override void InvalidateGraphics()
+        {
+            int globalX;
+            int globalY;
+            var parent = this.GetParentRenderElement(out globalX, out globalY);
+            parent.InvalidateGraphics();
+        }
 
         internal abstract RenderElement GetParentRenderElement(out int globalX, out int globalY);
 
@@ -358,7 +365,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         void RenderBoxes.IParentLink.AdjustLocation(ref Point p)
         {
             //do nothing
-            
+
         }
         RenderElement RenderBoxes.IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {

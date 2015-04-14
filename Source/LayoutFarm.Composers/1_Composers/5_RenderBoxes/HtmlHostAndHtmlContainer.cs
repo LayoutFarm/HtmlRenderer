@@ -317,19 +317,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void OnRequestScrollView(CssBox box)
         {
-            MyCssBoxDescorator myBoxDecorator = null;
-            if (box.Decorator == null)
-            {
-                box.Decorator = myBoxDecorator = new MyCssBoxDescorator(box);
-            }
-            else
-            {
-                myBoxDecorator = (MyCssBoxDescorator)box.Decorator;
-            }
-            //2. create scroll component
-            //TODO: review this again
-            myBoxDecorator.ScrollComponent = new ScrollComponent(myBoxDecorator);
 
+            RootGraphic rootgfx = (RootGraphic)box.RootGfx;
+            rootgfx.AddToElementUpdateQueue(box); 
         }
         /// <summary>
         /// check if dom update

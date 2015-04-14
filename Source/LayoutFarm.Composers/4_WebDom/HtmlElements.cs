@@ -157,7 +157,56 @@ namespace LayoutFarm.WebDom
         {
             return this.principalBox;
         }
+        protected override void OnElementChanged()
+        {
 
+            CssBox box = this.principalBox;
+            if (box is CssScrollView)
+            {
+                return;
+            }
+            //change 
+            var boxSpec = CssBox.UnsafeGetBoxSpec(box);
+            //create scrollbar
+
+            MyCssBoxDescorator myBoxDecor = null;
+            if (box.Decorator == null)
+            {
+                box.Decorator = myBoxDecor = new MyCssBoxDescorator(box);
+            }
+            else
+            {
+                myBoxDecor = (MyCssBoxDescorator)box.Decorator;
+            }
+            //TODO: review this again
+            myBoxDecor.ScrollComponent = new ScrollComponent(myBoxDecor);
+
+            var scrollView = new CssScrollView(this, boxSpec, box.RootGfx);
+
+            scrollView.SetSize(box.SizeWidth, box.SizeHeight);
+            scrollView.SetExpectedContentSize(box.SizeWidth, box.SizeHeight);
+
+            box.ParentBox.InsertChild(box, scrollView);
+            box.ParentBox.RemoveChild(box);
+
+            //scrollbar width= 10
+            box.SetLocation(10, 0);
+            box.SetSize(box.SizeWidth - 10, box.SizeHeight);
+            box.SetExpectedContentSize(box.SizeWidth - 10, box.SizeHeight);
+
+            scrollView.AppendToAbsoluteLayer(box);
+            scrollView.AppendToAbsoluteLayer(
+                LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
+                     myBoxDecor.ScrollComponent.VScrollBar,
+                     myBoxDecor.ScrollComponent.VScrollBar.GetPrimaryRenderElement(
+                        (RootGraphic)box.RootGfx), boxSpec, false));
+
+            scrollView.InnerBox = box;
+            //change primary render element
+            this.principalBox = scrollView;
+            scrollView.InvalidateGraphics();
+
+        }
         //------------------------------------
         public string GetInnerHtml()
         {

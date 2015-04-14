@@ -51,6 +51,7 @@
     <Compile Include="1_Composers\1_Builder\ContentTextSplitter.cs" />
     <Compile Include="1_Composers\2_Css\SpecSetter.cs" />
     <Compile Include="1_Composers\1_Builder\BoxCreator.cs" />
+    <Compile Include="1_Composers\6_CssBoxDecorators\CssBoxScrollView.cs" />
     <Compile Include="1_Composers\6_CssBoxDecorators\MyCssBoxDecorator.cs" />
     <Compile Include="1_Composers\6_CssBoxDecorators\ScrollComponents.cs" />
     <Compile Include="1_Composers\7_UIElements\1_UIElement.cs" />

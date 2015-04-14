@@ -111,10 +111,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void RequestScrollView(CssBox requestFrom)
         {
-            this.htmlContainer.RequestScrollView(requestFrom, false);
+
+            this.htmlContainer.RequestScrollView(requestFrom);
         }
-
-
         internal float MeasureWhiteSpace(CssBox box)
         {
             //depends on Font of this box           
