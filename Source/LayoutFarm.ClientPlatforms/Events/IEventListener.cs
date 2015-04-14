@@ -35,7 +35,7 @@ namespace LayoutFarm.UI
 
         void HandleContentLayout();
         void HandleContentUpdate();
-
+        void HandleElementUpdate();
 
         //--------------------------------------------------------------------------
         bool BypassAllMouseEvents { get; }

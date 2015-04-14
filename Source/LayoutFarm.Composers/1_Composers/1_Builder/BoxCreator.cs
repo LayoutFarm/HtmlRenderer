@@ -389,6 +389,10 @@ namespace LayoutFarm.Composers
         {
             this.containerElement = containerElement;
         }
+        public override void InvalidateGraphics()
+        {
+            this.containerElement.InvalidateGraphics();
+        }
         public LayoutFarm.RenderElement ContainerElement
         {
             get { return this.containerElement; }

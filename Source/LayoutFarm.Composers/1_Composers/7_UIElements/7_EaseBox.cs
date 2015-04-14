@@ -138,9 +138,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
         protected override void OnMouseMove(UIMouseEventArgs e)
-        {
-            var id = this.dbugId;
-
+        { 
             if (this.MouseMove != null)
             {
                 this.MouseMove(this, e);

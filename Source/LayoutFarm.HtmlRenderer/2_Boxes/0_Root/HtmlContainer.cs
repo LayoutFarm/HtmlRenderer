@@ -162,7 +162,7 @@ namespace LayoutFarm.HtmlBoxes
 
         protected abstract void OnRequestScrollView(CssBox box);
 
-        internal void RequestScrollView(CssBox box, bool _sync)
+        internal void RequestScrollView(CssBox box)
         {
             OnRequestScrollView(box);
         }

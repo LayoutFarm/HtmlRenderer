@@ -146,7 +146,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             return this._aa_boxes.GetFirstChild();
         }
-
+        public void RemoveChild(CssBox box)
+        {
+            this._aa_boxes.Remove(box);
+        }
         public void AppendChild(CssBox box)
         {
             switch (box.Position)

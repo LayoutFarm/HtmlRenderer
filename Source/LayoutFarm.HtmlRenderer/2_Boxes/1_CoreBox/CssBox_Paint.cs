@@ -10,10 +10,17 @@ namespace LayoutFarm.HtmlBoxes
 
     partial class CssBox
     {
+        public virtual void InvalidateGraphics()
+        {
+            var parentBox = this.ParentBox;
+            if (parentBox != null)
+            {
+                parentBox.InvalidateGraphics();
+            }
+        }
 
         public void Paint(PaintVisitor p)
         {
-
 
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
@@ -21,7 +28,9 @@ namespace LayoutFarm.HtmlBoxes
             if (this._isVisible)
             {
                 //offset 
+                p.OffsetCanvasOrigin(-this.ViewportX, -this.ViewportY);
                 PaintImp(p);
+                p.OffsetCanvasOrigin(this.ViewportX, this.ViewportY);
             }
         }
 #if DEBUG

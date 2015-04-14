@@ -18,8 +18,7 @@ namespace LayoutFarm.HtmlBoxes
         CssScrollWrapper scrollView;
         MyCssBoxDescorator myCssBoxDecor;
 
-        ScrollingRelation scRelation;
-        RenderElement vscBarPrimaryRenderE;
+        ScrollingRelation scRelation; 
         ScrollBar vscbar;
         public ScrollComponent(MyCssBoxDescorator myCssBoxDecor)
         {

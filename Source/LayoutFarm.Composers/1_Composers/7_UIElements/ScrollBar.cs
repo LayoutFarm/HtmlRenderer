@@ -737,7 +737,7 @@ namespace LayoutFarm.HtmlBoxes
             this.CurrentPrimaryRenderElement.HitTestCore(hitPointChain);
             //then invoke
             int hitCount = hitPointChain.Count;
-
+            
             RenderElement hitElement = hitPointChain.TopMostElement;
             if (hitCount > 0)
             {
