@@ -257,7 +257,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        internal void AppendToAbsoluteLayer(CssBox box)
+        public void AppendToAbsoluteLayer(CssBox box)
         {
             //find proper ancestor node for absolute position 
             if (this._absPosLayer == null)

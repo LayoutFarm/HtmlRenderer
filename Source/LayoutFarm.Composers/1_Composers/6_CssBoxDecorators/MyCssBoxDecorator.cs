@@ -27,10 +27,10 @@ namespace LayoutFarm.HtmlBoxes
         }
         public override void DrawTopDecoration(PaintVisitor p)
         {
-            if (this.ScrollComponent != null)
-            {
-
-            }
+            //if (this.ScrollComponent != null)
+            //{
+            //    ScrollComponent.Draw(p);
+            //}
         }
         public ScrollComponent ScrollComponent
         {

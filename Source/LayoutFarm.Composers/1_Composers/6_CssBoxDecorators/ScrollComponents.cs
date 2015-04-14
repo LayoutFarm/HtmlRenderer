@@ -11,15 +11,16 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.HtmlBoxes
 {
+
     class ScrollComponent
     {
         //create special scroll component
         CssScrollWrapper scrollView;
         MyCssBoxDescorator myCssBoxDecor;
-        ScrollBar vscbar;
+
         ScrollingRelation scRelation;
         RenderElement vscBarPrimaryRenderE;
-
+        ScrollBar vscbar;
         public ScrollComponent(MyCssBoxDescorator myCssBoxDecor)
         {
             this.myCssBoxDecor = myCssBoxDecor;
@@ -27,7 +28,7 @@ namespace LayoutFarm.HtmlBoxes
             this.scrollView = new CssScrollWrapper(cssbox);
 
             //vertical scrollbar
-            var vscbar = new ScrollBar(10, (int)cssbox.SizeHeight);
+            vscbar = new ScrollBar(10, (int)cssbox.SizeHeight);
             vscbar.SetLocation(0, 0);
             vscbar.MinValue = 0;
             vscbar.MaxValue = cssbox.SizeHeight;
@@ -35,17 +36,18 @@ namespace LayoutFarm.HtmlBoxes
 
             //add relation between viewpanel and scroll bar 
             scRelation = new ScrollingRelation(vscbar, scrollView);
-            vscBarPrimaryRenderE = vscbar.GetPrimaryRenderElement((RootGraphic)myCssBoxDecor.TargetBox.RootGfx);
         }
         public void Draw(PaintVisitor p)
         {
-            vscBarPrimaryRenderE.DrawToThisCanvas(p.InnerCanvas,
-                new Rectangle(0, 0, vscbar.Width, vscbar.Height));
+            //vscBarPrimaryRenderE.DrawToThisCanvas(p.InnerCanvas,
+            //    new Rectangle(0, 0, vscBarPrimaryRenderE.Width, vscBarPrimaryRenderE.Height));
         }
-        public void EvaluateScrollBar()
+        public ScrollBar VScrollBar
         {
-
-        }
+            get { return this.vscbar; }
+        } 
+        
+         
         class CssScrollWrapper : IScrollable
         {
             CssBox cssbox;

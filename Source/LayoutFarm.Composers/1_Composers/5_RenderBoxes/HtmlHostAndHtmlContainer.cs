@@ -317,6 +317,11 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void OnRequestScrollView(CssBox box)
         {
+
+            var boxspec = CssBox.UnsafeGetBoxSpec(box);
+
+            // -----------------------
+            //concept 
             MyCssBoxDescorator myBoxDecorator = null;
             if (box.Decorator == null)
             {
@@ -328,8 +333,14 @@ namespace LayoutFarm.HtmlBoxes
             }
             //2. create scroll component
             //TODO: review this again
-            myBoxDecorator.ScrollComponent = new ScrollComponent(myBoxDecorator);
 
+
+            myBoxDecorator.ScrollComponent = new ScrollComponent(myBoxDecorator);
+            box.AppendToAbsoluteLayer(
+                 LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
+                 myBoxDecorator.ScrollComponent.VScrollBar,
+                 myBoxDecorator.ScrollComponent.VScrollBar.GetPrimaryRenderElement((RootGraphic)box.RootGfx),
+                 boxspec, false)); 
         }
         /// <summary>
         /// check if dom update

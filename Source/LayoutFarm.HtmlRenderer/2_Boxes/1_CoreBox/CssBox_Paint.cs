@@ -20,6 +20,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
             if (this._isVisible)
             {
+                //offset 
                 PaintImp(p);
             }
         }

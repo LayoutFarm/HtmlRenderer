@@ -63,7 +63,7 @@
     <Compile Include="4_Boxes\RenderBoxBase.cs" />
     <Compile Include="3_Layers\1_RenderElementLayer.cs" />
     <Compile Include="3_Layers\2_PlainLayer.cs" />
-    <Compile Include="5_HitTest\HitPointChain.cs" />
+    <Compile Include="5_HitTest\HitChain.cs" />
     <Compile Include="6_debug\dbugHitTracker.cs" />
     <Compile Include="6_debug\IdbugOutputWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

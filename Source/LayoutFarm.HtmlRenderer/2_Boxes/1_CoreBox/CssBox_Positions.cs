@@ -381,7 +381,9 @@ namespace LayoutFarm.HtmlBoxes
         public void SetSize(float width, float height)
         {
 #if DEBUG
-
+            //if (height == 20)
+            //{
+            //}
 #endif
             if (!this.FreezeWidth)
             {
@@ -392,7 +394,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void SetHeight(float height)
         {
-
+            //if (height == 20)
+            //{
+            //}
             this._sizeHeight = height;
         }
         public void SetWidth(float width)

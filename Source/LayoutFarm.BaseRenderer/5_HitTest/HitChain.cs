@@ -119,9 +119,12 @@ namespace LayoutFarm.RenderBoxes
         {
             currentHitChain.Add(new HitInfo(hitObject, new Point(testPointX, testPointY)));
 #if DEBUG
-            dbugHitTracker.WriteTrackNode(currentHitChain.Count,
-                new Point(testPointX, testPointY).ToString() + " on "
-                + hitObject.ToString());
+            if (dbugHitTracker != null)
+            {
+                dbugHitTracker.WriteTrackNode(currentHitChain.Count,
+                    new Point(testPointX, testPointY).ToString() + " on "
+                    + hitObject.ToString());
+            }
 #endif
         }
         public void RemoveCurrentHit()

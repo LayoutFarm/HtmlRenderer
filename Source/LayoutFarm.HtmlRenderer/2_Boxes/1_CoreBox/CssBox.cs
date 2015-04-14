@@ -53,7 +53,9 @@ namespace LayoutFarm.HtmlBoxes
             this._aa_boxes = new CssBoxCollection();
             this._controller = controller;
 #if DEBUG
-
+            //if (this.__aa_dbugId == 6)
+            //{
+            //}
             if (!spec.IsFreezed)
             {
                 //must be freezed
@@ -74,6 +76,9 @@ namespace LayoutFarm.HtmlBoxes
             this._controller = controller;
 
 #if DEBUG
+            //if (this.__aa_dbugId == 6)
+            //{
+            //}
             if (!spec.IsFreezed)
             {
                 //must be freezed 
@@ -787,6 +792,6 @@ namespace LayoutFarm.HtmlBoxes
             parent.AppendChild(newBox);
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
             return newBox;
-        } 
+        }
     }
 }

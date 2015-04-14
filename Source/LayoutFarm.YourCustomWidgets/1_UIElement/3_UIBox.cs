@@ -10,9 +10,7 @@ namespace LayoutFarm.UI
 {
 
     public abstract class UIBox : UIElement, IScrollable
-    {
-
-
+    {   
         int _left;
         int _top;
         int _width;
