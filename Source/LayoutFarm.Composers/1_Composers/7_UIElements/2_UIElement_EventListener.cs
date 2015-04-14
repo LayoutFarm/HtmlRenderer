@@ -81,7 +81,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             OnContentUpdate();
         }
-
+        void IEventListener.HandleElementUpdate()
+        {
+            OnElementChanged();
+        }
         bool IEventListener.BypassAllMouseEvents
         {
             get
@@ -105,5 +108,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.OnDragOver(e);
         }
+
     }
 }

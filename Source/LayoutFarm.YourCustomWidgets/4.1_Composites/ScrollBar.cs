@@ -18,10 +18,7 @@ namespace LayoutFarm.CustomWidgets
         ScrollBarButton minButton;
         ScrollBarButton maxButton;
         ScrollBarButton scrollButton;
-
         ScrollBarEvaluator customeScrollBarEvaluator;
-
-
 
         float maxValue;
 

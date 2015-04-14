@@ -70,7 +70,8 @@ namespace LayoutFarm.HtmlBoxes
         //only in condition 3
         char[] _buffer;
         //----------------------------------------------------    
-
+        CssBoxDecorator decorator;
+        bool mayHasViewport;
 
         internal int RunCount
         {
@@ -78,6 +79,11 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return this._aa_contentRuns != null ? this._aa_contentRuns.Count : 0;
             }
+        }
+        public CssBoxDecorator Decorator
+        {
+            get { return this.decorator; }
+            set { this.decorator = value; }
         }
         public CssBlockRun JustBlockRun
         {
@@ -141,7 +147,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             return this._aa_boxes.GetFirstChild();
         }
-
+        public void RemoveChild(CssBox box)
+        {
+            this._aa_boxes.Remove(box);
+        }
         public void AppendChild(CssBox box)
         {
             switch (box.Position)
@@ -180,7 +189,7 @@ namespace LayoutFarm.HtmlBoxes
                         //TODO: err, revise here again
                         var ancester = FindContainerForCenteredBox();
                         ancester.AppendToAbsoluteLayer(box);
-                        
+
                     } break;
                 default:
                     {
@@ -252,7 +261,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
-        internal void AppendToAbsoluteLayer(CssBox box)
+        public void AppendToAbsoluteLayer(CssBox box)
         {
             //find proper ancestor node for absolute position 
             if (this._absPosLayer == null)

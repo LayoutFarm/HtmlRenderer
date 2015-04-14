@@ -13,16 +13,17 @@ namespace LayoutFarm.HtmlBoxes
 {
     class MyCssBoxDescorator : CssBoxDecorator
     {
-        
+
         public MyCssBoxDescorator(CssBox targetBox)
         {
             this.TargetBox = targetBox;
         }
-        public ScrollComponent ScrollComponent
+        
+        public override void DrawTopDecoration(PaintVisitor p)
         {
-            get;
-            set;
+            
         }
+      
         public CssBox TargetBox
         {
             get;

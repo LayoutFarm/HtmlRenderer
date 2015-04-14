@@ -10,17 +10,34 @@ namespace LayoutFarm.HtmlBoxes
 
     partial class CssBox
     {
+        public virtual void InvalidateGraphics()
+        {
+            var parentBox = this.ParentBox;
+            if (parentBox != null)
+            {
+                parentBox.InvalidateGraphics();
+            }
+        }
 
         public void Paint(PaintVisitor p)
         {
-
 
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
 #endif
             if (this._isVisible)
             {
-                PaintImp(p);
+                //offset 
+                if (this.mayHasViewport)
+                {
+                    p.OffsetCanvasOrigin(-this.ViewportX, -this.ViewportY);
+                    PaintImp(p);
+                    p.OffsetCanvasOrigin(this.ViewportX, this.ViewportY);
+                }
+                else
+                {
+                    PaintImp(p);
+                } 
             }
         }
 #if DEBUG
@@ -59,8 +76,6 @@ namespace LayoutFarm.HtmlBoxes
 
 
             Css.CssDisplay display = this.CssDisplay;
-
-
             if (display == Css.CssDisplay.TableCell &&
                 this.EmptyCells == Css.CssEmptyCell.Hide &&
                 this.IsSpaceOrEmpty)
@@ -181,8 +196,8 @@ namespace LayoutFarm.HtmlBoxes
                             node = node.Next;
                             continue;
                         }
-                        p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);  
-                        if (b.HasExpectedSize)
+                        p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
+                        if (b.HasClipArea)
                         {
                             if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
                             {
@@ -193,7 +208,7 @@ namespace LayoutFarm.HtmlBoxes
                         else
                         {
                             b.Paint(p);
-                        }  
+                        }
                         node = node.Next;
                     }
                     p.SetCanvasOrigin(ox, oy);
@@ -253,6 +268,7 @@ namespace LayoutFarm.HtmlBoxes
                 p.SetCanvasOrigin(ox, oy);
                 p.PopContainingBlock();
             }
+
             //must! , 
             if (hasPrevClip)
             {

@@ -964,6 +964,7 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             maxRight_local = Math.Max(maxRight_local, _tableBox.ExpectedWidth);
+             
 
             _tableBox.SetWidth(maxRight_local + horizontal_spacing + _tableBox.ActualBorderRightWidth);
 

@@ -127,7 +127,6 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         PartialBoxStrip[] _bottomUpBoxStrips;
         internal LinkedListNode<CssLineBox> linkedNode;
-        float _cacheContentWidth;
 
 
 
@@ -179,14 +178,14 @@ namespace LayoutFarm.HtmlBoxes
 
         internal float CachedLineContentWidth
         {
-            get { return this._cacheContentWidth; }
-            set
-            {
-                this._cacheContentWidth = value;
-            }
-
+            get;
+            set;
         }
-
+        internal float CachedExactContentWidth
+        {
+            get;
+            set;
+        }
 
         internal void CloseLine(LayoutVisitor lay)
         {
@@ -238,14 +237,14 @@ namespace LayoutFarm.HtmlBoxes
             lay.ReleaseStripDic(unqiueStrips);
             //=============================================================
             //part 2: Calculate 
-            //=============================================================             
-
-
+            //=============================================================     
 
             this.CacheLineHeight = maxBottom;
-            this.CachedLineContentWidth = maxRight;
+            this.CachedLineContentWidth = this.CachedExactContentWidth = maxRight;
+
             if (lineOwner.SizeWidth < CachedLineContentWidth)
             {
+
                 this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
             }
         }
@@ -422,7 +421,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 yield return tmpRuns[i];
             }
-        } 
+        }
         internal void PaintRuns(PaintVisitor p)
         {
             //iterate from each words 
@@ -539,7 +538,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 #endif
-         
+
         internal SelectionSegment SelectionSegment
         {
             get;

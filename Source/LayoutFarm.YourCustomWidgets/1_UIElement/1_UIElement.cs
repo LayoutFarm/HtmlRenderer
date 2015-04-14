@@ -147,7 +147,9 @@ namespace LayoutFarm.UI
         {
 
         }
-
+        protected virtual void OnElementChanged()
+        {
+        }
         public abstract void Walk(UIVisitor visitor);
 
         protected virtual void OnDragOver(UIDragOverEventArgs e)

@@ -140,13 +140,16 @@ namespace LayoutFarm.WebDom
         {
 
         }
-        
+
         protected virtual void OnContentLayout()
         {
         }
         protected virtual void OnContentUpdate()
         {
             this.OwnerDocument.DomUpdateVersion++;
+        }
+        protected virtual void OnElementChanged()
+        { 
         }
         protected virtual void OnInterComponentMsg(object sender, int msgcode, string msg)
         {

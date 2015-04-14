@@ -30,8 +30,8 @@ namespace LayoutFarm.HtmlBoxes
         float _sizeWidth;
         //----------------------------------
         //absolute layer width,height
-        float _absLayerWidth;
-        float _absLayerHeight;
+        int _innerContentW;
+        int _innerContentH;
         //----------------------------------
         int _viewportX;
         int _viewportY;
@@ -381,7 +381,9 @@ namespace LayoutFarm.HtmlBoxes
         public void SetSize(float width, float height)
         {
 #if DEBUG
-
+            //if (height == 20)
+            //{
+            //}
 #endif
             if (!this.FreezeWidth)
             {
@@ -392,7 +394,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void SetHeight(float height)
         {
-
+            //if (height == 20)
+            //{
+            //}
             this._sizeHeight = height;
         }
         public void SetWidth(float width)
@@ -425,36 +429,35 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// Gets the actual height
         /// </summary>
-        internal float ExpectedHeight
+        public float ExpectedHeight
         {
             get
             {
                 return this._expectedHight;
             }
         }
-
         /// <summary>
         /// Gets the actual width 
         /// </summary>
-        internal float ExpectedWidth
+        public float ExpectedWidth
         {
             get
             {
-
                 return this._expectedWidth;
             }
         }
-        internal bool HasExpectedSize
+        internal bool HasClipArea
         {
             get;
             private set;
         }
-        internal void SetExpectedContentSize(float expectedW, float expectedH)
+        public void SetExpectedContentSize(float expectedW, float expectedH)
         {
-            this.HasExpectedSize = true;
+            this.HasClipArea = true;
             this._expectedWidth = expectedW;
             this._expectedHight = expectedH;
         }
+
         //---------------------------------------------------------
         internal static void ValidateComputeValues(CssBox box)
         {
@@ -792,20 +795,21 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         /// <summary>
-        /// absolute layer width
+        /// inner content width
         /// </summary>
-        internal float AbsLayerWidth
+        public int InnerContentWidth
         {
-            get { return this._absLayerWidth; }
-            set { this._absLayerWidth = value; }
+            get { return this._innerContentW; }
+            internal set { this._innerContentW = value; }
+
         }
         /// <summary>
-        /// absolute layer height
+        /// inner content height
         /// </summary>
-        internal float AbsLayerHeight
+        public int InnerContentHeight
         {
-            get { return this._absLayerHeight; }
-            set { this._absLayerHeight = value; }
+            get { return this._innerContentH; }
+            internal set { this._innerContentH = value; }
         }
 
         //-----------
@@ -827,8 +831,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             this._viewportX = viewportX;
             this._viewportY = viewportY;
+            this.mayHasViewport = true;
+            this.InvalidateGraphics();
         }
-    
-
+        
     }
 }
