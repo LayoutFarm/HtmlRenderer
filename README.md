@@ -32,7 +32,7 @@ such as
 
 feel free to fork/ comment/ suggest /pull request 
 
-more info / screen capture imgs -> [see wiki](../wiki)
+more info / screen capture imgs -> [see wiki](../../wiki)
 
 #license
 it is a C# project with permissive license( MIT,BSD, Apache2)
