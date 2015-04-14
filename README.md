@@ -32,12 +32,12 @@ such as
 
 feel free to fork/ comment/ suggest /pull request 
 
-
+more info / screen capture imgs -> [see wiki](../../wiki)
 
 #license
 it is a C# project with permissive license( MIT,BSD, Apache2)
 
-#plan:
+#plan
 
 1) always permissive licencse (MIT,BSD, Apache2)
 
