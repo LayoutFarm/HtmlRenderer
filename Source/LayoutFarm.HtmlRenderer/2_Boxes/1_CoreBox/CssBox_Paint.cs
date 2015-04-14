@@ -28,9 +28,16 @@ namespace LayoutFarm.HtmlBoxes
             if (this._isVisible)
             {
                 //offset 
-                p.OffsetCanvasOrigin(-this.ViewportX, -this.ViewportY);
-                PaintImp(p);
-                p.OffsetCanvasOrigin(this.ViewportX, this.ViewportY);
+                if (this.mayHasViewport)
+                {
+                    p.OffsetCanvasOrigin(-this.ViewportX, -this.ViewportY);
+                    PaintImp(p);
+                    p.OffsetCanvasOrigin(this.ViewportX, this.ViewportY);
+                }
+                else
+                {
+                    PaintImp(p);
+                } 
             }
         }
 #if DEBUG
@@ -261,7 +268,7 @@ namespace LayoutFarm.HtmlBoxes
                 p.SetCanvasOrigin(ox, oy);
                 p.PopContainingBlock();
             }
-             
+
             //must! , 
             if (hasPrevClip)
             {

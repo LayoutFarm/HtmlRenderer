@@ -831,9 +831,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             this._viewportX = viewportX;
             this._viewportY = viewportY;
+            this.mayHasViewport = true;
             this.InvalidateGraphics();
         }
-
-
+        
     }
 }

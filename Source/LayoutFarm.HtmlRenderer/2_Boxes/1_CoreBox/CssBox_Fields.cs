@@ -71,6 +71,7 @@ namespace LayoutFarm.HtmlBoxes
         char[] _buffer;
         //----------------------------------------------------    
         CssBoxDecorator decorator;
+        bool mayHasViewport;
 
         internal int RunCount
         {
