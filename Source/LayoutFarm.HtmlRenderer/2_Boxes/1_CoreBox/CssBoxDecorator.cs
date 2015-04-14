@@ -10,8 +10,7 @@ using LayoutFarm.WebDom;
 namespace LayoutFarm.HtmlBoxes
 {
     public abstract class CssBoxDecorator
-    {
-        
+    { 
         public virtual void DrawTopDecoration(PaintVisitor p)
         {
         }

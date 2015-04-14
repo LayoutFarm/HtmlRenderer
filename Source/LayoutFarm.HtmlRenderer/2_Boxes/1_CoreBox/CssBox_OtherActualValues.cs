@@ -133,7 +133,6 @@ namespace LayoutFarm.HtmlBoxes
             //-------------------------
             switch (newdisplay)
             {
-                
                 case CssDisplay.Block:
                 case CssDisplay.ListItem:
                 case CssDisplay.Table:

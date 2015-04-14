@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 using LayoutFarm.Css;
 
-namespace LayoutFarm.Css 
+namespace LayoutFarm.Css
 {
     abstract class CssFeatureBase
     {
@@ -17,7 +17,7 @@ namespace LayoutFarm.Css
 
         protected readonly object owner;
         bool freezed;
-       
+
         public CssFeatureBase(object owner)
         {
             this.owner = owner;
@@ -34,7 +34,7 @@ namespace LayoutFarm.Css
 
         protected bool Assignable()
         {
-            
+
             return !this.freezed;
         }
     }
@@ -225,6 +225,8 @@ namespace LayoutFarm.Css
         }
 #endif
     }
+
+
     class CssMarginFeature : CssFeatureBase
     {
         CssLength _left, _top, _right, _bottom;
@@ -579,7 +581,7 @@ namespace LayoutFarm.Css
             : base(owner)
         {
 
-            FontFamily =  FontDefaultConfig.DEFAULT_FONT_NAME;
+            FontFamily = FontDefaultConfig.DEFAULT_FONT_NAME;
             FontSize = CssLength.FontSizeMedium;
             FontStyle = CssFontStyle.Normal;
             FontVariant = CssFontVariant.Normal;
@@ -677,7 +679,7 @@ namespace LayoutFarm.Css
     {
         Color _bgColor, _bgGradient;
         float _bgGradientAngle;
-         ImageBinder _imgBinder;
+        ImageBinder _imgBinder;
         string _bgPosition;
         CssLength _bgPosX, _bgPosY;
         CssBackgroundRepeat _bgRepeat;
@@ -693,7 +695,7 @@ namespace LayoutFarm.Css
             this.BackgroundColor = Color.Transparent; //"transparent";
             this.BackgroundGradient = Color.Transparent;// "none";
             this.BackgroundGradientAngle = 90.0f;
-            this.BackgroundImageBinder =  ImageBinder.NoImage;
+            this.BackgroundImageBinder = ImageBinder.NoImage;
 
             this.BackgroundPosX = new CssLength(0, CssUnitOrNames.Percent);
             this.BackgroundPosY = new CssLength(0, CssUnitOrNames.Percent);
@@ -741,7 +743,7 @@ namespace LayoutFarm.Css
             set { if (Assignable()) this._bgGradientAngle = value; }
         }
 
-        public  ImageBinder BackgroundImageBinder
+        public ImageBinder BackgroundImageBinder
         {
             get { return this._imgBinder; }
             set { if (Assignable()) this._imgBinder = value; }
@@ -805,4 +807,82 @@ namespace LayoutFarm.Css
 
 
 
+
+    class CssBoxShadowFeature : CssFeatureBase
+    {
+        Color _shadowColor;
+        CssLength _hShadow, _vShadow, _blurDistance;
+        bool _inset;
+
+        public static readonly CssBoxShadowFeature Default = new CssBoxShadowFeature(null);
+
+        static CssBoxShadowFeature()
+        {
+            Default.Freeze();
+        }
+        public CssBoxShadowFeature(object owner)
+            : base(owner)
+        {
+            this.HShadow =
+               this.VShadow =
+               this.BlurDistance = CssLength.ZeroNoUnit;
+        }
+        private CssBoxShadowFeature(object newOwner, CssBoxShadowFeature inheritFrom)
+            : base(newOwner)
+        {
+
+            this.HShadow = inheritFrom.HShadow;
+            this.VShadow = inheritFrom.VShadow;
+            this.BlurDistance = inheritFrom.BlurDistance;
+            this.ShadowColor = inheritFrom.ShadowColor;
+
+        }
+        public CssLength HShadow
+        {
+            get { return this._hShadow; }
+            set { if (Assignable()) this._hShadow = value; }
+        }
+        public CssLength VShadow
+        {
+            get { return this._vShadow; }
+            set { if (Assignable()) this._vShadow = value; }
+        }
+        public CssLength BlurDistance
+        {
+            get { return this._blurDistance; }
+            set { if (Assignable()) this._blurDistance = value; }
+        }
+
+        public Color ShadowColor
+        {
+            get { return this._shadowColor; }
+            set { if (Assignable()) this._shadowColor = value; }
+        }
+
+        public CssBoxShadowFeature GetMyOwnVersion(object checkOwner)
+        {
+            if (this.owner == checkOwner)
+            {
+                return this;
+            }
+            else
+            {
+                return new CssBoxShadowFeature(checkOwner, this);
+            }
+        }
+
+
+#if DEBUG
+        public static bool dbugIsEq(dbugPropCheckReport rep, CssPaddingFeature prop1, CssPaddingFeature prop2)
+        {
+            int inCount = rep.Count;
+            rep.Check("Left", CssLength.IsEq(prop1.Left, prop2.Left));
+            rep.Check("Top", CssLength.IsEq(prop1.Top, prop2.Top));
+            rep.Check("Right", CssLength.IsEq(prop1.Right, prop2.Right));
+            rep.Check("Bottom", CssLength.IsEq(prop1.Bottom, prop2.Bottom));
+
+            return inCount == rep.Count;
+        }
+#endif
+    }
 }
