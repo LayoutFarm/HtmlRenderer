@@ -33,14 +33,14 @@ namespace LayoutFarm.HtmlBoxes
         {
             return box._aa_boxes;
         }
-        internal static BoxSpec UnsafeGetBoxSpec(CssBox box)
+        public static BoxSpec UnsafeGetBoxSpec(CssBox box)
         {
             //this method is for BoxCreator and debug only!
             //box.Spec is private
             return box._myspec;
         }
         public static void UnsafeSetParent(CssBox box, CssBox parent)
-        {  
+        {
             box._parentBox = parent;
         }
         public static object UnsafeGetController(CssBox box)
@@ -61,13 +61,17 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                box._boxCompactFlags &= ~BoxFlags.TEXT_IS_ALL_WHITESPACE; 
+                box._boxCompactFlags &= ~BoxFlags.TEXT_IS_ALL_WHITESPACE;
             }
-            
+
             //**
             box._boxCompactFlags &= ~BoxFlags.LAY_RUNSIZE_MEASURE;
         }
+        //----------
 
+
+
+        //-----------
 #if DEBUG
         public override string ToString()
         {

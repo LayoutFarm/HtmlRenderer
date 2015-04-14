@@ -30,9 +30,13 @@ namespace LayoutFarm.HtmlBoxes
         float _sizeWidth;
         //----------------------------------
         //absolute layer width,height
-        float _absLayerWidth;
-        float _absLayerHeight;
+        int _innerContentW;
+        int _innerContentH;
         //----------------------------------
+        int _viewportX;
+        int _viewportY;
+
+
 
         /// <summary>
         /// user's expected height
@@ -175,7 +179,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         internal void ReEvaluateComputedValues(IFonts iFonts, CssBox containingBlock)
         {
-            
+
             //depend on parent
             //1. fonts 
             if (this.ParentBox != null)
@@ -309,15 +313,8 @@ namespace LayoutFarm.HtmlBoxes
             {
                 tmpBoxCompactFlags &= ~BoxFlags.HAS_VISIBLE_BG;
             }
-            if (spec.Overflow == CssOverflow.Hidden)
-            {
-                tmpBoxCompactFlags |= BoxFlags.OVERFLOW_HIDDEN;
-            }
-            else
-            {
-                tmpBoxCompactFlags &= ~BoxFlags.OVERFLOW_HIDDEN;
-            }
-            //-----------------------
+
+
 
 
             if (spec.WordSpacing.IsNormalWordSpacing)
@@ -384,7 +381,9 @@ namespace LayoutFarm.HtmlBoxes
         public void SetSize(float width, float height)
         {
 #if DEBUG
-
+            //if (height == 20)
+            //{
+            //}
 #endif
             if (!this.FreezeWidth)
             {
@@ -395,7 +394,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void SetHeight(float height)
         {
-
+            //if (height == 20)
+            //{
+            //}
             this._sizeHeight = height;
         }
         public void SetWidth(float width)
@@ -428,39 +429,35 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// Gets the actual height
         /// </summary>
-        internal float ExpectedHeight
+        public float ExpectedHeight
         {
             get
             {
-#if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
                 return this._expectedHight;
             }
         }
-
         /// <summary>
         /// Gets the actual width 
         /// </summary>
-        internal float ExpectedWidth
+        public float ExpectedWidth
         {
             get
             {
-#if DEBUG
-                //if ((this._boxCompactFlags & CssBoxFlagsConst.LAY_EVAL_COMPUTE_VALUES) == 0)
-                //{
-                //    //if not evaluate
-                //    System.Diagnostics.Debugger.Break();
-                //}
-#endif
-
                 return this._expectedWidth;
             }
         }
+        internal bool HasClipArea
+        {
+            get;
+            private set;
+        }
+        public void SetExpectedContentSize(float expectedW, float expectedH)
+        {
+            this.HasClipArea = true;
+            this._expectedWidth = expectedW;
+            this._expectedHight = expectedH;
+        }
+
         //---------------------------------------------------------
         internal static void ValidateComputeValues(CssBox box)
         {
@@ -798,20 +795,21 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         /// <summary>
-        /// absolute layer width
+        /// inner content width
         /// </summary>
-        internal float AbsLayerWidth
+        public int InnerContentWidth
         {
-            get { return this._absLayerWidth; }
-            set { this._absLayerWidth = value; }
+            get { return this._innerContentW; }
+            internal set { this._innerContentW = value; }
+
         }
         /// <summary>
-        /// absolute layer height
+        /// inner content height
         /// </summary>
-        internal float AbsLayerHeight
+        public int InnerContentHeight
         {
-            get { return this._absLayerHeight; }
-            set { this._absLayerHeight = value; }
+            get { return this._innerContentH; }
+            internal set { this._innerContentH = value; }
         }
 
         //-----------
@@ -826,5 +824,16 @@ namespace LayoutFarm.HtmlBoxes
             throw new NotImplementedException();
         }
 
+
+        public int ViewportX { get { return this._viewportX; } }
+        public int ViewportY { get { return this._viewportY; } }
+        public void SetViewport(int viewportX, int viewportY)
+        {
+            this._viewportX = viewportX;
+            this._viewportY = viewportY;
+            this.mayHasViewport = true;
+            this.InvalidateGraphics();
+        }
+        
     }
 }

@@ -6,11 +6,13 @@ using System.Text;
 using PixelFarm.Drawing;
 
 
-namespace LayoutFarm.UI
+namespace LayoutFarm.HtmlBoxes
 {
 
-    public abstract class UIBox : UIElement, IScrollable
-    {   
+    abstract class UIBox : UIElement, IScrollable
+    {
+
+
         int _left;
         int _top;
         int _width;
@@ -253,15 +255,7 @@ namespace LayoutFarm.UI
         //----------------------------------- 
         public object Tag { get; set; }
         //----------------------------------- 
-
-
-        protected virtual void Describe(UIVisitor visitor)
-        {
-            visitor.Attribute("left", this.Left);
-            visitor.Attribute("top", this.Top);
-            visitor.Attribute("width", this.Width);
-            visitor.Attribute("height", this.Height);
-        }
+         
 
         public void FindDragOverElements(List<UIElement> uilist)
         {

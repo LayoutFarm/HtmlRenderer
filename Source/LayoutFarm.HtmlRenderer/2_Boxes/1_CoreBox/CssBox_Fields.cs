@@ -70,7 +70,8 @@ namespace LayoutFarm.HtmlBoxes
         //only in condition 3
         char[] _buffer;
         //----------------------------------------------------    
-
+        CssBoxDecorator decorator;
+        bool mayHasViewport;
 
         internal int RunCount
         {
@@ -78,6 +79,11 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return this._aa_contentRuns != null ? this._aa_contentRuns.Count : 0;
             }
+        }
+        public CssBoxDecorator Decorator
+        {
+            get { return this.decorator; }
+            set { this.decorator = value; }
         }
         public CssBlockRun JustBlockRun
         {
@@ -141,7 +147,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             return this._aa_boxes.GetFirstChild();
         }
-
+        public void RemoveChild(CssBox box)
+        {
+            this._aa_boxes.Remove(box);
+        }
         public void AppendChild(CssBox box)
         {
             switch (box.Position)
@@ -149,21 +158,38 @@ namespace LayoutFarm.HtmlBoxes
                 case Css.CssPosition.Absolute:
                     {
                         //first move this box to special layer of 'this' element 
-                        //'take off normal flow'
+                        //'take off normal flow'***
                         //css3 jan2015: absolute position
                         //use offset relative to its normal the box's containing box*** 
 
                         //absolute position box is removed from the normal flow entirely
                         //(it has no impact on later sibling)
 
-                        var ancester = FindAncestorForAbsoluteBox();
+                        var ancester = FindContainerForAbsoluteBox();
                         ancester.AppendToAbsoluteLayer(box);
-                         
+
                     } break;
                 case Css.CssPosition.Fixed:
                     {
-                        var ancester = FindAncestorForFixedBox();
+                        //css3:
+                        //similar to absolte positioning,                        
+                        //only diff is that for a fixed positoned box,
+                        //the containing block is estableing by the viewport
+
+                        //removed from the normal flow entirely***
+
+                        var ancester = FindContainerForFixedBox();
                         ancester.AppendToAbsoluteLayer(box);
+                    } break;
+                case Css.CssPosition.Center:
+                    {
+                        //css3:
+                        //a box is explicitly centerer with respect to its containing box
+                        //removed from the normal flow entirely***
+                        //TODO: err, revise here again
+                        var ancester = FindContainerForCenteredBox();
+                        ancester.AppendToAbsoluteLayer(box);
+
                     } break;
                 default:
                     {
@@ -190,12 +216,11 @@ namespace LayoutFarm.HtmlBoxes
             this._aa_contentRuns = null;
             this._aa_boxes.Clear();
         }
-        CssBox FindAncestorForAbsoluteBox()
+        CssBox FindContainerForAbsoluteBox()
         {
             var node = this;
             while (node.Position == Css.CssPosition.Static)
             {
-
                 if (node.ParentBox == null)
                 {
                     return node;
@@ -207,7 +232,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             return node;
         }
-        CssBox FindAncestorForFixedBox()
+        CssBox FindContainerForFixedBox()
         {
             var node = this;
             //its viewport
@@ -215,10 +240,28 @@ namespace LayoutFarm.HtmlBoxes
             {
                 node = node.ParentBox;
             }
-             
             return node;
         }
-        internal void AppendToAbsoluteLayer(CssBox box)
+        CssBox FindContainerForCenteredBox()
+        {
+            //similar to absolutes
+            var node = this;
+            while (node.Position == Css.CssPosition.Static)
+            {
+                if (node.ParentBox == null)
+                {
+                    return node;
+                }
+                else
+                {
+                    node = node.ParentBox;
+                }
+            }
+            return node;
+        }
+
+
+        public void AppendToAbsoluteLayer(CssBox box)
         {
             //find proper ancestor node for absolute position 
             if (this._absPosLayer == null)

@@ -10,17 +10,34 @@ namespace LayoutFarm.HtmlBoxes
 
     partial class CssBox
     {
+        public virtual void InvalidateGraphics()
+        {
+            var parentBox = this.ParentBox;
+            if (parentBox != null)
+            {
+                parentBox.InvalidateGraphics();
+            }
+        }
 
         public void Paint(PaintVisitor p)
         {
-
 
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
 #endif
             if (this._isVisible)
             {
-                PaintImp(p);
+                //offset 
+                if (this.mayHasViewport)
+                {
+                    p.OffsetCanvasOrigin(-this.ViewportX, -this.ViewportY);
+                    PaintImp(p);
+                    p.OffsetCanvasOrigin(this.ViewportX, this.ViewportY);
+                }
+                else
+                {
+                    PaintImp(p);
+                } 
             }
         }
 #if DEBUG
@@ -59,8 +76,6 @@ namespace LayoutFarm.HtmlBoxes
 
 
             Css.CssDisplay display = this.CssDisplay;
-
-
             if (display == Css.CssDisplay.TableCell &&
                 this.EmptyCells == Css.CssEmptyCell.Hide &&
                 this.IsSpaceOrEmpty)
@@ -72,20 +87,6 @@ namespace LayoutFarm.HtmlBoxes
             bool hasPrevClip = false;
             RectangleF prevClip = RectangleF.Empty;
 
-            if ((this._boxCompactFlags & BoxFlags.OVERFLOW_HIDDEN) != 0)
-            {
-                var expectedW = this.ExpectedWidth;
-                var expectedH = this.ExpectedHeight;
-                //clip width 
-                if (expectedH > 0)
-                {
-                    if (!(hasPrevClip = p.PushLocalClipArea(expectedW, expectedH)))
-                    {
-                        p.PopLocalClipArea();
-                        return;
-                    }
-                }
-            }
 
             //---------------------------------------------
             if (display != Css.CssDisplay.Inline)
@@ -149,10 +150,10 @@ namespace LayoutFarm.HtmlBoxes
 
                         //1.                                 
                         line.PaintBackgroundAndBorder(p);
-                         
+
                         if (line.SelectionSegment != null)
                         {
-                            line.SelectionSegment.PaintSelection(p, line); 
+                            line.SelectionSegment.PaintSelection(p, line);
                         }
                         //2.                                
                         line.PaintRuns(p);
@@ -178,7 +179,6 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                //this.CssDisplay == Css.CssDisplay.InlineBlock ||
 
                 if (this.HasContainingBlockProperty)
                 {
@@ -197,7 +197,18 @@ namespace LayoutFarm.HtmlBoxes
                             continue;
                         }
                         p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
-                        b.Paint(p);
+                        if (b.HasClipArea)
+                        {
+                            if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
+                            {
+                                b.Paint(p);
+                                p.PopLocalClipArea();
+                            }
+                        }
+                        else
+                        {
+                            b.Paint(p);
+                        }
                         node = node.Next;
                     }
                     p.SetCanvasOrigin(ox, oy);
@@ -257,6 +268,7 @@ namespace LayoutFarm.HtmlBoxes
                 p.SetCanvasOrigin(ox, oy);
                 p.PopContainingBlock();
             }
+
             //must! , 
             if (hasPrevClip)
             {

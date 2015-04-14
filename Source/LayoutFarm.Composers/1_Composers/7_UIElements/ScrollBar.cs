@@ -8,13 +8,15 @@ using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 
-namespace LayoutFarm.CustomWidgets
+namespace LayoutFarm.HtmlBoxes
 {
-    public delegate void ScrollBarEvaluator(ScrollBar scBar, out double onePixelFore, out int scrollBoxHeight);
+    delegate void ScrollBarEvaluator(ScrollBar scBar, out double onePixelFore, out int scrollBoxHeight);
 
-    public class ScrollBar : UIBox
+
+    class ScrollBar : EaseBox, IBoxElement, IUserEventPortal
     {
         CustomRenderBox mainBox;
+
         ScrollBarButton minButton;
         ScrollBarButton maxButton;
         ScrollBarButton scrollButton;
@@ -72,7 +74,6 @@ namespace LayoutFarm.CustomWidgets
 
         public int MinMaxButtonHeight { get { return minmax_boxHeight; } }
         public int ScrollBoxSizeLimit { get { return SCROLL_BOX_SIZE_LIMIT; } }
-
         public int PhysicalScrollLength
         {
             get
@@ -87,9 +88,6 @@ namespace LayoutFarm.CustomWidgets
                 }
             }
         }
-
-
-
         public void StepSmallToMax()
         {
 
@@ -156,8 +154,6 @@ namespace LayoutFarm.CustomWidgets
             bgBox.HasSpecificSize = true;
             bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);
-            //---------------------------------------------------------
-
 
             //MinButton
             SetupMinButtonProperties(bgBox);
@@ -175,6 +171,7 @@ namespace LayoutFarm.CustomWidgets
             bgBox.SetController(this);
             bgBox.SetLocation(this.Left, this.Top);
             //---------------------------------------------------------
+
 
             //MinButton
             SetupMinButtonProperties(bgBox);
@@ -203,9 +200,8 @@ namespace LayoutFarm.CustomWidgets
             {
                 min_button = new ScrollBarButton(this.Width, minmax_boxHeight, this);
             }
-            min_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
+            min_button.BackColor = KnownColors.FromKnownColor(KnownColor.Green);
             min_button.MouseUp += (s, e) => this.StepSmallToMin();
-
             container.AddChild(min_button);
             this.minButton = min_button;
         }
@@ -224,7 +220,7 @@ namespace LayoutFarm.CustomWidgets
             }
 
 
-            max_button.BackColor = KnownColors.FromKnownColor(KnownColor.DarkGray);
+            max_button.BackColor = KnownColors.FromKnownColor(KnownColor.Yellow);
             max_button.MouseUp += (s, e) => this.StepSmallToMax();
             container.AddChild(max_button);
             this.maxButton = max_button;
@@ -233,7 +229,7 @@ namespace LayoutFarm.CustomWidgets
         //---------------------------------------------------------------------------
         //vertical scrollbar
 
-        public void ReEvaluateScrollBar()
+        internal void ReEvaluateScrollBar()
         {
             if (this.scrollButton == null)
             {
@@ -334,6 +330,7 @@ namespace LayoutFarm.CustomWidgets
             //----------------------------
             EvaluateVerticalScrollBarProperties();
             //----------------------------
+           
             //3. drag
             scroll_button.MouseMove += (s, e) =>
             {
@@ -566,7 +563,6 @@ namespace LayoutFarm.CustomWidgets
                     {
                         this.UserScroll(this, EventArgs.Empty);
                     }
-
                     e.StopPropagation();
                 }
             };
@@ -577,8 +573,8 @@ namespace LayoutFarm.CustomWidgets
         //----------------------------------------------------------------------- 
         public void SetupScrollBar(ScrollBarCreationParameters creationParameters)
         {
-            this.MaxValue = creationParameters.maximum;
-            this.MinValue = creationParameters.minmum;
+            this.maxValue = creationParameters.maximum;
+            this.minValue = creationParameters.minmum;
 
         }
         public float MaxValue
@@ -653,15 +649,172 @@ namespace LayoutFarm.CustomWidgets
                 this.StepSmallToMin();
             }
         }
-        public override void Walk(UIVisitor visitor)
+        //---------------------------------------------------
+        void IBoxElement.ChangeElementSize(int w, int h)
         {
-            visitor.BeginElement(this, "scrollbar");
-            this.Describe(visitor);
-            visitor.EndElement();
+            this.SetSize(w, h);
+        }
+
+        int IBoxElement.MinHeight
+        {
+            get { return this.Height; }
+        }
+        //---------------------------------------------------
+        //user event portal impl
+        void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
+        {
+
+
+
+
+        }
+        void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
+        {
+
+        }
+
+        void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
+        {
+
+        }
+
+        bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
+        {
+            return true;
+        }
+        void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
+        {
+            //hit test 
+            HitChain hitPointChain = new HitChain();
+            hitPointChain.SetStartTestPoint(e.X, e.Y);
+            this.CurrentPrimaryRenderElement.HitTestCore(hitPointChain);
+            //then invoke
+            int hitCount = hitPointChain.Count;
+
+            RenderElement hitElement = hitPointChain.TopMostElement;
+            if (hitCount > 0)
+            {
+                //use events
+                if (!e.CancelBubbling)
+                {
+                    ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
+                    {
+                        listener.ListenMouseDown(e);
+                        //-------------------------------------------------------                          
+                        return true;
+                    });
+                }
+            }
+        }
+        //===================================================================
+        delegate bool EventPortalAction(IUserEventPortal evPortal);
+        delegate bool EventListenerAction(IEventListener listener);
+        static void ForEachEventListenerBubbleUp(UIEventArgs e, HitChain hitPointChain, EventListenerAction listenerAction)
+        {
+            LayoutFarm.RenderBoxes.HitInfo hitInfo;
+            for (int i = hitPointChain.Count - 1; i >= 0; --i)
+            {
+
+                hitInfo = hitPointChain.GetHitInfo(i);
+                IEventListener listener = hitInfo.hitElement.GetController() as IEventListener;
+                if (listener != null)
+                {
+                    var hitPoint = hitInfo.point;
+                    e.SetLocation(hitPoint.X, hitPoint.Y);
+                    e.CurrentContextElement = listener;
+
+                    if (listenerAction(listener))
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+        void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
+        {
+            HitChain hitPointChain = new HitChain();
+            hitPointChain.SetStartTestPoint(e.X, e.Y);
+            this.CurrentPrimaryRenderElement.HitTestCore(hitPointChain);
+            //then invoke
+            int hitCount = hitPointChain.Count;
+            
+            RenderElement hitElement = hitPointChain.TopMostElement;
+            if (hitCount > 0)
+            {
+                //use events
+                if (!e.CancelBubbling)
+                {
+                    ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
+                    {
+                        listener.ListenMouseMove(e);
+                        //-------------------------------------------------------                          
+                        return true;
+                    });
+                }
+            }
+        }
+
+        void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
+        {
+            HitChain hitPointChain = new HitChain();
+            hitPointChain.SetStartTestPoint(e.X, e.Y);
+
+            this.CurrentPrimaryRenderElement.HitTestCore(hitPointChain);
+            //then invoke
+            int hitCount = hitPointChain.Count;
+
+            RenderElement hitElement = hitPointChain.TopMostElement;
+            if (hitCount > 0)
+            {
+                //use events
+                if (!e.CancelBubbling)
+                {
+                    ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
+                    {
+                        listener.ListenMouseUp(e);
+                        //-------------------------------------------------------                          
+                        return true;
+                    });
+                }
+            }
+        }
+
+        void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
+        {
+            HitChain hitPointChain = new HitChain();
+            hitPointChain.SetStartTestPoint(e.X, e.Y);
+            this.CurrentPrimaryRenderElement.HitTestCore(hitPointChain);
+            //then invoke
+            int hitCount = hitPointChain.Count;
+
+            RenderElement hitElement = hitPointChain.TopMostElement;
+            if (hitCount > 0)
+            {
+                //use events
+                if (!e.CancelBubbling)
+                {
+                    ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
+                    {
+                        listener.ListenMouseWheel(e);
+                        //-------------------------------------------------------                          
+                        return true;
+                    });
+                }
+            }
+        }
+
+        void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
+        {
+
+        }
+
+        void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
+        {
+
         }
     }
 
-    public class ScrollBarCreationParameters
+    class ScrollBarCreationParameters
     {
         public Rectangle elementBound;
         public Size arrowBoxSize;
@@ -674,7 +827,7 @@ namespace LayoutFarm.CustomWidgets
     }
 
 
-    public enum ScrollBarType
+    enum ScrollBarType
     {
         Vertical,
         Horizontal
@@ -700,18 +853,11 @@ namespace LayoutFarm.CustomWidgets
             this.OwnerScrollBar.ChildNotifyMouseWheel(e);
         }
 
-        public override void Walk(UIVisitor visitor)
-        {
-            visitor.BeginElement(this, "scrollbutton");
-            this.Describe(visitor);
-            visitor.EndElement();
-        }
-
     }
 
 
 
-    public class ScrollingRelation
+    class ScrollingRelation
     {
         ScrollBar scBar;
         IScrollable scrollableSurface;
@@ -746,7 +892,7 @@ namespace LayoutFarm.CustomWidgets
                 int contentLength = scrollableSurface.DesiredHeight;
                 if (contentLength == 0)
                 {
-                    return;
+                    contentLength = 1;
                 }
                 scrollBoxLength = (int)((physicalScrollLength * scrollableSurface.ViewportHeight) / contentLength);
                 if (scrollBoxLength < sc.ScrollBoxSizeLimit)
@@ -758,12 +904,7 @@ namespace LayoutFarm.CustomWidgets
                 {
                     onePixelFor = (double)contentLength / (double)physicalScrollLength;
                 }
-
-                //temp fix 
-                sc.MaxValue = (contentLength > scrollableSurface.ViewportHeight) ?
-                    contentLength - scrollableSurface.ViewportHeight :
-                    0;
-
+                sc.MaxValue = contentLength - scrollableSurface.ViewportHeight;
             });
             //--------------------------------------------------------------------------------------
             //1st evaluate  
@@ -793,7 +934,6 @@ namespace LayoutFarm.CustomWidgets
                 scrollBoxLength = 1;
                 //1. 
                 int contentLength = scrollableSurface.DesiredWidth;
-                if (contentLength == 0) return;
                 scrollBoxLength = (int)((physicalScrollLength * scrollableSurface.ViewportWidth) / contentLength);
                 if (scrollBoxLength < sc.ScrollBoxSizeLimit)
                 {
@@ -822,7 +962,6 @@ namespace LayoutFarm.CustomWidgets
             {
                 scrollableSurface.SetViewport((int)scBar.ScrollValue, scrollableSurface.ViewportY);
             };
-
         }
     }
 }

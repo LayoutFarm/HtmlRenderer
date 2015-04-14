@@ -157,7 +157,43 @@ namespace LayoutFarm.WebDom
         {
             return this.principalBox;
         }
+        protected override void OnElementChanged()
+        {
 
+            CssBox box = this.principalBox;
+            if (box is CssScrollView)
+            {
+                return;
+            }
+            //change 
+            var boxSpec = CssBox.UnsafeGetBoxSpec(box);
+            //create scrollbar
+
+            MyCssBoxDescorator myBoxDecor = null;
+            if (box.Decorator == null)
+            {
+                box.Decorator = myBoxDecor = new MyCssBoxDescorator(box);
+            }
+            else
+            {
+                myBoxDecor = (MyCssBoxDescorator)box.Decorator;
+            }
+            var scrollView = new CssScrollView(this, boxSpec, box.RootGfx);
+
+            scrollView.SetSize(box.SizeWidth, box.SizeHeight);
+            scrollView.SetExpectedContentSize(box.SizeWidth, box.SizeHeight);
+
+            box.ParentBox.InsertChild(box, scrollView);
+            box.ParentBox.RemoveChild(box);
+
+            //scrollbar width= 10
+            scrollView.SetInnerBox(box);
+
+            //change primary render element
+            this.principalBox = scrollView;
+            scrollView.InvalidateGraphics();
+
+        }
         //------------------------------------
         public string GetInnerHtml()
         {

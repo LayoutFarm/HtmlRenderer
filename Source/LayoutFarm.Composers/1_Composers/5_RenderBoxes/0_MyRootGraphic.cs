@@ -13,10 +13,12 @@ namespace LayoutFarm.UI
     {
 
         List<RenderElement> layoutQueue = new List<RenderElement>();
+        List<object> elementUpdateQueue = new List<object>();
+
         List<HtmlBoxes.MyHtmlContainer> htmlContainerUpdateQueue = new List<HtmlBoxes.MyHtmlContainer>();
 
-
         List<ToNotifySizeChangedEvent> tobeNotifySizeChangedList = new List<ToNotifySizeChangedEvent>();
+
         List<RenderElementRequest> renderRequestList = new List<RenderElementRequest>();
         GraphicsTimerTaskManager graphicTimerTaskMan;
         GraphicsPlatform graphicsPlatform;
@@ -78,8 +80,9 @@ namespace LayoutFarm.UI
         public override void PrepareRender()
         {
             //clear layout queue before render*** 
-            this.ClearLayoutQueue();
 
+            this.ClearElementUpdateQueue();
+            this.ClearLayoutQueue();
             this.ClearRenderRequests();
 
             if (layoutQueue.Count == 0)
@@ -208,7 +211,10 @@ namespace LayoutFarm.UI
             {
                 this.userInputEventAdapter.CurrentKeyboardFocusedElement = owner;
             }
-
+        }
+        public override void AddToElementUpdateQueue(object requestBy)
+        {
+            this.elementUpdateQueue.Add(requestBy);
         }
         public override void AddToLayoutQueue(RenderElement renderElement)
         {
@@ -230,6 +236,7 @@ namespace LayoutFarm.UI
         }
         public override void AddToUpdateQueue(object toupdateObj)
         {
+            //TODO: review this 
             var htmlCont = toupdateObj as HtmlBoxes.MyHtmlContainer;
             if (htmlCont != null && !htmlCont.IsInUpdateQueue)
             {
@@ -237,12 +244,28 @@ namespace LayoutFarm.UI
                 htmlContainerUpdateQueue.Add(htmlCont);
             }
         }
+        void ClearElementUpdateQueue()
+        {
 
+            for (int i = this.elementUpdateQueue.Count - 1; i >= 0; --i)
+            {
+                //clear
+                var renderE = this.elementUpdateQueue[i];
+                var cssbox = renderE as HtmlBoxes.CssBox;
+                if (cssbox != null)
+                {
+                    var controller = HtmlBoxes.CssBox.UnsafeGetController(cssbox) as IEventListener;
+                    controller.HandleElementUpdate();
+                }
+                this.elementUpdateQueue.RemoveAt(i);
+            }
+
+        }
         void ClearLayoutQueue()
         {
 
             this.LayoutQueueClearing = true;
-            int j = this.layoutQueue.Count;
+
             for (int i = this.layoutQueue.Count - 1; i >= 0; --i)
             {
                 //clear
@@ -256,7 +279,7 @@ namespace LayoutFarm.UI
                 this.layoutQueue.RemoveAt(i);
             }
             //-------------------------------- 
-            j = this.htmlContainerUpdateQueue.Count;
+            int j = this.htmlContainerUpdateQueue.Count;
             for (int i = 0; i < j; ++i)
             {
                 var htmlCont = htmlContainerUpdateQueue[i];

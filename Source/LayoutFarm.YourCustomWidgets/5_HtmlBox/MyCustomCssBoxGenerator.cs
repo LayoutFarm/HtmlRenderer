@@ -40,7 +40,7 @@ namespace LayoutFarm.CustomWidgets
                     {
                         //test only
                         var canvas = new LayoutFarm.CustomWidgets.MiniAggCanvasBox(400, 400);
-                        var wrapperBox = this.CreateWrapper(
+                        var wrapperBox = CreateWrapper(
                              canvas,
                              canvas.GetPrimaryRenderElement(rootgfx),
                              spec, true);
@@ -54,7 +54,7 @@ namespace LayoutFarm.CustomWidgets
 
             var simpleBox = new LayoutFarm.CustomWidgets.SimpleBox(100, 20);
             simpleBox.BackColor = PixelFarm.Drawing.Color.LightGray;
-            var wrapperBox2 = this.CreateWrapper(
+            var wrapperBox2 = CreateWrapper(
                                simpleBox,
                                simpleBox.GetPrimaryRenderElement(rootgfx),
                                spec, false);
@@ -79,7 +79,7 @@ namespace LayoutFarm.CustomWidgets
                         {
                             // user can specific width of textbox 
                             var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
-                            var wrapperBox = this.CreateWrapper(
+                            var wrapperBox = CreateWrapper(
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
                                  spec, true);
@@ -103,7 +103,7 @@ namespace LayoutFarm.CustomWidgets
                             }
 
                             var ui = button.GetPrimaryUIElement(this.myHost);
-                            var wrapperBox = this.CreateWrapper(
+                            var wrapperBox = CreateWrapper(
                                 button,
                                 ui.GetPrimaryRenderElement(rootgfx),
                                 spec, true);
@@ -114,7 +114,7 @@ namespace LayoutFarm.CustomWidgets
                     case "textbox":
                         {
                             var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
-                            var wrapperBox = this.CreateWrapper(
+                            var wrapperBox = CreateWrapper(
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
                                  spec, true);
@@ -125,7 +125,7 @@ namespace LayoutFarm.CustomWidgets
             }
             return null;
         }
- 
+
     }
 
 }

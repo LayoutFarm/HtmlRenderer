@@ -1,17 +1,14 @@
-﻿//BSD  2014 ,WinterDev
-
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Text;
 using System.Collections.Generic;
-using LayoutFarm;
+using PixelFarm.Drawing;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.WebDom
+namespace LayoutFarm.HtmlBoxes
 {
 
-    partial class DomElement : IEventListener
+    partial class UIElement
     {
-
         void IEventListener.ListenKeyPress(UIKeyEventArgs e)
         {
             OnKeyPress(e);
@@ -32,11 +29,6 @@ namespace LayoutFarm.WebDom
         {
             OnMouseDown(e);
         }
-        void IEventListener.ListenLostMouseFocus(UIMouseEventArgs e)
-        {
-            OnLostMouseFocus(e);
-
-        }
         void IEventListener.ListenMouseMove(UIMouseEventArgs e)
         {
             OnMouseMove(e);
@@ -45,12 +37,16 @@ namespace LayoutFarm.WebDom
         {
             OnMouseUp(e);
         }
+        void IEventListener.ListenLostMouseFocus(UIMouseEventArgs e)
+        {
+            OnLostSelectedFocus(e);
+        }
         void IEventListener.ListenMouseClick(UIMouseEventArgs e)
         {
         }
         void IEventListener.ListenMouseDoubleClick(UIMouseEventArgs e)
         {
-            OnDoubleClick(e);
+
         }
         void IEventListener.ListenMouseWheel(UIMouseEventArgs e)
         {
@@ -62,11 +58,11 @@ namespace LayoutFarm.WebDom
         }
         void IEventListener.ListenGotKeyboardFocus(UIFocusEventArgs e)
         {
-            OnGotFocus(e);
+            OnGotKeyboardFocus(e);
         }
         void IEventListener.ListenLostKeyboardFocus(UIFocusEventArgs e)
         {
-            OnLostFocus(e);
+            OnLostKeyboardFocus(e);
         }
         void IEventListener.ListenOnDrop(UIMouseEventArgs e)
         {
@@ -76,6 +72,7 @@ namespace LayoutFarm.WebDom
         {
             OnDragRelease(e);
         }
+
         void IEventListener.HandleContentLayout()
         {
             OnContentLayout();
@@ -90,11 +87,17 @@ namespace LayoutFarm.WebDom
         }
         bool IEventListener.BypassAllMouseEvents
         {
-            get { return false; }
+            get
+            {
+                return this.TransparentAllMouseEvents;
+            }
         }
         bool IEventListener.AutoStopMouseEventPropagation
         {
-            get { return false; }
+            get
+            {
+                return this.AutoStopMouseEventPropagation;
+            }
         }
         void IEventListener.ListenInterComponentMsg(object sender, int msgcode, string msg)
         {
@@ -103,6 +106,8 @@ namespace LayoutFarm.WebDom
 
         void IEventListener.ListenDragOver(UIDragOverEventArgs e)
         {
+            this.OnDragOver(e);
         }
+
     }
 }

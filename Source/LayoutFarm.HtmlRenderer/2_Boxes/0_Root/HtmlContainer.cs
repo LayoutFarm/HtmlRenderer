@@ -159,6 +159,13 @@ namespace LayoutFarm.HtmlBoxes
             //TODO: sync or async?
             OnRequestImage(binder, reqBy, false);
         }
+
+        protected abstract void OnRequestScrollView(CssBox box);
+
+        internal void RequestScrollView(CssBox box)
+        {
+            OnRequestScrollView(box);
+        }
         public abstract void ContainerInvalidateGraphics();
         internal void UpdateSizeIfWiderOrHigher(float newWidth, float newHeight)
         {

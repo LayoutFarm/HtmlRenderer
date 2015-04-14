@@ -30,9 +30,7 @@ namespace LayoutFarm.HtmlBoxes
             //-----------------------------------------------
             public const int IS_CUSTOM_CSSBOX = 1 << (18 - 1);
             //-----------------------------------------------
-            public const int OVERFLOW_HIDDEN = 1 << (19 - 1);
-
-            //-----------------------------------------------
+             
             
             public const int HAS_CUSTOM_RENDER_TECHNIQUE = 1 << (20 - 1);
             public const int HAS_CUSTOM_HIT_TEST_TECHNIQUE = 1 << (21 - 1);

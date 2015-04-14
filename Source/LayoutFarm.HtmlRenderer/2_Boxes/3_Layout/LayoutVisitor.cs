@@ -21,7 +21,7 @@ namespace LayoutFarm.HtmlBoxes
         List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
 
         static int totalLayoutIdEpisode = 0;
-        int episodeId =1;
+        int episodeId = 1;
         GraphicsPlatform gfxPlatform;
 
         public LayoutVisitor(GraphicsPlatform gfxPlatform)
@@ -79,12 +79,12 @@ namespace LayoutFarm.HtmlBoxes
             float candidateRootWidth = Math.Max(
                 box.CalculateMinimumWidth(this.episodeId) + CalculateWidthMarginTotalUp(box),
                 (box.SizeWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.SizeWidth : 0);
-            
+
 
             this.htmlContainer.UpdateSizeIfWiderOrHigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
-                this.ContainerBlockGlobalY + box.SizeHeight); 
-            
+                this.ContainerBlockGlobalY + box.SizeHeight);
+
         }
         /// <summary>
         /// Get the total margin value (left and right) from the given box to the given end box.<br/>
@@ -109,7 +109,11 @@ namespace LayoutFarm.HtmlBoxes
                 requestFrom,
                 false);
         }
+        internal void RequestScrollView(CssBox requestFrom)
+        {
 
+            this.htmlContainer.RequestScrollView(requestFrom);
+        }
         internal float MeasureWhiteSpace(CssBox box)
         {
             //depends on Font of this box           

@@ -288,7 +288,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
         public override void SetSelection(SelectionRange selRange)
-        {   
+        {
             this._currentSelectionRange = selRange;
         }
         public override void CopySelection(StringBuilder stbuilder)
@@ -314,7 +314,12 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this.htmlhost.ChildRequestImage(binder, this, reqFrom, _sync);
             }
+        }
+        protected override void OnRequestScrollView(CssBox box)
+        {
 
+            RootGraphic rootgfx = (RootGraphic)box.RootGfx;
+            rootgfx.AddToElementUpdateQueue(box); 
         }
         /// <summary>
         /// check if dom update

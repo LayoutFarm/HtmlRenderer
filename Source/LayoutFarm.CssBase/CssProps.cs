@@ -188,7 +188,9 @@ namespace LayoutFarm.Css
         [Map(CssConstants.Fixed)]
         Fixed,
         [Map(CssConstants.Center)]
-        Center
+        Center,
+        [Map(CssConstants.Page)]
+        Page
     }
 
     public enum CssTextDecoration : byte

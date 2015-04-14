@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
+using LayoutFarm.UI;
 
-namespace LayoutFarm.UI
+namespace LayoutFarm.HtmlBoxes
 {
 
-    public abstract partial class UIElement : IEventListener
+    abstract partial class UIElement : IEventListener
     {
         int oneBitNativeEventFlags;
         UIElement parentElement;
@@ -135,6 +136,9 @@ namespace LayoutFarm.UI
         protected virtual void OnContentUpdate()
         {
         }
+        protected virtual void OnElementChanged()
+        {
+        }
         protected virtual void OnInterComponentMsg(object sender, int msgcode, string msg)
         {
 
@@ -147,10 +151,7 @@ namespace LayoutFarm.UI
         {
 
         }
-        protected virtual void OnElementChanged()
-        {
-        }
-        public abstract void Walk(UIVisitor visitor);
+         
 
         protected virtual void OnDragOver(UIDragOverEventArgs e)
         {
