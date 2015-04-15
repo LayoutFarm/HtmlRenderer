@@ -37,7 +37,7 @@ namespace LayoutFarm.HtmlBoxes
                 else
                 {
                     PaintImp(p);
-                } 
+                }
             }
         }
 #if DEBUG
@@ -197,6 +197,12 @@ namespace LayoutFarm.HtmlBoxes
                             continue;
                         }
                         p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
+
+                        if (b.decorator != null)
+                        {
+                            b.decorator.Paint(b, p);
+                        }
+
                         if (b.HasClipArea)
                         {
                             if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
@@ -207,6 +213,7 @@ namespace LayoutFarm.HtmlBoxes
                         }
                         else
                         {
+                          
                             b.Paint(p);
                         }
                         node = node.Next;

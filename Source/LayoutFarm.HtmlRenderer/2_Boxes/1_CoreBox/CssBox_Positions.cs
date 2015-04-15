@@ -326,9 +326,6 @@ namespace LayoutFarm.HtmlBoxes
                 this._actualWordSpacing = iFonts.MeasureWhitespace(_actualFont)
                     + CssValueParser.ConvertToPx(spec.WordSpacing, 1, this);
             }
-
-
-
             //---------------------------------------------- 
             this._boxCompactFlags = tmpBoxCompactFlags;
             //---------------------------------------------- 
@@ -358,6 +355,25 @@ namespace LayoutFarm.HtmlBoxes
             //{
             //    _actualLineHeight = .9f * (this.GetEmHeight());
             //} 
+
+
+            if (this._myspec.HasBoxShadow)
+            {
+
+                //temp fix here
+                //TODO: review move shadow to external decoration object/box
+                if (decorator == null)
+                {
+                    decorator = new CssBoxDecorator();
+                }
+                decorator.HBoxShadowOffset = (int)CssValueParser.ConvertToPx(spec.BoxShadowHOffset, 0, this);
+                decorator.VBoxShadowOffset = (int)CssValueParser.ConvertToPx(spec.BoxShadowVOffset, 0, this);
+
+            }
+            else
+            {
+                this.decorator = null;
+            }
         }
 
         //------------------------------------------ 
@@ -834,6 +850,6 @@ namespace LayoutFarm.HtmlBoxes
             this.mayHasViewport = true;
             this.InvalidateGraphics();
         }
-        
+
     }
 }

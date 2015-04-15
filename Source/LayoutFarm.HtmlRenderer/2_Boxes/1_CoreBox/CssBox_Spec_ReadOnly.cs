@@ -31,8 +31,8 @@ namespace LayoutFarm.HtmlBoxes
 
 
     partial class CssBox
-    {   
-        
+    {
+
         public CssLength Height
         {
             get { return this._myspec.Height; }
@@ -206,8 +206,7 @@ namespace LayoutFarm.HtmlBoxes
             get { return this._myspec.Overflow; }
         }
         //----------------------------------- 
-
-
+ 
 
         /// <summary>
         /// Gets the second color that creates a gradient for the background

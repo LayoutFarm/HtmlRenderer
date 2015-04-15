@@ -169,15 +169,7 @@ namespace LayoutFarm.WebDom
             var boxSpec = CssBox.UnsafeGetBoxSpec(box);
             //create scrollbar
 
-            MyCssBoxDescorator myBoxDecor = null;
-            if (box.Decorator == null)
-            {
-                box.Decorator = myBoxDecor = new MyCssBoxDescorator(box);
-            }
-            else
-            {
-                myBoxDecor = (MyCssBoxDescorator)box.Decorator;
-            }
+          
             var scrollView = new CssScrollView(this, boxSpec, box.RootGfx);
 
             scrollView.SetSize(box.SizeWidth, box.SizeHeight);

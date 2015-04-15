@@ -148,7 +148,10 @@ namespace LayoutFarm.Css
             return this._backgroundFeats = this._backgroundFeats.GetMyOwnVersion(this);
         }
 
-
+        CssBoxShadowFeature CheckBoxShadowVersion()
+        {
+            return this._boxShadow = this._boxShadow.GetMyOwnVersion(this);
+        }
     }
 
 }

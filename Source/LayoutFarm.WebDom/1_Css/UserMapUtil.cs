@@ -670,7 +670,7 @@ namespace LayoutFarm.WebDom
             }
             return value.GetCacheCssLength();
         }
-        public static CssColor AsColor(this WebDom.CssCodeValueExpression value)
+        public static CssColor AsColor(WebDom.CssCodeValueExpression value)
         {
             if (value.EvaluatedAs != WebDom.CssValueEvaluatedAs.Color)
             {
