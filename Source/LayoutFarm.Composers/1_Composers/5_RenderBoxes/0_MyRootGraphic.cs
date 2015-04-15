@@ -40,7 +40,8 @@ namespace LayoutFarm.UI
 
             //create default  render box
             this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
-            this.userInputEventAdapter = new UserInputEventAdapter(this);
+            this.userInputEventAdapter = new UserInputEventAdapter(topWindowRenderBox);
+ 
             this.SubscribeGraphicsIntervalTask(normalUpdateTask,
                 TaskIntervalPlan.Animation,
                 20,

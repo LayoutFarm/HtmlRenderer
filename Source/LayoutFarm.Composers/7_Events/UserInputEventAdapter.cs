@@ -16,41 +16,33 @@ namespace LayoutFarm.UI
 
         UIHoverMonitorTask hoverMonitoringTask;
         int msgChainVersion;
-
-
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
         IEventListener currentMouseDown;
-
         DateTime lastTimeMouseUp;
-        const int DOUBLE_CLICK_SENSE = 150;//ms
+        const int DOUBLE_CLICK_SENSE = 150;//ms 
 
-        MyRootGraphic rootgfx;
-
-        internal UserInputEventAdapter(MyRootGraphic rootgfx)
+        RenderElement topRenderElement;
+        internal UserInputEventAdapter(RenderElement topRenderElement)
         {
-
-            this.rootgfx = rootgfx;
+            this.topRenderElement = topRenderElement;
             this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
+
+
 #if DEBUG
-            this._previousChain.dbugHitTracker = this.dbugRootGraphic.dbugHitTracker;
+            dbugRootGraphics =(MyRootGraphic)topRenderElement.Root;
 #endif
         }
-
-
-        public void EnableGraphicsTimer()
-        {
-            this.rootgfx.GfxTimerEnabled = true;
-        }
-        public void DisableGraphicsTimer()
-        {
-            this.rootgfx.GfxTimerEnabled = false;
-        }
-
 #if DEBUG
-        RootGraphic dbugRootGraphic
+        MyRootGraphic dbugRootGfx;
+        MyRootGraphic dbugRootGraphics
         {
-            get { return rootgfx; }
+            get { return dbugRootGfx; }
+            set
+            {
+                this.dbugRootGfx = value;
+                this._previousChain.dbugHitTracker = this.dbugRootGraphics.dbugHitTracker;
+            }
         }
 #endif
 
@@ -65,7 +57,7 @@ namespace LayoutFarm.UI
 
 #if DEBUG
                 var hitChain = new HitChain();
-                hitChain.dbugHitTracker = this.dbugRootGraphic.dbugHitTracker;
+                hitChain.dbugHitTracker = this.dbugRootGraphics.dbugHitTracker;
                 return hitChain;
 #else
                 return new HitChain();
@@ -83,11 +75,7 @@ namespace LayoutFarm.UI
             RelaseHitChain(this._previousChain);
             this._previousChain = hitChain;
         }
-        void PrepareRenderAndFlushAccumGraphics()
-        {
-            this.rootgfx.PrepareRender();
-            this.rootgfx.FlushAccumGraphics();
-        }
+
         public IEventListener CurrentKeyboardFocusedElement
         {
             get
@@ -115,7 +103,7 @@ namespace LayoutFarm.UI
                 e.SourceHitElement = hitInfo.hitElement;
             }
         }
-       
+
 
         static RenderElement HitTestOnPreviousChain(HitChain hitPointChain, HitChain previousChain, int x, int y)
         {
@@ -172,14 +160,15 @@ namespace LayoutFarm.UI
             hitPointChain.ClearAll();
             hitPointChain.SetStartTestPoint(x, y);
             RenderElement commonElement = HitTestOnPreviousChain(hitPointChain, previousChain, x, y);
+            //use root 
             if (commonElement == null)
             {
-                commonElement = this.rootgfx.TopWindowRenderBox;
+                commonElement = this.topRenderElement;
             }
             commonElement.HitTestCore(hitPointChain);
         }
 
-        protected void OnMouseWheel(UIMouseEventArgs e)
+        void OnMouseWheel(UIMouseEventArgs e)
         {
             //only on mouse active element
             if (currentMouseActiveElement != null)
@@ -187,15 +176,15 @@ namespace LayoutFarm.UI
                 currentMouseActiveElement.ListenMouseWheel(e);
             }
         }
-        protected void OnMouseDown(UIMouseEventArgs e)
+        void OnMouseDown(UIMouseEventArgs e)
         {
 
 #if DEBUG
-            if (this.dbugRootGraphic.dbugEnableGraphicInvalidateTrace)
+            if (this.dbugRootGraphics.dbugEnableGraphicInvalidateTrace)
             {
-                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
-                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("MOUSEDOWN");
-                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.dbugRootGraphics.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.dbugRootGraphics.dbugGraphicInvalidateTracer.WriteInfo("MOUSEDOWN");
+                this.dbugRootGraphics.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
 #endif
             msgChainVersion = 1;
@@ -268,7 +257,7 @@ namespace LayoutFarm.UI
             //---------------------------------------------------------------
 
 #if DEBUG
-            RootGraphic visualroot = this.dbugRootGraphic;
+            RootGraphic visualroot = this.dbugRootGraphics;
 
             if (visualroot.dbug_RecordHitChain)
             {
@@ -294,7 +283,6 @@ namespace LayoutFarm.UI
             }
 #endif
             SwapHitChain(hitPointChain);
-            this.PrepareRenderAndFlushAccumGraphics();
 
             if (local_msgVersion != msgChainVersion)
             {
@@ -306,7 +294,7 @@ namespace LayoutFarm.UI
 #endif
         }
 
-        protected void OnMouseMove(UIMouseEventArgs e)
+        void OnMouseMove(UIMouseEventArgs e)
         {
 
             HitChain hitPointChain = GetFreeHitChain();
@@ -360,19 +348,19 @@ namespace LayoutFarm.UI
 
 
             SwapHitChain(hitPointChain);
-            this.PrepareRenderAndFlushAccumGraphics();
+
 
         }
-        protected void OnGotFocus(UIFocusEventArgs e)
+        void OnGotFocus(UIFocusEventArgs e)
         {
 
 
         }
-        protected void OnLostFocus(UIFocusEventArgs e)
+        void OnLostFocus(UIFocusEventArgs e)
         {
 
         }
-        protected void OnMouseUp(UIMouseEventArgs e)
+        void OnMouseUp(UIMouseEventArgs e)
         {
 
 
@@ -384,11 +372,11 @@ namespace LayoutFarm.UI
             //--------------------------------------------
 #if DEBUG
 
-            if (this.dbugRootGraphic.dbugEnableGraphicInvalidateTrace)
+            if (this.dbugRootGraphics.dbugEnableGraphicInvalidateTrace)
             {
-                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
-                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("MOUSEUP");
-                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.dbugRootGraphics.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.dbugRootGraphics.dbugGraphicInvalidateTracer.WriteInfo("MOUSEUP");
+                this.dbugRootGraphics.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
 #endif
 
@@ -439,48 +427,39 @@ namespace LayoutFarm.UI
                 }
             }
             SwapHitChain(hitPointChain);
-            this.PrepareRenderAndFlushAccumGraphics();
         }
-        protected void OnKeyDown(UIKeyEventArgs e)
+        void OnKeyDown(UIKeyEventArgs e)
         {
             if (currentKbFocusElem != null)
             {
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyDown(e);
-
-                this.PrepareRenderAndFlushAccumGraphics();
             }
         }
-        protected void OnKeyUp(UIKeyEventArgs e)
+        void OnKeyUp(UIKeyEventArgs e)
         {
             if (currentKbFocusElem != null)
             {
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyUp(e);
-                this.PrepareRenderAndFlushAccumGraphics();
             }
         }
-        protected void OnKeyPress(UIKeyEventArgs e)
+        void OnKeyPress(UIKeyEventArgs e)
         {
-
             if (currentKbFocusElem != null)
             {
                 e.SourceHitElement = currentKbFocusElem;
                 currentKbFocusElem.ListenKeyPress(e);
-                this.PrepareRenderAndFlushAccumGraphics();
             }
         }
-        protected bool OnProcessDialogKey(UIKeyEventArgs e)
+        bool OnProcessDialogKey(UIKeyEventArgs e)
         {
             bool result = false;
             if (currentKbFocusElem != null)
             {
                 e.SourceHitElement = currentKbFocusElem;
                 result = currentKbFocusElem.ListenProcessDialogKey(e);
-                if (result)
-                {
-                    this.PrepareRenderAndFlushAccumGraphics();
-                }
+
             }
             return result;
         }
@@ -531,7 +510,7 @@ namespace LayoutFarm.UI
         }
 
         //--------------------------------------------------------------------
-        protected void OnMouseHover(object sender, EventArgs e)
+        void OnMouseHover(object sender, EventArgs e)
         {
             return;
             //HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY);

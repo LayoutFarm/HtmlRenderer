@@ -223,17 +223,17 @@ namespace LayoutFarm.UI
             this.userEventPortal.PortalGotFocus(focusEventArg);
             eventStock.ReleaseEventArgs(focusEventArg);
 
-
-
-
+            PrepareRenderAndFlushAccumGraphics(); 
         }
         public void HandleLostFocus(EventArgs e)
         {
             UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
             canvasViewport.FullMode = false;
             OffsetCanvasOrigin(focusEventArg, canvasViewport.LogicalViewportLocation);
-            this.userEventPortal.PortalLostFocus(focusEventArg);
+            this.userEventPortal.PortalLostFocus(focusEventArg);            
             eventStock.ReleaseEventArgs(focusEventArg);
+
+            PrepareRenderAndFlushAccumGraphics(); 
         }
         UIMouseEventArgs GetReadyMouseEventArgs(MouseEventArgs e)
         {
@@ -263,8 +263,8 @@ namespace LayoutFarm.UI
                 ChangeCursorStyle(mouseEventArg);
             }
             ReleaseMouseEvent(mouseEventArg);
-            //----------- 
-
+            
+            PrepareRenderAndFlushAccumGraphics();
 #if DEBUG
             RootGraphic visualroot = this.topwin.dbugVRoot;
             if (visualroot.dbug_RecordHitChain)
@@ -284,15 +284,15 @@ namespace LayoutFarm.UI
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
             mouseEventArg.IsDragging = this.isDragging = this.isMouseDown;
             this.userEventPortal.PortalMouseMove(mouseEventArg);
-            
-         
+
+
             if (currentCursorStyle != mouseEventArg.MouseCursorStyle)
             {
                 //change cursor if need
                 ChangeCursorStyle(mouseEventArg);
             }
             ReleaseMouseEvent(mouseEventArg);
-
+            PrepareRenderAndFlushAccumGraphics();
         }
         public void HandleMouseUp(MouseEventArgs e)
         {
@@ -308,10 +308,10 @@ namespace LayoutFarm.UI
             {
                 //change cursor if need
                 ChangeCursorStyle(mouseEventArg);
-            }
-
+            } 
             ReleaseMouseEvent(mouseEventArg);
 
+            PrepareRenderAndFlushAccumGraphics();
         }
         public void HandleMouseWheel(MouseEventArgs e)
         {
@@ -321,6 +321,7 @@ namespace LayoutFarm.UI
             this.userEventPortal.PortalMouseWheel(mouseEventArg);
             ReleaseMouseEvent(mouseEventArg);
 
+            PrepareRenderAndFlushAccumGraphics();
         }
         protected abstract void ChangeCursorStyle(UIMouseEventArgs mouseEventArg);
 
@@ -346,6 +347,13 @@ namespace LayoutFarm.UI
 
             eventStock.ReleaseEventArgs(keyEventArgs);
 
+
+            PrepareRenderAndFlushAccumGraphics();
+        }
+        void PrepareRenderAndFlushAccumGraphics()
+        {   
+            this.rootGraphic.PrepareRender();
+            this.rootGraphic.FlushAccumGraphics();
         }
         void StartCaretBlink()
         {
@@ -371,6 +379,7 @@ namespace LayoutFarm.UI
             eventStock.ReleaseEventArgs(keyEventArgs);
 
 
+            PrepareRenderAndFlushAccumGraphics();
             StartCaretBlink();
 
         }
@@ -404,7 +413,7 @@ namespace LayoutFarm.UI
 
             eventStock.ReleaseEventArgs(keyPressEventArgs);
 
-
+            PrepareRenderAndFlushAccumGraphics();
         }
 
         public bool HandleProcessDialogKey(Keys keyData)
@@ -425,6 +434,12 @@ namespace LayoutFarm.UI
             OffsetCanvasOrigin(keyEventArg, canvasViewport.LogicalViewportLocation);
             bool result = this.userEventPortal.PortalProcessDialogKey(keyEventArg);
             eventStock.ReleaseEventArgs(keyEventArg);
+
+            if (result)
+            {
+                PrepareRenderAndFlushAccumGraphics();
+            }
+
             return result;
         }
 

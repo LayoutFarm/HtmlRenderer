@@ -40,8 +40,7 @@ namespace LayoutFarm.Composers
         {
             RenderElement renderE;
             public RenderElementUserEventPortal(RenderElement renderE)
-            {
-
+            { 
                 this.renderE = renderE;
             }
             //---------------------------------------------------

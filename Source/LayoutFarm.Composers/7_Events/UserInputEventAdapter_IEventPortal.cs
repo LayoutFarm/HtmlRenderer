@@ -24,8 +24,7 @@ namespace LayoutFarm.UI
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
 
-            //auto pause?
-
+            //auto pause? 
             this.OnMouseDown(e);
 
 
