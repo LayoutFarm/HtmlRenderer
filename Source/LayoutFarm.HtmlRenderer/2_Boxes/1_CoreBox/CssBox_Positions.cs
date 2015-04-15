@@ -368,7 +368,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 decorator.HBoxShadowOffset = (int)CssValueParser.ConvertToPx(spec.BoxShadowHOffset, 0, this);
                 decorator.VBoxShadowOffset = (int)CssValueParser.ConvertToPx(spec.BoxShadowVOffset, 0, this);
-
+                decorator.Color = spec.BoxShadowColor;
             }
             else
             {
