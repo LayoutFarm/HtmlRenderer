@@ -82,7 +82,6 @@
     <Compile Include="1_Composers\5_RenderBoxes\0_MyRootGraphic.cs" />
     <Compile Include="7_Events\GraphicsTimerTasksManager.cs" />
     <Compile Include="7_Events\ToNotifySizeChangedEvent.cs" />
-    <Compile Include="7_Events\UIHoverMonitor.cs" />
     <Compile Include="7_Events\UserInputEventAdapter.cs" />
     <Compile Include="7_Events\UserInputEventAdapter_IEventPortal.cs" />
     <Compile Include="8_ContentManagers\ImageContentManager.cs" />

@@ -17,6 +17,7 @@ namespace LayoutFarm.UI
         protected TopWindowRenderBox topwin;
         CanvasViewport canvasViewport;
 
+        UIHoverMonitorTask hoverMonitoringTask;
 
         bool isMouseDown;
         bool isDragging;
@@ -38,9 +39,14 @@ namespace LayoutFarm.UI
 
         public TopWindowBridge(RootGraphic rootGraphic, IUserEventPortal winEventBridge)
         {
+
+
             this.userEventPortal = winEventBridge;
             this.rootGraphic = rootGraphic;
             this.topwin = rootGraphic.TopWindowRenderBox;
+            hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
+
+
         }
 #if DEBUG
         internal Control dbugWinControl;
@@ -223,17 +229,17 @@ namespace LayoutFarm.UI
             this.userEventPortal.PortalGotFocus(focusEventArg);
             eventStock.ReleaseEventArgs(focusEventArg);
 
-            PrepareRenderAndFlushAccumGraphics(); 
+            PrepareRenderAndFlushAccumGraphics();
         }
         public void HandleLostFocus(EventArgs e)
         {
             UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
             canvasViewport.FullMode = false;
             OffsetCanvasOrigin(focusEventArg, canvasViewport.LogicalViewportLocation);
-            this.userEventPortal.PortalLostFocus(focusEventArg);            
+            this.userEventPortal.PortalLostFocus(focusEventArg);
             eventStock.ReleaseEventArgs(focusEventArg);
 
-            PrepareRenderAndFlushAccumGraphics(); 
+            PrepareRenderAndFlushAccumGraphics();
         }
         UIMouseEventArgs GetReadyMouseEventArgs(MouseEventArgs e)
         {
@@ -263,7 +269,7 @@ namespace LayoutFarm.UI
                 ChangeCursorStyle(mouseEventArg);
             }
             ReleaseMouseEvent(mouseEventArg);
-            
+
             PrepareRenderAndFlushAccumGraphics();
 #if DEBUG
             RootGraphic visualroot = this.topwin.dbugVRoot;
@@ -279,6 +285,12 @@ namespace LayoutFarm.UI
         public void HandleMouseMove(MouseEventArgs e)
         {
 
+            //-------------------------------------------------------
+            //when mousemove -> reset hover!
+            hoverMonitoringTask.Reset();
+            hoverMonitoringTask.Enabled = true;
+            //-------------------------------------------------------
+            
             Point viewLocation = canvasViewport.LogicalViewportLocation;
 
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
@@ -308,7 +320,7 @@ namespace LayoutFarm.UI
             {
                 //change cursor if need
                 ChangeCursorStyle(mouseEventArg);
-            } 
+            }
             ReleaseMouseEvent(mouseEventArg);
 
             PrepareRenderAndFlushAccumGraphics();
@@ -351,7 +363,7 @@ namespace LayoutFarm.UI
             PrepareRenderAndFlushAccumGraphics();
         }
         void PrepareRenderAndFlushAccumGraphics()
-        {   
+        {
             this.rootGraphic.PrepareRender();
             this.rootGraphic.FlushAccumGraphics();
         }
@@ -443,7 +455,33 @@ namespace LayoutFarm.UI
             return result;
         }
 
+        //--------------------------------------------------------------------
+        void OnMouseHover(object sender, EventArgs e)
+        {
+            return;
+            //HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY);
+            //RenderElement hitElement = this.hitPointChain.CurrentHitElement as RenderElement;
+            //if (hitElement != null && hitElement.IsTestable)
+            //{
+            //    DisableGraphicOutputFlush = true;
+            //    Point hitElementGlobalLocation = hitElement.GetGlobalLocation();
 
+            //    UIMouseEventArgs e2 = new UIMouseEventArgs();
+            //    e2.WinTop = this.topwin;
+            //    e2.Location = hitPointChain.CurrentHitPoint;
+            //    e2.SourceHitElement = hitElement;
+            //    IEventListener ui = hitElement.GetController() as IEventListener;
+            //    if (ui != null)
+            //    {
+            //        ui.ListenMouseEvent(UIMouseEventName.MouseHover, e2);
+            //    }
+
+            //    DisableGraphicOutputFlush = false;
+            //    FlushAccumGraphicUpdate();
+            //}
+            //hitPointChain.SwapHitChain();
+            //hoverMonitoringTask.SetEnable(false, this.topwin);
+        }
     }
 
 

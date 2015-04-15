@@ -14,21 +14,19 @@ namespace LayoutFarm.UI
         HitChain _previousChain = new HitChain();
         Stack<HitChain> hitChainStack = new Stack<HitChain>();
 
-        UIHoverMonitorTask hoverMonitoringTask;
         int msgChainVersion;
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
         IEventListener currentMouseDown;
+
         DateTime lastTimeMouseUp;
         const int DOUBLE_CLICK_SENSE = 150;//ms 
-
         RenderElement topRenderElement;
+
         internal UserInputEventAdapter(RenderElement topRenderElement)
         {
             this.topRenderElement = topRenderElement;
-            this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
-
-
+             
 #if DEBUG
             dbugRootGraphics =(MyRootGraphic)topRenderElement.Root;
 #endif
@@ -300,10 +298,7 @@ namespace LayoutFarm.UI
             HitChain hitPointChain = GetFreeHitChain();
             HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
             //-------------------------------------------------------
-            //when mousemove -> reset hover!
-            hoverMonitoringTask.Reset();
-            hoverMonitoringTask.Enabled = true;
-            //-------------------------------------------------------
+            
 
             SetEventOrigin(e, hitPointChain);
             //-------------------------------------------------------
@@ -509,33 +504,7 @@ namespace LayoutFarm.UI
             }
         }
 
-        //--------------------------------------------------------------------
-        void OnMouseHover(object sender, EventArgs e)
-        {
-            return;
-            //HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY);
-            //RenderElement hitElement = this.hitPointChain.CurrentHitElement as RenderElement;
-            //if (hitElement != null && hitElement.IsTestable)
-            //{
-            //    DisableGraphicOutputFlush = true;
-            //    Point hitElementGlobalLocation = hitElement.GetGlobalLocation();
-
-            //    UIMouseEventArgs e2 = new UIMouseEventArgs();
-            //    e2.WinTop = this.topwin;
-            //    e2.Location = hitPointChain.CurrentHitPoint;
-            //    e2.SourceHitElement = hitElement;
-            //    IEventListener ui = hitElement.GetController() as IEventListener;
-            //    if (ui != null)
-            //    {
-            //        ui.ListenMouseEvent(UIMouseEventName.MouseHover, e2);
-            //    }
-
-            //    DisableGraphicOutputFlush = false;
-            //    FlushAccumGraphicUpdate();
-            //}
-            //hitPointChain.SwapHitChain();
-            //hoverMonitoringTask.SetEnable(false, this.topwin);
-        }
+       
         //        public override void OnDragStart(UIMouseEventArgs e)
         //        {
 
