@@ -803,15 +803,12 @@ namespace LayoutFarm.Css
             return inMsgCount == rep.Count;
         }
 #endif
-    }
-
-
-
+    } 
 
     class CssBoxShadowFeature : CssFeatureBase
     {
         Color _shadowColor;
-        CssLength _hShadow, _vShadow, _blurDistance;
+        CssLength _hOffset, _vOffset, _blurRadius, _spreadDistance;
         bool _inset;
 
         public static readonly CssBoxShadowFeature Default = new CssBoxShadowFeature(null);
@@ -823,40 +820,51 @@ namespace LayoutFarm.Css
         public CssBoxShadowFeature(object owner)
             : base(owner)
         {
-            this.HShadow =
-               this.VShadow =
-               this.BlurDistance = CssLength.ZeroNoUnit;
+            this.HOffset =
+               this.VOffset =
+               this.BlurRadius =
+               this.SpreadDistance = CssLength.ZeroNoUnit;
         }
         private CssBoxShadowFeature(object newOwner, CssBoxShadowFeature inheritFrom)
             : base(newOwner)
         {
 
-            this.HShadow = inheritFrom.HShadow;
-            this.VShadow = inheritFrom.VShadow;
-            this.BlurDistance = inheritFrom.BlurDistance;
+            this.HOffset = inheritFrom.HOffset;
+            this.VOffset = inheritFrom.VOffset;
+            this.BlurRadius = inheritFrom.BlurRadius;
             this.ShadowColor = inheritFrom.ShadowColor;
-
+            this.SpreadDistance = inheritFrom.SpreadDistance;
+            this.Inset = inheritFrom.Inset;
         }
-        public CssLength HShadow
+        public CssLength HOffset
         {
-            get { return this._hShadow; }
-            set { if (Assignable()) this._hShadow = value; }
+            get { return this._hOffset; }
+            set { if (Assignable()) this._hOffset = value; }
         }
-        public CssLength VShadow
+        public CssLength VOffset
         {
-            get { return this._vShadow; }
-            set { if (Assignable()) this._vShadow = value; }
+            get { return this._vOffset; }
+            set { if (Assignable()) this._vOffset = value; }
         }
-        public CssLength BlurDistance
+        public CssLength BlurRadius
         {
-            get { return this._blurDistance; }
-            set { if (Assignable()) this._blurDistance = value; }
+            get { return this._blurRadius; }
+            set { if (Assignable()) this._blurRadius = value; }
         }
-
+        public CssLength SpreadDistance
+        {
+            get { return this._spreadDistance; }
+            set { if (Assignable()) this._spreadDistance = value; }
+        }
         public Color ShadowColor
         {
             get { return this._shadowColor; }
             set { if (Assignable()) this._shadowColor = value; }
+        }
+        public bool Inset
+        {
+            get { return this._inset; }
+            set { if (Assignable()) this._inset = value; }
         }
 
         public CssBoxShadowFeature GetMyOwnVersion(object checkOwner)

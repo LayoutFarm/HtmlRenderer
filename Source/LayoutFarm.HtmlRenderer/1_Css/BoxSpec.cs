@@ -71,8 +71,8 @@ namespace LayoutFarm.Css
         CssPosition _position = CssPosition.Static;
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
         //==========================================================
-
-
+        CssBoxShadowFeature _boxShadow = CssBoxShadowFeature.Default;
+        
         #endregion
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
