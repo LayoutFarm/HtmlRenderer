@@ -72,7 +72,7 @@ namespace LayoutFarm.Css
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
         //==========================================================
         CssBoxShadowFeature _boxShadow = CssBoxShadowFeature.Default;
-        
+
         #endregion
 #if DEBUG
         public readonly int __aa_dbugId = dbugTotalId++;
@@ -747,6 +747,53 @@ namespace LayoutFarm.Css
             return fontInfo;
         }
 
+
+        //----------------------------------------------------------------------
+        public bool HasBoxShadow
+        {
+            get { return this._boxShadow != CssBoxShadowFeature.Default; }
+        }
+        public CssLength BoxShadowHOffset
+        {
+            get { return this._boxShadow.HOffset; }
+            set
+            {
+                if (Assignable()) CheckBoxShadowVersion().HOffset = value;
+            }
+        }
+        public CssLength BoxShadowVOffset
+        {
+            get { return this._boxShadow.VOffset; }
+            set
+            {
+                if (Assignable()) CheckBoxShadowVersion().VOffset = value;
+            }
+        }
+        public CssLength BoxShadowBlurRadius
+        {
+            get { return this._boxShadow.BlurRadius; }
+            set
+            {
+                if (Assignable()) CheckBoxShadowVersion().BlurRadius = value;
+            }
+        }
+        public CssLength BoxShadowSpreadDistance
+        {
+            get { return this._boxShadow.SpreadDistance; }
+            set
+            {
+                if (Assignable()) CheckBoxShadowVersion().SpreadDistance = value;
+            }
+        }
+        public Color BoxShadowColor
+        {
+            get { return this._boxShadow.ShadowColor; }
+            set
+            {
+                if (Assignable()) CheckBoxShadowVersion().ShadowColor = value;
+            }
+        }
+        //----------------------------------------------------------------------
 #if DEBUG
         public static bool dbugCompare(dbugPropCheckReport dbugR, BoxSpec boxBase, BoxSpec spec)
         {

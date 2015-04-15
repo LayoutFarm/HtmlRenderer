@@ -53,7 +53,6 @@
     <Compile Include="1_Composers\1_Builder\BoxCreator.cs" />
     <Compile Include="1_Composers\6_SpecialCssBoxes\CssBoxScrollView.cs" />
     <Compile Include="1_Composers\6_SpecialCssBoxes\CssRenderRoot.cs" />
-    <Compile Include="1_Composers\6_SpecialCssBoxes\MyCssBoxDecorator.cs" />
     <Compile Include="1_Composers\7_UIElements\1_UIElement.cs" />
     <Compile Include="1_Composers\7_UIElements\2_UIElement_EventListener.cs" />
     <Compile Include="1_Composers\7_UIElements\3_UIBox.cs" />

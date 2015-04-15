@@ -129,6 +129,9 @@ namespace LayoutFarm.Composers
                     spec.BorderCollapse = UserMapUtil.GetBorderCollapse(cssValue);
                     break;
                 //------------------------------------------------
+                case WellknownCssPropertyName.BoxShadow:
+                    SetBoxShadow(spec, decl);
+                    break;
                 case WellknownCssPropertyName.CornerRadius:
 
                     SetCornerRadius(spec, cssValue);
@@ -145,6 +148,7 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.CornerSWRadius:
                     spec.CornerSWRadius = cssValue.AsLength();
                     break;
+
                 //------------------------------------------------
                 case WellknownCssPropertyName.MarginBottom:
                     spec.MarginBottom = cssValue.AsTranslatedLength();
@@ -282,6 +286,7 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.Overflow:
                     spec.Overflow = UserMapUtil.GetOverflow(cssValue);
                     break;
+
             }
         }
         static CssLength SetLineHeight(this CssBox box, CssLength len)
@@ -306,33 +311,32 @@ namespace LayoutFarm.Composers
             }
             box.CornerNERadius = box.CornerNWRadius =
                box.CornerSERadius = box.CornerSWRadius = UserMapUtil.AsLength(prim);
+        }
+        static void SetBoxShadow(BoxSpec box, WebDom.CssPropertyDeclaration decl)
+        {
+            switch (decl.ValueCount)
+            {
+                case 2:
+                    {
+                        //
+                        var v0 = decl.GetPropertyValue(0);
+                        var v1 = decl.GetPropertyValue(1);
 
+                        box.BoxShadowHOffset = v0.AsLength();
+                        box.BoxShadowVOffset = v1.AsLength();
+                    } break;
+                case 3:
+                    {
+                        var v0 = decl.GetPropertyValue(0);
+                        var v1 = decl.GetPropertyValue(1);
+                        var v2 = decl.GetPropertyValue(2);
+                        box.BoxShadowHOffset = v0.AsLength();
+                        box.BoxShadowVOffset = v1.AsLength();
 
-            ////parse corner radius 
-            //System.Text.RegularExpressions.MatchCollection r =
-            //    HtmlRenderer.Parse.RegexParserUtils.Match(HtmlRenderer.Parse.RegexParserUtils.CssLength, value);
-            //switch (r.Count)
-            //{
-            //    case 1:
-            //        box.CornerNERadius = box.CornerNWRadius =
-            //            box.CornerSERadius = box.CornerSWRadius = new CssLength(r[0].Value);
-            //        break;
-            //    case 2:
-            //        box.CornerNERadius = box.CornerNWRadius = new CssLength(r[0].Value);
-            //        box.CornerSERadius = box.CornerSWRadius = new CssLength(r[1].Value);
-            //        break;
-            //    case 3:
-            //        box.CornerNERadius = new CssLength(r[0].Value);
-            //        box.CornerNWRadius = new CssLength(r[1].Value);
-            //        box.CornerSERadius = new CssLength(r[2].Value);
-            //        break;
-            //    case 4:
-            //        box.CornerNERadius = new CssLength(r[0].Value);
-            //        box.CornerNWRadius = new CssLength(r[1].Value);
-            //        box.CornerSERadius = new CssLength(r[2].Value);
-            //        box.CornerSWRadius = new CssLength(r[3].Value);
-            //        break;
-            //}
+                        box.BoxShadowColor = AsColor(v2);
+
+                    } break;
+            } 
         }
         static void SetFontSize(this BoxSpec box, WebDom.CssCodeValueExpression value)
         {
