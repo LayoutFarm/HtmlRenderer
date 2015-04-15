@@ -22,7 +22,7 @@ namespace LayoutFarm.Composers
             if (portalEvent == null)
             {
                 //auto create iuser event portal
-                portalEvent = new RenderElementPortal(renderElement);
+                portalEvent = new RenderElementUserEventPortal(renderElement);
             }
 
             if (isInline)
@@ -36,10 +36,10 @@ namespace LayoutFarm.Composers
         }
         
 
-        class RenderElementPortal : IUserEventPortal
+        class RenderElementUserEventPortal : IUserEventPortal
         {
             RenderElement renderE;
-            public RenderElementPortal(RenderElement renderE)
+            public RenderElementUserEventPortal(RenderElement renderE)
             {
 
                 this.renderE = renderE;
