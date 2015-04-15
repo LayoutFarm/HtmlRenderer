@@ -71,7 +71,7 @@ namespace LayoutFarm.HtmlBoxes
         char[] _buffer;
         //----------------------------------------------------    
         CssBoxDecorator decorator;
-        bool mayHasViewport;
+        bool mayHasViewport; 
 
         internal int RunCount
         {
@@ -80,7 +80,7 @@ namespace LayoutFarm.HtmlBoxes
                 return this._aa_contentRuns != null ? this._aa_contentRuns.Count : 0;
             }
         }
-        public CssBoxDecorator Decorator
+        internal CssBoxDecorator Decorator
         {
             get { return this.decorator; }
             set { this.decorator = value; }

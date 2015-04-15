@@ -829,8 +829,7 @@ namespace LayoutFarm.WebDom.Parser
                                 WellknownCssPropertyName.PaddingBottom,
                                 newProps);
                             decl.IsExpand = true;
-                        } break;
-                    //---------------------------
+                        } break; 
                 }
             }
             //--------------------

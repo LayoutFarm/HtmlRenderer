@@ -186,8 +186,9 @@ namespace LayoutFarm.WebDom
         PageBreakBefore,
         [Map("page-break-after")]
         PageBreakAfter,
-        
 
+        [Map("box-shadow")]
+        BoxShadow,
         //----------------------------------
         [Map("cursor")]
         Cursor
