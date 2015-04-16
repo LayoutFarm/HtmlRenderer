@@ -21,7 +21,7 @@ namespace LayoutFarm.Composers
             var portalEvent = owner as IUserEventPortal;
             if (portalEvent == null)
             {   
-                portalEvent = new UserInputEventAdapter(renderElement);
+                portalEvent = new UserEventPortal(renderElement);
             }
 
             if (isInline)

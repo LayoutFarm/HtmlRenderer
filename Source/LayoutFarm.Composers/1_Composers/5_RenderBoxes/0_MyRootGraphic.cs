@@ -25,7 +25,7 @@ namespace LayoutFarm.UI
 
 
         static object normalUpdateTask = new object();
-        UserInputEventAdapter userInputEventAdapter;
+        UserEventPortal userInputEventAdapter;
 
         TopWindowRenderBox topWindowRenderBox;
         public MyRootGraphic(UIPlatform uiPlatform, GraphicsPlatform gfxPlatform, int width, int height)
@@ -40,7 +40,7 @@ namespace LayoutFarm.UI
 
             //create default  render box
             this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
-            this.userInputEventAdapter = new UserInputEventAdapter(topWindowRenderBox);
+            this.userInputEventAdapter = new UserEventPortal(topWindowRenderBox);
  
             this.SubscribeGraphicsIntervalTask(normalUpdateTask,
                 TaskIntervalPlan.Animation,

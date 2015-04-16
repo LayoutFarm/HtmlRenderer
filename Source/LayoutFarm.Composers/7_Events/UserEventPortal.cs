@@ -7,13 +7,13 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
 
-    partial class UserInputEventAdapter
+    class UserEventPortal : IUserEventPortal
     {
 
         //current hit chain        
         HitChain _previousChain = new HitChain();
         Stack<HitChain> hitChainStack = new Stack<HitChain>();
-
+        IEventListener draggingElement;
         int msgChainVersion;
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
@@ -28,7 +28,7 @@ namespace LayoutFarm.UI
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
 #endif
-        internal UserInputEventAdapter(RenderElement topRenderElement)
+        internal UserEventPortal(RenderElement topRenderElement)
         {
             this.topRenderElement = topRenderElement;
 
@@ -186,9 +186,9 @@ namespace LayoutFarm.UI
             //{
 
             //}
-             
+
             //RenderElement commonElement = HitTestOnPreviousChain(hitPointChain, previousChain, x, y);
-            
+
             //temp fix
             //TODO: fix bug on HitTestOnPreviousChain()
             RenderElement commonElement = this.topRenderElement;
@@ -222,7 +222,7 @@ namespace LayoutFarm.UI
             //this.topRenderElement.HitTestCore(hitPointChain);
         }
 
-        void OnMouseWheel(UIMouseEventArgs e)
+        void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
             //only on mouse active element
             if (currentMouseActiveElement != null)
@@ -230,7 +230,7 @@ namespace LayoutFarm.UI
                 currentMouseActiveElement.ListenMouseWheel(e);
             }
         }
-        void OnMouseDown(UIMouseEventArgs e)
+        void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
 
 #if DEBUG
@@ -349,21 +349,13 @@ namespace LayoutFarm.UI
         }
 
 
-        bool isDragging;
-        bool ismousemove = false;
-        object sync = new object();
-        void OnMouseMove(UIMouseEventArgs e)
-        {
-            lock (sync)
-            {
-                if (ismousemove)
-                {
-                    return;
-                }
-                ismousemove = true;
-            }
 
-            this.isDragging = e.IsDragging;
+
+        void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
+        {
+
+
+
             HitChain hitPointChain = GetFreeHitChain();
 
             HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
@@ -412,21 +404,29 @@ namespace LayoutFarm.UI
             }
             SwapHitChain(hitPointChain);
 
-            ismousemove = false;
+            //registered dragging element
+            draggingElement = e.DraggingElement;
+
         }
-        void OnGotFocus(UIFocusEventArgs e)
+        void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
 
 
         }
-        void OnLostFocus(UIFocusEventArgs e)
+        void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
 
         }
-        void OnMouseUp(UIMouseEventArgs e)
+        void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
 
-
+            //--------------------------------------------
+            if (draggingElement != null)
+            {
+                //notify release drag?
+                draggingElement.ListenDragRelease(e);
+            }
+            //--------------------------------------------
             DateTime snapMouseUpTime = DateTime.Now;
             TimeSpan timediff = snapMouseUpTime - lastTimeMouseUp;
             bool isAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;
@@ -491,7 +491,7 @@ namespace LayoutFarm.UI
             }
             SwapHitChain(hitPointChain);
         }
-        void OnKeyDown(UIKeyEventArgs e)
+        void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
             if (currentKbFocusElem != null)
             {
@@ -499,7 +499,7 @@ namespace LayoutFarm.UI
                 currentKbFocusElem.ListenKeyDown(e);
             }
         }
-        void OnKeyUp(UIKeyEventArgs e)
+        void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
             if (currentKbFocusElem != null)
             {
@@ -507,7 +507,7 @@ namespace LayoutFarm.UI
                 currentKbFocusElem.ListenKeyUp(e);
             }
         }
-        void OnKeyPress(UIKeyEventArgs e)
+        void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
             if (currentKbFocusElem != null)
             {
@@ -515,7 +515,7 @@ namespace LayoutFarm.UI
                 currentKbFocusElem.ListenKeyPress(e);
             }
         }
-        bool OnProcessDialogKey(UIKeyEventArgs e)
+        bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
             bool result = false;
             if (currentKbFocusElem != null)

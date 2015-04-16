@@ -16,10 +16,8 @@ namespace LayoutFarm.Svg
 {
 
     partial class SvgRootEventPortal : IUserEventPortal
-    {
-
-
-        //------------------------------------------------------------
+    {   
+         
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
              
