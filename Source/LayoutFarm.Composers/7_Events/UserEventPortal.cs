@@ -7,14 +7,15 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
 
-    class UserEventPortal : IUserEventPortal
+    public class UserEventPortal : IUserEventPortal
     {
 
         //current hit chain        
         HitChain _previousChain = new HitChain();
-        Stack<HitChain> hitChainStack = new Stack<HitChain>(); 
-       
+        Stack<HitChain> hitChainStack = new Stack<HitChain>();
+
         int msgChainVersion;
+
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
         IEventListener currentMouseDown;
@@ -28,7 +29,8 @@ namespace LayoutFarm.UI
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
 #endif
-        internal UserEventPortal(RenderElement topRenderElement)
+       
+        public UserEventPortal(RenderElement topRenderElement)
         {
             this.topRenderElement = topRenderElement;
 #if DEBUG
@@ -262,7 +264,7 @@ namespace LayoutFarm.UI
                 {
                     portal.PortalMouseDown(e);
                     //*****
-                    this.currentMouseDown = e.CurrentContextElement; 
+                    this.currentMouseDown = e.CurrentContextElement;
                     return true;
                 });
 
@@ -415,7 +417,7 @@ namespace LayoutFarm.UI
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
 
-           
+
             DateTime snapMouseUpTime = DateTime.Now;
             TimeSpan timediff = snapMouseUpTime - lastTimeMouseUp;
             bool isAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;

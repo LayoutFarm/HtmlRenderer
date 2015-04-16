@@ -35,7 +35,7 @@ namespace TestGraphicPackage
             };
             formLayoutInspector.Connect(viewport);
         }
-        
+
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
         {
 
@@ -50,8 +50,11 @@ namespace TestGraphicPackage
                 w,
                 h);
 
-            TopWindowRenderBox topWin = rootgfx.TopWindowRenderBox;
+            var userEventPortal = new UserEventPortal(rootgfx.TopWindowRenderBox);
+            rootgfx.SetUserEventPortal(userEventPortal);
+
             Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
+               userEventPortal,
                InnerViewportKind.GdiPlus,
                out viewport);
 
@@ -74,8 +77,9 @@ namespace TestGraphicPackage
             int h = 600;
 
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm, this.gfxPlatform, w, h);
-
-            viewport.InitRootGraphics(rootgfx, rootgfx.UserInputEventAdapter, InnerViewportKind.GdiPlus);
+            var userEventPortal = new UserEventPortal(rootgfx.TopWindowRenderBox);
+            rootgfx.SetUserEventPortal(userEventPortal);
+            viewport.InitRootGraphics(rootgfx, userEventPortal, InnerViewportKind.GdiPlus);
             viewport.PaintMe();
 
             simpleForm.Show();

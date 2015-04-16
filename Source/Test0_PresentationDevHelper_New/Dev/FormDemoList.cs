@@ -114,13 +114,16 @@ namespace LayoutFarm.Dev
             int w = workingArea.Width;
             int h = workingArea.Height;
 
+            
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
                 this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
                 w, h);
 
-            TopWindowRenderBox topRenderBox = rootgfx.TopWindowRenderBox;
+            var topRenderBox = rootgfx.TopWindowRenderBox;
+            var userEventPortal = new UserEventPortal(topRenderBox);
+            rootgfx.SetUserEventPortal(userEventPortal);
 
-            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,userEventPortal,
                 this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
                 out viewport);
 

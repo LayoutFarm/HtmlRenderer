@@ -114,8 +114,6 @@ namespace LayoutFarm.HtmlBoxes
             }
             return primElement;
         }
-        //----------------------------------------------------
-
         public bool AcceptKeyboardFocus
         {
             get;

@@ -20,6 +20,7 @@ namespace LayoutFarm.UI
         {
             InitializeComponent();
         }
+
         public void InitRootGraphics(
             RootGraphic rootgfx,
             IUserEventPortal userInputEvBridge,
@@ -28,7 +29,6 @@ namespace LayoutFarm.UI
 
             //1.
             this.rootgfx = rootgfx;
-
             switch (innerViewportKind)
             {
                 case InnerViewportKind.GL:
@@ -64,6 +64,9 @@ namespace LayoutFarm.UI
                     } break;
             }
         }
+
+         
+
         public GraphicsPlatform P
         {
             get { return this.rootgfx.P; }
@@ -107,7 +110,7 @@ namespace LayoutFarm.UI
         }
         public void AddContent(RenderElement vi)
         {
-            this.rootgfx.TopWindowRenderBox.AddChild(vi);             
+            this.rootgfx.TopWindowRenderBox.AddChild(vi);
         }
 
         public RootGraphic RootGfx

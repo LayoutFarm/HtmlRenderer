@@ -14,17 +14,16 @@ namespace LayoutFarm.UI
     {
         CanvasEventsStock eventStock = new CanvasEventsStock();
         IUserEventPortal userEventPortal;
-        protected TopWindowRenderBox topwin;
-        CanvasViewport canvasViewport;
-        int prevLogicalMouseX;
-        int prevLogicalMouseY;
+        RenderBoxBase topwin;
+        CanvasViewport canvasViewport; 
         UIHoverMonitorTask hoverMonitoringTask;
         IEventListener draggingElement;
 
+
+        int prevLogicalMouseX;
+        int prevLogicalMouseY;
         bool isMouseDown;
         bool isDragging;
-
-
         bool lastKeydownWithControl;
         bool lastKeydownWithAlt;
         bool lastKeydownWithShift;
@@ -40,15 +39,11 @@ namespace LayoutFarm.UI
         RootGraphic rootGraphic;
 
         public TopWindowBridge(RootGraphic rootGraphic, IUserEventPortal winEventBridge)
-        {
-
-
+        { 
             this.userEventPortal = winEventBridge;
             this.rootGraphic = rootGraphic;
             this.topwin = rootGraphic.TopWindowRenderBox;
             hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
-
-
         }
 #if DEBUG
         internal Control dbugWinControl;
@@ -67,7 +62,7 @@ namespace LayoutFarm.UI
         public void PaintToOutputWindowFullMode()
         {
 
-            Rectangle rect = new Rectangle(0, 0, rootGraphic.RootWidth, rootGraphic.RootHeight);
+            Rectangle rect = new Rectangle(0, 0, rootGraphic.Width, rootGraphic.Height);
             rootGraphic.InvalidateGraphicArea(
                 rootGraphic.TopWindowRenderBox,
                 ref rect);
@@ -265,10 +260,7 @@ namespace LayoutFarm.UI
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
             canvasViewport.FullMode = false;
-            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
-
-
-
+            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e); 
             this.userEventPortal.PortalMouseDown(mouseEventArg);
             if (currentCursorStyle != mouseEventArg.MouseCursorStyle)
             {
@@ -291,7 +283,7 @@ namespace LayoutFarm.UI
         }
         public void HandleMouseMove(MouseEventArgs e)
         {
-            
+
             int xdiff = e.X - prevLogicalMouseX;
             int ydiff = e.Y - prevLogicalMouseY;
             this.prevLogicalMouseX = e.X;
@@ -300,7 +292,7 @@ namespace LayoutFarm.UI
             if (xdiff == 0 && ydiff == 0)
             {
                 return;
-            } 
+            }
 
             //-------------------------------------------------------
             //when mousemove -> reset hover!            
@@ -325,7 +317,7 @@ namespace LayoutFarm.UI
             PrepareRenderAndFlushAccumGraphics();
 
 
-           
+
         }
         public void HandleMouseUp(MouseEventArgs e)
         {
@@ -345,7 +337,7 @@ namespace LayoutFarm.UI
             }
 
             this.userEventPortal.PortalMouseUp(mouseEventArg);
-            
+
             if (this.currentCursorStyle != mouseEventArg.MouseCursorStyle)
             {
                 //change cursor if need

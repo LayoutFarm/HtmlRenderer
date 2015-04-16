@@ -287,7 +287,7 @@ namespace LayoutFarm.CustomWidgets
     public class MenuBox : EaseBox
     {
         bool showing;
-        TopWindowRenderBox topWindow;
+        RenderBoxBase topWindow;
         RenderElement myRenderE;
         public MenuBox(int w, int h)
             : base(w, h)

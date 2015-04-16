@@ -32,29 +32,21 @@ namespace LayoutFarm
         {
             get;
         }
-        public abstract TopWindowRenderBox TopWindowRenderBox
+        public abstract RenderBoxBase TopWindowRenderBox
         {
             get;
             protected set;
         }
-        internal int Width
+        public int Width
         {
             get;
-            set;
+            internal set;
         }
-        internal int Height
+        public int Height
         {
             get;
-            set;
-        }
-        public int RootWidth
-        {
-            get { return this.TopWindowRenderBox.Width; }
-        }
-        public int RootHeight
-        {
-            get { return this.TopWindowRenderBox.Height; }
-        }
+            internal set;
+        } 
         public abstract void CloseWinRoot();
         //-------------------------------------------------------------------------
 

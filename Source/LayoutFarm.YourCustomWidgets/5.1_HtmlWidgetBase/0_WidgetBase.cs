@@ -153,6 +153,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             var htmlhost = this.HtmlHost;
             if (htmlhost == null) return;
+            
             var topWindow = htmlhost.TopWindowRenderBox;
             if (topWindow != null)
             {
@@ -175,9 +176,11 @@ namespace LayoutFarm.HtmlWidgets
             if (lightHtmlBox != null)
             {
                 RenderElement currentRenderE = lightHtmlBox.CurrentPrimaryRenderElement;
-                if (currentRenderE != null && currentRenderE.HasParent)
+
+                if (currentRenderE != null)
                 {
-                    var topRenderBox = currentRenderE.ParentRenderElement as TopWindowRenderBox;
+                    var topRenderBox = currentRenderE.GetTopWindowRenderBox();
+                    //var topRenderBox = currentRenderE.ParentRenderElement as TopWindowRenderBox;
                     if (topRenderBox != null)
                     {
                         topRenderBox.RemoveChild(currentRenderE);

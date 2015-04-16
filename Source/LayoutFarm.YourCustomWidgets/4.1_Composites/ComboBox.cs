@@ -63,7 +63,7 @@ namespace LayoutFarm.CustomWidgets
                 renderE.HasSpecificSize = true;
                 //------------------------------------------------
                 //create visual layer
-              
+
                 if (this.landPart != null)
                 {
                     renderE.AddChild(this.landPart);
@@ -202,11 +202,10 @@ namespace LayoutFarm.CustomWidgets
                 case HingeFloatPartStyle.Popup:
                     {
 
-                        TopWindowRenderBox topRenderBox = primElement.GetTopWindowRenderBox();
+                        var topRenderBox = primElement.GetTopWindowRenderBox();
                         if (topRenderBox != null)
                         {
-                            topRenderBox.RemoveChild(floatPartRenderElement);
-
+                            topRenderBox.RemoveChild(floatPartRenderElement); 
                         }
                     } break;
                 case HingeFloatPartStyle.Embeded:

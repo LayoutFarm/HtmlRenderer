@@ -182,8 +182,11 @@ namespace LayoutFarm.HtmlWidgets
                         if (floatPartRenderElement != null)
                         {
                             //temp
-                            var parentContainer = floatPartRenderElement.ParentRenderElement as TopWindowRenderBox;
-                            parentContainer.RemoveChild(floatPartRenderElement);
+                            var topRenderBox = floatPartRenderElement.GetTopWindowRenderBox();
+                            topRenderBox.RemoveChild(floatPartRenderElement);
+                             
+                            //var parentContainer = floatPartRenderElement.ParentRenderElement as TopWindowRenderBox;
+                            //parentContainer.RemoveChild(floatPartRenderElement);
                             //if (parentContainer.Layers != null)
                             //{
                             //    PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
