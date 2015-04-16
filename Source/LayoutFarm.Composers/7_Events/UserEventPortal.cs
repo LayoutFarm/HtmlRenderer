@@ -13,7 +13,8 @@ namespace LayoutFarm.UI
         //current hit chain        
         HitChain _previousChain = new HitChain();
         Stack<HitChain> hitChainStack = new Stack<HitChain>();
-        IEventListener draggingElement;
+
+       
         int msgChainVersion;
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
@@ -404,8 +405,6 @@ namespace LayoutFarm.UI
             }
             SwapHitChain(hitPointChain);
 
-            //registered dragging element
-            draggingElement = e.DraggingElement;
 
         }
         void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
@@ -420,13 +419,7 @@ namespace LayoutFarm.UI
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
 
-            //--------------------------------------------
-            if (draggingElement != null)
-            {
-                //notify release drag?
-                draggingElement.ListenDragRelease(e);
-            }
-            //--------------------------------------------
+           
             DateTime snapMouseUpTime = DateTime.Now;
             TimeSpan timediff = snapMouseUpTime - lastTimeMouseUp;
             bool isAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;

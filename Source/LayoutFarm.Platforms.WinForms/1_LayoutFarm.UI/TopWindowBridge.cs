@@ -19,6 +19,7 @@ namespace LayoutFarm.UI
         int prevLogicalMouseX;
         int prevLogicalMouseY;
         UIHoverMonitorTask hoverMonitoringTask;
+        IEventListener draggingElement;
 
         bool isMouseDown;
         bool isDragging;
@@ -312,7 +313,8 @@ namespace LayoutFarm.UI
 
             mouseEventArg.IsDragging = this.isDragging = this.isMouseDown;
             this.userEventPortal.PortalMouseMove(mouseEventArg);
-
+            //registered dragging element
+            draggingElement = mouseEventArg.DraggingElement;
 
             if (currentCursorStyle != mouseEventArg.MouseCursorStyle)
             {
@@ -321,6 +323,9 @@ namespace LayoutFarm.UI
             }
             ReleaseMouseEvent(mouseEventArg);
             PrepareRenderAndFlushAccumGraphics();
+
+
+           
         }
         public void HandleMouseUp(MouseEventArgs e)
         {
@@ -331,11 +336,16 @@ namespace LayoutFarm.UI
             this.prevLogicalMouseY = e.Y;
 
             this.isMouseDown = this.isDragging = false;//after GetReadyMouseEventArgs *** 
-
-
             canvasViewport.FullMode = false;
 
+            if (draggingElement != null)
+            {
+                //notify release drag?
+                draggingElement.ListenDragRelease(mouseEventArg);
+            }
+
             this.userEventPortal.PortalMouseUp(mouseEventArg);
+            
             if (this.currentCursorStyle != mouseEventArg.MouseCursorStyle)
             {
                 //change cursor if need
