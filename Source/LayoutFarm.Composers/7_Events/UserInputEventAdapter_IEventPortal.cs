@@ -9,32 +9,19 @@ namespace LayoutFarm.UI
 
     partial class UserInputEventAdapter : IUserEventPortal
     {
-        int latestLogicalMouseDownX;
-        int latestLogicalMouseDownY;
-        int prevLogicalMouseX;
-        int prevLogicalMouseY;
-        IEventListener draggingElement;
-
+         
+    
+        IEventListener draggingElement; 
         //------------------------------------------------------------
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
-        {
-
-            this.latestLogicalMouseDownX = e.X;
-            this.latestLogicalMouseDownY = e.Y;
-            this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y;
-
+        { 
             //auto pause? 
             this.OnMouseDown(e);
-
-
         }
         void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
 
-            this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y;
-
+            
             if (draggingElement != null)
             {
                 //notify release drag?
@@ -46,22 +33,8 @@ namespace LayoutFarm.UI
         }
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-
-            //find diff    
-            e.SetDiff(
-                e.X - prevLogicalMouseX,
-                e.Y - prevLogicalMouseY);
-
-            if (e.XDiff == 0 && e.YDiff == 0)
-            {
-                return;
-            }
-
-            this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y;
-
-            this.OnMouseMove(e);
-
+             
+            this.OnMouseMove(e); 
             //registered dragging element
             draggingElement = e.DraggingElement;
 

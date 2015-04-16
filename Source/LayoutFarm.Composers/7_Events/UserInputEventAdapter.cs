@@ -21,14 +21,19 @@ namespace LayoutFarm.UI
 
         DateTime lastTimeMouseUp;
         const int DOUBLE_CLICK_SENSE = 150;//ms 
+
         RenderElement topRenderElement;
 
+#if DEBUG
+        static int dbugTotalId;
+        public readonly int dbugId = dbugTotalId++;
+#endif
         internal UserInputEventAdapter(RenderElement topRenderElement)
         {
             this.topRenderElement = topRenderElement;
-             
+
 #if DEBUG
-            dbugRootGraphics =(MyRootGraphic)topRenderElement.Root;
+            dbugRootGraphics = (MyRootGraphic)topRenderElement.Root;
 #endif
         }
 #if DEBUG
@@ -46,34 +51,40 @@ namespace LayoutFarm.UI
 
         HitChain GetFreeHitChain()
         {
-            if (hitChainStack.Count > 0)
-            {
-                return hitChainStack.Pop();
-            }
-            else
-            {
+            return new HitChain();
 
-#if DEBUG
-                var hitChain = new HitChain();
-                hitChain.dbugHitTracker = this.dbugRootGraphics.dbugHitTracker;
-                return hitChain;
-#else
-                return new HitChain();
-#endif
+            //            if (hitChainStack.Count > 0)
+            //            {                    
+            //                return hitChainStack.Pop();
+            //            }
+            //            else
+            //            {
 
-            }
-        }
-        void RelaseHitChain(HitChain hitChain)
-        {
-            hitChain.ClearAll();
-            this.hitChainStack.Push(hitChain);
+            //#if DEBUG
+            //                var hitChain = new HitChain();
+            //                hitChain.dbugHitTracker = this.dbugRootGraphics.dbugHitTracker;
+            //                return hitChain;
+            //#else
+            //                return new HitChain();
+            //#endif
+
+            //            }
         }
         void SwapHitChain(HitChain hitChain)
         {
-            RelaseHitChain(this._previousChain);
             this._previousChain = hitChain;
-        }
+            //temp fix here 
+            this._previousChain.ClearAll();
 
+            // hitChain.ClearAll();
+            //if (isDragging && hitChain.Count < 2)
+            //{
+
+            //}
+            //hitChain.ClearAll();
+            //this.hitChainStack.Push(hitChain);
+
+        }
         public IEventListener CurrentKeyboardFocusedElement
         {
             get
@@ -106,12 +117,22 @@ namespace LayoutFarm.UI
         static RenderElement HitTestOnPreviousChain(HitChain hitPointChain, HitChain previousChain, int x, int y)
         {
 
+
+
+#if DEBUG
+            if (hitPointChain == previousChain)
+            {
+                throw new NotSupportedException();
+            }
+#endif
+
             if (previousChain.Count > 0)
             {
 
                 previousChain.SetStartTestPoint(x, y);
                 //test on prev chain top to bottom
                 int j = previousChain.Count;
+
                 for (int i = 0; i < j; ++i)
                 {
                     HitInfo hitInfo = previousChain.GetHitInfo(i);
@@ -143,7 +164,9 @@ namespace LayoutFarm.UI
             //---------------------------------
             if (hitPointChain.Count > 0)
             {
-                return hitPointChain.GetHitInfo(hitPointChain.Count - 1).hitElement;
+                var commonElement = hitPointChain.GetHitInfo(hitPointChain.Count - 1).hitElement;
+                hitPointChain.RemoveCurrentHit();
+                return commonElement;
             }
             else
             {
@@ -151,19 +174,52 @@ namespace LayoutFarm.UI
             }
         }
 
+        //RenderElement lastCommonElement;
         void HitTestCoreWithPrevChainHint(HitChain hitPointChain, HitChain previousChain, int x, int y)
         {
             //---------------------------------
             //test on previous chain first , find common element 
             hitPointChain.ClearAll();
             hitPointChain.SetStartTestPoint(x, y);
-            RenderElement commonElement = HitTestOnPreviousChain(hitPointChain, previousChain, x, y);
-            //use root 
-            if (commonElement == null)
-            {
-                commonElement = this.topRenderElement;
-            }
+
+            //if (this.dbugId > 0 && isDragging && previousChain.Count > 1)
+            //{
+
+            //}
+             
+            //RenderElement commonElement = HitTestOnPreviousChain(hitPointChain, previousChain, x, y);
+            
+            //temp fix
+            //TODO: fix bug on HitTestOnPreviousChain()
+            RenderElement commonElement = this.topRenderElement;
+            ////use root 
+            //if (isDragging)
+            //{
+            //    if (commonElement != this.topRenderElement)
+            //    {
+
+            //    }
+            //}
+
+
+            //if (lastCommonElement != null && commonElement != null &&
+            //    lastCommonElement != commonElement && isDragging)
+            //{
+            //    Console.WriteLine(commonElement.dbug_GetBoundInfo());
+            //}
+            //if (commonElement == null)
+            //{
+            //    commonElement = this.topRenderElement;
+            //}
+
+            //if (commonElement != this.topRenderElement)
+            //{
+
+            //}
+
+            //lastCommonElement = commonElement;
             commonElement.HitTestCore(hitPointChain);
+            //this.topRenderElement.HitTestCore(hitPointChain);
         }
 
         void OnMouseWheel(UIMouseEventArgs e)
@@ -292,13 +348,27 @@ namespace LayoutFarm.UI
 #endif
         }
 
+
+        bool isDragging;
+        bool ismousemove = false;
+        object sync = new object();
         void OnMouseMove(UIMouseEventArgs e)
         {
+            lock (sync)
+            {
+                if (ismousemove)
+                {
+                    return;
+                }
+                ismousemove = true;
+            }
 
+            this.isDragging = e.IsDragging;
             HitChain hitPointChain = GetFreeHitChain();
+
             HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
-            //-------------------------------------------------------
-            
+            this._previousChain.ClearAll();
+
 
             SetEventOrigin(e, hitPointChain);
             //-------------------------------------------------------
@@ -340,11 +410,9 @@ namespace LayoutFarm.UI
                     }
                 }
             }
-
-
             SwapHitChain(hitPointChain);
 
-
+            ismousemove = false;
         }
         void OnGotFocus(UIFocusEventArgs e)
         {
@@ -504,7 +572,7 @@ namespace LayoutFarm.UI
             }
         }
 
-       
+
         //        public override void OnDragStart(UIMouseEventArgs e)
         //        {
 

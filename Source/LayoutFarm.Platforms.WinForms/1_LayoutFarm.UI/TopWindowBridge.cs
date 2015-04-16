@@ -16,7 +16,8 @@ namespace LayoutFarm.UI
         IUserEventPortal userEventPortal;
         protected TopWindowRenderBox topwin;
         CanvasViewport canvasViewport;
-
+        int prevLogicalMouseX;
+        int prevLogicalMouseY;
         UIHoverMonitorTask hoverMonitoringTask;
 
         bool isMouseDown;
@@ -260,8 +261,13 @@ namespace LayoutFarm.UI
             this.isDragging = false;
             //---------------------
 
+            this.prevLogicalMouseX = e.X;
+            this.prevLogicalMouseY = e.Y;
             canvasViewport.FullMode = false;
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
+
+
+
             this.userEventPortal.PortalMouseDown(mouseEventArg);
             if (currentCursorStyle != mouseEventArg.MouseCursorStyle)
             {
@@ -284,16 +290,26 @@ namespace LayoutFarm.UI
         }
         public void HandleMouseMove(MouseEventArgs e)
         {
+            
+            int xdiff = e.X - prevLogicalMouseX;
+            int ydiff = e.Y - prevLogicalMouseY;
+            this.prevLogicalMouseX = e.X;
+            this.prevLogicalMouseY = e.Y;
+
+            if (xdiff == 0 && ydiff == 0)
+            {
+                return;
+            } 
 
             //-------------------------------------------------------
-            //when mousemove -> reset hover!
+            //when mousemove -> reset hover!            
             hoverMonitoringTask.Reset();
             hoverMonitoringTask.Enabled = true;
-            //-------------------------------------------------------
-            
-            Point viewLocation = canvasViewport.LogicalViewportLocation;
+
 
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
+            mouseEventArg.SetDiff(xdiff, ydiff);
+
             mouseEventArg.IsDragging = this.isDragging = this.isMouseDown;
             this.userEventPortal.PortalMouseMove(mouseEventArg);
 
@@ -310,6 +326,10 @@ namespace LayoutFarm.UI
         {
 
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
+            mouseEventArg.SetDiff(e.X - prevLogicalMouseX, e.Y - prevLogicalMouseY);
+            this.prevLogicalMouseX = e.X;
+            this.prevLogicalMouseY = e.Y;
+
             this.isMouseDown = this.isDragging = false;//after GetReadyMouseEventArgs *** 
 
 
