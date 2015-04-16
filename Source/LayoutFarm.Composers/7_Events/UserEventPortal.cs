@@ -13,10 +13,10 @@ namespace LayoutFarm.UI
         //current hit chain        
         HitChain _previousChain = new HitChain();
         Stack<HitChain> hitChainStack = new Stack<HitChain>();
-        int msgChainVersion;
 
-
-
+#if DEBUG
+        int dbugMsgChainVersion;
+#endif
         RenderElement topRenderElement;
         public UserEventPortal()
         {
@@ -200,9 +200,10 @@ namespace LayoutFarm.UI
                 this.dbugRootGraphics.dbugGraphicInvalidateTracer.WriteInfo("MOUSEDOWN");
                 this.dbugRootGraphics.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
-#endif
-            msgChainVersion = 1;
+            dbugMsgChainVersion = 1;
             int local_msgVersion = 1;
+#endif
+
 
             HitChain hitPointChain = GetFreeHitChain();
             HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
@@ -297,11 +298,12 @@ namespace LayoutFarm.UI
 #endif
             SwapHitChain(hitPointChain);
 
-            if (local_msgVersion != msgChainVersion)
+
+#if DEBUG
+            if (local_msgVersion != dbugMsgChainVersion)
             {
                 return;
             }
-#if DEBUG
             visualroot.dbugHitTracker.Write("stop-mousedown");
             visualroot.dbugHitTracker.Play = false;
 #endif
