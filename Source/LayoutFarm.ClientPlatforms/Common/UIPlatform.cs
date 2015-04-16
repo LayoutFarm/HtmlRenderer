@@ -11,6 +11,8 @@ namespace LayoutFarm.UI
         public abstract void SetClipboardData(string textData);
         public abstract string GetClipboardData();
         public abstract void ClearClipboardData();
+
+         
     }
 
 

@@ -49,15 +49,7 @@ namespace LayoutFarm.HtmlWidgets
         public void PerformContentLayout()
         {
 
-        }
-        //public override void PerformContentLayout()
-        //{
-
-        //    //manually perform layout of its content 
-        //    //here: arrange item in panel
-        //    //this.panel.PerformContentLayout();
-        //}
-        //----------------------------------------------------   
+        } 
     }
 
     public class TreeNode

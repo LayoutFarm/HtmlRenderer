@@ -21,13 +21,12 @@ namespace LayoutFarm.WebWidgets
 
         protected override void OnHtmlHostCreated()
         {
-            //------------------------ 
+           
             var comboBox1 = CreateComboBox(20, 20);
             AddToViewport(comboBox1);
             var comboBox2 = CreateComboBox(50, 50);
             AddToViewport(comboBox2);
-            //------------ 
-            //------------
+             
             LayoutFarm.HtmlWidgets.MenuBox rootMenuBox = CreateMenuBox(10, 120);
             //add single menu item
             var rootMenuItem = new HtmlWidgets.MenuItem(150, 20);

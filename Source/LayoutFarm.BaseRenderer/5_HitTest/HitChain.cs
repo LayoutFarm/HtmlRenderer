@@ -48,18 +48,20 @@ namespace LayoutFarm.RenderBoxes
 
     public class HitChain
     {
-        List<HitInfo> currentHitChain = new List<HitInfo>();
-       
+        List<HitInfo> hitList = new List<HitInfo>();
+
         int startTestX;
         int startTestY;
 
         int testPointX;
         int testPointY;
 
+
         public HitChain()
         {
 
         }
+
         public Point TestPoint
         {
             get
@@ -80,48 +82,61 @@ namespace LayoutFarm.RenderBoxes
             startTestX = x;
             startTestY = y;
         }
-    
+
         public void OffsetTestPoint(int dx, int dy)
         {
-           
+
             testPointX += dx;
             testPointY += dy;
         }
         public void ClearAll()
         {
-            
+
             testPointX = 0;
             testPointY = 0;
-            currentHitChain.Clear();
+            hitList.Clear();
 
         }
 
+        public bool IsFree
+        {
+            get;
+            set;
+        }
 #if DEBUG
         public dbugHitTestTracker dbugHitTracker;
 #endif
-        public int Count { get { return this.currentHitChain.Count; } }
-        public HitInfo GetHitInfo(int index) { return currentHitChain[index]; }
+        public int Count { get { return this.hitList.Count; } }
+        public HitInfo GetHitInfo(int index) { return hitList[index]; }
         public RenderElement TopMostElement
         {
             get
             {
-                if (currentHitChain.Count > 0)
+                if (hitList.Count > 0)
                 {
-                    return currentHitChain[currentHitChain.Count - 1].hitElement;
+                    return hitList[hitList.Count - 1].hitElement;
                 }
                 else
                 {
                     return null;
                 }
             }
-        } 
+        }
         public void AddHitObject(RenderElement hitObject)
         {
-            currentHitChain.Add(new HitInfo(hitObject, new Point(testPointX, testPointY)));
+            //for (int i = hitList.Count - 1; i >= 0; --i)
+            //{
+            //    if (hitList[i].hitElement == hitObject)
+            //    {
+
+            //    }
+            //}
+
+            hitList.Add(new HitInfo(hitObject, new Point(testPointX, testPointY)));
 #if DEBUG
             if (dbugHitTracker != null)
             {
-                dbugHitTracker.WriteTrackNode(currentHitChain.Count,
+                dbugHitTracker.WriteTrackNode(hitList.Count,
                     new Point(testPointX, testPointY).ToString() + " on "
                     + hitObject.ToString());
             }
@@ -129,13 +144,13 @@ namespace LayoutFarm.RenderBoxes
         }
         public void RemoveCurrentHit()
         {
-            if (currentHitChain.Count > 0)
+            if (hitList.Count > 0)
             {
-                currentHitChain.RemoveAt(currentHitChain.Count - 1);
+                hitList.RemoveAt(hitList.Count - 1);
             }
         }
 
-        
+
 
 
 #if DEBUG

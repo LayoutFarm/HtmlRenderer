@@ -32,6 +32,7 @@ namespace LayoutFarm.Svg
             this.emHeight = emHeight;
         }
     }
+
     public abstract class SvgElement : SvgNode
     {
         LinkedListNode<SvgElement> linkedNode = null;

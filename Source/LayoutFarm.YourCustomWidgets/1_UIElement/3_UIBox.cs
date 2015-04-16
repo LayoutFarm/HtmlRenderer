@@ -33,7 +33,6 @@ namespace LayoutFarm.UI
             this._height = height;
             //default for box
             this.AutoStopMouseEventPropagation = true;
-
         }
         public virtual void Focus()
         {
@@ -52,7 +51,6 @@ namespace LayoutFarm.UI
                 this.CurrentPrimaryRenderElement.Root.SetCurrentKeyboardFocus(null);
             }
         }
-
         public bool HasSpecificWidth
         {
             get { return this.specificWidth; }
