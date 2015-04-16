@@ -9,25 +9,24 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
-   
+
     abstract partial class TopWindowBridge
     {
         CanvasEventsStock eventStock = new CanvasEventsStock();
-        IUserEventPortal userEventPortal;
+       
+        ITopWindowEventPortal topWinEventPortal;
+        
         RenderBoxBase topwin;
-        CanvasViewport canvasViewport; 
+        CanvasViewport canvasViewport;
         UIHoverMonitorTask hoverMonitoringTask;
         IEventListener draggingElement;
-
-
         int prevLogicalMouseX;
         int prevLogicalMouseY;
         bool isMouseDown;
         bool isDragging;
         bool lastKeydownWithControl;
         bool lastKeydownWithAlt;
-        bool lastKeydownWithShift;
-
+        bool lastKeydownWithShift; 
 
         protected MouseCursorStyle currentCursorStyle = MouseCursorStyle.Default;
 
@@ -35,15 +34,14 @@ namespace LayoutFarm.UI
         public event EventHandler<ScrollSurfaceRequestEventArgs> HScrollRequest;
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
-
         RootGraphic rootGraphic;
 
-        public TopWindowBridge(RootGraphic rootGraphic, IUserEventPortal winEventBridge)
-        { 
-            this.userEventPortal = winEventBridge;
+        public TopWindowBridge(RootGraphic rootGraphic, ITopWindowEventPortal topWinEventPortal)
+        {  
+            this.topWinEventPortal = topWinEventPortal;
             this.rootGraphic = rootGraphic;
             this.topwin = rootGraphic.TopWindowRenderBox;
-            hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
+            this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
         }
 #if DEBUG
         internal Control dbugWinControl;
@@ -223,7 +221,7 @@ namespace LayoutFarm.UI
             canvasViewport.FullMode = false;
 
             OffsetCanvasOrigin(focusEventArg, canvasViewport.LogicalViewportLocation);
-            this.userEventPortal.PortalGotFocus(focusEventArg);
+            this.topWinEventPortal.PortalGotFocus(focusEventArg);
             eventStock.ReleaseEventArgs(focusEventArg);
 
             PrepareRenderAndFlushAccumGraphics();
@@ -233,7 +231,7 @@ namespace LayoutFarm.UI
             UIFocusEventArgs focusEventArg = eventStock.GetFreeFocusEventArgs(null, null);
             canvasViewport.FullMode = false;
             OffsetCanvasOrigin(focusEventArg, canvasViewport.LogicalViewportLocation);
-            this.userEventPortal.PortalLostFocus(focusEventArg);
+            this.topWinEventPortal.PortalLostFocus(focusEventArg);
             eventStock.ReleaseEventArgs(focusEventArg);
 
             PrepareRenderAndFlushAccumGraphics();
@@ -260,8 +258,8 @@ namespace LayoutFarm.UI
             this.prevLogicalMouseX = e.X;
             this.prevLogicalMouseY = e.Y;
             canvasViewport.FullMode = false;
-            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e); 
-            this.userEventPortal.PortalMouseDown(mouseEventArg);
+            UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
+            this.topWinEventPortal.PortalMouseDown(mouseEventArg);
             if (currentCursorStyle != mouseEventArg.MouseCursorStyle)
             {
                 //change cursor if need
@@ -304,7 +302,7 @@ namespace LayoutFarm.UI
             mouseEventArg.SetDiff(xdiff, ydiff);
 
             mouseEventArg.IsDragging = this.isDragging = this.isMouseDown;
-            this.userEventPortal.PortalMouseMove(mouseEventArg);
+            this.topWinEventPortal.PortalMouseMove(mouseEventArg);
             //registered dragging element
             draggingElement = mouseEventArg.DraggingElement;
 
@@ -336,7 +334,7 @@ namespace LayoutFarm.UI
                 draggingElement.ListenDragRelease(mouseEventArg);
             }
 
-            this.userEventPortal.PortalMouseUp(mouseEventArg);
+            this.topWinEventPortal.PortalMouseUp(mouseEventArg);
 
             if (this.currentCursorStyle != mouseEventArg.MouseCursorStyle)
             {
@@ -352,7 +350,7 @@ namespace LayoutFarm.UI
 
             UIMouseEventArgs mouseEventArg = GetReadyMouseEventArgs(e);
             canvasViewport.FullMode = true;
-            this.userEventPortal.PortalMouseWheel(mouseEventArg);
+            this.topWinEventPortal.PortalMouseWheel(mouseEventArg);
             ReleaseMouseEvent(mouseEventArg);
 
             PrepareRenderAndFlushAccumGraphics();
@@ -370,14 +368,13 @@ namespace LayoutFarm.UI
             OffsetCanvasOrigin(keyEventArgs, canvasViewport.LogicalViewportLocation);
 
 #if DEBUG
-
             topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
             topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("KEYDOWN " + (LayoutFarm.UI.UIKeys)e.KeyCode);
             topwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
 #endif
 
 
-            this.userEventPortal.PortalKeyDown(keyEventArgs);
+            this.topWinEventPortal.PortalKeyDown(keyEventArgs);
 
             eventStock.ReleaseEventArgs(keyEventArgs);
 
@@ -409,9 +406,8 @@ namespace LayoutFarm.UI
 
             OffsetCanvasOrigin(keyEventArgs, canvasViewport.LogicalViewportLocation);
 
-            this.userEventPortal.PortalKeyUp(keyEventArgs);
+            this.topWinEventPortal.PortalKeyUp(keyEventArgs);
             eventStock.ReleaseEventArgs(keyEventArgs);
-
 
             PrepareRenderAndFlushAccumGraphics();
             StartCaretBlink();
@@ -443,7 +439,7 @@ namespace LayoutFarm.UI
             canvasViewport.FullMode = false;
 
             OffsetCanvasOrigin(keyPressEventArgs, canvasViewport.LogicalViewportLocation);
-            this.userEventPortal.PortalKeyPress(keyPressEventArgs);
+            this.topWinEventPortal.PortalKeyPress(keyPressEventArgs);
 
             eventStock.ReleaseEventArgs(keyPressEventArgs);
 
@@ -466,7 +462,7 @@ namespace LayoutFarm.UI
             canvasViewport.FullMode = false;
 
             OffsetCanvasOrigin(keyEventArg, canvasViewport.LogicalViewportLocation);
-            bool result = this.userEventPortal.PortalProcessDialogKey(keyEventArg);
+            bool result = this.topWinEventPortal.PortalProcessDialogKey(keyEventArg);
             eventStock.ReleaseEventArgs(keyEventArg);
 
             if (result)
@@ -504,6 +500,27 @@ namespace LayoutFarm.UI
             //hitPointChain.SwapHitChain();
             //hoverMonitoringTask.SetEnable(false, this.topwin);
         }
+        //void ITopWindowEventPortal.BindRenderElement(object topRenderElement)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //IUserEventPortal ITopWindowEventPortal.EventPortal
+        //{
+        //    get { throw new NotImplementedException(); }
+        //}
+
+        //IEventListener ITopWindowEventPortal.CurrentKeyboardFocusedElement
+        //{
+        //    get
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //    set
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
     }
 
 

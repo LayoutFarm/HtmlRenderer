@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 namespace LayoutFarm.UI
 {
-
-
-    public interface IUserEventPortal
+    public interface ITopWindowEventPortal
     {
+        IEventListener CurrentKeyboardFocusedElement { get; set; } 
+     
         //-------------------------------------------- 
         void PortalKeyPress(UIKeyEventArgs e);
         void PortalKeyDown(UIKeyEventArgs e);
@@ -25,9 +25,4 @@ namespace LayoutFarm.UI
         void PortalLostFocus(UIFocusEventArgs e);
         //---------------------------------------------- 
     }
-
-
-
-    public delegate bool EventPortalAction(IUserEventPortal evPortal);
-    public delegate bool EventListenerAction();
 }

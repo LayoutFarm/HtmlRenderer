@@ -7,34 +7,19 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
 
-    public class UserEventPortal : IUserEventPortal
+    class UserEventPortal : IUserEventPortal
     {
 
         //current hit chain        
         HitChain _previousChain = new HitChain();
         Stack<HitChain> hitChainStack = new Stack<HitChain>();
-
         int msgChainVersion;
 
-        IEventListener currentKbFocusElem;
-        IEventListener currentMouseActiveElement;
-        IEventListener currentMouseDown;
 
-        DateTime lastTimeMouseUp;
-        const int DOUBLE_CLICK_SENSE = 150;//ms 
 
         RenderElement topRenderElement;
-#if DEBUG
-        static int dbugTotalId;
-        public readonly int dbugId = dbugTotalId++;
-#endif
-
         public UserEventPortal()
         {
-        }
-        internal UserEventPortal(RenderElement topRenderElement)
-        {
-            this.BindTopRenderElement(topRenderElement);
         }
         public void BindTopRenderElement(RenderElement topRenderElement)
         {
@@ -44,18 +29,6 @@ namespace LayoutFarm.UI
 #endif
         }
 
-#if DEBUG
-        MyRootGraphic dbugRootGfx;
-        MyRootGraphic dbugRootGraphics
-        {
-            get { return dbugRootGfx; }
-            set
-            {
-                this.dbugRootGfx = value;
-                this._previousChain.dbugHitTracker = this.dbugRootGraphics.dbugHitTracker;
-            }
-        }
-#endif
 
         HitChain GetFreeHitChain()
         {
@@ -94,25 +67,6 @@ namespace LayoutFarm.UI
 
         }
 
-
-        public IEventListener CurrentKeyboardFocusedElement
-        {
-            get
-            {
-
-                return this.currentKbFocusElem;
-            }
-            set
-            {
-                //1. lost keyboard focus
-                if (this.currentKbFocusElem != null && this.currentKbFocusElem != value)
-                {
-                    currentKbFocusElem.ListenLostKeyboardFocus(null);
-                }
-                //2. keyboard focus
-                currentKbFocusElem = value;
-            }
-        }
         static void SetEventOrigin(UIEventArgs e, HitChain hitChain)
         {
             int count = hitChain.Count;
@@ -234,11 +188,7 @@ namespace LayoutFarm.UI
 
         void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
-            //only on mouse active element
-            if (currentMouseActiveElement != null)
-            {
-                currentMouseActiveElement.ListenMouseWheel(e);
-            }
+
         }
         void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
@@ -266,14 +216,15 @@ namespace LayoutFarm.UI
                 //1. origin object 
                 SetEventOrigin(e, hitPointChain);
                 //------------------------------ 
-                var prevMouseDownElement = this.currentMouseDown;
+                var prevMouseDownElement = e.PreviousMouseDown;
 
+                IEventListener currentMouseDown = null;
                 //portal                
                 ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
                 {
                     portal.PortalMouseDown(e);
                     //*****
-                    this.currentMouseDown = e.CurrentContextElement;
+                    currentMouseDown = e.CurrentContextElement;
                     return true;
                 });
 
@@ -282,10 +233,10 @@ namespace LayoutFarm.UI
                 if (!e.CancelBubbling)
                 {
 
-                    e.CurrentContextElement = this.currentMouseDown = null; //clear 
+                    e.CurrentContextElement = currentMouseDown = null; //clear 
                     ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                     {
-                        this.currentMouseDown = e.CurrentContextElement;
+                        currentMouseDown = listener;
                         listener.ListenMouseDown(e);
                         //------------------------------------------------------- 
                         bool cancelMouseBubbling = e.CancelBubbling;
@@ -355,21 +306,11 @@ namespace LayoutFarm.UI
             visualroot.dbugHitTracker.Play = false;
 #endif
         }
-
-
-
-
         void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-
-
-
             HitChain hitPointChain = GetFreeHitChain();
-
             HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
             this._previousChain.ClearAll();
-
-
             SetEventOrigin(e, hitPointChain);
             //-------------------------------------------------------
             ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
@@ -385,28 +326,30 @@ namespace LayoutFarm.UI
                 {
                     foundSomeHit = true;
                     bool isFirstMouseEnter = false;
-                    if (currentMouseActiveElement != null &&
-                        currentMouseActiveElement != listener)
+
+                    if (e.CurrentMouseActive != null &&
+                        e.CurrentMouseActive != listener)
                     {
-                        currentMouseActiveElement.ListenMouseLeave(e);
+                        e.CurrentMouseActive.ListenMouseLeave(e);
                         isFirstMouseEnter = true;
                     }
+
                     if (!e.IsCanceled)
                     {
-                        currentMouseActiveElement = listener;
+                        e.CurrentMouseActive = listener;
                         e.IsFirstMouseEnter = isFirstMouseEnter;
-                        currentMouseActiveElement.ListenMouseMove(e);
+                        e.CurrentMouseActive.ListenMouseMove(e);
                         e.IsFirstMouseEnter = false;
                     }
                     return true;//stop
                 });
 
-                if (!foundSomeHit && currentMouseActiveElement != null)
+                if (!foundSomeHit && e.CurrentMouseActive != null)
                 {
-                    currentMouseActiveElement.ListenMouseLeave(e);
+                    e.CurrentMouseActive.ListenMouseLeave(e);
                     if (!e.IsCanceled)
                     {
-                        currentMouseActiveElement = null;
+                        e.CurrentMouseActive = null;
                     }
                 }
             }
@@ -427,12 +370,6 @@ namespace LayoutFarm.UI
         {
 
 
-            DateTime snapMouseUpTime = DateTime.Now;
-            TimeSpan timediff = snapMouseUpTime - lastTimeMouseUp;
-            bool isAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;
-            this.lastTimeMouseUp = snapMouseUpTime;
-
-            //--------------------------------------------
 #if DEBUG
 
             if (this.dbugRootGraphics.dbugEnableGraphicInvalidateTrace)
@@ -469,7 +406,7 @@ namespace LayoutFarm.UI
                 //---------------------------------------------------------------
                 if (!e.CancelBubbling)
                 {
-                    if (isAlsoDoubleClick)
+                    if (e.IsAlsoDoubleClick)
                     {
                         ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                         {
@@ -493,38 +430,19 @@ namespace LayoutFarm.UI
         }
         void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
-            if (currentKbFocusElem != null)
-            {
-                e.SourceHitElement = currentKbFocusElem;
-                currentKbFocusElem.ListenKeyDown(e);
-            }
+
         }
         void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
-            if (currentKbFocusElem != null)
-            {
-                e.SourceHitElement = currentKbFocusElem;
-                currentKbFocusElem.ListenKeyUp(e);
-            }
+
         }
         void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
-            if (currentKbFocusElem != null)
-            {
-                e.SourceHitElement = currentKbFocusElem;
-                currentKbFocusElem.ListenKeyPress(e);
-            }
+
         }
         bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
-            bool result = false;
-            if (currentKbFocusElem != null)
-            {
-                e.SourceHitElement = currentKbFocusElem;
-                result = currentKbFocusElem.ListenProcessDialogKey(e);
-
-            }
-            return result;
+            return false;
         }
 
         //===================================================================
@@ -825,6 +743,20 @@ namespace LayoutFarm.UI
             //UIMouseEventArgs.ReleaseEventArgs(d_eventArg);
         }
 
+#if DEBUG
+        static int dbugTotalId;
+        public readonly int dbugId = dbugTotalId++;
+        MyRootGraphic dbugRootGfx;
+        MyRootGraphic dbugRootGraphics
+        {
+            get { return dbugRootGfx; }
+            set
+            {
+                this.dbugRootGfx = value;
+                this._previousChain.dbugHitTracker = this.dbugRootGraphics.dbugHitTracker;
+            }
+        }
+#endif
     }
 
 

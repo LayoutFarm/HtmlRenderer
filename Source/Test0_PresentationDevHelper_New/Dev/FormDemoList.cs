@@ -106,29 +106,6 @@ namespace LayoutFarm.Dev
             formPrint.Connect(viewport);
         }
 
-        public class TopWindowEventPortal : ITopWindowEventPortal
-        {
-            UserEventPortal userEventPortal;
-            public TopWindowEventPortal(UserEventPortal userEventPortal)
-            {
-                this.userEventPortal = userEventPortal;
-            }
-            void ITopWindowEventPortal.BindRenderElement(object topRenderElement)
-            {
-                this.userEventPortal.BindTopRenderElement((RenderElement)topRenderElement);
-            }
-            IEventListener ITopWindowEventPortal.CurrentKeyboardFocusedElement
-            {
-                get
-                {
-                    return this.userEventPortal.CurrentKeyboardFocusedElement;
-                }
-                set
-                {
-                    this.userEventPortal.CurrentKeyboardFocusedElement = value;
-                }
-            }
-        }
 
 
         void CreateReadyForm(
@@ -138,17 +115,13 @@ namespace LayoutFarm.Dev
             var workingArea = Screen.PrimaryScreen.WorkingArea;
             int w = workingArea.Width;
             int h = workingArea.Height;
-
-            var userEventPortal = new UserEventPortal();
-            var topWindowEventPortal = new TopWindowEventPortal(userEventPortal);
+             
 
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
-                this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
-                topWindowEventPortal,
+                this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform, 
                 w, h);
-
-
-            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx, userEventPortal,
+             
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx, 
                 this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
                 out viewport);
 

@@ -6,7 +6,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.UI
-{ 
+{
 
     public sealed class MyRootGraphic : RootGraphic
     {
@@ -24,12 +24,11 @@ namespace LayoutFarm.UI
 
         static object normalUpdateTask = new object();
 
-        ITopWindowEventPortal topWindowEventPortal;
+        TopWindowEventPortal topWindowEventPortal;
         RenderBoxBase topWindowRenderBox;
 
         public MyRootGraphic(UIPlatform uiPlatform,
-            GraphicsPlatform gfxPlatform,
-            ITopWindowEventPortal userEventPortal,
+            GraphicsPlatform gfxPlatform, 
             int width, int height)
             : base(width, height)
         {
@@ -41,9 +40,12 @@ namespace LayoutFarm.UI
 #endif
 
             //create default render box***
-            this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);             
-            userEventPortal.BindRenderElement(this.topWindowRenderBox);
-            this.topWindowEventPortal = userEventPortal;
+            this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
+
+            this.topWindowEventPortal = new TopWindowEventPortal();
+            topWindowEventPortal.BindRenderElement(this.topWindowRenderBox);
+            
+
             this.SubscribeGraphicsIntervalTask(normalUpdateTask,
                 TaskIntervalPlan.Animation,
                 20,
@@ -53,7 +55,10 @@ namespace LayoutFarm.UI
                     this.FlushAccumGraphics();
                 });
         }
-
+        public ITopWindowEventPortal TopWinEventPortal
+        {
+            get { return this.topWindowEventPortal; }
+        }
         public override bool GfxTimerEnabled
         {
             get
@@ -65,7 +70,7 @@ namespace LayoutFarm.UI
                 this.graphicTimerTaskMan.Enabled = value;
             }
         }
- 
+
 
         public override RenderBoxBase TopWindowRenderBox
         {
