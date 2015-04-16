@@ -322,6 +322,19 @@ namespace LayoutFarm.UI
         {
             get { return this.dragOverElements.Count; }
         }
+
+        public IEventListener CurrentMouseActive
+        {
+            get;
+            set;
+        }
+        public IEventListener PreviousMouseDown
+        {
+            get;
+            set;
+        }
+        public bool IsAlsoDoubleClick { get; set; }
+        
     }
 
     public enum MouseCursorStyle

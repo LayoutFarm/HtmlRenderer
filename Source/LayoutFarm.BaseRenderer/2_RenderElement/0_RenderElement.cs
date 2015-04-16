@@ -39,7 +39,7 @@ namespace LayoutFarm
             get { return this.rootGfx; }
         }
 
-        public TopWindowRenderBox GetTopWindowRenderBox()
+        public RenderElement GetTopWindowRenderBox()
         {
             if (parentLink == null) { return null; }
 

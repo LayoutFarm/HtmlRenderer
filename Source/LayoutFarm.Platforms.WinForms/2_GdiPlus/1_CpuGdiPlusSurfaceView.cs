@@ -17,15 +17,12 @@ namespace LayoutFarm.UI.GdiPlus
         {
             InitializeComponent();
             this.MouseWheel += new MouseEventHandler(CpuGdiPlusSurfaceView_MouseWheel);
-        }
-
-
+        } 
         public void Bind(MyTopWindowBridgeGdiPlus winBridge)
         {
             //1. 
             this.winBridge = winBridge;
             this.winBridge.BindWindowControl(this);
-
         }
 #if DEBUG
         public IdbugOutputWindow IdebugOutputWin

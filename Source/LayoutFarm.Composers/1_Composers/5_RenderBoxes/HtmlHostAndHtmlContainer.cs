@@ -50,9 +50,7 @@ namespace LayoutFarm.HtmlBoxes
             this.rootgfx = rootgfx;
         }
         public RootGraphic RootGfx { get { return this.rootgfx; } }
-        public TopWindowRenderBox TopWindowRenderBox { get { return this.rootgfx.TopWindowRenderBox; } }
-
-
+        public RenderBoxBase TopWindowRenderBox { get { return this.rootgfx.TopWindowRenderBox; } } 
 
         public void AttachEssentailHandlers(
             EventHandler<ImageRequestEventArgs> reqImageHandler,

@@ -8,7 +8,6 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
 
-
     public sealed class MyRootGraphic : RootGraphic
     {
 
@@ -23,12 +22,14 @@ namespace LayoutFarm.UI
         GraphicsTimerTaskManager graphicTimerTaskMan;
         GraphicsPlatform graphicsPlatform;
 
-
         static object normalUpdateTask = new object();
-        UserInputEventAdapter userInputEventAdapter;
 
-        TopWindowRenderBox topWindowRenderBox;
-        public MyRootGraphic(UIPlatform uiPlatform, GraphicsPlatform gfxPlatform, int width, int height)
+        TopWindowEventPortal topWindowEventPortal;
+        RenderBoxBase topWindowRenderBox;
+
+        public MyRootGraphic(UIPlatform uiPlatform,
+            GraphicsPlatform gfxPlatform, 
+            int width, int height)
             : base(width, height)
         {
             this.graphicsPlatform = gfxPlatform;
@@ -38,9 +39,13 @@ namespace LayoutFarm.UI
             dbug_Init();
 #endif
 
-            //create default  render box
+            //create default render box***
             this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
-            this.userInputEventAdapter = new UserInputEventAdapter(this);
+
+            this.topWindowEventPortal = new TopWindowEventPortal();
+            topWindowEventPortal.BindRenderElement(this.topWindowRenderBox);
+            
+
             this.SubscribeGraphicsIntervalTask(normalUpdateTask,
                 TaskIntervalPlan.Animation,
                 20,
@@ -49,6 +54,10 @@ namespace LayoutFarm.UI
                     this.PrepareRender();
                     this.FlushAccumGraphics();
                 });
+        }
+        public ITopWindowEventPortal TopWinEventPortal
+        {
+            get { return this.topWindowEventPortal; }
         }
         public override bool GfxTimerEnabled
         {
@@ -62,11 +71,8 @@ namespace LayoutFarm.UI
             }
         }
 
-        public IUserEventPortal UserInputEventAdapter
-        {
-            get { return this.userInputEventAdapter; }
-        }
-        public override TopWindowRenderBox TopWindowRenderBox
+
+        public override RenderBoxBase TopWindowRenderBox
         {
             get
             {
@@ -197,19 +203,18 @@ namespace LayoutFarm.UI
             }
             renderRequestList.Clear();
         }
-
         public override void SetCurrentKeyboardFocus(RenderElement renderElement)
         {
             if (renderElement == null)
             {
-                this.userInputEventAdapter.CurrentKeyboardFocusedElement = null;
+                this.topWindowEventPortal.CurrentKeyboardFocusedElement = null;
                 return;
             }
 
             var owner = renderElement.GetController() as IEventListener;
             if (owner != null)
             {
-                this.userInputEventAdapter.CurrentKeyboardFocusedElement = owner;
+                this.topWindowEventPortal.CurrentKeyboardFocusedElement = owner;
             }
         }
         public override void AddToElementUpdateQueue(object requestBy)

@@ -144,7 +144,7 @@ namespace LayoutFarm
         {
             return string.Empty;
         }
-        protected string dbug_GetBoundInfo()
+        public string dbug_GetBoundInfo()
         {
             Rectangle r = this.RectBounds;
             string output = "{" + r.X + "," + r.Y + "," + r.Width + "," + r.Height +
@@ -152,7 +152,7 @@ namespace LayoutFarm
                 ";dh=" + this.Height;
             return output;
         }
-        protected string dbug_GetLayoutInfo()
+        public string dbug_GetLayoutInfo()
         {
 
             string info = string.Empty;

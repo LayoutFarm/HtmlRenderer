@@ -7,105 +7,66 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
 
-    partial class UserInputEventAdapter
+    class UserEventPortal : IUserEventPortal
     {
 
         //current hit chain        
         HitChain _previousChain = new HitChain();
         Stack<HitChain> hitChainStack = new Stack<HitChain>();
-
-        UIHoverMonitorTask hoverMonitoringTask;
         int msgChainVersion;
 
 
-        IEventListener currentKbFocusElem;
-        IEventListener currentMouseActiveElement;
-        IEventListener currentMouseDown;
 
-        DateTime lastTimeMouseUp;
-        const int DOUBLE_CLICK_SENSE = 150;//ms
-
-        MyRootGraphic rootgfx;
-
-        internal UserInputEventAdapter(MyRootGraphic rootgfx)
+        RenderElement topRenderElement;
+        public UserEventPortal()
         {
-
-            this.rootgfx = rootgfx;
-            this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
+        }
+        public void BindTopRenderElement(RenderElement topRenderElement)
+        {
+            this.topRenderElement = topRenderElement;
 #if DEBUG
-            this._previousChain.dbugHitTracker = this.dbugRootGraphic.dbugHitTracker;
+            dbugRootGraphics = (MyRootGraphic)topRenderElement.Root;
 #endif
         }
 
-
-        public void EnableGraphicsTimer()
-        {
-            this.rootgfx.GfxTimerEnabled = true;
-        }
-        public void DisableGraphicsTimer()
-        {
-            this.rootgfx.GfxTimerEnabled = false;
-        }
-
-#if DEBUG
-        RootGraphic dbugRootGraphic
-        {
-            get { return rootgfx; }
-        }
-#endif
 
         HitChain GetFreeHitChain()
         {
-            if (hitChainStack.Count > 0)
-            {
-                return hitChainStack.Pop();
-            }
-            else
-            {
+            return new HitChain();
 
-#if DEBUG
-                var hitChain = new HitChain();
-                hitChain.dbugHitTracker = this.dbugRootGraphic.dbugHitTracker;
-                return hitChain;
-#else
-                return new HitChain();
-#endif
+            //            if (hitChainStack.Count > 0)
+            //            {                    
+            //                return hitChainStack.Pop();
+            //            }
+            //            else
+            //            {
 
-            }
-        }
-        void RelaseHitChain(HitChain hitChain)
-        {
-            hitChain.ClearAll();
-            this.hitChainStack.Push(hitChain);
+            //#if DEBUG
+            //                var hitChain = new HitChain();
+            //                hitChain.dbugHitTracker = this.dbugRootGraphics.dbugHitTracker;
+            //                return hitChain;
+            //#else
+            //                return new HitChain();
+            //#endif
+
+            //            }
         }
         void SwapHitChain(HitChain hitChain)
         {
-            RelaseHitChain(this._previousChain);
             this._previousChain = hitChain;
-        }
-        void PrepareRenderAndFlushAccumGraphics()
-        {
-            this.rootgfx.PrepareRender();
-            this.rootgfx.FlushAccumGraphics();
-        }
-        public IEventListener CurrentKeyboardFocusedElement
-        {
-            get
-            {
+            //temp fix here 
+            this._previousChain.ClearAll();
 
-                return this.currentKbFocusElem;
-            }
-            set
-            {
-                //1. lost keyboard focus
-                if (this.currentKbFocusElem != null && this.currentKbFocusElem != value)
-                {
-                    currentKbFocusElem.ListenLostKeyboardFocus(null);
-                }
-                //2. keyboard focus
-                currentKbFocusElem = value;
-            }
+            // hitChain.ClearAll();
+            //if (isDragging && hitChain.Count < 2)
+            //{
+
+            //}
+            //hitChain.ClearAll();
+            //this.hitChainStack.Push(hitChain);
+
         }
+
         static void SetEventOrigin(UIEventArgs e, HitChain hitChain)
         {
             int count = hitChain.Count;
@@ -115,10 +76,19 @@ namespace LayoutFarm.UI
                 e.SourceHitElement = hitInfo.hitElement;
             }
         }
-       
+
 
         static RenderElement HitTestOnPreviousChain(HitChain hitPointChain, HitChain previousChain, int x, int y)
         {
+
+
+
+#if DEBUG
+            if (hitPointChain == previousChain)
+            {
+                throw new NotSupportedException();
+            }
+#endif
 
             if (previousChain.Count > 0)
             {
@@ -126,6 +96,7 @@ namespace LayoutFarm.UI
                 previousChain.SetStartTestPoint(x, y);
                 //test on prev chain top to bottom
                 int j = previousChain.Count;
+
                 for (int i = 0; i < j; ++i)
                 {
                     HitInfo hitInfo = previousChain.GetHitInfo(i);
@@ -157,7 +128,9 @@ namespace LayoutFarm.UI
             //---------------------------------
             if (hitPointChain.Count > 0)
             {
-                return hitPointChain.GetHitInfo(hitPointChain.Count - 1).hitElement;
+                var commonElement = hitPointChain.GetHitInfo(hitPointChain.Count - 1).hitElement;
+                hitPointChain.RemoveCurrentHit();
+                return commonElement;
             }
             else
             {
@@ -165,37 +138,67 @@ namespace LayoutFarm.UI
             }
         }
 
+        //RenderElement lastCommonElement;
         void HitTestCoreWithPrevChainHint(HitChain hitPointChain, HitChain previousChain, int x, int y)
         {
             //---------------------------------
             //test on previous chain first , find common element 
             hitPointChain.ClearAll();
             hitPointChain.SetStartTestPoint(x, y);
-            RenderElement commonElement = HitTestOnPreviousChain(hitPointChain, previousChain, x, y);
-            if (commonElement == null)
-            {
-                commonElement = this.rootgfx.TopWindowRenderBox;
-            }
+
+            //if (this.dbugId > 0 && isDragging && previousChain.Count > 1)
+            //{
+
+            //}
+
+            //RenderElement commonElement = HitTestOnPreviousChain(hitPointChain, previousChain, x, y);
+
+            //temp fix
+            //TODO: fix bug on HitTestOnPreviousChain()
+            RenderElement commonElement = this.topRenderElement;
+            ////use root 
+            //if (isDragging)
+            //{
+            //    if (commonElement != this.topRenderElement)
+            //    {
+
+            //    }
+            //}
+
+
+            //if (lastCommonElement != null && commonElement != null &&
+            //    lastCommonElement != commonElement && isDragging)
+            //{
+            //    Console.WriteLine(commonElement.dbug_GetBoundInfo());
+            //}
+            //if (commonElement == null)
+            //{
+            //    commonElement = this.topRenderElement;
+            //}
+
+            //if (commonElement != this.topRenderElement)
+            //{
+
+            //}
+
+            //lastCommonElement = commonElement;
             commonElement.HitTestCore(hitPointChain);
+            //this.topRenderElement.HitTestCore(hitPointChain);
         }
 
-        protected void OnMouseWheel(UIMouseEventArgs e)
+        void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
-            //only on mouse active element
-            if (currentMouseActiveElement != null)
-            {
-                currentMouseActiveElement.ListenMouseWheel(e);
-            }
+
         }
-        protected void OnMouseDown(UIMouseEventArgs e)
+        void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
 
 #if DEBUG
-            if (this.dbugRootGraphic.dbugEnableGraphicInvalidateTrace)
+            if (this.dbugRootGraphics.dbugEnableGraphicInvalidateTrace)
             {
-                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
-                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("MOUSEDOWN");
-                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.dbugRootGraphics.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.dbugRootGraphics.dbugGraphicInvalidateTracer.WriteInfo("MOUSEDOWN");
+                this.dbugRootGraphics.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
 #endif
             msgChainVersion = 1;
@@ -213,16 +216,15 @@ namespace LayoutFarm.UI
                 //1. origin object 
                 SetEventOrigin(e, hitPointChain);
                 //------------------------------ 
-                var prevMouseDownElement = this.currentMouseDown;
+                var prevMouseDownElement = e.PreviousMouseDown;
 
+                IEventListener currentMouseDown = null;
                 //portal                
                 ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
                 {
                     portal.PortalMouseDown(e);
                     //*****
-                    this.currentMouseDown = e.CurrentContextElement;
-
-
+                    currentMouseDown = e.CurrentContextElement;
                     return true;
                 });
 
@@ -231,10 +233,10 @@ namespace LayoutFarm.UI
                 if (!e.CancelBubbling)
                 {
 
-                    e.CurrentContextElement = this.currentMouseDown = null; //clear 
+                    e.CurrentContextElement = currentMouseDown = null; //clear 
                     ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                     {
-                        this.currentMouseDown = e.CurrentContextElement;
+                        currentMouseDown = listener;
                         listener.ListenMouseDown(e);
                         //------------------------------------------------------- 
                         bool cancelMouseBubbling = e.CancelBubbling;
@@ -268,7 +270,7 @@ namespace LayoutFarm.UI
             //---------------------------------------------------------------
 
 #if DEBUG
-            RootGraphic visualroot = this.dbugRootGraphic;
+            RootGraphic visualroot = this.dbugRootGraphics;
 
             if (visualroot.dbug_RecordHitChain)
             {
@@ -294,7 +296,6 @@ namespace LayoutFarm.UI
             }
 #endif
             SwapHitChain(hitPointChain);
-            this.PrepareRenderAndFlushAccumGraphics();
 
             if (local_msgVersion != msgChainVersion)
             {
@@ -305,18 +306,11 @@ namespace LayoutFarm.UI
             visualroot.dbugHitTracker.Play = false;
 #endif
         }
-
-        protected void OnMouseMove(UIMouseEventArgs e)
+        void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-
             HitChain hitPointChain = GetFreeHitChain();
             HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
-            //-------------------------------------------------------
-            //when mousemove -> reset hover!
-            hoverMonitoringTask.Reset();
-            hoverMonitoringTask.Enabled = true;
-            //-------------------------------------------------------
-
+            this._previousChain.ClearAll();
             SetEventOrigin(e, hitPointChain);
             //-------------------------------------------------------
             ForEachOnlyEventPortalBubbleUp(e, hitPointChain, (portal) =>
@@ -332,63 +326,57 @@ namespace LayoutFarm.UI
                 {
                     foundSomeHit = true;
                     bool isFirstMouseEnter = false;
-                    if (currentMouseActiveElement != null &&
-                        currentMouseActiveElement != listener)
+
+                    if (e.CurrentMouseActive != null &&
+                        e.CurrentMouseActive != listener)
                     {
-                        currentMouseActiveElement.ListenMouseLeave(e);
+                        e.CurrentMouseActive.ListenMouseLeave(e);
                         isFirstMouseEnter = true;
                     }
+
                     if (!e.IsCanceled)
                     {
-                        currentMouseActiveElement = listener;
+                        e.CurrentMouseActive = listener;
                         e.IsFirstMouseEnter = isFirstMouseEnter;
-                        currentMouseActiveElement.ListenMouseMove(e);
+                        e.CurrentMouseActive.ListenMouseMove(e);
                         e.IsFirstMouseEnter = false;
                     }
                     return true;//stop
                 });
 
-                if (!foundSomeHit && currentMouseActiveElement != null)
+                if (!foundSomeHit && e.CurrentMouseActive != null)
                 {
-                    currentMouseActiveElement.ListenMouseLeave(e);
+                    e.CurrentMouseActive.ListenMouseLeave(e);
                     if (!e.IsCanceled)
                     {
-                        currentMouseActiveElement = null;
+                        e.CurrentMouseActive = null;
                     }
                 }
             }
-
-
             SwapHitChain(hitPointChain);
-            this.PrepareRenderAndFlushAccumGraphics();
+
 
         }
-        protected void OnGotFocus(UIFocusEventArgs e)
+        void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
 
 
         }
-        protected void OnLostFocus(UIFocusEventArgs e)
+        void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
 
         }
-        protected void OnMouseUp(UIMouseEventArgs e)
+        void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
 
 
-            DateTime snapMouseUpTime = DateTime.Now;
-            TimeSpan timediff = snapMouseUpTime - lastTimeMouseUp;
-            bool isAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;
-            this.lastTimeMouseUp = snapMouseUpTime;
-
-            //--------------------------------------------
 #if DEBUG
 
-            if (this.dbugRootGraphic.dbugEnableGraphicInvalidateTrace)
+            if (this.dbugRootGraphics.dbugEnableGraphicInvalidateTrace)
             {
-                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
-                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("MOUSEUP");
-                this.dbugRootGraphic.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.dbugRootGraphics.dbugGraphicInvalidateTracer.WriteInfo("================");
+                this.dbugRootGraphics.dbugGraphicInvalidateTracer.WriteInfo("MOUSEUP");
+                this.dbugRootGraphics.dbugGraphicInvalidateTracer.WriteInfo("================");
             }
 #endif
 
@@ -418,7 +406,7 @@ namespace LayoutFarm.UI
                 //---------------------------------------------------------------
                 if (!e.CancelBubbling)
                 {
-                    if (isAlsoDoubleClick)
+                    if (e.IsAlsoDoubleClick)
                     {
                         ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                         {
@@ -439,50 +427,22 @@ namespace LayoutFarm.UI
                 }
             }
             SwapHitChain(hitPointChain);
-            this.PrepareRenderAndFlushAccumGraphics();
         }
-        protected void OnKeyDown(UIKeyEventArgs e)
-        {
-            if (currentKbFocusElem != null)
-            {
-                e.SourceHitElement = currentKbFocusElem;
-                currentKbFocusElem.ListenKeyDown(e);
-
-                this.PrepareRenderAndFlushAccumGraphics();
-            }
-        }
-        protected void OnKeyUp(UIKeyEventArgs e)
-        {
-            if (currentKbFocusElem != null)
-            {
-                e.SourceHitElement = currentKbFocusElem;
-                currentKbFocusElem.ListenKeyUp(e);
-                this.PrepareRenderAndFlushAccumGraphics();
-            }
-        }
-        protected void OnKeyPress(UIKeyEventArgs e)
+        void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
 
-            if (currentKbFocusElem != null)
-            {
-                e.SourceHitElement = currentKbFocusElem;
-                currentKbFocusElem.ListenKeyPress(e);
-                this.PrepareRenderAndFlushAccumGraphics();
-            }
         }
-        protected bool OnProcessDialogKey(UIKeyEventArgs e)
+        void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
-            bool result = false;
-            if (currentKbFocusElem != null)
-            {
-                e.SourceHitElement = currentKbFocusElem;
-                result = currentKbFocusElem.ListenProcessDialogKey(e);
-                if (result)
-                {
-                    this.PrepareRenderAndFlushAccumGraphics();
-                }
-            }
-            return result;
+
+        }
+        void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
+        {
+
+        }
+        bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
+        {
+            return false;
         }
 
         //===================================================================
@@ -530,33 +490,7 @@ namespace LayoutFarm.UI
             }
         }
 
-        //--------------------------------------------------------------------
-        protected void OnMouseHover(object sender, EventArgs e)
-        {
-            return;
-            //HitTestCoreWithPrevChainHint(hitPointChain.LastestRootX, hitPointChain.LastestRootY);
-            //RenderElement hitElement = this.hitPointChain.CurrentHitElement as RenderElement;
-            //if (hitElement != null && hitElement.IsTestable)
-            //{
-            //    DisableGraphicOutputFlush = true;
-            //    Point hitElementGlobalLocation = hitElement.GetGlobalLocation();
 
-            //    UIMouseEventArgs e2 = new UIMouseEventArgs();
-            //    e2.WinTop = this.topwin;
-            //    e2.Location = hitPointChain.CurrentHitPoint;
-            //    e2.SourceHitElement = hitElement;
-            //    IEventListener ui = hitElement.GetController() as IEventListener;
-            //    if (ui != null)
-            //    {
-            //        ui.ListenMouseEvent(UIMouseEventName.MouseHover, e2);
-            //    }
-
-            //    DisableGraphicOutputFlush = false;
-            //    FlushAccumGraphicUpdate();
-            //}
-            //hitPointChain.SwapHitChain();
-            //hoverMonitoringTask.SetEnable(false, this.topwin);
-        }
         //        public override void OnDragStart(UIMouseEventArgs e)
         //        {
 
@@ -809,6 +743,20 @@ namespace LayoutFarm.UI
             //UIMouseEventArgs.ReleaseEventArgs(d_eventArg);
         }
 
+#if DEBUG
+        static int dbugTotalId;
+        public readonly int dbugId = dbugTotalId++;
+        MyRootGraphic dbugRootGfx;
+        MyRootGraphic dbugRootGraphics
+        {
+            get { return dbugRootGfx; }
+            set
+            {
+                this.dbugRootGfx = value;
+                this._previousChain.dbugHitTracker = this.dbugRootGraphics.dbugHitTracker;
+            }
+        }
+#endif
     }
 
 

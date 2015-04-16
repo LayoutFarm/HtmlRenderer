@@ -29,6 +29,8 @@ namespace LayoutFarm.UI
         {
             System.Windows.Forms.Clipboard.SetText(textData);
         }
+        
+ 
     }
 
 }

@@ -31,8 +31,7 @@ namespace LayoutFarm.Svg
             set;
         }
          
-        int prevLogicalMouseX;
-        int prevLogicalMouseY;
+        
         //==================================================
         SvgHitChain GetFreeHitChain()
         {

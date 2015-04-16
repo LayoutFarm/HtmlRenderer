@@ -8,19 +8,19 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
 
-    public sealed class TopWindowRenderBox : RenderBoxBase
-    {   
+    sealed class TopWindowRenderBox : RenderBoxBase
+    {
         public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
-        {   
+        {
             this.IsTopWindow = true;
             this.HasSpecificSize = true;
         }
         protected override void DrawContent(Canvas canvas, Rectangle updateArea)
         {
             canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
-            this.DrawDefaultLayer(canvas, ref updateArea);             
-        } 
+            this.DrawDefaultLayer(canvas, ref updateArea);
+        }
     }
 
 }
