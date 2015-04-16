@@ -9,7 +9,7 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
-
+   
     abstract partial class TopWindowBridge
     {
         CanvasEventsStock eventStock = new CanvasEventsStock();

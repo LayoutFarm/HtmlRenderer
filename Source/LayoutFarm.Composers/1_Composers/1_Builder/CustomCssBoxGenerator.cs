@@ -22,6 +22,7 @@ namespace LayoutFarm.Composers
             if (portalEvent == null)
             {   
                 portalEvent = new UserEventPortal(renderElement);
+
             }
 
             if (isInline)
@@ -32,7 +33,7 @@ namespace LayoutFarm.Composers
             {
                 return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperBlockCssBox(portalEvent, spec, renderElement);
             }
-        } 
-    } 
+        }
+    }
 
 }

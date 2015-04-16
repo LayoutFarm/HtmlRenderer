@@ -42,6 +42,7 @@ namespace LayoutFarm.HtmlBoxes
             if (this.HasReadyRenderElement)
             {
                 //focus
+                
                 this.CurrentPrimaryRenderElement.Root.SetCurrentKeyboardFocus(this.CurrentPrimaryRenderElement);
             }
         }

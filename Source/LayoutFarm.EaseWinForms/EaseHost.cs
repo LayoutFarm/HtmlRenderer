@@ -10,6 +10,29 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.Ease
 {
+    public class TopWindowEventPortal : ITopWindowEventPortal
+    {
+        UserEventPortal userEventPortal;
+        public TopWindowEventPortal(UserEventPortal userEventPortal)
+        {
+            this.userEventPortal = userEventPortal;
+        }
+        void ITopWindowEventPortal.BindRenderElement(object topRenderElement)
+        {
+            this.userEventPortal.BindTopRenderElement((RenderElement)topRenderElement);
+        }
+        IEventListener ITopWindowEventPortal.CurrentKeyboardFocusedElement
+        {
+            get
+            {
+                return this.userEventPortal.CurrentKeyboardFocusedElement;
+            }
+            set
+            {
+                this.userEventPortal.CurrentKeyboardFocusedElement = value;
+            }
+        }
+    }
     public static class EaseHost
     {
         static readonly PixelFarm.Drawing.GraphicsPlatform gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
@@ -38,13 +61,13 @@ namespace LayoutFarm.Ease
 
         public static EaseViewport CreateViewportControl(Form hostForm, int w, int h)
         {
+            var userEventPortal = new UserEventPortal();
+            var topWindowEventPortal = new TopWindowEventPortal(userEventPortal);
 
-            MyRootGraphic rootgfx = new MyRootGraphic(uiPlatformWinForm,
+            var rootgfx = new MyRootGraphic(uiPlatformWinForm,
                 useOpenGL ? openGLPlatform : gdiPlatform,
+                topWindowEventPortal,
                 w, h);
-
-            var userEventPortal = new UserEventPortal(rootgfx.TopWindowRenderBox);
-            rootgfx.SetUserEventPortal(userEventPortal);
 
             LayoutFarm.UI.UISurfaceViewportControl viewport;
 
@@ -64,14 +87,15 @@ namespace LayoutFarm.Ease
 
             int w = 800;
             int h = 600;
-
-            MyRootGraphic rootgfx = new MyRootGraphic(uiPlatformWinForm,
+            var eventPortal = new UserEventPortal();
+            var topWindowPortal = new TopWindowEventPortal(eventPortal);
+            var rootgfx = new MyRootGraphic(uiPlatformWinForm,
                 useOpenGL ? openGLPlatform : gdiPlatform,
+                topWindowPortal,
                 w, h);
 
             var topRenderBox = rootgfx.TopWindowRenderBox;
-            var eventPortal = new UserEventPortal(topRenderBox);
-            rootgfx.SetUserEventPortal(eventPortal);
+
 
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx, eventPortal,
                 useOpenGL ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,

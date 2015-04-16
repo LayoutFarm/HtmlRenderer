@@ -104,8 +104,33 @@ namespace LayoutFarm.Dev
                 formPrint = null;
             };
             formPrint.Connect(viewport);
-
         }
+
+        public class TopWindowEventPortal : ITopWindowEventPortal
+        {
+            UserEventPortal userEventPortal;
+            public TopWindowEventPortal(UserEventPortal userEventPortal)
+            {
+                this.userEventPortal = userEventPortal;
+            }
+            void ITopWindowEventPortal.BindRenderElement(object topRenderElement)
+            {
+                this.userEventPortal.BindTopRenderElement((RenderElement)topRenderElement);
+            }
+            IEventListener ITopWindowEventPortal.CurrentKeyboardFocusedElement
+            {
+                get
+                {
+                    return this.userEventPortal.CurrentKeyboardFocusedElement;
+                }
+                set
+                {
+                    this.userEventPortal.CurrentKeyboardFocusedElement = value;
+                }
+            }
+        }
+
+
         void CreateReadyForm(
             out LayoutFarm.UI.UISurfaceViewportControl viewport,
             out Form formCanvas)
@@ -114,16 +139,16 @@ namespace LayoutFarm.Dev
             int w = workingArea.Width;
             int h = workingArea.Height;
 
-            
+            var userEventPortal = new UserEventPortal();
+            var topWindowEventPortal = new TopWindowEventPortal(userEventPortal);
+
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
                 this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
+                topWindowEventPortal,
                 w, h);
 
-            var topRenderBox = rootgfx.TopWindowRenderBox;
-            var userEventPortal = new UserEventPortal(topRenderBox);
-            rootgfx.SetUserEventPortal(userEventPortal);
 
-            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,userEventPortal,
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx, userEventPortal,
                 this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
                 out viewport);
 

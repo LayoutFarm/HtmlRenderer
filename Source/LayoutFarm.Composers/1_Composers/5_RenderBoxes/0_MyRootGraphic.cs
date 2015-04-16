@@ -6,9 +6,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.UI
-{
-
-
+{ 
 
     public sealed class MyRootGraphic : RootGraphic
     {
@@ -26,10 +24,13 @@ namespace LayoutFarm.UI
 
         static object normalUpdateTask = new object();
 
-        UserEventPortal topWindowEventPortal;
+        ITopWindowEventPortal topWindowEventPortal;
         RenderBoxBase topWindowRenderBox;
 
-        public MyRootGraphic(UIPlatform uiPlatform, GraphicsPlatform gfxPlatform, int width, int height)
+        public MyRootGraphic(UIPlatform uiPlatform,
+            GraphicsPlatform gfxPlatform,
+            ITopWindowEventPortal userEventPortal,
+            int width, int height)
             : base(width, height)
         {
             this.graphicsPlatform = gfxPlatform;
@@ -40,8 +41,9 @@ namespace LayoutFarm.UI
 #endif
 
             //create default render box***
-            this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
-            
+            this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);             
+            userEventPortal.BindRenderElement(this.topWindowRenderBox);
+            this.topWindowEventPortal = userEventPortal;
             this.SubscribeGraphicsIntervalTask(normalUpdateTask,
                 TaskIntervalPlan.Animation,
                 20,
@@ -63,16 +65,8 @@ namespace LayoutFarm.UI
                 this.graphicTimerTaskMan.Enabled = value;
             }
         }
+ 
 
-        public void SetUserEventPortal(UserEventPortal eventPortal)
-        {
-            this.topWindowEventPortal = eventPortal;
-        }
-        //public UserEventPortal UserInputEventAdapter
-        //{
-        //    get { return this.topWindowEventPortal; }
-        //    set { this.topWindowEventPortal = value; }
-        //}
         public override RenderBoxBase TopWindowRenderBox
         {
             get

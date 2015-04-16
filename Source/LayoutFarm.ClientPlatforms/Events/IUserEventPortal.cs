@@ -5,6 +5,12 @@ using System.Collections.Generic;
 
 namespace LayoutFarm.UI
 {
+    public interface ITopWindowEventPortal
+    {
+        void BindRenderElement(object topRenderElement);
+        IEventListener CurrentKeyboardFocusedElement { get; set; }
+    }
+
 
     public interface IUserEventPortal
     {

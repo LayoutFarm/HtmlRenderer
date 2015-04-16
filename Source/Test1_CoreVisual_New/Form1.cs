@@ -36,6 +36,30 @@ namespace TestGraphicPackage
             formLayoutInspector.Connect(viewport);
         }
 
+        public class TopWindowEventPortal : ITopWindowEventPortal
+        {
+            UserEventPortal userEventPortal;
+            public TopWindowEventPortal(UserEventPortal userEventPortal)
+            {
+                this.userEventPortal = userEventPortal;
+            }
+            void ITopWindowEventPortal.BindRenderElement(object topRenderElement)
+            {
+                this.userEventPortal.BindTopRenderElement((RenderElement)topRenderElement);
+            }
+            IEventListener ITopWindowEventPortal.CurrentKeyboardFocusedElement
+            {
+                get
+                {
+                    return this.userEventPortal.CurrentKeyboardFocusedElement;
+                }
+                set
+                {
+                    this.userEventPortal.CurrentKeyboardFocusedElement = value;
+                }
+            }
+        }
+
         private void cmdShowBasicFormCanvas_Click(object sender, EventArgs e)
         {
 
@@ -44,14 +68,15 @@ namespace TestGraphicPackage
             int w = 800;
             int h = 600;
 
+            var userEventPortal = new UserEventPortal();
+            var topWindowEventPortal = new TopWindowEventPortal(userEventPortal);
             MyRootGraphic rootgfx = new MyRootGraphic(
                 this.uiPlatformWinForm,
                 this.gfxPlatform,
+                topWindowEventPortal,
                 w,
                 h);
 
-            var userEventPortal = new UserEventPortal(rootgfx.TopWindowRenderBox);
-            rootgfx.SetUserEventPortal(userEventPortal);
 
             Form formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
                userEventPortal,
@@ -75,10 +100,12 @@ namespace TestGraphicPackage
 
             int w = 800;
             int h = 600;
+            var userEventPortal = new UserEventPortal();
+            var topWindowEventPortal = new TopWindowEventPortal(userEventPortal);
+            var rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
+                this.gfxPlatform,
+                topWindowEventPortal, w, h);
 
-            MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm, this.gfxPlatform, w, h);
-            var userEventPortal = new UserEventPortal(rootgfx.TopWindowRenderBox);
-            rootgfx.SetUserEventPortal(userEventPortal);
             viewport.InitRootGraphics(rootgfx, userEventPortal, InnerViewportKind.GdiPlus);
             viewport.PaintMe();
 

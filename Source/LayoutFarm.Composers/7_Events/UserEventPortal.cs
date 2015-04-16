@@ -23,20 +23,27 @@ namespace LayoutFarm.UI
         DateTime lastTimeMouseUp;
         const int DOUBLE_CLICK_SENSE = 150;//ms 
 
-
         RenderElement topRenderElement;
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
 #endif
-       
-        public UserEventPortal(RenderElement topRenderElement)
+
+        public UserEventPortal()
+        {
+        }
+        internal UserEventPortal(RenderElement topRenderElement)
+        {
+            this.BindTopRenderElement(topRenderElement);
+        }
+        public void BindTopRenderElement(RenderElement topRenderElement)
         {
             this.topRenderElement = topRenderElement;
 #if DEBUG
             dbugRootGraphics = (MyRootGraphic)topRenderElement.Root;
 #endif
         }
+
 #if DEBUG
         MyRootGraphic dbugRootGfx;
         MyRootGraphic dbugRootGraphics
@@ -86,6 +93,8 @@ namespace LayoutFarm.UI
             //this.hitChainStack.Push(hitChain);
 
         }
+
+
         public IEventListener CurrentKeyboardFocusedElement
         {
             get
