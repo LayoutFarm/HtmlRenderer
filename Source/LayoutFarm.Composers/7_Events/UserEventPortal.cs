@@ -12,8 +12,7 @@ namespace LayoutFarm.UI
 
         //current hit chain        
         HitChain _previousChain = new HitChain();
-        Stack<HitChain> hitChainStack = new Stack<HitChain>();
-
+        Stack<HitChain> hitChainStack = new Stack<HitChain>(); 
        
         int msgChainVersion;
         IEventListener currentKbFocusElem;
@@ -23,8 +22,8 @@ namespace LayoutFarm.UI
         DateTime lastTimeMouseUp;
         const int DOUBLE_CLICK_SENSE = 150;//ms 
 
-        RenderElement topRenderElement;
 
+        RenderElement topRenderElement;
 #if DEBUG
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
@@ -32,7 +31,6 @@ namespace LayoutFarm.UI
         internal UserEventPortal(RenderElement topRenderElement)
         {
             this.topRenderElement = topRenderElement;
-
 #if DEBUG
             dbugRootGraphics = (MyRootGraphic)topRenderElement.Root;
 #endif
@@ -264,9 +262,7 @@ namespace LayoutFarm.UI
                 {
                     portal.PortalMouseDown(e);
                     //*****
-                    this.currentMouseDown = e.CurrentContextElement;
-
-
+                    this.currentMouseDown = e.CurrentContextElement; 
                     return true;
                 });
 
