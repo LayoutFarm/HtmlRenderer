@@ -13,7 +13,7 @@ namespace LayoutFarm.HtmlBoxes
     delegate void ScrollBarEvaluator(ScrollBar scBar, out double onePixelFore, out int scrollBoxHeight);
 
 
-    class ScrollBar : EaseBox, IBoxElement 
+    class ScrollBar : EaseBox, IBoxElement
     {
         CustomRenderBox mainBox;
 
@@ -332,12 +332,9 @@ namespace LayoutFarm.HtmlBoxes
             //----------------------------
 
             //3. drag
-            scroll_button.MouseMove += (s, e) =>
+            scroll_button.MouseDrag += (s, e) =>
             {
-                if (!e.IsDragging)
-                {
-                    return;
-                }
+                
                 //----------------------------------
 
                 //dragging ...
@@ -490,12 +487,9 @@ namespace LayoutFarm.HtmlBoxes
             //3. drag
 
 
-            scroll_button.MouseMove += (s, e) =>
+            scroll_button.MouseDrag += (s, e) =>
             {
-                if (!e.IsDragging)
-                {
-                    return;
-                }
+                
                 //----------------------------------
 
                 //dragging ...
@@ -658,7 +652,7 @@ namespace LayoutFarm.HtmlBoxes
         int IBoxElement.MinHeight
         {
             get { return this.Height; }
-        } 
+        }
     }
 
     class ScrollBarCreationParameters

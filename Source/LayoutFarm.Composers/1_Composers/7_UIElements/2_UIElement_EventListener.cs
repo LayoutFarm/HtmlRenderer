@@ -108,6 +108,11 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.OnDragOver(e);
         }
-
+        void IEventListener.GetGlobalLocation(out int x, out int y)
+        {
+            var globalLocation = this.CurrentPrimaryRenderElement.GetGlobalLocation();
+            x = globalLocation.X;
+            y = globalLocation.Y;             
+        }
     }
 }

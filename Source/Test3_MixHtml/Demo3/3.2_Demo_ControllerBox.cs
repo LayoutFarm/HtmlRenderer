@@ -54,13 +54,13 @@ namespace LayoutFarm
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
 
                 //--------------------------------------------
-                //move controller here
-
+                //move controller here 
                 controllerBox1.SetBounds(box.Left - 5, box.Top - 5,
                                          box.Width + 10, box.Height + 10);
                 controllerBox1.Visible = true;
                 controllerBox1.TargetBox = box;
-                //--------------------------------------------
+
+                e.SetMouseCapture(controllerBox1);
             };
 
             //2. mouse up
@@ -78,42 +78,22 @@ namespace LayoutFarm
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
             //for controller box  
-            controllerBox.MouseMove += (s, e) =>
+            controllerBox.MouseDrag += (s, e) =>
             {
-                if (e.IsDragging)
-                {
-                    Point pos = controllerBox.Position;
-                    int newX = pos.X + e.XDiff;
-                    int newY = pos.Y + e.YDiff;
-                    controllerBox.SetLocation(newX, newY);
-                    var targetBox = controllerBox.TargetBox;
-                    if (targetBox != null)
-                    {
-                        //move target box too
-                        targetBox.SetLocation(newX + 5, newY + 5);
-                    }
-                    e.CancelBubbling = true;
-                }
 
-            };
-            controllerBox.MouseLeave += (s, e) =>
-            {
-                if (e.IsDragging)
+                Point pos = controllerBox.Position;
+                int newX = pos.X + e.XDiff;
+                int newY = pos.Y + e.YDiff;
+                controllerBox.SetLocation(newX, newY);
+                var targetBox = controllerBox.TargetBox;
+                if (targetBox != null)
                 {
-                    Point pos = controllerBox.Position;
-                    int newX = pos.X + e.XDiff;
-                    int newY = pos.Y + e.YDiff;
-                    controllerBox.SetLocation(newX, newY);
-                    var targetBox = controllerBox.TargetBox;
-                    if (targetBox != null)
-                    {
-                        //move target box too
-                        targetBox.SetLocation(newX + 5, newY + 5);
-                    }
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.StopPropagation();
+                    //move target box too
+                    targetBox.SetLocation(newX + 5, newY + 5);
                 }
+                e.CancelBubbling = true; 
             };
+            
 
         }
 

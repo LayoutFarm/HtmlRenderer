@@ -13,12 +13,20 @@ namespace LayoutFarm.UI
 #if DEBUG
     partial class TopWindowBridge : IdbugOutputWindow
     {
-
+ 
+        internal Control dbugWinControl;
+       
+ 
         public event EventHandler dbug_VisualRootDrawMsg;
         public event EventHandler dbug_VisualRootHitChainMsg;
 
         List<dbugLayoutMsg> dbugrootDocDebugMsgs = new List<dbugLayoutMsg>();
         List<dbugLayoutMsg> dbugrootDocHitChainMsgs = new List<dbugLayoutMsg>();
+
+        RenderBoxBase dbugTopwin
+        {
+            get { return this.rootGraphic.TopWindowRenderBox; }
+        }
 
 
         public List<dbugLayoutMsg> dbug_rootDocDebugMsgs
@@ -69,21 +77,21 @@ namespace LayoutFarm.UI
         }
         public void dbug_BeginLayoutTraceSession(string beginMsg)
         {
-            this.topwin.dbugVisualRoot.dbug_BeginLayoutTraceSession(beginMsg);
+            this.dbugTopwin.dbugVisualRoot.dbug_BeginLayoutTraceSession(beginMsg);
         }
         public void dbug_DisableAllDebugInfo()
         {
-            this.topwin.dbugVisualRoot.dbug_DisableAllDebugInfo();
+            this.dbugTopwin.dbugVisualRoot.dbug_DisableAllDebugInfo();
         }
         public void dbug_EnableAllDebugInfo()
         {
-            this.topwin.dbugVisualRoot.dbug_EnableAllDebugInfo();
+            this.dbugTopwin.dbugVisualRoot.dbug_EnableAllDebugInfo();
         }
         public void dbug_ReArrangeWithBreakOnSelectedNode()
         {
 
             vinv_dbugBreakOnSelectedVisuallElement = true;
-            this.topwin.TopDownReArrangeContentIfNeed();
+            this.dbugTopwin.TopDownReArrangeContentIfNeed();
 
         }
         public bool vinv_dbugBreakOnSelectedVisuallElement

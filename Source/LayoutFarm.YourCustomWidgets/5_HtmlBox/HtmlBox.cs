@@ -17,7 +17,7 @@ using LayoutFarm.UI;
 namespace LayoutFarm.CustomWidgets
 {
 
-    public class HtmlBox : UIBox, IUserEventPortal
+    public class HtmlBox : UIBox, IEventPortal
     {
         WaitingContentKind waitingContentKind;
         string waitingHtmlString;
@@ -77,59 +77,59 @@ namespace LayoutFarm.CustomWidgets
             return inputEventAdapter;
         }
 
-        void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
 
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseUp(e, htmlRenderBox.CssBox);
         }
-        void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
             this.Focus();
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseDown(e, htmlRenderBox.CssBox);
         }
-        void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
 
             e.CurrentContextElement = this;
             GetInputEventAdapter().MouseMove(e, htmlRenderBox.CssBox);
         }
-        void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
 
             e.CurrentContextElement = this;
         }
-        void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
+        void IEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
 
             e.CurrentContextElement = this;
             GetInputEventAdapter().KeyDown(e, htmlRenderBox.CssBox);
         }
-        void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
+        void IEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
 
             e.CurrentContextElement = this;
             GetInputEventAdapter().KeyPress(e, htmlRenderBox.CssBox);
         }
-        void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
+        void IEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
 
             e.CurrentContextElement = this;
             GetInputEventAdapter().KeyUp(e, htmlRenderBox.CssBox);
         }
-        bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
+        bool IEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
 
             e.CurrentContextElement = this;
             var result = GetInputEventAdapter().ProcessDialogKey(e, htmlRenderBox.CssBox);
             return result;
         }
-        void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
+        void IEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
             e.CurrentContextElement = this;
         }
-        void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
+        void IEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
             e.CurrentContextElement = this;
         }

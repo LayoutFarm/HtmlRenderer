@@ -15,7 +15,8 @@ namespace LayoutFarm.UI
         bool ListenProcessDialogKey(UIKeyEventArgs args);
         //--------------------------------------------------------------------------
         void ListenMouseDown(UIMouseEventArgs e);
-        void ListenMouseMove(UIMouseEventArgs e);
+        void ListenMouseMove(UIMouseEventArgs e); 
+
         void ListenMouseUp(UIMouseEventArgs e);
         void ListenMouseLeave(UIMouseEventArgs e);
 
@@ -44,10 +45,9 @@ namespace LayoutFarm.UI
         void ListenInterComponentMsg(object sender, int msgcode, string msg);
         //--------------------------------------------------------------------------
         void ListenOnDrop(UIMouseEventArgs e);
-        
         void ListenDragOver(UIDragOverEventArgs e);
-        //--------------------------------------------------------------------------
 
+        void GetGlobalLocation(out int x, out int y);
 
     }
 }

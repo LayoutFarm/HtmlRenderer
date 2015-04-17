@@ -37,7 +37,7 @@ namespace LayoutFarm.UI
         }
         void IEventListener.ListenLostMouseFocus(UIMouseEventArgs e)
         {
-            OnLostSelectedFocus(e);
+            OnLostMouseFocus(e);
         }
         void IEventListener.ListenMouseClick(UIMouseEventArgs e)
         {
@@ -105,6 +105,12 @@ namespace LayoutFarm.UI
         void IEventListener.ListenDragOver(UIDragOverEventArgs e)
         {
             this.OnDragOver(e);
+        }
+        void IEventListener.GetGlobalLocation(out int x, out int y)
+        {
+            var globalLoca = this.CurrentPrimaryRenderElement.GetGlobalLocation();
+            x = globalLoca.X;
+            y = globalLoca.Y;
         }
     }
 }

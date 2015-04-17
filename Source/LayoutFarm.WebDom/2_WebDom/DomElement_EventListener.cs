@@ -104,5 +104,12 @@ namespace LayoutFarm.WebDom
         void IEventListener.ListenDragOver(UIDragOverEventArgs e)
         {
         }
+        void IEventListener.GetGlobalLocation(out int x, out int y)
+        {
+            this.PrimaryCssGetGlobalLocation(out x, out y);
+        }
+
+        protected abstract void PrimaryCssGetGlobalLocation(out int x, out int y);
+
     }
 }

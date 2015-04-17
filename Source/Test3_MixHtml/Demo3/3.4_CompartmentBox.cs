@@ -122,23 +122,13 @@ namespace LayoutFarm
         {
             //for controller box
 
-            controllerBox.MouseLeave += (s, e) =>
+            controllerBox.MouseDrag += (s, e) =>
             {
-                if (e.IsDragging)
-                {
-                    MoveWithSnapToGrid(controllerBox, e);
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.StopPropagation();
-                }
-            };
-            controllerBox.MouseMove += (s, e) =>
-            {
-                if (e.IsDragging)
-                {
-                    MoveWithSnapToGrid(controllerBox, e);
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
-                }
+
+                MoveWithSnapToGrid(controllerBox, e);
+                e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                e.CancelBubbling = true;
+
 
             };
         }
@@ -225,24 +215,15 @@ namespace LayoutFarm
 
                 //---------------------------------------------------------------------
 
-                tinyBox.MouseMove += (s, e) =>
+                tinyBox.MouseDrag += (s, e) =>
                 {
-                    if (e.IsDragging)
-                    {
-                        ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
-                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                        e.CancelBubbling = true;
-                    }
+
+                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true;
+
                 };
-                tinyBox.MouseLeave += (s, e) =>
-                {
-                    if (e.IsDragging)
-                    {
-                        ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
-                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                        e.StopPropagation();
-                    }
-                };
+                
                 tinyBox.MouseUp += (s, e) =>
                 {
                     if (e.IsDragging)

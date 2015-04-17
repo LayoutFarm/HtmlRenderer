@@ -129,44 +129,43 @@ namespace LayoutFarm
 
             //when start drag on bg
             //just show selection box on top most
-            backgroundBox.MouseMove += (s, e) =>
+            backgroundBox.MouseDrag += (s, e) =>
             {
-                if (e.IsDragging)
+
+                //move to mouse position 
+                if (!selectionBoxIsShown)
                 {
-                    //move to mouse position 
-                    if (!selectionBoxIsShown)
-                    {
 
-                        selectionBox.LandingPoint = new Point(e.X, e.Y);
-                        selectionBox.SetLocation(e.X, e.Y);
-                        selectionBox.Visible = true;
-                        selectionBoxIsShown = true;
-                    }
-                    else
-                    {
-
-                        Point pos = selectionBox.LandingPoint;
-                        int x = pos.X;
-                        int y = pos.Y;
-                        int w = e.X - pos.X;
-                        int h = e.Y - pos.Y;
-
-                        if (w < 0)
-                        {
-                            w = -w;
-                            x -= w;
-
-                        }
-                        if (h < 0)
-                        {
-                            h = -h;
-                            y -= h;
-
-                        }
-                        //set width and height
-                        selectionBox.SetBounds(x, y, w, h);
-                    }
+                    selectionBox.LandingPoint = new Point(e.X, e.Y);
+                    selectionBox.SetLocation(e.X, e.Y);
+                    selectionBox.Visible = true;
+                    selectionBoxIsShown = true;
                 }
+                else
+                {
+
+                    Point pos = selectionBox.LandingPoint;
+                    int x = pos.X;
+                    int y = pos.Y;
+                    int w = e.X - pos.X;
+                    int h = e.Y - pos.Y;
+
+                    if (w < 0)
+                    {
+                        w = -w;
+                        x -= w;
+
+                    }
+                    if (h < 0)
+                    {
+                        h = -h;
+                        y -= h;
+
+                    }
+                    //set width and height
+                    selectionBox.SetBounds(x, y, w, h);
+                }
+
             };
             backgroundBox.MouseUp += (s, e) =>
             {
@@ -208,7 +207,7 @@ namespace LayoutFarm
                     selectedList.Add(userBoxes[i]);
                     //------
                     //create user controller box for the selected box 
-                    var userControllerBox = GetFreeUserControllerBox();
+                    UIControllerBox userControllerBox = GetFreeUserControllerBox();
                     userControllerBox.TargetBox = box;
                     userControllerBox.SetLocation(box.Left - 5, box.Top - 5);
                     userControllerBox.SetSize(box.Width + 10, box.Height + 10);
@@ -225,17 +224,18 @@ namespace LayoutFarm
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
 
-                //--------------------------------------------
+
                 //request user controller for this box
-                var userControllerBox = GetFreeUserControllerBox();
+                UIControllerBox userControllerBox = GetFreeUserControllerBox();
                 userControllerBox.TargetBox = box;
-
                 viewport.AddContent(userControllerBox);
-
                 userControllerBox.SetLocation(box.Left - 5, box.Top - 5);
                 userControllerBox.SetSize(box.Width + 10, box.Height + 10);
                 userControllerBox.Visible = true;
-                //--------------------------------------------
+
+                //move mouse capture to new controller box
+                //for next drag
+                e.SetMouseCapture(userControllerBox);
             };
 
             //2. mouse up
@@ -265,48 +265,9 @@ namespace LayoutFarm
                     selectionBoxIsShown = false;
                 }
             };
-            selectionBox.MouseLeave += (s, e) =>
+            selectionBox.MouseDrag += (s, e) =>
             {
-                if (selectionBoxIsShown && e.IsDragging)
-                {
-                    //temp fix here 
-                    //TODO: get global position of selected box
-                    var globalLocation = selectionBox.GetGlobalLocation();
-                    globalLocation.Offset(selectionBox.MouseCaptureX, selectionBox.MouseCaptureY);
-                    e.DraggingElement = selectionBox;
-
-                    Point pos = selectionBox.LandingPoint;
-
-                    int x = pos.X;
-                    int y = pos.Y;
-
-                    int w = e.GlobalX - selectionBox.Left;
-                    int h = e.GlobalY - selectionBox.Top;
-
-                    //int w = (selectionBox.Left + e.X) - pos.X;
-                    //int h = (selectionBox.Top + e.Y) - pos.Y;
-
-                    if (w < 0)
-                    {
-                        w = -w;
-                        x -= w;
-                    }
-                    if (h < 0)
-                    {
-                        h = -h;
-                        y -= h;
-
-                    }
-                    //set width and height
-                    selectionBox.SetBounds(x, y, w, h);
-
-                    e.StopPropagation();
-                }
-            };
-
-            selectionBox.MouseMove += (s, e) =>
-            {
-                if (selectionBoxIsShown && e.IsDragging)
+                if (selectionBoxIsShown)
                 {
                     Point pos = selectionBox.LandingPoint;
 
@@ -361,58 +322,39 @@ namespace LayoutFarm
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
             //for controller box
-            controllerBox.MouseMove += (s, e) =>
+            controllerBox.MouseDrag += (s, e) =>
             {
-                if (e.IsDragging)
+                //if (e.IsFirstMouseEnter)
+                //{
+                //    controllerBox.MouseCaptureX = e.X;
+                //    controllerBox.MouseCaptureY = e.Y;
+                //}
+
+                //MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
+                MoveWithSnapToGrid(controllerBox, e.X - e.CapturedMouseX, e.Y - e.CapturedMouseY);
+                e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                e.CancelBubbling = true;
+
+
+
+                //test here -----------------------------------------------------
+                //find dragover element
+
+                List<UIElement> dragOverElements = new List<UIElement>();
+                controllerBox.FindDragOverElements(dragOverElements);
+                if (dragOverElements.Count > 0)
                 {
-                    if (e.IsFirstMouseEnter)
+                    //send notification to another box 
+                    var easeBox = dragOverElements[0] as IEventListener;
+                    if (easeBox != null)
                     {
-                        controllerBox.MouseCaptureX = e.X;
-                        controllerBox.MouseCaptureY = e.Y;
-                    } 
-
-                    MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);                     
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true; 
-
-
-
-                    //test here -----------------------------------------------------
-                    //find dragover element
-
-                    List<UIElement> dragOverElements = new List<UIElement>();                    
-                    controllerBox.FindDragOverElements(dragOverElements);
-                    if (dragOverElements.Count > 0)
-                    {  
-                        //send notification to another box 
-                        var easeBox = dragOverElements[0] as IEventListener;
-                        if (easeBox != null)
-                        {
-                            //create drag over event args
-                            //TODO: add dragover detail
-                            easeBox.ListenDragOver(new UIDragOverEventArgs());
-                        }
+                        //create drag over event args
+                        //TODO: add dragover detail
+                        easeBox.ListenDragOver(new UIDragOverEventArgs());
                     }
-
-                   
-                }
-
-            };
-            controllerBox.MouseLeave += (s, e) =>
-            {
-                if (e.IsDragging)
-                {
-
-                    var globalLocation = controllerBox.GetGlobalLocation();
-                    globalLocation.Offset(controllerBox.MouseCaptureX, controllerBox.MouseCaptureY);
-
-                    MoveWithSnapToGrid(controllerBox, e.GlobalX - globalLocation.X, e.GlobalY - globalLocation.Y);
-
-
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.StopPropagation();
                 }
             };
+
 
         }
 
@@ -515,29 +457,14 @@ namespace LayoutFarm
                 //add handler for each tiny box
                 //---------------------------------------------------------------------
 
-                tinyBox.MouseMove += (s, e) =>
+                tinyBox.MouseDrag += (s, e) =>
                 {
-                    if (e.IsDragging)
-                    {
+                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.X - e.CapturedMouseX, e.Y - e.CapturedMouseY);
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true;
 
-                        ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.X - tinyBox.MouseCaptureX, e.Y - tinyBox.MouseCaptureY);
-                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                        e.CancelBubbling = true;
-                    }
                 };
-                tinyBox.MouseLeave += (s, e) =>
-                {
-                    if (e.IsDragging)
-                    {
-                        var globalLocation = tinyBox.GetGlobalLocation();
-                        globalLocation.Offset(tinyBox.MouseCaptureX, tinyBox.MouseCaptureY);
 
-
-                        ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.GlobalX - globalLocation.X, e.GlobalY - globalLocation.Y);
-                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                        e.StopPropagation();
-                    }
-                };
                 tinyBox.MouseUp += (s, e) =>
                 {
                     e.MouseCursorStyle = MouseCursorStyle.Default;

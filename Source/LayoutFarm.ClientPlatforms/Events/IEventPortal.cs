@@ -7,7 +7,7 @@ namespace LayoutFarm.UI
 {
 
 
-    public interface IUserEventPortal
+    public interface IEventPortal
     {
         //-------------------------------------------- 
         void PortalKeyPress(UIKeyEventArgs e);
@@ -28,6 +28,6 @@ namespace LayoutFarm.UI
 
 
 
-    public delegate bool EventPortalAction(IUserEventPortal evPortal);
+    public delegate bool EventPortalAction(IEventPortal evPortal);
     public delegate bool EventListenerAction();
 }

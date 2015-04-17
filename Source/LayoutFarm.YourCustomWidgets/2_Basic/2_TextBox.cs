@@ -12,7 +12,7 @@ using LayoutFarm.Composers;
 namespace LayoutFarm.CustomWidgets
 {
 
-    public class TextBox : UIBox, IBoxElement, IUserEventPortal
+    public class TextBox : UIBox, IBoxElement, IEventPortal
     {
         TextSurfaceEventListener textSurfaceListener;
         TextEditRenderBox textEditRenderElement;
@@ -346,48 +346,48 @@ namespace LayoutFarm.CustomWidgets
         //------------------------------------------------------
 
 
-        void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
+        void IEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
             this.OnKeyPress(e);
         }
-        void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
+        void IEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
             this.OnKeyDown(e);
         }
-        void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
+        void IEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
             this.OnKeyUp(e);
         }
-        bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
+        bool IEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
             return this.OnProcessDialogKey(e);
         }
-        void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
             this.OnMouseDown(e);
         }
-        void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
             this.OnMouseMove(e);
 
         }
-        void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
             this.OnMouseUp(e);
 
         }
 
-        void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
 
         }
 
-        void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
+        void IEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
 
         }
 
-        void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
+        void IEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
 
         }

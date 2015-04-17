@@ -7,7 +7,7 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
 
-    class UserEventPortal : IUserEventPortal
+    class RenderElementEventPortal : IEventPortal
     {
 
         //current hit chain        
@@ -17,18 +17,14 @@ namespace LayoutFarm.UI
 #if DEBUG
         int dbugMsgChainVersion;
 #endif
-        RenderElement topRenderElement;
-        public UserEventPortal()
-        {
-        }
-        public void BindTopRenderElement(RenderElement topRenderElement)
+        readonly RenderElement topRenderElement;
+        public RenderElementEventPortal(RenderElement topRenderElement)
         {
             this.topRenderElement = topRenderElement;
 #if DEBUG
             dbugRootGraphics = (MyRootGraphic)topRenderElement.Root;
 #endif
         }
-
 
         HitChain GetFreeHitChain()
         {
@@ -138,7 +134,7 @@ namespace LayoutFarm.UI
             }
         }
 
-        //RenderElement lastCommonElement;
+
         void HitTestCoreWithPrevChainHint(HitChain hitPointChain, HitChain previousChain, int x, int y)
         {
             //---------------------------------
@@ -186,11 +182,11 @@ namespace LayoutFarm.UI
             //this.topRenderElement.HitTestCore(hitPointChain);
         }
 
-        void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
 
         }
-        void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
 
 #if DEBUG
@@ -308,7 +304,7 @@ namespace LayoutFarm.UI
             visualroot.dbugHitTracker.Play = false;
 #endif
         }
-        void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
             HitChain hitPointChain = GetFreeHitChain();
             HitTestCoreWithPrevChainHint(hitPointChain, this._previousChain, e.X, e.Y);
@@ -329,9 +325,29 @@ namespace LayoutFarm.UI
                     foundSomeHit = true;
                     bool isFirstMouseEnter = false;
 
+                    //if (e.IsDragging)
+                    //{
+                    //    //dragging
+                    //    if (e.DraggingElement != null &&
+                    //        e.DraggingElement != listener)
+                    //    {
+                    //        //drag out of current scope
+                    //        int d_GlobalX, d_globalY;
+                    //        e.DraggingElement.GetGlobalLocation(out d_GlobalX, out d_globalY);
+                    //        e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
+                    //        e.DraggingElement.ListenMouseMove(e); 
+                    //        return true;
+                    //    }
+                    //}
+                    //else
+                    //{
+
+                    //}
+
+
                     if (e.CurrentMouseActive != null &&
                         e.CurrentMouseActive != listener)
-                    {
+                    {                         
                         e.CurrentMouseActive.ListenMouseLeave(e);
                         isFirstMouseEnter = true;
                     }
@@ -343,11 +359,28 @@ namespace LayoutFarm.UI
                         e.CurrentMouseActive.ListenMouseMove(e);
                         e.IsFirstMouseEnter = false;
                     }
+
                     return true;//stop
                 });
 
                 if (!foundSomeHit && e.CurrentMouseActive != null)
                 {
+
+                    //if (e.IsDragging)
+                    //{
+                    //    if (e.DraggingElement != null)
+                    //    {
+                    //        //drag out of current scope
+                    //        int d_GlobalX, d_globalY;
+                    //        e.DraggingElement.GetGlobalLocation(out d_GlobalX, out d_globalY);
+                    //        e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
+                    //        e.DraggingElement.ListenMouseMove(e); 
+                    //    }
+                    //}
+                    //else
+                    //{ 
+                    //} 
+
                     e.CurrentMouseActive.ListenMouseLeave(e);
                     if (!e.IsCanceled)
                     {
@@ -359,16 +392,16 @@ namespace LayoutFarm.UI
 
 
         }
-        void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
+        void IEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
 
 
         }
-        void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
+        void IEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
 
         }
-        void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
 
 
@@ -430,25 +463,25 @@ namespace LayoutFarm.UI
             }
             SwapHitChain(hitPointChain);
         }
-        void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
+        void IEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
 
         }
-        void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
+        void IEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
 
         }
-        void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
+        void IEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
 
         }
-        bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
+        bool IEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
             return false;
         }
 
         //===================================================================
-        delegate bool EventPortalAction(IUserEventPortal evPortal);
+        delegate bool EventPortalAction(IEventPortal evPortal);
         delegate bool EventListenerAction(IEventListener listener);
 
         static void ForEachOnlyEventPortalBubbleUp(UIEventArgs e, HitChain hitPointChain, EventPortalAction eventPortalAction)
@@ -457,7 +490,7 @@ namespace LayoutFarm.UI
             {
                 HitInfo hitPoint = hitPointChain.GetHitInfo(i);
                 object currentHitElement = hitPoint.hitElement.GetController();
-                IUserEventPortal eventPortal = currentHitElement as IUserEventPortal;
+                IEventPortal eventPortal = currentHitElement as IEventPortal;
                 if (eventPortal != null)
                 {
 
