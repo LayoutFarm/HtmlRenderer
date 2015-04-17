@@ -72,7 +72,7 @@ namespace LayoutFarm.UI
         protected virtual void OnLostKeyboardFocus(UIFocusEventArgs e)
         {
         }
-        protected virtual void OnLostSelectedFocus(UIMouseEventArgs e)
+        protected virtual void OnLostMouseFocus(UIMouseEventArgs e)
         {
         }
         protected virtual void OnGotKeyboardFocus(UIFocusEventArgs e)

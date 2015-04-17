@@ -24,8 +24,8 @@ namespace LayoutFarm.UI
 
         static object normalUpdateTask = new object();
 
-        TopWindowEventRoot topWindowEventRoot;
-        RenderBoxBase topWindowRenderBox;
+        readonly TopWindowEventRoot topWindowEventRoot;
+        readonly RenderBoxBase topWindowRenderBox;
 
         public MyRootGraphic(UIPlatform uiPlatform,
             GraphicsPlatform gfxPlatform, 
@@ -40,10 +40,8 @@ namespace LayoutFarm.UI
 #endif
 
             //create default render box***
-            this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
-
-            this.topWindowEventRoot = new TopWindowEventRoot();
-            topWindowEventRoot.BindRenderElement(this.topWindowRenderBox);
+            this.topWindowRenderBox = new TopWindowRenderBox(this, width, height); 
+            this.topWindowEventRoot = new TopWindowEventRoot(this.topWindowRenderBox); 
             
 
             this.SubscribeGraphicsIntervalTask(normalUpdateTask,
@@ -78,10 +76,7 @@ namespace LayoutFarm.UI
             {
                 return this.topWindowRenderBox;
             }
-            protected set
-            {
-                this.topWindowRenderBox = value;
-            }
+           
         }
         public override void PrepareRender()
         {

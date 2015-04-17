@@ -20,10 +20,9 @@ namespace LayoutFarm.Composers
         {
             var portalEvent = owner as IEventPortal;
             if (portalEvent == null)
-            {
-                var newporttalEvent = new RenderElementEventPortal();
-                newporttalEvent.BindTopRenderElement(renderElement);
-                portalEvent = newporttalEvent;
+            { 
+                portalEvent = new RenderElementEventPortal(renderElement);
+
             }
 
             if (isInline)

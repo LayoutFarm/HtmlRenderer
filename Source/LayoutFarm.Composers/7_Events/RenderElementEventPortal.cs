@@ -17,18 +17,14 @@ namespace LayoutFarm.UI
 #if DEBUG
         int dbugMsgChainVersion;
 #endif
-        RenderElement topRenderElement;
-        public RenderElementEventPortal()
-        {
-        }
-        public void BindTopRenderElement(RenderElement topRenderElement)
+        readonly RenderElement topRenderElement;
+        public RenderElementEventPortal(RenderElement topRenderElement)
         {
             this.topRenderElement = topRenderElement;
 #if DEBUG
             dbugRootGraphics = (MyRootGraphic)topRenderElement.Root;
 #endif
         }
-
 
         HitChain GetFreeHitChain()
         {
@@ -138,7 +134,7 @@ namespace LayoutFarm.UI
             }
         }
 
-        
+
         void HitTestCoreWithPrevChainHint(HitChain hitPointChain, HitChain previousChain, int x, int y)
         {
             //---------------------------------

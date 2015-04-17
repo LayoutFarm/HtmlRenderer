@@ -71,7 +71,7 @@ namespace LayoutFarm
                     comboBox.OpenHinge();
                 }
             };
-            imgBox.LostSelectedFocus += (s, e) =>
+            imgBox.LostMouseFocus += (s, e) =>
             {
                 if (comboBox.IsOpen)
                 {
@@ -124,7 +124,7 @@ namespace LayoutFarm
             {
                 mnuItem.UnmaintenanceParentOpenState();
             };
-            imgBox.LostSelectedFocus += (s, e) =>
+            imgBox.LostMouseFocus += (s, e) =>
             {
                 if (!mnuItem.MaintenceOpenState)
                 {

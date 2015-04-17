@@ -356,7 +356,10 @@ namespace LayoutFarm.UI
         Right = 1 << 2,
         Bottom = 1 << 3
     }
+    public class UIDragOverEventArgs : UIEventArgs
+    {
 
+    }
 
 
 
@@ -403,44 +406,7 @@ namespace LayoutFarm.UI
     //        pool.Push(e);
     //    }
     //}
-
-    public class UIInvalidateEventArgs : UIEventArgs
-    {
-        //public Rectangle InvalidArea;
-        public UIInvalidateEventArgs()
-        {
-        }
-    }
-
-    public class UICaretEventArgs : UIEventArgs
-    {
-        public bool Visible = false;
-        public override void Clear()
-        {
-            Visible = false;
-            base.Clear();
-        }
-    }
-    public class UICursorEventArgs : UIEventArgs
-    {
-
-    }
-    public class UIPopupEventArgs : UIEventArgs
-    {
-        public bool pleaseShow = false;
-        public object popupWindow;
-        public override void Clear()
-        {
-            pleaseShow = false;
-            popupWindow = null;
-            base.Clear();
-        }
-    }
-
-
-
-    public class UIDragOverEventArgs : UIEventArgs
-    {
-
-    }
+ 
+     
+  
 }

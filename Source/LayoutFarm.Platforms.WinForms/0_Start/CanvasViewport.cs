@@ -98,10 +98,7 @@ namespace LayoutFarm.UI
         {
 
         }
-        protected virtual void Canvas_CursorChange(object sender, UICursorEventArgs e)
-        {
-
-        }
+         
         protected virtual void Canvas_SizeChanged(object sender, EventArgs e)
         {
             //EvaluateScrollBar();

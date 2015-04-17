@@ -8,21 +8,18 @@ namespace LayoutFarm
 
     class TopWindowEventRoot : ITopWindowEventRoot
     {
-        RootGraphic rootGraphic;
+        RootGraphic rootgfx;
+        RenderElementEventPortal topWinBoxEventPortal;
+        IEventPortal iTopBoxEventPortal;
 
         CanvasEventsStock eventStock = new CanvasEventsStock();
 
         IEventListener currentKbFocusElem;
-        
-        RenderElementEventPortal topWinBoxEventPortal;
-
-        IEventPortal iTopBoxEventPortal;
         IEventListener currentMouseActiveElement;
         IEventListener latestMouseDown;
         IEventListener currentMouseDown;
         IEventListener draggingElement;
-        int localMouseDownX;
-        int localMouseDownY;
+
 
         DateTime lastTimeMouseUp;
         int dblClickSense = 150;//ms         
@@ -38,16 +35,14 @@ namespace LayoutFarm
         bool lastKeydownWithShift;
         int prevLogicalMouseX;
         int prevLogicalMouseY;
+        int localMouseDownX;
+        int localMouseDownY;
 
-        public TopWindowEventRoot()
+        public TopWindowEventRoot(RenderElement topRenderElement)
         {
-            this.iTopBoxEventPortal = this.topWinBoxEventPortal = new RenderElementEventPortal();
+            this.iTopBoxEventPortal = this.topWinBoxEventPortal = new RenderElementEventPortal(topRenderElement);
+            this.rootgfx = topRenderElement.Root;
             this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
-        }
-        public void BindRenderElement(RenderElement topRenderElement)
-        {
-            this.topWinBoxEventPortal.BindTopRenderElement(topRenderElement);
-            this.rootGraphic = topRenderElement.Root;
         }
         public IEventListener CurrentKeyboardFocusedElement
         {
@@ -65,19 +60,15 @@ namespace LayoutFarm
                 //2. keyboard focus
                 currentKbFocusElem = value;
             }
-        }
-
-
-
+        } 
         void StartCaretBlink()
         {
-            this.rootGraphic.CaretStartBlink();
+            this.rootgfx.CaretStartBlink();
         }
         void StopCaretBlink()
         {
-            this.rootGraphic.CaretStopBlink();
-        }
-
+            this.rootgfx.CaretStopBlink();
+        } 
 
         MouseCursorStyle ITopWindowEventRoot.MouseCursorStyle
         {
@@ -87,13 +78,11 @@ namespace LayoutFarm
         {
             this.prevLogicalMouseX = x;
             this.prevLogicalMouseY = y;
-
-            UIMouseEventArgs e = eventStock.GetFreeMouseEventArgs();
-            SetUIMouseEventArgsInfo(e, x, y, 0, button);
-
-            //---------------------
             this.isMouseDown = true;
             this.isDragging = false;
+
+            UIMouseEventArgs e = eventStock.GetFreeMouseEventArgs();
+            SetUIMouseEventArgsInfo(e, x, y, 0, button);          
 
             e.PreviousMouseDown = this.latestMouseDown;
 
@@ -150,6 +139,7 @@ namespace LayoutFarm
             int ydiff = y - prevLogicalMouseY;
             this.prevLogicalMouseX = x;
             this.prevLogicalMouseY = y;
+
             if (xdiff == 0 && ydiff == 0)
             {
                 return;
