@@ -91,28 +91,9 @@ namespace LayoutFarm
                     //move target box too
                     targetBox.SetLocation(newX + 5, newY + 5);
                 }
-                e.CancelBubbling = true;
-
-
+                e.CancelBubbling = true; 
             };
-            controllerBox.MouseLeave += (s, e) =>
-            {
-                if (e.IsDragging)
-                {
-                    Point pos = controllerBox.Position;
-                    int newX = pos.X + e.XDiff;
-                    int newY = pos.Y + e.YDiff;
-                    controllerBox.SetLocation(newX, newY);
-                    var targetBox = controllerBox.TargetBox;
-                    if (targetBox != null)
-                    {
-                        //move target box too
-                        targetBox.SetLocation(newX + 5, newY + 5);
-                    }
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.StopPropagation();
-                }
-            };
+            
 
         }
 

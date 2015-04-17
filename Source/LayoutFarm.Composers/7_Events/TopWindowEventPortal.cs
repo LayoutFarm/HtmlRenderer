@@ -18,7 +18,7 @@ namespace LayoutFarm
         IEventListener currentMouseActiveElement;
         IEventListener latestMouseDown;
         IEventListener currentMouseDown;
-        IEventListener draggingElement;//current dragging element
+        IEventListener draggingElement; 
         int localMouseDownX;
         int localMouseDownY;
 

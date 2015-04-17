@@ -372,46 +372,7 @@ namespace LayoutFarm.CustomWidgets
 
                 e.StopPropagation();
             };
-            //-------------------------------------------
-            //4.
-            scroll_button.MouseLeave += (s, e) =>
-            {
-                if (e.IsDragging)
-                {
-
-                }
-                //if (e.IsDragging)
-                //{
-
-                //    Point pos = scroll_button.Position;
-                //    //if vscroll bar then move only y axis 
-                //    int newYPos = (int)(pos.Y + e.YDiff);
-
-                //    //clamp!
-                //    if (newYPos >= this.Height - (minmax_boxHeight + scrollButton.Height))
-                //    {
-                //        newYPos = this.Height - (minmax_boxHeight + scrollButton.Height);
-                //    }
-                //    else if (newYPos < minmax_boxHeight)
-                //    {
-                //        newYPos = minmax_boxHeight;
-                //    }
-
-                //    //calculate value from position 
-
-                //    int currentMarkAt = (newYPos - minmax_boxHeight);
-                //    this.scrollValue = (float)(onePixelFor * currentMarkAt);
-                //    newYPos = CalculateThumbPosition() + minmax_boxHeight;
-                //    scroll_button.SetLocation(pos.X, newYPos);
-
-                //    if (this.UserScroll != null)
-                //    {
-                //        this.UserScroll(this, EventArgs.Empty);
-                //    }
-
-                //    e.StopPropagation();
-                //}
-            };
+            
 
         }
 
@@ -529,42 +490,7 @@ namespace LayoutFarm.CustomWidgets
 
                 e.StopPropagation();
             };
-            //-------------------------------------------
-            //4.
-            scroll_button.MouseLeave += (s, e) =>
-            {
-                if (e.IsDragging)
-                {
-
-                    Point pos = scroll_button.Position;
-                    //if vscroll bar then move only y axis 
-                    int newXPos = (int)(pos.X + e.XDiff);
-
-                    //clamp!
-                    if (newXPos >= this.Width - (minmax_boxHeight + scrollButton.Width))
-                    {
-                        newXPos = this.Width - (minmax_boxHeight + scrollButton.Width);
-                    }
-                    else if (newXPos < minmax_boxHeight)
-                    {
-                        newXPos = minmax_boxHeight;
-                    }
-
-                    //calculate value from position 
-
-                    int currentMarkAt = (newXPos - minmax_boxHeight);
-                    this.scrollValue = (float)(onePixelFor * currentMarkAt);
-                    newXPos = CalculateThumbPosition() + minmax_boxHeight;
-                    scroll_button.SetLocation(newXPos, pos.Y);
-
-                    if (this.UserScroll != null)
-                    {
-                        this.UserScroll(this, EventArgs.Empty);
-                    }
-
-                    e.StopPropagation();
-                }
-            };
+            
 
         }
 

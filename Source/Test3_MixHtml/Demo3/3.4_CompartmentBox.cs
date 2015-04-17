@@ -122,15 +122,6 @@ namespace LayoutFarm
         {
             //for controller box
 
-            controllerBox.MouseLeave += (s, e) =>
-            {
-                if (e.IsDragging)
-                {
-                    MoveWithSnapToGrid(controllerBox, e);
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.StopPropagation();
-                }
-            };
             controllerBox.MouseDrag += (s, e) =>
             {
 
@@ -232,15 +223,7 @@ namespace LayoutFarm
                     e.CancelBubbling = true;
 
                 };
-                tinyBox.MouseLeave += (s, e) =>
-                {
-                    if (e.IsDragging)
-                    {
-                        ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e);
-                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                        e.StopPropagation();
-                    }
-                };
+                
                 tinyBox.MouseUp += (s, e) =>
                 {
                     if (e.IsDragging)

@@ -263,46 +263,7 @@ namespace LayoutFarm
                     selectionBox.SetSize(1, 1);
                     selectionBoxIsShown = false;
                 }
-            };
-            selectionBox.MouseLeave += (s, e) =>
-            {
-                if (selectionBoxIsShown && e.IsDragging)
-                {
-                    //temp fix here 
-                    //TODO: get global position of selected box
-                    var globalLocation = selectionBox.GetGlobalLocation();
-                    globalLocation.Offset(selectionBox.MouseCaptureX, selectionBox.MouseCaptureY);
-                    e.DraggingElement = selectionBox;
-
-                    Point pos = selectionBox.LandingPoint;
-
-                    int x = pos.X;
-                    int y = pos.Y;
-
-                    int w = e.GlobalX - selectionBox.Left;
-                    int h = e.GlobalY - selectionBox.Top;
-
-                    //int w = (selectionBox.Left + e.X) - pos.X;
-                    //int h = (selectionBox.Top + e.Y) - pos.Y;
-
-                    if (w < 0)
-                    {
-                        w = -w;
-                        x -= w;
-                    }
-                    if (h < 0)
-                    {
-                        h = -h;
-                        y -= h;
-
-                    }
-                    //set width and height
-                    selectionBox.SetBounds(x, y, w, h);
-
-                    e.StopPropagation();
-                }
-            };
-
+            }; 
             selectionBox.MouseDrag += (s, e) =>
             {
                 if (selectionBoxIsShown)
@@ -389,27 +350,9 @@ namespace LayoutFarm
                         //TODO: add dragover detail
                         easeBox.ListenDragOver(new UIDragOverEventArgs());
                     }
-                }
-
-
-
-
+                } 
             };
-            controllerBox.MouseLeave += (s, e) =>
-            {
-                if (e.IsDragging)
-                {
-
-                    var globalLocation = controllerBox.GetGlobalLocation();
-                    globalLocation.Offset(controllerBox.MouseCaptureX, controllerBox.MouseCaptureY);
-
-                    MoveWithSnapToGrid(controllerBox, e.GlobalX - globalLocation.X, e.GlobalY - globalLocation.Y);
-
-
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.StopPropagation();
-                }
-            };
+            
 
         }
 
@@ -522,19 +465,7 @@ namespace LayoutFarm
                         e.CancelBubbling = true;
                     }
                 };
-                tinyBox.MouseLeave += (s, e) =>
-                {
-                    if (e.IsDragging)
-                    {
-                        var globalLocation = tinyBox.GetGlobalLocation();
-                        globalLocation.Offset(tinyBox.MouseCaptureX, tinyBox.MouseCaptureY);
-
-
-                        ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.GlobalX - globalLocation.X, e.GlobalY - globalLocation.Y);
-                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                        e.StopPropagation();
-                    }
-                };
+               
                 tinyBox.MouseUp += (s, e) =>
                 {
                     e.MouseCursorStyle = MouseCursorStyle.Default;

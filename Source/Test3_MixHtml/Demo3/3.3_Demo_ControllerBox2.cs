@@ -134,18 +134,7 @@ namespace LayoutFarm
 
             };
 
-            controllerBox.MouseLeave += (s, e) =>
-            {
-                if (e.IsDragging)
-                {
-                    var globalLocation = controllerBox.GetGlobalLocation();
-                    globalLocation.Offset(controllerBox.MouseCaptureX, controllerBox.MouseCaptureY);
-
-                    MoveWithSnapToGrid(controllerBox, e.GlobalX - globalLocation.X, e.Y - globalLocation.Y);
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.StopPropagation();
-                }
-            };
+           
         }
 
         //-----------------------------------------------------------------
