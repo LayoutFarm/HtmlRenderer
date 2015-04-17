@@ -63,6 +63,7 @@
     <Compile Include="1_Composers\7_UIElements\CustomRenderElements.cs" />
     <Compile Include="1_Composers\7_UIElements\RenderElementExtension.cs" />
     <Compile Include="1_Composers\7_UIElements\ScrollBar.cs" />
+    <Compile Include="7_Events\CanvasEventStock.cs" />
     <Compile Include="7_Events\TopWindowEventPortal.cs" />
     <Compile Include="4_WebDom\HtmlDocument.cs" />
     <Compile Include="1_Composers\5_RenderBoxes\HtmlRenderBox.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="1_Composers\5_RenderBoxes\0_MyRootGraphic.cs" />
     <Compile Include="7_Events\GraphicsTimerTasksManager.cs" />
     <Compile Include="7_Events\ToNotifySizeChangedEvent.cs" />
+    <Compile Include="7_Events\UIHoverMonitor.cs" />
     <Compile Include="7_Events\UserEventPortal.cs" />
     <Compile Include="8_ContentManagers\ImageContentManager.cs" />
     <Compile Include="8_ContentManagers\ImageCacheSystem.cs" />

@@ -48,19 +48,19 @@ namespace LayoutFarm.UI
         {
             get { return this.isClosed; }
         }
-        protected int ViewportX
+        public int ViewportX
         {
             get { return this.viewportX; }
         }
-        protected int ViewportY
+        public int ViewportY
         {
             get { return this.viewportY; }
         }
-        protected int ViewportWidth
+        public int ViewportWidth
         {
             get { return this.viewportWidth; }
         }
-        protected int ViewportHeight
+        public int ViewportHeight
         {
             get { return this.viewportHeight; }
         }

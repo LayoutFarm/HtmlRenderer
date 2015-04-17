@@ -545,8 +545,7 @@ namespace LayoutFarm.Demo
                 e.X, e.Y,
                 GetUIMouseButton(e.Button),
                 e.Clicks,
-                e.Delta,
-                this.isDragging);
+                e.Delta);
             return mouseE;
         }
 

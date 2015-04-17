@@ -55,9 +55,9 @@ namespace LayoutFarm.UI.GdiPlus
             this.gdiPlusViewport.PaintMe(canvas);
 
         }
-        protected override void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
+        protected override void ChangeCursorStyle(MouseCursorStyle cursorStyle)
         {
-            switch (mouseEventArg.MouseCursorStyle)
+            switch (cursorStyle)
             {
                 case MouseCursorStyle.Pointer:
                     {
@@ -71,11 +71,8 @@ namespace LayoutFarm.UI.GdiPlus
                     {
                         windowControl.Cursor = Cursors.Default;
                     } break;
-            }
-            this.currentCursorStyle = mouseEventArg.MouseCursorStyle;
-        }
-
-
+            } 
+        } 
 
     }
 }

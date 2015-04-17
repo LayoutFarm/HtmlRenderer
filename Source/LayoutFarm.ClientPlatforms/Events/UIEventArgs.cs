@@ -250,15 +250,14 @@ namespace LayoutFarm.UI
             this.XDiff = xdiff;
             this.YDiff = ydiff;
         }
-        public void SetEventInfo(int x, int y, UIMouseButtons button, int clicks, int delta, bool isDragging)
+        public void SetEventInfo(int x, int y, UIMouseButtons button, int clicks, int delta)
         {
             this.GlobalX = x;
             this.GlobalY = y;
             this.SetLocation(x, y);
             Button = button;
             Clicks = clicks;
-            Delta = delta;
-            this.IsDragging = isDragging;
+            Delta = delta; 
         }
 
         public bool IsFirstMouseEnter
