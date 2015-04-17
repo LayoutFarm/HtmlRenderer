@@ -257,7 +257,7 @@ namespace LayoutFarm.UI
             this.SetLocation(x, y);
             Button = button;
             Clicks = clicks;
-            Delta = delta; 
+            Delta = delta;
         }
 
         public bool IsFirstMouseEnter
@@ -279,6 +279,8 @@ namespace LayoutFarm.UI
             this.IsDragging = false;
             this.DraggingElement = null;
             this.IsFirstMouseEnter = false;
+
+            this.CapturedMouseX = this.CapturedMouseY = 0;
 
             if (this.dragOverElements != null)
             {
@@ -303,8 +305,13 @@ namespace LayoutFarm.UI
         public IEventListener DraggingElement
         {
             get;
-            set;
+            private set;
         }
+        public void SetMouseCapture(IEventListener listener)
+        {
+            this.DraggingElement = listener;
+        }
+        //-------------------------------------------------------------------
         public void AddDragOverElement(IEventListener dragOverElement)
         {
             if (dragOverElements == null)
@@ -333,7 +340,9 @@ namespace LayoutFarm.UI
             set;
         }
         public bool IsAlsoDoubleClick { get; set; }
-        
+
+        public int CapturedMouseX { get; set; }
+        public int CapturedMouseY { get; set; }
     }
 
     public enum MouseCursorStyle
@@ -406,7 +415,7 @@ namespace LayoutFarm.UI
     //        pool.Push(e);
     //    }
     //}
- 
-     
-  
+
+
+
 }

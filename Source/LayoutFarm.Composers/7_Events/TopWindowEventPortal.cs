@@ -17,7 +17,7 @@ namespace LayoutFarm
         IEventListener currentKbFocusElem;
         IEventListener currentMouseActiveElement;
         IEventListener latestMouseDown;
-        IEventListener currentMouseDown;
+
         IEventListener draggingElement;
 
 
@@ -60,7 +60,7 @@ namespace LayoutFarm
                 //2. keyboard focus
                 currentKbFocusElem = value;
             }
-        } 
+        }
         void StartCaretBlink()
         {
             this.rootgfx.CaretStartBlink();
@@ -68,7 +68,7 @@ namespace LayoutFarm
         void StopCaretBlink()
         {
             this.rootgfx.CaretStopBlink();
-        } 
+        }
 
         MouseCursorStyle ITopWindowEventRoot.MouseCursorStyle
         {
@@ -82,16 +82,26 @@ namespace LayoutFarm
             this.isDragging = false;
 
             UIMouseEventArgs e = eventStock.GetFreeMouseEventArgs();
-            SetUIMouseEventArgsInfo(e, x, y, 0, button);          
+            SetUIMouseEventArgsInfo(e, x, y, 0, button);
 
             e.PreviousMouseDown = this.latestMouseDown;
 
             iTopBoxEventPortal.PortalMouseDown(e);
-            this.currentMouseActiveElement = this.currentMouseDown = this.latestMouseDown = e.CurrentContextElement;
+
+
+            this.currentMouseActiveElement = this.latestMouseDown = e.CurrentContextElement;
             this.localMouseDownX = e.X;
             this.localMouseDownY = e.Y;
-            this.draggingElement = this.currentMouseActiveElement;
-            //---------------------
+
+            if (e.DraggingElement != null)
+            {
+                this.draggingElement = e.DraggingElement;
+            }
+            else
+            {
+                this.draggingElement = this.currentMouseActiveElement;
+            }
+
 
 
             this.mouseCursorStyle = e.MouseCursorStyle;
@@ -126,10 +136,8 @@ namespace LayoutFarm
             this.lastTimeMouseUp = snapMouseUpTime;
             e.IsAlsoDoubleClick = timediff.Milliseconds < dblClickSense;
             iTopBoxEventPortal.PortalMouseUp(e);
-            this.currentMouseDown = null;
-            //-----------------------------------
 
-
+            this.localMouseDownX = this.localMouseDownY = 0;
             this.mouseCursorStyle = e.MouseCursorStyle;
             eventStock.ReleaseEventArgs(e);
         }
@@ -160,14 +168,17 @@ namespace LayoutFarm
                 if (draggingElement != null)
                 {
                     //send this to dragging element first
+
                     int d_GlobalX, d_globalY;
                     draggingElement.GetGlobalLocation(out d_GlobalX, out d_globalY);
                     e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
+                    e.CapturedMouseX = this.localMouseDownX;
+                    e.CapturedMouseY = this.localMouseDownY;
+
                     draggingElement.ListenMouseMove(e);
                     return;
-                }
-
-                e.DraggingElement = this.draggingElement;
+                } 
+                
                 iTopBoxEventPortal.PortalMouseMove(e);
                 draggingElement = e.DraggingElement;
             }

@@ -337,11 +337,10 @@ namespace LayoutFarm.CustomWidgets
             //3. drag
             scroll_button.MouseDrag += (s, e) =>
             {
-                e.DraggingElement = scroll_button;
 
                 //dragging ...
                 //find y-diff 
-                int ydiff = e.Y - scroll_button.MouseCaptureY;
+                int ydiff = e.Y - e.CapturedMouseY;
 
                 Point pos = scroll_button.Position;
 
@@ -372,7 +371,7 @@ namespace LayoutFarm.CustomWidgets
 
                 e.StopPropagation();
             };
-            
+
 
         }
 
@@ -459,7 +458,7 @@ namespace LayoutFarm.CustomWidgets
 
                 //dragging ...
                 //find x-diff 
-                int xdiff = e.X - scroll_button.MouseCaptureX;
+                int xdiff = e.X - e.CapturedMouseX;
 
                 Point pos = scroll_button.Position;
 
@@ -490,7 +489,7 @@ namespace LayoutFarm.CustomWidgets
 
                 e.StopPropagation();
             };
-            
+
 
         }
 

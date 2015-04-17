@@ -347,8 +347,7 @@ namespace LayoutFarm.UI
 
                     if (e.CurrentMouseActive != null &&
                         e.CurrentMouseActive != listener)
-                    {
-
+                    {                         
                         e.CurrentMouseActive.ListenMouseLeave(e);
                         isFirstMouseEnter = true;
                     }

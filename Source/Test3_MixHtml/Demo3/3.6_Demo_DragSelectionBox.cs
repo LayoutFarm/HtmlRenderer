@@ -207,7 +207,7 @@ namespace LayoutFarm
                     selectedList.Add(userBoxes[i]);
                     //------
                     //create user controller box for the selected box 
-                    var userControllerBox = GetFreeUserControllerBox();
+                    UIControllerBox userControllerBox = GetFreeUserControllerBox();
                     userControllerBox.TargetBox = box;
                     userControllerBox.SetLocation(box.Left - 5, box.Top - 5);
                     userControllerBox.SetSize(box.Width + 10, box.Height + 10);
@@ -224,17 +224,18 @@ namespace LayoutFarm
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
 
-                //--------------------------------------------
+
                 //request user controller for this box
-                var userControllerBox = GetFreeUserControllerBox();
+                UIControllerBox userControllerBox = GetFreeUserControllerBox();
                 userControllerBox.TargetBox = box;
-
                 viewport.AddContent(userControllerBox);
-
                 userControllerBox.SetLocation(box.Left - 5, box.Top - 5);
                 userControllerBox.SetSize(box.Width + 10, box.Height + 10);
                 userControllerBox.Visible = true;
-                //--------------------------------------------
+
+                //move mouse capture to new controller box
+                //for next drag
+                e.SetMouseCapture(userControllerBox);
             };
 
             //2. mouse up
@@ -323,13 +324,14 @@ namespace LayoutFarm
             //for controller box
             controllerBox.MouseDrag += (s, e) =>
             {
-                if (e.IsFirstMouseEnter)
-                {
-                    controllerBox.MouseCaptureX = e.X;
-                    controllerBox.MouseCaptureY = e.Y;
-                }
+                //if (e.IsFirstMouseEnter)
+                //{
+                //    controllerBox.MouseCaptureX = e.X;
+                //    controllerBox.MouseCaptureY = e.Y;
+                //}
 
-                MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
+                //MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
+                MoveWithSnapToGrid(controllerBox, e.X - e.CapturedMouseX, e.Y - e.CapturedMouseY);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 e.CancelBubbling = true;
 
@@ -457,9 +459,7 @@ namespace LayoutFarm
 
                 tinyBox.MouseDrag += (s, e) =>
                 {
-
-
-                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.X - tinyBox.MouseCaptureX, e.Y - tinyBox.MouseCaptureY);
+                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.X - e.CapturedMouseX, e.Y - e.CapturedMouseY);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.CancelBubbling = true;
 

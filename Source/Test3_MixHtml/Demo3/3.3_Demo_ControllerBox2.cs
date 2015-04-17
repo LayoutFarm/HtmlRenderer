@@ -19,41 +19,40 @@ namespace LayoutFarm
         {
 
             //--------------------------------
-            {
-                var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
-                bgbox.BackColor = Color.White;
-                bgbox.SetLocation(0, 0);
-                SetupBackgroundProperties(bgbox);
-                viewport.AddContent(bgbox);
-            }
-            //--------------------------------
-            {
-                var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
-                box1.BackColor = Color.Red;
-                box1.SetLocation(10, 10);
-                //box1.dbugTag = 1;
-                SetupActiveBoxProperties(box1);
-                viewport.AddContent(box1);
-            }
-            //--------------------------------
-            {
-                var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
-                box2.SetLocation(50, 50);
-                //box2.dbugTag = 2;
-                SetupActiveBoxProperties(box2);
-                viewport.AddContent(box2);
-            }
-            {
 
-                controllerBox1 = new UIControllerBox(40, 40);
-                Color c = KnownColors.FromKnownColor(KnownColor.Yellow);
-                controllerBox1.BackColor = new Color(100, c.R, c.G, c.B);
-                controllerBox1.SetLocation(200, 200);
-                //controllerBox1.dbugTag = 3;
-                controllerBox1.Visible = false;
-                SetupControllerBoxProperties(controllerBox1);
-                viewport.AddContent(controllerBox1);
-            }
+            var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
+            bgbox.BackColor = Color.White;
+            bgbox.SetLocation(0, 0);
+            SetupBackgroundProperties(bgbox);
+            viewport.AddContent(bgbox);
+
+            //--------------------------------
+
+            var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
+            box1.BackColor = Color.Red;
+            box1.SetLocation(10, 10);
+            //box1.dbugTag = 1;
+            SetupActiveBoxProperties(box1);
+            viewport.AddContent(box1);
+
+            //--------------------------------
+
+            var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
+            box2.SetLocation(50, 50);
+            //box2.dbugTag = 2;
+            SetupActiveBoxProperties(box2);
+            viewport.AddContent(box2);
+
+
+            controllerBox1 = new UIControllerBox(40, 40);
+            Color c = KnownColors.FromKnownColor(KnownColor.Yellow);
+            controllerBox1.BackColor = new Color(100, c.R, c.G, c.B);
+            controllerBox1.SetLocation(200, 200);
+            //controllerBox1.dbugTag = 3;
+            controllerBox1.Visible = false;
+            SetupControllerBoxProperties(controllerBox1);
+            viewport.AddContent(controllerBox1);
+
         }
         void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)
         {
@@ -80,6 +79,9 @@ namespace LayoutFarm
                 controllerBox1.Visible = true;
                 //--------------------------------------------
                 e.CancelBubbling = true;
+
+                e.SetMouseCapture(controllerBox1);
+
             };
             //2. mouse up
             box.MouseUp += (s, e) =>
@@ -122,19 +124,20 @@ namespace LayoutFarm
             controllerBox.MouseDrag += (s, e) =>
             {
 
-                if (e.IsFirstMouseEnter)
-                {
-                    controllerBox.MouseCaptureX = e.X;
-                    controllerBox.MouseCaptureY = e.Y;
-                }
+                //if (e.IsFirstMouseEnter)
+                //{
+                //    controllerBox.MouseCaptureX = e.X;
+                //    controllerBox.MouseCaptureY = e.Y;
+                //}
 
-                MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
+                //MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
+                MoveWithSnapToGrid(controllerBox, e.X - e.CapturedMouseX, e.Y - e.CapturedMouseY);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 e.CancelBubbling = true;
 
             };
 
-           
+
         }
 
         //-----------------------------------------------------------------
