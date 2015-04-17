@@ -13,8 +13,10 @@ namespace LayoutFarm
         CanvasEventsStock eventStock = new CanvasEventsStock();
 
         IEventListener currentKbFocusElem;
-        UserEventPortal topBoxEventPortal;
-        IUserEventPortal iTopBoxEventPortal;
+        
+        RenderElementEventPortal topWinBoxEventPortal;
+
+        IEventPortal iTopBoxEventPortal;
         IEventListener currentMouseActiveElement;
         IEventListener latestMouseDown;
         IEventListener currentMouseDown;
@@ -23,8 +25,7 @@ namespace LayoutFarm
         int localMouseDownY;
 
         DateTime lastTimeMouseUp;
-        const int DOUBLE_CLICK_SENSE = 150;//ms         
-
+        int dblClickSense = 150;//ms         
 
         UIHoverMonitorTask hoverMonitoringTask;
         MouseCursorStyle mouseCursorStyle;
@@ -37,14 +38,15 @@ namespace LayoutFarm
         bool lastKeydownWithShift;
         int prevLogicalMouseX;
         int prevLogicalMouseY;
+
         public TopWindowEventRoot()
         {
-            this.iTopBoxEventPortal = this.topBoxEventPortal = new UserEventPortal();
+            this.iTopBoxEventPortal = this.topWinBoxEventPortal = new RenderElementEventPortal();
             this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
         }
         public void BindRenderElement(RenderElement topRenderElement)
         {
-            this.topBoxEventPortal.BindTopRenderElement(topRenderElement);
+            this.topWinBoxEventPortal.BindTopRenderElement(topRenderElement);
             this.rootGraphic = topRenderElement.Root;
         }
         public IEventListener CurrentKeyboardFocusedElement
@@ -133,7 +135,7 @@ namespace LayoutFarm
             }
 
             this.lastTimeMouseUp = snapMouseUpTime;
-            e.IsAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;
+            e.IsAlsoDoubleClick = timediff.Milliseconds < dblClickSense;
             iTopBoxEventPortal.PortalMouseUp(e);
             this.currentMouseDown = null;
             //-----------------------------------

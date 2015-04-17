@@ -18,10 +18,10 @@ namespace LayoutFarm.Composers
 
         public static CssBox CreateWrapper(object owner, RenderElement renderElement, BoxSpec spec, bool isInline)
         {
-            var portalEvent = owner as IUserEventPortal;
+            var portalEvent = owner as IEventPortal;
             if (portalEvent == null)
             {
-                var newporttalEvent = new UserEventPortal();
+                var newporttalEvent = new RenderElementEventPortal();
                 newporttalEvent.BindTopRenderElement(renderElement);
                 portalEvent = newporttalEvent;
             }

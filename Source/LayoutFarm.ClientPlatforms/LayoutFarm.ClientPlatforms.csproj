@@ -38,7 +38,7 @@
     <Compile Include="Common\Clipboard.cs" />
     <Compile Include="Events\IEventListener.cs" />
     <Compile Include="Events\ITopWindowEventRoot.cs" />
-    <Compile Include="Events\IUserEventPortal.cs" />
+    <Compile Include="Events\IEventPortal.cs" />
     <Compile Include="Events\ScrollSurfaceRequestEventArgs.cs" />
     <Compile Include="Events\UIEventArgs.cs" />
     <Compile Include="Events\UIEventIdentifier.cs" />

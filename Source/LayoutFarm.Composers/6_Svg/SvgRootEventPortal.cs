@@ -78,7 +78,7 @@ namespace LayoutFarm.Svg
                 SvgElement svg = hitInfo.svg;
                 if (svg != null)
                 {
-                    var controller = SvgElement.UnsafeGetController(hitInfo.svg) as IUserEventPortal;
+                    var controller = SvgElement.UnsafeGetController(hitInfo.svg) as IEventPortal;
                     if (controller != null)
                     {
 
