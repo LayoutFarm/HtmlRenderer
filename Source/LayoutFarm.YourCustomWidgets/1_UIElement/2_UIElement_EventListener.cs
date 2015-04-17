@@ -106,5 +106,11 @@ namespace LayoutFarm.UI
         {
             this.OnDragOver(e);
         }
+        void IEventListener.GetGlobalLocation(out int x, out int y)
+        {
+            var globalLoca = this.CurrentPrimaryRenderElement.GetGlobalLocation();
+            x = globalLoca.X;
+            y = globalLoca.Y;
+        }
     }
 }

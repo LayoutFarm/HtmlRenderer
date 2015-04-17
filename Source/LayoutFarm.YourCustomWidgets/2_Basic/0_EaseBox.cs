@@ -28,6 +28,8 @@ namespace LayoutFarm.CustomWidgets
 
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseMove;
+        public event EventHandler<UIMouseEventArgs> MouseDrag;
+
         public event EventHandler<UIMouseEventArgs> MouseUp;
 
         public event EventHandler<UIMouseEventArgs> DragRelease;
@@ -125,9 +127,19 @@ namespace LayoutFarm.CustomWidgets
         }
         protected override void OnMouseMove(UIMouseEventArgs e)
         {
-            if (this.MouseMove != null)
+            if (e.IsDragging)
             {
-                this.MouseMove(this, e);
+                if (this.MouseDrag != null)
+                {
+                    this.MouseDrag(this, e);
+                }
+            }
+            else
+            {
+                if (this.MouseMove != null)
+                {
+                    this.MouseMove(this, e);
+                }
             }
         }
         protected override void OnMouseLeave(UIMouseEventArgs e)

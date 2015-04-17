@@ -129,44 +129,43 @@ namespace LayoutFarm
 
             //when start drag on bg
             //just show selection box on top most
-            backgroundBox.MouseMove += (s, e) =>
+            backgroundBox.MouseDrag += (s, e) =>
             {
-                if (e.IsDragging)
+
+                //move to mouse position 
+                if (!selectionBoxIsShown)
                 {
-                    //move to mouse position 
-                    if (!selectionBoxIsShown)
-                    {
 
-                        selectionBox.LandingPoint = new Point(e.X, e.Y);
-                        selectionBox.SetLocation(e.X, e.Y);
-                        selectionBox.Visible = true;
-                        selectionBoxIsShown = true;
-                    }
-                    else
-                    {
-
-                        Point pos = selectionBox.LandingPoint;
-                        int x = pos.X;
-                        int y = pos.Y;
-                        int w = e.X - pos.X;
-                        int h = e.Y - pos.Y;
-
-                        if (w < 0)
-                        {
-                            w = -w;
-                            x -= w;
-
-                        }
-                        if (h < 0)
-                        {
-                            h = -h;
-                            y -= h;
-
-                        }
-                        //set width and height
-                        selectionBox.SetBounds(x, y, w, h);
-                    }
+                    selectionBox.LandingPoint = new Point(e.X, e.Y);
+                    selectionBox.SetLocation(e.X, e.Y);
+                    selectionBox.Visible = true;
+                    selectionBoxIsShown = true;
                 }
+                else
+                {
+
+                    Point pos = selectionBox.LandingPoint;
+                    int x = pos.X;
+                    int y = pos.Y;
+                    int w = e.X - pos.X;
+                    int h = e.Y - pos.Y;
+
+                    if (w < 0)
+                    {
+                        w = -w;
+                        x -= w;
+
+                    }
+                    if (h < 0)
+                    {
+                        h = -h;
+                        y -= h;
+
+                    }
+                    //set width and height
+                    selectionBox.SetBounds(x, y, w, h);
+                }
+
             };
             backgroundBox.MouseUp += (s, e) =>
             {
@@ -304,9 +303,9 @@ namespace LayoutFarm
                 }
             };
 
-            selectionBox.MouseMove += (s, e) =>
+            selectionBox.MouseDrag += (s, e) =>
             {
-                if (selectionBoxIsShown && e.IsDragging)
+                if (selectionBoxIsShown)
                 {
                     Point pos = selectionBox.LandingPoint;
 
@@ -361,41 +360,39 @@ namespace LayoutFarm
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
             //for controller box
-            controllerBox.MouseMove += (s, e) =>
+            controllerBox.MouseDrag += (s, e) =>
             {
-                if (e.IsDragging)
+                if (e.IsFirstMouseEnter)
                 {
-                    if (e.IsFirstMouseEnter)
-                    {
-                        controllerBox.MouseCaptureX = e.X;
-                        controllerBox.MouseCaptureY = e.Y;
-                    } 
-
-                    MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);                     
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true; 
-
-
-
-                    //test here -----------------------------------------------------
-                    //find dragover element
-
-                    List<UIElement> dragOverElements = new List<UIElement>();                    
-                    controllerBox.FindDragOverElements(dragOverElements);
-                    if (dragOverElements.Count > 0)
-                    {  
-                        //send notification to another box 
-                        var easeBox = dragOverElements[0] as IEventListener;
-                        if (easeBox != null)
-                        {
-                            //create drag over event args
-                            //TODO: add dragover detail
-                            easeBox.ListenDragOver(new UIDragOverEventArgs());
-                        }
-                    }
-
-                   
+                    controllerBox.MouseCaptureX = e.X;
+                    controllerBox.MouseCaptureY = e.Y;
                 }
+
+                MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
+                e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                e.CancelBubbling = true;
+
+
+
+                //test here -----------------------------------------------------
+                //find dragover element
+
+                List<UIElement> dragOverElements = new List<UIElement>();
+                controllerBox.FindDragOverElements(dragOverElements);
+                if (dragOverElements.Count > 0)
+                {
+                    //send notification to another box 
+                    var easeBox = dragOverElements[0] as IEventListener;
+                    if (easeBox != null)
+                    {
+                        //create drag over event args
+                        //TODO: add dragover detail
+                        easeBox.ListenDragOver(new UIDragOverEventArgs());
+                    }
+                }
+
+
+
 
             };
             controllerBox.MouseLeave += (s, e) =>
@@ -515,7 +512,7 @@ namespace LayoutFarm
                 //add handler for each tiny box
                 //---------------------------------------------------------------------
 
-                tinyBox.MouseMove += (s, e) =>
+                tinyBox.MouseDrag += (s, e) =>
                 {
                     if (e.IsDragging)
                     {

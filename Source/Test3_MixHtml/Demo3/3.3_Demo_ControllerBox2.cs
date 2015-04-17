@@ -119,20 +119,19 @@ namespace LayoutFarm
         {
             //for controller box
 
-            controllerBox.MouseMove += (s, e) =>
+            controllerBox.MouseDrag += (s, e) =>
             {
-                if (e.IsDragging)
-                {
-                    if (e.IsFirstMouseEnter)
-                    {
-                        controllerBox.MouseCaptureX = e.X;
-                        controllerBox.MouseCaptureY = e.Y;
-                    }
 
-                    MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
+                if (e.IsFirstMouseEnter)
+                {
+                    controllerBox.MouseCaptureX = e.X;
+                    controllerBox.MouseCaptureY = e.Y;
                 }
+
+                MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
+                e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                e.CancelBubbling = true;
+
             };
 
             controllerBox.MouseLeave += (s, e) =>
@@ -146,7 +145,7 @@ namespace LayoutFarm
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.StopPropagation();
                 }
-            }; 
+            };
         }
 
         //-----------------------------------------------------------------

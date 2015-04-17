@@ -78,22 +78,21 @@ namespace LayoutFarm
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
             //for controller box  
-            controllerBox.MouseMove += (s, e) =>
+            controllerBox.MouseDrag += (s, e) =>
             {
-                if (e.IsDragging)
+
+                Point pos = controllerBox.Position;
+                int newX = pos.X + e.XDiff;
+                int newY = pos.Y + e.YDiff;
+                controllerBox.SetLocation(newX, newY);
+                var targetBox = controllerBox.TargetBox;
+                if (targetBox != null)
                 {
-                    Point pos = controllerBox.Position;
-                    int newX = pos.X + e.XDiff;
-                    int newY = pos.Y + e.YDiff;
-                    controllerBox.SetLocation(newX, newY);
-                    var targetBox = controllerBox.TargetBox;
-                    if (targetBox != null)
-                    {
-                        //move target box too
-                        targetBox.SetLocation(newX + 5, newY + 5);
-                    }
-                    e.CancelBubbling = true;
+                    //move target box too
+                    targetBox.SetLocation(newX + 5, newY + 5);
                 }
+                e.CancelBubbling = true;
+
 
             };
             controllerBox.MouseLeave += (s, e) =>

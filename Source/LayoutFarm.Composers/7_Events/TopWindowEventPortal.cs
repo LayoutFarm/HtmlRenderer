@@ -118,6 +118,7 @@ namespace LayoutFarm
             this.currentMouseActiveElement = this.currentMouseDown = this.latestMouseDown = e.CurrentContextElement;
             this.localMouseDownX = e.X;
             this.localMouseDownY = e.Y;
+            this.draggingElement = this.currentMouseActiveElement;
 
         }
         void MouseMove(UIMouseEventArgs e)
@@ -125,19 +126,26 @@ namespace LayoutFarm
             e.IsDragging = this.isDragging = this.isMouseDown;
             if (this.isDragging)
             {
-                draggingElement = this.currentMouseDown;
-            }
-             
-            iuserEventPortal.PortalMouseMove(e);
+                if (draggingElement != null)
+                {
+                    //send this to dragging element first
+                    int d_GlobalX, d_globalY;
+                    draggingElement.GetGlobalLocation(out d_GlobalX, out d_globalY);
+                    e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
+                    draggingElement.ListenMouseMove(e);
+                    return;
+                }
 
-            if (this.isDragging)
-            {
+                e.DraggingElement = this.draggingElement;
+                iuserEventPortal.PortalMouseMove(e);
                 draggingElement = e.DraggingElement;
             }
             else
             {
+                iuserEventPortal.PortalMouseMove(e);
                 draggingElement = null;
             }
+
         }
         void MouseUp(UIMouseEventArgs e)
         {

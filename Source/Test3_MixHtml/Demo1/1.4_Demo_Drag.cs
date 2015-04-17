@@ -46,16 +46,15 @@ namespace LayoutFarm
                 box.BackColor = Color.LightGray;
 
             };
-            box.MouseMove += (s, e) =>
+            box.MouseDrag += (s, e) =>
             {
-                if (e.IsDragging)
-                {
-                    box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
-                    Point pos = box.Position;
-                    box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
-                }
+
+                box.BackColor = KnownColors.FromKnownColor(KnownColor.GreenYellow);
+                Point pos = box.Position;
+                box.SetLocation(pos.X + e.XDiff, pos.Y + e.YDiff);
+                e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                e.CancelBubbling = true;
+
             };
             box.MouseLeave += (s, e) =>
             {

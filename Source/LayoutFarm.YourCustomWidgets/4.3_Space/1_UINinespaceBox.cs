@@ -130,24 +130,22 @@ namespace LayoutFarm.CustomWidgets
                     e.StopPropagation();
                 }
             };
-            gripperBox.MouseMove += (s, e) =>
+            gripperBox.MouseDrag += (s, e) =>
             {
-                if (e.IsDragging)
+                Point pos = gripperBox.Position;
+                if (isVertical)
                 {
-                    Point pos = gripperBox.Position;
-                    if (isVertical)
-                    {
-                        gripperBox.SetLocation(pos.X, pos.Y + e.YDiff);
-                    }
-                    else
-                    {
-                        gripperBox.SetLocation(pos.X + e.XDiff, pos.Y);
-                    }
-
-                    this.ninespaceGrippers.UpdateNinespaces();
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true;
+                    gripperBox.SetLocation(pos.X, pos.Y + e.YDiff);
                 }
+                else
+                {
+                    gripperBox.SetLocation(pos.X + e.XDiff, pos.Y);
+                }
+
+                this.ninespaceGrippers.UpdateNinespaces();
+                e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                e.CancelBubbling = true;
+
             };
             gripperBox.MouseUp += (s, e) =>
             {
@@ -164,19 +162,19 @@ namespace LayoutFarm.CustomWidgets
             {
 
                 var renderE = base.GetPrimaryRenderElement(rootgfx);
-                 
+
                 //------------------------------------------------------
                 renderE.AddChild(boxCentral);
                 //------------------------------------------------------
                 renderE.AddChild(boxLeftTop);
                 renderE.AddChild(boxRightTop);
                 renderE.AddChild(boxLeftBottom);
-                renderE.AddChild(boxRightBottom); 
+                renderE.AddChild(boxRightBottom);
                 //------------------------------------------------------
                 renderE.AddChild(boxLeft);
                 renderE.AddChild(boxRight);
                 renderE.AddChild(boxTop);
-                renderE.AddChild(boxBottom); 
+                renderE.AddChild(boxBottom);
 
                 //grippers
                 if (this.ShowGrippers)

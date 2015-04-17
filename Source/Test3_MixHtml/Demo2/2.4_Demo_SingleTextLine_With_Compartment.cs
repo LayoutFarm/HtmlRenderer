@@ -502,24 +502,23 @@ Zimbabwe");
                         e.StopPropagation();
                     }
                 };
-                gripperBox.MouseMove += (s, e) =>
+                gripperBox.MouseDrag += (s, e) =>
                 {
-                    if (e.IsDragging)
-                    {
-                        Point pos = gripperBox.Position;
-                        if (isVertical)
-                        {
-                            gripperBox.SetLocation(pos.X, pos.Y + e.YDiff);
-                        }
-                        else
-                        {
-                            gripperBox.SetLocation(pos.X + e.XDiff, pos.Y);
-                        }
 
-                        this.ninespaceGrippers.UpdateNinespaces();
-                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                        e.CancelBubbling = true;
+                    Point pos = gripperBox.Position;
+                    if (isVertical)
+                    {
+                        gripperBox.SetLocation(pos.X, pos.Y + e.YDiff);
                     }
+                    else
+                    {
+                        gripperBox.SetLocation(pos.X + e.XDiff, pos.Y);
+                    }
+
+                    this.ninespaceGrippers.UpdateNinespaces();
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true;
+
                 };
                 gripperBox.MouseUp += (s, e) =>
                 {

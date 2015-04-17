@@ -336,13 +336,10 @@ namespace LayoutFarm.HtmlWidgets
             EvaluateVerticalScrollBarProperties();
             //----------------------------
             //3. drag
-            scroll_button.MouseMove += (s, e) =>
+            scroll_button.MouseDrag += (s, e) =>
             {
-                if (!e.IsDragging)
-                {
-                    return;
-                }
-                //----------------------------------
+                //set this as dragging element
+                e.DraggingElement = scroll_button;
 
                 //dragging ...
                 //find y-diff 
@@ -494,13 +491,9 @@ namespace LayoutFarm.HtmlWidgets
             //3. drag
 
 
-            scroll_button.MouseMove += (s, e) =>
+            scroll_button.MouseDrag += (s, e) =>
             {
-                if (!e.IsDragging)
-                {
-                    return;
-                }
-                //----------------------------------
+
 
                 //dragging ...
                 //find x-diff 

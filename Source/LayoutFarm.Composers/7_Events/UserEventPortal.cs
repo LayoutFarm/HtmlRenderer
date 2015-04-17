@@ -329,9 +329,30 @@ namespace LayoutFarm.UI
                     foundSomeHit = true;
                     bool isFirstMouseEnter = false;
 
+                    //if (e.IsDragging)
+                    //{
+                    //    //dragging
+                    //    if (e.DraggingElement != null &&
+                    //        e.DraggingElement != listener)
+                    //    {
+                    //        //drag out of current scope
+                    //        int d_GlobalX, d_globalY;
+                    //        e.DraggingElement.GetGlobalLocation(out d_GlobalX, out d_globalY);
+                    //        e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
+                    //        e.DraggingElement.ListenMouseMove(e); 
+                    //        return true;
+                    //    }
+                    //}
+                    //else
+                    //{
+
+                    //}
+
+
                     if (e.CurrentMouseActive != null &&
                         e.CurrentMouseActive != listener)
                     {
+
                         e.CurrentMouseActive.ListenMouseLeave(e);
                         isFirstMouseEnter = true;
                     }
@@ -343,11 +364,28 @@ namespace LayoutFarm.UI
                         e.CurrentMouseActive.ListenMouseMove(e);
                         e.IsFirstMouseEnter = false;
                     }
+
                     return true;//stop
                 });
 
                 if (!foundSomeHit && e.CurrentMouseActive != null)
                 {
+
+                    //if (e.IsDragging)
+                    //{
+                    //    if (e.DraggingElement != null)
+                    //    {
+                    //        //drag out of current scope
+                    //        int d_GlobalX, d_globalY;
+                    //        e.DraggingElement.GetGlobalLocation(out d_GlobalX, out d_globalY);
+                    //        e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
+                    //        e.DraggingElement.ListenMouseMove(e); 
+                    //    }
+                    //}
+                    //else
+                    //{ 
+                    //} 
+
                     e.CurrentMouseActive.ListenMouseLeave(e);
                     if (!e.IsCanceled)
                     {

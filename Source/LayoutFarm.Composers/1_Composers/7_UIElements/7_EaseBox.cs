@@ -42,6 +42,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseMove;
+        public event EventHandler<UIMouseEventArgs> MouseDrag;
         public event EventHandler<UIMouseEventArgs> MouseUp;
 
         public event EventHandler<UIMouseEventArgs> DragRelease;
@@ -136,11 +137,16 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
         protected override void OnMouseMove(UIMouseEventArgs e)
-        { 
-            if (this.MouseMove != null)
+        {
+            if (e.IsDragging)
+            {
+                this.MouseDrag(this, e);
+            }
+            else
             {
                 this.MouseMove(this, e);
             }
+            
         }
         protected override void OnMouseLeave(UIMouseEventArgs e)
         {
