@@ -44,8 +44,8 @@ namespace LayoutFarm.UI
         void ListenInterComponentMsg(object sender, int msgcode, string msg);
         //--------------------------------------------------------------------------
         void ListenOnDrop(UIMouseEventArgs e);
-        
         void ListenDragOver(UIDragOverEventArgs e);
+
         //--------------------------------------------------------------------------
 
 
