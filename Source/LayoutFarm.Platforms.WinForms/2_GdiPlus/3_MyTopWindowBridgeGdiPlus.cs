@@ -13,8 +13,8 @@ namespace LayoutFarm.UI.GdiPlus
     {
         Control windowControl;
         GdiPlusCanvasViewport gdiPlusViewport;
-        public MyTopWindowBridgeGdiPlus(RootGraphic root, ITopWindowEventPortal topWinEventPortal)
-            : base(root, topWinEventPortal)
+        public MyTopWindowBridgeGdiPlus(RootGraphic root, ITopWindowEventRoot topWinEventRoot)
+            : base(root, topWinEventRoot)
         {
 
         }

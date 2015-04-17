@@ -263,7 +263,7 @@ namespace LayoutFarm
                     selectionBox.SetSize(1, 1);
                     selectionBoxIsShown = false;
                 }
-            }; 
+            };
             selectionBox.MouseDrag += (s, e) =>
             {
                 if (selectionBoxIsShown)
@@ -350,9 +350,9 @@ namespace LayoutFarm
                         //TODO: add dragover detail
                         easeBox.ListenDragOver(new UIDragOverEventArgs());
                     }
-                } 
+                }
             };
-            
+
 
         }
 
@@ -457,15 +457,14 @@ namespace LayoutFarm
 
                 tinyBox.MouseDrag += (s, e) =>
                 {
-                    if (e.IsDragging)
-                    {
 
-                        ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.X - tinyBox.MouseCaptureX, e.Y - tinyBox.MouseCaptureY);
-                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                        e.CancelBubbling = true;
-                    }
+
+                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.X - tinyBox.MouseCaptureX, e.Y - tinyBox.MouseCaptureY);
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true;
+
                 };
-               
+
                 tinyBox.MouseUp += (s, e) =>
                 {
                     e.MouseCursorStyle = MouseCursorStyle.Default;

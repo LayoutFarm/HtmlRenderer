@@ -14,7 +14,7 @@ namespace LayoutFarm.UI
     {
 
         RootGraphic rootGraphic;       
-        ITopWindowEventPortal topWinEventPortal;
+        ITopWindowEventRoot topWinEventRoot;
 
         CanvasViewport canvasViewport;
         MouseCursorStyle currentCursorStyle = MouseCursorStyle.Default;
@@ -24,9 +24,9 @@ namespace LayoutFarm.UI
         public event EventHandler<UIScrollEventArgs> VScrollChanged;
         public event EventHandler<UIScrollEventArgs> HScrollChanged;
 
-        public TopWindowBridge(RootGraphic rootGraphic, ITopWindowEventPortal topWinEventPortal)
+        public TopWindowBridge(RootGraphic rootGraphic, ITopWindowEventRoot topWinEventRoot)
         {
-            this.topWinEventPortal = topWinEventPortal;
+            this.topWinEventRoot = topWinEventRoot;
             this.rootGraphic = rootGraphic;  
         } 
         public RootGraphic RootGfx
@@ -167,13 +167,13 @@ namespace LayoutFarm.UI
             }
 
             canvasViewport.FullMode = false;
-            this.topWinEventPortal.PortalGotFocus();
+            this.topWinEventRoot.RootGotFocus();
             PrepareRenderAndFlushAccumGraphics();
         }
         public void HandleLostFocus(EventArgs e)
         {
             canvasViewport.FullMode = false;
-            this.topWinEventPortal.PortalLostFocus();
+            this.topWinEventRoot.RootLostFocus();
             PrepareRenderAndFlushAccumGraphics();
         } 
         //------------------------------------------------------------------------
@@ -181,14 +181,14 @@ namespace LayoutFarm.UI
         {
             canvasViewport.FullMode = false;
 
-            this.topWinEventPortal.PortalMouseDown(
+            this.topWinEventRoot.RootMouseDown(
                 e.X + this.canvasViewport.ViewportX,
                 e.Y + this.canvasViewport.ViewportY,
                 (int)e.Button);
 
-            if (currentCursorStyle != this.topWinEventPortal.MouseCursorStyle)
+            if (currentCursorStyle != this.topWinEventRoot.MouseCursorStyle)
             {
-                ChangeCursorStyle(this.currentCursorStyle = this.topWinEventPortal.MouseCursorStyle);
+                ChangeCursorStyle(this.currentCursorStyle = this.topWinEventRoot.MouseCursorStyle);
             }
 
             PrepareRenderAndFlushAccumGraphics();
@@ -206,14 +206,14 @@ namespace LayoutFarm.UI
         public void HandleMouseMove(MouseEventArgs e)
         {
 
-            this.topWinEventPortal.PortalMouseMove(
+            this.topWinEventRoot.RootMouseMove(
                     e.X + this.canvasViewport.ViewportX,
                     e.Y + this.canvasViewport.ViewportY,
                     (int)e.Button);
 
-            if (currentCursorStyle != this.topWinEventPortal.MouseCursorStyle)
+            if (currentCursorStyle != this.topWinEventRoot.MouseCursorStyle)
             {
-                ChangeCursorStyle(this.currentCursorStyle = this.topWinEventPortal.MouseCursorStyle);
+                ChangeCursorStyle(this.currentCursorStyle = this.topWinEventRoot.MouseCursorStyle);
             }
             PrepareRenderAndFlushAccumGraphics();
 
@@ -221,25 +221,25 @@ namespace LayoutFarm.UI
         public void HandleMouseUp(MouseEventArgs e)
         {
             canvasViewport.FullMode = false;
-            topWinEventPortal.PortalMouseUp(
+            topWinEventRoot.RootMouseUp(
                      e.X + this.canvasViewport.ViewportX,
                      e.Y + this.canvasViewport.ViewportY,
                     (int)e.Button);
 
-            if (currentCursorStyle != this.topWinEventPortal.MouseCursorStyle)
+            if (currentCursorStyle != this.topWinEventRoot.MouseCursorStyle)
             {
-                ChangeCursorStyle(this.currentCursorStyle = this.topWinEventPortal.MouseCursorStyle);
+                ChangeCursorStyle(this.currentCursorStyle = this.topWinEventRoot.MouseCursorStyle);
             } 
             PrepareRenderAndFlushAccumGraphics();
         }
         public void HandleMouseWheel(MouseEventArgs e)
         {
             canvasViewport.FullMode = true;
-            this.topWinEventPortal.PortalMouseWheel(e.Delta);
+            this.topWinEventRoot.RootMouseWheel(e.Delta);
 
-            if (currentCursorStyle != this.topWinEventPortal.MouseCursorStyle)
+            if (currentCursorStyle != this.topWinEventRoot.MouseCursorStyle)
             {
-                ChangeCursorStyle(this.currentCursorStyle = this.topWinEventPortal.MouseCursorStyle);
+                ChangeCursorStyle(this.currentCursorStyle = this.topWinEventRoot.MouseCursorStyle);
             }
             PrepareRenderAndFlushAccumGraphics();
         } 
@@ -252,14 +252,14 @@ namespace LayoutFarm.UI
             dbugTopwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
 #endif
             canvasViewport.FullMode = false;
-            this.topWinEventPortal.PortalKeyDown(e.KeyValue);
+            this.topWinEventRoot.RootKeyDown(e.KeyValue);
             PrepareRenderAndFlushAccumGraphics();
         }      
         public void HandleKeyUp(KeyEventArgs e)
         {
             
             canvasViewport.FullMode = false; 
-            this.topWinEventPortal.PortalKeyUp(e.KeyValue);
+            this.topWinEventRoot.RootKeyUp(e.KeyValue);
 
             PrepareRenderAndFlushAccumGraphics(); 
         }
@@ -276,14 +276,14 @@ namespace LayoutFarm.UI
             dbugTopwin.dbugVisualRoot.dbug_PushLayoutTraceMessage("======");
 #endif
             canvasViewport.FullMode = false; 
-            this.topWinEventPortal.PortalKeyPress(e.KeyChar);
+            this.topWinEventRoot.RootKeyPress(e.KeyChar);
 
             PrepareRenderAndFlushAccumGraphics();
         } 
         public bool HandleProcessDialogKey(Keys keyData)
         { 
             canvasViewport.FullMode = false; 
-            bool result = this.topWinEventPortal.PortalProcessDialogKey((int)keyData);
+            bool result = this.topWinEventRoot.RootProcessDialogKey((int)keyData);
             if (result)
             {
                 PrepareRenderAndFlushAccumGraphics();

@@ -24,7 +24,7 @@ namespace LayoutFarm.UI
 
         static object normalUpdateTask = new object();
 
-        TopWindowEventPortal topWindowEventPortal;
+        TopWindowEventRoot topWindowEventRoot;
         RenderBoxBase topWindowRenderBox;
 
         public MyRootGraphic(UIPlatform uiPlatform,
@@ -42,8 +42,8 @@ namespace LayoutFarm.UI
             //create default render box***
             this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
 
-            this.topWindowEventPortal = new TopWindowEventPortal();
-            topWindowEventPortal.BindRenderElement(this.topWindowRenderBox);
+            this.topWindowEventRoot = new TopWindowEventRoot();
+            topWindowEventRoot.BindRenderElement(this.topWindowRenderBox);
             
 
             this.SubscribeGraphicsIntervalTask(normalUpdateTask,
@@ -55,9 +55,9 @@ namespace LayoutFarm.UI
                     this.FlushAccumGraphics();
                 });
         }
-        public ITopWindowEventPortal TopWinEventPortal
+        public ITopWindowEventRoot TopWinEventPortal
         {
-            get { return this.topWindowEventPortal; }
+            get { return this.topWindowEventRoot; }
         }
         public override bool GfxTimerEnabled
         {
@@ -207,14 +207,14 @@ namespace LayoutFarm.UI
         {
             if (renderElement == null)
             {
-                this.topWindowEventPortal.CurrentKeyboardFocusedElement = null;
+                this.topWindowEventRoot.CurrentKeyboardFocusedElement = null;
                 return;
             }
 
             var owner = renderElement.GetController() as IEventListener;
             if (owner != null)
             {
-                this.topWindowEventPortal.CurrentKeyboardFocusedElement = owner;
+                this.topWindowEventRoot.CurrentKeyboardFocusedElement = owner;
             }
         }
         public override void AddToElementUpdateQueue(object requestBy)

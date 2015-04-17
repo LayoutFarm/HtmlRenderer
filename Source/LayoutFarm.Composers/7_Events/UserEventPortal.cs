@@ -138,7 +138,7 @@ namespace LayoutFarm.UI
             }
         }
 
-        //RenderElement lastCommonElement;
+        
         void HitTestCoreWithPrevChainHint(HitChain hitPointChain, HitChain previousChain, int x, int y)
         {
             //---------------------------------
