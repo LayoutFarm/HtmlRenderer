@@ -310,6 +310,8 @@ namespace LayoutFarm.UI
         public void SetMouseCapture(IEventListener listener)
         {
             this.DraggingElement = listener;
+
+
         }
         //-------------------------------------------------------------------
         public void AddDragOverElement(IEventListener dragOverElement)

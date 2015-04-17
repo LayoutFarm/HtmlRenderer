@@ -88,20 +88,29 @@ namespace LayoutFarm
 
             iTopBoxEventPortal.PortalMouseDown(e);
 
-
             this.currentMouseActiveElement = this.latestMouseDown = e.CurrentContextElement;
+
             this.localMouseDownX = e.X;
             this.localMouseDownY = e.Y;
 
             if (e.DraggingElement != null)
             {
+                if (e.DraggingElement != e.CurrentContextElement)
+                {
+                    //change captured element
+                    int globalX, globalY;
+                    e.DraggingElement.GetGlobalLocation(out globalX, out globalY);
+                    //find new capture pos
+                    this.localMouseDownX = e.GlobalX - globalX;
+                    this.localMouseDownY = e.GlobalY - globalY;
+
+                }
                 this.draggingElement = e.DraggingElement;
             }
             else
             {
                 this.draggingElement = this.currentMouseActiveElement;
             }
-
 
 
             this.mouseCursorStyle = e.MouseCursorStyle;
@@ -172,13 +181,14 @@ namespace LayoutFarm
                     int d_GlobalX, d_globalY;
                     draggingElement.GetGlobalLocation(out d_GlobalX, out d_globalY);
                     e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
+
                     e.CapturedMouseX = this.localMouseDownX;
                     e.CapturedMouseY = this.localMouseDownY;
 
                     draggingElement.ListenMouseMove(e);
                     return;
-                } 
-                
+                }
+
                 iTopBoxEventPortal.PortalMouseMove(e);
                 draggingElement = e.DraggingElement;
             }
