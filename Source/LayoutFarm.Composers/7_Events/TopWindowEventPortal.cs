@@ -5,6 +5,7 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm
 {
+
     class TopWindowEventPortal : ITopWindowEventPortal
     {
         RootGraphic rootGraphic;
@@ -16,10 +17,13 @@ namespace LayoutFarm
         IUserEventPortal iuserEventPortal;
         IEventListener currentMouseActiveElement;
         IEventListener latestMouseDown;
+        IEventListener currentMouseDown;
+        IEventListener draggingElement;//current dragging element
+        int localMouseDownX;
+        int localMouseDownY;
 
         DateTime lastTimeMouseUp;
-        const int DOUBLE_CLICK_SENSE = 150;//ms  
-        IEventListener draggingElement;
+        const int DOUBLE_CLICK_SENSE = 150;//ms         
 
 
         UIHoverMonitorTask hoverMonitoringTask;
@@ -109,17 +113,30 @@ namespace LayoutFarm
             this.isDragging = false;
             //---------------------
             e.PreviousMouseDown = this.latestMouseDown;
+
             iuserEventPortal.PortalMouseDown(e);
-            this.currentMouseActiveElement = this.latestMouseDown = e.CurrentContextElement;
+            this.currentMouseActiveElement = this.currentMouseDown = this.latestMouseDown = e.CurrentContextElement;
+            this.localMouseDownX = e.X;
+            this.localMouseDownY = e.Y;
+
         }
         void MouseMove(UIMouseEventArgs e)
         {
             e.IsDragging = this.isDragging = this.isMouseDown;
+            if (this.isDragging)
+            {
+                draggingElement = this.currentMouseDown;
+            }
+             
             iuserEventPortal.PortalMouseMove(e);
 
             if (this.isDragging)
             {
                 draggingElement = e.DraggingElement;
+            }
+            else
+            {
+                draggingElement = null;
             }
         }
         void MouseUp(UIMouseEventArgs e)
@@ -142,6 +159,9 @@ namespace LayoutFarm
             this.lastTimeMouseUp = snapMouseUpTime;
             e.IsAlsoDoubleClick = timediff.Milliseconds < DOUBLE_CLICK_SENSE;
             iuserEventPortal.PortalMouseUp(e);
+            this.currentMouseDown = null;
+
+
         }
 
         void MouseWheel(UIMouseEventArgs e)
@@ -219,6 +239,7 @@ namespace LayoutFarm
             //when mousemove -> reset hover!            
             hoverMonitoringTask.Reset();
             hoverMonitoringTask.Enabled = true;
+
             UIMouseEventArgs mouseEventArg = eventStock.GetFreeMouseEventArgs();
             SetUIMouseEventArgsInfo(mouseEventArg, x, y, 0, button);
             mouseEventArg.SetDiff(xdiff, ydiff);
@@ -249,7 +270,7 @@ namespace LayoutFarm
         }
         void ITopWindowEventPortal.PortalKeyPress(char c)
         {
-            StopCaretBlink();     
+            StopCaretBlink();
             UIKeyEventArgs keyPressEventArgs = eventStock.GetFreeKeyPressEventArgs();
             keyPressEventArgs.SetKeyChar(c);
             this.KeyPress(keyPressEventArgs);
@@ -266,9 +287,9 @@ namespace LayoutFarm
         }
 
         void ITopWindowEventPortal.PortalKeyUp(int keydata)
-        {   
-             
-            StopCaretBlink(); 
+        {
+
+            StopCaretBlink();
 
             UIKeyEventArgs keyEventArgs = eventStock.GetFreeKeyEventArgs();
             SetKeyData(keyEventArgs, keydata);
