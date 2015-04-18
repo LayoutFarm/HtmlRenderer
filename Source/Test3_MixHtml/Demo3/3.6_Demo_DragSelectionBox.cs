@@ -131,7 +131,7 @@ namespace LayoutFarm
                 if (!selectionBoxIsShown)
                 {
 
-                    selectionBox.LandingPoint = new Point(e.X, e.Y);
+
                     selectionBox.SetLocation(e.X, e.Y);
                     selectionBox.Visible = true;
                     selectionBoxIsShown = true;
@@ -139,11 +139,11 @@ namespace LayoutFarm
                 else
                 {
 
-                    Point pos = selectionBox.LandingPoint;
-                    int x = pos.X;
-                    int y = pos.Y;
-                    int w = e.X - pos.X;
-                    int h = e.Y - pos.Y;
+
+                    int x = e.CapturedMouseX;
+                    int y = e.CapturedMouseY;
+                    int w = e.DiffCapturedX;
+                    int h = e.DiffCapturedY;
 
                     if (w < 0)
                     {
@@ -264,15 +264,15 @@ namespace LayoutFarm
             {
                 if (selectionBoxIsShown)
                 {
-                    Point pos = selectionBox.LandingPoint;
 
-                    int x = pos.X;
-                    int y = pos.Y;
+
+                    int x = e.CapturedMouseX;
+                    int y = e.CapturedMouseY;
                     //temp fix here 
                     //TODO: get global position of selected box
 
-                    int w = (selectionBox.Left + e.X) - pos.X;
-                    int h = (selectionBox.Top + e.Y) - pos.Y;
+                    int w = selectionBox.Left + e.DiffCapturedX;
+                    int h = selectionBox.Top + e.DiffCapturedY;
 
                     if (w < 0)
                     {
@@ -567,11 +567,6 @@ namespace LayoutFarm
             public UISelectionBox(int w, int h)
                 : base(w, h)
             {
-            }
-            public Point LandingPoint
-            {
-                get;
-                set;
             }
             public override void Walk(UIVisitor visitor)
             {
