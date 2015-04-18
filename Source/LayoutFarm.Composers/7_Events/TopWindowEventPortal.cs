@@ -177,20 +177,13 @@ namespace LayoutFarm
                 if (draggingElement != null)
                 {
                     //send this to dragging element first
-
                     int d_GlobalX, d_globalY;
                     draggingElement.GetGlobalLocation(out d_GlobalX, out d_globalY);
                     e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
-
                     e.CapturedMouseX = this.localMouseDownX;
                     e.CapturedMouseY = this.localMouseDownY;
-
                     draggingElement.ListenMouseMove(e);
-                    return;
-                }
-
-                iTopBoxEventPortal.PortalMouseMove(e);
-                draggingElement = e.DraggingElement;
+                } 
             }
             else
             {

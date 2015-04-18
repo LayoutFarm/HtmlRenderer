@@ -27,48 +27,43 @@ namespace LayoutFarm
             this.viewport = viewport;
             this.rootgfx = viewport.ViewportControl.RootGfx;
             //--------------------------------
-            {
-                //var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
-                //bgbox.BackColor = Color.White;
-                //bgbox.SetLocation(0, 0);
-                //SetupBackgroundProperties(bgbox);
-                //viewport.AddContent(bgbox);
-            }
-            //--------------------------------
-            {
-                //user box1
-                var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
-                box1.BackColor = Color.Red;
-                box1.SetLocation(10, 10);
-                SetupActiveBoxProperties(box1);
-                viewport.AddContent(box1);
 
-                userBoxes.Add(box1);
-            }
-            //--------------------------------
-            {
-                var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
-                box2.SetLocation(50, 50);
-                SetupActiveBoxProperties(box2);
-                viewport.AddContent(box2);
-                userBoxes.Add(box2);
-            }
-            {
-                var box3 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
-                box3.SetLocation(200, 80);
-                SetupActiveBoxProperties(box3);
-                viewport.AddContent(box3);
-                userBoxes.Add(box3);
-            }
+            var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
+            bgbox.BackColor = Color.White;
+            bgbox.SetLocation(0, 0);
+            SetupBackgroundProperties(bgbox);
+            viewport.AddContent(bgbox);
+
+            //user box1
+            var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
+            box1.BackColor = Color.Red;
+            box1.SetLocation(10, 10);
+            SetupActiveBoxProperties(box1);
+            viewport.AddContent(box1);
+
+            userBoxes.Add(box1);
+
+            var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
+            box2.SetLocation(50, 50);
+            SetupActiveBoxProperties(box2);
+            viewport.AddContent(box2);
+            userBoxes.Add(box2);
+
+            var box3 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
+            box3.SetLocation(200, 80);
+            SetupActiveBoxProperties(box3);
+            viewport.AddContent(box3);
+            userBoxes.Add(box3);
+
 
             //--------------------------------
-            {
-                selectionBox = new UISelectionBox(1, 1);
-                selectionBox.Visible = false;
-                selectionBox.BackColor = Color.FromArgb(80, Color.Green);
-                viewport.AddContent(selectionBox);
-                SetupSelectionBoxProperties(selectionBox);
-            }
+
+            selectionBox = new UISelectionBox(1, 1);
+            selectionBox.Visible = false;
+            selectionBox.BackColor = Color.FromArgb(80, Color.Green);
+            viewport.AddContent(selectionBox);
+            SetupSelectionBoxProperties(selectionBox);
+
         }
 
         UIControllerBox GetFreeUserControllerBox()
