@@ -18,42 +18,39 @@ namespace LayoutFarm
         protected override void OnStartDemo(SampleViewport viewport)
         {
 
-            //--------------------------------
-            {
-                var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
-                bgbox.BackColor = Color.White;
-                bgbox.SetLocation(0, 0);
-                SetupBackgroundProperties(bgbox);
-                viewport.AddContent(bgbox);
-            }
-            //--------------------------------
-            {
-                var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
-                box1.BackColor = Color.Red;
-                box1.SetLocation(10, 10);
-                //box1.dbugTag = 1;
-                SetupActiveBoxProperties(box1);
-                viewport.AddContent(box1);
-            }
-            //--------------------------------
-            {
-                var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
-                box2.SetLocation(50, 50);
-                //box2.dbugTag = 2;
-                SetupActiveBoxProperties(box2);
-                viewport.AddContent(box2);
-            }
-            {
 
-                controllerBox1 = new UIControllerBox(40, 40);
-                Color c = KnownColors.FromKnownColor(KnownColor.Yellow);
-                controllerBox1.BackColor = new Color(100, c.R, c.G, c.B);
-                controllerBox1.SetLocation(200, 200);
-                //controllerBox1.dbugTag = 3;
-                controllerBox1.Visible = false;
-                SetupControllerBoxProperties(controllerBox1);
-                viewport.AddContent(controllerBox1);
-            }
+            var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
+            bgbox.BackColor = Color.White;
+            bgbox.SetLocation(0, 0);
+            SetupBackgroundProperties(bgbox);
+            viewport.AddContent(bgbox);
+
+            //--------------------------------
+
+            var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
+            box1.BackColor = Color.Red;
+            box1.SetLocation(10, 10);
+            //box1.dbugTag = 1;
+            SetupActiveBoxProperties(box1);
+            viewport.AddContent(box1);
+
+            //--------------------------------
+            var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
+            box2.SetLocation(50, 50);
+            //box2.dbugTag = 2;
+            SetupActiveBoxProperties(box2);
+            viewport.AddContent(box2);
+
+
+            controllerBox1 = new UIControllerBox(40, 40);
+            Color c = KnownColors.FromKnownColor(KnownColor.Yellow);
+            controllerBox1.BackColor = new Color(100, c.R, c.G, c.B);
+            controllerBox1.SetLocation(200, 200);
+            //controllerBox1.dbugTag = 3;
+            controllerBox1.Visible = false;
+            SetupControllerBoxProperties(controllerBox1);
+            viewport.AddContent(controllerBox1);
+
         }
         void SetupBackgroundProperties(LayoutFarm.CustomWidgets.EaseBox backgroundBox)
         {
@@ -79,8 +76,9 @@ namespace LayoutFarm
                 controllerBox1.SetLocation(box.Left - 5, box.Top - 5);
                 controllerBox1.SetSize(box.Width + 10, box.Height + 10);
                 controllerBox1.Visible = true;
-
                 //--------------------------------------------
+                //change mouse capture to this, for next drag
+                e.SetMouseCapture(controllerBox1);
             };
 
             //2. mouse up
@@ -223,7 +221,7 @@ namespace LayoutFarm
                     e.CancelBubbling = true;
 
                 };
-                
+
                 tinyBox.MouseUp += (s, e) =>
                 {
                     if (e.IsDragging)

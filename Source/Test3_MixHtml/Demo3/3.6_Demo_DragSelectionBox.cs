@@ -27,48 +27,43 @@ namespace LayoutFarm
             this.viewport = viewport;
             this.rootgfx = viewport.ViewportControl.RootGfx;
             //--------------------------------
-            {
-                //var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
-                //bgbox.BackColor = Color.White;
-                //bgbox.SetLocation(0, 0);
-                //SetupBackgroundProperties(bgbox);
-                //viewport.AddContent(bgbox);
-            }
-            //--------------------------------
-            {
-                //user box1
-                var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
-                box1.BackColor = Color.Red;
-                box1.SetLocation(10, 10);
-                SetupActiveBoxProperties(box1);
-                viewport.AddContent(box1);
 
-                userBoxes.Add(box1);
-            }
-            //--------------------------------
-            {
-                var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
-                box2.SetLocation(50, 50);
-                SetupActiveBoxProperties(box2);
-                viewport.AddContent(box2);
-                userBoxes.Add(box2);
-            }
-            {
-                var box3 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
-                box3.SetLocation(200, 80);
-                SetupActiveBoxProperties(box3);
-                viewport.AddContent(box3);
-                userBoxes.Add(box3);
-            }
+            var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
+            bgbox.BackColor = Color.White;
+            bgbox.SetLocation(0, 0);
+            SetupBackgroundProperties(bgbox);
+            viewport.AddContent(bgbox);
+
+            //user box1
+            var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
+            box1.BackColor = Color.Red;
+            box1.SetLocation(10, 10);
+            SetupActiveBoxProperties(box1);
+            viewport.AddContent(box1);
+
+            userBoxes.Add(box1);
+
+            var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
+            box2.SetLocation(50, 50);
+            SetupActiveBoxProperties(box2);
+            viewport.AddContent(box2);
+            userBoxes.Add(box2);
+
+            var box3 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
+            box3.SetLocation(200, 80);
+            SetupActiveBoxProperties(box3);
+            viewport.AddContent(box3);
+            userBoxes.Add(box3);
+
 
             //--------------------------------
-            {
-                selectionBox = new UISelectionBox(1, 1);
-                selectionBox.Visible = false;
-                selectionBox.BackColor = Color.FromArgb(80, Color.Green);
-                viewport.AddContent(selectionBox);
-                SetupSelectionBoxProperties(selectionBox);
-            }
+
+            selectionBox = new UISelectionBox(1, 1);
+            selectionBox.Visible = false;
+            selectionBox.BackColor = Color.FromArgb(80, Color.Green);
+            viewport.AddContent(selectionBox);
+            SetupSelectionBoxProperties(selectionBox);
+
         }
 
         UIControllerBox GetFreeUserControllerBox()
@@ -136,7 +131,7 @@ namespace LayoutFarm
                 if (!selectionBoxIsShown)
                 {
 
-                    selectionBox.LandingPoint = new Point(e.X, e.Y);
+
                     selectionBox.SetLocation(e.X, e.Y);
                     selectionBox.Visible = true;
                     selectionBoxIsShown = true;
@@ -144,11 +139,11 @@ namespace LayoutFarm
                 else
                 {
 
-                    Point pos = selectionBox.LandingPoint;
-                    int x = pos.X;
-                    int y = pos.Y;
-                    int w = e.X - pos.X;
-                    int h = e.Y - pos.Y;
+
+                    int x = e.CapturedMouseX;
+                    int y = e.CapturedMouseY;
+                    int w = e.DiffCapturedX;
+                    int h = e.DiffCapturedY;
 
                     if (w < 0)
                     {
@@ -269,15 +264,15 @@ namespace LayoutFarm
             {
                 if (selectionBoxIsShown)
                 {
-                    Point pos = selectionBox.LandingPoint;
 
-                    int x = pos.X;
-                    int y = pos.Y;
+
+                    int x = e.CapturedMouseX;
+                    int y = e.CapturedMouseY;
                     //temp fix here 
                     //TODO: get global position of selected box
 
-                    int w = (selectionBox.Left + e.X) - pos.X;
-                    int h = (selectionBox.Top + e.Y) - pos.Y;
+                    int w = selectionBox.Left + e.DiffCapturedX;
+                    int h = selectionBox.Top + e.DiffCapturedY;
 
                     if (w < 0)
                     {
@@ -324,14 +319,8 @@ namespace LayoutFarm
             //for controller box
             controllerBox.MouseDrag += (s, e) =>
             {
-                //if (e.IsFirstMouseEnter)
-                //{
-                //    controllerBox.MouseCaptureX = e.X;
-                //    controllerBox.MouseCaptureY = e.Y;
-                //}
 
-                //MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
-                MoveWithSnapToGrid(controllerBox, e.X - e.CapturedMouseX, e.Y - e.CapturedMouseY);
+                MoveWithSnapToGrid(controllerBox, e.DiffCapturedX, e.DiffCapturedY);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 e.CancelBubbling = true;
 
@@ -459,7 +448,7 @@ namespace LayoutFarm
 
                 tinyBox.MouseDrag += (s, e) =>
                 {
-                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.X - e.CapturedMouseX, e.Y - e.CapturedMouseY);
+                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.DiffCapturedX, e.DiffCapturedY);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.CancelBubbling = true;
 
@@ -578,11 +567,6 @@ namespace LayoutFarm
             public UISelectionBox(int w, int h)
                 : base(w, h)
             {
-            }
-            public Point LandingPoint
-            {
-                get;
-                set;
             }
             public override void Walk(UIVisitor visitor)
             {

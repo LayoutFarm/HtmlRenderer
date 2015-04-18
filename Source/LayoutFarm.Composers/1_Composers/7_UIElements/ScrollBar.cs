@@ -334,17 +334,14 @@ namespace LayoutFarm.HtmlBoxes
             //3. drag
             scroll_button.MouseDrag += (s, e) =>
             {
-                
+
                 //----------------------------------
 
-                //dragging ...
-                //find y-diff 
-                int ydiff = e.Y - scroll_button.MouseCaptureY;
-
+                //dragging ... 
                 Point pos = scroll_button.Position;
 
                 //if vscroll bar then move only y axis 
-                int newYPos = (int)(pos.Y + ydiff);
+                int newYPos = (int)(pos.Y + e.DiffCapturedY);
 
                 //clamp!
                 if (newYPos >= this.Height - (minmax_boxHeight + scrollButton.Height))
@@ -489,17 +486,16 @@ namespace LayoutFarm.HtmlBoxes
 
             scroll_button.MouseDrag += (s, e) =>
             {
-                
+
                 //----------------------------------
 
                 //dragging ...
                 //find x-diff 
-                int xdiff = e.X - scroll_button.MouseCaptureX;
 
                 Point pos = scroll_button.Position;
 
                 //if vscroll bar then move only y axis 
-                int newXPos = (int)(pos.X + xdiff);
+                int newXPos = (int)(pos.X + e.DiffCapturedX);
 
                 //clamp!
                 if (newXPos >= this.Width - (minmax_boxHeight + scrollButton.Width))
