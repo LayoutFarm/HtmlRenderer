@@ -67,7 +67,7 @@ namespace LayoutFarm.HtmlBoxes
                 newH -= scBarWidth;
             }
             innerBox.SetSize(newW, newH);
-            innerBox.SetExpectedContentSize(newW, newH);
+            innerBox.SetExpectedSize(newW, newH);
 
             this.AppendToAbsoluteLayer(innerBox);
 
