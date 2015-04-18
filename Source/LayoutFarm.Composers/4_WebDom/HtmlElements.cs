@@ -173,7 +173,7 @@ namespace LayoutFarm.WebDom
             var scrollView = new CssScrollView(this, boxSpec, box.RootGfx);
 
             scrollView.SetSize(box.SizeWidth, box.SizeHeight);
-            scrollView.SetExpectedContentSize(box.SizeWidth, box.SizeHeight);
+            scrollView.SetExpectedSize(box.SizeWidth, box.SizeHeight);
 
             box.ParentBox.InsertChild(box, scrollView);
             box.ParentBox.RemoveChild(box);

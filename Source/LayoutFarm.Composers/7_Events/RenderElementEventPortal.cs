@@ -294,6 +294,7 @@ namespace LayoutFarm.UI
 #endif
             SwapHitChain(hitPointChain);
 
+            e.StopPropagation();
 
 #if DEBUG
             if (local_msgVersion != dbugMsgChainVersion)
@@ -323,28 +324,7 @@ namespace LayoutFarm.UI
                 ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                 {
                     foundSomeHit = true;
-                    bool isFirstMouseEnter = false;
-
-                    //if (e.IsDragging)
-                    //{
-                    //    //dragging
-                    //    if (e.DraggingElement != null &&
-                    //        e.DraggingElement != listener)
-                    //    {
-                    //        //drag out of current scope
-                    //        int d_GlobalX, d_globalY;
-                    //        e.DraggingElement.GetGlobalLocation(out d_GlobalX, out d_globalY);
-                    //        e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
-                    //        e.DraggingElement.ListenMouseMove(e); 
-                    //        return true;
-                    //    }
-                    //}
-                    //else
-                    //{
-
-                    //}
-
-
+                    bool isFirstMouseEnter = false; 
                     if (e.CurrentMouseActive != null &&
                         e.CurrentMouseActive != listener)
                     {                         
@@ -364,23 +344,7 @@ namespace LayoutFarm.UI
                 });
 
                 if (!foundSomeHit && e.CurrentMouseActive != null)
-                {
-
-                    //if (e.IsDragging)
-                    //{
-                    //    if (e.DraggingElement != null)
-                    //    {
-                    //        //drag out of current scope
-                    //        int d_GlobalX, d_globalY;
-                    //        e.DraggingElement.GetGlobalLocation(out d_GlobalX, out d_globalY);
-                    //        e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
-                    //        e.DraggingElement.ListenMouseMove(e); 
-                    //    }
-                    //}
-                    //else
-                    //{ 
-                    //} 
-
+                {  
                     e.CurrentMouseActive.ListenMouseLeave(e);
                     if (!e.IsCanceled)
                     {
@@ -390,7 +354,7 @@ namespace LayoutFarm.UI
             }
             SwapHitChain(hitPointChain);
 
-
+            e.StopPropagation();
         }
         void IEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
@@ -462,6 +426,7 @@ namespace LayoutFarm.UI
                 }
             }
             SwapHitChain(hitPointChain);
+            e.StopPropagation();
         }
         void IEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {

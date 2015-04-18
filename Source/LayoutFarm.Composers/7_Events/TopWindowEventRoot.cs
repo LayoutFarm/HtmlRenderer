@@ -154,8 +154,7 @@ namespace LayoutFarm
                     draggingElement.GetGlobalLocation(out d_GlobalX, out d_globalY);
                     e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
                     e.CapturedMouseX = this.localMouseDownX;
-                    e.CapturedMouseY = this.localMouseDownY;
-
+                    e.CapturedMouseY = this.localMouseDownY; 
                     var iportal = draggingElement as IEventPortal;
                     if (iportal != null)
                     {
