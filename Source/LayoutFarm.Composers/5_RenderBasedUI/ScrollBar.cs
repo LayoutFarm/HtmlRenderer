@@ -8,7 +8,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 
-namespace LayoutFarm.HtmlBoxes
+namespace LayoutFarm.InternalUI
 {
     delegate void ScrollBarEvaluator(ScrollBar scBar, out double onePixelFore, out int scrollBoxHeight);
 

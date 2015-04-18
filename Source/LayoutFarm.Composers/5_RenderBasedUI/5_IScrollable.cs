@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
 
-namespace LayoutFarm.HtmlBoxes
+namespace LayoutFarm.InternalUI
 {
     interface IScrollable
     {

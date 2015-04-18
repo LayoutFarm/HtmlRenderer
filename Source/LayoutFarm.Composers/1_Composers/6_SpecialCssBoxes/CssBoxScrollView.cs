@@ -6,6 +6,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 
+using LayoutFarm.InternalUI;
 namespace LayoutFarm.HtmlBoxes
 {
     class CssScrollView : CssBox

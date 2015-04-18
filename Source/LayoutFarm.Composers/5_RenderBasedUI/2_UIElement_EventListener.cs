@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.HtmlBoxes
+namespace LayoutFarm.InternalUI
 {
 
     partial class UIElement
