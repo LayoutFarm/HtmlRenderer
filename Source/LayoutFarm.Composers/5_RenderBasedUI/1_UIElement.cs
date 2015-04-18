@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.HtmlBoxes
+namespace LayoutFarm.InternalUI
 {
 
     abstract partial class UIElement : IEventListener
@@ -143,8 +143,8 @@ namespace LayoutFarm.HtmlBoxes
         {
 
         }
-         
-         
+
+
 
         protected virtual void OnGuestTalk(UIGuestTalkEventArgs e)
         {
