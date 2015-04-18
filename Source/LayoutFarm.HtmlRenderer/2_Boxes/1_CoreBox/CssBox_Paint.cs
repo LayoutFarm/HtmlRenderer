@@ -91,7 +91,8 @@ namespace LayoutFarm.HtmlBoxes
 
             //---------------------------------------------
             //if (display != Css.CssDisplay.Inline ||
-            //    this.Position == Css.CssPosition.Absolute)
+            //    this.Position == Css.CssPosition.Absolute ||
+            //    this.Position == Css.CssPosition.Fixed)
             if (this._renderBGAndBorder)
             {
 
@@ -112,13 +113,13 @@ namespace LayoutFarm.HtmlBoxes
                 float viewport_top = p.ViewportTop;
                 float viewport_bottom = p.ViewportBottom;
                 int drawState = 0;
-                var c_line = this._clientLineBoxes.First;
 
+                var c_lineNode = this._clientLineBoxes.First;
 
-                while (c_line != null)
+                while (c_lineNode != null)
                 {
 
-                    var line = c_line.Value;
+                    CssLineBox line = c_lineNode.Value;
 
                     if (line.CachedLineBottom >= viewport_top &&
                         line.CachedLineTop <= viewport_bottom)
@@ -161,7 +162,7 @@ namespace LayoutFarm.HtmlBoxes
                     }
 
                     //----------------------------------------
-                    c_line = c_line.Next;
+                    c_lineNode = c_lineNode.Next;
                 }
             }
             else

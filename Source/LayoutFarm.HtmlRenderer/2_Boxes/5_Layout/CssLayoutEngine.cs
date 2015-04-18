@@ -250,14 +250,9 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="lay"></param>
         static void PerformLayoutLinesContext(CssBox hostBlock, LayoutVisitor lay)
         {
-            //if (hostBlock.__aa_dbugId == 3)
-            //{
-
-            //}
+             
             //this in line formatting context
-            //*** hostBlock must confirm that it has all inline children             
-
-
+            //*** hostBlock must confirm that it has all inline children        
 
             hostBlock.SetHeightToZero();
             hostBlock.ResetLineBoxes();
@@ -278,9 +273,7 @@ namespace LayoutFarm.HtmlBoxes
             //****
             FlowBoxContentIntoHost(lay, hostBlock, hostBlock,
                   limitLocalRight, localX,
-                  ref line, ref localX);
-
-
+                  ref line, ref localX); 
             //**** 
             // if width is not restricted we need to lower it to the actual width
             if (hostBlock.SizeWidth + lay.ContainerBlockGlobalX >= CssBoxConstConfig.BOX_MAX_RIGHT)
@@ -339,8 +332,6 @@ namespace LayoutFarm.HtmlBoxes
             hostBlock.InnerContentWidth = (int)maxLineWidth;
             hostBlock.InnerContentHeight = (int)hostBlock.SizeHeight;
 
-
-
             if (!hostBlock.Height.IsEmptyOrAuto)
             {
                 var h = CssValueParser.ConvertToPx(hostBlock.Height, lay.LatestContainingBlock.SizeWidth, hostBlock);
@@ -374,8 +365,7 @@ namespace LayoutFarm.HtmlBoxes
                         hostBlock.SetWidth(hostBlock.InnerContentWidth);
                         break;
                 }
-            }
-
+            } 
 
             switch (hostBlock.Overflow)
             {

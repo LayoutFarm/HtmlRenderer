@@ -125,6 +125,11 @@ namespace LayoutFarm.HtmlBoxes
             //---------------------------
 
             box._isVisible = box._cssDisplay != CssDisplay.None && box._myspec.Visibility == CssVisibility.Visible;
+
+            box._renderBGAndBorder = box._cssDisplay != Css.CssDisplay.Inline ||
+                   box.Position == CssPosition.Absolute || //out of flow
+                   box.Position == CssPosition.Fixed; //out of flow
+
             //-------------------------
             //check containing property 
             //-------------------------
