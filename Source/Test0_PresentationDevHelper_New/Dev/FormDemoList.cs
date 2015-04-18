@@ -104,8 +104,10 @@ namespace LayoutFarm.Dev
                 formPrint = null;
             };
             formPrint.Connect(viewport);
-
         }
+
+
+
         void CreateReadyForm(
             out LayoutFarm.UI.UISurfaceViewportControl viewport,
             out Form formCanvas)
@@ -113,14 +115,13 @@ namespace LayoutFarm.Dev
             var workingArea = Screen.PrimaryScreen.WorkingArea;
             int w = workingArea.Width;
             int h = workingArea.Height;
+             
 
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
-                this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
+                this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform, 
                 w, h);
-
-            TopWindowRenderBox topRenderBox = rootgfx.TopWindowRenderBox;
-
-            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
+             
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx, 
                 this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
                 out viewport);
 

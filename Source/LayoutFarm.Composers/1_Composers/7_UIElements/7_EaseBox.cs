@@ -42,12 +42,13 @@ namespace LayoutFarm.HtmlBoxes
 
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseMove;
+        public event EventHandler<UIMouseEventArgs> MouseDrag;
         public event EventHandler<UIMouseEventArgs> MouseUp;
 
-        public event EventHandler<UIMouseEventArgs> DragRelease;
+         
         public event EventHandler<UIMouseEventArgs> MouseLeave;
         public event EventHandler<UIMouseEventArgs> LostSelectedFocus;
-        public event EventHandler<UIDragOverEventArgs> DragOver;
+        public event EventHandler<UIGuestTalkEventArgs> GuestRequest;
 
         public EaseBox(int width, int height)
             : base(width, height)
@@ -114,8 +115,6 @@ namespace LayoutFarm.HtmlBoxes
             }
             return primElement;
         }
-        //----------------------------------------------------
-
         public bool AcceptKeyboardFocus
         {
             get;
@@ -124,8 +123,7 @@ namespace LayoutFarm.HtmlBoxes
 
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
-            this.MouseCaptureX = e.X;
-            this.MouseCaptureY = e.Y;
+         
 
             if (this.MouseDown != null)
             {
@@ -138,11 +136,16 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
         protected override void OnMouseMove(UIMouseEventArgs e)
-        { 
-            if (this.MouseMove != null)
+        {
+            if (e.IsDragging)
+            {
+                this.MouseDrag(this, e);
+            }
+            else
             {
                 this.MouseMove(this, e);
             }
+            
         }
         protected override void OnMouseLeave(UIMouseEventArgs e)
         {
@@ -151,13 +154,7 @@ namespace LayoutFarm.HtmlBoxes
                 this.MouseLeave(this, e);
             }
         }
-        protected override void OnDragRelease(UIMouseEventArgs e)
-        {
-            if (DragRelease != null)
-            {
-                DragRelease(this, e);
-            }
-        }
+        
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -165,7 +162,7 @@ namespace LayoutFarm.HtmlBoxes
                 MouseUp(this, e);
             }
         }
-        protected override void OnLostSelectedFocus(UIMouseEventArgs e)
+        protected override void OnLostMouseSelectedFocus(UIMouseEventArgs e)
         {
             if (this.LostSelectedFocus != null)
             {
@@ -189,16 +186,7 @@ namespace LayoutFarm.HtmlBoxes
                 this.dropable = value;
             }
         }
-        public int MouseCaptureX
-        {
-            get;
-            set;
-        }
-        public int MouseCaptureY
-        {
-            get;
-            set;
-        }
+       
         public void RemoveSelf()
         {
             var parentBox = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;
@@ -508,13 +496,13 @@ namespace LayoutFarm.HtmlBoxes
         //    }
         //}
 
-        protected override void OnDragOver(UIDragOverEventArgs e)
+        protected override void OnGuestTalk(UIGuestTalkEventArgs e)
         {
-            if (this.DragOver != null)
+            if (this.GuestRequest != null)
             {
-                this.DragOver(this, e);
+                this.GuestRequest(this, e);
             }
-            base.OnDragOver(e);
+            base.OnGuestTalk(e);
         }
     }
 

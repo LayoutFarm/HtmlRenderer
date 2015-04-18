@@ -72,7 +72,7 @@ namespace LayoutFarm.UI
         protected virtual void OnLostKeyboardFocus(UIFocusEventArgs e)
         {
         }
-        protected virtual void OnLostSelectedFocus(UIMouseEventArgs e)
+        protected virtual void OnLostMouseFocus(UIMouseEventArgs e)
         {
         }
         protected virtual void OnGotKeyboardFocus(UIFocusEventArgs e)
@@ -139,22 +139,17 @@ namespace LayoutFarm.UI
         {
 
         }
-        protected virtual void OnDrop(UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragRelease(UIMouseEventArgs e)
-        {
-
-        }
+        
+         
         protected virtual void OnElementChanged()
         {
         }
         public abstract void Walk(UIVisitor visitor);
 
-        protected virtual void OnDragOver(UIDragOverEventArgs e)
+        protected virtual void OnGuestTalk(UIGuestTalkEventArgs e)
         {
         }
+
 #if DEBUG
         object dbugTagObject;
         public object dbugTag

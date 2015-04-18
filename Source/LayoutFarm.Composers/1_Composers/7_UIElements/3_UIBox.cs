@@ -34,8 +34,7 @@ namespace LayoutFarm.HtmlBoxes
             this._width = width;
             this._height = height;
             //default for box
-            this.AutoStopMouseEventPropagation = true;
-
+            this.AutoStopMouseEventPropagation = true; 
         }
         public virtual void Focus()
         {
@@ -43,6 +42,7 @@ namespace LayoutFarm.HtmlBoxes
             if (this.HasReadyRenderElement)
             {
                 //focus
+                
                 this.CurrentPrimaryRenderElement.Root.SetCurrentKeyboardFocus(this.CurrentPrimaryRenderElement);
             }
         }
@@ -54,7 +54,6 @@ namespace LayoutFarm.HtmlBoxes
                 this.CurrentPrimaryRenderElement.Root.SetCurrentKeyboardFocus(null);
             }
         }
-
         public bool HasSpecificWidth
         {
             get { return this.specificWidth; }

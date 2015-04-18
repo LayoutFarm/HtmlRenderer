@@ -12,10 +12,11 @@ namespace LayoutFarm.UI
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         public MyUITimer()
         {
-            timer.Tick += (o, s) =>
-            {
-                this.RaiseTick();
-            };
+            timer.Tick += new EventHandler(timer_Tick); 
+        }
+        void timer_Tick(object sender, EventArgs e)
+        {
+            this.RaiseTick();
         }
         public override int Interval
         {

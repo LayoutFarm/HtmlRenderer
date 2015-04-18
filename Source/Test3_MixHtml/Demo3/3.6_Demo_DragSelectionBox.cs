@@ -27,48 +27,43 @@ namespace LayoutFarm
             this.viewport = viewport;
             this.rootgfx = viewport.ViewportControl.RootGfx;
             //--------------------------------
-            {
-                //var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
-                //bgbox.BackColor = Color.White;
-                //bgbox.SetLocation(0, 0);
-                //SetupBackgroundProperties(bgbox);
-                //viewport.AddContent(bgbox);
-            }
-            //--------------------------------
-            {
-                //user box1
-                var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
-                box1.BackColor = Color.Red;
-                box1.SetLocation(10, 10);
-                SetupActiveBoxProperties(box1);
-                viewport.AddContent(box1);
 
-                userBoxes.Add(box1);
-            }
-            //--------------------------------
-            {
-                var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
-                box2.SetLocation(50, 50);
-                SetupActiveBoxProperties(box2);
-                viewport.AddContent(box2);
-                userBoxes.Add(box2);
-            }
-            {
-                var box3 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
-                box3.SetLocation(200, 80);
-                SetupActiveBoxProperties(box3);
-                viewport.AddContent(box3);
-                userBoxes.Add(box3);
-            }
+            var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
+            bgbox.BackColor = Color.White;
+            bgbox.SetLocation(0, 0);
+            SetupBackgroundProperties(bgbox);
+            viewport.AddContent(bgbox);
+
+            //user box1
+            var box1 = new LayoutFarm.CustomWidgets.SimpleBox(150, 150);
+            box1.BackColor = Color.Red;
+            box1.SetLocation(10, 10);
+            SetupActiveBoxProperties(box1);
+            viewport.AddContent(box1);
+
+            userBoxes.Add(box1);
+
+            var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
+            box2.SetLocation(50, 50);
+            SetupActiveBoxProperties(box2);
+            viewport.AddContent(box2);
+            userBoxes.Add(box2);
+
+            var box3 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
+            box3.SetLocation(200, 80);
+            SetupActiveBoxProperties(box3);
+            viewport.AddContent(box3);
+            userBoxes.Add(box3);
+
 
             //--------------------------------
-            {
-                selectionBox = new UISelectionBox(1, 1);
-                selectionBox.Visible = false;
-                selectionBox.BackColor = Color.FromArgb(80, Color.Green);
-                viewport.AddContent(selectionBox);
-                SetupSelectionBoxProperties(selectionBox);
-            }
+
+            selectionBox = new UISelectionBox(1, 1);
+            selectionBox.Visible = false;
+            selectionBox.BackColor = Color.FromArgb(80, Color.Green);
+            viewport.AddContent(selectionBox);
+            SetupSelectionBoxProperties(selectionBox);
+
         }
 
         UIControllerBox GetFreeUserControllerBox()
@@ -129,44 +124,43 @@ namespace LayoutFarm
 
             //when start drag on bg
             //just show selection box on top most
-            backgroundBox.MouseMove += (s, e) =>
+            backgroundBox.MouseDrag += (s, e) =>
             {
-                if (e.IsDragging)
+
+                //move to mouse position 
+                if (!selectionBoxIsShown)
                 {
-                    //move to mouse position 
-                    if (!selectionBoxIsShown)
-                    {
 
-                        selectionBox.LandingPoint = new Point(e.X, e.Y);
-                        selectionBox.SetLocation(e.X, e.Y);
-                        selectionBox.Visible = true;
-                        selectionBoxIsShown = true;
-                    }
-                    else
-                    {
 
-                        Point pos = selectionBox.LandingPoint;
-                        int x = pos.X;
-                        int y = pos.Y;
-                        int w = e.X - pos.X;
-                        int h = e.Y - pos.Y;
-
-                        if (w < 0)
-                        {
-                            w = -w;
-                            x -= w;
-
-                        }
-                        if (h < 0)
-                        {
-                            h = -h;
-                            y -= h;
-
-                        }
-                        //set width and height
-                        selectionBox.SetBounds(x, y, w, h);
-                    }
+                    selectionBox.SetLocation(e.X, e.Y);
+                    selectionBox.Visible = true;
+                    selectionBoxIsShown = true;
                 }
+                else
+                {
+
+
+                    int x = e.CapturedMouseX;
+                    int y = e.CapturedMouseY;
+                    int w = e.DiffCapturedX;
+                    int h = e.DiffCapturedY;
+
+                    if (w < 0)
+                    {
+                        w = -w;
+                        x -= w;
+
+                    }
+                    if (h < 0)
+                    {
+                        h = -h;
+                        y -= h;
+
+                    }
+                    //set width and height
+                    selectionBox.SetBounds(x, y, w, h);
+                }
+
             };
             backgroundBox.MouseUp += (s, e) =>
             {
@@ -208,7 +202,7 @@ namespace LayoutFarm
                     selectedList.Add(userBoxes[i]);
                     //------
                     //create user controller box for the selected box 
-                    var userControllerBox = GetFreeUserControllerBox();
+                    UIControllerBox userControllerBox = GetFreeUserControllerBox();
                     userControllerBox.TargetBox = box;
                     userControllerBox.SetLocation(box.Left - 5, box.Top - 5);
                     userControllerBox.SetSize(box.Width + 10, box.Height + 10);
@@ -225,17 +219,18 @@ namespace LayoutFarm
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
 
-                //--------------------------------------------
+
                 //request user controller for this box
-                var userControllerBox = GetFreeUserControllerBox();
+                UIControllerBox userControllerBox = GetFreeUserControllerBox();
                 userControllerBox.TargetBox = box;
-
                 viewport.AddContent(userControllerBox);
-
                 userControllerBox.SetLocation(box.Left - 5, box.Top - 5);
                 userControllerBox.SetSize(box.Width + 10, box.Height + 10);
                 userControllerBox.Visible = true;
-                //--------------------------------------------
+
+                //move mouse capture to new controller box
+                //for next drag
+                e.SetMouseCapture(userControllerBox);
             };
 
             //2. mouse up
@@ -265,58 +260,19 @@ namespace LayoutFarm
                     selectionBoxIsShown = false;
                 }
             };
-            selectionBox.MouseLeave += (s, e) =>
+            selectionBox.MouseDrag += (s, e) =>
             {
-                if (selectionBoxIsShown && e.IsDragging)
+                if (selectionBoxIsShown)
                 {
-                    //temp fix here 
-                    //TODO: get global position of selected box
-                    var globalLocation = selectionBox.GetGlobalLocation();
-                    globalLocation.Offset(selectionBox.MouseCaptureX, selectionBox.MouseCaptureY);
-                    e.DraggingElement = selectionBox;
 
-                    Point pos = selectionBox.LandingPoint;
 
-                    int x = pos.X;
-                    int y = pos.Y;
-
-                    int w = e.GlobalX - selectionBox.Left;
-                    int h = e.GlobalY - selectionBox.Top;
-
-                    //int w = (selectionBox.Left + e.X) - pos.X;
-                    //int h = (selectionBox.Top + e.Y) - pos.Y;
-
-                    if (w < 0)
-                    {
-                        w = -w;
-                        x -= w;
-                    }
-                    if (h < 0)
-                    {
-                        h = -h;
-                        y -= h;
-
-                    }
-                    //set width and height
-                    selectionBox.SetBounds(x, y, w, h);
-
-                    e.StopPropagation();
-                }
-            };
-
-            selectionBox.MouseMove += (s, e) =>
-            {
-                if (selectionBoxIsShown && e.IsDragging)
-                {
-                    Point pos = selectionBox.LandingPoint;
-
-                    int x = pos.X;
-                    int y = pos.Y;
+                    int x = e.CapturedMouseX;
+                    int y = e.CapturedMouseY;
                     //temp fix here 
                     //TODO: get global position of selected box
 
-                    int w = (selectionBox.Left + e.X) - pos.X;
-                    int h = (selectionBox.Top + e.Y) - pos.Y;
+                    int w = selectionBox.Left + e.DiffCapturedX;
+                    int h = selectionBox.Top + e.DiffCapturedY;
 
                     if (w < 0)
                     {
@@ -361,58 +317,30 @@ namespace LayoutFarm
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
             //for controller box
-            controllerBox.MouseMove += (s, e) =>
+            controllerBox.MouseDrag += (s, e) =>
             {
-                if (e.IsDragging)
+
+                MoveWithSnapToGrid(controllerBox, e.DiffCapturedX, e.DiffCapturedY);
+                e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                e.CancelBubbling = true;
+                //test here -----------------------------------------------------
+                //find dragover element 
+                var dragOverElements = new List<UIElement>();
+                controllerBox.FindDragOverElements(dragOverElements);
+                if (dragOverElements.Count > 0)
                 {
-                    if (e.IsFirstMouseEnter)
+                    //send notification to another box 
+                    //use guest talk msg
+                    var easeBox = dragOverElements[0] as IEventListener;
+                    if (easeBox != null)
                     {
-                        controllerBox.MouseCaptureX = e.X;
-                        controllerBox.MouseCaptureY = e.Y;
-                    } 
-
-                    MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);                     
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.CancelBubbling = true; 
-
-
-
-                    //test here -----------------------------------------------------
-                    //find dragover element
-
-                    List<UIElement> dragOverElements = new List<UIElement>();                    
-                    controllerBox.FindDragOverElements(dragOverElements);
-                    if (dragOverElements.Count > 0)
-                    {  
-                        //send notification to another box 
-                        var easeBox = dragOverElements[0] as IEventListener;
-                        if (easeBox != null)
-                        {
-                            //create drag over event args
-                            //TODO: add dragover detail
-                            easeBox.ListenDragOver(new UIDragOverEventArgs());
-                        }
+                        var talkMsg = new UIGuestTalkEventArgs();
+                        talkMsg.Sender = controllerBox;
+                        easeBox.ListenGuestTalk(talkMsg);
                     }
-
-                   
-                }
-
-            };
-            controllerBox.MouseLeave += (s, e) =>
-            {
-                if (e.IsDragging)
-                {
-
-                    var globalLocation = controllerBox.GetGlobalLocation();
-                    globalLocation.Offset(controllerBox.MouseCaptureX, controllerBox.MouseCaptureY);
-
-                    MoveWithSnapToGrid(controllerBox, e.GlobalX - globalLocation.X, e.GlobalY - globalLocation.Y);
-
-
-                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                    e.StopPropagation();
                 }
             };
+
 
         }
 
@@ -515,29 +443,14 @@ namespace LayoutFarm
                 //add handler for each tiny box
                 //---------------------------------------------------------------------
 
-                tinyBox.MouseMove += (s, e) =>
+                tinyBox.MouseDrag += (s, e) =>
                 {
-                    if (e.IsDragging)
-                    {
+                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.DiffCapturedX, e.DiffCapturedY);
+                    e.MouseCursorStyle = MouseCursorStyle.Pointer;
+                    e.CancelBubbling = true;
 
-                        ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.X - tinyBox.MouseCaptureX, e.Y - tinyBox.MouseCaptureY);
-                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                        e.CancelBubbling = true;
-                    }
                 };
-                tinyBox.MouseLeave += (s, e) =>
-                {
-                    if (e.IsDragging)
-                    {
-                        var globalLocation = tinyBox.GetGlobalLocation();
-                        globalLocation.Offset(tinyBox.MouseCaptureX, tinyBox.MouseCaptureY);
 
-
-                        ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.GlobalX - globalLocation.X, e.GlobalY - globalLocation.Y);
-                        e.MouseCursorStyle = MouseCursorStyle.Pointer;
-                        e.StopPropagation();
-                    }
-                };
                 tinyBox.MouseUp += (s, e) =>
                 {
                     e.MouseCursorStyle = MouseCursorStyle.Default;
@@ -638,11 +551,11 @@ namespace LayoutFarm
                 }
             }
 
-            protected override void OnDragOver(UIDragOverEventArgs e)
+            protected override void OnGuestTalk(UIGuestTalkEventArgs e)
             {
                 //test ***
                 this.BackColor = Color.Green;
-                base.OnDragOver(e);
+                base.OnGuestTalk(e);
             }
         }
 
@@ -651,11 +564,6 @@ namespace LayoutFarm
             public UISelectionBox(int w, int h)
                 : base(w, h)
             {
-            }
-            public Point LandingPoint
-            {
-                get;
-                set;
             }
             public override void Walk(UIVisitor visitor)
             {

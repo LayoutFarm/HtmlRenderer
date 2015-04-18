@@ -43,7 +43,9 @@ namespace LayoutFarm.WebDom
         }
         void IEventListener.ListenMouseUp(UIMouseEventArgs e)
         {
+            //1. mouse up
             OnMouseUp(e);
+
         }
         void IEventListener.ListenMouseClick(UIMouseEventArgs e)
         {
@@ -68,14 +70,7 @@ namespace LayoutFarm.WebDom
         {
             OnLostFocus(e);
         }
-        void IEventListener.ListenOnDrop(UIMouseEventArgs e)
-        {
-            OnDrop(e);
-        }
-        void IEventListener.ListenDragRelease(UIMouseEventArgs e)
-        {
-            OnDragRelease(e);
-        }
+        
         void IEventListener.HandleContentLayout()
         {
             OnContentLayout();
@@ -101,8 +96,15 @@ namespace LayoutFarm.WebDom
             this.OnInterComponentMsg(sender, msgcode, msg);
         }
 
-        void IEventListener.ListenDragOver(UIDragOverEventArgs e)
+        void IEventListener.ListenGuestTalk(UIGuestTalkEventArgs e)
         {
         }
+        void IEventListener.GetGlobalLocation(out int x, out int y)
+        {
+            this.PrimaryCssGetGlobalLocation(out x, out y);
+        }
+
+        protected abstract void PrimaryCssGetGlobalLocation(out int x, out int y);
+
     }
 }

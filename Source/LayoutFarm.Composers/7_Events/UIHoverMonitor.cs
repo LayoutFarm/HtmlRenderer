@@ -6,9 +6,7 @@ using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
-
-
-    public class UIHoverMonitorTask : UITimerTask
+    class UIHoverMonitorTask : UITimerTask
     {
 
         int mouseMoveCounter = -1;

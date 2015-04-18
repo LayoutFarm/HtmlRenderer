@@ -20,24 +20,22 @@ namespace LayoutFarm.UI
         {
             InitializeComponent();
         }
+
         public void InitRootGraphics(
             RootGraphic rootgfx,
-            IUserEventPortal userInputEvBridge,
+            ITopWindowEventRoot topWinEventRoot,
             InnerViewportKind innerViewportKind)
         {
 
             //1.
             this.rootgfx = rootgfx;
-
             switch (innerViewportKind)
             {
                 case InnerViewportKind.GL:
                     {
                         PixelFarm.Drawing.DrawingGL.CanvasGLPortal.Start();
 
-
-                        var bridge = new OpenGL.MyTopWindowBridgeOpenGL(rootgfx, userInputEvBridge);
-
+                        var bridge = new OpenGL.MyTopWindowBridgeOpenGL(rootgfx, topWinEventRoot);
                         var view = new OpenGL.GpuOpenGLSurfaceView();
                         view.Width = 800;
                         view.Height = 600;
@@ -53,7 +51,7 @@ namespace LayoutFarm.UI
                 case InnerViewportKind.GdiPlus:
                 default:
                     {
-                        var bridge = new GdiPlus.MyTopWindowBridgeGdiPlus(rootgfx, userInputEvBridge);
+                        var bridge = new GdiPlus.MyTopWindowBridgeGdiPlus(rootgfx, topWinEventRoot);
                         var view = new GdiPlus.CpuGdiPlusSurfaceView();
                         view.Dock = DockStyle.Fill;
                         this.Controls.Add(view);
@@ -64,6 +62,9 @@ namespace LayoutFarm.UI
                     } break;
             }
         }
+
+
+
         public GraphicsPlatform P
         {
             get { return this.rootgfx.P; }
@@ -107,7 +108,7 @@ namespace LayoutFarm.UI
         }
         public void AddContent(RenderElement vi)
         {
-            this.rootgfx.TopWindowRenderBox.AddChild(vi);             
+            this.rootgfx.TopWindowRenderBox.AddChild(vi);
         }
 
         public RootGraphic RootGfx

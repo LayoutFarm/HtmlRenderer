@@ -64,6 +64,8 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
              RootGraphic root, CssDisplay display)
             : base(controller, spec, root, display)
         {
+
+
         }
         public override void InvalidateGraphics()
         {

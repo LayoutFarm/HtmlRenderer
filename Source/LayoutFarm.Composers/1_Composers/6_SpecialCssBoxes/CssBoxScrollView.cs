@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
+using LayoutFarm.UI;
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -84,10 +86,10 @@ namespace LayoutFarm.HtmlBoxes
 
                 //---------------------- 
                 var scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
-                         this.vscbar,
-                         this.vscbar.GetPrimaryRenderElement(
-                            (RootGraphic)this.RootGfx),
-                                CssBox.UnsafeGetBoxSpec(this), false);
+                           this.vscbar,
+                           this.vscbar.GetPrimaryRenderElement((RootGraphic)this.RootGfx),
+                           CssBox.UnsafeGetBoxSpec(this), false);
+
                 scBarWrapCssBox.SetLocation(newW, 0);
 
                 this.AppendToAbsoluteLayer(scBarWrapCssBox);
@@ -105,19 +107,19 @@ namespace LayoutFarm.HtmlBoxes
                 hscRelation = new ScrollingRelation(hscbar, scrollView);
 
                 //---------------------- 
+                var renderE = this.hscbar.GetPrimaryRenderElement((RootGraphic)this.RootGfx);
                 var scBarWrapCssBox = LayoutFarm.Composers.CustomCssBoxGenerator.CreateWrapper(
                          this.hscbar,
-                         this.hscbar.GetPrimaryRenderElement(
-                            (RootGraphic)this.RootGfx),
-                                CssBox.UnsafeGetBoxSpec(this), false);
+                         this.hscbar.GetPrimaryRenderElement((RootGraphic)this.RootGfx),
+                         CssBox.UnsafeGetBoxSpec(this), false);
 
                 scBarWrapCssBox.SetLocation(0, newH);
                 this.AppendToAbsoluteLayer(scBarWrapCssBox);
-
             }
-
-
         }
+
+
+
         class CssScrollWrapper : IScrollable
         {
             CssBox cssbox;
@@ -167,6 +169,9 @@ namespace LayoutFarm.HtmlBoxes
                 remove { }
             }
         }
+
+
+
     }
 
 }

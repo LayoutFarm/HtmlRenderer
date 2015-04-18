@@ -48,19 +48,19 @@ namespace LayoutFarm.UI
         {
             get { return this.isClosed; }
         }
-        protected int ViewportX
+        public int ViewportX
         {
             get { return this.viewportX; }
         }
-        protected int ViewportY
+        public int ViewportY
         {
             get { return this.viewportY; }
         }
-        protected int ViewportWidth
+        public int ViewportWidth
         {
             get { return this.viewportWidth; }
         }
-        protected int ViewportHeight
+        public int ViewportHeight
         {
             get { return this.viewportHeight; }
         }
@@ -98,10 +98,7 @@ namespace LayoutFarm.UI
         {
 
         }
-        protected virtual void Canvas_CursorChange(object sender, UICursorEventArgs e)
-        {
-
-        }
+         
         protected virtual void Canvas_SizeChanged(object sender, EventArgs e)
         {
             //EvaluateScrollBar();
@@ -163,11 +160,11 @@ namespace LayoutFarm.UI
             else if (dy > 0)
             {
                 int old_y = viewportY;
-                int viewportButtom = viewportY + viewportHeight; if (viewportButtom + dy > rootGraphics.RootHeight)
+                int viewportButtom = viewportY + viewportHeight; if (viewportButtom + dy > rootGraphics.Height)
                 {
-                    if (viewportButtom < rootGraphics.RootHeight)
+                    if (viewportButtom < rootGraphics.Height)
                     {
-                        viewportY = rootGraphics.RootHeight - viewportHeight;
+                        viewportY = rootGraphics.Height - viewportHeight;
                     }
                 }
                 else
@@ -186,11 +183,11 @@ namespace LayoutFarm.UI
             {
 
                 int old_x = viewportX;
-                int viewportRight = viewportX + viewportWidth; if (viewportRight + dx > rootGraphics.RootWidth)
+                int viewportRight = viewportX + viewportWidth; if (viewportRight + dx > rootGraphics.Width)
                 {
-                    if (viewportRight < rootGraphics.RootWidth)
+                    if (viewportRight < rootGraphics.Width)
                     {
-                        viewportX = rootGraphics.RootWidth - viewportWidth;
+                        viewportX = rootGraphics.Width - viewportWidth;
                     }
                 }
                 else
@@ -223,9 +220,9 @@ namespace LayoutFarm.UI
         {
             hScrollEventArgs = null;
             vScrollEventArgs = null;
-            if (x > rootGraphics.RootWidth - viewportWidth)
+            if (x > rootGraphics.Width - viewportWidth)
             {
-                x = rootGraphics.RootWidth - viewportWidth;
+                x = rootGraphics.Width - viewportWidth;
 
             }
             if (x < 0)
@@ -238,9 +235,9 @@ namespace LayoutFarm.UI
             }
             else if (y > 0)
             {
-                if (y > rootGraphics.RootHeight - viewportHeight)
+                if (y > rootGraphics.Height - viewportHeight)
                 {
-                    y = rootGraphics.RootHeight - viewportHeight;
+                    y = rootGraphics.Height - viewportHeight;
                     if (y < 0)
                     {
                         y = 0;
@@ -268,7 +265,7 @@ namespace LayoutFarm.UI
             h_largeChange = viewportWidth;
             h_smallChange = h_largeChange / 4;
 
-            if (rootGraphics.RootHeight <= viewportHeight)
+            if (rootGraphics.Height <= viewportHeight)
             {
 
                 vScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(false);
@@ -278,7 +275,7 @@ namespace LayoutFarm.UI
                 vScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(true);
             }
 
-            if (rootGraphics.RootWidth <= viewportWidth)
+            if (rootGraphics.Width <= viewportWidth)
             {
                 hScrollSupportEventArgs = new ScrollSurfaceRequestEventArgs(false);
             }

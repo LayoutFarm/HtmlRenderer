@@ -6,6 +6,7 @@ using LayoutFarm.WebDom;
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
+using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.Composers
 {
@@ -17,19 +18,22 @@ namespace LayoutFarm.Composers
 
         public static CssBox CreateWrapper(object owner, RenderElement renderElement, BoxSpec spec, bool isInline)
         {
+            var portalEvent = owner as IEventPortal;
+            if (portalEvent == null)
+            { 
+                portalEvent = new RenderElementEventPortal(renderElement);
+
+            }
+
             if (isInline)
             {
-                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperInlineCssBox(owner, spec, renderElement.Root, renderElement);
+                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperInlineCssBox(portalEvent, spec, renderElement.Root, renderElement);
             }
             else
             {
-                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperBlockCssBox(owner, spec, renderElement);
+                return new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperBlockCssBox(portalEvent, spec, renderElement);
             }
         }
-         
-
     }
-
-
 
 }

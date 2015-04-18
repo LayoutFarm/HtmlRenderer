@@ -15,18 +15,12 @@ using LayoutFarm.Svg;
 namespace LayoutFarm.Svg
 {
 
-    partial class SvgRootEventPortal : IUserEventPortal
-    {
-
-
-        //------------------------------------------------------------
-        void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
+    partial class SvgRootEventPortal : IEventPortal
+    {   
+         
+        void IEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
-
              
-            this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y;
-            
             //find hit svg graphics....
             SvgHitChain hitChain = GetFreeHitChain();
             hitChain.SetRootGlobalPosition(e.X, e.Y);
@@ -73,11 +67,9 @@ namespace LayoutFarm.Svg
             ReleaseHitChain(hitChain);
 
         }
-        void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
-
-            this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y; 
+             
 
             //find hit svg graphics....
             SvgHitChain hitChain = GetFreeHitChain();
@@ -106,71 +98,60 @@ namespace LayoutFarm.Svg
 
             ReleaseHitChain(hitChain);
         }
-        void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
-
-            //find diff    
-
-            e.SetDiff(
-                e.X - prevLogicalMouseX,
-                e.Y - prevLogicalMouseY);
-
-            this.prevLogicalMouseX = e.X;
-            this.prevLogicalMouseY = e.Y;
-            //-----------------------------------------
             int x = e.X;
             int y = e.Y;
 
             if (e.IsDragging)
             {
                 //dragging *** , if changed
-                if (this.prevLogicalMouseX != x || this.prevLogicalMouseY != y)
-                {
-                    //handle mouse drag
-                    SvgHitChain hitChain = GetFreeHitChain();
-                    hitChain.SetRootGlobalPosition(x, y);
-                    HitTestCore(this.SvgRoot.SvgSpec, hitChain, e.X, e.Y);
 
-                    SetEventOrigin(e, hitChain);
-                    //---------------------------------------------------------
-                    //propagate mouse drag 
-                    ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
+                //handle mouse drag
+                SvgHitChain hitChain = GetFreeHitChain();
+                hitChain.SetRootGlobalPosition(x, y);
+                HitTestCore(this.SvgRoot.SvgSpec, hitChain, e.X, e.Y);
+
+                SetEventOrigin(e, hitChain);
+                //---------------------------------------------------------
+                //propagate mouse drag 
+                ForEachOnlyEventPortalBubbleUp(e, hitChain, (portal) =>
+                {
+                    portal.PortalMouseMove(e);
+                    return true;
+                });
+                //---------------------------------------------------------  
+                if (!e.CancelBubbling)
+                {
+                    //clear previous svg selection 
+                    ClearPreviousSelection();
+
+                    //if (hitChain.Count > 0)
+                    //{
+                    //    //create selection range 
+                    //    this._htmlContainer.SetSelection(new SelectionRange(
+                    //        _latestMouseDownChain,
+                    //        hitChain,
+                    //        this.ifonts));
+                    //}
+                    //else
+                    //{
+                    //    this._htmlContainer.SetSelection(null);
+                    //}
+
+
+                    ForEachEventListenerBubbleUp(e, hitChain, () =>
                     {
-                        portal.PortalMouseMove(e);
+
+                        e.CurrentContextElement.ListenMouseMove(e);
                         return true;
                     });
-                    //---------------------------------------------------------  
-                    if (!e.CancelBubbling)
-                    {
-                        //clear previous svg selection 
-                        ClearPreviousSelection();
-
-                        //if (hitChain.Count > 0)
-                        //{
-                        //    //create selection range 
-                        //    this._htmlContainer.SetSelection(new SelectionRange(
-                        //        _latestMouseDownChain,
-                        //        hitChain,
-                        //        this.ifonts));
-                        //}
-                        //else
-                        //{
-                        //    this._htmlContainer.SetSelection(null);
-                        //}
-
-
-                        ForEachEventListenerBubbleUp(e, hitChain, () =>
-                        {
-
-                            e.CurrentContextElement.ListenMouseMove(e);
-                            return true;
-                        });
-                    }
-
-
-                    //---------------------------------------------------------
-                    ReleaseHitChain(hitChain);
                 }
+
+
+                //---------------------------------------------------------
+                ReleaseHitChain(hitChain);
+
             }
             else
             {
@@ -200,35 +181,35 @@ namespace LayoutFarm.Svg
                 ReleaseHitChain(hitChain);
             }
         }
-        void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
             //this.OnMouseWheel(e);
         }
 
         //------------------------------------------------------------
-        void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
+        void IEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
             //this.OnKeyUp(e);
         }
-        void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
+        void IEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
             //this.OnKeyDown(e);
         }
-        void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
+        void IEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
             // this.OnKeyPress(e);
         }
-        bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
+        bool IEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
             return false;
             //return this.OnProcessDialogKey(e);
         }
         //------------------------------------------------------------
-        void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
+        void IEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
             //this.OnGotFocus(e);
         }
-        void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
+        void IEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
             //this.OnLostFocus(e);
         }

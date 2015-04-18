@@ -1,5 +1,4 @@
-﻿
-// 2015,2014 ,Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,8 +13,8 @@ namespace LayoutFarm.UI.GdiPlus
     {
         Control windowControl;
         GdiPlusCanvasViewport gdiPlusViewport;
-        public MyTopWindowBridgeGdiPlus(RootGraphic root, IUserEventPortal winEventBridge)
-            : base(root, winEventBridge)
+        public MyTopWindowBridgeGdiPlus(RootGraphic root, ITopWindowEventRoot topWinEventRoot)
+            : base(root, topWinEventRoot)
         {
 
         }
@@ -56,9 +55,9 @@ namespace LayoutFarm.UI.GdiPlus
             this.gdiPlusViewport.PaintMe(canvas);
 
         }
-        protected override void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
+        protected override void ChangeCursorStyle(MouseCursorStyle cursorStyle)
         {
-            switch (mouseEventArg.MouseCursorStyle)
+            switch (cursorStyle)
             {
                 case MouseCursorStyle.Pointer:
                     {
@@ -72,11 +71,8 @@ namespace LayoutFarm.UI.GdiPlus
                     {
                         windowControl.Cursor = Cursors.Default;
                     } break;
-            }
-            this.currentCursorStyle = mouseEventArg.MouseCursorStyle;
-        }
-
-
+            } 
+        } 
 
     }
 }

@@ -13,7 +13,7 @@ namespace LayoutFarm.HtmlBoxes
     delegate void ScrollBarEvaluator(ScrollBar scBar, out double onePixelFore, out int scrollBoxHeight);
 
 
-    class ScrollBar : EaseBox, IBoxElement, IUserEventPortal
+    class ScrollBar : EaseBox, IBoxElement
     {
         CustomRenderBox mainBox;
 
@@ -330,24 +330,18 @@ namespace LayoutFarm.HtmlBoxes
             //----------------------------
             EvaluateVerticalScrollBarProperties();
             //----------------------------
-           
+
             //3. drag
-            scroll_button.MouseMove += (s, e) =>
+            scroll_button.MouseDrag += (s, e) =>
             {
-                if (!e.IsDragging)
-                {
-                    return;
-                }
+
                 //----------------------------------
 
-                //dragging ...
-                //find y-diff 
-                int ydiff = e.Y - scroll_button.MouseCaptureY;
-
+                //dragging ... 
                 Point pos = scroll_button.Position;
 
                 //if vscroll bar then move only y axis 
-                int newYPos = (int)(pos.Y + ydiff);
+                int newYPos = (int)(pos.Y + e.DiffCapturedY);
 
                 //clamp!
                 if (newYPos >= this.Height - (minmax_boxHeight + scrollButton.Height))
@@ -490,22 +484,18 @@ namespace LayoutFarm.HtmlBoxes
             //3. drag
 
 
-            scroll_button.MouseMove += (s, e) =>
+            scroll_button.MouseDrag += (s, e) =>
             {
-                if (!e.IsDragging)
-                {
-                    return;
-                }
+
                 //----------------------------------
 
                 //dragging ...
                 //find x-diff 
-                int xdiff = e.X - scroll_button.MouseCaptureX;
 
                 Point pos = scroll_button.Position;
 
                 //if vscroll bar then move only y axis 
-                int newXPos = (int)(pos.X + xdiff);
+                int newXPos = (int)(pos.X + e.DiffCapturedX);
 
                 //clamp!
                 if (newXPos >= this.Width - (minmax_boxHeight + scrollButton.Width))
@@ -658,159 +648,6 @@ namespace LayoutFarm.HtmlBoxes
         int IBoxElement.MinHeight
         {
             get { return this.Height; }
-        }
-        //---------------------------------------------------
-        //user event portal impl
-        void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
-        {
-
-
-
-
-        }
-        void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
-        {
-
-        }
-
-        void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
-        {
-
-        }
-
-        bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
-        {
-            return true;
-        }
-        void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
-        {
-            //hit test 
-            HitChain hitPointChain = new HitChain();
-            hitPointChain.SetStartTestPoint(e.X, e.Y);
-            this.CurrentPrimaryRenderElement.HitTestCore(hitPointChain);
-            //then invoke
-            int hitCount = hitPointChain.Count;
-
-            RenderElement hitElement = hitPointChain.TopMostElement;
-            if (hitCount > 0)
-            {
-                //use events
-                if (!e.CancelBubbling)
-                {
-                    ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
-                    {
-                        listener.ListenMouseDown(e);
-                        //-------------------------------------------------------                          
-                        return true;
-                    });
-                }
-            }
-        }
-        //===================================================================
-        delegate bool EventPortalAction(IUserEventPortal evPortal);
-        delegate bool EventListenerAction(IEventListener listener);
-        static void ForEachEventListenerBubbleUp(UIEventArgs e, HitChain hitPointChain, EventListenerAction listenerAction)
-        {
-            LayoutFarm.RenderBoxes.HitInfo hitInfo;
-            for (int i = hitPointChain.Count - 1; i >= 0; --i)
-            {
-
-                hitInfo = hitPointChain.GetHitInfo(i);
-                IEventListener listener = hitInfo.hitElement.GetController() as IEventListener;
-                if (listener != null)
-                {
-                    var hitPoint = hitInfo.point;
-                    e.SetLocation(hitPoint.X, hitPoint.Y);
-                    e.CurrentContextElement = listener;
-
-                    if (listenerAction(listener))
-                    {
-                        return;
-                    }
-                }
-            }
-        }
-        void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
-        {
-            HitChain hitPointChain = new HitChain();
-            hitPointChain.SetStartTestPoint(e.X, e.Y);
-            this.CurrentPrimaryRenderElement.HitTestCore(hitPointChain);
-            //then invoke
-            int hitCount = hitPointChain.Count;
-            
-            RenderElement hitElement = hitPointChain.TopMostElement;
-            if (hitCount > 0)
-            {
-                //use events
-                if (!e.CancelBubbling)
-                {
-                    ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
-                    {
-                        listener.ListenMouseMove(e);
-                        //-------------------------------------------------------                          
-                        return true;
-                    });
-                }
-            }
-        }
-
-        void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
-        {
-            HitChain hitPointChain = new HitChain();
-            hitPointChain.SetStartTestPoint(e.X, e.Y);
-
-            this.CurrentPrimaryRenderElement.HitTestCore(hitPointChain);
-            //then invoke
-            int hitCount = hitPointChain.Count;
-
-            RenderElement hitElement = hitPointChain.TopMostElement;
-            if (hitCount > 0)
-            {
-                //use events
-                if (!e.CancelBubbling)
-                {
-                    ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
-                    {
-                        listener.ListenMouseUp(e);
-                        //-------------------------------------------------------                          
-                        return true;
-                    });
-                }
-            }
-        }
-
-        void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
-        {
-            HitChain hitPointChain = new HitChain();
-            hitPointChain.SetStartTestPoint(e.X, e.Y);
-            this.CurrentPrimaryRenderElement.HitTestCore(hitPointChain);
-            //then invoke
-            int hitCount = hitPointChain.Count;
-
-            RenderElement hitElement = hitPointChain.TopMostElement;
-            if (hitCount > 0)
-            {
-                //use events
-                if (!e.CancelBubbling)
-                {
-                    ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
-                    {
-                        listener.ListenMouseWheel(e);
-                        //-------------------------------------------------------                          
-                        return true;
-                    });
-                }
-            }
-        }
-
-        void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
-        {
-
-        }
-
-        void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
-        {
-
         }
     }
 

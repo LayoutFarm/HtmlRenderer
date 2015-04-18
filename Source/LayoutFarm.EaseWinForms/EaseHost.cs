@@ -10,6 +10,7 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.Ease
 {
+
     public static class EaseHost
     {
         static readonly PixelFarm.Drawing.GraphicsPlatform gdiPlatform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
@@ -26,8 +27,8 @@ namespace LayoutFarm.Ease
             {
                 if (isStarted) return;
 
-                var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start(); 
-                uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();               
+                var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
+                uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
 
 
                 //--------------------
@@ -39,17 +40,19 @@ namespace LayoutFarm.Ease
         public static EaseViewport CreateViewportControl(Form hostForm, int w, int h)
         {
 
-            MyRootGraphic rootgfx = new MyRootGraphic(uiPlatformWinForm,
+
+            var rootgfx = new MyRootGraphic(uiPlatformWinForm,
                 useOpenGL ? openGLPlatform : gdiPlatform,
                 w, h);
-            TopWindowRenderBox topRenderBox = rootgfx.TopWindowRenderBox;
+
             LayoutFarm.UI.UISurfaceViewportControl viewport;
+
             CreateNewFormCanvas(hostForm, rootgfx,
                  useOpenGL ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
-                 out viewport); 
+                 out viewport);
 
-            viewport.PaintMe(); 
-            EaseViewport easeViewport = new EaseViewport(viewport); 
+            viewport.PaintMe();
+            EaseViewport easeViewport = new EaseViewport(viewport);
             return easeViewport;
         }
 
@@ -61,11 +64,12 @@ namespace LayoutFarm.Ease
             int w = 800;
             int h = 600;
 
-            MyRootGraphic rootgfx = new MyRootGraphic(uiPlatformWinForm,
+            var rootgfx = new MyRootGraphic(uiPlatformWinForm,
                 useOpenGL ? openGLPlatform : gdiPlatform,
                 w, h);
 
-            TopWindowRenderBox topRenderBox = rootgfx.TopWindowRenderBox;
+            var topRenderBox = rootgfx.TopWindowRenderBox;
+
 
             formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
                 useOpenGL ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
@@ -89,11 +93,12 @@ namespace LayoutFarm.Ease
             var innerViewport = canvasViewport = new LayoutFarm.UI.UISurfaceViewportControl();
             Rectangle screenClientAreaRect = Conv.ToRect(Screen.PrimaryScreen.WorkingArea);
 
-            canvasViewport.InitRootGraphics(myRootGfx, myRootGfx.UserInputEventAdapter, internalViewportKind);
+            canvasViewport.InitRootGraphics(myRootGfx, myRootGfx.TopWinEventPortal, internalViewportKind);
             canvasViewport.Bounds =
                 new System.Drawing.Rectangle(0, 0,
                     screenClientAreaRect.Width,
                     screenClientAreaRect.Height);
+
             ////---------------------- 
             //form1.Controls.Add(canvasViewport);
             ////----------------------
@@ -110,9 +115,7 @@ namespace LayoutFarm.Ease
                     }
                 }
             };
-
         }
-
         static void MakeFormCanvas(Form form1, LayoutFarm.UI.UISurfaceViewportControl surfaceViewportControl)
         {
             form1.FormClosing += (s, e) =>

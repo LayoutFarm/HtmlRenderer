@@ -226,16 +226,15 @@ namespace LayoutFarm.UI
             focusEventType = FocusEventType.PreviewFocus;
             base.Clear();
         }
-
     }
+
+
 
     public class UIMouseEventArgs : UIEventArgs
     {
-        List<IEventListener> dragOverElements;
-
+         
         public UIMouseEventArgs()
         {
-
         }
         public UIMouseButtons Button { get; private set; }
         public int Delta { get; private set; }
@@ -250,7 +249,7 @@ namespace LayoutFarm.UI
             this.XDiff = xdiff;
             this.YDiff = ydiff;
         }
-        public void SetEventInfo(int x, int y, UIMouseButtons button, int clicks, int delta, bool isDragging)
+        public void SetEventInfo(int x, int y, UIMouseButtons button, int clicks, int delta)
         {
             this.GlobalX = x;
             this.GlobalY = y;
@@ -258,7 +257,6 @@ namespace LayoutFarm.UI
             Button = button;
             Clicks = clicks;
             Delta = delta;
-            this.IsDragging = isDragging;
         }
 
         public bool IsFirstMouseEnter
@@ -281,10 +279,9 @@ namespace LayoutFarm.UI
             this.DraggingElement = null;
             this.IsFirstMouseEnter = false;
 
-            if (this.dragOverElements != null)
-            {
-                dragOverElements.Clear();
-            }
+            this.CapturedMouseX = this.CapturedMouseY = 0;
+
+             
 
         }
 
@@ -304,25 +301,41 @@ namespace LayoutFarm.UI
         public IEventListener DraggingElement
         {
             get;
+            private set;
+        }
+        public void SetMouseCapture(IEventListener listener)
+        {
+            this.DraggingElement = listener;
+
+
+        }
+        //-------------------------------------------------------------------
+        
+        public IEventListener CurrentMouseActive
+        {
+            get;
             set;
         }
-        public void AddDragOverElement(IEventListener dragOverElement)
+        public IEventListener PreviousMouseDown
         {
-            if (dragOverElements == null)
-            {
-                this.dragOverElements = new List<IEventListener>();
-            }
-            this.dragOverElements.Add(dragOverElement);
+            get;
+            set;
         }
-        public IEventListener GetDragOverElement(int index)
+        public bool IsAlsoDoubleClick { get; set; }
+
+        public int CapturedMouseX { get; set; }
+        public int CapturedMouseY { get; set; }
+        public int DiffCapturedX
         {
-            return this.dragOverElements[index];
+            get { return this.X - this.CapturedMouseX; }
         }
-        public int DragOverElementCount
+        public int DiffCapturedY
         {
-            get { return this.dragOverElements.Count; }
+            get { return this.Y - this.CapturedMouseY; }
         }
     }
+
+
 
     public enum MouseCursorStyle
     {
@@ -344,7 +357,21 @@ namespace LayoutFarm.UI
         Right = 1 << 2,
         Bottom = 1 << 3
     }
-
+    public class UIGuestTalkEventArgs : UIEventArgs
+    {
+        public UIGuestTalkEventArgs()
+        {
+        }
+        public object Sender
+        {
+            get;
+            set;
+        }
+        public IEventListener SenderAsIEventListener
+        {
+            get { return this.Sender as IEventListener; }
+        }
+    }
 
 
 
@@ -392,43 +419,6 @@ namespace LayoutFarm.UI
     //    }
     //}
 
-    public class UIInvalidateEventArgs : UIEventArgs
-    {
-        //public Rectangle InvalidArea;
-        public UIInvalidateEventArgs()
-        {
-        }
-    }
-
-    public class UICaretEventArgs : UIEventArgs
-    {
-        public bool Visible = false;
-        public override void Clear()
-        {
-            Visible = false;
-            base.Clear();
-        }
-    }
-    public class UICursorEventArgs : UIEventArgs
-    {
-
-    }
-    public class UIPopupEventArgs : UIEventArgs
-    {
-        public bool pleaseShow = false;
-        public object popupWindow;
-        public override void Clear()
-        {
-            pleaseShow = false;
-            popupWindow = null;
-            base.Clear();
-        }
-    }
 
 
-
-    public class UIDragOverEventArgs : UIEventArgs
-    {
-
-    }
 }
