@@ -366,7 +366,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //propagate up 
                 var hitInfo = hitPointChain.GetHitInfo(i);
-                IUserEventPortal controller = null;
+                IEventPortal controller = null;
                 switch (hitInfo.hitObjectKind)
                 {
                     default:
@@ -376,13 +376,13 @@ namespace LayoutFarm.HtmlBoxes
                     case HitObjectKind.Run:
                         {
                             CssRun run = (CssRun)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(run.OwnerBox) as IUserEventPortal;
+                            controller = CssBox.UnsafeGetController(run.OwnerBox) as IEventPortal;
 
                         } break;
                     case HitObjectKind.CssBox:
                         {
                             CssBox box = (CssBox)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(box) as IUserEventPortal;
+                            controller = CssBox.UnsafeGetController(box) as IEventPortal;
                         } break;
                 }
 

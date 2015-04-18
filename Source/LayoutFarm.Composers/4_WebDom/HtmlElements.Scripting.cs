@@ -11,7 +11,7 @@ using LayoutFarm.Scripting;
 namespace LayoutFarm.WebDom
 {
     public interface IHtmlElement
-    {   
+    {
         void setAttribute(string attrName, string value);
         void appendChild(DomNode childNode);
         void attachEventListener(string eventName, HtmlEventHandler handler);
@@ -71,7 +71,7 @@ namespace LayoutFarm.WebDom
                 this.SetInnerHtml(value);
             }
         }
-
+       
     }
 
 }

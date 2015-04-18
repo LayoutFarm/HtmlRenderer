@@ -46,7 +46,6 @@
     <Compile Include="0_Start\CanvasViewport.cs" />
     <Compile Include="0_Start\Conv.cs" />
     <Compile Include="0_Start\dbugHelper.cs" />
-    <Compile Include="1_LayoutFarm.UI\UIHoverMonitor.cs" />
     <Compile Include="2_GdiPlus\2_GdiPlusCanvasViewport.cs" />
     <Compile Include="2_GdiPlus\0_MyWinGdiPortal.cs" />
     <Compile Include="3_OpenGL\1_GpuOpenGLSurfaceView.cs">
@@ -62,7 +61,6 @@
       <DependentUpon>1_CpuGdiPlusSurfaceView.cs</DependentUpon>
     </Compile>
     <Compile Include="1_LayoutFarm.UI\InnerViewportKind.cs" />
-    <Compile Include="1_LayoutFarm.UI\CanvasEventStock.cs" />
     <Compile Include="1_LayoutFarm.UI\MyUITimer.cs" />
     <Compile Include="1_LayoutFarm.UI\UIPlatformWinForms.cs" />
     <Compile Include="1_LayoutFarm.UI\UISurfaceViewportControl.cs">

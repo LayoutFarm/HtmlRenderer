@@ -169,7 +169,7 @@ namespace LayoutFarm.WebDom
             var boxSpec = CssBox.UnsafeGetBoxSpec(box);
             //create scrollbar
 
-          
+
             var scrollView = new CssScrollView(this, boxSpec, box.RootGfx);
 
             scrollView.SetSize(box.SizeWidth, box.SizeHeight);
@@ -251,6 +251,13 @@ namespace LayoutFarm.WebDom
             }
             //close tag
             writer.Write("</", this.Name, ">");
+        }
+        protected override void PrimaryCssGetGlobalLocation(out int x, out int y)
+        {
+            float globalX, globalY;
+            this.principalBox.GetElementGlobalLocation(out globalX, out globalY);
+            x = (int)globalX;
+            y = (int)globalY;
         }
     }
 

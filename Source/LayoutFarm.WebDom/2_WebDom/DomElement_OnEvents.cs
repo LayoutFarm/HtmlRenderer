@@ -133,13 +133,7 @@ namespace LayoutFarm.WebDom
         protected virtual void OnMouseLeave(UIMouseEventArgs e)
         {
         }
-        protected virtual void OnDrop(UIMouseEventArgs e)
-        {
-        }
-        protected virtual void OnDragRelease(UIMouseEventArgs e)
-        {
-
-        }
+       
 
         protected virtual void OnContentLayout()
         {

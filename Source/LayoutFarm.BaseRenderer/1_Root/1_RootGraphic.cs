@@ -35,7 +35,6 @@ namespace LayoutFarm
         public abstract RenderBoxBase TopWindowRenderBox
         {
             get;
-            protected set;
         }
         public int Width
         {
@@ -46,7 +45,7 @@ namespace LayoutFarm
         {
             get;
             internal set;
-        } 
+        }
         public abstract void CloseWinRoot();
         //-------------------------------------------------------------------------
 

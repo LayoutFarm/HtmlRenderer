@@ -29,11 +29,12 @@ namespace LayoutFarm.CustomWidgets
         public event EventHandler<UIMouseEventArgs> MouseDown;
         public event EventHandler<UIMouseEventArgs> MouseMove;
         public event EventHandler<UIMouseEventArgs> MouseUp;
-
-        public event EventHandler<UIMouseEventArgs> DragRelease;
         public event EventHandler<UIMouseEventArgs> MouseLeave;
-        public event EventHandler<UIMouseEventArgs> LostSelectedFocus;
-        public event EventHandler<UIDragOverEventArgs> DragOver;
+
+        public event EventHandler<UIMouseEventArgs> MouseDrag;   
+        
+        public event EventHandler<UIMouseEventArgs> LostMouseFocus;
+        public event EventHandler<UIGuestTalkEventArgs> DragOver;
 
         public EaseBox(int width, int height)
             : base(width, height)
@@ -110,9 +111,7 @@ namespace LayoutFarm.CustomWidgets
 
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
-            this.MouseCaptureX = e.X;
-            this.MouseCaptureY = e.Y;
-
+            
             if (this.MouseDown != null)
             {
                 this.MouseDown(this, e);
@@ -125,9 +124,19 @@ namespace LayoutFarm.CustomWidgets
         }
         protected override void OnMouseMove(UIMouseEventArgs e)
         {
-            if (this.MouseMove != null)
+            if (e.IsDragging)
             {
-                this.MouseMove(this, e);
+                if (this.MouseDrag != null)
+                {
+                    this.MouseDrag(this, e);
+                }
+            }
+            else
+            {
+                if (this.MouseMove != null)
+                {
+                    this.MouseMove(this, e);
+                }
             }
         }
         protected override void OnMouseLeave(UIMouseEventArgs e)
@@ -137,13 +146,7 @@ namespace LayoutFarm.CustomWidgets
                 this.MouseLeave(this, e);
             }
         }
-        protected override void OnDragRelease(UIMouseEventArgs e)
-        {
-            if (DragRelease != null)
-            {
-                DragRelease(this, e);
-            }
-        }
+        
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -151,11 +154,11 @@ namespace LayoutFarm.CustomWidgets
                 MouseUp(this, e);
             }
         }
-        protected override void OnLostSelectedFocus(UIMouseEventArgs e)
+        protected override void OnLostMouseFocus(UIMouseEventArgs e)
         {
-            if (this.LostSelectedFocus != null)
+            if (this.LostMouseFocus != null)
             {
-                this.LostSelectedFocus(this, e);
+                this.LostMouseFocus(this, e);
             }
         }
 
@@ -175,16 +178,7 @@ namespace LayoutFarm.CustomWidgets
                 this.dropable = value;
             }
         }
-        public int MouseCaptureX
-        {
-            get;
-            set;
-        }
-        public int MouseCaptureY
-        {
-            get;
-            set;
-        }
+        
         public void RemoveSelf()
         {
             var parentBox = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;
@@ -494,13 +488,13 @@ namespace LayoutFarm.CustomWidgets
             }
         }
 
-        protected override void OnDragOver(UIDragOverEventArgs e)
+        protected override void OnGuestTalk(UIGuestTalkEventArgs e)
         {
             if (this.DragOver != null)
             {
                 this.DragOver(this, e);
             }
-            base.OnDragOver(e);
+            base.OnGuestTalk(e);
         }
     }
 

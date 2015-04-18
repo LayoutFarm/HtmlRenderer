@@ -39,7 +39,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         void IEventListener.ListenLostMouseFocus(UIMouseEventArgs e)
         {
-            OnLostSelectedFocus(e);
+            OnLostMouseSelectedFocus(e);
         }
         void IEventListener.ListenMouseClick(UIMouseEventArgs e)
         {
@@ -64,14 +64,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             OnLostKeyboardFocus(e);
         }
-        void IEventListener.ListenOnDrop(UIMouseEventArgs e)
-        {
-            OnDrop(e);
-        }
-        void IEventListener.ListenDragRelease(UIMouseEventArgs e)
-        {
-            OnDragRelease(e);
-        }
+        
 
         void IEventListener.HandleContentLayout()
         {
@@ -104,10 +97,15 @@ namespace LayoutFarm.HtmlBoxes
             this.OnInterComponentMsg(sender, msgcode, msg);
         }
 
-        void IEventListener.ListenDragOver(UIDragOverEventArgs e)
+        void IEventListener.ListenGuestTalk(UIGuestTalkEventArgs e)
         {
-            this.OnDragOver(e);
+            this.OnGuestTalk(e);
         }
-
+        void IEventListener.GetGlobalLocation(out int x, out int y)
+        {
+            var globalLocation = this.CurrentPrimaryRenderElement.GetGlobalLocation();
+            x = globalLocation.X;
+            y = globalLocation.Y;             
+        }
     }
 }

@@ -12,12 +12,13 @@ namespace LayoutFarm.UI.OpenGL
 {
     class MyTopWindowBridgeOpenGL : TopWindowBridge
     {
+
         bool isInitGLControl;
         GpuOpenGLSurfaceView windowControl;
         OpenGLCanvasViewport openGLViewport;
-        //---------
-        public MyTopWindowBridgeOpenGL(RootGraphic root, ITopWindowEventPortal topWinEventPortal)
-            : base(root, topWinEventPortal)
+
+        public MyTopWindowBridgeOpenGL(RootGraphic root, ITopWindowEventRoot topWinEventRoot)
+            : base(root, topWinEventRoot)
         {
 
         }
@@ -28,7 +29,7 @@ namespace LayoutFarm.UI.OpenGL
         public void BindGLControl(GpuOpenGLSurfaceView myGLControl)
         {
             this.windowControl = myGLControl;
-            SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(this.RootGfx, this.Size.ToSize(), 4));
+            SetBaseCanvasViewport(this.openGLViewport = new OpenGLCanvasViewport(this.RootGfx, this.windowControl.Size.ToSize(), 4));
             RootGfx.SetPaintDelegates(
                 (r) => { }, //still do nothing
                 this.PaintToOutputWindow);
@@ -79,19 +80,11 @@ namespace LayoutFarm.UI.OpenGL
             windowControl.MakeCurrent();
             this.openGLViewport.PaintMe();
             windowControl.SwapBuffers();
-            //Console.WriteLine("<" + innumber);
-
+            //Console.WriteLine("<" + innumber); 
         }
-
-
-        protected override void ChangeCursorStyle(UIMouseEventArgs mouseEventArg)
+        protected override void ChangeCursorStyle(MouseCursorStyle cursorStyle)
         {
 
-        }
-        System.Drawing.Size Size
-        {
-            get { return this.windowControl.Size; }
-        }
-
+        } 
     }
 }

@@ -15,10 +15,10 @@ using LayoutFarm.Svg;
 namespace LayoutFarm.Svg
 {
 
-    partial class SvgRootEventPortal : IUserEventPortal
+    partial class SvgRootEventPortal : IEventPortal
     {   
          
-        void IUserEventPortal.PortalMouseDown(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseDown(UIMouseEventArgs e)
         {
              
             //find hit svg graphics....
@@ -67,7 +67,7 @@ namespace LayoutFarm.Svg
             ReleaseHitChain(hitChain);
 
         }
-        void IUserEventPortal.PortalMouseUp(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseUp(UIMouseEventArgs e)
         {
              
 
@@ -98,7 +98,7 @@ namespace LayoutFarm.Svg
 
             ReleaseHitChain(hitChain);
         }
-        void IUserEventPortal.PortalMouseMove(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
         {
             int x = e.X;
             int y = e.Y;
@@ -181,35 +181,35 @@ namespace LayoutFarm.Svg
                 ReleaseHitChain(hitChain);
             }
         }
-        void IUserEventPortal.PortalMouseWheel(UIMouseEventArgs e)
+        void IEventPortal.PortalMouseWheel(UIMouseEventArgs e)
         {
             //this.OnMouseWheel(e);
         }
 
         //------------------------------------------------------------
-        void IUserEventPortal.PortalKeyUp(UIKeyEventArgs e)
+        void IEventPortal.PortalKeyUp(UIKeyEventArgs e)
         {
             //this.OnKeyUp(e);
         }
-        void IUserEventPortal.PortalKeyDown(UIKeyEventArgs e)
+        void IEventPortal.PortalKeyDown(UIKeyEventArgs e)
         {
             //this.OnKeyDown(e);
         }
-        void IUserEventPortal.PortalKeyPress(UIKeyEventArgs e)
+        void IEventPortal.PortalKeyPress(UIKeyEventArgs e)
         {
             // this.OnKeyPress(e);
         }
-        bool IUserEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
+        bool IEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
         {
             return false;
             //return this.OnProcessDialogKey(e);
         }
         //------------------------------------------------------------
-        void IUserEventPortal.PortalGotFocus(UIFocusEventArgs e)
+        void IEventPortal.PortalGotFocus(UIFocusEventArgs e)
         {
             //this.OnGotFocus(e);
         }
-        void IUserEventPortal.PortalLostFocus(UIFocusEventArgs e)
+        void IEventPortal.PortalLostFocus(UIFocusEventArgs e)
         {
             //this.OnLostFocus(e);
         }
