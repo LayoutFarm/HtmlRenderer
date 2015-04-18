@@ -228,9 +228,11 @@ namespace LayoutFarm.UI
         }
     }
 
+
+
     public class UIMouseEventArgs : UIEventArgs
     {
-        List<IEventListener> dragOverElements;
+         
         public UIMouseEventArgs()
         {
         }
@@ -279,10 +281,7 @@ namespace LayoutFarm.UI
 
             this.CapturedMouseX = this.CapturedMouseY = 0;
 
-            if (this.dragOverElements != null)
-            {
-                dragOverElements.Clear();
-            }
+             
 
         }
 
@@ -311,23 +310,7 @@ namespace LayoutFarm.UI
 
         }
         //-------------------------------------------------------------------
-        public void AddDragOverElement(IEventListener dragOverElement)
-        {
-            if (dragOverElements == null)
-            {
-                this.dragOverElements = new List<IEventListener>();
-            }
-            this.dragOverElements.Add(dragOverElement);
-        }
-        public IEventListener GetDragOverElement(int index)
-        {
-            return this.dragOverElements[index];
-        }
-        public int DragOverElementCount
-        {
-            get { return this.dragOverElements.Count; }
-        }
-
+        
         public IEventListener CurrentMouseActive
         {
             get;
@@ -351,6 +334,9 @@ namespace LayoutFarm.UI
             get { return this.Y - this.CapturedMouseY; }
         }
     }
+
+
+
     public enum MouseCursorStyle
     {
         Default,
