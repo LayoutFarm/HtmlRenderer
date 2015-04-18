@@ -109,10 +109,7 @@ namespace LayoutFarm.HtmlBoxes
             this._actualBorderRightWidth = rightWpx;
             this._actualBorderBottomWidth = bottomWpx;
         }
-        internal void DirectSetHeight(float px)
-        {
-            this._sizeHeight = px;
-        }
+       
         public static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
             

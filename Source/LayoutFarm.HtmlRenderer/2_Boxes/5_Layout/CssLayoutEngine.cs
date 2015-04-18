@@ -339,13 +339,24 @@ namespace LayoutFarm.HtmlBoxes
             hostBlock.InnerContentWidth = (int)maxLineWidth;
             hostBlock.InnerContentHeight = (int)hostBlock.SizeHeight;
 
-            bool needScrollView = false;
+
 
             if (!hostBlock.Height.IsEmptyOrAuto)
             {
                 var h = CssValueParser.ConvertToPx(hostBlock.Height, lay.LatestContainingBlock.SizeWidth, hostBlock);
                 hostBlock.SetExpectedSize(hostBlock.ExpectedWidth, h);
                 hostBlock.SetHeight(h);
+            }
+            else
+            {
+                switch (hostBlock.Position)
+                {
+                    case CssPosition.Fixed:
+                    case CssPosition.Absolute:
+                        hostBlock.SetHeight(hostBlock.InnerContentHeight);
+                        break;
+                }
+
             }
             if (!hostBlock.Width.IsEmptyOrAuto)
             {
@@ -354,22 +365,30 @@ namespace LayoutFarm.HtmlBoxes
                 hostBlock.SetExpectedSize(w, hostBlock.ExpectedHeight);
                 hostBlock.SetWidth(w);
             }
-
-            needScrollView = (hostBlock.InnerContentHeight > hostBlock.SizeHeight) ||
-                             (hostBlock.InnerContentWidth > hostBlock.SizeWidth);
-            if (needScrollView)
+            else
             {
-                switch (hostBlock.Overflow)
+                switch (hostBlock.Position)
                 {
-                    case CssOverflow.Scroll:
-                    case CssOverflow.Auto:
-                        {
-                            lay.RequestScrollView(hostBlock);
-                        } break;
+                    case CssPosition.Fixed:
+                    case CssPosition.Absolute:
+                        hostBlock.SetWidth(hostBlock.InnerContentWidth);
+                        break;
                 }
             }
 
 
+            switch (hostBlock.Overflow)
+            {
+                case CssOverflow.Scroll:
+                case CssOverflow.Auto:
+                    {
+                        if ((hostBlock.InnerContentHeight > hostBlock.SizeHeight) ||
+                        (hostBlock.InnerContentWidth > hostBlock.SizeWidth))
+                        {
+                            lay.RequestScrollView(hostBlock);
+                        }
+                    } break;
+            }
         }
         static void PerformLayoutBlocksContext(CssBox box, LayoutVisitor lay)
         {
@@ -391,7 +410,7 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     //br always block
                     CssBox.ChangeDisplayType(childBox, Css.CssDisplay.Block);
-                    childBox.DirectSetHeight(FontDefaultConfig.DEFAULT_FONT_SIZE * 0.95f);
+                    childBox.SetHeight(FontDefaultConfig.DEFAULT_FONT_SIZE * 0.95f);
                 }
                 //-----------------------------
                 if (childBox.IsInline)
@@ -447,9 +466,9 @@ namespace LayoutFarm.HtmlBoxes
                     }
                 }
                 else
-                { 
+                {
                     childBox.PerformLayout(lay);
-                   
+
                     if (childBox.CanBeReferenceSibling)
                     {
                         lay.LatestSiblingBox = childBox;
