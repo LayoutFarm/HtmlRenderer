@@ -486,6 +486,10 @@ namespace LayoutFarm.WebDom.Parser
                             default:
                                 {
                                     throw new NotSupportedException();
+                                } 
+                            case CssTokenName.Percent:
+                                {
+                                    this._currentProperty.AddUnitToLatestValue("%");
                                 } break;
                             case CssTokenName.LiteralString:
                                 {
@@ -829,7 +833,7 @@ namespace LayoutFarm.WebDom.Parser
                                 WellknownCssPropertyName.PaddingBottom,
                                 newProps);
                             decl.IsExpand = true;
-                        } break; 
+                        } break;
                 }
             }
             //--------------------

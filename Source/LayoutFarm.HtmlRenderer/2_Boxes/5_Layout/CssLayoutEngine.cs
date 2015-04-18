@@ -256,6 +256,9 @@ namespace LayoutFarm.HtmlBoxes
             //}
             //this in line formatting context
             //*** hostBlock must confirm that it has all inline children             
+
+
+
             hostBlock.SetHeightToZero();
             hostBlock.ResetLineBoxes();
 
@@ -364,7 +367,9 @@ namespace LayoutFarm.HtmlBoxes
                             lay.RequestScrollView(hostBlock);
                         } break;
                 }
-            } 
+            }
+
+
         }
         static void PerformLayoutBlocksContext(CssBox box, LayoutVisitor lay)
         {
@@ -442,9 +447,9 @@ namespace LayoutFarm.HtmlBoxes
                     }
                 }
                 else
-                {
-                    //----------------------------
+                { 
                     childBox.PerformLayout(lay);
+                   
                     if (childBox.CanBeReferenceSibling)
                     {
                         lay.LatestSiblingBox = childBox;
@@ -571,7 +576,10 @@ namespace LayoutFarm.HtmlBoxes
                             blockRun.SetOwner(srcBox);
                             b.JustBlockRun = blockRun;
                         }
-                        blockRun.SetSize(CssBox.GetLatestCachedMinWidth(b), b.SizeHeight);
+
+
+                        //blockRun.SetSize(CssBox.GetLatestCachedMinWidth(b), b.SizeHeight);
+                        blockRun.SetSize(b.SizeWidth, b.SizeHeight);
                         b.SetLocation(b.LocalX, 0); //because of inline***
 
                         FlowRunsIntoHost(lay, hostBox, srcBox, b, childNumber,

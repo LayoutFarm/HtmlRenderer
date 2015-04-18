@@ -322,9 +322,7 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             case CssUnitOrNames.Percent:
                                 {
-                                    return (colWidth.Number / 100) * availbleWidthForAllCells;
-
-
+                                    return (colWidth.Number / 100) * availbleWidthForAllCells; 
                                 }
                             case CssUnitOrNames.Pixels:
                             case CssUnitOrNames.EmptyValue:

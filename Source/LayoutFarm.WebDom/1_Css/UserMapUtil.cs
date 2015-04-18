@@ -341,50 +341,7 @@ namespace LayoutFarm.WebDom
                    CssBorderStyle.None,
                    value);
         }
-        //public static void SetBorderSpacing(this CssBox box, WebDom.CssCodeValueExpression value)
-        //{
-        //    WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
-        //    if (primValue == null)
-        //    {
-        //        //2 values?
-        //        //box.BorderSpacingHorizontal = new CssLength(r[0].Value);
-        //        //box.BorderSpacingVertical = new CssLength(r[1].Value);
-        //        throw new NotSupportedException();
-        //    }
-        //    else
-        //    {
-        //        //primitive value 
-        //        box.BorderSpacingHorizontal = box.BorderSpacingVertical = primValue.AsLength();
-        //    }
-        //}
-        //public static void SetBorderSpacing(this BoxSpec box, WebDom.CssCodeValueExpression value)
-        //{
-        //    WebDom.CssCodePrimitiveExpression primValue = value as WebDom.CssCodePrimitiveExpression;
-        //    if (primValue == null)
-        //    {
-        //        //2 values?
-        //        //box.BorderSpacingHorizontal = new CssLength(r[0].Value);
-        //        //box.BorderSpacingVertical = new CssLength(r[1].Value);
-        //        throw new NotSupportedException();
-        //    }
-        //    else
-        //    {
-        //        //primitive value 
-        //        box.BorderSpacingHorizontal = box.BorderSpacingVertical = primValue.AsLength();
-        //    }
-        //}
-        //public static string GetCornerRadius(this CssBox box)
-        //{
-        //    System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
-        //    stbuilder.Append(box.CornerNERadius);
-        //    stbuilder.Append(' ');
-        //    stbuilder.Append(box.CornerNWRadius);
-        //    stbuilder.Append(' ');
-        //    stbuilder.Append(box.CornerSERadius);
-        //    stbuilder.Append(' ');
-        //    stbuilder.Append(box.CornerSWRadius);
-        //    return stbuilder.ToString();
-        //}
+         
         public static CssUnitOrNames GetCssUnit(string u)
         {
             switch (u)
@@ -406,6 +363,8 @@ namespace LayoutFarm.WebDom
                     return CssUnitOrNames.Points;
                 case CssConstants.Pc:
                     return CssUnitOrNames.Picas;
+                case "%":
+                    return CssUnitOrNames.Percent;
                 default:
                     return CssUnitOrNames.Unknown;
             }
@@ -821,8 +780,7 @@ namespace LayoutFarm.WebDom
                 else
                 {
                     return new CssLength(parsedNumber, CssUnitOrNames.Pixels);
-                }
-
+                } 
             }
             else
             {
