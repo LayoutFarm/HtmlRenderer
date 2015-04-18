@@ -185,16 +185,7 @@ namespace LayoutFarm.CustomWidgets
                 this.dropable = value;
             }
         }
-        //public int MouseCaptureX
-        //{
-        //    get;
-        //    set;
-        //}
-        //public int MouseCaptureY
-        //{
-        //    get;
-        //    set;
-        //}
+        
         public void RemoveSelf()
         {
             var parentBox = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;

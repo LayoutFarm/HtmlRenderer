@@ -119,24 +119,14 @@ namespace LayoutFarm
         }
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
-            //for controller box
-
+            //for controller box 
             controllerBox.MouseDrag += (s, e) =>
             {
-
-                //if (e.IsFirstMouseEnter)
-                //{
-                //    controllerBox.MouseCaptureX = e.X;
-                //    controllerBox.MouseCaptureY = e.Y;
-                //}
-
-                //MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
-                MoveWithSnapToGrid(controllerBox, e.X - e.CapturedMouseX, e.Y - e.CapturedMouseY);
+                MoveWithSnapToGrid(controllerBox, e.DiffCapturedX, e.DiffCapturedY);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 e.CancelBubbling = true;
 
             };
-
 
         }
 

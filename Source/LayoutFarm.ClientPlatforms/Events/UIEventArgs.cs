@@ -226,16 +226,13 @@ namespace LayoutFarm.UI
             focusEventType = FocusEventType.PreviewFocus;
             base.Clear();
         }
-
     }
 
     public class UIMouseEventArgs : UIEventArgs
     {
         List<IEventListener> dragOverElements;
-
         public UIMouseEventArgs()
         {
-
         }
         public UIMouseButtons Button { get; private set; }
         public int Delta { get; private set; }
@@ -345,8 +342,15 @@ namespace LayoutFarm.UI
 
         public int CapturedMouseX { get; set; }
         public int CapturedMouseY { get; set; }
+        public int DiffCapturedX
+        {
+            get { return this.X - this.CapturedMouseX; }
+        }
+        public int DiffCapturedY
+        {
+            get { return this.Y - this.CapturedMouseY; }
+        }
     }
-
     public enum MouseCursorStyle
     {
         Default,

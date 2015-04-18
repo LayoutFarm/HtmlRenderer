@@ -123,8 +123,7 @@ namespace LayoutFarm.HtmlBoxes
 
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
-            this.MouseCaptureX = e.X;
-            this.MouseCaptureY = e.Y;
+         
 
             if (this.MouseDown != null)
             {
@@ -193,16 +192,7 @@ namespace LayoutFarm.HtmlBoxes
                 this.dropable = value;
             }
         }
-        public int MouseCaptureX
-        {
-            get;
-            set;
-        }
-        public int MouseCaptureY
-        {
-            get;
-            set;
-        }
+       
         public void RemoveSelf()
         {
             var parentBox = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;

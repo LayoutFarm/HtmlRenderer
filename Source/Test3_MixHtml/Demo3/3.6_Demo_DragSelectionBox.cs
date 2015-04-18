@@ -324,14 +324,8 @@ namespace LayoutFarm
             //for controller box
             controllerBox.MouseDrag += (s, e) =>
             {
-                //if (e.IsFirstMouseEnter)
-                //{
-                //    controllerBox.MouseCaptureX = e.X;
-                //    controllerBox.MouseCaptureY = e.Y;
-                //}
 
-                //MoveWithSnapToGrid(controllerBox, e.X - controllerBox.MouseCaptureX, e.Y - controllerBox.MouseCaptureY);
-                MoveWithSnapToGrid(controllerBox, e.X - e.CapturedMouseX, e.Y - e.CapturedMouseY);
+                MoveWithSnapToGrid(controllerBox, e.DiffCapturedX, e.DiffCapturedY);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 e.CancelBubbling = true;
 
@@ -459,7 +453,7 @@ namespace LayoutFarm
 
                 tinyBox.MouseDrag += (s, e) =>
                 {
-                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.X - e.CapturedMouseX, e.Y - e.CapturedMouseY);
+                    ResizeTargetWithSnapToGrid((SpaceName)tinyBox.Tag, this, e.DiffCapturedX, e.DiffCapturedY);
                     e.MouseCursorStyle = MouseCursorStyle.Pointer;
                     e.CancelBubbling = true;
 
