@@ -336,80 +336,35 @@ namespace LayoutFarm.HtmlBoxes
             hostBlock.InnerContentWidth = (int)maxLineWidth;
             hostBlock.InnerContentHeight = (int)hostBlock.SizeHeight;
 
+            bool needScrollView = false;
+
             if (!hostBlock.Height.IsEmptyOrAuto)
             {
                 var h = CssValueParser.ConvertToPx(hostBlock.Height, lay.LatestContainingBlock.SizeWidth, hostBlock);
-                hostBlock.SetExpectedContentSize(hostBlock.ExpectedWidth, h);
+                hostBlock.SetExpectedSize(hostBlock.ExpectedWidth, h);
+                hostBlock.SetHeight(h);
             }
             if (!hostBlock.Width.IsEmptyOrAuto)
             {
                 //find max line width  
                 var w = CssValueParser.ConvertToPx(hostBlock.Width, lay.LatestContainingBlock.SizeWidth, hostBlock);
-                hostBlock.SetExpectedContentSize(w, hostBlock.ExpectedHeight);
+                hostBlock.SetExpectedSize(w, hostBlock.ExpectedHeight);
+                hostBlock.SetWidth(w);
             }
 
-            bool needScrollView = false;
-            switch (hostBlock.Overflow)
+            needScrollView = (hostBlock.InnerContentHeight > hostBlock.SizeHeight) ||
+                             (hostBlock.InnerContentWidth > hostBlock.SizeWidth);
+            if (needScrollView)
             {
-                case CssOverflow.Hidden:
-                    {
-                        //height
-                        if (!hostBlock.Height.IsEmptyOrAuto &&
-                             hostBlock.SizeHeight > hostBlock.ExpectedHeight)
-                        {
-                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
-                        }
-                        if (!hostBlock.Width.IsEmptyOrAuto &&
-                            hostBlock.SizeWidth > hostBlock.ExpectedWidth)
-                        {
-                            hostBlock.SetWidth(hostBlock.ExpectedWidth);
-                        }
-                    } break;
-                case CssOverflow.Scroll:
-                    {
-
-                        if (!hostBlock.Width.IsEmptyOrAuto &&
-                               hostBlock.SizeWidth > hostBlock.ExpectedWidth)
-                        {
-                            hostBlock.SetWidth(hostBlock.ExpectedWidth);
-                            needScrollView = true;
-                        }
-                        if (!hostBlock.Height.IsEmptyOrAuto &&
-                               hostBlock.SizeHeight > hostBlock.ExpectedHeight)
-                        {
-                            //send request for scroll bar
-                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
-                            needScrollView = true;
-                        }
-
-                        if (needScrollView)
+                switch (hostBlock.Overflow)
+                {
+                    case CssOverflow.Scroll:
+                    case CssOverflow.Auto:
                         {
                             lay.RequestScrollView(hostBlock);
-                        }
-
-                    } break;
-                case CssOverflow.Auto:
-                    {
-                        if (!hostBlock.Width.IsEmptyOrAuto &&
-                               hostBlock.SizeWidth > hostBlock.ExpectedWidth)
-                        {
-                            hostBlock.SetWidth(hostBlock.ExpectedWidth);
-                            needScrollView = true;
-                        }
-
-                        if (!hostBlock.Height.IsEmptyOrAuto &&
-                               hostBlock.SizeHeight > hostBlock.ExpectedHeight)
-                        {
-                            //send request for scroll bar
-                            hostBlock.SetHeight(hostBlock.ExpectedHeight);
-                            needScrollView = true;
-                        }
-                        if (needScrollView)
-                        {
-                            lay.RequestScrollView(hostBlock);
-                        }
-                    } break;
-            }
+                        } break;
+                }
+            } 
         }
         static void PerformLayoutBlocksContext(CssBox box, LayoutVisitor lay)
         {
