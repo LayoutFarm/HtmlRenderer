@@ -45,10 +45,10 @@ namespace LayoutFarm.HtmlBoxes
         public event EventHandler<UIMouseEventArgs> MouseDrag;
         public event EventHandler<UIMouseEventArgs> MouseUp;
 
-        public event EventHandler<UIMouseEventArgs> DragRelease;
+         
         public event EventHandler<UIMouseEventArgs> MouseLeave;
         public event EventHandler<UIMouseEventArgs> LostSelectedFocus;
-        public event EventHandler<UIDragOverEventArgs> DragOver;
+        public event EventHandler<UIGuestTalkEventArgs> GuestRequest;
 
         public EaseBox(int width, int height)
             : base(width, height)
@@ -154,13 +154,7 @@ namespace LayoutFarm.HtmlBoxes
                 this.MouseLeave(this, e);
             }
         }
-        protected override void OnDragRelease(UIMouseEventArgs e)
-        {
-            if (DragRelease != null)
-            {
-                DragRelease(this, e);
-            }
-        }
+        
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -168,7 +162,7 @@ namespace LayoutFarm.HtmlBoxes
                 MouseUp(this, e);
             }
         }
-        protected override void OnLostSelectedFocus(UIMouseEventArgs e)
+        protected override void OnLostMouseSelectedFocus(UIMouseEventArgs e)
         {
             if (this.LostSelectedFocus != null)
             {
@@ -502,13 +496,13 @@ namespace LayoutFarm.HtmlBoxes
         //    }
         //}
 
-        protected override void OnDragOver(UIDragOverEventArgs e)
+        protected override void OnGuestTalk(UIGuestTalkEventArgs e)
         {
-            if (this.DragOver != null)
+            if (this.GuestRequest != null)
             {
-                this.DragOver(this, e);
+                this.GuestRequest(this, e);
             }
-            base.OnDragOver(e);
+            base.OnGuestTalk(e);
         }
     }
 

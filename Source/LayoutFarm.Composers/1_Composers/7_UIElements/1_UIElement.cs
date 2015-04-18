@@ -73,7 +73,7 @@ namespace LayoutFarm.HtmlBoxes
         protected virtual void OnLostKeyboardFocus(UIFocusEventArgs e)
         {
         }
-        protected virtual void OnLostSelectedFocus(UIMouseEventArgs e)
+        protected virtual void OnLostMouseSelectedFocus(UIMouseEventArgs e)
         {
         }
         protected virtual void OnGotKeyboardFocus(UIFocusEventArgs e)
@@ -143,17 +143,10 @@ namespace LayoutFarm.HtmlBoxes
         {
 
         }
-        protected virtual void OnDrop(UIMouseEventArgs e)
-        {
-
-        }
-        protected virtual void OnDragRelease(UIMouseEventArgs e)
-        {
-
-        }
+         
          
 
-        protected virtual void OnDragOver(UIDragOverEventArgs e)
+        protected virtual void OnGuestTalk(UIGuestTalkEventArgs e)
         {
         }
 #if DEBUG

@@ -323,23 +323,20 @@ namespace LayoutFarm
                 MoveWithSnapToGrid(controllerBox, e.DiffCapturedX, e.DiffCapturedY);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 e.CancelBubbling = true;
-
-
-
                 //test here -----------------------------------------------------
-                //find dragover element
-
-                List<UIElement> dragOverElements = new List<UIElement>();
+                //find dragover element 
+                var dragOverElements = new List<UIElement>();
                 controllerBox.FindDragOverElements(dragOverElements);
                 if (dragOverElements.Count > 0)
                 {
                     //send notification to another box 
+                    //use guest talk msg
                     var easeBox = dragOverElements[0] as IEventListener;
                     if (easeBox != null)
                     {
-                        //create drag over event args
-                        //TODO: add dragover detail
-                        easeBox.ListenDragOver(new UIDragOverEventArgs());
+                        var talkMsg = new UIGuestTalkEventArgs();
+                        talkMsg.Sender = controllerBox;
+                        easeBox.ListenGuestTalk(talkMsg);
                     }
                 }
             };
@@ -554,11 +551,11 @@ namespace LayoutFarm
                 }
             }
 
-            protected override void OnDragOver(UIDragOverEventArgs e)
+            protected override void OnGuestTalk(UIGuestTalkEventArgs e)
             {
                 //test ***
                 this.BackColor = Color.Green;
-                base.OnDragOver(e);
+                base.OnGuestTalk(e);
             }
         }
 

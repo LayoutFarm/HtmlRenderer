@@ -31,11 +31,10 @@ namespace LayoutFarm.CustomWidgets
         public event EventHandler<UIMouseEventArgs> MouseUp;
         public event EventHandler<UIMouseEventArgs> MouseLeave;
 
-        public event EventHandler<UIMouseEventArgs> MouseDrag;  
-        public event EventHandler<UIMouseEventArgs> DragRelease;
+        public event EventHandler<UIMouseEventArgs> MouseDrag;   
         
         public event EventHandler<UIMouseEventArgs> LostMouseFocus;
-        public event EventHandler<UIDragOverEventArgs> DragOver;
+        public event EventHandler<UIGuestTalkEventArgs> DragOver;
 
         public EaseBox(int width, int height)
             : base(width, height)
@@ -147,13 +146,7 @@ namespace LayoutFarm.CustomWidgets
                 this.MouseLeave(this, e);
             }
         }
-        protected override void OnDragRelease(UIMouseEventArgs e)
-        {
-            if (DragRelease != null)
-            {
-                DragRelease(this, e);
-            }
-        }
+        
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -495,13 +488,13 @@ namespace LayoutFarm.CustomWidgets
             }
         }
 
-        protected override void OnDragOver(UIDragOverEventArgs e)
+        protected override void OnGuestTalk(UIGuestTalkEventArgs e)
         {
             if (this.DragOver != null)
             {
                 this.DragOver(this, e);
             }
-            base.OnDragOver(e);
+            base.OnGuestTalk(e);
         }
     }
 

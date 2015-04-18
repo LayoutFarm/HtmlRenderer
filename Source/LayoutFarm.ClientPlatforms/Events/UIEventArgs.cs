@@ -371,9 +371,20 @@ namespace LayoutFarm.UI
         Right = 1 << 2,
         Bottom = 1 << 3
     }
-    public class UIDragOverEventArgs : UIEventArgs
+    public class UIGuestTalkEventArgs : UIEventArgs
     {
-
+        public UIGuestTalkEventArgs()
+        {
+        }
+        public object Sender
+        {
+            get;
+            set;
+        }
+        public IEventListener SenderAsIEventListener
+        {
+            get { return this.Sender as IEventListener; }
+        }
     }
 
 
