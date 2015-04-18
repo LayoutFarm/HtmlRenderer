@@ -4,24 +4,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
-
-namespace LayoutFarm.HtmlBoxes
+namespace LayoutFarm.InternalUI
 {
 
     abstract class UIBox : UIElement, IScrollable
-    {
-
-
+    { 
         int _left;
         int _top;
         int _width;
         int _height;
         bool _hide;
         bool specificWidth;
-        bool specificHeight;
-
-
+        bool specificHeight; 
         public event EventHandler LayoutFinished;
 
 #if DEBUG

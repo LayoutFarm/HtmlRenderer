@@ -155,7 +155,20 @@ namespace LayoutFarm
                     e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
                     e.CapturedMouseX = this.localMouseDownX;
                     e.CapturedMouseY = this.localMouseDownY;
-                    draggingElement.ListenMouseUp(e);
+
+                    var iportal = draggingElement as IEventPortal;
+                    if (iportal != null)
+                    {
+                        iportal.PortalMouseUp(e);
+                        if (!e.IsCanceled)
+                        {
+                            draggingElement.ListenMouseUp(e);
+                        }
+                    }
+                    else
+                    {
+                        draggingElement.ListenMouseUp(e);
+                    }  
                 }
             }
             else
@@ -200,7 +213,21 @@ namespace LayoutFarm
                     e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
                     e.CapturedMouseX = this.localMouseDownX;
                     e.CapturedMouseY = this.localMouseDownY;
-                    draggingElement.ListenMouseMove(e);
+
+                  
+                    var iportal = draggingElement as IEventPortal;
+                    if (iportal != null)
+                    {
+                        iportal.PortalMouseMove(e);
+                        if (!e.IsCanceled)
+                        {
+                            draggingElement.ListenMouseMove(e);
+                        }
+                    }
+                    else
+                    {
+                        draggingElement.ListenMouseMove(e);
+                    }
                 }
             }
             else
@@ -257,7 +284,7 @@ namespace LayoutFarm
 
             iTopBoxEventPortal.PortalKeyPress(e);
 
-            ReleaseKeyEvent(e);             
+            ReleaseKeyEvent(e);
         }
         void ITopWindowEventRoot.RootKeyDown(int keydata)
         {
@@ -276,7 +303,7 @@ namespace LayoutFarm
 
             iTopBoxEventPortal.PortalKeyDown(e);
 
-            ReleaseKeyEvent(e);             
+            ReleaseKeyEvent(e);
         }
 
         void ITopWindowEventRoot.RootKeyUp(int keydata)

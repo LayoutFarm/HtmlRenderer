@@ -8,7 +8,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 
-namespace LayoutFarm.HtmlBoxes
+namespace LayoutFarm.InternalUI
 {
 
     class CustomRenderBox : RenderBoxBase

@@ -9,7 +9,7 @@ using PixelFarm.Drawing;
 using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 using LayoutFarm.HtmlBoxes;
-namespace LayoutFarm
+namespace LayoutFarm.InternalUI
 {
 
     static class RenderElementExtension

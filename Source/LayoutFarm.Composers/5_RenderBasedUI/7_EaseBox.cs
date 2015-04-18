@@ -7,7 +7,7 @@ using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
 
-namespace LayoutFarm.HtmlBoxes
+namespace LayoutFarm.InternalUI
 {
     enum BoxContentLayoutKind
     {
