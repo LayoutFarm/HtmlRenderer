@@ -139,17 +139,14 @@ namespace LayoutFarm.UI
         {
 
         }
-        protected virtual void OnDrop(UIMouseEventArgs e)
-        {
-
-        }
+        
          
         protected virtual void OnElementChanged()
         {
         }
         public abstract void Walk(UIVisitor visitor);
 
-        protected virtual void OnDragOver(UIDragOverEventArgs e)
+        protected virtual void OnGuestTalk(UIGuestTalkEventArgs e)
         {
         }
 

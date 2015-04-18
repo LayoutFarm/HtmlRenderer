@@ -34,7 +34,7 @@ namespace LayoutFarm.CustomWidgets
         public event EventHandler<UIMouseEventArgs> MouseDrag;   
         
         public event EventHandler<UIMouseEventArgs> LostMouseFocus;
-        public event EventHandler<UIDragOverEventArgs> DragOver;
+        public event EventHandler<UIGuestTalkEventArgs> DragOver;
 
         public EaseBox(int width, int height)
             : base(width, height)
@@ -488,13 +488,13 @@ namespace LayoutFarm.CustomWidgets
             }
         }
 
-        protected override void OnDragOver(UIDragOverEventArgs e)
+        protected override void OnGuestTalk(UIGuestTalkEventArgs e)
         {
             if (this.DragOver != null)
             {
                 this.DragOver(this, e);
             }
-            base.OnDragOver(e);
+            base.OnGuestTalk(e);
         }
     }
 
