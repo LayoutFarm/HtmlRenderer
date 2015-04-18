@@ -139,11 +139,17 @@ namespace LayoutFarm.InternalUI
         {
             if (e.IsDragging)
             {
-                this.MouseDrag(this, e);
+                if (this.MouseDrag != null)
+                {
+                    this.MouseDrag(this, e);
+                }
             }
             else
             {
-                this.MouseMove(this, e);
+                if (this.MouseMove != null)
+                {
+                    this.MouseMove(this, e);
+                }
             }
             
         }

@@ -467,7 +467,7 @@ namespace LayoutFarm.HtmlBoxes
             get;
             private set;
         }
-        public void SetExpectedContentSize(float expectedW, float expectedH)
+        public void SetExpectedSize(float expectedW, float expectedH)
         {
             this.HasClipArea = true;
             this._expectedWidth = expectedW;
