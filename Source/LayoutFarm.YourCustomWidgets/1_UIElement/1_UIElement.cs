@@ -143,10 +143,7 @@ namespace LayoutFarm.UI
         {
 
         }
-        protected virtual void OnDragRelease(UIMouseEventArgs e)
-        {
-
-        }
+         
         protected virtual void OnElementChanged()
         {
         }

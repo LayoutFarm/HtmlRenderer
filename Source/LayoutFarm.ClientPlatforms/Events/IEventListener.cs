@@ -24,7 +24,7 @@ namespace LayoutFarm.UI
         void ListenMouseWheel(UIMouseEventArgs e);
         void ListenLostMouseFocus(UIMouseEventArgs e);
 
-        void ListenDragRelease(UIMouseEventArgs e);
+       
         //--------------------------------------------------------------------------
 
         void ListenMouseClick(UIMouseEventArgs e);

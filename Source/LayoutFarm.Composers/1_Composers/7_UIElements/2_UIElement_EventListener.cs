@@ -68,10 +68,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             OnDrop(e);
         }
-        void IEventListener.ListenDragRelease(UIMouseEventArgs e)
-        {
-            OnDragRelease(e);
-        }
+       
 
         void IEventListener.HandleContentLayout()
         {

@@ -134,17 +134,26 @@ namespace LayoutFarm
 
             DateTime snapMouseUpTime = DateTime.Now;
             TimeSpan timediff = snapMouseUpTime - lastTimeMouseUp;
-
-
-            if (draggingElement != null)
-            {
-                //notify release drag?
-                draggingElement.ListenDragRelease(e);
-            }
-
             this.lastTimeMouseUp = snapMouseUpTime;
-            e.IsAlsoDoubleClick = timediff.Milliseconds < dblClickSense;
-            iTopBoxEventPortal.PortalMouseUp(e);
+
+            if (this.isDragging)
+            {
+                if (draggingElement != null)
+                {
+                    //send this to dragging element first
+                    int d_GlobalX, d_globalY;
+                    draggingElement.GetGlobalLocation(out d_GlobalX, out d_globalY);
+                    e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
+                    e.CapturedMouseX = this.localMouseDownX;
+                    e.CapturedMouseY = this.localMouseDownY;
+                    draggingElement.ListenMouseUp(e);
+                } 
+            }
+            else
+            {
+                e.IsAlsoDoubleClick = timediff.Milliseconds < dblClickSense;
+                iTopBoxEventPortal.PortalMouseUp(e);
+            } 
 
             this.localMouseDownX = this.localMouseDownY = 0;
             this.mouseCursorStyle = e.MouseCursorStyle;
@@ -183,7 +192,7 @@ namespace LayoutFarm
                     e.CapturedMouseX = this.localMouseDownX;
                     e.CapturedMouseY = this.localMouseDownY;
                     draggingElement.ListenMouseMove(e);
-                } 
+                }
             }
             else
             {

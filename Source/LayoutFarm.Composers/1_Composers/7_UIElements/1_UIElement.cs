@@ -147,10 +147,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
         }
-        protected virtual void OnDragRelease(UIMouseEventArgs e)
-        {
-
-        }
+       
          
 
         protected virtual void OnDragOver(UIDragOverEventArgs e)
