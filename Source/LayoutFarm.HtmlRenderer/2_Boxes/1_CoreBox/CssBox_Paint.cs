@@ -22,6 +22,7 @@ namespace LayoutFarm.HtmlBoxes
         public void Paint(PaintVisitor p)
         {
 
+
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
 #endif
@@ -89,28 +90,13 @@ namespace LayoutFarm.HtmlBoxes
 
 
             //---------------------------------------------
-            if (display != Css.CssDisplay.Inline)
+            //if (display != Css.CssDisplay.Inline ||
+            //    this.Position == Css.CssPosition.Absolute)
+            if (this._renderBGAndBorder)
             {
 
                 RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
                 PaintBackground(p, bound, true, true);
-
-                //if (this.dbugMark1 > 0)
-                //{
-                //    if ((this.dbugMark1 % 2) == 0)
-                //    {
-                //        p.FillRectangle(Color.Red, 0, 0, 10, 10);
-                //        //PaintBackground(p, bound, true, true);
-                //    }
-                //    else
-                //    {
-                //        p.FillRectangle(Color.Green, 0, 0, 10, 10);
-                //        //PaintBackground(p, bound, true, true);
-                //    }
-                //}
-
-
-
                 if (this.HasSomeVisibleBorder)
                 {
                     p.PaintBorders(this, bound, true, true);
@@ -119,6 +105,7 @@ namespace LayoutFarm.HtmlBoxes
                 dbugPaint(p, bound);
 #endif
             }
+
             //---------------------------------------------
             if (this.LineBoxCount > 0)
             {
@@ -213,7 +200,7 @@ namespace LayoutFarm.HtmlBoxes
                         }
                         else
                         {
-                          
+
                             b.Paint(p);
                         }
                         node = node.Next;
