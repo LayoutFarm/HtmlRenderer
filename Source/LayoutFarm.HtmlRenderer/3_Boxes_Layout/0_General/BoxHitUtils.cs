@@ -16,15 +16,11 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
 using System.Text;
-//using LayoutFarm.HtmlDiagnostics;
 
 namespace LayoutFarm.HtmlBoxes
 {
-    //delegate bool EachCssTextRunHandler(CssTextRun trun);
 
-
-
-    public sealed class BoxHitUtils
+    public static class BoxHitUtils
     {
 
 
@@ -139,10 +135,10 @@ namespace LayoutFarm.HtmlBoxes
                         return true;
                     }
                 }
-            } 
+            }
             hitChain.PopContextBox(box);
-            return true; 
-        } 
+            return true;
+        }
         internal static CssBox GetNextSibling(CssBox a)
         {
             return a.GetNextNode();
@@ -230,59 +226,6 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-
-        //internal static bool ForEachTextRunDeep(CssBox box, EachCssTextRunHandler handler)
-        //{
-
-        //    if (box.LineBoxCount > 0)
-        //    {
-        //        foreach (CssLineBox line in box.GetLineBoxIter())
-        //        {
-        //            //each line contains run
-        //            foreach (CssRun run in line.GetRunIter())
-        //            {
-        //                CssTextRun trun = run as CssTextRun;
-        //                if (trun != null)
-        //                {
-        //                    if (handler(trun))
-        //                    {
-        //                        //found and exit
-        //                        return true;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //    else if (box.ChildCount > 0)
-        //    {
-        //        foreach (CssBox child in box.GetChildBoxIter())
-        //        {
-        //            if (ForEachTextRunDeep(child, handler))
-        //            {
-        //                //found and exit
-        //                return true;
-        //            }
-        //        }
-
-        //    }
-        //    else if (box.RunCount > 0)
-        //    {
-        //        foreach (CssRun run in box.GetRunIter())
-        //        {
-        //            CssTextRun trun = run as CssTextRun;
-        //            if (trun != null)
-        //            {
-        //                if (handler(trun))
-        //                {
-        //                    //found and exit
-        //                    return true;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return false;
-        //}
-
 
 
         internal static CssRun GetCssRunOnLocation(CssLineBox lineBox, int x, int y)
