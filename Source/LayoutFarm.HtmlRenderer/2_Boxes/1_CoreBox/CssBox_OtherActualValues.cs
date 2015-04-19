@@ -102,14 +102,7 @@ namespace LayoutFarm.HtmlBoxes
                     } break;
             }
         }
-        internal void DirectSetBorderStyle(float leftWpx, float topWpx, float rightWpx, float bottomWpx)
-        {
-            this._actualBorderLeftWidth = leftWpx;
-            this._actualBorderTopWidth = topWpx;
-            this._actualBorderRightWidth = rightWpx;
-            this._actualBorderBottomWidth = bottomWpx;
-        }
-       
+         
         public static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
             

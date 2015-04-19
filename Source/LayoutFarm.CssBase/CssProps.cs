@@ -401,4 +401,85 @@ namespace LayoutFarm.Css
         [Map(CssConstants.Inherit)]
         Inherit,
     }
+
+    //flex spec: 5.1 flow flow direction ('flex-direction');
+    //inherit =no
+    public enum FlexFlowDirection : byte
+    {
+        [Map(CssConstants.Row)]
+        Row,
+        [Map(CssConstants.RowReverse)]
+        RowReverse,
+        [Map(CssConstants.Column)]
+        Column,
+        [Map(CssConstants.ColumnReverse)]
+        ColumnReverse
+    }
+
+    //flex spec: 8.2 axis alignment:this 'justify-content' property
+    public enum FlexJustifyContent : byte
+    {
+        [Map(CssConstants.FlexStart)]
+        FlexStart,//default
+        [Map(CssConstants.FlexEnd)]
+        FlextEnd,
+        [Map(CssConstants.Center)]
+        Center,
+        [Map(CssConstants.SpaceBetween)]
+        SpaceBetween,
+        [Map(CssConstants.SpaceAround)]
+        SpaceAround
+    }
+
+    //flex spec 8.3: Cross-axis aligment: the 'align-items' and 
+    //'align-self' properties
+    public enum FlexAlignItems : byte
+    {
+        [Map(CssConstants.Stretch)]
+        Stretch, //initial value
+        [Map(CssConstants.FlexStart)]
+        FlexStart,//default
+        [Map(CssConstants.FlexEnd)]
+        FlextEnd,
+        [Map(CssConstants.Center)]
+        Center,
+        [Map(CssConstants.Baseline)]
+        Baseline
+
+    }
+
+    public enum FlexAlignSelf : byte
+    {
+        [Map(CssConstants.Auto)]
+        Auto,
+        [Map(CssConstants.Stretch)]
+        Stretch, //initial value
+        [Map(CssConstants.FlexStart)]
+        FlexStart,//default
+        [Map(CssConstants.FlexEnd)]
+        FlextEnd,
+        [Map(CssConstants.Center)]
+        Center,
+        [Map(CssConstants.Baseline)]
+        Baseline
+    }
+
+
+    //flex spec 8.4 : Packing Flex Lines: the 'align-content' property
+    public enum FlexAlignContent : byte
+    {
+        [Map(CssConstants.Stretch)]
+        Stretch, //initial value
+        [Map(CssConstants.FlexStart)]
+        FlexStart, 
+        [Map(CssConstants.FlexEnd)]
+        FlextEnd,
+        [Map(CssConstants.Center)]
+        Center,
+        [Map(CssConstants.SpaceBetween)]
+        SpaceBetween,
+        [Map(CssConstants.SpaceAround)]
+        SpaceAround,
+        
+    }
 }

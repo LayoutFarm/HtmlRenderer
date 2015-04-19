@@ -803,7 +803,7 @@ namespace LayoutFarm.Css
             return inMsgCount == rep.Count;
         }
 #endif
-    } 
+    }
 
     class CssBoxShadowFeature : CssFeatureBase
     {
@@ -895,4 +895,15 @@ namespace LayoutFarm.Css
         }
 #endif
     }
+
+
+    class CssFlexFeature : CssFeatureBase
+    {
+        public CssFlexFeature(object owner)
+            : base(owner)
+        {
+        }
+    }
+
+
 }
