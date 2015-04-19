@@ -102,10 +102,10 @@ namespace LayoutFarm.HtmlBoxes
                     } break;
             }
         }
-         
+
         public static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
-            
+
             if ((box._boxCompactFlags & BoxFlags.DONT_CHANGE_DISPLAY_TYPE) == 0)
             {
                 box._cssDisplay = newdisplay;
@@ -113,7 +113,8 @@ namespace LayoutFarm.HtmlBoxes
 
 
             box.IsInline = ((newdisplay == CssDisplay.Inline ||
-                    newdisplay == CssDisplay.InlineBlock)
+                    newdisplay == CssDisplay.InlineBlock ||
+                    newdisplay == CssDisplay.InlineFlex)
                     && !box.IsBrElement);
             //---------------------------
 
@@ -153,6 +154,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             box._boxCompactFlags |= BoxFlags.IS_CUSTOM_CSSBOX;
         }
-       
+
     }
 }
