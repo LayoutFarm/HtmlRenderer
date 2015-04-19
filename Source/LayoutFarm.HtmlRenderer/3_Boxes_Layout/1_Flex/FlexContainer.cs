@@ -210,6 +210,7 @@ namespace LayoutFarm.HtmlBoxes
                         }
 
                         //then rearrange the line again
+                        curX = 0;//reset
                         for (int i = 0; i < j; ++i)
                         {
                             FlexItem flexItem = flexItems[i];
