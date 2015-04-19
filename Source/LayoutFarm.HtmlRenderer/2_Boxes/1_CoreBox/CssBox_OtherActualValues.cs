@@ -102,17 +102,10 @@ namespace LayoutFarm.HtmlBoxes
                     } break;
             }
         }
-        internal void DirectSetBorderStyle(float leftWpx, float topWpx, float rightWpx, float bottomWpx)
-        {
-            this._actualBorderLeftWidth = leftWpx;
-            this._actualBorderTopWidth = topWpx;
-            this._actualBorderRightWidth = rightWpx;
-            this._actualBorderBottomWidth = bottomWpx;
-        }
-       
+
         public static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
-            
+
             if ((box._boxCompactFlags & BoxFlags.DONT_CHANGE_DISPLAY_TYPE) == 0)
             {
                 box._cssDisplay = newdisplay;
@@ -120,7 +113,8 @@ namespace LayoutFarm.HtmlBoxes
 
 
             box.IsInline = ((newdisplay == CssDisplay.Inline ||
-                    newdisplay == CssDisplay.InlineBlock)
+                    newdisplay == CssDisplay.InlineBlock ||
+                    newdisplay == CssDisplay.InlineFlex)
                     && !box.IsBrElement);
             //---------------------------
 
@@ -141,7 +135,8 @@ namespace LayoutFarm.HtmlBoxes
                 case CssDisplay.TableCell:
                 case CssDisplay.InlineBlock:
                 case CssDisplay.InlineTable:
-
+                case CssDisplay.Flex:
+                case CssDisplay.InlineFlex:
                     box._boxCompactFlags |= BoxFlags.HAS_CONTAINER_PROP;
                     break;
                 default:
@@ -159,6 +154,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             box._boxCompactFlags |= BoxFlags.IS_CUSTOM_CSSBOX;
         }
-       
+
     }
 }

@@ -30,8 +30,8 @@ namespace LayoutFarm.HtmlBoxes
         float _sizeWidth;
         //----------------------------------
         //absolute layer width,height
-        int _innerContentW;
-        int _innerContentH;
+        float _innerContentW;
+        float _innerContentH;
         //----------------------------------
         int _viewportX;
         int _viewportY;
@@ -798,7 +798,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// inner content width
         /// </summary>
-        public int InnerContentWidth
+        public float InnerContentWidth
         {
             get { return this._innerContentW; }
             internal set { this._innerContentW = value; }
@@ -807,7 +807,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// inner content height
         /// </summary>
-        public int InnerContentHeight
+        public float InnerContentHeight
         {
             get { return this._innerContentH; }
             internal set { this._innerContentH = value; }

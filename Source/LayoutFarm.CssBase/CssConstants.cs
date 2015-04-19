@@ -12,7 +12,7 @@
 // 
 // - Sun Tsu,
 // "The Art of War"
- 
+
 
 namespace LayoutFarm.Css
 {
@@ -32,22 +32,31 @@ namespace LayoutFarm.Css
         public const string Bolder = "bolder";
         public const string Bottom = "bottom";
         public const string BreakAll = "break-all";
-        public const string KeepAll = "keep-all";
+
+
         public const string Center = "center";
         public const string Collapse = "collapse";
         public const string Cursive = "cursive";
         public const string Circle = "circle";
+
         public const string Decimal = "decimal";
         public const string DecimalLeadingZero = "decimal-leading-zero";
         public const string Disc = "disc";
+
         public const string Fantasy = "fantasy";
+
         public const string Hide = "hide";
+
         public const string Inherit = "inherit";
         public const string Inline = "inline";
         public const string InlineTable = "inline-table";
         public const string Inset = "inset";
         public const string Italic = "italic";
+
         public const string Justify = "justify";
+
+        public const string KeepAll = "keep-all";
+
         public const string Large = "large";
         public const string Larger = "larger";
         public const string Left = "left";
@@ -59,6 +68,7 @@ namespace LayoutFarm.Css
         public const string LowerLatin = "lower-latin";
         public const string LowerRoman = "lower-roman";
         public const string LowerGreek = "lower-greek";
+
         public const string Armenian = "armenian";
         public const string Georgian = "georgian";
         public const string Hebrew = "hebrew";
@@ -79,8 +89,10 @@ namespace LayoutFarm.Css
         public const string Pre = "pre";
         public const string PreWrap = "pre-wrap";
         public const string PreLine = "pre-line";
+
         public const string Right = "right";
         public const string Rtl = "rtl";
+
 
         public const string SansSerif = "sans-serif";
         public const string Serif = "serif";
@@ -179,5 +191,27 @@ namespace LayoutFarm.Css
         public const string RepeatY = "repeat-y";
         public const string NoRepeat = "no-repeat";
         //------------------------------------------------------------------ 
+
+
+        public const string Row = "row";
+        public const string RowReverse = "row-reverse";
+        public const string Column = "column";
+        public const string ColumnReverse = "column-reverse";
+
+        //------------------------------------------------------------------ 
+
+        public const string Flex = "flex";
+        public const string InlineFlex = "inline-flex";
+
+        public const string Wrap = "wrap";
+        public const string WrapReverse = "wrap-reverse";
+        public const string MainSize = "main-size";
+
+        public const string FlexStart = "flex-start";
+        public const string FlexEnd = "flex-end";
+        public const string SpaceBetween = "space-between";
+        public const string SpaceAround = "space-around";
+
+        public const string Stretch = "stretch";
     }
 }

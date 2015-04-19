@@ -150,7 +150,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return (this._boxCompactFlags & BoxFlags.IS_INLINE_BOX) != 0;
             }
-            set
+            internal set
             {
                 if (value)
                 {
@@ -203,7 +203,7 @@ namespace LayoutFarm.HtmlBoxes
             get
             {
                 //TODO: review here
-                
+
                 if (this._aa_boxes.Count != 0)
                 {
                     return false;
@@ -211,8 +211,8 @@ namespace LayoutFarm.HtmlBoxes
                 else if (this._aa_contentRuns != null)
                 {
                     return this._aa_contentRuns.Count == 0;
-                } 
-                return true; 
+                }
+                return true;
             }
         }
         void ResetTextFlags()
@@ -264,7 +264,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
 
-        } 
+        }
         internal int LineBoxCount
         {
             get
@@ -421,6 +421,8 @@ namespace LayoutFarm.HtmlBoxes
                 case Css.CssDisplay.Table:
                 case Css.CssDisplay.InlineTable:
                 case Css.CssDisplay.TableCell:
+                case Css.CssDisplay.Flex:
+                case Css.CssDisplay.InlineFlex:
                     {
                         //this box has its own  container property
                         //this box may be used for ...
@@ -431,7 +433,6 @@ namespace LayoutFarm.HtmlBoxes
 
                         //for general block layout 
                         CssLayoutEngine.PerformContentLayout(this, lay);
-
                     } break;
             }
 
@@ -732,6 +733,8 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal bool CanBeReferenceSibling
         {
+            //TODO: review here, fixed position can be reference sibling?
+
             get { return this.CssDisplay != Css.CssDisplay.None && this.Position != Css.CssPosition.Absolute; }
         }
 
@@ -779,6 +782,6 @@ namespace LayoutFarm.HtmlBoxes
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);
             return newBox;
         }
-        
+
     }
 }

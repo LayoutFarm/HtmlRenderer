@@ -208,9 +208,39 @@ namespace LayoutFarm.HtmlBoxes
 
                         lay.LatestSiblingBox = currentLevelLatestSibling;
                         lay.PopContainingBlock();
+                        //TODO: check if this can have absolute layer? 
+                    } break;
+                case CssDisplay.InlineFlex:
+                case CssDisplay.Flex:
+                    {
+                        //------------------------------------------------
+                        //arrange as normal first
+                        if (box.IsCustomCssBox)
+                        {
+                            //has custom layout method
+                            box.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock);
+                            box.CustomRecomputedValue(lay.LatestContainingBlock, lay.GraphicsPlatform);
+                        }
+                        else
+                        {
+                            if (ContainsInlinesOnly(box))
+                            {
+                                //This will automatically set the bottom of this block
+                                PerformLayoutLinesContext(box, lay);
+                            }
+                            else if (box.ChildCount > 0)
+                            {
+                                PerformLayoutBlocksContext(box, lay);
+                            }
 
-                        //TODO: check if this can have absolute layer?
-
+                            if (box.HasAbsoluteLayer)
+                            {
+                                LayoutContentInAbsoluteLayer(lay, box);
+                            }
+                        }
+                        //------------------------------------------------
+                        RearrangeWithFlexContext(box, lay);
+                        //------------------------------------------------
                     } break;
                 default:
                     {
@@ -243,6 +273,8 @@ namespace LayoutFarm.HtmlBoxes
                     } break;
             }
         }
+
+
         /// <summary>
         /// do layout line formatting context
         /// </summary>
@@ -250,7 +282,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="lay"></param>
         static void PerformLayoutLinesContext(CssBox hostBlock, LayoutVisitor lay)
         {
-             
+
             //this in line formatting context
             //*** hostBlock must confirm that it has all inline children        
 
@@ -273,7 +305,7 @@ namespace LayoutFarm.HtmlBoxes
             //****
             FlowBoxContentIntoHost(lay, hostBlock, hostBlock,
                   limitLocalRight, localX,
-                  ref line, ref localX); 
+                  ref line, ref localX);
             //**** 
             // if width is not restricted we need to lower it to the actual width
             if (hostBlock.SizeWidth + lay.ContainerBlockGlobalX >= CssBoxConstConfig.BOX_MAX_RIGHT)
@@ -325,66 +357,68 @@ namespace LayoutFarm.HtmlBoxes
             }
 
 
-            //---------------------
+
             hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
 
             //final
-            hostBlock.InnerContentWidth = (int)maxLineWidth;
-            hostBlock.InnerContentHeight = (int)hostBlock.SizeHeight;
+            //---------------------
 
-            if (!hostBlock.Height.IsEmptyOrAuto)
-            {
-                var h = CssValueParser.ConvertToPx(hostBlock.Height, lay.LatestContainingBlock.SizeWidth, hostBlock);
-                hostBlock.SetExpectedSize(hostBlock.ExpectedWidth, h);
-                hostBlock.SetHeight(h);
-            }
-            else
-            {
-                switch (hostBlock.Position)
-                {
-                    case CssPosition.Fixed:
-                    case CssPosition.Absolute:
-                        hostBlock.SetHeight(hostBlock.InnerContentHeight);
-                        break;
-                }
+            SetFinalBoxSize(hostBlock, maxLineWidth, hostBlock.SizeHeight, lay);
 
-            }
-            if (!hostBlock.Width.IsEmptyOrAuto)
-            {
-                //find max line width  
-                var w = CssValueParser.ConvertToPx(hostBlock.Width, lay.LatestContainingBlock.SizeWidth, hostBlock);
-                hostBlock.SetExpectedSize(w, hostBlock.ExpectedHeight);
-                hostBlock.SetWidth(w);
-            }
-            else
-            {
-                switch (hostBlock.Position)
-                {
-                    case CssPosition.Fixed:
-                    case CssPosition.Absolute:
-                        hostBlock.SetWidth(hostBlock.InnerContentWidth);
-                        break;
-                }
-            } 
+            //hostBlock.InnerContentWidth = maxLineWidth;
+            //hostBlock.InnerContentHeight = hostBlock.SizeHeight;
 
-            switch (hostBlock.Overflow)
-            {
-                case CssOverflow.Scroll:
-                case CssOverflow.Auto:
-                    {
-                        if ((hostBlock.InnerContentHeight > hostBlock.SizeHeight) ||
-                        (hostBlock.InnerContentWidth > hostBlock.SizeWidth))
-                        {
-                            lay.RequestScrollView(hostBlock);
-                        }
-                    } break;
-            }
+            //if (!hostBlock.Height.IsEmptyOrAuto)
+            //{
+            //    var h = CssValueParser.ConvertToPx(hostBlock.Height, lay.LatestContainingBlock.SizeWidth, hostBlock);
+            //    hostBlock.SetExpectedSize(hostBlock.ExpectedWidth, h);
+            //    hostBlock.SetHeight(h);
+            //}
+            //else
+            //{
+            //    switch (hostBlock.Position)
+            //    {
+            //        case CssPosition.Fixed:
+            //        case CssPosition.Absolute:
+            //            hostBlock.SetHeight(hostBlock.InnerContentHeight);
+            //            break;
+            //    }
+
+            //}
+            //if (!hostBlock.Width.IsEmptyOrAuto)
+            //{
+            //    //find max line width  
+            //    var w = CssValueParser.ConvertToPx(hostBlock.Width, lay.LatestContainingBlock.SizeWidth, hostBlock);
+            //    hostBlock.SetExpectedSize(w, hostBlock.ExpectedHeight);
+            //    hostBlock.SetWidth(w);
+            //}
+            //else
+            //{
+            //    switch (hostBlock.Position)
+            //    {
+            //        case CssPosition.Fixed:
+            //        case CssPosition.Absolute:
+            //            hostBlock.SetWidth(hostBlock.InnerContentWidth);
+            //            break;
+            //    }
+            //}
+
+            //switch (hostBlock.Overflow)
+            //{
+            //    case CssOverflow.Scroll:
+            //    case CssOverflow.Auto:
+            //        {
+            //            if ((hostBlock.InnerContentHeight > hostBlock.SizeHeight) ||
+            //            (hostBlock.InnerContentWidth > hostBlock.SizeWidth))
+            //            {
+            //                lay.RequestScrollView(hostBlock);
+            //            }
+            //        } break;
+            //}
         }
         static void PerformLayoutBlocksContext(CssBox box, LayoutVisitor lay)
         {
-            //if (box.CssDisplay == CssDisplay.InlineBlock)
-            //{
-            //}
+
             //block formatting context.... 
             lay.PushContaingBlock(box);
             var currentLevelLatestSibling = lay.LatestSiblingBox;
@@ -407,7 +441,7 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     //inline correction on-the-fly ! 
                     //1. collect consecutive inlinebox
-                    //   and move to new anon box
+                    //   and move to new anon block box
 
                     CssBox anoForInline = CreateAnonBlock(box, childBox);
                     anoForInline.ReEvaluateComputedValues(lay.SampleIFonts, box);
@@ -472,20 +506,78 @@ namespace LayoutFarm.HtmlBoxes
             lay.LatestSiblingBox = currentLevelLatestSibling;
             lay.PopContainingBlock();
             //------------------------------------------------ 
-            float width = CalculateActualWidth(box);
+            float boxWidth = CalculateActualWidth(box);
 
-            if (lay.ContainerBlockGlobalX + width > CssBoxConstConfig.BOX_MAX_RIGHT)
+            if (lay.ContainerBlockGlobalX + boxWidth > CssBoxConstConfig.BOX_MAX_RIGHT)
             {
             }
             else
             {
                 if (box.CssDisplay != Css.CssDisplay.TableCell)
                 {
-                    box.SetWidth(width);
+                    box.SetWidth(boxWidth);
                 }
             }
-            box.SetHeight(box.GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock));
 
+            float boxHeight = box.GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock);
+            box.SetHeight(boxHeight);
+            //--------------------------------------------------------------------------------
+            //final  
+            SetFinalBoxSize(box, boxWidth, boxHeight, lay);
+
+        }
+        static void SetFinalBoxSize(CssBox box, float innerContentW, float innerContentH, LayoutVisitor lay)
+        {
+            box.InnerContentWidth = innerContentW;
+            box.InnerContentHeight = innerContentH;
+
+            if (!box.Height.IsEmptyOrAuto)
+            {
+                var h = CssValueParser.ConvertToPx(box.Height, lay.LatestContainingBlock.SizeWidth, lay.LatestContainingBlock);
+                box.SetExpectedSize(box.ExpectedWidth, h);
+                box.SetHeight(h);
+            }
+            else
+            {
+                switch (box.Position)
+                {
+                    case CssPosition.Fixed:
+                    case CssPosition.Absolute:
+                        box.SetHeight(box.InnerContentHeight);
+                        break;
+                }
+
+            }
+            if (!box.Width.IsEmptyOrAuto)
+            {
+                //find max line width  
+                var w = CssValueParser.ConvertToPx(box.Width, lay.LatestContainingBlock.SizeWidth, lay.LatestContainingBlock);
+                box.SetExpectedSize(w, box.ExpectedHeight);
+                box.SetWidth(w);
+            }
+            else
+            {
+                switch (box.Position)
+                {
+                    case CssPosition.Fixed:
+                    case CssPosition.Absolute:
+                        box.SetWidth(box.InnerContentWidth);
+                        break;
+                }
+            }
+
+            switch (box.Overflow)
+            {
+                case CssOverflow.Scroll:
+                case CssOverflow.Auto:
+                    {
+                        if ((box.InnerContentHeight > box.SizeHeight) ||
+                        (box.InnerContentWidth > box.SizeWidth))
+                        {
+                            lay.RequestScrollView(box);
+                        }
+                    } break;
+            }
         }
         static float CalculateActualWidth(CssBox box)
         {
@@ -511,9 +603,6 @@ namespace LayoutFarm.HtmlBoxes
             return newBox;
         }
 
-#if DEBUG
-        static int dbugPassTotal = 0;
-#endif
         /// <summary>
         /// Recursively flows the content of the box using the inline model
         /// </summary>
@@ -587,8 +676,15 @@ namespace LayoutFarm.HtmlBoxes
                         }
 
 
-                        //blockRun.SetSize(CssBox.GetLatestCachedMinWidth(b), b.SizeHeight);
-                        blockRun.SetSize(b.SizeWidth, b.SizeHeight);
+                        if (b.Width.IsEmptyOrAuto)
+                        {
+                            blockRun.SetSize(CssBox.GetLatestCachedMinWidth(b), b.SizeHeight);
+                        }
+                        else
+                        {
+                            blockRun.SetSize(b.SizeWidth, b.SizeHeight);
+                        }
+
                         b.SetLocation(b.LocalX, 0); //because of inline***
 
                         FlowRunsIntoHost(lay, hostBox, srcBox, b, childNumber,
@@ -932,8 +1028,35 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
+        static void RearrangeWithFlexContext(CssBox box, LayoutVisitor lay)
+        {
 
+            //this is an experiment!,  
+            var children = CssBox.UnsafeGetChildren(box);
+            var cnode = children.GetFirstLinkedNode();
 
+            float boxwidth = box.SizeWidth;
+            float boxheight = box.SizeHeight;
 
+            List<FlexItem> simpleFlexLine = new List<FlexItem>();
+            FlexLine flexLine = new FlexLine();
+            flexLine.AvaliableParentWidth = boxwidth;
+            flexLine.AvaliableParentHeight = boxheight;
+            while (cnode != null)
+            {
+                flexLine.AddChild(new FlexItem(cnode.Value));
+                cnode = cnode.Next;
+            }
+            flexLine.Arrange();
+
+            box.InnerContentHeight = flexLine.LineHeightAfterArrange;
+            if (box.Height.IsEmptyOrAuto)
+            {
+                //set new height                
+                box.SetHeight(flexLine.LineHeightAfterArrange);
+                //check if it need scrollbar or not 
+            }
+
+        }
     }
 }

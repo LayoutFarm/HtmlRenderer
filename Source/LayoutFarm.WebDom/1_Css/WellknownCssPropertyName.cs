@@ -1,9 +1,9 @@
 ﻿//BSD  2014 ,WinterDev 
-using System; 
+using System;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 
- 
+
 namespace LayoutFarm.WebDom
 {
     public enum WellknownCssPropertyName
@@ -12,6 +12,11 @@ namespace LayoutFarm.WebDom
 
         [Map("display")]
         Display,
+
+        [Map("display-inside")]
+        DisplayInside, //css3
+        [Map("display-outside")]
+        DisplayOutside, //css3
 
         [Map("border")]
         Border,
@@ -191,7 +196,26 @@ namespace LayoutFarm.WebDom
         BoxShadow,
         //----------------------------------
         [Map("cursor")]
-        Cursor
+        Cursor,
+        //----------------------------------
+
+        //flex ...
+        [Map("flex")]
+        Flex, //shorthand 
+        [Map("flex-direction")]
+        FlexDirection,
+        [Map("flex-wrap")]
+        FlexWrap,
+        [Map("order")]
+        Order, //flex display order
+        [Map("flex-flow")] //flex direction and wrap
+        FlexFlow,
+        [Map("flex-grow")] 
+        FlowGrow,
+        [Map("flex-shrink")]  
+        FlowShrink,
+        [Map("flex-basis")] 
+        FlowBasis,
     }
 
 }

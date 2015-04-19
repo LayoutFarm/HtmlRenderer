@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace LayoutFarm.Css
 {
-     
+
     /// <summary>
     /// Represents and gets info about a CSS Length
     /// </summary>
@@ -31,6 +31,7 @@ namespace LayoutFarm.Css
         public const int NORMAL = 1 << (14 - 1);
         public const int NONE_VALUE = 1 << (15 - 1);
         public const int HAS_ERROR = 1 << (16 - 1);
+        public const int IS_MAINSIZE = 1 << (17 - 1);
         //-------------------------------------
         //when used as border thickeness name
         public const int IS_BORDER_THICKNESS_NAME = 1 << (20 - 1);
@@ -45,6 +46,7 @@ namespace LayoutFarm.Css
         public static readonly CssLength NotAssign = new CssLength(0);
         public static readonly CssLength NormalWordOrLine = new CssLength(IS_ASSIGN | NORMAL | (int)CssUnitOrNames.NormalLength);
 
+        public static readonly CssLength MainSize = new CssLength(IS_ASSIGN | IS_MAINSIZE | (int)CssUnitOrNames.MainSize);
 
         public static readonly CssLength ZeroNoUnit = CssLength.MakeZeroLengthNoUnit();
         public static readonly CssLength ZeroPx = CssLength.MakePixelLength(0);
@@ -72,7 +74,7 @@ namespace LayoutFarm.Css
         //-----------------------------------------------------------------------------------------
 
 
-      
+
 
         public CssLength(float num, CssUnitOrNames unit)
         {
@@ -103,7 +105,7 @@ namespace LayoutFarm.Css
 
             }
         }
-        
+
         public static CssLength MakePixelLength(float pixel)
         {
             return new CssLength(pixel, CssUnitOrNames.Pixels);
@@ -204,7 +206,7 @@ namespace LayoutFarm.Css
         {
             get { return (this._flags & IS_BORDER_THICKNESS_NAME) != 0; }
         }
-         
+
 
         public static bool IsEq(CssLength len1, CssLength len2)
         {
@@ -254,12 +256,12 @@ namespace LayoutFarm.Css
                         break;
                     case CssUnitOrNames.Picas:
                         u = "pc";
-                        break; 
-                } 
+                        break;
+                }
                 return string.Format(NumberFormatInfo.InvariantInfo, "{0}{1}", Number, u);
             }
         }
 
-       
+
     }
 }

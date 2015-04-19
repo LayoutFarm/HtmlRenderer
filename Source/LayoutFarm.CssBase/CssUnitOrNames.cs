@@ -37,6 +37,8 @@ namespace LayoutFarm.Css
         BorderThin,//extension flags
         BorderMedium,//extension flags
         //------------------------------  
+        MainSize,//css3 flex mainsize property
+        //------------------------------ 
         //font size name
         FONTSIZE_MEDIUM,
         FONTSIZE_XX_SMALL,

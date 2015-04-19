@@ -214,7 +214,6 @@ namespace LayoutFarm.Composers
                     break;
 
                 case WellknownCssPropertyName.Direction:
-
                     spec.CssDirection = UserMapUtil.GetCssDirection(cssValue);
                     break;
                 case WellknownCssPropertyName.EmptyCells:
@@ -286,6 +285,21 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.Overflow:
                     spec.Overflow = UserMapUtil.GetOverflow(cssValue);
                     break;
+                //------------------------------------------------ 
+                case WellknownCssPropertyName.Flex:
+                    {
+
+
+                    } break;
+                case WellknownCssPropertyName.FlexDirection:
+                    {
+                    } break;
+                case WellknownCssPropertyName.FlexFlow:
+                    {
+                    } break;
+                case WellknownCssPropertyName.FlexWrap:
+                    {
+                    } break;
 
             }
         }
@@ -336,7 +350,7 @@ namespace LayoutFarm.Composers
                         box.BoxShadowColor = AsColor(v2);
 
                     } break;
-            } 
+            }
         }
         static void SetFontSize(this BoxSpec box, WebDom.CssCodeValueExpression value)
         {
@@ -539,11 +553,6 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.BackgroundGradientAngle:
                     {
                         spec.BackgroundGradientAngle = parentSpec.BackgroundGradientAngle;
-                        //float angle;
-                        //if (float.TryParse(value, out angle))
-                        //{
-                        //    cssBox.BackgroundGradientAngle = angle;
-                        //}
                     } break;
                 case WellknownCssPropertyName.Color:
                     spec.Color = parentSpec.Color;
@@ -624,9 +633,10 @@ namespace LayoutFarm.Composers
                     spec.ListStyleType = parentSpec.ListStyleType;
                     break;
                 case WellknownCssPropertyName.Overflow:
-
                     spec.Overflow = parentSpec.Overflow;
                     break;
+
+
             }
         }
 
