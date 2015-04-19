@@ -207,11 +207,40 @@ namespace LayoutFarm.HtmlBoxes
                         CssTableLayoutEngine.PerformLayout(box, myContainingBlock.GetClientWidth(), lay);
 
                         lay.LatestSiblingBox = currentLevelLatestSibling;
-                        lay.PopContainingBlock();
-
-                        //TODO: check if this can have absolute layer?
-
+                        lay.PopContainingBlock(); 
+                        //TODO: check if this can have absolute layer? 
                     } break;
+                case CssDisplay.InlineFlex:
+                case CssDisplay.Flex:
+                    {
+                         
+                        //TODO: implement flex layout here ...
+
+                        if (box.IsCustomCssBox)
+                        {
+                            //has custom layout method
+                            box.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock);
+                            box.CustomRecomputedValue(lay.LatestContainingBlock, lay.GraphicsPlatform);
+                        }
+                        else
+                        {
+                            if (ContainsInlinesOnly(box))
+                            {
+                                //This will automatically set the bottom of this block
+                                PerformLayoutLinesContext(box, lay);
+                            }
+                            else if (box.ChildCount > 0)
+                            {
+                                PerformLayoutBlocksContext(box, lay);
+                            }
+
+                            if (box.HasAbsoluteLayer)
+                            {
+                                LayoutContentInAbsoluteLayer(lay, box);
+                            }
+                        }
+
+                    }break;
                 default:
                     {
                         //formatting context for...

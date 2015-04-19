@@ -200,6 +200,9 @@ namespace LayoutFarm.Css
 
         //------------------------------------------------------------------ 
 
+        public const string Flex = "flex";
+        public const string InlineFlex = "inline-flex";
+
         public const string Wrap = "wrap";
         public const string WrapReverse = "wrap-reverse";
         public const string MainSize = "main-size";

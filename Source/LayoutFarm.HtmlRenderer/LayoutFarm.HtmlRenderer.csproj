@@ -68,6 +68,7 @@
     <Compile Include="1_Css\CssFeatures.cs" />
     <Compile Include="2_Boxes\3_Render\CssBoxDecorator.cs" />
     <Compile Include="2_Boxes\1_CoreBox\SelectionSegment.cs" />
+    <Compile Include="3_Boxes_Layout\1_Flex\FlexContainer.cs" />
     <Compile Include="4_Svg\05_SvgDoms\CssBoxSvgRoot.cs" />
     <Compile Include="4_Svg\05_SvgDoms\SvgElements.cs" />
     <Compile Include="4_Svg\07_Coords_Transforms\SvgMatrix.cs" />
@@ -156,9 +157,7 @@
   <ItemGroup>
     <Content Include="4_Svg\license.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="3_Boxes_Layout\1_Flex\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

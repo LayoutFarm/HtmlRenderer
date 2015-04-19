@@ -134,7 +134,8 @@ namespace LayoutFarm.HtmlBoxes
                 case CssDisplay.TableCell:
                 case CssDisplay.InlineBlock:
                 case CssDisplay.InlineTable:
-
+                case CssDisplay.Flex:
+                case CssDisplay.InlineFlex:
                     box._boxCompactFlags |= BoxFlags.HAS_CONTAINER_PROP;
                     break;
                 default:

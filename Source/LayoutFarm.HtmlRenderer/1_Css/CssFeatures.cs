@@ -1,4 +1,4 @@
-﻿//BSD, 2014, WinterDev
+﻿//BSD, 2014-2015, WinterDev
 
 using System;
 using System.Collections.Generic;
@@ -899,9 +899,20 @@ namespace LayoutFarm.Css
 
     class CssFlexFeature : CssFeatureBase
     {
+        FlexFlowDirection _flexFlowDirection;
+        FlexWrap _flexLineWrapping;
+        int _flexOrder;
+        int _flexGrow; //flex grow factor
+        int _flexShrink = 1; //flex shrink factor,init =1
+        CssLength _flexBasis;
+        FlexJustifyContent _flexJustifyContent;//axis alingment
+        FlexAlignItems _flexAlignItem;//cross-axis alignment
+        FlexAlignSelf _flexAlignSelft; //cross-axis alignment
+        FlexAlignContent _alignContent;//packing flex lines
         public CssFlexFeature(object owner)
             : base(owner)
         {
+
         }
     }
 

@@ -145,7 +145,7 @@ namespace LayoutFarm.Css
             get { return this._cssDisplay; }
             set
             {
-                //if (value == Css.CssDisplay.InlineBlock)
+                //if (value == Css.CssDisplay.Flex)
                 //{
                 //}
                 //if (this.__aa_dbugId == 8)
