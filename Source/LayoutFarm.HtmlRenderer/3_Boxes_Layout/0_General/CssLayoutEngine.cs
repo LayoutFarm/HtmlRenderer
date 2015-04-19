@@ -360,61 +360,8 @@ namespace LayoutFarm.HtmlBoxes
 
             hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
 
-            //final
-            //---------------------
-
-            SetFinalBoxSize(hostBlock, maxLineWidth, hostBlock.SizeHeight, lay);
-
-            //hostBlock.InnerContentWidth = maxLineWidth;
-            //hostBlock.InnerContentHeight = hostBlock.SizeHeight;
-
-            //if (!hostBlock.Height.IsEmptyOrAuto)
-            //{
-            //    var h = CssValueParser.ConvertToPx(hostBlock.Height, lay.LatestContainingBlock.SizeWidth, hostBlock);
-            //    hostBlock.SetExpectedSize(hostBlock.ExpectedWidth, h);
-            //    hostBlock.SetHeight(h);
-            //}
-            //else
-            //{
-            //    switch (hostBlock.Position)
-            //    {
-            //        case CssPosition.Fixed:
-            //        case CssPosition.Absolute:
-            //            hostBlock.SetHeight(hostBlock.InnerContentHeight);
-            //            break;
-            //    }
-
-            //}
-            //if (!hostBlock.Width.IsEmptyOrAuto)
-            //{
-            //    //find max line width  
-            //    var w = CssValueParser.ConvertToPx(hostBlock.Width, lay.LatestContainingBlock.SizeWidth, hostBlock);
-            //    hostBlock.SetExpectedSize(w, hostBlock.ExpectedHeight);
-            //    hostBlock.SetWidth(w);
-            //}
-            //else
-            //{
-            //    switch (hostBlock.Position)
-            //    {
-            //        case CssPosition.Fixed:
-            //        case CssPosition.Absolute:
-            //            hostBlock.SetWidth(hostBlock.InnerContentWidth);
-            //            break;
-            //    }
-            //}
-
-            //switch (hostBlock.Overflow)
-            //{
-            //    case CssOverflow.Scroll:
-            //    case CssOverflow.Auto:
-            //        {
-            //            if ((hostBlock.InnerContentHeight > hostBlock.SizeHeight) ||
-            //            (hostBlock.InnerContentWidth > hostBlock.SizeWidth))
-            //            {
-            //                lay.RequestScrollView(hostBlock);
-            //            }
-            //        } break;
-            //}
+            //final 
+            SetFinalInnerContentSize(hostBlock, maxLineWidth, hostBlock.SizeHeight, lay);
         }
         static void PerformLayoutBlocksContext(CssBox box, LayoutVisitor lay)
         {
@@ -523,10 +470,10 @@ namespace LayoutFarm.HtmlBoxes
             box.SetHeight(boxHeight);
             //--------------------------------------------------------------------------------
             //final  
-            SetFinalBoxSize(box, boxWidth, boxHeight, lay);
+            SetFinalInnerContentSize(box, boxWidth, boxHeight, lay);
 
         }
-        static void SetFinalBoxSize(CssBox box, float innerContentW, float innerContentH, LayoutVisitor lay)
+        static void SetFinalInnerContentSize(CssBox box, float innerContentW, float innerContentH, LayoutVisitor lay)
         {
             box.InnerContentWidth = innerContentW;
             box.InnerContentHeight = innerContentH;
@@ -1049,13 +996,19 @@ namespace LayoutFarm.HtmlBoxes
             }
             flexLine.Arrange();
 
-            box.InnerContentHeight = flexLine.LineHeightAfterArrange;
+
             if (box.Height.IsEmptyOrAuto)
             {
                 //set new height                
                 box.SetHeight(flexLine.LineHeightAfterArrange);
                 //check if it need scrollbar or not 
             }
+            if (box.Width.IsEmptyOrAuto)
+            {
+                box.SetWidth(flexLine.LineWidthAfterArrange);
+            }
+
+            SetFinalInnerContentSize(box, flexLine.LineWidthAfterArrange, flexLine.LineHeightAfterArrange, lay);
 
         }
     }

@@ -131,7 +131,7 @@ namespace LayoutFarm.HtmlBoxes
         public float AvaliableParentHeight { get; set; }
 
         public float LineHeightAfterArrange { get; private set; }
-
+        public float LineWidthAfterArrange { get; private set; }
         public void Arrange()
         {
             int j = flexItems.Count;
@@ -148,8 +148,6 @@ namespace LayoutFarm.HtmlBoxes
                 CssBox box = flexItem.Box;
                 box.SetLocation(curX, curY);
                 curX += flexItem.PlanWidth;
-
-                
 
                 if (!flexItem.ReachMinWidth)
                 {
@@ -189,6 +187,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
             this.LineHeightAfterArrange = maxHeight;
+            this.LineWidthAfterArrange = curX;
         }
     }
 }
