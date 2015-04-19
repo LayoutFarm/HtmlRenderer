@@ -486,7 +486,7 @@ namespace LayoutFarm.WebDom.Parser
                             default:
                                 {
                                     throw new NotSupportedException();
-                                } 
+                                }
                             case CssTokenName.Percent:
                                 {
                                     this._currentProperty.AddUnitToLatestValue("%");
@@ -1466,14 +1466,22 @@ namespace LayoutFarm.WebDom.Parser
             }
             if (this._appendLength > 0)
             {
-                if (lexState == CssLexState.UnitAfterNumber)
+                switch (lexState)
                 {
-                    EmitBuffer(cssSourceBuffer.Length - 1, CssTokenName.NumberUnit);
+                    case CssLexState.UnitAfterNumber:
+                        EmitBuffer(cssSourceBuffer.Length - 1, CssTokenName.NumberUnit);
+                        break;
+                    case CssLexState.Number:
+                        EmitBuffer(cssSourceBuffer.Length - 1, CssTokenName.Number);
+                        break;                    
+                    
+                    case CssLexState.Iden:
+                    default:
+                        EmitBuffer(cssSourceBuffer.Length - 1, CssTokenName.Iden);
+                        break;
+
                 }
-                else
-                {
-                    EmitBuffer(cssSourceBuffer.Length - 1, CssTokenName.Iden);
-                }
+
             }
         }
 
