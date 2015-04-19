@@ -150,7 +150,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return (this._boxCompactFlags & BoxFlags.IS_INLINE_BOX) != 0;
             }
-            set
+            internal set
             {
                 if (value)
                 {
@@ -433,7 +433,7 @@ namespace LayoutFarm.HtmlBoxes
 
                         //for general block layout 
                         CssLayoutEngine.PerformContentLayout(this, lay);
-                    } break; 
+                    } break;
             }
 
             //set height  
@@ -733,6 +733,8 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal bool CanBeReferenceSibling
         {
+            //TODO: review here, fixed position can be reference sibling?
+
             get { return this.CssDisplay != Css.CssDisplay.None && this.Position != Css.CssPosition.Absolute; }
         }
 

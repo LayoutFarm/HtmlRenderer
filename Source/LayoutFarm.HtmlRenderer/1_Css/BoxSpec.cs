@@ -50,6 +50,8 @@ namespace LayoutFarm.Css
         CssMarginFeature _marginFeats = CssMarginFeature.Default;//features 5
         CssCornerFeature _cornerFeats = CssCornerFeature.Default;//features  6      
         CssBackgroundFeature _backgroundFeats = CssBackgroundFeature.Default;//features  7 
+        CssBoxShadowFeature _boxShadow = CssBoxShadowFeature.Default;
+        CssFlexFeature _flexFeats = CssFlexFeature.Default;
 
         FontInfo _actualFontInfo;
         Font _actualFont;
@@ -71,8 +73,7 @@ namespace LayoutFarm.Css
         CssPosition _position = CssPosition.Static;
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
         //==========================================================
-        CssBoxShadowFeature _boxShadow = CssBoxShadowFeature.Default;
-        CssFlexFeature _flexFeature = CssFlexFeature.Default;
+
 
         #endregion
 #if DEBUG
@@ -104,6 +105,9 @@ namespace LayoutFarm.Css
             _marginFeats.Freeze();//5.
             _cornerFeats.Freeze();//6.
             _backgroundFeats.Freeze();//7   
+
+            _boxShadow.Freeze(); //8
+            _flexFeats.Freeze(); //9.
         }
 
         public bool DoNotCache
@@ -123,7 +127,8 @@ namespace LayoutFarm.Css
             _cornerFeats.DeFreeze();//6.
             _backgroundFeats.DeFreeze();//7   
 
-
+            _boxShadow.DeFreeze(); //8
+            _flexFeats.DeFreeze(); //9.
         }
         public bool IsFreezed
         {
@@ -794,6 +799,12 @@ namespace LayoutFarm.Css
                 if (Assignable()) CheckBoxShadowVersion().ShadowColor = value;
             }
         }
+        //----------------------------------------------------------------------
+
+
+        
+
+
         //----------------------------------------------------------------------
 #if DEBUG
         public static bool dbugCompare(dbugPropCheckReport dbugR, BoxSpec boxBase, BoxSpec spec)

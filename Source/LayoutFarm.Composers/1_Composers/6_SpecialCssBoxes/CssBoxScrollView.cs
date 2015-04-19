@@ -155,13 +155,13 @@ namespace LayoutFarm.HtmlBoxes
             int IScrollable.DesiredHeight
             {
                 //content height of the cssbox
-                get { return cssbox.InnerContentHeight; }
+                get { return (int)cssbox.InnerContentHeight; }
             }
 
             int IScrollable.DesiredWidth
             {
                 //content width of the cssbox
-                get { return cssbox.InnerContentWidth; }
+                get { return (int)cssbox.InnerContentWidth; }
             }
 
             event EventHandler IScrollable.LayoutFinished

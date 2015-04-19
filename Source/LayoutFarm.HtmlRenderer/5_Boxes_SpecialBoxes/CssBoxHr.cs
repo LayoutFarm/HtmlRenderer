@@ -112,12 +112,9 @@ namespace LayoutFarm.HtmlBoxes
                 height = 2;
             }
             if (height <= 2 && ActualBorderTopWidth < 1 && ActualBorderBottomWidth < 1)
-            {
-                //BorderTopStyle = BorderBottomStyle = CssBorderStyle.Solid; //CssConstants.Solid;
+            { 
                 DirectSetBorderWidth(CssSide.Top, 1);
-                DirectSetBorderWidth(CssSide.Bottom, 1);
-                //BorderTopWidth = CssLength.MakePixelLength(1); //"1px";
-                //BorderBottomWidth = CssLength.MakePixelLength(1);
+                DirectSetBorderWidth(CssSide.Bottom, 1); 
             }
 
             this.SetSize(width, height);
