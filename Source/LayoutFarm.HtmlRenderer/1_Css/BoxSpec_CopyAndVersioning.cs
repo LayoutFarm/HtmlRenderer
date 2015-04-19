@@ -152,6 +152,10 @@ namespace LayoutFarm.Css
         {
             return this._boxShadow = this._boxShadow.GetMyOwnVersion(this);
         }
+        CssFlexFeature CheckFlexVersion()
+        {
+            return this._flexFeats = this._flexFeats.GetMyOwnVersion(this);
+        }
     }
 
 }
