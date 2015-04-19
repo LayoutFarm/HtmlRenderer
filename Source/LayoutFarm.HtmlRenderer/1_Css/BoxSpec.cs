@@ -72,6 +72,7 @@ namespace LayoutFarm.Css
         CssLength _wordSpacing = CssLength.NormalWordOrLine;
         //==========================================================
         CssBoxShadowFeature _boxShadow = CssBoxShadowFeature.Default;
+        CssFlexFeature _flexFeature = CssFlexFeature.Default;
 
         #endregion
 #if DEBUG

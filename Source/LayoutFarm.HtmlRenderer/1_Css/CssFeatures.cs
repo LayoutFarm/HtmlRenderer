@@ -899,20 +899,99 @@ namespace LayoutFarm.Css
 
     class CssFlexFeature : CssFeatureBase
     {
+        public static readonly CssFlexFeature Default = new CssFlexFeature(null);
+
         FlexFlowDirection _flexFlowDirection;
         FlexWrap _flexLineWrapping;
         int _flexOrder;
         int _flexGrow; //flex grow factor
         int _flexShrink = 1; //flex shrink factor,init =1
-        CssLength _flexBasis;
-        FlexJustifyContent _flexJustifyContent;//axis alingment
-        FlexAlignItems _flexAlignItem;//cross-axis alignment
-        FlexAlignSelf _flexAlignSelft; //cross-axis alignment
+        CssLength _flexBasis = CssLength.MainSize; //initial value
+        FlexJustifyContent _justifyContent;//axis alingment
+        FlexAlignItems _alignItem;//cross-axis alignment
+        FlexAlignSelf _alignSelf; //cross-axis alignment
         FlexAlignContent _alignContent;//packing flex lines
+
+
+        static CssFlexFeature()
+        {
+            Default.Freeze();
+        }
+
         public CssFlexFeature(object owner)
             : base(owner)
         {
 
+        }
+        private CssFlexFeature(object newOwner, CssFlexFeature inheritFrom)
+            : base(newOwner)
+        {
+
+        }
+        public CssFlexFeature GetMyOwnVersion(object checkOwner)
+        {
+            if (this.owner == checkOwner)
+            {
+                return this;
+            }
+            else
+            {
+                return new CssFlexFeature(checkOwner, this);
+            }
+        }
+
+        public FlexFlowDirection FlowDirection
+        {
+            get { return this._flexFlowDirection; }
+            set { if (Assignable()) this._flexFlowDirection = value; }
+        }
+        public FlexWrap FlexWrap
+        {
+            get { return this._flexLineWrapping; }
+            set { if (Assignable()) this._flexLineWrapping = value; }
+        }
+
+        public int FlexOrder
+        {
+            get { return this._flexOrder; }
+            set { if (Assignable()) this._flexOrder = value; }
+        }
+
+        public int FlexGrow
+        {
+            get { return this._flexGrow; }
+            set { if (Assignable()) this._flexGrow = value; }
+        }
+        public int FlexShrink
+        {
+            get { return this._flexShrink; }
+            set { if (Assignable()) this._flexShrink = value; }
+        }
+        public CssLength FlexBasis
+        {
+            get { return this._flexBasis; }
+            set { if (Assignable()) this._flexBasis = value; }
+        }
+
+        public FlexJustifyContent JustifyContent
+        {
+            get { return this._justifyContent; }
+            set { if (Assignable()) this._justifyContent = value; }
+        }
+        public FlexAlignItems AlignItem
+        {
+            get { return this._alignItem; }
+            set { if (Assignable()) this._alignItem = value; }
+        }
+        public FlexAlignSelf AlignSelf
+        {
+            get { return this._alignSelf; }
+            set { if (Assignable()) this._alignSelf = value; }
+        }
+        public FlexAlignContent AlignContent
+        {
+            get { return this._alignContent; }
+            set { if (Assignable()) this._alignContent = value; }
         }
     }
 
