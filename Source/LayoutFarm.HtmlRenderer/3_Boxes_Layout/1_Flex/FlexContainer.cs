@@ -22,19 +22,13 @@ namespace LayoutFarm.HtmlBoxes
         FlexLine singleLine;
         public bool IsMultiline { get; set; }
         public FlexWrap FlexWrap { get; set; }
-        public FlexFlowDirection FlexFlowDirection { get; set; }
-
-
+        public FlexFlowDirection FlexFlowDirection { get; set; } 
     }
     class FlexItem
-    {
-
-
+    {   
         CssBox box;
         float minSizeW;
-        float minSizeH;
-
-
+        float minSizeH; 
         const int MAXSIZE_W = 99999;
         const int MAXSIZE_H = 99999;
 
