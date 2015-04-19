@@ -288,18 +288,30 @@ namespace LayoutFarm.Composers
                 //------------------------------------------------ 
                 case WellknownCssPropertyName.Flex:
                     {
-
-
+                        //TODO: implement this
                     } break;
                 case WellknownCssPropertyName.FlexDirection:
                     {
+                        //TODO: implement this
                     } break;
                 case WellknownCssPropertyName.FlexFlow:
                     {
+                        //TODO: implement this
                     } break;
                 case WellknownCssPropertyName.FlexWrap:
                     {
+                        //TODO: implement this
                     } break;
+                //------------------------------------------------ 
+                case WellknownCssPropertyName.FlexGrow:
+                    spec.FlexGrow = (int)cssValue.AsNumber();
+                    break;
+                case WellknownCssPropertyName.FlexShrink:
+                    spec.FlexShrink = (int)cssValue.AsNumber();
+                    break;
+                case WellknownCssPropertyName.FlexOrder:
+                    spec.FlexOrder = (int)cssValue.AsNumber();
+                    break;
 
             }
         }

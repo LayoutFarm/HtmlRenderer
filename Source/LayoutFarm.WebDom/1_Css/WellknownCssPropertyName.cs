@@ -207,15 +207,15 @@ namespace LayoutFarm.WebDom
         [Map("flex-wrap")]
         FlexWrap,
         [Map("order")]
-        Order, //flex display order
+        FlexOrder, //flex display order
         [Map("flex-flow")] //flex direction and wrap
         FlexFlow,
         [Map("flex-grow")] 
-        FlowGrow,
+        FlexGrow,
         [Map("flex-shrink")]  
-        FlowShrink,
+        FlexShrink,
         [Map("flex-basis")] 
-        FlowBasis,
+        FlexBasis,
     }
 
 }

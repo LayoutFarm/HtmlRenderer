@@ -23,18 +23,14 @@ namespace LayoutFarm.HtmlBoxes
         public bool IsMultiline { get; set; }
         public FlexWrap FlexWrap { get; set; }
         public FlexFlowDirection FlexFlowDirection { get; set; }
-
-
     }
     class FlexItem
     {
-
-
         CssBox box;
         float minSizeW;
         float minSizeH;
-
-
+        float maxSizeW;
+        float maxSizeH;
         const int MAXSIZE_W = 99999;
         const int MAXSIZE_H = 99999;
 
@@ -48,23 +44,39 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //auto
                 minSizeW = box.InnerContentWidth;
+                maxSizeW = MAXSIZE_W;
             }
             else
             {
-                minSizeW = box.SizeWidth;
+                maxSizeW = minSizeW = box.SizeWidth;
+
             }
             if (box.Height.IsEmptyOrAuto)
             {
                 minSizeH = box.InnerContentHeight;
+                maxSizeH = MAXSIZE_H;
             }
             else
             {
-                minSizeH = box.SizeHeight;
-
+                maxSizeH = minSizeH = box.SizeHeight;
             }
             this.PlanWidth = minSizeW;
             this.PlanHeight = minSizeH;
 
+        }
+        public int FlexShrink
+        {
+            get
+            {
+                return CssBox.UnsafeGetBoxSpec(this.box).FlexShrink;
+            }
+        }
+        public int FlexGrow
+        {
+            get
+            {
+                return CssBox.UnsafeGetBoxSpec(this.box).FlexGrow;
+            }
         }
         public float MinSizeW
         {
@@ -73,6 +85,14 @@ namespace LayoutFarm.HtmlBoxes
         public float MinSizeH
         {
             get { return this.minSizeH; }
+        }
+        public float MaxSizeW
+        {
+            get { return this.maxSizeW; }
+        }
+        public float MaxSizeH
+        {
+            get { return this.maxSizeH; }
         }
         public float PlanWidth
         {
@@ -92,7 +112,14 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.PlanHeight <= MinSizeH; }
         }
-
+        public bool ReachMaxWidth
+        {
+            get { return this.PlanWidth >= maxSizeW; }
+        }
+        public bool ReachMaxHeight
+        {
+            get { return this.PlanHeight >= maxSizeH; }
+        }
 
 
         public CssBox Box
@@ -100,8 +127,7 @@ namespace LayoutFarm.HtmlBoxes
             get { return this.box; }
         }
         public CssLength FlexBasis { get; set; }
-        public int FlexGrow { get; set; }
-        public int FlexShrink { get; set; }
+
         public int DisplayOrder { get; set; }
         public CssLength MinWidth { get; set; }
         public CssLength MinHeight { get; set; }
@@ -138,9 +164,6 @@ namespace LayoutFarm.HtmlBoxes
             float curX = 0;
             float curY = 0;
             float availableW = AvaliableParentWidth;
-            List<FlexItem> widthResizableItems = new List<FlexItem>();
-            List<FlexItem> heightResizableItems = new List<FlexItem>();
-
 
             for (int i = 0; i < j; ++i)
             {
@@ -148,24 +171,55 @@ namespace LayoutFarm.HtmlBoxes
                 CssBox box = flexItem.Box;
                 box.SetLocation(curX, curY);
                 curX += flexItem.PlanWidth;
-
-                if (!flexItem.ReachMinWidth)
-                {
-                    widthResizableItems.Add(flexItem);
-                }
-                if (!flexItem.ReachMinHeight)
-                {
-                    heightResizableItems.Add(flexItem);
-                }
             }
-
             //-----------------------------------------------
             if (curX < availableW)
             {
+                //find box that can expand
+                List<FlexItem> widthResizableItems = new List<FlexItem>();
+                for (int i = 0; i < j; ++i)
+                {
+                    FlexItem flexItem = flexItems[i];
+                    if (!flexItem.ReachMaxHeight)
+                    {
+                        widthResizableItems.Add(flexItem);
+                    }
+                }
+
                 //remain some space
                 //so expand it
-                if (widthResizableItems.Count > 0)
+                if ((j = widthResizableItems.Count) > 0)
                 {
+                    //how to expand it
+                    //1. check grow feature
+                    int totalExpandCount = 0;
+                    for (int i = j - 1; i >= 0; --i)
+                    {
+                        totalExpandCount += widthResizableItems[i].FlexGrow;
+                    }
+
+                    if (totalExpandCount > 0)
+                    {
+
+                        float remainingW = availableW - curX;
+                        float onePart = remainingW / totalExpandCount;
+                        //add to plan width
+                        for (int i = j - 1; i >= 0; --i)
+                        {
+                            widthResizableItems[i].PlanWidth += (onePart * widthResizableItems[i].FlexGrow);
+                        }
+
+                        //then rearrange the line again
+                        curX = 0;//reset
+                        for (int i = 0; i < j; ++i)
+                        {
+                            FlexItem flexItem = flexItems[i];
+                            CssBox box = flexItem.Box;
+                            box.SetLocation(curX, curY);
+                            box.SetSize(flexItem.PlanWidth, flexItem.PlanHeight);
+                            curX += flexItem.PlanWidth;
+                        }
+                    }
 
                 }
             }

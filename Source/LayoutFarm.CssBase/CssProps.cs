@@ -449,7 +449,7 @@ namespace LayoutFarm.Css
 
     //flex spec 8.3: Cross-axis aligment: the 'align-items' and 
     //'align-self' properties
-    public enum FlexAlignItems : byte
+    public enum FlexAlignItem : byte
     {
         [Map(CssConstants.Stretch)]
         Stretch, //initial value

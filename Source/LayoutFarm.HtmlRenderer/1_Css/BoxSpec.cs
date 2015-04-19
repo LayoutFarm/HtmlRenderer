@@ -800,11 +800,87 @@ namespace LayoutFarm.Css
             }
         }
         //----------------------------------------------------------------------
-
-
-        
-
-
+        public FlexFlowDirection FlexFlowDirection
+        {
+            get { return this._flexFeats.FlowDirection; }
+            set
+            {
+                if (Assignable()) CheckFlexVersion().FlowDirection = value;
+            }
+        }
+        public FlexJustifyContent FlexJustifyContent
+        {
+            get { return this._flexFeats.JustifyContent; }
+            set
+            {
+                if (Assignable()) CheckFlexVersion().JustifyContent = value;
+            }
+        }
+        public FlexWrap FlexWrap
+        {
+            get { return this._flexFeats.FlexWrap; }
+            set
+            {
+                if (Assignable()) CheckFlexVersion().FlexWrap = value;
+            }
+        }
+        public FlexAlignContent FlexAlignContent
+        {
+            get { return this._flexFeats.AlignContent; }
+            set
+            {
+                if (Assignable()) CheckFlexVersion().AlignContent = value;
+            }
+        }
+        public FlexAlignSelf FlexAlignSelf
+        {
+            get { return this._flexFeats.AlignSelf; }
+            set
+            {
+                if (Assignable()) CheckFlexVersion().AlignSelf = value;
+            }
+        }
+        public FlexAlignItem FlexAlignItem
+        {
+            get { return this._flexFeats.AlignItem; }
+            set
+            {
+                if (Assignable()) CheckFlexVersion().AlignItem = value;
+            }
+        }
+        //----------------------------------------------------------------------
+        public int FlexGrow
+        {
+            get { return this._flexFeats.FlexGrow; }
+            set
+            {
+                if (Assignable()) CheckFlexVersion().FlexGrow = value;
+            }
+        }
+        public int FlexShrink
+        {
+            get { return this._flexFeats.FlexShrink; }
+            set
+            {
+                if (Assignable()) CheckFlexVersion().FlexShrink = value;
+            }
+        }
+        public int FlexOrder
+        {
+            get { return this._flexFeats.FlexOrder; }
+            set
+            {
+                if (Assignable()) CheckFlexVersion().FlexOrder = value;
+            }
+        }
+        public CssLength FlexBasis
+        {
+            get { return this._flexFeats.FlexBasis; }
+            set
+            {
+                if (Assignable()) CheckFlexVersion().FlexBasis = value;
+            }
+        }
         //----------------------------------------------------------------------
 #if DEBUG
         public static bool dbugCompare(dbugPropCheckReport dbugR, BoxSpec boxBase, BoxSpec spec)

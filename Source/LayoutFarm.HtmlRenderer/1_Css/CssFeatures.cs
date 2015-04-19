@@ -908,7 +908,7 @@ namespace LayoutFarm.Css
         int _flexShrink = 1; //flex shrink factor,init =1
         CssLength _flexBasis = CssLength.MainSize; //initial value
         FlexJustifyContent _justifyContent;//axis alingment
-        FlexAlignItems _alignItem;//cross-axis alignment
+        FlexAlignItem _alignItem;//cross-axis alignment
         FlexAlignSelf _alignSelf; //cross-axis alignment
         FlexAlignContent _alignContent;//packing flex lines
 
@@ -978,7 +978,7 @@ namespace LayoutFarm.Css
             get { return this._justifyContent; }
             set { if (Assignable()) this._justifyContent = value; }
         }
-        public FlexAlignItems AlignItem
+        public FlexAlignItem AlignItem
         {
             get { return this._alignItem; }
             set { if (Assignable()) this._alignItem = value; }
