@@ -2,6 +2,9 @@
 
 ![debug view screen](/readme_imgs/s01.png)
 
+###more info / screen capture imgs -> [see wiki](../../wiki/Some-Screen-Captures)
+
+
 I forked this project from https://github.com/ArthurHub/HTML-Renderer (thank you so much)
 
 I added some features
@@ -33,7 +36,7 @@ such as
 feel free to fork/ comment/ suggest /pull request 
 
 
-###more info / screen capture imgs -> [see wiki](../../wiki/Some-Screen-Captures)
+
 
 #license
 it is a C# project with permissive license( MIT,BSD, Apache2)
