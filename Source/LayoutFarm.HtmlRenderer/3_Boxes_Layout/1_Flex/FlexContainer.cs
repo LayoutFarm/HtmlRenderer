@@ -136,6 +136,13 @@ namespace LayoutFarm.HtmlBoxes
     class FlexLine
     {
         List<FlexItem> flexItems = new List<FlexItem>();
+        CssBox flexCssBox;
+        public FlexLine(CssBox flexCssBox)
+        {
+            this.flexCssBox = flexCssBox;
+            AvaliableParentWidth = flexCssBox.SizeWidth;
+            AvaliableParentHeight = flexCssBox.SizeHeight;
+        }
         public void AddChild(FlexItem item)
         {
             this.flexItems.Add(item);
@@ -153,8 +160,8 @@ namespace LayoutFarm.HtmlBoxes
             return this.flexItems[index];
         }
 
-        public float AvaliableParentWidth { get; set; }
-        public float AvaliableParentHeight { get; set; }
+        float AvaliableParentWidth { get; set; }
+        float AvaliableParentHeight { get; set; }
 
         public float LineHeightAfterArrange { get; private set; }
         public float LineWidthAfterArrange { get; private set; }
@@ -229,9 +236,13 @@ namespace LayoutFarm.HtmlBoxes
                 //find if it can shrink?
 
             }
+
+            this.LineWidthAfterArrange = curX;
+
             //-----------------------------------------------
+            //check for height
             float maxHeight = 0;
-            for (int i = 0; i < j; ++i)
+            for (int i = flexItems.Count - 1; i >= 0; --i)
             {
                 FlexItem flexItem = flexItems[i];
                 CssBox box = flexItem.Box;
@@ -240,8 +251,29 @@ namespace LayoutFarm.HtmlBoxes
                     maxHeight = box.SizeHeight;
                 }
             }
-            this.LineHeightAfterArrange = maxHeight;
-            this.LineWidthAfterArrange = curX;
+            if (maxHeight < this.AvaliableParentHeight)
+            {
+                //expand item or shrink
+                if (this.flexCssBox.Height.IsEmptyOrAuto)
+                {
+                    //autoheight 
+                    //then set new height for parent
+                    this.LineHeightAfterArrange = maxHeight;
+                }
+                else
+                {
+                    //try expand flex item  
+                    for (int i = flexItems.Count - 1; i >= 0; --i)
+                    {
+                        FlexItem flexItem = flexItems[i];
+                        if (!flexItem.ReachMaxHeight)
+                        {
+                            flexItem.Box.SetHeight(this.AvaliableParentHeight);
+                        }
+                    }
+                    this.LineHeightAfterArrange = this.AvaliableParentHeight;
+                }
+            }
         }
     }
 }
