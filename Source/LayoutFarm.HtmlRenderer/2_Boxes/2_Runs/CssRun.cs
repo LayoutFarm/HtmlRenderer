@@ -274,6 +274,7 @@ namespace LayoutFarm.HtmlBoxes
 
             switch (this.Kind)
             {
+                case CssRunKind.BlockRun:
                 case CssRunKind.SolidContent:
                     {
                         // not a text word - set full selection
@@ -307,7 +308,7 @@ namespace LayoutFarm.HtmlBoxes
                             selectionIndex = 0;
                             runSelectionOffset = (int)this.Width;
                         }
-                    } break;
+                    } break; 
                 default:
                     {
                         throw new NotSupportedException();

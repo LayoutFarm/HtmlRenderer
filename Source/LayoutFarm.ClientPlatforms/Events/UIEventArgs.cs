@@ -232,7 +232,7 @@ namespace LayoutFarm.UI
 
     public class UIMouseEventArgs : UIEventArgs
     {
-         
+
         public UIMouseEventArgs()
         {
         }
@@ -269,20 +269,20 @@ namespace LayoutFarm.UI
         {
 
             base.Clear();
+            this.Button = UIMouseButtons.Left;
+            this.Clicks =
+                  this.XDiff =
+                  this.YDiff =
+                  this.GlobalX =
+                  this.GlobalY =
+                  this.CapturedMouseX =
+                  this.CapturedMouseY = 0;
 
-            this.Button = 0;
-            this.Clicks = 0;
-            this.XDiff = 0;
-            this.YDiff = 0;
+
             this.MouseCursorStyle = UI.MouseCursorStyle.Default;
             this.IsDragging = false;
             this.DraggingElement = null;
             this.IsFirstMouseEnter = false;
-
-            this.CapturedMouseX = this.CapturedMouseY = 0;
-
-             
-
         }
 
         public MouseCursorStyle MouseCursorStyle
@@ -310,7 +310,7 @@ namespace LayoutFarm.UI
 
         }
         //-------------------------------------------------------------------
-        
+
         public IEventListener CurrentMouseActive
         {
             get;

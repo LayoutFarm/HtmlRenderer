@@ -22,7 +22,7 @@ such as
 
 7) debug view
 
-8) more layout support eg. inline-block,relative, absolute , flex  etc 
+8) more layout support eg. inline-block,relative, absolute ,fixed, flex  etc 
 
 9) added custom controls eg. text editer control, scrollbar, gridbox etc.
 

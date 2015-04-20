@@ -1,5 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System; 
+using System;
 using LayoutFarm.UI;
 namespace LayoutFarm.Text
 {
@@ -37,6 +37,8 @@ namespace LayoutFarm.Text
         public event EventHandler<TextDomEventArgs> CharacterReplaced;
         public event EventHandler<TextDomEventArgs> ReplacedAll;
         public event EventHandler<TextDomEventArgs> ArrowKeyCaretPosChanged;
+
+        public event EventHandler<TextDomEventArgs> KeyDown;
 
         public event EventHandler<UIKeyEventArgs> SpecialKeyInserted;
 
@@ -141,6 +143,7 @@ namespace LayoutFarm.Text
                 listener.CharacterAdded(listener, new TextDomEventArgs(c));
             }
         }
+
         internal static void NotifyCharactersReplaced(TextSurfaceEventListener listener, char c)
         {
             if (listener.CharacterReplaced != null)
@@ -154,9 +157,14 @@ namespace LayoutFarm.Text
             {
                 listener.CharacterRemoved(listener, e);
             }
+        } 
+        internal static void NotifyKeyDown(TextSurfaceEventListener listener, UIKeys key)
+        {
+            if (listener.KeyDown != null)
+            {
+                listener.KeyDown(listener, new TextDomEventArgs(key));
+            }
         }
-
-
         internal static void NofitySplitNewLine(TextSurfaceEventListener listener, UIKeyEventArgs e)
         {
             if (listener.SplitedNewLine != null)

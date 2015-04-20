@@ -131,18 +131,14 @@ namespace LayoutFarm.Text
                 VisualPointInfo endPoint = endLine.GetTextPointInfoFromCharIndex(endColumnNum);
                 return new Rectangle(beginPoint.X, beginLine.Top, endPoint.X, beginLine.ActualLineHeight);
             }
-
         }
-
-
         public void OnKeyPress(UIKeyEventArgs e)
         {
             this.SetCaretState(true);
             //------------------------
             if (e.IsControlCharacter)
             {
-                OnKeyDown(e);
-
+                OnKeyDown(e); 
                 return;
             }
 
@@ -177,7 +173,12 @@ namespace LayoutFarm.Text
                     TextSurfaceEventListener.NotifyCharacterAdded(textSurfaceEventListener, e.KeyChar);
                 }
             }
+
             EnsureCaretVisible();
+            if (textSurfaceEventListener != null)
+            {
+                TextSurfaceEventListener.NotifyKeyDown(textSurfaceEventListener, e.KeyCode);
+            }
         }
         void InvalidateGraphicOfCurrentLineArea()
         {
@@ -350,8 +351,7 @@ namespace LayoutFarm.Text
         }
         public void OnKeyUp(UIKeyEventArgs e)
         {
-            this.SetCaretState(true);
-
+            this.SetCaretState(true); 
         }
         public void OnKeyDown(UIKeyEventArgs e)
         {
@@ -569,6 +569,10 @@ namespace LayoutFarm.Text
 
                         } break;
                 }
+            }
+            if (textSurfaceEventListener != null)
+            {
+                TextSurfaceEventListener.NotifyKeyDown(textSurfaceEventListener, e.KeyCode);
             }
         }
 
@@ -920,7 +924,7 @@ namespace LayoutFarm.Text
             get
             {
                 return internalTextLayerController.CurrentLineArea.Size;
-               
+
             }
         }
         void EnsureCaretVisible()
@@ -935,7 +939,7 @@ namespace LayoutFarm.Text
                 if (!isMultiLine)
                 {
                     var r = internalTextLayerController.CurrentLineArea;
-                    
+
                     //Rectangle r = internalTextLayerController.CurrentParentLineArea;
                     if (r.Width >= this.Width)
                     {
@@ -1034,7 +1038,10 @@ namespace LayoutFarm.Text
             {
                 TextSurfaceEventListener.NotifyCharacterAdded(textSurfaceEventListener, '\t');
             }
+
             InvalidateGraphicOfCurrentLineArea();
+
+             
         }
 
         public void DoTyping(string text)

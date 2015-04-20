@@ -980,15 +980,10 @@ namespace LayoutFarm.HtmlBoxes
 
             //this is an experiment!,  
             var children = CssBox.UnsafeGetChildren(box);
-            var cnode = children.GetFirstLinkedNode();
-
-            float boxwidth = box.SizeWidth;
-            float boxheight = box.SizeHeight;
+            var cnode = children.GetFirstLinkedNode(); 
 
             List<FlexItem> simpleFlexLine = new List<FlexItem>();
-            FlexLine flexLine = new FlexLine();
-            flexLine.AvaliableParentWidth = boxwidth;
-            flexLine.AvaliableParentHeight = boxheight;
+            FlexLine flexLine = new FlexLine(box); 
             while (cnode != null)
             {
                 flexLine.AddChild(new FlexItem(cnode.Value));
