@@ -11,51 +11,8 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
 
-    //    class GridBoxRenderElement
-    //    {
-    //        GridLayer gridLayer;
-    //        public void BuildGrid(int nCols, int nRows, CellSizeStyle cellSizeStyle)
-    //        {
-    //            this.gridLayer = new GridLayer(this, nCols, nRows, cellSizeStyle);
-    //        }
-    //        public GridLayer GridLayer
-    //        {
-    //            get { return this.gridLayer; }
-    //        }
-    //        public void SetContent(int r, int c, CssBox box)
-    //        {
-    //            gridLayer.GetCell(r, c).ContentElement = box;
-    //        }
-    //        protected void DrawContent(Canvas canvas, Rectangle updateArea)
-    //        {
 
-    //#if DEBUG
-    //            if (this.dbugBreak)
-    //            {
-
-    //            }
-    //#endif
-    //            //sample bg   
-    //            //canvas.FillRectangle(BackColor, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
-    //            canvas.FillRectangle(BackColor, 0, 0, this.Width, this.Height);
-
-    //            gridLayer.DrawChildContent(canvas, updateArea);
-
-    //            if (this.HasDefaultLayer)
-    //            {
-    //                this.DrawDefaultLayer(canvas, ref updateArea);
-    //            }
-    //#if DEBUG
-    //            //canvas.dbug_DrawCrossRect(PixelFarm.Drawing.Color.Black,
-    //            //    new Rectangle(0, 0, this.Width, this.Height));
-
-    //            //canvas.dbug_DrawCrossRect(PixelFarm.Drawing.Color.Black,
-    //            //   new Rectangle(updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height));
-    //#endif
-    //        }
-    //    }
-
-    public class GridBox
+    class GridBox
     {
 
         GridLayer gridLayer;
@@ -157,37 +114,6 @@ namespace LayoutFarm.HtmlBoxes
             get { return this.cellSizeStyle; }
             set { this.cellSizeStyle = value; }
         }
-
-        //public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
-        //{
-        //    if (gridBox == null)
-        //    {
-        //        var myGridBox = new GridBoxRenderElement(rootgfx, this.Width, this.Height);
-        //        myGridBox.SetLocation(this.Left, this.Top);
-        //        this.SetPrimaryRenderElement(myGridBox);
-        //        this.gridBox = myGridBox;
-        //        //create layers
-        //        int nrows = this.gridTable.RowCount;
-        //        int ncols = this.gridTable.ColumnCount;
-        //        //----------------------------------------        
-
-        //        myGridBox.BuildGrid(ncols, nrows, this.CellSizeStyle);
-        //        //add grid content
-        //        for (int c = 0; c < ncols; ++c)
-        //        {
-        //            for (int r = 0; r < nrows; ++r)
-        //            {
-        //                var gridCell = gridTable.GetCell(r, c);
-        //                var content = gridCell.ContentElement as UIElement;
-        //                if (content != null)
-        //                {
-        //                    myGridBox.SetContent(r, c, content);
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return gridBox;
-        //}
 
 
     }

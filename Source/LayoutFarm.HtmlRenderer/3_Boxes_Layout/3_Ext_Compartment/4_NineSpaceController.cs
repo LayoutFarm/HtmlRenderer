@@ -38,9 +38,9 @@ namespace LayoutFarm.HtmlBoxes
         protected int sizeH;
 
         protected SpaceConcept dockSpaceConcept = SpaceConcept.FiveSpace;
-        protected UIBox myOwner;
+        protected LayoutBox myOwner;
 
-        public NinespaceController(UIBox owner, SpaceConcept initConcept)
+        public NinespaceController(LayoutBox owner, SpaceConcept initConcept)
         {
             this.myOwner = owner;
             this.dockSpaceConcept = initConcept;
@@ -66,7 +66,7 @@ namespace LayoutFarm.HtmlBoxes
             SpacePart dockspace = new SpacePart(this, 10, 10, name);
             return dockspace;
         }
-        public UIBox Owner
+        public LayoutBox Owner
         {
             get
             {
@@ -94,7 +94,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             return spaces;
         }
-        public IEnumerable<UIBox> GetVisualElementIter()
+        public IEnumerable<LayoutBox> GetVisualElementIter()
         {
             for (int i = spaces.Length - 1; i >= 0; --i)
             {
@@ -105,7 +105,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-        public IEnumerable<UIBox> GetVisualElementReverseIter()
+        public IEnumerable<LayoutBox> GetVisualElementReverseIter()
         {
             for (int i = spaces.Length - 1; i >= 0; --i)
             {
@@ -337,7 +337,7 @@ namespace LayoutFarm.HtmlBoxes
                 return topSpaceHeight;
             }
         }
-        protected UIBox OwnerVisualElement
+        protected LayoutBox OwnerVisualElement
         {
             get
             {

@@ -7,22 +7,7 @@ using LayoutFarm;
 
 namespace LayoutFarm.HtmlBoxes
 {
-    class RenderElement
-    {
-        public int Width
-        {
-            get;
-            set;
-        }
-        public int Height
-        {
-            get;
-            set;
-        }
-        public float SizeWidth { get; set; }
-        public float SizeHeight { get; set; }
-
-    }
+   
     sealed class GridLayer
     {
         GridTable.GridRowCollection gridRows;
@@ -32,7 +17,7 @@ namespace LayoutFarm.HtmlBoxes
         CellSizeStyle cellSizeStyle;
         GridTable gridTable;
 
-        public GridLayer(RenderElement owner, int nColumns, int nRows, CellSizeStyle cellSizeStyle)
+        public GridLayer(LayoutBox owner, int nColumns, int nRows, CellSizeStyle cellSizeStyle)
         {
 
             this.cellSizeStyle = cellSizeStyle;
@@ -169,7 +154,7 @@ namespace LayoutFarm.HtmlBoxes
             for (int i = 0; i < j; ++i)
             {
 
-                var content = col.GetCell(i).ContentElement as RenderElement;
+                var content = col.GetCell(i).ContentElement as LayoutBox;
                 if (content != null)
                 {
                     //RenderElement.DirectSetVisualElementWidth(content, dW);
@@ -183,7 +168,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-        public IEnumerable<RenderElement> GetRenderElementIter()
+        public IEnumerable<LayoutBox> GetRenderElementIter()
         {
 
             if (gridCols != null && gridCols.Count > 0)
@@ -193,7 +178,7 @@ namespace LayoutFarm.HtmlBoxes
 
                     foreach (var gridCell in gridCol.GetTopDownGridCellIter())
                     {
-                        var re = gridCell.ContentElement as RenderElement;
+                        var re = gridCell.ContentElement as LayoutBox;
                         if (re != null)
                         {
                             yield return re;
@@ -202,7 +187,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-        public IEnumerable<RenderElement> GetRenderElementReverseIter()
+        public IEnumerable<LayoutBox> GetRenderElementReverseIter()
         {
             if (gridCols != null && gridCols.Count > 0)
             {
@@ -210,7 +195,7 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     foreach (var gridCell in gridCol.GetTopDownGridCellIter())
                     {
-                        var re = gridCell.ContentElement as RenderElement;
+                        var re = gridCell.ContentElement as LayoutBox;
                         if (re != null)
                         {
                             yield return re;
@@ -588,7 +573,7 @@ namespace LayoutFarm.HtmlBoxes
                     int cellDesiredWidth = col.Width;
                     int cellDesiredHeight = cell.Height;
 
-                    var content = cell.ContentElement as RenderElement;
+                    var content = cell.ContentElement as LayoutBox;
                     if (content != null)
                     {
                         if (content.Width > cellDesiredWidth)
@@ -754,7 +739,7 @@ namespace LayoutFarm.HtmlBoxes
                         int y = gridItem.Y;
                         canvas.OffsetCanvasOrigin(x, y);
                         updateArea.Offset(-x, -y);
-                        var renderContent = gridItem.ContentElement as RenderElement;
+                        var renderContent = gridItem.ContentElement as LayoutBox;
                         if (renderContent != null)
                         { 
                             if (canvas.PushClipAreaRect(gridItem.Width, gridItem.Height, ref updateArea))

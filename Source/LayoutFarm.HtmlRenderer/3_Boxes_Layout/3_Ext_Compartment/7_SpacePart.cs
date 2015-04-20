@@ -10,7 +10,7 @@ namespace LayoutFarm.HtmlBoxes
 
         NamedSpaceContainerOverlapMode overlapMode;
         SpaceName spaceName;
-        UIBox spaceContent;
+        LayoutBox spaceContent;
         NinespaceController ownerDockspaceController;
         int spaceWidth;
         int spaceHeight;
@@ -33,7 +33,7 @@ namespace LayoutFarm.HtmlBoxes
                 return this.ownerDockspaceController;
             }
         }
-        public UIBox Content
+        public LayoutBox Content
         {
             get
             {
@@ -144,7 +144,7 @@ namespace LayoutFarm.HtmlBoxes
             this.spaceY = y;
             this.spaceWidth = w;
             this.spaceHeight = h;
-            UIBox uiContent = this.Content;
+            LayoutBox uiContent = this.Content;
             if (uiContent != null)
             {
                 uiContent.SetBounds(x, y, w, h);

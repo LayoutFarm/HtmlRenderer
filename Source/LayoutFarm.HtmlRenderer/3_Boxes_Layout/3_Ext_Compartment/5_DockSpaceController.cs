@@ -17,7 +17,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public event EventHandler FinishNineSpaceArrangement;
 
-        public DockSpacesController(UIBox owner, SpaceConcept initConcept)
+        public DockSpacesController(LayoutBox owner, SpaceConcept initConcept)
             : base(owner, initConcept)
         {
             this.myOwner = owner;

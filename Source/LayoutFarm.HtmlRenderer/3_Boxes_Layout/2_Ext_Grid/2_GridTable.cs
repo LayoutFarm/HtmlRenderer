@@ -6,7 +6,7 @@ using System.Text;
 
 namespace LayoutFarm.HtmlBoxes
 {
-    public enum CellSizeStyle
+    enum CellSizeStyle
     {
         ColumnAndRow,//depends on owner column and row
         UniformWidth,

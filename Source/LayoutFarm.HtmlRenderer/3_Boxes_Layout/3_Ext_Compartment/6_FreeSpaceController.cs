@@ -8,7 +8,7 @@ namespace LayoutFarm.HtmlBoxes
     class FreeSpacesController : NinespaceController
     {
 
-        public FreeSpacesController(UIBox owner)
+        public FreeSpacesController(LayoutBox owner)
             : base(owner, SpaceConcept.NineSpaceFree)
         {
             spaces[L] = InitSpace(SpaceName.Left);

@@ -6,8 +6,16 @@ using System.Text;
 
 namespace LayoutFarm.HtmlBoxes
 {
-    class UIBox
+    class LayoutBox
     {
+        public LayoutBox()
+        {
+        }
+        public LayoutBox(int w, int h)
+        {
+            this.Left = w;
+            this.Top = h;
+        }
         public int Left
         {
             get;
