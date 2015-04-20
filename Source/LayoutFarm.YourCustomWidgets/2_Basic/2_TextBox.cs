@@ -13,7 +13,7 @@ using LayoutFarm.Composers;
 namespace LayoutFarm.CustomWidgets
 {
 
-    public class TextBox : UIBox, IBoxElement
+    public class TextBox : UIBox 
     {
         TextSurfaceEventListener textSurfaceListener;
         TextEditRenderBox textEditRenderElement;
@@ -316,18 +316,7 @@ namespace LayoutFarm.CustomWidgets
             e.CancelBubbling = true;
         }
 
-        void IBoxElement.ChangeElementSize(int w, int h)
-        {
-            this.SetSize(w, h);
-        }
-        int IBoxElement.MinHeight
-        {
-            get
-            {
-                //TODO: use mimimum current font height
-                return 17;
-            }
-        }
+    
         public override void Walk(UIVisitor visitor)
         {
             visitor.BeginElement(this, "textbox");

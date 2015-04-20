@@ -7,7 +7,7 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.InternalUI
 {
 
-    abstract class UIBox : UIElement, IScrollable
+    abstract class UIBox : UIElement, IScrollable, IBoxElement
     { 
         int _left;
         int _top;
@@ -269,7 +269,16 @@ namespace LayoutFarm.InternalUI
                     return false;
                 });
         }
+        //---------------------------------------------------
+        void IBoxElement.ChangeElementSize(int w, int h)
+        {
+            this.SetSize(w, h);
+        }
 
+        int IBoxElement.MinHeight
+        {
+            get { return this.Height; }
+        }
     }
 
 }
