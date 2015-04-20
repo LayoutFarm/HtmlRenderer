@@ -13,7 +13,7 @@ using LayoutFarm.Composers;
 namespace LayoutFarm.CustomWidgets
 {
 
-    public class TextBox : UIBox 
+    public class TextBox : UIBox
     {
         TextSurfaceEventListener textSurfaceListener;
         TextEditRenderBox textEditRenderElement;
@@ -316,7 +316,7 @@ namespace LayoutFarm.CustomWidgets
             e.CancelBubbling = true;
         }
 
-    
+
         public override void Walk(UIVisitor visitor)
         {
             visitor.BeginElement(this, "textbox");
@@ -326,4 +326,6 @@ namespace LayoutFarm.CustomWidgets
         }
 
     }
+
+
 }

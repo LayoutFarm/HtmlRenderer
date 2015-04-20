@@ -78,11 +78,18 @@ namespace LayoutFarm.CustomWidgets
                     case "text":
                         {
                             // user can specific width of textbox 
-                            var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
+                            //var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
+                            var textbox = new LayoutFarm.CustomWidgets.TextBoxContainer(100, 20, false);
                             var wrapperBox = CreateWrapper(
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
                                  spec, true);
+                            //place holder support
+                            var placeHolderAttr = domE.FindAttribute("placeholder");
+                            if (placeHolderAttr != null)
+                            {
+                                textbox.PlaceHolderText = placeHolderAttr.Value;
+                            }
                             parentBox.AppendChild(wrapperBox);
                             return wrapperBox;
                         }
@@ -114,10 +121,12 @@ namespace LayoutFarm.CustomWidgets
                     case "textbox":
                         {
                             var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
+
                             var wrapperBox = CreateWrapper(
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
                                  spec, true);
+
                             parentBox.AppendChild(wrapperBox);
                             return wrapperBox;
                         }

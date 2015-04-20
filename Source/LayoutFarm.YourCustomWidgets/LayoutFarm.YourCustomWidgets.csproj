@@ -47,6 +47,7 @@
     <Compile Include="2_Basic\2_TextBox.cs" />
     <Compile Include="3_Grid\2_GridLayer.cs" />
     <Compile Include="3_Grid\3_GridTable.cs" />
+    <Compile Include="4.1_Composites\TextBoxContainer.cs" />
     <Compile Include="4.3_Space\4_NineSpaceController.cs" />
     <Compile Include="4.3_Space\5_DockSpaceController.cs" />
     <Compile Include="4.3_Space\6_FreeSpaceController.cs" />
