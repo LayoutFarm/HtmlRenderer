@@ -182,6 +182,7 @@ namespace LayoutFarm
         }
         void ITopWindowEventRoot.RootMouseMove(int x, int y, int button)
         {
+
             int xdiff = x - prevLogicalMouseX;
             int ydiff = y - prevLogicalMouseY;
             this.prevLogicalMouseX = x;

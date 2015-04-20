@@ -13,7 +13,7 @@ namespace LayoutFarm.InternalUI
     delegate void ScrollBarEvaluator(ScrollBar scBar, out double onePixelFore, out int scrollBoxHeight);
 
 
-    class ScrollBar : EaseBox, IBoxElement
+    class ScrollBar : EaseBox
     {
         CustomRenderBox mainBox;
 
@@ -639,16 +639,7 @@ namespace LayoutFarm.InternalUI
                 this.StepSmallToMin();
             }
         }
-        //---------------------------------------------------
-        void IBoxElement.ChangeElementSize(int w, int h)
-        {
-            this.SetSize(w, h);
-        }
-
-        int IBoxElement.MinHeight
-        {
-            get { return this.Height; }
-        }
+        
     }
 
     class ScrollBarCreationParameters

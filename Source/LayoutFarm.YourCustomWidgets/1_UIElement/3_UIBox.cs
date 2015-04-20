@@ -9,8 +9,8 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.UI
 {
 
-    public abstract class UIBox : UIElement, IScrollable
-    {   
+    public abstract class UIBox : UIElement, IScrollable, IBoxElement
+    {
         int _left;
         int _top;
         int _width;
@@ -280,7 +280,18 @@ namespace LayoutFarm.UI
                     return false;
                 });
         }
-
+        void IBoxElement.ChangeElementSize(int w, int h)
+        {
+            this.SetSize(w, h);
+        }
+        int IBoxElement.MinHeight
+        {
+            get
+            {
+                //TODO: use mimimum current font height ***
+                return this.Height;
+            }
+        }
     }
 
 }
