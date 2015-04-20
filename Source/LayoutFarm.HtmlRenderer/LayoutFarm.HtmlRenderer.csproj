@@ -70,6 +70,13 @@
     <Compile Include="2_Boxes\3_Render\CssBoxDecorator.cs" />
     <Compile Include="2_Boxes\1_CoreBox\SelectionSegment.cs" />
     <Compile Include="3_Boxes_Layout\1_Flex\FlexContainer.cs" />
+    <Compile Include="3_Boxes_Layout\3_Ext_Compartment\1_UINinespaceBox.cs" />
+    <Compile Include="3_Boxes_Layout\3_Ext_Compartment\4_NineSpaceController.cs" />
+    <Compile Include="3_Boxes_Layout\3_Ext_Compartment\5_DockSpaceController.cs" />
+    <Compile Include="3_Boxes_Layout\3_Ext_Compartment\6_FreeSpaceController.cs" />
+    <Compile Include="3_Boxes_Layout\3_Ext_Compartment\7_SpacePart.cs" />
+    <Compile Include="3_Boxes_Layout\3_Ext_Compartment\8_SpacePartEnums.cs" />
+    <Compile Include="3_Boxes_Layout\3_Ext_Compartment\9_NinespaceGrippers.cs" />
     <Compile Include="4_Svg\05_SvgDoms\CssBoxSvgRoot.cs" />
     <Compile Include="4_Svg\05_SvgDoms\SvgElements.cs" />
     <Compile Include="4_Svg\07_Coords_Transforms\SvgMatrix.cs" />
