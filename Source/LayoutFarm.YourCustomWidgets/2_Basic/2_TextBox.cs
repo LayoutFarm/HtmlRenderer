@@ -9,10 +9,11 @@ using LayoutFarm;
 using LayoutFarm.UI;
 using LayoutFarm.Text;
 using LayoutFarm.Composers;
+
 namespace LayoutFarm.CustomWidgets
 {
 
-    public class TextBox : UIBox, IBoxElement, IEventPortal
+    public class TextBox : UIBox, IBoxElement
     {
         TextSurfaceEventListener textSurfaceListener;
         TextEditRenderBox textEditRenderElement;
@@ -20,6 +21,7 @@ namespace LayoutFarm.CustomWidgets
         TextSpanStyle defaultSpanStyle;
         Color backgroundColor = Color.White;
         string userTextContent;
+
         public TextBox(int width, int height, bool multiline)
             : base(width, height)
         {
@@ -117,7 +119,7 @@ namespace LayoutFarm.CustomWidgets
                             var startIndex = splitBound.startIndex;
                             var length = splitBound.length;
                             var splitBuffer = new char[length];
-                            Array.Copy(buffer, startIndex, splitBuffer, 0, length); 
+                            Array.Copy(buffer, startIndex, splitBuffer, 0, length);
                             var textspan = textEditRenderElement.CreateFreezeTextRun(splitBuffer);
                             textEditRenderElement.AddTextRun(textspan);
                         }
@@ -314,83 +316,6 @@ namespace LayoutFarm.CustomWidgets
             e.CancelBubbling = true;
         }
 
-#if DEBUG
-        //int dbugMouseDragBegin = 0;
-        //int dbugMouseDragging = 0;
-        //int dbugMouseDragEnd = 0;
-#endif
-        //protected override void OnDragBegin(UIMouseEventArgs e)
-        //{
-        //    dbugMouseDragBegin++;
-        //    this.isMouseDown = this.isDragging = true;
-        //    visualTextEdit.OnDragBegin(e);
-        //    e.CancelBubbling = true;
-        //    e.MouseCursorStyle = MouseCursorStyle.IBeam;
-        //}
-        //protected override void OnDragging(UIMouseEventArgs e)
-        //{
-        //    dbugMouseDragging++;
-
-        //    visualTextEdit.OnDrag(e);
-        //    e.CancelBubbling = true;
-        //    e.MouseCursorStyle = MouseCursorStyle.IBeam;
-        //}
-        //protected override void OnDragEnd(UIMouseEventArgs e)
-        //{
-        //    dbugMouseDragEnd++;
-        //    visualTextEdit.OnDragEnd(e);
-        //    this.isMouseDown = this.isDragging = false;
-        //    e.MouseCursorStyle = MouseCursorStyle.Default;
-        //    e.CancelBubbling = true;
-        //}
-        //------------------------------------------------------
-
-
-        void IEventPortal.PortalKeyPress(UIKeyEventArgs e)
-        {
-            this.OnKeyPress(e);
-        }
-        void IEventPortal.PortalKeyDown(UIKeyEventArgs e)
-        {
-            this.OnKeyDown(e);
-        }
-        void IEventPortal.PortalKeyUp(UIKeyEventArgs e)
-        {
-            this.OnKeyUp(e);
-        }
-        bool IEventPortal.PortalProcessDialogKey(UIKeyEventArgs e)
-        {
-            return this.OnProcessDialogKey(e);
-        }
-        void IEventPortal.PortalMouseDown(UIMouseEventArgs e)
-        {
-            this.OnMouseDown(e);
-        }
-        void IEventPortal.PortalMouseMove(UIMouseEventArgs e)
-        {
-            this.OnMouseMove(e);
-
-        }
-        void IEventPortal.PortalMouseUp(UIMouseEventArgs e)
-        {
-            this.OnMouseUp(e);
-
-        }
-
-        void IEventPortal.PortalMouseWheel(UIMouseEventArgs e)
-        {
-
-        }
-
-        void IEventPortal.PortalGotFocus(UIFocusEventArgs e)
-        {
-
-        }
-
-        void IEventPortal.PortalLostFocus(UIFocusEventArgs e)
-        {
-
-        }
         void IBoxElement.ChangeElementSize(int w, int h)
         {
             this.SetSize(w, h);

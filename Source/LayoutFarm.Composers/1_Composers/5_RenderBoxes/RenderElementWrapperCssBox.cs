@@ -366,8 +366,8 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
         void RenderBoxes.IParentLink.AdjustLocation(ref Point p)
         {
-            //do nothing
-
+            p.X += adjustX;
+            p.Y += adjustY;
         }
         RenderElement RenderBoxes.IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
