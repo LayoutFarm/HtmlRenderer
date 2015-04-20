@@ -70,9 +70,6 @@
     <Compile Include="2_Boxes\3_Render\CssBoxDecorator.cs" />
     <Compile Include="2_Boxes\1_CoreBox\SelectionSegment.cs" />
     <Compile Include="3_Boxes_Layout\1_Flex\FlexContainer.cs" />
-    <Compile Include="3_Boxes_Layout\2_Ext_Grid\1_GridLayer.cs" />
-    <Compile Include="3_Boxes_Layout\2_Ext_Grid\2_GridTable.cs" />
-    <Compile Include="3_Boxes_Layout\2_Ext_Grid\3_GridBox.cs" />
     <Compile Include="3_Boxes_Layout\3_Ext_Compartment\1_UINinespaceBox.cs" />
     <Compile Include="3_Boxes_Layout\3_Ext_Compartment\4_NineSpaceController.cs" />
     <Compile Include="3_Boxes_Layout\3_Ext_Compartment\5_DockSpaceController.cs" />

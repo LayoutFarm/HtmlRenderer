@@ -168,10 +168,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.hasCalculatedSize; }
         }
-        //public void InvalidateArrangeStatus()
-        //{
-        //}
-
+       
 #if DEBUG
         public override string ToString()
         {

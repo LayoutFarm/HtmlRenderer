@@ -37,12 +37,7 @@ namespace LayoutFarm.HtmlBoxes
             SetSize(w, h);
             SetupDockSpaces(spaceConcept);
         }
-
-        public bool ShowGrippers
-        {
-            get;
-            set;
-        }
+ 
         static LayoutBox CreateSpaceBox(SpaceName name)
         {
             int controllerBoxWH = 10;
