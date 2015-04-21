@@ -338,17 +338,22 @@ namespace LayoutFarm.HtmlBoxes
         }
         public CssBox CreateBox(CssBox parentBox, HtmlElement childElement, bool fullmode)
         {
-            CssBox newBox = null;
+
+
             //----------------------------------------- 
             //1. create new box
             //----------------------------------------- 
             //some box has predefined behaviour
+
+            CssBox newBox = null; 
+
             switch (childElement.WellknownElementName)
             {
 
                 case WellKnownDomNodeName.br:
                     //special treatment for br
-                    newBox = new CssBox(childElement, childElement.Spec, parentBox.RootGfx);
+                    newBox = new CssBox(childElement.Spec, parentBox.RootGfx);
+                    newBox.SetController(childElement);
                     CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
 
@@ -362,7 +367,8 @@ namespace LayoutFarm.HtmlBoxes
                     childElement.SetPrincipalBox(newBox);
                     return newBox;
                 case WellKnownDomNodeName.hr:
-                    newBox = new CssBoxHr(childElement, childElement.Spec, parentBox.RootGfx);
+                    newBox = new CssBoxHr(childElement.Spec, parentBox.RootGfx);
+                    newBox.SetController(childElement);
                     parentBox.AppendChild(newBox);
                     childElement.SetPrincipalBox(newBox);
                     return newBox;
@@ -468,7 +474,8 @@ namespace LayoutFarm.HtmlBoxes
                                 newBox = ListItemBoxCreator.CreateListItemBox(parentBox, childElement);
                                 break;
                             default:
-                                newBox = new CssBox(childElement, childSpec, parentBox.RootGfx);
+                                newBox = new CssBox(childSpec, parentBox.RootGfx);
+                                newBox.SetController(childElement);
                                 parentBox.AppendChild(newBox);
                                 break;
                         }
@@ -480,7 +487,7 @@ namespace LayoutFarm.HtmlBoxes
             return newBox;
         }
 
-        public CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
+        CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
         {
             string imgsrc;
             ImageBinder imgBinder = null;
@@ -497,8 +504,8 @@ namespace LayoutFarm.HtmlBoxes
                 clientImageBinder.SetOwner(childElement);
             }
 
-            CssBoxImage boxImage = new CssBoxImage(childElement, childElement.Spec, parent.RootGfx, imgBinder);
-
+            CssBoxImage boxImage = new CssBoxImage(childElement.Spec, parent.RootGfx, imgBinder);
+            boxImage.SetController(childElement);
             parent.AppendChild(boxImage);
             return boxImage;
         }

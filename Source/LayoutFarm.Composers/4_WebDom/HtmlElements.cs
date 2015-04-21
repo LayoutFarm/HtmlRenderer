@@ -68,7 +68,7 @@ namespace LayoutFarm.WebDom
                     } break;
             }
         }
-        
+
 
         public void SetPrincipalBox(CssBox box)
         {
@@ -94,7 +94,7 @@ namespace LayoutFarm.WebDom
 
         protected override void OnElementChangedInIdleState(ElementChangeKind changeKind)
         {
-             
+
             //1. 
             this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
             if (this.OwnerDocument.IsDocFragment) return;
@@ -108,7 +108,7 @@ namespace LayoutFarm.WebDom
                 ((HtmlElement)cnode).SkipPrincipalBoxEvalulation = false;
                 cnode = cnode.ParentNode;
             }
-        } 
+        }
         //------------------------------------
         internal static void InvokeNotifyChangeOnIdleState(HtmlElement elem, ElementChangeKind changeKind)
         {
@@ -133,7 +133,7 @@ namespace LayoutFarm.WebDom
         internal bool SkipPrincipalBoxEvalulation
         {
             get;
-            set; 
+            set;
         }
         internal static CssBox InternalGetPrincipalBox(HtmlElement element)
         {
@@ -161,8 +161,8 @@ namespace LayoutFarm.WebDom
             //create scrollbar
 
 
-            var scrollView = new CssScrollView(this, boxSpec, box.RootGfx);
-
+            var scrollView = new CssScrollView(boxSpec, box.RootGfx);
+            scrollView.SetController(this);
             scrollView.SetSize(box.SizeWidth, box.SizeHeight);
             scrollView.SetExpectedSize(box.SizeWidth, box.SizeHeight);
 

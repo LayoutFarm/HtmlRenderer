@@ -545,7 +545,7 @@ namespace LayoutFarm.HtmlBoxes
         static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
         {
             //auto gen by layout engine ***
-            var newBox = new CssBox(null, CssBox.UnsafeGetBoxSpec(parent).GetAnonVersion(), parent.RootGfx);
+            var newBox = new CssBox(CssBox.UnsafeGetBoxSpec(parent).GetAnonVersion(), parent.RootGfx);
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Block);
             parent.InsertChild(insertBefore, newBox);
             return newBox;
@@ -981,10 +981,10 @@ namespace LayoutFarm.HtmlBoxes
 
             //this is an experiment!,  
             var children = CssBox.UnsafeGetChildren(box);
-            var cnode = children.GetFirstLinkedNode(); 
+            var cnode = children.GetFirstLinkedNode();
 
             List<FlexItem> simpleFlexLine = new List<FlexItem>();
-            FlexLine flexLine = new FlexLine(box); 
+            FlexLine flexLine = new FlexLine(box);
             while (cnode != null)
             {
                 flexLine.AddChild(new FlexItem(cnode.Value));

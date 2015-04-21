@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Globalization;
 using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
-using LayoutFarm.Css; 
+using LayoutFarm.Css;
 using LayoutFarm.Composers;
 
 
 namespace LayoutFarm.HtmlBoxes
-{   
+{
     static class TableBoxCreator
     {
 
         public static CssBox CreateOtherPredefinedTableElement(CssBox parent,
             HtmlElement childElement, CssDisplay selectedCssDisplayType)
         {
-            var newBox = new CssBox(childElement, childElement.Spec, parent.RootGfx, selectedCssDisplayType);
+            var newBox = new CssBox(childElement.Spec, parent.RootGfx, selectedCssDisplayType);
+            newBox.SetController(childElement);
             parent.AppendChild(newBox);
             return newBox;
         }
@@ -25,13 +26,13 @@ namespace LayoutFarm.HtmlBoxes
             CssBox col = null;
             if (fixDisplayType)
             {
-                col = new CssBox(childElement, childElement.Spec, parent.RootGfx, selectedCssDisplayType);
+                col = new CssBox(childElement.Spec, parent.RootGfx, selectedCssDisplayType);
             }
             else
-            {
-                col = new CssBox(childElement, childElement.Spec, parent.RootGfx);
-
+            { 
+                col = new CssBox(childElement.Spec, parent.RootGfx); 
             }
+            col.SetController(childElement);
             parent.AppendChild(col);
 
             string spanValue;
@@ -56,12 +57,13 @@ namespace LayoutFarm.HtmlBoxes
             CssBox tableCell = null;
             if (fixDisplayType)
             {
-                tableCell = new CssBox(childElement, childElement.Spec, parent.RootGfx, CssDisplay.TableCell);
+                tableCell = new CssBox(childElement.Spec, parent.RootGfx, CssDisplay.TableCell);
             }
             else
             {
-                tableCell = new CssBox(childElement, childElement.Spec, parent.RootGfx);
+                tableCell = new CssBox(childElement.Spec, parent.RootGfx);
             }
+            tableCell.SetController(childElement);
             parent.AppendChild(tableCell);
             //----------------------------------------------------------------------------------------------
 
@@ -102,14 +104,15 @@ namespace LayoutFarm.HtmlBoxes
         public static CssBox CreateListItemBox(CssBox parent, HtmlElement childElement)
         {
             var spec = childElement.Spec;
-            var newBox = new CssBoxListItem(childElement, spec, parent.RootGfx); 
+            var newBox = new CssBoxListItem(spec, parent.RootGfx);
+            newBox.SetController(childElement);
             parent.AppendChild(newBox);
 
             if (spec.ListStyleType != CssListStyleType.None)
             {
 
                 //create sub item collection 
-                var itemBulletBox = new CssBox(null, spec.GetAnonVersion(), parent.RootGfx);
+                var itemBulletBox = new CssBox(spec.GetAnonVersion(), parent.RootGfx);
                 newBox.BulletBox = itemBulletBox;
 
                 CssBox.UnsafeSetParent(itemBulletBox, newBox);
