@@ -85,14 +85,15 @@ namespace LayoutFarm.HtmlBoxes
                 requestImage(this, resReq);
             }
         }
-
-        public FragmentHtmlDocument CreateNewFragmentHtml()
+        public HtmlDocument CreateNewDocumentFragment()
         {
-            return new FragmentHtmlDocument(this.commonHtmlDoc);
+            return new HtmlDocumentFragment(this.commonHtmlDoc);
         }
-
-
-
+        public HtmlDocument CreateNewSharedHtmlDoc()
+        {
+            //this is my extension *** 
+            return new HtmlSharedDocument(this.commonHtmlDoc);
+        }
         public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlContainer htmlCont)
         {
             LayoutFarm.HtmlBoxes.LayoutVisitor lay = null;
@@ -304,7 +305,7 @@ namespace LayoutFarm.HtmlBoxes
                                             CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(childElement);
                                             if (existingCssBox == null)
                                             {
-                                                bool alreadyHandleChildrenNode;
+
                                                 CssBox box = CreateBox(hostBox, childElement, fullmode);
 
                                             }
@@ -347,7 +348,7 @@ namespace LayoutFarm.HtmlBoxes
 
                 case WellKnownDomNodeName.br:
                     //special treatment for br
-                    newBox = new CssBox(childElement, childElement.Spec, parentBox.RootGfx);                   
+                    newBox = new CssBox(childElement, childElement.Spec, parentBox.RootGfx);
                     CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
 

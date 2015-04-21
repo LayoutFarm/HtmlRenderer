@@ -108,8 +108,6 @@ namespace LayoutFarm.WebDom
             attr.SetParent(this);
             NotifyChange(ElementChangeKind.AddAttribute);
             //---------------------
-
-
         }
         public void SetAttribute(string attrName, string value)
         {
@@ -213,11 +211,11 @@ namespace LayoutFarm.WebDom
                 case DocumentState.Idle:
                     {
                         //notify parent 
-                        OnChangeInIdleState(changeKind);
+                        OnElementChangedInIdleState(changeKind);
                     } break;
             }
         }
-        protected virtual void OnChangeInIdleState(ElementChangeKind changeKind)
+        protected virtual void OnElementChangedInIdleState(ElementChangeKind changeKind)
         {
 
         }

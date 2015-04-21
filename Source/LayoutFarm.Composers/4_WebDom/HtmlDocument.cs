@@ -116,11 +116,12 @@ namespace LayoutFarm.WebDom
         }
 
         public DomElement CreateWrapperElement(
+            string wrapperElementName,
             LazyCssBoxCreator lazyCssBoxCreator)
         {
             return new ExternalHtmlElement(this,
                 AddStringIfNotExists(null),
-                AddStringIfNotExists("x"),
+                AddStringIfNotExists(wrapperElementName),
                 lazyCssBoxCreator);
         }
 
@@ -146,17 +147,7 @@ namespace LayoutFarm.WebDom
         }
     }
 
-
-
-    public partial class FragmentHtmlDocument : HtmlDocument
-    {
-        HtmlDocument primaryHtmlDoc;
-        internal FragmentHtmlDocument(HtmlDocument primaryHtmlDoc)
-            : base(primaryHtmlDoc.UniqueStringTable)
-        {
-            this.primaryHtmlDoc = primaryHtmlDoc;
-        }
-    }
+    
 
     //------------------------------------------------------------
     public delegate void LazyCssBoxCreator(RootGraphic rootgfx, out RenderElement re, out object controller);

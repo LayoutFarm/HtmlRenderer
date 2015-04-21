@@ -93,7 +93,7 @@ namespace LayoutFarm.HtmlWidgets
             {
 
                 var lightHtmlBox = new HtmlBox(htmlhost, widget.Width, widget.Height);
-                FragmentHtmlDocument htmldoc = htmlhost.CreateNewFragmentHtml();
+                HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
                 var presentationDom = widget.GetPresentationDomNode(htmldoc.RootNode);
                 if (presentationDom != null)
                 {
@@ -118,12 +118,12 @@ namespace LayoutFarm.HtmlWidgets
 
         DomElement myPresentationDom;
         HtmlBox lightHtmlBox; //primary ui element
-        
+
         HtmlHost htmlhost;
         public LightHtmlWidgetBase(int w, int h)
             : base(w, h)
         {
-        } 
+        }
         public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
         {
             this.htmlhost = htmlhost;
@@ -131,7 +131,7 @@ namespace LayoutFarm.HtmlWidgets
             {
 
                 var lightHtmlBox = new HtmlBox(htmlhost, this.Width, this.Height);
-                FragmentHtmlDocument htmldoc = htmlhost.CreateNewFragmentHtml();
+                HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
                 myPresentationDom = GetPresentationDomNode(htmldoc.RootNode);
                 if (myPresentationDom != null)
                 {
@@ -153,7 +153,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             var htmlhost = this.HtmlHost;
             if (htmlhost == null) return;
-            
+
             var topWindow = htmlhost.TopWindowRenderBox;
             if (topWindow != null)
             {
@@ -197,7 +197,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             get
             {
-                
+
                 return htmlhost;
             }
         }

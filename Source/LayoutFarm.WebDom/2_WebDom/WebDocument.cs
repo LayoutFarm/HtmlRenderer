@@ -17,7 +17,7 @@ namespace LayoutFarm.WebDom
         }
         public abstract DomElement RootNode
         {
-            get; 
+            get;
         }
         public abstract int DomUpdateVersion { get; set; }
         public int AddStringIfNotExists(string uniqueString)
@@ -91,6 +91,7 @@ namespace LayoutFarm.WebDom
         {
             get { return this.uniqueStringTable; }
         }
+        public virtual bool IsDocFragment { get { return false; } }
     }
 
     public enum DocumentState

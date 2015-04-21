@@ -98,9 +98,7 @@ namespace Test5_Ease
             WebDocument webdoc = easeViewport.GetHtmlDom();
             //3. get element by id 
             var domNodeA = webdoc.GetElementById("a");
-            var domNodeB = webdoc.GetElementById("b");
-
-
+            var domNodeB = webdoc.GetElementById("b");  
             domNodeA.AddTextContent("Hello from A");
             domNodeB.AddChild("div", div =>
             {

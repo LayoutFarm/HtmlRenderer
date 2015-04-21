@@ -44,9 +44,9 @@ namespace LayoutFarm.WebWidgets
 
             //tabContainer.SelectedIndex = 1; 
         }
-        FragmentHtmlDocument CreateSampleHtmlDoc(string pageNote)
+        HtmlDocument CreateSampleHtmlDoc(string pageNote)
         {
-            FragmentHtmlDocument htmldoc = this.myHtmlHost.CreateNewFragmentHtml();// new HtmlDocument();
+            HtmlDocument htmldoc = this.myHtmlHost.CreateNewSharedHtmlDoc();// new HtmlDocument();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  

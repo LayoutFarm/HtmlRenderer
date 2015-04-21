@@ -58,7 +58,7 @@ namespace LayoutFarm.Composers
         {
 
             //recursive 
-            var principalCssBox = parentElement.GetPrincipalBox();
+            CssBox principalCssBox = parentElement.GetPrincipalBox();
             bool isblockContext = true;//default
             if (principalCssBox != null)
             {

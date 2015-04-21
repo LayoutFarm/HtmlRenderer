@@ -25,8 +25,6 @@ namespace LayoutFarm.WebDom
         {
             this.boxSpec = new Css.BoxSpec();
         }
-
-
         public WellKnownDomNodeName WellknownElementName { get; set; }
         public bool TryGetAttribute(WellknownName wellknownHtmlName, out DomAttribute result)
         {
@@ -70,15 +68,7 @@ namespace LayoutFarm.WebDom
                     } break;
             }
         }
-        //------------------------------------
-        public Point GetActualElementGlobalLocation()
-        {
-            float globalX, globalY;
-
-            this.principalBox.GetElementGlobalLocation(out globalX, out globalY);
-            return new Point((int)globalX, (int)globalY);
-
-        }
+        
 
         public void SetPrincipalBox(CssBox box)
         {
@@ -99,29 +89,30 @@ namespace LayoutFarm.WebDom
         protected override void OnContentUpdate()
         {
             base.OnContentUpdate();
-            OnChangeInIdleState(ElementChangeKind.ContentUpdate);
+            OnElementChangedInIdleState(ElementChangeKind.ContentUpdate);
         }
 
-        protected override void OnChangeInIdleState(ElementChangeKind changeKind)
+        protected override void OnElementChangedInIdleState(ElementChangeKind changeKind)
         {
+             
             //1. 
             this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
-            //2.
+            if (this.OwnerDocument.IsDocFragment) return;
+            //------------------------------------------------------------------
+            //2. need box evaluation again
             this.SkipPrincipalBoxEvalulation = false;
+            //3. propag
             var cnode = this.ParentNode;
             while (cnode != null)
             {
                 ((HtmlElement)cnode).SkipPrincipalBoxEvalulation = false;
                 cnode = cnode.ParentNode;
             }
-        }
-
-
-
+        } 
         //------------------------------------
         internal static void InvokeNotifyChangeOnIdleState(HtmlElement elem, ElementChangeKind changeKind)
         {
-            elem.OnChangeInIdleState(changeKind);
+            elem.OnElementChangedInIdleState(changeKind);
         }
         internal CssRuleSet ElementRuleSet
         {
@@ -142,8 +133,7 @@ namespace LayoutFarm.WebDom
         internal bool SkipPrincipalBoxEvalulation
         {
             get;
-            set;
-
+            set; 
         }
         internal static CssBox InternalGetPrincipalBox(HtmlElement element)
         {
@@ -157,6 +147,7 @@ namespace LayoutFarm.WebDom
         {
             return this.principalBox;
         }
+
         protected override void OnElementChanged()
         {
 
@@ -252,7 +243,7 @@ namespace LayoutFarm.WebDom
             //close tag
             writer.Write("</", this.Name, ">");
         }
-        protected override void PrimaryCssGetGlobalLocation(out int x, out int y)
+        public override void GetGlobalLocation(out int x, out int y)
         {
             float globalX, globalY;
             this.principalBox.GetElementGlobalLocation(out globalX, out globalY);

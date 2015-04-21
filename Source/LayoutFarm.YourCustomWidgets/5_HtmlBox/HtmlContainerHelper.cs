@@ -57,7 +57,7 @@ namespace LayoutFarm.HtmlBoxes
             HtmlRenderBox htmlFrgmentRenderBox)
         {
 
-            var htmldoc = htmlHost.CreateNewFragmentHtml();
+            var htmldoc = htmlHost.CreateNewSharedHtmlDoc();
             var myHtmlBodyElement = htmldoc.CreateElement("body");
             htmldoc.RootNode.AddChild(myHtmlBodyElement);
 
