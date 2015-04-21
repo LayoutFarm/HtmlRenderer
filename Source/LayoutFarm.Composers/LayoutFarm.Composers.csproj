@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="1_Composers\1_Builder\ClientBinder.cs" />
+    <Compile Include="1_Composers\1_Builder\HtmlHost.cs" />
     <Compile Include="1_Composers\1_Builder\WebDocumentParser.cs" />
     <Compile Include="1_Composers\1_Builder\TopDownActiveCssTemplate.cs" />
     <Compile Include="1_Composers\1_Builder\CustomCssBoxGenerator.cs" />
@@ -50,7 +51,7 @@
     <Compile Include="1_Composers\1_Builder\BulletNumberFormatter.cs" />
     <Compile Include="1_Composers\1_Builder\ContentTextSplitter.cs" />
     <Compile Include="1_Composers\2_Css\SpecSetter.cs" />
-    <Compile Include="1_Composers\1_Builder\BoxCreator.cs" />
+    <Compile Include="1_Composers\1_Builder\SpecialBoxCreator.cs" />
     <Compile Include="1_Composers\5_RenderBoxes\TopWindowRenderBox.cs" />
     <Compile Include="1_Composers\6_SpecialCssBoxes\CssBoxScrollView.cs" />
     <Compile Include="1_Composers\6_SpecialCssBoxes\CssRenderRoot.cs" />
@@ -69,7 +70,7 @@
     <Compile Include="7_Events\HtmlInputEventAdapter.cs" />
     <Compile Include="1_Composers\5_RenderBoxes\RenderElementWrapperCssBox.cs" />
     <Compile Include="1_Composers\2_Css\CssDefaults.cs" />
-    <Compile Include="4_WebDom\HtmlDocument.Scripting.cs" />
+    <Compile Include="4_WebDom\HtmlDocument_Scripting.cs" />
     <Compile Include="4_WebDom\HtmlElements.Scripting.cs" />
     <Compile Include="4_WebDom\DomTextWriter.cs" />
     <Compile Include="4_WebDom\HtmlTextNode.cs" />
@@ -77,7 +78,7 @@
     <Compile Include="4_WebDom\HtmlElements.cs" />
     <Compile Include="4_WebDom\SpecialHtmlElements.cs" />
     <Compile Include="6_Svg\SvgCreator.cs" />
-    <Compile Include="1_Composers\5_RenderBoxes\HtmlHostAndHtmlContainer.cs" />
+    <Compile Include="1_Composers\5_RenderBoxes\MyHtmlContainer.cs" />
     <Compile Include="6_Svg\SvgRootEventPortal_IEventPortal.cs" />
     <Compile Include="6_Svg\SvgRootEventPortal.cs" />
     <Compile Include="7_Events\MyIntervalTaskEventArgs.cs" />

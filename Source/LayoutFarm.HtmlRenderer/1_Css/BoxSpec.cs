@@ -881,6 +881,23 @@ namespace LayoutFarm.Css
                 if (Assignable()) CheckFlexVersion().FlexBasis = value;
             }
         }
+        //--------------------------------------------------------------
+        public int FlexExtensionNum
+        {
+            get { return this._flexFeats.FlexExtensionNum; }
+            set
+            {
+                if (Assignable()) CheckFlexVersion().FlexExtensionNum = value;
+            }
+        }
+        public int FlexExtensionPart
+        {
+            get { return this._flexFeats.FlexExtensionPart; }
+            set
+            {
+                if (Assignable()) CheckFlexVersion().FlexExtensionPart = value;
+            }
+        }
         //----------------------------------------------------------------------
 #if DEBUG
         public static bool dbugCompare(dbugPropCheckReport dbugR, BoxSpec boxBase, BoxSpec spec)

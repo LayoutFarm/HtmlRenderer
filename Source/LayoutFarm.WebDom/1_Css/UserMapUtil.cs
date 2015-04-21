@@ -71,6 +71,8 @@ namespace LayoutFarm.WebDom
         [Map("colgroup")]
         colgroup,//table-column-group, specific that an element groups one or more columns;
 
+        [Map("template")]
+        template, //html5 template
         [Map("td")]
         td,//table-cell                
         [Map("th")]
@@ -104,9 +106,7 @@ namespace LayoutFarm.WebDom
         [Map("param")]
         _param,
 
-        [Map("x")]
-        X,//test for extension  
-
+        
         [Map("svg")]
         svg,
         [Map("rect")]

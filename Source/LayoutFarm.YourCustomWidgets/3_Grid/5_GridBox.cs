@@ -68,7 +68,7 @@ namespace LayoutFarm.CustomWidgets
     public class GridBox : EaseBox
     {
 
-        GridBoxRenderElement gridBox;
+        GridBoxRenderElement gridBoxRenderE;
         GridTable gridTable = new GridTable();
         CellSizeStyle cellSizeStyle;
 
@@ -130,10 +130,10 @@ namespace LayoutFarm.CustomWidgets
                 rowTop += eachRowHeight;
             }
             //----------------------------------
-            if (this.gridBox == null) { return; }
+            if (this.gridBoxRenderE == null) { return; }
 
 
-            var gridLayer = gridBox.GridLayer;
+            var gridLayer = gridBoxRenderE.GridLayer;
             colLeft = 0;
             for (int n = 0; n < ncols; ++n)
             {
@@ -158,9 +158,9 @@ namespace LayoutFarm.CustomWidgets
             if (rowIndex < gridTable.RowCount && colIndex < gridTable.ColumnCount)
             {
                 gridTable.GetCell(rowIndex, colIndex).ContentElement = ui;
-                if (this.gridBox != null)
+                if (this.gridBoxRenderE != null)
                 {
-                    gridBox.SetContent(rowIndex, colIndex, ui.GetPrimaryRenderElement(gridBox.Root));
+                    gridBoxRenderE.SetContent(rowIndex, colIndex, ui.GetPrimaryRenderElement(gridBoxRenderE.Root));
                 }
             }
         }
@@ -171,20 +171,20 @@ namespace LayoutFarm.CustomWidgets
         }
         public override RenderElement CurrentPrimaryRenderElement
         {
-            get { return this.gridBox; }
+            get { return this.gridBoxRenderE; }
         }
         protected override bool HasReadyRenderElement
         {
-            get { return this.gridBox != null; }
+            get { return this.gridBoxRenderE != null; }
         }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
-            if (gridBox == null)
+            if (gridBoxRenderE == null)
             {
                 var myGridBox = new GridBoxRenderElement(rootgfx, this.Width, this.Height);
                 myGridBox.SetLocation(this.Left, this.Top);
                 this.SetPrimaryRenderElement(myGridBox);
-                this.gridBox = myGridBox;
+                this.gridBoxRenderE = myGridBox;
                 //create layers
                 int nrows = this.gridTable.RowCount;
                 int ncols = this.gridTable.ColumnCount;
@@ -205,7 +205,7 @@ namespace LayoutFarm.CustomWidgets
                     }
                 }
             }
-            return gridBox;
+            return gridBoxRenderE;
         }
 
         public override void Walk(UIVisitor visitor)

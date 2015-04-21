@@ -190,7 +190,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             {
                 globalX += (int)cbox.LocalX;
                 globalY += (int)cbox.LocalY;
-                var renderRoot = cbox as LayoutFarm.Composers.CssRenderRoot;
+                var renderRoot = cbox as LayoutFarm.HtmlBoxes.CssRenderRoot;
 
                 if (renderRoot != null)
                 {
@@ -289,7 +289,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             {
                 globalX += (int)cbox.LocalX;
                 globalY += (int)cbox.LocalY;
-                var renderRoot = cbox as LayoutFarm.Composers.CssRenderRoot;
+                var renderRoot = cbox as LayoutFarm.HtmlBoxes.CssRenderRoot;
 
                 if (renderRoot != null)
                 {
