@@ -261,6 +261,7 @@ namespace LayoutFarm.WebDom.Parser
                         } break;
                     case 5:
                         {
+                            //inside open angle
                             //name collecting
                             //terminate with... 
                             switch (c)
@@ -287,7 +288,7 @@ namespace LayoutFarm.WebDom.Parser
                                     } break;
                                 case ' ':
                                     {
-                                        //flush nodename
+                                        //flush node name
                                         FlushExisingBuffer(i, HtmlLexerEvent.NodeNameOrAttribute);
                                     } break;
                                 case '=':
@@ -350,8 +351,7 @@ namespace LayoutFarm.WebDom.Parser
                             if (c == '>')
                             {
                                 FlushExisingBuffer(i, HtmlLexerEvent.NodeNameOrAttribute);
-                                LexStateChanged(HtmlLexerEvent.VisitCloseSlashAngle, i, 1);
-
+                                LexStateChanged(HtmlLexerEvent.VisitCloseSlashAngle, i, 1); 
                                 currentState = 0;
                             }
                             else

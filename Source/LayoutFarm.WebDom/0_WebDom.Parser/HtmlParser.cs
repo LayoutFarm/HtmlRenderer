@@ -17,6 +17,7 @@ namespace LayoutFarm.WebDom.Parser
         int parseState = 0;
         TextSnapshot textSnapshot;
         HtmlLexer lexer;
+        string waitingAttrName;
 
         public HtmlParser()
         {
@@ -71,13 +72,13 @@ namespace LayoutFarm.WebDom.Parser
                     } break;
                 case HtmlLexerEvent.NodeNameOrAttribute:
                     {
-                        string nodename = textSnapshot.Substring(startIndex, len);
+                        string name = textSnapshot.Substring(startIndex, len);
                         switch (parseState)
                         {
                             case 0:
                                 {
 
-                                    DomElement elem = this._resultHtmlDoc.CreateElement(null, nodename);
+                                    DomElement elem = this._resultHtmlDoc.CreateElement(null, name);
 
                                     if (curHtmlNode != null)
                                     {
@@ -88,14 +89,29 @@ namespace LayoutFarm.WebDom.Parser
                                     parseState = 1;//attribute
                                     curTextNode = null;
                                     curAttr = null;
+                                    waitingAttrName = null;
+                                } break;
+                            case 1:
+                                {
+                                    //wait for attr value 
+                                    if (waitingAttrName != null)
+                                    {   
+                                        //push waiting attr
+                                        curAttr = this._resultHtmlDoc.CreateAttribute(null, waitingAttrName);
+                                        curAttr.Value = "";
+                                        curHtmlNode.AddAttribute(curAttr);
+                                        curAttr = null;
+                                    }
+                                    waitingAttrName = name;
                                 } break;
                             case 2:
                                 {
                                     //node name after open slash
-                                    if (curHtmlNode.LocalName == nodename)
+                                    if (curHtmlNode.LocalName == name)
                                     {
                                         if (htmlNodeStack.Count > 0)
                                         {
+                                            waitingAttrName = null;
                                             curTextNode = null;
                                             curAttr = null;
                                             curHtmlNode = htmlNodeStack.Pop();
@@ -109,18 +125,19 @@ namespace LayoutFarm.WebDom.Parser
                                         {
                                             if (htmlNodeStack.Count > 0)
                                             {
-
+                                                waitingAttrName = null;
                                                 curHtmlNode = htmlNodeStack.Pop();
                                                 curAttr = null;
                                                 curTextNode = null;
                                             }
-                                            if (curHtmlNode.LocalName == nodename)
+                                            if (curHtmlNode.LocalName == name)
                                             {
                                                 if (htmlNodeStack.Count > 0)
                                                 {
                                                     curTextNode = null;
                                                     curAttr = null;
                                                     curHtmlNode = htmlNodeStack.Pop();
+                                                    waitingAttrName = null;
                                                 }
                                                 parseState = 3;
                                             }
@@ -133,17 +150,18 @@ namespace LayoutFarm.WebDom.Parser
                                         else
                                         {
                                             throw new NotSupportedException();
-                                        } 
-                                    } 
+                                        }
+                                    }
                                 } break;
                             case 4:
                                 {
                                     //attribute value as id
                                     if (curAttr != null)
                                     {
-                                        curAttr.Value = nodename;
+                                        curAttr.Value = name;
                                         curAttr = null;
                                         parseState = 0;
+                                        waitingAttrName = null;
                                     }
                                     else
                                     {
@@ -160,6 +178,15 @@ namespace LayoutFarm.WebDom.Parser
                     {
                         //close angle of current new node
                         //enter into its content
+                      
+                        if (waitingAttrName != null)
+                        {
+                            curAttr = this._resultHtmlDoc.CreateAttribute(null, waitingAttrName);
+                            curAttr.Value = "";
+                            curHtmlNode.AddAttribute(curAttr);
+                            curAttr = null;
+                        }
+                        waitingAttrName = null;
                         parseState = 0;
                         curTextNode = null;
                         curAttr = null;
@@ -179,6 +206,7 @@ namespace LayoutFarm.WebDom.Parser
                         {
                             curTextNode = null;
                             curAttr = null;
+                            waitingAttrName = null;
                             curHtmlNode = htmlNodeStack.Pop();
                         }
                         parseState = 0;
@@ -208,7 +236,7 @@ namespace LayoutFarm.WebDom.Parser
         /// <param name="stbuilder"></param>
         public void Parse(TextSnapshot textSnapshot, WebDocument htmldoc, DomElement currentNode)
         {
-           
+
 
             this.textSnapshot = textSnapshot;
             //1. lex 
