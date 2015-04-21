@@ -38,20 +38,20 @@ namespace LayoutFarm.HtmlBoxes
     {
 
         readonly Css.BoxSpec _myspec;
-        readonly object _controller;
-        IRootGraphics rootgfx;
 
+        object _controller;
+        IRootGraphics rootgfx;
 #if DEBUG
         public int dbugMark1;
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark;
-#endif
-        public CssBox(object controller, BoxSpec spec, IRootGraphics rootgfx)
+#endif  
+        public CssBox(BoxSpec spec, IRootGraphics rootgfx)
         {
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
-            this._controller = controller;
+
 #if DEBUG
             //if (this.__aa_dbugId == 6)
             //{
@@ -67,13 +67,11 @@ namespace LayoutFarm.HtmlBoxes
             this._myspec = spec;
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
-
         }
-        public CssBox(object controller, BoxSpec spec, IRootGraphics rootgfx, CssDisplay displayType)
+        public CssBox(BoxSpec spec, IRootGraphics rootgfx, CssDisplay displayType)
         {
             this.rootgfx = rootgfx;
             this._aa_boxes = new CssBoxCollection();
-            this._controller = controller;
 
 #if DEBUG
             //if (this.__aa_dbugId == 6)
@@ -93,10 +91,11 @@ namespace LayoutFarm.HtmlBoxes
             this._myspec = spec;
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
-
         }
-        
-        
+        public void SetController(object controller)
+        {
+            this._controller = controller;
+        } 
         public IRootGraphics RootGfx
         {
             get { return this.rootgfx; }
@@ -775,7 +774,7 @@ namespace LayoutFarm.HtmlBoxes
         public static CssBox AddNewAnonInline(CssBox parent)
         {
             var spec = CssBox.UnsafeGetBoxSpec(parent);
-            var newBox = new CssBox(null, spec.GetAnonVersion(), parent.rootgfx);
+            var newBox = new CssBox(spec.GetAnonVersion(), parent.rootgfx);
 
             parent.AppendChild(newBox);
             CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Inline);

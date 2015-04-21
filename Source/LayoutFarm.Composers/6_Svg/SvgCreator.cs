@@ -25,19 +25,18 @@ namespace LayoutFarm.Svg
             SvgFragment fragment = new SvgFragment();
 
             SvgRootEventPortal svgRootController = new SvgRootEventPortal(elementNode);
-
-            CssBoxSvgRoot rootBox = new CssBoxSvgRoot(
-                svgRootController,
+            CssBoxSvgRoot svgRoot = new CssBoxSvgRoot( 
                 elementNode.Spec,
                 parentBox.RootGfx,
                 fragment);
+            svgRoot.SetController(svgRootController);
 
-            svgRootController.SvgRoot = rootBox;
-            parentBox.AppendChild(rootBox);
+            svgRootController.SvgRoot = svgRoot;
+            parentBox.AppendChild(svgRoot);
 
             CreateSvgBoxContent(fragment, elementNode);
 
-            return rootBox;
+            return svgRoot;
 
         }
         static void CreateSvgBoxContent(

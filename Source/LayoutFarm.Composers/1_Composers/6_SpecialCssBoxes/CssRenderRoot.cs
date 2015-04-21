@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
-using LayoutFarm.Css; 
-using LayoutFarm.Composers; 
+using LayoutFarm.Css;
+using LayoutFarm.Composers;
 namespace LayoutFarm.HtmlBoxes
 {
     class CssRenderRoot : CssBox
@@ -12,7 +12,7 @@ namespace LayoutFarm.HtmlBoxes
         LayoutFarm.RenderElement containerElement;
         public CssRenderRoot(BoxSpec spec,
             LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
-            : base(null, spec, rootgfx)
+            : base(spec, rootgfx)
         {
             this.containerElement = containerElement;
         }
@@ -32,13 +32,13 @@ namespace LayoutFarm.HtmlBoxes
             return this;
         }
     }
- 
-    
+
+
     class CssIsolateBox : CssBox
     {
         LayoutFarm.RenderElement containerElement;
         public CssIsolateBox(BoxSpec spec, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
-            : base(null, spec, rootgfx)
+            : base(spec, rootgfx)
         {
             this.containerElement = containerElement;
         }

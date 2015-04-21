@@ -40,7 +40,8 @@ namespace LayoutFarm.WebDom
             newspec.Freeze(); //freeze before use
 
             HtmlElement htmlElement = (HtmlElement)domE;
-            var newBox = new CssBox(domE, newspec, parentBox.RootGfx);
+            var newBox = new CssBox(newspec, parentBox.RootGfx);
+            newBox.SetController(domE);
             htmlElement.SetPrincipalBox(newBox);
             //auto set bc of the element
 
@@ -147,7 +148,7 @@ namespace LayoutFarm.WebDom
         }
     }
 
-    
+
 
     //------------------------------------------------------------
     public delegate void LazyCssBoxCreator(RootGraphic rootgfx, out RenderElement re, out object controller);

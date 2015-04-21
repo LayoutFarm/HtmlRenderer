@@ -62,10 +62,9 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         public WrapperCssBoxBase(object controller,
              BoxSpec spec,
              RootGraphic root, CssDisplay display)
-            : base(controller, spec, root, display)
+            : base(spec, root, display)
         {
-
-
+            this.SetController(controller);
         }
         public override void InvalidateGraphics()
         {

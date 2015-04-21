@@ -23,10 +23,9 @@ namespace LayoutFarm.HtmlBoxes
 
 
         CssBox innerBox;
-        public CssScrollView(object controller,
-            Css.BoxSpec boxSpec,
+        public CssScrollView(Css.BoxSpec boxSpec,
             IRootGraphics rootgfx)
-            : base(controller, boxSpec, rootgfx)
+            : base(boxSpec, rootgfx)
         {
         }
         public CssBox InnerBox
