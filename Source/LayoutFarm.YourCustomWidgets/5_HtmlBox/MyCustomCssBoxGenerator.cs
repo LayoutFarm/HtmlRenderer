@@ -184,8 +184,8 @@ namespace LayoutFarm.CustomWidgets
 
             parentBox.AppendChild(newBox);
 
-            BoxCreator childCreator = new BoxCreator(rootgfx, this.myHost);
-            childCreator.UpdateChildBoxes(htmlElement, true);
+             
+            this.myHost.UpdateChildBoxes(htmlElement, true);
             //----------
             return newBox;
         }
