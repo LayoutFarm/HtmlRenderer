@@ -1,49 +1,181 @@
-﻿// 2015,2014 ,BSD, WinterDev 
+﻿//BSD 2014-2015 ,WinterDev
+//ArthurHub  , Jose Manuel Menendez Poo
+
+using System;
 using System.Collections.Generic;
-using System.Globalization;
+
+using System.Text;
+using System.Diagnostics;
 using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
+using LayoutFarm.ContentManagers;
+using LayoutFarm.UI;
 using LayoutFarm.Css;
-using LayoutFarm.HtmlBoxes;
-using LayoutFarm.Composers;
 
-
-namespace LayoutFarm.Composers
+namespace LayoutFarm.HtmlBoxes
 {
-    public struct BoxCreator
+
+    public class HtmlHost
     {
-        HtmlHost htmlHost;
+        List<LayoutFarm.Composers.CustomCssBoxGenerator> generators = new List<LayoutFarm.Composers.CustomCssBoxGenerator>();
+
+        HtmlContainerUpdateHandler htmlContainerUpdateHandler;
+
+        EventHandler<ImageRequestEventArgs> requestImage;
+        EventHandler<TextRequestEventArgs> requestStyleSheet;
+
+
+        GraphicsPlatform gfxplatform;
+        HtmlDocument commonHtmlDoc;
         RootGraphic rootgfx;
-        public BoxCreator(RootGraphic rootgfx, HtmlHost htmlHost)
+
+        public HtmlHost(GraphicsPlatform gfxplatform, WebDom.CssActiveSheet activeSheet)
         {
-            this.rootgfx = rootgfx;
-            this.htmlHost = htmlHost;
+
+            this.gfxplatform = gfxplatform;
+            this.BaseStylesheet = activeSheet;
+
+            this.commonHtmlDoc = new HtmlDocument();
+            this.commonHtmlDoc.CssActiveSheet = activeSheet;
+        }
+        public HtmlHost(GraphicsPlatform gfxplatform)
+            : this(gfxplatform, LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(null,
+              LayoutFarm.Composers.CssDefaults.DefaultCssData,
+             true))
+        {
+            //use default style sheet
         }
 
-        static CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
+        public void SetRootGraphics(RootGraphic rootgfx)
         {
-            string imgsrc;
-            ImageBinder imgBinder = null;
-            if (childElement.TryGetAttribute(WellknownName.Src, out imgsrc))
+            this.rootgfx = rootgfx;
+        }
+        public RootGraphic RootGfx { get { return this.rootgfx; } }
+        public RenderBoxBase TopWindowRenderBox { get { return this.rootgfx.TopWindowRenderBox; } }
+
+        public void AttachEssentailHandlers(
+            EventHandler<ImageRequestEventArgs> reqImageHandler,
+            EventHandler<TextRequestEventArgs> reqStyleSheetHandler)
+        {
+            this.requestImage = reqImageHandler;
+            this.requestStyleSheet = reqStyleSheetHandler;
+        }
+        public void DetachEssentailHanlders()
+        {
+            this.requestImage = null;
+            this.requestStyleSheet = null;
+        }
+        public void SetHtmlContainerUpdateHandler(HtmlContainerUpdateHandler htmlContainerUpdateHandler)
+        {
+            this.htmlContainerUpdateHandler = htmlContainerUpdateHandler;
+        }
+        public GraphicsPlatform GfxPlatform { get { return this.gfxplatform; } }
+        public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
+
+        public void ChildRequestImage(ImageBinder binder, HtmlContainer htmlCont, object reqFrom, bool _sync)
+        {
+            if (this.requestImage != null)
             {
-                var clientImageBinder = new ClientImageBinder(imgsrc);
-                imgBinder = clientImageBinder;
-                clientImageBinder.SetOwner(childElement);
+                ImageRequestEventArgs resReq = new ImageRequestEventArgs(binder);
+                resReq.requestBy = reqFrom;
+                requestImage(this, resReq);
+            }
+        }
+
+        public FragmentHtmlDocument CreateNewFragmentHtml()
+        {
+            return new FragmentHtmlDocument(this.commonHtmlDoc);
+        }
+
+        //------------------------         
+        Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
+        LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
+
+        public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlContainer htmlCont)
+        {
+            LayoutFarm.HtmlBoxes.LayoutVisitor lay = null;
+            if (htmlLayoutVisitorStock.Count == 0)
+            {
+                lay = new LayoutVisitor(this.gfxplatform);
             }
             else
             {
-                var clientImageBinder = new ClientImageBinder(null);
-                imgBinder = clientImageBinder;
-                clientImageBinder.SetOwner(childElement);
+                lay = this.htmlLayoutVisitorStock.Dequeue();
             }
-
-            CssBoxImage boxImage = new CssBoxImage(childElement, childElement.Spec, parent.RootGfx, imgBinder);
-
-            parent.AppendChild(boxImage);
-            return boxImage;
+            lay.Bind(htmlCont);
+            return lay;
+        }
+        public void ReleaseHtmlLayoutVisitor(LayoutFarm.HtmlBoxes.LayoutVisitor lay)
+        {
+            lay.UnBind();
+            this.htmlLayoutVisitorStock.Enqueue(lay);
         }
 
-        /// <summary>
+        public HtmlInputEventAdapter GetNewInputEventAdapter()
+        {
+            return new HtmlInputEventAdapter(this.gfxplatform.SampleIFonts);
+        }
+        public LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder()
+        {
+            if (this.renderTreeBuilder == null)
+            {
+                renderTreeBuilder = new Composers.RenderTreeBuilder(this);
+                this.renderTreeBuilder.RequestStyleSheet += (e) =>
+                {
+                    if (requestStyleSheet != null)
+                    {
+                        requestStyleSheet(this, e);
+                    }
+                };
+            }
+            return renderTreeBuilder;
+        }
+        internal void NotifyHtmlContainerUpdate(HtmlContainer htmlCont)
+        {
+            if (htmlContainerUpdateHandler != null)
+            {
+                htmlContainerUpdateHandler(htmlCont);
+            }
+        }
+
+        //--------------------------------------------------- 
+
+        public bool AlreadyRegisterCssBoxGen(Type t)
+        {
+            for (int i = generators.Count - 1; i >= 0; --i)
+            {
+                if (generators[i].GetType() == t)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public void RegisterCssBoxGenerator(LayoutFarm.Composers.CustomCssBoxGenerator cssBoxGenerator)
+        {
+            this.generators.Add(cssBoxGenerator);
+        }
+
+        public CssBox CreateCustomBox(CssBox parent,
+            LayoutFarm.WebDom.DomElement tag,
+            LayoutFarm.Css.BoxSpec boxspec,
+            RootGraphic rootgfx,
+            out bool alreadyHandleChildrenNodes)
+        {
+
+            for (int i = generators.Count - 1; i >= 0; --i)
+            {
+                var newbox = generators[i].CreateCssBox(tag, parent, boxspec, rootgfx, out alreadyHandleChildrenNodes);
+                if (newbox != null)
+                {
+
+                    return newbox;
+                }
+            }
+            alreadyHandleChildrenNodes = false;
+            return null;
+        }
+
         /// update some or generate all cssbox
         /// </summary>
         /// <param name="parentElement"></param>
@@ -91,7 +223,6 @@ namespace LayoutFarm.Composers
                                     {
                                         bool alreadyHandleChildrenNode;
                                         CssBox newbox = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
-
                                         childElement.SetPrincipalBox(newbox);
 
                                         if (!alreadyHandleChildrenNode)
@@ -105,8 +236,8 @@ namespace LayoutFarm.Composers
                                         if (existing == null)
                                         {
                                             bool alreadyHandleChildrenNode;
-                                            CssBox box = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode); 
-                                            childElement.SetPrincipalBox(box); 
+                                            CssBox box = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
+                                            childElement.SetPrincipalBox(box);
                                             if (!alreadyHandleChildrenNode)
                                             {
                                                 UpdateChildBoxes(childElement, fullmode);
@@ -242,7 +373,9 @@ namespace LayoutFarm.Composers
             //summary formatting context
             //that will be used on layout process 
             //----------------------------------
+
         }
+
         public CssBox CreateBox(CssBox parentBox, HtmlElement childElement, out bool alreadyHandleChildrenNodes)
         {
 
@@ -297,7 +430,7 @@ namespace LayoutFarm.Composers
                 case WellKnownDomNodeName.canvas:
                 case WellKnownDomNodeName.input:
                     //----------------------------------------------- 
-                    newBox = this.htmlHost.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx, out alreadyHandleChildrenNodes);
+                    newBox = this.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx, out alreadyHandleChildrenNodes);
                     if (newBox != null)
                     {
                         alreadyHandleChildrenNodes = true;
@@ -321,14 +454,14 @@ namespace LayoutFarm.Composers
                             }
                         }
                         //----------------------------------------------- 
-                        newBox = this.htmlHost.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx, out alreadyHandleChildrenNodes);
+                        newBox = this.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx, out alreadyHandleChildrenNodes);
                         if (newBox == null)
                         {
                             goto default;
                         }
                         return newBox;
                     }
-                
+
                 //---------------------------------------------------
                 case WellKnownDomNodeName.svg:
                     {
@@ -358,7 +491,28 @@ namespace LayoutFarm.Composers
             }
         }
 
+        static CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
+        {
+            string imgsrc;
+            ImageBinder imgBinder = null;
+            if (childElement.TryGetAttribute(WellknownName.Src, out imgsrc))
+            {
+                var clientImageBinder = new ClientImageBinder(imgsrc);
+                imgBinder = clientImageBinder;
+                clientImageBinder.SetOwner(childElement);
+            }
+            else
+            {
+                var clientImageBinder = new ClientImageBinder(null);
+                imgBinder = clientImageBinder;
+                clientImageBinder.SetOwner(childElement);
+            }
 
+            CssBoxImage boxImage = new CssBoxImage(childElement, childElement.Spec, parent.RootGfx, imgBinder);
+
+            parent.AppendChild(boxImage);
+            return boxImage;
+        }
         internal static CssBox CreateCssRenderRoot(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
         {
             var spec = new BoxSpec();
@@ -381,203 +535,7 @@ namespace LayoutFarm.Composers
             //------------------------------------
             return box;
         }
-    }
 
 
-    static class TableBoxCreator
-    {
-
-        public static CssBox CreateOtherPredefinedTableElement(CssBox parent,
-            HtmlElement childElement, CssDisplay selectedCssDisplayType)
-        {
-            var newBox = new CssBox(childElement, childElement.Spec, parent.RootGfx, selectedCssDisplayType);
-            parent.AppendChild(newBox);
-            return newBox;
-        }
-        public static CssBox CreateTableColumnOrColumnGroup(CssBox parent,
-            HtmlElement childElement, bool fixDisplayType, CssDisplay selectedCssDisplayType)
-        {
-            CssBox col = null;
-            if (fixDisplayType)
-            {
-                col = new CssBox(childElement, childElement.Spec, parent.RootGfx, selectedCssDisplayType);
-            }
-            else
-            {
-                col = new CssBox(childElement, childElement.Spec, parent.RootGfx);
-
-            }
-            parent.AppendChild(col);
-
-            string spanValue;
-            int spanNum = 1;//default
-            if (childElement.TryGetAttribute(WellknownName.Span, out spanValue))
-            {
-                if (!int.TryParse(spanValue, out spanNum))
-                {
-                    spanNum = 1;
-                }
-                if (spanNum < 0)
-                {
-                    spanNum = -spanNum;
-                }
-            }
-
-            col.SetRowSpanAndColSpan(1, spanNum);
-            return col;
-        }
-        public static CssBox CreateTableCell(CssBox parent, HtmlElement childElement, bool fixDisplayType)
-        {
-            CssBox tableCell = null;
-            if (fixDisplayType)
-            {
-                tableCell = new CssBox(childElement, childElement.Spec, parent.RootGfx, CssDisplay.TableCell);
-            }
-            else
-            {
-                tableCell = new CssBox(childElement, childElement.Spec, parent.RootGfx);
-            }
-            parent.AppendChild(tableCell);
-            //----------------------------------------------------------------------------------------------
-
-
-            //----------------------------------------------------------------------------------------------
-            //get rowspan and colspan here 
-            int nRowSpan = 1;
-            int nColSpan = 1;
-            string rowspan;
-            if (childElement.TryGetAttribute(WellknownName.RowSpan, out rowspan))
-            {
-                if (!int.TryParse(rowspan, out nRowSpan))
-                {
-                    nRowSpan = 1;
-                }
-            }
-            string colspan;
-            if (childElement.TryGetAttribute(WellknownName.ColSpan, out colspan))
-            {
-                if (!int.TryParse(colspan, out nColSpan))
-                {
-                    nColSpan = 1;
-                }
-            }
-            //---------------------------------------------------------- 
-            tableCell.SetRowSpanAndColSpan(nRowSpan, nColSpan);
-            return tableCell;
-        }
-    }
-
-    static class ListItemBoxCreator
-    {
-        static readonly char[] discItem = new[] { '•' };
-        static readonly char[] circleItem = new[] { 'o' };
-        static readonly char[] squareItem = new[] { '♠' };
-        static Composers.ContentTextSplitter splitter = new Composers.ContentTextSplitter();
-
-        public static CssBox CreateListItemBox(CssBox parent, HtmlElement childElement)
-        {
-            var spec = childElement.Spec;
-            var newBox = new CssBoxListItem(childElement, spec, parent.RootGfx);
-
-            parent.AppendChild(newBox);
-
-            if (spec.ListStyleType != CssListStyleType.None)
-            {
-
-                //create sub item collection 
-                var itemBulletBox = new CssBox(null, spec.GetAnonVersion(), parent.RootGfx);
-                newBox.BulletBox = itemBulletBox;
-
-                CssBox.UnsafeSetParent(itemBulletBox, newBox);
-                CssBox.ChangeDisplayType(itemBulletBox, CssDisplay.Inline);
-                //---------------------------------------------------------------
-                //set content of bullet 
-                char[] text_content = null;
-                switch (spec.ListStyleType)
-                {
-                    case CssListStyleType.Disc:
-                        {
-                            text_content = discItem;
-                        } break;
-                    case CssListStyleType.Circle:
-                        {
-                            text_content = circleItem;
-                        } break;
-                    case CssListStyleType.Square:
-                        {
-                            text_content = squareItem;
-                        } break;
-                    case CssListStyleType.Decimal:
-                        {
-                            text_content = (GetIndexForList(newBox, childElement).ToString(CultureInfo.InvariantCulture) + ".").ToCharArray();
-                        } break;
-                    case CssListStyleType.DecimalLeadingZero:
-                        {
-                            text_content = (GetIndexForList(newBox, childElement).ToString("00", CultureInfo.InvariantCulture) + ".").ToCharArray();
-                        } break;
-                    default:
-                        {
-                            text_content = (BulletNumberFormatter.ConvertToAlphaNumber(GetIndexForList(newBox, childElement), spec.ListStyleType) + ".").ToCharArray();
-                        } break;
-                }
-                //--------------------------------------------------------------- 
-                CssBox.UnsafeSetTextBuffer(itemBulletBox, text_content);
-
-                List<CssRun> runlist;
-                bool hasSomeCharacter;
-                splitter.ParseWordContent(text_content, spec, itemBulletBox.IsBlock, out runlist, out  hasSomeCharacter);
-
-                RunListHelper.AddRunList(itemBulletBox, spec, runlist, text_content, false);
-
-            }
-            return newBox;
-        }
-        /// <summary>
-        /// Gets the index of the box to be used on a (ordered) list
-        /// </summary>
-        /// <returns></returns>
-        static int GetIndexForList(CssBox box, HtmlElement childElement)
-        {
-
-            HtmlElement parentNode = childElement.ParentNode as HtmlElement;
-            int index = 1;
-
-            string reversedAttrValue;
-            bool reversed = false;
-            if (parentNode.TryGetAttribute(WellknownName.Reversed, out reversedAttrValue))
-            {
-                reversed = true;
-            }
-            string startAttrValue;
-            if (!parentNode.TryGetAttribute(WellknownName.Start, out startAttrValue))
-            {
-                //if not found
-                //TODO: not to loop count ?
-
-                if (reversed)
-                {
-                    index = 0;
-                    foreach (CssBox b in box.ParentBox.GetChildBoxIter())
-                    {
-                        if (b.CssDisplay == CssDisplay.ListItem)
-                        {
-                            index++;
-                        }
-                    }
-                }
-                else
-                {
-                    index = 1;
-                }
-            }
-            foreach (CssBox b in box.ParentBox.GetChildBoxIter())
-            {
-                if (b == box)
-                    return index;
-                if (b.CssDisplay == CssDisplay.ListItem)
-                    index += reversed ? -1 : 1;
-            }
-            return index;
-        }
     }
 }

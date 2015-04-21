@@ -168,16 +168,14 @@ namespace LayoutFarm.Composers
 
             //----------------------------------------------------------------  
             RootGraphic rootgfx = (containerElement != null) ? containerElement.Root : null;
-            
+
             //TODO: review here, we should create cssbox at  document.body?
 
 
-            CssBox rootBox = BoxCreator.CreateCssRenderRoot(this.htmlHost.GfxPlatform.SampleIFonts, containerElement, rootgfx);
+            CssBox rootBox = HtmlHost.CreateCssRenderRoot(this.htmlHost.GfxPlatform.SampleIFonts, containerElement, rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
-
-            BoxCreator boxCreator = new BoxCreator((RootGraphic)rootBox.RootGfx, this.htmlHost);
-
-            boxCreator.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
+             
+            htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
@@ -203,27 +201,22 @@ namespace LayoutFarm.Composers
             CssBox docRoot = HtmlElement.InternalGetPrincipalBox((HtmlElement)htmldoc.RootNode);
             if (docRoot == null)
             {
-                docRoot = BoxCreator.CreateCssRenderRoot(ifonts, containerElement, rootgfx);
+                docRoot = HtmlHost.CreateCssRenderRoot(ifonts, containerElement, rootgfx);
                 ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(docRoot);
             }
-
-
-            BoxCreator boxCreator = new BoxCreator(rootgfx, this.htmlHost);
+            
             //----------------------------------------------------------------  
-            CssBox isolationBox = BoxCreator.CreateCssIsolateBox(ifonts, containerElement, rootgfx);
+            CssBox isolationBox = HtmlHost.CreateCssIsolateBox(ifonts, containerElement, rootgfx);
             docRoot.AppendChild(isolationBox);
             ((HtmlElement)domElement).SetPrincipalBox(isolationBox);
             //----------------------------------------------------------------  
-
-            boxCreator.UpdateChildBoxes(startAtHtmlElement, true);
-
+            
+            this.htmlHost.UpdateChildBoxes(startAtHtmlElement, true); 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
             //SetTextSelectionStyle(htmlCont, cssData);
             return isolationBox;
-        }
-
-
+        } 
         //----------------------------------------------------------------
         public void RefreshCssTree(DomElement startAt)
         {
@@ -243,8 +236,9 @@ namespace LayoutFarm.Composers
             }
             //----------------------------------------------------------------  
 
-            BoxCreator boxCreator = new BoxCreator((RootGraphic)existingCssBox.RootGfx, this.htmlHost);
-            boxCreator.UpdateChildBoxes(startAtElement, false);
+             
+            this.htmlHost.UpdateChildBoxes(startAtElement, false);
+         
             startAtElement.OwnerDocument.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------   
         }
@@ -302,7 +296,7 @@ namespace LayoutFarm.Composers
                 classValue = element.AttrClassValue;
             }
             //--------------------------------
-            
+
             //1. apply style  
             bool isNewlyCreated;
             CssTemplateKey boxSpecKey;
@@ -313,7 +307,7 @@ namespace LayoutFarm.Composers
                  out boxSpecKey,
                  out isNewlyCreated);
             //-------------------------------------------------------------------  
-            
+
             //-------------------------------------------------------------------  
             //2. specific id 
             if (element.HasAttributeElementId)
@@ -330,8 +324,8 @@ namespace LayoutFarm.Composers
             }
             else
             {
-                AssignSvgAttributes(element); 
-            }  
+                AssignSvgAttributes(element);
+            }
             //------------------------------------------------------------------- 
             //4. style attribute value 
             //'style' object of this element
@@ -359,7 +353,7 @@ namespace LayoutFarm.Composers
                 //----------------------------------------------------------------
                 element.IsStyleEvaluated = true;
                 element.ElementRuleSet = parsedRuleSet;
-               
+
             }
             else
             {
