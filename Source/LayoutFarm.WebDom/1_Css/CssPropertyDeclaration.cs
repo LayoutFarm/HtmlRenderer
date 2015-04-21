@@ -16,7 +16,6 @@ namespace LayoutFarm.WebDom
 
 
         bool markedAsInherit;
-        bool isExpand = false;
 
         CssCodeValueExpression propertyValue;
         List<CssCodeValueExpression> moreValues;
@@ -25,6 +24,11 @@ namespace LayoutFarm.WebDom
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
 #endif
+        public CssPropertyDeclaration(string unknownName)
+        {
+            //convert from name to wellknown property name; 
+            this.UnknownRawName = unknownName;
+        }
         public CssPropertyDeclaration(WellknownCssPropertyName wellNamePropertyName)
         {
             //convert from name to wellknown property name; 
@@ -34,19 +38,13 @@ namespace LayoutFarm.WebDom
         {
             //from another 
             this.WellknownPropertyName = wellNamePropertyName;
-#if DEBUG
-
-#endif
             this.propertyValue = value;
             this.markedAsInherit = value.IsInherit;
             //auto gen from another prop
             this.isAutoGen = true;
         }
-        public bool IsExpand
-        {
-            get { return this.isExpand; }
-            set { this.isExpand = value; }
-        }
+        public bool IsExpand { get; set; }
+        public string UnknownRawName { get; private set; }
         public void AddUnitToLatestValue(string unit)
         {
             CssCodePrimitiveExpression latestValue = null;
