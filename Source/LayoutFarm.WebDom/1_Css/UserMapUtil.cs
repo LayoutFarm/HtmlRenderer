@@ -106,9 +106,7 @@ namespace LayoutFarm.WebDom
         [Map("param")]
         _param,
 
-        [Map("x")]
-        X,//test for extension  
-
+        
         [Map("svg")]
         svg,
         [Map("rect")]

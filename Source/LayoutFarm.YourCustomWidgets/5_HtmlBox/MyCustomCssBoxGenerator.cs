@@ -1,4 +1,10 @@
-﻿using PixelFarm.Drawing;
+﻿//BSD 2014-2015 ,WinterDev
+//ArthurHub, Jose Manuel Menendez Poo
+
+using System;
+using System.Collections.Generic;
+
+using PixelFarm.Drawing;
 
 using LayoutFarm.WebDom;
 using LayoutFarm.Css;
@@ -8,6 +14,8 @@ using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm.CustomWidgets
 {
 
+
+
     public class MyCustomCssBoxGenerator : CustomCssBoxGenerator
     {
         HtmlBoxes.HtmlHost myHost;
@@ -15,77 +23,47 @@ namespace LayoutFarm.CustomWidgets
         {
             this.myHost = myHost;
         }
-        protected override HtmlBoxes.HtmlHost MyHost
-        {
-            get { return this.myHost; }
-        }
+
         public override LayoutFarm.HtmlBoxes.CssBox CreateCssBox(
             DomElement domE,
             LayoutFarm.HtmlBoxes.CssBox parentBox,
             BoxSpec spec,
-            LayoutFarm.RootGraphic rootgfx,
-            out bool alreadyHandleChildNodes)
+            HtmlHost host)
         {
-            //check if this is a proper tag  
-            alreadyHandleChildNodes = true;
+            HtmlElement htmlElement = (HtmlElement)domE;
 
             switch (domE.Name)
             {
                 case "input":
                     {
-                        var inputBox = CreateInputBox(domE, parentBox, spec, rootgfx);
+                        var inputBox = CreateInputBox(domE, parentBox, spec, myHost.RootGfx);
                         if (inputBox != null)
                         {
-
                             return inputBox;
                         }
                     } break;
                 case "canvas":
                     {
                         //test only
+                        //TODO: review here
                         var canvas = new LayoutFarm.CustomWidgets.MiniAggCanvasBox(400, 400);
                         var wrapperBox = CreateWrapper(
                              canvas,
-                             canvas.GetPrimaryRenderElement(rootgfx),
+                             canvas.GetPrimaryRenderElement(myHost.RootGfx),
                              spec, true);
                         parentBox.AppendChild(wrapperBox);
-
                         return wrapperBox;
                     }
-
-            }
-            //------
-            //else ...
-
-            //experiment!
-            //check if element tag name is registred as custom element
-            //eg. x element  
-            var classAttr = domE.FindAttribute("class");
-            if (classAttr != null)
-            {
-
-                switch (classAttr.Value)
-                {
-                    case "fivespace":
-                        {
-                            var compartmentBox = CreateCompartmentBox(domE, parentBox, spec, rootgfx);
-                            if (compartmentBox != null)
-                            {
-                                return compartmentBox;
-                            }
-                        } break;
-                }
             }
 
-            var simpleBox = new LayoutFarm.CustomWidgets.SimpleBox(100, 20); //default unknown
+            //default unknown
+            var simpleBox = new LayoutFarm.CustomWidgets.SimpleBox(100, 20);
             simpleBox.BackColor = PixelFarm.Drawing.Color.LightGray;
             var wrapperBox2 = CreateWrapper(
                                simpleBox,
-                               simpleBox.GetPrimaryRenderElement(rootgfx),
+                               simpleBox.GetPrimaryRenderElement(myHost.RootGfx),
                                spec, false);
-
             parentBox.AppendChild(wrapperBox2);
-
             return wrapperBox2;
         }
 
@@ -161,34 +139,6 @@ namespace LayoutFarm.CustomWidgets
         }
 
 
-        LayoutFarm.HtmlBoxes.CssBox CreateCompartmentBox(DomElement domE,
-            LayoutFarm.HtmlBoxes.CssBox parentBox,
-            BoxSpec spec,
-            LayoutFarm.RootGraphic rootgfx)
-        {
-
-            //create cssbox 
-            //test only!           
-            var newspec = new BoxSpec();
-            BoxSpec.InheritStyles(newspec, spec);
-            newspec.BackgroundColor = Color.Blue;
-            newspec.Width = new CssLength(50, CssUnitOrNames.Pixels);
-            newspec.Height = new CssLength(50, CssUnitOrNames.Pixels);
-            newspec.Position = CssPosition.Absolute;
-            newspec.Freeze(); //freeze before use
-
-            HtmlElement htmlElement = (HtmlElement)domE;
-            var newBox = new CssBox(domE, newspec, parentBox.RootGfx);
-            htmlElement.SetPrincipalBox(newBox);
-            //auto set bc of the element
-
-            parentBox.AppendChild(newBox);
-
-             
-            this.myHost.UpdateChildBoxes(htmlElement, true);
-            //----------
-            return newBox;
-        }
 
     }
 

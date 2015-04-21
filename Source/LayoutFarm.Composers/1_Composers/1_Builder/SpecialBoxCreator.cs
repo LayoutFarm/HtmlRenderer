@@ -102,8 +102,7 @@ namespace LayoutFarm.HtmlBoxes
         public static CssBox CreateListItemBox(CssBox parent, HtmlElement childElement)
         {
             var spec = childElement.Spec;
-            var newBox = new CssBoxListItem(childElement, spec, parent.RootGfx);
-
+            var newBox = new CssBoxListItem(childElement, spec, parent.RootGfx); 
             parent.AppendChild(newBox);
 
             if (spec.ListStyleType != CssListStyleType.None)
