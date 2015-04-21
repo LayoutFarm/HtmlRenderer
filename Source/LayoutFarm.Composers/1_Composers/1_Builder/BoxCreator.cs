@@ -12,15 +12,12 @@ namespace LayoutFarm.Composers
 {
     public struct BoxCreator
     {
-
-
         HtmlHost htmlHost;
         RootGraphic rootgfx;
         public BoxCreator(RootGraphic rootgfx, HtmlHost htmlHost)
         {
             this.rootgfx = rootgfx;
             this.htmlHost = htmlHost;
-
         }
 
         static CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
@@ -51,7 +48,7 @@ namespace LayoutFarm.Composers
         /// </summary>
         /// <param name="parentElement"></param>
         /// <param name="fullmode">update all nodes (true) or somenode (false)</param>
-        internal void UpdateChildBoxes(HtmlElement parentElement, bool fullmode)
+        public void UpdateChildBoxes(HtmlElement parentElement, bool fullmode)
         {
             //recursive ***  
             //first just generate into primary pricipal box
@@ -240,10 +237,7 @@ namespace LayoutFarm.Composers
             //that will be used on layout process 
             //----------------------------------
         }
-
-
-
-        internal CssBox CreateBox(CssBox parentBox, HtmlElement childElement, out bool alreadyHandleChildrenNodes)
+        public CssBox CreateBox(CssBox parentBox, HtmlElement childElement, out bool alreadyHandleChildrenNodes)
         {
 
             alreadyHandleChildrenNodes = false;
@@ -254,7 +248,7 @@ namespace LayoutFarm.Composers
             //some box has predefined behaviour
             switch (childElement.WellknownElementName)
             {
-                
+
                 case WellKnownDomNodeName.br:
                     //special treatment for br
                     newBox = new CssBox(childElement, childElement.Spec, parentBox.RootGfx);
@@ -262,16 +256,7 @@ namespace LayoutFarm.Composers
                     CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
                     return newBox;
-                case WellKnownDomNodeName.canvas:
-                case WellKnownDomNodeName.input:
-                    //----------------------------------------------- 
-                    newBox = this.htmlHost.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx);
-                    if (newBox != null)
-                    {
-                        alreadyHandleChildrenNodes = true;
-                        return newBox;
-                    } 
-                    goto default;
+
                 case WellKnownDomNodeName.img:
                     return CreateImageBox(parentBox, childElement);
                 case WellKnownDomNodeName.hr:
@@ -303,6 +288,16 @@ namespace LayoutFarm.Composers
                 case WellKnownDomNodeName.tfoot:
                     return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableFooterGroup);
                 //---------------------------------------------------
+                case WellKnownDomNodeName.canvas:
+                case WellKnownDomNodeName.input:
+                    //----------------------------------------------- 
+                    newBox = this.htmlHost.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx, out alreadyHandleChildrenNodes);
+                    if (newBox != null)
+                    {
+                        alreadyHandleChildrenNodes = true;
+                        return newBox;
+                    }
+                    goto default;
                 //test extension box
                 case WellKnownDomNodeName.X:
                     {
@@ -319,7 +314,7 @@ namespace LayoutFarm.Composers
                             }
                         }
                         //----------------------------------------------- 
-                        newBox = this.htmlHost.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx);
+                        newBox = this.htmlHost.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx, out alreadyHandleChildrenNodes);
                         if (newBox == null)
                         {
                             goto default;
@@ -380,7 +375,7 @@ namespace LayoutFarm.Composers
         }
     }
 
-   
+
     static class TableBoxCreator
     {
 

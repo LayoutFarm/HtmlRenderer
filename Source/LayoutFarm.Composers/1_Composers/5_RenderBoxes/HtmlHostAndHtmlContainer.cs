@@ -50,7 +50,7 @@ namespace LayoutFarm.HtmlBoxes
             this.rootgfx = rootgfx;
         }
         public RootGraphic RootGfx { get { return this.rootgfx; } }
-        public RenderBoxBase TopWindowRenderBox { get { return this.rootgfx.TopWindowRenderBox; } } 
+        public RenderBoxBase TopWindowRenderBox { get { return this.rootgfx.TopWindowRenderBox; } }
 
         public void AttachEssentailHandlers(
             EventHandler<ImageRequestEventArgs> reqImageHandler,
@@ -155,17 +155,23 @@ namespace LayoutFarm.HtmlBoxes
             this.generators.Add(cssBoxGenerator);
         }
 
-        public CssBox CreateCustomBox(CssBox parent, LayoutFarm.WebDom.DomElement tag, LayoutFarm.Css.BoxSpec boxspec, RootGraphic rootgfx)
+        public CssBox CreateCustomBox(CssBox parent,
+            LayoutFarm.WebDom.DomElement tag,
+            LayoutFarm.Css.BoxSpec boxspec,
+            RootGraphic rootgfx,
+            out bool alreadyHandleChildrenNodes)
         {
 
             for (int i = generators.Count - 1; i >= 0; --i)
             {
-                var newbox = generators[i].CreateCssBox(tag, parent, boxspec, rootgfx);
+                var newbox = generators[i].CreateCssBox(tag, parent, boxspec, rootgfx, out alreadyHandleChildrenNodes);
                 if (newbox != null)
                 {
+
                     return newbox;
                 }
             }
+            alreadyHandleChildrenNodes = false;
             return null;
         }
         //---------------------------------------------------
@@ -317,7 +323,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             RootGraphic rootgfx = (RootGraphic)box.RootGfx;
-            rootgfx.AddToElementUpdateQueue(box); 
+            rootgfx.AddToElementUpdateQueue(box);
         }
         /// <summary>
         /// check if dom update
