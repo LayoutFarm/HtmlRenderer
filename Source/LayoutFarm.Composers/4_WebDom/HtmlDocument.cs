@@ -13,27 +13,21 @@ namespace LayoutFarm.WebDom
 {
     //delegate for create cssbox
     public delegate LayoutFarm.HtmlBoxes.CssBox CreateCssBoxDelegate(
-            DomElement domE,
+            HtmlElement domE,
             LayoutFarm.HtmlBoxes.CssBox parentBox,
             LayoutFarm.Css.BoxSpec spec,
-            LayoutFarm.HtmlBoxes.HtmlHost htmlhost,
-            LayoutFarm.RootGraphic rootgfx,
-            out bool alreadyHandleChildNodes);
+            LayoutFarm.HtmlBoxes.HtmlHost htmlhost);
 
-
-
-    //temp !,  test only for custom box creation
+    //temp !, test only for custom box creation
     static class CustomBoxGenSample1
     {
         internal static LayoutFarm.HtmlBoxes.CssBox CreateCssBox(
-            DomElement domE,
+            HtmlElement domE,
             LayoutFarm.HtmlBoxes.CssBox parentBox,
             LayoutFarm.Css.BoxSpec spec,
-            LayoutFarm.HtmlBoxes.HtmlHost htmlhost,
-            LayoutFarm.RootGraphic rootgfx,
-            out bool alreadyHandleChildNodes)
+            LayoutFarm.HtmlBoxes.HtmlHost htmlhost)
         {
-            alreadyHandleChildNodes = true;
+
 
             //create cssbox 
             //test only!           

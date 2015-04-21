@@ -14,11 +14,10 @@ namespace LayoutFarm.Composers
 
     public abstract class CustomCssBoxGenerator
     {
-        
+
         public abstract CssBox CreateCssBox(LayoutFarm.WebDom.DomElement tag,
-            CssBox parentBox, BoxSpec spec,
-            LayoutFarm.RootGraphic rootgfx, 
-            out bool alreadyHandleChildrenNodes);
+            CssBox parentBox, BoxSpec spec, HtmlHost host);
+
 
         public static CssBox CreateWrapper(object owner, RenderElement renderElement, BoxSpec spec, bool isInline)
         {

@@ -29,6 +29,10 @@ namespace LayoutFarm.HtmlBoxes
         HtmlDocument commonHtmlDoc;
         RootGraphic rootgfx;
 
+        Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
+        LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
+
+
         public HtmlHost(GraphicsPlatform gfxplatform, WebDom.CssActiveSheet activeSheet)
         {
 
@@ -87,9 +91,7 @@ namespace LayoutFarm.HtmlBoxes
             return new FragmentHtmlDocument(this.commonHtmlDoc);
         }
 
-        //------------------------         
-        Queue<LayoutFarm.HtmlBoxes.LayoutVisitor> htmlLayoutVisitorStock = new Queue<LayoutVisitor>();
-        LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
+
 
         public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlContainer htmlCont)
         {
@@ -137,42 +139,24 @@ namespace LayoutFarm.HtmlBoxes
                 htmlContainerUpdateHandler(htmlCont);
             }
         }
-
-        //--------------------------------------------------- 
-
-        public bool AlreadyRegisterCssBoxGen(Type t)
-        {
-            for (int i = generators.Count - 1; i >= 0; --i)
-            {
-                if (generators[i].GetType() == t)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
         public void RegisterCssBoxGenerator(LayoutFarm.Composers.CustomCssBoxGenerator cssBoxGenerator)
         {
             this.generators.Add(cssBoxGenerator);
         }
 
-        public CssBox CreateCustomBox(CssBox parent,
-            LayoutFarm.WebDom.DomElement tag,
-            LayoutFarm.Css.BoxSpec boxspec,
-            RootGraphic rootgfx,
-            out bool alreadyHandleChildrenNodes)
+        CssBox CreateCustomCssBox(CssBox parent,
+          LayoutFarm.WebDom.DomElement tag,
+          LayoutFarm.Css.BoxSpec boxspec)
         {
 
             for (int i = generators.Count - 1; i >= 0; --i)
             {
-                var newbox = generators[i].CreateCssBox(tag, parent, boxspec, rootgfx, out alreadyHandleChildrenNodes);
+                var newbox = generators[i].CreateCssBox(tag, parent, boxspec, this);
                 if (newbox != null)
                 {
-
                     return newbox;
                 }
             }
-            alreadyHandleChildrenNodes = false;
             return null;
         }
 
@@ -221,14 +205,9 @@ namespace LayoutFarm.HtmlBoxes
                                     //-------------------------------------------------- 
                                     if (fullmode)
                                     {
-                                        bool alreadyHandleChildrenNode;
-                                        CssBox newbox = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
-                                        childElement.SetPrincipalBox(newbox);
 
-                                        if (!alreadyHandleChildrenNode)
-                                        {
-                                            UpdateChildBoxes(childElement, fullmode);
-                                        }
+                                        CssBox newbox = CreateBox(hostBox, childElement, fullmode);
+                                        childElement.SetPrincipalBox(newbox);
                                     }
                                     else
                                     {
@@ -236,12 +215,8 @@ namespace LayoutFarm.HtmlBoxes
                                         if (existing == null)
                                         {
                                             bool alreadyHandleChildrenNode;
-                                            CssBox box = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
+                                            CssBox box = CreateBox(hostBox, childElement, fullmode);
                                             childElement.SetPrincipalBox(box);
-                                            if (!alreadyHandleChildrenNode)
-                                            {
-                                                UpdateChildBoxes(childElement, fullmode);
-                                            }
                                         }
                                         else
                                         {
@@ -321,15 +296,7 @@ namespace LayoutFarm.HtmlBoxes
                                         }
                                         if (fullmode)
                                         {
-                                            bool alreadyHandleChildrenNode;
-                                            CssBox box = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
-
-                                            childElement.SetPrincipalBox(box);
-
-                                            if (!alreadyHandleChildrenNode)
-                                            {
-                                                UpdateChildBoxes(childElement, fullmode);
-                                            }
+                                            CssBox box = CreateBox(hostBox, childElement, fullmode);
                                         }
                                         else
                                         {
@@ -338,14 +305,8 @@ namespace LayoutFarm.HtmlBoxes
                                             if (existingCssBox == null)
                                             {
                                                 bool alreadyHandleChildrenNode;
-                                                CssBox box = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
+                                                CssBox box = CreateBox(hostBox, childElement, fullmode);
 
-                                                childElement.SetPrincipalBox(box);
-
-                                                if (!alreadyHandleChildrenNode)
-                                                {
-                                                    UpdateChildBoxes(childElement, fullmode);
-                                                }
                                             }
                                             else
                                             {
@@ -372,14 +333,10 @@ namespace LayoutFarm.HtmlBoxes
             //----------------------------------
             //summary formatting context
             //that will be used on layout process 
-            //----------------------------------
-
+            //---------------------------------- 
         }
-
-        public CssBox CreateBox(CssBox parentBox, HtmlElement childElement, out bool alreadyHandleChildrenNodes)
+        public CssBox CreateBox(CssBox parentBox, HtmlElement childElement, bool fullmode)
         {
-
-            alreadyHandleChildrenNodes = false;
             CssBox newBox = null;
             //----------------------------------------- 
             //1. create new box
@@ -390,18 +347,23 @@ namespace LayoutFarm.HtmlBoxes
 
                 case WellKnownDomNodeName.br:
                     //special treatment for br
-                    newBox = new CssBox(childElement, childElement.Spec, parentBox.RootGfx);
-                    parentBox.AppendChild(newBox);
+                    newBox = new CssBox(childElement, childElement.Spec, parentBox.RootGfx);                   
                     CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
+
+                    parentBox.AppendChild(newBox);
+                    childElement.SetPrincipalBox(newBox);
                     return newBox;
-
                 case WellKnownDomNodeName.img:
-                    return CreateImageBox(parentBox, childElement);
-                case WellKnownDomNodeName.hr:
 
+                    //auto append newBox to parentBox
+                    newBox = CreateImageBox(parentBox, childElement);
+                    childElement.SetPrincipalBox(newBox);
+                    return newBox;
+                case WellKnownDomNodeName.hr:
                     newBox = new CssBoxHr(childElement, childElement.Spec, parentBox.RootGfx);
                     parentBox.AppendChild(newBox);
+                    childElement.SetPrincipalBox(newBox);
                     return newBox;
                 //-----------------------------------------------------
                 //TODO: simplify this ...
@@ -409,40 +371,49 @@ namespace LayoutFarm.HtmlBoxes
                 case WellKnownDomNodeName.td:
                 case WellKnownDomNodeName.th:
                     newBox = TableBoxCreator.CreateTableCell(parentBox, childElement, true);
-                    return newBox;
+                    break;
                 case WellKnownDomNodeName.col:
-                    return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, true, CssDisplay.TableColumn);
+                    newBox = TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, true, CssDisplay.TableColumn);
+                    break;
                 case WellKnownDomNodeName.colgroup:
-                    return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, true, CssDisplay.TableColumnGroup);
+                    newBox = TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, true, CssDisplay.TableColumnGroup);
+                    break;
                 case WellKnownDomNodeName.tr:
-                    return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableRow);
+                    newBox = TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableRow);
+                    break;
                 case WellKnownDomNodeName.tbody:
-                    return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableRowGroup);
+                    newBox = TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableRowGroup);
+                    break;
                 case WellKnownDomNodeName.table:
-                    return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.Table);
+                    newBox = TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.Table);
+                    break;
                 case WellKnownDomNodeName.caption:
-                    return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableCaption);
+                    newBox = TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableCaption);
+                    break;
                 case WellKnownDomNodeName.thead:
-                    return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableHeaderGroup);
+                    newBox = TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableHeaderGroup);
+                    break;
                 case WellKnownDomNodeName.tfoot:
-                    return TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableFooterGroup);
+                    newBox = TableBoxCreator.CreateOtherPredefinedTableElement(parentBox, childElement, CssDisplay.TableFooterGroup);
+                    break;
                 //---------------------------------------------------
                 case WellKnownDomNodeName.canvas:
                 case WellKnownDomNodeName.input:
-                    //----------------------------------------------- 
-                    newBox = this.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx, out alreadyHandleChildrenNodes);
+
+                    newBox = this.CreateCustomCssBox(parentBox, childElement, childElement.Spec);
                     if (newBox != null)
                     {
-                        alreadyHandleChildrenNodes = true;
+                        childElement.SetPrincipalBox(newBox);
                         return newBox;
                     }
                     goto default; //else goto default *** 
                 //---------------------------------------------------
                 case WellKnownDomNodeName.svg:
                     {
-                        //1. create svg container node
-                        alreadyHandleChildrenNodes = true;
-                        return Svg.SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
+                        //1. create svg container node 
+                        newBox = Svg.SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
+                        childElement.SetPrincipalBox(newBox);
+                        return newBox;
                     }
                 case WellKnownDomNodeName.NotAssign:
                 case WellKnownDomNodeName.Unknown:
@@ -464,10 +435,8 @@ namespace LayoutFarm.HtmlBoxes
                         LayoutFarm.WebDom.CreateCssBoxDelegate foundBoxGen;
                         if (((HtmlDocument)childElement.OwnerDocument).TryGetCustomBoxGenerator(childElement.Name, out foundBoxGen))
                         {
-                            //create custom box
-                            newBox = foundBoxGen(childElement, parentBox,
-                                childElement.Spec, this, rootgfx,
-                                out alreadyHandleChildrenNodes);
+                            //create custom box 
+                            newBox = foundBoxGen(childElement, parentBox, childElement.Spec, this);
                         }
                         if (newBox == null)
                         {
@@ -475,6 +444,7 @@ namespace LayoutFarm.HtmlBoxes
                         }
                         else
                         {
+                            childElement.SetPrincipalBox(newBox);
                             return newBox;
                         }
                     }
@@ -485,20 +455,28 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             //not fixed display type
                             case CssDisplay.TableCell:
-                                return TableBoxCreator.CreateTableCell(parentBox, childElement, false);
+                                newBox = TableBoxCreator.CreateTableCell(parentBox, childElement, false);
+                                break;
                             case CssDisplay.TableColumn:
-                                return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, false, CssDisplay.TableColumn);
+                                newBox = TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, false, CssDisplay.TableColumn);
+                                break;
                             case CssDisplay.TableColumnGroup:
-                                return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, false, CssDisplay.TableColumnGroup);
+                                newBox = TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, false, CssDisplay.TableColumnGroup);
+                                break;
                             case CssDisplay.ListItem:
-                                return ListItemBoxCreator.CreateListItemBox(parentBox, childElement);
+                                newBox = ListItemBoxCreator.CreateListItemBox(parentBox, childElement);
+                                break;
                             default:
                                 newBox = new CssBox(childElement, childSpec, parentBox.RootGfx);
                                 parentBox.AppendChild(newBox);
-                                return newBox;
+                                break;
                         }
-                    }
+                    } break;
             }
+
+            childElement.SetPrincipalBox(newBox);
+            UpdateChildBoxes(childElement, fullmode);
+            return newBox;
         }
 
         public CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
