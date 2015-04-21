@@ -130,7 +130,8 @@ namespace LayoutFarm.Composers
         base, param     { display:none }
         hr              { border-top-color: #9A9A9A; border-left-color: #9A9A9A; border-bottom-color: #EEEEEE; border-right-color: #EEEEEE; }
         pre             { font-size: 10pt; margin-top: 15px; }
-        
+        template        { display:none}        
+
         /*This is the background of the HtmlToolTip*/
         .htmltooltip {
             border:solid 1px #767676;

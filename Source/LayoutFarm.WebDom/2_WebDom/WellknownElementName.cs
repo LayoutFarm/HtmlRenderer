@@ -135,8 +135,12 @@ namespace LayoutFarm.WebDom
 
         [Map("start")]
         Start,
+
+        [Map("template")]
+        Template,
+
         [Map("type")]
-        Type,
+        Type, 
 
         [Map("reversed")]
         Reversed,

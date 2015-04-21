@@ -95,13 +95,12 @@ namespace LayoutFarm.HtmlBoxes
             ChangeDisplayType(this, _myspec.CssDisplay);
 
         }
+        
+        
         public IRootGraphics RootGfx
         {
             get { return this.rootgfx; }
         }
-
-
-
         /// <summary>
         /// Gets the parent box of this box
         /// </summary>

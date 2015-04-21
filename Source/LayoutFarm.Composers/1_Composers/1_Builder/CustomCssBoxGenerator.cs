@@ -10,19 +10,21 @@ using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.Composers
 {
+    
 
     public abstract class CustomCssBoxGenerator
     {
-        protected abstract HtmlHost MyHost { get; }
-        public abstract CssBox CreateCssBox(LayoutFarm.WebDom.DomElement tag, CssBox parentBox, BoxSpec spec, LayoutFarm.RootGraphic rootgfx);
+
+        public abstract CssBox CreateCssBox(LayoutFarm.WebDom.DomElement tag,
+            CssBox parentBox, BoxSpec spec, HtmlHost host);
+
 
         public static CssBox CreateWrapper(object owner, RenderElement renderElement, BoxSpec spec, bool isInline)
         {
             var portalEvent = owner as IEventPortal;
             if (portalEvent == null)
-            { 
+            {
                 portalEvent = new RenderElementEventPortal(renderElement);
-
             }
 
             if (isInline)
@@ -35,5 +37,6 @@ namespace LayoutFarm.Composers
             }
         }
     }
+     
 
 }

@@ -210,12 +210,19 @@ namespace LayoutFarm.WebDom
         FlexOrder, //flex display order
         [Map("flex-flow")] //flex direction and wrap
         FlexFlow,
-        [Map("flex-grow")] 
+        [Map("flex-grow")]
         FlexGrow,
-        [Map("flex-shrink")]  
+        [Map("flex-shrink")]
         FlexShrink,
-        [Map("flex-basis")] 
+        [Map("flex-basis")]
         FlexBasis,
+
+        //experiment , special extension
+        [Map("flex-ext-num")]
+        FlexExtensionNum,
+        [Map("flex-ext-part")]
+        FlexExtensionPart,
+        //----------------------------------
     }
 
 }

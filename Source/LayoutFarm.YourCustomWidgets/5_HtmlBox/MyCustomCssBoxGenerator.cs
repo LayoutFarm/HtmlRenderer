@@ -1,11 +1,20 @@
-﻿using PixelFarm.Drawing;
+﻿//BSD 2014-2015 ,WinterDev
+//ArthurHub, Jose Manuel Menendez Poo
+
+using System;
+using System.Collections.Generic;
+
+using PixelFarm.Drawing;
+
 using LayoutFarm.WebDom;
 using LayoutFarm.Css;
 using LayoutFarm.Composers;
-using LayoutFarm;
+using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {
+
+
 
     public class MyCustomCssBoxGenerator : CustomCssBoxGenerator
     {
@@ -14,23 +23,20 @@ namespace LayoutFarm.CustomWidgets
         {
             this.myHost = myHost;
         }
-        protected override HtmlBoxes.HtmlHost MyHost
-        {
-            get { return this.myHost; }
-        }
+
         public override LayoutFarm.HtmlBoxes.CssBox CreateCssBox(
             DomElement domE,
             LayoutFarm.HtmlBoxes.CssBox parentBox,
             BoxSpec spec,
-            LayoutFarm.RootGraphic rootgfx)
+            HtmlHost host)
         {
-            //check if this is a proper tag  
+            HtmlElement htmlElement = (HtmlElement)domE;
 
             switch (domE.Name)
             {
                 case "input":
                     {
-                        var inputBox = CreateInputBox(domE, parentBox, spec, rootgfx);
+                        var inputBox = CreateInputBox(domE, parentBox, spec, myHost.RootGfx);
                         if (inputBox != null)
                         {
                             return inputBox;
@@ -39,29 +45,26 @@ namespace LayoutFarm.CustomWidgets
                 case "canvas":
                     {
                         //test only
+                        //TODO: review here
                         var canvas = new LayoutFarm.CustomWidgets.MiniAggCanvasBox(400, 400);
                         var wrapperBox = CreateWrapper(
                              canvas,
-                             canvas.GetPrimaryRenderElement(rootgfx),
+                             canvas.GetPrimaryRenderElement(myHost.RootGfx),
                              spec, true);
                         parentBox.AppendChild(wrapperBox);
                         return wrapperBox;
                     }
-
             }
-            //------
-            //else ...
 
+            //default unknown
             var simpleBox = new LayoutFarm.CustomWidgets.SimpleBox(100, 20);
             simpleBox.BackColor = PixelFarm.Drawing.Color.LightGray;
             var wrapperBox2 = CreateWrapper(
                                simpleBox,
-                               simpleBox.GetPrimaryRenderElement(rootgfx),
+                               simpleBox.GetPrimaryRenderElement(myHost.RootGfx),
                                spec, false);
-
             parentBox.AppendChild(wrapperBox2);
             return wrapperBox2;
-            //return leanBox;
         }
 
         LayoutFarm.HtmlBoxes.CssBox CreateInputBox(DomElement domE,
@@ -134,6 +137,8 @@ namespace LayoutFarm.CustomWidgets
             }
             return null;
         }
+
+
 
     }
 

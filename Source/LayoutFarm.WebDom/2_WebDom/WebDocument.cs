@@ -40,6 +40,7 @@ namespace LayoutFarm.WebDom
                 uniqueStringTable.AddStringIfNotExist(localName));
         }
         public abstract DomElement CreateElement(string prefix, string localName);
+        public abstract DomElement CreateShadowRootElement(string prefix, string localName);
 
         public DomElement CreateElement(string localName)
         {
