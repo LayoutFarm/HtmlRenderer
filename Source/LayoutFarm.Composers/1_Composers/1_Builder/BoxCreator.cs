@@ -91,7 +91,9 @@ namespace LayoutFarm.Composers
                                     {
                                         bool alreadyHandleChildrenNode;
                                         CssBox newbox = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
+
                                         childElement.SetPrincipalBox(newbox);
+
                                         if (!alreadyHandleChildrenNode)
                                         {
                                             UpdateChildBoxes(childElement, fullmode);
@@ -103,8 +105,8 @@ namespace LayoutFarm.Composers
                                         if (existing == null)
                                         {
                                             bool alreadyHandleChildrenNode;
-                                            CssBox box = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
-                                            childElement.SetPrincipalBox(box);
+                                            CssBox box = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode); 
+                                            childElement.SetPrincipalBox(box); 
                                             if (!alreadyHandleChildrenNode)
                                             {
                                                 UpdateChildBoxes(childElement, fullmode);
@@ -190,7 +192,9 @@ namespace LayoutFarm.Composers
                                         {
                                             bool alreadyHandleChildrenNode;
                                             CssBox box = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
+
                                             childElement.SetPrincipalBox(box);
+
                                             if (!alreadyHandleChildrenNode)
                                             {
                                                 UpdateChildBoxes(childElement, fullmode);
@@ -204,7 +208,9 @@ namespace LayoutFarm.Composers
                                             {
                                                 bool alreadyHandleChildrenNode;
                                                 CssBox box = CreateBox(hostBox, childElement, out alreadyHandleChildrenNode);
+
                                                 childElement.SetPrincipalBox(box);
+
                                                 if (!alreadyHandleChildrenNode)
                                                 {
                                                     UpdateChildBoxes(childElement, fullmode);
@@ -297,7 +303,8 @@ namespace LayoutFarm.Composers
                         alreadyHandleChildrenNodes = true;
                         return newBox;
                     }
-                    goto default;
+                    goto default; //else goto default ***
+
                 //test extension box
                 case WellKnownDomNodeName.X:
                     {
@@ -321,6 +328,7 @@ namespace LayoutFarm.Composers
                         }
                         return newBox;
                     }
+                
                 //---------------------------------------------------
                 case WellKnownDomNodeName.svg:
                     {
