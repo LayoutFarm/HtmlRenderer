@@ -371,12 +371,19 @@ namespace LayoutFarm.WebDom.Parser
                                     //block name
 
                                     //create css property 
-                                    var wellknownName = UserMapUtil.GetWellKnownPropName(
-                                         new string(this.textBuffer, start, len));
+                                    string cssPropName = new string(this.textBuffer, start, len);
+                                    var wellknownName = UserMapUtil.GetWellKnownPropName(cssPropName);
 
-                                    _currentRuleSet.AddCssCodeProperty(this._currentProperty =
-                                        new CssPropertyDeclaration(wellknownName));
-
+                                    if (wellknownName == WellknownCssPropertyName.Unknown)
+                                    {
+                                        _currentRuleSet.AddCssCodeProperty(this._currentProperty =
+                                            new CssPropertyDeclaration(cssPropName));
+                                    }
+                                    else
+                                    {
+                                        _currentRuleSet.AddCssCodeProperty(this._currentProperty =
+                                            new CssPropertyDeclaration(wellknownName));
+                                    }
                                     this._latestPropertyValue = null;
 
                                     parseState = CssParseState.AfterPropertyName;
@@ -1270,6 +1277,9 @@ namespace LayoutFarm.WebDom.Parser
                                     } break;
                                 case CssTokenName.Minus:
                                     {
+                                        //as iden
+                                        AppendBuffer(i, c);
+                                        lexState = CssLexState.Iden;
                                     } break;
                                 case CssTokenName.Unknown:
                                     {
@@ -1473,8 +1483,8 @@ namespace LayoutFarm.WebDom.Parser
                         break;
                     case CssLexState.Number:
                         EmitBuffer(cssSourceBuffer.Length - 1, CssTokenName.Number);
-                        break;                    
-                    
+                        break;
+
                     case CssLexState.Iden:
                     default:
                         EmitBuffer(cssSourceBuffer.Length - 1, CssTokenName.Iden);
