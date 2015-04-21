@@ -10,18 +10,11 @@ using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.Composers
 {
-    //delegate for create cssbox
-    public delegate LayoutFarm.HtmlBoxes.CssBox CreateCssBoxDelegate(
-            DomElement domE,
-            LayoutFarm.HtmlBoxes.CssBox parentBox,
-            BoxSpec spec,
-            LayoutFarm.RootGraphic rootgfx,
-            out bool alreadyHandleChildNodes);
-
+    
 
     public abstract class CustomCssBoxGenerator
     {
-        protected abstract HtmlHost MyHost { get; }
+        
         public abstract CssBox CreateCssBox(LayoutFarm.WebDom.DomElement tag,
             CssBox parentBox, BoxSpec spec,
             LayoutFarm.RootGraphic rootgfx, 

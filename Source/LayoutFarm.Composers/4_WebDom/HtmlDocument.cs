@@ -7,9 +7,56 @@ using System.Collections.Generic;
 using PixelFarm.Drawing;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Composers;
+using LayoutFarm.Css;
 
 namespace LayoutFarm.WebDom
 {
+    //delegate for create cssbox
+    public delegate LayoutFarm.HtmlBoxes.CssBox CreateCssBoxDelegate(
+            DomElement domE,
+            LayoutFarm.HtmlBoxes.CssBox parentBox,
+            LayoutFarm.Css.BoxSpec spec,
+            LayoutFarm.HtmlBoxes.HtmlHost htmlhost,
+            LayoutFarm.RootGraphic rootgfx,
+            out bool alreadyHandleChildNodes);
+
+
+
+    //temp !,  test only for custom box creation
+    static class CustomBoxGenSample1
+    {
+        internal static LayoutFarm.HtmlBoxes.CssBox CreateCssBox(
+            DomElement domE,
+            LayoutFarm.HtmlBoxes.CssBox parentBox,
+            LayoutFarm.Css.BoxSpec spec,
+            LayoutFarm.HtmlBoxes.HtmlHost htmlhost,
+            LayoutFarm.RootGraphic rootgfx,
+            out bool alreadyHandleChildNodes)
+        {
+            alreadyHandleChildNodes = true;
+
+            //create cssbox 
+            //test only!           
+            var newspec = new BoxSpec();
+            BoxSpec.InheritStyles(newspec, spec);
+            newspec.BackgroundColor = Color.Blue;
+            newspec.Width = new CssLength(50, CssUnitOrNames.Pixels);
+            newspec.Height = new CssLength(50, CssUnitOrNames.Pixels);
+            newspec.Position = CssPosition.Absolute;
+            newspec.Freeze(); //freeze before use
+
+            HtmlElement htmlElement = (HtmlElement)domE;
+            var newBox = new CssBox(domE, newspec, parentBox.RootGfx);
+            htmlElement.SetPrincipalBox(newBox);
+            //auto set bc of the element
+
+            parentBox.AppendChild(newBox);
+            htmlhost.UpdateChildBoxes(htmlElement, true);
+            //----------
+            return newBox;
+        }
+
+    }
 
     public partial class HtmlDocument : WebDocument
     {
@@ -17,17 +64,20 @@ namespace LayoutFarm.WebDom
         int domUpdateVersion;
         EventHandler domUpdatedHandler;
 
+        //foc custom elements 
+        Dictionary<string, CreateCssBoxDelegate> registedCustomElemenGens = new Dictionary<string, CreateCssBoxDelegate>();
+
         public HtmlDocument()
-            : base(HtmlPredefineNames.CreateUniqueStringTableClone())
+            : this(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
-            //default root
-            rootNode = new HtmlRootElement(this);
         }
         internal HtmlDocument(UniqueStringTable sharedUniqueStringTable)
             : base(sharedUniqueStringTable)
         {
             //default root
             rootNode = new HtmlRootElement(this);
+
+            this.RegisterCustomElement("fivespace", CustomBoxGenSample1.CreateCssBox);
         }
         public override DomElement RootNode
         {
@@ -47,7 +97,7 @@ namespace LayoutFarm.WebDom
                     domUpdatedHandler(this, EventArgs.Empty);
                 }
             }
-        } 
+        }
         public override DomElement CreateElement(string prefix, string localName)
         {
             //actual implementation
@@ -88,6 +138,17 @@ namespace LayoutFarm.WebDom
         {
             get;
             set;
+        }
+
+        //-------------------------------------------------------------
+        public void RegisterCustomElement(string customElementName, CreateCssBoxDelegate cssBoxGen)
+        {
+            //replace
+            registedCustomElemenGens[customElementName] = cssBoxGen;
+        }
+        public bool TryGetCustomBoxGenerator(string customElementName, out CreateCssBoxDelegate cssBoxGen)
+        {
+            return this.registedCustomElemenGens.TryGetValue(customElementName, out cssBoxGen);
         }
     }
 

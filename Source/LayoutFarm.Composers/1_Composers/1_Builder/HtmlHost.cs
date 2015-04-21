@@ -19,9 +19,11 @@ namespace LayoutFarm.HtmlBoxes
     {
 
         List<LayoutFarm.Composers.CustomCssBoxGenerator> generators = new List<LayoutFarm.Composers.CustomCssBoxGenerator>();
+
         HtmlContainerUpdateHandler htmlContainerUpdateHandler;
+
         EventHandler<ImageRequestEventArgs> requestImage;
-        EventHandler<TextRequestEventArgs> requestStyleSheet; 
+        EventHandler<TextRequestEventArgs> requestStyleSheet;
 
         GraphicsPlatform gfxplatform;
         HtmlDocument commonHtmlDoc;
@@ -34,8 +36,6 @@ namespace LayoutFarm.HtmlBoxes
             this.BaseStylesheet = activeSheet;
             this.commonHtmlDoc = new HtmlDocument();
             this.commonHtmlDoc.CssActiveSheet = activeSheet;
-
-
 
         }
         public HtmlHost(GraphicsPlatform gfxplatform)
@@ -436,12 +436,19 @@ namespace LayoutFarm.HtmlBoxes
                         alreadyHandleChildrenNodes = true;
                         return newBox;
                     }
-                    goto default; //else goto default ***
-
-                //test extension box
-                case WellKnownDomNodeName.X:
+                    goto default; //else goto default *** 
+                //---------------------------------------------------
+                case WellKnownDomNodeName.svg:
                     {
+                        //1. create svg container node
                         alreadyHandleChildrenNodes = true;
+                        return Svg.SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
+                    }
+                case WellKnownDomNodeName.NotAssign:
+                case WellKnownDomNodeName.Unknown:
+                    {
+                        //custom tag
+                        //check if this is tag is registered as custom element
                         //-----------------------------------------------
                         ExternalHtmlElement externalHtmlElement = childElement as ExternalHtmlElement;
                         if (externalHtmlElement != null)
@@ -454,44 +461,47 @@ namespace LayoutFarm.HtmlBoxes
                             }
                         }
                         //----------------------------------------------- 
-                        newBox = this.CreateCustomBox(parentBox, childElement, childElement.Spec, rootgfx, out alreadyHandleChildrenNodes);
+                        LayoutFarm.WebDom.CreateCssBoxDelegate foundBoxGen;
+                        if (((HtmlDocument)childElement.OwnerDocument).TryGetCustomBoxGenerator(childElement.Name, out foundBoxGen))
+                        {
+                            //create custom box
+                            newBox = foundBoxGen(childElement, parentBox,
+                                childElement.Spec, this, rootgfx,
+                                out alreadyHandleChildrenNodes);
+                        }
                         if (newBox == null)
                         {
                             goto default;
                         }
-                        return newBox;
-                    }
-
-                //---------------------------------------------------
-                case WellKnownDomNodeName.svg:
-                    {
-                        //1. create svg container node
-                        alreadyHandleChildrenNodes = true;
-                        return Svg.SvgCreator.CreateSvgBox(parentBox, childElement, childElement.Spec);
-                    }
-                //---------------------------------------------------
-                default:
-                    BoxSpec childSpec = childElement.Spec;
-                    switch (childSpec.CssDisplay)
-                    {
-                        //not fixed display type
-                        case CssDisplay.TableCell:
-                            return TableBoxCreator.CreateTableCell(parentBox, childElement, false);
-                        case CssDisplay.TableColumn:
-                            return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, false, CssDisplay.TableColumn);
-                        case CssDisplay.TableColumnGroup:
-                            return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, false, CssDisplay.TableColumnGroup);
-                        case CssDisplay.ListItem:
-                            return ListItemBoxCreator.CreateListItemBox(parentBox, childElement);
-                        default:
-                            newBox = new CssBox(childElement, childSpec, parentBox.RootGfx);
-                            parentBox.AppendChild(newBox);
+                        else
+                        {
                             return newBox;
+                        }
+                    }
+                default:
+                    {
+                        BoxSpec childSpec = childElement.Spec;
+                        switch (childSpec.CssDisplay)
+                        {
+                            //not fixed display type
+                            case CssDisplay.TableCell:
+                                return TableBoxCreator.CreateTableCell(parentBox, childElement, false);
+                            case CssDisplay.TableColumn:
+                                return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, false, CssDisplay.TableColumn);
+                            case CssDisplay.TableColumnGroup:
+                                return TableBoxCreator.CreateTableColumnOrColumnGroup(parentBox, childElement, false, CssDisplay.TableColumnGroup);
+                            case CssDisplay.ListItem:
+                                return ListItemBoxCreator.CreateListItemBox(parentBox, childElement);
+                            default:
+                                newBox = new CssBox(childElement, childSpec, parentBox.RootGfx);
+                                parentBox.AppendChild(newBox);
+                                return newBox;
+                        }
                     }
             }
         }
 
-        static CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
+        public CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
         {
             string imgsrc;
             ImageBinder imgBinder = null;

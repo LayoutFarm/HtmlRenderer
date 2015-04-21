@@ -19,23 +19,10 @@ namespace LayoutFarm.CustomWidgets
     public class MyCustomCssBoxGenerator : CustomCssBoxGenerator
     {
         HtmlBoxes.HtmlHost myHost;
-        Dictionary<string, CreateCssBoxDelegate> generalCssBoxCreators = new Dictionary<string, CreateCssBoxDelegate>();
-
         public MyCustomCssBoxGenerator(HtmlBoxes.HtmlHost myHost)
         {
             this.myHost = myHost;
-
-            //------------------------------------------------
-            //experiment!
-            //check if element tag name is registred as custom element
-            //eg. x element  
-            generalCssBoxCreators.Add("x", this.CreateCompartmentBox);
-
-        }
-        protected override HtmlBoxes.HtmlHost MyHost
-        {
-            get { return this.myHost; }
-        }
+        } 
 
         public override LayoutFarm.HtmlBoxes.CssBox CreateCssBox(
             DomElement domE,
@@ -70,20 +57,21 @@ namespace LayoutFarm.CustomWidgets
                         return wrapperBox;
                     }
             }
-            //------------------------------------------------
-            CreateCssBoxDelegate foundCreator;
-            if (generalCssBoxCreators.TryGetValue(domE.Name, out foundCreator))
-            {
-                CssBox result = foundCreator(domE, parentBox, spec, rootgfx, out alreadyHandleChildNodes);
-                return result;
-            } 
+            ////------------------------------------------------
+            //CreateCssBoxDelegate foundCreator;
+            //if (generalCssBoxCreators.TryGetValue(domE.Name, out foundCreator))
+            //{
+            //    CssBox result = foundCreator(domE, parentBox, spec, rootgfx, out alreadyHandleChildNodes);
+            //    return result;
+            //} 
+
             var simpleBox = new LayoutFarm.CustomWidgets.SimpleBox(100, 20); //default unknown
             simpleBox.BackColor = PixelFarm.Drawing.Color.LightGray;
             var wrapperBox2 = CreateWrapper(
                                simpleBox,
                                simpleBox.GetPrimaryRenderElement(rootgfx),
-                               spec, false); 
-            parentBox.AppendChild(wrapperBox2); 
+                               spec, false);
+            parentBox.AppendChild(wrapperBox2);
             return wrapperBox2;
         }
 
@@ -158,37 +146,7 @@ namespace LayoutFarm.CustomWidgets
             return null;
         }
 
-
-        LayoutFarm.HtmlBoxes.CssBox CreateCompartmentBox(DomElement domE,
-            LayoutFarm.HtmlBoxes.CssBox parentBox,
-            BoxSpec spec,
-            LayoutFarm.RootGraphic rootgfx, out bool handleChildnodes)
-        {
-
-            handleChildnodes = true;
-
-            //create cssbox 
-            //test only!           
-            var newspec = new BoxSpec();
-            BoxSpec.InheritStyles(newspec, spec);
-            newspec.BackgroundColor = Color.Blue;
-            newspec.Width = new CssLength(50, CssUnitOrNames.Pixels);
-            newspec.Height = new CssLength(50, CssUnitOrNames.Pixels);
-            newspec.Position = CssPosition.Absolute;
-            newspec.Freeze(); //freeze before use
-
-            HtmlElement htmlElement = (HtmlElement)domE;
-            var newBox = new CssBox(domE, newspec, parentBox.RootGfx);
-            htmlElement.SetPrincipalBox(newBox);
-            //auto set bc of the element
-
-            parentBox.AppendChild(newBox);
-
-
-            this.myHost.UpdateChildBoxes(htmlElement, true);
-            //----------
-            return newBox;
-        }
+         
 
     }
 
