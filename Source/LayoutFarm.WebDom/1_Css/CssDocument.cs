@@ -1,11 +1,11 @@
 ﻿//BSD  2014 ,WinterDev
 
-using System; 
+using System;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 
 namespace LayoutFarm.WebDom
-{ 
+{
     public class CssDocument
     {
         List<CssDocMember> cssItemCollection = new List<CssDocMember>();
@@ -22,9 +22,9 @@ namespace LayoutFarm.WebDom
             int j = cssItemCollection.Count;
             for (int i = 0; i < j; ++i)
             {
-                yield return cssItemCollection[i];                 
+                yield return cssItemCollection[i];
             }
-        }   
+        }
 #if DEBUG
         public override string ToString()
         {

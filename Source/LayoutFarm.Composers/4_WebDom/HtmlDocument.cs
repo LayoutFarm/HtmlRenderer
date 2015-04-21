@@ -76,7 +76,7 @@ namespace LayoutFarm.WebDom
         {
             //default root
             rootNode = new HtmlRootElement(this);
-
+            //test only
             this.RegisterCustomElement("fivespace", CustomBoxGenSample1.CreateCssBox);
         }
         public override DomElement RootNode
