@@ -912,7 +912,10 @@ namespace LayoutFarm.Css
         FlexAlignSelf _alignSelf; //cross-axis alignment
         FlexAlignContent _alignContent;//packing flex lines
 
-
+        //----
+        // temp expriment extension
+        int _flexExtensionNum;
+        int _flexExtensionPartNo;
         static CssFlexFeature()
         {
             Default.Freeze();
@@ -992,6 +995,20 @@ namespace LayoutFarm.Css
         {
             get { return this._alignContent; }
             set { if (Assignable()) this._alignContent = value; }
+        }
+
+        public int FlexExtensionNum
+        {
+            get { return this._flexExtensionNum; }
+            set { if (Assignable()) this._flexExtensionNum = value; }
+        }
+        /// <summary>
+        /// extension part number
+        /// </summary>
+        public int FlexExtensionPart
+        {
+            get { return this._flexExtensionPartNo; }
+            set { if (Assignable()) this._flexExtensionPartNo = value; }
         }
     }
 

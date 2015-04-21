@@ -286,6 +286,7 @@ namespace LayoutFarm.Composers
                     spec.Overflow = UserMapUtil.GetOverflow(cssValue);
                     break;
                 //------------------------------------------------ 
+                //for flex container
                 case WellknownCssPropertyName.Flex:
                     {
                         //TODO: implement this
@@ -302,7 +303,10 @@ namespace LayoutFarm.Composers
                     {
                         //TODO: implement this
                     } break;
+
+
                 //------------------------------------------------ 
+                //for flex item
                 case WellknownCssPropertyName.FlexGrow:
                     spec.FlexGrow = (int)cssValue.AsNumber();
                     break;
@@ -311,6 +315,15 @@ namespace LayoutFarm.Composers
                     break;
                 case WellknownCssPropertyName.FlexOrder:
                     spec.FlexOrder = (int)cssValue.AsNumber();
+                    break;
+                //------------------------------------------------   
+                //experiment : for container
+                case WellknownCssPropertyName.FlexExtensionNum:
+                    spec.FlexExtensionNum = (int)cssValue.AsNumber();
+                    break;
+                //experiment : for space part
+                case WellknownCssPropertyName.FlexExtensionPart:
+                    spec.FlexExtensionPart = (int)cssValue.AsNumber();
                     break;
 
             }

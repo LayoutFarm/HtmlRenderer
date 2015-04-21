@@ -15,8 +15,8 @@ namespace LayoutFarm.Css
         InlineBlock,
 
         [Map(CssConstants.InlineFlex)]
-        InlineFlex,
-
+        InlineFlex, 
+        //----------------------------
         [Map(CssConstants.TableRow)]
         TableRow,
         [Map(CssConstants.InlineTable)]
@@ -37,7 +37,7 @@ namespace LayoutFarm.Css
         TableHeaderGroup,
 
         [Map(CssConstants.TableFooterGroup)]
-        TableFooterGroup,
+        TableFooterGroup, 
 
         [Map(CssConstants.None)]
         None,

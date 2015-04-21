@@ -212,6 +212,6 @@ namespace LayoutFarm.Css
         public const string SpaceBetween = "space-between";
         public const string SpaceAround = "space-around";
 
-        public const string Stretch = "stretch";
+        public const string Stretch = "stretch"; 
     }
 }
