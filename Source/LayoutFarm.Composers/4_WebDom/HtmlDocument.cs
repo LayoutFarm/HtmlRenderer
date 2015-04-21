@@ -47,12 +47,17 @@ namespace LayoutFarm.WebDom
                     domUpdatedHandler(this, EventArgs.Empty);
                 }
             }
-        }
-
+        } 
         public override DomElement CreateElement(string prefix, string localName)
         {
             //actual implementation
             return new HtmlElement(this,
+                AddStringIfNotExists(prefix),
+                AddStringIfNotExists(localName));
+        }
+        public override DomElement CreateShadowRootElement(string prefix, string localName)
+        {
+            return new ShadowRootElement(this,
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName));
         }

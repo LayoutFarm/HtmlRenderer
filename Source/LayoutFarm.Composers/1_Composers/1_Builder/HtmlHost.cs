@@ -17,13 +17,11 @@ namespace LayoutFarm.HtmlBoxes
 
     public class HtmlHost
     {
+
         List<LayoutFarm.Composers.CustomCssBoxGenerator> generators = new List<LayoutFarm.Composers.CustomCssBoxGenerator>();
-
         HtmlContainerUpdateHandler htmlContainerUpdateHandler;
-
         EventHandler<ImageRequestEventArgs> requestImage;
-        EventHandler<TextRequestEventArgs> requestStyleSheet;
-
+        EventHandler<TextRequestEventArgs> requestStyleSheet; 
 
         GraphicsPlatform gfxplatform;
         HtmlDocument commonHtmlDoc;
@@ -34,9 +32,11 @@ namespace LayoutFarm.HtmlBoxes
 
             this.gfxplatform = gfxplatform;
             this.BaseStylesheet = activeSheet;
-
             this.commonHtmlDoc = new HtmlDocument();
             this.commonHtmlDoc.CssActiveSheet = activeSheet;
+
+
+
         }
         public HtmlHost(GraphicsPlatform gfxplatform)
             : this(gfxplatform, LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(null,

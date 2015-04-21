@@ -1,4 +1,10 @@
-﻿using PixelFarm.Drawing;
+﻿//BSD 2014-2015 ,WinterDev
+//ArthurHub, Jose Manuel Menendez Poo
+
+using System;
+using System.Collections.Generic;
+
+using PixelFarm.Drawing;
 
 using LayoutFarm.WebDom;
 using LayoutFarm.Css;
@@ -8,17 +14,29 @@ using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm.CustomWidgets
 {
 
+
+
     public class MyCustomCssBoxGenerator : CustomCssBoxGenerator
     {
         HtmlBoxes.HtmlHost myHost;
+        Dictionary<string, CreateCssBoxDelegate> generalCssBoxCreators = new Dictionary<string, CreateCssBoxDelegate>();
+
         public MyCustomCssBoxGenerator(HtmlBoxes.HtmlHost myHost)
         {
             this.myHost = myHost;
+
+            //------------------------------------------------
+            //experiment!
+            //check if element tag name is registred as custom element
+            //eg. x element  
+            generalCssBoxCreators.Add("x", this.CreateCompartmentBox);
+
         }
         protected override HtmlBoxes.HtmlHost MyHost
         {
             get { return this.myHost; }
         }
+
         public override LayoutFarm.HtmlBoxes.CssBox CreateCssBox(
             DomElement domE,
             LayoutFarm.HtmlBoxes.CssBox parentBox,
@@ -49,43 +67,23 @@ namespace LayoutFarm.CustomWidgets
                              canvas.GetPrimaryRenderElement(rootgfx),
                              spec, true);
                         parentBox.AppendChild(wrapperBox);
-
                         return wrapperBox;
                     }
-
             }
-            //------
-            //else ...
-
-            //experiment!
-            //check if element tag name is registred as custom element
-            //eg. x element  
-            var classAttr = domE.FindAttribute("class");
-            if (classAttr != null)
+            //------------------------------------------------
+            CreateCssBoxDelegate foundCreator;
+            if (generalCssBoxCreators.TryGetValue(domE.Name, out foundCreator))
             {
-
-                switch (classAttr.Value)
-                {
-                    case "fivespace":
-                        {
-                            var compartmentBox = CreateCompartmentBox(domE, parentBox, spec, rootgfx);
-                            if (compartmentBox != null)
-                            {
-                                return compartmentBox;
-                            }
-                        } break;
-                }
-            }
-
+                CssBox result = foundCreator(domE, parentBox, spec, rootgfx, out alreadyHandleChildNodes);
+                return result;
+            } 
             var simpleBox = new LayoutFarm.CustomWidgets.SimpleBox(100, 20); //default unknown
             simpleBox.BackColor = PixelFarm.Drawing.Color.LightGray;
             var wrapperBox2 = CreateWrapper(
                                simpleBox,
                                simpleBox.GetPrimaryRenderElement(rootgfx),
-                               spec, false);
-
-            parentBox.AppendChild(wrapperBox2);
-
+                               spec, false); 
+            parentBox.AppendChild(wrapperBox2); 
             return wrapperBox2;
         }
 
@@ -164,8 +162,10 @@ namespace LayoutFarm.CustomWidgets
         LayoutFarm.HtmlBoxes.CssBox CreateCompartmentBox(DomElement domE,
             LayoutFarm.HtmlBoxes.CssBox parentBox,
             BoxSpec spec,
-            LayoutFarm.RootGraphic rootgfx)
+            LayoutFarm.RootGraphic rootgfx, out bool handleChildnodes)
         {
+
+            handleChildnodes = true;
 
             //create cssbox 
             //test only!           
@@ -184,7 +184,7 @@ namespace LayoutFarm.CustomWidgets
 
             parentBox.AppendChild(newBox);
 
-             
+
             this.myHost.UpdateChildBoxes(htmlElement, true);
             //----------
             return newBox;

@@ -39,15 +39,14 @@ namespace LayoutFarm.WebDom
             object controller;
             lazyCreator(rootgfx, out re, out controller);
             return wrapper = new LayoutFarm.HtmlBoxes.InternalWrappers.WrapperBlockCssBox(controller, this.Spec, re);
-        }
+        } 
+    } 
+    sealed class ShadowRootElement : HtmlElement
+    {
+        public ShadowRootElement(HtmlDocument owner, int prefix, int localNameIndex)
+            : base(owner, prefix, localNameIndex)
+        {
 
-    }
-
-
-     
-
-
-
-
-
+        } 
+    } 
 }
