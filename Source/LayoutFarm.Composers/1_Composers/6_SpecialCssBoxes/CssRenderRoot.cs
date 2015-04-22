@@ -11,7 +11,8 @@ namespace LayoutFarm.HtmlBoxes
     {
         LayoutFarm.RenderElement containerElement;
         public CssRenderRoot(BoxSpec spec,
-            LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
+            LayoutFarm.RenderElement containerElement,
+            RootGraphic rootgfx)
             : base(spec, rootgfx)
         {
             this.containerElement = containerElement;
@@ -33,6 +34,16 @@ namespace LayoutFarm.HtmlBoxes
         }
     }
 
+    class CssRenderRoot2 : CssBox
+    {
+        public CssRenderRoot2(BoxSpec spec, RootGraphic rootgfx)
+            : base(spec, rootgfx)
+        {
+        }
+        public override void InvalidateGraphics()
+        {
+        }
+    }
 
     class CssIsolateBox : CssBox
     {

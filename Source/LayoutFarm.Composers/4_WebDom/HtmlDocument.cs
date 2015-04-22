@@ -100,12 +100,7 @@ namespace LayoutFarm.WebDom
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName));
         }
-        public override DomElement CreateShadowRootElement(string prefix, string localName)
-        {
-            return new ShadowRootElement(this,
-                AddStringIfNotExists(prefix),
-                AddStringIfNotExists(localName));
-        }
+
         public DomAttribute CreateAttribute(WellknownName attrName)
         {
 
@@ -116,6 +111,7 @@ namespace LayoutFarm.WebDom
             return new HtmlTextNode(this, strBufferForElement);
         }
 
+        //---------------------------------------------------------
         public DomElement CreateWrapperElement(
             string wrapperElementName,
             LazyCssBoxCreator lazyCssBoxCreator)
@@ -125,17 +121,14 @@ namespace LayoutFarm.WebDom
                 AddStringIfNotExists(wrapperElementName),
                 lazyCssBoxCreator);
         }
-
-        internal void SetDomUpdateHandler(EventHandler h)
+        public override DomElement CreateShadowRootElement()
         {
-            this.domUpdatedHandler = h;
+            return new ShadowRootElement(this, 
+                AddStringIfNotExists(null),
+                AddStringIfNotExists("shadow-root"));
         }
-        internal CssActiveSheet CssActiveSheet
-        {
-            get;
-            set;
-        }
-
+      
+       
         //-------------------------------------------------------------
         public void RegisterCustomElement(string customElementName, CreateCssBoxDelegate cssBoxGen)
         {
@@ -150,6 +143,22 @@ namespace LayoutFarm.WebDom
         {
             return new HtmlDocumentFragment(this);
         }
+
+        //---------------------------------------------------------
+        internal void SetDomUpdateHandler(EventHandler h)
+        {
+            this.domUpdatedHandler = h;
+        }
+        internal CssActiveSheet CssActiveSheet
+        {
+            get;
+            set;
+        }
+        internal EventHandler DomUpdateHandler
+        {
+            get { return this.domUpdatedHandler; }
+        }
+
     }
 
 

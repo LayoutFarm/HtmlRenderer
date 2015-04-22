@@ -58,7 +58,7 @@ namespace LayoutFarm.Composers
         {
 
             //recursive 
-            CssBox principalCssBox = parentElement.GetPrincipalBox();
+            CssBox principalCssBox = parentElement.CurrentPrincipalBox;
             bool isblockContext = true;//default
             if (principalCssBox != null)
             {
@@ -233,6 +233,34 @@ namespace LayoutFarm.Composers
             //SetTextSelectionStyle(htmlCont, cssData);
             return isolationBox;
         }
+
+        public CssBox BuildCssRenderTree2(HtmlDocument htmldoc,
+           CssActiveSheet cssActiveSheet,
+           RootGraphic rootgfx)
+        {
+
+            htmldoc.CssActiveSheet = cssActiveSheet;
+
+            htmldoc.SetDocumentState(DocumentState.Building);
+            //----------------------------------------------------------------  
+
+            TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(cssActiveSheet);
+            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
+
+            //TODO: review here, we should create cssbox at document.body? 
+
+            CssBox rootBox = HtmlHost.CreateCssRenderRoot2(this.htmlHost.GfxPlatform.SampleIFonts, rootgfx);
+            ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
+
+            htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
+
+            htmldoc.SetDocumentState(DocumentState.Idle);
+            //----------------------------------------------------------------  
+            //SetTextSelectionStyle(htmlCont, cssData);
+            return rootBox;
+        }
+
+
         //----------------------------------------------------------------
         public void RefreshCssTree(DomElement startAt)
         {

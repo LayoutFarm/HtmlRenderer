@@ -43,7 +43,8 @@ namespace LayoutFarm
             string html = @"<html><head></head><body>
                     <div id='menubox'>
                         <span id='test_dom1'>click to toggle!</span>
-                        <span id='test_dom2'>test dom2</span>
+                        <span id='test_dom2'>test document fragment</span>
+                        <span id='test_dom3'>test showdow dom</span>
                     </div>
             </body></html>";
             htmlMenuBox.LoadHtmlString(html);
@@ -80,9 +81,7 @@ namespace LayoutFarm
                         {
                             //test toggle with DocumentFragment
                             var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as HtmlDocument;
-                            HtmlElement div1 = testHtmlDoc.GetElementById("div1") as HtmlElement;
-
-
+                            HtmlElement div1 = testHtmlDoc.GetElementById("div1") as HtmlElement; 
                             if (div1 != null)
                             {
                                 HtmlDocumentFragment docFragment = testHtmlDoc.CreateDocumentFragment();
@@ -91,10 +90,8 @@ namespace LayoutFarm
                                     var node1 = docFragment.CreateElement("div") as HtmlElement;
                                     node1.AddChild(
                                         docFragment.CreateTextNode("3333".ToCharArray()));//TODO: review this
-                                    docFragment.RootNode.AddChild(node1);
-                                    //-------------------------------------------
-                                    div1.ClearAllElements();
-                                    div1.AddChild(docFragment.RootNode);
+                                    docFragment.RootNode.AddChild(node1); 
+                                    
                                 }
                                 else
                                 {
@@ -102,11 +99,42 @@ namespace LayoutFarm
                                     var node1 = docFragment.CreateElement("div") as HtmlElement;
                                     node1.AddChild(
                                         docFragment.CreateTextNode("4444".ToCharArray()));//TODO: review this
-                                    docFragment.RootNode.AddChild(node1);
-                                    //-------------------------------------------
-                                    div1.ClearAllElements();
-                                    div1.AddChild(docFragment.RootNode);
-                                } 
+                                    docFragment.RootNode.AddChild(node1); 
+                                }
+                                div1.ClearAllElements();
+                                div1.AddChild(docFragment.RootNode);
+
+                                testToggle = !testToggle;
+                            }
+                        } break;
+                    case "test_dom3":
+                        {
+                            //shadow dom!
+                            var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as HtmlDocument;
+                            HtmlElement div1 = testHtmlDoc.GetElementById("div1") as HtmlElement;
+
+                            if (div1 != null)
+                            {
+                                HtmlElement shadowRoot = testHtmlDoc.CreateShadowRootElement() as HtmlElement;
+                                if (testToggle)
+                                {
+                                    var node1 = testHtmlDoc.CreateElement("div") as HtmlElement;
+                                    node1.AddChild(
+                                        testHtmlDoc.CreateTextNode("XXX".ToCharArray()));//TODO: review this 
+                                    //add node1 to shadow root element
+                                    shadowRoot.AddChild(node1); 
+                                }
+                                else
+                                {
+                                    var node1 = testHtmlDoc.CreateElement("div") as HtmlElement;
+                                    node1.AddChild(
+                                        testHtmlDoc.CreateTextNode("YYY".ToCharArray()));//TODO: review this 
+                                    //add node1 to shadow root element
+                                    shadowRoot.AddChild(node1); 
+                                }
+
+                                div1.ClearAllElements();
+                                div1.AddChild(shadowRoot);
                                 testToggle = !testToggle;
                             } 
                         } break;

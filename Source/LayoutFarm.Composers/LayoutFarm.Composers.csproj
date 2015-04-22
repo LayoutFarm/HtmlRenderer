@@ -56,6 +56,7 @@
     <Compile Include="1_Composers\6_SpecialCssBoxes\CssBoxScrollView.cs" />
     <Compile Include="1_Composers\6_SpecialCssBoxes\CssRenderRoot.cs" />
     <Compile Include="4_WebDom\HtmlDocumentFragment.cs" />
+    <Compile Include="4_WebDom\HtmlShadowDocument.cs" />
     <Compile Include="4_WebDom\HtmlSharedDocument.cs" />
     <Compile Include="5_RenderBasedUI\1_UIElement.cs" />
     <Compile Include="5_RenderBasedUI\2_UIElement_EventListener.cs" />

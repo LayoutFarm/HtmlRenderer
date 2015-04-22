@@ -28,6 +28,7 @@ namespace LayoutFarm.WebDom
             this.nodePrefixNameIndex = nodePrefixNameIndex;
             this.nodeLocalNameIndex = nodeLocalNameIndex;
             SetNodeType(HtmlNodeType.OpenElement);
+            
         }
 
         public static bool EqualNames(DomElement node1, DomElement node2)
@@ -140,8 +141,8 @@ namespace LayoutFarm.WebDom
             attr.SetParent(this);
             NotifyChange(ElementChangeKind.AddAttribute);
         }
-         
-        public void AddChild(DomNode childNode)
+
+        public virtual void AddChild(DomNode childNode)
         {
             switch (childNode.NodeType)
             {

@@ -70,11 +70,7 @@ namespace LayoutFarm.WebDom
         }
 
 
-        public void SetPrincipalBox(CssBox box)
-        {
-            this.principalBox = box;
-            this.SkipPrincipalBoxEvalulation = true;
-        }
+
         public override void ClearAllElements()
         {
             //clear presentation 
@@ -146,10 +142,8 @@ namespace LayoutFarm.WebDom
         {
             get { return this.boxSpec; }
         }
-        internal CssBox GetPrincipalBox()
-        {
-            return this.principalBox;
-        }
+
+
 
         protected override void OnElementChanged()
         {
@@ -255,6 +249,30 @@ namespace LayoutFarm.WebDom
             x = (int)globalX;
             y = (int)globalY;
         }
+
+
+
+        //------------------------------------
+        internal CssBox CurrentPrincipalBox
+        {
+            get { return this.principalBox; }
+        }
+        public void SetPrincipalBox(CssBox box)
+        {
+            this.principalBox = box;
+            this.SkipPrincipalBoxEvalulation = true;
+        }
+        public virtual bool HasCustomPrincipalBoxGenerator
+        {
+            //use builtin cssbox generator***
+            get { return false; }
+        }
+        public virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
+        {
+            //this method is called when HasCustomPrincipalBoxGenerator = true
+            throw new NotImplementedException();
+        }
+        //------------------------------------
     }
 
 

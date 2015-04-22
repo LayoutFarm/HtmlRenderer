@@ -206,7 +206,6 @@ namespace LayoutFarm.HtmlBoxes
                                     //-------------------------------------------------- 
                                     if (fullmode)
                                     {
-
                                         CssBox newbox = CreateBox(hostBox, childElement, fullmode);
                                         childElement.SetPrincipalBox(newbox);
                                     }
@@ -215,7 +214,6 @@ namespace LayoutFarm.HtmlBoxes
                                         CssBox existing = HtmlElement.InternalGetPrincipalBox(childElement);
                                         if (existing == null)
                                         {
-                                            bool alreadyHandleChildrenNode;
                                             CssBox box = CreateBox(hostBox, childElement, fullmode);
                                             childElement.SetPrincipalBox(box);
                                         }
@@ -338,13 +336,10 @@ namespace LayoutFarm.HtmlBoxes
         }
         public CssBox CreateBox(CssBox parentBox, HtmlElement childElement, bool fullmode)
         {
-
-
             //----------------------------------------- 
             //1. create new box
             //----------------------------------------- 
-            //some box has predefined behaviour
-
+            //some box has predefined behaviour 
             CssBox newBox = null;
 
             switch (childElement.WellknownElementName)
@@ -428,16 +423,13 @@ namespace LayoutFarm.HtmlBoxes
                         //custom tag
                         //check if this is tag is registered as custom element
                         //-----------------------------------------------
-                        ExternalHtmlElement externalHtmlElement = childElement as ExternalHtmlElement;
-                        if (externalHtmlElement != null)
+                        if (childElement.HasCustomPrincipalBoxGenerator)
                         {
-                            newBox = externalHtmlElement.GetCssBox(rootgfx);
-                            if (newBox != null)
-                            {
-                                parentBox.AppendChild(newBox);
-                                return newBox;
-                            }
+                            var childbox = childElement.GetPrincipalBox(parentBox, this);
+                            parentBox.AppendChild(childbox);
+                            return childbox;
                         }
+
                         //----------------------------------------------- 
                         LayoutFarm.WebDom.CreateCssBoxDelegate foundBoxGen;
                         if (((HtmlDocument)childElement.OwnerDocument).TryGetCustomBoxGenerator(childElement.Name, out foundBoxGen))
@@ -515,6 +507,17 @@ namespace LayoutFarm.HtmlBoxes
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
             var box = new CssRenderRoot(spec, containerElement, rootgfx);
+            //------------------------------------
+            box.ReEvaluateFont(iFonts, 10);
+            //------------------------------------
+            return box;
+        }
+        internal static CssBox CreateCssRenderRoot2(IFonts iFonts, RootGraphic rootgfx)
+        {
+            var spec = new BoxSpec();
+            spec.CssDisplay = CssDisplay.Block;
+            spec.Freeze();
+            var box = new CssRenderRoot2(spec, rootgfx);
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
