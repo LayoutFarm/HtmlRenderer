@@ -42,24 +42,13 @@ namespace LayoutFarm.Svg
                     //-------
                     //temp test only
                     //-------
-                    var svgElement = e.SourceHitElement as SvgElement;
+                    var svgElement = e.ExactHitObject as SvgElement;
                     if (svgElement is SvgRect)
                     {
                         ((SvgRect)svgElement).FillColor = Color.White;
                     }
-                    return true;
-
-                });
-                //ForEachEventListenerBubbleUp(e, hitChain, () =>
-                //{
-                //    //-------
-                //    //temp test only
-                //    var currentSvg = e.CurrentContextElement as SvgElement; 
-                //    //-------
-                //    e.CurrentContextElement.ListenMouseDown(e);
-
-                //    return true;
-                //});
+                    return true; 
+                }); 
             }
 
             e.CancelBubbling = true;
