@@ -15,7 +15,7 @@ namespace LayoutFarm.WebDom
         TextNode,
         CData,
         ProcessInstruction,
-        Comment
+        Comment 
     }
 
 

@@ -24,7 +24,7 @@ namespace LayoutFarm.WebDom
 
         public DomElement(WebDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
-        {   
+        {
             this.nodePrefixNameIndex = nodePrefixNameIndex;
             this.nodeLocalNameIndex = nodeLocalNameIndex;
             SetNodeType(HtmlNodeType.OpenElement);
@@ -140,6 +140,7 @@ namespace LayoutFarm.WebDom
             attr.SetParent(this);
             NotifyChange(ElementChangeKind.AddAttribute);
         }
+         
         public void AddChild(DomNode childNode)
         {
             switch (childNode.NodeType)

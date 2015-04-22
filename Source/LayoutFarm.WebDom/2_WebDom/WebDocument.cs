@@ -102,13 +102,6 @@ namespace LayoutFarm.WebDom
         ChangedAfterIdle
     }
 
-    public class WebDocumentFragment
-    {
-        WebDocument owner;
-        public WebDocumentFragment(WebDocument owner)
-        {
-            this.owner = owner;
-        }
-    }
+    
 
 }

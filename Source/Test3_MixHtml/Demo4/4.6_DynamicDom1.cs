@@ -61,6 +61,7 @@ namespace LayoutFarm
                 {
                     case "test_dom1":
                         {
+                            //test toggle with innerHTML
                             var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as HtmlDocument;
                             HtmlElement div1 = testHtmlDoc.GetElementById("div1") as HtmlElement;
 
@@ -68,16 +69,46 @@ namespace LayoutFarm
                             {
                                 //test set innerHTML
                                 div1.SetInnerHtml(
-                                    testToggle ? 
-                                        "<div>11111</div>" : 
-                                        "<div>22222</div>"); 
+                                    testToggle ?
+                                        "<div>11111</div>" :
+                                        "<div>22222</div>");
                                 testToggle = !testToggle;
-                            } 
+                            }
 
                         } break;
                     case "test_dom2":
                         {
+                            //test toggle with DocumentFragment
+                            var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as HtmlDocument;
+                            HtmlElement div1 = testHtmlDoc.GetElementById("div1") as HtmlElement;
 
+
+                            if (div1 != null)
+                            {
+                                HtmlDocumentFragment docFragment = testHtmlDoc.CreateDocumentFragment();
+                                if (testToggle)
+                                {
+                                    var node1 = docFragment.CreateElement("div") as HtmlElement;
+                                    node1.AddChild(
+                                        docFragment.CreateTextNode("3333".ToCharArray()));//TODO: review this
+                                    docFragment.RootNode.AddChild(node1);
+                                    //-------------------------------------------
+                                    div1.ClearAllElements();
+                                    div1.AddChild(docFragment.RootNode);
+                                }
+                                else
+                                {
+
+                                    var node1 = docFragment.CreateElement("div") as HtmlElement;
+                                    node1.AddChild(
+                                        docFragment.CreateTextNode("4444".ToCharArray()));//TODO: review this
+                                    docFragment.RootNode.AddChild(node1);
+                                    //-------------------------------------------
+                                    div1.ClearAllElements();
+                                    div1.AddChild(docFragment.RootNode);
+                                } 
+                                testToggle = !testToggle;
+                            } 
                         } break;
                 }
             });

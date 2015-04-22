@@ -146,6 +146,10 @@ namespace LayoutFarm.WebDom
         {
             return this.registedCustomElemenGens.TryGetValue(customElementName, out cssBoxGen);
         }
+        public HtmlDocumentFragment CreateDocumentFragment()
+        {
+            return new HtmlDocumentFragment(this);
+        }
     }
 
 

@@ -85,7 +85,7 @@ namespace LayoutFarm.HtmlBoxes
                 requestImage(this, resReq);
             }
         }
-        public HtmlDocument CreateNewDocumentFragment()
+        public HtmlDocumentFragment CreateNewDocumentFragment()
         {
             return new HtmlDocumentFragment(this.commonHtmlDoc);
         }
@@ -345,7 +345,7 @@ namespace LayoutFarm.HtmlBoxes
             //----------------------------------------- 
             //some box has predefined behaviour
 
-            CssBox newBox = null; 
+            CssBox newBox = null;
 
             switch (childElement.WellknownElementName)
             {
