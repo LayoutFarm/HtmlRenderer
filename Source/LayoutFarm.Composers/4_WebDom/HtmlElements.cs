@@ -108,6 +108,9 @@ namespace LayoutFarm.WebDom
                 ((HtmlElement)cnode).SkipPrincipalBoxEvalulation = false;
                 cnode = cnode.ParentNode;
             }
+
+            HtmlDocument owner = this.OwnerDocument as HtmlDocument;
+            owner.DomUpdateVersion++;
         }
         //------------------------------------
         internal static void InvokeNotifyChangeOnIdleState(HtmlElement elem, ElementChangeKind changeKind)
@@ -208,6 +211,8 @@ namespace LayoutFarm.WebDom
                 new LayoutFarm.WebDom.Parser.TextSnapshot(innerHtml.ToCharArray()),
                 (HtmlDocument)this.OwnerDocument,
                 this);
+
+
         }
         public virtual void WriteNode(DomTextWriter writer)
         {

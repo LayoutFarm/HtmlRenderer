@@ -17,6 +17,8 @@ namespace LayoutFarm
         HtmlBox testHtmlBox;
         HtmlBoxes.HtmlHost htmlhost;
         SampleViewport viewport;
+        bool testToggle;
+
         protected override void OnStartDemo(SampleViewport viewport)
         {
             this.viewport = viewport;
@@ -30,15 +32,7 @@ namespace LayoutFarm
             viewport.AddContent(testHtmlBox);
             string html = @"<html><head></head><body><div id='div1'>OK1</div><div>OK2</div></body></html>";
             testHtmlBox.LoadHtmlString(html);
-            //================================================== 
-
-            var htmldoc = testHtmlBox.HtmlContainer.WebDocument as HtmlDocument;
-            HtmlElement div1 = htmldoc.GetElementById("div1") as HtmlElement;
-            if (div1 != null)
-            {
-                //test set innerHTML
-                div1.SetInnerHtml("<div>OKOKOK</div>");
-            }
+            //==================================================  
         }
         void SetupHtmlMenuBox()
         {
@@ -48,7 +42,7 @@ namespace LayoutFarm
             viewport.AddContent(htmlMenuBox);
             string html = @"<html><head></head><body>
                     <div id='menubox'>
-                        <span id='test_dom1'>test dom1</span>
+                        <span id='test_dom1'>click to toggle!</span>
                         <span id='test_dom2'>test dom2</span>
                     </div>
             </body></html>";
@@ -62,8 +56,30 @@ namespace LayoutFarm
             //test set innerHTML
             div_menuBox.AttachEvent(UIEventName.MouseDown, (e) =>
             {
-                var contextE = e.CurrentContextElement as HtmlElement;
+                var contextE = e.SourceHitElement as HtmlElement;
+                switch (contextE.AttrElementId)
+                {
+                    case "test_dom1":
+                        {
+                            var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as HtmlDocument;
+                            HtmlElement div1 = testHtmlDoc.GetElementById("div1") as HtmlElement;
 
+                            if (div1 != null)
+                            {
+                                //test set innerHTML
+                                div1.SetInnerHtml(
+                                    testToggle ? 
+                                        "<div>11111</div>" : 
+                                        "<div>22222</div>"); 
+                                testToggle = !testToggle;
+                            } 
+
+                        } break;
+                    case "test_dom2":
+                        {
+
+                        } break;
+                }
             });
 
         }
