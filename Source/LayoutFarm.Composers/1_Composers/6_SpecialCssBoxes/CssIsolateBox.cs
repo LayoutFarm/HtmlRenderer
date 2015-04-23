@@ -7,10 +7,21 @@ using LayoutFarm.Css;
 using LayoutFarm.Composers;
 namespace LayoutFarm.HtmlBoxes
 {
-    class CssRenderRoot : CssBox
+    class CssIsolateBox : CssBox
+    {
+        public CssIsolateBox(BoxSpec spec, RootGraphic rootgfx)
+            : base(spec, rootgfx)
+        {
+        }
+        public override void InvalidateGraphics()
+        {
+        }
+    }
+    
+    class RenderElementBridgeCssBox : CssBox
     {
         LayoutFarm.RenderElement containerElement;
-        public CssRenderRoot(BoxSpec spec,
+        public RenderElementBridgeCssBox(BoxSpec spec,
             LayoutFarm.RenderElement containerElement,
             RootGraphic rootgfx)
             : base(spec, rootgfx)
@@ -34,29 +45,6 @@ namespace LayoutFarm.HtmlBoxes
         }
     }
 
-    class CssRenderRoot2 : CssBox
-    {
-        public CssRenderRoot2(BoxSpec spec, RootGraphic rootgfx)
-            : base(spec, rootgfx)
-        {
-        }
-        public override void InvalidateGraphics()
-        {
-        }
-    }
 
-    class CssIsolateBox : CssBox
-    {
-        LayoutFarm.RenderElement containerElement;
-        public CssIsolateBox(BoxSpec spec, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
-            : base(spec, rootgfx)
-        {
-            this.containerElement = containerElement;
-        }
-        public LayoutFarm.RenderElement ContainerElement
-        {
-            get { return this.containerElement; }
-        }
-    }
 
 }

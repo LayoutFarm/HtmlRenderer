@@ -189,7 +189,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             {
                 globalX += (int)cbox.LocalX;
                 globalY += (int)cbox.LocalY;
-                var renderRoot = cbox as LayoutFarm.HtmlBoxes.CssRenderRoot;
+                var renderRoot = cbox as LayoutFarm.HtmlBoxes.RenderElementBridgeCssBox;
 
                 if (renderRoot != null)
                 {
@@ -288,7 +288,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             {
                 globalX += (int)cbox.LocalX;
                 globalY += (int)cbox.LocalY;
-                var renderRoot = cbox as LayoutFarm.HtmlBoxes.CssRenderRoot;
+                var renderRoot = cbox as LayoutFarm.HtmlBoxes.RenderElementBridgeCssBox;
 
                 if (renderRoot != null)
                 {
