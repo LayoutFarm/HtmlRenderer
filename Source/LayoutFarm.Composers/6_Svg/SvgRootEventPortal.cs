@@ -30,8 +30,8 @@ namespace LayoutFarm.Svg
             get;
             set;
         }
-         
-        
+
+
         //==================================================
         SvgHitChain GetFreeHitChain()
         {
@@ -74,14 +74,12 @@ namespace LayoutFarm.Svg
             {
                 //propagate up 
                 var hitInfo = hitPointChain.GetHitInfo(i);
-
                 SvgElement svg = hitInfo.svg;
                 if (svg != null)
                 {
                     var controller = SvgElement.UnsafeGetController(hitInfo.svg) as IEventPortal;
                     if (controller != null)
-                    {
-
+                    {   
                         e.SetLocation((int)hitInfo.x, (int)hitInfo.y);
                         if (eventPortalAction(controller))
                         {
@@ -142,8 +140,8 @@ namespace LayoutFarm.Svg
                 //propagate up 
                 var hitInfo = hitChain.GetHitInfo(i);
                 //---------------------
-                //hit on element 
-                e.SourceHitElement = hitInfo.svg;                 
+                //hit on element  
+                
                 e.SetLocation((int)hitInfo.x, (int)hitInfo.y);
                 if (listenerAction())
                 {
@@ -157,9 +155,10 @@ namespace LayoutFarm.Svg
             int count = hitChain.Count;
             if (count > 0)
             {
+
                 var hitInfo = hitChain.GetHitInfo(count - 1);
-                e.SourceHitElement = hitInfo;
-                //e.SourceHitElement = hitInfo.hitObject;
+                e.ExactHitObject = hitInfo;
+
             }
         }
         void ClearPreviousSelection()

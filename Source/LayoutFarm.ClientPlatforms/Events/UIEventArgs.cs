@@ -82,13 +82,25 @@ namespace LayoutFarm.UI
         public virtual void Clear()
         {
             x = y = 0;
-            this.SourceHitElement = this.CurrentContextElement = null;
+            this.ExactHitObject = this.SourceHitElement = this.CurrentContextElement = null;
             this.Shift = this.Alt = this.Ctrl = this.CancelBubbling = false;
 
         }
-
-        public object SourceHitElement
+        /// <summary>
+        /// exact hit object (include run)
+        /// </summary>
+        public object ExactHitObject
         {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// first hit IEventListener
+        /// </summary>
+        public IEventListener SourceHitElement
+        {
+            //TODO: review here, ensure set this value 
             get;
             set;
         }

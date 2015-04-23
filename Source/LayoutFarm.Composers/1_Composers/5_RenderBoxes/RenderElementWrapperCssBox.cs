@@ -62,10 +62,9 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         public WrapperCssBoxBase(object controller,
              BoxSpec spec,
              RootGraphic root, CssDisplay display)
-            : base(controller, spec, root, display)
+            : base(spec, root, display)
         {
-
-
+            this.SetController(controller);
         }
         public override void InvalidateGraphics()
         {
@@ -190,7 +189,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             {
                 globalX += (int)cbox.LocalX;
                 globalY += (int)cbox.LocalY;
-                var renderRoot = cbox as LayoutFarm.HtmlBoxes.CssRenderRoot;
+                var renderRoot = cbox as LayoutFarm.HtmlBoxes.RenderElementBridgeCssBox;
 
                 if (renderRoot != null)
                 {
@@ -229,7 +228,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
 
 
-        protected override CssBox GetElementGlobalLocationImpl(out float globalX, out  float globalY)
+        protected override CssBox GetGlobalLocationImpl(out float globalX, out  float globalY)
         {
             globalX = globalXForRenderElement;
             globalY = globalYForRenderElement;
@@ -289,7 +288,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             {
                 globalX += (int)cbox.LocalX;
                 globalY += (int)cbox.LocalY;
-                var renderRoot = cbox as LayoutFarm.HtmlBoxes.CssRenderRoot;
+                var renderRoot = cbox as LayoutFarm.HtmlBoxes.RenderElementBridgeCssBox;
 
                 if (renderRoot != null)
                 {

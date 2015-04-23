@@ -25,8 +25,6 @@ namespace LayoutFarm.WebDom
         {
             this.boxSpec = new Css.BoxSpec();
         }
-
-
         public WellKnownDomNodeName WellknownElementName { get; set; }
         public bool TryGetAttribute(WellknownName wellknownHtmlName, out DomAttribute result)
         {
@@ -70,21 +68,9 @@ namespace LayoutFarm.WebDom
                     } break;
             }
         }
-        //------------------------------------
-        public Point GetActualElementGlobalLocation()
-        {
-            float globalX, globalY;
 
-            this.principalBox.GetElementGlobalLocation(out globalX, out globalY);
-            return new Point((int)globalX, (int)globalY);
 
-        }
 
-        public void SetPrincipalBox(CssBox box)
-        {
-            this.principalBox = box;
-            this.SkipPrincipalBoxEvalulation = true;
-        }
         public override void ClearAllElements()
         {
             //clear presentation 
@@ -99,29 +85,33 @@ namespace LayoutFarm.WebDom
         protected override void OnContentUpdate()
         {
             base.OnContentUpdate();
-            OnChangeInIdleState(ElementChangeKind.ContentUpdate);
+            OnElementChangedInIdleState(ElementChangeKind.ContentUpdate);
         }
 
-        protected override void OnChangeInIdleState(ElementChangeKind changeKind)
+        protected override void OnElementChangedInIdleState(ElementChangeKind changeKind)
         {
+
             //1. 
             this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
-            //2.
+            if (this.OwnerDocument.IsDocFragment) return;
+            //------------------------------------------------------------------
+            //2. need box evaluation again
             this.SkipPrincipalBoxEvalulation = false;
+            //3. propag
             var cnode = this.ParentNode;
             while (cnode != null)
             {
                 ((HtmlElement)cnode).SkipPrincipalBoxEvalulation = false;
                 cnode = cnode.ParentNode;
             }
+
+            HtmlDocument owner = this.OwnerDocument as HtmlDocument;
+            owner.DomUpdateVersion++;
         }
-
-
-
         //------------------------------------
         internal static void InvokeNotifyChangeOnIdleState(HtmlElement elem, ElementChangeKind changeKind)
         {
-            elem.OnChangeInIdleState(changeKind);
+            elem.OnElementChangedInIdleState(changeKind);
         }
         internal CssRuleSet ElementRuleSet
         {
@@ -143,7 +133,6 @@ namespace LayoutFarm.WebDom
         {
             get;
             set;
-
         }
         internal static CssBox InternalGetPrincipalBox(HtmlElement element)
         {
@@ -153,10 +142,9 @@ namespace LayoutFarm.WebDom
         {
             get { return this.boxSpec; }
         }
-        internal CssBox GetPrincipalBox()
-        {
-            return this.principalBox;
-        }
+
+
+
         protected override void OnElementChanged()
         {
 
@@ -170,8 +158,8 @@ namespace LayoutFarm.WebDom
             //create scrollbar
 
 
-            var scrollView = new CssScrollView(this, boxSpec, box.RootGfx);
-
+            var scrollView = new CssScrollView(boxSpec, box.RootGfx);
+            scrollView.SetController(this);
             scrollView.SetSize(box.SizeWidth, box.SizeHeight);
             scrollView.SetExpectedSize(box.SizeWidth, box.SizeHeight);
 
@@ -217,6 +205,8 @@ namespace LayoutFarm.WebDom
                 new LayoutFarm.WebDom.Parser.TextSnapshot(innerHtml.ToCharArray()),
                 (HtmlDocument)this.OwnerDocument,
                 this);
+
+
         }
         public virtual void WriteNode(DomTextWriter writer)
         {
@@ -252,13 +242,37 @@ namespace LayoutFarm.WebDom
             //close tag
             writer.Write("</", this.Name, ">");
         }
-        protected override void PrimaryCssGetGlobalLocation(out int x, out int y)
+        public override void GetGlobalLocation(out int x, out int y)
         {
             float globalX, globalY;
             this.principalBox.GetElementGlobalLocation(out globalX, out globalY);
             x = (int)globalX;
             y = (int)globalY;
         }
+
+
+
+        //------------------------------------
+        internal CssBox CurrentPrincipalBox
+        {
+            get { return this.principalBox; }
+        }
+        public void SetPrincipalBox(CssBox box)
+        {
+            this.principalBox = box;
+            this.SkipPrincipalBoxEvalulation = true;
+        }
+        public virtual bool HasCustomPrincipalBoxGenerator
+        {
+            //use builtin cssbox generator***
+            get { return false; }
+        }
+        public virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
+        {
+            //this method is called when HasCustomPrincipalBoxGenerator = true
+            throw new NotImplementedException();
+        }
+        //------------------------------------
     }
 
 

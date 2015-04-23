@@ -7,7 +7,7 @@ using LayoutFarm.UI;
 namespace LayoutFarm.WebDom.Extension
 {
 
-   public delegate void Decorate(DomElement h);
+  public delegate void Decorate(DomElement h);
 
    public static class MyHtmlDocExtension
     {

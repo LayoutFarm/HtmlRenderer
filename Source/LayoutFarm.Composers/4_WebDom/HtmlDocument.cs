@@ -40,7 +40,8 @@ namespace LayoutFarm.WebDom
             newspec.Freeze(); //freeze before use
 
             HtmlElement htmlElement = (HtmlElement)domE;
-            var newBox = new CssBox(domE, newspec, parentBox.RootGfx);
+            var newBox = new CssBox(newspec, parentBox.RootGfx);
+            newBox.SetController(domE);
             htmlElement.SetPrincipalBox(newBox);
             //auto set bc of the element
 
@@ -99,12 +100,7 @@ namespace LayoutFarm.WebDom
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName));
         }
-        public override DomElement CreateShadowRootElement(string prefix, string localName)
-        {
-            return new ShadowRootElement(this,
-                AddStringIfNotExists(prefix),
-                AddStringIfNotExists(localName));
-        }
+
         public DomAttribute CreateAttribute(WellknownName attrName)
         {
 
@@ -115,25 +111,24 @@ namespace LayoutFarm.WebDom
             return new HtmlTextNode(this, strBufferForElement);
         }
 
+        //---------------------------------------------------------
         public DomElement CreateWrapperElement(
+            string wrapperElementName,
             LazyCssBoxCreator lazyCssBoxCreator)
         {
             return new ExternalHtmlElement(this,
                 AddStringIfNotExists(null),
-                AddStringIfNotExists("x"),
+                AddStringIfNotExists(wrapperElementName),
                 lazyCssBoxCreator);
         }
-
-        internal void SetDomUpdateHandler(EventHandler h)
+        public override DomElement CreateShadowRootElement()
         {
-            this.domUpdatedHandler = h;
+            return new ShadowRootElement(this, 
+                AddStringIfNotExists(null),
+                AddStringIfNotExists("shadow-root"));
         }
-        internal CssActiveSheet CssActiveSheet
-        {
-            get;
-            set;
-        }
-
+      
+       
         //-------------------------------------------------------------
         public void RegisterCustomElement(string customElementName, CreateCssBoxDelegate cssBoxGen)
         {
@@ -144,19 +139,29 @@ namespace LayoutFarm.WebDom
         {
             return this.registedCustomElemenGens.TryGetValue(customElementName, out cssBoxGen);
         }
-    }
-
-
-
-    public partial class FragmentHtmlDocument : HtmlDocument
-    {
-        HtmlDocument primaryHtmlDoc;
-        internal FragmentHtmlDocument(HtmlDocument primaryHtmlDoc)
-            : base(primaryHtmlDoc.UniqueStringTable)
+        public HtmlDocumentFragment CreateDocumentFragment()
         {
-            this.primaryHtmlDoc = primaryHtmlDoc;
+            return new HtmlDocumentFragment(this);
         }
+
+        //---------------------------------------------------------
+        internal void SetDomUpdateHandler(EventHandler h)
+        {
+            this.domUpdatedHandler = h;
+        }
+        internal CssActiveSheet CssActiveSheet
+        {
+            get;
+            set;
+        }
+        internal EventHandler DomUpdateHandler
+        {
+            get { return this.domUpdatedHandler; }
+        }
+
     }
+
+
 
     //------------------------------------------------------------
     public delegate void LazyCssBoxCreator(RootGraphic rootgfx, out RenderElement re, out object controller);

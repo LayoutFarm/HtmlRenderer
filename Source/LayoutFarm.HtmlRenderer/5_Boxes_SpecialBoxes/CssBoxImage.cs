@@ -35,9 +35,9 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="controller">the html tag data of this box</param>
-        public CssBoxImage(object controller, Css.BoxSpec boxSpec,
+        public CssBoxImage(Css.BoxSpec boxSpec,
             IRootGraphics rootgfx, ImageBinder binder)
-            : base(controller, boxSpec, rootgfx)
+            : base(boxSpec, rootgfx)
         {
 
             this._imgRun = new CssImageRun();
@@ -145,7 +145,7 @@ namespace LayoutFarm.HtmlBoxes
                     } break;
             }
         }
-       
+
         /// <summary>
         /// Paints the fragment
         /// </summary>
@@ -175,5 +175,5 @@ namespace LayoutFarm.HtmlBoxes
     }
 
 
-    
+
 }

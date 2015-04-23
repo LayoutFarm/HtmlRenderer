@@ -158,7 +158,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void OnRequestScrollView(CssBox box)
         {
-
             RootGraphic rootgfx = (RootGraphic)box.RootGfx;
             rootgfx.AddToElementUpdateQueue(box);
         }

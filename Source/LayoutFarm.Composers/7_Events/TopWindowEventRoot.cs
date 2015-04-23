@@ -154,7 +154,7 @@ namespace LayoutFarm
                     draggingElement.GetGlobalLocation(out d_GlobalX, out d_globalY);
                     e.SetLocation(e.GlobalX - d_GlobalX, e.GlobalY - d_globalY);
                     e.CapturedMouseX = this.localMouseDownX;
-                    e.CapturedMouseY = this.localMouseDownY; 
+                    e.CapturedMouseY = this.localMouseDownY;
                     var iportal = draggingElement as IEventPortal;
                     if (iportal != null)
                     {
@@ -167,7 +167,7 @@ namespace LayoutFarm
                     else
                     {
                         draggingElement.ListenMouseUp(e);
-                    }  
+                    }
                 }
             }
             else
@@ -214,7 +214,7 @@ namespace LayoutFarm
                     e.CapturedMouseX = this.localMouseDownX;
                     e.CapturedMouseY = this.localMouseDownY;
 
-                  
+
                     var iportal = draggingElement as IEventPortal;
                     if (iportal != null)
                     {
@@ -279,7 +279,7 @@ namespace LayoutFarm
             UIKeyEventArgs e = GetFreeKeyEvent();
             e.SetKeyChar(c);
 
-            e.SourceHitElement = currentKbFocusElem;
+            e.ExactHitObject = e.SourceHitElement = currentKbFocusElem;
             currentKbFocusElem.ListenKeyPress(e);
 
             iTopBoxEventPortal.PortalKeyPress(e);
@@ -298,7 +298,7 @@ namespace LayoutFarm
             StopCaretBlink();
 
 
-            e.SourceHitElement = currentKbFocusElem;
+            e.ExactHitObject = e.SourceHitElement = currentKbFocusElem;
             currentKbFocusElem.ListenKeyDown(e);
 
             iTopBoxEventPortal.PortalKeyDown(e);
@@ -319,7 +319,8 @@ namespace LayoutFarm
             SetKeyData(e, keydata);
             //----------------------------------------------------
 
-            e.SourceHitElement = currentKbFocusElem;
+            e.ExactHitObject = e.SourceHitElement = currentKbFocusElem;
+
             currentKbFocusElem.ListenKeyUp(e);
 
             iTopBoxEventPortal.PortalKeyUp(e);
@@ -349,7 +350,8 @@ namespace LayoutFarm
 
             bool result = false;
 
-            e.SourceHitElement = currentKbFocusElem;
+            e.ExactHitObject = e.SourceHitElement = currentKbFocusElem;
+
             result = currentKbFocusElem.ListenProcessDialogKey(e);
 
 

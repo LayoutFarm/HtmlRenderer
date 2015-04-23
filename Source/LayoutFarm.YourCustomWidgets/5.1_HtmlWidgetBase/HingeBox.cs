@@ -34,10 +34,10 @@ namespace LayoutFarm.HtmlWidgets
             : base(w, h)
         {
         }
-        FragmentHtmlDocument CreateFloatPartDom()
+        HtmlDocument CreateFloatPartDom()
         {
             //create land part 
-            FragmentHtmlDocument htmldoc = this.HtmlHost.CreateNewFragmentHtml();
+            HtmlDocument htmldoc = this.HtmlHost.CreateNewSharedHtmlDoc();
             var domElement =
                 htmldoc.RootNode.AddChild("div", div =>
                 {
@@ -184,7 +184,7 @@ namespace LayoutFarm.HtmlWidgets
                             //temp
                             var topRenderBox = floatPartRenderElement.GetTopWindowRenderBox();
                             topRenderBox.RemoveChild(floatPartRenderElement);
-                             
+
                             //var parentContainer = floatPartRenderElement.ParentRenderElement as TopWindowRenderBox;
                             //parentContainer.RemoveChild(floatPartRenderElement);
                             //if (parentContainer.Layers != null)
