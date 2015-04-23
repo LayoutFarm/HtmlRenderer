@@ -107,7 +107,7 @@ namespace LayoutFarm.Composers
         static void InvalidateCssBox(CssBox cssbox)
         {
             var rootGfx = (RootGraphic)cssbox.RootGfx;
-            var rootCssBox = cssbox.GetTopRootCssBox() as CssRenderRoot;
+            var rootCssBox = cssbox.GetTopRootCssBox() as RenderElementBridgeCssBox;
             if (rootCssBox != null)
             {
                 //----------------------------------------

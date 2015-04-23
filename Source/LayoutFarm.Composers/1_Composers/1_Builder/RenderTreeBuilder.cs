@@ -188,17 +188,35 @@ namespace LayoutFarm.Composers
             //TODO: review here, we should create cssbox at  document.body?
 
 
-            CssBox rootBox = HtmlHost.CreateCssRenderRoot(this.htmlHost.GfxPlatform.SampleIFonts, containerElement, rootgfx);
-            ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
+            CssBox bridgeBox = HtmlHost.CreateBridgeBox(this.htmlHost.GfxPlatform.SampleIFonts, containerElement, rootgfx);
+            ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(bridgeBox);
 
             htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
 
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
             //SetTextSelectionStyle(htmlCont, cssData);
-            return rootBox;
+            return bridgeBox;
         }
 
+        public CssBox BuildCssRenderTree2(HtmlDocument htmldoc,
+          CssActiveSheet cssActiveSheet,
+          RootGraphic rootgfx)
+        {
+
+            htmldoc.CssActiveSheet = cssActiveSheet;
+            htmldoc.SetDocumentState(DocumentState.Building);
+            TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(cssActiveSheet);
+            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
+
+            //TODO: review here, we should create cssbox at document.body?  
+            CssBox rootBox = HtmlHost.CreateIsolateBox(this.htmlHost.GfxPlatform.SampleIFonts, rootgfx);
+            ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
+
+            htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
+            htmldoc.SetDocumentState(DocumentState.Idle);
+            return rootBox;
+        }
 
         public CssBox BuildCssRenderTree(
            DomElement hostElement,
@@ -214,50 +232,25 @@ namespace LayoutFarm.Composers
             TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(htmldoc.CssActiveSheet);
             PrepareStylesAndContentOfChildNodes(startAtHtmlElement, activeTemplate);
 
+            //1.css box for doc root: create new if not exist
             CssBox docRoot = HtmlElement.InternalGetPrincipalBox((HtmlElement)htmldoc.RootNode);
             if (docRoot == null)
             {
-                docRoot = HtmlHost.CreateCssRenderRoot(ifonts, containerElement, rootgfx);
+                docRoot = HtmlHost.CreateBridgeBox(ifonts, containerElement, rootgfx);
                 ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(docRoot);
             }
 
             //----------------------------------------------------------------  
-            CssBox isolationBox = HtmlHost.CreateCssIsolateBox(ifonts, containerElement, rootgfx);
-            docRoot.AppendChild(isolationBox);
-            ((HtmlElement)domElement).SetPrincipalBox(isolationBox);
+            CssBox bridgeBox = HtmlHost.CreateBridgeBox(ifonts, containerElement, rootgfx);
+            docRoot.AppendChild(bridgeBox);
+            ((HtmlElement)domElement).SetPrincipalBox(bridgeBox);
             //----------------------------------------------------------------  
 
             this.htmlHost.UpdateChildBoxes(startAtHtmlElement, true);
             htmldoc.SetDocumentState(DocumentState.Idle);
             //----------------------------------------------------------------  
             //SetTextSelectionStyle(htmlCont, cssData);
-            return isolationBox;
-        }
-
-        public CssBox BuildCssRenderTree2(HtmlDocument htmldoc,
-           CssActiveSheet cssActiveSheet,
-           RootGraphic rootgfx)
-        {
-
-            htmldoc.CssActiveSheet = cssActiveSheet;
-
-            htmldoc.SetDocumentState(DocumentState.Building);
-            //----------------------------------------------------------------  
-
-            TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(cssActiveSheet);
-            PrepareStylesAndContentOfChildNodes((HtmlElement)htmldoc.RootNode, activeTemplate);
-
-            //TODO: review here, we should create cssbox at document.body? 
-
-            CssBox rootBox = HtmlHost.CreateCssRenderRoot2(this.htmlHost.GfxPlatform.SampleIFonts, rootgfx);
-            ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(rootBox);
-
-            htmlHost.UpdateChildBoxes((HtmlRootElement)htmldoc.RootNode, true);
-
-            htmldoc.SetDocumentState(DocumentState.Idle);
-            //----------------------------------------------------------------  
-            //SetTextSelectionStyle(htmlCont, cssData);
-            return rootBox;
+            return bridgeBox;
         }
 
 

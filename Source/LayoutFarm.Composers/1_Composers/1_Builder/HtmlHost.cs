@@ -33,7 +33,8 @@ namespace LayoutFarm.HtmlBoxes
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
 
 
-        public HtmlHost(GraphicsPlatform gfxplatform, WebDom.CssActiveSheet activeSheet)
+
+        private HtmlHost(GraphicsPlatform gfxplatform, WebDom.CssActiveSheet activeSheet)
         {
 
             this.gfxplatform = gfxplatform;
@@ -43,7 +44,8 @@ namespace LayoutFarm.HtmlBoxes
 
         }
         public HtmlHost(GraphicsPlatform gfxplatform)
-            : this(gfxplatform, LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(null,
+            : this(gfxplatform,
+              LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(null,
               LayoutFarm.Composers.CssDefaults.DefaultCssData,
              true))
         {
@@ -118,6 +120,8 @@ namespace LayoutFarm.HtmlBoxes
         {
             return new HtmlInputEventAdapter(this.gfxplatform.SampleIFonts);
         }
+
+
         public LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder()
         {
             if (this.renderTreeBuilder == null)
@@ -501,39 +505,30 @@ namespace LayoutFarm.HtmlBoxes
             parent.AppendChild(boxImage);
             return boxImage;
         }
-        internal static CssBox CreateCssRenderRoot(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
+        
+        internal static CssBox CreateBridgeBox(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
-            var box = new CssRenderRoot(spec, containerElement, rootgfx);
+            var box = new RenderElementBridgeCssBox(spec, containerElement, rootgfx);
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
             return box;
         }
-        internal static CssBox CreateCssRenderRoot2(IFonts iFonts, RootGraphic rootgfx)
+        internal static CssBox CreateIsolateBox(IFonts iFonts, RootGraphic rootgfx)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
-            var box = new CssRenderRoot2(spec, rootgfx);
+            var box = new CssIsolateBox(spec, rootgfx);
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
             return box;
         }
-        internal static CssBox CreateCssIsolateBox(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
-        {
-            var spec = new BoxSpec();
-            spec.CssDisplay = CssDisplay.Block;
-            spec.Freeze();
-            var box = new CssIsolateBox(spec, containerElement, rootgfx);
-            //------------------------------------
-            box.ReEvaluateFont(iFonts, 10);
-            //------------------------------------
-            return box;
-        }
+       
 
 
     }
