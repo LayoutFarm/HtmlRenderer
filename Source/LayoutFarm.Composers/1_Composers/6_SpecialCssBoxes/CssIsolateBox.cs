@@ -12,12 +12,10 @@ namespace LayoutFarm.HtmlBoxes
         public CssIsolateBox(BoxSpec spec, RootGraphic rootgfx)
             : base(spec, rootgfx)
         {
-        }
-        public override void InvalidateGraphics()
-        {
-        }
-    }
-    
+
+        } 
+    } 
+
     class RenderElementBridgeCssBox : CssBox
     {
         LayoutFarm.RenderElement containerElement;
@@ -36,7 +34,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.containerElement; }
         }
-        protected override CssBox GetElementGlobalLocationImpl(out float globalX, out float globalY)
+        protected override CssBox GetGlobalLocationImpl(out float globalX, out float globalY)
         {
             Point p = containerElement.GetGlobalLocation();
             globalX = p.X;

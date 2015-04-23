@@ -228,7 +228,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
 
 
-        protected override CssBox GetElementGlobalLocationImpl(out float globalX, out  float globalY)
+        protected override CssBox GetGlobalLocationImpl(out float globalX, out  float globalY)
         {
             globalX = globalXForRenderElement;
             globalY = globalYForRenderElement;
