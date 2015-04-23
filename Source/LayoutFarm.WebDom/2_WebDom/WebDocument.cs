@@ -17,7 +17,7 @@ namespace LayoutFarm.WebDom
         }
         public abstract DomElement RootNode
         {
-            get; 
+            get;
         }
         public abstract int DomUpdateVersion { get; set; }
         public int AddStringIfNotExists(string uniqueString)
@@ -40,7 +40,7 @@ namespace LayoutFarm.WebDom
                 uniqueStringTable.AddStringIfNotExist(localName));
         }
         public abstract DomElement CreateElement(string prefix, string localName);
-        public abstract DomElement CreateShadowRootElement(string prefix, string localName);
+        public abstract DomElement CreateShadowRootElement();
 
         public DomElement CreateElement(string localName)
         {
@@ -91,6 +91,7 @@ namespace LayoutFarm.WebDom
         {
             get { return this.uniqueStringTable; }
         }
+        public virtual bool IsDocFragment { get { return false; } }
     }
 
     public enum DocumentState
@@ -101,13 +102,6 @@ namespace LayoutFarm.WebDom
         ChangedAfterIdle
     }
 
-    public class WebDocumentFragment
-    {
-        WebDocument owner;
-        public WebDocumentFragment(WebDocument owner)
-        {
-            this.owner = owner;
-        }
-    }
+    
 
 }

@@ -15,7 +15,7 @@ such as
 
 2) decoupling, dependency analysis
 
-3) optimizing the html,css parser (but not Html5/Css3)
+3) optimizing the html,css parser (moving to Html5/Css3!)
 
 4) add svg/canvas support (not complete)
 

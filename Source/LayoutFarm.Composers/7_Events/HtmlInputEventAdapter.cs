@@ -56,7 +56,8 @@ namespace LayoutFarm.HtmlBoxes
             if (count > 0)
             {
                 var hitInfo = hitChain.GetHitInfo(count - 1);
-                e.SourceHitElement = hitInfo.hitObject;
+                e.ExactHitObject = hitInfo.hitObject;
+
             }
         }
         //---------------------------------------------- 
@@ -420,8 +421,10 @@ namespace LayoutFarm.HtmlBoxes
                         } break;
                     case HitObjectKind.CssBox:
                         {
+
                             CssBox box = (CssBox)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(box) as IEventListener;
+                            controller = CssBox.UnsafeGetController(box) as IEventListener; 
+
                         } break;
                 }
 
@@ -429,6 +432,10 @@ namespace LayoutFarm.HtmlBoxes
                 if (controller != null)
                 {
                     //found controller
+                    if (e.SourceHitElement == null)
+                    {
+                        e.SourceHitElement = controller;
+                    }
 
                     e.CurrentContextElement = controller;
                     e.SetLocation(hitInfo.localX, hitInfo.localY);

@@ -290,13 +290,14 @@ namespace LayoutFarm.HtmlWidgets
                 if (this.pnode == null)
                 {
                     //create presentation first
-                    var fragmentdoc = host.CreateNewFragmentHtml();
+                    var fragmentdoc = host.CreateNewSharedHtmlDoc();
                     this.GetPrimaryUIElement(host);
                 }
                 HtmlElement relativeMenuItemElement = relativeToMenuItem.CurrentDomElement as HtmlElement;
 
-                Point p = relativeMenuItemElement.GetActualElementGlobalLocation();
-                this.SetLocation(p.X + relativeToMenuItem.OwnerMenuBox.Width, p.Y);
+                int x, y;
+                relativeMenuItemElement.GetGlobalLocation(out x, out y);
+                this.SetLocation(x + relativeToMenuItem.OwnerMenuBox.Width, y);
 
                 this.AddSelfToTopWindow();
                 showing = true;

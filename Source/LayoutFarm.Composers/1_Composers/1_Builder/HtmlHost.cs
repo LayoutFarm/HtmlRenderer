@@ -33,7 +33,8 @@ namespace LayoutFarm.HtmlBoxes
         LayoutFarm.Composers.RenderTreeBuilder renderTreeBuilder;
 
 
-        public HtmlHost(GraphicsPlatform gfxplatform, WebDom.CssActiveSheet activeSheet)
+
+        private HtmlHost(GraphicsPlatform gfxplatform, WebDom.CssActiveSheet activeSheet)
         {
 
             this.gfxplatform = gfxplatform;
@@ -43,7 +44,8 @@ namespace LayoutFarm.HtmlBoxes
 
         }
         public HtmlHost(GraphicsPlatform gfxplatform)
-            : this(gfxplatform, LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(null,
+            : this(gfxplatform,
+              LayoutFarm.WebDom.Parser.CssParserHelper.ParseStyleSheet(null,
               LayoutFarm.Composers.CssDefaults.DefaultCssData,
              true))
         {
@@ -85,14 +87,15 @@ namespace LayoutFarm.HtmlBoxes
                 requestImage(this, resReq);
             }
         }
-
-        public FragmentHtmlDocument CreateNewFragmentHtml()
+        public HtmlDocumentFragment CreateNewDocumentFragment()
         {
-            return new FragmentHtmlDocument(this.commonHtmlDoc);
+            return new HtmlDocumentFragment(this.commonHtmlDoc);
         }
-
-
-
+        public HtmlDocument CreateNewSharedHtmlDoc()
+        {
+            //this is my extension *** 
+            return new HtmlSharedDocument(this.commonHtmlDoc);
+        }
         public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlContainer htmlCont)
         {
             LayoutFarm.HtmlBoxes.LayoutVisitor lay = null;
@@ -117,6 +120,8 @@ namespace LayoutFarm.HtmlBoxes
         {
             return new HtmlInputEventAdapter(this.gfxplatform.SampleIFonts);
         }
+
+
         public LayoutFarm.Composers.RenderTreeBuilder GetRenderTreeBuilder()
         {
             if (this.renderTreeBuilder == null)
@@ -205,7 +210,6 @@ namespace LayoutFarm.HtmlBoxes
                                     //-------------------------------------------------- 
                                     if (fullmode)
                                     {
-
                                         CssBox newbox = CreateBox(hostBox, childElement, fullmode);
                                         childElement.SetPrincipalBox(newbox);
                                     }
@@ -214,7 +218,6 @@ namespace LayoutFarm.HtmlBoxes
                                         CssBox existing = HtmlElement.InternalGetPrincipalBox(childElement);
                                         if (existing == null)
                                         {
-                                            bool alreadyHandleChildrenNode;
                                             CssBox box = CreateBox(hostBox, childElement, fullmode);
                                             childElement.SetPrincipalBox(box);
                                         }
@@ -304,7 +307,7 @@ namespace LayoutFarm.HtmlBoxes
                                             CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(childElement);
                                             if (existingCssBox == null)
                                             {
-                                                bool alreadyHandleChildrenNode;
+
                                                 CssBox box = CreateBox(hostBox, childElement, fullmode);
 
                                             }
@@ -337,17 +340,19 @@ namespace LayoutFarm.HtmlBoxes
         }
         public CssBox CreateBox(CssBox parentBox, HtmlElement childElement, bool fullmode)
         {
-            CssBox newBox = null;
             //----------------------------------------- 
             //1. create new box
             //----------------------------------------- 
-            //some box has predefined behaviour
+            //some box has predefined behaviour 
+            CssBox newBox = null;
+
             switch (childElement.WellknownElementName)
             {
 
                 case WellKnownDomNodeName.br:
                     //special treatment for br
-                    newBox = new CssBox(childElement, childElement.Spec, parentBox.RootGfx);                   
+                    newBox = new CssBox(childElement.Spec, parentBox.RootGfx);
+                    newBox.SetController(childElement);
                     CssBox.SetAsBrBox(newBox);
                     CssBox.ChangeDisplayType(newBox, CssDisplay.Block);
 
@@ -361,7 +366,8 @@ namespace LayoutFarm.HtmlBoxes
                     childElement.SetPrincipalBox(newBox);
                     return newBox;
                 case WellKnownDomNodeName.hr:
-                    newBox = new CssBoxHr(childElement, childElement.Spec, parentBox.RootGfx);
+                    newBox = new CssBoxHr(childElement.Spec, parentBox.RootGfx);
+                    newBox.SetController(childElement);
                     parentBox.AppendChild(newBox);
                     childElement.SetPrincipalBox(newBox);
                     return newBox;
@@ -421,16 +427,13 @@ namespace LayoutFarm.HtmlBoxes
                         //custom tag
                         //check if this is tag is registered as custom element
                         //-----------------------------------------------
-                        ExternalHtmlElement externalHtmlElement = childElement as ExternalHtmlElement;
-                        if (externalHtmlElement != null)
+                        if (childElement.HasCustomPrincipalBoxGenerator)
                         {
-                            newBox = externalHtmlElement.GetCssBox(rootgfx);
-                            if (newBox != null)
-                            {
-                                parentBox.AppendChild(newBox);
-                                return newBox;
-                            }
+                            var childbox = childElement.GetPrincipalBox(parentBox, this);
+                            parentBox.AppendChild(childbox);
+                            return childbox;
                         }
+
                         //----------------------------------------------- 
                         LayoutFarm.WebDom.CreateCssBoxDelegate foundBoxGen;
                         if (((HtmlDocument)childElement.OwnerDocument).TryGetCustomBoxGenerator(childElement.Name, out foundBoxGen))
@@ -467,7 +470,8 @@ namespace LayoutFarm.HtmlBoxes
                                 newBox = ListItemBoxCreator.CreateListItemBox(parentBox, childElement);
                                 break;
                             default:
-                                newBox = new CssBox(childElement, childSpec, parentBox.RootGfx);
+                                newBox = new CssBox(childSpec, parentBox.RootGfx);
+                                newBox.SetController(childElement);
                                 parentBox.AppendChild(newBox);
                                 break;
                         }
@@ -479,7 +483,7 @@ namespace LayoutFarm.HtmlBoxes
             return newBox;
         }
 
-        public CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
+        CssBox CreateImageBox(CssBox parent, HtmlElement childElement)
         {
             string imgsrc;
             ImageBinder imgBinder = null;
@@ -496,33 +500,35 @@ namespace LayoutFarm.HtmlBoxes
                 clientImageBinder.SetOwner(childElement);
             }
 
-            CssBoxImage boxImage = new CssBoxImage(childElement, childElement.Spec, parent.RootGfx, imgBinder);
-
+            CssBoxImage boxImage = new CssBoxImage(childElement.Spec, parent.RootGfx, imgBinder);
+            boxImage.SetController(childElement);
             parent.AppendChild(boxImage);
             return boxImage;
         }
-        internal static CssBox CreateCssRenderRoot(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
+        
+        internal static CssBox CreateBridgeBox(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
-            var box = new CssRenderRoot(spec, containerElement, rootgfx);
+            var box = new RenderElementBridgeCssBox(spec, containerElement, rootgfx);
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
             return box;
         }
-        internal static CssBox CreateCssIsolateBox(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
+        internal static CssBox CreateIsolateBox(IFonts iFonts, RootGraphic rootgfx)
         {
             var spec = new BoxSpec();
             spec.CssDisplay = CssDisplay.Block;
             spec.Freeze();
-            var box = new CssIsolateBox(spec, containerElement, rootgfx);
+            var box = new CssIsolateBox(spec, rootgfx);
             //------------------------------------
             box.ReEvaluateFont(iFonts, 10);
             //------------------------------------
             return box;
         }
+       
 
 
     }

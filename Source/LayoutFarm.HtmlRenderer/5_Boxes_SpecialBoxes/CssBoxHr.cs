@@ -27,8 +27,8 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="controller">the html tag data of this box</param>
-        public CssBoxHr(object controller, Css.BoxSpec spec, IRootGraphics rootgfx)
-            : base(controller, spec, rootgfx)
+        public CssBoxHr(Css.BoxSpec spec, IRootGraphics rootgfx)
+            : base(spec, rootgfx)
         {
             ChangeDisplayType(this, Css.CssDisplay.Block);
         }
@@ -112,9 +112,9 @@ namespace LayoutFarm.HtmlBoxes
                 height = 2;
             }
             if (height <= 2 && ActualBorderTopWidth < 1 && ActualBorderBottomWidth < 1)
-            { 
+            {
                 DirectSetBorderWidth(CssSide.Top, 1);
-                DirectSetBorderWidth(CssSide.Bottom, 1); 
+                DirectSetBorderWidth(CssSide.Bottom, 1);
             }
 
             this.SetSize(width, height);
@@ -133,7 +133,7 @@ namespace LayoutFarm.HtmlBoxes
             if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
             {
                 p.FillRectangle(ActualBackgroundColor, rect.X, rect.Y, rect.Width, rect.Height);
-               
+
             }
 
             if (rect.Height > 1)

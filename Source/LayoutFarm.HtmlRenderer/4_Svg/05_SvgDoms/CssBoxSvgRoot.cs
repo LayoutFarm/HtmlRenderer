@@ -10,20 +10,18 @@ namespace LayoutFarm.HtmlBoxes
 
     public sealed class CssBoxSvgRoot : CssBox
     {
-        public CssBoxSvgRoot(object controller, Css.BoxSpec spec, IRootGraphics rootgfx, SvgElement svgElem)
-            : base(controller, spec, rootgfx, Css.CssDisplay.Block)
+        public CssBoxSvgRoot(Css.BoxSpec spec, IRootGraphics rootgfx, SvgElement svgElem)
+            : base(spec, rootgfx, Css.CssDisplay.Block)
         {
             SetAsCustomCssBox(this);
             //create svg node 
             this.SvgSpec = svgElem;
             ChangeDisplayType(this, Css.CssDisplay.Block);
-
         }
         public override void CustomRecomputedValue(CssBox containingBlock, GraphicsPlatform gfxPlatform)
         {
             var svgElement = this.SvgSpec;
-            //recompute value if need 
-
+            //recompute value if need  
             var cnode = svgElement.GetFirstNode();
 
             ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(gfxPlatform,

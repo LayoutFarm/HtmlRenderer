@@ -24,10 +24,11 @@ namespace LayoutFarm.WebDom
 
         public DomElement(WebDocument ownerDoc, int nodePrefixNameIndex, int nodeLocalNameIndex)
             : base(ownerDoc)
-        {   
+        {
             this.nodePrefixNameIndex = nodePrefixNameIndex;
             this.nodeLocalNameIndex = nodeLocalNameIndex;
             SetNodeType(HtmlNodeType.OpenElement);
+            
         }
 
         public static bool EqualNames(DomElement node1, DomElement node2)
@@ -108,8 +109,6 @@ namespace LayoutFarm.WebDom
             attr.SetParent(this);
             NotifyChange(ElementChangeKind.AddAttribute);
             //---------------------
-
-
         }
         public void SetAttribute(string attrName, string value)
         {
@@ -142,7 +141,8 @@ namespace LayoutFarm.WebDom
             attr.SetParent(this);
             NotifyChange(ElementChangeKind.AddAttribute);
         }
-        public void AddChild(DomNode childNode)
+
+        public virtual void AddChild(DomNode childNode)
         {
             switch (childNode.NodeType)
             {
@@ -213,11 +213,11 @@ namespace LayoutFarm.WebDom
                 case DocumentState.Idle:
                     {
                         //notify parent 
-                        OnChangeInIdleState(changeKind);
+                        OnElementChangedInIdleState(changeKind);
                     } break;
             }
         }
-        protected virtual void OnChangeInIdleState(ElementChangeKind changeKind)
+        protected virtual void OnElementChangedInIdleState(ElementChangeKind changeKind)
         {
 
         }

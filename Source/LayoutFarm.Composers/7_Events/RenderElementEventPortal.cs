@@ -69,7 +69,8 @@ namespace LayoutFarm.UI
             if (count > 0)
             {
                 var hitInfo = hitChain.GetHitInfo(count - 1);
-                e.SourceHitElement = hitInfo.hitElement;
+                e.ExactHitObject = hitInfo.hitElement;
+
             }
         }
 
@@ -324,10 +325,10 @@ namespace LayoutFarm.UI
                 ForEachEventListenerBubbleUp(e, hitPointChain, (listener) =>
                 {
                     foundSomeHit = true;
-                    bool isFirstMouseEnter = false; 
+                    bool isFirstMouseEnter = false;
                     if (e.CurrentMouseActive != null &&
                         e.CurrentMouseActive != listener)
-                    {                         
+                    {
                         e.CurrentMouseActive.ListenMouseLeave(e);
                         isFirstMouseEnter = true;
                     }
@@ -344,7 +345,7 @@ namespace LayoutFarm.UI
                 });
 
                 if (!foundSomeHit && e.CurrentMouseActive != null)
-                {  
+                {
                     e.CurrentMouseActive.ListenMouseLeave(e);
                     if (!e.IsCanceled)
                     {
@@ -478,6 +479,11 @@ namespace LayoutFarm.UI
                 IEventListener listener = hitInfo.hitElement.GetController() as IEventListener;
                 if (listener != null)
                 {
+                    if (e.SourceHitElement == null)
+                    {
+                        e.SourceHitElement = listener;
+                    } 
+
                     var hitPoint = hitInfo.point;
                     e.SetLocation(hitPoint.X, hitPoint.Y);
                     e.CurrentContextElement = listener;

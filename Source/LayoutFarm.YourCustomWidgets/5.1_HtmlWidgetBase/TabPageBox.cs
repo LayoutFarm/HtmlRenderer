@@ -183,7 +183,7 @@ namespace LayoutFarm.HtmlWidgets
                 //creat html wrapper for this ...        
 
                 HtmlDocument htmldoc = (HtmlDocument)ownerdoc;
-                var wrapperElement = htmldoc.CreateWrapperElement((RootGraphic rootgfx, out RenderElement renderE, out object controller) =>
+                var wrapperElement = htmldoc.CreateWrapperElement("x",(RootGraphic rootgfx, out RenderElement renderE, out object controller) =>
                 {
                     renderE = contentUI.GetPrimaryRenderElement(rootgfx);
                     controller = contentUI;

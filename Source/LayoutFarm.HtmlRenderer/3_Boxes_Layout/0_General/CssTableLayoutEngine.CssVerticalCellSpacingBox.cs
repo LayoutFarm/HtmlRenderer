@@ -25,18 +25,18 @@ namespace LayoutFarm.HtmlBoxes
         {
 
 
-            private readonly CssBox _extendedBox; 
+            private readonly CssBox _extendedBox;
             /// <summary>
             /// the index of the row where box ends
             /// </summary>
             private readonly int _endRow;
 
             public CssVerticalCellSpacingBox(CssBox extendedBox, int startRow)
-                : base(null, specForVCell, extendedBox.RootGfx)
+                : base(specForVCell, extendedBox.RootGfx)
             {
                 _extendedBox = extendedBox;
                 this.SetRowSpanAndColSpan(1, 1);
-                _endRow = startRow + extendedBox.RowSpan - 1; 
+                _endRow = startRow + extendedBox.RowSpan - 1;
             }
 
             public CssBox ExtendedBox

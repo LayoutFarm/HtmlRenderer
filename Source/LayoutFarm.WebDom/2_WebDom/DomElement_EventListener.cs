@@ -70,7 +70,7 @@ namespace LayoutFarm.WebDom
         {
             OnLostFocus(e);
         }
-        
+
         void IEventListener.HandleContentLayout()
         {
             OnContentLayout();
@@ -101,10 +101,10 @@ namespace LayoutFarm.WebDom
         }
         void IEventListener.GetGlobalLocation(out int x, out int y)
         {
-            this.PrimaryCssGetGlobalLocation(out x, out y);
+            this.GetGlobalLocation(out x, out y);
         }
 
-        protected abstract void PrimaryCssGetGlobalLocation(out int x, out int y);
+        public abstract void GetGlobalLocation(out int x, out int y);
 
     }
 }

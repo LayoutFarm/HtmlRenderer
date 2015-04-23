@@ -15,7 +15,7 @@ namespace LayoutFarm.WebDom
         TextNode,
         CData,
         ProcessInstruction,
-        Comment
+        Comment 
     }
 
 
@@ -35,8 +35,7 @@ namespace LayoutFarm.WebDom
 
         internal DomNode(WebDocument ownerDoc)
         {
-            this.ownerDoc = ownerDoc;
-
+            this.ownerDoc = ownerDoc; 
 #if DEBUG
             this.dbugId = dbugTotalId;
             dbugTotalId++;
