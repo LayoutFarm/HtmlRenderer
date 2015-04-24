@@ -1,7 +1,7 @@
 ﻿//2014,2015 ,BSD, WinterDev 
 using System;
-namespace LayoutFarm.WebDom.Parser
-{    
+namespace LayoutFarm.WebLexer
+{
 
     public class TextSnapshot
     {
@@ -12,7 +12,7 @@ namespace LayoutFarm.WebDom.Parser
             this.textBuffer = textBuffer;
             this.length = textBuffer.Length;
         }
-        
+
         public TextSnapshot(string str)
         {
             this.textBuffer = str.ToCharArray();
@@ -82,7 +82,7 @@ namespace LayoutFarm.WebDom.Parser
             int lim = length - 3;
             if (start < lim)
             {
-                
+
                 int i = start;
                 char ex1 = tmpChars[i];
                 char ex2 = tmpChars[i + 1];

@@ -284,7 +284,7 @@ namespace LayoutFarm.Demo
             //-----------------------------------------------------------------
             var htmldoc = this.currentDoc =
                 LayoutFarm.Composers.WebDocumentParser.ParseDocument(
-                    new WebDom.Parser.TextSnapshot(html.ToCharArray()));
+                    new WebDom.Parser.TextSource(html.ToCharArray()));
 
 
             //build rootbox from htmldoc

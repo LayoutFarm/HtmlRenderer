@@ -1,11 +1,11 @@
-﻿//BSD  2014 ,WinterDev
+﻿//BSD  2015,2014 ,WinterDev
 
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace LayoutFarm.WebDom.Parser
+namespace LayoutFarm.WebLexer
 {  
 
 

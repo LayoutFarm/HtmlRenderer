@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using LayoutFarm.WebLexer;
 namespace LayoutFarm.WebDom.Parser
 {    
 
@@ -372,14 +373,11 @@ namespace LayoutFarm.WebDom.Parser
                     number = -1;
                     return false;
             }
-        }
-
-
+        } 
         public static char[] DecodeHtml(TextSnapshot source, int startIndex, int decLength)
         {
             return DecodeHtml(TextSnapshot.UnsafeGetInternalBuffer(source), startIndex, decLength);
-        }
-
+        } 
         static char[] DecodeHtml(char[] sourceBuffer, int startIndex, int decLength)
         {
             //decode special encoding character 
