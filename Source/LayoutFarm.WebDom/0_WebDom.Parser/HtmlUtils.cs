@@ -38,6 +38,7 @@ namespace LayoutFarm.WebDom.Parser
         {
 
             //html5 (2015-04-24) void elements
+            //void elements: no endtag, no content ***
             noContentTags.Add(WebDom.WellknownName.Area, 0);
             noContentTags.Add(WebDom.WellknownName.Base, 0);
             noContentTags.Add(WebDom.WellknownName.Br, 0);
@@ -60,7 +61,23 @@ namespace LayoutFarm.WebDom.Parser
             noContentTags.Add(WebDom.WellknownName.Frame, 0);
             noContentTags.Add(WebDom.WellknownName.IsIndex, 0);
             //-----------------------------------------------------------
+            //raw text elements:             
+            //script,style
+            //can have text with some restrictions
+            
+            //escapable raw text elements
+            //textarea, title
+            //can have text and character references,but text
+            //must not contains an ambiguous ampersand, with some restrictions
 
+
+            //foreign elements
+            //elements from MathML, SVG
+
+            //normal elements
+            //others ...
+
+            //-----------------------------------------------------------
 
             _encodeDecode0["&lt;"] = '<';
             _encodeDecode0["&gt;"] = '>';
