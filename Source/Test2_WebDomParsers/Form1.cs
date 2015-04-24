@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel; 
+using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
 using LayoutFarm.WebDom;
-
+using LayoutFarm.WebDom.Parser;
 namespace Test2_WebDomParsers
 {
     public partial class Form1 : Form
@@ -19,9 +19,10 @@ namespace Test2_WebDomParsers
         private void button1_Click(object sender, EventArgs e)
         {
             //test web parser
-            
-
-
+            var parser = new HtmlParser();
+            var blankHtmlDoc = new LayoutFarm.WebDom.HtmlDocument();
+            var snapSource = new TextSource("<html><body><div>AAA</div></body></html>".ToCharArray());
+            parser.Parse(snapSource, blankHtmlDoc, blankHtmlDoc.RootNode);
 
         }
     }
