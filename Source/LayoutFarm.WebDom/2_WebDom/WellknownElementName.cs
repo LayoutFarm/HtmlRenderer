@@ -73,6 +73,8 @@ namespace LayoutFarm.WebDom
         BaseFont,
         [Map("col")]
         Col,
+        [Map("embed")]
+        Embed,
         [Map("frame")]
         Frame,
         [Map("iframe")]
@@ -86,6 +88,11 @@ namespace LayoutFarm.WebDom
         [Map("isindex")]
         IsIndex,
 
+        [Map("keygen")]
+        KeyGen,
+
+        [Map("menuitem")]
+        MenuItem,
         [Map("meta")]
         Meta,
         [Map("param")]
@@ -135,15 +142,24 @@ namespace LayoutFarm.WebDom
 
         [Map("start")]
         Start,
+        [Map("source")]
+        Source,
+
+        [Map("track")]
+        Track,
 
         [Map("template")]
         Template,
 
         [Map("type")]
-        Type, 
+        Type,
 
         [Map("reversed")]
         Reversed,
+
+        [Map("wbr")]
+        Wbr,
+
         //-------------------
 
 

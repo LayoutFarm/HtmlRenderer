@@ -17,7 +17,7 @@ using System;
 using System.Collections.Generic;
 using LayoutFarm.WebLexer;
 namespace LayoutFarm.WebDom.Parser
-{    
+{
 
     static class HtmlDecodeHelper
     {
@@ -37,20 +37,29 @@ namespace LayoutFarm.WebDom.Parser
         static HtmlDecodeHelper()
         {
 
+            //html5 (2015-04-24) void elements
             noContentTags.Add(WebDom.WellknownName.Area, 0);
             noContentTags.Add(WebDom.WellknownName.Base, 0);
-            noContentTags.Add(WebDom.WellknownName.BaseFont, 0);
             noContentTags.Add(WebDom.WellknownName.Br, 0);
             noContentTags.Add(WebDom.WellknownName.Col, 0);
-            noContentTags.Add(WebDom.WellknownName.Frame, 0);
+            noContentTags.Add(WebDom.WellknownName.Embed, 0);
             noContentTags.Add(WebDom.WellknownName.Hr, 0);
             noContentTags.Add(WebDom.WellknownName.Img, 0);
             noContentTags.Add(WebDom.WellknownName.Input, 0);
-            noContentTags.Add(WebDom.WellknownName.IsIndex, 0);
+            noContentTags.Add(WebDom.WellknownName.KeyGen, 0);
             noContentTags.Add(WebDom.WellknownName.Link, 0);
+            noContentTags.Add(WebDom.WellknownName.MenuItem, 0);
             noContentTags.Add(WebDom.WellknownName.Meta, 0);
             noContentTags.Add(WebDom.WellknownName.Param, 0);
+            noContentTags.Add(WebDom.WellknownName.Source, 0);
+            noContentTags.Add(WebDom.WellknownName.Track, 0);
+            noContentTags.Add(WebDom.WellknownName.Wbr, 0);
 
+            //*** not in spec, from previous version?
+            noContentTags.Add(WebDom.WellknownName.BaseFont, 0);
+            noContentTags.Add(WebDom.WellknownName.Frame, 0);
+            noContentTags.Add(WebDom.WellknownName.IsIndex, 0);
+            //-----------------------------------------------------------
 
 
             _encodeDecode0["&lt;"] = '<';
@@ -309,8 +318,8 @@ namespace LayoutFarm.WebDom.Parser
         /// <returns>true - is single tag, false - otherwise</returns>
         public static bool IsSingleTag(int nameIndex)// HtmlRenderer.Dom.WellknownHtmlTagName tagName)
         {
-            return noContentTags.ContainsKey((WellknownName)nameIndex); 
-        } 
+            return noContentTags.ContainsKey((WellknownName)nameIndex);
+        }
         static int FindIndexOfOrWhitespace(char[] sourceBuffer, int startIndex, int len, char findingChar1)
         {
             for (int i = startIndex; i < len; ++i)
@@ -373,11 +382,11 @@ namespace LayoutFarm.WebDom.Parser
                     number = -1;
                     return false;
             }
-        } 
+        }
         public static char[] DecodeHtml(TextSnapshot source, int startIndex, int decLength)
         {
             return DecodeHtml(TextSnapshot.UnsafeGetInternalBuffer(source), startIndex, decLength);
-        } 
+        }
         static char[] DecodeHtml(char[] sourceBuffer, int startIndex, int decLength)
         {
             //decode special encoding character 
