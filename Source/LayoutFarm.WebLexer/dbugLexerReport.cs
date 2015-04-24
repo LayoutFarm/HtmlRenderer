@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace LayoutFarm.WebDom.Parser
+namespace LayoutFarm.WebLexer
 {  
 
 

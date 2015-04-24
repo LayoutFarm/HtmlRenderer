@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using LayoutFarm.WebLexer;
 namespace LayoutFarm.WebDom.Parser
 {
     public class HtmlParser
@@ -95,7 +95,7 @@ namespace LayoutFarm.WebDom.Parser
                                 {
                                     //wait for attr value 
                                     if (waitingAttrName != null)
-                                    {   
+                                    {
                                         //push waiting attr
                                         curAttr = this._resultHtmlDoc.CreateAttribute(null, waitingAttrName);
                                         curAttr.Value = "";
@@ -178,7 +178,7 @@ namespace LayoutFarm.WebDom.Parser
                     {
                         //close angle of current new node
                         //enter into its content
-                      
+
                         if (waitingAttrName != null)
                         {
                             curAttr = this._resultHtmlDoc.CreateAttribute(null, waitingAttrName);
@@ -234,10 +234,8 @@ namespace LayoutFarm.WebDom.Parser
         /// parse to htmldom
         /// </summary>
         /// <param name="stbuilder"></param>
-        public void Parse(TextSnapshot textSnapshot, WebDocument htmldoc, DomElement currentNode)
+        internal void Parse(TextSnapshot textSnapshot, WebDocument htmldoc, DomElement currentNode)
         {
-
-
             this.textSnapshot = textSnapshot;
             //1. lex 
             lexer.BeginLex();
@@ -248,7 +246,11 @@ namespace LayoutFarm.WebDom.Parser
             lexer.EndLex();
 
         }
+        public void Parse(TextSource textSnapshot, WebDocument htmldoc, DomElement currentNode)
+        {
+            this.Parse(textSnapshot.ActualSnapshot, htmldoc, currentNode);
 
+        }
 
     }
     class HtmlStack

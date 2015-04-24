@@ -335,7 +335,7 @@ namespace LayoutFarm.HtmlBoxes
             if (startHitHostLine == endline)
             {
                 this.selectedLines.Add(endline);
-                startHitHostLine.Select(startLineBeginSelectionAtPixel, xposOnEndLine ,
+                startHitHostLine.Select(startLineBeginSelectionAtPixel, xposOnEndLine,
                         this.startHitRun, this.startHitRunCharIndex,
                         this.endHitRun, this.endHitRunCharIndex);
                 return; //early exit here ***
@@ -344,7 +344,8 @@ namespace LayoutFarm.HtmlBoxes
             //select on different line 
             LineWalkVisitor lineWalkVisitor = null;
             int breakAtLevel;
-            if (FindCommonGround(startChain, endChain, out breakAtLevel))
+
+            if (FindCommonGround(startChain, endChain, out breakAtLevel) && breakAtLevel > 0)
             {
                 var hitBlockRun = endChain.GetHitInfo(breakAtLevel).hitObject as CssBlockRun;
                 //multiple select 

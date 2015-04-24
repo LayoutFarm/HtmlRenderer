@@ -93,8 +93,12 @@ namespace LayoutFarm.HtmlBoxes
         }
         public HtmlDocument CreateNewSharedHtmlDoc()
         {
-            //this is my extension *** 
-            return new HtmlSharedDocument(this.commonHtmlDoc);
+            //!!! this is my extension *** 
+            HtmlSharedDocument sharedDocument = new HtmlSharedDocument(this.commonHtmlDoc);
+            sharedDocument.SetDomUpdateHandler(this.commonHtmlDoc.DomUpdateHandler);
+            sharedDocument.CssActiveSheet = this.commonHtmlDoc.CssActiveSheet;
+
+            return sharedDocument;
         }
         public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlContainer htmlCont)
         {
@@ -505,7 +509,7 @@ namespace LayoutFarm.HtmlBoxes
             parent.AppendChild(boxImage);
             return boxImage;
         }
-        
+
         internal static CssBox CreateBridgeBox(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
         {
             var spec = new BoxSpec();
@@ -528,7 +532,7 @@ namespace LayoutFarm.HtmlBoxes
             //------------------------------------
             return box;
         }
-       
+
 
 
     }

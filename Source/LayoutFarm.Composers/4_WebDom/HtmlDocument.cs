@@ -149,7 +149,7 @@ namespace LayoutFarm.WebDom
         {
             this.domUpdatedHandler = h;
         }
-        internal CssActiveSheet CssActiveSheet
+        public CssActiveSheet CssActiveSheet
         {
             get;
             set;

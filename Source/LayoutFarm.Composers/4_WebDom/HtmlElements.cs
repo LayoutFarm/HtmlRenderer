@@ -202,7 +202,7 @@ namespace LayoutFarm.WebDom
             this.ClearAllElements();
             //then apply new content 
             WebDocumentParser.ParseHtmlDom(
-                new LayoutFarm.WebDom.Parser.TextSnapshot(innerHtml.ToCharArray()),
+                new LayoutFarm.WebDom.Parser.TextSource(innerHtml.ToCharArray()),
                 (HtmlDocument)this.OwnerDocument,
                 this);
 
