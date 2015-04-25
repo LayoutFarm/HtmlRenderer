@@ -4,25 +4,20 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
-
-
-namespace LayoutFarm.Composers
+namespace LayoutFarm.WebDom.Impl
 {
-     
-    class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
-    {
-        CssBox principalBox;
-        Css.BoxSpec boxSpec;
-        CssRuleSet elementRuleSet;
 
-        internal HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
+    public partial class HtmlElement : DomElement, IHtmlElement
+    {
+
+        CssRuleSet elementRuleSet;
+        public HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
-            this.boxSpec = new Css.BoxSpec();
+            //this.boxSpec = new Css.BoxSpec();
         }
         public WellKnownDomNodeName WellknownElementName { get; set; }
         public bool TryGetAttribute(WellknownName wellknownHtmlName, out DomAttribute result)
@@ -67,20 +62,16 @@ namespace LayoutFarm.Composers
                     } break;
             }
         }
-
-
-
         public override void ClearAllElements()
         {
-            //clear presentation 
-            if (principalBox != null)
-            {
-                principalBox.Clear();
-            }
+            ////clear presentation 
+            //if (principalBox != null)
+            //{
+            //    principalBox.Clear();
+            //}
             base.ClearAllElements();
 
         }
-
         protected override void OnContentUpdate()
         {
             base.OnContentUpdate();
@@ -133,45 +124,8 @@ namespace LayoutFarm.Composers
             get;
             set;
         }
-        internal static CssBox InternalGetPrincipalBox(HtmlElement element)
-        {
-            return element.principalBox;
-        }
-        internal Css.BoxSpec Spec
-        {
-            get { return this.boxSpec; }
-        }
-
-
-
         protected override void OnElementChanged()
         {
-
-            CssBox box = this.principalBox;
-            if (box is CssScrollView)
-            {
-                return;
-            }
-            //change 
-            var boxSpec = CssBox.UnsafeGetBoxSpec(box);
-            //create scrollbar
-
-
-            var scrollView = new CssScrollView(boxSpec, box.RootGfx);
-            scrollView.SetController(this);
-            scrollView.SetSize(box.SizeWidth, box.SizeHeight);
-            scrollView.SetExpectedSize(box.SizeWidth, box.SizeHeight);
-
-            box.ParentBox.InsertChild(box, scrollView);
-            box.ParentBox.RemoveChild(box);
-
-            //scrollbar width= 10
-            scrollView.SetInnerBox(box);
-
-            //change primary render element
-            this.principalBox = scrollView;
-            scrollView.InvalidateGraphics();
-
         }
         //------------------------------------
         public string GetInnerHtml()
@@ -199,13 +153,12 @@ namespace LayoutFarm.Composers
             //parse html and create dom node
             //clear content of this node
             this.ClearAllElements();
-            //then apply new content 
-            WebDocumentParser.ParseHtmlDom(
-                new LayoutFarm.WebDom.Parser.TextSource(innerHtml.ToCharArray()),
-                (HtmlDocument)this.OwnerDocument,
-                this);
-
-
+            throw new NotSupportedException();
+            //then apply new content ***
+            //WebDocumentParser.ParseHtmlDom(
+            //    new LayoutFarm.WebDom.Parser.TextSource(innerHtml.ToCharArray()),
+            //    (HtmlDocument)this.OwnerDocument,
+            //    this); 
         }
         public virtual void WriteNode(DomTextWriter writer)
         {
@@ -243,34 +196,29 @@ namespace LayoutFarm.Composers
         }
         public override void GetGlobalLocation(out int x, out int y)
         {
-            float globalX, globalY;
-            this.principalBox.GetElementGlobalLocation(out globalX, out globalY);
-            x = (int)globalX;
-            y = (int)globalY;
+            x = 0;
+            y = 0;
         }
-
-
-
-        //------------------------------------
-        internal CssBox CurrentPrincipalBox
-        {
-            get { return this.principalBox; }
-        }
-        public void SetPrincipalBox(CssBox box)
-        {
-            this.principalBox = box;
-            this.SkipPrincipalBoxEvalulation = true;
-        }
+        ////------------------------------------
+        //internal CssBox CurrentPrincipalBox
+        //{
+        //    get { return this.principalBox; }
+        //}
+        //public void SetPrincipalBox(CssBox box)
+        //{
+        //    this.principalBox = box;
+        //    this.SkipPrincipalBoxEvalulation = true;
+        //}
         public virtual bool HasCustomPrincipalBoxGenerator
         {
             //use builtin cssbox generator***
             get { return false; }
         }
-        public virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
-        {
-            //this method is called when HasCustomPrincipalBoxGenerator = true
-            throw new NotImplementedException();
-        }
+        //public virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
+        //{
+        //    //this method is called when HasCustomPrincipalBoxGenerator = true
+        //    throw new NotImplementedException();
+        //}
         //------------------------------------
     }
 

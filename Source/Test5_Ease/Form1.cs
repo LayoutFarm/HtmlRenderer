@@ -46,7 +46,7 @@ namespace Test5_Ease
             //easeViewport.LoadHtml(filename, fileContent);
 
             easeViewport.LoadHtml(filename, "<html><body></body></html");
-            
+
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -98,7 +98,7 @@ namespace Test5_Ease
             WebDocument webdoc = easeViewport.GetHtmlDom();
             //3. get element by id 
             var domNodeA = webdoc.GetElementById("a");
-            var domNodeB = webdoc.GetElementById("b");  
+            var domNodeB = webdoc.GetElementById("b");
             domNodeA.AddTextContent("Hello from A");
             domNodeB.AddChild("div", div =>
             {
@@ -106,8 +106,8 @@ namespace Test5_Ease
                 div.AddTextContent("Hello from B");
             });
 
-            var htmlElementB = domNodeB as LayoutFarm.WebDom.HtmlElement;
-            string innerHtmlContent = htmlElementB.GetInnerHtml();
+            var htmlElementB = domNodeB as LayoutFarm.WebDom.IHtmlElement;
+            string innerHtmlContent = htmlElementB.innerHTML;
 
 
             domNodeB.AttachMouseDownEvent(ev =>
@@ -160,7 +160,7 @@ namespace Test5_Ease
 
             //2. access dom  
 
-            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.HtmlDocument;
+            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.IHtmlDocument;
 
             //create js engine and context
             var jstypeBuilder = new LayoutFarm.Scripting.MyJsTypeDefinitionBuilder();
@@ -238,7 +238,7 @@ namespace Test5_Ease
 
             //2. access dom  
 
-            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.HtmlDocument;
+            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.IHtmlDocument;
             //create js engine and context
             if (myengine == null)
             {
@@ -331,7 +331,7 @@ namespace Test5_Ease
 
             //2. access dom  
 
-            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.HtmlDocument;
+            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.IHtmlDocument;
             //create js engine and context
             if (myengine == null)
             {

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 using LayoutFarm.WebDom;
 using LayoutFarm.Css;
-using LayoutFarm.HtmlBoxes;
+using LayoutFarm.Composers;
 
 namespace LayoutFarm.HtmlBoxes
 {

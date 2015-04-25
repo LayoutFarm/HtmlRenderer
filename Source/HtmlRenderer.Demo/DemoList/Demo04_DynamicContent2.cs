@@ -16,7 +16,7 @@ namespace LayoutFarm.Demo
         protected override void OnStartDemo(HtmlPanel panel)
         {
 
-            HtmlDocument htmldoc = new HtmlDocument();
+            var htmldoc = panel.HtmlHost.CreatePresentationHtmlDoc();
             var rootNode = htmldoc.RootNode;
             //1. create body node             
             // and content  
@@ -41,7 +41,7 @@ namespace LayoutFarm.Demo
                             span.ClearAllElements();
                             span.AddTextContent("XYZ0001");
 #endif
-                             
+
                             e.StopPropagation();
 
                         });

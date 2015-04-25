@@ -16,7 +16,7 @@ namespace LayoutFarm.WebDom
         {
             this.stbuilder = stbuilder;
         }
-        internal StringBuilder InnerStringBuilder
+        public StringBuilder InnerStringBuilder
         {
             get { return this.stbuilder; }
         }

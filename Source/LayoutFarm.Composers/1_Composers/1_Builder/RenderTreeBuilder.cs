@@ -168,13 +168,17 @@ namespace LayoutFarm.Composers
             }
         }
 
-        public CssBox BuildCssRenderTree(HtmlDocument htmldoc,
+        public CssBox BuildCssRenderTree(WebDocument webdoc,
             CssActiveSheet cssActiveSheet,
             RenderElement containerElement)
         {
-
+            HtmlDocument htmldoc = webdoc as HtmlDocument;
+            if (htmldoc == null)
+            {
+                //TODO: fixed here
+                throw new NotSupportedException();
+            }
             htmldoc.CssActiveSheet = cssActiveSheet;
-
             htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
 
@@ -197,7 +201,7 @@ namespace LayoutFarm.Composers
         }
 
         public CssBox BuildCssRenderTree2(
-           HtmlDocument htmldoc,
+           LayoutFarm.WebDom.Impl.HtmlDocument htmldoc,
            CssActiveSheet cssActiveSheet,
            RootGraphic rootgfx)
         {
