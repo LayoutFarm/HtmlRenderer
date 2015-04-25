@@ -1,12 +1,13 @@
-﻿//BSD  2014 ,WinterDev
+﻿//BSD  2015,2014 ,WinterDev
 
 using System;
 using System.Collections.Generic;
 using System.Text;
+using LayoutFarm.WebLexer;
 
 namespace LayoutFarm.WebDom.Parser
-{    
-    enum HtmlLexerEvent
+{
+    public enum HtmlLexerEvent
     {
         VisitOpenAngle,        //  <a
         VisitOpenSlashAngle,   //  </a
@@ -34,16 +35,16 @@ namespace LayoutFarm.WebDom.Parser
         CommentContent
     }
 
-    delegate void HtmlLexerEventHandler(HtmlLexerEvent lexEvent, int startIndex, int len);
+    public delegate void HtmlLexerEventHandler(HtmlLexerEvent lexEvent, int startIndex, int len);
 
-    sealed class HtmlLexer
+    public sealed class HtmlLexer
     {
 
         int _readIndex = 0;
         int _lastFlushAt = 0;
         int _appendCount = 0;
         int _firstAppendAt = -1;
-        TextSnapshot textSnapshot;
+        LayoutFarm.WebLexer.TextSnapshot textSnapshot;
 
 #if DEBUG
         dbugLexerReport dbug_LexerReport;
@@ -140,8 +141,6 @@ namespace LayoutFarm.WebDom.Parser
         public void Analyze(TextSnapshot textSnapshot)
         {
 
-
-
 #if DEBUG
             dbug_OnStartAnalyze();
 #endif
@@ -168,6 +167,7 @@ namespace LayoutFarm.WebDom.Parser
                 {
                     default:
                         {
+                            //???
 
                         } break;
                     case 0:  //from content mode 
@@ -183,7 +183,7 @@ namespace LayoutFarm.WebDom.Parser
                             else
                             {
                                 //in content mode
-                                 
+
                                 AppendBuffer(c, i);
                             }
                         } break;
@@ -351,7 +351,7 @@ namespace LayoutFarm.WebDom.Parser
                             if (c == '>')
                             {
                                 FlushExisingBuffer(i, HtmlLexerEvent.NodeNameOrAttribute);
-                                LexStateChanged(HtmlLexerEvent.VisitCloseSlashAngle, i, 1); 
+                                LexStateChanged(HtmlLexerEvent.VisitCloseSlashAngle, i, 1);
                                 currentState = 0;
                             }
                             else

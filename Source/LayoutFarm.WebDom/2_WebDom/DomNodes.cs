@@ -1,4 +1,4 @@
-﻿//BSD  2014 ,WinterDev
+﻿//BSD  2015,2014 ,WinterDev
 
 using System;
 using System.Text;
@@ -15,16 +15,16 @@ namespace LayoutFarm.WebDom
         TextNode,
         CData,
         ProcessInstruction,
-        Comment 
+        Comment
     }
 
 
 
-    public abstract class DomNode
+    public abstract class DomNode : INode
     {
 
         WebDocument ownerDoc;
-        DomNode parentNode; 
+        DomNode parentNode;
         HtmlNodeType nodeType;
 
 #if DEBUG
@@ -35,7 +35,7 @@ namespace LayoutFarm.WebDom
 
         internal DomNode(WebDocument ownerDoc)
         {
-            this.ownerDoc = ownerDoc; 
+            this.ownerDoc = ownerDoc;
 #if DEBUG
             this.dbugId = dbugTotalId;
             dbugTotalId++;
@@ -84,7 +84,7 @@ namespace LayoutFarm.WebDom
     }
 
 
-    public abstract class DomTextNode : DomNode
+    public abstract class DomTextNode : DomNode, ITextNode
     {
 
         char[] copyBuffer;
@@ -190,7 +190,7 @@ namespace LayoutFarm.WebDom
             SetNodeType(HtmlNodeType.Attribute);
             this.nodePrefixNameIndex = nodePrefixNameIndex;
             this.nodeLocalNameIndex = nodeLocalNameIndex;
-            
+
         }
 
         public string Value
@@ -262,6 +262,6 @@ namespace LayoutFarm.WebDom
         }
     }
 
-    
+
 
 }

@@ -776,7 +776,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        protected virtual CssBox GetElementGlobalLocationImpl(out float globalX, out float globalY)
+        protected virtual CssBox GetGlobalLocationImpl(out float globalX, out float globalY)
         {
             globalX = this._localX;
             globalY = this._localY;
@@ -792,7 +792,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public CssBox GetElementGlobalLocation(out float globalX, out float globalY)
         {
-            return this.GetElementGlobalLocationImpl(out globalX, out globalY);
+            return this.GetGlobalLocationImpl(out globalX, out globalY);
         }
 
         /// <summary>

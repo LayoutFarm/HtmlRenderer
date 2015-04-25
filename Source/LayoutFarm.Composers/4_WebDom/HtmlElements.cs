@@ -4,17 +4,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
-using LayoutFarm.Composers;
 
-namespace LayoutFarm.WebDom
+
+namespace LayoutFarm.Composers
 {
-
-    public partial class HtmlElement : DomElement
+     
+    class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;
@@ -202,7 +201,7 @@ namespace LayoutFarm.WebDom
             this.ClearAllElements();
             //then apply new content 
             WebDocumentParser.ParseHtmlDom(
-                new LayoutFarm.WebDom.Parser.TextSnapshot(innerHtml.ToCharArray()),
+                new LayoutFarm.WebDom.Parser.TextSource(innerHtml.ToCharArray()),
                 (HtmlDocument)this.OwnerDocument,
                 this);
 

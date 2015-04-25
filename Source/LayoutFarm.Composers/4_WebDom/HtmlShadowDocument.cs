@@ -1,21 +1,17 @@
 ﻿// 2015,2014 ,BSD, WinterDev  
 using System;
 using System.Collections.Generic;
-
-using PixelFarm.Drawing;
 using LayoutFarm.HtmlBoxes;
-using LayoutFarm.Composers;
-using LayoutFarm.Css;
 
-namespace LayoutFarm.WebDom
+namespace LayoutFarm.Composers
 {
 
-    class HtmlShadowDocument : HtmlDocument
+    class HtmlShadowDocument : LayoutFarm.WebDom.Impl.HtmlShadowDocument
     {
         //this is not document fragment ***
         HtmlDocument primaryHtmlDoc;
         internal HtmlShadowDocument(HtmlDocument primaryHtmlDoc)
-            : base(primaryHtmlDoc.UniqueStringTable)
+            : base(primaryHtmlDoc)
         {
             //share string table with primary html doc
             this.primaryHtmlDoc = primaryHtmlDoc;

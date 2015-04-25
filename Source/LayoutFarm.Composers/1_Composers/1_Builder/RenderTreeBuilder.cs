@@ -168,13 +168,17 @@ namespace LayoutFarm.Composers
             }
         }
 
-        public CssBox BuildCssRenderTree(HtmlDocument htmldoc,
+        public CssBox BuildCssRenderTree(WebDocument webdoc,
             CssActiveSheet cssActiveSheet,
             RenderElement containerElement)
         {
-
+            HtmlDocument htmldoc = webdoc as HtmlDocument;
+            if (htmldoc == null)
+            {
+                //TODO: fixed here
+                throw new NotSupportedException();
+            }
             htmldoc.CssActiveSheet = cssActiveSheet;
-
             htmldoc.SetDocumentState(DocumentState.Building);
             //----------------------------------------------------------------  
 
@@ -184,10 +188,7 @@ namespace LayoutFarm.Composers
 
             //----------------------------------------------------------------  
             RootGraphic rootgfx = (containerElement != null) ? containerElement.Root : null;
-
-            //TODO: review here, we should create cssbox at  document.body?
-
-
+            //TODO: review here, we should create cssbox at  document.body? 
             CssBox bridgeBox = HtmlHost.CreateBridgeBox(this.htmlHost.GfxPlatform.SampleIFonts, containerElement, rootgfx);
             ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(bridgeBox);
 
@@ -199,9 +200,10 @@ namespace LayoutFarm.Composers
             return bridgeBox;
         }
 
-        public CssBox BuildCssRenderTree2(HtmlDocument htmldoc,
-          CssActiveSheet cssActiveSheet,
-          RootGraphic rootgfx)
+        public CssBox BuildCssRenderTree2(
+           LayoutFarm.WebDom.Impl.HtmlDocument htmldoc,
+           CssActiveSheet cssActiveSheet,
+           RootGraphic rootgfx)
         {
 
             htmldoc.CssActiveSheet = cssActiveSheet;
@@ -218,40 +220,40 @@ namespace LayoutFarm.Composers
             return rootBox;
         }
 
-        public CssBox BuildCssRenderTree(
-           DomElement hostElement,
-           DomElement domElement,
-           RenderElement containerElement)
-        {
-            var rootgfx = containerElement.Root;
-            IFonts ifonts = rootgfx.SampleIFonts;
-            HtmlDocument htmldoc = domElement.OwnerDocument as HtmlDocument;
-            HtmlElement startAtHtmlElement = (HtmlElement)domElement;
+        //public CssBox BuildCssRenderTree(
+        //   HtmlElement hostElement,
+        //   HtmlElement domElement,
+        //   RenderElement containerElement)
+        //{
+        //    var rootgfx = containerElement.Root;
+        //    IFonts ifonts = rootgfx.SampleIFonts;
+        //    HtmlDocument htmldoc = domElement.OwnerDocument as HtmlDocument;
+        //    HtmlElement startAtHtmlElement = (HtmlElement)domElement;
 
-            htmldoc.SetDocumentState(DocumentState.Building);
-            TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(htmldoc.CssActiveSheet);
-            PrepareStylesAndContentOfChildNodes(startAtHtmlElement, activeTemplate);
+        //    htmldoc.SetDocumentState(DocumentState.Building);
+        //    TopDownActiveCssTemplate activeTemplate = new TopDownActiveCssTemplate(htmldoc.CssActiveSheet);
+        //    PrepareStylesAndContentOfChildNodes(startAtHtmlElement, activeTemplate);
 
-            //1.css box for doc root: create new if not exist
-            CssBox docRoot = HtmlElement.InternalGetPrincipalBox((HtmlElement)htmldoc.RootNode);
-            if (docRoot == null)
-            {
-                docRoot = HtmlHost.CreateBridgeBox(ifonts, containerElement, rootgfx);
-                ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(docRoot);
-            }
+        //    //1.css box for doc root: create new if not exist
+        //    CssBox docRoot = HtmlElement.InternalGetPrincipalBox((HtmlElement)htmldoc.RootNode);
+        //    if (docRoot == null)
+        //    {
+        //        docRoot = HtmlHost.CreateBridgeBox(ifonts, containerElement, rootgfx);
+        //        ((HtmlElement)htmldoc.RootNode).SetPrincipalBox(docRoot);
+        //    }
 
-            //----------------------------------------------------------------  
-            CssBox bridgeBox = HtmlHost.CreateBridgeBox(ifonts, containerElement, rootgfx);
-            docRoot.AppendChild(bridgeBox);
-            ((HtmlElement)domElement).SetPrincipalBox(bridgeBox);
-            //----------------------------------------------------------------  
+        //    //----------------------------------------------------------------  
+        //    CssBox bridgeBox = HtmlHost.CreateBridgeBox(ifonts, containerElement, rootgfx);
+        //    docRoot.AppendChild(bridgeBox);
+        //    domElement.SetPrincipalBox(bridgeBox);
+        //    //----------------------------------------------------------------  
 
-            this.htmlHost.UpdateChildBoxes(startAtHtmlElement, true);
-            htmldoc.SetDocumentState(DocumentState.Idle);
-            //----------------------------------------------------------------  
-            //SetTextSelectionStyle(htmlCont, cssData);
-            return bridgeBox;
-        }
+        //    this.htmlHost.UpdateChildBoxes(startAtHtmlElement, true);
+        //    htmldoc.SetDocumentState(DocumentState.Idle);
+        //    //----------------------------------------------------------------  
+        //    //SetTextSelectionStyle(htmlCont, cssData);
+        //    return bridgeBox;
+        //}
 
 
         //----------------------------------------------------------------
@@ -292,7 +294,7 @@ namespace LayoutFarm.Composers
             GC.Collect();
             //sw1.Start();
             int nround = 100;
-            var snapSource = new TextSnapshot(htmlstr.ToCharArray());
+            //var snapSource = new TextSnapshot2(htmlstr.ToCharArray());
             //for (int i = nround; i >= 0; --i)
             //{
             //    CssBox root1 = HtmlParser.ParseDocument(snapSource);
@@ -458,9 +460,6 @@ namespace LayoutFarm.Composers
             //    }
             //}
         }
-
-
-
 
         //        static void AssignStylesFromTranslatedAttributes_Old(CssBox box, ActiveCssTemplate activeTemplate)
         //        {
@@ -638,195 +637,6 @@ namespace LayoutFarm.Composers
         //                }
         //            }
         //        }
-        //static void AssignStylesFromTranslatedAttributesHTML5(CssBox box, ActiveCssTemplate activeTemplate)
-        //{
-        //    return;
-        //    //some html attr contains css value 
-        //    IHtmlElement tag = box.HtmlElement;
-
-        //    if (tag.HasAttributes())
-        //    {
-        //        foreach (IHtmlAttribute attr in tag.GetAttributeIter())
-        //        {
-        //            //attr switch by wellknown property name 
-        //            switch ((WebDom.WellknownHtmlName)attr.LocalNameIndex)
-        //            {
-        //                case WebDom.WellknownHtmlName.Align:
-        //                    {
-        //                        //deprecated in HTML4.1
-        //                        //string value = attr.Value.ToLower();
-        //                        //if (value == "left"
-        //                        //    || value == "center"
-        //                        //    || value == "right"
-        //                        //    || value == "justify")
-        //                        //{
-        //                        //    WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
-        //                        //        value, WebDom.CssValueHint.Iden);
-
-        //                        //    box.CssTextAlign = UserMapUtil.GetTextAlign(propValue);
-        //                        //}
-        //                        //else
-        //                        //{
-        //                        //    WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
-        //                        //     value, WebDom.CssValueHint.Iden);
-        //                        //    box.VerticalAlign = UserMapUtil.GetVerticalAlign(propValue);
-        //                        //}
-        //                        //break;
-        //                    } break;
-        //                case WebDom.WellknownHtmlName.Background:
-        //                    //deprecated in HTML4.1
-        //                    //box.BackgroundImageBinder = new ImageBinder(attr.Value.ToLower());
-        //                    break;
-        //                case WebDom.WellknownHtmlName.BackgroundColor:
-        //                    //deprecated in HTML5
-        //                    //box.BackgroundColor = CssValueParser.GetActualColor(attr.Value.ToLower());
-        //                    break;
-        //                case WebDom.WellknownHtmlName.Border:
-        //                    {
-        //                        //not support in HTML5 
-        //                        //CssLength borderLen = TranslateLength(UserMapUtil.MakeBorderLength(attr.Value.ToLower()));
-        //                        //if (!borderLen.HasError)
-        //                        //{
-
-        //                        //    if (borderLen.Number > 0)
-        //                        //    {
-        //                        //        box.BorderLeftStyle =
-        //                        //            box.BorderTopStyle =
-        //                        //            box.BorderRightStyle =
-        //                        //            box.BorderBottomStyle = CssBorderStyle.Solid;
-        //                        //    }
-
-        //                        //    box.BorderLeftWidth =
-        //                        //    box.BorderTopWidth =
-        //                        //    box.BorderRightWidth =
-        //                        //    box.BorderBottomWidth = borderLen;
-
-        //                        //    if (tag.WellknownTagName == WellknownHtmlTagName.TABLE && borderLen.Number > 0)
-        //                        //    {
-        //                        //        //Cascades to the TD's the border spacified in the TABLE tag.
-        //                        //        var borderWidth = CssLength.MakePixelLength(1);
-        //                        //        ForEachCellInTable(box, cell =>
-        //                        //        {
-        //                        //            //for all cells
-        //                        //            cell.BorderLeftStyle = cell.BorderTopStyle = cell.BorderRightStyle = cell.BorderBottomStyle = CssBorderStyle.Solid; // CssConstants.Solid;
-        //                        //            cell.BorderLeftWidth = cell.BorderTopWidth = cell.BorderRightWidth = cell.BorderBottomWidth = borderWidth;
-        //                        //        });
-
-        //                        //    }
-
-        //                        //}
-        //                    } break;
-        //                case WebDom.WellknownHtmlName.BorderColor:
-
-        //                    //box.BorderLeftColor =
-        //                    //    box.BorderTopColor =
-        //                    //    box.BorderRightColor =
-        //                    //    box.BorderBottomColor = CssValueParser.GetActualColor(attr.Value.ToLower());
-
-        //                    break;
-        //                case WebDom.WellknownHtmlName.CellSpacing:
-
-        //                    //html5 not support in HTML5, use CSS instead
-        //                    //box.BorderSpacingHorizontal = box.BorderSpacingVertical = TranslateLength(attr);
-
-        //                    break;
-        //                case WebDom.WellknownHtmlName.CellPadding:
-        //                    {
-        //                        //html5 not support in HTML5, use CSS instead ***
-
-        //                        //                                CssLength len01 = UserMapUtil.ParseGenericLength(attr.Value.ToLower());
-        //                        //                                if (len01.HasError && (len01.Number > 0))
-        //                        //                                {
-        //                        //                                    CssLength len02 = CssLength.MakePixelLength(len01.Number);
-        //                        //                                    ForEachCellInTable(box, cell =>
-        //                        //                                    {
-        //                        //#if DEBUG
-        //                        //                                        // cell.dbugBB = dbugTT++;
-        //                        //#endif
-        //                        //                                        cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = len02;
-        //                        //                                    });
-
-        //                        //                                }
-        //                        //                                else
-        //                        //                                {
-        //                        //                                    ForEachCellInTable(box, cell =>
-        //                        //                                         cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = len01);
-        //                        //                                }
-
-        //                    } break;
-        //                case WebDom.WellknownHtmlName.Color:
-
-        //                    //deprecate  
-        //                    // box.Color = CssValueParser.GetActualColor(attr.Value.ToLower());
-        //                    break;
-        //                case WebDom.WellknownHtmlName.Dir:
-        //                    {
-        //                        WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
-        //                                attr.Value.ToLower(), WebDom.CssValueHint.Iden);
-        //                        box.CssDirection = UserMapUtil.GetCssDirection(propValue);
-        //                    }
-        //                    break;
-        //                case WebDom.WellknownHtmlName.Face:
-        //                    //deprecate
-        //                    //box.FontFamily = CssParser.ParseFontFamily(attr.Value.ToLower());
-        //                    break;
-        //                case WebDom.WellknownHtmlName.Height:
-        //                    box.Height = TranslateLength(attr);
-        //                    break;
-        //                case WebDom.WellknownHtmlName.HSpace:
-        //                    //deprecated
-        //                    //box.MarginRight = box.MarginLeft = TranslateLength(attr);
-        //                    break;
-        //                case WebDom.WellknownHtmlName.Nowrap:
-        //                    //deprecate
-        //                    //box.WhiteSpace = CssWhiteSpace.NoWrap;
-        //                    break;
-        //                case WebDom.WellknownHtmlName.Size:
-        //                    {
-        //                        //deprecate 
-        //                        //switch (tag.WellknownTagName)
-        //                        //{
-        //                        //    case WellknownHtmlTagName.HR:
-        //                        //        {
-        //                        //            box.Height = TranslateLength(attr);
-        //                        //        } break;
-        //                        //    case WellknownHtmlTagName.FONT:
-        //                        //        {
-        //                        //            var ruleset = activeTemplate.ParseCssBlock("", attr.Value.ToLower());
-        //                        //            foreach (WebDom.CssPropertyDeclaration propDecl in ruleset.GetAssignmentIter())
-        //                        //            {
-        //                        //                //assign each property
-        //                        //                AssignPropertyValue(box, box.ParentBox, propDecl);
-        //                        //            }
-        //                        //            //WebDom.CssCodePrimitiveExpression prim = new WebDom.CssCodePrimitiveExpression(value, 
-        //                        //            //box.SetFontSize(value);
-        //                        //        } break;
-        //                        //}
-        //                    } break;
-        //                case WebDom.WellknownHtmlName.VAlign:
-        //                    {
-        //                        //w3.org 
-        //                        //valign for table display elements:
-        //                        //col,colgroup,tbody,td,tfoot,th,thead,tr
-
-        //                        WebDom.CssCodePrimitiveExpression propValue = new WebDom.CssCodePrimitiveExpression(
-        //                                  attr.Value.ToLower(), WebDom.CssValueHint.Iden);
-        //                        box.VerticalAlign = UserMapUtil.GetVerticalAlign(propValue);
-
-
-        //                    } break;
-        //                case WebDom.WellknownHtmlName.VSpace:
-        //                    //deprecated
-        //                    //box.MarginTop = box.MarginBottom = TranslateLength(attr);
-        //                    break;
-        //                case WebDom.WellknownHtmlName.Width:
-
-        //                    box.Width = TranslateLength(attr);
-        //                    break;
-        //            }
-        //        }
-        //    }
-        //}
 
         static void AssignSvgAttributes(HtmlElement tag)
         {
@@ -834,8 +644,7 @@ namespace LayoutFarm.Composers
         }
         static void AssignStylesFromTranslatedAttributesHTML5(HtmlElement tag)
         {
-            //some html attr contains css value  
-
+            //some html attr contains css value   
             if (tag.AttributeCount > 0)
             {
                 foreach (var attr in tag.GetAttributeIterForward())

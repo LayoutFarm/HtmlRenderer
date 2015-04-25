@@ -160,7 +160,7 @@ namespace LayoutFarm.HtmlWidgets
                 var primUI = this.GetPrimaryUIElement(htmlhost) as HtmlBox;
                 if (this.myPresentationDom != null)
                 {
-                    var parent = myPresentationDom.ParentNode as HtmlElement;
+                    var parent = myPresentationDom.ParentNode as IHtmlElement;
                     if (parent == null)
                     {
                         var htmldoc = primUI.HtmlContainer.WebDocument as HtmlDocument;

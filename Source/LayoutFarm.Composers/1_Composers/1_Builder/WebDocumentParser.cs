@@ -32,7 +32,7 @@ namespace LayoutFarm.Composers
         /// Parses the source html to css boxes tree structure.
         /// </summary>
         /// <param name="source">the html source to parse</param>
-        public static HtmlDocument ParseDocument(TextSnapshot snapSource)
+        public static HtmlDocument ParseDocument(TextSource snapSource)
         {
             var parser = GetHtmlParser();
             //------------------------
@@ -42,12 +42,12 @@ namespace LayoutFarm.Composers
             return blankHtmlDoc;
         }
 
-        public static void ParseHtmlDom(TextSnapshot snapSource, HtmlDocument htmldoc, WebDom.DomElement parentElement)
+        public static void ParseHtmlDom(TextSource snapSource, IHtmlDocument htmldoc, WebDom.DomElement parentElement)
         {
             var parser = GetHtmlParser();
             //------------------------ 
-            parser.Parse(snapSource, htmldoc, parentElement);
-            FreeHtmlParser(parser); 
+            parser.Parse(snapSource, (LayoutFarm.WebDom.Impl.HtmlDocument)htmldoc, parentElement);
+            FreeHtmlParser(parser);
 
         }
         static Queue<HtmlParser> sharedParsers = new Queue<HtmlParser>();

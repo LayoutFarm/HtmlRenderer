@@ -11,6 +11,7 @@ using LayoutFarm.WebDom;
 using LayoutFarm.ContentManagers;
 using LayoutFarm.UI;
 using LayoutFarm.Css;
+using LayoutFarm.Composers;
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -87,14 +88,18 @@ namespace LayoutFarm.HtmlBoxes
                 requestImage(this, resReq);
             }
         }
-        public HtmlDocumentFragment CreateNewDocumentFragment()
+        public HtmlDocument CreateNewDocumentFragment()
         {
             return new HtmlDocumentFragment(this.commonHtmlDoc);
         }
         public HtmlDocument CreateNewSharedHtmlDoc()
         {
-            //this is my extension *** 
-            return new HtmlSharedDocument(this.commonHtmlDoc);
+            //!!! this is my extension *** 
+            HtmlDocument sharedDocument = new HtmlSharedDocument(this.commonHtmlDoc);
+            sharedDocument.SetDomUpdateHandler(this.commonHtmlDoc.DomUpdateHandler);
+            sharedDocument.CssActiveSheet = this.commonHtmlDoc.CssActiveSheet;
+
+            return sharedDocument;
         }
         public LayoutFarm.HtmlBoxes.LayoutVisitor GetSharedHtmlLayoutVisitor(HtmlContainer htmlCont)
         {
@@ -169,7 +174,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="parentElement"></param>
         /// <param name="fullmode">update all nodes (true) or somenode (false)</param>
-        public void UpdateChildBoxes(HtmlElement parentElement, bool fullmode)
+        internal void UpdateChildBoxes(HtmlElement parentElement, bool fullmode)
         {
             //recursive ***  
             //first just generate into primary pricipal box
@@ -338,7 +343,7 @@ namespace LayoutFarm.HtmlBoxes
             //that will be used on layout process 
             //---------------------------------- 
         }
-        public CssBox CreateBox(CssBox parentBox, HtmlElement childElement, bool fullmode)
+        internal CssBox CreateBox(CssBox parentBox, HtmlElement childElement, bool fullmode)
         {
             //----------------------------------------- 
             //1. create new box
@@ -435,7 +440,7 @@ namespace LayoutFarm.HtmlBoxes
                         }
 
                         //----------------------------------------------- 
-                        LayoutFarm.WebDom.CreateCssBoxDelegate foundBoxGen;
+                        LayoutFarm.Composers.CreateCssBoxDelegate foundBoxGen;
                         if (((HtmlDocument)childElement.OwnerDocument).TryGetCustomBoxGenerator(childElement.Name, out foundBoxGen))
                         {
                             //create custom box 
@@ -505,7 +510,11 @@ namespace LayoutFarm.HtmlBoxes
             parent.AppendChild(boxImage);
             return boxImage;
         }
-        
+
+        public LayoutFarm.WebDom.Impl.HtmlDocument CreatePresentationHtmlDoc()
+        {   
+            return new HtmlDocument();
+        }
         internal static CssBox CreateBridgeBox(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)
         {
             var spec = new BoxSpec();
@@ -528,7 +537,7 @@ namespace LayoutFarm.HtmlBoxes
             //------------------------------------
             return box;
         }
-       
+
 
 
     }

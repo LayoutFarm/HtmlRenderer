@@ -36,6 +36,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="0_WebDom.Parser\TextSource.cs" />
     <Compile Include="1_Css\UserMapUtil.cs" />
     <Compile Include="1_Css\ValueMaps.cs" />
     <Compile Include="1_Css\CssActiveSheet.cs" />
@@ -48,11 +49,19 @@
     <Compile Include="0_WebDom.Parser\CssParser.cs" />
     <Compile Include="0_WebDom.Parser\CssParserHelper.cs" />
     <Compile Include="0_WebDom.Parser\CssValueParser.cs" />
-    <Compile Include="0_WebDom.Parser\dbugLexerReport.cs" />
-    <Compile Include="0_WebDom.Parser\HtmlLexer.cs" />
     <Compile Include="0_WebDom.Parser\HtmlParser.cs" />
     <Compile Include="0_WebDom.Parser\HtmlUtils.cs" />
-    <Compile Include="0_WebDom.Parser\TextSnapshot.cs" />
+    <Compile Include="3_WebDom_Interfaces\HtmlInterfaces.cs" />
+    <Compile Include="4_WebDom.Impl\DomTextWriter.cs" />
+    <Compile Include="4_WebDom.Impl\HtmlDocument.cs" />
+    <Compile Include="4_WebDom.Impl\HtmlDocumentFragment.cs" />
+    <Compile Include="4_WebDom.Impl\HtmlDocument_Scripting.cs" />
+    <Compile Include="4_WebDom.Impl\HtmlElements.cs" />
+    <Compile Include="4_WebDom.Impl\HtmlElements.Scripting.cs" />
+    <Compile Include="4_WebDom.Impl\HtmlPredefinedNames.cs" />
+    <Compile Include="4_WebDom.Impl\HtmlShadowDocument.cs" />
+    <Compile Include="4_WebDom.Impl\HtmlTextNode.cs" />
+    <Compile Include="4_WebDom.Impl\SpecialHtmlElements.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="2_WebDom\DomElement.cs" />
     <Compile Include="2_WebDom\DomElement_EventListener.cs" />
@@ -72,6 +81,10 @@
     <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
       <Project>{5164EC24-95C4-4333-BD4E-70EE625CCEB4}</Project>
       <Name>LayoutFarm.CssBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.WebLexer\LayoutFarm.WebLexer.csproj">
+      <Project>{48B4B5F3-2F56-49EA-8A6D-C07523DCB03E}</Project>
+      <Name>LayoutFarm.WebLexer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,8 +4,9 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.HtmlBoxes;
+using LayoutFarm.WebDom;
 
-namespace LayoutFarm.WebDom
+namespace LayoutFarm.Composers
 {
     public class HtmlTextNode : DomTextNode
     {

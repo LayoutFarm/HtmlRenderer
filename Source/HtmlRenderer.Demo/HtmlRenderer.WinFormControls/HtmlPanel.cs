@@ -109,6 +109,10 @@ namespace LayoutFarm.Demo
             this.renderCanvas = gfxPlatform.CreateCanvas(0, 0,
                 this.canvasW = w, this.canvasH = h);
         }
+        public HtmlHost HtmlHost
+        {
+            get { return this.htmlhost; }
+        }
         public void SetHtmlHost(HtmlHost htmlhost)
         {
             this.htmlhost = htmlhost;
@@ -284,11 +288,11 @@ namespace LayoutFarm.Demo
             //-----------------------------------------------------------------
             var htmldoc = this.currentDoc =
                 LayoutFarm.Composers.WebDocumentParser.ParseDocument(
-                    new WebDom.Parser.TextSnapshot(html.ToCharArray()));
+                    new WebDom.Parser.TextSource(html.ToCharArray()));
 
 
             //build rootbox from htmldoc
-            var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree((WebDom.HtmlDocument)htmldoc,
+            var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree(htmldoc,
                 cssData,
                 null);
 
@@ -314,7 +318,7 @@ namespace LayoutFarm.Demo
         {
 
             var rootBox = this.htmlhost.GetRenderTreeBuilder().BuildCssRenderTree(
-                (LayoutFarm.WebDom.HtmlDocument)this.currentDoc,
+                this.currentDoc,
                 cssData,
                 null);
 
@@ -512,8 +516,8 @@ namespace LayoutFarm.Demo
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
-            this.isDragging = this.isMouseDown; 
-            var mouseE = CreateMouseEventArg(e); 
+            this.isDragging = this.isMouseDown;
+            var mouseE = CreateMouseEventArg(e);
             _htmlInputEventAdapter.MouseMove(mouseE);
 
 
