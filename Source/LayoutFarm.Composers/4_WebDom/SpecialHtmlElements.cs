@@ -1,18 +1,14 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
 using System;
-using System.Collections.Generic;
-//
-using PixelFarm.Drawing;
-using LayoutFarm.WebDom;
+using System.Collections.Generic; 
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
 using LayoutFarm.Composers;
 
-namespace LayoutFarm.WebDom
-{
+using LayoutFarm.WebDom;
 
-
-
+namespace LayoutFarm.Composers
+{   
     sealed class HtmlRootElement : HtmlElement
     {
         public HtmlRootElement(HtmlDocument ownerDoc)

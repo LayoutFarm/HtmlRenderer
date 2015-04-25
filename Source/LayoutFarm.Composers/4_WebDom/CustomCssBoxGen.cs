@@ -6,14 +6,14 @@ using System.Collections.Generic;
 
 using PixelFarm.Drawing;
 using LayoutFarm.HtmlBoxes;
-using LayoutFarm.Composers;
+using LayoutFarm.WebDom;
 using LayoutFarm.Css;
 
-namespace LayoutFarm.WebDom
-{   
+namespace LayoutFarm.Composers
+{
     //delegate for create cssbox
     public delegate LayoutFarm.HtmlBoxes.CssBox CreateCssBoxDelegate(
-            HtmlElement domE,
+            LayoutFarm.WebDom.IHtmlElement domE,
             LayoutFarm.HtmlBoxes.CssBox parentBox,
             LayoutFarm.Css.BoxSpec spec,
             LayoutFarm.HtmlBoxes.HtmlHost htmlhost);
@@ -22,7 +22,7 @@ namespace LayoutFarm.WebDom
     static class CustomBoxGenSample1
     {
         internal static LayoutFarm.HtmlBoxes.CssBox CreateCssBox(
-            HtmlElement domE,
+            LayoutFarm.WebDom.IHtmlElement domE,
             LayoutFarm.HtmlBoxes.CssBox parentBox,
             LayoutFarm.Css.BoxSpec spec,
             LayoutFarm.HtmlBoxes.HtmlHost htmlhost)

@@ -50,29 +50,28 @@ namespace LayoutFarm
             htmlMenuBox.LoadHtmlString(html);
 
             //set event handlers
-            var htmldoc = htmlMenuBox.HtmlContainer.WebDocument as HtmlDocument;
-            HtmlElement div_menuBox = htmldoc.GetElementById("menubox") as HtmlElement;
+            var htmldoc = htmlMenuBox.HtmlContainer.WebDocument as IHtmlDocument;
+            var div_menuBox = htmldoc.getElementById("menubox") as IHtmlElement;
             if (div_menuBox == null) return;
 
             //test set innerHTML
-            div_menuBox.AttachEvent(UIEventName.MouseDown, (e) =>
+            div_menuBox.attachEventListener("mousedown", (e) =>
             {
-                var contextE = e.SourceHitElement as HtmlElement;
-                switch (contextE.AttrElementId)
+                var contextE = e.SourceHitElement as IHtmlElement;
+                switch (contextE.id)
                 {
                     case "test_dom1":
                         {
                             //test toggle with innerHTML
-                            var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as HtmlDocument;
-                            HtmlElement div1 = testHtmlDoc.GetElementById("div1") as HtmlElement;
+                            var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as IHtmlDocument;
+                            var div1 = testHtmlDoc.getElementById("div1") as IHtmlElement;
 
                             if (div1 != null)
                             {
                                 //test set innerHTML
-                                div1.SetInnerHtml(
-                                    testToggle ?
+                                div1.innerHTML = testToggle ?
                                         "<div>11111</div>" :
-                                        "<div>22222</div>");
+                                        "<div>22222</div>";
                                 testToggle = !testToggle;
                             }
 
@@ -80,61 +79,61 @@ namespace LayoutFarm
                     case "test_dom2":
                         {
                             //test toggle with DocumentFragment
-                            var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as HtmlDocument;
-                            HtmlElement div1 = testHtmlDoc.GetElementById("div1") as HtmlElement;
+                            var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as IHtmlDocument;
+                            var div1 = testHtmlDoc.getElementById("div1") as IHtmlElement;
+
                             if (div1 != null)
                             {
-                                var docFragment =  testHtmlDoc.CreateDocumentFragment();
+                                var docFragment = testHtmlDoc.createDocumentFragment();
                                 if (testToggle)
                                 {
-                                    var node1 = docFragment.CreateElement("div") as HtmlElement;
-                                    node1.AddChild(
-                                        docFragment.CreateTextNode("3333".ToCharArray()));//TODO: review this
-                                    docFragment.RootNode.AddChild(node1);
+                                    var node1 = docFragment.createElement("div") as IHtmlElement;
+                                    node1.appendChild(
+                                        docFragment.createTextNode("3333".ToCharArray()));//TODO: review this
 
+                                    docFragment.rootNode.appendChild(node1);
                                 }
                                 else
                                 {
 
-                                    var node1 = docFragment.CreateElement("div") as HtmlElement;
-                                    node1.AddChild(
-                                        docFragment.CreateTextNode("4444".ToCharArray()));//TODO: review this
-                                    docFragment.RootNode.AddChild(node1);
+                                    var node1 = docFragment.createElement("div") as IHtmlElement;
+                                    node1.appendChild(
+                                        docFragment.createTextNode("4444".ToCharArray()));//TODO: review this
+                                    docFragment.rootNode.appendChild(node1);
                                 }
-                                div1.ClearAllElements();
-                                div1.AddChild(docFragment.RootNode);
-
+                                div1.clear();
+                                div1.appendChild(docFragment.rootNode);
                                 testToggle = !testToggle;
                             }
                         } break;
                     case "test_dom3":
                         {
                             //shadow dom!
-                            var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as HtmlDocument;
-                            HtmlElement div1 = testHtmlDoc.GetElementById("div1") as HtmlElement;
+                            var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as IHtmlDocument;
+                            var div1 = testHtmlDoc.getElementById("div1") as IHtmlElement;
 
                             if (div1 != null)
                             {
-                                HtmlElement shadowRoot = testHtmlDoc.CreateShadowRootElement() as HtmlElement;
+                                var shadowRoot = testHtmlDoc.createShadowRootElement() as IHtmlElement;
                                 if (testToggle)
                                 {
-                                    var node1 = testHtmlDoc.CreateElement("div") as HtmlElement;
-                                    node1.AddChild(
-                                        testHtmlDoc.CreateTextNode("XXX".ToCharArray()));//TODO: review this 
+                                    var node1 = testHtmlDoc.createElement("div") as IHtmlElement;
+                                    node1.appendChild(
+                                        testHtmlDoc.createTextNode("XXX".ToCharArray()));//TODO: review this 
                                     //add node1 to shadow root element
-                                    shadowRoot.AddChild(node1);
+                                    shadowRoot.appendChild(node1);
                                 }
                                 else
                                 {
-                                    var node1 = testHtmlDoc.CreateElement("div") as HtmlElement;
-                                    node1.AddChild(
-                                        testHtmlDoc.CreateTextNode("YYY".ToCharArray()));//TODO: review this 
+                                    var node1 = testHtmlDoc.createElement("div") as IHtmlElement;
+                                    node1.appendChild(
+                                        testHtmlDoc.createTextNode("YYY".ToCharArray()));//TODO: review this 
                                     //add node1 to shadow root element
-                                    shadowRoot.AddChild(node1);
+                                    shadowRoot.appendChild(node1);
                                 }
 
-                                div1.ClearAllElements();
-                                div1.AddChild(shadowRoot);
+                                div1.clear();
+                                div1.appendChild(shadowRoot);
                                 testToggle = !testToggle;
                             }
                         } break;

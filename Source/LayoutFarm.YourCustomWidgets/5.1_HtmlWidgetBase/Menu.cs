@@ -293,10 +293,10 @@ namespace LayoutFarm.HtmlWidgets
                     var fragmentdoc = host.CreateNewSharedHtmlDoc();
                     this.GetPrimaryUIElement(host);
                 }
-                HtmlElement relativeMenuItemElement = relativeToMenuItem.CurrentDomElement as HtmlElement;
+                var relativeMenuItemElement = relativeToMenuItem.CurrentDomElement as IHtmlElement;
 
                 int x, y;
-                relativeMenuItemElement.GetGlobalLocation(out x, out y);
+                relativeMenuItemElement.getGlobalLocation(out x, out y);
                 this.SetLocation(x + relativeToMenuItem.OwnerMenuBox.Width, y);
 
                 this.AddSelfToTopWindow();
@@ -315,10 +315,10 @@ namespace LayoutFarm.HtmlWidgets
                 //remove from parent
                 if (this.pnode != null)
                 {
-                    var parent = pnode.ParentNode as HtmlElement;
+                    var parent = pnode.ParentNode as IHtmlElement;
                     if (parent != null)
                     {
-                        parent.RemoveChild(pnode);
+                        parent.removeChild(pnode);
                         this.RemoveSelfFromTopWindow();
                     }
                 }

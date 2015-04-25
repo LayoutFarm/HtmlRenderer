@@ -20,7 +20,7 @@ namespace LayoutFarm.WebDom
 
 
 
-    public abstract class DomNode
+    public abstract class DomNode : INode
     {
 
         WebDocument ownerDoc;

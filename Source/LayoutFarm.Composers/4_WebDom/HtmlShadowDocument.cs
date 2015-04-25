@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using LayoutFarm.HtmlBoxes;
 
-namespace LayoutFarm.WebDom
+namespace LayoutFarm.Composers
 {
 
     class HtmlShadowDocument : LayoutFarm.WebDom.Impl.HtmlShadowDocument

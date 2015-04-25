@@ -30,8 +30,7 @@ namespace LayoutFarm.CustomWidgets
             BoxSpec spec,
             HtmlHost host)
         {
-            HtmlElement htmlElement = (HtmlElement)domE;
-
+             
             switch (domE.Name)
             {
                 case "input":

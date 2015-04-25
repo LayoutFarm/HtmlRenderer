@@ -8,12 +8,12 @@ using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
-using LayoutFarm.Composers; 
 
-namespace LayoutFarm.WebDom
+
+namespace LayoutFarm.Composers
 {
-
-    public partial class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
+     
+    class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;

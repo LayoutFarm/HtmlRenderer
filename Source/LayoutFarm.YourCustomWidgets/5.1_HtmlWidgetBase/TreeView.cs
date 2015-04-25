@@ -332,10 +332,10 @@ namespace LayoutFarm.HtmlWidgets
             this.isOpen = false;
             if (this.nodeBody != null)
             {
-                HtmlElement htmlPNode = this.pnode as HtmlElement;
+                var htmlPNode = this.pnode as IHtmlElement;
                 if (htmlPNode != null)
                 {
-                    htmlPNode.RemoveChild(this.nodeBody);
+                    htmlPNode.removeChild(this.nodeBody);
                 }
 
             }

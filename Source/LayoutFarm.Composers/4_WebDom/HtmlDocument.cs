@@ -4,20 +4,20 @@
 using System;
 using System.Collections.Generic;
 
-using PixelFarm.Drawing;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Composers;
 using LayoutFarm.Css;
+using LayoutFarm.WebDom;
 
-namespace LayoutFarm.WebDom
+namespace LayoutFarm.Composers
 {
 
-    public partial class HtmlDocument : LayoutFarm.WebDom.Impl.HtmlDocument
+    public class HtmlDocument : LayoutFarm.WebDom.Impl.HtmlDocument
     {
 
         //foc custom elements 
         Dictionary<string, CreateCssBoxDelegate> registedCustomElemenGens = new Dictionary<string, CreateCssBoxDelegate>();
-        public HtmlDocument()
+        internal HtmlDocument()
         {
             this.SetRootElement(new HtmlRootElement(this));
         }

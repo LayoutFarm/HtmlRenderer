@@ -1,14 +1,12 @@
 ﻿// 2015,2014 ,BSD, WinterDev  
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 using LayoutFarm.HtmlBoxes;
-using LayoutFarm.Composers;
-using LayoutFarm.Css;
+namespace LayoutFarm.Composers
+{
 
-namespace LayoutFarm.WebDom
-{  
-    public class HtmlDocumentFragment : HtmlDocument
-    {   
+    class HtmlDocumentFragment : HtmlDocument
+    {
         HtmlDocument primaryHtmlDoc;
         internal HtmlDocumentFragment(HtmlDocument primaryHtmlDoc)
             : base(primaryHtmlDoc.UniqueStringTable)
