@@ -10,7 +10,7 @@ using LayoutFarm.UI;
 namespace LayoutFarm.WebDom.Impl
 {
 
-    public partial class HtmlElement : DomElement
+    public partial class HtmlElement : DomElement, IHtmlElement
     {
 
         CssRuleSet elementRuleSet;

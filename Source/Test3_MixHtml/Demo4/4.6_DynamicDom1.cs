@@ -84,7 +84,7 @@ namespace LayoutFarm
                             HtmlElement div1 = testHtmlDoc.GetElementById("div1") as HtmlElement;
                             if (div1 != null)
                             {
-                                HtmlDocumentFragment docFragment =  testHtmlDoc.CreateDocumentFragment();
+                                var docFragment =  testHtmlDoc.CreateDocumentFragment();
                                 if (testToggle)
                                 {
                                     var node1 = docFragment.CreateElement("div") as HtmlElement;

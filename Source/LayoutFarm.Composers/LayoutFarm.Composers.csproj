@@ -74,8 +74,6 @@
     <Compile Include="7_Events\HtmlInputEventAdapter.cs" />
     <Compile Include="1_Composers\5_RenderBoxes\RenderElementWrapperCssBox.cs" />
     <Compile Include="1_Composers\2_Css\CssDefaults.cs" />
-    <Compile Include="4_WebDom\HtmlDocument_Scripting.cs" />
-    <Compile Include="4_WebDom\HtmlElements.Scripting.cs" />
     <Compile Include="4_WebDom\HtmlTextNode.cs" />
     <Compile Include="1_Composers\1_Builder\RunListHelper.cs" />
     <Compile Include="4_WebDom\HtmlElements.cs" />

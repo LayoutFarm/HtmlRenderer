@@ -7,12 +7,12 @@ using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm.WebDom.Impl
 {
-    public class HtmlTextNode : DomTextNode
+    public class HtmlTextNode : DomTextNode 
     {
         //---------------------------------
         //this node may be simple text node  
         bool freeze;
-        bool hasSomeChar;  
+        bool hasSomeChar;
         public HtmlTextNode(WebDocument ownerDoc, char[] buffer)
             : base(ownerDoc, buffer)
         {
@@ -24,7 +24,7 @@ namespace LayoutFarm.WebDom.Impl
                 return !this.hasSomeChar;
             }
         }
-       
+
         public bool IsFreeze
         {
             get { return this.freeze; }
@@ -34,13 +34,13 @@ namespace LayoutFarm.WebDom.Impl
         {
             return new string(base.GetOriginalBuffer());
         }
-#endif 
+#endif
         public void WriteTextNode(DomTextWriter writer)
         {
             //write inner run
             writer.InnerStringBuilder.Append(this.GetOriginalBuffer());
 
-        } 
+        }
     }
     public enum TextSplitPartKind : byte
     {
