@@ -35,23 +35,23 @@ namespace LayoutFarm.WebDom.Parser
         CommentContent
     }
 
+    enum HtmlLexState
+    {
+
+
+
+    }
+
     public delegate void HtmlLexerEventHandler(HtmlLexerEvent lexEvent, int startIndex, int len);
 
-    public sealed class HtmlLexer
+    public sealed partial class HtmlLexer
     {
 
         int _readIndex = 0;
         int _lastFlushAt = 0;
         int _appendCount = 0;
         int _firstAppendAt = -1;
-        LayoutFarm.WebLexer.TextSnapshot textSnapshot;
-
-#if DEBUG
-        dbugLexerReport dbug_LexerReport;
-        int dbug_currentLineCharIndex = -1;
-        int dbug_currentLineNumber = 0;
-#endif
-
+        LayoutFarm.WebLexer.TextSnapshot textSnapshot; 
         public event HtmlLexerEventHandler LexStateChanged;
         public HtmlLexer()
         {
@@ -73,71 +73,9 @@ namespace LayoutFarm.WebDom.Parser
         public void EndLex()
         {
 
-        }
+        } 
 
-#if  DEBUG
-        void dbug_OnStartAnalyze()
-        {
-        }
-        void dbug_OnFinishAnalyze()
-        {
-        }
-        public void dbugStartRecord(string filename)
-        {
-            dbug_LexerReport = new dbugLexerReport();
-            dbug_LexerReport.Start(filename);
-        }
-
-        public void dbugEndRecord()
-        {
-            dbug_LexerReport.End();
-            dbug_LexerReport = null;
-        }
-#endif
-
-
-#if DEBUG
-        void dbugReportChar(char c, int currentState)
-        {
-            if (dbug_LexerReport != null)
-            {
-
-                dbug_LexerReport.WriteLine("[" + dbug_currentLineNumber + " ," +
-                    dbug_currentLineCharIndex + "] state=" + currentState + " char=" + c);
-            }
-        }
-#endif
-
-        void FlushExisingBuffer(int lastFlushAtIndex, HtmlLexerEvent lexerEvent)
-        {
-
-            //raise lexer event
-            if (_appendCount > 0)
-            {
-#if DEBUG
-                //Console.WriteLine(lexerEvent.ToString() + " : " +
-                //    new string(this.textSnapshot.Copy(this._firstAppendAt, (this._readIndex - this._firstAppendAt) + 1)));
-#endif
-
-                LexStateChanged(lexerEvent, this._firstAppendAt, (this._readIndex - this._firstAppendAt) + 1);
-
-            }
-
-            this._lastFlushAt = lastFlushAtIndex;
-            this._appendCount = 0;
-        }
-
-        void AppendBuffer(char c, int index)
-        {
-            if (_appendCount == 0)
-            {
-                this._firstAppendAt = index;
-                this._appendCount++;
-            }
-
-            this._readIndex = index;
-        }
-
+       
         public void Analyze(TextSnapshot textSnapshot)
         {
 
@@ -183,7 +121,6 @@ namespace LayoutFarm.WebDom.Parser
                             else
                             {
                                 //in content mode
-
                                 AppendBuffer(c, i);
                             }
                         } break;
@@ -376,5 +313,41 @@ namespace LayoutFarm.WebDom.Parser
             dbug_OnFinishAnalyze();
 #endif
         }
+
+
+
+        void FlushExisingBuffer(int lastFlushAtIndex, HtmlLexerEvent lexerEvent)
+        {
+
+            //raise lexer event
+            if (_appendCount > 0)
+            {
+#if DEBUG
+                //Console.WriteLine(lexerEvent.ToString() + " : " +
+                //    new string(this.textSnapshot.Copy(this._firstAppendAt, (this._readIndex - this._firstAppendAt) + 1)));
+#endif
+
+                LexStateChanged(lexerEvent, this._firstAppendAt, (this._readIndex - this._firstAppendAt) + 1);
+
+            }
+
+            this._lastFlushAt = lastFlushAtIndex;
+            this._appendCount = 0;
+        }
+
+        void AppendBuffer(char c, int index)
+        {
+            if (_appendCount == 0)
+            {
+                this._firstAppendAt = index;
+                this._appendCount++;
+            }
+
+            this._readIndex = index;
+        }
+
+
+
+
     }
 }

@@ -77,9 +77,8 @@ namespace LayoutFarm.WebDom.Parser
                         {
                             case 0:
                                 {
-
+                                    //create element 
                                     DomElement elem = this._resultHtmlDoc.CreateElement(null, name);
-
                                     if (curHtmlNode != null)
                                     {
                                         curHtmlNode.AddChild(elem);
