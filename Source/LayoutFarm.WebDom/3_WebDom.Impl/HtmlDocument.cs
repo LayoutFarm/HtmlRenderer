@@ -3,30 +3,31 @@
 
 using System;
 using System.Collections.Generic;
- 
-using LayoutFarm.HtmlBoxes; 
+
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Css;
 
 namespace LayoutFarm.WebDom.Impl
 {
-     
-
-     
     public partial class HtmlDocument : WebDocument
     {
+
         DomElement rootNode;
         int domUpdateVersion;
         EventHandler domUpdatedHandler;
-
-        
         public HtmlDocument()
             : this(HtmlPredefineNames.CreateUniqueStringTableClone())
         {
         }
-        internal HtmlDocument(UniqueStringTable sharedUniqueStringTable)
+        public HtmlDocument(UniqueStringTable sharedUniqueStringTable)
             : base(sharedUniqueStringTable)
-        {   
-            rootNode = new HtmlRootElement(this); 
+        {
+            //auto create root doc
+            rootNode = new HtmlRootElement(this);
+        }
+        protected void SetRootElement(DomElement rootE)
+        {
+            this.rootNode = rootE;
         }
         public override DomElement RootNode
         {
@@ -65,21 +66,21 @@ namespace LayoutFarm.WebDom.Impl
             return new HtmlTextNode(this, strBufferForElement);
         }
 
-         
+
         public override DomElement CreateShadowRootElement()
         {
-            return new ShadowRootElement(this, 
+            return new ShadowRootElement(this,
                 AddStringIfNotExists(null),
                 AddStringIfNotExists("shadow-root"));
         }
-       
-        public HtmlDocumentFragment CreateDocumentFragment()
+
+        public virtual WebDocument CreateDocumentFragment()
         {
             return new HtmlDocumentFragment(this);
         }
 
         //---------------------------------------------------------
-        internal void SetDomUpdateHandler(EventHandler h)
+        public void SetDomUpdateHandler(EventHandler h)
         {
             this.domUpdatedHandler = h;
         }
@@ -88,13 +89,19 @@ namespace LayoutFarm.WebDom.Impl
             get;
             set;
         }
-        internal EventHandler DomUpdateHandler
+        public EventHandler DomUpdateHandler
         {
             get { return this.domUpdatedHandler; }
         }
-
+        protected void RaiseUpdateEvent()
+        {
+            if (this.domUpdatedHandler != null)
+            {
+                this.domUpdatedHandler(this, EventArgs.Empty);
+            }
+        }
     }
 
-     
+
 
 }

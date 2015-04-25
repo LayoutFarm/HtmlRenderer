@@ -7,8 +7,8 @@ using LayoutFarm.Css;
 
 namespace LayoutFarm.WebDom.Impl
 {
-     
-    static class HtmlPredefineNames
+
+    public static class HtmlPredefineNames
     {
 
         static readonly ValueMap<WellknownName> _wellKnownHtmlNameMap =

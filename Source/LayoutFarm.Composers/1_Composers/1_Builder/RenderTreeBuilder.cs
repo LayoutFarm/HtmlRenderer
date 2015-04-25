@@ -197,7 +197,7 @@ namespace LayoutFarm.Composers
         }
 
         public CssBox BuildCssRenderTree2(
-           HtmlDocument htmldoc,
+           LayoutFarm.WebDom.Impl.HtmlDocument htmldoc,
            CssActiveSheet cssActiveSheet,
            RootGraphic rootgfx)
         {

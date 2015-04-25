@@ -4,17 +4,16 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
-using LayoutFarm.Composers;
+using LayoutFarm.Composers; 
 
 namespace LayoutFarm.WebDom
 {
 
-    public partial class HtmlElement : DomElement
+    public partial class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;

@@ -14,7 +14,7 @@ namespace LayoutFarm.WebDom.Impl
     {
 
         CssRuleSet elementRuleSet;
-        internal HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
+        public HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
             //this.boxSpec = new Css.BoxSpec();
@@ -196,7 +196,7 @@ namespace LayoutFarm.WebDom.Impl
         }
         public override void GetGlobalLocation(out int x, out int y)
         {
-            x = 0; 
+            x = 0;
             y = 0;
         }
         ////------------------------------------

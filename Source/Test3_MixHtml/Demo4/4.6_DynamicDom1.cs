@@ -81,17 +81,17 @@ namespace LayoutFarm
                         {
                             //test toggle with DocumentFragment
                             var testHtmlDoc = testHtmlBox.HtmlContainer.WebDocument as HtmlDocument;
-                            HtmlElement div1 = testHtmlDoc.GetElementById("div1") as HtmlElement; 
+                            HtmlElement div1 = testHtmlDoc.GetElementById("div1") as HtmlElement;
                             if (div1 != null)
                             {
-                                HtmlDocumentFragment docFragment = testHtmlDoc.CreateDocumentFragment();
+                                HtmlDocumentFragment docFragment =  testHtmlDoc.CreateDocumentFragment();
                                 if (testToggle)
                                 {
                                     var node1 = docFragment.CreateElement("div") as HtmlElement;
                                     node1.AddChild(
                                         docFragment.CreateTextNode("3333".ToCharArray()));//TODO: review this
-                                    docFragment.RootNode.AddChild(node1); 
-                                    
+                                    docFragment.RootNode.AddChild(node1);
+
                                 }
                                 else
                                 {
@@ -99,7 +99,7 @@ namespace LayoutFarm
                                     var node1 = docFragment.CreateElement("div") as HtmlElement;
                                     node1.AddChild(
                                         docFragment.CreateTextNode("4444".ToCharArray()));//TODO: review this
-                                    docFragment.RootNode.AddChild(node1); 
+                                    docFragment.RootNode.AddChild(node1);
                                 }
                                 div1.ClearAllElements();
                                 div1.AddChild(docFragment.RootNode);
@@ -122,7 +122,7 @@ namespace LayoutFarm
                                     node1.AddChild(
                                         testHtmlDoc.CreateTextNode("XXX".ToCharArray()));//TODO: review this 
                                     //add node1 to shadow root element
-                                    shadowRoot.AddChild(node1); 
+                                    shadowRoot.AddChild(node1);
                                 }
                                 else
                                 {
@@ -130,13 +130,13 @@ namespace LayoutFarm
                                     node1.AddChild(
                                         testHtmlDoc.CreateTextNode("YYY".ToCharArray()));//TODO: review this 
                                     //add node1 to shadow root element
-                                    shadowRoot.AddChild(node1); 
+                                    shadowRoot.AddChild(node1);
                                 }
 
                                 div1.ClearAllElements();
                                 div1.AddChild(shadowRoot);
                                 testToggle = !testToggle;
-                            } 
+                            }
                         } break;
                 }
             });

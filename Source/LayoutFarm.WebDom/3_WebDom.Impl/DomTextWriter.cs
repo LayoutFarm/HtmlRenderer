@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 
 
-namespace LayoutFarm.WebDom.Impl
+namespace LayoutFarm.WebDom
 {
 
     public class DomTextWriter
@@ -16,7 +16,7 @@ namespace LayoutFarm.WebDom.Impl
         {
             this.stbuilder = stbuilder;
         }
-        internal StringBuilder InnerStringBuilder
+        public StringBuilder InnerStringBuilder
         {
             get { return this.stbuilder; }
         }
