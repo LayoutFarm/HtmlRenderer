@@ -20,7 +20,7 @@ namespace Test2_WebDomParsers
         {
             //test web parser
             var parser = new HtmlParser();
-            var blankHtmlDoc = new LayoutFarm.WebDom.HtmlDocument();
+            var blankHtmlDoc = new LayoutFarm.WebDom.Impl.HtmlDocument();
             var snapSource = new TextSource("<html><body><div>AAA</div></body></html>".ToCharArray());
             parser.Parse(snapSource, blankHtmlDoc, blankHtmlDoc.RootNode);
 

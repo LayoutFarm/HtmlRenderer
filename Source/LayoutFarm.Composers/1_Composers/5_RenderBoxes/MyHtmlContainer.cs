@@ -12,7 +12,7 @@ using LayoutFarm.ContentManagers;
 using LayoutFarm.UI;
 
 namespace LayoutFarm.HtmlBoxes
-{   
+{
 
     public delegate void HtmlContainerUpdateHandler(HtmlContainer htmlCont);
 
@@ -72,7 +72,7 @@ namespace LayoutFarm.HtmlBoxes
             set
             {
 
-                var htmldoc = this.webdoc as HtmlDocument;
+                var htmldoc = this.webdoc as LayoutFarm.Composers.HtmlDocument;
                 if (htmldoc != null)
                 {
                     //clear
@@ -81,7 +81,7 @@ namespace LayoutFarm.HtmlBoxes
                 //------------------------------------
                 this.webdoc = value;
                 //when attach  
-                htmldoc = value as HtmlDocument;
+                htmldoc = value as LayoutFarm.Composers.HtmlDocument;
                 if (htmldoc != null)
                 {
                     //attach monitor

@@ -2,22 +2,11 @@
 
 using System;
 using System.Collections.Generic;
-
-using PixelFarm.Drawing;
 using LayoutFarm.HtmlBoxes;
-using LayoutFarm.Composers;
-
 using LayoutFarm.Scripting;
-namespace LayoutFarm.WebDom
+namespace LayoutFarm.WebDom.Impl
 {
-    public interface IHtmlElement
-    {
-        void setAttribute(string attrName, string value);
-        void appendChild(DomNode childNode);
-        void attachEventListener(string eventName, HtmlEventHandler handler);
-        void detachEventListener(string eventName, HtmlEventHandler handler);
-        string innerHTML { get; set; }
-    }
+
 
     partial class HtmlElement : IHtmlElement
     {
@@ -27,9 +16,9 @@ namespace LayoutFarm.WebDom
             this.SetAttribute(attrName, value);
         }
         [JsMethod]
-        void IHtmlElement.appendChild(DomNode childNode)
+        void IHtmlElement.appendChild(INode childNode)
         {
-            this.AddChild(childNode);
+            this.AddChild((DomNode)childNode);
         }
         [JsMethod]
         void IHtmlElement.attachEventListener(string eventName, HtmlEventHandler handler)
@@ -58,7 +47,21 @@ namespace LayoutFarm.WebDom
         void IHtmlElement.detachEventListener(string eventName, HtmlEventHandler handler)
         {
         }
-
+        [JsMethod]
+        void IHtmlElement.removeChild(DomNode domNode)
+        {
+            this.RemoveChild(domNode);
+        }
+        [JsMethod]
+        void IHtmlElement.getGlobalLocation(out int x, out int y)
+        {
+            this.GetGlobalLocation(out x, out y);
+        }
+        [JsMethod]
+        void IHtmlElement.clear()
+        {
+            this.ClearAllElements();
+        }
         [JsProperty]
         string IHtmlElement.innerHTML
         {
@@ -71,7 +74,12 @@ namespace LayoutFarm.WebDom
                 this.SetInnerHtml(value);
             }
         }
-       
+        [JsProperty]
+        string IHtmlElement.id
+        {
+            get { return this.AttrElementId; }
+        }
+
     }
 
 }

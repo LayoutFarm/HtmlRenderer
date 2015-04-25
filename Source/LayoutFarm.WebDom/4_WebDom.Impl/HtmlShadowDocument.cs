@@ -2,24 +2,21 @@
 using System;
 using System.Collections.Generic;
 using LayoutFarm.HtmlBoxes;
-namespace LayoutFarm.Composers
+using LayoutFarm.Css;
+
+namespace LayoutFarm.WebDom.Impl
 {
 
-    class HtmlDocumentFragment : HtmlDocument
+    public class HtmlShadowDocument : HtmlDocument
     {
+        //this is not document fragment ***
         HtmlDocument primaryHtmlDoc;
-        internal HtmlDocumentFragment(HtmlDocument primaryHtmlDoc)
+        public HtmlShadowDocument(HtmlDocument primaryHtmlDoc)
             : base(primaryHtmlDoc.UniqueStringTable)
         {
             //share string table with primary html doc
             this.primaryHtmlDoc = primaryHtmlDoc;
         }
-        public override bool IsDocFragment
-        {
-            get
-            {
-                return true;
-            }
-        }
+
     }
 }
