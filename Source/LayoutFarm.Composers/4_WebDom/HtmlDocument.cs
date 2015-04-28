@@ -37,7 +37,10 @@ namespace LayoutFarm.Composers
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName));
         }
-
+        public override DomNode CreateDocumentNodeElement()
+        {
+            return new DomDocumentNode(this);
+        }
         public override DomTextNode CreateTextNode(char[] strBufferForElement)
         {
             return new HtmlTextNode(this, strBufferForElement);

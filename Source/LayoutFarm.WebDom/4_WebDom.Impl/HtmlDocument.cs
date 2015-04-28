@@ -55,7 +55,10 @@ namespace LayoutFarm.WebDom.Impl
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName));
         }
-
+        public override DomNode CreateDocumentNodeElement()
+        {
+            return new DomDocumentNode(this);
+        }
         public DomAttribute CreateAttribute(WellknownName attrName)
         {
 

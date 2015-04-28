@@ -18,6 +18,7 @@ namespace LayoutFarm.WebDom.Parser
         TextSnapshot textSnapshot;
         HtmlLexer lexer;
         string waitingAttrName;
+        DomDocumentNode domDocNode;
 
         public HtmlParser()
         {
@@ -61,9 +62,7 @@ namespace LayoutFarm.WebDom.Parser
                         curHtmlNode.AddAttribute(curAttr);
 
                     } break;
-                case HtmlLexerEvent.AttributeValue:
-                    {
-                    } break;
+
                 case HtmlLexerEvent.Attribute:
                     {
                         string nodename = textSnapshot.Substring(startIndex, len);
@@ -105,7 +104,9 @@ namespace LayoutFarm.WebDom.Parser
                                 } break;
                             case 2:
                                 {
+                                    //****
                                     //node name after open slash
+                                    //TODO: review here,avoid direct string comparison
                                     if (curHtmlNode.LocalName == name)
                                     {
                                         if (openEltStack.Count > 0)
@@ -168,6 +169,21 @@ namespace LayoutFarm.WebDom.Parser
 
                                     }
                                 } break;
+                            case 10:
+                                {
+                                    //document node 
+
+                                    parseState = 11;
+                                    //after docnodename , this may be attr of the document node
+                                    this.domDocNode = (DomDocumentNode)this._resultHtmlDoc.CreateDocumentNodeElement();
+                                    domDocNode.DocNodeName = name;
+                                } break;
+                            case 11:
+                                {
+                                    //doc 
+                                    domDocNode.AddParameter(name);
+
+                                } break;
                             default:
                                 {
                                 } break;
@@ -179,6 +195,14 @@ namespace LayoutFarm.WebDom.Parser
                         //close angle of current new node
                         //enter into its content
 
+                        if (parseState == 11)
+                        {
+                            //add doctype to html
+                            this._resultHtmlDoc.RootNode.AddChild(this.domDocNode);
+                            domDocNode = null;
+                        }
+
+
                         if (waitingAttrName != null)
                         {
                             curAttr = this._resultHtmlDoc.CreateAttribute(null, waitingAttrName);
@@ -186,6 +210,8 @@ namespace LayoutFarm.WebDom.Parser
                             curHtmlNode.AddAttribute(curAttr);
                             curAttr = null;
                         }
+
+
                         waitingAttrName = null;
                         parseState = 0;
                         curTextNode = null;
@@ -211,6 +237,10 @@ namespace LayoutFarm.WebDom.Parser
                         }
                         parseState = 0;
 
+                    } break;
+                case HtmlLexerEvent.VisitOpenAngleExclimation:
+                    {
+                        parseState = 10;
                     } break;
                 default:
                     {

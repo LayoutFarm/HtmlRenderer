@@ -15,7 +15,8 @@ namespace LayoutFarm.WebDom
         TextNode,
         CData,
         ProcessInstruction,
-        Comment
+        Comment,
+        DocumentNode //not root node
     }
 
 
@@ -139,7 +140,42 @@ namespace LayoutFarm.WebDom
             get;
             set;
         }
-
+    }
+    public class DomDocumentNode : DomNode
+    {
+        List<string> docNodeAttrList;
+        public DomDocumentNode(WebDocument ownerDoc)
+            : base(ownerDoc)
+        {
+            SetNodeType(HtmlNodeType.DocumentNode);
+        }
+        public string DocNodeName { get; set; }
+        public void AddParameter(string nodeParameter)
+        {
+            if (docNodeAttrList == null)
+            {
+                docNodeAttrList = new List<string>();
+            }
+            docNodeAttrList.Add(nodeParameter);
+        }
+#if DEBUG
+        public override string ToString()
+        {
+            StringBuilder stbuilder= new StringBuilder();
+            stbuilder.Append("<!");
+            stbuilder.Append(this.DocNodeName);
+            if (docNodeAttrList != null)
+            {
+                foreach (var str in docNodeAttrList)
+                {
+                    stbuilder.Append(' ');
+                    stbuilder.Append(str);
+                }
+            }
+            stbuilder.Append(">");
+            return stbuilder.ToString();             
+        }
+#endif
     }
     public class DomProcessInstructionNode : DomNode
     {
