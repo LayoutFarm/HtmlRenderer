@@ -347,15 +347,27 @@ namespace LayoutFarm.HtmlBoxes
 
             if (FindCommonGround(startChain, endChain, out breakAtLevel) && breakAtLevel > 0)
             {
-                var hitBlockRun = endChain.GetHitInfo(breakAtLevel).hitObject as CssBlockRun;
+
+                var hit1 = endChain.GetHitInfo(breakAtLevel).hitObject;
+
+                var hitBlockRun = hit1 as CssBlockRun;
+
                 //multiple select 
                 //1. first part        
-                startHitHostLine.Select(startLineBeginSelectionAtPixel, (int)hitBlockRun.Left,
+                if (hitBlockRun != null)
+                {
+                    startHitHostLine.Select(startLineBeginSelectionAtPixel, (int)hitBlockRun.Left,
                      this.startHitRun, this.startHitRunCharIndex,
                      this.endHitRun, this.endHitRunCharIndex);
-
-                selectedLines.Add(this.startHitHostLine);
-                lineWalkVisitor = new LineWalkVisitor(hitBlockRun);
+                    selectedLines.Add(this.startHitHostLine);
+                    lineWalkVisitor = new LineWalkVisitor(hitBlockRun);
+                }
+                else
+                {
+                    startHitHostLine.SelectPartialToEnd(startLineBeginSelectionAtPixel, this.startHitRun, this.startHitRunCharIndex);
+                    selectedLines.Add(this.startHitHostLine);
+                    lineWalkVisitor = new LineWalkVisitor(startHitHostLine); 
+                } 
             }
             else
             {

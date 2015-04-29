@@ -91,7 +91,7 @@ namespace LayoutFarm.UI
         {
 
             vinv_dbugBreakOnSelectedVisuallElement = true;
-            this.dbugTopwin.TopDownReArrangeContentIfNeed();
+            this.dbugTopwin.dbugTopDownReArrangeContentIfNeed();
 
         }
         public bool vinv_dbugBreakOnSelectedVisuallElement

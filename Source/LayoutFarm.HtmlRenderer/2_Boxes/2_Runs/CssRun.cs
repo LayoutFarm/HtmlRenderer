@@ -293,8 +293,14 @@ namespace LayoutFarm.HtmlBoxes
                     } break;
                 case CssRunKind.Space:
                     {
-                        throw new NotSupportedException();
-                    }
+                        char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
+                        CssTextRun textRun = (CssTextRun)this;
+                        ifonts.MeasureString(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
+                            this.OwnerBox.ActualFont, maxWidth, out charFit, out charFitWidth);
+
+                        selectionIndex = charFit;
+                        runSelectionOffset = charFitWidth;
+                    }break;
                 case CssRunKind.SingleSpace:
                     {
 
