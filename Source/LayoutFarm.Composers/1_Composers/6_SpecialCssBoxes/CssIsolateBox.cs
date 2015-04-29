@@ -25,10 +25,11 @@ namespace LayoutFarm.HtmlBoxes
             : base(spec, rootgfx)
         {
             this.containerElement = containerElement;
-        }
-        public override void InvalidateGraphics()
+        } 
+        protected override void InvalidateBubbleUp(Rectangle clientArea)
         {
-            this.containerElement.InvalidateGraphics();
+            //send to container element
+            this.containerElement.InvalidateGraphicBounds(clientArea);
         }
         public LayoutFarm.RenderElement ContainerElement
         {
