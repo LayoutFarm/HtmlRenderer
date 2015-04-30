@@ -60,7 +60,7 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             this.SetupEndHitPoint(startChain, endChain, ifonts);
-            this.snapSelectionArea = this.GetSelectionRectArea(); 
+            this.snapSelectionArea = this.GetSelectionRectArea();
         }
         public Rectangle SnapSelectionArea { get { return this.snapSelectionArea; } }
         public bool IsValid
@@ -778,38 +778,19 @@ namespace LayoutFarm.HtmlBoxes
                 EndHitRun = endRun,
                 EndHitCharIndex = endRunIndex
             };
-        }
-
-        static int dbugTotalId = 0;
+        } 
 
         public static void Select(this CssLineBox lineBox, int startAtPx, int endAt,
             CssRun startRun, int startRunIndex,
             CssRun endRun, int endRunIndex)
-        {
-            //from startAtPx of line to endAt 
-            //if ((endAt - startAtPx) == 0)
-            //{ 
-            //}
-            //else
-            //{ 
-            //}
-
-            if (dbugTotalId > 20 &&
-                ((endAt - startAtPx) == 0))
-            {
-
-            }
-            dbugTotalId++;
-
-            Console.WriteLine((endAt - startAtPx).ToString());
+        { 
             lineBox.SelectionSegment = new SelectionSegment(startAtPx, endAt - startAtPx)
             {
                 StartHitRun = startRun,
                 StartHitCharIndex = startRunIndex,
                 EndHitRun = endRun,
                 EndHitCharIndex = endRunIndex
-            };
-
+            }; 
         }
     }
 
