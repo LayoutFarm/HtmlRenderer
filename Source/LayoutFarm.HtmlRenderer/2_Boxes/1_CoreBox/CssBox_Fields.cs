@@ -66,6 +66,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         CssBoxCollection _absPosLayer;
         CssBlockRun justBlockRun;
+         
         //----------------------------------------------------   
         //only in condition 3
         char[] _buffer;

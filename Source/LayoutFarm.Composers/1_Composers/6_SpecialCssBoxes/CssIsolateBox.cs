@@ -25,8 +25,8 @@ namespace LayoutFarm.HtmlBoxes
             : base(spec, rootgfx)
         {
             this.containerElement = containerElement;
-        } 
-        protected override void InvalidateBubbleUp(Rectangle clientArea)
+        }
+        public override void InvalidateGraphics(Rectangle clientArea)
         {
             //send to container element
             this.containerElement.InvalidateGraphicBounds(clientArea);
@@ -42,6 +42,7 @@ namespace LayoutFarm.HtmlBoxes
             globalY = p.Y;
             return this;
         }
+        
     }
 
 

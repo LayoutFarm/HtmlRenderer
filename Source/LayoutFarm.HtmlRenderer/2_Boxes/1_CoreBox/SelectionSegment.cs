@@ -23,7 +23,8 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.Kind = SelectionSegmentKind.Partial;
             this.BeginAtPx = beginAtPixel;
-            this.WidthPx = width; 
+            this.WidthPx = width;
+           
         }
 
         public SelectionSegmentKind Kind { get; private set; }
@@ -50,6 +51,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
+
                 p.FillRectangle(
                  Color.LightGray,
                  this.BeginAtPx, 0,

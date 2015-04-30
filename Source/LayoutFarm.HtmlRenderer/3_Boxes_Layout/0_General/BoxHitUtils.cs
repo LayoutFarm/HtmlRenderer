@@ -109,8 +109,11 @@ namespace LayoutFarm.HtmlBoxes
                             //4. go deeper for block run
                             if (foundRun.Kind == CssRunKind.BlockRun)
                             {
+                                var blockRun = (CssBlockRun)foundRun;
+                                CssLineBox hostLine = blockRun.HostLine;
+                                //adjust with hostline 
 
-                                HitTest(((CssBlockRun)foundRun).ContentBox, (int)(boxHitLocalX - foundRun.Left), boxHitLocalY, hitChain);
+                                HitTest(((CssBlockRun)foundRun).ContentBox, (int)(boxHitLocalX - foundRun.Left), boxHitLocalY - hostLine.CachedLineTop, hitChain);
                             }
                         }
                         //found line box

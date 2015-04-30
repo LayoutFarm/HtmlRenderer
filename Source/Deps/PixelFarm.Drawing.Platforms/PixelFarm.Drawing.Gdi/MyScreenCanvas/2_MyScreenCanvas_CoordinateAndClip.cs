@@ -36,7 +36,7 @@ namespace PixelFarm.Drawing.WinGdi
         //--------------------------------------------------------------------
         public override void SetCanvasOrigin(int x, int y)
         {
-            
+
             ReleaseHdc();
             //----------- 
             int total_dx = x - canvasOriginX;
@@ -92,7 +92,7 @@ namespace PixelFarm.Drawing.WinGdi
 
         public override bool PushClipAreaRect(int width, int height, ref Rectangle updateArea)
         {
-
+         
             this.clipRectStack.Push(currentClipRect);
 
             System.Drawing.Rectangle intersectResult =

@@ -16,16 +16,14 @@ namespace LayoutFarm.HtmlBoxes
             var parentBox = this.ParentBox;
             if (parentBox != null)
             {
-                parentBox.InvalidateBubbleUp(new Rectangle(
+                parentBox.InvalidateGraphics(new Rectangle(
                     (int)this.LocalX,
                     (int)this.LocalY,
                     (int)this.SizeWidth,
                     (int)this.SizeHeight));
-
-                //parentBox.InvalidateGraphics();
             }
         }
-        protected virtual void InvalidateBubbleUp(Rectangle clientArea)
+        public virtual void InvalidateGraphics(Rectangle clientArea)
         {
             //bubble up to parent
             //clientArea => area relative to this element
@@ -35,7 +33,7 @@ namespace LayoutFarm.HtmlBoxes
             if (parentBox != null)
             {
                 clientArea.Offset((int)this.LocalX, (int)this.LocalY);
-                parentBox.InvalidateBubbleUp(clientArea);
+                parentBox.InvalidateGraphics(clientArea);
             }
         }
         public void Paint(PaintVisitor p)

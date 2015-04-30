@@ -244,7 +244,7 @@ namespace LayoutFarm.Composers
         public override void GetGlobalLocation(out int x, out int y)
         {
             float globalX, globalY;
-            this.principalBox.GetElementGlobalLocation(out globalX, out globalY);
+            this.principalBox.GetGlobalLocation(out globalX, out globalY);
             x = (int)globalX;
             y = (int)globalY;
         }

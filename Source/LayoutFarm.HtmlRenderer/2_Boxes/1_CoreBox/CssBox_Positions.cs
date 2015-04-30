@@ -410,7 +410,7 @@ namespace LayoutFarm.HtmlBoxes
             if (!this.FreezeWidth)
             {
                 this._sizeWidth = width;
-            } 
+            }
         }
         public float SizeWidth
         {
@@ -784,17 +784,48 @@ namespace LayoutFarm.HtmlBoxes
             if (this.ParentBox != null)
             {
                 float p_left, p_top;
-                foundRoot = this.ParentBox.GetElementGlobalLocation(out p_left, out p_top);
+                foundRoot = this.ParentBox.GetGlobalLocation(out p_left, out p_top);
                 globalX += p_left;
                 globalY += p_top;
             }
             return foundRoot;
         }
-        public CssBox GetElementGlobalLocation(out float globalX, out float globalY)
+        internal CssBox GetGlobalLocationRelativeToRoot(out float globalX, out float globalY)
+        {
+
+            if (this.justBlockRun != null)
+            {
+
+                var hostLineOfThisRun = this.justBlockRun.HostLine;
+                var hostBox = hostLineOfThisRun.OwnerBox;
+                CssBox foundRoot = hostBox.GetGlobalLocationRelativeToRoot(out globalX, out globalY);
+                globalX += this.justBlockRun.Left;
+                globalY += this.justBlockRun.Top + hostLineOfThisRun.CachedLineTop;
+
+
+                return foundRoot;
+            }
+            else
+            {
+                globalX = this._localX;
+                globalY = this._localY;
+                CssBox foundRoot = null;
+                if (this.ParentBox != null)
+                {
+                    float p_left, p_top;
+                    foundRoot = this.ParentBox.GetGlobalLocationRelativeToRoot(out p_left, out p_top);
+                    globalX += p_left;
+                    globalY += p_top;
+                }
+                return foundRoot;
+            }
+
+        }
+        public CssBox GetGlobalLocation(out float globalX, out float globalY)
         {
             return this.GetGlobalLocationImpl(out globalX, out globalY);
         }
-
+        
         /// <summary>
         /// inner content width
         /// </summary>
