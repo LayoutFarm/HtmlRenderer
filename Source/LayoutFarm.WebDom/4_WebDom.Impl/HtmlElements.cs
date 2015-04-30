@@ -1,6 +1,5 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
-//ArthurHub  , Jose Manuel Menendez Poo
-
+//ArthurHub  , Jose Manuel Menendez Poo 
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +16,6 @@ namespace LayoutFarm.WebDom.Impl
         public HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
-            //this.boxSpec = new Css.BoxSpec();
         }
         public WellKnownDomNodeName WellknownElementName { get; set; }
         public bool TryGetAttribute(WellknownName wellknownHtmlName, out DomAttribute result)
@@ -50,28 +48,12 @@ namespace LayoutFarm.WebDom.Impl
 
         }
 
-        public override void SetAttribute(DomAttribute attr)
-        {
-            base.SetAttribute(attr);
-            switch ((WellknownName)attr.LocalNameIndex)
-            {
-                case WellknownName.Style:
-                    {
-                        //parse and evaluate style here 
-                        //****
-                    } break;
-            }
-        }
-        public override void ClearAllElements()
-        {
-            ////clear presentation 
-            //if (principalBox != null)
-            //{
-            //    principalBox.Clear();
-            //}
-            base.ClearAllElements();
 
+        public static void InvokeNotifyChangeOnIdleState(HtmlElement elem, ElementChangeKind changeKind)
+        {
+            elem.OnElementChangedInIdleState(changeKind);
         }
+
         protected override void OnContentUpdate()
         {
             base.OnContentUpdate();
@@ -83,27 +65,12 @@ namespace LayoutFarm.WebDom.Impl
 
             //1. 
             this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
-            if (this.OwnerDocument.IsDocFragment) return;
-            //------------------------------------------------------------------
-            //2. need box evaluation again
-            this.SkipPrincipalBoxEvalulation = false;
-            //3. propag
-            var cnode = this.ParentNode;
-            while (cnode != null)
-            {
-                ((HtmlElement)cnode).SkipPrincipalBoxEvalulation = false;
-                cnode = cnode.ParentNode;
-            }
-
+            if (this.OwnerDocument.IsDocFragment) return; 
             HtmlDocument owner = this.OwnerDocument as HtmlDocument;
             owner.DomUpdateVersion++;
         }
-        //------------------------------------
-        internal static void InvokeNotifyChangeOnIdleState(HtmlElement elem, ElementChangeKind changeKind)
-        {
-            elem.OnElementChangedInIdleState(changeKind);
-        }
-        internal CssRuleSet ElementRuleSet
+
+        public CssRuleSet ElementRuleSet
         {
             get
             {
@@ -114,21 +81,13 @@ namespace LayoutFarm.WebDom.Impl
                 this.elementRuleSet = value;
             }
         }
-        internal bool IsStyleEvaluated
-        {
-            get;
-            set;
-        }
-        internal bool SkipPrincipalBoxEvalulation
-        {
-            get;
-            set;
-        }
+
+       
         protected override void OnElementChanged()
         {
         }
         //------------------------------------
-        public string GetInnerHtml()
+        public virtual string GetInnerHtml()
         {
             //get inner html*** 
             StringBuilder stbuilder = new StringBuilder();
@@ -148,17 +107,21 @@ namespace LayoutFarm.WebDom.Impl
             }
             return stbuilder.ToString();
         }
-        public void SetInnerHtml(string innerHtml)
+        public virtual void SetInnerHtml(string innerHtml)
         {
             //parse html and create dom node
             //clear content of this node
             this.ClearAllElements();
-            throw new NotSupportedException();
+
+            //parse 
+            //throw new NotSupportedException();
             //then apply new content ***
+
             //WebDocumentParser.ParseHtmlDom(
             //    new LayoutFarm.WebDom.Parser.TextSource(innerHtml.ToCharArray()),
             //    (HtmlDocument)this.OwnerDocument,
             //    this); 
+
         }
         public virtual void WriteNode(DomTextWriter writer)
         {
@@ -199,27 +162,12 @@ namespace LayoutFarm.WebDom.Impl
             x = 0;
             y = 0;
         }
-        ////------------------------------------
-        //internal CssBox CurrentPrincipalBox
-        //{
-        //    get { return this.principalBox; }
-        //}
-        //public void SetPrincipalBox(CssBox box)
-        //{
-        //    this.principalBox = box;
-        //    this.SkipPrincipalBoxEvalulation = true;
-        //}
+
         public virtual bool HasCustomPrincipalBoxGenerator
         {
             //use builtin cssbox generator***
             get { return false; }
         }
-        //public virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
-        //{
-        //    //this method is called when HasCustomPrincipalBoxGenerator = true
-        //    throw new NotImplementedException();
-        //}
-        //------------------------------------
     }
 
 

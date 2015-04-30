@@ -19,7 +19,7 @@ namespace LayoutFarm.WebDom.Impl
         [JsMethod]
         DomNode IHtmlDocument.createTextNode(object nodeContent)
         {
-            return (HtmlTextNode)this.CreateTextNode(nodeContent.ToString().ToCharArray());
+            return this.CreateTextNode(nodeContent.ToString().ToCharArray());
         }
         [JsMethod]
         IHtmlElement IHtmlDocument.createElement(string nodeName)

@@ -251,8 +251,7 @@ namespace LayoutFarm
             }
             //--------------------------------------------------------------------------------------------------
             if (!hasAccumRect)
-            {
-
+            {  
                 accumulateInvalidRect = elemClientRect;
                 hasAccumRect = true;
             }

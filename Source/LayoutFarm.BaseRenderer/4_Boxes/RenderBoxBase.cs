@@ -16,8 +16,8 @@ namespace LayoutFarm
 
         int myviewportX;
         int myviewportY;
-
         PlainLayer defaultLayer;
+
         public RenderBoxBase(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
