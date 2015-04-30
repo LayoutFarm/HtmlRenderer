@@ -163,11 +163,7 @@ namespace LayoutFarm.WebDom.Impl
             y = 0;
         }
 
-        public virtual bool HasCustomPrincipalBoxGenerator
-        {
-            //use builtin cssbox generator***
-            get { return false; }
-        }
+      
     }
 
 

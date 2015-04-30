@@ -119,13 +119,22 @@ namespace LayoutFarm.Composers
             this.principalBox.GetGlobalLocation(out globalX, out globalY);
             x = (int)globalX;
             y = (int)globalY;
-        } 
-        public virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
+        }
+
+
+
+        //-------------------------------------------
+        internal virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
         {
             //this method is called when HasCustomPrincipalBoxGenerator = true
             throw new NotImplementedException();
         }
-        //------------------------------------
+        internal virtual bool HasCustomPrincipalBoxGenerator
+        {
+            //use builtin cssbox generator***
+            get { return false; }
+        }
+        
         internal void SetPrincipalBox(CssBox box)
         {
             this.principalBox = box;

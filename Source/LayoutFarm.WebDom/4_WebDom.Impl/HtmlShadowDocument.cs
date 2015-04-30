@@ -7,7 +7,7 @@ using LayoutFarm.Css;
 namespace LayoutFarm.WebDom.Impl
 {
 
-    public class HtmlShadowDocument : HtmlDocument
+    class HtmlShadowDocument : HtmlDocument
     {
         //this is not document fragment ***
         HtmlDocument primaryHtmlDoc;
@@ -16,7 +16,6 @@ namespace LayoutFarm.WebDom.Impl
         {
             //share string table with primary html doc
             this.primaryHtmlDoc = primaryHtmlDoc;
-        }
-
+        } 
     }
 }
