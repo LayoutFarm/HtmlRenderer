@@ -66,14 +66,17 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         {
             this.SetController(controller);
         }
-        public override void InvalidateGraphics()
-        {
-            int globalX;
-            int globalY;
-            var parent = this.GetParentRenderElement(out globalX, out globalY);
-            parent.InvalidateGraphics();
-        }
-
+        //public override void InvalidateGraphics()
+        //{
+        //    int globalX;
+        //    int globalY;
+        //    var parent = this.GetParentRenderElement(out globalX, out globalY);
+        //    parent.InvalidateGraphics();
+        //}
+        //protected override void InvalidateBubbleUp(Rectangle clientArea)
+        //{
+            
+        //}
         internal abstract RenderElement GetParentRenderElement(out int globalX, out int globalY);
 
         RenderElement RenderBoxes.IParentLink.ParentRenderElement

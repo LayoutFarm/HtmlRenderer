@@ -26,9 +26,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             this.containerElement = containerElement;
         }
-        public override void InvalidateGraphics()
+        public override void InvalidateGraphics(Rectangle clientArea)
         {
-            this.containerElement.InvalidateGraphics();
+            //send to container element
+            this.containerElement.InvalidateGraphicBounds(clientArea);
         }
         public LayoutFarm.RenderElement ContainerElement
         {
@@ -41,6 +42,7 @@ namespace LayoutFarm.HtmlBoxes
             globalY = p.Y;
             return this;
         }
+        
     }
 
 

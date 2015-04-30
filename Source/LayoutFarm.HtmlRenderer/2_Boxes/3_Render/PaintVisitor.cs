@@ -104,7 +104,6 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-
             }
         }
         /// <summary>
@@ -299,7 +298,7 @@ namespace LayoutFarm.HtmlBoxes
                   (int)point.X, (int)point.Y,
                   (int)size.Width, (int)size.Height), 0
                   );
-            
+
         }
 
 

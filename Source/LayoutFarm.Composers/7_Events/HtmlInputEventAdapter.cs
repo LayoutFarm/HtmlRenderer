@@ -59,18 +59,14 @@ namespace LayoutFarm.HtmlBoxes
                 e.ExactHitObject = hitInfo.hitObject;
 
             }
-        }
-        //---------------------------------------------- 
-
-
+        } 
         public void MouseDown(UIMouseEventArgs e, CssBox startAt)
         {
             if (!_isBinded) return;
             if (startAt == null) return;
             //---------------------------------------------------- 
-            ClearPreviousSelection();
+            ClearPreviousSelection(); 
 
-            this._htmlContainer.ContainerInvalidateGraphics();
             if (_latestMouseDownChain != null)
             {
                 ReleaseHitChain(_latestMouseDownChain);
@@ -196,8 +192,7 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             e.CurrentContextElement.ListenMouseMove(e);
                             return true;
-                        });
-                        this._htmlContainer.ContainerInvalidateGraphics();
+                        }); 
                     }
 
                     //---------------------------------------------------------

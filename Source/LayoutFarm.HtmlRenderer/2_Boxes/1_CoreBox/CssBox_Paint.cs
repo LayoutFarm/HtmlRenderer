@@ -10,15 +10,32 @@ namespace LayoutFarm.HtmlBoxes
 
     partial class CssBox
     {
-        public virtual void InvalidateGraphics()
+        public void InvalidateGraphics()
         {
+            //bubble invalidate area to to parent?
             var parentBox = this.ParentBox;
             if (parentBox != null)
             {
-                parentBox.InvalidateGraphics();
+                parentBox.InvalidateGraphics(new Rectangle(
+                    (int)this.LocalX,
+                    (int)this.LocalY,
+                    (int)this.SizeWidth,
+                    (int)this.SizeHeight));
             }
         }
-
+        public virtual void InvalidateGraphics(Rectangle clientArea)
+        {
+            //bubble up to parent
+            //clientArea => area relative to this element
+            //adjust to 
+            //adjust client area 
+            var parentBox = this.ParentBox;
+            if (parentBox != null)
+            {
+                clientArea.Offset((int)this.LocalX, (int)this.LocalY);
+                parentBox.InvalidateGraphics(clientArea);
+            }
+        }
         public void Paint(PaintVisitor p)
         {
 
@@ -77,6 +94,7 @@ namespace LayoutFarm.HtmlBoxes
 
 
             Css.CssDisplay display = this.CssDisplay;
+
             if (display == Css.CssDisplay.TableCell &&
                 this.EmptyCells == Css.CssEmptyCell.Hide &&
                 this.IsSpaceOrEmpty)

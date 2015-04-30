@@ -108,16 +108,17 @@ namespace LayoutFarm.HtmlBoxes
             //position x,y relate with (0,0) of its box
             hitInfoList.Add(new HitInfo(box, x, y));
         }
-        
+
         internal void AddHit(CssLineBox lineBox, int x, int y)
         {
             //position x,y relate with (0,0) of its linebox
             hitInfoList.Add(new HitInfo(lineBox, x, y));
-            
+
         }
         internal void AddHit(CssRun run, int x, int y)
         {
             //position x,y relate with (0,0) of its run
+            
             hitInfoList.Add(new HitInfo(run, x, y));
         }
 

@@ -252,15 +252,14 @@ namespace LayoutFarm
             //--------------------------------------------------------------------------------------------------
             if (!hasAccumRect)
             {
+
                 accumulateInvalidRect = elemClientRect;
                 hasAccumRect = true;
             }
             else
-            {
+            {   
                 accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, elemClientRect);
             }
-
-
             //----------------------
 #if DEBUG
             if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
