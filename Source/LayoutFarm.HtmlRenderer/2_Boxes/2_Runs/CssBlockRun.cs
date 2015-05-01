@@ -10,6 +10,7 @@ namespace LayoutFarm.HtmlBoxes
             : base(CssRunKind.BlockRun)
         {
             this.contentBlockBox = contentBlockBox;
+           
         }
         public CssBox ContentBox
         {

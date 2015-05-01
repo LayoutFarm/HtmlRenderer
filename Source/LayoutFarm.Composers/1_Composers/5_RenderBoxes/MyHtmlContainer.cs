@@ -26,6 +26,8 @@ namespace LayoutFarm.HtmlBoxes
         EventHandler domRequestRebuild;
         EventHandler containerInvalidateGfxHandler;
         EventHandler domFinished;
+        Rectangle currentSelectionArea;
+        bool hasSomeSelectedArea;
 
         public MyHtmlContainer(HtmlHost htmlhost)
         {
@@ -126,11 +128,31 @@ namespace LayoutFarm.HtmlBoxes
             {
                 _currentSelectionRange.ClearSelection();
                 _currentSelectionRange = null;
+
+                this.RootCssBox.InvalidateGraphics(this.currentSelectionArea);
+                this.currentSelectionArea = Rectangle.Empty;
             }
+            hasSomeSelectedArea = false;
         }
         public override void SetSelection(SelectionRange selRange)
         {
+            //find gross area of the selection range
+            //then invalidate that area
+
+            if (selRange != null)
+            {
+                this.currentSelectionArea = (hasSomeSelectedArea) ?
+                            Rectangle.Union(this.currentSelectionArea, selRange.SnapSelectionArea) :
+                            selRange.SnapSelectionArea;
+
+                hasSomeSelectedArea = true;
+            }
+            else
+            {
+                hasSomeSelectedArea = false;
+            }
             this._currentSelectionRange = selRange;
+            this.RootCssBox.InvalidateGraphics(this.currentSelectionArea);
         }
         public override void CopySelection(StringBuilder stbuilder)
         {

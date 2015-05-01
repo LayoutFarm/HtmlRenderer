@@ -118,16 +118,7 @@ namespace LayoutFarm
             }
         }
 
-        //-----------------------------------------------
-        public virtual int BubbleUpX
-        {
-            get { return this.X; }
-        }
-        public virtual int BubbleUpY
-        {
-            get { return this.Y; }
-        }
-
+        
         //-----------------------------------------------
         public Point GetGlobalLocation()
         {
@@ -156,7 +147,7 @@ namespace LayoutFarm
             {
                 return re.Location;
             }
-        } 
+        }
         //----------------------------------------------- 
         public bool HasSpecificWidth
         {

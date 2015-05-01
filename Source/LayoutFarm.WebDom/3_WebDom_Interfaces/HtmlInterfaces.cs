@@ -14,11 +14,12 @@ namespace LayoutFarm.WebDom
     {
         IHtmlElement rootNode { get; }
         IHtmlElement getElementById(string id);
-        DomNode createTextNode(object nodeContent);
+        DomNode createTextNode(char[] nodeContent);
+        DomNode createTextNode(string nodeContent);
         IHtmlElement createElement(string nodeName);
-        IHtmlDocument createDocumentFragment(); 
+        IHtmlDocument createDocumentFragment();
         IHtmlElement createShadowRootElement();
-        
+
     }
     public interface IHtmlElement : INode
     {

@@ -90,7 +90,7 @@ namespace PixelFarm.Drawing.WinGdi
 
         public override bool PushClipAreaRect(int width, int height, ref Rectangle updateArea)
         {
-
+            
             this.clipRectStack.Push(currentClipRect);
 
             System.Drawing.Rectangle intersectResult =

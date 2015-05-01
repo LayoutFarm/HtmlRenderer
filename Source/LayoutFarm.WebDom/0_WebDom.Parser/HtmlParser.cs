@@ -200,8 +200,7 @@ namespace LayoutFarm.WebDom.Parser
                             //add doctype to html
                             this._resultHtmlDoc.RootNode.AddChild(this.domDocNode);
                             domDocNode = null;
-                        }
-
+                        } 
 
                         if (waitingAttrName != null)
                         {

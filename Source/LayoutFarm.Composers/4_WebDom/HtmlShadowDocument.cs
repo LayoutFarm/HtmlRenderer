@@ -6,12 +6,12 @@ using LayoutFarm.HtmlBoxes;
 namespace LayoutFarm.Composers
 {
 
-    class HtmlShadowDocument : LayoutFarm.WebDom.Impl.HtmlShadowDocument
+    class HtmlShadowDocument : HtmlDocument
     {
         //this is not document fragment ***
         HtmlDocument primaryHtmlDoc;
         internal HtmlShadowDocument(HtmlDocument primaryHtmlDoc)
-            : base(primaryHtmlDoc)
+            : base(primaryHtmlDoc.UniqueStringTable)
         {
             //share string table with primary html doc
             this.primaryHtmlDoc = primaryHtmlDoc;

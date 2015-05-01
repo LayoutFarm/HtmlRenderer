@@ -48,12 +48,19 @@ namespace LayoutFarm.WebDom.Impl
                 }
             }
         }
+
         public override DomElement CreateElement(string prefix, string localName)
         {
             //actual implementation
             return new HtmlElement(this,
                 AddStringIfNotExists(prefix),
                 AddStringIfNotExists(localName));
+        }
+        public override DomElement CreateShadowRootElement()
+        {
+            return new ShadowRootElement(this,
+                AddStringIfNotExists(null),
+                AddStringIfNotExists("shadow-root"));
         }
         public override DomNode CreateDocumentNodeElement()
         {
@@ -70,12 +77,7 @@ namespace LayoutFarm.WebDom.Impl
         }
 
 
-        public override DomElement CreateShadowRootElement()
-        {
-            return new ShadowRootElement(this,
-                AddStringIfNotExists(null),
-                AddStringIfNotExists("shadow-root"));
-        }
+
 
         public virtual WebDocument CreateDocumentFragment()
         {

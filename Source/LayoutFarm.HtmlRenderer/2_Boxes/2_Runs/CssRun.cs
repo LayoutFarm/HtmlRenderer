@@ -265,7 +265,7 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void FindSelectionPoint(IFonts ifonts,
             int offset, out int selectionIndex,
-            out int runSelectionOffset)
+            out int runSelectionOffsetPx)
         {
 
             int charFit;
@@ -275,11 +275,16 @@ namespace LayoutFarm.HtmlBoxes
             switch (this.Kind)
             {
                 case CssRunKind.BlockRun:
+                    {   
+                        //contains sub  
+                        selectionIndex = -1;
+                        runSelectionOffsetPx = 0;
+                    } break;
                 case CssRunKind.SolidContent:
                     {
                         // not a text word - set full selection
                         selectionIndex = -1;
-                        runSelectionOffset = -1;
+                        runSelectionOffsetPx = 0;
                     } break;
                 case CssRunKind.Text:
                     {
@@ -289,26 +294,32 @@ namespace LayoutFarm.HtmlBoxes
                             this.OwnerBox.ActualFont, maxWidth, out charFit, out charFitWidth);
 
                         selectionIndex = charFit;
-                        runSelectionOffset = charFitWidth;
+                        runSelectionOffsetPx = charFitWidth;
                     } break;
                 case CssRunKind.Space:
                     {
-                        throw new NotSupportedException();
-                    }
+                        char[] ownerTextBuff = CssBox.UnsafeGetTextBuffer(this.OwnerBox);
+                        CssTextRun textRun = (CssTextRun)this;
+                        ifonts.MeasureString(ownerTextBuff, textRun.TextStartIndex, textRun.TextLength,
+                            this.OwnerBox.ActualFont, maxWidth, out charFit, out charFitWidth);
+
+                        selectionIndex = charFit;
+                        runSelectionOffsetPx = charFitWidth;
+                    } break;
                 case CssRunKind.SingleSpace:
                     {
 
                         if (offset > this.Width / 2)
                         {
                             selectionIndex = -1;
-                            runSelectionOffset = 0;
+                            runSelectionOffsetPx = 0;
                         }
                         else
                         {
                             selectionIndex = 0;
-                            runSelectionOffset = (int)this.Width;
+                            runSelectionOffsetPx = (int)this.Width;
                         }
-                    } break; 
+                    } break;
                 default:
                     {
                         throw new NotSupportedException();
@@ -322,7 +333,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             //get global location              
             float x2, y2;
-            var root = this._hostline.OwnerBox.GetElementGlobalLocation(out x2, out y2);
+            var root = this._hostline.OwnerBox.GetGlobalLocation(out x2, out y2);
             globalX = x2 + this._x;
             globalY = y2 + this._y;
             return root;
