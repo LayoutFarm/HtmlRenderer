@@ -56,9 +56,15 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 
     abstract class WrapperCssBoxBase : CssBox, LayoutFarm.RenderBoxes.IParentLink
     {
-        //protected int globalXForRenderElement;
-        //protected int globalYForRenderElement;
-        protected JointRenderElement jointRenderElement;
+        /// <summary>
+        /// offset x from nearest ancester render element 
+        /// </summary>
+        protected int adjustX;
+        /// <summary>
+        /// offset y from nearest ancester render element 
+        /// </summary>
+        protected int adjustY;
+
         public WrapperCssBoxBase(object controller,
              BoxSpec spec,
              RootGraphic root, CssDisplay display)
@@ -68,6 +74,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
 
         internal abstract RenderElement GetParentRenderElement(out int globalX, out int globalY);
+
 
         RenderElement RenderBoxes.IParentLink.ParentRenderElement
         {
@@ -80,7 +87,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
         void RenderBoxes.IParentLink.AdjustLocation(ref Point p)
         {
-
+            p.Offset(adjustX, adjustY);
         }
         RenderElement RenderBoxes.IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
@@ -107,10 +114,9 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         {
             int w = re.Width;
             int h = re.Height;
-            jointRenderElement = new JointRenderElement(re.Root, w, h, re);
             ChangeDisplayType(this, CssDisplay.Inline);
 
-            this.externalRun = new CssExternalRun(jointRenderElement);
+            this.externalRun = new CssExternalRun(re);
             this.externalRun.SetOwner(this);
 
             var runlist = new List<CssRun>(1);
@@ -119,8 +125,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             ChangeDisplayType(this, Css.CssDisplay.Inline);
 
             //---------------------------------------------------  
-            LayoutFarm.RenderElement.SetParentLink(re, jointRenderElement);
-            LayoutFarm.RenderElement.SetParentLink(jointRenderElement, this);
+            LayoutFarm.RenderElement.SetParentLink(re, this);
 
         }
         public override void Clear()
@@ -158,8 +163,6 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         {
             Paint(p, new RectangleF(0, 0, this.SizeWidth, this.SizeHeight));
         }
-
-
         public override void MeasureRunsSize(LayoutVisitor lay)
         {
             if (this.RunSizeMeasurePass)
@@ -169,7 +172,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             this.RunSizeMeasurePass = true;
             this.externalRun.Width = this.externalRun.RenderElement.Width;
             this.externalRun.Height = this.externalRun.RenderElement.Height;
-        } 
+        }
         //---------------------------------------------------------------------------------------
         internal override RenderElement GetParentRenderElement(out int globalX, out int globalY)
         {
@@ -186,9 +189,9 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 
                 if (renderRoot != null)
                 {
-                    //found root then stop
-                    this.jointRenderElement.AdjustX = globalX;
-                    this.jointRenderElement.AdjustY = globalY;
+
+                    this.adjustX = globalX;
+                    this.adjustY = globalY;
                     return renderRoot.ContainerElement;
                 }
                 cbox = cbox.ParentBox;
@@ -202,7 +205,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
     /// </summary>
     sealed class WrapperBlockCssBox : WrapperCssBoxBase
     {
-
+        RenderElement renderE;
         public WrapperBlockCssBox(object controller,
              BoxSpec spec,
              RenderElement renderElement)
@@ -212,14 +215,10 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             int w = renderElement.Width;
             int h = renderElement.Height;
 
-
+            this.renderE = renderElement;
             ChangeDisplayType(this, CssDisplay.Block);
             this.SetSize(w, h);
-
-
-            this.jointRenderElement = new JointRenderElement(renderElement.Root, w, h, renderElement);
-            LayoutFarm.RenderElement.SetParentLink(jointRenderElement, this);
-            LayoutFarm.RenderElement.SetParentLink(renderElement, jointRenderElement);
+            LayoutFarm.RenderElement.SetParentLink(renderElement, this);
         }
 
         public override bool CustomContentHitTest(float x, float y, CssBoxHitChain hitChain)
@@ -245,24 +244,9 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
         protected override void PaintImp(PaintVisitor p)
         {
-            if (jointRenderElement != null)
-            {
 
-                //GetParentRenderElement(out this.globalXForRenderElement, out this.globalYForRenderElement);
-                Rectangle rect = new Rectangle(0, 0, jointRenderElement.Width, jointRenderElement.Height);
-                this.jointRenderElement.DrawToThisCanvas(p.InnerCanvas, rect);
-#if DEBUG
-                p.FillRectangle(Color.Red, 0, 0, 10, 10);
-#endif
-
-            }
-            else
-            {
-                //for debug!
-#if DEBUG
-                p.FillRectangle(Color.Red, 0, 0, 100, 100);
-#endif
-            }
+            Rectangle rect = new Rectangle(0, 0, renderE.Width, renderE.Height);
+            this.renderE.DrawToThisCanvas(p.InnerCanvas, rect);
         }
 
         internal override RenderElement GetParentRenderElement(out int globalX, out int globalY)
@@ -280,87 +264,14 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 
                 if (renderRoot != null)
                 {
-                    this.jointRenderElement.AdjustX = globalX;
-                    this.jointRenderElement.AdjustY = globalY;
+
+                    this.adjustX = globalX;
+                    this.adjustY = globalY;
                     return renderRoot.ContainerElement;
                 }
                 cbox = cbox.ParentBox;
             }
             return null;
-        }
-
-    }
-
-
-
-    /// <summary>
-    /// special render element that bind RenderElement and CssBox
-    /// </summary>
-    class JointRenderElement : RenderElement, LayoutFarm.RenderBoxes.IParentLink
-    {
-        RenderElement renderElement;
-
-        /// <summary>
-        /// offset x from nearest ancester render element 
-        /// </summary>
-        int adjustX;
-        /// <summary>
-        /// offset y from nearest ancester render element 
-        /// </summary>
-        int adjustY;
-
-        public JointRenderElement(RootGraphic rootgfx, int w, int h, RenderElement renderElement)
-            : base(rootgfx, w, h)
-        {
-            this.renderElement = renderElement;
-        }
-        public int AdjustX
-        {
-            get { return this.adjustX; }
-            set
-            {
-                this.adjustX = value;
-            }
-        }
-        public int AdjustY
-        {
-            get { return this.adjustY; }
-            set
-            {
-                if (this.adjustY > 0 && value == 0)
-                {
-
-                }
-                this.adjustY = value;
-            }
-        }
-        
-
-        public override void CustomDrawToThisCanvas(Canvas canvasPage, Rectangle updateArea)
-        {
-            renderElement.CustomDrawToThisCanvas(canvasPage, updateArea);
-        }
-        RenderElement RenderBoxes.IParentLink.ParentRenderElement
-        {
-            //yes return this 
-            get { return this; }
-        }
-        void RenderBoxes.IParentLink.AdjustLocation(ref Point p)
-        {
-            p.X += adjustX;
-            p.Y += adjustY;
-        }
-        RenderElement RenderBoxes.IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
-        {
-            return null;
-        }
-#if DEBUG
-        string LayoutFarm.RenderBoxes.IParentLink.dbugGetLinkInfo()
-        {
-            return "";
-        }
-#endif
-    }
-
-
+        } 
+    } 
 }
