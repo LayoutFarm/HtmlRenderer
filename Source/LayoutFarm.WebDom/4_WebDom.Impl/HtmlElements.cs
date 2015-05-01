@@ -65,7 +65,7 @@ namespace LayoutFarm.WebDom.Impl
 
             //1. 
             this.OwnerDocument.SetDocumentState(DocumentState.ChangedAfterIdle);
-            if (this.OwnerDocument.IsDocFragment) return; 
+            if (this.OwnerDocument.IsDocFragment) return;
             HtmlDocument owner = this.OwnerDocument as HtmlDocument;
             owner.DomUpdateVersion++;
         }
@@ -82,7 +82,7 @@ namespace LayoutFarm.WebDom.Impl
             }
         }
 
-       
+
         protected override void OnElementChanged()
         {
         }
@@ -163,7 +163,7 @@ namespace LayoutFarm.WebDom.Impl
             y = 0;
         }
 
-      
+
     }
 
 

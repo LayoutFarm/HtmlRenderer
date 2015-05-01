@@ -13,14 +13,14 @@ namespace LayoutFarm.HtmlBoxes
             : base(spec, rootgfx)
         {
 
-        } 
-    } 
+        }
+    }
 
     class RenderElementBridgeCssBox : CssBox
     {
-        LayoutFarm.RenderElement containerElement;
+        RenderElement containerElement;
         public RenderElementBridgeCssBox(BoxSpec spec,
-            LayoutFarm.RenderElement containerElement,
+            RenderElement containerElement,
             RootGraphic rootgfx)
             : base(spec, rootgfx)
         {
@@ -42,7 +42,7 @@ namespace LayoutFarm.HtmlBoxes
             globalY = p.Y;
             return this;
         }
-        
+
     }
 
 

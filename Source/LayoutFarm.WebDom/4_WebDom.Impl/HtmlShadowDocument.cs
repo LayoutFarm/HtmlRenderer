@@ -16,6 +16,6 @@ namespace LayoutFarm.WebDom.Impl
         {
             //share string table with primary html doc
             this.primaryHtmlDoc = primaryHtmlDoc;
-        } 
+        }
     }
 }

@@ -8,7 +8,7 @@ using LayoutFarm.WebDom;
 
 namespace LayoutFarm.Composers
 {
-    public class HtmlTextNode : DomTextNode
+    class HtmlTextNode : DomTextNode
     {
         //---------------------------------
         //this node may be simple text node  

@@ -56,9 +56,9 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 
     abstract class WrapperCssBoxBase : CssBox, LayoutFarm.RenderBoxes.IParentLink
     {
-        protected int globalXForRenderElement;
-        protected int globalYForRenderElement;
-        protected CssBoxWrapperRenderElement wrapper;
+        //protected int globalXForRenderElement;
+        //protected int globalYForRenderElement;
+        protected JointRenderElement jointRenderElement;
         public WrapperCssBoxBase(object controller,
              BoxSpec spec,
              RootGraphic root, CssDisplay display)
@@ -66,17 +66,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         {
             this.SetController(controller);
         }
-        //public override void InvalidateGraphics()
-        //{
-        //    int globalX;
-        //    int globalY;
-        //    var parent = this.GetParentRenderElement(out globalX, out globalY);
-        //    parent.InvalidateGraphics();
-        //}
-        //protected override void InvalidateBubbleUp(Rectangle clientArea)
-        //{
-            
-        //}
+
         internal abstract RenderElement GetParentRenderElement(out int globalX, out int globalY);
 
         RenderElement RenderBoxes.IParentLink.ParentRenderElement
@@ -105,6 +95,9 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 #endif
     }
 
+    /// <summary>
+    /// css box that wrap render element inside (as a single external run)
+    /// </summary>
     sealed class WrapperInlineCssBox : WrapperCssBoxBase
     {
         CssExternalRun externalRun;
@@ -114,10 +107,10 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         {
             int w = re.Width;
             int h = re.Height;
-            wrapper = new CssBoxWrapperRenderElement(re.Root, w, h, re);
+            jointRenderElement = new JointRenderElement(re.Root, w, h, re);
             ChangeDisplayType(this, CssDisplay.Inline);
 
-            this.externalRun = new CssExternalRun(wrapper);
+            this.externalRun = new CssExternalRun(jointRenderElement);
             this.externalRun.SetOwner(this);
 
             var runlist = new List<CssRun>(1);
@@ -126,8 +119,8 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             ChangeDisplayType(this, Css.CssDisplay.Inline);
 
             //---------------------------------------------------  
-            LayoutFarm.RenderElement.SetParentLink(re, wrapper);
-            LayoutFarm.RenderElement.SetParentLink(wrapper, this);
+            LayoutFarm.RenderElement.SetParentLink(re, jointRenderElement);
+            LayoutFarm.RenderElement.SetParentLink(jointRenderElement, this);
 
         }
         public override void Clear()
@@ -176,10 +169,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             this.RunSizeMeasurePass = true;
             this.externalRun.Width = this.externalRun.RenderElement.Width;
             this.externalRun.Height = this.externalRun.RenderElement.Height;
-        }
-
-
-
+        } 
         //---------------------------------------------------------------------------------------
         internal override RenderElement GetParentRenderElement(out int globalX, out int globalY)
         {
@@ -197,8 +187,8 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
                 if (renderRoot != null)
                 {
                     //found root then stop
-                    this.wrapper.AdjustX = globalX;
-                    this.wrapper.AdjustY = globalY;
+                    this.jointRenderElement.AdjustX = globalX;
+                    this.jointRenderElement.AdjustY = globalY;
                     return renderRoot.ContainerElement;
                 }
                 cbox = cbox.ParentBox;
@@ -207,10 +197,11 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
     }
 
-
+    /// <summary>
+    /// css box that wrap a render element inside 
+    /// </summary>
     sealed class WrapperBlockCssBox : WrapperCssBoxBase
     {
-        //this is a cssbox that wrap renderElement inside
 
         public WrapperBlockCssBox(object controller,
              BoxSpec spec,
@@ -221,22 +212,16 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             int w = renderElement.Width;
             int h = renderElement.Height;
 
-            this.wrapper = new CssBoxWrapperRenderElement(renderElement.Root, w, h, renderElement);
+
             ChangeDisplayType(this, CssDisplay.Block);
-
-
             this.SetSize(w, h);
-            LayoutFarm.RenderElement.SetParentLink(wrapper, this);
-            LayoutFarm.RenderElement.SetParentLink(renderElement, wrapper);
-        }
 
 
-        protected override CssBox GetGlobalLocationImpl(out float globalX, out  float globalY)
-        {
-            globalX = globalXForRenderElement;
-            globalY = globalYForRenderElement;
-            return null;//             
+            this.jointRenderElement = new JointRenderElement(renderElement.Root, w, h, renderElement);
+            LayoutFarm.RenderElement.SetParentLink(jointRenderElement, this);
+            LayoutFarm.RenderElement.SetParentLink(renderElement, jointRenderElement);
         }
+
         public override bool CustomContentHitTest(float x, float y, CssBoxHitChain hitChain)
         {
             return false;
@@ -260,12 +245,12 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
         protected override void PaintImp(PaintVisitor p)
         {
-            if (wrapper != null)
+            if (jointRenderElement != null)
             {
 
-                GetParentRenderElement(out this.globalXForRenderElement, out this.globalYForRenderElement);
-                Rectangle rect = new Rectangle(0, 0, wrapper.Width, wrapper.Height);
-                this.wrapper.DrawToThisCanvas(p.InnerCanvas, rect);
+                //GetParentRenderElement(out this.globalXForRenderElement, out this.globalYForRenderElement);
+                Rectangle rect = new Rectangle(0, 0, jointRenderElement.Width, jointRenderElement.Height);
+                this.jointRenderElement.DrawToThisCanvas(p.InnerCanvas, rect);
 #if DEBUG
                 p.FillRectangle(Color.Red, 0, 0, 10, 10);
 #endif
@@ -295,14 +280,15 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 
                 if (renderRoot != null)
                 {
-                    this.wrapper.AdjustX = globalX;
-                    this.wrapper.AdjustY = globalY;
+                    this.jointRenderElement.AdjustX = globalX;
+                    this.jointRenderElement.AdjustY = globalY;
                     return renderRoot.ContainerElement;
                 }
                 cbox = cbox.ParentBox;
             }
             return null;
         }
+
     }
 
 
@@ -310,13 +296,20 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
     /// <summary>
     /// special render element that bind RenderElement and CssBox
     /// </summary>
-    class CssBoxWrapperRenderElement : RenderElement, LayoutFarm.RenderBoxes.IParentLink
+    class JointRenderElement : RenderElement, LayoutFarm.RenderBoxes.IParentLink
     {
         RenderElement renderElement;
+
+        /// <summary>
+        /// offset x from nearest ancester render element 
+        /// </summary>
         int adjustX;
+        /// <summary>
+        /// offset y from nearest ancester render element 
+        /// </summary>
         int adjustY;
 
-        public CssBoxWrapperRenderElement(RootGraphic rootgfx, int w, int h, RenderElement renderElement)
+        public JointRenderElement(RootGraphic rootgfx, int w, int h, RenderElement renderElement)
             : base(rootgfx, w, h)
         {
             this.renderElement = renderElement;
@@ -341,21 +334,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
                 this.adjustY = value;
             }
         }
-        public override int BubbleUpX
-        {
-            get
-            {
-
-                return this.AdjustX;
-            }
-        }
-        public override int BubbleUpY
-        {
-            get
-            {
-                return this.AdjustY;
-            }
-        }
+        
 
         public override void CustomDrawToThisCanvas(Canvas canvasPage, Rectangle updateArea)
         {

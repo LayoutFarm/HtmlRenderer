@@ -95,12 +95,8 @@ namespace LayoutFarm.Composers
 
             //change primary render element
             this.principalBox = scrollView;
-            scrollView.InvalidateGraphics();
-
-        }
-
-
-
+            scrollView.InvalidateGraphics(); 
+        } 
         public override void SetInnerHtml(string innerHtml)
         {
             // parse html and create dom node
@@ -111,18 +107,14 @@ namespace LayoutFarm.Composers
                 new LayoutFarm.WebDom.Parser.TextSource(innerHtml.ToCharArray()),
                 (HtmlDocument)this.OwnerDocument,
                 this);
-        }
-
+        } 
         public override void GetGlobalLocation(out int x, out int y)
         {
             float globalX, globalY;
             this.principalBox.GetGlobalLocation(out globalX, out globalY);
             x = (int)globalX;
             y = (int)globalY;
-        }
-
-
-
+        } 
         //-------------------------------------------
         internal virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
         {
