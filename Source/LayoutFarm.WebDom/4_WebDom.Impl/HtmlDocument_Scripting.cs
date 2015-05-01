@@ -17,9 +17,14 @@ namespace LayoutFarm.WebDom.Impl
             return this.GetElementById(id) as HtmlElement;
         }
         [JsMethod]
-        DomNode IHtmlDocument.createTextNode(object nodeContent)
+        DomNode IHtmlDocument.createTextNode(char[] nodeContent)
         {
-            return (HtmlTextNode)this.CreateTextNode(nodeContent.ToString().ToCharArray());
+            return this.CreateTextNode(nodeContent);
+        }
+        [JsMethod]
+        DomNode IHtmlDocument.createTextNode(string nodeContent)
+        {
+            return this.CreateTextNode(nodeContent.ToCharArray());
         }
         [JsMethod]
         IHtmlElement IHtmlDocument.createElement(string nodeName)

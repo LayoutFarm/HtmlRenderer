@@ -12,47 +12,17 @@ using LayoutFarm.UI;
 
 namespace LayoutFarm.Composers
 {
-     
+
     class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
     {
         CssBox principalBox;
         Css.BoxSpec boxSpec;
-        CssRuleSet elementRuleSet;
+
 
         internal HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
             this.boxSpec = new Css.BoxSpec();
-        }
-        public WellKnownDomNodeName WellknownElementName { get; set; }
-        public bool TryGetAttribute(WellknownName wellknownHtmlName, out DomAttribute result)
-        {
-            var found = base.FindAttribute((int)wellknownHtmlName);
-            if (found != null)
-            {
-                result = found;
-                return true;
-            }
-            else
-            {
-                result = null;
-                return false;
-            }
-        }
-        public bool TryGetAttribute(WellknownName wellknownHtmlName, out string value)
-        {
-            DomAttribute found;
-            if (this.TryGetAttribute(wellknownHtmlName, out found))
-            {
-                value = found.Value;
-                return true;
-            }
-            else
-            {
-                value = null;
-                return false;
-            }
-
         }
 
         public override void SetAttribute(DomAttribute attr)
@@ -62,14 +32,11 @@ namespace LayoutFarm.Composers
             {
                 case WellknownName.Style:
                     {
-                        //parse and evaluate style here 
+                        //TODO: parse and evaluate style here 
                         //****
                     } break;
             }
         }
-
-
-
         public override void ClearAllElements()
         {
             //clear presentation 
@@ -78,13 +45,6 @@ namespace LayoutFarm.Composers
                 principalBox.Clear();
             }
             base.ClearAllElements();
-
-        }
-
-        protected override void OnContentUpdate()
-        {
-            base.OnContentUpdate();
-            OnElementChangedInIdleState(ElementChangeKind.ContentUpdate);
         }
 
         protected override void OnElementChangedInIdleState(ElementChangeKind changeKind)
@@ -107,41 +67,6 @@ namespace LayoutFarm.Composers
             HtmlDocument owner = this.OwnerDocument as HtmlDocument;
             owner.DomUpdateVersion++;
         }
-        //------------------------------------
-        internal static void InvokeNotifyChangeOnIdleState(HtmlElement elem, ElementChangeKind changeKind)
-        {
-            elem.OnElementChangedInIdleState(changeKind);
-        }
-        internal CssRuleSet ElementRuleSet
-        {
-            get
-            {
-                return this.elementRuleSet;
-            }
-            set
-            {
-                this.elementRuleSet = value;
-            }
-        }
-        internal bool IsStyleEvaluated
-        {
-            get;
-            set;
-        }
-        internal bool SkipPrincipalBoxEvalulation
-        {
-            get;
-            set;
-        }
-        internal static CssBox InternalGetPrincipalBox(HtmlElement element)
-        {
-            return element.principalBox;
-        }
-        internal Css.BoxSpec Spec
-        {
-            get { return this.boxSpec; }
-        }
-
 
 
         protected override void OnElementChanged()
@@ -170,33 +95,11 @@ namespace LayoutFarm.Composers
 
             //change primary render element
             this.principalBox = scrollView;
-            scrollView.InvalidateGraphics();
-
-        }
-        //------------------------------------
-        public string GetInnerHtml()
+            scrollView.InvalidateGraphics(); 
+        } 
+        public override void SetInnerHtml(string innerHtml)
         {
-            //get inner html*** 
-            StringBuilder stbuilder = new StringBuilder();
-            DomTextWriter textWriter = new DomTextWriter(stbuilder);
-            foreach (var childnode in this.GetChildNodeIterForward())
-            {
-                HtmlElement childHtmlNode = childnode as HtmlElement;
-                if (childHtmlNode != null)
-                {
-                    childHtmlNode.WriteNode(textWriter);
-                }
-                HtmlTextNode htmlTextNode = childnode as HtmlTextNode;
-                if (htmlTextNode != null)
-                {
-                    htmlTextNode.WriteTextNode(textWriter);
-                }
-            }
-            return stbuilder.ToString();
-        }
-        public void SetInnerHtml(string innerHtml)
-        {
-            //parse html and create dom node
+            // parse html and create dom node
             //clear content of this node
             this.ClearAllElements();
             //then apply new content 
@@ -204,74 +107,55 @@ namespace LayoutFarm.Composers
                 new LayoutFarm.WebDom.Parser.TextSource(innerHtml.ToCharArray()),
                 (HtmlDocument)this.OwnerDocument,
                 this);
-
-
-        }
-        public virtual void WriteNode(DomTextWriter writer)
-        {
-            //write node
-            writer.Write("<", this.Name);
-            //count attribute 
-            foreach (var attr in this.GetAttributeIterForward())
-            {
-                //name=value
-                writer.Write(' ');
-                writer.Write(attr.Name);
-                writer.Write("=\"");
-                writer.Write(attr.Value);
-                writer.Write("\"");
-            }
-            writer.Write('>');
-
-
-            //content
-            foreach (var childnode in this.GetChildNodeIterForward())
-            {
-                HtmlElement childHtmlNode = childnode as HtmlElement;
-                if (childHtmlNode != null)
-                {
-                    childHtmlNode.WriteNode(writer);
-                }
-                HtmlTextNode htmlTextNode = childnode as HtmlTextNode;
-                if (htmlTextNode != null)
-                {
-                    htmlTextNode.WriteTextNode(writer);
-                }
-            }
-            //close tag
-            writer.Write("</", this.Name, ">");
-        }
+        } 
         public override void GetGlobalLocation(out int x, out int y)
         {
             float globalX, globalY;
             this.principalBox.GetGlobalLocation(out globalX, out globalY);
             x = (int)globalX;
             y = (int)globalY;
-        }
-
-
-
-        //------------------------------------
-        internal CssBox CurrentPrincipalBox
-        {
-            get { return this.principalBox; }
-        }
-        public void SetPrincipalBox(CssBox box)
-        {
-            this.principalBox = box;
-            this.SkipPrincipalBoxEvalulation = true;
-        }
-        public virtual bool HasCustomPrincipalBoxGenerator
-        {
-            //use builtin cssbox generator***
-            get { return false; }
-        }
-        public virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
+        } 
+        //-------------------------------------------
+        internal virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
         {
             //this method is called when HasCustomPrincipalBoxGenerator = true
             throw new NotImplementedException();
         }
-        //------------------------------------
+        internal virtual bool HasCustomPrincipalBoxGenerator
+        {
+            //use builtin cssbox generator***
+            get { return false; }
+        }
+        
+        internal void SetPrincipalBox(CssBox box)
+        {
+            this.principalBox = box;
+            this.SkipPrincipalBoxEvalulation = true;
+        }
+        internal bool IsStyleEvaluated
+        {
+            get;
+            set;
+        }
+        internal bool SkipPrincipalBoxEvalulation
+        {
+            get;
+            set;
+        }
+        internal static CssBox InternalGetPrincipalBox(HtmlElement element)
+        {
+            return element.principalBox;
+        }
+        internal Css.BoxSpec Spec
+        {
+            get { return this.boxSpec; }
+        }
+        internal CssBox CurrentPrincipalBox
+        {
+            get { return this.principalBox; }
+        }
+
+
     }
 
 

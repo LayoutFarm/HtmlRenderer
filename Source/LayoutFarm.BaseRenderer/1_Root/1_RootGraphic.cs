@@ -131,6 +131,8 @@ namespace LayoutFarm
             }
         }
 #endif
+       
+
         public void InvalidateGraphicArea(RenderElement fromElement, ref Rectangle elemClientRect)
         {
             //total bounds = total bounds at level
@@ -139,8 +141,10 @@ namespace LayoutFarm
             //--------------------------------------            
             //bubble up ,find global rect coord
             //and then merge to accumulate rect
-            int globalX = 0;
-            int globalY = 0;
+            //int globalX = 0;
+            //int globalY = 0;
+            Point globalPoint = new Point();
+
             bool isBubbleUp = false;
 
 #if DEBUG
@@ -171,33 +175,38 @@ namespace LayoutFarm
                 dbugWriteStopGfxBubbleUp(fromElement, ref dbug_ncount, dbug_ncount, ">> ");
 #endif
 
-
-                globalX += fromElement.BubbleUpX;
-                globalY += fromElement.BubbleUpY;
+                globalPoint.Offset(fromElement.X, fromElement.Y);
+                //globalX += fromElement.BubbleUpX;
+                //globalY += fromElement.BubbleUpY;
 
 
                 if (fromElement.MayHasViewport && isBubbleUp)
                 {
-                    elemClientRect.Offset(globalX, globalY);
+                    //elemClientRect.Offset(globalX, globalY);
+                    elemClientRect.Offset(globalPoint);
+
                     if (fromElement.HasDoubleScrollableSurface)
                     {
                         //container.VisualScrollableSurface.WindowRootNotifyInvalidArea(elementClientRect);
                     }
+
                     Rectangle elementRect = fromElement.RectBounds;
                     elementRect.Offset(fromElement.ViewportX, fromElement.ViewportY);
                     elemClientRect.Intersect(elementRect);
-                    globalX = -fromElement.ViewportX;
-                    globalY = -fromElement.ViewportY;
+
+                    globalPoint.X = -fromElement.ViewportX;
+                    globalPoint.Y = -fromElement.ViewportY;
+
+                    //globalX = -fromElement.ViewportX;
+                    //globalY = -fromElement.ViewportY;
                 }
 
                 if (fromElement.IsTopWindow)
                 {
-
                     break;
                 }
                 else
                 {
-
 #if DEBUG
                     if (fromElement.dbugParentVisualElement == null)
                     {
@@ -205,7 +214,14 @@ namespace LayoutFarm
                     }
 #endif
 
-                    fromElement = fromElement.ParentRenderElement;
+                    var parentLink = fromElement.MyParentLink; 
+                    if (parentLink == null)
+                    {
+                        return;
+                    } 
+                    parentLink.AdjustLocation(ref globalPoint);
+                    //move up
+                    fromElement = parentLink.ParentRenderElement;// fromElement.ParentRenderElement;
                     if (fromElement == null)
                     {
                         return;
@@ -230,15 +246,16 @@ namespace LayoutFarm
 #endif
 
             //----------------------------------------
-            elemClientRect.Offset(globalX, globalY);
-
-
+            //elemClientRect.Offset(globalX, globalY);
+            elemClientRect.Offset(globalPoint);
 
             if (elemClientRect.Top > this.Height
                 || elemClientRect.Left > this.Width
                 || elemClientRect.Bottom < 0
                 || elemClientRect.Right < 0)
             {
+                //no intersect with  
+
 #if DEBUG
                 if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
                     dbugMyroot.dbugGraphicInvalidateTracer != null)
@@ -252,15 +269,14 @@ namespace LayoutFarm
             //--------------------------------------------------------------------------------------------------
             if (!hasAccumRect)
             {
-
                 accumulateInvalidRect = elemClientRect;
                 hasAccumRect = true;
             }
             else
-            {   
+            {
                 accumulateInvalidRect = Rectangle.Union(accumulateInvalidRect, elemClientRect);
             }
-            //----------------------
+
 #if DEBUG
             if (dbugMyroot.dbugEnableGraphicInvalidateTrace &&
                 dbugMyroot.dbugGraphicInvalidateTracer != null)
