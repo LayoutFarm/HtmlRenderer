@@ -36,7 +36,7 @@ namespace LayoutFarm.CustomWidgets
         {
             gridLayer.GetCell(r, c).ContentElement = ui.GetPrimaryRenderElement(this.Root);
         }
-        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
+        protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
         {
 
 #if DEBUG
@@ -47,10 +47,8 @@ namespace LayoutFarm.CustomWidgets
 #endif
             //sample bg   
             //canvas.FillRectangle(BackColor, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
-            canvas.FillRectangle(BackColor, 0, 0, this.Width, this.Height);
-
-            gridLayer.DrawChildContent(canvas, updateArea);
-
+            canvas.FillRectangle(BackColor, 0, 0, this.Width, this.Height); 
+            gridLayer.DrawChildContent(canvas, updateArea); 
             if (this.HasDefaultLayer)
             {
                 this.DrawDefaultLayer(canvas, ref updateArea);

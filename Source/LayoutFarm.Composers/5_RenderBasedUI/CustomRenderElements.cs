@@ -36,7 +36,7 @@ namespace LayoutFarm.InternalUI
             }
 
         }
-        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
+        protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
         {
 
 #if DEBUG

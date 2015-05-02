@@ -27,7 +27,7 @@ namespace LayoutFarm.Text
             get { return this.scrollRelation; }
             set { this.scrollRelation = value; }
         }
-        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
+        protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
         {
             var enterFont = canvas.CurrentFont;
             canvas.CurrentFont = this.CurrentTextSpanStyle.FontInfo.ResolvedFont;

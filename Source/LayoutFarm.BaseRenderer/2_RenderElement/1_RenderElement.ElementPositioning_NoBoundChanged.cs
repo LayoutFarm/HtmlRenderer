@@ -118,7 +118,14 @@ namespace LayoutFarm
             }
         }
 
-        
+        public virtual void SetViewport(int viewportX, int viewportY)
+        {
+            //do nothing
+        }
+        public virtual Size InnerContentSize
+        {
+            get { return this.Size; }
+        }
         //-----------------------------------------------
         public Point GetGlobalLocation()
         {

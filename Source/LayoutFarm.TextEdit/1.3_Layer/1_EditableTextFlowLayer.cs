@@ -580,7 +580,7 @@ namespace LayoutFarm.Text
                             {
                                 maxHeightInRow = v_desired_height;
                             }
-                            EditableRun.DirectSetVisualElementLocation(currentRun, curX, 0);
+                            EditableRun.DirectSetLocation(currentRun, curX, 0);
                             if (v_desired_height > maxHeightInRow)
                             {
                                 maxHeightInRow = v_desired_height;
@@ -590,7 +590,7 @@ namespace LayoutFarm.Text
                                 v_desired_width = ownerClientWidth;
                             }
 
-                            EditableRun.DirectSetVisualElementSize(currentRun,
+                            EditableRun.DirectSetSize(currentRun,
                                     v_desired_width, v_desired_height);
 
                             currentRun.MarkValidContentArrangement();
@@ -641,9 +641,9 @@ namespace LayoutFarm.Text
                                 {
                                     maxHeightInRow = v_desired_height;
                                 }
-                                EditableRun.DirectSetVisualElementLocation(currentRun, curX, 0);
+                                EditableRun.DirectSetLocation(currentRun, curX, 0);
 
-                                EditableRun.DirectSetVisualElementSize(currentRun,
+                                EditableRun.DirectSetSize(currentRun,
                                        v_desired_width, v_desired_height);
                                 currentRun.MarkValidContentArrangement();
                                 curX += v_desired_width;
@@ -743,14 +743,14 @@ namespace LayoutFarm.Text
                         {
                             maxHeightInRow = v_desired_height;
                         }
-                        EditableRun.DirectSetVisualElementLocation(currentRun, curX, 0);
+                        EditableRun.DirectSetLocation(currentRun, curX, 0);
 
                         if (lastestIsBlock)
                         {
                             v_desired_width = flowRelocator.OwnerElementWidth;
                         }
 
-                        EditableRun.DirectSetVisualElementSize(currentRun,
+                        EditableRun.DirectSetSize(currentRun,
                             v_desired_width, v_desired_height);
 
 
@@ -766,9 +766,9 @@ namespace LayoutFarm.Text
                         {
                             maxHeightInRow = v_desired_height;
                         }
-                        EditableRun.DirectSetVisualElementLocation(currentRun, curX, 0);
+                        EditableRun.DirectSetLocation(currentRun, curX, 0);
 
-                        EditableRun.DirectSetVisualElementSize(
+                        EditableRun.DirectSetSize(
                             currentRun,
                             v_desired_width,
                             v_desired_height);

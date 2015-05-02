@@ -49,7 +49,7 @@ namespace LayoutFarm.CustomWidgets
             needUpdate = true;
 
         }
-        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
+        protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
         {
             //if (this.image != null)
             //{

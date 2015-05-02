@@ -24,11 +24,10 @@ namespace LayoutFarm
             this.MayHasViewport = true;
             this.MayHasChild = true;
         }
-        protected abstract void DrawContent(Canvas canvas, Rectangle updateArea);
 
 
 
-        public void SetViewport(int viewportX, int viewportY)
+        public override void SetViewport(int viewportX, int viewportY)
         {
             this.myviewportX = viewportX;
             this.myviewportY = viewportY;
@@ -56,7 +55,7 @@ namespace LayoutFarm
             canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
             updateArea.Offset(myviewportX, myviewportY);
 
-            this.DrawContent(canvas, updateArea);
+            this.DrawBoxContent(canvas, updateArea);
 
             canvas.OffsetCanvasOrigin(myviewportX, myviewportY);
             updateArea.Offset(-myviewportX, -myviewportY);
@@ -73,7 +72,6 @@ namespace LayoutFarm
             }
         }
 
-      
         public override sealed void TopDownReCalculateContentSize()
         {
 
@@ -128,19 +126,6 @@ namespace LayoutFarm
 
         }
 
-        protected bool HasDefaultLayer
-        {
-            get { return this.defaultLayer != null; }
-        }
-        protected void DrawDefaultLayer(Canvas canvas, ref Rectangle updateArea)
-        {
-            if (this.defaultLayer != null)
-            {
-                defaultLayer.DrawChildContent(canvas, updateArea);
-            }
-        }
-
-        //-------------------------------------------------------------------------- 
         public override void AddChild(RenderElement renderE)
         {
             if (this.defaultLayer == null)
@@ -163,8 +148,8 @@ namespace LayoutFarm
                 this.defaultLayer.Clear();
             }
         }
-       
- 
+
+
 
         public override RenderElement FindUnderlyingSiblingAtPoint(Point point)
         {
@@ -188,7 +173,7 @@ namespace LayoutFarm
                 }
             }
         }
-        public virtual Size InnerContentSize
+        public override Size InnerContentSize
         {
             get
             {
@@ -213,8 +198,21 @@ namespace LayoutFarm
             }
         }
 
-
          
+
+        protected abstract void DrawBoxContent(Canvas canvas, Rectangle updateArea);
+        protected bool HasDefaultLayer
+        {
+            get { return this.defaultLayer != null; }
+        }
+        protected void DrawDefaultLayer(Canvas canvas, ref Rectangle updateArea)
+        {
+            if (this.defaultLayer != null)
+            {
+                defaultLayer.DrawChildContent(canvas, updateArea);
+            }
+        }
+
 #if DEBUG
         //-----------------------------------------------------------------
         public void dbugForceTopDownReArrangeContent()

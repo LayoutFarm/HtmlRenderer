@@ -21,6 +21,7 @@ namespace LayoutFarm.Text
         bool isInVerticalPhase = false;
         bool isFocus = false;
         bool stateShowCaret = false;
+        bool isDragBegin;
         TextSpanStyle currentSpanStyle;
 
         public TextEditRenderBox(RootGraphic rootgfx,
@@ -138,7 +139,7 @@ namespace LayoutFarm.Text
             //------------------------
             if (e.IsControlCharacter)
             {
-                OnKeyDown(e); 
+                OnKeyDown(e);
                 return;
             }
 
@@ -190,10 +191,7 @@ namespace LayoutFarm.Text
 
         }
 
-        //#if DEBUG
-        //        static int dbugCaretSwapCount = 0;
 
-        //#endif
         internal void SwapCaretState()
         {
 
@@ -274,13 +272,7 @@ namespace LayoutFarm.Text
                 internalTextLayerController.CharIndex += textRun.CharacterCount;
                 internalTextLayerController.EndSelect();
             }
-        }
-
-
-        bool isDragBegin;
-
-
-
+        } 
         public void OnDrag(UIMouseEventArgs e)
         {
             if (!isDragBegin)
@@ -305,18 +297,13 @@ namespace LayoutFarm.Text
                     internalTextLayerController.SetCaretPos(e.X, e.Y);
                     internalTextLayerController.EndSelect();
                     this.InvalidateGraphics();
-
                 }
             }
 
         }
         public void OnDragEnd(UIMouseEventArgs e)
         {
-            //dbugMouseDragEnd++;
-            //if (!isDragBegin)
-            //{
-
-            //}
+            
             isDragBegin = false;
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
@@ -351,7 +338,7 @@ namespace LayoutFarm.Text
         }
         public void OnKeyUp(UIKeyEventArgs e)
         {
-            this.SetCaretState(true); 
+            this.SetCaretState(true);
         }
         public void OnKeyDown(UIKeyEventArgs e)
         {
@@ -1041,7 +1028,7 @@ namespace LayoutFarm.Text
 
             InvalidateGraphicOfCurrentLineArea();
 
-             
+
         }
 
         public void DoTyping(string text)
