@@ -272,11 +272,7 @@ namespace LayoutFarm.Text
                 internalTextLayerController.CharIndex += textRun.CharacterCount;
                 internalTextLayerController.EndSelect();
             }
-        }
-
-
-
-
+        } 
         public void OnDrag(UIMouseEventArgs e)
         {
             if (!isDragBegin)
@@ -307,11 +303,7 @@ namespace LayoutFarm.Text
         }
         public void OnDragEnd(UIMouseEventArgs e)
         {
-            //dbugMouseDragEnd++;
-            //if (!isDragBegin)
-            //{
-
-            //}
+            
             isDragBegin = false;
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {

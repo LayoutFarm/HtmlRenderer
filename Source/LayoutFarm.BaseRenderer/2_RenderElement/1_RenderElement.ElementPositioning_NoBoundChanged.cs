@@ -122,6 +122,10 @@ namespace LayoutFarm
         {
             //do nothing
         }
+        public virtual Size InnerContentSize
+        {
+            get { return this.Size; }
+        }
         //-----------------------------------------------
         public Point GetGlobalLocation()
         {

@@ -16,7 +16,7 @@ namespace LayoutFarm
             this.IsTopWindow = true;
             this.HasSpecificSize = true;
         }
-        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
+        protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
         {
             canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
             this.DrawDefaultLayer(canvas, ref updateArea);

@@ -24,7 +24,6 @@ namespace LayoutFarm
             this.MayHasViewport = true;
             this.MayHasChild = true;
         }
-        protected abstract void DrawContent(Canvas canvas, Rectangle updateArea);
 
 
 
@@ -56,7 +55,7 @@ namespace LayoutFarm
             canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
             updateArea.Offset(myviewportX, myviewportY);
 
-            this.DrawContent(canvas, updateArea);
+            this.DrawBoxContent(canvas, updateArea);
 
             canvas.OffsetCanvasOrigin(myviewportX, myviewportY);
             updateArea.Offset(-myviewportX, -myviewportY);
@@ -72,7 +71,6 @@ namespace LayoutFarm
 #endif
             }
         }
-
 
         public override sealed void TopDownReCalculateContentSize()
         {
@@ -128,19 +126,6 @@ namespace LayoutFarm
 
         }
 
-        protected bool HasDefaultLayer
-        {
-            get { return this.defaultLayer != null; }
-        }
-        protected void DrawDefaultLayer(Canvas canvas, ref Rectangle updateArea)
-        {
-            if (this.defaultLayer != null)
-            {
-                defaultLayer.DrawChildContent(canvas, updateArea);
-            }
-        }
-
-        //-------------------------------------------------------------------------- 
         public override void AddChild(RenderElement renderE)
         {
             if (this.defaultLayer == null)
@@ -188,7 +173,7 @@ namespace LayoutFarm
                 }
             }
         }
-        public virtual Size InnerContentSize
+        public override Size InnerContentSize
         {
             get
             {
@@ -213,7 +198,20 @@ namespace LayoutFarm
             }
         }
 
+         
 
+        protected abstract void DrawBoxContent(Canvas canvas, Rectangle updateArea);
+        protected bool HasDefaultLayer
+        {
+            get { return this.defaultLayer != null; }
+        }
+        protected void DrawDefaultLayer(Canvas canvas, ref Rectangle updateArea)
+        {
+            if (this.defaultLayer != null)
+            {
+                defaultLayer.DrawChildContent(canvas, updateArea);
+            }
+        }
 
 #if DEBUG
         //-----------------------------------------------------------------
