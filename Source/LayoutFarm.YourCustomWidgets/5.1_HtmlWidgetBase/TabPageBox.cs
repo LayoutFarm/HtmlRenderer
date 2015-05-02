@@ -13,7 +13,7 @@ namespace LayoutFarm.HtmlWidgets
 {
     //tab page similar to listview
 
-    public class TabPageContainer : LightHtmlWidgetBase
+    public class TabPageContainer : LightHtmlBoxWidgetBase
     {
         DomElement pnode;
         DomElement titleBar;
@@ -34,11 +34,11 @@ namespace LayoutFarm.HtmlWidgets
         {
             get { return this.tabPageCollection; }
         }
-        public override WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode)
+        public override WebDom.DomElement GetPresentationDomNode(Composers.HtmlDocument htmldoc)
         {
             if (pnode != null) return pnode;
             //------------------------------
-            var ownerdoc = hostNode.OwnerDocument;
+            var ownerdoc = htmldoc;
             pnode = ownerdoc.CreateElement("div");
             pnode.SetAttribute("style", "font:10pt tahoma");
             //------------------------------ 

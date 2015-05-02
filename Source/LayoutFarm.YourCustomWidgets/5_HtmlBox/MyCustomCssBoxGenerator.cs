@@ -30,7 +30,7 @@ namespace LayoutFarm.CustomWidgets
             BoxSpec spec,
             HtmlHost host)
         {
-             
+
             switch (domE.Name)
             {
                 case "input":
@@ -111,14 +111,16 @@ namespace LayoutFarm.CustomWidgets
                                 button.Text = "";
                             }
 
-                            var ui = button.GetPrimaryUIElement(this.myHost);
-                            var wrapperBox = CreateWrapper(
-                                button,
-                                ui.GetPrimaryRenderElement(rootgfx),
-                                spec, true);
+                            var holder = new LayoutFarm.HtmlWidgets.WidgetHolder(button);
+                            //var ui = holder.GetPrimaryUIElement(this.myHost);
+                            //var wrapperBox = CreateWrapper(
+                            //    button,
+                            //    ui.GetPrimaryRenderElement(rootgfx),
+                            //    spec, true);
+                            CssBox wrapperBox = holder.CreateCssBox(this.myHost, spec);
+                            //parentBox.AppendChild(holder);
                             parentBox.AppendChild(wrapperBox);
                             return wrapperBox;
-
                         }
                     case "textbox":
                         {

@@ -15,7 +15,7 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.HtmlWidgets
 {
 
-    public class HingeBox : LightHtmlWidgetBase
+    public class HingeBox : LightHtmlBoxWidgetBase
     {
 
         RenderElement landPartRenderElement;//background 
@@ -23,9 +23,9 @@ namespace LayoutFarm.HtmlWidgets
         Color backColor = Color.LightGray;
         bool isOpen;
         //1. land part
-        HtmlBox landPart;
+        WebDom.Impl.HtmlElement landPart;
         //2. float part   
-        HtmlBox floatPart;
+        WebDom.Impl.HtmlElement floatPart;
 
         RenderElement floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
@@ -51,14 +51,14 @@ namespace LayoutFarm.HtmlWidgets
                 });
             return htmldoc;
         }
-        public override DomElement GetPresentationDomNode(DomElement hostNode)
+        public override DomElement GetPresentationDomNode(HtmlDocument htmldoc)
         {
             if (presentationNode != null)
             {
                 return presentationNode;
             }
             //-------------------
-            presentationNode = hostNode.OwnerDocument.CreateElement("div");
+            presentationNode = htmldoc.CreateElement("div");
             presentationNode.AddChild("div", div =>
             {
                 div.SetAttribute("style", "font:10pt tahoma;");
@@ -94,18 +94,18 @@ namespace LayoutFarm.HtmlWidgets
             return presentationNode;
         }
 
-        public HtmlBox LandPart
+        public WebDom.Impl.HtmlElement LandPart
         {
             get { return this.landPart; }
         }
-        public HtmlBox FloatPart
+        public WebDom.Impl.HtmlElement FloatPart
         {
             get { return this.floatPart; }
         }
         protected override void OnPrimaryUIElementCreated(HtmlHost htmlhost)
         {
             if (this.landPart == null)
-            {
+            {   
                 this.landPart = (HtmlBox)base.GetPrimaryUIElement(htmlhost);
             }
             if (floatPart == null)

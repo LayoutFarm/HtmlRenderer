@@ -52,11 +52,29 @@ namespace LayoutFarm.WebWidgets
             return bmp;
         }
 
-        protected void AddToViewport(HtmlWidgets.LightHtmlWidgetBase htmlWidget)
+        protected void AddToViewport(HtmlWidgets.LightHtmlBoxWidgetBase htmlWidget)
         {
-           
-            //1.  
-            sampleViewport.AddContent(htmlWidget.GetPrimaryUIElement(myHtmlHost));
+            sampleViewport.AddContent(GetPrimaryUIElement(htmlWidget, myHtmlHost));
+        }
+        UIElement GetPrimaryUIElement(HtmlWidgets.LightHtmlBoxWidgetBase htmlWidget, HtmlHost htmlhost)
+        {
+            htmlWidget.HtmlHost = htmlhost;
+            var lightHtmlBox = new HtmlBox(htmlhost, htmlWidget.Width, htmlWidget.Height);
+            HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
+            var myPresentationDom = htmlWidget.GetPresentationDomNode(htmldoc);
+            if (myPresentationDom != null)
+            {
+                htmldoc.RootNode.AddChild(myPresentationDom);
+                lightHtmlBox.LoadHtmlDom(htmldoc);
+            }
+            lightHtmlBox.SetLocation(htmlWidget.Left, htmlWidget.Top);
+            lightHtmlBox.LayoutFinished += (s, e) => this.RaiseEventLayoutFinished();
+
+            this.lightHtmlBox = lightHtmlBox;
+            //first time
+            OnPrimaryUIElementCreated(htmlhost);
+
+            return this.lightHtmlBox;
         }
     }
 }

@@ -14,7 +14,7 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm.HtmlWidgets
 {
 
-    public class CheckBox : LightHtmlWidgetBase
+    public class CheckBox : LightHtmlBoxWidgetBase
     {
         DomElement pnode;
         bool isChecked;
@@ -63,7 +63,7 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
 
-        public override DomElement GetPresentationDomNode(DomElement hostNode)
+        public override DomElement GetPresentationDomNode(HtmlDocument htmldoc)
         {
             //TODO: use template engine, 
             //ideas:  AngularJS style ?
@@ -73,7 +73,7 @@ namespace LayoutFarm.HtmlWidgets
             //style 2, lambda and adhoc attach event  
             if (pnode != null) return pnode;
             //---------------------------------------------------
-            pnode = hostNode.OwnerDocument.CreateElement("div");
+            pnode = htmldoc.CreateElement("div");
             pnode.AddChild("img", img =>
             {
                 //init 

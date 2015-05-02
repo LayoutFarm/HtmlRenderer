@@ -45,7 +45,6 @@ namespace LayoutFarm.HtmlWidgets
             get { return this.top; }
         }
 
-        //public abstract UIElement GetPrimaryUIElement(HtmlHost htmlhost);
 
         public virtual void SetLocation(int left, int top)
         {
@@ -78,116 +77,130 @@ namespace LayoutFarm.HtmlWidgets
         }
     }
 
-    //sealed class WidgetHolder
-    //{
-    //    HtmlBox lightHtmlBox;
-    //    LightHtmlWidgetBase widget;
-
-    //    public WidgetHolder(LightHtmlWidgetBase widget)
-    //    {
-    //        this.widget = widget;
-    //    }
-    //    public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
-    //    {
-    //        if (this.lightHtmlBox == null)
-    //        {
-
-    //            var lightHtmlBox = new HtmlBox(htmlhost, widget.Width, widget.Height);
-    //            HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
-    //            var presentationDom = widget.GetPresentationDomNode(htmldoc.RootNode);
-    //            if (presentationDom != null)
-    //            {
-    //                htmldoc.RootNode.AddChild(presentationDom);
-    //                lightHtmlBox.LoadHtmlDom(htmldoc);
-    //            }
-
-    //            lightHtmlBox.SetLocation(widget.Left, widget.Top);
-    //            lightHtmlBox.LayoutFinished += (s, e) => widget.RaiseEventLayoutFinished();
-
-    //            this.lightHtmlBox = lightHtmlBox;
-    //            //first time
-    //            LightHtmlWidgetBase.RaiseOnPrimaryUIElementCrated(widget, htmlhost);
-    //        }
-    //        return this.lightHtmlBox;
-    //    }
-
-    //}
-
-    public abstract class LightHtmlWidgetBase : WidgetBase
+    sealed class WidgetHolder
     {
 
-        DomElement myPresentationDom;
-        HtmlBox lightHtmlBox; //primary ui element
+        LightHtmlBoxWidgetBase widget;
+        public WidgetHolder(LightHtmlBoxWidgetBase widget)
+        {
+            this.widget = widget;
+        }
+        //public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
+        //{
+        //    if (this.lightHtmlBox == null)
+        //    {
 
+        //        var lightHtmlBox = new HtmlBox(htmlhost, widget.Width, widget.Height);
+        //        HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
+        //        var presentationDom = widget.GetPresentationDomNode(htmldoc);
+        //        if (presentationDom != null)
+        //        {
+        //            htmldoc.RootNode.AddChild(presentationDom);
+        //            lightHtmlBox.LoadHtmlDom(htmldoc);
+        //        }
+
+        //        lightHtmlBox.SetLocation(widget.Left, widget.Top);
+        //        lightHtmlBox.LayoutFinished += (s, e) => widget.RaiseEventLayoutFinished();
+
+        //        this.lightHtmlBox = lightHtmlBox;
+        //        //first time
+        //        LightHtmlBoxWidgetBase.RaiseOnPrimaryUIElementCrated(widget, htmlhost);
+        //    }
+        //    return this.lightHtmlBox;
+        //}
+
+        public CssBox CreateCssBox(HtmlHost htmlhost, Css.BoxSpec spec)
+        {
+            HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
+            DomElement domE = widget.GetPresentationDomNode(htmldoc);
+
+            //create cssbox for the domE
+
+            return null;
+        }
+
+    }
+
+    public abstract class LightHtmlBoxWidgetBase : WidgetBase
+    {
+
+        CssBox cssbox;
         HtmlHost htmlhost;
-        public LightHtmlWidgetBase(int w, int h)
+        public LightHtmlBoxWidgetBase(int w, int h)
             : base(w, h)
         {
         }
-        public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
+        public abstract DomElement GetPresentationDomNode(HtmlDocument htmldoc);
+        internal CssBox CssBox
         {
-            this.htmlhost = htmlhost;
-            if (this.lightHtmlBox == null)
-            {
-
-                var lightHtmlBox = new HtmlBox(htmlhost, this.Width, this.Height);
-                HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
-                myPresentationDom = GetPresentationDomNode(htmldoc.RootNode);
-                if (myPresentationDom != null)
-                {
-                    htmldoc.RootNode.AddChild(myPresentationDom);
-                    lightHtmlBox.LoadHtmlDom(htmldoc);
-                }
-
-                lightHtmlBox.SetLocation(this.Left, this.Top);
-                lightHtmlBox.LayoutFinished += (s, e) => this.RaiseEventLayoutFinished();
-
-                this.lightHtmlBox = lightHtmlBox;
-                //first time
-                OnPrimaryUIElementCreated(htmlhost);
-            }
-            return this.lightHtmlBox;
+            get { return this.cssbox; }
+            set { this.cssbox = value; }
         }
+        //public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
+        //{
+        //    this.htmlhost = htmlhost;
+        //    if (this.lightHtmlBox == null)
+        //    {
 
-        protected void AddSelfToTopWindow()
-        {
-            var htmlhost = this.HtmlHost;
-            if (htmlhost == null) return;
+        //        var lightHtmlBox = new HtmlBox(htmlhost, this.Width, this.Height);
+        //        HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
+        //        myPresentationDom = GetPresentationDomNode(htmldoc);
+        //        if (myPresentationDom != null)
+        //        {
+        //            htmldoc.RootNode.AddChild(myPresentationDom);
+        //            lightHtmlBox.LoadHtmlDom(htmldoc);
+        //        }
 
-            var topWindow = htmlhost.TopWindowRenderBox;
-            if (topWindow != null)
-            {
-                var primUI = this.GetPrimaryUIElement(htmlhost) as HtmlBox;
-                if (this.myPresentationDom != null)
-                {
-                    var parent = myPresentationDom.ParentNode as IHtmlElement;
-                    if (parent == null)
-                    {
-                        var htmldoc = primUI.HtmlContainer.WebDocument as HtmlDocument;
-                        htmldoc.RootNode.AddChild(myPresentationDom);
-                    }
-                }
-                topWindow.AddChild(primUI);
-            }
-        }
-        protected void RemoveSelfFromTopWindow()
-        {
-            //TODO: review here again 
-            if (lightHtmlBox != null)
-            {
-                RenderElement currentRenderE = lightHtmlBox.CurrentPrimaryRenderElement;
+        //        lightHtmlBox.SetLocation(this.Left, this.Top);
+        //        lightHtmlBox.LayoutFinished += (s, e) => this.RaiseEventLayoutFinished();
 
-                if (currentRenderE != null)
-                {
-                    var topRenderBox = currentRenderE.GetTopWindowRenderBox();
-                    //var topRenderBox = currentRenderE.ParentRenderElement as TopWindowRenderBox;
-                    if (topRenderBox != null)
-                    {
-                        topRenderBox.RemoveChild(currentRenderE);
-                    }
-                }
-            }
-        }
+        //        this.lightHtmlBox = lightHtmlBox;
+        //        //first time
+        //        OnPrimaryUIElementCreated(htmlhost);
+        //    }
+        //    return this.lightHtmlBox;
+        //}
+
+        //protected void AddSelfToTopWindow()
+        //{
+        //    var htmlhost = this.HtmlHost;
+        //    if (htmlhost == null) return;
+
+        //    var topWindow = htmlhost.TopWindowRenderBox;
+        //    if (topWindow != null)
+        //    {
+        //        var primUI = this.GetPrimaryUIElement(htmlhost) as HtmlBox;
+        //        if (this.myPresentationDom != null)
+        //        {
+        //            var parent = myPresentationDom.ParentNode as IHtmlElement;
+        //            if (parent == null)
+        //            {
+        //                var htmldoc = primUI.HtmlContainer.WebDocument as HtmlDocument;
+        //                htmldoc.RootNode.AddChild(myPresentationDom);
+        //            }
+        //        }
+        //        topWindow.AddChild(primUI);
+        //    }
+        //}
+        //protected void RemoveSelfFromTopWindow()
+        //{
+        //    //TODO: review here again 
+        //    if (lightHtmlBox != null)
+        //    {
+        //        RenderElement currentRenderE = lightHtmlBox.CurrentPrimaryRenderElement;
+
+        //        if (currentRenderE != null)
+        //        {
+        //            var topRenderBox = currentRenderE.GetTopWindowRenderBox();
+        //            //var topRenderBox = currentRenderE.ParentRenderElement as TopWindowRenderBox;
+        //            if (topRenderBox != null)
+        //            {
+        //                topRenderBox.RemoveChild(currentRenderE);
+        //            }
+        //        }
+        //    }
+        //}
+
         protected virtual void OnPrimaryUIElementCreated(HtmlHost htmlhost)
         {
 
@@ -200,44 +213,59 @@ namespace LayoutFarm.HtmlWidgets
 
                 return htmlhost;
             }
+            set
+            {
+                this.htmlhost = value;
+            }
         }
         protected void InvalidateGraphics()
         {
-            this.lightHtmlBox.InvalidateGraphics();
+            cssbox.InvalidateGraphics();
+            //this.lightHtmlBox.InvalidateGraphics();
         }
 
-        public abstract WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode);
+
         public override void SetViewport(int x, int y)
         {
             base.SetViewport(x, y);
-            if (this.lightHtmlBox != null)
+            if (this.cssbox != null)
             {
-                lightHtmlBox.SetViewport(x, y);
+                this.cssbox.SetViewport(x, y);
             }
         }
         public override int DesiredHeight
         {
             get
             {
-                if (this.lightHtmlBox != null)
+                if (this.cssbox != null)
                 {
-                    return this.lightHtmlBox.DesiredHeight;
+                    return (int)this.cssbox.InnerContentHeight;
                 }
+                //if (this.lightHtmlBox != null)
+                //{
+                //    return this.lightHtmlBox.DesiredHeight;
+                // }
                 return base.DesiredHeight;
             }
         }
 
-        internal static void RaiseOnPrimaryUIElementCrated(LightHtmlWidgetBase widget, HtmlHost htmlhost)
+        internal static void RaiseOnPrimaryUIElementCrated(LightHtmlBoxWidgetBase widget, HtmlHost htmlhost)
         {
             widget.OnPrimaryUIElementCreated(htmlhost);
         }
         public override void SetLocation(int left, int top)
         {
             base.SetLocation(left, top);
-            if (this.lightHtmlBox != null)
+            //TODO: review here, can we freely move cssbox?, 
+            //it should depennd on its context (line,abs)
+            if (this.cssbox != null)
             {
-                lightHtmlBox.SetLocation(left, top);
+                cssbox.SetLocation(left, top);
             }
+            //if (this.lightHtmlBox != null)
+            //{
+            //    lightHtmlBox.SetLocation(left, top);
+            //}
         }
     }
 }

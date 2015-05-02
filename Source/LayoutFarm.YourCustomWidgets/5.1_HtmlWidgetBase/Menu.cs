@@ -235,7 +235,7 @@ namespace LayoutFarm.HtmlWidgets
         }
     }
 
-    public class MenuBox : LightHtmlWidgetBase
+    public class MenuBox : LightHtmlBoxWidgetBase
     {
         bool showing;
         List<MenuItem> menuItems;
@@ -247,12 +247,10 @@ namespace LayoutFarm.HtmlWidgets
             : base(w, h)
         {
         }
-        public override DomElement GetPresentationDomNode(DomElement hostNode)
+        public override DomElement GetPresentationDomNode(Composers.HtmlDocument htmldoc)
         {
-            if (pnode != null) return pnode;
-            //------------------
-            var doc = hostNode.OwnerDocument;
-            pnode = doc.CreateElement("div");
+            if (pnode != null) return pnode; 
+            pnode = htmldoc.CreateElement("div");
             if (menuItems != null)
             {
                 int j = menuItems.Count;
@@ -291,6 +289,7 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     //create presentation first
                     var fragmentdoc = host.CreateNewSharedHtmlDoc();
+                     
                     this.GetPrimaryUIElement(host);
                 }
                 var relativeMenuItemElement = relativeToMenuItem.CurrentDomElement as IHtmlElement;
