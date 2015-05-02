@@ -33,7 +33,7 @@ namespace LayoutFarm.Text
                 {
                     this.AddLast(r);
 
-                    EditableRun.DirectSetVisualElementLocation(r, cx, 0);
+                    EditableRun.DirectSetLocation(r, cx, 0);
                     cx += r.Width;
                 }
                 this.LocalResumeLineReArrange();

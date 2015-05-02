@@ -28,7 +28,7 @@ namespace LayoutFarm
 
 
 
-        public void SetViewport(int viewportX, int viewportY)
+        public override void SetViewport(int viewportX, int viewportY)
         {
             this.myviewportX = viewportX;
             this.myviewportY = viewportY;
@@ -73,7 +73,7 @@ namespace LayoutFarm
             }
         }
 
-      
+
         public override sealed void TopDownReCalculateContentSize()
         {
 
@@ -163,8 +163,8 @@ namespace LayoutFarm
                 this.defaultLayer.Clear();
             }
         }
-       
- 
+
+
 
         public override RenderElement FindUnderlyingSiblingAtPoint(Point point)
         {
@@ -214,7 +214,7 @@ namespace LayoutFarm
         }
 
 
-         
+
 #if DEBUG
         //-----------------------------------------------------------------
         public void dbugForceTopDownReArrangeContent()

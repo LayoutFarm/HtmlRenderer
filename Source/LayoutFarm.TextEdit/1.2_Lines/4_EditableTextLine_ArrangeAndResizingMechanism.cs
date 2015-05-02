@@ -16,7 +16,7 @@ namespace LayoutFarm.Text
             int lastestX = 0;
             while (r != null)
             {
-                RenderElement.DirectSetVisualElementLocation(
+                RenderElement.DirectSetLocation(
                         r,
                         lastestX,
                         r.Y);
@@ -46,7 +46,7 @@ namespace LayoutFarm.Text
             while (curNode != null)
             {
                 EditableRun ve = curNode.Value;
-                EditableRun.DirectSetVisualElementLocation(ve, cx, 0);
+                EditableRun.DirectSetLocation(ve, cx, 0);
                 cx += ve.Width;
                 curNode = curNode.Next;
             }

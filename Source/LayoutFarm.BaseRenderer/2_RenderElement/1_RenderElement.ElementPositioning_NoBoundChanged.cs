@@ -118,7 +118,10 @@ namespace LayoutFarm
             }
         }
 
-        
+        public virtual void SetViewport(int viewportX, int viewportY)
+        {
+            //do nothing
+        }
         //-----------------------------------------------
         public Point GetGlobalLocation()
         {
