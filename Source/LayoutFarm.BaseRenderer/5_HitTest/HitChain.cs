@@ -54,9 +54,7 @@ namespace LayoutFarm.RenderBoxes
         int startTestY;
 
         int testPointX;
-        int testPointY;
-
-
+        int testPointY; 
         public HitChain()
         {
 
@@ -124,13 +122,7 @@ namespace LayoutFarm.RenderBoxes
         }
         public void AddHitObject(RenderElement hitObject)
         {
-            //for (int i = hitList.Count - 1; i >= 0; --i)
-            //{
-            //    if (hitList[i].hitElement == hitObject)
-            //    {
-
-            //    }
-            //}
+             
 
             hitList.Add(new HitInfo(hitObject, new Point(testPointX, testPointY)));
 #if DEBUG
@@ -149,9 +141,7 @@ namespace LayoutFarm.RenderBoxes
                 hitList.RemoveAt(hitList.Count - 1);
             }
         }
-
-
-
+         
 
 #if DEBUG
         public bool dbugBreak;

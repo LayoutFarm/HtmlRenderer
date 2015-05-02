@@ -89,7 +89,7 @@ namespace LayoutFarm
                                 {
                                     var node1 = docFragment.createElement("div") as IHtmlElement;
                                     node1.appendChild(
-                                        docFragment.createTextNode("3333".ToCharArray()));//TODO: review this
+                                        docFragment.createTextNode("3333"));//TODO: review this
 
                                     docFragment.rootNode.appendChild(node1);
                                 }
@@ -98,7 +98,7 @@ namespace LayoutFarm
 
                                     var node1 = docFragment.createElement("div") as IHtmlElement;
                                     node1.appendChild(
-                                        docFragment.createTextNode("4444".ToCharArray()));//TODO: review this
+                                        docFragment.createTextNode("4444"));//TODO: review this
                                     docFragment.rootNode.appendChild(node1);
                                 }
                                 div1.clear();
@@ -119,7 +119,7 @@ namespace LayoutFarm
                                 {
                                     var node1 = testHtmlDoc.createElement("div") as IHtmlElement;
                                     node1.appendChild(
-                                        testHtmlDoc.createTextNode("XXX".ToCharArray()));//TODO: review this 
+                                        testHtmlDoc.createTextNode("XXX"));//TODO: review this 
                                     //add node1 to shadow root element
                                     shadowRoot.appendChild(node1);
                                 }
@@ -127,7 +127,7 @@ namespace LayoutFarm
                                 {
                                     var node1 = testHtmlDoc.createElement("div") as IHtmlElement;
                                     node1.appendChild(
-                                        testHtmlDoc.createTextNode("YYY".ToCharArray()));//TODO: review this 
+                                        testHtmlDoc.createTextNode("YYY"));//TODO: review this 
                                     //add node1 to shadow root element
                                     shadowRoot.appendChild(node1);
                                 }

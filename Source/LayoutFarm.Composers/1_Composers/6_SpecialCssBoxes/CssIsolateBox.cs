@@ -13,22 +13,23 @@ namespace LayoutFarm.HtmlBoxes
             : base(spec, rootgfx)
         {
 
-        } 
-    } 
+        }
+    }
 
     class RenderElementBridgeCssBox : CssBox
     {
-        LayoutFarm.RenderElement containerElement;
+        RenderElement containerElement;
         public RenderElementBridgeCssBox(BoxSpec spec,
-            LayoutFarm.RenderElement containerElement,
+            RenderElement containerElement,
             RootGraphic rootgfx)
             : base(spec, rootgfx)
         {
             this.containerElement = containerElement;
         }
-        public override void InvalidateGraphics()
+        public override void InvalidateGraphics(Rectangle clientArea)
         {
-            this.containerElement.InvalidateGraphics();
+            //send to container element
+            this.containerElement.InvalidateGraphicBounds(clientArea);
         }
         public LayoutFarm.RenderElement ContainerElement
         {
@@ -41,6 +42,7 @@ namespace LayoutFarm.HtmlBoxes
             globalY = p.Y;
             return this;
         }
+
     }
 
 

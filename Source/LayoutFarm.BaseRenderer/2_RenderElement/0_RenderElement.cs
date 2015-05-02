@@ -109,6 +109,7 @@ namespace LayoutFarm
                 return parentLink.ParentRenderElement;
             }
         }
+        
         public static void RemoveParentLink(RenderElement childElement)
         {
             childElement.parentLink = null;
@@ -353,12 +354,12 @@ namespace LayoutFarm
         //==============================================================
         //set location and size , not bubble***
 
-        public static void DirectSetVisualElementSize(RenderElement visualElement, int width, int height)
+        public static void DirectSetSize(RenderElement visualElement, int width, int height)
         {
             visualElement.b_width = width;
             visualElement.b_height = height;
         }
-        public static void DirectSetVisualElementLocation(RenderElement visualElement, int x, int y)
+        public static void DirectSetLocation(RenderElement visualElement, int x, int y)
         {
             visualElement.b_left = x;
             visualElement.b_top = y;

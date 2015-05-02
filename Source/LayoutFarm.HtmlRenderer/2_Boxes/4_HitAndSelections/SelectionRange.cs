@@ -21,7 +21,7 @@ namespace LayoutFarm.HtmlBoxes
 
         CssRun endHitRun;
         int endHitRunCharIndex;
-
+        Rectangle snapSelectionArea;
 
         public SelectionRange(CssBoxHitChain startChain,
             CssBoxHitChain endChain,
@@ -59,11 +59,10 @@ namespace LayoutFarm.HtmlBoxes
                 return;
             }
 
-
             this.SetupEndHitPoint(startChain, endChain, ifonts);
+            this.snapSelectionArea = this.GetSelectionRectArea();
         }
-
-
+        public Rectangle SnapSelectionArea { get { return this.snapSelectionArea; } }
         public bool IsValid
         {
             get { return this.isValid; }
@@ -241,7 +240,6 @@ namespace LayoutFarm.HtmlBoxes
                         //modify hitpoint
                         this.startHitHostLine = (CssLineBox)startChain.GetHitInfo(startChain.Count - 2).hitObject;
                         this.startLineBeginSelectionAtPixel = (int)(run.Left + sel_offset);
-
                         this.startHitRun = run;
 
                     } break;
@@ -330,6 +328,10 @@ namespace LayoutFarm.HtmlBoxes
 
                     } break;
             }
+            if (xposOnEndLine == 0)
+            {
+
+            }
             //----------------------------------
             this.selectedLines = new List<CssLineBox>();
             if (startHitHostLine == endline)
@@ -347,15 +349,27 @@ namespace LayoutFarm.HtmlBoxes
 
             if (FindCommonGround(startChain, endChain, out breakAtLevel) && breakAtLevel > 0)
             {
-                var hitBlockRun = endChain.GetHitInfo(breakAtLevel).hitObject as CssBlockRun;
+
+                var hit1 = endChain.GetHitInfo(breakAtLevel).hitObject;
+
+                var hitBlockRun = hit1 as CssBlockRun;
+
                 //multiple select 
                 //1. first part        
-                startHitHostLine.Select(startLineBeginSelectionAtPixel, (int)hitBlockRun.Left,
+                if (hitBlockRun != null)
+                {
+                    startHitHostLine.Select(startLineBeginSelectionAtPixel, (int)hitBlockRun.Left,
                      this.startHitRun, this.startHitRunCharIndex,
                      this.endHitRun, this.endHitRunCharIndex);
-
-                selectedLines.Add(this.startHitHostLine);
-                lineWalkVisitor = new LineWalkVisitor(hitBlockRun);
+                    selectedLines.Add(this.startHitHostLine);
+                    lineWalkVisitor = new LineWalkVisitor(hitBlockRun);
+                }
+                else
+                {
+                    startHitHostLine.SelectPartialToEnd(startLineBeginSelectionAtPixel, this.startHitRun, this.startHitRunCharIndex);
+                    selectedLines.Add(this.startHitHostLine);
+                    lineWalkVisitor = new LineWalkVisitor(startHitHostLine);
+                }
             }
             else
             {
@@ -458,15 +472,13 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     continue;
                 }
-
                 if (latestLineBoxOwner != lineBox.OwnerBox)
                 {
                     //find global position of box
                     latestLineBoxOwner = lineBox.OwnerBox;
-
                     //TODO: review here , duplicate GetGlobalLocation 
                     float gx, gy;
-                    latestLineBoxOwner.GetElementGlobalLocation(out gx, out gy);
+                    latestLineBoxOwner.GetGlobalLocation(out gx, out gy);
                     latestLineBoxGlobalYPos = gy;
                 }
 
@@ -485,8 +497,56 @@ namespace LayoutFarm.HtmlBoxes
             return latestLine;
         }
 
+        Rectangle GetSelectionRectArea()
+        {
+            if (selectedLines != null)
+            {
+                int j = selectedLines.Count;
+                //first 
+                if (j > 0)
+                {
+                    CssBox ownerCssBox = null;
+                    CssBox rootbox = null;
+                    float fx1 = 0, fy1 = 0; //left top
+                    RectangleF selArea = RectangleF.Empty;
+                    //if (j ==1)
+                    //{ 
+                    //}
+                    for (int i = 0; i < j; ++i)
+                    {
+                        var line = selectedLines[i];
+                        if (line.OwnerBox != ownerCssBox)
+                        {
+                            ownerCssBox = line.OwnerBox;
+                            rootbox = ownerCssBox.GetGlobalLocationRelativeToRoot(out fx1, out fy1);
+                        }
+                        if (i == 0)
+                        {
 
+                            selArea = new RectangleF(fx1,
+                                fy1 + line.CachedLineTop,
+                                line.CachedLineContentWidth,
+                                line.CacheLineHeight);
+                        }
+                        else
+                        {
 
+                            selArea = RectangleF.Union(selArea,
+                                  new RectangleF(fx1,
+                                  fy1 + line.CachedLineTop,
+                                  line.CachedLineContentWidth,
+                                  line.CacheLineHeight));
+                        }
+                    }
+                    //if want to debug then send a big rect
+
+                    //Console.WriteLine(new Rectangle((int)selArea.X, (int)selArea.Y, (int)selArea.Width, (int)selArea.Height).ToString());
+                    //return new Rectangle(0, 0, 800, 600);
+                    return new Rectangle((int)selArea.X, (int)selArea.Y, (int)selArea.Width, (int)selArea.Height);
+                }
+            }
+            return Rectangle.Empty;
+        }
         //======================================================================================
         class LineWalkVisitor
         {
@@ -507,14 +567,14 @@ namespace LayoutFarm.HtmlBoxes
                 this.startLineBox = startLineBox;
 
                 float endElemX = 0, endElemY = 0;
-                startLineBox.OwnerBox.GetElementGlobalLocation(out endElemX, out endElemY);
+                startLineBox.OwnerBox.GetGlobalLocation(out endElemX, out endElemY);
                 this.globalX = endElemX;
                 this.globalY = endElemY + startLineBox.CachedLineTop;
             }
             public LineWalkVisitor(CssBlockRun startBlockRun)
             {
                 float endElemX = 0, endElemY = 0;
-                startBlockRun.ContentBox.GetElementGlobalLocation(out endElemX, out endElemY);
+                startBlockRun.ContentBox.GetGlobalLocation(out endElemX, out endElemY);
                 this.globalX = endElemX;
                 this.globalY = endElemY;
                 this.startBlockRun = startBlockRun;
@@ -594,7 +654,7 @@ namespace LayoutFarm.HtmlBoxes
             {
 
                 float sx, sy;
-                startLine.OwnerBox.GetElementGlobalLocation(out sx, out sy);
+                startLine.OwnerBox.GetGlobalLocation(out sx, out sy);
                 CssLineBox curLine = startLine;
                 //walk up and down the tree
                 CssLineBox nextline = curLine.NextLine;
@@ -615,7 +675,7 @@ namespace LayoutFarm.HtmlBoxes
                 while (level1Sibling != null)
                 {
 
-                    level1Sibling.GetElementGlobalLocation(out sx, out sy);
+                    level1Sibling.GetGlobalLocation(out sx, out sy);
                     visitor.globalY = sy;
 
                     //walk down
@@ -718,25 +778,19 @@ namespace LayoutFarm.HtmlBoxes
                 EndHitRun = endRun,
                 EndHitCharIndex = endRunIndex
             };
+        } 
 
-        }
         public static void Select(this CssLineBox lineBox, int startAtPx, int endAt,
             CssRun startRun, int startRunIndex,
             CssRun endRun, int endRunIndex)
-        {
-            //from startAtPx of line to endAt
-
-            //lineBox.SelectionStartAt = startAtPx;
-            //lineBox.SelectionWidth = endAt - startAtPx; 
-
+        { 
             lineBox.SelectionSegment = new SelectionSegment(startAtPx, endAt - startAtPx)
             {
                 StartHitRun = startRun,
                 StartHitCharIndex = startRunIndex,
                 EndHitRun = endRun,
                 EndHitCharIndex = endRunIndex
-            };
-
+            }; 
         }
     }
 

@@ -1,6 +1,6 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
 using System;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
 using LayoutFarm.Composers;
@@ -8,7 +8,7 @@ using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 
 namespace LayoutFarm.Composers
-{   
+{
     sealed class HtmlRootElement : HtmlElement
     {
         public HtmlRootElement(HtmlDocument ownerDoc)
@@ -25,14 +25,14 @@ namespace LayoutFarm.Composers
         {
             this.lazyCreator = lazyCreator;
         }
-        public override bool HasCustomPrincipalBoxGenerator
+        internal override bool HasCustomPrincipalBoxGenerator
         {
             get
             {
                 return true;
             }
         }
-        public override CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
+        internal override CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
         {
             if (this.CurrentPrincipalBox != null)
             {
@@ -64,14 +64,14 @@ namespace LayoutFarm.Composers
             shadowDoc = new HtmlShadowDocument(owner);
             shadowDoc.SetDomUpdateHandler(owner.DomUpdateHandler);
         }
-        public override bool HasCustomPrincipalBoxGenerator
+        internal override bool HasCustomPrincipalBoxGenerator
         {
             get
             {
                 return true;
             }
         }
-        public override CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost htmlHost)
+        internal override CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost htmlHost)
         {
             if (rootbox != null)
             {

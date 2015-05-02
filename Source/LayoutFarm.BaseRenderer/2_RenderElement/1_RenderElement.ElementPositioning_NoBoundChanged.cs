@@ -118,16 +118,14 @@ namespace LayoutFarm
             }
         }
 
-        //-----------------------------------------------
-        public virtual int BubbleUpX
+        public virtual void SetViewport(int viewportX, int viewportY)
         {
-            get { return this.X; }
+            //do nothing
         }
-        public virtual int BubbleUpY
+        public virtual Size InnerContentSize
         {
-            get { return this.Y; }
+            get { return this.Size; }
         }
-
         //-----------------------------------------------
         public Point GetGlobalLocation()
         {
@@ -156,7 +154,7 @@ namespace LayoutFarm
             {
                 return re.Location;
             }
-        } 
+        }
         //----------------------------------------------- 
         public bool HasSpecificWidth
         {

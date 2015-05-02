@@ -41,7 +41,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
         }
-        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
+        protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
         {
             myHtmlCont.CheckDocUpdate();
 

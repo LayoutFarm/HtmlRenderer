@@ -15,8 +15,8 @@ namespace LayoutFarm
         {
             return true;
         }
-       
-        protected IParentLink MyParentLink
+
+        public IParentLink MyParentLink
         {
             get { return this.parentLink; }
         }
@@ -27,11 +27,11 @@ namespace LayoutFarm
             //yes, because when this renderElement act as parentlink
             //it return itself as parent
             get { return this; }
-        } 
+        }
         void IParentLink.AdjustLocation(ref Point p)
         {
             //nothing
-        } 
+        }
         RenderElement IParentLink.FindOverlapedChildElementAtPoint(RenderElement afterThisChild, Point point)
         {
             //called from child node

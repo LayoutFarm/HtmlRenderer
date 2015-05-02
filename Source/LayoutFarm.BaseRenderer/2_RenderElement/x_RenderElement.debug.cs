@@ -32,10 +32,7 @@ namespace LayoutFarm
         public static dbugVisualElementLayoutMsg Clear_ARR = new dbugVisualElementLayoutMsg("ClEAR ARR : ");
         public static dbugVisualElementLayoutMsg Clear_CAL_ARR = new dbugVisualElementLayoutMsg("ClEAR CAL+ARR : ");
         public static dbugVisualElementLayoutMsg Clear_ARR_CAL = new dbugVisualElementLayoutMsg("ClEAR ARR+CAL : ");
-
-
-
-
+         
     }
 
     partial class RenderElement

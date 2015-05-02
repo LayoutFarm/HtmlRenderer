@@ -15,6 +15,8 @@ namespace LayoutFarm.WebDom.Parser
         VisitCloseSlashAngle,  //  />        
         VisitAttrAssign,      //=
 
+        VisitOpenAngleExclimation, //<! eg. document node <!doctype
+
         OpenComment,           //  <!--
         CloseComment,          //  -->
 
@@ -26,8 +28,7 @@ namespace LayoutFarm.WebDom.Parser
         NodeNameLocal,
         Attribute,
         AttributeNameLocal,
-        AttributeNamePrefix,
-        AttributeValue,
+        AttributeNamePrefix, 
         AttributeValueAsLiteralString,
 
         SwitchToContentPart,
@@ -37,7 +38,8 @@ namespace LayoutFarm.WebDom.Parser
 
     enum HtmlLexState
     {
-
+        Init,
+        AfterOpenAngle
 
 
     }
@@ -51,7 +53,7 @@ namespace LayoutFarm.WebDom.Parser
         int _lastFlushAt = 0;
         int _appendCount = 0;
         int _firstAppendAt = -1;
-        LayoutFarm.WebLexer.TextSnapshot textSnapshot; 
+        LayoutFarm.WebLexer.TextSnapshot textSnapshot;
         public event HtmlLexerEventHandler LexStateChanged;
         public HtmlLexer()
         {
@@ -73,9 +75,9 @@ namespace LayoutFarm.WebDom.Parser
         public void EndLex()
         {
 
-        } 
+        }
 
-       
+
         public void Analyze(TextSnapshot textSnapshot)
         {
 
@@ -131,23 +133,7 @@ namespace LayoutFarm.WebDom.Parser
                             {
                                 case '!':
                                     {
-                                        //comment mode ?
-                                        if (i < lim - 1)
-                                        {
-                                            //may be comment
-                                            if (sourceBuffer[i + 1] == '-' &&
-                                                sourceBuffer[i + 2] == '-')
-                                            {
-                                                //emit comment node
-                                                i += 2;
-                                                currentState = 2;
-                                                continue;
-                                            }
-                                        }
-                                        //--------------------------
-                                        //emit unknown token  
-                                        currentState = 10;//unknown tag
-                                        //----------------------------
+                                        currentState = 11;
                                     } break;
                                 case '?':
                                     {
@@ -304,8 +290,54 @@ namespace LayoutFarm.WebDom.Parser
                             {
                                 currentState = 0;
                             }
-
                         } break;
+                    case 11:
+                        {
+                            //open_angle, exlcimation
+                            switch (c)
+                            {
+                                case '-':
+                                    {
+                                        //looking for next char
+                                        if (i < lim)
+                                        {
+                                            if (sourceBuffer[i + 1] == '-')
+                                            {
+                                                currentState = 2;
+                                                continue;
+                                            }
+                                            else
+                                            {
+                                                //unknown tag?
+                                                currentState = 10;
+                                            }
+                                        }
+
+                                    } break;
+                                case '[':
+                                    {
+                                        // <![
+                                        //
+                                        currentState = 10;//not implement,just skip
+                                    } break;
+                                default:
+                                    {
+                                        //doc type?
+                                        if (char.IsLetter(sourceBuffer[i + 1]))
+                                        {
+
+                                            LexStateChanged(HtmlLexerEvent.VisitOpenAngleExclimation, i, 2);
+                                            AppendBuffer(c, i);
+                                            currentState = 5;
+                                        }
+                                        else
+                                        {
+                                            currentState = 10;//not implement, just skip
+                                        }
+                                    } break;
+                            }
+                        } break;
+
                 }
             }
 

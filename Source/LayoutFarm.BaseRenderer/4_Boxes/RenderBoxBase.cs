@@ -5,7 +5,7 @@ using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 
-namespace LayoutFarm 
+namespace LayoutFarm
 {
 
 #if DEBUG
@@ -16,19 +16,18 @@ namespace LayoutFarm
 
         int myviewportX;
         int myviewportY;
-
         PlainLayer defaultLayer;
+
         public RenderBoxBase(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
         {
             this.MayHasViewport = true;
             this.MayHasChild = true;
         }
-        protected abstract void DrawContent(Canvas canvas, Rectangle updateArea);
 
 
 
-        public void SetViewport(int viewportX, int viewportY)
+        public override void SetViewport(int viewportX, int viewportY)
         {
             this.myviewportX = viewportX;
             this.myviewportY = viewportY;
@@ -56,7 +55,7 @@ namespace LayoutFarm
             canvas.OffsetCanvasOrigin(-myviewportX, -myviewportY);
             updateArea.Offset(myviewportX, myviewportY);
 
-            this.DrawContent(canvas, updateArea);
+            this.DrawBoxContent(canvas, updateArea);
 
             canvas.OffsetCanvasOrigin(myviewportX, myviewportY);
             updateArea.Offset(-myviewportX, -myviewportY);
@@ -73,22 +72,6 @@ namespace LayoutFarm
             }
         }
 
-        public void InvalidateContentArrangementFromContainerSizeChanged()
-        {
-            this.MarkInvalidContentArrangement();
-            //foreach (VisualLayer layer in this.GetAllLayerBottomToTopIter())
-            //{
-            //    layer.InvalidateContentArrangementFromContainerSizeChanged();
-            //}
-        }
-        protected static void InnerDoTopDownReCalculateContentSize(RenderBoxBase containerBase)
-        {
-            containerBase.TopDownReCalculateContentSize();
-        }
-        protected static void InnerTopDownReArrangeContentIfNeed(RenderBoxBase containerBase)
-        {
-            containerBase.TopDownReArrangeContentIfNeed();
-        }
         public override sealed void TopDownReCalculateContentSize()
         {
 
@@ -143,19 +126,6 @@ namespace LayoutFarm
 
         }
 
-        protected bool HasDefaultLayer
-        {
-            get { return this.defaultLayer != null; }
-        }
-        protected void DrawDefaultLayer(Canvas canvas, ref Rectangle updateArea)
-        {
-            if (this.defaultLayer != null)
-            {
-                defaultLayer.DrawChildContent(canvas, updateArea);
-            }
-        }
-
-        //-------------------------------------------------------------------------- 
         public override void AddChild(RenderElement renderE)
         {
             if (this.defaultLayer == null)
@@ -178,73 +148,7 @@ namespace LayoutFarm
                 this.defaultLayer.Clear();
             }
         }
-        //-----------------------------------------------------------------
-        public void ForceTopDownReArrangeContent()
-        {
 
-#if DEBUG
-            dbug_EnterReArrangeContent(this);
-            dbug_topDownReArrContentPass++;
-            this.dbug_BeginArr++;
-            debug_PushTopDownElement(this);
-#endif
-
-            this.MarkValidContentArrangement();
-
-            IsInTopDownReArrangePhase = true;
-
-            if (this.defaultLayer != null)
-            {
-                this.defaultLayer.TopDownReArrangeContent();
-            }
-
-            // BoxEvaluateScrollBar();
-
-#if DEBUG
-            this.dbug_FinishArr++;
-            debug_PopTopDownElement(this);
-            dbug_ExitReArrangeContent();
-#endif
-        }
-        public void TopDownReArrangeContentIfNeed()
-        {
-#if DEBUG
-            bool isIncr = false;
-#endif
-
-            if (!ForceReArrange && !this.NeedContentArrangement)
-            {
-                if (!this.FirstArrangementPass)
-                {
-                    this.FirstArrangementPass = true;
-#if DEBUG
-                    dbug_WriteInfo(dbugVisitorMessage.PASS_FIRST_ARR);
-#endif
-
-                }
-                else
-                {
-#if DEBUG
-                    isIncr = true;
-                    this.dbugVRoot.dbugNotNeedArrCount++;
-                    this.dbugVRoot.dbugNotNeedArrCountEpisode++;
-                    dbug_WriteInfo(dbugVisitorMessage.NOT_NEED_ARR);
-                    this.dbugVRoot.dbugNotNeedArrCount--;
-#endif
-                }
-                return;
-            }
-
-            ForceTopDownReArrangeContent();
-
-
-#if DEBUG
-            if (isIncr)
-            {
-                this.dbugVRoot.dbugNotNeedArrCount--;
-            }
-#endif
-        }
 
 
         public override RenderElement FindUnderlyingSiblingAtPoint(Point point)
@@ -269,7 +173,7 @@ namespace LayoutFarm
                 }
             }
         }
-        public virtual Size InnerContentSize
+        public override Size InnerContentSize
         {
             get
             {
@@ -294,9 +198,87 @@ namespace LayoutFarm
             }
         }
 
+         
 
-        //--------------------------------------------
+        protected abstract void DrawBoxContent(Canvas canvas, Rectangle updateArea);
+        protected bool HasDefaultLayer
+        {
+            get { return this.defaultLayer != null; }
+        }
+        protected void DrawDefaultLayer(Canvas canvas, ref Rectangle updateArea)
+        {
+            if (this.defaultLayer != null)
+            {
+                defaultLayer.DrawChildContent(canvas, updateArea);
+            }
+        }
+
 #if DEBUG
+        //-----------------------------------------------------------------
+        public void dbugForceTopDownReArrangeContent()
+        {
+
+            dbug_EnterReArrangeContent(this);
+            dbug_topDownReArrContentPass++;
+            this.dbug_BeginArr++;
+            debug_PushTopDownElement(this);
+
+            this.MarkValidContentArrangement();
+
+            IsInTopDownReArrangePhase = true;
+
+            if (this.defaultLayer != null)
+            {
+                this.defaultLayer.TopDownReArrangeContent();
+            }
+
+            // BoxEvaluateScrollBar();
+
+
+            this.dbug_FinishArr++;
+            debug_PopTopDownElement(this);
+            dbug_ExitReArrangeContent();
+
+        }
+        public void dbugTopDownReArrangeContentIfNeed()
+        {
+
+            bool isIncr = false;
+
+
+            if (!ForceReArrange && !this.NeedContentArrangement)
+            {
+                if (!this.FirstArrangementPass)
+                {
+                    this.FirstArrangementPass = true;
+
+                    dbug_WriteInfo(dbugVisitorMessage.PASS_FIRST_ARR);
+
+
+                }
+                else
+                {
+
+                    isIncr = true;
+                    this.dbugVRoot.dbugNotNeedArrCount++;
+                    this.dbugVRoot.dbugNotNeedArrCountEpisode++;
+                    dbug_WriteInfo(dbugVisitorMessage.NOT_NEED_ARR);
+                    this.dbugVRoot.dbugNotNeedArrCount--;
+
+                }
+                return;
+            }
+
+            dbugForceTopDownReArrangeContent();
+
+
+
+            if (isIncr)
+            {
+                this.dbugVRoot.dbugNotNeedArrCount--;
+            }
+
+        }
         public override void dbug_DumpVisualProps(dbugLayoutMsgWriter writer)
         {
             base.dbug_DumpVisualProps(writer);
@@ -313,6 +295,7 @@ namespace LayoutFarm
             }
         }
         static int dbug_topDownReArrContentPass = 0;
+
 #endif
 
     }

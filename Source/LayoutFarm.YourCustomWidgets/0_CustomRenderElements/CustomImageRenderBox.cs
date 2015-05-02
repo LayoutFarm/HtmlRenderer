@@ -34,7 +34,7 @@ namespace LayoutFarm.CustomWidgets
             get { return this.imageBinder; }
             set { this.imageBinder = value; }
         }
-        protected override void DrawContent(Canvas canvas, Rectangle updateArea)
+        protected override void DrawBoxContent(Canvas canvas, Rectangle updateArea)
         {
             if (this.imageBinder != null)
             {

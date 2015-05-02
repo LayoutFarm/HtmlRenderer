@@ -29,19 +29,11 @@ namespace LayoutFarm.WebDom.Impl
     {
         //note: this version is not conform with w3c  
         HtmlShadowDocument shadowDoc;
-
         public ShadowRootElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
             shadowDoc = new HtmlShadowDocument(owner);
             shadowDoc.SetDomUpdateHandler(owner.DomUpdateHandler);
-        }
-        public override bool HasCustomPrincipalBoxGenerator
-        {
-            get
-            {
-                return true;
-            }
         }
         public override void AddChild(DomNode childNode)
         {
@@ -52,8 +44,6 @@ namespace LayoutFarm.WebDom.Impl
             }
             shadowDoc.RootNode.AddChild(childNode);
         }
-
-
 #if DEBUG
         public override string ToString()
         {
