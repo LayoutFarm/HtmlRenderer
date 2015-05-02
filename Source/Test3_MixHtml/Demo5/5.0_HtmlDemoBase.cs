@@ -54,11 +54,8 @@ namespace LayoutFarm.WebWidgets
 
         protected void AddToViewport(HtmlWidgets.LightHtmlWidgetBase htmlWidget)
         {
-            //add widget to viewport
-            //must create a WidgetHolder
-            var holder = new HtmlWidgets.WidgetHolder(htmlWidget);
-            //1. 
-
+           
+            //1.  
             sampleViewport.AddContent(htmlWidget.GetPrimaryUIElement(myHtmlHost));
         }
     }
