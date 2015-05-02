@@ -131,7 +131,7 @@ namespace LayoutFarm.HtmlWidgets
 
                 var lightHtmlBox = new HtmlBox(htmlhost, this.Width, this.Height);
                 HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
-                myPresentationDom = GetPresentationDomNode(htmldoc.RootNode);
+                myPresentationDom = GetPresentationDomNode(htmldoc);
                 if (myPresentationDom != null)
                 {
                     htmldoc.RootNode.AddChild(myPresentationDom);
@@ -147,7 +147,7 @@ namespace LayoutFarm.HtmlWidgets
             }
             return this.lightHtmlBox;
         }
-
+        public abstract WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc);
         protected void AddSelfToTopWindow()
         {
             var htmlhost = this.HtmlHost;
@@ -205,7 +205,7 @@ namespace LayoutFarm.HtmlWidgets
             this.lightHtmlBox.InvalidateGraphics();
         }
 
-        public abstract WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode);
+     
         public override void SetViewport(int x, int y)
         {
             base.SetViewport(x, y);

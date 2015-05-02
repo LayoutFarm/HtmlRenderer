@@ -34,22 +34,22 @@ namespace LayoutFarm.HtmlWidgets
         {
             get { return this.tabPageCollection; }
         }
-        public override WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode)
+        public override WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
             if (pnode != null) return pnode;
             //------------------------------
-            var ownerdoc = hostNode.OwnerDocument;
-            pnode = ownerdoc.CreateElement("div");
+            
+            pnode = htmldoc.CreateElement("div");
             pnode.SetAttribute("style", "font:10pt tahoma");
             //------------------------------ 
-            titleBar = ownerdoc.CreateElement("div");
+            titleBar = htmldoc.CreateElement("div");
             titleBar.AddTextContent("hello tabPage");
             pnode.AddChild(titleBar);
             //------------------------------ 
-            tabTitleList = ownerdoc.CreateElement("div");
+            tabTitleList = htmldoc.CreateElement("div");
             pnode.AddChild(tabTitleList);
             //------------------------------ 
-            contentNode = ownerdoc.CreateElement("div");
+            contentNode = htmldoc.CreateElement("div");
             pnode.AddChild(contentNode);
             //------------------------------
             return pnode;

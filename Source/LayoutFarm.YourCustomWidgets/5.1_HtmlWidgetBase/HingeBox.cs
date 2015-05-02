@@ -51,14 +51,14 @@ namespace LayoutFarm.HtmlWidgets
                 });
             return htmldoc;
         }
-        public override DomElement GetPresentationDomNode(DomElement hostNode)
+        public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
             if (presentationNode != null)
             {
                 return presentationNode;
             }
             //-------------------
-            presentationNode = hostNode.OwnerDocument.CreateElement("div");
+            presentationNode = htmldoc.CreateElement("div");
             presentationNode.AddChild("div", div =>
             {
                 div.SetAttribute("style", "font:10pt tahoma;");

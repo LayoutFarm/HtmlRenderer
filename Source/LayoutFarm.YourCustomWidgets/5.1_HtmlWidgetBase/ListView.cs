@@ -25,11 +25,11 @@ namespace LayoutFarm.HtmlWidgets
             : base(w, h)
         {
         }
-        public override WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode)
+        public override WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
             if (pnode != null) return pnode;
             //--------------------------------
-            pnode = hostNode.OwnerDocument.CreateElement("div");
+            pnode = htmldoc.CreateElement("div");
             pnode.SetAttribute("style", "font:10pt tahoma");
             int j = items.Count;
             if (j > 0)

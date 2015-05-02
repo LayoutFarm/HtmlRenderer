@@ -45,8 +45,6 @@ namespace LayoutFarm.HtmlWidgets
             get { return this.top; }
         }
 
-        //public abstract UIElement GetPrimaryUIElement(HtmlHost htmlhost);
-
         public virtual void SetLocation(int left, int top)
         {
             this.left = left;
@@ -78,52 +76,23 @@ namespace LayoutFarm.HtmlWidgets
         }
     }
 
-    //sealed class WidgetHolder
-    //{
-    //    HtmlBox lightHtmlBox;
-    //    LightHtmlWidgetBase widget;
 
-    //    public WidgetHolder(LightHtmlWidgetBase widget)
-    //    {
-    //        this.widget = widget;
-    //    }
-    //    public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
-    //    {
-    //        if (this.lightHtmlBox == null)
-    //        {
-
-    //            var lightHtmlBox = new HtmlBox(htmlhost, widget.Width, widget.Height);
-    //            HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
-    //            var presentationDom = widget.GetPresentationDomNode(htmldoc.RootNode);
-    //            if (presentationDom != null)
-    //            {
-    //                htmldoc.RootNode.AddChild(presentationDom);
-    //                lightHtmlBox.LoadHtmlDom(htmldoc);
-    //            }
-
-    //            lightHtmlBox.SetLocation(widget.Left, widget.Top);
-    //            lightHtmlBox.LayoutFinished += (s, e) => widget.RaiseEventLayoutFinished();
-
-    //            this.lightHtmlBox = lightHtmlBox;
-    //            //first time
-    //            LightHtmlWidgetBase.RaiseOnPrimaryUIElementCrated(widget, htmlhost);
-    //        }
-    //        return this.lightHtmlBox;
-    //    }
-
-    //}
 
     public abstract class NewHtmlWidgetBase : NewWidgetBase
     {
 
         DomElement myPresentationDom;
-        HtmlBox lightHtmlBox; //primary ui element
-
+        HtmlBox lightHtmlBox; //primary ui element 
         HtmlHost htmlhost;
         public NewHtmlWidgetBase(int w, int h)
             : base(w, h)
         {
+
         }
+
+        public abstract WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc);
+
+
         public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
         {
             this.htmlhost = htmlhost;
@@ -132,7 +101,7 @@ namespace LayoutFarm.HtmlWidgets
 
                 var lightHtmlBox = new HtmlBox(htmlhost, this.Width, this.Height);
                 HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
-                myPresentationDom = GetPresentationDomNode(htmldoc.RootNode);
+                myPresentationDom = GetPresentationDomNode(htmldoc);
                 if (myPresentationDom != null)
                 {
                     htmldoc.RootNode.AddChild(myPresentationDom);
@@ -206,7 +175,7 @@ namespace LayoutFarm.HtmlWidgets
             this.lightHtmlBox.InvalidateGraphics();
         }
 
-        public abstract WebDom.DomElement GetPresentationDomNode(WebDom.DomElement hostNode);
+
         public override void SetViewport(int x, int y)
         {
             base.SetViewport(x, y);
