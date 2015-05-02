@@ -13,7 +13,7 @@ using LayoutFarm.Composers;
 namespace LayoutFarm.HtmlWidgets
 {
 
-    public abstract class OldWidgetBase : IScrollable
+    public abstract class NewWidgetBase : IScrollable
     {
         int width;
         int height;
@@ -23,7 +23,7 @@ namespace LayoutFarm.HtmlWidgets
         int viewportY;
         public event EventHandler LayoutFinished;
 
-        public OldWidgetBase(int w, int h)
+        public NewWidgetBase(int w, int h)
         {
             this.width = w;
             this.height = h;
@@ -113,13 +113,14 @@ namespace LayoutFarm.HtmlWidgets
 
     //}
 
-    public abstract class LightHtmlWidgetBase : OldWidgetBase
+    public abstract class NewHtmlWidgetBase : NewWidgetBase
     {
 
         DomElement myPresentationDom;
-        HtmlBox lightHtmlBox; //primary ui element 
+        HtmlBox lightHtmlBox; //primary ui element
+
         HtmlHost htmlhost;
-        public LightHtmlWidgetBase(int w, int h)
+        public NewHtmlWidgetBase(int w, int h)
             : base(w, h)
         {
         }
@@ -226,7 +227,7 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
 
-        internal static void RaiseOnPrimaryUIElementCrated(LightHtmlWidgetBase widget, HtmlHost htmlhost)
+        internal static void RaiseOnPrimaryUIElementCrated(NewHtmlWidgetBase widget, HtmlHost htmlhost)
         {
             widget.OnPrimaryUIElementCreated(htmlhost);
         }

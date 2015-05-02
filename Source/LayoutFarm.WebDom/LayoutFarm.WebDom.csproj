@@ -33,9 +33,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="0_WebDom.Parser\TextSource.cs" />
     <Compile Include="1_Css\UserMapUtil.cs" />
     <Compile Include="1_Css\ValueMaps.cs" />
@@ -72,7 +69,6 @@
     <Compile Include="2_WebDom\WebDocument.cs" />
     <Compile Include="2_WebDom\WellknownElementName.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
       <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
@@ -86,6 +82,9 @@
       <Project>{48B4B5F3-2F56-49EA-8A6D-C07523DCB03E}</Project>
       <Name>LayoutFarm.WebLexer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

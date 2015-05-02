@@ -85,6 +85,7 @@
     <Compile Include="5_HtmlBox\HtmlContainerHelper.cs" />
     <Compile Include="5_HtmlBox\HtmlBox.cs" />
     <Compile Include="6_InternalResourceMx\ResImageList.cs" />
+    <Compile Include="7_Widget2\0_WidgetBase.cs" />
     <Compile Include="8_Canvas\MiniAggCanvasBox.cs" />
     <Compile Include="8_Canvas\MiniAggCanvasRenderElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
