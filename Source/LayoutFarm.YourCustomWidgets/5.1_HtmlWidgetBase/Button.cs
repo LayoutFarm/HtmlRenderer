@@ -1,4 +1,4 @@
-﻿// 2015,2014 ,Apache2, WinterDev
+﻿ // 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,11 +14,7 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm.HtmlWidgets
 {
 
-<<<<<<< HEAD
-    public class Button : LightHtmlBoxWidgetBase
-=======
-    public class Button : OldHtmlWidgetBase
->>>>>>> v_widget2
+    public class Button : HtmlWidgetBase
     {
         string buttonText = "";
         DomElement pnode;
@@ -35,11 +31,7 @@ namespace LayoutFarm.HtmlWidgets
                 this.buttonText = value;
             }
         }
-<<<<<<< HEAD
-        public override DomElement GetPresentationDomNode(HtmlDocument htmldoc)
-=======
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
->>>>>>> v_widget2
         {
             if (pnode != null) return pnode;
             //----------------------------------

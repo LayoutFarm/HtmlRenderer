@@ -61,9 +61,6 @@ namespace LayoutFarm.HtmlWidgets
             //titleNode.AttachMouseDownEvent(e =>
             //{
 
-<<<<<<< HEAD
-    public class TabPageContainer : LightHtmlBoxWidgetBase
-=======
 
             //});
             //-------------------------------------
@@ -109,8 +106,7 @@ namespace LayoutFarm.HtmlWidgets
 
 
     }
-    public class TabPageContainer : OldHtmlWidgetBase
->>>>>>> v_widget2
+    public class TabPageContainer : HtmlWidgetBase
     {
         DomElement pnode;
         DomElement titleBar;
@@ -131,21 +127,12 @@ namespace LayoutFarm.HtmlWidgets
         {
             get { return this.tabPageCollection; }
         }
-<<<<<<< HEAD
-        public override WebDom.DomElement GetPresentationDomNode(Composers.HtmlDocument htmldoc)
-        {
-            if (pnode != null) return pnode;
-            //------------------------------
-            var ownerdoc = htmldoc;
-            pnode = ownerdoc.CreateElement("div");
-=======
         public override WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
             if (pnode != null) return pnode;
             //------------------------------
             
             pnode = htmldoc.CreateElement("div");
->>>>>>> v_widget2
             pnode.SetAttribute("style", "font:10pt tahoma");
             //------------------------------ 
             titleBar = htmldoc.CreateElement("div");

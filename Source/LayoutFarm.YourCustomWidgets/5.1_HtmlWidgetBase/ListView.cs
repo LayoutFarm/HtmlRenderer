@@ -12,14 +12,10 @@ using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm.HtmlWidgets
 {
-<<<<<<< HEAD
-    public class ListView : LightHtmlBoxWidgetBase
-=======
-    public class ListView : OldHtmlWidgetBase
->>>>>>> v_widget2
+    public class ListView : HtmlWidgetBase
     {
         //composite           
-        Color backColor = Color.LightGray;
+        Color backColor = Color.LightGray; 
         List<UICollection> layers = new List<UICollection>(1);
         List<ListItem> items = new List<ListItem>();
         int selectedIndex = -1;//default = no selection
@@ -29,11 +25,7 @@ namespace LayoutFarm.HtmlWidgets
             : base(w, h)
         {
         }
-<<<<<<< HEAD
-        public override WebDom.DomElement GetPresentationDomNode(Composers.HtmlDocument htmldoc)
-=======
         public override WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
->>>>>>> v_widget2
         {
             if (pnode != null) return pnode;
             //--------------------------------
@@ -127,7 +119,7 @@ namespace LayoutFarm.HtmlWidgets
                 }
             }
         }
-
+         
 
     }
     public class ListItem
@@ -170,7 +162,7 @@ namespace LayoutFarm.HtmlWidgets
             }
             var ownerdoc = hostNode.OwnerDocument;
             pnode = ownerdoc.CreateElement("div");
-            // pnode.SetAttribute("style", "font:10pt tahoma");
+           // pnode.SetAttribute("style", "font:10pt tahoma");
 
             textSpanNode = ownerdoc.CreateElement("span");
             textSpanNode.AddChild(ownerdoc.CreateTextNode(itemText.ToCharArray()));

@@ -15,11 +15,7 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.HtmlWidgets
 {
 
-<<<<<<< HEAD
-    public class HingeBox : LightHtmlBoxWidgetBase
-=======
-    public class HingeBox : OldHtmlWidgetBase
->>>>>>> v_widget2
+    public class HingeBox : HtmlWidgetBase
     {
 
         RenderElement landPartRenderElement;//background 
@@ -27,9 +23,9 @@ namespace LayoutFarm.HtmlWidgets
         Color backColor = Color.LightGray;
         bool isOpen;
         //1. land part
-        WebDom.Impl.HtmlElement landPart;
+        HtmlBox landPart;
         //2. float part   
-        WebDom.Impl.HtmlElement floatPart;
+        HtmlBox floatPart;
 
         RenderElement floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
@@ -55,11 +51,7 @@ namespace LayoutFarm.HtmlWidgets
                 });
             return htmldoc;
         }
-<<<<<<< HEAD
-        public override DomElement GetPresentationDomNode(HtmlDocument htmldoc)
-=======
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
->>>>>>> v_widget2
         {
             if (presentationNode != null)
             {
@@ -102,18 +94,18 @@ namespace LayoutFarm.HtmlWidgets
             return presentationNode;
         }
 
-        public WebDom.Impl.HtmlElement LandPart
+        public HtmlBox LandPart
         {
             get { return this.landPart; }
         }
-        public WebDom.Impl.HtmlElement FloatPart
+        public HtmlBox FloatPart
         {
             get { return this.floatPart; }
         }
         protected override void OnPrimaryUIElementCreated(HtmlHost htmlhost)
         {
             if (this.landPart == null)
-            {   
+            {
                 this.landPart = (HtmlBox)base.GetPrimaryUIElement(htmlhost);
             }
             if (floatPart == null)
@@ -222,9 +214,5 @@ namespace LayoutFarm.HtmlWidgets
     }
 
 
-    public enum HingeFloatPartStyle
-    {
-        Popup,
-        Embeded
-    }
+   
 }

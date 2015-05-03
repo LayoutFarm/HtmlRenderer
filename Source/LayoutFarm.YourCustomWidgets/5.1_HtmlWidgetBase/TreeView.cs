@@ -13,11 +13,7 @@ using LayoutFarm.CustomWidgets;
 
 namespace LayoutFarm.HtmlWidgets
 {
-<<<<<<< HEAD
-    public class TreeView : LightHtmlBoxWidgetBase
-=======
-    public class TreeView : OldHtmlWidgetBase
->>>>>>> v_widget2
+    public class TreeView : HtmlWidgetBase
     {
         //composite          
         List<TreeNode> treeNodes = new List<TreeNode>();
@@ -28,22 +24,12 @@ namespace LayoutFarm.HtmlWidgets
             : base(width, height)
         {
         }
-<<<<<<< HEAD
-        public override DomElement GetPresentationDomNode(Composers.HtmlDocument htmldoc)
-=======
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
->>>>>>> v_widget2
         {
-
             if (pnode != null) return pnode;
             //create primary presentation node
-<<<<<<< HEAD
-            var ownerdoc = htmldoc;
-            pnode = ownerdoc.CreateElement("div");
-=======
           
             pnode = htmldoc.CreateElement("div");
->>>>>>> v_widget2
             pnode.SetAttribute("style", "font:10pt tahoma");
             int j = treeNodes.Count;
             for (int i = 0; i < j; ++i)
@@ -63,7 +49,7 @@ namespace LayoutFarm.HtmlWidgets
         public void PerformContentLayout()
         {
 
-        }
+        } 
     }
 
     public class TreeNode
@@ -355,7 +341,7 @@ namespace LayoutFarm.HtmlWidgets
             }
             //this.TreeView.PerformContentLayout();
         }
-
+         
         void SetupNodeIconBehaviour(ImageBox uiNodeIcon)
         {
 
