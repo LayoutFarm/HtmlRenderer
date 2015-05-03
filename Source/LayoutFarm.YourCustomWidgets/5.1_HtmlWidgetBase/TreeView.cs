@@ -13,7 +13,7 @@ using LayoutFarm.CustomWidgets;
 
 namespace LayoutFarm.HtmlWidgets
 {
-    public class TreeView : LightHtmlWidgetBase
+    public class TreeView : HtmlWidgetBase
     {
         //composite          
         List<TreeNode> treeNodes = new List<TreeNode>();
@@ -24,12 +24,12 @@ namespace LayoutFarm.HtmlWidgets
             : base(width, height)
         {
         }
-        public override DomElement GetPresentationDomNode(DomElement hostNode)
+        public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
             if (pnode != null) return pnode;
             //create primary presentation node
-            var ownerdoc = hostNode.OwnerDocument;
-            pnode = ownerdoc.CreateElement("div");
+          
+            pnode = htmldoc.CreateElement("div");
             pnode.SetAttribute("style", "font:10pt tahoma");
             int j = treeNodes.Count;
             for (int i = 0; i < j; ++i)

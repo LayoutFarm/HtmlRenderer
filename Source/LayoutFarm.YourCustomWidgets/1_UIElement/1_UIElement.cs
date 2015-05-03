@@ -18,6 +18,7 @@ namespace LayoutFarm.UI
 
         }
 
+        
         public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
 
 
@@ -139,8 +140,8 @@ namespace LayoutFarm.UI
         {
 
         }
-        
-         
+
+
         protected virtual void OnElementChanged()
         {
         }

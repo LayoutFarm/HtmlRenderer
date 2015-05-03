@@ -60,6 +60,7 @@ namespace LayoutFarm.HtmlBoxes
         public RootGraphic RootGfx { get { return this.rootgfx; } }
         public RenderBoxBase TopWindowRenderBox { get { return this.rootgfx.TopWindowRenderBox; } }
 
+
         public void AttachEssentailHandlers(
             EventHandler<ImageRequestEventArgs> reqImageHandler,
             EventHandler<TextRequestEventArgs> reqStyleSheetHandler)
@@ -79,6 +80,7 @@ namespace LayoutFarm.HtmlBoxes
         public GraphicsPlatform GfxPlatform { get { return this.gfxplatform; } }
         public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
 
+       
         public void ChildRequestImage(ImageBinder binder, HtmlContainer htmlCont, object reqFrom, bool _sync)
         {
             if (this.requestImage != null)
@@ -512,7 +514,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         public LayoutFarm.WebDom.Impl.HtmlDocument CreatePresentationHtmlDoc()
-        {   
+        {
             return new HtmlDocument();
         }
         internal static CssBox CreateBridgeBox(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)

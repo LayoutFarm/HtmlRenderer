@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="CssLexer.cs" />
     <Compile Include="dbugLexerReport.cs" />
     <Compile Include="HtmlLexer.cs" />

@@ -34,8 +34,7 @@ namespace LayoutFarm.CustomWidgets
         {
             visitor.BeginElement(this, "simplebox");
             this.Describe(visitor);
-            //descrube child
-
+            //descrube child 
             visitor.EndElement();
         }
     }
