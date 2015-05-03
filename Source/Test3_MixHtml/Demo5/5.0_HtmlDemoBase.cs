@@ -52,7 +52,7 @@ namespace LayoutFarm.WebWidgets
             return bmp;
         }
 
-        protected void AddToViewport(HtmlWidgets.LightHtmlWidgetBase htmlWidget)
+        protected void AddToViewport(HtmlWidgets.OldHtmlWidgetBase htmlWidget)
         {
            
             //1.  

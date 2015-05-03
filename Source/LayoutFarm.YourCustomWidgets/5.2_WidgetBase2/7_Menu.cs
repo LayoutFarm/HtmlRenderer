@@ -13,23 +13,23 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm.HtmlWidgets
 {
 
-    public class MenuItem
+    public class NewMenuItem
     {
         string menuItemText;
 
         DomElement pnode;
         DomElement menuIcon;
 
-        MenuBox ownerMenuBox;
+        NewMenuBox ownerMenuBox;
 
         bool thisMenuOpened;
 
         //2. float part   
-        MenuBox floatPart;
+        NewMenuBox floatPart;
         HingeFloatPartStyle floatPartStyle;
-        List<MenuItem> childItems;
+        List<NewMenuItem> childItems;
 
-        public MenuItem(int width, int height)
+        public NewMenuItem(int width, int height)
         {
 
         }
@@ -83,7 +83,7 @@ namespace LayoutFarm.HtmlWidgets
 
             if (childItems != null)
             {
-                floatPart = new MenuBox(400, 200);
+                floatPart = new NewMenuBox(400, 200);
                 int j = childItems.Count;
                 for (int i = 0; i < j; ++i)
                 {
@@ -170,7 +170,7 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
 
-        internal MenuBox OwnerMenuBox
+        internal NewMenuBox OwnerMenuBox
         {
             get { return this.ownerMenuBox; }
             set { this.ownerMenuBox = value; }
@@ -206,7 +206,7 @@ namespace LayoutFarm.HtmlWidgets
                 this.ParentMenuItem.CloseRecursiveUp();
             }
         }
-        public MenuItem ParentMenuItem
+        public NewMenuItem ParentMenuItem
         {
             get;
             private set;
@@ -219,11 +219,11 @@ namespace LayoutFarm.HtmlWidgets
                 this.floatPartStyle = value;
             }
         }
-        public void AddSubMenuItem(MenuItem childItem)
+        public void AddSubMenuItem(NewMenuItem childItem)
         {
             if (childItems == null)
             {
-                childItems = new List<MenuItem>();
+                childItems = new List<NewMenuItem>();
             }
             this.childItems.Add(childItem);
             childItem.ParentMenuItem = this;
@@ -235,15 +235,15 @@ namespace LayoutFarm.HtmlWidgets
         }
     }
 
-    public class MenuBox : OldHtmlWidgetBase
+    public class NewMenuBox : OldHtmlWidgetBase
     {
         bool showing;
-        List<MenuItem> menuItems;
+        List<NewMenuItem> menuItems;
         DomElement pnode;
-        MenuItem currentActiveMenuItem;
+        NewMenuItem currentActiveMenuItem;
 
 
-        public MenuBox(int w, int h)
+        public NewMenuBox(int w, int h)
             : base(w, h)
         {
         }
@@ -251,7 +251,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (pnode != null) return pnode;
             //------------------
-          
+
             pnode = htmldoc.CreateElement("div");
             if (menuItems != null)
             {
@@ -263,11 +263,11 @@ namespace LayoutFarm.HtmlWidgets
             }
             return pnode;
         }
-        public void AddChildBox(MenuItem mnuItem)
+        public void AddChildBox(NewMenuItem mnuItem)
         {
             if (menuItems == null)
             {
-                menuItems = new List<MenuItem>();
+                menuItems = new List<NewMenuItem>();
             }
             this.menuItems.Add(mnuItem);
             if (pnode != null)
@@ -276,10 +276,7 @@ namespace LayoutFarm.HtmlWidgets
             }
             mnuItem.OwnerMenuBox = this;
         }
-
-
-
-        public void ShowMenu(MenuItem relativeToMenuItem)
+        public void ShowMenu(NewMenuItem relativeToMenuItem)
         {
             //add to topmost box 
 
@@ -326,7 +323,7 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
 
-        internal MenuItem CurrentActiveMenuItem
+        internal NewMenuItem CurrentActiveMenuItem
         {
             get { return this.currentActiveMenuItem; }
             set { this.currentActiveMenuItem = value; }

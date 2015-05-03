@@ -12,12 +12,118 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm.HtmlWidgets
 {
     //tab page similar to listview
-    public class TabPage
+
+    public class NewTabPageContainer : NewHtmlWidgetBase
+    {
+        DomElement pnode;
+        DomElement titleBar;
+        DomElement contentNode;
+        DomElement tabTitleList;
+
+        Color backColor = Color.LightGray;
+        List<NewTabPage> tabPageCollection = new List<NewTabPage>();
+
+        NewTabPage currentPage;
+        int currentSelectedIndex;
+
+        public NewTabPageContainer(int width, int height)
+            : base(width, height)
+        {
+        }
+        public List<NewTabPage> TabPageList
+        {
+            get { return this.tabPageCollection; }
+        }
+        public override WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
+        {
+            if (pnode != null) return pnode;
+            //------------------------------
+            
+            pnode = htmldoc.CreateElement("div");
+            pnode.SetAttribute("style", "font:10pt tahoma");
+            //------------------------------ 
+            titleBar = htmldoc.CreateElement("div");
+            titleBar.AddTextContent("hello tabPage");
+            pnode.AddChild(titleBar);
+            //------------------------------ 
+            tabTitleList = htmldoc.CreateElement("div");
+            pnode.AddChild(tabTitleList);
+            //------------------------------ 
+            contentNode = htmldoc.CreateElement("div");
+            pnode.AddChild(contentNode);
+            //------------------------------
+            return pnode;
+        }
+        public void AddItem(NewTabPage tabPage)
+        {
+            //1. store in collection
+
+            tabPageCollection.Add(tabPage);
+            tabPage.OwnerContainer = this;
+
+            if (pnode != null)
+            {
+                if (currentPage == null)
+                {
+                    currentPage = tabPage;
+                    //add tab button into list
+                    this.tabTitleList.AddChild(tabPage.GetTitleNode(pnode));
+                    //add page body
+                    contentNode.AddChild(tabPage.GetPageBody(pnode));
+                }
+                else
+                {
+                    //add tab button into list
+                    this.tabTitleList.AddChild(tabPage.GetTitleNode(pnode));
+                }
+            }
+        }
+        public void RemoveItem(TabPage p)
+        {
+            //p.Owner = null;
+            //tabPageCollection.Remove(p);
+            //panel.RemoveChildBox(p);
+        }
+        public void ClearPages()
+        {
+            //TODO: implement this
+        }
+        public int SelectedIndex
+        {
+            get { return this.currentSelectedIndex; }
+            set
+            {
+                if (value > -1 && value < this.tabPageCollection.Count
+                    && this.currentSelectedIndex != value)
+                {
+                    this.currentSelectedIndex = value;
+                    var selectednedSelectedPage = this.tabPageCollection[value];
+                    //if (currentPage != null)
+                    //{
+                    //    this.panel.RemoveChildBox(currentPage);
+                    //}
+                    //this.currentPage = selectednedSelectedPage;
+                    //this.panel.AddChildBox(currentPage);
+                }
+            }
+        }
+        //------------------------
+        internal void ChildNotifyTabMouseDown(NewTabPage childPage)
+        {
+            //change content ***
+            contentNode.ClearAllElements();
+            contentNode.AddChild(childPage.GetPageBody(contentNode));
+
+        }
+    }
+
+
+    public class NewTabPage
     {
         DomElement titleNode;
         DomElement contentNode;
         UIElement contentUI;
-        public TabPage()
+        public NewTabPage()
         {
 
         }
@@ -26,7 +132,7 @@ namespace LayoutFarm.HtmlWidgets
             get;
             set;
         }
-        internal TabPageContainer OwnerContainer
+        internal NewTabPageContainer OwnerContainer
         {
             get;
             set;
@@ -106,110 +212,4 @@ namespace LayoutFarm.HtmlWidgets
 
 
     }
-    public class TabPageContainer : OldHtmlWidgetBase
-    {
-        DomElement pnode;
-        DomElement titleBar;
-        DomElement contentNode;
-        DomElement tabTitleList;
-
-        Color backColor = Color.LightGray;
-        List<TabPage> tabPageCollection = new List<TabPage>();
-
-        TabPage currentPage;
-        int currentSelectedIndex;
-
-        public TabPageContainer(int width, int height)
-            : base(width, height)
-        {
-        }
-        public List<TabPage> TabPageList
-        {
-            get { return this.tabPageCollection; }
-        }
-        public override WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
-        {
-            if (pnode != null) return pnode;
-            //------------------------------
-            
-            pnode = htmldoc.CreateElement("div");
-            pnode.SetAttribute("style", "font:10pt tahoma");
-            //------------------------------ 
-            titleBar = htmldoc.CreateElement("div");
-            titleBar.AddTextContent("hello tabPage");
-            pnode.AddChild(titleBar);
-            //------------------------------ 
-            tabTitleList = htmldoc.CreateElement("div");
-            pnode.AddChild(tabTitleList);
-            //------------------------------ 
-            contentNode = htmldoc.CreateElement("div");
-            pnode.AddChild(contentNode);
-            //------------------------------
-            return pnode;
-        }
-        public void AddItem(TabPage tabPage)
-        {
-            //1. store in collection
-
-            tabPageCollection.Add(tabPage);
-            tabPage.OwnerContainer = this;
-
-            if (pnode != null)
-            {
-                if (currentPage == null)
-                {
-                    currentPage = tabPage;
-                    //add tab button into list
-                    this.tabTitleList.AddChild(tabPage.GetTitleNode(pnode));
-                    //add page body
-                    contentNode.AddChild(tabPage.GetPageBody(pnode));
-                }
-                else
-                {
-                    //add tab button into list
-                    this.tabTitleList.AddChild(tabPage.GetTitleNode(pnode));
-                }
-            }
-        }
-        public void RemoveItem(TabPage p)
-        {
-            //p.Owner = null;
-            //tabPageCollection.Remove(p);
-            //panel.RemoveChildBox(p);
-        }
-        public void ClearPages()
-        {
-            //TODO: implement this
-        }
-        public int SelectedIndex
-        {
-            get { return this.currentSelectedIndex; }
-            set
-            {
-                if (value > -1 && value < this.tabPageCollection.Count
-                    && this.currentSelectedIndex != value)
-                {
-                    this.currentSelectedIndex = value;
-                    TabPage selectednedSelectedPage = this.tabPageCollection[value];
-                    //if (currentPage != null)
-                    //{
-                    //    this.panel.RemoveChildBox(currentPage);
-                    //}
-                    //this.currentPage = selectednedSelectedPage;
-                    //this.panel.AddChildBox(currentPage);
-                }
-            }
-        }
-        //------------------------
-        internal void ChildNotifyTabMouseDown(TabPage childPage)
-        {
-            //change content ***
-            contentNode.ClearAllElements();
-            contentNode.AddChild(childPage.GetPageBody(contentNode));
-
-        }
-    }
-
-
-   
 }

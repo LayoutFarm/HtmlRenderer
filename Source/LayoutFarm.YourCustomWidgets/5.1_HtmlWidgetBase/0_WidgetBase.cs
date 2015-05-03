@@ -113,13 +113,13 @@ namespace LayoutFarm.HtmlWidgets
 
     //}
 
-    public abstract class LightHtmlWidgetBase : OldWidgetBase
+    public abstract class OldHtmlWidgetBase : OldWidgetBase
     {
 
         DomElement myPresentationDom;
         HtmlBox lightHtmlBox; //primary ui element 
         HtmlHost htmlhost;
-        public LightHtmlWidgetBase(int w, int h)
+        public OldHtmlWidgetBase(int w, int h)
             : base(w, h)
         {
         }
@@ -226,7 +226,7 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
 
-        internal static void RaiseOnPrimaryUIElementCrated(LightHtmlWidgetBase widget, HtmlHost htmlhost)
+        internal static void RaiseOnPrimaryUIElementCrated(OldHtmlWidgetBase widget, HtmlHost htmlhost)
         {
             widget.OnPrimaryUIElementCreated(htmlhost);
         }

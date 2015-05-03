@@ -14,13 +14,13 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm.HtmlWidgets
 {
 
-    public class CheckBox : OldHtmlWidgetBase
+    public class NewCheckBox : NewHtmlWidgetBase
     {
         DomElement pnode;
         bool isChecked;
         string checkBoxText = "";
         public event EventHandler WhenChecked;
-        public CheckBox(int w, int h)
+        public NewCheckBox(int w, int h)
             : base(w, h)
         {
         }

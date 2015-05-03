@@ -1,4 +1,4 @@
-﻿ // 2015,2014 ,Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,11 +14,11 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm.HtmlWidgets
 {
 
-    public class Button : OldHtmlWidgetBase
+    public class NewButton : NewHtmlWidgetBase
     {
         string buttonText = "";
         DomElement pnode;
-        public Button(int w, int h)
+        public NewButton(int w, int h)
             : base(w, h)
         {
         }

@@ -76,91 +76,17 @@ namespace LayoutFarm.HtmlWidgets
         }
     }
 
-
-
     public abstract class NewHtmlWidgetBase : NewWidgetBase
-    {
-
-        DomElement myPresentationDom;
-        HtmlBox lightHtmlBox; //primary ui element 
-        HtmlHost htmlhost;
+    { 
+        protected DomElement myPresentationDom;
+        protected HtmlHost htmlhost;
         public NewHtmlWidgetBase(int w, int h)
             : base(w, h)
-        {
-
-        }
-
+        { 
+        } 
         public abstract WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc);
 
-
-        public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
-        {
-            this.htmlhost = htmlhost;
-            if (this.lightHtmlBox == null)
-            {
-
-                var lightHtmlBox = new HtmlBox(htmlhost, this.Width, this.Height);
-                HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
-                myPresentationDom = GetPresentationDomNode(htmldoc);
-                if (myPresentationDom != null)
-                {
-                    htmldoc.RootNode.AddChild(myPresentationDom);
-                    lightHtmlBox.LoadHtmlDom(htmldoc);
-                }
-
-                lightHtmlBox.SetLocation(this.Left, this.Top);
-                lightHtmlBox.LayoutFinished += (s, e) => this.RaiseEventLayoutFinished();
-
-                this.lightHtmlBox = lightHtmlBox;
-                //first time
-                OnPrimaryUIElementCreated(htmlhost);
-            }
-            return this.lightHtmlBox;
-        }
-
-        protected void AddSelfToTopWindow()
-        {
-            var htmlhost = this.HtmlHost;
-            if (htmlhost == null) return;
-
-            var topWindow = htmlhost.TopWindowRenderBox;
-            if (topWindow != null)
-            {
-                var primUI = this.GetPrimaryUIElement(htmlhost) as HtmlBox;
-                if (this.myPresentationDom != null)
-                {
-                    var parent = myPresentationDom.ParentNode as IHtmlElement;
-                    if (parent == null)
-                    {
-                        var htmldoc = primUI.HtmlContainer.WebDocument as HtmlDocument;
-                        htmldoc.RootNode.AddChild(myPresentationDom);
-                    }
-                }
-                topWindow.AddChild(primUI);
-            }
-        }
-        protected void RemoveSelfFromTopWindow()
-        {
-            //TODO: review here again 
-            if (lightHtmlBox != null)
-            {
-                RenderElement currentRenderE = lightHtmlBox.CurrentPrimaryRenderElement;
-
-                if (currentRenderE != null)
-                {
-                    var topRenderBox = currentRenderE.GetTopWindowRenderBox();
-                    //var topRenderBox = currentRenderE.ParentRenderElement as TopWindowRenderBox;
-                    if (topRenderBox != null)
-                    {
-                        topRenderBox.RemoveChild(currentRenderE);
-                    }
-                }
-            }
-        }
-        protected virtual void OnPrimaryUIElementCreated(HtmlHost htmlhost)
-        {
-
-        }
+      
 
         public HtmlHost HtmlHost
         {
@@ -170,43 +96,38 @@ namespace LayoutFarm.HtmlWidgets
                 return htmlhost;
             }
         }
-        protected void InvalidateGraphics()
+        protected virtual void InvalidateGraphics()
         {
-            this.lightHtmlBox.InvalidateGraphics();
+            //this.lightHtmlBox.InvalidateGraphics();
         }
-
-
         public override void SetViewport(int x, int y)
         {
             base.SetViewport(x, y);
-            if (this.lightHtmlBox != null)
-            {
-                lightHtmlBox.SetViewport(x, y);
-            }
+            //if (this.lightHtmlBox != null)
+            //{
+            //    lightHtmlBox.SetViewport(x, y);
+            //}
         }
         public override int DesiredHeight
         {
             get
             {
-                if (this.lightHtmlBox != null)
-                {
-                    return this.lightHtmlBox.DesiredHeight;
-                }
+                //if (this.lightHtmlBox != null)
+                //{
+                //    return this.lightHtmlBox.DesiredHeight;
+                //}
                 return base.DesiredHeight;
             }
         }
 
-        internal static void RaiseOnPrimaryUIElementCrated(NewHtmlWidgetBase widget, HtmlHost htmlhost)
-        {
-            widget.OnPrimaryUIElementCreated(htmlhost);
-        }
+        
         public override void SetLocation(int left, int top)
         {
             base.SetLocation(left, top);
-            if (this.lightHtmlBox != null)
-            {
-                lightHtmlBox.SetLocation(left, top);
-            }
+            //if (this.lightHtmlBox != null)
+            //{
+            //    lightHtmlBox.SetLocation(left, top);
+            //}
         }
     }
 }

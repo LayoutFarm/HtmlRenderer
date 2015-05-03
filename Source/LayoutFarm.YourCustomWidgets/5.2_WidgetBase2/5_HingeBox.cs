@@ -15,7 +15,7 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.HtmlWidgets
 {
 
-    public class HingeBox : OldHtmlWidgetBase
+    public class NewHingeBox : NewHtmlWidgetBase
     {
 
         RenderElement landPartRenderElement;//background 
@@ -30,7 +30,7 @@ namespace LayoutFarm.HtmlWidgets
         RenderElement floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
 
-        public HingeBox(int w, int h)
+        public NewHingeBox(int w, int h)
             : base(w, h)
         {
         }
@@ -94,27 +94,27 @@ namespace LayoutFarm.HtmlWidgets
             return presentationNode;
         }
 
-        public HtmlBox LandPart
-        {
-            get { return this.landPart; }
-        }
-        public HtmlBox FloatPart
-        {
-            get { return this.floatPart; }
-        }
-        protected override void OnPrimaryUIElementCreated(HtmlHost htmlhost)
-        {
-            if (this.landPart == null)
-            {
-                this.landPart = (HtmlBox)base.GetPrimaryUIElement(htmlhost);
-            }
-            if (floatPart == null)
-            {
-                this.floatPart = new HtmlBox(htmlhost, this.Width, 300);
-                this.floatPart.Visible = false;
-                this.floatPart.LoadHtmlDom(CreateFloatPartDom());
-            }
-        }
+        //public HtmlBox LandPart
+        //{
+        //    get { return this.landPart; }
+        //}
+        //public HtmlBox FloatPart
+        //{
+        //    get { return this.floatPart; }
+        //}
+        //protected override void OnPrimaryUIElementCreated(HtmlHost htmlhost)
+        //{
+        //    if (this.landPart == null)
+        //    {
+        //        this.landPart = (HtmlBox)base.GetPrimaryUIElement(htmlhost);
+        //    }
+        //    if (floatPart == null)
+        //    {
+        //        this.floatPart = new HtmlBox(htmlhost, this.Width, 300);
+        //        this.floatPart.Visible = false;
+        //        this.floatPart.LoadHtmlDom(CreateFloatPartDom());
+        //    }
+        //}
 
         //---------------------------------------------------- 
         public bool IsOpen
@@ -214,9 +214,5 @@ namespace LayoutFarm.HtmlWidgets
     }
 
 
-    public enum HingeFloatPartStyle
-    {
-        Popup,
-        Embeded
-    }
+    
 }
