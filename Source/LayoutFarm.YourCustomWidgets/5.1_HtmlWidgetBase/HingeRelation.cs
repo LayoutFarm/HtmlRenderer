@@ -10,6 +10,11 @@ using LayoutFarm.RenderBoxes;
 using LayoutFarm.CustomWidgets;
 namespace LayoutFarm.HtmlWidgets
 {
+    public enum HingeFloatPartStyle
+    {
+        Popup,
+        Embeded
+    }
     public class HingeRelation
     {
         bool isOpen;
