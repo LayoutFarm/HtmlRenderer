@@ -12,11 +12,7 @@ using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm.HtmlWidgets
 {
-<<<<<<< HEAD
-    public class ListView : LightHtmlBoxWidgetBase
-=======
-    public class ListView : OldHtmlWidgetBase
->>>>>>> v_widget2
+    public class NewListView : NewHtmlWidgetBase
     {
         //composite           
         Color backColor = Color.LightGray;
@@ -25,15 +21,11 @@ namespace LayoutFarm.HtmlWidgets
         int selectedIndex = -1;//default = no selection
         WebDom.DomElement pnode;
 
-        public ListView(int w, int h)
+        public NewListView(int w, int h)
             : base(w, h)
         {
         }
-<<<<<<< HEAD
-        public override WebDom.DomElement GetPresentationDomNode(Composers.HtmlDocument htmldoc)
-=======
         public override WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
->>>>>>> v_widget2
         {
             if (pnode != null) return pnode;
             //--------------------------------
@@ -130,55 +122,6 @@ namespace LayoutFarm.HtmlWidgets
 
 
     }
-    public class ListItem
-    {
-        WebDom.DomElement pnode;
-        WebDom.DomElement textSpanNode;
-        string itemText;
-        Color backColor;
-        int width;
-        int height;
-        public ListItem(int width, int height)
-        {
-            this.width = width;
-            this.height = height;
-        }
-        public Color BackColor
-        {
-            get { return this.backColor; }
-            set
-            {
-                this.backColor = value;
-            }
-        }
-        public string Text
-        {
-            get { return this.itemText; }
-            set
-            {
-                this.itemText = value;
-
-            }
-        }
-        public WebDom.DomElement GetPresentationNode(WebDom.DomElement hostNode)
-        {
-            if (pnode != null) return pnode;
-            //------------------------------
-            if (itemText == null)
-            {
-                itemText = "";
-            }
-            var ownerdoc = hostNode.OwnerDocument;
-            pnode = ownerdoc.CreateElement("div");
-            // pnode.SetAttribute("style", "font:10pt tahoma");
-
-            textSpanNode = ownerdoc.CreateElement("span");
-            textSpanNode.AddChild(ownerdoc.CreateTextNode(itemText.ToCharArray()));
-            pnode.AddChild(textSpanNode);
-
-            return pnode;
-        }
-
-    }
+   
 
 }

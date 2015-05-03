@@ -14,15 +14,11 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm.HtmlWidgets
 {
 
-<<<<<<< HEAD
-    public class Button : LightHtmlBoxWidgetBase
-=======
-    public class Button : OldHtmlWidgetBase
->>>>>>> v_widget2
+    public class NewButton : NewHtmlWidgetBase
     {
         string buttonText = "";
         DomElement pnode;
-        public Button(int w, int h)
+        public NewButton(int w, int h)
             : base(w, h)
         {
         }
@@ -35,11 +31,7 @@ namespace LayoutFarm.HtmlWidgets
                 this.buttonText = value;
             }
         }
-<<<<<<< HEAD
-        public override DomElement GetPresentationDomNode(HtmlDocument htmldoc)
-=======
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
->>>>>>> v_widget2
         {
             if (pnode != null) return pnode;
             //----------------------------------

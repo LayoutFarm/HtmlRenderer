@@ -14,17 +14,13 @@ using LayoutFarm.CustomWidgets;
 namespace LayoutFarm.HtmlWidgets
 {
 
-<<<<<<< HEAD
-    public class CheckBox : LightHtmlBoxWidgetBase
-=======
-    public class CheckBox : OldHtmlWidgetBase
->>>>>>> v_widget2
+    public class NewCheckBox : NewHtmlWidgetBase
     {
         DomElement pnode;
         bool isChecked;
         string checkBoxText = "";
         public event EventHandler WhenChecked;
-        public CheckBox(int w, int h)
+        public NewCheckBox(int w, int h)
             : base(w, h)
         {
         }
@@ -67,11 +63,7 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
 
-<<<<<<< HEAD
-        public override DomElement GetPresentationDomNode(HtmlDocument htmldoc)
-=======
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
->>>>>>> v_widget2
         {
             //TODO: use template engine, 
             //ideas:  AngularJS style ?

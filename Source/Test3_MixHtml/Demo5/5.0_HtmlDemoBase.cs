@@ -52,7 +52,11 @@ namespace LayoutFarm.WebWidgets
             return bmp;
         }
 
+<<<<<<< HEAD
         protected void AddToViewport(HtmlWidgets.LightHtmlBoxWidgetBase htmlWidget)
+=======
+        protected void AddToViewport(HtmlWidgets.OldHtmlWidgetBase htmlWidget)
+>>>>>>> v_widget2
         {
             sampleViewport.AddContent(GetPrimaryUIElement(htmlWidget, myHtmlHost));
         }

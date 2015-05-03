@@ -15,11 +15,7 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.HtmlWidgets
 {
 
-<<<<<<< HEAD
-    public class HingeBox : LightHtmlBoxWidgetBase
-=======
-    public class HingeBox : OldHtmlWidgetBase
->>>>>>> v_widget2
+    public class NewHingeBox : NewHtmlWidgetBase
     {
 
         RenderElement landPartRenderElement;//background 
@@ -27,14 +23,14 @@ namespace LayoutFarm.HtmlWidgets
         Color backColor = Color.LightGray;
         bool isOpen;
         //1. land part
-        WebDom.Impl.HtmlElement landPart;
+        HtmlBox landPart;
         //2. float part   
-        WebDom.Impl.HtmlElement floatPart;
+        HtmlBox floatPart;
 
         RenderElement floatPartRenderElement;
         HingeFloatPartStyle floatPartStyle;
 
-        public HingeBox(int w, int h)
+        public NewHingeBox(int w, int h)
             : base(w, h)
         {
         }
@@ -55,11 +51,7 @@ namespace LayoutFarm.HtmlWidgets
                 });
             return htmldoc;
         }
-<<<<<<< HEAD
-        public override DomElement GetPresentationDomNode(HtmlDocument htmldoc)
-=======
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
->>>>>>> v_widget2
         {
             if (presentationNode != null)
             {
@@ -102,27 +94,27 @@ namespace LayoutFarm.HtmlWidgets
             return presentationNode;
         }
 
-        public WebDom.Impl.HtmlElement LandPart
-        {
-            get { return this.landPart; }
-        }
-        public WebDom.Impl.HtmlElement FloatPart
-        {
-            get { return this.floatPart; }
-        }
-        protected override void OnPrimaryUIElementCreated(HtmlHost htmlhost)
-        {
-            if (this.landPart == null)
-            {   
-                this.landPart = (HtmlBox)base.GetPrimaryUIElement(htmlhost);
-            }
-            if (floatPart == null)
-            {
-                this.floatPart = new HtmlBox(htmlhost, this.Width, 300);
-                this.floatPart.Visible = false;
-                this.floatPart.LoadHtmlDom(CreateFloatPartDom());
-            }
-        }
+        //public HtmlBox LandPart
+        //{
+        //    get { return this.landPart; }
+        //}
+        //public HtmlBox FloatPart
+        //{
+        //    get { return this.floatPart; }
+        //}
+        //protected override void OnPrimaryUIElementCreated(HtmlHost htmlhost)
+        //{
+        //    if (this.landPart == null)
+        //    {
+        //        this.landPart = (HtmlBox)base.GetPrimaryUIElement(htmlhost);
+        //    }
+        //    if (floatPart == null)
+        //    {
+        //        this.floatPart = new HtmlBox(htmlhost, this.Width, 300);
+        //        this.floatPart.Visible = false;
+        //        this.floatPart.LoadHtmlDom(CreateFloatPartDom());
+        //    }
+        //}
 
         //---------------------------------------------------- 
         public bool IsOpen
@@ -222,9 +214,5 @@ namespace LayoutFarm.HtmlWidgets
     }
 
 
-    public enum HingeFloatPartStyle
-    {
-        Popup,
-        Embeded
-    }
+    
 }

@@ -13,7 +13,7 @@ using LayoutFarm.Composers;
 namespace LayoutFarm.HtmlWidgets
 {
 
-    public abstract class WidgetBase : IScrollable
+    public abstract class OldWidgetBase : IScrollable
     {
         int width;
         int height;
@@ -23,7 +23,7 @@ namespace LayoutFarm.HtmlWidgets
         int viewportY;
         public event EventHandler LayoutFinished;
 
-        public WidgetBase(int w, int h)
+        public OldWidgetBase(int w, int h)
         {
             this.width = w;
             this.height = h;
@@ -77,6 +77,7 @@ namespace LayoutFarm.HtmlWidgets
         }
     }
 
+<<<<<<< HEAD
     sealed class WidgetHolder
     {
 
@@ -127,6 +128,50 @@ namespace LayoutFarm.HtmlWidgets
         CssBox cssbox;
         HtmlHost htmlhost;
         public LightHtmlBoxWidgetBase(int w, int h)
+=======
+    //sealed class WidgetHolder
+    //{
+    //    HtmlBox lightHtmlBox;
+    //    LightHtmlWidgetBase widget;
+
+    //    public WidgetHolder(LightHtmlWidgetBase widget)
+    //    {
+    //        this.widget = widget;
+    //    }
+    //    public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
+    //    {
+    //        if (this.lightHtmlBox == null)
+    //        {
+
+    //            var lightHtmlBox = new HtmlBox(htmlhost, widget.Width, widget.Height);
+    //            HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
+    //            var presentationDom = widget.GetPresentationDomNode(htmldoc.RootNode);
+    //            if (presentationDom != null)
+    //            {
+    //                htmldoc.RootNode.AddChild(presentationDom);
+    //                lightHtmlBox.LoadHtmlDom(htmldoc);
+    //            }
+
+    //            lightHtmlBox.SetLocation(widget.Left, widget.Top);
+    //            lightHtmlBox.LayoutFinished += (s, e) => widget.RaiseEventLayoutFinished();
+
+    //            this.lightHtmlBox = lightHtmlBox;
+    //            //first time
+    //            LightHtmlWidgetBase.RaiseOnPrimaryUIElementCrated(widget, htmlhost);
+    //        }
+    //        return this.lightHtmlBox;
+    //    }
+
+    //}
+
+    public abstract class OldHtmlWidgetBase : OldWidgetBase
+    {
+
+        DomElement myPresentationDom;
+        HtmlBox lightHtmlBox; //primary ui element 
+        HtmlHost htmlhost;
+        public OldHtmlWidgetBase(int w, int h)
+>>>>>>> v_widget2
             : base(w, h)
         {
         }
@@ -142,6 +187,7 @@ namespace LayoutFarm.HtmlWidgets
         //    if (this.lightHtmlBox == null)
         //    {
 
+<<<<<<< HEAD
         //        var lightHtmlBox = new HtmlBox(htmlhost, this.Width, this.Height);
         //        HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
         //        myPresentationDom = GetPresentationDomNode(htmldoc);
@@ -150,10 +196,21 @@ namespace LayoutFarm.HtmlWidgets
         //            htmldoc.RootNode.AddChild(myPresentationDom);
         //            lightHtmlBox.LoadHtmlDom(htmldoc);
         //        }
+=======
+                var lightHtmlBox = new HtmlBox(htmlhost, this.Width, this.Height);
+                HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
+                myPresentationDom = GetPresentationDomNode(htmldoc);
+                if (myPresentationDom != null)
+                {
+                    htmldoc.RootNode.AddChild(myPresentationDom);
+                    lightHtmlBox.LoadHtmlDom(htmldoc);
+                }
+>>>>>>> v_widget2
 
         //        lightHtmlBox.SetLocation(this.Left, this.Top);
         //        lightHtmlBox.LayoutFinished += (s, e) => this.RaiseEventLayoutFinished();
 
+<<<<<<< HEAD
         //        this.lightHtmlBox = lightHtmlBox;
         //        //first time
         //        OnPrimaryUIElementCreated(htmlhost);
@@ -165,6 +222,19 @@ namespace LayoutFarm.HtmlWidgets
         //{
         //    var htmlhost = this.HtmlHost;
         //    if (htmlhost == null) return;
+=======
+                this.lightHtmlBox = lightHtmlBox;
+                //first time
+                OnPrimaryUIElementCreated(htmlhost);
+            }
+            return this.lightHtmlBox;
+        }
+        public abstract WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc);
+        protected void AddSelfToTopWindow()
+        {
+            var htmlhost = this.HtmlHost;
+            if (htmlhost == null) return;
+>>>>>>> v_widget2
 
         //    var topWindow = htmlhost.TopWindowRenderBox;
         //    if (topWindow != null)
@@ -224,7 +294,11 @@ namespace LayoutFarm.HtmlWidgets
             //this.lightHtmlBox.InvalidateGraphics();
         }
 
+<<<<<<< HEAD
 
+=======
+     
+>>>>>>> v_widget2
         public override void SetViewport(int x, int y)
         {
             base.SetViewport(x, y);
@@ -249,7 +323,11 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
 
+<<<<<<< HEAD
         internal static void RaiseOnPrimaryUIElementCrated(LightHtmlBoxWidgetBase widget, HtmlHost htmlhost)
+=======
+        internal static void RaiseOnPrimaryUIElementCrated(OldHtmlWidgetBase widget, HtmlHost htmlhost)
+>>>>>>> v_widget2
         {
             widget.OnPrimaryUIElementCreated(htmlhost);
         }

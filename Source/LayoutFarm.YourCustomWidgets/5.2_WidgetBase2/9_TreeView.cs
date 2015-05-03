@@ -11,39 +11,25 @@ using LayoutFarm.UI;
 using LayoutFarm.RenderBoxes;
 using LayoutFarm.CustomWidgets;
 
-namespace LayoutFarm.HtmlWidgets
+namespace LayoutFarm.HtmlWidgets 
 {
-<<<<<<< HEAD
-    public class TreeView : LightHtmlBoxWidgetBase
-=======
-    public class TreeView : OldHtmlWidgetBase
->>>>>>> v_widget2
+    public class NewTreeView : NewHtmlWidgetBase
     {
         //composite          
-        List<TreeNode> treeNodes = new List<TreeNode>();
+        List<NewTreeNode> treeNodes = new List<NewTreeNode>();
         DomElement pnode;
 
         //content 
-        public TreeView(int width, int height)
+        public NewTreeView(int width, int height)
             : base(width, height)
         {
         }
-<<<<<<< HEAD
-        public override DomElement GetPresentationDomNode(Composers.HtmlDocument htmldoc)
-=======
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
->>>>>>> v_widget2
         {
-
             if (pnode != null) return pnode;
             //create primary presentation node
-<<<<<<< HEAD
-            var ownerdoc = htmldoc;
-            pnode = ownerdoc.CreateElement("div");
-=======
-          
+
             pnode = htmldoc.CreateElement("div");
->>>>>>> v_widget2
             pnode.SetAttribute("style", "font:10pt tahoma");
             int j = treeNodes.Count;
             for (int i = 0; i < j; ++i)
@@ -53,7 +39,7 @@ namespace LayoutFarm.HtmlWidgets
             }
             return pnode;
         }
-        public void AddItem(TreeNode treeNode)
+        public void AddItem(NewTreeNode treeNode)
         {
             treeNodes.Add(treeNode);
             if (pnode != null)
@@ -66,7 +52,7 @@ namespace LayoutFarm.HtmlWidgets
         }
     }
 
-    public class TreeNode
+    public class NewTreeNode
     {
         const int NODE_DEFAULT_HEIGHT = 17;
 
@@ -75,9 +61,9 @@ namespace LayoutFarm.HtmlWidgets
         int newChildNodeY = NODE_DEFAULT_HEIGHT;
         int indentWidth = 17;
         int desiredHeight = 0; //after layout
-        List<TreeNode> childNodes;
-        TreeNode parentNode;
-        TreeView ownerTreeView;
+        List<NewTreeNode> childNodes;
+        NewTreeNode parentNode;
+        NewTreeView ownerTreeView;
         //-------------------------- 
 
         DomElement pnode;
@@ -90,7 +76,7 @@ namespace LayoutFarm.HtmlWidgets
         int width;
         int height;
 
-        public TreeNode(int width, int height)
+        public NewTreeNode(int width, int height)
         {
             this.width = width;
             this.height = height;
@@ -272,11 +258,11 @@ namespace LayoutFarm.HtmlWidgets
                 return childNodes.Count;
             }
         }
-        public TreeNode ParentNode
+        public NewTreeNode ParentNode
         {
             get { return this.parentNode; }
         }
-        public TreeView TreeView
+        public NewTreeView TreeView
         {
             get
             {
@@ -300,16 +286,16 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
 
-        internal void SetOwnerTreeView(TreeView ownerTreeView)
+        internal void SetOwnerTreeView(NewTreeView ownerTreeView)
         {
             this.ownerTreeView = ownerTreeView;
         }
-        public void AddChildNode(TreeNode treeNode)
+        public void AddChildNode(NewTreeNode treeNode)
         {
 
             if (childNodes == null)
             {
-                childNodes = new List<TreeNode>();
+                childNodes = new List<NewTreeNode>();
             }
             this.childNodes.Add(treeNode);
             treeNode.parentNode = this;
