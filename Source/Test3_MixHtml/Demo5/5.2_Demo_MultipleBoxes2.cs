@@ -17,9 +17,10 @@ namespace LayoutFarm.WebWidgets
         {
         
             int boxHeight = 35;
+             
             //-------------------------------------------------------------------
             int boxX = 0;
-            for (int i = 0; i < 5; ++i)
+            for (int i = 0; i < 2; ++i)
             {
                 var button = new LayoutFarm.HtmlWidgets.Button(100, boxHeight);
                 button.SetLocation(boxX, 20);
@@ -28,9 +29,8 @@ namespace LayoutFarm.WebWidgets
                 AddToViewport(button);
 
             }
-            //-------------------------------------------------------------------
             int boxY = 70;
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < 2; ++i)
             {
                 var statedBox = new LayoutFarm.HtmlWidgets.CheckBox(100, boxHeight);
                 statedBox.Text = "chk" + i;
@@ -51,6 +51,8 @@ namespace LayoutFarm.WebWidgets
                     }
                 };
             }
+
+           
         }
     }
 }

@@ -40,6 +40,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
 
+
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
 #endif
@@ -94,14 +95,15 @@ namespace LayoutFarm.HtmlBoxes
 
 
             Css.CssDisplay display = this.CssDisplay;
-
             if (display == Css.CssDisplay.TableCell &&
                 this.EmptyCells == Css.CssEmptyCell.Hide &&
                 this.IsSpaceOrEmpty)
             {
                 return;
             }
-
+#if DEBUG
+            p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
+#endif
             //----------------------------------------------- 
             bool hasPrevClip = false;
             RectangleF prevClip = RectangleF.Empty;
@@ -202,8 +204,8 @@ namespace LayoutFarm.HtmlBoxes
                             node = node.Next;
                             continue;
                         }
+                        //move to left-top of client box 
                         p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
-
                         if (b.decorator != null)
                         {
                             b.decorator.Paint(b, p);
@@ -222,6 +224,7 @@ namespace LayoutFarm.HtmlBoxes
 
                             b.Paint(p);
                         }
+
                         node = node.Next;
                     }
                     p.SetCanvasOrigin(ox, oy);
@@ -288,6 +291,9 @@ namespace LayoutFarm.HtmlBoxes
                 p.PopLocalClipArea();
             }
             //---------------- 
+#if DEBUG
+            p.dbugExitContext();
+#endif
         }
 
         /// <summary>
@@ -299,6 +305,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="isLast">is it the last rectangle of the element</param>
         internal void PaintBackground(PaintVisitor p, RectangleF rect, bool isFirst, bool isLast)
         {
+            //return;
             //if (this.dbugMark1 > 0)
             //{
             //    Console.WriteLine(this.dbugMark1);
