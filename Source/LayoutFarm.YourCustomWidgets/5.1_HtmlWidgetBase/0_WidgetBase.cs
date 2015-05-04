@@ -142,8 +142,7 @@ namespace LayoutFarm.HtmlWidgets
                 lightHtmlBox.LayoutFinished += (s, e) => this.RaiseEventLayoutFinished();
 
                 this.lightHtmlBox = lightHtmlBox;
-                //first time
-                OnPrimaryUIElementCreated(htmlhost);
+                 
             }
             return this.lightHtmlBox;
         }
@@ -187,10 +186,10 @@ namespace LayoutFarm.HtmlWidgets
                 }
             }
         }
-        protected virtual void OnPrimaryUIElementCreated(HtmlHost htmlhost)
-        {
+        //protected virtual void OnPrimaryUIElementCreated(HtmlDocument htmldoc, HtmlHost htmlhost)
+        //{
 
-        }
+        //}
 
         public HtmlHost HtmlHost
         {
@@ -224,10 +223,7 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
 
-        internal static void RaiseOnPrimaryUIElementCrated(HtmlWidgetBase widget, HtmlHost htmlhost)
-        {
-            widget.OnPrimaryUIElementCreated(htmlhost);
-        }
+
         public override void SetLocation(int left, int top)
         {
             base.SetLocation(left, top);
