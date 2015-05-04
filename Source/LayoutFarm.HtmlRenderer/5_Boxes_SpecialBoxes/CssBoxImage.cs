@@ -72,6 +72,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             PaintBackground(p, rect, true, true);
 
+
             if (this.HasSomeVisibleBorder)
             {
                 p.PaintBorders(this, rect, true, true);
@@ -144,6 +145,12 @@ namespace LayoutFarm.HtmlBoxes
                         RenderUtils.DrawImageErrorIcon(p.InnerCanvas, r);
                     } break;
             }
+
+//#if DEBUG
+//            p.FillRectangle(Color.Red, rect.X, rect.Y, rect.Width, rect.Height);
+//#endif
+
+
         }
 
         /// <summary>
@@ -154,7 +161,13 @@ namespace LayoutFarm.HtmlBoxes
         {
             // load image iff it is in visible rectangle  
             //1. single image can't be splited  
+#if DEBUG
+            p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
+#endif
             Paint(p, new RectangleF(0, 0, this.SizeWidth, this.SizeHeight));
+#if DEBUG
+            p.dbugExitContext();
+#endif
         }
 
         /// <summary>

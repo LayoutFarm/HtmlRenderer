@@ -56,8 +56,7 @@ namespace LayoutFarm.CustomWidgets
             this.PerformContentLayout();
         }
         public override void PerformContentLayout()
-        {
-
+        { 
             this.RaiseLayoutFinished();
         }
         public override RenderElement CurrentPrimaryRenderElement

@@ -99,6 +99,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public bool RefreshDomIfNeed()
         {
+            
             if (webdoc == null) return false;
             //----------------------------------
 

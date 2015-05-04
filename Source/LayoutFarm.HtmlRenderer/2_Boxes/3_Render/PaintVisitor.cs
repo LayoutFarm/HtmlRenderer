@@ -83,19 +83,38 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             //store lastest clip 
+            this.latestClip = canvas.CurrentClipRect;
             clipStacks.Push(this.latestClip);
-            ////make new clip global 
+            ////make new clip global  
+
             Rectangle intersectResult = Rectangle.Intersect(
                 latestClip,
                 new Rectangle(0, 0, (int)w, (int)h));
             this.latestClip = intersectResult;
+#if DEBUG
+            if (this.dbugEnableLogRecord)
+            {
 
-            //ig.DrawRectangle(Pens.Red, intersectResult.X, intersectResult.Y, intersectResult.Width, intersectResult.Height);
+                canvas.DrawRectangle(Color.DeepPink,
+                    intersectResult.X, intersectResult.Y,
+                    intersectResult.Width, intersectResult.Height);
+                logRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
+                   " clip[" + intersectResult + "] ");
+            }
+#endif
+
             canvas.SetClipRect(intersectResult);
             return !intersectResult.IsEmpty;
         }
         internal void PopLocalClipArea()
         {
+
+#if DEBUG
+            if (this.dbugEnableLogRecord)
+            {
+                logRecords.Add(new string('<', dbugIndentLevel) + dbugIndentLevel.ToString() + " pop[]");
+            }
+#endif
             if (clipStacks.Count > 0)
             {
                 Rectangle prevClip = this.latestClip = clipStacks.Pop();
@@ -300,7 +319,50 @@ namespace LayoutFarm.HtmlBoxes
                   );
 
         }
+#if DEBUG
+        int dbugIndentLevel;
+        internal bool dbugEnableLogRecord;
+        internal List<string> logRecords = new List<string>();
+        public enum PaintVisitorContextName
+        {
+            Init
+        }
+        public void dbugResetLogRecords()
+        {
+            this.dbugIndentLevel = 0;
+            logRecords.Clear();
+        }
+        public void dbugEnterNewContext(CssBox box, PaintVisitorContextName contextName)
+        {
 
+            if (this.dbugEnableLogRecord)
+            {
+                var controller = CssBox.UnsafeGetController(box);
+                //if (box.__aa_dbugId == 7)
+                //{
+                //}
+                logRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
+                    "[" + this.canvas.CurrentClipRect + "] " +
+                    "(" + this.CanvasOriginX + "," + this.CanvasOriginY + ") " +
+                    "x:" + box.Left + ",y:" + box.Top + ",w:" + box.SizeWidth + "h:" + box.SizeHeight +
+                    " " + box.ToString() + ",id:" + box.__aa_dbugId);
+
+                dbugIndentLevel++;
+            }
+        }
+        public void dbugExitContext()
+        {
+            if (this.dbugEnableLogRecord)
+            {
+                logRecords.Add(new string('<', dbugIndentLevel) + dbugIndentLevel.ToString());
+                dbugIndentLevel--;
+                if (dbugIndentLevel < 0)
+                {
+                    throw new NotSupportedException();
+                }
+            }
+        }
+#endif
 
     }
 

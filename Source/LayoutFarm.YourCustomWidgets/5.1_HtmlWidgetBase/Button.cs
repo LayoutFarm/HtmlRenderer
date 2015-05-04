@@ -1,4 +1,4 @@
-﻿ // 2015,2014 ,Apache2, WinterDev
+﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -36,6 +36,8 @@ namespace LayoutFarm.HtmlWidgets
             if (pnode != null) return pnode;
             //----------------------------------
             pnode = htmldoc.CreateElement("div");
+            pnode.SetAttribute("style", "display:inline-block;width:" + Width + "px;height:" + this.Height + "px;");
+
             pnode.AddChild("div", div2 =>
             {
                 //init
@@ -71,6 +73,7 @@ namespace LayoutFarm.HtmlWidgets
                 });
 
             });
+            
             return pnode;
         }
 
