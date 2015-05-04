@@ -109,12 +109,7 @@ namespace LayoutFarm.Css
             _boxShadow.Freeze(); //8
             _flexFeats.Freeze(); //9.
         }
-
-        public bool DoNotCache
-        {
-            get;
-            set;
-        }
+ 
         public void Defreeze()
         {
             this._freezed = false;
@@ -460,7 +455,21 @@ namespace LayoutFarm.Css
         public CssPosition Position
         {
             get { return this._position; }
-            set { if (Assignable()) this._position = value; }
+            set
+            {
+                if (value == CssPosition.Absolute)
+                {
+
+                }
+
+                if (Assignable())
+                {
+                    if (this.__aa_dbugId == 12)
+                    {
+                    }
+                    this._position = value;
+                }
+            }
         }
 
 

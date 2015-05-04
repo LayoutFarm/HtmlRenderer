@@ -41,8 +41,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             //create land part 
             var div = htmldoc.CreateElement("div");
-            div.SetAttribute("style", "position:absolute;left:0px;top:0px;width:300px;height:500px;");
-
+            div.SetAttribute("style", "position:absolute;left:0px;top:0px;width:300px;height:500px;"); 
             for (int i = 0; i < 10; ++i)
             {
                 div.AddChild("div", div2 =>

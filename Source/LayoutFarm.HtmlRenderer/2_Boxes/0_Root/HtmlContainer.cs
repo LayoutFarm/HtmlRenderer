@@ -118,6 +118,7 @@ namespace LayoutFarm.HtmlBoxes
             //LayoutVisitor layoutArgs = new LayoutVisitor(this.GraphicsPlatform, this);
             layoutArgs.PushContaingBlock(_rootBox);
             //----------------------- 
+
             _rootBox.PerformLayout(layoutArgs);
             if (this._maxWidth <= 0.1)
             {

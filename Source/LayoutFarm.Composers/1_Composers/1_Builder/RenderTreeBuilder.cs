@@ -383,7 +383,7 @@ namespace LayoutFarm.Composers
                             parentSpec,
                             propDecl);
                     }
-                    curSpec.DoNotCache = true;
+                    
                 }
                 else
                 {
@@ -403,7 +403,7 @@ namespace LayoutFarm.Composers
                     {
                         curSpec.Defreeze();
                     }
-                    curSpec.DoNotCache = true;
+                    
                     foreach (WebDom.CssPropertyDeclaration propDecl in elemRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(
