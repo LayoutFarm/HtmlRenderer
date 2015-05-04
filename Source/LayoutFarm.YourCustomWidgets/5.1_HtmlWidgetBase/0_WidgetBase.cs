@@ -202,10 +202,8 @@ namespace LayoutFarm.HtmlWidgets
         }
         protected void InvalidateGraphics()
         {
-            this.lightHtmlBox.InvalidateGraphics();
+            //this.lightHtmlBox.InvalidateGraphics();
         }
-
-     
         public override void SetViewport(int x, int y)
         {
             base.SetViewport(x, y);

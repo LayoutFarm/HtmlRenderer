@@ -142,9 +142,28 @@ namespace LayoutFarm.HtmlBoxes
             {
                 return;
             }
+
             p.PushContaingBlock(_rootBox);
+
+#if DEBUG
+            p.dbugEnableLogRecord = true;
+            p.dbugResetLogRecords();
+#endif
             _rootBox.Paint(p);
             p.PopContainingBlock();
+
+
+#if DEBUG
+            var logs = p.logRecords;
+            System.Text.StringBuilder stbuilder= new System.Text.StringBuilder();
+            foreach(var str in logs)
+            {
+                stbuilder.AppendLine(str);
+            }
+
+            System.IO.File.AppendAllText("drawLogs.txt", stbuilder.ToString());
+#endif
+
         }
 
         //------------------------------------------------------------------

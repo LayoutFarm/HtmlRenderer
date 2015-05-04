@@ -30,12 +30,12 @@ namespace LayoutFarm.CustomWidgets
             BoxSpec spec,
             HtmlHost host)
         {
-             
+
             switch (domE.Name)
             {
                 case "input":
                     {
-                        var inputBox = CreateInputBox(domE, parentBox, spec, myHost.RootGfx);
+                        var inputBox = CreateInputBox(domE, parentBox, spec, myHost.RootGfx, host);
                         if (inputBox != null)
                         {
                             return inputBox;
@@ -69,7 +69,7 @@ namespace LayoutFarm.CustomWidgets
         LayoutFarm.HtmlBoxes.CssBox CreateInputBox(DomElement domE,
             LayoutFarm.HtmlBoxes.CssBox parentBox,
             BoxSpec spec,
-            LayoutFarm.RootGraphic rootgfx)
+            LayoutFarm.RootGraphic rootgfx, HtmlHost host)
         {
             var typeAttr = domE.FindAttribute("type");
 
@@ -110,21 +110,31 @@ namespace LayoutFarm.CustomWidgets
                             {
                                 button.Text = "";
                             }
+                            button.Text = "testButton";
 
-                            var ui = button.GetPrimaryUIElement(this.myHost);
-                            var wrapperBox = CreateWrapper(
-                                button,
-                                ui.GetPrimaryRenderElement(rootgfx),
-                                spec, true);
-                            parentBox.AppendChild(wrapperBox);
-                            return wrapperBox;
+                            DomElement buttonDom = button.GetPresentationDomNode((HtmlDocument)domE.OwnerDocument);
+
+                            CssBox buttonCssBox = host.CreateBox2(parentBox, (WebDom.Impl.HtmlElement)buttonDom, true); // CreateCssBox(buttonDom, parentBox, spec, host);
+
+                            //var ui = button.GetPrimaryUIElement(this.myHost);
+
+                            //var wrapperBox = CreateWrapper(
+                            //    button,
+                            //    ui.GetPrimaryRenderElement(rootgfx),
+                            //    spec, true);
+                            //parentBox.AppendChild(wrapperBox);
+                            //return wrapperBox;
+
+                            parentBox.AppendChild(buttonCssBox);
+                            return buttonCssBox;
+
 
                         }
                     case "textbox":
                         {
                             var textbox = new LayoutFarm.CustomWidgets.TextBox(100, 17, false);
 
-                            var wrapperBox = CreateWrapper(
+                            CssBox wrapperBox = CreateWrapper(
                                  textbox,
                                  textbox.GetPrimaryRenderElement(rootgfx),
                                  spec, true);

@@ -51,10 +51,7 @@ namespace LayoutFarm.HtmlWidgets
                     {
                         imgBinder = ResImageList.GetImageBinder(ImageName.CheckBoxUnChecked);
                     }
-                    //----------
-
-
-                    //----------
+                    
                     if (value && this.WhenChecked != null)
                     {
                         this.WhenChecked(this, EventArgs.Empty);
@@ -74,6 +71,7 @@ namespace LayoutFarm.HtmlWidgets
             if (pnode != null) return pnode;
             //---------------------------------------------------
             pnode = htmldoc.CreateElement("div");
+
             pnode.AddChild("img", img =>
             {
                 //init 
@@ -90,26 +88,27 @@ namespace LayoutFarm.HtmlWidgets
                     this.InvalidateGraphics();
                 });
             });
-            pnode.AddChild("img", img =>
-            {
 
-                //change style
-                bool is_close = true;
-                img.SetAttribute("src", "../../Demo/arrow_close.png");
-                //3. attach event to specific span 
-                img.AttachMouseDownEvent(e =>
-                {
-                    img.SetAttribute("src", is_close ?
-                        "../../Demo/arrow_open.png" :
-                        "../../Demo/arrow_close.png");
+            //pnode.AddChild("img", img =>
+            //{
 
-                    is_close = !is_close;
-                    e.StopPropagation();
+            //    //change style
+            //    bool is_close = true;
+            //    img.SetAttribute("src", "../../Demo/arrow_close.png");
+            //    //3. attach event to specific span 
+            //    img.AttachMouseDownEvent(e =>
+            //    {
+            //        img.SetAttribute("src", is_close ?
+            //            "../../Demo/arrow_open.png" :
+            //            "../../Demo/arrow_close.png");
 
-                    this.InvalidateGraphics();
-                });
+            //        is_close = !is_close;
+            //        e.StopPropagation();
 
-            });
+            //        this.InvalidateGraphics();
+            //    });
+
+            //});
             pnode.AddChild("span", span =>
             {
                 span.AddTextContent(this.checkBoxText);

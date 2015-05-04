@@ -127,7 +127,9 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="g">the device to draw to</param>
         protected override void PaintImp(PaintVisitor p)
         {
-
+#if DEBUG
+            p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
+#endif
             var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
 
             if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
@@ -146,6 +148,9 @@ namespace LayoutFarm.HtmlBoxes
                 p.PaintBorder(this, CssSide.Top, this.BorderTopColor, rect);
 
             }
+#if DEBUG
+            p.dbugExitContext();
+#endif
         }
     }
 }

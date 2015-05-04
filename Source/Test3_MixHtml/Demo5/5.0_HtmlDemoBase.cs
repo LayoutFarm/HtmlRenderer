@@ -71,7 +71,8 @@ namespace LayoutFarm.WebWidgets
         {
             //
             var presentationDomNode = htmlWidget.GetPresentationDomNode(this.groundHtmlDoc);
-            this.groundHtmlDoc.RootNode.AddChild(presentationDomNode);
+            this.groundHtmlDoc.BodyElement.AddChild(presentationDomNode);
+            //this.groundHtmlDoc.RootNode.AddChild(presentationDomNode);
             //sampleViewport.AddContent(htmlWidget.GetPrimaryUIElement(myHtmlHost));
         }
 

@@ -145,6 +145,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             var canvasPage = p.InnerCanvas;
             canvasPage.OffsetCanvasOrigin(x, y);
             updateArea.Offset(-x, -y);
+
             externalRun.RenderElement.DrawToThisCanvas(canvasPage, updateArea);
 
             canvasPage.OffsetCanvasOrigin(-x, -y);
@@ -161,7 +162,13 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 
         protected override void PaintImp(PaintVisitor p)
         {
+#if DEBUG
+            p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
+#endif
             Paint(p, new RectangleF(0, 0, this.SizeWidth, this.SizeHeight));
+#if DEBUG
+            p.dbugExitContext();
+#endif
         }
         public override void MeasureRunsSize(LayoutVisitor lay)
         {
@@ -244,9 +251,14 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
         }
         protected override void PaintImp(PaintVisitor p)
         {
-
+#if DEBUG
+            p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
+#endif
             Rectangle rect = new Rectangle(0, 0, renderE.Width, renderE.Height);
             this.renderE.DrawToThisCanvas(p.InnerCanvas, rect);
+#if DEBUG
+            p.dbugExitContext();
+#endif
         }
 
         internal override RenderElement GetParentRenderElement(out int globalX, out int globalY)
@@ -272,6 +284,6 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
                 cbox = cbox.ParentBox;
             }
             return null;
-        } 
-    } 
+        }
+    }
 }
