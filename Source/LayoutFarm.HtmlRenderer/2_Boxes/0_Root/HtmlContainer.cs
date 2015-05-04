@@ -146,7 +146,7 @@ namespace LayoutFarm.HtmlBoxes
             p.PushContaingBlock(_rootBox);
 
 #if DEBUG
-            p.dbugEnableLogRecord = true;
+            p.dbugEnableLogRecord = false;
             p.dbugResetLogRecords();
 #endif
             _rootBox.Paint(p);
@@ -154,14 +154,16 @@ namespace LayoutFarm.HtmlBoxes
 
 
 #if DEBUG
-            var logs = p.logRecords;
-            System.Text.StringBuilder stbuilder= new System.Text.StringBuilder();
-            foreach(var str in logs)
+            if (p.dbugEnableLogRecord)
             {
-                stbuilder.AppendLine(str);
+                var logs = p.logRecords;
+                System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
+                foreach (var str in logs)
+                {
+                    stbuilder.AppendLine(str);
+                }
+                System.IO.File.AppendAllText("drawLogs.txt", stbuilder.ToString());
             }
-
-            System.IO.File.AppendAllText("drawLogs.txt", stbuilder.ToString());
 #endif
 
         }

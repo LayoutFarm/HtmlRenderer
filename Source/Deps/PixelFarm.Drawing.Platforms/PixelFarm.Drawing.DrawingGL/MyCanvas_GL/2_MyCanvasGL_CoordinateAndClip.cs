@@ -32,7 +32,7 @@ namespace PixelFarm.Drawing.DrawingGL
         int left;
         int top;
         int right;
-        int bottom; 
+        int bottom;
         Rectangle invalidateArea;
         CanvasOrientation orientation;
         bool isEmptyInvalidateArea;
@@ -94,11 +94,11 @@ namespace PixelFarm.Drawing.DrawingGL
         public override bool IntersectsWith(Rectangle clientRect)
         {
             return clientRect.IntersectsWith(left, top, right, bottom);
-        } 
+        }
         //---------------------------------------------------
-        public override bool PushClipAreaRect(int width, int height,ref Rectangle updateArea)
+        public override bool PushClipAreaRect(int width, int height, ref Rectangle updateArea)
         {
-            
+
             this.clipRectStack.Push(currentClipRect);
 
             System.Drawing.Rectangle intersectResult =
@@ -107,6 +107,10 @@ namespace PixelFarm.Drawing.DrawingGL
                 new System.Drawing.Rectangle(0, 0, width, height));
 
             currentClipRect = intersectResult;
+            if (currentClipRect.Width >= 800)
+            {
+            
+            }
             if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
             {
                 //not intersect?
@@ -127,7 +131,10 @@ namespace PixelFarm.Drawing.DrawingGL
             {
                 currentClipRect = clipRectStack.Pop();
             }
+            if (currentClipRect.Width > 800)
+            {
 
+            }
 
             canvasGL2d.EnableClipRect();
             canvasGL2d.SetClipRectRel(currentClipRect.X, currentClipRect.Y, currentClipRect.Width, currentClipRect.Height);
