@@ -18,6 +18,7 @@ namespace LayoutFarm.UI
 
         }
 
+        
         public abstract RenderElement GetPrimaryRenderElement(RootGraphic rootgfx);
 
 
@@ -138,9 +139,8 @@ namespace LayoutFarm.UI
         protected virtual void OnInterComponentMsg(object sender, int msgcode, string msg)
         {
 
-        }
-        
-         
+        } 
+
         protected virtual void OnElementChanged()
         {
         }

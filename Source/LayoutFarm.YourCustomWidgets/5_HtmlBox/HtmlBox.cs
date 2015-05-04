@@ -17,6 +17,8 @@ using LayoutFarm.UI;
 namespace LayoutFarm.CustomWidgets
 {
 
+     
+
     public class HtmlBox : UIBox, IEventPortal
     {
         WaitingContentKind waitingContentKind;
@@ -54,8 +56,7 @@ namespace LayoutFarm.CustomWidgets
             this.PerformContentLayout();
         }
         public override void PerformContentLayout()
-        {
-
+        { 
             this.RaiseLayoutFinished();
         }
         public override RenderElement CurrentPrimaryRenderElement
@@ -295,7 +296,6 @@ namespace LayoutFarm.CustomWidgets
                 return this.htmlRenderBox.HtmlHeight;
             }
         }
-
         public override void Walk(UIVisitor visitor)
         {
             visitor.BeginElement(this, "htmlbox");

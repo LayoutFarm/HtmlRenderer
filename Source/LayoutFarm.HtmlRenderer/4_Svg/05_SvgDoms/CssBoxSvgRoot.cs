@@ -38,6 +38,10 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void PaintImp(PaintVisitor p)
         {
+#if DEBUG
+            p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
+#endif
+
             var g = p.InnerCanvas;
             var prevMode = g.SmoothingMode;
             g.SmoothingMode = SmoothingMode.AntiAlias;
@@ -50,6 +54,10 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             g.SmoothingMode = prevMode;
+
+#if DEBUG
+            p.dbugExitContext();
+#endif
         }
         public SvgElement SvgSpec
         {

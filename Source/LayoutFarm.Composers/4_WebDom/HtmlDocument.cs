@@ -17,6 +17,7 @@ namespace LayoutFarm.Composers
 
         //foc custom elements 
         Dictionary<string, CreateCssBoxDelegate> registedCustomElemenGens = new Dictionary<string, CreateCssBoxDelegate>();
+       
         internal HtmlDocument()
         {
             this.SetRootElement(new HtmlRootElement(this));
@@ -26,10 +27,10 @@ namespace LayoutFarm.Composers
         {
             //default root
             this.SetRootElement(new HtmlRootElement(this));
-            //test only
+            //TODO: test only
             this.RegisterCustomElement("fivespace", CustomBoxGenSample1.CreateCssBox);
         }
-
+       
         public override DomElement CreateElement(string prefix, string localName)
         {
             //actual implementation

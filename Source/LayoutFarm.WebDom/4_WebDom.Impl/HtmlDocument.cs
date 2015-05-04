@@ -11,7 +11,7 @@ namespace LayoutFarm.WebDom.Impl
 {
     public partial class HtmlDocument : WebDocument
     {
-
+        DomElement bodyElement;
         DomElement rootNode;
         int domUpdateVersion;
         EventHandler domUpdatedHandler;
@@ -34,6 +34,31 @@ namespace LayoutFarm.WebDom.Impl
             get
             {
                 return rootNode;
+            }
+        }
+        public DomElement BodyElement
+        {
+            get
+            {
+                if (bodyElement == null)
+                {   
+                    //find body
+                    int j = rootNode.ChildrenCount;
+                    for (int i = 0; i < j; ++i)
+                    {
+                        HtmlElement node = rootNode.GetChildNode(i) as HtmlElement;
+                        if (node != null)
+                        {
+                            if (node.Name == "body")
+                            {
+                                bodyElement = node;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                return bodyElement;
             }
         }
         public override int DomUpdateVersion

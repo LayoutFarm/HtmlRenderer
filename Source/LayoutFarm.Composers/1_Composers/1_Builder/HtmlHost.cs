@@ -60,6 +60,7 @@ namespace LayoutFarm.HtmlBoxes
         public RootGraphic RootGfx { get { return this.rootgfx; } }
         public RenderBoxBase TopWindowRenderBox { get { return this.rootgfx.TopWindowRenderBox; } }
 
+
         public void AttachEssentailHandlers(
             EventHandler<ImageRequestEventArgs> reqImageHandler,
             EventHandler<TextRequestEventArgs> reqStyleSheetHandler)
@@ -78,6 +79,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public GraphicsPlatform GfxPlatform { get { return this.gfxplatform; } }
         public WebDom.CssActiveSheet BaseStylesheet { get; private set; }
+
 
         public void ChildRequestImage(ImageBinder binder, HtmlContainer htmlCont, object reqFrom, bool _sync)
         {
@@ -302,6 +304,7 @@ namespace LayoutFarm.HtmlBoxes
                                         {
                                             continue;
                                         }
+
                                         if (fullmode)
                                         {
                                             CssBox box = CreateBox(hostBox, childElement, fullmode);
@@ -311,8 +314,7 @@ namespace LayoutFarm.HtmlBoxes
 
                                             CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(childElement);
                                             if (existingCssBox == null)
-                                            {
-
+                                            {  
                                                 CssBox box = CreateBox(hostBox, childElement, fullmode);
 
                                             }
@@ -342,6 +344,10 @@ namespace LayoutFarm.HtmlBoxes
             //summary formatting context
             //that will be used on layout process 
             //---------------------------------- 
+        }
+        public CssBox CreateBox2(CssBox parentBox, WebDom.Impl.HtmlElement childElement, bool fullmode)
+        {
+            return CreateBox(parentBox, (HtmlElement)childElement, fullmode);
         }
         internal CssBox CreateBox(CssBox parentBox, HtmlElement childElement, bool fullmode)
         {
@@ -512,7 +518,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 
         public LayoutFarm.WebDom.Impl.HtmlDocument CreatePresentationHtmlDoc()
-        {   
+        {
             return new HtmlDocument();
         }
         internal static CssBox CreateBridgeBox(IFonts iFonts, LayoutFarm.RenderElement containerElement, RootGraphic rootgfx)

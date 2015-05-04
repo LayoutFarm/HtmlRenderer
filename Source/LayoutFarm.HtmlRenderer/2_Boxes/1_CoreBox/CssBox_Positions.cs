@@ -395,14 +395,17 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void SetSize(float width, float height)
         {
+
             if (!this.FreezeWidth)
             {
                 this._sizeWidth = width;
             }
             this._sizeHeight = height;
+
         }
         public void SetHeight(float height)
         {
+             
             this._sizeHeight = height;
         }
         public void SetWidth(float width)
@@ -825,7 +828,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             return this.GetGlobalLocationImpl(out globalX, out globalY);
         }
-        
+
         /// <summary>
         /// inner content width
         /// </summary>
