@@ -39,7 +39,7 @@ namespace LayoutFarm.HtmlBoxes
         public void Paint(PaintVisitor p)
         {
 
-          
+
 
 #if DEBUG
             dbugCounter.dbugBoxPaintCount++;
@@ -94,7 +94,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
 
-            Css.CssDisplay display = this.CssDisplay; 
+            Css.CssDisplay display = this.CssDisplay;
             if (display == Css.CssDisplay.TableCell &&
                 this.EmptyCells == Css.CssEmptyCell.Hide &&
                 this.IsSpaceOrEmpty)
@@ -205,7 +205,7 @@ namespace LayoutFarm.HtmlBoxes
                             continue;
                         }
                         //move to left-top of client box 
-                        p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY); 
+                        p.SetCanvasOrigin(ox + (int)b.LocalX, oy + (int)b.LocalY);
                         if (b.decorator != null)
                         {
                             b.decorator.Paint(b, p);
@@ -225,8 +225,6 @@ namespace LayoutFarm.HtmlBoxes
                             b.Paint(p);
                         }
 
-                         p.dbugDrawDiagonalBox(Color.Red, new RectangleF(0, 0, b.SizeWidth, b.SizeHeight));
-            
                         node = node.Next;
                     }
                     p.SetCanvasOrigin(ox, oy);
