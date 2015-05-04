@@ -107,10 +107,7 @@ namespace PixelFarm.Drawing.DrawingGL
                 new System.Drawing.Rectangle(0, 0, width, height));
 
             currentClipRect = intersectResult;
-            if (currentClipRect.Width >= 800)
-            {
-            
-            }
+
             if (intersectResult.Width <= 0 || intersectResult.Height <= 0)
             {
                 //not intersect?
@@ -131,10 +128,7 @@ namespace PixelFarm.Drawing.DrawingGL
             {
                 currentClipRect = clipRectStack.Pop();
             }
-            if (currentClipRect.Width > 800)
-            {
 
-            }
 
             canvasGL2d.EnableClipRect();
             canvasGL2d.SetClipRectRel(currentClipRect.X, currentClipRect.Y, currentClipRect.Width, currentClipRect.Height);
