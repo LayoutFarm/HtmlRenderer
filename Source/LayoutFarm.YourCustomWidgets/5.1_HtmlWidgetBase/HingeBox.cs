@@ -41,7 +41,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             //create land part 
             var div = htmldoc.CreateElement("div");
-            div.SetAttribute("style", "position:absolute;left:0px;top:0px;width:300px;height:500px;"); 
+            div.SetAttribute("style", "position:absolute;left:0px;top:0px;width:300px;height:500px;");
             for (int i = 0; i < 10; ++i)
             {
                 div.AddChild("div", div2 =>
@@ -157,7 +157,13 @@ namespace LayoutFarm.HtmlWidgets
                 case HingeFloatPartStyle.Popup:
                     {
                         var htmldoc = this.presentationNode.OwnerDocument as HtmlDocument;
-                        htmldoc.BodyElement.AddChild(this.floatPartDomElement);
+                        var floatPartE = this.floatPartDomElement as WebDom.Impl.HtmlElement;
+                        var landPartE = this.presentationNode as WebDom.Impl.HtmlElement;
+                        //htmldoc.BodyElement.AddChild(this.floatPartDomElement);
+                        htmldoc.RootNode.AddChild(this.floatPartDomElement);
+                        int x, y;
+                        this.presentationNode.GetGlobalLocation(out x, out y);
+                        floatPartE.SetLocation(x, y + (int)landPartE.ActualHeight);
 
                         //add float part to top window layer***
                         //var topRenderBox = landPartRenderElement.GetTopWindowRenderBox();
@@ -203,6 +209,10 @@ namespace LayoutFarm.HtmlWidgets
                     } break;
                 case HingeFloatPartStyle.Popup:
                     {
+                        if (this.floatPartDomElement != null && this.floatPartDomElement.ParentNode != null)
+                        {
+                            ((IHtmlElement)this.floatPartDomElement.ParentNode).removeChild(this.floatPartDomElement);
+                        }
                         //remove float part from 
                         //if (floatPartRenderElement != null)
                         //{

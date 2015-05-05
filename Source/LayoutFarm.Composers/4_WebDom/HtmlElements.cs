@@ -16,7 +16,9 @@ namespace LayoutFarm.Composers
     class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
     {
         CssBox principalBox;
-        Css.BoxSpec boxSpec; 
+        Css.BoxSpec boxSpec;
+
+
         internal HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
@@ -93,8 +95,8 @@ namespace LayoutFarm.Composers
 
             //change primary render element
             this.principalBox = scrollView;
-            scrollView.InvalidateGraphics(); 
-        } 
+            scrollView.InvalidateGraphics();
+        }
         public override void SetInnerHtml(string innerHtml)
         {
             // parse html and create dom node
@@ -105,14 +107,46 @@ namespace LayoutFarm.Composers
                 new LayoutFarm.WebDom.Parser.TextSource(innerHtml.ToCharArray()),
                 (HtmlDocument)this.OwnerDocument,
                 this);
-        } 
+        }
         public override void GetGlobalLocation(out int x, out int y)
         {
             float globalX, globalY;
             this.principalBox.GetGlobalLocation(out globalX, out globalY);
             x = (int)globalX;
             y = (int)globalY;
-        } 
+        }
+        public override void SetLocation(int x, int y)
+        {
+            if (principalBox != null)
+            {
+                principalBox.SetLocation(x, y);
+            }
+            else
+            {
+                DomAttribute domAttr;
+                if (this.TryGetAttribute(WellknownName.Style, out domAttr))
+                {
+                    domAttr.Value += ";left:" + x + "px;top:" + y + "px;";
+                }
+                else
+                {
+                    //create new
+                    throw new NotSupportedException();
+                }
+            }
+        }
+        internal void SetPrincipalBox(CssBox box)
+        {
+            this.principalBox = box;
+            this.SkipPrincipalBoxEvalulation = true;
+        }
+        public override float ActualHeight
+        {
+            get
+            {
+                return this.principalBox.SizeHeight;
+            }
+        }
         //-------------------------------------------
         internal virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
         {
@@ -124,12 +158,8 @@ namespace LayoutFarm.Composers
             //use builtin cssbox generator***
             get { return false; }
         }
-        
-        internal void SetPrincipalBox(CssBox box)
-        {
-            this.principalBox = box;
-            this.SkipPrincipalBoxEvalulation = true;
-        }
+
+
         internal bool IsStyleEvaluated
         {
             get;
@@ -154,6 +184,25 @@ namespace LayoutFarm.Composers
             get { return this.principalBox; }
         }
 
+        public override bool RemoveChild(DomNode childNode)
+        {
+            //remove presentation
+            var childElement = childNode as HtmlElement;
+            if (childElement != null && childElement.ParentNode == this)
+            {
+                if (this.principalBox != null)
+                {
+                    var cssbox = childElement.CurrentPrincipalBox;
+                    if (cssbox != null)
+                    {
+                        //remove from parent
+                        principalBox.RemoveChild(cssbox);
+                    }
+                }
+               
+            }
+            return base.RemoveChild(childNode);
+        }
 
     }
 

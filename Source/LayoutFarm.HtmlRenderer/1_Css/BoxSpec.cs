@@ -458,16 +458,16 @@ namespace LayoutFarm.Css
             get { return this._position; }
             set
             {
-                if (value == CssPosition.Absolute)
-                {
+                //if (value == CssPosition.Absolute)
+                //{
 
-                }
+                //}
 
                 if (Assignable())
                 {
-                    if (this.__aa_dbugId == 12)
-                    {
-                    }
+                    //if (this.__aa_dbugId == 12)
+                    //{
+                    //}
                     this._position = value;
                 }
             }

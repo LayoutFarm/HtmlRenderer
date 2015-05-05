@@ -164,7 +164,7 @@ namespace LayoutFarm.WebDom
                     } break;
             }
         }
-        public bool RemoveChild(DomNode childNode)
+        public virtual bool RemoveChild(DomNode childNode)
         {
             switch (childNode.NodeType)
             {
@@ -174,17 +174,19 @@ namespace LayoutFarm.WebDom
                         return false;
                     }
                 default:
-                    if (myChildrenNodes != null)
                     {
-                        bool result = myChildrenNodes.Remove(childNode);
-                        if (result)
+                        if (myChildrenNodes != null)
                         {
-                            childNode.SetParent(null);
-                            NotifyChange(ElementChangeKind.RemoveChild);
+                            bool result = myChildrenNodes.Remove(childNode);
+                            if (result)
+                            {
+                                childNode.SetParent(null);
+                                NotifyChange(ElementChangeKind.RemoveChild);
+                            }
+                            return result;
                         }
-                        return result;
+                        return false;
                     }
-                    return false;
             }
         }
 
