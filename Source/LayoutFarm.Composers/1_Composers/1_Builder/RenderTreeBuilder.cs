@@ -323,10 +323,7 @@ namespace LayoutFarm.Composers
           TopDownActiveCssTemplate activeCssTemplate)
         {
 
-            BoxSpec curSpec = element.Spec;
-            //if (curSpec.__aa_dbugId == 8)
-            //{
-            //}
+            BoxSpec curSpec = element.Spec; 
             BoxSpec.InheritStyles(curSpec, parentSpec);
             //--------------------------------
             string classValue = null;
@@ -369,16 +366,15 @@ namespace LayoutFarm.Composers
                 string attrStyleValue;
                 if (element.TryGetAttribute(WellknownName.Style, out attrStyleValue))
                 {
-                    parsedRuleSet = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray());
-
+                    //parse and evaluate the ruleset
+                    parsedRuleSet = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray()); 
                     foreach (WebDom.CssPropertyDeclaration propDecl in parsedRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(
                             curSpec,
                             parentSpec,
                             propDecl);
-                    }
-
+                    } 
                 }
                 else
                 {
@@ -397,6 +393,10 @@ namespace LayoutFarm.Composers
                     if (curSpec.IsFreezed)
                     {
                         curSpec.Defreeze();
+                        //var newspec = new BoxSpec();
+                        //BoxSpec.CloneAllStyles(newspec, curSpec);
+                        //curSpec = newspec;
+                        //element.Spec = curSpec;
                     }
 
                     foreach (WebDom.CssPropertyDeclaration propDecl in elemRuleSet.GetAssignmentIter())
