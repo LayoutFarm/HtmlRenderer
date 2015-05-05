@@ -336,17 +336,12 @@ namespace LayoutFarm.Composers
             }
             //--------------------------------
 
-            //1. apply style  
-            bool isNewlyCreated;
-            CssTemplateKey boxSpecKey;
+            //1. apply style   
+
             activeCssTemplate.ApplyCacheTemplate(element.LocalName,
                  classValue,//class
                  curSpec,
-                 parentSpec,
-                 out boxSpecKey,
-                 out isNewlyCreated);
-            //-------------------------------------------------------------------  
-
+                 parentSpec);
             //-------------------------------------------------------------------  
             //2. specific id 
             if (element.HasAttributeElementId)
@@ -383,7 +378,7 @@ namespace LayoutFarm.Composers
                             parentSpec,
                             propDecl);
                     }
-                    
+
                 }
                 else
                 {
@@ -403,7 +398,7 @@ namespace LayoutFarm.Composers
                     {
                         curSpec.Defreeze();
                     }
-                    
+
                     foreach (WebDom.CssPropertyDeclaration propDecl in elemRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(

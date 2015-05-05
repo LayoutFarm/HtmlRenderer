@@ -154,9 +154,7 @@ namespace LayoutFarm.Composers
         internal void ApplyCacheTemplate(string elemName,
              string class_value,
              BoxSpec currentBoxSpec,
-             BoxSpec parentSpec,
-             out CssTemplateKey templateKey,
-             out bool newlyCreated)
+             BoxSpec parentSpec )
         {
 
             //1. tag name key
@@ -167,17 +165,15 @@ namespace LayoutFarm.Composers
             {
                 classNameKey = ustrTable.AddStringIfNotExist(class_value);
             }
-            templateKey = new CssTemplateKey(tagNameKey, classNameKey);
+            var templateKey = new CssTemplateKey(tagNameKey, classNameKey);
             BoxSpec boxTemplate = SearchUpBoxSpec(templateKey);
             if (boxTemplate != null)
-            {
-                newlyCreated = false;
+            {   
                 BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
                 //return boxTemplate;
             }
             else
-            {
-                newlyCreated = true;
+            {    
                 //create template for specific key  
                 boxTemplate = new BoxSpec();
                 //if (boxTemplate.__aa_dbugId == 30)
@@ -238,7 +234,7 @@ namespace LayoutFarm.Composers
 
                 boxTemplate.IsTemplate = true;
 
-                  //return boxTemplate;
+                //return boxTemplate;
                 BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
 
             }

@@ -25,6 +25,9 @@ namespace LayoutFarm.Css
             }
             //---------------------------------------
             //only inheritable feautures
+            if (source.Position == CssPosition.Absolute)
+            {
+            }
             target._fontFeats = source._fontFeats;
             target._listFeats = source._listFeats;
             //--------------------------------------- 
