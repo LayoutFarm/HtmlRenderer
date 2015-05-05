@@ -12,11 +12,6 @@ namespace LayoutFarm.Css
         {
             get { return this.parentNode; }
             set { this.parentNode = value; }
-        }
-
-
-
-
-
+        } 
     }
 }

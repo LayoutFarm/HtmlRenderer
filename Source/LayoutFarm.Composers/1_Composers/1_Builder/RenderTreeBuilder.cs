@@ -331,10 +331,8 @@ namespace LayoutFarm.Composers
             {
                 classValue = element.AttrClassValue;
             }
-            //--------------------------------
-
-            //1. apply style   
-
+            //-------------------------------- 
+            //1. apply style  
             activeCssTemplate.ApplyCacheTemplate(element.LocalName,
                  classValue,//class
                  curSpec,
@@ -407,7 +405,7 @@ namespace LayoutFarm.Composers
                             propDecl);
                     }
                 }
-                //activeCssTemplate.CacheBoxSpec(boxSpecKey, boxSpec);
+                 
             }
             //===================== 
             curSpec.Freeze(); //***

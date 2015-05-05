@@ -150,7 +150,7 @@ namespace LayoutFarm.Composers
             //not found
             return null;
         }
-
+        
         internal void ApplyCacheTemplate(string elemName,
              string class_value,
              BoxSpec currentBoxSpec,
@@ -165,7 +165,7 @@ namespace LayoutFarm.Composers
             {
                 classNameKey = ustrTable.AddStringIfNotExist(class_value);
             }
-
+            //find cache in the same level
             var templateKey = new CssTemplateKey(tagNameKey, classNameKey);
             //BoxSpec boxTemplate = SearchUpBoxSpec(templateKey);
             BoxSpec boxTemplate = null;
@@ -231,10 +231,10 @@ namespace LayoutFarm.Composers
                         }
                     }
                 }
-                 
+
                 boxTemplate.Freeze();
                 //this.CacheBoxSpec(templateKey, boxTemplate); 
-                boxTemplate.IsTemplate = true; 
+                boxTemplate.IsTemplate = true;
                 //copy back from template to currentBoxSpec
                 BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
 
