@@ -16,9 +16,7 @@ namespace LayoutFarm.Composers
     class HtmlElement : LayoutFarm.WebDom.Impl.HtmlElement
     {
         CssBox principalBox;
-        Css.BoxSpec boxSpec;
-
-
+        Css.BoxSpec boxSpec; 
         internal HtmlElement(HtmlDocument owner, int prefix, int localNameIndex)
             : base(owner, prefix, localNameIndex)
         {
@@ -149,6 +147,7 @@ namespace LayoutFarm.Composers
         internal Css.BoxSpec Spec
         {
             get { return this.boxSpec; }
+            //set { this.boxSpec = value; }
         }
         internal CssBox CurrentPrincipalBox
         {
