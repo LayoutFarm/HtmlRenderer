@@ -14,23 +14,18 @@ using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.HtmlWidgets
 {
-
+    public enum HingeFloatPartStyle
+    {
+        Popup,
+        Embeded
+    }
+    
     public class HingeBox : HtmlWidgetBase
     {
-        DomElement floatPartDomElement;
-
-
+        DomElement floatPartDomElement; 
         DomElement presentationNode;
         Color backColor = Color.LightGray;
-        bool isOpen;
-        ////1. land part
-        //HtmlBox landPart;
-        ////2. float part   
-        //HtmlBox floatPart;
-
-        //RenderElement landPartRenderElement;
-        //RenderElement floatPartRenderElement;
-
+        bool isOpen; 
         HingeFloatPartStyle floatPartStyle;
 
         public HingeBox(int w, int h)
@@ -83,7 +78,7 @@ namespace LayoutFarm.HtmlWidgets
                             img.SetAttribute("src", "../../Demo/arrow_open.png");
                             this.OpenHinge();
                         }
- 
+
                         //----------------------------- 
                         e.StopPropagation();
                     });
@@ -97,58 +92,16 @@ namespace LayoutFarm.HtmlWidgets
             return presentationNode;
         }
 
-        //public HtmlBox LandPart
-        //{
-        //    get { return this.landPart; }
-        //}
-        //public HtmlBox FloatPart
-        //{
-        //    get { return this.floatPart; }
-        //}
-        //protected override void OnPrimaryUIElementCreated(HtmlDocument htmldoc, HtmlHost htmlhost)
-        //{
-
-        //    if (this.floatPartDomElement == null)
-        //    {
-        //        this.floatPartDomElement = CreateFloatPartDom(htmldoc);
-        //    }
-
-        //    //if (this.landPartDomElement == null)
-        //    //{
-        //    //    this.landPartDomElement = this.GetPresentationDomNode(
-        //    //}
-        //    //if (this.landPart == null)
-        //    //{
-        //    //    this.landPart = (HtmlBox)base.GetPrimaryUIElement(htmlhost);
-        //    //}
-        //    //if (floatPart == null)
-        //    //{
-        //    //    this.floatPart = new HtmlBox(htmlhost, this.Width, 300);
-        //    //    this.floatPart.Visible = false;
-        //    //    this.floatPart.LoadHtmlDom(CreateFloatPartDom());
-        //    //}
-        //}
-
-        //---------------------------------------------------- 
         public bool IsOpen
         {
             get { return this.isOpen; }
         }
-        //---------------------------------------------------- 
 
 
         public void OpenHinge()
         {
             if (isOpen) return;
             this.isOpen = true;
-
-            //if (this.landPartRenderElement == null)
-            //{
-            //    landPartRenderElement = this.landPart.CurrentPrimaryRenderElement;
-            //}
-
-            //if (floatPart == null) return;
-
 
             switch (floatPartStyle)
             {
@@ -158,22 +111,10 @@ namespace LayoutFarm.HtmlWidgets
                         var htmldoc = this.presentationNode.OwnerDocument as HtmlDocument;
                         var floatPartE = this.floatPartDomElement as WebDom.Impl.HtmlElement;
                         var landPartE = this.presentationNode as WebDom.Impl.HtmlElement;
-                        //htmldoc.BodyElement.AddChild(this.floatPartDomElement);
                         htmldoc.RootNode.AddChild(this.floatPartDomElement);
                         int x, y;
                         this.presentationNode.GetGlobalLocation(out x, out y);
                         floatPartE.SetLocation(x, y + (int)landPartE.ActualHeight);
-
-                        //add float part to top window layer***
-                        //var topRenderBox = landPartRenderElement.GetTopWindowRenderBox();
-                        //if (topRenderBox != null)
-                        //{
-                        //    Point globalLocation = landPartRenderElement.GetGlobalLocation();
-                        //    floatPart.SetLocation(globalLocation.X, globalLocation.Y + landPartRenderElement.Height);
-
-                        //    this.floatPartRenderElement = this.floatPart.GetPrimaryRenderElement(landPartRenderElement.Root);
-                        //    topRenderBox.AddChild(floatPartRenderElement);
-                        //}
 
                     } break;
                 case HingeFloatPartStyle.Embeded:
@@ -192,14 +133,6 @@ namespace LayoutFarm.HtmlWidgets
             {
                 return;
             }
-            //if (this.landPartRenderElement == null)
-            //{
-            //    landPartRenderElement = this.landPart.CurrentPrimaryRenderElement;
-            //}
-            //if (this.landPartRenderElement == null) return;
-            //if (floatPart == null) return;
-
-
 
             switch (floatPartStyle)
             {
@@ -212,23 +145,6 @@ namespace LayoutFarm.HtmlWidgets
                         {
                             ((IHtmlElement)this.floatPartDomElement.ParentNode).removeChild(this.floatPartDomElement);
                         }
-                        //remove float part from 
-                        //if (floatPartRenderElement != null)
-                        //{
-                        //    //temp
-                        //    var topRenderBox = floatPartRenderElement.GetTopWindowRenderBox();
-                        //    topRenderBox.RemoveChild(floatPartRenderElement);
-
-                        //    //var parentContainer = floatPartRenderElement.ParentRenderElement as TopWindowRenderBox;
-                        //    //parentContainer.RemoveChild(floatPartRenderElement);
-                        //    //if (parentContainer.Layers != null)
-                        //    //{
-                        //    //    PlainLayer plainLayer = (PlainLayer)parentContainer.Layers.GetLayer(0);
-                        //    //    plainLayer.RemoveChild(floatPartRenderElement);
-
-                        //    //}
-                        //}
-
                     } break;
                 case HingeFloatPartStyle.Embeded:
                     {

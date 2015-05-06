@@ -246,6 +246,12 @@ namespace LayoutFarm.HtmlWidgets
             : base(w, h)
         {
         }
+        public bool IsLandPart
+        {
+            get;
+            set;
+        }
+
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
 
@@ -253,7 +259,12 @@ namespace LayoutFarm.HtmlWidgets
             this.htmldoc = htmldoc;
 
             pnode = htmldoc.CreateElement("div");
-            pnode.SetAttribute("style", "position:absolute;width:100px;height:200px");
+            //TODO: review IsLandPart again, this is temp fixed 
+            if (!this.IsLandPart)
+            {
+                pnode.SetAttribute("style", "position:absolute;width:100px;height:200px");
+            }
+
             if (menuItems != null)
             {
                 int j = menuItems.Count;
@@ -289,35 +300,39 @@ namespace LayoutFarm.HtmlWidgets
             //add to topmost box 
             if (!showing)
             {
-               
+
                 //create presentation node
                 if (this.pnode == null)
                 {
                     this.htmldoc = relativeToMenuItem.OwnerMenuBox.HtmlDoc;
                     this.pnode = this.GetPresentationDomNode(htmldoc);
                 }
-                
+
 
                 var relativeMenuItemElement = relativeToMenuItem.CurrentDomElement as IHtmlElement;
                 int x, y;
-                relativeMenuItemElement.getGlobalLocation(out x, out y);
-                this.SetLocation(x + relativeToMenuItem.OwnerMenuBox.Width, y);
 
-                ////-----------------
-                //var htmldoc = this.pnode.OwnerDocument as WebDocument;
-                //var floatPartE = this.floatPartDomElement as WebDom.Impl.HtmlElement;
-                //var landPartE = this.presentationNode as WebDom.Impl.HtmlElement;
-                ////htmldoc.BodyElement.AddChild(this.floatPartDomElement);
-                //htmldoc.RootNode.AddChild(this.floatPartDomElement);
-                //int x, y;
-                //this.presentationNode.GetGlobalLocation(out x, out y);
-                //floatPartE.SetLocation(x, y + (int)landPartE.ActualHeight); 
-                //this.AddSelfToTopWindow();
+                relativeMenuItemElement.getGlobalLocation(out x, out y);
+                var pHtmlNode = pnode as WebDom.Impl.HtmlElement;
+                //TODO: review InnerContentWidth again
+                pHtmlNode.SetLocation(x + 200, y);
+
+                
                 htmldoc.RootNode.AddChild(pnode);
                 showing = true;
             }
         }
-
+        public override int Width
+        {
+            get
+            {
+                if (this.pnode != null)
+                {
+                    return (int)((WebDom.Impl.HtmlElement)pnode).ActualWidth;
+                }
+                return base.Width;
+            }
+        }
         public void HideMenu()
         {
             if (showing)
@@ -332,7 +347,7 @@ namespace LayoutFarm.HtmlWidgets
                     var parent = pnode.ParentNode as IHtmlElement;
                     if (parent != null)
                     {
-                        parent.removeChild(pnode); 
+                        parent.removeChild(pnode);
                     }
                 }
                 showing = false;

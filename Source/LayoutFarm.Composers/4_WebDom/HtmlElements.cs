@@ -140,6 +140,13 @@ namespace LayoutFarm.Composers
             this.principalBox = box;
             this.SkipPrincipalBoxEvalulation = true;
         }
+        public override float ActualWidth
+        {
+            get
+            {
+                return this.principalBox.SizeWidth;
+            }
+        }
         public override float ActualHeight
         {
             get
@@ -147,6 +154,8 @@ namespace LayoutFarm.Composers
                 return this.principalBox.SizeHeight;
             }
         }
+
+
         //-------------------------------------------
         internal virtual CssBox GetPrincipalBox(CssBox parentCssBox, HtmlHost host)
         {
@@ -199,7 +208,6 @@ namespace LayoutFarm.Composers
                         principalBox.RemoveChild(cssbox);
                     }
                 }
-               
             }
             return base.RemoveChild(childNode);
         }
