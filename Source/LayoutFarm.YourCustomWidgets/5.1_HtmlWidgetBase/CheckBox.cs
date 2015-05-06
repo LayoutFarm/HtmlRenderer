@@ -83,9 +83,7 @@ namespace LayoutFarm.HtmlWidgets
                         "../../Demo/arrow_open.png" :
                         "../../Demo/arrow_close.png");
                     is_close = !is_close;
-                    e.StopPropagation();
-
-                     
+                    e.StopPropagation(); 
                 });
             });
 

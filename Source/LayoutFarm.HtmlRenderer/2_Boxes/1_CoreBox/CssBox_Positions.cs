@@ -405,7 +405,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void SetHeight(float height)
         {
-             
+
             this._sizeHeight = height;
         }
         public void SetWidth(float width)
@@ -835,7 +835,10 @@ namespace LayoutFarm.HtmlBoxes
         public float InnerContentWidth
         {
             get { return this._innerContentW; }
-            internal set { this._innerContentW = value; }
+            internal set
+            {
+                this._innerContentW = value;
+            }
 
         }
         /// <summary>
@@ -844,7 +847,10 @@ namespace LayoutFarm.HtmlBoxes
         public float InnerContentHeight
         {
             get { return this._innerContentH; }
-            internal set { this._innerContentH = value; }
+            internal set
+            {            
+                this._innerContentH = value;
+            }
         }
 
         //-----------

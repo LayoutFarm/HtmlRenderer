@@ -315,9 +315,9 @@ namespace LayoutFarm.HtmlWidgets
                 relativeMenuItemElement.getGlobalLocation(out x, out y);
                 var pHtmlNode = pnode as WebDom.Impl.HtmlElement;
                 //TODO: review InnerContentWidth again
-                pHtmlNode.SetLocation(x + 200, y);
+                pHtmlNode.SetLocation(x + relativeToMenuItem.OwnerMenuBox.Width, y);
 
-                
+
                 htmldoc.RootNode.AddChild(pnode);
                 showing = true;
             }

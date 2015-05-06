@@ -534,7 +534,12 @@ namespace LayoutFarm.HtmlBoxes
             var cnode = boxes.GetFirstLinkedNode();
             while (cnode != null)
             {
-                float nodeRight = cnode.Value.LocalRight;
+                var cssbox = cnode.Value; 
+                float nodeRight = cssbox.LocalX + cssbox.InnerContentWidth +
+                     cssbox.ActualPaddingLeft + cssbox.ActualPaddingRight +
+                     cssbox.ActualMarginLeft +
+                     cssbox.ActualMarginRight;
+
                 maxRight = nodeRight > maxRight ? nodeRight : maxRight;
                 cnode = cnode.Next;
             }
@@ -724,14 +729,16 @@ namespace LayoutFarm.HtmlBoxes
 
             int i_maxRight = (int)maxRight;
             int i_maxBottom = (int)maxBottom;
-            if (i_maxRight > srcBox.InnerContentWidth)
-            {
-                srcBox.InnerContentWidth = i_maxRight;
-            }
-            if (i_maxBottom > srcBox.InnerContentHeight)
-            {
-                srcBox.InnerContentHeight = i_maxBottom;
-            }
+            srcBox.InnerContentWidth = i_maxRight;
+            srcBox.InnerContentHeight = i_maxBottom;
+            //if (i_maxRight > srcBox.InnerContentWidth)
+            //{
+
+            //}
+            //if (i_maxBottom > srcBox.InnerContentHeight)
+            //{
+
+            //}
         }
 
         static void FlowRunsIntoHost(LayoutVisitor lay,
