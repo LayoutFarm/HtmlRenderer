@@ -83,8 +83,7 @@ namespace LayoutFarm.HtmlWidgets
                             img.SetAttribute("src", "../../Demo/arrow_open.png");
                             this.OpenHinge();
                         }
-
-                        this.InvalidateGraphics();
+ 
                         //----------------------------- 
                         e.StopPropagation();
                     });

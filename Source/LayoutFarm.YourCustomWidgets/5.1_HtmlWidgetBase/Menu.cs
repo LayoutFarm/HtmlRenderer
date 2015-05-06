@@ -241,18 +241,19 @@ namespace LayoutFarm.HtmlWidgets
         List<MenuItem> menuItems;
         DomElement pnode;
         MenuItem currentActiveMenuItem;
-
-
+        WebDom.Impl.HtmlDocument htmldoc;
         public MenuBox(int w, int h)
             : base(w, h)
         {
         }
         public override DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc)
         {
+
             if (pnode != null) return pnode;
-            //------------------
-          
+            this.htmldoc = htmldoc;
+
             pnode = htmldoc.CreateElement("div");
+            pnode.SetAttribute("style", "position:absolute;width:100px,height:200px");
             if (menuItems != null)
             {
                 int j = menuItems.Count;
@@ -262,6 +263,10 @@ namespace LayoutFarm.HtmlWidgets
                 }
             }
             return pnode;
+        }
+        internal WebDom.Impl.HtmlDocument HtmlDoc
+        {
+            get { return this.htmldoc; }
         }
         public void AddChildBox(MenuItem mnuItem)
         {
@@ -282,24 +287,33 @@ namespace LayoutFarm.HtmlWidgets
         public void ShowMenu(MenuItem relativeToMenuItem)
         {
             //add to topmost box 
-
             if (!showing)
             {
-                var host = relativeToMenuItem.OwnerMenuBox.HtmlHost;
-
+               
+                //create presentation node
                 if (this.pnode == null)
                 {
-                    //create presentation first
-                    var fragmentdoc = host.CreateNewSharedHtmlDoc();
-                    this.GetPrimaryUIElement(host);
+                    this.htmldoc = relativeToMenuItem.OwnerMenuBox.HtmlDoc;
+                    this.pnode = this.GetPresentationDomNode(htmldoc);
                 }
-                var relativeMenuItemElement = relativeToMenuItem.CurrentDomElement as IHtmlElement;
+                
 
+                var relativeMenuItemElement = relativeToMenuItem.CurrentDomElement as IHtmlElement;
                 int x, y;
                 relativeMenuItemElement.getGlobalLocation(out x, out y);
                 this.SetLocation(x + relativeToMenuItem.OwnerMenuBox.Width, y);
 
-                this.AddSelfToTopWindow();
+                ////-----------------
+                //var htmldoc = this.pnode.OwnerDocument as WebDocument;
+                //var floatPartE = this.floatPartDomElement as WebDom.Impl.HtmlElement;
+                //var landPartE = this.presentationNode as WebDom.Impl.HtmlElement;
+                ////htmldoc.BodyElement.AddChild(this.floatPartDomElement);
+                //htmldoc.RootNode.AddChild(this.floatPartDomElement);
+                //int x, y;
+                //this.presentationNode.GetGlobalLocation(out x, out y);
+                //floatPartE.SetLocation(x, y + (int)landPartE.ActualHeight); 
+                //this.AddSelfToTopWindow();
+                htmldoc.RootNode.AddChild(pnode);
                 showing = true;
             }
         }
@@ -318,8 +332,7 @@ namespace LayoutFarm.HtmlWidgets
                     var parent = pnode.ParentNode as IHtmlElement;
                     if (parent != null)
                     {
-                        parent.removeChild(pnode);
-                        this.RemoveSelfFromTopWindow();
+                        parent.removeChild(pnode); 
                     }
                 }
                 showing = false;

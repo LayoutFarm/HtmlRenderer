@@ -123,86 +123,86 @@ namespace LayoutFarm.HtmlWidgets
             : base(w, h)
         {
         }
-        public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
-        {
-            this.htmlhost = htmlhost;
-            if (this.lightHtmlBox == null)
-            {
+        //public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
+        //{
+        //    this.htmlhost = htmlhost;
+        //    if (this.lightHtmlBox == null)
+        //    {
 
-                var lightHtmlBox = new HtmlBox(htmlhost, this.Width, this.Height);
-                HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
-                myPresentationDom = GetPresentationDomNode(htmldoc);
-                if (myPresentationDom != null)
-                {
-                    htmldoc.RootNode.AddChild(myPresentationDom);
-                    lightHtmlBox.LoadHtmlDom(htmldoc);
-                }
+        //        var lightHtmlBox = new HtmlBox(htmlhost, this.Width, this.Height);
+        //        HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
+        //        myPresentationDom = GetPresentationDomNode(htmldoc);
+        //        if (myPresentationDom != null)
+        //        {
+        //            htmldoc.RootNode.AddChild(myPresentationDom);
+        //            lightHtmlBox.LoadHtmlDom(htmldoc);
+        //        }
 
-                lightHtmlBox.SetLocation(this.Left, this.Top);
-                lightHtmlBox.LayoutFinished += (s, e) => this.RaiseEventLayoutFinished();
+        //        lightHtmlBox.SetLocation(this.Left, this.Top);
+        //        lightHtmlBox.LayoutFinished += (s, e) => this.RaiseEventLayoutFinished();
 
-                this.lightHtmlBox = lightHtmlBox;
+        //        this.lightHtmlBox = lightHtmlBox;
                  
-            }
-            return this.lightHtmlBox;
-        }
+        //    }
+        //    return this.lightHtmlBox;
+        //}
         public abstract WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc);
-        protected void AddSelfToTopWindow()
-        {
-            var htmlhost = this.HtmlHost;
-            if (htmlhost == null) return;
+        //protected void AddSelfToTopWindow()
+        //{
+        //    var htmlhost = this.HtmlHost;
+        //    if (htmlhost == null) return;
 
-            var topWindow = htmlhost.TopWindowRenderBox;
-            if (topWindow != null)
-            {
-                var primUI = this.GetPrimaryUIElement(htmlhost) as HtmlBox;
-                if (this.myPresentationDom != null)
-                {
-                    var parent = myPresentationDom.ParentNode as IHtmlElement;
-                    if (parent == null)
-                    {
-                        var htmldoc = primUI.HtmlContainer.WebDocument as HtmlDocument;
-                        htmldoc.RootNode.AddChild(myPresentationDom);
-                    }
-                }
-                topWindow.AddChild(primUI);
-            }
-        }
-        protected void RemoveSelfFromTopWindow()
-        {
-            //TODO: review here again 
-            if (lightHtmlBox != null)
-            {
-                RenderElement currentRenderE = lightHtmlBox.CurrentPrimaryRenderElement;
+        //    var topWindow = htmlhost.TopWindowRenderBox;
+        //    if (topWindow != null)
+        //    {
+        //        var primUI = this.GetPrimaryUIElement(htmlhost) as HtmlBox;
+        //        if (this.myPresentationDom != null)
+        //        {
+        //            var parent = myPresentationDom.ParentNode as IHtmlElement;
+        //            if (parent == null)
+        //            {
+        //                var htmldoc = primUI.HtmlContainer.WebDocument as HtmlDocument;
+        //                htmldoc.RootNode.AddChild(myPresentationDom);
+        //            }
+        //        }
+        //        topWindow.AddChild(primUI);
+        //    }
+        //}
+        //protected void RemoveSelfFromTopWindow()
+        //{
+        //    //TODO: review here again 
+        //    if (lightHtmlBox != null)
+        //    {
+        //        RenderElement currentRenderE = lightHtmlBox.CurrentPrimaryRenderElement;
 
-                if (currentRenderE != null)
-                {
-                    var topRenderBox = currentRenderE.GetTopWindowRenderBox();
-                    //var topRenderBox = currentRenderE.ParentRenderElement as TopWindowRenderBox;
-                    if (topRenderBox != null)
-                    {
-                        topRenderBox.RemoveChild(currentRenderE);
-                    }
-                }
-            }
-        }
+        //        if (currentRenderE != null)
+        //        {
+        //            var topRenderBox = currentRenderE.GetTopWindowRenderBox();
+        //            //var topRenderBox = currentRenderE.ParentRenderElement as TopWindowRenderBox;
+        //            if (topRenderBox != null)
+        //            {
+        //                topRenderBox.RemoveChild(currentRenderE);
+        //            }
+        //        }
+        //    }
+        //}
         //protected virtual void OnPrimaryUIElementCreated(HtmlDocument htmldoc, HtmlHost htmlhost)
         //{
 
         //}
 
-        public HtmlHost HtmlHost
-        {
-            get
-            {
+        //public HtmlHost HtmlHost
+        //{
+        //    get
+        //    {
 
-                return htmlhost;
-            }
-        }
-        protected void InvalidateGraphics()
-        {
-            //this.lightHtmlBox.InvalidateGraphics();
-        }
+        //        return htmlhost;
+        //    }
+        //}
+        //protected void InvalidateGraphics()
+        //{
+        //    //this.lightHtmlBox.InvalidateGraphics();
+        //}
         public override void SetViewport(int x, int y)
         {
             base.SetViewport(x, y);
