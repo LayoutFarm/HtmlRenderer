@@ -21,18 +21,21 @@ namespace LayoutFarm.WebWidgets
 
         protected override void OnHtmlHostCreated()
         {
-           
+
             var comboBox1 = CreateComboBox(20, 20);
             AddToViewport(comboBox1);
             var comboBox2 = CreateComboBox(50, 50);
             AddToViewport(comboBox2);
-             
+
+            //------------------------------------------------------------------
             LayoutFarm.HtmlWidgets.MenuBox rootMenuBox = CreateMenuBox(10, 120);
+            rootMenuBox.IsLandPart = true;
+
+            //------------------------------------------------------------------
             //add single menu item
             var rootMenuItem = new HtmlWidgets.MenuItem(150, 20);
             rootMenuItem.MenuItemText = "level0";
             rootMenuBox.AddChildBox(rootMenuItem);
-
             for (int i = 0; i < 10; ++i)
             {
                 var menuItem = new HtmlWidgets.MenuItem(150, 20);
@@ -48,7 +51,7 @@ namespace LayoutFarm.WebWidgets
                 }
 
                 rootMenuItem.AddSubMenuItem(menuItem);
-            } 
+            }
             AddToViewport(rootMenuBox);
         }
         LayoutFarm.HtmlWidgets.ComboBox CreateComboBox(int x, int y)
@@ -56,6 +59,8 @@ namespace LayoutFarm.WebWidgets
 
             LayoutFarm.HtmlWidgets.ComboBox comboBox = new HtmlWidgets.ComboBox(400, 20);
             comboBox.SetLocation(x, y);
+
+
             ////--------------------
             ////1. create landing part 
             //var landPart = new LightHtmlBox(this.myHtmlHost, 400, 02);
@@ -89,6 +94,8 @@ namespace LayoutFarm.WebWidgets
             //    }
             //};
             //landPart.AddChildBox(imgBox);
+
+
             return comboBox;
         }
         LayoutFarm.HtmlWidgets.MenuBox CreateMenuBox(int x, int y)
@@ -96,6 +103,6 @@ namespace LayoutFarm.WebWidgets
             var menuBox = new LayoutFarm.HtmlWidgets.MenuBox(200, 400);
             menuBox.SetLocation(x, y);
             return menuBox;
-        } 
+        }
     }
 }

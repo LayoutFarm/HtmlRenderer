@@ -272,20 +272,27 @@ namespace LayoutFarm.HtmlBoxes
             }
             return node;
         }
-
-
+        /// <summary>
+        /// append box to this element's absolute layer
+        /// </summary>
+        /// <param name="box"></param>
         public void AppendToAbsoluteLayer(CssBox box)
         {
             //find proper ancestor node for absolute position 
             if (this._absPosLayer == null)
             {
                 this._absPosLayer = new CssBoxCollection();
-            } 
+            }
+
             //TODO: fix here againg
             if (!this._absPosLayer.dbugContains(box))
             {
                 this._absPosLayer.AddChild(this, box);
-            } 
+            }
+            else
+            {
+
+            }
         }
         //-------------------------------------
         internal void ResetLineBoxes()

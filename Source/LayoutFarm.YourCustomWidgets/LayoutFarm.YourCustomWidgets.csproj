@@ -75,7 +75,6 @@
     <Compile Include="5.1_HtmlWidgetBase\CheckBox.cs" />
     <Compile Include="5.1_HtmlWidgetBase\ComboBox.cs" />
     <Compile Include="5.1_HtmlWidgetBase\HingeBox.cs" />
-    <Compile Include="5.1_HtmlWidgetBase\HingeRelation.cs" />
     <Compile Include="5.1_HtmlWidgetBase\HtmlDomExtension.cs" />
     <Compile Include="5.1_HtmlWidgetBase\ListView.cs" />
     <Compile Include="5.1_HtmlWidgetBase\Menu.cs" />

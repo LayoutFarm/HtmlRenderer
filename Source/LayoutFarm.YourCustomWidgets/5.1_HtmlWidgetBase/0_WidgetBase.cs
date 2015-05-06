@@ -13,24 +13,24 @@ using LayoutFarm.Composers;
 namespace LayoutFarm.HtmlWidgets
 {
 
-    public abstract class WidgetBase  
+    public abstract class WidgetBase
     {
         int width;
         int height;
         int left;
         int top;
         int viewportX;
-        int viewportY; 
+        int viewportY;
         public WidgetBase(int w, int h)
         {
             this.width = w;
             this.height = h;
         }
-        public int Width
+        public virtual int Width
         {
             get { return this.width; }
         }
-        public int Height
+        public virtual int Height
         {
             get { return this.height; }
         }
@@ -41,7 +41,7 @@ namespace LayoutFarm.HtmlWidgets
         public int Top
         {
             get { return this.top; }
-        } 
+        }
         public virtual void SetLocation(int left, int top)
         {
             this.left = left;
@@ -60,16 +60,16 @@ namespace LayoutFarm.HtmlWidgets
         public int ViewportX { get { return this.viewportX; } }
         public int ViewportY { get { return this.viewportY; } }
         public int ViewportWidth { get { return this.Width; } }
-        public int ViewportHeight { get { return this.Height; } } 
-    } 
+        public int ViewportHeight { get { return this.Height; } }
+    }
     public abstract class HtmlWidgetBase : WidgetBase
-    { 
+    {
         public HtmlWidgetBase(int w, int h)
             : base(w, h)
         {
         }
         public abstract WebDom.DomElement GetPresentationDomNode(WebDom.Impl.HtmlDocument htmldoc);
-        
+
         //public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
         //{
         //    this.htmlhost = htmlhost;
@@ -89,10 +89,10 @@ namespace LayoutFarm.HtmlWidgets
         //        lightHtmlBox.LayoutFinished += (s, e) => this.RaiseEventLayoutFinished();
 
         //        this.lightHtmlBox = lightHtmlBox;
-                 
+
         //    }
         //    return this.lightHtmlBox;
         //}
-      
+
     }
 }
