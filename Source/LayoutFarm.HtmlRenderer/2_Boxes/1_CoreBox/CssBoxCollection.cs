@@ -12,7 +12,7 @@ namespace LayoutFarm.HtmlBoxes
         LinkedList<CssBox> _boxes = new LinkedList<CssBox>();
         public CssBoxCollection()
         {
-        }
+        } 
         public IEnumerable<CssBox> GetChildBoxIter()
         {
             var cNode = _boxes.First;
@@ -92,11 +92,13 @@ namespace LayoutFarm.HtmlBoxes
         public IEnumerator<CssBox> GetEnumerator()
         {
             return this._boxes.GetEnumerator();
-        }
-
-
+        } 
 
 #if DEBUG
+        public bool dbugContains(CssBox box)
+        {
+            return this._boxes.Contains(box);
+        }
         internal LinkedListNode<CssBox> dbugGetNodeAtIndex(int index)
         {
             //for compat with old version
@@ -141,7 +143,7 @@ namespace LayoutFarm.HtmlBoxes
                         return null;//not found                         
                     }
             }
-        } 
+        }
 
         public void dbugChangeSiblingIndex(CssBox owner, CssBox box, int newIndex)
         {
@@ -154,5 +156,5 @@ namespace LayoutFarm.HtmlBoxes
             CssBox.UnsafeSetNodes(box, owner, this._boxes.AddBefore(foundNode, box));
         }
 #endif
-    } 
+    }
 }

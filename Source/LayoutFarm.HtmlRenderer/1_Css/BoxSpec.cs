@@ -23,7 +23,9 @@ namespace LayoutFarm.Css
     public sealed partial class BoxSpec
     {
 
+        static long totalVersion;
         bool _freezed;
+        public readonly long versionId = totalVersion++;
 
         //==========================================================
         #region css values Inherit From Parent (by default)
@@ -54,8 +56,7 @@ namespace LayoutFarm.Css
         CssFlexFeature _flexFeats = CssFlexFeature.Default;
 
         FontInfo _actualFontInfo;
-        Font _actualFont;
-
+        Font _actualFont; 
         CssDisplay _cssDisplay = CssDisplay.Inline;
         CssFloat _float = CssFloat.None;
         //==========================================================
@@ -110,11 +111,6 @@ namespace LayoutFarm.Css
             _flexFeats.Freeze(); //9.
         }
 
-        public bool DoNotCache
-        {
-            get;
-            set;
-        }
         public void Defreeze()
         {
             this._freezed = false;
@@ -460,7 +456,21 @@ namespace LayoutFarm.Css
         public CssPosition Position
         {
             get { return this._position; }
-            set { if (Assignable()) this._position = value; }
+            set
+            {
+                //if (value == CssPosition.Absolute)
+                //{
+
+                //}
+
+                if (Assignable())
+                {
+                    //if (this.__aa_dbugId == 12)
+                    //{
+                    //}
+                    this._position = value;
+                }
+            }
         }
 
 

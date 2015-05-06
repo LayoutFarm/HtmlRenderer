@@ -30,7 +30,7 @@ namespace LayoutFarm.HtmlWidgets
             if (pnode != null) return pnode;
             //--------------------------------
             pnode = htmldoc.CreateElement("div");
-            pnode.SetAttribute("style", "font:10pt tahoma");
+            pnode.SetAttribute("style", "font:10pt tahoma;overflow:scroll;height:300px;");
             int j = items.Count;
             if (j > 0)
             {
