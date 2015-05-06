@@ -85,7 +85,7 @@ namespace LayoutFarm.HtmlWidgets
                     is_close = !is_close;
                     e.StopPropagation();
 
-                    this.InvalidateGraphics();
+                     
                 });
             });
 

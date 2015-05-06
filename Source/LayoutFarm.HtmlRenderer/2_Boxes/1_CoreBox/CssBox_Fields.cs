@@ -66,13 +66,13 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         CssBoxCollection _absPosLayer;
         CssBlockRun justBlockRun;
-         
+
         //----------------------------------------------------   
         //only in condition 3
         char[] _buffer;
         //----------------------------------------------------    
         CssBoxDecorator decorator;
-        bool mayHasViewport; 
+        bool mayHasViewport;
 
         internal int RunCount
         {
@@ -150,7 +150,19 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void RemoveChild(CssBox box)
         {
-            this._aa_boxes.Remove(box);
+            switch (box.Position)
+            {
+                case Css.CssPosition.Absolute:
+                case Css.CssPosition.Fixed:
+                case Css.CssPosition.Relative:
+                    {
+                        this._absPosLayer.Remove(box);
+                    } break;
+                default:
+                    {
+                        this._aa_boxes.Remove(box);
+                    } break;
+            }
         }
         public void AppendChild(CssBox box)
         {
@@ -260,8 +272,10 @@ namespace LayoutFarm.HtmlBoxes
             }
             return node;
         }
-
-
+        /// <summary>
+        /// append box to this element's absolute layer
+        /// </summary>
+        /// <param name="box"></param>
         public void AppendToAbsoluteLayer(CssBox box)
         {
             //find proper ancestor node for absolute position 
@@ -269,7 +283,16 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this._absPosLayer = new CssBoxCollection();
             }
-            this._absPosLayer.AddChild(this, box);
+
+            //TODO: fix here againg
+            if (!this._absPosLayer.dbugContains(box))
+            {
+                this._absPosLayer.AddChild(this, box);
+            }
+            else
+            {
+
+            }
         }
         //-------------------------------------
         internal void ResetLineBoxes()

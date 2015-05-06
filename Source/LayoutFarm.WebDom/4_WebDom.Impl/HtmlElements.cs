@@ -162,8 +162,24 @@ namespace LayoutFarm.WebDom.Impl
             x = 0;
             y = 0;
         }
+        public virtual void SetLocation(int x, int y)
+        {
 
-
+        }
+        public virtual float ActualHeight
+        {
+            get
+            {
+                return 0;
+            }
+        }
+        public virtual float ActualWidth
+        {
+            get
+            {
+                return 0;
+            }
+        }
     }
 
 
