@@ -219,7 +219,48 @@ namespace LayoutFarm.HtmlBoxes
         }
         //---------------------------------------------------------------
 
-         
+#if DEBUG
+        int dbugIndentLevel;
+        internal bool dbugEnableLogRecord;
+        internal List<string> logRecords = new List<string>();
+        public enum PaintVisitorContextName
+        {
+            Init
+        }
+        public void dbugResetLogRecords()
+        {
+            this.dbugIndentLevel = 0;
+            logRecords.Clear();
+        }
+        public void dbugEnterNewContext(CssBox box, PaintVisitorContextName contextName)
+        {
+
+            if (this.dbugEnableLogRecord)
+            {
+                var controller = CssBox.UnsafeGetController(box);
+                //if (box.__aa_dbugId == 7)
+                //{
+                //}
+                logRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() + 
+                    "x:" + box.Left + ",y:" + box.Top + ",w:" + box.SizeWidth + "h:" + box.SizeHeight +
+                    " " + box.ToString() + ",id:" + box.__aa_dbugId);
+
+                dbugIndentLevel++;
+            }
+        }
+        public void dbugExitContext()
+        {
+            if (this.dbugEnableLogRecord)
+            {
+                logRecords.Add(new string('<', dbugIndentLevel) + dbugIndentLevel.ToString());
+                dbugIndentLevel--;
+                if (dbugIndentLevel < 0)
+                {
+                    throw new NotSupportedException();
+                }
+            }
+        }
+#endif
     }
 
 

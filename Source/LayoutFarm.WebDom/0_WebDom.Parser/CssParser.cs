@@ -398,6 +398,10 @@ namespace LayoutFarm.WebDom.Parser
 
                                     parseState = CssParseState.Init;
                                 } break;
+                            case CssTokenName.SemiColon:
+                                {
+                                    //another semi colon just skip
+                                }break;
                             default:
                                 {
                                     throw new NotSupportedException();

@@ -323,10 +323,7 @@ namespace LayoutFarm.Composers
           TopDownActiveCssTemplate activeCssTemplate)
         {
 
-            BoxSpec curSpec = element.Spec;
-            //if (curSpec.__aa_dbugId == 8)
-            //{
-            //}
+            BoxSpec curSpec = element.Spec; 
             BoxSpec.InheritStyles(curSpec, parentSpec);
             //--------------------------------
             string classValue = null;
@@ -334,19 +331,12 @@ namespace LayoutFarm.Composers
             {
                 classValue = element.AttrClassValue;
             }
-            //--------------------------------
-
+            //-------------------------------- 
             //1. apply style  
-            bool isNewlyCreated;
-            CssTemplateKey boxSpecKey;
             activeCssTemplate.ApplyCacheTemplate(element.LocalName,
                  classValue,//class
                  curSpec,
-                 parentSpec,
-                 out boxSpecKey,
-                 out isNewlyCreated);
-            //-------------------------------------------------------------------  
-
+                 parentSpec);
             //-------------------------------------------------------------------  
             //2. specific id 
             if (element.HasAttributeElementId)
@@ -374,16 +364,15 @@ namespace LayoutFarm.Composers
                 string attrStyleValue;
                 if (element.TryGetAttribute(WellknownName.Style, out attrStyleValue))
                 {
-                    parsedRuleSet = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray());
-
+                    //parse and evaluate the ruleset
+                    parsedRuleSet = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray()); 
                     foreach (WebDom.CssPropertyDeclaration propDecl in parsedRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(
                             curSpec,
                             parentSpec,
                             propDecl);
-                    }
-                    curSpec.DoNotCache = true;
+                    } 
                 }
                 else
                 {
@@ -402,8 +391,12 @@ namespace LayoutFarm.Composers
                     if (curSpec.IsFreezed)
                     {
                         curSpec.Defreeze();
+                        //var newspec = new BoxSpec();
+                        //BoxSpec.CloneAllStyles(newspec, curSpec);
+                        //curSpec = newspec;
+                        //element.Spec = curSpec;
                     }
-                    curSpec.DoNotCache = true;
+
                     foreach (WebDom.CssPropertyDeclaration propDecl in elemRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(
@@ -412,7 +405,7 @@ namespace LayoutFarm.Composers
                             propDecl);
                     }
                 }
-                //activeCssTemplate.CacheBoxSpec(boxSpecKey, boxSpec);
+                 
             }
             //===================== 
             curSpec.Freeze(); //***

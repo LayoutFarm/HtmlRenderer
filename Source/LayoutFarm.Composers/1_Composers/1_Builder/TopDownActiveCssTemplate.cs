@@ -130,7 +130,7 @@ namespace LayoutFarm.Composers
         //-----------------------------------------------------------------------------------------------
 
         static readonly char[] _whiteSplitter = new[] { ' ' };
-        public void CacheBoxSpec(CssTemplateKey key, BoxSpec spec)
+        void CacheBoxSpec(CssTemplateKey key, BoxSpec spec)
         {
             //add at last(top) level
             specLevels[specLevels.Count - 1].AddBoxSpec(key, spec);
@@ -150,13 +150,11 @@ namespace LayoutFarm.Composers
             //not found
             return null;
         }
-
+        
         internal void ApplyCacheTemplate(string elemName,
              string class_value,
              BoxSpec currentBoxSpec,
-             BoxSpec parentSpec,
-             out CssTemplateKey templateKey,
-             out bool newlyCreated)
+             BoxSpec parentSpec)
         {
 
             //1. tag name key
@@ -167,22 +165,26 @@ namespace LayoutFarm.Composers
             {
                 classNameKey = ustrTable.AddStringIfNotExist(class_value);
             }
-            templateKey = new CssTemplateKey(tagNameKey, classNameKey);
-            BoxSpec boxTemplate = SearchUpBoxSpec(templateKey);
+            //find cache in the same level
+            var templateKey = new CssTemplateKey(tagNameKey, classNameKey);
+            //BoxSpec boxTemplate = SearchUpBoxSpec(templateKey);
+            BoxSpec boxTemplate = null;
             if (boxTemplate != null)
             {
-                newlyCreated = false;
-                BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
+                if (boxTemplate.versionId > currentBoxSpec.versionId)
+                {
+                    BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
+                }
+                else
+                {
+                    BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
+                }
                 //return boxTemplate;
             }
             else
             {
-                newlyCreated = true;
                 //create template for specific key  
                 boxTemplate = new BoxSpec();
-                //if (boxTemplate.__aa_dbugId == 30)
-                //{
-                //} 
                 //copy current spec to boxTemplate
                 BoxSpec.CloneAllStyles(boxTemplate, currentBoxSpec);
                 //*** 
@@ -229,16 +231,11 @@ namespace LayoutFarm.Composers
                         }
                     }
                 }
-                //if (!currentBoxSpec.DoNotCache)
-                //{
-                //    CacheBoxSpec(templateKey, boxTemplate);
-                //}
+
                 boxTemplate.Freeze();
-                this.CacheBoxSpec(templateKey, boxTemplate);
-
+                //this.CacheBoxSpec(templateKey, boxTemplate); 
                 boxTemplate.IsTemplate = true;
-
-                  //return boxTemplate;
+                //copy back from template to currentBoxSpec
                 BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
 
             }
