@@ -253,7 +253,7 @@ namespace LayoutFarm.HtmlWidgets
             this.htmldoc = htmldoc;
 
             pnode = htmldoc.CreateElement("div");
-            pnode.SetAttribute("style", "position:absolute;width:100px,height:200px");
+            pnode.SetAttribute("style", "position:absolute;width:100px;height:200px");
             if (menuItems != null)
             {
                 int j = menuItems.Count;
