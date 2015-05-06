@@ -87,8 +87,8 @@ namespace LayoutFarm.HtmlBoxes
             //assign spec             
             this._boxCompactFlags |= BoxFlags.DONT_CHANGE_DISPLAY_TYPE;
             this._cssDisplay = displayType;
-            //----------------------------
-            this._myspec = spec;
+
+            //---------------------------- 
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
         }

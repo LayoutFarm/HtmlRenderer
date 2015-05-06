@@ -129,6 +129,10 @@ namespace LayoutFarm.Composers
                     spec.BorderCollapse = UserMapUtil.GetBorderCollapse(cssValue);
                     break;
                 //------------------------------------------------
+                case WellknownCssPropertyName.BoxSizing:
+                    spec.BoxSizing = UserMapUtil.GetBoxSizing(cssValue);
+                    break;
+
                 case WellknownCssPropertyName.BoxShadow:
                     SetBoxShadow(spec, decl);
                     break;
@@ -303,7 +307,6 @@ namespace LayoutFarm.Composers
                     {
                         //TODO: implement this
                     } break;
-
 
                 //------------------------------------------------ 
                 //for flex item
@@ -660,7 +663,9 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.Overflow:
                     spec.Overflow = parentSpec.Overflow;
                     break;
-
+                case WellknownCssPropertyName.BoxSizing:
+                    spec.BoxSizing = parentSpec.BoxSizing;
+                    break;
 
             }
         }

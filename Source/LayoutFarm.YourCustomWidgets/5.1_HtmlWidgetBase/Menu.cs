@@ -306,18 +306,13 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     this.htmldoc = relativeToMenuItem.OwnerMenuBox.HtmlDoc;
                     this.pnode = this.GetPresentationDomNode(htmldoc);
-                }
-
-
+                } 
                 var relativeMenuItemElement = relativeToMenuItem.CurrentDomElement as IHtmlElement;
                 int x, y;
 
                 relativeMenuItemElement.getGlobalLocation(out x, out y);
-                var pHtmlNode = pnode as WebDom.Impl.HtmlElement;
-                //TODO: review InnerContentWidth again
-                pHtmlNode.SetLocation(x + relativeToMenuItem.OwnerMenuBox.Width, y);
-
-
+                var pHtmlNode = pnode as WebDom.Impl.HtmlElement; 
+                pHtmlNode.SetLocation(x + relativeToMenuItem.OwnerMenuBox.Width, y); 
                 htmldoc.RootNode.AddChild(pnode);
                 showing = true;
             }

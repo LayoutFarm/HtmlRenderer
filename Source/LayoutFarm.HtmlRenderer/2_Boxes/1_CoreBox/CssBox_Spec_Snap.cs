@@ -12,6 +12,7 @@ namespace LayoutFarm.HtmlBoxes
     partial class CssBox
     {
         CssDisplay _cssDisplay = CssDisplay.Inline;
+        CssBoxSizing _cssBoxSizing = CssBoxSizing.ContentBox;//default
 
         bool _isVisible;
         bool _borderLeftVisible;
@@ -22,13 +23,11 @@ namespace LayoutFarm.HtmlBoxes
 
         void EvaluateSpec(BoxSpec spec)
         {
-           
-            
+
+
             this._isVisible = this._cssDisplay != Css.CssDisplay.None &&
                               spec.Visibility == CssVisibility.Visible;
-
-           
-
+            this._cssBoxSizing = spec.BoxSizing; 
 
             this._borderLeftVisible = spec.BorderLeftStyle >= CssBorderStyle.Visible;
             this._borderTopVisible = spec.BorderTopStyle >= CssBorderStyle.Visible;

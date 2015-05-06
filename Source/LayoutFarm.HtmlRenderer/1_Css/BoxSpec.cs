@@ -54,9 +54,9 @@ namespace LayoutFarm.Css
         CssBackgroundFeature _backgroundFeats = CssBackgroundFeature.Default;//features  7 
         CssBoxShadowFeature _boxShadow = CssBoxShadowFeature.Default;
         CssFlexFeature _flexFeats = CssFlexFeature.Default;
-
+        CssBoxSizing _boxSizing = CssBoxSizing.ContentBox;//default
         FontInfo _actualFontInfo;
-        Font _actualFont; 
+        Font _actualFont;
         CssDisplay _cssDisplay = CssDisplay.Inline;
         CssFloat _float = CssFloat.None;
         //==========================================================
@@ -146,13 +146,7 @@ namespace LayoutFarm.Css
         {
             get { return this._cssDisplay; }
             set
-            {
-                //if (value == Css.CssDisplay.Flex)
-                //{
-                //}
-                //if (this.__aa_dbugId == 8)
-                //{
-                //}
+            {   
                 if (Assignable()) { this._cssDisplay = value; }
             }
         }
@@ -161,7 +155,19 @@ namespace LayoutFarm.Css
             get { return this._cssDirection; }
             set { if (Assignable())this._cssDirection = value; }
         }
-        //--------------------------------------------------------------------------------------
+       
+        public CssBoxSizing BoxSizing
+        {
+            get { return this._boxSizing; }
+            set
+            {
+                if (Assignable())
+                {
+                    this._boxSizing = value;
+                }
+            }
+        } 
+        //-------------------------------------------------------------------------------------- 
         public CssLength BorderLeftWidth
         {
             get { return this._borderFeats.LeftWidth; }
@@ -183,9 +189,9 @@ namespace LayoutFarm.Css
             set
             {
                 if (Assignable()) CheckBorderVersion().BottomWidth = value;
-
             }
         }
+
 
         public CssLength BorderTopWidth
         {
