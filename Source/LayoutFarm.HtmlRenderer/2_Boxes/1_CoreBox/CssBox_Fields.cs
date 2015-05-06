@@ -280,15 +280,12 @@ namespace LayoutFarm.HtmlBoxes
             if (this._absPosLayer == null)
             {
                 this._absPosLayer = new CssBoxCollection();
-            }
-            
+            } 
             //TODO: fix here againg
             if (!this._absPosLayer.dbugContains(box))
             {
                 this._absPosLayer.AddChild(this, box);
-            }
-             
-            
+            } 
         }
         //-------------------------------------
         internal void ResetLineBoxes()

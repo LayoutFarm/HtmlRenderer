@@ -13,7 +13,7 @@ using LayoutFarm.Composers;
 namespace LayoutFarm.HtmlWidgets
 {
 
-    public abstract class WidgetBase : IScrollable
+    public abstract class WidgetBase  
     {
         int width;
         int height;
@@ -77,42 +77,7 @@ namespace LayoutFarm.HtmlWidgets
             }
         }
     }
-
-    //sealed class WidgetHolder
-    //{
-    //    HtmlBox lightHtmlBox;
-    //    LightHtmlWidgetBase widget;
-
-    //    public WidgetHolder(LightHtmlWidgetBase widget)
-    //    {
-    //        this.widget = widget;
-    //    }
-    //    public UIElement GetPrimaryUIElement(HtmlHost htmlhost)
-    //    {
-    //        if (this.lightHtmlBox == null)
-    //        {
-
-    //            var lightHtmlBox = new HtmlBox(htmlhost, widget.Width, widget.Height);
-    //            HtmlDocument htmldoc = htmlhost.CreateNewSharedHtmlDoc();
-    //            var presentationDom = widget.GetPresentationDomNode(htmldoc.RootNode);
-    //            if (presentationDom != null)
-    //            {
-    //                htmldoc.RootNode.AddChild(presentationDom);
-    //                lightHtmlBox.LoadHtmlDom(htmldoc);
-    //            }
-
-    //            lightHtmlBox.SetLocation(widget.Left, widget.Top);
-    //            lightHtmlBox.LayoutFinished += (s, e) => widget.RaiseEventLayoutFinished();
-
-    //            this.lightHtmlBox = lightHtmlBox;
-    //            //first time
-    //            LightHtmlWidgetBase.RaiseOnPrimaryUIElementCrated(widget, htmlhost);
-    //        }
-    //        return this.lightHtmlBox;
-    //    }
-
-    //}
-
+ 
     public abstract class HtmlWidgetBase : WidgetBase
     {
 

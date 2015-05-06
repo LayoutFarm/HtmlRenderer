@@ -25,21 +25,21 @@ namespace LayoutFarm.WebWidgets
 
             }
             AddToViewport(listview);
-            //-------------------------------------------------------------------
-            //add vertical scrollbar 
-            {
-                //vertical scrollbar
-                var vscbar = new LayoutFarm.HtmlWidgets.ScrollBar(15, 100);
-                vscbar.SetLocation(10, 20);
-                vscbar.MinValue = 0;
-                vscbar.MaxValue = 100;
-                vscbar.SmallChange = 20;
+            ////-------------------------------------------------------------------
+            ////add vertical scrollbar 
+            //{
+            //    //vertical scrollbar
+            //    var vscbar = new LayoutFarm.HtmlWidgets.ScrollBar(15, 100);
+            //    vscbar.SetLocation(10, 20);
+            //    vscbar.MinValue = 0;
+            //    vscbar.MaxValue = 100;
+            //    vscbar.SmallChange = 20;
 
-                this.sampleViewport.AddContent(vscbar);
+            //    this.sampleViewport.AddContent(vscbar);
 
-                //add relation between viewpanel and scroll bar 
-                var scRelation = new LayoutFarm.HtmlWidgets.ScrollingRelation(vscbar, listview);
-            }
+            //    //add relation between viewpanel and scroll bar 
+            //    //var scRelation = new LayoutFarm.HtmlWidgets.ScrollingRelation(vscbar, listview);
+            //}
         }
 
 
