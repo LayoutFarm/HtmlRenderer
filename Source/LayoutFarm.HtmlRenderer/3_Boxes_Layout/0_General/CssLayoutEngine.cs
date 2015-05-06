@@ -265,7 +265,6 @@ namespace LayoutFarm.HtmlBoxes
                             {
                                 PerformLayoutBlocksContext(box, lay);
                             }
-
                             if (box.HasAbsoluteLayer)
                             {
                                 LayoutContentInAbsoluteLayer(lay, box);
@@ -534,7 +533,7 @@ namespace LayoutFarm.HtmlBoxes
             var cnode = boxes.GetFirstLinkedNode();
             while (cnode != null)
             {
-                var cssbox = cnode.Value; 
+                var cssbox = cnode.Value;
                 float nodeRight = cssbox.LocalX + cssbox.InnerContentWidth +
                      cssbox.ActualPaddingLeft + cssbox.ActualPaddingRight +
                      cssbox.ActualMarginLeft +
@@ -648,12 +647,74 @@ namespace LayoutFarm.HtmlBoxes
                     }
                     else if (b.HasRuns)
                     {
-                        FlowRunsIntoHost(lay, hostBox, srcBox, b, childNumber,
-                         limitLocalRight, firstRunStartX,
-                         leftMostSpace, rightMostSpace,
+                        switch (b.Float)
+                        {
+                            default:
+                            case CssFloat.None:
+                                {
+                                    FlowRunsIntoHost(lay, hostBox, srcBox, b, childNumber,
+                                        limitLocalRight, firstRunStartX,
+                                        leftMostSpace, rightMostSpace,
+                                        CssBox.UnsafeGetRunList(b),
+                                        ref hostLine, ref cx);
+                                } break;
+                            case CssFloat.Left:
+                                {
+                                    //float is out of flow item
 
-                         CssBox.UnsafeGetRunList(b),
-                         ref hostLine, ref cx);
+                                    //1. current line is shortening
+                                    //2. add 'b' to special container ***
+                                    hostBox.AppendToAbsoluteLayer(b);
+
+
+                                } break;
+                            case CssFloat.Right:
+                                {
+                                    //float is out of flow item      
+                                    //1. create new block box and then
+                                    //flow content in to this new box
+                                    var newAnonBlock = new CssFloatContainerBox(
+                                        CssBox.UnsafeGetBoxSpec(b),
+                                        b.RootGfx, CssDisplay.Block);
+
+                                    if (newAnonBlock.NeedComputedValueEvaluation)
+                                    {
+                                        newAnonBlock.ReEvaluateComputedValues(ifonts, hostBox);
+                                    }
+                                    //add to abs layer
+                                    hostBox.AppendToAbsoluteLayer(newAnonBlock);
+
+                                    newAnonBlock.ResetLineBoxes();
+                                    CssLineBox line = new CssLineBox(newAnonBlock);
+                                    newAnonBlock.AddLineBox(line);
+                                    float localX1 = 0;
+                                    FlowBoxContentIntoHost(lay, newAnonBlock, b,
+                                        limitLocalRight, 0,
+                                        ref line, ref localX1);
+                                    float localY = 0;
+                                    int interlineSpace = 0;
+                                    float maxLineWidth = 0;
+                                    CssTextAlign textAlign = newAnonBlock.CssTextAlign;
+                                    foreach (CssLineBox linebox in newAnonBlock.GetLineBoxIter())
+                                    {
+                                        ApplyAlignment(linebox, textAlign, lay);
+                                        linebox.CloseLine(lay); //*** 
+                                        linebox.CachedLineTop = localY;
+                                        localY += linebox.CacheLineHeight + interlineSpace;
+                                        if (maxLineWidth < linebox.CachedExactContentWidth)
+                                        {
+                                            maxLineWidth = linebox.CachedExactContentWidth;
+                                        }
+                                    }
+
+                                    float hostSizeW = hostBox.SizeWidth;
+                                    SetFinalInnerContentSize(newAnonBlock, maxLineWidth, newAnonBlock.SizeHeight, lay);
+                                    newAnonBlock.SetLocation(hostSizeW - newAnonBlock.InnerContentWidth, 0);
+
+                                } break;
+
+                        }
+
                     }
                     else
                     {
@@ -689,6 +750,7 @@ namespace LayoutFarm.HtmlBoxes
         static void LayoutContentInAbsoluteLayer(LayoutVisitor lay, CssBox srcBox)
         {
 
+            if (srcBox.JustTempContainer) return;
 
             var ifonts = lay.SampleIFonts;
 
@@ -702,6 +764,11 @@ namespace LayoutFarm.HtmlBoxes
 
             foreach (var b in srcBox.GetAbsoluteChildBoxIter())
             {
+                if (b.JustTempContainer)
+                {
+                    continue;
+                }
+
                 if (b.NeedComputedValueEvaluation)
                 {
                     b.ReEvaluateComputedValues(ifonts, lay.LatestContainingBlock);

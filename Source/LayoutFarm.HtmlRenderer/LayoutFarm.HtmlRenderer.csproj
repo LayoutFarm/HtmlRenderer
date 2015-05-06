@@ -88,6 +88,7 @@
     <Compile Include="4_Svg\09_BasicShapes\SvgSpec.cs" />
     <Compile Include="4_Svg\09_BasicShapes\SvgVisualElements.cs" />
     <Compile Include="4_Svg\16_Interactivity\SvgHitChain.cs" />
+    <Compile Include="5_Boxes_SpecialBoxes\CssFloatContainerBox.cs" />
     <Compile Include="Platform\FontDefaultConfig.cs" />
     <Compile Include="2_Boxes\4_HitAndSelections\SelectionRange.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Spec_Snap.cs" />

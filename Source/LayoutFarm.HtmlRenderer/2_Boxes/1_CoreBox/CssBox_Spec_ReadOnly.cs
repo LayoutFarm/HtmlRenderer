@@ -110,6 +110,10 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this._myspec.Width; }
         }
+        public CssFloat Float
+        {
+            get { return this._myspec.Float; }
+        }
         public CssLength MaxWidth
         {
             get { return this._myspec.MaxWidth; }
@@ -150,10 +154,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this._myspec.EmptyCells; }
         }
-        CssFloat Float
-        {
-            get { return this._myspec.Float; }
-        }
+         
         public CssPosition Position
         {
             get { return this._myspec.Position; }

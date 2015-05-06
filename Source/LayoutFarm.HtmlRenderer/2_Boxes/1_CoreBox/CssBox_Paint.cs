@@ -93,7 +93,10 @@ namespace LayoutFarm.HtmlBoxes
         protected virtual void PaintImp(PaintVisitor p)
         {
 
+            if (this._absPosLayer != null)
+            {
 
+            }
             Css.CssDisplay display = this.CssDisplay;
             if (display == Css.CssDisplay.TableCell &&
                 this.EmptyCells == Css.CssEmptyCell.Hide &&

@@ -549,7 +549,10 @@ namespace LayoutFarm.HtmlBoxes
         internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip
-
+            //if (_bottomUpBoxStrips == null)
+            //{
+            //    return;
+            //}
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
@@ -575,7 +578,10 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void PaintDecoration(PaintVisitor p)
         {
-
+            //if (_bottomUpBoxStrips == null)
+            //{
+            //    return;
+            //}
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];

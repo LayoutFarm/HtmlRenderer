@@ -132,7 +132,7 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.BoxSizing:
                     spec.BoxSizing = UserMapUtil.GetBoxSizing(cssValue);
                     break;
-
+               
                 case WellknownCssPropertyName.BoxShadow:
                     SetBoxShadow(spec, decl);
                     break;
