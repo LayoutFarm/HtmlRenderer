@@ -62,17 +62,24 @@ namespace LayoutFarm.HtmlBoxes
 
 
         /// <summary>
-        /// absolute position layer 
+        /// absolute position layer
         /// </summary>
-        CssBoxCollection _absPosLayer;
+        CssBoxCollection _absPosLayer; 
         CssBlockRun justBlockRun;
-
+        List<CssBox> outOfFlowCssBoxList;//collect out of flow list
         //----------------------------------------------------   
         //only in condition 3
         char[] _buffer;
         //----------------------------------------------------    
         CssBoxDecorator decorator;
         bool mayHasViewport;
+        bool isOutOfFlowBox;
+
+        internal bool IsOutOfFlowBox
+        {
+            get { return this.isOutOfFlowBox; }
+            set { this.isOutOfFlowBox = value; }
+        }
 
         internal int RunCount
         {
@@ -89,7 +96,7 @@ namespace LayoutFarm.HtmlBoxes
         public CssBlockRun JustBlockRun
         {
             get { return this.justBlockRun; }
-            set
+            set 
             {
                 this.justBlockRun = value;
             }
