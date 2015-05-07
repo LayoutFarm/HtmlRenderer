@@ -281,8 +281,6 @@ namespace LayoutFarm.HtmlBoxes
             {
                 case CssFloat.Left:
                     {
-                       
-
                         var recentLeftFloatBox = lay.LatestLeftFloatBox;
                         var recentRightFloatBox = lay.LatestRightFloatBox;
                         float availableWidth2 = myContainingBlock.GetClientWidth();
@@ -377,8 +375,13 @@ namespace LayoutFarm.HtmlBoxes
                         lay.LatestRightFloatBox = box;
 
                     } break;
+                case CssFloat.None:
                 default:
                     {
+                        //review here for inherit property
+
+
+
                     } break;
             }
 
@@ -391,6 +394,7 @@ namespace LayoutFarm.HtmlBoxes
         static void DoLayoutLinesContext(CssBox hostBlock, LayoutVisitor lay)
         {
 
+
             //this in line formatting context
             //*** hostBlock must confirm that it has all inline children        
 
@@ -399,10 +403,42 @@ namespace LayoutFarm.HtmlBoxes
 
             //----------------------------------------------------------------------------------------
             float limitLocalRight = hostBlock.SizeWidth - (hostBlock.ActualPaddingRight + hostBlock.ActualBorderRightWidth);
-
             float localX = hostBlock.ActualTextIndent + hostBlock.ActualPaddingLeft + hostBlock.ActualBorderLeftWidth;
             float localY = hostBlock.ActualPaddingTop + hostBlock.ActualBorderTopWidth;
+            //----------------------------------------------------------------------------------------
 
+            if (lay.HasFloatBoxInContext)
+            {
+                var recentLeftFloatBox = lay.LatestLeftFloatBox;
+                var recentRightFloatBox = lay.LatestRightFloatBox;
+                var latestSibling = lay.LatestSiblingBox;
+
+                if (latestSibling != null)
+                {
+                    //check latest sibling first 
+                    if (hostBlock.Float == CssFloat.None)
+                    {
+                        //
+                        if (hostBlock.LocalY < recentLeftFloatBox.LocalBottom)
+                        {
+                            localX = recentLeftFloatBox.LocalRight;
+                        }
+                    }
+                }
+                else
+                {
+                    if (recentLeftFloatBox != null)
+                    {
+                        localX = recentLeftFloatBox.LocalRight;
+                    }
+                    if (recentRightFloatBox != null)
+                    {
+                        limitLocalRight = recentRightFloatBox.LocalX;
+                    }
+                    //check if need newline or not 
+                }
+
+            }
 
             int interlineSpace = 0;
 
@@ -569,6 +605,7 @@ namespace LayoutFarm.HtmlBoxes
                     }
 
                     cnode = cnode.Next;
+
                 }
             }
 
@@ -921,14 +958,6 @@ namespace LayoutFarm.HtmlBoxes
             int i_maxBottom = (int)maxBottom;
             srcBox.InnerContentWidth = i_maxRight;
             srcBox.InnerContentHeight = i_maxBottom;
-            //if (i_maxRight > srcBox.InnerContentWidth)
-            //{
-
-            //}
-            //if (i_maxBottom > srcBox.InnerContentHeight)
-            //{
-
-            //}
         }
 
         static void FlowRunsIntoHost(LayoutVisitor lay,
@@ -991,8 +1020,6 @@ namespace LayoutFarm.HtmlBoxes
                         !run.IsLineBreak &&
                         (i == 0 || splitableBox.ParentBox.IsBlock))//this run is first run of 'b' (run == b.FirstRun)
                     {
-
-
                         cx += splitableBox.ActualMarginLeft +
                             splitableBox.ActualBorderLeftWidth +
                             splitableBox.ActualPaddingLeft;

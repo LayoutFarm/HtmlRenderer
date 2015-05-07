@@ -128,7 +128,7 @@ namespace LayoutFarm.HtmlBoxes
         PartialBoxStrip[] _bottomUpBoxStrips;
         internal LinkedListNode<CssLineBox> linkedNode;
 
-
+       
 
 #if DEBUG
         bool dbugIsClosed;
@@ -367,8 +367,7 @@ namespace LayoutFarm.HtmlBoxes
         internal CssRun GetLastRun()
         {
             return this._runs[this._runs.Count - 1];
-        }
-
+        } 
 
         /// <summary>
         /// Gets the owner box
@@ -687,7 +686,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             return maxRun;
 
-        }
-
+        } 
+        
     }
 }

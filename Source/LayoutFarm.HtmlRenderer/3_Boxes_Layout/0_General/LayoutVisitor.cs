@@ -72,14 +72,15 @@ namespace LayoutFarm.HtmlBoxes
             this.totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
             this.leftFloatBoxStack.Push(this.LatestLeftFloatBox);
             this.rightFloatBoxStack.Push(this.LatestRightFloatBox);
-
         }
         protected override void OnPopDifferentContaingBlock(CssBox box)
         {
             this.totalMarginLeftAndRight -= (box.ActualMarginLeft + box.ActualMarginRight);
             this.latestLeftFloatBox = this.leftFloatBoxStack.Pop();
             this.latestRightFloatBox = this.rightFloatBoxStack.Pop();
+
         }
+        
         //-----------------------------------------
         internal CssBox LatestSiblingBox
         {
@@ -89,12 +90,22 @@ namespace LayoutFarm.HtmlBoxes
         internal CssBox LatestLeftFloatBox
         {
             get { return this.latestLeftFloatBox; }
-            set { this.latestLeftFloatBox = value; }
+            set
+            {
+                this.latestLeftFloatBox = value;
+            }
         }
         internal CssBox LatestRightFloatBox
         {
             get { return this.latestRightFloatBox; }
-            set { this.latestRightFloatBox = value; }
+            set
+            {
+                this.latestRightFloatBox = value;
+            }
+        }
+        internal bool HasFloatBoxInContext
+        {
+            get { return this.latestLeftFloatBox != null || this.latestRightFloatBox != null; }
         }
         internal void UpdateRootSize(CssBox box)
         {
