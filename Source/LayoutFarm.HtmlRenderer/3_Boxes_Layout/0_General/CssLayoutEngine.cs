@@ -281,43 +281,99 @@ namespace LayoutFarm.HtmlBoxes
             {
                 case CssFloat.Left:
                     {
-                        var latestFloatBox = lay.LatestLeftFloatBox;
-                        if (latestFloatBox != null)
+                        var recentLeftFloatBox = lay.LatestLeftFloatBox;
+                        var recentRightFloatBox = lay.LatestRightFloatBox;
+                        float availableWidth2 = myContainingBlock.GetClientWidth();
+
+                        if (recentRightFloatBox != null)
                         {
-                            float localLeft2 = latestFloatBox.LocalRight;
-                            float localTop2 = latestFloatBox.LocalY;
-                            float availableWidth2 = myContainingBlock.GetClientWidth();
-                            if (latestFloatBox.LocalRight + box.SizeWidth < availableWidth2)
-                            {
-                                box.SetLocation(latestFloatBox.LocalRight, latestFloatBox.LocalY);
-                            }
-                            else
-                            {
-                                box.SetLocation(box.LocalX, latestFloatBox.LocalBottom +
-                                    latestFloatBox.ActualPaddingBottom +
-                                    latestFloatBox.ActualMarginBottom);
-                            }
+                            availableWidth2 -= recentRightFloatBox.LocalX;
                         }
+
+                        float sx = myContainingBlock.GetClientLeft();
+                        float sy = 0;
+
+                        if (recentLeftFloatBox != null)
+                        {
+                            availableWidth2 -= recentLeftFloatBox.LocalRight;
+                            sx = recentLeftFloatBox.LocalRight;
+                            sy = recentLeftFloatBox.LocalY;
+                        }
+
+                        if (box.SizeWidth > availableWidth2)
+                        {
+                            //start newline
+                            sx = myContainingBlock.GetClientLeft();
+
+                            float sy1 = 0;
+                            float sy2 = 0;
+
+                            if (recentLeftFloatBox != null)
+                            {
+                                sy1 = recentLeftFloatBox.LocalBottom +
+                                  recentLeftFloatBox.ActualPaddingBottom +
+                                  recentLeftFloatBox.ActualMarginBottom;
+                            }
+                            if (recentRightFloatBox != null)
+                            {
+                                sy2 = recentRightFloatBox.LocalBottom +
+                                   recentRightFloatBox.ActualPaddingBottom +
+                                   recentRightFloatBox.ActualMarginBottom;
+                            }
+
+                            sy = (sy1 > sy2) ? sy1 : sy2;
+                        }
+                        box.SetLocation(sx, sy);
+                        lay.LatestLeftFloatBox = box;
                     } break;
                 case CssFloat.Right:
                     {
-                        var latestFloatBox = lay.LatestRightFloatBox;
-                        if (latestFloatBox != null)
+
+                        var recentLeftFloatBox = lay.LatestLeftFloatBox;
+                        var recentRightFloatBox = lay.LatestRightFloatBox;
+                        float availableWidth2 = myContainingBlock.GetClientWidth();
+
+                        if (recentLeftFloatBox != null)
                         {
-                            float localLeft2 = latestFloatBox.LocalRight;
-                            float localTop2 = latestFloatBox.LocalY;
-                            float availableWidth2 = myContainingBlock.GetClientWidth();
-                            if (latestFloatBox.LocalRight + box.SizeWidth < availableWidth2)
-                            {
-                                box.SetLocation(latestFloatBox.LocalRight, latestFloatBox.LocalY);
-                            }
-                            else
-                            {
-                                box.SetLocation(box.LocalX, latestFloatBox.LocalBottom +
-                                    latestFloatBox.ActualPaddingBottom +
-                                    latestFloatBox.ActualMarginBottom);
-                            }
+                            availableWidth2 -= recentLeftFloatBox.LocalX;
                         }
+
+                        float sx = myContainingBlock.GetClientRight() - box.SizeWidth;
+                        float sy = 0;
+
+                        if (recentRightFloatBox != null)
+                        {
+                            availableWidth2 -= recentRightFloatBox.LocalX;
+                            sx = recentRightFloatBox.LocalX - box.SizeWidth;
+                            sy = recentRightFloatBox.LocalY;
+                        }
+
+                        if (box.SizeWidth > availableWidth2)
+                        {
+                            //start newline
+                            sx = myContainingBlock.GetClientRight() - box.SizeWidth;
+
+                            float sy1 = 0;
+                            float sy2 = 0;
+
+                            if (recentLeftFloatBox != null)
+                            {
+                                sy1 = recentLeftFloatBox.LocalBottom +
+                                  recentLeftFloatBox.ActualPaddingBottom +
+                                  recentLeftFloatBox.ActualMarginBottom;
+                            }
+                            if (recentRightFloatBox != null)
+                            {
+                                sy2 = recentRightFloatBox.LocalBottom +
+                                   recentRightFloatBox.ActualPaddingBottom +
+                                   recentRightFloatBox.ActualMarginBottom;
+                            }
+
+                            sy = (sy1 > sy2) ? sy1 : sy2;
+                        }
+                        box.SetLocation(sx, sy); 
+                        lay.LatestRightFloatBox = box;
+
                     } break;
                 default:
                     {
