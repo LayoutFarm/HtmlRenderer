@@ -277,36 +277,52 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             //block box resize
-            if (box.Float != CssFloat.None)
+            switch (box.Float)
             {
-                var latestFloatBox = lay.LatestContainingBlock.LatestFloatBox;
-                if (latestFloatBox != null)
-                {
-                    float localLeft2 = latestFloatBox.LocalRight;
-                    float localTop2 = latestFloatBox.LocalY;
-                    float availableWidth2 = myContainingBlock.GetClientWidth();
-                    if (latestFloatBox.LocalRight + box.SizeWidth < availableWidth2)
+                case CssFloat.Left:
                     {
-                        box.SetLocation(latestFloatBox.LocalRight, latestFloatBox.LocalY);
-                    }
-                    else
+                        var latestFloatBox = lay.LatestLeftFloatBox;
+                        if (latestFloatBox != null)
+                        {
+                            float localLeft2 = latestFloatBox.LocalRight;
+                            float localTop2 = latestFloatBox.LocalY;
+                            float availableWidth2 = myContainingBlock.GetClientWidth();
+                            if (latestFloatBox.LocalRight + box.SizeWidth < availableWidth2)
+                            {
+                                box.SetLocation(latestFloatBox.LocalRight, latestFloatBox.LocalY);
+                            }
+                            else
+                            {
+                                box.SetLocation(box.LocalX, latestFloatBox.LocalBottom +
+                                    latestFloatBox.ActualPaddingBottom +
+                                    latestFloatBox.ActualMarginBottom);
+                            }
+                        }
+                    } break;
+                case CssFloat.Right:
                     {
-                        box.SetLocation(box.LocalX, latestFloatBox.LocalBottom + 
-                            latestFloatBox.ActualPaddingBottom + 
-                            latestFloatBox.ActualMarginBottom);
-                    }
-                }
-                else
-                {
-
-                }
+                        var latestFloatBox = lay.LatestRightFloatBox;
+                        if (latestFloatBox != null)
+                        {
+                            float localLeft2 = latestFloatBox.LocalRight;
+                            float localTop2 = latestFloatBox.LocalY;
+                            float availableWidth2 = myContainingBlock.GetClientWidth();
+                            if (latestFloatBox.LocalRight + box.SizeWidth < availableWidth2)
+                            {
+                                box.SetLocation(latestFloatBox.LocalRight, latestFloatBox.LocalY);
+                            }
+                            else
+                            {
+                                box.SetLocation(box.LocalX, latestFloatBox.LocalBottom +
+                                    latestFloatBox.ActualPaddingBottom +
+                                    latestFloatBox.ActualMarginBottom);
+                            }
+                        }
+                    } break;
+                default:
+                    {
+                    } break;
             }
-            else
-            {
-                lay.LatestContainingBlock.LatestFloatBox = null;
-            }
-
-
 
         }
         /// <summary>
@@ -478,12 +494,14 @@ namespace LayoutFarm.HtmlBoxes
                     switch (childBox.Float)
                     {
                         case CssFloat.Left:
+                            {
+                                lay.LatestLeftFloatBox = childBox;
+                            } break;
                         case CssFloat.Right:
                             {
                                 //float box is out-of-flow box
-                                //so move it to abs layer
-                                lay.LatestContainingBlock.LatestFloatBox = childBox;
-
+                                //so move it to abs layer                                 
+                                lay.LatestRightFloatBox = childBox;
                             } break;
                     }
 
