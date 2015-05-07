@@ -323,7 +323,7 @@ namespace LayoutFarm.HtmlBoxes
 
                             sy = (sy1 > sy2) ? sy1 : sy2;
                         }
-                        box.SetLocation(sx, sy);
+                        box.SetLocation(sx, sy + box.ActualPaddingTop + box.ActualBorderTopWidth + box.ActualMarginTop);
                         lay.LatestLeftFloatBox = box;
                     } break;
                 case CssFloat.Right:
@@ -371,7 +371,7 @@ namespace LayoutFarm.HtmlBoxes
 
                             sy = (sy1 > sy2) ? sy1 : sy2;
                         }
-                        box.SetLocation(sx, sy);
+                        box.SetLocation(sx, sy + box.ActualPaddingTop + box.ActualBorderTopWidth + box.ActualMarginTop);
                         lay.LatestRightFloatBox = box;
 
                     } break;
