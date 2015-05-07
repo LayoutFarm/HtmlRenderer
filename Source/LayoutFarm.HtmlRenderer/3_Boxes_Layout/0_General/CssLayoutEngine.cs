@@ -140,9 +140,6 @@ namespace LayoutFarm.HtmlBoxes
         }
         public static void PerformContentLayout(CssBox box, LayoutVisitor lay)
         {
-            //if (box.CssDisplay == CssDisplay.InlineBlock)
-            //{
-            //}
 
             //this box has its own  container property
             //this box may use...
@@ -150,6 +147,7 @@ namespace LayoutFarm.HtmlBoxes
             // 2) block formatting context 
 
             var myContainingBlock = lay.LatestContainingBlock;
+            CssBox prevSibling = lay.LatestSiblingBox;
             if (box.CssDisplay != Css.CssDisplay.TableCell)
             {
                 //-------------------------------------------
@@ -170,9 +168,6 @@ namespace LayoutFarm.HtmlBoxes
 
                 float localLeft = myContainingBlock.GetClientLeft() + box.ActualMarginLeft;
                 float localTop = 0;
-                var prevSibling = lay.LatestSiblingBox;
-
-
 
                 if (prevSibling == null)
                 {
@@ -185,10 +180,9 @@ namespace LayoutFarm.HtmlBoxes
                 else
                 {
                     localTop = prevSibling.LocalBottom + prevSibling.ActualBorderBottomWidth;
+
                 }
-
                 localTop += box.UpdateMarginTopCollapse(prevSibling);
-
                 box.SetLocation(localLeft, localTop);
                 box.SetHeightToZero();
             }
@@ -227,11 +221,11 @@ namespace LayoutFarm.HtmlBoxes
                             if (ContainsInlinesOnly(box))
                             {
                                 //This will automatically set the bottom of this block
-                                PerformLayoutLinesContext(box, lay);
+                                DoLayoutLinesContext(box, lay);
                             }
                             else if (box.ChildCount > 0)
                             {
-                                PerformLayoutBlocksContext(box, lay);
+                                DoLayoutBlocksContext(box, lay);
                             }
 
                             if (box.HasAbsoluteLayer)
@@ -259,28 +253,68 @@ namespace LayoutFarm.HtmlBoxes
                             if (ContainsInlinesOnly(box))
                             {
                                 //This will automatically set the bottom of this block
-                                PerformLayoutLinesContext(box, lay);
+                                DoLayoutLinesContext(box, lay);
                             }
                             else if (box.ChildCount > 0)
                             {
-                                PerformLayoutBlocksContext(box, lay);
+                                DoLayoutBlocksContext(box, lay);
                             }
                             if (box.HasAbsoluteLayer)
                             {
                                 LayoutContentInAbsoluteLayer(lay, box);
                             }
                         }
+                        //TODO: review here again
+                        if (box.Float != CssFloat.None)
+                        {
+                            var iw = box.InnerContentWidth;
+                            var ew = box.SizeWidth;
+                            //float to specific position 
+                            box.SetSize(iw, box.SizeHeight);
+
+                        }
                     } break;
             }
+
+            //block box resize
+            if (box.Float != CssFloat.None)
+            {
+                var latestFloatBox = lay.LatestContainingBlock.LatestFloatBox;
+                if (latestFloatBox != null)
+                {
+                    float localLeft2 = latestFloatBox.LocalRight;
+                    float localTop2 = latestFloatBox.LocalY;
+                    float availableWidth2 = myContainingBlock.GetClientWidth();
+                    if (latestFloatBox.LocalRight + box.SizeWidth < availableWidth2)
+                    {
+                        box.SetLocation(latestFloatBox.LocalRight, latestFloatBox.LocalY);
+                    }
+                    else
+                    {
+                        box.SetLocation(box.LocalX, latestFloatBox.LocalBottom + 
+                            latestFloatBox.ActualPaddingBottom + 
+                            latestFloatBox.ActualMarginBottom);
+                    }
+                }
+                else
+                {
+
+                }
+            }
+            else
+            {
+                lay.LatestContainingBlock.LatestFloatBox = null;
+            }
+
+
+
         }
-
-
         /// <summary>
         /// do layout line formatting context
         /// </summary>
         /// <param name="hostBlock"></param>
         /// <param name="lay"></param>
-        static void PerformLayoutLinesContext(CssBox hostBlock, LayoutVisitor lay)
+        static void DoLayoutLinesContext(CssBox hostBlock, LayoutVisitor lay)
         {
 
             //this in line formatting context
@@ -363,7 +397,7 @@ namespace LayoutFarm.HtmlBoxes
             //final 
             SetFinalInnerContentSize(hostBlock, maxLineWidth, hostBlock.SizeHeight, lay);
         }
-        static void PerformLayoutBlocksContext(CssBox box, LayoutVisitor lay)
+        static void DoLayoutBlocksContext(CssBox box, LayoutVisitor lay)
         {
 
             //block formatting context.... 
@@ -376,6 +410,7 @@ namespace LayoutFarm.HtmlBoxes
             while (cnode != null)
             {
                 var childBox = cnode.Value;
+
                 //----------------------------
                 if (childBox.IsBrElement)
                 {
@@ -438,9 +473,21 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 else
                 {
-                    childBox.PerformLayout(lay);
 
-                    if (childBox.CanBeReferenceSibling)
+                    childBox.PerformLayout(lay);
+                    switch (childBox.Float)
+                    {
+                        case CssFloat.Left:
+                        case CssFloat.Right:
+                            {
+                                //float box is out-of-flow box
+                                //so move it to abs layer
+                                lay.LatestContainingBlock.LatestFloatBox = childBox;
+
+                            } break;
+                    }
+
+                    if (childBox.Float == CssFloat.None && childBox.CanBeReferenceSibling)
                     {
                         lay.LatestSiblingBox = childBox;
                     }

@@ -33,6 +33,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.latestContaingBlock; }
         }
+        
         internal void PopContainingBlock()
         {
             switch (this.containgBlockStack.Count)

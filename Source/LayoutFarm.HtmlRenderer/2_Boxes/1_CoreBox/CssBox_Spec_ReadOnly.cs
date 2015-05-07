@@ -95,7 +95,11 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.BorderCollapse == CssBorderCollapse.Collapse; }
         }
-
+        internal CssBox LatestFloatBox
+        {
+            get;
+            set;
+        }
         //------------------------------------------------------ 
         public CssLength Left
         {
@@ -154,7 +158,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this._myspec.EmptyCells; }
         }
-         
+
         public CssPosition Position
         {
             get { return this._myspec.Position; }
