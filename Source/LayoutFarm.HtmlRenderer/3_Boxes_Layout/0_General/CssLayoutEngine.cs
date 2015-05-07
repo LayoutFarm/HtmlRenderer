@@ -276,11 +276,13 @@ namespace LayoutFarm.HtmlBoxes
                     } break;
             }
 
-            //block box resize
+
             switch (box.Float)
             {
                 case CssFloat.Left:
                     {
+                       
+
                         var recentLeftFloatBox = lay.LatestLeftFloatBox;
                         var recentRightFloatBox = lay.LatestRightFloatBox;
                         float availableWidth2 = myContainingBlock.GetClientWidth();
@@ -371,7 +373,7 @@ namespace LayoutFarm.HtmlBoxes
 
                             sy = (sy1 > sy2) ? sy1 : sy2;
                         }
-                        box.SetLocation(sx, sy); 
+                        box.SetLocation(sx, sy);
                         lay.LatestRightFloatBox = box;
 
                     } break;

@@ -171,15 +171,7 @@ namespace LayoutFarm.Composers
             BoxSpec boxTemplate = null;
             if (boxTemplate != null)
             {
-                if (boxTemplate.versionId > currentBoxSpec.versionId)
-                {
-                    BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
-                }
-                else
-                {
-                    BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
-                }
-                //return boxTemplate;
+                BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate); 
             }
             else
             {

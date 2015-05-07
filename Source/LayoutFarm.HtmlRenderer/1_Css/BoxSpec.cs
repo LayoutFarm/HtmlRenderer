@@ -23,10 +23,10 @@ namespace LayoutFarm.Css
     public sealed partial class BoxSpec
     {
 
-        static long totalVersion;
+       
         bool _freezed;
-        public readonly long versionId = totalVersion++;
-
+        //public readonly long versionId = totalVersion++;
+        //static long totalVersion;
         //==========================================================
         #region css values Inherit From Parent (by default)
         //inherit from parent by default
