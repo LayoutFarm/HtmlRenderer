@@ -323,8 +323,10 @@ namespace LayoutFarm.HtmlBoxes
 
                             sy = (sy1 > sy2) ? sy1 : sy2;
                         }
+
                         box.SetLocation(sx, sy + box.ActualPaddingTop + box.ActualBorderTopWidth + box.ActualMarginTop);
                         lay.LatestLeftFloatBox = box;
+
                     } break;
                 case CssFloat.Right:
                     {
@@ -392,12 +394,9 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="hostBlock"></param>
         /// <param name="lay"></param>
         static void DoLayoutLinesContext(CssBox hostBlock, LayoutVisitor lay)
-        {
-
-
+        {   
             //this in line formatting context
-            //*** hostBlock must confirm that it has all inline children        
-
+            //*** hostBlock must confirm that it has all inline children     
             hostBlock.SetHeightToZero();
             hostBlock.ResetLineBoxes();
 
@@ -427,13 +426,16 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 else
                 {
-                    if (recentLeftFloatBox != null)
+                    if (hostBlock.Float == CssFloat.None)
                     {
-                        localX = recentLeftFloatBox.LocalRight;
-                    }
-                    if (recentRightFloatBox != null)
-                    {
-                        limitLocalRight = recentRightFloatBox.LocalX;
+                        if (recentLeftFloatBox != null)
+                        {
+                            localX = recentLeftFloatBox.LocalRight;
+                        }
+                        if (recentRightFloatBox != null)
+                        {
+                            limitLocalRight = recentRightFloatBox.LocalX;
+                        }
                     }
                     //check if need newline or not 
                 }
@@ -499,9 +501,6 @@ namespace LayoutFarm.HtmlBoxes
                     }
                 }
             }
-
-
-
             hostBlock.SetHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
 
             //final 
@@ -585,17 +584,22 @@ namespace LayoutFarm.HtmlBoxes
                 {
 
                     childBox.PerformLayout(lay);
+
                     switch (childBox.Float)
                     {
                         case CssFloat.Left:
                             {
+                                childBox.IsOutOfFlowBox = true;
                                 lay.LatestLeftFloatBox = childBox;
+
                             } break;
                         case CssFloat.Right:
                             {
+                                childBox.IsOutOfFlowBox = true;
                                 //float box is out-of-flow box
                                 //so move it to abs layer                                 
                                 lay.LatestRightFloatBox = childBox;
+
                             } break;
                     }
 

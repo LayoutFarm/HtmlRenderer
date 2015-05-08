@@ -128,7 +128,7 @@ namespace LayoutFarm.HtmlBoxes
         PartialBoxStrip[] _bottomUpBoxStrips;
         internal LinkedListNode<CssLineBox> linkedNode;
 
-       
+
 
 #if DEBUG
         bool dbugIsClosed;
@@ -198,7 +198,7 @@ namespace LayoutFarm.HtmlBoxes
             //part 1: MakeStrips()
             //=============================================================
             //***
-            var myruns = this._runs;
+            List<CssRun> myruns = this._runs;
             CssBox lineOwner = this._ownerBox;
             List<PartialBoxStrip> tmpStrips = lay.GetReadyStripList();
             //--------------------------------------------------------------------------- 
@@ -208,9 +208,15 @@ namespace LayoutFarm.HtmlBoxes
             float maxRight = 0;
             float maxBottom = 0;
             int j = myruns.Count;
+
+            float firstRunStartAt = 0;
             for (int i = 0; i < j; ++i)
             {
-                var run = myruns[i];
+                CssRun run = myruns[i];
+                if (i == 0)
+                {
+                    firstRunStartAt = run.Left;
+                }
                 maxRight = run.Right > maxRight ? run.Right : maxRight;
                 maxBottom = run.Bottom > maxBottom ? run.Bottom : maxBottom;
                 if (run.IsSpaces)
@@ -240,7 +246,8 @@ namespace LayoutFarm.HtmlBoxes
             //=============================================================     
 
             this.CacheLineHeight = maxBottom;
-            this.CachedLineContentWidth = this.CachedExactContentWidth = maxRight;
+            this.CachedLineContentWidth = maxRight;
+            this.CachedExactContentWidth = (maxRight - firstRunStartAt);
 
             if (lineOwner.SizeWidth < CachedLineContentWidth)
             {
@@ -367,7 +374,7 @@ namespace LayoutFarm.HtmlBoxes
         internal CssRun GetLastRun()
         {
             return this._runs[this._runs.Count - 1];
-        } 
+        }
 
         /// <summary>
         /// Gets the owner box
@@ -686,7 +693,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             return maxRun;
 
-        } 
-        
+        }
+
     }
 }
