@@ -8,12 +8,14 @@ namespace LayoutFarm.HtmlBoxes
     public abstract class BoxVisitor
     {
         Stack<CssBox> containgBlockStack = new Stack<CssBox>();
-        CssBox latestContaingBlock = null;
-
+        CssBox latestContaingBlock = null; 
         float globalXOffset;
         float globalYOffset;
+
+
         internal void PushContaingBlock(CssBox box)
-        {
+        {   
+            //enter new containing block
             if (box != latestContaingBlock)
             {
                 this.globalXOffset += box.LocalX;
@@ -23,16 +25,7 @@ namespace LayoutFarm.HtmlBoxes
             this.containgBlockStack.Push(box);
             this.latestContaingBlock = box;
         }
-        protected virtual void OnPushDifferentContainingBlock(CssBox box)
-        {
-        }
-        protected virtual void OnPopDifferentContaingBlock(CssBox box)
-        {
-        }
-        internal CssBox LatestContainingBlock
-        {
-            get { return this.latestContaingBlock; }
-        }
+      
         internal void PopContainingBlock()
         {
             switch (this.containgBlockStack.Count)
@@ -75,6 +68,17 @@ namespace LayoutFarm.HtmlBoxes
             get { return this.globalYOffset; }
         }
         //-----------------------------------------
+        protected virtual void OnPushDifferentContainingBlock(CssBox box)
+        {
+        }
+        protected virtual void OnPopDifferentContaingBlock(CssBox box)
+        {
+        }
+        internal CssBox LatestContainingBlock
+        {
+            get { return this.latestContaingBlock; }
+        }
+        
     }
 
 }

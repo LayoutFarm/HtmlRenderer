@@ -62,17 +62,24 @@ namespace LayoutFarm.HtmlBoxes
 
 
         /// <summary>
-        /// absolute position layer 
+        /// absolute position layer
         /// </summary>
         CssBoxCollection _absPosLayer;
         CssBlockRun justBlockRun;
-
+         
         //----------------------------------------------------   
         //only in condition 3
         char[] _buffer;
         //----------------------------------------------------    
         CssBoxDecorator decorator;
         bool mayHasViewport;
+        bool isOutOfFlowBox;
+
+        internal bool IsOutOfFlowBox
+        {
+            get { return this.isOutOfFlowBox; }
+            set { this.isOutOfFlowBox = value; }
+        }
 
         internal int RunCount
         {
@@ -293,7 +300,8 @@ namespace LayoutFarm.HtmlBoxes
             {
 
             }
-        }
+        } 
+        
         //-------------------------------------
         internal void ResetLineBoxes()
         {

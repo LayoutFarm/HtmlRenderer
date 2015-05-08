@@ -38,15 +38,15 @@ namespace LayoutFarm.HtmlBoxes
     {
 
         readonly Css.BoxSpec _myspec;
-
         object _controller;
         IRootGraphics rootgfx;
+
 #if DEBUG
         public int dbugMark1;
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark;
-#endif  
+#endif
         public CssBox(BoxSpec spec, IRootGraphics rootgfx)
         {
             this.rootgfx = rootgfx;
@@ -87,7 +87,7 @@ namespace LayoutFarm.HtmlBoxes
             //assign spec             
             this._boxCompactFlags |= BoxFlags.DONT_CHANGE_DISPLAY_TYPE;
             this._cssDisplay = displayType;
-
+            this._myspec = spec;
             //---------------------------- 
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
@@ -95,7 +95,7 @@ namespace LayoutFarm.HtmlBoxes
         public void SetController(object controller)
         {
             this._controller = controller;
-        } 
+        }
         public IRootGraphics RootGfx
         {
             get { return this.rootgfx; }
@@ -120,7 +120,13 @@ namespace LayoutFarm.HtmlBoxes
             return topmost;
         }
 
-
+      
+        internal virtual bool JustTempContainer
+        {   
+            //temp fixed for FloatBox
+            //TODO: review here again
+            get { return false; }
+        }
         /// <summary>
         /// Is the box is of "br" element.
         /// </summary>
