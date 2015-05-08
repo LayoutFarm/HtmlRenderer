@@ -65,6 +65,8 @@ namespace LayoutFarm.HtmlBoxes
         /// absolute position layer
         /// </summary>
         CssBoxCollection _absPosLayer;
+        List<CssBox> _absLayer2;
+
         CssBlockRun justBlockRun;
          
         //----------------------------------------------------   
@@ -164,10 +166,12 @@ namespace LayoutFarm.HtmlBoxes
                 case Css.CssPosition.Relative:
                     {
                         this._absPosLayer.Remove(box);
+                        this._absLayer2.Remove(box);
                     } break;
                 default:
                     {
                         this._aa_boxes.Remove(box);
+                         
                     } break;
             }
         }
@@ -221,7 +225,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._absPosLayer != null;
+                return this._absPosLayer != null || this._absLayer2 != null;
             }
         }
         public void InsertChild(CssBox beforeBox, CssBox box)
@@ -290,7 +294,10 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this._absPosLayer = new CssBoxCollection();
             }
-
+            if (this._absLayer2 == null)
+            {
+                this._absLayer2 = new List<CssBox>();
+            }
             //TODO: fix here againg
             if (!this._absPosLayer.dbugContains(box))
             {
@@ -300,6 +307,12 @@ namespace LayoutFarm.HtmlBoxes
             {
 
             }
+
+            if (!_absLayer2.Contains(box))
+            {
+                this._absLayer2.Add(box);
+            }
+
         } 
         
         //-------------------------------------
