@@ -64,9 +64,9 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// absolute position layer
         /// </summary>
-        CssBoxCollection _absPosLayer; 
+        CssBoxCollection _absPosLayer;
         CssBlockRun justBlockRun;
-        List<CssBox> outOfFlowCssBoxList;//collect out of flow list
+         
         //----------------------------------------------------   
         //only in condition 3
         char[] _buffer;
@@ -96,7 +96,7 @@ namespace LayoutFarm.HtmlBoxes
         public CssBlockRun JustBlockRun
         {
             get { return this.justBlockRun; }
-            set 
+            set
             {
                 this.justBlockRun = value;
             }
@@ -300,7 +300,8 @@ namespace LayoutFarm.HtmlBoxes
             {
 
             }
-        }
+        } 
+        
         //-------------------------------------
         internal void ResetLineBoxes()
         {

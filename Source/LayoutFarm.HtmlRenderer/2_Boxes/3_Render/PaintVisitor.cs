@@ -18,6 +18,7 @@ namespace LayoutFarm.HtmlBoxes
         Canvas canvas;
         Rectangle latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
 
+        MultiLayerStack<CssBox> latePaintStack = new MultiLayerStack<CssBox>();
 
         float viewportWidth;
         float viewportHeight;
@@ -364,6 +365,33 @@ namespace LayoutFarm.HtmlBoxes
         }
 #endif
 
+        //-----------------------------------------------------
+        internal void AddToLatePaintList(CssBox box)
+        {
+            this.latePaintStack.AddLayerItem(box); 
+        }
+        internal int LatePaintItemCount
+        {
+
+            get { return this.latePaintStack.CurrentLayerItemCount; }
+        }
+        internal CssBox GetLatePaintItem(int index)
+        {
+            return this.latePaintStack.GetItem(index);
+        }
+        internal void ClearLatePaintItems()
+        {
+            this.latePaintStack.ClearLayerItems();
+        }
+        internal void EnterNewLatePaintContext()
+        {
+            this.latePaintStack.EnterNewContext();
+        }
+        internal void ExitCurrentLatePaintContext()
+        {
+            this.latePaintStack.ExitCurrentContext();
+        }
+        //-----------------------------------------------------
     }
 
 
