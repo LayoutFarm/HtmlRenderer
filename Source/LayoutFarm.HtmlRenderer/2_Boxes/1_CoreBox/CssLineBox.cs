@@ -186,6 +186,20 @@ namespace LayoutFarm.HtmlBoxes
             get;
             set;
         }
+        internal float CalculateLineHeight()
+        {
+            
+            float maxBottom = 0;
+            List<CssRun> myruns = this._runs;
+            int j = myruns.Count;              
+            for (int i = 0; i < j; ++i)
+            {
+                CssRun run = myruns[i]; 
+                //maxRight = run.Right > maxRight ? run.Right : maxRight;
+                maxBottom = run.Bottom > maxBottom ? run.Bottom : maxBottom;   
+            }
+            return maxBottom;
+        }
 
         internal void CloseLine(LayoutVisitor lay)
         {
@@ -258,6 +272,39 @@ namespace LayoutFarm.HtmlBoxes
         internal void OffsetTop(float ydiff)
         {
             this.CachedLineTop += ydiff;
+        }
+        internal bool CanDoMoreLeftOffset(float newOffset, float rightLimit)
+        {
+            int j = this._runs.Count;
+            if (j > 0)
+            {
+
+                //last run right position
+                //1. find current left start  
+                if (_runs[j - 1].Right + newOffset > rightLimit)
+                {
+                    //can offset
+                    //then offset
+                    return false;
+                }
+            }
+            return true;
+        }
+        internal void DoLeftOffset(float diff)
+        {
+            for (int i = this._runs.Count - 1; i >= 0; --i)
+            {
+                this._runs[i].Left += diff;
+            }
+        }
+        internal float GetRightOfLastRun()
+        {
+            int j = this.RunCount;
+            if (j > 0)
+            {
+                return this._runs[j - 1].Right;
+            }
+            return 0;
         }
         public bool HitTest(float x, float y)
         {
