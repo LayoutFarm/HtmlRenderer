@@ -106,7 +106,6 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="localY"></param>
         public void SetLocation(float localX, float localY)
         {
-
             this._localX = localX;
             this._localY = localY;
             this._boxCompactFlags |= BoxFlags.HAS_ASSIGNED_LOCATION;
@@ -395,26 +394,27 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void SetSize(float width, float height)
         {
-
             if (!this.FreezeWidth)
             {
                 this._sizeWidth = width;
             }
-            this._sizeHeight = height;
-
+            this._sizeHeight = height; 
         }
         public void SetHeight(float height)
         {
-             
             this._sizeHeight = height;
         }
+
         public void SetWidth(float width)
         {
             if (!this.FreezeWidth)
             {
                 this._sizeWidth = width;
-            }
+            } 
         }
+        /// <summary>
+        /// presentation width (border+ padding+ content), for clip area
+        /// </summary>
         public float SizeWidth
         {
             get
@@ -422,6 +422,9 @@ namespace LayoutFarm.HtmlBoxes
                 return this._sizeWidth;
             }
         }
+        /// <summary>
+        /// presentaion height (border+padding+ content), for clip area
+        /// </summary>
         public float SizeHeight
         {
             get
@@ -835,8 +838,10 @@ namespace LayoutFarm.HtmlBoxes
         public float InnerContentWidth
         {
             get { return this._innerContentW; }
-            internal set { this._innerContentW = value; }
-
+            internal set
+            {   
+                this._innerContentW = value;
+            } 
         }
         /// <summary>
         /// inner content height
@@ -844,7 +849,10 @@ namespace LayoutFarm.HtmlBoxes
         public float InnerContentHeight
         {
             get { return this._innerContentH; }
-            internal set { this._innerContentH = value; }
+            internal set
+            {
+                this._innerContentH = value;
+            }
         }
 
         //-----------

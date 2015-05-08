@@ -15,7 +15,7 @@ namespace LayoutFarm.Css
         InlineBlock,
 
         [Map(CssConstants.InlineFlex)]
-        InlineFlex, 
+        InlineFlex,
         //----------------------------
         [Map(CssConstants.TableRow)]
         TableRow,
@@ -37,7 +37,7 @@ namespace LayoutFarm.Css
         TableHeaderGroup,
 
         [Map(CssConstants.TableFooterGroup)]
-        TableFooterGroup, 
+        TableFooterGroup,
 
         [Map(CssConstants.None)]
         None,
@@ -167,6 +167,8 @@ namespace LayoutFarm.Css
         [Map(CssConstants.Inherit)]
         Inherit
     }
+
+
     public enum CssTextAlign : byte
     {
         NotAssign,
@@ -497,5 +499,17 @@ namespace LayoutFarm.Css
         [Map(CssConstants.SpaceAround)]
         SpaceAround,
 
+    }
+
+    public enum CssBoxSizing : byte
+    {
+        [Map(CssConstants.ContentBox)]
+        ContentBox,//default
+        [Map(CssConstants.BorderBox)]
+        BorderBox,
+        [Map(CssConstants.Initial)]
+        Initial,
+        [Map(CssConstants.Inherit)]
+        Inherit
     }
 }

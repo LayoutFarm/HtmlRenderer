@@ -134,6 +134,9 @@ namespace LayoutFarm.Css
         public const string Groove = "groove";
         public const string Ridge = "ridge";
 
+        public const string ContentBox = "content-box";
+        public const string BorderBox = "border-box";
+        public const string Initial = "initial";
         /// <summary>
         /// Centimeters
         /// </summary>

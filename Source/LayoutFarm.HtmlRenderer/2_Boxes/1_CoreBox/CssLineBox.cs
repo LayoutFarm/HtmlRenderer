@@ -198,7 +198,7 @@ namespace LayoutFarm.HtmlBoxes
             //part 1: MakeStrips()
             //=============================================================
             //***
-            var myruns = this._runs;
+            List<CssRun> myruns = this._runs;
             CssBox lineOwner = this._ownerBox;
             List<PartialBoxStrip> tmpStrips = lay.GetReadyStripList();
             //--------------------------------------------------------------------------- 
@@ -208,9 +208,15 @@ namespace LayoutFarm.HtmlBoxes
             float maxRight = 0;
             float maxBottom = 0;
             int j = myruns.Count;
+
+            float firstRunStartAt = 0;
             for (int i = 0; i < j; ++i)
             {
-                var run = myruns[i];
+                CssRun run = myruns[i];
+                if (i == 0)
+                {
+                    firstRunStartAt = run.Left;
+                }
                 maxRight = run.Right > maxRight ? run.Right : maxRight;
                 maxBottom = run.Bottom > maxBottom ? run.Bottom : maxBottom;
                 if (run.IsSpaces)
@@ -240,7 +246,8 @@ namespace LayoutFarm.HtmlBoxes
             //=============================================================     
 
             this.CacheLineHeight = maxBottom;
-            this.CachedLineContentWidth = this.CachedExactContentWidth = maxRight;
+            this.CachedLineContentWidth = maxRight;
+            this.CachedExactContentWidth = (maxRight - firstRunStartAt);
 
             if (lineOwner.SizeWidth < CachedLineContentWidth)
             {
@@ -368,7 +375,6 @@ namespace LayoutFarm.HtmlBoxes
         {
             return this._runs[this._runs.Count - 1];
         }
-
 
         /// <summary>
         /// Gets the owner box
@@ -549,7 +555,10 @@ namespace LayoutFarm.HtmlBoxes
         internal void PaintBackgroundAndBorder(PaintVisitor p)
         {
             //iterate each strip
-
+            //if (_bottomUpBoxStrips == null)
+            //{
+            //    return;
+            //}
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];
@@ -575,7 +584,10 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void PaintDecoration(PaintVisitor p)
         {
-
+            //if (_bottomUpBoxStrips == null)
+            //{
+            //    return;
+            //}
             for (int i = _bottomUpBoxStrips.Length - 1; i >= 0; --i)
             {
                 var strip = _bottomUpBoxStrips[i];

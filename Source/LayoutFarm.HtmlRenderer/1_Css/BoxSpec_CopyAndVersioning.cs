@@ -63,6 +63,7 @@ namespace LayoutFarm.Css
             //2.
             //for clone only (eg. split a box into two parts)
             //=======================================
+            target._boxSizing = source._boxSizing;
             target._backgroundFeats = source._backgroundFeats;
             target._borderFeats = source._borderFeats;
 
@@ -78,7 +79,7 @@ namespace LayoutFarm.Css
             target._top = source._top;
             target._bottom = source._bottom;
             target._right = source._right;
-
+            
             target._width = source._width;
 
             target._height = source._height;
