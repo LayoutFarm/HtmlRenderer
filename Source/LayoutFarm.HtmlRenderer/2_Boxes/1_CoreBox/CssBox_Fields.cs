@@ -166,7 +166,7 @@ namespace LayoutFarm.HtmlBoxes
                 case Css.CssPosition.Relative:
                     {
                         this._absPosLayer.Remove(box);
-                        this._absLayer2.Remove(box);
+                        //this._absLayer2.Remove(box);
                     } break;
                 default:
                     {
@@ -294,24 +294,22 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this._absPosLayer = new CssBoxCollection();
             }
-            if (this._absLayer2 == null)
-            {
-                this._absLayer2 = new List<CssBox>();
-            }
+            //if (this._absLayer2 == null)
+            //{
+            //    this._absLayer2 = new List<CssBox>();
+            //}
             //TODO: fix here againg
             if (!this._absPosLayer.dbugContains(box))
             {
                 this._absPosLayer.AddChild(this, box);
             }
             else
-            {
-
-            }
-
-            if (!_absLayer2.Contains(box))
-            {
-                this._absLayer2.Add(box);
-            }
+            { 
+            } 
+            //if (!_absLayer2.Contains(box))
+            //{
+            //    this._absLayer2.Add(box);
+            //}
 
         } 
         
