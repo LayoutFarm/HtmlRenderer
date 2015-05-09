@@ -330,6 +330,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this._absPosLayer = new CssBoxCollection();
             }
+            this._absPosLayer.AddChild(this,box);
             //if (this._absLayer2 == null)
             //{
             //    this._absLayer2 = new List<CssBox>();
