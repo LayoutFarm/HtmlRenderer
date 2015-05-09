@@ -52,6 +52,7 @@ it is a C# project with permissive license( MIT,BSD, Apache2)
 4) convert to C++ code with some transpiler tools 
    so users can build a final native code web browser
 
+5) to make this runs on .NetCore
 
 Nice to meet you!
 
