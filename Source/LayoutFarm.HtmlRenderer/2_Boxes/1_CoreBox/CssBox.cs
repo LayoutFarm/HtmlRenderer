@@ -120,9 +120,9 @@ namespace LayoutFarm.HtmlBoxes
             return topmost;
         }
 
-      
+
         internal virtual bool JustTempContainer
-        {   
+        {
             //temp fixed for FloatBox
             //TODO: review here again
             get { return false; }
@@ -266,6 +266,8 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         internal void AddLineBox(CssLineBox linebox)
         {
+
+           
             linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
 
         }

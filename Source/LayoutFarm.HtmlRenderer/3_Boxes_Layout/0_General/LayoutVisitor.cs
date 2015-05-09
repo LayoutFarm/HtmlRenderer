@@ -29,7 +29,7 @@ namespace LayoutFarm.HtmlBoxes
         static int totalLayoutIdEpisode = 0;
         int episodeId = 1;
         GraphicsPlatform gfxPlatform;
-
+        
         public LayoutVisitor(GraphicsPlatform gfxPlatform)
         {
             this.gfxPlatform = gfxPlatform;
@@ -78,15 +78,12 @@ namespace LayoutFarm.HtmlBoxes
             this.totalMarginLeftAndRight -= (box.ActualMarginLeft + box.ActualMarginRight);
             this.latestLeftFloatBox = this.leftFloatBoxStack.Pop();
             this.latestRightFloatBox = this.rightFloatBoxStack.Pop();
-
-        }
-        
-        //-----------------------------------------
+        } 
         internal CssBox LatestSiblingBox
         {
             get;
             set;
-        }
+        } 
         internal CssBox LatestLeftFloatBox
         {
             get { return this.latestLeftFloatBox; }
