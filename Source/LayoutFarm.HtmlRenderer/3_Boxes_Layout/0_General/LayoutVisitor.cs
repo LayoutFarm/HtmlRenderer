@@ -63,10 +63,7 @@ namespace LayoutFarm.HtmlBoxes
         internal IFonts SampleIFonts
         {
             get { return this.gfxPlatform.SampleIFonts; }
-
         }
-
-
         protected override void OnPushDifferentContainingBlock(CssBox box)
         {
             this.totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
@@ -84,6 +81,8 @@ namespace LayoutFarm.HtmlBoxes
             get;
             set;
         } 
+      
+        
         internal CssBox LatestLeftFloatBox
         {
             get { return this.latestLeftFloatBox; }
@@ -104,6 +103,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.latestLeftFloatBox != null || this.latestRightFloatBox != null; }
         }
+
         internal void UpdateRootSize(CssBox box)
         {
 

@@ -271,7 +271,6 @@ namespace LayoutFarm.HtmlBoxes
                             var ew = box.SizeWidth;
                             //float to specific position 
                             box.SetSize(iw, box.SizeHeight);
-
                         }
                     } break;
             }
@@ -291,7 +290,7 @@ namespace LayoutFarm.HtmlBoxes
                         }
 
                         float sx = myContainingBlock.GetClientLeft();
-                        float sy = 0;
+                        float sy = myContainingBlock.GetClientTop();
 
                         if (recentLeftFloatBox != null)
                         {
@@ -307,16 +306,17 @@ namespace LayoutFarm.HtmlBoxes
 
                             float sy1 = 0;
                             float sy2 = 0;
+                            sy1 = sy2 = myContainingBlock.GetClientTop();
 
                             if (recentLeftFloatBox != null)
                             {
-                                sy1 = recentLeftFloatBox.LocalBottom +
+                                sy1 = recentLeftFloatBox.LocalX + recentLeftFloatBox.InnerContentHeight +
                                   recentLeftFloatBox.ActualPaddingBottom +
                                   recentLeftFloatBox.ActualMarginBottom;
                             }
                             if (recentRightFloatBox != null)
                             {
-                                sy2 = recentRightFloatBox.LocalBottom +
+                                sy2 = recentRightFloatBox.LocalX + recentRightFloatBox.InnerContentHeight +
                                    recentRightFloatBox.ActualPaddingBottom +
                                    recentRightFloatBox.ActualMarginBottom;
                             }
@@ -324,7 +324,7 @@ namespace LayoutFarm.HtmlBoxes
                             sy = (sy1 > sy2) ? sy1 : sy2;
                         }
 
-                        box.SetLocation(sx, sy + box.ActualPaddingTop + box.ActualBorderTopWidth + box.ActualMarginTop);
+                        box.SetLocation(sx, sy);
                         lay.LatestLeftFloatBox = box;
 
                     } break;
@@ -341,7 +341,7 @@ namespace LayoutFarm.HtmlBoxes
                         }
 
                         float sx = myContainingBlock.GetClientRight() - box.SizeWidth;
-                        float sy = 0;
+                        float sy = myContainingBlock.GetClientTop();
 
                         if (recentRightFloatBox != null)
                         {
@@ -357,23 +357,24 @@ namespace LayoutFarm.HtmlBoxes
 
                             float sy1 = 0;
                             float sy2 = 0;
+                            sy1 = sy2 = myContainingBlock.GetClientTop(); 
 
                             if (recentLeftFloatBox != null)
                             {
-                                sy1 = recentLeftFloatBox.LocalBottom +
+                                sy1 = recentLeftFloatBox.LocalY + recentLeftFloatBox.InnerContentHeight +
                                   recentLeftFloatBox.ActualPaddingBottom +
                                   recentLeftFloatBox.ActualMarginBottom;
                             }
                             if (recentRightFloatBox != null)
                             {
-                                sy2 = recentRightFloatBox.LocalBottom +
+                                sy2 = recentRightFloatBox.LocalY + recentRightFloatBox.InnerContentHeight +
                                    recentRightFloatBox.ActualPaddingBottom +
                                    recentRightFloatBox.ActualMarginBottom;
                             }
 
                             sy = (sy1 > sy2) ? sy1 : sy2;
                         }
-                        box.SetLocation(sx, sy + box.ActualPaddingTop + box.ActualBorderTopWidth + box.ActualMarginTop);
+                        box.SetLocation(sx, sy);
                         lay.LatestRightFloatBox = box;
 
                     } break;
@@ -381,8 +382,6 @@ namespace LayoutFarm.HtmlBoxes
                 default:
                     {
                         //review here for inherit property
-
-
 
                     } break;
             }

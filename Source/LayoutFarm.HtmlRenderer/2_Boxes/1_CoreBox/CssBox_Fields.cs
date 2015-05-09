@@ -76,12 +76,13 @@ namespace LayoutFarm.HtmlBoxes
         CssBoxDecorator decorator;
         bool mayHasViewport;
         bool isOutOfFlowBox;
-
+      
         internal bool IsOutOfFlowBox
         {
             get { return this.isOutOfFlowBox; }
             set { this.isOutOfFlowBox = value; }
         }
+       
 
         internal int RunCount
         {
@@ -196,7 +197,7 @@ namespace LayoutFarm.HtmlBoxes
                             {
                                 //TODO: remove from current parent box
                                 //and insert to newBOx
-                                throw new NotSupportedException(); 
+                                throw new NotSupportedException();
                             }
                         }
                         else
@@ -330,7 +331,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this._absPosLayer = new CssBoxCollection();
             }
-            this._absPosLayer.AddChild(this,box);
+            this._absPosLayer.AddChild(this, box);
             //if (this._absLayer2 == null)
             //{
             //    this._absLayer2 = new List<CssBox>();
