@@ -830,8 +830,8 @@ namespace LayoutFarm.HtmlBoxes
                                     //1. current line is shortening
                                     //2. add 'b' to special container ***  
 
-                             
-                                 
+
+
                                     var newAnonBlock = new CssFloatContainerBox(
                                         CssBox.UnsafeGetBoxSpec(b),
                                         b.RootGfx, CssDisplay.Block);
@@ -873,7 +873,7 @@ namespace LayoutFarm.HtmlBoxes
 
                                     //TODO: review here!, 
                                     if (hostLine.CanDoMoreLeftOffset(newAnonBlock.InnerContentWidth, limitLocalRight))
-                                    {                                       
+                                    {
 
                                         hostLine.DoLeftOffset(newAnonBlock.InnerContentWidth);
                                         cx = hostLine.GetRightOfLastRun();
@@ -882,7 +882,6 @@ namespace LayoutFarm.HtmlBoxes
                                     }
                                     else
                                     {
-                                        
                                         newAnonBlock.SetLocation(hostBox.GetClientLeft(), hostLine.CalculateLineHeight());
                                     }
 
@@ -905,7 +904,7 @@ namespace LayoutFarm.HtmlBoxes
 
                                     CssLineBox line = new CssLineBox(newAnonBlock);
                                     newAnonBlock.AddLineBox(line);
-                                    
+
                                     lay.EnterNewLineFormattingContext(newAnonBlock);
                                     FlowBoxContentIntoHostLinesContext(lay, newAnonBlock, b,
                                         limitLocalRight, 0,
@@ -926,13 +925,60 @@ namespace LayoutFarm.HtmlBoxes
                                             maxLineWidth = linebox.CachedExactContentWidth;
                                         }
                                     }
-
-                                    float hostSizeW = hostBox.SizeWidth;
                                     SetFinalInnerContentSize(newAnonBlock, maxLineWidth, newAnonBlock.SizeHeight, lay);
-                                    newAnonBlock.SetLocation(hostSizeW - newAnonBlock.InnerContentWidth, 0);
+
+                                    //todo: review here
+                                    float hostSizeW = hostBox.SizeWidth;
+                                    var rightOfLastRun = hostLine.GetRightOfLastRun();
+
+                                    if (!lay.FloatingOutOfLineContext)
+                                    {
+                                        if (rightOfLastRun + maxLineWidth < hostSizeW - lay.LineOffsetRight)
+                                        {
+                                            float newX = hostSizeW - (maxLineWidth + lay.LineOffsetRight);
+                                            newAnonBlock.SetLocation(newX, 0);
+                                            lay.LineOffsetRight = newX;
+                                            lay.LatestRightFloatBox = newAnonBlock;
+                                            lay.FloatingOutOfLineContext = true;
+                                        }
+                                        else
+                                        {
+                                            //start newline 
+                                            float newX = hostSizeW - maxLineWidth;
+                                            newAnonBlock.SetLocation(newX, hostLine.CalculateLineHeight());
+                                            lay.LineOffsetRight = newX;
+                                            lay.LatestRightFloatBox = newAnonBlock;
+                                            lay.FloatingOutOfLineContext = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //out-of-line mode
+                                        if (lay.LatestRightFloatBox != null)
+                                        {
+                                            float newX = lay.LatestRightFloatBox.LocalX - maxLineWidth;
+                                            if (newX > 0)
+                                            {
+
+                                                newAnonBlock.SetLocation(newX, hostLine.CalculateLineHeight());
+                                                lay.LineOffsetRight = newX;
+                                                lay.LatestRightFloatBox = newAnonBlock;
+                                            }
+                                            else
+                                            {  //start new line
+                                                newX = hostSizeW - maxLineWidth;
+                                                newAnonBlock.SetLocation(newX, hostLine.CalculateLineHeight());
+                                                lay.LineOffsetRight = newX;
+                                                lay.LatestRightFloatBox = newAnonBlock;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            throw new NotSupportedException();                                            
+                                        } 
+                                    }
 
                                 } break;
-
                         }
 
                     }
@@ -956,7 +1002,7 @@ namespace LayoutFarm.HtmlBoxes
                     cx += rightMostSpace;
                     childNumber++;
                 }
-            } 
+            }
             if (srcBox.Position == CssPosition.Relative)
             {
                 //offset content relative to it 'flow' position'
@@ -964,7 +1010,7 @@ namespace LayoutFarm.HtmlBoxes
                 var top = CssValueParser.ConvertToPx(srcBox.Top, hostBox.SizeWidth, srcBox);
                 srcBox.SetLocation(srcBox.LocalX + left, srcBox.LocalY + top);
             }
-            
+
         }
         static void LayoutContentInAbsoluteLayer(LayoutVisitor lay, CssBox srcBox)
         {

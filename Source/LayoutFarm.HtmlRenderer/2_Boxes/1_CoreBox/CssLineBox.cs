@@ -277,8 +277,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             int j = this._runs.Count;
             if (j > 0)
-            {
-
+            {   
                 //last run right position
                 //1. find current left start  
                 if (_runs[j - 1].Right + newOffset > rightLimit)
