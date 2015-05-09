@@ -68,7 +68,7 @@ namespace LayoutFarm.HtmlBoxes
         List<CssBox> _absLayer2;
 
         CssBlockRun justBlockRun;
-         
+
         //----------------------------------------------------   
         //only in condition 3
         char[] _buffer;
@@ -171,7 +171,7 @@ namespace LayoutFarm.HtmlBoxes
                 default:
                     {
                         this._aa_boxes.Remove(box);
-                         
+
                     } break;
             }
         }
@@ -190,7 +190,19 @@ namespace LayoutFarm.HtmlBoxes
                         //(it has no impact on later sibling)
 
                         var ancester = FindContainerForAbsoluteBox();
-                        ancester.AppendToAbsoluteLayer(box);
+                        if (box.ParentBox != null)
+                        {
+                            if (box.ParentBox != ancester)
+                            {
+                                //TODO: remove from current parent box
+                                //and insert to newBOx
+                                throw new NotSupportedException(); 
+                            }
+                        }
+                        else
+                        {
+                            ancester.AppendToAbsoluteLayer(box);
+                        }
 
                     } break;
                 case Css.CssPosition.Fixed:
@@ -203,7 +215,19 @@ namespace LayoutFarm.HtmlBoxes
                         //removed from the normal flow entirely***
 
                         var ancester = FindContainerForFixedBox();
-                        ancester.AppendToAbsoluteLayer(box);
+                        if (box.ParentBox != null)
+                        {
+                            if (box.ParentBox != ancester)
+                            {
+                                //TODO: remove from current parent box
+                                //and insert to newBOx
+                                throw new NotSupportedException();
+                            }
+                        }
+                        else
+                        {
+                            ancester.AppendToAbsoluteLayer(box);
+                        }
                     } break;
                 case Css.CssPosition.Center:
                     {
@@ -212,7 +236,19 @@ namespace LayoutFarm.HtmlBoxes
                         //removed from the normal flow entirely***
                         //TODO: err, revise here again
                         var ancester = FindContainerForCenteredBox();
-                        ancester.AppendToAbsoluteLayer(box);
+                        if (box.ParentBox != null)
+                        {
+                            if (box.ParentBox != ancester)
+                            {
+                                //TODO: remove from current parent box
+                                //and insert to newBOx
+                                throw new NotSupportedException();
+                            }
+                        }
+                        else
+                        {
+                            ancester.AppendToAbsoluteLayer(box);
+                        }
 
                     } break;
                 default:
@@ -298,21 +334,14 @@ namespace LayoutFarm.HtmlBoxes
             //{
             //    this._absLayer2 = new List<CssBox>();
             //}
-            //TODO: fix here againg
-            if (!this._absPosLayer.dbugContains(box))
-            {
-                this._absPosLayer.AddChild(this, box);
-            }
-            else
-            { 
-            } 
+            //TODO: fix here again 
             //if (!_absLayer2.Contains(box))
             //{
             //    this._absLayer2.Add(box);
             //}
 
-        } 
-        
+        }
+
         //-------------------------------------
         internal void ResetLineBoxes()
         {
