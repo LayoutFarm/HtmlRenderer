@@ -406,9 +406,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="g">Device context to use</param>
         protected virtual void PerformContentLayout(LayoutVisitor lay)
-        {
-
-
+        {   
             switch (this.CssDisplay)
             {
                 case Css.CssDisplay.None:
