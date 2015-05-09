@@ -22,11 +22,6 @@ namespace LayoutFarm.HtmlBoxes
 
         Stack<CssBox> leftFloatBoxStack = new Stack<CssBox>();
         Stack<CssBox> rightFloatBoxStack = new Stack<CssBox>();
-        Stack<CssBox> lineFormattingContextStack = new Stack<CssBox>();
-
-        Stack<float> lineOffsetLeftStack = new Stack<float>();
-        Stack<float> lineOffsetRightStack = new Stack<float>();
-        Stack<bool> floatingOutOfLineStack = new Stack<bool>();
 
         CssBox latestLeftFloatBox;
         CssBox latestRightFloatBox;
@@ -34,8 +29,7 @@ namespace LayoutFarm.HtmlBoxes
         static int totalLayoutIdEpisode = 0;
         int episodeId = 1;
         GraphicsPlatform gfxPlatform;
-        CssBox latestLineFormattingContextBox;
-
+        
         public LayoutVisitor(GraphicsPlatform gfxPlatform)
         {
             this.gfxPlatform = gfxPlatform;
@@ -84,50 +78,12 @@ namespace LayoutFarm.HtmlBoxes
             this.totalMarginLeftAndRight -= (box.ActualMarginLeft + box.ActualMarginRight);
             this.latestLeftFloatBox = this.leftFloatBoxStack.Pop();
             this.latestRightFloatBox = this.rightFloatBoxStack.Pop();
-        }
-
-        internal void EnterNewLineFormattingContext(CssBox host)
-        {
-            //store last box
-            lineFormattingContextStack.Push(latestLineFormattingContextBox);
-            lineOffsetLeftStack.Push(this.LineOffsetLeft);
-            lineOffsetRightStack.Push(this.LineOffsetRight);
-            this.leftFloatBoxStack.Push(this.LatestLeftFloatBox);
-            this.rightFloatBoxStack.Push(this.LatestRightFloatBox);
-            floatingOutOfLineStack.Push(this.FloatingOutOfLineContext);
-            
-        }
-        internal void ExitCurrentLineFormattingContext()
-        {
-            latestLineFormattingContextBox = lineFormattingContextStack.Pop();
-            this.LineOffsetLeft = lineOffsetLeftStack.Pop();
-            this.LineOffsetRight = lineOffsetRightStack.Pop();
-            this.latestLeftFloatBox = this.leftFloatBoxStack.Pop();
-            this.latestRightFloatBox = this.rightFloatBoxStack.Pop();
-            this.FloatingOutOfLineContext = this.floatingOutOfLineStack.Pop();
-        }
-        //----------------------------------------- 
+        } 
         internal CssBox LatestSiblingBox
         {
             get;
             set;
-        }
-        internal float LineOffsetLeft
-        {
-            get;
-            set;
-        }
-        internal float LineOffsetRight
-        {
-            get;
-            set;
-        }
-        internal bool FloatingOutOfLineContext
-        {
-            get;
-            set;
-        }
-         
+        } 
         internal CssBox LatestLeftFloatBox
         {
             get { return this.latestLeftFloatBox; }

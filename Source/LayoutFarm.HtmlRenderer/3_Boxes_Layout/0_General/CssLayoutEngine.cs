@@ -24,7 +24,7 @@ namespace LayoutFarm.HtmlBoxes
     /// <summary>
     /// Helps on CSS Layout.
     /// </summary>
-    static class CssLayoutEngine
+    static partial class CssLayoutEngine
     {
 
         const float CSS_OFFSET_THRESHOLD = 0.1f;
@@ -449,11 +449,11 @@ namespace LayoutFarm.HtmlBoxes
             CssLineBox line = new CssLineBox(hostBlock);
             hostBlock.AddLineBox(line);
             //****
-            lay.EnterNewLineFormattingContext(hostBlock);
+            var floatCtx = new FloatFormattingContext();
             FlowBoxContentIntoHostLinesContext(lay, hostBlock, hostBlock,
                   limitLocalRight, localX,
-                  ref line, ref localX);
-            lay.ExitCurrentLineFormattingContext();
+                  ref line, ref localX, ref floatCtx);
+
             //**** 
             // if width is not restricted we need to lower it to the actual width
             if (hostBlock.SizeWidth + lay.ContainerBlockGlobalX >= CssBoxConstConfig.BOX_MAX_RIGHT)
@@ -738,7 +738,8 @@ namespace LayoutFarm.HtmlBoxes
           float limitLocalRight,
           float firstRunStartX,
           ref CssLineBox hostLine,
-          ref float cx)
+          ref float cx,
+          ref FloatFormattingContext floatCtx)
         {
 
             //recursive *** 
@@ -845,11 +846,11 @@ namespace LayoutFarm.HtmlBoxes
                                     CssLineBox line = new CssLineBox(newAnonBlock);
                                     newAnonBlock.AddLineBox(line);
 
-                                    lay.EnterNewLineFormattingContext(newAnonBlock);
+                                    var newFloatCtx = new FloatFormattingContext();
                                     FlowBoxContentIntoHostLinesContext(lay, newAnonBlock, b,
                                         limitLocalRight, 0,
-                                        ref line, ref localX1);
-                                    lay.ExitCurrentLineFormattingContext();
+                                        ref line, ref localX1, ref newFloatCtx);
+
 
                                     float localY = 0;
                                     int interlineSpace = 0;
@@ -877,8 +878,8 @@ namespace LayoutFarm.HtmlBoxes
 
                                         hostLine.DoLeftOffset(newAnonBlock.InnerContentWidth);
                                         cx = hostLine.GetRightOfLastRun();
-                                        newAnonBlock.SetLocation(lay.LineOffsetLeft, 0);
-                                        lay.LineOffsetLeft = newAnonBlock.LocalX + newAnonBlock.InnerContentWidth;
+                                        newAnonBlock.SetLocation(floatCtx.lineLeftOffset, 0); //TODO: review top location again
+                                        floatCtx.lineLeftOffset = newAnonBlock.LocalX + newAnonBlock.InnerContentWidth; 
                                     }
                                     else
                                     {
@@ -905,11 +906,11 @@ namespace LayoutFarm.HtmlBoxes
                                     CssLineBox line = new CssLineBox(newAnonBlock);
                                     newAnonBlock.AddLineBox(line);
 
-                                    lay.EnterNewLineFormattingContext(newAnonBlock);
+                                    var newFloatCtx = new FloatFormattingContext();
                                     FlowBoxContentIntoHostLinesContext(lay, newAnonBlock, b,
                                         limitLocalRight, 0,
-                                        ref line, ref localX1);
-                                    lay.ExitCurrentLineFormattingContext();
+                                        ref line, ref localX1, ref newFloatCtx);
+
                                     float localY = 0;
                                     int interlineSpace = 0;
                                     float maxLineWidth = 0;
@@ -931,51 +932,51 @@ namespace LayoutFarm.HtmlBoxes
                                     float hostSizeW = hostBox.SizeWidth;
                                     var rightOfLastRun = hostLine.GetRightOfLastRun();
 
-                                    if (!lay.FloatingOutOfLineContext)
+                                    if (!floatCtx.floatingOutOfLine)
                                     {
-                                        if (rightOfLastRun + maxLineWidth < hostSizeW - lay.LineOffsetRight)
+                                        if (rightOfLastRun + maxLineWidth < hostSizeW - floatCtx.lineRightOffset)
                                         {
-                                            float newX = hostSizeW - (maxLineWidth + lay.LineOffsetRight);
+                                            float newX = hostSizeW - (maxLineWidth + floatCtx.lineRightOffset);
                                             newAnonBlock.SetLocation(newX, 0);
-                                            lay.LineOffsetRight = newX;
-                                            lay.LatestRightFloatBox = newAnonBlock;
-                                            lay.FloatingOutOfLineContext = true;
+                                            floatCtx.lineRightOffset = newX;
+                                            floatCtx.rightFloatBox = newAnonBlock;
+                                            floatCtx.floatingOutOfLine = true;
                                         }
                                         else
                                         {
                                             //start newline 
                                             float newX = hostSizeW - maxLineWidth;
                                             newAnonBlock.SetLocation(newX, hostLine.CalculateLineHeight());
-                                            lay.LineOffsetRight = newX;
-                                            lay.LatestRightFloatBox = newAnonBlock;
-                                            lay.FloatingOutOfLineContext = true;
+                                            floatCtx.lineRightOffset = newX;
+                                            floatCtx.rightFloatBox = newAnonBlock;
+                                            floatCtx.floatingOutOfLine = true;
                                         }
                                     }
                                     else
                                     {
                                         //out-of-line mode
-                                        if (lay.LatestRightFloatBox != null)
+                                        if (floatCtx.rightFloatBox != null)
                                         {
-                                            float newX = lay.LatestRightFloatBox.LocalX - maxLineWidth;
+                                            float newX = floatCtx.rightFloatBox.LocalX - maxLineWidth;
                                             if (newX > 0)
                                             {
 
                                                 newAnonBlock.SetLocation(newX, hostLine.CalculateLineHeight());
-                                                lay.LineOffsetRight = newX;
-                                                lay.LatestRightFloatBox = newAnonBlock;
+                                                floatCtx.lineRightOffset = newX;
+                                                floatCtx.rightFloatBox = newAnonBlock;
                                             }
                                             else
                                             {  //start new line
                                                 newX = hostSizeW - maxLineWidth;
                                                 newAnonBlock.SetLocation(newX, hostLine.CalculateLineHeight());
-                                                lay.LineOffsetRight = newX;
-                                                lay.LatestRightFloatBox = newAnonBlock;
+                                                floatCtx.lineRightOffset = newX;
+                                                floatCtx.rightFloatBox = newAnonBlock;
                                             }
                                         }
                                         else
                                         {
-                                            throw new NotSupportedException();                                            
-                                        } 
+                                            throw new NotSupportedException();
+                                        }
                                     }
 
                                 } break;
@@ -996,7 +997,7 @@ namespace LayoutFarm.HtmlBoxes
                         //not new lineFormatting context
                         FlowBoxContentIntoHostLinesContext(lay, hostBox, b,
                                    limitLocalRight, firstRunStartX,
-                                   ref hostLine, ref cx);
+                                   ref hostLine, ref cx, ref floatCtx);
                     }
 
                     cx += rightMostSpace;
