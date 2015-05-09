@@ -16,6 +16,7 @@ namespace LayoutFarm.HtmlBoxes
         public CssBox leftFloatBox;
         public float lineLeftOffset;
         public float lineRightOffset;
+        public float offsetFloatTop;
         public bool floatingOutOfLine;
     }
 
