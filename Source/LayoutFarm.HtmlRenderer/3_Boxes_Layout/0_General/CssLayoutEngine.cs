@@ -877,12 +877,14 @@ namespace LayoutFarm.HtmlBoxes
                                     {
                                         hostLine.DoLeftOffset(newAnonBlock.InnerContentWidth);
                                         cx = hostLine.GetRightOfLastRun();
-                                        newAnonBlock.SetLocation(floatCtx.lineLeftOffset, 0); //TODO: review top location again
+                                        newAnonBlock.SetLocation(floatCtx.lineLeftOffset, floatCtx.offsetFloatTop); //TODO: review top location again
                                         floatCtx.lineLeftOffset = newAnonBlock.LocalX + newAnonBlock.InnerContentWidth;
                                     }
                                     else
                                     {
+                                        //newline
                                         newAnonBlock.SetLocation(hostBox.GetClientLeft(), hostLine.CalculateLineHeight());
+                                        floatCtx.offsetFloatTop = newAnonBlock.LocalY;
                                     }
 
                                 } break;
