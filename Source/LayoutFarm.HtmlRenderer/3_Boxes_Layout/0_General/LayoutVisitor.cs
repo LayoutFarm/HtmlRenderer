@@ -20,6 +20,13 @@ namespace LayoutFarm.HtmlBoxes
         Dictionary<CssBox, PartialBoxStrip> readyDicStrip = new Dictionary<CssBox, PartialBoxStrip>();
         List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
 
+        Stack<CssBox> leftFloatBoxStack = new Stack<CssBox>(); //from previous context
+        Stack<CssBox> rightFloatBoxStack = new Stack<CssBox>();//from previous context
+        List<CssBox> lateFindContainerList = new List<CssBox>();
+
+        CssBox latestLeftFloatBox;
+        CssBox latestRightFloatBox;
+
         static int totalLayoutIdEpisode = 0;
         int episodeId = 1;
         GraphicsPlatform gfxPlatform;
@@ -57,21 +64,57 @@ namespace LayoutFarm.HtmlBoxes
         internal IFonts SampleIFonts
         {
             get { return this.gfxPlatform.SampleIFonts; }
-
         }
         protected override void OnPushDifferentContainingBlock(CssBox box)
         {
             this.totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
+            this.leftFloatBoxStack.Push(this.LatestLeftFloatBox);
+            this.rightFloatBoxStack.Push(this.LatestRightFloatBox);
+
         }
         protected override void OnPopDifferentContaingBlock(CssBox box)
         {
             this.totalMarginLeftAndRight -= (box.ActualMarginLeft + box.ActualMarginRight);
+            this.latestLeftFloatBox = this.leftFloatBoxStack.Pop();
+            this.latestRightFloatBox = this.rightFloatBoxStack.Pop();
         }
-        //-----------------------------------------
         internal CssBox LatestSiblingBox
         {
             get;
             set;
+        }
+        internal List<CssBox> LateFindContainerList
+        {
+            get
+            {
+                return this.lateFindContainerList;
+            }
+        }
+
+        internal CssBox LatestLeftFloatBox
+        {
+            get { return this.latestLeftFloatBox; }
+            set
+            {
+                this.latestLeftFloatBox = value;
+            }
+        }
+        internal CssBox LatestRightFloatBox
+        {
+            get { return this.latestRightFloatBox; }
+            set
+            {
+                this.latestRightFloatBox = value;
+            }
+        }
+        internal bool HasFloatBoxInContext
+        {
+            get { return this.latestLeftFloatBox != null || this.latestRightFloatBox != null; }
+        }
+
+        internal void AddFloatBox(CssBox floatBox)
+        {
+            lateFindContainerList.Add(floatBox);
         }
         internal void UpdateRootSize(CssBox box)
         {
@@ -241,7 +284,7 @@ namespace LayoutFarm.HtmlBoxes
                 //if (box.__aa_dbugId == 7)
                 //{
                 //}
-                logRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() + 
+                logRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
                     "x:" + box.Left + ",y:" + box.Top + ",w:" + box.SizeWidth + "h:" + box.SizeHeight +
                     " " + box.ToString() + ",id:" + box.__aa_dbugId);
 

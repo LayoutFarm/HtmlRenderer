@@ -15,7 +15,7 @@
 
 using System;
 using PixelFarm.Drawing;
-using LayoutFarm.Css; 
+using LayoutFarm.Css;
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -204,6 +204,9 @@ namespace LayoutFarm.HtmlBoxes
                             //{
                             var prevColor = g.StrokeColor;
                             g.StrokeColor = borderColor;
+                            float prevStrokeW = g.StrokeWidth; 
+                            g.StrokeWidth = actualBorderWidth;
+                           
                             switch (borderSide)
                             {
                                 case CssSide.Top:
@@ -219,7 +222,8 @@ namespace LayoutFarm.HtmlBoxes
                                     g.DrawLine(rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Ceiling(rect.Top), rect.Right - box.ActualBorderRightWidth / 2, (float)Math.Floor(rect.Bottom));
                                     break;
                             }
-                            //}
+
+                            g.StrokeWidth = prevStrokeW;
                             g.StrokeColor = prevColor;
 
                         } break;
@@ -296,7 +300,7 @@ namespace LayoutFarm.HtmlBoxes
                 case CssSide.Top:
                     if (b.ActualCornerNW > 0 || b.ActualCornerNE > 0)
                     {
-                       
+
                         path = p.GraphicsPlatform.CreateGraphicsPath();
 
                         if (b.ActualCornerNW > 0)

@@ -106,7 +106,7 @@ namespace LayoutFarm.WebDom
         [Map("param")]
         _param,
 
-        
+
         [Map("svg")]
         svg,
         [Map("rect")]
@@ -166,6 +166,8 @@ namespace LayoutFarm.WebDom
 
         static readonly ValueMap<LayoutFarm.WebDom.WellknownCssPropertyName> _wellKnownCssPropNameMap = new ValueMap<WebDom.WellknownCssPropertyName>();
         static readonly ValueMap<WellKnownDomNodeName> _wellknownHtmlTagNameMap = new ValueMap<WellKnownDomNodeName>();
+
+        static readonly ValueMap<CssBoxSizing> _cssBoxSizingMap = new ValueMap<CssBoxSizing>();
 
 
 
@@ -306,7 +308,14 @@ namespace LayoutFarm.WebDom
                 CssTextAlign.NotAssign,
                 value);
         }
-
+        public static CssBoxSizing GetBoxSizing(WebDom.CssCodeValueExpression value)
+        {
+            return (CssBoxSizing)EvaluateIntPropertyValueFromString(
+                _cssBoxSizingMap,
+                WebDom.CssValueEvaluatedAs.BoxSizing,
+                CssBoxSizing.ContentBox,//default
+                value);
+        }
         public static CssVerticalAlign GetVerticalAlign(WebDom.CssCodeValueExpression value)
         {
             return (CssVerticalAlign)EvaluateIntPropertyValueFromString(
@@ -341,7 +350,7 @@ namespace LayoutFarm.WebDom
                    CssBorderStyle.None,
                    value);
         }
-         
+
         public static CssUnitOrNames GetCssUnit(string u)
         {
             switch (u)
@@ -780,7 +789,7 @@ namespace LayoutFarm.WebDom
                 else
                 {
                     return new CssLength(parsedNumber, CssUnitOrNames.Pixels);
-                } 
+                }
             }
             else
             {

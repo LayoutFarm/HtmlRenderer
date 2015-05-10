@@ -465,7 +465,8 @@ namespace LayoutFarm.WebDom
 
         ListStylePosition,
         ListStyleType,
-        BackgroundRepeat
+        BackgroundRepeat,
+        BoxSizing,
     }
 
 

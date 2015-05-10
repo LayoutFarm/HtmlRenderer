@@ -70,6 +70,8 @@
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Flex.cs" />
     <Compile Include="2_Boxes\3_Render\CssBoxDecorator.cs" />
     <Compile Include="2_Boxes\1_CoreBox\SelectionSegment.cs" />
+    <Compile Include="2_Boxes\3_Render\MultiLayerStack.cs" />
+    <Compile Include="3_Boxes_Layout\0_General\CssLayoutEngine.FloatFormattingContext.cs" />
     <Compile Include="3_Boxes_Layout\1_Flex\FlexContainer.cs" />
     <Compile Include="4_Svg\05_SvgDoms\CssBoxSvgRoot.cs" />
     <Compile Include="4_Svg\05_SvgDoms\SvgElements.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="4_Svg\09_BasicShapes\SvgSpec.cs" />
     <Compile Include="4_Svg\09_BasicShapes\SvgVisualElements.cs" />
     <Compile Include="4_Svg\16_Interactivity\SvgHitChain.cs" />
+    <Compile Include="5_Boxes_SpecialBoxes\CssFloatContainerBox.cs" />
     <Compile Include="Platform\FontDefaultConfig.cs" />
     <Compile Include="2_Boxes\4_HitAndSelections\SelectionRange.cs" />
     <Compile Include="2_Boxes\1_CoreBox\CssBox_Spec_Snap.cs" />

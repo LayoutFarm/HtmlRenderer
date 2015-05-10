@@ -38,15 +38,15 @@ namespace LayoutFarm.HtmlBoxes
     {
 
         readonly Css.BoxSpec _myspec;
-
         object _controller;
         IRootGraphics rootgfx;
+
 #if DEBUG
         public int dbugMark1;
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
         public int dbugMark;
-#endif  
+#endif
         public CssBox(BoxSpec spec, IRootGraphics rootgfx)
         {
             this.rootgfx = rootgfx;
@@ -87,15 +87,15 @@ namespace LayoutFarm.HtmlBoxes
             //assign spec             
             this._boxCompactFlags |= BoxFlags.DONT_CHANGE_DISPLAY_TYPE;
             this._cssDisplay = displayType;
-            //----------------------------
             this._myspec = spec;
+            //---------------------------- 
             EvaluateSpec(spec);
             ChangeDisplayType(this, _myspec.CssDisplay);
         }
         public void SetController(object controller)
         {
             this._controller = controller;
-        } 
+        }
         public IRootGraphics RootGfx
         {
             get { return this.rootgfx; }
@@ -121,6 +121,12 @@ namespace LayoutFarm.HtmlBoxes
         }
 
 
+        internal virtual bool JustTempContainer
+        {
+            //temp fixed for FloatBox
+            //TODO: review here again
+            get { return false; }
+        }
         /// <summary>
         /// Is the box is of "br" element.
         /// </summary>
@@ -260,6 +266,8 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         internal void AddLineBox(CssLineBox linebox)
         {
+
+
             linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
 
         }
@@ -398,9 +406,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="g">Device context to use</param>
         protected virtual void PerformContentLayout(LayoutVisitor lay)
-        {
-
-
+        {   
             switch (this.CssDisplay)
             {
                 case Css.CssDisplay.None:
@@ -718,12 +724,23 @@ namespace LayoutFarm.HtmlBoxes
                     Math.Max(ActualMarginBottom, lastChildBottomMargin)
                     : lastChildBottomMargin;
             }
-            return _aa_boxes.GetLastChild().LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
-
-            //must have at least 1 child 
-            //float lastChildBottomWithMarginRelativeToMe = this.LocalY + _boxes[_boxes.Count - 1].LocalActualBottom + margin + this.ActualPaddingBottom + this.ActualBorderBottomWidth;
-            //return Math.Max(GlobalActualBottom, lastChildBottomWithMarginRelativeToMe);
-            //return Math.Max(GlobalActualBottom, _boxes[_boxes.Count - 1].GlobalActualBottom + margin + this.ActualPaddingBottom + this.ActualBorderBottomWidth);
+            //exclude float box
+            var cnode = _aa_boxes.GetLastLinkedNode();
+            float lastChildBotom = 0;
+            while (cnode != null)
+            {
+                CssBox box = cnode.Value;
+                if (box.Float == CssFloat.None)
+                {
+                    lastChildBotom = box.LocalBottom;
+                    break;
+                }
+                else
+                {
+                    cnode = cnode.Previous;
+                }
+            }
+            return lastChildBotom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;            
         }
         internal void OffsetLocalTop(float dy)
         {

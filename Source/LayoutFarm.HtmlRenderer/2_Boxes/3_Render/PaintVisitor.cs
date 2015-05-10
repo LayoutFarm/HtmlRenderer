@@ -18,6 +18,7 @@ namespace LayoutFarm.HtmlBoxes
         Canvas canvas;
         Rectangle latestClip = new Rectangle(0, 0, CssBoxConstConfig.BOX_MAX_RIGHT, CssBoxConstConfig.BOX_MAX_BOTTOM);
 
+        MultiLayerStack<CssBox> latePaintStack = new MultiLayerStack<CssBox>();
 
         float viewportWidth;
         float viewportHeight;
@@ -86,11 +87,11 @@ namespace LayoutFarm.HtmlBoxes
             this.latestClip = canvas.CurrentClipRect;
             clipStacks.Push(this.latestClip);
             ////make new clip global  
-
             Rectangle intersectResult = Rectangle.Intersect(
                 latestClip,
                 new Rectangle(0, 0, (int)w, (int)h));
             this.latestClip = intersectResult;
+             
 #if DEBUG
             if (this.dbugEnableLogRecord)
             {
@@ -118,12 +119,15 @@ namespace LayoutFarm.HtmlBoxes
             if (clipStacks.Count > 0)
             {
                 Rectangle prevClip = this.latestClip = clipStacks.Pop();
-                //ig.DrawRectangle(Pens.Green, prevClip.X, prevClip.Y, prevClip.Width, prevClip.Height);
                 canvas.SetClipRect(prevClip);
             }
             else
             {
             }
+        }
+        internal Rectangle CurrentClipRect
+        {
+            get { return this.latestClip; }
         }
         /// <summary>
         /// async request for image
@@ -364,6 +368,33 @@ namespace LayoutFarm.HtmlBoxes
         }
 #endif
 
+        //-----------------------------------------------------
+        internal void AddToLatePaintList(CssBox box)
+        {
+            this.latePaintStack.AddLayerItem(box);
+        }
+        internal int LatePaintItemCount
+        {
+
+            get { return this.latePaintStack.CurrentLayerItemCount; }
+        }
+        internal CssBox GetLatePaintItem(int index)
+        {
+            return this.latePaintStack.GetItem(index);
+        }
+        internal void ClearLatePaintItems()
+        {
+            this.latePaintStack.ClearLayerItems();
+        }
+        internal void EnterNewLatePaintContext()
+        {
+            this.latePaintStack.EnterNewContext();
+        }
+        internal void ExitCurrentLatePaintContext()
+        {
+            this.latePaintStack.ExitCurrentContext();
+        }
+        //-----------------------------------------------------
     }
 
 

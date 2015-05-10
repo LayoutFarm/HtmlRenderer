@@ -52,8 +52,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this.ReEvaluateComputedValues(lay.SampleIFonts, myContainingBlock);
             }
-            //// fix for hr tag 
-            //var maringTopCollapse = MarginTopCollapse(prevSibling);
+            
             float localLeft = myContainingBlock.GetClientLeft() + this.ActualMarginLeft;
             float localTop = 0;
 

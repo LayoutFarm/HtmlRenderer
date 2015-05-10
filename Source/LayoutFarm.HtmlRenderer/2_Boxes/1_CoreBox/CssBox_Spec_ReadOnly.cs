@@ -95,7 +95,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.BorderCollapse == CssBorderCollapse.Collapse; }
         }
-
+     
         //------------------------------------------------------ 
         public CssLength Left
         {
@@ -109,6 +109,10 @@ namespace LayoutFarm.HtmlBoxes
         public CssLength Width
         {
             get { return this._myspec.Width; }
+        }
+        public CssFloat Float
+        {
+            get { return this._myspec.Float; }
         }
         public CssLength MaxWidth
         {
@@ -150,10 +154,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this._myspec.EmptyCells; }
         }
-        CssFloat Float
-        {
-            get { return this._myspec.Float; }
-        }
+
         public CssPosition Position
         {
             get { return this._myspec.Position; }

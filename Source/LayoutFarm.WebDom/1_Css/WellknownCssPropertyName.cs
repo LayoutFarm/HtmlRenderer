@@ -111,6 +111,9 @@ namespace LayoutFarm.WebDom
         [Map("height")]
         Height,
         //----------------------------------
+        [Map("box-sizing")]
+        BoxSizing,
+
         [Map("background-color")]
         BackgroundColor,
         [Map("background-image")]

@@ -141,7 +141,13 @@ namespace LayoutFarm.HtmlBoxes
         public float Left
         {
             get { return this._x; }
-            set { this._x = value; }
+            set
+            {
+                this._x = value;
+                if (_x == 55)
+                {
+                }
+            }
         }
 
         /// <summary>
@@ -153,14 +159,14 @@ namespace LayoutFarm.HtmlBoxes
             set { this._y = value; }
         }
         internal void SetLocation(float x, float y)
-        {
+        { 
             this._x = x;
             this._y = y;
         }
         internal void Offset(float xdiff, float ydiff)
         {
             this._x += xdiff;
-            this._y += ydiff;
+            this._y += ydiff; 
         }
         internal void OffsetY(float ydiff)
         {
@@ -275,7 +281,7 @@ namespace LayoutFarm.HtmlBoxes
             switch (this.Kind)
             {
                 case CssRunKind.BlockRun:
-                    {   
+                    {
                         //contains sub  
                         selectionIndex = -1;
                         runSelectionOffsetPx = 0;
