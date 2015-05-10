@@ -143,7 +143,6 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             OnLayoutFinished();
-
             //----------------------- 
             unchecked { layoutVersion++; }
             //----------------------- 
@@ -157,18 +156,21 @@ namespace LayoutFarm.HtmlBoxes
             {
                 var rectParent = new RectangleF(0, 0, parent.SizeWidth, parent.SizeHeight);
                 if (rectParent.Contains(rectChild))
-                {
-                    
+                {  
                     found = true;
                     break;
                 }
                 else
                 {
-                    rectChild.Offset(parent.LocalX, parent.LocalY); 
+                    rectChild.Offset(parent.LocalX, parent.LocalY);
                     parent = parent.ParentBox;
                 }
             }
- 
+            if (!found)
+            {
+                //add to root top
+                this._rootBox.AppendToAbsoluteLayer(box); 
+            }
         }
         protected virtual void OnLayoutFinished()
         {
