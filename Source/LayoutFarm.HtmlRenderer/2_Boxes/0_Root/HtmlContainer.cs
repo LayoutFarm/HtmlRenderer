@@ -156,8 +156,19 @@ namespace LayoutFarm.HtmlBoxes
             {
                 var rectParent = new RectangleF(0, 0, parent.SizeWidth, parent.SizeHeight);
                 if (rectParent.Contains(rectChild))
-                {  
+                {
                     found = true;
+                    //add to here
+                    float bfx, bfy;
+                    box.GetGlobalLocation(out bfx, out bfy);
+                    float rfx, rfy;
+                    parent.GetGlobalLocation(out rfx, out rfy);
+
+                    //diff
+                    float nx = bfx - rfx;
+                    float ny = bfy - rfy;
+                    box.SetLocation(nx, ny);
+                    parent.AppendToAbsoluteLayer(box); 
                     break;
                 }
                 else
@@ -168,8 +179,17 @@ namespace LayoutFarm.HtmlBoxes
             }
             if (!found)
             {
-                //add to root top
-                this._rootBox.AppendToAbsoluteLayer(box); 
+                //add to root top 
+                float bfx, bfy;
+                box.GetGlobalLocation(out bfx, out bfy); 
+                float rfx, rfy;
+                this._rootBox.GetGlobalLocation(out rfx, out rfy);
+
+                //diff
+                float nx = bfx - rfx;
+                float ny = bfy - rfy;
+                box.SetLocation(nx, ny);
+                this._rootBox.AppendToAbsoluteLayer(box);
             }
         }
         protected virtual void OnLayoutFinished()
