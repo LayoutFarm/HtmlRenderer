@@ -195,13 +195,12 @@ namespace PixelFarm.Drawing.WinGdi
             mycanvas.IsContentReady = true;
             mycanvas.OffsetCanvasOrigin(mycanvas.Left, mycanvas.Top);
         }
-
-
         static void UpdateInvalidArea(MyScreenCanvas mycanvas, IRenderElement rootElement)
         {
 
             mycanvas.OffsetCanvasOrigin(-mycanvas.Left, -mycanvas.Top);
-            Rectangle rect = mycanvas.InvalidateArea;
+            Rectangle rect = mycanvas.InvalidateArea; 
+
             rootElement.DrawToThisCanvas(mycanvas, rect);
 
 #if DEBUG

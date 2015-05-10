@@ -44,6 +44,7 @@ namespace LayoutFarm.HtmlBoxes
             if (this._isVisible)
             {
                 //offset 
+                
                 if (this.mayHasViewport)
                 {
                     p.OffsetCanvasOrigin(-this.ViewportX, -this.ViewportY);
@@ -88,9 +89,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 #endif
         protected virtual void PaintImp(PaintVisitor p)
-        {
-
-
+        {  
             Css.CssDisplay display = this.CssDisplay;
             if (display == Css.CssDisplay.TableCell &&
                 this.EmptyCells == Css.CssEmptyCell.Hide &&
@@ -130,12 +129,12 @@ namespace LayoutFarm.HtmlBoxes
             {
                 float viewport_top = p.ViewportTop;
                 float viewport_bottom = p.ViewportBottom;
-                int drawState = 0; 
-                var c_lineNode = this._clientLineBoxes.First; 
+                int drawState = 0;
+                var c_lineNode = this._clientLineBoxes.First;
                 while (c_lineNode != null)
                 {
 
-                    CssLineBox line = c_lineNode.Value; 
+                    CssLineBox line = c_lineNode.Value;
                     if (line.CachedLineBottom >= viewport_top &&
                         line.CachedLineTop <= viewport_bottom)
                     {
@@ -216,13 +215,12 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
                             {
-                                b.Paint(p);
-                                p.PopLocalClipArea();
+                                b.Paint(p);                                
                             }
+                            p.PopLocalClipArea();
                         }
                         else
-                        {
-
+                        {  
                             b.Paint(p);
                         }
 
@@ -281,9 +279,13 @@ namespace LayoutFarm.HtmlBoxes
                 p.SetCanvasOrigin(ox, oy);
                 p.PopContainingBlock();
             }
+
             if (p.LatePaintItemCount > 0)
             {
-                //clear late paint item
+                //late paint -> floatBox 
+                Rectangle latestClipRect = p.CurrentClipRect;
+                p.PopLocalClipArea(); //temp
+
                 p.PushContaingBlock(this);
                 int j = p.LatePaintItemCount;
                 int ox = p.CanvasOriginX;
@@ -298,19 +300,21 @@ namespace LayoutFarm.HtmlBoxes
                         continue;
                     }
                     p.SetCanvasOrigin(ox + (int)box.LocalX, oy + (int)box.LocalY);
-                    box.Paint(p); 
-                    p.SetCanvasOrigin(ox, oy); 
+                    box.Paint(p);
+                    p.SetCanvasOrigin(ox, oy);
                 }
                 p.PopContainingBlock();
+
+                p.PushLocalClipArea(latestClipRect.Width, latestClipRect.Height);//push back
+
             }
             p.ExitCurrentLatePaintContext();
-            
             //must! , 
             if (hasPrevClip)
             {
                 p.PopLocalClipArea();
             }
-            //---------------- 
+
 #if DEBUG
             p.dbugExitContext();
 #endif

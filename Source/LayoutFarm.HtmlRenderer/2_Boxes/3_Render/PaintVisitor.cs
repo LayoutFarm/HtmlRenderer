@@ -87,11 +87,11 @@ namespace LayoutFarm.HtmlBoxes
             this.latestClip = canvas.CurrentClipRect;
             clipStacks.Push(this.latestClip);
             ////make new clip global  
-
             Rectangle intersectResult = Rectangle.Intersect(
                 latestClip,
                 new Rectangle(0, 0, (int)w, (int)h));
             this.latestClip = intersectResult;
+             
 #if DEBUG
             if (this.dbugEnableLogRecord)
             {
@@ -119,12 +119,15 @@ namespace LayoutFarm.HtmlBoxes
             if (clipStacks.Count > 0)
             {
                 Rectangle prevClip = this.latestClip = clipStacks.Pop();
-                //ig.DrawRectangle(Pens.Green, prevClip.X, prevClip.Y, prevClip.Width, prevClip.Height);
                 canvas.SetClipRect(prevClip);
             }
             else
             {
             }
+        }
+        internal Rectangle CurrentClipRect
+        {
+            get { return this.latestClip; }
         }
         /// <summary>
         /// async request for image
@@ -368,7 +371,7 @@ namespace LayoutFarm.HtmlBoxes
         //-----------------------------------------------------
         internal void AddToLatePaintList(CssBox box)
         {
-            this.latePaintStack.AddLayerItem(box); 
+            this.latePaintStack.AddLayerItem(box);
         }
         internal int LatePaintItemCount
         {

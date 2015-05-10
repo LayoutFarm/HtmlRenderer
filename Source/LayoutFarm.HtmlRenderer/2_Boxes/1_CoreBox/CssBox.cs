@@ -267,7 +267,7 @@ namespace LayoutFarm.HtmlBoxes
         internal void AddLineBox(CssLineBox linebox)
         {
 
-           
+
             linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
 
         }
@@ -406,9 +406,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="g">Device context to use</param>
         protected virtual void PerformContentLayout(LayoutVisitor lay)
-        {
-
-
+        {   
             switch (this.CssDisplay)
             {
                 case Css.CssDisplay.None:
@@ -726,12 +724,23 @@ namespace LayoutFarm.HtmlBoxes
                     Math.Max(ActualMarginBottom, lastChildBottomMargin)
                     : lastChildBottomMargin;
             }
-            return _aa_boxes.GetLastChild().LocalBottom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
-
-            //must have at least 1 child 
-            //float lastChildBottomWithMarginRelativeToMe = this.LocalY + _boxes[_boxes.Count - 1].LocalActualBottom + margin + this.ActualPaddingBottom + this.ActualBorderBottomWidth;
-            //return Math.Max(GlobalActualBottom, lastChildBottomWithMarginRelativeToMe);
-            //return Math.Max(GlobalActualBottom, _boxes[_boxes.Count - 1].GlobalActualBottom + margin + this.ActualPaddingBottom + this.ActualBorderBottomWidth);
+            //exclude float box
+            var cnode = _aa_boxes.GetLastLinkedNode();
+            float lastChildBotom = 0;
+            while (cnode != null)
+            {
+                CssBox box = cnode.Value;
+                if (box.Float == CssFloat.None)
+                {
+                    lastChildBotom = box.LocalBottom;
+                    break;
+                }
+                else
+                {
+                    cnode = cnode.Previous;
+                }
+            }
+            return lastChildBotom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;            
         }
         internal void OffsetLocalTop(float dy)
         {

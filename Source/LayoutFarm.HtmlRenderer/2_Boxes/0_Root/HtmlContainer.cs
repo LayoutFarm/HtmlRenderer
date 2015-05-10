@@ -99,7 +99,7 @@ namespace LayoutFarm.HtmlBoxes
                 return this.layoutVersion;
             }
         }
-        public void PerformLayout(LayoutVisitor layoutArgs)
+        public void PerformLayout(LayoutVisitor lay)
         {
 
             if (this._rootBox == null)
@@ -116,23 +116,81 @@ namespace LayoutFarm.HtmlBoxes
             CssBox.ValidateComputeValues(_rootBox);
             //----------------------- 
             //LayoutVisitor layoutArgs = new LayoutVisitor(this.GraphicsPlatform, this);
-            layoutArgs.PushContaingBlock(_rootBox);
+            lay.PushContaingBlock(_rootBox);
             //----------------------- 
 
-            _rootBox.PerformLayout(layoutArgs);
+            _rootBox.PerformLayout(lay);
             if (this._maxWidth <= 0.1)
             {
                 // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
                 _rootBox.SetWidth((int)Math.Ceiling(this._actualWidth));
                 _actualWidth = _actualHeight = 0;
-                _rootBox.PerformLayout(layoutArgs);
+                _rootBox.PerformLayout(lay);
             }
-            layoutArgs.PopContainingBlock();
-            OnLayoutFinished();
+            lay.PopContainingBlock();
 
+            //TODO: review here again
+            List<CssBox> lateFindContainerList = lay.LateFindContainerList;
+            if (lateFindContainerList.Count > 0)
+            {
+                //find proper container hint
+                int j = lateFindContainerList.Count;
+                for (int i = 0; i < j; ++i)
+                {
+                    AddToProperContainer(lateFindContainerList[i]);
+                }
+                lateFindContainerList.Clear();
+            }
+
+            OnLayoutFinished();
             //----------------------- 
             unchecked { layoutVersion++; }
             //----------------------- 
+        }
+        void AddToProperContainer(CssBox box)
+        {
+            var rectChild = new RectangleF(box.LocalX, box.LocalY, box.InnerContentWidth, box.InnerContentHeight);
+            CssBox parent = box.ParentBox;
+            bool found = false;
+            while (parent != null)
+            {
+                var rectParent = new RectangleF(0, 0, parent.SizeWidth, parent.SizeHeight);
+                if (rectParent.Contains(rectChild))
+                {
+                    found = true;
+                    //add to here
+                    float bfx, bfy;
+                    box.GetGlobalLocation(out bfx, out bfy);
+                    float rfx, rfy;
+                    parent.GetGlobalLocation(out rfx, out rfy);
+
+                    //diff
+                    float nx = bfx - rfx;
+                    float ny = bfy - rfy;
+                    box.SetLocation(nx, ny);
+                    parent.AppendToAbsoluteLayer(box); 
+                    break;
+                }
+                else
+                {
+                    rectChild.Offset(parent.LocalX, parent.LocalY);
+                    parent = parent.ParentBox;
+                }
+            }
+            if (!found)
+            {
+                //add to root top 
+                float bfx, bfy;
+                box.GetGlobalLocation(out bfx, out bfy); 
+                float rfx, rfy;
+                this._rootBox.GetGlobalLocation(out rfx, out rfy);
+
+                //diff
+                float nx = bfx - rfx;
+                float ny = bfy - rfy;
+                box.SetLocation(nx, ny);
+                this._rootBox.AppendToAbsoluteLayer(box);
+            }
         }
         protected virtual void OnLayoutFinished()
         {
