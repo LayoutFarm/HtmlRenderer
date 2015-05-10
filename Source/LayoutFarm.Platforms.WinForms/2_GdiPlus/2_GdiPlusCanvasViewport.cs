@@ -54,7 +54,7 @@ namespace LayoutFarm.UI.GdiPlus
             quadPages.CalculateCanvasPages(this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
             this.FullMode = true;
         }
- 
+
 
         public void PaintMe(IntPtr hdc)
         {
@@ -78,7 +78,7 @@ namespace LayoutFarm.UI.GdiPlus
                 //temp to full mode
                 //quadPages.RenderToOutputWindowFullMode(rootGraphics.TopWindowRenderBox, hdc, this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
                 quadPages.RenderToOutputWindowPartialMode(rootGraphics.TopWindowRenderBox, hdc,
-                    this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
+                   this.ViewportX, this.ViewportY, this.ViewportWidth, this.ViewportHeight);
 
             }
             this.rootGraphics.IsInRenderPhase = false;

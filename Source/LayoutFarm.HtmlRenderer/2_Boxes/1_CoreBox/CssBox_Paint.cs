@@ -44,6 +44,7 @@ namespace LayoutFarm.HtmlBoxes
             if (this._isVisible)
             {
                 //offset 
+                
                 if (this.mayHasViewport)
                 {
                     p.OffsetCanvasOrigin(-this.ViewportX, -this.ViewportY);
@@ -88,9 +89,7 @@ namespace LayoutFarm.HtmlBoxes
         }
 #endif
         protected virtual void PaintImp(PaintVisitor p)
-        {
-
-
+        {  
             Css.CssDisplay display = this.CssDisplay;
             if (display == Css.CssDisplay.TableCell &&
                 this.EmptyCells == Css.CssEmptyCell.Hide &&
@@ -216,13 +215,12 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
                             {
-                                b.Paint(p);
-                                p.PopLocalClipArea();
+                                b.Paint(p);                                
                             }
+                            p.PopLocalClipArea();
                         }
                         else
-                        {
-
+                        {  
                             b.Paint(p);
                         }
 

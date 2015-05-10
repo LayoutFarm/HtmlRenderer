@@ -326,7 +326,7 @@ namespace LayoutFarm.HtmlBoxes
 
                         box.SetLocation(sx, sy);
                         lay.LatestLeftFloatBox = box;
-
+                        lay.AddFloatBox(box);
                     } break;
                 case CssFloat.Right:
                     {
@@ -376,7 +376,7 @@ namespace LayoutFarm.HtmlBoxes
                         }
                         box.SetLocation(sx, sy);
                         lay.LatestRightFloatBox = box;
-
+                        lay.AddFloatBox(box);
                     } break;
                 case CssFloat.None:
                 default:

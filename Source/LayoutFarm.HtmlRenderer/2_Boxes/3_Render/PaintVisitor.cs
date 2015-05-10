@@ -91,6 +91,7 @@ namespace LayoutFarm.HtmlBoxes
                 latestClip,
                 new Rectangle(0, 0, (int)w, (int)h));
             this.latestClip = intersectResult;
+             
 #if DEBUG
             if (this.dbugEnableLogRecord)
             {
@@ -117,7 +118,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
             if (clipStacks.Count > 0)
             {
-                Rectangle prevClip = this.latestClip = clipStacks.Pop();              
+                Rectangle prevClip = this.latestClip = clipStacks.Pop();
                 canvas.SetClipRect(prevClip);
             }
             else
@@ -370,7 +371,7 @@ namespace LayoutFarm.HtmlBoxes
         //-----------------------------------------------------
         internal void AddToLatePaintList(CssBox box)
         {
-            this.latePaintStack.AddLayerItem(box); 
+            this.latePaintStack.AddLayerItem(box);
         }
         internal int LatePaintItemCount
         {

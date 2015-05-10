@@ -65,7 +65,8 @@ namespace LayoutFarm.HtmlBoxes
         /// absolute position layer
         /// </summary>
         CssBoxCollection _absPosLayer;
-        List<CssBox> _absLayer2;
+        //List<CssBox> _absLayer2;
+         
 
         CssBlockRun justBlockRun;
 
@@ -76,13 +77,13 @@ namespace LayoutFarm.HtmlBoxes
         CssBoxDecorator decorator;
         bool mayHasViewport;
         bool isOutOfFlowBox;
-      
+
         internal bool IsOutOfFlowBox
         {
             get { return this.isOutOfFlowBox; }
             set { this.isOutOfFlowBox = value; }
         }
-       
+
 
         internal int RunCount
         {
@@ -262,7 +263,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
-                return this._absPosLayer != null || this._absLayer2 != null;
+                return this._absPosLayer != null;
             }
         }
         public void InsertChild(CssBox beforeBox, CssBox box)
@@ -331,6 +332,11 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this._absPosLayer = new CssBoxCollection();
             }
+            if (box.ParentBox != null)
+            {
+                box.ParentBox.RemoveChild(box);
+            }
+
             this._absPosLayer.AddChild(this, box);
             //if (this._absLayer2 == null)
             //{
@@ -343,7 +349,7 @@ namespace LayoutFarm.HtmlBoxes
             //}
 
         }
-
+       
         //-------------------------------------
         internal void ResetLineBoxes()
         {

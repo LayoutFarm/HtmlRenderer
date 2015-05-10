@@ -29,7 +29,7 @@ namespace LayoutFarm.HtmlBoxes
 
             //--------------------------------------
             float boxHitLocalX = x - box.LocalX;
-            float boxHitLocalY = y - box.LocalY;
+            float boxHitLocalY = y - box.LocalY; 
             bool isPointInArea = box.IsPointInArea(x, y);
             //----------------------------------------------------------------------
             if (isPointInArea)
