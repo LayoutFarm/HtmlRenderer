@@ -11,9 +11,7 @@ namespace LayoutFarm.UI
 {
 
     public partial class UISurfaceViewportControl : UserControl
-    {
-
-
+    {   
         TopWindowBridge winBridge;
         RootGraphic rootgfx;
         public UISurfaceViewportControl()
@@ -62,9 +60,7 @@ namespace LayoutFarm.UI
                     } break;
             }
         }
-
-
-
+        
         public GraphicsPlatform P
         {
             get { return this.rootgfx.P; }
@@ -123,6 +119,10 @@ namespace LayoutFarm.UI
             this.winBridge.Close();
         }
 
+        //----------------------------
+
+
+        //----------------------------
     }
 
 
