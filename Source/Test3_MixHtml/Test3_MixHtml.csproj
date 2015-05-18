@@ -48,6 +48,7 @@
     <Compile Include="Demo1\1.7_Demo_ListView.cs" />
     <Compile Include="Demo1\1.8_Demo_Hinge.cs" />
     <Compile Include="Demo1\1.9_Demo_TreeView.cs" />
+    <Compile Include="Demo2\2.5_Demo_MultiLineTextBox_WithSugggestion.cs" />
     <Compile Include="Demo3\3.9_Compartment_withSpliter3.cs" />
     <Compile Include="Demo4\4.6_DynamicDom1.cs" />
     <Compile Include="Demo5\5.9_Demo_TreeView.cs" />

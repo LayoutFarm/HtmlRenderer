@@ -52,6 +52,8 @@ namespace LayoutFarm.Composers
 
         void AddToRunList(char[] textBuffer, List<CssRun> runlist, int startIndex, int appendLength, ref bool needICUSplitter)
         {
+            
+
             if (needICUSplitter)
             {
                 //use icu splitter 
@@ -75,6 +77,8 @@ namespace LayoutFarm.Composers
         }
         public IEnumerable<TextSplitBound> ParseWordContent(char[] textBuffer, int startIndex, int appendLength)
         {
+            
+
             int s_index = startIndex;
             foreach (var splitBound in Icu.BreakIterator.GetSplitBoundIter(Icu.BreakIterator.UBreakIteratorType.WORD,
                    icuLocal, textBuffer, startIndex, appendLength))

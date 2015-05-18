@@ -562,7 +562,10 @@ namespace LayoutFarm.Text
                 TextSurfaceEventListener.NotifyKeyDown(textSurfaceEventListener, e.KeyCode);
             }
         }
-
+        public Point CurrentCaretPos
+        {
+            get { return this.internalTextLayerController.CaretPos; }
+        }
         public bool OnProcessDialogKey(UIKeyEventArgs e)
         {
             UIKeys keyData = (UIKeys)e.KeyData;

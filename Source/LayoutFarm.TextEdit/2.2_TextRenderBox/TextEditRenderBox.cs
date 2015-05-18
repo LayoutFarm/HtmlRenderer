@@ -67,22 +67,17 @@ namespace LayoutFarm.Text
 #if DEBUG
             //for debug
             canvas.FillRectangle(Color.Red, 0, 0, 5, 5);
-#endif
-
-
+#endif  
             //4. caret 
             if (this.stateShowCaret)
             {
                 Point textManCaretPos = internalTextLayerController.CaretPos;
-                this.myCaret.DrawCaret(canvas, textManCaretPos.X, textManCaretPos.Y);
-
+                this.myCaret.DrawCaret(canvas, textManCaretPos.X, textManCaretPos.Y); 
             }
             else
             {
-            }
-
-            canvas.CurrentFont = enterFont;
-
+            } 
+            canvas.CurrentFont = enterFont; 
         }
 
         internal void BoxEvaluateScrollBar()
