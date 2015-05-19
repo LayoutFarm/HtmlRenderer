@@ -52,6 +52,10 @@ namespace LayoutFarm.Text
 
             }
         }
+        public override void ResetRootGraphics(RootGraphic rootgfx)
+        {
+            DirectSetRootGraphics(this, rootgfx);
+        }
         public override EditableRun Clone()
         {
             return new SolidTextRun(this.Root, this.Text, this.SpanStyle);

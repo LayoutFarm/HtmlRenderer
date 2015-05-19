@@ -39,11 +39,15 @@ namespace LayoutFarm.CustomWidgets
         }
         public override void SetLocation(int left, int top)
         {
-            base.SetLocation(left, top);
+            
             if (platformWindowBox != null)
             {
                 //use location relative to top parent/control
                 platformWindowBox.SetLocation(left, top);
+            }
+            else
+            {
+                base.SetLocation(left, top);
             }
         }
         public override void SetSize(int width, int height)

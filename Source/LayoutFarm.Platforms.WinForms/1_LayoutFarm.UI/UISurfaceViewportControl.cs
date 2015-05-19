@@ -128,21 +128,26 @@ namespace LayoutFarm.UI
                         newForm.LinkedParentForm = this.FindForm();
                         newForm.LinkedParentControl = this;
 
-                        var newSurfaceViewport = this.CreateNewOne(300, 200);
+                        UISurfaceViewportControl newSurfaceViewport = this.CreateNewOne(300, 200);
+                        newSurfaceViewport.Location = new System.Drawing.Point(0, 0);
                         newForm.Controls.Add(newSurfaceViewport);
+                        vi.ResetRootGraphics(newSurfaceViewport.RootGfx);
+                        vi.SetLocation(0, 0);
+                        newSurfaceViewport.AddContent(vi);
+                        
+                        
                         //------------------------------------------------------                       
                         var platformWinBox = new PlatformWinBoxForm(newForm);
                         topWinBox.PlatformWinBox = platformWinBox;
                         platformWinBox.UseRelativeLocationToParent = true;
                         subForms.Add(newForm);
-                    }
-
+                    } 
                 }
                 else
                 {
                     this.rootgfx.TopWindowRenderBox.AddChild(vi);
                 }
-
+                //this.rootgfx.TopWindowRenderBox.AddChild(vi);
             }
             else
             {
