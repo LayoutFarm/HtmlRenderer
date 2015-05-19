@@ -14,6 +14,9 @@ namespace LayoutFarm.UI
     {
         TopWindowBridge winBridge;
         RootGraphic rootgfx;
+        ITopWindowEventRoot topWinEventRoot;
+        InnerViewportKind innerViewportKind;
+
         List<Form> subForms = new List<Form>();
         public UISurfaceViewportControl()
         {
@@ -28,6 +31,9 @@ namespace LayoutFarm.UI
 
             //1.
             this.rootgfx = rootgfx;
+            this.topWinEventRoot = topWinEventRoot;
+            this.innerViewportKind = innerViewportKind;
+
             switch (innerViewportKind)
             {
                 case InnerViewportKind.GL:
@@ -122,6 +128,9 @@ namespace LayoutFarm.UI
                         newForm.LinkedParentForm = this.FindForm();
                         newForm.LinkedParentControl = this;
 
+                        var newSurfaceViewport = this.CreateNewOne(300, 200);
+                        newForm.Controls.Add(newSurfaceViewport);
+                        //------------------------------------------------------                       
                         var platformWinBox = new PlatformWinBoxForm(newForm);
                         topWinBox.PlatformWinBox = platformWinBox;
                         platformWinBox.UseRelativeLocationToParent = true;
@@ -153,6 +162,34 @@ namespace LayoutFarm.UI
             this.winBridge.Close();
         }
 
+
+        /// <summary>
+        /// create new UIViewport based on this control's current platform
+        /// </summary>
+        /// <returns></returns>
+        public UISurfaceViewportControl CreateNewOne(int w, int h)
+        {
+            //each viewport has its own root graphics 
+
+            UISurfaceViewportControl newViewportControl = new UISurfaceViewportControl();
+            newViewportControl.Size = new System.Drawing.Size(w, h);
+
+            RootGraphic newRootGraphic = this.rootgfx.CreateNewOne(w, h);
+            ITopWindowEventRoot topEventRoot = null;
+            if (newRootGraphic is ITopWindowEventRootProvider)
+            {
+                topEventRoot = ((ITopWindowEventRootProvider)newRootGraphic).EventRoot;
+            }
+            newViewportControl.InitRootGraphics(
+                newRootGraphic,//new root
+                topEventRoot,
+                this.innerViewportKind);
+
+            return newViewportControl;
+
+
+        }
+        //-----------
     }
 
     class PlatformWinBoxForm : IPlatformWindowBox

@@ -24,10 +24,6 @@ namespace LayoutFarm.UI
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.None;
 
-            //------------------
-            //set up presentation view
-
-            //------------------
         }
         public Form LinkedParentForm
         {
