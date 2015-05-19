@@ -25,12 +25,8 @@ namespace LayoutFarm.CustomWidgets
         }
         public override void ClearAllChildren()
         {
+
         }
-        
-
-
-    }
-
-
+    } 
 
 }

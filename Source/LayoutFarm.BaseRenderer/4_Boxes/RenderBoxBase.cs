@@ -26,7 +26,7 @@ namespace LayoutFarm
         }
 
 
-
+        public bool UseAsFloatWindow { get; set; }
         public override void SetViewport(int viewportX, int viewportY)
         {
             this.myviewportX = viewportX;
@@ -125,7 +125,20 @@ namespace LayoutFarm
 #endif
 
         }
-
+        public override void ResetRootGraphics(RootGraphic rootgfx)
+        {
+            if (this.Root != rootgfx)
+            {
+                DirectSetRootGraphics(this, rootgfx);
+                if (this.defaultLayer != null)
+                {
+                    foreach (var r in defaultLayer.GetRenderElementIter())
+                    {
+                        r.ResetRootGraphics(rootgfx);
+                    }
+                }
+            }
+        }
         public override void AddChild(RenderElement renderE)
         {
             if (this.defaultLayer == null)
@@ -134,6 +147,7 @@ namespace LayoutFarm
             }
             this.defaultLayer.AddChild(renderE);
         }
+
         public override void RemoveChild(RenderElement renderE)
         {
             if (this.defaultLayer != null)
@@ -198,7 +212,7 @@ namespace LayoutFarm
             }
         }
 
-         
+
 
         protected abstract void DrawBoxContent(Canvas canvas, Rectangle updateArea);
         protected bool HasDefaultLayer

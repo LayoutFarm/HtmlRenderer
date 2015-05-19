@@ -8,7 +8,7 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.UI
 {
 
-    public sealed class MyRootGraphic : RootGraphic
+    public sealed class MyRootGraphic : RootGraphic, ITopWindowEventRootProvider
     {
 
         List<RenderElement> layoutQueue = new List<RenderElement>();
@@ -26,12 +26,13 @@ namespace LayoutFarm.UI
 
         readonly TopWindowEventRoot topWindowEventRoot;
         readonly RenderBoxBase topWindowRenderBox;
-
+        UIPlatform uiPlatform;
         public MyRootGraphic(UIPlatform uiPlatform,
-            GraphicsPlatform gfxPlatform, 
+            GraphicsPlatform gfxPlatform,
             int width, int height)
             : base(width, height)
         {
+            this.uiPlatform = uiPlatform;
             this.graphicsPlatform = gfxPlatform;
             this.graphicTimerTaskMan = new GraphicsTimerTaskManager(this, uiPlatform);
 #if DEBUG
@@ -40,9 +41,9 @@ namespace LayoutFarm.UI
 #endif
 
             //create default render box***
-            this.topWindowRenderBox = new TopWindowRenderBox(this, width, height); 
-            this.topWindowEventRoot = new TopWindowEventRoot(this.topWindowRenderBox); 
-            
+            this.topWindowRenderBox = new TopWindowRenderBox(this, width, height);
+            this.topWindowEventRoot = new TopWindowEventRoot(this.topWindowRenderBox);
+
 
             this.SubscribeGraphicsIntervalTask(normalUpdateTask,
                 TaskIntervalPlan.Animation,
@@ -52,6 +53,12 @@ namespace LayoutFarm.UI
                     this.PrepareRender();
                     this.FlushAccumGraphics();
                 });
+        }
+
+        public override RootGraphic CreateNewOne(int w, int h)
+        {
+            return new MyRootGraphic(this.uiPlatform, this.graphicsPlatform, w, h);
+
         }
         public ITopWindowEventRoot TopWinEventPortal
         {
@@ -76,7 +83,7 @@ namespace LayoutFarm.UI
             {
                 return this.topWindowRenderBox;
             }
-           
+
         }
         public override void PrepareRender()
         {
@@ -279,7 +286,7 @@ namespace LayoutFarm.UI
                 this.layoutQueue.RemoveAt(i);
             }
             //-------------------------------- 
-            int j = this.htmlContainerUpdateQueue.Count; 
+            int j = this.htmlContainerUpdateQueue.Count;
             for (int i = 0; i < j; ++i)
             {
                 var htmlCont = htmlContainerUpdateQueue[i];
@@ -354,5 +361,10 @@ namespace LayoutFarm.UI
         }
 
 #endif
+
+        ITopWindowEventRoot ITopWindowEventRootProvider.EventRoot
+        {
+            get { return this.topWindowEventRoot; }
+        }
     }
 }
