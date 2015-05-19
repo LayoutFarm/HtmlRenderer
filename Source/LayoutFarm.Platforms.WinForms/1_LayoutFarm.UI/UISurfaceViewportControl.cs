@@ -11,9 +11,10 @@ namespace LayoutFarm.UI
 {
 
     public partial class UISurfaceViewportControl : UserControl
-    {   
+    {
         TopWindowBridge winBridge;
         RootGraphic rootgfx;
+        List<Form> subForms = new List<Form>();
         public UISurfaceViewportControl()
         {
             InitializeComponent();
@@ -60,7 +61,7 @@ namespace LayoutFarm.UI
                     } break;
             }
         }
-        
+
         public GraphicsPlatform P
         {
             get { return this.rootgfx.P; }
@@ -107,6 +108,37 @@ namespace LayoutFarm.UI
             this.rootgfx.TopWindowRenderBox.AddChild(vi);
         }
 
+        public void AddContent(RenderElement vi, object owner)
+        {
+            if (vi is RenderBoxBase)
+            {
+                if (owner is ITopWindowBox)
+                {
+                    var topWinBox = owner as ITopWindowBox;
+                    if (topWinBox.PlatformWinBox == null)
+                    {
+                        //create platform winbox 
+                        var newForm = new AbstractCompletionWindow();
+                        newForm.LinkedParentControl = this;
+                        PlatformWinBoxForm platformWinBox = new PlatformWinBoxForm(newForm);
+                        topWinBox.PlatformWinBox = platformWinBox;
+                        subForms.Add(newForm);
+
+                    }
+
+                }
+                else
+                {
+                    this.rootgfx.TopWindowRenderBox.AddChild(vi);
+                }
+
+            }
+            else
+            {
+                this.rootgfx.TopWindowRenderBox.AddChild(vi);
+            }
+        }
+
         public RootGraphic RootGfx
         {
             get
@@ -117,14 +149,56 @@ namespace LayoutFarm.UI
         public void Close()
         {
             this.winBridge.Close();
-        }
+        } 
 
-        //----------------------------
-
-
-        //----------------------------
     }
 
+    class PlatformWinBoxForm : IPlatformWindowBox
+    {
+        AbstractCompletionWindow form;
+        public PlatformWinBoxForm(AbstractCompletionWindow form)
+        {
+            this.form = form;
+        }
+        bool IPlatformWindowBox.Visible
+        {
+            get
+            {
+                return form.Visible;
+            }
+            set
+            {
+                if (value)
+                {
+                    if (!form.Visible)
+                    {
+                        form.ShowForm();
+                    }
+                }
+                else
+                {
+                    if (form.Visible)
+                    {
+                        form.Hide();
+                    }
+                }
+            }
+        }
+        void IPlatformWindowBox.Close()
+        {
+            form.Close();
+            form = null;
+        }
 
+        void IPlatformWindowBox.SetLocation(int x, int y)
+        {
+            form.Location = new System.Drawing.Point(x, y);
+        }
+
+        void IPlatformWindowBox.SetSize(int w, int h)
+        {
+            form.Size = new System.Drawing.Size(w, h);
+        }
+    }
 
 }
