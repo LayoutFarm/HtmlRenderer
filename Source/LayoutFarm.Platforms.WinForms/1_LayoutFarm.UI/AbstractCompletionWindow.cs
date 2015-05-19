@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
+ 
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -13,7 +13,7 @@ namespace LayoutFarm.UI
 {
     partial class AbstractCompletionWindow : Form
     {
-      
+        Form linkedParentForm;
         Control linkedParentControl;
 
         public AbstractCompletionWindow()
@@ -22,12 +22,26 @@ namespace LayoutFarm.UI
 
             this.ShowInTaskbar = false;
             this.TopMost = true;
-            this.FormBorderStyle = FormBorderStyle.None; 
-        }    
+            this.FormBorderStyle = FormBorderStyle.None;
+
+            //------------------
+            //set up presentation view
+
+            //------------------
+        }
+        public Form LinkedParentForm
+        {
+            get { return this.linkedParentForm; }
+            set { this.linkedParentForm = value; }
+        }
         public Control LinkedParentControl
         {
             get { return this.linkedParentControl; }
-            set { this.linkedParentControl = value; }
+            set
+            {
+
+                this.linkedParentControl = value;
+            }
         }
         protected override CreateParams CreateParams
         {

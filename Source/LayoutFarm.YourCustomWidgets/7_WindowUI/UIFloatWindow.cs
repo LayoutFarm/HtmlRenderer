@@ -22,7 +22,7 @@ namespace LayoutFarm.CustomWidgets
             get { return this.platformWindowBox; }
             set
             {
-                bool isFirstTime = this.platformWindowBox == null; 
+                bool isFirstTime = this.platformWindowBox == null;
                 this.platformWindowBox = value;
                 if (isFirstTime)
                 {
@@ -42,7 +42,8 @@ namespace LayoutFarm.CustomWidgets
             base.SetLocation(left, top);
             if (platformWindowBox != null)
             {
-                platformWindowBox.SetLocation(left, top+50);
+                //use location relative to top parent/control
+                platformWindowBox.SetLocation(left, top);
             }
         }
         public override void SetSize(int width, int height)
@@ -55,7 +56,7 @@ namespace LayoutFarm.CustomWidgets
         public override bool Visible
         {
             get
-            { 
+            {
                 return base.Visible;
             }
             set

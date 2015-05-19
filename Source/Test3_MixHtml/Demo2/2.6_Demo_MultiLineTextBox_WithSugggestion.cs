@@ -14,6 +14,10 @@ namespace LayoutFarm
         LayoutFarm.CustomWidgets.TextBox textbox;
         SuggestionWindowMx sgBox;
 
+        Point textBoxGlobalOffset;
+        bool alreadyHasTextBoxGlobalOffset;
+
+
         Dictionary<char, List<string>> words = new Dictionary<char, List<string>>();
 
         protected override void OnStartDemo(SampleViewport viewport)
@@ -144,7 +148,13 @@ namespace LayoutFarm
                 var caretPos = textbox.CaretPosition;
                 //temp fixed
                 //TODO: review here
-                sgBox.SetLocation(textbox.Left + caretPos.X, textbox.Top + caretPos.Y + 20);
+                if (!alreadyHasTextBoxGlobalOffset)
+                {
+                    this.textBoxGlobalOffset = textbox.GetGlobalLocation();
+                    alreadyHasTextBoxGlobalOffset = true;
+                }
+
+                sgBox.SetLocation(textBoxGlobalOffset.X + caretPos.X, caretPos.Y + 70);
 
             }
             else
@@ -427,7 +437,7 @@ Zimbabwe");
         public SuggestionWindowMx(int w, int h)
         {
             floatWindow = new CustomWidgets.UIFloatWindow(w, h);
-            listView = new CustomWidgets.ListView(w, h);            
+            listView = new CustomWidgets.ListView(w, h);
             floatWindow.AddChild(listView);
         }
         public void ClearItems()

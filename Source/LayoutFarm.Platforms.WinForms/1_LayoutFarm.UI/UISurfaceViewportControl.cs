@@ -119,11 +119,13 @@ namespace LayoutFarm.UI
                     {
                         //create platform winbox 
                         var newForm = new AbstractCompletionWindow();
+                        newForm.LinkedParentForm = this.FindForm();
                         newForm.LinkedParentControl = this;
-                        PlatformWinBoxForm platformWinBox = new PlatformWinBoxForm(newForm);
-                        topWinBox.PlatformWinBox = platformWinBox;
-                        subForms.Add(newForm);
 
+                        var platformWinBox = new PlatformWinBoxForm(newForm);
+                        topWinBox.PlatformWinBox = platformWinBox;
+                        platformWinBox.UseRelativeLocationToParent = true;
+                        subForms.Add(newForm);
                     }
 
                 }
@@ -149,7 +151,7 @@ namespace LayoutFarm.UI
         public void Close()
         {
             this.winBridge.Close();
-        } 
+        }
 
     }
 
@@ -159,6 +161,11 @@ namespace LayoutFarm.UI
         public PlatformWinBoxForm(AbstractCompletionWindow form)
         {
             this.form = form;
+        }
+        public bool UseRelativeLocationToParent
+        {
+            get;
+            set;
         }
         bool IPlatformWindowBox.Visible
         {
@@ -192,7 +199,17 @@ namespace LayoutFarm.UI
 
         void IPlatformWindowBox.SetLocation(int x, int y)
         {
-            form.Location = new System.Drawing.Point(x, y);
+            var me = this as IPlatformWindowBox;
+            if (me.UseRelativeLocationToParent)
+            {
+                //1. find parent form/control 
+                var parentLoca = form.LinkedParentForm.Location;
+                form.Location = new System.Drawing.Point(parentLoca.X + x, parentLoca.Y + y);
+            }
+            else
+            {
+                form.Location = new System.Drawing.Point(x, y);
+            }
         }
 
         void IPlatformWindowBox.SetSize(int w, int h)
