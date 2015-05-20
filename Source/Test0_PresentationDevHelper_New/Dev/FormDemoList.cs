@@ -105,9 +105,6 @@ namespace LayoutFarm.Dev
             };
             formPrint.Connect(viewport);
         }
-
-
-
         void CreateReadyForm(
             out LayoutFarm.UI.UISurfaceViewportControl viewport,
             out Form formCanvas)

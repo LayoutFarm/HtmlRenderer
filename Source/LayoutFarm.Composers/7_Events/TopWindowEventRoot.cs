@@ -43,7 +43,6 @@ namespace LayoutFarm
         Stack<UIMouseEventArgs> stockMouseEvents = new Stack<UIMouseEventArgs>();
         Stack<UIKeyEventArgs> stockKeyEvents = new Stack<UIKeyEventArgs>();
         Stack<UIFocusEventArgs> stockFocusEvents = new Stack<UIFocusEventArgs>();
-
         //-------
 
 
@@ -53,6 +52,7 @@ namespace LayoutFarm
             this.rootgfx = topRenderElement.Root;
             this.hoverMonitoringTask = new UIHoverMonitorTask(OnMouseHover);
         }
+       
         public IEventListener CurrentKeyboardFocusedElement
         {
             get

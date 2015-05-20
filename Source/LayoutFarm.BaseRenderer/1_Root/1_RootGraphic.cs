@@ -304,5 +304,12 @@ namespace LayoutFarm
         public bool CaretHandleRegistered { get; set; }
         //---------------------------------------------
 
+        /// <summary>
+        /// create new root graphics based on the same platform
+        /// </summary>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
+        /// <returns></returns>
+        public abstract RootGraphic CreateNewOne(int w,int h);
     }
 }

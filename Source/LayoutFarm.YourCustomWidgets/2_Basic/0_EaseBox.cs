@@ -31,8 +31,8 @@ namespace LayoutFarm.CustomWidgets
         public event EventHandler<UIMouseEventArgs> MouseUp;
         public event EventHandler<UIMouseEventArgs> MouseLeave;
 
-        public event EventHandler<UIMouseEventArgs> MouseDrag;   
-        
+        public event EventHandler<UIMouseEventArgs> MouseDrag;
+
         public event EventHandler<UIMouseEventArgs> LostMouseFocus;
         public event EventHandler<UIGuestTalkEventArgs> DragOver;
 
@@ -67,36 +67,46 @@ namespace LayoutFarm.CustomWidgets
         {
             this.primElement = primElement;
         }
+        protected virtual void BuildChildrenRenderElement(RenderElement parent)
+        {
+            parent.HasSpecificHeight = this.HasSpecificHeight;
+            parent.HasSpecificWidth = this.HasSpecificWidth;
+            parent.SetController(this);
+            parent.SetVisible(this.Visible);
+#if DEBUG
+            //if (dbugBreakMe)
+            //{
+            //    renderE.dbugBreak = true;
+            //}
+#endif
+            parent.SetLocation(this.Left, this.Top);
+            if (parent is CustomRenderBox)
+            {
+                ((CustomRenderBox)parent).BackColor = backColor;
+            }
+
+            parent.HasSpecificSize = true;
+            parent.SetViewport(this.ViewportX, this.ViewportY);
+            //------------------------------------------------
+
+
+            //create visual layer 
+            int childCount = this.ChildCount;
+            for (int m = 0; m < childCount; ++m)
+            {
+                parent.AddChild(this.GetChild(m));
+            }
+            //set primary render element
+            //---------------------------------
+
+        }
         public override RenderElement GetPrimaryRenderElement(RootGraphic rootgfx)
         {
             if (primElement == null)
             {
-
                 var renderE = new CustomRenderBox(rootgfx, this.Width, this.Height);
-                renderE.HasSpecificHeight = this.HasSpecificHeight;
-                renderE.HasSpecificWidth = this.HasSpecificWidth;
-                renderE.SetController(this);
-                renderE.SetVisible(this.Visible);
-#if DEBUG
-                //if (dbugBreakMe)
-                //{
-                //    renderE.dbugBreak = true;
-                //}
-#endif
-                renderE.SetLocation(this.Left, this.Top);
-                renderE.BackColor = backColor;
-                renderE.HasSpecificSize = true;
-                renderE.SetViewport(this.ViewportX, this.ViewportY);
-                //------------------------------------------------
-                //create visual layer
+                BuildChildrenRenderElement(renderE);
 
-                int childCount = this.ChildCount;
-                for (int m = 0; m < childCount; ++m)
-                {
-                    renderE.AddChild(this.GetChild(m));
-                }
-                //set primary render element
-                //---------------------------------
                 this.primElement = renderE;
             }
             return primElement;
@@ -111,7 +121,7 @@ namespace LayoutFarm.CustomWidgets
 
         protected override void OnMouseDown(UIMouseEventArgs e)
         {
-            
+
             if (this.MouseDown != null)
             {
                 this.MouseDown(this, e);
@@ -146,7 +156,7 @@ namespace LayoutFarm.CustomWidgets
                 this.MouseLeave(this, e);
             }
         }
-        
+
         protected override void OnMouseUp(UIMouseEventArgs e)
         {
             if (this.MouseUp != null)
@@ -178,7 +188,7 @@ namespace LayoutFarm.CustomWidgets
                 this.dropable = value;
             }
         }
-        
+
         public void RemoveSelf()
         {
             var parentBox = this.CurrentPrimaryRenderElement.ParentRenderElement as LayoutFarm.RenderElement;

@@ -20,7 +20,10 @@ namespace LayoutFarm.UI
         void RootKeyPress(char c);
         void RootKeyDown(int keydata);
         void RootKeyUp(int keydata);
-        bool RootProcessDialogKey(int keydata);
-
+        bool RootProcessDialogKey(int keydata);       
+    }
+    public interface ITopWindowEventRootProvider
+    {
+        ITopWindowEventRoot EventRoot { get; }
     }
 }

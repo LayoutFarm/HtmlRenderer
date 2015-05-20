@@ -35,9 +35,16 @@ namespace LayoutFarm
             //this.dbug_SetFixedElementCode(this.GetType().Name);
 #endif
         }
+
+        public abstract void ResetRootGraphics(RootGraphic rootgfx);
+        protected static void DirectSetRootGraphics(RenderElement r, RootGraphic rootgfx)
+        {
+            r.rootGfx = rootgfx;
+        }
         public RootGraphic Root
         {
             get { return this.rootGfx; }
+
         }
 
         public RenderElement GetTopWindowRenderBox()
@@ -109,7 +116,7 @@ namespace LayoutFarm
                 return parentLink.ParentRenderElement;
             }
         }
-        
+
         public static void RemoveParentLink(RenderElement childElement)
         {
             childElement.parentLink = null;
