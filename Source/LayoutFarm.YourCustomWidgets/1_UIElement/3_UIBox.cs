@@ -17,8 +17,7 @@ namespace LayoutFarm.UI
         int _height;
         bool _hide;
         bool specificWidth;
-        bool specificHeight;
-
+        bool specificHeight; 
 
         public event EventHandler LayoutFinished;
 
@@ -222,7 +221,7 @@ namespace LayoutFarm.UI
         {
         }
 
-        public bool Visible
+        public virtual bool Visible
         {
             get { return !this._hide; }
             set

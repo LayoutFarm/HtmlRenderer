@@ -44,6 +44,7 @@ namespace LayoutFarm
 
         public void SetLocation(int left, int top)
         {
+           
             if (parentLink == null)
             {
                 this.b_left = left;
@@ -83,7 +84,7 @@ namespace LayoutFarm
                 this.b_height = height;
                 this.InvalidateGraphicBounds(Rectangle.Union(prevBounds, this.RectBounds));
             }
-        } 
-        
+        }
+
     }
 }

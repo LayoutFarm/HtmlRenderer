@@ -8,7 +8,7 @@ using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
 
-    public class TopWindowRenderBox : RenderBoxBase
+    sealed class TopWindowRenderBox : RenderBoxBase
     {
         public TopWindowRenderBox(RootGraphic rootGfx, int width, int height)
             : base(rootGfx, width, height)
@@ -21,7 +21,7 @@ namespace LayoutFarm
             canvas.FillRectangle(Color.White, 0, 0, this.Width, this.Height);
             this.DrawDefaultLayer(canvas, ref updateArea);
         }
-        
+
     }
 
 }

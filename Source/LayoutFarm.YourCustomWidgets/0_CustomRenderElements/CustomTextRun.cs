@@ -23,6 +23,10 @@ namespace LayoutFarm.CustomWidgets
             : base(rootgfx, width, height)
         { 
         }
+        public override void ResetRootGraphics(RootGraphic rootgfx)
+        {
+            DirectSetRootGraphics(this, rootgfx);
+        }
         public string Text
         {
             get { return new string(this.textBuffer); }

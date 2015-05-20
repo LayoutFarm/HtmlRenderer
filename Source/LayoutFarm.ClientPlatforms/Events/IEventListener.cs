@@ -8,6 +8,8 @@ namespace LayoutFarm.UI
 
     public interface IEventListener
     {
+         
+        
         //--------------------------------------------------------------------------
         void ListenKeyPress(UIKeyEventArgs args);
         void ListenKeyDown(UIKeyEventArgs e);
@@ -38,6 +40,9 @@ namespace LayoutFarm.UI
         bool BypassAllMouseEvents { get; }
         bool AutoStopMouseEventPropagation { get; }  
         void GetGlobalLocation(out int x, out int y);
+        //-------------------------------------------------------------------------- 
+
+        
 
     }
 }

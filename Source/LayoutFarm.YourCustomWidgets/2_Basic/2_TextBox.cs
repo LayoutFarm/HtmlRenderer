@@ -64,6 +64,10 @@ namespace LayoutFarm.CustomWidgets
             get;
             set;
         }
+        public Point CaretPosition
+        {
+            get { return this.textEditRenderElement.CurrentCaretPos; }
+        }
         public string Text
         {
             get
@@ -110,6 +114,8 @@ namespace LayoutFarm.CustomWidgets
                     //user can parse text line to smaller span
                     //eg. split by whitespace
 
+
+
                     if (this.TextSplitter != null)
                     {
                         //parse with textsplitter 
@@ -129,6 +135,8 @@ namespace LayoutFarm.CustomWidgets
                         var textspan = textEditRenderElement.CreateEditableTextRun(line);
                         textEditRenderElement.AddTextRun(textspan);
                     }
+
+
                     lineCount++;
                     line = reader.ReadLine();
                 }
