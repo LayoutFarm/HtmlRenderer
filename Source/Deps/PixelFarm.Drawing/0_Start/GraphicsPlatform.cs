@@ -19,7 +19,7 @@ namespace PixelFarm.Drawing
             int height
          );
         public abstract IFonts SampleIFonts { get; }
-
+        public FontInfo TextEditFontInfo { get; set; }
         public static string GenericSerifFontName
         {
             get;
