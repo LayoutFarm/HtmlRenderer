@@ -36,7 +36,7 @@ namespace PixelFarm.Drawing.WinGdi
         //--------------------------------------------------------------------
         public override void SetCanvasOrigin(int x, int y)
         {
-
+            
             ReleaseHdc();
             //----------- 
             int total_dx = x - canvasOriginX;
@@ -80,13 +80,10 @@ namespace PixelFarm.Drawing.WinGdi
             ReleaseHdc();
 
             gx.SetClip(
-               this.currentClipRect = new System.Drawing.Rectangle(
+                new System.Drawing.Rectangle(
                     rect.X, rect.Y,
                     rect.Width, rect.Height),
                     (System.Drawing.Drawing2D.CombineMode)combineMode);
-            //if (this.currentClipRect.Width > 800)
-            //{
-            //}
         }
         public override bool IntersectsWith(Rectangle clientRect)
         {

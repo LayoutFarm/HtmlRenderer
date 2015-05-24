@@ -40,6 +40,12 @@ namespace PixelFarm.Agg.Image
             this.x += dx;
             this.y += dy;
         }
+#if DEBUG
+        public override string ToString()
+        {
+            return "(" + x + "," + y + ")";
+        }
+#endif
     }
 
     public struct Vector
@@ -157,6 +163,16 @@ namespace PixelFarm.Agg.Image
         {
             return new PointF((float)_x, (float)_y);
         }
+
+        public Vector NewLength(double newLength)
+        {
+            //radian
+            double atan = Math.Atan2(_y, _x);
+            return new Vector(Math.Cos(atan) * newLength,
+                        Math.Sin(atan) * newLength); 
+        }
+
+
     }
 
     public class FreeTransform
@@ -360,7 +376,7 @@ namespace PixelFarm.Agg.Image
                     }
                     x1 = (int)ptInPlane.X;
                     y1 = (int)ptInPlane.Y;
-                     
+
                     destWriter.SetPixel(x, y, srcCB.GetPixel(x1, y1));
                     //-------------------------------------
                     dab = Math.Abs((new Vector(vertex[0], srcPt)).CrossProduct(ab_vec));

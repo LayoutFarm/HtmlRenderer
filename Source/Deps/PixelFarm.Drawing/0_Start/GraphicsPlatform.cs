@@ -25,7 +25,7 @@ namespace PixelFarm.Drawing
             get;
             set;
         }
-        public FontInfo TextEditFontInfo { get; set; }
+
         public abstract Bitmap CreatePlatformBitmap(int w, int h, byte[] rawBuffer,bool isBottomUp);
     }
 
