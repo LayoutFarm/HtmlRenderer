@@ -54,7 +54,7 @@ namespace PixelFarm.Agg
         Ellipse ellipse = new Ellipse();
         PathWriter lines = new PathWriter();
         RoundedRect roundRect = null;
-
+       
         MyImageReaderWriter sharedImageWriterReader = new MyImageReaderWriter();
         CurveFlattener curveFlattener = new CurveFlattener();
 
@@ -76,7 +76,6 @@ namespace PixelFarm.Agg
         {
             gx.Clear(color);
         }
-         
         public RectInt ClipBox
         {
             get { return this.gx.GetClippingRect(); }
@@ -256,7 +255,7 @@ namespace PixelFarm.Agg
            double x,
            double y)
         {
-            textPrinter.Print(this, text.ToString(), x, y);
+            textPrinter.Print(this,text.ToString(), x, y); 
         }
         //-------------------------------------------------------
 
@@ -346,14 +345,14 @@ namespace PixelFarm.Agg
                 new PixelFarm.VectorMath.Vector2(startX, startY),
                 new PixelFarm.VectorMath.Vector2(endX, endY),
                 new PixelFarm.VectorMath.Vector2(controlX1, controlY1),
-                new PixelFarm.VectorMath.Vector2(controlY2, controlY2));
+                new PixelFarm.VectorMath.Vector2(controlX2, controlY2));
 
             vxs = this.stroke.MakeVxs(vxs);
 
             sclineRas.Reset();
             sclineRas.AddPath(vxs);
             //sclineRasToBmp.DrawWithColor(sclineRas, sclinePack8, this.fillColor);
-            sclineRasToBmp.RenderWithColor(this.gx.DestImage, sclineRas, scline, fillColor);
+            sclineRasToBmp.RenderWithColor(this.gx.DestImage, sclineRas, scline, this.strokeColor);
         }
         //---------------- 
         public VertexStore FlattenCurves(VertexStore srcVxs)

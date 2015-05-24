@@ -21,6 +21,7 @@ namespace PixelFarm.Drawing
         
         public abstract GraphicsPlatform Platform { get; }
         public abstract SmoothingMode SmoothingMode { get; set; }
+        
         //---------------------------------------------------------------------
         public abstract float StrokeWidth { get; set; }
         public abstract Color StrokeColor { get; set; }

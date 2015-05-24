@@ -96,6 +96,15 @@
     <Compile Include="7_PixelFarm_AggVertex_Core\RectD.cs" />
     <Compile Include="7_PixelFarm_AggVertex_Core\RectInt.cs" />
     <Compile Include="8_PixelFarm_AggTransforms\Viewport.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\CurveUtils\CubicBezier.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\CurveUtils\CurveBuilder.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\CurveUtils\CurveFit.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\CurveUtils\CurveFitBase.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\CurveUtils\CurvePreprocess.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\CurveUtils\Spline.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\CurveUtils\SplineBuilder.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\CurveUtils\VectorHelper.cs" />
+    <Compile Include="9_PixelFarm_AggVertex_More\HitTest\VertexHitTester.cs" />
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\Arc.cs" />
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\BezireCurve.cs" />
     <Compile Include="9_PixelFarm_AggVertex_More\VertexSource\BoundingRect.cs" />

@@ -78,7 +78,7 @@ namespace PixelFarm.Drawing.WinGdi
         public override void SetClipRect(Rectangle rect, CombineMode combineMode = CombineMode.Replace)
         {
             gx.SetClip(
-               this.currentClipRect = new System.Drawing.Rectangle(
+              this.currentClipRect = new System.Drawing.Rectangle(
                     rect.X, rect.Y,
                     rect.Width, rect.Height),
                     (System.Drawing.Drawing2D.CombineMode)combineMode);
@@ -90,7 +90,7 @@ namespace PixelFarm.Drawing.WinGdi
 
         public override bool PushClipAreaRect(int width, int height, ref Rectangle updateArea)
         {
-            
+
             this.clipRectStack.Push(currentClipRect);
 
             System.Drawing.Rectangle intersectResult =

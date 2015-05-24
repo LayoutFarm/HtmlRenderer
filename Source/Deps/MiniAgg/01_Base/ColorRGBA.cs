@@ -681,6 +681,8 @@ namespace PixelFarm.Agg
         public static readonly ColorRGBA Magenta = new ColorRGBA(255, 0, 255, 255);
         public static readonly ColorRGBA Yellow = new ColorRGBA(255, 255, 0, 255);
         public static readonly ColorRGBA YellowGreen = new ColorRGBA(154, 205, 50, 255);
+        public static readonly ColorRGBA Transparent = new ColorRGBA(0, 0, 0, 0);
+
 
         public byte Red0To255
         {
