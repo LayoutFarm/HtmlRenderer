@@ -388,7 +388,7 @@ Zimbabwe");
         void AddKeywordList(string keywordString)
         {
 
-            string[] seplist = keywordString.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] seplist = keywordString.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             int j = seplist.Length;
             for (int i = 0; i < j; ++i)
             {
