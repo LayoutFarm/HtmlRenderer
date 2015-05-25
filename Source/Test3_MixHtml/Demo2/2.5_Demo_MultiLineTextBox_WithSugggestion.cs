@@ -141,6 +141,9 @@ namespace LayoutFarm
             if (listView.ItemCount > 0)
             {
                 listView.Visible = true;
+                //TODO: implement selectedIndex suggestion hint here ***
+                listView.SelectedIndex = 0;
+
                 //move listview under caret position 
                 var caretPos = textbox.CaretPosition;
                 //temp fixed

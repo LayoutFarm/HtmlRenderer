@@ -144,6 +144,9 @@ namespace LayoutFarm
             if (sgBox.ItemCount > 0)
             {
                 sgBox.Show();
+                //TODO: implement selectedIndex suggestion hint here
+                sgBox.SelectedIndex = 0;
+
                 //move listview under caret position 
                 var caretPos = textbox.CaretPosition;
                 //temp fixed

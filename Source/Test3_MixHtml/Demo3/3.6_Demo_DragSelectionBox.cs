@@ -243,7 +243,19 @@ namespace LayoutFarm
             };
             box.DragOver += (s, e) =>
             {
-                box.BackColor = Color.Green;
+                switch (e.UserMsgFlags)
+                {
+                    case 1:
+                        {   //sample only
+                            box.BackColor = Color.Green;
+                        } break;
+                    case 2:
+                        {
+                            //sample only
+                            //leaving
+                            box.BackColor = Color.Blue;
+                        } break;
+                }
             };
 
         }
@@ -324,26 +336,91 @@ namespace LayoutFarm
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 e.CancelBubbling = true;
                 //test here -----------------------------------------------------
-                //find dragover element 
+                //find dragover element ***
                 var dragOverElements = new List<UIElement>();
                 controllerBox.FindDragOverElements(dragOverElements);
-                if (dragOverElements.Count > 0)
+                if (dragOverElements.Count == 0)
                 {
-                    //send notification to another box 
-                    //use guest talk msg
-                    var easeBox = dragOverElements[0] as IEventListener;
-                    if (easeBox != null)
+                    Dictionary<UIElement, int> prevDragOverElements = controllerBox.LastestDragOverElements;
+                    if (prevDragOverElements != null)
                     {
-                        var talkMsg = new UIGuestTalkEventArgs();
-                        talkMsg.Sender = controllerBox;
-                        easeBox.ListenGuestTalk(talkMsg);
+                        foreach (var leavingElement in prevDragOverElements.Keys)
+                        {
+                            var listener = leavingElement as IEventListener;
+                            if (listener != null)
+                            {
+                                var talkMsg = new UIGuestTalkEventArgs();
+                                talkMsg.Sender = controllerBox;
+                                talkMsg.UserMsgFlags = 2;//leaving //sample only
+                                listener.ListenGuestTalk(talkMsg);
+                            }
+                        }
+                    }
+
+                    controllerBox.LastestDragOverElements = null;
+                }
+                else
+                {
+
+                    //send notification to another box 
+                    //use guest talk msg*** 
+                    //check state of guest 
+                    Dictionary<UIElement, int> prevDragOverElements = controllerBox.LastestDragOverElements;
+                    Dictionary<UIElement, int> latestDragOverElements = new Dictionary<UIElement, int>();
+                    if (prevDragOverElements != null)
+                    {
+                        
+                        int j = dragOverElements.Count;
+                        for (int i = 0; i < j; ++i)
+                        {
+                            var dragOverE = dragOverElements[i];
+
+                            int state;
+                            if (prevDragOverElements.TryGetValue(dragOverE, out state))
+                            {
+                                //found in latest drag overelement 
+                                //remove 
+                                prevDragOverElements.Remove(dragOverE);
+                            }
+                            
+                            latestDragOverElements.Add(dragOverE, ++state);
+                        }
+                        //remaining elements
+                        foreach (var leavingElement in prevDragOverElements.Keys)
+                        {
+                            var listener = leavingElement as IEventListener;
+                            if (listener != null)
+                            {
+                                var talkMsg = new UIGuestTalkEventArgs();
+                                talkMsg.Sender = controllerBox;
+                                talkMsg.UserMsgFlags = 2;//leaving //sample only
+                                listener.ListenGuestTalk(talkMsg);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var drgElement in dragOverElements)
+                        {
+                            latestDragOverElements.Add(drgElement, 0);
+                        }
+                    }
+
+                    controllerBox.LastestDragOverElements = latestDragOverElements;
+                    foreach (var drgElement in latestDragOverElements.Keys)
+                    {
+                        var listener = drgElement as IEventListener;
+                        if (listener != null)
+                        {
+                            var talkMsg = new UIGuestTalkEventArgs();
+                            talkMsg.Sender = controllerBox;
+                            talkMsg.UserMsgFlags = 1;//sample only
+                            listener.ListenGuestTalk(talkMsg);
+                        }
                     }
                 }
             };
-
-
         }
-
 
         //-----------------------------------------------------------------
         class UIControllerBox : LayoutFarm.CustomWidgets.EaseBox
@@ -357,9 +434,9 @@ namespace LayoutFarm
 
             LayoutFarm.CustomWidgets.EaseBox boxLeftBottom;
             LayoutFarm.CustomWidgets.EaseBox boxRightBottom;
-
-
             DockSpacesController dockspaceController;
+            Dictionary<UIElement, int> latestDragOverElements;
+            LayoutFarm.UI.UIBox targetBox;
             public UIControllerBox(int w, int h)
                 : base(w, h)
             {
@@ -367,8 +444,18 @@ namespace LayoutFarm
             }
             public LayoutFarm.UI.UIBox TargetBox
             {
-                get;
-                set;
+                get { return this.targetBox; }
+                set
+                {
+                    this.targetBox = value;
+                    //clear latest drag over elements too                    
+                    this.latestDragOverElements = null;
+                }
+            }
+            public Dictionary<UIElement, int> LastestDragOverElements
+            {
+                get { return this.latestDragOverElements; }
+                set { this.latestDragOverElements = value; }
             }
             public override void Walk(UIVisitor visitor)
             {

@@ -383,6 +383,17 @@ namespace LayoutFarm.UI
         {
             get { return this.Sender as IEventListener; }
         }
+        public object UserMsgContent
+        {
+            get;
+            set;
+        }
+        public int UserMsgFlags
+        {
+            get;
+            set;
+        }
+    
     }
 
 
