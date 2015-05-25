@@ -150,12 +150,15 @@ namespace LayoutFarm.Text
             {
                 InvalidateGraphicLocalArea(this, GetSelectionUpdateArea());
             }
-
+            bool preventDefault = false;
             if (textSurfaceEventListener != null &&
-                !TextSurfaceEventListener.NotifyPreviewKeydown(textSurfaceEventListener, c))
+                !(preventDefault = TextSurfaceEventListener.NotifyPreviewKeydown(textSurfaceEventListener, c)))
             {
                 internalTextLayerController.UpdateSelectionRange();
-
+            }
+            if (preventDefault)
+            {
+                return;
             }
             if (internalTextLayerController.SelectionRange != null)
             {
@@ -272,7 +275,7 @@ namespace LayoutFarm.Text
                 internalTextLayerController.CharIndex += textRun.CharacterCount;
                 internalTextLayerController.EndSelect();
             }
-        } 
+        }
         public void OnDrag(UIMouseEventArgs e)
         {
             if (!isDragBegin)
@@ -303,7 +306,7 @@ namespace LayoutFarm.Text
         }
         public void OnDragEnd(UIMouseEventArgs e)
         {
-            
+
             isDragBegin = false;
             if ((UIMouseButtons)e.Button == UIMouseButtons.Left)
             {
@@ -704,7 +707,6 @@ namespace LayoutFarm.Text
                         if (textSurfaceEventListener != null &&
                             TextSurfaceEventListener.NotifyPreviewArrow(textSurfaceEventListener, keyData))
                         {
-
                             return true;
                         }
 
@@ -729,7 +731,12 @@ namespace LayoutFarm.Text
                                 currentCaretPos = internalTextLayerController.CaretPos;
                                 if (currentCaretPos.X != prvCaretPos.X)
                                 {
-                                    break;
+                                    int nextCharWidth = internalTextLayerController.GetNextCharacterWidth();
+                                    if (nextCharWidth > 0)
+                                    {
+
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -748,9 +755,16 @@ namespace LayoutFarm.Text
                                     Point prvCaretPos = internalTextLayerController.CaretPos;
                                     internalTextLayerController.CharIndex++;
                                     currentCaretPos = internalTextLayerController.CaretPos;
+
                                     if (currentCaretPos.X != prvCaretPos.X)
                                     {
-                                        break;
+                                        //forward check next caret
+                                        int nextCharWidth = internalTextLayerController.GetNextCharacterWidth();
+                                        if (nextCharWidth > 0)
+                                        {
+
+                                            break;
+                                        }
                                     }
                                 }
                             }

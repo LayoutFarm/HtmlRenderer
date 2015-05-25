@@ -54,7 +54,7 @@ namespace LayoutFarm
                         if (sgBox.Visible && sgBox.SelectedIndex < sgBox.ItemCount - 1)
                         {
                             sgBox.SelectedIndex++;
-                            e.Canceled = true;
+                            e.PreventDefault = true;
                         }
                     } break;
                 case UIKeys.Up:
@@ -62,7 +62,7 @@ namespace LayoutFarm
                         if (sgBox.Visible && sgBox.SelectedIndex > 0)
                         {
                             sgBox.SelectedIndex--;
-                            e.Canceled = true;
+                            e.PreventDefault = true;
                         }
                     } break;
             }
@@ -84,7 +84,7 @@ namespace LayoutFarm
                 sgBox.Hide();
                 //-------------------------------------- 
             }
-            e.Canceled = true;
+            e.PreventDefault = true;
         }
         string GetString(char[] buffer, LayoutFarm.Composers.TextSplitBound bound)
         {

@@ -50,7 +50,7 @@ namespace LayoutFarm
                         if (listView.Visible && listView.SelectedIndex < listView.ItemCount - 1)
                         {
                             listView.SelectedIndex++;
-                            e.Canceled = true;
+                            e.PreventDefault = true;
                         }
                     } break;
                 case UIKeys.Up:
@@ -58,7 +58,7 @@ namespace LayoutFarm
                         if (listView.Visible && listView.SelectedIndex > 0)
                         {
                             listView.SelectedIndex--;
-                            e.Canceled = true;
+                            e.PreventDefault = true;
                         }
                     } break;
             }
@@ -80,7 +80,7 @@ namespace LayoutFarm
                 listView.Visible = false;
                 //-------------------------------------- 
             }
-            e.Canceled = true;
+            e.PreventDefault = true;
         }
         string GetString(char[] buffer, LayoutFarm.Composers.TextSplitBound bound)
         {

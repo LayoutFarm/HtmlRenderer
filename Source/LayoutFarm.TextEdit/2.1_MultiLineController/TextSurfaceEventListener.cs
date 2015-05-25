@@ -9,7 +9,8 @@ namespace LayoutFarm.Text
         public bool updateJustCurrentLine;
         public readonly UIKeys key;
         public readonly char c;
-        public bool Canceled;
+        public bool PreventDefault;
+        
         public TextDomEventArgs(char c)
         {
             this.c = c;
@@ -22,6 +23,7 @@ namespace LayoutFarm.Text
         {
             this.updateJustCurrentLine = updateJustCurrentLine;
         }
+         
     }
 
     public sealed class TextSurfaceEventListener
@@ -76,7 +78,7 @@ namespace LayoutFarm.Text
             {
                 TextDomEventArgs e = new TextDomEventArgs(UIKeys.Enter);
                 listener.PreviewEnterKeyDown(listener, e);
-                return e.Canceled;
+                return e.PreventDefault;
             }
             return false;
         }
@@ -86,7 +88,7 @@ namespace LayoutFarm.Text
             {
                 TextDomEventArgs e = new TextDomEventArgs(UIKeys.Back);
                 listener.PreviewBackSpaceKeyDown(listener, e);
-                return e.Canceled;
+                return e.PreventDefault;
             }
             return false;
         }
@@ -97,7 +99,7 @@ namespace LayoutFarm.Text
             {
                 TextDomEventArgs e = new TextDomEventArgs(key);
                 listener.PreviewArrowKeyDown(listener, e);
-                return e.Canceled;
+                return e.PreventDefault;
             }
             return false;
         }
@@ -109,7 +111,7 @@ namespace LayoutFarm.Text
                 {
                     TextDomEventArgs e = new TextDomEventArgs(c);
                     listener.PreviewRegisteredKeyDown(listener, e);
-                    return e.Canceled;
+                    return e.PreventDefault;
                 }
             }
             return false;

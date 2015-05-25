@@ -105,7 +105,7 @@ namespace LayoutFarm
                     listView.Visible = false;
                     //--------------------------------------
                 }
-                e.Canceled = true;
+                e.PreventDefault = true;
             }
         }
         void UpdateSuggestionList()
