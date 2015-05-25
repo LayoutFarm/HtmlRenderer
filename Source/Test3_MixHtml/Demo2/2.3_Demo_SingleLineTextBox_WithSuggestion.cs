@@ -82,7 +82,7 @@ namespace LayoutFarm
                 //-------------------------------------- 
             }
 
-            e.Canceled = true;
+            e.PreventDefault = true;
 
         }
 
