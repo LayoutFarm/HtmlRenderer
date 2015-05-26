@@ -130,15 +130,12 @@ namespace LayoutFarm
                 //move to mouse position 
                 if (!selectionBoxIsShown)
                 {
-
-
                     selectionBox.SetLocation(e.X, e.Y);
                     selectionBox.Visible = true;
                     selectionBoxIsShown = true;
                 }
                 else
                 {
-
 
                     int x = e.CapturedMouseX;
                     int y = e.CapturedMouseY;
@@ -203,8 +200,11 @@ namespace LayoutFarm
                     //------
                     //create user controller box for the selected box 
                     UIControllerBox userControllerBox = GetFreeUserControllerBox();
+
                     userControllerBox.TargetBox = box;
-                    userControllerBox.SetLocation(box.Left - 5, box.Top - 5);
+                    var globalTargetPos = box.GetGlobalLocation();
+
+                    userControllerBox.SetLocation(globalTargetPos.X - 5, globalTargetPos.Y - 5);
                     userControllerBox.SetSize(box.Width + 10, box.Height + 10);
                     userControllerBox.Visible = true;
                     viewport.AddContent(userControllerBox);
@@ -217,14 +217,16 @@ namespace LayoutFarm
             box.MouseDown += (s, e) =>
             {
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
-                e.MouseCursorStyle = MouseCursorStyle.Pointer;
-
+                e.MouseCursorStyle = MouseCursorStyle.Pointer; 
 
                 //request user controller for this box
                 UIControllerBox userControllerBox = GetFreeUserControllerBox();
                 userControllerBox.TargetBox = box;
                 viewport.AddContent(userControllerBox);
-                userControllerBox.SetLocation(box.Left - 5, box.Top - 5);
+                //location relative to global position of target box
+                var globalTargetPos = box.GetGlobalLocation();
+
+                userControllerBox.SetLocation(globalTargetPos.X - 5, globalTargetPos.Y - 5);
                 userControllerBox.SetSize(box.Width + 10, box.Height + 10);
                 userControllerBox.Visible = true;
 
@@ -255,6 +257,42 @@ namespace LayoutFarm
                             //leaving
                             box.BackColor = Color.Blue;
                         } break;
+                    case 3:
+                        {
+                            //drop
+                            var sender = e.Sender as UIControllerBox;
+                            var droppingBox = sender.TargetBox as UIBox;
+                            if (droppingBox != null)
+                            {
+                                //move from original 
+                                var parentBox = droppingBox.ParentUI as UIBox;
+                                if (parentBox != null)
+                                {
+
+                                }
+                                else
+                                {
+                                    //no primary ui
+                                    var primRenderE = droppingBox.CurrentPrimaryRenderElement;
+                                    var parentRenderE = primRenderE.ParentRenderElement;
+                                    var parentGlobalLoca = parentRenderE.GetGlobalLocation();
+                                    var droppingGlobalLoca = droppingBox.GetGlobalLocation();
+                                    if (parentRenderE != null)
+                                    {
+                                        parentRenderE.RemoveChild(primRenderE);
+                                    }
+                                    //TODO: review here , 
+                                    //set location relative to other element
+                                    droppingBox.SetLocation(
+                                        droppingGlobalLoca.X - parentGlobalLoca.X,
+                                        droppingGlobalLoca.Y - parentGlobalLoca.Y);
+
+                                    //set location relative to new parent
+                                    box.AddChild(droppingBox);
+
+                                }
+                            }
+                        } break;
                 }
             };
 
@@ -277,6 +315,7 @@ namespace LayoutFarm
                 if (selectionBoxIsShown)
                 {
 
+                    Point sel_globalLocation = selectionBox.GetGlobalLocation();
 
                     int x = e.CapturedMouseX;
                     int y = e.CapturedMouseY;
@@ -329,6 +368,32 @@ namespace LayoutFarm
         static void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
             //for controller box
+            controllerBox.MouseUp += (s, e) =>
+            {
+                if (e.IsDragging)
+                {
+                    //this is dropping 
+                    //find underlying element to drop into  
+                    var dragOverElements = new List<UIElement>();
+                    controllerBox.FindDragOverElements(dragOverElements);
+                    if (dragOverElements.Count > 0)
+                    {
+                        //TODO: review here
+                        //this version we select the first one
+
+                        var listener = dragOverElements[0] as IEventListener;
+                        if (listener != null)
+                        {
+                            var talkMsg = new UIGuestTalkEventArgs();
+                            talkMsg.Sender = controllerBox;
+                            talkMsg.UserMsgFlags = 3;//send drop notify                             
+                            listener.ListenGuestTalk(talkMsg);
+                        }
+
+                    }
+
+                }
+            };
             controllerBox.MouseDrag += (s, e) =>
             {
 
@@ -369,7 +434,7 @@ namespace LayoutFarm
                     Dictionary<UIElement, int> latestDragOverElements = new Dictionary<UIElement, int>();
                     if (prevDragOverElements != null)
                     {
-                        
+
                         int j = dragOverElements.Count;
                         for (int i = 0; i < j; ++i)
                         {
@@ -382,7 +447,7 @@ namespace LayoutFarm
                                 //remove 
                                 prevDragOverElements.Remove(dragOverE);
                             }
-                            
+
                             latestDragOverElements.Add(dragOverE, ++state);
                         }
                         //remaining elements
