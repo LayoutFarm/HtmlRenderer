@@ -17,18 +17,19 @@ namespace LayoutFarm
         UISelectionBox selectionBox;
         bool selectionBoxIsShown;
         RootGraphic rootgfx;
-        List<LayoutFarm.CustomWidgets.EaseBox> userBoxes = new List<CustomWidgets.EaseBox>();
+        //List<LayoutFarm.CustomWidgets.EaseBox> userBoxes = new List<CustomWidgets.EaseBox>();
         Queue<UIControllerBox> userControllerPool = new Queue<UIControllerBox>();
         List<UIControllerBox> workingControllerBoxes = new List<UIControllerBox>();
 
         SampleViewport viewport;
+        LayoutFarm.CustomWidgets.SimpleBox bgbox;
         protected override void OnStartDemo(SampleViewport viewport)
         {
             this.viewport = viewport;
             this.rootgfx = viewport.ViewportControl.RootGfx;
             //--------------------------------
 
-            var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
+            bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
             bgbox.BackColor = Color.White;
             bgbox.SetLocation(0, 0);
             SetupBackgroundProperties(bgbox);
@@ -39,21 +40,23 @@ namespace LayoutFarm
             box1.BackColor = Color.Red;
             box1.SetLocation(10, 10);
             SetupActiveBoxProperties(box1);
-            viewport.AddContent(box1);
+            bgbox.AddChild(box1);
 
-            userBoxes.Add(box1);
+
+            //userBoxes.Add(box1);
 
             var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
             box2.SetLocation(50, 50);
             SetupActiveBoxProperties(box2);
             viewport.AddContent(box2);
-            userBoxes.Add(box2);
+            bgbox.AddChild(box2);
+
 
             var box3 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
             box3.SetLocation(200, 80);
             SetupActiveBoxProperties(box3);
             viewport.AddContent(box3);
-            userBoxes.Add(box3);
+            bgbox.AddChild(box3);
 
 
             //--------------------------------
@@ -175,17 +178,24 @@ namespace LayoutFarm
         void FindSelectedUserBoxes()
         {
             //find users box in selected area
-            int j = this.userBoxes.Count;
+
+
+
+            int j = this.bgbox.ChildCount;
 
             var primSelectionBox = selectionBox.GetPrimaryRenderElement(rootgfx);
             var primGlobalPoint = primSelectionBox.GetGlobalLocation();
             var selectedRectArea = new Rectangle(primGlobalPoint, primSelectionBox.Size);
 
-            List<CustomWidgets.EaseBox> selectedList = new List<CustomWidgets.EaseBox>();
+            List<UIBox> selectedList = new List<UIBox>();
             for (int i = 0; i < j; ++i)
             {
-                var box = userBoxes[i];
-                var primElement = userBoxes[i].GetPrimaryRenderElement(rootgfx);
+                var box = bgbox.GetChild(i) as UIBox;
+                if (box == null)
+                {
+                    continue;
+                }
+                var primElement = box.GetPrimaryRenderElement(rootgfx);
                 if (!primElement.Visible)
                 {
                     continue;
@@ -196,7 +206,7 @@ namespace LayoutFarm
                 if (selectedRectArea.Contains(userElementArea))
                 {
                     //selected= true;
-                    selectedList.Add(userBoxes[i]);
+                    selectedList.Add(box);
                     //------
                     //create user controller box for the selected box 
                     UIControllerBox userControllerBox = GetFreeUserControllerBox();
@@ -217,7 +227,7 @@ namespace LayoutFarm
             box.MouseDown += (s, e) =>
             {
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
-                e.MouseCursorStyle = MouseCursorStyle.Pointer; 
+                e.MouseCursorStyle = MouseCursorStyle.Pointer;
 
                 //request user controller for this box
                 UIControllerBox userControllerBox = GetFreeUserControllerBox();
