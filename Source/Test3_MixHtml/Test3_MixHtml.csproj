@@ -37,6 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Demo1\1.1_Demo_SingleButton.cs" />
@@ -77,6 +78,15 @@
     <Compile Include="Demo5\5.1_Demo_Hinges.cs" />
     <Compile Include="Demo5\5.8_Demo_Hinge.cs" />
     <Compile Include="Demo5\5.7_Demo_ListView.cs" />
+    <Compile Include="Demo7\7.1_DemoDzBoard.cs" />
+    <Compile Include="Demo7\AppModule.cs" />
+    <Compile Include="Demo7\CompoModule.cs" />
+    <Compile Include="Demo7\DesignBoardActions.cs" />
+    <Compile Include="Demo7\DesignBoardController.cs" />
+    <Compile Include="Demo7\DesignBoardModule.cs" />
+    <Compile Include="Demo7\DzBoxSerializer.cs" />
+    <Compile Include="Demo7\GraphicShapeElements.cs" />
+    <Compile Include="Demo7\MenuBoardModule.cs" />
     <Compile Include="HtmlHostCreatorHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -133,7 +143,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
+    <Folder Include="Demo6tmp\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
