@@ -37,7 +37,7 @@ namespace LayoutFarm.RenderBoxes
 
         public void AddChild(RenderElement re)
         {
-
+            
             re.internalLinkedNode = myElements.AddLast(re);
             RenderElement.SetParentLink(re, this.owner);
 
@@ -45,7 +45,7 @@ namespace LayoutFarm.RenderBoxes
         }
         public void RemoveChild(RenderElement re)
         {
-
+             
             myElements.Remove(re.internalLinkedNode);
             re.internalLinkedNode = null;
             var bounds = re.RectBounds;

@@ -280,6 +280,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public void AddChild(UIElement ui)
         {
+            
             if (this.uiList == null)
             {
                 this.uiList = new UICollection(this);

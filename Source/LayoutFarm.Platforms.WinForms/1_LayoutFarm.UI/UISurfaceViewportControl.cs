@@ -147,7 +147,7 @@ namespace LayoutFarm.UI
                 {
                     this.rootgfx.TopWindowRenderBox.AddChild(vi);
                 }
-                //this.rootgfx.TopWindowRenderBox.AddChild(vi);
+                 
             }
             else
             {

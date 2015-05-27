@@ -175,18 +175,7 @@ namespace LayoutFarm
 
             return null;
         }
-        public override void FindUnderlyingSibling(ref Rectangle rect, RenderElementFoundDelegate renderElementFoundDel)
-        {
-            //TODO: FindOverlapedChildElementAtArea ...
-            var found = this.MyParentLink.FindOverlapedChildElementAtPoint(this, rect.Location);
-            if (found != null)
-            {
-                if (renderElementFoundDel(found))
-                {
-                    return;
-                }
-            }
-        }
+         
         public override Size InnerContentSize
         {
             get
