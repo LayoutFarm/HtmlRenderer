@@ -249,26 +249,7 @@ namespace LayoutFarm.InternalUI
         public object Tag { get; set; }
         //----------------------------------- 
          
-
-        public void FindDragOverElements(List<UIElement> uilist)
-        {
-            var renderE = this.CurrentPrimaryRenderElement;
-            var hitArea = new Rectangle(this.Left, this.Top, this.Width, this.Height);
-
-            renderE.FindUnderlyingSibling(
-                ref hitArea,
-                found =>
-                {
-                    //stop
-                    var owner = found.GetController() as UIElement;
-                    if (owner != null)
-                    {
-                        uilist.Add(owner);
-                        return true;
-                    }
-                    return false;
-                });
-        }
+         
         //---------------------------------------------------
         void IBoxElement.ChangeElementSize(int w, int h)
         {

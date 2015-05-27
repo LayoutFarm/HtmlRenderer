@@ -733,16 +733,14 @@ namespace LayoutFarm.Text
                                 {
                                     int nextCharWidth = internalTextLayerController.GetNextCharacterWidth();
                                     if (nextCharWidth > 0)
-                                    {
-
+                                    { 
                                         break;
                                     }
                                 }
                             }
                         }
                         else
-                        {
-
+                        {    
                             if (internalTextLayerController.IsOnEndOfLine)
                             {
                                 internalTextLayerController.CharIndex++;
