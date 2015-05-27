@@ -132,7 +132,7 @@ namespace LayoutFarm.DzBoardSample
 
     class DesignBoardModule : CompoModule
     {
-        
+
         UISelectionBox selectionBox;
         bool selectionBoxIsShown;
         RootGraphic rootgfx;
@@ -151,7 +151,7 @@ namespace LayoutFarm.DzBoardSample
         {
             this.dzCommandHistory = new DzCommandCollection(this);
             this.EnableUndoHistoryRecording = true;
-            
+
         }
         public bool EnableUndoHistoryRecording { get; set; }
         protected override void OnStartModule()
@@ -227,7 +227,9 @@ namespace LayoutFarm.DzBoardSample
             var imgBox = new LayoutFarm.CustomWidgets.ImageBox(imgBinder.Image.Width, imgBinder.Image.Height);
             imgBox.ImageBinder = imgBinder;
             box1.AddChild(imgBox);
+            imgBox.SetLocation(10, 10);
             box1.TargetBox = imgBox;
+            box1.SetSize(imgBinder.ImageWidth + 20, imgBinder.ImageHeight + 20);
 
             SetupActiveBoxProperties(box1);
             viewport.AddContent(box1);
@@ -244,7 +246,7 @@ namespace LayoutFarm.DzBoardSample
             viewport.AddContent(box1);
             userBoxes.Add(box1);
         }
-  
+
         static UIElement CloneTextBox(DesignBox dzBox)
         {
             UIHolderBox holderBox = dzBox as UIHolderBox;
