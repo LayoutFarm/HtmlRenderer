@@ -156,11 +156,7 @@ namespace LayoutFarm
         {
             return null;
         }
-
-        public virtual void FindUnderlyingSibling(ref Rectangle rect, RenderElementFoundDelegate renderElementFoundDel)
-        {
-            //do nothing
-        }
+ 
         public virtual void ChildrenHitTestCore(HitChain hitChain)
         {
 

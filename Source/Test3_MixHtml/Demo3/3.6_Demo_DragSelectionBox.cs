@@ -14,21 +14,30 @@ namespace LayoutFarm
     class Demo_DragSelectionBox : DemoBase
     {
 
+        enum ControllerBoxMode
+        {
+            SingleBox,
+            MultipleBoxes,//eg ctrl + mousedown
+        }
+
         UISelectionBox selectionBox;
         bool selectionBoxIsShown;
         RootGraphic rootgfx;
-        List<LayoutFarm.CustomWidgets.EaseBox> userBoxes = new List<CustomWidgets.EaseBox>();
         Queue<UIControllerBox> userControllerPool = new Queue<UIControllerBox>();
         List<UIControllerBox> workingControllerBoxes = new List<UIControllerBox>();
+        ControllerBoxMode controllerBoxMode;
+        UIControllerBox singleControllerBox;
 
         SampleViewport viewport;
+        LayoutFarm.CustomWidgets.SimpleBox bgbox;
+
         protected override void OnStartDemo(SampleViewport viewport)
         {
             this.viewport = viewport;
             this.rootgfx = viewport.ViewportControl.RootGfx;
             //--------------------------------
 
-            var bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
+            bgbox = new LayoutFarm.CustomWidgets.SimpleBox(800, 600);
             bgbox.BackColor = Color.White;
             bgbox.SetLocation(0, 0);
             SetupBackgroundProperties(bgbox);
@@ -39,24 +48,21 @@ namespace LayoutFarm
             box1.BackColor = Color.Red;
             box1.SetLocation(10, 10);
             SetupActiveBoxProperties(box1);
-            viewport.AddContent(box1);
+            bgbox.AddChild(box1);
 
-            userBoxes.Add(box1);
 
             var box2 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
+            box2.BackColor = Color.Yellow;
             box2.SetLocation(50, 50);
             SetupActiveBoxProperties(box2);
-            viewport.AddContent(box2);
-            userBoxes.Add(box2);
+            bgbox.AddChild(box2);
+
 
             var box3 = new LayoutFarm.CustomWidgets.SimpleBox(60, 60);
+            box3.BackColor = Color.OrangeRed;
             box3.SetLocation(200, 80);
             SetupActiveBoxProperties(box3);
-            viewport.AddContent(box3);
-            userBoxes.Add(box3);
-
-
-            //--------------------------------
+            bgbox.AddChild(box3);
 
             selectionBox = new UISelectionBox(1, 1);
             selectionBox.Visible = false;
@@ -98,6 +104,9 @@ namespace LayoutFarm
         void ReleaseUserControllerBox(UIControllerBox userControllerBox)
         {
             workingControllerBoxes.Remove(userControllerBox);
+            userControllerBox.Visible = false;
+            userControllerBox.TargetBox = null;
+            userControllerBox.RemoveSelf();
             this.userControllerPool.Enqueue(userControllerBox);
         }
         void RemoveAllUserControllerBoxes()
@@ -130,15 +139,12 @@ namespace LayoutFarm
                 //move to mouse position 
                 if (!selectionBoxIsShown)
                 {
-
-
                     selectionBox.SetLocation(e.X, e.Y);
                     selectionBox.Visible = true;
                     selectionBoxIsShown = true;
                 }
                 else
                 {
-
 
                     int x = e.CapturedMouseX;
                     int y = e.CapturedMouseY;
@@ -178,17 +184,24 @@ namespace LayoutFarm
         void FindSelectedUserBoxes()
         {
             //find users box in selected area
-            int j = this.userBoxes.Count;
+
+
+
+            int j = this.bgbox.ChildCount;
 
             var primSelectionBox = selectionBox.GetPrimaryRenderElement(rootgfx);
             var primGlobalPoint = primSelectionBox.GetGlobalLocation();
             var selectedRectArea = new Rectangle(primGlobalPoint, primSelectionBox.Size);
 
-            List<CustomWidgets.EaseBox> selectedList = new List<CustomWidgets.EaseBox>();
+            List<UIBox> selectedList = new List<UIBox>();
             for (int i = 0; i < j; ++i)
             {
-                var box = userBoxes[i];
-                var primElement = userBoxes[i].GetPrimaryRenderElement(rootgfx);
+                var box = bgbox.GetChild(i) as UIBox;
+                if (box == null)
+                {
+                    continue;
+                }
+                var primElement = box.GetPrimaryRenderElement(rootgfx);
                 if (!primElement.Visible)
                 {
                     continue;
@@ -199,12 +212,15 @@ namespace LayoutFarm
                 if (selectedRectArea.Contains(userElementArea))
                 {
                     //selected= true;
-                    selectedList.Add(userBoxes[i]);
+                    selectedList.Add(box);
                     //------
                     //create user controller box for the selected box 
                     UIControllerBox userControllerBox = GetFreeUserControllerBox();
+
                     userControllerBox.TargetBox = box;
-                    userControllerBox.SetLocation(box.Left - 5, box.Top - 5);
+                    var globalTargetPos = box.GetGlobalLocation();
+
+                    userControllerBox.SetLocation(globalTargetPos.X - 5, globalTargetPos.Y - 5);
                     userControllerBox.SetSize(box.Width + 10, box.Height + 10);
                     userControllerBox.Visible = true;
                     viewport.AddContent(userControllerBox);
@@ -219,12 +235,29 @@ namespace LayoutFarm
                 box.BackColor = KnownColors.FromKnownColor(KnownColor.DeepSkyBlue);
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
 
-
+                UIControllerBox userControllerBox = null;
+                if (this.controllerBoxMode == ControllerBoxMode.MultipleBoxes)
+                {
+                    //multiple box
+                    userControllerBox = GetFreeUserControllerBox();
+                }
+                else
+                {
+                    //single box
+                    if (singleControllerBox != null)
+                    {
+                        ReleaseUserControllerBox(singleControllerBox);
+                    } 
+                    //get new one
+                    userControllerBox = singleControllerBox = GetFreeUserControllerBox(); 
+                }
                 //request user controller for this box
-                UIControllerBox userControllerBox = GetFreeUserControllerBox();
                 userControllerBox.TargetBox = box;
                 viewport.AddContent(userControllerBox);
-                userControllerBox.SetLocation(box.Left - 5, box.Top - 5);
+                //location relative to global position of target box
+                var globalTargetPos = box.GetGlobalLocation();
+
+                userControllerBox.SetLocation(globalTargetPos.X - 5, globalTargetPos.Y - 5);
                 userControllerBox.SetSize(box.Width + 10, box.Height + 10);
                 userControllerBox.Visible = true;
 
@@ -243,7 +276,49 @@ namespace LayoutFarm
             };
             box.DragOver += (s, e) =>
             {
-                box.BackColor = Color.Green;
+                switch (e.UserMsgFlags)
+                {
+                    case 1:
+                        {   //sample only
+                            box.BackColor = Color.Green;
+                        } break;
+                    case 2:
+                        {
+                            //sample only
+                            //leaving
+                            box.BackColor = Color.Blue;
+                        } break;
+                    case 3:
+                        {
+                            //drop
+                            var sender = e.Sender as UIControllerBox;
+                            var droppingBox = sender.TargetBox as UIBox;
+                            if (droppingBox != null)
+                            {
+                                //move from original 
+                                var parentBox = droppingBox.ParentUI as LayoutFarm.CustomWidgets.SimpleBox;
+                                if (parentBox != null)
+                                {
+                                    var newParentGlobalLoca = box.GetGlobalLocation();
+                                    var droppingGlobalLoca = droppingBox.GetGlobalLocation();
+
+                                    parentBox.RemoveChild(droppingBox);
+                                    box.AddChild(droppingBox);
+
+                                    //TODO: review here , 
+                                    //set location relative to other element
+                                    droppingBox.SetLocation(
+                                        droppingGlobalLoca.X - newParentGlobalLoca.X,
+                                        droppingGlobalLoca.Y - newParentGlobalLoca.Y);
+                                }
+                                else
+                                {
+
+                                }
+
+                            }
+                        } break;
+                }
             };
 
         }
@@ -265,6 +340,7 @@ namespace LayoutFarm
                 if (selectionBoxIsShown)
                 {
 
+                    Point sel_globalLocation = selectionBox.GetGlobalLocation();
 
                     int x = e.CapturedMouseX;
                     int y = e.CapturedMouseY;
@@ -306,17 +382,68 @@ namespace LayoutFarm
             int nearestX = (int)((newX + halfGrid) / gridSize) * gridSize;
             int nearestY = (int)((newY + halfGrid) / gridSize) * gridSize;
 
+
             controllerBox.SetLocation(nearestX, nearestY);
-            var targetBox = controllerBox.TargetBox;
+            UIBox targetBox = controllerBox.TargetBox;
             if (targetBox != null)
             {
-                //move target box too
-                targetBox.SetLocation(nearestX + gridSize, nearestY + gridSize);
+                int xdiff = nearestX - pos.X;
+                int ydiff = nearestY - pos.Y;
+                targetBox.SetLocation(targetBox.Left + xdiff, targetBox.Top + ydiff);
             }
+
+
         }
-        static void SetupControllerBoxProperties(UIControllerBox controllerBox)
+        List<LayoutFarm.UI.UIBox> FindUnderlyingElements(UIControllerBox controllerBox)
+        {
+            var dragOverElements = new List<LayoutFarm.UI.UIBox>();
+            Rectangle controllerBoxArea = controllerBox.Bounds;
+            int j = bgbox.ChildCount;
+            for (int i = 0; i < j; ++i)
+            {
+                var box = bgbox.GetChild(i) as LayoutFarm.UI.UIBox;
+                if (box == null || controllerBox.TargetBox == box)
+                {
+                    continue;
+                }
+
+                //------------- 
+                if (controllerBoxArea.IntersectsWith(box.Bounds))
+                {
+                    dragOverElements.Add(box);
+                }
+            }
+            return dragOverElements;
+        }
+        void SetupControllerBoxProperties(UIControllerBox controllerBox)
         {
             //for controller box
+            controllerBox.MouseUp += (s, e) =>
+            {
+                if (e.IsDragging)
+                {
+                    //this is dropping 
+                    //find underlying element to drop into  
+
+                    var dragOverElements = FindUnderlyingElements(controllerBox);
+                    if (dragOverElements.Count > 0)
+                    {
+                        //TODO: review here
+                        //this version we select the first one
+
+                        var listener = dragOverElements[0] as IEventListener;
+                        if (listener != null)
+                        {
+                            var talkMsg = new UIGuestTalkEventArgs();
+                            talkMsg.Sender = controllerBox;
+                            talkMsg.UserMsgFlags = 3;//send drop notify                             
+                            listener.ListenGuestTalk(talkMsg);
+                        }
+
+                    }
+
+                }
+            };
             controllerBox.MouseDrag += (s, e) =>
             {
 
@@ -324,26 +451,91 @@ namespace LayoutFarm
                 e.MouseCursorStyle = MouseCursorStyle.Pointer;
                 e.CancelBubbling = true;
                 //test here -----------------------------------------------------
-                //find dragover element 
-                var dragOverElements = new List<UIElement>();
-                controllerBox.FindDragOverElements(dragOverElements);
-                if (dragOverElements.Count > 0)
+                //find dragover element ***
+
+                var dragOverElements = FindUnderlyingElements(controllerBox);
+                if (dragOverElements.Count == 0)
                 {
-                    //send notification to another box 
-                    //use guest talk msg
-                    var easeBox = dragOverElements[0] as IEventListener;
-                    if (easeBox != null)
+                    Dictionary<UIElement, int> prevDragOverElements = controllerBox.LastestDragOverElements;
+                    if (prevDragOverElements != null)
                     {
-                        var talkMsg = new UIGuestTalkEventArgs();
-                        talkMsg.Sender = controllerBox;
-                        easeBox.ListenGuestTalk(talkMsg);
+                        foreach (var leavingElement in prevDragOverElements.Keys)
+                        {
+                            var listener = leavingElement as IEventListener;
+                            if (listener != null)
+                            {
+                                var talkMsg = new UIGuestTalkEventArgs();
+                                talkMsg.Sender = controllerBox;
+                                talkMsg.UserMsgFlags = 2;//leaving //sample only
+                                listener.ListenGuestTalk(talkMsg);
+                            }
+                        }
+                    }
+
+                    controllerBox.LastestDragOverElements = null;
+                }
+                else
+                {
+
+                    //send notification to another box 
+                    //use guest talk msg*** 
+                    //check state of guest 
+                    Dictionary<UIElement, int> prevDragOverElements = controllerBox.LastestDragOverElements;
+                    Dictionary<UIElement, int> latestDragOverElements = new Dictionary<UIElement, int>();
+                    if (prevDragOverElements != null)
+                    {
+
+                        int j = dragOverElements.Count;
+                        for (int i = 0; i < j; ++i)
+                        {
+                            var dragOverE = dragOverElements[i];
+
+                            int state;
+                            if (prevDragOverElements.TryGetValue(dragOverE, out state))
+                            {
+                                //found in latest drag overelement 
+                                //remove 
+                                prevDragOverElements.Remove(dragOverE);
+                            }
+
+                            latestDragOverElements.Add(dragOverE, ++state);
+                        }
+                        //remaining elements
+                        foreach (var leavingElement in prevDragOverElements.Keys)
+                        {
+                            var listener = leavingElement as IEventListener;
+                            if (listener != null)
+                            {
+                                var talkMsg = new UIGuestTalkEventArgs();
+                                talkMsg.Sender = controllerBox;
+                                talkMsg.UserMsgFlags = 2;//leaving //sample only
+                                listener.ListenGuestTalk(talkMsg);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var drgElement in dragOverElements)
+                        {
+                            latestDragOverElements.Add(drgElement, 0);
+                        }
+                    }
+
+                    controllerBox.LastestDragOverElements = latestDragOverElements;
+                    foreach (var drgElement in latestDragOverElements.Keys)
+                    {
+                        var listener = drgElement as IEventListener;
+                        if (listener != null)
+                        {
+                            var talkMsg = new UIGuestTalkEventArgs();
+                            talkMsg.Sender = controllerBox;
+                            talkMsg.UserMsgFlags = 1;//sample only
+                            listener.ListenGuestTalk(talkMsg);
+                        }
                     }
                 }
             };
-
-
         }
-
 
         //-----------------------------------------------------------------
         class UIControllerBox : LayoutFarm.CustomWidgets.EaseBox
@@ -357,9 +549,12 @@ namespace LayoutFarm
 
             LayoutFarm.CustomWidgets.EaseBox boxLeftBottom;
             LayoutFarm.CustomWidgets.EaseBox boxRightBottom;
-
-
             DockSpacesController dockspaceController;
+            Dictionary<UIElement, int> latestDragOverElements;
+            LayoutFarm.UI.UIBox targetBox;
+
+
+
             public UIControllerBox(int w, int h)
                 : base(w, h)
             {
@@ -367,8 +562,18 @@ namespace LayoutFarm
             }
             public LayoutFarm.UI.UIBox TargetBox
             {
-                get;
-                set;
+                get { return this.targetBox; }
+                set
+                {
+                    this.targetBox = value;
+                    //clear latest drag over elements too                    
+                    this.latestDragOverElements = null;
+                }
+            }
+            public Dictionary<UIElement, int> LastestDragOverElements
+            {
+                get { return this.latestDragOverElements; }
+                set { this.latestDragOverElements = value; }
             }
             public override void Walk(UIVisitor visitor)
             {

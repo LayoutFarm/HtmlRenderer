@@ -7,7 +7,7 @@ namespace LayoutFarm.Text
 
         public VisualSelectionRangeSnapShot DoDelete()
         {
-
+            //recursive
 #if DEBUG
             if (dbugEnableTextManRecorder)
             {
@@ -21,7 +21,11 @@ namespace LayoutFarm.Text
             if (removedRange.IsEmpty())
             {
                 updateJustCurrentLine = true;
+
                 char deletedChar = textLineWriter.DoDelete();
+                
+                //some language
+
                 if (deletedChar == '\0')
                 {
                     commandHistory.AddDocAction(
@@ -35,12 +39,11 @@ namespace LayoutFarm.Text
                 {
                     commandHistory.AddDocAction(
                         new DocActionDeleteChar(
-                            deletedChar, textLineWriter.LineNumber, textLineWriter.CharIndex));
-
-                    char nextChar = textLineWriter.NextChar;
-
+                            deletedChar, textLineWriter.LineNumber, textLineWriter.CharIndex)); 
+                    char nextChar = textLineWriter.NextChar; 
                     if (nextChar != '\0' && textLineWriter.NextCharWidth < 1)
                     {
+                        //recursive
                         DoDelete();
                     }
                 }

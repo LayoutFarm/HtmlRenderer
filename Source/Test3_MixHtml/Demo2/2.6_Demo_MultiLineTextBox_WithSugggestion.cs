@@ -54,7 +54,7 @@ namespace LayoutFarm
                         if (sgBox.Visible && sgBox.SelectedIndex < sgBox.ItemCount - 1)
                         {
                             sgBox.SelectedIndex++;
-                            e.Canceled = true;
+                            e.PreventDefault = true;
                         }
                     } break;
                 case UIKeys.Up:
@@ -62,7 +62,7 @@ namespace LayoutFarm
                         if (sgBox.Visible && sgBox.SelectedIndex > 0)
                         {
                             sgBox.SelectedIndex--;
-                            e.Canceled = true;
+                            e.PreventDefault = true;
                         }
                     } break;
             }
@@ -84,7 +84,7 @@ namespace LayoutFarm
                 sgBox.Hide();
                 //-------------------------------------- 
             }
-            e.Canceled = true;
+            e.PreventDefault = true;
         }
         string GetString(char[] buffer, LayoutFarm.Composers.TextSplitBound bound)
         {
@@ -144,6 +144,9 @@ namespace LayoutFarm
             if (sgBox.ItemCount > 0)
             {
                 sgBox.Show();
+                //TODO: implement selectedIndex suggestion hint here
+                sgBox.SelectedIndex = 0;
+
                 //move listview under caret position 
                 var caretPos = textbox.CaretPosition;
                 //temp fixed
@@ -407,7 +410,7 @@ Zimbabwe");
         void AddKeywordList(string keywordString)
         {
 
-            string[] seplist = keywordString.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] seplist = keywordString.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
             int j = seplist.Length;
             for (int i = 0; i < j; ++i)
             {

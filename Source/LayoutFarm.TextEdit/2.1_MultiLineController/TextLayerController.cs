@@ -136,7 +136,7 @@ namespace LayoutFarm.Text
                     dbugTextManRecorder.WriteInfo(SelectionRange);
                 }
 #endif
-                RemoveSelectedText(); 
+                RemoveSelectedText();
                 passRemoveSelectedText = true;
             }
             if (passRemoveSelectedText && c == ' ')
@@ -508,8 +508,8 @@ namespace LayoutFarm.Text
             }
             set
             {
-                int j = textLineWriter.LineCount;
-                if (j > 0)
+
+                if (textLineWriter.LineCount > 0)
                 {
                     EditableTextLine line = textLineWriter.GetTextLineAtPos(value.Y);
                     int calculatedLineId = 0;
@@ -522,6 +522,10 @@ namespace LayoutFarm.Text
                     this.textLineWriter.CaretXPos = value.X;
                 }
             }
+        }
+        public int GetNextCharacterWidth()
+        {
+            return textLineWriter.NextCharWidth;
         }
         public void SetCaretPos(int x, int y)
         {
