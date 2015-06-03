@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3A69B42C-907B-4361-840F-92554F9C586E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HtmlParser2</RootNamespace>
+    <AssemblyName>HtmlParser2</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Common\Attributes.cs" />
+    <Compile Include="Common\DoctypeExpectation.cs" />
+    <Compile Include="Common\DocumentMode.cs" />
+    <Compile Include="Common\DocumentModeEventArgs.cs" />
+    <Compile Include="Common\EncodingDetectedEventArgs.cs" />
+    <Compile Include="Common\ITokenHandler.cs" />
+    <Compile Include="Common\ParserErrorEventArgs.cs" />
+    <Compile Include="Common\XmlViolationPolicy.cs" />
+    <Compile Include="Core\AttributeName.cs" />
+    <Compile Include="Core\CharsetState.cs" />
+    <Compile Include="Core\CoalescingTreeBuilder.cs" />
+    <Compile Include="Core\DispatchGroup.cs" />
+    <Compile Include="Core\ElementName.cs" />
+    <Compile Include="Core\HtmlAttributes.cs" />
+    <Compile Include="Core\ILocator.cs" />
+    <Compile Include="Core\InsertionMode.cs" />
+    <Compile Include="Core\ITreeBuilderState.cs" />
+    <Compile Include="Core\Locator.cs" />
+    <Compile Include="Core\NamedCharacterAccel.cs" />
+    <Compile Include="Core\NamedCharacters.cs" />
+    <Compile Include="Core\NCName.cs" />
+    <Compile Include="Core\Portability.cs" />
+    <Compile Include="Core\StackNode.cs" />
+    <Compile Include="Core\StateSnapshot.cs" />
+    <Compile Include="Core\TaintableLocator.cs" />
+    <Compile Include="Core\Tokenizer.cs" />
+    <Compile Include="Core\TreeBuilder.cs" />
+    <Compile Include="Core\TreeBuilderConstants.cs" />
+    <Compile Include="Core\UTF16Buffer.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SampleData\test.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

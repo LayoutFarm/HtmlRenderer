@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2ED75FFA-1097-4894-92B6-A096187A6256}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DomBuilder</RootNamespace>
+    <AssemblyName>DomBuilder</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Config\Config.cs" />
+    <Compile Include="Config\CsQueryConfig.cs" />
+    <Compile Include="Engine\DomIndexNone.cs" />
+    <Compile Include="Engine\DomIndexProviders.cs" />
+    <Compile Include="Engine\DomIndexRanged.cs" />
+    <Compile Include="Engine\DomIndexSimple.cs" />
+    <Compile Include="Engine\enumDomIndexFeatures.cs" />
+    <Compile Include="Helper\DomDocHelper.cs" />
+    <Compile Include="HtmlParser\BOMReader.cs" />
+    <Compile Include="HtmlParser\CsQueryTreeBuilder.cs" />
+    <Compile Include="HtmlParser\ElementFactory.cs" />
+    <Compile Include="HtmlParser\HtmlEncoding.cs" />
+    <Compile Include="Implementation\CombinedStream.cs" />
+    <Compile Include="Implementation\CombinedTextReader.cs" />
+    <Compile Include="Implementation\IRangeSortedDictionary.cs" />
+    <Compile Include="Implementation\MonoSortedSet.cs" />
+    <Compile Include="Implementation\PathKeyComparer.cs" />
+    <Compile Include="Implementation\RangeSortedDictionary.cs" />
+    <Compile Include="Implementation\RBTree.cs" />
+    <Compile Include="Output\HtmlEncoderBase.cs" />
+    <Compile Include="Output\HtmlEncoderBasic.cs" />
+    <Compile Include="Output\HtmlEncoderFull.cs" />
+    <Compile Include="Output\HtmlEncoderMinimum.cs" />
+    <Compile Include="Output\HtmlEncoderMinimumNbsp.cs" />
+    <Compile Include="Output\HtmlEncoderNone.cs" />
+    <Compile Include="Output\IHtmlEncoder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dom\Dom.csproj">
+      <Project>{D24E121E-01EF-429F-8CF8-607931FA2E81}</Project>
+      <Name>Dom</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HtmlParserSharp2\HtmlParserSharp2.csproj">
+      <Project>{3A69B42C-907B-4361-840F-92554F9C586E}</Project>
+      <Name>HtmlParserSharp2</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

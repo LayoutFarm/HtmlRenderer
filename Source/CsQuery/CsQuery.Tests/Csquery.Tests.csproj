@@ -1,0 +1,369 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F8920741-0BB4-4939-A774-0F9059B2B7F0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CsQuery.Tests</RootNamespace>
+    <AssemblyName>CsQuery.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;xSLOW_TESTS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;xSLOW_TESTS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\..\..\projects\NUnit-2.5.10.11092\bin\Debug\framework\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Arrays.cs" />
+    <Compile Include="AssertEx.cs" />
+    <Compile Include="Core\Documents\MultipleDocs.cs" />
+    <Compile Include="Core\Dom\DomContainer.cs" />
+    <Compile Include="Core\Dom\DomObject.cs" />
+    <Compile Include="Core\Dom\FormSubmittableElement.cs" />
+    <Compile Include="Core\Dom\HTMLOptionElement.cs" />
+    <Compile Include="Core\Dom\InnerText.cs" />
+    <Compile Include="Core\Dom\DomText.cs" />
+    <Compile Include="Core\Dom\HTMLSelectElement.cs" />
+    <Compile Include="Core\Dom\DomSelectElement.cs" />
+    <Compile Include="Core\Dom\DomDocument.cs" />
+    <Compile Include="Core\Dom\DomFragment.cs" />
+    <Compile Include="Core\Dom\DomElement.cs" />
+    <Compile Include="Core\Dom\OuterHtml.cs" />
+    <Compile Include="Core\Dom\SpecialElements.cs" />
+    <Compile Include="Core\Index\IndexTests.cs" />
+    <Compile Include="Core\Index\SharedIndexTests.cs" />
+    <Compile Include="Core\Methods\Parents.cs" />
+    <Compile Include="Core\Methods\Data.cs" />
+    <Compile Include="Core\Selectors\ContentIsNotNumeric.cs" />
+    <Compile Include="Core\WebIO\BasicWeb.cs" />
+    <Compile Include="ExtensionMethods\Xml.cs" />
+    <Compile Include="HtmlParser\Button.cs" />
+    <Compile Include="HtmlParser\CharacterSetEncoding.cs" />
+    <Compile Include="HtmlParser\FormAssociatedElement.cs" />
+    <Compile Include="HtmlParser\HtmlEncoding.cs" />
+    <Compile Include="HtmlParser\PreProcessing.cs" />
+    <Compile Include="HtmlParser\FragmentContext.cs" />
+    <Compile Include="HtmlParser\EdgeCases.cs" />
+    <Compile Include="HtmlParser\TextHandling.cs" />
+    <Compile Include="Core\Methods\Create.cs" />
+    <Compile Include="Core\Methods\HasAttr.cs" />
+    <Compile Include="Core\Methods\Before.cs" />
+    <Compile Include="Core\Methods\Append.cs" />
+    <Compile Include="Core\Methods\Prepend.cs" />
+    <Compile Include="Core\Methods\Render.cs" />
+    <Compile Include="Core\Methods\ReplaceWith.cs" />
+    <Compile Include="Core\Documents\Last.cs" />
+    <Compile Include="Core\Methods\First.cs" />
+    <Compile Include="Core\Methods\ParentsUntil.cs" />
+    <Compile Include="Core\Methods\Width.cs" />
+    <Compile Include="Core\Methods\Each.cs" />
+    <Compile Include="Core\Methods\Text.cs" />
+    <Compile Include="Core\Methods\Slice.cs" />
+    <Content Include="Resources\ABS - Auto Brake Service.htm" />
+    <Content Include="Resources\arabic.htm" />
+    <Content Include="Resources\jquery-unit-index.textContents.txt" />
+    <Content Include="Resources\jsdom\Level2\anchor.html" />
+    <Content Include="Resources\jsdom\Level2\anchor2.html" />
+    <Content Include="Resources\jsdom\Level2\anchor3.html" />
+    <Content Include="Resources\jsdom\Level2\applet.html" />
+    <Content Include="Resources\jsdom\Level2\applet2.html" />
+    <Content Include="Resources\jsdom\Level2\area.html" />
+    <Content Include="Resources\jsdom\Level2\area2.html" />
+    <Content Include="Resources\jsdom\Level2\base.html" />
+    <Content Include="Resources\jsdom\Level2\base2.html" />
+    <Content Include="Resources\jsdom\Level2\basefont.html" />
+    <Content Include="Resources\jsdom\Level2\body.html" />
+    <Content Include="Resources\jsdom\Level2\br.html" />
+    <Content Include="Resources\jsdom\Level2\button.html" />
+    <Content Include="Resources\jsdom\Level2\collection.html" />
+    <Content Include="Resources\jsdom\Level2\directory.html" />
+    <Content Include="Resources\jsdom\Level2\div.html" />
+    <Content Include="Resources\jsdom\Level2\dl.html" />
+    <Content Include="Resources\jsdom\Level2\document.html" />
+    <Content Include="Resources\jsdom\Level2\element.html" />
+    <Content Include="Resources\jsdom\Level2\fieldset.html" />
+    <Content Include="Resources\jsdom\Level2\font.html" />
+    <Content Include="Resources\jsdom\Level2\form.html" />
+    <Content Include="Resources\jsdom\Level2\form2.html" />
+    <Content Include="Resources\jsdom\Level2\form3.html" />
+    <Content Include="Resources\jsdom\Level2\frame.html" />
+    <Content Include="Resources\jsdom\Level2\frame2.html" />
+    <Content Include="Resources\jsdom\Level2\frameset.html" />
+    <Content Include="Resources\jsdom\Level2\head.html" />
+    <Content Include="Resources\jsdom\Level2\heading.html" />
+    <Content Include="Resources\jsdom\Level2\hr.html" />
+    <Content Include="Resources\jsdom\Level2\html.html" />
+    <Content Include="Resources\jsdom\Level2\iframe.html" />
+    <Content Include="Resources\jsdom\Level2\iframe2.html" />
+    <Content Include="Resources\jsdom\Level2\img.html" />
+    <Content Include="Resources\jsdom\Level2\img\right.png" />
+    <Content Include="Resources\jsdom\Level2\img\w3c_main.png" />
+    <Content Include="Resources\jsdom\Level2\input.html" />
+    <Content Include="Resources\jsdom\Level2\isindex.html" />
+    <Content Include="Resources\jsdom\Level2\js\script1.js" />
+    <Content Include="Resources\jsdom\Level2\label.html" />
+    <Content Include="Resources\jsdom\Level2\legend.html" />
+    <Content Include="Resources\jsdom\Level2\li.html" />
+    <Content Include="Resources\jsdom\Level2\link.html" />
+    <Content Include="Resources\jsdom\Level2\link2.html" />
+    <Content Include="Resources\jsdom\Level2\map.html" />
+    <Content Include="Resources\jsdom\Level2\menu.html" />
+    <Content Include="Resources\jsdom\Level2\meta.html" />
+    <Content Include="Resources\jsdom\Level2\mod.html" />
+    <Content Include="Resources\jsdom\Level2\object.html" />
+    <Content Include="Resources\jsdom\Level2\object2.html" />
+    <Content Include="Resources\jsdom\Level2\olist.html" />
+    <Content Include="Resources\jsdom\Level2\optgroup.html" />
+    <Content Include="Resources\jsdom\Level2\option.html" />
+    <Content Include="Resources\jsdom\Level2\optionscollection.html" />
+    <Content Include="Resources\jsdom\Level2\paragraph.html" />
+    <Content Include="Resources\jsdom\Level2\param.html" />
+    <Content Include="Resources\jsdom\Level2\pre.html" />
+    <Content Include="Resources\jsdom\Level2\quote.html" />
+    <Content Include="Resources\jsdom\Level2\right.png" />
+    <Content Include="Resources\jsdom\Level2\script.html" />
+    <Content Include="Resources\jsdom\Level2\select.html" />
+    <Content Include="Resources\jsdom\Level2\style.html" />
+    <Content Include="Resources\jsdom\Level2\table.html" />
+    <Content Include="Resources\jsdom\Level2\table1.html" />
+    <Content Include="Resources\jsdom\Level2\tablecaption.html" />
+    <Content Include="Resources\jsdom\Level2\tablecell.html" />
+    <Content Include="Resources\jsdom\Level2\tablecol.html" />
+    <Content Include="Resources\jsdom\Level2\tablerow.html" />
+    <Content Include="Resources\jsdom\Level2\tablesection.html" />
+    <Content Include="Resources\jsdom\Level2\textarea.html" />
+    <Content Include="Resources\jsdom\Level2\title.html" />
+    <Content Include="Resources\jsdom\Level2\ulist.html" />
+    <Content Include="Resources\jsdom\Level2\w3c_main.png" />
+    <Content Include="Resources\PupilLogin.htm" />
+    <Content Include="Resources\samsung-ebay-2.htm" />
+    <Content Include="Resources\samsung-ebay.htm" />
+    <Content Include="Resources\TestHtml.textContent.txt" />
+    <Content Include="Resources\TextAreaTest.htm" />
+    <Compile Include="Core\OutputFormatters\FormatPlainText.cs" />
+    <Compile Include="Core\Selectors\CSS3\LastChild.cs" />
+    <Compile Include="Core\Selectors\CSS3\NthChild.cs" />
+    <Compile Include="Core\Selectors\CSS3\NthLastChild.cs" />
+    <Compile Include="Core\Selectors\CSS3\OnlyChild.cs" />
+    <Compile Include="Core\Selectors\CSS3\LastOfType.cs" />
+    <Compile Include="Core\Selectors\CSS3\OnlyOfType.cs" />
+    <Compile Include="Core\Selectors\CSS3\Empty.cs" />
+    <Compile Include="Core\Selectors\CSS3\FirstOfType.cs" />
+    <Compile Include="Core\Selectors\CSS3\NthChildOfType.cs" />
+    <Compile Include="Core\Selectors\CSS3\NthLastOfType.cs" />
+    <Compile Include="Core\Selectors\jQuery\Checkbox.cs" />
+    <Compile Include="Core\Selectors\jQuery\Eq.cs" />
+    <Compile Include="Core\Selectors\jQuery\Header.cs" />
+    <Compile Include="Core\Selectors\jQuery\Even.cs" />
+    <Compile Include="Core\Selectors\jQuery\Odd.cs" />
+    <Compile Include="Core\Selectors\jQuery\Hidden.cs" />
+    <Compile Include="Core\Selectors\jQuery\Visible.cs" />
+    <Compile Include="Core\Selectors\jQuery\Parent.cs" />
+    <Compile Include="Core\Selectors\PseudoSelectors.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\Selectors\Extensions.cs" />
+    <Compile Include="Implementation\ChildNodeList.cs" />
+    <Compile Include="Implementation\CssStyleDeclaration.cs" />
+    <Compile Include="Implementation\IndexQueue.cs" />
+    <Compile Include="Implementation\RangeSortedDictionary.cs" />
+    <Compile Include="Miscellaneous\Miscellaneous2.cs" />
+    <Compile Include="Mocks\MockAsyncResult.cs" />
+    <Compile Include="Utility\Extend.cs" />
+    <Compile Include="Utility\Support.cs" />
+    <Compile Include="Utility\FastActivator.cs" />
+    <Compile Include="Examples\Tables.cs" />
+    <Compile Include="Implementation\CombinedTextReader.cs" />
+    <Compile Include="jsdom\Attributes.cs" />
+    <Compile Include="jsdom\JsdomTest.cs" />
+    <Compile Include="jsdom\Level2\Level2.cs" />
+    <Compile Include="Examples\YahooParse.cs" />
+    <Compile Include="Mocks\MockHttpWebResponse.cs" />
+    <Compile Include="Mocks\MockHttpWebRequest.cs" />
+    <Compile Include="Mocks\MockWebRequestCreator.cs" />
+    <Compile Include="Core\WebIO\StressTests.cs" />
+    <Compile Include="TestTests.cs" />
+    <Compile Include="HtmlParser\Classes.cs" />
+    <Compile Include="HtmlParser\HtmlDomData.cs" />
+    <Compile Include="HtmlParser\HtmlBigDomTest.cs" />
+    <Compile Include="HtmlParser\Html5Compliance.cs" />
+    <Compile Include="HtmlParser\DocType.cs" />
+    <Compile Include="EquationParser\Functions.cs" />
+    <Compile Include="EquationParser\Utility.cs" />
+    <Compile Include="ExtensionMethods\Forms.cs" />
+    <Compile Include="Core\Manipulation\Clone.cs" />
+    <Compile Include="Core\Css\Css.cs" />
+    <Compile Include="HtmlParser\TextArea.cs" />
+    <Compile Include="Core\Methods\End.cs" />
+    <Compile Include="Promises\Promises.cs" />
+    <Compile Include="Core\Selectors\Combinators.cs" />
+    <Compile Include="Core\Selectors\AttributeSelectors.cs" />
+    <Compile Include="Miscellaneous\Miscellaneous.cs" />
+    <Compile Include="Utility\FromDictionary.cs" />
+    <Compile Include="EquationParser\Expressions.cs" />
+    <Compile Include="HtmlParser\Rendering.cs" />
+    <Compile Include="Utility\DictionaryObjects.cs" />
+    <Compile Include="HtmlParser\HtmlElementFactory.cs" />
+    <Compile Include="Utility\Objects.cs" />
+    <Compile Include="Core\Manipulation\MovingElements.cs" />
+    <Compile Include="EquationParser\Equations.cs" />
+    <Compile Include="Utility\StringScanner.cs" />
+    <Compile Include="Utility\ValueInfo.cs" />
+    <Compile Include="jQuery\Attribute.cs" />
+    <Compile Include="Core\Attributes\Attributes.cs" />
+    <Compile Include="Utility\JsObject.cs" />
+    <Compile Include="jQuery\Extra.cs" />
+    <Compile Include="jQuery\Core.cs" />
+    <Compile Include="CsQueryTest.cs" />
+    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="jQuery\Css.cs" />
+    <Compile Include="jQuery\Data.cs" />
+    <Compile Include="jQuery\Manipulation.cs" />
+    <Compile Include="jQuery\Sizzle\BrokenSelectors.cs" />
+    <Compile Include="jQuery\Sizzle\ClassSelectors.cs" />
+    <Compile Include="jQuery\Sizzle\ChildAndAdjacentSelectors.cs" />
+    <Compile Include="jQuery\Sizzle\AttributeSelectors.cs" />
+    <Compile Include="jQuery\Sizzle\PseudoChild.cs" />
+    <Compile Include="jQuery\Sizzle\IDSelectors.cs" />
+    <Compile Include="jQuery\Sizzle\Element.cs" />
+    <Compile Include="jQuery\Sizzle\SizzleTest.cs" />
+    <Compile Include="TestAssemblyConfig.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Support.cs" />
+    <Compile Include="Core\Selectors\MiscellaneousSelectors.cs" />
+    <Compile Include="Core\Manipulation\DomManipulation.cs" />
+    <Compile Include="ExtensionMethods\ExtensionMethodTests.cs" />
+    <Compile Include="Utility\JSON.cs" />
+    <Compile Include="jQuery\Traversing.cs" />
+    <Compile Include="Core\WebIO\QueryRemoteServer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\HTML Standard.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\jquery-unit-index.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\sizzle.htm" />
+    <Content Include="Resources\TestHtml.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\TestHtml2.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\wiki-cheese.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CsQuery2\CsQuery2.csproj">
+      <Project>{A8B854DC-944C-4104-901A-B6E50BCF577E}</Project>
+      <Name>CsQuery2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomBuilder\DomBuilder.csproj">
+      <Project>{2ED75FFA-1097-4894-92B6-A096187A6256}</Project>
+      <Name>DomBuilder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dom\Dom.csproj">
+      <Project>{D24E121E-01EF-429F-8CF8-607931FA2E81}</Project>
+      <Name>Dom</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HtmlParserSharp2\HtmlParserSharp2.csproj">
+      <Project>{3A69B42C-907B-4361-840F-92554F9C586E}</Project>
+      <Name>HtmlParserSharp2</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
