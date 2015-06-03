@@ -247,9 +247,9 @@ namespace LayoutFarm
                     if (singleControllerBox != null)
                     {
                         ReleaseUserControllerBox(singleControllerBox);
-                    } 
+                    }
                     //get new one
-                    userControllerBox = singleControllerBox = GetFreeUserControllerBox(); 
+                    userControllerBox = singleControllerBox = GetFreeUserControllerBox();
                 }
                 //request user controller for this box
                 userControllerBox.TargetBox = box;
@@ -686,17 +686,16 @@ namespace LayoutFarm
                         {
                             if (xdiff != 0 || ydiff != 0)
                             {
-                                controllerBox.SetLocation(controllerBox.Left + xdiff, controllerBox.Top + ydiff);
-                                controllerBox.SetSize(controllerBox.Width - xdiff, controllerBox.Height - ydiff);
+
+                                controllerBox.SetBounds(controllerBox.Left + xdiff, controllerBox.Top + ydiff,
+                                    controllerBox.Width - xdiff, controllerBox.Height - ydiff);
 
                                 var targetBox = controllerBox.TargetBox;
                                 if (targetBox != null)
                                 {
-                                    //move target box too 
-                                    targetBox.SetBounds(controllerBox.Left + 5,
-                                        controllerBox.Top + 5,
-                                        controllerBox.Width - 10,
-                                        controllerBox.Height - 10);
+                                    //move target box too                                     
+                                    targetBox.SetBounds(targetBox.Left + xdiff, targetBox.Top + ydiff,
+                                        targetBox.Width - xdiff, targetBox.Height - ydiff);
                                 }
                             }
 
@@ -705,17 +704,15 @@ namespace LayoutFarm
                         {
                             if (xdiff != 0 || ydiff != 0)
                             {
-                                controllerBox.SetLocation(controllerBox.Left, controllerBox.Top + ydiff);
-                                controllerBox.SetSize(controllerBox.Width + xdiff, controllerBox.Height - ydiff);
+
+                                controllerBox.SetBounds(controllerBox.Left, controllerBox.Top + ydiff,
+                                    controllerBox.Width + xdiff, controllerBox.Height - ydiff);
 
                                 var targetBox = controllerBox.TargetBox;
                                 if (targetBox != null)
                                 {
-                                    //move target box too 
-                                    targetBox.SetBounds(controllerBox.Left + 5,
-                                        controllerBox.Top + 5,
-                                        controllerBox.Width - 10,
-                                        controllerBox.Height - 10);
+                                    targetBox.SetBounds(targetBox.Left, targetBox.Top + ydiff,
+                                        targetBox.Width + xdiff, targetBox.Height - ydiff);
                                 }
                             }
                         } break;
@@ -728,10 +725,7 @@ namespace LayoutFarm
                                 if (targetBox != null)
                                 {
                                     //move target box too 
-                                    targetBox.SetBounds(controllerBox.Left + 5,
-                                        controllerBox.Top + 5,
-                                        controllerBox.Width - 10,
-                                        controllerBox.Height - 10);
+                                    targetBox.SetSize(targetBox.Width + xdiff, targetBox.Height + ydiff);
                                 }
                             }
                         } break;
@@ -739,17 +733,16 @@ namespace LayoutFarm
                         {
                             if (xdiff != 0 || ydiff != 0)
                             {
-                                controllerBox.SetLocation(controllerBox.Left + xdiff, controllerBox.Top);
-                                controllerBox.SetSize(controllerBox.Width - xdiff, controllerBox.Height + ydiff);
+
+                                controllerBox.SetBounds(controllerBox.Left + xdiff, controllerBox.Top,
+                                    controllerBox.Width - xdiff, controllerBox.Height + ydiff);
 
                                 var targetBox = controllerBox.TargetBox;
                                 if (targetBox != null)
                                 {
                                     //move target box too 
-                                    targetBox.SetBounds(controllerBox.Left + 5,
-                                        controllerBox.Top + 5,
-                                        controllerBox.Width - 10,
-                                        controllerBox.Height - 10);
+                                    targetBox.SetBounds(targetBox.Left + xdiff, targetBox.Top,
+                                        targetBox.Width - xdiff, targetBox.Height + ydiff);
                                 }
                             }
                         } break;
