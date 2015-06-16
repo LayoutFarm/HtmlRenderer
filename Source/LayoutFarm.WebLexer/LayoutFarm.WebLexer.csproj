@@ -54,7 +54,8 @@
     <Compile Include="HtmlKit\HtmlWriterState.cs" />
     <Compile Include="HtmlKit\ICharArray.cs" />
     <Compile Include="MyLexer\HtmlLexer.cs" />
-    <Compile Include="MyLexer\HtmlLexer_dbug.cs" />
+    <Compile Include="MyLexer\MyHtmlLexer_dbug.cs" />
+    <Compile Include="MyLexer\MyHtmlLexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MyLexer\TextSnapshot.cs" />
   </ItemGroup>

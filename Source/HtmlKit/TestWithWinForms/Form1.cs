@@ -17,12 +17,7 @@ namespace TestWithWinForms
         }
         private void button2_Click(object sender, EventArgs e)
         {
-            //test our html lexer
-
-
-
-
-
+            //test our html lexer 
         }
         private void button1_Click(object sender, EventArgs e)
         {
