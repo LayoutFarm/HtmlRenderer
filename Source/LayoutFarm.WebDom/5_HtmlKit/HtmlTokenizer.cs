@@ -280,7 +280,8 @@ namespace HtmlKit {
 				var dataToken = CreateDataToken (data.ToString ());
 				dataToken.EncodeEntities = encodeEntities;
 				token = dataToken;
-				data.Length = 0;			 
+				data.Length = 0;
+                return;
 			}
 			token = null;
 		}
