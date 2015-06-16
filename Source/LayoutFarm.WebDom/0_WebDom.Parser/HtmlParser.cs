@@ -22,7 +22,8 @@ namespace LayoutFarm.WebDom.Parser
 
         public HtmlParser()
         {
-            lexer = HtmlLexer.CreateLexer(LexerEngine.MyLexer);
+            //lexer = HtmlLexer.CreateLexer(LexerEngine.MyLexer);
+            lexer = HtmlLexer.CreateLexer(LexerEngine.HtmlKit);
             lexer.LexStateChanged += LexStateChanged;
         }
 

@@ -75,7 +75,7 @@ namespace LayoutFarm.WebDom.Parser
             switch (lexEngine)
             {
                 case LexerEngine.HtmlKit:
-                    return new MyHtmlLexer();
+                    return new HtmlKitLexer();
                 default:
                     return new MyHtmlLexer();
             }
