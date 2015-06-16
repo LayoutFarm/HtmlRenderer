@@ -1,4 +1,4 @@
-﻿//MIT  2015,2014 ,WinterDev
+﻿//MIT 2015, WinterDev
 
 using System;
 using System.Collections.Generic;
@@ -8,17 +8,11 @@ using HtmlKit;
 
 namespace LayoutFarm.WebDom.Parser
 {
-
-    class HtmlKitLexer : HtmlLexer
+    class HtmlKitParser : HtmlParser
     {
-        public HtmlKitLexer()
+        public override void Parse(TextSource textSnapshot, WebDocument htmldoc, DomElement currentNode)
         {
-
-        }
-        public override void Analyze(TextSnapshot textSnapshot)
-        {
-
-            char[] copyBuffer = textSnapshot.Copy(0, textSnapshot.Length);
+            char[] copyBuffer = textSnapshot.ActualSnapshot.Copy(0, textSnapshot.ActualSnapshot.Length);
             using (var ms = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(copyBuffer)))
             using (var textReader = new System.IO.StreamReader(ms))
             {
@@ -48,20 +42,18 @@ namespace LayoutFarm.WebDom.Parser
                         case HtmlTokenKind.Comment:
 
                             break;
-                        case HtmlTokenKind.DocType: 
+                        case HtmlTokenKind.DocType:
 
                             break;
-                        default: 
+                        default:
+                            {
+                            }
                             break;
                     }
                 }
             }
         }
-        public override void BeginLex()
-        {
-
-        }
-        public override void EndLex()
+        public override void ResetParser()
         {
 
         }

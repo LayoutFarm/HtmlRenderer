@@ -70,12 +70,11 @@ namespace LayoutFarm.WebDom.Parser
 
         }
         public static HtmlLexer CreateLexer(LexerEngine lexEngine)
-        {
-
+        {   
             switch (lexEngine)
             {
                 case LexerEngine.HtmlKit:
-                    return new HtmlKitLexer();
+                    return new MyHtmlLexer();
                 default:
                     return new MyHtmlLexer();
             }

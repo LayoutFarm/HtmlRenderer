@@ -34,26 +34,6 @@
   <ItemGroup>
     <Compile Include="MyLexer\CssLexer.cs" />
     <Compile Include="MyLexer\dbugLexerReport.cs" />
-    <Compile Include="HtmlKit\ForNet20.cs" />
-    <Compile Include="HtmlKit\HtmlAttribute.cs" />
-    <Compile Include="HtmlKit\HtmlAttributeCollection.cs" />
-    <Compile Include="HtmlKit\HtmlAttributeId.cs" />
-    <Compile Include="HtmlKit\HtmlEntityDecoder.cs" />
-    <Compile Include="HtmlKit\HtmlEntityDecoder.g.cs">
-      <DependentUpon>HtmlEntityDecoder.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HtmlKit\HtmlNamespace.cs" />
-    <Compile Include="HtmlKit\HtmlTagId.cs" />
-    <Compile Include="HtmlKit\HtmlToken.cs" />
-    <Compile Include="HtmlKit\HtmlTokenizer.cs" />
-    <Compile Include="HtmlKit\HtmlTokenizerState.cs" />
-    <Compile Include="HtmlKit\HtmlTokenizer_ReadNextToken.cs" />
-    <Compile Include="HtmlKit\HtmlTokenKind.cs" />
-    <Compile Include="HtmlKit\HtmlUtils.cs" />
-    <Compile Include="HtmlKit\HtmlWriter.cs" />
-    <Compile Include="HtmlKit\HtmlWriterState.cs" />
-    <Compile Include="HtmlKit\ICharArray.cs" />
-    <Compile Include="MyLexer\HtmlKitLexer.cs" />
     <Compile Include="MyLexer\HtmlLexer.cs" />
     <Compile Include="MyLexer\MyHtmlLexer_dbug.cs" />
     <Compile Include="MyLexer\MyHtmlLexer.cs" />
