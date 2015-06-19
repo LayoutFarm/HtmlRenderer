@@ -29,25 +29,17 @@ namespace LayoutFarm.WebDom.Parser
                         case HtmlTokenKind.Data:
                             {
                                 var text = (HtmlDataToken)token;
-                                currentNode.AddChild(_resultHtmlDoc.CreateTextNode(text.Data.ToCharArray()));
-                                //for (int i = 0; i < text.Data.Length; i++)
-                                //{
-
-                                //}
+                                currentNode.AddChild(_resultHtmlDoc.CreateTextNode(text.Data.ToCharArray()));                                
                             } break;
                         case HtmlTokenKind.Tag:
                             {
-                                var tag = (HtmlTagToken)token;
-
+                                var tag = (HtmlTagToken)token; 
                                 if (!tag.IsEndTag)
-                                {
-                                    openEltStack.Push(currentNode);
-
+                                {   
+                                    //open tag 
                                     DomElement elem = this._resultHtmlDoc.CreateElement(null, tag.Name);
                                     currentNode.AddChild(elem);
-                                    //open tag
-
-                                    currentNode = elem;
+                                
                                     foreach (var attribute in tag.Attributes)
                                     {
                                         var attr = this._resultHtmlDoc.CreateAttribute(null, attribute.Name);
@@ -55,7 +47,12 @@ namespace LayoutFarm.WebDom.Parser
                                         {
                                             attr.Value = attribute.Value;
                                         }
-                                        currentNode.AddAttribute(attr);
+                                        elem.AddAttribute(attr);
+                                    } 
+                                    if (!tag.IsEmptyElement)
+                                    {    
+                                        openEltStack.Push(currentNode);
+                                        currentNode = elem;
                                     }
                                 }
                                 else
