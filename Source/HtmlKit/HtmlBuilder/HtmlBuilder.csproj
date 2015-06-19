@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{48B4B5F3-2F56-49EA-8A6D-C07523DCB03E}</ProjectGuid>
+    <ProjectGuid>{3D561B6C-C738-4A33-A392-5630CA9A0AA7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LayoutFarm.WebLexer</RootNamespace>
-    <AssemblyName>LayoutFarm.WebLexer</AssemblyName>
+    <RootNamespace>HtmlBuilder</RootNamespace>
+    <AssemblyName>HtmlBuilder</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,13 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="MyLexer\CssLexer.cs" />
-    <Compile Include="MyLexer\dbugLexerReport.cs" />
-    <Compile Include="MyLexer\HtmlLexer.cs" />
-    <Compile Include="MyLexer\MyHtmlLexer_dbug.cs" />
-    <Compile Include="MyLexer\MyHtmlLexer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="MyLexer\TextSnapshot.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HtmlKit_Net20\HtmlKit_Net20.csproj">
+      <Project>{8406c949-82db-4a84-9f4a-7245c70c5e51}</Project>
+      <Name>HtmlKit_Net20</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

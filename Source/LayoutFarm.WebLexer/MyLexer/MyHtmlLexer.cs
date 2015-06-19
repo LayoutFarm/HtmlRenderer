@@ -7,46 +7,7 @@ using LayoutFarm.WebLexer;
 
 namespace LayoutFarm.WebDom.Parser
 {
-    public enum HtmlLexerEvent
-    {
-        VisitOpenAngle,        //  <a
-        VisitOpenSlashAngle,   //  </a
-        VisitCloseAngle,       //  a>
-        VisitCloseSlashAngle,  //  />        
-        VisitAttrAssign,      //=
-
-        VisitOpenAngleExclimation, //<! eg. document node <!doctype
-
-        OpenComment,           //  <!--
-        CloseComment,          //  -->
-
-        OpenProcessInstruction,  //  <?
-        CloseProcessInstruction, //  ?>
-
-        NodeNameOrAttribute,
-        NodeNamePrefix,
-        NodeNameLocal,
-        Attribute,
-        AttributeNameLocal,
-        AttributeNamePrefix, 
-        AttributeValueAsLiteralString,
-
-        SwitchToContentPart,
-        FromContentPart,
-        CommentContent
-    }
-
-    enum HtmlLexState
-    {
-        Init,
-        AfterOpenAngle
-
-
-    }
-
-    public delegate void HtmlLexerEventHandler(HtmlLexerEvent lexEvent, int startIndex, int len);
-
-    public sealed partial class HtmlLexer
+    sealed partial class MyHtmlLexer : HtmlLexer
     {
 
         int _readIndex = 0;
@@ -54,14 +15,12 @@ namespace LayoutFarm.WebDom.Parser
         int _appendCount = 0;
         int _firstAppendAt = -1;
         LayoutFarm.WebLexer.TextSnapshot textSnapshot;
-        public event HtmlLexerEventHandler LexStateChanged;
-        public HtmlLexer()
+        public MyHtmlLexer()
         {
         }
-
-        //reset
-        public void BeginLex()
+        public override void BeginLex()
         {
+
 #if DEBUG
             dbug_currentLineNumber = 0;
             dbug_currentLineCharIndex = -1;
@@ -70,15 +29,12 @@ namespace LayoutFarm.WebDom.Parser
             _lastFlushAt = 0;
             _appendCount = 0;
             _firstAppendAt = -1;
-
         }
-        public void EndLex()
+        public override void EndLex()
         {
-
+            base.EndLex();
         }
-
-
-        public void Analyze(TextSnapshot textSnapshot)
+        public override void Analyze(TextSnapshot textSnapshot)
         {
 
 #if DEBUG
@@ -148,7 +104,7 @@ namespace LayoutFarm.WebDom.Parser
                                 case '/':
                                     {
                                         //close tag 
-                                        LexStateChanged(HtmlLexerEvent.VisitOpenSlashAngle, i, 1);
+                                        RaiseStateChanged(HtmlLexerEvent.VisitOpenSlashAngle, i, 1);
                                         currentState = 5;//collect node name 
                                     } break;
                                 default:
@@ -197,7 +153,7 @@ namespace LayoutFarm.WebDom.Parser
                                     {
 
                                         FlushExisingBuffer(i, HtmlLexerEvent.NodeNameOrAttribute);
-                                        LexStateChanged(HtmlLexerEvent.VisitCloseAngle, i, 1);
+                                        RaiseStateChanged(HtmlLexerEvent.VisitCloseAngle, i, 1);
                                         //flush 
                                         currentState = 0;
                                         //goto content mode
@@ -218,7 +174,7 @@ namespace LayoutFarm.WebDom.Parser
                                     {
                                         //flush name
                                         FlushExisingBuffer(i, HtmlLexerEvent.Attribute);
-                                        LexStateChanged(HtmlLexerEvent.VisitAttrAssign, i, 1);
+                                        RaiseStateChanged(HtmlLexerEvent.VisitAttrAssign, i, 1);
                                         //start collect value of attr 
                                     } break;
                                 case '"':
@@ -274,7 +230,7 @@ namespace LayoutFarm.WebDom.Parser
                             if (c == '>')
                             {
                                 FlushExisingBuffer(i, HtmlLexerEvent.NodeNameOrAttribute);
-                                LexStateChanged(HtmlLexerEvent.VisitCloseSlashAngle, i, 1);
+                                RaiseStateChanged(HtmlLexerEvent.VisitCloseSlashAngle, i, 1);
                                 currentState = 0;
                             }
                             else
@@ -326,7 +282,7 @@ namespace LayoutFarm.WebDom.Parser
                                         if (char.IsLetter(sourceBuffer[i + 1]))
                                         {
 
-                                            LexStateChanged(HtmlLexerEvent.VisitOpenAngleExclimation, i, 2);
+                                            RaiseStateChanged(HtmlLexerEvent.VisitOpenAngleExclimation, i, 2);
                                             AppendBuffer(c, i);
                                             currentState = 5;
                                         }
@@ -359,7 +315,7 @@ namespace LayoutFarm.WebDom.Parser
                 //    new string(this.textSnapshot.Copy(this._firstAppendAt, (this._readIndex - this._firstAppendAt) + 1)));
 #endif
 
-                LexStateChanged(lexerEvent, this._firstAppendAt, (this._readIndex - this._firstAppendAt) + 1);
+                RaiseStateChanged(lexerEvent, this._firstAppendAt, (this._readIndex - this._firstAppendAt) + 1);
 
             }
 
@@ -378,8 +334,7 @@ namespace LayoutFarm.WebDom.Parser
             this._readIndex = index;
         }
 
-
-
-
     }
+
+
 }
