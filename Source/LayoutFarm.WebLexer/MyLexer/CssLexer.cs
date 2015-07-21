@@ -190,6 +190,7 @@ namespace LayoutFarm.WebDom.Parser
                                 case CssTokenName.Newline:
                                     {
                                         EmitBuffer(i, CssTokenName.Iden);
+                                        lexState = CssLexState.Init;
                                     } break;
                                 case CssTokenName.Divide:
                                     {
