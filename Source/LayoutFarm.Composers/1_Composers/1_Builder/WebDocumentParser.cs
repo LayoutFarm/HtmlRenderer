@@ -58,7 +58,7 @@ namespace LayoutFarm.Composers
             {
                 if (sharedParsers.Count == 0)
                 {
-                    return new HtmlParser();
+                    return HtmlParser.CreateHtmlParser(ParseEngineKind.MyHtmlParser);
                 }
                 else
                 {

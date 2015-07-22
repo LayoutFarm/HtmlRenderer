@@ -19,7 +19,7 @@ namespace Test2_WebDomParsers
         private void button1_Click(object sender, EventArgs e)
         {
             //test web parser
-            var parser = new HtmlParser();
+            var parser = HtmlParser.CreateHtmlParser(ParseEngineKind.MyHtmlParser);
             var blankHtmlDoc = new LayoutFarm.WebDom.Impl.HtmlDocument();
             var snapSource = new TextSource(this.richTextBox1.Text.ToCharArray());
             parser.Parse(snapSource, blankHtmlDoc, blankHtmlDoc.RootNode);
