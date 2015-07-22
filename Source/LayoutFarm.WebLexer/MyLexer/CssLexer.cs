@@ -15,6 +15,7 @@ namespace LayoutFarm.WebDom.Parser
         int _startIndex = 0;
         CssLexerEmitHandler _emitHandler;
         char latestEscapeChar;
+        bool isCollectionWhitespace;
 
         public CssLexer(CssLexerEmitHandler emitHandler)
         {
@@ -36,7 +37,7 @@ namespace LayoutFarm.WebDom.Parser
             {
                 char c = cssSourceBuffer[i];
 #if DEBUG
-                Console.Write(c);
+                // Console.Write(c);
 #endif
                 //-------------------------------------- 
                 switch (lexState)
@@ -44,8 +45,7 @@ namespace LayoutFarm.WebDom.Parser
                     default:
                         {
                             throw new NotSupportedException();
-                        } break;
-
+                        }
                     case CssLexState.Init:
                         {
                             //-------------------------------------- 
@@ -82,9 +82,7 @@ namespace LayoutFarm.WebDom.Parser
                                         latestEscapeChar = '\'';
                                         lexState = CssLexState.CollectString;
                                     } break;
-                                case CssTokenName.Whitespace:
-                                case CssTokenName.Newline:
-                                    continue;
+
                                 case CssTokenName.Divide:
                                     {
                                         //is open comment or not
@@ -102,7 +100,7 @@ namespace LayoutFarm.WebDom.Parser
                                     } break;
                                 case CssTokenName.Sharp:
                                     {
-                                        AppendBuffer(i, c);
+                                        AppendBuffer(i);
                                         lexState = CssLexState.Iden;
 
                                     } break;
@@ -113,27 +111,25 @@ namespace LayoutFarm.WebDom.Parser
                                             char c1 = cssSourceBuffer[i + 1];
                                             if (char.IsNumber(c1))
                                             {
-                                                AppendBuffer(i, c);
+                                                AppendBuffer(i);
                                                 i++;
-                                                AppendBuffer(i, c1);
+                                                AppendBuffer(i);
                                                 lexState = CssLexState.Number;
                                                 continue;
                                             }
                                         }
-
                                         Emit(terminalTokenName, i);
-
                                     } break;
                                 case CssTokenName.Minus:
                                     {
                                         //as iden
-                                        AppendBuffer(i, c);
+                                        AppendBuffer(i);
                                         lexState = CssLexState.Iden;
                                     } break;
                                 case CssTokenName.Unknown:
                                     {
                                         //this is not terminal  
-                                        AppendBuffer(i, c);
+                                        AppendBuffer(i);
                                         if (char.IsNumber(c))
                                         {
                                             lexState = CssLexState.Number;
@@ -143,11 +139,12 @@ namespace LayoutFarm.WebDom.Parser
                                             lexState = CssLexState.Iden;
                                         }
                                     } break;
+                                case CssTokenName.Whitespace:
+                                case CssTokenName.Newline:
+                                    {
+                                        isCollectionWhitespace = true;
+                                    } break;
                             }
-                        } break;
-                    case CssLexState.Whitespace:
-                        {
-
                         } break;
                     case CssLexState.CollectString:
                         {
@@ -160,7 +157,7 @@ namespace LayoutFarm.WebDom.Parser
                             }
                             else
                             {
-                                AppendBuffer(i, c);
+                                AppendBuffer(i);
                             }
                         } break;
                     case CssLexState.Comment:
@@ -206,7 +203,7 @@ namespace LayoutFarm.WebDom.Parser
                                 case CssTokenName.Minus:
                                     {
                                         //iden can contains minus 
-                                        AppendBuffer(i, c);
+                                        AppendBuffer(i);
 
                                     } break;
 
@@ -222,7 +219,7 @@ namespace LayoutFarm.WebDom.Parser
                                 case CssTokenName.Unknown:
                                     {
                                         //this is not terminal 
-                                        AppendBuffer(i, c);
+                                        AppendBuffer(i);
                                         lexState = CssLexState.Iden;
                                     } break;
                             }
@@ -231,7 +228,7 @@ namespace LayoutFarm.WebDom.Parser
                         {
                             if (char.IsNumber(c))
                             {
-                                AppendBuffer(i, c);
+                                AppendBuffer(i);
                                 continue;
                             }
                             //---------------------------------------------------------- 
@@ -265,9 +262,9 @@ namespace LayoutFarm.WebDom.Parser
                                             char c1 = cssSourceBuffer[i + 1];
                                             if (char.IsNumber(c1))
                                             {
-                                                AppendBuffer(i, c);
+                                                AppendBuffer(i);
                                                 i++;
-                                                AppendBuffer(i, c1);
+                                                AppendBuffer(i);
                                                 lexState = CssLexState.Number;
                                                 continue;
                                             }
@@ -287,7 +284,7 @@ namespace LayoutFarm.WebDom.Parser
                                     {
                                         EmitBuffer(i, CssTokenName.Number);
                                         //iden after number may be unit of number*** 
-                                        AppendBuffer(i, c);
+                                        AppendBuffer(i);
                                         lexState = CssLexState.UnitAfterNumber;
                                     } break;
                             }
@@ -298,7 +295,7 @@ namespace LayoutFarm.WebDom.Parser
 
                             if (char.IsLetter(c))
                             {
-                                AppendBuffer(i, c);
+                                AppendBuffer(i);
                             }
                             else
                             {
@@ -344,10 +341,7 @@ namespace LayoutFarm.WebDom.Parser
 
             }
         }
-
-
-
-        void AppendBuffer(int i, char c)
+        void AppendBuffer(int i)
         {
             if (_appendLength == 0)
             {
@@ -440,12 +434,12 @@ namespace LayoutFarm.WebDom.Parser
     public enum CssLexState
     {
         Init,
-        Whitespace,
+
         Comment,
         Iden,
         CollectString,
         Number,
-        UnitAfterNumber,
+        UnitAfterNumber
     }
 
     public enum CssTokenName

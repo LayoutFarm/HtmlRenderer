@@ -9,21 +9,16 @@ namespace LayoutFarm.WebDom
 
     public enum CssValueOpName
     {
-
         Unknown,
         Divide,
     }
     public class CssPropertyDeclaration
     {
-        bool isReady = false;
-        bool isValid = false;
-        bool isAutoGen = false; 
+        bool isAutoGen;
         bool markedAsInherit;
-         
 
-        CssCodeValueExpression propertyValue;
+        CssCodeValueExpression firstValue;
         List<CssCodeValueExpression> moreValues;
-
 
 #if DEBUG
         static int dbugTotalId;
@@ -43,7 +38,7 @@ namespace LayoutFarm.WebDom
         {
             //from another 
             this.WellknownPropertyName = wellNamePropertyName;
-            this.propertyValue = value;
+            this.firstValue = value;
             this.markedAsInherit = value.IsInherit;
             //auto gen from another prop
             this.isAutoGen = true;
@@ -51,46 +46,15 @@ namespace LayoutFarm.WebDom
         public bool IsExpand { get; set; }
         public string UnknownRawName { get; private set; }
 
-        public void AddUnitToLatestValue(string unit)
-        {
-            CssCodePrimitiveExpression latestValue = null;
-            if (moreValues != null)
-            {
-                latestValue = moreValues[moreValues.Count - 1] as CssCodePrimitiveExpression;
-            }
-            else
-            {
-                latestValue = this.propertyValue as CssCodePrimitiveExpression;
-
-            }
-            if (latestValue != null)
-            {
-                latestValue.Unit = unit;
-            }
-        }
-
         public void AddValue(CssCodeValueExpression value)
         {
-            if (propertyValue == null)
+            if (firstValue == null)
             {
                 this.markedAsInherit = value.IsInherit;
-                this.propertyValue = value;
+                this.firstValue = value;
             }
             else
-            {
-                if (propertyValue is CssCodeBinaryExpression)
-                {
-                    var binExpr = (CssCodeBinaryExpression)propertyValue;
-                    if (binExpr.Right == null)
-                    {
-                        //add to right side
-                        binExpr.Right = value;
-                        //TODO: review here again
-                        //temp fixed here !
-                        return;
-                    }
-                }
-
+            {  
                 if (moreValues == null)
                 {
                     moreValues = new List<CssCodeValueExpression>();
@@ -103,7 +67,7 @@ namespace LayoutFarm.WebDom
         {
             if (index == 0)
             {
-                this.propertyValue = value;
+                this.firstValue = value;
             }
             else
             {
@@ -126,9 +90,9 @@ namespace LayoutFarm.WebDom
         }
         void CollectValues(StringBuilder stBuilder)
         {
-            if (propertyValue != null)
+            if (firstValue != null)
             {
-                stBuilder.Append(propertyValue.ToString());
+                stBuilder.Append(firstValue.ToString());
             }
             if (moreValues != null)
             {
@@ -158,7 +122,7 @@ namespace LayoutFarm.WebDom
             {
                 if (moreValues == null)
                 {
-                    if (propertyValue == null)
+                    if (firstValue == null)
                     {
                         return 0;
                     }
@@ -182,7 +146,7 @@ namespace LayoutFarm.WebDom
             {
                 case 0:
                     {
-                        return this.propertyValue;
+                        return this.firstValue;
                     }
                 default:
                     {
