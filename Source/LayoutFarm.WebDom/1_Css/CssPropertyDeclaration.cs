@@ -7,18 +7,23 @@ using LayoutFarm.Css;
 namespace LayoutFarm.WebDom
 {
 
+    public enum CssValueOpName
+    {
 
+        Unknown,
+        Divide,
+    }
     public class CssPropertyDeclaration
     {
         bool isReady = false;
         bool isValid = false;
-        bool isAutoGen = false;
-
-
+        bool isAutoGen = false; 
         bool markedAsInherit;
+         
 
         CssCodeValueExpression propertyValue;
         List<CssCodeValueExpression> moreValues;
+
 
 #if DEBUG
         static int dbugTotalId;
@@ -45,6 +50,7 @@ namespace LayoutFarm.WebDom
         }
         public bool IsExpand { get; set; }
         public string UnknownRawName { get; private set; }
+
         public void AddUnitToLatestValue(string unit)
         {
             CssCodePrimitiveExpression latestValue = null;
@@ -62,16 +68,29 @@ namespace LayoutFarm.WebDom
                 latestValue.Unit = unit;
             }
         }
+
         public void AddValue(CssCodeValueExpression value)
         {
             if (propertyValue == null)
             {
-
                 this.markedAsInherit = value.IsInherit;
                 this.propertyValue = value;
             }
             else
             {
+                if (propertyValue is CssCodeBinaryExpression)
+                {
+                    var binExpr = (CssCodeBinaryExpression)propertyValue;
+                    if (binExpr.Right == null)
+                    {
+                        //add to right side
+                        binExpr.Right = value;
+                        //TODO: review here again
+                        //temp fixed here !
+                        return;
+                    }
+                }
+
                 if (moreValues == null)
                 {
                     moreValues = new List<CssCodeValueExpression>();
@@ -187,7 +206,8 @@ namespace LayoutFarm.WebDom
         HexColor,
         LiteralString,
         Iden,
-        Func
+        Func,
+        BinaryExpression,
     }
     public class CssCodeColor : CssCodeValueExpression
     {
@@ -203,6 +223,89 @@ namespace LayoutFarm.WebDom
             get { return this.color; }
         }
     }
+    public abstract class CssCodeValueExpression
+    {
+#if DEBUG
+        static int dbugTotalId;
+        public readonly int dbugId = dbugTotalId++;
+#endif
+
+        public CssCodeValueExpression(CssValueHint hint)
+        {
+#if DEBUG
+            //if (this.dbugId == 111)
+            //{
+
+            //}
+#endif
+            this.Hint = hint;
+        }
+
+
+        CssValueEvaluatedAs evaluatedAs;
+        CssColor cachedColor;
+        LayoutFarm.Css.CssLength cachedLength;
+        int cachedInt;
+        protected float number;
+
+        public bool IsInherit
+        {
+            get;
+            internal set;
+        }
+        public CssValueHint Hint
+        {
+            get;
+            private set;
+        }
+        //------------------------------------------------------
+        public float AsNumber()
+        {
+            return this.number;
+        }
+
+        public void SetIntValue(int intValue, CssValueEvaluatedAs evaluatedAs)
+        {
+            this.evaluatedAs = evaluatedAs;
+            this.cachedInt = intValue;
+        }
+        public void SetColorValue(CssColor color)
+        {
+            this.evaluatedAs = CssValueEvaluatedAs.Color;
+            this.cachedColor = color;
+        }
+        public void SetCssLength(CssLength len, WebDom.CssValueEvaluatedAs evalAs)
+        {
+            this.cachedLength = len;
+            this.evaluatedAs = evalAs;
+        }
+
+        public CssValueEvaluatedAs EvaluatedAs
+        {
+            get
+            {
+                return this.evaluatedAs;
+            }
+        }
+
+        public CssColor GetCacheColor()
+        {
+            return this.cachedColor;
+        }
+        public CssLength GetCacheCssLength()
+        {
+            return this.cachedLength;
+        }
+        public virtual string GetTranslatedStringValue()
+        {
+            return this.ToString();
+        }
+        public int GetCacheIntValue()
+        {
+            return this.cachedInt;
+        }
+    }
+
     public class CssCodePrimitiveExpression : CssCodeValueExpression
     {
         string unit;
@@ -271,14 +374,14 @@ namespace LayoutFarm.WebDom
             }
 
         }
-
     }
 
 
 
     public class CssCodeFunctionCallExpression : CssCodeValueExpression
     {
-
+        string evaluatedStringValue;
+        bool isEval;
         List<CssCodeValueExpression> funcArgs = new List<CssCodeValueExpression>();
         public CssCodeFunctionCallExpression(string funcName)
             : base(CssValueHint.Func)
@@ -297,7 +400,6 @@ namespace LayoutFarm.WebDom
 
         public override string ToString()
         {
-
             StringBuilder sb = new StringBuilder();
             sb.Append(this.FunctionName);
             sb.Append('(');
@@ -315,8 +417,7 @@ namespace LayoutFarm.WebDom
             return sb.ToString();
         }
 
-        string evaluatedStringValue;
-        bool isEval;
+
         public override string GetTranslatedStringValue()
         {
             if (isEval)
@@ -351,89 +452,70 @@ namespace LayoutFarm.WebDom
 
     }
 
-
-    public abstract class CssCodeValueExpression
+    public class CssCodeBinaryExpression : CssCodeValueExpression
     {
-#if DEBUG
-        static int dbugTotalId;
-        public readonly int dbugId = dbugTotalId++;
-#endif
 
-        public CssCodeValueExpression(CssValueHint hint)
+        public CssCodeBinaryExpression()
+            : base(CssValueHint.BinaryExpression)
         {
-#if DEBUG
-            //if (this.dbugId == 111)
-            //{
 
-            //}
-#endif
-            this.Hint = hint;
         }
-        public CssValueHint Hint
+        public CssValueOpName OpName
         {
             get;
-            private set;
+            set;
         }
-
-        CssValueEvaluatedAs evaluatedAs;
-        CssColor cachedColor;
-        LayoutFarm.Css.CssLength cachedLength;
-        int cachedInt;
-        protected float number;
-
-        public bool IsInherit
+        public CssCodeValueExpression Left
         {
             get;
-            internal set;
+            set;
         }
-
-        //------------------------------------------------------
-        public float AsNumber()
+        public CssCodeValueExpression Right
         {
-            return this.number;
+            get;
+            set;
         }
-
-        public void SetIntValue(int intValue, CssValueEvaluatedAs evaluatedAs)
+        public override string ToString()
         {
-            this.evaluatedAs = evaluatedAs;
-            this.cachedInt = intValue;
-        }
-        public void SetColorValue(CssColor color)
-        {
-            this.evaluatedAs = CssValueEvaluatedAs.Color;
-            this.cachedColor = color;
-        }
-        public void SetCssLength(CssLength len, WebDom.CssValueEvaluatedAs evalAs)
-        {
-            this.cachedLength = len;
-            this.evaluatedAs = evalAs;
-        }
-
-        public CssValueEvaluatedAs EvaluatedAs
-        {
-            get
+            StringBuilder stbuilder = new StringBuilder();
+            if (Left != null)
             {
-                return this.evaluatedAs;
+                stbuilder.Append(Left.ToString());
             }
-        }
+            else
+            {
+                throw new NotSupportedException();
+            }
+            switch (this.OpName)
+            {
+                case CssValueOpName.Unknown:
+                    {
+                        throw new NotSupportedException();
+                    }
+                case CssValueOpName.Divide:
+                    {
+                        stbuilder.Append('/');
+                    } break;
+            }
+            if (Right != null)
+            {
+                stbuilder.Append(Right.ToString());
+            }
+            else
+            {
+                throw new NotSupportedException();
 
-        public CssColor GetCacheColor()
-        {
-            return this.cachedColor;
+            }
+            return stbuilder.ToString();
         }
-        public CssLength GetCacheCssLength()
+        public override string GetTranslatedStringValue()
         {
-            return this.cachedLength;
-        }
-        public virtual string GetTranslatedStringValue()
-        {
-            return this.ToString();
-        }
-        public int GetCacheIntValue()
-        {
-            return this.cachedInt;
+
+            throw new NotImplementedException();
         }
     }
+
+
 
     public enum CssValueEvaluatedAs : byte
     {

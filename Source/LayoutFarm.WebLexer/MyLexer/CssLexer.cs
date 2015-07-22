@@ -35,8 +35,9 @@ namespace LayoutFarm.WebDom.Parser
             for (int i = 0; i < j; ++i)
             {
                 char c = cssSourceBuffer[i];
-                // Console.Write(c);
-
+#if DEBUG
+                Console.Write(c);
+#endif
                 //-------------------------------------- 
                 switch (lexState)
                 {

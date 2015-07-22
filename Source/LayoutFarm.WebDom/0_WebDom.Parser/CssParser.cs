@@ -401,7 +401,7 @@ namespace LayoutFarm.WebDom.Parser
                             case CssTokenName.SemiColon:
                                 {
                                     //another semi colon just skip
-                                }break;
+                                } break;
                             default:
                                 {
                                     throw new NotSupportedException();
@@ -498,12 +498,30 @@ namespace LayoutFarm.WebDom.Parser
                                 {
                                     throw new NotSupportedException();
                                 }
+                            case CssTokenName.Comma:
+                                {
+                                    //skip comma
+                                } break;
                             case CssTokenName.Percent:
                                 {
                                     this._currentProperty.AddUnitToLatestValue("%");
                                 } break;
+                            case CssTokenName.Divide:
+                                {
+                                    //eg. font: style variant weight size/line-height family;
+                                    CssCodeBinaryExpression codeBinaryOpExpr = new CssCodeBinaryExpression();
+                                    codeBinaryOpExpr.OpName = CssValueOpName.Divide;
+                                    codeBinaryOpExpr.Left = this._latestPropertyValue;
+                                    //replace
+                                    int valueCount = this._currentProperty.ValueCount;
+                                    //replace
+                                    this._currentProperty.ReplaceValue(valueCount - 1, codeBinaryOpExpr);
+                                    this._latestPropertyValue = codeBinaryOpExpr;
+
+                                } break;
                             case CssTokenName.LiteralString:
                                 {
+                                    throw new NotSupportedException();
                                     var literalValue = new string(this.textBuffer, start, len);
 
                                 } break;
@@ -1063,7 +1081,7 @@ namespace LayoutFarm.WebDom.Parser
             }
         }
     }
-    
 
-   
+
+
 }
