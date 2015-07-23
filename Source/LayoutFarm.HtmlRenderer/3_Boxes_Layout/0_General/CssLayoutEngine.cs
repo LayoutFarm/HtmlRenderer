@@ -159,7 +159,7 @@ namespace LayoutFarm.HtmlBoxes
                         availableWidth = CssValueParser.ConvertToPx(box.Width, availableWidth, box);
                     }
 
-                    box.CssSetBoxWidth(availableWidth);
+                    box.SetCssBoxWidth(availableWidth);
                 }
                 //-------------------------------------------
 
@@ -651,7 +651,7 @@ namespace LayoutFarm.HtmlBoxes
                 var h = CssValueParser.ConvertToPx(box.Height, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
                 box.SetExpectedSize(box.ExpectedWidth, h);
                 box.SetVisualHeight(h);
-               // box.CssSetBoxHeight(h);
+                box.SetCssBoxHeight(h);
             }
             else
             {
@@ -670,7 +670,7 @@ namespace LayoutFarm.HtmlBoxes
                 var w = CssValueParser.ConvertToPx(box.Width, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
                 box.SetExpectedSize(w, box.ExpectedHeight);
                 box.SetVisualWidth(w);
-                box.CssSetBoxWidth(w);
+                box.SetCssBoxWidth(w);
             }
             else
             {

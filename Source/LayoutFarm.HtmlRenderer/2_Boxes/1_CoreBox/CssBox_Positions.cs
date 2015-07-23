@@ -406,7 +406,7 @@ namespace LayoutFarm.HtmlBoxes
         /// set box width related to its boxsizing model  and recalcualte visual width 
         /// </summary>
         /// <param name="width"></param>
-        internal void CssSetBoxWidth(float width)
+        internal void SetCssBoxWidth(float width)
         {
             //TODO: review here again 
             //depend on box-sizing model  ***
@@ -431,15 +431,15 @@ namespace LayoutFarm.HtmlBoxes
 
             this.specificUserContentSizeWidth = true;
         }
-        internal void CssSetBoxHeight(float height)
+        internal void SetCssBoxHeight(float height)
         {
             //TODO: review here again 
             //depend on box-sizing model  ***
 
 #if DEBUG
-            //if (this.__aa_dbugId == 4)
-            //{
-            //}
+            if (this.__aa_dbugId == 2)
+            {
+            }
 #endif
 
             this._cssBoxHeight = height;
@@ -473,6 +473,13 @@ namespace LayoutFarm.HtmlBoxes
         }
         public void SetVisualHeight(float height)
         {
+
+#if DEBUG
+            if (this.__aa_dbugId == 2)
+            {
+
+            }
+#endif
             this._visualHeight = height;
         }
         /// <summary>
@@ -490,6 +497,12 @@ namespace LayoutFarm.HtmlBoxes
             {
                 throw new NotSupportedException();
             }
+
+#if DEBUG
+            if (this.__aa_dbugId == 2)
+            {
+            }
+#endif
             this._visualHeight = height;
         }
         /// <summary>
@@ -564,9 +577,9 @@ namespace LayoutFarm.HtmlBoxes
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
-                if (this._actualPaddingBottom > 10)
-                {
-                }
+                //if (this._actualPaddingBottom > 10)
+                //{
+                //}
 #endif
                 return this._actualPaddingTop;
             }
@@ -627,9 +640,9 @@ namespace LayoutFarm.HtmlBoxes
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
-                if (this._actualPaddingBottom > 10)
-                {
-                }
+                //if (this._actualPaddingBottom > 10)
+                //{
+                //}
 #endif
                 return this._actualPaddingBottom;
             }
