@@ -413,10 +413,16 @@ namespace LayoutFarm.HtmlBoxes
                     //check latest sibling first 
                     if (hostBlock.Float == CssFloat.None)
                     {
-                        //
-                        if (hostBlock.LocalY < recentLeftFloatBox.LocalBottom)
+                        if (recentLeftFloatBox != null)
                         {
-                            localX = recentLeftFloatBox.LocalRight;
+                            if (hostBlock.LocalY < recentLeftFloatBox.LocalBottom)
+                            {
+                                localX = recentLeftFloatBox.LocalRight;
+                            }
+                        }
+                        else
+                        {
+
                         }
                     }
                 }
@@ -645,6 +651,7 @@ namespace LayoutFarm.HtmlBoxes
                 var h = CssValueParser.ConvertToPx(box.Height, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
                 box.SetExpectedSize(box.ExpectedWidth, h);
                 box.SetVisualHeight(h);
+               // box.CssSetBoxHeight(h);
             }
             else
             {

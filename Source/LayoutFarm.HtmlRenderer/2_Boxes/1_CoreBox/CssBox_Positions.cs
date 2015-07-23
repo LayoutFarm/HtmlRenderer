@@ -40,6 +40,7 @@ namespace LayoutFarm.HtmlBoxes
         //TODO: review here again!
         bool specificUserContentSizeWidth;
         float _cssBoxWidth;
+        float _cssBoxHeight;
         CssBoxSizing _boxSizing;
 
 
@@ -411,9 +412,9 @@ namespace LayoutFarm.HtmlBoxes
             //depend on box-sizing model  ***
 
 #if DEBUG
-            if (this.__aa_dbugId == 4)
-            {
-            }
+            //if (this.__aa_dbugId == 4)
+            //{
+            //}
 #endif
             this._cssBoxWidth = width;
             this._visualWidth = width;
@@ -424,18 +425,42 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this._visualWidth = width +
                        this.ActualPaddingLeft + this.ActualPaddingRight +
-                       +this.ActualMarginLeft + this.ActualMarginRight;
+                       +this.ActualBorderLeftWidth + this.ActualBorderRightWidth;
+
             }
 
             this.specificUserContentSizeWidth = true;
         }
+        internal void CssSetBoxHeight(float height)
+        {
+            //TODO: review here again 
+            //depend on box-sizing model  ***
 
+#if DEBUG
+            //if (this.__aa_dbugId == 4)
+            //{
+            //}
+#endif
+
+            this._cssBoxHeight = height;
+            this._visualHeight = height;
+            // must be separate because the margin can be calculated by percentage of the width
+            //(again, because actual padding or margin may need css box with first)
+            if (_boxSizing == CssBoxSizing.ContentBox)
+            {
+                this._visualHeight = height +
+                       this.ActualPaddingTop + this.ActualPaddingBottom +
+                       +this.ActualBorderTopWidth + this.ActualBorderBottomWidth;
+            }
+
+            this.specificUserContentSizeWidth = true;
+        }
         public void SetVisualWidth(float width)
         {
 #if DEBUG
-            if (this.__aa_dbugId == 4)
-            {
-            }
+            //if (this.__aa_dbugId == 4)
+            //{
+            //}
 #endif
             if (!this.FreezeWidth)
             {
@@ -539,6 +564,9 @@ namespace LayoutFarm.HtmlBoxes
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
+                if (this._actualPaddingBottom > 10)
+                {
+                }
 #endif
                 return this._actualPaddingTop;
             }
@@ -557,10 +585,10 @@ namespace LayoutFarm.HtmlBoxes
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
-                if (this._actualPaddingLeft > 10)
-                {
+                //if (this._actualPaddingLeft > 10)
+                //{
 
-                }
+                //}
 #endif
                 return this._actualPaddingLeft;
             }
@@ -578,10 +606,9 @@ namespace LayoutFarm.HtmlBoxes
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
-                if (this._actualPaddingLeft > 10)
-                {
-
-                }
+                //if (this._actualPaddingLeft > 10)
+                //{ 
+                //}
 #endif
                 return this._actualPaddingRight;
                 //return _actualPaddingRight;
@@ -600,6 +627,9 @@ namespace LayoutFarm.HtmlBoxes
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
+                if (this._actualPaddingBottom > 10)
+                {
+                }
 #endif
                 return this._actualPaddingBottom;
             }
