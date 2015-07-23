@@ -81,25 +81,26 @@ namespace LayoutFarm.HtmlBoxes
         float _cachedMinimumWidth = 0;
         //------------------------------
 
-
+        /// <summary>
+        /// local visual X
+        /// </summary>
         public float LocalX
         {
             get { return this._localX; }
         }
+        /// <summary>
+        /// local visual y
+        /// </summary>
         public float LocalY
         {
             get { return this._localY; }
         }
-        /// <summary>
-        /// Gets the width available on the box, counting padding and margin.
-        /// </summary> 
-        //--------------------------------
-        public float LocalRight
+        public float LocalVisualRight
         {
             //from parent view
             get { return this.LocalX + this.VisualWidth; }
         }
-        public float LocalBottom
+        public float LocalVisualBottom
         {
             //from parent view 
             get { return this.LocalY + this.VisualHeight; }
@@ -860,8 +861,8 @@ namespace LayoutFarm.HtmlBoxes
         public bool IsPointInArea(float x, float y)
         {
             //from parent view
-            return x >= this.LocalX && x < this.LocalRight &&
-                   y >= this.LocalY && y < this.LocalBottom;
+            return x >= this.LocalX && x < this.LocalVisualRight &&
+                   y >= this.LocalY && y < this.LocalVisualBottom;
         }
 
 

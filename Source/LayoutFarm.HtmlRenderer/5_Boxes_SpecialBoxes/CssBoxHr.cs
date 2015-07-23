@@ -65,7 +65,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                localTop = prevSibling.LocalBottom;// +prevSibling.ActualBorderBottomWidth;
+                localTop = prevSibling.LocalVisualBottom;// +prevSibling.ActualBorderBottomWidth;
             }
 
             float maringTopCollapse = UpdateMarginTopCollapse(prevSibling);

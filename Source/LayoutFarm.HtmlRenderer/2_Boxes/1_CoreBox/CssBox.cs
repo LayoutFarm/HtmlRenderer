@@ -734,7 +734,7 @@ namespace LayoutFarm.HtmlBoxes
                 CssBox box = cnode.Value;
                 if (box.Float == CssFloat.None)
                 {
-                    lastChildBotom = box.LocalBottom;
+                    lastChildBotom = box.LocalVisualBottom;
                     break;
                 }
                 else

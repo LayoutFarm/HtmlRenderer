@@ -915,16 +915,16 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             if (sb.EndRow == currentRow)
                             {
-                                maxBottom_local = Math.Max(maxBottom_local, sb.ExtendedBox.LocalBottom);
+                                maxBottom_local = Math.Max(maxBottom_local, sb.ExtendedBox.LocalVisualBottom);
                             }
                         }
                         else if (cell.RowSpan == 1)
                         {
-                            maxBottom_local = Math.Max(maxBottom_local, cell.LocalBottom);
+                            maxBottom_local = Math.Max(maxBottom_local, cell.LocalVisualBottom);
                         }
 
-                        maxRight_local = Math.Max(maxRight_local, cell.LocalRight);
-                        curX_local = cell.LocalRight + horizontal_spacing;
+                        maxRight_local = Math.Max(maxRight_local, cell.LocalVisualRight);
+                        curX_local = cell.LocalVisualRight + horizontal_spacing;
                         //-------------------------
                         col_index++;
                         grid_index += colspan;

@@ -176,7 +176,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 else
                 {
-                    localTop = prevSibling.LocalBottom; 
+                    localTop = prevSibling.LocalVisualBottom; 
                 }
                 localTop += box.UpdateMarginTopCollapse(prevSibling);
                 box.SetLocation(localLeft, localTop);
@@ -290,8 +290,8 @@ namespace LayoutFarm.HtmlBoxes
 
                         if (recentLeftFloatBox != null)
                         {
-                            availableWidth2 -= recentLeftFloatBox.LocalRight;
-                            sx = recentLeftFloatBox.LocalRight;
+                            availableWidth2 -= recentLeftFloatBox.LocalVisualRight;
+                            sx = recentLeftFloatBox.LocalVisualRight;
                             sy = recentLeftFloatBox.LocalY;
                         }
 
@@ -414,9 +414,9 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         if (recentLeftFloatBox != null)
                         {
-                            if (hostBlock.LocalY < recentLeftFloatBox.LocalBottom)
+                            if (hostBlock.LocalY < recentLeftFloatBox.LocalVisualBottom)
                             {
-                                localX = recentLeftFloatBox.LocalRight;
+                                localX = recentLeftFloatBox.LocalVisualRight;
                             }
                         }
                         else
@@ -431,7 +431,7 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         if (recentLeftFloatBox != null)
                         {
-                            localX = recentLeftFloatBox.LocalRight;
+                            localX = recentLeftFloatBox.LocalVisualRight;
                         }
                         if (recentRightFloatBox != null)
                         {
@@ -1053,8 +1053,8 @@ namespace LayoutFarm.HtmlBoxes
                      CssValueParser.ConvertToPx(b.Left, containerW, b),
                      CssValueParser.ConvertToPx(b.Top, containerW, b));
 
-                var localRight = b.LocalRight;
-                var localBottom = b.LocalBottom;
+                var localRight = b.LocalVisualRight;
+                var localBottom = b.LocalVisualBottom;
 
                 if (maxRight < localRight)
                 {
