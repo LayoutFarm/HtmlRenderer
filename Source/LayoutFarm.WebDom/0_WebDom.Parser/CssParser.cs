@@ -26,8 +26,7 @@ namespace LayoutFarm.WebDom.Parser
         public CssParser()
         {
             lexer = new CssLexer(LexerEmitHandler);
-        }
-
+        } 
 
         public void ParseCssStyleSheet(char[] textBuffer)
         {

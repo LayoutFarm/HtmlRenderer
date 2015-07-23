@@ -25,7 +25,7 @@ namespace LayoutFarm.HtmlBoxes
             var cnode = svgElement.GetFirstNode();
 
             ReEvaluateArgs reEvalArgs = new ReEvaluateArgs(gfxPlatform,
-                containingBlock.SizeWidth,
+                containingBlock.VisualWidth,
                 100,
                 containingBlock.GetEmHeight());
             while (cnode != null)
@@ -34,7 +34,7 @@ namespace LayoutFarm.HtmlBoxes
                 cnode = cnode.Next;
             }
 
-            this.SetSize(500, 500);
+            this.SetVisualSize(500, 500);
         }
         protected override void PaintImp(PaintVisitor p)
         {

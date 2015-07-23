@@ -449,14 +449,14 @@ namespace LayoutFarm.HtmlBoxes
 
         static void UpdateIfHigher(CssBox box, float newHeight)
         {
-            if (newHeight > box.SizeHeight)
+            if (newHeight > box.VisualHeight)
             {
-                box.SetHeight(newHeight);
+                box.SetVisualHeight(newHeight);
             }
         }
         internal void SetHeightToZero()
         {
-            this.SetHeight(0);
+            this.SetVisualHeight(0);
         }
         /// <summary>
         /// Assigns words its width and height
@@ -648,7 +648,7 @@ namespace LayoutFarm.HtmlBoxes
                             {
                                 var lastTd = tr._aa_boxes.GetLastChild();
                                 //TODO: review here again-> how to get rightmost position
-                                trW = (lastTd.LocalX + lastTd.SizeWidth + lastTd._actualPaddingRight);
+                                trW = (lastTd.LocalX + lastTd.VisualWidth + lastTd._actualPaddingRight);
                             }
                             if (trW > minWidth)
                             {

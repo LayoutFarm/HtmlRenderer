@@ -32,8 +32,8 @@ namespace LayoutFarm.HtmlBoxes
             p.FillRectangle(this.Color,
                 box.LocalX + this.HBoxShadowOffset,
                 box.LocalY + this.VBoxShadowOffset,
-                box.SizeWidth,
-                box.SizeHeight);
+                box.VisualWidth,
+                box.VisualHeight);
 
 
         }

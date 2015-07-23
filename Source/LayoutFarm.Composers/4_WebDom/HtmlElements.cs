@@ -84,8 +84,8 @@ namespace LayoutFarm.Composers
 
             var scrollView = new CssScrollView(boxSpec, box.RootGfx);
             scrollView.SetController(this);
-            scrollView.SetSize(box.SizeWidth, box.SizeHeight);
-            scrollView.SetExpectedSize(box.SizeWidth, box.SizeHeight);
+            scrollView.SetVisualSize(box.VisualWidth, box.VisualHeight);
+            scrollView.SetExpectedSize(box.VisualWidth, box.VisualHeight);
 
             box.ParentBox.InsertChild(box, scrollView);
             box.ParentBox.RemoveChild(box);
@@ -144,14 +144,14 @@ namespace LayoutFarm.Composers
         {
             get
             {
-                return this.principalBox.SizeWidth;
+                return this.principalBox.VisualWidth;
             }
         }
         public override float ActualHeight
         {
             get
             {
-                return this.principalBox.SizeHeight;
+                return this.principalBox.VisualHeight;
             }
         }
 

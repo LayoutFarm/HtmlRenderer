@@ -121,12 +121,12 @@ namespace LayoutFarm.HtmlBoxes
 
             float candidateRootWidth = Math.Max(
                 box.CalculateMinimumWidth(this.episodeId) + CalculateWidthMarginTotalUp(box),
-                (box.SizeWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.SizeWidth : 0);
+                (box.VisualWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.VisualWidth : 0);
 
 
             this.htmlContainer.UpdateSizeIfWiderOrHigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
-                this.ContainerBlockGlobalY + box.SizeHeight);
+                this.ContainerBlockGlobalY + box.VisualHeight);
 
         }
         /// <summary>
@@ -137,8 +137,8 @@ namespace LayoutFarm.HtmlBoxes
         float CalculateWidthMarginTotalUp(CssBox box)
         {
 
-            if ((box.SizeWidth + this.ContainerBlockGlobalX) > CssBoxConstConfig.BOX_MAX_RIGHT ||
-                (box.ParentBox != null && (box.ParentBox.SizeWidth + this.ContainerBlockGlobalX) > CssBoxConstConfig.BOX_MAX_RIGHT))
+            if ((box.VisualWidth + this.ContainerBlockGlobalX) > CssBoxConstConfig.BOX_MAX_RIGHT ||
+                (box.ParentBox != null && (box.ParentBox.VisualWidth + this.ContainerBlockGlobalX) > CssBoxConstConfig.BOX_MAX_RIGHT))
             {
                 return (box.ActualMarginLeft + box.ActualMarginRight) + totalMarginLeftAndRight;
             }
@@ -285,7 +285,7 @@ namespace LayoutFarm.HtmlBoxes
                 //{
                 //}
                 logRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
-                    "x:" + box.Left + ",y:" + box.Top + ",w:" + box.SizeWidth + "h:" + box.SizeHeight +
+                    "x:" + box.Left + ",y:" + box.Top + ",w:" + box.VisualWidth + "h:" + box.VisualHeight +
                     " " + box.ToString() + ",id:" + box.__aa_dbugId);
 
                 dbugIndentLevel++;

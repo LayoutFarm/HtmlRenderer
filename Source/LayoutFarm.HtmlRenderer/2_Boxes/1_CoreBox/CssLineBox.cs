@@ -263,10 +263,10 @@ namespace LayoutFarm.HtmlBoxes
             this.CachedLineContentWidth = maxRight;
             this.CachedExactContentWidth = (maxRight - firstRunStartAt);
 
-            if (lineOwner.SizeWidth < CachedLineContentWidth)
+            if (lineOwner.VisualWidth < CachedLineContentWidth)
             {
 
-                this.CachedLineContentWidth = this.OwnerBox.SizeWidth;
+                this.CachedLineContentWidth = this.OwnerBox.VisualWidth;
             }
         }
         internal void OffsetTop(float ydiff)
