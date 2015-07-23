@@ -176,8 +176,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 else
                 {
-                    localTop = prevSibling.LocalBottom + prevSibling.ActualBorderBottomWidth;
-
+                    localTop = prevSibling.LocalBottom;//+ prevSibling.ActualBorderBottomWidth; 
                 }
                 localTop += box.UpdateMarginTopCollapse(prevSibling);
                 box.SetLocation(localLeft, localTop);
