@@ -52,7 +52,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this.ReEvaluateComputedValues(lay.SampleIFonts, myContainingBlock);
             }
-            
+
             float localLeft = myContainingBlock.GetClientLeft() + this.ActualMarginLeft;
             float localTop = 0;
 
@@ -65,7 +65,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                localTop = prevSibling.LocalBottom + prevSibling.ActualBorderBottomWidth;
+                localTop = prevSibling.LocalBottom;// +prevSibling.ActualBorderBottomWidth;
             }
 
             float maringTopCollapse = UpdateMarginTopCollapse(prevSibling);
