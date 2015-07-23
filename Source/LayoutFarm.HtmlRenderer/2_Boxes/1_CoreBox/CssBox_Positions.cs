@@ -433,7 +433,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                throw new NotSupportedException();
+               // throw new NotSupportedException();
             }
         }
         public void SetVisualHeight(float height)
@@ -547,6 +547,10 @@ namespace LayoutFarm.HtmlBoxes
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
+                if (this._actualPaddingLeft == 17)
+                {
+
+                }
 #endif
                 return this._actualPaddingLeft;
             }

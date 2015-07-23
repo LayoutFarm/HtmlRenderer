@@ -159,12 +159,12 @@ namespace LayoutFarm.HtmlBoxes
 
                     }
 
-                    float availableWidth = myContainingBlock.GetClientWidth(); 
+                    float availableWidth = myContainingBlock.GetClientWidth();
                     if (!box.Width.IsEmptyOrAuto)
-                    {     
-                        availableWidth = CssValueParser.ConvertToPx(box.Width, availableWidth, box); 
-                    } 
-                    box.CssSetBoxWidth(availableWidth); 
+                    {
+                        availableWidth = CssValueParser.ConvertToPx(box.Width, availableWidth, box);
+                    }
+                    box.CssSetBoxWidth(availableWidth);
                 }
                 //-------------------------------------------
 
@@ -1085,7 +1085,9 @@ namespace LayoutFarm.HtmlBoxes
         {
             //flow runs into hostLine, create new line if need  
             bool wrapNoWrapBox = false;
-            var bWhiteSpace = b.WhiteSpace;
+            CssWhiteSpace bWhiteSpace = b.WhiteSpace;
+            bool hostBoxIsB = hostBox == b;
+
             if (bWhiteSpace == CssWhiteSpace.NoWrap && cx > firstRunStartX)
             {
                 var tmpRight = cx;
@@ -1153,7 +1155,10 @@ namespace LayoutFarm.HtmlBoxes
                 if (lim == 0)
                 {
                     //single one
-                    cx += b.ActualPaddingLeft;
+                    if (!hostBoxIsB)
+                    {
+                        cx += b.ActualPaddingLeft;
+                    }
                     run.SetLocation(cx, 0);
                     cx += run.Width + b.ActualPaddingRight;
                 }
@@ -1162,7 +1167,11 @@ namespace LayoutFarm.HtmlBoxes
                     if (i == 0)
                     {
                         //first
-                        cx += b.ActualPaddingLeft;
+                        if (!hostBoxIsB)
+                        {
+                            cx += b.ActualPaddingLeft;
+                        }
+
                         run.SetLocation(cx, 0);
                         cx = run.Right;
                     }

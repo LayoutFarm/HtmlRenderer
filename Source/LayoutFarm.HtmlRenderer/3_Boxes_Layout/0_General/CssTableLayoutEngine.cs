@@ -970,9 +970,7 @@ namespace LayoutFarm.HtmlBoxes
             float globalBottom = Math.Max((maxBottom_local + table_globalY), starty_global) + vertical_spacing + _tableBox.ActualBorderBottomWidth;
             _tableBox.SetVisualHeight(globalBottom - table_globalY);
 
-        }
-
-
+        } 
 
         /// <summary>
         /// Get the table cells spacing for all the cells in the table.<br/>
