@@ -153,17 +153,12 @@ namespace LayoutFarm.HtmlBoxes
                 //-------------------------------------------
                 if (box.CssDisplay != Css.CssDisplay.Table)
                 {
-
-                    if (box.__aa_dbugId == 4)
-                    {
-
-                    }
-
                     float availableWidth = myContainingBlock.GetClientWidth();
                     if (!box.Width.IsEmptyOrAuto)
                     {
                         availableWidth = CssValueParser.ConvertToPx(box.Width, availableWidth, box);
                     }
+
                     box.CssSetBoxWidth(availableWidth);
                 }
                 //-------------------------------------------
@@ -668,6 +663,7 @@ namespace LayoutFarm.HtmlBoxes
                 var w = CssValueParser.ConvertToPx(box.Width, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
                 box.SetExpectedSize(w, box.ExpectedHeight);
                 box.SetVisualWidth(w);
+                box.CssSetBoxWidth(w);
             }
             else
             {

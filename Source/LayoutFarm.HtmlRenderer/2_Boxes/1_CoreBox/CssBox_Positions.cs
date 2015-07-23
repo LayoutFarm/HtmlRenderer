@@ -402,7 +402,7 @@ namespace LayoutFarm.HtmlBoxes
 
 
         /// <summary>
-        /// set box width and recalcualte visual width 
+        /// set box width related to its boxsizing model  and recalcualte visual width 
         /// </summary>
         /// <param name="width"></param>
         internal void CssSetBoxWidth(float width)
@@ -410,6 +410,11 @@ namespace LayoutFarm.HtmlBoxes
             //TODO: review here again 
             //depend on box-sizing model  ***
 
+#if DEBUG
+            if (this.__aa_dbugId == 4)
+            {
+            }
+#endif
             this._cssBoxWidth = width;
             this._visualWidth = width;
 
@@ -427,13 +432,18 @@ namespace LayoutFarm.HtmlBoxes
 
         public void SetVisualWidth(float width)
         {
+#if DEBUG
+            if (this.__aa_dbugId == 4)
+            {
+            }
+#endif
             if (!this.FreezeWidth)
             {
                 this._visualWidth = width;
             }
             else
             {
-               // throw new NotSupportedException();
+                // throw new NotSupportedException();
             }
         }
         public void SetVisualHeight(float height)
@@ -547,7 +557,7 @@ namespace LayoutFarm.HtmlBoxes
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
-                if (this._actualPaddingLeft == 17)
+                if (this._actualPaddingLeft > 10)
                 {
 
                 }
@@ -568,7 +578,10 @@ namespace LayoutFarm.HtmlBoxes
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
+                if (this._actualPaddingLeft > 10)
+                {
 
+                }
 #endif
                 return this._actualPaddingRight;
                 //return _actualPaddingRight;
