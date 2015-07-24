@@ -59,7 +59,7 @@ namespace LayoutFarm.HtmlBoxes
             if (!spec.IsFreezed)
             {
                 //must be freezed
-                //throw new NotSupportedException();
+                throw new NotSupportedException();
             }
 #endif
 

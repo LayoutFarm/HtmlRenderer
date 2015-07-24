@@ -176,7 +176,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 else
                 {
-                    localTop = prevSibling.LocalVisualBottom; 
+                    localTop = prevSibling.LocalVisualBottom;
                 }
                 localTop += box.UpdateMarginTopCollapse(prevSibling);
                 box.SetLocation(localLeft, localTop);
@@ -766,6 +766,15 @@ namespace LayoutFarm.HtmlBoxes
                 var ifonts = lay.SampleIFonts;
                 foreach (CssBox b in srcBox.GetChildBoxIter())
                 {
+
+#if DEBUG
+                    if (b.__aa_dbugId == 4)
+                    {
+
+                    }
+#endif
+
+
                     float leftMostSpace = 0, rightMostSpace = 0;
                     //if b has absolute pos then it is removed from the flow 
                     if (b.NeedComputedValueEvaluation)
@@ -987,7 +996,6 @@ namespace LayoutFarm.HtmlBoxes
 
                                 } break;
                         }
-
                     }
                     else
                     {
