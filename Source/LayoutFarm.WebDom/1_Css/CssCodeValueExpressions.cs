@@ -215,8 +215,6 @@ namespace LayoutFarm.WebDom
             sb.Append(')');
             return sb.ToString();
         }
-
-
         public override string GetTranslatedStringValue()
         {
             if (isEval)
@@ -230,13 +228,17 @@ namespace LayoutFarm.WebDom
                 {
                     case "rgb":
                         {
+                            //css color function rgb
                             //each is number 
-                            int r_value = (int)funcArgs[0].AsNumber();
-                            int g_value = (int)funcArgs[1].AsNumber();
-                            int b_value = (int)funcArgs[2].AsNumber();
-
-                            return this.evaluatedStringValue = "#" + r_value.ToString("X") + g_value.ToString("X") + b_value.ToString("X");
+                            byte r_value = (byte)funcArgs[0].AsNumber();
+                            byte g_value = (byte)funcArgs[1].AsNumber();
+                            byte b_value = (byte)funcArgs[2].AsNumber();
+                            return this.evaluatedStringValue = string.Concat("#",
+                                ConvertByteToStringWithPadding(r_value),
+                                ConvertByteToStringWithPadding(g_value),
+                                ConvertByteToStringWithPadding(b_value));
                         }
+                    //TODO: implement rgba here
                     case "url":
                         {
                             return this.evaluatedStringValue = this.funcArgs[0].ToString();
@@ -246,6 +248,18 @@ namespace LayoutFarm.WebDom
                             return this.evaluatedStringValue = this.ToString();
                         }
                 }
+            }
+        }
+        static string ConvertByteToStringWithPadding(byte colorByte)
+        {
+            string hex = colorByte.ToString("X");
+            if (hex.Length < 2)
+            {
+                return "0" + hex;
+            }
+            else
+            {
+                return hex;
             }
         }
 
