@@ -39,7 +39,7 @@ namespace LayoutFarm.HtmlBoxes
                 lay.LatestSiblingBox = prevSibling;
                 var fRun = _listItemBulletBox.FirstRun;
                 _listItemBulletBox.FirstRun.SetSize(fRun.Width, fRun.Height);
-                _listItemBulletBox.FirstRun.SetLocation(_listItemBulletBox.SizeWidth - 5, this.ActualPaddingTop);
+                _listItemBulletBox.FirstRun.SetLocation(_listItemBulletBox.VisualWidth - 5, this.ActualPaddingTop);
             }
         }
       

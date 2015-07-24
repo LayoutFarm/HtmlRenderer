@@ -26,8 +26,9 @@ namespace LayoutFarm.HtmlBoxes
         float _localX;
         float _localY;
         //location, size 
-        float _sizeHeight;
-        float _sizeWidth;
+        float _visualWidth;
+        float _visualHeight;
+
         //----------------------------------
         //absolute layer width,height
         float _innerContentW;
@@ -36,6 +37,11 @@ namespace LayoutFarm.HtmlBoxes
         int _viewportX;
         int _viewportY;
 
+        //TODO: review here again!
+        bool specificUserContentSizeWidth;
+        float _cssBoxWidth;
+        float _cssBoxHeight;
+        CssBoxSizing _boxSizing;
 
 
         /// <summary>
@@ -75,28 +81,29 @@ namespace LayoutFarm.HtmlBoxes
         float _cachedMinimumWidth = 0;
         //------------------------------
 
-
+        /// <summary>
+        /// local visual X
+        /// </summary>
         public float LocalX
         {
             get { return this._localX; }
         }
+        /// <summary>
+        /// local visual y 
+        /// </summary>
         public float LocalY
         {
             get { return this._localY; }
         }
-        /// <summary>
-        /// Gets the width available on the box, counting padding and margin.
-        /// </summary> 
-        //--------------------------------
-        public float LocalRight
+        public float LocalVisualRight
         {
             //from parent view
-            get { return this.LocalX + this.SizeWidth; }
+            get { return this.LocalX + this.VisualWidth; }
         }
-        public float LocalBottom
+        public float LocalVisualBottom
         {
             //from parent view 
-            get { return this.LocalY + this.SizeHeight; }
+            get { return this.LocalY + this.VisualHeight; }
         }
         //--------------------------------
         /// <summary>
@@ -106,7 +113,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="localY"></param>
         public void SetLocation(float localX, float localY)
         {
-            
+
 
             this._localX = localX;
             this._localY = localY;
@@ -198,7 +205,7 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             //-----------------------------------------------------------------------
-            float cbWidth = containingBlock.SizeWidth;
+            float cbWidth = containingBlock.VisualWidth;
             int tmpBoxCompactFlags = this._boxCompactFlags;
             this._boxCompactFlags |= BoxFlags.LAY_EVAL_COMPUTE_VALUES;
 
@@ -332,7 +339,7 @@ namespace LayoutFarm.HtmlBoxes
             //---------------------------------------------- 
 
             //text indent   
-            this._actualTextIndent = CssValueParser.ConvertToPx(spec.TextIndent, containingBlock.SizeWidth, this);
+            this._actualTextIndent = CssValueParser.ConvertToPx(spec.TextIndent, containingBlock.VisualWidth, this);
             this._actualBorderSpacingHorizontal = spec.BorderSpacingHorizontal.Number;
             this._actualBorderSpacingVertical = spec.BorderSpacingVertical.Number;
 
@@ -394,47 +401,129 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
-        public void SetSize(float width, float height)
-        {
 
+
+        /// <summary>
+        /// set box width related to its boxsizing model  and recalcualte visual width 
+        /// </summary>
+        /// <param name="width"></param>
+        internal void SetCssBoxWidth(float width)
+        {
+            //TODO: review here again 
+            //depend on box-sizing model  ***
+
+#if DEBUG
+            //if (this.__aa_dbugId == 4)
+            //{
+            //}
+#endif
+            this._cssBoxWidth = width;
+            this._visualWidth = width;
+
+            // must be separate because the margin can be calculated by percentage of the width
+            //(again, because actual padding or margin may need css box with first)
+            if (_boxSizing == CssBoxSizing.ContentBox)
+            {
+                this._visualWidth = width +
+                       this.ActualPaddingLeft + this.ActualPaddingRight +
+                       +this.ActualBorderLeftWidth + this.ActualBorderRightWidth;
+
+            }
+
+            this.specificUserContentSizeWidth = true;
+        }
+        internal void SetCssBoxHeight(float height)
+        {
+            //TODO: review here again 
+            //depend on box-sizing model  ***
+
+#if DEBUG
+            if (this.__aa_dbugId == 2)
+            {
+            }
+#endif
+
+            this._cssBoxHeight = height;
+            this._visualHeight = height;
+            // must be separate because the margin can be calculated by percentage of the width
+            //(again, because actual padding or margin may need css box with first)
+            if (_boxSizing == CssBoxSizing.ContentBox)
+            {
+                this._visualHeight = height +
+                       this.ActualPaddingTop + this.ActualPaddingBottom +
+                       +this.ActualBorderTopWidth + this.ActualBorderBottomWidth;
+            }
+
+            this.specificUserContentSizeWidth = true;
+        }
+        public void SetVisualWidth(float width)
+        {
+#if DEBUG
+            //if (this.__aa_dbugId == 4)
+            //{
+            //}
+#endif
             if (!this.FreezeWidth)
             {
-                this._sizeWidth = width;
+                this._visualWidth = width;
             }
-            this._sizeHeight = height;
-        }
-        public void SetHeight(float height)
-        {
-
-            this._sizeHeight = height;
-
-        }
-
-        public void SetWidth(float width)
-        {
-            if (!this.FreezeWidth)
+            else
             {
-                this._sizeWidth = width;
+                // throw new NotSupportedException();
             }
+        }
+        public void SetVisualHeight(float height)
+        {
+
+#if DEBUG
+            if (this.__aa_dbugId == 2)
+            {
+
+            }
+#endif
+            this._visualHeight = height;
         }
         /// <summary>
-        /// presentation width (border+ padding+ content), for clip area
+        /// set presentation (visual) size width,height
         /// </summary>
-        public float SizeWidth
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        public void SetVisualSize(float width, float height)
+        {
+            if (!this.FreezeWidth)
+            {
+                this._visualWidth = width;
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+
+#if DEBUG
+            if (this.__aa_dbugId == 2)
+            {
+            }
+#endif
+            this._visualHeight = height;
+        }
+        /// <summary>
+        /// presentation width (border+ padding+ content), for clip area, not include margin
+        /// </summary>
+        public float VisualWidth
         {
             get
             {
-                return this._sizeWidth;
+                return this._visualWidth;
             }
         }
         /// <summary>
-        /// presentaion height (border+padding+ content), for clip area
+        /// presentaion height (border+padding+ content), for clip area,not include margin
         /// </summary>
-        public float SizeHeight
+        public float VisualHeight
         {
             get
             {
-                return this._sizeHeight;
+                return this._visualHeight;
             }
         }
         //-------------------------------------------------------
@@ -489,6 +578,9 @@ namespace LayoutFarm.HtmlBoxes
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
+                //if (this._actualPaddingBottom > 10)
+                //{
+                //}
 #endif
                 return this._actualPaddingTop;
             }
@@ -507,6 +599,10 @@ namespace LayoutFarm.HtmlBoxes
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
+                //if (this._actualPaddingLeft > 10)
+                //{
+
+                //}
 #endif
                 return this._actualPaddingLeft;
             }
@@ -524,7 +620,9 @@ namespace LayoutFarm.HtmlBoxes
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
                 //}
-
+                //if (this._actualPaddingLeft > 10)
+                //{ 
+                //}
 #endif
                 return this._actualPaddingRight;
                 //return _actualPaddingRight;
@@ -542,6 +640,9 @@ namespace LayoutFarm.HtmlBoxes
                 //{
                 //    //if not evaluate
                 //    System.Diagnostics.Debugger.Break();
+                //}
+                //if (this._actualPaddingBottom > 10)
+                //{
                 //}
 #endif
                 return this._actualPaddingBottom;
@@ -760,8 +861,8 @@ namespace LayoutFarm.HtmlBoxes
         public bool IsPointInArea(float x, float y)
         {
             //from parent view
-            return x >= this.LocalX && x < this.LocalRight &&
-                   y >= this.LocalY && y < this.LocalBottom;
+            return x >= this.LocalX && x < this.LocalVisualRight &&
+                   y >= this.LocalY && y < this.LocalVisualBottom;
         }
 
 

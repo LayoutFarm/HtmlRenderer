@@ -7,17 +7,13 @@ using LayoutFarm.Css;
 namespace LayoutFarm.WebDom
 {
 
-
+    
     public class CssPropertyDeclaration
     {
-        bool isReady = false;
-        bool isValid = false;
-        bool isAutoGen = false;
-
-
+        bool isAutoGen;
         bool markedAsInherit;
 
-        CssCodeValueExpression propertyValue;
+        CssCodeValueExpression firstValue;
         List<CssCodeValueExpression> moreValues;
 
 #if DEBUG
@@ -38,40 +34,23 @@ namespace LayoutFarm.WebDom
         {
             //from another 
             this.WellknownPropertyName = wellNamePropertyName;
-            this.propertyValue = value;
+            this.firstValue = value;
             this.markedAsInherit = value.IsInherit;
             //auto gen from another prop
             this.isAutoGen = true;
         }
         public bool IsExpand { get; set; }
         public string UnknownRawName { get; private set; }
-        public void AddUnitToLatestValue(string unit)
-        {
-            CssCodePrimitiveExpression latestValue = null;
-            if (moreValues != null)
-            {
-                latestValue = moreValues[moreValues.Count - 1] as CssCodePrimitiveExpression;
-            }
-            else
-            {
-                latestValue = this.propertyValue as CssCodePrimitiveExpression;
 
-            }
-            if (latestValue != null)
-            {
-                latestValue.Unit = unit;
-            }
-        }
         public void AddValue(CssCodeValueExpression value)
         {
-            if (propertyValue == null)
+            if (firstValue == null)
             {
-
                 this.markedAsInherit = value.IsInherit;
-                this.propertyValue = value;
+                this.firstValue = value;
             }
             else
-            {
+            {  
                 if (moreValues == null)
                 {
                     moreValues = new List<CssCodeValueExpression>();
@@ -84,7 +63,7 @@ namespace LayoutFarm.WebDom
         {
             if (index == 0)
             {
-                this.propertyValue = value;
+                this.firstValue = value;
             }
             else
             {
@@ -107,9 +86,9 @@ namespace LayoutFarm.WebDom
         }
         void CollectValues(StringBuilder stBuilder)
         {
-            if (propertyValue != null)
+            if (firstValue != null)
             {
-                stBuilder.Append(propertyValue.ToString());
+                stBuilder.Append(firstValue.ToString());
             }
             if (moreValues != null)
             {
@@ -139,7 +118,7 @@ namespace LayoutFarm.WebDom
             {
                 if (moreValues == null)
                 {
-                    if (propertyValue == null)
+                    if (firstValue == null)
                     {
                         return 0;
                     }
@@ -163,7 +142,7 @@ namespace LayoutFarm.WebDom
             {
                 case 0:
                     {
-                        return this.propertyValue;
+                        return this.firstValue;
                     }
                 default:
                     {
@@ -187,253 +166,10 @@ namespace LayoutFarm.WebDom
         HexColor,
         LiteralString,
         Iden,
-        Func
+        Func,
+        BinaryExpression,
     }
-    public class CssCodeColor : CssCodeValueExpression
-    {
-        CssColor color;
-        public CssCodeColor(CssColor color)
-            : base(CssValueHint.HexColor)
-        {
-            this.color = color;
-            SetColorValue(color);
-        }
-        public CssColor ActualColor
-        {
-            get { return this.color; }
-        }
-    }
-    public class CssCodePrimitiveExpression : CssCodeValueExpression
-    {
-        string unit;
-        readonly string _propertyValue;
-
-        public CssCodePrimitiveExpression(string value, CssValueHint hint)
-            : base(hint)
-        {
-            this._propertyValue = value;
-            switch (hint)
-            {
-                case CssValueHint.Iden:
-                    {
-                        //check value  
-                        this.IsInherit = value == "inherit";
-                    } break;
-                case CssValueHint.Number:
-                    {
-                        this.number = float.Parse(value);
-                    } break;
-            }
-        }
-        public CssCodePrimitiveExpression(float number)
-            : base(CssValueHint.Number)
-        {
-            //number             
-            this.number = number;
-        }
-        public string Unit
-        {
-            get { return unit; }
-            set { this.unit = value; }
-        }
-        public string Value
-        {
-            get
-            {
-                return this._propertyValue;
-            }
-        }
-        public override string ToString()
-        {
-            switch (this.Hint)
-            {
-                case CssValueHint.Number:
-                    {
-                        if (unit != null)
-                        {
-                            return number.ToString() + unit;
-                        }
-                        else
-                        {
-                            return number.ToString();
-                        }
-                    }
-                default:
-                    if (unit != null)
-                    {
-                        return Value + unit;
-                    }
-                    else
-                    {
-                        return Value;
-                    }
-
-            }
-
-        }
-
-    }
-
-
-
-    public class CssCodeFunctionCallExpression : CssCodeValueExpression
-    {
-
-        List<CssCodeValueExpression> funcArgs = new List<CssCodeValueExpression>();
-        public CssCodeFunctionCallExpression(string funcName)
-            : base(CssValueHint.Func)
-        {
-            this.FunctionName = funcName;
-        }
-        public string FunctionName
-        {
-            get;
-            private set;
-        }
-        public void AddFuncArg(CssCodeValueExpression arg)
-        {
-            this.funcArgs.Add(arg);
-        }
-
-        public override string ToString()
-        {
-
-            StringBuilder sb = new StringBuilder();
-            sb.Append(this.FunctionName);
-            sb.Append('(');
-            int j = funcArgs.Count;
-
-            for (int i = 0; i < j; ++i)
-            {
-                sb.Append(funcArgs[i].ToString());
-                if (i < j - 1)
-                {
-                    sb.Append(',');
-                }
-            }
-            sb.Append(')');
-            return sb.ToString();
-        }
-
-        string evaluatedStringValue;
-        bool isEval;
-        public override string GetTranslatedStringValue()
-        {
-            if (isEval)
-            {
-                return this.evaluatedStringValue;
-            }
-            else
-            {
-                isEval = true;
-                switch (this.FunctionName)
-                {
-                    case "rgb":
-                        {
-                            //each is number 
-                            int r_value = (int)funcArgs[0].AsNumber();
-                            int g_value = (int)funcArgs[1].AsNumber();
-                            int b_value = (int)funcArgs[2].AsNumber();
-
-                            return this.evaluatedStringValue = "#" + r_value.ToString("X") + g_value.ToString("X") + b_value.ToString("X");
-                        }
-                    case "url":
-                        {
-                            return this.evaluatedStringValue = this.funcArgs[0].ToString();
-                        }
-                    default:
-                        {
-                            return this.evaluatedStringValue = this.ToString();
-                        }
-                }
-            }
-        }
-
-    }
-
-
-    public abstract class CssCodeValueExpression
-    {
-#if DEBUG
-        static int dbugTotalId;
-        public readonly int dbugId = dbugTotalId++;
-#endif
-
-        public CssCodeValueExpression(CssValueHint hint)
-        {
-#if DEBUG
-            //if (this.dbugId == 111)
-            //{
-
-            //}
-#endif
-            this.Hint = hint;
-        }
-        public CssValueHint Hint
-        {
-            get;
-            private set;
-        }
-
-        CssValueEvaluatedAs evaluatedAs;
-        CssColor cachedColor;
-        LayoutFarm.Css.CssLength cachedLength;
-        int cachedInt;
-        protected float number;
-
-        public bool IsInherit
-        {
-            get;
-            internal set;
-        }
-
-        //------------------------------------------------------
-        public float AsNumber()
-        {
-            return this.number;
-        }
-
-        public void SetIntValue(int intValue, CssValueEvaluatedAs evaluatedAs)
-        {
-            this.evaluatedAs = evaluatedAs;
-            this.cachedInt = intValue;
-        }
-        public void SetColorValue(CssColor color)
-        {
-            this.evaluatedAs = CssValueEvaluatedAs.Color;
-            this.cachedColor = color;
-        }
-        public void SetCssLength(CssLength len, WebDom.CssValueEvaluatedAs evalAs)
-        {
-            this.cachedLength = len;
-            this.evaluatedAs = evalAs;
-        }
-
-        public CssValueEvaluatedAs EvaluatedAs
-        {
-            get
-            {
-                return this.evaluatedAs;
-            }
-        }
-
-        public CssColor GetCacheColor()
-        {
-            return this.cachedColor;
-        }
-        public CssLength GetCacheCssLength()
-        {
-            return this.cachedLength;
-        }
-        public virtual string GetTranslatedStringValue()
-        {
-            return this.ToString();
-        }
-        public int GetCacheIntValue()
-        {
-            return this.cachedInt;
-        }
-    }
+  
 
     public enum CssValueEvaluatedAs : byte
     {
@@ -468,6 +204,10 @@ namespace LayoutFarm.WebDom
         BackgroundRepeat,
         BoxSizing,
     }
-
+    public enum CssValueOpName
+    {
+        Unknown,
+        Divide,
+    }
 
 }

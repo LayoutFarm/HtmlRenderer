@@ -19,8 +19,8 @@ namespace LayoutFarm.HtmlBoxes
                 parentBox.InvalidateGraphics(new Rectangle(
                     (int)this.LocalX,
                     (int)this.LocalY,
-                    (int)this.SizeWidth,
-                    (int)this.SizeHeight));
+                    (int)this.VisualWidth,
+                    (int)this.VisualHeight));
             }
         }
         public virtual void InvalidateGraphics(Rectangle clientArea)
@@ -113,7 +113,7 @@ namespace LayoutFarm.HtmlBoxes
             if (this._renderBGAndBorder)
             {
 
-                RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
+                RectangleF bound = new RectangleF(0, 0, this.VisualWidth, this.VisualHeight);
                 PaintBackground(p, bound, true, true);
                 if (this.HasSomeVisibleBorder)
                 {
@@ -213,7 +213,7 @@ namespace LayoutFarm.HtmlBoxes
 
                         if (b.HasClipArea)
                         {
-                            if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
+                            if (p.PushLocalClipArea(b.VisualWidth, b.VisualHeight))
                             {
                                 b.Paint(p);                                
                             }

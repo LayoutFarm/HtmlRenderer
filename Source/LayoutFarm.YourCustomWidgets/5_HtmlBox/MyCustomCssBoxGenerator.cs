@@ -142,6 +142,21 @@ namespace LayoutFarm.CustomWidgets
                             parentBox.AppendChild(wrapperBox);
                             return wrapperBox;
                         }
+                    case "radio":
+                        {
+                            //tempfix -> just copy the Button code,
+                            //TODO: review here, use proper radio button 
+                            var box = new LayoutFarm.CustomWidgets.SimpleBox(20, 20);
+
+                            CssBox wrapperBox = CreateWrapper(
+                                 box,
+                                 box.GetPrimaryRenderElement(rootgfx),
+                                 spec, true);
+
+                            parentBox.AppendChild(wrapperBox);
+                            return wrapperBox;
+
+                        } break;
                 }
             }
             return null;

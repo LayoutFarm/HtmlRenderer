@@ -111,7 +111,7 @@ namespace LayoutFarm.HtmlBoxes
             _actualWidth = _actualHeight = 0;
             // if width is not restricted we set it to large value to get the actual later    
             _rootBox.SetLocation(0, 0);
-            _rootBox.SetSize(this._maxWidth > 0 ? this._maxWidth : MAX_WIDTH, 0);
+            _rootBox.SetVisualSize(this._maxWidth > 0 ? this._maxWidth : MAX_WIDTH, 0);
 
             CssBox.ValidateComputeValues(_rootBox);
             //----------------------- 
@@ -123,7 +123,7 @@ namespace LayoutFarm.HtmlBoxes
             if (this._maxWidth <= 0.1)
             {
                 // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
-                _rootBox.SetWidth((int)Math.Ceiling(this._actualWidth));
+                _rootBox.SetVisualWidth((int)Math.Ceiling(this._actualWidth));
                 _actualWidth = _actualHeight = 0;
                 _rootBox.PerformLayout(lay);
             }
@@ -154,7 +154,7 @@ namespace LayoutFarm.HtmlBoxes
             bool found = false;
             while (parent != null)
             {
-                var rectParent = new RectangleF(0, 0, parent.SizeWidth, parent.SizeHeight);
+                var rectParent = new RectangleF(0, 0, parent.VisualWidth, parent.VisualHeight);
                 if (rectParent.Contains(rectChild))
                 {
                     found = true;

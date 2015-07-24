@@ -348,7 +348,7 @@ namespace LayoutFarm.HtmlBoxes
                 logRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
                     "[" + this.canvas.CurrentClipRect + "] " +
                     "(" + this.CanvasOriginX + "," + this.CanvasOriginY + ") " +
-                    "x:" + box.Left + ",y:" + box.Top + ",w:" + box.SizeWidth + "h:" + box.SizeHeight +
+                    "x:" + box.Left + ",y:" + box.Top + ",w:" + box.VisualWidth + "h:" + box.VisualHeight +
                     " " + box.ToString() + ",id:" + box.__aa_dbugId);
 
                 dbugIndentLevel++;

@@ -165,7 +165,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 #if DEBUG
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
-            Paint(p, new RectangleF(0, 0, this.SizeWidth, this.SizeHeight));
+            Paint(p, new RectangleF(0, 0, this.VisualWidth, this.VisualHeight));
 #if DEBUG
             p.dbugExitContext();
 #endif
@@ -224,7 +224,7 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
 
             this.renderE = renderElement;
             ChangeDisplayType(this, CssDisplay.Block);
-            this.SetSize(w, h);
+            this.SetVisualSize(w, h);
             LayoutFarm.RenderElement.SetParentLink(renderElement, this);
         }
 
@@ -238,15 +238,16 @@ namespace LayoutFarm.HtmlBoxes.InternalWrappers
             if (ibox != null)
             {
                 //todo: user minimum font height of the IBoxElement
-                int w = (int)this.SizeWidth;
-                int h = Math.Max((int)this.SizeHeight, ibox.MinHeight);
+                int w = (int)this.VisualWidth;
+                int h = Math.Max((int)this.VisualHeight, ibox.MinHeight);
 
                 ibox.ChangeElementSize(w, h);
-                this.SetSize(w, h);
+                this.SetVisualSize(w, h);
             }
             else
             {
-                this.SetSize(100, 20);
+                //TODO: review this
+                this.SetVisualSize(100, 20);
             }
         }
         protected override void PaintImp(PaintVisitor p)

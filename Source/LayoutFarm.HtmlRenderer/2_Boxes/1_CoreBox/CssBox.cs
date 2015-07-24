@@ -59,7 +59,7 @@ namespace LayoutFarm.HtmlBoxes
             if (!spec.IsFreezed)
             {
                 //must be freezed
-                throw new NotSupportedException();
+                //throw new NotSupportedException();
             }
 #endif
 
@@ -406,7 +406,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="g">Device context to use</param>
         protected virtual void PerformContentLayout(LayoutVisitor lay)
-        {   
+        {
             switch (this.CssDisplay)
             {
                 case Css.CssDisplay.None:
@@ -449,14 +449,14 @@ namespace LayoutFarm.HtmlBoxes
 
         static void UpdateIfHigher(CssBox box, float newHeight)
         {
-            if (newHeight > box.SizeHeight)
+            if (newHeight > box.VisualHeight)
             {
-                box.SetHeight(newHeight);
+                box.SetVisualHeight(newHeight);
             }
         }
         internal void SetHeightToZero()
         {
-            this.SetHeight(0);
+            this.SetVisualHeight(0);
         }
         /// <summary>
         /// Assigns words its width and height
@@ -648,7 +648,7 @@ namespace LayoutFarm.HtmlBoxes
                             {
                                 var lastTd = tr._aa_boxes.GetLastChild();
                                 //TODO: review here again-> how to get rightmost position
-                                trW = (lastTd.LocalX + lastTd.SizeWidth + lastTd._actualPaddingRight);
+                                trW = (lastTd.LocalX + lastTd.VisualWidth + lastTd._actualPaddingRight);
                             }
                             if (trW > minWidth)
                             {
@@ -713,16 +713,18 @@ namespace LayoutFarm.HtmlBoxes
         /// Gets the result of collapsing the vertical margins of the two boxes
         /// </summary>
         /// <returns>Resulting bottom margin</returns>
-        internal float GetHeightAfterMarginBottomCollapse(CssBox cbBox)
+        internal float GetHeightAfterMarginBottomCollapse(CssBox containerBox)
         {
 
+            //TODO: review again 
             float margin = 0;
-            if (ParentBox != null && this.IsLastChild && cbBox.ActualMarginBottom < 0.1)
+            if (ParentBox != null && this.IsLastChild && containerBox.ActualMarginBottom < 0.1)
             {
                 var lastChildBottomMargin = _aa_boxes.GetLastChild().ActualMarginBottom;
-                margin = (Height.IsAuto) ?
-                    Math.Max(ActualMarginBottom, lastChildBottomMargin)
-                    : lastChildBottomMargin;
+                //margin = (Height.IsAuto) ?
+                //    Math.Max(ActualMarginBottom, lastChildBottomMargin)
+                //    : lastChildBottomMargin;
+                margin = lastChildBottomMargin;
             }
             //exclude float box
             var cnode = _aa_boxes.GetLastLinkedNode();
@@ -732,7 +734,7 @@ namespace LayoutFarm.HtmlBoxes
                 CssBox box = cnode.Value;
                 if (box.Float == CssFloat.None)
                 {
-                    lastChildBotom = box.LocalBottom;
+                    lastChildBotom = box.LocalVisualBottom;
                     break;
                 }
                 else
@@ -740,7 +742,7 @@ namespace LayoutFarm.HtmlBoxes
                     cnode = cnode.Previous;
                 }
             }
-            return lastChildBotom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;            
+            return lastChildBotom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
         }
         internal void OffsetLocalTop(float dy)
         {

@@ -36,6 +36,7 @@
     <Compile Include="0_WebDom.Parser\HtmlKitParser.cs" />
     <Compile Include="0_WebDom.Parser\MyHtmlParser.cs" />
     <Compile Include="0_WebDom.Parser\TextSource.cs" />
+    <Compile Include="1_Css\CssCodeValueExpressions.cs" />
     <Compile Include="1_Css\UserMapUtil.cs" />
     <Compile Include="1_Css\ValueMaps.cs" />
     <Compile Include="1_Css\CssActiveSheet.cs" />

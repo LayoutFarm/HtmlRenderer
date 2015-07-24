@@ -164,7 +164,7 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
-            Paint(p, new RectangleF(0, 0, this.SizeWidth, this.SizeHeight));
+            Paint(p, new RectangleF(0, 0, this.VisualWidth, this.VisualHeight));
 #if DEBUG
             p.dbugExitContext();
 #endif

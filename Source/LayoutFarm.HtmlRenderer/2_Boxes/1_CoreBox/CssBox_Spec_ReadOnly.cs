@@ -95,7 +95,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.BorderCollapse == CssBorderCollapse.Collapse; }
         }
-     
+
         //------------------------------------------------------ 
         public CssLength Left
         {

@@ -903,7 +903,7 @@ namespace LayoutFarm.HtmlBoxes
                         //-----------------------------------------
                         cell.SetLocation(curX_local, curY_local);
                         cell.FreezeWidth = false;
-                        cell.SetSize(width, 0);
+                        cell.SetVisualSize(width, 0);
                         cell.FreezeWidth = true;
                         //-----------------------------------------
 
@@ -915,16 +915,16 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             if (sb.EndRow == currentRow)
                             {
-                                maxBottom_local = Math.Max(maxBottom_local, sb.ExtendedBox.LocalBottom);
+                                maxBottom_local = Math.Max(maxBottom_local, sb.ExtendedBox.LocalVisualBottom);
                             }
                         }
                         else if (cell.RowSpan == 1)
                         {
-                            maxBottom_local = Math.Max(maxBottom_local, cell.LocalBottom);
+                            maxBottom_local = Math.Max(maxBottom_local, cell.LocalVisualBottom);
                         }
 
-                        maxRight_local = Math.Max(maxRight_local, cell.LocalRight);
-                        curX_local = cell.LocalRight + horizontal_spacing;
+                        maxRight_local = Math.Max(maxRight_local, cell.LocalVisualRight);
+                        curX_local = cell.LocalVisualRight + horizontal_spacing;
                         //-------------------------
                         col_index++;
                         grid_index += colspan;
@@ -941,7 +941,7 @@ namespace LayoutFarm.HtmlBoxes
                         if (cell.RowSpan == 1)
                         {
 
-                            cell.SetHeight(maxBottom_local - curY_local);
+                            cell.SetVisualHeight(maxBottom_local - curY_local);
                             ApplyCellVerticalAlignment(cell, starty_local);
                         }
                     }
@@ -950,7 +950,7 @@ namespace LayoutFarm.HtmlBoxes
                         if (spacer.EndRow == currentRow)
                         {
 
-                            spacer.ExtendedBox.SetHeight(maxBottom_local - curY_local);
+                            spacer.ExtendedBox.SetVisualHeight(maxBottom_local - curY_local);
                             ApplyCellVerticalAlignment(spacer.ExtendedBox, starty_local);
                         }
                     }
@@ -964,15 +964,13 @@ namespace LayoutFarm.HtmlBoxes
             maxRight_local = Math.Max(maxRight_local, _tableBox.ExpectedWidth);
              
 
-            _tableBox.SetWidth(maxRight_local + horizontal_spacing + _tableBox.ActualBorderRightWidth);
+            _tableBox.SetVisualWidth(maxRight_local + horizontal_spacing + _tableBox.ActualBorderRightWidth);
 
 
             float globalBottom = Math.Max((maxBottom_local + table_globalY), starty_global) + vertical_spacing + _tableBox.ActualBorderBottomWidth;
-            _tableBox.SetHeight(globalBottom - table_globalY);
+            _tableBox.SetVisualHeight(globalBottom - table_globalY);
 
-        }
-
-
+        } 
 
         /// <summary>
         /// Get the table cells spacing for all the cells in the table.<br/>
