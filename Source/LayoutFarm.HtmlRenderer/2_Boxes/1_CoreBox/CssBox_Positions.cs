@@ -89,7 +89,7 @@ namespace LayoutFarm.HtmlBoxes
             get { return this._localX; }
         }
         /// <summary>
-        /// local visual y
+        /// local visual y 
         /// </summary>
         public float LocalY
         {
