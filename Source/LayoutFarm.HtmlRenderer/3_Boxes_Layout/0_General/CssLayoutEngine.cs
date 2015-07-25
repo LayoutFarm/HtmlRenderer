@@ -745,7 +745,7 @@ namespace LayoutFarm.HtmlBoxes
           ref float cx,
           ref FloatFormattingContext floatCtx)
         {
-            
+
             //recursive *** 
             //-------------------------------------------------------------------- 
             var oX = cx;
@@ -769,7 +769,6 @@ namespace LayoutFarm.HtmlBoxes
                 var ifonts = lay.SampleIFonts;
                 foreach (CssBox b in srcBox.GetChildBoxIter())
                 {
-
 #if DEBUG
                     if (b.__aa_dbugId == 4)
                     {
@@ -794,8 +793,15 @@ namespace LayoutFarm.HtmlBoxes
 
                     cx += leftMostSpace;
                     //------------------------------------------------  
-                    if (b.CssDisplay == CssDisplay.InlineBlock)
+
+                    if (b.CssDisplay == CssDisplay.InlineBlock || !ContainsInlinesOnly(b))
                     {
+                        //--------
+                        // if inside display is block context *** 
+                        //---------
+
+
+
                         //outside -> inline
                         //inside -> block
 

@@ -373,7 +373,9 @@ namespace LayoutFarm.HtmlBoxes
                 return this._aa_contentRuns;
             }
         }
-
+        /// <summary>
+        /// box has only runs
+        /// </summary>
         internal bool HasOnlyRuns
         {
             get
