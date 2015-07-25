@@ -25,12 +25,18 @@ namespace LayoutFarm.Css
 
     public enum CssDisplayOutside : byte
     {
+        None,
         Block,
         Inline,
-        RunIn
+        RunIn,
+
+        TableCell,
+        TableCaption
     }
     public enum CssDisplayInside : byte
     {
+        None,
+
         Flow,
         FlowRoot,
         Table,

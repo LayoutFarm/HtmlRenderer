@@ -118,7 +118,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             //imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
         }
-        
+
         /// <summary>
         /// Check if the given box contains only inline child boxes.
         /// </summary>
@@ -131,7 +131,7 @@ namespace LayoutFarm.HtmlBoxes
             while (linkedNode != null)
             {
 
-                if (!linkedNode.Value.IsInline)
+                if (!linkedNode.Value.OutsideDisplayIsInline)
                 {
                     return false;
                 }
@@ -532,7 +532,7 @@ namespace LayoutFarm.HtmlBoxes
                     childBox.SetVisualHeight(FontDefaultConfig.DEFAULT_FONT_SIZE * 0.95f);
                 }
                 //-----------------------------
-                if (childBox.IsInline)
+                if (childBox.OutsideDisplayIsInline)
                 {
                     //inline correction on-the-fly ! 
                     //1. collect consecutive inlinebox
@@ -550,7 +550,7 @@ namespace LayoutFarm.HtmlBoxes
                         if (tmp != null)
                         {
                             childBox = tmp.Value;
-                            if (childBox.IsInline)
+                            if (childBox.OutsideDisplayIsInline)
                             {
                                 tmp = tmp.Next;
                                 if (tmp == null)
@@ -775,7 +775,6 @@ namespace LayoutFarm.HtmlBoxes
                     }
 #endif
 
-
                     float leftMostSpace = 0, rightMostSpace = 0;
                     //if b has absolute pos then it is removed from the flow 
                     if (b.NeedComputedValueEvaluation)
@@ -795,6 +794,9 @@ namespace LayoutFarm.HtmlBoxes
                     //------------------------------------------------  
                     if (b.CssDisplay == CssDisplay.InlineBlock)
                     {
+                        //outside -> inline
+                        //inside -> block
+
                         //can't split 
                         //create 'block-run'  
                         PerformContentLayout(b, lay);

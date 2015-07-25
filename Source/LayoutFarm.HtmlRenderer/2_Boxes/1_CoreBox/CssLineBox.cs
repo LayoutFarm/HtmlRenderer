@@ -690,7 +690,7 @@ namespace LayoutFarm.HtmlBoxes
                 //step up
                 var strip = inputList[i];
                 var upperBox = strip.owner.ParentBox;
-                if (upperBox != null && upperBox != lineOwnerBox && upperBox.IsInline)
+                if (upperBox != null && upperBox != lineOwnerBox && upperBox.OutsideDisplayIsInline)
                 {
                     RegisterStripPart(upperBox, strip.Left, strip.Top, strip.Right, strip.Bottom, inputList, dicStrips);
                 }

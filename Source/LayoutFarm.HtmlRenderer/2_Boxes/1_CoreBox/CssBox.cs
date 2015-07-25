@@ -40,7 +40,7 @@ namespace LayoutFarm.HtmlBoxes
         readonly Css.BoxSpec _myspec;
         object _controller;
         IRootGraphics rootgfx;
-
+    
 #if DEBUG
         public int dbugMark1;
         public readonly int __aa_dbugId = dbugTotalId++;
@@ -148,7 +148,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// is the box "Display" is "Inline", is this is an inline box and not block.
         /// </summary>
-        internal bool IsInline
+        internal bool OutsideDisplayIsInline
         {
             get
             {
