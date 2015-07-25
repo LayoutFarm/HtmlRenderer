@@ -118,6 +118,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             //imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
         }
+        
         /// <summary>
         /// Check if the given box contains only inline child boxes.
         /// </summary>

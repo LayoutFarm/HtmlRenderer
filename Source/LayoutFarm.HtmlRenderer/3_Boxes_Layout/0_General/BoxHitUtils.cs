@@ -26,7 +26,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public static bool HitTest(CssBox box, float x, float y, CssBoxHitChain hitChain)
         {
-
+           
             //--------------------------------------
             float boxHitLocalX = x - box.LocalX;
             float boxHitLocalY = y - box.LocalY; 
@@ -112,7 +112,7 @@ namespace LayoutFarm.HtmlBoxes
                                 var blockRun = (CssBlockRun)foundRun;
                                 CssLineBox hostLine = blockRun.HostLine;
                                 //adjust with hostline 
-
+                              
                                 HitTest(((CssBlockRun)foundRun).ContentBox, (int)(boxHitLocalX - foundRun.Left), boxHitLocalY - hostLine.CachedLineTop, hitChain);
                             }
                         }

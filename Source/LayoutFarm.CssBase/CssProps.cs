@@ -4,8 +4,54 @@
 
 namespace LayoutFarm.Css
 {
+    //    <display-outside>
+    //  = block | inline | run-in ;
+    //<display-inside>
+    //   = flow | flow-root | table | flex | grid | ruby ;
+    //<display-listitem>
+    // = list-item && <display-outside>? && [ flow | flow-root ]?
+    //<display-internal>
+    // = table-row-group | table-header-group |
+    //                     table-footer-group | table-row | table-cell |
+    //                     table-column-group | table-column | table-caption |
+    //                     ruby-base | ruby-text | ruby-base-container |
+    //                     ruby-text-container ;
+    //<display-box>
+    //      = contents | none ;
+    //<display-legacy>
+    //   = inline-block | inline-list-item |
+    //                     inline-table | inline-flex | inline-grid ;
+    //    //--------------------------------------------------
 
-    //--------------------------------------------------
+    public enum CssDisplayOutside : byte
+    {
+        Block,
+        Inline,
+        RunIn
+    }
+    public enum CssDisplayInside : byte
+    {
+        Flow,
+        FlowRoot,
+        Table,
+        Flex,
+        Grid,
+        Ruby
+    }
+    public enum CssDisplayBox : byte
+    {
+        Contents,
+        None
+    }
+    public enum CssDisplayLegacy : byte
+    {
+        InlineBlock,
+        InlineListItem,
+        InlineTable,
+        InlineFlex,
+        InlineGrid
+    }
+
     public enum CssDisplay : byte
     {
         [Map(CssConstants.Inline)]

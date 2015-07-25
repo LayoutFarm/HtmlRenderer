@@ -148,13 +148,13 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// is the box "Display" is "Inline", is this is an inline box and not block.
         /// </summary>
-        public bool IsInline
+        internal bool IsInline
         {
             get
             {
                 return (this._boxCompactFlags & BoxFlags.IS_INLINE_BOX) != 0;
             }
-            internal set
+            set
             {
                 if (value)
                 {
