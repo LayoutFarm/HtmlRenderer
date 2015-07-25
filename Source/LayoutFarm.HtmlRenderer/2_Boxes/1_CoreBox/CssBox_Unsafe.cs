@@ -77,7 +77,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             if (this._controller != null)
             {
-                if (this.HasRuns)
+                if (this.HasOnlyRuns)
                 {
                     return this._controller.ToString() + " " + this.CssDisplay + " r=" + this.RunCount;
                 }
@@ -88,7 +88,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                if (this.HasRuns)
+                if (this.HasOnlyRuns)
                 {
                     return "!a " + " " + this.CssDisplay + " r=" + this.RunCount;
                 }

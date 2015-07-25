@@ -374,7 +374,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        internal bool HasRuns
+        internal bool HasOnlyRuns
         {
             get
             {

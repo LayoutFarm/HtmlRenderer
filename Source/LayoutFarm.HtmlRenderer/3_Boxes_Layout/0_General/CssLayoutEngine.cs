@@ -745,11 +745,13 @@ namespace LayoutFarm.HtmlBoxes
           ref float cx,
           ref FloatFormattingContext floatCtx)
         {
-
+            
             //recursive *** 
             //-------------------------------------------------------------------- 
             var oX = cx;
-            if (srcBox.HasRuns)
+
+
+            if (srcBox.HasOnlyRuns)
             {
                 //condition 3 
 
@@ -827,7 +829,7 @@ namespace LayoutFarm.HtmlBoxes
                             new List<CssRun>() { b.JustBlockRun },
                             ref hostLine, ref cx);
                     }
-                    else if (b.HasRuns)
+                    else if (b.HasOnlyRuns)
                     {
                         switch (b.Float)
                         {
