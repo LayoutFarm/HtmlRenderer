@@ -23,422 +23,152 @@ namespace LayoutFarm.HtmlBoxes
 
     enum LayoutContextMode
     {
+        Init,
         Inline,
         Block
     }
 
-    class LayoutContext
+    class LinesFormattingContext
     {
-        CssBox hostBox;
-        LayoutVisitor lay;
-        LayoutContextMode mode;
-        public LayoutContext()
-        {
-        }
-        public CssBox HostBox
-        {
-            get { return this.hostBox; }
-
-        }
-        public void BeginHostBox(CssBox hostBox, LayoutVisitor lay)
-        {
-            this.hostBox = hostBox;
-            this.lay = lay;
-            this.mode = LayoutContextMode.Inline;
-        }
-        public void AddCssBox(CssBox box)
-        {
-            switch (mode)
-            {
-                case LayoutContextMode.Block:
-                    {
-                    } break;
-                default:
-                    {
-
-                    } break;
-
-            }
-        }
-    }
-
-
-
-
-    /// <summary>
-    /// Helps on CSS Layout.
-    /// </summary>
-    static class CssLayoutEngine
-    {
-
         const float CSS_OFFSET_THRESHOLD = 0.1f;
-        public static void PerformContentLayout(CssBox box, LayoutVisitor lay)
+        CssBox hostBlock;
+        LayoutVisitor lay;
+        public void BeginContext(CssBox hostBlock, LayoutVisitor lay)
         {
-            //recursive
+            this.hostBlock = hostBlock;
+            this.lay = lay;
+        }
+        public void EndContext()
+        {
+        }
 
-            //this box has its own  container property
-            //this box may use...
-            // 1) line formatting context  , or
-            // 2) block formatting context 
+        static void FlowRunsIntoHost(LayoutVisitor lay,
+          CssBox hostBox,
+          CssBox splitableBox,
+          CssBox b,
+          int childNumber, //child number of b
+          float limitRight,
+          float firstRunStartX,
+          float leftMostSpace,
+          float rightMostSpace,
+          List<CssRun> runs,
+          ref CssLineBox hostLine,
+          ref float cx)
+        {
+            //flow runs into hostLine, create new line if need  
+            bool wrapNoWrapBox = false;
+            CssWhiteSpace bWhiteSpace = b.WhiteSpace;
+            bool hostBoxIsB = hostBox == b;
 
-            var myContainingBlock = lay.LatestContainingBlock;
-            CssBox prevSibling = lay.LatestSiblingBox;
-            if (box.CssDisplay != Css.CssDisplay.TableCell)
+            if (bWhiteSpace == CssWhiteSpace.NoWrap && cx > firstRunStartX)
             {
-                //-------------------------------------------
-                if (box.CssDisplay != Css.CssDisplay.Table)
+                var tmpRight = cx;
+                for (int i = runs.Count - 1; i >= 0; --i)
                 {
-                    float availableWidth = myContainingBlock.GetClientWidth();
-                    if (!box.Width.IsEmptyOrAuto)
-                    {
-                        availableWidth = CssValueParser.ConvertToPx(box.Width, availableWidth, box);
-                    }
-
-                    box.SetCssBoxWidth(availableWidth);
+                    tmpRight += runs[i].Width;
                 }
-                //-------------------------------------------
-
-                float localLeft = myContainingBlock.GetClientLeft() + box.ActualMarginLeft;
-                float localTop = 0;
-
-                if (prevSibling == null)
+                //----------------------------------------- 
+                if (tmpRight > limitRight)
                 {
-                    //this is first child of parent
-                    if (box.ParentBox != null)
+                    wrapNoWrapBox = true;
+                }
+            }
+
+            //----------------------------------------------------- 
+
+            int lim = runs.Count - 1;
+            for (int i = 0; i <= lim; ++i)
+            {
+                var run = runs[i];
+                //---------------------------------------------------
+                //check if need to start new line ? 
+                if ((cx + run.Width + rightMostSpace > limitRight &&
+                     bWhiteSpace != CssWhiteSpace.NoWrap &&
+                     bWhiteSpace != CssWhiteSpace.Pre &&
+                     (bWhiteSpace != CssWhiteSpace.PreWrap || !run.IsSpaces))
+                     || run.IsLineBreak || wrapNoWrapBox)
+                {
+
+                    wrapNoWrapBox = false; //once! 
+
+                    //-------------------------------
+                    //create new line ***
+                    hostLine = new CssLineBox(hostBox);
+                    hostBox.AddLineBox(hostLine);
+                    //reset x pos for new line
+                    cx = firstRunStartX;
+
+
+                    // handle if line is wrapped for the first text element where parent has left margin/padding
+                    if (childNumber == 0 && //b is first child of splitable box ('b' == splitableBox.GetFirstChild())
+                        !run.IsLineBreak &&
+                        (i == 0 || splitableBox.ParentBox.IsBlock))//this run is first run of 'b' (run == b.FirstRun)
                     {
-                        localTop = myContainingBlock.GetClientTop();
+                        cx += splitableBox.ActualMarginLeft +
+                            splitableBox.ActualBorderLeftWidth +
+                            splitableBox.ActualPaddingLeft;
                     }
+
+                    if (run.IsSolidContent || i == 0)
+                    {
+                        cx += leftMostSpace;
+                    }
+                }
+                //---------------------------------------------------
+
+                if (run.IsSpaces && hostLine.RunCount == 0)
+                {
+                    //not add 
+                    continue;
+                }
+                //---------------------------------------------------
+
+                hostLine.AddRun(run); //***
+                if (lim == 0)
+                {
+                    //single one
+                    if (!hostBoxIsB)
+                    {
+                        cx += b.ActualPaddingLeft;
+                    }
+                    run.SetLocation(cx, 0);
+                    cx += run.Width + b.ActualPaddingRight;
                 }
                 else
                 {
-                    localTop = prevSibling.LocalVisualBottom;
+                    if (i == 0)
+                    {
+                        //first
+                        if (!hostBoxIsB)
+                        {
+                            cx += b.ActualPaddingLeft;
+                        }
+
+                        run.SetLocation(cx, 0);
+                        cx = run.Right;
+                    }
+                    else if (i == lim)
+                    {
+                        run.SetLocation(cx, 0);
+                        cx += run.Width + b.ActualPaddingRight;
+                    }
+                    else
+                    {
+                        run.SetLocation(cx, 0);
+                        cx = run.Right;
+                    }
                 }
-                localTop += box.UpdateMarginTopCollapse(prevSibling);
-                box.SetLocation(localLeft, localTop);
-                box.SetHeightToZero();
+                //---------------------------------------------------
+                //move current_line_x to right of run
+                //cx = run.Right;
             }
-            //--------------------------------------------------------------------------
-
-            switch (box.CssDisplay)
-            {
-                case Css.CssDisplay.Table:
-                case Css.CssDisplay.InlineTable:
-                    {
-                        //If we're talking about a table here..
-
-                        lay.PushContaingBlock(box);
-                        var currentLevelLatestSibling = lay.LatestSiblingBox;
-                        lay.LatestSiblingBox = null;//reset
-
-                        CssTableLayoutEngine.PerformLayout(box, myContainingBlock.GetClientWidth(), lay);
-
-                        lay.LatestSiblingBox = currentLevelLatestSibling;
-                        lay.PopContainingBlock();
-                        //TODO: check if this can have absolute layer? 
-                    } break;
-                default:
-                    {
-                        //formatting context for...
-                        //1. line formatting context
-                        //2. block formatting context 
-                        if (box.IsCustomCssBox)
-                        {
-                            //has custom layout method
-                            box.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock);
-                            box.CustomRecomputedValue(lay.LatestContainingBlock, lay.GraphicsPlatform);
-                        }
-                        else
-                        {
-
-                            //new candidate technique
-                            var layoutContext = new LayoutContext();
-                            layoutContext.BeginHostBox(box, lay);
-
-                            var children = CssBox.UnsafeGetChildren(box);
-                            var cnode = children.GetFirstLinkedNode();
-
-                            while (cnode != null)
-                            {
-                                layoutContext.AddCssBox(cnode.Value);
-                                cnode = cnode.Next;
-                            }
-                            //----------------------------------------------
-
-                            if (ContainsInlinesOnly(box))
-                            {
-                                //This will automatically set the bottom of this block
-                                DoLayoutLinesContext(box, lay);
-                            }
-                            else if (box.ChildCount > 0)
-                            {
-                                DoLayoutBlocksContext(box, lay);
-                            }
-
-
-
-                            if (box.HasAbsoluteLayer)
-                            {
-                                LayoutContentInAbsoluteLayer(lay, box);
-                            }
-                        }
-                        //---------------------
-                        //again!
-                        switch (box.CssDisplay)
-                        {
-                            case CssDisplay.Flex:
-                            case CssDisplay.InlineFlex:
-                                {
-                                    //------------------------------------------------
-                                    RearrangeWithFlexContext(box, lay);
-                                    //------------------------------------------------
-                                } break;
-                            default:
-                                {    //TODO: review here again
-                                    if (box.Float != CssFloat.None)
-                                    {
-                                        var iw = box.InnerContentWidth;
-                                        var ew = box.VisualWidth;
-                                        //float to specific position 
-                                        box.SetVisualSize(iw, box.VisualHeight);
-                                    }
-                                } break;
-                        }
-                        //---------------------
-                    } break;
-            }
-
-
-            switch (box.Float)
-            {
-                case CssFloat.Left:
-                    {
-                        var recentLeftFloatBox = lay.LatestLeftFloatBox;
-                        var recentRightFloatBox = lay.LatestRightFloatBox;
-                        float availableWidth2 = myContainingBlock.GetClientWidth();
-
-                        if (recentRightFloatBox != null)
-                        {
-                            availableWidth2 -= recentRightFloatBox.LocalX;
-                        }
-
-                        float sx = myContainingBlock.GetClientLeft();
-                        float sy = myContainingBlock.GetClientTop();
-
-                        if (recentLeftFloatBox != null)
-                        {
-                            availableWidth2 -= recentLeftFloatBox.LocalVisualRight;
-                            sx = recentLeftFloatBox.LocalVisualRight;
-                            sy = recentLeftFloatBox.LocalY;
-                        }
-
-                        if (box.VisualWidth > availableWidth2)
-                        {
-                            //start newline
-                            sx = myContainingBlock.GetClientLeft();
-
-                            float sy1 = 0;
-                            float sy2 = 0;
-                            sy1 = sy2 = myContainingBlock.GetClientTop();
-
-                            if (recentLeftFloatBox != null)
-                            {
-                                sy1 = recentLeftFloatBox.LocalX + recentLeftFloatBox.InnerContentHeight +
-                                  recentLeftFloatBox.ActualPaddingBottom +
-                                  recentLeftFloatBox.ActualMarginBottom;
-                            }
-                            if (recentRightFloatBox != null)
-                            {
-                                sy2 = recentRightFloatBox.LocalX + recentRightFloatBox.InnerContentHeight +
-                                   recentRightFloatBox.ActualPaddingBottom +
-                                   recentRightFloatBox.ActualMarginBottom;
-                            }
-
-                            sy = (sy1 > sy2) ? sy1 : sy2;
-                        }
-
-                        box.SetLocation(sx, sy);
-                        lay.LatestLeftFloatBox = box;
-                        lay.AddFloatBox(box);
-                    } break;
-                case CssFloat.Right:
-                    {
-
-                        var recentLeftFloatBox = lay.LatestLeftFloatBox;
-                        var recentRightFloatBox = lay.LatestRightFloatBox;
-                        float availableWidth2 = myContainingBlock.GetClientWidth();
-
-                        if (recentLeftFloatBox != null)
-                        {
-                            availableWidth2 -= recentLeftFloatBox.LocalX;
-                        }
-
-                        float sx = myContainingBlock.GetClientRight() - box.VisualWidth;
-                        float sy = myContainingBlock.GetClientTop();
-
-                        if (recentRightFloatBox != null)
-                        {
-                            availableWidth2 -= recentRightFloatBox.LocalX;
-                            sx = recentRightFloatBox.LocalX - box.VisualWidth;
-                            sy = recentRightFloatBox.LocalY;
-                        }
-
-                        if (box.VisualWidth > availableWidth2)
-                        {
-                            //start newline
-                            sx = myContainingBlock.GetClientRight() - box.VisualWidth;
-
-                            float sy1 = 0;
-                            float sy2 = 0;
-                            sy1 = sy2 = myContainingBlock.GetClientTop();
-
-                            if (recentLeftFloatBox != null)
-                            {
-                                sy1 = recentLeftFloatBox.LocalY + recentLeftFloatBox.InnerContentHeight +
-                                  recentLeftFloatBox.ActualPaddingBottom +
-                                  recentLeftFloatBox.ActualMarginBottom;
-                            }
-                            if (recentRightFloatBox != null)
-                            {
-                                sy2 = recentRightFloatBox.LocalY + recentRightFloatBox.InnerContentHeight +
-                                   recentRightFloatBox.ActualPaddingBottom +
-                                   recentRightFloatBox.ActualMarginBottom;
-                            }
-
-                            sy = (sy1 > sy2) ? sy1 : sy2;
-                        }
-                        box.SetLocation(sx, sy);
-                        lay.LatestRightFloatBox = box;
-                        lay.AddFloatBox(box);
-                    } break;
-                case CssFloat.None:
-                default:
-                    {
-                        //review here for inherit property
-
-                    } break;
-            }
-
         }
-
-
-
-        /// <summary>
-        /// Measure image box size by the width\height set on the box and the actual rendered image size.<br/>
-        /// If no image exists for the box error icon will be set.
-        /// </summary>
-        /// <param name="imgRun">the image word to measure</param>
-        public static void MeasureImageSize(CssImageRun imgRun, LayoutVisitor lay)
-        {
-            var width = imgRun.OwnerBox.Width;
-            var height = imgRun.OwnerBox.Height;
-
-            bool hasImageTagWidth = width.Number > 0 && width.UnitOrNames == CssUnitOrNames.Pixels;
-            bool hasImageTagHeight = height.Number > 0 && height.UnitOrNames == CssUnitOrNames.Pixels;
-            bool scaleImageHeight = false;
-
-            if (hasImageTagWidth)
-            {
-                imgRun.Width = width.Number;
-            }
-            else if (width.Number > 0 && width.IsPercentage)
-            {
-
-                imgRun.Width = width.Number * lay.LatestContainingBlock.VisualWidth;
-                scaleImageHeight = true;
-            }
-            else if (imgRun.HasUserImageContent)
-            {
-                imgRun.Width = imgRun.ImageRectangle == Rectangle.Empty ? imgRun.OriginalImageWidth : imgRun.ImageRectangle.Width;
-            }
-            else
-            {
-                imgRun.Width = hasImageTagHeight ? height.Number / 1.14f : 20;
-            }
-
-            var maxWidth = imgRun.OwnerBox.MaxWidth;// new CssLength(imageWord.OwnerBox.MaxWidth);
-            if (maxWidth.Number > 0)
-            {
-                float maxWidthVal = -1;
-                switch (maxWidth.UnitOrNames)
-                {
-                    case CssUnitOrNames.Percent:
-                        {
-                            maxWidthVal = maxWidth.Number * lay.LatestContainingBlock.VisualWidth;
-                        } break;
-                    case CssUnitOrNames.Pixels:
-                        {
-                            maxWidthVal = maxWidth.Number;
-                        } break;
-                }
-
-
-                if (maxWidthVal > -1 && imgRun.Width > maxWidthVal)
-                {
-                    imgRun.Width = maxWidthVal;
-                    scaleImageHeight = !hasImageTagHeight;
-                }
-            }
-
-            if (hasImageTagHeight)
-            {
-                imgRun.Height = height.Number;
-            }
-            else if (imgRun.HasUserImageContent)
-            {
-                imgRun.Height = imgRun.ImageRectangle == Rectangle.Empty ? imgRun.OriginalImageHeight : imgRun.ImageRectangle.Height;
-            }
-            else
-            {
-                imgRun.Height = imgRun.Width > 0 ? imgRun.Width * 1.14f : 22.8f;
-            }
-
-            if (imgRun.HasUserImageContent)
-            {
-                // If only the width was set in the html tag, ratio the height.
-                if ((hasImageTagWidth && !hasImageTagHeight) || scaleImageHeight)
-                {
-                    // Divide the given tag width with the actual image width, to get the ratio.
-                    float ratio = imgRun.Width / imgRun.OriginalImageWidth;
-                    imgRun.Height = imgRun.OriginalImageHeight * ratio;
-                }
-                // If only the height was set in the html tag, ratio the width.
-                else if (hasImageTagHeight && !hasImageTagWidth)
-                {
-                    // Divide the given tag height with the actual image height, to get the ratio.
-                    float ratio = imgRun.Height / imgRun.OriginalImageHeight;
-                    imgRun.Width = imgRun.OriginalImageWidth * ratio;
-                }
-            }
-            //imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
-        }
-
-        /// <summary>
-        /// Check if the given box contains only inline child boxes.
-        /// </summary>
-        /// <param name="box">the box to check</param>
-        /// <returns>true - only inline child boxes, false - otherwise</returns>
-        static bool ContainsInlinesOnly(CssBox box)
-        {
-            var children = CssBox.UnsafeGetChildren(box);
-            var linkedNode = children.GetFirstLinkedNode();
-            while (linkedNode != null)
-            {
-                if (!linkedNode.Value.OutsideDisplayIsInline)
-                {
-                    return false;
-                }
-
-                linkedNode = linkedNode.Next;
-            }
-            return true;
-        }
-
         /// <summary>
         /// do layout line formatting context
         /// </summary>
         /// <param name="hostBlock"></param>
         /// <param name="lay"></param>
-        static void DoLayoutLinesContext(CssBox hostBlock, LayoutVisitor lay)
+        public static void DoLayoutLinesContext(CssBox hostBlock, LayoutVisitor lay)
         {
             //this in line formatting context
             //*** hostBlock must confirm that it has all inline children     
@@ -561,220 +291,6 @@ namespace LayoutFarm.HtmlBoxes
             //final 
             SetFinalInnerContentSize(hostBlock, maxLineWidth, hostBlock.VisualHeight, lay);
         }
-        static void DoLayoutBlocksContext(CssBox box, LayoutVisitor lay)
-        {
-
-            //block formatting context.... 
-            lay.PushContaingBlock(box);
-            var currentLevelLatestSibling = lay.LatestSiblingBox;
-            lay.LatestSiblingBox = null;//reset 
-            //------------------------------------------  
-            var children = CssBox.UnsafeGetChildren(box);
-            var cnode = children.GetFirstLinkedNode();
-            while (cnode != null)
-            {
-                var childBox = cnode.Value;
-
-                //----------------------------
-                if (childBox.IsBrElement)
-                {
-                    //br always block
-                    CssBox.ChangeDisplayType(childBox, Css.CssDisplay.Block);
-                    childBox.SetVisualHeight(FontDefaultConfig.DEFAULT_FONT_SIZE * 0.95f);
-                }
-                //-----------------------------
-                if (childBox.OutsideDisplayIsInline)
-                {
-                    //inline correction on-the-fly ! 
-                    //1. collect consecutive inlinebox
-                    //   and move to new anon block box
-
-                    CssBox anoForInline = CreateAnonBlock(box, childBox);
-                    anoForInline.ReEvaluateComputedValues(lay.SampleIFonts, box);
-
-                    var tmp = cnode.Next;
-                    do
-                    {
-                        children.Remove(childBox);
-                        anoForInline.AppendChild(childBox);
-
-                        if (tmp != null)
-                        {
-                            childBox = tmp.Value;
-                            if (childBox.OutsideDisplayIsInline)
-                            {
-                                tmp = tmp.Next;
-                                if (tmp == null)
-                                {
-                                    children.Remove(childBox);
-                                    anoForInline.AppendChild(childBox);
-                                    break;//break from do while
-                                }
-                            }
-                            else
-                            {
-                                break;//break from do while
-                            }
-                        }
-                        else
-                        {
-                            break;//break from do while
-                        }
-                    } while (true);
-
-                    childBox = anoForInline;
-                    //------------------------   
-                    //2. move this inline box 
-                    //to new anonbox 
-                    cnode = tmp;
-                    //------------------------ 
-                    childBox.PerformLayout(lay);
-
-                    if (childBox.CanBeReferenceSibling)
-                    {
-                        lay.LatestSiblingBox = childBox;
-                    }
-                }
-                else
-                {
-
-                    childBox.PerformLayout(lay);
-
-                    switch (childBox.Float)
-                    {
-                        case CssFloat.Left:
-                            {
-                                childBox.IsOutOfFlowBox = true;
-                                lay.LatestLeftFloatBox = childBox;
-
-                            } break;
-                        case CssFloat.Right:
-                            {
-                                childBox.IsOutOfFlowBox = true;
-                                //float box is out-of-flow box
-                                //so move it to abs layer                                 
-                                lay.LatestRightFloatBox = childBox;
-
-                            } break;
-                    }
-
-                    if (childBox.Float == CssFloat.None && childBox.CanBeReferenceSibling)
-                    {
-                        lay.LatestSiblingBox = childBox;
-                    }
-
-                    cnode = cnode.Next;
-
-                }
-            }
-
-            //------------------------------------------
-            lay.LatestSiblingBox = currentLevelLatestSibling;
-            lay.PopContainingBlock();
-            //------------------------------------------------ 
-            float boxWidth = CalculateActualWidth(box);
-
-            if (lay.ContainerBlockGlobalX + boxWidth > CssBoxConstConfig.BOX_MAX_RIGHT)
-            {
-            }
-            else
-            {
-                if (box.CssDisplay != Css.CssDisplay.TableCell)
-                {
-                    box.SetVisualWidth(boxWidth);
-                }
-            }
-
-            float boxHeight = box.GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock);
-            box.SetVisualHeight(boxHeight);
-            //--------------------------------------------------------------------------------
-            //final  
-            SetFinalInnerContentSize(box, boxWidth, boxHeight, lay);
-
-        }
-        static void SetFinalInnerContentSize(CssBox box, float innerContentW, float innerContentH, LayoutVisitor lay)
-        {
-            box.InnerContentWidth = innerContentW;
-            box.InnerContentHeight = innerContentH;
-
-            if (!box.Height.IsEmptyOrAuto)
-            {
-                var h = CssValueParser.ConvertToPx(box.Height, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
-                box.SetExpectedSize(box.ExpectedWidth, h);
-                box.SetVisualHeight(h);
-                box.SetCssBoxHeight(h);
-            }
-            else
-            {
-                switch (box.Position)
-                {
-                    case CssPosition.Fixed:
-                    case CssPosition.Absolute:
-                        box.SetVisualHeight(box.InnerContentHeight);
-                        break;
-                }
-
-            }
-            if (!box.Width.IsEmptyOrAuto)
-            {
-                //find max line width  
-                var w = CssValueParser.ConvertToPx(box.Width, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
-                box.SetExpectedSize(w, box.ExpectedHeight);
-                box.SetVisualWidth(w);
-                box.SetCssBoxWidth(w);
-            }
-            else
-            {
-                switch (box.Position)
-                {
-                    case CssPosition.Fixed:
-                    case CssPosition.Absolute:
-                        box.SetVisualWidth(box.InnerContentWidth);
-                        break;
-                }
-            }
-
-            switch (box.Overflow)
-            {
-                case CssOverflow.Scroll:
-                case CssOverflow.Auto:
-                    {
-                        if ((box.InnerContentHeight > box.VisualHeight) ||
-                        (box.InnerContentWidth > box.VisualWidth))
-                        {
-                            lay.RequestScrollView(box);
-                        }
-                    } break;
-            }
-        }
-        static float CalculateActualWidth(CssBox box)
-        {
-            float maxRight = 0;
-            var boxes = CssBox.UnsafeGetChildren(box);
-            var cnode = boxes.GetFirstLinkedNode();
-            while (cnode != null)
-            {
-                var cssbox = cnode.Value;
-                float nodeRight = cssbox.LocalX + cssbox.InnerContentWidth +
-                     cssbox.ActualPaddingLeft + cssbox.ActualPaddingRight +
-                     cssbox.ActualMarginLeft +
-                     cssbox.ActualMarginRight;
-
-                maxRight = nodeRight > maxRight ? nodeRight : maxRight;
-                cnode = cnode.Next;
-            }
-            return maxRight + (box.ActualBorderLeftWidth + box.ActualPaddingLeft +
-                box.ActualPaddingRight + box.ActualBorderRightWidth);
-        }
-
-        static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
-        {
-            //auto gen by layout engine ***
-            var newBox = new CssBox(CssBox.UnsafeGetBoxSpec(parent).GetAnonVersion(), parent.RootGfx);
-            CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Block);
-            parent.InsertChild(insertBefore, newBox);
-            return newBox;
-        }
 
         /// <summary>
         /// Recursively flows the content of the box using the inline model
@@ -859,7 +375,7 @@ namespace LayoutFarm.HtmlBoxes
 
                         //can't split 
                         //create 'block-run'  
-                        PerformContentLayout(b, lay);
+                        CssLayoutEngine.PerformContentLayout(b, lay);
                         CssBlockRun blockRun = b.JustBlockRun;
                         if (blockRun == null)
                         {
@@ -1085,180 +601,64 @@ namespace LayoutFarm.HtmlBoxes
             }
 
         }
-        static void LayoutContentInAbsoluteLayer(LayoutVisitor lay, CssBox srcBox)
+
+
+        static void SetFinalInnerContentSize(CssBox box, float innerContentW, float innerContentH, LayoutVisitor lay)
         {
+            box.InnerContentWidth = innerContentW;
+            box.InnerContentHeight = innerContentH;
 
-            if (srcBox.JustTempContainer) return;
-
-            var ifonts = lay.SampleIFonts;
-
-            //css3 jan2015: absolute position
-            //use offset relative to its normal the box's containing box***
-
-            float containerW = lay.LatestContainingBlock.VisualWidth;
-
-            float maxRight = 0;
-            float maxBottom = 0;
-
-            foreach (var b in srcBox.GetAbsoluteChildBoxIter())
+            if (!box.Height.IsEmptyOrAuto)
             {
-                if (b.JustTempContainer)
+                var h = CssValueParser.ConvertToPx(box.Height, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
+                box.SetExpectedSize(box.ExpectedWidth, h);
+                box.SetVisualHeight(h);
+                box.SetCssBoxHeight(h);
+            }
+            else
+            {
+                switch (box.Position)
                 {
-                    continue;
+                    case CssPosition.Fixed:
+                    case CssPosition.Absolute:
+                        box.SetVisualHeight(box.InnerContentHeight);
+                        break;
                 }
 
-                if (b.NeedComputedValueEvaluation)
+            }
+            if (!box.Width.IsEmptyOrAuto)
+            {
+                //find max line width  
+                var w = CssValueParser.ConvertToPx(box.Width, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
+                box.SetExpectedSize(w, box.ExpectedHeight);
+                box.SetVisualWidth(w);
+                box.SetCssBoxWidth(w);
+            }
+            else
+            {
+                switch (box.Position)
                 {
-                    b.ReEvaluateComputedValues(ifonts, lay.LatestContainingBlock);
-                }
-
-                b.MeasureRunsSize(lay);
-                PerformContentLayout(b, lay);
-
-                b.SetLocation(
-                     CssValueParser.ConvertToPx(b.Left, containerW, b),
-                     CssValueParser.ConvertToPx(b.Top, containerW, b));
-
-                var localRight = b.LocalVisualRight;
-                var localBottom = b.LocalVisualBottom;
-
-                if (maxRight < localRight)
-                {
-                    maxRight = localRight;
-                }
-                if (maxBottom < localBottom)
-                {
-                    maxBottom = localBottom;
+                    case CssPosition.Fixed:
+                    case CssPosition.Absolute:
+                        box.SetVisualWidth(box.InnerContentWidth);
+                        break;
                 }
             }
 
-            int i_maxRight = (int)maxRight;
-            int i_maxBottom = (int)maxBottom;
-            srcBox.InnerContentWidth = i_maxRight;
-            srcBox.InnerContentHeight = i_maxBottom;
-        }
-
-        static void FlowRunsIntoHost(LayoutVisitor lay,
-          CssBox hostBox,
-          CssBox splitableBox,
-          CssBox b,
-          int childNumber, //child number of b
-          float limitRight,
-          float firstRunStartX,
-          float leftMostSpace,
-          float rightMostSpace,
-          List<CssRun> runs,
-          ref CssLineBox hostLine,
-          ref float cx)
-        {
-            //flow runs into hostLine, create new line if need  
-            bool wrapNoWrapBox = false;
-            CssWhiteSpace bWhiteSpace = b.WhiteSpace;
-            bool hostBoxIsB = hostBox == b;
-
-            if (bWhiteSpace == CssWhiteSpace.NoWrap && cx > firstRunStartX)
+            switch (box.Overflow)
             {
-                var tmpRight = cx;
-                for (int i = runs.Count - 1; i >= 0; --i)
-                {
-                    tmpRight += runs[i].Width;
-                }
-                //----------------------------------------- 
-                if (tmpRight > limitRight)
-                {
-                    wrapNoWrapBox = true;
-                }
-            }
-
-            //----------------------------------------------------- 
-
-            int lim = runs.Count - 1;
-            for (int i = 0; i <= lim; ++i)
-            {
-                var run = runs[i];
-                //---------------------------------------------------
-                //check if need to start new line ? 
-                if ((cx + run.Width + rightMostSpace > limitRight &&
-                     bWhiteSpace != CssWhiteSpace.NoWrap &&
-                     bWhiteSpace != CssWhiteSpace.Pre &&
-                     (bWhiteSpace != CssWhiteSpace.PreWrap || !run.IsSpaces))
-                     || run.IsLineBreak || wrapNoWrapBox)
-                {
-
-                    wrapNoWrapBox = false; //once! 
-
-                    //-------------------------------
-                    //create new line ***
-                    hostLine = new CssLineBox(hostBox);
-                    hostBox.AddLineBox(hostLine);
-                    //reset x pos for new line
-                    cx = firstRunStartX;
-
-
-                    // handle if line is wrapped for the first text element where parent has left margin/padding
-                    if (childNumber == 0 && //b is first child of splitable box ('b' == splitableBox.GetFirstChild())
-                        !run.IsLineBreak &&
-                        (i == 0 || splitableBox.ParentBox.IsBlock))//this run is first run of 'b' (run == b.FirstRun)
+                case CssOverflow.Scroll:
+                case CssOverflow.Auto:
                     {
-                        cx += splitableBox.ActualMarginLeft +
-                            splitableBox.ActualBorderLeftWidth +
-                            splitableBox.ActualPaddingLeft;
-                    }
-
-                    if (run.IsSolidContent || i == 0)
-                    {
-                        cx += leftMostSpace;
-                    }
-                }
-                //---------------------------------------------------
-
-                if (run.IsSpaces && hostLine.RunCount == 0)
-                {
-                    //not add 
-                    continue;
-                }
-                //---------------------------------------------------
-
-                hostLine.AddRun(run); //***
-                if (lim == 0)
-                {
-                    //single one
-                    if (!hostBoxIsB)
-                    {
-                        cx += b.ActualPaddingLeft;
-                    }
-                    run.SetLocation(cx, 0);
-                    cx += run.Width + b.ActualPaddingRight;
-                }
-                else
-                {
-                    if (i == 0)
-                    {
-                        //first
-                        if (!hostBoxIsB)
+                        if ((box.InnerContentHeight > box.VisualHeight) ||
+                        (box.InnerContentWidth > box.VisualWidth))
                         {
-                            cx += b.ActualPaddingLeft;
+                            lay.RequestScrollView(box);
                         }
-
-                        run.SetLocation(cx, 0);
-                        cx = run.Right;
-                    }
-                    else if (i == lim)
-                    {
-                        run.SetLocation(cx, 0);
-                        cx += run.Width + b.ActualPaddingRight;
-                    }
-                    else
-                    {
-                        run.SetLocation(cx, 0);
-                        cx = run.Right;
-                    }
-                }
-                //---------------------------------------------------
-                //move current_line_x to right of run
-                //cx = run.Right;
+                    } break;
             }
         }
+
         /// <summary>
         /// Applies vertical and horizontal alignment to words in lineboxes
         /// </summary>
@@ -1387,6 +787,545 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
         }
+
+    }
+     
+
+
+    /// <summary>
+    /// Helps on CSS Layout.
+    /// </summary>
+    static class CssLayoutEngine
+    {
+
+       
+        public static void PerformContentLayout(CssBox box, LayoutVisitor lay)
+        {
+            //recursive
+
+            //this box has its own  container property
+            //this box may use...
+            // 1) line formatting context  , or
+            // 2) block formatting context 
+
+            var myContainingBlock = lay.LatestContainingBlock;
+            CssBox prevSibling = lay.LatestSiblingBox;
+            if (box.CssDisplay != Css.CssDisplay.TableCell)
+            {
+                //-------------------------------------------
+                if (box.CssDisplay != Css.CssDisplay.Table)
+                {
+                    float availableWidth = myContainingBlock.GetClientWidth();
+                    if (!box.Width.IsEmptyOrAuto)
+                    {
+                        availableWidth = CssValueParser.ConvertToPx(box.Width, availableWidth, box);
+                    }
+
+                    box.SetCssBoxWidth(availableWidth);
+                }
+                //-------------------------------------------
+
+                float localLeft = myContainingBlock.GetClientLeft() + box.ActualMarginLeft;
+                float localTop = 0;
+
+                if (prevSibling == null)
+                {
+                    //this is first child of parent
+                    if (box.ParentBox != null)
+                    {
+                        localTop = myContainingBlock.GetClientTop();
+                    }
+                }
+                else
+                {
+                    localTop = prevSibling.LocalVisualBottom;
+                }
+                localTop += box.UpdateMarginTopCollapse(prevSibling);
+                box.SetLocation(localLeft, localTop);
+                box.SetHeightToZero();
+            }
+            //--------------------------------------------------------------------------
+
+            switch (box.CssDisplay)
+            {
+                case Css.CssDisplay.Table:
+                case Css.CssDisplay.InlineTable:
+                    {
+                        //If we're talking about a table here..
+
+                        lay.PushContaingBlock(box);
+                        var currentLevelLatestSibling = lay.LatestSiblingBox;
+                        lay.LatestSiblingBox = null;//reset
+
+                        CssTableLayoutEngine.PerformLayout(box, myContainingBlock.GetClientWidth(), lay);
+
+                        lay.LatestSiblingBox = currentLevelLatestSibling;
+                        lay.PopContainingBlock();
+                        //TODO: check if this can have absolute layer? 
+                    } break;
+                default:
+                    {
+                        //formatting context for...
+                        //1. line formatting context
+                        //2. block formatting context 
+                        if (box.IsCustomCssBox)
+                        {
+                            //has custom layout method
+                            box.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock);
+                            box.CustomRecomputedValue(lay.LatestContainingBlock, lay.GraphicsPlatform);
+                        }
+                        else
+                        {
+
+                            if (ContainsInlinesOnly(box))
+                            {
+                                ////This will automatically set the bottom of this block
+                                LinesFormattingContext.DoLayoutLinesContext(box, lay);
+                            }
+                            else if (box.ChildCount > 0)
+                            {
+                                DoLayoutBlocksContext(box, lay);
+                            }
+
+                            if (box.HasAbsoluteLayer)
+                            {
+                                LayoutContentInAbsoluteLayer(lay, box);
+                            }
+                        }
+                        //---------------------
+                        //again!
+                        switch (box.CssDisplay)
+                        {
+                            case CssDisplay.Flex:
+                            case CssDisplay.InlineFlex:
+                                {
+                                    //------------------------------------------------
+                                    RearrangeWithFlexContext(box, lay);
+                                    //------------------------------------------------
+                                } break;
+                            default:
+                                {    //TODO: review here again
+                                    if (box.Float != CssFloat.None)
+                                    {
+                                        var iw = box.InnerContentWidth;
+                                        var ew = box.VisualWidth;
+                                        //float to specific position 
+                                        box.SetVisualSize(iw, box.VisualHeight);
+                                    }
+                                } break;
+                        }
+                        //---------------------
+                    } break;
+            }
+
+
+            switch (box.Float)
+            {
+                case CssFloat.Left:
+                    {
+                        var recentLeftFloatBox = lay.LatestLeftFloatBox;
+                        var recentRightFloatBox = lay.LatestRightFloatBox;
+                        float availableWidth2 = myContainingBlock.GetClientWidth();
+
+                        if (recentRightFloatBox != null)
+                        {
+                            availableWidth2 -= recentRightFloatBox.LocalX;
+                        }
+
+                        float sx = myContainingBlock.GetClientLeft();
+                        float sy = myContainingBlock.GetClientTop();
+
+                        if (recentLeftFloatBox != null)
+                        {
+                            availableWidth2 -= recentLeftFloatBox.LocalVisualRight;
+                            sx = recentLeftFloatBox.LocalVisualRight;
+                            sy = recentLeftFloatBox.LocalY;
+                        }
+
+                        if (box.VisualWidth > availableWidth2)
+                        {
+                            //start newline
+                            sx = myContainingBlock.GetClientLeft();
+
+                            float sy1 = 0;
+                            float sy2 = 0;
+                            sy1 = sy2 = myContainingBlock.GetClientTop();
+
+                            if (recentLeftFloatBox != null)
+                            {
+                                sy1 = recentLeftFloatBox.LocalX + recentLeftFloatBox.InnerContentHeight +
+                                  recentLeftFloatBox.ActualPaddingBottom +
+                                  recentLeftFloatBox.ActualMarginBottom;
+                            }
+                            if (recentRightFloatBox != null)
+                            {
+                                sy2 = recentRightFloatBox.LocalX + recentRightFloatBox.InnerContentHeight +
+                                   recentRightFloatBox.ActualPaddingBottom +
+                                   recentRightFloatBox.ActualMarginBottom;
+                            }
+
+                            sy = (sy1 > sy2) ? sy1 : sy2;
+                        }
+
+                        box.SetLocation(sx, sy);
+                        lay.LatestLeftFloatBox = box;
+                        lay.AddFloatBox(box);
+                    } break;
+                case CssFloat.Right:
+                    {
+
+                        var recentLeftFloatBox = lay.LatestLeftFloatBox;
+                        var recentRightFloatBox = lay.LatestRightFloatBox;
+                        float availableWidth2 = myContainingBlock.GetClientWidth();
+
+                        if (recentLeftFloatBox != null)
+                        {
+                            availableWidth2 -= recentLeftFloatBox.LocalX;
+                        }
+
+                        float sx = myContainingBlock.GetClientRight() - box.VisualWidth;
+                        float sy = myContainingBlock.GetClientTop();
+
+                        if (recentRightFloatBox != null)
+                        {
+                            availableWidth2 -= recentRightFloatBox.LocalX;
+                            sx = recentRightFloatBox.LocalX - box.VisualWidth;
+                            sy = recentRightFloatBox.LocalY;
+                        }
+
+                        if (box.VisualWidth > availableWidth2)
+                        {
+                            //start newline
+                            sx = myContainingBlock.GetClientRight() - box.VisualWidth;
+
+                            float sy1 = 0;
+                            float sy2 = 0;
+                            sy1 = sy2 = myContainingBlock.GetClientTop();
+
+                            if (recentLeftFloatBox != null)
+                            {
+                                sy1 = recentLeftFloatBox.LocalY + recentLeftFloatBox.InnerContentHeight +
+                                  recentLeftFloatBox.ActualPaddingBottom +
+                                  recentLeftFloatBox.ActualMarginBottom;
+                            }
+                            if (recentRightFloatBox != null)
+                            {
+                                sy2 = recentRightFloatBox.LocalY + recentRightFloatBox.InnerContentHeight +
+                                   recentRightFloatBox.ActualPaddingBottom +
+                                   recentRightFloatBox.ActualMarginBottom;
+                            }
+
+                            sy = (sy1 > sy2) ? sy1 : sy2;
+                        }
+                        box.SetLocation(sx, sy);
+                        lay.LatestRightFloatBox = box;
+                        lay.AddFloatBox(box);
+                    } break;
+                case CssFloat.None:
+                default:
+                    {
+                        //review here for inherit property
+
+                    } break;
+            }
+
+        }
+
+
+
+        /// <summary>
+        /// Check if the given box contains only inline child boxes.
+        /// </summary>
+        /// <param name="box">the box to check</param>
+        /// <returns>true - only inline child boxes, false - otherwise</returns>
+        static bool ContainsInlinesOnly(CssBox box)
+        {
+            var children = CssBox.UnsafeGetChildren(box);
+            var linkedNode = children.GetFirstLinkedNode();
+            while (linkedNode != null)
+            {
+                if (!linkedNode.Value.OutsideDisplayIsInline)
+                {
+                    return false;
+                }
+
+                linkedNode = linkedNode.Next;
+            }
+            return true;
+        }
+
+        static void DoLayoutBlocksContext(CssBox box, LayoutVisitor lay)
+        {
+
+            //block formatting context.... 
+            lay.PushContaingBlock(box);
+            var currentLevelLatestSibling = lay.LatestSiblingBox;
+            lay.LatestSiblingBox = null;//reset 
+            //------------------------------------------  
+            var children = CssBox.UnsafeGetChildren(box);
+            var cnode = children.GetFirstLinkedNode();
+            while (cnode != null)
+            {
+                var childBox = cnode.Value;
+
+                //----------------------------
+                if (childBox.IsBrElement)
+                {
+                    //br always block
+                    CssBox.ChangeDisplayType(childBox, Css.CssDisplay.Block);
+                    childBox.SetVisualHeight(FontDefaultConfig.DEFAULT_FONT_SIZE * 0.95f);
+                }
+                //-----------------------------
+                if (childBox.OutsideDisplayIsInline)
+                {
+                    //inline correction on-the-fly ! 
+                    //1. collect consecutive inlinebox
+                    //   and move to new anon block box
+
+                    CssBox anoForInline = CreateAnonBlock(box, childBox);
+                    anoForInline.ReEvaluateComputedValues(lay.SampleIFonts, box);
+
+                    var tmp = cnode.Next;
+                    do
+                    {
+                        children.Remove(childBox);
+                        anoForInline.AppendChild(childBox);
+
+                        if (tmp != null)
+                        {
+                            childBox = tmp.Value;
+                            if (childBox.OutsideDisplayIsInline)
+                            {
+                                tmp = tmp.Next;
+                                if (tmp == null)
+                                {
+                                    children.Remove(childBox);
+                                    anoForInline.AppendChild(childBox);
+                                    break;//break from do while
+                                }
+                            }
+                            else
+                            {
+                                break;//break from do while
+                            }
+                        }
+                        else
+                        {
+                            break;//break from do while
+                        }
+                    } while (true);
+
+                    childBox = anoForInline;
+                    //------------------------   
+                    //2. move this inline box 
+                    //to new anonbox 
+                    cnode = tmp;
+                    //------------------------ 
+                    childBox.PerformLayout(lay);
+
+                    if (childBox.CanBeReferenceSibling)
+                    {
+                        lay.LatestSiblingBox = childBox;
+                    }
+                }
+                else
+                {
+
+                    childBox.PerformLayout(lay);
+
+                    switch (childBox.Float)
+                    {
+                        case CssFloat.Left:
+                            {
+                                childBox.IsOutOfFlowBox = true;
+                                lay.LatestLeftFloatBox = childBox;
+
+                            } break;
+                        case CssFloat.Right:
+                            {
+                                childBox.IsOutOfFlowBox = true;
+                                //float box is out-of-flow box
+                                //so move it to abs layer                                 
+                                lay.LatestRightFloatBox = childBox;
+
+                            } break;
+                    }
+
+                    if (childBox.Float == CssFloat.None && childBox.CanBeReferenceSibling)
+                    {
+                        lay.LatestSiblingBox = childBox;
+                    }
+
+                    cnode = cnode.Next;
+
+                }
+            }
+
+            //------------------------------------------
+            lay.LatestSiblingBox = currentLevelLatestSibling;
+            lay.PopContainingBlock();
+            //------------------------------------------------ 
+            float boxWidth = CalculateActualWidth(box);
+
+            if (lay.ContainerBlockGlobalX + boxWidth > CssBoxConstConfig.BOX_MAX_RIGHT)
+            {
+            }
+            else
+            {
+                if (box.CssDisplay != Css.CssDisplay.TableCell)
+                {
+                    box.SetVisualWidth(boxWidth);
+                }
+            }
+
+            float boxHeight = box.GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock);
+            box.SetVisualHeight(boxHeight);
+            //--------------------------------------------------------------------------------
+            //final  
+            SetFinalInnerContentSize(box, boxWidth, boxHeight, lay);
+
+        }
+
+        static void SetFinalInnerContentSize(CssBox box, float innerContentW, float innerContentH, LayoutVisitor lay)
+        {
+            box.InnerContentWidth = innerContentW;
+            box.InnerContentHeight = innerContentH;
+
+            if (!box.Height.IsEmptyOrAuto)
+            {
+                var h = CssValueParser.ConvertToPx(box.Height, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
+                box.SetExpectedSize(box.ExpectedWidth, h);
+                box.SetVisualHeight(h);
+                box.SetCssBoxHeight(h);
+            }
+            else
+            {
+                switch (box.Position)
+                {
+                    case CssPosition.Fixed:
+                    case CssPosition.Absolute:
+                        box.SetVisualHeight(box.InnerContentHeight);
+                        break;
+                }
+
+            }
+            if (!box.Width.IsEmptyOrAuto)
+            {
+                //find max line width  
+                var w = CssValueParser.ConvertToPx(box.Width, lay.LatestContainingBlock.VisualWidth, lay.LatestContainingBlock);
+                box.SetExpectedSize(w, box.ExpectedHeight);
+                box.SetVisualWidth(w);
+                box.SetCssBoxWidth(w);
+            }
+            else
+            {
+                switch (box.Position)
+                {
+                    case CssPosition.Fixed:
+                    case CssPosition.Absolute:
+                        box.SetVisualWidth(box.InnerContentWidth);
+                        break;
+                }
+            }
+
+            switch (box.Overflow)
+            {
+                case CssOverflow.Scroll:
+                case CssOverflow.Auto:
+                    {
+                        if ((box.InnerContentHeight > box.VisualHeight) ||
+                        (box.InnerContentWidth > box.VisualWidth))
+                        {
+                            lay.RequestScrollView(box);
+                        }
+                    } break;
+            }
+        }
+        static float CalculateActualWidth(CssBox box)
+        {
+            float maxRight = 0;
+            var boxes = CssBox.UnsafeGetChildren(box);
+            var cnode = boxes.GetFirstLinkedNode();
+            while (cnode != null)
+            {
+                var cssbox = cnode.Value;
+                float nodeRight = cssbox.LocalX + cssbox.InnerContentWidth +
+                     cssbox.ActualPaddingLeft + cssbox.ActualPaddingRight +
+                     cssbox.ActualMarginLeft +
+                     cssbox.ActualMarginRight;
+
+                maxRight = nodeRight > maxRight ? nodeRight : maxRight;
+                cnode = cnode.Next;
+            }
+            return maxRight + (box.ActualBorderLeftWidth + box.ActualPaddingLeft +
+                box.ActualPaddingRight + box.ActualBorderRightWidth);
+        }
+
+        static CssBox CreateAnonBlock(CssBox parent, CssBox insertBefore)
+        {
+            //auto gen by layout engine ***
+            var newBox = new CssBox(CssBox.UnsafeGetBoxSpec(parent).GetAnonVersion(), parent.RootGfx);
+            CssBox.ChangeDisplayType(newBox, Css.CssDisplay.Block);
+            parent.InsertChild(insertBefore, newBox);
+            return newBox;
+        }
+
+
+        static void LayoutContentInAbsoluteLayer(LayoutVisitor lay, CssBox srcBox)
+        {
+
+            if (srcBox.JustTempContainer) return;
+
+            var ifonts = lay.SampleIFonts;
+
+            //css3 jan2015: absolute position
+            //use offset relative to its normal the box's containing box***
+
+            float containerW = lay.LatestContainingBlock.VisualWidth;
+
+            float maxRight = 0;
+            float maxBottom = 0;
+
+            foreach (var b in srcBox.GetAbsoluteChildBoxIter())
+            {
+                if (b.JustTempContainer)
+                {
+                    continue;
+                }
+
+                if (b.NeedComputedValueEvaluation)
+                {
+                    b.ReEvaluateComputedValues(ifonts, lay.LatestContainingBlock);
+                }
+
+                b.MeasureRunsSize(lay);
+                PerformContentLayout(b, lay);
+
+                b.SetLocation(
+                     CssValueParser.ConvertToPx(b.Left, containerW, b),
+                     CssValueParser.ConvertToPx(b.Top, containerW, b));
+
+                var localRight = b.LocalVisualRight;
+                var localBottom = b.LocalVisualBottom;
+
+                if (maxRight < localRight)
+                {
+                    maxRight = localRight;
+                }
+                if (maxBottom < localBottom)
+                {
+                    maxBottom = localBottom;
+                }
+            }
+
+            int i_maxRight = (int)maxRight;
+            int i_maxBottom = (int)maxBottom;
+            srcBox.InnerContentWidth = i_maxRight;
+            srcBox.InnerContentHeight = i_maxBottom;
+        }
+
+
+
         static void RearrangeWithFlexContext(CssBox box, LayoutVisitor lay)
         {
 
