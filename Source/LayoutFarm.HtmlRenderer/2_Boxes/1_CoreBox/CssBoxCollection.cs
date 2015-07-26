@@ -1,6 +1,4 @@
-﻿//2014,2015 BSD,WinterDev
-
-
+﻿//2014,2015 BSD, WinterDev 
 using System;
 using System.Collections.Generic;
 
@@ -12,7 +10,8 @@ namespace LayoutFarm.HtmlBoxes
         LinkedList<CssBox> _boxes = new LinkedList<CssBox>();
         public CssBoxCollection()
         {
-        } 
+        }
+
         public IEnumerable<CssBox> GetChildBoxIter()
         {
             var cNode = _boxes.First;
@@ -31,6 +30,7 @@ namespace LayoutFarm.HtmlBoxes
                 cNode = cNode.Previous;
             }
         }
+        
         public void AddChild(CssBox owner, CssBox box)
         {
 
@@ -92,7 +92,7 @@ namespace LayoutFarm.HtmlBoxes
         public IEnumerator<CssBox> GetEnumerator()
         {
             return this._boxes.GetEnumerator();
-        } 
+        }
 
 #if DEBUG
         public bool dbugContains(CssBox box)

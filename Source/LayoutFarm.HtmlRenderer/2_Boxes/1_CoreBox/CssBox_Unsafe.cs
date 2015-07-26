@@ -33,6 +33,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             return box._aa_boxes;
         }
+
         public static BoxSpec UnsafeGetBoxSpec(CssBox box)
         {
             //this method is for BoxCreator and debug only!
@@ -67,17 +68,15 @@ namespace LayoutFarm.HtmlBoxes
             //**
             box._boxCompactFlags &= ~BoxFlags.LAY_RUNSIZE_MEASURE;
         }
-        //----------
-
-
-
+       
+         
         //-----------
 #if DEBUG
         public override string ToString()
         {
             if (this._controller != null)
             {
-                if (this.HasRuns)
+                if (this.HasOnlyRuns)
                 {
                     return this._controller.ToString() + " " + this.CssDisplay + " r=" + this.RunCount;
                 }
@@ -88,7 +87,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                if (this.HasRuns)
+                if (this.HasOnlyRuns)
                 {
                     return "!a " + " " + this.CssDisplay + " r=" + this.RunCount;
                 }

@@ -60,13 +60,10 @@ namespace LayoutFarm.HtmlBoxes
         //condition 3: valid  
         LinkedList<CssLineBox> _clientLineBoxes;
 
-
         /// <summary>
         /// absolute position layer
         /// </summary>
         CssBoxCollection _absPosLayer;
-        //List<CssBox> _absLayer2;
-         
 
         CssBlockRun justBlockRun;
 
@@ -177,6 +174,7 @@ namespace LayoutFarm.HtmlBoxes
                     } break;
             }
         }
+        
         public void AppendChild(CssBox box)
         {
             switch (box.Position)
@@ -349,7 +347,7 @@ namespace LayoutFarm.HtmlBoxes
             //}
 
         }
-       
+
         //-------------------------------------
         internal void ResetLineBoxes()
         {

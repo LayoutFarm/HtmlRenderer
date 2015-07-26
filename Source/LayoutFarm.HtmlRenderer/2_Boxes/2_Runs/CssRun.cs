@@ -144,9 +144,7 @@ namespace LayoutFarm.HtmlBoxes
             set
             {
                 this._x = value;
-                if (_x == 55)
-                {
-                }
+                 
             }
         }
 

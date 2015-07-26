@@ -29,7 +29,7 @@ namespace LayoutFarm.HtmlBoxes
 
             //--------------------------------------
             float boxHitLocalX = x - box.LocalX;
-            float boxHitLocalY = y - box.LocalY; 
+            float boxHitLocalY = y - box.LocalY;
             bool isPointInArea = box.IsPointInArea(x, y);
             //----------------------------------------------------------------------
             if (isPointInArea)
@@ -257,7 +257,7 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             var box = startBox.ParentBox;
-            while (box.CssDisplay < Css.CssDisplay.__CONTAINER_BEGIN_HERE &&
+            while (box.HasContainerProperty &&
                 box.ParentBox != null)
             {
                 box = box.ParentBox;
