@@ -123,7 +123,7 @@ namespace LayoutFarm.HtmlBoxes
 
                     break;
                 case CssSide.Bottom:
-                    actualBorderWidth = box.ActualBorderTopWidth;
+                    actualBorderWidth = box.ActualBorderBottomWidth;
                     borderStyle = box.BorderBottomStyle;
                     borderColor = (borderStyle == CssBorderStyle.Outset) ?
                                     Darken(box.BorderBottomColor) :
@@ -204,9 +204,9 @@ namespace LayoutFarm.HtmlBoxes
                             //{
                             var prevColor = g.StrokeColor;
                             g.StrokeColor = borderColor;
-                            float prevStrokeW = g.StrokeWidth; 
+                            float prevStrokeW = g.StrokeWidth;
                             g.StrokeWidth = actualBorderWidth;
-                           
+
                             switch (borderSide)
                             {
                                 case CssSide.Top:
