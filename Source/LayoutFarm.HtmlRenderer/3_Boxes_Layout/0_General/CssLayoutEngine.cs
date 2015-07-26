@@ -20,6 +20,51 @@ using LayoutFarm.Css;
 
 namespace LayoutFarm.HtmlBoxes
 {
+
+    enum LayoutContextMode
+    {
+        Inline,
+        Block
+    }
+
+    class LayoutContext
+    {
+        CssBox hostBox;
+        LayoutVisitor lay;
+        LayoutContextMode mode;
+        public LayoutContext()
+        {
+        }
+        public CssBox HostBox
+        {
+            get { return this.hostBox; }
+
+        }
+        public void BeginHostBox(CssBox hostBox, LayoutVisitor lay)
+        {
+            this.hostBox = hostBox;
+            this.lay = lay;
+            this.mode = LayoutContextMode.Inline;
+        }
+        public void AddCssBox(CssBox box)
+        {
+            switch (mode)
+            {
+                case LayoutContextMode.Block:
+                    {
+                    } break;
+                default:
+                    {
+
+                    } break;
+
+            }
+        }
+    }
+
+
+
+
     /// <summary>
     /// Helps on CSS Layout.
     /// </summary>
@@ -90,7 +135,7 @@ namespace LayoutFarm.HtmlBoxes
                         lay.LatestSiblingBox = currentLevelLatestSibling;
                         lay.PopContainingBlock();
                         //TODO: check if this can have absolute layer? 
-                    } break; 
+                    } break;
                 default:
                     {
                         //formatting context for...
@@ -104,6 +149,21 @@ namespace LayoutFarm.HtmlBoxes
                         }
                         else
                         {
+
+                            //new candidate technique
+                            var layoutContext = new LayoutContext();
+                            layoutContext.BeginHostBox(box, lay);
+
+                            var children = CssBox.UnsafeGetChildren(box);
+                            var cnode = children.GetFirstLinkedNode();
+
+                            while (cnode != null)
+                            {
+                                layoutContext.AddCssBox(cnode.Value);
+                                cnode = cnode.Next;
+                            }
+                            //----------------------------------------------
+
                             if (ContainsInlinesOnly(box))
                             {
                                 //This will automatically set the bottom of this block
@@ -113,6 +173,8 @@ namespace LayoutFarm.HtmlBoxes
                             {
                                 DoLayoutBlocksContext(box, lay);
                             }
+
+
 
                             if (box.HasAbsoluteLayer)
                             {
@@ -493,6 +555,7 @@ namespace LayoutFarm.HtmlBoxes
                     }
                 }
             }
+
             hostBlock.SetVisualHeight(localY + hostBlock.ActualPaddingBottom + hostBlock.ActualBorderBottomWidth);
 
             //final 
@@ -545,7 +608,7 @@ namespace LayoutFarm.HtmlBoxes
                                 {
                                     children.Remove(childBox);
                                     anoForInline.AppendChild(childBox);
-                                    break;
+                                    break;//break from do while
                                 }
                             }
                             else
@@ -555,7 +618,7 @@ namespace LayoutFarm.HtmlBoxes
                         }
                         else
                         {
-                            break;
+                            break;//break from do while
                         }
                     } while (true);
 
@@ -755,7 +818,7 @@ namespace LayoutFarm.HtmlBoxes
                 var ifonts = lay.SampleIFonts;
                 foreach (CssBox b in srcBox.GetChildBoxIter())
                 {
-                    if (b.CssDisplay == CssDisplay.Block)
+                    if (b.CssDisplayOutside == CssDisplayOutside.Block)
                     {
                         //if display outside is block
                         //just break  
@@ -998,19 +1061,15 @@ namespace LayoutFarm.HtmlBoxes
                     }
                     else
                     {
-#if DEBUG
-                        if (srcBox.CssDisplay == CssDisplay.InlineBlock)
-                        {
-                            //should not found here!
-                            throw new NotSupportedException();
-                        }
-#endif
+
+
                         //go deeper  
                         //recursive *** 
                         //not new lineFormatting context
                         FlowBoxContentIntoHostLineFmtContext(lay, hostBox, b,
                                    limitLocalRight, firstRunStartX,
                                    ref hostLine, ref cx, ref floatCtx);
+
                     }
 
                     cx += rightMostSpace;

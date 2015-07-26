@@ -135,9 +135,6 @@ namespace LayoutFarm.HtmlBoxes
         static int dbugTotalId;
         public readonly int dbugId = dbugTotalId++;
 #endif
-
-
-
         /// <summary>
         /// Creates a new LineBox
         /// </summary>
