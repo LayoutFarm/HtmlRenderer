@@ -58,12 +58,12 @@ namespace LayoutFarm.HtmlBoxes
         //condition 1: invalid *
         //condition 2: valid  
         //condition 3: valid  
-        LinkedList<CssLineBox> _clientLineBoxes; 
+        LinkedList<CssLineBox> _clientLineBoxes;
 
         /// <summary>
         /// absolute position layer
         /// </summary>
-        CssBoxCollection _absPosLayer; 
+        CssBoxCollection _absPosLayer;
 
         CssBlockRun justBlockRun;
 
@@ -173,6 +173,10 @@ namespace LayoutFarm.HtmlBoxes
 
                     } break;
             }
+        }
+        internal void InsertFirst(CssBox box)
+        {
+            this._aa_boxes.AddFirst(this, box);
         }
         public void AppendChild(CssBox box)
         {
@@ -346,7 +350,7 @@ namespace LayoutFarm.HtmlBoxes
             //}
 
         }
-       
+
         //-------------------------------------
         internal void ResetLineBoxes()
         {

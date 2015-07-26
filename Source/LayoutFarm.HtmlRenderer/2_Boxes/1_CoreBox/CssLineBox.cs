@@ -114,7 +114,7 @@ namespace LayoutFarm.HtmlBoxes
     /// </remarks>
     sealed class CssLineBox
     {
-        readonly CssBox _ownerBox;
+        CssBox _ownerBox;
 
         //a run may come from another CssBox (not from _ownerBox)
         readonly List<CssRun> _runs = new List<CssRun>();
@@ -141,6 +141,10 @@ namespace LayoutFarm.HtmlBoxes
         public CssLineBox(CssBox ownerBox)
         {
             _ownerBox = ownerBox;
+        }
+        internal void ChangeOwnerLine(CssBox newOwnerBox)
+        {
+            this._ownerBox = newOwnerBox;
         }
         internal CssLineBox NextLine
         {
@@ -185,15 +189,15 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal float CalculateLineHeight()
         {
-            
+
             float maxBottom = 0;
             List<CssRun> myruns = this._runs;
-            int j = myruns.Count;              
+            int j = myruns.Count;
             for (int i = 0; i < j; ++i)
             {
-                CssRun run = myruns[i]; 
+                CssRun run = myruns[i];
                 //maxRight = run.Right > maxRight ? run.Right : maxRight;
-                maxBottom = run.Bottom > maxBottom ? run.Bottom : maxBottom;   
+                maxBottom = run.Bottom > maxBottom ? run.Bottom : maxBottom;
             }
             return maxBottom;
         }
@@ -274,7 +278,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             int j = this._runs.Count;
             if (j > 0)
-            {   
+            {
                 //last run right position
                 //1. find current left start  
                 if (_runs[j - 1].Right + newOffset > rightLimit)
