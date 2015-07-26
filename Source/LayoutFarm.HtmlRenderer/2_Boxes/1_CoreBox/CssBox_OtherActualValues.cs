@@ -115,7 +115,7 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
-        static void TranslateDisplayInsideOutside(CssDisplay cssDisplay, out CssDisplayInside inside, out CssDisplayOutside outside)
+        static void TransplateDisplayOutsideInside(CssDisplay cssDisplay, out CssDisplayOutside outside, out CssDisplayInside inside)
         {
             //Short display 	Full display 	Generated box
             //none 	〃 	                        subtree omitted from box tree
@@ -146,10 +146,18 @@ namespace LayoutFarm.HtmlBoxes
                 default:
                     throw new NotSupportedException();
 
+                case CssDisplay.TableColumn:
+                case CssDisplay.TableColumnGroup:
+                case CssDisplay.TableRow:
+                case CssDisplay.TableRowGroup:
+                case CssDisplay.TableHeaderGroup:
+                case CssDisplay.TableFooterGroup:
                 case CssDisplay.None:
-                    outside = CssDisplayOutside.None;
-                    inside = CssDisplayInside.None;
+                    outside = CssDisplayOutside.Internal;
+                    inside = CssDisplayInside.Internal;
                     break;
+
+
                 //outside -> inline
                 case CssDisplay.Inline:
                     outside = CssDisplayOutside.Inline; //*
@@ -169,10 +177,14 @@ namespace LayoutFarm.HtmlBoxes
                     break;
                 //-------
                 //outside -> block
+                case CssDisplay.ListItem:
+                    outside = CssDisplayOutside.Block;
+                    inside = CssDisplayInside.Flow;
+                    break;
                 case CssDisplay.Flex:
                     outside = CssDisplayOutside.Block;
                     inside = CssDisplayInside.Flex;
-                    break; 
+                    break;
 
                 case CssDisplay.Block:
                     outside = CssDisplayOutside.Block;
@@ -200,22 +212,20 @@ namespace LayoutFarm.HtmlBoxes
         public static void ChangeDisplayType(CssBox box, CssDisplay newdisplay)
         {
 
-
-            CssDisplayInside displayInside;
-            CssDisplayOutside displayOutside;
-            TranslateDisplayInsideOutside(newdisplay, out displayInside, out displayOutside);
-
+            TransplateDisplayOutsideInside(newdisplay, out box._displayOutside, out box._displayInside);
 
             if ((box._boxCompactFlags & BoxFlags.DONT_CHANGE_DISPLAY_TYPE) == 0)
-            {
+            {     
                 box._cssDisplay = newdisplay;
             }
 
 
-            box.OutsideDisplayIsInline = ((newdisplay == CssDisplay.Inline ||
-                    newdisplay == CssDisplay.InlineBlock ||
-                    newdisplay == CssDisplay.InlineFlex)
-                    && !box.IsBrElement);
+            //box.OutsideDisplayIsInline = ((newdisplay == CssDisplay.Inline ||
+            //        newdisplay == CssDisplay.InlineBlock ||
+            //        newdisplay == CssDisplay.InlineFlex)
+            //        && !box.IsBrElement);
+            box.OutsideDisplayIsInline = box._displayOutside == CssDisplayOutside.Inline && !box.IsBrElement;
+
             //---------------------------
 
             box._isVisible = box._cssDisplay != CssDisplay.None && box._myspec.Visibility == CssVisibility.Visible;
@@ -235,8 +245,8 @@ namespace LayoutFarm.HtmlBoxes
                 case CssDisplay.ListItem:
                 case CssDisplay.Table:
                 case CssDisplay.InlineTable:
-                case CssDisplay.TableCell:               
-                
+                case CssDisplay.TableCell:
+
                 case CssDisplay.Flex:
                 case CssDisplay.InlineFlex:
                     box._boxCompactFlags |= BoxFlags.HAS_CONTAINER_PROP;

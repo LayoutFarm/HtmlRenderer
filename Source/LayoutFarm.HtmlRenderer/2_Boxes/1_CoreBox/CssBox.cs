@@ -40,7 +40,7 @@ namespace LayoutFarm.HtmlBoxes
         readonly Css.BoxSpec _myspec;
         object _controller;
         IRootGraphics rootgfx;
-    
+
 #if DEBUG
         public int dbugMark1;
         public readonly int __aa_dbugId = dbugTotalId++;
@@ -107,7 +107,22 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return _parentBox; }
         }
-
+        internal bool HasContainerProperty
+        {
+            get
+            {
+                switch (this._cssDisplay)
+                {
+                    case Css.CssDisplay.Block:
+                    case Css.CssDisplay.Table:
+                    case Css.CssDisplay.TableCell:
+                    case Css.CssDisplay.ListItem:
+                    case Css.CssDisplay.Flex:
+                        return true;
+                }
+                return false;
+            }
+        }
         public CssBox GetTopRootCssBox()
         {
             var topmost = this;

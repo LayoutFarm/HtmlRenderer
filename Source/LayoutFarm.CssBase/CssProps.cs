@@ -25,38 +25,30 @@ namespace LayoutFarm.Css
 
     public enum CssDisplayOutside : byte
     {
-        None,
+        Internal,
+
         Block,
         Inline,
         RunIn,
 
         TableCell,
-        TableCaption
+        TableCaption,
+        
     }
+
     public enum CssDisplayInside : byte
     {
-        None,
+        Internal,
 
         Flow,
         FlowRoot,
         Table,
         Flex,
         Grid,
-        Ruby
+        Ruby,       
     }
-    public enum CssDisplayBox : byte
-    {
-        Contents,
-        None
-    }
-    public enum CssDisplayLegacy : byte
-    {
-        InlineBlock,
-        InlineListItem,
-        InlineTable,
-        InlineFlex,
-        InlineGrid
-    }
+
+
 
     public enum CssDisplay : byte
     {
@@ -93,13 +85,7 @@ namespace LayoutFarm.Css
 
         [Map(CssConstants.None)]
         None,
-
-        //===========================================
-        /// <summary>
-        ///following group act as Containing box : Block,Table,TableCell, ListItem
-        /// </summary>
-        __CONTAINER_BEGIN_HERE,
-
+         
         [Map(CssConstants.Block)]
         Block,
         [Map(CssConstants.Table)]
@@ -110,8 +96,7 @@ namespace LayoutFarm.Css
         ListItem,
 
         [Map(CssConstants.Flex)]
-        Flex
-        //===========================================
+        Flex 
     }
     public enum CssWhiteSpace : byte
     {

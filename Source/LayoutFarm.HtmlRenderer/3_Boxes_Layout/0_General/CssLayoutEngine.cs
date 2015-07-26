@@ -17,130 +17,19 @@ using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
 using LayoutFarm.Css;
-using PixelFarm.Drawing;
 
 namespace LayoutFarm.HtmlBoxes
 {
     /// <summary>
     /// Helps on CSS Layout.
     /// </summary>
-    static partial class CssLayoutEngine
+    static class CssLayoutEngine
     {
 
         const float CSS_OFFSET_THRESHOLD = 0.1f;
-
-        /// <summary>
-        /// Measure image box size by the width\height set on the box and the actual rendered image size.<br/>
-        /// If no image exists for the box error icon will be set.
-        /// </summary>
-        /// <param name="imgRun">the image word to measure</param>
-        public static void MeasureImageSize(CssImageRun imgRun, LayoutVisitor lay)
-        {
-            var width = imgRun.OwnerBox.Width;
-            var height = imgRun.OwnerBox.Height;
-
-            bool hasImageTagWidth = width.Number > 0 && width.UnitOrNames == CssUnitOrNames.Pixels;
-            bool hasImageTagHeight = height.Number > 0 && height.UnitOrNames == CssUnitOrNames.Pixels;
-            bool scaleImageHeight = false;
-
-            if (hasImageTagWidth)
-            {
-                imgRun.Width = width.Number;
-            }
-            else if (width.Number > 0 && width.IsPercentage)
-            {
-
-                imgRun.Width = width.Number * lay.LatestContainingBlock.VisualWidth;
-                scaleImageHeight = true;
-            }
-            else if (imgRun.HasUserImageContent)
-            {
-                imgRun.Width = imgRun.ImageRectangle == Rectangle.Empty ? imgRun.OriginalImageWidth : imgRun.ImageRectangle.Width;
-            }
-            else
-            {
-                imgRun.Width = hasImageTagHeight ? height.Number / 1.14f : 20;
-            }
-
-            var maxWidth = imgRun.OwnerBox.MaxWidth;// new CssLength(imageWord.OwnerBox.MaxWidth);
-            if (maxWidth.Number > 0)
-            {
-                float maxWidthVal = -1;
-                switch (maxWidth.UnitOrNames)
-                {
-                    case CssUnitOrNames.Percent:
-                        {
-                            maxWidthVal = maxWidth.Number * lay.LatestContainingBlock.VisualWidth;
-                        } break;
-                    case CssUnitOrNames.Pixels:
-                        {
-                            maxWidthVal = maxWidth.Number;
-                        } break;
-                }
-
-
-                if (maxWidthVal > -1 && imgRun.Width > maxWidthVal)
-                {
-                    imgRun.Width = maxWidthVal;
-                    scaleImageHeight = !hasImageTagHeight;
-                }
-            }
-
-            if (hasImageTagHeight)
-            {
-                imgRun.Height = height.Number;
-            }
-            else if (imgRun.HasUserImageContent)
-            {
-                imgRun.Height = imgRun.ImageRectangle == Rectangle.Empty ? imgRun.OriginalImageHeight : imgRun.ImageRectangle.Height;
-            }
-            else
-            {
-                imgRun.Height = imgRun.Width > 0 ? imgRun.Width * 1.14f : 22.8f;
-            }
-
-            if (imgRun.HasUserImageContent)
-            {
-                // If only the width was set in the html tag, ratio the height.
-                if ((hasImageTagWidth && !hasImageTagHeight) || scaleImageHeight)
-                {
-                    // Divide the given tag width with the actual image width, to get the ratio.
-                    float ratio = imgRun.Width / imgRun.OriginalImageWidth;
-                    imgRun.Height = imgRun.OriginalImageHeight * ratio;
-                }
-                // If only the height was set in the html tag, ratio the width.
-                else if (hasImageTagHeight && !hasImageTagWidth)
-                {
-                    // Divide the given tag height with the actual image height, to get the ratio.
-                    float ratio = imgRun.Height / imgRun.OriginalImageHeight;
-                    imgRun.Width = imgRun.OriginalImageWidth * ratio;
-                }
-            }
-            //imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
-        }
-
-        /// <summary>
-        /// Check if the given box contains only inline child boxes.
-        /// </summary>
-        /// <param name="box">the box to check</param>
-        /// <returns>true - only inline child boxes, false - otherwise</returns>
-        static bool ContainsInlinesOnly(CssBox box)
-        {
-            var children = CssBox.UnsafeGetChildren(box);
-            var linkedNode = children.GetFirstLinkedNode();
-            while (linkedNode != null)
-            {
-
-                if (!linkedNode.Value.OutsideDisplayIsInline)
-                {
-                    return false;
-                }
-                linkedNode = linkedNode.Next;
-            }
-            return true;
-        }
         public static void PerformContentLayout(CssBox box, LayoutVisitor lay)
         {
+            //recursive
 
             //this box has its own  container property
             //this box may use...
@@ -201,12 +90,12 @@ namespace LayoutFarm.HtmlBoxes
                         lay.LatestSiblingBox = currentLevelLatestSibling;
                         lay.PopContainingBlock();
                         //TODO: check if this can have absolute layer? 
-                    } break;
-                case CssDisplay.InlineFlex:
-                case CssDisplay.Flex:
+                    } break; 
+                default:
                     {
-                        //------------------------------------------------
-                        //arrange as normal first
+                        //formatting context for...
+                        //1. line formatting context
+                        //2. block formatting context 
                         if (box.IsCustomCssBox)
                         {
                             //has custom layout method
@@ -230,45 +119,29 @@ namespace LayoutFarm.HtmlBoxes
                                 LayoutContentInAbsoluteLayer(lay, box);
                             }
                         }
-                        //------------------------------------------------
-                        RearrangeWithFlexContext(box, lay);
-                        //------------------------------------------------
-                    } break;
-                default:
-                    {
-                        //formatting context for...
-                        //1. line formatting context
-                        //2. block formatting context 
-                        if (box.IsCustomCssBox)
+                        //---------------------
+                        //again!
+                        switch (box.CssDisplay)
                         {
-                            //has custom layout method
-                            box.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock);
-                            box.CustomRecomputedValue(lay.LatestContainingBlock, lay.GraphicsPlatform);
+                            case CssDisplay.Flex:
+                            case CssDisplay.InlineFlex:
+                                {
+                                    //------------------------------------------------
+                                    RearrangeWithFlexContext(box, lay);
+                                    //------------------------------------------------
+                                } break;
+                            default:
+                                {    //TODO: review here again
+                                    if (box.Float != CssFloat.None)
+                                    {
+                                        var iw = box.InnerContentWidth;
+                                        var ew = box.VisualWidth;
+                                        //float to specific position 
+                                        box.SetVisualSize(iw, box.VisualHeight);
+                                    }
+                                } break;
                         }
-                        else
-                        {
-                            if (ContainsInlinesOnly(box))
-                            {
-                                //This will automatically set the bottom of this block
-                                DoLayoutLinesContext(box, lay);
-                            }
-                            else if (box.ChildCount > 0)
-                            {
-                                DoLayoutBlocksContext(box, lay);
-                            }
-                            if (box.HasAbsoluteLayer)
-                            {
-                                LayoutContentInAbsoluteLayer(lay, box);
-                            }
-                        }
-                        //TODO: review here again
-                        if (box.Float != CssFloat.None)
-                        {
-                            var iw = box.InnerContentWidth;
-                            var ew = box.VisualWidth;
-                            //float to specific position 
-                            box.SetVisualSize(iw, box.VisualHeight);
-                        }
+                        //---------------------
                     } break;
             }
 
@@ -384,6 +257,120 @@ namespace LayoutFarm.HtmlBoxes
             }
 
         }
+
+
+
+        /// <summary>
+        /// Measure image box size by the width\height set on the box and the actual rendered image size.<br/>
+        /// If no image exists for the box error icon will be set.
+        /// </summary>
+        /// <param name="imgRun">the image word to measure</param>
+        public static void MeasureImageSize(CssImageRun imgRun, LayoutVisitor lay)
+        {
+            var width = imgRun.OwnerBox.Width;
+            var height = imgRun.OwnerBox.Height;
+
+            bool hasImageTagWidth = width.Number > 0 && width.UnitOrNames == CssUnitOrNames.Pixels;
+            bool hasImageTagHeight = height.Number > 0 && height.UnitOrNames == CssUnitOrNames.Pixels;
+            bool scaleImageHeight = false;
+
+            if (hasImageTagWidth)
+            {
+                imgRun.Width = width.Number;
+            }
+            else if (width.Number > 0 && width.IsPercentage)
+            {
+
+                imgRun.Width = width.Number * lay.LatestContainingBlock.VisualWidth;
+                scaleImageHeight = true;
+            }
+            else if (imgRun.HasUserImageContent)
+            {
+                imgRun.Width = imgRun.ImageRectangle == Rectangle.Empty ? imgRun.OriginalImageWidth : imgRun.ImageRectangle.Width;
+            }
+            else
+            {
+                imgRun.Width = hasImageTagHeight ? height.Number / 1.14f : 20;
+            }
+
+            var maxWidth = imgRun.OwnerBox.MaxWidth;// new CssLength(imageWord.OwnerBox.MaxWidth);
+            if (maxWidth.Number > 0)
+            {
+                float maxWidthVal = -1;
+                switch (maxWidth.UnitOrNames)
+                {
+                    case CssUnitOrNames.Percent:
+                        {
+                            maxWidthVal = maxWidth.Number * lay.LatestContainingBlock.VisualWidth;
+                        } break;
+                    case CssUnitOrNames.Pixels:
+                        {
+                            maxWidthVal = maxWidth.Number;
+                        } break;
+                }
+
+
+                if (maxWidthVal > -1 && imgRun.Width > maxWidthVal)
+                {
+                    imgRun.Width = maxWidthVal;
+                    scaleImageHeight = !hasImageTagHeight;
+                }
+            }
+
+            if (hasImageTagHeight)
+            {
+                imgRun.Height = height.Number;
+            }
+            else if (imgRun.HasUserImageContent)
+            {
+                imgRun.Height = imgRun.ImageRectangle == Rectangle.Empty ? imgRun.OriginalImageHeight : imgRun.ImageRectangle.Height;
+            }
+            else
+            {
+                imgRun.Height = imgRun.Width > 0 ? imgRun.Width * 1.14f : 22.8f;
+            }
+
+            if (imgRun.HasUserImageContent)
+            {
+                // If only the width was set in the html tag, ratio the height.
+                if ((hasImageTagWidth && !hasImageTagHeight) || scaleImageHeight)
+                {
+                    // Divide the given tag width with the actual image width, to get the ratio.
+                    float ratio = imgRun.Width / imgRun.OriginalImageWidth;
+                    imgRun.Height = imgRun.OriginalImageHeight * ratio;
+                }
+                // If only the height was set in the html tag, ratio the width.
+                else if (hasImageTagHeight && !hasImageTagWidth)
+                {
+                    // Divide the given tag height with the actual image height, to get the ratio.
+                    float ratio = imgRun.Height / imgRun.OriginalImageHeight;
+                    imgRun.Width = imgRun.OriginalImageWidth * ratio;
+                }
+            }
+            //imageWord.Height += imageWord.OwnerBox.ActualBorderBottomWidth + imageWord.OwnerBox.ActualBorderTopWidth + imageWord.OwnerBox.ActualPaddingTop + imageWord.OwnerBox.ActualPaddingBottom;
+        }
+
+        /// <summary>
+        /// Check if the given box contains only inline child boxes.
+        /// </summary>
+        /// <param name="box">the box to check</param>
+        /// <returns>true - only inline child boxes, false - otherwise</returns>
+        static bool ContainsInlinesOnly(CssBox box)
+        {
+            var children = CssBox.UnsafeGetChildren(box);
+            var linkedNode = children.GetFirstLinkedNode();
+            while (linkedNode != null)
+            {
+                if (!linkedNode.Value.OutsideDisplayIsInline)
+                {
+                    return false;
+                }
+
+                linkedNode = linkedNode.Next;
+            }
+            return true;
+        }
+
         /// <summary>
         /// do layout line formatting context
         /// </summary>
@@ -446,12 +433,13 @@ namespace LayoutFarm.HtmlBoxes
 
             int interlineSpace = 0;
 
-            //First line box
+            //First line box 
 
             var line = new CssLineBox(hostBlock);
             hostBlock.AddLineBox(line);
             //****
             var floatCtx = new FloatFormattingContext();
+
             FlowBoxContentIntoHostLineFmtContext(lay, hostBlock, hostBlock,
                   limitLocalRight, localX,
                   ref line, ref localX, ref floatCtx);
@@ -749,8 +737,6 @@ namespace LayoutFarm.HtmlBoxes
             //recursive *** 
             //-------------------------------------------------------------------- 
             var oX = cx;
-
-
             if (srcBox.HasOnlyRuns)
             {
                 //condition 3 
@@ -769,6 +755,13 @@ namespace LayoutFarm.HtmlBoxes
                 var ifonts = lay.SampleIFonts;
                 foreach (CssBox b in srcBox.GetChildBoxIter())
                 {
+                    if (b.CssDisplay == CssDisplay.Block)
+                    {
+                        //if display outside is block
+                        //just break  
+
+                    }
+                    //-----------------------------------------
 #if DEBUG
                     if (b.__aa_dbugId == 4)
                     {
@@ -792,15 +785,11 @@ namespace LayoutFarm.HtmlBoxes
 #endif
 
                     cx += leftMostSpace;
-                    //------------------------------------------------  
-
-                    if (b.CssDisplay == CssDisplay.InlineBlock || !ContainsInlinesOnly(b))
+                    if (b.CssDisplay == CssDisplay.InlineBlock)
                     {
                         //--------
                         // if inside display is block context *** 
-                        //---------
-
-
+                        //--------- 
 
                         //outside -> inline
                         //inside -> block
@@ -808,7 +797,6 @@ namespace LayoutFarm.HtmlBoxes
                         //can't split 
                         //create 'block-run'  
                         PerformContentLayout(b, lay);
-
                         CssBlockRun blockRun = b.JustBlockRun;
                         if (blockRun == null)
                         {
@@ -835,6 +823,7 @@ namespace LayoutFarm.HtmlBoxes
                             new List<CssRun>() { b.JustBlockRun },
                             ref hostLine, ref cx);
                     }
+
                     else if (b.HasOnlyRuns)
                     {
                         switch (b.Float)
@@ -847,14 +836,13 @@ namespace LayoutFarm.HtmlBoxes
                                         leftMostSpace, rightMostSpace,
                                         CssBox.UnsafeGetRunList(b),
                                         ref hostLine, ref cx);
+
                                 } break;
                             case CssFloat.Left:
                                 {
                                     //float is out of flow item 
                                     //1. current line is shortening
                                     //2. add 'b' to special container ***  
-
-
 
                                     var newAnonBlock = new CssFloatContainerBox(
                                         CssBox.UnsafeGetBoxSpec(b),
@@ -1303,7 +1291,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="g"></param>
         /// <param name="line"></param>
-        private static void ApplyCenterAlignment(CssLineBox line)
+        static void ApplyCenterAlignment(CssLineBox line)
         {
 
             if (line.RunCount == 0) return;
@@ -1324,7 +1312,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="g"></param>
         /// <param name="line"></param>
-        private static void ApplyRightAlignment(CssLineBox line)
+        static void ApplyRightAlignment(CssLineBox line)
         {
             if (line.RunCount == 0)
             {

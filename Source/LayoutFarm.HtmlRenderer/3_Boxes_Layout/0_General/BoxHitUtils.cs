@@ -26,10 +26,10 @@ namespace LayoutFarm.HtmlBoxes
 
         public static bool HitTest(CssBox box, float x, float y, CssBoxHitChain hitChain)
         {
-           
+
             //--------------------------------------
             float boxHitLocalX = x - box.LocalX;
-            float boxHitLocalY = y - box.LocalY; 
+            float boxHitLocalY = y - box.LocalY;
             bool isPointInArea = box.IsPointInArea(x, y);
             //----------------------------------------------------------------------
             if (isPointInArea)
@@ -112,7 +112,7 @@ namespace LayoutFarm.HtmlBoxes
                                 var blockRun = (CssBlockRun)foundRun;
                                 CssLineBox hostLine = blockRun.HostLine;
                                 //adjust with hostline 
-                              
+
                                 HitTest(((CssBlockRun)foundRun).ContentBox, (int)(boxHitLocalX - foundRun.Left), boxHitLocalY - hostLine.CachedLineTop, hitChain);
                             }
                         }
@@ -257,7 +257,7 @@ namespace LayoutFarm.HtmlBoxes
             }
 
             var box = startBox.ParentBox;
-            while (box.CssDisplay < Css.CssDisplay.__CONTAINER_BEGIN_HERE &&
+            while (box.HasContainerProperty &&
                 box.ParentBox != null)
             {
                 box = box.ParentBox;
