@@ -281,10 +281,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         internal void AddLineBox(CssLineBox linebox)
         {
-
-
             linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
-
         }
         internal int LineBoxCount
         {
