@@ -114,7 +114,7 @@ namespace LayoutFarm.HtmlBoxes
     /// </remarks>
     sealed class CssLineBox
     {
-        CssBox _ownerBox;
+       readonly CssBox _ownerBox;
 
         //a run may come from another CssBox (not from _ownerBox)
         readonly List<CssRun> _runs = new List<CssRun>();
@@ -142,10 +142,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             _ownerBox = ownerBox;
         }
-        internal void ChangeOwnerLine(CssBox newOwnerBox)
-        {
-            this._ownerBox = newOwnerBox;
-        }
+         
         internal CssLineBox NextLine
         {
             get
