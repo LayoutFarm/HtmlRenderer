@@ -194,6 +194,7 @@ namespace LayoutFarm.HtmlBoxes
             for (int i = 0; i <= lim; ++i)
             {
                 var run = runs[i];
+               
                 //---------------------------------------------------
                 //check if need to start new line ? 
                 if ((cx + run.Width + rightMostSpace > limitRight &&
@@ -502,7 +503,7 @@ namespace LayoutFarm.HtmlBoxes
 
                                     var newFloatCtx = new FloatFormattingContext();
                                     FlowBoxContentIntoHostLineFmtContext(lay, newAnonBlock, b,
-                                        limitLocalRight, 0, 
+                                        limitLocalRight, 0,
                                         ref line, ref localX1, ref newFloatCtx);
 
                                     float localY = 0;
@@ -804,6 +805,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public static void PerformContentLayout(CssBox box, LayoutVisitor lay)
         {
+             
             //recursive
 
             //this box has its own  container property
@@ -819,12 +821,18 @@ namespace LayoutFarm.HtmlBoxes
                 if (box.CssDisplay != Css.CssDisplay.Table)
                 {
                     float availableWidth = myContainingBlock.GetClientWidth();
+                    // Console.WriteLine(availableWidth.ToString());
+
                     if (!box.Width.IsEmptyOrAuto)
                     {
                         availableWidth = CssValueParser.ConvertToPx(box.Width, availableWidth, box);
+                        //specific width
+                        box.SetCssBoxWidth(availableWidth);
                     }
-
-                    box.SetCssBoxWidth(availableWidth);
+                    else
+                    {
+                        box.SetCssBoxFromContainerAvailableWidth(availableWidth);
+                    }
                 }
                 //-------------------------------------------
 
