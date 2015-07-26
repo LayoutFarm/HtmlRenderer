@@ -174,10 +174,7 @@ namespace LayoutFarm.HtmlBoxes
                     } break;
             }
         }
-        internal void InsertFirst(CssBox box)
-        {
-            this._aa_boxes.AddFirst(this, box);
-        }
+        
         public void AppendChild(CssBox box)
         {
             switch (box.Position)

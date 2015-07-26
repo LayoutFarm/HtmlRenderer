@@ -30,16 +30,7 @@ namespace LayoutFarm.HtmlBoxes
                 cNode = cNode.Previous;
             }
         }
-        public void AddFirst(CssBox owner, CssBox box)
-        {
-#if DEBUG
-            if (owner == box)
-            {
-                throw new NotSupportedException();
-            }
-#endif
-            CssBox.UnsafeSetNodes(box, owner, _boxes.AddFirst(box));
-        }
+        
         public void AddChild(CssBox owner, CssBox box)
         {
 
