@@ -26,9 +26,9 @@ namespace LayoutFarm.HtmlBoxes
         public SelectionRange(CssBoxHitChain startChain,
             CssBoxHitChain endChain,
             IFonts ifonts)
-        {
+        {   
             if (IsOnTheSameLine(startChain, endChain))
-            {
+            {   
                 //on the same line
                 if (endChain.RootGlobalX < startChain.RootGlobalX)
                 {
@@ -40,6 +40,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
+               
                 //across line 
                 if (endChain.RootGlobalY < startChain.RootGlobalY)
                 {    //swap
@@ -48,8 +49,7 @@ namespace LayoutFarm.HtmlBoxes
                     startChain = tmp;
                 }
             }
-
-
+             
             //1.
             this.SetupStartHitPoint(startChain, ifonts);
             //2. 
@@ -59,6 +59,7 @@ namespace LayoutFarm.HtmlBoxes
                 return;
             }
 
+       
             this.SetupEndHitPoint(startChain, endChain, ifonts);
             this.snapSelectionArea = this.GetSelectionRectArea();
         }
@@ -328,10 +329,14 @@ namespace LayoutFarm.HtmlBoxes
 
                     } break;
             }
+
+#if DEBUG
             if (xposOnEndLine == 0)
             {
 
             }
+#endif
+
             //----------------------------------
             this.selectedLines = new List<CssLineBox>();
             if (startHitHostLine == endline)
@@ -778,19 +783,19 @@ namespace LayoutFarm.HtmlBoxes
                 EndHitRun = endRun,
                 EndHitCharIndex = endRunIndex
             };
-        } 
+        }
 
         public static void Select(this CssLineBox lineBox, int startAtPx, int endAt,
             CssRun startRun, int startRunIndex,
             CssRun endRun, int endRunIndex)
-        { 
+        {
             lineBox.SelectionSegment = new SelectionSegment(startAtPx, endAt - startAtPx)
             {
                 StartHitRun = startRun,
                 StartHitCharIndex = startRunIndex,
                 EndHitRun = endRun,
                 EndHitCharIndex = endRunIndex
-            }; 
+            };
         }
     }
 

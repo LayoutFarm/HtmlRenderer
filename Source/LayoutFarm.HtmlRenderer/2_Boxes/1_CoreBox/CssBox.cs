@@ -59,7 +59,7 @@ namespace LayoutFarm.HtmlBoxes
             if (!spec.IsFreezed)
             {
                 //must be freezed
-                //throw new NotSupportedException();
+                throw new NotSupportedException();
             }
 #endif
 
@@ -107,7 +107,22 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return _parentBox; }
         }
-
+        internal bool HasContainerProperty
+        {
+            get
+            {
+                switch (this._cssDisplay)
+                {
+                    case Css.CssDisplay.Block:
+                    case Css.CssDisplay.Table:
+                    case Css.CssDisplay.TableCell:
+                    case Css.CssDisplay.ListItem:
+                    case Css.CssDisplay.Flex:
+                        return true;
+                }
+                return false;
+            }
+        }
         public CssBox GetTopRootCssBox()
         {
             var topmost = this;
@@ -148,13 +163,13 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// is the box "Display" is "Inline", is this is an inline box and not block.
         /// </summary>
-        public bool IsInline
+        internal bool OutsideDisplayIsInline
         {
             get
             {
                 return (this._boxCompactFlags & BoxFlags.IS_INLINE_BOX) != 0;
             }
-            internal set
+            set
             {
                 if (value)
                 {
@@ -266,10 +281,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         internal void AddLineBox(CssLineBox linebox)
         {
-
-
             linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
-
         }
         internal int LineBoxCount
         {
@@ -373,8 +385,10 @@ namespace LayoutFarm.HtmlBoxes
                 return this._aa_contentRuns;
             }
         }
-
-        internal bool HasRuns
+        /// <summary>
+        /// box has only runs
+        /// </summary>
+        internal bool HasOnlyRuns
         {
             get
             {

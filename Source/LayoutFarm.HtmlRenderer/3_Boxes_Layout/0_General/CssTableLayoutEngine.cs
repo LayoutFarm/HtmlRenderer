@@ -1292,7 +1292,7 @@ namespace LayoutFarm.HtmlBoxes
                 paddingSum += CssTableLayoutEngine.CalculateTableSpacing(box);
             }
 
-            if (box.HasRuns)
+            if (box.HasOnlyRuns)
             {
                 // calculate the min and max sum for all the words in the box 
                 foreach (CssRun run in box.GetRunIter())
