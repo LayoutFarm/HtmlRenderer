@@ -194,7 +194,7 @@ namespace LayoutFarm.HtmlBoxes
             for (int i = 0; i <= lim; ++i)
             {
                 var run = runs[i];
-               
+
                 //---------------------------------------------------
                 //check if need to start new line ? 
                 if ((cx + run.Width + rightMostSpace > limitRight &&
@@ -805,7 +805,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public static void PerformContentLayout(CssBox box, LayoutVisitor lay)
         {
-             
+
             //recursive
 
             //this box has its own  container property
@@ -922,7 +922,7 @@ namespace LayoutFarm.HtmlBoxes
                                         var iw = box.InnerContentWidth;
                                         var ew = box.VisualWidth;
                                         //float to specific position 
-                                        box.SetVisualSize(iw, box.VisualHeight);
+                                        //box.SetVisualSize(iw, box.VisualHeight);
                                     }
                                 } break;
                         }
@@ -945,7 +945,25 @@ namespace LayoutFarm.HtmlBoxes
                         }
 
                         float sx = myContainingBlock.GetClientLeft();
-                        float sy = myContainingBlock.GetClientTop();
+                        //--------------------------------------------------------------------
+                        float sy = 0;
+                        if (myContainingBlock.LineBoxCount > 0)
+                        {
+                            //line context
+                            sy = myContainingBlock.GetClientTop();
+                        }
+                        else
+                        {
+                            var prevNode = box.GetPrevNode();
+                            if (prevNode != null)
+                            {
+                                sy = prevNode.LocalVisualBottom;
+                            }
+                            else
+                            {
+                                sy = myContainingBlock.GetClientTop();
+                            }
+                        }
 
                         if (recentLeftFloatBox != null)
                         {
@@ -995,9 +1013,29 @@ namespace LayoutFarm.HtmlBoxes
                             availableWidth2 -= recentLeftFloatBox.LocalX;
                         }
 
+                       
                         float sx = myContainingBlock.GetClientRight() - box.VisualWidth;
-                        float sy = myContainingBlock.GetClientTop();
+                        //--------------------------------------------------------------------
 
+                        float sy = 0;
+                        if (myContainingBlock.LineBoxCount > 0)
+                        {
+                            //line context
+                            sy = myContainingBlock.GetClientTop();
+                        }
+                        else
+                        {
+                            var prevNode = box.GetPrevNode();
+                            if (prevNode != null)
+                            {
+                                sy = prevNode.LocalVisualBottom;
+                            }
+                            else
+                            {
+                                sy = myContainingBlock.GetClientTop();
+                            }
+                        }
+                        //--------------------------------------------------------------------
                         if (recentRightFloatBox != null)
                         {
                             availableWidth2 -= recentRightFloatBox.LocalX;
@@ -1186,7 +1224,10 @@ namespace LayoutFarm.HtmlBoxes
             {
                 if (box.CssDisplay != Css.CssDisplay.TableCell)
                 {
-                    box.SetVisualWidth(boxWidth);
+                    if (box.Width.IsEmptyOrAuto)
+                    {
+                        box.SetVisualWidth(boxWidth);
+                    }
                 }
             }
 
