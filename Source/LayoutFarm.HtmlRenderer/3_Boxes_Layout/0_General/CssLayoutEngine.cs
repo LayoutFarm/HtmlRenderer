@@ -957,7 +957,14 @@ namespace LayoutFarm.HtmlBoxes
                             var prevNode = box.GetPrevNode();
                             if (prevNode != null)
                             {
-                                sy = prevNode.LocalVisualBottom;
+                                if (box.VisualWidth < availableWidth2)
+                                {
+                                    sy = prevNode.LocalY;
+                                }
+                                else
+                                {
+                                    sy = prevNode.LocalVisualBottom;
+                                }
                             }
                             else
                             {
@@ -1010,10 +1017,10 @@ namespace LayoutFarm.HtmlBoxes
 
                         if (recentLeftFloatBox != null)
                         {
-                            availableWidth2 -= recentLeftFloatBox.LocalX;
+                            availableWidth2 -= recentLeftFloatBox.LocalVisualRight;
                         }
 
-                       
+
                         float sx = myContainingBlock.GetClientRight() - box.VisualWidth;
                         //--------------------------------------------------------------------
 
@@ -1028,7 +1035,15 @@ namespace LayoutFarm.HtmlBoxes
                             var prevNode = box.GetPrevNode();
                             if (prevNode != null)
                             {
-                                sy = prevNode.LocalVisualBottom;
+                                
+                                if (box.VisualWidth < availableWidth2)
+                                {
+                                    sy = prevNode.LocalY;
+                                }
+                                else
+                                {
+                                    sy = prevNode.LocalVisualBottom;
+                                }
                             }
                             else
                             {
