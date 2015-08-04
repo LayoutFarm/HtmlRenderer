@@ -67,10 +67,12 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void OnPushDifferentContainingBlock(CssBox box)
         {
+
             this.totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
             this.leftFloatBoxStack.Push(this.LatestLeftFloatBox);
             this.rightFloatBoxStack.Push(this.LatestRightFloatBox);
-
+            //reset
+            this.LatestLeftFloatBox = this.LatestRightFloatBox = null;
         }
         protected override void OnPopDifferentContaingBlock(CssBox box)
         {
@@ -144,7 +146,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             return 0;
         }
- 
+
 
         internal void RequestImage(ImageBinder binder, CssBox requestFrom)
         {
