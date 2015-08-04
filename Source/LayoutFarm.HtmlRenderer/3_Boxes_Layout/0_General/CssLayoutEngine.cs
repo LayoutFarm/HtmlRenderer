@@ -1001,8 +1001,11 @@ namespace LayoutFarm.HtmlBoxes
                                    recentRightFloatBox.ActualMarginBottom;
                             }
 
-                            sy = (sy1 > sy2) ? sy1 : sy2;
+                            sy = (sy1 > sy2) ? sy1 : sy2; 
                         }
+
+                        sx += box.ActualMarginLeft;
+                        sy += box.ActualMarginTop;
 
                         box.SetLocation(sx, sy);
                         lay.LatestLeftFloatBox = box;
@@ -1082,6 +1085,8 @@ namespace LayoutFarm.HtmlBoxes
 
                             sy = (sy1 > sy2) ? sy1 : sy2;
                         }
+                        sx += box.ActualMarginLeft;
+                        sy += box.ActualMarginTop;
                         box.SetLocation(sx, sy);
                         lay.LatestRightFloatBox = box;
                         lay.AddFloatBox(box);
