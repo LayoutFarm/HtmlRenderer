@@ -8,7 +8,7 @@ namespace LayoutFarm.HtmlBoxes
     public abstract class BoxVisitor
     {
         Stack<CssBox> containgBlockStack = new Stack<CssBox>();
-        CssBox latestContaingBlock = null; 
+        CssBox latestContainingBlock = null; 
         float globalXOffset;
         float globalYOffset;
 
@@ -16,14 +16,14 @@ namespace LayoutFarm.HtmlBoxes
         internal void PushContaingBlock(CssBox box)
         {   
             //enter new containing block
-            if (box != latestContaingBlock)
+            if (box != latestContainingBlock)
             {
                 this.globalXOffset += box.LocalX;
                 this.globalYOffset += box.LocalY;
                 OnPushDifferentContainingBlock(box);
             }
             this.containgBlockStack.Push(box);
-            this.latestContaingBlock = box;
+            this.latestContainingBlock = box;
         }
       
         internal void PopContainingBlock()
@@ -36,24 +36,24 @@ namespace LayoutFarm.HtmlBoxes
                 case 1:
                     {
                         var box = this.containgBlockStack.Pop();
-                        if (this.latestContaingBlock != box)
+                        if (this.latestContainingBlock != box)
                         {
                             this.globalXOffset -= box.LocalX;
                             this.globalYOffset -= box.LocalY;
                             OnPopDifferentContaingBlock(box);
                         }
-                        this.latestContaingBlock = null;
+                        this.latestContainingBlock = null;
                     } break;
                 default:
                     {
                         var box = this.containgBlockStack.Pop();
-                        if (this.latestContaingBlock != box)
+                        if (this.latestContainingBlock != box)
                         {
                             this.globalXOffset -= box.LocalX;
                             this.globalYOffset -= box.LocalY;
                             OnPopDifferentContaingBlock(box);
                         }
-                        this.latestContaingBlock = this.containgBlockStack.Peek();
+                        this.latestContainingBlock = this.containgBlockStack.Peek();
 
                     } break;
             }
@@ -76,7 +76,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal CssBox LatestContainingBlock
         {
-            get { return this.latestContaingBlock; }
+            get { return this.latestContainingBlock; }
         }
         
     }
