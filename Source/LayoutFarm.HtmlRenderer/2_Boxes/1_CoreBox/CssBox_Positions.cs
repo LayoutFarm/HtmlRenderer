@@ -405,7 +405,8 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
         void dbugBeforeSetWidth(float width)
         {
-            //if (this.__aa_dbugId == 5)
+            //Console.WriteLine(this.__aa_dbugId + " :" + width);
+            //if (this.__aa_dbugId == 3)
             //{
             //}
         }

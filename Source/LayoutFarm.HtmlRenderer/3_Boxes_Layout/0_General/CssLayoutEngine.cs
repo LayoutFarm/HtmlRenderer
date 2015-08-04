@@ -990,11 +990,11 @@ namespace LayoutFarm.HtmlBoxes
 
                             if (recentLeftFloatBox != null)
                             {
-                                sy1 = recentLeftFloatBox.LocalVisualBottom + recentLeftFloatBox.ActualMarginBottom; 
+                                sy1 = recentLeftFloatBox.LocalVisualBottom + recentLeftFloatBox.ActualMarginBottom;
                             }
                             if (recentRightFloatBox != null)
                             {
-                                sy2 = recentRightFloatBox.LocalVisualBottom + recentRightFloatBox.ActualMarginBottom; 
+                                sy2 = recentRightFloatBox.LocalVisualBottom + recentRightFloatBox.ActualMarginBottom;
                             }
 
                             sy = (sy1 > sy2) ? sy1 : sy2;
@@ -1020,7 +1020,7 @@ namespace LayoutFarm.HtmlBoxes
                         }
 
 
-                        float sx = myContainingBlock.GetClientRight() - box.VisualWidth;
+                        float sx = myContainingBlock.GetClientRight() - (box.VisualWidth + box.ActualMarginLeft + box.ActualMarginRight);
                         //--------------------------------------------------------------------
 
                         float sy = 0;
@@ -1088,8 +1088,10 @@ namespace LayoutFarm.HtmlBoxes
                             }
                             sy = (sy1 > sy2) ? sy1 : sy2;
                         }
+
                         sx += box.ActualMarginLeft;
                         sy += box.ActualMarginTop;
+
                         box.SetLocation(sx, sy);
                         lay.LatestRightFloatBox = box;
                         lay.AddFloatBox(box);
@@ -1319,17 +1321,21 @@ namespace LayoutFarm.HtmlBoxes
         }
         static float CalculateActualWidth(CssBox box)
         {
+            //if (box.__aa_dbugId == 3)
+            //{
+
+            //}
             float maxRight = 0;
             var boxes = CssBox.UnsafeGetChildren(box);
             var cnode = boxes.GetFirstLinkedNode();
             while (cnode != null)
             {
                 var cssbox = cnode.Value;
-                float nodeRight = cssbox.LocalX + cssbox.InnerContentWidth +
-                     cssbox.ActualPaddingLeft + cssbox.ActualPaddingRight +
-                     cssbox.ActualMarginLeft +
-                     cssbox.ActualMarginRight;
-
+                //float nodeRight = cssbox.LocalX + cssbox.InnerContentWidth +
+                //     cssbox.ActualPaddingLeft + cssbox.ActualPaddingRight +
+                //     cssbox.ActualMarginLeft +
+                //     cssbox.ActualMarginRight;
+                float nodeRight = cssbox.LocalVisualRight + cssbox.ActualMarginRight;
                 maxRight = nodeRight > maxRight ? nodeRight : maxRight;
                 cnode = cnode.Next;
             }
