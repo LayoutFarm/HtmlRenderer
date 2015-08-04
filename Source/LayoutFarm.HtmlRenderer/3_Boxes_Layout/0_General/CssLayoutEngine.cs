@@ -990,18 +990,14 @@ namespace LayoutFarm.HtmlBoxes
 
                             if (recentLeftFloatBox != null)
                             {
-                                sy1 = recentLeftFloatBox.LocalX + recentLeftFloatBox.InnerContentHeight +
-                                  recentLeftFloatBox.ActualPaddingBottom +
-                                  recentLeftFloatBox.ActualMarginBottom;
+                                sy1 = recentLeftFloatBox.LocalVisualBottom + recentLeftFloatBox.ActualMarginBottom; 
                             }
                             if (recentRightFloatBox != null)
                             {
-                                sy2 = recentRightFloatBox.LocalX + recentRightFloatBox.InnerContentHeight +
-                                   recentRightFloatBox.ActualPaddingBottom +
-                                   recentRightFloatBox.ActualMarginBottom;
+                                sy2 = recentRightFloatBox.LocalVisualBottom + recentRightFloatBox.ActualMarginBottom; 
                             }
 
-                            sy = (sy1 > sy2) ? sy1 : sy2; 
+                            sy = (sy1 > sy2) ? sy1 : sy2;
                         }
 
                         sx += box.ActualMarginLeft;
@@ -1038,7 +1034,7 @@ namespace LayoutFarm.HtmlBoxes
                             var prevNode = box.GetPrevNode();
                             if (prevNode != null)
                             {
-                                
+
                                 if (box.VisualWidth < availableWidth2)
                                 {
                                     sy = prevNode.LocalY;
@@ -1070,19 +1066,26 @@ namespace LayoutFarm.HtmlBoxes
                             float sy2 = 0;
                             sy1 = sy2 = myContainingBlock.GetClientTop();
 
+                            //if (recentLeftFloatBox != null)
+                            //{
+                            //    sy1 = recentLeftFloatBox.LocalY + recentLeftFloatBox.InnerContentHeight +
+                            //      recentLeftFloatBox.ActualPaddingBottom +
+                            //      recentLeftFloatBox.ActualMarginBottom;
+                            //}
+                            //if (recentRightFloatBox != null)
+                            //{
+                            //    sy2 = recentRightFloatBox.LocalY + recentRightFloatBox.InnerContentHeight +
+                            //       recentRightFloatBox.ActualPaddingBottom +
+                            //       recentRightFloatBox.ActualMarginBottom;
+                            //}
                             if (recentLeftFloatBox != null)
                             {
-                                sy1 = recentLeftFloatBox.LocalY + recentLeftFloatBox.InnerContentHeight +
-                                  recentLeftFloatBox.ActualPaddingBottom +
-                                  recentLeftFloatBox.ActualMarginBottom;
+                                sy1 = recentLeftFloatBox.LocalVisualBottom + recentLeftFloatBox.ActualMarginBottom;
                             }
                             if (recentRightFloatBox != null)
                             {
-                                sy2 = recentRightFloatBox.LocalY + recentRightFloatBox.InnerContentHeight +
-                                   recentRightFloatBox.ActualPaddingBottom +
-                                   recentRightFloatBox.ActualMarginBottom;
+                                sy2 = recentRightFloatBox.LocalVisualBottom + recentRightFloatBox.ActualMarginBottom;
                             }
-
                             sy = (sy1 > sy2) ? sy1 : sy2;
                         }
                         sx += box.ActualMarginLeft;
