@@ -77,8 +77,8 @@ namespace LayoutFarm.HtmlBoxes
         protected override void OnPopDifferentContaingBlock(CssBox box)
         {
             this.totalMarginLeftAndRight -= (box.ActualMarginLeft + box.ActualMarginRight);
-            this.latestLeftFloatBox = this.leftFloatBoxStack.Pop();
-            this.latestRightFloatBox = this.rightFloatBoxStack.Pop();
+            this.LatestLeftFloatBox = this.leftFloatBoxStack.Pop();
+            this.LatestRightFloatBox = this.rightFloatBoxStack.Pop();
         }
         internal CssBox LatestSiblingBox
         {

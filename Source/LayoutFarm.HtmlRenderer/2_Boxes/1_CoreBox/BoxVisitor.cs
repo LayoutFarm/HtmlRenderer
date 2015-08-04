@@ -35,6 +35,7 @@ namespace LayoutFarm.HtmlBoxes
                     } break;
                 case 1:
                     {
+                        //last on
                         var box = this.containgBlockStack.Pop();
                         if (this.latestContainingBlock != box)
                         {
@@ -53,7 +54,7 @@ namespace LayoutFarm.HtmlBoxes
                             this.globalYOffset -= box.LocalY;
                             OnPopDifferentContaingBlock(box);
                         }
-                        this.latestContainingBlock = this.containgBlockStack.Peek();
+                        this.latestContainingBlock = box;// this.containgBlockStack.Peek();
 
                     } break;
             }
