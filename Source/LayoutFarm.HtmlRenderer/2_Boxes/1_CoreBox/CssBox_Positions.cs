@@ -410,6 +410,10 @@ namespace LayoutFarm.HtmlBoxes
             //{
             //}
         }
+        void dbugBeforeSetHeight(float height)
+        {
+
+        }
 #endif
         /// <summary>
         /// set box width related to its boxsizing model  and recalcualte visual width 
@@ -456,9 +460,7 @@ namespace LayoutFarm.HtmlBoxes
             //depend on box-sizing model  ***
 
 #if DEBUG
-            if (this.__aa_dbugId == 2)
-            {
-            }
+            dbugBeforeSetHeight(height);
 #endif
 
             this._cssBoxHeight = height;
@@ -492,10 +494,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
 #if DEBUG
-            if (this.__aa_dbugId == 2)
-            {
-
-            }
+            dbugBeforeSetHeight(height);
 #endif
             this._visualHeight = height;
         }
@@ -507,7 +506,10 @@ namespace LayoutFarm.HtmlBoxes
         public void SetVisualSize(float width, float height)
         {
 #if DEBUG
-            dbugBeforeSetWidth(width);
+           dbugBeforeSetWidth(width);
+#endif
+#if DEBUG
+           dbugBeforeSetHeight(height);
 #endif
             if (!this.FreezeWidth)
             {
@@ -516,11 +518,8 @@ namespace LayoutFarm.HtmlBoxes
             else
             {
                 throw new NotSupportedException();
-            }
+            }  
 
-#if DEBUG
-
-#endif
             this._visualHeight = height;
         }
         /// <summary>
