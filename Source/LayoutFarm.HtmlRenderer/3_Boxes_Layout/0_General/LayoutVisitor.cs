@@ -22,7 +22,7 @@ namespace LayoutFarm.HtmlBoxes
 
         Stack<CssBox> leftFloatBoxStack = new Stack<CssBox>(); //from previous context
         Stack<CssBox> rightFloatBoxStack = new Stack<CssBox>();//from previous context
-        List<CssBox> lateFindContainerList = new List<CssBox>();
+        List<CssBox> floatBoxList = new List<CssBox>();
 
         CssBox latestLeftFloatBox;
         CssBox latestRightFloatBox;
@@ -67,27 +67,40 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void OnPushDifferentContainingBlock(CssBox box)
         {
+
             this.totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
+         
+        }
+        protected override void OnPushContainingBlock()
+        {
             this.leftFloatBoxStack.Push(this.LatestLeftFloatBox);
             this.rightFloatBoxStack.Push(this.LatestRightFloatBox);
-
+            //reset
+            this.LatestLeftFloatBox = this.LatestRightFloatBox = null;
+            base.OnPushContainingBlock();
         }
+        protected override void OnPopContainingBlock()
+        {
+            this.LatestLeftFloatBox = this.leftFloatBoxStack.Pop();
+            this.LatestRightFloatBox = this.rightFloatBoxStack.Pop();
+            base.OnPopContainingBlock();
+        }
+
         protected override void OnPopDifferentContaingBlock(CssBox box)
         {
             this.totalMarginLeftAndRight -= (box.ActualMarginLeft + box.ActualMarginRight);
-            this.latestLeftFloatBox = this.leftFloatBoxStack.Pop();
-            this.latestRightFloatBox = this.rightFloatBoxStack.Pop();
+            
         }
         internal CssBox LatestSiblingBox
         {
             get;
             set;
         }
-        internal List<CssBox> LateFindContainerList
+        internal List<CssBox> FloatBoxList
         {
             get
             {
-                return this.lateFindContainerList;
+                return this.floatBoxList;
             }
         }
 
@@ -114,7 +127,7 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void AddFloatBox(CssBox floatBox)
         {
-            lateFindContainerList.Add(floatBox);
+            floatBoxList.Add(floatBox);
         }
         internal void UpdateRootSize(CssBox box)
         {
@@ -144,7 +157,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             return 0;
         }
- 
+
 
         internal void RequestImage(ImageBinder binder, CssBox requestFrom)
         {

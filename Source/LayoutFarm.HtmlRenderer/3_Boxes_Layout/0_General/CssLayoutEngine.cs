@@ -194,7 +194,7 @@ namespace LayoutFarm.HtmlBoxes
             for (int i = 0; i <= lim; ++i)
             {
                 var run = runs[i];
-               
+
                 //---------------------------------------------------
                 //check if need to start new line ? 
                 if ((cx + run.Width + rightMostSpace > limitRight &&
@@ -805,7 +805,7 @@ namespace LayoutFarm.HtmlBoxes
 
         public static void PerformContentLayout(CssBox box, LayoutVisitor lay)
         {
-             
+
             //recursive
 
             //this box has its own  container property
@@ -917,13 +917,14 @@ namespace LayoutFarm.HtmlBoxes
                                 } break;
                             default:
                                 {    //TODO: review here again
-                                    if (box.Float != CssFloat.None)
-                                    {
-                                        var iw = box.InnerContentWidth;
-                                        var ew = box.VisualWidth;
-                                        //float to specific position 
-                                        box.SetVisualSize(iw, box.VisualHeight);
-                                    }
+                                    //if (box.Float != CssFloat.None)
+                                    //{
+                                    //    var iw = box.InnerContentWidth;
+                                    //    var ew = box.VisualWidth;
+                                    //    box.SetVisualSize(box.InnerContentWidth, box.InnerContentHeight);
+                                    //    //float to specific position 
+                                    //    //box.SetVisualSize(iw, box.VisualHeight);
+                                    //}
                                 } break;
                         }
                         //---------------------
@@ -935,6 +936,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 case CssFloat.Left:
                     {
+                        var a = box;
                         var recentLeftFloatBox = lay.LatestLeftFloatBox;
                         var recentRightFloatBox = lay.LatestRightFloatBox;
                         float availableWidth2 = myContainingBlock.GetClientWidth();
@@ -945,7 +947,42 @@ namespace LayoutFarm.HtmlBoxes
                         }
 
                         float sx = myContainingBlock.GetClientLeft();
-                        float sy = myContainingBlock.GetClientTop();
+                        //--------------------------------------------------------------------
+                        float sy = 0;
+                        if (myContainingBlock.LineBoxCount > 0)
+                        {
+                            //line context
+                            sy = myContainingBlock.GetClientTop();
+                        }
+                        else
+                        {
+                            var prevNode = box.GetPrevNode();
+                            if (prevNode != null)
+                            {
+                                if (prevNode.Float != CssFloat.None)
+                                {
+                                    //float left/right 
+                                    //TODO: review inherit here
+                                    if (box.VisualWidth < availableWidth2)
+                                    {
+                                        sy = prevNode.LocalY;
+                                    }
+                                    else
+                                    {
+                                        sy = prevNode.LocalVisualBottom;
+                                    }
+                                }
+                                else
+                                {
+                                    sy = prevNode.LocalVisualBottom;
+                                }
+                             
+                            }
+                            else
+                            {
+                                sy = myContainingBlock.GetClientTop();
+                            }
+                        }
 
                         if (recentLeftFloatBox != null)
                         {
@@ -965,19 +1002,18 @@ namespace LayoutFarm.HtmlBoxes
 
                             if (recentLeftFloatBox != null)
                             {
-                                sy1 = recentLeftFloatBox.LocalX + recentLeftFloatBox.InnerContentHeight +
-                                  recentLeftFloatBox.ActualPaddingBottom +
-                                  recentLeftFloatBox.ActualMarginBottom;
+                                sy1 = recentLeftFloatBox.LocalVisualBottom + recentLeftFloatBox.ActualMarginBottom;
                             }
                             if (recentRightFloatBox != null)
                             {
-                                sy2 = recentRightFloatBox.LocalX + recentRightFloatBox.InnerContentHeight +
-                                   recentRightFloatBox.ActualPaddingBottom +
-                                   recentRightFloatBox.ActualMarginBottom;
+                                sy2 = recentRightFloatBox.LocalVisualBottom + recentRightFloatBox.ActualMarginBottom;
                             }
 
                             sy = (sy1 > sy2) ? sy1 : sy2;
                         }
+
+                        sx += box.ActualMarginLeft;
+                        sy += box.ActualMarginTop;
 
                         box.SetLocation(sx, sy);
                         lay.LatestLeftFloatBox = box;
@@ -992,12 +1028,40 @@ namespace LayoutFarm.HtmlBoxes
 
                         if (recentLeftFloatBox != null)
                         {
-                            availableWidth2 -= recentLeftFloatBox.LocalX;
+                            availableWidth2 -= recentLeftFloatBox.LocalVisualRight;
                         }
 
-                        float sx = myContainingBlock.GetClientRight() - box.VisualWidth;
-                        float sy = myContainingBlock.GetClientTop();
 
+                        float sx = myContainingBlock.GetClientRight() - (box.VisualWidth + box.ActualMarginLeft + box.ActualMarginRight);
+                        //--------------------------------------------------------------------
+
+                        float sy = 0;
+                        if (myContainingBlock.LineBoxCount > 0)
+                        {
+                            //line context
+                            sy = myContainingBlock.GetClientTop();
+                        }
+                        else
+                        {
+                            var prevNode = box.GetPrevNode();
+                            if (prevNode != null)
+                            {
+
+                                if (box.VisualWidth < availableWidth2)
+                                {
+                                    sy = prevNode.LocalY;
+                                }
+                                else
+                                {
+                                    sy = prevNode.LocalVisualBottom;
+                                }
+                            }
+                            else
+                            {
+                                sy = myContainingBlock.GetClientTop();
+                            }
+                        }
+                        //--------------------------------------------------------------------
                         if (recentRightFloatBox != null)
                         {
                             availableWidth2 -= recentRightFloatBox.LocalX;
@@ -1014,21 +1078,32 @@ namespace LayoutFarm.HtmlBoxes
                             float sy2 = 0;
                             sy1 = sy2 = myContainingBlock.GetClientTop();
 
+                            //if (recentLeftFloatBox != null)
+                            //{
+                            //    sy1 = recentLeftFloatBox.LocalY + recentLeftFloatBox.InnerContentHeight +
+                            //      recentLeftFloatBox.ActualPaddingBottom +
+                            //      recentLeftFloatBox.ActualMarginBottom;
+                            //}
+                            //if (recentRightFloatBox != null)
+                            //{
+                            //    sy2 = recentRightFloatBox.LocalY + recentRightFloatBox.InnerContentHeight +
+                            //       recentRightFloatBox.ActualPaddingBottom +
+                            //       recentRightFloatBox.ActualMarginBottom;
+                            //}
                             if (recentLeftFloatBox != null)
                             {
-                                sy1 = recentLeftFloatBox.LocalY + recentLeftFloatBox.InnerContentHeight +
-                                  recentLeftFloatBox.ActualPaddingBottom +
-                                  recentLeftFloatBox.ActualMarginBottom;
+                                sy1 = recentLeftFloatBox.LocalVisualBottom + recentLeftFloatBox.ActualMarginBottom;
                             }
                             if (recentRightFloatBox != null)
                             {
-                                sy2 = recentRightFloatBox.LocalY + recentRightFloatBox.InnerContentHeight +
-                                   recentRightFloatBox.ActualPaddingBottom +
-                                   recentRightFloatBox.ActualMarginBottom;
+                                sy2 = recentRightFloatBox.LocalVisualBottom + recentRightFloatBox.ActualMarginBottom;
                             }
-
                             sy = (sy1 > sy2) ? sy1 : sy2;
                         }
+
+                        sx += box.ActualMarginLeft;
+                        sy += box.ActualMarginTop;
+
                         box.SetLocation(sx, sy);
                         lay.LatestRightFloatBox = box;
                         lay.AddFloatBox(box);
@@ -1186,10 +1261,14 @@ namespace LayoutFarm.HtmlBoxes
             {
                 if (box.CssDisplay != Css.CssDisplay.TableCell)
                 {
-                    box.SetVisualWidth(boxWidth);
+                    if (box.Width.IsEmptyOrAuto)
+                    {
+                        box.SetVisualWidth(boxWidth);
+                    }
                 }
             }
 
+           
             float boxHeight = box.GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock);
             box.SetVisualHeight(boxHeight);
             //--------------------------------------------------------------------------------
@@ -1255,17 +1334,21 @@ namespace LayoutFarm.HtmlBoxes
         }
         static float CalculateActualWidth(CssBox box)
         {
+            //if (box.__aa_dbugId == 3)
+            //{
+
+            //}
             float maxRight = 0;
             var boxes = CssBox.UnsafeGetChildren(box);
             var cnode = boxes.GetFirstLinkedNode();
             while (cnode != null)
             {
                 var cssbox = cnode.Value;
-                float nodeRight = cssbox.LocalX + cssbox.InnerContentWidth +
-                     cssbox.ActualPaddingLeft + cssbox.ActualPaddingRight +
-                     cssbox.ActualMarginLeft +
-                     cssbox.ActualMarginRight;
-
+                //float nodeRight = cssbox.LocalX + cssbox.InnerContentWidth +
+                //     cssbox.ActualPaddingLeft + cssbox.ActualPaddingRight +
+                //     cssbox.ActualMarginLeft +
+                //     cssbox.ActualMarginRight;
+                float nodeRight = cssbox.LocalVisualRight + cssbox.ActualMarginRight;
                 maxRight = nodeRight > maxRight ? nodeRight : maxRight;
                 cnode = cnode.Next;
             }
