@@ -917,13 +917,14 @@ namespace LayoutFarm.HtmlBoxes
                                 } break;
                             default:
                                 {    //TODO: review here again
-                                    if (box.Float != CssFloat.None)
-                                    {
-                                        var iw = box.InnerContentWidth;
-                                        var ew = box.VisualWidth;
-                                        //float to specific position 
-                                        //box.SetVisualSize(iw, box.VisualHeight);
-                                    }
+                                    //if (box.Float != CssFloat.None)
+                                    //{
+                                    //    var iw = box.InnerContentWidth;
+                                    //    var ew = box.VisualWidth;
+                                    //    box.SetVisualSize(box.InnerContentWidth, box.InnerContentHeight);
+                                    //    //float to specific position 
+                                    //    //box.SetVisualSize(iw, box.VisualHeight);
+                                    //}
                                 } break;
                         }
                         //---------------------
@@ -1267,6 +1268,7 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
 
+           
             float boxHeight = box.GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock);
             box.SetVisualHeight(boxHeight);
             //--------------------------------------------------------------------------------

@@ -22,7 +22,7 @@ namespace LayoutFarm.HtmlBoxes
 
         Stack<CssBox> leftFloatBoxStack = new Stack<CssBox>(); //from previous context
         Stack<CssBox> rightFloatBoxStack = new Stack<CssBox>();//from previous context
-        List<CssBox> lateFindContainerList = new List<CssBox>();
+        List<CssBox> floatBoxList = new List<CssBox>();
 
         CssBox latestLeftFloatBox;
         CssBox latestRightFloatBox;
@@ -96,11 +96,11 @@ namespace LayoutFarm.HtmlBoxes
             get;
             set;
         }
-        internal List<CssBox> LateFindContainerList
+        internal List<CssBox> FloatBoxList
         {
             get
             {
-                return this.lateFindContainerList;
+                return this.floatBoxList;
             }
         }
 
@@ -127,7 +127,7 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void AddFloatBox(CssBox floatBox)
         {
-            lateFindContainerList.Add(floatBox);
+            floatBoxList.Add(floatBox);
         }
         internal void UpdateRootSize(CssBox box)
         {

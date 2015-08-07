@@ -130,7 +130,7 @@ namespace LayoutFarm.HtmlBoxes
             lay.PopContainingBlock();
 
             //TODO: review here again
-            List<CssBox> lateFindContainerList = lay.LateFindContainerList;
+            List<CssBox> lateFindContainerList = lay.FloatBoxList;
             if (lateFindContainerList.Count > 0)
             {
                 //find proper container hint

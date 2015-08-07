@@ -412,7 +412,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         void dbugBeforeSetHeight(float height)
         {
-
+            
         }
 #endif
         /// <summary>
@@ -506,10 +506,10 @@ namespace LayoutFarm.HtmlBoxes
         public void SetVisualSize(float width, float height)
         {
 #if DEBUG
-           dbugBeforeSetWidth(width);
+            dbugBeforeSetWidth(width);
 #endif
 #if DEBUG
-           dbugBeforeSetHeight(height);
+            dbugBeforeSetHeight(height);
 #endif
             if (!this.FreezeWidth)
             {
@@ -518,7 +518,7 @@ namespace LayoutFarm.HtmlBoxes
             else
             {
                 throw new NotSupportedException();
-            }  
+            }
 
             this._visualHeight = height;
         }
