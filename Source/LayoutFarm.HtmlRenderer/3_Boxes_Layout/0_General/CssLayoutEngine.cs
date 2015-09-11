@@ -420,7 +420,8 @@ namespace LayoutFarm.HtmlBoxes
                                         CssBox.UnsafeGetRunList(b),
                                         ref hostLine, ref cx);
 
-                                } break;
+                                }
+                                break;
                             case CssFloat.Left:
                                 {
                                     //float is out of flow item 
@@ -481,7 +482,8 @@ namespace LayoutFarm.HtmlBoxes
                                         floatCtx.offsetFloatTop = newAnonBlock.LocalY;
                                     }
 
-                                } break;
+                                }
+                                break;
                             case CssFloat.Right:
                                 {
                                     //float is out of flow item      
@@ -576,7 +578,8 @@ namespace LayoutFarm.HtmlBoxes
                                         }
                                     }
 
-                                } break;
+                                }
+                                break;
                         }
                     }
                     else
@@ -659,7 +662,8 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             lay.RequestScrollView(box);
                         }
-                    } break;
+                    }
+                    break;
             }
         }
 
@@ -873,7 +877,8 @@ namespace LayoutFarm.HtmlBoxes
                         lay.LatestSiblingBox = currentLevelLatestSibling;
                         lay.PopContainingBlock();
                         //TODO: check if this can have absolute layer? 
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         //formatting context for...
@@ -914,7 +919,8 @@ namespace LayoutFarm.HtmlBoxes
                                     //------------------------------------------------
                                     RearrangeWithFlexContext(box, lay);
                                     //------------------------------------------------
-                                } break;
+                                }
+                                break;
                             default:
                                 {    //TODO: review here again
                                     //if (box.Float != CssFloat.None)
@@ -925,10 +931,12 @@ namespace LayoutFarm.HtmlBoxes
                                     //    //float to specific position 
                                     //    //box.SetVisualSize(iw, box.VisualHeight);
                                     //}
-                                } break;
+                                }
+                                break;
                         }
                         //---------------------
-                    } break;
+                    }
+                    break;
             }
 
 
@@ -976,7 +984,7 @@ namespace LayoutFarm.HtmlBoxes
                                 {
                                     sy = prevNode.LocalVisualBottom;
                                 }
-                             
+
                             }
                             else
                             {
@@ -1018,7 +1026,8 @@ namespace LayoutFarm.HtmlBoxes
                         box.SetLocation(sx, sy);
                         lay.LatestLeftFloatBox = box;
                         lay.AddFloatBox(box);
-                    } break;
+                    }
+                    break;
                 case CssFloat.Right:
                     {
 
@@ -1107,13 +1116,15 @@ namespace LayoutFarm.HtmlBoxes
                         box.SetLocation(sx, sy);
                         lay.LatestRightFloatBox = box;
                         lay.AddFloatBox(box);
-                    } break;
+                    }
+                    break;
                 case CssFloat.None:
                 default:
                     {
                         //review here for inherit property
 
-                    } break;
+                    }
+                    break;
             }
 
         }
@@ -1227,7 +1238,8 @@ namespace LayoutFarm.HtmlBoxes
                                 childBox.IsOutOfFlowBox = true;
                                 lay.LatestLeftFloatBox = childBox;
 
-                            } break;
+                            }
+                            break;
                         case CssFloat.Right:
                             {
                                 childBox.IsOutOfFlowBox = true;
@@ -1235,7 +1247,8 @@ namespace LayoutFarm.HtmlBoxes
                                 //so move it to abs layer                                 
                                 lay.LatestRightFloatBox = childBox;
 
-                            } break;
+                            }
+                            break;
                     }
 
                     if (childBox.Float == CssFloat.None && childBox.CanBeReferenceSibling)
@@ -1268,8 +1281,8 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
 
-           
             float boxHeight = box.GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock);
+            //TODO: review here again,
             box.SetVisualHeight(boxHeight);
             //--------------------------------------------------------------------------------
             //final  
@@ -1329,7 +1342,8 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             lay.RequestScrollView(box);
                         }
-                    } break;
+                    }
+                    break;
             }
         }
         static float CalculateActualWidth(CssBox box)

@@ -433,7 +433,8 @@ namespace LayoutFarm.HtmlBoxes
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
 
-                    } break;
+                    }
+                    break;
                 case Css.CssDisplay.Block:
                 case Css.CssDisplay.ListItem:
                 case Css.CssDisplay.Table:
@@ -451,7 +452,8 @@ namespace LayoutFarm.HtmlBoxes
 
                         //for general block layout 
                         CssLayoutEngine.PerformContentLayout(this, lay);
-                    } break;
+                    }
+                    break;
             }
 
             //set height  
@@ -520,20 +522,24 @@ namespace LayoutFarm.HtmlBoxes
                                     textRun.TextLength,
                                     actualFont);
 
-                            } break;
+                            }
+                            break;
                         case CssRunKind.SingleSpace:
                             {
                                 run.Width = actualWordspacing;
-                            } break;
+                            }
+                            break;
                         case CssRunKind.Space:
                             {
                                 //other space size                                     
                                 run.Width = actualWordspacing * ((CssTextRun)run).TextLength;
-                            } break;
+                            }
+                            break;
                         case CssRunKind.LineBreak:
                             {
                                 run.Width = 0;
-                            } break;
+                            }
+                            break;
                     }
                 }
             }
@@ -749,14 +755,17 @@ namespace LayoutFarm.HtmlBoxes
                 if (box.Float == CssFloat.None)
                 {
                     lastChildBotom = box.LocalVisualBottom;
-                    break;
+                    //found static child
+                    return lastChildBotom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
                 }
                 else
                 {
                     cnode = cnode.Previous;
                 }
             }
-            return lastChildBotom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
+            //here not found any static child
+            return this.ActualPaddingTop + this.ActualBorderTopWidth +
+                      this.ActualPaddingBottom + ActualBorderBottomWidth;
         }
         internal void OffsetLocalTop(float dy)
         {
