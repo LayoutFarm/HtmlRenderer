@@ -213,15 +213,17 @@ namespace LayoutFarm.HtmlBoxes
                     //reset x pos for new line
                     cx = firstRunStartX;
 
-
                     // handle if line is wrapped for the first text element where parent has left margin/padding
                     if (childNumber == 0 && //b is first child of splitable box ('b' == splitableBox.GetFirstChild())
                         !run.IsLineBreak &&
                         (i == 0 || splitableBox.ParentBox.IsBlock))//this run is first run of 'b' (run == b.FirstRun)
                     {
-                        cx += splitableBox.ActualMarginLeft +
-                            splitableBox.ActualBorderLeftWidth +
-                            splitableBox.ActualPaddingLeft;
+                        //TODO: review here again!!!!
+
+
+                        //cx += splitableBox.ActualMarginLeft +
+                        //    splitableBox.ActualBorderLeftWidth +
+                        //    splitableBox.ActualPaddingLeft;
                     }
 
                     if (run.IsSolidContent || i == 0)
@@ -1228,10 +1230,9 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 else
                 {
-                    if(childBox.__aa_dbugId == 5)
-                    {
-
-                    }
+                    //if(childBox.__aa_dbugId == 5)
+                    //{ 
+                    //}
                     childBox.PerformLayout(lay);
 
                     switch (childBox.Float)
