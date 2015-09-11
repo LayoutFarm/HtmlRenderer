@@ -11,7 +11,7 @@ namespace LayoutFarm.Css
 
         public static void InheritStyles(BoxSpec target, BoxSpec source)
         {
-             
+
             //----------------------------------------
             if (source == null)
             {
@@ -68,6 +68,13 @@ namespace LayoutFarm.Css
             target._borderFeats = source._borderFeats;
 
             target._cornerFeats = source._cornerFeats;
+#if DEBUG
+            //if (target.__aa_dbugId == 9)
+            //{
+            //    int ss= source.__aa_dbugId;
+
+            //}
+#endif
             target._marginFeats = source._marginFeats;
             target._paddingFeats = source._paddingFeats;
             //---------------------------------------
@@ -79,7 +86,7 @@ namespace LayoutFarm.Css
             target._top = source._top;
             target._bottom = source._bottom;
             target._right = source._right;
-            
+
             target._width = source._width;
 
             target._height = source._height;
@@ -120,6 +127,10 @@ namespace LayoutFarm.Css
         }
         CssMarginFeature CheckMarginVersion()
         {
+            if (this.__aa_dbugId == 9)
+            {
+
+            }
             return this._marginFeats = this._marginFeats.GetMyOwnVersion(this);
         }
         CssPaddingFeature CheckPaddingVersion()

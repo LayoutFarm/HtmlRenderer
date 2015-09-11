@@ -1081,7 +1081,7 @@ namespace LayoutFarm.HtmlBoxes
                         if (box.VisualWidth > availableWidth2)
                         {
                             //start newline
-                            sx = myContainingBlock.GetClientRight() - box.VisualWidth;
+                            sx = myContainingBlock.GetClientRight() - (box.VisualWidth + box.ActualMarginLeft + box.ActualMarginRight);
 
                             float sy1 = 0;
                             float sy2 = 0;
@@ -1228,7 +1228,10 @@ namespace LayoutFarm.HtmlBoxes
                 }
                 else
                 {
+                    if(childBox.__aa_dbugId == 5)
+                    {
 
+                    }
                     childBox.PerformLayout(lay);
 
                     switch (childBox.Float)
