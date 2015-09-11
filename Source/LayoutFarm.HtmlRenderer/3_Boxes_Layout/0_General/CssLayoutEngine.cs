@@ -1057,15 +1057,24 @@ namespace LayoutFarm.HtmlBoxes
                             var prevNode = box.GetPrevNode();
                             if (prevNode != null)
                             {
-
-                                if (box.VisualWidth < availableWidth2)
+                                if (prevNode.Float != CssFloat.None)
                                 {
-                                    sy = prevNode.LocalY;
+                                    //float left/right 
+                                    //TODO: review inherit here
+                                    if (box.VisualWidth < availableWidth2)
+                                    {
+                                        sy = prevNode.LocalY;
+                                    }
+                                    else
+                                    {
+                                        sy = prevNode.LocalVisualBottom;
+                                    }
                                 }
                                 else
                                 {
                                     sy = prevNode.LocalVisualBottom;
                                 }
+
                             }
                             else
                             {
