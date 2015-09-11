@@ -57,7 +57,7 @@ namespace LayoutFarm.HtmlBoxes
                             this.globalYOffset -= box.LocalY;
                             OnPopDifferentContaingBlock(box);
                         }
-                        this.latestContainingBlock = box;
+                        this.latestContainingBlock = containgBlockStack.Peek();
 
                     } break;
             }
