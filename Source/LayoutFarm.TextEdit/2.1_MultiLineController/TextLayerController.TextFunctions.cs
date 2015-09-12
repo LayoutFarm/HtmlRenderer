@@ -1,7 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using PixelFarm.Drawing;
 using System.Text;
 
 namespace LayoutFarm.Text
@@ -36,7 +35,7 @@ namespace LayoutFarm.Text
             updateJustCurrentLine = false;
             textLineWriter.MoveToLine(0);
         }
-       
+
         public void AddRuns(IEnumerable<EditableRun> textSpans)
         {
             foreach (var span in textSpans)
@@ -121,7 +120,7 @@ namespace LayoutFarm.Text
         public void AddTextRunToCurrentLine(EditableRun t)
         {
             updateJustCurrentLine = true;
-            
+
             RemoveSelectedText();
             int startLineNum = textLineWriter.LineNumber;
             int startCharIndex = textLineWriter.CharIndex;

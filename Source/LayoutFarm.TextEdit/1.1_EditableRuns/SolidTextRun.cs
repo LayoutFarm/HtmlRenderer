@@ -1,6 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
@@ -284,7 +283,8 @@ namespace LayoutFarm.Text
                                style.ContentHAlign);
 
                             canvas.CurrentFont = prevFont;
-                        } break;
+                        }
+                        break;
                     case DIFF_FONT_DIFF_TEXT_COLOR:
                         {
                             var prevFont = canvas.CurrentFont;
@@ -299,7 +299,8 @@ namespace LayoutFarm.Text
                             canvas.CurrentFont = prevFont;
                             canvas.CurrentTextColor = prevColor;
 
-                        } break;
+                        }
+                        break;
                     case SAME_FONT_DIFF_TEXT_COLOR:
                         {
                             var prevColor = canvas.CurrentTextColor;
@@ -307,13 +308,15 @@ namespace LayoutFarm.Text
                             new Rectangle(0, 0, bWidth, bHeight),
                             style.ContentHAlign);
                             canvas.CurrentTextColor = prevColor;
-                        } break;
+                        }
+                        break;
                     default:
                         {
                             canvas.DrawText(this.mybuffer,
                                new Rectangle(0, 0, bWidth, bHeight),
                                style.ContentHAlign);
-                        } break;
+                        }
+                        break;
                 }
             }
         }

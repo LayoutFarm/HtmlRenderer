@@ -1,10 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Drawing;
+
 using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.Text
 {
@@ -72,12 +70,12 @@ namespace LayoutFarm.Text
             if (this.stateShowCaret)
             {
                 Point textManCaretPos = internalTextLayerController.CaretPos;
-                this.myCaret.DrawCaret(canvas, textManCaretPos.X, textManCaretPos.Y); 
+                this.myCaret.DrawCaret(canvas, textManCaretPos.X, textManCaretPos.Y);
             }
             else
             {
-            } 
-            canvas.CurrentFont = enterFont; 
+            }
+            canvas.CurrentFont = enterFont;
         }
 
         internal void BoxEvaluateScrollBar()
@@ -242,7 +240,7 @@ namespace LayoutFarm.Text
             {
 
                 int old_x = this.ViewportX;
-                int viewportRight = ViewportX + Width; 
+                int viewportRight = ViewportX + Width;
                 if (viewportRight + dx > innerContentSize.Width)
                 {
 

@@ -400,7 +400,8 @@ namespace LayoutFarm.Text
                                 DoHome();
                             }
 
-                        } break;
+                        }
+                        break;
                     case -1:
                         {
                             if (textLineWriter.HasPrevLine)
@@ -408,7 +409,8 @@ namespace LayoutFarm.Text
                                 textLineWriter.MoveToPrevLine();
                                 DoEnd();
                             }
-                        } break;
+                        }
+                        break;
                     default:
                         {
                             if (diff > 1)
@@ -429,7 +431,8 @@ namespace LayoutFarm.Text
                                 }
 
                             }
-                        } break;
+                        }
+                        break;
                 }
             }
         }

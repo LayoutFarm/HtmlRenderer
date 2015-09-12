@@ -1,9 +1,11 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
+
 using PixelFarm.Drawing;
-using System.Diagnostics;
+
 using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.Text
@@ -18,7 +20,7 @@ namespace LayoutFarm.Text
     {
 
         internal EditableTextFlowLayer editableFlowLayer;
-        int currentLineNumber;  
+        int currentLineNumber;
         int actualLineHeight;
         int actualLineWidth;
         int lineTop;
@@ -78,7 +80,7 @@ namespace LayoutFarm.Text
             }
             this.actualLineWidth = lw;
             this.actualLineHeight = maxHeight;
-        } 
+        }
         internal bool HitTestCore(HitChain hitChain)
         {
 
@@ -91,8 +93,8 @@ namespace LayoutFarm.Text
                 return false;
             }
             else
-            { 
-                LinkedListNode<EditableRun> cnode = this.First; 
+            {
+                LinkedListNode<EditableRun> cnode = this.First;
                 int curLineTop = this.lineTop;
                 hitChain.OffsetTestPoint(0, -curLineTop);
                 while (cnode != null)

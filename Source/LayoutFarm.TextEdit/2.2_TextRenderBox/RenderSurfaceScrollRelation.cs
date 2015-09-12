@@ -1,9 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Collections.Generic;
-using System.Text;
-
-
 namespace LayoutFarm.UI
 {
     public class RenderSurfaceScrollRelation
@@ -77,7 +73,7 @@ namespace LayoutFarm.UI
         {
             get;
             set;
-        } 
+        }
 
     }
 }
