@@ -8,7 +8,7 @@ namespace LayoutFarm.UI
 {
 
     public abstract class UITimerTask
-    { 
+    {
 
         public UITimerTask()
         {
@@ -31,10 +31,10 @@ namespace LayoutFarm.UI
         }
         public virtual void Reset()
         {
-        }        
+        }
     }
 
-    
+
 
 
 }

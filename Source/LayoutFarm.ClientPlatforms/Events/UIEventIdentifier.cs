@@ -1,10 +1,4 @@
-﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-
+﻿// 2015,2014 ,Apache2, WinterDev 
 
 namespace LayoutFarm.UI
 {
@@ -40,7 +34,7 @@ namespace LayoutFarm.UI
         public const int NE_FOCUS = 23;
         public const int NE_LOST_FOCUS = 24;
         public const int NE_SIZE_CHANGED = 25;
-        public const int NE_LOST_MOUSE_FOCUS = 26; 
+        public const int NE_LOST_MOUSE_FOCUS = 26;
 
     }
 

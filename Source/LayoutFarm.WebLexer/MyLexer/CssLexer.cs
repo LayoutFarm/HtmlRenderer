@@ -57,7 +57,8 @@ namespace LayoutFarm.WebDom.Parser
                                 default:
                                     {
                                         Emit(terminalTokenName, i);
-                                    } break;
+                                    }
+                                    break;
                                 case CssTokenName.Colon:
                                     {
                                         if (i < j - 1)
@@ -71,17 +72,20 @@ namespace LayoutFarm.WebDom.Parser
                                             }
                                         }
                                         Emit(terminalTokenName, i);
-                                    } break;
+                                    }
+                                    break;
                                 case CssTokenName.DoubleQuote:
                                     {
                                         latestEscapeChar = '"';
                                         lexState = CssLexState.CollectString;
-                                    } break;
+                                    }
+                                    break;
                                 case CssTokenName.Quote:
                                     {
                                         latestEscapeChar = '\'';
                                         lexState = CssLexState.CollectString;
-                                    } break;
+                                    }
+                                    break;
 
                                 case CssTokenName.Divide:
                                     {
@@ -97,13 +101,15 @@ namespace LayoutFarm.WebDom.Parser
                                             }
                                         }
                                         Emit(CssTokenName.Divide, i);
-                                    } break;
+                                    }
+                                    break;
                                 case CssTokenName.Sharp:
                                     {
                                         AppendBuffer(i);
                                         lexState = CssLexState.Iden;
 
-                                    } break;
+                                    }
+                                    break;
                                 case CssTokenName.Dot:
                                     {
                                         if (i < j - 1)
@@ -119,13 +125,15 @@ namespace LayoutFarm.WebDom.Parser
                                             }
                                         }
                                         Emit(terminalTokenName, i);
-                                    } break;
+                                    }
+                                    break;
                                 case CssTokenName.Minus:
                                     {
                                         //as iden
                                         AppendBuffer(i);
                                         lexState = CssLexState.Iden;
-                                    } break;
+                                    }
+                                    break;
                                 case CssTokenName.Unknown:
                                     {
                                         //this is not terminal  
@@ -138,14 +146,17 @@ namespace LayoutFarm.WebDom.Parser
                                         {
                                             lexState = CssLexState.Iden;
                                         }
-                                    } break;
+                                    }
+                                    break;
                                 case CssTokenName.Whitespace:
                                 case CssTokenName.Newline:
                                     {
                                         isCollectionWhitespace = true;
-                                    } break;
+                                    }
+                                    break;
                             }
-                        } break;
+                        }
+                        break;
                     case CssLexState.CollectString:
                         {
                             if (c == latestEscapeChar)
@@ -159,7 +170,8 @@ namespace LayoutFarm.WebDom.Parser
                             {
                                 AppendBuffer(i);
                             }
-                        } break;
+                        }
+                        break;
                     case CssLexState.Comment:
                         {
                             if (c == '*')
@@ -177,7 +189,8 @@ namespace LayoutFarm.WebDom.Parser
                                 }
                             }
                             //skip comment?
-                        } break;
+                        }
+                        break;
                     case CssLexState.Iden:
                         {
 
@@ -189,7 +202,8 @@ namespace LayoutFarm.WebDom.Parser
                                     {
                                         EmitBuffer(i, CssTokenName.Iden);
                                         lexState = CssLexState.Init;
-                                    } break;
+                                    }
+                                    break;
                                 case CssTokenName.Divide:
                                     {
                                         //is open comment or not
@@ -205,7 +219,8 @@ namespace LayoutFarm.WebDom.Parser
                                         //iden can contains minus 
                                         AppendBuffer(i);
 
-                                    } break;
+                                    }
+                                    break;
 
                                 default:
                                     {
@@ -215,15 +230,18 @@ namespace LayoutFarm.WebDom.Parser
 
                                         lexState = CssLexState.Init;
 
-                                    } break;
+                                    }
+                                    break;
                                 case CssTokenName.Unknown:
                                     {
                                         //this is not terminal 
                                         AppendBuffer(i);
                                         lexState = CssLexState.Iden;
-                                    } break;
+                                    }
+                                    break;
                             }
-                        } break;
+                        }
+                        break;
                     case CssLexState.Number:
                         {
                             if (char.IsNumber(c))
@@ -244,7 +262,8 @@ namespace LayoutFarm.WebDom.Parser
                                         }
 
                                         lexState = CssLexState.Init;
-                                    } break;
+                                    }
+                                    break;
                                 case CssTokenName.Divide:
                                     {
                                         //is open comment or not
@@ -271,14 +290,16 @@ namespace LayoutFarm.WebDom.Parser
                                         }
                                         EmitBuffer(i, CssTokenName.Number);
                                         Emit(terminalTokenName, i);
-                                    } break;
+                                    }
+                                    break;
                                 default:
                                     {
                                         //flush exising buffer
                                         EmitBuffer(i, CssTokenName.Number);
                                         Emit(terminalTokenName, i);
                                         lexState = CssLexState.Init;
-                                    } break;
+                                    }
+                                    break;
 
                                 case CssTokenName.Unknown:
                                     {
@@ -286,9 +307,11 @@ namespace LayoutFarm.WebDom.Parser
                                         //iden after number may be unit of number*** 
                                         AppendBuffer(i);
                                         lexState = CssLexState.UnitAfterNumber;
-                                    } break;
+                                    }
+                                    break;
                             }
-                        } break;
+                        }
+                        break;
                     case CssLexState.UnitAfterNumber:
                         {
 
@@ -309,16 +332,19 @@ namespace LayoutFarm.WebDom.Parser
                                     case CssTokenName.Whitespace:
                                     case CssTokenName.Newline:
                                         {
-                                        } break;
+                                        }
+                                        break;
                                     default:
                                         {
                                             Emit(terminalTokenName, i);
-                                        } break;
+                                        }
+                                        break;
                                 }
                                 lexState = CssLexState.Init;
                             }
 
-                        } break;
+                        }
+                        break;
                 }
             }
             if (this._appendLength > 0)

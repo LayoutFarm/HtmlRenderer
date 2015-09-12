@@ -1,8 +1,5 @@
 ﻿//BSD  2015,2014 ,WinterDev
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using LayoutFarm.WebLexer;
 
 namespace LayoutFarm.WebDom.Parser
@@ -70,7 +67,7 @@ namespace LayoutFarm.WebDom.Parser
 
         }
         public static HtmlLexer CreateLexer(LexerEngine lexEngine)
-        {   
+        {
             switch (lexEngine)
             {
                 case LexerEngine.HtmlKit:

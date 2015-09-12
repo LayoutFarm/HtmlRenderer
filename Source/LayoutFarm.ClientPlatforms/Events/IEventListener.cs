@@ -1,15 +1,12 @@
-﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections.Generic;
-
+﻿// 2015,2014 ,Apache2, WinterDev 
 
 namespace LayoutFarm.UI
 {
 
     public interface IEventListener
     {
-         
-        
+
+
         //--------------------------------------------------------------------------
         void ListenKeyPress(UIKeyEventArgs args);
         void ListenKeyDown(UIKeyEventArgs e);
@@ -17,11 +14,11 @@ namespace LayoutFarm.UI
         bool ListenProcessDialogKey(UIKeyEventArgs args);
         //--------------------------------------------------------------------------
         void ListenMouseDown(UIMouseEventArgs e);
-        void ListenMouseMove(UIMouseEventArgs e);  
+        void ListenMouseMove(UIMouseEventArgs e);
         void ListenMouseUp(UIMouseEventArgs e);
-        void ListenMouseLeave(UIMouseEventArgs e); 
+        void ListenMouseLeave(UIMouseEventArgs e);
         void ListenMouseWheel(UIMouseEventArgs e);
-        void ListenLostMouseFocus(UIMouseEventArgs e);  
+        void ListenLostMouseFocus(UIMouseEventArgs e);
         //-------------------------------------------------------------------------- 
         void ListenMouseClick(UIMouseEventArgs e);
         void ListenMouseDoubleClick(UIMouseEventArgs e);
@@ -30,19 +27,19 @@ namespace LayoutFarm.UI
         void ListenLostKeyboardFocus(UIFocusEventArgs e);
         //--------------------------------------------------------------------------  
         void ListenInterComponentMsg(object sender, int msgcode, string msg);
-        
-        void ListenGuestTalk(UIGuestTalkEventArgs e);          
+
+        void ListenGuestTalk(UIGuestTalkEventArgs e);
         //-------------------------------------------------------------------------- 
         void HandleContentLayout();
         void HandleContentUpdate();
-        void HandleElementUpdate(); 
+        void HandleElementUpdate();
         //--------------------------------------------------------------------------
         bool BypassAllMouseEvents { get; }
-        bool AutoStopMouseEventPropagation { get; }  
+        bool AutoStopMouseEventPropagation { get; }
         void GetGlobalLocation(out int x, out int y);
         //-------------------------------------------------------------------------- 
 
-        
+
 
     }
 }
