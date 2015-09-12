@@ -90,15 +90,22 @@ namespace LayoutFarm.HtmlBoxes
 
         protected override void OnPopContainingBlock()
         {
-            if (floatingContexts.Count > 0)
+            switch (floatingContexts.Count)
             {
-                floatingContexts.RemoveAt(floatingContexts.Count - 1);
-                latestFloatingContext = floatingContexts[floatingContexts.Count - 1];
+                case 0:
+                    latestFloatingContext = null;
+                    return;
+                case 1:
+                    floatingContexts.Clear();
+                    latestFloatingContext = null;
+                    break;
+                default:
+                    floatingContexts.RemoveAt(floatingContexts.Count - 1);
+                    latestFloatingContext = floatingContexts[floatingContexts.Count - 1];
+                    break;
+
             }
-            else
-            {
-                latestFloatingContext = null;
-            }
+        
             base.OnPopContainingBlock();
         }
 

@@ -14,6 +14,7 @@ namespace LayoutFarm.HtmlBoxes
         public bool floatingOutOfLine;
 
     }
+
     class FloatingContext
     {
         CssBox _parent;

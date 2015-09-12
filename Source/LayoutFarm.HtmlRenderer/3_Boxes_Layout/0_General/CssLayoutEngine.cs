@@ -962,10 +962,10 @@ namespace LayoutFarm.HtmlBoxes
                 case CssFloat.Left:
                     {
 #if DEBUG
-                        var a = box;
+                        CssBox a = box;
 #endif
-                        var recentLeftFloatBox = lay.LatestLeftFloatBox;
-                        var recentRightFloatBox = lay.LatestRightFloatBox;
+                        CssBox recentLeftFloatBox = lay.LatestLeftFloatBox;
+                        CssBox recentRightFloatBox = lay.LatestRightFloatBox;
                         float availableWidth2 = myContainingBlock.GetClientWidth();
 
                         if (recentRightFloatBox != null)
@@ -1051,8 +1051,8 @@ namespace LayoutFarm.HtmlBoxes
                 case CssFloat.Right:
                     {
 
-                        var recentLeftFloatBox = lay.LatestLeftFloatBox;
-                        var recentRightFloatBox = lay.LatestRightFloatBox;
+                        CssBox recentLeftFloatBox = lay.LatestLeftFloatBox;
+                        CssBox recentRightFloatBox = lay.LatestRightFloatBox;
                         float availableWidth2 = myContainingBlock.GetClientWidth();
 
                         if (recentLeftFloatBox != null)
