@@ -3,7 +3,13 @@
     <title>display/box/float/clear test 
 		</title>
     <style type="text/css">
-       
+        /* last modified: 1 Dec 98 */
+
+        html {
+            font: 10px/1 Verdana, sans-serif;
+            background-color: blue;
+            color: white;
+        }
 
         body {
             margin: 1.5em;
@@ -24,13 +30,13 @@
             margin: 0;
             padding: 1em;
             width: 10.638%; /* refers to parent element's width of 47em. = 5em or 50px */
-            height: 100px; /* prev value= 28em*/
+            height: 28em;
             border: .5em solid black;
-         
+            float: left;
         }
- 
+
         dd {
-            float: right; 
+            float: right;
             margin: 0 0 0 1em;
             border: 1em solid black;
             padding: 1em;
@@ -39,9 +45,10 @@
         }
 
         ul {
-            margin: 0; 
+            margin: 0;
             border: 0;
             padding: 0;
+
         }
 
         li {
@@ -52,7 +59,7 @@
             margin: 0;
             border: .5em solid black;
             padding: 1em;
-            /*float: left;*/
+            float: left;
             background-color: #FC0;
         }
 
@@ -95,7 +102,7 @@
             padding: 1em 0;
             width: 5em;
             height: 9em;
-            /*float: left;*/
+            float: left;
             background-color: #FC0;
             color: black;
         }
@@ -107,7 +114,7 @@
         h1 {
             background-color: black;
             color: white;
-            /*float: left;*/
+            float: left;
             margin: 1em 0;
             border: 0;
             padding: 1em;
@@ -119,17 +126,26 @@
     </style>
 </head>
 <body>
-	<dl>
+    <dl>
         <dt>toggle 
 			</dt>
-        <dd> 
-              <blockquote>
-                <address>
-                    bar maids, 
-			
-                </address>
-            </blockquote> 
+        <dd>
+            <ul>
+                <li>the way 
+				</li>          
+                
+                <li>i grow old 
+				</li> 
+           
+                <li id="baz" style=" margin: 1em 0;  border: 0;padding: 1em; width: 10em; height: 10em;   background-color: black; color: white;">pluot? 
+				</li>
+            </ul>
+           <blockquote>
+               
+            </blockquote>
+            
         </dd>
-    </dl> 
+    </dl>
+  
 </body>
 </html>

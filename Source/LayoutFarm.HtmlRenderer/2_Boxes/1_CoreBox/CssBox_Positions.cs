@@ -232,16 +232,23 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         //no margin
 
-                    } break;
+                    }
+                    break;
                 default:
                     {
+                        //if (this.__aa_dbugId == 5)
+                        //{
+                        //    int a = spec.__aa_dbugId;
+
+                        //}
 
                         this._actualMarginLeft = RecalculateMargin(spec.MarginLeft, cbWidth);
                         this._actualMarginTop = RecalculateMargin(spec.MarginTop, cbWidth);
                         this._actualMarginRight = RecalculateMargin(spec.MarginRight, cbWidth);
                         this._actualMarginBottom = RecalculateMargin(spec.MarginBottom, cbWidth);
 
-                    } break;
+                    }
+                    break;
             }
             //www.w3.org/TR/CSS2/box.html#padding-properties
             switch (cssDisplay)
@@ -254,7 +261,8 @@ namespace LayoutFarm.HtmlBoxes
                 case CssDisplay.TableColumn:
                     {
                         //no padding
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         //-----------------------------------------------------------------------
@@ -263,7 +271,8 @@ namespace LayoutFarm.HtmlBoxes
                         this._actualPaddingTop = RecalculatePadding(spec.PaddingTop, cbWidth);
                         this._actualPaddingRight = RecalculatePadding(spec.PaddingRight, cbWidth);
                         this._actualPaddingBottom = RecalculatePadding(spec.PaddingBottom, cbWidth);
-                    } break;
+                    }
+                    break;
             }
 
             //-----------------------------------------------------------------------
@@ -412,7 +421,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         void dbugBeforeSetHeight(float height)
         {
-            
+
         }
 #endif
         /// <summary>

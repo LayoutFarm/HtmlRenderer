@@ -3,7 +3,13 @@
     <title>display/box/float/clear test 
 		</title>
     <style type="text/css">
-       
+        /* last modified: 1 Dec 98 */
+
+        html {
+            font: 10px/1 Verdana, sans-serif;
+            background-color: blue;
+            color: white;
+        }
 
         body {
             margin: 1.5em;
@@ -24,13 +30,13 @@
             margin: 0;
             padding: 1em;
             width: 10.638%; /* refers to parent element's width of 47em. = 5em or 50px */
-            height: 100px; /* prev value= 28em*/
+            height: 28em;
             border: .5em solid black;
-         
+            float: left;
         }
- 
+
         dd {
-            float: right; 
+            float: right;
             margin: 0 0 0 1em;
             border: 1em solid black;
             padding: 1em;
@@ -39,7 +45,7 @@
         }
 
         ul {
-            margin: 0; 
+            margin: 0;
             border: 0;
             padding: 0;
         }
@@ -52,7 +58,7 @@
             margin: 0;
             border: .5em solid black;
             padding: 1em;
-            /*float: left;*/
+            float: left;
             background-color: #FC0;
         }
 
@@ -95,7 +101,7 @@
             padding: 1em 0;
             width: 5em;
             height: 9em;
-            /*float: left;*/
+            float: left;
             background-color: #FC0;
             color: black;
         }
@@ -107,7 +113,7 @@
         h1 {
             background-color: black;
             color: white;
-            /*float: left;*/
+            float: left;
             margin: 1em 0;
             border: 0;
             padding: 1em;
@@ -119,17 +125,51 @@
     </style>
 </head>
 <body>
-	<dl>
+    <dl>
         <dt>toggle 
 			</dt>
-        <dd> 
-              <blockquote>
+        <dd>
+            <ul>
+                <li>the way 
+				</li>
+                <li style="background-color: black;color: white;width: 41.17%;border: 0;margin: 0 1em;">
+                    <p>
+                        the world ends 
+			
+                    </p>
+                    <form action="./" method="get">
+                        <p>
+                            bang 
+				
+                            <input type="radio" name="foo" value="off">
+                        </p>
+                        <p>
+                            whimper 
+				
+                            <input type="radio" name="foo2" value="on">
+                        </p>
+                    </form>
+                </li>
+                <li>i grow old 
+				</li>
+                <li style="margin: 1em 0;border: 0;padding: 1em;width: 10em;height: 10em;background-color: black;color: white;">pluot? 
+				</li>
+            </ul>
+            <blockquote>
                 <address>
                     bar maids, 
 			
                 </address>
-            </blockquote> 
+            </blockquote>
+            <h1>sing to me, erbarme dich 
+			</h1>
         </dd>
-    </dl> 
+    </dl>
+    <p style="color: black; font-size: 1em; line-height: 1.3em; clear: both">
+        This is a nonsensical document, but syntactically valid HTML 4.0. All 100%-conformant CSS1 agents should be able to render the document elements above this paragraph indistinguishably (to the pixel) from this 
+			<a href="sec5526c.gif">reference rendering,</a>
+		 (except font rasterization and form widgets). All discrepancies should be traceable to CSS1 implementation shortcomings. Once you have finished evaluating this test, you can return to the <a href="sec5526c.htm">parent page</a>. 
+	
+    </p>
 </body>
 </html>

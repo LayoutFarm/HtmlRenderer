@@ -115,12 +115,14 @@ namespace LayoutFarm.WebDom
                                 GetGroupOrCreateIfNotExists(
                                     rulesForClassName,
                                     simpleSelector));
-                        } break;
+                        }
+                        break;
                     case WebDom.SimpleElementSelectorKind.Extend:
                         {
 
 
-                        } break;
+                        }
+                        break;
                     case WebDom.SimpleElementSelectorKind.Id:
                         {
                             //element with id                              
@@ -128,21 +130,24 @@ namespace LayoutFarm.WebDom
                                 GetGroupOrCreateIfNotExists(
                                     rulesForElementId,
                                     simpleSelector));
-                        } break;
+                        }
+                        break;
                     case WebDom.SimpleElementSelectorKind.PseudoClass:
                         {
                             relatedRuleSets.Add(
                                GetGroupOrCreateIfNotExists(
                                    rulesForPsedoClass,
                                    simpleSelector));
-                        } break;
+                        }
+                        break;
                     case WebDom.SimpleElementSelectorKind.TagName:
                         {
                             relatedRuleSets.Add(
                                 GetGroupOrCreateIfNotExists(
                                     rulesForTagName,
                                     simpleSelector));
-                        } break;
+                        }
+                        break;
                     case WebDom.SimpleElementSelectorKind.All:
                         {
                             relatedRuleSets.Add(
@@ -150,7 +155,8 @@ namespace LayoutFarm.WebDom
                                     rulesForAll,
                                     simpleSelector));
 
-                        } break;
+                        }
+                        break;
                 }
             }
             else
@@ -163,13 +169,15 @@ namespace LayoutFarm.WebDom
                         {
                             ExpandSelector(relatedRuleSets, combiSelector.LeftSelector);
                             ExpandSelector(relatedRuleSets, combiSelector.RightSelector);
-                        } break;
+                        }
+                        break;
                     case WebDom.CssCombinatorOperator.Descendant:
                         {
                             //focus on right side?
                             ExpandSelector(relatedRuleSets, combiSelector.RightSelector);
 
-                        } break;
+                        }
+                        break;
                     default:
                         {
                             throw new NotSupportedException();
@@ -304,10 +312,17 @@ namespace LayoutFarm.WebDom
 
         public CssRuleSetGroup(string name)
         {
+
+            //if (dbugId == 170)
+            //{
+            //}
             this.Name = name;
         }
         private CssRuleSetGroup(CssRuleSetGroup parent, string name, WebDom.CssSimpleElementSelector simpleSelector)
         {
+            //if (dbugId == 170)
+            //{
+            //}
             this.Name = name;
             this._parent = parent;
             this._originalSelector = simpleSelector;
@@ -342,7 +357,10 @@ namespace LayoutFarm.WebDom
         }
         public void AddRuleSet(CssPropertyAssignmentCollection otherAssignments)
         {
-            //assignment in this ruleset             
+            //assignment in this ruleset    
+            //if (dbugId == 170)
+            //{
+            //}
             if (this._assignments == null)
             {
                 //share
@@ -408,6 +426,7 @@ namespace LayoutFarm.WebDom
         }
         public void Merge(CssRuleSetGroup another)
         {
+            
             //merge 
             //------------  
             if (another._assignments != null)
@@ -465,6 +484,10 @@ namespace LayoutFarm.WebDom
     {
         Dictionary<LayoutFarm.WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration> _myAssignments = new Dictionary<WebDom.WellknownCssPropertyName, WebDom.CssPropertyDeclaration>();
         object owner;
+#if DEBUG
+        static int s_dbugTotalId = 0;
+        public static readonly int _dbugId = s_dbugTotalId++;
+#endif
         public CssPropertyAssignmentCollection(object owner)
         {
             this.owner = owner;

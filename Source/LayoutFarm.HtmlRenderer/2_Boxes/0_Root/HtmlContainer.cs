@@ -129,17 +129,47 @@ namespace LayoutFarm.HtmlBoxes
             }
             lay.PopContainingBlock();
 
+            //----------------------- 
             //TODO: review here again
-            List<CssBox> lateFindContainerList = lay.FloatBoxList;
-            if (lateFindContainerList.Count > 0)
+            FloatingContextStack floatStack = lay.GetFloatingContextStack();
+            List<FloatingContext> totalContexts = floatStack.GetTotalContexts();
+            int j = totalContexts.Count;
+            for (int i = 0; i < j; ++i)
             {
-                //find proper container hint
-                int j = lateFindContainerList.Count;
-                for (int i = 0; i < j; ++i)
+                FloatingContext floatingContext = totalContexts[i];
+                int floatBoxCount = floatingContext.FloatBoxCount;
+                if (floatBoxCount == 0) { continue; }
+
+
+                CssBox floatingOwner = floatingContext.Owner;
+                float rfx, rfy;
+                floatingOwner.GetGlobalLocation(out rfx, out rfy);
+
+                CssBox prevParent = null;
+                //TODO: review here again
+                float extraAdjust = 0; //temp fixed
+
+                for (int n = 0; n < floatBoxCount; ++n)
                 {
-                    AddToProperContainer(lateFindContainerList[i]);
+                    float bfx, bfy;
+                    CssBox box = floatingContext.GetBox(n);
+                    box.GetGlobalLocation(out bfx, out bfy);
+                    //diff
+                    float nx = bfx - rfx;
+                    float ny = bfy - rfy;
+
+                    if (prevParent != null && prevParent != box.ParentBox)
+                    {
+                        if (n > 0)
+                        {
+                            CssBox prevFloatChild = floatingContext.GetBox(n - 1);
+                            extraAdjust = prevFloatChild.ActualMarginRight + box.ActualMarginLeft;
+                        }
+                    }
+                    box.SetLocation(nx + extraAdjust, ny);
+                    prevParent = box.ParentBox;
+                    floatingOwner.AppendToAbsoluteLayer(box);
                 }
-                lateFindContainerList.Clear();
             }
 
             OnLayoutFinished();
@@ -149,7 +179,10 @@ namespace LayoutFarm.HtmlBoxes
         }
         void AddToProperContainer(CssBox box)
         {
-            var rectChild = new RectangleF(box.LocalX, box.LocalY, box.InnerContentWidth, box.InnerContentHeight);
+            var rectChild = new RectangleF(box.LocalX, box.LocalY,
+                box.InnerContentWidth,
+                box.InnerContentHeight);
+
             CssBox parent = box.ParentBox;
             bool found = false;
             while (parent != null)
@@ -168,7 +201,7 @@ namespace LayoutFarm.HtmlBoxes
                     float nx = bfx - rfx;
                     float ny = bfy - rfy;
                     box.SetLocation(nx, ny);
-                    parent.AppendToAbsoluteLayer(box); 
+                    parent.AppendToAbsoluteLayer(box);
                     break;
                 }
                 else
@@ -181,7 +214,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 //add to root top 
                 float bfx, bfy;
-                box.GetGlobalLocation(out bfx, out bfy); 
+                box.GetGlobalLocation(out bfx, out bfy);
                 float rfx, rfy;
                 this._rootBox.GetGlobalLocation(out rfx, out rfy);
 

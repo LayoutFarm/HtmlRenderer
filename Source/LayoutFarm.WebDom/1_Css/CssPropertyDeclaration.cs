@@ -32,6 +32,10 @@ namespace LayoutFarm.WebDom
         }
         public CssPropertyDeclaration(WellknownCssPropertyName wellNamePropertyName, CssCodeValueExpression value)
         {
+            //if (this.dbugId == 221)
+            //{
+            //}
+        
             //from another 
             this.WellknownPropertyName = wellNamePropertyName;
             this.firstValue = value;
