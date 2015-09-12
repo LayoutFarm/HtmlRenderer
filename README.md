@@ -1,5 +1,9 @@
 #Hello !
 
+![nearly acid1](/readme_imgs/s02_nearly_acid1.png)
+###seems promising ?, NEARLY pass ACID1 test :)
+
+
 ![debug view screen](/readme_imgs/s01.png)
 
 ###more info / screen capture imgs -> [see wiki](../../wiki/Some-Screen-Captures)

@@ -964,8 +964,12 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
                         CssBox a = box;
 #endif
+
+                        //place it to floating context
+                        CssBox currentFloatOwner = lay.GetFloatingContextStack().CurrentTopOwner;
                         CssBox recentLeftFloatBox = lay.LatestLeftFloatBox;
                         CssBox recentRightFloatBox = lay.LatestRightFloatBox;
+
                         float availableWidth2 = myContainingBlock.GetClientWidth();
 
                         if (recentRightFloatBox != null)
@@ -1017,14 +1021,6 @@ namespace LayoutFarm.HtmlBoxes
                             //TODO: review here again
                             sx = recentLeftFloatBox.LocalVisualRight + recentLeftFloatBox.ActualMarginRight;
                             sy = recentLeftFloatBox.LocalY;
-
-#if DEBUG
-                            //if (recentLeftFloatBox.ParentBox != box.ParentBox)
-                            //{
-                            //    recentLeftFloatBox.dbugMark2 = 10;
-                            //    box.dbugMark2 = 12;
-                            //}
-#endif
                         }
 
                         if (box.VisualWidth > availableWidth2)
@@ -1047,10 +1043,8 @@ namespace LayoutFarm.HtmlBoxes
 
                             sy = (sy1 > sy2) ? sy1 : sy2;
                         }
-
                         sx += box.ActualMarginLeft;
                         sy += box.ActualMarginTop;
-
                         box.SetLocation(sx, sy);
 
                         lay.AddFloatBox(box);
