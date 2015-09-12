@@ -1,4 +1,6 @@
-﻿using System;
+﻿// 2015,2014 ,Apache2, WinterDev 
+using System;
+
 namespace LayoutFarm.Scripting
 {
     [AttributeUsage(AttributeTargets.Class)]

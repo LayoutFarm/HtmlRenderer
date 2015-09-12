@@ -1,13 +1,11 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
 //ArthurHub  , Jose Manuel Menendez Poo
 
-using System;
-using System.Collections.Generic;
 
 using PixelFarm.Drawing;
-using LayoutFarm.HtmlBoxes;
-using LayoutFarm.WebDom;
 using LayoutFarm.Css;
+using LayoutFarm.HtmlBoxes;
+
 
 namespace LayoutFarm.Composers
 {

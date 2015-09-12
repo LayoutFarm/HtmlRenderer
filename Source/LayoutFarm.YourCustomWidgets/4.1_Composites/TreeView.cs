@@ -4,9 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
-
 using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
+
 namespace LayoutFarm.CustomWidgets
 {
     public class TreeView : UIBox

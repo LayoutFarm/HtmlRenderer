@@ -1,15 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-
-using LayoutFarm.Text;
-using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
 
 using PixelFarm.Agg;
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.CustomWidgets
 {
@@ -49,7 +42,7 @@ namespace LayoutFarm.CustomWidgets
             {
                 //default bg => transparent !, 
                 //gfx2d.Clear(ColorRGBA.White);//if want opaque bg
-                ReleaseUnmanagedResources(); 
+                ReleaseUnmanagedResources();
                 if (bmp != null)
                 {
                     bmp.Dispose();
@@ -57,7 +50,7 @@ namespace LayoutFarm.CustomWidgets
 
                 this.bmp = canvas.Platform.CreatePlatformBitmap(this.Width, this.Height, this.actualImage.GetBuffer(), false);
                 needUpdate = false;
-            }             
+            }
             //canvas.FillRectangle(this.BackColor, 0, 0, this.Width, this.Height);
 
             if (bmp != null)
@@ -65,9 +58,9 @@ namespace LayoutFarm.CustomWidgets
                 canvas.DrawImage(this.bmp, new RectangleF(0, 0, this.Width, this.Height));
             }
             //---------------------
-          
 
-            
+
+
 #if DEBUG
             //canvasPage.dbug_DrawCrossRect(PixelFarm.Drawing.Color.Black,
             //    new Rectangle(0, 0, this.Width, this.Height));

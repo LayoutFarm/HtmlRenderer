@@ -1,16 +1,9 @@
 ﻿//2014,2015,2015 Apache2, WinterDev
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+ 
+using System.Collections.Generic; 
 using PixelFarm.Drawing;
-
-using LayoutFarm.WebDom;
-using LayoutFarm;
-using LayoutFarm.Css;
-using LayoutFarm.ContentManagers;
-using LayoutFarm.Composers;
+ 
 using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.HtmlBoxes

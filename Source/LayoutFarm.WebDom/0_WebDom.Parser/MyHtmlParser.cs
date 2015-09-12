@@ -1,8 +1,6 @@
 ﻿//BSD  2015,2014 ,WinterDev
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using LayoutFarm.WebLexer;
 namespace LayoutFarm.WebDom.Parser
 {
@@ -35,7 +33,8 @@ namespace LayoutFarm.WebDom.Parser
                     {
                         //var commentContent = this.textSnapshot.Copy(startIndex, len); 
 
-                    } break;
+                    }
+                    break;
                 case HtmlLexerEvent.FromContentPart:
                     {
 
@@ -54,21 +53,24 @@ namespace LayoutFarm.WebDom.Parser
                             curTextNode.AppendTextContent(HtmlDecodeHelper.DecodeHtml(this.textSnapshot, startIndex, len));
 
                         }
-                    } break;
+                    }
+                    break;
                 case HtmlLexerEvent.AttributeValueAsLiteralString:
                     {
                         //assign value and add to parent
                         curAttr.Value = textSnapshot.Substring(startIndex, len);
                         curHtmlNode.AddAttribute(curAttr);
 
-                    } break;
+                    }
+                    break;
 
                 case HtmlLexerEvent.Attribute:
                     {
                         string nodename = textSnapshot.Substring(startIndex, len);
                         curAttr = this._resultHtmlDoc.CreateAttribute(null, nodename);
 
-                    } break;
+                    }
+                    break;
                 case HtmlLexerEvent.NodeNameOrAttribute:
                     {
                         string name = textSnapshot.Substring(startIndex, len);
@@ -88,7 +90,8 @@ namespace LayoutFarm.WebDom.Parser
                                     curTextNode = null;
                                     curAttr = null;
                                     waitingAttrName = null;
-                                } break;
+                                }
+                                break;
                             case 1:
                                 {
                                     //wait for attr value 
@@ -101,7 +104,8 @@ namespace LayoutFarm.WebDom.Parser
                                         curAttr = null;
                                     }
                                     waitingAttrName = name;
-                                } break;
+                                }
+                                break;
                             case 2:
                                 {
                                     //****
@@ -153,7 +157,8 @@ namespace LayoutFarm.WebDom.Parser
                                             throw new NotSupportedException();
                                         }
                                     }
-                                } break;
+                                }
+                                break;
                             case 4:
                                 {
                                     //attribute value as id
@@ -168,7 +173,8 @@ namespace LayoutFarm.WebDom.Parser
                                     {
 
                                     }
-                                } break;
+                                }
+                                break;
                             case 10:
                                 {
                                     //document node 
@@ -177,19 +183,23 @@ namespace LayoutFarm.WebDom.Parser
                                     //after docnodename , this may be attr of the document node
                                     this.domDocNode = (DomDocumentNode)this._resultHtmlDoc.CreateDocumentNodeElement();
                                     domDocNode.DocNodeName = name;
-                                } break;
+                                }
+                                break;
                             case 11:
                                 {
                                     //doc 
                                     domDocNode.AddParameter(name);
 
-                                } break;
+                                }
+                                break;
                             default:
                                 {
-                                } break;
+                                }
+                                break;
                         }
 
-                    } break;
+                    }
+                    break;
                 case HtmlLexerEvent.VisitCloseAngle:
                     {
                         //close angle of current new node
@@ -215,15 +225,18 @@ namespace LayoutFarm.WebDom.Parser
                         parseState = 0;
                         curTextNode = null;
                         curAttr = null;
-                    } break;
+                    }
+                    break;
                 case HtmlLexerEvent.VisitAttrAssign:
                     {
                         parseState = 4;
-                    } break;
+                    }
+                    break;
                 case HtmlLexerEvent.VisitOpenSlashAngle:
                     {
                         parseState = 2;
-                    } break;
+                    }
+                    break;
                 case HtmlLexerEvent.VisitCloseSlashAngle:
                     {
 
@@ -236,15 +249,18 @@ namespace LayoutFarm.WebDom.Parser
                         }
                         parseState = 0;
 
-                    } break;
+                    }
+                    break;
                 case HtmlLexerEvent.VisitOpenAngleExclimation:
                     {
                         parseState = 10;
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         //1. visit open angle
-                    } break;
+                    }
+                    break;
 
             }
         }

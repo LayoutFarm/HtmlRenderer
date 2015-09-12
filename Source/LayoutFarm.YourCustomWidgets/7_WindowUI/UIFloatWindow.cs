@@ -1,9 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
+
 using LayoutFarm.UI;
 
 namespace LayoutFarm.CustomWidgets
@@ -11,7 +7,6 @@ namespace LayoutFarm.CustomWidgets
     public class UIFloatWindow : EaseBox, ITopWindowBox
     {
         IPlatformWindowBox platformWindowBox;
-
         public UIFloatWindow(int w, int h)
             : base(w, h)
         {
@@ -39,7 +34,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public override void SetLocation(int left, int top)
         {
-            
+
             if (platformWindowBox != null)
             {
                 //use location relative to top parent/control

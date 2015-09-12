@@ -2,7 +2,6 @@
 using System;
 namespace LayoutFarm.WebLexer
 {
-
     public class TextSnapshot
     {
         readonly char[] textBuffer;
@@ -106,7 +105,7 @@ namespace LayoutFarm.WebLexer
             return -1;
         }
 
-        
+
     }
 
 }

@@ -681,7 +681,7 @@ namespace LayoutFarm.Text
                                 return;
                             }
                         case 1:
-                            { 
+                            {
                                 if (charIndex + 1 >= rCharOffset + currentTextRun.CharacterCount)
                                 {
                                     MoveToNextTextRun();
@@ -692,7 +692,8 @@ namespace LayoutFarm.Text
                                     caretXPos += currentTextRun.GetCharWidth(charIndex - rCharOffset);
                                 }
 
-                            } break;
+                            }
+                            break;
                         case -1:
                             {
                                 if (charIndex - 1 < rCharOffset)
@@ -708,7 +709,8 @@ namespace LayoutFarm.Text
 
                                     }
                                 }
-                            } break;
+                            }
+                            break;
                         default:
                             {
                                 if (diff > 1)
@@ -754,7 +756,8 @@ namespace LayoutFarm.Text
                                     charIndex = -1;
                                     caretXPos = 0;
                                 }
-                            } break;
+                            }
+                            break;
                     }
                 }
 #if DEBUG

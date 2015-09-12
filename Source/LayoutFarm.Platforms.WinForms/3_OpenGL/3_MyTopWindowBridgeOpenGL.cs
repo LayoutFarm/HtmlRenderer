@@ -6,7 +6,6 @@ using System.Text;
 using System.Windows.Forms;
 using PixelFarm.Drawing;
 
-using OpenTK.Graphics;
 
 namespace LayoutFarm.UI.OpenGL
 {
@@ -85,6 +84,6 @@ namespace LayoutFarm.UI.OpenGL
         protected override void ChangeCursorStyle(MouseCursorStyle cursorStyle)
         {
 
-        } 
+        }
     }
 }

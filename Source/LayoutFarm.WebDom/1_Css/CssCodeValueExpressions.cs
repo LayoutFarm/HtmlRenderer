@@ -120,11 +120,13 @@ namespace LayoutFarm.WebDom
                     {
                         //check value  
                         this.IsInherit = value == "inherit";
-                    } break;
+                    }
+                    break;
                 case CssValueHint.Number:
                     {
                         this.number = float.Parse(value);
-                    } break;
+                    }
+                    break;
             }
         }
         public CssCodePrimitiveExpression(float number)
@@ -308,7 +310,8 @@ namespace LayoutFarm.WebDom
                 case CssValueOpName.Divide:
                     {
                         stbuilder.Append('/');
-                    } break;
+                    }
+                    break;
             }
             if (Right != null)
             {

@@ -1,12 +1,10 @@
 ﻿//2014,2015, Apache2 WinterDev
 //MS-PL,  
 
-using System;
-using PixelFarm.Drawing; 
 using System.Collections.Generic;
-using LayoutFarm;
-using LayoutFarm.Css;
-using LayoutFarm.Svg;
+using PixelFarm.Drawing; 
+ 
+using LayoutFarm.Css; 
 
 namespace LayoutFarm.Svg
 {

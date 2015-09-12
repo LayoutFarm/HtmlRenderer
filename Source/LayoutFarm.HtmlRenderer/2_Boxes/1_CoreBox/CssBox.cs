@@ -16,8 +16,6 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-using System.Globalization;
-using System.Text;
 using LayoutFarm.Css;
 
 namespace LayoutFarm.HtmlBoxes
@@ -45,7 +43,7 @@ namespace LayoutFarm.HtmlBoxes
         public int dbugMark1;
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
-         
+
         public int dbugMark2;
 #endif
         public CssBox(BoxSpec spec, IRootGraphics rootgfx)
@@ -771,7 +769,7 @@ namespace LayoutFarm.HtmlBoxes
 
             if (this.Height.IsAuto && cnode != null)
             {
-               
+
                 CssBox box = cnode.Value;
                 lastChildBotom = box.LocalVisualBottom;
                 //found static child 

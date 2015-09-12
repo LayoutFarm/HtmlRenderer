@@ -1,5 +1,4 @@
-﻿ 
-using System.Collections.Generic;
+﻿//BSD  2015,2014 ,WinterDev
 
 namespace LayoutFarm.WebDom
 {

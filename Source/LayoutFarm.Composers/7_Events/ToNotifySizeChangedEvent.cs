@@ -1,9 +1,4 @@
-﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-using LayoutFarm;
+﻿// 2015,2014 ,Apache2, WinterDev 
 
 namespace LayoutFarm.UI
 {
@@ -12,7 +7,7 @@ namespace LayoutFarm.UI
         public int xdiff;
         public int ydiff;
         public IEventListener ui;
-        public AffectedElementSideFlags affectedSideFlags; 
+        public AffectedElementSideFlags affectedSideFlags;
     }
 
 }

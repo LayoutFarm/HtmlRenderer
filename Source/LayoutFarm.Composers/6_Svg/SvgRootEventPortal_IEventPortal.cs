@@ -1,16 +1,8 @@
 ﻿//2014,2015, WinterDev
 //MS-PL, Apache2 some parts derived from github.com/vvvv/svg 
-
-using System;
-using System.Collections.Generic;
-using PixelFarm.Drawing;
-using LayoutFarm.HtmlBoxes;
-using LayoutFarm.Css;
-using LayoutFarm.Composers;
-
-using LayoutFarm.WebDom;
-using LayoutFarm.UI;
-using LayoutFarm.Svg;
+ 
+using PixelFarm.Drawing; 
+using LayoutFarm.UI; 
 
 namespace LayoutFarm.Svg
 {

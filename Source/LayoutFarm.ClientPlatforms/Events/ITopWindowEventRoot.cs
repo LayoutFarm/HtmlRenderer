@@ -1,7 +1,4 @@
-﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections.Generic;
-
+﻿// 2015,2014 ,Apache2, WinterDev 
 
 namespace LayoutFarm.UI
 {
@@ -9,7 +6,7 @@ namespace LayoutFarm.UI
     {
         IEventListener CurrentKeyboardFocusedElement { get; set; }
         MouseCursorStyle MouseCursorStyle { get; }
-        
+
 
         void RootMouseDown(int x, int y, int button);
         void RootMouseUp(int x, int y, int button);
@@ -20,7 +17,7 @@ namespace LayoutFarm.UI
         void RootKeyPress(char c);
         void RootKeyDown(int keydata);
         void RootKeyUp(int keydata);
-        bool RootProcessDialogKey(int keydata);       
+        bool RootProcessDialogKey(int keydata);
     }
     public interface ITopWindowEventRootProvider
     {

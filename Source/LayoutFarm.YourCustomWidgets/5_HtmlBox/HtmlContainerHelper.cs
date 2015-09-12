@@ -1,15 +1,5 @@
-﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using LayoutFarm;
-using LayoutFarm.ContentManagers;
-using LayoutFarm.HtmlBoxes;
+﻿// 2015,2014 ,Apache2, WinterDev 
 using LayoutFarm.Composers;
-
-using PixelFarm.Drawing;
-using LayoutFarm.UI;
 
 namespace LayoutFarm.HtmlBoxes
 {

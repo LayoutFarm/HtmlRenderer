@@ -1,6 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
- 
-namespace LayoutFarm.UI 
+
+namespace LayoutFarm.UI
 {
 
 #if DEBUG

@@ -14,8 +14,7 @@
 // "The Art of War"
 
 using System;
-using System.Collections.Generic;
-using PixelFarm.Drawing;
+using System.Collections.Generic; 
 using LayoutFarm.Css;
 
 namespace LayoutFarm.HtmlBoxes

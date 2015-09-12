@@ -1,8 +1,5 @@
 ﻿//BSD  2015,2014 ,WinterDev
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using LayoutFarm.WebLexer;
 
 namespace LayoutFarm.WebDom.Parser
@@ -65,7 +62,8 @@ namespace LayoutFarm.WebDom.Parser
                         {
                             //???
 
-                        } break;
+                        }
+                        break;
                     case 0:  //from content mode 
                         {
                             if (c == '<')
@@ -81,7 +79,8 @@ namespace LayoutFarm.WebDom.Parser
                                 //in content mode
                                 AppendBuffer(c, i);
                             }
-                        } break;
+                        }
+                        break;
                     case 1:
                         {
                             //after open angle
@@ -90,23 +89,27 @@ namespace LayoutFarm.WebDom.Parser
                                 case '!':
                                     {
                                         currentState = 11;
-                                    } break;
+                                    }
+                                    break;
                                 case '?':
                                     {
                                         //process instruction
                                         currentState = 8;
-                                    } break;
+                                    }
+                                    break;
                                 case ':':
                                     {
                                         //shold not occurs
                                         currentState = 4;
-                                    } break;
+                                    }
+                                    break;
                                 case '/':
                                     {
                                         //close tag 
                                         RaiseStateChanged(HtmlLexerEvent.VisitOpenSlashAngle, i, 1);
                                         currentState = 5;//collect node name 
-                                    } break;
+                                    }
+                                    break;
                                 default:
                                     {
                                         currentState = 5;
@@ -114,9 +117,11 @@ namespace LayoutFarm.WebDom.Parser
                                         //then start collect node name
 
                                         AppendBuffer(c, i);
-                                    } break;
+                                    }
+                                    break;
                             }
-                        } break;
+                        }
+                        break;
                     case 2:
                         {
                             //inside comment node
@@ -137,7 +142,8 @@ namespace LayoutFarm.WebDom.Parser
                             //skip all comment  content ? 
                             AppendBuffer(c, i);
 
-                        } break;
+                        }
+                        break;
                     case 5:
                         {
                             //inside open angle
@@ -148,7 +154,8 @@ namespace LayoutFarm.WebDom.Parser
                                 case '/':
                                     {
                                         currentState = 7;
-                                    } break;
+                                    }
+                                    break;
                                 case '>':
                                     {
 
@@ -157,39 +164,45 @@ namespace LayoutFarm.WebDom.Parser
                                         //flush 
                                         currentState = 0;
                                         //goto content mode
-                                    } break;
+                                    }
+                                    break;
                                 case ':':
                                     {
                                         //flush node name
                                         FlushExisingBuffer(i, HtmlLexerEvent.NodeNameOrAttribute);
                                         //start new node name
 
-                                    } break;
+                                    }
+                                    break;
                                 case ' ':
                                     {
                                         //flush node name
                                         FlushExisingBuffer(i, HtmlLexerEvent.NodeNameOrAttribute);
-                                    } break;
+                                    }
+                                    break;
                                 case '=':
                                     {
                                         //flush name
                                         FlushExisingBuffer(i, HtmlLexerEvent.Attribute);
                                         RaiseStateChanged(HtmlLexerEvent.VisitAttrAssign, i, 1);
                                         //start collect value of attr 
-                                    } break;
+                                    }
+                                    break;
                                 case '"':
                                     {
                                         //start string escap with " 
                                         currentState = 6;
                                         strEscapeChar = '"';
-                                    } break;
+                                    }
+                                    break;
                                 case '\'':
                                     {
                                         //start string escap with ' 
                                         currentState = 6;
                                         strEscapeChar = '\'';
 
-                                    } break;
+                                    }
+                                    break;
                                 default:
                                     {
                                         //else collect 
@@ -204,9 +217,11 @@ namespace LayoutFarm.WebDom.Parser
                                         {
                                             AppendBuffer(c, i);
                                         }
-                                    } break;
+                                    }
+                                    break;
                             }
-                        } break;
+                        }
+                        break;
                     case 6:
                         {
                             //collect string 
@@ -223,7 +238,8 @@ namespace LayoutFarm.WebDom.Parser
                                 AppendBuffer(c, i);
 
                             }
-                        } break;
+                        }
+                        break;
                     case 7:
                         {
                             //after /   //must be >
@@ -237,7 +253,8 @@ namespace LayoutFarm.WebDom.Parser
                             {
                                 //error ?
                             }
-                        } break;
+                        }
+                        break;
                     case 10:
                         {
                             //unknown tag
@@ -246,7 +263,8 @@ namespace LayoutFarm.WebDom.Parser
                             {
                                 currentState = 0;
                             }
-                        } break;
+                        }
+                        break;
                     case 11:
                         {
                             //open_angle, exlcimation
@@ -269,13 +287,15 @@ namespace LayoutFarm.WebDom.Parser
                                             }
                                         }
 
-                                    } break;
+                                    }
+                                    break;
                                 case '[':
                                     {
                                         // <![
                                         //
                                         currentState = 10;//not implement,just skip
-                                    } break;
+                                    }
+                                    break;
                                 default:
                                     {
                                         //doc type?
@@ -290,9 +310,11 @@ namespace LayoutFarm.WebDom.Parser
                                         {
                                             currentState = 10;//not implement, just skip
                                         }
-                                    } break;
+                                    }
+                                    break;
                             }
-                        } break;
+                        }
+                        break;
 
                 }
             }

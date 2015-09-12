@@ -1,10 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-
-namespace LayoutFarm.UI 
+namespace LayoutFarm.UI
 {
     class MyUITimer : UITimer
     {
@@ -12,7 +8,7 @@ namespace LayoutFarm.UI
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         public MyUITimer()
         {
-            timer.Tick += new EventHandler(timer_Tick); 
+            timer.Tick += new EventHandler(timer_Tick);
         }
         void timer_Tick(object sender, EventArgs e)
         {

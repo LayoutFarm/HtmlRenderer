@@ -1,7 +1,7 @@
 ﻿//BSD  2015,2014 ,WinterDev
- 
+
 using System.Text;
- 
+
 
 namespace LayoutFarm.WebDom
 {
@@ -11,48 +11,55 @@ namespace LayoutFarm.WebDom
     /// </summary>
     public class CssAttributeSelectorExpression
     {
-        public string AttributeName; 
+        public string AttributeName;
         public CssAttributeSelectorOperator operatorName;
         public CssCodeValueExpression valueExpression;
-        
+
         public string SelectorSignature
         {
             get
             {
 
-                StringBuilder sb = new StringBuilder(); 
+                StringBuilder sb = new StringBuilder();
                 sb.Append('[');
-                sb.Append(AttributeName); 
+                sb.Append(AttributeName);
                 switch (operatorName)
                 {
                     case CssAttributeSelectorOperator.Equalily:
                         {
                             sb.Append('=');
-                        } break;
+                        }
+                        break;
                     case CssAttributeSelectorOperator.Existance:
                         {
 
-                        } break;
+                        }
+                        break;
                     case CssAttributeSelectorOperator.Hyphen:
                         {
                             sb.Append("|=");
-                        } break;
+                        }
+                        break;
                     case CssAttributeSelectorOperator.Prefix:
                         {
                             sb.Append("^=");
-                        } break;
+                        }
+                        break;
                     case CssAttributeSelectorOperator.WhiteSpace:
                         {
                             sb.Append("~=");
-                        } break;
+                        }
+                        break;
                     case CssAttributeSelectorOperator.Substring:
                         {
                             sb.Append("*=");
-                        } break;
+                        }
+                        break;
                     case CssAttributeSelectorOperator.Suffix:
                         {
                             sb.Append("$=");
-                        } break;
+                        }
+                        break;
 
                 }
                 if (valueExpression != null)

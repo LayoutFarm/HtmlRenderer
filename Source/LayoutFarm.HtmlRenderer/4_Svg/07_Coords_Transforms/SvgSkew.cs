@@ -1,10 +1,7 @@
 ﻿//from github.com/vvvv/svg 
 //license : Microsoft Public License (MS-PL) 
 
-﻿using System;
-using PixelFarm.Drawing;
-using System.Globalization;
-using LayoutFarm;
+
 namespace LayoutFarm.Svg.Transforms
 {
     /// <summary>
@@ -12,8 +9,8 @@ namespace LayoutFarm.Svg.Transforms
     /// </summary>
     public sealed class SvgSkew : SvgTransform
     {
-        public float AngleX { get; set; } 
-        public float AngleY { get; set; } 
+        public float AngleX { get; set; }
+        public float AngleY { get; set; }
         //public override Matrix Matrix
         //{
         //    get

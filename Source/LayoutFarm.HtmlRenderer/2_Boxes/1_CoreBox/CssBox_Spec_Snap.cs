@@ -1,11 +1,7 @@
 ﻿// 2015,2014 ,BSD, WinterDev
 //ArthurHub  , Jose Manuel Menendez Poo
 
-using System;
-using System.Collections.Generic;
-using PixelFarm.Drawing;
-using LayoutFarm.Css;
-
+using LayoutFarm.Css;  
 namespace LayoutFarm.HtmlBoxes
 {
 
@@ -22,7 +18,7 @@ namespace LayoutFarm.HtmlBoxes
         bool _renderBGAndBorder;
 
         void EvaluateSpec(BoxSpec spec)
-        {  
+        {
             this._isVisible = this._cssDisplay != Css.CssDisplay.None &&
                               spec.Visibility == CssVisibility.Visible;
 

@@ -1,13 +1,6 @@
 //from github.com/vvvv/svg 
 //license : Microsoft Public License (MS-PL) 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-using System.Globalization;
-using LayoutFarm;
-
 namespace LayoutFarm.Svg.Transforms
 {
     public sealed class SvgRotate : SvgTransform
@@ -16,12 +9,12 @@ namespace LayoutFarm.Svg.Transforms
         {
             get;
             set;
-        } 
+        }
         public float CenterX
         {
             get;
             set;
-        } 
+        }
         public float CenterY
         {
             get;

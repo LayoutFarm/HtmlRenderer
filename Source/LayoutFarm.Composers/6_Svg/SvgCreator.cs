@@ -4,15 +4,10 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-using LayoutFarm.HtmlBoxes;
-using LayoutFarm.Css;
+
 using LayoutFarm.Composers;
-
-
-
-using LayoutFarm.WebDom;
-using LayoutFarm.UI;
-using LayoutFarm.Svg;
+using LayoutFarm.HtmlBoxes;
+using LayoutFarm.WebDom; 
 
 namespace LayoutFarm.Svg
 {

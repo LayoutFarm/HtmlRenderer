@@ -1,11 +1,11 @@
 ﻿// 2015,2014 ,BSD, WinterDev
 
 using System;
-using PixelFarm.Drawing;
 using System.Collections.Generic;
+
 using LayoutFarm.Css;
 using LayoutFarm.WebDom;
-using LayoutFarm.HtmlBoxes;
+
 
 namespace LayoutFarm.Composers
 {
@@ -150,7 +150,7 @@ namespace LayoutFarm.Composers
             //not found
             return null;
         }
-        
+
         internal void ApplyCacheTemplate(string elemName,
              string class_value,
              BoxSpec currentBoxSpec,
@@ -171,7 +171,7 @@ namespace LayoutFarm.Composers
             BoxSpec boxTemplate = null;
             if (boxTemplate != null)
             {
-                BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate); 
+                BoxSpec.CloneAllStyles(currentBoxSpec, boxTemplate);
             }
             else
             {

@@ -1,11 +1,5 @@
-﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+﻿// 2015,2014 ,Apache2, WinterDev 
 using PixelFarm.Drawing;
-
-using LayoutFarm.RenderBoxes;
 namespace LayoutFarm
 {
 
@@ -44,7 +38,7 @@ namespace LayoutFarm
 
         public void SetLocation(int left, int top)
         {
-           
+
             if (parentLink == null)
             {
                 this.b_left = left;

@@ -1,10 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 
-using PixelFarm.Drawing;
 using LayoutFarm.UI;
 
 namespace LayoutFarm.CustomWidgets
@@ -72,7 +67,7 @@ namespace LayoutFarm.CustomWidgets
         {
             if (imageBinder.State == ImageBinderState.Loaded)
             {
-                this.SetSize(this.imageBinder.ImageWidth, this.imageBinder.ImageHeight); 
+                this.SetSize(this.imageBinder.ImageWidth, this.imageBinder.ImageHeight);
             }
         }
     }

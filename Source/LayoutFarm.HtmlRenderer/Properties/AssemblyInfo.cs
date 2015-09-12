@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("HTML Renderer")]
+[assembly: AssemblyTitle("HtmlRenderer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Open source hosted on CodePlex")]
-[assembly: AssemblyProduct("HTML Renderer")]
-[assembly: AssemblyCopyright("Copyright ©  2008")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("HtmlRenderer")]
+[assembly: AssemblyCopyright("Copyright ©  2008-2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -28,4 +28,6 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.4.13.0")]
+[assembly: AssemblyVersion("2.0.0.10")]
+[assembly: AssemblyFileVersion("2.0.0.10")]
+

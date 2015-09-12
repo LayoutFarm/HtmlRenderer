@@ -26,7 +26,7 @@ namespace LayoutFarm.UI.GdiPlus
             this.RootGfx.SetPaintDelegates(
                     this.gdiPlusViewport.CanvasInvlidateArea,
                     this.PaintToOutputWindow);
-            
+
 #if DEBUG
             this.dbugWinControl = windowControl;
             this.gdiPlusViewport.dbugOutputWindow = this;
@@ -42,7 +42,7 @@ namespace LayoutFarm.UI.GdiPlus
             Rectangle rect = r;
             this.RootGfx.InvalidateGraphicArea(
                 RootGfx.TopWindowRenderBox,
-                ref rect); 
+                ref rect);
         }
         public override void PaintToOutputWindow()
         {
@@ -62,17 +62,20 @@ namespace LayoutFarm.UI.GdiPlus
                 case MouseCursorStyle.Pointer:
                     {
                         windowControl.Cursor = Cursors.Hand;
-                    } break;
+                    }
+                    break;
                 case MouseCursorStyle.IBeam:
                     {
                         windowControl.Cursor = Cursors.IBeam;
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         windowControl.Cursor = Cursors.Default;
-                    } break;
-            } 
-        } 
+                    }
+                    break;
+            }
+        }
 
     }
 }

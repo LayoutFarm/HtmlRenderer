@@ -1,7 +1,4 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LayoutFarm.UI
 {
@@ -10,7 +7,7 @@ namespace LayoutFarm.UI
         Default = 0,//middel
         Top = 0x1,
         Bottom = 0x2,
-        TopBottom = 0x3 
+        TopBottom = 0x3
     }
     public enum SpaceName : byte
     {

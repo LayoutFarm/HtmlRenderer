@@ -1,13 +1,9 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
-//ArthurHub  , Jose Manuel Menendez Poo
-
-using System;
-using System.Collections.Generic;
-using LayoutFarm.HtmlBoxes;
+//ArthurHub  , Jose Manuel Menendez Poo 
 
 namespace LayoutFarm.WebDom.Impl
 {
-    public class HtmlTextNode : DomTextNode 
+    public class HtmlTextNode : DomTextNode
     {
         //---------------------------------
         //this node may be simple text node  

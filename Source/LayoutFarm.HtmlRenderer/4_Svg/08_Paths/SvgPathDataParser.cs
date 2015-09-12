@@ -1,8 +1,7 @@
 ﻿//Apache2 2014,WinterDev
 
 using System;
-using System.Collections.Generic;
-using PixelFarm.Drawing;
+using System.Collections.Generic; 
 
 namespace LayoutFarm.Svg.Pathing
 {

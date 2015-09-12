@@ -1,8 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+ 
+using System.Collections.Generic; 
 using PixelFarm.Drawing;
 
 namespace LayoutFarm.RenderBoxes

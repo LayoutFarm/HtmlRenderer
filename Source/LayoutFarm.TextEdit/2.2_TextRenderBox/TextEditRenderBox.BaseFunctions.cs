@@ -1,11 +1,8 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections.Generic;
+
 using System.Text;
-using LayoutFarm;
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.Text
 {
@@ -356,11 +353,13 @@ namespace LayoutFarm.Text
                 case UIKeys.Home:
                     {
                         this.DoHome(e.Shift);
-                    } break;
+                    }
+                    break;
                 case UIKeys.End:
                     {
                         this.DoEnd(e.Shift);
-                    } break;
+                    }
+                    break;
                 case UIKeys.Back:
                     {
                         if (internalTextLayerController.SelectionRange != null)
@@ -388,7 +387,8 @@ namespace LayoutFarm.Text
 
                         EnsureCaretVisible();
 
-                    } break;
+                    }
+                    break;
                 case UIKeys.Delete:
                     {
 
@@ -418,7 +418,8 @@ namespace LayoutFarm.Text
                         EnsureCaretVisible();
 
 
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         if (textSurfaceEventListener != null)
@@ -434,7 +435,8 @@ namespace LayoutFarm.Text
                             }
                         }
 
-                    } break;
+                    }
+                    break;
             }
 
             if (e.HasKeyData && e.Ctrl)
@@ -459,7 +461,8 @@ namespace LayoutFarm.Text
                             }
                             ReleaseStringBuilder(stBuilder);
 
-                        } break;
+                        }
+                        break;
                     case UIKeys.V:
                         {
 
@@ -467,15 +470,16 @@ namespace LayoutFarm.Text
                             {
 
                                 internalTextLayerController.AddTextRunsToCurrentLine(
-                                    new EditableRun[]{ 
-                                        new EditableTextRun(this.Root,  
+                                    new EditableRun[]{
+                                        new EditableTextRun(this.Root,
                                             Clipboard.GetUnicodeText(), this.CurrentTextSpanStyle)
                                            });
                                 EnsureCaretVisible();
 
                             }
 
-                        } break;
+                        }
+                        break;
                     case UIKeys.X:
                         {
 
@@ -502,7 +506,8 @@ namespace LayoutFarm.Text
 
                             }
 
-                        } break;
+                        }
+                        break;
 
                     case UIKeys.Z:
                         {
@@ -510,7 +515,8 @@ namespace LayoutFarm.Text
                             internalTextLayerController.UndoLastAction();
                             EnsureCaretVisible();
 
-                        } break;
+                        }
+                        break;
 
                     case UIKeys.Y:
                         {
@@ -520,7 +526,8 @@ namespace LayoutFarm.Text
                             EnsureCaretVisible();
 
 
-                        } break;
+                        }
+                        break;
                     case UIKeys.B:
                         {
                             //TextSpanStyle style = internalTextLayerController.GetFirstTextStyleInSelectedRange(); 
@@ -557,7 +564,8 @@ namespace LayoutFarm.Text
                             //    InvalidateGraphics(); 
                             //}
 
-                        } break;
+                        }
+                        break;
                 }
             }
             if (textSurfaceEventListener != null)
@@ -733,14 +741,14 @@ namespace LayoutFarm.Text
                                 {
                                     int nextCharWidth = internalTextLayerController.GetNextCharacterWidth();
                                     if (nextCharWidth > 0)
-                                    { 
+                                    {
                                         break;
                                     }
                                 }
                             }
                         }
                         else
-                        {    
+                        {
                             if (internalTextLayerController.IsOnEndOfLine)
                             {
                                 internalTextLayerController.CharIndex++;

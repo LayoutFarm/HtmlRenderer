@@ -1,8 +1,5 @@
 ﻿//BSD  2015,2014 ,WinterDev
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using LayoutFarm.WebLexer;
 
 namespace LayoutFarm.WebDom.Parser

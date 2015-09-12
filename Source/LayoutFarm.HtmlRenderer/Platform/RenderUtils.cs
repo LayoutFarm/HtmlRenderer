@@ -12,8 +12,7 @@
 // 
 // - Sun Tsu,
 // "The Art of War"
-
-using System.Collections.Generic;
+ 
 using PixelFarm.Drawing;
 
 namespace LayoutFarm 

@@ -1,9 +1,6 @@
 ﻿//MIT 2015, WinterDev
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using LayoutFarm.WebLexer;
 using HtmlKit;
 
 namespace LayoutFarm.WebDom.Parser
@@ -29,17 +26,18 @@ namespace LayoutFarm.WebDom.Parser
                         case HtmlTokenKind.Data:
                             {
                                 var text = (HtmlDataToken)token;
-                                currentNode.AddChild(_resultHtmlDoc.CreateTextNode(text.Data.ToCharArray()));                                
-                            } break;
+                                currentNode.AddChild(_resultHtmlDoc.CreateTextNode(text.Data.ToCharArray()));
+                            }
+                            break;
                         case HtmlTokenKind.Tag:
                             {
-                                var tag = (HtmlTagToken)token; 
+                                var tag = (HtmlTagToken)token;
                                 if (!tag.IsEndTag)
-                                {   
+                                {
                                     //open tag 
                                     DomElement elem = this._resultHtmlDoc.CreateElement(null, tag.Name);
                                     currentNode.AddChild(elem);
-                                
+
                                     foreach (var attribute in tag.Attributes)
                                     {
                                         var attr = this._resultHtmlDoc.CreateAttribute(null, attribute.Name);
@@ -48,9 +46,9 @@ namespace LayoutFarm.WebDom.Parser
                                             attr.Value = attribute.Value;
                                         }
                                         elem.AddAttribute(attr);
-                                    } 
+                                    }
                                     if (!tag.IsEmptyElement)
-                                    {    
+                                    {
                                         openEltStack.Push(currentNode);
                                         currentNode = elem;
                                     }
@@ -96,7 +94,8 @@ namespace LayoutFarm.WebDom.Parser
 
                                 }
 
-                            } break;
+                            }
+                            break;
                         case HtmlTokenKind.Comment:
 
                             break;

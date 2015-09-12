@@ -3,12 +3,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+
 using PixelFarm.Drawing;
+
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
 using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
-using LayoutFarm.CustomWidgets;
+
 namespace LayoutFarm.HtmlWidgets
 {
     //tab page similar to listview
@@ -131,7 +132,7 @@ namespace LayoutFarm.HtmlWidgets
         {
             if (pnode != null) return pnode;
             //------------------------------
-            
+
             pnode = htmldoc.CreateElement("div");
             pnode.SetAttribute("style", "font:10pt tahoma");
             //------------------------------ 
@@ -211,5 +212,5 @@ namespace LayoutFarm.HtmlWidgets
     }
 
 
-   
+
 }
