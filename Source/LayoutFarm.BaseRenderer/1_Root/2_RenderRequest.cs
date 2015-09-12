@@ -1,6 +1,4 @@
-﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-
+﻿// 2015,2014 ,Apache2, WinterDev 
 namespace LayoutFarm.RenderBoxes
 {
 

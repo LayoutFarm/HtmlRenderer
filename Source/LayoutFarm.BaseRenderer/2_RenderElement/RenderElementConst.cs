@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿// 2015,2014 ,Apache2, WinterDev 
 namespace LayoutFarm
 {
     static class RenderElementConst
@@ -13,7 +10,7 @@ namespace LayoutFarm
         public const int TRANSPARENT_FOR_ALL_EVENTS = 1 << (3 - 1);
         public const int HIDDEN = 1 << (4 - 1);
         public const int IS_GRAPHIC_VALID = 1 << (5 - 1);
-       
+
         public const int IS_IN_ANIMATION_MODE = 1 << (7 - 1);
         public const int IS_TOP_RENDERBOX = 1 << (8 - 1);
 
@@ -22,7 +19,7 @@ namespace LayoutFarm
         public const int IS_BLOCK_ELEMENT = 1 << (11 - 1);
 
 
-        public const int IS_LINE_BREAK = 1 << (12 - 1); 
+        public const int IS_LINE_BREAK = 1 << (12 - 1);
         public const int HAS_TRANSPARENT_BG = 1 << (13 - 1);
         public const int HAS_DOUBLE_SCROLL_SURFACE = 1 << (14 - 1);
         public const int IS_IN_RENDER_CHAIN = 1 << (15 - 1);
@@ -41,12 +38,12 @@ namespace LayoutFarm
 
         internal const int LY_HAS_ARRANGED_CONTENT = 1 << (7 - 1);
         internal const int LAY_HAS_CALCULATED_SIZE = 1 << (8 - 1);
-         
+
         internal const int LY_SUSPEND = 1 << (9 - 1);
 
         internal const int LY_SUSPEND_GRAPHIC = 1 << (12 - 1);
         internal const int LY_IN_LAYOUT_QUEUE = 1 << (13 - 1);
-        
+
 
 
     }
