@@ -26,7 +26,8 @@ namespace TestGraphicPackage2
 
             Application.Run(formDemoList);
 
-            //PixelFarm.Drawing.MyWinGdiPortal.End();
+            LayoutFarm.UI.GdiPlus.MyWinGdiPortal.End();
+
 
         }
         static void LoadHtmlSamples(TreeView _samplesTreeView)
@@ -40,7 +41,7 @@ namespace TestGraphicPackage2
 #else
             string checkFolder = "\\Source\\Test3_MixHtml\\bin\\Release";
 #endif
-            
+
 
             //only from debug ?
             if (!execFromFolder.EndsWith(checkFolder))
