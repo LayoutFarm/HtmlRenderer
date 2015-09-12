@@ -961,7 +961,9 @@ namespace LayoutFarm.HtmlBoxes
             {
                 case CssFloat.Left:
                     {
+#if DEBUG
                         var a = box;
+#endif
                         var recentLeftFloatBox = lay.LatestLeftFloatBox;
                         var recentRightFloatBox = lay.LatestRightFloatBox;
                         float availableWidth2 = myContainingBlock.GetClientWidth();
@@ -1042,7 +1044,7 @@ namespace LayoutFarm.HtmlBoxes
                         sy += box.ActualMarginTop;
 
                         box.SetLocation(sx, sy);
-                        lay.LatestLeftFloatBox = box;
+
                         lay.AddFloatBox(box);
                     }
                     break;
@@ -1141,7 +1143,7 @@ namespace LayoutFarm.HtmlBoxes
                         sy += box.ActualMarginTop;
 
                         box.SetLocation(sx, sy);
-                        lay.LatestRightFloatBox = box;
+
                         lay.AddFloatBox(box);
                     }
                     break;
@@ -1265,7 +1267,7 @@ namespace LayoutFarm.HtmlBoxes
                         case CssFloat.Left:
                             {
                                 childBox.IsOutOfFlowBox = true;
-                                lay.LatestLeftFloatBox = childBox;
+                                // lay.LatestLeftFloatBox = childBox;
 
                             }
                             break;
@@ -1274,7 +1276,7 @@ namespace LayoutFarm.HtmlBoxes
                                 childBox.IsOutOfFlowBox = true;
                                 //float box is out-of-flow box
                                 //so move it to abs layer                                 
-                                lay.LatestRightFloatBox = childBox;
+                                //lay.LatestRightFloatBox = childBox;
 
                             }
                             break;

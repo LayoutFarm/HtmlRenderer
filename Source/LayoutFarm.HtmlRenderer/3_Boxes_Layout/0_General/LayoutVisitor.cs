@@ -21,17 +21,11 @@ namespace LayoutFarm.HtmlBoxes
         Dictionary<CssBox, PartialBoxStrip> readyDicStrip = new Dictionary<CssBox, PartialBoxStrip>();
         List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
 
-        Stack<CssBox> leftFloatBoxStack = new Stack<CssBox>(); //from previous context
-        Stack<CssBox> rightFloatBoxStack = new Stack<CssBox>();//from previous context
+
         List<CssBox> floatBoxList = new List<CssBox>();
-        List<CssBox> containerBoxes = new List<CssBox>();
-
-
         List<FloatingContext> floatingContexts = new List<FloatingContext>();
         FloatingContext latestFloatingContext;
-        CssBox latestContainerBox;
-        CssBox latestLeftFloatBox;
-        CssBox latestRightFloatBox;
+
 
         static int totalLayoutIdEpisode = 0;
         int episodeId = 1;
@@ -89,61 +83,22 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     latestFloatingContext = new FloatingContext(box);
                 }
-
             }
-
-            //if (latestContainerBox == null)
-            //{
-            //    //start new float context
-            //    latestFloatingContext = new FloatingContext(box);
-            //}
-            //else
-            //{
-            //    if (latestContainerBox.Float == CssFloat.None)
-            //    {
-            //        if (box.Float != CssFloat.None)
-            //        {
-            //            //generate new context 
-            //            latestFloatingContext = new FloatingContext(box);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (box.Float != CssFloat.None)
-            //        {
-            //            //generate new context 
-            //            latestFloatingContext = new FloatingContext(box);
-            //        }
-
-            //    }
-            //}
-
-
             floatingContexts.Add(latestFloatingContext);
-            //----------------------------------------------------------------
-
-            this.latestContainerBox = box;
-            containerBoxes.Add(box);
-            //----------------------------------------------------------------
-
-
-            this.leftFloatBoxStack.Push(this.LatestLeftFloatBox);
-            this.rightFloatBoxStack.Push(this.LatestRightFloatBox);
-            //reset latest floating context
-            this.LatestLeftFloatBox = this.LatestRightFloatBox = null;
             base.OnPushContainingBlock(box);
         }
 
         protected override void OnPopContainingBlock()
         {
-            latestFloatingContext = floatingContexts[floatingContexts.Count - 1];
-            floatingContexts.RemoveAt(floatingContexts.Count - 1);
-
-            this.latestContainerBox = containerBoxes[containerBoxes.Count - 1];
-            containerBoxes.RemoveAt(containerBoxes.Count - 1);
-
-            this.LatestLeftFloatBox = this.leftFloatBoxStack.Pop();
-            this.LatestRightFloatBox = this.rightFloatBoxStack.Pop();
+            if (floatingContexts.Count > 0)
+            {
+                floatingContexts.RemoveAt(floatingContexts.Count - 1);
+                latestFloatingContext = floatingContexts[floatingContexts.Count - 1];
+            }
+            else
+            {
+                latestFloatingContext = null;
+            }
             base.OnPopContainingBlock();
         }
 
@@ -167,23 +122,20 @@ namespace LayoutFarm.HtmlBoxes
 
         internal CssBox LatestLeftFloatBox
         {
-            get { return this.latestLeftFloatBox; }
-            set
-            {
-                this.latestLeftFloatBox = value;
-            }
+            get { return latestFloatingContext.LatestLeftFloatBox; }
+
         }
         internal CssBox LatestRightFloatBox
         {
-            get { return this.latestRightFloatBox; }
-            set
+            get
             {
-                this.latestRightFloatBox = value;
+                return latestFloatingContext.LatestRightFloatBox;
             }
+
         }
         internal bool HasFloatBoxInContext
         {
-            get { return this.latestLeftFloatBox != null || this.latestRightFloatBox != null; }
+            get { return latestFloatingContext.HasFloatBox; }
         }
 
         internal void AddFloatBox(CssBox floatBox)
