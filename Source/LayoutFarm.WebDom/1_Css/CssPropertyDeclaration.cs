@@ -2,12 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using LayoutFarm.Css;
-
 namespace LayoutFarm.WebDom
 {
 
-    
+
     public class CssPropertyDeclaration
     {
         bool isAutoGen;
@@ -35,7 +33,7 @@ namespace LayoutFarm.WebDom
             //if (this.dbugId == 221)
             //{
             //}
-        
+
             //from another 
             this.WellknownPropertyName = wellNamePropertyName;
             this.firstValue = value;
@@ -54,7 +52,7 @@ namespace LayoutFarm.WebDom
                 this.firstValue = value;
             }
             else
-            {  
+            {
                 if (moreValues == null)
                 {
                     moreValues = new List<CssCodeValueExpression>();
@@ -173,7 +171,7 @@ namespace LayoutFarm.WebDom
         Func,
         BinaryExpression,
     }
-  
+
 
     public enum CssValueEvaluatedAs : byte
     {

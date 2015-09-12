@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Generic;
 
-
 namespace LayoutFarm.WebDom
 {
 
@@ -426,7 +425,7 @@ namespace LayoutFarm.WebDom
         }
         public void Merge(CssRuleSetGroup another)
         {
-            
+
             //merge 
             //------------  
             if (another._assignments != null)

@@ -1,11 +1,7 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
 //ArthurHub  , Jose Manuel Menendez Poo 
-using System;
-using System.Collections.Generic;
+
 using System.Text;
-using LayoutFarm.WebDom;
-using LayoutFarm.HtmlBoxes;
-using LayoutFarm.UI;
 namespace LayoutFarm.WebDom.Impl
 {
 

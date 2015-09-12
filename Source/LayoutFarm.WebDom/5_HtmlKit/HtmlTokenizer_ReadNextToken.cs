@@ -55,14 +55,14 @@ namespace HtmlKit
         public event TokenizerEmit TokenEmit;
         public bool UseEventEmitterModel { get; set; }
         bool stopTokenizer;
-        
+
 
         HtmlToken token
         {
             get;
             set;
         }
-                
+
 
         public bool ReadNextToken(out HtmlToken output)
         {

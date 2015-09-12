@@ -2,10 +2,6 @@
 //ArthurHub  , Jose Manuel Menendez Poo
 
 using System;
-using System.Collections.Generic;
-
-using LayoutFarm.HtmlBoxes;
-using LayoutFarm.Css;
 
 namespace LayoutFarm.WebDom.Impl
 {
@@ -41,7 +37,7 @@ namespace LayoutFarm.WebDom.Impl
             get
             {
                 if (bodyElement == null)
-                {   
+                {
                     //find body
                     int j = rootNode.ChildrenCount;
                     for (int i = 0; i < j; ++i)

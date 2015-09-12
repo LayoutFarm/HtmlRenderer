@@ -1,8 +1,4 @@
-﻿//2015 MIT, WinterDev 
-
-using System;
-using System.Collections.Generic;
-using LayoutFarm.HtmlBoxes;
+﻿//2015 MIT, WinterDev  
 using LayoutFarm.Scripting;
 
 namespace LayoutFarm.WebDom.Impl
@@ -33,11 +29,13 @@ namespace LayoutFarm.WebDom.Impl
                     case "mousedown":
                         {
                             this.AttachEvent(UI.UIEventName.MouseDown, eventHandler);
-                        } break;
+                        }
+                        break;
                     case "mouseup":
                         {
                             this.AttachEvent(UI.UIEventName.MouseUp, eventHandler);
-                        } break;
+                        }
+                        break;
                 }
             }
             else
