@@ -147,7 +147,8 @@ namespace LayoutFarm.HtmlBoxes
 
                 CssBox prevParent = null;
                 //TODO: review here again
-                float extraAdjust = 0; //temp fixed
+                float extraAdjustX = 0; //temp fixed
+                
 
                 for (int n = 0; n < floatBoxCount; ++n)
                 {
@@ -163,10 +164,13 @@ namespace LayoutFarm.HtmlBoxes
                         if (n > 0)
                         {
                             CssBox prevFloatChild = floatingContext.GetBox(n - 1);
-                            extraAdjust = prevFloatChild.ActualMarginRight + box.ActualMarginLeft;
+                            //TODO: review here again
+                            //temp fix
+                            extraAdjustX = prevFloatChild.ActualMarginRight + box.ActualMarginLeft;
+                            ny += box.ActualMarginTop;
                         }
                     }
-                    box.SetLocation(nx + extraAdjust, ny);
+                    box.SetLocation(nx + extraAdjustX, ny);
                     prevParent = box.ParentBox;
                     floatingOwner.AppendToAbsoluteLayer(box);
                 }
