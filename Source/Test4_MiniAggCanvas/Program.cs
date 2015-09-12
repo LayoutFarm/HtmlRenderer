@@ -25,6 +25,7 @@ namespace Test4_AggCanvasBox
             formDemoList.LoadDemoList(typeof(Program)); 
 
             Application.Run(formDemoList);
+            LayoutFarm.UI.GdiPlus.MyWinGdiPortal.End();
         }
     }
 }
