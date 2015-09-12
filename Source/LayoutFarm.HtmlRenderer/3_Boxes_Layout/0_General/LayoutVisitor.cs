@@ -79,31 +79,46 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void OnPushContainingBlock(CssBox box)
         {
-            if (latestContainerBox == null)
+            if (latestFloatingContext == null)
             {
-                //start new float context
                 latestFloatingContext = new FloatingContext(box);
             }
             else
             {
-                if (latestContainerBox.Float == CssFloat.None)
+                if (box.Float != CssFloat.None)
                 {
-                    if (box.Float != CssFloat.None)
-                    {
-                        //generate new context 
-                        latestFloatingContext = new FloatingContext(box);
-                    }
+                    latestFloatingContext = new FloatingContext(box);
                 }
-                else
-                {
-                    if (box.Float != CssFloat.None)
-                    {
-                        //generate new context 
-                        latestFloatingContext = new FloatingContext(box);
-                    }
 
-                }
             }
+
+            //if (latestContainerBox == null)
+            //{
+            //    //start new float context
+            //    latestFloatingContext = new FloatingContext(box);
+            //}
+            //else
+            //{
+            //    if (latestContainerBox.Float == CssFloat.None)
+            //    {
+            //        if (box.Float != CssFloat.None)
+            //        {
+            //            //generate new context 
+            //            latestFloatingContext = new FloatingContext(box);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (box.Float != CssFloat.None)
+            //        {
+            //            //generate new context 
+            //            latestFloatingContext = new FloatingContext(box);
+            //        }
+
+            //    }
+            //}
+
+
             floatingContexts.Add(latestFloatingContext);
             //----------------------------------------------------------------
 
@@ -173,6 +188,7 @@ namespace LayoutFarm.HtmlBoxes
 
         internal void AddFloatBox(CssBox floatBox)
         {
+            latestFloatingContext.AddFloatBox(floatBox);
             floatBoxList.Add(floatBox);
         }
         internal void UpdateRootSize(CssBox box)
