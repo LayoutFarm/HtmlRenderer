@@ -1,13 +1,7 @@
-﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
+﻿// 2015,2014 ,Apache2, WinterDev 
 
 
 using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {
@@ -98,11 +92,13 @@ namespace LayoutFarm.CustomWidgets
                         //    topRenderBox.AddChild(floatPartRenderElement);
                         //}
 
-                    } break;
+                    }
+                    break;
                 case HingeFloatPartStyle.Embeded:
                     {
 
-                    } break;
+                    }
+                    break;
             }
         }
         public void CloseHinge()
@@ -117,20 +113,23 @@ namespace LayoutFarm.CustomWidgets
             {
                 default:
                     {
-                    } break;
+                    }
+                    break;
                 case HingeFloatPartStyle.Popup:
                     {
                         if (floatPartRenderElement != null)
                         {
                             //temp
                             var parentContainer = floatPartRenderElement.ParentRenderElement as CustomRenderBox;
-                            parentContainer.RemoveChild(floatPartRenderElement);                             
+                            parentContainer.RemoveChild(floatPartRenderElement);
                         }
 
-                    } break;
+                    }
+                    break;
                 case HingeFloatPartStyle.Embeded:
                     {
-                    } break;
+                    }
+                    break;
 
             }
         }

@@ -6,7 +6,6 @@ using System.Text;
 using PixelFarm.Drawing;
 
 using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
 {
 
@@ -181,11 +180,13 @@ namespace LayoutFarm.CustomWidgets
 
                         }
 
-                    } break;
+                    }
+                    break;
                 case HingeFloatPartStyle.Embeded:
                     {
 
-                    } break;
+                    }
+                    break;
             }
 
         }
@@ -201,7 +202,8 @@ namespace LayoutFarm.CustomWidgets
             {
                 default:
                     {
-                    } break;
+                    }
+                    break;
                 case HingeFloatPartStyle.Popup:
                     {
                         var topRenderBox = primElement.GetTopWindowRenderBox();
@@ -213,10 +215,12 @@ namespace LayoutFarm.CustomWidgets
                                 topRenderBox.RemoveChild(floatPartRenderElement);
                             }
                         }
-                    } break;
+                    }
+                    break;
                 case HingeFloatPartStyle.Embeded:
                     {
-                    } break;
+                    }
+                    break;
 
             }
         }

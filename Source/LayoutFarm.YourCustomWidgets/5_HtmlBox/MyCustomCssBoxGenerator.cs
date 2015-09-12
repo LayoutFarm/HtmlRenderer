@@ -1,15 +1,9 @@
 ﻿//BSD 2014-2015 ,WinterDev
 //ArthurHub, Jose Manuel Menendez Poo
-
-using System;
-using System.Collections.Generic;
-
-using PixelFarm.Drawing;
-
-using LayoutFarm.WebDom;
-using LayoutFarm.Css;
 using LayoutFarm.Composers;
+using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
+using LayoutFarm.WebDom;
 
 namespace LayoutFarm.CustomWidgets
 {
@@ -40,7 +34,8 @@ namespace LayoutFarm.CustomWidgets
                         {
                             return inputBox;
                         }
-                    } break;
+                    }
+                    break;
                 case "canvas":
                     {
                         //test only
@@ -156,7 +151,8 @@ namespace LayoutFarm.CustomWidgets
                             parentBox.AppendChild(wrapperBox);
                             return wrapperBox;
 
-                        } break;
+                        }
+                        break;
                 }
             }
             return null;

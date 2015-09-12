@@ -1,13 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 
 using PixelFarm.Drawing;
-
 using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {
@@ -47,8 +41,8 @@ namespace LayoutFarm.CustomWidgets
 #endif
             //sample bg   
             //canvas.FillRectangle(BackColor, updateArea.Left, updateArea.Top, updateArea.Width, updateArea.Height);
-            canvas.FillRectangle(BackColor, 0, 0, this.Width, this.Height); 
-            gridLayer.DrawChildContent(canvas, updateArea); 
+            canvas.FillRectangle(BackColor, 0, 0, this.Width, this.Height);
+            gridLayer.DrawChildContent(canvas, updateArea);
             if (this.HasDefaultLayer)
             {
                 this.DrawDefaultLayer(canvas, ref updateArea);

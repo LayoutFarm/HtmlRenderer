@@ -1,15 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+
 using PixelFarm.Drawing;
 using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
-using LayoutFarm.UI;
-using LayoutFarm.HtmlBoxes;
-using LayoutFarm.CustomWidgets;
 
 namespace LayoutFarm.HtmlWidgets
 {
@@ -73,7 +67,7 @@ namespace LayoutFarm.HtmlWidgets
                 });
 
             });
-            
+
             return pnode;
         }
 

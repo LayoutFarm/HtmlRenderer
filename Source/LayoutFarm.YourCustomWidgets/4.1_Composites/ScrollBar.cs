@@ -1,12 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Drawing;
-
 using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {
@@ -53,11 +48,13 @@ namespace LayoutFarm.CustomWidgets
                     case ScrollBarType.Horizontal:
                         {
                             CreateHScrollbarContent(rootgfx);
-                        } break;
+                        }
+                        break;
                     default:
                         {
                             CreateVScrollbarContent(rootgfx);
-                        } break;
+                        }
+                        break;
                 }
 
             }
@@ -138,12 +135,14 @@ namespace LayoutFarm.CustomWidgets
                     {
                         int thumbPosY = CalculateThumbPosition() + minmax_boxHeight;
                         scrollButton.SetLocation(0, thumbPosY);
-                    } break;
+                    }
+                    break;
                 case ScrollBarType.Horizontal:
                     {
                         int thumbPosX = CalculateThumbPosition() + minmax_boxHeight;
                         scrollButton.SetLocation(thumbPosX, 0);
-                    } break;
+                    }
+                    break;
             }
 
         }
@@ -246,11 +245,13 @@ namespace LayoutFarm.CustomWidgets
                 case ScrollBarType.Vertical:
                     {
                         EvaluateVerticalScrollBarProperties();
-                    } break;
+                    }
+                    break;
                 case ScrollBarType.Horizontal:
                     {
                         EvaluateHorizontalScrollBarProperties();
-                    } break;
+                    }
+                    break;
             }
         }
         public void SetCustomScrollBarEvaluator(ScrollBarEvaluator scrollBarEvaluator)
@@ -642,11 +643,13 @@ namespace LayoutFarm.CustomWidgets
                 case ScrollBarType.Vertical:
                     {
                         SetupVerticalScrollRelation();
-                    } break;
+                    }
+                    break;
                 case ScrollBarType.Horizontal:
                     {
                         SetupHorizontalScrollRelation();
-                    } break;
+                    }
+                    break;
                 default:
                     throw new NotSupportedException();
             }

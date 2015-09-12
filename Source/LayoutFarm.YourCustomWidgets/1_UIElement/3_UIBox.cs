@@ -1,10 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Drawing;
-
 
 namespace LayoutFarm.UI
 {
@@ -17,7 +13,7 @@ namespace LayoutFarm.UI
         int _height;
         bool _hide;
         bool specificWidth;
-        bool specificHeight; 
+        bool specificHeight;
 
         public event EventHandler LayoutFinished;
 
@@ -260,8 +256,8 @@ namespace LayoutFarm.UI
             visitor.Attribute("height", this.Height);
         }
 
-        
-       
+
+
         public Rectangle Bounds
         {
             get { return new Rectangle(this.Left, this.Top, this.Width, this.Height); }

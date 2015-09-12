@@ -51,11 +51,13 @@ namespace LayoutFarm.UI
                 case SpaceConcept.NineSpace:
                     {
                         spaces = new SpacePart[9];
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         spaces = new SpacePart[5];
-                    } break;
+                    }
+                    break;
             }
             this.sizeH = owner.Height;
             this.sizeW = owner.Width;
@@ -74,7 +76,7 @@ namespace LayoutFarm.UI
                 return this.myOwner;
             }
         }
-        
+
         public bool ControlChildPosition
         {
             get
@@ -549,7 +551,7 @@ namespace LayoutFarm.UI
                 leftSpaceWidth = OwnerVisualElement.Width - rightSpaceWidth;
             }
 
-            this.HasSpecificRightSpaceWidth = true; 
+            this.HasSpecificRightSpaceWidth = true;
             this.InvalidateArrangementInAllDockSpaces();
             ArrangeAllSpaces();
 
@@ -573,7 +575,7 @@ namespace LayoutFarm.UI
                 ArrangeAllSpaces();
             }
         }
-         
+
         public virtual void TopDownReCalculateContentSize()
         {
 
@@ -797,11 +799,13 @@ namespace LayoutFarm.UI
                     case NamedSpaceContainerOverlapMode.Middle:
                         {
                             totalWidth += (bx1.DesiredWidth / 2);
-                        } break;
+                        }
+                        break;
                     case NamedSpaceContainerOverlapMode.Outer:
                         {
                             totalWidth += bx1.DesiredWidth;
-                        } break;
+                        }
+                        break;
                 }
             }
             if (bx2 != null)
@@ -817,11 +821,13 @@ namespace LayoutFarm.UI
                     case NamedSpaceContainerOverlapMode.Middle:
                         {
                             totalWidth += (bx3.DesiredWidth / 2);
-                        } break;
+                        }
+                        break;
                     case NamedSpaceContainerOverlapMode.Outer:
                         {
                             totalWidth += bx3.DesiredWidth;
-                        } break;
+                        }
+                        break;
                 }
             }
             return totalWidth;
@@ -838,11 +844,13 @@ namespace LayoutFarm.UI
                     case NamedSpaceContainerOverlapMode.Middle:
                         {
                             totalHeight += (bx1.DesiredHeight / 2);
-                        } break;
+                        }
+                        break;
                     case NamedSpaceContainerOverlapMode.Outer:
                         {
                             totalHeight += bx1.DesiredHeight;
-                        } break;
+                        }
+                        break;
                 }
             }
             if (bx2 != null)
@@ -857,11 +865,13 @@ namespace LayoutFarm.UI
                     case NamedSpaceContainerOverlapMode.Middle:
                         {
                             totalHeight += (bx3.DesiredHeight / 2);
-                        } break;
+                        }
+                        break;
                     case NamedSpaceContainerOverlapMode.Outer:
                         {
                             totalHeight += bx3.DesiredHeight;
-                        } break;
+                        }
+                        break;
                 }
             }
             return totalHeight;

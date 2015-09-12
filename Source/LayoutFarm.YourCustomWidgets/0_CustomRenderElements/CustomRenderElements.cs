@@ -1,12 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
 
-using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.CustomWidgets
 {
@@ -22,7 +16,7 @@ namespace LayoutFarm.CustomWidgets
         {
             this.BackColor = Color.LightGray;
         }
- 
+
         public Color BackColor
         {
             get { return this.backColor; }

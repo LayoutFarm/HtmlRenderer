@@ -1,16 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+
 using PixelFarm.Drawing;
 using LayoutFarm.Composers;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
-using LayoutFarm.UI;
-using LayoutFarm.HtmlBoxes;
-using LayoutFarm.CustomWidgets;
-using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.HtmlWidgets
 {
@@ -19,13 +12,13 @@ namespace LayoutFarm.HtmlWidgets
         Popup,
         Embeded
     }
-    
+
     public class HingeBox : HtmlWidgetBase
     {
-        DomElement floatPartDomElement; 
+        DomElement floatPartDomElement;
         DomElement presentationNode;
         Color backColor = Color.LightGray;
-        bool isOpen; 
+        bool isOpen;
         HingeFloatPartStyle floatPartStyle;
 
         public HingeBox(int w, int h)
@@ -116,11 +109,13 @@ namespace LayoutFarm.HtmlWidgets
                         this.presentationNode.GetGlobalLocation(out x, out y);
                         floatPartE.SetLocation(x, y + (int)landPartE.ActualHeight);
 
-                    } break;
+                    }
+                    break;
                 case HingeFloatPartStyle.Embeded:
                     {
 
-                    } break;
+                    }
+                    break;
             }
         }
         public void CloseHinge()
@@ -138,17 +133,20 @@ namespace LayoutFarm.HtmlWidgets
             {
                 default:
                     {
-                    } break;
+                    }
+                    break;
                 case HingeFloatPartStyle.Popup:
                     {
                         if (this.floatPartDomElement != null && this.floatPartDomElement.ParentNode != null)
                         {
                             ((IHtmlElement)this.floatPartDomElement.ParentNode).removeChild(this.floatPartDomElement);
                         }
-                    } break;
+                    }
+                    break;
                 case HingeFloatPartStyle.Embeded:
                     {
-                    } break;
+                    }
+                    break;
 
             }
         }

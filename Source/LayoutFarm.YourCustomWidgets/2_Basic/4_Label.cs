@@ -1,11 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+
 using PixelFarm.Drawing;
 using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
 namespace LayoutFarm.CustomWidgets
 {
 
@@ -25,7 +21,7 @@ namespace LayoutFarm.CustomWidgets
                 var trun = new CustomTextRun(rootgfx, this.Width, this.Height);
                 trun.SetLocation(this.Left, this.Top);
                 trun.TextColor = this.textColor;
-                trun.Text = this.Text; 
+                trun.Text = this.Text;
                 this.myTextRun = trun;
 
             }

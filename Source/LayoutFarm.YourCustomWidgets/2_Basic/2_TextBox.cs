@@ -5,10 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
-using LayoutFarm;
-using LayoutFarm.UI;
-using LayoutFarm.Text;
 using LayoutFarm.Composers;
+using LayoutFarm.Text;
+using LayoutFarm.UI;
 
 namespace LayoutFarm.CustomWidgets
 {
