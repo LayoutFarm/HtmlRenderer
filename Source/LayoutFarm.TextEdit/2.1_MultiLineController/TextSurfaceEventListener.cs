@@ -10,7 +10,7 @@ namespace LayoutFarm.Text
         public readonly UIKeys key;
         public readonly char c;
         public bool PreventDefault;
-        
+
         public TextDomEventArgs(char c)
         {
             this.c = c;
@@ -23,7 +23,7 @@ namespace LayoutFarm.Text
         {
             this.updateJustCurrentLine = updateJustCurrentLine;
         }
-         
+
     }
 
     public sealed class TextSurfaceEventListener
@@ -159,7 +159,7 @@ namespace LayoutFarm.Text
             {
                 listener.CharacterRemoved(listener, e);
             }
-        } 
+        }
         internal static void NotifyKeyDown(TextSurfaceEventListener listener, UIKeys key)
         {
             if (listener.KeyDown != null)

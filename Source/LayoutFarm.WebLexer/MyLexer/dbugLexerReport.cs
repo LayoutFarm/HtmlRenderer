@@ -1,12 +1,9 @@
 ﻿//BSD  2015,2014 ,WinterDev
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
 namespace LayoutFarm.WebLexer
-{  
+{
 
 
 #if DEBUG
@@ -23,7 +20,7 @@ namespace LayoutFarm.WebLexer
         }
         public void WriteLine(string info)
         {
-            
+
             strmWriter.WriteLine(lineCount + " " + info);
             strmWriter.Flush();
             lineCount++;

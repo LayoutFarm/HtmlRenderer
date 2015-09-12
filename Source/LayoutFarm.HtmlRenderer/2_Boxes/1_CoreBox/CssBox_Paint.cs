@@ -1,8 +1,7 @@
 ﻿// 2015,2014 ,BSD, WinterDev
 //ArthurHub  , Jose Manuel Menendez Poo
 
-using System;
-using System.Collections.Generic;
+using System; 
 using PixelFarm.Drawing;
 
 namespace LayoutFarm.HtmlBoxes

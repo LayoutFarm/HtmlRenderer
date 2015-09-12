@@ -3,12 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
-using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
-using LayoutFarm.CustomWidgets;
 
 namespace LayoutFarm.HtmlWidgets
 {
@@ -130,11 +126,13 @@ namespace LayoutFarm.HtmlWidgets
                         }
 
 
-                    } break;
+                    }
+                    break;
                 case HingeFloatPartStyle.Embeded:
                     {
 
-                    } break;
+                    }
+                    break;
             }
 
         }
@@ -152,7 +150,8 @@ namespace LayoutFarm.HtmlWidgets
             {
                 default:
                     {
-                    } break;
+                    }
+                    break;
                 case HingeFloatPartStyle.Popup:
                     {
                         if (this.ownerMenuBox == null) return;
@@ -162,10 +161,12 @@ namespace LayoutFarm.HtmlWidgets
                             floatPart.HideMenu();
                         }
 
-                    } break;
+                    }
+                    break;
                 case HingeFloatPartStyle.Embeded:
                     {
-                    } break;
+                    }
+                    break;
 
             }
         }
@@ -306,13 +307,13 @@ namespace LayoutFarm.HtmlWidgets
                 {
                     this.htmldoc = relativeToMenuItem.OwnerMenuBox.HtmlDoc;
                     this.pnode = this.GetPresentationDomNode(htmldoc);
-                } 
+                }
                 var relativeMenuItemElement = relativeToMenuItem.CurrentDomElement as IHtmlElement;
                 int x, y;
 
                 relativeMenuItemElement.getGlobalLocation(out x, out y);
-                var pHtmlNode = pnode as WebDom.Impl.HtmlElement; 
-                pHtmlNode.SetLocation(x + relativeToMenuItem.OwnerMenuBox.Width, y); 
+                var pHtmlNode = pnode as WebDom.Impl.HtmlElement;
+                pHtmlNode.SetLocation(x + relativeToMenuItem.OwnerMenuBox.Width, y);
                 htmldoc.RootNode.AddChild(pnode);
                 showing = true;
             }

@@ -3,8 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using PixelFarm.Drawing;
-using LayoutFarm.UI;
+using PixelFarm.Drawing; 
 
 namespace LayoutFarm.CustomWidgets
 {

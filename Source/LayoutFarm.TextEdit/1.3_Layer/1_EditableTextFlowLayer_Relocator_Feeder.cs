@@ -1,9 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using PixelFarm.Drawing;
-using System.Text;
-
 
 namespace LayoutFarm.Text
 {
@@ -476,7 +473,8 @@ namespace LayoutFarm.Text
                                 }
                             }
 
-                        } break;
+                        }
+                        break;
                     case 1:
                         {
                             if (isMultiLine)
@@ -505,7 +503,8 @@ namespace LayoutFarm.Text
                                 return false;
                             }
 
-                        } break;
+                        }
+                        break;
                     case 3:
                         {
                             return false;
@@ -537,7 +536,8 @@ namespace LayoutFarm.Text
                                 }
                                 return false;
                             }
-                        } break;
+                        }
+                        break;
                 }
                 return false;
             }
@@ -609,7 +609,8 @@ namespace LayoutFarm.Text
                                 }
                             }
 
-                        } break;
+                        }
+                        break;
                     case 1:
                         {
                             if (isMultiLine)
@@ -635,7 +636,8 @@ namespace LayoutFarm.Text
                                 return false;
                             }
 
-                        } break;
+                        }
+                        break;
                     case 3:
                         {
                             return false;

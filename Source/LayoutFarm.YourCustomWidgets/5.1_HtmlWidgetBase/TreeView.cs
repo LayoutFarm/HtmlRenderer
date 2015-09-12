@@ -5,11 +5,10 @@ using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
-using LayoutFarm.WebDom;
-using LayoutFarm.WebDom.Extension;
-using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
 using LayoutFarm.CustomWidgets;
+using LayoutFarm.WebDom;
+using LayoutFarm.WebDom.Extension; 
+
 
 namespace LayoutFarm.HtmlWidgets
 {

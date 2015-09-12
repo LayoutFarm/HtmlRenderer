@@ -1,12 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
 
-using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.CustomWidgets
 {
@@ -21,7 +15,7 @@ namespace LayoutFarm.CustomWidgets
 #endif
         public CustomTextRun(RootGraphic rootgfx, int width, int height)
             : base(rootgfx, width, height)
-        { 
+        {
         }
         public override void ResetRootGraphics(RootGraphic rootgfx)
         {
@@ -56,6 +50,6 @@ namespace LayoutFarm.CustomWidgets
                 canvas.DrawText(this.textBuffer, this.X, this.Y);
                 canvas.CurrentTextColor = prevColor;
             }
-        } 
-    } 
+        }
+    }
 }

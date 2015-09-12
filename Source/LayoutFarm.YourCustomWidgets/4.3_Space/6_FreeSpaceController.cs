@@ -1,7 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 namespace LayoutFarm.UI
 {
     public class FreeSpacesController : NinespaceController
@@ -24,7 +22,7 @@ namespace LayoutFarm.UI
 
         public override void ArrangeAllSpaces()
         {
-            
+
 #if DEBUG
             // vinv.dbug_EnterLayerReArrangeContent(this);
 #endif
@@ -144,15 +142,18 @@ namespace LayoutFarm.UI
                             case NamedSpaceContainerOverlapMode.Outer:
                                 {
                                     x_pos -= space.Width;
-                                } break;
+                                }
+                                break;
                             case NamedSpaceContainerOverlapMode.Middle:
                                 {
                                     x_pos -= space.Width / 2;
-                                } break;
+                                }
+                                break;
                         }
                         space.SetLocation(x_pos, y_pos);
 
-                    } break;
+                    }
+                    break;
                 case SpaceName.Right:
                     {
                         x_pos = centerspace.Right;
@@ -161,14 +162,17 @@ namespace LayoutFarm.UI
                             case NamedSpaceContainerOverlapMode.Inner:
                                 {
                                     x_pos -= space.Width;
-                                } break;
+                                }
+                                break;
                             case NamedSpaceContainerOverlapMode.Middle:
                                 {
                                     x_pos -= space.Width / 2;
 
-                                } break;
+                                }
+                                break;
                         }
-                    } break;
+                    }
+                    break;
                 case SpaceName.Top:
                     {
                         switch (space.OverlapMode)
@@ -176,13 +180,16 @@ namespace LayoutFarm.UI
                             case NamedSpaceContainerOverlapMode.Outer:
                                 {
                                     y_pos -= space.Height;
-                                } break;
+                                }
+                                break;
                             case NamedSpaceContainerOverlapMode.Middle:
                                 {
                                     y_pos -= space.Height / 2;
-                                } break;
+                                }
+                                break;
                         }
-                    } break;
+                    }
+                    break;
                 case SpaceName.Bottom:
                     {
 
@@ -193,14 +200,17 @@ namespace LayoutFarm.UI
                             case NamedSpaceContainerOverlapMode.Inner:
                                 {
                                     y_pos -= space.Height;
-                                } break;
+                                }
+                                break;
                             case NamedSpaceContainerOverlapMode.Middle:
                                 {
                                     y_pos -= space.Height / 2;
-                                } break;
+                                }
+                                break;
                         }
 
-                    } break;
+                    }
+                    break;
                 case SpaceName.LeftTop:
                     {
                         switch (space.OverlapMode)
@@ -209,15 +219,18 @@ namespace LayoutFarm.UI
                                 {
                                     x_pos -= space.Width;
                                     y_pos -= space.Height;
-                                } break;
+                                }
+                                break;
                             case NamedSpaceContainerOverlapMode.Middle:
                                 {
                                     x_pos -= space.Width / 2;
                                     y_pos -= space.Height / 2;
-                                } break;
+                                }
+                                break;
                         }
 
-                    } break;
+                    }
+                    break;
                 case SpaceName.LeftBottom:
                     {
                         switch (space.OverlapMode)
@@ -226,20 +239,24 @@ namespace LayoutFarm.UI
                                 {
                                     x_pos -= space.Width;
                                     y_pos = centerspace.Bottom;
-                                } break;
+                                }
+                                break;
                             case NamedSpaceContainerOverlapMode.Inner:
                                 {
                                     y_pos = centerspace.Bottom - space.Height;
-                                } break;
+                                }
+                                break;
                             case NamedSpaceContainerOverlapMode.Middle:
                                 {
 
                                     x_pos -= space.Width / 2;
                                     y_pos = centerspace.Bottom - space.Height / 2;
 
-                                } break;
+                                }
+                                break;
                         }
-                    } break;
+                    }
+                    break;
                 case SpaceName.RightTop:
                     {
                         switch (space.OverlapMode)
@@ -248,21 +265,25 @@ namespace LayoutFarm.UI
                                 {
                                     x_pos = centerspace.Right;
                                     y_pos -= space.Height;
-                                } break;
+                                }
+                                break;
                             case NamedSpaceContainerOverlapMode.Inner:
                                 {
                                     x_pos = centerspace.Right - space.Width;
-                                } break;
+                                }
+                                break;
                             case NamedSpaceContainerOverlapMode.Middle:
                                 {
                                     //outter - half of grip
                                     x_pos = centerspace.Right - (space.Width / 2);
                                     y_pos -= space.Height - (space.Height / 2);
 
-                                } break;
+                                }
+                                break;
                         }
 
-                    } break;
+                    }
+                    break;
                 case SpaceName.RightBottom:
                     {
                         switch (space.OverlapMode)
@@ -271,23 +292,27 @@ namespace LayoutFarm.UI
                                 {
                                     x_pos = centerspace.Right;
                                     y_pos = centerspace.Bottom;
-                                } break;
+                                }
+                                break;
                             case NamedSpaceContainerOverlapMode.Inner:
                                 {
                                     x_pos = centerspace.Right - space.Width;
                                     y_pos = centerspace.Bottom - space.Height;
-                                } break;
+                                }
+                                break;
                             case NamedSpaceContainerOverlapMode.Middle:
                                 {
                                     //outer - half of grid box
                                     x_pos = centerspace.Right - (space.Width / 2);
                                     y_pos = centerspace.Bottom - (space.Height / 2);
 
-                                } break;
+                                }
+                                break;
                         }
 
 
-                    } break;
+                    }
+                    break;
             }
 
             //VisualInvalidateCanvasArgs vinv = contentArrVisitor.GetVisualInvalidateCanvasArgs();

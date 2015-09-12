@@ -1,6 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
@@ -280,7 +279,7 @@ namespace LayoutFarm.CustomWidgets
         }
         public void AddChild(UIElement ui)
         {
-            
+
             if (this.uiList == null)
             {
                 this.uiList = new UICollection(this);
@@ -414,7 +413,8 @@ namespace LayoutFarm.CustomWidgets
 
                         this.SetDesiredSize(maxRight, ypos);
 
-                    } break;
+                    }
+                    break;
                 case CustomWidgets.BoxContentLayoutKind.HorizontalStack:
                     {
 
@@ -443,7 +443,8 @@ namespace LayoutFarm.CustomWidgets
 
                         this.SetDesiredSize(xpos, maxBottom);
 
-                    } break;
+                    }
+                    break;
                 default:
                     {
 
@@ -478,7 +479,8 @@ namespace LayoutFarm.CustomWidgets
                         {
                             this.SetDesiredSize(this.DesiredWidth, maxBottom);
                         }
-                    } break;
+                    }
+                    break;
             }
             //------------------------------------------------
             base.RaiseLayoutFinished();

@@ -1,11 +1,10 @@
-﻿
-using System;
-using PixelFarm.Drawing;
-using System.Collections.Generic;
-using LayoutFarm.Css;
-using LayoutFarm.WebDom;
-using LayoutFarm.HtmlBoxes;
+﻿// 2015,2014 ,MIT, WinterDev 
 
+using PixelFarm.Drawing;
+
+using LayoutFarm.Css;
+using LayoutFarm.HtmlBoxes;
+using LayoutFarm.WebDom; 
 
 namespace LayoutFarm.Composers
 {

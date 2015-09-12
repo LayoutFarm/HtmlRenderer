@@ -1,11 +1,7 @@
-﻿
-// 2015,2014 ,BSD, WinterDev 
+﻿// 2015,2014 ,BSD, WinterDev 
 //ArthurHub  , Jose Manuel Menendez Poo
 
 using System;
-using System.Collections.Generic;
-using PixelFarm.Drawing;
-
 namespace LayoutFarm.ContentManagers
 {
     public delegate void RequestStyleSheetEventHandler(TextRequestEventArgs args);
@@ -17,8 +13,8 @@ namespace LayoutFarm.ContentManagers
             this.Src = src;
         }
         public string Src { get; private set; }
-        public string TextContent { get; set; } 
-      
+        public string TextContent { get; set; }
+
     }
 
     public class TextContentManager
@@ -30,7 +26,7 @@ namespace LayoutFarm.ContentManagers
         /// </summary>
         public event EventHandler<TextRequestEventArgs> StylesheetLoadingRequest;
         public TextContentManager()
-        { 
+        {
 
         }
         public void AddStyleSheetRequest(TextRequestEventArgs arg)
@@ -38,7 +34,7 @@ namespace LayoutFarm.ContentManagers
             this.StylesheetLoadingRequest(this, arg);
         }
     }
-     
 
- 
+
+
 }

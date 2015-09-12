@@ -24,32 +24,34 @@
 // THE SOFTWARE.
 //
 
-namespace HtmlKit {
-	/// <summary>
-	/// The kinds of tokens that the <see cref="HtmlTokenizer"/> can emit.
-	/// </summary>
-	/// <remarks>
-	/// The kinds of tokens that the <see cref="HtmlTokenizer"/> can emit.
-	/// </remarks>
-	public enum HtmlTokenKind {
-		/// <summary>
-		/// An HTML comment token.
-		/// </summary>
-		Comment,
+namespace HtmlKit
+{
+    /// <summary>
+    /// The kinds of tokens that the <see cref="HtmlTokenizer"/> can emit.
+    /// </summary>
+    /// <remarks>
+    /// The kinds of tokens that the <see cref="HtmlTokenizer"/> can emit.
+    /// </remarks>
+    public enum HtmlTokenKind
+    {
+        /// <summary>
+        /// An HTML comment token.
+        /// </summary>
+        Comment,
 
-		/// <summary>
-		/// A token consisting of character data.
-		/// </summary>
-		Data,
+        /// <summary>
+        /// A token consisting of character data.
+        /// </summary>
+        Data,
 
-		/// <summary>
-		/// An HTML DOCTYPE token.
-		/// </summary>
-		DocType,
+        /// <summary>
+        /// An HTML DOCTYPE token.
+        /// </summary>
+        DocType,
 
-		/// <summary>
-		/// An HTML tag token.
-		/// </summary>
-		Tag,
-	}
+        /// <summary>
+        /// An HTML tag token.
+        /// </summary>
+        Tag,
+    }
 }

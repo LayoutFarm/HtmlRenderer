@@ -1,6 +1,4 @@
-﻿//BSD  2015,2014 ,WinterDev
-
-
+﻿//BSD  2015,2014 ,WinterDev 
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -195,28 +193,34 @@ namespace LayoutFarm.WebDom
                     case CssCombinatorOperator.Descendant:
                         {
                             sb.Append(' ');
-                        } break;
+                        }
+                        break;
                     case CssCombinatorOperator.AdjacentSibling:
                         {
                             sb.Append('+');
-                        } break;
+                        }
+                        break;
                     case CssCombinatorOperator.Child:
                         {
                             sb.Append('>');
 
-                        } break;
+                        }
+                        break;
                     case CssCombinatorOperator.GeneralSibling:
                         {
                             sb.Append('~');
-                        } break;
+                        }
+                        break;
                     case CssCombinatorOperator.List:
                         {
                             sb.Append(',');
-                        } break;
+                        }
+                        break;
                     default:
                         {
 
-                        } break;
+                        }
+                        break;
                 }
 
                 sb.Append(RightSelector.SelectorSignature);

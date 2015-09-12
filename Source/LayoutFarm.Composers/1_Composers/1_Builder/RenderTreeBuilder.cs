@@ -14,12 +14,12 @@
 // "The Art of War"
 
 using System;
-using PixelFarm.Drawing;
 using System.Collections.Generic;
 using LayoutFarm.Css;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Parser;
-using LayoutFarm.HtmlBoxes;
+
 
 namespace LayoutFarm.Composers
 {
@@ -93,7 +93,8 @@ namespace LayoutFarm.Composers
                                                         activeCssTemplate.LoadRawStyleElementContent(new string(textNode.GetOriginalBuffer()));
                                                         //break
                                                         i = j;
-                                                    } break;
+                                                    }
+                                                    break;
                                             }
                                         }
                                         activeCssTemplate.ExitLevel();
@@ -121,7 +122,8 @@ namespace LayoutFarm.Composers
                                                             }
                                                         }
 
-                                                    } break;
+                                                    }
+                                                    break;
                                                 case "import":
                                                     {
                                                         //load data canbe sync or async
@@ -131,7 +133,8 @@ namespace LayoutFarm.Composers
                                                             //import other html, reuseable html component
                                                             //TODO: implement import request algo here
                                                         }
-                                                    } break;
+                                                    }
+                                                    break;
                                             }
                                         }
                                         activeCssTemplate.ExitLevel();
@@ -146,7 +149,8 @@ namespace LayoutFarm.Composers
                             //recursive 
                             PrepareStylesAndContentOfChildNodes(htmlElement, activeCssTemplate);
                             //-----------------------------
-                        } break;
+                        }
+                        break;
                     case WebDom.HtmlNodeType.TextNode:
                         {
 
@@ -161,7 +165,8 @@ namespace LayoutFarm.Composers
                             contentTextSplitter.ParseWordContent(originalBuffer, parentSpec, isblockContext, out runlist, out hasSomeCharacter);
                             textnode.SetSplitParts(runlist, hasSomeCharacter);
 
-                        } break;
+                        }
+                        break;
                 }
 
                 activeCssTemplate.ExitLevel();
@@ -323,7 +328,7 @@ namespace LayoutFarm.Composers
           TopDownActiveCssTemplate activeCssTemplate)
         {
 
-            BoxSpec curSpec = element.Spec; 
+            BoxSpec curSpec = element.Spec;
             BoxSpec.InheritStyles(curSpec, parentSpec);
             //--------------------------------
             string classValue = null;
@@ -365,14 +370,14 @@ namespace LayoutFarm.Composers
                 if (element.TryGetAttribute(WellknownName.Style, out attrStyleValue))
                 {
                     //parse and evaluate the ruleset
-                    parsedRuleSet = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray()); 
+                    parsedRuleSet = miniCssParser.ParseCssPropertyDeclarationList(attrStyleValue.ToCharArray());
                     foreach (WebDom.CssPropertyDeclaration propDecl in parsedRuleSet.GetAssignmentIter())
                     {
                         SpecSetter.AssignPropertyValue(
                             curSpec,
                             parentSpec,
                             propDecl);
-                    } 
+                    }
                 }
                 else
                 {
@@ -405,7 +410,7 @@ namespace LayoutFarm.Composers
                             propDecl);
                     }
                 }
-                 
+
             }
             //===================== 
             curSpec.Freeze(); //***
@@ -666,7 +671,8 @@ namespace LayoutFarm.Composers
                                 //    box.VerticalAlign = UserMapUtil.GetVerticalAlign(propValue);
                                 //}
                                 //break;
-                            } break;
+                            }
+                            break;
                         case WebDom.WellknownName.Background:
                             //deprecated in HTML4.1
                             //box.BackgroundImageBinder = new ImageBinder(attr.Value.ToLower());
@@ -709,7 +715,8 @@ namespace LayoutFarm.Composers
                                 //    }
 
                                 //}
-                            } break;
+                            }
+                            break;
                         case WebDom.WellknownName.BorderColor:
 
                             //box.BorderLeftColor =
@@ -747,7 +754,8 @@ namespace LayoutFarm.Composers
                                 //                                         cell.PaddingLeft = cell.PaddingTop = cell.PaddingRight = cell.PaddingBottom = len01);
                                 //                                }
 
-                            } break;
+                            }
+                            break;
                         case WebDom.WellknownName.Color:
 
                             //deprecate  
@@ -771,7 +779,8 @@ namespace LayoutFarm.Composers
                                 var spec = tag.Spec;
                                 spec.Height = TranslateLength(attr);
 
-                            } break;
+                            }
+                            break;
                         case WebDom.WellknownName.HSpace:
                             //deprecated
                             //box.MarginRight = box.MarginLeft = TranslateLength(attr);
@@ -801,7 +810,8 @@ namespace LayoutFarm.Composers
                                 //            //box.SetFontSize(value);
                                 //        } break;
                                 //}
-                            } break;
+                            }
+                            break;
                         case WebDom.WellknownName.VAlign:
                             {
                                 //w3.org 
@@ -813,7 +823,8 @@ namespace LayoutFarm.Composers
                                 tag.Spec.VerticalAlign = UserMapUtil.GetVerticalAlign(propValue);
 
 
-                            } break;
+                            }
+                            break;
                         case WebDom.WellknownName.VSpace:
                             //deprecated
                             //box.MarginTop = box.MarginBottom = TranslateLength(attr);
@@ -823,7 +834,8 @@ namespace LayoutFarm.Composers
                                 var spec = tag.Spec;
                                 spec.Width = TranslateLength(attr);
 
-                            } break;
+                            }
+                            break;
                         case WellknownName.Src:
                             {
 
@@ -856,7 +868,8 @@ namespace LayoutFarm.Composers
                                 }
 
 
-                            } break;
+                            }
+                            break;
                     }
                 }
             }

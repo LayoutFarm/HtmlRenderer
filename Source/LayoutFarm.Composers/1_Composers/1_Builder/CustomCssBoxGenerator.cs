@@ -1,16 +1,11 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
-using System.Collections.Generic;
-using System.Globalization;
-using PixelFarm.Drawing;
-using LayoutFarm.WebDom;
+
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
-
 namespace LayoutFarm.Composers
 {
-    
+
 
     public abstract class CustomCssBoxGenerator
     {
@@ -37,6 +32,6 @@ namespace LayoutFarm.Composers
             }
         }
     }
-     
+
 
 }

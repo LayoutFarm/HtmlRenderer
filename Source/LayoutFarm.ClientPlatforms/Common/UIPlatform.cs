@@ -1,7 +1,4 @@
-﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections.Generic;
-
+﻿// 2015,2014 ,Apache2, WinterDev 
 
 namespace LayoutFarm.UI
 {
@@ -12,7 +9,6 @@ namespace LayoutFarm.UI
         public abstract string GetClipboardData();
         public abstract void ClearClipboardData();
 
-         
     }
 
 

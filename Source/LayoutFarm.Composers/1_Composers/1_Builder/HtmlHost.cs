@@ -4,14 +4,12 @@
 using System;
 using System.Collections.Generic;
 
-using System.Text;
-using System.Diagnostics;
 using PixelFarm.Drawing;
-using LayoutFarm.WebDom;
+
 using LayoutFarm.ContentManagers;
-using LayoutFarm.UI;
-using LayoutFarm.Css;
 using LayoutFarm.Composers;
+using LayoutFarm.Css;
+using LayoutFarm.WebDom;
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -201,7 +199,8 @@ namespace LayoutFarm.HtmlBoxes
                                     HtmlTextNode singleTextNode = (HtmlTextNode)child;
                                     RunListHelper.AddRunList(hostBox, parentElement.Spec, singleTextNode);
 
-                                } break;
+                                }
+                                break;
                             case HtmlNodeType.ShortElement:
                             case HtmlNodeType.OpenElement:
                                 {
@@ -240,9 +239,11 @@ namespace LayoutFarm.HtmlBoxes
                                             }
                                         }
                                     }
-                                } break;
+                                }
+                                break;
                         }
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         CssBox hostBox = HtmlElement.InternalGetPrincipalBox(parentElement);
@@ -267,7 +268,8 @@ namespace LayoutFarm.HtmlBoxes
                                                     RunListHelper.AddRunList(
                                                         CssBox.AddNewAnonInline(hostBox),
                                                         parentElement.Spec, textNode);
-                                                } break;
+                                                }
+                                                break;
                                             case CssWhiteSpace.PreLine:
                                                 {
                                                     if (newBox == 0 && textNode.IsWhiteSpace)
@@ -279,7 +281,8 @@ namespace LayoutFarm.HtmlBoxes
                                                         CssBox.AddNewAnonInline(hostBox),
                                                         parentElement.Spec, textNode);
 
-                                                } break;
+                                                }
+                                                break;
                                             default:
                                                 {
                                                     if (textNode.IsWhiteSpace)
@@ -289,12 +292,14 @@ namespace LayoutFarm.HtmlBoxes
                                                     RunListHelper.AddRunList(
                                                         CssBox.AddNewAnonInline(hostBox),
                                                         parentElement.Spec, textNode);
-                                                } break;
+                                                }
+                                                break;
                                         }
 
                                         newBox++;
 
-                                    } break;
+                                    }
+                                    break;
                                 case HtmlNodeType.ShortElement:
                                 case HtmlNodeType.OpenElement:
                                     {
@@ -314,7 +319,7 @@ namespace LayoutFarm.HtmlBoxes
 
                                             CssBox existingCssBox = HtmlElement.InternalGetPrincipalBox(childElement);
                                             if (existingCssBox == null)
-                                            {  
+                                            {
                                                 CssBox box = CreateBox(hostBox, childElement, fullmode);
 
                                             }
@@ -331,14 +336,17 @@ namespace LayoutFarm.HtmlBoxes
                                             }
                                         }
                                         newBox++;
-                                    } break;
+                                    }
+                                    break;
                                 default:
                                     {
-                                    } break;
+                                    }
+                                    break;
                             }
                         }
 
-                    } break;
+                    }
+                    break;
             }
             //----------------------------------
             //summary formatting context
@@ -486,7 +494,8 @@ namespace LayoutFarm.HtmlBoxes
                                 parentBox.AppendChild(newBox);
                                 break;
                         }
-                    } break;
+                    }
+                    break;
             }
 
             childElement.SetPrincipalBox(newBox);

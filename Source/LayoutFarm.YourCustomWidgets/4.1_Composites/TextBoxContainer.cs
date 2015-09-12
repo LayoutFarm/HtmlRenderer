@@ -1,12 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Drawing;
-
 using LayoutFarm.UI;
-using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.CustomWidgets
 {
@@ -65,7 +60,7 @@ namespace LayoutFarm.CustomWidgets
 
                 myTextBox.TextEventListener = textEvListener;
                 textEvListener.KeyDown += new EventHandler<Text.TextDomEventArgs>(textEvListener_KeyDown);
-                baseRenderElement.AddChild(myTextBox); 
+                baseRenderElement.AddChild(myTextBox);
 
                 return baseRenderElement;
             }

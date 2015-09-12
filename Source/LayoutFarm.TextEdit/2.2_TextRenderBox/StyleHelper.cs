@@ -1,11 +1,5 @@
-﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+﻿// 2015,2014 ,Apache2, WinterDev 
 using PixelFarm.Drawing;
-
-
 namespace LayoutFarm.Text
 {
     static class StyleHelper
@@ -18,7 +12,7 @@ namespace LayoutFarm.Text
             {
 
                 TextSpanStyle simpleBeh = new TextSpanStyle();
-               // simpleBeh.SharedBgColorBrush = new ArtSolidBrush(color);
+                // simpleBeh.SharedBgColorBrush = new ArtSolidBrush(color);
                 return simpleBeh;
             }
             else

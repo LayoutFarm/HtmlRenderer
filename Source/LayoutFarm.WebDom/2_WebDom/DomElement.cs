@@ -1,7 +1,5 @@
 ﻿//BSD  2015,2014 ,WinterDev
 
-using System;
-using System.Text;
 using System.Collections.Generic;
 
 namespace LayoutFarm.WebDom
@@ -28,7 +26,7 @@ namespace LayoutFarm.WebDom
             this.nodePrefixNameIndex = nodePrefixNameIndex;
             this.nodeLocalNameIndex = nodeLocalNameIndex;
             SetNodeType(HtmlNodeType.OpenElement);
-            
+
         }
 
         public static bool EqualNames(DomElement node1, DomElement node2)
@@ -97,11 +95,13 @@ namespace LayoutFarm.WebDom
                     {
                         this.attrElemId = attr;
                         this.OwnerDocument.RegisterElementById(this);
-                    } break;
+                    }
+                    break;
                 case WellknownName.Class:
                     {
                         this.attrClass = attr;
-                    } break;
+                    }
+                    break;
             }
             //--------------------
             var attrNameIndex = this.OwnerDocument.AddStringIfNotExists(attr.LocalName);
@@ -131,11 +131,13 @@ namespace LayoutFarm.WebDom
                     {
                         this.attrElemId = attr;
                         this.OwnerDocument.RegisterElementById(this);
-                    } break;
+                    }
+                    break;
                 case (int)WellknownName.Class:
                     {
                         this.attrClass = attr;
-                    } break;
+                    }
+                    break;
             }
             myAttributes.Add(attr.LocalNameIndex, attr);
             attr.SetParent(this);
@@ -149,7 +151,8 @@ namespace LayoutFarm.WebDom
                 case HtmlNodeType.Attribute:
                     {
                         AddAttribute((DomAttribute)childNode);
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         if (myChildrenNodes == null)
@@ -161,7 +164,8 @@ namespace LayoutFarm.WebDom
 
                         NotifyChange(ElementChangeKind.AddChild);
 
-                    } break;
+                    }
+                    break;
             }
         }
         public virtual bool RemoveChild(DomNode childNode)
@@ -216,7 +220,8 @@ namespace LayoutFarm.WebDom
                     {
                         //notify parent 
                         OnElementChangedInIdleState(changeKind);
-                    } break;
+                    }
+                    break;
             }
         }
         protected virtual void OnElementChangedInIdleState(ElementChangeKind changeKind)

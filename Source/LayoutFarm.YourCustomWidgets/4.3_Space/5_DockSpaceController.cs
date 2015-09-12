@@ -1,7 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Collections.Generic;
-using System.Text;
+
 namespace LayoutFarm.UI
 {
     public class DockSpacesController : NinespaceController
@@ -28,13 +27,15 @@ namespace LayoutFarm.UI
                         spaces[L] = InitSpace(SpaceName.Left);
                         spaces[R] = InitSpace(SpaceName.Right);
 
-                    } break;
+                    }
+                    break;
                 case SpaceConcept.TwoSpaceVertical: //left-right
                     {
                         spaces[T] = InitSpace(SpaceName.Top);
                         spaces[B] = InitSpace(SpaceName.Bottom);
 
-                    } break;
+                    }
+                    break;
                 case SpaceConcept.ThreeSpaceHorizontal:
                     {
                         //left-center-right 
@@ -42,21 +43,24 @@ namespace LayoutFarm.UI
                         spaces[C] = InitSpace(SpaceName.Center);
                         spaces[R] = InitSpace(SpaceName.Right);
 
-                    } break;
+                    }
+                    break;
                 case SpaceConcept.ThreeSpaceVertical:
                     {
                         //top-center-bottom                        
                         spaces[T] = InitSpace(SpaceName.Top);
                         spaces[C] = InitSpace(SpaceName.Center);
                         spaces[B] = InitSpace(SpaceName.Bottom);
-                    } break;
+                    }
+                    break;
                 case SpaceConcept.FourSpace:
                     {
                         spaces[FOURSPACE_LT] = InitSpace(SpaceName.LeftTop);
                         spaces[FOURSPACE_RT] = InitSpace(SpaceName.RightTop);
                         spaces[FOURSPACE_RB] = InitSpace(SpaceName.RightBottom);
                         spaces[FOURSPACE_LB] = InitSpace(SpaceName.LeftBottom);
-                    } break;
+                    }
+                    break;
                 case SpaceConcept.FiveSpace:
                     {
 
@@ -66,7 +70,8 @@ namespace LayoutFarm.UI
                         spaces[B] = InitSpace(SpaceName.Bottom);
                         spaces[C] = InitSpace(SpaceName.Center);
 
-                    } break;
+                    }
+                    break;
 
                 case SpaceConcept.NineSpace:
                 default:
@@ -83,7 +88,8 @@ namespace LayoutFarm.UI
                         spaces[RB] = InitSpace(SpaceName.RightBottom);
                         spaces[LB] = InitSpace(SpaceName.LeftBottom);
 
-                    } break;
+                    }
+                    break;
             }
         }
         public void SetSize(int w, int h)

@@ -1,16 +1,13 @@
 ﻿//2014,2015, WinterDev
 //MS-PL, Apache2 some parts derived from github.com/vvvv/svg 
 
-using System;
-using System.Collections.Generic;
-using PixelFarm.Drawing;
-using LayoutFarm.HtmlBoxes;
-using LayoutFarm.Css;
-using LayoutFarm.Composers;
 
-using LayoutFarm.WebDom;
+using System.Collections.Generic;
+
+using LayoutFarm.Composers;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
-using LayoutFarm.Svg;
+
 
 namespace LayoutFarm.Svg
 {
@@ -79,7 +76,7 @@ namespace LayoutFarm.Svg
                 {
                     var controller = SvgElement.UnsafeGetController(hitInfo.svg) as IEventPortal;
                     if (controller != null)
-                    {   
+                    {
                         e.SetLocation((int)hitInfo.x, (int)hitInfo.y);
                         if (eventPortalAction(controller))
                         {
@@ -141,7 +138,7 @@ namespace LayoutFarm.Svg
                 var hitInfo = hitChain.GetHitInfo(i);
                 //---------------------
                 //hit on element  
-                
+
                 e.SetLocation((int)hitInfo.x, (int)hitInfo.y);
                 if (listenerAction())
                 {

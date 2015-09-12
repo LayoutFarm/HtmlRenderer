@@ -1,15 +1,11 @@
 ﻿//BSD  2015,2014 ,WinterDev
 
-using System;
-using System.Text;
-using System.Collections.Generic;
-
 namespace LayoutFarm.WebDom
 {
     public enum WellknownName
     {
 
-        Unknown, 
+        Unknown,
 
         [Map("id")]
         Id,

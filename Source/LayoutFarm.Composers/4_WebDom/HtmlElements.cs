@@ -2,12 +2,9 @@
 //ArthurHub  , Jose Manuel Menendez Poo
 
 using System;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-using LayoutFarm.WebDom;
+
 using LayoutFarm.HtmlBoxes;
-using LayoutFarm.UI;
+using LayoutFarm.WebDom;
 
 
 namespace LayoutFarm.Composers
@@ -34,7 +31,8 @@ namespace LayoutFarm.Composers
                     {
                         //TODO: parse and evaluate style here 
                         //****
-                    } break;
+                    }
+                    break;
             }
         }
         public override void ClearAllElements()

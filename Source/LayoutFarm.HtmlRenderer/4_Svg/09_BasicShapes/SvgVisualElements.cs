@@ -1,10 +1,8 @@
 ﻿//MS-PL, Apache2 
 //2014,2015, WinterDev
 
-using System; 
-
-using PixelFarm.Drawing; 
-using LayoutFarm.Css;
+using System;  
+using PixelFarm.Drawing;  
 using LayoutFarm.HtmlBoxes;
 
 namespace LayoutFarm.Svg

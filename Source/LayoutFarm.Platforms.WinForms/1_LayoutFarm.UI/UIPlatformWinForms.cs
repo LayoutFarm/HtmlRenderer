@@ -1,9 +1,4 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using PixelFarm.Drawing;
 
 namespace LayoutFarm.UI
 {
@@ -29,8 +24,8 @@ namespace LayoutFarm.UI
         {
             System.Windows.Forms.Clipboard.SetText(textData);
         }
-        
- 
+
+
     }
 
 }

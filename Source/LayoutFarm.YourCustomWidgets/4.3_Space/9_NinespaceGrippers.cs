@@ -1,7 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace LayoutFarm.UI
 {
@@ -77,23 +75,29 @@ namespace LayoutFarm.UI
                                this.ninespaceController.BottomSpace.Y - (this.BottomGripper.Height / 2));
                         }
 
-                    } break;
+                    }
+                    break;
                 case SpaceConcept.FourSpace:
                     {
-                    } break;
+                    }
+                    break;
                 case SpaceConcept.ThreeSpaceHorizontal:
                     {
-                    } break;
+                    }
+                    break;
                 case SpaceConcept.ThreeSpaceVertical:
                     {
-                    } break;
+                    }
+                    break;
                 //------------------------------------
                 case SpaceConcept.TwoSpaceHorizontal:
                     {
-                    } break;
+                    }
+                    break;
                 case SpaceConcept.TwoSpaceVertical:
                     {
-                    } break;
+                    }
+                    break;
             }
         }
         public void UpdateNinespaces()
@@ -127,23 +131,29 @@ namespace LayoutFarm.UI
                               (this.ninespaceController.Owner.Height - this.BottomGripper.Top) - this.BottomGripper.Height / 2);
                         }
 
-                    } break;
+                    }
+                    break;
                 case SpaceConcept.FourSpace:
                     {
-                    } break;
+                    }
+                    break;
                 case SpaceConcept.ThreeSpaceHorizontal:
                     {
-                    } break;
+                    }
+                    break;
                 case SpaceConcept.ThreeSpaceVertical:
                     {
-                    } break;
+                    }
+                    break;
                 //------------------------------------
                 case SpaceConcept.TwoSpaceHorizontal:
                     {
-                    } break;
+                    }
+                    break;
                 case SpaceConcept.TwoSpaceVertical:
                     {
-                    } break;
+                    }
+                    break;
 
 
             }

@@ -1,9 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using PixelFarm.Drawing;
-using System.Text;
-
 
 namespace LayoutFarm.Text
 {
@@ -79,7 +76,7 @@ namespace LayoutFarm.Text
         }
         public void AddTop(EditableRun visualElement)
         {
- 
+
 
             if ((layerFlags & FLOWLAYER_HAS_MULTILINE) != 0)
             {

@@ -15,9 +15,10 @@
 
 using System;
 using PixelFarm.Drawing;
-using LayoutFarm.WebDom;
+
 using LayoutFarm.Css;
 using LayoutFarm.HtmlBoxes;
+using LayoutFarm.WebDom;
 
 namespace LayoutFarm.Composers
 {
@@ -132,7 +133,7 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.BoxSizing:
                     spec.BoxSizing = UserMapUtil.GetBoxSizing(cssValue);
                     break;
-               
+
                 case WellknownCssPropertyName.BoxShadow:
                     SetBoxShadow(spec, decl);
                     break;
@@ -294,19 +295,23 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.Flex:
                     {
                         //TODO: implement this
-                    } break;
+                    }
+                    break;
                 case WellknownCssPropertyName.FlexDirection:
                     {
                         //TODO: implement this
-                    } break;
+                    }
+                    break;
                 case WellknownCssPropertyName.FlexFlow:
                     {
                         //TODO: implement this
-                    } break;
+                    }
+                    break;
                 case WellknownCssPropertyName.FlexWrap:
                     {
                         //TODO: implement this
-                    } break;
+                    }
+                    break;
 
                 //------------------------------------------------ 
                 //for flex item
@@ -366,7 +371,8 @@ namespace LayoutFarm.Composers
 
                         box.BoxShadowHOffset = v0.AsLength();
                         box.BoxShadowVOffset = v1.AsLength();
-                    } break;
+                    }
+                    break;
                 case 3:
                     {
                         var v0 = decl.GetPropertyValue(0);
@@ -377,7 +383,8 @@ namespace LayoutFarm.Composers
 
                         box.BoxShadowColor = AsColor(v2);
 
-                    } break;
+                    }
+                    break;
             }
         }
         static void SetFontSize(this BoxSpec box, WebDom.CssCodeValueExpression value)
@@ -403,7 +410,8 @@ namespace LayoutFarm.Composers
                         }
                         box.FontSize = len;
 
-                    } break;
+                    }
+                    break;
                 case WebDom.CssValueHint.Iden:
                     {
                         switch (primValue.GetTranslatedStringValue())
@@ -440,7 +448,8 @@ namespace LayoutFarm.Composers
                                 box.FontSize = CssLength.FontSizeLarger;
                                 break;
                         }
-                    } break;
+                    }
+                    break;
             }
         }
         /// <summary>
@@ -581,7 +590,8 @@ namespace LayoutFarm.Composers
                 case WellknownCssPropertyName.BackgroundGradientAngle:
                     {
                         spec.BackgroundGradientAngle = parentSpec.BackgroundGradientAngle;
-                    } break;
+                    }
+                    break;
                 case WellknownCssPropertyName.Color:
                     spec.Color = parentSpec.Color;
                     break;

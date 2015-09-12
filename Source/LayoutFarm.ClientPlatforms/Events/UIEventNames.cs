@@ -1,13 +1,7 @@
-﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-
+﻿// 2015,2014 ,Apache2, WinterDev 
 
 namespace LayoutFarm.UI
 {
-
 
     public enum UIEventName
     {
@@ -19,7 +13,7 @@ namespace LayoutFarm.UI
         MouseUp,
         MouseHover,
 
-    
+
         KeyDown,
         KeyUp,
         KeyPress,

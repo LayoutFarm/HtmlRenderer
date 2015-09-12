@@ -1,9 +1,6 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-
 
 namespace LayoutFarm.Text
 {
@@ -134,7 +131,7 @@ namespace LayoutFarm.Text
                         {
                             output.AddLast(new EditableTextRun(this.Root, '\n', this.CurrentTextSpanStyle));
                             stopLine.LeftCopy(endPoint, output);
-                        } 
+                        }
                     }
                 }
             }

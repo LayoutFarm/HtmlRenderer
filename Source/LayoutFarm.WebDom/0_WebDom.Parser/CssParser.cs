@@ -26,7 +26,7 @@ namespace LayoutFarm.WebDom.Parser
         public CssParser()
         {
             lexer = new CssLexer(LexerEmitHandler);
-        } 
+        }
 
         public void ParseCssStyleSheet(char[] textBuffer)
         {
@@ -91,7 +91,8 @@ namespace LayoutFarm.WebDom.Parser
                 default:
                     {
                         throw new NotSupportedException();
-                    } break;
+                    }
+                    break;
                 case CssParseState.Init:
                     {
 
@@ -101,7 +102,8 @@ namespace LayoutFarm.WebDom.Parser
                             case CssTokenName.Comment:
                                 {
                                     //comment token  
-                                } break;
+                                }
+                                break;
                             case CssTokenName.RBrace:
                                 {
                                     //exit from current ruleset block
@@ -109,7 +111,8 @@ namespace LayoutFarm.WebDom.Parser
                                     {
                                         this._currentAtMedia = this._mediaStack.Pop();
                                     }
-                                } break;
+                                }
+                                break;
                             case CssTokenName.Star:
                                 {
 
@@ -119,12 +122,14 @@ namespace LayoutFarm.WebDom.Parser
                                     newblock.AddSelector(this._currentSelectorExpr = new CssSimpleElementSelector(SimpleElementSelectorKind.All));
 
                                     parseState = CssParseState.MoreBlockName;
-                                } break;
+                                }
+                                break;
                             case CssTokenName.At:
                                 {
                                     //at rule                                    
                                     parseState = CssParseState.ExpectAtRuleName;
-                                } break;
+                                }
+                                break;
                             //--------------------------------------------------
                             //1.
                             case CssTokenName.Colon:
@@ -134,7 +139,8 @@ namespace LayoutFarm.WebDom.Parser
                                     newblock.AddSelector(this._currentSelectorExpr = new CssSimpleElementSelector(SimpleElementSelectorKind.PseudoClass));
 
                                     parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
-                                } break;
+                                }
+                                break;
                             //2.
                             case CssTokenName.Dot:
                                 {
@@ -143,7 +149,8 @@ namespace LayoutFarm.WebDom.Parser
                                     newblock.AddSelector(this._currentSelectorExpr = new CssSimpleElementSelector(SimpleElementSelectorKind.ClassName));
 
                                     parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
-                                } break;
+                                }
+                                break;
                             //3. 
                             case CssTokenName.DoubleColon:
                                 {
@@ -153,7 +160,8 @@ namespace LayoutFarm.WebDom.Parser
                                     newblock.AddSelector(this._currentSelectorExpr = new CssSimpleElementSelector(SimpleElementSelectorKind.Extend));
 
                                     parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
-                                } break;
+                                }
+                                break;
                             //4.
                             case CssTokenName.Iden:
                                 {
@@ -163,7 +171,8 @@ namespace LayoutFarm.WebDom.Parser
                                     newblock.AddSelector(this._currentSelectorExpr = new CssSimpleElementSelector());
                                     this._currentSelectorExpr.Name = new string(this.textBuffer, start, len);
                                     parseState = CssParseState.MoreBlockName;
-                                } break;
+                                }
+                                break;
                             //5. 
                             case CssTokenName.Sharp:
                                 {
@@ -172,9 +181,11 @@ namespace LayoutFarm.WebDom.Parser
                                     newblock.AddSelector(this._currentSelectorExpr = new CssSimpleElementSelector(SimpleElementSelectorKind.Id));
 
                                     parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
-                                } break;
+                                }
+                                break;
                         }
-                    } break;
+                    }
+                    break;
                 case CssParseState.MoreBlockName:
                     {
                         //more 
@@ -185,12 +196,14 @@ namespace LayoutFarm.WebDom.Parser
                                 {
                                     //block body
                                     parseState = CssParseState.BlockBody;
-                                } break;
+                                }
+                                break;
                             case CssTokenName.LBracket:
                                 {
                                     //element attr
                                     parseState = CssParseState.ExpectBlockAttrIden;
-                                } break;
+                                }
+                                break;
                             //1. 
                             case CssTokenName.Colon:
                                 {
@@ -201,7 +214,8 @@ namespace LayoutFarm.WebDom.Parser
 
                                     this._currentSelectorExpr = cssSelector;
                                     parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
-                                } break;
+                                }
+                                break;
                             //2. 
                             case CssTokenName.Dot:
                                 {
@@ -210,7 +224,8 @@ namespace LayoutFarm.WebDom.Parser
                                     _currentRuleSet.AddSelector(cssSelector);
                                     this._currentSelectorExpr = cssSelector;
                                     parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
-                                } break;
+                                }
+                                break;
                             //3. 
                             case CssTokenName.DoubleColon:
                                 {
@@ -221,7 +236,8 @@ namespace LayoutFarm.WebDom.Parser
                                     this._currentSelectorExpr = cssSelector;
                                     parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
 
-                                } break;
+                                }
+                                break;
                             //4. 
                             case CssTokenName.Iden:
                                 {
@@ -233,7 +249,8 @@ namespace LayoutFarm.WebDom.Parser
                                     _currentRuleSet.AddSelector(cssSelector);
 
                                     this._currentSelectorExpr = cssSelector;
-                                } break;
+                                }
+                                break;
                             //5. 
                             case CssTokenName.Sharp:
                                 {
@@ -245,33 +262,40 @@ namespace LayoutFarm.WebDom.Parser
                                     this._currentSelectorExpr = cssSelector;
                                     parseState = CssParseState.ExpectIdenAfterSpecialBlockNameSymbol;
 
-                                } break;
+                                }
+                                break;
                             //----------------------------------------------------
                             //element combinator operators
                             case CssTokenName.Comma:
                                 {
                                     this._currentRuleSet.PrepareExpression(CssCombinatorOperator.List);
-                                } break;
+                                }
+                                break;
                             case CssTokenName.RAngle:
                                 {
 
-                                } break;
+                                }
+                                break;
                             case CssTokenName.Plus:
                                 {
 
-                                } break;
+                                }
+                                break;
                             case CssTokenName.Tile:
                                 {
 
-                                } break;
+                                }
+                                break;
                             //----------------------------------------------------
                             default:
                                 {
                                     throw new NotSupportedException();
 
-                                } break;
+                                }
+                                break;
                         }
-                    } break;
+                    }
+                    break;
                 case CssParseState.ExpectIdenAfterSpecialBlockNameSymbol:
                     {
 
@@ -282,13 +306,15 @@ namespace LayoutFarm.WebDom.Parser
                                     this._currentSelectorExpr.Name = new string(this.textBuffer, start, len);
 
                                     parseState = CssParseState.MoreBlockName;
-                                } break;
+                                }
+                                break;
                             default:
                                 {
                                     throw new NotSupportedException();
                                 }
                         }
-                    } break;
+                    }
+                    break;
                 case CssParseState.ExpectBlockAttrIden:
                     {
                         switch (tkname)
@@ -299,13 +325,16 @@ namespace LayoutFarm.WebDom.Parser
                                     parseState = CssParseState.AfterAttrName;
                                     this._currentSelectorExpr.AddAttribute(this._currentSelectorAttr = new CssAttributeSelectorExpression());
                                     this._currentSelectorAttr.AttributeName = new string(this.textBuffer, start, len);
-                                } break;
+                                }
+                                break;
                             default:
                                 {
                                     throw new NotSupportedException();
-                                } break;
+                                }
+                                break;
                         }
-                    } break;
+                    }
+                    break;
                 case CssParseState.AfterAttrName:
                     {
                         switch (tkname)
@@ -314,19 +343,23 @@ namespace LayoutFarm.WebDom.Parser
                                 {
                                     parseState = CssParseState.ExpectedBlockAttrValue;
                                     //expected  attr value
-                                } break;
+                                }
+                                break;
                             case CssTokenName.RBracket:
                                 {
                                     //no attr value
                                     parseState = CssParseState.MoreBlockName;
 
-                                } break;
+                                }
+                                break;
                             default:
                                 {
                                     throw new NotSupportedException();
-                                } break;
+                                }
+                                break;
                         }
-                    } break;
+                    }
+                    break;
                 case CssParseState.ExpectedBlockAttrValue:
                     {
                         switch (tkname)
@@ -337,15 +370,18 @@ namespace LayoutFarm.WebDom.Parser
                                         new CssCodePrimitiveExpression(new string(this.textBuffer, start, len), CssValueHint.LiteralString);
 
                                     this._currentSelectorAttr = null;
-                                } break;
+                                }
+                                break;
                             default:
                                 {
 
-                                } break;
+                                }
+                                break;
                         }
                         parseState = CssParseState.AfterBlockNameAttr;
 
-                    } break;
+                    }
+                    break;
                 case CssParseState.AfterBlockNameAttr:
                     {
                         switch (tkname)
@@ -353,14 +389,17 @@ namespace LayoutFarm.WebDom.Parser
                             default:
                                 {
 
-                                } break;
+                                }
+                                break;
                             case CssTokenName.RBracket:
                                 {
                                     parseState = CssParseState.MoreBlockName;
                                     this._currentSelectorAttr = null;
-                                } break;
+                                }
+                                break;
                         }
-                    } break;
+                    }
+                    break;
                 case CssParseState.BlockBody:
                     {
                         switch (tkname)
@@ -387,7 +426,8 @@ namespace LayoutFarm.WebDom.Parser
 
                                     parseState = CssParseState.AfterPropertyName;
 
-                                } break;
+                                }
+                                break;
                             case CssTokenName.RBrace:
                                 {
                                     //close current block
@@ -396,18 +436,22 @@ namespace LayoutFarm.WebDom.Parser
                                     this._currentSelectorExpr = null;
 
                                     parseState = CssParseState.Init;
-                                } break;
+                                }
+                                break;
                             case CssTokenName.SemiColon:
                                 {
                                     //another semi colon just skip
-                                } break;
+                                }
+                                break;
                             default:
                                 {
                                     throw new NotSupportedException();
-                                } break;
+                                }
+                                break;
                         }
 
-                    } break;
+                    }
+                    break;
                 case CssParseState.AfterPropertyName:
                     {
                         if (tkname == CssTokenName.Colon)
@@ -418,7 +462,8 @@ namespace LayoutFarm.WebDom.Parser
                         {
                             throw new NotSupportedException();
                         }
-                    } break;
+                    }
+                    break;
                 case CssParseState.ExpectPropertyValue:
                     {
                         switch (tkname)
@@ -431,14 +476,16 @@ namespace LayoutFarm.WebDom.Parser
                                 {
                                     //follow by hex color value
                                     parseState = CssParseState.ExpectValueOfHexColor;
-                                } break;
+                                }
+                                break;
                             case CssTokenName.LiteralString:
                                 {
                                     this._currentProperty.AddValue(this._latestPropertyValue =
                                          new CssCodePrimitiveExpression(new string(this.textBuffer, start, len), CssValueHint.LiteralString));
                                     parseState = CssParseState.AfterPropertyValue;
 
-                                } break;
+                                }
+                                break;
                             case CssTokenName.Number:
                                 {
                                     float number = float.Parse(new string(this.textBuffer, start, len));
@@ -447,11 +494,13 @@ namespace LayoutFarm.WebDom.Parser
 
                                     parseState = CssParseState.AfterPropertyValue;
 
-                                } break;
+                                }
+                                break;
                             case CssTokenName.NumberUnit:
                                 {
 
-                                } break;
+                                }
+                                break;
                             case CssTokenName.Iden:
                                 {
                                     //property value
@@ -460,9 +509,11 @@ namespace LayoutFarm.WebDom.Parser
 
                                     parseState = CssParseState.AfterPropertyValue;
 
-                                } break;
+                                }
+                                break;
                         }
-                    } break;
+                    }
+                    break;
                 case CssParseState.ExpectValueOfHexColor:
                     {
                         switch (tkname)
@@ -470,10 +521,11 @@ namespace LayoutFarm.WebDom.Parser
                             case CssTokenName.Iden:
                                 {
                                     this._currentProperty.AddValue(this._latestPropertyValue =
-                                       new CssCodePrimitiveExpression("#" + new string(this.textBuffer, start, len), 
+                                       new CssCodePrimitiveExpression("#" + new string(this.textBuffer, start, len),
                                            CssValueHint.HexColor));
 
-                                } break;
+                                }
+                                break;
                             case CssTokenName.Number:
                                 {
 
@@ -481,14 +533,16 @@ namespace LayoutFarm.WebDom.Parser
                                          new CssCodePrimitiveExpression("#" + new string(this.textBuffer, start, len),
                                              CssValueHint.HexColor));
 
-                                } break;
+                                }
+                                break;
                             default:
                                 {
                                     throw new NotSupportedException();
                                 }
                         }
                         parseState = CssParseState.AfterPropertyValue;
-                    } break;
+                    }
+                    break;
                 case CssParseState.AfterPropertyValue:
                     {
                         switch (tkname)
@@ -500,7 +554,8 @@ namespace LayoutFarm.WebDom.Parser
                             case CssTokenName.Comma:
                                 {
                                     //skip comma
-                                } break;
+                                }
+                                break;
                             case CssTokenName.Percent:
                                 {
                                     if (_latestPropertyValue is CssCodePrimitiveExpression)
@@ -508,7 +563,8 @@ namespace LayoutFarm.WebDom.Parser
                                         ((CssCodePrimitiveExpression)_latestPropertyValue).Unit = "%";
                                     }
 
-                                } break;
+                                }
+                                break;
                             case CssTokenName.Divide:
                                 {
                                     //eg. font: style variant weight size/line-height family;
@@ -522,13 +578,15 @@ namespace LayoutFarm.WebDom.Parser
                                     this._currentProperty.ReplaceValue(valueCount - 1, codeBinaryOpExpr);
                                     this._latestPropertyValue = codeBinaryOpExpr;
 
-                                } break;
+                                }
+                                break;
                             case CssTokenName.LiteralString:
                                 {
                                     throw new NotSupportedException();
                                     var literalValue = new string(this.textBuffer, start, len);
 
-                                } break;
+                                }
+                                break;
                             case CssTokenName.LParen:
                                 {
                                     //function 
@@ -541,31 +599,36 @@ namespace LayoutFarm.WebDom.Parser
                                     this._latestPropertyValue = funcCallExpr;
 
 
-                                } break;
+                                }
+                                break;
                             case CssTokenName.RBrace:
                                 {
                                     //close block
                                     parseState = CssParseState.Init;
-                                } break;
+                                }
+                                break;
                             case CssTokenName.SemiColon:
                                 {
                                     //start new proeprty
                                     parseState = CssParseState.BlockBody;
                                     this._currentProperty = null;
-                                } break;
+                                }
+                                break;
                             case CssTokenName.Iden:
                                 {
                                     //another property value                                     
                                     this._currentProperty.AddValue(this._latestPropertyValue =
                                         new CssCodePrimitiveExpression(new string(this.textBuffer, start, len), CssValueHint.Iden));
-                                } break;
+                                }
+                                break;
                             case CssTokenName.Number:
                                 {
                                     //another property value
                                     float number = float.Parse(new string(this.textBuffer, start, len));
                                     this._currentProperty.AddValue(this._latestPropertyValue =
                                         new CssCodePrimitiveExpression(number));
-                                } break;
+                                }
+                                break;
                             case CssTokenName.NumberUnit:
                                 {
                                     //number unit 
@@ -573,13 +636,16 @@ namespace LayoutFarm.WebDom.Parser
                                     {
                                         ((CssCodePrimitiveExpression)_latestPropertyValue).Unit = new string(this.textBuffer, start, len);
                                     }
-                                } break;
+                                }
+                                break;
                             case CssTokenName.Sharp:
                                 {
                                     parseState = CssParseState.ExpectValueOfHexColor;
-                                } break;
+                                }
+                                break;
                         }
-                    } break;
+                    }
+                    break;
                 case CssParseState.ExpectAtRuleName:
                     {
                         //iden
@@ -612,23 +678,29 @@ namespace LayoutFarm.WebDom.Parser
 
                                                 this.cssDocument.Add(this._currentAtMedia = new CssAtMedia());
 
-                                            } break;
+                                            }
+                                            break;
                                         case "import":
                                             {
                                                 parseState = CssParseState.ExpectImportURL;
-                                            } break;
+                                            }
+                                            break;
                                         case "page":
                                             {
                                                 throw new NotSupportedException();
-                                            } break;
+                                            }
+                                            break;
                                         default:
                                             {
                                                 throw new NotSupportedException();
-                                            } break;
+                                            }
+                                            break;
                                     }
-                                } break;
+                                }
+                                break;
                         }
-                    } break;
+                    }
+                    break;
                 case CssParseState.MediaList:
                     {
                         //medialist sep by comma
@@ -642,19 +714,23 @@ namespace LayoutFarm.WebDom.Parser
                                 {
                                     //media name                                     
                                     this._currentAtMedia.AddMedia(new string(this.textBuffer, start, len));
-                                } break;
+                                }
+                                break;
                             case CssTokenName.Comma:
                                 {
                                     //wait for another media
-                                } break;
+                                }
+                                break;
                             case CssTokenName.LBrace:
                                 {
                                     //begin rule set part
                                     parseState = CssParseState.Init;
-                                } break;
+                                }
+                                break;
                         }
 
-                    } break;
+                    }
+                    break;
                 case CssParseState.ExpectedFuncParameter:
                     {
                         string funcArg = new string(this.textBuffer, start, len);
@@ -668,28 +744,33 @@ namespace LayoutFarm.WebDom.Parser
                                 {
                                     this.parseState = CssParseState.AfterPropertyValue;
 
-                                } break;
+                                }
+                                break;
                             case CssTokenName.LiteralString:
                                 {
                                     ((CssCodeFunctionCallExpression)this._latestPropertyValue).AddFuncArg(
                                         new CssCodePrimitiveExpression(funcArg, CssValueHint.LiteralString));
                                     this.parseState = CssParseState.AfterFuncParameter;
-                                } break;
+                                }
+                                break;
                             case CssTokenName.Number:
                                 {
                                     float number = float.Parse(funcArg);
                                     ((CssCodeFunctionCallExpression)this._latestPropertyValue).AddFuncArg(
                                           new CssCodePrimitiveExpression(number));
                                     this.parseState = CssParseState.AfterFuncParameter;
-                                } break;
+                                }
+                                break;
                             case CssTokenName.Iden:
                                 {
                                     ((CssCodeFunctionCallExpression)this._latestPropertyValue).AddFuncArg(
                                         new CssCodePrimitiveExpression(funcArg, CssValueHint.Iden));
                                     this.parseState = CssParseState.AfterFuncParameter;
-                                } break;
+                                }
+                                break;
                         }
-                    } break;
+                    }
+                    break;
                 case CssParseState.AfterFuncParameter:
                     {
                         switch (tkname)
@@ -703,13 +784,16 @@ namespace LayoutFarm.WebDom.Parser
                                 {
                                     this.parseState = CssParseState.AfterPropertyValue;
 
-                                } break;
+                                }
+                                break;
                             case CssTokenName.Comma:
                                 {
                                     this.parseState = CssParseState.ExpectedFuncParameter;
-                                } break;
+                                }
+                                break;
                         }
-                    } break;
+                    }
+                    break;
             }
         }
         void ExpandFontProperty(CssPropertyDeclaration decl, List<CssPropertyDeclaration> newProps)
@@ -753,16 +837,19 @@ namespace LayoutFarm.WebDom.Parser
                                 continue;
                             }
                             newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontFamily, value));
-                        } break;
+                        }
+                        break;
                     case CssValueHint.Number:
                         {
                             //font size ?
                             newProps.Add(new CssPropertyDeclaration(WellknownCssPropertyName.FontSize, value));
 
-                        } break;
+                        }
+                        break;
                     default:
                         {
-                        } break;
+                        }
+                        break;
                 }
             }
         }
@@ -781,37 +868,43 @@ namespace LayoutFarm.WebDom.Parser
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
                             ExpandFontProperty(decl, newProps);
                             decl.IsExpand = true;
-                        } break;
+                        }
+                        break;
                     case WellknownCssPropertyName.Border:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
                             ExpandBorderProperty(decl, BorderDirection.All, newProps);
                             decl.IsExpand = true;
-                        } break;
+                        }
+                        break;
                     case WellknownCssPropertyName.BorderLeft:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
                             ExpandBorderProperty(decl, BorderDirection.Left, newProps);
                             decl.IsExpand = true;
-                        } break;
+                        }
+                        break;
                     case WellknownCssPropertyName.BorderRight:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
                             ExpandBorderProperty(decl, BorderDirection.Right, newProps);
                             decl.IsExpand = true;
-                        } break;
+                        }
+                        break;
                     case WellknownCssPropertyName.BorderTop:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
                             ExpandBorderProperty(decl, BorderDirection.Top, newProps);
                             decl.IsExpand = true;
-                        } break;
+                        }
+                        break;
                     case WellknownCssPropertyName.BorderBottom:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
                             ExpandBorderProperty(decl, BorderDirection.Bottom, newProps);
                             decl.IsExpand = true;
-                        } break;
+                        }
+                        break;
                     //---------------------------
                     case WellknownCssPropertyName.BorderStyle:
                         {
@@ -823,7 +916,8 @@ namespace LayoutFarm.WebDom.Parser
                                 WellknownCssPropertyName.BorderBottomStyle,
                                 newProps);
                             decl.IsExpand = true;
-                        } break;
+                        }
+                        break;
                     case WellknownCssPropertyName.BorderWidth:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
@@ -835,7 +929,8 @@ namespace LayoutFarm.WebDom.Parser
                                  newProps);
 
                             decl.IsExpand = true;
-                        } break;
+                        }
+                        break;
                     case WellknownCssPropertyName.BorderColor:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
@@ -846,7 +941,8 @@ namespace LayoutFarm.WebDom.Parser
                                 WellknownCssPropertyName.BorderBottomColor,
                                 newProps);
                             decl.IsExpand = true;
-                        } break;
+                        }
+                        break;
                     //---------------------------
                     case WellknownCssPropertyName.Margin:
                         {
@@ -858,7 +954,8 @@ namespace LayoutFarm.WebDom.Parser
                                 WellknownCssPropertyName.MarginBottom,
                                 newProps);
                             decl.IsExpand = true;
-                        } break;
+                        }
+                        break;
                     case WellknownCssPropertyName.Padding:
                         {
                             if (newProps == null) newProps = new List<CssPropertyDeclaration>();
@@ -869,7 +966,8 @@ namespace LayoutFarm.WebDom.Parser
                                 WellknownCssPropertyName.PaddingBottom,
                                 newProps);
                             decl.IsExpand = true;
-                        } break;
+                        }
+                        break;
                 }
             }
             //--------------------
@@ -920,23 +1018,28 @@ namespace LayoutFarm.WebDom.Parser
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderRightWidth, cssCodePropertyValue));
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderBottomWidth, cssCodePropertyValue));
 
-                            } break;
+                            }
+                            break;
                         case BorderDirection.Left:
                             {
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderLeftWidth, cssCodePropertyValue));
-                            } break;
+                            }
+                            break;
                         case BorderDirection.Right:
                             {
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderRightWidth, cssCodePropertyValue));
-                            } break;
+                            }
+                            break;
                         case BorderDirection.Top:
                             {
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderTopWidth, cssCodePropertyValue));
-                            } break;
+                            }
+                            break;
                         case BorderDirection.Bottom:
                             {
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderBottomWidth, cssCodePropertyValue));
-                            } break;
+                            }
+                            break;
                     }
                     continue;
                 }
@@ -956,23 +1059,28 @@ namespace LayoutFarm.WebDom.Parser
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderTopStyle, cssCodePropertyValue));
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderBottomStyle, cssCodePropertyValue));
 
-                            } break;
+                            }
+                            break;
                         case BorderDirection.Left:
                             {
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderLeftStyle, cssCodePropertyValue));
-                            } break;
+                            }
+                            break;
                         case BorderDirection.Right:
                             {
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderRightStyle, cssCodePropertyValue));
-                            } break;
+                            }
+                            break;
                         case BorderDirection.Top:
                             {
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderTopStyle, cssCodePropertyValue));
-                            } break;
+                            }
+                            break;
                         case BorderDirection.Bottom:
                             {
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderBottomStyle, cssCodePropertyValue));
-                            } break;
+                            }
+                            break;
                     }
 
                     continue;
@@ -991,24 +1099,29 @@ namespace LayoutFarm.WebDom.Parser
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderTopColor, cssCodePropertyValue));
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderRightColor, cssCodePropertyValue));
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderBottomColor, cssCodePropertyValue));
-                            } break;
+                            }
+                            break;
                         case BorderDirection.Left:
                             {
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderLeftColor, cssCodePropertyValue));
-                            } break;
+                            }
+                            break;
                         case BorderDirection.Right:
                             {
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderRightColor, cssCodePropertyValue));
 
-                            } break;
+                            }
+                            break;
                         case BorderDirection.Top:
                             {
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderTopColor, cssCodePropertyValue));
-                            } break;
+                            }
+                            break;
                         case BorderDirection.Bottom:
                             {
                                 newProps.Add(CloneProp(WellknownCssPropertyName.BorderBottomColor, cssCodePropertyValue));
-                            } break;
+                            }
+                            break;
                     }
 
                     continue;
@@ -1034,7 +1147,8 @@ namespace LayoutFarm.WebDom.Parser
             {
                 case 0:
                     {
-                    } break;
+                    }
+                    break;
                 case 1:
                     {
 
@@ -1044,7 +1158,8 @@ namespace LayoutFarm.WebDom.Parser
                         newProps.Add(CloneProp(right, value));
                         newProps.Add(CloneProp(bottom, value));
 
-                    } break;
+                    }
+                    break;
                 case 2:
                     {
 
@@ -1053,7 +1168,8 @@ namespace LayoutFarm.WebDom.Parser
                         newProps.Add(CloneProp(left, decl.GetPropertyValue(1)));
                         newProps.Add(CloneProp(right, decl.GetPropertyValue(1)));
 
-                    } break;
+                    }
+                    break;
                 case 3:
                     {
 
@@ -1061,14 +1177,16 @@ namespace LayoutFarm.WebDom.Parser
                         newProps.Add(CloneProp(left, decl.GetPropertyValue(1)));
                         newProps.Add(CloneProp(right, decl.GetPropertyValue(1)));
                         newProps.Add(CloneProp(bottom, decl.GetPropertyValue(2)));
-                    } break;
+                    }
+                    break;
                 default://4 or more
                     {
                         newProps.Add(CloneProp(top, decl.GetPropertyValue(0)));
                         newProps.Add(CloneProp(right, decl.GetPropertyValue(1)));
                         newProps.Add(CloneProp(bottom, decl.GetPropertyValue(2)));
                         newProps.Add(CloneProp(left, decl.GetPropertyValue(3)));
-                    } break;
+                    }
+                    break;
 
             }
 

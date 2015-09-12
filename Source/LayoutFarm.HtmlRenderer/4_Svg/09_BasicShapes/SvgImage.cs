@@ -1,14 +1,12 @@
 ﻿//MS-PL, Apache2 
 //2014,2015, WinterDev
 
-using System;
-using PixelFarm.Drawing;
-using System.Collections.Generic;
+ 
 
-using LayoutFarm;
-using LayoutFarm.Css;
-using LayoutFarm.Svg;
+using LayoutFarm.Css; 
 using LayoutFarm.HtmlBoxes;
+using PixelFarm.Drawing;
+
 namespace LayoutFarm.Svg
 {
     public class SvgImage : SvgVisualElement

@@ -1,15 +1,10 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-using LayoutFarm.Composers;
+
+using LayoutFarm.CustomWidgets;
 using LayoutFarm.WebDom;
 using LayoutFarm.WebDom.Extension;
-using LayoutFarm.UI;
-using LayoutFarm.HtmlBoxes;
-using LayoutFarm.CustomWidgets;
+
 
 namespace LayoutFarm.HtmlWidgets
 {
@@ -51,7 +46,7 @@ namespace LayoutFarm.HtmlWidgets
                     {
                         imgBinder = ResImageList.GetImageBinder(ImageName.CheckBoxUnChecked);
                     }
-                    
+
                     if (value && this.WhenChecked != null)
                     {
                         this.WhenChecked(this, EventArgs.Empty);
@@ -83,7 +78,7 @@ namespace LayoutFarm.HtmlWidgets
                         "../../Demo/arrow_open.png" :
                         "../../Demo/arrow_close.png");
                     is_close = !is_close;
-                    e.StopPropagation(); 
+                    e.StopPropagation();
                 });
             });
 

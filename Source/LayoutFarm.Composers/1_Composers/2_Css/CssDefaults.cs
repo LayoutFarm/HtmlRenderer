@@ -1,6 +1,6 @@
 //BSD 2014
 //ArthurHub  , Jose Manuel Menendez Poo
- 
+
 namespace LayoutFarm.Composers
 {
     public static class CssDefaults

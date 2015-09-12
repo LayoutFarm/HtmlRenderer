@@ -1,14 +1,4 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using PixelFarm.Drawing;
-using LayoutFarm.UI;
-using LayoutFarm.HtmlBoxes;
-using LayoutFarm.WebDom;
-using LayoutFarm.CustomWidgets;
-using LayoutFarm.Composers;
 
 namespace LayoutFarm.HtmlWidgets
 {

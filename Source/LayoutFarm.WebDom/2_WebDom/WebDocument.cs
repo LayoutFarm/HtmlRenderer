@@ -1,5 +1,4 @@
-﻿//BSD  2015,2014 ,WinterDev  
-//using LayoutFarm.HtmlBoxes;
+﻿//BSD  2015,2014 ,WinterDev   
 using System.Collections.Generic;
 
 namespace LayoutFarm.WebDom
@@ -104,6 +103,6 @@ namespace LayoutFarm.WebDom
         ChangedAfterIdle
     }
 
-    
+
 
 }

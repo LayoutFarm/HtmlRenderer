@@ -1,9 +1,7 @@
 ﻿// 2015,2014 ,BSD, WinterDev
 //ArthurHub  , Jose Manuel Menendez Poo
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System; 
 using PixelFarm.Drawing;
 using LayoutFarm.Css;
 

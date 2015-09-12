@@ -1,23 +1,15 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 
-using PixelFarm.Drawing;
-
-using LayoutFarm;
-using LayoutFarm.ContentManagers;
-using LayoutFarm.HtmlBoxes;
-
 using LayoutFarm.Composers;
-using LayoutFarm.WebDom;
+using LayoutFarm.HtmlBoxes;
 using LayoutFarm.UI;
 
 namespace LayoutFarm.CustomWidgets
 {
 
-     
+
 
     public class HtmlBox : UIBox, IEventPortal
     {
@@ -56,7 +48,7 @@ namespace LayoutFarm.CustomWidgets
             this.PerformContentLayout();
         }
         public override void PerformContentLayout()
-        { 
+        {
             this.RaiseLayoutFinished();
         }
         public override RenderElement CurrentPrimaryRenderElement
@@ -148,7 +140,8 @@ namespace LayoutFarm.CustomWidgets
 
                             LayoutFarm.UI.Clipboard.SetText(stbuilder.ToString());
 
-                        } break;
+                        }
+                        break;
                 }
             }
 
@@ -174,15 +167,18 @@ namespace LayoutFarm.CustomWidgets
                 case WaitingContentKind.HtmlDocument:
                     {
                         LoadHtmlDom(this.waitingHtmlDoc);
-                    } break;
+                    }
+                    break;
                 case WaitingContentKind.HtmlFragmentString:
                     {
                         LoadHtmlFragmentString(this.waitingHtmlString);
-                    } break;
+                    }
+                    break;
                 case WaitingContentKind.HtmlString:
                     {
                         LoadHtmlString(this.waitingHtmlString);
-                    } break;
+                    }
+                    break;
 
             }
 

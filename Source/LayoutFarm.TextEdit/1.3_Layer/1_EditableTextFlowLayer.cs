@@ -1,8 +1,9 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using PixelFarm.Drawing;
 using System.Text;
+
+using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 
 namespace LayoutFarm.Text
@@ -670,7 +671,7 @@ namespace LayoutFarm.Text
 
         }
 
-        
+
         void PerformHorizontalFlowArrange(
             int ownerClientLeft, int ownerClientWidth,
             int ownerClientTop)
@@ -796,7 +797,8 @@ namespace LayoutFarm.Text
                                 curY_fromTop = curY;
                                 maxHeightInRow = default_line_height;
                                 flowRelocator.SetCurrentLineTop(curY);
-                            } break;
+                            }
+                            break;
 
                         case 4:
                             {
@@ -806,7 +808,8 @@ namespace LayoutFarm.Text
                                 }
                                 flowRelocator.SetCurrentLineSize(curX, maxHeightInRow);
                                 curX = ownerClientLeft;
-                            } break;
+                            }
+                            break;
                     }
 
                 }

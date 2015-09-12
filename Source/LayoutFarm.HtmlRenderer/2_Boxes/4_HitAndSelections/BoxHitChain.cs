@@ -1,5 +1,5 @@
 ﻿//MIT 2014-2015 ,WinterDev
-using System;
+
 using System.Collections.Generic;
 
 namespace LayoutFarm.HtmlBoxes
@@ -118,7 +118,7 @@ namespace LayoutFarm.HtmlBoxes
         internal void AddHit(CssRun run, int x, int y)
         {
             //position x,y relate with (0,0) of its run
-            
+
             hitInfoList.Add(new HitInfo(run, x, y));
         }
 
