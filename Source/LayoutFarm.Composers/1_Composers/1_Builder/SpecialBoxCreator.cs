@@ -1,11 +1,10 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
 using System.Collections.Generic;
 using System.Globalization;
-using PixelFarm.Drawing;
-using LayoutFarm.WebDom;
-using LayoutFarm.Css;
-using LayoutFarm.Composers;
 
+using LayoutFarm.Composers;
+using LayoutFarm.Css;
+using LayoutFarm.WebDom;
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -29,8 +28,8 @@ namespace LayoutFarm.HtmlBoxes
                 col = new CssBox(childElement.Spec, parent.RootGfx, selectedCssDisplayType);
             }
             else
-            { 
-                col = new CssBox(childElement.Spec, parent.RootGfx); 
+            {
+                col = new CssBox(childElement.Spec, parent.RootGfx);
             }
             col.SetController(childElement);
             parent.AppendChild(col);
@@ -125,34 +124,40 @@ namespace LayoutFarm.HtmlBoxes
                     case CssListStyleType.Disc:
                         {
                             text_content = discItem;
-                        } break;
+                        }
+                        break;
                     case CssListStyleType.Circle:
                         {
                             text_content = circleItem;
-                        } break;
+                        }
+                        break;
                     case CssListStyleType.Square:
                         {
                             text_content = squareItem;
-                        } break;
+                        }
+                        break;
                     case CssListStyleType.Decimal:
                         {
                             text_content = (GetIndexForList(newBox, childElement).ToString(CultureInfo.InvariantCulture) + ".").ToCharArray();
-                        } break;
+                        }
+                        break;
                     case CssListStyleType.DecimalLeadingZero:
                         {
                             text_content = (GetIndexForList(newBox, childElement).ToString("00", CultureInfo.InvariantCulture) + ".").ToCharArray();
-                        } break;
+                        }
+                        break;
                     default:
                         {
                             text_content = (BulletNumberFormatter.ConvertToAlphaNumber(GetIndexForList(newBox, childElement), spec.ListStyleType) + ".").ToCharArray();
-                        } break;
+                        }
+                        break;
                 }
                 //--------------------------------------------------------------- 
                 CssBox.UnsafeSetTextBuffer(itemBulletBox, text_content);
 
                 List<CssRun> runlist;
                 bool hasSomeCharacter;
-                splitter.ParseWordContent(text_content, spec, itemBulletBox.IsBlock, out runlist, out  hasSomeCharacter);
+                splitter.ParseWordContent(text_content, spec, itemBulletBox.IsBlock, out runlist, out hasSomeCharacter);
 
                 RunListHelper.AddRunList(itemBulletBox, spec, runlist, text_content, false);
 

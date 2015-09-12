@@ -4,11 +4,7 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-using LayoutFarm.HtmlBoxes;
-using LayoutFarm.WebDom;
-using LayoutFarm;
 using LayoutFarm.UI;
-using LayoutFarm.Composers;
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -59,13 +55,13 @@ namespace LayoutFarm.HtmlBoxes
                 e.ExactHitObject = hitInfo.hitObject;
 
             }
-        } 
+        }
         public void MouseDown(UIMouseEventArgs e, CssBox startAt)
         {
             if (!_isBinded) return;
             if (startAt == null) return;
             //---------------------------------------------------- 
-            ClearPreviousSelection(); 
+            ClearPreviousSelection();
 
             if (_latestMouseDownChain != null)
             {
@@ -136,7 +132,7 @@ namespace LayoutFarm.HtmlBoxes
                 //dragging *** , if changed
                 if (this._mousedownX != x || this._mousedownY != y)
                 {
-                  
+
                     //handle mouse drag
                     CssBoxHitChain hitChain = GetFreeHitChain();
                     hitChain.SetRootGlobalPosition(x, y);
@@ -170,7 +166,7 @@ namespace LayoutFarm.HtmlBoxes
                                 BoxHitUtils.HitTest(_mouseDownStartAt, lastRootGlobalX, lastRootGlobalY, _latestMouseDownChain);
 
                             }
-                          
+
                             //create selection range 
                             var newSelectionRange = new SelectionRange(
                                   _latestMouseDownChain,
@@ -178,12 +174,12 @@ namespace LayoutFarm.HtmlBoxes
                                    this.ifonts);
                             if (newSelectionRange.IsValid)
                             {
-                              
+
                                 this._htmlContainer.SetSelection(newSelectionRange);
                             }
                             else
                             {
-                              
+
                                 this._htmlContainer.SetSelection(null);
                             }
                         }
@@ -196,7 +192,7 @@ namespace LayoutFarm.HtmlBoxes
                         {
                             e.CurrentContextElement.ListenMouseMove(e);
                             return true;
-                        }); 
+                        });
                     }
 
                     //---------------------------------------------------------
@@ -378,12 +374,14 @@ namespace LayoutFarm.HtmlBoxes
                             CssRun run = (CssRun)hitInfo.hitObject;
                             controller = CssBox.UnsafeGetController(run.OwnerBox) as IEventPortal;
 
-                        } break;
+                        }
+                        break;
                     case HitObjectKind.CssBox:
                         {
                             CssBox box = (CssBox)hitInfo.hitObject;
                             controller = CssBox.UnsafeGetController(box) as IEventPortal;
-                        } break;
+                        }
+                        break;
                 }
 
                 //---------------------
@@ -417,14 +415,16 @@ namespace LayoutFarm.HtmlBoxes
                             CssRun run = (CssRun)hitInfo.hitObject;
                             controller = CssBox.UnsafeGetController(run.OwnerBox) as IEventListener;
 
-                        } break;
+                        }
+                        break;
                     case HitObjectKind.CssBox:
                         {
 
                             CssBox box = (CssBox)hitInfo.hitObject;
-                            controller = CssBox.UnsafeGetController(box) as IEventListener; 
+                            controller = CssBox.UnsafeGetController(box) as IEventListener;
 
-                        } break;
+                        }
+                        break;
                 }
 
                 //---------------------

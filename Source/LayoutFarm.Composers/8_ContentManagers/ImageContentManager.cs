@@ -4,11 +4,9 @@
 using System;
 using System.Collections.Generic;
 using PixelFarm.Drawing;
-using System.Threading;
-using LayoutFarm.UI;
 
 namespace LayoutFarm.ContentManagers
-{   
+{
 
     public class ImageRequestEventArgs : EventArgs
     {
@@ -27,7 +25,7 @@ namespace LayoutFarm.ContentManagers
             this.ImageBinder.SetImage(img);
         }
     }
-    
+
     public class ImageContentManager
     {
 

@@ -1,7 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections.Generic;
-using PixelFarm.Drawing;
+using System; 
 
 namespace LayoutFarm.InternalUI
 {

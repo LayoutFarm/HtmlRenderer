@@ -1,7 +1,5 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
-using System;
-using System.Collections.Generic;
-using PixelFarm.Drawing;
+
 using LayoutFarm.UI;
 
 namespace LayoutFarm.InternalUI
@@ -64,7 +62,7 @@ namespace LayoutFarm.InternalUI
         {
             OnLostKeyboardFocus(e);
         }
-        
+
 
         void IEventListener.HandleContentLayout()
         {
@@ -105,7 +103,7 @@ namespace LayoutFarm.InternalUI
         {
             var globalLocation = this.CurrentPrimaryRenderElement.GetGlobalLocation();
             x = globalLocation.X;
-            y = globalLocation.Y;             
+            y = globalLocation.Y;
         }
     }
 }

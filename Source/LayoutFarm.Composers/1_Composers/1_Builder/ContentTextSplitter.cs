@@ -52,7 +52,7 @@ namespace LayoutFarm.Composers
 
         void AddToRunList(char[] textBuffer, List<CssRun> runlist, int startIndex, int appendLength, ref bool needICUSplitter)
         {
-            
+
 
             if (needICUSplitter)
             {
@@ -77,7 +77,7 @@ namespace LayoutFarm.Composers
         }
         public IEnumerable<TextSplitBound> ParseWordContent(char[] textBuffer, int startIndex, int appendLength)
         {
-            
+
 
             int s_index = startIndex;
             foreach (var splitBound in Icu.BreakIterator.GetSplitBoundIter(Icu.BreakIterator.UBreakIteratorType.WORD,
@@ -187,7 +187,8 @@ namespace LayoutFarm.Composers
                                 appendLength = 1;//start collect whitespace 
                             }
 
-                        } break;
+                        }
+                        break;
                     case WordParsingState.Whitespace:
                         {
                             if (char.IsWhiteSpace(c0))
@@ -230,7 +231,8 @@ namespace LayoutFarm.Composers
                                     appendLength = 1;//start append length 
                                 }
                             }
-                        } break;
+                        }
+                        break;
                     case WordParsingState.CharacterCollecting:
                         {
                             bool isWhiteSpace;
@@ -281,7 +283,8 @@ namespace LayoutFarm.Composers
                                 appendLength++;
                             }
 
-                        } break;
+                        }
+                        break;
 
                 }
             }
@@ -306,7 +309,8 @@ namespace LayoutFarm.Composers
                                     runlist.Add(CssTextRun.CreateWhitespace(1));
                                 }
                             }
-                        } break;
+                        }
+                        break;
                     case WordParsingState.CharacterCollecting:
                         {
                             if (needICUSplitter)
@@ -321,7 +325,8 @@ namespace LayoutFarm.Composers
                             }
 
                             hasSomeCharacter = true;
-                        } break;
+                        }
+                        break;
                 }
             }
 

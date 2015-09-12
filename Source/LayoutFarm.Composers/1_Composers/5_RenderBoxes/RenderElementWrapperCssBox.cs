@@ -1,15 +1,11 @@
 ﻿//2014,2015,2015 Apache2, WinterDev 
 using System;
-using System.Collections;
+
 using System.Collections.Generic;
 using System.Text;
 using PixelFarm.Drawing;
 
-using LayoutFarm.WebDom;
-using LayoutFarm;
 using LayoutFarm.Css;
-using LayoutFarm.ContentManagers;
-using LayoutFarm.Composers;
 
 namespace LayoutFarm.HtmlBoxes.InternalWrappers
 {

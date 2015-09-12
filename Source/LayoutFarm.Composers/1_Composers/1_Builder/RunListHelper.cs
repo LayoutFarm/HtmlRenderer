@@ -1,9 +1,8 @@
 ﻿// 2015,2014 ,BSD, WinterDev 
-using System;
-using PixelFarm.Drawing;
+
 using System.Collections.Generic;
 
-using LayoutFarm.WebDom;
+
 using LayoutFarm.Css;
 using LayoutFarm.Composers;
 
@@ -22,8 +21,8 @@ namespace LayoutFarm.HtmlBoxes
             List<CssRun> runlist,
             char[] buffer,
             bool isAllWhitespace)
-        {   
-             
+        {
+
             CssBox.UnsafeSetTextBuffer(toBox, buffer);
             if (runlist != null)
             {
@@ -31,9 +30,9 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     runlist[i].SetOwner(toBox);
                 }
-            } 
+            }
             CssBox.UnsafeSetContentRuns(toBox, runlist, isAllWhitespace);
-            
-        } 
+
+        }
     }
 }
