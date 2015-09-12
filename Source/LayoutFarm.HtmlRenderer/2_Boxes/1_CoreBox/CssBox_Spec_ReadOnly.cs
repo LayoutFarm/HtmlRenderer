@@ -95,7 +95,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return this.BorderCollapse == CssBorderCollapse.Collapse; }
         }
-     
+
         //------------------------------------------------------ 
         public CssLength Left
         {
@@ -271,7 +271,10 @@ namespace LayoutFarm.HtmlBoxes
         public float GetEmHeight()
         {
             //after has actual font 
-            return this._actualEmHeight;//  
+            //temp fixed here
+            //TODO: review here
+            return 16;
+            //return this._actualEmHeight;//  
         }
     }
 }

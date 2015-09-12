@@ -13,7 +13,7 @@ namespace LayoutFarm.HtmlBoxes
         }
         public static float GetClientRight(this CssBox box)
         {
-            return box.SizeWidth - box.ActualPaddingRight - box.ActualBorderRightWidth;
+            return box.VisualWidth - box.ActualPaddingRight - box.ActualBorderRightWidth;
         }
         //--------------------------------
         public static float GetClientTop(this CssBox box)
@@ -23,12 +23,12 @@ namespace LayoutFarm.HtmlBoxes
         //------------------------------------------
         public static float GetClientWidth(this CssBox box)
         {
-            return box.SizeWidth - (box.ActualBorderLeftWidth +
+            return box.VisualWidth - (box.ActualBorderLeftWidth +
                 box.ActualPaddingLeft + box.ActualPaddingRight + box.ActualBorderRightWidth);
         }
         public static  float GetClientHeight(this CssBox box)
         {
-            return box.SizeHeight - (box.ActualBorderTopWidth + box.ActualPaddingTop  + box.ActualPaddingBottom + box.ActualBorderBottomWidth);
+            return box.VisualHeight - (box.ActualBorderTopWidth + box.ActualPaddingTop  + box.ActualPaddingBottom + box.ActualBorderBottomWidth);
         }
         internal static float CalculateInnerContentHeight(this CssBox startBox)
         {

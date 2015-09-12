@@ -47,8 +47,8 @@ namespace LayoutFarm.HtmlBoxes
             bool needHScrollBar = false;
             bool needVScrollBar = false;
 
-            int originalBoxW = (int)innerBox.SizeWidth;
-            int originalBoxH = (int)innerBox.SizeHeight;
+            int originalBoxW = (int)innerBox.VisualWidth;
+            int originalBoxH = (int)innerBox.VisualHeight;
 
             int newW = originalBoxW;
             int newH = originalBoxH;
@@ -65,7 +65,7 @@ namespace LayoutFarm.HtmlBoxes
                 needHScrollBar = true;
                 newH -= scBarWidth;
             }
-            innerBox.SetSize(newW, newH);
+            innerBox.SetVisualSize(newW, newH);
             innerBox.SetExpectedSize(newW, newH);
 
             this.AppendToAbsoluteLayer(innerBox);
@@ -78,7 +78,7 @@ namespace LayoutFarm.HtmlBoxes
                 this.vscbar = new ScrollBar(scBarWidth, needHScrollBar ? newH : originalBoxH);
                 vscbar.ScrollBarType = ScrollBarType.Vertical;
                 vscbar.MinValue = 0;
-                vscbar.MaxValue = innerBox.SizeHeight;
+                vscbar.MaxValue = innerBox.VisualHeight;
                 vscbar.SmallChange = 20;
 
                 //add relation between viewpanel and scroll bar 
@@ -100,7 +100,7 @@ namespace LayoutFarm.HtmlBoxes
                 this.hscbar = new ScrollBar(needVScrollBar ? newW : originalBoxW, scBarWidth);
                 hscbar.ScrollBarType = ScrollBarType.Horizontal;
                 hscbar.MinValue = 0;
-                hscbar.MaxValue = innerBox.SizeHeight;
+                hscbar.MaxValue = innerBox.VisualHeight;
                 hscbar.SmallChange = 20;
 
                 //add relation between viewpanel and scroll bar 
@@ -144,12 +144,12 @@ namespace LayoutFarm.HtmlBoxes
 
             int IScrollable.ViewportWidth
             {
-                get { return (int)this.cssbox.SizeWidth; }
+                get { return (int)this.cssbox.VisualWidth; }
             }
 
             int IScrollable.ViewportHeight
             {
-                get { return (int)this.cssbox.SizeHeight; }
+                get { return (int)this.cssbox.VisualHeight; }
             }
             int IScrollable.DesiredHeight
             {

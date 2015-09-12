@@ -19,8 +19,8 @@ namespace LayoutFarm.HtmlBoxes
                 parentBox.InvalidateGraphics(new Rectangle(
                     (int)this.LocalX,
                     (int)this.LocalY,
-                    (int)this.SizeWidth,
-                    (int)this.SizeHeight));
+                    (int)this.VisualWidth,
+                    (int)this.VisualHeight));
             }
         }
         public virtual void InvalidateGraphics(Rectangle clientArea)
@@ -44,7 +44,7 @@ namespace LayoutFarm.HtmlBoxes
             if (this._isVisible)
             {
                 //offset 
-                
+
                 if (this.mayHasViewport)
                 {
                     p.OffsetCanvasOrigin(-this.ViewportX, -this.ViewportY);
@@ -89,7 +89,12 @@ namespace LayoutFarm.HtmlBoxes
         }
 #endif
         protected virtual void PaintImp(PaintVisitor p)
-        {  
+        {
+            //if (this.dbugMark2 == 10 || this.dbugMark2 == 12)
+            //{
+
+            //}
+
             Css.CssDisplay display = this.CssDisplay;
             if (display == Css.CssDisplay.TableCell &&
                 this.EmptyCells == Css.CssEmptyCell.Hide &&
@@ -113,7 +118,7 @@ namespace LayoutFarm.HtmlBoxes
             if (this._renderBGAndBorder)
             {
 
-                RectangleF bound = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
+                RectangleF bound = new RectangleF(0, 0, this.VisualWidth, this.VisualHeight);
                 PaintBackground(p, bound, true, true);
                 if (this.HasSomeVisibleBorder)
                 {
@@ -213,14 +218,14 @@ namespace LayoutFarm.HtmlBoxes
 
                         if (b.HasClipArea)
                         {
-                            if (p.PushLocalClipArea(b.SizeWidth, b.SizeHeight))
+                            if (p.PushLocalClipArea(b.VisualWidth, b.VisualHeight))
                             {
-                                b.Paint(p);                                
+                                b.Paint(p);
                             }
                             p.PopLocalClipArea();
                         }
                         else
-                        {  
+                        {
                             b.Paint(p);
                         }
 
@@ -431,15 +436,18 @@ namespace LayoutFarm.HtmlBoxes
                         float desc = fontInfo.DescentPx;
                         y = (float)Math.Round(rectangle.Top + h - desc);
 
-                    } break;
+                    }
+                    break;
                 case Css.CssTextDecoration.LineThrough:
                     {
                         y = rectangle.Top + rectangle.Height / 2f;
-                    } break;
+                    }
+                    break;
                 case Css.CssTextDecoration.Overline:
                     {
                         y = rectangle.Top;
-                    } break;
+                    }
+                    break;
             }
 
 

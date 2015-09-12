@@ -52,7 +52,7 @@ namespace LayoutFarm.HtmlBoxes
             {
                 this.ReEvaluateComputedValues(lay.SampleIFonts, myContainingBlock);
             }
-            
+
             float localLeft = myContainingBlock.GetClientLeft() + this.ActualMarginLeft;
             float localTop = 0;
 
@@ -65,7 +65,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                localTop = prevSibling.LocalBottom + prevSibling.ActualBorderBottomWidth;
+                localTop = prevSibling.LocalVisualBottom;// +prevSibling.ActualBorderBottomWidth;
             }
 
             float maringTopCollapse = UpdateMarginTopCollapse(prevSibling);
@@ -83,7 +83,7 @@ namespace LayoutFarm.HtmlBoxes
             //width at 100% (or auto)
             float minwidth = CalculateMinimumWidth(lay.EpisodeId);
 
-            float width = myContainingBlock.SizeWidth
+            float width = myContainingBlock.VisualWidth
                           - myContainingBlock.ActualPaddingLeft - myContainingBlock.ActualPaddingRight
                           - myContainingBlock.ActualBorderLeftWidth - myContainingBlock.ActualBorderRightWidth
                           - ActualMarginLeft - ActualMarginRight - ActualBorderLeftWidth - ActualBorderRightWidth;
@@ -104,7 +104,7 @@ namespace LayoutFarm.HtmlBoxes
             float height = ExpectedHeight;
             if (height < 1)
             {
-                height = this.SizeHeight + ActualBorderTopWidth + ActualBorderBottomWidth;
+                height = this.VisualHeight + ActualBorderTopWidth + ActualBorderBottomWidth;
             }
             if (height < 1)
             {
@@ -116,8 +116,8 @@ namespace LayoutFarm.HtmlBoxes
                 DirectSetBorderWidth(CssSide.Bottom, 1);
             }
 
-            this.SetSize(width, height);
-            this.SetHeight(ActualPaddingTop + ActualPaddingBottom + height);
+            this.SetVisualSize(width, height);
+            this.SetVisualHeight(ActualPaddingTop + ActualPaddingBottom + height);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             p.dbugEnterNewContext(this, PaintVisitor.PaintVisitorContextName.Init);
 #endif
-            var rect = new RectangleF(0, 0, this.SizeWidth, this.SizeHeight);
+            var rect = new RectangleF(0, 0, this.VisualWidth, this.VisualHeight);
 
             if (rect.Height > 2 && RenderUtils.IsColorVisible(ActualBackgroundColor))
             {

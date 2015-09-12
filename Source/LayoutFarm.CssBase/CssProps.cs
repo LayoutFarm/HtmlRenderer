@@ -4,8 +4,52 @@
 
 namespace LayoutFarm.Css
 {
+    //    <display-outside>
+    //  = block | inline | run-in ;
+    //<display-inside>
+    //   = flow | flow-root | table | flex | grid | ruby ;
+    //<display-listitem>
+    // = list-item && <display-outside>? && [ flow | flow-root ]?
+    //<display-internal>
+    // = table-row-group | table-header-group |
+    //                     table-footer-group | table-row | table-cell |
+    //                     table-column-group | table-column | table-caption |
+    //                     ruby-base | ruby-text | ruby-base-container |
+    //                     ruby-text-container ;
+    //<display-box>
+    //      = contents | none ;
+    //<display-legacy>
+    //   = inline-block | inline-list-item |
+    //                     inline-table | inline-flex | inline-grid ;
+    //    //--------------------------------------------------
 
-    //--------------------------------------------------
+    public enum CssDisplayOutside : byte
+    {
+        Internal,
+
+        Block,
+        Inline,
+        RunIn,
+
+        TableCell,
+        TableCaption,
+        
+    }
+
+    public enum CssDisplayInside : byte
+    {
+        Internal,
+
+        Flow,
+        FlowRoot,
+        Table,
+        Flex,
+        Grid,
+        Ruby,       
+    }
+
+
+
     public enum CssDisplay : byte
     {
         [Map(CssConstants.Inline)]
@@ -41,13 +85,7 @@ namespace LayoutFarm.Css
 
         [Map(CssConstants.None)]
         None,
-
-        //===========================================
-        /// <summary>
-        ///following group act as Containing box : Block,Table,TableCell, ListItem
-        /// </summary>
-        __CONTAINER_BEGIN_HERE,
-
+         
         [Map(CssConstants.Block)]
         Block,
         [Map(CssConstants.Table)]
@@ -58,8 +96,7 @@ namespace LayoutFarm.Css
         ListItem,
 
         [Map(CssConstants.Flex)]
-        Flex
-        //===========================================
+        Flex 
     }
     public enum CssWhiteSpace : byte
     {

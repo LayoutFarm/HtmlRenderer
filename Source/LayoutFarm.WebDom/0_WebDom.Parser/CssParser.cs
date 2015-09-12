@@ -26,8 +26,7 @@ namespace LayoutFarm.WebDom.Parser
         public CssParser()
         {
             lexer = new CssLexer(LexerEmitHandler);
-        }
-
+        } 
 
         public void ParseCssStyleSheet(char[] textBuffer)
         {
@@ -401,7 +400,7 @@ namespace LayoutFarm.WebDom.Parser
                             case CssTokenName.SemiColon:
                                 {
                                     //another semi colon just skip
-                                }break;
+                                } break;
                             default:
                                 {
                                     throw new NotSupportedException();
@@ -435,10 +434,8 @@ namespace LayoutFarm.WebDom.Parser
                                 } break;
                             case CssTokenName.LiteralString:
                                 {
-
                                     this._currentProperty.AddValue(this._latestPropertyValue =
                                          new CssCodePrimitiveExpression(new string(this.textBuffer, start, len), CssValueHint.LiteralString));
-
                                     parseState = CssParseState.AfterPropertyValue;
 
                                 } break;
@@ -473,14 +470,16 @@ namespace LayoutFarm.WebDom.Parser
                             case CssTokenName.Iden:
                                 {
                                     this._currentProperty.AddValue(this._latestPropertyValue =
-                                       new CssCodePrimitiveExpression("#" + new string(this.textBuffer, start, len), CssValueHint.HexColor));
+                                       new CssCodePrimitiveExpression("#" + new string(this.textBuffer, start, len), 
+                                           CssValueHint.HexColor));
 
                                 } break;
                             case CssTokenName.Number:
                                 {
 
                                     this._currentProperty.AddValue(this._latestPropertyValue =
-                                         new CssCodePrimitiveExpression("#" + new string(this.textBuffer, start, len), CssValueHint.HexColor));
+                                         new CssCodePrimitiveExpression("#" + new string(this.textBuffer, start, len),
+                                             CssValueHint.HexColor));
 
                                 } break;
                             default:
@@ -498,12 +497,35 @@ namespace LayoutFarm.WebDom.Parser
                                 {
                                     throw new NotSupportedException();
                                 }
+                            case CssTokenName.Comma:
+                                {
+                                    //skip comma
+                                } break;
                             case CssTokenName.Percent:
                                 {
-                                    this._currentProperty.AddUnitToLatestValue("%");
+                                    if (_latestPropertyValue is CssCodePrimitiveExpression)
+                                    {
+                                        ((CssCodePrimitiveExpression)_latestPropertyValue).Unit = "%";
+                                    }
+
+                                } break;
+                            case CssTokenName.Divide:
+                                {
+                                    //eg. font: style variant weight size/line-height family;
+
+                                    CssCodeBinaryExpression codeBinaryOpExpr = new CssCodeBinaryExpression();
+                                    codeBinaryOpExpr.OpName = CssValueOpName.Divide;
+                                    codeBinaryOpExpr.Left = this._latestPropertyValue;
+                                    //replace previous add value ***
+                                    int valueCount = this._currentProperty.ValueCount;
+                                    //replace
+                                    this._currentProperty.ReplaceValue(valueCount - 1, codeBinaryOpExpr);
+                                    this._latestPropertyValue = codeBinaryOpExpr;
+
                                 } break;
                             case CssTokenName.LiteralString:
                                 {
+                                    throw new NotSupportedException();
                                     var literalValue = new string(this.textBuffer, start, len);
 
                                 } break;
@@ -547,7 +569,10 @@ namespace LayoutFarm.WebDom.Parser
                             case CssTokenName.NumberUnit:
                                 {
                                     //number unit 
-                                    this._currentProperty.AddUnitToLatestValue(new string(this.textBuffer, start, len));
+                                    if (_latestPropertyValue is CssCodePrimitiveExpression)
+                                    {
+                                        ((CssCodePrimitiveExpression)_latestPropertyValue).Unit = new string(this.textBuffer, start, len);
+                                    }
                                 } break;
                             case CssTokenName.Sharp:
                                 {
@@ -1063,7 +1088,7 @@ namespace LayoutFarm.WebDom.Parser
             }
         }
     }
-    
 
-   
+
+
 }

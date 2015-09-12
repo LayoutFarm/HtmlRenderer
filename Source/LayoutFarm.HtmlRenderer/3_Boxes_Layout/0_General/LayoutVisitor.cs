@@ -9,6 +9,7 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
 
+
     public class LayoutVisitor : BoxVisitor
     {
         HtmlContainer htmlContainer;
@@ -20,12 +21,8 @@ namespace LayoutFarm.HtmlBoxes
         Dictionary<CssBox, PartialBoxStrip> readyDicStrip = new Dictionary<CssBox, PartialBoxStrip>();
         List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
 
-        Stack<CssBox> leftFloatBoxStack = new Stack<CssBox>(); //from previous context
-        Stack<CssBox> rightFloatBoxStack = new Stack<CssBox>();//from previous context
-        List<CssBox> lateFindContainerList = new List<CssBox>();
+        FloatingContextStack floatingContextStack = new FloatingContextStack();
 
-        CssBox latestLeftFloatBox;
-        CssBox latestRightFloatBox;
 
         static int totalLayoutIdEpisode = 0;
         int episodeId = 1;
@@ -67,66 +64,80 @@ namespace LayoutFarm.HtmlBoxes
         }
         protected override void OnPushDifferentContainingBlock(CssBox box)
         {
+
             this.totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
-            this.leftFloatBoxStack.Push(this.LatestLeftFloatBox);
-            this.rightFloatBoxStack.Push(this.LatestRightFloatBox);
 
         }
+        internal CssBox FloatingContextOwner
+        {
+            get
+            {
+                return floatingContextStack.CurrentTopOwner;
+            }
+        }
+        protected override void OnPushContainingBlock(CssBox box)
+        {
+
+            floatingContextStack.PushContainingBlock(box);
+            base.OnPushContainingBlock(box);
+        }
+
+        protected override void OnPopContainingBlock()
+        {
+            floatingContextStack.PopContainingBlock();
+            base.OnPopContainingBlock();
+        }
+
         protected override void OnPopDifferentContaingBlock(CssBox box)
         {
             this.totalMarginLeftAndRight -= (box.ActualMarginLeft + box.ActualMarginRight);
-            this.latestLeftFloatBox = this.leftFloatBoxStack.Pop();
-            this.latestRightFloatBox = this.rightFloatBoxStack.Pop();
+
         }
         internal CssBox LatestSiblingBox
         {
             get;
             set;
         }
-        internal List<CssBox> LateFindContainerList
-        {
-            get
-            {
-                return this.lateFindContainerList;
-            }
-        }
-
         internal CssBox LatestLeftFloatBox
         {
-            get { return this.latestLeftFloatBox; }
-            set
-            {
-                this.latestLeftFloatBox = value;
-            }
+            get { return floatingContextStack.LatestLeftFloatBox; }
+
         }
         internal CssBox LatestRightFloatBox
         {
-            get { return this.latestRightFloatBox; }
-            set
+            get
             {
-                this.latestRightFloatBox = value;
+                return floatingContextStack.LatestRightFloatBox;
             }
+
         }
         internal bool HasFloatBoxInContext
         {
-            get { return this.latestLeftFloatBox != null || this.latestRightFloatBox != null; }
+            get
+            {
+                return floatingContextStack.HasFloatBoxInContext;
+            }
+        }
+        internal FloatingContextStack GetFloatingContextStack()
+        {
+            return floatingContextStack;
         }
 
         internal void AddFloatBox(CssBox floatBox)
         {
-            lateFindContainerList.Add(floatBox);
+            floatingContextStack.AddFloatBox(floatBox);
         }
         internal void UpdateRootSize(CssBox box)
         {
 
             float candidateRootWidth = Math.Max(
                 box.CalculateMinimumWidth(this.episodeId) + CalculateWidthMarginTotalUp(box),
-                (box.SizeWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.SizeWidth : 0);
+                (box.VisualWidth + this.ContainerBlockGlobalX) < CssBoxConstConfig.BOX_MAX_RIGHT ? box.VisualWidth : 0);
 
 
             this.htmlContainer.UpdateSizeIfWiderOrHigher(
                 this.ContainerBlockGlobalX + candidateRootWidth,
-                this.ContainerBlockGlobalY + box.SizeHeight);
+                this.ContainerBlockGlobalY + box.VisualHeight);
 
         }
         /// <summary>
@@ -137,8 +148,8 @@ namespace LayoutFarm.HtmlBoxes
         float CalculateWidthMarginTotalUp(CssBox box)
         {
 
-            if ((box.SizeWidth + this.ContainerBlockGlobalX) > CssBoxConstConfig.BOX_MAX_RIGHT ||
-                (box.ParentBox != null && (box.ParentBox.SizeWidth + this.ContainerBlockGlobalX) > CssBoxConstConfig.BOX_MAX_RIGHT))
+            if ((box.VisualWidth + this.ContainerBlockGlobalX) > CssBoxConstConfig.BOX_MAX_RIGHT ||
+                (box.ParentBox != null && (box.ParentBox.VisualWidth + this.ContainerBlockGlobalX) > CssBoxConstConfig.BOX_MAX_RIGHT))
             {
                 return (box.ActualMarginLeft + box.ActualMarginRight) + totalMarginLeftAndRight;
             }
@@ -285,7 +296,7 @@ namespace LayoutFarm.HtmlBoxes
                 //{
                 //}
                 logRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
-                    "x:" + box.Left + ",y:" + box.Top + ",w:" + box.SizeWidth + "h:" + box.SizeHeight +
+                    "x:" + box.Left + ",y:" + box.Top + ",w:" + box.VisualWidth + "h:" + box.VisualHeight +
                     " " + box.ToString() + ",id:" + box.__aa_dbugId);
 
                 dbugIndentLevel++;

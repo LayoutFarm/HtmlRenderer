@@ -82,7 +82,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <returns></returns>
         internal bool PushLocalClipArea(float w, float h)
         {
-
+            //return true;
             //store lastest clip 
             this.latestClip = canvas.CurrentClipRect;
             clipStacks.Push(this.latestClip);
@@ -91,7 +91,7 @@ namespace LayoutFarm.HtmlBoxes
                 latestClip,
                 new Rectangle(0, 0, (int)w, (int)h));
             this.latestClip = intersectResult;
-             
+
 #if DEBUG
             if (this.dbugEnableLogRecord)
             {
@@ -110,6 +110,7 @@ namespace LayoutFarm.HtmlBoxes
         internal void PopLocalClipArea()
         {
 
+            //return;
 #if DEBUG
             if (this.dbugEnableLogRecord)
             {
@@ -348,7 +349,7 @@ namespace LayoutFarm.HtmlBoxes
                 logRecords.Add(new string('>', dbugIndentLevel) + dbugIndentLevel.ToString() +
                     "[" + this.canvas.CurrentClipRect + "] " +
                     "(" + this.CanvasOriginX + "," + this.CanvasOriginY + ") " +
-                    "x:" + box.Left + ",y:" + box.Top + ",w:" + box.SizeWidth + "h:" + box.SizeHeight +
+                    "x:" + box.Left + ",y:" + box.Top + ",w:" + box.VisualWidth + "h:" + box.VisualHeight +
                     " " + box.ToString() + ",id:" + box.__aa_dbugId);
 
                 dbugIndentLevel++;

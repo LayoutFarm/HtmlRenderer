@@ -48,7 +48,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                maxSizeW = minSizeW = box.SizeWidth;
+                maxSizeW = minSizeW = box.VisualWidth;
 
             }
             if (box.Height.IsEmptyOrAuto)
@@ -58,7 +58,7 @@ namespace LayoutFarm.HtmlBoxes
             }
             else
             {
-                maxSizeH = minSizeH = box.SizeHeight;
+                maxSizeH = minSizeH = box.VisualHeight;
             }
             this.PlanWidth = minSizeW;
             this.PlanHeight = minSizeH;
@@ -140,8 +140,8 @@ namespace LayoutFarm.HtmlBoxes
         public FlexLine(CssBox flexCssBox)
         {
             this.flexCssBox = flexCssBox;
-            AvaliableParentWidth = flexCssBox.SizeWidth;
-            AvaliableParentHeight = flexCssBox.SizeHeight;
+            AvaliableParentWidth = flexCssBox.VisualWidth;
+            AvaliableParentHeight = flexCssBox.VisualHeight;
         }
         public void AddChild(FlexItem item)
         {
@@ -223,7 +223,7 @@ namespace LayoutFarm.HtmlBoxes
                             FlexItem flexItem = flexItems[i];
                             CssBox box = flexItem.Box;
                             box.SetLocation(curX, curY);
-                            box.SetSize(flexItem.PlanWidth, flexItem.PlanHeight);
+                            box.SetVisualSize(flexItem.PlanWidth, flexItem.PlanHeight);
                             curX += flexItem.PlanWidth;
                         }
                     }
@@ -246,9 +246,9 @@ namespace LayoutFarm.HtmlBoxes
             {
                 FlexItem flexItem = flexItems[i];
                 CssBox box = flexItem.Box;
-                if (maxHeight < box.SizeHeight)
+                if (maxHeight < box.VisualHeight)
                 {
-                    maxHeight = box.SizeHeight;
+                    maxHeight = box.VisualHeight;
                 }
             }
             if (maxHeight < this.AvaliableParentHeight)
@@ -268,7 +268,7 @@ namespace LayoutFarm.HtmlBoxes
                         FlexItem flexItem = flexItems[i];
                         if (!flexItem.ReachMaxHeight)
                         {
-                            flexItem.Box.SetHeight(this.AvaliableParentHeight);
+                            flexItem.Box.SetVisualHeight(this.AvaliableParentHeight);
                         }
                     }
                     this.LineHeightAfterArrange = this.AvaliableParentHeight;

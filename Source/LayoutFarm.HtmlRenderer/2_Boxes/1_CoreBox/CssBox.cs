@@ -45,7 +45,8 @@ namespace LayoutFarm.HtmlBoxes
         public int dbugMark1;
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
-        public int dbugMark;
+         
+        public int dbugMark2;
 #endif
         public CssBox(BoxSpec spec, IRootGraphics rootgfx)
         {
@@ -107,7 +108,22 @@ namespace LayoutFarm.HtmlBoxes
         {
             get { return _parentBox; }
         }
-
+        internal bool HasContainerProperty
+        {
+            get
+            {
+                switch (this._cssDisplay)
+                {
+                    case Css.CssDisplay.Block:
+                    case Css.CssDisplay.Table:
+                    case Css.CssDisplay.TableCell:
+                    case Css.CssDisplay.ListItem:
+                    case Css.CssDisplay.Flex:
+                        return true;
+                }
+                return false;
+            }
+        }
         public CssBox GetTopRootCssBox()
         {
             var topmost = this;
@@ -148,13 +164,13 @@ namespace LayoutFarm.HtmlBoxes
         /// <summary>
         /// is the box "Display" is "Inline", is this is an inline box and not block.
         /// </summary>
-        public bool IsInline
+        internal bool OutsideDisplayIsInline
         {
             get
             {
                 return (this._boxCompactFlags & BoxFlags.IS_INLINE_BOX) != 0;
             }
-            internal set
+            set
             {
                 if (value)
                 {
@@ -266,10 +282,7 @@ namespace LayoutFarm.HtmlBoxes
 #endif
         internal void AddLineBox(CssLineBox linebox)
         {
-
-
             linebox.linkedNode = this._clientLineBoxes.AddLast(linebox);
-
         }
         internal int LineBoxCount
         {
@@ -373,8 +386,10 @@ namespace LayoutFarm.HtmlBoxes
                 return this._aa_contentRuns;
             }
         }
-
-        internal bool HasRuns
+        /// <summary>
+        /// box has only runs
+        /// </summary>
+        internal bool HasOnlyRuns
         {
             get
             {
@@ -406,7 +421,7 @@ namespace LayoutFarm.HtmlBoxes
         /// </summary>
         /// <param name="g">Device context to use</param>
         protected virtual void PerformContentLayout(LayoutVisitor lay)
-        {   
+        {
             switch (this.CssDisplay)
             {
                 case Css.CssDisplay.None:
@@ -419,7 +434,8 @@ namespace LayoutFarm.HtmlBoxes
                         if (this.NeedComputedValueEvaluation) { this.ReEvaluateComputedValues(lay.SampleIFonts, lay.LatestContainingBlock); }
                         this.MeasureRunsSize(lay);
 
-                    } break;
+                    }
+                    break;
                 case Css.CssDisplay.Block:
                 case Css.CssDisplay.ListItem:
                 case Css.CssDisplay.Table:
@@ -437,7 +453,8 @@ namespace LayoutFarm.HtmlBoxes
 
                         //for general block layout 
                         CssLayoutEngine.PerformContentLayout(this, lay);
-                    } break;
+                    }
+                    break;
             }
 
             //set height  
@@ -449,14 +466,14 @@ namespace LayoutFarm.HtmlBoxes
 
         static void UpdateIfHigher(CssBox box, float newHeight)
         {
-            if (newHeight > box.SizeHeight)
+            if (newHeight > box.VisualHeight)
             {
-                box.SetHeight(newHeight);
+                box.SetVisualHeight(newHeight);
             }
         }
         internal void SetHeightToZero()
         {
-            this.SetHeight(0);
+            this.SetVisualHeight(0);
         }
         /// <summary>
         /// Assigns words its width and height
@@ -506,20 +523,24 @@ namespace LayoutFarm.HtmlBoxes
                                     textRun.TextLength,
                                     actualFont);
 
-                            } break;
+                            }
+                            break;
                         case CssRunKind.SingleSpace:
                             {
                                 run.Width = actualWordspacing;
-                            } break;
+                            }
+                            break;
                         case CssRunKind.Space:
                             {
                                 //other space size                                     
                                 run.Width = actualWordspacing * ((CssTextRun)run).TextLength;
-                            } break;
+                            }
+                            break;
                         case CssRunKind.LineBreak:
                             {
                                 run.Width = 0;
-                            } break;
+                            }
+                            break;
                     }
                 }
             }
@@ -648,7 +669,7 @@ namespace LayoutFarm.HtmlBoxes
                             {
                                 var lastTd = tr._aa_boxes.GetLastChild();
                                 //TODO: review here again-> how to get rightmost position
-                                trW = (lastTd.LocalX + lastTd.SizeWidth + lastTd._actualPaddingRight);
+                                trW = (lastTd.LocalX + lastTd.VisualWidth + lastTd._actualPaddingRight);
                             }
                             if (trW > minWidth)
                             {
@@ -713,16 +734,18 @@ namespace LayoutFarm.HtmlBoxes
         /// Gets the result of collapsing the vertical margins of the two boxes
         /// </summary>
         /// <returns>Resulting bottom margin</returns>
-        internal float GetHeightAfterMarginBottomCollapse(CssBox cbBox)
+        internal float GetHeightAfterMarginBottomCollapse(CssBox containerBox)
         {
 
+            //TODO: review again 
             float margin = 0;
-            if (ParentBox != null && this.IsLastChild && cbBox.ActualMarginBottom < 0.1)
+            if (ParentBox != null && this.IsLastChild && containerBox.ActualMarginBottom < 0.1)
             {
                 var lastChildBottomMargin = _aa_boxes.GetLastChild().ActualMarginBottom;
-                margin = (Height.IsAuto) ?
-                    Math.Max(ActualMarginBottom, lastChildBottomMargin)
-                    : lastChildBottomMargin;
+                //margin = (Height.IsAuto) ?
+                //    Math.Max(ActualMarginBottom, lastChildBottomMargin)
+                //    : lastChildBottomMargin;
+                margin = lastChildBottomMargin;
             }
             //exclude float box
             var cnode = _aa_boxes.GetLastLinkedNode();
@@ -732,15 +755,30 @@ namespace LayoutFarm.HtmlBoxes
                 CssBox box = cnode.Value;
                 if (box.Float == CssFloat.None)
                 {
-                    lastChildBotom = box.LocalBottom;
-                    break;
+                    lastChildBotom = box.LocalVisualBottom;
+                    //found static child
+
+                    return lastChildBotom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
                 }
                 else
                 {
                     cnode = cnode.Previous;
                 }
             }
-            return lastChildBotom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;            
+            //here not found any static child 
+
+            cnode = _aa_boxes.GetLastLinkedNode();
+
+            if (this.Height.IsAuto && cnode != null)
+            {
+               
+                CssBox box = cnode.Value;
+                lastChildBotom = box.LocalVisualBottom;
+                //found static child 
+                return lastChildBotom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
+
+            }
+            return this.ActualPaddingTop + this.ActualBorderTopWidth + this.ActualPaddingBottom + ActualBorderBottomWidth;
         }
         internal void OffsetLocalTop(float dy)
         {

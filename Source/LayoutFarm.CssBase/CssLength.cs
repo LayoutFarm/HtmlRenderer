@@ -82,8 +82,10 @@ namespace LayoutFarm.Css
             this._flags = (int)unit | IS_ASSIGN;
             switch (unit)
             {
-                case CssUnitOrNames.Pixels:
                 case CssUnitOrNames.Ems:
+                    this._flags |= IS_RELATIVE;
+                    break;
+                case CssUnitOrNames.Pixels:
                 case CssUnitOrNames.Ex:
                 case CssUnitOrNames.EmptyValue:
                     this._flags |= IS_RELATIVE;
