@@ -831,9 +831,9 @@ namespace LayoutFarm.HtmlBoxes
 
                     if (!box.Width.IsEmptyOrAuto)
                     {
-                        availableWidth = CssValueParser.ConvertToPx(box.Width, availableWidth, box);
+                        float w = CssValueParser.ConvertToPx(box.Width, availableWidth, box);
                         //specific width
-                        box.SetCssBoxWidth(availableWidth);
+                        box.SetCssBoxWidth(w);
                     }
                     else
                     {
@@ -901,9 +901,8 @@ namespace LayoutFarm.HtmlBoxes
                                 LinesFormattingEngine.DoLayoutLinesContext(box, lay);
                             }
                             else if (box.ChildCount > 0)
-                            {
-
-                                DoLayoutBlocksContext(box, lay);
+                            {   
+                                DoLayoutBlocksContext(box, lay);  
                             }
 
                             if (box.HasAbsoluteLayer)

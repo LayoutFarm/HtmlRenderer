@@ -82,7 +82,7 @@ namespace LayoutFarm.HtmlBoxes
         /// <returns></returns>
         internal bool PushLocalClipArea(float w, float h)
         {
-
+            //return true;
             //store lastest clip 
             this.latestClip = canvas.CurrentClipRect;
             clipStacks.Push(this.latestClip);
@@ -91,7 +91,7 @@ namespace LayoutFarm.HtmlBoxes
                 latestClip,
                 new Rectangle(0, 0, (int)w, (int)h));
             this.latestClip = intersectResult;
-             
+
 #if DEBUG
             if (this.dbugEnableLogRecord)
             {
@@ -110,6 +110,7 @@ namespace LayoutFarm.HtmlBoxes
         internal void PopLocalClipArea()
         {
 
+            //return;
 #if DEBUG
             if (this.dbugEnableLogRecord)
             {

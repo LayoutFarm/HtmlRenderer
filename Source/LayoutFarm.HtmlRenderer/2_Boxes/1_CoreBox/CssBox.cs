@@ -764,8 +764,17 @@ namespace LayoutFarm.HtmlBoxes
                 }
             }
             //here not found any static child
-            return this.ActualPaddingTop + this.ActualBorderTopWidth +
-                      this.ActualPaddingBottom + ActualBorderBottomWidth;
+            cnode = _aa_boxes.GetLastLinkedNode();
+            if (this.Height.IsAuto && cnode != null)
+            {
+                CssBox box = cnode.Value;
+
+            }
+            else
+            {
+                return this.ActualPaddingTop + this.ActualBorderTopWidth +
+                          this.ActualPaddingBottom + ActualBorderBottomWidth;
+            }
         }
         internal void OffsetLocalTop(float dy)
         {
