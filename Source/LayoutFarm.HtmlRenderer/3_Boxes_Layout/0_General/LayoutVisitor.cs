@@ -21,10 +21,7 @@ namespace LayoutFarm.HtmlBoxes
         Dictionary<CssBox, PartialBoxStrip> readyDicStrip = new Dictionary<CssBox, PartialBoxStrip>();
         List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
 
-
-        List<CssBox> floatBoxList = new List<CssBox>();
-        List<FloatingContext> floatingContexts = new List<FloatingContext>();
-        FloatingContext latestFloatingContext;
+        FloatingContextStack floatingContextStack = new FloatingContextStack();
 
 
         static int totalLayoutIdEpisode = 0;
@@ -71,41 +68,23 @@ namespace LayoutFarm.HtmlBoxes
             this.totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
 
         }
+        internal CssBox FloatingContextOwner
+        {
+            get
+            {
+                return floatingContextStack.CurrentTopOwner;
+            }
+        }
         protected override void OnPushContainingBlock(CssBox box)
         {
-            if (latestFloatingContext == null)
-            {
-                latestFloatingContext = new FloatingContext(box);
-            }
-            else
-            {
-                if (box.Float != CssFloat.None)
-                {
-                    latestFloatingContext = new FloatingContext(box);
-                }
-            }
-            floatingContexts.Add(latestFloatingContext);
+
+            floatingContextStack.PushContainingBlock(box);
             base.OnPushContainingBlock(box);
         }
 
         protected override void OnPopContainingBlock()
         {
-            switch (floatingContexts.Count)
-            {
-                case 0:
-                    latestFloatingContext = null;
-                    return;
-                case 1:
-                    floatingContexts.Clear();
-                    latestFloatingContext = null;
-                    break;
-                default:
-                    floatingContexts.RemoveAt(floatingContexts.Count - 1);
-                    latestFloatingContext = floatingContexts[floatingContexts.Count - 1];
-                    break;
-
-            }
-        
+            floatingContextStack.PopContainingBlock();
             base.OnPopContainingBlock();
         }
 
@@ -119,36 +98,34 @@ namespace LayoutFarm.HtmlBoxes
             get;
             set;
         }
-        internal List<CssBox> FloatBoxList
-        {
-            get
-            {
-                return this.floatBoxList;
-            }
-        }
-
         internal CssBox LatestLeftFloatBox
         {
-            get { return latestFloatingContext.LatestLeftFloatBox; }
+            get { return floatingContextStack.LatestLeftFloatBox; }
 
         }
         internal CssBox LatestRightFloatBox
         {
             get
             {
-                return latestFloatingContext.LatestRightFloatBox;
+                return floatingContextStack.LatestRightFloatBox;
             }
 
         }
         internal bool HasFloatBoxInContext
         {
-            get { return latestFloatingContext.HasFloatBox; }
+            get
+            {
+                return floatingContextStack.HasFloatBoxInContext;
+            }
+        }
+        internal FloatingContextStack GetFloatingContextStack()
+        {
+            return floatingContextStack;
         }
 
         internal void AddFloatBox(CssBox floatBox)
         {
-            latestFloatingContext.AddFloatBox(floatBox);
-            floatBoxList.Add(floatBox);
+            floatingContextStack.AddFloatBox(floatBox);
         }
         internal void UpdateRootSize(CssBox box)
         {

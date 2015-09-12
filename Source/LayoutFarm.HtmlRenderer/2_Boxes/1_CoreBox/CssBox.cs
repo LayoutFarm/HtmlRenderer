@@ -45,7 +45,8 @@ namespace LayoutFarm.HtmlBoxes
         public int dbugMark1;
         public readonly int __aa_dbugId = dbugTotalId++;
         static int dbugTotalId;
-        public int dbugMark;
+         
+        public int dbugMark2;
 #endif
         public CssBox(BoxSpec spec, IRootGraphics rootgfx)
         {

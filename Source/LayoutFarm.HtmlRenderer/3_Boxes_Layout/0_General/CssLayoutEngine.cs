@@ -858,16 +858,16 @@ namespace LayoutFarm.HtmlBoxes
                     localTop = prevSibling.LocalVisualBottom;
                 }
 
-                if (box.Float != CssFloat.None)
-                {
-                    //float box 
-                    //find context floating c
-                    if (lay.HasFloatBoxInContext)
-                    {
+                //if (box.Float != CssFloat.None)
+                //{
+                //    //float box 
+                //    //find context floating c
+                //    if (lay.HasFloatBoxInContext)
+                //    {
 
 
-                    }
-                }
+                //    }
+                //}
 
 
                 localTop += box.UpdateMarginTopCollapse(prevSibling);
@@ -1017,6 +1017,14 @@ namespace LayoutFarm.HtmlBoxes
                             //TODO: review here again
                             sx = recentLeftFloatBox.LocalVisualRight + recentLeftFloatBox.ActualMarginRight;
                             sy = recentLeftFloatBox.LocalY;
+
+#if DEBUG
+                            //if (recentLeftFloatBox.ParentBox != box.ParentBox)
+                            //{
+                            //    recentLeftFloatBox.dbugMark2 = 10;
+                            //    box.dbugMark2 = 12;
+                            //}
+#endif
                         }
 
                         if (box.VisualWidth > availableWidth2)
