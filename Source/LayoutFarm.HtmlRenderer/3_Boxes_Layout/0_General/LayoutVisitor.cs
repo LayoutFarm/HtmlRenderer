@@ -9,6 +9,7 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
 
+
     public class LayoutVisitor : BoxVisitor
     {
         HtmlContainer htmlContainer;
@@ -20,12 +21,8 @@ namespace LayoutFarm.HtmlBoxes
         Dictionary<CssBox, PartialBoxStrip> readyDicStrip = new Dictionary<CssBox, PartialBoxStrip>();
         List<PartialBoxStrip> readyListStrip = new List<PartialBoxStrip>();
 
-        Stack<CssBox> leftFloatBoxStack = new Stack<CssBox>(); //from previous context
-        Stack<CssBox> rightFloatBoxStack = new Stack<CssBox>();//from previous context
-        List<CssBox> floatBoxList = new List<CssBox>();
+        FloatingContextStack floatingContextStack = new FloatingContextStack();
 
-        CssBox latestLeftFloatBox;
-        CssBox latestRightFloatBox;
 
         static int totalLayoutIdEpisode = 0;
         int episodeId = 1;
@@ -69,65 +66,66 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             this.totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
-         
+
         }
-        protected override void OnPushContainingBlock()
+        internal CssBox FloatingContextOwner
         {
-            this.leftFloatBoxStack.Push(this.LatestLeftFloatBox);
-            this.rightFloatBoxStack.Push(this.LatestRightFloatBox);
-            //reset
-            this.LatestLeftFloatBox = this.LatestRightFloatBox = null;
-            base.OnPushContainingBlock();
+            get
+            {
+                return floatingContextStack.CurrentTopOwner;
+            }
         }
+        protected override void OnPushContainingBlock(CssBox box)
+        {
+
+            floatingContextStack.PushContainingBlock(box);
+            base.OnPushContainingBlock(box);
+        }
+
         protected override void OnPopContainingBlock()
         {
-            this.LatestLeftFloatBox = this.leftFloatBoxStack.Pop();
-            this.LatestRightFloatBox = this.rightFloatBoxStack.Pop();
+            floatingContextStack.PopContainingBlock();
             base.OnPopContainingBlock();
         }
 
         protected override void OnPopDifferentContaingBlock(CssBox box)
         {
             this.totalMarginLeftAndRight -= (box.ActualMarginLeft + box.ActualMarginRight);
-            
+
         }
         internal CssBox LatestSiblingBox
         {
             get;
             set;
         }
-        internal List<CssBox> FloatBoxList
-        {
-            get
-            {
-                return this.floatBoxList;
-            }
-        }
-
         internal CssBox LatestLeftFloatBox
         {
-            get { return this.latestLeftFloatBox; }
-            set
-            {
-                this.latestLeftFloatBox = value;
-            }
+            get { return floatingContextStack.LatestLeftFloatBox; }
+
         }
         internal CssBox LatestRightFloatBox
         {
-            get { return this.latestRightFloatBox; }
-            set
+            get
             {
-                this.latestRightFloatBox = value;
+                return floatingContextStack.LatestRightFloatBox;
             }
+
         }
         internal bool HasFloatBoxInContext
         {
-            get { return this.latestLeftFloatBox != null || this.latestRightFloatBox != null; }
+            get
+            {
+                return floatingContextStack.HasFloatBoxInContext;
+            }
+        }
+        internal FloatingContextStack GetFloatingContextStack()
+        {
+            return floatingContextStack;
         }
 
         internal void AddFloatBox(CssBox floatBox)
         {
-            floatBoxList.Add(floatBox);
+            floatingContextStack.AddFloatBox(floatBox);
         }
         internal void UpdateRootSize(CssBox box)
         {
