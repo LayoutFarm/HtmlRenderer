@@ -1,9 +1,7 @@
 ﻿//BSD, 2014-2015, WinterDev
 
-using System;
-using System.Collections.Generic;
-using PixelFarm.Drawing;
-using LayoutFarm.Css;
+ 
+using PixelFarm.Drawing; 
 
 namespace LayoutFarm.Css
 {

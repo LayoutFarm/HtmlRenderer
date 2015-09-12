@@ -1,10 +1,7 @@
 ﻿//2014,2015, Apache2 WinterDev
 //MS-PL, 
-using System;
-using PixelFarm.Drawing; 
-using System.Collections.Generic;
-using LayoutFarm.Css;
 
+using System.Collections.Generic;
 namespace LayoutFarm.Svg
 {
     public class SvgHitChain

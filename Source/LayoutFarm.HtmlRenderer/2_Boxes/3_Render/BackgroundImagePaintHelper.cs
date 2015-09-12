@@ -14,9 +14,7 @@
 // "The Art of War"
 
 using System;
-using PixelFarm.Drawing;
-using LayoutFarm.HtmlBoxes;
-using PixelFarm.Drawing;
+using PixelFarm.Drawing; 
 using LayoutFarm.Css;
 
 

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using PixelFarm.Drawing;
 
-using LayoutFarm;
 using LayoutFarm.HtmlBoxes;
 using LayoutFarm.Svg.Pathing;
-using LayoutFarm.Svg.Transforms;
 
 namespace LayoutFarm.Svg
 {
@@ -72,7 +69,8 @@ namespace LayoutFarm.Svg
                             {
                                 gpath.CloseFigure();
 
-                            } break;
+                            }
+                            break;
                         case SvgPathCommand.MoveTo:
                             {
                                 var moveTo = (SvgPathSegMoveTo)seg;
@@ -83,7 +81,8 @@ namespace LayoutFarm.Svg
 
                                 lastMoveX = lastPoint.X;
                                 lastMoveY = lastPoint.Y;
-                            } break;
+                            }
+                            break;
                         case SvgPathCommand.LineTo:
                             {
                                 var lineTo = (SvgPathSegLineTo)seg;
@@ -92,7 +91,8 @@ namespace LayoutFarm.Svg
                                 gpath.AddLine(lastPoint, lineToPoint);
                                 lastPoint = lineToPoint;
 
-                            } break;
+                            }
+                            break;
                         case SvgPathCommand.HorizontalLineTo:
                             {
                                 var hlintTo = (SvgPathSegLineToHorizontal)seg;
@@ -101,7 +101,8 @@ namespace LayoutFarm.Svg
                                 gpath.AddLine(lastPoint, lineToPoint);
                                 lastPoint = lineToPoint;
 
-                            } break;
+                            }
+                            break;
                         case SvgPathCommand.VerticalLineTo:
                             {
                                 var vlineTo = (SvgPathSegLineToVertical)seg;
@@ -110,7 +111,8 @@ namespace LayoutFarm.Svg
                                 gpath.AddLine(lastPoint, lineToPoint);
                                 lastPoint = lineToPoint;
 
-                            } break;
+                            }
+                            break;
                         //---------------------------------------------------------------------------
                         //curve modes...... 
                         case SvgPathCommand.CurveTo:
@@ -121,7 +123,8 @@ namespace LayoutFarm.Svg
                                 cubicCurve.GetAbsolutePoints(ref lastPoint, out p2, out p3, out p);
                                 gpath.AddBezierCurve(lastPoint, p2, p3, p);
                                 lastPoint = p;
-                            } break;
+                            }
+                            break;
                         case SvgPathCommand.QuadraticBezierCurve:
                             {
                                 //quadratic curve (1 control point)
@@ -134,7 +137,8 @@ namespace LayoutFarm.Svg
                                 SvgCurveHelper.Curve3GetControlPoints(lastPoint, intm_c3_c, p, out p2, out p3);
                                 gpath.AddBezierCurve(lastPoint, p2, p3, p);
                                 lastPoint = p;
-                            } break;
+                            }
+                            break;
                         //------------------------------------------------------------------------------------
                         case SvgPathCommand.SmoothCurveTo:
                             {
@@ -174,7 +178,8 @@ namespace LayoutFarm.Svg
                                 }
 
                                 lastPoint = p;
-                            } break;
+                            }
+                            break;
 
                         case SvgPathCommand.TSmoothQuadraticBezierCurveTo:
                             {
@@ -200,7 +205,8 @@ namespace LayoutFarm.Svg
                                                 SvgCurveHelper.Curve3GetControlPoints(lastPoint, c, p, out p2, out p3);
                                                 gpath.AddBezierCurve(lastPoint, p2, p3, p);
                                                 lastPoint = p;
-                                            } break;
+                                            }
+                                            break;
                                         case SvgPathCommand.TSmoothQuadraticBezierCurveTo:
                                             {
                                                 //make mirror point
@@ -209,7 +215,8 @@ namespace LayoutFarm.Svg
                                                 gpath.AddBezierCurve(lastPoint, p2, p3, p);
                                                 lastPoint = p;
                                                 intm_c3_c = c;
-                                            } break;
+                                            }
+                                            break;
                                         case SvgPathCommand.QuadraticBezierCurve:
                                             {
                                                 PointF c = SvgCurveHelper.CreateMirrorPoint(intm_c3_c, lastPoint);
@@ -218,14 +225,16 @@ namespace LayoutFarm.Svg
                                                 lastPoint = p;
                                                 intm_c3_c = c;
 
-                                            } break;
+                                            }
+                                            break;
                                         default:
 
                                             continue;
                                     }
                                 }
                                 lastPoint = p;
-                            } break;
+                            }
+                            break;
                         case SvgPathCommand.Arc:
                             {
                                 var arcTo = (SvgPathSegArc)seg;
@@ -271,7 +280,8 @@ namespace LayoutFarm.Svg
                                 lastPoint = p;
                                 //--------------------------------------------- 
 
-                            } break;
+                            }
+                            break;
 
                         default:
                             throw new NotSupportedException();

@@ -2,7 +2,6 @@
 //2014,2015, WinterDev
 
 using PixelFarm.Drawing;
-using System.Collections.Generic;
 using LayoutFarm.Svg;
 
 namespace LayoutFarm.HtmlBoxes
