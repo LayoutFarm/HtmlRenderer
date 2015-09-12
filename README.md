@@ -6,7 +6,7 @@
 
 ![debug view screen](/readme_imgs/s01.png)
 
-###more info / screen capture imgs -> [see wiki](../../wiki/Some-Screen-Captures)
+###more info / screen capture imgs -> [see wiki](../../wiki/1.-Some-Screen-Captures)
 
 
 I forked this project from https://github.com/ArthurHub/HTML-Renderer (thank you so much)
