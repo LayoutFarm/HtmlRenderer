@@ -23,7 +23,7 @@ namespace LayoutFarm.Css
     public sealed partial class BoxSpec
     {
 
-       
+
         bool _freezed;
         //public readonly long versionId = totalVersion++;
         //static long totalVersion;
@@ -90,13 +90,18 @@ namespace LayoutFarm.Css
         //------------------
         public BoxSpec()
         {
-            //if (this.__aa_dbugId == 8)
+#if DEBUG
+            //if (this.__aa_dbugId == 9 || this.__aa_dbugId == 16)
             //{
             //}
+#endif
         }
         public bool IsTemplate { get; set; }
         public void Freeze()
         {
+            //if (this.__aa_dbugId == 9 || this.__aa_dbugId == 16)
+            //{
+            //}
             this._freezed = true;
             _fontFeats.Freeze(); //1.
             _listFeats.Freeze(); //2. 
@@ -146,16 +151,16 @@ namespace LayoutFarm.Css
         {
             get { return this._cssDisplay; }
             set
-            {   
+            {
                 if (Assignable()) { this._cssDisplay = value; }
             }
         }
         public CssDirection CssDirection
         {
             get { return this._cssDirection; }
-            set { if (Assignable())this._cssDirection = value; }
+            set { if (Assignable()) this._cssDirection = value; }
         }
-       
+
         public CssBoxSizing BoxSizing
         {
             get { return this._boxSizing; }
@@ -166,7 +171,7 @@ namespace LayoutFarm.Css
                     this._boxSizing = value;
                 }
             }
-        } 
+        }
         //-------------------------------------------------------------------------------------- 
         public CssLength BorderLeftWidth
         {
@@ -322,7 +327,14 @@ namespace LayoutFarm.Css
         public CssLength MarginLeft
         {
             get { return this._marginFeats.Left; }
-            set { if (Assignable())  CheckMarginVersion().Left = value; }
+            set
+            {
+                if (this.__aa_dbugId == 9)
+                {
+                }
+
+                if (Assignable()) CheckMarginVersion().Left = value;
+            }
         }
 
         public CssLength MarginRight
@@ -559,7 +571,7 @@ namespace LayoutFarm.Css
         public CssFontVariant FontVariant
         {
             get { return this._fontFeats.FontVariant; }
-            set { if (Assignable())  CheckFontVersion().FontVariant = value; }
+            set { if (Assignable()) CheckFontVersion().FontVariant = value; }
         }
 
         public CssFontWeight FontWeight
@@ -686,11 +698,13 @@ namespace LayoutFarm.Css
                 case CssFontWeight.Inherit:
                     {
                         //do nothing
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         st |= PixelFarm.Drawing.FontStyle.Bold;
-                    } break;
+                    }
+                    break;
             }
 
             CssLength fontsize = this.FontSize;
@@ -727,7 +741,8 @@ namespace LayoutFarm.Css
                             //}
                             fsize = parentFontSize - 2;
 
-                        } break;
+                        }
+                        break;
                     case CssUnitOrNames.FONTSIZE_LARGER:
                         {
                             relateToParent = true;
@@ -738,7 +753,8 @@ namespace LayoutFarm.Css
                             //}
                             fsize = parentFontSize + 2;
 
-                        } break;
+                        }
+                        break;
                     default:
                         throw new NotSupportedException();
                 }

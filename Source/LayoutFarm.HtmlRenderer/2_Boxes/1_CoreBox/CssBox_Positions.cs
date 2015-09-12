@@ -232,16 +232,23 @@ namespace LayoutFarm.HtmlBoxes
                     {
                         //no margin
 
-                    } break;
+                    }
+                    break;
                 default:
                     {
+                        //if (this.__aa_dbugId == 5)
+                        //{
+                        //    int a = spec.__aa_dbugId;
+
+                        //}
 
                         this._actualMarginLeft = RecalculateMargin(spec.MarginLeft, cbWidth);
                         this._actualMarginTop = RecalculateMargin(spec.MarginTop, cbWidth);
                         this._actualMarginRight = RecalculateMargin(spec.MarginRight, cbWidth);
                         this._actualMarginBottom = RecalculateMargin(spec.MarginBottom, cbWidth);
 
-                    } break;
+                    }
+                    break;
             }
             //www.w3.org/TR/CSS2/box.html#padding-properties
             switch (cssDisplay)
@@ -254,7 +261,8 @@ namespace LayoutFarm.HtmlBoxes
                 case CssDisplay.TableColumn:
                     {
                         //no padding
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         //-----------------------------------------------------------------------
@@ -263,7 +271,8 @@ namespace LayoutFarm.HtmlBoxes
                         this._actualPaddingTop = RecalculatePadding(spec.PaddingTop, cbWidth);
                         this._actualPaddingRight = RecalculatePadding(spec.PaddingRight, cbWidth);
                         this._actualPaddingBottom = RecalculatePadding(spec.PaddingBottom, cbWidth);
-                    } break;
+                    }
+                    break;
             }
 
             //-----------------------------------------------------------------------
@@ -402,7 +411,19 @@ namespace LayoutFarm.HtmlBoxes
             }
         }
 
+#if DEBUG
+        void dbugBeforeSetWidth(float width)
+        {
+            //Console.WriteLine(this.__aa_dbugId + " :" + width);
+            //if (this.__aa_dbugId == 3)
+            //{
+            //}
+        }
+        void dbugBeforeSetHeight(float height)
+        {
 
+        }
+#endif
         /// <summary>
         /// set box width related to its boxsizing model  and recalcualte visual width 
         /// </summary>
@@ -413,9 +434,7 @@ namespace LayoutFarm.HtmlBoxes
             //depend on box-sizing model  ***
 
 #if DEBUG
-            //if (this.__aa_dbugId == 2)
-            //{
-            //}
+            dbugBeforeSetWidth(width);
 #endif
             this._cssBoxWidth = width;
             this._visualWidth = width;
@@ -434,9 +453,9 @@ namespace LayoutFarm.HtmlBoxes
         }
         internal void SetCssBoxFromContainerAvailableWidth(float containerClientWidth)
         {
-            //if (this.__aa_dbugId == 2)
-            //{
-            //}
+#if DEBUG
+            dbugBeforeSetWidth(containerClientWidth);
+#endif
             this._visualWidth = containerClientWidth;
             this._cssBoxWidth = containerClientWidth - (
                        this.ActualPaddingLeft + this.ActualPaddingRight +
@@ -450,9 +469,7 @@ namespace LayoutFarm.HtmlBoxes
             //depend on box-sizing model  ***
 
 #if DEBUG
-            if (this.__aa_dbugId == 2)
-            {
-            }
+            dbugBeforeSetHeight(height);
 #endif
 
             this._cssBoxHeight = height;
@@ -471,9 +488,7 @@ namespace LayoutFarm.HtmlBoxes
         public void SetVisualWidth(float width)
         {
 #if DEBUG
-            //if (this.__aa_dbugId == 2)
-            //{
-            //}
+            dbugBeforeSetWidth(width);
 #endif
             if (!this.FreezeWidth)
             {
@@ -488,10 +503,7 @@ namespace LayoutFarm.HtmlBoxes
         {
 
 #if DEBUG
-            if (this.__aa_dbugId == 2)
-            {
-
-            }
+            dbugBeforeSetHeight(height);
 #endif
             this._visualHeight = height;
         }
@@ -502,9 +514,12 @@ namespace LayoutFarm.HtmlBoxes
         /// <param name="height"></param>
         public void SetVisualSize(float width, float height)
         {
-            //if (this.__aa_dbugId == 2)
-            //{
-            //}
+#if DEBUG
+            dbugBeforeSetWidth(width);
+#endif
+#if DEBUG
+            dbugBeforeSetHeight(height);
+#endif
             if (!this.FreezeWidth)
             {
                 this._visualWidth = width;
@@ -514,9 +529,6 @@ namespace LayoutFarm.HtmlBoxes
                 throw new NotSupportedException();
             }
 
-#if DEBUG
-
-#endif
             this._visualHeight = height;
         }
         /// <summary>
@@ -526,6 +538,7 @@ namespace LayoutFarm.HtmlBoxes
         {
             get
             {
+
                 return this._visualWidth;
             }
         }
