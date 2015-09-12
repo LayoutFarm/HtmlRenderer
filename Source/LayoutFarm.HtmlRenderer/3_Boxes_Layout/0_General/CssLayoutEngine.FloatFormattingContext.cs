@@ -14,5 +14,22 @@ namespace LayoutFarm.HtmlBoxes
         public bool floatingOutOfLine;
 
     }
+    class FloatingContext
+    {
+        CssBox _parent;
+        List<CssBox> _children;
+        public FloatingContext(CssBox parent)
+        {
+            _parent = parent;
+        }
+        public void AddChildBox(CssBox box)
+        {
+            if (_children == null)
+            {
+                _children = new List<CssBox>();
+            }
+
+        }
+    }
 
 }

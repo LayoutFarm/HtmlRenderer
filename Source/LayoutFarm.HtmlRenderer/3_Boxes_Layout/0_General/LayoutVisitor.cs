@@ -9,6 +9,7 @@ using PixelFarm.Drawing;
 namespace LayoutFarm.HtmlBoxes
 {
 
+
     public class LayoutVisitor : BoxVisitor
     {
         HtmlContainer htmlContainer;
@@ -23,7 +24,12 @@ namespace LayoutFarm.HtmlBoxes
         Stack<CssBox> leftFloatBoxStack = new Stack<CssBox>(); //from previous context
         Stack<CssBox> rightFloatBoxStack = new Stack<CssBox>();//from previous context
         List<CssBox> floatBoxList = new List<CssBox>();
+        List<CssBox> containerBoxes = new List<CssBox>();
 
+
+        List<FloatingContext> floatingContexts = new List<FloatingContext>();
+        FloatingContext latestFloatingContext;
+        CssBox latestContainerBox;
         CssBox latestLeftFloatBox;
         CssBox latestRightFloatBox;
 
@@ -69,18 +75,58 @@ namespace LayoutFarm.HtmlBoxes
         {
 
             this.totalMarginLeftAndRight += (box.ActualMarginLeft + box.ActualMarginRight);
-         
+
         }
-        protected override void OnPushContainingBlock()
+        protected override void OnPushContainingBlock(CssBox box)
         {
+            if (latestContainerBox == null)
+            {
+                //start new float context
+                latestFloatingContext = new FloatingContext(box);
+            }
+            else
+            {
+                if (latestContainerBox.Float == CssFloat.None)
+                {
+                    if (box.Float != CssFloat.None)
+                    {
+                        //generate new context 
+                        latestFloatingContext = new FloatingContext(box);
+                    }
+                }
+                else
+                {
+                    if (box.Float != CssFloat.None)
+                    {
+                        //generate new context 
+                        latestFloatingContext = new FloatingContext(box);
+                    }
+
+                }
+            }
+            floatingContexts.Add(latestFloatingContext);
+            //----------------------------------------------------------------
+
+            this.latestContainerBox = box;
+            containerBoxes.Add(box);
+            //----------------------------------------------------------------
+
+
             this.leftFloatBoxStack.Push(this.LatestLeftFloatBox);
             this.rightFloatBoxStack.Push(this.LatestRightFloatBox);
-            //reset
+            //reset latest floating context
             this.LatestLeftFloatBox = this.LatestRightFloatBox = null;
-            base.OnPushContainingBlock();
+            base.OnPushContainingBlock(box);
         }
+
         protected override void OnPopContainingBlock()
         {
+            latestFloatingContext = floatingContexts[floatingContexts.Count - 1];
+            floatingContexts.RemoveAt(floatingContexts.Count - 1);
+
+            this.latestContainerBox = containerBoxes[containerBoxes.Count - 1];
+            containerBoxes.RemoveAt(containerBoxes.Count - 1);
+
             this.LatestLeftFloatBox = this.leftFloatBoxStack.Pop();
             this.LatestRightFloatBox = this.rightFloatBoxStack.Pop();
             base.OnPopContainingBlock();
@@ -89,7 +135,7 @@ namespace LayoutFarm.HtmlBoxes
         protected override void OnPopDifferentContaingBlock(CssBox box)
         {
             this.totalMarginLeftAndRight -= (box.ActualMarginLeft + box.ActualMarginRight);
-            
+
         }
         internal CssBox LatestSiblingBox
         {

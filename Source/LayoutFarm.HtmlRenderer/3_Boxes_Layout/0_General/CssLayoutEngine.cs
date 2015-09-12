@@ -857,7 +857,23 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     localTop = prevSibling.LocalVisualBottom;
                 }
+
+                if (box.Float != CssFloat.None)
+                {
+                    //float box 
+                    //find context floating c
+                    if (lay.HasFloatBoxInContext)
+                    {
+
+
+                    }
+                }
+
+
                 localTop += box.UpdateMarginTopCollapse(prevSibling);
+
+
+
                 box.SetLocation(localLeft, localTop);
                 box.SetHeightToZero();
             }
@@ -901,8 +917,8 @@ namespace LayoutFarm.HtmlBoxes
                                 LinesFormattingEngine.DoLayoutLinesContext(box, lay);
                             }
                             else if (box.ChildCount > 0)
-                            {   
-                                DoLayoutBlocksContext(box, lay);  
+                            {
+                                DoLayoutBlocksContext(box, lay);
                             }
 
                             if (box.HasAbsoluteLayer)
@@ -996,7 +1012,8 @@ namespace LayoutFarm.HtmlBoxes
                         if (recentLeftFloatBox != null)
                         {
                             availableWidth2 -= recentLeftFloatBox.LocalVisualRight;
-                            sx = recentLeftFloatBox.LocalVisualRight;
+                            //TODO: review here again
+                            sx = recentLeftFloatBox.LocalVisualRight + recentLeftFloatBox.ActualMarginRight;
                             sy = recentLeftFloatBox.LocalY;
                         }
 
@@ -1277,6 +1294,7 @@ namespace LayoutFarm.HtmlBoxes
             lay.LatestSiblingBox = currentLevelLatestSibling;
             lay.PopContainingBlock();
             //------------------------------------------------ 
+
             float boxWidth = CalculateActualWidth(box);
 
             if (lay.ContainerBlockGlobalX + boxWidth > CssBoxConstConfig.BOX_MAX_RIGHT)
@@ -1292,6 +1310,7 @@ namespace LayoutFarm.HtmlBoxes
                     }
                 }
             }
+
 
             float boxHeight = box.GetHeightAfterMarginBottomCollapse(lay.LatestContainingBlock);
             //TODO: review here again,

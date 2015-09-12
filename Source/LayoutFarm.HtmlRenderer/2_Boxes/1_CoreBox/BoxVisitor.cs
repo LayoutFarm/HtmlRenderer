@@ -16,7 +16,7 @@ namespace LayoutFarm.HtmlBoxes
         internal void PushContaingBlock(CssBox box)
         {
             //enter new containing block
-            OnPushContainingBlock();
+            OnPushContainingBlock(box);
             if (box != latestContainingBlock)
             {
                 this.globalXOffset += box.LocalX;
@@ -72,7 +72,7 @@ namespace LayoutFarm.HtmlBoxes
             get { return this.globalYOffset; }
         }
         //-----------------------------------------
-        protected virtual void OnPushContainingBlock()
+        protected virtual void OnPushContainingBlock(CssBox box)
         {
         }
         protected virtual void OnPopContainingBlock()

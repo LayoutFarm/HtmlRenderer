@@ -756,6 +756,7 @@ namespace LayoutFarm.HtmlBoxes
                 {
                     lastChildBotom = box.LocalVisualBottom;
                     //found static child
+
                     return lastChildBotom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
                 }
                 else
@@ -763,18 +764,20 @@ namespace LayoutFarm.HtmlBoxes
                     cnode = cnode.Previous;
                 }
             }
-            //here not found any static child
+            //here not found any static child 
+
             cnode = _aa_boxes.GetLastLinkedNode();
+
             if (this.Height.IsAuto && cnode != null)
             {
+               
                 CssBox box = cnode.Value;
+                lastChildBotom = box.LocalVisualBottom;
+                //found static child 
+                return lastChildBotom + margin + this.ActualPaddingBottom + ActualBorderBottomWidth;
 
             }
-            else
-            {
-                return this.ActualPaddingTop + this.ActualBorderTopWidth +
-                          this.ActualPaddingBottom + ActualBorderBottomWidth;
-            }
+            return this.ActualPaddingTop + this.ActualBorderTopWidth + this.ActualPaddingBottom + ActualBorderBottomWidth;
         }
         internal void OffsetLocalTop(float dy)
         {
