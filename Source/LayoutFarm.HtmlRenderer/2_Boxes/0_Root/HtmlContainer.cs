@@ -15,7 +15,7 @@
 
 using System;
 using System.Collections.Generic;
-using PixelFarm.Drawing; 
+using PixelFarm.Drawing;
 
 namespace LayoutFarm.HtmlBoxes
 {
@@ -146,7 +146,7 @@ namespace LayoutFarm.HtmlBoxes
                 CssBox prevParent = null;
                 //TODO: review here again
                 float extraAdjustX = 0; //temp fixed
-                
+
 
                 for (int n = 0; n < floatBoxCount; ++n)
                 {
@@ -179,7 +179,8 @@ namespace LayoutFarm.HtmlBoxes
             unchecked { layoutVersion++; }
             //----------------------- 
         }
-        void AddToProperContainer(CssBox box)
+#if DEBUG
+        void dbugAddToProperContainer(CssBox box)
         {
             var rectChild = new RectangleF(box.LocalX, box.LocalY,
                 box.InnerContentWidth,
@@ -227,6 +228,7 @@ namespace LayoutFarm.HtmlBoxes
                 this._rootBox.AppendToAbsoluteLayer(box);
             }
         }
+#endif
         protected virtual void OnLayoutFinished()
         {
         }

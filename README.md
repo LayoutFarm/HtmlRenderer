@@ -47,7 +47,7 @@ it is a C# project with permissive license( MIT,BSD, Apache2)
 
 #plan
 
-1) always permissive licencse (MIT,BSD, Apache2)
+1) always permissive license (MIT,BSD, Apache2)
 
 2) bind some features from Blink engine
 
