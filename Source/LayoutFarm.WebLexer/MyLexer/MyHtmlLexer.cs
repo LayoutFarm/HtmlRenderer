@@ -21,7 +21,9 @@ namespace LayoutFarm.WebDom.Parser
 #if DEBUG
             dbug_currentLineNumber = 0;
             dbug_currentLineCharIndex = -1;
+            dbugStartRecord("d:\\WImageTest\\htmlparse.txt");
 #endif
+
             _readIndex = 0;
             _lastFlushAt = 0;
             _appendCount = 0;

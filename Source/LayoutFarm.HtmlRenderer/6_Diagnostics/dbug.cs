@@ -8,7 +8,7 @@ namespace LayoutFarm
     public delegate void dbugCounterAction();
     public static class dbugCounter
     {
-        public static bool dbugStartRecord = false;
+       
         static int _dbugDrawStringCount;
         static int _dbugBoxPaint;
         static int _dbugLinePaint;

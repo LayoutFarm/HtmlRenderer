@@ -58,9 +58,17 @@ namespace LayoutFarm.WebDom.Parser
                 case HtmlLexerEvent.AttributeValueAsLiteralString:
                     {
                         //assign value and add to parent
-                        curAttr.Value = textSnapshot.Substring(startIndex, len);
-                        curHtmlNode.AddAttribute(curAttr);
-
+                        if (parseState == 11)
+                        {
+                            //document node
+                            //doc 
+                            domDocNode.AddParameter(textSnapshot.Substring(startIndex, len));
+                        }
+                        else
+                        {
+                            curAttr.Value = textSnapshot.Substring(startIndex, len);
+                            curHtmlNode.AddAttribute(curAttr);
+                        }
                     }
                     break;
 
