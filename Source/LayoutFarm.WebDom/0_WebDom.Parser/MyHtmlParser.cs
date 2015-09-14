@@ -133,7 +133,7 @@ namespace LayoutFarm.WebDom.Parser
                                     else
                                     {
                                         //if not equal then check if current node need close tag or not
-                                        if (HtmlDecodeHelper.IsSingleTag(curHtmlNode.LocalNameIndex))
+                                        if (HtmlTagMatching.IsSingleTag(curHtmlNode.LocalNameIndex))
                                         {
                                             if (openEltStack.Count > 0)
                                             {
