@@ -71,7 +71,7 @@ namespace HtmlKit {
 			return endIndex;
 		}
 
-		static void HtmlEncodeAttribute (TextWriter output, ICharArray value, int startIndex, int count, char quote = '"')
+		static void HtmlAttributeEncode (TextWriter output, ICharArray value, int startIndex, int count, char quote = '"')
 		{
 			int endIndex = startIndex + count;
 			int index;
@@ -91,26 +91,38 @@ namespace HtmlKit {
 
 			while (index < endIndex) {
 				char c = value[index++];
-				int nextIndex;
+				int unichar, nextIndex;
 
 				switch (c) {
-				case '\'':
-					if (c == quote)
-						output.Write ("&#39;");
-					else
-						output.Write (c);
-					break;
-				case '"':
-					if (c == quote)
-						output.Write ("&quot;");
-					else
-						output.Write (c);
-					break;
+				case '\t': case '\r': case '\n': case '\f': output.Write (c); break;
+				case '\'': output.Write (c == quote ? "&#39;" : "'"); break;
+				case '"': output.Write (c == quote ? "&quot;" : "\""); break;
 				case '&': output.Write ("&amp;"); break;
 				case '<': output.Write ("&lt;"); break;
 				case '>': output.Write ("&gt;"); break;
 				default:
-					output.Write (c);
+					if (c < 32 || (c >= 127 && c < 160)) {
+						// illegal control character
+						break;
+					}
+
+					if (c > 255 && char.IsSurrogate (c)) {
+						if (index + 1 < endIndex && char.IsSurrogatePair (c, value[index])) {
+							unichar = char.ConvertToUtf32 (c, value[index]);
+							index++;
+						} else {
+							unichar = c;
+						}
+					} else if (c >= 160) {
+						// 160-255 and non-surrogates
+						unichar = c;
+					} else {
+						// SPACE and other printable (safe) ASCII
+						output.Write (c);
+						break;
+					}
+
+					output.Write (string.Format (CultureInfo.InvariantCulture, "&#{0};", unichar));
 					break;
 				}
 
@@ -148,7 +160,7 @@ namespace HtmlKit {
 		/// <para>-or-</para>
 		/// <para><paramref name="quote"/> is not a valid quote character.</para>
 		/// </exception>
-		public static void HtmlEncodeAttribute (TextWriter output, char[] value, int startIndex, int count, char quote = '"')
+		public static void HtmlAttributeEncode (TextWriter output, char[] value, int startIndex, int count, char quote = '"')
 		{
 			if (output == null)
 				throw new ArgumentNullException ("output");
@@ -165,7 +177,7 @@ namespace HtmlKit {
 			if (quote != '"' && quote != '\'')
 				throw new ArgumentOutOfRangeException ("quote");
 
-			HtmlEncodeAttribute (output, new CharArray (value), startIndex, count, quote);
+			HtmlAttributeEncode (output, new CharArray (value), startIndex, count, quote);
 		}
 
 		/// <summary>
@@ -188,7 +200,7 @@ namespace HtmlKit {
 		/// <para>-or-</para>
 		/// <para><paramref name="quote"/> is not a valid quote character.</para>
 		/// </exception>
-		public static string HtmlEncodeAttribute (char[] value, int startIndex, int count, char quote = '"')
+		public static string HtmlAttributeEncode (char[] value, int startIndex, int count, char quote = '"')
 		{
 			if (value == null)
 				throw new ArgumentNullException ("value");
@@ -205,7 +217,7 @@ namespace HtmlKit {
 			var encoded = new StringBuilder ();
 
 			using (var output = new StringWriter (encoded))
-				HtmlEncodeAttribute (output, new CharArray (value), startIndex, count, quote);
+				HtmlAttributeEncode (output, new CharArray (value), startIndex, count, quote);
 
 			return encoded.ToString ();
 		}
@@ -232,7 +244,7 @@ namespace HtmlKit {
 		/// <para>-or-</para>
 		/// <para><paramref name="quote"/> is not a valid quote character.</para>
 		/// </exception>
-		public static void HtmlEncodeAttribute (TextWriter output, string value, int startIndex, int count, char quote = '"')
+		public static void HtmlAttributeEncode (TextWriter output, string value, int startIndex, int count, char quote = '"')
 		{
 			if (output == null)
 				throw new ArgumentNullException ("output");
@@ -249,7 +261,7 @@ namespace HtmlKit {
 			if (quote != '"' && quote != '\'')
 				throw new ArgumentOutOfRangeException ("quote");
 
-			HtmlEncodeAttribute (output, new CharString (value), startIndex, count, quote);
+			HtmlAttributeEncode (output, new CharString (value), startIndex, count, quote);
 		}
 
 		/// <summary>
@@ -269,7 +281,7 @@ namespace HtmlKit {
 		/// <exception cref="System.ArgumentOutOfRangeException">
 		/// <paramref name="quote"/> is not a valid quote character.
 		/// </exception>
-		public static void HtmlEncodeAttribute (TextWriter output, string value, char quote = '"')
+		public static void HtmlAttributeEncode (TextWriter output, string value, char quote = '"')
 		{
 			if (output == null)
 				throw new ArgumentNullException ("output");
@@ -280,7 +292,7 @@ namespace HtmlKit {
 			if (quote != '"' && quote != '\'')
 				throw new ArgumentOutOfRangeException ("quote");
 
-			HtmlEncodeAttribute (output, new CharString (value), 0, value.Length, quote);
+			HtmlAttributeEncode (output, new CharString (value), 0, value.Length, quote);
 		}
 
 		/// <summary>
@@ -303,7 +315,7 @@ namespace HtmlKit {
 		/// <para>-or-</para>
 		/// <para><paramref name="quote"/> is not a valid quote character.</para>
 		/// </exception>
-		public static string HtmlEncodeAttribute (string value, int startIndex, int count, char quote = '"')
+		public static string HtmlAttributeEncode (string value, int startIndex, int count, char quote = '"')
 		{
 			if (value == null)
 				throw new ArgumentNullException ("value");
@@ -320,7 +332,7 @@ namespace HtmlKit {
 			var encoded = new StringBuilder ();
 
 			using (var output = new StringWriter (encoded))
-				HtmlEncodeAttribute (output, new CharString (value), startIndex, count, quote);
+				HtmlAttributeEncode (output, new CharString (value), startIndex, count, quote);
 
 			return encoded.ToString ();
 		}
@@ -340,7 +352,7 @@ namespace HtmlKit {
 		/// <exception cref="System.ArgumentOutOfRangeException">
 		/// <paramref name="quote"/> is not a valid quote character.
 		/// </exception>
-		public static string HtmlEncodeAttribute (string value, char quote = '"')
+		public static string HtmlAttributeEncode (string value, char quote = '"')
 		{
 			if (value == null)
 				throw new ArgumentNullException ("value");
@@ -351,7 +363,7 @@ namespace HtmlKit {
 			var encoded = new StringBuilder ();
 
 			using (var output = new StringWriter (encoded))
-				HtmlEncodeAttribute (output, new CharString (value), 0, value.Length, quote);
+				HtmlAttributeEncode (output, new CharString (value), 0, value.Length, quote);
 
 			return encoded.ToString ();
 		}
@@ -391,22 +403,30 @@ namespace HtmlKit {
 				int unichar, nextIndex;
 
 				switch (c) {
+				case '\t': case '\r': case '\n': case '\f': output.Write (c); break;
 				case '\'': output.Write ("&#39;"); break;
 				case '"': output.Write ("&quot;"); break;
 				case '&': output.Write ("&amp;"); break;
 				case '<': output.Write ("&lt;"); break;
 				case '>': output.Write ("&gt;"); break;
 				default:
-					if (c >= 160 && c < 256) {
-						unichar = c;
-					} else if (char.IsSurrogate (c)) {
+					if (c < 32 || (c >= 127 && c < 160)) {
+						// illegal control character
+						break;
+					}
+
+					if (c > 255 && char.IsSurrogate (c)) {
 						if (index + 1 < endIndex && char.IsSurrogatePair (c, data[index])) {
 							unichar = char.ConvertToUtf32 (c, data[index]);
 							index++;
 						} else {
 							unichar = c;
 						}
+					} else if (c >= 160) {
+						// 160-255 and non-surrogates
+						unichar = c;
 					} else {
+						// SPACE and other printable (safe) ASCII
 						output.Write (c);
 						break;
 					}

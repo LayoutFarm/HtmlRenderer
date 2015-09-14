@@ -164,7 +164,7 @@ namespace HtmlKit {
 				throw new InvalidOperationException ("Attribute values can only be written in the Attribute state.");
 
 			html.Write ('=');
-			HtmlUtils.HtmlEncodeAttribute (html, value, startIndex, count);
+			HtmlUtils.HtmlAttributeEncode (html, value, startIndex, count);
 			WriterState = HtmlWriterState.Tag;
 		}
 
@@ -174,7 +174,7 @@ namespace HtmlKit {
 				throw new InvalidOperationException ("Attribute values can only be written in the Attribute state.");
 
 			html.Write ('=');
-			HtmlUtils.HtmlEncodeAttribute (html, value);
+			HtmlUtils.HtmlAttributeEncode (html, value);
 			WriterState = HtmlWriterState.Tag;
 		}
 
