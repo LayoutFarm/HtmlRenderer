@@ -2,7 +2,7 @@
 
 namespace HtmlKit {
 	public partial class HtmlEntityDecoder {
-		const int MaxEntityLength = 31;
+		const int MaxEntityLength = 32;
 
 		bool PushNamedEntity (char c)
 		{

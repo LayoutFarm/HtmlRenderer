@@ -20,6 +20,7 @@ namespace LayoutFarm.WebDom.Parser
                 case ParseEngineKind.HtmlKitParser:
                     return new HtmlKitParser();
                 default:
+                    //return new HtmlKitParser();
                     return new MyHtmlParser();
             }
         }

@@ -38,7 +38,7 @@ namespace HtmlKit {
 	public abstract class HtmlToken
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="HtmlKit.HtmlToken"/> class.
+		/// Initializes a new instance of the <see cref="HtmlToken"/> class.
 		/// </summary>
 		/// <remarks>
 		/// Creates a new <see cref="HtmlToken"/>.
@@ -73,12 +73,12 @@ namespace HtmlKit {
 		public abstract void WriteTo (TextWriter output);
 
 		/// <summary>
-		/// Returns a <see cref="System.String"/> that represents the current <see cref="HtmlKit.HtmlToken"/>.
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="HtmlToken"/>.
 		/// </summary>
 		/// <remarks>
-		/// Returns a <see cref="System.String"/> that represents the current <see cref="HtmlKit.HtmlToken"/>.
+		/// Returns a <see cref="System.String"/> that represents the current <see cref="HtmlToken"/>.
 		/// </remarks>
-		/// <returns>A <see cref="System.String"/> that represents the current <see cref="HtmlKit.HtmlToken"/>.</returns>
+		/// <returns>A <see cref="System.String"/> that represents the current <see cref="HtmlToken"/>.</returns>
 		public override string ToString ()
 		{
 			using (var output = new StringWriter ()) {
@@ -98,20 +98,22 @@ namespace HtmlKit {
 	public class HtmlCommentToken : HtmlToken
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="HtmlKit.HtmlCommentToken"/> class.
+		/// Initializes a new instance of the <see cref="HtmlCommentToken"/> class.
 		/// </summary>
 		/// <remarks>
 		/// Creates a new <see cref="HtmlCommentToken"/>.
 		/// </remarks>
 		/// <param name="comment">The comment text.</param>
+		/// <param name="bogus"><c>true</c> if the comment is bogus; otherwise, <c>false</c>.</param>
 		/// <exception cref="System.ArgumentNullException">
 		/// <paramref name="comment"/> is <c>null</c>.
 		/// </exception>
-		public HtmlCommentToken (string comment) : base (HtmlTokenKind.Comment)
+		public HtmlCommentToken (string comment, bool bogus = false) : base (HtmlTokenKind.Comment)
 		{
 			if (comment == null)
 				throw new ArgumentNullException ("comment");
 
+			IsBogusComment = bogus;
 			Comment = comment;
 		}
 
@@ -123,7 +125,18 @@ namespace HtmlKit {
 		/// </remarks>
 		/// <value>The comment.</value>
 		public string Comment {
-			get; internal set;
+			get; private set;
+		}
+
+		/// <summary>
+		/// Get whether or not the comment is a bogus comment.
+		/// </summary>
+		/// <remarks>
+		/// Gets whether or not the comment is a bogus comment.
+		/// </remarks>
+		/// <value><c>true</c> if the comment is bogus; otherwise, <c>false</c>.</value>
+		public bool IsBogusComment {
+			get; private set;
 		}
 
 		/// <summary>
@@ -141,9 +154,15 @@ namespace HtmlKit {
 			if (output == null)
 				throw new ArgumentNullException ("output");
 
-			output.Write ("<!--");
-			output.Write (Comment);
-			output.Write ("-->");
+			if (!IsBogusComment) {
+				output.Write ("<!--");
+				output.Write (Comment);
+				output.Write ("-->");
+			} else {
+				output.Write ('<');
+				output.Write (Comment);
+				output.Write ('>');
+			}
 		}
 	}
 
@@ -156,7 +175,37 @@ namespace HtmlKit {
 	public class HtmlDataToken : HtmlToken
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="HtmlKit.HtmlDataToken"/> class.
+		/// Initializes a new instance of the <see cref="HtmlDataToken"/> class.
+		/// </summary>
+		/// <remarks>
+		/// Creates a new <see cref="HtmlDataToken"/>.
+		/// </remarks>
+		/// <param name="kind">The kind of character data.</param>
+		/// <param name="data">The character data.</param>
+		/// <exception cref="System.ArgumentOutOfRangeException">
+		/// <paramref name="kind"/> is not a valid <see cref="HtmlTokenKind"/>.
+		/// </exception>
+		/// <exception cref="System.ArgumentNullException">
+		/// <paramref name="data"/> is <c>null</c>.
+		/// </exception>
+		protected HtmlDataToken (HtmlTokenKind kind, string data) : base (kind)
+		{
+			switch (kind) {
+			default: throw new ArgumentOutOfRangeException ("kind");
+			case HtmlTokenKind.ScriptData:
+			case HtmlTokenKind.CData:
+			case HtmlTokenKind.Data:
+				break;
+			}
+
+			if (data == null)
+				throw new ArgumentNullException ("data");
+
+			Data = data;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="HtmlDataToken"/> class.
 		/// </summary>
 		/// <remarks>
 		/// Creates a new <see cref="HtmlDataToken"/>.
@@ -214,6 +263,92 @@ namespace HtmlKit {
 	}
 
 	/// <summary>
+	/// An HTML token constisting of <c>[CDATA[</c>.
+	/// </summary>
+	/// <remarks>
+	/// An HTML token consisting of <c>[CDATA[</c>.
+	/// </remarks>
+	public class HtmlCDataToken : HtmlDataToken
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="HtmlCDataToken"/> class.
+		/// </summary>
+		/// <remarks>
+		/// Creates a new <see cref="HtmlCDataToken"/>.
+		/// </remarks>
+		/// <param name="data">The character data.</param>
+		/// <exception cref="System.ArgumentNullException">
+		/// <paramref name="data"/> is <c>null</c>.
+		/// </exception>
+		public HtmlCDataToken (string data) : base (HtmlTokenKind.CData, data)
+		{
+		}
+
+		/// <summary>
+		/// Write the HTML character data to a <see cref="System.IO.TextWriter"/>.
+		/// </summary>
+		/// <remarks>
+		/// Writes the HTML character data to a <see cref="System.IO.TextWriter"/>,
+		/// encoding it if it isn't already encoded.
+		/// </remarks>
+		/// <param name="output">The output.</param>
+		/// <exception cref="System.ArgumentNullException">
+		/// <paramref name="output"/> is <c>null</c>.
+		/// </exception>
+		public override void WriteTo (TextWriter output)
+		{
+			if (output == null)
+				throw new ArgumentNullException ("output");
+
+			output.Write ("<![CDATA[");
+			output.Write (Data);
+			output.Write ("]]>");
+		}
+	}
+
+	/// <summary>
+	/// An HTML token constisting of script data.
+	/// </summary>
+	/// <remarks>
+	/// An HTML token consisting of script data.
+	/// </remarks>
+	public class HtmlScriptDataToken : HtmlDataToken
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="HtmlScriptDataToken"/> class.
+		/// </summary>
+		/// <remarks>
+		/// Creates a new <see cref="HtmlScriptDataToken"/>.
+		/// </remarks>
+		/// <param name="data">The script data.</param>
+		/// <exception cref="System.ArgumentNullException">
+		/// <paramref name="data"/> is <c>null</c>.
+		/// </exception>
+		public HtmlScriptDataToken (string data) : base (HtmlTokenKind.ScriptData, data)
+		{
+		}
+
+		/// <summary>
+		/// Write the HTML script data to a <see cref="System.IO.TextWriter"/>.
+		/// </summary>
+		/// <remarks>
+		/// Writes the HTML script data to a <see cref="System.IO.TextWriter"/>,
+		/// encoding it if it isn't already encoded.
+		/// </remarks>
+		/// <param name="output">The output.</param>
+		/// <exception cref="System.ArgumentNullException">
+		/// <paramref name="output"/> is <c>null</c>.
+		/// </exception>
+		public override void WriteTo (TextWriter output)
+		{
+			if (output == null)
+				throw new ArgumentNullException ("output");
+
+			output.Write (Data);
+		}
+	}
+
+	/// <summary>
 	/// An HTML tag token.
 	/// </summary>
 	/// <remarks>
@@ -222,7 +357,7 @@ namespace HtmlKit {
 	public class HtmlTagToken : HtmlToken
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="HtmlKit.HtmlTagToken"/> class.
+		/// Initializes a new instance of the <see cref="HtmlTagToken"/> class.
 		/// </summary>
 		/// <remarks>
 		/// Creates a new <see cref="HtmlTagToken"/>.
@@ -250,7 +385,7 @@ namespace HtmlKit {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="HtmlKit.HtmlTagToken"/> class.
+		/// Initializes a new instance of the <see cref="HtmlTagToken"/> class.
 		/// </summary>
 		/// <remarks>
 		/// Creates a new <see cref="HtmlTagToken"/>.
@@ -350,7 +485,7 @@ namespace HtmlKit {
 				output.Write (Attributes[i].Name);
 				if (Attributes[i].Value != null) {
 					output.Write ('=');
-					HtmlUtils.HtmlEncodeAttribute (output, Attributes[i].Value);
+					HtmlUtils.HtmlAttributeEncode (output, Attributes[i].Value);
 				}
 			}
 			if (IsEmptyElement)
@@ -371,7 +506,7 @@ namespace HtmlKit {
 		string systemIdentifier;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="HtmlKit.HtmlDocTypeToken"/> class.
+		/// Initializes a new instance of the <see cref="HtmlDocTypeToken"/> class.
 		/// </summary>
 		/// <remarks>
 		/// Creates a new <see cref="HtmlDocTypeToken"/>.
