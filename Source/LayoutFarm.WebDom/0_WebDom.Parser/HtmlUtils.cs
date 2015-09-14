@@ -31,6 +31,7 @@ namespace LayoutFarm.WebDom.Parser
         /// </summary>
         private static readonly Dictionary<string, char> _decodeOnly = new Dictionary<string, char>(StringComparer.InvariantCultureIgnoreCase);
         private static readonly Dictionary<string, char> _encodeDecode0 = new Dictionary<string, char>(StringComparer.InvariantCultureIgnoreCase);
+
         /// <summary>
         /// Init.
         /// </summary>
