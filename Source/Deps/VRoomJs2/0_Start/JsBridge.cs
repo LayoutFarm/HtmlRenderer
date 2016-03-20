@@ -16,6 +16,7 @@ namespace VroomJs
             {
                 return;
             }
+            NativeV8JsInterOp.V8Init();
         }
         public static void UnloadV8()
         {

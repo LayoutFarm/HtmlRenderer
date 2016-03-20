@@ -66,17 +66,40 @@ namespace LayoutFarm.WebDom.Parser
                                     else
                                     {
                                         //if not equal then check if current node need close tag or not
-                                        if (HtmlDecodeHelper.IsSingleTag(currentNode.LocalNameIndex))
+                                        int count = 3;//?
+                                        bool ok = false;
+                                        while (count > 0)
                                         {
-                                            if (openEltStack.Count > 0)
-                                            {
-                                                currentNode = openEltStack.Pop();
-                                            }
-                                            if (currentNode.LocalName == tag.Name)
+                                            if (HtmlTagMatching.IsSingleTag(currentNode.LocalNameIndex))
                                             {
                                                 if (openEltStack.Count > 0)
                                                 {
                                                     currentNode = openEltStack.Pop();
+                                                }
+                                                if (currentNode.LocalName == tag.Name)
+                                                {
+                                                    if (openEltStack.Count > 0)
+                                                    {
+                                                        currentNode = openEltStack.Pop();
+                                                        ok = true;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            else if (HtmlTagMatching.CanAutoClose(currentNode.LocalNameIndex))
+                                            {
+                                                if (openEltStack.Count > 0)
+                                                {
+                                                    currentNode = openEltStack.Pop();
+                                                }
+                                                if (currentNode.LocalName == tag.Name)
+                                                {
+                                                    if (openEltStack.Count > 0)
+                                                    {
+                                                        currentNode = openEltStack.Pop();
+                                                        ok = true;
+                                                        break;
+                                                    }
                                                 }
                                             }
                                             else
@@ -84,12 +107,15 @@ namespace LayoutFarm.WebDom.Parser
                                                 //implement err handling here!
                                                 throw new NotSupportedException();
                                             }
+                                            count--;
                                         }
-                                        else
+                                        if (!ok)
                                         {
-                                            //implement err handling here!
                                             throw new NotSupportedException();
                                         }
+
+
+
                                     }
 
                                 }
