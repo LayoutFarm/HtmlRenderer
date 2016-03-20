@@ -257,10 +257,7 @@ namespace VroomJs
             //------------------
             NativeV8JsInterOp.RegisterManagedListener(engineListenerDel);
 
-        }
-
-
-
+        } 
 
         static void EngineListener_Listen(int mIndex, string methodName, IntPtr args)
         {

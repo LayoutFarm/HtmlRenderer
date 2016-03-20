@@ -7,18 +7,15 @@ namespace LayoutFarm.WebDom.Impl
 
     partial class HtmlDocument : IHtmlDocument
     {
+
         [JsMethod]
         IHtmlElement IHtmlDocument.getElementById(string id)
         {
             return this.GetElementById(id) as HtmlElement;
         }
+        
         [JsMethod]
-        DomNode IHtmlDocument.createTextNode(char[] nodeContent)
-        {
-            return this.CreateTextNode(nodeContent);
-        }
-        [JsMethod]
-        DomNode IHtmlDocument.createTextNode(string nodeContent)
+        ITextNode IHtmlDocument.createTextNode(string nodeContent)
         {
             return this.CreateTextNode(nodeContent.ToCharArray());
         }
