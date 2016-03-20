@@ -31,6 +31,8 @@ namespace LayoutFarm.WebDom
         Span,
         [Map("img")]
         Img,
+        [Map("p")]
+        P,
         [Map("table")]
         Table,
         [Map("tr")]

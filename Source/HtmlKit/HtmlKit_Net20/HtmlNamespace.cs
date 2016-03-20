@@ -71,7 +71,7 @@ namespace HtmlKit {
 	/// <remarks>
 	/// <see cref="HtmlNamespace"/> extension methods.
 	/// </remarks>
-	static class HtmlNamespaceExtensions
+	public static class HtmlNamespaceExtensions
 	{
 		static readonly int NamespacePrefixLength = "http://www.w3.org/".Length;
 

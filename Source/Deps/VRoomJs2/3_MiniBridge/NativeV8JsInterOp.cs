@@ -167,10 +167,11 @@ namespace VroomJs
         
         static ManagedListenerDel engineListenerDel;
 
-
         [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern int TestCallBack();
 
+        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void V8Init();
 
         [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
         static extern IntPtr CreateWrapperForManagedObject(IntPtr unmanagedEnginePtr, int mIndex, IntPtr rtTypeDefinition);
@@ -256,10 +257,7 @@ namespace VroomJs
             //------------------
             NativeV8JsInterOp.RegisterManagedListener(engineListenerDel);
 
-        }
-
-
-
+        } 
 
         static void EngineListener_Listen(int mIndex, string methodName, IntPtr args)
         {

@@ -66,19 +66,19 @@ namespace LayoutFarm.HtmlBoxes
             get { return latestFloatingContext.LatestLeftFloatBox; }
 
         }
-        internal CssBox LatestRightFloatBox
+        public CssBox LatestRightFloatBox
         {
             get
             {
                 return latestFloatingContext.LatestRightFloatBox;
             }
         }
-        internal bool HasFloatBoxInContext
+        public bool HasFloatBoxInContext
         {
             get { return latestFloatingContext.HasFloatBox; }
         }
 
-        internal void AddFloatBox(CssBox floatBox)
+        public void AddFloatBox(CssBox floatBox)
         {
             latestFloatingContext.AddFloatBox(floatBox);
 

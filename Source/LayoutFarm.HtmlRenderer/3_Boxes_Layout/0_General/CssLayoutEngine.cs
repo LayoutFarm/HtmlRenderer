@@ -818,7 +818,7 @@ namespace LayoutFarm.HtmlBoxes
             // 1) line formatting context  , or
             // 2) block formatting context 
 
-            var myContainingBlock = lay.LatestContainingBlock;
+            CssBox myContainingBlock = lay.LatestContainingBlock;
             CssBox prevSibling = lay.LatestSiblingBox;
             if (box.CssDisplay != Css.CssDisplay.TableCell)
             {

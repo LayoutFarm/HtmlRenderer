@@ -152,7 +152,8 @@ namespace Test5_Ease
             //after load html page 
 
             //test javascript ...
-            JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+            //JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+
 #if DEBUG
             JsBridge.dbugTestCallbacks();
 #endif
@@ -160,7 +161,7 @@ namespace Test5_Ease
 
             //2. access dom  
 
-            var webdoc = easeViewport.GetHtmlDom() as LayoutFarm.WebDom.IHtmlDocument;
+            var webdoc = easeViewport.GetHtmlDom() as IHtmlDocument;
 
             //create js engine and context
             var jstypeBuilder = new LayoutFarm.Scripting.MyJsTypeDefinitionBuilder();
@@ -173,14 +174,10 @@ namespace Test5_Ease
                 stwatch.Start();
 
                 ctx.SetVariableAutoWrap("document", webdoc);
-
-
                 string testsrc1 = "document.getElementById('a');";
                 object domNodeA = ctx.Execute(testsrc1);
-
                 string testsrc2 = "document.getElementById('b');";
                 object domNodeB = ctx.Execute(testsrc2);
-
                 stwatch.Stop();
 
                 Console.WriteLine("met1 template:" + stwatch.ElapsedMilliseconds.ToString());
@@ -230,7 +227,7 @@ namespace Test5_Ease
             //after load html page 
 
             //load v8 if ready
-            JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+            //JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
 #if DEBUG
             JsBridge.dbugTestCallbacks();
 #endif
@@ -323,7 +320,7 @@ namespace Test5_Ease
             //after load html page 
 
             //load v8 if ready
-            JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
+            // JsBridge.LoadV8("..\\..\\dll\\VRoomJsNative.dll");
 #if DEBUG
             JsBridge.dbugTestCallbacks();
 #endif
@@ -356,8 +353,9 @@ namespace Test5_Ease
 
                         var newText1 = document.createTextNode('... says hello world!');
                         domNodeA.appendChild(newText1);
+
                         for(var i=0;i<10;++i){
-                            var newText2= document.createTextNode(i);
+                            var newText2= document.createTextNode(i.toString());
                             domNodeA.appendChild(newText2);       
                         } 
 

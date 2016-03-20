@@ -130,7 +130,8 @@ namespace VroomJs
                             getterMethod.InvokeMethod(new ManagedMethodArgs(this, metArgs));
                         }
 
-                    } break;
+                    }
+                    break;
                 case 2:
                     {
                         //property set
@@ -141,7 +142,8 @@ namespace VroomJs
                         {
                             setterMethod.InvokeMethod(new ManagedMethodArgs(this, metArgs));
                         }
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         if (mIndex == 0) return;
@@ -150,7 +152,8 @@ namespace VroomJs
                         {
                             foundMet.InvokeMethod(new ManagedMethodArgs(this, metArgs));
                         }
-                    } break;
+                    }
+                    break;
             }
 
 
@@ -1001,6 +1004,7 @@ namespace VroomJs
         public void SetVariableAutoWrap<T>(string name, T result)
              where T : class
         {
+           
             var jsTypeDef = this.GetJsTypeDefinition<T>(result);
             var proxy = this.CreateWrapper(result, jsTypeDef);
             this.SetVariable(name, proxy);
@@ -1013,8 +1017,9 @@ namespace VroomJs
             Type type = typeof(T);
             JsTypeDefinition found;
             if (this.mappingJsTypeDefinition.TryGetValue(type, out found))
+            {
                 return found;
-
+            }
             //if not found
             //just create it
             found = this.jsTypeDefBuilder.BuildTypeDefinition(type);

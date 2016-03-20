@@ -26,55 +26,52 @@
 
 using System.IO;
 
-namespace HtmlKit
-{
-    interface ICharArray
-    {
-        char this[int index] { get; }
+namespace HtmlKit {
+	interface ICharArray
+	{
+		char this[int index] { get; }
 
-        void Write(TextWriter output, int startIndex, int count);
-    }
+		void Write (TextWriter output, int startIndex, int count);
+	}
 
-    class CharArray : ICharArray
-    {
-        readonly char[] array;
+	class CharArray : ICharArray
+	{
+		readonly char[] array;
 
-        public CharArray(char[] value)
-        {
-            array = value;
-        }
+		public CharArray (char[] value)
+		{
+			array = value;
+		}
 
-        public char this[int index]
-        {
-            get { return array[index]; }
-        }
+		public char this[int index] {
+			get { return array[index]; }
+		}
 
-        public void Write(TextWriter output, int startIndex, int count)
-        {
-            output.Write(array, startIndex, count);
-        }
-    }
+		public void Write (TextWriter output, int startIndex, int count)
+		{
+			output.Write (array, startIndex, count);
+		}
+	}
 
-    class CharString : ICharArray
-    {
-        readonly string array;
+	class CharString : ICharArray
+	{
+		readonly string array;
 
-        public CharString(string value)
-        {
-            array = value;
-        }
+		public CharString (string value)
+		{
+			array = value;
+		}
 
-        public char this[int index]
-        {
-            get { return array[index]; }
-        }
+		public char this[int index] {
+			get { return array[index]; }
+		}
 
-        public void Write(TextWriter output, int startIndex, int count)
-        {
-            int endIndex = startIndex + count;
+		public void Write (TextWriter output, int startIndex, int count)
+		{
+			int endIndex = startIndex + count;
 
-            for (int i = startIndex; i < endIndex; i++)
-                output.Write(array[i]);
-        }
-    }
+			for (int i = startIndex; i < endIndex; i++)
+				output.Write (array[i]);
+		}
+	}
 }

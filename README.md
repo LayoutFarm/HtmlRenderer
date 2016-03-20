@@ -1,6 +1,7 @@
 #Hello !
 
 ![nearly acid1](/readme_imgs/s02_nearly_acid1.png)
+(test file: Source/HtmlRenderer.Demo/Samples/0_acid1_dev/00.html)
 ###seems promising ?, NEARLY pass ACID1 test :)
 
 
@@ -19,7 +20,7 @@ such as
 
 2) decoupling, dependency analysis
 
-3) optimizing the html,css parser (moving to Html5/Css3!)
+3) optimizing the html,css parser (moving to Html5/Css3!) -> https://github.com/jstedfast/HtmlKit , (with plan for AngleSharp too)
 
 4) add svg/canvas support (not complete)
 
@@ -47,7 +48,7 @@ it is a C# project with permissive license( MIT,BSD, Apache2)
 
 #plan
 
-1) always permissive licencse (MIT,BSD, Apache2)
+1) always permissive license (MIT,BSD, Apache2)
 
 2) bind some features from Blink engine
 

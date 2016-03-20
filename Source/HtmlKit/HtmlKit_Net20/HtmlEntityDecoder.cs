@@ -49,7 +49,7 @@ namespace HtmlKit {
 		/// </remarks>
 		public HtmlEntityDecoder ()
 		{
-			pushed = new char[MaxEntityLength + 1];
+			pushed = new char[MaxEntityLength];
 		}
 
 		bool PushNumericEntity (char c)
@@ -73,9 +73,9 @@ namespace HtmlKit {
 				v = c - '0';
 			} else if (xbase == 16) {
 				if (c >= 'a') {
-					v = c - 'a';
+					v = (c - 'a') + 10;
 				} else if (c >= 'A') {
-					v = c - 'A';
+					v = (c - 'A') + 10;
 				} else {
 					return false;
 				}
@@ -122,7 +122,7 @@ namespace HtmlKit {
 				return true;
 			}
 
-			if (index + 1 >= MaxEntityLength)
+			if (index + 1 > MaxEntityLength)
 				return false;
 
 			if (c == ';')
