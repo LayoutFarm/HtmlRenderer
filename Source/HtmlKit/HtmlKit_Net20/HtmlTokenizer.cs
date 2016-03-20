@@ -34,7 +34,7 @@ namespace HtmlKit {
 	/// <remarks>
 	/// Tokenizes HTML text, emitting an <see cref="HtmlToken"/> for each token it encounters.
 	/// </remarks>
-	public partial class HtmlTokenizer
+	public class HtmlTokenizer
 	{
 		const string DocType = "doctype";
 		const string CData = "[CDATA[";
@@ -158,9 +158,10 @@ namespace HtmlKit {
 		/// </remarks>
 		/// <returns>The HTML comment token.</returns>
 		/// <param name="comment">The comment.</param>
-		protected virtual HtmlCommentToken CreateCommentToken (string comment)
+		/// <param name="bogus"><c>true</c> if the comment is bogus; otherwise, <c>false</c>.</param>
+		protected virtual HtmlCommentToken CreateCommentToken (string comment, bool bogus = false)
 		{
-			return new HtmlCommentToken (comment);
+			return new HtmlCommentToken (comment, bogus);
 		}
 
 		/// <summary>
@@ -174,6 +175,32 @@ namespace HtmlKit {
 		protected virtual HtmlDataToken CreateDataToken (string data)
 		{
 			return new HtmlDataToken (data);
+		}
+
+		/// <summary>
+		/// Create an HTML character data token.
+		/// </summary>
+		/// <remarks>
+		/// Creates an HTML character data token.
+		/// </remarks>
+		/// <returns>The HTML character data token.</returns>
+		/// <param name="data">The character data.</param>
+		protected virtual HtmlCDataToken CreateCDataToken (string data)
+		{
+			return new HtmlCDataToken (data);
+		}
+
+		/// <summary>
+		/// Create an HTML script data token.
+		/// </summary>
+		/// <remarks>
+		/// Creates an HTML script data token.
+		/// </remarks>
+		/// <returns>The HTML script data token.</returns>
+		/// <param name="data">The script data.</param>
+		protected virtual HtmlScriptDataToken CreateScriptDataToken (string data)
+		{
+			return new HtmlScriptDataToken (data);
 		}
 
 		/// <summary>
@@ -261,32 +288,62 @@ namespace HtmlKit {
 			name.Length = 0;
 		}
 
-		bool EmitCommentToken (string comment)
+		HtmlToken EmitCommentToken (string comment, bool bogus = false)
 		{
-			token = CreateCommentToken (comment);
+			var token = CreateCommentToken (comment, bogus);
 			data.Length = 0;
 			name.Length = 0;
-			return true;
+			return token;
 		}
 
-        void EmitCommentToken (StringBuilder comment)
+		HtmlToken EmitCommentToken (StringBuilder comment, bool bogus = false)
 		{
-			EmitCommentToken (comment.ToString ());
-		} 
-        void EmitDataToken (bool encodeEntities)
-		{
-            
-            if (data.Length > 0) {
-				var dataToken = CreateDataToken (data.ToString ());
-				dataToken.EncodeEntities = encodeEntities;
-				token = dataToken;
-				data.Length = 0;
-                return;
-			}
-			token = null;
+			return EmitCommentToken (comment.ToString (), bogus);
 		}
 
-		void EmitTagToken ()
+		HtmlToken EmitDocType ()
+		{
+			var token = doctype;
+			data.Length = 0;
+			doctype = null;
+			return token;
+		}
+
+		HtmlToken EmitDataToken (bool encodeEntities)
+		{
+			if (data.Length == 0)
+				return null;
+
+			var token = CreateDataToken (data.ToString ());
+			token.EncodeEntities = encodeEntities;
+			data.Length = 0;
+
+			return token;
+		}
+
+		HtmlToken EmitCDataToken ()
+		{
+			if (data.Length == 0)
+				return null;
+
+			var token = CreateCDataToken (data.ToString ());
+			data.Length = 0;
+
+			return token;
+		}
+
+		HtmlToken EmitScriptDataToken ()
+		{
+			if (data.Length == 0)
+				return null;
+
+			var token = CreateScriptDataToken (data.ToString ());
+			data.Length = 0;
+
+			return token;
+		}
+
+		HtmlToken EmitTagToken ()
 		{
 			if (!tag.IsEndTag && !tag.IsEmptyElement) {
 				switch (tag.Id) {
@@ -316,7 +373,7 @@ namespace HtmlKit {
 						var attr = tag.Attributes[i - 1];
 
 						if (attr.Id == HtmlAttributeId.XmlNS && attr.Value != null) {
-							HtmlNamespace = tag.Attributes[i].Value.ToHtmlNamespace ();
+							HtmlNamespace = attr.Value.ToHtmlNamespace ();
 							break;
 						}
 					}
@@ -329,12 +386,15 @@ namespace HtmlKit {
 				TokenizerState = HtmlTokenizerState.Data;
 			}
 
+			var token = tag;
 			data.Length = 0;
-			token = tag;
-			tag = null;			 
+			tag = null;
+
+			return token;
 		}
 
-		void ReadCharacterReference (HtmlTokenizerState next)
+		// 8.2.4.69 Tokenizing character references
+		HtmlToken ReadCharacterReference (HtmlTokenizerState next)
 		{
 			int nc = Peek ();
 			char c;
@@ -343,19 +403,17 @@ namespace HtmlKit {
 				TokenizerState = HtmlTokenizerState.EndOfFile;
 				data.Append ('&');
 
-			    EmitDataToken ( true);
-                return;
+				return EmitDataToken (true);
 			}
 
 			c = (char) nc;
-			token = null;
 
 			switch (c) {
 			case '\t': case '\r': case '\n': case '\f': case ' ': case '<': case '&':
 				// no character is consumed, emit '&'
 				TokenizerState = next;
 				data.Append ('&');
-                return;
+				return null;
 			}
 
 			entity.Push ('&');
@@ -368,8 +426,7 @@ namespace HtmlKit {
 					data.Append (entity.GetPushedInput ());
 					entity.Reset ();
 
-					EmitDataToken (true);
-                    return;
+					return EmitDataToken (true);
 				}
 
 				c = (char) nc;
@@ -385,10 +442,10 @@ namespace HtmlKit {
 				Read ();
 			}
 
-            
+			return null;
 		}
 
-		void ReadGenericRawTextLessThan ( HtmlTokenizerState rawText, HtmlTokenizerState rawTextEndTagOpen)
+		HtmlToken ReadGenericRawTextLessThan (HtmlTokenizerState rawText, HtmlTokenizerState rawTextEndTagOpen)
 		{
 			int nc = Peek ();
 
@@ -406,18 +463,17 @@ namespace HtmlKit {
 				break;
 			}
 
-			token = null;             
+			return null;
 		}
 
-		void ReadGenericRawTextEndTagOpen (bool decoded, HtmlTokenizerState rawText, HtmlTokenizerState rawTextEndTagName)
+		HtmlToken ReadGenericRawTextEndTagOpen (bool decoded, HtmlTokenizerState rawText, HtmlTokenizerState rawTextEndTagName)
 		{
 			int nc = Peek ();
 			char c;
 
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.EndOfFile;
-			    EmitDataToken ( decoded);
-                return;
+				return EmitDataToken (decoded);
 			}
 
 			c = (char) nc;
@@ -431,10 +487,10 @@ namespace HtmlKit {
 				TokenizerState = rawText;
 			}
 
-			token = null;             
+			return null;
 		}
 
-		void ReadGenericRawTextEndTagName ( bool decoded, HtmlTokenizerState rawText)
+		HtmlToken ReadGenericRawTextEndTagName (bool decoded, HtmlTokenizerState rawText)
 		{
 			var current = TokenizerState;
 
@@ -446,8 +502,7 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					name.Length = 0;
 
-					EmitDataToken ( decoded);
-                    return;
+					return EmitDataToken (decoded);
 				}
 
 				c = (char) nc;
@@ -471,18 +526,17 @@ namespace HtmlKit {
 					goto default;
 				case '>':
 					if (NameIs (activeTagName)) {
-						token = CreateTagToken (name.ToString (), true);
+						var token = CreateTagToken (name.ToString (), true);
 						TokenizerState = HtmlTokenizerState.Data;
 						data.Length = 0;
 						name.Length = 0;
-                        return;
+						return token;
 					}
 					goto default;
 				default:
 					if (!IsAsciiLetter (c)) {
 						TokenizerState = rawText;
-						token = null;
-                        return;
+						return null;
 					}
 
 					name.Append (c == '\0' ? '\uFFFD' : c);
@@ -492,10 +546,12 @@ namespace HtmlKit {
 
 			tag = CreateTagToken (name.ToString (), true);
 			name.Length = 0;
-			token = null;			 
+
+			return null;
 		}
 
-		void ReadDataToken()
+		// 8.2.4.1 Data state
+		HtmlToken ReadData ()
 		{
 			do {
 				int nc = Read ();
@@ -512,8 +568,7 @@ namespace HtmlKit {
 				case '&':
 					if (DecodeCharacterReferences) {
 						TokenizerState = HtmlTokenizerState.CharacterReferenceInData;
-                        token = null;
-                        return;
+						return null;
 					}
 
 					goto default;
@@ -523,27 +578,21 @@ namespace HtmlKit {
 				//case 0: // parse error, but emit it anyway
 				default:
 					data.Append (c);
-
-					// Note: we emit at 1024 characters simply to avoid
-					// consuming too much memory.
-					if (data.Length >= 1024) { 
-						EmitDataToken ( DecodeCharacterReferences);
-                        return;
-                    }
-
 					break;
 				}
 			} while (TokenizerState == HtmlTokenizerState.Data);
 
-			EmitDataToken (DecodeCharacterReferences);
+			return EmitDataToken (DecodeCharacterReferences);
 		}
 
-		void ReadCharacterReferenceInData ()
+		// 8.2.4.2 Character reference in data state
+		HtmlToken ReadCharacterReferenceInData ()
 		{
-			ReadCharacterReference ( HtmlTokenizerState.Data);
+			return ReadCharacterReference (HtmlTokenizerState.Data);
 		}
 
-		void ReadRcData ()
+		// 8.2.4.3 RCDATA state
+		HtmlToken ReadRcData ()
 		{
 			do {
 				int nc = Read ();
@@ -560,43 +609,30 @@ namespace HtmlKit {
 				case '&':
 					if (DecodeCharacterReferences) {
 						TokenizerState = HtmlTokenizerState.CharacterReferenceInRcData;
-						token = null;
-                        return;
+						return null;
 					}
 
 					goto default;
 				case '<':
 					TokenizerState = HtmlTokenizerState.RcDataLessThan;
-					EmitDataToken ( DecodeCharacterReferences);
-                    return;
+					return EmitDataToken (DecodeCharacterReferences);
 				default:
 					data.Append (c == '\0' ? '\uFFFD' : c);
-
-					// Note: we emit at 1024 characters simply to avoid
-					// consuming too much memory.
-					if (data.Length >= 1024) { 
-						  EmitDataToken (DecodeCharacterReferences);
-                    }
-
 					break;
 				}
 			} while (TokenizerState == HtmlTokenizerState.RcData);
 
-			if (data.Length > 0) { 
-				  EmitDataToken (DecodeCharacterReferences);
-                  return;
-            }
-
-			token = null; 
+			return EmitDataToken (DecodeCharacterReferences);
 		}
 
-		void ReadCharacterReferenceInRcData ()
+		// 8.2.4.4 Character reference in RCDATA state
+		HtmlToken ReadCharacterReferenceInRcData ()
 		{
-			 ReadCharacterReference ( HtmlTokenizerState.RcData);
-            
+			return ReadCharacterReference (HtmlTokenizerState.RcData);
 		}
 
-		void ReadRawText ()
+		// 8.2.4.5 RAWTEXT state
+		HtmlToken ReadRawText ()
 		{
 			do {
 				int nc = Read ();
@@ -612,31 +648,18 @@ namespace HtmlKit {
 				switch (c) {
 				case '<':
 					TokenizerState = HtmlTokenizerState.RawTextLessThan;
-					EmitDataToken (false);
-                    return;
+					return EmitDataToken (false);
 				default:
 					data.Append (c == '\0' ? '\uFFFD' : c);
-
-					// Note: we emit at 1024 characters simply to avoid
-					// consuming too much memory.
-					if (data.Length >= 1024) { 
-					    EmitDataToken (false);
-                        return;
-                    }
-
 					break;
 				}
 			} while (TokenizerState == HtmlTokenizerState.RawText);
 
-			if (data.Length > 0) { 
-			   EmitDataToken (false);
-               return;
-            }
-
-			token = null; 
+			return EmitDataToken (false);
 		}
 
-		void ReadScriptData ()
+		// 8.2.4.6 Script data state
+		HtmlToken ReadScriptData ()
 		{
 			do {
 				int nc = Read ();
@@ -652,30 +675,18 @@ namespace HtmlKit {
 				switch (c) {
 				case '<':
 					TokenizerState = HtmlTokenizerState.ScriptDataLessThan;
-					EmitDataToken (false);                     
-                    return;
+					break;
 				default:
 					data.Append (c == '\0' ? '\uFFFD' : c);
-
-					// Note: we emit at 1024 characters simply to avoid
-					// consuming too much memory.
-					if (data.Length >= 1024) { 
-					    EmitDataToken (false);
-                        return;
-                    }
 					break;
 				}
 			} while (TokenizerState == HtmlTokenizerState.ScriptData);
 
-            if (data.Length > 0)
-            {
-                EmitDataToken(false);
-                return;
-            }
-			token = null;			  
+			return EmitScriptDataToken ();
 		}
 
-		void ReadPlainText ()
+		// 8.2.4.7 PLAINTEXT state
+		HtmlToken ReadPlainText ()
 		{
 			int nc = Read ();
 
@@ -683,32 +694,25 @@ namespace HtmlKit {
 				char c = (char) nc;
 
 				data.Append (c == '\0' ? '\uFFFD' : c);
-
-                // Note: we emit at 1024 characters simply to avoid
-                // consuming too much memory.
-                if (data.Length >= 1024){
-                   EmitDataToken(false);
-                   return;
-                }
 				nc = Read ();
 			}
 
 			TokenizerState = HtmlTokenizerState.EndOfFile;
 
-			EmitDataToken ( false);
+			return EmitDataToken (false);
 		}
-		bool ReadTagOpen ()
+
+		// 8.2.4.8 Tag open state
+		HtmlToken ReadTagOpen ()
 		{
 			int nc = Read ();
 			char c;
 
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.EndOfFile;
-				token = CreateDataToken ("<");
-				return true;
+				var token = CreateDataToken ("<");
+				return token;
 			}
-
-			token = null;
 
 			c = (char) nc;
 
@@ -727,27 +731,25 @@ namespace HtmlKit {
 					name.Append (c);
 				} else {
 					TokenizerState = HtmlTokenizerState.Data;
-					return false;
 				}
 				break;
 			}
 
-			return false;
+			return null;
 		}
 
-		void ReadEndTagOpen ()
+		// 8.2.4.9 End tag open state
+		HtmlToken ReadEndTagOpen ()
 		{
 			int nc = Read ();
 			char c;
 
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.EndOfFile;
-				EmitDataToken (false);
-                return;
+				return EmitDataToken (false);
 			}
 
 			c = (char) nc;
-			token = null;
 
 			// Note: we save the data in case we hit a parse error and have to emit a data token
 			data.Append (c);
@@ -755,7 +757,7 @@ namespace HtmlKit {
 			switch (c) {
 			case '>': // parse error
 				TokenizerState = HtmlTokenizerState.Data;
-				data.Length = 0;
+				data.Length = 0; // FIXME: this is probably wrong
 				break;
 			default:
 				if (IsAsciiLetter (c)) {
@@ -764,14 +766,15 @@ namespace HtmlKit {
 					name.Append (c);
 				} else {
 					TokenizerState = HtmlTokenizerState.BogusComment;
-                    return;
 				}
 				break;
 			}
-			 
+
+			return null;
 		}
 
-		void ReadTagName ()
+		// 8.2.4.10 Tag name state
+		HtmlToken ReadTagName ()
 		{
 			do {
 				int nc = Read ();
@@ -781,8 +784,7 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					name.Length = 0;
 
-					EmitDataToken (false);
-                    return;
+					return EmitDataToken (false);
 				}
 
 				c = (char) nc;
@@ -798,11 +800,11 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.SelfClosingStartTag;
 					break;
 				case '>':
-					token = CreateTagToken (name.ToString (), isEndTag);
-					TokenizerState = HtmlTokenizerState.Data;
+					tag = CreateTagToken (name.ToString (), isEndTag);
 					data.Length = 0;
 					name.Length = 0;
-                    return;
+
+					return EmitTagToken ();
 				default:
 					name.Append (c == '\0' ? '\uFFFD' : c);
 					break;
@@ -811,42 +813,48 @@ namespace HtmlKit {
 
 			tag = CreateTagToken (name.ToString (), isEndTag);
 			name.Length = 0;
-			token = null;
 
-			
+			return null;
 		}
 
-		void ReadRcDataLessThan ()
+		// 8.2.4.11 RCDATA less-than sign state
+		HtmlToken ReadRcDataLessThan ()
 		{
-			  ReadGenericRawTextLessThan ( HtmlTokenizerState.RcData, HtmlTokenizerState.RcDataEndTagOpen);
+			return ReadGenericRawTextLessThan (HtmlTokenizerState.RcData, HtmlTokenizerState.RcDataEndTagOpen);
 		}
 
-        void ReadRcDataEndTagOpen ()
+		// 8.2.4.12 RCDATA end tag open state
+		HtmlToken ReadRcDataEndTagOpen ()
 		{
-			  ReadGenericRawTextEndTagOpen (DecodeCharacterReferences, HtmlTokenizerState.RcData, HtmlTokenizerState.RcDataEndTagName);
+			return ReadGenericRawTextEndTagOpen (DecodeCharacterReferences, HtmlTokenizerState.RcData, HtmlTokenizerState.RcDataEndTagName);
 		}
 
-        void ReadRcDataEndTagName ()
+		// 8.2.4.13 RCDATA end tag name state
+		HtmlToken ReadRcDataEndTagName ()
 		{
-			  ReadGenericRawTextEndTagName( DecodeCharacterReferences, HtmlTokenizerState.RcData);
+			return ReadGenericRawTextEndTagName (DecodeCharacterReferences, HtmlTokenizerState.RcData);
 		}
 
-	   void ReadRawTextLessThan ()
+		// 8.2.4.14 RAWTEXT less-than sign state
+		HtmlToken ReadRawTextLessThan ()
 		{
-			 ReadGenericRawTextLessThan (HtmlTokenizerState.RawText, HtmlTokenizerState.RawTextEndTagOpen);
+			return ReadGenericRawTextLessThan (HtmlTokenizerState.RawText, HtmlTokenizerState.RawTextEndTagOpen);
 		}
 
-	    void ReadRawTextEndTagOpen ()
+		// 8.2.4.15 RAWTEXT end tag open state
+		HtmlToken ReadRawTextEndTagOpen ()
 		{
-		     ReadGenericRawTextEndTagOpen ( false, HtmlTokenizerState.RawText, HtmlTokenizerState.RawTextEndTagName);
+			return ReadGenericRawTextEndTagOpen (false, HtmlTokenizerState.RawText, HtmlTokenizerState.RawTextEndTagName);
 		}
 
-		void ReadRawTextEndTagName ()
+		// 8.2.4.16 RAWTEXT end tag name state
+		HtmlToken ReadRawTextEndTagName ()
 		{
-			ReadGenericRawTextEndTagName (false, HtmlTokenizerState.RawText);
+			return ReadGenericRawTextEndTagName (false, HtmlTokenizerState.RawText);
 		}
 
-		void ReadScriptDataLessThan ()
+		// 8.2.4.17 Script data less-than sign state
+		HtmlToken ReadScriptDataLessThan ()
 		{
 			int nc = Peek ();
 
@@ -869,18 +877,18 @@ namespace HtmlKit {
 				break;
 			}
 
-			token = null;
+			return null;
 		}
 
-		void ReadScriptDataEndTagOpen ()
+		// 8.2.4.18 Script data end tag open state
+		HtmlToken ReadScriptDataEndTagOpen ()
 		{
 			int nc = Peek ();
 			char c;
 
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.EndOfFile;
-			    EmitDataToken ( false);
-                return;
+				return EmitScriptDataToken ();
 			}
 
 			c = (char) nc;
@@ -894,10 +902,11 @@ namespace HtmlKit {
 				TokenizerState = HtmlTokenizerState.ScriptData;
 			}
 
-			token = null; 
+			return null;
 		}
 
-		void ReadScriptDataEndTagName ()
+		// 8.2.4.19 Script data end tag name state
+		HtmlToken ReadScriptDataEndTagName ()
 		{
 			do {
 				int nc = Read ();
@@ -907,8 +916,7 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					name.Length = 0;
 
-					EmitDataToken (false);
-                    return;
+					return EmitScriptDataToken ();
 				}
 
 				c = (char) nc;
@@ -922,7 +930,6 @@ namespace HtmlKit {
 						TokenizerState = HtmlTokenizerState.BeforeAttributeName;
 						break;
 					}
-
 					goto default;
 				case '/':
 					if (NameIs ("script")) {
@@ -932,18 +939,18 @@ namespace HtmlKit {
 					goto default;
 				case '>':
 					if (NameIs ("script")) {
-						token = CreateTagToken (name.ToString (), true);
+						var token = CreateTagToken (name.ToString (), true);
 						TokenizerState = HtmlTokenizerState.Data;
 						data.Length = 0;
 						name.Length = 0;
-                        return;
+						return token;
 					}
 					goto default;
 				default:
 					if (!IsAsciiLetter (c)) {
 						TokenizerState = HtmlTokenizerState.ScriptData;
-						token = null;
-                        return;
+						name.Length = 0;
+						return null;
 					}
 
 					name.Append (c == '\0' ? '\uFFFD' : c);
@@ -953,47 +960,54 @@ namespace HtmlKit {
 
 			tag = CreateTagToken (name.ToString (), true);
 			name.Length = 0;
-			token = null;			 
+
+			return null;
 		}
 
-		void ReadScriptDataEscapeStart ()
+		// 8.2.4.20 Script data escape start state
+		HtmlToken ReadScriptDataEscapeStart ()
 		{
 			int nc = Peek ();
 
 			if (nc == '-') {
 				TokenizerState = HtmlTokenizerState.ScriptDataEscapeStartDash;
+				data.Append ('-');
 				Read ();
 			} else {
 				TokenizerState = HtmlTokenizerState.ScriptData;
 			}
 
-			token = null;			
+			return null;
 		}
 
-		void ReadScriptDataEscapeStartDash ()
+		// 8.2.4.21 Script data escape start dash state
+		HtmlToken ReadScriptDataEscapeStartDash ()
 		{
 			int nc = Peek ();
 
 			if (nc == '-') {
 				TokenizerState = HtmlTokenizerState.ScriptDataEscapedDashDash;
+				data.Append ('-');
 				Read ();
 			} else {
 				TokenizerState = HtmlTokenizerState.ScriptData;
 			}
 
-			token = null;			 
+			return null;
 		}
 
-        void ReadScriptDataEscaped ()
+		// 8.2.4.22 Script data escaped state
+		HtmlToken ReadScriptDataEscaped ()
 		{
+			HtmlToken token = null;
+
 			do {
 				int nc = Read ();
 				char c;
 
 				if (nc == -1) {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
-					EmitDataToken (false);
-                    return;
+					return EmitScriptDataToken ();
 				}
 
 				c = (char) nc;
@@ -1005,6 +1019,8 @@ namespace HtmlKit {
 					break;
 				case '<':
 					TokenizerState = HtmlTokenizerState.ScriptDataEscapedLessThan;
+					token = EmitScriptDataToken ();
+					data.Append ('<');
 					break;
 				default:
 					data.Append (c == '\0' ? '\uFFFD' : c);
@@ -1012,27 +1028,32 @@ namespace HtmlKit {
 				}
 			} while (TokenizerState == HtmlTokenizerState.ScriptDataEscaped);
 
-			token = null;			 
+			return token;
 		}
 
-		void ReadScriptDataEscapedDash ()
+		// 8.2.4.23 Script data escaped dash state
+		HtmlToken ReadScriptDataEscapedDash ()
 		{
+			HtmlToken token = null;
 			int nc = Peek ();
 			char c;
 
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.EndOfFile;
-				EmitDataToken (false);
-                return;
+				return EmitScriptDataToken ();
 			}
 
 			switch ((c = (char) nc)) {
 			case '-':
 				TokenizerState = HtmlTokenizerState.ScriptDataEscapedDashDash;
 				data.Append ('-');
+				Read ();
 				break;
 			case '<':
 				TokenizerState = HtmlTokenizerState.ScriptDataEscapedLessThan;
+				token = EmitScriptDataToken ();
+				data.Append ('<');
+				Read ();
 				break;
 			default:
 				TokenizerState = HtmlTokenizerState.ScriptDataEscaped;
@@ -1040,30 +1061,33 @@ namespace HtmlKit {
 				break;
 			}
 
-			token = null; 
+			return token;
 		}
 
-		void ReadScriptDataEscapedDashDash ()
+		// 8.2.4.24 Script data escaped dash dash state
+		HtmlToken ReadScriptDataEscapedDashDash ()
 		{
+			HtmlToken token = null;
+
 			do {
 				int nc = Read ();
 				char c;
 
 				if (nc == -1) {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
-					EmitDataToken (false);
-                    return;
+					return EmitScriptDataToken ();
 				}
 
 				c = (char) nc;
 
 				switch (c) {
 				case '-':
-					TokenizerState = HtmlTokenizerState.ScriptDataEscapedDash;
 					data.Append ('-');
 					break;
 				case '<':
 					TokenizerState = HtmlTokenizerState.ScriptDataEscapedLessThan;
+					token = EmitScriptDataToken ();
+					data.Append ('<');
 					break;
 				case '>':
 					TokenizerState = HtmlTokenizerState.ScriptData;
@@ -1074,67 +1098,61 @@ namespace HtmlKit {
 					data.Append (c);
 					break;
 				}
-			} while (TokenizerState == HtmlTokenizerState.ScriptDataEscaped);
+			} while (TokenizerState == HtmlTokenizerState.ScriptDataEscapedDashDash);
 
-			token = null;
-
-			 
+			return token;
 		}
 
-		void ReadScriptDataEscapedLessThan ()
+		// 8.2.4.25 Script data escaped less-than sign state
+		HtmlToken ReadScriptDataEscapedLessThan ()
 		{
 			int nc = Peek ();
 			char c = (char) nc;
 
 			if (c == '/') {
-				TokenizerState = HtmlTokenizerState.ScriptDataEndTagOpen;
+				TokenizerState = HtmlTokenizerState.ScriptDataEscapedEndTagOpen;
+				data.Append (c);
 				name.Length = 0;
 				Read ();
 			} else if (IsAsciiLetter (c)) {
-				TokenizerState = HtmlTokenizerState.ScriptDataDoubleEscaped;
-				data.Append ('<');
+				TokenizerState = HtmlTokenizerState.ScriptDataDoubleEscapeStart;
 				data.Append (c);
 				name.Append (c);
 				Read ();
 			} else {
 				TokenizerState = HtmlTokenizerState.ScriptDataEscaped;
-				data.Append ('<');
 			}
 
-			token = null;
-
-			
+			return null;
 		}
 
-		void ReadScriptDataEscapedEndTagOpen ()
+		// 8.2.4.26 Script data escaped end tag open state
+		HtmlToken ReadScriptDataEscapedEndTagOpen ()
 		{
 			int nc = Peek ();
 			char c;
 
-			data.Append ("</");
-
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.EndOfFile;
-				EmitDataToken (false);
-                return;
+				return EmitScriptDataToken ();
 			}
 
 			c = (char) nc;
 
 			if (IsAsciiLetter (c)) {
 				TokenizerState = HtmlTokenizerState.ScriptDataEscapedEndTagName;
+				data.Append (c);
 				name.Append (c);
 				Read ();
 			} else {
 				TokenizerState = HtmlTokenizerState.ScriptDataEscaped;
 			}
 
-			token = null;
-
-			 
+			return null;
 		}
 
-		void ReadScriptDataEscapedEndTagName ()
+		// 8.2.4.27 Script data escaped end tag name state
+		HtmlToken ReadScriptDataEscapedEndTagName ()
 		{
 			do {
 				int nc = Read ();
@@ -1144,8 +1162,7 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					name.Length = 0;
 
-			        EmitDataToken (false);
-                    return;
+					return EmitScriptDataToken ();
 				}
 
 				c = (char) nc;
@@ -1169,19 +1186,17 @@ namespace HtmlKit {
 					goto default;
 				case '>':
 					if (NameIs ("script")) {
-						token = CreateTagToken (name.ToString (), true);
+						var token = CreateTagToken (name.ToString (), true);
 						TokenizerState = HtmlTokenizerState.Data;
 						data.Length = 0;
 						name.Length = 0;
-                        return;
+						return token;
 					}
 					goto default;
 				default:
 					if (!IsAsciiLetter (c)) {
 						TokenizerState = HtmlTokenizerState.ScriptData;
-						data.Append (c);
-						token = null;
-						return;
+						return null;
 					}
 
 					name.Append (c);
@@ -1191,12 +1206,12 @@ namespace HtmlKit {
 
 			tag = CreateTagToken (name.ToString (), true);
 			name.Length = 0;
-			token = null;
 
-			 
+			return null;
 		}
 
-		void ReadScriptDataDoubleEscapeStart ()
+		// 8.2.4.28 Script data double escape start state
+		HtmlToken ReadScriptDataDoubleEscapeStart ()
 		{
 			do {
 				int nc = Read ();
@@ -1206,8 +1221,7 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					name.Length = 0;
 
-					EmitDataToken (false);
-                    return;
+					return EmitScriptDataToken ();
 				}
 
 				c = (char) nc;
@@ -1231,12 +1245,11 @@ namespace HtmlKit {
 				}
 			} while (TokenizerState == HtmlTokenizerState.ScriptDataDoubleEscapeStart);
 
-			token = null;
-
-			
+			return null;
 		}
 
-		void ReadScriptDataDoubleEscaped ()
+		// 8.2.4.29 Script data double escaped state
+		HtmlToken ReadScriptDataDoubleEscaped ()
 		{
 			do {
 				int nc = Read ();
@@ -1244,8 +1257,7 @@ namespace HtmlKit {
 
 				if (nc == -1) {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
-					EmitDataToken (false);
-                    return;
+					return EmitScriptDataToken ();
 				}
 
 				c = (char) nc;
@@ -1257,6 +1269,7 @@ namespace HtmlKit {
 					break;
 				case '<':
 					TokenizerState = HtmlTokenizerState.ScriptDataDoubleEscapedLessThan;
+					data.Append ('<');
 					break;
 				default:
 					data.Append (c == '\0' ? '\uFFFD' : c);
@@ -1264,20 +1277,18 @@ namespace HtmlKit {
 				}
 			} while (TokenizerState == HtmlTokenizerState.ScriptDataEscaped);
 
-			token = null;
-
-			
+			return null;
 		}
 
-		void ReadScriptDataDoubleEscapedDash ()
+		// 8.2.4.30 Script data double escaped dash state
+		HtmlToken ReadScriptDataDoubleEscapedDash ()
 		{
-			int nc = Peek ();
+			int nc = Read ();
 			char c;
 
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.EndOfFile;
-			    EmitDataToken ( false);
-                return;
+				return EmitScriptDataToken ();
 			}
 
 			switch ((c = (char) nc)) {
@@ -1287,6 +1298,7 @@ namespace HtmlKit {
 				break;
 			case '<':
 				TokenizerState = HtmlTokenizerState.ScriptDataDoubleEscapedLessThan;
+				data.Append ('<');
 				break;
 			default:
 				TokenizerState = HtmlTokenizerState.ScriptDataDoubleEscaped;
@@ -1294,12 +1306,11 @@ namespace HtmlKit {
 				break;
 			}
 
-			token = null;
-
-			
+			return null;
 		}
 
-		void ReadScriptDataDoubleEscapedDashDash ()
+		// 8.2.4.31 Script data double escaped dash dash state
+		HtmlToken ReadScriptDataDoubleEscapedDashDash ()
 		{
 			do {
 				int nc = Read ();
@@ -1307,8 +1318,7 @@ namespace HtmlKit {
 
 				if (nc == -1) {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
-					EmitDataToken (false);
-                    return;
+					return EmitScriptDataToken ();
 				}
 
 				c = (char) nc;
@@ -1330,14 +1340,13 @@ namespace HtmlKit {
 					data.Append (c);
 					break;
 				}
-			} while (TokenizerState == HtmlTokenizerState.ScriptDataEscaped);
+			} while (TokenizerState == HtmlTokenizerState.ScriptDataEscapedDashDash);
 
-			token = null;
-
-			
+			return null;
 		}
 
-		void ReadScriptDataDoubleEscapedLessThan ()
+		// 8.2.4.32 Script data double escaped less-than sign state
+		HtmlToken ReadScriptDataDoubleEscapedLessThan ()
 		{
 			int nc = Peek ();
 
@@ -1349,12 +1358,11 @@ namespace HtmlKit {
 				TokenizerState = HtmlTokenizerState.ScriptDataDoubleEscaped;
 			}
 
-			token = null;
-
-			 
+			return null;
 		}
 
-		void ReadScriptDataDoubleEscapeEnd ()
+		// 8.2.4.33 Script data double escape end state
+		HtmlToken ReadScriptDataDoubleEscapeEnd ()
 		{
 			do {
 				int nc = Peek ();
@@ -1381,15 +1389,12 @@ namespace HtmlKit {
 				}
 			} while (TokenizerState == HtmlTokenizerState.ScriptDataDoubleEscapeEnd);
 
-			token = null;
-
-			 
+			return null;
 		}
 
-		void ReadBeforeAttributeName ()
+		// 8.2.4.34 Before attribute name state
+		HtmlToken ReadBeforeAttributeName ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
@@ -1398,8 +1403,7 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					tag = null;
 
-					EmitDataToken ( false);
-                    return;
+					return EmitDataToken (false);
 				}
 
 				c = (char) nc;
@@ -1412,25 +1416,23 @@ namespace HtmlKit {
 					break;
 				case '/':
 					TokenizerState = HtmlTokenizerState.SelfClosingStartTag;
-                    return;
+					return null;
 				case '>':
-				    EmitTagToken ();
-                    return;
+					return EmitTagToken ();
 				case '"': case '\'': case '<': case '=':
 					// parse error
 					goto default;
 				default:
 					TokenizerState = HtmlTokenizerState.AttributeName;
 					name.Append (c == '\0' ? '\uFFFD' : c);
-                    return;
+					return null;
 				}
 			} while (true);
 		}
 
-		void ReadAttributeName ()
+		// 8.2.4.35 Attribute name state
+		HtmlToken ReadAttributeName ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
@@ -1439,9 +1441,9 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					name.Length = 0;
 					tag = null;
-					EmitDataToken (false);
-                    return;
-                }
+
+					return EmitDataToken (false);
+				}
 
 				c = (char) nc;
 
@@ -1461,21 +1463,21 @@ namespace HtmlKit {
 				case '>':
 					EmitTagAttribute ();
 
-					EmitTagToken ();
-                    return;
+					return EmitTagToken ();
 				default:
 					name.Append (c == '\0' ? '\uFFFD' : c);
 					break;
 				}
 			} while (TokenizerState == HtmlTokenizerState.AttributeName);
 
-			EmitTagAttribute ();		 
+			EmitTagAttribute ();
+
+			return null;
 		}
 
-	    void ReadAfterAttributeName ()
+		// 8.2.4.36 After attribute name state
+		HtmlToken ReadAfterAttributeName ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
@@ -1484,8 +1486,7 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					tag = null;
 
-					EmitDataToken (false);
-                    return;
+					return EmitDataToken (false);
 				}
 
 				c = (char) nc;
@@ -1498,28 +1499,26 @@ namespace HtmlKit {
 					break;
 				case '/':
 					TokenizerState = HtmlTokenizerState.SelfClosingStartTag;
-                    return;
+					return null;
 				case '=':
 					TokenizerState = HtmlTokenizerState.BeforeAttributeValue;
-					return;
+					return null;
 				case '>':
-					EmitTagToken ();
-                    return;
-                case '"': case '\'': case '<':
+					return EmitTagToken ();
+				case '"': case '\'': case '<':
 					// parse error
 					goto default;
 				default:
 					TokenizerState = HtmlTokenizerState.AttributeName;
 					name.Append (c == '\0' ? '\uFFFD' : c);
-                    return;
-                }
+					return null;
+				}
 			} while (true);
 		}
 
-		void ReadBeforeAttributeValue ()
+		// 8.2.4.37 Before attribute value state
+		HtmlToken ReadBeforeAttributeValue ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
@@ -1528,8 +1527,7 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					tag = null;
 
-				    EmitDataToken (false);
-                    return;
+					return EmitDataToken (false);
 				}
 
 				c = (char) nc;
@@ -1540,27 +1538,31 @@ namespace HtmlKit {
 				switch (c) {
 				case '\t': case '\r': case '\n': case '\f': case ' ':
 					break;
-				case '"': case '\'': TokenizerState = HtmlTokenizerState.AttributeValueQuoted; quote = c;
-                    return;
-				case '&': TokenizerState = HtmlTokenizerState.AttributeValueUnquoted;return;
+				case '"': case '\'':
+					TokenizerState = HtmlTokenizerState.AttributeValueQuoted;
+					quote = c;
+					return null;
+				case '&':
+					TokenizerState = HtmlTokenizerState.AttributeValueUnquoted;
+					return null;
 				case '/':
 					TokenizerState = HtmlTokenizerState.SelfClosingStartTag;
-                    return;
-                case '>':
-					 EmitTagToken ();
-                     return;
+					return null;
+				case '>':
+					return EmitTagToken ();
 				case '<': case '=': case '`':
 					// parse error
 					goto default;
 				default:
-					TokenizerState = HtmlTokenizerState.AttributeName;
+					TokenizerState = HtmlTokenizerState.AttributeValueUnquoted;
 					name.Append (c == '\0' ? '\uFFFD' : c);
-                    return;
-                }
+					return null;
+				}
 			} while (true);
 		}
 
-		void ReadAttributeValueQuoted ()
+		// 8.2.4.38 Attribute value (double-quoted) state
+		HtmlToken ReadAttributeValueQuoted ()
 		{
 			do {
 				int nc = Read ();
@@ -1570,8 +1572,7 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					name.Length = 0;
 
-					EmitDataToken ( false);
-                    return;
+					return EmitDataToken (false);
 				}
 
 				c = (char) nc;
@@ -1582,8 +1583,7 @@ namespace HtmlKit {
 				switch (c) {
 				case '&':
 					TokenizerState = HtmlTokenizerState.CharacterReferenceInAttributeValue;
-					token = null;
-                    return;
+					return null;
 				default:
 					if (c == quote) {
 						TokenizerState = HtmlTokenizerState.AfterAttributeValueQuoted;
@@ -1597,12 +1597,12 @@ namespace HtmlKit {
 
 			attribute.Value = name.ToString ();
 			name.Length = 0;
-			token = null;
 
-            return;
+			return null;
 		}
 
-		void ReadAttributeValueUnquoted ()
+		// 8.2.4.40 Attribute value (unquoted) state
+		HtmlToken ReadAttributeValueUnquoted ()
 		{
 			do {
 				int nc = Read ();
@@ -1612,8 +1612,7 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					name.Length = 0;
 
-					EmitDataToken (false);
-                    return;
+					return EmitDataToken (false);
 				}
 
 				c = (char) nc;
@@ -1627,20 +1626,16 @@ namespace HtmlKit {
 					break;
 				case '&':
 					TokenizerState = HtmlTokenizerState.CharacterReferenceInAttributeValue;
-					token = null;
-                    return;
+					return null;
 				case '>':
-					EmitTagToken ();
-                    return;
+					attribute.Value = name.ToString ();
+					name.Length = 0;
+
+					return EmitTagToken ();
 				case '\'': case '<': case '=': case '`':
 					// parse error
 					goto default;
 				default:
-					if (c == quote) {
-						TokenizerState = HtmlTokenizerState.AfterAttributeValueQuoted;
-						break;
-					}
-
 					name.Append (c == '\0' ? '\uFFFD' : c);
 					break;
 				}
@@ -1648,12 +1643,12 @@ namespace HtmlKit {
 
 			attribute.Value = name.ToString ();
 			name.Length = 0;
-			token = null;
 
-			
+			return null;
 		}
 
-		void ReadCharacterReferenceInAttributeValue ()
+		// 8.2.4.41 Character reference in attribute value state
+		HtmlToken ReadCharacterReferenceInAttributeValue ()
 		{
 			char additionalAllowedCharacter = quote == '\0' ? '>' : quote;
 			int nc = Peek ();
@@ -1665,12 +1660,10 @@ namespace HtmlKit {
 				data.Append ('&');
 				name.Length = 0;
 
-				EmitDataToken (false);
-                return;
+				return EmitDataToken (false);
 			}
 
 			c = (char) nc;
-			token = null;
 
 			switch (c) {
 			case '\t': case '\r': case '\n': case '\f': case ' ': case '<': case '&':
@@ -1698,8 +1691,7 @@ namespace HtmlKit {
 						data.Append (entity.GetPushedInput ());
 						entity.Reset ();
 
-						EmitDataToken ( false);
-                        return;
+						return EmitDataToken (false);
 					}
 
 					c = (char) nc;
@@ -1728,35 +1720,37 @@ namespace HtmlKit {
 			if (consume)
 				Read ();
 
-			
+			return null;
 		}
 
-		void ReadAfterAttributeValueQuoted ()
+		// 8.2.4.42 After attribute value (quoted) state
+		HtmlToken ReadAfterAttributeValueQuoted ()
 		{
+			HtmlToken token = null;
 			int nc = Peek ();
 			bool consume;
 			char c;
 
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.EndOfFile;
-				EmitDataToken ( false);
-                return;
+				return EmitDataToken (false);
 			}
 
 			c = (char) nc;
-			token = null;
 
 			switch (c) {
 			case '\t': case '\r': case '\n': case '\f': case ' ':
 				TokenizerState = HtmlTokenizerState.BeforeAttributeName;
+				data.Append (c);
 				consume = true;
 				break;
 			case '/':
 				TokenizerState = HtmlTokenizerState.SelfClosingStartTag;
+				data.Append (c);
 				consume = true;
 				break;
 			case '>':
-				EmitTagToken ();
+				token = EmitTagToken ();
 				consume = true;
 				break;
 			default:
@@ -1766,18 +1760,20 @@ namespace HtmlKit {
 			}
 
 			if (consume)
-				Read ();			
+				Read ();
+
+			return token;
 		}
 
-		void ReadSelfClosingStartTag ()
+		// 8.2.4.43 Self-closing start tag state
+		HtmlToken ReadSelfClosingStartTag ()
 		{
 			int nc = Read ();
 			char c;
 
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.EndOfFile;
-			    EmitDataToken (false);
-                return;
+				return EmitDataToken (false);
 			}
 
 			c = (char) nc;
@@ -1785,8 +1781,7 @@ namespace HtmlKit {
 			if (c == '>') {
 				tag.IsEmptyElement = true;
 
-				EmitTagToken ();
-                return;
+				return EmitTagToken ();
 			}
 
 			// parse error
@@ -1795,20 +1790,21 @@ namespace HtmlKit {
 			// Note: we save the data in case we hit a parse error and have to emit a data token
 			data.Append (c);
 
-			token = null;
-
-			
+			return null;
 		}
 
-		void ReadBogusComment ()
+		// 8.2.4.44 Bogus comment state
+		HtmlToken ReadBogusComment ()
 		{
 			int nc;
 			char c;
 
-			if (data.Length > 0) {
-				c = data[data.Length - 1];
-				data.Length = 1;
-				data[0] = c;
+			if (data.Length > 0 && data[0] == '<') {
+				// strip the leading '<' but leave the rest
+				var buf = data.ToString ();
+				for (int i = 1; i < data.Length; i++)
+					data[i - 1] = data[i];
+				data.Length--;
 			}
 
 			do {
@@ -1823,10 +1819,13 @@ namespace HtmlKit {
 				data.Append (c == '\0' ? '\uFFFD' : c);
 			} while (true);
 
-		     EmitCommentToken (data);
+			TokenizerState = HtmlTokenizerState.Data;
+
+			return EmitCommentToken (data, true);
 		}
 
-		void ReadMarkupDeclarationOpen ()
+		// 8.2.4.45 Markup declaration open state
+		HtmlToken ReadMarkupDeclarationOpen ()
 		{
 			int count = 0, nc;
 			char c = '\0';
@@ -1834,8 +1833,7 @@ namespace HtmlKit {
 			while (count < 2) {
 				if ((nc = Peek ()) == -1) {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
-					EmitDataToken ( false);
-                    return;
+					return EmitDataToken (false);
 				}
 
 				if ((c = (char) nc) != '-')
@@ -1847,32 +1845,29 @@ namespace HtmlKit {
 				count++;
 			}
 
-			token = null;
-
 			if (count == 2) {
 				TokenizerState = HtmlTokenizerState.CommentStart;
 				name.Length = 0;
-                return;
+				return null;
 			}
 
 			if (count == 1) {
 				// parse error
 				TokenizerState = HtmlTokenizerState.BogusComment;
-                return;
+				return null;
 			}
 
 			if (c == 'D' || c == 'd') {
 				// Note: we save the data in case we hit a parse error and have to emit a data token
 				data.Append (c);
 				name.Append (c);
-				Read ();
 				count = 1;
+				Read ();
 
 				while (count < 7) {
 					if ((nc = Read ()) == -1) {
 						TokenizerState = HtmlTokenizerState.EndOfFile;
-						EmitDataToken ( false);
-                        return;
+						return EmitDataToken (false);
 					}
 
 					if (ToLower ((c = (char) nc)) != DocType[count])
@@ -1888,44 +1883,48 @@ namespace HtmlKit {
 					doctype = CreateDocTypeToken (name.ToString ());
 					TokenizerState = HtmlTokenizerState.DocType;
 					name.Length = 0;
-                    return;
+					return null;
 				}
 
 				name.Length = 0;
 			} else if (c == '[') {
 				// Note: we save the data in case we hit a parse error and have to emit a data token
 				data.Append (c);
-				Read ();
 				count = 1;
+				Read ();
 
 				while (count < 7) {
 					if ((nc = Read ()) == -1) {
 						TokenizerState = HtmlTokenizerState.EndOfFile;
-						EmitDataToken ( false);
-                        return;
+						return EmitDataToken (false);
 					}
 
-					if ((c = (char) nc) != CData[count])
-						break;
+					c = (char) nc;
 
 					// Note: we save the data in case we hit a parse error and have to emit a data token
 					data.Append (c);
+
+					if (c != CData[count])
+						break;
+
 					count++;
 				}
 
 				if (count == 7) {
 					TokenizerState = HtmlTokenizerState.CDataSection;
-                    return;
+					data.Length = 0;
+					return null;
 				}
 			}
 
 			// parse error
 			TokenizerState = HtmlTokenizerState.BogusComment;
 
-			
+			return null;
 		}
 
-		void ReadCommentStart ()
+		// 8.2.4.46 Comment start state
+		HtmlToken ReadCommentStart ()
 		{
 			int nc = Read ();
 			char c;
@@ -1933,8 +1932,7 @@ namespace HtmlKit {
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.Data;
 
-				EmitCommentToken (string.Empty);
-                return;
+				return EmitCommentToken (string.Empty);
 			}
 
 			c = (char) nc;
@@ -1947,26 +1945,25 @@ namespace HtmlKit {
 				break;
 			case '>': // parse error
 				TokenizerState = HtmlTokenizerState.Data;
-				 EmitCommentToken (string.Empty);
-                 return;
-			default: // parse error
+				return EmitCommentToken (string.Empty);
+			default:
 				TokenizerState = HtmlTokenizerState.Comment;
 				name.Append (c == '\0' ? '\uFFFD' : c);
 				break;
 			}
 
-			token = null; 
+			return null;
 		}
 
-		void ReadCommentStartDash ()
+		// 8.2.4.47 Comment start dash state
+		HtmlToken ReadCommentStartDash ()
 		{
 			int nc = Read ();
 			char c;
 
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.Data;
-			    EmitCommentToken (name);
-                return;
+				return EmitCommentToken (name);
 			}
 
 			c = (char) nc;
@@ -1979,30 +1976,27 @@ namespace HtmlKit {
 				break;
 			case '>': // parse error
 				TokenizerState = HtmlTokenizerState.Data;
-				EmitCommentToken (name);
-                return;
-			default: // parse error
+				return EmitCommentToken (name);
+			default:
 				TokenizerState = HtmlTokenizerState.Comment;
 				name.Append ('-');
 				name.Append (c == '\0' ? '\uFFFD' : c);
 				break;
 			}
 
-			token = null;			 
+			return null;
 		}
 
-		void ReadComment ()
+		// 8.2.4.48 Comment state
+		HtmlToken ReadComment ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
 
 				if (nc == -1) {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
-			        EmitCommentToken (name);
-                    return;
+					return EmitCommentToken (name);
 				}
 
 				c = (char) nc;
@@ -2013,7 +2007,7 @@ namespace HtmlKit {
 				switch (c) {
 				case '-':
 					TokenizerState = HtmlTokenizerState.CommentEndDash;
-                    return;
+					return null;
 				default:
 					name.Append (c == '\0' ? '\uFFFD' : c);
 					break;
@@ -2021,16 +2015,15 @@ namespace HtmlKit {
 			} while (true);
 		}
 
-		// FIXME: this is exactly the same as ReadCommentStartDash
-		void ReadCommentEndDash ()
+		// 8.2.4.49 Comment end dash state
+		HtmlToken ReadCommentEndDash ()
 		{
 			int nc = Read ();
 			char c;
 
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.Data;
-				EmitCommentToken (name);
-                return;
+				return EmitCommentToken (name);
 			}
 
 			c = (char) nc;
@@ -2041,34 +2034,26 @@ namespace HtmlKit {
 			case '-':
 				TokenizerState = HtmlTokenizerState.CommentEnd;
 				break;
-			case '>': // parse error
-				TokenizerState = HtmlTokenizerState.Data;
-				EmitCommentToken (name);
-                return;
-			default: // parse error
+			default:
 				TokenizerState = HtmlTokenizerState.Comment;
 				name.Append ('-');
 				name.Append (c == '\0' ? '\uFFFD' : c);
 				break;
 			}
 
-			token = null;
-
-			 
+			return null;
 		}
 
-		void ReadCommentEnd ()
+		// 8.2.4.50 Comment end state
+		HtmlToken ReadCommentEnd ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
 
 				if (nc == -1) {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
-					EmitCommentToken (name);
-                    return;
+					return EmitCommentToken (name);
 				}
 
 				c = (char) nc;
@@ -2079,31 +2064,30 @@ namespace HtmlKit {
 				switch (c) {
 				case '>':
 					TokenizerState = HtmlTokenizerState.Data;
-					EmitCommentToken (name);
-                    return;
+					return EmitCommentToken (name);
 				case '!': // parse error
 					TokenizerState = HtmlTokenizerState.CommentEndBang;
-                    return;
+					return null;
 				case '-':
 					name.Append ('-');
 					break;
 				default:
 					TokenizerState = HtmlTokenizerState.Comment;
 					name.Append (c == '\0' ? '\uFFFD' : c);
-                    return;
+					return null;
 				}
 			} while (true);
 		}
 
-		void ReadCommentEndBang ()
+		// 8.2.4.51 Comment end bang state
+		HtmlToken ReadCommentEndBang ()
 		{
 			int nc = Read ();
 			char c;
 
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.EndOfFile;
-				EmitCommentToken (name);
-                return;
+				return EmitCommentToken (name);
 			}
 
 			c = (char) nc;
@@ -2117,8 +2101,7 @@ namespace HtmlKit {
 				break;
 			case '>':
 				TokenizerState = HtmlTokenizerState.Data;
-				EmitCommentToken (name);
-                return;
+				return EmitCommentToken (name);
 			default: // parse error
 				TokenizerState = HtmlTokenizerState.Comment;
 				name.Append ("--!");
@@ -2126,12 +2109,11 @@ namespace HtmlKit {
 				break;
 			}
 
-			token = null;
-
-			
+			return null;
 		}
 
-		void ReadDocType ()
+		// 8.2.4.52 DOCTYPE state
+		HtmlToken ReadDocType ()
 		{
 			int nc = Peek ();
 			char c;
@@ -2139,16 +2121,13 @@ namespace HtmlKit {
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.EndOfFile;
 				doctype.ForceQuirksMode = true;
-				token = doctype;
-				doctype = null;
-				data.Length = 0;
 				name.Length = 0;
-                return;
+
+				return EmitDocType ();
 			}
 
 			TokenizerState = HtmlTokenizerState.BeforeDocTypeName;
 			c = (char) nc;
-			token = null;
 
 			switch (c) {
 			case '\t': case '\r': case '\n': case '\f': case ' ':
@@ -2157,13 +2136,12 @@ namespace HtmlKit {
 				break;
 			}
 
-            return;
+			return null;
 		}
 
-		void ReadBeforeDocTypeName ()
+		// 8.2.4.53 Before DOCTYPE name state
+		HtmlToken ReadBeforeDocTypeName ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
@@ -2171,10 +2149,7 @@ namespace HtmlKit {
 				if (nc == -1) {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					doctype.ForceQuirksMode = true;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
-                    return;
+					return EmitDocType ();
 				}
 
 				c = (char) nc;
@@ -2188,26 +2163,22 @@ namespace HtmlKit {
 				case '>':
 					TokenizerState = HtmlTokenizerState.Data;
 					doctype.ForceQuirksMode = true;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
-                    return;
+					return EmitDocType ();
 				case '\0':
 					TokenizerState = HtmlTokenizerState.DocTypeName;
 					name.Append ('\uFFFD');
-                    return;
-                default:
+					return null;
+				default:
 					TokenizerState = HtmlTokenizerState.DocTypeName;
 					name.Append (c);
-                    return;
-                }
+					return null;
+				}
 			} while (true);
 		}
 
-		bool ReadDocTypeName ()
+		// 8.2.4.54 DOCTYPE name state
+		HtmlToken ReadDocTypeName ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
@@ -2216,10 +2187,9 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					doctype.Name = name.ToString ();
 					doctype.ForceQuirksMode = true;
-					token = doctype;
-					data.Length = 0;
 					name.Length = 0;
-					return true;
+
+					return EmitDocType ();
 				}
 
 				c = (char) nc;
@@ -2234,11 +2204,9 @@ namespace HtmlKit {
 				case '>':
 					TokenizerState = HtmlTokenizerState.Data;
 					doctype.Name = name.ToString ();
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
 					name.Length = 0;
-					return true;
+
+					return EmitDocType ();
 				case '\0':
 					name.Append ('\uFFFD');
 					break;
@@ -2251,13 +2219,12 @@ namespace HtmlKit {
 			doctype.Name = name.ToString ();
 			name.Length = 0;
 
-			return false;
+			return null;
 		}
 
-		bool ReadAfterDocTypeName ()
+		// 8.2.4.55 After DOCTYPE name state
+		HtmlToken ReadAfterDocTypeName ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
@@ -2265,10 +2232,7 @@ namespace HtmlKit {
 				if (nc == -1) {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					doctype.ForceQuirksMode = true;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
-					return true;
+					return EmitDocType ();
 				}
 
 				c = (char) nc;
@@ -2281,10 +2245,7 @@ namespace HtmlKit {
 					break;
 				case '>':
 					TokenizerState = HtmlTokenizerState.Data;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
-					return true;
+					return EmitDocType ();
 				default:
 					name.Append (c);
 					if (name.Length < 6)
@@ -2301,12 +2262,13 @@ namespace HtmlKit {
 					}
 
 					name.Length = 0;
-					return false;
+					return null;
 				}
 			} while (true);
 		}
 
-		public bool ReadAfterDocTypePublicKeyword ()
+		// 8.2.4.56 After DOCTYPE public keyword state
+		HtmlToken ReadAfterDocTypePublicKeyword ()
 		{
 			int nc = Read ();
 			char c;
@@ -2314,10 +2276,7 @@ namespace HtmlKit {
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.EndOfFile;
 				doctype.ForceQuirksMode = true;
-				token = doctype;
-				doctype = null;
-				data.Length = 0;
-				return true;
+				return EmitDocType ();
 			}
 
 			c = (char) nc;
@@ -2337,25 +2296,19 @@ namespace HtmlKit {
 			case '>': // parse error
 				TokenizerState = HtmlTokenizerState.Data;
 				doctype.ForceQuirksMode = true;
-				token = doctype;
-				doctype = null;
-				data.Length = 0;
-				return true;
+				return EmitDocType ();
 			default: // parse error
 				TokenizerState = HtmlTokenizerState.BogusDocType;
 				doctype.ForceQuirksMode = true;
 				break;
 			}
 
-			token = null;
-
-			return false;
+			return null;
 		}
 
-		public bool ReadBeforeDocTypePublicIdentifier ()
+		// 8.2.4.57 Before DOCTYPE public identifier state
+		HtmlToken ReadBeforeDocTypePublicIdentifier ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
@@ -2363,10 +2316,7 @@ namespace HtmlKit {
 				if (nc == -1) {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					doctype.ForceQuirksMode = true;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
-					return true;
+					return EmitDocType ();
 				}
 
 				c = (char) nc;
@@ -2381,26 +2331,22 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.DocTypePublicIdentifierQuoted;
 					doctype.PublicIdentifier = string.Empty;
 					quote = c;
-					return false;
+					return null;
 				case '>': // parse error
 					TokenizerState = HtmlTokenizerState.Data;
 					doctype.ForceQuirksMode = true;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
-					return true;
+					return EmitDocType ();
 				default: // parse error
 					TokenizerState = HtmlTokenizerState.BogusDocType;
 					doctype.ForceQuirksMode = true;
-					return false;
+					return null;
 				}
 			} while (true);
 		}
 
-		void ReadDocTypePublicIdentifierQuoted ()
+		// 8.2.4.58 DOCTYPE public identifier (double-quoted) state
+		HtmlToken ReadDocTypePublicIdentifierQuoted ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
@@ -2409,11 +2355,9 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					doctype.PublicIdentifier = name.ToString ();
 					doctype.ForceQuirksMode = true;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
 					name.Length = 0;
-                    return;
+
+					return EmitDocType ();
 				}
 
 				c = (char) nc;
@@ -2429,11 +2373,9 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.Data;
 					doctype.PublicIdentifier = name.ToString ();
 					doctype.ForceQuirksMode = true;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
 					name.Length = 0;
-                    return;
+
+					return EmitDocType ();
 				default:
 					if (c == quote) {
 						TokenizerState = HtmlTokenizerState.AfterDocTypePublicIdentifier;
@@ -2448,10 +2390,11 @@ namespace HtmlKit {
 			doctype.PublicIdentifier = name.ToString ();
 			name.Length = 0;
 
-			
+			return null;
 		}
 
-		public void ReadAfterDocTypePublicIdentifier ()
+		// 8.2.4.60 After DOCTYPE public identifier state
+		HtmlToken ReadAfterDocTypePublicIdentifier ()
 		{
 			int nc = Read ();
 			char c;
@@ -2459,10 +2402,7 @@ namespace HtmlKit {
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.EndOfFile;
 				doctype.ForceQuirksMode = true;
-				token = doctype;
-				doctype = null;
-				data.Length = 0;
-                return;
+				return EmitDocType ();
 			}
 
 			c = (char) nc;
@@ -2476,10 +2416,7 @@ namespace HtmlKit {
 				break;
 			case '>':
 				TokenizerState = HtmlTokenizerState.Data;
-				token = doctype;
-				doctype = null;
-				data.Length = 0;
-                return;
+				return EmitDocType ();
 			case '"': case '\'': // parse error
 				TokenizerState = HtmlTokenizerState.DocTypeSystemIdentifierQuoted;
 				doctype.SystemIdentifier = string.Empty;
@@ -2491,15 +2428,12 @@ namespace HtmlKit {
 				break;
 			}
 
-			token = null;
-
-			 
+			return null;
 		}
 
-		void ReadBetweenDocTypePublicAndSystemIdentifiers ()
+		// 8.2.4.61 Between DOCTYPE public and system identifiers state
+		HtmlToken ReadBetweenDocTypePublicAndSystemIdentifiers ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
@@ -2507,10 +2441,7 @@ namespace HtmlKit {
 				if (nc == -1) {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					doctype.ForceQuirksMode = true;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
-                    return;
+					return EmitDocType ();
 				}
 
 				c = (char) nc;
@@ -2523,24 +2454,22 @@ namespace HtmlKit {
 					break;
 				case '>':
 					TokenizerState = HtmlTokenizerState.Data;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
-                    return;
+					return EmitDocType ();
 				case '"': case '\'':
 					TokenizerState = HtmlTokenizerState.DocTypeSystemIdentifierQuoted;
 					doctype.SystemIdentifier = string.Empty;
 					quote = c;
-                    return;
+					return null;
 				default: // parse error
 					TokenizerState = HtmlTokenizerState.BogusDocType;
 					doctype.ForceQuirksMode = true;
-                    return;
+					return null;
 				}
 			} while (true);
 		}
 
-		void ReadAfterDocTypeSystemKeyword ()
+		// 8.2.4.62 After DOCTYPE system keyword state
+		HtmlToken ReadAfterDocTypeSystemKeyword ()
 		{
 			int nc = Read ();
 			char c;
@@ -2548,10 +2477,7 @@ namespace HtmlKit {
 			if (nc == -1) {
 				TokenizerState = HtmlTokenizerState.EndOfFile;
 				doctype.ForceQuirksMode = true;
-				token = doctype;
-				doctype = null;
-				data.Length = 0;
-                return;
+				return EmitDocType ();
 			}
 
 			c = (char) nc;
@@ -2571,23 +2497,19 @@ namespace HtmlKit {
 			case '>': // parse error
 				TokenizerState = HtmlTokenizerState.Data;
 				doctype.ForceQuirksMode = true;
-				token = doctype;
-				doctype = null;
-				data.Length = 0;
-                return;
+				return EmitDocType ();
 			default: // parse error
 				TokenizerState = HtmlTokenizerState.BogusDocType;
 				doctype.ForceQuirksMode = true;
 				break;
 			}
 
-			token = null;			
+			return null;
 		}
 
-		void ReadBeforeDocTypeSystemIdentifier ()
+		// 8.2.4.63 Before DOCTYPE system identifier state
+		HtmlToken ReadBeforeDocTypeSystemIdentifier ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
@@ -2595,10 +2517,7 @@ namespace HtmlKit {
 				if (nc == -1) {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					doctype.ForceQuirksMode = true;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
-                    return;
+					return EmitDocType ();
 				}
 
 				c = (char) nc;
@@ -2613,26 +2532,22 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.DocTypeSystemIdentifierQuoted;
 					doctype.SystemIdentifier = string.Empty;
 					quote = c;
-                    return;
+					return null;
 				case '>': // parse error
 					TokenizerState = HtmlTokenizerState.Data;
 					doctype.ForceQuirksMode = true;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
-					return;
+					return EmitDocType ();
 				default: // parse error
 					TokenizerState = HtmlTokenizerState.BogusDocType;
 					doctype.ForceQuirksMode = true;
-                    return;
-                }
+					return null;
+				}
 			} while (true);
 		}
 
-		void ReadDocTypeSystemIdentifierQuoted ()
+		// 8.2.4.64 DOCTYPE system identifier (double-quoted) state
+		HtmlToken ReadDocTypeSystemIdentifierQuoted ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
@@ -2641,11 +2556,9 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					doctype.SystemIdentifier = name.ToString ();
 					doctype.ForceQuirksMode = true;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
 					name.Length = 0;
-                    return;
+
+					return EmitDocType ();
 				}
 
 				c = (char) nc;
@@ -2661,11 +2574,9 @@ namespace HtmlKit {
 					TokenizerState = HtmlTokenizerState.Data;
 					doctype.SystemIdentifier = name.ToString ();
 					doctype.ForceQuirksMode = true;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
 					name.Length = 0;
-					return;
+
+					return EmitDocType ();
 				default:
 					if (c == quote) {
 						TokenizerState = HtmlTokenizerState.AfterDocTypeSystemIdentifier;
@@ -2680,13 +2591,12 @@ namespace HtmlKit {
 			doctype.SystemIdentifier = name.ToString ();
 			name.Length = 0;
 
-            
+			return null;
 		}
 
-		public void ReadAfterDocTypeSystemIdentifier ()
+		// 8.2.4.66 After DOCTYPE system identifier state
+		HtmlToken ReadAfterDocTypeSystemIdentifier ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
@@ -2694,10 +2604,7 @@ namespace HtmlKit {
 				if (nc == -1) {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					doctype.ForceQuirksMode = true;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
-                    return;
+					return EmitDocType ();
 				}
 
 				c = (char) nc;
@@ -2710,21 +2617,17 @@ namespace HtmlKit {
 					break;
 				case '>':
 					TokenizerState = HtmlTokenizerState.Data;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
-					return;
+					return EmitDocType ();
 				default: // parse error
 					TokenizerState = HtmlTokenizerState.BogusDocType;
-					return;
+					return null;
 				}
 			} while (true);
 		}
 
-		void ReadBogusDocType ()
+		// 8.2.4.67 Bogus DOCTYPE state
+		HtmlToken ReadBogusDocType ()
 		{
-			token = null;
-
 			do {
 				int nc = Read ();
 				char c;
@@ -2732,10 +2635,7 @@ namespace HtmlKit {
 				if (nc == -1) {
 					TokenizerState = HtmlTokenizerState.EndOfFile;
 					doctype.ForceQuirksMode = true;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
-                    return;
+					return EmitDocType ();
 				}
 
 				c = (char) nc;
@@ -2745,41 +2645,31 @@ namespace HtmlKit {
 
 				if (c == '>') {
 					TokenizerState = HtmlTokenizerState.Data;
-					token = doctype;
-					doctype = null;
-					data.Length = 0;
-                    return;
+					return EmitDocType ();
 				}
 			} while (true);
 		}
 
-		void ReadCDataSection ()
+		// 8.2.4.68 CDATA section state
+		HtmlToken ReadCDataSection ()
 		{
-			// FIXME: maybe we should have a CDATA token?
 			int nc = Read ();
 
 			while (nc != -1) {
 				char c = (char) nc;
 
-                if (cdataIndex >= 3) {
-                    data.Append(cdata[0]);
-                    cdata[0] = cdata[1];
-                    cdata[1] = cdata[2];
-                    cdata[2] = c;
+				if (cdataIndex >= 3) {
+					data.Append (cdata[0]);
+					cdata[0] = cdata[1];
+					cdata[1] = cdata[2];
+					cdata[2] = c;
 
-                    if (cdata[0] == ']' && cdata[1] == ']' && cdata[2] == '>') {
-                        TokenizerState = HtmlTokenizerState.Data;
-                        cdataIndex = 0;
+					if (cdata[0] == ']' && cdata[1] == ']' && cdata[2] == '>') {
+						TokenizerState = HtmlTokenizerState.Data;
+						cdataIndex = 0;
 
-                        EmitDataToken(true);
-                        return;
-                    }
-
-                    if (data.Length > 1024)
-                    {
-                        EmitDataToken(true);
-                        return;
-                    }
+						return EmitCDataToken ();
+					}
 				} else {
 					cdata[cdataIndex++] = c;
 				}
@@ -2794,9 +2684,224 @@ namespace HtmlKit {
 
 			cdataIndex = 0;
 
-			EmitDataToken ( true);
+			return EmitCDataToken ();
 		}
 
-		
+		/// <summary>
+		/// Reads the next token.
+		/// </summary>
+		/// <remarks>
+		/// Reads the next token.
+		/// </remarks>
+		/// <returns><c>true</c> if the next token was read; otherwise, <c>false</c>.</returns>
+		/// <param name="token">THe token that was read.</param>
+		public bool ReadNextToken (out HtmlToken token)
+		{
+			do {
+				switch (TokenizerState) {
+				case HtmlTokenizerState.Data:
+					token = ReadData ();
+					break;
+				case HtmlTokenizerState.CharacterReferenceInData:
+					token = ReadCharacterReferenceInData ();
+					break;
+				case HtmlTokenizerState.RcData:
+					token = ReadRcData ();
+					break;
+				case HtmlTokenizerState.CharacterReferenceInRcData:
+					token = ReadCharacterReferenceInRcData ();
+					break;
+				case HtmlTokenizerState.RawText:
+					token = ReadRawText ();
+					break;
+				case HtmlTokenizerState.ScriptData:
+					token = ReadScriptData ();
+					break;
+				case HtmlTokenizerState.PlainText:
+					token = ReadPlainText ();
+					break;
+				case HtmlTokenizerState.TagOpen:
+					token = ReadTagOpen ();
+					break;
+				case HtmlTokenizerState.EndTagOpen:
+					token = ReadEndTagOpen ();
+					break;
+				case HtmlTokenizerState.TagName:
+					token = ReadTagName ();
+					break;
+				case HtmlTokenizerState.RcDataLessThan:
+					token = ReadRcDataLessThan ();
+					break;
+				case HtmlTokenizerState.RcDataEndTagOpen:
+					token = ReadRcDataEndTagOpen ();
+					break;
+				case HtmlTokenizerState.RcDataEndTagName:
+					token = ReadRcDataEndTagName ();
+					break;
+				case HtmlTokenizerState.RawTextLessThan:
+					token = ReadRawTextLessThan ();
+					break;
+				case HtmlTokenizerState.RawTextEndTagOpen:
+					token = ReadRawTextEndTagOpen ();
+					break;
+				case HtmlTokenizerState.RawTextEndTagName:
+					token = ReadRawTextEndTagName ();
+					break;
+				case HtmlTokenizerState.ScriptDataLessThan:
+					token = ReadScriptDataLessThan ();
+					break;
+				case HtmlTokenizerState.ScriptDataEndTagOpen:
+					token = ReadScriptDataEndTagOpen ();
+					break;
+				case HtmlTokenizerState.ScriptDataEndTagName:
+					token = ReadScriptDataEndTagName ();
+					break;
+				case HtmlTokenizerState.ScriptDataEscapeStart:
+					token = ReadScriptDataEscapeStart ();
+					break;
+				case HtmlTokenizerState.ScriptDataEscapeStartDash:
+					token = ReadScriptDataEscapeStartDash ();
+					break;
+				case HtmlTokenizerState.ScriptDataEscaped:
+					token = ReadScriptDataEscaped ();
+					break;
+				case HtmlTokenizerState.ScriptDataEscapedDash:
+					token = ReadScriptDataEscapedDash ();
+					break;
+				case HtmlTokenizerState.ScriptDataEscapedDashDash:
+					token = ReadScriptDataEscapedDashDash ();
+					break;
+				case HtmlTokenizerState.ScriptDataEscapedLessThan:
+					token = ReadScriptDataEscapedLessThan ();
+					break;
+				case HtmlTokenizerState.ScriptDataEscapedEndTagOpen:
+					token = ReadScriptDataEscapedEndTagOpen ();
+					break;
+				case HtmlTokenizerState.ScriptDataEscapedEndTagName:
+					token = ReadScriptDataEscapedEndTagName ();
+					break;
+				case HtmlTokenizerState.ScriptDataDoubleEscapeStart:
+					token = ReadScriptDataDoubleEscapeStart ();
+					break;
+				case HtmlTokenizerState.ScriptDataDoubleEscaped:
+					token = ReadScriptDataDoubleEscaped ();
+					break;
+				case HtmlTokenizerState.ScriptDataDoubleEscapedDash:
+					token = ReadScriptDataDoubleEscapedDash ();
+					break;
+				case HtmlTokenizerState.ScriptDataDoubleEscapedDashDash:
+					token = ReadScriptDataDoubleEscapedDashDash ();
+					break;
+				case HtmlTokenizerState.ScriptDataDoubleEscapedLessThan:
+					token = ReadScriptDataDoubleEscapedLessThan ();
+					break;
+				case HtmlTokenizerState.ScriptDataDoubleEscapeEnd:
+					token = ReadScriptDataDoubleEscapeEnd ();
+					break;
+				case HtmlTokenizerState.BeforeAttributeName:
+					token = ReadBeforeAttributeName ();
+					break;
+				case HtmlTokenizerState.AttributeName:
+					token = ReadAttributeName ();
+					break;
+				case HtmlTokenizerState.AfterAttributeName:
+					token = ReadAfterAttributeName ();
+					break;
+				case HtmlTokenizerState.BeforeAttributeValue:
+					token = ReadBeforeAttributeValue ();
+					break;
+				case HtmlTokenizerState.AttributeValueQuoted:
+					token = ReadAttributeValueQuoted ();
+					break;
+				case HtmlTokenizerState.AttributeValueUnquoted:
+					token = ReadAttributeValueUnquoted ();
+					break;
+				case HtmlTokenizerState.CharacterReferenceInAttributeValue:
+					token = ReadCharacterReferenceInAttributeValue ();
+					break;
+				case HtmlTokenizerState.AfterAttributeValueQuoted:
+					token = ReadAfterAttributeValueQuoted ();
+					break;
+				case HtmlTokenizerState.SelfClosingStartTag:
+					token = ReadSelfClosingStartTag ();
+					break;
+				case HtmlTokenizerState.BogusComment:
+					token = ReadBogusComment ();
+					break;
+				case HtmlTokenizerState.MarkupDeclarationOpen:
+					token = ReadMarkupDeclarationOpen ();
+					break;
+				case HtmlTokenizerState.CommentStart:
+					token = ReadCommentStart ();
+					break;
+				case HtmlTokenizerState.CommentStartDash:
+					token = ReadCommentStartDash ();
+					break;
+				case HtmlTokenizerState.Comment:
+					token = ReadComment ();
+					break;
+				case HtmlTokenizerState.CommentEndDash:
+					token = ReadCommentEndDash ();
+					break;
+				case HtmlTokenizerState.CommentEnd:
+					token = ReadCommentEnd ();
+					break;
+				case HtmlTokenizerState.CommentEndBang:
+					token = ReadCommentEndBang ();
+					break;
+				case HtmlTokenizerState.DocType:
+					token = ReadDocType ();
+					break;
+				case HtmlTokenizerState.BeforeDocTypeName:
+					token = ReadBeforeDocTypeName ();
+					break;
+				case HtmlTokenizerState.DocTypeName:
+					token = ReadDocTypeName ();
+					break;
+				case HtmlTokenizerState.AfterDocTypeName:
+					token = ReadAfterDocTypeName ();
+					break;
+				case HtmlTokenizerState.AfterDocTypePublicKeyword:
+					token = ReadAfterDocTypePublicKeyword ();
+					break;
+				case HtmlTokenizerState.BeforeDocTypePublicIdentifier:
+					token = ReadBeforeDocTypePublicIdentifier ();
+					break;
+				case HtmlTokenizerState.DocTypePublicIdentifierQuoted:
+					token = ReadDocTypePublicIdentifierQuoted ();
+					break;
+				case HtmlTokenizerState.AfterDocTypePublicIdentifier:
+					token = ReadAfterDocTypePublicIdentifier ();
+					break;
+				case HtmlTokenizerState.BetweenDocTypePublicAndSystemIdentifiers:
+					token = ReadBetweenDocTypePublicAndSystemIdentifiers ();
+					break;
+				case HtmlTokenizerState.AfterDocTypeSystemKeyword:
+					token = ReadAfterDocTypeSystemKeyword ();
+					break;
+				case HtmlTokenizerState.BeforeDocTypeSystemIdentifier:
+					token = ReadBeforeDocTypeSystemIdentifier ();
+					break;
+				case HtmlTokenizerState.DocTypeSystemIdentifierQuoted:
+					token = ReadDocTypeSystemIdentifierQuoted ();
+					break;
+				case HtmlTokenizerState.AfterDocTypeSystemIdentifier:
+					token = ReadAfterDocTypeSystemIdentifier ();
+					break;
+				case HtmlTokenizerState.BogusDocType:
+					token = ReadBogusDocType ();
+					break;
+				case HtmlTokenizerState.CDataSection:
+					token = ReadCDataSection ();
+					break;
+				case HtmlTokenizerState.EndOfFile:
+				default:
+					token = null;
+					return false;
+				}
+			} while (token == null);
+
+			return true;
+		}
 	}
 }

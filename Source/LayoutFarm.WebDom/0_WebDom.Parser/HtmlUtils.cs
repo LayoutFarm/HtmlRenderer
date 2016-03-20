@@ -19,24 +19,17 @@ using LayoutFarm.WebLexer;
 namespace LayoutFarm.WebDom.Parser
 {
 
-    static class HtmlDecodeHelper
+    static class HtmlTagMatching
     {
-        /// <summary>
-        /// List of html tags that don't have content
-        /// </summary>
-        static readonly Dictionary<WellknownName, byte> noContentTags = new Dictionary<WellknownName, byte>();
 
         /// <summary>
-        /// the html decode only pairs
+        /// List of html tags that don't have content 
         /// </summary>
-        private static readonly Dictionary<string, char> _decodeOnly = new Dictionary<string, char>(StringComparer.InvariantCultureIgnoreCase);
-        private static readonly Dictionary<string, char> _encodeDecode0 = new Dictionary<string, char>(StringComparer.InvariantCultureIgnoreCase);
-        /// <summary>
-        /// Init.
-        /// </summary>
-        static HtmlDecodeHelper()
+        static readonly Dictionary<WellknownName, byte> noContentTags = new Dictionary<WellknownName, byte>(); //void element
+        static readonly Dictionary<WellknownName, byte> canbeOmittedTags = new Dictionary<WellknownName, byte>();
+
+        static HtmlTagMatching()
         {
-
             //html5 (2015-04-24) void elements
             //void elements: no endtag, no content ***
             noContentTags.Add(WebDom.WellknownName.Area, 0);
@@ -64,7 +57,7 @@ namespace LayoutFarm.WebDom.Parser
             //raw text elements:             
             //script,style
             //can have text with some restrictions
-            
+
             //escapable raw text elements
             //textarea, title
             //can have text and character references,but text
@@ -78,6 +71,60 @@ namespace LayoutFarm.WebDom.Parser
             //others ...
 
             //-----------------------------------------------------------
+            //12.1.2.4 Optional tags
+            canbeOmittedTags.Add(WellknownName.TD, 0);
+            canbeOmittedTags.Add(WellknownName.TR, 0);
+            canbeOmittedTags.Add(WellknownName.P, 0);
+
+
+            //-----------------------------------------------------------
+        }
+        /// <summary>
+        /// Is the given html tag is single tag or can have content.
+        /// </summary>
+        /// <param name="tagName">the tag to check (must be lower case)</param>
+        /// <returns>true - is single tag, false - otherwise</returns>
+        public static bool IsSingleTag(int nameIndex)// HtmlRenderer.Dom.WellknownHtmlTagName tagName)
+        {
+            return noContentTags.ContainsKey((WellknownName)nameIndex);
+        }
+        /// <summary>
+        /// test if tag can auto close when there is no more content in the parent element
+        /// </summary>
+        /// <param name="nameIndex"></param>
+        /// <returns></returns>
+        public static bool CanAutoClose(int nameIndex)
+        {
+            byte found;
+            if (canbeOmittedTags.TryGetValue((WellknownName)nameIndex, out found))
+            {
+                return true;
+            }
+            return false;
+        }
+        public static bool CanAutoClose(int nameIndex, int nextNodeNameIndex)
+        {
+
+            throw new NotSupportedException();
+        }
+    }
+
+    static class HtmlDecodeHelper
+    {
+
+        /// <summary>
+        /// the html decode only pairs
+        /// </summary>
+        private static readonly Dictionary<string, char> _decodeOnly = new Dictionary<string, char>(StringComparer.InvariantCultureIgnoreCase);
+        private static readonly Dictionary<string, char> _encodeDecode0 = new Dictionary<string, char>(StringComparer.InvariantCultureIgnoreCase);
+
+        /// <summary>
+        /// Init.
+        /// </summary>
+        static HtmlDecodeHelper()
+        {
+
+
 
             _encodeDecode0["&lt;"] = '<';
             _encodeDecode0["&gt;"] = '>';
@@ -328,15 +375,7 @@ namespace LayoutFarm.WebDom.Parser
             _decodeOnly["diams"] = Convert.ToChar(9830);
         }
 
-        /// <summary>
-        /// Is the given html tag is single tag or can have content.
-        /// </summary>
-        /// <param name="tagName">the tag to check (must be lower case)</param>
-        /// <returns>true - is single tag, false - otherwise</returns>
-        public static bool IsSingleTag(int nameIndex)// HtmlRenderer.Dom.WellknownHtmlTagName tagName)
-        {
-            return noContentTags.ContainsKey((WellknownName)nameIndex);
-        }
+
         static int FindIndexOfOrWhitespace(char[] sourceBuffer, int startIndex, int len, char findingChar1)
         {
             for (int i = startIndex; i < len; ++i)

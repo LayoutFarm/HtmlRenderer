@@ -43,11 +43,7 @@ namespace LayoutFarm.WebDom.Parser
 
     public delegate void HtmlLexerEventHandler(HtmlLexerEvent lexEvent, int startIndex, int len);
 
-    public enum LexerEngine
-    {
-        MyLexer,
-        HtmlKit
-    }
+
 
     public abstract partial class HtmlLexer
     {
@@ -66,15 +62,9 @@ namespace LayoutFarm.WebDom.Parser
         {
 
         }
-        public static HtmlLexer CreateLexer(LexerEngine lexEngine)
+        public static HtmlLexer CreateLexer()
         {
-            switch (lexEngine)
-            {
-                case LexerEngine.HtmlKit:
-                    return new MyHtmlLexer();
-                default:
-                    return new MyHtmlLexer();
-            }
+            return new MyHtmlLexer();
         }
     }
 

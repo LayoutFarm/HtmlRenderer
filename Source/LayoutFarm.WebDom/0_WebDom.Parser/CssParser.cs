@@ -582,9 +582,9 @@ namespace LayoutFarm.WebDom.Parser
                                 break;
                             case CssTokenName.LiteralString:
                                 {
-                                    throw new NotSupportedException();
+                                   
                                     var literalValue = new string(this.textBuffer, start, len);
-
+                                    throw new NotSupportedException();
                                 }
                                 break;
                             case CssTokenName.LParen:

@@ -25,7 +25,6 @@
 //
 
 using System; 
-using System.Reflection;
 using System.Collections.Generic;
 
 namespace HtmlKit {
@@ -602,7 +601,7 @@ namespace HtmlKit {
 
 			AttributeNameToId = new Dictionary<string, HtmlAttributeId> (values.Length - 1, StringComparer.OrdinalIgnoreCase);
 
-			for (int i = 0; i < values.Length - 1; i++)
+			for (int i = 1; i < values.Length; i++)
 				AttributeNameToId.Add (values[i].ToAttributeName (), values[i]);
 		}
 

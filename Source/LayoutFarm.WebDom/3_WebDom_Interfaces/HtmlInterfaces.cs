@@ -4,14 +4,16 @@ namespace LayoutFarm.WebDom
 {
     public interface INode
     {
-
     }
+
     public interface IHtmlDocument
     {
+        //TODO: 
+        //current version we not support overload
+        //resolve this
         IHtmlElement rootNode { get; }
         IHtmlElement getElementById(string id);
-        DomNode createTextNode(char[] nodeContent);
-        DomNode createTextNode(string nodeContent);
+        ITextNode createTextNode(string nodeContent);
         IHtmlElement createElement(string nodeName);
         IHtmlDocument createDocumentFragment();
         IHtmlElement createShadowRootElement();
