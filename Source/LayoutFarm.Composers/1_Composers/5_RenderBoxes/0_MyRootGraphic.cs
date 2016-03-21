@@ -125,8 +125,11 @@ namespace LayoutFarm.UI
 
         public override void CloseWinRoot()
         {
-            this.graphicTimerTaskMan.CloseAllWorkers();
-            this.graphicTimerTaskMan = null;
+            if (graphicTimerTaskMan != null)
+            {
+                this.graphicTimerTaskMan.CloseAllWorkers();
+                this.graphicTimerTaskMan = null;
+            }
         }
 
         public override void CaretStartBlink()

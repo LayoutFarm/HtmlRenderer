@@ -19,6 +19,8 @@ namespace Test5_Ease
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+
+
             VroomJs.JsBridge.LoadV8(@"D:\projects\V8Net\build\Debug\VRoomJsNative.dll");
             Application.Run(new Form1());
         }

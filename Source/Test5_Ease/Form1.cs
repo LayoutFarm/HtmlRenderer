@@ -43,8 +43,7 @@ namespace Test5_Ease
             //read text file
             //var fileContent = System.IO.File.ReadAllText(filename);
             //start with about blank
-            //easeViewport.LoadHtml(filename, fileContent);
-
+            //easeViewport.LoadHtml(filename, fileContent); 
             easeViewport.LoadHtml(filename, "<html><body></body></html");
 
         }
