@@ -74,6 +74,7 @@
     <Compile Include="Collation\NormalizationMode.cs" />
     <Compile Include="Collation\NumericCollation.cs" />
     <Compile Include="ErrorCode.cs" />
+    <Compile Include="IcuInit.cs" />
     <Compile Include="Locale.cs" />
     <Compile Include="ParseError.cs" />
     <Compile Include="Collation\RuleBasedCollator.cs" />
