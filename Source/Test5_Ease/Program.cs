@@ -21,7 +21,7 @@ namespace Test5_Ease
 
 
 
-            VroomJs.JsBridge.LoadV8(@"D:\projects\V8Net\build\Debug\VRoomJsNative.dll");
+            VroomJs.JsBridge.LoadV8(@"D:\projects\HTML-Renderer\Source\Deps\VRoomJs2\natives\libespr.dll");
             Application.Run(new Form1());
         }
     }

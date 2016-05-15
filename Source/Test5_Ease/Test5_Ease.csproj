@@ -76,9 +76,13 @@
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deps\VRoomJs2\VRoomJs2.csproj">
-      <Project>{CECA196E-EB06-403E-8044-F760EB65C8E5}</Project>
-      <Name>VRoomJs2</Name>
+    <ProjectReference Include="..\Deps\VRoomJs.Core\VRoomJs.Core.csproj">
+      <Project>{18ce5f1b-9745-45a8-b2bf-e69f0f380e7a}</Project>
+      <Name>VRoomJs.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\VRoomJs2\VRoomJs20.csproj">
+      <Project>{41517b22-c8e1-404e-8f3c-a8f3e785dfd3}</Project>
+      <Name>VRoomJs20</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
       <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
