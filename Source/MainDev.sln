@@ -111,6 +111,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.ClientPlatform",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.CssBase", "NetCore\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj", "{AB087E12-E01F-4EA8-B8E7-4F1538B5F9FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.WebLexer", "NetCore\LayoutFarm.WebLexer\LayoutFarm.WebLexer.csproj", "{6B0841F4-DE5E-4375-B95D-A73BEC72798D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -740,6 +742,24 @@ Global
 		{AB087E12-E01F-4EA8-B8E7-4F1538B5F9FC}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{AB087E12-E01F-4EA8-B8E7-4F1538B5F9FC}.Release64|x86.ActiveCfg = Release|Any CPU
 		{AB087E12-E01F-4EA8-B8E7-4F1538B5F9FC}.Release64|x86.Build.0 = Release|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Debug|x86.Build.0 = Debug|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Release|x86.ActiveCfg = Release|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Release|x86.Build.0 = Release|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Release64|x86.ActiveCfg = Release|Any CPU
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -789,5 +809,6 @@ Global
 		{A32AE1C2-2DD5-4F2D-A21C-460F082BC4A0} = {9851ABDF-3B0E-4C97-B3AB-9171CF4057A5}
 		{7CBC49BC-1F11-4759-BD17-1EC5DE6A7487} = {9851ABDF-3B0E-4C97-B3AB-9171CF4057A5}
 		{AB087E12-E01F-4EA8-B8E7-4F1538B5F9FC} = {9851ABDF-3B0E-4C97-B3AB-9171CF4057A5}
+		{6B0841F4-DE5E-4375-B95D-A73BEC72798D} = {9851ABDF-3B0E-4C97-B3AB-9171CF4057A5}
 	EndGlobalSection
 EndGlobal
