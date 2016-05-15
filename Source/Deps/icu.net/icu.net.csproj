@@ -61,9 +61,6 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Collation\AlternateHandling.cs" />
     <Compile Include="Collation\CaseFirst.cs" />
     <Compile Include="Collation\CaseLevel.cs" />
@@ -74,6 +71,7 @@
     <Compile Include="Collation\NormalizationMode.cs" />
     <Compile Include="Collation\NumericCollation.cs" />
     <Compile Include="ErrorCode.cs" />
+    <Compile Include="Exception.cs" />
     <Compile Include="IcuInit.cs" />
     <Compile Include="Locale.cs" />
     <Compile Include="ParseError.cs" />
