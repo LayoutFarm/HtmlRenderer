@@ -4,7 +4,7 @@ namespace VroomJs
 {
     public static class JsBridge
     {
-        public const string LIB_NAME = "VroomJsNative";
+        public const string LIB_NAME = "libespr";
         static IntPtr hModuleV8;
 
         public static void LoadV8(string v8bridgeDll)
@@ -16,6 +16,10 @@ namespace VroomJs
             {
                 return;
             }
+            NativeV8JsInterOp.V8Init();
+        }
+        public static void V8Init()
+        {
             NativeV8JsInterOp.V8Init();
         }
         public static void UnloadV8()

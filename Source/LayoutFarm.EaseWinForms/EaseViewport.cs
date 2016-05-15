@@ -17,6 +17,12 @@ namespace LayoutFarm.Ease
             this.viewportControl = viewportControl;
             this.sampleViewport = new SampleViewport(viewportControl);
         }
+        public SampleViewport SampleViewPort
+        {
+            get { return this.sampleViewport; }
+        }
+
+
         public Control ViewportControl
         {
             get { return this.viewportControl; }

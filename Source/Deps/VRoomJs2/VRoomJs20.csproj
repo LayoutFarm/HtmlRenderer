@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{41517B22-C8E1-404E-8F3C-A8F3E785DFD3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VRoomJs20</RootNamespace>
+    <AssemblyName>VRoomJs20</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="0_Start\JsBridge.cs" />
+    <Compile Include="0_Start\ScriptInterfaces.cs" />
+    <Compile Include="1_VroomJs\BoundWeakDelegate.cs" />
+    <Compile Include="1_VroomJs\IKeepAliveStore.cs" />
+    <Compile Include="1_VroomJs\JsContext.cs" />
+    <Compile Include="1_VroomJs\JsContext.Dynamic.cs" />
+    <Compile Include="1_VroomJs\JsContext.NativeMethods.cs" />
+    <Compile Include="1_VroomJs\JsConvert.cs" />
+    <Compile Include="1_VroomJs\JsEngine.cs" />
+    <Compile Include="1_VroomJs\JsEngine.NativeMethods.cs" />
+    <Compile Include="1_VroomJs\JsEngineStats.cs" />
+    <Compile Include="1_VroomJs\JsError.cs" />
+    <Compile Include="1_VroomJs\JsException.cs" />
+    <Compile Include="1_VroomJs\JsExecutionTimedOutException.cs" />
+    <Compile Include="1_VroomJs\JsFunction.cs" />
+    <Compile Include="1_VroomJs\JsInteropException.cs" />
+    <Compile Include="1_VroomJs\JsObject.Dynamic.cs" />
+    <Compile Include="1_VroomJs\JsObjectMarshalType.cs" />
+    <Compile Include="1_VroomJs\JsScript.cs" />
+    <Compile Include="1_VroomJs\JsValue.cs" />
+    <Compile Include="1_VroomJs\JsValueType.cs" />
+    <Compile Include="1_VroomJs\KeepAliveDictionaryStore.cs" />
+    <Compile Include="1_VroomJs\WeakDelegate.cs" />
+    <Compile Include="3_MiniBridge\DelegateHolders.cs" />
+    <Compile Include="3_MiniBridge\JsTypeDefinitionBuilder.cs" />
+    <Compile Include="3_MiniBridge\NativeV8JsInterOp.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VRoomJs.Core\VRoomJs.Core.csproj">
+      <Project>{18ce5f1b-9745-45a8-b2bf-e69f0f380e7a}</Project>
+      <Name>VRoomJs.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

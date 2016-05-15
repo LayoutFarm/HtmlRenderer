@@ -28,8 +28,11 @@ namespace LayoutFarm.UI.GdiPlus
         //static int dbugCount = 0;
         protected override void OnClosing()
         {
-            quadPages.Dispose();
-            quadPages = null;
+            if (quadPages != null)
+            {
+                quadPages.Dispose();
+                quadPages = null;
+            }
             base.OnClosing();
         }
 
