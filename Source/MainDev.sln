@@ -129,6 +129,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Espresso.Interfaces", "Deps
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EspressoCore", "Deps\Espresso\Net20\EspressoCore\EspressoCore.csproj", "{F6A70C3F-A6B4-4830-91A6-EB7437065028}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.HtmlRenderer", "NetCore\LayoutFarm.HtmlRenderer\LayoutFarm.HtmlRenderer.csproj", "{654177AC-F377-44A8-B886-D5DCAD3B0731}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -851,6 +853,24 @@ Global
 		{F6A70C3F-A6B4-4830-91A6-EB7437065028}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{F6A70C3F-A6B4-4830-91A6-EB7437065028}.Release64|x86.ActiveCfg = Release|Any CPU
 		{F6A70C3F-A6B4-4830-91A6-EB7437065028}.Release64|x86.Build.0 = Release|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Debug|x86.Build.0 = Debug|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Release|Any CPU.Build.0 = Release|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Release|x86.ActiveCfg = Release|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Release|x86.Build.0 = Release|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Release64|x86.ActiveCfg = Release|Any CPU
+		{654177AC-F377-44A8-B886-D5DCAD3B0731}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -909,5 +929,6 @@ Global
 		{90183F26-15B6-45E6-A5F0-6E287EEE406A} = {1BFB3BD9-3913-4BE7-BF20-723280EE0B49}
 		{81692F45-7266-4D82-A864-9D7DD839C290} = {AB4D262A-8401-4642-9784-C079D7B56FE9}
 		{F6A70C3F-A6B4-4830-91A6-EB7437065028} = {AB4D262A-8401-4642-9784-C079D7B56FE9}
+		{654177AC-F377-44A8-B886-D5DCAD3B0731} = {90FBAD3B-9212-4F7B-AFEC-4CBE1277686E}
 	EndGlobalSection
 EndGlobal
