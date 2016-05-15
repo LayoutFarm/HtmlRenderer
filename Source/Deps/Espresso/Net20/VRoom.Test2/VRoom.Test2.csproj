@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C2A9BF16-6BE8-429F-8EAB-665872E56FCD}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{851AE200-BF80-450B-BF86-D0C14D32E980}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Test5_Ease</RootNamespace>
-    <AssemblyName>Test5_Ease</AssemblyName>
+    <RootNamespace>VRoom.Test2</RootNamespace>
+    <AssemblyName>VRoom.Test2</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -19,7 +19,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET20</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -32,26 +32,23 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EaseComponents\MyJsTypeDefBuilder.cs" />
-    <Compile Include="EaseComponents\MyWebConsole.cs" />
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="VroomJs.Tests\Exceptions.cs" />
+    <Compile Include="VroomJs.Tests\Globals.cs" />
+    <Compile Include="VroomJs.Tests\Objects.cs" />
+    <Compile Include="VroomJs.Tests\TestClass.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -72,36 +69,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deps\Espresso\Net20\Espresso.Interfaces\Espresso.Interfaces.csproj">
+    <ProjectReference Include="..\Espresso.Interfaces\Espresso.Interfaces.csproj">
       <Project>{81692f45-7266-4d82-a864-9d7dd839c290}</Project>
       <Name>Espresso.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deps\Espresso\Net20\EspressoCore\EspressoCore.csproj">
+    <ProjectReference Include="..\EspressoCore\EspressoCore.csproj">
       <Project>{f6a70c3f-a6b4-4830-91a6-eb7437065028}</Project>
       <Name>EspressoCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
-      <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
-      <Name>PixelFarm.Drawing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
-      <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>
-      <Name>LayoutFarm.ClientPlatforms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.Composers\LayoutFarm.Composers.csproj">
-      <Project>{1AF17E34-4C2D-4657-B993-E0608C555111}</Project>
-      <Name>LayoutFarm.Composers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.EaseWinForms\LayoutFarm.EaseWinForms.csproj">
-      <Project>{DD227C1C-04B9-487C-8762-DA69168D1C89}</Project>
-      <Name>LayoutFarm.EaseWinForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\LayoutFarm.WebDom\LayoutFarm.WebDom.csproj">
-      <Project>{A7E65FD9-329D-4902-BCDA-51EE4F992FD5}</Project>
-      <Name>LayoutFarm.WebDom</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
