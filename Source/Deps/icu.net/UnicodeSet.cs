@@ -66,7 +66,7 @@ namespace Icu
             if (string.IsNullOrEmpty(pattern))
             {
                 return new string[] { };
-               // return Enumerable.Empty<string>();
+                // return Enumerable.Empty<string>();
             }
 
             var err = ErrorCode.ZERO_ERROR;
@@ -87,7 +87,7 @@ namespace Icu
                         // Add a character range to the set
                         for (int j = startChar; j <= endChar; j++)
                         {
-                            output.Add(((char)j).ToString(CultureInfo.InvariantCulture));
+                            output.Add(Convert.ToString((char)j, CultureInfo.InvariantCulture)); 
                         }
                     }
                     else

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Icu
 {
-	public class Locale: ICloneable
+	public class Locale 
 	{
 		/// <summary>
 		/// Construct a default locale object, a Locale for the default locale ID

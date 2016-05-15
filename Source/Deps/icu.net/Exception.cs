@@ -29,4 +29,11 @@ namespace Icu
         {
         }
     }
+    class ApplicationException : Exception
+    {
+        public ApplicationException(string msg)
+            : base(msg)
+        {
+        }
+    }
 }
