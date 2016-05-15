@@ -24,11 +24,9 @@
 // THE SOFTWARE.
 
 using System;
-using System.Runtime.Serialization;
-
 namespace VroomJs
 {
-    [Serializable]
+
     public class JsInteropException : JsException
     {
         public JsInteropException()
@@ -44,10 +42,6 @@ namespace VroomJs
             : base(message, inner)
         {
         }
-
-        protected JsInteropException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
+         
     }
 }

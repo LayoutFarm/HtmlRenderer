@@ -65,7 +65,6 @@ namespace VroomJs
                 _keepalive_enumerate_properties,
                 maxYoungSpace,
                 maxOldSpace)); 
-
             this.defaultTypeBuilder = defaultTypeBuilder;
         }
         public JsEngine(int maxYoungSpace, int maxOldSpace)

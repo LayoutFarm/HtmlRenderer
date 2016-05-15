@@ -237,7 +237,6 @@ namespace VroomJs
         {
             Stopwatch watch1 = new Stopwatch();
             Stopwatch watch2 = new Stopwatch();
-
             watch1.Start();
             if (code == null)
                 throw new ArgumentNullException("code");
@@ -1004,7 +1003,6 @@ namespace VroomJs
         public void SetVariableAutoWrap<T>(string name, T result)
              where T : class
         {
-           
             var jsTypeDef = this.GetJsTypeDefinition<T>(result);
             var proxy = this.CreateWrapper(result, jsTypeDef);
             this.SetVariable(name, proxy);
@@ -1017,9 +1015,8 @@ namespace VroomJs
             Type type = typeof(T);
             JsTypeDefinition found;
             if (this.mappingJsTypeDefinition.TryGetValue(type, out found))
-            {
                 return found;
-            }
+
             //if not found
             //just create it
             found = this.jsTypeDefBuilder.BuildTypeDefinition(type);
@@ -1059,4 +1056,7 @@ namespace VroomJs
             this.cachedDelSamples[anotherDelegateType] = delegateType;
         }
     }
+
+
+     
 }

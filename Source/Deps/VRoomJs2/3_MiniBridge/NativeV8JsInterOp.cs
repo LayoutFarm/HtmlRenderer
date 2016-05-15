@@ -182,10 +182,10 @@ namespace VroomJs
         [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
         static extern int RelaseWrapper(IntPtr unmanagedPtr);
 
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.StdCall)]
+        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
         static extern void RegisterManagedCallback(IntPtr funcPointer, int callBackKind);
 
-        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.StdCall)]
+        [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
         static extern void ContextRegisterManagedCallback(IntPtr contextPtr, IntPtr funcPointer, int callBackKind);
 
         [DllImport(JsBridge.LIB_NAME, CallingConvention = CallingConvention.Cdecl)]
@@ -257,7 +257,10 @@ namespace VroomJs
             //------------------
             NativeV8JsInterOp.RegisterManagedListener(engineListenerDel);
 
-        } 
+        }
+
+
+
 
         static void EngineListener_Listen(int mIndex, string methodName, IntPtr args)
         {
