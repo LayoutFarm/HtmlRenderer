@@ -37,7 +37,7 @@ namespace LayoutFarm.UI
             this.graphicTimerTaskMan = new GraphicsTimerTaskManager(this, uiPlatform);
 #if DEBUG
             dbugCurrentGlobalVRoot = this;
-            dbug_Init();
+            dbug_Init(null, null, null);
 #endif
 
             //create default render box***
