@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FBE7F8AE-F530-4386-80F8-1011916234F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LayoutFarm.BaseRenderer</RootNamespace>
+    <AssemblyName>LayoutFarm.BaseRenderer</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\0_Start\dbugCoreConst.cs">
+      <Link>0_Start\dbugCoreConst.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\1_Root\1_RootGraphic.cs">
+      <Link>1_Root\1_RootGraphic.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\1_Root\1_RootGraphic_p1_dbug.cs">
+      <Link>1_Root\1_RootGraphic_p1_dbug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\1_Root\1_RootGraphic_p2_dbug.cs">
+      <Link>1_Root\1_RootGraphic_p2_dbug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\1_Root\2_RenderRequest.cs">
+      <Link>1_Root\2_RenderRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\1_Root\3_GraphicsTimerTask.cs">
+      <Link>1_Root\3_GraphicsTimerTask.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\2_RenderElement\0_RenderElement.cs">
+      <Link>2_RenderElement\0_RenderElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\2_RenderElement\1_RenderElement.ElementPositioning_NoBoundChanged.cs">
+      <Link>2_RenderElement\1_RenderElement.ElementPositioning_NoBoundChanged.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\2_RenderElement\2_RenderElement.ElementPositioning_1_WithSizeChanged.cs">
+      <Link>2_RenderElement\2_RenderElement.ElementPositioning_1_WithSizeChanged.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\2_RenderElement\3_RenderElement.Bubble_Layout.cs">
+      <Link>2_RenderElement\3_RenderElement.Bubble_Layout.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\2_RenderElement\4_RenderElement.Bubble_Repaint.cs">
+      <Link>2_RenderElement\4_RenderElement.Bubble_Repaint.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\2_RenderElement\RenderElementConst.cs">
+      <Link>2_RenderElement\RenderElementConst.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\2_RenderElement\RenderElementFoundDelegate.cs">
+      <Link>2_RenderElement\RenderElementFoundDelegate.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\2_RenderElement\RenderElement_IParentLink.cs">
+      <Link>2_RenderElement\RenderElement_IParentLink.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\2_RenderElement\x_RenderElement.debug.cs">
+      <Link>2_RenderElement\x_RenderElement.debug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\2_RenderElement\x_RenderElement_LocationHelper.cs">
+      <Link>2_RenderElement\x_RenderElement_LocationHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\3_Layers\0_IParentLink.cs">
+      <Link>3_Layers\0_IParentLink.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\3_Layers\1_RenderElementLayer.cs">
+      <Link>3_Layers\1_RenderElementLayer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\3_Layers\2_PlainLayer.cs">
+      <Link>3_Layers\2_PlainLayer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\4_Boxes\IBoxElement.cs">
+      <Link>4_Boxes\IBoxElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\4_Boxes\RenderBoxBase.cs">
+      <Link>4_Boxes\RenderBoxBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\4_Boxes\TopWindowRenderBox.cs">
+      <Link>4_Boxes\TopWindowRenderBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\5_HitTest\HitChain.cs">
+      <Link>5_HitTest\HitChain.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\6_debug\dbug.cs">
+      <Link>6_dbug\dbug.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\6_debug\dbugHitTracker.cs">
+      <Link>6_dbug\dbugHitTracker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\6_debug\dbugVisitorMessage.cs">
+      <Link>6_dbug\dbugVisitorMessage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\6_debug\dbugVisualEvalScrollBarTrace.cs">
+      <Link>6_dbug\dbugVisualEvalScrollBarTrace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\6_debug\dbugVisualInvalidationTracer.cs">
+      <Link>6_dbug\dbugVisualInvalidationTracer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\6_debug\dbugVisualLayoutTracer.cs">
+      <Link>6_dbug\dbugVisualLayoutTracer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.BaseRenderer\6_debug\IdbugOutputWindow.cs">
+      <Link>6_dbug\IdbugOutputWindow.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
+      <Project>{d2960171-b81f-41cc-9779-b28044bded18}</Project>
+      <Name>PixelFarm.Drawing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

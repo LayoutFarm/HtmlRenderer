@@ -1,7 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
- 
+
 using System.IO;
 
 
@@ -12,7 +12,7 @@ namespace LayoutFarm
 #if DEBUG
     public class dbugVisualInvalidationTracer
     {
-        FileStream fs;
+
         StreamWriter strmWriter;
         RootGraphic visualroot;
         string outputFileName = null;
@@ -60,22 +60,13 @@ namespace LayoutFarm
             return elementStack.Peek();
         }
 
-        public void Start()
+        public void Start(StreamWriter writer)
         {
-
-            fs = new FileStream(outputFileName, FileMode.Create);
-            strmWriter = new StreamWriter(fs);
-
+            this.strmWriter = writer;             
         }
         public void Stop()
         {
-            strmWriter.Close();
-            strmWriter.Dispose();
-
-            fs.Close();
-            fs.Dispose();
-            fs = null;
-
+            strmWriter.Flush();
         }
         public void WriteInfo(string info)
         {

@@ -121,6 +121,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PixelFarm.Drawing", "NetCor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3_LayoutAndRenderModules", "3_LayoutAndRenderModules", "{90FBAD3B-9212-4F7B-AFEC-4CBE1277686E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.BaseRenderer", "NetCore\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj", "{FBE7F8AE-F530-4386-80F8-1011916234F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -786,6 +788,24 @@ Global
 		{D2960171-B81F-41CC-9779-B28044BDED18}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{D2960171-B81F-41CC-9779-B28044BDED18}.Release64|x86.ActiveCfg = Release|Any CPU
 		{D2960171-B81F-41CC-9779-B28044BDED18}.Release64|x86.Build.0 = Release|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Debug|x86.Build.0 = Debug|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Release|x86.ActiveCfg = Release|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Release|x86.Build.0 = Release|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Release64|x86.ActiveCfg = Release|Any CPU
+		{FBE7F8AE-F530-4386-80F8-1011916234F3}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -840,5 +860,6 @@ Global
 		{79EE6726-BDE5-429A-8D20-6445CD5B7D1E} = {9851ABDF-3B0E-4C97-B3AB-9171CF4057A5}
 		{D2960171-B81F-41CC-9779-B28044BDED18} = {79EE6726-BDE5-429A-8D20-6445CD5B7D1E}
 		{90FBAD3B-9212-4F7B-AFEC-4CBE1277686E} = {9851ABDF-3B0E-4C97-B3AB-9171CF4057A5}
+		{FBE7F8AE-F530-4386-80F8-1011916234F3} = {90FBAD3B-9212-4F7B-AFEC-4CBE1277686E}
 	EndGlobalSection
 EndGlobal
