@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="0_General\ErrorCode.cs" />
     <Compile Include="0_General\TempFixMissingClasses.cs" />
     <Compile Include="0_General\Url.cs" />
@@ -247,6 +244,9 @@
     <Compile Include="Interfaces\Svg\ISvgTitleElement.cs" />
     <Compile Include="Interfaces\Xml\IXmlDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -154,9 +154,9 @@ namespace Icu.Collation
 					| BindingFlags.NonPublic);
 			}
 
-			Debug.Assert(fieldInfo != null,
-						 "Unsupported runtime",
-						 "Could not figure out an internal field for" + propertyName);
+            //Debug.Assert(fieldInfo != null,
+            //             "Unsupported runtime",
+            //             "Could not figure out an internal field for" + propertyName);
 
 			if (fieldInfo == null)
 			{
