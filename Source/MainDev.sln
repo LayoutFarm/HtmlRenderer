@@ -105,7 +105,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRoomJs20", "Deps\VRoomJs2\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "9_NetCore", "9_NetCore", "{9851ABDF-3B0E-4C97-B3AB-9171CF4057A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "icu.net_portable", "NetCore\icu.net_portable\icu.net_portable.csproj", "{A32AE1C2-2DD5-4F2D-A21C-460F082BC4A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "icu.net", "NetCore\icu.net\icu.net.csproj", "{A32AE1C2-2DD5-4F2D-A21C-460F082BC4A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
