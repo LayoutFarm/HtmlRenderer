@@ -17,15 +17,15 @@ namespace LayoutFarm.WebDom.Parser
         void dbug_OnFinishAnalyze()
         {
         }
-        public void dbugStartRecord(string filename)
+        public void dbugStartRecord(System.IO.StreamWriter writer)
         {
             dbug_LexerReport = new dbugLexerReport();
-            dbug_LexerReport.Start(filename);
+            dbug_LexerReport.Start(writer);
         }
 
         public void dbugEndRecord()
         {
-            dbug_LexerReport.End();
+            dbug_LexerReport.Flush();
             dbug_LexerReport = null;
         }
 

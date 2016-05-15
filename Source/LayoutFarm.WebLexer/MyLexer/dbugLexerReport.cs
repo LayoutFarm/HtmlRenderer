@@ -9,13 +9,12 @@ namespace LayoutFarm.WebLexer
 #if DEBUG
     public class dbugLexerReport
     {
-        FileStream fs;
+
         StreamWriter strmWriter;
         int lineCount = 0;
-        public void Start(string fileName)
+        public void Start(StreamWriter strmWriter)
         {
-            fs = new FileStream(fileName, FileMode.Create);
-            strmWriter = new StreamWriter(fs);
+            this.strmWriter = strmWriter;
             strmWriter.AutoFlush = true;
         }
         public void WriteLine(string info)
@@ -25,11 +24,9 @@ namespace LayoutFarm.WebLexer
             strmWriter.Flush();
             lineCount++;
         }
-        public void End()
+        public void Flush()
         {
-            strmWriter.Close();
-            fs.Close();
-            fs.Dispose();
+            strmWriter.Flush();
         }
     }
 #endif
