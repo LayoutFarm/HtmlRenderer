@@ -12,7 +12,7 @@ namespace LayoutFarm
 #if DEBUG
     public class dbugVisualLayoutTracer
     {
-        FileStream fs;
+
         StreamWriter strmWriter;
         RootGraphic visualroot;
         string outputFileName = null;
@@ -54,7 +54,7 @@ namespace LayoutFarm
             EndCurrentContext();
 
         }
-        public void PushLayerElement( RenderElementLayer layer)
+        public void PushLayerElement(RenderElementLayer layer)
         {
             elementStack.Push(layer);
             BeginNewContext();
@@ -71,22 +71,14 @@ namespace LayoutFarm
             return elementStack.Peek();
         }
 
-        public void Start()
+        public void Start(StreamWriter strmWriter)
         {
-
-            fs = new FileStream(outputFileName, FileMode.Create);
-            strmWriter = new StreamWriter(fs);
+            this.strmWriter = strmWriter;
             strmWriter.AutoFlush = true;
         }
         public void Stop()
         {
-            strmWriter.Close();
-            strmWriter.Dispose();
-
-            fs.Close();
-            fs.Dispose();
-            fs = null;
-
+            strmWriter.Flush(); 
         }
         public void WriteInfo(RenderElement v, string info, string indentPrefix, string indentPostfix)
         {
