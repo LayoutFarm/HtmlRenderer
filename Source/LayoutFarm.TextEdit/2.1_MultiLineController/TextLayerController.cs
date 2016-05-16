@@ -90,7 +90,8 @@ namespace LayoutFarm.Text
 
                 dbugTextManRecorder = new dbugMultiTextManRecorder();
                 textLineWriter.dbugTextManRecorder = dbugTextManRecorder;
-                dbugTextManRecorder.Start();
+                throw new NotSupportedException();
+                dbugTextManRecorder.Start(null);
             }
 #endif
         }

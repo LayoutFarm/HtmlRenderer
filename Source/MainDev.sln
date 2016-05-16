@@ -137,6 +137,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.WebDom", "NetCor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.Composers", "NetCore\LayoutFarm.Composers\LayoutFarm.Composers.csproj", "{67AD5BDB-686F-4BC2-BCAB-9EF6234F375D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.TextEdit", "NetCore\LayoutFarm.TextEdit\LayoutFarm.TextEdit.csproj", "{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -913,6 +915,24 @@ Global
 		{67AD5BDB-686F-4BC2-BCAB-9EF6234F375D}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{67AD5BDB-686F-4BC2-BCAB-9EF6234F375D}.Release64|x86.ActiveCfg = Release|Any CPU
 		{67AD5BDB-686F-4BC2-BCAB-9EF6234F375D}.Release64|x86.Build.0 = Release|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Debug|x86.Build.0 = Debug|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Release|x86.ActiveCfg = Release|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Release|x86.Build.0 = Release|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Release64|x86.ActiveCfg = Release|Any CPU
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -975,5 +995,6 @@ Global
 		{49D5424E-B4B2-4898-A995-2014A89DDC3E} = {9851ABDF-3B0E-4C97-B3AB-9171CF4057A5}
 		{C5919DE5-CA2E-42D7-BEA4-667BA017C2D0} = {49D5424E-B4B2-4898-A995-2014A89DDC3E}
 		{67AD5BDB-686F-4BC2-BCAB-9EF6234F375D} = {49D5424E-B4B2-4898-A995-2014A89DDC3E}
+		{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102} = {49D5424E-B4B2-4898-A995-2014A89DDC3E}
 	EndGlobalSection
 EndGlobal
