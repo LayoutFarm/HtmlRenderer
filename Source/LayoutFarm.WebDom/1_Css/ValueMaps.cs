@@ -2,7 +2,10 @@
 
 using System;
 using System.Collections.Generic;
-
+#if PORTABLE
+using System.Reflection;
+using System.Linq;
+#endif
 namespace LayoutFarm.WebDom
 {
 
@@ -24,19 +27,27 @@ namespace LayoutFarm.WebDom
             stringToValue = new Dictionary<string, T>();
             valueToString = new Dictionary<T, string>();
 
+#if PORTABLE
+            var fields = typeof(T).GetTypeInfo().DeclaredFields.ToArray();
+#else
             var fields = typeof(T).GetFields();
+#endif
 
             for (int i = fields.Length - 1; i >= 0; --i)
             {
                 var field = fields[i];
                 MapAttribute cssNameAttr = null;
+#if PORTABLE
+                var customAttrs = field.GetCustomAttributes(mapNameAttrType, false).ToArray();
+#else
                 var customAttrs = field.GetCustomAttributes(mapNameAttrType, false);
+#endif
                 if (customAttrs != null && customAttrs.Length > 0 &&
                    (cssNameAttr = customAttrs[0] as MapAttribute) != null)
                 {
                     T value = (T)field.GetValue(null);
                     stringToValue.Add(cssNameAttr.Name, value);//1.
-                    valueToString.Add(value, cssNameAttr.Name);//2.                    
+                    valueToString.Add(value, cssNameAttr.Name);//2.                   
 
                 }
             }
