@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C5919DE5-CA2E-42D7-BEA4-667BA017C2D0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LayoutFarm.WebDom</RootNamespace>
+    <AssemblyName>LayoutFarm.WebDom</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\CssParser.cs">
+      <Link>0_WebDom.Parser\CssParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\CssParserHelper.cs">
+      <Link>0_WebDom.Parser\CssParserHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\CssValueParser.cs">
+      <Link>0_WebDom.Parser\CssValueParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\HtmlKitParser.cs">
+      <Link>0_WebDom.Parser\HtmlKitParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\HtmlParser.cs">
+      <Link>0_WebDom.Parser\HtmlParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\HtmlUtils.cs">
+      <Link>0_WebDom.Parser\HtmlUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\MyHtmlParser.cs">
+      <Link>0_WebDom.Parser\MyHtmlParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\0_WebDom.Parser\TextSource.cs">
+      <Link>0_WebDom.Parser\TextSource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\CssActiveSheet.cs">
+      <Link>1_Css\CssActiveSheet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\CssAttributeSelector.cs">
+      <Link>1_Css\CssAttributeSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\CssCodeValueExpressions.cs">
+      <Link>1_Css\CssCodeValueExpressions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\CssDocMembers.cs">
+      <Link>1_Css\CssDocMembers.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\CssDocument.cs">
+      <Link>1_Css\CssDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\CssElementSelectors.cs">
+      <Link>1_Css\CssElementSelectors.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\CssPropertyDeclaration.cs">
+      <Link>1_Css\CssPropertyDeclaration.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\UserMapUtil.cs">
+      <Link>1_Css\UserMapUtil.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\ValueMaps.cs">
+      <Link>1_Css\ValueMaps.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\1_Css\WellknownCssPropertyName.cs">
+      <Link>1_Css\WellknownCssPropertyName.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\DomElement.cs">
+      <Link>2_WebDom\DomElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\DomElement_EventListener.cs">
+      <Link>2_WebDom\DomElement_EventListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\DomElement_OnEvents.cs">
+      <Link>2_WebDom\DomElement_OnEvents.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\DomNodes.cs">
+      <Link>2_WebDom\DomNodes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\ElementChangeKind.cs">
+      <Link>2_WebDom\ElementChangeKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\StringTable.cs">
+      <Link>2_WebDom\StringTable.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\WebDocument.cs">
+      <Link>2_WebDom\WebDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\2_WebDom\WellknownElementName.cs">
+      <Link>2_WebDom\WellknownElementName.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\3_WebDom_Interfaces\HtmlInterfaces.cs">
+      <Link>3_WebDom_Interfaces\HtmlInterfaces.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\DomTextWriter.cs">
+      <Link>4_WebDom.Impl\DomTextWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlDocument.cs">
+      <Link>4_WebDom.Impl\HtmlDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlDocumentFragment.cs">
+      <Link>4_WebDom.Impl\HtmlDocumentFragment.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlDocument_Scripting.cs">
+      <Link>4_WebDom.Impl\HtmlDocument_Scripting.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlElements.cs">
+      <Link>4_WebDom.Impl\HtmlElements.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlElements.Scripting.cs">
+      <Link>4_WebDom.Impl\HtmlElements.Scripting.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlPredefinedNames.cs">
+      <Link>4_WebDom.Impl\HtmlPredefinedNames.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlShadowDocument.cs">
+      <Link>4_WebDom.Impl\HtmlShadowDocument.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\HtmlTextNode.cs">
+      <Link>4_WebDom.Impl\HtmlTextNode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\4_WebDom.Impl\SpecialHtmlElements.cs">
+      <Link>4_WebDom.Impl\SpecialHtmlElements.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\ForNet20.cs">
+      <Link>5_HtmlKit\ForNet20.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlAttribute.cs">
+      <Link>5_HtmlKit\HtmlAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlAttributeCollection.cs">
+      <Link>5_HtmlKit\HtmlAttributeCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlAttributeId.cs">
+      <Link>5_HtmlKit\HtmlAttributeId.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlEntityDecoder.cs">
+      <Link>5_HtmlKit\HtmlEntityDecoder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlEntityDecoder.g.cs">
+      <Link>5_HtmlKit\HtmlEntityDecoder.g.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlNamespace.cs">
+      <Link>5_HtmlKit\HtmlNamespace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlTagId.cs">
+      <Link>5_HtmlKit\HtmlTagId.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlToken.cs">
+      <Link>5_HtmlKit\HtmlToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlTokenizer.cs">
+      <Link>5_HtmlKit\HtmlTokenizer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlTokenizerState.cs">
+      <Link>5_HtmlKit\HtmlTokenizerState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlTokenizer_ReadNextToken.cs">
+      <Link>5_HtmlKit\HtmlTokenizer_ReadNextToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlTokenKind.cs">
+      <Link>5_HtmlKit\HtmlTokenKind.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlUtils.cs">
+      <Link>5_HtmlKit\HtmlUtils.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlWriter.cs">
+      <Link>5_HtmlKit\HtmlWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\HtmlWriterState.cs">
+      <Link>5_HtmlKit\HtmlWriterState.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.WebDom\5_HtmlKit\ICharArray.cs">
+      <Link>5_HtmlKit\ICharArray.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LayoutFarm.ClientPlatform\LayoutFarm.ClientPlatforms.csproj">
+      <Project>{7cbc49bc-1f11-4759-bd17-1ec5de6a7487}</Project>
+      <Name>LayoutFarm.ClientPlatforms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.CssBase\LayoutFarm.CssBase.csproj">
+      <Project>{ab087e12-e01f-4ea8-b8e7-4f1538b5f9fc}</Project>
+      <Name>LayoutFarm.CssBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.WebLexer\LayoutFarm.WebLexer.csproj">
+      <Project>{6b0841f4-de5e-4375-b95d-a73bec72798d}</Project>
+      <Name>LayoutFarm.WebLexer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

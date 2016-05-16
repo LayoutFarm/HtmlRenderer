@@ -26,6 +26,12 @@
 
 using System; 
 using System.Collections.Generic;
+#if PORTABLE
+using System.Reflection;
+using System.Linq;
+
+#endif
+
 
 namespace HtmlKit {
 	/// <summary>

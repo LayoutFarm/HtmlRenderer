@@ -10,7 +10,7 @@ namespace LayoutFarm.Text
     }
     public class dbugMultiTextManRecorder
     {
-        FileStream fs;
+
         StreamWriter strmWriter;
 
         string outputFileName = null;
@@ -24,8 +24,7 @@ namespace LayoutFarm.Text
 
             myTraceCount = tracerCount;
             ++tracerCount;
-            outputFileName = dbugCoreConst.dbugRootFolder + "\\invalidate\\" + myTraceCount + "_" + Guid.NewGuid().ToString() + ".txt";
-
+            //outputFileName = dbugCoreConst.dbugRootFolder + "\\invalidate\\" + myTraceCount + "_" + Guid.NewGuid().ToString() + ".txt";
         }
         public void BeginContext()
         {
@@ -35,20 +34,21 @@ namespace LayoutFarm.Text
         {
             indentCount--;
         }
-        public void Start()
+        public void Start(StreamWriter writer)
         {
 
-            fs = new FileStream(outputFileName, FileMode.Create);
-            strmWriter = new StreamWriter(fs);
+            //fs = new FileStream(outputFileName, FileMode.Create);
+            strmWriter = writer;
             strmWriter.AutoFlush = true;
         }
         public void Stop()
         {
-            strmWriter.Close();
-            strmWriter.Dispose();
-            fs.Close();
-            fs.Dispose();
-            fs = null;
+            strmWriter.Flush();
+            //strmWriter.Close();
+            //strmWriter.Dispose();
+            //fs.Close();
+            //fs.Dispose();
+            //fs = null;
         }
 
         public void WriteInfo(string info)
