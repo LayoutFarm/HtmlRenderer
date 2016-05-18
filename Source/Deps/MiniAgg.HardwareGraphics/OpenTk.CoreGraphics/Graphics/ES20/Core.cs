@@ -25,13 +25,26 @@
 //
 #endregion
 
+#if PCL
+//dummy class for pcl
+namespace System
+{
+    public class SerializableAttribute : Attribute { }
+    public interface IClonable { }
+    public interface ISerializable { }
+}
+namespace System.Security
+{
+    public class SuppressUnmanagedCodeSecurityAttribute : Attribute { }
+}
+#endif
 namespace OpenTK.Graphics.ES20
 {
     using System;
     using System.Text;
     using System.Runtime.InteropServices;
-    #pragma warning disable 3019
-    #pragma warning disable 1591
+#pragma warning disable 3019
+#pragma warning disable 1591
 
     partial class GL
     {
