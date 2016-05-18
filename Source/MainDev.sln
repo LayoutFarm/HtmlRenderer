@@ -145,6 +145,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniAgg.Complements", "NetC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesselate", "NetCore\Tesselate\Tesselate.csproj", "{92CFC8C6-808D-4D1C-A3B5-2D41922432CE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LayoutFarm.YourCustomWidgets", "NetCore\LayoutFarm.YourCustomWidgets\LayoutFarm.YourCustomWidgets.csproj", "{625E94A4-C63F-42B8-8299-C69268EC28F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -993,6 +995,24 @@ Global
 		{92CFC8C6-808D-4D1C-A3B5-2D41922432CE}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
 		{92CFC8C6-808D-4D1C-A3B5-2D41922432CE}.Release64|x86.ActiveCfg = Release|Any CPU
 		{92CFC8C6-808D-4D1C-A3B5-2D41922432CE}.Release64|x86.Build.0 = Release|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Debug|x86.Build.0 = Debug|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Release|x86.ActiveCfg = Release|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Release|x86.Build.0 = Release|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Release64|x86.ActiveCfg = Release|Any CPU
+		{625E94A4-C63F-42B8-8299-C69268EC28F8}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1059,5 +1079,6 @@ Global
 		{54C88C30-0B16-419C-A4F9-BCC76F2B1711} = {79EE6726-BDE5-429A-8D20-6445CD5B7D1E}
 		{E3371642-7DE6-4131-B250-29BFFC552C2F} = {79EE6726-BDE5-429A-8D20-6445CD5B7D1E}
 		{92CFC8C6-808D-4D1C-A3B5-2D41922432CE} = {79EE6726-BDE5-429A-8D20-6445CD5B7D1E}
+		{625E94A4-C63F-42B8-8299-C69268EC28F8} = {49D5424E-B4B2-4898-A995-2014A89DDC3E}
 	EndGlobalSection
 EndGlobal
