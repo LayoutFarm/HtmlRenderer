@@ -22,7 +22,7 @@ namespace LayoutFarm.Dev
             InitializeComponent();
             this.Load += new EventHandler(Form1_Load);
             this.uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
-
+            UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
 
         }
         public TreeView SamplesTreeView
@@ -112,13 +112,13 @@ namespace LayoutFarm.Dev
             var workingArea = Screen.PrimaryScreen.WorkingArea;
             int w = workingArea.Width;
             int h = workingArea.Height;
-             
+
 
             MyRootGraphic rootgfx = new MyRootGraphic(this.uiPlatformWinForm,
-                this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform, 
+                this.chkUseGLCanvas.Checked ? openGLPlatform : gdiPlatform,
                 w, h);
-             
-            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx, 
+
+            formCanvas = FormCanvasHelper.CreateNewFormCanvas(rootgfx,
                 this.chkUseGLCanvas.Checked ? InnerViewportKind.GL : InnerViewportKind.GdiPlus,
                 out viewport);
 
