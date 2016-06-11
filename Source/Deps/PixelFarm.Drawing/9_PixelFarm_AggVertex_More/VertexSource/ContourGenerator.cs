@@ -1,16 +1,13 @@
 ﻿//2014,2015 BSD,WinterDev   
+
 using System;
 using System.Collections.Generic;
-
 using System.Text;
-
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg.VertexSource
 {
     class ContourGenerator
     {
-
         StrokeMath m_stroker;
         double m_width;
         VertexDistanceList vertexDistanceList;
@@ -22,7 +19,6 @@ namespace PixelFarm.Agg.VertexSource
         EndVertexOrientation m_orientation;
         bool m_auto_detect;
         double m_shorten;
-
         public ContourGenerator()
         {
             m_stroker = new StrokeMath();
@@ -108,26 +104,29 @@ namespace PixelFarm.Agg.VertexSource
                         {
                             switch ((int)x)
                             {
-                                case 1: 
+                                case 1:
                                 case 2:
                                     {
                                         m_orientation = (EndVertexOrientation)x;
-                                    } break;
+                                    }
+                                    break;
                             }
                         }
-                    } break;
+                    }
+                    break;
                 case VertexCmd.EndFigure:
 
                     //end not close 
                     if (m_orientation == EndVertexOrientation.Unknown)
-                    {   
+                    {
                         switch ((int)x)
                         {
                             case 1:
                             case 2:
                                 {
                                     m_orientation = (EndVertexOrientation)x;
-                                } break;
+                                }
+                                break;
                         }
                     }
                     break;
@@ -136,7 +135,6 @@ namespace PixelFarm.Agg.VertexSource
                     vertexDistanceList.AddVertex(new VertexDistance(x, y));
                     break;
             }
-
         }
 
         // Vertex Source Interface
@@ -159,11 +157,13 @@ namespace PixelFarm.Agg.VertexSource
                     case EndVertexOrientation.CCW:
                         {
                             m_stroker.Width = m_width;
-                        } break;
+                        }
+                        break;
                     case EndVertexOrientation.CW:
                         {
                             m_stroker.Width = -m_width;
-                        } break;
+                        }
+                        break;
                 }
             }
             m_status = StrokeMath.Status.Ready;
@@ -180,7 +180,6 @@ namespace PixelFarm.Agg.VertexSource
                     case StrokeMath.Status.Init:
                         this.RewindZero();
                         goto case StrokeMath.Status.Ready;
-
                     case StrokeMath.Status.Ready:
 
                         if (vertexDistanceList.Count < 2 + (m_closed ? 1 : 0))
@@ -193,7 +192,6 @@ namespace PixelFarm.Agg.VertexSource
                         m_src_vertex = 0;
                         m_out_vertex = 0;
                         goto case StrokeMath.Status.Outline1;
-
                     case StrokeMath.Status.Outline1:
                         if (m_src_vertex >= vertexDistanceList.Count)
                         {
@@ -210,7 +208,6 @@ namespace PixelFarm.Agg.VertexSource
                         m_status = StrokeMath.Status.OutVertices;
                         m_out_vertex = 0;
                         goto case StrokeMath.Status.OutVertices;
-
                     case StrokeMath.Status.OutVertices:
                         if (m_out_vertex >= m_out_vertices.Count)
                         {
@@ -219,18 +216,15 @@ namespace PixelFarm.Agg.VertexSource
                         else
                         {
                             m_out_vertices.GetVertex(m_out_vertex++, out x, out y);
-
                             return cmd;
                         }
                         break;
-
                     case StrokeMath.Status.EndPoly1:
 
                         if (!m_closed) return VertexCmd.Stop;
                         m_status = StrokeMath.Status.Stop;
                         x = (int)EndVertexOrientation.CCW;
                         return VertexCmd.EndAndCloseFigure;
-
                     case StrokeMath.Status.Stop:
                         return VertexCmd.Stop;
                 }

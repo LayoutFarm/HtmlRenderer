@@ -17,15 +17,13 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System.Collections.Generic;
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg
 {
-
     public static class VertexHitTester
     {
-        
         //======= Crossings Multiply algorithm of InsideTest ======================== 
         //
         // By Eric Haines, 3D/Eye Inc, erich@eye.com
@@ -60,27 +58,21 @@ namespace PixelFarm.Agg
         public static bool IsPointInVxs(VertexStore vxs, double tx, double ty)
         {
             int m_num_points = vxs.Count;
-
             if (m_num_points < 3) return false;
-           // if (!m_in_polygon_check) return false;
+            // if (!m_in_polygon_check) return false;
 
             int j;
             bool yflag0, yflag1, inside_flag;
             double vtx0, vty0, vtx1, vty1;
-
-
             vxs.GetVertex(m_num_points, out vtx0, out vty0);
             //vtx0 = GetXN(m_num_points - 1);
             //vty0 = GetYN(m_num_points - 1);
 
             // get test bit for above/below X axis
             yflag0 = (vty0 >= ty);
-
             //vtx1 = GetXN(0);
             //vty1 = GetYN(0);
             vxs.GetVertex(0, out vtx1, out vty1);
-
-
             inside_flag = false;
             for (j = 1; j <= m_num_points; ++j)
             {
@@ -114,7 +106,6 @@ namespace PixelFarm.Agg
                 yflag0 = yflag1;
                 vtx0 = vtx1;
                 vty0 = vty1;
-
                 int k = (j >= m_num_points) ? j - m_num_points : j;
                 //vtx1 = GetXN(k);
                 //vty1 = GetYN(k);
@@ -123,5 +114,4 @@ namespace PixelFarm.Agg
             return inside_flag;
         }
     }
-
 }

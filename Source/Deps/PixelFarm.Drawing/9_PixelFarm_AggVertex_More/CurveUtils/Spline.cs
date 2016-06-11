@@ -27,7 +27,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
-
 #if SYSTEM_WINDOWS_VECTOR
 using VECTOR = System.Windows.Vector;
 using FLOAT = System.Double;
@@ -40,7 +39,6 @@ using FLOAT = System.Single;
 #elif PIXEL_FARM
 using VECTOR = PixelFarm.VectorMath.Vector2;
 using FLOAT = System.Double;
-
 #else
 #error Unknown vector type -- must define one of SYSTEM_WINDOWS_VECTOR, SYSTEM_NUMERICS_VECTOR or UNITY
 #endif
@@ -48,7 +46,6 @@ using FLOAT = System.Double;
 
 namespace burningmime.curves
 {
-
 #if PIXEL_FARM_NET20
     public class ReadOnlyCollection<T> : List<T>
     {
@@ -68,12 +65,10 @@ namespace burningmime.curves
         public const int MIN_SAMPLES_PER_CURVE = 8;
         public const int MAX_SAMPLES_PER_CURVE = 1024;
         private const FLOAT EPSILON = VectorHelper.EPSILON;
-
         private readonly List<CubicBezier> _curves;
         private readonly ReadOnlyCollection<CubicBezier> _curvesView;
         private readonly List<FLOAT> _arclen;
         private readonly int _samplesPerCurve;
-
         /// <summary>
         /// Creates an empty spline.
         /// </summary>
@@ -158,7 +153,6 @@ namespace burningmime.curves
         /// </summary>
         public FLOAT Length
         {
-
 #if !UNITY && !PIXEL_FARM_NET20
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
@@ -204,12 +198,10 @@ namespace burningmime.curves
                 return new SamplePos(0, 0);
             if (u > 1)
                 return new SamplePos(_curves.Count - 1, 1);
-
             List<FLOAT> arclen = _arclen;
             FLOAT total = Length;
             FLOAT target = u * total;
             Debug.Assert(target >= 0);
-
             // Binary search to find largest value <= target
             int index = 0;
             int low = 0;
@@ -228,11 +220,9 @@ namespace burningmime.curves
             // this should be a rather rare scenario: we're past the end, but this wasn't picked up by the test for u >= 1
             if (index >= arclen.Count - 1)
                 return new SamplePos(_curves.Count - 1, 1);
-
             // this can happen because the binary search can give us either index or index + 1
             if (found > target)
                 index--;
-
             if (index < 0)
             {
                 // We're at the beginning of the spline
@@ -287,12 +277,10 @@ namespace burningmime.curves
             /// Index of sampled curve in the spline curves array.
             /// </summary>
             public readonly int Index;
-
             /// <summary>
             /// The "t" value from which to sample the curve.
             /// </summary>
             public readonly FLOAT Time;
-
             public SamplePos(int curveIndex, FLOAT t)
             {
                 Index = curveIndex;

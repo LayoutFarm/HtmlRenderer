@@ -29,7 +29,6 @@
 using System;
 namespace PixelFarm.Drawing
 {
-
     [Flags]
     public enum FontStyle
     {

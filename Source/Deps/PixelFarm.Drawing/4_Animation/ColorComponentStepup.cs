@@ -1,28 +1,23 @@
 ﻿// 2015,2014, BSD, WinterDev
 //BSD (Oct,November) 2008, (Jan 2009), 2014 WinterDev
 
-using System; 
+using System;
 namespace PixelFarm.Drawing.Animation
 {
-
     public class ColorComponentStepup
     {
         public int component1;
         public int component2;
         public int distance;
         public int stepType = 0;
-
         public double stepValuePerPixel = -1;
         public double nPixelsForOneStep = -1;
-
         public int CalculateValue(double d)
         {
-
             if (d < distance)
             {
                 if (stepType == 1)
                 {
-
                     double npix = d / nPixelsForOneStep;
                     if (component1 + (int)npix < 256)
                     {
@@ -32,7 +27,6 @@ namespace PixelFarm.Drawing.Animation
                     {
                         return 255;
                     }
-
                 }
                 else if (stepType == 2)
                 {
@@ -58,19 +52,14 @@ namespace PixelFarm.Drawing.Animation
         }
         public ColorComponentStepup(int component1, int component2, int distance)
         {
-
             this.component1 = component1;
             this.component2 = component2;
             this.distance = distance;
-
-
             int componentDiff = Math.Abs(component2 - component1);
             if (componentDiff != 0 && distance != 0)
             {
-
                 if (distance > componentDiff)
                 {
-
                     this.stepType = 1;
                     if (component1 < component2)
                     {
@@ -83,7 +72,6 @@ namespace PixelFarm.Drawing.Animation
                 }
                 else
                 {
-
                     this.stepType = 2;
                     if (component1 < component2)
                     {
@@ -95,7 +83,6 @@ namespace PixelFarm.Drawing.Animation
                     }
                 }
             }
-
         }
     }
 }

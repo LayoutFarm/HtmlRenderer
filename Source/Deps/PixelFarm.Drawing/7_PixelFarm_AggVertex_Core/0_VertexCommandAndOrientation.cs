@@ -1,12 +1,10 @@
 ﻿//2014,2015 BSD,WinterDev   
+
 using System;
 using System.Collections.Generic;
 using System.Text;
-
-
 namespace PixelFarm.Agg
 {
-
     /// <summary>
     /// vertex command and flags
     /// </summary>
@@ -18,7 +16,7 @@ namespace PixelFarm.Agg
         //---------------------------------
         //first lower 4 bits compact flags
         Stop = 0x00,
-        HasMore=0x01, //has more vertex
+        HasMore = 0x01, //has more vertex
         //-----------------------
         //end figure command 2 lower bits 
         //is end command when 2 lower bit > HasMore
@@ -42,20 +40,19 @@ namespace PixelFarm.Agg
     {
         public static bool IsVertextCommand(VertexCmd c)
         {
-            return  c >= VertexCmd.MoveTo;
+            return c >= VertexCmd.MoveTo;
         }
         public static bool IsEmpty(VertexCmd c)
         {
             return c == VertexCmd.Stop;
-        } 
+        }
         public static bool IsMoveTo(VertexCmd c)
         {
             return c == VertexCmd.MoveTo;
-        } 
+        }
         public static bool IsEndFigure(VertexCmd c)
         {
             return ((int)c & 0x3) > (int)VertexCmd.EndFigure;
-
         }
         public static bool IsClose(VertexCmd c)
         {
@@ -65,7 +62,7 @@ namespace PixelFarm.Agg
         {
             //?
             return c <= VertexCmd.MoveTo;
-        } 
+        }
 
         public static void ShortenPath(VertexDistanceList vertexDistanceList, double s, bool closed)
         {
@@ -154,9 +151,7 @@ namespace PixelFarm.Agg
                     InvertPolygon(myvxs, start, end);
                     VertexCmd flags;
                     int myvxs_count = myvxs.Count;
-
                     var orientFlags = isCW ? (int)EndVertexOrientation.CW : (int)EndVertexOrientation.CCW;
-
                     while (end < myvxs_count &&
                           VertexHelper.IsEndFigure(flags = myvxs.GetCommand(end)))
                     {
@@ -170,7 +165,6 @@ namespace PixelFarm.Agg
 
         static int ArrangeOrientations(VertexStore myvxs, int start, bool closewise)
         {
-
             while (start < myvxs.Count)
             {
                 start = ArrangePolygonOrientation(myvxs, start, closewise);
@@ -205,14 +199,15 @@ namespace PixelFarm.Agg
         {
             // Skip all non-vertices at the beginning
             int vcount = myvxs.Count;
-
             while (start < vcount &&
-                  !VertexHelper.IsVertextCommand(myvxs.GetCommand(start))) { ++start; }
+                  !VertexHelper.IsVertextCommand(myvxs.GetCommand(start)))
+            { ++start; }
 
             // Skip all insignificant move_to
             while (start + 1 < vcount &&
                   VertexHelper.IsMoveTo(myvxs.GetCommand(start)) &&
-                  VertexHelper.IsMoveTo(myvxs.GetCommand(start + 1))) { ++start; }
+                  VertexHelper.IsMoveTo(myvxs.GetCommand(start + 1)))
+            { ++start; }
 
             // Find the last vertex
             int end = start + 1;
@@ -236,7 +231,6 @@ namespace PixelFarm.Agg
 
             // Assign starting command to the ending command
             myvxs.ReplaceCommand(end, tmp_PathAndFlags);
-
             // Reverse the polygon
             while (end > start)
             {
@@ -272,6 +266,5 @@ namespace PixelFarm.Agg
                 }
             }
         }
-
     }
 }

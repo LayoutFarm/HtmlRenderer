@@ -17,10 +17,10 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg.VertexSource
 {
     //---------------------------------------------------------------path_base
@@ -56,12 +56,10 @@ namespace PixelFarm.Agg.VertexSource
     /// </summary>
     public sealed class PathWriter
     {
-
         double lastMoveX;
         double lastMoveY;
         double lastX;
         double lastY;
-
         /// <summary>
         /// curve3 point2 (1st control point)
         /// </summary>
@@ -70,13 +68,10 @@ namespace PixelFarm.Agg.VertexSource
         /// curve4 point3
         /// </summary>
         Vector2 c4p3;
-
         SvgPathCommand latestSVGPathCmd;
-
         int figureCount = 0;
         List<int> figureList;
         VertexStore myvxs = new VertexStore();
-
         public PathWriter()
         {
         }
@@ -89,11 +84,9 @@ namespace PixelFarm.Agg.VertexSource
         {
             myvxs.Clear();
             lastMoveX = lastMoveY = lastX = lastY = 0;
-
             c3p2 = new Vector2();
             c4p3 = new Vector2();
             latestSVGPathCmd = SvgPathCommand.MoveTo;
-
             figureCount = 0;
         }
 
@@ -183,7 +176,6 @@ namespace PixelFarm.Agg.VertexSource
             this.latestSVGPathCmd = SvgPathCommand.QuadraticBezierCurve;
             this.c3p2.x = p2x;
             this.c3p2.y = p2y;
-
             myvxs.AddP2c(p2x, p2y);
             myvxs.AddLineTo(this.lastX = x, this.lastY = y);
         }
@@ -197,13 +189,10 @@ namespace PixelFarm.Agg.VertexSource
         public void Curve3Rel(double p2x, double p2y, double x, double y)
         {
             this.latestSVGPathCmd = SvgPathCommand.QuadraticBezierCurve;
-
             this.c3p2.x = this.lastX + p2x;
             this.c3p2.y = this.lastY + p2y;
-
             myvxs.AddP2c(this.lastX + p2x, this.lastY + p2y);
             myvxs.AddLineTo(this.lastX += x, this.lastY += y);
-
         }
 
         /// <summary> 
@@ -223,20 +212,22 @@ namespace PixelFarm.Agg.VertexSource
                         //curve3
                         var newC3 = CreateMirrorPoint(this.c3p2, new Vector2(this.lastX, this.lastY));
                         Curve3(newC3.X, newC3.Y, x, y);
-                    } break;
+                    }
+                    break;
                 case SvgPathCommand.CurveTo:
                 case SvgPathCommand.SmoothCurveTo:
                     {
                         //curve4
                         var newC3 = CreateMirrorPoint(this.c4p3, new Vector2(this.lastX, this.lastY));
                         Curve3(newC3.X, newC3.Y, x, y);
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         Curve3(this.lastX, this.lastY, x, y);
-                    } break;
+                    }
+                    break;
             }
-
         }
 
         /// <summary>
@@ -265,7 +256,6 @@ namespace PixelFarm.Agg.VertexSource
                               double p3x, double p3y,
                               double x, double y)
         {
-
             this.latestSVGPathCmd = SvgPathCommand.CurveTo;
             myvxs.AddP3c(this.lastX + p2x, this.lastY + p2y);
             myvxs.AddP3c(this.lastX + p3x, this.lastY + p3y);
@@ -276,7 +266,6 @@ namespace PixelFarm.Agg.VertexSource
         public void SmoothCurve4(double p3x, double p3y,
                        double x, double y)
         {
-
             switch (this.latestSVGPathCmd)
             {
                 case SvgPathCommand.QuadraticBezierCurve:
@@ -285,26 +274,27 @@ namespace PixelFarm.Agg.VertexSource
                         //create c4p1 from c3p1
                         var c4p2 = CreateMirrorPoint(this.c3p2, new Vector2(this.lastX, this.lastY));
                         Curve4(c4p2.X, c4p2.Y, p3x, p3y, x, y);
-                    } break;
+                    }
+                    break;
                 case SvgPathCommand.CurveTo:
                 case SvgPathCommand.SmoothCurveTo:
                     {
                         //curve4
                         var c4p2 = CreateMirrorPoint(this.c4p3, new Vector2(this.lastX, this.lastY));
                         Curve4(c4p2.X, c4p2.Y, p3x, p3y, x, y);
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         Curve4(this.lastX, this.lastY, p3x, p3y, x, y);
-                    } break;
+                    }
+                    break;
             }
-
         }
 
         public void SmoothCurve4Rel(double p3x, double p3y,
                                     double x, double y)
         {
-
             SmoothCurve4(this.lastX + p3x, this.lastY + p3y, this.lastX + x, this.lastY + y);
         }
 
@@ -428,7 +418,6 @@ namespace PixelFarm.Agg.VertexSource
             {
                 double x0, y0;
                 VertexCmd flags0 = GetLastVertex(out x0, out y0);
-
                 if (VertexHelper.IsVertextCommand(flags0))
                 {
                     if (AggMath.calc_distance(x, y, x0, y0) > AggMath.VERTEX_DISTANCE_EPSILON)
@@ -461,7 +450,6 @@ namespace PixelFarm.Agg.VertexSource
             {
                 myvxs.AddVertex(x, y, VertexHelper.IsMoveTo(cmd) ? VertexCmd.LineTo : cmd);
             }
-
         }
 
 
@@ -472,7 +460,6 @@ namespace PixelFarm.Agg.VertexSource
             double[] m_coord_xy,
             VertexCmd[] m_CommandAndFlags)
         {
-
             VertexStore.UnsafeDirectSetData(
                 pathStore.Vxs,
                 m_allocated_vertices,
@@ -494,6 +481,5 @@ namespace PixelFarm.Agg.VertexSource
                 out m_coord_xy,
                 out m_CommandAndFlags);
         }
-
     }
 }

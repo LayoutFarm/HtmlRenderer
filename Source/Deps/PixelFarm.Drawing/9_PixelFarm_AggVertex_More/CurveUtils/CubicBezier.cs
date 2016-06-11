@@ -23,8 +23,6 @@ using System;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
-
-
 #if SYSTEM_WINDOWS_VECTOR
 using VECTOR = System.Windows.Vector;
 using FLOAT = System.Double;
@@ -53,7 +51,6 @@ namespace burningmime.curves
         public readonly VECTOR p1;
         public readonly VECTOR p2;
         public readonly VECTOR p3;
-
         /// <summary>
         /// Creates a new cubic bezier using the given control points.
         /// </summary>
@@ -163,7 +160,6 @@ namespace burningmime.curves
         private struct JenkinsHash
         {
             private int _current;
-
 #if !UNITY && !PIXEL_FARM_NET20
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif

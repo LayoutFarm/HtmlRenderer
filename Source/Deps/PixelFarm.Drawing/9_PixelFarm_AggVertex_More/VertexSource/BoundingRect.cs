@@ -21,14 +21,12 @@
 // bounding_rect function template
 //
 //----------------------------------------------------------------------------
-using PixelFarm.Agg.VertexSource;
 
+using PixelFarm.Agg.VertexSource;
 namespace PixelFarm.Agg
 {
     public static class BoundingRect
     {
-
-
         public static bool GetBoundingRect(VertexStore vxs, int[] gi,
                            int num,
                            out RectD boundingRect)
@@ -58,18 +56,13 @@ namespace PixelFarm.Agg
             double x = 0;
             double y = 0;
             bool first = true;
-
-
             x1 = 1;
             y1 = 1;
             x2 = 0;
             y2 = 0;
-
-
             int iterindex = 0;
             for (i = 0; i < num; i++)
             {
-
                 VertexCmd flags;
                 while ((flags = vxs.GetVertex(iterindex++, out x, out y)) != VertexCmd.Stop)
                 {
@@ -96,8 +89,8 @@ namespace PixelFarm.Agg
                                     if (x > x2) x2 = x;
                                     if (y > y2) y2 = y;
                                 }
-
-                            } break;
+                            }
+                            break;
                     }
                 }
             }
@@ -114,19 +107,14 @@ namespace PixelFarm.Agg
             double x = 0;
             double y = 0;
             bool first = true;
-
             x1 = 1;
             y1 = 1;
             x2 = 0;
             y2 = 0;
-
             var vsnapIter = vs.GetVertexSnapIter();
-
             VertexCmd PathAndFlags;
             while (!VertexHelper.IsEmpty(PathAndFlags = vsnapIter.GetNextVertex(out x, out y)))
             {
-
-
                 if (VertexHelper.IsVertextCommand(PathAndFlags))
                 {
                     if (first)
@@ -154,9 +142,6 @@ namespace PixelFarm.Agg
     //----------------------------------------------------
     public static class BoundingRectInt
     {
-
-
-
         public static bool GetBoundingRect(VertexStoreSnap vs, ref RectInt rect)
         {
             int x1, y1, x2, y2;
@@ -175,12 +160,11 @@ namespace PixelFarm.Agg
         }
         public static RectInt GetBoundingRect(VertexStore vxs)
         {
-
             int x1, y1, x2, y2;
             bool rValue = GetBoundingRect(new VertexStoreSnap(vxs), out x1, out y1, out x2, out y2);
             return new RectInt(x1, y1, x2, y2);
         }
-      
+
 
         //-----------------------------------------------------bounding_rect_single
         //template<class VertexSource, class CoordT> 
@@ -191,18 +175,14 @@ namespace PixelFarm.Agg
         {
             double x_d = 0;
             double y_d = 0;
-
             int x = 0;
             int y = 0;
             bool first = true;
-
             x1 = 1;
             y1 = 1;
             x2 = 0;
             y2 = 0;
-
             var vsnapIter = vs.GetVertexSnapIter();
-
             VertexCmd PathAndFlags;
             while (!VertexHelper.IsEmpty(PathAndFlags = vsnapIter.GetNextVertex(out x_d, out y_d)))
             {

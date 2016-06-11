@@ -31,11 +31,9 @@
 using System;
 namespace PixelFarm.Drawing
 {
-
     public struct RectangleF
     {
         float x, y, width, height;
-
         /// <summary>
         ///	Empty Shared Field
         /// </summary>
@@ -45,8 +43,6 @@ namespace PixelFarm.Drawing
         /// </remarks>
 
         public static readonly RectangleF Empty;
-
-
         /// <summary>
         ///	FromLTRB Shared Method
         /// </summary>
@@ -124,7 +120,6 @@ namespace PixelFarm.Drawing
             // touch each other
             if (!a.IntersectsWithInclusive(b))
                 return Empty;
-
             return FromLTRB(
                 Math.Max(a.Left, b.Left),
                 Math.Max(a.Top, b.Top),
@@ -244,7 +239,7 @@ namespace PixelFarm.Drawing
             this.y = y;
             this.width = width;
             this.height = height;
-        } 
+        }
         /// <summary>
         ///	Bottom Property
         /// </summary>
@@ -253,7 +248,7 @@ namespace PixelFarm.Drawing
         ///	The Y coordinate of the bottom edge of the RectangleF.
         ///	Read only.
         /// </remarks> 
-         
+
         public float Bottom
         {
             get
@@ -290,7 +285,7 @@ namespace PixelFarm.Drawing
         ///	Indicates if the width or height are zero. Read only.
         /// </remarks>
         //		
-       
+
         public bool IsEmpty
         {
             get
@@ -308,7 +303,7 @@ namespace PixelFarm.Drawing
         ///	Read only.
         /// </remarks>
 
-       
+
         public float Left
         {
             get
@@ -325,7 +320,7 @@ namespace PixelFarm.Drawing
         ///	The Location of the top-left corner of the RectangleF.
         /// </remarks>
 
-     
+
         public PointF Location
         {
             get
@@ -348,7 +343,7 @@ namespace PixelFarm.Drawing
         ///	Read only.
         /// </remarks>
 
-       
+
         public float Right
         {
             get
@@ -365,7 +360,7 @@ namespace PixelFarm.Drawing
         ///	The Size of the RectangleF.
         /// </remarks>
 
-        
+
         public SizeF Size
         {
             get
@@ -388,7 +383,7 @@ namespace PixelFarm.Drawing
         ///	Read only.
         /// </remarks>
 
-        
+
         public float Top
         {
             get
@@ -510,7 +505,6 @@ namespace PixelFarm.Drawing
         {
             if (!(obj is RectangleF))
                 return false;
-
             return (this == (RectangleF)obj);
         }
 
@@ -587,6 +581,5 @@ namespace PixelFarm.Drawing
             return String.Format("{{X={0},Y={1},Width={2},Height={3}}}",
                          x, y, width, height);
         }
-
     }
 }

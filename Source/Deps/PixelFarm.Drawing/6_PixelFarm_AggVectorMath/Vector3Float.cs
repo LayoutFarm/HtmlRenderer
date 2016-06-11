@@ -24,7 +24,6 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
-
 namespace PixelFarm.VectorMath
 {
     /// <summary>
@@ -40,17 +39,14 @@ namespace PixelFarm.VectorMath
         /// The X component of the Vector3Float.
         /// </summary>
         public float x;
-
         /// <summary>
         /// The Y component of the Vector3Float.
         /// </summary>
         public float y;
-
         /// <summary>
         /// The Z component of the Vector3Float.
         /// </summary>
         public float z;
-
         #endregion // Fields
 
         #region Constructors
@@ -151,15 +147,12 @@ namespace PixelFarm.VectorMath
                     case 0:
                         x = value;
                         break;
-
                     case 1:
                         y = value;
                         break;
-
                     case 2:
                         z = value;
                         break;
-
                     default:
                         throw new Exception();
                 }
@@ -255,42 +248,34 @@ namespace PixelFarm.VectorMath
         /// Defines a unit-length Vector3Floatd that points towards the X-axis.
         /// </summary>
         public static readonly Vector3Float UnitX = new Vector3Float(1, 0, 0);
-
         /// <summary>
         /// Defines a unit-length Vector3Floatd that points towards the Y-axis.
         /// </summary>
         public static readonly Vector3Float UnitY = new Vector3Float(0, 1, 0);
-
         /// <summary>
         /// /// Defines a unit-length Vector3Floatd that points towards the Z-axis.
         /// </summary>
         public static readonly Vector3Float UnitZ = new Vector3Float(0, 0, 1);
-
         /// <summary>
         /// Defines a zero-length Vector3Float.
         /// </summary>
         public static readonly Vector3Float Zero = new Vector3Float(0, 0, 0);
-
         /// <summary>
         /// Defines an instance with all components set to 1.
         /// </summary>
         public static readonly Vector3Float One = new Vector3Float(1, 1, 1);
-
         /// <summary>
         /// Defines an instance with all components set to positive infinity.
         /// </summary>
         public static readonly Vector3Float PositiveInfinity = new Vector3Float(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity);
-
         /// <summary>
         /// Defines an instance with all components set to negative infinity.
         /// </summary>
         public static readonly Vector3Float NegativeInfinity = new Vector3Float(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity);
-
         /// <summary>
         /// Defines the size of the Vector3Floatd struct in bytes.
         /// </summary>
         public static readonly int SizeInBytes = Marshal.SizeOf(new Vector3Float());
-
         #endregion
 
         #region Add
@@ -736,12 +721,10 @@ namespace PixelFarm.VectorMath
         public static void BaryCentric(ref Vector3Float a, ref Vector3Float b, ref Vector3Float c, float u, float v, out Vector3Float result)
         {
             result = a; // copy
-
             Vector3Float temp = b; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, u, out temp);
             Add(ref result, ref temp, out result);
-
             temp = c; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, v, out temp);
@@ -1067,20 +1050,20 @@ namespace PixelFarm.VectorMath
         /// <summary>
         /// Gets or sets an OpenTK.Vector2d with the X and Y components of this instance.
         /// </summary>
-        public Vector2 Xy 
-        { 
-            get 
-            { 
-                return new Vector2(x, y); 
-            } 
-            set 
-            { 
+        public Vector2 Xy
+        {
+            get
+            {
+                return new Vector2(x, y);
+            }
+            set
+            {
 #if true
-            throw new NotImplementedException();
+                throw new NotImplementedException();
 #else
                 x = value.x; y = value.y; 
 #endif
-            } 
+            }
         }
 
         #endregion
@@ -1259,7 +1242,6 @@ namespace PixelFarm.VectorMath
         {
             if (!(obj is Vector3Float))
                 return false;
-
             return this.Equals((Vector3Float)obj);
         }
 

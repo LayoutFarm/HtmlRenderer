@@ -26,10 +26,10 @@
 
 //#include <math.h>
 //#include "agg_basics.h"
+
 using System;
 using PixelFarm.Agg;
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg.Transform
 {
     //============================================================trans_affine
@@ -147,12 +147,9 @@ namespace PixelFarm.Agg.Transform
 
     public sealed class Affine : ICoordTransformer
     {
-
         const double EPSILON = 1e-14;
-
         public readonly double sx, shy, shx, sy, tx, ty;
         bool isIdenHint;
-
         public static readonly Affine IdentityMatrix = Affine.NewIdentity();
         //------------------------------------------ Construction
         private Affine(Affine copyFrom)
@@ -172,7 +169,6 @@ namespace PixelFarm.Agg.Transform
             sx = v0_sx;
             shy = v1_shy;
             shx = v2_shx;
-
             sy = v3_sy;
             tx = v4_tx;
             ty = v5_ty;
@@ -198,7 +194,6 @@ namespace PixelFarm.Agg.Transform
             tx = a.tx;
             ty = a.ty;
             MultiplyMatrix(ref sx, ref sy, ref shx, ref shy, ref tx, ref ty, b);
-
         }
         private Affine(Affine copyFrom, AffinePlan creationPlan)
         {
@@ -226,15 +221,14 @@ namespace PixelFarm.Agg.Transform
                         double t0 = sx * ca - shy * sa;
                         double t2 = shx * ca - sy * sa;
                         double t4 = tx * ca - ty * sa;
-
                         shy = sx * sa + shy * ca;
                         sy = shx * sa + sy * ca;
                         ty = tx * sa + ty * ca;
                         sx = t0;
                         shx = t2;
                         tx = t4;
-
-                    } break;
+                    }
+                    break;
                 case AffineMatrixCommand.Scale:
                     {
                         double mm0 = creationPlan.x;
@@ -245,14 +239,14 @@ namespace PixelFarm.Agg.Transform
                         shy *= mm3;
                         sy *= mm3;
                         ty *= mm3;
-                    } break;
+                    }
+                    break;
                 case AffineMatrixCommand.Skew:
                     {
                         double m_sx = 1;
                         double m_sy = 1;
                         double m_shx = Math.Tan(creationPlan.x);
                         double m_shy = Math.Tan(creationPlan.y);
-
                         double t0 = sx * m_sx + shy * m_shx;
                         double t2 = shx * m_sx + sy * m_shx;
                         double t4 = tx * m_sx + ty * m_shx + 0;//0=m.tx
@@ -262,48 +256,43 @@ namespace PixelFarm.Agg.Transform
                         sx = t0;
                         shx = t2;
                         tx = t4;
-
                         //return new Affine(1.0, Math.Tan(y), Math.Tan(x), 1.0, 0.0, 0.0);
 
-                    } break;
+                    }
+                    break;
                 case AffineMatrixCommand.Translate:
                     {
                         tx += creationPlan.x;
                         ty += creationPlan.y;
-                    } break;
+                    }
+                    break;
                 case AffineMatrixCommand.Invert:
                     {
                         double d = CalculateDeterminantReciprocal();
-
                         double t0 = sy * d;
                         sy = sx * d;
                         shy = -shy * d;
                         shx = -shx * d;
-
                         double t4 = -tx * t0 - ty * shx;
                         ty = -tx * shy - ty * sy;
-
                         sx = t0;
                         tx = t4;
-
-                    } break;
+                    }
+                    break;
             }
         }
 
         private Affine(AffinePlan[] creationPlans)
         {
-
             //-----------------------
             //start with identity matrix
 
             sx = 1;
             shy = 0;
             shx = 0;
-
             sy = 1;
             tx = 0;
             ty = 0;
-
             //-----------------------
             int j = creationPlans.Length;
             for (int i = 0; i < j; ++i)
@@ -321,14 +310,14 @@ namespace PixelFarm.Agg.Transform
                             double t0 = sx * ca - shy * sa;
                             double t2 = shx * ca - sy * sa;
                             double t4 = tx * ca - ty * sa;
-
                             shy = sx * sa + shy * ca;
                             sy = shx * sa + sy * ca;
                             ty = tx * sa + ty * ca;
                             sx = t0;
                             shx = t2;
                             tx = t4;
-                        } break;
+                        }
+                        break;
                     case AffineMatrixCommand.Scale:
                         {
                             double mm0 = plan.x;
@@ -339,19 +328,20 @@ namespace PixelFarm.Agg.Transform
                             shy *= mm3;
                             sy *= mm3;
                             ty *= mm3;
-                        } break;
+                        }
+                        break;
                     case AffineMatrixCommand.Translate:
                         {
                             tx += plan.x;
                             ty += plan.y;
-                        } break;
+                        }
+                        break;
                     case AffineMatrixCommand.Skew:
                         {
                             double m_sx = 1;
                             double m_sy = 1;
                             double m_shx = Math.Tan(plan.x);
                             double m_shy = Math.Tan(plan.y);
-
                             double t0 = sx * m_sx + shy * m_shx;
                             double t2 = shx * m_sx + sy * m_shx;
                             double t4 = tx * m_sx + ty * m_shx + 0;//0=m.tx
@@ -361,31 +351,27 @@ namespace PixelFarm.Agg.Transform
                             sx = t0;
                             shx = t2;
                             tx = t4;
-
-
-                        } break;
+                        }
+                        break;
                     case AffineMatrixCommand.Invert:
                         {
                             double d = CalculateDeterminantReciprocal();
-
                             double t0 = sy * d;
                             sy = sx * d;
                             shy = -shy * d;
                             shx = -shx * d;
-
                             double t4 = -tx * t0 - ty * shx;
                             ty = -tx * shy - ty * sy;
-
                             sx = t0;
                             tx = t4;
-                        } break;
+                        }
+                        break;
                     default:
                         {
                             throw new NotSupportedException();
                         }
                 }
             }
-
         }
 
 
@@ -893,18 +879,18 @@ namespace PixelFarm.Agg.Transform
         static bool is_equal_eps(double v1, double v2)
         {
             return Math.Abs(v1 - v2) <= (EPSILON);
-        } 
+        }
         public VertexStoreSnap TransformToVertexSnap(VertexStore src)
         {
             return new VertexStoreSnap(this.TransformToVxs(src));
         }
-        
+
         public VertexStore TransformToVxs(VertexStore src)
         {
             int count = src.Count;
             VertexStore vxs = new VertexStore(count);
             VertexCmd cmd;
-            double x, y; 
+            double x, y;
             for (int i = 0; i < count; ++i)
             {
                 cmd = src.GetVertex(i, out x, out y);
@@ -933,7 +919,6 @@ namespace PixelFarm.Agg.Transform
             VertexStore vxs = new VertexStore(count);
             VertexCmd cmd;
             double x, y;
-           
             for (int i = 0; i < count; ++i)
             {
                 cmd = src.GetVertex(i, out x, out y);
@@ -947,7 +932,6 @@ namespace PixelFarm.Agg.Transform
         {
             var vxs = new VertexStore();
             var snapIter = src.GetVertexSnapIter();
-
             VertexCmd cmd;
             double x, y;
             while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.Stop)
@@ -958,7 +942,6 @@ namespace PixelFarm.Agg.Transform
             }
             return vxs;
         }
-
 
         // Check to see if two matrices are equal
         //public bool is_equal(Affine m, double epsilon)

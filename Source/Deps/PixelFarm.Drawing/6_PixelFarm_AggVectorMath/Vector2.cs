@@ -24,7 +24,6 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
-
 namespace PixelFarm.VectorMath
 {
     /// <summary>Represents a 2D vector using two double-precision floating-point numbers.</summary>
@@ -36,35 +35,28 @@ namespace PixelFarm.VectorMath
 
         /// <summary>The X coordinate of this instance.</summary>
         public double x;
-
         /// <summary>The Y coordinate of this instance.</summary>
         public double y;
-
         /// <summary>
         /// Defines a unit-length Vector2d that points towards the X-axis.
         /// </summary>
         public static readonly Vector2 UnitX = new Vector2(1, 0);
-
         /// <summary>
         /// Defines a unit-length Vector2d that points towards the Y-axis.
         /// </summary>
         public static readonly Vector2 UnitY = new Vector2(0, 1);
-
         /// <summary>
         /// Defines a zero-length Vector2d.
         /// </summary>
         public static readonly Vector2 Zero = new Vector2(0, 0);
-
         /// <summary>
         /// Defines an instance with all components set to 1.
         /// </summary>
         public static readonly Vector2 One = new Vector2(1, 1);
-
         /// <summary>
         /// Defines the size of the Vector2d struct in bytes.
         /// </summary>
         public static readonly int SizeInBytes = Marshal.SizeOf(new Vector2());
-
         #endregion
 
         #region Constructors
@@ -110,11 +102,9 @@ namespace PixelFarm.VectorMath
                     case 0:
                         x = value;
                         break;
-
                     case 1:
                         y = value;
                         break;
-
                     default:
                         throw new Exception();
                 }
@@ -564,10 +554,8 @@ namespace PixelFarm.VectorMath
         public static void Rotate(ref Vector2 input, double radians, out Vector2 output)
         {
             double Cos, Sin;
-
             Cos = (double)System.Math.Cos(radians);
             Sin = (double)System.Math.Sin(radians);
-
             output.x = input.x * Cos - input.y * Sin;
             output.y = input.y * Cos + input.x * Sin;
         }
@@ -630,12 +618,10 @@ namespace PixelFarm.VectorMath
         public static void BaryCentric(ref Vector2 a, ref Vector2 b, ref Vector2 c, double u, double v, out Vector2 result)
         {
             result = a; // copy
-
             Vector2 temp = b; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, u, out temp);
             Add(ref result, ref temp, out result);
-
             temp = c; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, v, out temp);
@@ -671,7 +657,6 @@ namespace PixelFarm.VectorMath
             Quaternion.Invert(ref quat, out i);
             Quaternion.Multiply(ref quat, ref v, out t);
             Quaternion.Multiply(ref t, ref i, out v);
-
             result = new Vector2(v.X, v.Y);
         }
 
@@ -893,7 +878,6 @@ namespace PixelFarm.VectorMath
         {
             if (!(obj is Vector2))
                 return false;
-
             return this.Equals((Vector2)obj);
         }
 

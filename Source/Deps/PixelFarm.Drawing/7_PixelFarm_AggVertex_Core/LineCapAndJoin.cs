@@ -21,11 +21,10 @@
 // Stroke math
 //
 //----------------------------------------------------------------------------
+
 using System;
-
 using PixelFarm.VectorMath;
-
-namespace PixelFarm.Agg 
+namespace PixelFarm.Agg
 {
     public enum LineCap
     {
@@ -50,6 +49,4 @@ namespace PixelFarm.Agg
         Jag,
         Round
     }
-
-
 }

@@ -27,8 +27,6 @@ using System;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
-
-
 #if SYSTEM_WINDOWS_VECTOR
 using VECTOR = System.Windows.Vector;
 using FLOAT = System.Double;
@@ -57,7 +55,6 @@ namespace burningmime.curves
         /// Below this, don't trust the results of floating point calculations.
         /// </summary>
         public const FLOAT EPSILON = 1.2e-12f;
-
 #if SYSTEM_WINDOWS_VECTOR
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static FLOAT Distance(VECTOR a, VECTOR b) { return (a - b).Length; }
         [MethodImpl(MethodImplOptions.AggressiveInlining)] public static FLOAT DistanceSquared(VECTOR a, VECTOR b) { return (a - b).LengthSquared; }

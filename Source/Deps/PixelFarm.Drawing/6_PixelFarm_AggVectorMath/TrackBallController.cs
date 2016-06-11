@@ -27,32 +27,24 @@ of the authors and should not be interpreted as representing official policies,
 either expressed or implied, of the FreeBSD Project.
 */
 
-using System; 
-
+using System;
 namespace PixelFarm.VectorMath
 {
     public class TrackBallController
     {
         public enum MouseDownType { None, Translation, Rotation, Scale };
-
         private const double Epsilon = 1.0e-5;
         Vector2 screenCenter;
         double rotationTrackingRadius;
-
         MouseDownType currentTrackingType = MouseDownType.None;
-
         Matrix4X4 currentRotationMatrix = Matrix4X4.Identity;
         Matrix4X4 currentTranslationMatrix = Matrix4X4.Identity;
-
         Matrix4X4 localToScreenTransform;
-
         private Vector3 rotationStart;
         private Vector3 rotationCurrent;
         Quaternion activeRotationQuaternion = Quaternion.Identity;
-
         Vector2 lastTranslationMousePosition = Vector2.Zero;
         Vector2 lastScaleMousePosition = Vector2.Zero;
-
         public TrackBallController()
             : this(new Vector2(), 1)
         {
@@ -85,7 +77,6 @@ namespace PixelFarm.VectorMath
             set
             {
                 double requiredChange = value / Scale;
-
                 currentTranslationMatrix *= Matrix4X4.CreateScale(requiredChange);
             }
         }
@@ -107,20 +98,16 @@ namespace PixelFarm.VectorMath
         {
             Vector2 deltaFromCenter = screenPoint - screenCenter;
             Vector2 deltaMinus1To1 = deltaFromCenter;
-
             //Adjust point coords and scale down to range of [-1 ... 1]
             deltaMinus1To1.x = (deltaMinus1To1.x / rotationTrackingRadius);
             deltaMinus1To1.y = (deltaMinus1To1.y / rotationTrackingRadius);
-
             //Compute square of the length of the vector from this point to the center
             double length = (deltaMinus1To1.x * deltaMinus1To1.x) + (deltaMinus1To1.y * deltaMinus1To1.y);
-
             //If the point is mapped outside the sphere... (length > radius squared)
             if (length > 1.0)
             {
                 //Compute a normalizing factor (radius / sqrt(length))
                 double normalizedLength = (1.0 / Math.Sqrt(length));
-
                 //Return the "normalized" vector, a point on the sphere
                 vector.x = deltaMinus1To1.x * normalizedLength;
                 vector.y = deltaMinus1To1.y * normalizedLength;
@@ -149,15 +136,12 @@ namespace PixelFarm.VectorMath
                     case MouseDownType.Rotation:
                         MapToSphere(mousePosition, out rotationStart);
                         break;
-
                     case MouseDownType.Translation:
                         lastTranslationMousePosition = mousePosition;
                         break;
-
                     case MouseDownType.Scale:
                         lastScaleMousePosition = mousePosition;
                         break;
-
                     default:
                         throw new NotImplementedException();
                 }
@@ -173,11 +157,9 @@ namespace PixelFarm.VectorMath
                     activeRotationQuaternion = Quaternion.Identity;
                     //Map the point to the sphere
                     MapToSphere(mousePosition, out rotationCurrent);
-
                     //Return the quaternion equivalent to the rotation
                     //Compute the vector perpendicular to the begin and end vectors
                     Vector3 Perp = Vector3.Cross(rotationStart, rotationCurrent);
-
                     //Compute the length of the perpendicular vector
                     if (Perp.Length > Epsilon)
                     {
@@ -190,7 +172,6 @@ namespace PixelFarm.VectorMath
                         activeRotationQuaternion.W = Vector3.Dot(rotationStart, rotationCurrent);
                     }
                     break;
-
                 case MouseDownType.Translation:
                     {
                         Vector2 mouseDelta = mousePosition - lastTranslationMousePosition;
@@ -202,7 +183,6 @@ namespace PixelFarm.VectorMath
                         lastTranslationMousePosition = mousePosition;
                     }
                     break;
-
                 case MouseDownType.Scale:
                     {
                         Vector2 mouseDelta = mousePosition - lastScaleMousePosition;
@@ -211,7 +191,7 @@ namespace PixelFarm.VectorMath
                         {
                             zoomDelta = 1 - (-1 * mouseDelta.y / 100);
                         }
-                        else if(mouseDelta.y > 0)
+                        else if (mouseDelta.y > 0)
                         {
                             zoomDelta = 1 + (1 * mouseDelta.y / 100);
                         }
@@ -219,7 +199,6 @@ namespace PixelFarm.VectorMath
                         lastScaleMousePosition = mousePosition;
                     }
                     break;
-
                 default:
                     throw new NotImplementedException();
             }
@@ -233,14 +212,11 @@ namespace PixelFarm.VectorMath
                     currentRotationMatrix = currentRotationMatrix * Matrix4X4.CreateRotation(activeRotationQuaternion);
                     activeRotationQuaternion = Quaternion.Identity;
                     break;
-
                 case MouseDownType.Translation:
                     //currentTranslationMatrix = Matrix4X4.Identity;
                     break;
-
                 case MouseDownType.Scale:
                     break;
-
                 default:
                     throw new NotImplementedException();
             }

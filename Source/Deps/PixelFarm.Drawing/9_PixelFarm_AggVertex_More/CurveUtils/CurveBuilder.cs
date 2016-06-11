@@ -16,7 +16,7 @@
 //    misrepresented as being the original software.
 // 3. This notice may not be removed or altered from any source distribution.
 
- 
+
 
 #define PIXEL_FARM
 #define PIXEL_FARM_NET20
@@ -28,7 +28,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Diagnostics;
-
 #if SYSTEM_WINDOWS_VECTOR
 using VECTOR = System.Windows.Vector;
 using FLOAT = System.Double;
@@ -66,7 +65,6 @@ namespace burningmime.curves
         private VECTOR _tanL;                                            // left tangent of current curve (can't change this except on first curve or we'll lose C1 continuity)
         private FLOAT _totalLength;                                      // Total length of the curve so far (for updating arclen)
         private int _first;                                              // Index of first point in current curve
-
         public CurveBuilder(FLOAT linDist, FLOAT error)
         {
             _squaredError = error * error;
@@ -85,11 +83,11 @@ namespace burningmime.curves
             VECTOR prev = _prev;
             List<VECTOR> pts = _pts;
             int count = pts.Count;
-            if(count != 0)
+            if (count != 0)
             {
                 FLOAT td = VectorHelper.Distance(prev, p);
                 FLOAT md = _linDist;
-                if(td > md)
+                if (td > md)
                 {
                     int first = int.MaxValue;
                     bool add = false;
@@ -104,7 +102,7 @@ namespace burningmime.curves
                         add |= res.WasAdded;
                         prev = np;
                         rd -= md;
-                    } while(rd > md);
+                    } while (rd > md);
                     _prev = prev;
                     return new AddPointResult(first, add);
                 }
@@ -126,7 +124,7 @@ namespace burningmime.curves
             Debug.Assert(last != 0); // should always have one point at least
             _pts.Add(np);
             _arclen.Add(_totalLength = _totalLength + _linDist);
-            if(last == 1)
+            if (last == 1)
             {
                 // This is the second point
                 Debug.Assert(_result.Count == 0);
@@ -144,17 +142,14 @@ namespace burningmime.curves
             {
                 int lastCurve = _result.Count - 1;
                 int first = _first;
-
                 // If we're on the first curve, we're free to improve the left tangent
                 VECTOR tanL = lastCurve == 0 ? GetLeftTangent(last) : _tanL;
-
                 // We can always do the end tangent
                 VECTOR tanR = GetRightTangent(first);
-
                 // Try fitting with the new point
                 int split;
                 CubicBezier curve;
-                if(FitCurve(first, last, tanL, tanR, out curve, out split))
+                if (FitCurve(first, last, tanL, tanR, out curve, out split))
                 {
                     _result[lastCurve] = curve;
                     return new AddPointResult(lastCurve, false);
@@ -165,25 +160,21 @@ namespace burningmime.curves
                     // first, get mid tangent
                     VECTOR tanM1 = GetCenterTangent(first, last, split);
                     VECTOR tanM2 = -tanM1;
-
                     // PERHAPS do a full fitRecursive here since its our last chance?
 
                     // our left tangent might be based on points outside the new curve (this is possible for mid tangents too
                     // but since we need to maintain C1 continuity, it's too late to do anything about it)
-                    if(first == 0 && split < END_TANGENT_N_PTS)
+                    if (first == 0 && split < END_TANGENT_N_PTS)
                         tanL = GetLeftTangent(split);
-
                     // do a final pass on the first half of the curve
                     int unused;
                     FitCurve(first, split, tanL, tanM1, out curve, out unused);
                     _result[lastCurve] = curve;
-
                     // perpare to fit the second half
                     FitCurve(split, last, tanM2, tanR, out curve, out unused);
                     _result.Add(curve);
                     _first = split;
                     _tanL = tanM2;
-
                     return new AddPointResult(lastCurve, true);
                 }
             }
@@ -206,7 +197,7 @@ namespace burningmime.curves
 
         // We provide these for both convience and performance, since a call to List<T>.GetEnumerator() doesn't actually allocate if
         // the type is never boxed
-        public List<CubicBezier>.Enumerator GetEnumerator() { return _result.GetEnumerator(); } 
+        public List<CubicBezier>.Enumerator GetEnumerator() { return _result.GetEnumerator(); }
         IEnumerator<CubicBezier> IEnumerable<CubicBezier>.GetEnumerator() { return GetEnumerator(); }
         IEnumerator IEnumerable.GetEnumerator() { return GetEnumerator(); }
 
@@ -222,12 +213,10 @@ namespace burningmime.curves
         public struct AddPointResult
         {
             private readonly int _data; // packed value... need this so that default(AddPointResult) which is always 0 to represent no change
-
             /// <summary>
             /// No changes were made.
             /// </summary>
             public static readonly AddPointResult NO_CHANGE = default(AddPointResult);
-            
             /// <summary>
             /// Were any curves changed or added?
             /// </summary>
@@ -247,7 +236,7 @@ namespace burningmime.curves
 
             public AddPointResult(int firstChangedIndex, bool curveAdded)
             {
-                if(firstChangedIndex < 0 || firstChangedIndex == int.MaxValue)
+                if (firstChangedIndex < 0 || firstChangedIndex == int.MaxValue)
                     throw new InvalidOperationException("firstChangedIndex must be greater than zero");
                 _data = (firstChangedIndex + 1) * (curveAdded ? -1 : 1);
             }

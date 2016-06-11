@@ -27,7 +27,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Collections.Generic;
 using System.Diagnostics;
-
 #if SYSTEM_WINDOWS_VECTOR
 using VECTOR = System.Windows.Vector;
 using FLOAT = System.Double;
@@ -52,13 +51,12 @@ namespace burningmime.curves
     /// </summary>
     public sealed class CurveFit : CurveFitBase
     {
-
 #if !UNITY
         /// <summary>
         /// Use a thread-static instance to prevent multithreading issues without needing to re-allocate on each run.
         /// </summary>
-        [ThreadStatic] private static CurveFit _instance;
-
+        [ThreadStatic]
+        private static CurveFit _instance;
         private static CurveFit GetInstance()
         {
             return _instance ?? (_instance = new CurveFit());
@@ -80,12 +78,10 @@ namespace burningmime.curves
         /// Curves we've found so far.
         /// </summary>
         private readonly List<CubicBezier> _result = new List<CubicBezier>(16);
-
         /// <summary>
         /// Shared zero-curve array.
         /// </summary>
         private static readonly CubicBezier[] NO_CURVES = new CubicBezier[0];
-
         /// <summary>
         /// Attempts to fit a set of Bezier curves to the given data. It returns a set of curves that form a 
         /// http://en.wikipedia.org/wiki/Composite_B%C3%A9zier_curve with C1 continuity (that is, each curve's start
@@ -102,30 +98,26 @@ namespace burningmime.curves
         /// <returns>Fitted curves or an empty list if it could not fit.</returns>
         public static CubicBezier[] Fit(List<VECTOR> points, FLOAT maxError)
         {
-            if(maxError < EPSILON)
+            if (maxError < EPSILON)
                 throw new InvalidOperationException("maxError cannot be negative/zero/less than epsilon value");
-            if(points == null)
+            if (points == null)
                 throw new ArgumentNullException("points");
-            if(points.Count < 2)
+            if (points.Count < 2)
                 return NO_CURVES; // need at least 2 points to do anything
-
             CurveFit instance = GetInstance();
             try
             {
                 // should be cleared after each run
-                Debug.Assert(instance._pts.Count == 0 && instance._result.Count == 0 && 
+                Debug.Assert(instance._pts.Count == 0 && instance._result.Count == 0 &&
                     instance._u.Count == 0 && instance._arclen.Count == 0);
-
                 // initialize arrays
                 instance._pts.AddRange(points);
                 instance.InitializeArcLengths();
                 instance._squaredError = maxError * maxError;
-
                 // Find tangents at ends
                 int last = points.Count - 1;
                 VECTOR tanL = instance.GetLeftTangent(last);
                 VECTOR tanR = instance.GetRightTangent(0);
-
                 // do the actual fit
                 instance.FitRecursive(0, last, tanL, tanR);
                 return instance._result.ToArray();
@@ -146,7 +138,7 @@ namespace burningmime.curves
         {
             int split;
             CubicBezier curve;
-            if(FitCurve(first, last, tanL, tanR, out curve, out split))
+            if (FitCurve(first, last, tanL, tanR, out curve, out split))
             {
                 _result.Add(curve);
             }
@@ -156,14 +148,12 @@ namespace burningmime.curves
                 // first, get mid tangent
                 VECTOR tanM1 = GetCenterTangent(first, last, split);
                 VECTOR tanM2 = -tanM1;
-                
                 // our end tangents might be based on points outside the new curve (this is possible for mid tangents too
                 // but since we need to maintain C1 continuity, it's too late to do anything about it)
-                if(first == 0 && split < END_TANGENT_N_PTS)
+                if (first == 0 && split < END_TANGENT_N_PTS)
                     tanL = GetLeftTangent(split);
-                if(last == _pts.Count - 1 && split > (_pts.Count - (END_TANGENT_N_PTS + 1)))
+                if (last == _pts.Count - 1 && split > (_pts.Count - (END_TANGENT_N_PTS + 1)))
                     tanR = GetRightTangent(split);
-
                 // do actual recursion
                 FitRecursive(first, split, tanL, tanM1);
                 FitRecursive(split, last, tanM2, tanR);

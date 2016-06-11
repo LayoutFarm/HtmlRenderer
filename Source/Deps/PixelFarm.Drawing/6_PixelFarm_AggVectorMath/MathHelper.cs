@@ -40,7 +40,6 @@ either expressed or implied, of the FreeBSD Project.
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace PixelFarm.VectorMath
 {
     /// <summary>
@@ -54,54 +53,43 @@ namespace PixelFarm.VectorMath
         /// Defines the value of Pi as a <see cref="System.Single"/>.
         /// </summary>
         public const double Pi = 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930382f;
-
         public const double Tau = Pi * 2;
-
         /// <summary>
         /// Defines the value of Pi divided by two as a <see cref="System.Single"/>.
         /// </summary>
         public const double PiOver2 = Pi / 2;
-
         /// <summary>
         /// Defines the value of Pi divided by three as a <see cref="System.Single"/>.
         /// </summary>
         public const double PiOver3 = Pi / 3;
-
         /// <summary>
         /// Definesthe value of  Pi divided by four as a <see cref="System.Single"/>.
         /// </summary>
         public const double PiOver4 = Pi / 4;
-
         /// <summary>
         /// Defines the value of Pi divided by six as a <see cref="System.Single"/>.
         /// </summary>
         public const double PiOver6 = Pi / 6;
-
         /// <summary>
         /// Defines the value of Pi multiplied by two as a <see cref="System.Single"/>.
         /// </summary>
         public const double TwoPi = 2 * Pi;
-
         /// <summary>
         /// Defines the value of Pi multiplied by 3 and divided by two as a <see cref="System.Single"/>.
         /// </summary>
         public const double ThreePiOver2 = 3 * Pi / 2;
-
         /// <summary>
         /// Defines the value of E as a <see cref="System.Single"/>.
         /// </summary>
         public const double E = 2.71828182845904523536f;
-
         /// <summary>
         /// Defines the base-10 logarithm of E.
         /// </summary>
         public const double Log10E = 0.434294482f;
-
         /// <summary>
         /// Defines the base-2 logarithm of E.
         /// </summary>
         public const double Log2E = 1.442695041f;
-
         #endregion
 
         #region Public Members
@@ -163,10 +151,8 @@ namespace PixelFarm.VectorMath
         public static long Factorial(int n)
         {
             long result = 1;
-
             for (; n > 1; n--)
                 result *= n;
-
             return result;
         }
 
@@ -200,7 +186,6 @@ namespace PixelFarm.VectorMath
             }
 
             if (Value < 0 || Value > Tau) throw new Exception("Value >= 0 && Value <= Tau");
-
             return Value;
         }
 
@@ -209,14 +194,13 @@ namespace PixelFarm.VectorMath
         {
             if (StartAngle != Range0ToTau(StartAngle)) throw new Exception("StartAngle != Range0ToTau(StartAngle)");
             if (EndAngle != Range0ToTau(EndAngle)) throw new Exception("EndAngle != Range0ToTau(EndAngle)");
-
             double DeltaAngle = EndAngle - StartAngle;
-            if (DeltaAngle > Tau/2)
+            if (DeltaAngle > Tau / 2)
             {
                 DeltaAngle -= Tau;
             }
 
-            if (DeltaAngle < -Tau/2)
+            if (DeltaAngle < -Tau / 2)
             {
                 DeltaAngle += Tau;
             }

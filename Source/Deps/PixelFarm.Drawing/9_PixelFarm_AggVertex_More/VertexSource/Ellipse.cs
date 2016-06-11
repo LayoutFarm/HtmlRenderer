@@ -21,12 +21,11 @@
 // class ellipse
 //
 //----------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using FlagsAndCommand = PixelFarm.Agg.VertexCmd;
-
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg.VertexSource
 {
     public class Ellipse
@@ -35,14 +34,11 @@ namespace PixelFarm.Agg.VertexSource
         public double originY;
         public double radiusX;
         public double radiusY;
-
         double m_scale = 1;
         int numSteps;
         bool m_cw;
-
         public Ellipse()
         {
-
             Init(0, 0, 1, 1, 4, false);
         }
         public Ellipse(double originX, double originY, double radiusX, double radiusY, int num_steps = 0, bool cw = false)
@@ -62,7 +58,6 @@ namespace PixelFarm.Agg.VertexSource
             radiusX = rx;
             radiusY = ry;
             m_cw = cw;
-
             numSteps = num_steps;
             if (numSteps == 0)
             {
@@ -86,11 +81,9 @@ namespace PixelFarm.Agg.VertexSource
             vertexData.x = originX + radiusX;
             vertexData.y = originY;
             yield return vertexData;
-
             double anglePerStep = MathHelper.Tau / (double)numSteps;
             double angle = 0;
             vertexData.command = FlagsAndCommand.LineTo;
-
             if (m_cw)
             {
                 for (int i = 1; i < numSteps; i++)
@@ -115,7 +108,6 @@ namespace PixelFarm.Agg.VertexSource
             vertexData.y = 0;
             vertexData.command = FlagsAndCommand.EndAndCloseFigure;
             yield return vertexData;
-
             vertexData.command = FlagsAndCommand.Stop;
             yield return vertexData;
         }
@@ -134,13 +126,8 @@ namespace PixelFarm.Agg.VertexSource
         }
         public VertexStore MakeVxs()
         {
-            return VertexStoreBuilder.CreateVxs(this.GetVertexIter());             
+            return VertexStoreBuilder.CreateVxs(this.GetVertexIter());
         }
         //-------------------------------------------------------
     }
-
-
-
-
-
 }

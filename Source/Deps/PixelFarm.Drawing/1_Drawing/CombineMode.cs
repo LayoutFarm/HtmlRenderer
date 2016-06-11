@@ -27,6 +27,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
+
 namespace PixelFarm.Drawing
 {
     public enum CombineMode
@@ -38,5 +39,4 @@ namespace PixelFarm.Drawing
         Union = 2,
         Xor = 3
     }
-
 }

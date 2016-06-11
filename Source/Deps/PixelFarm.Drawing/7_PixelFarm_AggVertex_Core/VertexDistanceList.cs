@@ -22,10 +22,9 @@
 //
 //----------------------------------------------------------------------------
 
- 
-namespace PixelFarm.Agg 
-{
 
+namespace PixelFarm.Agg
+{
     //----------------------------------------------------------vertex_sequence
     // Modified agg::pod_vector. The data is interpreted as a sequence 
     // of vertices. It means that the type T must expose:
@@ -87,7 +86,6 @@ namespace PixelFarm.Agg
         {
             int snapSize = base.Count;
             var vtxArray = this.Array;
-
             while (snapSize > 1)
             {
                 if (vtxArray[snapSize - 2].IsEqual(vtxArray[snapSize - 1]))
@@ -140,7 +138,6 @@ namespace PixelFarm.Agg
         public double x;
         public double y;
         public double dist;
-
         public VertexDistance(double x_, double y_)
         {
             x = x_;
@@ -157,7 +154,6 @@ namespace PixelFarm.Agg
             return ret;
         }
     }
-
 
     /*
     //--------------------------------------------------------vertex_dist_cmd

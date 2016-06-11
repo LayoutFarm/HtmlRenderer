@@ -1,7 +1,7 @@
 ﻿//2014,2015 MIT, WinterDev
+
 using System;
 using System.Collections.Generic;
-
 namespace PixelFarm.Drawing
 {
     public abstract class Brush : System.IDisposable
@@ -22,7 +22,6 @@ namespace PixelFarm.Drawing
 
     public sealed class SolidBrush : Brush
     {
-
         object innerBrush;
         public SolidBrush()
         {
@@ -51,7 +50,6 @@ namespace PixelFarm.Drawing
         }
         public override void Dispose()
         {
-
         }
     }
 
@@ -59,7 +57,6 @@ namespace PixelFarm.Drawing
     {
         object innerBrush;
         Image textureImage;
-
         public TextureBrush(Image textureImage)
         {
             this.textureImage = textureImage;
@@ -91,13 +88,10 @@ namespace PixelFarm.Drawing
         }
         public override void Dispose()
         {
-
         }
     }
     public abstract class GeometryGraidentBrush : Brush
     {
-
-
     }
     public sealed class LinearGradientBrush : GeometryGraidentBrush
     {
@@ -133,7 +127,6 @@ namespace PixelFarm.Drawing
         }
         public override void Dispose()
         {
-
         }
         public List<Color> GetColors()
         {
@@ -151,9 +144,7 @@ namespace PixelFarm.Drawing
             int w = Math.Abs((int)(rect.Right - rect.Left));
             int h = Math.Abs((int)(rect.Bottom - rect.Top));
             int max = Math.Max(w, h);
-
             float radius = (float)Math.Pow(2 * (max * max), 0.5f);
-
             //find point1 and point2
             //not implement! 
             bool fromNegativeAngle = false;
@@ -165,10 +156,8 @@ namespace PixelFarm.Drawing
 
             PointF startPoint = new PointF(rect.Left, rect.Top);
             PointF stopPoint = new PointF(rect.Right, rect.Top);
-
             if (degreeAngle > 360)
             {
-
             }
             //-------------------------
             if (degreeAngle == 0)
@@ -183,7 +172,6 @@ namespace PixelFarm.Drawing
                 stopPoint = new PointF(
                    rect.Left + (float)(Math.Cos(angleRad) * radius),
                    rect.Bottom - (float)(Math.Sin(angleRad) * radius));
-
             }
             else if (degreeAngle == 90)
             {
@@ -195,7 +183,6 @@ namespace PixelFarm.Drawing
                 startPoint = new PointF(rect.Right, rect.Bottom);
                 var angleRad = DegreesToRadians(degreeAngle);
                 var pos = (float)(Math.Cos(angleRad) * radius);
-
                 stopPoint = new PointF(
                    rect.Right + (float)(Math.Cos(angleRad) * radius),
                    rect.Bottom - (float)(Math.Sin(angleRad) * radius));
@@ -212,7 +199,6 @@ namespace PixelFarm.Drawing
                 stopPoint = new PointF(
                    rect.Right - (float)(Math.Cos(angleRad) * radius),
                    rect.Top + (float)(Math.Sin(angleRad) * radius));
-
             }
             else if (degreeAngle == 270)
             {
@@ -243,7 +229,6 @@ namespace PixelFarm.Drawing
         /// <returns>The angle expressed in radians</returns>
         public static float DegreesToRadians(float degrees)
         {
-
             return degrees * DEG_TO_RAD;
         }
 
@@ -347,10 +332,6 @@ namespace PixelFarm.Drawing
         }
         public override void Dispose()
         {
-
         }
-
-
-
     }
 }

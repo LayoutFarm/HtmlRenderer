@@ -1,8 +1,8 @@
 ﻿
 // 2015,2014 ,BSD, WinterDev
+
 using System.Collections.Generic;
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg
 {
     //----------------------------------------
@@ -11,32 +11,31 @@ namespace PixelFarm.Agg
         int currentIterIndex;
         VertexStore vxs;
         internal VertexSnapIter(VertexStoreSnap vsnap)
-        {             
+        {
             this.vxs = vsnap.GetInternalVxs();
-            this.currentIterIndex = vsnap.StartAt;            
+            this.currentIterIndex = vsnap.StartAt;
         }
-       
+
         public VertexCmd GetNextVertex(out double x, out double y)
         {
-            return vxs.GetVertex(currentIterIndex++, out x, out y);   
-        }        
+            return vxs.GetVertex(currentIterIndex++, out x, out y);
+        }
     }
-    
+
     public struct VertexStoreSnap
     {
         int startAt;
         VertexStore vxs;
-      
         public VertexStoreSnap(VertexStore vxs)
         {
             this.vxs = vxs;
-            this.startAt = 0; 
+            this.startAt = 0;
         }
         public VertexStoreSnap(VertexStore vxs, int startAt)
         {
             this.vxs = vxs;
-            this.startAt = startAt; 
-        } 
+            this.startAt = startAt;
+        }
         public VertexStore GetInternalVxs()
         {
             return this.vxs;
@@ -53,9 +52,5 @@ namespace PixelFarm.Agg
         {
             return new VertexSnapIter(this);
         }
-        
-        
-       
-
     }
 }

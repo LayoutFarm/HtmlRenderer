@@ -17,10 +17,10 @@
 // Bilinear 2D transformations
 //
 //----------------------------------------------------------------------------
-using System;
 
+using System;
 namespace PixelFarm.Agg.Transform
-{   
+{
     //==========================================================trans_bilinear
     public sealed partial class Bilinear : ICoordTransformer
     {
@@ -32,7 +32,6 @@ namespace PixelFarm.Agg.Transform
                rc20, rc21,
                rc30, rc31;
         bool m_valid;
-
         private Bilinear()
         {
         }
@@ -42,7 +41,6 @@ namespace PixelFarm.Agg.Transform
             rc10 = result[1, 0];
             rc20 = result[2, 0];
             rc30 = result[3, 0];
-
             rc01 = result[0, 1];
             rc11 = result[1, 1];
             rc21 = result[2, 1];
@@ -55,15 +53,12 @@ namespace PixelFarm.Agg.Transform
         public static Bilinear RectToQuad(double srcX1, double srcY1, double srcX2, double srcY2, double[] quad)
         {
             double[] src = new double[8];
-
             //cartesian coord
             src[0] = srcX1; src[1] = srcY1;//(x1,y1)
             src[2] = srcX2; src[3] = srcY1;//(x2,y1)
             src[4] = srcX2; src[5] = srcY2;//(x2,y2)
             src[6] = srcX1; src[7] = srcY2;//(x2,y2) 
-
             double[,] result = new double[4, 2];
-
             if (GenerateMatrixQuadToQuad(src, quad, result))
             {
                 return new Bilinear(result);
@@ -86,9 +81,7 @@ namespace PixelFarm.Agg.Transform
             dst[2] = destX2; dst[3] = destY1;//(x2,y1)
             dst[4] = destX2; dst[5] = destY2;//(x2,y2)
             dst[6] = destX1; dst[7] = destY2;//(x1,y2)
-
             double[,] result = new double[4, 2];
-
             if (GenerateMatrixQuadToQuad(srcQuad, dst, result))
             {
                 return new Bilinear(result);
@@ -112,24 +105,20 @@ namespace PixelFarm.Agg.Transform
             {
                 return new Bilinear();
             }
-
         }
 
         static bool GenerateMatrixQuadToQuad(double[] src, double[] dst, double[,] result)
         {
             double[,] left = new double[4, 4];
             double[,] right = new double[4, 2];
-
             for (int i = 0; i < 4; i++)
             {
                 int ix = i << 1;
                 int iy = ix + 1;
-
                 left[i, 0] = 1.0;
                 left[i, 1] = src[ix] * src[iy];
                 left[i, 2] = src[ix];
                 left[i, 3] = src[iy];
-
                 right[i, 0] = dst[ix];
                 right[i, 1] = dst[iy];
             }
@@ -152,12 +141,12 @@ namespace PixelFarm.Agg.Transform
             y = rc01 + rc11 * xy + rc21 * tx + rc31 * ty;
         }
         //-------------------------------------------------------------------------
-        
+
         public VertexStoreSnap TransformToVertexSnap(VertexStore src)
         {
             return new VertexStoreSnap(TransformToVxs(src));
         }
-        
+
         public VertexStore TransformToVxs(VertexStore src)
         {
             int count = src.Count;
@@ -173,8 +162,4 @@ namespace PixelFarm.Agg.Transform
             return vxs;
         }
     }
-
-
-
-
 }

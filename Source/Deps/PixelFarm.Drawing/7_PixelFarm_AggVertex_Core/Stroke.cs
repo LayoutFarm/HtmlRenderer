@@ -21,13 +21,12 @@
 // conv_stroke
 //
 //----------------------------------------------------------------------------
-using System.Collections.Generic;
 
+using System.Collections.Generic;
 namespace PixelFarm.Agg
 {
     public sealed class Stroke
     {
-
         StrokeGenerator strokeGen;
         public Stroke(double inWidth)
         {
@@ -82,19 +81,15 @@ namespace PixelFarm.Agg
         }
         public VertexStore MakeVxs(VertexStore sourceVxs)
         {
-
             StrokeGenerator strkgen = strokeGen;
             VertexStore vxs = new VertexStore();
-
             int j = sourceVxs.Count;
             double x, y;
-
             strkgen.RemoveAll();
             //1st vertex
 
             sourceVxs.GetVertex(0, out x, out y);
             strkgen.AddVertex(x, y, VertexCmd.MoveTo);
-
             double startX = x, startY = y;
             bool hasMoreThanOnePart = false;
             for (int i = 0; i < j; ++i)
@@ -103,9 +98,10 @@ namespace PixelFarm.Agg
                 switch (cmd)
                 {
                     case VertexCmd.Stop:
-                    case VertexCmd.HasMore:                    
-                        { 
-                        } break;                         
+                    case VertexCmd.HasMore:
+                        {
+                        }
+                        break;
                     case VertexCmd.EndFigure:
                     case VertexCmd.EndAndCloseFigure:
                         {
@@ -119,33 +115,30 @@ namespace PixelFarm.Agg
                             }
                             //end this polygon
 
-                        } break;
+                        }
+                        break;
                     case VertexCmd.LineTo:
                     case VertexCmd.P2c:
                     case VertexCmd.P3c:
                         {
                             strkgen.AddVertex(x, y, cmd);
-
-                        } break;
+                        }
+                        break;
                     case VertexCmd.MoveTo:
                         {
                             strkgen.AddVertex(x, y, cmd);
                             startX = x;
                             startY = y;
-                        } break;
-
+                        }
+                        break;
                     default: throw new System.NotSupportedException();
                 }
             }
             strkgen.WriteTo(vxs);
             strkgen.RemoveAll();
-
             vxs.HasMoreThanOnePart = hasMoreThanOnePart;
             return vxs;
-
         }
-
-
     }
     public static class StrokeHelp
     {
@@ -154,6 +147,5 @@ namespace PixelFarm.Agg
             Stroke stroke = new Stroke(w);
             return stroke.MakeVxs(vxs);
         }
-
     }
 }

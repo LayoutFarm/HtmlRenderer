@@ -25,7 +25,6 @@ SOFTWARE.
 using System;
 using System.Runtime.InteropServices;
 using System.ComponentModel;
-
 namespace PixelFarm.VectorMath
 {
     /// <summary>
@@ -39,7 +38,6 @@ namespace PixelFarm.VectorMath
 
         Vector3 xyz;
         double w;
-
         #endregion
 
         #region Constructors
@@ -136,9 +134,7 @@ namespace PixelFarm.VectorMath
             Quaternion q = this;
             if (q.W > 1.0f)
                 q.Normalize();
-
             Vector4 result = new Vector4();
-
             result.w = 2.0f * (float)System.Math.Acos(q.W); // angle
             float den = (float)System.Math.Sqrt(1.0 - q.W * q.W);
             if (den > 0.0001f)
@@ -224,7 +220,6 @@ namespace PixelFarm.VectorMath
         /// Defines the identity quaternion.
         /// </summary>
         public readonly static Quaternion Identity = new Quaternion(0, 0, 0, 1);
-
         #endregion
 
         #region Add
@@ -460,7 +455,6 @@ namespace PixelFarm.VectorMath
             Quaternion xRotation = FromAxisAngle(Vector3.UnitX, rotation.x);
             Quaternion yRotation = FromAxisAngle(Vector3.UnitY, rotation.y);
             Quaternion zRotation = FromAxisAngle(Vector3.UnitZ, rotation.z);
-
             //return xRotation * yRotation * zRotation;
             return zRotation * yRotation * xRotation;
         }
@@ -483,12 +477,10 @@ namespace PixelFarm.VectorMath
             }
 
             Quaternion result = Identity;
-
             angle *= 0.5f;
             axis.Normalize();
             result.Xyz = axis * (double)System.Math.Sin(angle);
             result.W = (double)System.Math.Cos(angle);
-
             return Normalize(result);
         }
 
@@ -521,7 +513,6 @@ namespace PixelFarm.VectorMath
 
 
             double cosHalfAngle = q1.W * q2.W + Vector3.Dot(q1.Xyz, q2.Xyz);
-
             if (cosHalfAngle >= 1.0f || cosHalfAngle <= -1.0f)
             {
                 // angle = 0.0f, so just return one input.

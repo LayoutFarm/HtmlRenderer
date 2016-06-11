@@ -53,7 +53,6 @@ either expressed or implied, of the FreeBSD Project.
 
 using System;
 using System.Runtime.InteropServices;
-
 namespace PixelFarm.VectorMath
 {
 #if true
@@ -82,12 +81,10 @@ namespace PixelFarm.VectorMath
         /// Bottom row of the matrix
         /// </summary>
         public Vector4 Row3;
- 
         /// <summary>
         /// The identity matrix
         /// </summary>
-        public static Matrix4X4 Identity = new Matrix4X4(Vector4 .UnitX, Vector4 .UnitY, Vector4 .UnitZ, Vector4 .UnitW);
-
+        public static Matrix4X4 Identity = new Matrix4X4(Vector4.UnitX, Vector4.UnitY, Vector4.UnitZ, Vector4.UnitW);
         #endregion
 
         #region Constructors
@@ -176,37 +173,37 @@ namespace PixelFarm.VectorMath
         {
             get { return new Vector3(Row3); }
         }
-        
+
         /// <summary>
         /// The first column of this matrix
         /// </summary>
-        public Vector4  Column0
+        public Vector4 Column0
         {
-            get { return new Vector4 (Row0.x, Row1.x, Row2.x, Row3.x); }
+            get { return new Vector4(Row0.x, Row1.x, Row2.x, Row3.x); }
         }
 
         /// <summary>
         /// The second column of this matrix
         /// </summary>
-        public Vector4  Column1
+        public Vector4 Column1
         {
-            get { return new Vector4 (Row0.y, Row1.y, Row2.y, Row3.y); }
+            get { return new Vector4(Row0.y, Row1.y, Row2.y, Row3.y); }
         }
 
         /// <summary>
         /// The third column of this matrix
         /// </summary>
-        public Vector4  Column2
+        public Vector4 Column2
         {
-            get { return new Vector4 (Row0.z, Row1.z, Row2.z, Row3.z); }
+            get { return new Vector4(Row0.z, Row1.z, Row2.z, Row3.z); }
         }
 
         /// <summary>
         /// The fourth column of this matrix
         /// </summary>
-        public Vector4  Column3
+        public Vector4 Column3
         {
-            get { return new Vector4 (Row0.w, Row1.w, Row2.w, Row3.w); }
+            get { return new Vector4(Row0.w, Row1.w, Row2.w, Row3.w); }
         }
 
         /// <summary>
@@ -297,7 +294,7 @@ namespace PixelFarm.VectorMath
         {
             get
             {
-                switch(row)
+                switch (row)
                 {
                     case 0:
                         return Row0[column];
@@ -338,7 +335,6 @@ namespace PixelFarm.VectorMath
         {
             Quaternion rotation = Quaternion.Identity;
             double tr = M11 + M22 + M33;
-
             if (tr > 0)
             {
                 double S = Math.Sqrt(tr + 1.0) * 2; // S=4*qw 
@@ -416,9 +412,7 @@ namespace PixelFarm.VectorMath
             double cos = System.Math.Cos(-angle);
             double sin = System.Math.Sin(-angle);
             double t = 1.0 - cos;
-
             axis.Normalize();
-
             result = new Matrix4X4(t * axis.x * axis.x + cos, t * axis.x * axis.y - sin * axis.z, t * axis.x * axis.z + sin * axis.y, 0.0,
                                  t * axis.x * axis.y + sin * axis.z, t * axis.y * axis.y + cos, t * axis.y * axis.z - sin * axis.x, 0.0,
                                  t * axis.x * axis.z - sin * axis.y, t * axis.y * axis.z + sin * axis.x, t * axis.z * axis.z + cos, 0.0,
@@ -456,7 +450,6 @@ namespace PixelFarm.VectorMath
         {
             double cos = System.Math.Cos(angle);
             double sin = System.Math.Sin(angle);
-
             result.Row0 = Vector4.UnitX;
             result.Row1 = new Vector4(0, cos, sin, 0);
             result.Row2 = new Vector4(0, -sin, cos, 0);
@@ -484,7 +477,6 @@ namespace PixelFarm.VectorMath
         {
             double cos = System.Math.Cos(angle);
             double sin = System.Math.Sin(angle);
-
             result.Row0 = new Vector4(cos, 0, -sin, 0);
             result.Row1 = Vector4.UnitY;
             result.Row2 = new Vector4(sin, 0, cos, 0);
@@ -512,7 +504,6 @@ namespace PixelFarm.VectorMath
         {
             double cos = System.Math.Cos(angle);
             double sin = System.Math.Sin(angle);
-
             result.Row0 = new Vector4(cos, sin, 0, 0);
             result.Row1 = new Vector4(-sin, cos, 0, 0);
             result.Row2 = Vector4.UnitZ;
@@ -542,9 +533,7 @@ namespace PixelFarm.VectorMath
             double cos = System.Math.Cos(-angle);
             double sin = System.Math.Sin(-angle);
             double t = 1.0 - cos;
-
             axis.Normalize();
-
             Matrix4X4 result;
             result.Row0 = new Vector4(t * axis.x * axis.x + cos, t * axis.x * axis.y - sin * axis.z, t * axis.x * axis.z + sin * axis.y, 0.0);
             result.Row1 = new Vector4(t * axis.x * axis.y + sin * axis.z, t * axis.y * axis.y + cos, t * axis.y * axis.z - sin * axis.x, 0.0);
@@ -681,15 +670,12 @@ namespace PixelFarm.VectorMath
         public static void CreateOrthographicOffCenter(double left, double right, double bottom, double top, double zNear, double zFar, out Matrix4X4 result)
         {
             result = new Matrix4X4();
-
             double invRL = 1 / (right - left);
             double invTB = 1 / (top - bottom);
             double invFN = 1 / (zFar - zNear);
-
             result.M11 = 2 * invRL;
             result.M22 = 2 * invTB;
             result.M33 = -2 * invFN;
-
             result.M41 = -(right + left) * invRL;
             result.M42 = -(top + bottom) * invTB;
             result.M43 = -(zFar + zNear) * invFN;
@@ -747,12 +733,10 @@ namespace PixelFarm.VectorMath
                 throw new ArgumentOutOfRangeException("zFar");
             if (zNear >= zFar)
                 throw new ArgumentOutOfRangeException("zNear");
-
             double yMax = zNear * System.Math.Tan(0.5 * fovYRadians);
             double yMin = -yMax;
             double xMin = yMin * aspectWidthOverHeight;
             double xMax = yMax * aspectWidthOverHeight;
-
             CreatePerspectiveOffCenter(xMin, xMax, yMin, yMax, zNear, zFar, out result);
         }
 
@@ -824,7 +808,6 @@ namespace PixelFarm.VectorMath
             double b = (top + bottom) / (top - bottom);
             double c = -(zFar + zNear) / (zFar - zNear);
             double d = -(2.0 * zFar * zNear) / (zFar - zNear);
-
             result = new Matrix4X4(x, 0, 0, 0,
                                  0, y, 0, 0,
                                  a, b, c, -1,
@@ -890,10 +873,10 @@ namespace PixelFarm.VectorMath
         public static Matrix4X4 CreateScale(double x, double y, double z)
         {
             Matrix4X4 result;
-            result.Row0 = Vector4 .UnitX * x;
-            result.Row1 = Vector4 .UnitY * y;
-            result.Row2 = Vector4 .UnitZ * z;
-            result.Row3 = Vector4 .UnitW;
+            result.Row0 = Vector4.UnitX * x;
+            result.Row1 = Vector4.UnitY * y;
+            result.Row2 = Vector4.UnitZ * z;
+            result.Row3 = Vector4.UnitW;
             return result;
         }
 
@@ -915,14 +898,11 @@ namespace PixelFarm.VectorMath
             Vector3 z = Vector3.Normalize(eye - target);
             Vector3 x = Vector3.Normalize(Vector3.Cross(up, z));
             Vector3 y = Vector3.Normalize(Vector3.Cross(z, x));
-
-            Matrix4X4 rot = new Matrix4X4(new Vector4 (x.x, y.x, z.x, 0.0),
-                                        new Vector4 (x.y, y.y, z.y, 0.0),
-                                        new Vector4 (x.z, y.z, z.z, 0.0),
-                                        Vector4 .UnitW);
-
+            Matrix4X4 rot = new Matrix4X4(new Vector4(x.x, y.x, z.x, 0.0),
+                                        new Vector4(x.y, y.y, z.y, 0.0),
+                                        new Vector4(x.z, y.z, z.z, 0.0),
+                                        Vector4.UnitW);
             Matrix4X4 trans = Matrix4X4.CreateTranslation(-eye);
-
             return trans * rot;
         }
 
@@ -959,10 +939,10 @@ namespace PixelFarm.VectorMath
             double invRL = 1.0 / (right - left);
             double invTB = 1.0 / (top - bottom);
             double invFN = 1.0 / (far - near);
-            return new Matrix4X4(new Vector4 (2.0 * near * invRL, 0.0, 0.0, 0.0),
-                               new Vector4 (0.0, 2.0 * near * invTB, 0.0, 0.0),
-                               new Vector4 ((right + left) * invRL, (top + bottom) * invTB, -(far + near) * invFN, -1.0),
-                               new Vector4 (0.0, 0.0, -2.0 * far * near * invFN, 0.0));
+            return new Matrix4X4(new Vector4(2.0 * near * invRL, 0.0, 0.0, 0.0),
+                               new Vector4(0.0, 2.0 * near * invTB, 0.0, 0.0),
+                               new Vector4((right + left) * invRL, (top + bottom) * invTB, -(far + near) * invFN, -1.0),
+                               new Vector4(0.0, 0.0, -2.0 * far * near * invFN, 0.0));
         }
 
         /// <summary>
@@ -979,7 +959,6 @@ namespace PixelFarm.VectorMath
             double yMin = -yMax;
             double xMin = yMin * aspect;
             double xMax = yMax * aspect;
-
             return Frustum(xMin, xMax, yMin, yMax, near, far);
         }
 
@@ -1042,11 +1021,10 @@ namespace PixelFarm.VectorMath
             int[] colIdx = { 0, 0, 0, 0 };
             int[] rowIdx = { 0, 0, 0, 0 };
             int[] pivotIdx = { -1, -1, -1, -1 };
-
             // convert the matrix to an array for easy looping
-            double[,] inverse = {{mat.Row0.x, mat.Row0.y, mat.Row0.z, mat.Row0.w}, 
-                                {mat.Row1.x, mat.Row1.y, mat.Row1.z, mat.Row1.w}, 
-                                {mat.Row2.x, mat.Row2.y, mat.Row2.z, mat.Row2.w}, 
+            double[,] inverse = {{mat.Row0.x, mat.Row0.y, mat.Row0.z, mat.Row0.w},
+                                {mat.Row1.x, mat.Row1.y, mat.Row1.z, mat.Row1.w},
+                                {mat.Row2.x, mat.Row2.y, mat.Row2.z, mat.Row2.w},
                                 {mat.Row3.x, mat.Row3.y, mat.Row3.z, mat.Row3.w} };
             int icol = 0;
             int irow = 0;
@@ -1079,7 +1057,6 @@ namespace PixelFarm.VectorMath
                 }
 
                 ++(pivotIdx[icol]);
-
                 // Swap rows over so pivot is on diagonal
                 if (irow != icol)
                 {
@@ -1093,7 +1070,6 @@ namespace PixelFarm.VectorMath
 
                 rowIdx[i] = irow;
                 colIdx[i] = icol;
-
                 double pivot = inverse[icol, icol];
                 // check for singular matrix
                 if (pivot == 0.0)
@@ -1107,7 +1083,6 @@ namespace PixelFarm.VectorMath
                 inverse[icol, icol] = 1.0;
                 for (int k = 0; k < 4; ++k)
                     inverse[icol, k] *= oneOverPivot;
-
                 // Do elimination of non-diagonal elements
                 for (int j = 0; j < 4; ++j)
                 {
@@ -1134,10 +1109,10 @@ namespace PixelFarm.VectorMath
                 }
             }
 
-            mat.Row0 = new Vector4 (inverse[0, 0], inverse[0, 1], inverse[0, 2], inverse[0, 3]);
-            mat.Row1 = new Vector4 (inverse[1, 0], inverse[1, 1], inverse[1, 2], inverse[1, 3]);
-            mat.Row2 = new Vector4 (inverse[2, 0], inverse[2, 1], inverse[2, 2], inverse[2, 3]);
-            mat.Row3 = new Vector4 (inverse[3, 0], inverse[3, 1], inverse[3, 2], inverse[3, 3]);
+            mat.Row0 = new Vector4(inverse[0, 0], inverse[0, 1], inverse[0, 2], inverse[0, 3]);
+            mat.Row1 = new Vector4(inverse[1, 0], inverse[1, 1], inverse[1, 2], inverse[1, 3]);
+            mat.Row2 = new Vector4(inverse[2, 0], inverse[2, 1], inverse[2, 2], inverse[2, 3]);
+            mat.Row3 = new Vector4(inverse[3, 0], inverse[3, 1], inverse[3, 2], inverse[3, 3]);
             return mat;
         }
 
@@ -1249,7 +1224,6 @@ namespace PixelFarm.VectorMath
         {
             if (!(obj is Matrix4X4))
                 return false;
-
             return this.Equals((Matrix4X4)obj);
         }
 
@@ -1282,7 +1256,6 @@ namespace PixelFarm.VectorMath
             contents[4] = (float)Row1[0]; contents[5] = (float)Row1[1]; contents[6] = (float)Row1[2]; contents[7] = (float)Row1[3];
             contents[8] = (float)Row2[0]; contents[9] = (float)Row2[1]; contents[10] = (float)Row2[2]; contents[11] = (float)Row2[3];
             contents[12] = (float)Row3[0]; contents[13] = (float)Row3[1]; contents[14] = (float)Row3[2]; contents[15] = (float)Row3[3];
-
             return contents;
         }
 
@@ -1293,7 +1266,6 @@ namespace PixelFarm.VectorMath
             contents[4] = Row1[0]; contents[5] = Row1[1]; contents[6] = Row1[2]; contents[7] = Row1[3];
             contents[8] = Row2[0]; contents[9] = Row2[1]; contents[10] = Row2[2]; contents[11] = Row2[3];
             contents[12] = Row3[0]; contents[13] = Row3[1]; contents[14] = Row3[2]; contents[15] = Row3[3];
-
             return contents;
         }
     }

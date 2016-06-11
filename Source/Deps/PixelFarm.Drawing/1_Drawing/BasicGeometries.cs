@@ -123,7 +123,6 @@ namespace PixelFarm.Drawing
         }
 
         public static readonly Size Empty = new Size();
-
     }
 
     public struct SizeF
@@ -146,9 +145,5 @@ namespace PixelFarm.Drawing
         {
             return new SizeF(p.Width, p.Height);
         }
-
     }
-
-
-
 }

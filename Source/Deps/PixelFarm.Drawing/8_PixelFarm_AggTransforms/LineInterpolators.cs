@@ -21,8 +21,8 @@
 // classes dda_line_interpolator, dda2_line_interpolator
 //
 //----------------------------------------------------------------------------
-using System;
 
+using System;
 namespace PixelFarm.Agg.Transform
 {
     //===================================================dda_line_interpolator
@@ -31,9 +31,7 @@ namespace PixelFarm.Agg.Transform
         int m_y;
         int m_inc;
         int m_dy;
-
         int m_fractionShift;
-
         //--------------------------------------------------------------------
         public LineInterpolatorDDA(int fractionShift)
         {
@@ -86,7 +84,6 @@ namespace PixelFarm.Agg.Transform
     //=================================================dda2_line_interpolator
     public sealed class LineInterpolatorDDA2
     {
-
         int m_cnt;
         int m_lft;
         int m_rem;
@@ -103,7 +100,6 @@ namespace PixelFarm.Agg.Transform
             m_rem = ((y2 - y1) % m_cnt);
             m_mod = (m_rem);
             m_y = (y1);
-
             if (m_mod <= 0)
             {
                 m_mod += count;
@@ -121,7 +117,6 @@ namespace PixelFarm.Agg.Transform
             m_rem = ((y2 - y1) % m_cnt);
             m_mod = (m_rem);
             m_y = (y1);
-
             if (m_mod <= 0)
             {
                 m_mod += count;
@@ -138,7 +133,6 @@ namespace PixelFarm.Agg.Transform
             m_rem = ((y) % m_cnt);
             m_mod = (m_rem);
             m_y = (0);
-
             if (m_mod <= 0)
             {
                 m_mod += count;
@@ -208,8 +202,6 @@ namespace PixelFarm.Agg.Transform
 
         //--------------------------------------------------------------------
         public int Y { get { return m_y; } }
-
-        
     }
 
 
@@ -224,13 +216,9 @@ namespace PixelFarm.Agg.Transform
         int m_len;
         int m_inc;
         LineInterpolatorDDA2 m_interpolator;
-
-
         const int SUBPIXEL_SHIFT = 8;
         const int SUBPIXEL_SCALE = 1 << SUBPIXEL_SHIFT;
         const int SUBPIXEL_MASK = SUBPIXEL_SCALE - 1;
-
-
         //--------------------------------------------------------------------
         public static int line_lr(int v) { return v >> (int)SUBPIXEL_SHIFT; }
 

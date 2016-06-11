@@ -1,11 +1,11 @@
 ﻿//2014,2015 MIT, WinterDev
+
 namespace PixelFarm.Drawing
 {
     public abstract class GraphicsPlatform
     {
         public abstract FontInfo GetFont(string fontfaceName, float emsize, FontStyle st);
         public abstract GraphicsPath CreateGraphicsPath();
-
         public abstract Canvas CreateCanvas(
             int left,
             int top,
@@ -26,8 +26,6 @@ namespace PixelFarm.Drawing
             set;
         }
 
-        public abstract Bitmap CreatePlatformBitmap(int w, int h, byte[] rawBuffer,bool isBottomUp);
+        public abstract Bitmap CreatePlatformBitmap(int w, int h, byte[] rawBuffer, bool isBottomUp);
     }
-
-
 }

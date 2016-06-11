@@ -21,9 +21,9 @@
 // classes conv_curve
 //
 //----------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
-
 namespace PixelFarm.Agg.VertexSource
 {
     //---------------------------------------------------------------conv_curve
@@ -53,11 +53,9 @@ namespace PixelFarm.Agg.VertexSource
 
     public class CurveFlattener
     {
-
         //tools , curve producer
         readonly Curve3 m_curve3 = new Curve3();
         readonly Curve4 m_curve4 = new Curve4();
-
         public double ApproximationScale
         {
             get
@@ -113,57 +111,51 @@ namespace PixelFarm.Agg.VertexSource
             P2,
             P3
         }
-        
+
         public VertexStore MakeVxs(VertexStoreSnap vsnap)
         {
-
-            VertexStore vxs = new VertexStore(); 
+            VertexStore vxs = new VertexStore();
             m_curve3.Reset();
             m_curve4.Reset();
             var snapIter = vsnap.GetVertexSnapIter();
             CurvePointMode latestCurveMode = CurvePointMode.NotCurve;
             double x, y;
-            VertexCmd cmd; 
+            VertexCmd cmd;
             VectorMath.Vector2 c3p2 = new VectorMath.Vector2();
-
             VectorMath.Vector2 c4p2 = new VectorMath.Vector2();
             VectorMath.Vector2 c4p3 = new VectorMath.Vector2();
-
             double lastX = 0;
             double lasty = 0;
             double lastMoveX = 0;
             double lastMoveY = 0;
-
             do
             {
                 //this vertex
                 cmd = snapIter.GetNextVertex(out x, out y);
-
                 switch (cmd)
                 {
-
                     case VertexCmd.P2c:
                         {
                             switch (latestCurveMode)
                             {
                                 case CurvePointMode.P2:
                                     {
-
-
-                                    } break;
+                                    }
+                                    break;
                                 case CurvePointMode.P3:
                                     {
-
-                                    } break;
+                                    }
+                                    break;
                                 case CurvePointMode.NotCurve:
                                     {
-
                                         c3p2.x = x;
                                         c3p2.y = y;
-                                    } break;
+                                    }
+                                    break;
                                 default:
                                     {
-                                    } break;
+                                    }
+                                    break;
                             }
                             latestCurveMode = CurvePointMode.P2;
                         }
@@ -177,7 +169,8 @@ namespace PixelFarm.Agg.VertexSource
                                     {
                                         c3p2.x = x;
                                         c3p2.y = y;
-                                    } break;
+                                    }
+                                    break;
                                 case CurvePointMode.P3:
                                     {
                                         // vxs.AddVertex(x, y, cmd);
@@ -191,13 +184,14 @@ namespace PixelFarm.Agg.VertexSource
 
                                         // vxs.AddVertex(x, y, cmd);
 
-                                    } break;
+                                    }
+                                    break;
                                 case CurvePointMode.NotCurve:
                                     {
                                         c4p2.x = x;
                                         c4p2.y = y;
-
-                                    } break;
+                                    }
+                                    break;
                             }
                             latestCurveMode = CurvePointMode.P3;
                         }
@@ -215,7 +209,8 @@ namespace PixelFarm.Agg.VertexSource
                                             c3p2.Y,
                                             x,
                                             y);
-                                    } break;
+                                    }
+                                    break;
                                 case CurvePointMode.P3:
                                     {
                                         //from curve4
@@ -225,18 +220,21 @@ namespace PixelFarm.Agg.VertexSource
                                             c4p2.x, c4p2.y,
                                             c4p3.x, c4p3.y,
                                             x, y);
-                                    } break;
+                                    }
+                                    break;
                                 default:
                                     {
                                         vxs.AddVertex(x, y, cmd);
-                                    } break;
+                                    }
+                                    break;
                             }
                             //-----------
                             latestCurveMode = CurvePointMode.NotCurve;
                             lastX = x;
                             lasty = y;
                             //-----------
-                        } break;
+                        }
+                        break;
                     case VertexCmd.MoveTo:
                         {
                             //move to, and end command
@@ -246,7 +244,8 @@ namespace PixelFarm.Agg.VertexSource
                             lastMoveX = lastX = x;
                             lastMoveY = lasty = y;
                             //-----------
-                        } break;
+                        }
+                        break;
                     case VertexCmd.EndAndCloseFigure:
                         {
                             latestCurveMode = CurvePointMode.NotCurve;
@@ -254,14 +253,14 @@ namespace PixelFarm.Agg.VertexSource
                             //move to begin 
                             lastX = lastMoveX;
                             lasty = lastMoveY;
-
-                        } break;
+                        }
+                        break;
                     case VertexCmd.EndFigure:
                         {
                             latestCurveMode = CurvePointMode.NotCurve;
                             vxs.AddVertex(x, y, cmd);
-
-                        } break;
+                        }
+                        break;
                     default:
                         {
                             //move to, and end command
@@ -271,7 +270,8 @@ namespace PixelFarm.Agg.VertexSource
                             lastX = x;
                             lasty = y;
                             //-----------
-                        } break;
+                        }
+                        break;
                 }
             } while (cmd != VertexCmd.Stop);
             return vxs;
@@ -286,7 +286,6 @@ namespace PixelFarm.Agg.VertexSource
         }
         public VertexStore MakeVxs2(VertexStoreSnap vsnap)
         {
-
             VertexStore vxs = new VertexStore();
             m_curve3.Reset();
             m_curve4.Reset();
@@ -295,45 +294,41 @@ namespace PixelFarm.Agg.VertexSource
             double x, y;
             VertexCmd cmd;
             VectorMath.Vector2 c3p2 = new VectorMath.Vector2();
-
             VectorMath.Vector2 c4p2 = new VectorMath.Vector2();
             VectorMath.Vector2 c4p3 = new VectorMath.Vector2();
-
             double lastX = 0;
             double lasty = 0;
             double lastMoveX = 0;
             double lastMoveY = 0;
-
             do
             {
                 //this vertex
                 cmd = snapIter.GetNextVertex(out x, out y);
-
                 switch (cmd)
                 {
-                        //this p2 control
+                    //this p2 control
                     case VertexCmd.P2c:
                         {
                             switch (latestCurveMode)
                             {
                                 case CurvePointMode.P2:
                                     {
-
-
-                                    } break;
+                                    }
+                                    break;
                                 case CurvePointMode.P3:
                                     {
-
-                                    } break;
+                                    }
+                                    break;
                                 case CurvePointMode.NotCurve:
                                     {
-
                                         c3p2.x = x;
                                         c3p2.y = y;
-                                    } break;
+                                    }
+                                    break;
                                 default:
                                     {
-                                    } break;
+                                    }
+                                    break;
                             }
                             latestCurveMode = CurvePointMode.P2;
                         }
@@ -350,8 +345,8 @@ namespace PixelFarm.Agg.VertexSource
                                         c4p3.x = x;
                                         c4p3.y = y;
                                         c3p2.x = x;
-                                       
-                                    } break;
+                                    }
+                                    break;
                                 case CurvePointMode.P3:
                                     {
                                         // vxs.AddVertex(x, y, cmd);
@@ -365,13 +360,14 @@ namespace PixelFarm.Agg.VertexSource
 
                                         // vxs.AddVertex(x, y, cmd);
 
-                                    } break;
+                                    }
+                                    break;
                                 case CurvePointMode.NotCurve:
                                     {
                                         c4p2.x = x;
                                         c4p2.y = y;
-
-                                    } break;
+                                    }
+                                    break;
                             }
                             latestCurveMode = CurvePointMode.P3;
                         }
@@ -389,7 +385,8 @@ namespace PixelFarm.Agg.VertexSource
                                             c3p2.Y,
                                             x,
                                             y);
-                                    } break;
+                                    }
+                                    break;
                                 case CurvePointMode.P3:
                                     {
                                         //from curve4
@@ -399,18 +396,21 @@ namespace PixelFarm.Agg.VertexSource
                                             c4p2.x, c4p2.y,
                                             c4p3.x, c4p3.y,
                                             x, y);
-                                    } break;
+                                    }
+                                    break;
                                 default:
                                     {
                                         vxs.AddVertex(x, y, cmd);
-                                    } break;
+                                    }
+                                    break;
                             }
                             //-----------
                             latestCurveMode = CurvePointMode.NotCurve;
                             lastX = x;
                             lasty = y;
                             //-----------
-                        } break;
+                        }
+                        break;
                     case VertexCmd.MoveTo:
                         {
                             //move to, and end command
@@ -420,7 +420,8 @@ namespace PixelFarm.Agg.VertexSource
                             lastMoveX = lastX = x;
                             lastMoveY = lasty = y;
                             //-----------
-                        } break;
+                        }
+                        break;
                     case VertexCmd.EndAndCloseFigure:
                         {
                             latestCurveMode = CurvePointMode.NotCurve;
@@ -428,14 +429,14 @@ namespace PixelFarm.Agg.VertexSource
                             //move to begin 
                             lastX = lastMoveX;
                             lasty = lastMoveY;
-
-                        } break;
+                        }
+                        break;
                     case VertexCmd.EndFigure:
                         {
                             latestCurveMode = CurvePointMode.NotCurve;
                             vxs.AddVertex(x, y, cmd);
-
-                        } break;
+                        }
+                        break;
                     default:
                         {
                             //move to, and end command
@@ -445,13 +446,11 @@ namespace PixelFarm.Agg.VertexSource
                             lastX = x;
                             lasty = y;
                             //-----------
-                        } break;
+                        }
+                        break;
                 }
             } while (cmd != VertexCmd.Stop);
             return vxs;
         }
     }
-
-
-    
 }
