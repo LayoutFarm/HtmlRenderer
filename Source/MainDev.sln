@@ -89,7 +89,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlBuilder", "HtmlKit\Html
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWithWinForms", "HtmlKit\TestWithWinForms\TestWithWinForms.csproj", "{6AE96C3A-F02F-4D63-8351-6DAFD5B2375E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "9_NetCore", "9_NetCore", "{9851ABDF-3B0E-4C97-B3AB-9171CF4057A5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "9_Portable", "9_Portable", "{9851ABDF-3B0E-4C97-B3AB-9171CF4057A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "icu.net", "NetCore\icu.net\icu.net.csproj", "{A32AE1C2-2DD5-4F2D-A21C-460F082BC4A0}"
 EndProject
