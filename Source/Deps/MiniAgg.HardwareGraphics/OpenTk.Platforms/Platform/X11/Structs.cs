@@ -32,8 +32,8 @@ using System.Collections;
 using System.Drawing;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-
 // X11 Version
+
 namespace OpenTK.Platform.X11
 {
     //
@@ -612,7 +612,6 @@ namespace OpenTK.Platform.X11
         public XErrorEvent ErrorEvent;
         [FieldOffset(0)]
         public XKeymapEvent KeymapEvent;
-
         //[MarshalAs(System.Runtime.InteropServices.UnmanagedType.ByValArray, SizeConst=24)]
         //[ FieldOffset(0) ] public int[] pad;
         [FieldOffset(0)]
@@ -696,7 +695,6 @@ namespace OpenTK.Platform.X11
         public IntPtr do_not_propagate_mask;
         public bool override_direct;
         public IntPtr screen;
-
         public override string ToString()
         {
             return XEvent.ToString(this);
@@ -753,7 +751,6 @@ namespace OpenTK.Platform.X11
         ColormapNotify = 32,
         ClientMessage = 33,
         MappingNotify = 34,
-
         LASTEvent
     }
 
@@ -971,7 +968,6 @@ namespace OpenTK.Platform.X11
         XA_CAP_HEIGHT = 66,
         XA_WM_CLASS = 67,
         XA_WM_TRANSIENT_FOR = 68,
-
         XA_LAST_PREDEFINED = 68
     }
 
@@ -1010,7 +1006,6 @@ namespace OpenTK.Platform.X11
         BorderWidth = 1 << 4,
         Sibling = 1 << 5,
         StackMode = 1 << 6,
-
         //BackPixmap    (1L<<0)
         //BackPixel    (1L<<1)
         //SaveUnder    (1L<<10)
@@ -1025,7 +1020,7 @@ namespace OpenTK.Platform.X11
         //BackingStore    (1L<<6)
         //BackingPlanes    (1L<<7)
         //BackingPixel    (1L<<8)
-        OverrideRedirect = 1<<9,
+        OverrideRedirect = 1 << 9,
     }
 
     internal enum StackMode
@@ -1087,7 +1082,6 @@ namespace OpenTK.Platform.X11
         Mod3Mask = (1 << 5),
         Mod4Mask = (1 << 6),
         Mod5Mask = (1 << 7),
-
         ModMasks = Mod1Mask | Mod2Mask | Mod3Mask | Mod4Mask | Mod5Mask
     }
 
@@ -1114,13 +1108,11 @@ namespace OpenTK.Platform.X11
         public IntPtr led_mask;
         public int global_auto_repeat;
         public AutoRepeats auto_repeats;
-
         [StructLayout(LayoutKind.Explicit)]
         internal struct AutoRepeats
         {
             [FieldOffset(0)]
             public byte first;
-
             [FieldOffset(31)]
             public byte last;
         }
@@ -1285,7 +1277,6 @@ namespace OpenTK.Platform.X11
         XC_bottom_tee = 18,
         XC_box_spiral = 20,
         XC_center_ptr = 22,
-
         XC_circle = 24,
         XC_clock = 26,
         XC_coffee_mug = 28,
@@ -1298,7 +1289,6 @@ namespace OpenTK.Platform.X11
         XC_double_arrow = 42,
         XC_draft_large = 44,
         XC_draft_small = 46,
-
         XC_draped_box = 48,
         XC_exchange = 50,
         XC_fleur = 52,
@@ -1311,7 +1301,6 @@ namespace OpenTK.Platform.X11
         XC_iron_cross = 66,
         XC_left_ptr = 68,
         XC_left_side = 70,
-
         XC_left_tee = 72,
         XC_left_button = 74,
         XC_ll_angle = 76,
@@ -1324,7 +1313,6 @@ namespace OpenTK.Platform.X11
         XC_plus = 90,
         XC_question_arrow = 92,
         XC_right_ptr = 94,
-
         XC_right_side = 96,
         XC_right_tee = 98,
         XC_rightbutton = 100,
@@ -1337,7 +1325,6 @@ namespace OpenTK.Platform.X11
         XC_sb_up_arrow = 114,
         XC_sb_v_double_arrow = 116,
         XC_sb_shuttle = 118,
-
         XC_sizing = 120,
         XC_spider = 122,
         XC_spraycan = 124,
@@ -1350,7 +1337,6 @@ namespace OpenTK.Platform.X11
         XC_top_side = 138,
         XC_top_tee = 140,
         XC_trek = 142,
-
         XC_ul_angle = 144,
         XC_umbrella = 146,
         XC_ur_angle = 148,
@@ -1453,7 +1439,6 @@ namespace OpenTK.Platform.X11
     }
 
     internal delegate int XErrorHandler(IntPtr DisplayHandle, ref XErrorEvent error_event);
-
     internal enum XRequest : byte
     {
         X_CreateWindow = 1,

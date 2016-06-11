@@ -26,7 +26,6 @@
 // #endregion
 
 using System;
-
 namespace OpenTK
 {
     /// <summary>
@@ -36,7 +35,6 @@ namespace OpenTK
     public class KeyPressEventArgs : EventArgs
     {
         char key_char;
-        
         /// <summary>
         /// Constructs a new instance.
         /// </summary>

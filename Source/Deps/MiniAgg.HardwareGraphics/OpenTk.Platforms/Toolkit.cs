@@ -28,7 +28,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK
 {
     /// <summary>
@@ -62,7 +61,7 @@ namespace OpenTK
             lock (syncRoot)
             {
                 if (!hasDefault)
-                {   
+                {
                     var factory = new Platform.Factory2();
                     Platform.Factory.Default = Platform.Factory2.Default;
                     Platform.Factory.Embedded = Platform.Factory2.Embedded;

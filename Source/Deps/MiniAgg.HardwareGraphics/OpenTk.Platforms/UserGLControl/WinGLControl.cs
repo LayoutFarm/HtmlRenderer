@@ -29,10 +29,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-
 using OpenTK.Graphics;
 using OpenTK.Platform;
-
 namespace OpenTK
 {
     class WinGLControl : IGLControl
@@ -65,7 +63,6 @@ namespace OpenTK
         {
             public int X;
             public int Y;
-
             public POINT(int x, int y)
             {
                 this.X = x;
@@ -90,7 +87,6 @@ namespace OpenTK
         [System.Security.SuppressUnmanagedCodeSecurity]
         [System.Runtime.InteropServices.DllImport("User32.dll")]
         static extern bool PeekMessage(ref MSG msg, IntPtr hWnd, int messageFilterMin, int messageFilterMax, int flags);
-
         #endregion
 
         #region
@@ -104,7 +100,6 @@ namespace OpenTK
         MSG msg = new MSG();
         IWindowInfo window_info;
         GraphicsMode mode;
-
         #endregion
 
         #region Constructors
@@ -112,7 +107,6 @@ namespace OpenTK
         public WinGLControl(GraphicsMode mode, Control control)
         {
             this.mode = mode;
-
             window_info = Utilities.CreateWindowsWindowInfo(control.Handle);
         }
 

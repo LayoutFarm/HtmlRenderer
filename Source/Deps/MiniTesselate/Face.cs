@@ -42,7 +42,6 @@
 
 using System.Collections.Generic;
 using System;
-
 namespace Tesselate
 {
     public class Face
@@ -51,12 +50,10 @@ namespace Tesselate
         public Face nextFace;		/* next face (never null) */
         public Face prevFace;		/* previous face (never null) */
         public HalfEdge halfEdgeThisIsLeftFaceOf;	/* a half edge with this left face */
-
         /* Internal data (keep hidden) */
         public Face trail;		/* "stack" for conversion to strips */
         public bool marked;		/* flag for conversion to strips */
         public bool isInterior;		/* this face is in the polygon interior */
-
         /* Macros which keep track of faces we have marked temporarily, and allow
         * us to backtrack when necessary.  With triangle fans, this is not
         * really necessary, since the only awkward case is a loop of triangles
@@ -72,7 +69,6 @@ namespace Tesselate
         public static void AddToTrail(ref Face f, ref Face t)
         {
             f.trail = t;
-
             t = f;
             f.marked = true;
         }
@@ -130,9 +126,7 @@ namespace Tesselate
                 ;
             for (; up.originVertex.VertLeq(up.directionVertex); up = up.nextEdgeCCWAroundLeftFace)
                 ;
-
             HalfEdge lo = up.Lprev;
-
             while (up.nextEdgeCCWAroundLeftFace != lo)
             {
                 if (up.directionVertex.VertLeq(lo.originVertex))

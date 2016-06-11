@@ -42,20 +42,17 @@
 using System;
 using System.Collections.Generic;
 using DictKey = Tesselate.ActiveRegion;
-
 namespace Tesselate
 {
     public class Dictionary
     {
         public Node head = new Node();
         public Tesselator tesseator;
-
         public class Node
         {
             DictKey key = new DictKey();
             public Node next;
             public Node prev;
-
             public DictKey Key
             {
                 get { return this.key; }
@@ -68,24 +65,19 @@ namespace Tesselate
                 this.prev.next = this.next;
             }
         };
-
         public Dictionary(Tesselator tesselator)
         {
             Node nodeHead;
-
             nodeHead = this.head;
-
             nodeHead.Key = null;
             nodeHead.next = nodeHead;
             nodeHead.prev = nodeHead;
-
             this.tesseator = tesselator;
         }
 
         public static void dictDeleteDict(Dictionary dict)
         {
             Node node, next;
-
             for (node = dict.head.next; node != dict.head; node = next)
             {
                 next = node.next;
@@ -103,21 +95,17 @@ namespace Tesselate
         public Node InsertBefore(Node node, DictKey key)
         {
             Node newNode;
-
             do
             {
                 node = node.prev;
             } while (node.Key != null &&
                 !ActiveRegion.EdgeLeq(this.tesseator, node.Key, key));
-
             newNode = new Node();
-
             newNode.Key = key;
             newNode.next = node.next;
             node.next.prev = newNode;
             newNode.prev = node;
             node.next = newNode;
-
             return newNode;
         }
 
@@ -129,12 +117,10 @@ namespace Tesselate
         public static Node dictSearch(Dictionary dict, DictKey key)
         {
             Node node = dict.head;
-
             do
             {
                 node = node.next;
             } while (node.Key != null && !ActiveRegion.EdgeLeq(dict.tesseator, key, node.Key));
-
             return node;
         }
     }

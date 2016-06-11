@@ -12,7 +12,6 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Security;
-
 #endregion
 
 /* TODO: Update the description of TimeBeginPeriod and other native methods. Update Timer. */
@@ -32,16 +31,13 @@ namespace OpenTK.Platform.Windows
     using HICON = System.IntPtr;
     using HBRUSH = System.IntPtr;
     using HCURSOR = System.IntPtr;
-
     using LRESULT = System.IntPtr;
     using LPVOID = System.IntPtr;
     using LPCTSTR = System.String;
-
     using WPARAM = System.IntPtr;
     using LPARAM = System.IntPtr;
     using HANDLE = System.IntPtr;
     using HRAWINPUT = System.IntPtr;
-
     using BYTE = System.Byte;
     using SHORT = System.Int16;
     using USHORT = System.UInt16;
@@ -54,20 +50,15 @@ namespace OpenTK.Platform.Windows
     using UINT = System.UInt32;
     using LONG_PTR = System.IntPtr;
     using ATOM = System.Int32;
-
     using COLORREF = System.Int32;
     using RECT = OpenTK.Platform.Windows.Win32Rectangle;
     using WNDPROC = System.IntPtr;
     using LPDEVMODE = DeviceMode;
-
     using HRESULT = System.IntPtr;
     using HMONITOR = System.IntPtr;
-
     using DWORD_PTR = System.IntPtr;
     using UINT_PTR = System.UIntPtr;
-
     using TIMERPROC = Functions.TimerProc;
-
     #endregion
 
     /// \internal
@@ -121,7 +112,6 @@ namespace OpenTK.Platform.Windows
             int x, int y, int cx, int cy,
             SetWindowPosFlags flags
         );
-
         #endregion
 
         #region AdjustWindowRect
@@ -144,10 +134,8 @@ namespace OpenTK.Platform.Windows
         /// </remarks>
         [DllImport("user32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
         internal static extern BOOL AdjustWindowRect([In, Out] ref Win32Rectangle lpRect, WindowStyle dwStyle, BOOL bMenu);
-
         [DllImport("user32.dll", EntryPoint = "AdjustWindowRectEx", CallingConvention = CallingConvention.StdCall, SetLastError = true), SuppressUnmanagedCodeSecurity]
         internal static extern bool AdjustWindowRectEx(ref Win32Rectangle lpRect, WindowStyle dwStyle, bool bMenu, ExtendedWindowStyle dwExStyle);
-
         #endregion
 
         #region CreateWindowEx
@@ -190,37 +178,31 @@ namespace OpenTK.Platform.Windows
             IntPtr Menu,
             IntPtr Instance,
             IntPtr Param);
-
         #region DestroyWindow
 
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool DestroyWindow(IntPtr windowHandle);
-
         #endregion
 
         #region RegisterClass
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         internal static extern ushort RegisterClass(ref WindowClass window_class);
-
         #endregion
 
         #region RegisterClassEx
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         internal static extern ushort RegisterClassEx(ref ExtendedWindowClass window_class);
-
         #endregion
 
         #region UnregisterClass
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         internal static extern short UnregisterClass([MarshalAs(UnmanagedType.LPTStr)] LPCTSTR className, IntPtr instance);
-
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         internal static extern short UnregisterClass(IntPtr className, IntPtr instance);
-
         #endregion
 
         #region GetClassInfoEx
@@ -228,10 +210,8 @@ namespace OpenTK.Platform.Windows
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         internal static extern BOOL GetClassInfoEx(HINSTANCE hinst,
             [MarshalAs(UnmanagedType.LPTStr)] LPCTSTR lpszClass, ref ExtendedWindowClass lpwcx);
-
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         internal static extern BOOL GetClassInfoEx(HINSTANCE hinst, UIntPtr lpszClass, ref ExtendedWindowClass lpwcx);
-
         #endregion
 
         #region CallWindowProc
@@ -242,7 +222,6 @@ namespace OpenTK.Platform.Windows
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern LRESULT CallWindowProc(WNDPROC lpPrevWndFunc, HWND hWnd, WindowMessage Msg,
             WPARAM wParam, LPARAM lParam);
-
         #endregion
 
         #region SetWindowLong
@@ -257,12 +236,10 @@ namespace OpenTK.Platform.Windows
 
             IntPtr retval = IntPtr.Zero;
             SetLastError(0);
-
             if (IntPtr.Size == 4)
                 retval = new IntPtr(SetWindowLong(handle, item, newValue.ToInt32()));
             else
                 retval = SetWindowLongPtr(handle, item, newValue);
-
             if (retval == IntPtr.Zero)
             {
                 int error = Marshal.GetLastWin32Error();
@@ -283,27 +260,23 @@ namespace OpenTK.Platform.Windows
 #endif
         [DllImport("user32.dll", SetLastError = true)]
         static extern LONG SetWindowLong(HWND hWnd, GetWindowLongOffsets nIndex, LONG dwNewLong);
-
 #if RELASE
         [SuppressUnmanagedCodeSecurity]
 #endif
         [DllImport("user32.dll", SetLastError = true)]
         static extern LONG_PTR SetWindowLongPtr(HWND hWnd, GetWindowLongOffsets nIndex, LONG_PTR dwNewLong);
-
 #if RELASE
         [SuppressUnmanagedCodeSecurity]
 #endif
         [DllImport("user32.dll", SetLastError = true)]
         static extern LONG SetWindowLong(HWND hWnd, GetWindowLongOffsets nIndex,
             [MarshalAs(UnmanagedType.FunctionPtr)]WindowProcedure dwNewLong);
-
 #if RELASE
         [SuppressUnmanagedCodeSecurity]
 #endif
         [DllImport("user32.dll", SetLastError = true)]
         static extern LONG_PTR SetWindowLongPtr(HWND hWnd, GetWindowLongOffsets nIndex,
             [MarshalAs(UnmanagedType.FunctionPtr)]WindowProcedure dwNewLong);
-
         #endregion
 
         #region GetWindowLong
@@ -312,18 +285,15 @@ namespace OpenTK.Platform.Windows
         {
             if (IntPtr.Size == 4)
                 return (UIntPtr)GetWindowLongInternal(handle, index);
-
             return GetWindowLongPtrInternal(handle, index);
         }
 
         [SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", SetLastError = true, EntryPoint = "GetWindowLong")]
         static extern ULONG GetWindowLongInternal(HWND hWnd, GetWindowLongOffsets nIndex);
-
         [SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", SetLastError = true, EntryPoint = "GetWindowLongPtr")]
         static extern UIntPtr GetWindowLongPtrInternal(HWND hWnd, GetWindowLongOffsets nIndex);
-
         #endregion
 
         #endregion
@@ -345,14 +315,12 @@ namespace OpenTK.Platform.Windows
         [DllImport("User32.dll"), CLSCompliant(false)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool PeekMessage(ref MSG msg, IntPtr hWnd, int messageFilterMin, int messageFilterMax, PeekMessageOption flags);
-
         [Flags]
         public enum PeekMessageOption
         {
             PM_NOREMOVE = 0x0000,
             PM_REMOVE = 0x0001,
             PM_NOYIELD = 0x0002,
- 
         }
         //    /*
         // * PeekMessage() Options
@@ -390,14 +358,12 @@ namespace OpenTK.Platform.Windows
         //[return: MarshalAs(UnmanagedType.Bool)]
         internal static extern INT GetMessage(ref MSG msg,
             IntPtr windowHandle, int messageFilterMin, int messageFilterMax);
-
         #endregion
 
         #region SendMessage
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         internal static extern LRESULT SendMessage(HWND hWnd, WindowMessage Msg, WPARAM wParam, LPARAM lParam);
-
         #endregion
 
         #region PostMessage
@@ -412,14 +378,12 @@ namespace OpenTK.Platform.Windows
             WPARAM wParam,
             LPARAM lParam
         );
-
         #endregion
 
         #region PostQuitMessage
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         internal static extern void PostQuitMessage(int exitCode);
-
         #endregion
 
         #region DispatchMessage
@@ -429,7 +393,6 @@ namespace OpenTK.Platform.Windows
 #endif
         [DllImport("User32.dll"), CLSCompliant(false)]
         internal static extern LRESULT DispatchMessage(ref MSG msg);
-
         #endregion
 
         #region TranslateMessage
@@ -439,7 +402,6 @@ namespace OpenTK.Platform.Windows
 #endif
         [DllImport("User32.dll"), CLSCompliant(false)]
         internal static extern BOOL TranslateMessage(ref MSG lpMsg);
-
         #endregion
 
         #region GetQueueStatus
@@ -470,14 +432,12 @@ namespace OpenTK.Platform.Windows
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         internal static extern DWORD GetQueueStatus([MarshalAs(UnmanagedType.U4)] QueueStatusFlags flags);
-
         #endregion
 
         #region DefWindowProc
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public extern static IntPtr DefWindowProc(HWND hWnd, WindowMessage msg, IntPtr wParam, IntPtr lParam);
-
         #endregion
 
         #endregion
@@ -494,7 +454,6 @@ namespace OpenTK.Platform.Windows
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("winmm.dll")]
         internal static extern IntPtr TimeBeginPeriod(int period);
-
         #endregion
 
         #region QueryPerformanceFrequency
@@ -508,7 +467,6 @@ namespace OpenTK.Platform.Windows
         [DllImport("kernel32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool QueryPerformanceFrequency(ref long PerformanceFrequency);
-
         #endregion
 
         #region QueryPerformanceCounter
@@ -522,7 +480,6 @@ namespace OpenTK.Platform.Windows
         [DllImport("kernel32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool QueryPerformanceCounter(ref long PerformanceCount);
-
         #endregion
 
         #endregion
@@ -538,14 +495,12 @@ namespace OpenTK.Platform.Windows
         /// <returns></returns>
         [DllImport("user32.dll")]
         internal static extern IntPtr GetDC(IntPtr hwnd);
-
         #endregion
 
         #region GetWindowDC
 
         [DllImport("user32.dll")]
         internal static extern IntPtr GetWindowDC(IntPtr hwnd);
-
         #endregion
 
         #region ReleaseDC
@@ -559,19 +514,16 @@ namespace OpenTK.Platform.Windows
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool ReleaseDC(IntPtr hwnd, IntPtr DC);
-
         #endregion
 
         #region ChoosePixelFormat
 
         [DllImport("gdi32.dll")]
         internal static extern int ChoosePixelFormat(IntPtr dc, ref PixelFormatDescriptor pfd);
-
         #endregion
 
         [DllImport("gdi32.dll")]
         internal static extern int DescribePixelFormat(IntPtr deviceContext, int pixel, int pfdSize, ref PixelFormatDescriptor pixelFormat);
-
         #region SetPixelFormat
 
         /// <summary>
@@ -584,7 +536,6 @@ namespace OpenTK.Platform.Windows
         [DllImport("gdi32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool SetPixelFormat(IntPtr dc, int format, ref PixelFormatDescriptor pfd);
-
         #endregion
 
         #region SwapBuffers
@@ -593,7 +544,6 @@ namespace OpenTK.Platform.Windows
         [DllImport("gdi32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool SwapBuffers(IntPtr dc);
-
         #endregion
 
         #region GetProcAddress
@@ -606,7 +556,6 @@ namespace OpenTK.Platform.Windows
         /// <returns></returns>
         [DllImport("kernel32.dll")]
         internal static extern IntPtr GetProcAddress(IntPtr handle, string funcname);
-
         #endregion
 
         #endregion
@@ -617,14 +566,12 @@ namespace OpenTK.Platform.Windows
 
         [DllImport("kernel32.dll")]
         internal static extern void SetLastError(DWORD dwErrCode);
-
         #endregion
 
         #region GetModuleHandle
 
         [DllImport("kernel32.dll")]
         internal static extern IntPtr GetModuleHandle([MarshalAs(UnmanagedType.LPTStr)]string module_name);
-
         #endregion
 
         #region LoadLibrary
@@ -636,7 +583,6 @@ namespace OpenTK.Platform.Windows
         /// <returns></returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         internal static extern IntPtr LoadLibrary(string dllName);
-
         #endregion
 
         #region FreeLibrary
@@ -649,7 +595,6 @@ namespace OpenTK.Platform.Windows
         [DllImport("kernel32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool FreeLibrary(IntPtr handle);
-
         #endregion
 
         #endregion
@@ -659,7 +604,6 @@ namespace OpenTK.Platform.Windows
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern SHORT GetAsyncKeyState(VirtualKeys vKey);
-
         #endregion
 
         #region GetKeyState
@@ -667,7 +611,6 @@ namespace OpenTK.Platform.Windows
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern SHORT GetKeyState(VirtualKeys vKey);
-
         #endregion
 
         #region MapVirtualKey
@@ -675,11 +618,9 @@ namespace OpenTK.Platform.Windows
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern UINT MapVirtualKey(UINT uCode, MapVirtualKeyType uMapType);
-
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern UINT MapVirtualKey(VirtualKeys vkey, MapVirtualKeyType uMapType);
-
         #endregion
 
         #region ShowWindow
@@ -701,7 +642,6 @@ namespace OpenTK.Platform.Windows
         /// </remarks>
         [DllImport("user32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
         internal static extern BOOL ShowWindow(HWND hWnd, ShowWindowCommand nCmdShow);
-
         #endregion
 
         #region SetWindowText
@@ -723,7 +663,6 @@ namespace OpenTK.Platform.Windows
         /// </remarks>
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         internal static extern BOOL SetWindowText(HWND hWnd, [MarshalAs(UnmanagedType.LPTStr)] string lpString);
-
         #endregion
 
         #region GetWindowText
@@ -745,7 +684,6 @@ namespace OpenTK.Platform.Windows
         /// </remarks>
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         internal static extern int GetWindowText(HWND hWnd, [MarshalAs(UnmanagedType.LPTStr), In, Out] StringBuilder lpString, int nMaxCount);
-
         #endregion
 
         #region ScreenToClient
@@ -765,7 +703,6 @@ namespace OpenTK.Platform.Windows
         [DllImport("user32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
         //internal static extern BOOL ScreenToClient(HWND hWnd, ref POINT point);
         internal static extern BOOL ScreenToClient(HWND hWnd, ref Point point);
-
         #endregion
 
         #region ClientToScreen
@@ -782,7 +719,6 @@ namespace OpenTK.Platform.Windows
         /// </remarks>
         [DllImport("user32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
         internal static extern BOOL ClientToScreen(HWND hWnd, ref Point point);
-
         #endregion
 
         #region GetClientRect
@@ -799,7 +735,6 @@ namespace OpenTK.Platform.Windows
         /// <remarks>In conformance with conventions for the RECT structure, the bottom-right coordinates of the returned rectangle are exclusive. In other words, the pixel at (right, bottom) lies immediately outside the rectangle.</remarks>
         [DllImport("user32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
         internal extern static BOOL GetClientRect(HWND windowHandle, out Win32Rectangle clientRectangle);
-
         #endregion
 
         #region GetWindowRect
@@ -816,52 +751,44 @@ namespace OpenTK.Platform.Windows
         /// <remarks>In conformance with conventions for the RECT structure, the bottom-right coordinates of the returned rectangle are exclusive. In other words, the pixel at (right, bottom) lies immediately outside the rectangle.</remarks>
         [DllImport("user32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
         internal extern static BOOL GetWindowRect(HWND windowHandle, out Win32Rectangle windowRectangle);
-
         #endregion
 
         #region GetWindowInfo
 
         [DllImport("user32.dll"), SuppressUnmanagedCodeSecurity]
         internal static extern BOOL GetWindowInfo(HWND hwnd, ref WindowInfo wi);
-
         #endregion
 
         #region DwmGetWindowAttribute
 
         [DllImport("dwmapi.dll")]
         unsafe public static extern HRESULT DwmGetWindowAttribute(HWND hwnd, DwmWindowAttribute dwAttribute, void* pvAttribute, DWORD cbAttribute);
-
         #endregion
 
         #region GetFocus
 
         [DllImport("user32.dll")]
         public static extern HWND GetFocus();
-
         #endregion
 
         #region IsWindowVisible
 
         [DllImport("user32.dll")]
         public static extern bool IsWindowVisible(IntPtr intPtr);
-
         #endregion
 
         #region LoadIcon
 
         [DllImport("user32.dll")]
         public static extern HICON LoadIcon(HINSTANCE hInstance, LPCTSTR lpIconName);
-
         #endregion
 
         #region LoadCursor
 
         [DllImport("user32.dll")]
         public static extern HCURSOR LoadCursor(HINSTANCE hInstance, LPCTSTR lpCursorName);
-
         [DllImport("user32.dll")]
         public static extern HCURSOR LoadCursor(HINSTANCE hInstance, IntPtr lpCursorName);
-
         public static HCURSOR LoadCursor(CursorName lpCursorName)
         {
             return LoadCursor(IntPtr.Zero, new IntPtr((int)lpCursorName));
@@ -871,10 +798,8 @@ namespace OpenTK.Platform.Windows
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern BOOL SetForegroundWindow(HWND hWnd);
-
         [DllImport("user32.dll", SetLastError = true)]
         public static extern BOOL BringWindowToTop(HWND hWnd);
-
         #endregion
 
         #region Display settings
@@ -893,7 +818,6 @@ namespace OpenTK.Platform.Windows
         /// </remarks>
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern int ChangeDisplaySettings(DeviceMode device_mode, ChangeDisplaySettingsEnum flags);
-
         #endregion int ChangeDisplaySettings
 
         #region ChangeDisplaySettingsEx
@@ -901,7 +825,6 @@ namespace OpenTK.Platform.Windows
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern LONG ChangeDisplaySettingsEx([MarshalAs(UnmanagedType.LPTStr)] LPCTSTR lpszDeviceName,
             LPDEVMODE lpDevMode, HWND hwnd, ChangeDisplaySettingsEnum dwflags, LPVOID lParam);
-
         #endregion
 
         #region EnumDisplayDevices
@@ -910,7 +833,6 @@ namespace OpenTK.Platform.Windows
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern BOOL EnumDisplayDevices([MarshalAs(UnmanagedType.LPTStr)] LPCTSTR lpDevice,
             DWORD iDevNum, [In, Out] WindowsDisplayDevice lpDisplayDevice, DWORD dwFlags);
-
         #endregion
 
         #region EnumDisplaySettings
@@ -919,12 +841,10 @@ namespace OpenTK.Platform.Windows
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern BOOL EnumDisplaySettings([MarshalAs(UnmanagedType.LPTStr)] string device_name,
             int graphics_mode, [In, Out] DeviceMode device_mode);
-
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern BOOL EnumDisplaySettings([MarshalAs(UnmanagedType.LPTStr)] string device_name,
              DisplayModeSettingsEnum graphics_mode, [In, Out] DeviceMode device_mode);
-
         #endregion
 
         #region EnumDisplaySettingsEx
@@ -932,28 +852,24 @@ namespace OpenTK.Platform.Windows
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern BOOL EnumDisplaySettingsEx([MarshalAs(UnmanagedType.LPTStr)] LPCTSTR lpszDeviceName, DisplayModeSettingsEnum iModeNum,
             [In, Out] DeviceMode lpDevMode, DWORD dwFlags);
-
         #endregion
 
         #region GetMonitorInfo
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern BOOL GetMonitorInfo(IntPtr hMonitor, ref MonitorInfo lpmi);
-
         #endregion
 
         #region MonitorFromPoint
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern HMONITOR MonitorFromPoint(POINT pt, MonitorFrom dwFlags);
-
         #endregion
 
         #region MonitorFromWindow
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern HMONITOR MonitorFromWindow(HWND hwnd, MonitorFrom dwFlags);
-
         #endregion
 
         #endregion
@@ -962,19 +878,14 @@ namespace OpenTK.Platform.Windows
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern BOOL TrackMouseEvent(ref TrackMouseEventStructure lpEventTrack);
-
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true, ExactSpelling = true)]
         public static extern bool ReleaseCapture();
-
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern IntPtr SetCapture(IntPtr hwnd);
-
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern IntPtr GetCapture();
-
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern IntPtr SetFocus(IntPtr hwnd);
-
         #region Async input
 
         #region GetCursorPos
@@ -991,7 +902,6 @@ namespace OpenTK.Platform.Windows
         /// </remarks>
         [DllImport("user32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
         internal static extern BOOL GetCursorPos(ref Point point);
-
         #endregion
 
         #endregion
@@ -1014,17 +924,14 @@ namespace OpenTK.Platform.Windows
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern LRESULT DefRawInputProc(RawInput[] RawInput, INT Input, UINT SizeHeader);
-
         [CLSCompliant(false)]
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", SetLastError = true)]
         unsafe internal static extern LRESULT DefRawInputProc(ref RawInput RawInput, INT Input, UINT SizeHeader);
-
         [CLSCompliant(false)]
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", SetLastError = true)]
         unsafe internal static extern LRESULT DefRawInputProc(IntPtr RawInput, INT Input, UINT SizeHeader);
-
         #endregion
 
         #region RegisterRawInputDevices
@@ -1052,7 +959,6 @@ namespace OpenTK.Platform.Windows
             UINT NumDevices,
             UINT Size
         );
-
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern BOOL RegisterRawInputDevices(
@@ -1060,7 +966,6 @@ namespace OpenTK.Platform.Windows
             INT NumDevices,
             INT Size
         );
-
         #endregion
 
         #region GetRawInputBuffer
@@ -1088,7 +993,6 @@ namespace OpenTK.Platform.Windows
             [In, Out] ref UINT Size,
             [In] UINT SizeHeader
         );
-
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRawInputBuffer(
@@ -1096,7 +1000,6 @@ namespace OpenTK.Platform.Windows
             [In, Out] ref INT Size,
             [In] INT SizeHeader
         );
-
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRawInputBuffer(
@@ -1104,7 +1007,6 @@ namespace OpenTK.Platform.Windows
             [In, Out] ref INT Size,
             [In] INT SizeHeader
         );
-
         #endregion
 
         #region GetRegisteredRawInputDevices
@@ -1142,14 +1044,12 @@ namespace OpenTK.Platform.Windows
             [In, Out] ref UINT NumDevices,
             UINT cbSize
         );
-
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRegisteredRawInputDevices(
             [Out] RawInput[] RawInputDevices,
             [In, Out] ref INT NumDevices,
             INT cbSize
         );
-
         #endregion
 
         #region GetRawInputDeviceList
@@ -1188,14 +1088,12 @@ namespace OpenTK.Platform.Windows
             [In, Out] ref UINT NumDevices,
             UINT Size
         );
-
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRawInputDeviceList(
             [In, Out] RawInputDeviceList[] RawInputDeviceList,
             [In, Out] ref INT NumDevices,
             INT Size
         );
-
         /// <summary>
         /// Enumerates the raw input devices attached to the system.
         /// </summary>
@@ -1230,14 +1128,12 @@ namespace OpenTK.Platform.Windows
             [In, Out] ref UINT NumDevices,
             UINT Size
         );
-
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRawInputDeviceList(
             [In, Out] IntPtr RawInputDeviceList,
             [In, Out] ref INT NumDevices,
             INT Size
         );
-
         #endregion
 
         #region GetRawInputDeviceInfo
@@ -1282,7 +1178,6 @@ namespace OpenTK.Platform.Windows
             [In, Out] LPVOID Data,
             [In, Out] ref UINT Size
         );
-
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRawInputDeviceInfo(
@@ -1291,7 +1186,6 @@ namespace OpenTK.Platform.Windows
             [In, Out] LPVOID Data,
             [In, Out] ref INT Size
         );
-
         /// <summary>
         /// Gets information about the raw input device.
         /// </summary>
@@ -1332,7 +1226,6 @@ namespace OpenTK.Platform.Windows
             [In, Out] RawInputDeviceInfo Data,
             [In, Out] ref UINT Size
         );
-
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRawInputDeviceInfo(
@@ -1341,8 +1234,6 @@ namespace OpenTK.Platform.Windows
             [In, Out] RawInputDeviceInfo Data,
             [In, Out] ref INT Size
         );
-
-
         #endregion
 
         #region GetRawInputData
@@ -1378,7 +1269,6 @@ namespace OpenTK.Platform.Windows
             [In, Out] ref UINT Size,
             UINT SizeHeader
         );
-
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRawInputData(
@@ -1388,7 +1278,6 @@ namespace OpenTK.Platform.Windows
             [In, Out] ref INT Size,
             INT SizeHeader
         );
-
         /// <summary>
         /// Gets the raw input from the specified device.
         /// </summary>
@@ -1420,7 +1309,6 @@ namespace OpenTK.Platform.Windows
             [In, Out] ref UINT Size,
             UINT SizeHeader
         );
-
         [System.Security.SuppressUnmanagedCodeSecurity]
         [DllImport("user32.dll", SetLastError = true)]
         internal static extern INT GetRawInputData(
@@ -1430,7 +1318,6 @@ namespace OpenTK.Platform.Windows
             [In, Out] ref INT Size,
             INT SizeHeader
         );
-
         #endregion
 
         #region IntPtr NextRawInputStructure(IntPtr data)
@@ -1474,7 +1361,6 @@ namespace OpenTK.Platform.Windows
 
         [DllImport("gdi32.dll", SetLastError = true)]
         internal static extern IntPtr GetStockObject(int index);
-
         #endregion
 
         #endregion
@@ -1483,20 +1369,16 @@ namespace OpenTK.Platform.Windows
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern UINT_PTR SetTimer(HWND hWnd, UINT_PTR nIDEvent, UINT uElapse, TIMERPROC lpTimerFunc);
-
         [DllImport("user32.dll", SetLastError = true)]
         public static extern BOOL KillTimer(HWND hWnd, UINT_PTR uIDEvent);
-
         [UnmanagedFunctionPointer(CallingConvention.Winapi)]
         public delegate void TimerProc(HWND hwnd, WindowMessage uMsg, UINT_PTR idEvent, DWORD dwTime);
-
         #endregion
 
         #region Shell Functions
 
         [DllImport("shell32.dll")]
         public static extern DWORD_PTR SHGetFileInfo(LPCTSTR pszPath, DWORD dwFileAttributes, ref SHFILEINFO psfi, UINT cbFileInfo, ShGetFileIconFlags uFlags);
-
         #endregion
     }
 
@@ -1506,12 +1388,10 @@ namespace OpenTK.Platform.Windows
     {
         // Found in winuser.h
         internal const int KEYBOARD_OVERRUN_MAKE_CODE = 0xFF;
-
         // WM_ACTIVATE state values (found in winuser.h)
         internal const int WA_INACTIVE = 0;
         internal const int WA_ACTIVE = 1;
         internal const int WA_CLICKACTIVE = 2;
-
         // Window Messages (found in winuser.h)
         internal const int WM_NULL = 0x0000;
         internal const int WM_CREATE = 0x0001;
@@ -1539,7 +1419,6 @@ namespace OpenTK.Platform.Windows
         internal const int WM_WININICHANGE = 0x001A;
         // WINVER >= 0x400
         internal const int WM_SETTINGCHANGE = WM_WININICHANGE;
-
         internal const int WM_DEVMODECHANGE = 0x001B;
         internal const int WM_ACTIVATEAPP = 0x001C;
         internal const int WM_FONTCHANGE = 0x001D;
@@ -1549,12 +1428,9 @@ namespace OpenTK.Platform.Windows
         internal const int WM_MOUSEACTIVATE = 0x0021;
         internal const int WM_CHILDACTIVATE = 0x0022;
         internal const int WM_QUEUESYNC = 0x0023;
-
         internal const int WM_GETMINMAXINFO = 0x0024;
-
         internal const int WM_WINDOWPOSCHANGING = 0x0046;
         internal const int WM_WINDOWPOSCHANGED = 0x0047;
-
         // Keyboard events (found in winuser.h)
         internal const int WM_INPUT = 0x00FF;       // Raw input. XP and higher only.
         internal const int WM_KEYDOWN = 0x0100;
@@ -1564,28 +1440,23 @@ namespace OpenTK.Platform.Windows
         internal const int WM_COMMAND = 0x0111;
         internal const int WM_SYSCOMMAND = 0x0112;
         internal const int WM_ENTERIDLE = 0x121;
-
         // Pixel types (found in wingdi.h)
         internal const byte PFD_TYPE_RGBA = 0;
         internal const byte PFD_TYPE_COLORINDEX = 1;
-
         // Layer types (found in wingdi.h)
         internal const byte PFD_MAIN_PLANE = 0;
         internal const byte PFD_OVERLAY_PLANE = 1;
         internal const byte PFD_UNDERLAY_PLANE = unchecked((byte)-1);
-
         // Device mode types (found in wingdi.h)
         internal const int DM_BITSPERPEL = 0x00040000;
         internal const int DM_PELSWIDTH = 0x00080000;
         internal const int DM_PELSHEIGHT = 0x00100000;
         internal const int DM_DISPLAYFLAGS = 0x00200000;
         internal const int DM_DISPLAYFREQUENCY = 0x00400000;
-
         // ChangeDisplaySettings results (found in winuser.h)
         internal const int DISP_CHANGE_SUCCESSFUL = 0;
         internal const int DISP_CHANGE_RESTART = 1;
         internal const int DISP_CHANGE_FAILED = -1;
-
         // (found in winuser.h)
         internal const int ENUM_REGISTRY_SETTINGS = -2;
         internal const int ENUM_CURRENT_SETTINGS = -1;
@@ -1837,7 +1708,6 @@ namespace OpenTK.Platform.Windows
         /// </summary>
         internal float Y;
     };
-
     #endregion
 
     #region DeviceMode
@@ -1909,7 +1779,6 @@ namespace OpenTK.Platform.Windows
         private short Size;
         internal short DriverExtra;
         internal int Fields;
-
         //internal short Orientation;
         //internal short PaperSize;
         //internal short PaperLength;
@@ -1922,7 +1791,6 @@ namespace OpenTK.Platform.Windows
         internal POINT Position;
         internal DWORD DisplayOrientation;
         internal DWORD DisplayFixedOutput;
-
         internal short Color;
         internal short Duplex;
         internal short YResolution;
@@ -2020,7 +1888,6 @@ namespace OpenTK.Platform.Windows
         public IntPtr MenuName;
         public IntPtr ClassName;
         public HICON IconSm;
-
         public static uint SizeInBytes = (uint)Marshal.SizeOf(default(ExtendedWindowClass));
     }
 
@@ -2144,7 +2011,6 @@ namespace OpenTK.Platform.Windows
         /// Prevents the window from receiving the WM_WINDOWPOSCHANGING message.
         /// </summary>
         NOSENDCHANGING = 0x0400, /* Don't send WM_WINDOWPOSCHANGING */
-
         /// <summary>
         /// Draws a frame (defined in the window's class description) around the window.
         /// </summary>
@@ -2153,7 +2019,6 @@ namespace OpenTK.Platform.Windows
         /// Same as the NOOWNERZORDER flag.
         /// </summary>
         NOREPOSITION = NOOWNERZORDER,
-
         DEFERERASE = 0x2000,
         ASYNCWINDOWPOS = 0x4000
     }
@@ -2199,7 +2064,6 @@ namespace OpenTK.Platform.Windows
         /// Handle to the target window. If NULL it follows the keyboard focus.
         /// </summary>
         internal HWND Target;
-
         public override string ToString()
         {
             return String.Format("{0}/{1}, flags: {2}, window: {3}", UsagePage, Usage, Flags, Target);
@@ -2225,7 +2089,6 @@ namespace OpenTK.Platform.Windows
         /// Type of device.
         /// </summary>
         internal RawInputDeviceType Type;
-
         public override string ToString()
         {
             return String.Format("{0}, Handle: {1}", Type, Device);
@@ -2251,7 +2114,6 @@ namespace OpenTK.Platform.Windows
     {
         internal RawInputHeader Header;
         internal RawInputData Data;
-
         internal byte[] ToByteArray()
         {
             unsafe
@@ -2396,7 +2258,6 @@ namespace OpenTK.Platform.Windows
         /// Device-specific additional information for the event.
         /// </summary>
         internal ULONG ExtraInformation;
-
         /// <summary>
         /// Mouse state. This member can be any reasonable combination of the following. 
         /// MOUSE_ATTRIBUTES_CHANGED
@@ -2689,7 +2550,6 @@ namespace OpenTK.Platform.Windows
         /// Specifies the y-coordinate of the lower-right corner of the rectangle.
         /// </summary>
         internal LONG bottom;
-
         internal int Width { get { return right - left; } }
         internal int Height { get { return bottom - top; } }
 
@@ -2787,7 +2647,6 @@ namespace OpenTK.Platform.Windows
         public RECT Monitor;
         public RECT Work;
         public DWORD Flags;
-
         public static readonly int SizeInBytes = Marshal.SizeOf(default(MonitorInfo));
     }
 
@@ -2819,7 +2678,6 @@ namespace OpenTK.Platform.Windows
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
         public string szTypeName;
     };
-
     #endregion
 
     #region TrackMouseEventStructure
@@ -2830,7 +2688,6 @@ namespace OpenTK.Platform.Windows
         public TrackMouseEventFlags Flags;
         public HWND TrackWindowHandle;
         public DWORD HoverTime;
-
         public static readonly int SizeInBytes = Marshal.SizeOf(typeof(TrackMouseEventStructure));
     }
 
@@ -2912,7 +2769,6 @@ namespace OpenTK.Platform.Windows
         ModesPruned = 0x08000000,
         Remote = 0x04000000,
         Disconnect = 0x02000000,
-
         // Child device state
         Active = 0x00000001,
         Attached = 0x00000002,
@@ -2956,15 +2812,12 @@ namespace OpenTK.Platform.Windows
         ThickFrame = 0x00040000,
         Group = 0x00020000,
         TabStop = 0x00010000,
-
         MinimizeBox = 0x00020000,
         MaximizeBox = 0x00010000,
-
         Tiled = Overlapped,
         Iconic = Minimize,
         SizeBox = ThickFrame,
         TiledWindow = OverlappedWindow,
-
         // Common window styles:
         OverlappedWindow = Overlapped | Caption | SystemMenu | ThickFrame | MinimizeBox | MaximizeBox,
         PopupWindow = Popup | Border | SystemMenu,
@@ -2983,7 +2836,6 @@ namespace OpenTK.Platform.Windows
         Topmost = 0x00000008,
         AcceptFiles = 0x00000010,
         Transparent = 0x00000020,
-
         // #if(WINVER >= 0x0400)
         MdiChild = 0x00000040,
         ToolWindow = 0x00000080,
@@ -2999,11 +2851,9 @@ namespace OpenTK.Platform.Windows
         LeftToRightReading = 0x00000000,
         LeftScrollbar = 0x00004000,
         RightScrollbar = 0x00000000,
-
         ControlParent = 0x00010000,
         StaticEdge = 0x00020000,
         ApplicationWindow = 0x00040000,
-
         OverlappedWindow = WindowEdge | ClientEdge,
         PaletteWindow = WindowEdge | ToolWindow | Topmost,
         // #endif
@@ -3062,7 +2912,6 @@ namespace OpenTK.Platform.Windows
         SWAP_LAYER_BUFFERS = 0x800,
         GENERIC_ACCELERATED = 0x1000,
         SUPPORT_DIRECTDRAW = 0x2000,
-
         // PixelFormatDescriptor flags for use in ChoosePixelFormat only
         DEPTH_DONTCARE = unchecked((int)0x20000000),
         DOUBLEBUFFER_DONTCARE = unchecked((int)0x40000000),
@@ -3108,9 +2957,7 @@ namespace OpenTK.Platform.Windows
         ByteAlignClient = 0x1000,
         ByteAlignWindow = 0x2000,
         GlobalClass = 0x4000,
-
         Ime = 0x00010000,
-
         // #if(_WIN32_WINNT >= 0x0501)
         DropShadow = 0x00020000
         // #endif /* _WIN32_WINNT >= 0x0501 */
@@ -3206,19 +3053,16 @@ namespace OpenTK.Platform.Windows
         RIGHT_BUTTON_UP = 0x0008,  // Right Button changed to up.
         MIDDLE_BUTTON_DOWN = 0x0010,  // Middle Button changed to down.
         MIDDLE_BUTTON_UP = 0x0020,  // Middle Button changed to up.
-
         BUTTON_1_DOWN = LEFT_BUTTON_DOWN,
         BUTTON_1_UP = LEFT_BUTTON_UP,
         BUTTON_2_DOWN = RIGHT_BUTTON_DOWN,
         BUTTON_2_UP = RIGHT_BUTTON_UP,
         BUTTON_3_DOWN = MIDDLE_BUTTON_DOWN,
         BUTTON_3_UP = MIDDLE_BUTTON_UP,
-
         BUTTON_4_DOWN = 0x0040,
         BUTTON_4_UP = 0x0080,
         BUTTON_5_DOWN = 0x0100,
         BUTTON_5_UP = 0x0200,
-
         WHEEL = 0x0400
     }
 
@@ -3287,30 +3131,25 @@ namespace OpenTK.Platform.Windows
         RBUTTON = 0x02,
         CANCEL = 0x03,
         MBUTTON = 0x04,   /* NOT contiguous with L & RBUTTON */
-
         XBUTTON1 = 0x05,   /* NOT contiguous with L & RBUTTON */
         XBUTTON2 = 0x06,   /* NOT contiguous with L & RBUTTON */
-
         /*
          * 0x07 : unassigned
          */
 
         BACK = 0x08,
         TAB = 0x09,
-
         /*
          * 0x0A - 0x0B : reserved
          */
 
         CLEAR = 0x0C,
         RETURN = 0x0D,
-
         SHIFT = 0x10,
         CONTROL = 0x11,
         MENU = 0x12,
         PAUSE = 0x13,
         CAPITAL = 0x14,
-
         KANA = 0x15,
         HANGEUL = 0x15,  /* old name - should be here for compatibility */
         HANGUL = 0x15,
@@ -3318,14 +3157,11 @@ namespace OpenTK.Platform.Windows
         FINAL = 0x18,
         HANJA = 0x19,
         KANJI = 0x19,
-
         ESCAPE = 0x1B,
-
         CONVERT = 0x1C,
         NONCONVERT = 0x1D,
         ACCEPT = 0x1E,
         MODECHANGE = 0x1F,
-
         SPACE = 0x20,
         PRIOR = 0x21,
         NEXT = 0x22,
@@ -3342,7 +3178,6 @@ namespace OpenTK.Platform.Windows
         INSERT = 0x2D,
         DELETE = 0x2E,
         HELP = 0x2F,
-
         /*
          * 0 - 9 are the same as ASCII '0' - '9' (0x30 - 0x39)
          * 0x40 : unassigned
@@ -3352,13 +3187,11 @@ namespace OpenTK.Platform.Windows
         LWIN = 0x5B,
         RWIN = 0x5C,
         APPS = 0x5D,
-
         /*
          * 0x5E : reserved
          */
 
         SLEEP = 0x5F,
-
         NUMPAD0 = 0x60,
         NUMPAD1 = 0x61,
         NUMPAD2 = 0x62,
@@ -3399,19 +3232,16 @@ namespace OpenTK.Platform.Windows
         F22 = 0x85,
         F23 = 0x86,
         F24 = 0x87,
-
         /*
          * 0x88 - 0x8F : unassigned
          */
 
         NUMLOCK = 0x90,
         SCROLL = 0x91,
-
         /*
          * NEC PC-9800 kbd definitions
          */
         OEM_NEC_EQUAL = 0x92,  // '=' key on numpad
-
         /*
          * Fujitsu/OASYS kbd definitions
          */
@@ -3420,7 +3250,6 @@ namespace OpenTK.Platform.Windows
         OEM_FJ_TOUROKU = 0x94,  // 'Register word' key
         OEM_FJ_LOYA = 0x95,  // 'Left OYAYUBI' key
         OEM_FJ_ROYA = 0x96,  // 'Right OYAYUBI' key
-
         /*
          * 0x97 - 0x9F : unassigned
          */
@@ -3436,7 +3265,6 @@ namespace OpenTK.Platform.Windows
         RCONTROL = 0xA3,
         LMENU = 0xA4,
         RMENU = 0xA5,
-
         BROWSER_BACK = 0xA6,
         BROWSER_FORWARD = 0xA7,
         BROWSER_REFRESH = 0xA8,
@@ -3444,7 +3272,6 @@ namespace OpenTK.Platform.Windows
         BROWSER_SEARCH = 0xAA,
         BROWSER_FAVORITES = 0xAB,
         BROWSER_HOME = 0xAC,
-
         VOLUME_MUTE = 0xAD,
         VOLUME_DOWN = 0xAE,
         VOLUME_UP = 0xAF,
@@ -3456,7 +3283,6 @@ namespace OpenTK.Platform.Windows
         LAUNCH_MEDIA_SELECT = 0xB5,
         LAUNCH_APP1 = 0xB6,
         LAUNCH_APP2 = 0xB7,
-
         /*
          * 0xB8 - 0xB9 : reserved
          */
@@ -3468,7 +3294,6 @@ namespace OpenTK.Platform.Windows
         OEM_PERIOD = 0xBE,   // '.' any country
         OEM_2 = 0xBF,   // '/?' for US
         OEM_3 = 0xC0,   // '`~' for US
-
         /*
          * 0xC1 - 0xD7 : reserved
          */
@@ -3482,7 +3307,6 @@ namespace OpenTK.Platform.Windows
         OEM_6 = 0xDD,  //  ']}' for US
         OEM_7 = 0xDE,  //  ''"' for US
         OEM_8 = 0xDF,
-
         /*
          * 0xE0 : reserved
          */
@@ -3494,14 +3318,9 @@ namespace OpenTK.Platform.Windows
         OEM_102 = 0xE2,  //  "<>" or "\|" on RT 102-key kbd.
         ICO_HELP = 0xE3,  //  Help key on ICO
         ICO_00 = 0xE4,  //  00 key on ICO
-
         PROCESSKEY = 0xE5,
-
         ICO_CLEAR = 0xE6,
-
-
         PACKET = 0xE7,
-
         /*
          * 0xE8 : unassigned
          */
@@ -3522,7 +3341,6 @@ namespace OpenTK.Platform.Windows
         OEM_AUTO = 0xF3,
         OEM_ENLW = 0xF4,
         OEM_BACKTAB = 0xF5,
-
         ATTN = 0xF6,
         CRSEL = 0xF7,
         EXSEL = 0xF8,
@@ -3532,7 +3350,6 @@ namespace OpenTK.Platform.Windows
         NONAME = 0xFC,
         PA1 = 0xFD,
         OEM_CLEAR = 0xFE,
-
         Last
     }
 
@@ -3731,7 +3548,6 @@ namespace OpenTK.Platform.Windows
         STYLECHANGED = 0x007D,
         DISPLAYCHANGE = 0x007E,
         GETICON = 0x007F,
-
         // Non-Client messages
         SETICON = 0x0080,
         NCCREATE = 0x0081,
@@ -3765,9 +3581,7 @@ namespace OpenTK.Platform.Windows
         /// Windows 2000 and higher only.
         /// </summary>
         NCXBUTTONDBLCLK = 0x00ad,
-
         INPUT = 0x00FF,
-
         KEYDOWN = 0x0100,
         KEYFIRST = 0x0100,
         KEYUP = 0x0101,
@@ -3799,11 +3613,9 @@ namespace OpenTK.Platform.Windows
         MENUGETOBJECT = 0x0124,
         UNINITMENUPOPUP = 0x0125,
         MENUCOMMAND = 0x0126,
-
         CHANGEUISTATE = 0x0127,
         UPDATEUISTATE = 0x0128,
         QUERYUISTATE = 0x0129,
-
         //              internal const uint LBTRACKPOINT     = 0x0131;
         CTLCOLORMSGBOX = 0x0132,
         CTLCOLOREDIT = 0x0133,
@@ -3910,13 +3722,11 @@ namespace OpenTK.Platform.Windows
         PENWINLAST = 0x038F,
         APP = 0x8000,
         USER = 0x0400,
-
         // Our "private" ones
         MOUSE_ENTER = 0x0401,
         ASYNC_MESSAGE = 0x0403,
         REFLECT = USER + 0x1c00,
         CLOSE_INTERNAL = USER + 0x1c01,
-
         // NotifyIcon (Systray) Balloon messages 
         BALLOONSHOW = USER + 0x0002,
         BALLOONHIDE = USER + 0x0003,
@@ -4176,7 +3986,6 @@ namespace OpenTK.Platform.Windows
     #region --- Callbacks ---
 
     internal delegate IntPtr WindowProcedure(IntPtr handle, WindowMessage message, IntPtr wParam, IntPtr lParam);
-
     #region Message
 
     [StructLayout(LayoutKind.Sequential), CLSCompliant(false)]
@@ -4205,7 +4014,6 @@ namespace OpenTK.Platform.Windows
     {
         internal int X;
         internal int Y;
-
         internal POINT(int x, int y)
         {
             this.X = x;

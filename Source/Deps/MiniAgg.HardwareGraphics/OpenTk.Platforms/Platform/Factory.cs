@@ -28,30 +28,25 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK.Platform
 {
     using Graphics;
-
     sealed class Factory2 : IPlatformFactory
     {
         #region Fields
 
         static IPlatformFactory default_implementation, embedded_implementation;
-
         #endregion
 
         #region Constructors
 
         static Factory2()
         {
-             
             //----------------------------------------------
             if (Configuration.RunningOnWindows) Default = new Windows.WinFactory(DesktopBackend.OpenGL);
             else if (Configuration.RunningOnMacOS) Default = new MacOS.MacOSFactory();
             else if (Configuration.RunningOnX11) Default = new X11.X11Factory();
             else Default = new UnsupportedPlatform();
-
             if (Egl.Egl.IsSupported)
             {
                 if (Configuration.RunningOnWindows) Embedded = new Egl.EglWinPlatformFactory();
@@ -60,7 +55,6 @@ namespace OpenTK.Platform
                 else Embedded = new UnsupportedPlatform();
             }
             else Embedded = new UnsupportedPlatform();
-
             if (Default is UnsupportedPlatform && !(Embedded is UnsupportedPlatform))
                 Default = Embedded;
         }
@@ -127,7 +121,6 @@ namespace OpenTK.Platform
             #region Fields
 
             static readonly string error_string = "Please, refer to http://www.opentk.com for more information.";
-
             #endregion
 
             #region IPlatformFactory Members

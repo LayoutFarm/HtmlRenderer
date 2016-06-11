@@ -30,7 +30,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using OpenTK.Input;
-
 namespace OpenTK.Platform.X11
 {
     struct X11JoyDetails { }
@@ -41,9 +40,7 @@ namespace OpenTK.Platform.X11
 
         List<JoystickDevice> sticks = new List<JoystickDevice>();
         IList<JoystickDevice> sticks_readonly;
-
         bool disposed;
-
         #endregion
 
         #region Constructors
@@ -51,7 +48,6 @@ namespace OpenTK.Platform.X11
         public X11Joystick()
         {
             sticks_readonly = sticks.AsReadOnly();
-
             int number = 0, max_sticks = 25;
             while (number < max_sticks)
             {
@@ -94,7 +90,6 @@ namespace OpenTK.Platform.X11
         public void Poll()
         {
             JoystickEvent e;
-
             foreach (JoystickDevice js in sticks)
             {
                 unsafe
@@ -102,7 +97,6 @@ namespace OpenTK.Platform.X11
                     while ((long)UnsafeNativeMethods.read(js.Id, (void*)&e, (UIntPtr)sizeof(JoystickEvent)) > 0)
                     {
                         e.Type &= ~JoystickEventType.Init;
-
                         switch (e.Type)
                         {
                             case JoystickEventType.Axis:
@@ -112,7 +106,6 @@ namespace OpenTK.Platform.X11
                                 else
                                     js.SetAxis((JoystickAxis)e.Number, -e.Value / 32767.0f);
                                 break;
-
                             case JoystickEventType.Button:
                                 js.SetButton((JoystickButton)e.Number, e.Value != 0);
                                 break;
@@ -130,28 +123,23 @@ namespace OpenTK.Platform.X11
         {
             string path = base_path + number.ToString();
             JoystickDevice<X11JoyDetails> stick = null;
-
             int fd = -1;
             try
             {
                 fd = UnsafeNativeMethods.open(path, OpenFlags.NonBlock);
                 if (fd == -1)
                     return null;
-
                 // Check joystick driver version (must be 1.0+)
                 int driver_version = 0x00000800;
                 UnsafeNativeMethods.ioctl(fd, JoystickIoctlCode.Version, ref driver_version);
                 if (driver_version < 0x00010000)
                     return null;
-
                 // Get number of joystick axes
                 int axes = 0;
                 UnsafeNativeMethods.ioctl(fd, JoystickIoctlCode.Axes, ref axes);
-
                 // Get number of joystick buttons
                 int buttons = 0;
                 UnsafeNativeMethods.ioctl(fd, JoystickIoctlCode.Buttons, ref buttons);
-
                 stick = new JoystickDevice<X11JoyDetails>(fd, axes, buttons);
                 Debug.Print("Found joystick on path {0}", path);
             }
@@ -191,7 +179,6 @@ namespace OpenTK.Platform.X11
 
         static readonly string JoystickPath = "/dev/input/js";
         static readonly string JoystickPathLegacy = "/dev/js";
-
         [Flags]
         enum OpenFlags
         {
@@ -202,13 +189,10 @@ namespace OpenTK.Platform.X11
         {
             [DllImport("libc", SetLastError = true)]
             public static extern int ioctl(int d, JoystickIoctlCode request, ref int data);
-
             [DllImport("libc", SetLastError = true)]
             public static extern int open([MarshalAs(UnmanagedType.LPStr)]string pathname, OpenFlags flags);
-
             [DllImport("libc", SetLastError = true)]
             public static extern int close(int fd);
-
             [DllImport("libc", SetLastError = true)]
             unsafe public static extern IntPtr read(int fd, void* buffer, UIntPtr count);
         }

@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK.Platform.MacOS
 {
     using Carbon;
     using Input;
-
     class MacOSKeyMap : Dictionary<MacOSKeyCode, Key>
     {
         public MacOSKeyMap()
@@ -17,7 +15,6 @@ namespace OpenTK.Platform.MacOS
             // AltLeft
             // AltRight
             Add(MacOSKeyCode.B, Key.B);
-            
             Add(MacOSKeyCode.Backslash, Key.BackSlash);
             Add(MacOSKeyCode.Backspace, Key.BackSpace);
             Add(MacOSKeyCode.BracketLeft, Key.BracketLeft);
@@ -127,7 +124,6 @@ namespace OpenTK.Platform.MacOS
             Add(MacOSKeyCode.X, Key.X);
             Add(MacOSKeyCode.Y, Key.Y);
             Add(MacOSKeyCode.Z, Key.Z);
-
         }
     }
 }

@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Security;
-
 #pragma warning disable 1591
 
 namespace OpenTK.Platform.X11
@@ -240,14 +239,14 @@ namespace OpenTK.Platform.X11
 
     enum ErrorCode : int
     {
-        NO_ERROR       = 0,
-        BAD_SCREEN     = 1,   /* screen # is bad */
-        BAD_ATTRIBUTE  = 2,   /* attribute to get is bad */
-        NO_EXTENSION   = 3,   /* no glx extension on server */
-        BAD_VISUAL     = 4,   /* visual # not known by GLX */
-        BAD_CONTEXT    = 5,   /* returned only by import_context EXT? */
-        BAD_VALUE      = 6,   /* returned only by glXSwapIntervalSGI? */
-        BAD_ENUM       = 7,   /* unused? */
+        NO_ERROR = 0,
+        BAD_SCREEN = 1,   /* screen # is bad */
+        BAD_ATTRIBUTE = 2,   /* attribute to get is bad */
+        NO_EXTENSION = 3,   /* no glx extension on server */
+        BAD_VISUAL = 4,   /* visual # not known by GLX */
+        BAD_CONTEXT = 5,   /* returned only by import_context EXT? */
+        BAD_VALUE = 6,   /* returned only by glXSwapIntervalSGI? */
+        BAD_ENUM = 7,   /* unused? */
     }
 
     #endregion
@@ -262,13 +261,10 @@ namespace OpenTK.Platform.X11
 
         [DllImport(Library, EntryPoint = "glXIsDirect")]
         public static extern bool IsDirect(IntPtr dpy, IntPtr context);
-        
         [DllImport(Library, EntryPoint = "glXQueryExtension")]
         public static extern bool QueryExtension(IntPtr dpy, ref int errorBase, ref int eventBase);
-
         [DllImport(Library, EntryPoint = "glXQueryExtensionsString")]
         static extern IntPtr QueryExtensionsStringInternal(IntPtr dpy, int screen);
-
         public static string QueryExtensionsString(IntPtr dpy, int screen)
         {
             return Marshal.PtrToStringAnsi(QueryExtensionsStringInternal(dpy, screen));
@@ -276,13 +272,10 @@ namespace OpenTK.Platform.X11
 
         [DllImport(Library, EntryPoint = "glXCreateContext")]
         public static extern IntPtr CreateContext(IntPtr dpy, IntPtr vis, IntPtr shareList, bool direct);
-
         [DllImport(Library, EntryPoint = "glXCreateContext")]
         public static extern IntPtr CreateContext(IntPtr dpy, ref XVisualInfo vis, IntPtr shareList, bool direct);
-    
         [DllImport(Library, EntryPoint = "glXDestroyContext")]
         public static extern void DestroyContext(IntPtr dpy, IntPtr context);
-
         public static void DestroyContext(IntPtr dpy, ContextHandle context)
         {
             DestroyContext(dpy, context.Handle);
@@ -290,10 +283,8 @@ namespace OpenTK.Platform.X11
 
         [DllImport(Library, EntryPoint = "glXGetCurrentContext")]
         public static extern IntPtr GetCurrentContext();
-
         [DllImport(Library, EntryPoint = "glXMakeCurrent")]
         public static extern bool MakeCurrent(IntPtr display, IntPtr drawable, IntPtr context);
-
         public static bool MakeCurrent(IntPtr display, IntPtr drawable, ContextHandle context)
         {
             return MakeCurrent(display, drawable, context.Handle);
@@ -301,21 +292,16 @@ namespace OpenTK.Platform.X11
 
         [DllImport(Library, EntryPoint = "glXSwapBuffers")]
         public static extern void SwapBuffers(IntPtr display, IntPtr drawable);
-
         [DllImport(Library, EntryPoint = "glXGetProcAddress")]
         public static extern IntPtr GetProcAddress([MarshalAs(UnmanagedType.LPTStr)] string procName);
-
         [DllImport(Library, EntryPoint = "glXGetConfig")]
         public static extern int GetConfig(IntPtr dpy, ref XVisualInfo vis, GLXAttribute attrib, out int value);
-
         #region glXChooseVisual
 
         [DllImport(Library, EntryPoint = "glXChooseVisual")]
         public extern static IntPtr ChooseVisual(IntPtr dpy, int screen, IntPtr attriblist);
-
         [DllImport(Library, EntryPoint = "glXChooseVisual")]
         public extern static IntPtr ChooseVisual(IntPtr dpy, int screen, ref int attriblist);
-
         public static IntPtr ChooseVisual(IntPtr dpy, int screen, int[] attriblist)
         {
             unsafe
@@ -330,11 +316,9 @@ namespace OpenTK.Platform.X11
         // Returns an array of GLXFBConfig structures.
         [DllImport(Library, EntryPoint = "glXChooseFBConfig")]
         unsafe public extern static IntPtr* ChooseFBConfig(IntPtr dpy, int screen, int[] attriblist, out int fbount);
-
         // Returns a pointer to an XVisualInfo structure.
         [DllImport(Library, EntryPoint = "glXGetVisualFromFBConfig")]
         public unsafe extern static IntPtr GetVisualFromFBConfig(IntPtr dpy, IntPtr fbconfig);
-
         #endregion
 
         #region Extensions
@@ -375,7 +359,6 @@ namespace OpenTK.Platform.X11
             [SuppressUnmanagedCodeSecurity]
             public delegate int SwapIntervalSGI(int interval);
             public static SwapIntervalSGI glXSwapIntervalSGI = null;
-
             [SuppressUnmanagedCodeSecurity]
             unsafe public delegate IntPtr CreateContextAttribsARB(IntPtr display, IntPtr fbconfig, IntPtr share_context, bool direct, int* attribs);
             unsafe public static CreateContextAttribsARB glXCreateContextAttribsARB = null;

@@ -12,10 +12,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
-
 #endregion
 
 namespace OpenTK.Platform.Windows
@@ -28,13 +26,10 @@ namespace OpenTK.Platform.Windows
     internal sealed class WinGLContext : DesktopGraphicsContext
     {
         static object SyncRoot = new object();
-
         static IntPtr opengl32Handle;
         static bool wgl_loaded;
         const string opengl32Name = "OPENGL32.DLL";
-
         bool vsync_supported;
-
         #region --- Contructors ---
 
         static WinGLContext()
@@ -66,19 +61,15 @@ namespace OpenTK.Platform.Windows
                     throw new ArgumentNullException("window", "Must point to a valid window.");
                 if (window.WindowHandle == IntPtr.Zero)
                     throw new ArgumentException("window", "Must be a valid window.");
-
                 Mode = format;
-
                 Debug.Print("OpenGL will be bound to handle: {0}", window.WindowHandle);
                 Debug.Write("Setting pixel format... ");
                 this.SetGraphicsModePFD(format, (WinWindowInfo)window);
-
                 if (!wgl_loaded)
                 {
                     // We need to create a temp context in order to load wgl extensions (e.g. for multisampling or GL3).
                     // We cannot rely on OpenTK.Platform.Wgl until we create the context and call Wgl.LoadAll().
                     Debug.Print("Creating temporary context for wgl extensions.");
-
                     ContextHandle temp_context = new ContextHandle(Wgl.Imports.CreateContext(window.DeviceContext));
                     Wgl.Imports.MakeCurrent(window.DeviceContext, temp_context.Handle);
                     Wgl.LoadAll();
@@ -92,7 +83,6 @@ namespace OpenTK.Platform.Windows
                     try
                     {
                         Debug.Write("Using WGL_ARB_create_context... ");
-
                         List<int> attributes = new List<int>();
                         attributes.Add((int)ArbCreateContext.MajorVersion);
                         attributes.Add(major);
@@ -110,7 +100,6 @@ namespace OpenTK.Platform.Windows
                         // Is this a single 0, or a <0, 0> pair? (Defensive coding: add two zeroes just in case).
                         attributes.Add(0);
                         attributes.Add(0);
-
                         Handle = new ContextHandle(
                             Wgl.Arb.CreateContextAttribs(
                                 window.DeviceContext,
@@ -139,7 +128,6 @@ namespace OpenTK.Platform.Windows
                 }
 
                 Debug.WriteLine(String.Format("success! (id: {0})", Handle));
-
                 if (sharedContext != null)
                 {
                     Marshal.GetLastWin32Error();
@@ -152,13 +140,12 @@ namespace OpenTK.Platform.Windows
 
         public WinGLContext(ContextHandle handle, WinWindowInfo window, IGraphicsContext sharedContext,
             int major, int minor, GraphicsContextFlags flags, DesktopBackend backEnd)
-            :base(backEnd)
+            : base(backEnd)
         {
             if (handle == ContextHandle.Zero)
                 throw new ArgumentException("handle");
             if (window == null)
                 throw new ArgumentNullException("window");
-
             Handle = handle;
         }
 
@@ -182,21 +169,17 @@ namespace OpenTK.Platform.Windows
         public override void MakeCurrent(IWindowInfo window)
         {
             bool success;
-
             if (window != null)
             {
                 if (((WinWindowInfo)window).WindowHandle == IntPtr.Zero)
                     throw new ArgumentException("window", "Must point to a valid window.");
-
                 success = Wgl.Imports.MakeCurrent(((WinWindowInfo)window).DeviceContext, Handle.Handle);
             }
             else
                 success = Wgl.Imports.MakeCurrent(IntPtr.Zero, IntPtr.Zero);
-
             if (!success)
                 throw new GraphicsContextException(String.Format(
                     "Failed to make context {0} current. Error: {1}", this, Marshal.GetLastWin32Error()));
-
         }
         #endregion
 
@@ -236,7 +219,6 @@ namespace OpenTK.Platform.Windows
             Wgl.LoadAll();
             vsync_supported = Wgl.Arb.SupportsExtension(this, "WGL_EXT_swap_control") &&
                 Wgl.Load("wglGetSwapIntervalEXT") && Wgl.Load("wglSwapIntervalEXT");
-
             base.LoadAll();
         }
 
@@ -274,9 +256,7 @@ namespace OpenTK.Platform.Windows
         {
             if (!mode.Index.HasValue)
                 throw new GraphicsModeException("Invalid or unsupported GraphicsMode.");
-
             if (window == null) throw new ArgumentNullException("window", "Must point to a valid window.");
-
             PixelFormatDescriptor pfd = new PixelFormatDescriptor();
             Functions.DescribePixelFormat(window.DeviceContext, (int)mode.Index.Value,
                 API.PixelFormatDescriptorSize, ref pfd);

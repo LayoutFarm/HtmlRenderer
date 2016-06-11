@@ -31,7 +31,6 @@ using System.Text;
 using System.Drawing;
 using OpenTK.Platform;
 using System.ComponentModel;
-
 namespace OpenTK
 {
     /// <summary>
@@ -136,12 +135,10 @@ namespace OpenTK
         /// Closes this window.
         /// </summary>
         void Close();
-
         /// <summary>
         /// Processes pending window events.
         /// </summary>
         void ProcessEvents();
-
         /// <summary>
         /// Transforms the specified point from screen to client coordinates. 
         /// </summary>
@@ -152,7 +149,6 @@ namespace OpenTK
         /// The point transformed to client coordinates.
         /// </returns>
         Point PointToClient(Point point);
-
         /// <summary>
         /// Transforms the specified point from client to screen coordinates. 
         /// </summary>
@@ -163,77 +159,62 @@ namespace OpenTK
         /// The point transformed to screen coordinates.
         /// </returns>
         Point PointToScreen(Point point);
-
         /// <summary>
         /// Occurs whenever the window is moved. 
         /// </summary>
         event EventHandler<EventArgs> Move;
-
         /// <summary>
         /// Occurs whenever the window is resized. 
         /// </summary>
         event EventHandler<EventArgs> Resize;
-
         /// <summary>
         /// Occurs when the window is about to close. 
         /// </summary>
         event EventHandler<CancelEventArgs> Closing;
-
         /// <summary>
         /// Occurs after the window has closed. 
         /// </summary>
         event EventHandler<EventArgs> Closed;
-
         /// <summary>
         /// Occurs when the window is disposed. 
         /// </summary>
         event EventHandler<EventArgs> Disposed;
-
         /// <summary>
         /// Occurs when the <see cref="Icon"/> property of the window changes. 
         /// </summary>
         event EventHandler<EventArgs> IconChanged;
-
         /// <summary>
         /// Occurs when the <see cref="Title"/> property of the window changes.
         /// </summary>
         event EventHandler<EventArgs> TitleChanged;
-
         /// <summary>
         /// Occurs when the <see cref="Visible"/> property of the window changes.
         /// </summary>
         event EventHandler<EventArgs> VisibleChanged;
-
         /// <summary>
         /// Occurs when the <see cref="Focused"/> property of the window changes.
         /// </summary>
         event EventHandler<EventArgs> FocusedChanged;
-
         /// <summary>
         /// Occurs when the <see cref="WindowBorder"/> property of the window changes.
         /// </summary>
         event EventHandler<EventArgs> WindowBorderChanged;
-
         /// <summary>
         /// Occurs when the <see cref="WindowState"/> property of the window changes.
         /// </summary>
         event EventHandler<EventArgs> WindowStateChanged;
-
         /// <summary>
         /// Occurs whenever a character is typed.
         /// </summary>
         event EventHandler<KeyPressEventArgs> KeyPress;
-
         /// <summary>
         /// Occurs whenever the mouse cursor leaves the window <see cref="Bounds"/>.
         /// </summary>
         event EventHandler<EventArgs> MouseLeave;
-
         /// <summary>
         /// Occurs whenever the mouse cursor enters the window <see cref="Bounds"/>.
         /// </summary>
         event EventHandler<EventArgs> MouseEnter;
-
         //event EventHandler<MouseEventArgs> MouseMove;
         //event EventHandler<MouseEventArgs> MouseWheel; 
         //event EventHandler<MouseEventArgs> MouseDown;

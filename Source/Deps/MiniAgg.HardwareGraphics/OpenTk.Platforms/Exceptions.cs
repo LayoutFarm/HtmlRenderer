@@ -26,17 +26,14 @@
 #endregion
 
 using System;
-
 namespace OpenTK
 {
-
     /// <summary>
     /// This exception is thrown when a GraphicsContext property cannot be changed after creation.
     /// </summary>
     public class ContextExistsException : ApplicationException
     {
         string msg;
-
         /// <summary>
         /// Constructs a new ContextExistsException instance.
         /// </summary>

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK
 {
     // Override a number of System.* classes when compiling for

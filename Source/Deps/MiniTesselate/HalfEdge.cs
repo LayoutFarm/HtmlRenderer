@@ -42,7 +42,6 @@
 
 using System.Collections.Generic;
 using System;
-
 namespace Tesselate
 {
     public class HalfEdge
@@ -55,12 +54,9 @@ namespace Tesselate
         public HalfEdge nextEdgeCCWAroundLeftFace;		/* next edge CCW around left face */
         public ContourVertex originVertex;		/* origin vertex */
         public Face leftFace;		/* left face */
-
         /* Internal data (keep hidden) */
         public ActiveRegion regionThisIsUpperEdgeOf;	/* a region with this upper edge (sweep.c) */
-
         public int winding;	// change in winding number when crossing from the right face to the left face
-
         public Face rightFace { get { return otherHalfOfThisEdge.leftFace; } set { otherHalfOfThisEdge.leftFace = value; } }
         public HalfEdge Lprev { get { return nextEdgeCCWAroundOrigin.otherHalfOfThisEdge; } set { nextEdgeCCWAroundOrigin.otherHalfOfThisEdge = value; } }
         public HalfEdge Oprev { get { return otherHalfOfThisEdge.nextEdgeCCWAroundLeftFace; } }

@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
-
 namespace OpenTK.Platform.X11
 {
     internal class X11DisplayDevice : IDisplayDeviceDriver
@@ -29,9 +28,7 @@ namespace OpenTK.Platform.X11
         static Dictionary<DisplayDevice, int> deviceToScreen = new Dictionary<DisplayDevice, int>();
         // Keep the time when the config of each screen was last updated.
         static List<IntPtr> lastConfigUpdate = new List<IntPtr>();
-
         static bool xinerama_supported, xrandr_supported, xf86_supported;
-
         #region --- Constructors ---
 
         static X11DisplayDevice()
@@ -127,18 +124,13 @@ namespace OpenTK.Platform.X11
             foreach (DisplayDevice dev in devices)
             {
                 int screen = deviceToScreen[dev];
-
                 IntPtr timestamp_of_last_update;
                 Functions.XRRTimes(API.DefaultDisplay, screen, out timestamp_of_last_update);
                 lastConfigUpdate.Add(timestamp_of_last_update);
-
                 List<DisplayResolution> available_res = new List<DisplayResolution>();
-
                 // Add info for a new screen.
                 screenResolutionToIndex.Add(new Dictionary<DisplayResolution, int>());
-
                 int[] depths = FindAvailableDepths(screen);
-
                 int resolution_count = 0;
                 foreach (XRRScreenSize size in FindAvailableResolutions(screen))
                 {
@@ -149,7 +141,6 @@ namespace OpenTK.Platform.X11
                     }
                     short[] rates = null;
                     rates = Functions.XRRRates(API.DefaultDisplay, screen, resolution_count);
-
                     // It seems that XRRRates returns 0 for modes that are larger than the screen
                     // can support, as well as for all supported modes. On Ubuntu 7.10 the tool
                     // "Screens and Graphics" does report these modes, though.
@@ -185,13 +176,11 @@ namespace OpenTK.Platform.X11
                 IntPtr screen_config = Functions.XRRGetScreenInfo(API.DefaultDisplay, Functions.XRootWindow(API.DefaultDisplay, screen));
                 ushort current_rotation;  // Not needed.
                 int current_resolution_index = Functions.XRRConfigCurrentConfiguration(screen_config, out current_rotation);
-
                 if (dev.Bounds == Graphics.Rectangle.Empty)
                     dev.Bounds = new Graphics.Rectangle(0, 0, available_res[current_resolution_index].Width, available_res[current_resolution_index].Height);
                 dev.BitsPerPixel = current_depth;
                 dev.RefreshRate = current_refresh_rate;
                 dev.AvailableResolutions = available_res;
-
                 deviceToDefaultResolution.Add(dev, current_resolution_index);
             }
 
@@ -256,7 +245,6 @@ namespace OpenTK.Platform.X11
                 int screen = deviceToScreen[device];
                 IntPtr root = Functions.XRootWindow(API.DefaultDisplay, screen);
                 IntPtr screen_config = Functions.XRRGetScreenInfo(API.DefaultDisplay, root);
-
                 ushort current_rotation;
                 int current_resolution_index = Functions.XRRConfigCurrentConfiguration(screen_config, out current_rotation);
                 int new_resolution_index;
@@ -265,10 +253,8 @@ namespace OpenTK.Platform.X11
                         [new DisplayResolution(0, 0, resolution.Width, resolution.Height, resolution.BitsPerPixel, 0)];
                 else
                     new_resolution_index = deviceToDefaultResolution[device];
-
                 Debug.Print("Changing size of screen {0} from {1} to {2}",
                     screen, current_resolution_index, new_resolution_index);
-
                 return 0 == Functions.XRRSetScreenConfigAndRate(API.DefaultDisplay, screen_config, root, new_resolution_index,
                     current_rotation, (short)(resolution != null ? resolution.RefreshRate : 0), lastConfigUpdate[screen]);
             }
@@ -314,25 +300,19 @@ namespace OpenTK.Platform.X11
         static class NativeMethods
         {
             const string Xinerama = "libXinerama";
-
             [DllImport(Xinerama)]
             public static extern bool XineramaQueryExtension(IntPtr dpy, out int event_basep, out int error_basep);
-
             [DllImport(Xinerama)]
             public static extern int XineramaQueryVersion(IntPtr dpy, out int major_versionp, out int minor_versionp);
-
             [DllImport(Xinerama)]
             public static extern bool XineramaIsActive(IntPtr dpy);
-
             [DllImport(Xinerama)]
             static extern IntPtr XineramaQueryScreens(IntPtr dpy, out int number);
-
             public static IList<XineramaScreenInfo> XineramaQueryScreens(IntPtr dpy)
             {
                 int number;
                 IntPtr screen_ptr = XineramaQueryScreens(dpy, out number);
                 List<XineramaScreenInfo> screens = new List<XineramaScreenInfo>(number);
-
                 unsafe
                 {
                     XineramaScreenInfo* ptr = (XineramaScreenInfo*)screen_ptr;

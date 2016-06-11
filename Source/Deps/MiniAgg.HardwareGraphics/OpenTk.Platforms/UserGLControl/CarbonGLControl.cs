@@ -29,23 +29,19 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-
 using OpenTK.Graphics;
 using OpenTK.Platform;
-
 namespace OpenTK
 {
-    class CarbonGLControl : IGLControl 
+    class CarbonGLControl : IGLControl
     {
         GraphicsMode mode;
         Control control;
         IWindowInfo window_info;
-
         internal CarbonGLControl(GraphicsMode mode, Control owner)
         {
             this.mode = mode;
             this.control = owner;
-
             window_info = Utilities.CreateMacOSCarbonWindowInfo(control.Handle, false, true);
         }
 
@@ -60,8 +56,8 @@ namespace OpenTK
         bool lastIsIdle = false;
         public bool IsIdle
         {
-            get 
-            { 
+            get
+            {
                 lastIsIdle = !lastIsIdle;
                 return lastIsIdle;
             }

@@ -9,10 +9,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-
 using OpenTK.Input;
 using System.Drawing;
-
 namespace OpenTK.Platform.X11
 {
     /// \internal
@@ -28,12 +26,10 @@ namespace OpenTK.Platform.X11
         MouseDevice mouse = new MouseDevice();
         List<KeyboardDevice> dummy_keyboard_list = new List<KeyboardDevice>(1);
         List<MouseDevice> dummy_mice_list = new List<MouseDevice>(1);
-
         X11KeyMap keymap = new X11KeyMap();
         int firstKeyCode, lastKeyCode; // The smallest and largest KeyCode supported by the X server.
         int keysyms_per_keycode;    // The number of KeySyms for each KeyCode.
         IntPtr[] keysyms;
-
         //bool disposed;
 
         #region --- Constructors ---
@@ -48,40 +44,32 @@ namespace OpenTK.Platform.X11
         {
             Debug.WriteLine("Initalizing X11 input driver.");
             Debug.Indent();
-
             if (attach == null)
                 throw new ArgumentException("A valid parent window must be defined, in order to create an X11Input driver.");
-
             //window = new X11WindowInfo(attach);
             X11WindowInfo window = (X11WindowInfo)attach;
-
             // Init mouse
             mouse.Description = "Default X11 mouse";
             mouse.DeviceID = IntPtr.Zero;
             mouse.NumberOfButtons = 5;
             mouse.NumberOfWheels = 1;
             dummy_mice_list.Add(mouse);
-            
             using (new XLock(window.Display))
             {
                 // Init keyboard
                 API.DisplayKeycodes(window.Display, ref firstKeyCode, ref lastKeyCode);
                 Debug.Print("First keycode: {0}, last {1}", firstKeyCode, lastKeyCode);
-    
                 IntPtr keysym_ptr = API.GetKeyboardMapping(window.Display, (byte)firstKeyCode,
                     lastKeyCode - firstKeyCode + 1, ref keysyms_per_keycode);
                 Debug.Print("{0} keysyms per keycode.", keysyms_per_keycode);
-    
                 keysyms = new IntPtr[(lastKeyCode - firstKeyCode + 1) * keysyms_per_keycode];
                 Marshal.PtrToStructure(keysym_ptr, keysyms);
                 API.Free(keysym_ptr);
-    
                 KeyboardDevice kb = new KeyboardDevice();
                 keyboard.Description = "Default X11 keyboard";
                 keyboard.NumberOfKeys = lastKeyCode - firstKeyCode + 1;
                 keyboard.DeviceID = IntPtr.Zero;
                 dummy_keyboard_list.Add(keyboard);
-    
                 // Request that auto-repeat is only set on devices that support it physically.
                 // This typically means that it's turned off for keyboards (which is what we want).
                 // We prefer this method over XAutoRepeatOff/On, because the latter needs to
@@ -155,10 +143,8 @@ namespace OpenTK.Platform.X11
                 case XEventName.KeyPress:
                 case XEventName.KeyRelease:
                     bool pressed = e.type == XEventName.KeyPress;
-
                     IntPtr keysym = API.LookupKeysym(ref e.KeyEvent, 0);
                     IntPtr keysym2 = API.LookupKeysym(ref e.KeyEvent, 1);
-
                     if (keymap.ContainsKey((XKey)keysym))
                         keyboard[keymap[(XKey)keysym]] = pressed;
                     else if (keymap.ContainsKey((XKey)keysym2))
@@ -166,9 +152,8 @@ namespace OpenTK.Platform.X11
                     else
                         Debug.Print("KeyCode {0} (Keysym: {1}, {2}) not mapped.", e.KeyEvent.keycode, (XKey)keysym, (XKey)keysym2);
                     break;
-
                 case XEventName.ButtonPress:
-                    if      (e.ButtonEvent.button == 1) mouse[OpenTK.Input.MouseButton.Left] = true;
+                    if (e.ButtonEvent.button == 1) mouse[OpenTK.Input.MouseButton.Left] = true;
                     else if (e.ButtonEvent.button == 2) mouse[OpenTK.Input.MouseButton.Middle] = true;
                     else if (e.ButtonEvent.button == 3) mouse[OpenTK.Input.MouseButton.Right] = true;
                     else if (e.ButtonEvent.button == 4) mouse.Wheel++;
@@ -186,9 +171,8 @@ namespace OpenTK.Platform.X11
                     //if ((e.state & (int)X11.MouseMask.Button5Mask) != 0) m.Wheel--;
                     //Debug.Print("Button pressed: {0}", e.ButtonEvent.button);
                     break;
-
                 case XEventName.ButtonRelease:
-                    if      (e.ButtonEvent.button == 1) mouse[OpenTK.Input.MouseButton.Left] = false;
+                    if (e.ButtonEvent.button == 1) mouse[OpenTK.Input.MouseButton.Left] = false;
                     else if (e.ButtonEvent.button == 2) mouse[OpenTK.Input.MouseButton.Middle] = false;
                     else if (e.ButtonEvent.button == 3) mouse[OpenTK.Input.MouseButton.Right] = false;
                     else if (e.ButtonEvent.button == 6) mouse[OpenTK.Input.MouseButton.Button1] = false;
@@ -201,7 +185,6 @@ namespace OpenTK.Platform.X11
                     else if (e.ButtonEvent.button == 13) mouse[OpenTK.Input.MouseButton.Button8] = false;
                     else if (e.ButtonEvent.button == 14) mouse[OpenTK.Input.MouseButton.Button9] = false;
                     break;
-
                 case XEventName.MotionNotify:
                     mouse.Position = new Point(e.MotionEvent.x, e.MotionEvent.y);
                     break;
@@ -216,7 +199,7 @@ namespace OpenTK.Platform.X11
 
         public IList<KeyboardDevice> Keyboard
         {
-            get { return dummy_keyboard_list;  }//return keyboardDriver.Keyboard;
+            get { return dummy_keyboard_list; }//return keyboardDriver.Keyboard;
         }
 
         #endregion
