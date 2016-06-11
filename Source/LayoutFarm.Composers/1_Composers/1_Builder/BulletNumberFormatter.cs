@@ -198,7 +198,8 @@ namespace LayoutFarm.Composers
             {
                 var n = number % 10;
                 if (n > 0)
-                    sb = alphabet[level, number % 10 - 1].ToString(CultureInfo.InvariantCulture) + sb;
+                    //TODO: review here
+                    sb = Convert.ToString(alphabet[level, number % 10 - 1], CultureInfo.InvariantCulture) + sb;
                 number /= 10;
                 level++;
             }
@@ -223,8 +224,7 @@ namespace LayoutFarm.Composers
             while (number > 0)
             {
 
-
-                sb = alphabet[Math.Max(0, number % 49 - 1)].ToString(CultureInfo.InvariantCulture) + sb;
+                sb = Convert.ToString(alphabet[Math.Max(0, number % 49 - 1)], CultureInfo.InvariantCulture) + sb;
                 number /= 49;
             }
             return sb;

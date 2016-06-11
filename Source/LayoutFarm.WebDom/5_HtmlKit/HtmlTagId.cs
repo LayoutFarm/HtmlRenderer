@@ -26,7 +26,10 @@
 
 using System; 
 using System.Collections.Generic;
-
+#if PORTABLE
+using System.Linq;
+using System.Reflection;
+#endif
 namespace HtmlKit {
 	/// <summary>
 	/// HTML tag identifiers.

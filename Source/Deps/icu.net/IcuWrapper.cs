@@ -7,8 +7,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
-using Microsoft.Win32;
+using System.Text; 
 using Icu.Collation;
 
 namespace Icu

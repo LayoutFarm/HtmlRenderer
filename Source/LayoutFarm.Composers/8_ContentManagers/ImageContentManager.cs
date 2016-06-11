@@ -36,8 +36,8 @@ namespace LayoutFarm.ContentManagers
 
 
         ImageCacheSystem imageCacheLevel0 = new ImageCacheSystem();
+        LayoutFarm.UI.UITimer timImageLoadMonitor;
 
-        System.Timers.Timer timImageLoadMonitor = new System.Timers.Timer();
 
         bool hasSomeInputHint;
         bool hasSomeOutputHint;
@@ -49,14 +49,16 @@ namespace LayoutFarm.ContentManagers
 
         public ImageContentManager()
         {
-
-            timImageLoadMonitor.Interval = 50;//30 ms check state
-            timImageLoadMonitor.Elapsed += new System.Timers.ElapsedEventHandler(timImageLoadMonitor_Elapsed);
-            timImageLoadMonitor.Start();
-
+            timImageLoadMonitor = UI.UIPlatform.CurrentUIPlatform.CreateUITimer();
+            //TODO: review here****
+            timImageLoadMonitor.Interval = 50;//30 ms check state             
+            timImageLoadMonitor.Tick += TimImageLoadMonitor_Tick;
+            timImageLoadMonitor.Enabled = true;
         }
-        void timImageLoadMonitor_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+
+        private void TimImageLoadMonitor_Tick(object sender, EventArgs e)
         {
+
             lock (inputListSync)
             {
                 if (working)
@@ -135,6 +137,8 @@ namespace LayoutFarm.ContentManagers
             }
             working = false;
         }
+
+
 
         public void AddRequestImage(ImageBinder contentReq)
         {

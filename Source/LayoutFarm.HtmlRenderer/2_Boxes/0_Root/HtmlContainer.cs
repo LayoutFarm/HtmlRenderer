@@ -252,13 +252,13 @@ namespace LayoutFarm.HtmlBoxes
 #if DEBUG
             if (p.dbugEnableLogRecord)
             {
-                var logs = p.logRecords;
-                System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
-                foreach (var str in logs)
-                {
-                    stbuilder.AppendLine(str);
-                }
-                System.IO.File.AppendAllText("drawLogs.txt", stbuilder.ToString());
+                //var logs = p.logRecords;
+                //System.Text.StringBuilder stbuilder = new System.Text.StringBuilder();
+                //foreach (var str in logs)
+                //{
+                //    stbuilder.AppendLine(str);
+                //}
+                //System.IO.File.AppendAllText("drawLogs.txt", stbuilder.ToString());
             }
 #endif
 

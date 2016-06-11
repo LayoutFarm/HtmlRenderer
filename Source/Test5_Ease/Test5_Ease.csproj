@@ -72,17 +72,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deps\Espresso\Net20\Espresso.Interfaces\Espresso.Interfaces.csproj">
+      <Project>{81692f45-7266-4d82-a864-9d7dd839c290}</Project>
+      <Name>Espresso.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deps\Espresso\Net20\EspressoCore\EspressoCore.csproj">
+      <Project>{f6a70c3f-a6b4-4830-91a6-eb7437065028}</Project>
+      <Name>EspressoCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deps\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
       <Project>{51D63482-5697-4B16-8401-506965624657}</Project>
       <Name>PixelFarm.Drawing</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\VRoomJs.Core\VRoomJs.Core.csproj">
-      <Project>{18ce5f1b-9745-45a8-b2bf-e69f0f380e7a}</Project>
-      <Name>VRoomJs.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deps\VRoomJs2\VRoomJs20.csproj">
-      <Project>{41517b22-c8e1-404e-8f3c-a8f3e785dfd3}</Project>
-      <Name>VRoomJs20</Name>
     </ProjectReference>
     <ProjectReference Include="..\LayoutFarm.ClientPlatforms\LayoutFarm.ClientPlatforms.csproj">
       <Project>{61369865-95B7-49F2-B012-67B4A2427A8B}</Project>

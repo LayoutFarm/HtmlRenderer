@@ -1,7 +1,7 @@
 ﻿// 2015,2014 ,Apache2, WinterDev
 using System;
 using System.Collections.Generic;
-using System.Text; 
+using System.Text;
 using PixelFarm.Drawing;
 using LayoutFarm.RenderBoxes;
 
@@ -56,24 +56,26 @@ namespace LayoutFarm
             dbug_RecordHitChain =
             dbug_RecordDrawingChain = true;
         }
-        public void dbug_Init()
+        public void dbug_Init(System.IO.StreamWriter hitTestTrackerDebugStreamWriter,
+            System.IO.Stream layoutTraceFileStream,
+            System.IO.StreamWriter visualInvaldateStreamWriter
+            )
         {
 
-            dbugHitTracker = new dbugHitTestTracker();
+            dbugHitTracker = new dbugHitTestTracker(hitTestTrackerDebugStreamWriter);
             dbugEvalScrollBarTracer = new dbugVisualEvalScrollBarTrace(this);
 
             if (dbugEnableLayoutProfiler)
             {
-                string filename = dbugCoreConst.dbugRootFolder + "\\layout_trace\\p_" + Guid.NewGuid().ToString() + ".txt";
-                System.IO.FileStream fs = new System.IO.FileStream(filename, System.IO.FileMode.Create);
-
-                dbugLayoutProfilerWriter = new System.IO.StreamWriter(fs);
+                //string filename = dbugCoreConst.dbugRootFolder + "\\layout_trace\\p_" + Guid.NewGuid().ToString() + ".txt";
+                //System.IO.FileStream fs = new System.IO.FileStream(filename, System.IO.FileMode.Create);
+                dbugLayoutProfilerWriter = new System.IO.StreamWriter(layoutTraceFileStream);
                 dbugLayoutProfilerWriter.AutoFlush = true;
             }
             if (dbugEnableGraphicInvalidateTrace)
             {
                 dbugGraphicInvalidateTracer = new dbugVisualInvalidationTracer(this);
-                dbugGraphicInvalidateTracer.Start();
+                dbugGraphicInvalidateTracer.Start(visualInvaldateStreamWriter);
                 dbugGraphicInvalidateTracer.WriteInfo("root_debug_init()");
             }
 
@@ -178,6 +180,7 @@ namespace LayoutFarm
             }
         }
 
+        System.IO.StreamWriter invalidateTracerStreamWriter;
         public void dbug_BeginVisualInvalidateTrace(string strmsg)
         {
             if (dbugEnableGraphicInvalidateTrace)
@@ -185,13 +188,13 @@ namespace LayoutFarm
                 if (dbugGraphicInvalidateTracer != null)
                 {
                     dbugInvalidateTracerStack.Push(dbugGraphicInvalidateTracer);
-                    dbugGraphicInvalidateTracer.Start();
+                    dbugGraphicInvalidateTracer.Start(invalidateTracerStreamWriter);
                     dbugGraphicInvalidateTracer.WriteInfo(strmsg);
                 }
                 else
                 {
                     dbugGraphicInvalidateTracer = new dbugVisualInvalidationTracer(this);
-                    dbugGraphicInvalidateTracer.Start();
+                    dbugGraphicInvalidateTracer.Start(invalidateTracerStreamWriter);
                     dbugGraphicInvalidateTracer.WriteInfo(strmsg);
                 }
             }
@@ -242,6 +245,7 @@ namespace LayoutFarm
                 return dbugLastestDebugVisualLay != null;
             }
         }
+        System.IO.StreamWriter layoutTraceStreamWriter;
         public void dbug_BeginLayoutTraceSession(string beginMsg)
         {
             if (dbugLastestDebugVisualLay != null)
@@ -249,8 +253,8 @@ namespace LayoutFarm
                 dbugLastestDebugVisualLay.WriteInfo("---------switch to new sesssion---------");
                 debugLayoutTracerStack.Push(dbugLastestDebugVisualLay);
             }
-            dbugLastestDebugVisualLay = new dbugVisualLayoutTracer(this);
-            dbugLastestDebugVisualLay.Start();
+            dbugLastestDebugVisualLay = new dbugVisualLayoutTracer(this); 
+            dbugLastestDebugVisualLay.Start(layoutTraceStreamWriter);
             dbugLastestDebugVisualLay.WriteInfo("---------Layout Trace---------");
             dbugLastestDebugVisualLay.WriteInfo(beginMsg);
             dbugLastestDebugVisualLay.WriteInfo("------------------------------");

@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7B34B31A-F7F5-4F0B-BD3C-4DCAAB113102}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LayoutFarm.TextEdit</RootNamespace>
+    <AssemblyName>LayoutFarm.TextEdit</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.1_EditableRuns\dbugMultiTextManRecorder.cs">
+      <Link>1.1_EditableRuns\dbugMultiTextManRecorder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.1_EditableRuns\EditableRun.cs">
+      <Link>1.1_EditableRuns\EditableRun.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.1_EditableRuns\EditableTextSpan.cs">
+      <Link>1.1_EditableRuns\EditableTextSpan.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.1_EditableRuns\SolidTextRun.cs">
+      <Link>1.1_EditableRuns\SolidTextRun.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.1_EditableRuns\TextSpanSytle.cs">
+      <Link>1.1_EditableRuns\TextSpanSytle.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.1_EditableRuns\VisualLocationInfo.cs">
+      <Link>1.1_EditableRuns\VisualLocationInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.1_EditableRuns\VisualPointInfo.cs">
+      <Link>1.1_EditableRuns\VisualPointInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.1_EditableRuns\VisualSelectionRange.cs">
+      <Link>1.1_EditableRuns\VisualSelectionRange.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.2_Lines\0_EditableTextLine.cs">
+      <Link>1.2_Lines\0_EditableTextLine.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.2_Lines\1_EditableTextLine_CORE_Collection.cs">
+      <Link>1.2_Lines\1_EditableTextLine_CORE_Collection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.2_Lines\2_EditableTextLine_PRIVATE_CollectionFeatures2.cs">
+      <Link>1.2_Lines\2_EditableTextLine_PRIVATE_CollectionFeatures2.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.2_Lines\3_EditableTextLine_PUBLIC_CollectionFeatures.cs">
+      <Link>1.2_Lines\3_EditableTextLine_PUBLIC_CollectionFeatures.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.2_Lines\4_EditableTextLine_ArrangeAndResizingMechanism.cs">
+      <Link>1.2_Lines\4_EditableTextLine_ArrangeAndResizingMechanism.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.2_Lines\6_EditableTextLine_Advanced.cs">
+      <Link>1.2_Lines\6_EditableTextLine_Advanced.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.2_Lines\7_EditableTextLine_SuppressNativeCollectionMethods.cs">
+      <Link>1.2_Lines\7_EditableTextLine_SuppressNativeCollectionMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.2_Lines\TextLineReaderWriter.cs">
+      <Link>1.2_Lines\TextLineReaderWriter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.3_Layer\1_EditableTextFlowLayer.cs">
+      <Link>1.3_Layer\1_EditableTextFlowLayer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.3_Layer\1_EditableTextFlowLayer_CORE_Collection.cs">
+      <Link>1.3_Layer\1_EditableTextFlowLayer_CORE_Collection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\1.3_Layer\1_EditableTextFlowLayer_Relocator_Feeder.cs">
+      <Link>1.3_Layer\1_EditableTextFlowLayer_Relocator_Feeder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\2.1_MultiLineController\DocumentActions.cs">
+      <Link>2.1_MultiLineController\DocumentActions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\2.1_MultiLineController\TextLayerController.cs">
+      <Link>2.1_MultiLineController\TextLayerController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\2.1_MultiLineController\TextLayerController.KeyboardFunctions.cs">
+      <Link>2.1_MultiLineController\TextLayerController.KeyboardFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\2.1_MultiLineController\TextLayerController.TextFunctions.cs">
+      <Link>2.1_MultiLineController\TextLayerController.TextFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\2.1_MultiLineController\TextSurfaceEventListener.cs">
+      <Link>2.1_MultiLineController\TextSurfaceEventListener.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\2.2_TextRenderBox\CaretRenderElement.cs">
+      <Link>2.2_TextRenderBox\CaretRenderElement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\2.2_TextRenderBox\GlobalCaretController.cs">
+      <Link>2.2_TextRenderBox\GlobalCaretController.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\2.2_TextRenderBox\RenderSurfaceScrollRelation.cs">
+      <Link>2.2_TextRenderBox\RenderSurfaceScrollRelation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\2.2_TextRenderBox\StyleHelper.cs">
+      <Link>2.2_TextRenderBox\StyleHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.BaseFunctions.cs">
+      <Link>2.2_TextRenderBox\TextEditRenderBox.BaseFunctions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.cs">
+      <Link>2.2_TextRenderBox\TextEditRenderBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\2.2_TextRenderBox\TextEditRenderBox.TextSurfaceFuntions.cs">
+      <Link>2.2_TextRenderBox\TextEditRenderBox.TextSurfaceFuntions.cs</Link>
+    </Compile>
+    <Compile Include="..\..\LayoutFarm.TextEdit\2.2_TextRenderBox\VisualPaintEventArgs.cs">
+      <Link>2.2_TextRenderBox\VisualPaintEventArgs.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LayoutFarm.BaseRenderer\LayoutFarm.BaseRenderer.csproj">
+      <Project>{fbe7f8ae-f530-4386-80f8-1011916234f3}</Project>
+      <Name>LayoutFarm.BaseRenderer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LayoutFarm.ClientPlatform\LayoutFarm.ClientPlatforms.csproj">
+      <Project>{7cbc49bc-1f11-4759-bd17-1ec5de6a7487}</Project>
+      <Name>LayoutFarm.ClientPlatforms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PixelFarm.Drawing\PixelFarm.Drawing.csproj">
+      <Project>{d2960171-b81f-41cc-9779-b28044bded18}</Project>
+      <Name>PixelFarm.Drawing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

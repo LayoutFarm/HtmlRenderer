@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A32AE1C2-2DD5-4F2D-A21C-460F082BC4A0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>icu.net_portable</RootNamespace>
+    <AssemblyName>icu.net_portable</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ICU_VER_54,PCL</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <Compile Include="..\..\Deps\icu.net\BreakIterator.cs">
+      <Link>BreakIterator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Character.cs">
+      <Link>Character.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Collation\AlternateHandling.cs">
+      <Link>Collation\AlternateHandling.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Collation\CaseFirst.cs">
+      <Link>Collation\CaseFirst.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Collation\CaseLevel.cs">
+      <Link>Collation\CaseLevel.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Collation\CollationStrength.cs">
+      <Link>Collation\CollationStrength.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Collation\Collator.cs">
+      <Link>Collation\Collator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Collation\FrenchCollation.cs">
+      <Link>Collation\FrenchCollation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Collation\HiraganaQuaternary.cs">
+      <Link>Collation\HiraganaQuaternary.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Collation\NormalizationMode.cs">
+      <Link>Collation\NormalizationMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Collation\NumericCollation.cs">
+      <Link>Collation\NumericCollation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Collation\RuleBasedCollator.cs">
+      <Link>Collation\RuleBasedCollator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Collation\UColAttributeValue.cs">
+      <Link>Collation\UColAttributeValue.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Collation\UColBoundMode.cs">
+      <Link>Collation\UColBoundMode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Collation\UColRuleOption.cs">
+      <Link>Collation\UColRuleOption.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\ErrorCode.cs">
+      <Link>ErrorCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Exception.cs">
+      <Link>Exception.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\IcuInit.cs">
+      <Link>IcuInit.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\IcuWrapper.cs">
+      <Link>IcuWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Locale.cs">
+      <Link>Locale.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\NativeMethods.cs">
+      <Link>NativeMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\Normalizer.cs">
+      <Link>Normalizer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\ParseError.cs">
+      <Link>ParseError.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\SyntaxErrorException.cs">
+      <Link>SyntaxErrorException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\UnicodeSet.cs">
+      <Link>UnicodeSet.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\UnicodeString.cs">
+      <Link>UnicodeString.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Deps\icu.net\VersionInfo.cs">
+      <Link>VersionInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

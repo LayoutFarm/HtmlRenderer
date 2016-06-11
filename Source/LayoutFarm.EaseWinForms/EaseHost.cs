@@ -29,8 +29,7 @@ namespace LayoutFarm.Ease
 
                 var platform = LayoutFarm.UI.GdiPlus.MyWinGdiPortal.Start();
                 uiPlatformWinForm = new LayoutFarm.UI.UIPlatformWinForm();
-
-
+                UI.UIPlatform.CurrentUIPlatform = uiPlatformWinForm;
                 //--------------------
                 isStarted = true;
                 //--------------------
