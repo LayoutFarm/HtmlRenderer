@@ -16,7 +16,7 @@ namespace PixelFarm.VectorMath
     /// <summary>
     /// Represents a quadric bezier curve with two anchor and one control point.
     /// </summary>
-    [Serializable]
+    //[Serializable]
     public struct BezierCurveQuadric
     {
         #region Fields

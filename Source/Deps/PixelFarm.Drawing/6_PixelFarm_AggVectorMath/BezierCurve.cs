@@ -16,7 +16,7 @@ namespace PixelFarm.VectorMath
     /// <summary>
     /// Represents a bezier curve with as many points as you want.
     /// </summary>
-    [Serializable]
+    //[Serializable]
     public struct BezierCurve
     {
         #region Fields

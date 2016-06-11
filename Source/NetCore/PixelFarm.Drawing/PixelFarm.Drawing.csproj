@@ -147,9 +147,6 @@
     <Compile Include="..\..\Deps\PixelFarm.Drawing\6_PixelFarm_AggVectorMath\TrackBallController.cs">
       <Link>6_AggVectorMath\TrackBallController.cs</Link>
     </Compile>
-    <Compile Include="..\..\Deps\PixelFarm.Drawing\6_PixelFarm_AggVectorMath\UnitTests.cs">
-      <Link>6_AggVectorMath\UnitTests.cs</Link>
-    </Compile>
     <Compile Include="..\..\Deps\PixelFarm.Drawing\6_PixelFarm_AggVectorMath\Vector2.cs">
       <Link>6_AggVectorMath\Vector2.cs</Link>
     </Compile>

@@ -29,7 +29,7 @@ namespace PixelFarm.VectorMath
     /// <summary>
     /// Represents a 3D vector using three float-precision floating-point numbers.
     /// </summary>
-    [Serializable]
+    //[Serializable]
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector3Float : IEquatable<Vector3Float>
     {

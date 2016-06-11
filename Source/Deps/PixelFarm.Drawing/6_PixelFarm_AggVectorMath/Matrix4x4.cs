@@ -59,7 +59,7 @@ namespace PixelFarm.VectorMath
     /// <summary>
     /// Represents a 4x4 Matrix with double-precision components.
     /// </summary>
-    [Serializable]
+    //[Serializable]
     [StructLayout(LayoutKind.Sequential)]
     public struct Matrix4X4 : IEquatable<Matrix4X4>
     {

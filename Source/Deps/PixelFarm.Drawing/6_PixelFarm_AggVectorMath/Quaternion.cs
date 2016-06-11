@@ -30,7 +30,7 @@ namespace PixelFarm.VectorMath
     /// <summary>
     /// Represents a double-precision Quaternion.
     /// </summary>
-    [Serializable]
+    //[Serializable]
     [StructLayout(LayoutKind.Sequential)]
     public struct Quaternion : IEquatable<Quaternion>
     {

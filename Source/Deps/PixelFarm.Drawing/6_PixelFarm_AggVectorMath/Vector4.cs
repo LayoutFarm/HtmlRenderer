@@ -27,7 +27,7 @@ using System.Runtime.InteropServices;
 namespace PixelFarm.VectorMath
 {
     /// <summary>Represents a 4D vector using four double-precision floating-point numbers.</summary>
-    [Serializable]
+    //[Serializable]
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector4 : IEquatable<Vector4>
     {
