@@ -58,19 +58,24 @@ namespace Mini
     public abstract class PrebuiltGLControlDemoBase : DemoBase
     {
         System.Windows.Forms.Timer aniTimer;
+        IntPtr hh1;
         public override void Init()
         {
             formTestBed = new FormTestBed();
             this.miniGLControl = formTestBed.InitMiniGLControl(this.Width, this.Height);//1276,720 
             this.aniTimer = new System.Windows.Forms.Timer();
-            this.formTestBed.Load += this.OnInitGLProgram;
+            //this.formTestBed.Load += this.OnInitGLProgram;
             this.formTestBed.FormClosing += formTestBed_FormClosing;
             this.formTestBed.Text = this.GetType().Name;
             miniGLControl.SetGLPaintHandler(this.OnGLRender);
             formTestBed.Show();
+            hh1 = miniGLControl.Handle;
+            miniGLControl.MakeCurrent();
+            this.OnInitGLProgram(null, EventArgs.Empty);
             formTestBed.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.aniTimer.Interval = 200;//ms
-            this.aniTimer.Tick += TimerTick;
+            //this.aniTimer.Interval = 200;//ms
+            //this.aniTimer.Tick += TimerTick;
+
         }
 
         void formTestBed_FormClosing(object sender, System.Windows.Forms.FormClosingEventArgs e)

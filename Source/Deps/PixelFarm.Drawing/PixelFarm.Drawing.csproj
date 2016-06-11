@@ -48,7 +48,6 @@
     <Compile Include="6_PixelFarm_AggVectorMath\Quaternion.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\Ray.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\TrackBallController.cs" />
-    <Compile Include="6_PixelFarm_AggVectorMath\UnitTests.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\Vector2.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\Vector3.cs" />
     <Compile Include="6_PixelFarm_AggVectorMath\Vector3Float.cs" />

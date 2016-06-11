@@ -81,8 +81,8 @@ namespace OpenTK.Platform.Windows
             get
             {
                 if (dc == IntPtr.Zero)
-                    dc = Functions.GetDC(this.WindowHandle);
-                //dc = Functions.GetWindowDC(this.WindowHandle);
+                    //dc = Functions.GetDC(this.WindowHandle);
+                    dc = Functions.GetWindowDC(this.WindowHandle);
                 return dc;
             }
         }

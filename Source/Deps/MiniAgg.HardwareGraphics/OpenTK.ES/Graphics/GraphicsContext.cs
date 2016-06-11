@@ -122,6 +122,9 @@ namespace OpenTK.Graphics
 
                     available_contexts.Add((this as IGraphicsContextInternal).Context, new WeakReference(this));
                 }
+                catch (Exception ex)
+                {
+                }
                 finally
                 {
                     Debug.Unindent();

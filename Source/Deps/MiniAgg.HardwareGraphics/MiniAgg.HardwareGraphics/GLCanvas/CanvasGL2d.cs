@@ -376,8 +376,7 @@ namespace PixelFarm.DrawingGL
                         List<Vertex> vertextList = TessPolygon(vertex2dCoords);
                         int j = vertextList.Count;
                         //-----------------------------   
-                        //fill polygon  with solid color
-
+                        //fill polygon  with solid color 
                         unsafe
                         {
                             float* vtx = stackalloc float[j * 2];

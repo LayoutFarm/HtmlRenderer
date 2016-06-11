@@ -1,8 +1,5 @@
-﻿//2014,2015 BSD,WinterDev   
-
+﻿//2014,2015 BSD,WinterDev    
 using System;
-using System.Collections.Generic;
-using System.Text;
 namespace PixelFarm.Agg
 {
     public struct RectInt

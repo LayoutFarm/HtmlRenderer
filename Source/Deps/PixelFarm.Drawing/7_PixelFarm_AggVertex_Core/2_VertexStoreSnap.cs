@@ -1,8 +1,5 @@
-﻿
-// 2015,2014 ,BSD, WinterDev
+﻿// 2015,2014 ,BSD, WinterDev
 
-using System.Collections.Generic;
-using PixelFarm.VectorMath;
 namespace PixelFarm.Agg
 {
     //----------------------------------------

@@ -6,6 +6,7 @@ namespace PixelFarm.Drawing.WinGdi
     class WinGdiPlatform : GraphicsPlatform
     {
         static FontStore fontStore = new FontStore();
+        System.Drawing.Bitmap sampleBmp;
         IFonts sampleIFonts;
         public WinGdiPlatform()
         {
@@ -13,6 +14,11 @@ namespace PixelFarm.Drawing.WinGdi
 
         ~WinGdiPlatform()
         {
+            if (sampleBmp != null)
+            {
+                sampleBmp.Dispose();
+                sampleBmp = null;
+            }
             if (sampleIFonts != null)
             {
                 sampleIFonts.Dispose();
@@ -49,6 +55,12 @@ namespace PixelFarm.Drawing.WinGdi
             {
                 if (sampleIFonts == null)
                 {
+                    if (sampleBmp == null)
+                    {
+                        sampleBmp = new System.Drawing.Bitmap(2, 2);
+                    }
+
+                    System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(sampleBmp);
                     sampleIFonts = new MyScreenCanvas(this, 0, 0, 0, 0, 2, 2);
                 }
                 return this.sampleIFonts;

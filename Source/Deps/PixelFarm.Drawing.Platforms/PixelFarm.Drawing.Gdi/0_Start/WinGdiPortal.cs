@@ -21,18 +21,6 @@ namespace PixelFarm.Drawing.WinGdi
         }
         public static void End()
         {
-            if (!isInit)
-            {
-                return;
-            }
-
-
-            var disposable = WinGdiPortal.platform as IDisposable;
-            if (disposable != null)
-            {
-                disposable.Dispose();
-                disposable = null;
-            }
         }
         public static GraphicsPlatform P
         {

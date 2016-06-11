@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using Win32;
 namespace PixelFarm.Drawing.WinGdi
 {
@@ -23,11 +24,10 @@ namespace PixelFarm.Drawing.WinGdi
         int pageNumFlags;
         int pageFlags;
         bool isDisposed;
-        bool disposing;
         IntPtr originalHdc = IntPtr.Zero;
         System.Drawing.Graphics gx;
         IntPtr hRgn = IntPtr.Zero;
-        IntPtr tempDc;
+        IntPtr tempDc;//temp dc from gx
         IntPtr hbmp;
         IntPtr hFont = IntPtr.Zero;
         Stack<System.Drawing.Rectangle> clipRectStack = new Stack<System.Drawing.Rectangle>();
@@ -40,10 +40,6 @@ namespace PixelFarm.Drawing.WinGdi
         //-------------------------------
 
         GraphicsPlatform platform;
-#if DEBUG
-        static int dbugTotalId;
-        public readonly int dbugId = dbugTotalId++;
-#endif
         public MyScreenCanvas(GraphicsPlatform platform,
             int horizontalPageNum,
             int verticalPageNum,
@@ -100,47 +96,32 @@ namespace PixelFarm.Drawing.WinGdi
 
         public override void CloseCanvas()
         {
-            //if (this.dbugId == 2)
-            //{
-
-            //}
             if (isDisposed)
             {
                 return;
             }
 
-
+            isDisposed = true;
             ReleaseHdc();
             ReleaseUnManagedResource();
-            isDisposed = true;
         }
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         void IDisposable.Dispose()
         {
-            //if (this.dbugId == 2)
-            //{
-
-            //}
             if (isDisposed)
             {
                 return;
             }
-            disposing = true;
             this.CloseCanvas();
         }
         void IFonts.Dispose()
         {
-            //if (this.dbugId == 2)
-            //{
-
-            //}
             if (isDisposed)
             {
                 return;
             }
-            disposing = true;
             this.CloseCanvas();
         }
 
@@ -189,11 +170,8 @@ namespace PixelFarm.Drawing.WinGdi
         public void Reset(int hPageNum, int vPageNum, int newWidth, int newHeight)
         {
             this.pageNumFlags = (hPageNum << 8) | vPageNum;
-            this.ClearPreviousStoredValues();
             this.ReleaseUnManagedResource();
-            gx.Dispose();
-            gx = null;
-            //-----------------------------------------------------------------------------------------
+            this.ClearPreviousStoredValues();
             var orgHdc = MyWin32.CreateCompatibleDC(IntPtr.Zero);
             System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(newWidth, newHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             hbmp = bmp.GetHbitmap();
@@ -265,9 +243,6 @@ namespace PixelFarm.Drawing.WinGdi
         {
             if (tempDc == IntPtr.Zero)
             {
-                //if (this.dbugId == 2)
-                //{
-                //}
                 //var clip = _g.Clip.GetHrgn(_g);
                 tempDc = gx.GetHdc();
                 Win32Utils.SetBkMode(tempDc, 1);
@@ -283,16 +258,9 @@ namespace PixelFarm.Drawing.WinGdi
         {
             if (tempDc != IntPtr.Zero)
             {
-                if (disposing)
-                {
-                    tempDc = IntPtr.Zero;
-                }
-                else
-                {
-                    Win32Utils.SelectClipRgn(tempDc, IntPtr.Zero);
-                    gx.ReleaseHdc(tempDc);
-                    tempDc = IntPtr.Zero;
-                }
+                Win32Utils.SelectClipRgn(tempDc, IntPtr.Zero);
+                gx.ReleaseHdc(tempDc);
+                tempDc = IntPtr.Zero;
             }
         }
 

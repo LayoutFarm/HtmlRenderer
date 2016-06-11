@@ -208,7 +208,13 @@ namespace OpenTK.Graphics.ES20
         {
             LoadVertexShaderSource(vs);
             LoadFragmentShaderSource(fs);
-            mProgram = OpenTK.Graphics.ES20.ES2Utils.CompileProgram(vs, fs);
+            try
+            {
+                mProgram = OpenTK.Graphics.ES20.ES2Utils.CompileProgram(vs, fs);
+            }
+            catch (Exception ex)
+            {
+            }
             if (mProgram == 0)
             {
                 return false;

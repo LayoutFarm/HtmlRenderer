@@ -176,6 +176,7 @@ namespace OpenTkEssTest
             }
 
 
+            DrawLine(-2, 2, 0, 2);
             SwapBuffers();
         }
         #endregion
@@ -187,9 +188,24 @@ namespace OpenTkEssTest
             GL.Vertex3(x, y, 0);//1
             GL.Vertex3(x + w, y, 0);//2
             GL.Vertex3(x + w, y - h, 0);//3
+            //-----------------------------------------
             GL.Vertex3(x + w, y - h, 0);//3
             GL.Vertex3(x, y - h, 0);//4
             GL.Vertex3(x, y, 0);//1
+            GL.End();
+        }
+        static void DrawLine(float x1, float y1, float x2, float y2)
+        {
+            float angle = (y2 - y1) / (x2 - x1); //tan(a)
+            float lineWidth = 1 / 2f;
+            //clock-wise 
+            GL.Begin(BeginMode.Triangles);
+            GL.Vertex3(x1, y1, 0);//1
+            GL.Vertex3(x2, y2, 0);//2
+            GL.Vertex3(x2, y2 - 0.1, 0);//3
+            GL.Vertex3(x2, y2 - 0.1, 0);//1
+            GL.Vertex3(x1, y1 - 0.1, 0);//2
+            GL.Vertex3(x1, y1, 0);//3
             GL.End();
         }
     }

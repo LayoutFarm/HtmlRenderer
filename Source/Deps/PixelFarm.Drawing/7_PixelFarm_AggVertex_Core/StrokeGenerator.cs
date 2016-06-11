@@ -18,8 +18,7 @@
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
 
-using System;
-using PixelFarm.VectorMath;
+using System; 
 namespace PixelFarm.Agg
 {
     class StrokeGenerator
