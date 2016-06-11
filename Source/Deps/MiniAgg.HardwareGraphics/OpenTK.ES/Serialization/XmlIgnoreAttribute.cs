@@ -5,6 +5,5 @@ namespace OpenTK
 {
     public class XmlIgnoreAttribute : Attribute
     {
-
     }
 }

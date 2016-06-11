@@ -40,7 +40,6 @@ namespace OpenTK
 
         Vector3 xyz;
         float w;
-
         #endregion
 
         #region Constructors
@@ -137,9 +136,7 @@ namespace OpenTK
             Quaternion q = this;
             if (q.W > 1.0f)
                 q.Normalize();
-
             Vector4 result = new Vector4();
-
             result.W = 2.0f * (float)System.Math.Acos(q.W); // angle
             float den = (float)System.Math.Sqrt(1.0 - q.W * q.W);
             if (den > 0.0001f)
@@ -225,7 +222,6 @@ namespace OpenTK
         /// Defines the identity quaternion.
         /// </summary>
         public static Quaternion Identity = new Quaternion(0, 0, 0, 1);
-
         #endregion
 
         #region Add
@@ -268,7 +264,7 @@ namespace OpenTK
         /// <returns>The result of the operation.</returns>
         public static Quaternion Sub(Quaternion left, Quaternion right)
         {
-            return  new Quaternion(
+            return new Quaternion(
                 left.Xyz - right.Xyz,
                 left.W - right.W);
         }
@@ -466,14 +462,11 @@ namespace OpenTK
         {
             if (axis.LengthSquared == 0.0f)
                 return Identity;
-
             Quaternion result = Identity;
-
             angle *= 0.5f;
             axis.Normalize();
             result.Xyz = axis * (float)System.Math.Sin(angle);
             result.W = (float)System.Math.Cos(angle);
-
             return Normalize(result);
         }
 
@@ -506,7 +499,6 @@ namespace OpenTK
 
 
             float cosHalfAngle = q1.W * q2.W + Vector3.Dot(q1.Xyz, q2.Xyz);
-
             if (cosHalfAngle >= 1.0f || cosHalfAngle <= -1.0f)
             {
                 // angle = 0.0f, so just return one input.
@@ -660,7 +652,7 @@ namespace OpenTK
         public override bool Equals(object other)
         {
             if (other is Quaternion == false) return false;
-               return this == (Quaternion)other;
+            return this == (Quaternion)other;
         }
 
         #endregion

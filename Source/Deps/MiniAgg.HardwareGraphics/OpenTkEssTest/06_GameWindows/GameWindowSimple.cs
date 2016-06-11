@@ -6,7 +6,6 @@ using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-
 namespace Examples.Tutorial
 {
     /// <summary>
@@ -32,7 +31,6 @@ namespace Examples.Tutorial
         {
             if (e.Key == Key.Escape)
                 this.Exit();
-
             if (e.Key == Key.F11)
                 if (this.WindowState == WindowState.Fullscreen)
                     this.WindowState = WindowState.Normal;
@@ -65,7 +63,6 @@ namespace Examples.Tutorial
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(0, 0, Width, Height);
-
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
             GL.Ortho(-1.0, 1.0, -1.0, 1.0, 0.0, 4.0);
@@ -97,24 +94,17 @@ namespace Examples.Tutorial
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
-
             GL.Begin(BeginMode.Triangles);
-
             GLHelper.Color3(PixelFarm.Drawing.Conv.ToColor(Color.MidnightBlue));
             GL.Vertex2(-1.0f, 1.0f);
             GLHelper.Color3(PixelFarm.Drawing.Conv.ToColor(Color.SpringGreen));
             GL.Vertex2(0.0f, -1.0f);
             GLHelper.Color3(PixelFarm.Drawing.Conv.ToColor(Color.Ivory));
             GL.Vertex2(1.0f, 1.0f);
-
             GL.End();
-
             this.SwapBuffers();
         }
 
         #endregion
-
-
-
     }
 }

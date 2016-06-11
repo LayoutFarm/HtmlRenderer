@@ -11,7 +11,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK
 {
     /// <summary>
@@ -23,7 +22,6 @@ namespace OpenTK
         #region Fields
 
         private List<Vector2> points;
-
         /// <summary>
         /// The parallel value.
         /// </summary>
@@ -32,7 +30,6 @@ namespace OpenTK
         /// the original curve, 5.0f i.e. stands for a curve that has always a distance
         /// of 5.0f to the orignal curve at any point.</remarks>
         public float Parallel;
-
         #endregion
 
         #region Properties
@@ -61,7 +58,6 @@ namespace OpenTK
         {
             if (points == null)
                 throw new ArgumentNullException("points", "Must point to a valid list of Vector2 structures.");
-
             this.points = new List<Vector2>(points);
             this.Parallel = 0.0f;
         }
@@ -74,7 +70,6 @@ namespace OpenTK
         {
             if (points == null)
                 throw new ArgumentNullException("points", "Must point to a valid list of Vector2 structures.");
-
             this.points = new List<Vector2>(points);
             this.Parallel = 0.0f;
         }
@@ -88,7 +83,6 @@ namespace OpenTK
         {
             if (points == null)
                 throw new ArgumentNullException("points", "Must point to a valid list of Vector2 structures.");
-
             this.Parallel = parallel;
             this.points = new List<Vector2>(points);
         }
@@ -102,7 +96,6 @@ namespace OpenTK
         {
             if (points == null)
                 throw new ArgumentNullException("points", "Must point to a valid list of Vector2 structures.");
-
             this.Parallel = parallel;
             this.points = new List<Vector2>(points);
         }
@@ -165,7 +158,6 @@ namespace OpenTK
         {
             float length = 0.0f;
             Vector2 old = BezierCurve.CalculatePoint(points, 0.0f, parallel);
-
             for (float i = precision; i < (1.0f + precision); i += precision)
             {
                 Vector2 n = CalculatePoint(points, i, parallel);
@@ -204,12 +196,10 @@ namespace OpenTK
             double c = 1.0d - (double)t;
             float temp;
             int i = 0;
-
             foreach (Vector2 pt in points)
             {
                 temp = (float)MathHelper.BinomialCoefficient(points.Count - 1, i) * (float)(System.Math.Pow(t, i) *
                         System.Math.Pow(c, (points.Count - 1) - i));
-
                 r.X += temp * pt.X;
                 r.Y += temp * pt.Y;
                 i++;
@@ -217,14 +207,11 @@ namespace OpenTK
 
             if (parallel == 0.0f)
                 return r;
-
             Vector2 perpendicular = new Vector2();
-
             if (t != 0.0f)
                 perpendicular = r - BezierCurve.CalculatePointOfDerivative(points, t);
             else
                 perpendicular = points[1] - points[0];
-
             return r + Vector2.Normalize(perpendicular).PerpendicularRight * parallel;
         }
 
@@ -239,11 +226,11 @@ namespace OpenTK
             Vector2 r = new Vector2();
             double c = 1.0d - (double)t;
             float temp;
-            int i = 0; 
+            int i = 0;
             foreach (Vector2 pt in points)
             {
                 temp = (float)MathHelper.BinomialCoefficient(points.Count - 2, i) * (float)(System.Math.Pow(t, i) *
-                        System.Math.Pow(c, (points.Count - 2) - i)); 
+                        System.Math.Pow(c, (points.Count - 2) - i));
                 r.X += temp * pt.X;
                 r.Y += temp * pt.Y;
                 i++;

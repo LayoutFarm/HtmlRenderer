@@ -4,9 +4,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-
 using OpenTK.Graphics.OpenGL;
-
 namespace OpenTkEssTest
 {
     // [Example("GLControl Simple", ExampleCategory.OpenTK, "GLControl", 1, Documentation="GLControlSimple")]
@@ -20,13 +18,11 @@ namespace OpenTkEssTest
         #region Events
         protected void GLClearColor(System.Drawing.Color c)
         {
-
             GLHelper.ClearColor(PixelFarm.Drawing.Conv.ToColor(c));
         }
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-
             glControl1_Resize(this, EventArgs.Empty);   // Ensure the Viewport is set up correctly             
             GLHelper.ClearColor(PixelFarm.Drawing.Color.LightGray);
         }
@@ -38,7 +34,7 @@ namespace OpenTkEssTest
         }
 
         private void greenButton_Click(object sender, EventArgs e)
-        {             
+        {
             GLHelper.ClearColor(PixelFarm.Drawing.Color.Green);
             glControl1.Invalidate();
         }
@@ -52,7 +48,6 @@ namespace OpenTkEssTest
         private void glControl1_Paint(object sender, PaintEventArgs e)
         {
             glControl1.MakeCurrent();
-
             GL.Clear(ClearBufferMask.ColorBufferBit);
             glControl1.SwapBuffers();
         }
@@ -61,7 +56,6 @@ namespace OpenTkEssTest
         {
             if (glControl1.ClientSize.Height == 0)
                 glControl1.ClientSize = new System.Drawing.Size(glControl1.ClientSize.Width, 1);
-
             GL.Viewport(0, 0, glControl1.ClientSize.Width, glControl1.ClientSize.Height);
         }
 

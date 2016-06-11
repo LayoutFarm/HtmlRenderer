@@ -26,9 +26,6 @@
 #endregion
 
 using System;
-
- 
- 
 namespace OpenTK.Graphics.OpenGL
 {
 #pragma warning disable 1591
@@ -12024,7 +12021,5 @@ namespace OpenTK.Graphics.OpenGL
     {
         FogSpecularTextureWin = ((int)0x80EC),
     }
-
 }
 
- 

@@ -60,10 +60,8 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
-
 namespace OpenTK
 {
-
     /// <summary>
     /// The name Half is derived from half-precision floating-point number.
     /// It occupies only 16 bits, which are split into 1 Sign bit, 5 Exponent bits and 10 Mantissa bits.
@@ -81,7 +79,6 @@ namespace OpenTK
         #region Internal Field
 
         UInt16 bits;
-
         #endregion Internal Field
 
         #region Properties
@@ -128,7 +125,6 @@ namespace OpenTK
                 // handle cases that cause overflow rather than silently ignoring it
                 if (f > Half.MaxValue) throw new ArithmeticException("Half: Positive maximum value exceeded.");
                 if (f < -Half.MaxValue) throw new ArithmeticException("Half: Negative minimum value exceeded.");
-
                 // handle cases that make no sense
                 if (Single.IsNaN(f)) throw new ArithmeticException("Half: Input is not a number (NaN).");
                 if (Single.IsPositiveInfinity(f)) throw new ArithmeticException("Half: Input is positive infinity.");
@@ -164,7 +160,6 @@ namespace OpenTK
             Int32 sign = (si32 >> 16) & 0x00008000;
             Int32 exponent = ((si32 >> 23) & 0x000000ff) - (127 - 15);
             Int32 mantissa = si32 & 0x007fffff;
-
             // Now reassemble S, E and M into a half:
 
             if (exponent <= 0)
@@ -186,7 +181,6 @@ namespace OpenTK
                 // Add an explicit leading 1 to the significand.
 
                 mantissa = mantissa | 0x00800000;
-
                 // Round to M to the nearest (10+E)-bit value (with E between -10 and 0); in case of a tie, round to the nearest even value.
                 //
                 // Rounding may cause the significand to overflow and make our number normalized. Because of the way a half's bits
@@ -195,9 +189,7 @@ namespace OpenTK
                 Int32 t = 14 - exponent;
                 Int32 a = (1 << (t - 1)) - 1;
                 Int32 b = (mantissa >> t) & 1;
-
                 mantissa = (mantissa + a + b) >> t;
-
                 // Assemble the half from S, E (==zero) and M.
 
                 return (UInt16)(sign | mantissa);
@@ -227,7 +219,6 @@ namespace OpenTK
                 // Round to M to the nearest 10-bit value. In case of a tie, round to the nearest even value.
 
                 mantissa = mantissa + 0x00000fff + ((mantissa >> 13) & 1);
-
                 if ((mantissa & 0x00800000) == 1)
                 {
                     mantissa = 0;        // overflow in significand,
@@ -236,7 +227,6 @@ namespace OpenTK
 
                 // exponent overflow
                 if (exponent > 30) throw new ArithmeticException("Half: Hardware floating-point overflow.");
-
                 // Assemble the half from S, E and M.
 
                 return (UInt16)(sign | (exponent << 10) | (mantissa >> 13));
@@ -252,7 +242,6 @@ namespace OpenTK
         public Single ToSingle()
         {
             int i = HalfToFloat(bits);
-
             unsafe
             {
                 return *(float*)&i;
@@ -262,11 +251,9 @@ namespace OpenTK
         /// <summary>Ported from OpenEXR's IlmBase 1.0.1</summary>
         private Int32 HalfToFloat(UInt16 ui16)
         {
-
             Int32 sign = (ui16 >> 15) & 0x00000001;
             Int32 exponent = (ui16 >> 10) & 0x0000001f;
             Int32 mantissa = ui16 & 0x000003ff;
-
             if (exponent == 0)
             {
                 if (mantissa == 0)
@@ -309,7 +296,6 @@ namespace OpenTK
 
             exponent = exponent + (127 - 15);
             mantissa = mantissa << 13;
-
             // Assemble S, E and M.
 
             return (sign << 31) | (exponent << 23) | mantissa;
@@ -356,7 +342,7 @@ namespace OpenTK
         /// <returns>The result of the conversion.
         /// A <see cref="System.Single"/>
         /// </returns>
-        public static implicit operator float(Half h)
+        public static implicit operator float (Half h)
         {
             return h.ToSingle();
         }
@@ -370,7 +356,7 @@ namespace OpenTK
         /// <returns>The result of the conversion.
         /// A <see cref="System.Double"/>
         /// </returns>
-        public static implicit operator double(Half h)
+        public static implicit operator double (Half h)
         {
             return (double)h.ToSingle();
         }
@@ -381,19 +367,14 @@ namespace OpenTK
 
         /// <summary>The size in bytes for an instance of the Half struct.</summary>
         public static readonly Int32 SizeInBytes = 2;
-
         /// <summary>Smallest positive half</summary>
         public static readonly Single MinValue = 5.96046448e-08f;
-
         /// <summary>Smallest positive normalized half</summary>
         public static readonly Single MinNormalizedValue = 6.10351562e-05f;
-
         /// <summary>Largest positive half</summary>
         public static readonly Single MaxValue = 65504.0f;
-
         /// <summary>Smallest positive e for which half (1.0 + e) != half (1.0)</summary>
         public static readonly Single Epsilon = 0.00097656f;
-
         #endregion Constants
 
         #region ISerializable
@@ -423,7 +404,6 @@ namespace OpenTK
         public void FromBinaryStream(BinaryReader bin)
         {
             this.bits = bin.ReadUInt16();
-
         }
 
         /// <summary>Writes the Half into a Stream.</summary>
@@ -438,7 +418,6 @@ namespace OpenTK
         #region IEquatable<Half> Members
 
         const int maxUlps = 1;
-
         /// <summary>
         /// Returns a value indicating whether this instance is equal to a specified OpenTK.Half value.
         /// </summary>
@@ -453,16 +432,12 @@ namespace OpenTK
             // Make aInt lexicographically ordered as a twos-complement int
             if (aInt < 0)
                 aInt = (short)(0x8000 - aInt);
-
             // Make bInt lexicographically ordered as a twos-complement int
             if (bInt < 0)
                 bInt = (short)(0x8000 - bInt);
-
             short intDiff = System.Math.Abs((short)(aInt - bInt));
-
             if (intDiff <= maxUlps)
                 return true;
-
             return false;
         }
 

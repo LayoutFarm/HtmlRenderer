@@ -8,11 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-
 using System.Runtime.InteropServices;
-
 using OpenTK;
-
 namespace Examples.Shapes
 {
     public class Cube : Shape
@@ -26,11 +23,10 @@ namespace Examples.Shapes
                 new Vector3( 1.0f,  1.0f,  1.0f),
                 new Vector3(-1.0f,  1.0f,  1.0f),
                 new Vector3(-1.0f, -1.0f, -1.0f),
-                new Vector3( 1.0f, -1.0f, -1.0f), 
+                new Vector3( 1.0f, -1.0f, -1.0f),
                 new Vector3( 1.0f,  1.0f, -1.0f),
                 new Vector3(-1.0f,  1.0f, -1.0f)
             };
-
             Indices = new int[]
             {
                 // front face
@@ -46,7 +42,6 @@ namespace Examples.Shapes
                 // right face
                 1, 5, 6, 6, 2, 1,
             };
-
             Normals = new Vector3[]
             {
                 new Vector3(-1.0f, -1.0f,  1.0f),
@@ -58,7 +53,6 @@ namespace Examples.Shapes
                 new Vector3( 1.0f,  1.0f, -1.0f),
                 new Vector3(-1.0f,  1.0f, -1.0f),
             };
-
             Colors = new int[]
             {
                 Utilities.ColorToRgba32(Color.DarkRed),

@@ -24,7 +24,6 @@ SOFTWARE.
 
 using System;
 using System.Runtime.InteropServices;
-
 namespace OpenTK
 {
     /// <summary>
@@ -39,25 +38,23 @@ namespace OpenTK
         /// <summary>
         /// Top row of the matrix
         /// </summary>
-        public Vector4d  Row0;
+        public Vector4d Row0;
         /// <summary>
         /// 2nd row of the matrix
         /// </summary>
-        public Vector4d  Row1;
+        public Vector4d Row1;
         /// <summary>
         /// 3rd row of the matrix
         /// </summary>
-        public Vector4d  Row2;
+        public Vector4d Row2;
         /// <summary>
         /// Bottom row of the matrix
         /// </summary>
-        public Vector4d  Row3;
- 
+        public Vector4d Row3;
         /// <summary>
         /// The identity matrix
         /// </summary>
-        public static Matrix4d Identity = new Matrix4d(Vector4d .UnitX, Vector4d .UnitY, Vector4d .UnitZ, Vector4d .UnitW);
-
+        public static Matrix4d Identity = new Matrix4d(Vector4d.UnitX, Vector4d.UnitY, Vector4d.UnitZ, Vector4d.UnitW);
         #endregion
 
         #region Constructors
@@ -134,33 +131,33 @@ namespace OpenTK
         /// <summary>
         /// The first column of this matrix
         /// </summary>
-        public Vector4d  Column0
+        public Vector4d Column0
         {
-            get { return new Vector4d (Row0.X, Row1.X, Row2.X, Row3.X); }
+            get { return new Vector4d(Row0.X, Row1.X, Row2.X, Row3.X); }
         }
 
         /// <summary>
         /// The second column of this matrix
         /// </summary>
-        public Vector4d  Column1
+        public Vector4d Column1
         {
-            get { return new Vector4d (Row0.Y, Row1.Y, Row2.Y, Row3.Y); }
+            get { return new Vector4d(Row0.Y, Row1.Y, Row2.Y, Row3.Y); }
         }
 
         /// <summary>
         /// The third column of this matrix
         /// </summary>
-        public Vector4d  Column2
+        public Vector4d Column2
         {
-            get { return new Vector4d (Row0.Z, Row1.Z, Row2.Z, Row3.Z); }
+            get { return new Vector4d(Row0.Z, Row1.Z, Row2.Z, Row3.Z); }
         }
 
         /// <summary>
         /// The fourth column of this matrix
         /// </summary>
-        public Vector4d  Column3
+        public Vector4d Column3
         {
-            get { return new Vector4d (Row0.W, Row1.W, Row2.W, Row3.W); }
+            get { return new Vector4d(Row0.W, Row1.W, Row2.W, Row3.W); }
         }
 
         /// <summary>
@@ -288,9 +285,7 @@ namespace OpenTK
             double cos = System.Math.Cos(-angle);
             double sin = System.Math.Sin(-angle);
             double t = 1.0 - cos;
-
             axis.Normalize();
-
             result = new Matrix4d(t * axis.X * axis.X + cos, t * axis.X * axis.Y - sin * axis.Z, t * axis.X * axis.Z + sin * axis.Y, 0.0,
                                  t * axis.X * axis.Y + sin * axis.Z, t * axis.Y * axis.Y + cos, t * axis.Y * axis.Z - sin * axis.X, 0.0,
                                  t * axis.X * axis.Z - sin * axis.Y, t * axis.Y * axis.Z + sin * axis.X, t * axis.Z * axis.Z + cos, 0.0,
@@ -323,7 +318,6 @@ namespace OpenTK
         {
             double cos = System.Math.Cos(angle);
             double sin = System.Math.Sin(angle);
-
             result.Row0 = Vector4d.UnitX;
             result.Row1 = new Vector4d(0, cos, sin, 0);
             result.Row2 = new Vector4d(0, -sin, cos, 0);
@@ -351,7 +345,6 @@ namespace OpenTK
         {
             double cos = System.Math.Cos(angle);
             double sin = System.Math.Sin(angle);
-
             result.Row0 = new Vector4d(cos, 0, -sin, 0);
             result.Row1 = Vector4d.UnitY;
             result.Row2 = new Vector4d(sin, 0, cos, 0);
@@ -379,7 +372,6 @@ namespace OpenTK
         {
             double cos = System.Math.Cos(angle);
             double sin = System.Math.Sin(angle);
-
             result.Row0 = new Vector4d(cos, sin, 0, 0);
             result.Row1 = new Vector4d(-sin, cos, 0, 0);
             result.Row2 = Vector4d.UnitZ;
@@ -501,15 +493,12 @@ namespace OpenTK
         public static void CreateOrthographicOffCenter(double left, double right, double bottom, double top, double zNear, double zFar, out Matrix4d result)
         {
             result = new Matrix4d();
-
             double invRL = 1 / (right - left);
             double invTB = 1 / (top - bottom);
             double invFN = 1 / (zFar - zNear);
-
             result.M11 = 2 * invRL;
             result.M22 = 2 * invTB;
             result.M33 = -2 * invFN;
-
             result.M41 = -(right + left) * invRL;
             result.M42 = -(top + bottom) * invTB;
             result.M43 = -(zFar + zNear) * invFN;
@@ -567,12 +556,10 @@ namespace OpenTK
                 throw new ArgumentOutOfRangeException("zFar");
             if (zNear >= zFar)
                 throw new ArgumentOutOfRangeException("zNear");
-
             double yMax = zNear * System.Math.Tan(0.5 * fovy);
             double yMin = -yMax;
             double xMin = yMin * aspect;
             double xMax = yMax * aspect;
-
             CreatePerspectiveOffCenter(xMin, xMax, yMin, yMax, zNear, zFar, out result);
         }
 
@@ -631,14 +618,12 @@ namespace OpenTK
                 throw new ArgumentOutOfRangeException("zFar");
             if (zNear >= zFar)
                 throw new ArgumentOutOfRangeException("zNear");
-
             double x = (2.0 * zNear) / (right - left);
             double y = (2.0 * zNear) / (top - bottom);
             double a = (right + left) / (right - left);
             double b = (top + bottom) / (top - bottom);
             double c = -(zFar + zNear) / (zFar - zNear);
             double d = -(2.0 * zFar * zNear) / (zFar - zNear);
-
             result = new Matrix4d(x, 0, 0, 0,
                                  0, y, 0, 0,
                                  a, b, c, -1,
@@ -738,10 +723,10 @@ namespace OpenTK
         public static Matrix4d Scale(double x, double y, double z)
         {
             Matrix4d result;
-            result.Row0 = Vector4d .UnitX * x;
-            result.Row1 = Vector4d .UnitY * y;
-            result.Row2 = Vector4d .UnitZ * z;
-            result.Row3 = Vector4d .UnitW;
+            result.Row0 = Vector4d.UnitX * x;
+            result.Row1 = Vector4d.UnitY * y;
+            result.Row2 = Vector4d.UnitZ * z;
+            result.Row3 = Vector4d.UnitW;
             return result;
         }
 
@@ -758,12 +743,11 @@ namespace OpenTK
         {
             double cos = System.Math.Cos(angle);
             double sin = System.Math.Sin(angle);
-
             Matrix4d result;
-            result.Row0 = Vector4d .UnitX;
-            result.Row1 = new Vector4d (0.0, cos, sin, 0.0);
-            result.Row2 = new Vector4d (0.0, -sin, cos, 0.0);
-            result.Row3 = Vector4d .UnitW;
+            result.Row0 = Vector4d.UnitX;
+            result.Row1 = new Vector4d(0.0, cos, sin, 0.0);
+            result.Row2 = new Vector4d(0.0, -sin, cos, 0.0);
+            result.Row3 = Vector4d.UnitW;
             return result;
         }
 
@@ -776,12 +760,11 @@ namespace OpenTK
         {
             double cos = System.Math.Cos(angle);
             double sin = System.Math.Sin(angle);
-
             Matrix4d result;
-            result.Row0 = new Vector4d (cos, 0.0, -sin, 0.0);
-            result.Row1 = Vector4d .UnitY;
-            result.Row2 = new Vector4d (sin, 0.0, cos, 0.0);
-            result.Row3 = Vector4d .UnitW;
+            result.Row0 = new Vector4d(cos, 0.0, -sin, 0.0);
+            result.Row1 = Vector4d.UnitY;
+            result.Row2 = new Vector4d(sin, 0.0, cos, 0.0);
+            result.Row3 = Vector4d.UnitW;
             return result;
         }
 
@@ -794,12 +777,11 @@ namespace OpenTK
         {
             double cos = System.Math.Cos(angle);
             double sin = System.Math.Sin(angle);
-
             Matrix4d result;
-            result.Row0 = new Vector4d (cos, sin, 0.0, 0.0);
-            result.Row1 = new Vector4d (-sin, cos, 0.0, 0.0);
-            result.Row2 = Vector4d .UnitZ;
-            result.Row3 = Vector4d .UnitW;
+            result.Row0 = new Vector4d(cos, sin, 0.0, 0.0);
+            result.Row1 = new Vector4d(-sin, cos, 0.0, 0.0);
+            result.Row2 = Vector4d.UnitZ;
+            result.Row3 = Vector4d.UnitW;
             return result;
         }
 
@@ -814,14 +796,12 @@ namespace OpenTK
             double cos = System.Math.Cos(-angle);
             double sin = System.Math.Sin(-angle);
             double t = 1.0 - cos;
-
             axis.Normalize();
-
             Matrix4d result;
-            result.Row0 = new Vector4d (t * axis.X * axis.X + cos, t * axis.X * axis.Y - sin * axis.Z, t * axis.X * axis.Z + sin * axis.Y, 0.0);
-            result.Row1 = new Vector4d (t * axis.X * axis.Y + sin * axis.Z, t * axis.Y * axis.Y + cos, t * axis.Y * axis.Z - sin * axis.X, 0.0);
-            result.Row2 = new Vector4d (t * axis.X * axis.Z - sin * axis.Y, t * axis.Y * axis.Z + sin * axis.X, t * axis.Z * axis.Z + cos, 0.0);
-            result.Row3 = Vector4d .UnitW;
+            result.Row0 = new Vector4d(t * axis.X * axis.X + cos, t * axis.X * axis.Y - sin * axis.Z, t * axis.X * axis.Z + sin * axis.Y, 0.0);
+            result.Row1 = new Vector4d(t * axis.X * axis.Y + sin * axis.Z, t * axis.Y * axis.Y + cos, t * axis.Y * axis.Z - sin * axis.X, 0.0);
+            result.Row2 = new Vector4d(t * axis.X * axis.Z - sin * axis.Y, t * axis.Y * axis.Z + sin * axis.X, t * axis.Z * axis.Z + cos, 0.0);
+            result.Row3 = Vector4d.UnitW;
             return result;
         }
 
@@ -854,14 +834,11 @@ namespace OpenTK
             Vector3d z = Vector3d.Normalize(eye - target);
             Vector3d x = Vector3d.Normalize(Vector3d.Cross(up, z));
             Vector3d y = Vector3d.Normalize(Vector3d.Cross(z, x));
-
-            Matrix4d rot = new Matrix4d(new Vector4d (x.X, y.X, z.X, 0.0),
-                                        new Vector4d (x.Y, y.Y, z.Y, 0.0),
-                                        new Vector4d (x.Z, y.Z, z.Z, 0.0),
-                                        Vector4d .UnitW);
-
+            Matrix4d rot = new Matrix4d(new Vector4d(x.X, y.X, z.X, 0.0),
+                                        new Vector4d(x.Y, y.Y, z.Y, 0.0),
+                                        new Vector4d(x.Z, y.Z, z.Z, 0.0),
+                                        Vector4d.UnitW);
             Matrix4d trans = Matrix4d.CreateTranslation(-eye);
-
             return trans * rot;
         }
 
@@ -898,10 +875,10 @@ namespace OpenTK
             double invRL = 1.0 / (right - left);
             double invTB = 1.0 / (top - bottom);
             double invFN = 1.0 / (far - near);
-            return new Matrix4d(new Vector4d (2.0 * near * invRL, 0.0, 0.0, 0.0),
-                               new Vector4d (0.0, 2.0 * near * invTB, 0.0, 0.0),
-                               new Vector4d ((right + left) * invRL, (top + bottom) * invTB, -(far + near) * invFN, -1.0),
-                               new Vector4d (0.0, 0.0, -2.0 * far * near * invFN, 0.0));
+            return new Matrix4d(new Vector4d(2.0 * near * invRL, 0.0, 0.0, 0.0),
+                               new Vector4d(0.0, 2.0 * near * invTB, 0.0, 0.0),
+                               new Vector4d((right + left) * invRL, (top + bottom) * invTB, -(far + near) * invFN, -1.0),
+                               new Vector4d(0.0, 0.0, -2.0 * far * near * invFN, 0.0));
         }
 
         /// <summary>
@@ -918,7 +895,6 @@ namespace OpenTK
             double yMin = -yMax;
             double xMin = yMin * aspect;
             double xMax = yMax * aspect;
-
             return Frustum(xMin, xMax, yMin, yMax, near, far);
         }
 
@@ -981,11 +957,10 @@ namespace OpenTK
             int[] colIdx = { 0, 0, 0, 0 };
             int[] rowIdx = { 0, 0, 0, 0 };
             int[] pivotIdx = { -1, -1, -1, -1 };
-
             // convert the matrix to an array for easy looping
-            double[,] inverse = {{mat.Row0.X, mat.Row0.Y, mat.Row0.Z, mat.Row0.W}, 
-                                {mat.Row1.X, mat.Row1.Y, mat.Row1.Z, mat.Row1.W}, 
-                                {mat.Row2.X, mat.Row2.Y, mat.Row2.Z, mat.Row2.W}, 
+            double[,] inverse = {{mat.Row0.X, mat.Row0.Y, mat.Row0.Z, mat.Row0.W},
+                                {mat.Row1.X, mat.Row1.Y, mat.Row1.Z, mat.Row1.W},
+                                {mat.Row2.X, mat.Row2.Y, mat.Row2.Z, mat.Row2.W},
                                 {mat.Row3.X, mat.Row3.Y, mat.Row3.Z, mat.Row3.W} };
             int icol = 0;
             int irow = 0;
@@ -1018,7 +993,6 @@ namespace OpenTK
                 }
 
                 ++(pivotIdx[icol]);
-
                 // Swap rows over so pivot is on diagonal
                 if (irow != icol)
                 {
@@ -1032,7 +1006,6 @@ namespace OpenTK
 
                 rowIdx[i] = irow;
                 colIdx[i] = icol;
-
                 double pivot = inverse[icol, icol];
                 // check for singular matrix
                 if (pivot == 0.0)
@@ -1046,7 +1019,6 @@ namespace OpenTK
                 inverse[icol, icol] = 1.0;
                 for (int k = 0; k < 4; ++k)
                     inverse[icol, k] *= oneOverPivot;
-
                 // Do elimination of non-diagonal elements
                 for (int j = 0; j < 4; ++j)
                 {
@@ -1073,10 +1045,10 @@ namespace OpenTK
                 }
             }
 
-            mat.Row0 = new Vector4d (inverse[0, 0], inverse[0, 1], inverse[0, 2], inverse[0, 3]);
-            mat.Row1 = new Vector4d (inverse[1, 0], inverse[1, 1], inverse[1, 2], inverse[1, 3]);
-            mat.Row2 = new Vector4d (inverse[2, 0], inverse[2, 1], inverse[2, 2], inverse[2, 3]);
-            mat.Row3 = new Vector4d (inverse[3, 0], inverse[3, 1], inverse[3, 2], inverse[3, 3]);
+            mat.Row0 = new Vector4d(inverse[0, 0], inverse[0, 1], inverse[0, 2], inverse[0, 3]);
+            mat.Row1 = new Vector4d(inverse[1, 0], inverse[1, 1], inverse[1, 2], inverse[1, 3]);
+            mat.Row2 = new Vector4d(inverse[2, 0], inverse[2, 1], inverse[2, 2], inverse[2, 3]);
+            mat.Row3 = new Vector4d(inverse[3, 0], inverse[3, 1], inverse[3, 2], inverse[3, 3]);
             return mat;
         }
 
@@ -1188,7 +1160,6 @@ namespace OpenTK
         {
             if (!(obj is Matrix4d))
                 return false;
-
             return this.Equals((Matrix4d)obj);
         }
 

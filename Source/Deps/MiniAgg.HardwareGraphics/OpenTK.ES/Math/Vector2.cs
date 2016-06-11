@@ -40,12 +40,10 @@ namespace OpenTK
         /// The X component of the Vector2.
         /// </summary>
         public float X;
-
         /// <summary>
         /// The Y component of the Vector2.
         /// </summary>
         public float Y;
-
         #endregion
 
         #region Constructors
@@ -335,27 +333,22 @@ namespace OpenTK
         /// Defines a unit-length Vector2 that points towards the X-axis.
         /// </summary>
         public static readonly Vector2 UnitX = new Vector2(1, 0);
-
         /// <summary>
         /// Defines a unit-length Vector2 that points towards the Y-axis.
         /// </summary>
         public static readonly Vector2 UnitY = new Vector2(0, 1);
-
         /// <summary>
         /// Defines a zero-length Vector2.
         /// </summary>
         public static readonly Vector2 Zero = new Vector2(0, 0);
-
         /// <summary>
         /// Defines an instance with all components set to 1.
         /// </summary>
         public static readonly Vector2 One = new Vector2(1, 1);
-
         /// <summary>
         /// Defines the size of the Vector2 struct in bytes.
         /// </summary>
         public static readonly int SizeInBytes = Marshal.SizeOf(new Vector2());
-
         #endregion
 
         #region Obsolete
@@ -871,12 +864,10 @@ namespace OpenTK
         public static void BaryCentric(ref Vector2 a, ref Vector2 b, ref Vector2 c, float u, float v, out Vector2 result)
         {
             result = a; // copy
-
             Vector2 temp = b; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, u, out temp);
             Add(ref result, ref temp, out result);
-
             temp = c; // copy
             Subtract(ref temp, ref a, out temp);
             Multiply(ref temp, v, out temp);
@@ -912,7 +903,6 @@ namespace OpenTK
             Quaternion.Invert(ref quat, out i);
             Quaternion.Multiply(ref quat, ref v, out t);
             Quaternion.Multiply(ref t, ref i, out v);
-
             result = new Vector2(v.X, v.Y);
         }
 
@@ -1063,7 +1053,6 @@ namespace OpenTK
         {
             if (!(obj is Vector2))
                 return false;
-
             return this.Equals((Vector2)obj);
         }
 

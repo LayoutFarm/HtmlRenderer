@@ -6,13 +6,11 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing;
-
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.ES20;
 using Examples.Tutorial;
 using Mini;
-
 #endregion
 
 
@@ -26,15 +24,12 @@ namespace OpenTkEssTest
         ShaderVtxAttrib a_position;
         ShaderVtxAttrib a_color;
         ShaderVtxAttrib a_textureCoord;
-
         ShaderUniformMatrix4 u_matrix;
         ShaderUniformVar1 u_useSolidColor;
         ShaderUniformVar4 u_solidColor;
-
         MyMat4 orthoView;
         protected override void OnInitGLProgram(object sender, EventArgs args)
         {
-
             //----------------
             //vertex shader source
             string vs = @"        
@@ -77,7 +72,6 @@ namespace OpenTkEssTest
                     gl_FragColor= v_color;
                 }
             ";
-
             if (!shaderProgram.Build(vs, fs))
             {
                 throw new NotSupportedException();
@@ -87,12 +81,9 @@ namespace OpenTkEssTest
             a_position = shaderProgram.GetVtxAttrib("a_position");
             a_color = shaderProgram.GetVtxAttrib("a_color");
             a_textureCoord = shaderProgram.GetVtxAttrib("a_texcoord");
-
-
             u_matrix = shaderProgram.GetUniformMat4("u_mvpMatrix");
             u_useSolidColor = shaderProgram.GetUniform1("u_useSolidColor");
             u_solidColor = shaderProgram.GetUniform4("u_solidColor");
-
             //--------------------------------------------------------------------------------
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
@@ -145,15 +136,12 @@ namespace OpenTkEssTest
             //float[] quadVertices2 = CreateRectCoords(250f, 450f, 100f, 100f);
             float[] quadVertices2 = CreateRectCoords(260f, 160f, 100f, 100f);
             float[] textureCoords = CreateRectTextureCoords();
-
             //FillPolygonWithSolidColor2(quadVertices2, textureCoords, 6, PixelFarm.Drawing.Color.Blue);
             FillPolygonWithSolidColor(quadVertices2, 6, PixelFarm.Drawing.Color.Blue);
             //---------------------------------------------------------
             float[] quadVertices3 = CreateRectCoords(280f, 180f, 100f, 100f);
             float[] textureCoords3 = CreateRectTextureCoords();
-
-
-            FillPolygonWithSolidColor2(quadVertices3, textureCoords3, 6, PixelFarm.Drawing.Color.Blue); 
+            FillPolygonWithSolidColor2(quadVertices3, textureCoords3, 6, PixelFarm.Drawing.Color.Blue);
             //---------------------------------------------------------
             float[] quadVertices = CreateRectCoords(250f, 150f, 100f, 100f);
             FillPolygonWithSolidColor(quadVertices, 6, PixelFarm.Drawing.Color.Yellow);
@@ -169,27 +157,20 @@ namespace OpenTkEssTest
         void FillPolygonWithSolidColor(float[] onlyCoords,
                int numVertices, PixelFarm.Drawing.Color c)
         {
-
             u_useSolidColor.SetValue(1);
             u_solidColor.SetValue((float)c.R / 255f, (float)c.G / 255f, (float)c.B / 255f, (float)c.A / 255f);//use solid color 
             a_position.LoadV2f(onlyCoords, 2, 0);
             GL.DrawArrays(BeginMode.Triangles, 0, numVertices);
-
         }
 
         void FillPolygonWithSolidColor2(float[] onlyCoords, float[] textureCoords,
             int numVertices, PixelFarm.Drawing.Color c)
         {
-
             u_useSolidColor.SetValue(1);
             u_solidColor.SetValue((float)c.R / 255f, (float)c.G / 255f, (float)c.B / 255f, (float)c.A / 255f);//use solid color  
-          
-           
             a_position.LoadV2f(onlyCoords, 2, 0);
             a_textureCoord.LoadV2f(textureCoords, 2, 0);
-           
             GL.DrawArrays(BeginMode.Triangles, 0, numVertices);
-
         }
         void FillPolygonWithVertexColor(float[] vertices, int numVertices)
         {
@@ -202,25 +183,22 @@ namespace OpenTkEssTest
 
         static float[] CreateRectCoords(float x, float y, float w, float h)
         {
-
             float[] vertices = new float[]{
-                x, y,  
-                x+w,y, 
-                x+w,y-h, 
-                x+w,y-h, 
-                x, y - h,  
+                x, y,
+                x+w,y,
+                x+w,y-h,
+                x+w,y-h,
+                x, y - h,
                 x, y
             };
             return vertices;
         }
         static float[] CreateRectTextureCoords()
         {
-
             float[] vertices = new float[]{
                0.5f,0.5f,
                0.5f,0.5f,
                0.5f,0.5f,
-
                0.7f,0.7f,
                0.7f,0.7f,
                0.7f,0.7f};
@@ -237,11 +215,7 @@ namespace OpenTkEssTest
         }
         void DrawImage(float x, float y)
         {
-
         }
-
     }
-
-
 }
 

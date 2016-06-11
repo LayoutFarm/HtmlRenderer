@@ -10,7 +10,6 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-
 namespace Examples.Tutorial
 {
     /// <summary>
@@ -38,17 +37,15 @@ namespace Examples.Tutorial
         }
         List<Particle> Particles = new List<Particle>();
         Random rand = new Random();
-
         public ThreadedRendering()
             : base(800, 600)
         {
-            Keyboard.KeyDown += delegate(object sender, KeyboardKeyEventArgs e)
+            Keyboard.KeyDown += delegate (object sender, KeyboardKeyEventArgs e)
             {
                 if (e.Key == Key.Escape)
                     this.Exit();
             };
-
-            Keyboard.KeyUp += delegate(object sender, KeyboardKeyEventArgs e)
+            Keyboard.KeyUp += delegate (object sender, KeyboardKeyEventArgs e)
             {
                 if (e.Key == Key.F11)
                     if (this.WindowState == WindowState.Fullscreen)
@@ -56,8 +53,7 @@ namespace Examples.Tutorial
                     else
                         this.WindowState = WindowState.Fullscreen;
             };
-
-            Resize += delegate(object sender, EventArgs e)
+            Resize += delegate (object sender, EventArgs e)
             {
                 // Note that we cannot call any OpenGL methods directly. What we can do is set
                 // a flag and respond to it from the rendering thread.
@@ -68,8 +64,7 @@ namespace Examples.Tutorial
                     viewport_height = Height;
                 }
             };
-
-            Move += delegate(object sender, EventArgs e)
+            Move += delegate (object sender, EventArgs e)
             {
                 // Note that we cannot call any OpenGL methods directly. What we can do is set
                 // a flag and respond to it from the rendering thread.
@@ -82,7 +77,6 @@ namespace Examples.Tutorial
                     position_y = Y;
                 }
             };
-
             // Make sure initial position are correct, otherwise we'll give a huge
             // initial velocity to the balls.
             position_x = X;
@@ -98,7 +92,6 @@ namespace Examples.Tutorial
         protected override void OnLoad(EventArgs e)
         {
             Context.MakeCurrent(null); // Release the OpenGL context so it can be used on the new thread.
-
             rendering_thread = new Thread(RenderLoop);
             rendering_thread.IsBackground = true;
             rendering_thread.Start();
@@ -116,7 +109,6 @@ namespace Examples.Tutorial
         {
             exit = true; // Set a flag that the rendering thread should stop running.
             rendering_thread.Join();
-
             base.OnUnload(e);
         }
 
@@ -156,9 +148,7 @@ namespace Examples.Tutorial
         void RenderLoop()
         {
             MakeCurrent(); // The context now belongs to this thread. No other thread may use it!
-
             VSync = VSyncMode.On;
-
             for (int i = 0; i < 64; i++)
             {
                 Particle p = new Particle();
@@ -174,22 +164,18 @@ namespace Examples.Tutorial
             Stopwatch update_watch = new Stopwatch();
             update_watch.Start();
             render_watch.Start();
-
             GLClearColor(Color.MidnightBlue);
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.PointSmooth);
             GL.PointSize(16);
-
             while (!exit)
             {
                 Update(update_watch.Elapsed.TotalSeconds);
                 update_watch.Reset();
                 update_watch.Start();
-
                 Render(render_watch.Elapsed.TotalSeconds);
                 render_watch.Reset(); //  Stopwatch may be inaccurate over larger intervals.
                 render_watch.Start(); // Plus, timekeeping is easier if we always start counting from 0.
-
                 SwapBuffers();
             }
 
@@ -230,7 +216,6 @@ namespace Examples.Tutorial
             for (int i = 0; i < Particles.Count; i++)
             {
                 Particle p = Particles[i];
-
                 p.Velocity.X = Math.Abs(p.Position.X) >= 1 ? -p.Velocity.X * 0.92f : p.Velocity.X * 0.97f;
                 p.Velocity.Y = Math.Abs(p.Position.Y) >= 1 ? -p.Velocity.Y * 0.92f : p.Velocity.Y * 0.97f;
                 if (p.Position.Y > -0.99)
@@ -253,7 +238,6 @@ namespace Examples.Tutorial
                 p.Position += p.Velocity * (float)time;
                 if (p.Position.Y <= -1)
                     p.Position.Y = -1;
-
                 Particles[i] = p;
             }
         }
@@ -280,12 +264,9 @@ namespace Examples.Tutorial
                 Matrix4.CreateOrthographic(2, 2, -1, 1);
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref perspective);
-
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
-
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
             GL.Begin(BeginMode.Points);
             foreach (Particle p in Particles)
             {
@@ -296,7 +277,5 @@ namespace Examples.Tutorial
         }
 
         #endregion
-
-        
     }
 }

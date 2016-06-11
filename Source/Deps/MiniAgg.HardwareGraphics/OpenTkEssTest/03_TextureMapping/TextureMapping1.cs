@@ -9,22 +9,19 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using System.IO;
-
 using System.Drawing;
 using System.Drawing.Imaging;
-
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Graphics;
 using Mini;
-
 namespace OpenTkEssTest
 {
     [Info(OrderCode = "02")]
     [Info("T04_TextureMapping")]
     public class T04_TextureMapping : DemoBase
     {
-        public override void Init() 
+        public override void Init()
         {
             using (var example = new Textures())
             {
@@ -40,7 +37,6 @@ namespace OpenTkEssTest
     {
         Bitmap bitmap = new Bitmap("../../Data/Textures/logo-dark.jpg");
         int texture;
-
         public Textures()
             : base(800, 600)
         {
@@ -56,20 +52,14 @@ namespace OpenTkEssTest
         {
             GLClearColor(Color.MidnightBlue);
             GL.Enable(EnableCap.Texture2D);
-
             GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
-
             GL.GenTextures(1, out texture);
             GL.BindTexture(TextureTarget.Texture2D, texture);
-
             BitmapData data = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
                 ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-
             bitmap.UnlockBits(data);
-
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
         }
@@ -95,7 +85,6 @@ namespace OpenTkEssTest
         protected override void OnResize(EventArgs e)
         {
             GL.Viewport(0, 0, Width, Height);
-
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
             GL.Ortho(-1.0, 1.0, -1.0, 1.0, 0.0, 4.0);
@@ -128,20 +117,15 @@ namespace OpenTkEssTest
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
-
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
             GL.BindTexture(TextureTarget.Texture2D, texture);
-
             GL.Begin(BeginMode.Quads);
-
             GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(-0.6f, -0.4f);
             GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(0.6f, -0.4f);
             GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(0.6f, 0.4f);
             GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(-0.6f, 0.4f);
-
             GL.End();
-
             SwapBuffers();
         }
 

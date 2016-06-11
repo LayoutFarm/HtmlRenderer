@@ -1,9 +1,9 @@
 ﻿//BSD 2014, WinterDev
+
 using System;
 using System.Collections.Generic;
- 
 namespace PixelFarm.Drawing
-{   
+{
     /// <summary>
     /// conversion helper
     /// </summary>
@@ -70,6 +70,5 @@ namespace PixelFarm.Drawing
         {
             return new PixelFarm.Drawing.Color(c.A, c.R, c.G, c.B);
         }
-
     }
 }

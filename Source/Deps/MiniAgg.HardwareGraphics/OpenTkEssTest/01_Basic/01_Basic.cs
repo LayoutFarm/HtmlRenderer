@@ -30,15 +30,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
-
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-
 #endregion --- Using Directives ---
 
 using Mini;
@@ -64,7 +61,6 @@ namespace OpenTkEssTest
 
         const int num_lists = 13;
         int[] lists = new int[num_lists];
-
         #endregion
 
         #region --- Constructor ---
@@ -80,23 +76,17 @@ namespace OpenTkEssTest
 
         protected override void OnLoad(EventArgs e)
         {
-
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-
             //GL.glMatrixMode(GL.GL_PROJECTION);
             //GL.glLoadIdentity();
             float aspect = this.ClientSize.Width / (float)this.ClientSize.Height;
-
             Matrix4 projection_matrix;
             Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4, aspect, 0.1f, 100f, out projection_matrix);
-
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection_matrix);
-
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
-
         }
 
         #endregion
@@ -121,10 +111,8 @@ namespace OpenTkEssTest
                 clientRect.Width,
                 clientRect.Height));
             float aspect = this.ClientSize.Width / (float)this.ClientSize.Height;
-
             Matrix4 projection_matrix;
             Matrix4.CreatePerspectiveFieldOfView((float)Math.PI / 4, aspect, 1, 64, out projection_matrix);
-
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadMatrix(ref projection_matrix);
         }
@@ -157,7 +145,6 @@ namespace OpenTkEssTest
             GL.MatrixMode(MatrixMode.Modelview);
             GL.LoadIdentity();
             GL.Translate(-1.5f, 0f, -6f);
-
             //GL.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);		// Clear the Screen and the Depth Buffer
             //GL.glMatrixMode(GL.GL_MODELVIEW);				// Modelview Matrix
             // GL.glLoadIdentity();							// reset the current modelview matrix
@@ -171,16 +158,13 @@ namespace OpenTkEssTest
             GL.Color3(0f, 1, 0); GL.Vertex3(-1f, -1f, 0.0f);
             GL.Color3(0f, 0, 1); GL.Vertex3(1f, -1f, 0.0f);
             GL.End();
-
             GL.LoadIdentity();
             //rotate += 50f;
             GL.Translate(1.5f, 0.0f, -6.0f);
             //GL.Rotate(rotate, 1.0f, 0.0f, 0.0f);
             GL.Color3(0.5f, 0.5f, 1.0f);
-
             //-------------------------------
             DrawQuads(-1, 1, .5f, .5f);
-
             //-------------------------------
             float cx = -1;
             float cy = 0;
@@ -200,21 +184,13 @@ namespace OpenTkEssTest
         {
             //clock-wise 
             GL.Begin(BeginMode.Triangles);
-
             GL.Vertex3(x, y, 0);//1
             GL.Vertex3(x + w, y, 0);//2
             GL.Vertex3(x + w, y - h, 0);//3
-
             GL.Vertex3(x + w, y - h, 0);//3
             GL.Vertex3(x, y - h, 0);//4
             GL.Vertex3(x, y, 0);//1
-
             GL.End();
         }
-
-
     }
-
-
-
 }

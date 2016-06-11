@@ -6,13 +6,11 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing;
-
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.ES20;
 using Examples.Tutorial;
 using Mini;
-
 #endregion
 
 using PixelFarm.DrawingGL;
@@ -22,20 +20,16 @@ namespace OpenTkEssTest
     [Info("T103_BasicAggDraw")]
     public class T103_BasicAggDraw : PrebuiltGLControlDemoBase
     {
-
         CanvasGL2d canvas2d;
         protected override void OnInitGLProgram(object sender, EventArgs args)
         {
-
             //--------------------------------------------------------------------------------
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             GL.ClearColor(1, 1, 1, 1);
             //setup viewport size
             int max = Math.Max(this.Width, this.Height);
-
             canvas2d = new CanvasGL2d(max, max);
-
             //square viewport
             GL.Viewport(0, 0, max, max);
         }
@@ -46,21 +40,15 @@ namespace OpenTkEssTest
         protected override void OnGLRender(object sender, EventArgs args)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
-
             canvas2d.StrokeColor = PixelFarm.Drawing.Color.Red;
             //line
             canvas2d.SmoothMode = CanvasSmoothMode.No;
             canvas2d.DrawLine(50, 50, 200, 120);
-
             canvas2d.SmoothMode = CanvasSmoothMode.AggSmooth;
             canvas2d.DrawLine(55, 50, 205, 120);
-
-
             //circle & ellipse
             canvas2d.DrawCircle(100, 100, 25);
             canvas2d.DrawEllipse(200, 200, 25, 50);
-
-
             //--------------------------------------------
             ////rect
             canvas2d.DrawRect(2, 1, 50, 50);
@@ -81,7 +69,6 @@ namespace OpenTkEssTest
                 125,350
             };
             canvas2d.DrawPolygon(polygon1, 3);
-
             float[] polygon2 = new float[]{
                 250,400,
                 450,400,
@@ -91,8 +78,5 @@ namespace OpenTkEssTest
             ////--------------------------------------------
             miniGLControl.SwapBuffers();
         }
-
     }
-
-
 }

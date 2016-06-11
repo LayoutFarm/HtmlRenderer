@@ -23,13 +23,11 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing;
-
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.ES20;
 using Examples.Tutorial;
 using Mini;
-
 #endregion
 
 namespace OpenTkEssTest
@@ -38,11 +36,9 @@ namespace OpenTkEssTest
     [Info("T47_TextureWrap")]
     public class T47_Mipmap2d : PrebuiltGLControlDemoBase
     {
-
         bool isGLInit;
         protected override void OnInitGLProgram(object sender, EventArgs args)
         {
-
             string vs = @"
                  uniform float u_offset;
                  attribute vec4 a_position;
@@ -75,7 +71,6 @@ namespace OpenTkEssTest
             mPositionLoc = GL.GetAttribLocation(mProgram, "a_position");
             //mTexCoordLoc = glGetAttribLocation(mProgram, "a_texCoord");
             mTexCoordLoc = GL.GetAttribLocation(mProgram, "a_texCoord");
-
             //// Get the sampler location
             //mSamplerLoc = glGetUniformLocation(mProgram, "s_texture");
             mSamplerLoc = GL.GetUniformLocation(mProgram, "s_texture");
@@ -85,7 +80,6 @@ namespace OpenTkEssTest
             //// Load the texture
             //mTextureID = CreateMipMappedTexture2D();
             mTextureID = ES2Utils2.CreateMipMappedTexture2D();
-
             //// Check Anisotropy limits
             //glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &mMaxAnisotropy);
             GL.GetFloat((GetPName)(ExtTextureFilterAnisotropic.MAX_TEXTURE_MAX_ANISOTROPY), out mMaxAnisotropy);
@@ -103,7 +97,6 @@ namespace OpenTkEssTest
 
         protected override void OnGLRender(object sender, EventArgs args)
         {
-
             if (!isGLInit)
             {
                 return;
@@ -120,7 +113,6 @@ namespace OpenTkEssTest
              1.0f,  0.0f               // TexCoord 3
             };
             ushort[] indices = new ushort[] { 0, 1, 2, 0, 2, 3 };
-
             // Set the viewport
             //glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
             GL.Viewport(0, 0, this.Width, this.Height);
@@ -157,7 +149,6 @@ namespace OpenTkEssTest
             // Draw quad with nearest sampling
             //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMagFilter.Nearest);
-
             //glUniform1f(mOffsetLoc, -0.6f);
             GL.Uniform1(mOffsetLoc, -0.6f);
             //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
@@ -174,16 +165,13 @@ namespace OpenTkEssTest
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
             //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, mMaxAnisotropy);
             GL.TexParameter(TextureTarget.Texture2D, (TextureParameterName)(ExtTextureFilterAnisotropic.TEXTURE_MAX_ANISOTROPY), mMaxAnisotropy);
-
             //glUniform1f(mOffsetLoc, 0.6f);
             GL.Uniform1(mOffsetLoc, 0.6f);
             //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, indices);
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedShort, indices);
             //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, 1.0f);
             GL.TexParameter(TextureTarget.Texture2D, (TextureParameterName)(ExtTextureFilterAnisotropic.TEXTURE_MAX_ANISOTROPY), 1f);
-
             this.miniGLControl.SwapBuffers();
-
         }
         protected override void DemoClosing()
         {
@@ -192,21 +180,15 @@ namespace OpenTkEssTest
             mProgram = mTextureID = 0;
         }
         int mProgram;
-
         // Attribute locations
         int mPositionLoc;
         int mTexCoordLoc;
-
         // Sampler location
         int mSamplerLoc;
-
         // Offset location
         int mOffsetLoc;
-
-
         // Texture handle
         int mTextureID;
-
         float mMaxAnisotropy;
     }
 }

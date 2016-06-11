@@ -7,8 +7,6 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
- 
-
 namespace Mini
 {
     partial class FormDev : Form
@@ -18,7 +16,7 @@ namespace Mini
             InitializeComponent();
             this.Load += new EventHandler(DevForm_Load);
             this.listBox1.DoubleClick += new EventHandler(listBox1_DoubleClick);
-            this.Text = "DevForm: Double Click The Example!";          
+            this.Text = "DevForm: Double Click The Example!";
         }
         void listBox1_DoubleClick(object sender, EventArgs e)
         {
@@ -32,13 +30,11 @@ namespace Mini
                     return;
                 }
                 exBase.Init();
-
                 //FormTestBed1 testBed = new FormTestBed1();
                 //testBed.WindowState = FormWindowState.Maximized;
                 //testBed.Show();
                 //testBed.LoadExample(exAndDesc);
             }
-
         }
         void DevForm_Load(object sender, EventArgs e)
         {
@@ -61,7 +57,6 @@ namespace Mini
             {
                 return ex1.OrderCode.CompareTo(ex2.OrderCode);
             });
-
             this.listBox1.Items.Clear();
             j = exlist.Count;
             for (int i = 0; i < j; ++i)
@@ -72,10 +67,6 @@ namespace Mini
 
         private void button1_Click(object sender, EventArgs e)
         {
-
-
-
-
         }
     }
 }

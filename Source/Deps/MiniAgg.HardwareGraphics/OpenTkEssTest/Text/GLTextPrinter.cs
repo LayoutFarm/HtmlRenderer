@@ -1,9 +1,8 @@
 ﻿//MIT 2014, WinterDev
-using System.Text;
-using System; 
- 
-using PixelFarm.Agg.Fonts;
 
+using System.Text;
+using System;
+using PixelFarm.Agg.Fonts;
 namespace PixelFarm.DrawingGL
 {
     class GLTextPrinter
@@ -20,14 +19,13 @@ namespace PixelFarm.DrawingGL
             get { return this.currentFont; }
             set { this.currentFont = value; }
         }
-        
+
         public void Print(string t, double x, double y)
         {
             Print(t.ToCharArray(), x, y);
         }
         public void Print(char[] buffer, double x, double y)
         {
-
             int j = buffer.Length;
             int buffsize = j * 2;
             //get kerning list
@@ -55,16 +53,11 @@ namespace PixelFarm.DrawingGL
                 this.canvas2d.DrawImage(bmp,
                     (float)(xpos + (left >> 6)),
                     (float)(y + (glyph.exportGlyph.bboxYmin >> 6)));
-
                 int w = (glyph.exportGlyph.advanceX) >> 6;
                 xpos += (w);
-
                 bmp.Dispose(); //temp here 
                 //-------------------------------------------------------------                
             }
         }
-
-        
-   
     }
 }

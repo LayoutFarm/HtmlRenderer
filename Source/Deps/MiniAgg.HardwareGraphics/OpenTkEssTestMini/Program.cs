@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using System.Windows.Forms;
 using Mini;
 namespace OpenTkEssTest
 {
     static class Program
     {
-
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -19,7 +17,6 @@ namespace OpenTkEssTest
             Application.EnableVisualStyles();
             var formDev = new FormDev();
             Application.Run(formDev);
-
             //var form2 = new FormTestBed();
             //Application.Run(form2);
             //----------------------------

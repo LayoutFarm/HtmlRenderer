@@ -28,7 +28,6 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using OpenTK;
-
 namespace Examples.Tutorial
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -36,7 +35,6 @@ namespace Examples.Tutorial
     {
         public Vector3 Position;
         public uint Color;
-
         public VertexPositionColor(float x, float y, float z, Color color)
         {
             Position = new Vector3(x, y, z);

@@ -23,13 +23,11 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing;
-
 using OpenTK;
-using OpenTK.Graphics; 
+using OpenTK.Graphics;
 using OpenTK.Graphics.ES20;
 using Examples.Tutorial;
 using Mini;
-
 #endregion
 
 namespace OpenTkEssTest
@@ -38,14 +36,9 @@ namespace OpenTkEssTest
     [Info("T46_StencilOperations")]
     public class T46_StencilOperations : PrebuiltGLControlDemoBase
     {
-
-
-
         bool isGLInit;
         protected override void OnInitGLProgram(object sender, EventArgs args)
         {
-
-
             string vs = @"
                  attribute vec4 a_position;
                  void main()
@@ -94,7 +87,6 @@ namespace OpenTkEssTest
         }
         protected override void OnGLRender(object sender, EventArgs args)
         {
-
             if (!isGLInit)
             {
                 return;
@@ -142,7 +134,7 @@ namespace OpenTkEssTest
                 -1.00f, -1.00f, 0.00f, // Big Quad
                  1.00f, -1.00f, 0.00f,
                  1.00f,  1.00f, 0.00f,
-                -1.00f,  1.00f, 0.00f, 
+                -1.00f,  1.00f, 0.00f,
            };
             //      GLubyte indices[][6] =
             //      {
@@ -160,7 +152,6 @@ namespace OpenTkEssTest
                new byte[]{ 12, 13, 14, 12, 14, 15 }, // Quad #3
                new byte[]{ 16, 17, 18, 16, 18, 19 }, // Big Quad
             };
-
             //      static const size_t testCount = 4;
             int testCount = 4;
             //      GLfloat colors[testCount][4] =
@@ -176,7 +167,6 @@ namespace OpenTkEssTest
                 new float[]{ 0.0f, 0.0f, 1.0f, 1.0f },
                 new float[]{ 1.0f, 1.0f, 0.0f, 0.0f },
             };
-
             //      GLuint stencilValues[testCount] =
             //      {
             //          0x7, // Result of test 0
@@ -190,7 +180,6 @@ namespace OpenTkEssTest
                 0x2, // Result of test 2
                 0xff // Result of test 3.  We need to fill this value in at run-time
             };
-
             //      // Set the viewport
             //      glViewport(0, 0, getWindow()->getWidth(), getWindow()->getHeight());
             GL.Viewport(0, 0, this.Width, this.Height);
@@ -240,7 +229,6 @@ namespace OpenTkEssTest
             GL.StencilFunc(StencilFunction.Greater, 0x3, 0x3);
             GL.StencilOp(StencilOp.Keep, StencilOp.Decr, StencilOp.Keep);
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedByte, indices[1]);
-
             //      // Test 2:
             //      //
             //      // Initialize the lower-left region.  Here we'll increment (with saturation) the
@@ -257,7 +245,6 @@ namespace OpenTkEssTest
             GL.StencilFunc(StencilFunction.Equal, 0x1, 0x3);
             GL.StencilOp(StencilOp.Keep, StencilOp.Incr, StencilOp.Incr);
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedByte, indices[2]);
-
             //      // Test 3:
             //      //
             //      // Finally, initialize the lower-right region.  We'll invert the stencil value
@@ -275,7 +262,6 @@ namespace OpenTkEssTest
             GL.StencilFunc(StencilFunction.Equal, 0x2, 0x1);
             GL.StencilOp(StencilOp.Invert, StencilOp.Keep, StencilOp.Keep);
             GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedByte, indices[3]);
-
             //      // Since we don't know at compile time how many stencil bits are present, we'll
             //      // query, and update the value correct value in the  stencilValues arrays for the
             //      // fourth tests. We'll use this value later in rendering.
@@ -306,8 +292,6 @@ namespace OpenTkEssTest
             //      // Reset the stencil mask
             //      glStencilMask(0xFF);
             GL.StencilMask(0xFF);
-
-
             this.miniGLControl.SwapBuffers();
         }
         protected override void DemoClosing()
@@ -317,10 +301,8 @@ namespace OpenTkEssTest
         }
         // Handle to a program object
         int mProgram;
-
         // Attribute locations
         int mPositionLoc;
-
         // Uniform locations
         int mColorLoc;
     }

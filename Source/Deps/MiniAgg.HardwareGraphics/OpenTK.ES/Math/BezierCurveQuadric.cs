@@ -11,7 +11,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 namespace OpenTK
 {
     /// <summary>
@@ -26,17 +25,14 @@ namespace OpenTK
         /// Start anchor point.
         /// </summary>
         public Vector2 StartAnchor;
-
         /// <summary>
         /// End anchor point.
         /// </summary>
         public Vector2 EndAnchor;
-
         /// <summary>
         /// Control point, controls the direction of both endings of the curve.
         /// </summary>
         public Vector2 ControlPoint;
-
         /// <summary>
         /// The parallel value.
         /// </summary>
@@ -45,7 +41,6 @@ namespace OpenTK
         /// the original curve, 5.0f i.e. stands for a curve that has always a distance
         /// of 5.f to the orignal curve at any point.</remarks>
         public float Parallel;
-
         #endregion
 
         #region Constructors
@@ -92,20 +87,15 @@ namespace OpenTK
         {
             Vector2 r = new Vector2();
             float c = 1.0f - t;
-
             r.X = (c * c * StartAnchor.X) + (2 * t * c * ControlPoint.X) + (t * t * EndAnchor.X);
             r.Y = (c * c * StartAnchor.Y) + (2 * t * c * ControlPoint.Y) + (t * t * EndAnchor.Y);
-
             if (Parallel == 0.0f)
                 return r;
-
             Vector2 perpendicular = new Vector2();
-
             if (t == 0.0f)
                 perpendicular = ControlPoint - StartAnchor;
             else
                 perpendicular = r - CalculatePointOfDerivative(t);
-
             return r + Vector2.Normalize(perpendicular).PerpendicularRight * Parallel;
         }
 
@@ -117,10 +107,8 @@ namespace OpenTK
         private Vector2 CalculatePointOfDerivative(float t)
         {
             Vector2 r = new Vector2();
-
             r.X = (1.0f - t) * StartAnchor.X + t * ControlPoint.X;
             r.Y = (1.0f - t) * StartAnchor.Y + t * ControlPoint.Y;
-
             return r;
         }
 
@@ -135,7 +123,6 @@ namespace OpenTK
         {
             float length = 0.0f;
             Vector2 old = CalculatePoint(0.0f);
-
             for (float i = precision; i < (1.0f + precision); i += precision)
             {
                 Vector2 n = CalculatePoint(i);
