@@ -13,10 +13,8 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
-
-
-
 namespace PixelFarm.Agg.Lines
 {
     //-----------------------------------------------------------line_aa_vertex
@@ -26,10 +24,8 @@ namespace PixelFarm.Agg.Lines
     {
         public readonly int x;
         public readonly int y;
-
         const int SIGDIFF = LineAA.SUBPIXEL_SCALE + (LineAA.SUBPIXEL_SCALE / 2);
         public int len;
-
         public LineAAVertex(int x, int y)
         {
             this.x = x;
@@ -40,13 +36,11 @@ namespace PixelFarm.Agg.Lines
         {
             int dx = val.x - x;
             int dy = val.y - y;
-
             if ((dx + dy) == 0)
             {
                 return false;
             }
             return (len = AggBasics.uround(Math.Sqrt(dx * dx + dy * dy))) > SIGDIFF;
-
         }
     }
 
@@ -122,7 +116,6 @@ namespace PixelFarm.Agg.Lines
                 }
             }
         }
-
     }
 
     //=======================================================rasterizer_outline_aa
@@ -134,7 +127,6 @@ namespace PixelFarm.Agg.Lines
         bool m_round_cap;
         int m_start_x;
         int m_start_y;
-
         public enum OutlineJoin
         {
             NoJoin,             //-----outline_no_join
@@ -170,9 +162,7 @@ namespace PixelFarm.Agg.Lines
             int start,
             int end)
         {
-
             int i;
-
             for (i = start; i < end; i++)
             {
                 if (m_line_join == OutlineJoin.Round)
@@ -204,24 +194,19 @@ namespace PixelFarm.Agg.Lines
                 dv1.y1 = dv1.y2;
                 dv.lcurr = dv.lnext;
                 dv.lnext = m_src_vertices[dv.idx].len;
-
                 ++dv.idx;
                 if (dv.idx >= m_src_vertices.Count) dv.idx = 0;
-
                 dv1.x2 = m_src_vertices[dv.idx].x;
                 dv1.y2 = m_src_vertices[dv.idx].y;
-
                 curr = next;
                 next = new LineParameters(dv1.x1, dv1.y1, dv1.x2, dv1.y2, dv.lnext);
                 dv2.xb1 = dv2.xb2;
                 dv2.yb1 = dv2.yb2;
-
                 switch (m_line_join)
                 {
                     case OutlineJoin.NoJoin:
                         dv.flags = 3;
                         break;
-
                     case OutlineJoin.Mitter:
                         dv.flags >>= 1;
                         dv.flags |= (curr.DiagonalQuadrant ==
@@ -231,13 +216,11 @@ namespace PixelFarm.Agg.Lines
                             LineAA.Bisectrix(curr, next, out dv2.xb2, out dv2.yb2);
                         }
                         break;
-
                     case OutlineJoin.Round:
                         dv.flags >>= 1;
                         dv.flags |= (((curr.DiagonalQuadrant ==
                             next.DiagonalQuadrant) ? 1 : 0) << 1);
                         break;
-
                     case OutlineJoin.AccurateJoin:
                         dv.flags = 0;
                         LineAA.Bisectrix(curr, next, out dv2.xb2, out dv2.yb2);
@@ -274,7 +257,6 @@ namespace PixelFarm.Agg.Lines
         {
             get { return this.m_round_cap; }
             set { this.m_round_cap = value; }
-
         }
         public void MoveTo(int x, int y)
         {
@@ -302,9 +284,7 @@ namespace PixelFarm.Agg.Lines
             DrawVarsPart0 dv = new DrawVarsPart0();
             DrawVarsPart1 dv1 = new DrawVarsPart1();
             DrawVarsPart2 dv2 = new DrawVarsPart2();
-
             LineAAVertex v;
-
             int x1;
             int y1;
             int x2;
@@ -312,53 +292,44 @@ namespace PixelFarm.Agg.Lines
             int lprev;
             LineParameters curr = null;
             LineParameters next = null;
-
             if (close_polygon)
             {
                 if (m_src_vertices.Count >= 3)
                 {
                     dv.idx = 2;
-
                     v = m_src_vertices[m_src_vertices.Count - 1];
                     x1 = v.x;
                     y1 = v.y;
                     lprev = v.len;
-
                     v = m_src_vertices[0];
                     x2 = v.x;
                     y2 = v.y;
                     dv.lcurr = v.len;
                     LineParameters prev = new LineParameters(x1, y1, x2, y2, lprev);
-
                     v = m_src_vertices[1];
                     dv1.x1 = v.x;
                     dv1.y1 = v.y;
                     dv.lnext = v.len;
                     curr = new LineParameters(x2, y2, dv1.x1, dv1.y1, dv.lcurr);
-
                     v = m_src_vertices[dv.idx];
                     dv1.x2 = v.x;
                     dv1.y2 = v.y;
                     next = new LineParameters(dv1.x1, dv1.y1, dv1.x2, dv1.y2, dv.lnext);
-
                     dv2.xb1 = 0;
                     dv2.yb1 = 0;
                     dv2.xb2 = 0;
                     dv2.yb2 = 0;
-
                     switch (m_line_join)
                     {
                         case OutlineJoin.NoJoin:
                             dv.flags = 3;
                             break;
-
                         case OutlineJoin.Mitter:
                         case OutlineJoin.Round:
                             dv.flags =
                                 (prev.DiagonalQuadrant == curr.DiagonalQuadrant ? 1 : 0) |
                                     ((curr.DiagonalQuadrant == next.DiagonalQuadrant ? 1 : 0) << 1);
                             break;
-
                         case OutlineJoin.AccurateJoin:
                             dv.flags = 0;
                             break;
@@ -383,7 +354,6 @@ namespace PixelFarm.Agg.Lines
                     case 0:
                     case 1:
                         break;
-
                     case 2:
                         {
                             v = m_src_vertices[0];
@@ -409,7 +379,6 @@ namespace PixelFarm.Agg.Lines
                             }
                         }
                         break;
-
                     case 3:
                         {
                             int x3, y3;
@@ -427,7 +396,6 @@ namespace PixelFarm.Agg.Lines
                             y3 = v.y;
                             LineParameters lp1 = new LineParameters(x1, y1, x2, y2, lprev);
                             LineParameters lp2 = new LineParameters(x2, y2, x3, y3, lnext);
-
                             if (m_round_cap)
                             {
                                 m_ren.SemiDot(CompareDistStart, x1, y1, x1 + (y2 - y1), y1 - (x2 - x1));
@@ -437,10 +405,8 @@ namespace PixelFarm.Agg.Lines
                             {
                                 m_ren.Line3(lp1, x1 + (y2 - y1), y1 - (x2 - x1),
                                                   x2 + (y2 - y1), y2 - (x2 - x1));
-
                                 m_ren.Pie(x2, y2, x2 + (y2 - y1), y2 - (x2 - x1),
                                                    x2 + (y3 - y2), y2 - (x3 - x2));
-
                                 m_ren.Line3(lp2, x2 + (y3 - y2), y2 - (x3 - x2),
                                                   x3 + (y3 - y2), y3 - (x3 - x2));
                             }
@@ -449,7 +415,6 @@ namespace PixelFarm.Agg.Lines
                                 LineAA.Bisectrix(lp1, lp2, out dv2.xb1, out dv2.yb1);
                                 m_ren.Line3(lp1, x1 + (y2 - y1), y1 - (x2 - x1),
                                                   dv2.xb1, dv2.yb1);
-
                                 m_ren.Line3(lp2, dv2.xb1, dv2.yb1,
                                                   x3 + (y3 - y2), y3 - (x3 - x2));
                             }
@@ -459,51 +424,42 @@ namespace PixelFarm.Agg.Lines
                             }
                         }
                         break;
-
                     default:
                         {
                             dv.idx = 3;
-
                             v = m_src_vertices[0];
                             x1 = v.x;
                             y1 = v.y;
                             lprev = v.len;
-
                             v = m_src_vertices[1];
                             x2 = v.x;
                             y2 = v.y;
                             dv.lcurr = v.len;
                             LineParameters prev = new LineParameters(x1, y1, x2, y2, lprev);
-
                             v = m_src_vertices[2];
                             dv1.x1 = v.x;
                             dv1.y1 = v.y;
                             dv.lnext = v.len;
                             curr = new LineParameters(x2, y2, dv1.x1, dv1.y1, dv.lcurr);
-
                             v = m_src_vertices[dv.idx];
                             dv1.x2 = v.x;
                             dv1.y2 = v.y;
                             next = new LineParameters(dv1.x1, dv1.y1, dv1.x2, dv1.y2, dv.lnext);
-
                             dv2.xb1 = 0;
                             dv2.yb1 = 0;
                             dv2.xb2 = 0;
                             dv2.yb2 = 0;
-
                             switch (m_line_join)
                             {
                                 case OutlineJoin.NoJoin:
                                     dv.flags = 3;
                                     break;
-
                                 case OutlineJoin.Mitter:
                                 case OutlineJoin.Round:
                                     dv.flags =
                                         (prev.DiagonalQuadrant == curr.DiagonalQuadrant ? 1 : 0) |
                                             ((curr.DiagonalQuadrant == next.DiagonalQuadrant ? 1 : 0) << 1);
                                     break;
-
                                 case OutlineJoin.AccurateJoin:
                                     dv.flags = 0;
                                     break;
@@ -543,7 +499,6 @@ namespace PixelFarm.Agg.Lines
                             }
 
                             Draw(ref dv, ref dv1, ref dv2, ref curr, ref next, 1, m_src_vertices.Count - 2);
-
                             if ((dv.flags & 1) == 0)
                             {
                                 if (m_line_join == OutlineJoin.Round)
@@ -573,7 +528,6 @@ namespace PixelFarm.Agg.Lines
                                                curr.x2 + (curr.y2 - curr.y1),
                                                curr.y2 - (curr.x2 - curr.x1));
                             }
-
                         }
                         break;
                 }
@@ -587,7 +541,7 @@ namespace PixelFarm.Agg.Lines
             switch (cmd)
             {
                 case VertexCmd.HasMore:
-                    break;                    
+                    break;
                 case VertexCmd.MoveTo:
                     Render(false);
                     MoveTo(x, y);
@@ -610,7 +564,6 @@ namespace PixelFarm.Agg.Lines
             double x;
             double y;
             VertexCmd cmd;
-
             var snapIter = s.GetVertexSnapIter();
             while ((cmd = snapIter.GetNextVertex(out x, out y)) != VertexCmd.Stop)
             {
@@ -620,7 +573,6 @@ namespace PixelFarm.Agg.Lines
 
 
             Render(false);
-
         }
         public void RenderVertexSnap(VertexStoreSnap s, ColorRGBA c)
         {

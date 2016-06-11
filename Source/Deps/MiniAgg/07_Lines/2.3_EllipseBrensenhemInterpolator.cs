@@ -13,10 +13,10 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using PixelFarm.Agg.Image;
 using PixelFarm.Agg.Transform;
-
 namespace PixelFarm.Agg.Lines
 {
     public class EllipseBresenhamInterpolator
@@ -30,7 +30,6 @@ namespace PixelFarm.Agg.Lines
         int m_inc_x;
         int m_inc_y;
         int m_cur_f;
-
         public EllipseBresenhamInterpolator(int rx, int ry)
         {
             m_rx2 = (rx * rx);
@@ -51,19 +50,14 @@ namespace PixelFarm.Agg.Lines
         {
             int mx, my, mxy, min_m;
             int fx, fy, fxy;
-
             mx = fx = m_cur_f + m_inc_x + m_ry2;
             if (mx < 0) mx = -mx;
-
             my = fy = m_cur_f + m_inc_y + m_rx2;
             if (my < 0) my = -my;
-
             mxy = fxy = m_cur_f + m_inc_x + m_ry2 + m_inc_y + m_rx2;
             if (mxy < 0) mxy = -mxy;
-
             min_m = mx;
             bool flag = true;
-
             if (min_m > my)
             {
                 min_m = my;
@@ -71,7 +65,6 @@ namespace PixelFarm.Agg.Lines
             }
 
             m_dx = m_dy = 0;
-
             if (min_m > mxy)
             {
                 m_inc_x += m_two_ry2;
@@ -95,6 +88,4 @@ namespace PixelFarm.Agg.Lines
             m_dy = 1;
         }
     }
-
-
 }

@@ -13,10 +13,10 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 namespace PixelFarm.Agg.Lines
 {
-
     public static class LineAA
     {
         public const int SUBPIXEL_SHIFT = 8;                          //----line_subpixel_shift
@@ -24,7 +24,6 @@ namespace PixelFarm.Agg.Lines
         public const int SUBPIXEL_MARK = SUBPIXEL_SCALE - 1;    //----line_subpixel_mask
         public const int SUBPIXEL_COORD = (1 << 28) - 1;              //----line_max_coord
         public const int MAX_LENGTH = 1 << (SUBPIXEL_SHIFT + 10); //----line_max_length
-
         public const int MR_SUBPIXEL_SHIFT = 4;                           //----line_mr_subpixel_shift
         public const int MR_SUBPIXEL_SCALE = 1 << MR_SUBPIXEL_SHIFT; //----line_mr_subpixel_scale 
         public const int MR_SUBPIXEL_MASK = MR_SUBPIXEL_SCALE - 1;   //----line_mr_subpixel_mask 
@@ -64,7 +63,6 @@ namespace PixelFarm.Agg.Lines
             double k = (double)(l2.len) / (double)(l1.len);
             double tx = l2.x2 - (l2.x1 - l1.x1) * k;
             double ty = l2.y2 - (l2.y1 - l1.y1) * k;
-
             //All bisectrices must be on the right of the line
             //If the next point is on the left (l1 => l2.2)
             //then the bisectix should be rotated by 180 degrees.
@@ -123,7 +121,4 @@ namespace PixelFarm.Agg.Lines
             }
         }
     }
-
-   
-
 }

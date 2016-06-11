@@ -17,11 +17,10 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
-using System;
 
+using System;
 using PixelFarm.Agg;
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg.Image
 {
     public abstract class ProxyImage : IImageReaderWriter
@@ -31,7 +30,7 @@ namespace PixelFarm.Agg.Image
         {
             this.linkedImage = linkedImage;
         }
-    
+
         public virtual int Width
         {
             get
@@ -48,7 +47,7 @@ namespace PixelFarm.Agg.Image
             }
         }
 
-        public virtual int Stride 
+        public virtual int Stride
         {
             get { return linkedImage.Stride; }
         }
@@ -73,7 +72,7 @@ namespace PixelFarm.Agg.Image
         {
             return linkedImage.GetPixel(x, y);
         }
-          
+
         public virtual void CopyFrom(IImageReaderWriter sourceImage, RectInt sourceImageRect, int destXOffset, int destYOffset)
         {
             linkedImage.CopyFrom(sourceImage, sourceImageRect, destXOffset, destYOffset);
@@ -151,7 +150,7 @@ namespace PixelFarm.Agg.Image
 
 
 
-        public virtual int BytesBetweenPixelsInclusive 
+        public virtual int BytesBetweenPixelsInclusive
         {
             get { return linkedImage.BytesBetweenPixelsInclusive; }
         }
@@ -163,7 +162,5 @@ namespace PixelFarm.Agg.Image
                 return linkedImage.BitDepth;
             }
         }
-         
     }
-
 }

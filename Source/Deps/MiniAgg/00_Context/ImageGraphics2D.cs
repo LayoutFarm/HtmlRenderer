@@ -18,13 +18,12 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
-
-using PixelFarm.Agg.Image; 
+using PixelFarm.Agg.Image;
 using PixelFarm.Agg.Transform;
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg
 {
     partial class ImageGraphics2D : Graphics2D
@@ -32,20 +31,15 @@ namespace PixelFarm.Agg
         ImageReaderWriterBase destImageReaderWriter;
         ScanlinePacked8 sclinePack8;
         VertexStore myTmpImgRectVxs = new VertexStore();
-
-
         ScanlineRasToDestBitmapRenderer sclineRasToBmp;
         PixelBlenderBGRA pixBlenderRGBA32;
         IPixelBlender currentBlender;
-
         double ox; //canvas origin x
         double oy; //canvas origin y
         int destWidth;
         int destHeight;
         RectInt clipBox;
-
         ImageInterpolationQuality imgInterpolationQuality = ImageInterpolationQuality.Bilinear;
-
         public ImageGraphics2D(ActualImage destImage)
         {
             //create from actual image
@@ -55,13 +49,10 @@ namespace PixelFarm.Agg
             this.sclineRasToBmp = new ScanlineRasToDestBitmapRenderer();
             this.destWidth = destImage.Width;
             this.destHeight = destImage.Height;
-
             this.clipBox = new RectInt(0, 0, destImage.Width, destImage.Height);
             this.sclineRas.SetClipBox(this.clipBox);
-
             this.sclinePack8 = new ScanlinePacked8();
             this.currentBlender = this.pixBlenderRGBA32 = new PixelBlenderBGRA();
-
         }
         public override ScanlinePacked8 ScanlinePacked8
         {
@@ -119,14 +110,11 @@ namespace PixelFarm.Agg
         }
         public override void Clear(ColorRGBA color)
         {
-
             RectInt clippingRectInt = GetClippingRect();
-
             var destImage = this.DestImage;
             int width = destImage.Width;
             int height = destImage.Height;
             byte[] buffer = destImage.GetBuffer();
-
             switch (destImage.BitDepth)
             {
                 case 8:
@@ -166,7 +154,6 @@ namespace PixelFarm.Agg
                     break;
                 case 32:
                     {
-
                         //------------------------------
                         //fast clear buffer
                         //skip clipping ****
@@ -223,11 +210,9 @@ namespace PixelFarm.Agg
                                     }
                                 }
                             }
-                             
                         }
                     }
                     break;
-
                 default:
                     throw new NotImplementedException();
             }
@@ -244,13 +229,12 @@ namespace PixelFarm.Agg
                 sclineRas.AddPath(transform.TransformToVxs(vertextSnap));
             }
             else
-            {   
+            {
                 sclineRas.AddPath(vertextSnap);
             }
             sclineRasToBmp.RenderWithColor(destImageReaderWriter, sclineRas, sclinePack8, color);
             unchecked { destImageChanged++; };
             //-----------------------------
         }
-    
     }
 }

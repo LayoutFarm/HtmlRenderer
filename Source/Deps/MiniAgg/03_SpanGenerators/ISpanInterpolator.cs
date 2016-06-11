@@ -17,10 +17,10 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 namespace PixelFarm.Agg
 {
-
     public interface ISpanInterpolator
     {
         //------------------------------------------------
@@ -29,10 +29,9 @@ namespace PixelFarm.Agg
         void Next();
         //------------------------------------------------
         Transform.ICoordTransformer Transformer { get; set; }
-         
+
         //------------------------------------------------
         void ReSync(double xe, double ye, int len);
         void GetLocalScale(out int x, out int y);
     }
-
 }

@@ -13,24 +13,22 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using PixelFarm.Agg.Image;
 using PixelFarm.Agg.Transform;
-
 namespace PixelFarm.Agg.Lines
 {
     public abstract class LineRenderer
     {
         ColorRGBA m_color;
-
         public delegate bool CompareFunction(int value);
-        
         public ColorRGBA Color
         {
             get { return m_color; }
             set { this.m_color = value; }
         }
-         
+
 
         public abstract void SemiDot(CompareFunction cmp, int xc1, int yc1, int xc2, int yc2);
         public abstract void SemiDotHLine(CompareFunction cmp, int xc1, int yc1, int xc2, int yc2, int x1, int y1, int x2);
@@ -51,5 +49,4 @@ namespace PixelFarm.Agg.Lines
                 LineAA.SUBPIXEL_COORD);
         }
     }
-
 }

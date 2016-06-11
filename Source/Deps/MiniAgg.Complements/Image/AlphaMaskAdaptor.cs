@@ -13,9 +13,9 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using PixelFarm.Agg;
-
 namespace PixelFarm.Agg.Image
 {
     //==================================================pixfmt_amask_adaptor
@@ -23,11 +23,8 @@ namespace PixelFarm.Agg.Image
     {
         IAlphaMask m_mask;
         byte[] m_spans;
-
         enum span_extra_tail_e { span_extra_tail = 256 };
-
         const byte cover_full = 255;
-
         void realloc_span(int len)
         {
             if (len > m_spans.Length)
@@ -42,7 +39,6 @@ namespace PixelFarm.Agg.Image
         {
             realloc_span(len);
             AggMemMx.memset(m_spans, 0, cover, len);
-             
         }
 
         void init_span(int len, byte[] covers, int coversIndex)

@@ -25,9 +25,9 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using System.Collections;
-
 namespace PixelFarm.Agg
 {
     // Supported byte orders for RGB and RGBA pixel formats
@@ -44,26 +44,21 @@ namespace PixelFarm.Agg
         const int BASE_SHIFT = 8;
         const int BASE_SCALE = (int)(1 << BASE_SHIFT);
         const int BASE_MASK = BASE_SCALE - 1;
-
         public float red;
         public float green;
         public float blue;
         public float alpha;
-
         public int Red0To255
         {
             get { return AggBasics.uround_f(red * (float)BASE_MASK); }
-
         }
         public int Green0To255
         {
             get { return AggBasics.uround_f(green * (float)BASE_MASK); }
-
         }
         public int Blue0To255
         {
             get { return AggBasics.uround_f(blue * (float)BASE_MASK); }
-
         }
         public int Alpha0To255
         {
@@ -119,7 +114,6 @@ namespace PixelFarm.Agg
         public ColorRGBAf(ColorRGBAf c)
             : this(c, c.alpha)
         {
-
         }
         public ColorRGBAf(ColorRGBAf c, float a_)
         {
@@ -166,7 +160,6 @@ namespace PixelFarm.Agg
                 double sv;
                 int sextant;
                 double fract, vsf, mid1, mid2;
-
                 m = lightness0To1 + lightness0To1 - v;
                 sv = (v - m) / v;
                 hue0To1 *= 6.0;
@@ -221,7 +214,6 @@ namespace PixelFarm.Agg
             double minRGB = Math.Min(red, Math.Min(green, blue));
             double deltaMaxToMin = maxRGB - minRGB;
             double r2, g2, b2;
-
             hue0To1 = 0; // default to black
             saturation0To1 = 0;
             lightness0To1 = 0;
@@ -285,7 +277,6 @@ namespace PixelFarm.Agg
             double lightness0To1;
             original.GetHSL(out hue0To1, out saturation0To1, out lightness0To1);
             saturation0To1 *= saturationMultiplier;
-
             return FromHSL(hue0To1, saturation0To1, lightness0To1);
         }
 
@@ -296,7 +287,6 @@ namespace PixelFarm.Agg
             double lightness0To1;
             original.GetHSL(out hue0To1, out saturation0To1, out lightness0To1);
             lightness0To1 *= lightnessMultiplier;
-
             return FromHSL(hue0To1, saturation0To1, lightness0To1);
         }
 
@@ -508,7 +498,6 @@ namespace PixelFarm.Agg
         public static ColorRGBAf FromWaveLength(float wl, float gamma)
         {
             ColorRGBAf t = new ColorRGBAf(0.0f, 0.0f, 0.0f);
-
             if (wl >= 380.0 && wl <= 440.0)
             {
                 t.red = (float)(-1.0 * (wl - 440.0) / (440.0 - 380.0));
@@ -542,11 +531,9 @@ namespace PixelFarm.Agg
             float s = 1.0f;
             if (wl > 700.0) s = (float)(0.3 + 0.7 * (780.0 - wl) / (780.0 - 700.0));
             else if (wl < 420.0) s = (float)(0.3 + 0.7 * (wl - 380.0) / (420.0 - 380.0));
-
             t.red = (float)Math.Pow(t.red * s, gamma);
             t.green = (float)Math.Pow(t.green * s, gamma);
             t.blue = (float)Math.Pow(t.blue * s, gamma);
-
             return t;
         }
 
@@ -654,17 +641,12 @@ namespace PixelFarm.Agg
         public byte green;
         public byte red;
         public byte alpha;
-
-
         public const int COVER_SHIFT = 8;
         public const int COVER_SIZE = 1 << COVER_SHIFT;  //----cover_size 
         public const int COVER_MASK = COVER_SIZE - 1;    //----cover_mask   
-
         public const int BASE_SHIFT = 8;
         public const int BASE_SCALE = (1 << BASE_SHIFT);
         public const int BASE_MASK = (BASE_SCALE - 1);
-
-
         public static readonly ColorRGBA White = new ColorRGBA(255, 255, 255, 255);
         public static readonly ColorRGBA LightGray = new ColorRGBA(225, 225, 225, 255);
         public static readonly ColorRGBA Gray = new ColorRGBA(125, 125, 125, 235);
@@ -682,17 +664,13 @@ namespace PixelFarm.Agg
         public static readonly ColorRGBA Yellow = new ColorRGBA(255, 255, 0, 255);
         public static readonly ColorRGBA YellowGreen = new ColorRGBA(154, 205, 50, 255);
         public static readonly ColorRGBA Transparent = new ColorRGBA(0, 0, 0, 0);
-
-
         public byte Red0To255
         {
             get { return red; }
-
         }
         public byte Green0To255
         {
             get { return green; }
-
         }
         public byte Blue0To255
         {
@@ -711,7 +689,6 @@ namespace PixelFarm.Agg
         }
         public ColorRGBA(byte r_, byte g_, byte b_, byte a_)
         {
-
             red = r_;
             green = g_;
             blue = b_;
@@ -725,7 +702,6 @@ namespace PixelFarm.Agg
                ((byte)AggBasics.uround(g_ * (double)BASE_MASK)),
                ((byte)AggBasics.uround(b_ * (double)BASE_MASK)),
                ((byte)AggBasics.uround(a_ * (double)BASE_MASK)));
-
         }
         public static ColorRGBA Make(double r_, double g_, double b_)
         {
@@ -777,7 +753,7 @@ namespace PixelFarm.Agg
             blue = (byte)c.blue;
             alpha = (byte)a_;
         }
-         
+
 
         public ColorRGBA(ColorRGBAf c)
         {
@@ -792,7 +768,6 @@ namespace PixelFarm.Agg
             //if a.red== bred then
             //a.red ^ b.red =0 
             return ((a.red ^ b.red) ^ (a.green ^ b.green) ^ (b.blue ^ a.blue) ^ (a.alpha ^ b.alpha)) == 0;
-
             //if (a.red == b.red && a.green == b.green && a.blue == b.blue && a.alpha == b.alpha)
             //{
             //    return true;
@@ -804,7 +779,7 @@ namespace PixelFarm.Agg
         {
             //if a.red !=  b.red then
             //a.red ^ b.red  =1 
-            return ((a.red ^ b.red) ^ (a.green ^ b.green) ^ (b.blue ^ a.blue) ^ (a.alpha ^ b.alpha)) != 0; 
+            return ((a.red ^ b.red) ^ (a.green ^ b.green) ^ (b.blue ^ a.blue) ^ (a.alpha ^ b.alpha)) != 0;
             //if (a.red != b.red || a.green != b.green || a.blue != b.blue || a.alpha != b.alpha)
             //{
             //    return true;
@@ -837,7 +812,6 @@ namespace PixelFarm.Agg
 
         public ColorRGBA CreateGradient(ColorRGBA another, float colorDistanceRatio)
         {
-
             //int ik = AggBasics.uround(colorDistanceRatio * BASE_SCALE); 
             //byte r = (byte)((int)(Red0To255) + ((((int)(another.Red0To255) - Red0To255) * ik) >> BASE_SHIFT));
             //byte g = (byte)((int)(Green0To255) + ((((int)(another.Green0To255) - Green0To255) * ik) >> BASE_SHIFT));
@@ -854,26 +828,20 @@ namespace PixelFarm.Agg
             byte g = (byte)(Green0To255 + (another.Green0To255 - this.Green0To255) * colorDistanceRatio);
             byte b = (byte)(Blue0To255 + (another.Blue0To255 - this.Blue0To255) * colorDistanceRatio);
             byte a = (byte)(Alpha0To255 + (another.Alpha0To255 - this.Alpha0To255) * colorDistanceRatio);
-
-
-
             return new ColorRGBA(r, g, b, a);
         }
 
         static public ColorRGBA operator +(ColorRGBA A, ColorRGBA B)
         {
-
             byte r = (byte)((A.red + B.red) > 255 ? 255 : (A.red + B.red));
             byte g = (byte)((A.green + B.green) > 255 ? 255 : (A.green + B.green));
             byte b = (byte)((A.blue + B.blue) > 255 ? 255 : (A.blue + B.blue));
             byte a = (byte)((A.alpha + B.alpha) > 255 ? 255 : (A.alpha + B.alpha));
             return new ColorRGBA(r, g, b, a);
-
         }
 
         static public ColorRGBA operator -(ColorRGBA A, ColorRGBA B)
         {
-
             byte red = (byte)((A.red - B.red) < 0 ? 0 : (A.red - B.red));
             byte green = (byte)((A.green - B.green) < 0 ? 0 : (A.green - B.green));
             byte blue = (byte)((A.blue - B.blue) < 0 ? 0 : (A.blue - B.blue));
@@ -883,8 +851,8 @@ namespace PixelFarm.Agg
 
         static public ColorRGBA operator *(ColorRGBA A, float b)
         {
-            float conv = b / 255f;  
-            return Make(A.red * conv, A.green * conv, A.blue * conv, A.alpha * conv);             
+            float conv = b / 255f;
+            return Make(A.red * conv, A.green * conv, A.blue * conv, A.alpha * conv);
         }
 
         //public void AddColor(ColorRGBA c, int cover)
@@ -932,9 +900,7 @@ namespace PixelFarm.Agg
 
         public ColorRGBA Blend(ColorRGBA other, float weight)
         {
-
             return this * (1 - weight) + other * weight;
-      
         }
 #if DEBUG
         public override string ToString()

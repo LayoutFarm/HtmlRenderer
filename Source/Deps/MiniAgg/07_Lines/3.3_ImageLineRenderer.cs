@@ -20,7 +20,6 @@
 #if true
 using System;
 using PixelFarm.Agg.Image;
-
 namespace PixelFarm.Agg.Lines
 {
     /*
@@ -69,7 +68,6 @@ namespace PixelFarm.Agg.Lines
         int m_width_hr;
         int m_half_height_hr;
         int m_offset_y_hr;
-
         //--------------------------------------------------------------------
         public LineImagePattern(IPatternFilter filter)
         {
@@ -87,7 +85,6 @@ namespace PixelFarm.Agg.Lines
             get
             {
                 throw new NotSupportedException();
-
             }
         }
         ~LineImagePattern()
@@ -110,7 +107,6 @@ namespace PixelFarm.Agg.Lines
             m_width_hr = 0;
             m_half_height_hr = 0;
             m_offset_y_hr = (0);
-
             Create(src.MyBuffer);
         }
 
@@ -118,7 +114,6 @@ namespace PixelFarm.Agg.Lines
         //--------------------------------------------------------------------
         public void Create(IImageReaderWriter src)
         {
-
             // we are going to create a dialated image for filtering
             // we add m_dilation pixels to every side of the image and then copy the image in the x
             // dirrection into each end so that we can sample into this image to get filtering on x repeating
@@ -140,7 +135,6 @@ namespace PixelFarm.Agg.Lines
             m_half_height_hr = (int)AggBasics.uround(src.Height * LineAA.SUBPIXEL_SCALE / 2);
             m_offset_y_hr = m_dilation_hr + m_half_height_hr - LineAA.SUBPIXEL_SCALE / 2;
             m_half_height_hr += LineAA.SUBPIXEL_SCALE / 2;
-
             int bufferWidth = m_width + m_dilation * 2;
             int bufferHeight = m_height + m_dilation * 2;
             int bytesPerPixel = src.BitDepth / 8;
@@ -153,10 +147,8 @@ namespace PixelFarm.Agg.Lines
 
 
             m_buf = new ChildImage(m_data, 0, bufferWidth, bufferHeight, bufferWidth * bytesPerPixel, src.BitDepth, bytesPerPixel);
-
             byte[] destBuffer = m_buf.GetBuffer();
             byte[] srcBuffer = src.GetBuffer();
-
             // copy the image into the middle of the dest
             for (int y = 0; y < m_height; y++)
             {
@@ -176,10 +168,8 @@ namespace PixelFarm.Agg.Lines
             {
                 int s1Offset = src.GetBufferOffsetXY(0, y);
                 int d1Offset = m_buf.GetBufferOffsetXY(m_dilation + m_width, y);
-
                 int s2Offset = src.GetBufferOffsetXY(m_width - m_dilation, y);
                 int d2Offset = m_buf.GetBufferOffsetXY(0, y);
-
                 for (int x = 0; x < m_dilation; x++)
                 {
                     for (int channel = 0; channel < bytesPerPixel; channel++)
@@ -206,7 +196,6 @@ namespace PixelFarm.Agg.Lines
 
         //--------------------------------------------------------------------
         public IPatternFilter PatternFilter { get { return m_filter; } }
-
     }
 
     /*
@@ -593,7 +582,6 @@ namespace PixelFarm.Agg.Lines
         double m_scale_x;
         RectInt m_clip_box;
         bool m_clipping;
-
         //---------------------------------------------------------------------
         //typedef renderer_outline_image<BaseRenderer, ImagePattern> self_type;
 
@@ -652,7 +640,6 @@ namespace PixelFarm.Agg.Lines
         public void Pixel(ColorRGBA[] p, int offset, int x, int y)
         {
             throw new NotImplementedException();
-
             //m_pattern.pixel(p, x, y);
         }
 

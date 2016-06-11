@@ -17,8 +17,8 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
-using PixelFarm.Agg;
 
+using PixelFarm.Agg;
 namespace PixelFarm.Agg.Image
 {
     //=======================================================pixfmt_transposer

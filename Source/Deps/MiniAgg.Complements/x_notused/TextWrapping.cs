@@ -9,7 +9,7 @@
 //    {
 //        protected StyledTypeFace styledTypeFace;
 
-        
+
 //        public TextWrapping(StyledTypeFace styledTypeFace)
 //        {
 //            this.styledTypeFace = styledTypeFace;

@@ -21,11 +21,10 @@
 // PostScript and PDF technology for software developers.
 // 
 //----------------------------------------------------------------------------
-using System;
 
+using System;
 namespace PixelFarm.Agg
 {
-
     //=======================================================span_gouraud_rgba
     public sealed class SpanGenGouraudRGBA : SpanGenGourand, ISpanGenerator
     {
@@ -34,10 +33,8 @@ namespace PixelFarm.Agg
         RGBA_Calculator m_rgba1;
         RGBA_Calculator m_rgba2;
         RGBA_Calculator m_rgba3;
-
         const int SUBPIXEL_SHIFT = 4;
         const int SUBPIXEL_SCALE = 1 << SUBPIXEL_SHIFT;
-
         //--------------------------------------------------------------------
         struct RGBA_Calculator
         {
@@ -115,13 +112,10 @@ namespace PixelFarm.Agg
         {
             CoordAndColor c0, c1, c2;
             base.LoadArrangedVertices(out c0, out c1, out c2);
-
             m_y2 = (int)c1.y;
-
             m_swap = AggMath.Cross(c0.x, c0.y,
                                    c2.x, c2.y,
                                    c1.x, c1.y) < 0.0;
-
             m_rgba1.Init(c0, c2);
             m_rgba2.Init(c0, c1);
             m_rgba3.Init(c1, c2);
@@ -132,7 +126,6 @@ namespace PixelFarm.Agg
             m_rgba1.Calculate(y);//(m_rgba1.m_1dy > 2) ? m_rgba1.m_y1 : y);
             RGBA_Calculator pc1 = m_rgba1;
             RGBA_Calculator pc2 = m_rgba2;
-
             if (y <= m_y2)
             {
                 // Bottom part of the triangle (first subtriangle)
@@ -162,12 +155,10 @@ namespace PixelFarm.Agg
             //-------------------------
             int nlen = Math.Abs(pc2.m_x - pc1.m_x);
             if (nlen <= 0) nlen = 1;
-
             var line_r = new PixelFarm.Agg.Transform.LineInterpolatorDDA(pc1.m_r, pc2.m_r, nlen, 14);
             var line_g = new PixelFarm.Agg.Transform.LineInterpolatorDDA(pc1.m_g, pc2.m_g, nlen, 14);
             var line_b = new PixelFarm.Agg.Transform.LineInterpolatorDDA(pc1.m_b, pc2.m_b, nlen, 14);
             var line_a = new PixelFarm.Agg.Transform.LineInterpolatorDDA(pc1.m_a, pc2.m_a, nlen, 14);
-
             // Calculate the starting point of the gradient with subpixel 
             // accuracy and correct (roll back) the interpolators.
             // This operation will also clip the beginning of the span
@@ -179,10 +170,8 @@ namespace PixelFarm.Agg
             line_b.Prev(start);
             line_a.Prev(start);
             nlen += start;
-
             int vr, vg, vb, va;
             uint lim = 255;
-
             // Beginning part of the span. Since we rolled back the 
             // interpolators, the color values may have overflowed.
             // So that, we render the beginning part with checking 
@@ -204,7 +193,6 @@ namespace PixelFarm.Agg
                 outputColors[startIndex].green = (byte)vg;
                 outputColors[startIndex].blue = (byte)vb;
                 outputColors[startIndex].alpha = (byte)va;
-
                 line_r.Next(SUBPIXEL_SCALE);
                 line_g.Next(SUBPIXEL_SCALE);
                 line_b.Next(SUBPIXEL_SCALE);
@@ -226,7 +214,6 @@ namespace PixelFarm.Agg
                 outputColors[startIndex].green = ((byte)line_g.y());
                 outputColors[startIndex].blue = ((byte)line_b.y());
                 outputColors[startIndex].alpha = ((byte)line_a.y());
-
                 line_r.Next(SUBPIXEL_SCALE);
                 line_g.Next(SUBPIXEL_SCALE);
                 line_b.Next(SUBPIXEL_SCALE);
@@ -245,7 +232,6 @@ namespace PixelFarm.Agg
                 vg = line_g.y();
                 vb = line_b.y();
                 va = line_a.y();
-
                 if (vr < 0) { vr = 0; } else if (vr > lim) { vr = (int)lim; }
                 if (vg < 0) { vg = 0; } else if (vg > lim) { vg = (int)lim; }
                 if (vb < 0) { vb = 0; } else if (vb > lim) { vb = (int)lim; }

@@ -14,11 +14,8 @@
 
 
 using System;
-
-
 using img_subpix_const = PixelFarm.Agg.ImageFilterLookUpTable.ImgSubPixConst;
 using img_filter_const = PixelFarm.Agg.ImageFilterLookUpTable.ImgFilterConst;
-
 namespace PixelFarm.Agg.Image
 {
     // it should be easy to write a 90 rotating or mirroring filter too. LBB 2012/01/14
@@ -27,7 +24,6 @@ namespace PixelFarm.Agg.Image
         const int BASE_SHIFT = 8;
         const int BASE_SCALE = (int)(1 << BASE_SHIFT);
         const int BASE_MASK = BASE_SCALE - 1;
-
         ImageReaderWriterBase srcRW;
         public ImgSpanGenGray_NNStepXby1(IImageReaderWriter src, ISpanInterpolator spanInterpolator)
             : base(spanInterpolator)
@@ -40,9 +36,7 @@ namespace PixelFarm.Agg.Image
         }
         public override void GenerateColors(ColorRGBA[] outputColors, int startIndex, int x, int y, int len)
         {
-
             int bytesBetweenPixelsInclusive = srcRW.BytesBetweenPixelsInclusive;
-
             ISpanInterpolator spanInterpolator = Interpolator;
             spanInterpolator.Begin(x + dx, y + dy, len);
             int x_hr;
@@ -52,9 +46,7 @@ namespace PixelFarm.Agg.Image
             int y_lr = y_hr >> img_subpix_const.SHIFT;
             int bufferIndex;
             bufferIndex = srcRW.GetBufferOffsetXY(x_lr, y_lr);
-
             byte[] srcBuff = srcRW.GetBuffer();
-
             unsafe
             {
                 fixed (byte* pSource = srcBuff)
@@ -65,15 +57,11 @@ namespace PixelFarm.Agg.Image
                         outputColors[startIndex].green = pSource[bufferIndex];
                         outputColors[startIndex].blue = pSource[bufferIndex];
                         outputColors[startIndex].alpha = 255;
-
                         startIndex++;
                         bufferIndex += bytesBetweenPixelsInclusive;
-
                     } while (--len != 0);
                 }
             }
         }
     }
-
-
 }

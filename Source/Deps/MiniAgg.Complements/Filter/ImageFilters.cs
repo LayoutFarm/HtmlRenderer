@@ -22,11 +22,10 @@
 // Filtering classes (ImageFilterLookUpTable, image_filter),
 // Basic filter shape classes
 //----------------------------------------------------------------------------
+
 using System;
-
-namespace PixelFarm.Agg.Image 
+namespace PixelFarm.Agg.Image
 {
-
     //-----------------------------------------------image_filter_bilinear
     public struct ImageFilterBilinear : IImageFilter
     {
@@ -111,11 +110,9 @@ namespace PixelFarm.Agg.Image
         double a;
         double i0a;
         double epsilon;
-
         public ImageFilterKaiser()
             : this(6.33)
         {
-
         }
         public ImageFilterKaiser(double b)
         {
@@ -134,11 +131,9 @@ namespace PixelFarm.Agg.Image
         {
             int i;
             double sum, y, t;
-
             sum = 1.0;
             y = x * x / 4.0;
             t = y;
-
             for (i = 2; t > epsilon; i++)
             {
                 sum += t;
@@ -163,11 +158,9 @@ namespace PixelFarm.Agg.Image
     {
         private double p0, p2, p3;
         private double q0, q1, q2, q3;
-
         public ImageFilterMichell()
             : this(1.0 / 3.0, 1.0 / 3.0)
         {
-
         }
 
         public ImageFilterMichell(double b, double c)

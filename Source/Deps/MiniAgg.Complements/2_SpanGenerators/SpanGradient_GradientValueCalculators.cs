@@ -13,8 +13,8 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
-using System;
 
+using System;
 namespace PixelFarm.Agg.Gradients
 {
     public interface IGradientValueCalculator
@@ -25,7 +25,7 @@ namespace PixelFarm.Agg.Gradients
     public interface IGradientColorsProvider
     {
         int GradientSteps { get; }
-        ColorRGBA GetColor(int v);         
+        ColorRGBA GetColor(int v);
     }
 
 
@@ -49,7 +49,6 @@ namespace PixelFarm.Agg.Gradients
         double m_fx2;
         double m_fy2;
         double m_mul;
-
         //---------------------------------------------------------------------
         public GvcRadialFocus()
         {
@@ -81,7 +80,6 @@ namespace PixelFarm.Agg.Gradients
             double d2 = dx * m_fy - dy * m_fx;
             double d3 = m_r2 * (dx * dx + dy * dy) - d2 * d2;
             return AggBasics.iround((dx * m_fx + dy * m_fy + System.Math.Sqrt(System.Math.Abs(d3))) * m_mul);
-
         }
 
         //---------------------------------------------------------------------
@@ -186,7 +184,6 @@ namespace PixelFarm.Agg.Gradients
     public class GvcReflectAdaptor : IGradientValueCalculator
     {
         IGradientValueCalculator m_gradient;
-
         public GvcReflectAdaptor(IGradientValueCalculator gradient)
         {
             m_gradient = gradient;
@@ -205,7 +202,6 @@ namespace PixelFarm.Agg.Gradients
     public class GvcClampAdapter : IGradientValueCalculator
     {
         IGradientValueCalculator m_gradient;
-
         public GvcClampAdapter(IGradientValueCalculator gradient)
         {
             m_gradient = gradient;

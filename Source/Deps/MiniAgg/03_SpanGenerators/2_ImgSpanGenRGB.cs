@@ -25,11 +25,10 @@
 // PostScript and PDF technology for software developers.
 // 
 //----------------------------------------------------------------------------
-using System;
 
+using System;
 using img_subpix_const = PixelFarm.Agg.ImageFilterLookUpTable.ImgSubPixConst;
 using img_filter_const = PixelFarm.Agg.ImageFilterLookUpTable.ImgFilterConst;
-
 namespace PixelFarm.Agg.Image
 {
     // it should be easy to write a 90 rotating or mirroring filter too. LBB 2012/01/14
@@ -38,7 +37,6 @@ namespace PixelFarm.Agg.Image
         const int BASE_SHIFT = 8;
         const int BASE_SCALE = (int)(1 << BASE_SHIFT);
         const int BASE_MASK = BASE_SCALE - 1;
-
         ImageReaderWriterBase srcRW;
         public ImgSpanGenRGB_NNStepXby1(IImageReaderWriter src, ISpanInterpolator spanInterpolator)
             : base(spanInterpolator)
@@ -51,7 +49,6 @@ namespace PixelFarm.Agg.Image
         }
         public override void GenerateColors(ColorRGBA[] outputColors, int startIndex, int x, int y, int len)
         {
-
             ISpanInterpolator spanInterpolator = Interpolator;
             spanInterpolator.Begin(x + dx, y + dy, len);
             int x_hr;
@@ -61,17 +58,14 @@ namespace PixelFarm.Agg.Image
             int y_lr = y_hr >> img_subpix_const.SHIFT;
             int bufferIndex = srcRW.GetBufferOffsetXY(x_lr, y_lr);
             byte[] srcBuff = srcRW.GetBuffer();
-
             ColorRGBA color = ColorRGBA.White;
             do
             {
                 color.blue = srcBuff[bufferIndex++];
                 color.green = srcBuff[bufferIndex++];
                 color.red = srcBuff[bufferIndex++];
-
                 outputColors[startIndex++] = color;
             } while (--len != 0);
-
         }
     }
 
@@ -82,11 +76,9 @@ namespace PixelFarm.Agg.Image
     class ImgSpanGenRGB_BilinearClip : ImgSpanGen
     {
         ColorRGBA m_bgcolor;
-
         const int BASE_SHIFT = 8;
         const int BASE_SCALE = (int)(1 << BASE_SHIFT);
         const int BASE_MASK = BASE_SCALE - 1;
-
         ImageReaderWriterBase srcRW;
         //--------------------------------------------------------------------
         public ImgSpanGenRGB_BilinearClip(IImageReaderWriter src,
@@ -107,81 +99,61 @@ namespace PixelFarm.Agg.Image
         {
             ISpanInterpolator spanInterpolator = base.Interpolator;
             spanInterpolator.Begin(x + base.dx, y + base.dy, len);
-
-
             int accColor0, accColor1, accColor2;
-
             int sourceAlpha;
             int back_r = m_bgcolor.red;
             int back_g = m_bgcolor.green;
             int back_b = m_bgcolor.blue;
             int back_a = m_bgcolor.alpha;
-
-            int bufferIndex; 
-
+            int bufferIndex;
             int maxx = (int)srcRW.Width - 1;
             int maxy = (int)srcRW.Height - 1;
-
             byte[] srcBuffer = srcRW.GetBuffer();
-
             unchecked
             {
                 do
                 {
                     int x_hr;
                     int y_hr;
-
                     spanInterpolator.GetCoord(out x_hr, out y_hr);
-
                     x_hr -= base.dxInt;
                     y_hr -= base.dyInt;
-
                     int x_lr = x_hr >> img_subpix_const.SHIFT;
                     int y_lr = y_hr >> img_subpix_const.SHIFT;
                     int weight;
-
                     if (x_lr >= 0 && y_lr >= 0 &&
                        x_lr < maxx && y_lr < maxy)
                     {
                         accColor0 =
                         accColor1 =
                         accColor2 = img_subpix_const.SCALE * img_subpix_const.SCALE / 2;
-
                         x_hr &= img_subpix_const.MASK;
                         y_hr &= img_subpix_const.MASK;
-
                         bufferIndex = srcRW.GetBufferOffsetXY(x_lr, y_lr);
-
                         weight = ((img_subpix_const.SCALE - x_hr) *
                                  (img_subpix_const.SCALE - y_hr));
                         accColor0 += weight * srcBuffer[bufferIndex + CO.R];
                         accColor1 += weight * srcBuffer[bufferIndex + CO.G];
                         accColor2 += weight * srcBuffer[bufferIndex + CO.B];
-
                         bufferIndex += 3;
                         weight = (x_hr * (img_subpix_const.SCALE - y_hr));
                         accColor0 += weight * srcBuffer[bufferIndex + CO.R];
                         accColor1 += weight * srcBuffer[bufferIndex + CO.G];
                         accColor2 += weight * srcBuffer[bufferIndex + CO.B];
-
                         y_lr++;
                         bufferIndex = srcRW.GetBufferOffsetXY(x_lr, y_lr);
-
                         weight = ((img_subpix_const.SCALE - x_hr) * y_hr);
                         accColor0 += weight * srcBuffer[bufferIndex + CO.R];
                         accColor1 += weight * srcBuffer[bufferIndex + CO.G];
                         accColor2 += weight * srcBuffer[bufferIndex + CO.B];
-
                         bufferIndex += 3;
                         weight = (x_hr * y_hr);
                         accColor0 += weight * srcBuffer[bufferIndex + CO.R];
                         accColor1 += weight * srcBuffer[bufferIndex + CO.G];
                         accColor2 += weight * srcBuffer[bufferIndex + CO.B];
-
                         accColor0 >>= img_subpix_const.SHIFT * 2;
                         accColor1 >>= img_subpix_const.SHIFT * 2;
                         accColor2 >>= img_subpix_const.SHIFT * 2;
-
                         sourceAlpha = BASE_MASK;
                     }
                     else
@@ -200,13 +172,9 @@ namespace PixelFarm.Agg.Image
                             accColor1 =
                             accColor2 = img_subpix_const.SCALE * img_subpix_const.SCALE / 2;
                             sourceAlpha = img_subpix_const.SCALE * img_subpix_const.SCALE / 2;
-
                             x_hr &= img_subpix_const.MASK;
                             y_hr &= img_subpix_const.MASK;
-
                             weight = ((img_subpix_const.SCALE - x_hr) * (img_subpix_const.SCALE - y_hr));
-
-
                             if ((uint)x_lr <= (uint)maxx && (uint)y_lr <= (uint)maxy)
                             {
                                 BlendInFilterPixel(ref accColor0, ref accColor1, ref accColor2, ref sourceAlpha,
@@ -222,12 +190,9 @@ namespace PixelFarm.Agg.Image
                                 sourceAlpha += back_a * weight;
                             }
                             x_lr++;
-
                             weight = (x_hr * (img_subpix_const.SCALE - y_hr));
-
                             if ((uint)x_lr <= (uint)maxx && (uint)y_lr <= (uint)maxy)
                             {
-
                                 BlendInFilterPixel(ref accColor0, ref accColor1, ref accColor2, ref sourceAlpha,
                                    srcRW.GetBuffer(),
                                    srcRW.GetBufferOffsetXY(x_lr, y_lr),
@@ -243,7 +208,6 @@ namespace PixelFarm.Agg.Image
 
                             x_lr--;
                             y_lr++;
-
                             weight = ((img_subpix_const.SCALE - x_hr) * y_hr);
                             if ((uint)x_lr <= (uint)maxx && (uint)y_lr <= (uint)maxy)
                             {
@@ -261,7 +225,6 @@ namespace PixelFarm.Agg.Image
                             }
 
                             x_lr++;
-
                             weight = (x_hr * y_hr);
                             if ((uint)x_lr <= (uint)maxx && (uint)y_lr <= (uint)maxy)
                             {
@@ -290,7 +253,6 @@ namespace PixelFarm.Agg.Image
                     outputColors[startIndex].alpha = (byte)sourceAlpha;
                     startIndex++;
                     spanInterpolator.Next();
-
                 } while (--len != 0);
             }
         }
@@ -298,7 +260,6 @@ namespace PixelFarm.Agg.Image
         static void BlendInFilterPixel(ref int accColor0, ref int accColor1, ref int accColor2, ref int sourceAlpha,
              byte[] srcBuffer, int bufferIndex, int weight)
         {
-
             unchecked
             {
                 accColor0 += weight * srcBuffer[bufferIndex + CO.R];
@@ -307,10 +268,5 @@ namespace PixelFarm.Agg.Image
                 sourceAlpha += weight * BASE_MASK;
             }
         }
-
     }
-
-
-
-
 }

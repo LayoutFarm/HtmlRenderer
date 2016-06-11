@@ -1,4 +1,5 @@
 ﻿//2014,2015 BSD,WinterDev   
+
 using System;
 namespace PixelFarm.Agg
 {
@@ -9,8 +10,6 @@ namespace PixelFarm.Agg
         int head;
         int shiftFactor;
         int mask;
-
-
         public int Count
         {
             get { return size; }
@@ -60,5 +59,4 @@ namespace PixelFarm.Agg
             return firstItem;
         }
     }
-
 }

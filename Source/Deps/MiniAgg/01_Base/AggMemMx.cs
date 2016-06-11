@@ -21,9 +21,8 @@
 //----------------------------------------------------------------------------
 //#define USE_UNSAFE // no real code for this yet
 
-using System; 
+using System;
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg
 {
     public static class AggMemMx
@@ -35,7 +34,6 @@ namespace PixelFarm.Agg
             int sourceIndex, int count)
         {
             NativeBufferMethods.MemCopy(dest, destIndex, source, sourceIndex, count);
-
             //#if USE_UNSAFE
             //#else
 
@@ -64,7 +62,6 @@ namespace PixelFarm.Agg
                 }
                  */
             }
-
         }
 
 
@@ -75,10 +72,6 @@ namespace PixelFarm.Agg
         public static void MemClear(Byte[] dest, int destIndex, int count)
         {
             NativeBufferMethods.MemSet(dest, destIndex, 0, count);
-
         }
-
-
-
     }
 }

@@ -15,13 +15,11 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using PixelFarm.Agg.Image;
-
-
 namespace PixelFarm.Agg
 {
     public enum ScanlineRenderMode
@@ -36,12 +34,9 @@ namespace PixelFarm.Agg
     /// </summary>  
     public class ScanlineRasToDestBitmapRenderer
     {
-
         ArrayList<ColorRGBA> tempSpanColors = new ArrayList<ColorRGBA>();
-
         public ScanlineRasToDestBitmapRenderer()
         {
-
         }
         public ScanlineRenderMode ScanlineRenderMode
         {
@@ -50,31 +45,25 @@ namespace PixelFarm.Agg
         }
         const float cover_1_3 = 255f / 3f;
         const float cover_2_3 = cover_1_3 * 2f;
-
         void SubPixRender(IImageReaderWriter dest, Scanline scanline, ColorRGBA color)
         {
-
             byte[] covers = scanline.GetCovers();
             int num_spans = scanline.SpanCount;
             int y = scanline.Y;
             byte[] buffer = dest.GetBuffer();
             IPixelBlender blender = dest.GetRecieveBlender();
-
             int last_x = int.MinValue;
             int prev_cover = 0;
             int bufferOffset = 0;
             ColorRGBA prevColor = ColorRGBA.White;
-
             for (int i = 1; i <= num_spans; ++i)
             {
                 //render span by span 
 
                 ScanlineSpan span = scanline.GetSpan(i);
-
                 if (span.x != last_x + 1)
                 {
                     bufferOffset = dest.GetBufferOffsetXY(span.x, y);
-
                     //when skip  then reset                     
                     prev_cover = 0;
                     prevColor = ColorRGBA.White;
@@ -82,19 +71,16 @@ namespace PixelFarm.Agg
 
                 last_x = span.x;
                 int num_pix = span.len;
-
                 if (num_pix < 0)
                 {
                     //special encode***
                     num_pix = -num_pix; //make it positive value
                     last_x += (num_pix - 1);
-
                     //long span with coverage
                     int coverageValue = covers[span.cover_index];
                     //------------------------------------------- 
                     if (coverageValue >= 255)
                     {
-
                         //100% cover
                         int a = ((coverageValue + 1) * color.Alpha0To255) >> 8;
                         ColorRGBA newc = prevColor = new ColorRGBA(color.red, color.green, color.blue);
@@ -102,12 +88,10 @@ namespace PixelFarm.Agg
                         prev_cover = 255;//full
                         while (num_pix > 0)
                         {
-
                             blender.BlendPixel(buffer, bufferOffset, todrawColor);
                             bufferOffset += 4; //1 pixel 4 bytes
                             --num_pix;
                         }
-
                     }
                     else
                     {
@@ -122,7 +106,6 @@ namespace PixelFarm.Agg
                             --num_pix;
                         }
                     }
-
                 }
                 else
                 {
@@ -133,7 +116,6 @@ namespace PixelFarm.Agg
                         int coverageValue = covers[coverIndex++];
                         if (coverageValue >= 255)
                         {
-
                             //100% cover
                             ColorRGBA newc = new ColorRGBA(color.red, color.green, color.blue);
                             prevColor = newc;
@@ -143,26 +125,20 @@ namespace PixelFarm.Agg
                         }
                         else
                         {
-
                             //check direction : 
 
 
                             bool isLeftToRight = coverageValue >= prev_cover;
                             prev_cover = coverageValue;
-
                             byte c_r, c_g, c_b;
                             float subpix_percent = ((float)(coverageValue) / 256f);
-
                             if (coverageValue < cover_1_3)
                             {
-                                 
-
                                 if (isLeftToRight)
                                 {
                                     c_r = 255;
                                     c_g = 255;
                                     c_b = (byte)(255 - (255f * (subpix_percent)));
-
                                 }
                                 else
                                 {
@@ -177,7 +153,6 @@ namespace PixelFarm.Agg
                             }
                             else if (coverageValue < cover_2_3)
                             {
-
                                 if (isLeftToRight)
                                 {
                                     c_r = prevColor.blue;
@@ -199,7 +174,7 @@ namespace PixelFarm.Agg
                                 //cover > 2/3 but not full 
                                 if (isLeftToRight)
                                 {
-                                    c_r =  (byte)(255 - (255f * (subpix_percent)));
+                                    c_r = (byte)(255 - (255f * (subpix_percent)));
                                     c_g = color.green;
                                     c_b = color.blue;
                                 }
@@ -207,7 +182,7 @@ namespace PixelFarm.Agg
                                 {
                                     c_r = prevColor.green;
                                     c_g = prevColor.blue;
-                                    c_b =  (byte)(255 - (255f * (subpix_percent)));
+                                    c_b = (byte)(255 - (255f * (subpix_percent)));
                                 }
 
                                 ColorRGBA newc = prevColor = new ColorRGBA(c_r, c_g, c_b);
@@ -230,10 +205,8 @@ namespace PixelFarm.Agg
             if (!sclineRas.RewindScanlines()) { return; } //early exit
             //----------------------------------------------- 
             scline.ResetSpans(sclineRas.MinX, sclineRas.MaxX);
-
             switch (this.ScanlineRenderMode)
             {
-
                 default:
                     {
                         //prev mode  
@@ -244,7 +217,6 @@ namespace PixelFarm.Agg
                             int y = scline.Y;
                             int num_spans = scline.SpanCount;
                             byte[] covers = scline.GetCovers();
-
                             //render each span in the scanline
                             for (int i = 1; i <= num_spans; ++i)
                             {
@@ -263,11 +235,10 @@ namespace PixelFarm.Agg
                                 }
                             }
                         }
-
-                    } break;
+                    }
+                    break;
                 case Agg.ScanlineRenderMode.SubPixelRendering:
                     {
-
                         int dbugMinScanlineCount = 0;
                         while (sclineRas.SweepScanline(scline))
                         {
@@ -287,15 +258,16 @@ namespace PixelFarm.Agg
                             //    break;
                             //}
                         }
-
-                    } break;
+                    }
+                    break;
                 case Agg.ScanlineRenderMode.Custom:
                     {
                         while (sclineRas.SweepScanline(scline))
                         {
                             CustomRenderSingleScanLine(dest, scline, color);
                         }
-                    } break;
+                    }
+                    break;
             }
         }
 
@@ -308,10 +280,7 @@ namespace PixelFarm.Agg
             //-----------------------------------------------
 
             scline.ResetSpans(sclineRas.MinX, sclineRas.MaxX);
-
             spanGenerator.Prepare();
-
-
             if (dest.Stride / 4 > (tempSpanColors.AllocatedSize))
             {
                 //if not enough -> alloc more
@@ -319,22 +288,18 @@ namespace PixelFarm.Agg
             }
 
             ColorRGBA[] colorArray = tempSpanColors.Array;
-
             while (sclineRas.SweepScanline(scline))
             {
-
                 //render single scanline 
                 int y = scline.Y;
                 int num_spans = scline.SpanCount;
                 byte[] covers = scline.GetCovers();
-
                 for (int i = 1; i <= num_spans; ++i)
                 {
                     ScanlineSpan span = scline.GetSpan(i);
                     int x = span.x;
                     int span_len = span.len;
                     bool firstCoverForAll = false;
-
                     if (span_len < 0)
                     {
                         span_len = -span_len;
@@ -343,14 +308,12 @@ namespace PixelFarm.Agg
 
                     //1. generate colors -> store in colorArray
                     spanGenerator.GenerateColors(colorArray, 0, x, y, span_len);
-
                     //2. blend color in colorArray to destination image
                     dest.BlendColorHSpan(x, y, span_len,
                         colorArray, 0,
                         covers, span.cover_index,
                         firstCoverForAll);
                 }
-
             }
         }
         protected virtual void CustomRenderSingleScanLine(
@@ -366,6 +329,5 @@ namespace PixelFarm.Agg
     //----------------------------
     public class CustomScanlineRasToDestBitmapRenderer : ScanlineRasToDestBitmapRenderer
     {
-
     }
 }

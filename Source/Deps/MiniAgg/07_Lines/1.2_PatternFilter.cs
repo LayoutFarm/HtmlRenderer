@@ -22,7 +22,6 @@
 
 namespace PixelFarm.Agg.Lines
 {
-     
     public interface IPatternFilter
     {
         int Dilation { get; }

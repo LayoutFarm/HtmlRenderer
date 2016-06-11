@@ -21,16 +21,15 @@
 // scanline_u8 class
 //
 //----------------------------------------------------------------------------
+
 using System;
-
 using PixelFarm.Agg.Image;
-
 namespace PixelFarm.Agg
 {
     public interface IAlphaMask
     {
         byte pixel(int x, int y);
-       // byte combine_pixel(int x, int y, byte val);
+        // byte combine_pixel(int x, int y, byte val);
         void fill_hspan(int x, int y, byte[] dst, int dstIndex, int num_pix);
         void fill_vspan(int x, int y, byte[] dst, int dstIndex, int num_pix);
         void combine_hspanFullCover(int x, int y, byte[] dst, int dstIndex, int num_pix);
@@ -43,7 +42,6 @@ namespace PixelFarm.Agg
         IImageReaderWriter m_rbuf;
         uint m_Step;
         uint m_Offset;
-
         //public static readonly int cover_shift = 8;
         //public static readonly int cover_none = 0;
         //public static readonly int cover_full = 255;
@@ -143,13 +141,11 @@ namespace PixelFarm.Agg
 #endif
         }
     };
-
     public sealed class AlphaMaskByteClipped : IAlphaMask
     {
         IImageReaderWriter m_rbuf;
         uint m_Step;
         uint m_Offset;
-
         //public static readonly int cover_shift = 8;
         //public static readonly int cover_none = 0;
         //public static readonly int cover_full = 255;
@@ -251,9 +247,7 @@ namespace PixelFarm.Agg
         {
             int xmax = (int)m_rbuf.Width - 1;
             int ymax = (int)m_rbuf.Height - 1;
-
             int count = num_pix;
-
             if (y < 0 || y > ymax)
             {
                 AggMemMx.MemClear(covers, coversIndex, num_pix);
@@ -298,11 +292,9 @@ namespace PixelFarm.Agg
         {
             int xmax = (int)m_rbuf.Width - 1;
             int ymax = (int)m_rbuf.Height - 1;
-
             int count = num_pix;
             byte[] covers = buffer;
             int coversIndex = bufferIndex;
-
             if (y < 0 || y > ymax)
             {
                 AggMemMx.MemClear(buffer, bufferIndex, num_pix);
@@ -346,12 +338,11 @@ namespace PixelFarm.Agg
                     do
                     {
                         *c_cover_index = (byte)((*c_cover_index * (*c_mask_index) + 255) >> 8);
-
                         c_cover_index++;
-                        c_mask_index++; 
+                        c_mask_index++;
                     }
                     while (--count != 0);
-                } 
+                }
             }
         }
 

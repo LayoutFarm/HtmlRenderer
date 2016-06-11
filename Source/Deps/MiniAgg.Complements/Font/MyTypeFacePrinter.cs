@@ -18,28 +18,23 @@
 // 
 // Class to output the vertex source of a string as a run of glyphs.
 //----------------------------------------------------------------------------
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-
 using PixelFarm.Agg;
 using PixelFarm.Agg.Image;
 using PixelFarm.Agg.Transform;
 using PixelFarm.Agg.VertexSource;
 using PixelFarm.VectorMath;
-
-
 namespace PixelFarm.Agg.Fonts
 {
-
     public class MyTypeFacePrinter
     {
-
         Vector2 totalSizeCach;
         string textToPrint;
         Font currentFont;
-
         public MyTypeFacePrinter()
         {
             this.Baseline = Baseline.Text;
@@ -51,7 +46,6 @@ namespace PixelFarm.Agg.Fonts
             set
             {
                 this.currentFont = value;
-
             }
         }
         public Justification Justification { get; set; }
@@ -119,29 +113,21 @@ namespace PixelFarm.Agg.Fonts
 
         IEnumerable<VertexData> GetVertexIter(string text)
         {
-
-
-
             if (text != null && text.Length > 0)
             {
                 Vector2 currentOffset = new Vector2(0, 0);
-
                 currentOffset = GetBaseline(currentOffset);
-
                 string[] lines = text.Split('\n');
                 foreach (string line in lines)
                 {
                     currentOffset = GetXPositionForLineBasedOnJustification(currentOffset, line);
-
                     for (int currentChar = 0; currentChar < line.Length; currentChar++)
                     {
                         var currentGlyph = currentFont.GetGlyph(line[currentChar]);
-
                         if (currentGlyph != null)
                         {
                             //use flatten ?
                             var glyphVxs = currentGlyph.flattenVxs;
-
                             int j = glyphVxs.Count;
                             for (int i = 0; i < j; ++i)
                             {
@@ -184,15 +170,12 @@ namespace PixelFarm.Agg.Fonts
                 case Justification.Left:
                     currentOffset.x = 0;
                     break;
-
                 case Justification.Center:
                     currentOffset.x = -size.x / 2;
                     break;
-
                 case Justification.Right:
                     currentOffset.x = -size.x;
                     break;
-
                 default:
                     throw new NotImplementedException();
             }
@@ -206,15 +189,12 @@ namespace PixelFarm.Agg.Fonts
                 case Baseline.Text:
                     currentOffset.y = 0;
                     break;
-
                 case Baseline.BoundsTop:
                     currentOffset.y = -currentFont.AscentInPixels;
                     break;
-
                 case Baseline.BoundsCenter:
                     currentOffset.y = -currentFont.AscentInPixels / 2;
                     break;
-
                 default:
                     throw new NotImplementedException();
             }
@@ -389,9 +369,7 @@ namespace PixelFarm.Agg.Fonts
 
             offset.x = 0;
             offset.y = currentFont.EmSizeInPixels;
-
             double currentLineX = 0;
-
             for (int i = characterToMeasureStartIndexInclusive; i < characterToMeasureEndIndexInclusive; i++)
             {
                 if (text[i] == '\n')
@@ -433,6 +411,5 @@ namespace PixelFarm.Agg.Fonts
                 }
             }
         }
-
     }
 }

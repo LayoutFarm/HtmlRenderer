@@ -1,12 +1,10 @@
 ﻿//----------------------------------- 
-using System; 
 
+using System;
 namespace PixelFarm.Agg.Fonts
 {
-
     public abstract class Font : IDisposable
     {
-
         protected abstract void OnDispose();
         public abstract FontGlyph GetGlyphByIndex(uint glyphIndex);
         public abstract FontGlyph GetGlyph(char c);
@@ -16,11 +14,9 @@ namespace PixelFarm.Agg.Fonts
 
         public abstract int GetAdvanceForCharacter(char c);
         public abstract int GetAdvanceForCharacter(char c, char next_c);
-
-
-        public abstract double AscentInPixels { get; } 
-        public abstract double DescentInPixels { get; } 
-        public abstract double XHeightInPixels { get; } 
+        public abstract double AscentInPixels { get; }
+        public abstract double DescentInPixels { get; }
+        public abstract double XHeightInPixels { get; }
         public abstract double CapHeightInPixels { get; }
 
 
@@ -35,10 +31,5 @@ namespace PixelFarm.Agg.Fonts
         }
 
         public abstract bool IsAtlasFont { get; }
-        
-            
-
     }
-
-
 }

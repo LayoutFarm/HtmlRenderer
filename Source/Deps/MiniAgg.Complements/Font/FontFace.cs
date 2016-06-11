@@ -4,16 +4,14 @@
 //native dll lib
 //plan?: port  them to C#  :)
 //----------------------------------- 
-using System; 
 
+using System;
 namespace PixelFarm.Agg.Fonts
 {
-
     public abstract class FontFace : IDisposable
     {
         public bool HasKerning { get; set; }
         protected abstract void OnDispose();
-
         public void Dispose()
         {
             OnDispose();
@@ -23,5 +21,4 @@ namespace PixelFarm.Agg.Fonts
             OnDispose();
         }
     }
-
 }

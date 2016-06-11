@@ -3,10 +3,8 @@
 
 using System;
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg.Image
 {
-
     public enum ImageInterpolationQuality
     {
         None,
@@ -14,5 +12,4 @@ namespace PixelFarm.Agg.Image
         Bilinear,
         Bicubic
     }
-
 }

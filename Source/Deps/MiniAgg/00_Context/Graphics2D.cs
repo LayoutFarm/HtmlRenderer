@@ -17,33 +17,26 @@
 //          mcseemagg@yahoo.com
 //          http://www.antigrain.com
 //----------------------------------------------------------------------------
+
 using System;
 using System.Collections.Generic;
-
 using PixelFarm.Agg.Image;
 using PixelFarm.Agg.Transform;
 using PixelFarm.VectorMath;
-
 namespace PixelFarm.Agg
 {
-
     public abstract class Graphics2D
     {
         protected ActualImage destActualImage;
-
         protected ScanlineRasterizer sclineRas;
-
         Affine currentTxMatrix = Affine.IdentityMatrix;
-
         public Graphics2D()
         {
-
         }
         //------------------------------------------------------------------------
 
         public abstract void SetClippingRect(RectInt rect);
         public abstract RectInt GetClippingRect();
-
         public abstract void Clear(ColorRGBA color);
         //------------------------------------------------------------------------
         //render vertices
@@ -54,18 +47,14 @@ namespace PixelFarm.Agg
             double x, double y,
             double angleRadians,
             double scaleX, double ScaleY);
-
         public abstract void Render(IImageReaderWriter source, double x, double y);
         public abstract void Render(IImageReaderWriter source, AffinePlan[] affinePlans);
-
-       
         public void Render(VertexStore vxStorage, ColorRGBA c)
         {
             Render(new VertexStoreSnap(vxStorage), c);
         }
         public void Render(VertexStoreSnap vertexSource, double x, double y, ColorRGBA color)
         {
-
             var inputVxs = vertexSource.GetInternalVxs();
             var vxs = Affine.TranslateTransformToVxs(vertexSource, x, y);//Affine.NewTranslation(x, y).TransformToVxs (inputVxs);
             Render(vxs, color);
@@ -78,7 +67,6 @@ namespace PixelFarm.Agg
             get { return this.currentTxMatrix; }
             set
             {
-
                 this.currentTxMatrix = value;
             }
         }
@@ -134,13 +122,10 @@ namespace PixelFarm.Agg
 #if DEBUG
         public void dbugLine(double x1, double y1, double x2, double y2, ColorRGBA color)
         {
-        
-
             VertexStore vxs = new VertexStore(8);
             vxs.AddMoveTo(x1, y1);
             vxs.AddLineTo(x2, y2);
             vxs.AddStop();
-
             Render(new Stroke(1).MakeVxs(vxs), color);
         }
 #endif

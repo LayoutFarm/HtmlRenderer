@@ -28,24 +28,18 @@
 #define USE_UNSAFE_CODE
 
 using System;
-
 using PixelFarm.Agg.Image;
 using PixelFarm.VectorMath;
 using PixelFarm.Agg.Lines;
-
 using img_subpix_const = PixelFarm.Agg.ImageFilterLookUpTable.ImgSubPixConst;
 using img_filter_const = PixelFarm.Agg.ImageFilterLookUpTable.ImgFilterConst;
-
-
 namespace PixelFarm.Agg.Image
 {
     //==============================================span_image_resample_rgba
     public class FilterRGBAImageSpanGen : FilterImageSpanGenerator
     {
-
         const int BASE_MASK = 255;
         const int DOWN_SCALE_SHIFT = (int)ImageFilterLookUpTable.ImgFilterConst.SHIFT;
-
         //--------------------------------------------------------------------
         public FilterRGBAImageSpanGen(IImageReaderWriter src,
                             ISpanInterpolator inter,
@@ -63,39 +57,28 @@ namespace PixelFarm.Agg.Image
         {
             ISpanInterpolator spanInterpolator = base.Interpolator;
             spanInterpolator.Begin(x + base.dx, y + base.dy, len);
-
-
             int c0, c1, c2, c3;
-
             int[] weightArray = FilterLookup.WeightArray;
             int diameter = base.FilterLookup.Diameter;
             int filter_scale = diameter << img_subpix_const.SHIFT;
-
             int[] weight_array = weightArray;
-
             do
             {
                 int rx;
                 int ry;
-
                 spanInterpolator.GetCoord(out x, out y);
                 spanInterpolator.GetLocalScale(out rx, out ry);
                 AdjustScale(ref rx, ref ry);
-
                 int rx_inv = img_subpix_const.SCALE * img_subpix_const.SCALE / rx;
                 int ry_inv = img_subpix_const.SCALE * img_subpix_const.SCALE / ry;
-
                 int radius_x = (diameter * rx) >> 1;
                 int radius_y = (diameter * ry) >> 1;
                 int len_x_lr =
                     (diameter * rx + img_subpix_const.MASK) >>
                          img_subpix_const.SHIFT;
-
                 x += base.dxInt - radius_x;
                 y += base.dyInt - radius_y;
-
                 c0 = c1 = c2 = c3 = img_filter_const.SCALE / 2;
-
                 int y_lr = y >> img_subpix_const.SHIFT;
                 int y_hr = ((img_subpix_const.MASK - (y & img_subpix_const.MASK)) *
                                ry_inv) >> img_subpix_const.SHIFT;
@@ -103,16 +86,14 @@ namespace PixelFarm.Agg.Image
                 int x_lr = x >> img_subpix_const.SHIFT;
                 int x_hr = ((img_subpix_const.MASK - (x & img_subpix_const.MASK)) *
                                rx_inv) >> img_subpix_const.SHIFT;
-
                 int x_hr2 = x_hr;
                 int sourceIndex;
                 byte[] buff = BaseGetSpan(x_lr, y_lr, len_x_lr, out sourceIndex);
-
-                for (; ; )
+                for (;;)
                 {
                     int weight_y = weight_array[y_hr];
                     x_hr = x_hr2;
-                    for (; ; )
+                    for (;;)
                     {
                         int weight = (weight_y * weight_array[x_hr] +
                                       img_filter_const.SCALE / 2) >>
@@ -139,7 +120,6 @@ namespace PixelFarm.Agg.Image
                 c1 /= total_weight;
                 c2 /= total_weight;
                 c3 /= total_weight;
-
                 //clamps..
                 if (c0 < 0) { c0 = 0; }
                 else if (c0 > BASE_MASK) { c0 = BASE_MASK; }
@@ -158,7 +138,6 @@ namespace PixelFarm.Agg.Image
                 outputColors[startIndex].green = (byte)c1;
                 outputColors[startIndex].blue = (byte)c2;
                 outputColors[startIndex].alpha = (byte)c3;
-
                 startIndex++;
                 spanInterpolator.Next();
             } while (--len != 0);
@@ -266,5 +245,4 @@ namespace PixelFarm.Agg.Image
                     }
                                                               */
     }
-
 }
