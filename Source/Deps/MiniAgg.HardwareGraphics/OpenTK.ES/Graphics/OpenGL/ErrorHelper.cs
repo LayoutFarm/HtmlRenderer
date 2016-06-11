@@ -45,16 +45,16 @@ namespace OpenTK.Graphics.OpenGL
     // as that would cause infinite recursion!
     struct ErrorHelper : IDisposable
     {
-        #region Fields
+#region Fields
 
         static readonly object SyncRoot = new object();
         static readonly Dictionary<GraphicsContext, List<ErrorCode>> ContextErrors =
             new Dictionary<GraphicsContext, List<ErrorCode>>();
         readonly GraphicsContext Context;
 
-        #endregion
+#endregion
 
-        #region Constructors
+#region Constructors
 
         public ErrorHelper(IGraphicsContext context)
         {
@@ -70,9 +70,9 @@ namespace OpenTK.Graphics.OpenGL
             ResetErrors();
         }
 
-        #endregion
+#endregion
 
-        #region Public Members
+#region Public Members
 
         // Retrieve all OpenGL errors to clear the error list.
         // See http://www.opengl.org/documentation/specs/man_pages/hardcopy/GL/html/gl/geterror.html
@@ -121,16 +121,16 @@ namespace OpenTK.Graphics.OpenGL
             }
         }
 
-        #endregion
+#endregion
 
-        #region IDisposable Members
+#region IDisposable Members
 
         public void Dispose()
         {
             CheckErrors();
         }
 
-        #endregion
+#endregion
     }
 }
 #endif

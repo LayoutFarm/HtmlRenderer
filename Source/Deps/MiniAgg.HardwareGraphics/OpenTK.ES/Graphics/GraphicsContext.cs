@@ -10,9 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
-
 using OpenTK.Platform;
-
 namespace OpenTK.Graphics
 {
     /// <summary>
@@ -29,13 +27,11 @@ namespace OpenTK.Graphics
         // context - we'll not destroy it manually.
         readonly bool IsExternal;
         bool check_errors = true;
-
         static bool share_contexts = true;
         static bool direct_rendering = true;
-        readonly static object SyncRoot = new object();        
+        readonly static object SyncRoot = new object();
         // Maps OS-specific context handles to GraphicsContext weak references.
         readonly static Dictionary<ContextHandle, WeakReference> available_contexts = new Dictionary<ContextHandle, WeakReference>();
-
         #endregion
 
         #region --- Constructors ---
@@ -44,13 +40,12 @@ namespace OpenTK.Graphics
         GraphicsContext(ContextHandle handle)
         {
             implementation = new OpenTK.Platform.Dummy.DummyGLContext(handle);
-
             lock (SyncRoot)
             {
                 available_contexts.Add((implementation as IGraphicsContextInternal).Context, new WeakReference(this));
             }
         }
-        
+
         /// <summary>
         /// Constructs a new GraphicsContext with the specified GraphicsMode and attaches it to the specified window.
         /// </summary>
@@ -80,13 +75,11 @@ namespace OpenTK.Graphics
                     designMode = true;
                 else if (mode == null) throw new ArgumentNullException("mode", "Must be a valid GraphicsMode.");
                 else if (window == null) throw new ArgumentNullException("window", "Must point to a valid window.");
-
                 // Silently ignore invalid major and minor versions.
                 if (major <= 0)
                     major = 1;
                 if (minor < 0)
                     minor = 0;
-
                 Debug.Print("Creating GraphicsContext.");
                 try
                 {
@@ -95,9 +88,7 @@ namespace OpenTK.Graphics
                     Debug.Print("IWindowInfo: {0}", window);
                     Debug.Print("GraphicsContextFlags: {0}", flags);
                     Debug.Print("Requested version: {0}.{1}", major, minor);
-
                     IGraphicsContext shareContext = shareContext = FindSharedContext();
-                    
                     // Todo: Add a DummyFactory implementing IPlatformFactory.
                     if (designMode)
                     {
@@ -164,7 +155,6 @@ namespace OpenTK.Graphics
             lock (SyncRoot)
             {
                 IsExternal = true;
-
                 if (handle == ContextHandle.Zero)
                 {
                     implementation = new OpenTK.Platform.Dummy.DummyGLContext(handle);
@@ -183,7 +173,6 @@ namespace OpenTK.Graphics
                 }
 
                 available_contexts.Add((implementation as IGraphicsContextInternal).Context, new WeakReference(this));
-
                 (this as IGraphicsContextInternal).LoadAll();
             }
         }
@@ -230,7 +219,6 @@ namespace OpenTK.Graphics
             ContextHandle handle = GetCurrentContext();
             if (handle == ContextHandle.Zero)
                 throw new InvalidOperationException("No GraphicsContext is current on the calling thread.");
-
             return CreateDummyContext(handle);
         }
 
@@ -246,7 +234,6 @@ namespace OpenTK.Graphics
         {
             if (handle == ContextHandle.Zero)
                 throw new ArgumentOutOfRangeException("handle");
-
             return new GraphicsContext(handle);
         }
 
@@ -287,7 +274,6 @@ namespace OpenTK.Graphics
 
             return ContextHandle.Zero;
         };
-
         /// <summary>
         /// Gets the GraphicsContext that is current in the calling thread.
         /// </summary>
@@ -430,7 +416,7 @@ namespace OpenTK.Graphics
         public bool VSync
         {
             get { return implementation.VSync; }
-            set { implementation.VSync = value;  }
+            set { implementation.VSync = value; }
         }
 
         /// <summary>
@@ -453,10 +439,9 @@ namespace OpenTK.Graphics
         {
             if (GraphicsContext.CurrentContext != this)
                 throw new GraphicsContextException();
-
             implementation.LoadAll();
         }
-        
+
         #endregion
 
         #region --- IGraphicsContextInternal Members ---
@@ -468,7 +453,7 @@ namespace OpenTK.Graphics
         {
             get { return implementation; }
         }
-         
+
         /// <summary>
         /// Gets a handle to the OpenGL rendering context.
         /// </summary>

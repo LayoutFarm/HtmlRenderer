@@ -29,7 +29,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
-
 namespace OpenTK.Graphics.ES20
 {
     // Used in debug-mode only, for automatic OpenGL error-checking.
@@ -50,7 +49,6 @@ namespace OpenTK.Graphics.ES20
         static readonly Dictionary<GraphicsContext, List<ErrorCode>> ContextErrors =
             new Dictionary<GraphicsContext, List<ErrorCode>>();
         readonly GraphicsContext Context;
-
         #endregion
 
         #region Constructors
@@ -59,7 +57,6 @@ namespace OpenTK.Graphics.ES20
         {
             if (context == null)
                 throw new GraphicsContextMissingException();
-
             Context = (GraphicsContext)context;
             lock (SyncRoot)
             {
@@ -99,7 +96,6 @@ namespace OpenTK.Graphics.ES20
                     error = (ErrorCode)GL.GetError();
                     error_list.Add(error);
                 } while (error != ErrorCode.NoError);
-
                 if (error_list.Count != 1)
                 {
                     StringBuilder sb = new StringBuilder();
@@ -114,7 +110,6 @@ namespace OpenTK.Graphics.ES20
                             break;
                     }
                     sb.Remove(sb.Length - 2, 2); // Remove the last comma
-
                     throw new GraphicsErrorException(sb.ToString());
                 }
             }

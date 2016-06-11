@@ -6,14 +6,9 @@
 
 using System;
 using System.Collections.Generic;
- 
 using System.Threading;
- 
-
 using OpenTK;
 using OpenTK.Graphics;
-
-
 namespace OpenTK.Graphics.ES20
 {
     public static class ES2Utils
@@ -23,19 +18,15 @@ namespace OpenTK.Graphics.ES20
             int shader = GL.CreateShader(type);
             GL.ShaderSource(shader, source);
             GL.CompileShader(shader);
-
             int compileResult;
             GL.GetShader(shader, ShaderParameter.CompileStatus, out compileResult);
-
             if (compileResult == 0)
             {
                 int infoLogLength;
                 GL.GetShader(shader, ShaderParameter.InfoLogLength, out infoLogLength);
-
                 string infolog;
                 GL.GetShaderInfoLog(shader, out infolog);
                 GL.DeleteShader(shader);
-
                 //std::vector<GLchar> infoLog(infoLogLength);
                 //glGetShaderInfoLog(shader, infoLog.size(), NULL, &infoLog[0]);
 
@@ -52,7 +43,6 @@ namespace OpenTK.Graphics.ES20
             int program = GL.CreateProgram();
             int vs = CompileShader(ShaderType.VertexShader, vs_source);
             int fs = CompileShader(ShaderType.FragmentShader, fs_source);
-
             //GLuint program = glCreateProgram();
 
             //GLuint vs = CompileShader(GL_VERTEX_SHADER, vsSource);
@@ -63,7 +53,6 @@ namespace OpenTK.Graphics.ES20
                 GL.DeleteShader(vs);
                 GL.DeleteShader(fs);
                 GL.DeleteProgram(program);
-
                 return 0;
             }
             GL.AttachShader(program, vs);
@@ -80,7 +69,6 @@ namespace OpenTK.Graphics.ES20
 
             int linkStatus;
             GL.GetProgram(program, ProgramParameter.LinkStatus, out linkStatus);
-
             //GLint linkStatus;
             //glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
 
@@ -90,7 +78,6 @@ namespace OpenTK.Graphics.ES20
                 //glGetProgramiv(program, GL_INFO_LOG_LENGTH, &infoLogLength);
                 int infoLogLength;
                 GL.GetProgram(program, ProgramParameter.InfoLogLength, out infoLogLength);
-
                 string infoLog;
                 GL.GetProgramInfoLog(program, out infoLog);
                 //std::vector<GLchar> infoLog(infoLogLength);
@@ -104,10 +91,5 @@ namespace OpenTK.Graphics.ES20
 
             return program;
         }
-
     }
-
-
- 
-
 }

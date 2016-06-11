@@ -26,10 +26,9 @@
 #endregion
 
 using System;
-
 namespace OpenTK.Graphics.ES20
 {
-    #pragma warning disable 1591
+#pragma warning disable 1591
 
     public enum ActiveAttribType : int
     {
@@ -1424,5 +1423,4 @@ namespace OpenTK.Graphics.ES20
         Float = ((int)0X1406),
         Fixed = ((int)0X140c),
     }
-
 }
