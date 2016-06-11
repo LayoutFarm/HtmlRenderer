@@ -1,13 +1,9 @@
 ﻿// 2015,2014 ,MIT, WinterDev
 
 using System;
-using System.Text;  
-
+using System.Text;
 namespace PixelFarm.DrawingGL
 {
-
-
-
     public abstract class LazyBitmapBufferProvider
     {
         public abstract IntPtr GetRawBufferHead();

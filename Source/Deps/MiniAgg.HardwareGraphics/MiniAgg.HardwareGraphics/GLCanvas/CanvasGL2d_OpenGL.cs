@@ -1,18 +1,15 @@
 ﻿// 2015,2014 ,MIT, WinterDev
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
-
 using PixelFarm.Drawing;
 using PixelFarm.Agg;
 using PixelFarm.Agg.VertexSource;
-
 using OpenTK.Graphics.OpenGL;
-
 namespace PixelFarm.DrawingGL
 {
-
     partial class CanvasGL2d
     {
         Dictionary<GLBitmap, int> registerTextures = new Dictionary<GLBitmap, int>();
@@ -24,7 +21,6 @@ namespace PixelFarm.DrawingGL
                 GL.DeleteTexture(kp.Value);
             }
             this.registerTextures.Clear();
-
         }
         int GetTextureId(GLBitmap bmp)
         {
@@ -46,23 +42,16 @@ namespace PixelFarm.DrawingGL
                     PixelFormat.Bgra,
                     PixelType.UnsignedByte, (IntPtr)bmpScan0);
                 });
-
-
-
-
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-
                 //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
                 //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
             }
             else
             {
-
             }
 
             return foundTextureId;
-
         }
         public PixelFarm.Drawing.Color StrokeColor
         {
@@ -82,14 +71,13 @@ namespace PixelFarm.DrawingGL
                  (float)c.G / 255f,
                  (float)c.B / 255f,
                  (float)c.A / 255f);
-
             GL.ClearStencil(0);
             //actual clear here 
             GL.Clear(ClearBufferMask.ColorBufferBit |
                 ClearBufferMask.DepthBufferBit |
                 ClearBufferMask.StencilBufferBit);
         }
-        public  CanvasOrientation Orientation
+        public CanvasOrientation Orientation
         {
             get { return this.canvasOrientation; }
             set
@@ -103,7 +91,6 @@ namespace PixelFarm.DrawingGL
             this.canvasOriginX = x;
             this.canvasOriginY = y;
             int properW = Math.Min(this.canvasW, this.canvasH);
-
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
             switch (this.canvasOrientation)
@@ -111,11 +98,13 @@ namespace PixelFarm.DrawingGL
                 case Drawing.CanvasOrientation.LeftTop:
                     {
                         GL.Ortho(0, properW, properW, 0, 0.0, 100);
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         GL.Ortho(0, properW, 0, properW, 0.0, 100);
-                    } break;
+                    }
+                    break;
             }
 
             GL.MatrixMode(MatrixMode.Modelview);
@@ -143,13 +132,14 @@ namespace PixelFarm.DrawingGL
                            (this.canvasH - (y + h + this.canvasOriginY)), //flip Y --> to bootom 
                             w,
                             h);
-                    } break;
+                    }
+                    break;
                 default:
                     {
                         GL.Scissor(this.canvasOriginX + x, this.canvasOriginY + y, w, h);
-                    } break;
+                    }
+                    break;
             }
-
         }
         public void FillPolygon(PixelFarm.Drawing.Brush brush, float[] vertex2dCoords, int npoints)
         {
@@ -182,24 +172,23 @@ namespace PixelFarm.DrawingGL
                         VertexStore vxs = ps.Vxs;
                         sclineRas.Reset();
                         sclineRas.AddPath(vxs);
-
                         switch (brush.BrushKind)
                         {
                             case Drawing.BrushKind.Solid:
                                 {
                                     var color = ((PixelFarm.Drawing.SolidBrush)brush).Color;
                                     sclineRasToGL.FillWithColor(sclineRas, sclinePack8, color);
-
-                                } break;
+                                }
+                                break;
                             default:
                                 {
-                                } break;
+                                }
+                                break;
                         }
-
-                    } break;
+                    }
+                    break;
                 default:
                     {
-
                         var vertextList = TessPolygon(vertex2dCoords);
                         //-----------------------------   
                         //switch how to fill polygon
@@ -243,7 +232,6 @@ namespace PixelFarm.DrawingGL
                                         }
                                         //close
                                         ps.CloseFigure();
-
                                         VertexStore vxs = ps.Vxs;
                                         sclineRas.Reset();
                                         sclineRas.AddPath(vxs);
@@ -275,7 +263,6 @@ namespace PixelFarm.DrawingGL
                                     GL.StencilFunc(StencilFunction.Equal, 1, 1);
                                     //freeze stencill buffer
                                     GL.StencilOp(StencilOp.Keep, StencilOp.Keep, StencilOp.Keep);
-
                                     if (this.Note1 == 1)
                                     {
                                         //------------------------------------------
@@ -295,7 +282,6 @@ namespace PixelFarm.DrawingGL
                                         //use alpha chanel from source***
                                         GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.Zero);
                                         sclineRasToGL.FillWithColor(sclineRas, sclinePack8, PixelFarm.Drawing.Color.Black);
-
                                         //at this point alpha component is fill in to destination 
                                         //-------------------------------------------------------------------------------------
                                         //2. then fill again!, 
@@ -319,9 +305,7 @@ namespace PixelFarm.DrawingGL
                                                      points[1].X, points[1].Y,
                                                      colors[0],
                                                      colors[1]);
-
                                                 DrawVertexList(DrawMode.Triangles, vrx, vrx.Count);
-
                                             }
                                             else if (brush.BrushKind == Drawing.BrushKind.Texture)
                                             {
@@ -339,7 +323,6 @@ namespace PixelFarm.DrawingGL
                                         //restore back 
                                         //3. switch to normal blending mode 
                                         GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
-
                                     }
                                     else
                                     {
@@ -357,7 +340,8 @@ namespace PixelFarm.DrawingGL
                                         DrawVertexList(DrawMode.Triangles, vrx, vrx.Count);
                                     }
                                     GL.Disable(EnableCap.StencilTest);
-                                } break;
+                                }
+                                break;
                             default:
                                 {
                                     //unknown brush
@@ -381,11 +365,11 @@ namespace PixelFarm.DrawingGL
                                     //GL.DisableClientState(ArrayCap.ColorArray);
                                     //GL.DisableClientState(ArrayCap.VertexArray);
                                     ////-------------------------------------- 
-                                } break;
+                                }
+                                break;
                         }
-
-
-                    } break;
+                    }
+                    break;
             }
         }
         public void DrawGlyphImages(PixelFarm.Drawing.Color color,
@@ -409,17 +393,14 @@ namespace PixelFarm.DrawingGL
             {
                 var prevColor = this.strokeColor;
                 this.StrokeColor = PixelFarm.Drawing.Color.White;
-
                 GL.Enable(EnableCap.Texture2D);
                 {
                     GL.BindTexture(TextureTarget.Texture2D, GetTextureId(bmp));
                     GL.EnableClientState(ArrayCap.TextureCoordArray); //***
-
                     //texture source coord 1= 100% of original width
                     float* arr = stackalloc float[8];
                     float fullsrcW = bmp.Width;
                     float fullsrcH = bmp.Height;
-
                     int len = destAndSrcPairs.Length;
                     if (len > 1)
                     {
@@ -429,17 +410,15 @@ namespace PixelFarm.DrawingGL
                         }
                         if (this.canvasOrientation == Drawing.CanvasOrientation.LeftTop)
                         {
-                            for (int i = 0; i < len; )
+                            for (int i = 0; i < len;)
                             {
                                 //each 
 
                                 var destRect = destAndSrcPairs[i];
                                 var srcRect = destAndSrcPairs[i + 1];
                                 i += 2;
-
                                 if (!bmp.IsInvert)
                                 {
-
                                     ////arr[0] = 0; arr[1] = 0;
                                     arr[0] = srcRect.Left / fullsrcW; arr[1] = (srcRect.Top + srcRect.Height) / fullsrcH;
                                     //arr[2] = 1; arr[3] = 0;
@@ -451,7 +430,6 @@ namespace PixelFarm.DrawingGL
                                 }
                                 else
                                 {
-
                                     arr[0] = srcRect.Left / fullsrcW; arr[1] = srcRect.Top / fullsrcH;
                                     //arr[2] = 1; arr[3] = 1;
                                     arr[2] = srcRect.Right / fullsrcW; arr[3] = srcRect.Top / fullsrcH;
@@ -468,17 +446,15 @@ namespace PixelFarm.DrawingGL
                         }
                         else
                         {
-                            for (int i = 0; i < len; )
+                            for (int i = 0; i < len;)
                             {
                                 //each 
 
                                 var destRect = destAndSrcPairs[i];
                                 var srcRect = destAndSrcPairs[i + 1];
                                 i += 2;
-
                                 if (bmp.IsInvert)
                                 {
-
                                     ////arr[0] = 0; arr[1] = 0;
                                     arr[0] = srcRect.Left / fullsrcW; arr[1] = (srcRect.Top + srcRect.Height) / fullsrcH;
                                     //arr[2] = 1; arr[3] = 0;
@@ -490,7 +466,6 @@ namespace PixelFarm.DrawingGL
                                 }
                                 else
                                 {
-
                                     arr[0] = srcRect.Left / fullsrcW; arr[1] = srcRect.Top / fullsrcH;
                                     //arr[2] = 1; arr[3] = 1;
                                     arr[2] = srcRect.Right / fullsrcW; arr[3] = srcRect.Top / fullsrcH;
@@ -523,7 +498,7 @@ namespace PixelFarm.DrawingGL
                 int len = destAndSrcPairs.Length;
                 if (len > 1)
                 {
-                    for (int i = 0; i < len; )
+                    for (int i = 0; i < len;)
                     {
                         //each  
                         var destRect = destAndSrcPairs[i];
@@ -543,8 +518,6 @@ namespace PixelFarm.DrawingGL
         public void DrawGlyphImages3(PixelFarm.Drawing.Color color,
             GLBitmap bmp, PixelFarm.Drawing.RectangleF[] destAndSrcPairs)
         {
-
-
             //GL.Disable(EnableCap.Blend);
             //GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
             ////GL.BlendFunc(BlendingFactorSrc.One, BlendingFactorDest.Zero);
@@ -552,19 +525,15 @@ namespace PixelFarm.DrawingGL
             {
                 var prevColor = this.strokeColor;
                 this.StrokeColor = PixelFarm.Drawing.Color.White;
-
                 GL.Enable(EnableCap.Texture2D);
                 {
-
                     GL.BindTexture(TextureTarget.Texture2D, GetTextureId(bmp));
-                   // GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureEnvMode.Combine);
+                    // GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode, (int)TextureEnvMode.Combine);
                     GL.EnableClientState(ArrayCap.TextureCoordArray); //***
-
                     //texture source coord 1= 100% of original width
                     float* arr = stackalloc float[8];
                     float fullsrcW = bmp.Width;
                     float fullsrcH = bmp.Height;
-
                     int len = destAndSrcPairs.Length;
                     if (len > 1)
                     {
@@ -574,17 +543,15 @@ namespace PixelFarm.DrawingGL
                         }
                         if (this.canvasOrientation == Drawing.CanvasOrientation.LeftTop)
                         {
-                            for (int i = 0; i < len; )
+                            for (int i = 0; i < len;)
                             {
                                 //each 
 
                                 var destRect = destAndSrcPairs[i];
                                 var srcRect = destAndSrcPairs[i + 1];
                                 i += 2;
-
                                 if (!bmp.IsInvert)
                                 {
-
                                     ////arr[0] = 0; arr[1] = 0;
                                     arr[0] = srcRect.Left / fullsrcW; arr[1] = (srcRect.Top + srcRect.Height) / fullsrcH;
                                     //arr[2] = 1; arr[3] = 0;
@@ -596,7 +563,6 @@ namespace PixelFarm.DrawingGL
                                 }
                                 else
                                 {
-
                                     arr[0] = srcRect.Left / fullsrcW; arr[1] = srcRect.Top / fullsrcH;
                                     //arr[2] = 1; arr[3] = 1;
                                     arr[2] = srcRect.Right / fullsrcW; arr[3] = srcRect.Top / fullsrcH;
@@ -613,17 +579,15 @@ namespace PixelFarm.DrawingGL
                         }
                         else
                         {
-                            for (int i = 0; i < len; )
+                            for (int i = 0; i < len;)
                             {
                                 //each 
 
                                 var destRect = destAndSrcPairs[i];
                                 var srcRect = destAndSrcPairs[i + 1];
                                 i += 2;
-
                                 if (bmp.IsInvert)
                                 {
-
                                     ////arr[0] = 0; arr[1] = 0;
                                     arr[0] = srcRect.Left / fullsrcW; arr[1] = (srcRect.Top + srcRect.Height) / fullsrcH;
                                     //arr[2] = 1; arr[3] = 0;
@@ -692,7 +656,6 @@ namespace PixelFarm.DrawingGL
             {
                 var prevColor = this.strokeColor;
                 this.StrokeColor = PixelFarm.Drawing.Color.White;
-
                 //texture source coord 1= 100% of original width
                 float* arr = stackalloc float[8];
                 float fullsrcW = bmp.Width;
@@ -701,7 +664,6 @@ namespace PixelFarm.DrawingGL
                 {
                     if (!bmp.IsInvert)
                     {
-
                         ////arr[0] = 0; arr[1] = 0;
                         arr[0] = srcRect.Left / fullsrcW; arr[1] = (srcRect.Top + srcRect.Height) / fullsrcH;
                         //arr[2] = 1; arr[3] = 0;
@@ -713,7 +675,6 @@ namespace PixelFarm.DrawingGL
                     }
                     else
                     {
-
                         arr[0] = srcRect.Left / fullsrcW; arr[1] = srcRect.Top / fullsrcH;
                         //arr[2] = 1; arr[3] = 1;
                         arr[2] = srcRect.Right / fullsrcW; arr[3] = srcRect.Top / fullsrcH;
@@ -722,13 +683,11 @@ namespace PixelFarm.DrawingGL
                         //arr[6] = 0; arr[7] = 0;
                         arr[6] = srcRect.Left / fullsrcW; arr[7] = srcRect.Bottom / fullsrcH;
                     }
-
                 }
                 else
                 {
                     if (bmp.IsInvert)
                     {
-
                         ////arr[0] = 0; arr[1] = 0;
                         arr[0] = srcRect.Left / fullsrcW; arr[1] = (srcRect.Top + srcRect.Height) / fullsrcH;
                         //arr[2] = 1; arr[3] = 0;
@@ -740,7 +699,6 @@ namespace PixelFarm.DrawingGL
                     }
                     else
                     {
-
                         arr[0] = srcRect.Left / fullsrcW; arr[1] = srcRect.Top / fullsrcH;
                         //arr[2] = 1; arr[3] = 1;
                         arr[2] = srcRect.Right / fullsrcW; arr[3] = srcRect.Top / fullsrcH;
@@ -760,7 +718,6 @@ namespace PixelFarm.DrawingGL
                 GL.DisableClientState(ArrayCap.TextureCoordArray);
                 GL.Disable(EnableCap.Texture2D);
                 this.StrokeColor = prevColor;
-
             }
         }
 
@@ -780,7 +737,6 @@ namespace PixelFarm.DrawingGL
             GL.EnableClientState(ArrayCap.VertexArray);
             unsafe
             {
-
                 VertexC4V2f[] vtx = buffer.Array;
                 fixed (void* h = &vtx[0])
                 {
@@ -792,7 +748,6 @@ namespace PixelFarm.DrawingGL
                         (IntPtr)(byteH + VertexC4V2f.VX_OFFSET));
                 }
                 GL.DrawArrays((BeginMode)mode, 0, nelements);
-
             }
             GL.DisableClientState(ArrayCap.ColorArray);
             GL.DisableClientState(ArrayCap.VertexArray);
@@ -806,13 +761,11 @@ namespace PixelFarm.DrawingGL
                 float* arr = stackalloc float[8];
                 byte* indices = stackalloc byte[6];
                 CreateRectCoords(arr, indices, x, y, w, h);
-
                 GL.EnableClientState(ArrayCap.VertexArray);
                 //vertex
                 GL.VertexPointer(2, VertexPointerType.Float, 0, (IntPtr)arr);
                 GL.DrawElements(BeginMode.Triangles, 6, DrawElementsType.UnsignedByte, (IntPtr)indices);
                 GL.DisableClientState(ArrayCap.VertexArray);
-
             }
         }
 

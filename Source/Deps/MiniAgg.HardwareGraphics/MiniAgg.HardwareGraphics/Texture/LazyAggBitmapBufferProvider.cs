@@ -1,9 +1,9 @@
 ﻿// 2015,2014 ,MIT, WinterDev
+
 using System.Text;
 using System;
 using System.Runtime.InteropServices;
-
-using Tesselate; 
+using Tesselate;
 namespace PixelFarm.DrawingGL
 {
     public class LazyAggBitmapBufferProvider : LazyBitmapBufferProvider
@@ -15,7 +15,7 @@ namespace PixelFarm.DrawingGL
             this.image = image;
         }
         public override bool IsInvert
-        {   
+        {
             get { return false; }
         }
         public override IntPtr GetRawBufferHead()
@@ -37,5 +37,4 @@ namespace PixelFarm.DrawingGL
             get { return this.image.Height; }
         }
     }
-
 }

@@ -27,7 +27,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-
 namespace PixelFarm.Agg
 {
     [StructLayout(LayoutKind.Sequential)]
@@ -79,15 +78,9 @@ namespace PixelFarm.Agg
         }
 
         public const int SIZE_IN_BYTES = sizeof(uint) + sizeof(float) * 2;
-
         public const int COLOR_OFFSET = 0;
         public const int VX_OFFSET = sizeof(uint);
-
         public const OpenTK.Graphics.OpenGL.VertexPointerType VX_PTR_TYPE = OpenTK.Graphics.OpenGL.VertexPointerType.Float;
         public const int N_COORDS = 2;
-
     }
-
-
-
 }

@@ -3,20 +3,17 @@
 using System;
 using System.Text;
 using OpenTK.Graphics.OpenGL;
-
 namespace PixelFarm.DrawingGL
 {
     public delegate void TransientGetBufferHead(IntPtr bufferHead);
     public class GLBitmap : IDisposable
     {
-        
         int width;
         int height;
         byte[] rawBuffer;
         LazyBitmapBufferProvider lazyProvider;
         bool isInvertImage = false;
         int refCount;
-
         public GLBitmap(int w, int h, byte[] rawBuffer, bool isInvertImage)
         {
             this.width = w;
@@ -71,7 +68,6 @@ namespace PixelFarm.DrawingGL
                 //       PixelType.UnsignedByte, (IntPtr)bmpScan0);
                 this.lazyProvider.ReleaseBufferHead();
             }
-
         }
         public void Dispose()
         {
@@ -85,6 +81,4 @@ namespace PixelFarm.DrawingGL
         static int dbugIdTotal;
 #endif
     }
-
-
 }
