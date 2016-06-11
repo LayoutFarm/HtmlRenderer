@@ -8,11 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-
 using OpenTK.Input;
 using System.Diagnostics;
 using System.Drawing;
-
 namespace OpenTK.Platform.Windows
 {
     // Input driver for legacy (pre XP) Windows platforms.
@@ -31,7 +29,6 @@ namespace OpenTK.Platform.Windows
         const long ExtendedBit = 1 << 24;
         // Used to distinguish left and right shift keys.
         static readonly uint ShiftRightScanCode = Functions.MapVirtualKey(VirtualKeys.RSHIFT, 0);
-
         #endregion
 
         #region --- Constructor ---
@@ -40,21 +37,16 @@ namespace OpenTK.Platform.Windows
         {
             Debug.WriteLine("Initalizing WMInput driver.");
             Debug.Indent();
-
             AssignHandle(parent.WindowHandle);
             Debug.Print("Input window attached to parent {0}", parent);
-            
             Debug.Unindent();
-
             keyboard.Description = "Standard Windows keyboard";
             keyboard.NumberOfFunctionKeys = 12;
             keyboard.NumberOfKeys = 101;
             keyboard.NumberOfLeds = 3;
-
             mouse.Description = "Standard Windows mouse";
             mouse.NumberOfButtons = 3;
             mouse.NumberOfWheels = 1;
-
             keyboards.Add(keyboard);
             mice.Add(mouse);
         }
@@ -79,7 +71,6 @@ namespace OpenTK.Platform.Windows
                 case WindowMessage.NCMOUSEMOVE:
                     mouse_about_to_enter = true;   // Used to simulate a mouse enter event.
                     break;
-
                 case WindowMessage.MOUSEMOVE:
                     mouse.Position = new Point(
                                                         (int)(lparam.ToUInt32() & 0x0000FFFF),
@@ -90,46 +81,36 @@ namespace OpenTK.Platform.Windows
                         mouse_about_to_enter = false;
                     }
                     return;
-
                 case WindowMessage.MOUSEWHEEL:
                     // This is due to inconsistent behavior of the WParam value on 64bit arch, whese
                     // wparam = 0xffffffffff880000 or wparam = 0x00000000ff100000
                     mouse.Wheel += (int)((long)msg.WParam << 32 >> 48) / 120;
                     return;
-
                 case WindowMessage.LBUTTONDOWN:
                     mouse[MouseButton.Left] = true;
                     return;
-
                 case WindowMessage.MBUTTONDOWN:
                     mouse[MouseButton.Middle] = true;
                     return;
-
                 case WindowMessage.RBUTTONDOWN:
                     mouse[MouseButton.Right] = true;
                     return;
-
                 case WindowMessage.XBUTTONDOWN:
                     mouse[((wparam.ToUInt32() & 0xFFFF0000) >> 16) != (int)MouseKeys.XButton1 ? MouseButton.Button1 : MouseButton.Button2] = true;
                     return;
-
                 case WindowMessage.LBUTTONUP:
                     mouse[MouseButton.Left] = false;
                     return;
-
                 case WindowMessage.MBUTTONUP:
                     mouse[MouseButton.Middle] = false;
                     return;
-
                 case WindowMessage.RBUTTONUP:
                     mouse[MouseButton.Right] = false;
                     return;
-
                 case WindowMessage.XBUTTONUP:
                     // TODO: Is this correct?
                     mouse[((wparam.ToUInt32() & 0xFFFF0000) >> 16) != (int)MouseKeys.XButton1 ? MouseButton.Button1 : MouseButton.Button2] = false;
                     return;
-
                 // Keyboard events:
                 case WindowMessage.KEYDOWN:
                 case WindowMessage.KEYUP:
@@ -137,7 +118,6 @@ namespace OpenTK.Platform.Windows
                 case WindowMessage.SYSKEYUP:
                     bool pressed = (WindowMessage)msg.Msg == WindowMessage.KEYDOWN ||
                                    (WindowMessage)msg.Msg == WindowMessage.SYSKEYDOWN;
-
                     // Shift/Control/Alt behave strangely when e.g. ShiftRight is held down and ShiftLeft is pressed
                     // and released. It looks like neither key is released in this case, or that the wrong key is
                     // released in the case of Control and Alt.
@@ -154,7 +134,7 @@ namespace OpenTK.Platform.Windows
                             // may result in both keys being held down (but not always).
                             // The only reliably way to solve this was reported by BlueMonkMN at the forums: we should
                             // check the scancodes. It looks like GLFW does the same thing, so it should be reliable.
-                            
+
                             // TODO: Not 100% reliable, when both keys are pressed at once.
                             if (ShiftRightScanCode != 0)
                             {
@@ -172,28 +152,24 @@ namespace OpenTK.Platform.Windows
                                 keyboard[Input.Key.ShiftLeft] = pressed;
                             }
                             return;
-
                         case VirtualKeys.CONTROL:
                             if (extended)
                                 keyboard[Input.Key.ControlRight] = pressed;
                             else
                                 keyboard[Input.Key.ControlLeft] = pressed;
                             return;
-
                         case VirtualKeys.MENU:
                             if (extended)
                                 keyboard[Input.Key.AltRight] = pressed;
                             else
                                 keyboard[Input.Key.AltLeft] = pressed;
                             return;
-
                         case VirtualKeys.RETURN:
                             if (extended)
                                 keyboard[Key.KeypadEnter] = pressed;
                             else
                                 keyboard[Key.Enter] = pressed;
                             return;
-
                         default:
                             if (!WMInput.KeyMap.ContainsKey((VirtualKeys)msg.WParam))
                             {
@@ -207,16 +183,13 @@ namespace OpenTK.Platform.Windows
                             }
                     }
                     break;
-
                 case WindowMessage.KILLFOCUS:
                     keyboard.ClearKeys();
                     break;
-
                 case WindowMessage.DESTROY:
                     Debug.Print("Input window detached from parent {0}.", Handle);
                     ReleaseHandle();
                     break;
-
                 case WindowMessage.QUIT:
                     Debug.WriteLine("Input window quit.");
                     this.Dispose();
@@ -271,7 +244,6 @@ namespace OpenTK.Platform.Windows
         #region --- IDisposable Members ---
 
         private bool disposed;
-
         public void Dispose()
         {
             Dispose(true);
@@ -284,7 +256,6 @@ namespace OpenTK.Platform.Windows
             {
                 if (manual)
                     this.ReleaseHandle();
-
                 disposed = true;
             }
         }

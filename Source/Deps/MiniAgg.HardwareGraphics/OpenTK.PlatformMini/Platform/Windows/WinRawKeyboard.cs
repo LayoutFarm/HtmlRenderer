@@ -13,7 +13,6 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using Microsoft.Win32;
 using OpenTK.Input;
-
 #endregion
 
 namespace OpenTK.Platform.Windows
@@ -22,7 +21,6 @@ namespace OpenTK.Platform.Windows
     {
         private List<KeyboardDevice> keyboards = new List<KeyboardDevice>();
         private IntPtr window;
-
         #region --- Constructors ---
 
         internal WinRawKeyboard()
@@ -34,11 +32,8 @@ namespace OpenTK.Platform.Windows
         {
             Debug.WriteLine("Initializing keyboard driver (WinRawKeyboard).");
             Debug.Indent();
-
             this.window = windowHandle;
-
             UpdateKeyboardList();
-
             Debug.Unindent();
         }
 
@@ -53,7 +48,6 @@ namespace OpenTK.Platform.Windows
             for (int i = 0; i < count; i++)
                 ridl[i] = new RawInputDeviceList();
             Functions.GetRawInputDeviceList(ridl, ref count, API.RawInputDeviceListSize);
-
             // Discover keyboard devices:
             for (int i = 0; i < count; i++)
             {
@@ -75,9 +69,7 @@ namespace OpenTK.Platform.Windows
 
                     // remove the \??\
                     name = name.Substring(4);
-
                     string[] split = name.Split('#');
-
                     string id_01 = split[0];    // ACPI (Class code)
                     string id_02 = split[1];    // PNP0303 (SubClass code)
                     string id_03 = split[2];    // 3&13c0b0c5&0 (Protocol code)
@@ -86,9 +78,7 @@ namespace OpenTK.Platform.Windows
                     string findme = string.Format(
                         @"System\CurrentControlSet\Enum\{0}\{1}\{2}",
                         id_01, id_02, id_03);
-
                     RegistryKey regkey = Registry.LocalMachine.OpenSubKey(findme);
-
                     string deviceDesc =
                         (string)regkey.GetValue("DeviceDesc");
                     string deviceClass =
@@ -97,23 +87,20 @@ namespace OpenTK.Platform.Windows
                     {
                         KeyboardDevice kb = new KeyboardDevice();
                         kb.Description = deviceDesc;
-
                         // Register the keyboard:
                         RawInputDeviceInfo info = new RawInputDeviceInfo();
                         int devInfoSize = API.RawInputDeviceInfoSize;
                         Functions.GetRawInputDeviceInfo(ridl[i].Device, RawInputDeviceInfoEnum.DEVICEINFO,
                                 info, ref devInfoSize);
-
                         kb.NumberOfLeds = info.Device.Keyboard.NumberOfIndicators;
                         kb.NumberOfFunctionKeys = info.Device.Keyboard.NumberOfFunctionKeys;
                         kb.NumberOfKeys = info.Device.Keyboard.NumberOfKeysTotal;
                         //kb.DeviceID = (info.Device.Keyboard.Type << 32) + info.Device.Keyboard.SubType;
                         kb.DeviceID = ridl[i].Device;
-
                         //if (!keyboards.Contains(kb))
                         //{
-                            this.RegisterKeyboardDevice(kb);
-                            keyboards.Add(kb);
+                        this.RegisterKeyboardDevice(kb);
+                        keyboards.Add(kb);
                         //}
                     }
                 }
@@ -133,7 +120,6 @@ namespace OpenTK.Platform.Windows
             rid[0].Usage = 6;
             rid[0].Flags = RawInputDeviceFlags.INPUTSINK;
             rid[0].Target = window;
-
             if (!Functions.RegisterRawInputDevices(rid, 1, API.RawInputDeviceSize))
             {
                 throw new ApplicationException(
@@ -168,7 +154,6 @@ namespace OpenTK.Platform.Windows
                     bool pressed =
                         rin.Data.Keyboard.Message == (int)WindowMessage.KEYDOWN ||
                         rin.Data.Keyboard.Message == (int)WindowMessage.SYSKEYDOWN;
-                    
                     // Find the device where the button was pressed. It can be that the input notification
                     // came not from a physical keyboard device but from a code-generated input message - in
                     // that case, the event goes to the default (first) keyboard.
@@ -182,7 +167,6 @@ namespace OpenTK.Platform.Windows
                     int index;
                     if (keyboards.Count > 0) index = 0;
                     else return false;
-
                     // Generic control, shift, alt keys may be sent instead of left/right.
                     // It seems you have to explicitly register left/right events.
                     switch (rin.Data.Keyboard.VKey)
@@ -190,22 +174,18 @@ namespace OpenTK.Platform.Windows
                         case VirtualKeys.SHIFT:
                             keyboards[index][Input.Key.ShiftLeft] = keyboards[index][Input.Key.ShiftRight] = pressed;
                             return true;
-
                         case VirtualKeys.CONTROL:
                             keyboards[index][Input.Key.ControlLeft] = keyboards[index][Input.Key.ControlRight] = pressed;
                             return true;
-
                         case VirtualKeys.MENU:
                             keyboards[index][Input.Key.AltLeft] = keyboards[index][Input.Key.AltRight] = pressed;
                             return true;
-
                         default:
                             if (!WMInput.KeyMap.ContainsKey(rin.Data.Keyboard.VKey))
                                 Debug.Print("Virtual key {0} ({1}) not mapped.",
                                             rin.Data.Keyboard.VKey, (int)rin.Data.Keyboard.VKey);
                             else
                                 keyboards[index][WMInput.KeyMap[rin.Data.Keyboard.VKey]] = pressed;
-                            
                             return false;
                     }
 
@@ -242,7 +222,6 @@ namespace OpenTK.Platform.Windows
         #region --- IDisposable Members ---
 
         private bool disposed;
-
         public void Dispose()
         {
             Dispose(true);

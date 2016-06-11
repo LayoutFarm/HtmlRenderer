@@ -11,9 +11,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-
 using OpenTK.Graphics;
-
 namespace OpenTK.Platform.X11
 {
     class X11GraphicsMode : IGraphicsMode
@@ -21,7 +19,7 @@ namespace OpenTK.Platform.X11
         // Todo: Add custom visual selection algorithm, instead of ChooseFBConfig/ChooseVisual.
         // It seems the Choose* methods do not take multisampling into account (at least on some
         // drivers).
-        
+
         #region Constructors
 
         public X11GraphicsMode()
@@ -39,19 +37,14 @@ namespace OpenTK.Platform.X11
             // The actual GraphicsMode that will be selected.
             IntPtr visual = IntPtr.Zero;
             IntPtr display = API.DefaultDisplay;
-            
             // Try to select a visual using Glx.ChooseFBConfig and Glx.GetVisualFromFBConfig.
             // This is only supported on GLX 1.3 - if it fails, fall back to Glx.ChooseVisual.
             visual = SelectVisualUsingFBConfig(color, depth, stencil, samples, accum, buffers, stereo);
-            
             if (visual == IntPtr.Zero)
                 visual = SelectVisualUsingChooseVisual(color, depth, stencil, samples, accum, buffers, stereo);
-            
             if (visual == IntPtr.Zero)
                 throw new GraphicsModeException("Requested GraphicsMode not available.");
-            
             XVisualInfo info = (XVisualInfo)Marshal.PtrToStructure(visual, typeof(XVisualInfo));
-            
             // See what we *really* got:
             int r, g, b, a;
             Glx.GetConfig(display, ref info, GLXAttribute.ALPHA_SIZE, out a);
@@ -72,15 +65,13 @@ namespace OpenTK.Platform.X11
             int st;
             Glx.GetConfig(display, ref info, GLXAttribute.STEREO, out st);
             stereo = st != 0;
-            
             gfx = new GraphicsMode(info.VisualID, new ColorFormat(r, g, b, a), depth, stencil, samples,
             new ColorFormat(ar, ag, ab, aa), buffers, stereo);
-            
             using (new XLock(display))
             {
                 Functions.XFree(visual);
             }
-            
+
             return gfx;
         }
 
@@ -95,9 +86,7 @@ namespace OpenTK.Platform.X11
         {
             List<int> visualAttributes = new List<int>();
             IntPtr visual = IntPtr.Zero;
-
             Debug.Print("Bits per pixel: {0}", color.BitsPerPixel);
-
             if (color.BitsPerPixel > 0)
             {
                 if (!color.IsIndexed)
@@ -116,7 +105,6 @@ namespace OpenTK.Platform.X11
             }
 
             Debug.Print("Depth: {0}", depth);
-
             if (depth > 0)
             {
                 visualAttributes.Add((int)GLXAttribute.DEPTH_SIZE);
@@ -146,7 +134,7 @@ namespace OpenTK.Platform.X11
                 visualAttributes.Add((int)GLXAttribute.ACCUM_RED_SIZE);
                 visualAttributes.Add(accum.Red);
             }
-            
+
             if (samples > 0)
             {
                 visualAttributes.Add((int)GLXAttribute.SAMPLE_BUFFERS);
@@ -162,7 +150,6 @@ namespace OpenTK.Platform.X11
             }
 
             visualAttributes.Add(0);
-
             // Select a visual that matches the parameters set by the user.
             IntPtr display = API.DefaultDisplay;
             using (new XLock(display))
@@ -172,7 +159,6 @@ namespace OpenTK.Platform.X11
                     int screen = Functions.XDefaultScreen(display);
                     IntPtr root = Functions.XRootWindow(display, screen);
                     Debug.Print("Display: {0}, Screen: {1}, RootWindow: {2}", display, screen, root);
-    
                     unsafe
                     {
                         Debug.Print("Getting FB config.");
@@ -202,9 +188,7 @@ namespace OpenTK.Platform.X11
                                                   int buffers, bool stereo)
         {
             List<int> visualAttributes = new List<int>();
-
             Debug.Print("Bits per pixel: {0}", color.BitsPerPixel);
-
             if (color.BitsPerPixel > 0)
             {
                 if (!color.IsIndexed)
@@ -220,7 +204,6 @@ namespace OpenTK.Platform.X11
             }
 
             Debug.Print("Depth: {0}", depth);
-
             if (depth > 0)
             {
                 visualAttributes.Add((int)GLXAttribute.DEPTH_SIZE);
@@ -229,7 +212,6 @@ namespace OpenTK.Platform.X11
 
             if (buffers > 1)
                 visualAttributes.Add((int)GLXAttribute.DOUBLEBUFFER);
-
             if (stencil > 1)
             {
                 visualAttributes.Add((int)GLXAttribute.STENCIL_SIZE);
@@ -247,7 +229,7 @@ namespace OpenTK.Platform.X11
                 visualAttributes.Add((int)GLXAttribute.ACCUM_RED_SIZE);
                 visualAttributes.Add(accum.Red);
             }
-            
+
             if (samples > 0)
             {
                 visualAttributes.Add((int)GLXAttribute.SAMPLE_BUFFERS);
@@ -258,9 +240,7 @@ namespace OpenTK.Platform.X11
 
             if (stereo)
                 visualAttributes.Add((int)GLXAttribute.STEREO);
-
             visualAttributes.Add(0);
-
             Debug.Print("Falling back to glXChooseVisual.");
             IntPtr display = API.DefaultDisplay;
             using (new XLock(display))

@@ -145,6 +145,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTkEssTest", "Deps\MiniA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTkEssTestMini", "Deps\MiniAgg.HardwareGraphics\OpenTkEssTestMini\OpenTkEssTestMini.csproj", "{6C62FD15-ED6E-4783-8D04-25C7BAEEEDCB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTK.PlatformMini", "Deps\MiniAgg.HardwareGraphics\OpenTK.PlatformMini\OpenTK.PlatformMini.csproj", "{77870ADC-CE4A-423C-B736-A1FA4AA2D697}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1021,6 +1023,24 @@ Global
 		{6C62FD15-ED6E-4783-8D04-25C7BAEEEDCB}.Release64|Mixed Platforms.Build.0 = Release|x86
 		{6C62FD15-ED6E-4783-8D04-25C7BAEEEDCB}.Release64|x86.ActiveCfg = Release|x86
 		{6C62FD15-ED6E-4783-8D04-25C7BAEEEDCB}.Release64|x86.Build.0 = Release|x86
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Debug|x86.Build.0 = Debug|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Release|x86.ActiveCfg = Release|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Release|x86.Build.0 = Release|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Release64|Any CPU.ActiveCfg = Release|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Release64|Any CPU.Build.0 = Release|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Release64|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Release64|Mixed Platforms.Build.0 = Release|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Release64|x86.ActiveCfg = Release|Any CPU
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697}.Release64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1088,5 +1108,6 @@ Global
 		{EED04403-8D2A-4A7F-9E46-E1FF8BE89042} = {D16DFDBA-6F59-49C6-904B-DD15E313749F}
 		{910824A1-3F6D-4B26-B1B0-78ABC0195500} = {D16DFDBA-6F59-49C6-904B-DD15E313749F}
 		{6C62FD15-ED6E-4783-8D04-25C7BAEEEDCB} = {D16DFDBA-6F59-49C6-904B-DD15E313749F}
+		{77870ADC-CE4A-423C-B736-A1FA4AA2D697} = {D16DFDBA-6F59-49C6-904B-DD15E313749F}
 	EndGlobalSection
 EndGlobal

@@ -30,7 +30,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-
 namespace OpenTK.Platform.Windows
 {
     /// \internal
@@ -40,7 +39,6 @@ namespace OpenTK.Platform.Windows
         IntPtr handle, dc;
         WinWindowInfo parent;
         bool disposed;
-
         #region --- Constructors ---
 
         /// <summary>
@@ -84,7 +82,7 @@ namespace OpenTK.Platform.Windows
             {
                 if (dc == IntPtr.Zero)
                     dc = Functions.GetDC(this.WindowHandle);
-                    //dc = Functions.GetWindowDC(this.WindowHandle);
+                //dc = Functions.GetWindowDC(this.WindowHandle);
                 return dc;
             }
         }
@@ -106,8 +104,7 @@ namespace OpenTK.Platform.Windows
         {
             if (obj == null) return false;
             if (this.GetType() != obj.GetType()) return false;
-            WinWindowInfo info = (WinWindowInfo)obj; 
-
+            WinWindowInfo info = (WinWindowInfo)obj;
             if (info == null) return false;
             // TODO: Assumes windows will always have unique handles.
             return handle.Equals(info.handle);
@@ -146,7 +143,6 @@ namespace OpenTK.Platform.Windows
                 if (this.dc != IntPtr.Zero)
                     if (!Functions.ReleaseDC(this.handle, this.dc))
                         Debug.Print("[Warning] Failed to release device context {0}. Windows error: {1}.", this.dc, Marshal.GetLastWin32Error());
-
                 if (manual)
                 {
                     if (parent != null)

@@ -34,7 +34,6 @@ using OpenTK.Input;
 using System.Collections.Generic;
 using System.IO;
 using System.Drawing;
-
 namespace OpenTK.Platform.Windows
 {
     /// \internal
@@ -48,14 +47,12 @@ namespace OpenTK.Platform.Windows
 
         const ExtendedWindowStyle ParentStyleEx = ExtendedWindowStyle.WindowEdge | ExtendedWindowStyle.ApplicationWindow;
         const ExtendedWindowStyle ChildStyleEx = 0;
-
         readonly IntPtr Instance = Marshal.GetHINSTANCE(typeof(WinGLNative).Module);
         readonly IntPtr ClassName = Marshal.StringToHGlobalAuto(Guid.NewGuid().ToString());
         readonly WindowProcedure WindowProcedureDelegate;
         readonly uint ModalLoopTimerPeriod = 1;
         UIntPtr timer_handle;
         readonly Functions.TimerProc ModalLoopCallback;
-
         bool class_registered;
         bool disposed;
         bool exists;
@@ -69,18 +66,14 @@ namespace OpenTK.Platform.Windows
         bool mouse_outside_window = true;
         bool invisible_since_creation; // Set by WindowsMessage.CREATE and consumed by Visible = true (calls BringWindowToFront).
         int suppress_resize; // Used in WindowBorder and WindowState in order to avoid rapid, consecutive resize events.
-
         Rectangle
             bounds = new Rectangle(),
             client_rectangle = new Rectangle(),
             previous_bounds = new Rectangle(); // Used to restore previous size when leaving fullscreen mode.
         Icon icon;
-
         const ClassStyle DefaultClassStyle = ClassStyle.OwnDC;
-
         readonly IntPtr DefaultWindowProcedure =
             Marshal.GetFunctionPointerForDelegate(new WindowProcedure(Functions.DefWindowProc));
-
         // Used for IInputDriver implementation
         WinMMJoystick joystick_driver = new WinMMJoystick();
         KeyboardDevice keyboard = new KeyboardDevice();
@@ -90,9 +83,7 @@ namespace OpenTK.Platform.Windows
         internal static readonly WinKeyMap KeyMap = new WinKeyMap();
         const long ExtendedBit = 1 << 24;           // Used to distinguish left and right control, alt and enter keys.
         static readonly uint ShiftRightScanCode = Functions.MapVirtualKey(VirtualKeys.RSHIFT, 0);         // Used to distinguish left and right shift keys.
-
         KeyPressEventArgs key_press = new KeyPressEventArgs((char)0);
-
         #endregion
 
         #region Contructors
@@ -102,7 +93,6 @@ namespace OpenTK.Platform.Windows
             // This is the main window procedure callback. We need the callback in order to create the window, so
             // don't move it below the CreateWindow calls.
             WindowProcedureDelegate = WindowProcedure;
-
             //// This timer callback is called periodically when the window enters a sizing / moving modal loop.
             //ModalLoopCallback = delegate(IntPtr handle, WindowMessage msg, UIntPtr eventId, int time)
             //{
@@ -117,18 +107,14 @@ namespace OpenTK.Platform.Windows
                 CreateWindow(x, y, width, height, title, options, device, IntPtr.Zero), null);
             child_window = new WinWindowInfo(
                 CreateWindow(0, 0, ClientSize.Width, ClientSize.Height, title, options, device, window.WindowHandle), window);
-
             exists = true;
-
             keyboard.Description = "Standard Windows keyboard";
             keyboard.NumberOfFunctionKeys = 12;
             keyboard.NumberOfKeys = 101;
             keyboard.NumberOfLeds = 3;
-
             mouse.Description = "Standard Windows mouse";
             mouse.NumberOfButtons = 3;
             mouse.NumberOfWheels = 1;
-
             keyboards.Add(keyboard);
             mice.Add(mouse);
         }
@@ -153,11 +139,9 @@ namespace OpenTK.Platform.Windows
                         focused = (wParam.ToInt32() & 0xFFFF) != 0;
                     else
                         focused = (wParam.ToInt64() & 0xFFFF) != 0;
-
                     if (new_focused_state != Focused && FocusedChanged != null)
                         FocusedChanged(this, EventArgs.Empty);
                     break;
-
                 case WindowMessage.ENTERMENULOOP:
                 case WindowMessage.ENTERSIZEMOVE:
                     // Entering the modal size/move loop: we don't want rendering to
@@ -165,17 +149,14 @@ namespace OpenTK.Platform.Windows
                     // processing from time to time.
                     StartTimer(handle);
                     break;
-
                 case WindowMessage.EXITMENULOOP:
                 case WindowMessage.EXITSIZEMOVE:
                     // ExitingmModal size/move loop: the timer callback is no longer
                     // necessary.
                     StopTimer(handle);
                     break;
-
                 case WindowMessage.ERASEBKGND:
                     return new IntPtr(1);
-
                 case WindowMessage.WINDOWPOSCHANGED:
                     unsafe
                     {
@@ -195,22 +176,18 @@ namespace OpenTK.Platform.Windows
                             {
                                 bounds.Width = pos->cx;
                                 bounds.Height = pos->cy;
-
                                 Win32Rectangle rect;
                                 Functions.GetClientRect(handle, out rect);
                                 client_rectangle = rect.ToRectangle();
-
                                 Functions.SetWindowPos(child_window.WindowHandle, IntPtr.Zero, 0, 0, ClientRectangle.Width, ClientRectangle.Height,
                                     SetWindowPosFlags.NOZORDER | SetWindowPosFlags.NOOWNERZORDER |
                                     SetWindowPosFlags.NOACTIVATE | SetWindowPosFlags.NOSENDCHANGING);
-
                                 if (suppress_resize <= 0 && Resize != null)
                                     Resize(this, EventArgs.Empty);
                             }
                         }
                     }
                     break;
-
                 case WindowMessage.STYLECHANGED:
                     unsafe
                     {
@@ -227,17 +204,18 @@ namespace OpenTK.Platform.Windows
                     }
 
                     break;
-
                 case WindowMessage.SIZE:
                     SizeMessage state = (SizeMessage)wParam.ToInt64();
                     WindowState new_state = windowState;
                     switch (state)
                     {
-                        case SizeMessage.RESTORED: new_state = borderless_maximized_window_state ?
-                            WindowState.Maximized : WindowState.Normal; break;
+                        case SizeMessage.RESTORED:
+                            new_state = borderless_maximized_window_state ?
+     WindowState.Maximized : WindowState.Normal; break;
                         case SizeMessage.MINIMIZED: new_state = WindowState.Minimized; break;
-                        case SizeMessage.MAXIMIZED: new_state = WindowBorder == WindowBorder.Hidden ?
-                            WindowState.Fullscreen : WindowState.Maximized;
+                        case SizeMessage.MAXIMIZED:
+                            new_state = WindowBorder == WindowBorder.Hidden ?
+    WindowState.Fullscreen : WindowState.Maximized;
                             break;
                     }
 
@@ -249,7 +227,6 @@ namespace OpenTK.Platform.Windows
                     }
 
                     break;
-
                 #endregion
 
                 #region Input events
@@ -259,29 +236,24 @@ namespace OpenTK.Platform.Windows
                         key_press.KeyChar = (char)wParam.ToInt32();
                     else
                         key_press.KeyChar = (char)wParam.ToInt64();
-
                     if (KeyPress != null)
                         KeyPress(this, key_press);
                     break;
-
                 case WindowMessage.MOUSEMOVE:
                     Point point = new Point(
                         (short)((uint)lParam.ToInt32() & 0x0000FFFF),
                         (short)(((uint)lParam.ToInt32() & 0xFFFF0000) >> 16));
                     mouse.Position = point;
-
                     if (mouse_outside_window)
                     {
                         // Once we receive a mouse move event, it means that the mouse has
                         // re-entered the window.
                         mouse_outside_window = false;
                         EnableMouseTracking();
-
                         if (MouseEnter != null)
                             MouseEnter(this, EventArgs.Empty);
                     }
                     break;
-
                 case WindowMessage.MOUSELEAVE:
                     mouse_outside_window = true;
                     // Mouse tracking is disabled automatically by the OS
@@ -289,46 +261,36 @@ namespace OpenTK.Platform.Windows
                     if (MouseLeave != null)
                         MouseLeave(this, EventArgs.Empty);
                     break;
-
                 case WindowMessage.MOUSEWHEEL:
                     // This is due to inconsistent behavior of the WParam value on 64bit arch, whese
                     // wparam = 0xffffffffff880000 or wparam = 0x00000000ff100000
                     mouse.WheelPrecise += ((long)wParam << 32 >> 48) / 120.0f;
                     break;
-
                 case WindowMessage.LBUTTONDOWN:
                     mouse[MouseButton.Left] = true;
                     break;
-
                 case WindowMessage.MBUTTONDOWN:
                     mouse[MouseButton.Middle] = true;
                     break;
-
                 case WindowMessage.RBUTTONDOWN:
                     mouse[MouseButton.Right] = true;
                     break;
-
                 case WindowMessage.XBUTTONDOWN:
                     mouse[((wParam.ToInt32() & 0xFFFF0000) >> 16) != (int)MouseKeys.XButton1 ? MouseButton.Button1 : MouseButton.Button2] = true;
                     break;
-
                 case WindowMessage.LBUTTONUP:
                     mouse[MouseButton.Left] = false;
                     break;
-
                 case WindowMessage.MBUTTONUP:
                     mouse[MouseButton.Middle] = false;
                     break;
-
                 case WindowMessage.RBUTTONUP:
                     mouse[MouseButton.Right] = false;
                     break;
-
                 case WindowMessage.XBUTTONUP:
                     // TODO: Is this correct?
                     mouse[((wParam.ToInt32() & 0xFFFF0000) >> 16) != (int)MouseKeys.XButton1 ? MouseButton.Button1 : MouseButton.Button2] = false;
                     break;
-
                 // Keyboard events:
                 case WindowMessage.KEYDOWN:
                 case WindowMessage.KEYUP:
@@ -337,7 +299,6 @@ namespace OpenTK.Platform.Windows
                     bool pressed =
                         message == WindowMessage.KEYDOWN ||
                         message == WindowMessage.SYSKEYDOWN;
-
                     // Shift/Control/Alt behave strangely when e.g. ShiftRight is held down and ShiftLeft is pressed
                     // and released. It looks like neither key is released in this case, or that the wrong key is
                     // released in the case of Control and Alt.
@@ -372,28 +333,24 @@ namespace OpenTK.Platform.Windows
                                 keyboard[Input.Key.ShiftLeft] = pressed;
                             }
                             return IntPtr.Zero;
-
                         case VirtualKeys.CONTROL:
                             if (extended)
                                 keyboard[Input.Key.ControlRight] = pressed;
                             else
                                 keyboard[Input.Key.ControlLeft] = pressed;
                             return IntPtr.Zero;
-
                         case VirtualKeys.MENU:
                             if (extended)
                                 keyboard[Input.Key.AltRight] = pressed;
                             else
                                 keyboard[Input.Key.AltLeft] = pressed;
                             return IntPtr.Zero;
-
                         case VirtualKeys.RETURN:
                             if (extended)
                                 keyboard[Key.KeypadEnter] = pressed;
                             else
                                 keyboard[Key.Enter] = pressed;
                             return IntPtr.Zero;
-
                         default:
                             if (!WMInput.KeyMap.ContainsKey((VirtualKeys)wParam))
                             {
@@ -407,14 +364,11 @@ namespace OpenTK.Platform.Windows
                             return IntPtr.Zero;
                     }
                     break;
-
                 case WindowMessage.SYSCHAR:
                     return IntPtr.Zero;
-
                 case WindowMessage.KILLFOCUS:
                     keyboard.ClearKeys();
                     break;
-
                 #endregion
 
                 #region Creation / Destruction events
@@ -427,45 +381,34 @@ namespace OpenTK.Platform.Windows
                         bounds.Y = cs.y;
                         bounds.Width = cs.cx;
                         bounds.Height = cs.cy;
-
                         Win32Rectangle rect;
                         Functions.GetClientRect(handle, out rect);
                         client_rectangle = rect.ToRectangle();
-
                         invisible_since_creation = true;
                     }
                     break;
-
                 case WindowMessage.CLOSE:
                     System.ComponentModel.CancelEventArgs e = new System.ComponentModel.CancelEventArgs();
-
                     if (Closing != null)
                         Closing(this, e);
-
                     if (!e.Cancel)
                     {
                         if (Unload != null)
                             Unload(this, EventArgs.Empty);
-
                         DestroyWindow();
                         break;
                     }
 
                     return IntPtr.Zero;
-
                 case WindowMessage.DESTROY:
                     exists = false;
-
                     Functions.UnregisterClass(ClassName, Instance);
                     window.Dispose();
                     child_window.Dispose();
-
                     if (Closed != null)
                         Closed(this, EventArgs.Empty);
-
                     break;
-
-                #endregion
+                    #endregion
             }
 
             return Functions.DefWindowProc(handle, message, wParam, lParam);
@@ -477,7 +420,6 @@ namespace OpenTK.Platform.Windows
             me.Size = TrackMouseEventStructure.SizeInBytes;
             me.TrackWindowHandle = child_window.WindowHandle;
             me.Flags = TrackMouseEventFlags.LEAVE;
-
             if (!Functions.TrackMouseEvent(ref me))
                 Debug.Print("[Warning] Failed to enable mouse tracking, error: {0}.",
                     Marshal.GetLastWin32Error());
@@ -546,7 +488,6 @@ namespace OpenTK.Platform.Windows
             Win32Rectangle rect = new Win32Rectangle();
             rect.left = x; rect.top = y; rect.right = x + width; rect.bottom = y + height;
             Functions.AdjustWindowRectEx(ref rect, style, false, ex_style);
-
             // Create the window class that we will use for this window.
             // The current approach is to register a new class for each top-level WinGLWindow we create.
             if (!class_registered)
@@ -562,10 +503,8 @@ namespace OpenTK.Platform.Windows
                 wc.IconSm = Icon != null ? new Icon(Icon, 16, 16).Handle : IntPtr.Zero;
                 wc.Cursor = Functions.LoadCursor(CursorName.Arrow);
                 ushort atom = Functions.RegisterClassEx(ref wc);
-
                 if (atom == 0)
                     throw new PlatformException(String.Format("Failed to register window class. Error: {0}", Marshal.GetLastWin32Error()));
-
                 class_registered = true;
             }
 
@@ -574,10 +513,8 @@ namespace OpenTK.Platform.Windows
                 ex_style, ClassName, window_name, style,
                 rect.left, rect.top, rect.Width, rect.Height,
                 parentHandle, IntPtr.Zero, Instance, IntPtr.Zero);
-
             if (handle == IntPtr.Zero)
                 throw new PlatformException(String.Format("Failed to create window. Error: {0}", Marshal.GetLastWin32Error()));
-
             return handle;
         }
 
@@ -859,21 +796,17 @@ namespace OpenTK.Platform.Windows
             {
                 if (WindowState == value)
                     return;
-
                 ShowWindowCommand command = 0;
                 bool exiting_fullscreen = false;
                 borderless_maximized_window_state = false;
-
                 switch (value)
                 {
                     case WindowState.Normal:
                         command = ShowWindowCommand.RESTORE;
-
                         // If we are leaving fullscreen mode we need to restore the border.
                         if (WindowState == WindowState.Fullscreen)
                             exiting_fullscreen = true;
                         break;
-
                     case WindowState.Maximized:
                         // Note: if we use the MAXIMIZE command and the window border is Hidden (i.e. WS_POPUP),
                         // we will enter fullscreen mode - we don't want that! As a workaround, we'll resize the window
@@ -881,14 +814,12 @@ namespace OpenTK.Platform.Windows
 
                         // Reset state to avoid strange interactions with fullscreen/minimized windows.
                         ResetWindowState();
-
                         if (WindowBorder == WindowBorder.Hidden)
                         {
                             IntPtr current_monitor = Functions.MonitorFromWindow(window.WindowHandle, MonitorFrom.Nearest);
                             MonitorInfo info = new MonitorInfo();
                             info.Size = MonitorInfo.SizeInBytes;
                             Functions.GetMonitorInfo(current_monitor, ref info);
-
                             previous_bounds = Bounds;
                             borderless_maximized_window_state = true;
                             Bounds = info.Work.ToRectangle();
@@ -898,11 +829,9 @@ namespace OpenTK.Platform.Windows
                             command = ShowWindowCommand.MAXIMIZE;
                         }
                         break;
-
                     case WindowState.Minimized:
                         command = ShowWindowCommand.MINIMIZE;
                         break;
-
                     case WindowState.Fullscreen:
                         // We achieve fullscreen by hiding the window border and sending the MAXIMIZE command.
                         // We cannot use the WindowState.Maximized directly, as that will not send the MAXIMIZE
@@ -910,20 +839,16 @@ namespace OpenTK.Platform.Windows
 
                         // Reset state to avoid strange side-effects from maximized/minimized windows.
                         ResetWindowState();
-
                         previous_bounds = Bounds;
                         previous_window_border = WindowBorder;
                         HideBorder();
                         command = ShowWindowCommand.MAXIMIZE;
-
                         Functions.SetForegroundWindow(window.WindowHandle);
-
                         break;
                 }
 
                 if (command != 0)
                     Functions.ShowWindow(window.WindowHandle, command);
-
                 // Restore previous window border or apply pending border change when leaving fullscreen mode.
                 if (exiting_fullscreen)
                 {
@@ -961,30 +886,24 @@ namespace OpenTK.Platform.Windows
 
                 if (windowBorder == value)
                     return;
-
                 // We wish to avoid making an invisible window visible just to change the border.
                 // However, it's a good idea to make a visible window invisible temporarily, to
                 // avoid garbage caused by the border change.
                 bool was_visible = Visible;
-
                 // To ensure maximized/minimized windows work correctly, reset state to normal,
                 // change the border, then go back to maximized/minimized.
                 WindowState state = WindowState;
                 ResetWindowState();
-
                 WindowStyle style = WindowStyle.ClipChildren | WindowStyle.ClipSiblings;
-
                 switch (value)
                 {
                     case WindowBorder.Resizable:
                         style |= WindowStyle.OverlappedWindow;
                         break;
-
                     case WindowBorder.Fixed:
                         style |= WindowStyle.OverlappedWindow &
                             ~(WindowStyle.ThickFrame | WindowStyle.MaximizeBox | WindowStyle.SizeBox);
                         break;
-
                     case WindowBorder.Hidden:
                         style |= WindowStyle.Popup;
                         break;
@@ -994,24 +913,19 @@ namespace OpenTK.Platform.Windows
                 Size client_size = ClientSize;
                 Win32Rectangle rect = Win32Rectangle.From(client_size);
                 Functions.AdjustWindowRectEx(ref rect, style, false, ParentStyleEx);
-
                 // This avoids leaving garbage on the background window.
                 if (was_visible)
                     Visible = false;
-
                 Functions.SetWindowLong(window.WindowHandle, GetWindowLongOffsets.STYLE, (IntPtr)(int)style);
                 Functions.SetWindowPos(window.WindowHandle, IntPtr.Zero, 0, 0, rect.Width, rect.Height,
                     SetWindowPosFlags.NOMOVE | SetWindowPosFlags.NOZORDER |
                     SetWindowPosFlags.FRAMECHANGED);
-
                 // Force window to redraw update its borders, but only if it's
                 // already visible (invisible windows will change borders when
                 // they become visible, so no need to make them visiable prematurely).
                 if (was_visible)
                     Visible = true;
-
                 WindowState = state;
-
                 if (WindowBorderChanged != null)
                     WindowBorderChanged(this, EventArgs.Empty);
             }
@@ -1027,7 +941,6 @@ namespace OpenTK.Platform.Windows
                 throw new InvalidOperationException(String.Format(
                     "Could not convert point {0} from client to screen coordinates. Windows error: {1}",
                     point.ToString(), Marshal.GetLastWin32Error()));
-
             return point;
         }
 
@@ -1045,43 +958,24 @@ namespace OpenTK.Platform.Windows
         #region Events
 
         public event EventHandler<EventArgs> Idle;
-
         public event EventHandler<EventArgs> Load;
-
         public event EventHandler<EventArgs> Unload;
-
         public event EventHandler<EventArgs> Move;
-
         public event EventHandler<EventArgs> Resize;
-
         public event EventHandler<System.ComponentModel.CancelEventArgs> Closing;
-
         public event EventHandler<EventArgs> Closed;
-
         public event EventHandler<EventArgs> Disposed;
-
         public event EventHandler<EventArgs> IconChanged;
-
         public event EventHandler<EventArgs> TitleChanged;
-
         public event EventHandler<EventArgs> ClientSizeChanged;
-
         public event EventHandler<EventArgs> VisibleChanged;
-
         public event EventHandler<EventArgs> WindowInfoChanged;
-
         public event EventHandler<EventArgs> FocusedChanged;
-
         public event EventHandler<EventArgs> WindowBorderChanged;
-
         public event EventHandler<EventArgs> WindowStateChanged;
-
         public event EventHandler<KeyPressEventArgs> KeyPress;
-
         public event EventHandler<EventArgs> MouseEnter;
-
         public event EventHandler<EventArgs> MouseLeave;
-
         #endregion
 
         #endregion
@@ -1101,7 +995,7 @@ namespace OpenTK.Platform.Windows
                     throw new PlatformException(String.Format(
                            "An error happened while processing the message queue. Windows error: {0}",
                            Marshal.GetLastWin32Error()));
-                } 
+                }
                 //Functions.GetMessage(ref msg, window.WindowHandle, 0, 0);
 
                 //if (ret == -1)

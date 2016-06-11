@@ -31,10 +31,8 @@ using System.Drawing;
 //using OpenTK.Graphics;
 using OpenTK.Input;
 using OpenTK.Platform;
-
 namespace OpenTK
 {
-
     /// <summary>
     /// Instances of this class implement the <see cref="OpenTK.INativeWindow"/> interface on the current platform.
     /// </summary>
@@ -43,20 +41,17 @@ namespace OpenTK
         #region --- Fields ---
 
         private readonly GameWindowFlags options;
-
         private readonly DisplayDevice device;
-
         private readonly INativeWindow2 implementation;
-
         private bool disposed, events;
-
         #endregion
 
         #region --- Contructors ---
 
         /// <summary>Constructs a new NativeWindow with default attributes without enabling events.</summary>
         public NativeWindow()
-            : this(640, 480, "OpenTK Native Window", GameWindowFlags.Default, OpenTK.Graphics.GraphicsMode.Default, DisplayDevice.Default) { }
+            : this(640, 480, "OpenTK Native Window", GameWindowFlags.Default, OpenTK.Graphics.GraphicsMode.Default, DisplayDevice.Default)
+        { }
 
         // TODO: Remaining constructors.
 
@@ -72,7 +67,8 @@ namespace OpenTK
         public NativeWindow(int width, int height, string title, GameWindowFlags options, OpenTK.Graphics.GraphicsMode mode, DisplayDevice device)
             : this(device.Bounds.Left + (device.Bounds.Width - width) / 2,
                    device.Bounds.Top + (device.Bounds.Height - height) / 2,
-                   width, height, title, options, mode, device) { }
+                   width, height, title, options, mode, device)
+        { }
 
         /// <summary>Constructs a new NativeWindow with the specified attributes.</summary>
         /// <param name="x">Horizontal screen space coordinate of the NativeWindow's origin.</param>
@@ -96,12 +92,9 @@ namespace OpenTK
                 throw new ArgumentNullException("mode");
             if (device == null)
                 throw new ArgumentNullException("device");
-
             this.options = options;
             this.device = device;
-
             implementation = (INativeWindow2)Factory.Default.CreateNativeWindow(x, y, width, height, title, mode, options, this.device);
-
             if ((options & GameWindowFlags.Fullscreen) != 0)
             {
                 this.device.ChangeResolution(width, height, mode.ColorFormat.BitsPerPixel, 0);
@@ -549,72 +542,58 @@ namespace OpenTK
         /// Occurs after the window has closed.
         /// </summary>
         public event EventHandler<EventArgs> Closed;
-
         /// <summary>
         /// Occurs when the window is about to close.
         /// </summary>
         public event EventHandler<CancelEventArgs> Closing;
-
         /// <summary>
         /// Occurs when the window is disposed.
         /// </summary>
         public event EventHandler<EventArgs> Disposed;
-
         /// <summary>
         /// Occurs when the <see cref="Focused"/> property of the window changes.
         /// </summary>
         public event EventHandler<EventArgs> FocusedChanged;
-
         /// <summary>
         /// Occurs when the <see cref="Icon"/> property of the window changes. 
         /// </summary>
         public event EventHandler<EventArgs> IconChanged;
-
         /// <summary>
         /// Occurs whenever a character is typed.
         /// </summary>
         public event EventHandler<KeyPressEventArgs> KeyPress;
-
         /// <summary>
         /// Occurs whenever the window is moved.
         /// </summary>
         public event EventHandler<EventArgs> Move;
-
         /// <summary>
         /// Occurs whenever the mouse cursor enters the window <see cref="Bounds"/>.
         /// </summary>
         public event EventHandler<EventArgs> MouseEnter;
-
         /// <summary>
         /// Occurs whenever the mouse cursor leaves the window <see cref="Bounds"/>.
         /// </summary>
         public event EventHandler<EventArgs> MouseLeave;
-
         /// <summary>
         /// Occurs whenever the window is resized.
         /// </summary>
         public event EventHandler<EventArgs> Resize;
-
         /// <summary>
         /// Occurs when the <see cref="Title"/> property of the window changes.
         /// </summary>
         public event EventHandler<EventArgs> TitleChanged;
-
         /// <summary>
         /// Occurs when the <see cref="Visible"/> property of the window changes.
         /// </summary>
         public event EventHandler<EventArgs> VisibleChanged;
-
         /// <summary>
         /// Occurs when the <see cref="WindowBorder"/> property of the window changes.
         /// </summary>
         public event EventHandler<EventArgs> WindowBorderChanged;
-
         /// <summary>
         /// Occurs when the <see cref="WindowState"/> property of the window changes.
         /// </summary>
         public event EventHandler<EventArgs> WindowStateChanged;
-
         #endregion
 
         #endregion
@@ -637,7 +616,6 @@ namespace OpenTK
                 }
                 implementation.Dispose();
                 GC.SuppressFinalize(this);
-
                 IsDisposed = true;
             }
         }
@@ -1037,5 +1015,4 @@ namespace OpenTK
 
         #endregion
     }
-
 }

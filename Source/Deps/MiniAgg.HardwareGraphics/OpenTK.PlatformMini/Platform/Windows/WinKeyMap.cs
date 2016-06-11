@@ -10,7 +10,6 @@ using System.Text;
 using OpenTK.Platform.Windows;
 using OpenTK.Input;
 using System.Diagnostics;
-
 namespace OpenTK.Platform.Windows
 {
     internal class WinKeyMap : Dictionary<VirtualKeys, Input.Key>
@@ -23,7 +22,6 @@ namespace OpenTK.Platform.Windows
             try
             {
                 this.Add(VirtualKeys.ESCAPE, Key.Escape);
-
                 // Function keys
                 for (int i = 0; i < 24; i++)
                 {
@@ -56,7 +54,6 @@ namespace OpenTK.Platform.Windows
                 this.Add(VirtualKeys.RSHIFT, Key.ShiftRight);
                 this.Add(VirtualKeys.RETURN, Key.Enter);
                 this.Add(VirtualKeys.BACK, Key.BackSpace);
-
                 this.Add(VirtualKeys.OEM_1, Key.Semicolon);      // Varies by keyboard, ;: on Win2K/US
                 this.Add(VirtualKeys.OEM_2, Key.Slash);          // Varies by keyboard, /? on Win2K/US
                 this.Add(VirtualKeys.OEM_3, Key.Tilde);          // Varies by keyboard, `~ on Win2K/US
@@ -68,7 +65,6 @@ namespace OpenTK.Platform.Windows
                 this.Add(VirtualKeys.OEM_COMMA, Key.Comma);      // Invariant: ,
                 this.Add(VirtualKeys.OEM_MINUS, Key.Minus);      // Invariant: -
                 this.Add(VirtualKeys.OEM_PERIOD, Key.Period);    // Invariant: .
-
                 this.Add(VirtualKeys.HOME, Key.Home);
                 this.Add(VirtualKeys.END, Key.End);
                 this.Add(VirtualKeys.DELETE, Key.Delete);
@@ -77,14 +73,11 @@ namespace OpenTK.Platform.Windows
                 this.Add(VirtualKeys.PRINT, Key.PrintScreen);
                 this.Add(VirtualKeys.PAUSE, Key.Pause);
                 this.Add(VirtualKeys.NUMLOCK, Key.NumLock);
-
                 this.Add(VirtualKeys.SCROLL, Key.ScrollLock);
                 this.Add(VirtualKeys.SNAPSHOT, Key.PrintScreen);
                 this.Add(VirtualKeys.CLEAR, Key.Clear);
                 this.Add(VirtualKeys.INSERT, Key.Insert);
-
                 this.Add(VirtualKeys.SLEEP, Key.Sleep);
-
                 // Keypad
                 for (int i = 0; i <= 9; i++)
                 {
@@ -95,7 +88,6 @@ namespace OpenTK.Platform.Windows
                 this.Add(VirtualKeys.SUBTRACT, Key.KeypadSubtract);
                 this.Add(VirtualKeys.DIVIDE, Key.KeypadDivide);
                 this.Add(VirtualKeys.MULTIPLY, Key.KeypadMultiply);
-
                 // Navigation
                 this.Add(VirtualKeys.UP, Key.Up);
                 this.Add(VirtualKeys.DOWN, Key.Down);

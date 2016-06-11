@@ -28,7 +28,6 @@
 using System;
 using System.Diagnostics;
 using OpenTK.Graphics;
-
 namespace OpenTK.Platform.X11
 {
     class X11Factory : IPlatformFactory

@@ -1,10 +1,11 @@
+
 namespace OpenTK.Platform.Windows
 {
     using System;
     using System.Runtime.InteropServices;
-    #pragma warning disable 0649
-    #pragma warning disable 3019
-    #pragma warning disable 1591
+#pragma warning disable 0649
+#pragma warning disable 3019
+#pragma warning disable 1591
 
     partial class Wgl
     {

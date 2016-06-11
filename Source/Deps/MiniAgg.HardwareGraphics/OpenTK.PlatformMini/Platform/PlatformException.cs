@@ -7,7 +7,6 @@
 #endregion
 
 using System;
-
 namespace OpenTK
 {
     /// <summary>Defines a plaftorm specific exception.</summary>

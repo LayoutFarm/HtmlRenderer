@@ -10,16 +10,13 @@ using System.Text;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-
 using OpenTK.Graphics;
-
 namespace OpenTK.Platform.X11
 {
     partial class Glx : BindingsBase
     {
         const string Library = "libGL.so.1";
         static readonly object sync_root = new object();
-
         // Disable BeforeFieldInit optimization.
         static Glx() { }
 
@@ -28,7 +25,7 @@ namespace OpenTK.Platform.X11
             get { return sync_root; }
         }
 
-        protected override IntPtr GetAddress (string funcname)
+        protected override IntPtr GetAddress(string funcname)
         {
             return Glx.GetProcAddress(funcname);
         }

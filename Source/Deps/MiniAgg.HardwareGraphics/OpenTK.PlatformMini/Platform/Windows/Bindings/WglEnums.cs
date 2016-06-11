@@ -1,3 +1,4 @@
+
 namespace OpenTK.Platform.Windows
 {
 #pragma warning disable 3019

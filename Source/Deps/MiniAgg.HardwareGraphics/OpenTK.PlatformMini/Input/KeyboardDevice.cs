@@ -7,10 +7,8 @@
 #region --- Using directives ---
 
 using System;
-
 using OpenTK.Input;
 using System.Diagnostics;
-
 #endregion
 
 namespace OpenTK.Input
@@ -27,7 +25,6 @@ namespace OpenTK.Input
         private IntPtr devID;
         private bool repeat;
         private KeyboardKeyEventArgs args = new KeyboardKeyEventArgs();
-
         #region --- Constructors ---
 
         internal KeyboardDevice() { }
@@ -49,7 +46,6 @@ namespace OpenTK.Input
                 if (keys[(int)key] != value || KeyRepeat)
                 {
                     keys[(int)key] = value;
-
                     if (value && KeyDown != null)
                     {
                         args.Key = key;
@@ -132,7 +128,6 @@ namespace OpenTK.Input
         /// Occurs when a key is pressed.
         /// </summary>
         public event EventHandler<KeyboardKeyEventArgs> KeyDown;
-
         #endregion
 
         #region KeyUp
@@ -141,7 +136,6 @@ namespace OpenTK.Input
         /// Occurs when a key is released.
         /// </summary>
         public event EventHandler<KeyboardKeyEventArgs> KeyUp;
-
         #endregion
 
         #endregion

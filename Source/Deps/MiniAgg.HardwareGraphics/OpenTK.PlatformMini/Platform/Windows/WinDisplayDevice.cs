@@ -9,11 +9,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
 using OpenTK.Graphics;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-
 namespace OpenTK.Platform.Windows
 {
     internal class WinDisplayDeviceDriver : IDisplayDeviceDriver
@@ -21,7 +19,6 @@ namespace OpenTK.Platform.Windows
         static object display_lock = new object();
         static Dictionary<DisplayDevice, string> available_device_names =
             new Dictionary<DisplayDevice, string>();    // Needed for ChangeDisplaySettingsEx
-
         #region --- Constructors ---
 
         /// <summary>Queries available display devices and display resolutions.</summary>
@@ -40,16 +37,13 @@ namespace OpenTK.Platform.Windows
                 List<DisplayResolution> opentk_dev_available_res = new List<DisplayResolution>();
                 bool opentk_dev_primary = false;
                 int device_count = 0, mode_count = 0;
-
                 // Get available video adapters and enumerate all monitors
                 WindowsDisplayDevice dev1 = new WindowsDisplayDevice(), dev2 = new WindowsDisplayDevice();
                 while (Functions.EnumDisplayDevices(null, device_count++, dev1, 0))
                 {
                     if ((dev1.StateFlags & DisplayDeviceStateFlags.AttachedToDesktop) == DisplayDeviceStateFlags.None)
                         continue;
-
                     DeviceMode monitor_mode = new DeviceMode();
-
                     // The second function should only be executed when the first one fails
                     // (e.g. when the monitor is disabled)
                     if (Functions.EnumDisplaySettingsEx(dev1.DeviceName.ToString(), DisplayModeSettingsEnum.CurrentSettings, monitor_mode, 0) ||
@@ -71,7 +65,6 @@ namespace OpenTK.Platform.Windows
                             monitor_mode.Position.X, monitor_mode.Position.Y,
                             monitor_mode.PelsWidth, monitor_mode.PelsHeight,
                             monitor_mode.BitsPerPel, monitor_mode.DisplayFrequency);
-
                         opentk_dev_available_res.Add(res);
                     }
 
@@ -83,7 +76,6 @@ namespace OpenTK.Platform.Windows
                         opentk_dev_primary,
                         opentk_dev_available_res,
                         opentk_dev_current_res.Bounds);
-
                     available_device_names.Add(opentk_dev, dev1.DeviceName);
                 }
             }
@@ -102,7 +94,6 @@ namespace OpenTK.Platform.Windows
         public bool TryChangeResolution(DisplayDevice device, DisplayResolution resolution)
         {
             DeviceMode mode = null;
-
             if (resolution != null)
             {
                 mode = new DeviceMode();
@@ -116,7 +107,7 @@ namespace OpenTK.Platform.Windows
                     | Constants.DM_DISPLAYFREQUENCY;
             }
 
-            return Constants.DISP_CHANGE_SUCCESSFUL == 
+            return Constants.DISP_CHANGE_SUCCESSFUL ==
                 Functions.ChangeDisplaySettingsEx(available_device_names[device], mode, IntPtr.Zero,
                     ChangeDisplaySettingsEnum.Fullscreen, IntPtr.Zero);
         }
